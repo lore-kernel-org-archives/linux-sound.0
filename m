@@ -1,116 +1,84 @@
-Received: from sender4-pp-e108.zoho.com (sender4-pp-e108.zoho.com [136.143.188.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E0233A6F7;
-	Tue, 27 Jan 2026 22:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.108
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769551954; cv=pass; b=OY+o8xybsOZxIaMiQKLtgIwnvPwFDsxxd5w3Z9AaDOZQrpAXbvGyDOEa7NWrrcQmJT628JmCfc7145RLz5cpj74cYfK5pASw6TW2twoUUDXiTnCoWNweSUUEbgGbnkOGEoWe3csNkGspUXWGbnnyO5Lad93ES+VkY65NKcaNCqA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769551954; c=relaxed/simple;
-	bh=/yIPtSetq29iBS6Fb+rzbr7y6xYnFJZxJ8v8z7DwNHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qoJy08T4k9MEmP+JUNG5If3Nzleoq6RX6v8FFTLoJ5GokAMe5Lopco0glXkyGCER4ekh0NZwnSQzHjRygEArNhzrhZL4reI8TKEyE3rkTRGCaJTrr85JJJacw66U9Qctg3JaM2gPLJAbiKIOlCk0Y3CONYH1jDckNBnBeuU+br0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=jOaQpXak; arc=pass smtp.client-ip=136.143.188.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9AB1FECCD;
+	Wed, 28 Jan 2026 00:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769560640; cv=none; b=mFGmEcRIEkR5Oj/cYnFy/8qzHPE8Br8Ek89K9TQP78oGN7SaiX+yuqZQLBfbbvHBvIue3Yk8ShViHt8oo1WaxdxbkczuR/MG9gef32AD6UUjDRg/spIdjnQTFGflkhRelf8bh6HdqEa9wkd8Oj6cT+IOgPcdTN+35lHHbV7Mtvg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769560640; c=relaxed/simple;
+	bh=3HKL1uGM12hoyqBDnBz72rYrhDDgXcv6Fn/aZXK0xx4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TtKZ1kczQ+4DgpGevw0mL4nuo74VgWIFF990VDnkRzPxHwIfn17OcV9t2lMEE3gaTjCzMfpLxk+EzvKyj/u2XJ2cbU5bsxrZGCteiccSTRLubROE9ZUxBKF4neH8Kz9UipJOXx2Yg21G+smiLe7QK+gB/dI524o/rQ9+IFORWMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pS/E3Jj+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="jOaQpXak"
-ARC-Seal: i=1; a=rsa-sha256; t=1769551931; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=KWWGP3eQkiPTtzLBHpgVlyQavNZ+Eratv6VCREuHhGkd+yJ55INII+aCXslQf+O8tBA1yr4s+hK9J5R7a/FWXGZekbGPDdJ9a7kIMPILKgNmWynXNMaI9ZJ1xa025w6CsXtzA9GGwp9pfuDXieXVfpIv3uAamtwtlXKzh+aBfwY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769551931; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=WlQt+ss1G8efG2qofo6jb6A9w0j4Ayb6P7iOr7JnFrA=; 
-	b=WVYweafi6F15VKpZgZt2+jpwkjmkdjU/wxswjMv0BB4LsWuHukg/m6JSDzr7Z2fSq+yJMb68F2Pg3FLHgugDBHerLSXA1YfLI4ui7DrVw2k0L9LJEPrfu1d3vAHZSy6YERIwHjODgQX9tWTVeEy7+WZEOJ1SSBvOzoZL7HP7xuQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769551931;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=WlQt+ss1G8efG2qofo6jb6A9w0j4Ayb6P7iOr7JnFrA=;
-	b=jOaQpXakYiSid0wpQGxBiKmIkORxIDMIw7i1baza6GrPASuNvhwtlvU2AAx3NreE
-	WLwk9Y64V/yHOeXMYYsgae1kiqdVH8McECYk6cjxJw1JTldVJF2mGIKauCQpXrDJFmc
-	x8+BmDK/8RxTNTQIl1Fd8y/wuGdeBBG1TYzszUWI=
-Received: by mx.zohomail.com with SMTPS id 1769551930714470.1972618683276;
-	Tue, 27 Jan 2026 14:12:10 -0800 (PST)
-Received: by venus (Postfix, from userid 1000)
-	id 66C98180DC7; Tue, 27 Jan 2026 23:12:03 +0100 (CET)
-Date: Tue, 27 Jan 2026 23:12:03 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Alexey Charkov <alchark@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Sjoerd Simons <sjoerd.simons@collabora.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/10] ASoC: rockchip: spdif: Use dev_err_probe
-Message-ID: <aXk31GTmK_5wUQ9t@venus>
-References: <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-0-a7c547072bbb@collabora.com>
- <20260127-rockchip-spdif-cleanup-and-bsp-sync-v1-4-a7c547072bbb@collabora.com>
- <CABjd4YxVQfp=ZuovBhAzqX9pDBnBmntQoxkr5vXnToPc3pRARw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pS/E3Jj+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3B21C116C6;
+	Wed, 28 Jan 2026 00:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769560640;
+	bh=3HKL1uGM12hoyqBDnBz72rYrhDDgXcv6Fn/aZXK0xx4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=pS/E3Jj+p3TvOmNrgN86e4nKrI6A5a9Io56PUSW2vMEjiWILlMgm0CoHCgytgTf28
+	 vplIlSXAywsVbwFdINDnUi3xH0/zn6qO3CSTKeF1puGU9oOuHBpFGazy3IgVxUGpBs
+	 PUZafb1vLxI55N45DcEDeZJps3raa4KJQxG/7Ty/xDVMd6tzIu4YR1gIcvjkRh2W4Z
+	 w3BboQvraE/U+atqOXw/PqFZhGK9MHn3cgDl6X0RteRGAhwU07a7/ne/AaVqiR8BKx
+	 pEnef0S/Acba3ai/ZlpMLMIioK8Al1NVDvLwxhS/fNkW5bNX/Sw4B8U/LXpb96OvS6
+	 7Mp5JwNj+D3Kw==
+From: Mark Brown <broonie@kernel.org>
+To: fengzheng923@gmail.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, wens@kernel.org, jernej.skrabec@gmail.com, 
+ samuel@sholland.org, Chen Ni <nichen@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260127033250.2044608-1-nichen@iscas.ac.cn>
+References: <20260127033250.2044608-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: sunxi: sun50i-dmic: Add missing check for
+ devm_regmap_init_mmio
+Message-Id: <176956063766.1483098.13549944935065058916.b4-ty@kernel.org>
+Date: Wed, 28 Jan 2026 00:37:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zckbwwqnfppx2fwi"
-Content-Disposition: inline
-In-Reply-To: <CABjd4YxVQfp=ZuovBhAzqX9pDBnBmntQoxkr5vXnToPc3pRARw@mail.gmail.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.1.1.4.3/269.526.30
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
+On Tue, 27 Jan 2026 11:32:50 +0800, Chen Ni wrote:
+> Add check for the return value of devm_regmap_init_mmio() and return the
+> error if it fails in order to catch the error.
+> 
+> 
 
---zckbwwqnfppx2fwi
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 04/10] ASoC: rockchip: spdif: Use dev_err_probe
-MIME-Version: 1.0
+Applied to
 
-Hello Alexey,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-On Tue, Jan 27, 2026 at 09:31:18PM +0400, Alexey Charkov wrote:
-> >         ret =3D devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
-> > -       if (ret) {
-> > -               dev_err(&pdev->dev, "Could not register PCM\n");
-> > -               return ret;
-> > -       }
-> > +       if (ret)
-> > +               dev_err_probe(&pdev->dev, ret, "Could not register PCM\=
-n");
->=20
-> Shouldn't this one return the error code, instead of falling through
-> to 'return 0'?
+Thanks!
 
-Yes, good catch. I will fix that up in v2.
+[1/1] ASoC: sunxi: sun50i-dmic: Add missing check for devm_regmap_init_mmio
+      commit: 74823db9ba2e13f3ec007b354759b3d8125e462c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
+Mark
 
--- Sebastian
-
---zckbwwqnfppx2fwi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAml5OC8ACgkQ2O7X88g7
-+poEWQ/+Px2Z+QDfvYva4Nx6YQX53SGZ5rb10Dyq8gZfaZ0jK2fV5/EADqsmV9kK
-PqTkajCE8T7S6VtsoaodMNlBNqJk4SkcGltYYW7op440nNaK4GG4s4eyWwluqiER
-F4U4X8vgNoOqhziacZOvgDtZeWPDwK9fVg1a9u8nlDBDpsXJusmnzmk0GMtd93Dg
-fPG2Dgi+gysuJvv52lm0/M47hgKH9jDhw8oDTBERlu/RLFsbjDuBQ4Q3Mfci75JK
-dVygcLJ+NNtNfVWpJWPtQ77eHTKSraZ+l90sJFKzj3+LBfTeU2lUqlxqU2AShEqE
-h579dBFVQXfaqnFmLPpxKtf1WF08/7cBLKtSugUuHHrNFQVzYpMy/LQpn/UXj1H+
-hEf5aRlVlHDIBaZcLjLvabN9ygVjgXtkdwjP1/0qQUVmQupQFOnmiInotZ+Hi0xG
-YhgOqJnGmB8AfYtnu95tGrBwGl9Cln4+q/Wvzr2kpQ+xPB6GZtq/vSCoMZ0ouROs
-UmkjUyMUYJ1R7Vy16O8p+Ip5te03mZydnfO9ROG8bBVL75bIUO5+nJHSU2PryhES
-OI2jw6JIQuHv0STZc8mnez5V51gwHgFClAegrgm7F/NN2096HhZmJ0062nm4OosA
-DMau/+v77SY6wLlB975j1bcGISNtkCBnR4LD8rrhw6L8cwq3Tnc=
-=T0r/
------END PGP SIGNATURE-----
-
---zckbwwqnfppx2fwi--
