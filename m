@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E23578F2B
-	for <linux-sound@vger.kernel.org>; Wed, 28 Jan 2026 03:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0C378F2B
+	for <linux-sound@vger.kernel.org>; Wed, 28 Jan 2026 03:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769569331; cv=none; b=fir2vxTl2rf4AzAjdJUq9k8+OKeJjTJ9Hg52YvBEUv732FaOC+Awk6d9S2KEc9IwM+0Bcq1x4Hy71w5RMgE1DjFbLSFUzxQcHY0TMdCxK85BIVhAvtQzVku/5WBzxAQyTD2vFNQl3mKM7RR6p2OD8G3Rw6e/khsMeVoM7PTLQFk=
+	t=1769569331; cv=none; b=TOSO3ebhaYNQdWI39XOPygGh83qwpjGdjs9rlDhbK0lGC/eFMghH12cdN16tp/SFCVZbijb8AFdY0XC4no1F+BlKa0DcXnphDvbY5XFRXlQtstWk6/juao7zglDIH1ygVWhA2o0owS0wLMlcQ6YFJIF12gVQDgRbKruo1ORjIyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769569331; c=relaxed/simple;
-	bh=wdYltJxWKus+bmi9o2i1JKOMPyFNJBLu/zFCDoU7FVM=;
+	bh=53hooVCWZlBjMezQE4e+3ZekK6csj4pnr/TZamcMDOs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dQ89wDScTxAKWQ2QM94J+HcDWNRujUgk4a8OgEzwgCskr2KvzbXJ32mxhagL/6FEgkhZsLmJ11VPSEvdqNUEpdII77QTXwsXThWOY8wXVPFPKq/CVMMYsmf0e4XWea41gKUmJ+jCjD9rZSorNENc2JxZoj0Rt13Kad9KunI4C+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iDgeNXiR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cQYZpsbMhLST5WxZiDB38UnKvfKtCXugBANLdncvoXBXY72NcIng5xE3z/329obaVr7lNIVeG+F/+1b/aTeehgtdpu6dbD+nE/VYRU7lVgj+9T5VlSlBOUmcFfk9nfSObYxc5UhKYL+X7vhzftQt+AQSAJNUr3GC2s2fjEDpbnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQp8yjWU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iDgeNXiR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56120C116C6;
-	Wed, 28 Jan 2026 03:02:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQp8yjWU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3732AC116D0;
+	Wed, 28 Jan 2026 03:02:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769569330;
-	bh=wdYltJxWKus+bmi9o2i1JKOMPyFNJBLu/zFCDoU7FVM=;
+	s=k20201202; t=1769569331;
+	bh=53hooVCWZlBjMezQE4e+3ZekK6csj4pnr/TZamcMDOs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=iDgeNXiRvAJK43neRA8gbp95QG0Rypy4MU6oL3UwksmWrHVSExLMkb/oBfJpr9jwb
-	 ZC7St5gH8lb8I+Ts/r85Eu8XQRkkwRk92a458QOtmloSp8TgtlgncZ6kqIcQNA6zPX
-	 GM2ayRlDbv1YyC/NkpA3hkAIhNglHriB2p1yVUnAL5vxforz4xJ1i7osmc+zrni+1n
-	 RLvIk/fom+vWUqLbH8XWko6J7A66hAJTtXpOgrtaUaDvO2A8zz8lsZ78Q7SThFotzI
-	 juZzS3UIBhQI5hg8jcyxLg8WuvEkRUnrTdQMabzxacmXWlVCJPRq73ZEw2YvVJG0oV
-	 ROqAqjyX+7S7A==
+	b=YQp8yjWUKJBKO8040RjD8GVp2rXIwyEFGL55rmPaBm4zTsb2sIJ71U6M8KbnR85Kf
+	 +jiC6bOROqVw5ZiWfGpIa2soNpuyeS3pki5DuRaAEqIjsKliNpuBW/nu8+tPz8401n
+	 RAyhLy1ms+ag3k3+EzeLQDwxKgPCBnvf8DiUeUBkeU5opTnV13noXfVvgMUADBKCdE
+	 JSTZZc/m7mWHUHRfcpBh/O7Rn3VY3x7+tVMLSIVY5D0GLAh0iLk77MyviVL/5WsfEs
+	 ZYgNMRhNIR7ae9zjtF0RdlIgC9dMMXIdQr9hzHGXwfJ84L1VAenIM3Bpqr11z8NUDt
+	 0vTkPUiJ4eb2w==
 From: Mark Brown <broonie@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87zf7jrx52.wl-kuninori.morimoto.gx@renesas.com>
-References: <87zf7jrx52.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/8] ASoC: capsuling struct snd_soc_dapm_context
-Message-Id: <176956933009.1515833.11036420546295839436.b4-ty@kernel.org>
+In-Reply-To: <87pl75qgxt.wl-kuninori.morimoto.gx@renesas.com>
+References: <87pl75qgxt.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 0/8] ASoC: capsuling struct snd_soc_dapm_context
+Message-Id: <176956933098.1515833.6025720230431065614.b4-ty@kernel.org>
 Date: Wed, 28 Jan 2026 03:02:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -44,20 +44,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 16 Dec 2025 02:14:18 +0000, Kuninori Morimoto wrote:
+On Tue, 20 Jan 2026 00:13:50 +0000, Kuninori Morimoto wrote:
+> This is v2 of capsuling struct snd_soc_dapm_context.
+> 
 > Now, all DAPM users are using function to handling it.
 > We can capsuling it. This patchset moves struct snd_soc_dapm_context into
 > soc-dapm.c, and remove un-used functions.
 > 
-> Kuninori Morimoto (8):
->   ASoC: mediatek: mt8189-nau8825: don't use card->damp directly
->   ASoC: soc-component: remove snd_soc_component_xxx() wrapper
->   ASoC: soc-component: remove compatibility definition for component
->   ASoC: soc-dapm: remove compatibility definition for dapm
->   ASoC: soc-dapm: remove dev from snd_soc_dapm_context()
->   ASoC: soc-dapm: add snd_soc_dapm_alloc()
->   ASoC: soc-dapm: move struct snd_soc_dapm_context
->   ASoC: soc-dapm: tidyup function naming
+> v1 -> v2
+> 	- include tlv320adcx140 patch which was added in these days
+> 	  and is using old function.
+> 	- based on latest asoc branch
 > 
 > [...]
 
@@ -67,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/8] ASoC: mediatek: mt8189-nau8825: don't use card->damp directly
-      (no commit info)
+[1/8] ASoC: tlv320adcx140: don't use snd_soc_component_get_bias_level()
+      commit: 34a74d04cd0d8dd552ba2118bf197f09e51e2336
 [2/8] ASoC: soc-component: remove snd_soc_component_xxx() wrapper
       commit: 19a412b66df7cddbc1fa87e049c56bacf00adb27
 [3/8] ASoC: soc-component: remove compatibility definition for component
