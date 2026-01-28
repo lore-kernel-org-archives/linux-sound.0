@@ -1,47 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC0D18027;
-	Wed, 28 Jan 2026 15:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD271E3DF2
+	for <linux-sound@vger.kernel.org>; Wed, 28 Jan 2026 17:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769615725; cv=none; b=LOyydilSMVtLBPcau1mFAw7hLOZYmUE9RPw4sz+3Dv8Dq7a5g1+bLAQPSFHrW1GncBFbAb1kdkEPiH7VIlFPZAVpqRNurBR/Ryuq+lbwj//W1re/m4tYS7OwQK6iFCXlXWRoRJ3+xT5IYnYPXLvUdqAaIqssL/pJjPAgCmgDWWM=
+	t=1769622523; cv=none; b=jTX1d4dLXtOqEsaY2QAw1NwYB8t1U++qA4L1jE9hvJUWlBvK5/tJWgTXy/TAj8U1OqmabIUtev23frxyUH7X2F5uM6R6Oiup/28gNsHkNbtRhNpsOWOcw2AEl4S+Bnbb8Bl924YmlRPwVRsv2Oi6Q4nsO73xHN15Ox60uRe8lRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769615725; c=relaxed/simple;
-	bh=CW5XAGuyNaTriiS7ewU/iwEJftRKMCW4eis1iSon0CI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DjtF03UDpbc8f9ChZN5rTk3rxkKvUxs7uupLcWu9SqNAIzxXiL8+KaL9dysdYF23VNoYoPjwZggMm/6reEZBth1LafRaqq0KuD4WoTXO5/C9xKYpfPyh8MZsCBmuliWSmCPnYGxBVj+0ZB2OzE9arzC/UqQX7yiGj2VIqS2UOL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Vy04dQfC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769622523; c=relaxed/simple;
+	bh=HqI1k4+zqvEhpdkCemIXNHECXz7zLH1ogx6VMZmSYLk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gteg6Ge9EHjsTZr+DxXIM+V+Tk4NHASU3hOcGXEwX8g15WTiUsc/vznHmNIrsQctsSLmPYrqxb8MYHfj/HdHKdhJaggbpx/xe8JhXjdy0iKXdFSUzlLo7JC1I7mloHK09ozgaI3BpqH695ICSl+fHpBipyKE0S5HiNybd3JKsbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RonYOPlE; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Vy04dQfC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BCAC116C6;
-	Wed, 28 Jan 2026 15:55:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1769615725;
-	bh=CW5XAGuyNaTriiS7ewU/iwEJftRKMCW4eis1iSon0CI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Vy04dQfCRVwPFs9kd8bPm8n1TjtI0oiMObDDVl7XzgAACJQ/t6xrsTw+RlT8/yeih
-	 80+rcWOkbCqj+4Q98166owlRlNsIp4aCntBDTzsJ56HVfZ6iqRJlGLOhmE1bvQDsoq
-	 piA4T6d2hh6fJtzSNBZnAvi0CTG+0LBsT/k7XQ5g=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.18 094/227] ALSA: usb: Increase volume range that triggers a warning
-Date: Wed, 28 Jan 2026 16:22:19 +0100
-Message-ID: <20260128145347.716376141@linuxfoundation.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260128145344.331957407@linuxfoundation.org>
-References: <20260128145344.331957407@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RonYOPlE"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-409470ad5bbso43273fac.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 Jan 2026 09:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769622520; x=1770227320; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k3xEzEkluUrjAOEaCr+kR2isbV4mKMndumYa1efkEFs=;
+        b=RonYOPlE9uYg4spcy8OfVJsWcOXXZSkPX0LXtP1Uuib3Y8cI2XZACuf/NukvSQRpee
+         ssGfpBNrwPRRhp9YkddhVSj7ZZu+Yx6rR3Royz8mUD3PzwC5rT/SgSJmxlSM8adEjqE+
+         sT8BdRsNqejvPdJdiOjXIZrxsVGVuIHR98Bk6Uhari9Bpvqj1lIDcyc23U+k/oBRMdNt
+         cz/UbIMkY3mKIYl2SywccLUPkBxuOis/nh6uwSLVk6cT4jgQdrmY9RlEbjQOVv86voSR
+         1Wc4kYwWGKceVca/cbCmoPeEritdVW8qsQnCilF09I3x6dLT0Z9LB5IYGe6LC2Up/MD/
+         5E4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769622520; x=1770227320;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k3xEzEkluUrjAOEaCr+kR2isbV4mKMndumYa1efkEFs=;
+        b=TA37sVpguSrCYwfJrzHDOR2e+ULaEl21NSnt8MtIGP7u59ouceKSyOczulm6APnZUQ
+         Oj5LFcfTin/rYj0Xb2FW+ZDtRGz1Q6v7waKPZkAPb1jMSaOSOoHiTwi85ofuM/feV8EX
+         4Kzjbhl9VeUN2uEFY3+o7JzY1SqPWJFbiFEqSyYXb2/NbSTRlSQCoK7/ocM32RzaZpPS
+         zYNw9+Lje5/OS6XRqxZ7utYGf+GmbMqLDdRS6bUnHs6Wbne4yhhSyAgcmFOHNVvdKT4j
+         qDsW8riinrDbouCGdy6n6hPNauPyFJAnr99FVxru2j1Ej+W68BhUuNLeiEwiZwuFPIXn
+         jodA==
+X-Gm-Message-State: AOJu0YzM7WRP2bAeqCFUN4ihQlZ6aIe9zvA2vm0fbzWAgRczDYjNcjXo
+	GUUJBiQYdNwrg0k3dchIal8R7JGOVohfMTzPpoLkxETVCctN3e2EeE07+J5zmw==
+X-Gm-Gg: AZuq6aIh8SScSg+RKBavNeUCPYy1CA55QNqFm+fx1k/0wvlMIft4CZaCI9ikEmRhwyG
+	sOPzVjlLCX8ote39uHbBBaRtFEcOwLIliun1/fYgquPBQ8MN2g2NeZefqheg28osbCFzKBkCxUE
+	WA38c+Wa/op+KyEnvk7m72cmPUZjWwlw190jPvZFw/v1MZy4ipey5c7rNxLOE39DvsNQjSjhRkM
+	3npMM23hoMR5NCERgk/CH0muhNyJI+4pqjpv+9ppTsp/nc0RBGmS9qLY5fFGGTDCbhQOjADGrh0
+	CzTgRznxv6ASNDljVd9V9lLIPHVPcGl5WCZqCuUw8dcW5oQsDXvWKHQHCrXEzKWEavjgf54w/d+
+	k8BVgC6Hq398ffZ+OxszhOh6ovqINjJL9ZfykNSpyWcwptDqHeQ3ANEGvfQWrgl+bOH8oZp5x6t
+	UYRHes8WeP0kK0UtzI6cw=
+X-Received: by 2002:a05:6870:8649:b0:403:f8ca:3fb2 with SMTP id 586e51a60fabf-4093fce1a18mr3870975fac.17.1769622520430;
+        Wed, 28 Jan 2026 09:48:40 -0800 (PST)
+Received: from localhost.localdomain ([2600:1700:fb0:1bc0::54])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-409575b0a89sm2187647fac.20.2026.01.28.09.48.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 09:48:39 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+	wangweidong.a@awinic.com,
+	tiwai@suse.com,
+	perex@perex.cz,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	heiko@sntech.de,
+	linux-rockchip@lists.infradead.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V2 0/3] Anbernic RG-DS AW87391 Speaker Amps
+Date: Wed, 28 Jan 2026 11:46:05 -0600
+Message-ID: <20260128174608.1498-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,51 +81,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.18-stable review patch.  If anyone has any objections, please let me know.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-------------------
+Add support for the Anbernic RG-DS Speaker Amplifiers. The Anbernic
+RG-DS uses two AW87391 ICs at 0x58 and 0x5B on i2c2. However, the
+manufacturer did not provide a firmware file, only a sequence of
+register writes to each device to enable and disable them.
 
-From: Arun Raghavan <arunr@valvesoftware.com>
+Add support for this *specific* configuration in the AW87390 driver.
+Since we are relying on a device specific sequence I am using a
+device specific compatible string. This driver does not currently
+support the aw87391 for any other device as I have none to test
+with valid firmware. Attempts to create firmware with the AwinicSCPv4
+have not been successful.
 
-[ Upstream commit 6b971191fcfc9e3c2c0143eea22534f1f48dbb62 ]
+Changes since V1:
+ - Correct an uninitalized ret value error identified by kernel test
+   robot. [1]
+   https://lore.kernel.org/oe-kbuild-all/202601240757.gYdQGsXp-lkp@intel.com/
+ - Added devicetree binding for the Anbernic RG-DS. This is based on
+   the following commit that has since been accepted. [2]
 
-On at least the HyperX Cloud III, the range is 18944 (-18944 -> 0 in
-steps of 1), so the original check for 255 steps is definitely obsolete.
-Let's give ourselves a little more headroom before we emit a warning.
+[1] https://lore.kernel.org/oe-kbuild-all/202601240757.gYdQGsXp-lkp@intel.com/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit?id=9e3f8ae040009f66367b2ba1081b7e313b39aeff
 
-Fixes: 80acefff3bc7 ("ALSA: usb-audio - Add volume range check and warn if it too big")
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Arun Raghavan <arunr@valvesoftware.com>
-Link: https://patch.msgid.link/20260116225804.3845935-1-arunr@valvesoftware.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/usb/mixer.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Chris Morgan (3):
+  ASoC: dt-bindings: aw87390: Add Anbernic RG-DS Amplifier
+  ASoC: codecs: aw87390: Add Anbernic RG-DS amp driver
+  arm64: dts: rockchip: add Awinic aw87391 for Anbernic RG-DS
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 3af71d42b9b9a..90917c6ea871b 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1813,11 +1813,10 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
- 
- 	range = (cval->max - cval->min) / cval->res;
- 	/*
--	 * Are there devices with volume range more than 255? I use a bit more
--	 * to be sure. 384 is a resolution magic number found on Logitech
--	 * devices. It will definitively catch all buggy Logitech devices.
-+	 * There are definitely devices with a range of ~20,000, so let's be
-+	 * conservative and allow for a bit more.
- 	 */
--	if (range > 384) {
-+	if (range > 65535) {
- 		usb_audio_warn(mixer->chip,
- 			       "Warning! Unlikely big volume range (=%u), cval->res is probably wrong.",
- 			       range);
+ .../bindings/sound/awinic,aw87390.yaml        |  34 +++-
+ .../dts/rockchip/rk3568-anbernic-rg-ds.dts    |  44 ++++-
+ sound/soc/codecs/aw87390.c                    | 175 +++++++++++++++++-
+ sound/soc/codecs/aw87390.h                    |  86 +++++++++
+ 4 files changed, 322 insertions(+), 17 deletions(-)
+
 -- 
-2.51.0
-
-
+2.43.0
 
