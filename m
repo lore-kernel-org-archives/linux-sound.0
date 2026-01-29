@@ -1,72 +1,83 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7F62AF1B;
-	Thu, 29 Jan 2026 17:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D9C20311
+	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 17:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769708273; cv=none; b=aVPnAGe3jrVp2wwHs/xaFWNbv7n5tjd9sVOELwDWURwCHlYmGGg68YhnSAh7EH4qGWJ0n515NUBCDfFTlpMR8R4fEWDHqetd3sqxJ2ojJkTTOFZUlL0mntvjxiz8Vfy9wutx7Rrtz4Z0G7fv872hAlOTW7gfeTYFKtHUQGogr0k=
+	t=1769708795; cv=none; b=Tuvcm1hRrzH7vMDgA68XSeX/LzDMkGUvK73msiiU9OfqVY+iuNsXQkNHdIe4xxLURlvWDsuR9H59VanNZ+HHFtFeWF5h2KhNO1R0oAtkG6CaMS3MuSzgk6fddTTHu82MLMe4GwENLD++FC7BwfmiI+o3NRN/s87glLGZmszc1zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769708273; c=relaxed/simple;
-	bh=gD+TjH28FkmuBFe0aHVdfvEShsOJjcA0TV3XU8C7haw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PzfTOdvEVGn7XxG5IebVMerVm71+MrtYwY7jCPztskPDWELAUJNorJ+A5PkIZ7Z0ttaTbq55r8LPBrA7jTQbMuE728mlflPdhEPyKHKWCIakRuH8EUNKuEPBmW/Yv4b9PHImjq43RRCCn45fofI0VtSWIPh8yBQ4ANCddwAr9/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=V50rUZsJ; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1769708795; c=relaxed/simple;
+	bh=j+If/SlmCSsO1CTWiFJJ53NTq+WpBRYaTVktnI1rx/I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ieU5OmX00/RZ7NQEudM4v5sC4n99ogFdJH6vYziku3G2CMlJtYXk6piw5zttCRcH3iF8qFNtJhgnhf+/mgVi5yOu8uzm6sqDxTbA7uhP0xMvADCjfdmuex1xeTvr8eeysQzZwt7dSkhRj/ue5Hg0sOBFLIJWGI3V/2neMNrLFM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sY+tz50A; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="V50rUZsJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=NH1Y7z4Xz/rnFfteVmXJ0FyGxvOgtpdFaiDdQOvHyM0=; b=V50rUZsJPUp9HvoynitTnMEooH
-	qhDqmrgqWquVZSOFNhD3p2/9nuUKExMH0zbx+/MkiiTYv8qNjea3Qyw/AN1nsxs6F0kqE0/re4ek5
-	Vpt1GPMLwBwUy8eZlZ6KmpC9f6IlNMt5aGoF4EzGoRQJiIy1uK++m1Heqo2uX/dpXkZI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vlVxS-005OdE-D8; Thu, 29 Jan 2026 18:37:30 +0100
-Date: Thu, 29 Jan 2026 18:37:30 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Michal Simek <michal.simek@amd.com>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-Message-ID: <7c0d283c-f6d0-4ba6-9686-ae6dcfaa4389@lunn.ch>
-References: <20260129172315.3871602-1-sean.anderson@linux.dev>
- <20260129172315.3871602-3-sean.anderson@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sY+tz50A"
+Message-ID: <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769708791;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sbQkO/aU6GO1ByLXLbgZaMgMyf+e1d/FazyAtfU3Usc=;
+	b=sY+tz50AYFXBsC6bljckZOdSlmfyEXAcftS8CKgQCNTOjImPluZCAXtLfgcvmvE4s1lvEM
+	+sN8/m4q5L5ohdcFHV5t5g0m/xQ3gvgfXinC3WU3hRdmh6ZyskdGACWzD94JEcOFOPjjnL
+	VyfKUFzpi02PxRmAbM2lG1zaUE+TMiU=
+Date: Thu, 29 Jan 2026 12:46:27 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129172315.3871602-3-sean.anderson@linux.dev>
+Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
+ registers
+To: Mark Brown <broonie@kernel.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Michal Simek <michal.simek@amd.com>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20260129172315.3871602-1-sean.anderson@linux.dev>
+ <20260129172315.3871602-3-sean.anderson@linux.dev>
+ <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
-> -	if (ret < 0) {
-> -		dev_err(dev, "cannot get supported channels\n");
-> -		return ret;
-> -	}
+On 1/29/26 12:27, Mark Brown wrote:
+> On Thu, Jan 29, 2026 at 12:23:15PM -0500, Sean Anderson wrote:
+> 
+>> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
+> 
+>> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
+> 
+> Given that the properties already exist it seems wise to continue to
+> parse them if available and prefer them over what we read from the
+> hardware, it would not shock me to discover that hardware exists where
+> the registers are inaccurate or need overriding due to bugs.
 
-I don't know this device at all, so i might be asking dumb
-questions....
+I would be surprised if such hardware exists. These properties are
+automatically generated by Xilinx's tools based on the HDL core's
+properties. This has a few consequences:
 
-It is possible that the device supports multiple channels, but the use
-case is mono, and so xlnx,num-channels is 1 in DT? Would that break
-given your change?
+- They always exactly match the hardware unless someone has gone in and
+  modified them. I think this is unlikely in this case because they
+  directly reflect parameters that should not need to be adjusted.
+- Driver authors tend to use them even when there are hardware registers
+  available with the same information, as Xilinx has not always been
+  consistent in adding such registers.
 
-> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
+I am not aware of any errata regarding incorrect generation of
+properties for this device or cases where the number of channels or bit
+depth was incorrect.
 
-Could it be the device supports 24 bits, but the use case only wants
-16, and so has this property set to 16?
-
-    Andrew
+--Sean
