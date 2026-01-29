@@ -1,102 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0956E2032D;
-	Thu, 29 Jan 2026 13:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573C71E4BE;
+	Thu, 29 Jan 2026 14:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769693630; cv=none; b=L3Tn/Nk9FJOZti5+ICeNwLgnXCbZ45qt0wMD9DVr9GhjNEDDXUW+87GKbAIMIU+fcKIEL/h6tORW2GQ2QAd8DebuV88O/mtl6+9p7AXJzciMIzPvBemUjqUZNBh8i4TDZW/XPTfYublmx6kU51QriCsLNeGAeebqt9iEAPWA8gs=
+	t=1769696114; cv=none; b=Mzruy5j2vgY2QMQRsEoDLK5uSVkQ+AIKnhyjDvsvHXOUFYbbZ6Pq0yd8SDeoqmER3y+0S0Z4I3kpJx2tfzlwBioC8MZF01YhvaRefyw+Y+xuuWdiX8Nx1QrOOib0rJW8iARm7k7nnvltN5gRKGe1igUrD7oVQHwHijwuAQPCdak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769693630; c=relaxed/simple;
-	bh=yxfhhn0nRCfHcjiprrgl6wNRy+BkMZll3z6YEBC1fuk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PHUk7x7cTziun9RUmPSMnvZ5jdAv73U1IP56BmrbGgmCdKdK+d1Wd1M8MF7z5dSbp6CBH8a+6C5syw7aXB2MBuD3baNvmbawMoMfkbq5VzAs2YaQiW1O9vhS8eHPd9XC/RBPYt2iHodhGBHUWzyS9nNouKavVlq+ps7UODYd9Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIkEHTDD; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769696114; c=relaxed/simple;
+	bh=lE35BZFKBHFpzacSgUEHTr6IL+e3e+W/32GvvBpHXKY=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=l/aVQ/8uSmNFRbPy8qIpgw3c7INRDfeEwxQNfYAq+j4d92LT6aG92d/3QlPyiv/Kx8A1zqvlrRMf6pADUdRLFxQ8qXFz5tR2WV3mIHSAs0AqVPOqEXQ72P4nobhQVzqaRYMpeMMudlf03uDQoQyLA9emH3MBTJ5w2LDeuedoF+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fau.re; spf=pass smtp.mailfrom=fau.re; dkim=pass (2048-bit key) header.d=fau.re header.i=@fau.re header.b=KhaxzW0a; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fau.re
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fau.re
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIkEHTDD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769693628; x=1801229628;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yxfhhn0nRCfHcjiprrgl6wNRy+BkMZll3z6YEBC1fuk=;
-  b=MIkEHTDDUOTs4UOdYPO7MkqInb3VMhOKnQRfTLEscwd008ueVOZZ8aei
-   O6BsSTNKN92i2YiXcUyXbsSF2qCLU6KwEqsWyAAZV/TWnBKyMVYprhVOP
-   +LCelKMsBkjj3xyXrSxWIYIvu0OH1YsZ/gwgbmjUnIqImSOxuSmQrwpDU
-   OJ/yHymgmoy7QJMLb6EY3vzfmtdvfjSJSelEMIRbu50RnFGJ5jYloPHSg
-   YtkKU4MWYwQDNw0i4LwHh+I54nqyB2vrNPbRwr0PDOxpbwYgnGc+8JC+M
-   uQ7cNIR3b56tiPmAcUMci0SG6IYU5UcvzvyF2xixriBIgCsMAA9Ua38iL
-   A==;
-X-CSE-ConnectionGUID: dy2puhJORaiKJ0JmQki2Rg==
-X-CSE-MsgGUID: yK/bNEjISUOGQhgLinDmIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="81662856"
-X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; 
-   d="scan'208";a="81662856"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 05:33:47 -0800
-X-CSE-ConnectionGUID: xb/TTuU1QXS25X17zPl7eg==
-X-CSE-MsgGUID: IcmP50VARzuOurnhpLzJIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; 
-   d="scan'208";a="208183835"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jan 2026 05:33:42 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 23B659B; Thu, 29 Jan 2026 14:33:41 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Peng Fan <peng.fan@nxp.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] ASoC: pxa2xx-ac97: Use devm_gpiod_get_optional()
-Date: Thu, 29 Jan 2026 14:33:40 +0100
-Message-ID: <20260129133340.302446-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=fau.re header.i=@fau.re header.b="KhaxzW0a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fau.re;
+	s=protonmail; t=1769696101; x=1769955301;
+	bh=Bcq2XzWDfKTwX0nWV5gxxO1pMZFp8rhU5mWXRdo6XXk=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=KhaxzW0akIoKmoP5CThiAJ2E5GM24tdZE1/+O4yNkrigk4Z4aRaiMltPXul9NEdyy
+	 uecvRe5sf55iIYDkxYkbR46ukOynipemmkP8MTRDjwrUP2BRZJQ0MbyyXJNj1bGz/y
+	 rwV1EZsdTxa68rVmAJtAvfro1yvpPxGmCBGIIvdKM7PsEwrzV0WFtmEJwVgGr9f+Sa
+	 WefFH7T9OWV/CbjDwIX331XIZKnRt10Syo/o6xrFTptWyItcmJVSzRwMrDYV/iMGVK
+	 NRMBXtPmfeAbDXBSYlPMSMCrVRHUIO2Rlre12htpbWIib6QunoJlJlqIUpcEu/3rt3
+	 28FGkEXzv2+Bg==
+Date: Thu, 29 Jan 2026 14:14:54 +0000
+To: ckeepax@opensource.cirrus.com, mstrozek@opensource.cirrus.com
+From: Boris Faure <boris@fau.re>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, Boris Faure <boris@fau.re>
+Subject: [PATCH] ASoC: sdca: Fix missing regmap dependencies in Kconfig
+Message-ID: <20260129141419.13843-1-boris@fau.re>
+Feedback-ID: 104543335:user:proton
+X-Pm-Message-ID: 04e9712832867642dfc61419732e49e2e8d89485
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-No need to open code the devm_gpiod_get_optional() wrapper.
-Instead of checking for a certain error code, check for NULL.
+The SDCA modules failed to build with modpost errors:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+  ERROR: modpost: "__devm_regmap_init_sdw" [sound/soc/sdca/snd-soc-sdca-cla=
+ss.ko] undefined!
+  ERROR: modpost: "__devm_regmap_init_sdw_mbq" [sound/soc/sdca/snd-soc-sdca=
+-class-function.ko] undefined!
+
+The issue occurs because:
+- sdca_class.c calls devm_regmap_init_sdw() which requires REGMAP_SOUNDWIRE
+- sdca_class_function.c calls devm_regmap_init_sdw_mbq_cfg() which requires=
+ REGMAP_SOUNDWIRE_MBQ
+
+However, the Kconfig didn't select these dependencies, causing the symbols
+to be unavailable when the SDCA modules are built.
+
+Fix this by adding:
+- select REGMAP_SOUNDWIRE to SND_SOC_SDCA_CLASS
+- select REGMAP_SOUNDWIRE_MBQ to SND_SOC_SDCA_CLASS_FUNCTION
+
+This ensures the required regmap drivers are enabled when building SDCA sup=
+port.
+
+Configuration after fix:
+  CONFIG_SND_SOC_SDCA_CLASS=3Dm
+  CONFIG_SND_SOC_SDCA_CLASS_FUNCTION=3Dm
+  CONFIG_REGMAP_SOUNDWIRE=3Dm
+  CONFIG_REGMAP_SOUNDWIRE_MBQ=3Dm
+
+Signed-off-by: Boris Faure <boris@fau.re>
 ---
- sound/arm/pxa2xx-ac97-lib.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ sound/soc/sdca/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/arm/pxa2xx-ac97-lib.c b/sound/arm/pxa2xx-ac97-lib.c
-index 1e114dbcf93c..47889f6003c1 100644
---- a/sound/arm/pxa2xx-ac97-lib.c
-+++ b/sound/arm/pxa2xx-ac97-lib.c
-@@ -330,13 +330,12 @@ int pxa2xx_ac97_hw_probe(struct platform_device *dev)
- 
- 	if (dev->dev.of_node) {
- 		/* Assert reset using GPIOD_OUT_HIGH, because reset is GPIO_ACTIVE_LOW */
--		rst_gpio = devm_gpiod_get(&dev->dev, "reset", GPIOD_OUT_HIGH);
-+		rst_gpio = devm_gpiod_get_optional(&dev->dev, "reset", GPIOD_OUT_HIGH);
- 		ret = PTR_ERR(rst_gpio);
--		if (ret == -ENOENT)
--			reset_gpio = -1;
--		else if (ret)
-+		if (ret)
- 			return ret;
--		reset_gpio = desc_to_gpio(rst_gpio);
-+
-+		reset_gpio = rst_gpio ? desc_to_gpio(rst_gpio) : -1;
- 	} else {
- 		if (cpu_is_pxa27x())
- 			reset_gpio = 113;
--- 
-2.50.1
+diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
+index fabb69a3450d..87ab2895096c 100644
+--- a/sound/soc/sdca/Kconfig
++++ b/sound/soc/sdca/Kconfig
+@@ -46,12 +46,14 @@ config SND_SOC_SDCA_CLASS
+ =09select SND_SOC_SDCA_FDL
+ =09select SND_SOC_SDCA_HID
+ =09select SND_SOC_SDCA_IRQ
++=09select REGMAP_SOUNDWIRE
+ =09help
+ =09  This option enables support for the SDCA Class driver which should
+ =09  support any class compliant SDCA part.
+=20
+ config SND_SOC_SDCA_CLASS_FUNCTION
+ =09tristate
++=09select REGMAP_SOUNDWIRE_MBQ
+ =09help
+ =09  This option enables support for the SDCA Class Function drivers,
+ =09  these implement the individual functions of the SDCA Class driver.
+--=20
+2.52.0
+
 
