@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804DD33A030
-	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 18:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074C03563E9;
+	Thu, 29 Jan 2026 18:09:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769709777; cv=none; b=GHAqHpAxxNbrO8WSCDqSn70Y3cPxaol9E/wzvZ956QqgWOgRbGute/wGuoOiMHFDC3Reoz4XFo/abLR1BNg4kimcAt2zihmfbGErl/QpFP78MOwvdVqoONYwA1LBBlDPRRmpoYmXPZEmsZRRJ8tRRrZKVjk7XkUEwoKJHYJAEXg=
+	t=1769710174; cv=none; b=ruhEf5zvR5ucbajoEAA5hzg2GLSQFzDdIGd6Z5gcRmIQYa0JT1EKaIMiOQkoqlvhv2MvSWltTouYJFFsXEUKBoBuouDIenqHqNpAZI7Rniujb5XI0DxvTapZKgPManOQMmJvxqUUw7ogQOgCej+m4syH+gSv8UFFD+HvwmM9H/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769709777; c=relaxed/simple;
-	bh=+m496zieNrrVFPHysVpP/+nP3RnylXLTx9VVClUxD4k=;
+	s=arc-20240116; t=1769710174; c=relaxed/simple;
+	bh=X3dIjavYFpRlf4UuxeHHbJVM2yWZQYTwqnTNrnYY9F4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WJaBqKokE4a3E+TbcYYLBKhpWIhYNGBZ5jh1qqbjDR+bA+6SdFyzzQOvVqxJWAZHiEPBd3FgFzM61sGflBeuW1UgOVKTQqm79mKxA3X/9zY6CybH25J5Nj74Oj6tn2FECtA6ERxWDX/tEwCZEl3qmwyVpYotz/m24+k8COj6K2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGyfrE4E; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ugpHhO/lpZlmqC7kR7b1e+QsGyFkyal14hn9dbi9AC7E5i9wAgXSfixttNesnG1jxqoQC1tttFeJ95KuOJ1ymKmj/NiXXlSxcN0Vu+VJH2+grWRx+5MOLvW+iBp0OTEMmqK0d4LgCbchIXncrdk1yInkRaG+YeD3cqxvNFo9tFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lz0ivwaf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGyfrE4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACD97C4CEF7;
-	Thu, 29 Jan 2026 18:02:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lz0ivwaf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A97F7C4CEF7;
+	Thu, 29 Jan 2026 18:09:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769709777;
-	bh=+m496zieNrrVFPHysVpP/+nP3RnylXLTx9VVClUxD4k=;
+	s=k20201202; t=1769710173;
+	bh=X3dIjavYFpRlf4UuxeHHbJVM2yWZQYTwqnTNrnYY9F4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BGyfrE4EQOAr9K0oZAV/ul7bVnQVE3vphBLyznri5NkE+L6NMsB9lMc57KSqfx51p
-	 jWQYczlEoDAeR6SzUflXCi8mwlVJw/17UjoslOZHUSXbHVW97xWhFT06qcpDrmJOvd
-	 gSygkKFcKQMXmoUJkgTPfSZWykQiYl4pe9jMnJNuijzI+5SDLzAxLS/ivh9Vhj2vxJ
-	 Scxaeyo2BvXIzxeQROf3eAZryRhXrFm15QExkkzk3gR0YSu+xQq1QA5fwsEBCF+G5P
-	 1eOxKaeeBpXMyWMi7hZNxt+NpdTK0LnaB1fyHGkQn+tF6qJYzLg2mW0BwBHq3Z4OUS
-	 NL9YtIH7zf0Zw==
-Date: Thu, 29 Jan 2026 18:02:52 +0000
+	b=lz0ivwafeBsWx2ZmOe0viGtVa9AHt5i1IiadOM6KxbnZ3Z9M2/ZeH7DNRogB4hdan
+	 GA7y2gHDtUWEUUZjlR0gWMufwN51RlQu53R/mVtj1Fd0t29n5GocegUS6bGU6XG0qt
+	 QLMoH6ANs8tl4uuhpEViwx/AzSL0WzWEZOC1WrJ+YBocJg8xy+JDvufWxVsjIhk7/2
+	 ottcCYSTRMgzz3UMQp/G7Ma60+CuqSO3XO+3SDvrSWaM16OL44JuybrEjqsVpwnSkD
+	 KgHrYAT4s7ybwUP7cSXIFE5u1kY7I9QTKU+9SmqZNJUuchXzNo4BckQw1ceuKqU4mU
+	 6GRssTCwytyvQ==
+Date: Thu, 29 Jan 2026 18:09:28 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Hsieh Hung-En <hungen3108@gmail.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH 3/3] ASoC: es8328: Check errors in set_dai_fmt() and
- resume()
-Message-ID: <584b2e7f-bf94-48bf-9b85-26a8ba9d0ba7@sirena.org.uk>
-References: <20260129174733.6660-1-hungen3108@gmail.com>
- <20260129174733.6660-4-hungen3108@gmail.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Michal Simek <michal.simek@amd.com>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
+ registers
+Message-ID: <a17602f1-537e-46e6-a85d-8a005a0443a2@sirena.org.uk>
+References: <20260129172315.3871602-1-sean.anderson@linux.dev>
+ <20260129172315.3871602-3-sean.anderson@linux.dev>
+ <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
+ <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,37 +48,68 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kdJb//b1tzzY/uVL"
+	protocol="application/pgp-signature"; boundary="qaLgfkh9drmjEuxE"
 Content-Disposition: inline
-In-Reply-To: <20260129174733.6660-4-hungen3108@gmail.com>
+In-Reply-To: <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
 X-Cookie: You have taken yourself too seriously.
 
 
---kdJb//b1tzzY/uVL
+--qaLgfkh9drmjEuxE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 30, 2026 at 01:47:33AM +0800, Hsieh Hung-En wrote:
-> Check and propagate errors from register updates in es8328_set_dai_fmt().
+On Thu, Jan 29, 2026 at 12:46:27PM -0500, Sean Anderson wrote:
+> On 1/29/26 12:27, Mark Brown wrote:
+> > On Thu, Jan 29, 2026 at 12:23:15PM -0500, Sean Anderson wrote:
 
-> Also use the cached private regmap in resume() and add proper unwind for
-> clock/regulator enable and regcache sync failures.
+> >> -	ret =3D of_property_read_u32(node, "xlnx,num-channels", &drv_data->c=
+hannels);
 
-These are separate changes and should be split at least three patches.
+> >> -	ret =3D of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_wi=
+dth);
 
---kdJb//b1tzzY/uVL
+> > Given that the properties already exist it seems wise to continue to
+> > parse them if available and prefer them over what we read from the
+> > hardware, it would not shock me to discover that hardware exists where
+> > the registers are inaccurate or need overriding due to bugs.
+
+> I would be surprised if such hardware exists. These properties are
+> automatically generated by Xilinx's tools based on the HDL core's
+> properties. This has a few consequences:
+
+> - They always exactly match the hardware unless someone has gone in and
+>   modified them. I think this is unlikely in this case because they
+>   directly reflect parameters that should not need to be adjusted.
+> - Driver authors tend to use them even when there are hardware registers
+>   available with the same information, as Xilinx has not always been
+>   consistent in adding such registers.
+
+I'm not sure I follow your second point - driver authors tend to use
+what? =20
+
+> I am not aware of any errata regarding incorrect generation of
+> properties for this device or cases where the number of channels or bit
+> depth was incorrect.
+
+I'd still rather see the properties get used if present, worst case
+they're redundant best case we avoid regressing a currently working
+system.  The code is already there, it just needs tweaking to make parse
+failures non-fatal.
+
+--qaLgfkh9drmjEuxE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml7oMwACgkQJNaLcl1U
-h9Au7wf5AQVacP5DKvlGNYhL2+eZFKSK73eeMQmpd6Yom+wwuPzzR6QDXXNRAdA+
-zgqtP3GYo0BU1LT6w++0JL9XQlTapV79+eQD6jgWMqn2yw1tFNMnChIebeBubfdC
-tKYEqyneWF/1uKMjopQslSItiv1yOp8NF2OVK2GN3o59frBoKM11tBnuV0lePzjG
-MMuEpWPKJSep7RPHSZnmJhMfoBu8amhpYKnjfBSqi9GJKjqwLxwjhSh0ja4f69zh
-bs7eVr+CtVvaVEyhOQ/cLcwFs0JzZ7splB8EgWb4kZ9kvYKBPthlQ3TsmYZ33ZzP
-LdJib4joAKRrSWjWm/3EPruoZs41HA==
-=5PAH
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml7olgACgkQJNaLcl1U
+h9Brugf/Sf1L+2pbe418c3gbruA16NIxAYYuKlLIaYzui7BO5qunhWEDV8iJuhhE
+cYJvfiZvXGoJwT9xiz6SoE3o54HVnh8HHYrejMDPFLSHP8aPOOKuObHYKkocMXq2
+GnR70fnln4bKdw9RNg+KJhikOr7kv4LIVhkwo3lLOmGQcheKQqqDAiheo2mmb4wO
+Zjhy7VyarQuAkPBncrcrjXxGPymHa3JuMS9/ZvvHh0QISxM0sstke+ai0Z4toqMW
+15xLcjyjs8DjbBLMWLF331wScYITq3ICWu01T8ajasZVQ8lRuB1lSW3ZBVxZ9AOb
+9V6t3cMd6HxwzY8FLgzBNaUA6N83BQ==
+=3AUd
 -----END PGP SIGNATURE-----
 
---kdJb//b1tzzY/uVL--
+--qaLgfkh9drmjEuxE--
