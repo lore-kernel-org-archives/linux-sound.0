@@ -1,89 +1,99 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273BA2F6930;
-	Thu, 29 Jan 2026 19:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949C31E4BE
+	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 20:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769716711; cv=none; b=bmT2ec5IqiMX6RzgmgmcQRCGwcHh9ornPmrLBU3uMZ1V1oVETwUpuNUdy/336f7gSiNgBsXcA8H38hc/Zfyxo/3/NOfsuGUstRbg0bIVope7iC1K1LDLsi6/uHYaDSpIrUcVKI/v0ya/JXsbXJiBVbzane56tD2WtT0q2MXG7r4=
+	t=1769717596; cv=none; b=RXXmGPTUJ7O5+hqU3wuabXBVOw+fBR7h23VidTX1ccynlL244WvAG46+8zP7HN6Y4BJxq7+CVmkyLJUoyC8gG8ETpfdWQ6S1dggI8PwexPDF3ZxDZcJyXk20hiqld5b1zh0JVPbYnbpd9i4N5+KZ9kF3nPzD2nKT2RIvHkSCn18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769716711; c=relaxed/simple;
-	bh=pTIH2MNiijctGg1yiJ+0Hmj1kzsoXkfvMeRPuaNTaSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZM1QS1kbXIxKIm5r0++lWpFyDpTTplKuH99eMjZtuy+aglJUis7qAkqYfjoNtBQNQObA39LtyF1c5/iBp3CfUVySf/cQJNZeIXQOVkvvi0/UQpb9gzQE7BWRtr7y1vmC50o0kz27Do2bb29K4tQEgehDY+ZptSX4FG47YnaydqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=5zz21bqC; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1769717596; c=relaxed/simple;
+	bh=oNEZRYfWzwfgwajCK5OhUHEIzqpPZ68nJXhqI2EPpE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cnCZ0sejV5T88b0Nq0sIyHkwVgevkBxJCDKe6Ql5HNIeyOlaR16AfVbKts7QtZ/cPZ1qO+ke1v0InxbHmdqH//GYSormNfRw6GZiJs8HGEwKgNHJZfyEv4G1Q/RUlL093xe8w8iEoPFV9j/LcFh2WNcb/At+jI8yclQijtJnfVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N39i9Gg2; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5zz21bqC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=wv5p+mk4vZCwPzTsh9qJ/haqXEBS9smtKaIFtiDaogs=; b=5zz21bqChfMMI1tY8Qiif8q3qI
-	Rs/YG8Ftj41dUwOoRS8ZzhkT/4AUCgGtdzcLxG7fMtQy10sTUnkXUktK3U1acbZRtTT2KmA/tEv8l
-	KHPnKevnVRZ1kIm7XaYtBTt3GF6o8B5V7Kh6r0slmeBaAJiJsTHPvfMYfOyLWL2VF0vw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vlY9j-005PH6-WB; Thu, 29 Jan 2026 20:58:20 +0100
-Date: Thu, 29 Jan 2026 20:58:19 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: Mark Brown <broonie@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Michal Simek <michal.simek@amd.com>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-Message-ID: <866360d1-19d1-4a72-91a6-b2e716195820@lunn.ch>
-References: <20260129172315.3871602-1-sean.anderson@linux.dev>
- <20260129172315.3871602-3-sean.anderson@linux.dev>
- <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
- <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N39i9Gg2"
+Message-ID: <dd8cef14-3149-4181-a57e-f772341e0246@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769717592;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U/ShU2t5bze21124krsd/kbfEZY86If/E4+xvG3EuYY=;
+	b=N39i9Gg2aDhrbF9fYTMtRN0OltQ3Yi67BwL0chPKuLsD8zZUaMhCxas1a+DHXFZ9qVr/Ly
+	DeRgJCi0Yp+mQs81pLOqXoLszo4kq7WBufU8nzZQurHPOZTMsESHuW2yBPKwfsBB7aXcyv
+	p9PslhTIMfYsuHixSNjXTSOPASj95yk=
+Date: Thu, 29 Jan 2026 15:13:07 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
+Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
+ registers
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Mark Brown <broonie@kernel.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Michal Simek <michal.simek@amd.com>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20260129172315.3871602-1-sean.anderson@linux.dev>
+ <20260129172315.3871602-3-sean.anderson@linux.dev>
+ <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
+ <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
+ <866360d1-19d1-4a72-91a6-b2e716195820@lunn.ch>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <866360d1-19d1-4a72-91a6-b2e716195820@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jan 29, 2026 at 12:46:27PM -0500, Sean Anderson wrote:
-> On 1/29/26 12:27, Mark Brown wrote:
-> > On Thu, Jan 29, 2026 at 12:23:15PM -0500, Sean Anderson wrote:
-> > 
-> >> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
-> > 
-> >> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
-> > 
-> > Given that the properties already exist it seems wise to continue to
-> > parse them if available and prefer them over what we read from the
-> > hardware, it would not shock me to discover that hardware exists where
-> > the registers are inaccurate or need overriding due to bugs.
+On 1/29/26 14:58, Andrew Lunn wrote:
+> On Thu, Jan 29, 2026 at 12:46:27PM -0500, Sean Anderson wrote:
+>> On 1/29/26 12:27, Mark Brown wrote:
+>> > On Thu, Jan 29, 2026 at 12:23:15PM -0500, Sean Anderson wrote:
+>> > 
+>> >> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
+>> > 
+>> >> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
+>> > 
+>> > Given that the properties already exist it seems wise to continue to
+>> > parse them if available and prefer them over what we read from the
+>> > hardware, it would not shock me to discover that hardware exists where
+>> > the registers are inaccurate or need overriding due to bugs.
+>> 
+>> I would be surprised if such hardware exists. These properties are
+>> automatically generated by Xilinx's tools based on the HDL core's
+>> properties. This has a few consequences:
+>> 
+>> - They always exactly match the hardware unless someone has gone in and
+>>   modified them. I think this is unlikely in this case because they
+>>   directly reflect parameters that should not need to be adjusted.
+>> - Driver authors tend to use them even when there are hardware registers
+>>   available with the same information, as Xilinx has not always been
+>>   consistent in adding such registers.
+>> 
+>> I am not aware of any errata regarding incorrect generation of
+>> properties for this device or cases where the number of channels or bit
+>> depth was incorrect.
 > 
-> I would be surprised if such hardware exists. These properties are
-> automatically generated by Xilinx's tools based on the HDL core's
-> properties. This has a few consequences:
-> 
-> - They always exactly match the hardware unless someone has gone in and
->   modified them. I think this is unlikely in this case because they
->   directly reflect parameters that should not need to be adjusted.
-> - Driver authors tend to use them even when there are hardware registers
->   available with the same information, as Xilinx has not always been
->   consistent in adding such registers.
-> 
-> I am not aware of any errata regarding incorrect generation of
-> properties for this device or cases where the number of channels or bit
-> depth was incorrect.
+> Does version 0.0 of this IP core have this register? Its not a new
+> addition?
 
-Does version 0.0 of this IP core have this register? Its not a new
-addition?
+As far as I know, this register was present in 1.0 revision 0. I
+reviewed the changelog for the core as well as the product guide
+changelog and found no mention of any register additions.
 
-Is there a synthesis option to disable this register?
+> Is there a synthesis option to disable this register?
 
-   Andrew
+No.
+
+--Sean
