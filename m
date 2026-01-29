@@ -1,89 +1,82 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922563542C9
-	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 17:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804DD33A030
+	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 18:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769709114; cv=none; b=ZMjBIG9KNUvFicIv1ew41Sq4ybeGbh+wOzEDQQhukUMCQ4Xfoen/SwWdTHKKlxAJpLjwF/W1TdhLGqWYIM3j/qu0DhLmVsc54xBD2chBkFvUrui9a8BzeXszqCPDA9xh+HpemuxaRA3pwkTFmXzuFJefcSRFwj2h+Dz3x0GWFxw=
+	t=1769709777; cv=none; b=GHAqHpAxxNbrO8WSCDqSn70Y3cPxaol9E/wzvZ956QqgWOgRbGute/wGuoOiMHFDC3Reoz4XFo/abLR1BNg4kimcAt2zihmfbGErl/QpFP78MOwvdVqoONYwA1LBBlDPRRmpoYmXPZEmsZRRJ8tRRrZKVjk7XkUEwoKJHYJAEXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769709114; c=relaxed/simple;
-	bh=glZEk1Cg6L5t1sAGa3+SYKa7s1uLzex501f7mu3ikqw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iiEEsSzGOC20KvHsM9ttK2Nyu3Kl+PoLtBcwQY84CQ5wZ1sbiP9r+ib5xYq6zo3z+QBUGB/Yt4bRlY2onnpkWsgQ/NbcyWpCb6sTmtlkLlzzpm0r0OfugqnQXh70FTXAu0xND+k4i1birUmBxO32c9KV5bQ/YCBPfGzKTewiMQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YF0lX1Nk; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1769709777; c=relaxed/simple;
+	bh=+m496zieNrrVFPHysVpP/+nP3RnylXLTx9VVClUxD4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WJaBqKokE4a3E+TbcYYLBKhpWIhYNGBZ5jh1qqbjDR+bA+6SdFyzzQOvVqxJWAZHiEPBd3FgFzM61sGflBeuW1UgOVKTQqm79mKxA3X/9zY6CybH25J5Nj74Oj6tn2FECtA6ERxWDX/tEwCZEl3qmwyVpYotz/m24+k8COj6K2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGyfrE4E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YF0lX1Nk"
-Message-ID: <fbc56ced-ad76-492d-b446-630f97d427b1@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769709110;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xfgVT6JGIMR6eXQ8tXpPICGL+iN+h0cZ4Wiaawccogo=;
-	b=YF0lX1Nk/T7lN9tZtrutoKYpRmrW+BcUMWtzRczMy8JGsv2AdWYHgHwxqWCLam3ag4Z0xB
-	L4pzRaDulqKHOAfy6gDYDZwfrhvAs9jxOJ4g5yFFH1yBha8mrJgXxE/fby4KZ5Fw6lB0n1
-	OVjTYXBp+CiHFsmgqT3R5QeD5SJPdWY=
-Date: Thu, 29 Jan 2026 12:51:47 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGyfrE4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACD97C4CEF7;
+	Thu, 29 Jan 2026 18:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769709777;
+	bh=+m496zieNrrVFPHysVpP/+nP3RnylXLTx9VVClUxD4k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BGyfrE4EQOAr9K0oZAV/ul7bVnQVE3vphBLyznri5NkE+L6NMsB9lMc57KSqfx51p
+	 jWQYczlEoDAeR6SzUflXCi8mwlVJw/17UjoslOZHUSXbHVW97xWhFT06qcpDrmJOvd
+	 gSygkKFcKQMXmoUJkgTPfSZWykQiYl4pe9jMnJNuijzI+5SDLzAxLS/ivh9Vhj2vxJ
+	 Scxaeyo2BvXIzxeQROf3eAZryRhXrFm15QExkkzk3gR0YSu+xQq1QA5fwsEBCF+G5P
+	 1eOxKaeeBpXMyWMi7hZNxt+NpdTK0LnaB1fyHGkQn+tF6qJYzLg2mW0BwBHq3Z4OUS
+	 NL9YtIH7zf0Zw==
+Date: Thu, 29 Jan 2026 18:02:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Hsieh Hung-En <hungen3108@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH 3/3] ASoC: es8328: Check errors in set_dai_fmt() and
+ resume()
+Message-ID: <584b2e7f-bf94-48bf-9b85-26a8ba9d0ba7@sirena.org.uk>
+References: <20260129174733.6660-1-hungen3108@gmail.com>
+ <20260129174733.6660-4-hungen3108@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Michal Simek <michal.simek@amd.com>, Takashi Iwai <tiwai@suse.com>
-References: <20260129172315.3871602-1-sean.anderson@linux.dev>
- <20260129172315.3871602-3-sean.anderson@linux.dev>
- <7c0d283c-f6d0-4ba6-9686-ae6dcfaa4389@lunn.ch>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <7c0d283c-f6d0-4ba6-9686-ae6dcfaa4389@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kdJb//b1tzzY/uVL"
+Content-Disposition: inline
+In-Reply-To: <20260129174733.6660-4-hungen3108@gmail.com>
+X-Cookie: You have taken yourself too seriously.
 
-On 1/29/26 12:37, Andrew Lunn wrote:
->> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
->> -	if (ret < 0) {
->> -		dev_err(dev, "cannot get supported channels\n");
->> -		return ret;
->> -	}
-> 
-> I don't know this device at all, so i might be asking dumb
-> questions....
-> 
-> It is possible that the device supports multiple channels, but the use
-> case is mono, and so xlnx,num-channels is 1 in DT? Would that break
-> given your change?
 
-drv_data->channels is multiplied by 2, so there is always an even number
-of channels. Pairs of channels are always muxed together and AFAICT
-there's no way to disable them individually.
+--kdJb//b1tzzY/uVL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
-> 
-> Could it be the device supports 24 bits, but the use case only wants
-> 16, and so has this property set to 16?
+On Fri, Jan 30, 2026 at 01:47:33AM +0800, Hsieh Hung-En wrote:
+> Check and propagate errors from register updates in es8328_set_dai_fmt().
 
-I don't think that's possible. There's an option to output 32-bit audio,
-but none to reduce 24-bit audio to 16 bit.
+> Also use the cached private regmap in resume() and add proper unwind for
+> clock/regulator enable and regcache sync failures.
 
-For some perspective, this is a soft core and these properties reflect
-the configuration chosen when the core was built. The data path is fixed
-and these devicetree properties exist to tell the driver how the core
-was configured. If you set xlnx,dwidth to 16 and the core was configured
-for 24-bit audio, you will silently get 24-bit audio (and the clocks
-will be incorrect).
+These are separate changes and should be split at least three patches.
 
---Sean
+--kdJb//b1tzzY/uVL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml7oMwACgkQJNaLcl1U
+h9Au7wf5AQVacP5DKvlGNYhL2+eZFKSK73eeMQmpd6Yom+wwuPzzR6QDXXNRAdA+
+zgqtP3GYo0BU1LT6w++0JL9XQlTapV79+eQD6jgWMqn2yw1tFNMnChIebeBubfdC
+tKYEqyneWF/1uKMjopQslSItiv1yOp8NF2OVK2GN3o59frBoKM11tBnuV0lePzjG
+MMuEpWPKJSep7RPHSZnmJhMfoBu8amhpYKnjfBSqi9GJKjqwLxwjhSh0ja4f69zh
+bs7eVr+CtVvaVEyhOQ/cLcwFs0JzZ7splB8EgWb4kZ9kvYKBPthlQ3TsmYZ33ZzP
+LdJib4joAKRrSWjWm/3EPruoZs41HA==
+=5PAH
+-----END PGP SIGNATURE-----
+
+--kdJb//b1tzzY/uVL--
