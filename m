@@ -1,83 +1,104 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D9C20311
-	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 17:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F51346AF9
+	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 17:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769708795; cv=none; b=Tuvcm1hRrzH7vMDgA68XSeX/LzDMkGUvK73msiiU9OfqVY+iuNsXQkNHdIe4xxLURlvWDsuR9H59VanNZ+HHFtFeWF5h2KhNO1R0oAtkG6CaMS3MuSzgk6fddTTHu82MLMe4GwENLD++FC7BwfmiI+o3NRN/s87glLGZmszc1zs=
+	t=1769708884; cv=none; b=uxEK9GB1Ehy7xahK3q9kDXZ6ckWVu7X8jLtClWNDo/d+sj7kx7+zumA8Qtc/yVQRmBf9Tc8jYm+BrnAWHDFygy1b8bf/4XXee29dlmgButhpTM2eZoGtXLM2cekwXGeFgrfGlcywPd2FAMnp3AEWypALdZDmSavi/wekdZSAVag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769708795; c=relaxed/simple;
-	bh=j+If/SlmCSsO1CTWiFJJ53NTq+WpBRYaTVktnI1rx/I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ieU5OmX00/RZ7NQEudM4v5sC4n99ogFdJH6vYziku3G2CMlJtYXk6piw5zttCRcH3iF8qFNtJhgnhf+/mgVi5yOu8uzm6sqDxTbA7uhP0xMvADCjfdmuex1xeTvr8eeysQzZwt7dSkhRj/ue5Hg0sOBFLIJWGI3V/2neMNrLFM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sY+tz50A; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1769708884; c=relaxed/simple;
+	bh=qlQ4qiWvFxFcl6P62tk7w9pLsKDClHOvRdzje7SwpWA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DcTn2PgCSV98A6aNwJPPi/98PG21gtfoKMOnF2USmEQw42u5x/kuRgsSeMatHfIo9JyKrm/7HPBPVXEpWn9FidXFTSQG/Ti4XAmhUtcXW/rKAu9E0ST7mrTispYIBEuReQkhptWAXhb8HAO4pv7oxPjGXCIv7zHDqiZ1ijAEtGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UyXLy6Yz; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sY+tz50A"
-Message-ID: <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769708791;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sbQkO/aU6GO1ByLXLbgZaMgMyf+e1d/FazyAtfU3Usc=;
-	b=sY+tz50AYFXBsC6bljckZOdSlmfyEXAcftS8CKgQCNTOjImPluZCAXtLfgcvmvE4s1lvEM
-	+sN8/m4q5L5ohdcFHV5t5g0m/xQ3gvgfXinC3WU3hRdmh6ZyskdGACWzD94JEcOFOPjjnL
-	VyfKUFzpi02PxRmAbM2lG1zaUE+TMiU=
-Date: Thu, 29 Jan 2026 12:46:27 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UyXLy6Yz"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a871c8b171so7244535ad.3
+        for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 09:48:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769708882; x=1770313682; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yhy93YBh20yhz9IBIDN0+mRyQtLz040Isd7j0h6aTMQ=;
+        b=UyXLy6YzeYVnER7YZVf42Q1zkRJE6OEPKXaLOVy7suhr5qEjBV9NTEWNsbatv7FBnU
+         /BG8dtWSOQK3YfjFmrza6CFjVNIaSXfyEkThMfXEB4lmMMb4OdUQxfaIP0ZvfVEZ0OMR
+         DST4354LvU1Xr8TQ2+uk4fpLcUQYYXFEMpFnO022hp3Y82Q+pOb9XulNmiK3cg0Orw7I
+         +rOlNW/bwCZK3rvXstW3DEzaON/a0l8nZfHraHZTUo3JMHHLqybsGway6pt51jLgefqO
+         QnEyjg4ju5sgD79wNgQvtaTqLaFl3O8IXFZghZQ82JVUaclgby5F4p7ijdnhHII/i7Vm
+         Lcmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769708882; x=1770313682;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yhy93YBh20yhz9IBIDN0+mRyQtLz040Isd7j0h6aTMQ=;
+        b=trOcm8tTc0ljL407JLbMEEnY+kNGtgWe6I9Ps9/cLCeJ0wyMD2IXSe2KcPRh8zt/sr
+         R4XhtpG7SqzcDiwTz8GKK/GztMJ3MeRrdi/N/mfunPQRF8H8QFBH1ufeZ2aeyK3h/IBt
+         zVvqA4IYAmG6jIHozuYJYUgdfV4+DeXu3iVMP1jVWT9fSPowQi/YBZPKR7NOX7WOv0vx
+         HeGrK7M9V3oPz9Jac1j4xys3xDCcx7rGMolP7q38Qqx/reEcQ1k7GySiR9pPGjbKK+IP
+         2wGAcuv7JOrpetjx5YbYmPIHlhL/lzdJ8x7p4I1tIH5RaQAsAr2IV3gTlV/J3azHJyn4
+         UNUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRb9GyVV8taGC0NDyzWiXgSktt3895WA/DqorpDYkhZ81fYj+konEZOomuq3x8sarsdaln90sanEeNDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywLI5Wyt/p8RmQpjEt94axQ/RvPdkJKD2PDgXoCm3gxWIXB/My
+	N0Qy22TF/SLb/BanzWW43DhUBntbtDe5z13Rf1dta5xND7j1LfkeIHvS
+X-Gm-Gg: AZuq6aI2ZMM4Bc3kvYJHTqSp+rzDTDVwwhaVpCN4KVdwM0QEW8nWweBqBYucfslyZRC
+	+N6fMsnnt6tMTWRLhY7vd0QkYQKtpKbEI96d65/GsWE7NilL+bEmbiKndqmu4wQ5Aj7N+pwZTKl
+	kbP08woqE7BGfZnrodynI8TR2vXaUbcfdL2GEh9m5wPAFSbtRKZqH+srggAriUfkz7l4FLgFvKW
+	eZFswXOeVDRlJFRq3E2Da17RuLoN/bkGcR4K6hQvQYwaObuj/3HGvveeCWqxeDHlIam5aqqtHj3
+	Vu3RSYui/VUVQBTjjaot6OfII49nt7t/9lHJn9clCpl2G6F1O55wpw0V7KG41Hf7R99HHDgLIMW
+	boxEPknG/OtPGqIHBlVgBwNUYlxKiP1CPnFOQQ28Z/gVqcH0GEtlBVGf8p1whc+VFmvhP2Wp/w9
+	w7Egn4dZ+1Mn4Y0J5JgrvVgIoVry5Hlk78+aMhWN10hrIawuG9tgJbwgYxKrHtQvzv4w==
+X-Received: by 2002:a17:902:c412:b0:2a5:8e98:1b44 with SMTP id d9443c01a7336-2a8d8150429mr1523275ad.31.1769708881916;
+        Thu, 29 Jan 2026 09:48:01 -0800 (PST)
+Received: from localhost.localdomain (118-170-231-131.dynamic-ip.hinet.net. [118.170.231.131])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4c3b1esm53978655ad.63.2026.01.29.09.47.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 09:48:01 -0800 (PST)
+From: Hsieh Hung-En <hungen3108@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	linux-sound@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Hsieh Hung-En <hungen3108@gmail.com>
+Subject: [PATCH 0/3] ASoC: es8328: Fix deemph control and improve error handling
+Date: Fri, 30 Jan 2026 01:47:30 +0800
+Message-Id: <20260129174733.6660-1-hungen3108@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-To: Mark Brown <broonie@kernel.org>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Michal Simek <michal.simek@amd.com>,
- Takashi Iwai <tiwai@suse.com>
-References: <20260129172315.3871602-1-sean.anderson@linux.dev>
- <20260129172315.3871602-3-sean.anderson@linux.dev>
- <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On 1/29/26 12:27, Mark Brown wrote:
-> On Thu, Jan 29, 2026 at 12:23:15PM -0500, Sean Anderson wrote:
-> 
->> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
-> 
->> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
-> 
-> Given that the properties already exist it seems wise to continue to
-> parse them if available and prefer them over what we read from the
-> hardware, it would not shock me to discover that hardware exists where
-> the registers are inaccurate or need overriding due to bugs.
+This series improves the ES8328 codec driver's reliability by ensuring that
+register I/O operations and state transitions properly propagate error
+codes.
 
-I would be surprised if such hardware exists. These properties are
-automatically generated by Xilinx's tools based on the HDL core's
-properties. This has a few consequences:
+It also fixes a DAC deemphasis control sequencing bug and adds proper
+resource unwinding during system resume.
 
-- They always exactly match the hardware unless someone has gone in and
-  modified them. I think this is unlikely in this case because they
-  directly reflect parameters that should not need to be adjusted.
-- Driver authors tend to use them even when there are hardware registers
-  available with the same information, as Xilinx has not always been
-  consistent in adding such registers.
+Summary of changes:
+- Fix DAC deemphasis control: update cached state before hardware.
+- Propagate error codes in set_bias_level().
+- Add proper unwind handling in resume().
+- Check return values of snd_soc_component_update_bits() in set_dai_fmt().
 
-I am not aware of any errata regarding incorrect generation of
-properties for this device or cases where the number of channels or bit
-depth was incorrect.
+Hsieh Hung-En (3):
+  ASoC: es8328: Fix DAC deemphasis control handling
+  ASoC: es8328: Propagate errors in set_bias_level()
+  ASoC: es8328: Check errors in set_dai_fmt() and resume()
 
---Sean
+ sound/soc/codecs/es8328.c | 116 ++++++++++++++++++++++++--------------
+ 1 file changed, 73 insertions(+), 43 deletions(-)
+
+-- 
+2.34.1
+
