@@ -1,119 +1,117 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E453613C8EA
-	for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 18:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901BF26E6F9;
+	Thu, 29 Jan 2026 18:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769710673; cv=none; b=DdbR29KTDeydtrARfffuavEBUmeDKrl2GnuFTUcym+GINGpkSRMfec1k+fLMHJYm/e/TM7RNymwnyhlTPszYu96zs6sq2rTm03apTd635dKc5+az0bpIi2ml2Y1x/Fj0RejuBRmRF9VjVnNPhcx2LtTbWV+9fsIUkX1lkZzdpyo=
+	t=1769712388; cv=none; b=uvT6+TXMarM7VXjcwE9QRsfS63dPxjaiiAYAsI0JKCOZmfcxGtYdxUwMN8aHweAposkXF51gyn89cUSWTzgbYulT1d4VVMydB5+lgF6G52kI6HRVJQCh4YODI3QlSgK0lrqGNj044+8TegaB1YYVKfIWNVynXLD2NWHpkGbsR3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769710673; c=relaxed/simple;
-	bh=wAMR8NhwdSELseCaPK5PpiZLnwAq02uMKGZGmoWPSwM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MhWU6GEYPHBuGYSTfQbBGXI9nHNJHacrNUtG2E9uY5wAUDf7gD6aF606LM3BEtaGueLP/TiIUqhJlBxLbyFPZAKwLVmKGwXQuzgCvwsDQdOgNvuLXnN5082NFeK4RoJPXV77DeToiBdxRZx/mZDL0a/pt/TJrzkXM0C8vZurY/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DW04QRdU; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1769712388; c=relaxed/simple;
+	bh=/XmRd677K7t4nA7lfrF7vsZ6+myUyYCrAjhaJX3oWyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pzE9Vd76Y9QGZKAdC99RcV6STD69/XZ+1GWYPMbxkuRKVcr6X++h7ZZCJdGxvTQeJ8unFg0yRFpZI3YgSecyC/1JPRnapxiiiQ0UkBZossF0UAGCdzprZmA2+nvljL3NVA6ugwt1Bk6N6zeSbgtWKvGCPRojMiaxh2Wufwabn/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRB+hfcz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DW04QRdU"
-Message-ID: <21a738e6-6585-4479-b797-f8b17df91aed@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769710668;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1lRzH7QAiFYOeBmG/MVJQPf/49vFBSG+OS78kbsM7dE=;
-	b=DW04QRdUeCsRRMf8a+UY5VC1vJKvbo+F/VHNsuq41shG6z2AvXaJTO/9kspQEsFWxq0XLK
-	JV9irS4h3qUCrOO6ZFAuYdyLq6AVclEput3bglQIayPTVNuKwOeZ5rA9XANw3yU26mdE7H
-	EuLcGSEdSml5orP7NjN0WV+shsl/ZeE=
-Date: Thu, 29 Jan 2026 13:17:45 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRB+hfcz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52281C4CEF7;
+	Thu, 29 Jan 2026 18:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769712388;
+	bh=/XmRd677K7t4nA7lfrF7vsZ6+myUyYCrAjhaJX3oWyE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bRB+hfczSZAnFS0bS27/N5bOqxNsJ50x9GCCuznWE/6tU06LEeBRX+qiMeCdfu0/A
+	 1ew0Igg3KxiBoHN54GuF3J+ZVys7Myrb6bob/C20vsRzHS+WF+u2+6HsTMoXMgnwSU
+	 Q+2QkgW76b7Bv3ywFleWWnkXIxISpcwCgKAEE8JWY3b/6KNy4HmPPoNlqWOgSAi1xQ
+	 EP24wGoUW10v3N82bKQ8Zj45pcgrWT4h8GHeSFf7Mt7lYE51aX2UgBurjv2qCBWTeo
+	 yVJSd2JcDVc36tvXANcw8R6TxoTTIxrm8LcwnJhB/D0rS7FuMJEr8rn2RXe05x5f38
+	 n53L1W6ZCoJ4Q==
+Date: Thu, 29 Jan 2026 18:46:23 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Michal Simek <michal.simek@amd.com>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
+ registers
+Message-ID: <06b3d7e0-27b5-433c-85db-23e4c5ef5472@sirena.org.uk>
+References: <20260129172315.3871602-1-sean.anderson@linux.dev>
+ <20260129172315.3871602-3-sean.anderson@linux.dev>
+ <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
+ <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
+ <a17602f1-537e-46e6-a85d-8a005a0443a2@sirena.org.uk>
+ <21a738e6-6585-4479-b797-f8b17df91aed@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-To: Mark Brown <broonie@kernel.org>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Michal Simek <michal.simek@amd.com>,
- Takashi Iwai <tiwai@suse.com>
-References: <20260129172315.3871602-1-sean.anderson@linux.dev>
- <20260129172315.3871602-3-sean.anderson@linux.dev>
- <700e4e67-a2ed-4b37-a00b-303bbc5ee6cd@sirena.org.uk>
- <a95d7feb-4d94-4b25-be96-c7c367342c19@linux.dev>
- <a17602f1-537e-46e6-a85d-8a005a0443a2@sirena.org.uk>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <a17602f1-537e-46e6-a85d-8a005a0443a2@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WDImneD7x8BAel2Y"
+Content-Disposition: inline
+In-Reply-To: <21a738e6-6585-4479-b797-f8b17df91aed@linux.dev>
+X-Cookie: You have taken yourself too seriously.
 
-On 1/29/26 13:09, Mark Brown wrote:
-> On Thu, Jan 29, 2026 at 12:46:27PM -0500, Sean Anderson wrote:
->> On 1/29/26 12:27, Mark Brown wrote:
->> > On Thu, Jan 29, 2026 at 12:23:15PM -0500, Sean Anderson wrote:
-> 
->> >> -	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
-> 
->> >> -	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
-> 
->> > Given that the properties already exist it seems wise to continue to
->> > parse them if available and prefer them over what we read from the
->> > hardware, it would not shock me to discover that hardware exists where
->> > the registers are inaccurate or need overriding due to bugs.
-> 
->> I would be surprised if such hardware exists. These properties are
->> automatically generated by Xilinx's tools based on the HDL core's
->> properties. This has a few consequences:
-> 
->> - They always exactly match the hardware unless someone has gone in and
->>   modified them. I think this is unlikely in this case because they
->>   directly reflect parameters that should not need to be adjusted.
->> - Driver authors tend to use them even when there are hardware registers
->>   available with the same information, as Xilinx has not always been
->>   consistent in adding such registers.
-> 
-> I'm not sure I follow your second point - driver authors tend to use
-> what?  
 
-Authors look at the devicetree node and see something like 
+--WDImneD7x8BAel2Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	i2s0_tx: i2s_transmitter@80120000 {
-		aud_mclk = <99999001>;
-		clock-names = "aud_mclk", "s_axi_ctrl_aclk", "s_axis_aud_aclk";
-		clocks = <&zynqmp_clk 74>, <&zynqmp_clk 71>, <&zynqmp_clk 71>;
-		compatible = "xlnx,i2s-transmitter-1.0", "xlnx,i2s-transmitter-1.0";
-		interrupt-names = "irq";
-		interrupt-parent = <&gic>;
-		interrupts = <0 105 4>;
-		reg = <0x0 0x80120000 0x0 0x10000>;
-		xlnx,depth = <0x80>;
-		xlnx,dwidth = <0x18>;
-		xlnx,num-channels = <0x1>;
-		xlnx,snd-pcm = <&i2s0_dma>;
-	};
+On Thu, Jan 29, 2026 at 01:17:45PM -0500, Sean Anderson wrote:
+> On 1/29/26 13:09, Mark Brown wrote:
 
-and go "Ah, there are the properties I need." On some Xilinx cores this
-is the only way to discover certain properties, so people have gotten into
-the habit of using them even when these properties can be read from the
-device itself.
+> >> - Driver authors tend to use them even when there are hardware registe=
+rs
+> >>   available with the same information, as Xilinx has not always been
+> >>   consistent in adding such registers.
 
->> I am not aware of any errata regarding incorrect generation of
->> properties for this device or cases where the number of channels or bit
->> depth was incorrect.
-> 
-> I'd still rather see the properties get used if present, worst case
-> they're redundant best case we avoid regressing a currently working
-> system.  The code is already there, it just needs tweaking to make parse
-> failures non-fatal.
+> > I'm not sure I follow your second point - driver authors tend to use
+> > what? =20
 
-I would rather remove it for the code size reduction and simplication.
+> Authors look at the devicetree node and see something like=20
 
---Sean
+> and go "Ah, there are the properties I need." On some Xilinx cores this
+> is the only way to discover certain properties, so people have gotten into
+> the habit of using them even when these properties can be read from the
+> device itself.
+
+Oh.  If the properties are there it's reasonable and sensible to use
+them, them being redundant is a concern when specifying the binding but
+once things are there any discrepency should usually be resolved in
+favour of the binding.
+
+> >> I am not aware of any errata regarding incorrect generation of
+> >> properties for this device or cases where the number of channels or bit
+> >> depth was incorrect.
+
+> > I'd still rather see the properties get used if present, worst case
+> > they're redundant best case we avoid regressing a currently working
+> > system.  The code is already there, it just needs tweaking to make parse
+> > failures non-fatal.
+
+> I would rather remove it for the code size reduction and simplication.
+
+We're talking a couple of function calls with no error handling here,
+I'm not sure anyone concerned about that kind of impact is running
+Linux.
+
+--WDImneD7x8BAel2Y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml7qv4ACgkQJNaLcl1U
+h9Azhgf6A4lkfV/w0cwxwJ8Tc2SF7oD3nQbUq5FokALWMy6Lb7rfb+mrG+AaDude
+NSQoQZx9MiQNLpSLIhOuENxQq4kDwkC1iiqZ4cr4D0Z3Boo6TnqPewzvRMzXvY3D
+qUhkTEcIazjnWrl3pQqzHzP2hXBOLCRqfwkSqSvsR6Dx21wj9MecbcQvvuQnz9+b
+ch+mxvLDXvMuyT7oDBG7hY1xhotLrqV5YrHmFYt74XBN9d5K3X/nxFjbP9/xYKKZ
+KjMgSDGfOzYkTPV5ffJazJMIXRneUpYSIEDJRferfRuTOnMnOfnHLIRod9q8i5+W
+88SY2gx4BRO2+4nKz4+MRxOy3JgHKA==
+=RKex
+-----END PGP SIGNATURE-----
+
+--WDImneD7x8BAel2Y--
