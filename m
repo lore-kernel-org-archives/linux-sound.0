@@ -1,68 +1,98 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011062.outbound.protection.outlook.com [40.107.130.62])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815AC2D8DC8;
-	Fri, 30 Jan 2026 14:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD852F7475
+	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 14:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769784231; cv=fail; b=fbUWg8dDXrRlJY2YD45DD9w5fcnVY7UFFfHfi0xFX0b30fyYqEUJ/2T+awB973dk/p+tu1Da8rtUujyUQYRyKPXCZgWtJIfNJ/JGJv+pnOtgjsMav1ri8qVJCqjudg3/fIBQFuWpPXqCJn1AQ3aucuLcY3BoGZ8ZhTgTC/2Vxy4=
+	t=1769784592; cv=fail; b=X5AO5ZUNWiv0+6Pgup6Kbut2igeiI7Gj0FJGsWn8TdXJO/rSE9+Q6cfjWO+UDKqCgF+kaLlwgVHogfGeyhbnwWmH4sqcCQteIbAbzlMo9lkLWEDpyJagSSlp8bHmtyla7B+6IynIdD9lkOzEVFv5oBJMbm6FDVVTEXSQHTv4lHE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769784231; c=relaxed/simple;
-	bh=fb3Yf4//+ar0I/Jbby9TS9HQSpN4goJd8IpTFNgRfdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=kG2PILvw8rEqumr94mJ8WOn3uvILWtO45AzLaiUHi1ngyMimJOPQmV+FOgO+mAhZHMlt3tLzGmSPFRM/wjXxEcaPMBuUNa0RanyvkBf0CHqDrFYUo2r+NcvaaGSLeSVsb4ffbZLoMONQQ0MbgNXBPuKOg/rv7UIPt77wcny6xQE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=lVrDvwWt; arc=fail smtp.client-ip=40.107.130.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1769784592; c=relaxed/simple;
+	bh=pMyWnZZlEDofNNyzpvSyEzGVXtcheOgxzGyWH6rpTtE=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CGzy3EwomMJ7OdWctZr3pJPE0ALS094uame3m3l1C/JumFMaWHY1U/IPAgEAzR1IE6k21s4GXyn9EPeuOX+HfHGaK8aD0FHz2IXg0hHZG3eXKVsf8qniJbsUOYMthW2/FNTPJB9YC8ejii3BfxrOZ0Dxu+LP5DMPddNgBWGBnKg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NrNveTUz; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="lVrDvwWt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NrNveTUz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769784590; x=1801320590;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=pMyWnZZlEDofNNyzpvSyEzGVXtcheOgxzGyWH6rpTtE=;
+  b=NrNveTUzGCAESvRpP9bprOPkXM6B4qfSW3kB8Sl5xnzREOEn8zggX5TP
+   AyNG/G/UpsI3IHJLvua9qLdWjcZ2KcNLfRsjlylOQ/aiFR2yiL6uRYZpK
+   cBhQOzRyKv9moRt+DZaj5eLK+7ccrtfCngCELXG93qVtYk5p/TI+0I6GI
+   JRIiu4cGlUS6HYIGrkT9/ELcHVPmAWv4dk1p02rkf+tGAgbPr4P031nu/
+   gfAUfA4JGHeBfpUeZdUiEEMvKanNLoYkjbyyTowEnmuAmqsAI1I7L/m1f
+   Q7Icd2cqRMOlyyjrW3towKMi0/x1cbZOLjB7a7LjD+yZY7+9jWaIKM/NG
+   w==;
+X-CSE-ConnectionGUID: 2n47ic/nTt+RRkF9aXhu3Q==
+X-CSE-MsgGUID: 3ziIWWrLTmaac5XIg9MTzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="71199435"
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="71199435"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 06:49:49 -0800
+X-CSE-ConnectionGUID: UkztWD46RtqTNbs+TxKDAw==
+X-CSE-MsgGUID: GHVen6RLTI+Z+TKrGAOgRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="213363889"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 06:49:49 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Fri, 30 Jan 2026 06:49:48 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Fri, 30 Jan 2026 06:49:48 -0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.2) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Fri, 30 Jan 2026 06:49:48 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UgxabnYdz91/Hygs+qeXMqGXTgqYGE/wJGa4uGyhicLv2nmLzWZPuJbEu0mSF+aubgB64x3sIhXTegjoy4tPdO76YBF8IcOYEg9eKGxAcpXd7Jy4cRI9L/tTsl8uG7YgaJ3TrpMeu/v3PwpAQAYof4j7vVveN7tWXTdrAtzTgzppC/ACRlAtvG3K8ukmPnOCVIdwk66t9WEHFNBR6c6mCU+Vu7Mr3yXWM39bNmYt5l6VRtZkSqt3Xhg1Tn1JLnUtH13K4hDhrqhwLgkXlhFvMEDwmOQSRphZJsWIUw3n9y9vf9Whk9al3gEIAiiEM/jxGkftyVgdn1LSfLOwbdhiOw==
+ b=kPMG7PYZ0An8QVL8nSrWtNzZJHFYNGspl1jOHEyUDPZ86Ro3kwLYH0Z5YarvzvL35yv8n13lDQy9fkxuM68p61JK0Ek4XlYpxQdwQarTPgll9k5qw1Aj/1PcLf43ctOaRSraGs1jL6C2L4adecu9XsCfUWgKC+jMnxxap3S9dzkGtSbXNgEpcPoKQYOjhrZdhqPZl5X0MbP0gp1m8gVdPPPuzlhFb0F++nipXzFKhQ6YivzZM6d/zePKlOshgdpivhV5Ov4Nfgb9mVA5jPxDC42BNyU2l1LgkoSTuZOHkGHT8qzqnABWk1sh1IpG6KUFQ3ChKFomOEkbTTsV9iBdtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DXXA/9E4WQVpQLXi+y4mm/AqU/bqOOmH/Sopw/Yd15Q=;
- b=tkpB4uqYsvsFijYWIYN2Kbpb3ScGebX5m1BKB6plV09JqsALu+sVzvqUfXyOSswNMXw7mY+baJOpVFWEQffB3c2lWPdYNvArsAHk7w4onpyGO+iuOj6fUXqxIX8CFlxBMgNLe+PkmNTfMB0h1USSQa283pLkWldfpVPaKpfWBSZhNFGcUBz9iWxDhmKXfATzSPZ4HLsadZ59X7DxJSWfyqINmL/DQfZCT5uBbkkd6dHd8K2qr0oCWpuJoptx1uvW6xf3wqBDbKuMBbuRPxhsxctmwPEPPK+/5Jm6VvyTLzsXK9V4D2cNjsdF0O1XHBm0fyOEzze0wRNxOQOBTUOH9A==
+ bh=yh02o2EtrAkFCzs/vsA+qlK12TGJWPNs7/ib7S6RYos=;
+ b=MD86v8KwQJeJ6kATtrWteotszeRK4zAdYBVuzK+9hq/zdQScuem9aY6u4t5/QgRWGRQrcXHTTnZN6iLFtKOEzKwYQYAkvVv4Mrrwnhk9d2zNa+++zFPjT9iWqZfEUt9muF5RdFHoNpwuDBDATHcXaHmUmy7vPWi1N3rS0TdujLAvMSuS7B5e4X7ljgRYF08+q3H9rAxUm5awQBfJNf5DjfVDDgc/aKOmdsgShKoKiQ7hFstvZrfwb5aZ9TiiiZBiZsXf3w5qfJ7/SkSTU2Wm6r3BJz6eKb9BiK9t0aTyk0wJ4Tn/lY0L/ErTmPKHsLfhfnUEeJhSxUoe16xCYUYPYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DXXA/9E4WQVpQLXi+y4mm/AqU/bqOOmH/Sopw/Yd15Q=;
- b=lVrDvwWtC2hgja4fkZ2lvEgjMgdGTPg/efhFJ89oiAWfLYvRxOp+CfiqV7pl1e+OkLCabbagJcs9M6Bs75NByKZztsnOiUXy/LH8hIGn9/7nXR+pxymLT3FY1/9wVYbbsGNNa4VculTUY7OwbR/HH9R6s/WKXr46LVIJjIVejvB1jwWVmiVfjyewQG6wdbkpLuqGqjn5XsbDzTGvmzceFJplDho1f/pwL6obPwj24NE/wsu7ZGDxFerJBXfM1nhxW3Vc/8mRwfPc9yPkxIi3A6+f183gLvIm0sk8JaT7f75rZ3JseGfVAAjTAyrBI2zMOgvke8ppn1efqAkJ4mczLw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DUZPR04MB9745.eurprd04.prod.outlook.com (2603:10a6:10:4e1::5) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
+ by SA0PR11MB4526.namprd11.prod.outlook.com (2603:10b6:806:96::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Fri, 30 Jan
- 2026 14:43:44 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
- 14:43:44 +0000
-Date: Fri, 30 Jan 2026 09:43:33 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 3/4] ASoC: fsl_asrc_m2m: Start ASRC before DMA device
- for M2M
-Message-ID: <aXzDlScEXfmUys32@lizhi-Precision-Tower-5810>
-References: <20260130054330.3462544-1-shengjiu.wang@nxp.com>
- <20260130054330.3462544-4-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130054330.3462544-4-shengjiu.wang@nxp.com>
-X-ClientProxiedBy: PH8P220CA0023.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:345::29) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
+ 2026 14:49:46 +0000
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214%4]) with mapi id 15.20.9564.006; Fri, 30 Jan 2026
+ 14:49:46 +0000
+Message-ID: <4d1a0095-dfe8-4719-bda9-61ed6a42749e@intel.com>
+Date: Fri, 30 Jan 2026 15:49:40 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: control: Verify put() result when in debug mode
+To: Mark Brown <broonie@kernel.org>
+CC: <tiwai@suse.com>, <perex@perex.cz>, <amade@asmblr.net>,
+	<kuninori.morimoto.gx@renesas.com>, <linux-sound@vger.kernel.org>
+References: <20260130135541.115574-1-cezary.rojewski@intel.com>
+ <60f477d0-ea1f-435a-bd8c-4e7e06a1802b@sirena.org.uk>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <60f477d0-ea1f-435a-bd8c-4e7e06a1802b@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR06CA0116.eurprd06.prod.outlook.com
+ (2603:10a6:803:8c::45) To SN7PR11MB8283.namprd11.prod.outlook.com
+ (2603:10b6:806:26c::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,272 +100,145 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DUZPR04MB9745:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbbdb743-c528-4073-bef8-08de600df7af
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|SA0PR11MB4526:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38908dde-4ea2-405e-fed3-08de600ecf9d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|52116014|376014|19092799006|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ovgzgVm1SLq6ZCMxNNPuikiFu8Gj1DEUhs+J4kgDx0LjKFquttNkOahJIMYt?=
- =?us-ascii?Q?FUDBJ0lxPtZOhStNmKeSXETqee5QahxouOThMyvcKZ9dqJm9SeuMjIkxgby+?=
- =?us-ascii?Q?JZy0RaaAI64dPKGZ8leUHSk2NfJfzebWaa3z938w3ctpiRd+P3zZkbh+3Yv1?=
- =?us-ascii?Q?uZwhpJR8TpeAZhAbKb1u5CPPRY+obYdXaXoCfk2tEy5DlXhdZfQOMSLUeQSH?=
- =?us-ascii?Q?s0bTbA82NUrS6G8F22/WYh1EY7K+RhYjqJyWO2+PcsXF65iyh3e6KtDoqWQk?=
- =?us-ascii?Q?NnIVQG5h4R9hywGwlCHkmZ0NXvPKD/SG0fs7q3yHsXQu5qFrDQd+U9si46D0?=
- =?us-ascii?Q?Xs2KpDHpanEAoMul3k9ZVGlMj+Xb5W0h7QPcVW1qrLnlWX3msSLGKXGxdlD9?=
- =?us-ascii?Q?zVM3aVNiS84Qs+fpT+a96K8+T898WJG9yvWvBi7VVrh1xEjVyT4XQEty+gsp?=
- =?us-ascii?Q?zkQiiPh5appvWm5JDqRClqwD5ZxvU9Q8GKA9/Za3ZxdYDLWVxHDCJXo3WHqv?=
- =?us-ascii?Q?R4HV9u54gOn8zh4XYxHzNR9uoJIrs2RAq69Aj74qQ8g8klTFkO4WgNQRDq89?=
- =?us-ascii?Q?J247oFqWCTW4sMoPmkLGqRqI5vkA9wWNeywNLYf3ahMZ0YwGLsVp4/lkq4ml?=
- =?us-ascii?Q?AvU8iTZUGON/0ZDvBTlPGmesyiSgojkfn0LBMrYAKPrYtH6/uXP6CQEwcIB3?=
- =?us-ascii?Q?aZeFip3YcRNBzUSZaYn71OwoXRcH3ZP3pY5PyPi7P1poyB8WbEiNIPiyPJVO?=
- =?us-ascii?Q?rm9mO86dXQbiMR2/Pvb+LiL+2IPCuGtjDbqK0RAm4nDu5X6a8PfkKH9xrDC3?=
- =?us-ascii?Q?kXSsu/Bmj6FjY1RL1VnAQG/g6yVp9i58ID4CHdRPQ6NbhItfzXpxziSGDC8z?=
- =?us-ascii?Q?Dk4EcHIHlpDiwpflB8y2HHLtGBeOO6+BFVb4MP0oSF6TuZEd+jTFJG5FPO9i?=
- =?us-ascii?Q?lfqnx86xNv4QZFBjWr/Q7O/AXH82EqN6Y7mmS9uFDzUK79ap+oxjzzRt+S36?=
- =?us-ascii?Q?1FzvnkPuGN+IU60SZkC7MrSCE3HBqb1zeqDvpkdtK8A5Oh9mxMrEEDflnRyu?=
- =?us-ascii?Q?lRYdxhcXi9Kbq5IvKHT4/RipoHxRxvNONVgPIIoILqsXrooEdo+3FFjT4UzI?=
- =?us-ascii?Q?DLAwwVoVH45keSrSzXSHjj/fy5oRrpNQ4k73ln8w0cmUzuzqDBXhXoNBl2kO?=
- =?us-ascii?Q?zXEgdtrSpy0vdiHz4ttVEMOG2qKJu5wKdcIS9G3nBxpCXWgRa3zya1j1bd7s?=
- =?us-ascii?Q?G3BlYwWRWNelk8zfZxxOP2WVkTGG0fuQJXuJI0k4hg15E47JqYkSForESeqB?=
- =?us-ascii?Q?RaPem5wSf+J3eTJEMi/nBIy9a6qCrpak0sRwuSvflOXJu5aZCIYaXYyEqAYU?=
- =?us-ascii?Q?ghMOLDOoznso4kL/1OUPrhGLzJldZbNy70/IPg/6fUE6zyJ7BjCEsJ+U/ML+?=
- =?us-ascii?Q?AWJtv0mckZlXckLlFhwUuQa2tcRM3NgXteJABLpQiesMI+4T5oRG44XGUsqe?=
- =?us-ascii?Q?evVPd36Y/d82/BHOblrsfiVJ99Lbn5KR1H4AOPvCufR1a/kZYOW4mUOXUI5N?=
- =?us-ascii?Q?oE3ZJUhXlZODrHkmxNLV1ruKV+A8oammIcslgAK7HpiRjbp1EoNg4rFq0u5I?=
- =?us-ascii?Q?cRj9tJWZOhS8gjfg9P5AIko=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(52116014)(376014)(19092799006)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MUFEUys2Y1JNd2RYcDBGaXZqV2hJMkdzRUpHckxVOVFReElXR3RkSnlnOEFL?=
+ =?utf-8?B?d3lUdmJDQ1N0NlNOQm1GWlRSeHBiSVNNNFZDcmR2enNoMGtGUHdHTFA4SklW?=
+ =?utf-8?B?ZUkzaFBRUTJQRmFLWHZjSVJEM0JmUGFGN1F3T1lKeWhJRDFyNkZzQlY2UzFx?=
+ =?utf-8?B?QlgrcVB2OVFnTHhScUxxZFFGcGF2YStscDlUSFdpUWxNT1FaUTlJaWttcmVm?=
+ =?utf-8?B?QlRFL1grZWUyL0NZZmlzNjhGdWE3eHVJQTVuaEJVRjV6RWdxT1RNTlVpVHNQ?=
+ =?utf-8?B?TCs2d3FWQW9JZWJKTXBVWFRWTEVYUWw0TXR0WEMzbUVKLzd2ZzdTb3ZpMGh5?=
+ =?utf-8?B?cGxPb0QreGl5RDZ4YlBjV3RSY0hvUnpTaFZzeFQ3RGZZUGw0QmdtVmY3UGpj?=
+ =?utf-8?B?VU9udWI2eGdaaXZid3gzUW1tcEoyRkxkVUE1VC9QTG1KY2diNDVpVzd5NVJu?=
+ =?utf-8?B?bHFuTzJRWWF6cXdScUxYY2VCRG9YcXl0UTdZVzFGRmI0M3ZGcnRLWUtONitI?=
+ =?utf-8?B?RFBJNU9jOEZwOGplUXMydmVlVmtuaFFaQmtjNitnQXdaVGYvd3RTQ2FpUFBl?=
+ =?utf-8?B?UFhKR0JMMklBaU13cHdPdjBWdzh2b1pWcEpoYXN3elFZYlRHUUhMOUR3U3dN?=
+ =?utf-8?B?RHorNk1CSG9QT3VZb001VzBwcGkrbnZxT0NxeUVqQkFGOTN6WUoxbjl4L1Mz?=
+ =?utf-8?B?T3pWQzVoazIzT25kaXlCbVBVV2haNTcrK0thN1Azelp3TW5oSk1tZjA3MGEz?=
+ =?utf-8?B?UFZzNjEraGc5L21QMGhmWmlVN1RURFVMcWhxVlQ5T0NSSjZMOGdGWmlTUWJB?=
+ =?utf-8?B?N3VBMk4wRGtHdTU2MHBaQUg3YTdBL3lQR0Rabk5Yd21YTHZObHp3UFlpeXVi?=
+ =?utf-8?B?YnVDd2xFT0Uwc3NCYjhtMlkza1cyTFUwOWRBUFJBQm95OTRPRWE2QjV1VjdP?=
+ =?utf-8?B?RDdNVWpJMWVkY0o0OSthcks2UktJYUtuN1dlVTlzeTY4emlWbDMxTGRTelgv?=
+ =?utf-8?B?U3Voa2N1VnZ2ZGo3bi9EVlpWeGJkc09rRm4wb1BVMmd2U3FsM1JHZy9WaHRM?=
+ =?utf-8?B?Y0hCN2puWXVjWFNUdk1XMDZoVnc4V0Noem5FanpkRlZuampqQVk3THBmNm00?=
+ =?utf-8?B?OHhaZ2VRdnppeVlCam82YTNlQUJmN2h0V0E4bFp2UU95ZlZlMEFnVy9Vc0N3?=
+ =?utf-8?B?bUJmT0RpQ0Y0YUNhTWRXbjRVOUZxR0Vod0FJVFg0b3NVTnFuR0VnMTJ1czNp?=
+ =?utf-8?B?N09yYkk1N0Z3Z3ZnR0s2UHlPMFp3N0xyL0JnUnhneHhEQXBaekIzVDNuZ0JC?=
+ =?utf-8?B?ajI2SGFnWGhLWmd3U3AyZnB5U0doRkRvS056Smw1Rmw1ajhJMU5TQVZLWkFT?=
+ =?utf-8?B?Q09jTC9sMnJjVXl5ckpaOGt6WWJZN0FwbFdCbVJKUkljTnd1cjBKNmQ3eXQy?=
+ =?utf-8?B?NVh0Nkx0TVUwWTdiWnNRQUxkNlU2T0FzU3lnNmRxT3YzQzFvZGtIZkJNcWxH?=
+ =?utf-8?B?bW9DTlBlN1R3cXV6RCtiUm1XQ3VsdWtWbzNTZjRGTVFaL0JPemsxeUVseDh1?=
+ =?utf-8?B?ZWtEMElQNnM4MW5EUCthNXhKMVpMTHRUT3dsZW5DN0RBaFVNbnV2M2FGUnVI?=
+ =?utf-8?B?S1k0Sy8zRzdrS1hJUlIvL1dhbGtScFphL09HK0ZTblg0TDBjY1pLOHorMXY5?=
+ =?utf-8?B?MVdBS3k1S2l0VG9Td2pzRkVkWE96MEU0TnNrR0ZtNmRTVHo2andsKzB5Si81?=
+ =?utf-8?B?aVpXRXJxODc3NnJSTnl4Tjk2ME9SVEJJb2hibE5VRHUzdGk2VkNUbmVQUmhL?=
+ =?utf-8?B?QXhRRlhKR054SjF1UHpYVGdQdk9FM2tqaWh5SUduQ1JLVGVrOWZkRlpURVJJ?=
+ =?utf-8?B?SmxRTERkK2RPZXAwTzlDQ3ozc3h0dGI3dkcvc2Q0UXllcW96MDN0SFVjWm5l?=
+ =?utf-8?B?eXBUQW9yZUltV0J0bEY3K0hPVUdXNi82cFRYY1F6SEV1YWdFVDRmdGRGLzJ0?=
+ =?utf-8?B?QW9pZzVrSm1IaDlEUXo0SThtQlRzbjBLeDJIbUpoOFpEL2hUbzMrVSs4VVIx?=
+ =?utf-8?B?ZXoxK052V0paUWFkcWNjUFVnT1k4U2hwNThTRkVjWSs1cVdSMTNObWYza2Er?=
+ =?utf-8?Q?BUHA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?J9qY6COw0W96BSJ8iOF1Fx4EN3tBpBRrH2m0N94yvlYtcpuEIFvjyf3SIuPd?=
- =?us-ascii?Q?K0kY2xNPMPPFTST0YRv+oT7Yi7qJBUHuXnInketS1IYuMFIv4M+nWmKC5cSj?=
- =?us-ascii?Q?e3zc79tXLd5I0jVMM2RzumETfkPANHV5uNEE9W3GrqqKGnSVW6bdIa53CEZQ?=
- =?us-ascii?Q?PT0ah8IzqJ5XaEmbs3icUmxJJsUKcw4uV0SivMHjs0GQPrmYjgnTUSWZd0i7?=
- =?us-ascii?Q?WhLPwQC7HnLS1hPl3wwT1LZs4PoEulGNvwM8VsK3vHp81Qs3Ad+1skGtO8A9?=
- =?us-ascii?Q?uSf0VAZP3/EyHHUuD/UIK8P5S8n25o7U8m/u9lXoUCfaamo1Sy3EaVFpIUky?=
- =?us-ascii?Q?0byF439ZsOdFnjOdhYBVuti1vr/rGN6YHjuIuYbm0KpDknMs3KhGfflBUdd1?=
- =?us-ascii?Q?G8e56MRotQ8I9sdLd13eP66PM0uUveM5NJfO4TWfo5eMs9wFPBWS0QPHfiNs?=
- =?us-ascii?Q?CuqyrTQYnWrJ2dBKamhj/n6XLsNZDYyV3i6kXPHR/xoug7My1Fed/L2kbRL7?=
- =?us-ascii?Q?AblSse5czOiOWQ6mjWu0mds7BMsx5DTQk42ig3GJ4kr7RIgLGQ5GCAb2LPjr?=
- =?us-ascii?Q?+uucgpGf9T8vOEO94r+RRcBHyvF9u6XJZjFqDtSLaZF0EJfz8oxGJ2Tj1+nU?=
- =?us-ascii?Q?Cahy7pICsg83mNCQEH+h4MztkC/6RKGeyvlNBZz9cQH8y9+ValKLwC2FtMiR?=
- =?us-ascii?Q?hG27F/r+wB2P0BNK44iV5PVRA0vKXVv7lMk/u2u3ZzhyqDX1tPBQY6jy9x0A?=
- =?us-ascii?Q?OeVrxaxpRb+NAxWsqe7q4ps5eVP2p5bh6zcayIY9Ra+/6MyXgDn66lApswGQ?=
- =?us-ascii?Q?oI/xha+66o9IS9/JC58vCTFhRtb9CjsqlzIxGwX2/K+VNHla2lZEV4d8px3I?=
- =?us-ascii?Q?K/WHA/SllfCbNdTRzgXbSSnU2lE4B4U0EKIO28ZYWkRMyCe8uMJCDzD0HGGB?=
- =?us-ascii?Q?WPgiNOuTa6LS2OpED9+Dd8Es4cvFj16Xs8Mig63HVic43KSOEKFAbe4w/mWX?=
- =?us-ascii?Q?tPsh6ncr/2W1GZY5pB1vBvHPr+NfktjIyoQSIQ9FN3VPNokot6GlzRI2HerR?=
- =?us-ascii?Q?9sqnINAObcmXHO1s8wpJu9fXLN6deLExKWWlsjDZ5WZhT/nicblHzRGpgkZl?=
- =?us-ascii?Q?Wsi48RAk4ygIKWJRLon5N9NKsGw5CZSlftLM7SFi0MiRMnSJ6IpdE2t+qZ96?=
- =?us-ascii?Q?dgY51aAyR/4HOnu1UacmdDvIljdiMqCjksUcixOsqbnE1GNjnIoSIKzSoH2Y?=
- =?us-ascii?Q?W/628hgFxG1bRH2G9LVJszF6j5txgtswZ36QVsYKSdidKLn+z0zQJX/vg0Kc?=
- =?us-ascii?Q?SlnegEYK7uz2lOd1ZvDiAHhUjKmgKwXqx92iGwK9LR3Al/2d9QaPzGy67pIm?=
- =?us-ascii?Q?ak764kP3WHGtH0ulBYmZetonVrquNPHXdUYHIB7cyBbuwPLo5Uq4jkWdcRoy?=
- =?us-ascii?Q?RdYb9m7k1BkIn4yvLiQecgsimJ7CDthqrSM6Ia1oMTTiajB15Lcq1JUcZuHl?=
- =?us-ascii?Q?JIzf8z/WAWyEx6ArqXPp/DwmHA1ypAYuaP7a/fZpN69yIj7KYMPBIkOE+xZ4?=
- =?us-ascii?Q?7Sns9P160/YGvmAOEIiC7p53f3OzJ1DOtbsIg2PIMKEvi2Iy6cEmVNKITyAa?=
- =?us-ascii?Q?Nuo59PFz37q+EXoQDATftQU9nv51gc4JpmUGDSLHsVPluzMdfvz94iW1ruab?=
- =?us-ascii?Q?D/EVQvKM683AHcNcTsFzuOK2fIgepkmulaAhTWRF8VDqtk/IlQNsgSYL42IE?=
- =?us-ascii?Q?bEpE7VqTiw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbbdb743-c528-4073-bef8-08de600df7af
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlRsV2wySkRZYlV6bmlyWElyZXp1ZVBFWTNGL2dIQ1lzdXVkaXk5Z0cwTzUv?=
+ =?utf-8?B?YVhDQlBjWkF5K0k0cTNlaDB3UTIrc2hLME5XWEdmMHZkSG9RY0E2WUZ2Z1Aw?=
+ =?utf-8?B?S1VoUDIzWTR2VjlwMDE3R1lPeTYrSjd2K1pLaWFnODdMQ1BNdlhLTmo5MVVy?=
+ =?utf-8?B?L0FDb3doaTRsR2VXVzZOSDZtTmFORFBtUVlIWHExVWNNb095WXNWVlRxRUlX?=
+ =?utf-8?B?ZVh3Z0hFcFVQLzlrRnpMUWJjNWpBNHV4czF3d3Z4VWFrVHRycnExZE5KOHhl?=
+ =?utf-8?B?YitLeTNtdE5SbFdNOERCeVROZ3k3Wk9CbEdWYnJOYi8rYU1OZ1Jydi9RR0t5?=
+ =?utf-8?B?ME5NZ05VUmJKdW9Hbk1yNGtnc09aczUvQlJXODNFMGxWTFFMbW1sc2hhR3Fh?=
+ =?utf-8?B?NVMyUHJ6VS9vUlN1cHpCRVpUMFJKQmhoeGkrTGczcHdFL0JYbGdMSXhCa3Az?=
+ =?utf-8?B?ZFJTZ1o1SmZkMkRBYmVNQ3AvdVRGbjViL1lxYTBnblBCaG1mdi9GUk9YSmo0?=
+ =?utf-8?B?QkxyUm9taUJzbzRwc0NZUS9mQ1pZUTN0c2M1cnRBV3lTWFhNVmZCOXRENGdQ?=
+ =?utf-8?B?RENjaFM0WVo1b3RNbEREbWR5R2xlRXZWdDZkWjE5d0FmUGRxTkFkL1dBNW82?=
+ =?utf-8?B?OWFWdlZaUnZidTJzdmplNlNVM0oyTTEvMy9IREJreEltSjc1WHVGY3B6YWNX?=
+ =?utf-8?B?VjdBVTFveGNTTFdMQXFQRHdaUFNUNHQ1aGFGZU43SWp4Nm9MT3JPUkl3bzZy?=
+ =?utf-8?B?OVZyMzJBZE4rUXdUWkYyT0ZxS2laUUI2NTFVMWhWMXFPTSt2Z0pyajViUGts?=
+ =?utf-8?B?T2piS0ZTTjFDVHE0aHprTFVVNUJlbE0vd0xwN3Q2QjZQekFzcll0eWJCVVZS?=
+ =?utf-8?B?S2ZlbkNEMnN0SEt2YVRPakFramZjQUtoeGE0c2dVTTVYbzVRSVdOK1FiTkli?=
+ =?utf-8?B?VGsyMVJWNW15cElmSzd0U0o1L21YaGNYcEQ1RGc4dEtSOFYzcTJNbFF4Z3Er?=
+ =?utf-8?B?K0EwNURCbW9jUmNQV205RnJDZEU3WG5scURKbkt0N29IeGsrNklubE1tdXFZ?=
+ =?utf-8?B?VDNOemZiOGZSWUptVFZJWnVvUnBFOEgva0h6TzNnbFNicC8vbUJFa0JOb2xU?=
+ =?utf-8?B?Q0ZtdlAyYURJTUZNdTAzUTY4YVhaVHdDbytIcXFRWld5MkpOUUtsRjhNS0RO?=
+ =?utf-8?B?Wk9NbUh5OTdDQUFBRHJaNWtIczZ2VE1RQ2daVEtwNlNTQmU2eHNyYTVGODN0?=
+ =?utf-8?B?OGYvVUNQTmtZeVdTL0l0NXNXUEVVUkM0YkdoYkhzSFJFWmVVLzNNR0Erc0F5?=
+ =?utf-8?B?Z1hpS3M2c1pFTUpxVXUySzNmNXBCYXBrRGY2dU1FcHlhdTNVZEFrVVROaVlI?=
+ =?utf-8?B?cTFwc3ZPcUdzSkFXK3Y0ZWdCRUFTSnJMN25jWkoweFlrTWFTKzZWRGFNWStu?=
+ =?utf-8?B?YTNoQmNjSDRXMlR4MDJ0MXFRWkUxWGY2Wi8vOXR6N2dlWnBTenlMUnBoQ3Ni?=
+ =?utf-8?B?Ukt0QVpYMXV1UDBaQVE3bktCaG1XczFxSXdTbjMzNDd0cWxMalhFNnBhNkdt?=
+ =?utf-8?B?SGoxdHJncUs4SFQwb09sVmp1c0FENGdKTjFYcll3VUM3UTZ5dktpUGFUNXBr?=
+ =?utf-8?B?UEhUUEdvYm5OekNxd0g5M2MzdUFNUSsyOHJkTGF4MGpYaTU4VVBmU3lpSGVj?=
+ =?utf-8?B?Y3ZRWGc0RUdrdVBHeWJ1NEd1dDRweWZGckNmSXcrakdNNWNXaDhYRWU2ZDh4?=
+ =?utf-8?B?WXFwaXZNRE0yQW0zZXRST2lxNjcwOFZPTXhaNVFhT2tadEZlR2JnVXF0cTA0?=
+ =?utf-8?B?SElYa1E1UXB1V2RuaEtXa1VXNTJOSmptWXlyY0diTVRjK1hCdHBHalloVXRi?=
+ =?utf-8?B?RDMvaFc4NEFqUERPK3NxSUtzVnJIeFN3QWxwaVAzTDI3dy9GcTR1QnpaVGNV?=
+ =?utf-8?B?ZE9wVXJkQnFpLzZ2ZVJmVWNtSjRDNWp6RGo1cjE4SStTWFJIVEoyc3hOTi9V?=
+ =?utf-8?B?Y3hMaHBXUUxXYUFZZ3JXb1MrclQ2Z0V5VGRwN3AveWltYzFva29RSjFGcVFM?=
+ =?utf-8?B?M1NCNVpWTVBpYkJCc2NpZWVSS1I3ckRiRzgwTTBtck1IUnN5dWhmcWpidFps?=
+ =?utf-8?B?Y2Uyd2NwcVJ6SVlLWnY2cDUxZ0t3dmRQNkNuc2dobWo4Skk4M29aNEJ5VFZZ?=
+ =?utf-8?B?aDAzYWdmV1RjVkdSQUduMWpFbnZIUmxpRERkTXV1OGpDWUh0NnB3YlV4MVNn?=
+ =?utf-8?B?dEkxSGlpZWl2ZkVCQ20xTndIZzN2Yk9FOTd6NmtEOHA5NTMrNmFkOUFCVmFB?=
+ =?utf-8?B?ZEswWlRmT1JYdE1HVzRxTld6VVc4UlpLU3RERGZKczN3eTB5QjNTazRzZEVy?=
+ =?utf-8?Q?Gq59FeC39lHAXOmk=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38908dde-4ea2-405e-fed3-08de600ecf9d
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 14:43:44.3627
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 14:49:46.4517
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mYzI6HkQcPEhYAtuDZhKASaF5u07V8OYR88tLiR4Ln/j4Ye2CwCjNPMKH6RYmpu/OojFlCc+cg1X4Yhe1oFU3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9745
+X-MS-Exchange-CrossTenant-UserPrincipalName: T9oD9fLStpTc9JEt6V0NEKRVKd+zvivALjSkbj08GCvkQ/912qyBQ+7JdSAnIjmwd2RvrXkRkI4Ck7+v2Lz3plUT9J7Oqqqfgn3CGYp9ecw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4526
+X-OriginatorOrg: intel.com
 
-On Fri, Jan 30, 2026 at 01:43:29PM +0800, Shengjiu Wang wrote:
-> There is a limitation on i.MX952 that dma request is not cleared at the
-> end of conversion with dma slave mode. Which causes sample is dropped
-> from the input fifo on the second time if dma is triggered before the
-> client device and EDMA may copy wrong data from output fifo as the output
-> fifo is not ready in the beginning.
->
-> So need to trigger asrc before dma on i.MX952, and add delay to wait
-> output data is generated then start the EDMA for output, otherwise the
-> m2m function has noise issues.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  sound/soc/fsl/fsl_asrc.c        | 25 +++++++++++++++++++++++++
->  sound/soc/fsl/fsl_asrc.h        |  2 ++
->  sound/soc/fsl/fsl_asrc_common.h |  4 ++++
->  sound/soc/fsl/fsl_asrc_m2m.c    | 29 +++++++++++++++++++++--------
->  4 files changed, 52 insertions(+), 8 deletions(-)
->
-> diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
-> index 5846a2b1f73c..2374577c13f9 100644
-> --- a/sound/soc/fsl/fsl_asrc.c
-> +++ b/sound/soc/fsl/fsl_asrc.c
-> @@ -1084,6 +1084,28 @@ static unsigned int fsl_asrc_get_output_fifo_size(struct fsl_asrc_pair *pair)
->  	return val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
->  }
->
-> +static bool fsl_asrc_m2m_output_ready(struct fsl_asrc_pair *pair)
-> +{
-> +	struct fsl_asrc *asrc = pair->asrc;
-> +	enum asrc_pair_index index = pair->index;
-> +	int retry = 1000;
-> +	u32 val;
-> +
-> +	/* Check output fifo status if it exceeds the watermark. */
-> +	do {
-> +		regmap_read(asrc->regmap, REG_ASRFST(index), &val);
-> +		val &= ASRFSTi_OUTPUT_FIFO_MASK;
-> +		val = val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
-> +	} while (val < ASRC_M2M_OUTPUTFIFO_WML && --retry);
+On 2026-01-30 3:12 PM, Mark Brown wrote:
+> On Fri, Jan 30, 2026 at 02:55:41PM +0100, Cezary Rojewski wrote:
+>> The put() operation is expected to return:
+>> 1) 0 on success if no changes were made
+>> 2) 1 on success if changes were made
+>> 3) error code otherwise
+>>
+>> Currently 2) is usually ignored when writing control-operations. While
+>> forcing compliance is not an option right now, make it easier for
+>> developers to adhere to the expectations and notice problems by logging
+>> them when CONFIG_SND_CTL_DEBUG is enabled.
+> 
+> Makes sense to me, although I fear it's about as likely that people
+> enable this config as that they run mixer-test it's reasonable to be
+> helpful.
 
-use regmap_read_poll_timeout()
+Fair point. I admit I've noticed the problem in the existing 
+sound/soc/intel/* drivers long time ago and.. forgot to address them due 
+to lack of any "pings" in the logs.
 
-> +
-> +	if (!retry) {
-> +		pair_warn("output is not ready\n");
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  static int fsl_asrc_m2m_prepare(struct fsl_asrc_pair *pair)
->  {
->  	struct fsl_asrc_pair_priv *pair_priv = pair->private;
-> @@ -1281,6 +1303,7 @@ static int fsl_asrc_probe(struct platform_device *pdev)
->
->  	asrc_priv->soc = of_device_get_match_data(&pdev->dev);
->  	asrc->use_edma = asrc_priv->soc->use_edma;
-> +	asrc->start_before_dma = asrc_priv->soc->start_before_dma;
->  	asrc->get_dma_channel = fsl_asrc_get_dma_channel;
->  	asrc->request_pair = fsl_asrc_request_pair;
->  	asrc->release_pair = fsl_asrc_release_pair;
-> @@ -1295,6 +1318,7 @@ static int fsl_asrc_probe(struct platform_device *pdev)
->  	asrc->m2m_get_maxburst = fsl_asrc_m2m_get_maxburst;
->  	asrc->m2m_pair_resume = fsl_asrc_m2m_pair_resume;
->  	asrc->m2m_get_cap = fsl_asrc_m2m_get_cap;
-> +	asrc->m2m_output_ready = fsl_asrc_m2m_output_ready;
->
->  	if (of_device_is_compatible(np, "fsl,imx35-asrc")) {
->  		asrc_priv->clk_map[IN] = input_clk_map_imx35;
-> @@ -1565,6 +1589,7 @@ static const struct fsl_asrc_soc_data fsl_asrc_imx8qxp_data = {
->  static const struct fsl_asrc_soc_data fsl_asrc_imx952_data = {
->  	.use_edma = true,
->  	.channel_bits = 4,
-> +	.start_before_dma = true,
->  };
->
->  static const struct of_device_id fsl_asrc_ids[] = {
-> diff --git a/sound/soc/fsl/fsl_asrc.h b/sound/soc/fsl/fsl_asrc.h
-> index 2f67b085de24..1be93148a879 100644
-> --- a/sound/soc/fsl/fsl_asrc.h
-> +++ b/sound/soc/fsl/fsl_asrc.h
-> @@ -446,10 +446,12 @@ struct dma_block {
->   *
->   * @use_edma: using edma as dma device or not
->   * @channel_bits: width of ASRCNCR register for each pair
-> + * @start_before_dma: start asrc before dma
->   */
->  struct fsl_asrc_soc_data {
->  	bool use_edma;
->  	unsigned int channel_bits;
-> +	bool start_before_dma;
->  };
->
->  /**
-> diff --git a/sound/soc/fsl/fsl_asrc_common.h b/sound/soc/fsl/fsl_asrc_common.h
-> index 0cd595b0f629..c8a1a2b5915d 100644
-> --- a/sound/soc/fsl/fsl_asrc_common.h
-> +++ b/sound/soc/fsl/fsl_asrc_common.h
-> @@ -107,6 +107,7 @@ struct fsl_asrc_pair {
->   * @asrc_rate: default sample rate for ASoC Back-Ends
->   * @asrc_format: default sample format for ASoC Back-Ends
->   * @use_edma: edma is used
-> + * @start_before_dma: start asrc before dma
->   * @get_dma_channel: function pointer
->   * @request_pair: function pointer
->   * @release_pair: function pointer
-> @@ -116,6 +117,7 @@ struct fsl_asrc_pair {
->   * @m2m_start: function pointer
->   * @m2m_unprepare: function pointer
->   * @m2m_stop: function pointer
-> + * @m2m_output_ready: function pointer, check output fifo ready or not
->   * @m2m_calc_out_len: function pointer
->   * @m2m_get_maxburst: function pointer
->   * @m2m_pair_suspend: function pointer
-> @@ -143,6 +145,7 @@ struct fsl_asrc {
->  	int asrc_rate;
->  	snd_pcm_format_t asrc_format;
->  	bool use_edma;
-> +	bool start_before_dma;
->
->  	struct dma_chan *(*get_dma_channel)(struct fsl_asrc_pair *pair, bool dir);
->  	int (*request_pair)(int channels, struct fsl_asrc_pair *pair);
-> @@ -154,6 +157,7 @@ struct fsl_asrc {
->  	int (*m2m_start)(struct fsl_asrc_pair *pair);
->  	int (*m2m_unprepare)(struct fsl_asrc_pair *pair);
->  	int (*m2m_stop)(struct fsl_asrc_pair *pair);
-> +	bool (*m2m_output_ready)(struct fsl_asrc_pair *pair);
->
->  	int (*m2m_calc_out_len)(struct fsl_asrc_pair *pair, int input_buffer_length);
->  	int (*m2m_get_maxburst)(u8 dir, struct fsl_asrc_pair *pair);
-> diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_m2m.c
-> index f46881f71e43..296e13a16490 100644
-> --- a/sound/soc/fsl/fsl_asrc_m2m.c
-> +++ b/sound/soc/fsl/fsl_asrc_m2m.c
-> @@ -253,15 +253,28 @@ static int asrc_m2m_device_run(struct fsl_asrc_pair *pair, struct snd_compr_task
->  	reinit_completion(&pair->complete[IN]);
->  	reinit_completion(&pair->complete[OUT]);
->
-> -	/* Submit DMA request */
-> -	dmaengine_submit(pair->desc[IN]);
-> -	dma_async_issue_pending(pair->desc[IN]->chan);
-> -	if (out_dma_len > 0) {
-> -		dmaengine_submit(pair->desc[OUT]);
-> -		dma_async_issue_pending(pair->desc[OUT]->chan);
-> -	}
-> +	if (asrc->start_before_dma) {
-> +		asrc->m2m_start(pair);
-> +		/* Submit DMA request */
-> +		dmaengine_submit(pair->desc[IN]);
-> +		dma_async_issue_pending(pair->desc[IN]->chan);
-> +		if (out_dma_len > 0) {
-> +			if (asrc->m2m_output_ready)
-> +				asrc->m2m_output_ready(pair);
-> +			dmaengine_submit(pair->desc[OUT]);
-> +			dma_async_issue_pending(pair->desc[OUT]->chan);
-> +		}
-> +	} else {
-> +		/* Submit DMA request */
-> +		dmaengine_submit(pair->desc[IN]);
-> +		dma_async_issue_pending(pair->desc[IN]->chan);
-> +		if (out_dma_len > 0) {
-> +			dmaengine_submit(pair->desc[OUT]);
-> +			dma_async_issue_pending(pair->desc[OUT]->chan);
-> +		}
->
-> -	asrc->m2m_start(pair);
-> +		asrc->m2m_start(pair);
-> +	}
+alsa-utils' tools and alsa-lib do not allow to differentiate between 
+success-no-changes and success-changes. Ideally userspace-level tests 
+(functional tests) would be allowed to verify that. While in the long 
+run updating/extending alsa-lib is probably the way to go, I believe 
+having kernel-level check _now_ is not bad.
 
-if really like start_before_dma, move common part no change
+>> +	struct snd_ctl_elem_value original;
+> 
+>> +	ret = kctl->get(kctl, &original);
+>> +	if (ret)
+>> +		return ret;
+> 
+>> +	retcmp = memcmp(&original.value.bytes.data[0], &control->value.bytes.data[0],
+>> +			sizeof(original.value.bytes.data[0]));
+>> +	if (retcmp)
+>> +		retcmp = 1;
+> 
+> original was just allocated from the stack so who knows what values it
+> had originally, and the get() is only going to write the part of the
+> value that has data since the normal get() path has a memset() in the
+> core.  Similarly with the new value coming in from userspace there's no
+> requirement for userspace to set anything that isn't part of the value
+> being written to any particular value.  This means we're liable to get
+> spurious mismatches.
 
-	if (start_before_dma)
-		asrc->m2m_start(pair);
-
-	....
-
-	if (!start_before_dma)
-		asrc->m2m_start(pair);
-
-Frank
->
->  	if (!wait_for_completion_interruptible_timeout(&pair->complete[IN], 10 * HZ)) {
->  		dev_err(dev, "out DMA task timeout\n");
-> --
-> 2.34.1
->
+You're right, I've based my patch on results from drivers that do init 
+the space entirely. That may not be true for every driver in sound/.
