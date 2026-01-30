@@ -1,90 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48DB364058;
-	Fri, 30 Jan 2026 17:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC772EB5CD;
+	Fri, 30 Jan 2026 22:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769795984; cv=none; b=h5BL5PoINZUHKBffAP07JZntu4gu5BlJm8Dotiw+rQX9cJ7mGT6UrxwYZHW5o3hEPbldj2hm5FEmsFmJD60fCE4pt2W/HPG0izAKVtCdd80ev25Bf4tLyfFZTRnlQwwYAlYJ5QORQ7YaxXYsD4cDfHoH27Tq+pgPxJgn1iAmucI=
+	t=1769810655; cv=none; b=lrWgpIAEBG3N6wwd6zVIGNkYR0hWFeojMSrPaTO95ty/LjfJn+Ba28eent9Qlm2zxcr4vewoDsITjIroQgukN3JjdkUHIUhjCHphlZsgY6Q/0kBoY4iTraJpm/EUiViCwvWMBOctgzU2YGihwNB6csWp8JIrqVaygT+6qJj2XwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769795984; c=relaxed/simple;
-	bh=S4/yp+MdfeV2mwfjQS+uTilG4izmWUbgxmuOVRrN08w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dpuU9AAKwav+JnBr3obAppN+2H65I+LSrBhFJzd/HoLMfi+QsV9YUI/ZfV6npI0MJ0eRQ9DeW2MtBxdq+ogCBJE1LaXRq8YbS/jMIVrKeIyR3AMSdoCOGZdRLMaAFUL80+VdXF2wyJZj/8vnQ5NCgr3Ous1xX3oo6xrsV/PCOYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNyDFFSe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769810655; c=relaxed/simple;
+	bh=PlZcrzyZOeRKsk8nTeHngBdoT7z/2ZOmXHx36skWdCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VV1VkTQXr8yTLGmK5kFKOt+tssXiA682cEpiX/UjWBxYbfxTJU5RFuYYPgqAZD31vL0mz00Z0Dh3uzTA1hM2W1TbBitK8JXGGx5XA8ch1HS6hHxo+R2KqK76pHB4DaCyiB+V6gbO/OxTxPW8NmnZhFXBiVKfvNLNvrR5PBYsn4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MgwvSS5Y; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNyDFFSe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB147C4CEF7;
-	Fri, 30 Jan 2026 17:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769795984;
-	bh=S4/yp+MdfeV2mwfjQS+uTilG4izmWUbgxmuOVRrN08w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nNyDFFSeTnnUpC+FjBkJR+AvbLL50MIOuw3HonEp5r/wnxFrBH1hTT1vMdsMC3YUx
-	 /sZoIiy+RNGMBeIdaGB2DV8PMXf6PSQlsA0X6H3Y06qgukpoQi8qpwMOTXuIQC3VBu
-	 m2DpPQR5DHpaFZtOAwI94KMijGrEDOwtMN2NsWHMkw0gkrGlRJjleLgFmVXEJX5ufl
-	 L6BD3UzZYZRZTQ/Elny+jTuaiJXl9JhTW4VScbGZl581rbHnPSNwoUiAkrCaoZPD8r
-	 QfgD3zu5cD0aoAqg4Bj9vDRKDbXudo6AxBWJ26FBlx085k+F7oxlvqUClAhgoqgQEz
-	 cR7qejmz7geJA==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- ckeepax@opensource.cirrus.com, kuninori.morimoto.gx@renesas.com, 
- srinivas.kandagatla@oss.qualcomm.com, krzk@kernel.org, 
- Chen Ni <nichen@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260130091904.3426149-1-nichen@iscas.ac.cn>
-References: <20260130091904.3426149-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: codecs: max98390: Check return value of
- devm_gpiod_get_optional() in max98390_i2c_probe()
-Message-Id: <176979598250.995066.12098500477287136570.b4-ty@kernel.org>
-Date: Fri, 30 Jan 2026 17:59:42 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MgwvSS5Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769810654; x=1801346654;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PlZcrzyZOeRKsk8nTeHngBdoT7z/2ZOmXHx36skWdCg=;
+  b=MgwvSS5Yfi0bpEgCDt+2wbSmbhgXcX5tPBcZJseU2UOrxU21WhMB+x0L
+   orzT3ZlPY0RRjfCRmTHnfE25uLU0QHROJTtKPMTg5uQ+ttr4dqEVmQDYy
+   /d9K0jLPkZAeN/2biZRRE0zK2hRjAjfc/ZmL06deVT5ZjEAdrVtz2EfEI
+   OGLO8O+0WdD0fxlp2qA3PPzrWzWou5IduvJxO4GFrB7HfGj15Caj8INg8
+   RNY0De+pivgDacm3mS4IQg8cZors/IzcYrqr5YF/Q0w3fivg7FVYiVvww
+   z6I21InIpPjIdKPPjL+9loVddnhYosZZLcIUSCriSD/nBxZqZeEFhT7Dr
+   g==;
+X-CSE-ConnectionGUID: RRUWEhRLSuCcpFB91tER6g==
+X-CSE-MsgGUID: 3J/xrMX5Qce5i27jPFG70w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70784131"
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="70784131"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 14:04:14 -0800
+X-CSE-ConnectionGUID: 6PSjWHLdQB2h/hu0KwJl3w==
+X-CSE-MsgGUID: 2SuD46HOR2S2E8txMuEtdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; 
+   d="scan'208";a="213038285"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 30 Jan 2026 14:04:09 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vlwb1-000000002Yn-0UZV;
+	Fri, 30 Jan 2026 22:04:07 +0000
+Date: Fri, 30 Jan 2026 23:03:15 +0100
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 4/4] ASoC: tegra: Support WM8962 by machine driver
+Message-ID: <202601302334.FZthipoJ-lkp@intel.com>
+References: <20260130133434.353353-5-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130133434.353353-5-clamor95@gmail.com>
 
-On Fri, 30 Jan 2026 17:19:04 +0800, Chen Ni wrote:
-> The devm_gpiod_get_optional() function may return an error pointer
-> (ERR_PTR) in case of a genuine failure during GPIO acquisition,
-> not just NULL which indicates the legitimate absence of an optional
-> GPIO.
-> 
-> Add an IS_ERR() check after the function call to catch such errors and
-> propagate them to the probe function, ensuring the driver fails to load
-> safely rather than proceeding with an invalid pointer.
-> 
-> [...]
+Hi Svyatoslav,
 
-Applied to
+kernel test robot noticed the following build warnings:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on broonie-sound/for-next robh/for-next linus/master v6.16-rc1 next-20260130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/ASoC-dt-bindings-nvidia-tegra-audio-document-CPCAP-CODEC/20260130-214002
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260130133434.353353-5-clamor95%40gmail.com
+patch subject: [PATCH v1 4/4] ASoC: tegra: Support WM8962 by machine driver
+config: alpha-kismet-CONFIG_SND_SOC_WM8962-CONFIG_SND_SOC_TEGRA_WM8962-0-0 (https://download.01.org/0day-ci/archive/20260130/202601302334.FZthipoJ-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260130/202601302334.FZthipoJ-lkp@intel.com/reproduce)
 
-[1/1] ASoC: codecs: max98390: Check return value of devm_gpiod_get_optional() in max98390_i2c_probe()
-      commit: a1d14d8364eac2611fe1391c73ff0e5b26064f0e
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601302334.FZthipoJ-lkp@intel.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_WM8962 when selected by SND_SOC_TEGRA_WM8962
+   WARNING: unmet direct dependencies detected for SND_SOC_WM8962
+     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=y] && INPUT [=n]
+     Selected by [y]:
+     - SND_SOC_TEGRA_WM8962 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_TEGRA [=y] && I2C [=y] && GPIOLIB [=y]
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
