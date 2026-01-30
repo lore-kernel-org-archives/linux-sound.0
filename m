@@ -1,63 +1,63 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEA3311967
-	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 16:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAE130BF68
+	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 16:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769788839; cv=none; b=uSD2ihb2HQYJEOCwr8AC/8JTgbahLOErSu/Mjk2sIpnaN/YJIEG4jhZSMaJWsVoGwpUHA/4Aslhza2PLgfLrjxnxQksGPVsXzID4Zm7l93PnBQIwzpjzXhZLE8X51Knycq6vudfbtT3mtrE1z/088Osi//ydFu5WfbD7NdZM5IE=
+	t=1769788842; cv=none; b=JWzPMtEBskubhPJZm+pjZW/tYpfSdN3GP0JRzubpBWw+GLseBNQBdfJxFq+b0bbmlRCW29v+ZlxofEG90pns1y65fxsYc5J3o1wNbDQ74Y2XJT8MmdOp7oyyNe+QZUd4SFvZV2HUcWrGcTQtBySbhL4wHklYjYHDE1F+Fc1xXx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769788839; c=relaxed/simple;
-	bh=PZs1K40MoZksQ8iQr+3NQT63syvDc5XMqaKID2ns+jk=;
+	s=arc-20240116; t=1769788842; c=relaxed/simple;
+	bh=nmVzJZUTaOkQHp/Hy51/1k0NuGLi1SA9x/t4euO+Rx0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pam4zbum+ZcSC6iVWxTNu6gVkNTl+j9IzMy/jk/6I+8E6I8s2NOirtv+WL3jjtWoflOuxtFubSF5Y+I5oLQxY7fTe7E3A/gyfBG++s3mxAhgzD/KEmF775NHzlUqWR8/MPTZ9o9KVFoou2jYHMbsEsuN5lJJyJ/dH4zGSL2glZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJ6jc4Tj; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=ahb/30W9bHm8E+fwlCbt/oINnWwGsf+xW/pIIpR4ESHZ4pYvDZr7FKrFwF4AuJnTtzzP71YrQlgvI8dqG59n0Tp+I6146W1VPupXbz4i94fRb34Mup9p/buCkGgAqXcqBv10LrHq6Y+OdI55ptIkPGlYlthfWyDYieJwWp8bwzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qr4ZHr2i; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJ6jc4Tj"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a7bceb6cd0so16035155ad.1
-        for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 08:00:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qr4ZHr2i"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a0d67f1877so14949695ad.2
+        for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 08:00:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769788837; x=1770393637; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769788841; x=1770393641; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/n7Y2y8+5lfZTGKq6ZDVs4ISbps9fdC74Vs+wpB6aBk=;
-        b=IJ6jc4Tj3QrLfd16qLYAvp1gwA50HspqqDLE+cq227+sLxvc1lj1Kkrd7XtO6uU4ks
-         adRODfq+wl4ipCLTS9Vrf+I+QoF2EzVuB237SaSY3XGNcAO08wxTQ0TXRtLDHHkapyyn
-         Kkfg4K65iHHAkctPg0P9zDLoFeYtnzmQ/HqHGGsZz3/MPkoIHp8kHBZiDGbcX1M1B4Tb
-         l++Cc68JL6wEKS0wdceiJbJf712n4Mw6KzZLmz9M330iu2P8ItPX6vjk9CEHjTCQ4Lbh
-         ruCybiTjYcWYSVMlQje2wAw1k5dmk9EodqVstUCDSuvsBJT/rViu/suQTqxYVoVcbt90
-         rXXQ==
+        bh=zi/3D7TGPNkX4g7yOB2yJZ8s1/d37se8AhWeIxAkSK8=;
+        b=Qr4ZHr2i0Vbj2UfGUc6LCKGD2pugU7NoP+jPjX3tMdbPwJlWAHIjZf+QMO69fNM3In
+         9BkJypJJu5B2KXrL0DQrR8O43S0Qrd1wODgeyQ71e40QON2g4yi/xzv6PwAcv4fZy3ue
+         cQAD0dHG3SqnQKUJDapdVN4PCHKMEoRxBMoceB68sD1S82pi5dpDQW84edsTfc06p4Ve
+         7ajBwg8D/mR6YJ4a84OzDDeInMYl7Jls23kNGE+5Zuy+Y8AlsCrt2klw38plN4q8ry+9
+         3Sm4rFywOND6O66OIK7xnOdLBs+cDiuIVyIG9wpE8bd1F4caKISsvkPiYOMEU88xiYw0
+         m7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769788837; x=1770393637;
+        d=1e100.net; s=20230601; t=1769788841; x=1770393641;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/n7Y2y8+5lfZTGKq6ZDVs4ISbps9fdC74Vs+wpB6aBk=;
-        b=tcLnZ4anvfLvKkyaPTs+NUxlnap25q9a4OGb6w1Ik2o/vo9qnMk+sjByUyDcT5vTJS
-         Cv/1aS+MmV4heRiGh7l/3Slb1gTYhT7lMagKgO8jpyY6kIl6zJE/vtk0EVXCyXXc4XlR
-         ueLPDppSYjsSHOGbe+g+2F2bn5J2Gd5s0ncVZ2b53D1cICV4Eu3wrVDr7UKeKrq4oqpV
-         1CPXHsxuhQzflCrjBF5Q/wAIZ1nTZC4jqOvkziBbK1J+I9rmnoWyaZ3ID9lODON5Cz+W
-         /ZkQwKK191Ift4oZKh9ayM9rSF2PC95dE8VNLORuGcBW0MmPPmiGc39DzBg9XskVaBS6
-         03uA==
-X-Forwarded-Encrypted: i=1; AJvYcCVK+6zvNbmcztNogUvFVTzDjFznus0NqRQCwefORfwsQzvnDdNmoosf1ONk1Pm6RS9ahsSe9Im8XFLHrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjpaeZdcpUJhjryae6dIIABnw0pe3HpDTyev2SKBKRx3IOxCl8
-	z3reuw/SLFtfWxmWVI7puZPdYb42RiqhxfnRXxSgo88Kgsa8JGX+6wl/
-X-Gm-Gg: AZuq6aKbdI0e8qs0Wyc0X35DC+DqLmYnS0jGWx2fDtkyOlmgDYxEj700Jv9w3a3EqRR
-	nl28QBzXG2ysNng/VUUbfdjlUEkTTqAvJ51jhk9tJ4mxXbFNAhm18NUPL1xzabdRv5Bdy9cZbOT
-	/Lp5DwcB3wL59l6Wzhy58znlPUphRDI2qYqngOKAT/Md12Ch4jfChqWsl5+68DFtmjT8MPcqR+W
-	ZpV3HcIq/fLDWiDeOE69NApK5LhVZwKvWhCy0frsd9SBu6wec+2DTDoD3zh32pt/Y0DTack0feE
-	fdjglgGFlNxNfDyGa91vWpvTIXCxmZhD0w81k5K3wkHInUgealPCOIB0poOfxktmvghp9zWLswg
-	0ucAvEV3visBkISZhcNJB8kBeMc/UWbqrO5vMDNHJpeax7DEFStIW3qfe+MQ5v6jo6TRlzenXF/
-	jj7ttstFuZq6sGPxIpb8OeKbS/nuIRH8JCDRc1rf8Q2yW3Nx5z1kP0GDl/D1ugbTCwQABpyK8=
-X-Received: by 2002:a17:903:4b27:b0:2a7:5751:5b30 with SMTP id d9443c01a7336-2a8d959c4a6mr27741785ad.12.1769788837448;
-        Fri, 30 Jan 2026 08:00:37 -0800 (PST)
+        bh=zi/3D7TGPNkX4g7yOB2yJZ8s1/d37se8AhWeIxAkSK8=;
+        b=ZnHT7tl4sRMmRHmvP2yVrdX/PwlsDX0G+O8Pjb6OWDf2N2SuA9/Iy/nrxCPgvWAmEK
+         TW/YwOMNVHMrB6ysLC7siknNyYMMYkAfpijA/dLusWvlt8jx/WSHGZ3o4wy8M6xb5xXO
+         X/dIR9p2asgedT7RQynQdnmFxT3FsloKQIGbczA7K+oh7qTFKFxPjy6jKMKh+8bHj4TZ
+         z5sGy8jPVTAtO4LNMJzqICuF18U5USPAvv56XSX40/bT5bOQaafplcpQiwTe7hyLeLOo
+         LNSkv9k+3arhsFm9DdAxjDlNRHWz4FLJHe7r+3MHU2iUJrUeEsDKlBm6vqYIU3WBtVjA
+         YZkA==
+X-Forwarded-Encrypted: i=1; AJvYcCXb46NdG9m7NFKwihVYSgVckyEstL3ybLndwE2mk9tzGRs+poOmTeEGqEu8+COVdJuJoPMJElG0Ro2dbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAzF94xn7+FMACOke+f7hIASIaDR8/9z0koYiTKbXdLd3vB+Vi
+	3dFog5EwBXoT4VWi+VEGBLFmJ2PGBj/lrd6Yfn8/PgZzPWZnoNN/kmou
+X-Gm-Gg: AZuq6aI+HsnGL3hz7v09MY/RkbQ9pCFZu6S8DmqbY8m7oETOJ1+4WJqK1DjufFd15Ep
+	p6N5tto3CgZsXApu/Ab0G3ppZBrd7aUl5VR97gG33kG1nhZ3os0MgH8MV4pmfVw46R7dUVOLaKp
+	1orrAlI78a2nzwMGxNkS/8AO+ni9yQPZUlF0ti8qxAAbfM63XWBOi93ugFIVSXgGpanrquAMNq5
+	3iT2l4NSNmBuD6fAsyzOrmJvDIGrfIWXTkZtINrxyoEOO7yMqMqyvoFVbOjD1Sec7CdAe/lgCLu
+	Zv28t/kzltZashqAC2D0CoL14BnG9d7P7SRl8k5OSrDcw87pU7l+6ev0kofDLEdVS46GH1eotlZ
+	u6HlfsE75ygD2HMlmZlBsPw3zsj38CDvajtw7/OmYlCdR2K8MAkdbTLo7Mdt5RyNul5uJQGa34t
+	h15iknxxP3yofn8BAHq+2zTKyDre7iSn1e8rdkCmEMiy2RBs5f+4S1CZNxBWpCg9QBZwgQ6Lg=
+X-Received: by 2002:a17:902:d4d2:b0:2a7:bd4e:db92 with SMTP id d9443c01a7336-2a8d819e205mr38897665ad.53.1769788840476;
+        Fri, 30 Jan 2026 08:00:40 -0800 (PST)
 Received: from LAPTOP-LUFMQ4TC.localdomain (118-161-168-35.dynamic-ip.hinet.net. [118.161.168.35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b5df0desm82025645ad.82.2026.01.30.08.00.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b5df0desm82025645ad.82.2026.01.30.08.00.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 08:00:37 -0800 (PST)
+        Fri, 30 Jan 2026 08:00:40 -0800 (PST)
 From: Hsieh Hung-En <hungen3108@gmail.com>
 To: Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org
@@ -68,9 +68,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
 	Hsieh Hung-En <hungen3108@gmail.com>
-Subject: [PATCH v2 4/5] ASoC: es8328: Use cached regmap on resume
-Date: Sat, 31 Jan 2026 00:00:16 +0800
-Message-Id: <20260130160017.2630-5-hungen3108@gmail.com>
+Subject: [PATCH v2 5/5] ASoC: es8328: Add error unwind in resume
+Date: Sat, 31 Jan 2026 00:00:17 +0800
+Message-Id: <20260130160017.2630-6-hungen3108@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260130160017.2630-1-hungen3108@gmail.com>
 References: <20260129174733.6660-1-hungen3108@gmail.com>
@@ -83,46 +83,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the regmap stored in the driver private data when restoring the
-register cache on resume, instead of looking it up from the device.
+Handle failures in the resume path by unwinding previously enabled
+resources.
 
-This keeps the resume path consistent with the regmap instance used by
-the driver and avoids relying on a separate dev_get_regmap() lookup.
+If enabling regulators or syncing the regcache fails, disable regulators
+and unprepare the clock to avoid leaking resources and leaving the device
+in a partially resumed state.
 
 Signed-off-by: Hsieh Hung-En <hungen3108@gmail.com>
 ---
- sound/soc/codecs/es8328.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ sound/soc/codecs/es8328.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/es8328.c b/sound/soc/codecs/es8328.c
-index a18c3fe22da5..7afc97c62587 100644
+index 7afc97c62587..9838fe42cb6f 100644
 --- a/sound/soc/codecs/es8328.c
 +++ b/sound/soc/codecs/es8328.c
-@@ -771,12 +771,9 @@ static int es8328_suspend(struct snd_soc_component *component)
- 
- static int es8328_resume(struct snd_soc_component *component)
- {
--	struct regmap *regmap = dev_get_regmap(component->dev, NULL);
--	struct es8328_priv *es8328;
-+	struct es8328_priv *es8328 = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
--	es8328 = snd_soc_component_get_drvdata(component);
--
- 	ret = clk_prepare_enable(es8328->clk);
+@@ -784,17 +784,23 @@ static int es8328_resume(struct snd_soc_component *component)
+ 					es8328->supplies);
  	if (ret) {
- 		dev_err(component->dev, "unable to enable clock\n");
-@@ -790,8 +787,8 @@ static int es8328_resume(struct snd_soc_component *component)
- 		return ret;
+ 		dev_err(component->dev, "unable to enable regulators\n");
+-		return ret;
++		goto err_clk;
  	}
  
--	regcache_mark_dirty(regmap);
--	ret = regcache_sync(regmap);
-+	regcache_mark_dirty(es8328->regmap);
-+	ret = regcache_sync(es8328->regmap);
+ 	regcache_mark_dirty(es8328->regmap);
+ 	ret = regcache_sync(es8328->regmap);
  	if (ret) {
  		dev_err(component->dev, "unable to sync regcache\n");
- 		return ret;
+-		return ret;
++		goto err_regulators;
+ 	}
+ 
+ 	return 0;
++
++err_regulators:
++	regulator_bulk_disable(ARRAY_SIZE(es8328->supplies), es8328->supplies);
++err_clk:
++	clk_disable_unprepare(es8328->clk);
++	return ret;
+ }
+ 
+ static int es8328_component_probe(struct snd_soc_component *component)
 -- 
 2.34.1
 
