@@ -1,63 +1,63 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAA92DF125
-	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 16:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CA03093C7
+	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 16:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769788829; cv=none; b=iQ7bDamfPIv7F6XG2JPSjbJlAwkuVGYnkBOohZ5evN6bzOCIrUIt2gS30uZbA9qn2BnW12bkxuCZWezwWJFRtdWeVj/GRyYiWLLjE/Y5xQRUVldAP+uOTCz5lUIWwYtf03JeJrKt6iz9fs3dGLR5m3Suq4x2rFWbn9oG3kwVPZE=
+	t=1769788832; cv=none; b=YAlA0wRJarjXAKElDPlkC8t3XeFMziqgQsiJRN9FabtPuaAqZ18rrggic18tw6QDXHBiMAp/XniFqEwhluhB5CxsrDee8fgs2bbc6W2trmX1JryW3A7BB+I0JM+rI4i85SCVUvj8wV9+Y6LZbZ1rBpceuJHd7YTfXIp9/qq/9RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769788829; c=relaxed/simple;
-	bh=RBrgoSUNHrSP6r7oUveiU4YfllGLynInEfMpEFi7gvU=;
+	s=arc-20240116; t=1769788832; c=relaxed/simple;
+	bh=3p9f0oBTbCvN3huKUC5Fqo7rjbFyN+f2mmxc93F5iuk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MA9sulmktiqeZ7FFDNFgMGRPevPhl9L+b/58exKo87qlaUL35PMHKXf1M6MTKGBqPidLXhY6eTEsaRHXyGOnJiz7b1JLpKDZz0vif14LrXUSXMXdalzXKIn/h06Y9UTr8aj5OkCn5N7yTVyQUzSTCPKmzuc9K5lLowJSEzZrfo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VbOLw11w; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=DFxNUJ/06iJ8yotIeLb1VJdiSasc8PEjGS4JiNP8nrQc2nDLpFPUOxdgx2Kd6fdnRqng/Sv4SEaezJeaNaVHv2lv6Q810ZqJIzxVCkLJ69tnkhDQNxZlIJ13gXxNSJEklwe3ThgW5CKaSoh8MmdTZAl09WnHU+52F5PdYosrEuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WHr7u+d3; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VbOLw11w"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a12ed4d205so13646265ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 08:00:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WHr7u+d3"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0d52768ccso15291525ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 08:00:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769788828; x=1770393628; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769788830; x=1770393630; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aaOcPVbSUZcGwKzIHU38fCu15A3dQzbZ+/11od8SUeQ=;
-        b=VbOLw11wl0+6LhvkWazzUJnbP1ARp9GF6qKB4oHr8hGUyTYiJyM1CIVAjUUmiGZ4aC
-         dtgpxGADRM4xg4wexH08jpRqxVSZHn2FypDLVuIwpxU8cQkU1nX/eeoIX0wnSm8FILXZ
-         l0gOHabcHMGEZ3PUL7VG49WRJu/IkBNrVjW92f4ULNladGzOnXPUwxLknji6VGgEKNPh
-         1PAw3Eh2NsvuCeP9C3HAJqTuC80fPfk6dPbeLnmwmc4j6GoHNTeIGZETIy3NrV+FPsOf
-         0D8ZoKh0WjzAse7n+rbC7NaXAXWEb3B3RZ7IN40G4aWfj5TpUfM5PMqDtxkRPsPe6DIY
-         IOig==
+        bh=7cLFk9ksyoLVi/BCU0LuLGmhoj6NNVPq1PO9IZbiIG8=;
+        b=WHr7u+d3xqNa6Wfa7sA2L0LTj0t4dAdEvJoNqaVeUXEbiAXPVLKSJ1YPWm025K0t38
+         KWk+1dvnk3t0aP/TTVoktMwoF3sgFMfZGQcyPlx2eE/ZJLhlnXvvm8zEPL8BPHA7/3/E
+         BqyY12uLAR3YgXhLsY9r1oOnpTQqn5PBBK6bDo/t0hprd566z6AhjaNdgyPIPC8ZpvkI
+         G16N0esTq4LmoTqsgiQI+gaCzsVm6vmGllkdMha18Z2v9a6rSmD/bBUwKjhFLPn4SwL4
+         VUHUiWe48qzuA189RFE9Hvd2cGbZWIL1JoUit+5+WOQWuQPKpqj3Cr0sMEPwUeiQ4lZq
+         n+dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769788828; x=1770393628;
+        d=1e100.net; s=20230601; t=1769788830; x=1770393630;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=aaOcPVbSUZcGwKzIHU38fCu15A3dQzbZ+/11od8SUeQ=;
-        b=iRB8kta2tbuLuZ+O55qr2B+C7N/v7d7TpAn5CUUCjbBa68krGTUTLu87sqevtGiJc+
-         mzkCLj7gjpy/D/auuWBGv/WIWkisuneXMDEzkKq9UuPygRmINEGe91JUbjnyFxt1/UTX
-         ft7jKNU8eIkqsoZQokxFajQAsx81/jCqI2cXV4S4LDjyMPJ5W0ojtDyU7QL5Z87Pa9qn
-         GV2DNzzRZVqgYAAezXQsDWl5knQU1LNzMqPDVqH3VHwGBvrmZpKaqAA0ua8HCgYYKDoN
-         JtR2Y37rF+mFwYn1Fik7EOKN6pE/SZNDbew3PWwAyD/EK1H2VxEmhWiwv7+TpzfrQKSO
-         q10A==
-X-Forwarded-Encrypted: i=1; AJvYcCWNu7c6IrkENQfUQGwhrsNMq1ezgMI92C9nIVFrH1u33Kc3MmMt0vVZdRV/4uIKjSZiPieBzbBDHN+hVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzfahyy/I30las/wMiLAB+0Z8EoPdZYU+yuZdB82TFiABo8cQV+
-	whiffvNnIMB7151xCVKliSDVgWTwqj+BdgQ2ME8prVGIsintoHXxt/Zs
-X-Gm-Gg: AZuq6aIHg0P3ElITJQTuKxitQOZJTIu1yAZAEXCv9u0D/JjTa1FZq1w/oIZmKvxPTv6
-	gwRYzgRWdziFgTJxoSZPDeDkyVJUOEHz0MWTt5I2lUpxDNlWT3Y0oFXeUPSySQZ+jgYkts3S7J9
-	zeh13BQ09rJHMVRw090CShbM7mWtLjgF3vDoSY52q6qzISkd7c3+ovFq1BiulS4gWaY7LZZBAMN
-	jUhCS62ybLWnKkgdN2/lygkmI9U5fkKxDMQSeYeoSSfPz/qceGG4WM83H4WfYVaJCTTxqOeoVj9
-	H8mijTpKxyFgcZDv326Q5JHuisBRvaV/b7oy1Z9gWpa6MNtFo8+8fyLi0+ThJNJVDcdMd+AbPvx
-	FN5d5kh5Msy+zonuXDn6rcrNV6zRDg7o413vxHE5TFTIoyvZ3f3wRoGZd2KmuApIjfTitL4Nbyr
-	2CQ64BjhLtbqBMJnl7k7CqB8Fh3XUbP1QHzArPGMH+w7Ttc0aRB349mgu0TtX4n2MWZDY0uAc=
-X-Received: by 2002:a17:902:ef06:b0:295:ceaf:8d76 with SMTP id d9443c01a7336-2a8d9939806mr30418165ad.47.1769788826832;
-        Fri, 30 Jan 2026 08:00:26 -0800 (PST)
+        bh=7cLFk9ksyoLVi/BCU0LuLGmhoj6NNVPq1PO9IZbiIG8=;
+        b=UCRBqhBvfQl0/m5AWBetPVIecSsGDgnp+zUQg6w05c0KPdxKsa8Vmz95RgReROt5Gu
+         cKoIA/0OYBzgA5Av94FIq1BHtxT4r4GSmqfM7Mf+epUM9DoZhKPKwsJWzWBIqaPO+yT5
+         Ith/im3JnFYIaVO84Bcg+ntEdJKcVT1Ki0DEHTFUkNu+oo2fVJTNQf7/ZCzfzJjg7r3+
+         z/Dgoea8cUP+9k6rLLxdYphGvW9NAEP2szuG8uEB4xz4nSiNCY+opschHH9e9qCF+P0c
+         3anjahO3xG2lZlTVFs7SnbYZqP5iRgGpKDvlXa5FDcLaF9uETwF7s+V7AynYW5GdfTLA
+         LP3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXsTUE5Gu7RlplBxERMIpK8TKz+kIKbw/oDb4oNCMa1Oh+F/aicMPWdazehFkozCndXNfVqVkPUJ2SSsg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRSE1o35egKl5N2TNPw59PmwANC9jEHgmJxcVR8TPv5cjQWk/g
+	ma71sQolXGO9C9BZr7r3Bde5TwGvAbeGDqZT3LJMcF2G0BBWgtuYf59I
+X-Gm-Gg: AZuq6aIpRYp89abcQSg1PI5RMszhH1D/1+PTZqQN5wDYHnM0nNCc4qFci545TqnDgJj
+	bUyJJubhlSeJ62qw32HBKYPlw35VMdFV1wS5dUH4JvwWrrFxXR44XItep9RtAfQ/IdFEid1f3Uw
+	CZBwg0HyyTh6aABmTj9tbP333WcZjzbYPg+1cA2Fb/sXFrRxZwX0ZvuSHGptY1vK6aXeBtgk0+K
+	qb1ji77MjIJ85rRVqBMXMQ7CQYlO/qI+tckpPgmwmvQ7Vh5dmuXuY4ph4+yUrpsMT0umz2WfFi2
+	H+nGirtRi9iywjtuEuQdXR9aJayHO1GTqfLCiUR17P6aL06sxYh40b0J3pmQU/Ev/WpcIzx01fr
+	iC2Ac42zZAk9ItdfyiWjDVeo8gocX4bNYNjnTHH+7OW66jiUy4OUwcCSe6uyYQ/WmHhGutA+Q3j
+	enL8dsSszVKk09xl+RvYdINvxbiTffbByXZrZV92rQU3EEAprXRWl/YeMM/HsXHgbEn2cjEgw=
+X-Received: by 2002:a17:902:8e8b:b0:2a7:bbe0:f01c with SMTP id d9443c01a7336-2a8d96a2b80mr25018965ad.17.1769788830366;
+        Fri, 30 Jan 2026 08:00:30 -0800 (PST)
 Received: from LAPTOP-LUFMQ4TC.localdomain (118-161-168-35.dynamic-ip.hinet.net. [118.161.168.35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b5df0desm82025645ad.82.2026.01.30.08.00.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b5df0desm82025645ad.82.2026.01.30.08.00.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 08:00:26 -0800 (PST)
+        Fri, 30 Jan 2026 08:00:30 -0800 (PST)
 From: Hsieh Hung-En <hungen3108@gmail.com>
 To: Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org
@@ -68,9 +68,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
 	Hsieh Hung-En <hungen3108@gmail.com>
-Subject: [PATCH v2 1/5] ASoC: es8328: Fix DAC deemphasis control handling
-Date: Sat, 31 Jan 2026 00:00:13 +0800
-Message-Id: <20260130160017.2630-2-hungen3108@gmail.com>
+Subject: [PATCH v2 2/5] ASoC: es8328: Propagate errors in set_bias_level()
+Date: Sat, 31 Jan 2026 00:00:14 +0800
+Message-Id: <20260130160017.2630-3-hungen3108@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260130160017.2630-1-hungen3108@gmail.com>
 References: <20260129174733.6660-1-hungen3108@gmail.com>
@@ -83,47 +83,108 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DAC deemphasis control updated the hardware before updating the cached
-state, causing the previous setting to be applied.
+Register writes and updates in set_bias_level() ignored return values,
+potentially masking I/O failures during bias level transitions.
 
-Update the cached deemphasis state first and then apply the setting.
-
-Also check and propagate errors from es8328_set_deemph() in hw_params().
+Check and propagate errors from component register writes and updates.
 
 Signed-off-by: Hsieh Hung-En <hungen3108@gmail.com>
 ---
- sound/soc/codecs/es8328.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ sound/soc/codecs/es8328.c | 60 ++++++++++++++++++++++++---------------
+ 1 file changed, 37 insertions(+), 23 deletions(-)
 
 diff --git a/sound/soc/codecs/es8328.c b/sound/soc/codecs/es8328.c
-index 38340f292282..46868b7924a0 100644
+index 46868b7924a0..98fc798ff565 100644
 --- a/sound/soc/codecs/es8328.c
 +++ b/sound/soc/codecs/es8328.c
-@@ -163,12 +163,11 @@ static int es8328_put_deemph(struct snd_kcontrol *kcontrol,
- 	if (es8328->deemph == deemph)
- 		return 0;
+@@ -647,6 +647,7 @@ static int es8328_set_bias_level(struct snd_soc_component *component,
+ 				 enum snd_soc_bias_level level)
+ {
+ 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
++	int ret;
  
-+	es8328->deemph = deemph;
- 	ret = es8328_set_deemph(component);
- 	if (ret < 0)
- 		return ret;
+ 	switch (level) {
+ 	case SND_SOC_BIAS_ON:
+@@ -654,43 +655,56 @@ static int es8328_set_bias_level(struct snd_soc_component *component,
  
--	es8328->deemph = deemph;
--
- 	return 1;
- }
- 
-@@ -530,7 +529,9 @@ static int es8328_hw_params(struct snd_pcm_substream *substream,
- 			return ret;
- 
- 		es8328->playback_fs = params_rate(params);
--		es8328_set_deemph(component);
-+		ret = es8328_set_deemph(component);
+ 	case SND_SOC_BIAS_PREPARE:
+ 		/* VREF, VMID=2x50k, digital enabled */
+-		snd_soc_component_write(component, ES8328_CHIPPOWER, 0);
+-		snd_soc_component_update_bits(component, ES8328_CONTROL1,
+-				ES8328_CONTROL1_VMIDSEL_MASK |
+-				ES8328_CONTROL1_ENREF,
+-				ES8328_CONTROL1_VMIDSEL_50k |
+-				ES8328_CONTROL1_ENREF);
++		ret = snd_soc_component_write(component, ES8328_CHIPPOWER, 0);
 +		if (ret < 0)
 +			return ret;
- 	} else {
- 		ret = snd_soc_component_update_bits(component, ES8328_ADCCONTROL4,
- 						    ES8328_ADCCONTROL4_ADCWL_MASK,
++
++		ret = snd_soc_component_update_bits(component, ES8328_CONTROL1,
++						    ES8328_CONTROL1_VMIDSEL_MASK |
++						    ES8328_CONTROL1_ENREF,
++						    ES8328_CONTROL1_VMIDSEL_50k |
++						    ES8328_CONTROL1_ENREF);
++		if (ret < 0)
++			return ret;
+ 		break;
+ 
+ 	case SND_SOC_BIAS_STANDBY:
+ 		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_OFF) {
+-			snd_soc_component_update_bits(component, ES8328_CONTROL1,
+-					ES8328_CONTROL1_VMIDSEL_MASK |
+-					ES8328_CONTROL1_ENREF,
+-					ES8328_CONTROL1_VMIDSEL_5k |
+-					ES8328_CONTROL1_ENREF);
++			ret = snd_soc_component_update_bits(component, ES8328_CONTROL1,
++							    ES8328_CONTROL1_VMIDSEL_MASK |
++							    ES8328_CONTROL1_ENREF,
++							    ES8328_CONTROL1_VMIDSEL_5k |
++							    ES8328_CONTROL1_ENREF);
++			if (ret < 0)
++				return ret;
+ 
+ 			/* Charge caps */
+ 			msleep(100);
+ 		}
+ 
+-		snd_soc_component_write(component, ES8328_CONTROL2,
+-				ES8328_CONTROL2_OVERCURRENT_ON |
+-				ES8328_CONTROL2_THERMAL_SHUTDOWN_ON);
++		ret = snd_soc_component_write(component, ES8328_CONTROL2,
++					      ES8328_CONTROL2_OVERCURRENT_ON |
++					      ES8328_CONTROL2_THERMAL_SHUTDOWN_ON);
++		if (ret < 0)
++			return ret;
+ 
+ 		/* VREF, VMID=2*500k, digital stopped */
+-		snd_soc_component_update_bits(component, ES8328_CONTROL1,
+-				ES8328_CONTROL1_VMIDSEL_MASK |
+-				ES8328_CONTROL1_ENREF,
+-				ES8328_CONTROL1_VMIDSEL_500k |
+-				ES8328_CONTROL1_ENREF);
++		ret = snd_soc_component_update_bits(component, ES8328_CONTROL1,
++						    ES8328_CONTROL1_VMIDSEL_MASK |
++						    ES8328_CONTROL1_ENREF,
++						    ES8328_CONTROL1_VMIDSEL_500k |
++						    ES8328_CONTROL1_ENREF);
++		if (ret < 0)
++			return ret;
+ 		break;
+ 
+ 	case SND_SOC_BIAS_OFF:
+-		snd_soc_component_update_bits(component, ES8328_CONTROL1,
+-				ES8328_CONTROL1_VMIDSEL_MASK |
+-				ES8328_CONTROL1_ENREF,
+-				0);
++		ret = snd_soc_component_update_bits(component, ES8328_CONTROL1,
++						    ES8328_CONTROL1_VMIDSEL_MASK |
++						    ES8328_CONTROL1_ENREF,
++						    0);
++		if (ret < 0)
++			return ret;
+ 		break;
+ 	}
+ 	return 0;
 -- 
 2.34.1
 
