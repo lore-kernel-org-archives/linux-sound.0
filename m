@@ -1,174 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045772DF6E3;
-	Fri, 30 Jan 2026 06:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769754940; cv=none; b=FOXeczA6VpyICTnl0Dc96cEhmmm6dH5VNaqoQzzPaDacorUWJPRrSeuWiSBrb8bmhYEU4m29vSPAWdpfbfgS7xv1ae5WdYFZbGwogwBkP25aqUVsIfE12ypSgIgMhBS4ePpuh6vevLVBOaCqfeIYTlfGuXv/mgCwISk3WbbYSXA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769754940; c=relaxed/simple;
-	bh=Sb2WU//u4SF4h5cOKPWNwwJrlAs7F8kiap7N72HjsJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qQyuNUC7HJ8UCNaTHoaDiOqzFa3yToFmGHaw5RhCuyemIG3UdXMDk2i+DSdVKneqYljYTOGq28QIrLnJ4dEOX3oX+JxPxw42MwQyzafb57r6hqJQlc6A/WyL+OqBZo2523hvuOn+p6OZPmjqLx0Cr9xHQshueCqoK6H/BAqiYwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsEPDLIY; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09B0309EF9
+	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 07:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769757616; cv=pass; b=MGfnG0fNmQILOzJN+v/ZKq67zl2+T5iPz73QJpTLS8JImNPuUS1t5iHbRPzm5EfVt0e9FrG79nq23tW3zxxx2uut9lozimovgPpGqNCex2U+L1MFpIcAFy9JEgZ2JST/W0X6pp2uizAOi5Cdu6OEPX3MPLL8GrmvNohCJ0vQ4eA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769757616; c=relaxed/simple;
+	bh=yiCInPBw07YvtBtb/8UPQ6O9jfSpvmf7nJNZXF9oh5Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pTu8GBGMORycflW3lnRbD914kPMwHvjPY9vTCMwPFMWSM4VqVjO++jlAPQbHA80PTLe++aADct3Zo4Nqog5e0fvBvJbqa57WhVGCC4cyHGbPWydgYlZc/IZRjlChKyILA0F0q7dYFR2ODIP5Y3iIayaFs7aB6PW4yh4l3hG1Djk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/ILPWEx; arc=pass smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsEPDLIY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769754939; x=1801290939;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sb2WU//u4SF4h5cOKPWNwwJrlAs7F8kiap7N72HjsJo=;
-  b=HsEPDLIY65ZiBlIeKvnhAyqYzAR6i1AU1ZkP788YYcWq4MNUa6+tw3YA
-   OxXl96bKBUeLiwmkqJo2IEbr8dSwSswoYPPcsSQrG4XBgHTSHWWQG+2aU
-   CpxLfRv6TLzEtTfsIWRofLXT8/ugloeeI3o+ahhtOTJtLix49dERupcCd
-   v+Jt6PiDSbuCtQ5RHdx3UPSajtWneg/4G7NgunbeImqddfHgsnKHN2YDc
-   WnwuOS0IDkEXHhXQxhivQqZ744tHDaatPzjg37OkRFJyIKLoqr4hhFyW7
-   0FaYeobZ0P1C1udDCWmsYr9/fBdVZhgqLU7d3R+Cx5JlUaaDeomb2VkUn
-   A==;
-X-CSE-ConnectionGUID: oHrxmcZMQOuoObt+RV03vg==
-X-CSE-MsgGUID: D5OsjBi2SHGmk+R1CyBBzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="74629555"
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="74629555"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 22:35:39 -0800
-X-CSE-ConnectionGUID: wjQWB7pyTy+QAcYvlvDfNg==
-X-CSE-MsgGUID: tL1/o47kQBCLajUCKYUnsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="213682333"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jan 2026 22:35:35 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vli6P-00000000cHE-2CuX;
-	Fri, 30 Jan 2026 06:35:33 +0000
-Date: Fri, 30 Jan 2026 14:35:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@linux.dev>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>, Takashi Iwai <tiwai@suse.com>,
-	Sean Anderson <sean.anderson@linux.dev>
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from
- registers
-Message-ID: <202601301436.qPUffKmd-lkp@intel.com>
-References: <20260129172315.3871602-3-sean.anderson@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/ILPWEx"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-124afd03fd1so2789267c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 29 Jan 2026 23:20:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769757614; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NjdXD0WtA3yLoy9xzpNwA1BjwROST+3PiUPXtjV4Gw4CGpsR/sheMA0wp7sRFI23rX
+         w7paKX/why3vORgIKQDULjZp7vfMqoMBMXjMEytVp34vaHuiLqAjij29JIRUZ3TQpo61
+         V/7SARldDvfKPVPxJKYnJ4GnuBcyK4rQx/A8uX1PLvWTtP4f3gThMpFcrXn9YxK6dy1T
+         k4wzLn2Kl4iKyRVzomUzBWq9YYuTHU0Ik8M2It4S+NPInSR2KnVhZYdGQd35xQrfG3LJ
+         zufzHvNjH4GEKeXXa83WpDUuKUDkrZEyVHaeDVbpRafpUfmj7rSik1iOa3pDFBzyR5Ji
+         5Bbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yiCInPBw07YvtBtb/8UPQ6O9jfSpvmf7nJNZXF9oh5Q=;
+        fh=KrxXrrKwqvMxyLk1B+hcjpwoHoDZU/O3Pgj2L4IJc04=;
+        b=O+/Mbx4USvhTApLZ7VYUPgXyGwssgr+pLCswfQOUswzc85bp/UR1f1RXMtOdbgzwL8
+         NGHMYLETp1SECC1Kcmt6RpoismTXmC6LuKcu9F7eo2I13XXrrnyMmh9FVLgCAXawNIfM
+         JMt/FzFcz3908wTyB18nY+YuT1g1yg01Ng3/17T1vuJ4RKDVSGdNS8/jgj+NNMWA4aQK
+         W2SVt9K8k6MZEd/lsZqTvDg1cYRSK0Q+diDm2n2zJUn8w8ZjCqmbSf1JJri+uZDxjU+E
+         J0zhjAMBqkPIoT9yY+kdyUbz6vIftgReoUF+VSbhANiIQXaXa0R+sKwWWJUirJ9dbBXi
+         LsUQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769757614; x=1770362414; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yiCInPBw07YvtBtb/8UPQ6O9jfSpvmf7nJNZXF9oh5Q=;
+        b=j/ILPWExDCSQ/1WKGvUTA9iQzXyFaibJIRP1S2yZ9gj3THGJp3IwVMNgYrOpXyIJZA
+         5Q8riQEbliX10DFS+F5sLSkoGNoRlNhds0AX/tnJQ9Kc64kKqZZnYClXLhf6VCZh/7Cr
+         yhHubY95wfsQpOglJV8IIXUPPpnInGYRe+CGpLeKQ/Yj66SJE1KQwV41gwdfTVAjO3+C
+         89o0h7/wqpMohEywXTTubLZogYKAp/ER1YeSjGST0U0Ui8Lq9pgvBmOiM6YhNFQiYu4B
+         JKR7XhUizIHWWEOu/+DN4sSqhBb9QzSRP+D0CedtZrUl2MZvK9SYHN2DyqNu8UyjrlRJ
+         AurQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769757614; x=1770362414;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yiCInPBw07YvtBtb/8UPQ6O9jfSpvmf7nJNZXF9oh5Q=;
+        b=QuvVHQ4hNv3FJi+B0FFb3+nIYa2QK1BDleOt6x/Uo+lo6T0ayElQ0BY/ueokMBwjBl
+         FTKIOlGvd14fMaGuqWt2ZdEiImOfKSSrr0vKA2BkTvfAimzep39mLxW5jBUN43iFcWna
+         XDrsCkMGVUydZ5xSsriwOXugoQ2+dJpx0yDndZq3+NntqZMmlkp9MLBcp2jbOmplLtmV
+         pHDlwKV2bUpiZTXSBKDozPEL8zKAy2kkxWjgU1AX13fASaUt8SJ+BhXLV8aAm3+dMlgO
+         H+TP/3dO6usRQVO8IZAwk06O3+L3SBvH/Llx5Qr4xJd1Sn0NHlFYIYUOxQGo+qLOs6KB
+         JkUg==
+X-Forwarded-Encrypted: i=1; AJvYcCX7rTa32e++7zrqqsv0R856P4J757zNh79I19EEdRBIDOCF5nYVksAny8Qy+FNr4E9QHEiQCkLtm6VLOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwNd+S7FRyO/M8X5uUCR830epyA1Vw5tE3xT2Y03tGPBRTRt/W
+	6l3s4PPbSmc1rwdHgxuqLhgiZ5f0ObOAlR9ENqW4L+k32mZjA9ZuDU/z0X9TjoERWQZpJO3iaXy
+	lazh7/EMPbd7+1ylmU9fpNzhP8BFUDAs=
+X-Gm-Gg: AZuq6aKLgXzfSM4pJMeAetqyhJUGwHHxkqAwkRiB8wabv1JCm8wCmbCzZx7DJdyhEsR
+	4qVhLHipZzLkRTbhuKKf5Yksw0xl9pfxoMkLb39RLgiooFt0Xay5KW/uTDZSFEVFKaiZEbMUKdW
+	VjocR5njanZ0cAgSUzVp6s0dg1JpTXnch7lwOhsztYwGIAMs0Ne4VB9OEIYzcMiJ7985criSjs7
+	/hwJM5Z1+u6VgH4fMv87PKnfrxjbEzie3oCog3F2fVdDC3owfNn7cMvR7eObFWiv1vWOg52p8XH
+	m770eRhY68vnEZ1zYknng8uziNzCpVQpVaiJptQq6tneT8JAi5FQu9xkqn7wqXlUzAIK0HKwLPS
+	Yk67UHbqLDJMR7g==
+X-Received: by 2002:a05:7022:207:b0:123:35a4:e8be with SMTP id
+ a92af1059eb24-125c0f8d01fmr955848c88.13.1769757613717; Thu, 29 Jan 2026
+ 23:20:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129172315.3871602-3-sean.anderson@linux.dev>
+References: <20260130054330.3462544-1-shengjiu.wang@nxp.com> <20260130054330.3462544-2-shengjiu.wang@nxp.com>
+In-Reply-To: <20260130054330.3462544-2-shengjiu.wang@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Fri, 30 Jan 2026 09:20:01 +0200
+X-Gm-Features: AZwV_QhrTfQ-UYZ4PfDVoCm6fliDdKe2PvVXhTLbJKtRrXqH5MmZHe0lNlu_Efo
+Message-ID: <CAEnQRZC5umZYoxemGO_yc5xT328uQxUG8Sg8yZvgDowhLP6UPg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: fsl,imx-asrc: Add support for
+ i.MX952 platform
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
+	perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sean,
+On Fri, Jan 30, 2026 at 7:44=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
+>
+> Add new compatible string 'fsl,imx952-asrc' for i.MX952 platform,
+> below are the differences that make this ASRC not fallback compatible
+> with other platforms.
+>
+> 1) There is a power domain on i.MX952 for the wakeupmix system where
+> ASRC is in. But it is enabled by default, ASRC device don't need
+> to enable it, so it is optional for i.MX952.
+> 2) The clock sources of ASRC are different on i.MX952.
+> 3) There is a limitation on i.MX952 that DMA request is not cleared at th=
+e
+> end of conversion with dma slave mode. Which causes sample is dropped fro=
+m
+> the input fifo on the second time if DMA is triggered before the client
+> device and DMA may copy wrong data from output fifo as the output fifo is
+> not ready in the beginning. So there is specially handling in the driver.
+>
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on broonie-spi/for-next linus/master v6.19-rc7 next-20260129]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-sound-xlnx-i2s-Make-discoverable-parameters-optional/20260130-012955
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260129172315.3871602-3-sean.anderson%40linux.dev
-patch subject: [PATCH 2/2] ASoC: xilinx: xlnx_i2s: Discover parameters from registers
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260130/202601301436.qPUffKmd-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301436.qPUffKmd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301436.qPUffKmd-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sound/soc/xilinx/xlnx_i2s.c: In function 'xlnx_i2s_probe':
->> sound/soc/xilinx/xlnx_i2s.c:191:30: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     191 |         drv_data->channels = FIELD_GET(I2S_CORE_CFG_CHANNELS, cfg);
-         |                              ^~~~~~~~~
-
-
-vim +/FIELD_GET +191 sound/soc/xilinx/xlnx_i2s.c
-
-   173	
-   174	static int xlnx_i2s_probe(struct platform_device *pdev)
-   175	{
-   176		struct xlnx_i2s_drv_data *drv_data;
-   177		int ret;
-   178		u32 format, cfg;
-   179		struct device *dev = &pdev->dev;
-   180		struct device_node *node = dev->of_node;
-   181	
-   182		drv_data = devm_kzalloc(&pdev->dev, sizeof(*drv_data), GFP_KERNEL);
-   183		if (!drv_data)
-   184			return -ENOMEM;
-   185	
-   186		drv_data->base = devm_platform_ioremap_resource(pdev, 0);
-   187		if (IS_ERR(drv_data->base))
-   188			return PTR_ERR(drv_data->base);
-   189	
-   190		cfg = readl(drv_data->base + I2S_CORE_CFG);
- > 191		drv_data->channels = FIELD_GET(I2S_CORE_CFG_CHANNELS, cfg);
-   192		if (cfg & I2S_CORE_CFG_DATA_24BIT) {
-   193			drv_data->data_width = 24;
-   194			format = SNDRV_PCM_FMTBIT_S24_LE;
-   195		} else {
-   196			drv_data->data_width = 16;
-   197			format = SNDRV_PCM_FMTBIT_S16_LE;
-   198		}
-   199	
-   200		if (of_device_is_compatible(node, "xlnx,i2s-transmitter-1.0")) {
-   201			drv_data->dai_drv.name = "xlnx_i2s_playback";
-   202			drv_data->dai_drv.playback.stream_name = "Playback";
-   203			drv_data->dai_drv.playback.formats = format;
-   204			drv_data->dai_drv.playback.channels_min = drv_data->channels;
-   205			drv_data->dai_drv.playback.channels_max = drv_data->channels;
-   206			drv_data->dai_drv.playback.rates	= SNDRV_PCM_RATE_8000_192000;
-   207			drv_data->dai_drv.ops = &xlnx_i2s_dai_ops;
-   208		} else if (of_device_is_compatible(node, "xlnx,i2s-receiver-1.0")) {
-   209			drv_data->dai_drv.name = "xlnx_i2s_capture";
-   210			drv_data->dai_drv.capture.stream_name = "Capture";
-   211			drv_data->dai_drv.capture.formats = format;
-   212			drv_data->dai_drv.capture.channels_min = drv_data->channels;
-   213			drv_data->dai_drv.capture.channels_max = drv_data->channels;
-   214			drv_data->dai_drv.capture.rates = SNDRV_PCM_RATE_8000_192000;
-   215			drv_data->dai_drv.ops = &xlnx_i2s_dai_ops;
-   216		} else {
-   217			return -ENODEV;
-   218		}
-   219		drv_data->is_32bit_lrclk = readl(drv_data->base + I2S_CORE_CTRL_OFFSET) &
-   220					   I2S_CORE_CTRL_32BIT_LRCLK;
-   221	
-   222		dev_set_drvdata(&pdev->dev, drv_data);
-   223	
-   224		ret = devm_snd_soc_register_component(&pdev->dev, &xlnx_i2s_component,
-   225						      &drv_data->dai_drv, 1);
-   226		if (ret) {
-   227			dev_err(&pdev->dev, "i2s component registration failed\n");
-   228			return ret;
-   229		}
-   230	
-   231		dev_info(&pdev->dev, "%s DAI registered\n", drv_data->dai_drv.name);
-   232	
-   233		return ret;
-   234	}
-   235	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
