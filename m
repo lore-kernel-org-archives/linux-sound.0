@@ -1,129 +1,91 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18352C326F
-	for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 08:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769761499; cv=pass; b=EHz4XXNyS3cHCbfFU0hn1hTXodzXlT25b4iWqO2lJOlDVloFjt4n5xaUf5ZoUSWkDOMQahsUt97hqOTA/l8SC/iwATJ3DYzGgrTvhD1Dn3ZUbYc0NN6pYRT4OeMfh9uQ3YRMBwkaAoihm8MKMM34jk4CHvGJJP5nlLeCaOyJE70=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769761499; c=relaxed/simple;
-	bh=ZC+fuQk21hYzdagNdpY7ch+QY0LHmxNvBoMUa+2kaN8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lO2xm4wLnoNHt6wIlKAFfwb1Fn3nDc+kK7jYPAXZiWXPVBqTY3eY1zIFog1A8gJKvh/JWzr5KrlF2MhD3+nA3u4h1ojWL6WaFvXZhaf0raWVM5vVrh7AJbjyMkWfvZQDoyUymoW4WBLWZy/FNE7HByz4Aq3ymmdFZzFUiOhADNw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iFnRJZcl; arc=pass smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iFnRJZcl"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34f2a0c4574so1612294a91.1
-        for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 00:24:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769761496; cv=none;
-        d=google.com; s=arc-20240605;
-        b=A9OU0/HbU5PViXeEGV/KPoissskxkTKBMrusq0rhWDn0OsXevejaLn4vzDkaP9tIZb
-         j9vlTn13ftQCwqv+EUYEX1iVLZjjWfJGB19ZDsz+ekaUyLuDMqAApA659y8B5g906tzc
-         rTpzh+ccz3qxx/3h1rAiXhEDs7zN+Xj9KMQLum1+wkpo0UGmgCD3mBVdYwIC3F8mCD7a
-         HhWBgkbyoKvPrrrsDfv1nRtejBPgwn1mVJQ4n3BdeB1ulDkWNaxi8kNWD6qV9o3q1ulj
-         W2GZKr7Ju/vAIzJNFKTMv9qGLNBOIzanBXHxV6YBce7V7HUactn3LUsC5EzEVVDlVnQr
-         ojBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qIF2oyc7jSMJyV9MJXutUw0TkKSVy7Ny/HYiVWp/mcQ=;
-        fh=NStmZ7EsWO0/5XJVZNnFt810lDEesMcJLC4JGsvCV5o=;
-        b=Y86Bgm2IhTQMX84C/AePSxfy8LnLauAiaTbmKn806p+UoRKLnptt70kQw4j2tjZN5s
-         njgyyWvt2clN/FOBYQlarKXto9rpWHimjx7pRuU9dEFqKYEFmTuPFTRHMLxO0QfndOkP
-         BNKxxnkmnj7ScQecWVsaL7Cv5p4NhcxMUgEFNItrRRbHCu0XzDlYVVADEdhmIAcj6ByL
-         m3utytHgvMXquJ5LKqUxPc2MAO9q9dgxZJar/0PvxGaAo2/pQTqBG6tfB3aafltFVkVk
-         CHrBdZR4JGIjWnJm2vVzG8EHD9wEQc1Vok7k8bkH2kVd6F7sc/4rFTzV4GXwWeDxvmqu
-         +UHw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769761496; x=1770366296; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qIF2oyc7jSMJyV9MJXutUw0TkKSVy7Ny/HYiVWp/mcQ=;
-        b=iFnRJZcl9EB71rWtSjWBc5Qev0Hdq9FQ+WRu98/SP2CrPU/58NF/oRmapY9NSLJW3D
-         EBP4EF0zGZpxt+aRlWWsOX7BxdFV6ALPfjU7Quhr54Pv1phMG7TsRE798C67Qckb+iso
-         54qFyqaJqcwVshT9FP29VORQgnjV/PYIPfqScZIe59GNKHgrz9+Se9hDv5OMIDpZIs+U
-         xsUbmNDtbwDNBR/ckbIneEF9WL1FDiH5KamNdq/593m49EYBKjxMdYIka7WqVybX6M1y
-         ubZVJYHA6KA8ga0lHK4PHNS+qC9VQ+Qe5XcrxXgjGsiEUuyGIaR+YXGGCrbzqs0OU+MQ
-         8PnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769761496; x=1770366296;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qIF2oyc7jSMJyV9MJXutUw0TkKSVy7Ny/HYiVWp/mcQ=;
-        b=tz+AB0C5mX4agzHmiE4WawgXb1hblJcLRTL0jpwmGbqthCdhsIHjJvT5EAaNFPahUw
-         bk5NJ/8nxeOlmbKU3GAxbJSrbArQbDsGyTys69gaq0mUJ4DK7Xm8GoRA/ObzjEeqts0N
-         g1uQN3bf5DsE1QaBPsFCnOrVfnX31Gfwl9KzbjlNWVzys1l24pB+bFgUkbx+7DFV+TPJ
-         43ahLWGnxMVAosYVCLeu+Lurt5xnznBN7qtUyfHQyRy+6LCcALn+pILxj8nnzNUuUtaR
-         4PUysjcy6XeV5o4hV/8pESqgGXURA/vWiFNB5qceDCC1TBbhlusnsP+b0jnIjm/uxWK1
-         UM6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXOpzsBNAWQu6Q9jAnb7Yl0ga6qakYJO68w9v4vSar7odhapePyProxs16KUxgRthRLSRzTZ4vG/uO2mA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9meKovUkBSBZb4hRjXRc1+S+Um67sRhUKUQCxot58umVcuLKt
-	6cHazMKGVcDEbjcIBZHYWfwSbPqzpK+YNUMxDi4NYdypU/w7X8WoDfPz8/fe18mS2UEVInWk9q8
-	TGz3XyPQDbvb9jbBW25sHyu6cQPlQYeM=
-X-Gm-Gg: AZuq6aLr70bMNcQQKc9tx/yRRgHg2oV2n4lCeYjpjYnVP7jylranAg+45rLrbH/sPdo
-	4n2HJXD7AeEOrfVcntHeMVFkbRYEZz9PEehB2i4DT8zAxr3CThBHh9S15Ab3p+YDLSTt1Jyaumu
-	QGV+Ymt1YPmT+DB8dBhkystaOg0CMnq3SJKI1wO9T/Rg9yF9Yt/BWz77T47YVppq7e/1DsZ0bYY
-	2WvOKBJzvySI0wykZ7XfmgXh7/t5K4SnqJ/lGd7tp5b0SDL0q5fbtacMZ8trF5oB4PJZsU=
-X-Received: by 2002:a17:90b:35cf:b0:353:e91:9b2f with SMTP id
- 98e67ed59e1d1-3543b3c648emr2292966a91.37.1769761496076; Fri, 30 Jan 2026
- 00:24:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743BA34DCD6;
+	Fri, 30 Jan 2026 09:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769764827; cv=none; b=lePlal7P4pOBqkyED2Lxlz3QIDAeqYMfWqEi0TpmkJX1qo0/9wCuPGRMf/Sx5wnJVLf8RkM7RiQvkRAyhTgbyPKEIXmzWcU13rQ1TNXIeE+Kx8XwcsucqOMast1BKvh5BPOGOerl+a3kLh1iEV7RcX+C3NA0Oc3MMD0emqmCU6Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769764827; c=relaxed/simple;
+	bh=ljBjmXp6VOTgUtfAwQ9HVbD41ugLlXth3FnCNDxWPVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ApZyXouvXF8d0G0RPvStKPZ59Ud2EC8M6I2XFeEFbr/8A7sxiMQco6krIFYnsgsyqRGL+5CPLsrbnSDM/P+dtAibQPb3uNPfgBcpviGMduY0w6xiyhqROEP1lXiBUqhX0glS7YGyWqRrjc44UhCvjTpBAXhYEbIMO/i9kyaJgnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-01 (Coremail) with SMTP id qwCowADXfGjEd3xprBu7Bg--.60530S2;
+	Fri, 30 Jan 2026 17:20:04 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	ckeepax@opensource.cirrus.com,
+	kuninori.morimoto.gx@renesas.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	krzk@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: codecs: max98390: Check return value of devm_gpiod_get_optional() in max98390_i2c_probe()
+Date: Fri, 30 Jan 2026 17:19:04 +0800
+Message-Id: <20260130091904.3426149-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260130054330.3462544-1-shengjiu.wang@nxp.com>
- <20260130054330.3462544-3-shengjiu.wang@nxp.com> <CAEnQRZC_6xRRi6y2t0MGe8udTPYWg9XEBFrxhFCbKYBCCD=OeA@mail.gmail.com>
-In-Reply-To: <CAEnQRZC_6xRRi6y2t0MGe8udTPYWg9XEBFrxhFCbKYBCCD=OeA@mail.gmail.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 30 Jan 2026 16:24:42 +0800
-X-Gm-Features: AZwV_Qh3nyHcIbEYDDCvGcF70iBOk8SCVrc7tCSz-T6YiK9YuuynA5ywxyM9ma4
-Message-ID: <CAA+D8AMkaTkHL03fi8THxK-a8xBR1Cu4BcNC5XfeZvzvwJ=rTw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] ASoC: fsl_asrc: Add support for i.MX952 platform
-To: Daniel Baluta <daniel.baluta@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowADXfGjEd3xprBu7Bg--.60530S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruw4DXrW3Xr4UJF15tFy5Jwb_yoWDtFX_Cw
+	18ur90vw4UGrn2vrWYk3yIyayv9rnrCryxGw4qgr17K34UCFs8AFyktr9xZF1kXF4S9F98
+	ZF13Cr13uw12kjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbTAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_GFWl42xK82IYc2Ij64vIr4
+	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14
+	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUe2-eDUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On Fri, Jan 30, 2026 at 3:27=E2=80=AFPM Daniel Baluta <daniel.baluta@gmail.=
-com> wrote:
->
-> On Fri, Jan 30, 2026 at 7:44=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.=
-com> wrote:
-> >
-> > Add a compatible string and clock mapping table to support ASRC on the
-> > i.MX952 platform.
-> >
-> > The clock mapping table is to map the clock sources on i.MX952 to the
-> > clock ids in the driver, the clock ids are for all the clock sources on
-> > all supported platforms.
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
->
-> At this point imx952 has the issue with dma request not cleared you fix
-> in patch 3/4.
->
-> So in order to avoid this you need to swap patches 2 and 3.  And in the
-> newly patch 3 you will fill fsl_asrc_imx952_data with correct value
-> for start_before_dma.
->
-> Thus we also keep everything working for bisection.
+The devm_gpiod_get_optional() function may return an error pointer
+(ERR_PTR) in case of a genuine failure during GPIO acquisition,
+not just NULL which indicates the legitimate absence of an optional
+GPIO.
 
-Good catch. I will swap them.
+Add an IS_ERR() check after the function call to catch such errors and
+propagate them to the probe function, ensuring the driver fails to load
+safely rather than proceeding with an invalid pointer.
 
-best regards
-Shengjiu Wang
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ sound/soc/codecs/max98390.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/codecs/max98390.c b/sound/soc/codecs/max98390.c
+index 3dd4dd94bc37..ff58805e97d1 100644
+--- a/sound/soc/codecs/max98390.c
++++ b/sound/soc/codecs/max98390.c
+@@ -1067,6 +1067,9 @@ static int max98390_i2c_probe(struct i2c_client *i2c)
+ 
+ 	reset_gpio = devm_gpiod_get_optional(&i2c->dev,
+ 					     "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(reset_gpio))
++		return dev_err_probe(&i2c->dev, PTR_ERR(reset_gpio),
++				     "Failed to get reset gpio\n");
+ 
+ 	/* Power on device */
+ 	if (reset_gpio) {
+-- 
+2.25.1
+
