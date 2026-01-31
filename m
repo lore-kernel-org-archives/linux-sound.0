@@ -1,100 +1,63 @@
-Received: from cvsmtppost104.wmail.worksmobile.com (cvsmtppost104.wmail.worksmobile.com [125.209.209.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DAA1A9F97
-	for <linux-sound@vger.kernel.org>; Sat, 31 Jan 2026 15:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=125.209.209.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE482239E79;
+	Sat, 31 Jan 2026 21:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769872813; cv=none; b=iRJWGPdCaA1+B1k8rsx5uzMnsHb39JqVqR0Iq+VvP5HUf3uH5fLvrl7+4XIhbxgbcDbfXTapfRC13fcY1SRB4CgBd3bnyPjeiVmZ00AnmNyrbsIk+AIjd68rGwpjZyBTBD4mzhJbY7IYq9mhdFSfYnmptlTRtzzsrvGBrjFOKJg=
+	t=1769893794; cv=none; b=fAjvcYoe4QEBxAkR71hDOt4aCPOZ4Tk/AN7AZSKknTCOKkeLwvqv5AbJDeNMXe8NBF0F5eVRCpVuVrM7kIjUubRFFViSfSPihlpEocu0fWsi518WIIkHfGDoHao+JJRFZWlf9yNR2NwSwMZeqRWmcWxv9eZZM013jaF8JE6aYZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769872813; c=relaxed/simple;
-	bh=E82sTNegUBXg2LRhC+1U57IlPF+U7zgteV10qG6IMmI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EeR9PDXKeaF+sWlCmEJBRl56LSnyZKuGRknosfQ71ALOup2PPNdqBzzaPM27e/4i0ecnzapV1GFgX1lcprPvNmdwzAQrFeNtrg4RpM9Tjad3UHjt8sLBQovAjyi6jvkk8yLl5CgS5QsMggwj5kvz/rhnUFvf/uIIDxVQDgEZScE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr; spf=pass smtp.mailfrom=korea.ac.kr; dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b=QQ+G8C+O; dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b=Zh4AKYHt; arc=none smtp.client-ip=125.209.209.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
+	s=arc-20240116; t=1769893794; c=relaxed/simple;
+	bh=J2lDniZyYW/+ytAx3hTvUjcxQUtsUMaM3cc5zZv32+4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=T4z8ySKoyS0T2yqup57KdUcW+1Vt+dHcTmAfHAh52DVw3Bueiart1PoorC+fdhV5wbouc4LhylyvpIRIcr0ciAau3ROdUQ2FGZxnr+6ituVHStv59aP/wi2Hn5K8dHZTepBvJJLMLC0jA4JmKijR+wqHl2dSZmX8yxyFF4NO/9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GwJrq/L4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b="QQ+G8C+O";
-	dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b="Zh4AKYHt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=worksmobile.com;
-	s=s20171120; t=1769872202;
-	bh=E82sTNegUBXg2LRhC+1U57IlPF+U7zgteV10qG6IMmI=;
-	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=QQ+G8C+OJH4bUSFTjqyFAIx94KwXE34y8JL7t6Yh9wFS/3i/Qf3aApC0yoG3vSN53
-	 CtAxiphX1M2aZDFas53BWzg+jrhJc29wu0gNKHrRTYKTE3PXs+Q0RKEf4CcXfHsXTH
-	 DTwSkxW6Kv6LjjZ+XgwgPe6e11iiw+HFOAigto/jVi4Id2cOS46Ma6gY4UJQUek7JY
-	 uCak1qz8SlV7XLxSRaFKhvAdIuIJOMVBavF7ytNWiL9Udyg96FW1efB0FD3STIWorg
-	 ELyznwKYf7xxCzgVQFKpB2xtQUI7xg2goigBFAZSH1X5EwExCJ7okqEDZCpANUhrbl
-	 WJHo72+4rP8dA==
-Received: from cvsendbo003.wmail ([10.113.20.165])
-  by cvsmtppost104.wmail.worksmobile.com with ESMTP id 0Vf5DNdtTiO52XMczF1taw
-  for <linux-sound@vger.kernel.org>;
-  Sat, 31 Jan 2026 15:10:02 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=korea.ac.kr;
-	s=naverworks; t=1769872202;
-	bh=E82sTNegUBXg2LRhC+1U57IlPF+U7zgteV10qG6IMmI=;
-	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=Zh4AKYHtN2lhgsKes1CLw7O4SU3GvGu93jzEcsr6WiFoWeubohvST8ltP/EvndeP2
-	 /aQhg5Hj4hA0QIkyPfQvlsgkXKteGpwA8LWG27TPzLUdzfMIIw5BBG79Ils7ubr4A4
-	 3V/JOqXdvs5u4RxPYkieATYqHNhuqABziRsK7gE8=
-X-Session-ID: LxXa0j-aTlCiSz4T7TLToQ
-X-Works-Send-Opt: 6en9jAJYjHm/FqM9FqJYFxMqFNwYjAg=
-X-Works-Smtp-Source: VqYqaAvrFqJZ+HmZKA2l+6E=
-Received: from s2lab05.. ([163.152.163.130])
-  by cvnsmtp104.wmail.worksmobile.com with ESMTP id LxXa0j-aTlCiSz4T7TLToQ
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sat, 31 Jan 2026 15:10:02 -0000
-From: Ingyu Jang <ingyujang25@korea.ac.kr>
-To: linux-sound@vger.kernel.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	Ingyu Jang <ingyujang25@korea.ac.kr>
-Subject: [Question] Dead code in snd_soc_dapm_del_routes()?
-Date: Sun,  1 Feb 2026 00:10:01 +0900
-Message-Id: <20260131151001.3296905-1-ingyujang25@korea.ac.kr>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GwJrq/L4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86031C4CEF1;
+	Sat, 31 Jan 2026 21:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769893793;
+	bh=J2lDniZyYW/+ytAx3hTvUjcxQUtsUMaM3cc5zZv32+4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=GwJrq/L4vl7eLxxWVAjaddZe4LH3I7ykRxJR1rNhe1/LHNEKKzhLuHOKHaM1CXhg6
+	 b8PBE56G6QaaUZpy1CR0NcRyKYKWfhTVRnMtLhdW/0U4hRgtDFnUOGRFbQDkrcVI9n
+	 FuQTM/muWf3f9FygsCjsUf9bNLcsWOG7ioi/aPLlFsMZYuQLu2yqePi4W2WqfZUqgz
+	 kSYozk8IpS7AHcr/HI0rGqIBFD6ROj1i5s+BrM9PYsrr0Kf60AEAW/LCJAv/lUfEM4
+	 5VTXzcq8WGKc0PawLTOChv523Px1Ilqsrs7pFxnHnKvUxgf9M3MphaHb0ZO0mJyor2
+	 hIdBzNjqsveaw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 8BDFE380DBD4;
+	Sat, 31 Jan 2026 21:09:46 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.19-rc8
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87bjiaazwr.wl-tiwai@suse.de>
+References: <87bjiaazwr.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87bjiaazwr.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc8
+X-PR-Tracked-Commit-Id: 00f32dfceda29f8dc6c34b159123f3bf78ad3b4c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9827b1fb558a58b40e5c6f0689acb8597c2dea00
+Message-Id: <176989378505.4190632.13441772756293458573.pr-tracker-bot@kernel.org>
+Date: Sat, 31 Jan 2026 21:09:45 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi,
+The pull request you sent on Sat, 31 Jan 2026 10:34:44 +0100:
 
-I noticed that in sound/soc/soc-dapm.c, the function
-snd_soc_dapm_del_routes() always returns 0.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19-rc8
 
-The function (at line 3272) simply performs:
-  - snd_soc_dapm_mutex_lock(dapm)
-  - for loop calling snd_soc_dapm_del_route()
-  - snd_soc_dapm_mutex_unlock(dapm)
-  - return 0
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9827b1fb558a58b40e5c6f0689acb8597c2dea00
 
-However, in sound/soc/codecs/tlv320aic31xx.c, the return value
-is checked and there is error handling (at lines 1044-1052):
+Thank you!
 
-  ret = snd_soc_dapm_del_routes(dapm, common31xx_cm_audio_map,
-                                ARRAY_SIZE(common31xx_cm_audio_map));
-  if (!ret && !(aic31xx->codec_type & DAC31XX_BIT))
-      ret = snd_soc_dapm_del_routes(dapm,
-                      aic31xx_cm_audio_map,
-                      ARRAY_SIZE(aic31xx_cm_audio_map));
-
-  if (ret)
-      return ret;
-
-Since snd_soc_dapm_del_routes() never fails, this error path
-appears to be dead code.
-
-Is this intentional defensive coding for potential future changes,
-or could this be cleaned up by making the function return void?
-
-Thanks,
-Ingyu Jang
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
