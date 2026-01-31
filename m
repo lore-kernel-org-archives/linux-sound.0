@@ -1,143 +1,92 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from cvsmtppost102.wmail.worksmobile.com (cvsmtppost102.wmail.worksmobile.com [125.209.209.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287C619F121
-	for <linux-sound@vger.kernel.org>; Sat, 31 Jan 2026 06:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DED30595C
+	for <linux-sound@vger.kernel.org>; Sat, 31 Jan 2026 08:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=125.209.209.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769842048; cv=none; b=dJNVbVLMZoqfweMCPxp2ioMjWhZAUwB+X/k+Y1kqC3lynJPo3h0HITIuK8IfDuxdza3VBSbWGmJOcClMPwbS72xzXNDIWeIz/WRMQ/YOyCN6yzIBkfGausLyMfXpURFXPi4hnGfn3xihR6hDsOnqa4fOq2x4ebqIMIl6aOdprcs=
+	t=1769847884; cv=none; b=e7izbXT9JI5FtCQGz3Fixlq9AXouiC2kJ6reUTQajKgsazIgNCg5xi3LIQlyIL/eY3Y//QiUtp+VMQy0mHv2wkJk77Vup4Om/ox8plRp4MtP4weNTy3m0fys8WlK8bJGl220Hf223qe5i9Foi0mSE0E5ImxodNvqvsvy7FYFZpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769842048; c=relaxed/simple;
-	bh=d+C/XgD6fiotDEpOe9IIGJSGoB5I1mOVaKwM56sPW5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qC22n9VwvZUJyHmk+5PxbkAjEajPV/Kalup4z/H5PwtxRZ4zEPYw1BND7f2VELOmDwqxORBj4bpwiGeHeYLzfS9w+H70uETW2jvjwHKLO0Seb/YP1gk3DkEqZWPxArZwnyH31px6wEBtHsz6epvbTmI9UYXsfndSndVd3VGXRx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZoiKiec3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IX2ohJUC; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1769847884; c=relaxed/simple;
+	bh=xq4ErUHMgGSCgW43+xQhyQpu9SGL2isHfw4lEubd5Sc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FYLseL2pJK7N07gwlpGgAazeSxzHq/abVlILk00uU58YVWvl2pdv1MFU98OYjzt2itIchxvtq+XOCKYr/flu3NDLjQ4OmZrQclA+RnjWc6rgptGux6oyMsneA+I8Ra/bpXtlDl4tO9MjTOjoeXLfWb1yEt4+AzvFrMGl/rXAf0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr; spf=pass smtp.mailfrom=korea.ac.kr; dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b=mWP92Gcp; dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b=dbyW3ZiC; arc=none smtp.client-ip=125.209.209.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZoiKiec3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IX2ohJUC"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60V4bib71061411
-	for <linux-sound@vger.kernel.org>; Sat, 31 Jan 2026 06:47:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=lxgQvhgem5eV1WuXxeaQiHKq
-	HYhMae2bq2UrsW+VFlE=; b=ZoiKiec3nB/jXc0tqUWzatIuiFHlRXonSXHt8R/c
-	H5SPYvXIZH/aLL00q732ZbWF9I4HjahSjRb8LRJowfmdgXrhxOT6PP7hQsJpqdzu
-	eBL6RvpRBaGVNlkCtdVx/pFcx4grf3SMU+cjn4HOV+GCpOyRP9n5w25e1YeAT3vT
-	sPmjL8UG4lV+jDPFIXFoZz57aekJKxsCl2F9ZE/lCiUo+XoXjqNU+9j9ptWhOdoe
-	PsD0tVXRgOx+qivUJMpHF7VX5O12LJEKSrWr7ruxfimF8pnnTeJsVdfQCzsQx69m
-	RIMS9Rr2kiLIltBtnOoKtc8g+eYDx7sJYD8WQpiq5Ptf+g==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c1avng8n1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sat, 31 Jan 2026 06:47:26 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-5eea68151f3so2812677137.1
-        for <linux-sound@vger.kernel.org>; Fri, 30 Jan 2026 22:47:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769842045; x=1770446845; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lxgQvhgem5eV1WuXxeaQiHKqHYhMae2bq2UrsW+VFlE=;
-        b=IX2ohJUCJWl0LsYTEUNQyG7+eIFRvkmmHEQa0te6uUKShbUsmkZi53jiOuV7SPPJy1
-         1F6bKfp7I8Y1URzc65PUlSyC5SSlOrgdmIrZDNUwC4FoVgLWdRPdQyUswXMsdnsaQ8Gu
-         J0rUEQ/FMZ1ajy63kAMCCOHFqJV8tdA0P1dUCMAQ5LdSjxUVU+rtutnfedGcVOPlJ3Eg
-         frfwCciIO20ZAN6GSD8Oo//xxeM3bZ+EAwI6cpK8gvpxFcG2wNPPFFdbhuK4xWiJB5w/
-         mm2eowpCmlx4DKVSNtIjWF62LHS5Vq2Dc76kPswbN2Ex5up4eYe8KquxZEc3Cz3LPuHt
-         f4OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769842045; x=1770446845;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lxgQvhgem5eV1WuXxeaQiHKqHYhMae2bq2UrsW+VFlE=;
-        b=j864bgJELUyGbOydIl7whzeGid/lfNCwTX7lP1/De2+PUmyOS1XKMI8EsS9Itj/3y1
-         yF5i0U+fT3f1l9nwPedDiRP5gA+aVIKuzSfAj9Nf10wKiVT/iKqhKI5PaRSUsg0/bzGG
-         6hqP+nyCZU9Qq2IpTdQ6BbdViMMnbVPwX0FhoBOozLhE6gc2Ir3dEH+HWkhYu70YY4yj
-         YHkby8CRi1hIstd9pEn0NFsBmKNXvB2IAAzdojNBK0jmHTGPHSpLh3mbB0p4bm1aix13
-         Jlj+fll99w83tpeCsaGhd7U99j/A2tElK7lkbVD4sIR8LbYHKclv2l/7Enxi1jrzdZWU
-         sBjA==
-X-Gm-Message-State: AOJu0YwVE1FVaV2hAkl40nHQjwJB8dN+HT1TR04+TnvS6yjAORffUJUW
-	PTapbKFUwhFrIlJyfZyfaZR74qKuURdXD9KhP8xNuOhqwuLfGdwVaH4TZXEN4H7sfQWB8JggWFm
-	6/81VkY8EZvvKMYIHFwcxGJSvSjBcpl+UyhRjcLMj/JLIKnD9bWiXDuzpe614dWDr3jsUWjlPDw
-	==
-X-Gm-Gg: AZuq6aIZoQ9hMimTI5zS2NasD/XdcnC6I8xeOgrVDR5h+sB8Y9efjzPye2wg//E+W8t
-	+/lxxMp9u3VTo/F9qNKOtruogrsdBNZnJ3JI/Oh0p2H3yAvrEDn+MPD9SoNIPPV0aXH7xu6Lhdw
-	OhlDvRZb4luKKBR0oBG2uRTISYzVXodSV9QHT/kTyy5tO+dD8J7bwef2bwqeJ9GS5O6cwgSXvH0
-	qDRUh8BO0LRh7PW4rBr2hVRC1qwY/xdos7AgzCQ+3d34iAqYJV8EP7bvIqAn1cu7aNM1B8Qwgxj
-	4vEtRXBujA8E036/DPxlufNBhVZ7j116LHBdHQJSFFxEmNFS+6MmdRosdoEI6mVs5jqgBOhLQ3C
-	YQOdgQ1LRbykh3Bi+LFw86frkfJokWTYPvxr6cOMrGX5BYixnWebzP7NBoI+t0YxP4Dinsd/4dD
-	DfAVcT0boiJDTZOFx+PJGEDH0=
-X-Received: by 2002:a05:6102:c13:b0:5db:f031:84c7 with SMTP id ada2fe7eead31-5f8e25af0ccmr1734476137.30.1769842045070;
-        Fri, 30 Jan 2026 22:47:25 -0800 (PST)
-X-Received: by 2002:a05:6102:c13:b0:5db:f031:84c7 with SMTP id ada2fe7eead31-5f8e25af0ccmr1734470137.30.1769842044633;
-        Fri, 30 Jan 2026 22:47:24 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e074b2dddsm2177867e87.61.2026.01.30.22.47.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 22:47:22 -0800 (PST)
-Date: Sat, 31 Jan 2026 08:47:20 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] sound: wcd-mbhc-v2: remove unnecessary module_init/exit
- functions
-Message-ID: <jwyujnzrusnnpczbw6lnzzi74miypm3bkwohcplbfquihdcguq@xyhonwtmb2nh>
-References: <20260131020111.46108-1-enelsonmoore@gmail.com>
+	dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b="mWP92Gcp";
+	dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b="dbyW3ZiC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=worksmobile.com;
+	s=s20171120; t=1769847273;
+	bh=xq4ErUHMgGSCgW43+xQhyQpu9SGL2isHfw4lEubd5Sc=;
+	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=mWP92GcpJkjk2dS+fWh6CRJ4A7iOFY5DVc/VER8YoN93DDcNt8OnkgKG4BdCGtV9U
+	 lDMwWJIao1vQp5fbWVopUrjlxYzhwegklxaxpS/r5A1WIyWAk2YfBTJHIfYflZYIie
+	 DnbqCkNnd1WG82XlSrHvwGbZmP+8voTpVlu7xfGiBwRuQkLciQT+v0qmBn/ERF0j+d
+	 Gj0xT95DOI9FXKG6TIWB2xs19xwhfnIEzGw0AkZ5c2eSYfKCCM9oNfD4H8vNDo0oBw
+	 BVgDCcQpC8DSIikMbDLnX4Z0kI2AMPgtf19oNppfUiBGD/TqULMOLI0vDl5Frx60Xu
+	 PBhwgLT4cfrEA==
+Received: from cvsendbo006.wmail ([10.112.11.111])
+  by cvsmtppost102.wmail.worksmobile.com with ESMTP id VxC9uciWQR2P5yaigtdciw
+  for <linux-sound@vger.kernel.org>;
+  Sat, 31 Jan 2026 08:14:33 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=korea.ac.kr;
+	s=naverworks; t=1769847273;
+	bh=xq4ErUHMgGSCgW43+xQhyQpu9SGL2isHfw4lEubd5Sc=;
+	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=dbyW3ZiC7K1kCnRfuzWN1zLvDkpazazSW4t0SkLYkQeg8hsd2eacWSfsI9wxKqT/o
+	 WuLZy0ahQtW5fUGi43SnLQI4F6t535YdakBPHGi89rW6QnREX4n0JluVhFb1KtTuBl
+	 c6X9cDe8jQNRTkBCRXbi5cFciftq2mkPRsc7laVU=
+X-Session-ID: yk6IVAozTK++C7rO5jUXdQ
+X-Works-Send-Opt: EenqjAJYjHm/FqM9FqJYFxMqFNwYjAg=
+X-Works-Smtp-Source: gdbwaAvrFqJZ+HmZFq2d+6E=
+Received: from s2lab05.. ([163.152.163.130])
+  by jvnsmtp403.gwmail.worksmobile.com with ESMTP id yk6IVAozTK++C7rO5jUXdQ
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Sat, 31 Jan 2026 08:14:32 -0000
+From: Ingyu Jang <ingyujang25@korea.ac.kr>
+To: linux-sound@vger.kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	Ingyu Jang <ingyujang25@korea.ac.kr>
+Subject: [Question] Dead code in ALSA drivers - functions always returning 0?
+Date: Sat, 31 Jan 2026 17:14:31 +0900
+Message-Id: <20260131081431.2920839-1-ingyujang25@korea.ac.kr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131020111.46108-1-enelsonmoore@gmail.com>
-X-Proofpoint-ORIG-GUID: WoxSsOwJrIU8yR2Bldd8VDiaeHgZNTP-
-X-Authority-Analysis: v=2.4 cv=bPMb4f+Z c=1 sm=1 tr=0 ts=697da57e cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=OBgr-n6dxthDnl-XeRYA:9 a=CjuIK1q_8ugA:10
- a=-aSRE8QhW-JAV6biHavz:22
-X-Proofpoint-GUID: WoxSsOwJrIU8yR2Bldd8VDiaeHgZNTP-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTMxMDA1NSBTYWx0ZWRfXxhVNDnzjXi83
- Lb0AJl5rHIwc38NfIZ3xsFpaavne5ICcg4OfA48KEha0pKdAw3hSJ8SZyqTdS1NS9XMNleSxdgE
- VXgOszWM6UJRq5g+vL3SSoDafswkPUWTJUIusSRxZSpf6EBg9cTNwDfbh89iMxFvlwJXM9H/Nnj
- 9D26UYqWqTTjl8od9pk6AqgqLiM5I0gSGAJkp0esStwT9ggWvzE+xuQVel3Goxb2VcO6FvBmU+2
- 8pos2fGunqeuAMQFKJQY6UrWHUUHYVcEBP14nCWE0X3AcdnC5SeqEsCRvBlB0xYUOU4EdiDelSp
- jY2NQAZzgbWxXt23akA2LK3GelJfYtcH7Zew7g1QsdioCndyWbY5XB3kjxd+o6EDFAqTm5sQ7f+
- 765DEwiUG7RLXB6PaJgFJiqWSRD88fKE/+a8JSyv0RrI4/BbcD68w5A28wA2fEec+cLkAKTX1jY
- w4eKtaW7IDGX2WwuJrQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-30_04,2026-01-30_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 malwarescore=0 suspectscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601310055
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 30, 2026 at 06:01:10PM -0800, Ethan Nelson-Moore wrote:
-> The wcd-mbhc-v2 driver has unnecessary empty module_init and
-> module_exit functions. Remove them. Note that if a module_init function
-> exists, a module_exit function must also exist; otherwise, the module
-> cannot be unloaded.
-> 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> ---
->  sound/soc/codecs/wcd-mbhc-v2.c | 12 ------------
->  1 file changed, 12 deletions(-)
-> 
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+I noticed several ALSA driver functions that always return 0, but their
+return values are still checked by callers. I wanted to ask whether
+these are intentional defensive coding or could be cleaned up.
 
-> 
+1. sound/isa/cs423x/cs4236.c - snd_cs423x_pnp_init_mpu()
+   This function handles pnp_activate_dev() failure internally by
+   setting mpu_port[dev] = SNDRV_AUTO_PORT, then always returns 0.
+   The caller checks "< 0" which can never be true.
 
--- 
-With best wishes
-Dmitry
+2. sound/pci/ice1712/ice1712.c - snd_ice1712_chip_init()
+   Always returns 0. Callers check "< 0" in snd_ice1712_create()
+   and the PM resume path.
+
+3. sound/pci/ice1712/ice1724.c - snd_vt1724_chip_init()
+   Always returns 0. Similar pattern to ice1712.
+
+4. sound/pci/vx222/vx222_ops.c - put_xilinx_data()
+   Always returns 0. Caller vx2_load_xilinx_binary() checks "< 0".
+
+Are these intentional for potential future error handling, or could
+the return value checks be removed?
+
+Thanks,
+Ingyu Jang
