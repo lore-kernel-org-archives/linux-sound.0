@@ -1,95 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6382D29C2;
-	Mon,  2 Feb 2026 22:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3AE28F948;
+	Mon,  2 Feb 2026 22:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770069616; cv=none; b=NFzrBStxeyWeS/MYsKuy9rYyVfkzId93e3S025e5ezmISw8bjem6pq4U7t2yPCWb/IwCOkxdFR2NWgNVWTkY7W+h93oX1JEWBgorX+iD+3cfo/15g7kIxhxJURX1Qioij9R5xGDAH5coOiLxSkjYkYFyGaqqmSCKzvsAEXZ0GFA=
+	t=1770069664; cv=none; b=fvwG84oibVm8QL5i6+kfMrK0BVwnNkOPqDtE0r3jjVk8OYMiuYorXZkvybcw3qkQ+BS0na7aNpUj0XuCSuAjhk9P2mdiNTjYWUZN04YfqshBvi9hysciVkAp2X4ZyoyIVZ5cbLGX0iOVLjrOYrXev8p9gAsG8XBIpJAbmbX2AUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770069616; c=relaxed/simple;
-	bh=r+k4AqoHDTpCaIwdJQUIdqzxmC7EwLtdInDsyINR6Y4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bHGe51nN3XAG1ido/o8tGnQU7R50AWIyIlQ0tHq5fnN2+m6FJgZaoW+cUC2npooMKiW6LGtUE7mBMO/x8SZWjSQqZCmqAM8eOV8TXVV3hYOGBc0wTcOGE1OfksE/FMy1hRfoMD9ylGvJova9j1kXCyDoCflOCUeVk/ud8Egh8OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKvKaYlp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770069664; c=relaxed/simple;
+	bh=DDKk85eqACfiTKWSbKP+J4mZXYjOClfSZ7QX0us5Ulk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bkod/cjZyh8CDMLKQyD9ezlHl/BBaAKwlexOYnh9bCWYN1q9PSYPj/qnkAAUqBGtMiDACJOR8L0PVqWnuUTQRIefPfsTA5bOOf/rt5ZMwMEfOXZx/G0ACl0xRI2kvloMeqJflIuVuuFJfGc05BqrQZpzKVOA05AN83P7Hee5+ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=qi9nINJc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MYdZAWaF; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKvKaYlp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7F2C19425;
-	Mon,  2 Feb 2026 21:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770069616;
-	bh=r+k4AqoHDTpCaIwdJQUIdqzxmC7EwLtdInDsyINR6Y4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bKvKaYlpAiDYBUBYRTuAnT9IEx/M8z+c9oPYmj/QPH6wfnXo2nlQ6njNYuJfEyXnd
-	 4yG3+qX/pyXT+SnyrNw2rjKP6YR11mTukWNlNvoMjIFwOyK009i6LfxUmuS15bRg1m
-	 SRFXt2Z90/cE7s26u8QJ56w3j8B9WgdtAR1RezUJBVcLw6kzEOX9pyYOjn7NFQzCFZ
-	 nbgbEjTZXgAn6ttOnksineEkQcVCnRs0cXpu0cTRpRyhjAhGI8LPZNMZlafp4PosjJ
-	 uL+UnnBXnTZo8pa4Qt22cKRieLUZjWSxQCA/Vgupduj1tKCEhbRVYzpnXaqxYM163G
-	 Q3txcSErqLBgA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	"Anton D. Stavinskii" <stavinsky@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	linux-sound@vger.kernel.org,
-	sophgo@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] ASoC: sophgo: fix 64-bit division build failure
-Date: Mon,  2 Feb 2026 22:59:44 +0100
-Message-Id: <20260202215956.2127414-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="qi9nINJc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MYdZAWaF"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2D7E214000FC;
+	Mon,  2 Feb 2026 17:01:02 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 02 Feb 2026 17:01:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1770069662;
+	 x=1770156062; bh=WvWGehjhJ8iTJpewMTVueQnlqYtYFLWEyh89uyLAoVc=; b=
+	qi9nINJcAgQJnciz3jtLSm9KW14//k1qyZ59sNpurAQV+6RnmqcAEl2VfYC4FhIs
+	3xnb5SN/ptN7a03AXyup2i9Xl2JIr1NBkLvQLwZC7kDPMbXfuCCwRBOWOdnXQ2BX
+	Q3cZXspLKaUDXPFb7j3rWF/DY/teiNkPTj31YxVu9mRQ+NVm6ktWnd9lwcobqwnN
+	xagwYJPariYSpkceNSQ7QFNDcHDgdB9mLmwyrvpk+4zE1kp2upX3tNVYlQg8jIml
+	RJbw6sY3ouWf5n23j1ZboSGo8QMqyyFBNow5bvirGz2xUKjVkv+hOwS5Bw+6bLWe
+	stGt+/LbZmd4YuwUeSMq/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770069662; x=
+	1770156062; bh=WvWGehjhJ8iTJpewMTVueQnlqYtYFLWEyh89uyLAoVc=; b=M
+	YdZAWaFDoHK5lsggE8lnGuNZrSKlWneh+lJQCkDYWAm7j9QLLO9Hj56iMWrEo9mY
+	t3FP63sdbdieYvUb6YSmQI6SsiCpfTecV5aTmySl9OJ7loLLTYX0Ej0RVYtMYqHB
+	DafW3F0PdVg7K4Mfxl29ddVLqaCIaXfFsArrrEdJH3f69QTK6KaA3/T8bRNRZFH2
+	jaVQf2uyhinmB8YvtVJElZ+ncbaFNsZRfWvNf6XH+zKfyO5wWQYTw4VQjjzgyoLm
+	EjhydxCvJbt8k0AyINfAuOJBI/1gjGJ7vD67yqyZ2tfUpTf7q3PiUqRCA4aDgqgH
+	bwgXeOVbwJU5QG2Pq/UxA==
+X-ME-Sender: <xms:nR6BaYNXhdcDykMQou8VC5do2Uey_Mks2m6ySO8GuFJlJsc_JumZ6A>
+    <xme:nR6BaZzIuLJzo0EhEU-nIXnU-y6OAMT03pNH-2CQ0hTTPEGo9mXVYgO_tXVtU8ZRN
+    He1HqPOn9dPiwlabAEIDXibevMGDuM3WMl4xk-vqYBcxAWXgONUp6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddujeekjeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheprghlvgigrghnuggvrhdrshhvvghrughlihhnsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtohepihhnohgthhhirghmrgesghhmrghilhdrtghomhdprhgtphhtthho
+    pehsthgrvhhinhhskhihsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghrnhgusehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehsohhphhhgoheslhhishhtshdrlhhinhhugidr
+    uggvvhdprhgtphhtthhopehunhhitghorhhnpgifrghnghesohhuthhlohhokhdrtghomh
+    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:nR6Bac9JZpl3_xDwH0-5Cvpgc76HOJ-CI-a8IKSC2e1D8i_VpbHYjA>
+    <xmx:nR6BaXRHZfYQjgh8ptW73UFWcBxqrX6Tj7BNrXt2mWbWJOFV7YEodw>
+    <xmx:nR6BaVp5X-UFh2JK_VnuQwsrgGw8JqEWqNBIzDq-06kyfUc3BHZXlQ>
+    <xmx:nR6Back8Mmmmu6WNT-n8d9PWjTUe5jlHluL5Uck4YZ_fMR_fWarvTQ>
+    <xmx:nh6BaSIQiKiwKhtyKZ-itqPfmKUIQmUuVEDUd99Q3Rp0KeGHyEIgqvQ4>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B7FEE700065; Mon,  2 Feb 2026 17:01:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AzM_vmibOHWB
+Date: Mon, 02 Feb 2026 23:00:41 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Alexander Sverdlin" <alexander.sverdlin@gmail.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Chen Wang" <unicorn_wang@outlook.com>,
+ "Inochi Amaoto" <inochiama@gmail.com>,
+ "Anton Stavinsky" <stavinsky@gmail.com>
+Cc: linux-sound@vger.kernel.org, sophgo@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Message-Id: <5af7eedd-c587-48c3-8562-5bcb78d7ac2e@app.fastmail.com>
+In-Reply-To: <33cb662c718507c6ac747af4a9a3f5af10fcf5a5.camel@gmail.com>
+References: <20260202095323.1233553-1-arnd@kernel.org>
+ <33cb662c718507c6ac747af4a9a3f5af10fcf5a5.camel@gmail.com>
+Subject: Re: [PATCH] ASoC: sophgo: fix 64-bit division build failure
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Feb 2, 2026, at 22:31, Alexander Sverdlin wrote:
+> Regarding the 64 bits: seems that the actual issue is the tmp variable that
+> is of u64 type for no reason, because priv->mclk_rate is only u32.
+>
+> Maybe turning tmp into a u32 would avoid unnecessary 64-bit division
+> altogether?
 
-cv1800b_adc_setbclk_div() does four 64-bit divisions in a row, which
-is rather inefficient on 32-bit systems, and using the plain division
-causes a build failure as a result:
+Ah, good point, sent v2 now.
 
-ERROR: modpost: "__aeabi_uldivmod" [sound/soc/sophgo/cv1800b-sound-adc.ko] undefined!
-
-As the input value is actually a 32-bit integer, just change the type
-of the temporary value as well.
-
-Fixes: 4cf8752a03e6 ("ASoC: sophgo: add CV1800B internal ADC codec driver")
-Suggested-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/sophgo/cv1800b-sound-adc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/sophgo/cv1800b-sound-adc.c b/sound/soc/sophgo/cv1800b-sound-adc.c
-index 794030b713e9..de1c77014c2f 100644
---- a/sound/soc/sophgo/cv1800b-sound-adc.c
-+++ b/sound/soc/sophgo/cv1800b-sound-adc.c
-@@ -100,7 +100,7 @@ static int cv1800b_adc_setbclk_div(struct cv1800b_priv *priv, unsigned int rate)
- {
- 	u32 val;
- 	u32 bclk_div;
--	u64 tmp;
-+	u32 tmp;
- 
- 	if (!priv->mclk_rate || !rate)
- 		return -EINVAL;
-@@ -117,7 +117,7 @@ static int cv1800b_adc_setbclk_div(struct cv1800b_priv *priv, unsigned int rate)
- 	}
- 
- 	if (tmp > 256) {
--		dev_err(priv->dev, "BCLK divider %llu out of range\n", tmp);
-+		dev_err(priv->dev, "BCLK divider %u out of range\n", tmp);
- 		return -EINVAL;
- 	}
- 
--- 
-2.39.5
-
+      Arnd
