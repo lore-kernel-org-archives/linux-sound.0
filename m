@@ -1,229 +1,135 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013039.outbound.protection.outlook.com [40.93.201.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D525726FDAC;
-	Mon,  2 Feb 2026 21:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770067365; cv=fail; b=NaraTuYsHa6I9VT61+vK+qDKz/L/cRP4dH9/s1lTDSWdLyn4L0KE6zIqkJIpbd4xjSNs3MP9NRkA+6KpEY14BUuFyzj+e+32COwJghc6LMo4I4PbtPowRd8F2t4sdD5JxlFk9vDM0a+cXjHJvhBlWU/Wj/dRyDSBHk7E+YsFUMs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770067365; c=relaxed/simple;
-	bh=vonlrrqYrWOY+HO/cavIc/sNhzBx4DcGPw1yrQsNBmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qNKwaCUkgrTMCBbXTUKNYEH7FHx7/WNOGHJj6X1aW61dgOyQyd6sCIc4znCIEhm8QtBJwGyLBH2r6RX5eeWB45WdtxrBmRqGIYmr0/UK5WbPhC33cpgbIsdT72dxDMmSADU/qNt3YIhES3hGuKaEioKd4bDOGlPNrbWMUHYT1nI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=JSWoK9we; arc=fail smtp.client-ip=40.93.201.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC60629A9C9
+	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 21:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770067890; cv=none; b=rtcFdPX8l4ubc/juMQBJI8HZ+UrjFH7AkrA2dP0MAawNtsgr0sloV3m8Vd9aZ2xilqOJ2vuydEq+TpbL1fQiAfvWD+VG+3G0sQRo6h3MercW99FvPx8pY5QraM+xHviGG4w5fKNahnNB+njfLoZ6zYOMClyPA8Zsn4UqKYICUrs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770067890; c=relaxed/simple;
+	bh=cyc6OoN+kI+3TAVGBTSTHp1l4SopH0CyprjPmJtiexE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=S78LxJ5bB6nuRZJyJqd8AxjHaw5LpgW3nHn1niWM9RsIV9uGeYM/v6kJVu2WdaUUDYEieFewflP4O+NMFh7ZKbuhnNFBFSSpXOg8yAqEXR2mEVe5LSyOlAof3lrujumO8HF1rsMdZnhPsyckbRbc2rQIWd2HFwGLS0FecJmb9Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QDPmuRSJ; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JSWoK9we"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l2nN1yAjJTPk9OMBpHa9l2DPFW0jmVCHGFBqWELP12x1QRRywxSPNRn9+D5+KMPjMaC4ygP6kKnj8AUhdHE4D0n/dPDb1JlRPpsVh/pNZCjN51lgJNH7NRqofFSo7Mq79lQXzmtkneAthqCC3yydlDN2FDZOHGgFrWJEzYnc1+YBA57NAcQfEP8JZowooHDqjs4eO5ALFUjRB50f8Md8awvZ7yHzgNzVJr3bsWRj7bJz7dzHXGu0i+wEbf3YNXVHjsQfB7Irj57xqM95WJbpBlwjgJ4AS8U6m+6bD1v04ceCjZ2C3lnNpCyW1nH9XYo+CGf4frIDVrCbYKB//5jTgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qTE07ZtsAavyLKByv762mUG9k+No/MCsIzeZ9FzALMw=;
- b=NhvrBS2sgFbbmQcZ67BQu6jpcTTGqLJlB/eA8qppKoU/kJb60F6VhKwv0EnU1QysCypCTTsubqHXO0VgJRLjprS2sAo4MpX9cbzpbS+e4FAy/ypW6CaAP0z1gFiMKURCngpzXNQL1+EJvQ/Fy9Bw4QdLLvA1zXi3KZ02+HrO/b/JvBntiCZpkJaJ4PK4gx4LFv9NKuA3MAA/7zAmXnI/+v1eoFJMgW/9h/hDpQQfRqJJGCMZRk9vKwQIftFT0GIPxH6mcvZpiRrh6hW+JguiEFSMK70zAuHnX0NBJYV3ZAuLt4xsTJ+Unid/XMkek+J1TXiEqUJt96dX35IJYWAqow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qTE07ZtsAavyLKByv762mUG9k+No/MCsIzeZ9FzALMw=;
- b=JSWoK9we0JbUtydKN9orm/FPXLLeKR/Tmt70dwAVkn4Itgvq4I4+KOVLouGJJeCd+4qBtIV3FXGVKeAz5A6etNXuYVgKNAAQx/K+FoxedVAAHd9D9D9Nrg2GiSxjtZSZhRstBiAZIq5xfl96tqWCLqNzrPKLJeNsH3wtBYHz4NU=
-Received: from SJ0PR03CA0052.namprd03.prod.outlook.com (2603:10b6:a03:33e::27)
- by MW6PR10MB7615.namprd10.prod.outlook.com (2603:10b6:303:23f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
- 2026 21:22:42 +0000
-Received: from SJ1PEPF000023D7.namprd21.prod.outlook.com
- (2603:10b6:a03:33e:cafe::f6) by SJ0PR03CA0052.outlook.office365.com
- (2603:10b6:a03:33e::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.15 via Frontend Transport; Mon,
- 2 Feb 2026 21:22:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SJ1PEPF000023D7.mail.protection.outlook.com (10.167.244.72) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.0 via Frontend Transport; Mon, 2 Feb 2026 21:22:40 +0000
-Received: from DFLE211.ent.ti.com (10.64.6.69) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Feb
- 2026 15:22:02 -0600
-Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Feb
- 2026 15:22:02 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE214.ent.ti.com
- (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 2 Feb 2026 15:22:02 -0600
-Received: from [128.247.81.0] (mz02jj9v.dhcp.ti.com [128.247.81.0])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 612LM2nn2393588;
-	Mon, 2 Feb 2026 15:22:02 -0600
-Message-ID: <b4f20380-4e86-480f-b23e-eb4384d6f14a@ti.com>
-Date: Mon, 2 Feb 2026 15:22:02 -0600
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QDPmuRSJ"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-895071c5527so24455186d6.1
+        for <linux-sound@vger.kernel.org>; Mon, 02 Feb 2026 13:31:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770067889; x=1770672689; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lWCuWOd87xE3ipLxzMTGR23XPtyn4/7fQsE4OP6NNkM=;
+        b=QDPmuRSJpSuuLUNwDwk5suCIrvaU+UY+vcajvXl0q1uBgGuXGdy5CwjezM+2ya/oD/
+         FrN37vIm0LCTIMTMmXXW/b1HZBzGan8LK6n/Jy+fiZ/MwUlzJsVM845nTa7Aest0nLii
+         Pr+vlJ7p+pBQ0Paqvpy4TNnI6NN9Kd38glw8LTgMuAeRlYlPN/SH/n/lEaFAxxYqeduT
+         tU+inBSi+cGcdeXXGRJH3wdOKTgxrpk0jhJ5w50T2Gkp71VyfMw+ua5/m5Yt5gbLoNDT
+         sWxKEY1CQI6/k5kOY+TOTtvSY9Wvg5UwPp8juPIF7FWPODyHjSJsGlJ7PJKbLexilXli
+         TtKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770067889; x=1770672689;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lWCuWOd87xE3ipLxzMTGR23XPtyn4/7fQsE4OP6NNkM=;
+        b=R1/oYUE0NWrZ3b36QqYY3C9wTo36FJOl7A4MengS0AKxi7F+l3i5ifxgWlf2xsq/fX
+         15egxukR6OVAfZ3VFVdspwjFmN6pQfWFDwJFFYTvSB3VzNq2O38x2I12aOKqHdm7ES/W
+         IW/stC5TdtS4ahsUbG6sKvstvuQBamg/SRjH3qkqjzpUjYydrhLubqcqUaAyVoUA4+eb
+         TfXSDjcfJA32FElN2k4GhT1ppFeuWuTtVfI8D8SjgK7jd1BmkZDjC48VTerkq6YWJHRK
+         RpHSCXsbFn8YZ1JsZc7KwB9tmcsYZ18JoNAc1boSl0VHzmQ/xquzOxpJn7PuMgY0U0Gm
+         Opsg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpmv5nNJSWDpqYFN7kj1B1xYi4aNukLwxq1bu4A0uxPZ2qkNWH61h7T5yKNpKfbTZRcJOCq3tDd2kc/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoPHOCHu2xXGl6RsciNRdsLhfSclEU38sMUr0wRZxPZ0fisnhf
+	Ik9IbxKG5W0/DDqw6JPb9sf0pO0G8C46jLSoHnMDSe4xX4sy2EuiV4lk
+X-Gm-Gg: AZuq6aIuWxPURy5vxJn8zCZqsGGCX9QIk1hMMAVilPTip5NfqfUDghdJ3MTdkza7Vew
+	WxC39ZnHyxdAQ2GdVOnvOFVx+J/jZU08ejzN5EepSJ72L0GeZH/kGuL6UpOR27Jc5q2ycuYyt7f
+	Iub3RXDhgw0K/e9fTYgB9fLuWsyLOEXfSQ55ff9fXFQAfo8V2GxVEgsXA2FHPP1K6IZssAaIiUv
+	c4F1xFsTTUOeijSR3dzYOFiBx0dGLqutPnLBeGpQctZWHT3ZdwFEdOkyU4F+io8nBL3OVdU1Tth
+	+Ji/aJiklGgGiu3MfmosBAcG7RAQ/ojH3yBJTKPeIBADqYmZ+LZEJY7MdJawXRm43sMxYThef3K
+	nuj/CuFVKevD0IRR9Xht1ygEB/lMwR4XhVwZvhVgw2gY5kH90V5JoV1DIPuaoHKEi2LSqVevMnq
+	mV3UUmOMOCPmAb9H4JZDb55XYr57LQV1ifcClfCtjsoI62jWgDtugSNg87ESWMy/egnXI=
+X-Received: by 2002:ad4:5be3:0:b0:894:7d25:d6ba with SMTP id 6a1803df08f44-894e9f40675mr182162476d6.6.1770067888668;
+        Mon, 02 Feb 2026 13:31:28 -0800 (PST)
+Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d37420c5sm121174056d6.31.2026.02.02.13.31.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Feb 2026 13:31:28 -0800 (PST)
+Message-ID: <33cb662c718507c6ac747af4a9a3f5af10fcf5a5.camel@gmail.com>
+Subject: Re: [PATCH] ASoC: sophgo: fix 64-bit division build failure
+From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+To: Arnd Bergmann <arnd@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
+ Inochi Amaoto <inochiama@gmail.com>, "Anton D. Stavinskii"
+ <stavinsky@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-sound@vger.kernel.org, 
+	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 02 Feb 2026 22:31:24 +0100
+In-Reply-To: <20260202095323.1233553-1-arnd@kernel.org>
+References: <20260202095323.1233553-1-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ASoC: ti: davinci-mcasp: Streamline pdir behavior
- across rx & tx streams
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
-	<broonie@kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>
-CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20260130051045.1898892-1-sen@ti.com>
- <20260130051045.1898892-4-sen@ti.com>
- <ffcbbe3b-3a1b-4986-8b4c-b0f7e309ccbb@gmail.com>
-Content-Language: en-US
-From: Sen Wang <sen@ti.com>
-In-Reply-To: <ffcbbe3b-3a1b-4986-8b4c-b0f7e309ccbb@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D7:EE_|MW6PR10MB7615:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61573776-7555-460c-ab1c-08de62a1320b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|7416014|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dFlDYU1RK0JRUTk2K21aZGEvU2lYSlNaRXRGOVhaSnRRR0hPYXVqd0NQc094?=
- =?utf-8?B?Q3JpVGVpVXRuN0JlSUdyazFkaDVZbUVCTDhlY1dqREVabWxKZ25DcGRQNXNQ?=
- =?utf-8?B?U05yNS9FM2t2SEJJM2pQTVZSRDhpMUZaN3VCUnd0dlVIR3JzeUl6OUYvWlJo?=
- =?utf-8?B?TURzZW9GOFBSL0dDVlNtcXZGb2IxbUhWeFRiNE9YS3ZlUWhvUUZKNkdVcHN3?=
- =?utf-8?B?OEdGajFEdnJxNFFIeXRENGtEODhvZ0xjOVVlOGtGM2luMmNZZit6eThOTGE4?=
- =?utf-8?B?a1REZXIrdGJPWUUzTVA0cGVyZEFwNkFFUVdmUUt4OWhPOVZTNm95NXNhTy8x?=
- =?utf-8?B?eUxaeFRYSDBGMlpSWTNiOXFWWEcyZU1pZUV6ckxvUi9WSWViRVJ6UGFyOVU4?=
- =?utf-8?B?VnJkT09GNHVwZC9ySzRxRVdoWTQrRFpOQjJGN29wZ2lJUnBRazdhR2V6NnJ0?=
- =?utf-8?B?R0dMVVorRGVEOGRTRjFyVmtKYjFXWjVpYjBSSDdjeUtJTGNUbkhqSzBmYWd3?=
- =?utf-8?B?akRXOENSZnpmQkxPNzlGeWtxaEZWYkw1RHpYS2MwbnF0c1d5REQ4OENaak5Q?=
- =?utf-8?B?MjgvRzlyNW9ad0N3QlVSZGpaRnl1bE1CMmJRRmJRcjluclRZMUpNSG50U3ND?=
- =?utf-8?B?Z2tkdnJIeDJkMU1yWGNkNzBSZXRMcThhaFJKRUR2ZkJ6UGdSbytvZU1sY1U1?=
- =?utf-8?B?bmhBUVBvSEljTS9iZ3hMVmJZVWJBUWdERCtZNUEyTFBnc3lCN2xNSzM3L09Q?=
- =?utf-8?B?QXZ0RXpHR3dNc21pVzJCYVlsTVVFd2Z2NnovTlVYeGtUWm9CR2VnZnhaKzNF?=
- =?utf-8?B?SlpsUDluR2IwTE5GUlBaaGpQejRPNHJLMUc1UmIrN1lPQUNtSFg1aUV2OExz?=
- =?utf-8?B?RFVQRXRlUVFneTQwN0RlRWQ0OVFUcHNzYVg3N2Q0dng5ZGJid3hTSGpCdVRD?=
- =?utf-8?B?NWlZVlRsa29kMUJUNTAvUGNza3RYelZlRmIweTJnUVhZMXlQOEpwNlYwUVRF?=
- =?utf-8?B?aUQ4WjJsSG5FamxUV1FUZnR5emdxeUptWXlYVDBFWnoyeFRsM2ZnVUpPNU5L?=
- =?utf-8?B?dVpkWHFMTHVrYUFUeGhkSitmN2c4OTNUQko3aG9HMWM0WUFMeDlBNVhta1NE?=
- =?utf-8?B?M1JERVNJTWRVMURpK2k5UmRhNk5Mc2NxSmo2V2pXODN1OWdzMDlNaHV6UVRn?=
- =?utf-8?B?K0tmbGpsOWRYdnpQditBK2ZweU9Md0lua1o0Mk5PNjJjTnVNaGlCYUVQTXVs?=
- =?utf-8?B?aDYzdlpHMG1IazBuOHdwNDhnZnM1d3ExL2hkT3pRby9aODBYQkY2eWZFQ0N3?=
- =?utf-8?B?bVVDTW5qUlNMZ29SV1hKMjVGQVdCRExSTFgwamNuVTdlVVZVRTh0N0JScHhZ?=
- =?utf-8?B?UXZKZzVkQWhua295U2tNVmVrQUp4NjhXdE9ubFlkM21hdmVhYU11cVVEYldo?=
- =?utf-8?B?TEJKTkthZHpSYVltRlJPTU9nL1MxMW5sVGFlbnAxY00vTHBPQ08yajR4YWp0?=
- =?utf-8?B?WEgwWm1ya05PakV5MUpIOUN1Y2NKZTdjTU9YWnMwTHFkaUhZM0ZuNE9TVjRY?=
- =?utf-8?B?YUFvajZ4SnN5VnFKUEdTL0d2MTNISlZUU2FIcWwrZkxGUTRCaDBoZEcvVFJw?=
- =?utf-8?B?YVBkOE1oMzdDM0NNZ0s2cVlHd0JGZ3N1SXZqdVhKSHpYL0VVYkNBZ1hTbXk1?=
- =?utf-8?B?Y2FkZlFGQm1SQWJaT0U5NnU2NHNsRmkzeUEzOFYzQ1NBZk5LcGs3UEE5bUc5?=
- =?utf-8?B?RjJmL3dxdmVwUWtSQTE4VXhPZlZaMkRsMmFuamRyNlVqS0ozdzVRTEpMY3dV?=
- =?utf-8?B?MnFvWktPUW9EYWxUb0IvS0gxMVFMVThab2JjTVVPczd5c04yU0gxY1JFdkFP?=
- =?utf-8?B?YW5XUFpvTUJVKzRSVVdrWnZpZE44d1BTbmhCV2ZPbXNYNHliL3FhMkU1azhh?=
- =?utf-8?B?WlFYaXIwSFNPWmpUVGJWMjlITURoN2l4cnpxRytUZHpqb1AzSTlsUVB1eGNI?=
- =?utf-8?B?RVJad1VhNlJRWXY3aWhOZVZDY0dzM1VjVTZQQko0Sy85WkFWc2FrNmd6ZnZj?=
- =?utf-8?B?S2c0UVBvV3FOSXlpVFdEODU0SEVWRGlvZDZ5V0FVR29DM2xHRDYzR0JTZG84?=
- =?utf-8?B?TnFLWG40bE9iL3QzME1vVllMUWJ0N0NYZi83QUlsUGxZR1Z5WUM5VGZvMU83?=
- =?utf-8?B?dW5GeDhEL0JxaDVyUHkyT0pxMVkyYlVCdWRGSUgxSFArRkhuSEF6eVBlaXpJ?=
- =?utf-8?B?a0dLNENLa00veUdMbzBlS0VQVmNBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	D4VCdmHYKnMmG0pxhL3uJAhXTRevgGwqWxI5kyinWOwyDBVJoRDYPm5JY7P1ebmLzu6JOu0EzTlOWjYUe3w1eZO5Z5AZYqcDMwHqNVrmfRyxFMP28k7OOwr97S8CF8EBUKweEhX65699wAa56UmiMjDs9EbWLrcGorcnXYCr1/mG1XxOykAE0VaDyoqvP/n1bSfZCOkuPUJKdj39Yy5393EFlyXNKzGUkQj5CVZ8Vkg4AacwYfw+TvnP9dnOlnoM6ky7Omdsm44nVWlTjGhyuGGxgJlLoI58nphiT/oHK4EG1jeO6l+HblL2N1ijgScLqRD4tkklZ8fk/k0L+DYWQAKOoiYrpHp5YxanZASN4/7Z5UIQnT0kZPLmvGN5hllXwvDAWxkrnz1Orrnh6k3JHrZR9dDqUgx+vDLHbC5FRU60GK8UsvX1c7oWU2kiNUiO
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 21:22:40.0831
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61573776-7555-460c-ab1c-08de62a1320b
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023D7.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7615
 
-On 2/2/26 10:49, Péter Ujfalusi wrote:
-> 
-> 
-> On 30/01/2026 07:10, Sen Wang wrote:
->> Simplify the mcasp_set_clk_pdir caller convention in start/stop stream
->> function, to make it so that set_clk_pdir gets called regardless when
->> stream starts and also disables when stream ends.
->>
->> Functionality-wise, everything remains the same as the previously skipped
->> calls are now either correctly configured
->> (when McASP is SND_SOC_DAIFMT_BP_FC - pdir needs to be enabled)
->> or called with a bitmask of zero (when McASP is SND_SOC_DAIFMT_BC_FC - pdir
->> gets disabled).
->>
->> On brief regarding McASP Clock and Frame sync configurations, refer to [0].
->>
->> [0]:TRM Section 12.1.1.4.2 https://www.ti.com/lit/ug/sprujd4a/sprujd4a.pdf
->>
->> Signed-off-by: Sen Wang <sen@ti.com>
->> ---
->>   sound/soc/ti/davinci-mcasp.c | 10 +++++-----
->>   1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
->> index aa14fc1c8011..4f8a2ce6ce78 100644
->> --- a/sound/soc/ti/davinci-mcasp.c
->> +++ b/sound/soc/ti/davinci-mcasp.c
->> @@ -235,8 +235,8 @@ static void mcasp_start_rx(struct davinci_mcasp *mcasp)
->>   	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp)) {
->>   		mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, TXHCLKRST);
->>   		mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, TXCLKRST);
->> -		mcasp_set_clk_pdir(mcasp, true);
->>   	}
->> +	mcasp_set_clk_pdir(mcasp, true);
->>   
->>   	/* Activate serializer(s) */
->>   	mcasp_set_reg(mcasp, DAVINCI_MCASP_RXSTAT_REG, 0xFFFFFFFF);
->> @@ -311,10 +311,10 @@ static void mcasp_stop_rx(struct davinci_mcasp *mcasp)
->>   	 * In synchronous mode stop the TX clocks if no other stream is
->>   	 * running
->>   	 */
->> -	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp) && !mcasp->streams) {
->> -		mcasp_set_clk_pdir(mcasp, false);
->> +	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp) && !mcasp->streams)
->>   		mcasp_set_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, 0);
->> -	}
->> +	if (!mcasp->streams)
->> +		mcasp_set_clk_pdir(mcasp, false);
-> 
-> I'm not sure about this, but the sequence should be preserved, PDIR
-> change first.
-> 
+Hi Arnd!
 
-Sounds good, I'll enforce the original order of operation in the new patch.
+On Mon, 2026-02-02 at 10:53 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> cv1800b_adc_setbclk_div() does four 64-bit divisions in a row, which
 
->>   
->>   	mcasp_set_reg(mcasp, DAVINCI_MCASP_GBLCTLR_REG, 0);
->>   	mcasp_set_reg(mcasp, DAVINCI_MCASP_RXSTAT_REG, 0xFFFFFFFF);
->> @@ -340,7 +340,7 @@ static void mcasp_stop_tx(struct davinci_mcasp *mcasp)
->>   	 */
->>   	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp) && mcasp->streams)
->>   		val =  TXHCLKRST | TXCLKRST | TXFSRST;
->> -	else
->> +	if (!mcasp->streams)
->>   		mcasp_set_clk_pdir(mcasp, false);
->>   
->>   
-> 
+3 of the 4 divisors are actually a power of two, so it would be a bug
+in the compiler to issue a division for them...
 
-Best,
-Sen Wang
+Regarding the 64 bits: seems that the actual issue is the tmp variable that
+is of u64 type for no reason, because priv->mclk_rate is only u32.
+
+Maybe turning tmp into a u32 would avoid unnecessary 64-bit division
+altogether?
+
+> is rather inefficient on 32-bit systems, and using the plain division
+> causes a build failure as a result:
+>=20
+> ERROR: modpost: "__aeabi_uldivmod" [sound/soc/sophgo/cv1800b-sound-adc.ko=
+] undefined!
+>=20
+> Consolidate those into a single division using the div_u64() macro.
+>=20
+> Fixes: 4cf8752a03e6 ("ASoC: sophgo: add CV1800B internal ADC codec driver=
+")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> =C2=A0sound/soc/sophgo/cv1800b-sound-adc.c | 7 ++-----
+> =C2=A01 file changed, 2 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/sound/soc/sophgo/cv1800b-sound-adc.c b/sound/soc/sophgo/cv18=
+00b-sound-adc.c
+> index 794030b713e9..b66761156b99 100644
+> --- a/sound/soc/sophgo/cv1800b-sound-adc.c
+> +++ b/sound/soc/sophgo/cv1800b-sound-adc.c
+> @@ -105,11 +105,8 @@ static int cv1800b_adc_setbclk_div(struct cv1800b_pr=
+iv *priv, unsigned int rate)
+> =C2=A0	if (!priv->mclk_rate || !rate)
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> -	tmp =3D priv->mclk_rate;
+> -	tmp /=3D CV1800B_RXADC_WORD_LEN;
+> -	tmp /=3D CV1800B_RXADC_CHANNELS;
+> -	tmp /=3D rate;
+> -	tmp /=3D 2;
+> +	tmp =3D div_u64(priv->mclk_rate, CV1800B_RXADC_WORD_LEN *
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CV1800B_RXADC_CHANNELS * rate * 2);
+> =C2=A0
+> =C2=A0	if (!tmp) {
+> =C2=A0		dev_err(priv->dev, "computed BCLK divider is zero\n");
+
+--=20
+Alexander Sverdlin.
