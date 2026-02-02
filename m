@@ -1,135 +1,212 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC60629A9C9
-	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 21:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2A326FDAC;
+	Mon,  2 Feb 2026 21:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770067890; cv=none; b=rtcFdPX8l4ubc/juMQBJI8HZ+UrjFH7AkrA2dP0MAawNtsgr0sloV3m8Vd9aZ2xilqOJ2vuydEq+TpbL1fQiAfvWD+VG+3G0sQRo6h3MercW99FvPx8pY5QraM+xHviGG4w5fKNahnNB+njfLoZ6zYOMClyPA8Zsn4UqKYICUrs=
+	t=1770068824; cv=none; b=GnFUDxI2hGsCAcyNQ5aRjDPzDdmvm5baww5pXn6NWyeuzufpwWadWPnOQ4y2Cqw9YegWBEwm8cqY1Mt0uLtD0/q4/jQ0oZ5QFJqa1FDUX62buIMGjgpqIrLFxvv8r44h6G+O7h6zGF9o0ey+/cvNpefPG8ofnPVw4XfWYQLq0ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770067890; c=relaxed/simple;
-	bh=cyc6OoN+kI+3TAVGBTSTHp1l4SopH0CyprjPmJtiexE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S78LxJ5bB6nuRZJyJqd8AxjHaw5LpgW3nHn1niWM9RsIV9uGeYM/v6kJVu2WdaUUDYEieFewflP4O+NMFh7ZKbuhnNFBFSSpXOg8yAqEXR2mEVe5LSyOlAof3lrujumO8HF1rsMdZnhPsyckbRbc2rQIWd2HFwGLS0FecJmb9Bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QDPmuRSJ; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770068824; c=relaxed/simple;
+	bh=+6iROAG5/9Xm34mS31BAd6t3JchO9wLqj3VtDUs1EWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rYjSmV8RXt5Ean9HM1iMMYCkhxHCIjDHYha8qpJqWFeC7DOSb/3W4SCWq9qx+ekEp8epvOB0/SO9o3y4xFoZhlq3hNBszSiZjlC9grSKIx9kvHAuBdvQajucGs+AzYyYmJuX17XmGMeXvBBcv1dwH9YSYO57yi7f2ymCimzl+sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjJ2IhtJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QDPmuRSJ"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-895071c5527so24455186d6.1
-        for <linux-sound@vger.kernel.org>; Mon, 02 Feb 2026 13:31:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770067889; x=1770672689; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lWCuWOd87xE3ipLxzMTGR23XPtyn4/7fQsE4OP6NNkM=;
-        b=QDPmuRSJpSuuLUNwDwk5suCIrvaU+UY+vcajvXl0q1uBgGuXGdy5CwjezM+2ya/oD/
-         FrN37vIm0LCTIMTMmXXW/b1HZBzGan8LK6n/Jy+fiZ/MwUlzJsVM845nTa7Aest0nLii
-         Pr+vlJ7p+pBQ0Paqvpy4TNnI6NN9Kd38glw8LTgMuAeRlYlPN/SH/n/lEaFAxxYqeduT
-         tU+inBSi+cGcdeXXGRJH3wdOKTgxrpk0jhJ5w50T2Gkp71VyfMw+ua5/m5Yt5gbLoNDT
-         sWxKEY1CQI6/k5kOY+TOTtvSY9Wvg5UwPp8juPIF7FWPODyHjSJsGlJ7PJKbLexilXli
-         TtKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770067889; x=1770672689;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lWCuWOd87xE3ipLxzMTGR23XPtyn4/7fQsE4OP6NNkM=;
-        b=R1/oYUE0NWrZ3b36QqYY3C9wTo36FJOl7A4MengS0AKxi7F+l3i5ifxgWlf2xsq/fX
-         15egxukR6OVAfZ3VFVdspwjFmN6pQfWFDwJFFYTvSB3VzNq2O38x2I12aOKqHdm7ES/W
-         IW/stC5TdtS4ahsUbG6sKvstvuQBamg/SRjH3qkqjzpUjYydrhLubqcqUaAyVoUA4+eb
-         TfXSDjcfJA32FElN2k4GhT1ppFeuWuTtVfI8D8SjgK7jd1BmkZDjC48VTerkq6YWJHRK
-         RpHSCXsbFn8YZ1JsZc7KwB9tmcsYZ18JoNAc1boSl0VHzmQ/xquzOxpJn7PuMgY0U0Gm
-         Opsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpmv5nNJSWDpqYFN7kj1B1xYi4aNukLwxq1bu4A0uxPZ2qkNWH61h7T5yKNpKfbTZRcJOCq3tDd2kc/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoPHOCHu2xXGl6RsciNRdsLhfSclEU38sMUr0wRZxPZ0fisnhf
-	Ik9IbxKG5W0/DDqw6JPb9sf0pO0G8C46jLSoHnMDSe4xX4sy2EuiV4lk
-X-Gm-Gg: AZuq6aIuWxPURy5vxJn8zCZqsGGCX9QIk1hMMAVilPTip5NfqfUDghdJ3MTdkza7Vew
-	WxC39ZnHyxdAQ2GdVOnvOFVx+J/jZU08ejzN5EepSJ72L0GeZH/kGuL6UpOR27Jc5q2ycuYyt7f
-	Iub3RXDhgw0K/e9fTYgB9fLuWsyLOEXfSQ55ff9fXFQAfo8V2GxVEgsXA2FHPP1K6IZssAaIiUv
-	c4F1xFsTTUOeijSR3dzYOFiBx0dGLqutPnLBeGpQctZWHT3ZdwFEdOkyU4F+io8nBL3OVdU1Tth
-	+Ji/aJiklGgGiu3MfmosBAcG7RAQ/ojH3yBJTKPeIBADqYmZ+LZEJY7MdJawXRm43sMxYThef3K
-	nuj/CuFVKevD0IRR9Xht1ygEB/lMwR4XhVwZvhVgw2gY5kH90V5JoV1DIPuaoHKEi2LSqVevMnq
-	mV3UUmOMOCPmAb9H4JZDb55XYr57LQV1ifcClfCtjsoI62jWgDtugSNg87ESWMy/egnXI=
-X-Received: by 2002:ad4:5be3:0:b0:894:7d25:d6ba with SMTP id 6a1803df08f44-894e9f40675mr182162476d6.6.1770067888668;
-        Mon, 02 Feb 2026 13:31:28 -0800 (PST)
-Received: from 0.1.2.1.2.0.a.2.dynamic.cust.swisscom.net ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d37420c5sm121174056d6.31.2026.02.02.13.31.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 13:31:28 -0800 (PST)
-Message-ID: <33cb662c718507c6ac747af4a9a3f5af10fcf5a5.camel@gmail.com>
-Subject: Re: [PATCH] ASoC: sophgo: fix 64-bit division build failure
-From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To: Arnd Bergmann <arnd@kernel.org>, Chen Wang <unicorn_wang@outlook.com>, 
- Inochi Amaoto <inochiama@gmail.com>, "Anton D. Stavinskii"
- <stavinsky@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-sound@vger.kernel.org, 
-	sophgo@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Mon, 02 Feb 2026 22:31:24 +0100
-In-Reply-To: <20260202095323.1233553-1-arnd@kernel.org>
-References: <20260202095323.1233553-1-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjJ2IhtJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2CDFC19425;
+	Mon,  2 Feb 2026 21:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770068824;
+	bh=+6iROAG5/9Xm34mS31BAd6t3JchO9wLqj3VtDUs1EWU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LjJ2IhtJf1GHcCQMfbXwAksuSLmnCOtrMqgaUuW7ckxK4M+t50H2OxVu/7QEAkKom
+	 ZYV1rknkE/NqImbd9scT0yxS/MNkNBrd3Nb1hWKfIE7jQhKrMrtc1YA34ZW66Je6P/
+	 a/gfLy42OPf3mvZss7s9frwSbZyLDnMfVQCIEecYvbfgjXn/OLQNA1QY1eIJzpddAN
+	 G48rzC9w9hP1UWf+DsQvzkkZaXYWaJrrGbo/lMYTYbefnXL0NhR9kWStkKSgVo8zkB
+	 homvsVTDj8i9hapQP5omFjCJvQtcAfPkx4Q7zxrRIqbv2GUWGmgA0BdE7eESMNFatt
+	 3OwL/AznFC+7Q==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: cs35l45: Corrects ASP_TX5 DAPM widget channel
+Date: Mon,  2 Feb 2026 16:46:04 -0500
+Message-ID: <20260202214643.212290-9-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260202214643.212290-1-sashal@kernel.org>
+References: <20260202214643.212290-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd!
+From: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
 
-On Mon, 2026-02-02 at 10:53 +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> cv1800b_adc_setbclk_div() does four 64-bit divisions in a row, which
+[ Upstream commit 6dd0fdc908c02318c28ec2c0979661846ee0a9f7 ]
 
-3 of the 4 divisors are actually a power of two, so it would be a bug
-in the compiler to issue a division for them...
+ASP_TX5 was incorrectly mapped to a channel value of 3 corrects,
+the channel value of 4.
 
-Regarding the 64 bits: seems that the actual issue is the tmp variable that
-is of u64 type for no reason, because priv->mclk_rate is only u32.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260115192523.1335742-2-rriveram@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-Maybe turning tmp into a u32 would avoid unnecessary 64-bit division
-altogether?
+LLM Generated explanations, may be completely bogus:
 
-> is rather inefficient on 32-bit systems, and using the plain division
-> causes a build failure as a result:
->=20
-> ERROR: modpost: "__aeabi_uldivmod" [sound/soc/sophgo/cv1800b-sound-adc.ko=
-] undefined!
->=20
-> Consolidate those into a single division using the div_u64() macro.
->=20
-> Fixes: 4cf8752a03e6 ("ASoC: sophgo: add CV1800B internal ADC codec driver=
-")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> =C2=A0sound/soc/sophgo/cv1800b-sound-adc.c | 7 ++-----
-> =C2=A01 file changed, 2 insertions(+), 5 deletions(-)
->=20
-> diff --git a/sound/soc/sophgo/cv1800b-sound-adc.c b/sound/soc/sophgo/cv18=
-00b-sound-adc.c
-> index 794030b713e9..b66761156b99 100644
-> --- a/sound/soc/sophgo/cv1800b-sound-adc.c
-> +++ b/sound/soc/sophgo/cv1800b-sound-adc.c
-> @@ -105,11 +105,8 @@ static int cv1800b_adc_setbclk_div(struct cv1800b_pr=
-iv *priv, unsigned int rate)
-> =C2=A0	if (!priv->mclk_rate || !rate)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> -	tmp =3D priv->mclk_rate;
-> -	tmp /=3D CV1800B_RXADC_WORD_LEN;
-> -	tmp /=3D CV1800B_RXADC_CHANNELS;
-> -	tmp /=3D rate;
-> -	tmp /=3D 2;
-> +	tmp =3D div_u64(priv->mclk_rate, CV1800B_RXADC_WORD_LEN *
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CV1800B_RXADC_CHANNELS * rate * 2);
-> =C2=A0
-> =C2=A0	if (!tmp) {
-> =C2=A0		dev_err(priv->dev, "computed BCLK divider is zero\n");
+## Analysis of ASoC: cs35l45 DAPM Widget Channel Fix
 
---=20
-Alexander Sverdlin.
+### 1. COMMIT MESSAGE ANALYSIS
+
+The commit message is straightforward: it corrects the ASP_TX5 DAPM
+widget channel value from 3 to 4. The message explicitly states this is
+a correction of an incorrect mapping. Key observations:
+- Uses the word "Corrects" indicating this is a bug fix
+- Has a "Reviewed-by:" tag from Charles Keepax (Cirrus Logic engineer)
+- No Fixes: tag or Cc: stable tag (expected for commits under review)
+
+### 2. CODE CHANGE ANALYSIS
+
+The change is a single-character fix:
+```c
+- SND_SOC_DAPM_AIF_OUT("ASP_TX5", NULL, 3, CS35L45_ASP_ENABLES1,
+  CS35L45_ASP_TX5_EN_SHIFT, 0),
++ SND_SOC_DAPM_AIF_OUT("ASP_TX5", NULL, 4, CS35L45_ASP_ENABLES1,
+CS35L45_ASP_TX5_EN_SHIFT, 0),
+```
+
+Looking at the context, the third parameter in `SND_SOC_DAPM_AIF_OUT`
+represents the channel number. The pattern in the code is clear:
+- ASP_TX1: channel 0
+- ASP_TX2: channel 1
+- ASP_TX3: channel 2
+- ASP_TX4: channel 3
+- ASP_TX5: was 3 (duplicate!), should be 4
+
+This is an obvious copy-paste error where ASP_TX5 was accidentally given
+the same channel number (3) as ASP_TX4. Each TX widget should have a
+unique, sequential channel number.
+
+### 3. CLASSIFICATION
+
+**Bug Fix**: This is clearly fixing an incorrect configuration value,
+not adding a feature. The channel parameter is used by the ALSA/ASoC
+framework to route audio data correctly. Having two TX widgets with the
+same channel number would cause incorrect audio routing behavior.
+
+**Type of Bug**: Data/configuration corruption - audio data intended for
+channel 5 would be misrouted.
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+- **Lines changed**: 1 line
+- **Files changed**: 1 file (sound/soc/codecs/cs35l45.c)
+- **Complexity**: Trivially simple - changing a single integer constant
+- **Risk**: Extremely low - this is correcting an obviously wrong value
+  to an obviously correct value
+- **Subsystem**: ASoC codec driver for Cirrus Logic CS35L45 (audio
+  amplifier IC)
+
+The fix cannot introduce any new bugs because:
+1. It's correcting a clearly wrong value (duplicate channel number)
+2. The correct value (4) follows the obvious sequential pattern
+3. No logic changes, just a constant correction
+
+### 5. USER IMPACT
+
+The CS35L45 is an audio amplifier commonly used in:
+- Laptops
+- Smartphones
+- Tablets
+- Other mobile/embedded devices
+
+Users with CS35L45 hardware who use ASP_TX5 would experience:
+- Incorrect audio routing
+- Audio data corruption or loss on channel 5
+- Potentially broken audio capture/monitoring functionality
+
+While this may not affect all users of the driver (only those using all
+5 TX channels), those who do use TX5 would definitely hit this bug.
+
+### 6. STABILITY INDICATORS
+
+- **Reviewed-by**: Charles Keepax (Cirrus Logic kernel engineer) -
+  indicates the fix was reviewed by a domain expert
+- **Maintainer sign-off**: Mark Brown (ASoC maintainer) accepted the
+  patch
+- The fix is trivially correct by inspection
+
+### 7. DEPENDENCY CHECK
+
+- No dependencies on other commits
+- The cs35l45 driver exists in stable kernels
+- The fix applies to the same code structure that has existed since the
+  driver was introduced
+
+### 8. STABLE KERNEL CRITERIA EVALUATION
+
+| Criterion | Assessment |
+|-----------|------------|
+| Obviously correct | ✅ Yes - sequential channel numbering is obvious |
+| Fixes a real bug | ✅ Yes - duplicate channel causes audio routing
+issues |
+| Important issue | ✅ Moderate - affects audio functionality for
+affected users |
+| Small and contained | ✅ Yes - 1 line change |
+| No new features | ✅ Correct - just fixes misconfiguration |
+| No new APIs | ✅ Correct |
+
+### CONCLUSION
+
+This is an ideal stable backport candidate:
+1. **Trivially simple**: Single character change (3 → 4)
+2. **Obviously correct**: The sequential pattern makes the error and fix
+   self-evident
+3. **Real bug**: Duplicate channel numbers cause actual audio routing
+   problems
+4. **Zero risk**: Cannot introduce regressions - it's correcting an
+   obvious typo
+5. **Well-reviewed**: Has review from Cirrus Logic engineer and ASoC
+   maintainer
+6. **Self-contained**: No dependencies, applies cleanly
+
+The fix is small, surgical, and meets all stable kernel criteria.
+
+**YES**
+
+ sound/soc/codecs/cs35l45.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
+index d4dcdf37bb709..9b1eff4e9bb71 100644
+--- a/sound/soc/codecs/cs35l45.c
++++ b/sound/soc/codecs/cs35l45.c
+@@ -455,7 +455,7 @@ static const struct snd_soc_dapm_widget cs35l45_dapm_widgets[] = {
+ 	SND_SOC_DAPM_AIF_OUT("ASP_TX2", NULL, 1, CS35L45_ASP_ENABLES1, CS35L45_ASP_TX2_EN_SHIFT, 0),
+ 	SND_SOC_DAPM_AIF_OUT("ASP_TX3", NULL, 2, CS35L45_ASP_ENABLES1, CS35L45_ASP_TX3_EN_SHIFT, 0),
+ 	SND_SOC_DAPM_AIF_OUT("ASP_TX4", NULL, 3, CS35L45_ASP_ENABLES1, CS35L45_ASP_TX4_EN_SHIFT, 0),
+-	SND_SOC_DAPM_AIF_OUT("ASP_TX5", NULL, 3, CS35L45_ASP_ENABLES1, CS35L45_ASP_TX5_EN_SHIFT, 0),
++	SND_SOC_DAPM_AIF_OUT("ASP_TX5", NULL, 4, CS35L45_ASP_ENABLES1, CS35L45_ASP_TX5_EN_SHIFT, 0),
+ 
+ 	SND_SOC_DAPM_MUX("ASP_TX1 Source", SND_SOC_NOPM, 0, 0, &cs35l45_asp_muxes[0]),
+ 	SND_SOC_DAPM_MUX("ASP_TX2 Source", SND_SOC_NOPM, 0, 0, &cs35l45_asp_muxes[1]),
+-- 
+2.51.0
+
