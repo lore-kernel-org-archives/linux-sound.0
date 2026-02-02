@@ -1,302 +1,312 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F842D8DB1
-	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 06:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E3B352943
+	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 09:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770013678; cv=pass; b=sRdrabvPNSZz/aga7kxpZBFobdoRv94MAetclRJffk2jbCl8+xJ2w43NbTYmZX6ivGSg7TFODElKGMMKfHm0c985nvPOLTR4bv3qZ6PP/Zzj/jfD/hTvhDm7kcvXAJB4LgDouQF9GttaZ6UprJeBxuQ95q/4+AOlk6Zcl+RaXlM=
+	t=1770025472; cv=pass; b=k07B6QPhWM8nS3cDT60d7o+W9L+w99X1dTx7US13LVUpT83pH4ZxeLRmdOcdubIV0KQz3iPEUz9Qb3OsLAJd9VFtZ6vLB7yHqT59bOMihZ4K4P+8Ab5rZ3U3vrBKN2+/jUZBI3bJvX9pjGU8l+PH0+wp1ThTuCgRId2gQCUzR5c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770013678; c=relaxed/simple;
-	bh=eFc7+F26ZB7UX5OvlmYiDJ+p6szqG5f9fqunFVhyBKk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=OIBb3c4LmMnMRc4qk89hjV517X/sgIZxvQlOUJL6Sef17DnLt5+O61yDCCCnZYvo3OZpRLHSE9kRm295kaDGsjS46Xf8lHEMRTj8woxY0nTjx0tXINp4MiYdwacqTZejhTv7rylQiRUdZ3mUaPqGbS6T8AXmgOHo9IE0osROw6k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGYeztUm; arc=pass smtp.client-ip=209.85.219.68
+	s=arc-20240116; t=1770025472; c=relaxed/simple;
+	bh=TxocIH3WSUgiuoUqSarLJ9wDs59/gNeIjdpFZaZiiIo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GLWG9tfpN4ppzSo2UbIzEUUt15jTQU/fKNEKMIg0StnFLqGCKvzb2VxFEULl/h1RmB3EbbmL/qen9WegSTBEXNWW6xUS5a73IDMNXLQGH47WKl6Ks5AWxatUqUYFYfJdoI1Bi81uNgdGh1uVMPy03zILSx+wtSHnqvuYM9Hakx4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dqiu0+/h; arc=pass smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGYeztUm"
-Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-894674a4c4aso75886876d6.3
-        for <linux-sound@vger.kernel.org>; Sun, 01 Feb 2026 22:27:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770013676; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dqiu0+/h"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-35334ea1f98so1901594a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 02 Feb 2026 01:44:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770025470; cv=none;
         d=google.com; s=arc-20240605;
-        b=QlFLLK7F4NqmwjiJSn36YeulWXS1zPixPp/EdTsv4sekIMv2GTvQrHitvL5hlP4j41
-         +VXT+mnkLLVG5RG1Edr7j05AYWiJBgnpd2EWai0e3DtzlLCTxDIelfGpHcHn89NLfEMI
-         U9oag256b3FIi8RYun+EAiyjA/ekk3Uv46/QDXbtROvZtJwjFK8ccRVczbkLvUxSVJXb
-         t9hVhD4NcI3m0exx7l4CV6fHtED00v1Q7+j4fdkhhLHUWhycRxw6QF2ooaZk6tcnbwAn
-         jF4XI2RRHrdyZHteiuk/h496khuTbyrdtBCA8XfTahgIKaddQpT41SAxfBmIUuC1TaGW
-         K40w==
+        b=cCUgC19ubORRN0qHP1nffy7CDK+2pLcSzEbfYBOu+DC6tCzV3qPrBpn0eeqJGZmxLp
+         8TmaPnRigQRPmBG6sZE4YlIfV7ohjlUdw1iU9CBAXYfMG4m407UkzeF8KMbvkwmoiCIl
+         YrxULZdl8vKZIvYhlRmNi0SigW1eVGvjpms72kRL3sin8zaPQVwOVFXxtA7zdMqLipgZ
+         BKnERwHzLrCNFYKPHkuvDJHuyaEUfud5DM4d9d3U61YoBh7x+9u283BHNUf0RZIxtQa0
+         dV13xUQYG6w1ma1XASlBPUFfWJubdDDgRasWaPJ/J1+Bh8Gc4BkXd6ipPTG+VUIZYbVM
+         gFdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=iZnIp1lwHGUtXDV1MRZ1HULqBz4p5ioOR8qKhHkhHUo=;
-        fh=Ur9WuU4bWaDaMPlMRZ2tOiZtyPV3E13IetzpXCIxwfY=;
-        b=A5yhwfYSuIaZJJkqq6NYeSudqjQnT05xgUqKTP2AaPiJtzxbjveJxKz98BJXM91XFN
-         ertblPUCCeLEa4oBMQe8HYjojbbcGPxur+uA/cvC3ySxboTf/MvwTzem+TlwxSg5lQpS
-         mHC1y5oBIi8uPbU+jENcYukQupNhZVaRKqvywmGKCuPW4ijPdLnFpSulkWfnCN53M2FS
-         P6sJoshtAISGWhVLhYnypqYNkATrrhbl4WROqQGzGCaEcOe2odq89eLnrwLafKGFBAI2
-         qCsFoBBmut9pmeHhbN2YD1D2ZR9ZYnfjsWHPe4DmeX/KA5lNH5IhmVRVcHtszxUFYhIh
-         fXgA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TAF2UH/s9XOKetfcQpOwLtcTNJG8Fm6zI5indZbLJnA=;
+        fh=bfGhzUXAHmuBfl9ZRClp/RkYk8CBIlB/0erYw4q+QHI=;
+        b=ZAA+StYerqlAt+LmS/1ITaGiM8zce0KA5Olt96eypnC8wdHpsVgLWuzykAMbyKxolr
+         wfYsSPgXNiXRicnFVv6BsmUXcPTMbD+8u5nkS/tPaF1wNoz3Ik/rzcTUpsIwm3QSjydN
+         0kc35cZwlHuXmBZl1zHN4NbUhxb7EpBWK2ZNYaB4GASh+gWhazt4O/JCreTPWKGd6opH
+         1WP69bD8VF6/O0668bN7AH+LGpyJkbb6eypx5URHKXn3Hu6JM2oNOaJNBJlZhgGAJW32
+         scUPaOCEdWTYdcuM5vIULMi1y94K4ODnoWN7BEooMw6qH5IJ+WuI3QfedanOdkcdEecm
+         uPeA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770013676; x=1770618476; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iZnIp1lwHGUtXDV1MRZ1HULqBz4p5ioOR8qKhHkhHUo=;
-        b=XGYeztUmdIEfS8FuPdJ365PUFR4aKNJLNEPD7nZ/g4n/a07u+hOzzVOKVvofzFYRXP
-         6eA2Yi1Z9Pavtl/+pn/POZVYYbx4N4S3pWMGEtUtTrpPrIOEwBzXwb/IOPeSMy6RHYJS
-         djlqualJUdmhPGmliEdd3AXxScJ9tEDtXUQ1gizaOy06S7Ap6Pr1U2cARkY2ewkNIY4v
-         tG+UwoUnnDAKF5f8eN55/8wwz52jonDEMsELJ1BJASO6gpBj0Dtnh+3LEMUxAMCYU0Bt
-         rmqEpZQKFHWX/tW/vkIFAFyfKgnIj/Q4RmxoE/AEPHMyKdk6KLyChL9M+b3QUZGA9STa
-         Wz6w==
+        d=gmail.com; s=20230601; t=1770025470; x=1770630270; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TAF2UH/s9XOKetfcQpOwLtcTNJG8Fm6zI5indZbLJnA=;
+        b=Dqiu0+/h9yK1+SB4ZQ3gyV9Cme9HzEJHfNKkv7SZx/f930OHwSPQBk2sFC7LcZ05Mu
+         ia6Fulrp9Ih1j9ViqHhAqW0YLsHNKKd2wGz1EUKHXaP+hYAOFbLm3/v3w3LhWE0kalSY
+         sK1hZgNmhUSzoiIvFK24Ka4VwTx2unZfJ4/uKhftLAphhl2+jbmnZTwRETtCfAoqvWpr
+         iNxrnwrAOB6lKe7YHZi25V5SYYogK4GKISYy/jPmeqGFlCtDm+wCDt6/IhhF4uJ4z4w4
+         10Pzp4kuFtLi7v/aTSfAv1ghR3wPL680ec6UTh3hW/2gwerT1XrQpQw7xvhiinL0dQRV
+         w9tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770013676; x=1770618476;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iZnIp1lwHGUtXDV1MRZ1HULqBz4p5ioOR8qKhHkhHUo=;
-        b=v+n0mWsZkfQPhkj+QYtDPqZ7Jgv9UYG2KDNd4gttob8z/veCNFxxMzAyc+ElTd/mI8
-         jSxolEUxoWJQgL38Bd+C1Udu4U6Xz5YX5ICBCss9mHD5KGiL3OyalVTfJWYCe1ndA7/p
-         vMfhRb3Lj5wli5tE/o4+BeX4JlJIcvgSXAVroLNveAiFMt6Z1l51ffgdCX/5CbH9rw/f
-         dEBz+pvIkXtyn9u0FLrSt513b/uRNseK792/DwbUNwYQpAXplwiqRjiXRCOg1hJx06pG
-         Js65BFWcpFTs6OvWTwPMxoUVcCDODmj2PnVBtS3fERFkoSFBbXAOeB6L9UkKVu/7L73l
-         Io/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU7vx/x9JdmnuKINCwIKKkKSBOgaXvNvt5kggfUHZDg47jiVILsEHu1UomGHlh6i1Bxek9RxrXlrIEWTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7r8D+cTHIRTdQIvFANWZwlFujXts+h8y9ZId5JxmXxTnzq+Nq
-	aYIBi7QyhB8gYG5ONGRDJFM+2OOPKAOjrUgEp1ZQz+mndgh2TuTlwf2Be9N1jgOPRHgVwtGiy8z
-	iRGazFVjkhZjRiRsecYYE7m45SLeSMaw=
-X-Gm-Gg: AZuq6aJKTNHgL/S94bzVFpzTueYfH01Flv3qLP7uq7fJuhrhQm0Ws6VUhtOj37hjBB6
-	EQ/RP9XGu0W7bl+5vxHGCDSdRpBHzcXWixqOFVm1syctbpq7RflOLQoyYbyB1PLCRgjvnFOwQQ/
-	rgfd5UkYz0qpjAU/4uuiBkQrwUX1ptIWHZjkelCHg5RgYLAp1Bc5m73Ke2mmAZSVe5WN/1/dd7i
-	RRtTk5YtS4qUZDLsgcB5nCJ/kekrermxv0CBGBGbtaiATSKNFj1S/JduSc0tZSn6dczp2ZV5iBp
-	4ITGvVxatxNCxqo2Df5r/0wt
-X-Received: by 2002:a05:6214:519c:b0:81b:23d:55a8 with SMTP id
- 6a1803df08f44-894ea0e5d80mr141263376d6.59.1770013675939; Sun, 01 Feb 2026
- 22:27:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770025470; x=1770630270;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TAF2UH/s9XOKetfcQpOwLtcTNJG8Fm6zI5indZbLJnA=;
+        b=CDKIgc2Q6YtjHgsfJo1DoibxSsbbFaIVO5l+eQ/qmuDl1ZBqEw1z8seFa/vShYJU6C
+         7iwm4LKwOCDTB0/XWps2PmiokmDOprrB13SvteTSL809COXdkRCmx/dFwfRBDld1pHxE
+         7vl4LM6wibG5yrNRJU8FMDU23SZdRMM4Lb/jWsxuqKFARoSZOjgRSwSo9f50ksiiLX9X
+         tXH6Pmmnx+I2ZgSfOxeG6/xKqfkur7/9l6hVgYWgFZSZo+CLiYo80/CXvhJnfqXVtkGo
+         GSK91MnnbbLz48BkYnjtNM8zBiuO2RueZkhMLj/6l62otNi2LYGlSEqlbTHStwub8f0W
+         4+HA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9O1J3mrRz8FxSF8ozjbkiNYcDmtRyb+4AKOPzci+ahBc+BkKW9eS5F7DbPt4wbH1ZwzJuXv9rgu7vfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKpRcgagF5q2Ej54sZ3YolcUEKpQ16mchWveoDIUwJTTpBAvfZ
+	/nhMJaZ01UJmLNE8LoDiSl8vhM+Hg77xN+UC7BE4bDs7coD+z7gE4gS5KbT+fYFFPpDjc73pwFR
+	CKpElZyCoPmAOxNZ0e+fn8rMJopgCgl4=
+X-Gm-Gg: AZuq6aKZIf636LbMlAFvMCbvsViCFZ4qugJ4jdPlZj7CYyPqX4CZIFX/baDgN9ZpGML
+	OCD0Y0WuedjIUwhMv1BevoLPE+ZefK8VFUYAwHMtVt1APyEnAu4HGw06Sqxs+Fr8zvsCpx32CHY
+	aSDJIjpC/igCkR0rLC4QZvaxK1L/7rZ8o+oMdrF8GURwXZ19b7JmRSVL/s2S6bHM4U47z0Tzgjs
+	9wmn7GEcZnZ4Lr5PRWoiOi4ICbqkLQjDsB4bzoT0gxdcGnjzHxqFJ7CZRAM5x729rWiAN7Fu7rQ
+	bKfhNA==
+X-Received: by 2002:a17:90a:e704:b0:340:f7d6:dc70 with SMTP id
+ 98e67ed59e1d1-3543b32db3cmr10551164a91.13.1770025470178; Mon, 02 Feb 2026
+ 01:44:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?5p2O6b6Z5YW0?= <coregee2000@gmail.com>
-Date: Mon, 2 Feb 2026 14:27:45 +0800
-X-Gm-Features: AZwV_Qg9Qt0Cxjc3JdliArSlZ8A0DwEk3cCWTsYJ2uoyORoesfbQ-IxIhDclxAU
-Message-ID: <CAHPqNmzY=zVGq0r7g-ED0Rtmi-7udMW51AAb7rex5A0vcBJMjA@mail.gmail.com>
-Subject: [Kernel Bug] KASAN: slab-use-after-free Read in loopback_trigger
-To: syzkaller@googlegroups.com, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260130054330.3462544-1-shengjiu.wang@nxp.com>
+ <20260130054330.3462544-4-shengjiu.wang@nxp.com> <aXzDlScEXfmUys32@lizhi-Precision-Tower-5810>
+In-Reply-To: <aXzDlScEXfmUys32@lizhi-Precision-Tower-5810>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 2 Feb 2026 17:44:16 +0800
+X-Gm-Features: AZwV_QgU5fRT0_5Q6bzl-9D65zjMNMGvATERP1AuFCLfH7W34TynL2XUXVAiodw
+Message-ID: <CAA+D8ANrW0N7Sjbat_LN3d8UbcuN-=DOKjfF0XncgqqM62rCMg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] ASoC: fsl_asrc_m2m: Start ASRC before DMA device
+ for M2M
+To: Frank Li <Frank.li@nxp.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dear Linux kernel developers and maintainers,
+On Fri, Jan 30, 2026 at 10:43=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
+>
+> On Fri, Jan 30, 2026 at 01:43:29PM +0800, Shengjiu Wang wrote:
+> > There is a limitation on i.MX952 that dma request is not cleared at the
+> > end of conversion with dma slave mode. Which causes sample is dropped
+> > from the input fifo on the second time if dma is triggered before the
+> > client device and EDMA may copy wrong data from output fifo as the outp=
+ut
+> > fifo is not ready in the beginning.
+> >
+> > So need to trigger asrc before dma on i.MX952, and add delay to wait
+> > output data is generated then start the EDMA for output, otherwise the
+> > m2m function has noise issues.
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> >  sound/soc/fsl/fsl_asrc.c        | 25 +++++++++++++++++++++++++
+> >  sound/soc/fsl/fsl_asrc.h        |  2 ++
+> >  sound/soc/fsl/fsl_asrc_common.h |  4 ++++
+> >  sound/soc/fsl/fsl_asrc_m2m.c    | 29 +++++++++++++++++++++--------
+> >  4 files changed, 52 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+> > index 5846a2b1f73c..2374577c13f9 100644
+> > --- a/sound/soc/fsl/fsl_asrc.c
+> > +++ b/sound/soc/fsl/fsl_asrc.c
+> > @@ -1084,6 +1084,28 @@ static unsigned int fsl_asrc_get_output_fifo_siz=
+e(struct fsl_asrc_pair *pair)
+> >       return val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
+> >  }
+> >
+> > +static bool fsl_asrc_m2m_output_ready(struct fsl_asrc_pair *pair)
+> > +{
+> > +     struct fsl_asrc *asrc =3D pair->asrc;
+> > +     enum asrc_pair_index index =3D pair->index;
+> > +     int retry =3D 1000;
+> > +     u32 val;
+> > +
+> > +     /* Check output fifo status if it exceeds the watermark. */
+> > +     do {
+> > +             regmap_read(asrc->regmap, REG_ASRFST(index), &val);
+> > +             val &=3D ASRFSTi_OUTPUT_FIFO_MASK;
+> > +             val =3D val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
+> > +     } while (val < ASRC_M2M_OUTPUTFIFO_WML && --retry);
+>
+> use regmap_read_poll_timeout()
 
-We would like to report a new kernel bug found by our tool. KASAN:
-slab-use-after-free Read in loopback_trigger. Details are as follows.
+Ok, will update it.
 
-Kernel commit: v6.18.2
-Kernel config: see attachment
-report: see attachment
+>
+> > +
+> > +     if (!retry) {
+> > +             pair_warn("output is not ready\n");
+> > +             return false;
+> > +     }
+> > +
+> > +     return true;
+> > +}
+> > +
+> >  static int fsl_asrc_m2m_prepare(struct fsl_asrc_pair *pair)
+> >  {
+> >       struct fsl_asrc_pair_priv *pair_priv =3D pair->private;
+> > @@ -1281,6 +1303,7 @@ static int fsl_asrc_probe(struct platform_device =
+*pdev)
+> >
+> >       asrc_priv->soc =3D of_device_get_match_data(&pdev->dev);
+> >       asrc->use_edma =3D asrc_priv->soc->use_edma;
+> > +     asrc->start_before_dma =3D asrc_priv->soc->start_before_dma;
+> >       asrc->get_dma_channel =3D fsl_asrc_get_dma_channel;
+> >       asrc->request_pair =3D fsl_asrc_request_pair;
+> >       asrc->release_pair =3D fsl_asrc_release_pair;
+> > @@ -1295,6 +1318,7 @@ static int fsl_asrc_probe(struct platform_device =
+*pdev)
+> >       asrc->m2m_get_maxburst =3D fsl_asrc_m2m_get_maxburst;
+> >       asrc->m2m_pair_resume =3D fsl_asrc_m2m_pair_resume;
+> >       asrc->m2m_get_cap =3D fsl_asrc_m2m_get_cap;
+> > +     asrc->m2m_output_ready =3D fsl_asrc_m2m_output_ready;
+> >
+> >       if (of_device_is_compatible(np, "fsl,imx35-asrc")) {
+> >               asrc_priv->clk_map[IN] =3D input_clk_map_imx35;
+> > @@ -1565,6 +1589,7 @@ static const struct fsl_asrc_soc_data fsl_asrc_im=
+x8qxp_data =3D {
+> >  static const struct fsl_asrc_soc_data fsl_asrc_imx952_data =3D {
+> >       .use_edma =3D true,
+> >       .channel_bits =3D 4,
+> > +     .start_before_dma =3D true,
+> >  };
+> >
+> >  static const struct of_device_id fsl_asrc_ids[] =3D {
+> > diff --git a/sound/soc/fsl/fsl_asrc.h b/sound/soc/fsl/fsl_asrc.h
+> > index 2f67b085de24..1be93148a879 100644
+> > --- a/sound/soc/fsl/fsl_asrc.h
+> > +++ b/sound/soc/fsl/fsl_asrc.h
+> > @@ -446,10 +446,12 @@ struct dma_block {
+> >   *
+> >   * @use_edma: using edma as dma device or not
+> >   * @channel_bits: width of ASRCNCR register for each pair
+> > + * @start_before_dma: start asrc before dma
+> >   */
+> >  struct fsl_asrc_soc_data {
+> >       bool use_edma;
+> >       unsigned int channel_bits;
+> > +     bool start_before_dma;
+> >  };
+> >
+> >  /**
+> > diff --git a/sound/soc/fsl/fsl_asrc_common.h b/sound/soc/fsl/fsl_asrc_c=
+ommon.h
+> > index 0cd595b0f629..c8a1a2b5915d 100644
+> > --- a/sound/soc/fsl/fsl_asrc_common.h
+> > +++ b/sound/soc/fsl/fsl_asrc_common.h
+> > @@ -107,6 +107,7 @@ struct fsl_asrc_pair {
+> >   * @asrc_rate: default sample rate for ASoC Back-Ends
+> >   * @asrc_format: default sample format for ASoC Back-Ends
+> >   * @use_edma: edma is used
+> > + * @start_before_dma: start asrc before dma
+> >   * @get_dma_channel: function pointer
+> >   * @request_pair: function pointer
+> >   * @release_pair: function pointer
+> > @@ -116,6 +117,7 @@ struct fsl_asrc_pair {
+> >   * @m2m_start: function pointer
+> >   * @m2m_unprepare: function pointer
+> >   * @m2m_stop: function pointer
+> > + * @m2m_output_ready: function pointer, check output fifo ready or not
+> >   * @m2m_calc_out_len: function pointer
+> >   * @m2m_get_maxburst: function pointer
+> >   * @m2m_pair_suspend: function pointer
+> > @@ -143,6 +145,7 @@ struct fsl_asrc {
+> >       int asrc_rate;
+> >       snd_pcm_format_t asrc_format;
+> >       bool use_edma;
+> > +     bool start_before_dma;
+> >
+> >       struct dma_chan *(*get_dma_channel)(struct fsl_asrc_pair *pair, b=
+ool dir);
+> >       int (*request_pair)(int channels, struct fsl_asrc_pair *pair);
+> > @@ -154,6 +157,7 @@ struct fsl_asrc {
+> >       int (*m2m_start)(struct fsl_asrc_pair *pair);
+> >       int (*m2m_unprepare)(struct fsl_asrc_pair *pair);
+> >       int (*m2m_stop)(struct fsl_asrc_pair *pair);
+> > +     bool (*m2m_output_ready)(struct fsl_asrc_pair *pair);
+> >
+> >       int (*m2m_calc_out_len)(struct fsl_asrc_pair *pair, int input_buf=
+fer_length);
+> >       int (*m2m_get_maxburst)(u8 dir, struct fsl_asrc_pair *pair);
+> > diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_m2m.=
+c
+> > index f46881f71e43..296e13a16490 100644
+> > --- a/sound/soc/fsl/fsl_asrc_m2m.c
+> > +++ b/sound/soc/fsl/fsl_asrc_m2m.c
+> > @@ -253,15 +253,28 @@ static int asrc_m2m_device_run(struct fsl_asrc_pa=
+ir *pair, struct snd_compr_task
+> >       reinit_completion(&pair->complete[IN]);
+> >       reinit_completion(&pair->complete[OUT]);
+> >
+> > -     /* Submit DMA request */
+> > -     dmaengine_submit(pair->desc[IN]);
+> > -     dma_async_issue_pending(pair->desc[IN]->chan);
+> > -     if (out_dma_len > 0) {
+> > -             dmaengine_submit(pair->desc[OUT]);
+> > -             dma_async_issue_pending(pair->desc[OUT]->chan);
+> > -     }
+> > +     if (asrc->start_before_dma) {
+> > +             asrc->m2m_start(pair);
+> > +             /* Submit DMA request */
+> > +             dmaengine_submit(pair->desc[IN]);
+> > +             dma_async_issue_pending(pair->desc[IN]->chan);
+> > +             if (out_dma_len > 0) {
+> > +                     if (asrc->m2m_output_ready)
+> > +                             asrc->m2m_output_ready(pair);
+> > +                     dmaengine_submit(pair->desc[OUT]);
+> > +                     dma_async_issue_pending(pair->desc[OUT]->chan);
+> > +             }
+> > +     } else {
+> > +             /* Submit DMA request */
+> > +             dmaengine_submit(pair->desc[IN]);
+> > +             dma_async_issue_pending(pair->desc[IN]->chan);
+> > +             if (out_dma_len > 0) {
+> > +                     dmaengine_submit(pair->desc[OUT]);
+> > +                     dma_async_issue_pending(pair->desc[OUT]->chan);
+> > +             }
+> >
+> > -     asrc->m2m_start(pair);
+> > +             asrc->m2m_start(pair);
+> > +     }
+>
+> if really like start_before_dma, move common part no change
+>
+>         if (start_before_dma)
+>                 asrc->m2m_start(pair);
+>
+>         ....
+>
+>         if (!start_before_dma)
+>                 asrc->m2m_start(pair);
 
-We are currently analyzing the root cause and  working on a
-reproducible PoC. We will provide further updates in this thread as
-soon as we have more information.
+Ok, will update it.
 
-Best regards,
-Longxing Li
-
-==================================================================
-BUG: KASAN: slab-use-after-free in loopback_check_format
-sound/drivers/aloop.c:354 [inline]
-BUG: KASAN: slab-use-after-free in loopback_trigger+0x1ef8/0x1f20
-sound/drivers/aloop.c:411
-Read of size 4 at addr ffff888124f6106c by task syz.1.614/21000
-
-CPU: 0 UID: 0 PID: 21000 Comm: syz.1.614 Not tainted 6.18.2 #1 PREEMPT(full)
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xcd/0x630 mm/kasan/report.c:482
- kasan_report+0xe0/0x110 mm/kasan/report.c:595
- loopback_check_format sound/drivers/aloop.c:354 [inline]
- loopback_trigger+0x1ef8/0x1f20 sound/drivers/aloop.c:411
- snd_pcm_do_start sound/core/pcm_native.c:1454 [inline]
- snd_pcm_do_start+0xd4/0x1f0 sound/core/pcm_native.c:1447
- snd_pcm_action_single+0x80/0x150 sound/core/pcm_native.c:1310
- snd_pcm_action+0x70/0x90 sound/core/pcm_native.c:1393
- __snd_pcm_lib_xfer+0x1403/0x1ec0 sound/core/pcm_lib.c:2405
- snd_pcm_oss_write3+0xcf/0x1e0 sound/core/oss/pcm_oss.c:1241
- io_playback_transfer+0x26e/0x2f0 sound/core/oss/io.c:47
- snd_pcm_plug_write_transfer+0x2cf/0x400 sound/core/oss/pcm_plugin.c:630
- snd_pcm_oss_write2+0x24a/0x410 sound/core/oss/pcm_oss.c:1373
- snd_pcm_oss_sync1+0x1c3/0x560 sound/core/oss/pcm_oss.c:1615
- snd_pcm_oss_sync+0x5ef/0x840 sound/core/oss/pcm_oss.c:1691
- snd_pcm_oss_release+0x28b/0x310 sound/core/oss/pcm_oss.c:2573
- __fput+0x402/0xb70 fs/file_table.c:468
- task_work_run+0x150/0x240 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- exit_to_user_mode_loop+0xec/0x130 kernel/entry/common.c:43
- exit_to_user_mode_prepare include/linux/irq-entry-common.h:225 [inline]
- syscall_exit_to_user_mode_work include/linux/entry-common.h:175 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:210 [inline]
- do_syscall_64+0x426/0xfa0 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x5656ed
-Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48
-89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
-01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe65166ac8 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 0000000000717a80 RCX: 00000000005656ed
-RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-RBP: 0000000000717a80 R08: 0000000000000000 R09: 000000000000004b
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000350974
-R13: 00000000003506e2 R14: 0000000000716130 R15: 000000000071613c
- </TASK>
-
-Allocated by task 21001:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:56
- kasan_save_track+0x14/0x30 mm/kasan/common.c:77
- poison_kmalloc_redzone mm/kasan/common.c:400 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:417
- kmalloc_noprof include/linux/slab.h:957 [inline]
- kzalloc_noprof include/linux/slab.h:1094 [inline]
- snd_pcm_attach_substream+0x441/0xd60 sound/core/pcm.c:938
- snd_pcm_open_substream+0x8d/0x17f0 sound/core/pcm_native.c:2756
- snd_pcm_oss_open_file sound/core/oss/pcm_oss.c:2437 [inline]
- snd_pcm_oss_open+0x735/0x1400 sound/core/oss/pcm_oss.c:2518
- soundcore_open+0x40c/0x580 sound/sound_core.c:594
- chrdev_open+0x234/0x6a0 fs/char_dev.c:414
- do_dentry_open+0x982/0x1530 fs/open.c:965
- vfs_open+0x82/0x3f0 fs/open.c:1097
- do_open fs/namei.c:3975 [inline]
- path_openat+0x1de4/0x2cb0 fs/namei.c:4134
- do_filp_open+0x20b/0x470 fs/namei.c:4161
- do_sys_openat2+0x11b/0x1d0 fs/open.c:1437
- do_sys_open fs/open.c:1452 [inline]
- __do_sys_openat fs/open.c:1468 [inline]
- __se_sys_openat fs/open.c:1463 [inline]
- __x64_sys_openat+0x174/0x210 fs/open.c:1463
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 21001:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:56
- kasan_save_track+0x14/0x30 mm/kasan/common.c:77
- __kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:587
- kasan_save_free_info mm/kasan/kasan.h:406 [inline]
- poison_slab_object mm/kasan/common.c:252 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:284
- kasan_slab_free include/linux/kasan.h:234 [inline]
- slab_free_hook mm/slub.c:2543 [inline]
- slab_free mm/slub.c:6642 [inline]
- kfree+0x2b8/0x6d0 mm/slub.c:6849
- snd_pcm_detach_substream+0x1d7/0x3a0 sound/core/pcm.c:1003
- snd_pcm_release_substream+0x5b/0x70 sound/core/pcm_native.c:2729
- snd_pcm_oss_release_file sound/core/oss/pcm_oss.c:2396 [inline]
- snd_pcm_oss_release_file sound/core/oss/pcm_oss.c:2388 [inline]
- snd_pcm_oss_release+0x16f/0x310 sound/core/oss/pcm_oss.c:2575
- __fput+0x402/0xb70 fs/file_table.c:468
- task_work_run+0x150/0x240 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- exit_to_user_mode_loop+0xec/0x130 kernel/entry/common.c:43
- exit_to_user_mode_prepare include/linux/irq-entry-common.h:225 [inline]
- syscall_exit_to_user_mode_work include/linux/entry-common.h:175 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:210 [inline]
- do_syscall_64+0x426/0xfa0 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff888124f61000
- which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 108 bytes inside of
- freed 2048-byte region [ffff888124f61000, ffff888124f61800)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x124f60
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-anon flags: 0x57ff00000000040(head|node=1|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 057ff00000000040 ffff88801b042000 0000000000000000 dead000000000001
-raw: 0000000000000000 0000000080080008 00000000f5000000 0000000000000000
-head: 057ff00000000040 ffff88801b042000 0000000000000000 dead000000000001
-head: 0000000000000000 0000000080080008 00000000f5000000 0000000000000000
-head: 057ff00000000003 ffffea000493d801 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask
-0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC),
-pid 13349, tgid 13349 (syz-executor), ts 354875380951, free_ts
-354830302425
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1af/0x220 mm/page_alloc.c:1845
- prep_new_page mm/page_alloc.c:1853 [inline]
- get_page_from_freelist+0x10a3/0x3a30 mm/page_alloc.c:3879
- __alloc_frozen_pages_noprof+0x25f/0x2470 mm/page_alloc.c:5178
- alloc_pages_mpol+0x1fb/0x550 mm/mempolicy.c:2416
- alloc_slab_page mm/slub.c:3059 [inline]
- allocate_slab mm/slub.c:3232 [inline]
- new_slab+0x24a/0x360 mm/slub.c:3286
- ___slab_alloc+0xd79/0x1a50 mm/slub.c:4655
- __slab_alloc.constprop.0+0x63/0x110 mm/slub.c:4778
- __slab_alloc_node mm/slub.c:4854 [inline]
- slab_alloc_node mm/slub.c:5276 [inline]
- __do_kmalloc_node mm/slub.c:5649 [inline]
- __kmalloc_noprof+0x501/0x880 mm/slub.c:5662
- kmalloc_noprof include/linux/slab.h:961 [inline]
- kzalloc_noprof include/linux/slab.h:1094 [inline]
- rfkill_alloc+0xac/0x330 net/rfkill/core.c:1002
- wiphy_new_nm+0x136a/0x2190 net/wireless/core.c:560
- ieee80211_alloc_hw_nm+0x1bb5/0x22b0 net/mac80211/main.c:852
- mac80211_hwsim_new_radio+0x1d3/0x50b0
-drivers/net/wireless/virtual/mac80211_hwsim.c:5408
- hwsim_new_radio_nl+0xba2/0x1330
-drivers/net/wireless/virtual/mac80211_hwsim.c:6503
- genl_family_rcv_msg_doit+0x209/0x2f0 net/netlink/genetlink.c:1115
- genl_family_rcv_msg net/netlink/genetlink.c:1195 [inline]
- genl_rcv_msg+0x55c/0x800 net/netlink/genetlink.c:1210
- netlink_rcv_skb+0x158/0x420 net/netlink/af_netlink.c:2552
-page last free pid 13349 tgid 13349 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- free_pages_prepare mm/page_alloc.c:1394 [inline]
- __free_frozen_pages+0x7ce/0x1160 mm/page_alloc.c:2901
- discard_slab mm/slub.c:3330 [inline]
- __put_partials+0x130/0x170 mm/slub.c:3876
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x4d/0x120 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x195/0x1e0 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:352
- kasan_slab_alloc include/linux/kasan.h:252 [inline]
- slab_post_alloc_hook mm/slub.c:4978 [inline]
- slab_alloc_node mm/slub.c:5288 [inline]
- __kmalloc_cache_noprof+0x274/0x780 mm/slub.c:5766
- kmalloc_noprof include/linux/slab.h:957 [inline]
- netdevice_queue_work drivers/infiniband/core/roce_gid_mgmt.c:664 [inline]
- netdevice_event+0x365/0x9d0 drivers/infiniband/core/roce_gid_mgmt.c:823
- notifier_call_chain+0xbc/0x410 kernel/notifier.c:85
- call_netdevice_notifiers_info+0xbe/0x140 net/core/dev.c:2229
- call_netdevice_notifiers_extack net/core/dev.c:2267 [inline]
- call_netdevice_notifiers net/core/dev.c:2281 [inline]
- __dev_notify_flags+0x12c/0x2e0 net/core/dev.c:9676
- netif_change_flags+0x108/0x160 net/core/dev.c:9705
- do_setlink.constprop.0+0xb53/0x4380 net/core/rtnetlink.c:3151
- rtnl_changelink net/core/rtnetlink.c:3769 [inline]
- __rtnl_newlink net/core/rtnetlink.c:3928 [inline]
- rtnl_newlink+0x1446/0x2000 net/core/rtnetlink.c:4065
- rtnetlink_rcv_msg+0x95e/0xe90 net/core/rtnetlink.c:6951
- netlink_rcv_skb+0x158/0x420 net/netlink/af_netlink.c:2552
- netlink_unicast_kernel net/netlink/af_netlink.c:1320 [inline]
- netlink_unicast+0x5aa/0x870 net/netlink/af_netlink.c:1346
-
-Memory state around the buggy address:
- ffff888124f60f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888124f60f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff888124f61000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                          ^
- ffff888124f61080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888124f61100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-https://drive.google.com/file/d/17HbDTI_iPjA72SkV5MnO-_w7IQZ9HIHW/view?usp=drive_link
-
-https://drive.google.com/file/d/10l1_AeaUsp8QL-DunMu8rpZZB5Yw6Ert/view?usp=drive_link
+best regards
+Shengjiu Wang
+>
+> Frank
+> >
+> >       if (!wait_for_completion_interruptible_timeout(&pair->complete[IN=
+], 10 * HZ)) {
+> >               dev_err(dev, "out DMA task timeout\n");
+> > --
+> > 2.34.1
+> >
