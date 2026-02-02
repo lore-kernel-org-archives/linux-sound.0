@@ -1,39 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7604A125A9
-	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 12:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED43F1917FB;
+	Mon,  2 Feb 2026 12:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770034893; cv=none; b=NzAhXjBEZpJ2ubheVVBr5W+sNh2EzpRPOSZxAwrjT/YgzpTiQiS3VQcoqpdpdAyapL6rSutIBwHc5h4RPtITfLdKf3Ghcf2nWjMQMQywsPNB0paZxOxTTuMi6a9kfCg8o3cp1485rGeZGBKCIN85+513eDvgCJpZz74T4epk2I0=
+	t=1770036278; cv=none; b=O5Np/qIBPyHSt8F017+LqQzg7y2hsHBx1B2QjQ1Kzv0NGpdlg53FFmBZFwQYGOdZBHt5lzRpHi18gd4arhT+7mIlGktxoY16pj3sTWyFql9U/sajIY3EMXLJrXbUqWhs8yd+K215U9+hBxDuDfivRD84U9xhudOJ3UAa9NC4iSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770034893; c=relaxed/simple;
-	bh=tQTtxudV5D1aY5fDTIGfrnS4HQRmlhQ2X2DR48xfrdM=;
+	s=arc-20240116; t=1770036278; c=relaxed/simple;
+	bh=iLQeNN8IcMEsjV5bPdM892YRjlDrXIr2bXD6/BnXeyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rPIAyRbxOfNZ30Sk5MVGVYS6n9qwiy8MwHyqiQ5AwhIu1A7UwrI0QPrYlS1dhu82HBe/07HKs+60aFvB2qENcT6SO0t+SL7V1ptxINnkQYl/wRdgJ+IN6GIM1+t8lAht8sBo6j7UDC1pkZQzG5VacJ/+R8ty4lGGC1b3jTMisCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zz8agpcK; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=M8DJddeEX9Zx3cO6IHbHC7yaRvJZ77F8MAK9s6D1jIH1sXG6koxVSzzbept0Z3aORzgbnBmcmGYQamlRUx88RLhEM127FLgqdQhwXtK4hs2+jWsaSLGl1R3a+PXkZKq3bZy+ip38ZrzlmMUTQ/dj1POuwmtTRIvRHxcc9kLY664=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z2ckIvrr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zz8agpcK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BEC0C116C6;
-	Mon,  2 Feb 2026 12:21:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z2ckIvrr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53D40C116C6;
+	Mon,  2 Feb 2026 12:44:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770034893;
-	bh=tQTtxudV5D1aY5fDTIGfrnS4HQRmlhQ2X2DR48xfrdM=;
+	s=k20201202; t=1770036277;
+	bh=iLQeNN8IcMEsjV5bPdM892YRjlDrXIr2bXD6/BnXeyA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zz8agpcKfcBE4mS/6fL3yifYdy7RASSpvZS6OWH1wcvpvGG/XDEXIZcnlVonMxzxv
-	 KelerqcsoOg+COyve6I2Xl9Exa40/MSK8q/6IV0+q0HAantsGvzP4ls6PlXE9fjv89
-	 CRksYBBynDJEcCkr4Pa6A6Qb3ZICQFVGGU9Anj015wVgPdLF4Cvn/S9hlccggHNw5+
-	 99Ox+rSVPODSu8jZrPV+A8oUREbxzfgM1TwAQ5tty4AiTWPwkvUrA9nh/ept0gFgZl
-	 j47nwQPNt4fu4vJLIbCdevrNyWZ6TpCedqITc1xdEmkfsx1HOUSQ6IQZlNEmOXZOSI
-	 dgERJnYsME9Sg==
-Date: Mon, 2 Feb 2026 12:21:29 +0000
+	b=Z2ckIvrr+CFquNMzY3h0iDGdxZfFc1ayRjRnUU2pXBBgYxC2zhfZCo7CtxpBbhLMr
+	 MJmERb/v8lOqwNdNS1JWRBOWLBpuB6ctYazIiMKdXPMm23TOhlOrHmNEtso8gRf1wX
+	 JtBb+IFuHTLtX9VdrA+Z75cCXafu83wfmW4qnEADR7Rw5vRlVz7748/A5S598YqZWy
+	 LR+hVmkyBzxBQ7Tpil8HmhqnFmpHlMPEZSvudOy8HyQB48Kcdngy+yeCzv3yI8MCWB
+	 Yu1j0LPnKgjSrz0ntrzxU05i4pBapGyhODBA+WhMRRHIAwEXEHHjc/aivMdVLjPW9T
+	 aPQdXwmuKpGQA==
+Date: Mon, 2 Feb 2026 12:44:32 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Ingyu Jang <ingyujang25@korea.ac.kr>
-Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [Question] Dead code in snd_soc_dapm_del_routes()?
-Message-ID: <d9975127-b178-4be5-bd60-5b590ecb772f@sirena.org.uk>
-References: <20260131151001.3296905-1-ingyujang25@korea.ac.kr>
+To: Sen Wang <sen@ti.com>
+Cc: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: sound: davinci-mcasp: Add optional
+ properties for asynchronous mode
+Message-ID: <fb52b67a-0772-4fbe-b720-6bdedcde1a6f@sirena.org.uk>
+References: <20260130051045.1898892-1-sen@ti.com>
+ <20260130051045.1898892-2-sen@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,43 +45,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DJs2373EM5NNhS/k"
+	protocol="application/pgp-signature"; boundary="Tmr80pVyDyUeu6h/"
 Content-Disposition: inline
-In-Reply-To: <20260131151001.3296905-1-ingyujang25@korea.ac.kr>
+In-Reply-To: <20260130051045.1898892-2-sen@ti.com>
 X-Cookie: Bedfellows make strange politicians.
 
 
---DJs2373EM5NNhS/k
+--Tmr80pVyDyUeu6h/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Feb 01, 2026 at 12:10:01AM +0900, Ingyu Jang wrote:
+On Thu, Jan 29, 2026 at 11:10:41PM -0600, Sen Wang wrote:
+> McASP supports the independent configuration of TX & RX clk and frame
+> sync registers. By default, the driver is configured in synchronous mode
+> where RX clock generator is disabled and it uses transmit clock signals as
+> bit clock and frame sync. Therefore add optional properties needed for
+> asynchronous mode.
 
-> However, in sound/soc/codecs/tlv320aic31xx.c, the return value
-> is checked and there is error handling (at lines 1044-1052):
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-...
-
-> Is this intentional defensive coding for potential future changes,
-> or could this be cleaned up by making the function return void?
-
-It's defensive programming, though it's questionable what state the
-system is likely to be in and how useful any error recovery would be if
-things fail.
-
---DJs2373EM5NNhS/k
+--Tmr80pVyDyUeu6h/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmAlsgACgkQJNaLcl1U
-h9CSZwf+PMHJzvapJYR6IidKbvjtJQsMm/kAIzDCVsrxzqlv29aoYKFknkt+qARt
-MtHgPMx4xkv6HzbQzbFR2AT65ZQFH4aQTN4IHlfJDsG3XPXDfYhgIbdxRpTcLpuB
-wyp4O4vXsGK9PCGsb3JaQ/m0zaf6hLJ4Zmjcp2WG4kCegP9DfrDfXRF+jidsCNnW
-BuTW4cXGwyvQNzFU0DwN2fINeMMMtvHGquorVsqXewusB8iclH1/Q3+w7d58Z6Ng
-ULCac5EpUgL5XdtCpu/Z7Hq0YowrtpFLbj530892L8+QvAmQ333mkIQfMxodVfg2
-kb7SO1jRTz4Z+dIhzGfYKKgz/jypPw==
-=d0UF
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmAnC8ACgkQJNaLcl1U
+h9BaBQf/d+zKOLa/jXFPI/X5w8JQ+mWnE6T+IgnVst1FcJP//2o5wdbSjgN2QTTY
+F6La11y2Zb8YxMY++NyT6cYJbtEpzqsd7pdtW0Fk9PsRCufOgJB3DQoP2lur8PNo
++4WVKSVsXC0WFgRLualAwPfPvtWDPpY9hja21g9F+dS7othZNIQulI8oAWYa0OH2
+V9VjqcK8Kte8iBJrzIzBIW6zIayFVF/PVchxnTUSbMGTrFyZpY+axbgbqVGeOPvu
+pQUued4ZV38d6UzLNPqpg+IlRdFe/aWVyMqtc5ixKnFNjrmcTfMuSyumOD6Eea/O
+RXFN13F+sfeMFdBRPAeHQWKYyKkLgw==
+=bxi2
 -----END PGP SIGNATURE-----
 
---DJs2373EM5NNhS/k--
+--Tmr80pVyDyUeu6h/--
