@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B042D8760;
-	Mon,  2 Feb 2026 22:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CB534FF66;
+	Mon,  2 Feb 2026 22:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770072515; cv=none; b=fxciWQRj+bv5VIe+go+KXOCZmY5uq/9SVWLy4cO11ykP7CL3umjQz842uypv1Z5f4lb5gKO6Btbt9fZaoLTt6IzAip91pYywvgsPoEV6Yk6xZyqMOvNLtiNnMrSblnzL3ZVOEfcuozl0HSJUnu+3Fmu3didU1z1etAH/dakg0KI=
+	t=1770072517; cv=none; b=lPB7A0fDMl8po03ij3XaqvqgCfAA1v+o9IGyGEzPfKCTA8/Mi+jZZ9a64yskUXvLXzlI6K5PIAwOR5OKbohcT7Y9USIaNMCuv9vu7AE10vU2rXnAaUdKrIUds2FUcJr06Ovbw7Cyuv40M6PsiBQksoWrhkpKIR/MfwbDRIxqwU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770072515; c=relaxed/simple;
-	bh=aYu81NcwFMAORaJj9y7rTBOzP0kkk0aT1EcNj/YqlJM=;
+	s=arc-20240116; t=1770072517; c=relaxed/simple;
+	bh=pNcmHHRXqCI/bIv55AJE1dBWGms0NiXRxeONTidxH4g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VPODMUyXA/l7t06Q4vpWh9GrJPDDzY41Q1SnNE2u/nns4Ls0JQOkqt/L02Blc02X6BdKz5yQ3zQl/m7UX9e8Qj+NmVikeK8PM2r2R84Jgu2hQ3rbdB2SUuMUBoWPRWHpscvYhmo6Lu3mrfPWDKZ/AmragpM/uKS4580lQhHKTic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdbuD6Ie; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=REB3F5A15FWjer3BrVquzXl7KpZ7ridShV5siF4Rx3RP9sLz+zMr+1tYAnXBKIdQs1ycD1mWax8jtK5tCjBw2sHmeNtpJVHGX4irwPNgxFyRShRjhTK2GTT0WmQIdbMp2tkPHqfXiE4aBWSJEfUV0abTV6IatO2AJIOQStWZbV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZpbJNuh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdbuD6Ie"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0047CC116C6;
-	Mon,  2 Feb 2026 22:48:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZpbJNuh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E58CC19421;
+	Mon,  2 Feb 2026 22:48:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770072515;
-	bh=aYu81NcwFMAORaJj9y7rTBOzP0kkk0aT1EcNj/YqlJM=;
+	s=k20201202; t=1770072517;
+	bh=pNcmHHRXqCI/bIv55AJE1dBWGms0NiXRxeONTidxH4g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cdbuD6IeH0hrAKB8MR6Fq3VMJ9n5FPrv+CXDOf7BlC8X2xC1ZB77k6pqlcOF0pZKC
-	 nPmXWSHiJY+O6xD4uxuekVKvVmXoRqJn3wtq7q17PE0e+tL77gSIZ1POZI1lWDrIl8
-	 V3m8Wp0Bf9Lq2L9Q2D385B/+A5UWisW5jk9ZFCuV7fnKet8e2xZslNfM/yL0yjBHBP
-	 /uppc1QAwPbRtGfWsIJ6wuX8lCPaFNa0Ttb4wk8ptyAxC1qjNv4qmAPNM+ifA3W1PB
-	 bBeJw5wD1hWQPRhaztiMe4i09t9hZ4Y2t9I0U+Y4J21FQjdZr/LLT9OtmzQZXIV471
-	 QQ7PPbVTaCNlg==
+	b=ZZpbJNuhG2TYTLR9r5EsmcRt9MuP5EQR/BcH6I7CbtzMiIDTc2TmkjfRLzgAHGH7n
+	 PjoH+Cy7ixCb/XK6xRPTFTTXq8RK5x2TktlKMR7r4A2pfyoUp54HSnhkl0eqranW2N
+	 o3AUq/65947ORf/eSHv7NoVEFeAIjlqtc6fUKl3m4JjcYjDEVYV/27JRncDWrR1pU0
+	 zrFi1aR75bZZ87NF/+kVhuCQFaFJ4qvu25VE25OM7Ml1+4hC014bddybhyLLzwRZUP
+	 K1DZPWWAQUNZiU0Xvg/NoYQjw+Cflycwcgqcz+2oZmsvliqA8O4mvr+FuxjmLpqSWa
+	 Lu29MLFUtKx1Q==
 From: Mark Brown <broonie@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen Wang <unicorn_wang@outlook.com>, 
- Inochi Amaoto <inochiama@gmail.com>, 
- "Anton D. Stavinskii" <stavinsky@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
  Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-sound@vger.kernel.org, 
- sophgo@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260202095323.1233553-1-arnd@kernel.org>
-References: <20260202095323.1233553-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: sophgo: fix 64-bit division build failure
-Message-Id: <177007251272.963821.10295988533387990164.b4-ty@kernel.org>
-Date: Mon, 02 Feb 2026 22:48:32 +0000
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260202095353.1233963-1-arnd@kernel.org>
+References: <20260202095353.1233963-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: fsl_sai: add IMX_SCMI_MISC_DRV dependency
+Message-Id: <177007251520.963821.9410383786768084086.b4-ty@kernel.org>
+Date: Mon, 02 Feb 2026 22:48:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,14 +48,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 02 Feb 2026 10:53:14 +0100, Arnd Bergmann wrote:
-> cv1800b_adc_setbclk_div() does four 64-bit divisions in a row, which
-> is rather inefficient on 32-bit systems, and using the plain division
-> causes a build failure as a result:
+On Mon, 02 Feb 2026 10:53:50 +0100, Arnd Bergmann wrote:
+> The sai driver now links against the SCMI code directly, causing a
+> link failure when that is in a loadable module:
 > 
-> ERROR: modpost: "__aeabi_uldivmod" [sound/soc/sophgo/cv1800b-sound-adc.ko] undefined!
+> aarch64-linux-ld: sound/soc/fsl/fsl_sai.o: in function `fsl_sai_probe':
+> fsl_sai.c:(.text+0x1fe4): undefined reference to `scmi_imx_misc_ctrl_set'
 > 
-> Consolidate those into a single division using the div_u64() macro.
+> Move the dependency from SND_SOC_FSL_MQS to SND_SOC_FSL_SAI. The MQS
+> driver depends on the SAI one, so it still gets the same dependency
+> indirectly.
 > 
 > [...]
 
@@ -66,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sophgo: fix 64-bit division build failure
-      commit: cad9720dd7e4dcdaec8e854fb2c1d1d45fd6dbad
+[1/1] ASoC: fsl_sai: add IMX_SCMI_MISC_DRV dependency
+      commit: 742048f2e128c06d0ef89ffc334519cb8e991f66
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
