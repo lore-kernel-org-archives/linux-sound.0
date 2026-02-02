@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CB534FF66;
-	Mon,  2 Feb 2026 22:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F97356A2A;
+	Mon,  2 Feb 2026 22:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770072517; cv=none; b=lPB7A0fDMl8po03ij3XaqvqgCfAA1v+o9IGyGEzPfKCTA8/Mi+jZZ9a64yskUXvLXzlI6K5PIAwOR5OKbohcT7Y9USIaNMCuv9vu7AE10vU2rXnAaUdKrIUds2FUcJr06Ovbw7Cyuv40M6PsiBQksoWrhkpKIR/MfwbDRIxqwU0=
+	t=1770072519; cv=none; b=bdaov4ITxoB+N8L6ZzZHaUMKC8XVK5fhyTOgR5GThAPJIXjKC2mdeLQQLCPYSA5gAYWcGIs31g3xcyBFxu+e4paMrOinsppBe4XzM/n+FBidXxArTaN+xBJr0HPyJu8OqR3NhDGJuSDk+kWMx5BsbAEKrzxtR6IUEU8287ifTyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770072517; c=relaxed/simple;
-	bh=pNcmHHRXqCI/bIv55AJE1dBWGms0NiXRxeONTidxH4g=;
+	s=arc-20240116; t=1770072519; c=relaxed/simple;
+	bh=VAeUYaho8JzBu/E1SEtLDObDlXFEuX4C56jfXZGc4Wg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=REB3F5A15FWjer3BrVquzXl7KpZ7ridShV5siF4Rx3RP9sLz+zMr+1tYAnXBKIdQs1ycD1mWax8jtK5tCjBw2sHmeNtpJVHGX4irwPNgxFyRShRjhTK2GTT0WmQIdbMp2tkPHqfXiE4aBWSJEfUV0abTV6IatO2AJIOQStWZbV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZpbJNuh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AvdO19gu4JHNc5BfBA+AwHWbGOC3x6xJqkaFffKafZxOn2dS0N5bC/a8IrTT57HiVEFmWf7HmuwmGtf7frbiV8VR1HZkx7Q5WlIAoeWUh9SOU55/NDW3aybkKsYAq/2tbRNYQ5Oi45m1X2SStA0tJxcJ8rAym9sgijA6cxR/fQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3NqS7NU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZpbJNuh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E58CC19421;
-	Mon,  2 Feb 2026 22:48:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3NqS7NU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83C43C116C6;
+	Mon,  2 Feb 2026 22:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770072517;
-	bh=pNcmHHRXqCI/bIv55AJE1dBWGms0NiXRxeONTidxH4g=;
+	s=k20201202; t=1770072519;
+	bh=VAeUYaho8JzBu/E1SEtLDObDlXFEuX4C56jfXZGc4Wg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZZpbJNuhG2TYTLR9r5EsmcRt9MuP5EQR/BcH6I7CbtzMiIDTc2TmkjfRLzgAHGH7n
-	 PjoH+Cy7ixCb/XK6xRPTFTTXq8RK5x2TktlKMR7r4A2pfyoUp54HSnhkl0eqranW2N
-	 o3AUq/65947ORf/eSHv7NoVEFeAIjlqtc6fUKl3m4JjcYjDEVYV/27JRncDWrR1pU0
-	 zrFi1aR75bZZ87NF/+kVhuCQFaFJ4qvu25VE25OM7Ml1+4hC014bddybhyLLzwRZUP
-	 K1DZPWWAQUNZiU0Xvg/NoYQjw+Cflycwcgqcz+2oZmsvliqA8O4mvr+FuxjmLpqSWa
-	 Lu29MLFUtKx1Q==
+	b=s3NqS7NU/8QlO096qb1H18le9yrBTtJtPR0HYwr01eArYUUS8rS6nniNw3R+7KP27
+	 OXsmbfYs3f9ouU3Vs8hgEbqVs341d0jFAU1Oze7whU+1UUakukyMYvq3/XP6jpBp84
+	 2uhhVWN4fwM9a1a/d5dnYxbr6pIVktafVqOmNd6GbBrSI4jwde45d5VOYYSA6N+O8q
+	 gT0AdA9p27nuVvKcwe3QTIar3JT8/PBqTh3z3X6AMuJXVtq99GIDjVtubtteCHGVHn
+	 uslplgxgace+Js28oj4omqOBaRD1wM19s/mk/xaeNaWyOIhqZ42HPlb+6O0FW0q0z4
+	 S+LZwIGhCDqrg==
 From: Mark Brown <broonie@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Takashi Iwai <tiwai@suse.com>, Oder Chiou <oder_chiou@realtek.com>, 
  Arnd Bergmann <arnd@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260202095353.1233963-1-arnd@kernel.org>
-References: <20260202095353.1233963-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: fsl_sai: add IMX_SCMI_MISC_DRV dependency
-Message-Id: <177007251520.963821.9410383786768084086.b4-ty@kernel.org>
-Date: Mon, 02 Feb 2026 22:48:35 +0000
+In-Reply-To: <20260202095432.1234133-1-arnd@kernel.org>
+References: <20260202095432.1234133-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: rt5575: fix SPI dependency
+Message-Id: <177007251728.963821.7932888500158940860.b4-ty@kernel.org>
+Date: Mon, 02 Feb 2026 22:48:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,16 +49,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 02 Feb 2026 10:53:50 +0100, Arnd Bergmann wrote:
-> The sai driver now links against the SCMI code directly, causing a
-> link failure when that is in a loadable module:
+On Mon, 02 Feb 2026 10:54:12 +0100, Arnd Bergmann wrote:
+> The rt5575 driver fails to link when SPI support is in a loadable
+> module but the codec is built-in:
 > 
-> aarch64-linux-ld: sound/soc/fsl/fsl_sai.o: in function `fsl_sai_probe':
-> fsl_sai.c:(.text+0x1fe4): undefined reference to `scmi_imx_misc_ctrl_set'
-> 
-> Move the dependency from SND_SOC_FSL_MQS to SND_SOC_FSL_SAI. The MQS
-> driver depends on the SAI one, so it still gets the same dependency
-> indirectly.
+> x86_64-linux-ld: vmlinux.o: in function `rt5575_i2c_probe':
+> rt5575.c:(.text+0x9792ce): undefined reference to `rt5575_spi_get_device'
+> rt5575.c:(.text+0x979332): undefined reference to `rt5575_spi_fw_load'
 > 
 > [...]
 
@@ -67,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl_sai: add IMX_SCMI_MISC_DRV dependency
-      commit: 742048f2e128c06d0ef89ffc334519cb8e991f66
+[1/1] ASoC: rt5575: fix SPI dependency
+      commit: 1db63f6af17945aed7497ce34a5648add0c1b6d9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
