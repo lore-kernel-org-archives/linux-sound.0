@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEB62652B6;
-	Mon,  2 Feb 2026 09:53:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6F62652B6;
+	Mon,  2 Feb 2026 09:53:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770026009; cv=none; b=hiB9VjsB/nMRFYzdCxh9EcEVtjFnYYmYG7UpIXy+T3J8M89kIZbFVk2Qy8MdlIefPABCR14ysbxX32NDb4TBPZlhmx3ETmgIJHTB08BxtAxsoToPdbStEaoF9DU1RJ6NEntk0BHceGWiU60fJ3tubu0h7yXBKuoFnXntivmew5w=
+	t=1770026038; cv=none; b=XOsw5dJl5DzzkgiNiD7iIqxVmx4gnosrxOAcZZdbfWHQ8g6RUHTUL75tqwBbTzLUc610vuF1kRy8ImqnWzqN/r+AhXtRBkRy0v1UqVXsMOWDn4RbvpM2FL51EaGv2ql0vmJF8cwoR3xWkikAPasU8JnZPFexg6vrpYjJPHVxIII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770026009; c=relaxed/simple;
-	bh=n6/dCElRLxptLv7X4dwagHBxZhOxOWycWm32EOgkITY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RjqpdRVsxr+be5jofopfWxBZfJtgCQb3szOfqxIbCmNYiaJh1MkRi2goSVyud0SU1VXo7aJq9HixpbRR/7j9cYGafQTiE5A4Nx6DlVJ7vypfyh3UF/yixr5jxv/2LxpKeyoeXEhTsRdeMSrzHwNnWfn4FmTJXwG5JvlPnbIjOOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDs5LAsf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770026038; c=relaxed/simple;
+	bh=rljyZq8r/TJdianIVGUUDKNS2P0KZdD4ZxicZpb3IkA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gS4EkEU6EPMFefnqRlzP70TmDgjApTPfrNHVoDpuOFpP5H9vgEOpbRXDZ7HoJE/Zz/Zb9bNurk0VIKpyLlkPsk6NtCvXnbtFIZO4WIcyQkUM5DOfMAMG56YKur7d4Tm86AYU3drR+LefC45x/hsPltLaWI+OKKeji6JIYQdL2bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t/Z7LMVZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDs5LAsf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC93DC116C6;
-	Mon,  2 Feb 2026 09:53:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t/Z7LMVZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB310C116C6;
+	Mon,  2 Feb 2026 09:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770026009;
-	bh=n6/dCElRLxptLv7X4dwagHBxZhOxOWycWm32EOgkITY=;
+	s=k20201202; t=1770026038;
+	bh=rljyZq8r/TJdianIVGUUDKNS2P0KZdD4ZxicZpb3IkA=;
 	h=From:To:Cc:Subject:Date:From;
-	b=bDs5LAsf2NtsUjc9IvNZDDzvv0+30gd2Bl42E7NSaJPdzImcHZzwylyVpqx8hf6vu
-	 j1dzfqDR3P6D8cHIlOOoWV574J5AjZYJUzhF/gKvjsZCLuifVgbXqsuwuHopkC1lxh
-	 TUdH0mHJrY7rOagUAQTaifruON5r5CZahmBncjLiG5Qfi+g6zQv6rdoUD/IloR9a87
-	 ywOih7pdyQnVtdQl16wE2xSxclMB/ZhOfqZ1aJJHWmF9AJWZsAQEruRIyUYWBiw1Ot
-	 lcefe++cv6BxPhbtgi9JWsaDnedaz6AzWNMK523MM3IB/PCqXko/p2acvO+JMAPwws
-	 DHBIKEXmFLVdQ==
+	b=t/Z7LMVZmzWY/Es0DoOgIT35NrmJnDGZFaXImiS9b0v5IARfSB0QHN9q3NraSrVYA
+	 gkKfih9jiu2uFBEYE3AtEXBsJg/AMXG0FWHT65Eun+LirmF8pe7llApiv3aMaQtet2
+	 M9U8GCskbpnO22lwO0DHekYBen2bU+qZV88+pGyba/IWjpIROrgQRexTv3rQASJzLQ
+	 TnQqGxv4Gv0eZuO6pQWPRdc1eP08DsS0f3d58xzNUqN1HqVPCu88oULhfZAPHs+/c5
+	 Opq097zsLHSsK4rWWVxk9oR/GiWTgPti+Xt5qvbqL1ZsHpU156BcE3BdpMUYMg9lRy
+	 N3KdP5GyATyvA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	"Anton D. Stavinskii" <stavinsky@gmail.com>
+	Shengjiu Wang <shengjiu.wang@nxp.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	linux-sound@vger.kernel.org,
-	sophgo@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: sophgo: fix 64-bit division build failure
-Date: Mon,  2 Feb 2026 10:53:14 +0100
-Message-Id: <20260202095323.1233553-1-arnd@kernel.org>
+Subject: [PATCH] ASoC: fsl_sai: add IMX_SCMI_MISC_DRV dependency
+Date: Mon,  2 Feb 2026 10:53:50 +0100
+Message-Id: <20260202095353.1233963-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,38 +49,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-cv1800b_adc_setbclk_div() does four 64-bit divisions in a row, which
-is rather inefficient on 32-bit systems, and using the plain division
-causes a build failure as a result:
+The sai driver now links against the SCMI code directly, causing a
+link failure when that is in a loadable module:
 
-ERROR: modpost: "__aeabi_uldivmod" [sound/soc/sophgo/cv1800b-sound-adc.ko] undefined!
+aarch64-linux-ld: sound/soc/fsl/fsl_sai.o: in function `fsl_sai_probe':
+fsl_sai.c:(.text+0x1fe4): undefined reference to `scmi_imx_misc_ctrl_set'
 
-Consolidate those into a single division using the div_u64() macro.
+Move the dependency from SND_SOC_FSL_MQS to SND_SOC_FSL_SAI. The MQS
+driver depends on the SAI one, so it still gets the same dependency
+indirectly.
 
-Fixes: 4cf8752a03e6 ("ASoC: sophgo: add CV1800B internal ADC codec driver")
+All other drivers that select the SAI symbol need the same dependency
+in turn, though that could probably get replaced with a 'depends on
+SND_SOC_FSL_SAI' to keep it simpler.
+
+Fixes: 19b08fd23b20 ("ASoC: fsl_sai: Add AUDMIX mode support on i.MX952")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- sound/soc/sophgo/cv1800b-sound-adc.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ sound/soc/fsl/Kconfig | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sophgo/cv1800b-sound-adc.c b/sound/soc/sophgo/cv1800b-sound-adc.c
-index 794030b713e9..b66761156b99 100644
---- a/sound/soc/sophgo/cv1800b-sound-adc.c
-+++ b/sound/soc/sophgo/cv1800b-sound-adc.c
-@@ -105,11 +105,8 @@ static int cv1800b_adc_setbclk_div(struct cv1800b_priv *priv, unsigned int rate)
- 	if (!priv->mclk_rate || !rate)
- 		return -EINVAL;
+diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
+index c4a00b22bc2a..828524c90f17 100644
+--- a/sound/soc/fsl/Kconfig
++++ b/sound/soc/fsl/Kconfig
+@@ -19,6 +19,7 @@ config SND_SOC_FSL_ASRC
  
--	tmp = priv->mclk_rate;
--	tmp /= CV1800B_RXADC_WORD_LEN;
--	tmp /= CV1800B_RXADC_CHANNELS;
--	tmp /= rate;
--	tmp /= 2;
-+	tmp = div_u64(priv->mclk_rate, CV1800B_RXADC_WORD_LEN *
-+		      CV1800B_RXADC_CHANNELS * rate * 2);
+ config SND_SOC_FSL_SAI
+ 	tristate "Synchronous Audio Interface (SAI) module support"
++	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
+ 	select REGMAP_MMIO
+ 	select SND_SOC_IMX_PCM_DMA if SND_IMX_SOC != n
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+@@ -32,7 +33,6 @@ config SND_SOC_FSL_SAI
+ config SND_SOC_FSL_MQS
+ 	tristate "Medium Quality Sound (MQS) module support"
+ 	depends on SND_SOC_FSL_SAI
+-	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
+ 	select REGMAP_MMIO
+ 	help
+ 	  Say Y if you want to add Medium Quality Sound (MQS)
+@@ -309,6 +309,7 @@ config SND_SOC_IMX_SGTL5000
  
- 	if (!tmp) {
- 		dev_err(priv->dev, "computed BCLK divider is zero\n");
+ config SND_SOC_FSL_ASOC_CARD
+ 	tristate "Generic ASoC Sound Card with ASRC support"
++	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
+ 	depends on OF && I2C
+ 	# enforce SND_SOC_FSL_ASOC_CARD=m if SND_AC97_CODEC=m:
+ 	depends on SND_AC97_CODEC || SND_AC97_CODEC=n
+@@ -330,6 +331,7 @@ config SND_SOC_FSL_ASOC_CARD
+ 
+ config SND_SOC_IMX_AUDMIX
+ 	tristate "SoC Audio support for i.MX boards with AUDMIX"
++	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
+ 	select SND_SOC_FSL_AUDMIX
+ 	select SND_SOC_FSL_SAI
+ 	help
+@@ -339,6 +341,7 @@ config SND_SOC_IMX_AUDMIX
+ 
+ config SND_SOC_IMX_HDMI
+ 	tristate "SoC Audio support for i.MX boards with HDMI port"
++	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
+ 	select SND_SOC_FSL_SAI
+ 	select SND_SOC_FSL_AUD2HTX
+ 	select SND_SOC_HDMI_CODEC
+@@ -364,6 +367,7 @@ config SND_SOC_IMX_RPMSG
+ config SND_SOC_IMX_CARD
+ 	tristate "SoC Audio Graph Sound Card support for i.MX boards"
+ 	depends on OF && I2C
++	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
+ 	select SND_SOC_AK4458
+ 	select SND_SOC_AK5558
+ 	select SND_SOC_IMX_PCM_DMA
 -- 
 2.39.5
 
