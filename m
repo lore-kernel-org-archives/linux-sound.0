@@ -1,187 +1,162 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0F53563D4
-	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 16:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653DF273D77
+	for <linux-sound@vger.kernel.org>; Mon,  2 Feb 2026 16:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770050473; cv=none; b=NjBzYHI03F/eHmFDFe6timGoJeSEdyh7vv/+gFOGOBuCyEluJGbLdFbaAN2fvUrYU7a936nGcilCdiPgIt2ohkno7Fa3MZrlQqXHB8SLJZcA75OSQYtQabEmDshQWNhgNNLvHOLLygoZ4fuISGQtO32Gi9WQiLotfRyNnBQRe/E=
+	t=1770050625; cv=none; b=pdXzipJTR98szkTeNC3b3XG5KdcWBImQzZy7KXUfnxg3mh52nWfMtWxx1JG/sJFbmrqVX1dFwh8qhD9dmSN0+JOGR8FYJ5HDZuVTSmHwa/CXo0on6vWC5GScSpboKE7c2/bb9e9vpbfIznBX2f3xKyQHr4XkURuruINNL9mxNGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770050473; c=relaxed/simple;
-	bh=KShGaT1qgrVmzBvsExwPDJ7IJ5x4aX4qzzVujJIQm3M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B7A65s2GccnPASWNXu9UIEGkE4WCsFsB3Qd4t5OVHjYs3NLIOVROktWgLyfKt0fQCcpTeBrBKcBLlfh78nnV9+md/WJZEvqaYRN2V4iu8w1BF83Z45RjJ8qF35ICEd7ovDN7HhUaHc77D9kSt9e9EtEg8DEGGhrjJbQGkA2aYsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcZmKp/x; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770050625; c=relaxed/simple;
+	bh=X+zwBb7Cx/oDTUOKkRH4wLbAkJtbpPQ1akv3Vg0mV3Y=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cBgNpw5d35wdR9zNzSyAbKE3IaqiZOv5iGHgelkz26BhzcWHWOCXgtSJDuopS+NeMk6AFdMXOL6NCt/1WSHkSiIHSQg/nP4PLWq5FGSSvPnp4vqyjz+q89c7Z26aj1KlfV8zO2q8oXDWVb7lOPwnEoKdmkFmEpGAEvXpfxcESYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eycoi7qB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+V5fA8qF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eycoi7qB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+V5fA8qF; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcZmKp/x"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59dd3e979ceso4880566e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 02 Feb 2026 08:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770050470; x=1770655270; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wKZpya53ePP94vNtf7vtbWwSUdhjwrNT/p0Fq+u4v78=;
-        b=bcZmKp/xQAozATxueY0J8buk23c3urSljaA63ltTIIcyOmYM6VvBoB6cHt2RXe/kNM
-         UAYdl6AVgY+1qXUnSz2U3ZcY5lCTjxKlrNbiTHRrieRD69PKwEwr0uiGA073XW3ObrKz
-         y1Qe9pfx3RDfNyK17mi1NIozlGhu/fF1X0GIxGp9rp4N98C73JFF+6/0O3dOShEM1Wf5
-         KFtdjU5NtrzT/lfFhsymGt7viooTN30f+iPjwRfFml+OZ+S7DOpaTIyrzCL+VGp3OJGi
-         U7JmkB1wyiN7MdGifEbfs9wWIOWA+nqAEV3IhIU9m6wQntXB16BKh7KmwvQmalym7T7T
-         GJXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770050470; x=1770655270;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wKZpya53ePP94vNtf7vtbWwSUdhjwrNT/p0Fq+u4v78=;
-        b=JqKokj+X1HOsbljBbzA+40XO657h4/uZHbDL0nOQC8hW7tJ/ad3uveJBIV3LM5qtb9
-         l+595WLZsGp6OMK1pNLwU1YRltO8WESbqO8xUj/s/L+RwuhHp1SIeLm6NiCvY5OSGmth
-         MDwFD+4gcLKBbNazx5vH3/OfRAujqxd7zNaxOPELlK9RbiXRa0sqTL7QEakoZ+7OcibD
-         QmAateSkYD4eA9k7JGpmuteZymO+SFNbBuBBNLSBLWpMABDj42/EBVZlyLxiXxNOnyhy
-         BTFx8tsNaGBywQMwoXLyan9/+1VSzm537al4t7rl2H1bzaz1w4S73ClzKV2OsOrdZxXp
-         trrw==
-X-Gm-Message-State: AOJu0Yzp2n/XGqkBTnwJMlEF/DSdV9JByVWr40OcKInP5L9iik3x2zki
-	jM+vHSeNIKXAgYwDOEF2bvvpJSj0TC+b/ohxQ4QgE43nxaVaeAz3h4Rc
-X-Gm-Gg: AZuq6aJlZAEyiOXbNA6Jrpv4blsO91YTz3adoELbyVAybl9Wh9Yey1kB9DBWNPszlnF
-	Jdu8CI3JTzWCFOApzgbW9NkxPi4gPbilRocbjkSQ1s/OCQDynVzGyNpVlIveTnNFSGSmt7vAJRp
-	ynI4TOIokpqbZ0oKSgHQJWv+TunFBcxBH9FqcGHvIP9Z+8hdoSv9RjkeCv4uMYEbfLrNywQyxEx
-	gxujcyvM7GhHku11zo+o5lmrlmOhp6OhQV6lEHV4mUC0O1vtH3eqTnMcAGHLrdQ96kZSPj+8PY4
-	UjPro9VqJXhmMo658OxKOeM9UoRT+ESu4d56ZLR9g5lCO/eulk+qjROl7nrc/v+9eJLpdWDnGk5
-	Vt94/+pxKNol29LUGd0DY8r4hsGavPkX6bqUFfpFbAzRY/99K2NiL5KZsZ6cdcwP/dt34ZP6L+D
-	jewAmd6nIMmL7gq1H4yYnpKQrVrNG1hXQCyHILySSuwk1FK/fnfAOa7w7NseN0PRpBEGvtiyeNQ
-	QZhmYhuOsXhQaOiCDch7dv3vkNnsJPeRiGWQOQS5EDeTkw=
-X-Received: by 2002:a05:6512:3f1f:b0:595:81eb:5368 with SMTP id 2adb3069b0e04-59e1643285emr4848977e87.39.1770050469254;
-        Mon, 02 Feb 2026 08:41:09 -0800 (PST)
-Received: from ?IPV6:2001:999:700:7c7d:ca87:d71e:154f:6316? (n7ka2o5f47ode54rg9i-1.v6.elisa-mobile.fi. [2001:999:700:7c7d:ca87:d71e:154f:6316])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e074889fasm3676714e87.30.2026.02.02.08.41.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Feb 2026 08:41:08 -0800 (PST)
-Message-ID: <eec4df22-f664-45dd-a8e9-97c4714ffaa1@gmail.com>
-Date: Mon, 2 Feb 2026 18:42:20 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eycoi7qB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+V5fA8qF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eycoi7qB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+V5fA8qF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 97D3F35362;
+	Mon,  2 Feb 2026 16:43:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770050622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+oii4eRJjUemW+iZaRpfyy5dwD3hIO+YJBvSiVYFDA0=;
+	b=eycoi7qBo2MXQv445dLjHEdISfTPwnxcHXFQDBuNxckdqDmoVRf0/pV+mh2jKh2GES43we
+	ojQW1evKn7IZ0fgSYNegN0sQn0ihRQ5eS4lGjtgu9gORJp0BFelPUJh37Hc4t8hZc6yj7A
+	DO54yS377fparwJ7VDNkn/GgN+DDsXc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770050622;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+oii4eRJjUemW+iZaRpfyy5dwD3hIO+YJBvSiVYFDA0=;
+	b=+V5fA8qFn7+A7B5k+b8GtvRs1yPIujkiUu7rggWSbuyOzFfgEC3KF/+FtliBZ7qaC69W5R
+	dToj3sGxZRRnLYCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eycoi7qB;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+V5fA8qF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770050622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+oii4eRJjUemW+iZaRpfyy5dwD3hIO+YJBvSiVYFDA0=;
+	b=eycoi7qBo2MXQv445dLjHEdISfTPwnxcHXFQDBuNxckdqDmoVRf0/pV+mh2jKh2GES43we
+	ojQW1evKn7IZ0fgSYNegN0sQn0ihRQ5eS4lGjtgu9gORJp0BFelPUJh37Hc4t8hZc6yj7A
+	DO54yS377fparwJ7VDNkn/GgN+DDsXc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770050622;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+oii4eRJjUemW+iZaRpfyy5dwD3hIO+YJBvSiVYFDA0=;
+	b=+V5fA8qFn7+A7B5k+b8GtvRs1yPIujkiUu7rggWSbuyOzFfgEC3KF/+FtliBZ7qaC69W5R
+	dToj3sGxZRRnLYCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 688043EA62;
+	Mon,  2 Feb 2026 16:43:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Z55CGD7UgGncSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Feb 2026 16:43:42 +0000
+Date: Mon, 02 Feb 2026 17:43:41 +0100
+Message-ID: <87jywvyu2q.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ingyu Jang <ingyujang25@korea.ac.kr>
+Cc: linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [Question] Dead code in ALSA drivers - functions always returning 0?
+In-Reply-To: <20260131081431.2920839-1-ingyujang25@korea.ac.kr>
+References: <20260131081431.2920839-1-ingyujang25@korea.ac.kr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] ASoC: ti: davinci-mcasp: Disambiguate
- mcasp_is_synchronous function
-To: Sen Wang <sen@ti.com>, broonie@kernel.org, lgirdwood@gmail.com,
- perex@perex.cz, tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260130051045.1898892-1-sen@ti.com>
- <20260130051045.1898892-3-sen@ti.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20260130051045.1898892-3-sen@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Rspamd-Queue-Id: 97D3F35362
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+
+On Sat, 31 Jan 2026 09:14:31 +0100,
+Ingyu Jang wrote:
+> 
+> Hi,
+> 
+> I noticed several ALSA driver functions that always return 0, but their
+> return values are still checked by callers. I wanted to ask whether
+> these are intentional defensive coding or could be cleaned up.
+> 
+> 1. sound/isa/cs423x/cs4236.c - snd_cs423x_pnp_init_mpu()
+>    This function handles pnp_activate_dev() failure internally by
+>    setting mpu_port[dev] = SNDRV_AUTO_PORT, then always returns 0.
+>    The caller checks "< 0" which can never be true.
+> 
+> 2. sound/pci/ice1712/ice1712.c - snd_ice1712_chip_init()
+>    Always returns 0. Callers check "< 0" in snd_ice1712_create()
+>    and the PM resume path.
+> 
+> 3. sound/pci/ice1712/ice1724.c - snd_vt1724_chip_init()
+>    Always returns 0. Similar pattern to ice1712.
+> 
+> 4. sound/pci/vx222/vx222_ops.c - put_xilinx_data()
+>    Always returns 0. Caller vx2_load_xilinx_binary() checks "< 0".
+> 
+> Are these intentional for potential future error handling, or could
+> the return value checks be removed?
+
+Those are for potential error handling that may be added in future.
+But, given that those are all pretty old code, the chance of
+extensions should be very low.  OTOH, all those are static local
+functions and the compiler should reduce things appropriately.
+
+So, if any, we may clean them up, but the gain would be very small,
+likely negligible.
 
 
+thanks,
 
-On 30/01/2026 07:10, Sen Wang wrote:
-> The current mcasp_is_synchronous() function does more than what it
-> proclaims, it also checks if McASP is a frame producer.
-
-True, the naming was not too precise. It is tasked to decide if the TX
-clock needs to be enabled for RX operation, which precisely when McASP
-is in synchronous mode _and_ it is clock provider.
-
-> Therefore split the original function into two separate ones and
-> replace all occurrences with the new equivalent logic. So the functions
-> can be re-used when checking async/sync status in light of async mode
-> enhancements.
-
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
->
-> Signed-off-by: Sen Wang <sen@ti.com>
-> ---
->  sound/soc/ti/davinci-mcasp.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
->
-> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-> index 621a9d5f9377..aa14fc1c8011 100644
-> --- a/sound/soc/ti/davinci-mcasp.c
-> +++ b/sound/soc/ti/davinci-mcasp.c
-> @@ -179,10 +179,16 @@ static void mcasp_set_ctl_reg(struct
-davinci_mcasp *mcasp, u32 ctl_reg, u32 val)
->
->  static bool mcasp_is_synchronous(struct davinci_mcasp *mcasp)
->  {
-> -	u32 rxfmctl = mcasp_get_reg(mcasp, DAVINCI_MCASP_RXFMCTL_REG);
->  	u32 aclkxctl = mcasp_get_reg(mcasp, DAVINCI_MCASP_ACLKXCTL_REG);
->
-> -	return !(aclkxctl & TX_ASYNC) && rxfmctl & AFSRE;
-> +	return !(aclkxctl & TX_ASYNC);
-> +}
-> +
-> +static bool mcasp_is_frame_producer(struct davinci_mcasp *mcasp)
-> +{
-> +	u32 rxfmctl = mcasp_get_reg(mcasp, DAVINCI_MCASP_RXFMCTL_REG);
-> +
-> +	return rxfmctl & AFSRE;
->  }
->
->  static inline void mcasp_set_clk_pdir(struct davinci_mcasp *mcasp,
-bool enable)
-> @@ -226,7 +232,7 @@ static void mcasp_start_rx(struct davinci_mcasp
-*mcasp)
->  	 * synchronously from the transmit clock and frame sync. We need to make
->  	 * sure that the TX signlas are enabled when starting reception.
->  	 */
-> -	if (mcasp_is_synchronous(mcasp)) {
-> +	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp)) {
->  		mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, TXHCLKRST);
->  		mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, TXCLKRST);
->  		mcasp_set_clk_pdir(mcasp, true);
-> @@ -239,7 +245,7 @@ static void mcasp_start_rx(struct davinci_mcasp
-*mcasp)
->  	mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLR_REG, RXSMRST);
->  	/* Release Frame Sync generator */
->  	mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLR_REG, RXFSRST);
-> -	if (mcasp_is_synchronous(mcasp))
-> +	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp))
->  		mcasp_set_ctl_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, TXFSRST);
->
->  	/* enable receive IRQs */
-> @@ -305,7 +311,7 @@ static void mcasp_stop_rx(struct davinci_mcasp *mcasp)
->  	 * In synchronous mode stop the TX clocks if no other stream is
->  	 * running
->  	 */
-> -	if (mcasp_is_synchronous(mcasp) && !mcasp->streams) {
-> +	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp) &&
-!mcasp->streams) {
->  		mcasp_set_clk_pdir(mcasp, false);
->  		mcasp_set_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, 0);
->  	}
-> @@ -332,7 +338,7 @@ static void mcasp_stop_tx(struct davinci_mcasp *mcasp)
->  	 * In synchronous mode keep TX clocks running if the capture stream is
->  	 * still running.
->  	 */
-> -	if (mcasp_is_synchronous(mcasp) && mcasp->streams)
-> +	if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp) &&
-mcasp->streams)
->  		val =  TXHCLKRST | TXCLKRST | TXFSRST;
->  	else
->  		mcasp_set_clk_pdir(mcasp, false);
-> @@ -1041,7 +1047,8 @@ static int mcasp_i2s_hw_param(struct
-davinci_mcasp *mcasp, int stream,
->  		 * not running already we need to configure the TX slots in
->  		 * order to have correct FSX on the bus
->  		 */
-> -		if (mcasp_is_synchronous(mcasp) && !mcasp->channels)
-> +		if (mcasp_is_frame_producer(mcasp) && mcasp_is_synchronous(mcasp) &&
-> +		    !mcasp->channels)
->  			mcasp_mod_bits(mcasp, DAVINCI_MCASP_TXFMCTL_REG,
->  				       FSXMOD(total_slots), FSXMOD(0x1FF));
->  	}
--- 
-Péter
-
+Takashi
