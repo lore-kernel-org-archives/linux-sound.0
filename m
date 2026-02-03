@@ -1,97 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFE03ACF19
-	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 15:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D811C28E
+	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 16:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770131801; cv=none; b=A3iGGeuRxa6ol8B6qlDQfG3ppmZqKYC11ignUr1+QOQq+vXifTjmBIbHKZfZFTp1xWBRKqUC+d3gyTiWQ+rmFc8hEnU+b7CRN8xN/KqYdhCfysEp6a3KMz/+W47ZZeHHhVTs45BL4BJVOP3UZrOSgWDw7atq6QDcc6JHuw51L10=
+	t=1770135408; cv=none; b=fRnOEsqdJJ7LSaAmQDN777WGgFoAn3MmymXVpRbCl7rv2+/q9LgCnqFOKbRh2f00ZCf5N2Lh3eB3qRJruwff+cCSOp4qYzOmOlpyUAoW7ZsndZUFjo+qmwpthPpRzHyW2cnWaE2/niyyKjD1oiWgu0Kvc+aB9NKrpqenklGh64s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770131801; c=relaxed/simple;
-	bh=Miw1cdRwg9bYgS52Ibxs0BJf2kd9m1gr7PbW1u0ep7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bf+x5HGBIw+dV+YxyyXyJOUBQrWaR4hElJPE4v0AA+2xyXyV+C5fHS469Qx5+NCCMFEUShyaKTAGr1euB1ESLltz7QAA5aHow9MgOP0HbKm7T3c9zkse8ml7nMOjl3lo2n5QOWoBonoTHKYlZchb3RplV1DX3jdz5KYINyfRgao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pD0yC2MF; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pD0yC2MF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66461C116D0;
-	Tue,  3 Feb 2026 15:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770131800;
-	bh=Miw1cdRwg9bYgS52Ibxs0BJf2kd9m1gr7PbW1u0ep7I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pD0yC2MF70AixM+ZcyMOXqHUuormrwPeTxaGv/YF35T2tup7n7PRcfv3vPaWOH35/
-	 JyJOdVLNFRdaEzQSJtZI6gB+Z0TaBj68jqjc+ORd/toBKZ6jor1f4XydzTfyRokwUF
-	 pCViL4p9PcM4TMExgaKmeMpcQSYVo6uIHnOcw+j+QSf6ZGymRQEgNA+x/wu22QC528
-	 8a2xrOwmgYUFU6Hm6twC9EOFV2fBSO4OAuRpU17zF+8JWqDE1e3rHZXeubgaagKvC2
-	 1J3vD7G3N1O4d1evN3TfmxbR/GvQjJ82G6ZCDM3GcfSAVaMG/eK6RirvqZNCF67scY
-	 CzvzZZPqvqVrQ==
-Date: Tue, 3 Feb 2026 15:16:36 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Linux-ALSA <linux-sound@vger.kernel.org>,
-	Lars-Peter <lars@metafoo.de>
-Subject: Re: ASoC: soc-pcm2.c ?
-Message-ID: <cbe68c20-1a06-472b-ad18-0dda301e42c9@sirena.org.uk>
-References: <87pl6wub81.wl-kuninori.morimoto.gx@renesas.com>
- <aX4D1VodQ8Ksrad6@sirena.co.uk>
- <87zf5q1gve.wl-kuninori.morimoto.gx@renesas.com>
- <505b8820-9ced-4554-80f9-de0409859dde@linux.dev>
+	s=arc-20240116; t=1770135408; c=relaxed/simple;
+	bh=JyjarmFMc9nb+WeTnDJlpPyviiO3lRQaee0ztJIBT4c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l251Sgrlgo4VLmSg8DgAj/df533XQZNhUMNu2efmsDyzROycdLjCODBBqmNThK85DVJ3V/oVZg4+LAc2QFf53coEF2q++LPn3ENLBvDreZN+oQeqnPj4FEH5jJd76h3Y2OffqHNBlppbThbTJgcp/KCmgyA7/2DdOQFUF2TdqhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from wasted (213.87.144.85) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Tue, 3 Feb 2026
+ 19:16:34 +0300
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>
+CC: Sergey Shtylyov <s.shtylyov@auroraos.dev>, Mathieu Bouffard
+	<mbouffard@strangequarks.org>
+Subject: [PATCH] ALSA: usb-audio: fix broken logic in snd_audigy2nx_led_update()
+Date: Tue, 3 Feb 2026 19:15:57 +0300
+Message-ID: <20260203161558.18680-1-s.shtylyov@auroraos.dev>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rfxe+VQjQfIQ56H2"
-Content-Disposition: inline
-In-Reply-To: <505b8820-9ced-4554-80f9-de0409859dde@linux.dev>
-X-Cookie: Do you know Montana?
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
 
+When the support for the Sound Blaster X-Fi Surround 5.1 Pro was added,
+the existing logic for the X-Fi Surround 5.1 in snd_audigy2nx_led_put()
+was broken due to missing *else* before the added *if*: snd_usb_ctl_msg()
+became incorrectly called twice and an error from first snd_usb_ctl_msg()
+call ignored.  As the added snd_usb_ctl_msg() call was totally identical
+to the existing one for the "plain" X-Fi Surround 5.1, just merge those
+two *if* statements while fixing the broken logic...
 
---rfxe+VQjQfIQ56H2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Found by Linux Verification Center (linuxtesting.org) with the Svace static
+analysis tool.
 
-On Tue, Feb 03, 2026 at 02:34:36PM +0100, Pierre-Louis Bossart wrote:
-> On 2/3/26 07:27, Kuninori Morimoto wrote:
-> > So I will not care about detail things first (= sampling rate, channels,
-> > etc,...), but focus about graph / routing thinks. I think this is the
-> > main part for it.
+Fixes: 7cdd8d73139e ("ALSA: usb-audio - Add support for USB X-Fi S51 Pro")
+Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
 
-> If we truly want to support digital routing, then this information is
-> very much needed.
+---
+This patch is against the master branch of Takashi Iwai's sound.git repo...
 
-Right, it'll be needed for production use.  I do think it might be
-viable to work out the managing the connections and then go back later
-and propagate the parameters, that's how I understand the above.
+ sound/usb/mixer_quirks.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-> I personally really liked Lars' notion of 'domain' to define
-> strict/well-defined boundaries connecting subgraphs.
-
-Me too - I'd come up with something that was extremely similar at about
-the same time, IIRC there were some small differences round the edges
-but nothing major.
-
-Please fix your mail client to word wrap within paragraphs at something
-substantially less than 80 columns.  Doing this makes your messages much
-easier to read and reply to.
-
---rfxe+VQjQfIQ56H2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmCEVMACgkQJNaLcl1U
-h9AGQgf+P19Wap9o/FnIrgFJUdWtG2TO44cyMUdGHrfqsNU2wst9hVBCsg7//48H
-z/F3hYnr+pOP4HjAgPGnXHOsd6OuU/YPpOhlaDYWNF2YTG08MiTY5t7qrZButRQQ
-nwygkNL7qZGuBfT8BpXPhAl+UI1/zsNCR+86Tiy6UBH8T7iDRP+gP/hl5wQ1lunm
-thBocMK6VR1IB1ireJzAuZ1P6bGb/BovRDf449B6dqr7aP1fJI0vEsgbdzzXdM7R
-5ZIDrJfSXAWQWBIbbREDFk32UHutv5oscrMKyPwfXwHGs8+gDdtIwpJeWjxXfrNc
-cKejScNhhVCKwot3k00+rMlUbVGERA==
-=zkPB
------END PGP SIGNATURE-----
-
---rfxe+VQjQfIQ56H2--
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 07d5cf0077d8..ec65e8a71919 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -311,13 +311,8 @@ static int snd_audigy2nx_led_update(struct usb_mixer_interface *mixer,
+ 	if (pm.err < 0)
+ 		return pm.err;
+ 
+-	if (chip->usb_id == USB_ID(0x041e, 0x3042))
+-		err = snd_usb_ctl_msg(chip->dev,
+-				      usb_sndctrlpipe(chip->dev, 0), 0x24,
+-				      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+-				      !value, 0, NULL, 0);
+-	/* USB X-Fi S51 Pro */
+-	if (chip->usb_id == USB_ID(0x041e, 0x30df))
++	if (chip->usb_id == USB_ID(0x041e, 0x3042) ||	/* USB X-Fi S51 */
++	    chip->usb_id == USB_ID(0x041e, 0x30df))	/* USB X-Fi S51 Pro */
+ 		err = snd_usb_ctl_msg(chip->dev,
+ 				      usb_sndctrlpipe(chip->dev, 0), 0x24,
+ 				      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_OTHER,
+-- 
+2.52.0
