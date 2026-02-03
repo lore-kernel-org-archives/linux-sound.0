@@ -1,80 +1,79 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9900D39E6CA
-	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 13:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579D4346AD7
+	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 13:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770125777; cv=none; b=rjyO55bYw1+Cp2HgrejZA0wKeYAWSzztFY7AlV3zBIuJCzo4QGysRnCxnmJGZrj/ivGiz1Ir03ddgAagzFIE6pju/EKIdQ2X04XZ9Y3b8Pufo963IMhs8v5bBovcwIESzqtZyvNi4lNbK/JHSUqqv0bAtOmNcjTUJpBlw2WZx8w=
+	t=1770125777; cv=none; b=Z4h9dBQuC+ApAyuCWgZcT2+fPZtKKnCSx41Jp06zY+MdsM+Awoi22inQhFv4d2IyaBMsx4ew3br74j/TWoiTku4ZbutsfJfWITf5KrAH1yv1m3S2WquKOVUTNCdUj5phe9glsVNhTFqkXWNG73W9tjehygL/YYbjcdsIsltvtLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770125777; c=relaxed/simple;
-	bh=a3cLbi+qPJAbNZJT4s/LsImcfVcyEksaNzHfh8kpDC8=;
+	bh=mKurPSrJp035uMCY/IL1SczBvCi0a9Fto7ajYUQGMk8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EgE1qI3eA35eVfcGA9xYqCt6Oq1K4k+ddNG+cXiNtvg6PbkHFbak0muvLVBQO6+2tocawMiZEeEaXgXODAOsGowSSEpuF3Ps0etuaNGghxi4VcUbA3eDevpCdZ+gGo9NprWPLcAD9mQcNOEtwcJwfvKy01IHP/rRPsyGyjg9BX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iOBe0eQz; arc=none smtp.client-ip=91.218.175.188
+	 In-Reply-To:Content-Type; b=BrPXWuH3GncMu+V9vEJFRmVYU+k8iwPqh4zDNU2WjKrh284o6D0/ZYRq3EhpkoWIM8sS7t29cuYaeBOekSdm2mfwf7zYxC5G8xnPggZrb+5MQQGZzGZ0sknB/+83dLXotIuyJ7KLP5WwCR3SC/EXUt+yXhGj/g+E8qtTE/KaqMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KFp2EZpb; arc=none smtp.client-ip=91.218.175.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iOBe0eQz"
-Message-ID: <c5ce3d0b-ea28-405d-b705-f9494f25dfcc@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KFp2EZpb"
+Message-ID: <e3b8302c-c12a-4507-b554-d996763187d7@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770125772;
+	t=1770125774;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JwHZe0x2S0VDh79MuECcL2GvvgxMeF5v1jKxQVDjSOI=;
-	b=iOBe0eQzlx+6jMsXrH6c/RFPzhlWqAyjF5j0LSDCY0ekpT5eSx7FBRnwxWQ2uFykAO4jeP
-	+alGXDBrj+Ps/O2eU+dTHXNqOvEY4fZ84nfnJeRoasU+AC03be6qtCr1s8cRvmQdwib74x
-	rIJeelmjAikzjzUNbvKL0Rp6twYtxNQ=
-Date: Tue, 3 Feb 2026 14:16:48 +0100
+	bh=mKurPSrJp035uMCY/IL1SczBvCi0a9Fto7ajYUQGMk8=;
+	b=KFp2EZpb4ptjOZ5hhlOGyzZB+8LHoQ7HzCMYwdyGMr5nMOfOr9vrUrbIDKXTv4xHNm63Oz
+	6RZpS8rDyt1XZHZ1WMVV5GRo8jChWDta2plTn5XSpPkW//4ihQFzXxdffwcyIL1tdwU1SB
+	uU3SMxZ7lqDQTkKD722KISe5IVy2B4o=
+Date: Tue, 3 Feb 2026 14:21:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/3]ASoC: SOF: Intel: reserve link DMA for sdw bpt stream
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, broonie@kernel.org,
- tiwai@suse.de
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com,
- peter.ujfalusi@linux.intel.com, ranjani.sridharan@linux.intel.com
-References: <20260203114027.3742558-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH v4 2/2] soundwire: amd: refactor bandwidth calculation
+ logic
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, Sunil-kumar.Dommati@amd.com,
+ Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260129061517.38985-1-Vijendar.Mukunda@amd.com>
+ <20260129061517.38985-3-Vijendar.Mukunda@amd.com>
+ <a3605fc2-8080-46b9-8c30-a5c38a4f70a1@linux.dev>
+ <5c12f4d8-e518-45fd-b4f7-12fe6f81e0ec@amd.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260203114027.3742558-1-yung-chuan.liao@linux.intel.com>
+In-Reply-To: <5c12f4d8-e518-45fd-b4f7-12fe6f81e0ec@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 2/3/26 12:40, Bard Liao wrote:
-> Currently, hda_sdw_bpt_dma_prepare() get a HDA stream and use the link
-> DMA but doesn't reserve it. It works fine because we assume the
-> SwoundWire BPT will not run with audio streams simultaneously. Create
-> and use the new helpers to reserve the link DMA and allow running BPT
-> and audio stream simultaneously.
-> 
-> Bard Liao (3):
->   ASoC: SOF: Intel: add hda_dsp_stream_pair_get/put helpers
->   ASoC: SOF: Intel: add hda_dma_prepare/cleanup helpers
->   ASoC: SOF: Intel: hda-sdw-bpt: support simultaneous audio and BPT
->     streams
+On 2/2/26 18:25, Mukunda,Vijendar wrote:
+> On 02/02/26 22:35, Pierre-Louis Bossart wrote:
+>> On 1/29/26 07:14, Vijendar Mukunda wrote:
+>>> For current platforms(ACP6.3/ACP7.0/ACP7.1/ACP7.2), AMD SoundWire manager
+>>> doesn't have banked registers for data port programming on Manager's side.
+>>> Need to use fixed block offsets, hstart & hstop for manager ports.
+>>> Earlier amd manager driver has support for 12MHz as a bus clock frequency
+>>> with frame size as 50 x 10 with fixed block offset mapping based on port
+>>> number. Got a requirement to support 6MHz bus clock frequency with
+>>> different frame shapes 50 x 10 and 125 x 2.
+>> the two frame shapes don't carry the same number of bits (500 v. 250). There's probably an additional variable at play, maybe frame rate? Or is 50x10 for 12 MHz and 125x2 for 6 MHz?
+> We need to support 12Mhz as bus clock frequency where frame rate is 48000
+> and number of bits is 500, frame shape as 50 x 10.
+> For 6Mhz bus clock frequency we need to support two different frame shapes
+> i.e number of bits as 250 with frame rate as 48000 and frame shape as
+> 125 x 2 and For second combination number of bits as 500 where frame rate
+> as 24000 and frame size as 50 x10.
+> Few SoundWire peripherals doesn't support 125 x2 frame shape for 6Mhz
+> bus clock frequency.   They have explicit requirement for the frame shape.
+> In this scenario, we will use 50 x 10 as frame shape where frame rate as 
+> 24000. Based on the platform and SoundWire topology for 6Mhz support
+> frame shape will be decided which is part of SoundWire manager DisCo
+> tables.
 
-For the record this solution has two issues not documented in any commit message.
-
-a) this will not work in 'dspless' mode, where the link DMA is not enabled. That's probably fine given that no one used that mode in production, but that's a software restriction that you will not be able to undo.
-
-b) this raise the question of how bandwidth will be managed. The premise of BPT is that it uses all the bus bandwidth to guarantee predictable firmware download times. If the available bandwidth is restricted by other audio streams, then mechanically the startup latency will be increased and vary - or you will have to run the bus at a higher frequency to provision enough bandwidth for BPT but that means higher power consumption. Or you will have to change the bus clock dynamically which is possible at the hardware level for SDCA parts but not legacy ones.
-
-I am not going to lay on the tracks for this low-level set of changes, but you'll have to address the b) opens for future contributions.
-
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-
->  sound/soc/sof/intel/hda-loader.c  |  94 +-----------------
->  sound/soc/sof/intel/hda-sdw-bpt.c |   5 +-
->  sound/soc/sof/intel/hda-stream.c  | 157 +++++++++++++++++++++++++++++-
->  sound/soc/sof/intel/hda.h         |  11 +++
->  4 files changed, 171 insertions(+), 96 deletions(-)
-> 
-
+Makes sense, all of the above should be added to the commit message or the code comment, specifically the 125x2 issue with non-conformant devices.
