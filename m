@@ -1,90 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220F232F764;
-	Tue,  3 Feb 2026 12:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770120333; cv=none; b=Aas0UOfZQZI5tZClsTRvh+rVBLXH1W3Q9AptW/YxFOKeXSxttZNwp9WUdORxTKp7gstbghkudy8JgyKQb4ZcGxL57HH1Y88uT9uN7vMFthZRDB786v7taaTms2/DzgYb1zvEnbpHbKB/yyZse9W7KWuDRuLdbqJcjJ9mT4gv4r0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770120333; c=relaxed/simple;
-	bh=Y0Ttb3vN65V0eC7IIVdnDP2gliprkPsplSrO0LkvGVw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ixAX/R+oIBaFh5T7XvDwPvD/2ClpfvjwsecErjpwBkHRey6vghbyZBhyHUnKNv/viSuRJxF65lnuxuNOtvyt7wEX6T14VjgGr/NZHhW83FdtMoGygqsgKIcxFi925H3QFucFVTGzzgZlzvZsnXLIumjM+M/09h4VAHPG4K0nZP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KCWeLVl9; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497DB2D94AF
+	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 13:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770125398; cv=pass; b=TAGU05kUMLFGkLe7CzE4II9HbzVYu0789vivsCkG16kTetcUEq07qaVMOVsGJ98qRVBEZJQTRcTkru50sUborTxFM5YJ0qNQ55wMYSMCRF34RCWM8W7hHR/+QjtFkvpvTE3gclLgrAlqVfNXJjvDwwTFwESSOkcI2hsjHXgrGyw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770125398; c=relaxed/simple;
+	bh=ebaYgffeHYn7gzwVrIV2yDgbyv8PU9o4IV7Dp2Fxs/c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mpOS6qvpF+B6z+/damU971IqpDkDVg3kit1EcuYiifZJWBfs4KlLD4+2x2fwmxv2nAO53On/1vzEIhAMlcVyt3Eq2pU4JhCItzYLqbXPAMaNeF++t9wd3LxxrU+S9MILltrEByRgghdpfN/0uSPcK3Mc+sIBJAE+retT2kX/GIA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ap4UnsQM; arc=pass smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KCWeLVl9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37E7AC19425;
-	Tue,  3 Feb 2026 12:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770120332;
-	bh=Y0Ttb3vN65V0eC7IIVdnDP2gliprkPsplSrO0LkvGVw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KCWeLVl9DiRHDMWVxCNlge/6i/XmehNDtYhTb6Y2j7TzF8rIHYIl0EkhmWd2zjXxs
-	 pmJ4ck84/pJaWLSvzREw6CgPrD7U1tIQCYftoYXPui0t6oXr2PWUPiTH6tQ5MJqDHP
-	 RFj2/Q7C9R3WQlN5rgq061JI+j4yr7vpWgJ6utyGisnjHi3q3TPDz3iPdJbSSfYv5s
-	 l4wNyo9OE51eX+fmAtyM5JFPPaJl4OwAFbMuTc4gytg6fwobUqf4t4AFJuj2LEr2Rq
-	 kXjHS1Ghf8CzKk5Y9t3QDBRTJHebbbFa5Qr5XbFYn/+QrccfTIU4ASnfHZ0sX+Mlwe
-	 b2EyY3PC4+z7A==
-From: Mark Brown <broonie@kernel.org>
-To: Dirk Su <dirk.su@canonical.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Lane Odenbach <laodenbach@gmail.com>, 
- Oliver Schramm <oliver.schramm97@gmail.com>, Adam Queler <queler@gmail.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Gabriel Santese <santesegabriel@gmail.com>, 
- Raven Black <ravenblack@gmail.com>, Radhi Bajahaw <bajahawradhi@gmail.com>, 
- Alexandru Andries <alex.andries.aa@gmail.com>, 
- Talhah Peerbhai <talhah.peerbhai@gmail.com>, 
- meowmeowbeanz <meowmeowbeanz@gmx.com>, Yuzuru10 <yuzuru_10@proton.me>, 
- keenplify <keenplify@gmail.com>, Syed Saba kareem <syed.sabakareem@amd.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260129065038.39349-1-dirk.su@canonical.com>
-References: <20260129065038.39349-1-dirk.su@canonical.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add quirk for HP 200 G2a 16
-Message-Id: <177012032894.85387.17295204152918099803.b4-ty@kernel.org>
-Date: Tue, 03 Feb 2026 12:05:28 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ap4UnsQM"
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5663724e4daso3849938e0c.3
+        for <linux-sound@vger.kernel.org>; Tue, 03 Feb 2026 05:29:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770125396; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XZ+7Z2N4ZiQceGNlCjF6kVs9DpapWIlM/XTO1W83FIfUPJCK/krNE/ErudUBl5jEfo
+         +YkU0qPuChZX6JVo6tQA3ztkjaTBQXkP7ztuMkeDOAK8tJzSKI2GZdFRrzsSuIOkAXy/
+         4eJU6pp6rHdjcA4arUDnk70NVbSkRpRjadx2Robi07cnNkjJldR3w2orUzenxJlWK5dj
+         dvoJECdENhjRNVmvOFwLusc2JOoS3bvVlwCq9FnJ9Si9mF6XZjfrrWJBEAtB9z3NVwLy
+         lJ4wkHSRQoE55E0guliggxFyRZN8TuI0PBZ0CLp1mnLdJJjTeDOl7QmlpDtkB0Y3bjLy
+         gRlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/hci2sdsPCD9iRXbhf00hUDFJW8K56ypEr3d1bbtrDk=;
+        fh=1PKfNBuGm8494ojKg1AsJw3ZFFA8FbuDsB8IYtqXFZo=;
+        b=iuPMPicBpOCr21qvI6y0fA+sjub2Z/KtObldmIcCYn/kaDjgIhanZivRR7I/Pnwpa0
+         aYfUPFcEPG1RAhojaL9TTJffsIJ+BKReBuvFD9GCswW54R4mhHw8t50AEbTpuXT9s8TO
+         F0Xib8xWfoTHWGCoZcFURLH68dRnLL05Rt+iNgjNs2BX2ljeWUF+19ZzVXu9PM0Ql+wu
+         hvJ44vU197lu163W40+5IpTsRJLuGwRwSyysZ0zeM/u3TwryuVwYiy1nc2Au3fzyFGxo
+         hxDCwJRdKSg7KC8jRQWroJoBT18AEC66eiQHeLNTcMKpcPLxri/XvWh5suTaQHQQEd7C
+         zkUg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770125396; x=1770730196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/hci2sdsPCD9iRXbhf00hUDFJW8K56ypEr3d1bbtrDk=;
+        b=Ap4UnsQMtB4QlvY86JDC+bIIqrdCsnFMyE29yKFcXCHBKlVYOhXoQoI8LErpTSzZ1u
+         HpMiBaruBb1fmCTY0DZF0+IffN4qWtjebKigbaRV5kfs/2ZxOY5ZPhJabjqX16l97VnS
+         LiB2L57ODTs5pA9cy9AabITyOtpZ2X5GUCDw7f9QiuE3MGuGdgr/7aEuLaWm5eqn7xa1
+         bRPZ3qL6j4Fd15rkN2WB/qbfkmq1nYviInZE+IXEt4tt61Gp2W+wy/SpOxlKpjyDYjUs
+         LKLPXPtvOmkX7qRQLYYV9N9N4C2s/RhF8oTiapeztHXcN9qH52ezVrAfaeyhxW7YdO3F
+         U6Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770125396; x=1770730196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/hci2sdsPCD9iRXbhf00hUDFJW8K56ypEr3d1bbtrDk=;
+        b=YqNYK2bAYWwBhPSUXacdCu0UcXdqKSI/OVFot5qJVDj7JBx06SGW2AO4AtU5pZ3X13
+         vBc5Oz0EINOu1rnk317B2IwYUTevcHSbzlQ9QMwCfX0j4cNPXurzJTiHur/ksFRmDNJJ
+         ii+RYZ9bc0Qtwo1+AL8iSX3y8km1BrMm2ab+B/bnYbY6fm0FDbfYSRNNuthp2okHC/rQ
+         9Zqql8cFAwA84tmZAtbER/N8iMJqRG2g3BSPMwSkHf/kRVHc2RYqVcLD35S1J1XMt4fw
+         hGsKl4Rrsqunxzwz/Ue9FI/EKyivaHrgCK+VOIOXHlVmqivTCbldXURprGONzUjh44ji
+         EyFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWaYPRWA1pJ1lATB6/LPtdYiWGU8tblCYaWzWcccituxJsuRCgAOBRtWCQLxOwjPjYOI5XEmcf/gMD2vg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZjoIS+mniPZF/ApBzO26ijeOc04XoV5kxKUSfGibAhMXznLRm
+	pDc/QsgQastV7W8qmi4ql7WqAuNraDCzhwp4lXk08x++828lzHBHi6Ua5It8z3m04z0A+K8AeP/
+	WYKk6xPQW/A5O/s2CdM0mOmYzOwh9IBPNDU4I
+X-Gm-Gg: AZuq6aJBQrd8vC6MDsQiS/Irn6rEe3rBzpg2dyF2ySAnglUpy1ZHRitmNfNJglfJqWi
+	srJeIKs0B9amCtVpDc9NtzSDTnvvlh7KxtGQeSiQ1de45tAPjwNOk3BaqLWxCyDBqFVpig+Nd8y
+	2X4V/QDrh/cD4qXN0Vg48+igeiaQ+1o1R3RYH8EX8vorexDcWQksMKJUbaPMfQHjo6XQ60JLY+i
+	iKGOS8dasy+mh1dLhck3nSg8zze1nGoNYsdv4RRXlJ13bzaSoMqBCQo3L2F2LwWjm6ybkM52r0y
+	IJI0AJdr0z0G/0pcL+aSVeIAIUh1cillekdNNntkAMl4vMwfDjbmGfLkGKzPHfrJImkmU8tOPcF
+	Foaol70yEtA==
+X-Received: by 2002:a05:7022:6b99:b0:11f:3483:bbb0 with SMTP id
+ a92af1059eb24-125c0f984d6mr7727526c88.19.1770125093214; Tue, 03 Feb 2026
+ 05:24:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+References: <20260202205758.3044617-1-Frank.Li@nxp.com>
+In-Reply-To: <20260202205758.3044617-1-Frank.Li@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Tue, 3 Feb 2026 15:27:39 +0200
+X-Gm-Features: AZwV_Qj2z7qbutwvB-NPA1F-KcZIWGH03UnT5CBo6gdKULcm6QEzcKu28K1kX_8
+Message-ID: <CAEnQRZCrCEa9TixELqZGngXL=TrWO1i=m7dqgLtcx_pN+wEaWg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] ASoC: dt-bindings: ti,tlv320aic3x: Add compatible
+ string ti,tlv320aic23
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jai Luthra <jai.luthra@linux.dev>, 
+	"open list:TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS" <linux-sound@vger.kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	imx@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Jan 2026 14:50:19 +0800, Dirk Su wrote:
-> Fix the missing mic on HP 200 G2a 16 by adding quirk with the
-> board ID 8EE4
-> 
-> 
+On Mon, Feb 2, 2026 at 10:59=E2=80=AFPM Frank Li <Frank.Li@nxp.com> wrote:
+>
+> Add compatible string ti,tlv320aic23 to fix below CHECK_DTB warning:
+> arch/arm/boot/dts/nxp/imx/imx35-eukrea-mbimxsd35-baseboard.dtb:
+>     /soc/bus@43f00000/i2c@43f80000/codec@1a: failed to match any schema w=
+ith compatible: ['ti,tlv320aic23']
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-Applied to
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+For the next patches I wouldn't focus on explaining that the patch "fixes
+a warning" but instead on adding an undocumented compatible string.
 
-Thanks!
-
-[1/1] ASoC: amd: yc: Add quirk for HP 200 G2a 16
-      commit: 611c7d2262d5645118e0b3a9a88475d35a8366f2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+The CHECK_DTB is just a tool that reports the issue which you can
+mention at the end.
