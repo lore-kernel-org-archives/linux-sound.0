@@ -1,318 +1,268 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011039.outbound.protection.outlook.com [52.101.70.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A26C1A76DE;
-	Tue,  3 Feb 2026 17:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770141238; cv=fail; b=hwglFXKaqXs2OCrLBymGyz5pFFj/HxD5N+IqL18/W6ufZoQONTD4u/3SXdsHQO/0mlgkxRkgQwAAyAjpuX69KX0q09Zt6pDmOPMLc+5iwPoXcwiZXTUk5EhO3BKC9q4ll4PATTZntJ8kQiQwRmJ59UnpsndNeVeetBtR3vqaoOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770141238; c=relaxed/simple;
-	bh=Zphrp/7yBWzdtmYarb9kBSMMGeFs1j43y7GYvOnyK0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=CzrFD9kkcOHYaouuRy4BnxXis0+Qqkv2LC9RDrHkbSsP9OfVXnXPDQsGOtl4yNPYZ045jorUCetZ/NA4oBY0/ckdzEVFt5M9dGdFYDr42AZxhU6hK9s693TkavDmWbXJc1JSodDwLjqvHmI5ShmiEUbhyfb9voThuwTqv/Jongs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=g95kdfj3; arc=fail smtp.client-ip=52.101.70.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F2B38F94C
+	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 18:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770142026; cv=none; b=QA54JFcQAGTnxjRssGx81b1Sk2AVwabxbulxYn0kGo+/dOJn8+nIgDX1M7plz5Gqr33uOFp21Bk/90RabnSNlRs0SG5eP0FyG/osLQs1n2aQ4DlmMWOpRqMju4yGAYkKVMiDX4XFlQqzLMtUV2VNpKdhmOlfpzFo/VXDRvK0AEk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770142026; c=relaxed/simple;
+	bh=9o6RUY/rQVWOkFI0DrK/R2GW1/82MLpV7pRG9jWti3I=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=EiBzOgz8yM2ZDTG5wjnlnRCdft8mx/jnZttFWMVVl+zPkHkXPcminDOK/EdB0FdQjbGRbM6GeDePnn5ir8X6L4udw6Ccsq1PWmNQ+Xd3ESjbmCMiEPsydydvKPLN07UFWuXjYHYB8zZBME9WJixyst9WLlYG3t3MC31D46ZAFso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aVXt6SHX; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="g95kdfj3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c8Hq9HWP/pxN2A++J2l8r9cH6cPrVeqQ/m6nFKi+WKOLzCV10SbbB9oudXxE0lME6g713wGka9rXtcdm0gNAk498+rZSCh3MN27sOsD+zkvHAIf31C+JWX0ntR2D01hQjX2D5i/gNOnV6YxTBOplCvZhEbnRJpArHagn3YhaO8fIuPBUC4BT02vwZh6qQNCP/l7ssJhOe4tCt/ybXwN37Jc/J7LmOzUZKIazgMM5Qh+4mUbf3G+lFoW5KciDniowy9ONA5V32IBO+GKd1NBmfwU6YbtY9jz5C24EULtKTOpWERENXw7jyqF+8vPJQpp8056vT5V3kgyiwGOxxzSU5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FJVWjImSHOKLE1vU0BKHb7oVWVDieVIruTdagcF4ZFQ=;
- b=ZJeCxCjEu3jfwkXuqqr0SFlVxIPh+EtIX29ZHtce4Xt7wPptVWyD5ft7nhDHhlUbwWE64pOuU6yL2VsBl/hc8PzCsWkUOZFP5XKW4cEN4xa9n+6nnV5ZnkhHxEV5Z1IymJoQsCZW3NSjh8rHYkIOl1yFedQJpzlj7Sb508ejisFGGwXQkFKBPvGQr0SJBv+c8Bbk1ufTUFZGgUy4RE0LYEqquCKw1JkH39pENE0gi+f0FreKqcslHLUagJGi9igOre5oMXJ+PzcU/XIEDZurdJa4ngJ9Zebw0+hQPmaTkSY/vbEr8OyKPRMnTGfoTN7Cdy6LjY7ySk5Un8dOt3CEcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FJVWjImSHOKLE1vU0BKHb7oVWVDieVIruTdagcF4ZFQ=;
- b=g95kdfj349WKm6j9bw4f1e4ehzYDwWC3FWBw8UKU2JvAar2Fd6VkscTSWjxHQjr8S+vamvsEUEPp686293b9/nImtBDbyEuZ5gfYXCGa8HY2lWf8NlRiUxhFtIfVfo1HQ0OOejHgGSBIRX9WuEMGzrCyTrrUFdmmjwL8Xn3fyKvAqu00H/25iqaTVwNdnOPV4HRrWjc6hQQylgVKLQY7l+9KSrndWcuQOYrBYej8RuRf6fwgjqxI+8bv1kvtPqnkqlQslsl9QRR7XHmGZNJD5v0hQIsXYu2aDCkl24CXtJuSX589ooTJi6l/vrf4yFDS07jykz3QIRJhbR9JysPkCg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DBBPR04MB7499.eurprd04.prod.outlook.com (2603:10a6:10:203::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
- 2026 17:53:53 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9587.010; Tue, 3 Feb 2026
- 17:53:53 +0000
-Date: Tue, 3 Feb 2026 12:53:45 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v3 2/4] ASoC: fsl_asrc_m2m: Add option to start ASRC
- before DMA device for M2M
-Message-ID: <aYI2KZE8/MGQ633A@lizhi-Precision-Tower-5810>
-References: <20260203031345.3850533-1-shengjiu.wang@nxp.com>
- <20260203031345.3850533-3-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203031345.3850533-3-shengjiu.wang@nxp.com>
-X-ClientProxiedBy: SA1PR05CA0006.namprd05.prod.outlook.com
- (2603:10b6:806:2d2::10) To DU0PR04MB9372.eurprd04.prod.outlook.com
- (2603:10a6:10:35b::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aVXt6SHX"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so48041495e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 03 Feb 2026 10:07:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770142023; x=1770746823; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CDxqLPmqYLe0uNBiMr+/BJ7u7UlGF7uMvHQ2d80Zeug=;
+        b=aVXt6SHX6k3VnGk5qvK/faesMvodErQPjWDHpCjB05wvmBmhULU1VLrriGIoHXY/69
+         SaYrIWuZrYXMJ+ZYnirhxVs6lwl63YMwTrHs8yDID3hCHeLXyTPgf9X9MwWEpPhPh9fo
+         KdovOju+osMmYNbkpIokE9wOddTBkuJmp3W4kYdWmYSVVO4Xcy60zBHlLTVfgxCdLE3o
+         IYgTwmDMmSPIJ8BrOS2e+5sQ1B9CI6rO9JcsQDGguqWI3bTIRu/UvRoaSBVb0xhkwqqL
+         RczXn+nku8ENpKfAvLA15J1xvSd75yXCtigR3pZuFhCBedtZPRscBnQjotdAO9bSr6Nr
+         wNJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770142023; x=1770746823;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CDxqLPmqYLe0uNBiMr+/BJ7u7UlGF7uMvHQ2d80Zeug=;
+        b=Us9+lswGgKvfOWEikzn5T+XjUeH+V3dnTTNVoaK68hpWDyI/8OgqqUnMeROBCeMgC+
+         0eiukQTDWyzZw6R2cbN8+BBYKEO82173644Z9lqPGrFSRpapVuPqIegzUgZv/u/3MJjl
+         r9ZXiNw6E8txCfG0l03ukatc+VHlIMOS2C2a8/vrHB4kwdsKRZub5Q5aZz9JlX6KODE3
+         p88LiAN99UkUqa1HWYZlPx48tkje1vEoSRHdqyTdBIfZZg15WUm4js6ieaoQM9zCvpBm
+         V+S86pD7u9VyLMckEVRkJWeN2lvsXE6KpxowTaSs4udmnEKNucsKedIsVHM5y08iCkcB
+         BxdA==
+X-Gm-Message-State: AOJu0Yx+ZhGmLerQ/ipMAfwwGPtf0M8RIUDRTo0W9deefiZA/sQh7OG+
+	FjVMZ61nAdOxkCAZEWLKZg1JDKN6Q5Hxbfq+vYEvZNGLeJSQMDj+fdti
+X-Gm-Gg: AZuq6aKUzJRaAMEYzsVKIj5wXvprMhbDPGZ/3CbBxdYJAd7Y6HJ3kry5QSkP83vWXUN
+	hLRAix6ru6Q6Xu5MhbbHGrsj+klsclhtB0zoCSN0aAOSV2RQd+OonkkDrrgtF9Olcx/BS0AXRvl
+	2Pk4/3M9Wb5JbCEGfbT4mk76c/sNmJzaikTxS7X/q09FzRxpEFgjOlI0ovcJdSRBxD+GadZbAef
+	mlCU6WYBLtUONuLu69vYyGVcJmaBgQLReYgOvcj9lPj/8FJ/D+iIhx60lnkJ7Qhit36EpWPqARa
+	gG1F8KGg0g+nGoIr3chEf3H5H3Q1DNZJ+f5Q7zkDbJAwS4b4qjJck69QcSobhlMEJ3PDg8eWj7y
+	Vku6AHYEbdrkU3Lc9DEX+sN567VRzs9lweEM6tv769DEuiGHtbXBJQP5IKeUiOUT/oPZS3BLKAi
+	Ma5p+K14bag6gOUsCWqaI5Eh8RX2sEC5czNtxh0O0Yyz2hPUgcBg3VDFSiSHYWMgotOwT8H3Hf
+X-Received: by 2002:a05:600c:3555:b0:477:9b35:3e49 with SMTP id 5b1f17b1804b1-4830e93e9eamr8428205e9.3.1770142022242;
+        Tue, 03 Feb 2026 10:07:02 -0800 (PST)
+Received: from [192.168.1.123] (cpc157811-grth13-2-0-cust73.16-4.cable.virginm.net. [86.26.118.74])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830eb3e2cbsm4867735e9.14.2026.02.03.10.07.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 10:07:01 -0800 (PST)
+Message-ID: <b55cce82-1bdb-4e99-86ba-024f73a0aef6@gmail.com>
+Date: Tue, 3 Feb 2026 18:07:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DBBPR04MB7499:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1cfbe631-e39c-4abd-3700-08de634d318a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|52116014|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?L4hT5SVSNMHCxqTm2UJrXk3D/SQQuNbTUUX9wS73e2+1QS+6MI3YtmDfeYpY?=
- =?us-ascii?Q?HgpLYrgbrWGi2K2S3d8dCBzu5e+u9HDKOSmsE8dnhmA8Mx9OaifUSlu9b2Kv?=
- =?us-ascii?Q?NACodcnxf9ARs/DOFw7UTNtKAnGItM5PMwGsKjRnV/s7WE6V1y6pJGTCnjnt?=
- =?us-ascii?Q?WSymaWFfAJhdxaKiGMHXi9AE9ChlickPWY8T448lDFT98kosqC5bYP5H0uEJ?=
- =?us-ascii?Q?zpEuuzZ9molGHrZX39dwnMJ0l0gx/YIdF+2JM1I4VBf2/6Pg99QaysQi6MXf?=
- =?us-ascii?Q?J3kpN3O7ILuDGpjJzgettw2SE7dUDUYZjCwtaoaOKRrfm1b2AGm2SHEr7pmm?=
- =?us-ascii?Q?sf9IAnjT+4B+2qMD/uf2MmkAPRkHy1aACHfPPIoOVH6Sn/PtO7hENzvKQ463?=
- =?us-ascii?Q?a/ObwyljTmHQlxYHsqL4aAVyjNLplCi+jKWak4yY2iNRY3potAMN09gQPkCG?=
- =?us-ascii?Q?mLsq21e/aAUiOzxYU+W3t2XWfZaXj6iT5vxHyvmU3ej+woi583PeyACMDbzY?=
- =?us-ascii?Q?8m9MaVPxGy6zeA/QmGDJ+jruT5cGj4tqxO4tQk9sHphqNP2SGo57rgS6CzHV?=
- =?us-ascii?Q?rZ6z7i47eO0SGm3DI3gLvMItxM3XAfvZvyRE0eaG9XZcw1h1Hqsqn9NIR2N4?=
- =?us-ascii?Q?VMbvvaFTI56jKJuK4zfChBmwn8enY+ASCV8+9QY2H5ydcAllp7xcb8wPYvjJ?=
- =?us-ascii?Q?31lEkMr8olWaGKPEQzGaFY6NbEJHIkC3HmdtreOobq7tCnksoZIhkcBvBfcs?=
- =?us-ascii?Q?FL5mU7/46cDycPsyjH5AimmJhJDHoJkd0CC18qJwFjJLBfQjGqaV3jN1tORJ?=
- =?us-ascii?Q?o+6cPMhcC73wgcgB6C6rxB0avdDk9PUTKoZZ4YlDJ503bH3Ffv1g3wVhXDE8?=
- =?us-ascii?Q?qjxI23lK0U3qkKEehl6JD9bTStFXLW3HpGVdSBON3WgUCWI9ZOwJgcc9K2xt?=
- =?us-ascii?Q?eKGPBTEpWhtZXlfnDxrqARXRlAGYd6RJiUyr1dr8TYLxUCsfUrdRUiOOjfvw?=
- =?us-ascii?Q?+7V8tOCN1reaS4NthNvFhNLc9IkjT2eMbJArw/0JXFxYQuR0FXtQDX+kbJ6C?=
- =?us-ascii?Q?R4YXMgLkTDxnRTpqSV3+jwRMpf9W3suOV78eu4b1NzZVMcKsBYzZXFaoMgE3?=
- =?us-ascii?Q?94AqaS6AdHVtK5LSW3uJZb7+F2ptJvlx4K7WFXr4uPuO3aY+yLWp0UXXLlJJ?=
- =?us-ascii?Q?IoUzAlwrQzy9rmMGFpAN0dOd+gcXWNh3Sud8b1P1HOBV5ITTcBk6iVEj8xzL?=
- =?us-ascii?Q?BdFJSJ+9B7GbFdSTHE1ROcGROYPJ30i3Be4jp5izJo/9ngfdKPYStuC+63bJ?=
- =?us-ascii?Q?ZoK65f8Xguc/ok5wgnJfKsvyke0HytP9UuyswVNXveaRAG7sX+Gw0Uptoztw?=
- =?us-ascii?Q?pE8n5NhJENJfwK9xd6q8L8ATha+wiK3UsV1GhF3UNZmC3QzdwRca4TV66sYG?=
- =?us-ascii?Q?ioq+2r6pwTFRHSOXsfLLTxELTLdBNBOV0q/5GlcCuj+6hYoJEJ/IZetOXUQ8?=
- =?us-ascii?Q?lnGBCLDIpa0XbTsIgjVPzUNYCi/olVxSppCd0Lx/CI3j1qObRB345AE/Y5pp?=
- =?us-ascii?Q?ZtJWdzapHKxUfWEv18LDr10CikF9hNM8P6xlqENsXUciIOh818tYBDkTVY96?=
- =?us-ascii?Q?1695RvbC0UeiToTk6CDj7AE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(52116014)(19092799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5w9fjl6L5CWIz5wTyG72mAYYIll0Kj2mk1kEM/lfGFtdv1/m4LjckdtWtKJr?=
- =?us-ascii?Q?ENGdEcAdn0XQXMQtoaLj1mNfS1suveYqnxdLSC2XCDFsKudSl6af/sc2hQgK?=
- =?us-ascii?Q?GpiOT/8iCaWTx4aC5DXREtNRP7EdCnJLwDOVmXZC7+EXG9fvA4XKC0udbwUv?=
- =?us-ascii?Q?QwtFactp1mtJai44GXWP0pkIuprMsWv2bnwjG798ylyPC/csqT/1zb77j32B?=
- =?us-ascii?Q?quOupVVSquVtr3767FHeDb1l+Mlk3w7bU5rL8c0KKTfOX5bi3U0Fq7bXs0Ch?=
- =?us-ascii?Q?t/oQYMvtKd9R2qS7U5tq2LYwV3xSAJcLXhVNxXNAmr0h63Jlgn/ZZevdrpeA?=
- =?us-ascii?Q?tpW60mDylmDxocUJ5adfMzzPhP4q47x4BeF/dptA5Cjq+f/q4lw2dIUeIPEi?=
- =?us-ascii?Q?etGWfj6W1diSgoL6VWQYLfT1zPeNllNFZSv+p4/DgkBkmRY5GKL/TT/QxEGe?=
- =?us-ascii?Q?OJmJQWSWyGCuV+bKhsW95JWamUoMNpSEWfBp13jNwqllLJhZ19Amj/Kc+m54?=
- =?us-ascii?Q?NGMWWTmNoyWewnbmZMOIKc6KrUhDDycSeEQEInCqR44p2g4GnO7cz/7R7b7W?=
- =?us-ascii?Q?N0emttCt73KXBqqO1K3x6n9xVgLEvDY/R+flAPiPaJNAo12KZqRGIXjHM3mu?=
- =?us-ascii?Q?vO6aKNB+ti0mV8iJyzVTtfGvVyWPf0isJkKF9H1u76wj5A4f7KMcTmCLwuLJ?=
- =?us-ascii?Q?YYzXY/AN++eqIe39pSoNSvn3NvY0ae1bz23rh6qumK6ENa7mPfyz/p3J7E0e?=
- =?us-ascii?Q?6nooztRDU3G/U6NT3ijhVlrDpxWiHSmidoqMRNVIrxVAOPy7IxLdhSEuZAmi?=
- =?us-ascii?Q?L6C2dsbwFln+3aigyODbPrPvvozauhs3EtMEZ5wtGiZ8gHg9DNq2eR2Vi4Eh?=
- =?us-ascii?Q?tmIDSY2ru4Vse71yzEfh8koOQxzJhtR6c2moJRgKREnqULUFiatsYkVoxPdL?=
- =?us-ascii?Q?JdoqpsEa02uR1IJCcKNW1TKw3VvsoiwsEdxFCtxqEs0MVLi7TJorvtUCb3qi?=
- =?us-ascii?Q?l6q418dw7IRCa/uBHBqtWX2one422tu05ULw0pmAVJyjxgZ7hs4gy1oMFb0C?=
- =?us-ascii?Q?e7+wQRH+VYOmtu6j7XiwkCTzPyc3Ek2j85VALZLmuwy/aGzKlCoc9C8xCze7?=
- =?us-ascii?Q?CMjWxEnoqubJFcfbwpIisqHfcEucHvOv1WpPhlaAxWUzp66kPc5U4KLx7p+j?=
- =?us-ascii?Q?3eImQHtLZziN/eLwMx4Ad6NW/rJAaCrZ0VkSOS1KbrxoAIz9it+kcU6E8SoS?=
- =?us-ascii?Q?6pSFF4q+xoB6CDDlk4mE5gIJsFW/jtBsvGe6STtzFwc+GsR3BWkLJeQFqzm+?=
- =?us-ascii?Q?rk8DlW9+UHiVha/DM+Fo/Y9EqMbVY3IvNQ5ry9JJYoas7ytPf5/l96Oc4y6H?=
- =?us-ascii?Q?i/JDOpYoVMOdVzc0c8dXgh+4kZDcDlosHBD9D1sBFMrLrMtMMoi3BpoKoM43?=
- =?us-ascii?Q?1QpXl8pRLKp4TQzTAnG3U1OQbzBzTMPnTUhKJ4rZ7Az3JFmNU7TLhoo3mVPr?=
- =?us-ascii?Q?wwskNf2zMNkwbfVP338sj7/iBcoBDqMaQwBmaVq9CH95C+yKWp5QSx29UsgX?=
- =?us-ascii?Q?EFqaPJcOu7Rdw/X3VUJRWC7jnwQYhT2G4g4rPQRIh7WEarE8WVYJs2aBP+Fo?=
- =?us-ascii?Q?TjpUJnQHpWlFM+pO6ky/c1FboulzEHiZPySCVN7228flL6+L4RTlJ8lqVUbK?=
- =?us-ascii?Q?U7lMq9aYkVGe8LetIPszSN5XYdyGXXb72gcw5XB8u15w264x?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cfbe631-e39c-4abd-3700-08de634d318a
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9372.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 17:53:53.3074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MDdApRcD94o1IObgt0lJjTNYW7viqu05GPVhkQTjO/FAjgk98yAVuekVfH/crDvbVRhva9xCT+DepQIfkI28mQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7499
+User-Agent: Mozilla Thunderbird
+From: Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: ASoC: soc-pcm2.c ?
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Linux-ALSA <linux-sound@vger.kernel.org>, Lars-Peter <lars@metafoo.de>
+References: <87pl6wub81.wl-kuninori.morimoto.gx@renesas.com>
+ <aX4D1VodQ8Ksrad6@sirena.co.uk>
+ <87zf5q1gve.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+In-Reply-To: <87zf5q1gve.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 03, 2026 at 11:13:43AM +0800, Shengjiu Wang wrote:
-> There is a limitation on i.MX952 that dma request is not cleared at the
-> end of conversion with dma slave mode. Which causes sample is dropped
-> from the input fifo on the second time if dma is triggered before the
-> client device and EDMA may copy wrong data from output fifo as the output
-> fifo is not ready in the beginning.
->
-> The solution is to trigger asrc before dma on i.MX952, and add delay to
-> wait output data is generated then start the EDMA for output, otherwise
-> the m2m function has noise issues.
->
-> So add an option to start ASRC first for M2M before ASRC is enabled on
-> i.MX952.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  sound/soc/fsl/fsl_asrc.c        | 23 +++++++++++++++++++++++
->  sound/soc/fsl/fsl_asrc.h        |  4 ++++
->  sound/soc/fsl/fsl_asrc_common.h |  4 ++++
->  sound/soc/fsl/fsl_asrc_m2m.c    |  8 +++++++-
->  4 files changed, 38 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
-> index 92fb16f7be45..b6d4f1e09e2e 100644
-> --- a/sound/soc/fsl/fsl_asrc.c
-> +++ b/sound/soc/fsl/fsl_asrc.c
-> @@ -1078,6 +1078,27 @@ static unsigned int fsl_asrc_get_output_fifo_size(struct fsl_asrc_pair *pair)
->  	return val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
->  }
->
-> +static bool fsl_asrc_m2m_output_ready(struct fsl_asrc_pair *pair)
-> +{
-> +	struct fsl_asrc *asrc = pair->asrc;
-> +	enum asrc_pair_index index = pair->index;
-> +	int retry = 1000;
-> +	u32 val;
-> +	int ret;
-> +
-> +	/* Check output fifo status if it exceeds the watermark. */
-> +	ret = regmap_read_poll_timeout(asrc->regmap, REG_ASRFST(index), val,
-> +				       (ASRFSTi_OUTPUT_FIFO_FILL(val) >= ASRC_M2M_OUTPUTFIFO_WML) ||
-> +				       (--retry == 0), 0, USEC_PER_SEC);
+On 2/3/26 06:27, Kuninori Morimoto wrote:
+> 
+> Hi Mark
+> 
+>>> (A)	  soc-pcm.c
+>>> (B)	+ soc-pcm2.c
+>>> 	  ...
+>>> 	  audio-graph-card2.c
+>>> (C)	+ audio-graph-card3.c
+>>
+>>> All existing drivers uses existing soc-pcm.c (A). Nothing changed.
+>>> And create new soc-pcm2.c (B) and new card driver, for example
+>>> audio-graph-card3.c (C).
+>>> audio-graph-card3 (C) user only can access to soc-pcm2 (B).
+>>
+>>> In this case, existing user will get zero damage from new soc-pcm2.c (B).
+>>> We can just remove (B) and (C) file in worst case, it is easy to rollback.
+>>> But what do you think ?
+>>
+>> So, as we disucssed in person on the one hand this is obviously not an
+>> ideal way of doing things but I think in this case there's so much
+>> fragility with the current code that it's difficult to do anything
+>> safely which makes this much more viable.  It minimises disruption to
+>> users of the existing code so we get much less stress all round,
+>> hopefully in the long term people will convert to this code and we can
+>> retire the old things.
 
-are sure need "retry"? there are timeout, which should be equal to 'retry'.
+Morimoto-san, first of all I think its really good you are taking time 
+to improve things, however there are still some things we need to watch 
+in order to make sure we maintain functionality and align with the audio 
+integration ownership differences (i.e. who does what) between Linux and 
+Windows on the client when Linux is installed afterwards.
 
-Frank
-> +
-> +	if (ret || !retry) {
-> +		pair_warn("output is not ready\n");
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  static int fsl_asrc_m2m_prepare(struct fsl_asrc_pair *pair)
->  {
->  	struct fsl_asrc_pair_priv *pair_priv = pair->private;
-> @@ -1275,6 +1296,7 @@ static int fsl_asrc_probe(struct platform_device *pdev)
->
->  	asrc_priv->soc = of_device_get_match_data(&pdev->dev);
->  	asrc->use_edma = asrc_priv->soc->use_edma;
-> +	asrc->start_before_dma = asrc_priv->soc->start_before_dma;
->  	asrc->get_dma_channel = fsl_asrc_get_dma_channel;
->  	asrc->request_pair = fsl_asrc_request_pair;
->  	asrc->release_pair = fsl_asrc_release_pair;
-> @@ -1289,6 +1311,7 @@ static int fsl_asrc_probe(struct platform_device *pdev)
->  	asrc->m2m_get_maxburst = fsl_asrc_m2m_get_maxburst;
->  	asrc->m2m_pair_resume = fsl_asrc_m2m_pair_resume;
->  	asrc->m2m_get_cap = fsl_asrc_m2m_get_cap;
-> +	asrc->m2m_output_ready = fsl_asrc_m2m_output_ready;
->
->  	if (of_device_is_compatible(np, "fsl,imx35-asrc")) {
->  		asrc_priv->clk_map[IN] = input_clk_map_imx35;
-> diff --git a/sound/soc/fsl/fsl_asrc.h b/sound/soc/fsl/fsl_asrc.h
-> index 1c492eb237f5..60b6865ca952 100644
-> --- a/sound/soc/fsl/fsl_asrc.h
-> +++ b/sound/soc/fsl/fsl_asrc.h
-> @@ -257,6 +257,8 @@
->  #define ASRFSTi_OUTPUT_FIFO_WIDTH	7
->  #define ASRFSTi_OUTPUT_FIFO_SHIFT	12
->  #define ASRFSTi_OUTPUT_FIFO_MASK	(((1 << ASRFSTi_OUTPUT_FIFO_WIDTH) - 1) << ASRFSTi_OUTPUT_FIFO_SHIFT)
-> +#define ASRFSTi_OUTPUT_FIFO_FILL(v)	\
-> +	(((v) & ASRFSTi_OUTPUT_FIFO_MASK) >> ASRFSTi_OUTPUT_FIFO_SHIFT)
->  #define ASRFSTi_IAEi_SHIFT		11
->  #define ASRFSTi_IAEi_MASK		(1 << ASRFSTi_IAEi_SHIFT)
->  #define ASRFSTi_IAEi			(1 << ASRFSTi_IAEi_SHIFT)
-> @@ -432,10 +434,12 @@ struct dma_block {
->   *
->   * @use_edma: using edma as dma device or not
->   * @channel_bits: width of ASRCNCR register for each pair
-> + * @start_before_dma: start asrc before dma
->   */
->  struct fsl_asrc_soc_data {
->  	bool use_edma;
->  	unsigned int channel_bits;
-> +	bool start_before_dma;
->  };
->
->  /**
-> diff --git a/sound/soc/fsl/fsl_asrc_common.h b/sound/soc/fsl/fsl_asrc_common.h
-> index 0cd595b0f629..c8a1a2b5915d 100644
-> --- a/sound/soc/fsl/fsl_asrc_common.h
-> +++ b/sound/soc/fsl/fsl_asrc_common.h
-> @@ -107,6 +107,7 @@ struct fsl_asrc_pair {
->   * @asrc_rate: default sample rate for ASoC Back-Ends
->   * @asrc_format: default sample format for ASoC Back-Ends
->   * @use_edma: edma is used
-> + * @start_before_dma: start asrc before dma
->   * @get_dma_channel: function pointer
->   * @request_pair: function pointer
->   * @release_pair: function pointer
-> @@ -116,6 +117,7 @@ struct fsl_asrc_pair {
->   * @m2m_start: function pointer
->   * @m2m_unprepare: function pointer
->   * @m2m_stop: function pointer
-> + * @m2m_output_ready: function pointer, check output fifo ready or not
->   * @m2m_calc_out_len: function pointer
->   * @m2m_get_maxburst: function pointer
->   * @m2m_pair_suspend: function pointer
-> @@ -143,6 +145,7 @@ struct fsl_asrc {
->  	int asrc_rate;
->  	snd_pcm_format_t asrc_format;
->  	bool use_edma;
-> +	bool start_before_dma;
->
->  	struct dma_chan *(*get_dma_channel)(struct fsl_asrc_pair *pair, bool dir);
->  	int (*request_pair)(int channels, struct fsl_asrc_pair *pair);
-> @@ -154,6 +157,7 @@ struct fsl_asrc {
->  	int (*m2m_start)(struct fsl_asrc_pair *pair);
->  	int (*m2m_unprepare)(struct fsl_asrc_pair *pair);
->  	int (*m2m_stop)(struct fsl_asrc_pair *pair);
-> +	bool (*m2m_output_ready)(struct fsl_asrc_pair *pair);
->
->  	int (*m2m_calc_out_len)(struct fsl_asrc_pair *pair, int input_buffer_length);
->  	int (*m2m_get_maxburst)(u8 dir, struct fsl_asrc_pair *pair);
-> diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_m2m.c
-> index f46881f71e43..77999526dd9e 100644
-> --- a/sound/soc/fsl/fsl_asrc_m2m.c
-> +++ b/sound/soc/fsl/fsl_asrc_m2m.c
-> @@ -253,15 +253,21 @@ static int asrc_m2m_device_run(struct fsl_asrc_pair *pair, struct snd_compr_task
->  	reinit_completion(&pair->complete[IN]);
->  	reinit_completion(&pair->complete[OUT]);
->
-> +	if (asrc->start_before_dma)
-> +		asrc->m2m_start(pair);
-> +
->  	/* Submit DMA request */
->  	dmaengine_submit(pair->desc[IN]);
->  	dma_async_issue_pending(pair->desc[IN]->chan);
->  	if (out_dma_len > 0) {
-> +		if (asrc->start_before_dma && asrc->m2m_output_ready)
-> +			asrc->m2m_output_ready(pair);
->  		dmaengine_submit(pair->desc[OUT]);
->  		dma_async_issue_pending(pair->desc[OUT]->chan);
->  	}
->
-> -	asrc->m2m_start(pair);
-> +	if (!asrc->start_before_dma)
-> +		asrc->m2m_start(pair);
->
->  	if (!wait_for_completion_interruptible_timeout(&pair->complete[IN], 10 * HZ)) {
->  		dev_err(dev, "out DMA task timeout\n");
-> --
-> 2.34.1
->
+Btw, I'm assuming pcm2 will reuse existing DAI and codec drivers but 
+without the DAPM/DPCM flows ? i.e. same codec/dai binaries shipped by 
+distros can be used by both pcm and pcm2 ?
+
+> 
+> Thanks.
+> Yes, (B) should not have any effect to existing (A) envailonment, should
+> keep independent from it. If this premise is maintained, we can do anything
+> on new soc-pcm2 (B).
+> 
+>> Well, the big issue is that it's sort of partially using DAPM but DAPM
+>> doesn't have full awareness of the system including none of things like
+>> SRC.
+> 
+> So we want to expand it or create new one.
+> DAPM is using "string match" method to check path/routing, but I want to
+> use pointer style for it.
+
+It should hopefully be easy to convert to an integer/pointer format here 
+with some search/replace, however the mux enum controls reuse the 
+strings in the kcontrol names IIRC so you may need to keep those.
+
+> 
+>> I'm not sure I'd go that far.  The trouble with setting a default path
+>> and volume is working out what a suitable setting is for a given piece
+>> of hardware - the really common case where this is a problem is that
+>> many headphone drivers can also be line outputs but the volume levels
+>> needed for the two are vastly different.  That's why we currently just
+>> go with hardware defaults for everything, it avoids trying to code in
+>> settings for a specific system.  It's clearly not ideally helpful for
+>> users but it's a lot easier for them to fix problems with UCM than it is
+>> for them to fix problems using the kernel.
+>>
+>> But that said once the code has a better understanding of how things are
+>> wired up prehaps we can have some algorithm that can try to guess a good
+>> default, possibly something people enable optionally.
+> 
+> OK. I think default routing / volume is set by Card instead of CPU/Codec,
+> because it depends on Board, not chip.
+> 
+> I have mentioned that I want to reduce amixer settings, but it doesn't
+> mean soc-pcm2 doesn't allow to use it.
+> 
+> Whether having default volume or not should not mandatory, should be just
+> option. We want to have flexible framework, like some board want to use same
+> style as before (= setup full routing etc via amixer), and/or some board want
+> to have default routing/volumes, etc.
+
+I think hiding any kcontrols or hard coding kcontrols that change audio 
+processing or routing will break all client use cases, yes this may be 
+nice on IoT where there is no sound server or userspace audio infra and 
+very simple audio is needed, but on client we need the soundserver e.g. 
+Pipewire, CRAS or audio HAL to configure and control the use case/policy.
+
+Its also far simpler for regular users to work with changes in userspace 
+whether that be Pipewire configuration, UCM, Audio HAL config compared 
+to making similar audio configuration changes hard coded in the kernel.
+
+The other thing to consider is that the integration model for audio is 
+fully done by the OEM when you buy a device with an OS pre-installed 
+i.e. if you buy a laptop with Linux or Windows then the OEM will fully 
+integrate the audio driver including DSPs, DAIs, DMAs, codecs, amps, 
+jacks alongside any userspace configuration like topology and UCM.
+
+When a user buys a laptop with Windows then installs Linux there is no 
+integration done by the OEM. The user has to rely on the existing kernel 
+audio drivers for DSP, codec, DAIs, DMA, amps, etc to probe() and take a 
+reasonable guess at the integration configuration. Sadly, the hardware 
+schematics required to perform the full audio integration are not 
+public, yes the codec/dsp/dma/dai is known but its not known how they 
+are all connected to each other and to board specific amps/jacks, and 
+hence the alsamixer and kernel quirks methods are often the simplest way 
+to enable such devices instead of a new machine driver to manage the 
+kcontrols and config (as I think you may have been proposing?). I 
+appreciate this is not perfect, but without HW schematics we are in a 
+difficult position to begin with.
+
+> 
+> 
+>> The graph is generally fixed, where there's anything changing it's
+>> usually just something being plugged into a port, but there's systems
+>> where the routing can be more dynamic.  For a really simple example a
+>> tablet might flip left and right speakers depending on which way up it's
+>> being held.  You could do that in software with a DSP but you could also
+>> do it through routing in the hardware (and depending on how the DSP
+>> looks it might look more like hardware to the host computer...).  You
+>> also get things like routing around some effects blocks depending on use
+>> case, just turning the effect on or off might mean the effect is still
+>> causing latency so instead it's disabled by not routing the audio to the
+>> IP at all.
+>>
+>> My impression is that the systems that need to do dynamic routing beyond
+>> just turning on and off some paths are getting less common but they do
+>> still exist, and older hardware tends to stick around for a long time at
+>> lower price points (eg, you'll see what was once a cutting edge CODEC on
+>> a board with a low end SoC because these days the packaging it uses is
+>> much more easy to assemble).
+> 
+> Ah, OK
+> It should allow that graph itself can be updated runtime.
+> And, I think amixer still can work for dynamic routing ?
+> These can be good example for test case, I think.
+
+Fwiw, we have a dynamic graph (at probe time) today and Peter is looking 
+into support for dynamic graph at runtime e.g. where Pipewire could 
+build a graph like PCM -> Volume -> DRC -> Speaker
+
+> 
+>> I think that's a good place to start TBH - it's pretty much what we have
+>> for DAPM with the DAPM lock.  We can always go back and rework things to
+>> make the locking finer grained but hopefully that's not needed, we just
+>> don't need to do things that take the lock for long enough or often
+>> enough that people get worried about contention.
+> 
+> Thanks.
+> Let's start with big lock, first.
+> 
+>> Yes, being able to work on this without needing some specific hardware
+>> would be great - it's one of the big drawbacks with DPCM and one of the
+>> things that make it fragile.  If we can get a good development and
+>> testing setup that allows people to do work without needing to worry so
+>> much about what other hardware will be impacted that would be a massive
+>> win.
+> 
+> Nice to know
+> 
+>>> I have indicated many random topics, but these are just my idea.
+>>> My motivation is I want to cleanup ASoC framework, but can't on soc-pcm,
+>>> especially around DPCM. There is no guarantee I can create soc-pcm2, but
+>>> have interesting. But what do you think ?
+>>
+>> I'm super greatful that you want to spend time tackling these things,
+>> I think this is heading in roughly the right direction.
+> 
+> I'm busy for a while, but want to do this this year.
+> I can enjoy this :)
+> 
+> I think the initial design is very important for soc-pcm2.
+> So I will not care about detail things first (= sampling rate, channels,
+> etc,...), but focus about graph / routing thinks. I think this is the
+> main part for it.
+> 
+> Thank you for your help !!
+
+One other thing I would say is that the audio hardware landscape is 
+changing for client devices in that they are transitioning to Soundwire 
+SDCA compliance over the next few years. This will probably impact IoT 
+too as codec prices become lower over time, so I would recommend more 
+focus on soundwire integration than say legacy HDA in pcm2 as this would 
+probably help more in the long term.
+
+Thanks
+
+Liam
