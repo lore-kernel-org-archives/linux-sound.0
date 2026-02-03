@@ -1,44 +1,43 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251153D3488;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E693D3305;
 	Tue,  3 Feb 2026 16:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770137197; cv=none; b=b4sRRrKKonixPDpIlp/mEYw7Kbr1b9l/m8Wg5G8zEbJu4/NjXd4gPFfmkKfbPYAvpFVxJsyl5mitMxjSCdKYF5d/iptQbKC2kzshwpdS5NIu+LY0d101lsC8Q1KwsNWigrV1r3US2zVSvug+xL6n1V7DgI8UpCoKT6SxlUHMDkI=
+	t=1770137198; cv=none; b=IgwLqVZoIxaUpH6zelLZBJF6IqSCPuz/36U/a9qT5MLSCJ5xbpvQZc14GZB4pwfrbM8n1/eQhdtMusDrfooJp4H0axNLqT4N9eBLXAm/woz2ffoxKRdNo+Tq8K5CxfRi57uvfM7EFuUNh5BC0+kqz04mnOxJci9cC+7C3oEECAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770137197; c=relaxed/simple;
-	bh=Iq2VyvqCDRD+eOJzowyqd7ph1sHZmTOb8jsOzunp67A=;
+	s=arc-20240116; t=1770137198; c=relaxed/simple;
+	bh=ZRxveFjuHAKz0N9JC6lifo8s63buu6Gdv4EOmOK0de8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=REmEG4qcmfMAZWknFrzGqaD6lzQyA7w7VLIRmHDuGX9QdNA/fO82q4sJCf+70sj//txa3P1+RhzZck5XVh30r5R3vz85Zw8vnCZ3buNGvHhmCZKfwjzyE5W/qoo9Y7vkMZ6iPk/+ACAORsqt7n5pxXaISarKJR6NHL2Q0lm+bhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Dvtt/hvm; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=Wh6Z7WoeidYJmFlG0A6htRNqtmYD7dLhMJB0jstdFIbA8aeigp+X0DvaHfN0thFePKTjH9xLt6qXlW2xXrLzPR6JbBfESpdgG5SWe3/osSJY+dAE9BnftAch89hWCnpcnheMD57kjsgIJiy2QooIC1pkwbQAiI51tOPeepTe8IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=e1TsKTxF; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Dvtt/hvm"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="e1TsKTxF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1770137194;
-	bh=Iq2VyvqCDRD+eOJzowyqd7ph1sHZmTOb8jsOzunp67A=;
+	bh=ZRxveFjuHAKz0N9JC6lifo8s63buu6Gdv4EOmOK0de8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Dvtt/hvmF9m49AHUiZkUYVyzzLE59Ff2jp98hHXz9CEk4Rp61HWm77xGc4xDqdF/g
-	 dyRtyZLK94tDmqvSETqYecxv4LVcETAZ/sS6NFFTEV8ux1ZyPQ2aTwYJNXIDB2Acrf
-	 /vgXSeg0fppNzkdoodywIgEixdiZm55FRr+6mGb8poYm3DaxXhvYNOX7CZaMMRV+u+
-	 tWtbU6WfmG3S/mmPYrK4AhnyWy6aJpAHfABQoiRaw3KdVXyVwMYtAccJ4+yR5ktZKm
-	 g8l+jexw3Jne4ZmmzSSFtwfTFou1I/zPZ6CYR82kL4SYaeo5lgCqWr1Cp+zM05/Ps1
-	 KO9rTEUyKAnCg==
+	b=e1TsKTxFm2d1oUPJtrrrQPlcPL3VSKBI5Q75WYPIgOu+X6PiXI661JyrrASNic2ir
+	 4PNhsqMRAOyRqNAofs3BgZCf3EDS+aOYEywykqbhUbebm602ZZIu+tm2dkE6zb5ilJ
+	 +nqLUQioCbR+KYA+cajACXKnK4yNzC0V4P4xx9H20DVlLcR7vVH0QxgBfBr6pAsKeg
+	 Jm0dzuqeWTFR9Gae+6paKUQKpPM435tgYs10lUNkkYnTo7pizepj6qACo6f1945qFq
+	 V8A/gGiWV4RDs7TeE4kmF+Rrxv0XbxjyT5jJvwQsbQstzxjoZN4PpsggjVqYGxVRQx
+	 yd0ivz8MVHWmQ==
 Received: from jupiter.universe (dyndsl-091-248-189-143.ewe-ip-backbone.de [91.248.189.143])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6719217E1274;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7EB4E17E150C;
 	Tue,  3 Feb 2026 17:46:34 +0100 (CET)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 12E3B480023; Tue, 03 Feb 2026 17:46:34 +0100 (CET)
+	id 15755480029; Tue, 03 Feb 2026 17:46:34 +0100 (CET)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Tue, 03 Feb 2026 17:46:23 +0100
-Subject: [PATCH v2 01/10] ASoC: rockchip: spdif: Use
- device_get_match_data()
+Date: Tue, 03 Feb 2026 17:46:26 +0100
+Subject: [PATCH v2 04/10] ASoC: rockchip: spdif: Use dev_err_probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,7 +46,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260203-rockchip-spdif-cleanup-and-bsp-sync-v2-1-4412016cf577@collabora.com>
+Message-Id: <20260203-rockchip-spdif-cleanup-and-bsp-sync-v2-4-4412016cf577@collabora.com>
 References: <20260203-rockchip-spdif-cleanup-and-bsp-sync-v2-0-4412016cf577@collabora.com>
 In-Reply-To: <20260203-rockchip-spdif-cleanup-and-bsp-sync-v2-0-4412016cf577@collabora.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -59,55 +58,71 @@ Cc: Alexey Charkov <alchark@gmail.com>,
  linux-kernel@vger.kernel.org, kernel@collabora.com, 
  Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1245;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1609;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=Iq2VyvqCDRD+eOJzowyqd7ph1sHZmTOb8jsOzunp67A=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGmCJmkgSHXAkdrHlb1P37EIIWW44+I3S9jvP
- d0/OBDiR1M8s4kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJpgiZpAAoJENju1/PI
- O/qao6AP/1K50SluzsdZygiemzGEhjxlWtrQkO8NJXlFk5U2t5XWLPuG8X5KSoaBDWoCuKG5Uex
- e1x+rwPUnNIVxCBgriDfHXLWWktwyZcgLl43wqYetkJNq/2IqM3+nmH/XiSMBqIeeIdGMic2ebo
- 8gT9W+56G0Rfp7/Nia01EqRr5Xg49aKBz+TperIdpifNCWHCQ2RQVDBb73caBAsMuj/odJl2hw+
- fp7UND6lgpKY3Iqtl2/EA7bpOVUdheZF4oSDRqUo93Hv03sSlDDJP0G1l1qBQatwH5IK1FiOsNz
- UqpG5/NsnhwERuvqgCftxS1dvsgB07w0fm0zkFfsA8F19f12VdURShyDfvspq5R2z0fJYwV36As
- hO1rEF5ouImtjdu1kJ9aPi+ndH3SA4Q9VriQOLO7OQdkZqCBvTkfz85Bv9YiMvihJ5l4gTgQ9m4
- TlnU58yg8Rjwo8Yoq2SqxZatFo0VPpDf4qB8a+YVEWxI/F5YZ4ZZtQu5egBGY/c7dZvokuTRTS/
- gCbaUipT6MlWRT8psloUo/9gWiedGtFmIslFcb0S8zpO/mOm21FOsZq1zYEaFyGp82j8wU11glX
- yYJk38FCub9HxirPmyOCqT7bCw2zhN+dV/COSSu+84kuIh8Bt2JtUZ9YJqy7o8A6a+ZgLgB/Hil
- 1DqKqK1Dt/vqmxWe8gT8qsA==
+ bh=ZRxveFjuHAKz0N9JC6lifo8s63buu6Gdv4EOmOK0de8=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGmCJmlZLSvZNd4ggqytp70MbIaQgmk7mJCC4
+ 5Rcm1NEyWbe6YkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJpgiZpAAoJENju1/PI
+ O/qaS98QAIE/Z2Q7IpgGLLQqvceXzfwIkMGfA9C+vmXmuu73tq5diU1og1jHqNpau3c5mCZ7v5K
+ 0hGIYiTrWmLKT6OirIUyHfw3iTXKGAUKeay+5szDNymUqmiekVlnhL1t+dFMAHRtVBJf5jskIxC
+ 6VkCjhuR5ac28EIawNkG5FOMMSrJyd2Q7tuSF/x9G3o+iF17HZ3r3pMezrqbvpMy8H9oOqLyRVs
+ 6vv+QcsckJe5hzORv/rPAQfCcg5ul5IQYZ5Gg4JHnTZeNhKkSVhfgfF6VwFkdzzRzXSlkomeO1t
+ KUDNma+EpPnhFs5a6dqM+mzMWkfSzeM9LNYHLzXthkNl7+5OS/vrCZ6qT3piyIXgihXSODEZTdp
+ mYm3jo5tymQMvFYXxQzRnh+uX3DYjS5qGPYtfhUdVBX0JdDj7b2ueSF+3mNzdp+KRqHby1sB+tp
+ pHgrJ7USfYH7UvylNxAiruSzk3Bx79GdoGgJSUICN1tZqfg3nUS8DKe+0bXms2Glg7aJ6/alICJ
+ RxL0hQRpPemBK4k3lL3BGzv78zfU7b++qFAvlDYSm/8ZUPK2UJRcWzqXiL+YPbG7Y6ActDnV92J
+ t/9cMZo9WsrC95vDBseZn7vcTEAC6QGl3nXroXY6YoZkm2481P/IYh6QnUlzFNa9ewTZaROg8xM
+ Lwnf8iAqBaAgyVo5bz3AvDA==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Use device_get_match_data(), so that the probe routine does not
-directly reference the of_match_table. This allows moving the
-table at the end of the file where most recent drivers have it.
+Cleanup the probe routine a little bit by using dev_err_probe
+instead of dev_err.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- sound/soc/rockchip/rockchip_spdif.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/rockchip/rockchip_spdif.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/sound/soc/rockchip/rockchip_spdif.c b/sound/soc/rockchip/rockchip_spdif.c
-index d365168934dc..23f14274a6e0 100644
+index 841ef499ed7f..1c62fcb0d8d4 100644
 --- a/sound/soc/rockchip/rockchip_spdif.c
 +++ b/sound/soc/rockchip/rockchip_spdif.c
-@@ -283,14 +283,14 @@ static const struct regmap_config rk_spdif_regmap_config = {
- static int rk_spdif_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
-+	enum rk_spdif_type spdif_type;
- 	struct rk_spdif_dev *spdif;
--	const struct of_device_id *match;
- 	struct resource *res;
- 	void __iomem *regs;
- 	int ret;
- 
--	match = of_match_node(rk_spdif_match, np);
--	if (match->data == (void *)RK_SPDIF_RK3288) {
-+	spdif_type = (uintptr_t) device_get_match_data(&pdev->dev);
-+	if (spdif_type == RK_SPDIF_RK3288) {
+@@ -279,11 +279,9 @@ static int rk_spdif_probe(struct platform_device *pdev)
  		struct regmap *grf;
  
  		grf = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
+-		if (IS_ERR(grf)) {
+-			dev_err(&pdev->dev,
++		if (IS_ERR(grf))
++			return dev_err_probe(&pdev->dev, PTR_ERR(grf),
+ 				"rockchip_spdif missing 'rockchip,grf'\n");
+-			return PTR_ERR(grf);
+-		}
+ 
+ 		/* Select the 8 channel SPDIF solution on RK3288 as
+ 		 * the 2 channel one does not appear to work
+@@ -334,16 +332,12 @@ static int rk_spdif_probe(struct platform_device *pdev)
+ 	ret = devm_snd_soc_register_component(&pdev->dev,
+ 					      &rk_spdif_component,
+ 					      &rk_spdif_dai, 1);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Could not register DAI\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "Could not register DAI\n");
+ 
+ 	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Could not register PCM\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "Could not register PCM\n");
+ 
+ 	return 0;
+ }
 
 -- 
 2.51.0
