@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FD333CEB9
-	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 12:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C48332F764;
+	Tue,  3 Feb 2026 12:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770120326; cv=none; b=TbzTFosdq+VkRObH/toimO+xi7bsr9QlNO+zwIBzxfSBeGDA+mE1Z6ad9M0zkXrVXbTUHNGzpa+gOithYG0lLM0YHG0SMosMWvfDxoN6/Km5KRMq0bCQSOBjSnwP/YQBD8fkIphuOvL7qehxsL01RntAcVXIM8GScQPnCCe2KIA=
+	t=1770120328; cv=none; b=JGfV+nAdbBPuQyLVonkDOqWl9mQxViOPInyFYxO1zXqrN3yapkEb2Kp3tz9W1P9x0xLZkq9c1PQ5lzgcDr6t6h1OlVZGiGUDauSipKjqAqrEiA/ohxyeNa6Pt5sJGkWekUZFzU0vriq4WrJNIpnHV/Az1O9qGJ2m1w6RkU/0Noo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770120326; c=relaxed/simple;
-	bh=5/47Y+bY6YWxKC6OFIPb7ddxrHRroMu8PY+YNbYHwlM=;
+	s=arc-20240116; t=1770120328; c=relaxed/simple;
+	bh=s7m31JzZ7UocXqlMj5BGSuE2XFthWRk7GT8gRErPb7I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Dxs9nv3zjQPUq0A7GXmdM/aYpBzwihWKzT/xuw8JswhH2rSqTEBsP0vug78/yLwsi4QIutsi8lLD2Q/a8hBA2pqaKD16KaRARHokCrY5iXb8jiUx/Y0UR8bPjC4X2yrcmGjRsM6Dd4wXSjrhf+cKvoSUhHeS3yUJOkE3Bg/7t0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2iEtps9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DYd47LyiA2ziWWevf3b4Tk80n2Bq+VHaKmLLFagZB/J4E3h+SrKStRcti9fTMqLehLGVUSLYy4VszYS/tHhZdGFed6Z8NwVOV7vGCZ+4eC2lmvv15bsZrxBjAS9SmzIAfB0qZR26/rhMbQE19Asz9/K7jZRLUsZqgnXYb+8DaXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdj/ckzT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2iEtps9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1967CC116D0;
-	Tue,  3 Feb 2026 12:05:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdj/ckzT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0956CC19425;
+	Tue,  3 Feb 2026 12:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770120326;
-	bh=5/47Y+bY6YWxKC6OFIPb7ddxrHRroMu8PY+YNbYHwlM=;
+	s=k20201202; t=1770120328;
+	bh=s7m31JzZ7UocXqlMj5BGSuE2XFthWRk7GT8gRErPb7I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=U2iEtps9UtvfGCDq6vuaZjK93Be4vY2Jep/B8/ItpAzIrOoXK2s/ieUUYY9qJqxIx
-	 njX+A00Qhp17cc72uJhfGj3fBpE7o6DTrEI5doskqnoplPtIIuRYF4vN4reKXrIxrG
-	 tjdzIl0FFR+0CWNgqlk8mglL/LZG9JSqXh+ezAO7tYMwCfXeP+FyMVaBoPkqbI/pQ6
-	 Bc/hnYU29bwHc27qaMJpvNug9N/pka+0bDC5OM9lhWwbgTR0XJYX/kucuRjkK4+2Q0
-	 GmNzoFck/UPiVWk/RyQQrUbbKduXorRfyFFeS9aE30XrLLA60KRNp9mzUJUfA4Vdf8
-	 Z8ozwoTDUNHEw==
+	b=tdj/ckzTlNM7WmfJMHYO+QfuHZrXO0xswdCaTv7tgJ588XC7zq2wqY4dB737DNwzY
+	 VEl3wiTPMvK+pETizOAsVPp3vWZbknZ94aEw5Z/ZVXaKNALC/IFnzATC74vUIXVC3H
+	 ZUdIrgEQYC0fTHJAoQUbuHIIC9LTauR+MlL1BP1NXhvrFmzH3ycXr9Ilvc9Ha76s7U
+	 hRXw1vq5et70hjjxyagUft4JHxgXfZCncScz0YI8LPZHFgks/gI7DnWpJBG+NvN9pa
+	 g/zA6ERgj234zjSqQR7+2v37pHilpPVdTO5k/l7hujLHo8V/SUxn8ghsVL6sZ34AFB
+	 7r3e8s+wrvx2g==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Hsieh Hung-En <hungen3108@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-In-Reply-To: <20260130160017.2630-1-hungen3108@gmail.com>
-References: <20260130160017.2630-1-hungen3108@gmail.com>
-Subject: Re: [PATCH v2 0/5] ASoC: es8328: error handling and resume fixes
-Message-Id: <177012032484.85387.11663786086743925205.b4-ty@kernel.org>
-Date: Tue, 03 Feb 2026 12:05:24 +0000
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com, Vijendar.Mukunda@amd.com, 
+ syed.sabakareem@amd.com
+In-Reply-To: <cover.1769534442.git.simont@opensource.cirrus.com>
+References: <cover.1769534442.git.simont@opensource.cirrus.com>
+Subject: Re: [PATCH 0/4] ASoC: amd: acp: Add ACP7.0 match entries for
+ Cirrus Logic parts
+Message-Id: <177012032678.85387.7873071739767595957.b4-ty@kernel.org>
+Date: Tue, 03 Feb 2026 12:05:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,14 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sat, 31 Jan 2026 00:00:12 +0800, Hsieh Hung-En wrote:
-> This is v2 of the es8328 robustness series.
+On Tue, 27 Jan 2026 17:34:45 +0000, Simon Trimmer wrote:
+> This patch series adds a number of ACP7.0 match table entries that are
+> being used in customer products.
 > 
-> Changes since v1:
-> - Split the previous "set_dai_fmt() and resume()" patch into three patches:
->   * Check and propagate errors in set_dai_fmt()
->   * Use cached regmap on resume for regcache sync
->   * Add error unwind in resume to avoid leaking enabled resources
+> Some of the configurations are very similar so the series begins with
+> renaming and sorting the existing structures so that the end result is
+> easier to manage.
 > 
 > [...]
 
@@ -65,16 +63,14 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: es8328: Fix DAC deemphasis control handling
-      commit: 4c6b74d58766ce7cd66ae8e14babf877039adef6
-[2/5] ASoC: es8328: Propagate errors in set_bias_level()
-      commit: 0801a03a317b4848ca8c10a98f9b84028b7c8fc6
-[3/5] ASoC: es8328: Check errors in set_dai_fmt()
-      commit: 3570e8eef217e60178d23eb490a34d64249bee45
-[4/5] ASoC: es8328: Use cached regmap on resume
-      commit: 9917d99f44231b531a1c704bbbd58059e78c2f59
-[5/5] ASoC: es8328: Add error unwind in resume
-      commit: 8232e6079ae6f8d3a61d87973cb427385aa469b9
+[1/4] ASoC: amd: acp: Sort match table into most specific first
+      commit: 9ba734901cfd67d1b2101cce803a62d422e81b67
+[2/4] ASoC: amd: acp: Rename Cirrus Logic component match entries to include link and uid
+      commit: 5eb3fc48d37157fd83315bcbb5693269fc497fb7
+[3/4] ASoC: amd: acp: Sort Cirrus Logic match entries
+      commit: 3de9cf4782492b19c9d8bdac309462027e18ab43
+[4/4] ASoC: amd: acp: Add ACP7.0 match entries for Cirrus Logic parts
+      commit: ddd9bf2212ab80bb90fa986cd987c671de53bd44
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
