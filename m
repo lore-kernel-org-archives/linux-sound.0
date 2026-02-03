@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0636533B945;
-	Tue,  3 Feb 2026 12:05:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FD333CEB9
+	for <linux-sound@vger.kernel.org>; Tue,  3 Feb 2026 12:05:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770120325; cv=none; b=UN2yT38X2PXeDdWJPYGcAh/g2AFxiGgtHX0jN8EAERvtKjbMlVlaqIS0XKwpwXePJPtqZRTto5nMFi6aii46cXaZUmBBBImIvwB8dVstmYutsUXo/VW1iMTnzgM+PgipkB/tJ5TeEM3PAjQQ/uXcXpgCfsqeQ4AS43KGcF7/ApQ=
+	t=1770120326; cv=none; b=TbzTFosdq+VkRObH/toimO+xi7bsr9QlNO+zwIBzxfSBeGDA+mE1Z6ad9M0zkXrVXbTUHNGzpa+gOithYG0lLM0YHG0SMosMWvfDxoN6/Km5KRMq0bCQSOBjSnwP/YQBD8fkIphuOvL7qehxsL01RntAcVXIM8GScQPnCCe2KIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770120325; c=relaxed/simple;
-	bh=kao7TbUlacMJNZsS+k0rXkPVIuTTFly/b1SFR9FwuYo=;
+	s=arc-20240116; t=1770120326; c=relaxed/simple;
+	bh=5/47Y+bY6YWxKC6OFIPb7ddxrHRroMu8PY+YNbYHwlM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=f5U7Ao2LELkQL2FUaeEq3U7oYQ4d+XHDmDUtjmcfnqYxNI66xabG4VD5QHkahDztjCmcZx3dg+3TCo74zJ3zIiPOiSHjpJ7ePQfo/zQZsvMcjXqzIzQReAiAYtZdVufFpEe2b4sLQxACGirYVLxsc7JsfH1qu5LboznqA1Ye9T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=icHe28pz; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Dxs9nv3zjQPUq0A7GXmdM/aYpBzwihWKzT/xuw8JswhH2rSqTEBsP0vug78/yLwsi4QIutsi8lLD2Q/a8hBA2pqaKD16KaRARHokCrY5iXb8jiUx/Y0UR8bPjC4X2yrcmGjRsM6Dd4wXSjrhf+cKvoSUhHeS3yUJOkE3Bg/7t0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2iEtps9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="icHe28pz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E334C2BC87;
-	Tue,  3 Feb 2026 12:05:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2iEtps9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1967CC116D0;
+	Tue,  3 Feb 2026 12:05:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770120324;
-	bh=kao7TbUlacMJNZsS+k0rXkPVIuTTFly/b1SFR9FwuYo=;
+	s=k20201202; t=1770120326;
+	bh=5/47Y+bY6YWxKC6OFIPb7ddxrHRroMu8PY+YNbYHwlM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=icHe28pzwl5/c2wAhmSHrTWGl/6O+r2a/PRrs/NiuDYb4ozYspISsafQzO00aBqcl
-	 ET24NflbQKZ9cZWBFZDL3MftVomlunmOmco0A7EeoVKxRJXDvM9TN9+LEyA1RXqnWW
-	 Sd/03pefvaLjjnAduq15OlICl7kPb4sLDrsAxiVnFhy1hWp7JFyWwUweWsoixODTgg
-	 QZPndtIe9r9nGuyuJ6Bc6qHNw/+owbRpfP/cKlc+9E2zHJ5XpB56ngQBSRFFbvbcrz
-	 k4vdneIMOnzaZs8xP8h+B/W312xvgYzgVpQcaLmB7UWBUpVF5QNc+iHfo0L+fV9HCu
-	 A5v3xiDYrJPxw==
+	b=U2iEtps9UtvfGCDq6vuaZjK93Be4vY2Jep/B8/ItpAzIrOoXK2s/ieUUYY9qJqxIx
+	 njX+A00Qhp17cc72uJhfGj3fBpE7o6DTrEI5doskqnoplPtIIuRYF4vN4reKXrIxrG
+	 tjdzIl0FFR+0CWNgqlk8mglL/LZG9JSqXh+ezAO7tYMwCfXeP+FyMVaBoPkqbI/pQ6
+	 Bc/hnYU29bwHc27qaMJpvNug9N/pka+0bDC5OM9lhWwbgTR0XJYX/kucuRjkK4+2Q0
+	 GmNzoFck/UPiVWk/RyQQrUbbKduXorRfyFFeS9aE30XrLLA60KRNp9mzUJUfA4Vdf8
+	 Z8ozwoTDUNHEw==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Chris Morgan <macroalpha82@gmail.com>
-Cc: devicetree@vger.kernel.org, wangweidong.a@awinic.com, tiwai@suse.com, 
- perex@perex.cz, conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, 
- lgirdwood@gmail.com, heiko@sntech.de, linux-rockchip@lists.infradead.org, 
- Chris Morgan <macromorgan@hotmail.com>
-In-Reply-To: <20260128174608.1498-1-macroalpha82@gmail.com>
-References: <20260128174608.1498-1-macroalpha82@gmail.com>
-Subject: Re: (subset) [PATCH V2 0/3] Anbernic RG-DS AW87391 Speaker Amps
-Message-Id: <177012032197.85387.2083007353460643930.b4-ty@kernel.org>
-Date: Tue, 03 Feb 2026 12:05:21 +0000
+To: linux-sound@vger.kernel.org, Hsieh Hung-En <hungen3108@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+In-Reply-To: <20260130160017.2630-1-hungen3108@gmail.com>
+References: <20260130160017.2630-1-hungen3108@gmail.com>
+Subject: Re: [PATCH v2 0/5] ASoC: es8328: error handling and resume fixes
+Message-Id: <177012032484.85387.11663786086743925205.b4-ty@kernel.org>
+Date: Tue, 03 Feb 2026 12:05:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,18 +48,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 28 Jan 2026 11:46:05 -0600, Chris Morgan wrote:
-> Add support for the Anbernic RG-DS Speaker Amplifiers. The Anbernic
-> RG-DS uses two AW87391 ICs at 0x58 and 0x5B on i2c2. However, the
-> manufacturer did not provide a firmware file, only a sequence of
-> register writes to each device to enable and disable them.
+On Sat, 31 Jan 2026 00:00:12 +0800, Hsieh Hung-En wrote:
+> This is v2 of the es8328 robustness series.
 > 
-> Add support for this *specific* configuration in the AW87390 driver.
-> Since we are relying on a device specific sequence I am using a
-> device specific compatible string. This driver does not currently
-> support the aw87391 for any other device as I have none to test
-> with valid firmware. Attempts to create firmware with the AwinicSCPv4
-> have not been successful.
+> Changes since v1:
+> - Split the previous "set_dai_fmt() and resume()" patch into three patches:
+>   * Check and propagate errors in set_dai_fmt()
+>   * Use cached regmap on resume for regcache sync
+>   * Add error unwind in resume to avoid leaking enabled resources
 > 
 > [...]
 
@@ -68,10 +65,16 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: dt-bindings: aw87390: Add Anbernic RG-DS Amplifier
-      commit: c26d6cdade6c2a96049f24fac64a8e3734188703
-[2/3] ASoC: codecs: aw87390: Add Anbernic RG-DS amp driver
-      commit: a145cfd0ffe7bd7d61ce25839cec737c449b0d2c
+[1/5] ASoC: es8328: Fix DAC deemphasis control handling
+      commit: 4c6b74d58766ce7cd66ae8e14babf877039adef6
+[2/5] ASoC: es8328: Propagate errors in set_bias_level()
+      commit: 0801a03a317b4848ca8c10a98f9b84028b7c8fc6
+[3/5] ASoC: es8328: Check errors in set_dai_fmt()
+      commit: 3570e8eef217e60178d23eb490a34d64249bee45
+[4/5] ASoC: es8328: Use cached regmap on resume
+      commit: 9917d99f44231b531a1c704bbbd58059e78c2f59
+[5/5] ASoC: es8328: Add error unwind in resume
+      commit: 8232e6079ae6f8d3a61d87973cb427385aa469b9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
