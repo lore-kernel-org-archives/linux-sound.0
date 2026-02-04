@@ -1,124 +1,96 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308743E8C72
-	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 11:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F06325738
+	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 12:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770205986; cv=none; b=oQLWgVrGj6dWivIsQTpkXFLE6esbvOEV2XXFrYM9gF5SvUMmt90N9CwIDmqrBU8x4CvFdf8DhcL86QZG8wkxlt+0au6g8SQQnS7Z1eFABvepTEa2lYWFHgNkGS6uSBMwZz8qphK0YFFX2ZLBGHxxHYcf6eFIui5MCEYKU4/EobM=
+	t=1770206445; cv=none; b=nN0czpf8VRCl8HCIr/ArV+wKHQOHO0S08lLGRoOidqhaaPFBoUQhwnY5Gm8OL1fpjdrEx7iVLVXLFnrG2lj3BdYZbteVKXcTgMuCyDXrSv4atAbDtqrhi5k/J/tZ6W5BAv4RTgl0nrDmz4zuE6uAzq7bl/h34puMIyc4shJTgfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770205986; c=relaxed/simple;
-	bh=54OTM945YlZQI3pIRIFRvcXDz2cmhgSkEIx+7ood+nQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aHIcc0ORTH/Q0SFXdH8FVi8fTUsNNFb7BwWkyxqynsHcim7TtG7VFT+DAGCvie7KpYnF/g3CEN2ZPQlK870cyIXIhKIcFIR4A2etN83Z86dGiSH7V7EdORgoaHXtLbifA2YhRB29/goz2pu1uHBpX9vGetD9zeOcp/Wlu5nVwUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=fn9VNA7a; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1770206445; c=relaxed/simple;
+	bh=GzKupIB/klnLG//KNHtt/vqrpDbS+Oohl9lnQ1MSETg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=t5E1sRxkIzCojL4pnztP5F9g7PkDUR0nXep1pIadGssukchAEQ9AW5RQIyXnQc69JVY+6L1flhLKKv9dUHnhHa/6eAH5B9XL6uP2fM2WHvIo1nUQa/KFaNGxdsyyj0k04GrMVskJTgceJu4xmA7rO1M+/wJJTZG3KmUgblPYkf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8ekU55Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="fn9VNA7a"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 9913A3D17C;
-	Wed,  4 Feb 2026 12:47:02 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 9913A3D17C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1770205622; bh=KlUC7rX4ZIVZvN0a8epx01j9meqZqNtNjXYUpYN17g4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fn9VNA7aTa5/76m+RNEMU7KmNpVr97VD8PemnrHRm/eHZumiX7wX9DHH4CKJXHCRT
-	 X8e+U1Ki19Zy8lYDQGKZVQpesVDgAK5O5t93rxPtYHYhsFAaWQIebDZBUsbyzSiLku
-	 HUQKROH22O6VVmKumHr9Tv+wIJeBjvzVMa6zYzts=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed,  4 Feb 2026 12:46:56 +0100 (CET)
-Message-ID: <08cf484e-fc2f-4878-ab18-c80798b844e4@perex.cz>
-Date: Wed, 4 Feb 2026 12:46:55 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8ekU55Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE08EC4CEF7;
+	Wed,  4 Feb 2026 12:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770206445;
+	bh=GzKupIB/klnLG//KNHtt/vqrpDbS+Oohl9lnQ1MSETg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=J8ekU55Qd5ZdSuRk4ku6z2FFO4XRQz+/xiaP9Bd1AJ/sb46sFPj+OpWgEXZWtN5RL
+	 NRvQWCKdru7quPuYohCuqzz65hS7zez5TqkYOuhmKBhXm2sC9DIW9Pv85bE0oCxmcN
+	 Lhb9B6hz7ZgQ0tg2KXQkjsZq7yPihfJBenDuFtPBgJWsjVHUTI82wx2H1geJJ9jx45
+	 Zns5caR0mu/R/ebDQAn0rpo+cf5RQfGdsVMil0YEXNwKkUe/OyZ81P5Q28yg1j5e67
+	 Rt7FaaL1HcwALNEnU9/CEpBKwaROtkzOic/ORScpX4MxKDsWliIbQg7kop03BSMJbF
+	 qzg5XybDnn2Nw==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com
+In-Reply-To: <20260203114027.3742558-1-yung-chuan.liao@linux.intel.com>
+References: <20260203114027.3742558-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/3]ASoC: SOF: Intel: reserve link DMA for sdw bpt
+ stream
+Message-Id: <177020644369.60772.352343538855127165.b4-ty@kernel.org>
+Date: Wed, 04 Feb 2026 12:00:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ALSA: control: Verify put() result when in debug mode
-To: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com
-Cc: broonie@kernel.org, amade@asmblr.net, linux-sound@vger.kernel.org,
- kuninori.morimoto.gx@renesas.com
-References: <20260204112609.127085-1-cezary.rojewski@intel.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <20260204112609.127085-1-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-On 2/4/26 12:26, Cezary Rojewski wrote:
+On Tue, 03 Feb 2026 19:40:24 +0800, Bard Liao wrote:
+> Currently, hda_sdw_bpt_dma_prepare() get a HDA stream and use the link
+> DMA but doesn't reserve it. It works fine because we assume the
+> SwoundWire BPT will not run with audio streams simultaneously. Create
+> and use the new helpers to reserve the link DMA and allow running BPT
+> and audio stream simultaneously.
+> 
+> Bard Liao (3):
+>   ASoC: SOF: Intel: add hda_dsp_stream_pair_get/put helpers
+>   ASoC: SOF: Intel: add hda_dma_prepare/cleanup helpers
+>   ASoC: SOF: Intel: hda-sdw-bpt: support simultaneous audio and BPT
+>     streams
+> 
+> [...]
 
-> +	/* With known state for both new and original, do the comparison. */
-> +	retcmp = memcmp(&original.value.bytes.data[0], &control->value.bytes.data[0],
+Applied to
 
-I think that shorter &original.value and &control->value pointer reference 
-should be enough here. It's also more readable.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> +			sizeof(original.value.bytes.data));
-> +	if (retcmp)
-> +		retcmp = 1;
-> +
-> +	if (retcmp == ret)
-> +		pr_info("kctl->put() returned the expected value of '%d'\n", ret);
-> +	else
-> +		pr_warn("expected kctl->put() to return '%d' but got '%d'\n", ret, retcmp);
+Thanks!
 
-For volatile controls (SNDRV_CTL_ELEM_ACCESS_VOLATILE), the result may be 
-fine. I would downgrade the level to pr_info for those controls here with 
-another message.
+[1/3] ASoC: SOF: Intel: add hda_dsp_stream_pair_get/put helpers
+      commit: 89e1d632bb29e0915d801629d4a842ff609514e2
+[2/3] ASoC: SOF: Intel: add hda_dma_prepare/cleanup helpers
+      commit: 8834ae896bfe10f239d49adb9cc76bb6a57c431c
+[3/3] ASoC: SOF: Intel: hda-sdw-bpt: support simultaneous audio and BPT streams
+      commit: 330d1deb410fe75f7f79bd1e5025f2827365eb83
 
-					Jaroslav
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
