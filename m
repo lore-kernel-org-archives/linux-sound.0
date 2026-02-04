@@ -1,85 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2988C23A58F
-	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 13:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46639244694
+	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 13:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770211039; cv=none; b=VOgwpkBViNaJJyjpjuut/F54HPpY5PTcQ9y2/lJyLfKQffkR9DZPpVQse5hSVmjXZuPCXWz0rEf/rktsUjoyMhEYTFT+VqScoyb9bQ8fkSs25h2IoTsKsDrQRfa+bbSazx7dbaWtgfSqkEbFq9ESnRyOqhcR7n3+pUJRntkq+3M=
+	t=1770212978; cv=none; b=hm8T9cj1PkiF62ryb5OWawTP8RrdXAREvuUoiq665vt24WFwplk+RIGqas9UyPUXzI8ThTdjxHZpNxbKY59GQwt4NXdIqB1Knq0pDJwUt1Df+y0vHbUx00jMIlv2t52R1WOdYnhAl4FE1p2ZBJverhKdK/vWLrK9R1/4MRe8vfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770211039; c=relaxed/simple;
-	bh=Z586eq4yMlnpha6qDVyGw8m604cVU0MIDApCBKaHy5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qh7+yaq14tldphjv94yimrVlaRbNM+uOol3vJkdbd44fUon6hBx6dREL/geYmCO6FBQrbhqvj5fjh1SvCEwJ/QQgKrWwUP8WeQ20t/YMgSE9D2TDnB1zO7GkiW8/Hfq2qHeL4wdOk81Qz+XqSnd+zXKD26mH0zmLIv+6GWl1XJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o6VAyKn2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770212978; c=relaxed/simple;
+	bh=5rMvUGdKeN518PqUB9sJtRH/LTcSa2Ge66KNp4dawAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WH/Q64xtWDx+/oEL0tv5FJJXk7H0QZjI1Yj3SpF8609gebQVRfDf6gmM4hFer0EwYyaw23jxJMmjqzsmhefXVeR+sASvYt6D/nc2BZqI47zM73QAkpOgknA1vDJK85bB7GFmNbNe1FXe7wTjB0DWXTSzhBxDn9LOoHQYtmZk4q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RINroZr3; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o6VAyKn2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A06D7C16AAE;
-	Wed,  4 Feb 2026 13:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770211039;
-	bh=Z586eq4yMlnpha6qDVyGw8m604cVU0MIDApCBKaHy5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o6VAyKn2rtnz2iGUJz/qZpi0Aw+qjzrDN8tKG0N28V4z1HC1BzXtr+5XkZpqVdoh0
-	 DFz4VoBEEuyjvE6WZwmD/o4OdIGUHxHWXyD5FJAslChfKBAIsJmYEwXxHBycfaNWLi
-	 /Ogn18YMqpekDYjsMR0+HQPKUutsIoPCNtkYZstoIQ2fOdLK+nYCfv8jdNyiH47aEl
-	 pTYtSFpRfNN5OVPumffzfrFzNjqFDM/NRdy6YrCWMYadwfUoPwY7loGSJ49F4bQAl2
-	 +XZlMDnagdkZfYfsF6xHlGDxcSW2LVAFWb7rqDdDjRmMmWBeBW96jUgLcDirDWftUt
-	 +h9kYF44Fr66Q==
-Date: Wed, 4 Feb 2026 13:17:14 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, tiwai@suse.com, amade@asmblr.net,
-	linux-sound@vger.kernel.org, kuninori.morimoto.gx@renesas.com
-Subject: Re: [PATCH v2] ALSA: control: Verify put() result when in debug mode
-Message-ID: <073455bf-2923-428a-bd65-b976cc46819f@sirena.org.uk>
-References: <20260204112609.127085-1-cezary.rojewski@intel.com>
- <08cf484e-fc2f-4878-ab18-c80798b844e4@perex.cz>
- <407b1224-be04-4737-a8b9-42f70b8cb635@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RINroZr3"
+Message-ID: <75af4057-c015-4bd0-bd23-f719868410c2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770212975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7Tm4Hd4tcgUiSqbmmM5JdcJhHgVh9Yn+EvBW1Ac6mfY=;
+	b=RINroZr3zjkJusl9afp4mzINO0eS8woGLjsiDx1Ddcf2RP5pQxrXFCpAbI1TZyMO1Cykin
+	pGykyEOeGaoCMTdNfSTCz3KIq2xwSsgXd8hP/sH6+NdUv0fKyB0DZB1ZTT6T66yTsqEBp1
+	CTy+qbD4ZP6C2GmvqY1qmIKfD1cgC3o=
+Date: Wed, 4 Feb 2026 14:30:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iZgPb8N0oh2ungwW"
-Content-Disposition: inline
-In-Reply-To: <407b1224-be04-4737-a8b9-42f70b8cb635@intel.com>
-X-Cookie: Are you having fun yet?
+Subject: Re: [PATCH v1 3/6] ASoC: sdw_utils: add soc_sdw_es9356
+To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
+References: <20260204094452.33289-1-zhangyi@everest-semi.com>
+ <20260204094452.33289-4-zhangyi@everest-semi.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260204094452.33289-4-zhangyi@everest-semi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
+On 2/4/26 10:44, Zhang Yi wrote:
+> Add a utility program for handling ES9356 in the universal machine driver
+> 
+> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+> ---
+>  sound/soc/sdw_utils/Makefile         |   1 +
+>  sound/soc/sdw_utils/soc_sdw_es9356.c | 275 +++++++++++++++++++++++++++
+>  2 files changed, 276 insertions(+)
+>  create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
+> 
+> diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
+> index e8bd5ffb1..3818aa2dd 100644
+> --- a/sound/soc/sdw_utils/Makefile
+> +++ b/sound/soc/sdw_utils/Makefile
+> @@ -6,6 +6,7 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
+>  		       soc_sdw_bridge_cs35l56.o 			\
+>  		       soc_sdw_cs42l42.o soc_sdw_cs42l43.o 		\
+>  		       soc_sdw_cs42l45.o				\
+> +		       soc_sdw_es9356.o				\
+>  		       soc_sdw_cs_amp.o					\
 
---iZgPb8N0oh2ungwW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Nit-pick: probably best to avoid adding ES support in the middle of CS stuff.
 
-On Wed, Feb 04, 2026 at 01:28:01PM +0100, Cezary Rojewski wrote:
-> On 2026-02-04 12:46 PM, Jaroslav Kysela wrote:
-
-> > For volatile controls (SNDRV_CTL_ELEM_ACCESS_VOLATILE), the result may
-> > be fine. I would downgrade the level to pr_info for those controls here
-> > with another message.
-
-> Does that mean that verification for controls of access VOLATILE may never
-> be fully correct? If so, maybe let's leave the developer to make the final
-> call, whether it's false-positive or not?
-
-Yes, volatile controls could change at any time so we can never
-guarantee that a read will match a write.
-
---iZgPb8N0oh2ungwW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmDRtoACgkQJNaLcl1U
-h9BBNQgAhX7sa5zS915ZUPms67OzcBPQPC6mfHu7gB/tOCeW5KQzavvA1t6n0H1y
-iXnzlZWcB6lXj34FhNxTNhtanM3KR/eCIrY1De23XYO87kZFO9D5zuEh+6QjhE8p
-gfwQZ1UED/fX2vfADsgb5Up1YtY43axmxRc9gMa4lrI0W+pr6ouB8A76JTJ7JwNM
-tp+t1GLQ7jkD9HniWmRI+WVeNgZV2WJIo4v8K72hoUrrpJw+R3iHx9/szN7MWEJ/
-rcWpcqt84pvO3HflVwjZY++axY8zvXBl00LCGW+l35IWV4zxRP6tPE/g4UvtkRJq
-Ba2YXN7zczY15xkVAcvCZssj8g8NGA==
-=WGlB
------END PGP SIGNATURE-----
-
---iZgPb8N0oh2ungwW--
+>  		       soc_sdw_maxim.o \
+>  		       soc_sdw_ti_amp.o\
