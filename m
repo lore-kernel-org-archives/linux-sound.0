@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2266437F8BC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7928B38E5DC
 	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 08:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770193096; cv=none; b=sO4vSqn5njNbuKcQL7FKBas/ufywHPdii65fDaLR9UUaxyiCuS1mg/ciW+GGA3HXKcrb79Q/YCRE5IIdnUehvk1bqN/6YMQ2PcGYkWV8ilN+GOKZ4UPeO01MVkdW0R/UhTwRuziku0ah4u0+1ShaKz/Bkjq0aMRw0VxrEoDEhJk=
+	t=1770193096; cv=none; b=exKtKhoOvOfHfdNeL6g1T+S5YzCE9H8gCzhbxxSA4knW7/Jk7JvQYGFYZilIRSpsuDh3gg8jT05/492hFQQfXsqtiF3hW4Ws2FhH5I373I2CPIlPm4q1ujyWaSNVLaQUjmV3WIMU911+xHtKfVDk3504O8sYj/7xDKjs+jFmU20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770193096; c=relaxed/simple;
-	bh=LPjlblBe6tSekOjyBfnEWiS7ZYrdvQ8LmlEaC3WWP0I=;
+	bh=qj8EYr9Oil7ASHAcM1DFft64lXYg3do9vuHEol/Js3w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qjU4kEeX1i0RB/JlwWVUFftrPJCMO8t8e0geVe0hd4v8iXl82kyzx5N+EUC7oglIjNaedLN5TvIg9UBtU1h5rILtkyGfkc4BhgiO2+dcyzfaaKa6Up0qNLS04N5+UOXxiIfuhJj9/Xb/OhNV9iCSphuPpqoEg2U64xmEY0H7AKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=It+wYpYS; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version:Content-Type; b=o6Dn5y5o4rdjfrtB3tcKREjqMsH9x83G4z8R561q4t+8vQedx/Slwu70Phc21UsLZ8rtSpUvK79+d1GqzQchc9gE98liiNPwHgFNY1jZjs6atgxK+T3IL4/eEHZXjFMvdK5JaRixWbS2Vxub1bYx8susUQMxv7vl5C89mu5gk8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtS05wwy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="It+wYpYS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtS05wwy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770193096; x=1801729096;
+  t=1770193097; x=1801729097;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=LPjlblBe6tSekOjyBfnEWiS7ZYrdvQ8LmlEaC3WWP0I=;
-  b=It+wYpYS9TcNGHvm+CQUstcgd6q0heF8GMq0zk5yUaxsHGYN6edSO/x/
-   9W/HlTIu80AY85QIjq9YzlOHuQQW/x1ReWW2F3oRWt73FHcBcAlcaoUiB
-   eVRKl9VRA6bKLH/SBxc+yJ0jpGFscNwkX6d0T1nR8fIIPJih0En1NOKq2
-   eZHEEDj8qocj+DePMTqlfzNhmaqjRjbjHzuw10DhmRBGh2vwe1wCXIcML
-   ocoKS3R5vivPpHyL2m2OaGm5ZKMAoE0RMsu8xMBoI9+U0v7FR5qxqnLU8
-   WT2hHPCsljRhPry+kbhxc1j6cqiqpd4n7BgUvh7RVBATtkMgWi1CF07Tl
-   A==;
-X-CSE-ConnectionGUID: BOFu/4zFR1eIwANFMrH53g==
-X-CSE-MsgGUID: XZ+5aImoQdK3bfCaVnwAVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="94028478"
+  bh=qj8EYr9Oil7ASHAcM1DFft64lXYg3do9vuHEol/Js3w=;
+  b=BtS05wwyS0a8Ukq4yctgawoEwYw3ta9U0M6XTij9CotLk9Hkps+XszSQ
+   Dvi1y+yZXzjDCxk/IXWnoQtI7XRks5URJfqYiYurkusji1dCAHVg23xza
+   qJJHuC7+tDAfd8a8e2kLcgKVoOZiNQs/GAXfjphsyWJ8V7gpoBjyV7Bg7
+   7v1sUPzRy5ucyXiFWSSx1hEM1SAIASp4Qhk/+fDyO7ftnrUUBcxPavxAm
+   uox9oPBKmesSdgI1A3noFNooIJXF48qrSupq7AoxOhWre0GFHxPdlihZF
+   wd7doa1nsm1QuHFulBtMqB/J5o/hB1cU7e8hdieyyAtpfn9w/wkPfxnZ3
+   w==;
+X-CSE-ConnectionGUID: G7/YoO1oTvaL1Q89/Iluvw==
+X-CSE-MsgGUID: bJlbEbuHRpuCsow4KneWXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="94028471"
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="94028478"
+   d="scan'208";a="94028471"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 00:18:07 -0800
-X-CSE-ConnectionGUID: Q/ywd5qATHyDdtEPwjh3yg==
-X-CSE-MsgGUID: SdG3nTSQSwa7no1c4FDTUw==
+X-CSE-ConnectionGUID: UzVeMHQ4Q0+GzM7EujtADw==
+X-CSE-MsgGUID: JWXGzjafQ3KTSMz40qd02A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
-   d="scan'208";a="209893270"
+   d="scan'208";a="209893232"
 Received: from aotchere-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.245])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 00:18:02 -0800
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 00:17:53 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -53,9 +53,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com,
 	mateuszx.redzynia@intel.com
-Subject: [PATCH 04/10] ASoC: Intel: sof_sdw: Add a DAI link for loopback capture
-Date: Wed,  4 Feb 2026 10:18:27 +0200
-Message-ID: <20260204081833.16630-5-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 02/10] ASoC: SOF: pcm: Split up widget prepare and setup
+Date: Wed,  4 Feb 2026 10:18:25 +0200
+Message-ID: <20260204081833.16630-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260204081833.16630-1-peter.ujfalusi@linux.intel.com>
 References: <20260204081833.16630-1-peter.ujfalusi@linux.intel.com>
@@ -70,87 +70,298 @@ Content-Transfer-Encoding: 8bit
 
 From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-Add a DAI link for loopback capture as the last link to make sure
-the other DAI link ID's remain unaffected. It serves as a dummy DAI link
-to enable echo reference capture in the SDW topologies which do not have
-an actual backend capture DAI.
+Widgets are set up in 2 steps, first ipc_prepare followed by the actual
+IPC sent to the DSP to set up the widget. Split these 2 steps to do the
+ipc_prepare during hw_params and the setting up in the prepare callback.
+This will allow for future modifications to pipeline set up to be split
+up between the FE and BE DAI prepare ops.
 
 Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 43 ++++++++++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 2 deletions(-)
+ sound/soc/sof/pcm.c       | 81 +++++++++++++++++++++++++++++++--------
+ sound/soc/sof/sof-audio.c | 48 ++++++++++++++---------
+ sound/soc/sof/sof-audio.h |  7 ++++
+ 3 files changed, 102 insertions(+), 34 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 50b838be24e9..ee34282828e4 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -1186,6 +1186,34 @@ static int create_bt_dailinks(struct snd_soc_card *card,
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index 31879a11c33e..5b598d0940eb 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -88,9 +88,9 @@ sof_pcm_setup_connected_widgets(struct snd_sof_dev *sdev, struct snd_soc_pcm_run
+ 
+ 		spcm->stream[dir].list = list;
+ 
+-		ret = sof_widget_list_setup(sdev, spcm, params, platform_params, dir);
++		ret = sof_widget_list_prepare(sdev, spcm, params, platform_params, dir);
+ 		if (ret < 0) {
+-			spcm_err(spcm, dir, "Widget list set up failed\n");
++			spcm_err(spcm, dir, "widget list prepare failed\n");
+ 			spcm->stream[dir].list = NULL;
+ 			snd_soc_dapm_dai_free_widgets(&list);
+ 			return ret;
+@@ -100,15 +100,30 @@ sof_pcm_setup_connected_widgets(struct snd_sof_dev *sdev, struct snd_soc_pcm_run
  	return 0;
  }
  
-+static int create_echoref_dailink(struct snd_soc_card *card,
-+				  struct snd_soc_dai_link **dai_links, int *be_id)
++static struct snd_sof_widget *snd_sof_find_swidget_by_comp_id(struct snd_sof_dev *sdev,
++							      int comp_id)
 +{
-+	struct device *dev = card->dev;
-+	int ret;
-+	char *name = devm_kasprintf(dev, GFP_KERNEL, "Loopback_Virtual");
++	struct snd_sof_widget *swidget;
 +
-+	if (!name)
-+		return -ENOMEM;
-+
-+	/*
-+	 * use dummy DAI names as this won't be connected to an actual DAI but just to establish a
-+	 * fe <-> be connection for loopback capture for echo reference
-+	 */
-+	ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, name,
-+					    0, 1, "Loopback Virtual Pin", "dummy",
-+					    snd_soc_dummy_dlc.name, snd_soc_dummy_dlc.dai_name,
-+					    1, NULL, NULL);
-+	if (ret)
-+		return ret;
-+
-+	(*dai_links)++;
-+
-+	dev_dbg(dev, "Added echo reference DAI link\n");
-+
-+	return 0;
-+}
-+
- static int sof_card_dai_links_create(struct snd_soc_card *card)
- {
- 	struct device *dev = card->dev;
-@@ -1294,8 +1322,12 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 		goto err_end;
- 	}
- 
--	/* allocate BE dailinks */
--	num_links = sdw_be_num + ssp_num + dmic_num + hdmi_num + bt_num;
-+	/*
-+	 * allocate BE dailinks, add an extra DAI link for echo reference capture.
-+	 * This should be the last DAI link and it is expected both for monolithic
-+	 * and functional SOF topologies to support echo reference.
-+	 */
-+	num_links = sdw_be_num + ssp_num + dmic_num + hdmi_num + bt_num + 1;
- 	dai_links = devm_kcalloc(dev, num_links, sizeof(*dai_links), GFP_KERNEL);
- 	if (!dai_links) {
- 		ret = -ENOMEM;
-@@ -1344,6 +1376,13 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 			goto err_end;
- 	}
- 
-+	/* dummy echo ref link. keep this as the last DAI link. The DAI link ID does not matter */
-+	ret = create_echoref_dailink(card, &dai_links, &be_id);
-+	if (ret) {
-+		dev_err(dev, "failed to create echo ref dai link: %d\n", ret);
-+		goto err_end;
++	list_for_each_entry(swidget, &sdev->widget_list, list) {
++		if (comp_id == swidget->comp_id)
++			return swidget;
 +	}
 +
- 	WARN_ON(codec_conf != card->codec_conf + card->num_configs);
- 	WARN_ON(dai_links != card->dai_link + card->num_links);
++	return NULL;
++}
++
+ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 			     struct snd_pcm_substream *substream,
+ 			     struct snd_pcm_hw_params *params)
+ {
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
+ 	const struct sof_ipc_pcm_ops *pcm_ops = sof_ipc_get_ops(sdev, pcm);
+-	struct snd_sof_platform_stream_params platform_params = { 0 };
++	struct snd_sof_platform_stream_params *platform_params;
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct snd_sof_widget *host_widget;
+ 	struct snd_sof_pcm *spcm;
+ 	int ret;
  
+@@ -144,7 +159,8 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 		spcm->prepared[substream->stream] = false;
+ 	}
+ 
+-	ret = snd_sof_pcm_platform_hw_params(sdev, substream, params, &platform_params);
++	platform_params = &spcm->platform_params[substream->stream];
++	ret = snd_sof_pcm_platform_hw_params(sdev, substream, params, platform_params);
+ 	if (ret < 0) {
+ 		spcm_err(spcm, substream->stream, "platform hw params failed\n");
+ 		return ret;
+@@ -152,12 +168,27 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 
+ 	/* if this is a repeated hw_params without hw_free, skip setting up widgets */
+ 	if (!spcm->stream[substream->stream].list) {
+-		ret = sof_pcm_setup_connected_widgets(sdev, rtd, spcm, params, &platform_params,
++		ret = sof_pcm_setup_connected_widgets(sdev, rtd, spcm, params, platform_params,
+ 						      substream->stream);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+ 
++	if (!sdev->dspless_mode_selected) {
++		int host_comp_id = spcm->stream[substream->stream].comp_id;
++
++		host_widget = snd_sof_find_swidget_by_comp_id(sdev, host_comp_id);
++		if (!host_widget) {
++			spcm_err(spcm, substream->stream,
++				 "failed to find host widget with comp_id %d\n", host_comp_id);
++			return -EINVAL;
++		}
++
++		/* set the host DMA ID */
++		if (tplg_ops && tplg_ops->host_config)
++			tplg_ops->host_config(sdev, host_widget, platform_params);
++	}
++
+ 	/* create compressed page table for audio firmware */
+ 	if (runtime->buffer_changed) {
+ 		struct snd_dma_buffer *dmab = snd_pcm_get_dma_buf(substream);
+@@ -169,14 +200,6 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 			return ret;
+ 	}
+ 
+-	if (pcm_ops && pcm_ops->hw_params) {
+-		ret = pcm_ops->hw_params(component, substream, params, &platform_params);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	spcm->prepared[substream->stream] = true;
+-
+ 	/* save pcm hw_params */
+ 	memcpy(&spcm->params[substream->stream], params, sizeof(*params));
+ 
+@@ -281,6 +304,9 @@ static int sof_pcm_hw_free(struct snd_soc_component *component,
+ 
+ 	ret = sof_pcm_stream_free(sdev, substream, spcm, substream->stream, true);
+ 
++	/* unprepare and free the list of DAPM widgets */
++	sof_widget_list_unprepare(sdev, spcm, substream->stream);
++
+ 	cancel_work_sync(&spcm->stream[substream->stream].period_elapsed_work);
+ 
+ 	return ret;
+@@ -291,7 +317,12 @@ static int sof_pcm_prepare(struct snd_soc_component *component,
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
++	const struct sof_ipc_pcm_ops *pcm_ops = sof_ipc_get_ops(sdev, pcm);
++	struct snd_sof_platform_stream_params *platform_params;
++	struct snd_soc_dapm_widget_list *list;
++	struct snd_pcm_hw_params *params;
+ 	struct snd_sof_pcm *spcm;
++	int dir = substream->stream;
+ 	int ret;
+ 
+ 	/* nothing to do for BE */
+@@ -317,15 +348,33 @@ static int sof_pcm_prepare(struct snd_soc_component *component,
+ 			return ret;
+ 	}
+ 
+-	/* set hw_params */
+-	ret = sof_pcm_hw_params(component,
+-				substream, &spcm->params[substream->stream]);
++	ret = sof_pcm_hw_params(component, substream, &spcm->params[substream->stream]);
+ 	if (ret < 0) {
+ 		spcm_err(spcm, substream->stream,
+ 			 "failed to set hw_params after resume\n");
+ 		return ret;
+ 	}
+ 
++	list = spcm->stream[dir].list;
++	params = &spcm->params[substream->stream];
++	platform_params = &spcm->platform_params[substream->stream];
++	ret = sof_widget_list_setup(sdev, spcm, params, platform_params, dir);
++	if (ret < 0) {
++		dev_err(sdev->dev, "failed widget list set up for pcm %d dir %d\n",
++			spcm->pcm.pcm_id, dir);
++		spcm->stream[dir].list = NULL;
++		snd_soc_dapm_dai_free_widgets(&list);
++		return ret;
++	}
++
++	if (pcm_ops && pcm_ops->hw_params) {
++		ret = pcm_ops->hw_params(component, substream, params, platform_params);
++		if (ret < 0)
++			return ret;
++	}
++
++	spcm->prepared[substream->stream] = true;
++
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
+index d55ee7343f8e..ac2d6660d2fa 100644
+--- a/sound/soc/sof/sof-audio.c
++++ b/sound/soc/sof/sof-audio.c
+@@ -660,6 +660,30 @@ sof_walk_widgets_in_order(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
+ 	return 0;
+ }
+ 
++int sof_widget_list_prepare(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
++			    struct snd_pcm_hw_params *fe_params,
++			    struct snd_sof_platform_stream_params *platform_params,
++			    int dir)
++{
++	/*
++	 * Prepare widgets for set up. The prepare step is used to allocate memory, assign
++	 * instance ID and pick the widget configuration based on the runtime PCM params.
++	 */
++	return sof_walk_widgets_in_order(sdev, spcm, fe_params, platform_params,
++					dir, SOF_WIDGET_PREPARE);
++}
++
++void sof_widget_list_unprepare(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm, int dir)
++{
++	struct snd_soc_dapm_widget_list *list = spcm->stream[dir].list;
++
++	/* unprepare the widget */
++	sof_walk_widgets_in_order(sdev, spcm, NULL, NULL, dir, SOF_WIDGET_UNPREPARE);
++
++	snd_soc_dapm_dai_free_widgets(&list);
++	spcm->stream[dir].list = NULL;
++}
++
+ int sof_widget_list_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
+ 			  struct snd_pcm_hw_params *fe_params,
+ 			  struct snd_sof_platform_stream_params *platform_params,
+@@ -670,19 +694,10 @@ int sof_widget_list_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
+ 	struct snd_soc_dapm_widget *widget;
+ 	int i, ret;
+ 
+-	/* nothing to set up */
+-	if (!list)
++	/* nothing to set up or setup has been already done */
++	if (!list || spcm->setup_done[dir])
+ 		return 0;
+ 
+-	/*
+-	 * Prepare widgets for set up. The prepare step is used to allocate memory, assign
+-	 * instance ID and pick the widget configuration based on the runtime PCM params.
+-	 */
+-	ret = sof_walk_widgets_in_order(sdev, spcm, fe_params, platform_params,
+-					dir, SOF_WIDGET_PREPARE);
+-	if (ret < 0)
+-		return ret;
+-
+ 	/* Set up is used to send the IPC to the DSP to create the widget */
+ 	ret = sof_walk_widgets_in_order(sdev, spcm, fe_params, platform_params,
+ 					dir, SOF_WIDGET_SETUP);
+@@ -737,6 +752,8 @@ int sof_widget_list_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
+ 		}
+ 	}
+ 
++	spcm->setup_done[dir] = true;
++
+ 	return 0;
+ 
+ widget_free:
+@@ -754,18 +771,13 @@ int sof_widget_list_free(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm, int
+ 	int ret;
+ 
+ 	/* nothing to free */
+-	if (!list)
++	if (!list || !spcm->setup_done[dir])
+ 		return 0;
+ 
+ 	/* send IPC to free widget in the DSP */
+ 	ret = sof_walk_widgets_in_order(sdev, spcm, NULL, NULL, dir, SOF_WIDGET_FREE);
+ 
+-	/* unprepare the widget */
+-	sof_walk_widgets_in_order(sdev, spcm, NULL, NULL, dir, SOF_WIDGET_UNPREPARE);
+-
+-	snd_soc_dapm_dai_free_widgets(&list);
+-	spcm->stream[dir].list = NULL;
+-
++	spcm->setup_done[dir] = false;
+ 	pipeline_list->count = 0;
+ 
+ 	return ret;
+diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
+index 8596de1e8b95..5f62a34582da 100644
+--- a/sound/soc/sof/sof-audio.h
++++ b/sound/soc/sof/sof-audio.h
+@@ -354,7 +354,9 @@ struct snd_sof_pcm {
+ 	struct snd_sof_pcm_stream stream[2];
+ 	struct list_head list;	/* list in sdev pcm list */
+ 	struct snd_pcm_hw_params params[2];
++	struct snd_sof_platform_stream_params platform_params[2];
+ 	bool prepared[2]; /* PCM_PARAMS set successfully */
++	bool setup_done[2]; /* the setup of the SOF PCM device is done */
+ 	bool pending_stop[2]; /* only used if (!pcm_ops->platform_stop_during_hw_free) */
+ 
+ 	/* Must be last - ends in a flex-array member. */
+@@ -676,6 +678,11 @@ int sof_widget_list_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
+ 			  struct snd_pcm_hw_params *fe_params,
+ 			  struct snd_sof_platform_stream_params *platform_params,
+ 			  int dir);
++int sof_widget_list_prepare(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm,
++			    struct snd_pcm_hw_params *fe_params,
++			    struct snd_sof_platform_stream_params *platform_params,
++			    int dir);
++void sof_widget_list_unprepare(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm, int dir);
+ int sof_widget_list_free(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm, int dir);
+ int sof_pcm_dsp_pcm_free(struct snd_pcm_substream *substream, struct snd_sof_dev *sdev,
+ 			 struct snd_sof_pcm *spcm);
 -- 
 2.52.0
 
