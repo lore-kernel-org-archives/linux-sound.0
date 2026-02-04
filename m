@@ -1,40 +1,40 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E8119D081
-	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 12:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD533F0761
+	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 12:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770208421; cv=none; b=MXDC+rqPwMB9FBKeDcR3EoCNBJv3F196xiWXjEGxZE/e+BataWwiWHlNvJrMbbPRm1z9wDDQ6a4llBfOUPZWoYIq/n+31sXIY9AHQ36Q/nggGGRI7J1U59riLUN/C4hrWs+Z9lN+9FiUuh7L878BNMnZisPbVUQKxFbRmFlmHQ8=
+	t=1770208651; cv=none; b=ULRgfqSDR23ZvmhsQuljouJvN44oq9D57vdmGudGi7GLZqjq+x0wAuMoT8Il5J/vK4vwJ0f+eBkFH4wlMqExE//3o6DVwcXg0PwGqgYU/LUxiAUOkzrcsKyBYIySCQnCxMxwV1eA0JYgXSJHzfu2ixxas05TnPNh6VQe9P8ZFd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770208421; c=relaxed/simple;
-	bh=6h2PttNsGJ98+X5jq14FQnst6N8XoHTqk9kxko0/w9U=;
+	s=arc-20240116; t=1770208651; c=relaxed/simple;
+	bh=dl+qddMIqHav57u0yl1e7s9ZQla0dnBrditL10Qos34=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PWCsnsiZS3XbiOzAJQbLv8LG9rimMI2BrlTjqObIz41YJbIw0uWQBejk0Ns3ukYSqviQp2mtpLk4X3PIIU27L8uOPhlNYN/4yJ9QgmvbDYhc7HzQFkcAmmgFr5nb4uM1+K7JUAXFwzbVCMTRmSnetMGlRb0qOahwW+s9h7ido2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=a11wL8xF; arc=none smtp.client-ip=77.48.224.245
+	 In-Reply-To:Content-Type; b=PsbvRPdShJd5DOyWeSZ144q5sjadsUtapd8DOqytifYiAspCrryi7duXEHhv0RSz/+KGNO7xa5p1tyktsxIQWVInIJl6bF3UZKGYPAv9t/I5X3tcV8BaZLyvNc3P/p7R7UUEphK27d7/Pg7oTVx8vWjx9TVxVmqwyiPFvCQg5x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=rJ5QtbKK; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="a11wL8xF"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="rJ5QtbKK"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C8CCB38C17;
-	Wed,  4 Feb 2026 13:33:36 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C8CCB38C17
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 11BFB38C17;
+	Wed,  4 Feb 2026 13:37:28 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 11BFB38C17
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1770208416; bh=MfxDnunN/ucbY5FcVqB+BS7xFc5KApkro85ClbgfxsI=;
+	t=1770208648; bh=+KXn0xVlm1C21cWrgHiTuib0XFIUYzgH2V5awvGPF9s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a11wL8xFjpSwVL/4NwIcClM0iOkUbsyqyQITnGXWAn914l+NHxf1bXrIuw6OgMiC4
-	 2advaQrWUXA09LgGMo9/PHh3AHyfs5xRjfYb1AQ2s+jKXm/zuCtnNoJQfSUawO3Acm
-	 mxLBLDF5Dtm3gRHkZlHGK6QiRU+2bCDDGEFpdGgs=
+	b=rJ5QtbKKRhgEtdLVNytvdVGC0cGQX4lLP5u20eGq6o7T11OPdsJ1Jk9K0kEofH3GS
+	 ONc3oH7kxCl1uZXqj6moNd67Mbs1zCwoJhS30r5UJgfgpMbCfqo/l7Vc/NuQOIpfY8
+	 EbBOIDg64Y6+6Zs2eFZYlNThcNEoA9KtylviQxT4=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed,  4 Feb 2026 13:33:30 +0100 (CET)
-Message-ID: <7380b4dd-91e0-43d0-91ed-e475b03f7559@perex.cz>
-Date: Wed, 4 Feb 2026 13:33:29 +0100
+	Wed,  4 Feb 2026 13:37:21 +0100 (CET)
+Message-ID: <9f346027-d095-4d3b-b36d-c6dd1969eeb4@perex.cz>
+Date: Wed, 4 Feb 2026 13:37:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,19 +42,13 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: ASoC: soc-pcm2.c ?
-To: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Linux-ALSA <linux-sound@vger.kernel.org>, Lars-Peter <lars@metafoo.de>
-References: <87pl6wub81.wl-kuninori.morimoto.gx@renesas.com>
- <aX4D1VodQ8Ksrad6@sirena.co.uk>
- <87zf5q1gve.wl-kuninori.morimoto.gx@renesas.com>
- <b55cce82-1bdb-4e99-86ba-024f73a0aef6@gmail.com>
- <45fde0f3-39b3-414e-b866-bb445df369b0@sirena.org.uk>
- <877bssopsk.wl-tiwai@suse.de>
- <d122b672-468c-4122-aa46-5dad427b7a7c@sirena.org.uk>
- <87y0l8r95r.wl-tiwai@suse.de>
+Subject: Re: [PATCH v2] ALSA: control: Verify put() result when in debug mode
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+ broonie@kernel.org, amade@asmblr.net, linux-sound@vger.kernel.org,
+ kuninori.morimoto.gx@renesas.com
+References: <20260204112609.127085-1-cezary.rojewski@intel.com>
+ <08cf484e-fc2f-4878-ab18-c80798b844e4@perex.cz> <871pj0snxi.wl-tiwai@suse.de>
 From: Jaroslav Kysela <perex@perex.cz>
 Content-Language: en-US
 Autocrypt: addr=perex@perex.cz; keydata=
@@ -100,37 +94,35 @@ Autocrypt: addr=perex@perex.cz; keydata=
  k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
  m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
  WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <87y0l8r95r.wl-tiwai@suse.de>
+In-Reply-To: <871pj0snxi.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/4/26 13:21, Takashi Iwai wrote:
-> On Wed, 04 Feb 2026 13:10:41 +0100,
-> Mark Brown wrote:
+On 2/4/26 13:17, Takashi Iwai wrote:
+> On Wed, 04 Feb 2026 12:46:55 +0100,
+> Jaroslav Kysela wrote:
+>> On 2/4/26 12:26, Cezary Rojewski wrote:
+>>> +			sizeof(original.value.bytes.data));
+>>> +	if (retcmp)
+>>> +		retcmp = 1;
+>>> +
+>>> +	if (retcmp == ret)
+>>> +		pr_info("kctl->put() returned the expected value of '%d'\n", ret);
+>>> +	else
+>>> +		pr_warn("expected kctl->put() to return '%d' but got '%d'\n", ret, retcmp);
 >>
->> On Wed, Feb 04, 2026 at 09:50:51AM +0100, Takashi Iwai wrote:
->>
->>> Basically it should be relatively easy to implement a mechanism to
->>> make kcontrols invisible, though; e.g. by introducing a new kcontrol
->>> flag like SNDRV_CTL_ELEM_ACCESS_INVISIBLE, and some machine drivers or
->>> codec drivers may set it up depending on the demands.
->>
->> We already have some support for marking controls as not visible by
->> default IIRC (I'm not immediately remembering the term that was used),
->> the trick is more finding a sensible way to turn it on - with so few
->> custom machine drivers these days it's much harder to enable sensibly.
+>> For volatile controls (SNDRV_CTL_ELEM_ACCESS_VOLATILE), the result may
+>> be fine. I would downgrade the level to pr_info for those controls
+>> here with another message.
 > 
-> IIRC, the existing mechanism isn't about visibility but accessibility
-> via SNDRV_CTL_ELEM_ACCESS_INACTIVE flag.
-> kcontrols are still exposed to user-space unless they are explicitly
-> removed.
+> I believe we can simply skip the validation for controls with
+> SNDRV_CTL_ELEM_ACCESS_VOLATILE.  As the second read is unreliable, the
+> check makes little sense.
 
-But do we want to hide those controls completely ? They may be good for 
-debugging. The new flag may be just a hint to user space to not show those 
-controls by default (and eventually make it read only or locked for the user 
-space - depends on the use).
+The current proposed code prints something for both success and failure cases. 
+So we should decide if only problems should be notified or everything.
 
-				Jaroslav				
+					Jaroslav
 
 -- 
 Jaroslav Kysela <perex@perex.cz>
