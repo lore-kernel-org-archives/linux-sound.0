@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8013F23AD;
-	Wed,  4 Feb 2026 13:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4016A40B6E7;
+	Wed,  4 Feb 2026 13:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770210188; cv=none; b=AaGhHpwPaFo2+VN6InzWCYlla6D/ZC6gkUJza+LLqQTZ7xKLy0xhjv+E+RiwL6A1wsAGMuPOJ0mVkK2SvCYdFoANCVq8h8xaG8aaubMN3xKOjw504nUhwKL4eV/yxHBCk35yjvS1J3auFYAKzedLoYwIX2g+QeGPAmk3WvpJx6Y=
+	t=1770210190; cv=none; b=q1B0jn3kqvoxhFmC4BY0CB94TDa0AE1hU9abZNlO132xezrR7864rNUXyx67uhgXKSgpkecIiklISjHryFVQ9Vsla+4uTpSRC8w2DJW/B8tSbXkb/zIqrc1bOHHkLcN0WvPcKUh2XigX7Uxjrw8CcPnPaDqvCSbnmooU25Pvoxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770210188; c=relaxed/simple;
-	bh=VuP1CSk7tRDh/iCmP9OV7DvBrP6Wzbvkw395NoBrFlA=;
+	s=arc-20240116; t=1770210190; c=relaxed/simple;
+	bh=n8rNqrB2sTthf6NVyEee9YXiwP/2LrMsSu6Zji+6OWg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VvqlD2iJDrv2seSgmg1q6/Xtqg8wqZFn+ghrY/24brkHOrYTSF5mP62rqefl2NJP77iFD7X1xmPQd66gwqkDAEVCLI26ogIChfGH1MlpJ5H0A1Uu/5gKNnt2gipypenhZK+T+1Ss2UrKmYdQKI93tyODXMRq278G+m7gX1pFiLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLE+IWFX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OsPYU4ud9Qy61hVhPhoC5lCNJlUmqiTZAGzD01S5rU2QIYVfxdKHCtg5Tuh0sy8BxGdjvYYb3Mp2sCMdYDAgOBKs7v/3NFq6IbDLE24dYos1wnagrN/qIb0TcqKWI7Kj+c2CF0SIlYIqEa30tUAyT88h4Zrlnswq6I2Zpph4j6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+44IJQC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLE+IWFX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2449AC19422;
-	Wed,  4 Feb 2026 13:03:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+44IJQC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8BBC2BC86;
+	Wed,  4 Feb 2026 13:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770210187;
-	bh=VuP1CSk7tRDh/iCmP9OV7DvBrP6Wzbvkw395NoBrFlA=;
+	s=k20201202; t=1770210190;
+	bh=n8rNqrB2sTthf6NVyEee9YXiwP/2LrMsSu6Zji+6OWg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TLE+IWFXJSDw3wBGGNF1S963QxLjZTHD+JpWpG+/Sn8RjdrC329UFUKVK5B+2KlyE
-	 ggNWrcrbOOcBlSNuRNd/fXv1c9sPt8fxxjNevjMH8mcgkJfgYK/p81aEesxpWWhamG
-	 TCAS9JWXnApADmaMBu+cJjvwocMMnCMsMj/BWY7DIMtKeTxZQqgBxpP+nnPKG5/HsS
-	 7W0ZdgEgnWGgTaxOvMsTIrPScow4nZubmGIW3lJQoLvJaceiPNL0n9Y8Khg+c0a/E7
-	 tvTzeo1hpND+U1yRgUd0J6aksBeN4P6kCiSvGBCjti+OTwMBY6Dkx3RK4RwQ8jmVSt
-	 OZwl7CYAmuVvw==
+	b=u+44IJQCVUd53BQZpm9rvKrf6WvgQCBPh9cfEzBOAPp8ACrJy3cEdIRr3BwCjVAJt
+	 rdEUf15WCtE8HsRIkni7PTcivOIgvJEYTwQ5eW7buvnwgeqM/MY8WpwsPOmbAoYIiR
+	 rwWNJH19hWzGBMb+Z4SqqyyDZdbu5BUS6pfVM+ppbqWV/RBWqsInZLC9b/Gje6tt61
+	 fEUZMCn7ZKEQIexUsRFfsA0PFkZ+IwKUISbvLVLE2Is5Xh/nz+o7Fsan0pJeJrCHp/
+	 19jMFAwn+f3sdb4CI3yq8WZGeD1N/Oc2Y/cXWAuELynYC/XJfKcmoQeHFZ7ZnOWKka
+	 kTV8WlZ2jxtRQ==
 From: Mark Brown <broonie@kernel.org>
-To: Chris Bainbridge <chris.bainbridge@gmail.com>
-Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linux-sound@vger.kernel.org, Vijendar.Mukunda@amd.com, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260202205034.7697-1-chris.bainbridge@gmail.com>
-References: <20260202205034.7697-1-chris.bainbridge@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: fix memory leak in acp3x pdm dma ops
-Message-Id: <177021018588.97050.9802416021827464786.b4-ty@kernel.org>
-Date: Wed, 04 Feb 2026 13:03:05 +0000
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Ziyi Guo <n7l8m4@u.northwestern.edu>
+Cc: Fabio Estevam <festevam@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260202174112.2018402-1-n7l8m4@u.northwestern.edu>
+References: <20260202174112.2018402-1-n7l8m4@u.northwestern.edu>
+Subject: Re: [PATCH] ASoC: fsl_xcvr: fix missing lock in
+ fsl_xcvr_mode_put()
+Message-Id: <177021018786.97050.3676101017242233000.b4-ty@kernel.org>
+Date: Wed, 04 Feb 2026 13:03:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,9 +50,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 02 Feb 2026 20:50:33 +0000, Chris Bainbridge wrote:
+On Mon, 02 Feb 2026 17:41:12 +0000, Ziyi Guo wrote:
+> fsl_xcvr_activate_ctl() has
+> lockdep_assert_held(&card->snd_card->controls_rwsem),
+> but fsl_xcvr_mode_put() calls it without acquiring this lock.
 > 
-
+> Other callers of fsl_xcvr_activate_ctl() in fsl_xcvr_startup() and
+> fsl_xcvr_shutdown() properly acquire the lock with down_read()/up_read().
+> 
+> [...]
 
 Applied to
 
@@ -56,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: fix memory leak in acp3x pdm dma ops
-      commit: 7f67ba5413f98d93116a756e7f17cd2c1d6c2bd6
+[1/1] ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
+      commit: f514248727606b9087bc38a284ff686e0093abf1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
