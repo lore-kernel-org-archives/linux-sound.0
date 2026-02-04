@@ -1,29 +1,29 @@
 Received: from r3-70.sinamail.sina.com.cn (r3-70.sinamail.sina.com.cn [202.108.3.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3EA396D18
-	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 09:45:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DD0227599
+	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 09:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770198335; cv=none; b=hEjWMd1qI/GnwaL/EYkKq0M4gHEk4OeKZ2UTf3X4bJATCCi0Amy47x1RWrEEpYDUfudo03DXaororXGJ83J2/u5SIVDh8OlwIyRFbX3wyuPRH1rzq9r+58nma3Xmhe5HuWjqCi7fqRFy7ZlwSU1dolbyMo6im9N2zrApyqRlg44=
+	t=1770198336; cv=none; b=Km1+NAAyFfwhQiDTsrY5nKeb4qV8e/mnqk6Rl8l6AVvZ2RYdAseWLo62cY0Mz1Tx5c3vMWtaknso3Ref9NlDIghzssbd3Lp1oJbPfDu4lI7c6kzvIm145OFTNioHv7/7OsLFAFvETvBgwmBHqOV2Y4nADlQdEBsNiV0CDx6ihz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770198335; c=relaxed/simple;
-	bh=dMpAgh2ICoSWeLXTc4qV90gQjzXPJOCEC4fdFnfoSY8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=X9MOGTflXR+Iu7DN5MFpAJiYQtKkM0bJWY8Ss6wRF7TWIXGfiLE6bni7nnAEakXw5xfKnAo5/xqthHEzFhOA2OetPzBAZGB+n5oockDAKXyNkEze1a03SFX2XVoxI+1XlVk4T7cznE3VYguhx6R+TehtGVv1PfS4PbNBG8uY8FU=
+	s=arc-20240116; t=1770198336; c=relaxed/simple;
+	bh=j6Vn/g6uqEPpXX8fFTItQfPe4WbNmEoLH4IEFsVlErU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ajISfUSIDkSX+I5jyKhugyz5bTgx9lgi5n1xaw41XH6UZrMrwmTK99CVeBMu2U4vugVX9Mz2ggK5j+HDXCc+Yx1QygvHPRhi72K1uBobsjNPSz9zURvhOvG2WF832Tir7Sai2OP2cH6Wn0+z64AVdP4H3BnUNVezgTlRHKo/PqU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
 	by sina.net (10.54.253.39) with ESMTP
-	id 6983151500005B8A; Wed, 4 Feb 2026 17:44:54 +0800 (CST)
+	id 6983151500005B8A; Wed, 4 Feb 2026 17:44:57 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 3155EC91F610454E9BF53A28003A67E9
-X-SMAIL-UIID: 3155EC91F610454E9BF53A28003A67E9-20260204-174454
+X-SMAIL-MID: 14D87A69D24448F1924B8EC6B2F54C7C
+X-SMAIL-UIID: 14D87A69D24448F1924B8EC6B2F54C7C-20260204-174457
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -33,9 +33,9 @@ Cc: peter.ujfalusi@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v1 1/6] ASoC: sdw_utils: Add ES9356 support functions
-Date: Wed,  4 Feb 2026 17:44:47 +0800
-Message-Id: <20260204094452.33289-2-zhangyi@everest-semi.com>
+Subject: [PATCH v1 5/6] ASoC: Intel: soc-acpi: arl: Add es9356 support
+Date: Wed,  4 Feb 2026 17:44:51 +0800
+Message-Id: <20260204094452.33289-6-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260204094452.33289-1-zhangyi@everest-semi.com>
 References: <20260204094452.33289-1-zhangyi@everest-semi.com>
@@ -45,45 +45,90 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Add the functions into the machine driver for the es9356
+Add support for the es9356 codec in the ARL board configuration.
 
 Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- include/sound/soc_sdw_utils.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ .../intel/common/soc-acpi-intel-arl-match.c   | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
-index 227347c8f..179ff3f5e 100644
---- a/include/sound/soc_sdw_utils.h
-+++ b/include/sound/soc_sdw_utils.h
-@@ -220,6 +220,18 @@ int asoc_sdw_cs42l43_spk_init(struct snd_soc_card *card,
- 			      struct asoc_sdw_codec_info *info,
- 			      bool playback);
+diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+index c952f7d2b..e03bf072b 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+@@ -192,6 +192,42 @@ static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
+ 	},
+ };
  
-+/*es9356 codec support*/
-+int asoc_sdw_es9356_init(struct snd_soc_card *card,
-+			       struct snd_soc_dai_link *dai_links,
-+			       struct asoc_sdw_codec_info *info,
-+			       bool playback);
-+int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
-+			       struct snd_soc_dai_link *dai_links,
-+			       struct asoc_sdw_codec_info *info,
-+			       bool playback);
-+int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
-+int asoc_sdw_es9356_amp_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
++static const struct snd_soc_acpi_endpoint es9356_endpoints[] = {
++	{ /* Jack Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* DMIC Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Jack Capture Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Speaker Playback Endpoint */
++		.num = 3,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
 +
- /* CS AMP support */
- int asoc_sdw_bridge_cs35l56_count_sidecar(struct snd_soc_card *card,
- 					  int *num_dais, int *num_devs);
-@@ -269,5 +281,8 @@ int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
- int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
- int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
- 				     const char *name_prefix);
-+int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
-+int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
-+int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++static const struct snd_soc_acpi_adr_device es9356_adr[] = {
++	{
++		.adr = 0x00013004b3935601ull,
++		.num_endpoints = ARRAY_SIZE(es9356_endpoints),
++		.endpoints = es9356_endpoints,
++		.name_prefix = "es9356"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device cs42l43_0_adr[] = {
+ 	{
+ 		.adr = 0x00003001FA424301ull,
+@@ -255,6 +291,15 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
+ 	}
+ };
  
- #endif
++static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link0[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(es9356_adr),
++		.adr_d = es9356_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -528,6 +573,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(1),
++		.links = arl_n_mrd_es9356_link0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-arl-es9356.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
 -- 
 2.17.1
 
