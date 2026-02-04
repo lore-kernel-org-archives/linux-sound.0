@@ -1,49 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD453ED10E
-	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 12:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873451D90DD
+	for <linux-sound@vger.kernel.org>; Wed,  4 Feb 2026 12:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770209113; cv=none; b=qKMdQJ95m1DTZ+dH+ccIAACkUtlTgmeaId+IOheICDOr75sGSl9T2lQyBGk3iere1Fsa4M8wZ2s6lOhdUNLcLpMOl5wfUiSJTj6Ux+OLMcrhdHi7VFmns1YjgU5gtB0NQDTu4Wlxed4sRi2VM8O/V0Ryiuayna2YTKz+0Eh8YMk=
+	t=1770209735; cv=none; b=SzLmbLT2yUU79ES4WZqex0I9TkGjS8O6z46dl6ZG2AtF+usqg/NAA1VO7WDIXOVhrASLPcTr/xok6LuOIzkcO1gZ6Ofz1e/lZqiH+AKBQCr5YQewMK0vfMEhC1L0ee9UKU6IoHF7IzKhn3EamVi8wEjqocndvROkL9x8D3ZreZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770209113; c=relaxed/simple;
-	bh=whSC7u6K/hdCF229naPw77xPWIvzKGcOPnXaexeGrGs=;
+	s=arc-20240116; t=1770209735; c=relaxed/simple;
+	bh=6HnIkghxCAfiXhp1/e3ymp5ueIO8nC0tNnnhqo/BH44=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gxoMQvDNmQ1fGcZc2E3CKNJpFrXMgoacRkeoP14DoQzgJGy/UyfsCl6TlCSnmGMU3/ci6JPLbqUcohsi2LGZsb7eGr1AFBDwEV7j/Ndo0O0i40ZjBrpOax7+8KJ9oKsGrZbSM2igoTjLn2GE1IHrN2BsRd1ZBGc0dYpYbdyWPpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jbW1iWmk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=A7rbErXGpC3EGWzO6b/EIocGd6tPI3RDqV1uSL7KG+4klSIJch8+lst/AsemKgC2vc4seumkWO5pxZ/774rhZAMweNV76ZBjFs2v1CUgUVPGIMKIanjoq5JRdC1MxabCVFi3qfB9ZuYNKIruVy90vZEcipNwztDCX/Nbm9zAYKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0HUA/TM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jbW1iWmk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D2ACC4CEF7;
-	Wed,  4 Feb 2026 12:45:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0HUA/TM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1989EC4CEF7;
+	Wed,  4 Feb 2026 12:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770209113;
-	bh=whSC7u6K/hdCF229naPw77xPWIvzKGcOPnXaexeGrGs=;
+	s=k20201202; t=1770209735;
+	bh=6HnIkghxCAfiXhp1/e3ymp5ueIO8nC0tNnnhqo/BH44=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jbW1iWmknWdzbp3cGoE1KvkEHGyA6DATM40YNHgS15fjPf7smRh3bNgl9StV//I9F
-	 AOFQC4+tP9HQRX1rxszgWOLcyxt7ICgw8RW1XoXQwQKd49JDzo70cVuaVZaYK47Gw0
-	 F8OiCpBiZVRHBvVz/J8jDIWcayrodfslHmekpvMxrjcV+JXa8bWbQQX1a6Y4Lo0+b5
-	 ZW+XQRp8d5XNDv/qo6+ad4HqQKb/nNa8rlQWHfOMwosoGMVnoIOQqHb2H166CdXMmm
-	 /07ickh+phQQlaH9J/afVQOrCvZXVZ9jfvCzDVj3gG3e3eohQ99a81BIU5PxHYkiId
-	 bodNmfL/LjtYQ==
-Date: Wed, 4 Feb 2026 12:45:09 +0000
+	b=B0HUA/TMmLZr+C4LnarNIYoR6oOsL3F3xQVIHYDhxHAzbnRhxBmjW5QqnJujY5F2f
+	 3p3D44gH5E6coxI/oLWzqBmJxrWWo2dNhNBMhc9me0ZgCKcDDL5uHv4ASQCaUFaGjN
+	 9OkkeX6aeKwQHnYUJe+YQH68dO7bIwI/9cdIjnPbLBWbm8GvbR6NNYq0XWfwHM+1i4
+	 zGnoEfovk+V+4hCXf4BkL5ZG+u5IS9HfttnS+y7A592KA8a+wLKQMhWXxVFmGo3bHc
+	 kz4LfzJnzX75XiZNAIKDH3JAVUk0t4nzl6hyqRCKXXHKwifCnzhBtyJgOSXIzlx0QQ
+	 jUZi0yFeTXs8A==
+Date: Wed, 4 Feb 2026 12:55:31 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>, Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	Linux-ALSA <linux-sound@vger.kernel.org>,
 	Lars-Peter <lars@metafoo.de>
 Subject: Re: ASoC: soc-pcm2.c ?
-Message-ID: <d381cb56-c00e-43a7-965b-9fdf1a19fd17@sirena.org.uk>
+Message-ID: <db496f04-3c75-49ed-ae8e-324edf4699e2@sirena.org.uk>
 References: <87pl6wub81.wl-kuninori.morimoto.gx@renesas.com>
  <aX4D1VodQ8Ksrad6@sirena.co.uk>
  <87zf5q1gve.wl-kuninori.morimoto.gx@renesas.com>
- <b55cce82-1bdb-4e99-86ba-024f73a0aef6@gmail.com>
- <45fde0f3-39b3-414e-b866-bb445df369b0@sirena.org.uk>
- <877bssopsk.wl-tiwai@suse.de>
- <d122b672-468c-4122-aa46-5dad427b7a7c@sirena.org.uk>
- <87y0l8r95r.wl-tiwai@suse.de>
- <7380b4dd-91e0-43d0-91ed-e475b03f7559@perex.cz>
+ <505b8820-9ced-4554-80f9-de0409859dde@linux.dev>
+ <cbe68c20-1a06-472b-ad18-0dda301e42c9@sirena.org.uk>
+ <87zf5pf2sx.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,46 +47,43 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VrwTPd4eWm/l9ZR6"
+	protocol="application/pgp-signature"; boundary="ZVOGI2upqy+2v60m"
 Content-Disposition: inline
-In-Reply-To: <7380b4dd-91e0-43d0-91ed-e475b03f7559@perex.cz>
+In-Reply-To: <87zf5pf2sx.wl-kuninori.morimoto.gx@renesas.com>
 X-Cookie: Are you having fun yet?
 
 
---VrwTPd4eWm/l9ZR6
+--ZVOGI2upqy+2v60m
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Feb 04, 2026 at 01:33:29PM +0100, Jaroslav Kysela wrote:
-> On 2/4/26 13:21, Takashi Iwai wrote:
+On Wed, Feb 04, 2026 at 06:19:58AM +0000, Kuninori Morimoto wrote:
+> Hi Mark, Pierre-Louis
 
-> > IIRC, the existing mechanism isn't about visibility but accessibility
-> > via SNDRV_CTL_ELEM_ACCESS_INACTIVE flag.
-> > kcontrols are still exposed to user-space unless they are explicitly
-> > removed.
+> > Me too - I'd come up with something that was extremely similar at about
+> > the same time, IIRC there were some small differences round the edges
+> > but nothing major.
 
-> But do we want to hide those controls completely ? They may be good for
-> debugging. The new flag may be just a hint to user space to not show those
-> controls by default (and eventually make it read only or locked for the user
-> space - depends on the use).
+> I think I don't know about this.
+> Could you please indicate me where I can know, or can you explain to me ?
 
-Yes, that was the idea - at least some of the userspaces won't show
-those controls to users.  It also avoids reunumbering the controls in
-case userspace is relying on the numbers.
+I don't think there's anything easily referencable - once I saw Lars'
+stuff I didn't feel any need to write it up properly or anything since
+it was basically the same thing.
 
---VrwTPd4eWm/l9ZR6
+--ZVOGI2upqy+2v60m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmDP1QACgkQJNaLcl1U
-h9Br/wf/QqV5nyBf69Osaz58lmrHNSlxE/QFBqo5xH4pnZGecM8e66FZ/8wCHCPd
-MLgys9q2CELWlQJYQzV4WlRy9XrYeE2QXuaioLgaxpxldb7Pcc2GQcTOW5ZzRurT
-3QtstTJn67JILEODB14YWuy5vOaCJau9anI5Dl/iivjgKeD6PFzmLgJ0KOiFvcnX
-GYZROAHQwVIgeyEHI1k7oHCHtwmFbRm/m8S89Znz9YzUQW8W8sERNnFb5PHAAkKS
-2aapDsPvgeRPADfDtZWx1u0FS30ivGIvjOcEHspVP0hkddH+8mQU8FQmpYMvI6Xn
-uU3vmd0427FPeZyFvtyVsRrwYfzb4w==
-=Irn+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmDQcIACgkQJNaLcl1U
+h9AzIwf+N8zLBSM5I5v5ozOhVXutgVdZCufIUD3jIDU+MFj+Q55RTV9cWqz0aXSv
+U+ZZV2/DZx/bvgBXOf5OscVyJ4UzjEY+weZpDb0TDSF3eiKcObjlf+gTL9yevuup
+rzSi95GNqtYj2UKfOXg9vO8+we26pGjP4v+3okofLRaDwHU6bepPLrEpsGdEXOCK
+lnKXkioUl/ZRPumqbG2pOPb647MkZNJ/1r2fcLx+P9RHHAbLSpqT0w4aDp1wTgb1
+dlB5oP2SPYHiFPFnB5TNhzFH4jfzpD2LiBuwTfFJob8F3v5Xw0IL/8RGwXJ9HMlf
+wZw8GX88UlyATJSZNQQPdplMSUfYTw==
+=Niwh
 -----END PGP SIGNATURE-----
 
---VrwTPd4eWm/l9ZR6--
+--ZVOGI2upqy+2v60m--
