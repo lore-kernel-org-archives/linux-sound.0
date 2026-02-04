@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342A51C5D77;
-	Wed,  4 Feb 2026 14:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E9541C2EF;
+	Wed,  4 Feb 2026 14:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770216392; cv=none; b=aVdMG6J8DxVzvGdxzDU1ZyTLjL2LacQu3m6YNAKVIIsIv8bzGLLUtYbsBTpS7EowTrx+D2JuUljiBFl5xuxfQ5A3HTXTwNvppJC+xfyQgbt6JJmEsNBGQdedR+azretWaHAM+R1+4dw0et5JdQ+lDQ2NS94DkDKyg8jbbCxzXo8=
+	t=1770217022; cv=none; b=EyxY9r20PVmWF/0CH7e60foBkrxzd00H2AlsQSnbKLAkGK3t7KBEYWOVd2Bus0oXPM1Zc1LgkJTS2IzfCDXXBRgpexC7OmyHtEqqyhLUoQ6hfwDiXSPnnz4u/RPliLkn5wQsNXsJRYO9D0ogNssEIle15XTGRl6I6wMSwNYShH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770216392; c=relaxed/simple;
-	bh=aLi24bvb0exwi/7BzgDyMdCEkLERUaD3zq9UNswit14=;
+	s=arc-20240116; t=1770217022; c=relaxed/simple;
+	bh=27CVQTvKbhnOev/mVb+2DlUiuhz52CU4Y04tDxpIaL4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o1mL9uAt2SveMiXAcAsF9bJiuZ7wYe70CyT4R7qsMpdmBPlhziGu7ykPuo6/xUilFSnMyB74Xviee/p1oQ1CfSC58ARgrPxNp5yGZ0EnAhD2bo8+v81MOAIf5s/5b38VL1c/oo4Gbln1mEo6GlOKeQqbPKytgOZ67CKWvA+hgfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LXsgEmh3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cK7bNB0k0Px+rHRcM+EI8RpajGkQMITaJ65BomlTA7LSXZHxfC+hSZbX+X2UGuuNSOY0fDW2ruHNgnNiIGY0kiyn2z6vH7SJG0k58MaqyvweiW5Mn3g2WXeb3iZyPyH8T4Q5LE6++gyYAF5sFKlGoUFjaUq3jjn7dNuPXoSJ4O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vkgeRF+r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LXsgEmh3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E09C4CEF7;
-	Wed,  4 Feb 2026 14:46:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vkgeRF+r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3897C4CEF7;
+	Wed,  4 Feb 2026 14:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770216391;
-	bh=aLi24bvb0exwi/7BzgDyMdCEkLERUaD3zq9UNswit14=;
+	s=korg; t=1770217022;
+	bh=27CVQTvKbhnOev/mVb+2DlUiuhz52CU4Y04tDxpIaL4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LXsgEmh36EbTx91XBrp+hxfo9MfcAnF21cdXGmzTtumXW3Bc5AmMmH4tjbh2r59WO
-	 ondRU0gJZ77KsmkbNu4wnkFBvxJYYblaFSQeoKZ23XngXkfcPzatrKtsfmhv9PmOGo
-	 ySdbLJf63b1bG2PzDu5eWJbf9qnWcE7xxR/KzAi8=
+	b=vkgeRF+rEk938ySXOTCdLpdK28PV/MHNqwonYFBIS2qtbUDz16nhMG5BnuKGP80H7
+	 3nkiI+C6SeOXhiM94g2CPBu0mt9d12TymR8QcEOt2Kbp9dc8FHzKH8R6S8u3pKMW5Y
+	 ZnDgR/CDfQkY/zDOSEVzl0qgcDy8d4G5epX01eUg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -33,12 +33,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Arun Raghavan <arunr@valvesoftware.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 075/161] ALSA: usb: Increase volume range that triggers a warning
-Date: Wed,  4 Feb 2026 15:38:58 +0100
-Message-ID: <20260204143854.452265274@linuxfoundation.org>
+Subject: [PATCH 5.15 093/206] ALSA: usb: Increase volume range that triggers a warning
+Date: Wed,  4 Feb 2026 15:38:44 +0100
+Message-ID: <20260204143901.556558000@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260204143851.755002596@linuxfoundation.org>
-References: <20260204143851.755002596@linuxfoundation.org>
+In-Reply-To: <20260204143858.193781818@linuxfoundation.org>
+References: <20260204143858.193781818@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 949b171377267..b5baf9d609333 100644
+index 5cc97982ab82e..f9f991775a950 100644
 --- a/sound/usb/mixer.c
 +++ b/sound/usb/mixer.c
-@@ -1741,11 +1741,10 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+@@ -1797,11 +1797,10 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
  
  	range = (cval->max - cval->min) / cval->res;
  	/*
