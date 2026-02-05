@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AD73AA1B6
-	for <linux-sound@vger.kernel.org>; Thu,  5 Feb 2026 11:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A80A3A9D96
+	for <linux-sound@vger.kernel.org>; Thu,  5 Feb 2026 11:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770289491; cv=none; b=WFHGn1N1hSi6YZTWax07gmN9JZgQYOXSHCxy+RH6/qbQQ3YnS4xKbUd0IbKskHlGjJQM3uJpGZuCpqwUbYQXFjqzz++FmoPFxTzvCJFdPGOU3/thESjU3oseBI4vmqxew9HGkyWnZ7TSr3oelSd0zzgRsU8gDGf7oS4MACoBDgY=
+	t=1770289493; cv=none; b=WnxaY2Xk4UVPl/n2M4EdJHcNawd+h9BcCMa+x1Eck5pys0yYSROxbYbD+EAI3LsEObpaeqRddo/hTdMHsdMDZm62QK1UQpiWGynxlp//EI/AbwBduwSZWEgc4xS9IN+iyYWP8a0FkSdJAh+3oURF/6Ql4esiBHXiZSHpyp4NFSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770289491; c=relaxed/simple;
-	bh=t2cB+V+iIXqemTcejBOKmF3n0fl5VQQawpl09DTsMP0=;
+	s=arc-20240116; t=1770289493; c=relaxed/simple;
+	bh=uPDYBNDBtKgM87YM2sqS84p8P7Yh6+su0+xmqjMdtBg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QhPjvZeBidS/i0pvE/0373PtEnVCmOQQpq1WoaK9mpbsTE4zioHFs+NbE+zRxw4pqKeHmbOaEkbSfLiemPcNsaRKszBfOlXf9T2GGOlDn48vM9N68WLVqLX4usoOAqOM7F2GfEojuk3JXGPyJRSbzvUZDIAsm1aveS+ba6gn0z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5HmRW3a; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Su1XDbEyFEKDq3bCV8ZookoGn8F7kuXHxHkLVdcU+BFSW8VF/yMr9TDl/iMsc7mN5Z+1s2C5QDQ5spURxg9uBgtecdhXbFXVKUixweth9MW9TuhaHq1odWZFf7ggj1XhSf8Rs0a4TDjt3G7+EN/Z7BuOlxNrdk3LNMkBW+EdTYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ryBd580l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5HmRW3a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2343C19423;
-	Thu,  5 Feb 2026 11:04:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ryBd580l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89D52C16AAE;
+	Thu,  5 Feb 2026 11:04:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770289491;
-	bh=t2cB+V+iIXqemTcejBOKmF3n0fl5VQQawpl09DTsMP0=;
+	s=k20201202; t=1770289493;
+	bh=uPDYBNDBtKgM87YM2sqS84p8P7Yh6+su0+xmqjMdtBg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=J5HmRW3agVsA74gpWfr422Lpb4WiqaMLC9jox4Ac7a5IKhgEWhEB9mzbcS4WXq5Uj
-	 XowMF6VHvw4Efk7CPUbNzDWSKaPDFPM5PpGwthmR4yW5QdfEP4BKI6fZIpDoMIJu0d
-	 +BirgM+npdzy+5J3c+ZfmgxyjVPrvFro4wOdfj6nSirXPEWUSbHTnltiXmw1igwIpK
-	 NsxsEwDkdGv1R3YUkFF+OgW3ziWm5O+aSSVigJW8yvnmX81blTBMBUo7EyS0Hbh4Ez
-	 x0rd4+LzPBximyq/OKEazVbNeDGl579/an1e8TIRtZ+T7mDTpdQuSFoiroDj9NUnrG
-	 D/8+uDkWnZiYg==
+	b=ryBd580lKmytyI4oc4+vxo2pLon5hYszyIb8FvRGCOhO+YoKE3sGHC2itRQx11lr7
+	 htM3Ve58O0TkvASdcDqtoGHrl90egLVd7XSxvb0LWhCtKh1yRfM8LRXldk0pJIarX2
+	 ohpYiP7nG4DFxnsHXBOoBFynNE16kI26K/OO2beTuiMEiMKtBmg0fh9hSGwx4K6d+Y
+	 cXhp/bx3c/1eLXAsaqbNbKYiHPfzU2DEAQe+iAZ/M0Qxle4VH6qPAahiJUY/5xgO5F
+	 D2aHmjqdyiphPDCYGk3Elo2DD1lG/iDcae16kwgJnvduHCESzb3z+ZRf+87zVZvOtR
+	 VWwEZyvecFDcQ==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260204125944.1134011-1-ckeepax@opensource.cirrus.com>
-References: <20260204125944.1134011-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 0/6] Minor SDCA Fixes
-Message-Id: <177028948966.8656.9368936617190659285.b4-ty@kernel.org>
-Date: Thu, 05 Feb 2026 11:04:49 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com, 
+ mateuszx.redzynia@intel.com
+In-Reply-To: <20260204081833.16630-1-peter.ujfalusi@linux.intel.com>
+References: <20260204081833.16630-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 00/10] ASoC: SOF: Support for echoref (virtual DAI)
+Message-Id: <177028949129.8656.7127330432325668231.b4-ty@kernel.org>
+Date: Thu, 05 Feb 2026 11:04:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,14 +47,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 04 Feb 2026 12:59:37 +0000, Charles Keepax wrote:
-> A bit of a mixed bag of minor misc fixes, improve handling
-> of volatile SDCA Controls, make some minor bug fixes to jack
-> detect, improve the cache syncing by adding some more defaults,
-> and improve some FDL error messages.
-> 
-> Thanks,
-> Charles
+On Wed, 04 Feb 2026 10:18:23 +0200, Peter Ujfalusi wrote:
+> The series adds support for echo reference functionality by allowing
+> the capturing of playback audio right before it leaves the DSP.
+> For this to work correctly we need a virtual DAI that is also connected
+> to the echo reference capture device and in absence of playback a
+> signal generator generates silence to allow the capture to run.
+> When the real playback starts, application will start to receive the
+> playback audio to be usable for echo reference.
 > 
 > [...]
 
@@ -63,18 +64,26 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: SDCA: Remove outdated todo comment
-      commit: b27b57f85fe3f0eca479556ac55bc9cbd1a5685a
-[2/6] ASoC: SDCA: Handle volatile controls correctly
-      commit: 9fad74b79e5ff353fe156c4b685cceffa5afdb1d
-[3/6] ASoC: SDCA: Still process most of the jack detect if control is missing
-      commit: d7730c44b7dddbc5063505ce9e0c21d8bf298368
-[4/6] ASoC: SDCA: Rearrange FDL file messages
-      commit: cc2f22a61ad66fda7e50339f9ec33720694e0b20
-[5/6] ASoC: SDCA: Add regmap defaults for specification defined values
-      commit: 02d851b46b366b69dfe0842ab45313d8a4d6c960
-[6/6] ASoC: SDCA: Limit values user can write to Selected Mode
-      commit: 812ff1baa764080ba37bb0729e0c23c0e869b542
+[01/10] ASoC: SOF: sof-audio: Add a new op in struct sof_ipc_tplg_ops
+        commit: 236d5e66b54b8052f7f4ae2ef2aa174e85c04a2f
+[02/10] ASoC: SOF: pcm: Split up widget prepare and setup
+        commit: f462697680aa15c55f642168d6694d996f8ae940
+[03/10] uapi: sound: sof: tokens: Add missing token for KCPS
+        commit: af0bc3ac9a9e830cb52b718ecb237c4e76a466be
+[04/10] ASoC: Intel: sof_sdw: Add a DAI link for loopback capture
+        commit: e614fce9fea62dddf298550a61cb11abd5d84a02
+[05/10] ASoC: SOF: ipc4-topology: Add new tokens for pipeline direction
+        commit: 15a55ec2f8b956d6aa0dd948c907e13db7978c6e
+[06/10] ASoC: SOF: ipc4-topology: Add support for process modules with no input pins
+        commit: 42d0f8695db59b74e7e7db0c851e480362a8fdca
+[07/10] ASoC: SOF: sof-audio: Traverse paths with aggregated DAI widgets
+        commit: 74b11b22b5942a1a9b65c39b8ba6642a6e1ff5d0
+[08/10] ASoC: SOF: sof-audio: Add support for loopback capture
+        commit: c4b37c21c75de7b37a3d839fa3dff63464caad1e
+[09/10] ASoC: SOF: Intel: hda: Fix NULL pointer dereference
+        commit: 16c589567a956d46a7c1363af3f64de3d420af20
+[10/10] ASoC: SOF: Intel: hda: Add a virtual CPU DAI
+        commit: 6c52fda42066a87b76fd140e027280907071dd8a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
