@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A3C1D90DF;
-	Thu,  5 Feb 2026 00:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1861B1D5CE0;
+	Thu,  5 Feb 2026 00:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770251162; cv=none; b=Q6jwA7RS7S0/yAEyGigB0XHbppvDUFDwme3yIDaEq8f1fI5QGS/OodcL2e8L5kZtub6ZZyMnJqeJFd6bv7lzvIkiEzLwhJne/Fc5ZVvo1UlFu2lvIm+gCc6bNWQ3pEnJxSZhLoJhKtpdrpaRR/fhemRnticvHLzPbiRrUAYC+PI=
+	t=1770251164; cv=none; b=fRhSvJmEuCexDzO/h6f7UBhM2AWYcScvsjgRHpUiRXSYaGO8fIhPtP2FZImBDjhnsU889qxIN2MwFWe2fIMSKr/SOmh7NOYGQ/gf5dQQJhI1/XSJcAhmj4I+Vu7RKb44DpIfIkZ8watwhCIKfvuZsU4HHuXNJUPJF6Te7xqkAPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770251162; c=relaxed/simple;
-	bh=LFS4JZHl4UTp3KzrHuIqWCJKhlCNu8bS9Uy/XaYFofc=;
+	s=arc-20240116; t=1770251164; c=relaxed/simple;
+	bh=MrNz+OlzDjfwvWX2daYWM+tGhBgejuCn5pbVatjqc24=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L1Ew4uF8V5ZcU1cu9CFapvM2pJOyoUT4h4sCUISaNt9a0UM/zEY496h/Cq04yRaK5tB11FvCePW1dROro+FYZqfap9Iho+thbki56oZKvZoaveql948koz2YB+UBuqmmeKXpV/lmnEsDse9HOED0u2+C4/5MeiIjonLikO4pgjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lyhdAhZv; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=QbHgboLlZDWW3kHxEhSdJAqH0m2Xcqxg9Qw1vH/uyRNmZhAzTqdyZ4umjWHSowLar3QVn6SZnCZ4lNeDniUd72JvpjIRFfqszJffGkovACQirQQTfk8EdGyYQU7Bj8U1x0YvrLsRev7eY53c4XacpWubvKyEckIevrVBvfrpfho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qIOxgUB/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lyhdAhZv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853F1C16AAE;
-	Thu,  5 Feb 2026 00:26:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qIOxgUB/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77145C4CEF7;
+	Thu,  5 Feb 2026 00:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770251162;
-	bh=LFS4JZHl4UTp3KzrHuIqWCJKhlCNu8bS9Uy/XaYFofc=;
+	s=k20201202; t=1770251164;
+	bh=MrNz+OlzDjfwvWX2daYWM+tGhBgejuCn5pbVatjqc24=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lyhdAhZvyQlKaMRXyV9qJ5wggHHTpNdd0qYB4p/K9RaouqGcanr6RVtWaV37qQtY/
-	 HLmRByf9b3cr0uE4dGVT1U1o0cJodAp0xnOibnVVAP9kGvyO/awMNxxkNItRuGfAqM
-	 ryDx7o6yICkmrDRt0jKEOmRvG+F/ME4I6ZHb5b0FY12ybAJuOm1cNxbDjxRGDG3/yw
-	 Z+4fg5tMzxGy3qlV6oarXNuBA3QLDYjooBQsO7QIMw3+WgslSV/88hfuLUgRbYVpNh
-	 mJWpgNcNmxGFYADbMNPShpJn0WACJcPK5L/NOfMXQcH+l5nwRpYpZWSqLOmx3qaqiY
-	 xJeskrQ503rJA==
+	b=qIOxgUB/Zj2tkSgqtFPAPdPs7UXaZQxRF/m0tNFuUBXmDsfluiQBHl8ZFE6pghWxm
+	 Q8G/5ARFmGhzuxtFzd6ETmEdV5Qo4JxSevKq8agqDAIrxNkFmmYboW/uTQFTHy+co4
+	 AkdSMlhSsitplozSSY/hip+uwpYqMYkSaHHe0kDgh75pH/vD8rp+ZkwXwaUyxwUafj
+	 +ksCpqoPeLWtwq9BlNjk+/rcMiv+Jh/b87UxwehWNatr6H1OwWYKolOWl2WhyLxQ0+
+	 o9ORm9JvBLjUjQMeeAVIaQQ6rYCcTDqk2O4AWx2eOeZ+FkqvGFMr90TnVWYGgq0RU/
+	 xfp8m1L4iQOhw==
 From: Mark Brown <broonie@kernel.org>
-Date: Thu, 05 Feb 2026 00:25:37 +0000
-Subject: [PATCH 1/2] ASoC: fsl_easrc: Fix event generation in
- fsl_easrc_iec958_put_bits()
+Date: Thu, 05 Feb 2026 00:25:38 +0000
+Subject: [PATCH 2/2] ASoC: fsl_easrc: Fix event generation in
+ fsl_easrc_iec958_set_reg()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260205-asoc-fsl-easrc-fix-events-v1-1-39d4c766918b@kernel.org>
+Message-Id: <20260205-asoc-fsl-easrc-fix-events-v1-2-39d4c766918b@kernel.org>
 References: <20260205-asoc-fsl-easrc-fix-events-v1-0-39d4c766918b@kernel.org>
 In-Reply-To: <20260205-asoc-fsl-easrc-fix-events-v1-0-39d4c766918b@kernel.org>
 To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
@@ -47,52 +47,55 @@ To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1221; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LFS4JZHl4UTp3KzrHuIqWCJKhlCNu8bS9Uy/XaYFofc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpg+OUA/rkio9uQzm6s9oNWQb/nE3YzGoErWzwt
- kCuK/D0quiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaYPjlAAKCRAk1otyXVSH
- 0BsLB/9llq6/DvrDV/bSRPNyMlDET3724YVp7OJBBmC89Vci9LVKyJSWFh/i6x+WAnef0vnyJiX
- d7xOGmmtdNN4Srh/qUhiAgUD1Z1EDZFtVI6gQaSAmG6uo6+iahGrhixYoKjRLC91ylpaskaq6Ep
- KlYeHrBUGJPWLl/RBbDCL3DPEFWDcBPXlfPVP9HsyMEsBzup17lswNGCfQwRcekerRZ9Uuq8s8m
- RaBgAeEElL+R4HMpBLvpTIoyrQmDhKpn4ge2pqVEo0pTbr+0qZTBpUTtqgUHmpC80o7RD6MF+5R
- BGXu8KJ4REL7K7Yt3MfSkS2a+kXBDMhQLxceddfM9pK62sgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1471; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=MrNz+OlzDjfwvWX2daYWM+tGhBgejuCn5pbVatjqc24=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpg+OV+YmeryC/53zhXaMu1b00BlE35Bp154O9/
+ xZ6QJqCfdGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaYPjlQAKCRAk1otyXVSH
+ 0H/UB/0VhF4fpttxdCe86+J6ANk8ebaItdiSNS/XIjtmWBc+MF6CgyhxqFKesP/WcD4zskWKw+X
+ 8MJ7LE6HQk+whytYI4WsUt10bvSjRCJStyEr3o26jg4SBdOtv2soR7rT6/rJWzUpx/Py1UWkzSZ
+ yqZq26OFMpLvdgFcFmwqiGQPlWwaaQJY/g18FOa6rtLhU928OLMR9F6ifLTMWNwUCbhlVzaSrlz
+ x2Majtt65j90UKbGO5s64JyBhw//B/IokaJMdqIyLb1wHp8lJdDCxuVmyEq1R3c0wCQrp52dvuk
+ +JxhceWZ2Hwgu2MA5QGV7WegdVa+eUKGic/JVhGyzlQ/0y2z
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
 ALSA controls should return 1 if the value in the control changed but the
-control put operation fsl_easrc_iec958_put_bits() unconditionally returns
-0, causing ALSA to not generate any change events. This is detected by
-mixer-test with large numbers of messages in the form:
-
-    No event generated for Context 3 IEC958 CS5
-    Context 3 IEC958 CS5.0 orig 5224 read 5225, is_volatile 0
-
-Add a suitable check.
+control put operation fsl_easrc_set_reg() only returns 0 or a negative
+error code, causing ALSA to not generate any change events. Add a suitable
+check by using regmap_update_bits_check() with the underlying regmap, this
+is more clearly and simply correct than trying to verify that one of the
+generic ops is exactly equivalent to this one.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/fsl/fsl_easrc.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ sound/soc/fsl/fsl_easrc.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index e64a0d97afd0..5b6204923e8a 100644
+index 5b6204923e8a..6c56134c60cc 100644
 --- a/sound/soc/fsl/fsl_easrc.c
 +++ b/sound/soc/fsl/fsl_easrc.c
-@@ -52,10 +52,13 @@ static int fsl_easrc_iec958_put_bits(struct snd_kcontrol *kcontrol,
+@@ -96,14 +96,17 @@ static int fsl_easrc_set_reg(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
  	struct soc_mreg_control *mc =
  		(struct soc_mreg_control *)kcontrol->private_value;
++	struct fsl_asrc *easrc = snd_soc_component_get_drvdata(component);
  	unsigned int regval = ucontrol->value.integer.value[0];
-+	int ret;
-+
-+	ret = (easrc_priv->bps_iec958[mc->regbase] != regval);
++	bool changed;
+ 	int ret;
  
- 	easrc_priv->bps_iec958[mc->regbase] = regval;
+-	ret = snd_soc_component_write(component, mc->regbase, regval);
+-	if (ret < 0)
++	ret = regmap_update_bits_check(easrc->regmap, mc->regbase,
++				       GENMASK(31, 0), regval, &changed);
++	if (ret != 0)
+ 		return ret;
  
 -	return 0;
-+	return ret;
++	return changed;
  }
  
- static int fsl_easrc_iec958_get_bits(struct snd_kcontrol *kcontrol,
+ #define SOC_SINGLE_REG_RW(xname, xreg) \
 
 -- 
 2.47.3
