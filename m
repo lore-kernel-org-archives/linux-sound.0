@@ -1,197 +1,93 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128642DAFA5
-	for <linux-sound@vger.kernel.org>; Thu,  5 Feb 2026 17:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5AF31B10D;
+	Thu,  5 Feb 2026 17:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770312056; cv=none; b=gfKyom6AkZie4kg2YDRC/L4sqeSCvZIUsl/hQvP7FTqOFFRqgpl2fxJ8eVcP0d/px8iOO74ZeC+jSjhuQ2HQbTeJaU3C8c5P/xeUqJJagKMYYzeSMZ0JWWAjd+mWLMmdZ7AIJbdmxbJIZrSnavouu4syHyFqvdpjKyxUudxHEeo=
+	t=1770312521; cv=none; b=deV/Fe4Kd4dZXUCpIn1dPC+mQr69S/sllOe+ZNZtSk3wgV+WlZAq/VFuoJCzaXLp75XRQaEwJ9VmZD7u2eX0Qg5cMftpZjWAE/vT0svN0LdN2fJWmCQagnI6X397vDBuBVb1VNn88oJ8lm1+9nyApc1dOWQ8QTTk6IC1QAZ6gx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770312056; c=relaxed/simple;
-	bh=QJK1uJ/Ofymouhtx5IE+w0SZJJKRvkpRBFhbN/MqoBA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kvNXRKOJlz+oZcgQdto2BQaG+IsRpgfKkGW3JvVI9VXJD6zSqoqjd/IWaoEgRgIjoahr1YJ1Z3YD1zOelGbwOrwZVk3RzQTR7h1arSbeyBK5ueGn0TWJ7oj2PiHsGqPFte4TPN/GUxGBVEf3IGFz6zpjWPHbPIUTMMIATEeh6Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ib21pSIc; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1770312521; c=relaxed/simple;
+	bh=1US4AEkxgJLekWaZD9MCfcTX7fP8TVAB/Nj49TVNjPE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QQYWQK7iGePLk81b1VD00ua80Xwx6S7GoSH1iwtHg7wa3RAbX93O/7SIjoaKuM0UU3rl+yGFJeknJ7JewiiuZnl/3aEaovYcL4JtePtR6ThG3yhDORu2KQQ65sDhjOX/vSsKS+5ZleN9vFvu+OQ8MG6Tdb3ceC6Z/wTC5gk/i9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJLx9T57; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ib21pSIc"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so10521535e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Feb 2026 09:20:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1770312054; x=1770916854; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2hxJi4LjvJCxCRYfV2t2DUtZ8pEMp5AK+WWUAjd9I7o=;
-        b=ib21pSIc/QG98V35fTlyJQbCQmxScZQDkn1iXThhVc9wHDD4rqWZk6txGgYmOMXUtk
-         9NqtMHJktOTGBUx4ms/ENcLufjraTqEgvmHjBpoJJsUNWgfwH1zz85/C1M817bRplabo
-         6Z+Ek5gig8KQSMAG4Uyh2JWapAp9i5r+ucoAcifKKPOEc4HFZaKhPeNQTC+Ft/0d0Gi0
-         cp4SfKq2mIpNvhcYUp2NNY8X+VE9Wqen/fx/8FT1moeq/d9VkuFGpK4mhEuQpl2ycYEp
-         nnMjLILaiHnlRfKAfYMhcZwY9xFmH+P39DgW9RAXvR64W3DTjTPuAqe2mDjl6E/C8TKE
-         gawQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770312054; x=1770916854;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2hxJi4LjvJCxCRYfV2t2DUtZ8pEMp5AK+WWUAjd9I7o=;
-        b=nw8mHXqTNT7m6QOTWowp+T2EKTlROlUJsvIbVVG+bIl4Tg7N4zbDyY7OMKgCp6Cw4B
-         VKcoFVosVA8Ihi34Az+sfhBgGGJ3k1eLz7BJqO7vzbL525OOga1JFs+kbJKV2AVNpWG5
-         yC7MD10NaOdjzQFMrIaAsouZCuxdpOE/ckWXhml7ACna6Wtf6wYExlD2z/B6/e5DzqH4
-         eiVOjnDAkXiH9VQeDHn6nmqLUwWDfKKKNzrqW1IB8NGwKuidb/6dMQsDiqmEtPpBHcrS
-         iJ+/GOm2Zu2a9mTrFQTirtZGnHgZbYe/wLfikuuDi1rZc6GUxI9IsdXlF5gGMElnA/jY
-         +mIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUY50gzmUrN9Dv8KAXE4odsxgJMiYBSgpI7TemUOCLLX6mGTdicmMCRs03hWIcpKO8wTzZFipFUGogbWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzx8HzMfZA89QRykGvXSFCQGKu+lhaxL8qmN0qazgRdggBFKLtP
-	MHJNbjKY+x4K+AZ82NzfMf8fobkKjBphVsPuo9jjmJZI8yH5x8mhQ1hMVOewBaQxGYw=
-X-Gm-Gg: AZuq6aJrFgDP/4HKToGc19FE8PKvJWhdFgbC7xVqz5yuC+T+EU+6jKr3EM0zXur3l1Q
-	9n9V4tmPvAKCQ+o1yN1+og8kgAjoNKmCM+z5CVI4MxQfFQwjHfximjdr1TpUAcNYL7sni8gwR78
-	dRIZdUqDoKoWbYJxstO1Z41LCMABd5QUszTcTLtasG8whIDvG9fgBbktFy91gAdX7lm0sIdED+r
-	euK+f13VNqYxm6ooYJ+q+4vkZaJql5xCQevsDaQv/jjLJK+SeQBKu1yRKIPsl+NP+zBIwLBdQ9N
-	nXxPsgpifVHcypFNgYNlEz0Xx1SKZaECXr356ZlRgrrVJX5XnWFDhjYET9kS7KkxzH9rZZIVD86
-	FQD4qyZH7LlxdMxpQ/7GcMgHc7en87mwgY5gnziL6M1O3U2yGcPrU56X315K/qWXrGiinPXf/qn
-	ymUR9AJGuJxxjYbzQ9wTQ=
-X-Received: by 2002:a05:600c:4f54:b0:47d:403e:9cd5 with SMTP id 5b1f17b1804b1-4832020df4emr1729315e9.11.1770312054098;
-        Thu, 05 Feb 2026 09:20:54 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.215])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830fe567b4sm81538565e9.5.2026.02.05.09.20.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Feb 2026 09:20:53 -0800 (PST)
-Message-ID: <32ea84f2-621a-47d9-a661-9acd62d50662@tuxon.dev>
-Date: Thu, 5 Feb 2026 19:20:51 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJLx9T57"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 050B2C4CEF7;
+	Thu,  5 Feb 2026 17:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770312520;
+	bh=1US4AEkxgJLekWaZD9MCfcTX7fP8TVAB/Nj49TVNjPE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nJLx9T572Jg3PRXJbtwyTFk+/XhuubO5OjsVDTO8MY/8PopAuaUa8SN4NARduDdzd
+	 c9iUgJUHTPNAS0uSHmcF8PDH7GJt0FGsG3L25XFIMLuU41W61O86JCBO0ygL6PaZ/Z
+	 uT5yXymXEluPPChESkfa1cnNHVj/EcGKihgMCfkptiaoGQvcS6XjccxFDxwY1jf3HL
+	 4oAibM0HKyrFbbVr7Pf7EbXKCzHhwlmifTwtOYPXoaqmZtH0/b15o3A1DAwu1jSRhB
+	 BrfQrf/HnrdcQ4AOf3QIGJYjfqBm3Q/7TP/WCUOsnHXu3iuPbdgnKU0rZfcc1N6gDO
+	 k8ZuA8ILl+Dbg==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Herve Codina <herve.codina@bootlin.com>, 
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+ Pascal Huerst <pascal.huerst@gmail.com>, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org, 
+ error27@gmail.com
+In-Reply-To: <20260110195337.2522347-1-harshit.m.mogalapalli@oracle.com>
+References: <20260110195337.2522347-1-harshit.m.mogalapalli@oracle.com>
+Subject: Re: [PATCH] ASoC: cs4271: Fix resource leak in cs4271_soc_resume()
+Message-Id: <177031251773.127114.745142802569517839.b4-ty@kernel.org>
+Date: Thu, 05 Feb 2026 17:28:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
-To: Biju Das <biju.das.jz@bp.renesas.com>, geert <geert@linux-m68k.org>
-Cc: "vkoul@kernel.org" <vkoul@kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
- <20260126103155.2644586-6-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB113461F734BA087B60605C6FC8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <16a6f14a-93e6-472c-8718-d46972f0ac5e@tuxon.dev>
- <TY3PR01MB113463BE8A4B1A40DBB0860538693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <5438ccc8-ed5a-4dd6-8995-e8e9926883a5@tuxon.dev>
- <TY3PR01MB11346325F46C2BCA6B2B181D08693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <ad752abc-275b-43ca-aec3-188c1a69c50b@tuxon.dev>
- <TY3PR01MB113460006A458AB2F8B96542C8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <TY3PR01MB11346C8AD27554E40EC5746E38693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <7f0305f6-ae2d-4069-b53a-d2a81e75d164@tuxon.dev>
- <TY3PR01MB11346321A9AAE93C7070C6E578699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CAMuHMdWUpq1bUbNLu4WGheovQ1pYdEJGBMN3jdb6PZqXanN_GA@mail.gmail.com>
- <TY3PR01MB1134661E4B93CE785700FC5AF8699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB1134661E4B93CE785700FC5AF8699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-Hi, Biju,
-
-On 2/5/26 16:06, Biju Das wrote:
-> Hi Geert,
+On Sat, 10 Jan 2026 11:53:36 -0800, Harshit Mogalapalli wrote:
+> Smatch detects this resource leak:
 > 
->> -----Original Message-----
->> From: Geert Uytterhoeven <geert@linux-m68k.org>
->> Sent: 05 February 2026 13:34
->> Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
->>
->> Hi Biju,
->>
->> On Thu, 5 Feb 2026 at 14:30, Biju Das <biju.das.jz@bp.renesas.com> wrote:
->>>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev> On 1/26/26 17:28,
->>>> Biju Das wrote:
->>>>>> For s2idle issue on RZ/G3L is DMA device is in asserted state,
->>>>>> not forwarding any IRQ to cpu for wakeup.
->>>>>>
->>>>>> For S2RAM issue on RZ/G3L is during suspend hardware turns
->>>>>> DMAACLK off/ Asserted state. Clock framwork is not turning On DMAACLK as it critical clk.
->>>>>>
->>>>>> Can you please check your TF-A for the second case? First case,
->>>>>> RZ/G3S may ok for reset assert state, it can forward IRQs to CPU.
->>>>>
->>>>> Just to summarize, currently there are 2 differences identified between RZ/G3S and RZ/G3L:
->>>>>
->>>>> SoC differences for s2idle:
->>>>>
->>>>> RZ/G3S: Can wake the system if the DMA device is in the assert
->>>>> state
->>>>>
->>>>> RZ/G3L: Cannot wake the system if the DMA device is in the assert state.
->>>>>
->>>>>
->>>>> TF-A differences for s2ram:
->>>>>
->>>>> RZ/G3S: TF_A turns on DMA_ACLK during boot/resume.
->>>>>
->>>>> RZ/G3L: TF_A does not handle DMA_ACLK during boot/resume.
->>>>
->>>> I'm seeing at [1] you are addressing these differences in the
->>>> clock/reset drivers. With that, are you still considering this patch is breaking your system?
->>>
->>> Still, thinking whether to add critical reset or go with SoC quirk in DMA driver.
->>> Some SoCs need DMA should be deasserted like critical clock that can
->>> be handled either
->>>
->>> 1) Add a simple SoC quirk in DMA driver
->>>
->>> Or
->>>
->>> 2) Implement critical reset in SoC specific clock driver and check for all resets.
->>>
->>> Is simple SoC quirk in DMA driver, something can be done for RZ/G2L family SoCs?
->>
->> What if the DMA driver is not enabled?
+> sound/soc/codecs/cs4271.c:548 cs4271_soc_resume() warn:
+>  'cs4271->clk' from clk_prepare_enable() not released on lines: 540,546.
 > 
-> The below use cases will work (patch[1] - removing the code for deassert in cpg_resume)
-> as there is no DMA driver to assert the reset.
+> Instead of direct returns, unprepare the clock and disable regulators on
+> the error paths.
 > 
-> 1) system will boot without DMA driver
-> 2) s2idle will work as there is no DMA driver to assert the reset.
-> 3) s2ram will work without DMA driver.
-> 
-> If DMA driver is enabled, then there is an issue with  s2idle
-> as DMA driver assert the reset and we cannot use serial console
-> as wakeup source
+> [...]
 
-I think we're taking here about both DMA clocks and resets.
+Applied to
 
-What if the DMA clocks are declared critical in Linux and clocks and resets are 
-not handled by bootloader in probe or resume? Who will restore critical clocks? 
-clk_prepare_enable() skips applying the setting to hardware as the critical 
-clock refcount cannot reach zero.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> 
-> One solution is SoC quirk will prevent assert/deassert  of the DMA reset during
-> suspend/resume() for affected SoCs.
+Thanks!
 
-This can't work w/o taking care of the DMA clocks in the clock driver resume 
-function (in case DMA clocks are critical). If so, why handling DMA clocks and 
-resets differently?
+[1/1] ASoC: cs4271: Fix resource leak in cs4271_soc_resume()
+      commit: fef1f756155c30511397bbcd9d55640ab2e44d99
 
-> 
-> Other solution is implement the critical reset and check for all assert calls to skip
-> the DMA resets.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-I prefer this solution + restore the DMA critical clocks on clock driver 
-suspend/resume.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Thank you,
-Claudiu
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
