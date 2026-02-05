@@ -1,1482 +1,321 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44890246797
-	for <linux-sound@vger.kernel.org>; Thu,  5 Feb 2026 02:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770257242; cv=none; b=jxLbm3000dutKwDA750jrrSTSEzBO8vow5CufEcIo/rfkNQMZMjF2wH2MXJOPnVt0uq0KTOMf5dlnwSiLjZVVbrBbmcseN6sy4Nwn+GS6FFjpn3ym0Z3K6BcNxWTh0CuqdfEnPzxRCi1lVsQ6daU/I48DvL8t60Ie8CqFSiIcd4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770257242; c=relaxed/simple;
-	bh=dUS2OWgeAD2eli7lowtFiYM24Qe9eR8/HmV2/e9JAsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ffd0ibmoKpyn+AKO+z2jSvizP/hCPlYCO2xWspYoSBE61HhtNAnICqMmo6Lj4DlKQVr3SdRrG0N71S6iCYsqJ6x1yUtUP+mCZQ+n0/Rz9tbyEZX70K5SIIeXxoicRKqfVXG1EwEBgSSi82ITjcwQwIr8eVAdVuRkcok5PV3ETTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2MfybLp; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4F429D268
+	for <linux-sound@vger.kernel.org>; Thu,  5 Feb 2026 02:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770258974; cv=pass; b=s5/yJVu4xYW/IFD6QEzrsaobPFEyp/Hc1Y0PSbepcEYQbEGGWyP3h6HRKrK28G60g4c+33IqZAffHVrvCItYMmUYK8+U9oX46lMBt+gKC7NbASwl1LY3v/HDMu1bvKZ3rOS0XdH9IUL0ATx/+hyRWhjheuoIokzFUlBPDgxr3rM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770258974; c=relaxed/simple;
+	bh=NQVV8HUc0psH2m9YHAJXRggnCctk9iGZTyOGajgLGcM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qZjQGuU3b+OdOp35NlKLbleQG0ymj31l/fhXtrf+lZg1mKFwXtsn8nRCo+bu4yyriKR/hYbusev471XLM5iEPB8wzOVYuIh+t/4nOAABkqeZVFdG65thUi2OLS0WbtQ3Z5VEQ43Bhplqi06z6kCsHvJdTaILHvOPbuWrO0LgHXc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsWrZvZF; arc=pass smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2MfybLp"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2b72e49776eso643263eec.1
-        for <linux-sound@vger.kernel.org>; Wed, 04 Feb 2026 18:07:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsWrZvZF"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-352dda4a34eso125809a91.1
+        for <linux-sound@vger.kernel.org>; Wed, 04 Feb 2026 18:36:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770258974; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SFqMQPAwPhLDjxQpdXSqj+SqUMqTOvjXxZurEr6a1KVUWL/q7Zm+z6F1Saa7OZUsfJ
+         y2aAzcxN/m4YoW2YEOhL/ditIFR0KDu5LPJiBs3883fUf4k9I+Qx6VqGUO0XKNdMxRCU
+         dYiMUSfCvf82TTgDGQnFs/DT3/C2dO3V37+AGlLFY9FYtMu2PkfCwXCOIxUiSTbXueC+
+         sa7mAoAjVX7BK+mqPQwwGhB9KNBjuLXLweD16wG2suR/KaFmRszTvaFmJUxiFoUElYzB
+         E/mR5yxr1MNNl2hJXrmbCscHqvB3fGa0LReSCtgHSyW8YJIHy/XIB7EbmoHjxdq+lgLv
+         XNUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HjF1oe/j6F+p4WP4e0eq4iSGoPJ70DW7/iIuXSYvlGc=;
+        fh=NQ7nfXA7RThD/2avt2aVSm8tdiYnar7QQRSwZ0ke7ww=;
+        b=R9PIh0XcM/ZYUGLAdi1XMxm/+PhMPHgGk8k/ZvnVYehfxHt6xb+hQcXdUAHWjS1lqX
+         XqdneFKokOb6dfvj2TLqVtgGOnmB63xzDND+oc5UteYPhL1Rz9w5X5jVS0mbhXToMWPj
+         m0LUL9yH/01zjgwQbN9o3ffYrXbIU2evmt87058BlH1WfDxgynf3xnQLmSv9SKf9SwR1
+         zpuFeDIKWBXkOJMBHgSKn5+0PM7jkadmgXMZZIK9hTsifcxzCD1mJKbQ7+fzl883nhQS
+         WJL4Ab8R9t6Q6HsTfYS03AV0l7JqN3nfOOHfZNRmiZfdw0V2pmErpuY+WjUtIXLttmA5
+         c/qw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770257241; x=1770862041; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bhgzgjo4XADqdD68BOJq1TJeFJj2BYNWzNY6bVU8Ovo=;
-        b=I2MfybLpnlKWMSAWl6B0mjpfNwA3xSPotDFfqrh2DQ/ow2yVp7T0jnBWB0qwIapJoi
-         +aCNm1zmlnFC3DLS1kgfHWYompu4T5oh/osnrWfhO2OAuLfRn4HK0vBDVp9ATWBn/z9E
-         jOiGkZ6Upb5LR3B7Q1turkAHvyy6RY9p7CtkGxkbE/cjHVBFfr8o7PBiN9GmNcjEcBVo
-         HXkNZ8Y+DfS88728cH7mHX+YN2egBIUzsIsss4HOK2b8Ymn4BjreU+oi7HKSBOydIEgb
-         w9iDqNuAi5CYvrltnZjHCZWns3L+rjSSwgT7XXG6y3yLBs3I0LLcI8U3hNvSJ7l6cFLP
-         kfyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770257241; x=1770862041;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770258974; x=1770863774; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bhgzgjo4XADqdD68BOJq1TJeFJj2BYNWzNY6bVU8Ovo=;
-        b=v/TfdTpho2ONaJSyNobXUWKVWcFlw8dh43O7SR1HyOUtdst4BpYpBmZ/0bVxy47EOI
-         zsXEWDNFRp/rhxIZIYS3g4P8P+A/vpw9QGPUwG+8wTVHWH3lPacw5NQs9WnOvsBAN4Hp
-         LMw2ZMVCsT6BpfS1VDD5p4odMNACYfKtksvGsMaYpzrIPKtODb+QigVf7lZ38YJKpf1u
-         cicDKPzl9/oCyMHK4JDdWNAZLQW2DMsFQ6cb03Pbee69FHo6yR1amwcf0L9+mkVc9Uey
-         gU2Y/3980FqhRsUJY7LslKPn+0QNtU6+YRML2gj0UIyhku1p9P0OpPWwllw3fpeF/468
-         og1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVgGMpiL7VqvBRUVxO7D6l28qFlaega+BLYO91ANoG487y0WjTcQRYIYIRgo+qxMiMTo34iO8T1sGvPOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwY+Yv2UW4LdU9rHqH6qs7414tjIi6zzJMrDbB/+ekv3YCS4txR
-	o30SgmiUnepUAtq64OBuHDawCC8KsZk0D76V1GWD/q4tPGD+skuJAZ5a
-X-Gm-Gg: AZuq6aLDf4QIzq1DpbYbpaTCS+nqF+H/rfEQtJ6kZeGMHbj7Wp5P3L6H69i+Y6ypnzW
-	G/+FYCjgdcEicCSV2B9GyPTWOuNHGowjxAvjfKoeU+amNjz69+zU/+9kRrQyS4xPesKgPYE7vK2
-	8x4o/PBnYjU9TImPRSiO3yigAJ14t83O6mD4jO+Gml5pGKPtgRdpSKRs907lll0xaZ210/MbrcG
-	QG917NDWuuxBqvSnnaWZzNI2xPolQLpugdLaGdawsiIp6Uyf0Xk4NPXdSXyEq4gYy+oo/ZqBDdT
-	ZKGpBhr0UPL20LnQF0VK+ted/z1kIyHn7TUq+EBYmW+dKoWXI8EpmPU/+3ur4BgZ/q6XtQ0mqto
-	fQoIe8UllCCrCrd1yqvVkxTgTIg9HpmTtM5ZO2Wb4Ljh9OV7bNUa5tqaEtIcN1DTRUfAROhNJWO
-	jE2e/1EVM=
-X-Received: by 2002:a05:7301:678a:b0:2ae:5d3b:e1ba with SMTP id 5a478bee46e88-2b832987c05mr2284024eec.23.1770257240988;
-        Wed, 04 Feb 2026 18:07:20 -0800 (PST)
-Received: from qby-laptop ([96.44.179.248])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b832fe43f6sm2347194eec.33.2026.02.04.18.07.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 18:07:20 -0800 (PST)
-From: Mingyou Chen <qby140326@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: Mingyou Chen <qby140326@gmail.com>
-Subject: [PATCH] ASoC: amd: add DMIC support for RPL platform
-Date: Thu,  5 Feb 2026 10:07:03 +0800
-Message-ID: <20260205020706.29058-1-qby140326@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        bh=HjF1oe/j6F+p4WP4e0eq4iSGoPJ70DW7/iIuXSYvlGc=;
+        b=BsWrZvZFLwi2RbxIb1Ad/Vxm1WKifPErkP0QYZmfGsVu7cDjHShHddHYQcVO22uwcy
+         RYCdczgw4mfRAIf4O6du2lV7Uvur3zznqY9yrcdPBzims8BghQIs8/PwbvZHa+7meU6T
+         cjXbgbkVU+YdjftZJ6B6W5ir1l1SSKVDmdOs99H7RjKo0Yn3Nyi51TgkEFi0et1ZsfxA
+         7wHNrWD4VU6ZvKtYpKO+opDDZNn5YAlnHvFrX+CUQYGIJoO6bjjkxftTs9f2PgQQ1bFy
+         zyJfr9Jt3bkMRNPc8SfC88N0jvXIoaZDsKXGHdfL0/uT2PYG8PnyuqTVv2u41Fe5FF5x
+         ePIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770258974; x=1770863774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HjF1oe/j6F+p4WP4e0eq4iSGoPJ70DW7/iIuXSYvlGc=;
+        b=QbaoaZsoMHBdQ5bP76NcJjE1zFSUNcHcsMpim4ojxUPjmPcyEZey6EbBiqoN2oAiSP
+         d7j6ruQ50wVLpOdukmYkRHMysL6F5TionDU+JBRRkRDOfMzwNcdPelzE5ch4jCS3/KEu
+         8WMUayNvYK8I5mfYpevW0tnpyOG86ZPVhwqQA786DOI461bas7KU4xyhCpFgLm+AajXM
+         f3Uo3MTnKlu8YIbJR66Tf8ao3j9z348r1OLv125Iibgm1+L47zyAocXnSMFFEC7oC1Tm
+         qw7iPZo0WJI31qlvNU/1DM3y1o1nQh3WlCYByw1P5QzN6T3CWlwA0k7ejJMhZunLERkn
+         fvOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYjPfTo0rq1J5/8p63pEuKQa2ViLRQdd6Erbmi/IUEjsRM9kz/8rUazCp2KI+rfmUmKB2+33GVlva+aA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhSONXAKEfKU4x4CIwxFD63A9Jp0V7mDLMz3SslVzvTY6A8Ck4
+	Hdd2i3MMf/SvPMcWzqgrIgjikP6CqkGyng9lSZJ2G8TVoAU+l8bPf1d7/KxZQxXi34T+Tkq7gTV
+	r8bDgfMoxHYO+7E24nFWlHelL2pckgZ3E3w==
+X-Gm-Gg: AZuq6aKHKBg79z2tnBd/f7v3Wegfc/p1O0F79DHAvwftp7LIMNM9l9U6YDgNAS49NCf
+	hqC3FwPFlZ20QYwKovEz2J0VuGMNUnBewX6XtNg1MzF69IqeTN+89SPtf41yTPJNuN3tzkeT8z4
+	j1M5uswH+CBJBAiE1+SRc1slm3Fg1yRGi1DBdgxB+864jqYrMJfY+JT1cOU6n9X1wNSi60EZEmJ
+	mfAES4MmTaDTPbseqJee3N9BIunXR00a6OJoH8qREhoqDM9JKH0ePszL8oH1W4TSDMztNszm5Nv
+	nmD9gQ==
+X-Received: by 2002:a17:90b:3884:b0:340:4abf:391d with SMTP id
+ 98e67ed59e1d1-35487125d82mr4318915a91.16.1770258973498; Wed, 04 Feb 2026
+ 18:36:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260203031345.3850533-1-shengjiu.wang@nxp.com>
+ <20260203031345.3850533-3-shengjiu.wang@nxp.com> <aYI2KZE8/MGQ633A@lizhi-Precision-Tower-5810>
+ <CAA+D8APXwucOLhhnZF7ASPufWyQs4tbxtR46UFdpm=4wRyHOyA@mail.gmail.com> <aYN0CQbRwyYJDlJn@lizhi-Precision-Tower-5810>
+In-Reply-To: <aYN0CQbRwyYJDlJn@lizhi-Precision-Tower-5810>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 5 Feb 2026 10:36:01 +0800
+X-Gm-Features: AZwV_QgTCuKmUaXOlpjmbiCTEgTaxxVjxr1vFqJ32-N2ro_Vxt5AFFdiFJtKCnI
+Message-ID: <CAA+D8AN_xej-DWHbWKMCwgZVVcW9N2mHrK=4GUyoRiGLXBAoTw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] ASoC: fsl_asrc_m2m: Add option to start ASRC
+ before DMA device for M2M
+To: Frank Li <Frank.li@nxp.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add DMIC support for the AMD RPL platform. The drivers are derived on
-the YC platform driver.
+On Thu, Feb 5, 2026 at 12:30=E2=80=AFAM Frank Li <Frank.li@nxp.com> wrote:
+>
+> On Wed, Feb 04, 2026 at 09:41:55AM +0800, Shengjiu Wang wrote:
+> > On Wed, Feb 4, 2026 at 1:53=E2=80=AFAM Frank Li <Frank.li@nxp.com> wrot=
+e:
+> > >
+> > > On Tue, Feb 03, 2026 at 11:13:43AM +0800, Shengjiu Wang wrote:
+> > > > There is a limitation on i.MX952 that dma request is not cleared at=
+ the
+> > > > end of conversion with dma slave mode. Which causes sample is dropp=
+ed
+> > > > from the input fifo on the second time if dma is triggered before t=
+he
+> > > > client device and EDMA may copy wrong data from output fifo as the =
+output
+> > > > fifo is not ready in the beginning.
+> > > >
+> > > > The solution is to trigger asrc before dma on i.MX952, and add dela=
+y to
+> > > > wait output data is generated then start the EDMA for output, other=
+wise
+> > > > the m2m function has noise issues.
+> > > >
+> > > > So add an option to start ASRC first for M2M before ASRC is enabled=
+ on
+> > > > i.MX952.
+> > > >
+> > > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > > > ---
+> > > >  sound/soc/fsl/fsl_asrc.c        | 23 +++++++++++++++++++++++
+> > > >  sound/soc/fsl/fsl_asrc.h        |  4 ++++
+> > > >  sound/soc/fsl/fsl_asrc_common.h |  4 ++++
+> > > >  sound/soc/fsl/fsl_asrc_m2m.c    |  8 +++++++-
+> > > >  4 files changed, 38 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+> > > > index 92fb16f7be45..b6d4f1e09e2e 100644
+> > > > --- a/sound/soc/fsl/fsl_asrc.c
+> > > > +++ b/sound/soc/fsl/fsl_asrc.c
+> > > > @@ -1078,6 +1078,27 @@ static unsigned int fsl_asrc_get_output_fifo=
+_size(struct fsl_asrc_pair *pair)
+> > > >       return val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
+> > > >  }
+> > > >
+> > > > +static bool fsl_asrc_m2m_output_ready(struct fsl_asrc_pair *pair)
+> > > > +{
+> > > > +     struct fsl_asrc *asrc =3D pair->asrc;
+> > > > +     enum asrc_pair_index index =3D pair->index;
+> > > > +     int retry =3D 1000;
+> > > > +     u32 val;
+> > > > +     int ret;
+> > > > +
+> > > > +     /* Check output fifo status if it exceeds the watermark. */
+> > > > +     ret =3D regmap_read_poll_timeout(asrc->regmap, REG_ASRFST(ind=
+ex), val,
+> > > > +                                    (ASRFSTi_OUTPUT_FIFO_FILL(val)=
+ >=3D ASRC_M2M_OUTPUTFIFO_WML) ||
+> > > > +                                    (--retry =3D=3D 0), 0, USEC_PE=
+R_SEC);
+> > >
+> > > are sure need "retry"? there are timeout, which should be equal to 'r=
+etry'.
+> >
+> > Yes, "retry" is what I want, timeout is not what I expected.
+>
+> Okay, but it will be strange. you polling a register, you suppose it will
+> be finished below 1000 IO read, which is certain time in SoC, for example
+> 1ms. Compare to timeout us value, 1000 is hard to understand why you choo=
+se
+> this value.
 
-Signed-off-by: Mingyou Chen <qby140326@gmail.com>
----
- sound/soc/amd/Kconfig                         |  11 +
- sound/soc/amd/rpl/Makefile                    |   4 +
- sound/soc/amd/rpl/rpl-acp6x-mach.c            | 131 +++++
- sound/soc/amd/rpl/rpl-acp6x-pdm-dma.c         | 454 ++++++++++++++++++
- sound/soc/amd/rpl/rpl-pci-acp6x.c             | 123 ++++-
- sound/soc/amd/rpl/rpl_acp6x.h                 |  90 +++-
- .../soc/amd/rpl/rpl_acp6x_chip_offset_byte.h  | 420 +++++++++++++++-
- 7 files changed, 1221 insertions(+), 12 deletions(-)
- create mode 100644 sound/soc/amd/rpl/rpl-acp6x-mach.c
- create mode 100644 sound/soc/amd/rpl/rpl-acp6x-pdm-dma.c
+It can be removed by reducing the timeout time.
+will update in the next version.
 
-diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
-index fd35a03aadcb..da2940e94a7e 100644
---- a/sound/soc/amd/Kconfig
-+++ b/sound/soc/amd/Kconfig
-@@ -134,6 +134,17 @@ config SND_SOC_AMD_RPL_ACP6x
-           Say m if you have such a device.
-           If unsure select "N".
- 
-+config SND_SOC_AMD_RPL_MACH
-+	tristate "AMD RPL support for DMIC"
-+	select SND_SOC_DMIC
-+	depends on SND_SOC_AMD_ACP6x && ACPI
-+	help
-+	  This option enables machine driver for AMD RPL platform
-+	  using dmic. ACP IP has PDM Decoder block with DMA controller.
-+	  DMIC can be connected directly to ACP IP.
-+	  Say m if you have such a device.
-+	  If unsure select "N".
-+
- config SND_SOC_AMD_ACP63_TOPLEVEL
- 	tristate "support for AMD platforms with ACP version >= 6.3"
- 	default SND_AMD_ACP_CONFIG
-diff --git a/sound/soc/amd/rpl/Makefile b/sound/soc/amd/rpl/Makefile
-index a3825c5be4e7..b1190fcdf1f6 100644
---- a/sound/soc/amd/rpl/Makefile
-+++ b/sound/soc/amd/rpl/Makefile
-@@ -1,5 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0+
- # RPL platform Support
- snd-rpl-pci-acp6x-y	:= rpl-pci-acp6x.o
-+snd-rpl-acp6x-pdm-dma-y	:= rpl-acp6x-pdm-dma.o
-+snd-soc-rpl-acp6x-mach-y	:= rpl-acp6x-mach.o
- 
- obj-$(CONFIG_SND_SOC_AMD_RPL_ACP6x) += snd-rpl-pci-acp6x.o
-+obj-$(CONFIG_SND_SOC_AMD_RPL_ACP6x) += snd-rpl-acp6x-pdm-dma.o
-+obj-$(CONFIG_SND_SOC_AMD_RPL_MACH)   += snd-soc-rpl-acp6x-mach.o
-diff --git a/sound/soc/amd/rpl/rpl-acp6x-mach.c b/sound/soc/amd/rpl/rpl-acp6x-mach.c
-new file mode 100644
-index 000000000000..71a384b9a36c
---- /dev/null
-+++ b/sound/soc/amd/rpl/rpl-acp6x-mach.c
-@@ -0,0 +1,131 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Machine driver for AMD RPL platform using DMIC
-+ *
-+ * Copyright 2025 Advanced Micro Devices, Inc.
-+ */
-+
-+#include <sound/soc.h>
-+#include <sound/soc-dapm.h>
-+#include <linux/module.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <linux/io.h>
-+#include <linux/dmi.h>
-+#include <linux/acpi.h>
-+
-+#include "rpl_acp6x.h"
-+
-+#define DRV_NAME "acp_rpl_mach"
-+
-+SND_SOC_DAILINK_DEF(acp6x_pdm,
-+		    DAILINK_COMP_ARRAY(COMP_CPU("acp_rpl_pdm_dma.0")));
-+
-+SND_SOC_DAILINK_DEF(dmic_codec,
-+		    DAILINK_COMP_ARRAY(COMP_CODEC("dmic-codec.0",
-+						  "dmic-hifi")));
-+
-+SND_SOC_DAILINK_DEF(pdm_platform,
-+		    DAILINK_COMP_ARRAY(COMP_PLATFORM("acp_rpl_pdm_dma.0")));
-+
-+static struct snd_soc_dai_link acp6x_dai_pdm[] = {
-+	{
-+		.name = "rpl-acp6x-dmic-capture",
-+		.stream_name = "DMIC capture",
-+		.capture_only = 1,
-+		SND_SOC_DAILINK_REG(acp6x_pdm, dmic_codec, pdm_platform),
-+	},
-+};
-+
-+static struct snd_soc_card acp6x_card = {
-+	.name = "acp6x",
-+	.owner = THIS_MODULE,
-+	.dai_link = acp6x_dai_pdm,
-+	.num_links = 1,
-+};
-+
-+static const struct dmi_system_id rpl_acp_quirk_table[] = {
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Lecoo"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Bellator N176"),
-+		}
-+	},
-+	{}
-+};
-+
-+static int acp6x_probe(struct platform_device *pdev)
-+{
-+	const struct dmi_system_id *dmi_id;
-+	struct acp6x_pdm *machine = NULL;
-+	struct snd_soc_card *card;
-+	struct acpi_device *adev;
-+	acpi_handle handle;
-+	acpi_integer dmic_status;
-+	int ret;
-+	bool is_dmic_enable, wov_en;
-+
-+	/* IF WOV entry not found, enable dmic based on AcpDmicConnected entry*/
-+	is_dmic_enable = false;
-+	wov_en = true;
-+	/* check the parent device's firmware node has _DSD or not */
-+	adev = ACPI_COMPANION(pdev->dev.parent);
-+	if (adev) {
-+		const union acpi_object *obj;
-+
-+		if (!acpi_dev_get_property(adev, "AcpDmicConnected", ACPI_TYPE_INTEGER, &obj) &&
-+		    obj->integer.value == 1)
-+			is_dmic_enable = true;
-+	}
-+
-+	handle = ACPI_HANDLE(pdev->dev.parent);
-+	ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
-+	if (!ACPI_FAILURE(ret)) {
-+		wov_en = dmic_status;
-+		if (!wov_en)
-+			return -ENODEV;
-+	} else {
-+		/* Incase of ACPI method read failure then jump to check_dmi_entry */
-+		goto check_dmi_entry;
-+	}
-+
-+	if (is_dmic_enable)
-+		platform_set_drvdata(pdev, &acp6x_card);
-+
-+check_dmi_entry:
-+	/* check for any DMI overrides */
-+	dmi_id = dmi_first_match(rpl_acp_quirk_table);
-+	if (dmi_id)
-+		platform_set_drvdata(pdev, dmi_id->driver_data);
-+
-+	card = platform_get_drvdata(pdev);
-+	if (!card)
-+		return -ENODEV;
-+	dev_info(&pdev->dev, "Enabling ACP DMIC support via %s", dmi_id ? "DMI" : "ACPI");
-+	acp6x_card.dev = &pdev->dev;
-+
-+	snd_soc_card_set_drvdata(card, machine);
-+	ret = devm_snd_soc_register_card(&pdev->dev, card);
-+	if (ret) {
-+		return dev_err_probe(&pdev->dev, ret,
-+				"snd_soc_register_card(%s) failed\n",
-+				card->name);
-+	}
-+	return 0;
-+}
-+
-+static struct platform_driver rpl_acp6x_mach_driver = {
-+	.driver = {
-+		.name = "acp_rpl_mach",
-+		.pm = &snd_soc_pm_ops,
-+	},
-+	.probe = acp6x_probe,
-+};
-+
-+module_platform_driver(rpl_acp6x_mach_driver);
-+
-+MODULE_DESCRIPTION("AMD RPL support for DMIC");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:" DRV_NAME);
-+
-diff --git a/sound/soc/amd/rpl/rpl-acp6x-pdm-dma.c b/sound/soc/amd/rpl/rpl-acp6x-pdm-dma.c
-new file mode 100644
-index 000000000000..2ae6d388e488
---- /dev/null
-+++ b/sound/soc/amd/rpl/rpl-acp6x-pdm-dma.c
-@@ -0,0 +1,454 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * AMD ALSA SoC RPL PDM Driver
-+ *
-+ * Copyright 2021 Advanced Micro Devices, Inc.
-+ */
-+
-+#include <linux/platform_device.h>
-+#include <linux/module.h>
-+#include <linux/bitfield.h>
-+#include <linux/err.h>
-+#include <linux/io.h>
-+#include <sound/pcm_params.h>
-+#include <sound/soc.h>
-+#include <sound/soc-dai.h>
-+#include <linux/pm_runtime.h>
-+
-+#include "rpl_acp6x.h"
-+
-+#define DRV_NAME "acp_rpl_pdm_dma"
-+
-+static int pdm_gain = 3;
-+module_param(pdm_gain, int, 0644);
-+MODULE_PARM_DESC(pdm_gain, "Gain control (0-3)");
-+
-+static const struct snd_pcm_hardware acp6x_pdm_hardware_capture = {
-+	.info = SNDRV_PCM_INFO_INTERLEAVED |
-+		SNDRV_PCM_INFO_BLOCK_TRANSFER |
-+		SNDRV_PCM_INFO_MMAP |
-+		SNDRV_PCM_INFO_MMAP_VALID |
-+		SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME,
-+	.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+	.channels_min = 2,
-+	.channels_max = 2,
-+	.rates = SNDRV_PCM_RATE_48000,
-+	.rate_min = 48000,
-+	.rate_max = 48000,
-+	.buffer_bytes_max = CAPTURE_MAX_NUM_PERIODS * CAPTURE_MAX_PERIOD_SIZE,
-+	.period_bytes_min = CAPTURE_MIN_PERIOD_SIZE,
-+	.period_bytes_max = CAPTURE_MAX_PERIOD_SIZE,
-+	.periods_min = CAPTURE_MIN_NUM_PERIODS,
-+	.periods_max = CAPTURE_MAX_NUM_PERIODS,
-+};
-+
-+static void acp6x_init_pdm_ring_buffer(u32 physical_addr, u32 buffer_size,
-+				       u32 watermark_size, void __iomem *acp_base)
-+{
-+	rpl_acp_writel(physical_addr, acp_base + ACP_WOV_RX_RINGBUFADDR);
-+	rpl_acp_writel(buffer_size, acp_base + ACP_WOV_RX_RINGBUFSIZE);
-+	rpl_acp_writel(watermark_size, acp_base + ACP_WOV_RX_INTR_WATERMARK_SIZE);
-+	rpl_acp_writel(0x01, acp_base + ACPAXI2AXI_ATU_CTRL);
-+}
-+
-+static void acp6x_enable_pdm_clock(void __iomem *acp_base)
-+{
-+	u32 pdm_clk_enable, pdm_ctrl;
-+
-+	pdm_clk_enable = ACP_PDM_CLK_FREQ_MASK;
-+	pdm_ctrl = 0x00;
-+
-+	rpl_acp_writel(pdm_clk_enable, acp_base + ACP_WOV_CLK_CTRL);
-+	pdm_ctrl = rpl_acp_readl(acp_base + ACP_WOV_MISC_CTRL);
-+	pdm_ctrl &= ~ACP_WOV_GAIN_CONTROL;
-+	pdm_ctrl |= FIELD_PREP(ACP_WOV_GAIN_CONTROL, clamp(pdm_gain, 0, 3));
-+	rpl_acp_writel(pdm_ctrl, acp_base + ACP_WOV_MISC_CTRL);
-+}
-+
-+static void acp6x_enable_pdm_interrupts(void __iomem *acp_base)
-+{
-+	u32 ext_int_ctrl;
-+
-+	ext_int_ctrl = rpl_acp_readl(acp_base + ACP_EXTERNAL_INTR_CNTL);
-+	ext_int_ctrl |= PDM_DMA_INTR_MASK;
-+	rpl_acp_writel(ext_int_ctrl, acp_base + ACP_EXTERNAL_INTR_CNTL);
-+}
-+
-+static void acp6x_disable_pdm_interrupts(void __iomem *acp_base)
-+{
-+	u32 ext_int_ctrl;
-+
-+	ext_int_ctrl = rpl_acp_readl(acp_base + ACP_EXTERNAL_INTR_CNTL);
-+	ext_int_ctrl &= ~PDM_DMA_INTR_MASK;
-+	rpl_acp_writel(ext_int_ctrl, acp_base + ACP_EXTERNAL_INTR_CNTL);
-+}
-+
-+static bool acp6x_check_pdm_dma_status(void __iomem *acp_base)
-+{
-+	bool pdm_dma_status;
-+	u32 pdm_enable, pdm_dma_enable;
-+
-+	pdm_dma_status = false;
-+	pdm_enable = rpl_acp_readl(acp_base + ACP_WOV_PDM_ENABLE);
-+	pdm_dma_enable = rpl_acp_readl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-+	if ((pdm_enable & ACP_PDM_ENABLE) && (pdm_dma_enable & ACP_PDM_DMA_EN_STATUS))
-+		pdm_dma_status = true;
-+
-+	return pdm_dma_status;
-+}
-+
-+static int acp6x_start_pdm_dma(void __iomem *acp_base)
-+{
-+	u32 pdm_enable;
-+	u32 pdm_dma_enable;
-+	int timeout;
-+
-+	pdm_enable = 0x01;
-+	pdm_dma_enable  = 0x01;
-+
-+	acp6x_enable_pdm_clock(acp_base);
-+	rpl_acp_writel(pdm_enable, acp_base + ACP_WOV_PDM_ENABLE);
-+	rpl_acp_writel(pdm_dma_enable, acp_base + ACP_WOV_PDM_DMA_ENABLE);
-+	timeout = 0;
-+	while (++timeout < ACP_COUNTER) {
-+		pdm_dma_enable = rpl_acp_readl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-+		if ((pdm_dma_enable & 0x02) == ACP_PDM_DMA_EN_STATUS)
-+			return 0;
-+		udelay(DELAY_US);
-+	}
-+	return -ETIMEDOUT;
-+}
-+
-+static int acp6x_stop_pdm_dma(void __iomem *acp_base)
-+{
-+	u32 pdm_enable, pdm_dma_enable;
-+	int timeout;
-+
-+	pdm_enable = 0x00;
-+	pdm_dma_enable  = 0x00;
-+
-+	pdm_enable = rpl_acp_readl(acp_base + ACP_WOV_PDM_ENABLE);
-+	pdm_dma_enable = rpl_acp_readl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-+	if (pdm_dma_enable & 0x01) {
-+		pdm_dma_enable = 0x02;
-+		rpl_acp_writel(pdm_dma_enable, acp_base + ACP_WOV_PDM_DMA_ENABLE);
-+		timeout = 0;
-+		while (++timeout < ACP_COUNTER) {
-+			pdm_dma_enable = rpl_acp_readl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-+			if ((pdm_dma_enable & 0x02) == 0x00)
-+				break;
-+			udelay(DELAY_US);
-+		}
-+		if (timeout == ACP_COUNTER)
-+			return -ETIMEDOUT;
-+	}
-+	if (pdm_enable == ACP_PDM_ENABLE) {
-+		pdm_enable = ACP_PDM_DISABLE;
-+		rpl_acp_writel(pdm_enable, acp_base + ACP_WOV_PDM_ENABLE);
-+	}
-+	rpl_acp_writel(0x01, acp_base + ACP_WOV_PDM_FIFO_FLUSH);
-+	return 0;
-+}
-+
-+static void acp6x_config_dma(struct rpl_pdm_stream_instance *rtd, int direction)
-+{
-+	u16 page_idx;
-+	u32 low, high, val;
-+	dma_addr_t addr;
-+
-+	addr = rtd->dma_addr;
-+	val = PDM_PTE_OFFSET;
-+
-+	/* Group Enable */
-+	rpl_acp_writel(ACP_SRAM_PTE_OFFSET | BIT(31), rtd->acp6x_base +
-+		     ACPAXI2AXI_ATU_BASE_ADDR_GRP_1);
-+	rpl_acp_writel(PAGE_SIZE_4K_ENABLE, rtd->acp6x_base +
-+		     ACPAXI2AXI_ATU_PAGE_SIZE_GRP_1);
-+	for (page_idx = 0; page_idx < rtd->num_pages; page_idx++) {
-+		/* Load the low address of page int ACP SRAM through SRBM */
-+		low = lower_32_bits(addr);
-+		high = upper_32_bits(addr);
-+
-+		rpl_acp_writel(low, rtd->acp6x_base + ACP_SCRATCH_REG_0 + val);
-+		high |= BIT(31);
-+		rpl_acp_writel(high, rtd->acp6x_base + ACP_SCRATCH_REG_0 + val + 4);
-+		val += 8;
-+		addr += PAGE_SIZE;
-+	}
-+}
-+
-+static int acp6x_pdm_dma_open(struct snd_soc_component *component,
-+			      struct snd_pcm_substream *substream)
-+{
-+	struct snd_pcm_runtime *runtime;
-+	struct rpl_pdm_dev_data *adata;
-+	struct rpl_pdm_stream_instance *pdm_data;
-+	int ret;
-+
-+	runtime = substream->runtime;
-+	adata = dev_get_drvdata(component->dev);
-+	pdm_data = kzalloc(sizeof(*pdm_data), GFP_KERNEL);
-+	if (!pdm_data)
-+		return -EINVAL;
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-+		runtime->hw = acp6x_pdm_hardware_capture;
-+
-+	ret = snd_pcm_hw_constraint_integer(runtime,
-+					    SNDRV_PCM_HW_PARAM_PERIODS);
-+	if (ret < 0) {
-+		dev_err(component->dev, "set integer constraint failed\n");
-+		kfree(pdm_data);
-+		return ret;
-+	}
-+
-+	acp6x_enable_pdm_interrupts(adata->acp6x_base);
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-+		adata->capture_stream = substream;
-+
-+	pdm_data->acp6x_base = adata->acp6x_base;
-+	runtime->private_data = pdm_data;
-+	return ret;
-+}
-+
-+static int acp6x_pdm_dma_hw_params(struct snd_soc_component *component,
-+				   struct snd_pcm_substream *substream,
-+				   struct snd_pcm_hw_params *params)
-+{
-+	struct rpl_pdm_stream_instance *rtd;
-+	size_t size, period_bytes;
-+
-+	rtd = substream->runtime->private_data;
-+	if (!rtd)
-+		return -EINVAL;
-+	size = params_buffer_bytes(params);
-+	period_bytes = params_period_bytes(params);
-+	rtd->dma_addr = substream->runtime->dma_addr;
-+	rtd->num_pages = (PAGE_ALIGN(size) >> PAGE_SHIFT);
-+	acp6x_config_dma(rtd, substream->stream);
-+	acp6x_init_pdm_ring_buffer(PDM_MEM_WINDOW_START, size,
-+				   period_bytes, rtd->acp6x_base);
-+	return 0;
-+}
-+
-+static u64 acp6x_pdm_get_byte_count(struct rpl_pdm_stream_instance *rtd,
-+				    int direction)
-+{
-+	union rpl_acp_pdm_dma_count byte_count;
-+
-+	byte_count.bcount.high =
-+			rpl_acp_readl(rtd->acp6x_base + ACP_WOV_RX_LINEARPOSITIONCNTR_HIGH);
-+	byte_count.bcount.low =
-+			rpl_acp_readl(rtd->acp6x_base + ACP_WOV_RX_LINEARPOSITIONCNTR_LOW);
-+	return byte_count.bytescount;
-+}
-+
-+static snd_pcm_uframes_t acp6x_pdm_dma_pointer(struct snd_soc_component *comp,
-+					       struct snd_pcm_substream *stream)
-+{
-+	struct rpl_pdm_stream_instance *rtd;
-+	u32 pos, buffersize;
-+	u64 bytescount;
-+
-+	rtd = stream->runtime->private_data;
-+	buffersize = frames_to_bytes(stream->runtime,
-+				     stream->runtime->buffer_size);
-+	bytescount = acp6x_pdm_get_byte_count(rtd, stream->stream);
-+	if (bytescount > rtd->bytescount)
-+		bytescount -= rtd->bytescount;
-+	pos = do_div(bytescount, buffersize);
-+	return bytes_to_frames(stream->runtime, pos);
-+}
-+
-+static int acp6x_pdm_dma_new(struct snd_soc_component *component,
-+			     struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct device *parent = component->dev->parent;
-+
-+	snd_pcm_set_managed_buffer_all(rtd->pcm, SNDRV_DMA_TYPE_DEV,
-+				       parent, MIN_BUFFER, MAX_BUFFER);
-+	return 0;
-+}
-+
-+static int acp6x_pdm_dma_close(struct snd_soc_component *component,
-+			       struct snd_pcm_substream *substream)
-+{
-+	struct rpl_pdm_dev_data *adata = dev_get_drvdata(component->dev);
-+
-+	acp6x_disable_pdm_interrupts(adata->acp6x_base);
-+	adata->capture_stream = NULL;
-+	return 0;
-+}
-+
-+static int acp6x_pdm_dai_trigger(struct snd_pcm_substream *substream,
-+				 int cmd, struct snd_soc_dai *dai)
-+{
-+	struct rpl_pdm_stream_instance *rtd;
-+	int ret;
-+	bool pdm_status;
-+	unsigned int ch_mask;
-+
-+	rtd = substream->runtime->private_data;
-+	ret = 0;
-+	switch (substream->runtime->channels) {
-+	case TWO_CH:
-+		ch_mask = 0x00;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		rpl_acp_writel(ch_mask, rtd->acp6x_base + ACP_WOV_PDM_NO_OF_CHANNELS);
-+		rpl_acp_writel(PDM_DECIMATION_FACTOR, rtd->acp6x_base +
-+			     ACP_WOV_PDM_DECIMATION_FACTOR);
-+		rtd->bytescount = acp6x_pdm_get_byte_count(rtd, substream->stream);
-+		pdm_status = acp6x_check_pdm_dma_status(rtd->acp6x_base);
-+		if (!pdm_status)
-+			ret = acp6x_start_pdm_dma(rtd->acp6x_base);
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-+		pdm_status = acp6x_check_pdm_dma_status(rtd->acp6x_base);
-+		if (pdm_status)
-+			ret = acp6x_stop_pdm_dma(rtd->acp6x_base);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	return ret;
-+}
-+
-+static const struct snd_soc_dai_ops acp6x_pdm_dai_ops = {
-+	.trigger   = acp6x_pdm_dai_trigger,
-+};
-+
-+static struct snd_soc_dai_driver acp6x_pdm_dai_driver = {
-+	.capture = {
-+		.rates = SNDRV_PCM_RATE_48000,
-+		.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+		.channels_min = 2,
-+		.channels_max = 2,
-+		.rate_min = 48000,
-+		.rate_max = 48000,
-+	},
-+	.ops = &acp6x_pdm_dai_ops,
-+};
-+
-+static const struct snd_soc_component_driver acp6x_pdm_component = {
-+	.name			= DRV_NAME,
-+	.open			= acp6x_pdm_dma_open,
-+	.close			= acp6x_pdm_dma_close,
-+	.hw_params		= acp6x_pdm_dma_hw_params,
-+	.pointer		= acp6x_pdm_dma_pointer,
-+	.pcm_construct		= acp6x_pdm_dma_new,
-+	.legacy_dai_naming	= 1,
-+};
-+
-+static int acp6x_pdm_audio_probe(struct platform_device *pdev)
-+{
-+	struct resource *res;
-+	struct rpl_pdm_dev_data *adata;
-+	int status;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(&pdev->dev, "IORESOURCE_MEM FAILED\n");
-+		return -ENODEV;
-+	}
-+
-+	adata = devm_kzalloc(&pdev->dev, sizeof(*adata), GFP_KERNEL);
-+	if (!adata)
-+		return -ENOMEM;
-+
-+	adata->acp6x_base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
-+	if (!adata->acp6x_base)
-+		return -ENOMEM;
-+
-+	adata->capture_stream = NULL;
-+
-+	dev_set_drvdata(&pdev->dev, adata);
-+	status = devm_snd_soc_register_component(&pdev->dev,
-+						 &acp6x_pdm_component,
-+						 &acp6x_pdm_dai_driver, 1);
-+	if (status) {
-+		dev_err(&pdev->dev, "Fail to register acp pdm dai\n");
-+
-+		return -ENODEV;
-+	}
-+	pm_runtime_set_autosuspend_delay(&pdev->dev, ACP_SUSPEND_DELAY_MS);
-+	pm_runtime_use_autosuspend(&pdev->dev);
-+	pm_runtime_mark_last_busy(&pdev->dev);
-+	pm_runtime_set_active(&pdev->dev);
-+	pm_runtime_enable(&pdev->dev);
-+	return 0;
-+}
-+
-+static void acp6x_pdm_audio_remove(struct platform_device *pdev)
-+{
-+	pm_runtime_disable(&pdev->dev);
-+}
-+
-+static int acp6x_pdm_resume(struct device *dev)
-+{
-+	struct rpl_pdm_dev_data *adata;
-+	struct snd_pcm_runtime *runtime;
-+	struct rpl_pdm_stream_instance *rtd;
-+	u32 period_bytes, buffer_len;
-+
-+	adata = dev_get_drvdata(dev);
-+	if (adata->capture_stream && adata->capture_stream->runtime) {
-+		runtime = adata->capture_stream->runtime;
-+		rtd = runtime->private_data;
-+		period_bytes = frames_to_bytes(runtime, runtime->period_size);
-+		buffer_len = frames_to_bytes(runtime, runtime->buffer_size);
-+		acp6x_config_dma(rtd, SNDRV_PCM_STREAM_CAPTURE);
-+		acp6x_init_pdm_ring_buffer(PDM_MEM_WINDOW_START, buffer_len,
-+					   period_bytes, adata->acp6x_base);
-+	}
-+	acp6x_enable_pdm_interrupts(adata->acp6x_base);
-+	return 0;
-+}
-+
-+static int acp6x_pdm_suspend(struct device *dev)
-+{
-+	struct rpl_pdm_dev_data *adata;
-+
-+	adata = dev_get_drvdata(dev);
-+	acp6x_disable_pdm_interrupts(adata->acp6x_base);
-+	return 0;
-+}
-+
-+static int acp6x_pdm_runtime_resume(struct device *dev)
-+{
-+	struct rpl_pdm_dev_data *adata;
-+
-+	adata = dev_get_drvdata(dev);
-+	acp6x_enable_pdm_interrupts(adata->acp6x_base);
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops acp6x_pdm_pm_ops = {
-+	RUNTIME_PM_OPS(acp6x_pdm_suspend, acp6x_pdm_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(acp6x_pdm_suspend, acp6x_pdm_resume)
-+};
-+
-+static struct platform_driver acp6x_pdm_dma_driver = {
-+	.probe = acp6x_pdm_audio_probe,
-+	.remove = acp6x_pdm_audio_remove,
-+	.driver = {
-+		.name = "acp_rpl_pdm_dma",
-+		.pm = pm_ptr(&acp6x_pdm_pm_ops),
-+	},
-+};
-+
-+module_platform_driver(acp6x_pdm_dma_driver);
-+
-+MODULE_DESCRIPTION("AMD ACP6x RPL PDM Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:" DRV_NAME);
-diff --git a/sound/soc/amd/rpl/rpl-pci-acp6x.c b/sound/soc/amd/rpl/rpl-pci-acp6x.c
-index e3afe9172bdf..9a0d9920ad8e 100644
---- a/sound/soc/amd/rpl/rpl-pci-acp6x.c
-+++ b/sound/soc/amd/rpl/rpl-pci-acp6x.c
-@@ -10,12 +10,16 @@
- #include <linux/io.h>
- #include <linux/delay.h>
- #include <linux/platform_device.h>
-+#include <sound/pcm.h>
- #include <linux/pm_runtime.h>
- 
- #include "rpl_acp6x.h"
- 
- struct rpl_dev_data {
- 	void __iomem *acp6x_base;
-+	struct resource *res;
-+	bool acp6x_audio_mode;
-+	struct platform_device *pdev[ACP6x_DEVS];
- };
- 
- static int rpl_power_on(void __iomem *acp_base)
-@@ -64,6 +68,19 @@ static int rpl_reset(void __iomem *acp_base)
- 	return -ETIMEDOUT;
- }
- 
-+static void rpl_enable_interrupts(void __iomem *acp_base)
-+{
-+	rpl_acp_writel(0x01, acp_base + ACP_EXTERNAL_INTR_ENB);
-+}
-+
-+static void rpl_disable_interrupts(void __iomem *acp_base)
-+{
-+	rpl_acp_writel(ACP_EXT_INTR_STAT_CLEAR_MASK, acp_base +
-+		     ACP_EXTERNAL_INTR_STAT);
-+	rpl_acp_writel(0x00, acp_base + ACP_EXTERNAL_INTR_CNTL);
-+	rpl_acp_writel(0x00, acp_base + ACP_EXTERNAL_INTR_ENB);
-+}
-+
- static int rpl_init(void __iomem *acp_base)
- {
- 	int ret;
-@@ -82,6 +99,7 @@ static int rpl_init(void __iomem *acp_base)
- 		return ret;
- 	}
- 	rpl_acp_writel(0x03, acp_base + ACP_CLKMUX_SEL);
-+	rpl_enable_interrupts(acp_base);
- 	return 0;
- }
- 
-@@ -89,6 +107,7 @@ static int rpl_deinit(void __iomem *acp_base)
- {
- 	int ret;
- 
-+	rpl_disable_interrupts(acp_base);
- 	/* Reset */
- 	ret = rpl_reset(acp_base);
- 	if (ret) {
-@@ -100,13 +119,45 @@ static int rpl_deinit(void __iomem *acp_base)
- 	return 0;
- }
- 
-+static irqreturn_t rpl_irq_handler(int irq, void *dev_id)
-+{
-+	struct rpl_dev_data *adata;
-+	struct rpl_pdm_dev_data *rpl_pdm_data;
-+	u32 val;
-+
-+	adata = dev_id;
-+	if (!adata)
-+		return IRQ_NONE;
-+
-+	val = rpl_acp_readl(adata->acp6x_base + ACP_EXTERNAL_INTR_STAT);
-+	if (val & BIT(PDM_DMA_STAT)) {
-+		rpl_pdm_data = dev_get_drvdata(&adata->pdev[0]->dev);
-+		rpl_acp_writel(BIT(PDM_DMA_STAT), adata->acp6x_base + ACP_EXTERNAL_INTR_STAT);
-+		if (rpl_pdm_data->capture_stream)
-+			snd_pcm_period_elapsed(rpl_pdm_data->capture_stream);
-+		return IRQ_HANDLED;
-+	}
-+	return IRQ_NONE;
-+}
-+
- static int snd_rpl_probe(struct pci_dev *pci,
- 			 const struct pci_device_id *pci_id)
- {
- 	struct rpl_dev_data *adata;
-+	struct platform_device_info pdevinfo[ACP6x_DEVS];
-+	int index = 0;
-+	int val = 0x00;
-+	unsigned int irqflags, flag;
- 	u32 addr;
- 	int ret;
- 
-+	irqflags = IRQF_SHARED;
-+
-+	/* Return if acp config flag is defined */
-+	flag = snd_amd_acp_find_config(pci);
-+	if (flag)
-+		return -ENODEV;
-+
- 	/* RPL device check */
- 	switch (pci->revision) {
- 	case 0x62:
-@@ -145,12 +196,78 @@ static int snd_rpl_probe(struct pci_dev *pci,
- 	ret = rpl_init(adata->acp6x_base);
- 	if (ret)
- 		goto release_regions;
-+
-+	val = rpl_acp_readl(adata->acp6x_base + ACP_PIN_CONFIG);
-+	switch (val) {
-+	case ACP_CONFIG_0:
-+	case ACP_CONFIG_1:
-+	case ACP_CONFIG_2:
-+	case ACP_CONFIG_3:
-+	case ACP_CONFIG_9:
-+	case ACP_CONFIG_15:
-+		dev_info(&pci->dev, "Audio Mode %d\n", val);
-+		break;
-+	default:
-+		adata->res = devm_kzalloc(&pci->dev,
-+					  sizeof(struct resource),
-+					  GFP_KERNEL);
-+		if (!adata->res) {
-+			ret = -ENOMEM;
-+			goto de_init;
-+		}
-+
-+		adata->res->name = "acp_iomem";
-+		adata->res->flags = IORESOURCE_MEM;
-+		adata->res->start = addr;
-+		adata->res->end = addr + (ACP6x_REG_END - ACP6x_REG_START);
-+
-+		adata->acp6x_audio_mode = ACP6x_PDM_MODE;
-+
-+		memset(&pdevinfo, 0, sizeof(pdevinfo));
-+		pdevinfo[0].name = "acp_rpl_pdm_dma";
-+		pdevinfo[0].id = 0;
-+		pdevinfo[0].parent = &pci->dev;
-+		pdevinfo[0].num_res = 1;
-+		pdevinfo[0].res = adata->res;
-+
-+		pdevinfo[1].name = "dmic-codec";
-+		pdevinfo[1].id = 0;
-+		pdevinfo[1].parent = &pci->dev;
-+
-+		pdevinfo[2].name = "acp_rpl_mach";
-+		pdevinfo[2].id = 0;
-+		pdevinfo[2].parent = &pci->dev;
-+
-+		for (index = 0; index < ACP6x_DEVS; index++) {
-+			adata->pdev[index] =
-+				platform_device_register_full(&pdevinfo[index]);
-+			if (IS_ERR(adata->pdev[index])) {
-+				dev_err(&pci->dev, "cannot register %s device\n",
-+					pdevinfo[index].name);
-+				ret = PTR_ERR(adata->pdev[index]);
-+				goto unregister_devs;
-+			}
-+		}
-+		break;
-+	}
-+	ret = devm_request_irq(&pci->dev, pci->irq, rpl_irq_handler,
-+			       irqflags, "ACP_PCI_IRQ", adata);
-+	if (ret) {
-+		dev_err(&pci->dev, "ACP PCI IRQ request failed\n");
-+		goto unregister_devs;
-+	}
- 	pm_runtime_set_autosuspend_delay(&pci->dev, ACP_SUSPEND_DELAY_MS);
- 	pm_runtime_use_autosuspend(&pci->dev);
- 	pm_runtime_put_noidle(&pci->dev);
- 	pm_runtime_allow(&pci->dev);
- 
- 	return 0;
-+unregister_devs:
-+	for (--index; index >= 0; index--)
-+		platform_device_unregister(adata->pdev[index]);
-+de_init:
-+	if (rpl_deinit(adata->acp6x_base))
-+		dev_err(&pci->dev, "ACP de-init failed\n");
- release_regions:
- 	pci_release_regions(pci);
- disable_pci:
-@@ -191,9 +308,13 @@ static const struct dev_pm_ops rpl_pm = {
- static void snd_rpl_remove(struct pci_dev *pci)
- {
- 	struct rpl_dev_data *adata;
--	int ret;
-+	int ret, index;
- 
- 	adata = pci_get_drvdata(pci);
-+	if (adata->acp6x_audio_mode == ACP6x_PDM_MODE) {
-+		for (index = 0; index < ACP6x_DEVS; index++)
-+			platform_device_unregister(adata->pdev[index]);
-+	}
- 	ret = rpl_deinit(adata->acp6x_base);
- 	if (ret)
- 		dev_err(&pci->dev, "ACP de-init failed\n");
-diff --git a/sound/soc/amd/rpl/rpl_acp6x.h b/sound/soc/amd/rpl/rpl_acp6x.h
-index f5816a33632e..d470927c1e35 100644
---- a/sound/soc/amd/rpl/rpl_acp6x.h
-+++ b/sound/soc/amd/rpl/rpl_acp6x.h
-@@ -9,15 +9,46 @@
- 
- #define ACP_DEVICE_ID 0x15E2
- #define ACP6x_PHY_BASE_ADDRESS 0x1240000
-+#define ACP6x_REG_START		0x1240000
-+#define ACP6x_REG_END		0x1250200
-+#define ACP6x_DEVS		3
-+#define ACP6x_PDM_MODE		1
- 
--#define ACP_SOFT_RESET_SOFTRESET_AUDDONE_MASK   0x00010001
--#define ACP_PGFSM_CNTL_POWER_ON_MASK    1
--#define ACP_PGFSM_CNTL_POWER_OFF_MASK   0
--#define ACP_PGFSM_STATUS_MASK           3
--#define ACP_POWERED_ON                  0
--#define ACP_POWER_ON_IN_PROGRESS        1
--#define ACP_POWERED_OFF                 2
--#define ACP_POWER_OFF_IN_PROGRESS       3
-+#define ACP_SOFT_RESET_SOFTRESET_AUDDONE_MASK	0x00010001
-+#define ACP_PGFSM_CNTL_POWER_ON_MASK	1
-+#define ACP_PGFSM_CNTL_POWER_OFF_MASK	0
-+#define ACP_PGFSM_STATUS_MASK		3
-+#define ACP_POWERED_ON			0
-+#define ACP_POWER_ON_IN_PROGRESS	1
-+#define ACP_POWERED_OFF			2
-+#define ACP_POWER_OFF_IN_PROGRESS	3
-+
-+#define ACP_ERROR_MASK 0x20000000
-+#define ACP_EXT_INTR_STAT_CLEAR_MASK 0xFFFFFFFF
-+#define PDM_DMA_STAT 0x10
-+
-+#define PDM_DMA_INTR_MASK	0x10000
-+#define ACP_ERROR_STAT	29
-+#define PDM_DECIMATION_FACTOR	2
-+#define ACP_PDM_CLK_FREQ_MASK	7
-+#define ACP_WOV_GAIN_CONTROL	GENMASK(4, 3)
-+#define ACP_PDM_ENABLE		1
-+#define ACP_PDM_DISABLE		0
-+#define ACP_PDM_DMA_EN_STATUS	2
-+#define TWO_CH		2
-+
-+#define ACP_SRAM_PTE_OFFSET	0x03800000
-+#define PAGE_SIZE_4K_ENABLE	2
-+#define PDM_PTE_OFFSET		0
-+#define PDM_MEM_WINDOW_START	0x4000000
-+
-+#define CAPTURE_MIN_NUM_PERIODS     4
-+#define CAPTURE_MAX_NUM_PERIODS     4
-+#define CAPTURE_MAX_PERIOD_SIZE     8192
-+#define CAPTURE_MIN_PERIOD_SIZE     4096
-+
-+#define MAX_BUFFER (CAPTURE_MAX_PERIOD_SIZE * CAPTURE_MAX_NUM_PERIODS)
-+#define MIN_BUFFER MAX_BUFFER
- 
- #define DELAY_US        5
- #define ACP_COUNTER     20000
-@@ -25,6 +56,47 @@
- /* time in ms for runtime suspend delay */
- #define ACP_SUSPEND_DELAY_MS    2000
- 
-+enum rpl_acp_config {
-+	ACP_CONFIG_0 = 0,
-+	ACP_CONFIG_1,
-+	ACP_CONFIG_2,
-+	ACP_CONFIG_3,
-+	ACP_CONFIG_4,
-+	ACP_CONFIG_5,
-+	ACP_CONFIG_6,
-+	ACP_CONFIG_7,
-+	ACP_CONFIG_8,
-+	ACP_CONFIG_9,
-+	ACP_CONFIG_10,
-+	ACP_CONFIG_11,
-+	ACP_CONFIG_12,
-+	ACP_CONFIG_13,
-+	ACP_CONFIG_14,
-+	ACP_CONFIG_15,
-+};
-+
-+struct rpl_pdm_dev_data {
-+	u32 pdm_irq;
-+	void __iomem *acp6x_base;
-+	struct snd_pcm_substream *capture_stream;
-+};
-+
-+struct rpl_pdm_stream_instance {
-+	u16 num_pages;
-+	u16 channels;
-+	dma_addr_t dma_addr;
-+	u64 bytescount;
-+	void __iomem *acp6x_base;
-+};
-+
-+union rpl_acp_pdm_dma_count {
-+	struct {
-+	u32 low;
-+	u32 high;
-+	} bcount;
-+	u64 bytescount;
-+};
-+
- static inline u32 rpl_acp_readl(void __iomem *base_addr)
- {
- 	return readl(base_addr - ACP6x_PHY_BASE_ADDRESS);
-@@ -34,3 +106,5 @@ static inline void rpl_acp_writel(u32 val, void __iomem *base_addr)
- {
- 	writel(val, base_addr - ACP6x_PHY_BASE_ADDRESS);
- }
-+
-+int snd_amd_acp_find_config(struct pci_dev *pci);
-diff --git a/sound/soc/amd/rpl/rpl_acp6x_chip_offset_byte.h b/sound/soc/amd/rpl/rpl_acp6x_chip_offset_byte.h
-index 456498f5396d..44994a925149 100644
---- a/sound/soc/amd/rpl/rpl_acp6x_chip_offset_byte.h
-+++ b/sound/soc/amd/rpl/rpl_acp6x_chip_offset_byte.h
-@@ -8,14 +8,114 @@
- #ifndef _rpl_acp6x_OFFSET_HEADER
- #define _rpl_acp6x_OFFSET_HEADER
- 
-+/* Registers from ACP_DMA block */
-+#define ACP_DMA_CNTL_0                                0x1240000
-+#define ACP_DMA_CNTL_1                                0x1240004
-+#define ACP_DMA_CNTL_2                                0x1240008
-+#define ACP_DMA_CNTL_3                                0x124000C
-+#define ACP_DMA_CNTL_4                                0x1240010
-+#define ACP_DMA_CNTL_5                                0x1240014
-+#define ACP_DMA_CNTL_6                                0x1240018
-+#define ACP_DMA_CNTL_7                                0x124001C
-+#define ACP_DMA_DSCR_STRT_IDX_0                       0x1240020
-+#define ACP_DMA_DSCR_STRT_IDX_1                       0x1240024
-+#define ACP_DMA_DSCR_STRT_IDX_2                       0x1240028
-+#define ACP_DMA_DSCR_STRT_IDX_3                       0x124002C
-+#define ACP_DMA_DSCR_STRT_IDX_4                       0x1240030
-+#define ACP_DMA_DSCR_STRT_IDX_5                       0x1240034
-+#define ACP_DMA_DSCR_STRT_IDX_6                       0x1240038
-+#define ACP_DMA_DSCR_STRT_IDX_7                       0x124003C
-+#define ACP_DMA_DSCR_CNT_0                            0x1240040
-+#define ACP_DMA_DSCR_CNT_1                            0x1240044
-+#define ACP_DMA_DSCR_CNT_2                            0x1240048
-+#define ACP_DMA_DSCR_CNT_3                            0x124004C
-+#define ACP_DMA_DSCR_CNT_4                            0x1240050
-+#define ACP_DMA_DSCR_CNT_5                            0x1240054
-+#define ACP_DMA_DSCR_CNT_6                            0x1240058
-+#define ACP_DMA_DSCR_CNT_7                            0x124005C
-+#define ACP_DMA_PRIO_0                                0x1240060
-+#define ACP_DMA_PRIO_1                                0x1240064
-+#define ACP_DMA_PRIO_2                                0x1240068
-+#define ACP_DMA_PRIO_3                                0x124006C
-+#define ACP_DMA_PRIO_4                                0x1240070
-+#define ACP_DMA_PRIO_5                                0x1240074
-+#define ACP_DMA_PRIO_6                                0x1240078
-+#define ACP_DMA_PRIO_7                                0x124007C
-+#define ACP_DMA_CUR_DSCR_0                            0x1240080
-+#define ACP_DMA_CUR_DSCR_1                            0x1240084
-+#define ACP_DMA_CUR_DSCR_2                            0x1240088
-+#define ACP_DMA_CUR_DSCR_3                            0x124008C
-+#define ACP_DMA_CUR_DSCR_4                            0x1240090
-+#define ACP_DMA_CUR_DSCR_5                            0x1240094
-+#define ACP_DMA_CUR_DSCR_6                            0x1240098
-+#define ACP_DMA_CUR_DSCR_7                            0x124009C
-+#define ACP_DMA_CUR_TRANS_CNT_0                       0x12400A0
-+#define ACP_DMA_CUR_TRANS_CNT_1                       0x12400A4
-+#define ACP_DMA_CUR_TRANS_CNT_2                       0x12400A8
-+#define ACP_DMA_CUR_TRANS_CNT_3                       0x12400AC
-+#define ACP_DMA_CUR_TRANS_CNT_4                       0x12400B0
-+#define ACP_DMA_CUR_TRANS_CNT_5                       0x12400B4
-+#define ACP_DMA_CUR_TRANS_CNT_6                       0x12400B8
-+#define ACP_DMA_CUR_TRANS_CNT_7                       0x12400BC
-+#define ACP_DMA_ERR_STS_0                             0x12400C0
-+#define ACP_DMA_ERR_STS_1                             0x12400C4
-+#define ACP_DMA_ERR_STS_2                             0x12400C8
-+#define ACP_DMA_ERR_STS_3                             0x12400CC
-+#define ACP_DMA_ERR_STS_4                             0x12400D0
-+#define ACP_DMA_ERR_STS_5                             0x12400D4
-+#define ACP_DMA_ERR_STS_6                             0x12400D8
-+#define ACP_DMA_ERR_STS_7                             0x12400DC
-+#define ACP_DMA_DESC_BASE_ADDR                        0x12400E0
-+#define ACP_DMA_DESC_MAX_NUM_DSCR                     0x12400E4
-+#define ACP_DMA_CH_STS                                0x12400E8
-+#define ACP_DMA_CH_GROUP                              0x12400EC
-+#define ACP_DMA_CH_RST_STS                            0x12400F0
-+
-+/* Registers from ACP_AXI2AXIATU block */
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_1                0x1240C00
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_1                0x1240C04
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_2                0x1240C08
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_2                0x1240C0C
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_3                0x1240C10
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_3                0x1240C14
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_4                0x1240C18
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_4                0x1240C1C
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_5                0x1240C20
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_5                0x1240C24
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_6                0x1240C28
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_6                0x1240C2C
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_7                0x1240C30
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_7                0x1240C34
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_8                0x1240C38
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_8                0x1240C3C
-+#define ACPAXI2AXI_ATU_CTRL                           0x1240C40
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_9                0x1240C44
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_9                0x1240C48
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_10               0x1240C4C
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_10               0x1240C50
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_11               0x1240C54
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_11               0x1240C58
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_12               0x1240C5C
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_12               0x1240C60
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_13               0x1240C64
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_13               0x1240C68
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_14               0x1240C6C
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_14               0x1240C70
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_15               0x1240C74
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_15               0x1240C78
-+#define ACPAXI2AXI_ATU_PAGE_SIZE_GRP_16               0x1240C7C
-+#define ACPAXI2AXI_ATU_BASE_ADDR_GRP_16               0x1240C80
-+
- /* Registers from ACP_CLKRST block */
- #define ACP_SOFT_RESET                                0x1241000
- #define ACP_CONTROL                                   0x1241004
- #define ACP_STATUS                                    0x1241008
- #define ACP_DYNAMIC_CG_MASTER_CONTROL                 0x1241010
--#define ACP_PGFSM_CONTROL                             0x124101C
--#define ACP_PGFSM_STATUS                              0x1241020
--#define ACP_CLKMUX_SEL                                0x1241024
-+#define ACP_ZSC_DSP_CTRL                              0x1241014
-+#define ACP_ZSC_STS                                   0x1241018
-+#define ACP_PGFSM_CONTROL                             0x1241024
-+#define ACP_PGFSM_STATUS                              0x1241028
-+#define ACP_CLKMUX_SEL                                0x124102C
- 
- /* Registers from ACP_AON block */
- #define ACP_PME_EN                                    0x1241400
-@@ -26,5 +126,319 @@
- #define ACP_PAD_PULLDOWN_CTRL                         0x1241448
- #define ACP_PAD_DRIVE_STRENGTH_CTRL                   0x124144C
- #define ACP_PAD_SCHMEN_CTRL                           0x1241450
-+#define ACP_SW_PAD_KEEPER_EN                          0x1241454
-+#define ACP_SW_WAKE_EN                                0x1241458
-+#define ACP_I2S_WAKE_EN                               0x124145C
-+#define ACP_SW1_WAKE_EN                               0x1241460
-+
-+/* Registers from ACP_P1_MISC block */
-+#define ACP_EXTERNAL_INTR_ENB                         0x1241A00
-+#define ACP_EXTERNAL_INTR_CNTL                        0x1241A04
-+#define ACP_EXTERNAL_INTR_CNTL1                       0x1241A08
-+#define ACP_EXTERNAL_INTR_STAT                        0x1241A0C
-+#define ACP_EXTERNAL_INTR_STAT1                       0x1241A10
-+#define ACP_ERROR_STATUS                              0x1241A4C
-+#define ACP_P1_SW_I2S_ERROR_REASON                    0x1241A50
-+#define ACP_P1_SW_POS_TRACK_I2S_TX_CTRL               0x1241A6C
-+#define ACP_P1_SW_I2S_TX_DMA_POS                      0x1241A70
-+#define ACP_P1_SW_POS_TRACK_I2S_RX_CTRL               0x1241A74
-+#define ACP_P1_SW_I2S_RX_DMA_POS                      0x1241A78
-+#define ACP_P1_DMIC_I2S_GPIO_INTR_CTRL                0x1241A7C
-+#define ACP_P1_DMIC_I2S_GPIO_INTR_STATUS              0x1241A80
-+#define ACP_SCRATCH_REG_BASE_ADDR                     0x1241A84
-+#define ACP_P1_SW_POS_TRACK_BT_TX_CTRL                0x1241A88
-+#define ACP_P1_SW_BT_TX_DMA_POS                       0x1241A8C
-+#define ACP_P1_SW_POS_TRACK_HS_TX_CTRL                0x1241A90
-+#define ACP_P1_SW_HS_TX_DMA_POS                       0x1241A94
-+#define ACP_P1_SW_POS_TRACK_BT_RX_CTRL                0x1241A98
-+#define ACP_P1_SW_BT_RX_DMA_POS                       0x1241A9C
-+#define ACP_P1_SW_POS_TRACK_HS_RX_CTRL                0x1241AA0
-+#define ACP_P1_SW_HS_RX_DMA_POS                       0x1241AA4
-+
-+/* Registers from ACP_AUDIO_BUFFERS block */
-+#define ACP_I2S_RX_RINGBUFADDR                        0x1242000
-+#define ACP_I2S_RX_RINGBUFSIZE                        0x1242004
-+#define ACP_I2S_RX_LINKPOSITIONCNTR                   0x1242008
-+#define ACP_I2S_RX_FIFOADDR                           0x124200C
-+#define ACP_I2S_RX_FIFOSIZE                           0x1242010
-+#define ACP_I2S_RX_DMA_SIZE                           0x1242014
-+#define ACP_I2S_RX_LINEARPOSITIONCNTR_HIGH            0x1242018
-+#define ACP_I2S_RX_LINEARPOSITIONCNTR_LOW             0x124201C
-+#define ACP_I2S_RX_INTR_WATERMARK_SIZE                0x1242020
-+#define ACP_I2S_TX_RINGBUFADDR                        0x1242024
-+#define ACP_I2S_TX_RINGBUFSIZE                        0x1242028
-+#define ACP_I2S_TX_LINKPOSITIONCNTR                   0x124202C
-+#define ACP_I2S_TX_FIFOADDR                           0x1242030
-+#define ACP_I2S_TX_FIFOSIZE                           0x1242034
-+#define ACP_I2S_TX_DMA_SIZE                           0x1242038
-+#define ACP_I2S_TX_LINEARPOSITIONCNTR_HIGH            0x124203C
-+#define ACP_I2S_TX_LINEARPOSITIONCNTR_LOW             0x1242040
-+#define ACP_I2S_TX_INTR_WATERMARK_SIZE                0x1242044
-+#define ACP_BT_RX_RINGBUFADDR                         0x1242048
-+#define ACP_BT_RX_RINGBUFSIZE                         0x124204C
-+#define ACP_BT_RX_LINKPOSITIONCNTR                    0x1242050
-+#define ACP_BT_RX_FIFOADDR                            0x1242054
-+#define ACP_BT_RX_FIFOSIZE                            0x1242058
-+#define ACP_BT_RX_DMA_SIZE                            0x124205C
-+#define ACP_BT_RX_LINEARPOSITIONCNTR_HIGH             0x1242060
-+#define ACP_BT_RX_LINEARPOSITIONCNTR_LOW              0x1242064
-+#define ACP_BT_RX_INTR_WATERMARK_SIZE                 0x1242068
-+#define ACP_BT_TX_RINGBUFADDR                         0x124206C
-+#define ACP_BT_TX_RINGBUFSIZE                         0x1242070
-+#define ACP_BT_TX_LINKPOSITIONCNTR                    0x1242074
-+#define ACP_BT_TX_FIFOADDR                            0x1242078
-+#define ACP_BT_TX_FIFOSIZE                            0x124207C
-+#define ACP_BT_TX_DMA_SIZE                            0x1242080
-+#define ACP_BT_TX_LINEARPOSITIONCNTR_HIGH             0x1242084
-+#define ACP_BT_TX_LINEARPOSITIONCNTR_LOW              0x1242088
-+#define ACP_BT_TX_INTR_WATERMARK_SIZE                 0x124208C
-+#define ACP_HS_RX_RINGBUFADDR                         0x1242090
-+#define ACP_HS_RX_RINGBUFSIZE                         0x1242094
-+#define ACP_HS_RX_LINKPOSITIONCNTR                    0x1242098
-+#define ACP_HS_RX_FIFOADDR                            0x124209C
-+#define ACP_HS_RX_FIFOSIZE                            0x12420A0
-+#define ACP_HS_RX_DMA_SIZE                            0x12420A4
-+#define ACP_HS_RX_LINEARPOSITIONCNTR_HIGH             0x12420A8
-+#define ACP_HS_RX_LINEARPOSITIONCNTR_LOW              0x12420AC
-+#define ACP_HS_RX_INTR_WATERMARK_SIZE                 0x12420B0
-+#define ACP_HS_TX_RINGBUFADDR                         0x12420B4
-+#define ACP_HS_TX_RINGBUFSIZE                         0x12420B8
-+#define ACP_HS_TX_LINKPOSITIONCNTR                    0x12420BC
-+#define ACP_HS_TX_FIFOADDR                            0x12420C0
-+#define ACP_HS_TX_FIFOSIZE                            0x12420C4
-+#define ACP_HS_TX_DMA_SIZE                            0x12420C8
-+#define ACP_HS_TX_LINEARPOSITIONCNTR_HIGH             0x12420CC
-+#define ACP_HS_TX_LINEARPOSITIONCNTR_LOW              0x12420D0
-+#define ACP_HS_TX_INTR_WATERMARK_SIZE                 0x12420D4
-+
-+/* Registers from ACP_I2S_TDM block */
-+#define ACP_I2STDM_IER                                0x1242400
-+#define ACP_I2STDM_IRER                               0x1242404
-+#define ACP_I2STDM_RXFRMT                             0x1242408
-+#define ACP_I2STDM_ITER                               0x124240C
-+#define ACP_I2STDM_TXFRMT                             0x1242410
-+#define ACP_I2STDM0_MSTRCLKGEN                        0x1242414
-+#define ACP_I2STDM1_MSTRCLKGEN                        0x1242418
-+#define ACP_I2STDM2_MSTRCLKGEN                        0x124241C
-+#define ACP_I2STDM_REFCLKGEN                          0x1242420
-+
-+/* Registers from ACP_BT_TDM block */
-+#define ACP_BTTDM_IER                                 0x1242800
-+#define ACP_BTTDM_IRER                                0x1242804
-+#define ACP_BTTDM_RXFRMT                              0x1242808
-+#define ACP_BTTDM_ITER                                0x124280C
-+#define ACP_BTTDM_TXFRMT                              0x1242810
-+#define ACP_HSTDM_IER                                 0x1242814
-+#define ACP_HSTDM_IRER                                0x1242818
-+#define ACP_HSTDM_RXFRMT                              0x124281C
-+#define ACP_HSTDM_ITER                                0x1242820
-+#define ACP_HSTDM_TXFRMT                              0x1242824
-+
-+/* Registers from ACP_WOV block */
-+#define ACP_WOV_PDM_ENABLE                            0x1242C04
-+#define ACP_WOV_PDM_DMA_ENABLE                        0x1242C08
-+#define ACP_WOV_RX_RINGBUFADDR                        0x1242C0C
-+#define ACP_WOV_RX_RINGBUFSIZE                        0x1242C10
-+#define ACP_WOV_RX_LINKPOSITIONCNTR                   0x1242C14
-+#define ACP_WOV_RX_LINEARPOSITIONCNTR_HIGH            0x1242C18
-+#define ACP_WOV_RX_LINEARPOSITIONCNTR_LOW             0x1242C1C
-+#define ACP_WOV_RX_INTR_WATERMARK_SIZE                0x1242C20
-+#define ACP_WOV_PDM_FIFO_FLUSH                        0x1242C24
-+#define ACP_WOV_PDM_NO_OF_CHANNELS                    0x1242C28
-+#define ACP_WOV_PDM_DECIMATION_FACTOR                 0x1242C2C
-+#define ACP_WOV_PDM_VAD_CTRL                          0x1242C30
-+#define ACP_WOV_WAKE                                  0x1242C54
-+#define ACP_WOV_BUFFER_STATUS                         0x1242C58
-+#define ACP_WOV_MISC_CTRL                             0x1242C5C
-+#define ACP_WOV_CLK_CTRL                              0x1242C60
-+#define ACP_PDM_VAD_DYNAMIC_CLK_GATING_EN             0x1242C64
-+#define ACP_WOV_ERROR_STATUS_REGISTER                 0x1242C68
-+#define ACP_PDM_CLKDIV                                0x1242C6C
-+
-+/* Registers from ACP_P1_AUDIO_BUFFERS block */
-+#define ACP_P1_I2S_RX_RINGBUFADDR                     0x1243A00
-+#define ACP_P1_I2S_RX_RINGBUFSIZE                     0x1243A04
-+#define ACP_P1_I2S_RX_LINKPOSITIONCNTR                0x1243A08
-+#define ACP_P1_I2S_RX_FIFOADDR                        0x1243A0C
-+#define ACP_P1_I2S_RX_FIFOSIZE                        0x1243A10
-+#define ACP_P1_I2S_RX_DMA_SIZE                        0x1243A14
-+#define ACP_P1_I2S_RX_LINEARPOSITIONCNTR_HIGH         0x1243A18
-+#define ACP_P1_I2S_RX_LINEARPOSITIONCNTR_LOW          0x1243A1C
-+#define ACP_P1_I2S_RX_INTR_WATERMARK_SIZE             0x1243A20
-+#define ACP_P1_I2S_TX_RINGBUFADDR                     0x1243A24
-+#define ACP_P1_I2S_TX_RINGBUFSIZE                     0x1243A28
-+#define ACP_P1_I2S_TX_LINKPOSITIONCNTR                0x1243A2C
-+#define ACP_P1_I2S_TX_FIFOADDR                        0x1243A30
-+#define ACP_P1_I2S_TX_FIFOSIZE                        0x1243A34
-+#define ACP_P1_I2S_TX_DMA_SIZE                        0x1243A38
-+#define ACP_P1_I2S_TX_LINEARPOSITIONCNTR_HIGH         0x1243A3C
-+#define ACP_P1_I2S_TX_LINEARPOSITIONCNTR_LOW          0x1243A40
-+#define ACP_P1_I2S_TX_INTR_WATERMARK_SIZE             0x1243A44
-+#define ACP_P1_BT_RX_RINGBUFADDR                      0x1243A48
-+#define ACP_P1_BT_RX_RINGBUFSIZE                      0x1243A4C
-+#define ACP_P1_BT_RX_LINKPOSITIONCNTR                 0x1243A50
-+#define ACP_P1_BT_RX_FIFOADDR                         0x1243A54
-+#define ACP_P1_BT_RX_FIFOSIZE                         0x1243A58
-+#define ACP_P1_BT_RX_DMA_SIZE                         0x1243A5C
-+#define ACP_P1_BT_RX_LINEARPOSITIONCNTR_HIGH          0x1243A60
-+#define ACP_P1_BT_RX_LINEARPOSITIONCNTR_LOW           0x1243A64
-+#define ACP_P1_BT_RX_INTR_WATERMARK_SIZE              0x1243A68
-+#define ACP_P1_BT_TX_RINGBUFADDR                      0x1243A6C
-+#define ACP_P1_BT_TX_RINGBUFSIZE                      0x1243A70
-+#define ACP_P1_BT_TX_LINKPOSITIONCNTR                 0x1243A74
-+#define ACP_P1_BT_TX_FIFOADDR                         0x1243A78
-+#define ACP_P1_BT_TX_FIFOSIZE                         0x1243A7C
-+#define ACP_P1_BT_TX_DMA_SIZE                         0x1243A80
-+#define ACP_P1_BT_TX_LINEARPOSITIONCNTR_HIGH          0x1243A84
-+#define ACP_P1_BT_TX_LINEARPOSITIONCNTR_LOW           0x1243A88
-+#define ACP_P1_BT_TX_INTR_WATERMARK_SIZE              0x1243A8C
-+#define ACP_P1_HS_RX_RINGBUFADDR                      0x1243A90
-+#define ACP_P1_HS_RX_RINGBUFSIZE                      0x1243A94
-+#define ACP_P1_HS_RX_LINKPOSITIONCNTR                 0x1243A98
-+#define ACP_P1_HS_RX_FIFOADDR                         0x1243A9C
-+#define ACP_P1_HS_RX_FIFOSIZE                         0x1243AA0
-+#define ACP_P1_HS_RX_DMA_SIZE                         0x1243AA4
-+#define ACP_P1_HS_RX_LINEARPOSITIONCNTR_HIGH          0x1243AA8
-+#define ACP_P1_HS_RX_LINEARPOSITIONCNTR_LOW           0x1243AAC
-+#define ACP_P1_HS_RX_INTR_WATERMARK_SIZE              0x1243AB0
-+#define ACP_P1_HS_TX_RINGBUFADDR                      0x1243AB4
-+#define ACP_P1_HS_TX_RINGBUFSIZE                      0x1243AB8
-+#define ACP_P1_HS_TX_LINKPOSITIONCNTR                 0x1243ABC
-+#define ACP_P1_HS_TX_FIFOADDR                         0x1243AC0
-+#define ACP_P1_HS_TX_FIFOSIZE                         0x1243AC4
-+#define ACP_P1_HS_TX_DMA_SIZE                         0x1243AC8
-+#define ACP_P1_HS_TX_LINEARPOSITIONCNTR_HIGH          0x1243ACC
-+#define ACP_P1_HS_TX_LINEARPOSITIONCNTR_LOW           0x1243AD0
-+#define ACP_P1_HS_TX_INTR_WATERMARK_SIZE              0x1243AD4
- 
-+/* Registers from ACP_SCRATCH block */
-+#define ACP_SCRATCH_REG_0                             0x1250000
-+#define ACP_SCRATCH_REG_1                             0x1250004
-+#define ACP_SCRATCH_REG_2                             0x1250008
-+#define ACP_SCRATCH_REG_3                             0x125000C
-+#define ACP_SCRATCH_REG_4                             0x1250010
-+#define ACP_SCRATCH_REG_5                             0x1250014
-+#define ACP_SCRATCH_REG_6                             0x1250018
-+#define ACP_SCRATCH_REG_7                             0x125001C
-+#define ACP_SCRATCH_REG_8                             0x1250020
-+#define ACP_SCRATCH_REG_9                             0x1250024
-+#define ACP_SCRATCH_REG_10                            0x1250028
-+#define ACP_SCRATCH_REG_11                            0x125002C
-+#define ACP_SCRATCH_REG_12                            0x1250030
-+#define ACP_SCRATCH_REG_13                            0x1250034
-+#define ACP_SCRATCH_REG_14                            0x1250038
-+#define ACP_SCRATCH_REG_15                            0x125003C
-+#define ACP_SCRATCH_REG_16                            0x1250040
-+#define ACP_SCRATCH_REG_17                            0x1250044
-+#define ACP_SCRATCH_REG_18                            0x1250048
-+#define ACP_SCRATCH_REG_19                            0x125004C
-+#define ACP_SCRATCH_REG_20                            0x1250050
-+#define ACP_SCRATCH_REG_21                            0x1250054
-+#define ACP_SCRATCH_REG_22                            0x1250058
-+#define ACP_SCRATCH_REG_23                            0x125005C
-+#define ACP_SCRATCH_REG_24                            0x1250060
-+#define ACP_SCRATCH_REG_25                            0x1250064
-+#define ACP_SCRATCH_REG_26                            0x1250068
-+#define ACP_SCRATCH_REG_27                            0x125006C
-+#define ACP_SCRATCH_REG_28                            0x1250070
-+#define ACP_SCRATCH_REG_29                            0x1250074
-+#define ACP_SCRATCH_REG_30                            0x1250078
-+#define ACP_SCRATCH_REG_31                            0x125007C
-+#define ACP_SCRATCH_REG_32                            0x1250080
-+#define ACP_SCRATCH_REG_33                            0x1250084
-+#define ACP_SCRATCH_REG_34                            0x1250088
-+#define ACP_SCRATCH_REG_35                            0x125008C
-+#define ACP_SCRATCH_REG_36                            0x1250090
-+#define ACP_SCRATCH_REG_37                            0x1250094
-+#define ACP_SCRATCH_REG_38                            0x1250098
-+#define ACP_SCRATCH_REG_39                            0x125009C
-+#define ACP_SCRATCH_REG_40                            0x12500A0
-+#define ACP_SCRATCH_REG_41                            0x12500A4
-+#define ACP_SCRATCH_REG_42                            0x12500A8
-+#define ACP_SCRATCH_REG_43                            0x12500AC
-+#define ACP_SCRATCH_REG_44                            0x12500B0
-+#define ACP_SCRATCH_REG_45                            0x12500B4
-+#define ACP_SCRATCH_REG_46                            0x12500B8
-+#define ACP_SCRATCH_REG_47                            0x12500BC
-+#define ACP_SCRATCH_REG_48                            0x12500C0
-+#define ACP_SCRATCH_REG_49                            0x12500C4
-+#define ACP_SCRATCH_REG_50                            0x12500C8
-+#define ACP_SCRATCH_REG_51                            0x12500CC
-+#define ACP_SCRATCH_REG_52                            0x12500D0
-+#define ACP_SCRATCH_REG_53                            0x12500D4
-+#define ACP_SCRATCH_REG_54                            0x12500D8
-+#define ACP_SCRATCH_REG_55                            0x12500DC
-+#define ACP_SCRATCH_REG_56                            0x12500E0
-+#define ACP_SCRATCH_REG_57                            0x12500E4
-+#define ACP_SCRATCH_REG_58                            0x12500E8
-+#define ACP_SCRATCH_REG_59                            0x12500EC
-+#define ACP_SCRATCH_REG_60                            0x12500F0
-+#define ACP_SCRATCH_REG_61                            0x12500F4
-+#define ACP_SCRATCH_REG_62                            0x12500F8
-+#define ACP_SCRATCH_REG_63                            0x12500FC
-+#define ACP_SCRATCH_REG_64                            0x1250100
-+#define ACP_SCRATCH_REG_65                            0x1250104
-+#define ACP_SCRATCH_REG_66                            0x1250108
-+#define ACP_SCRATCH_REG_67                            0x125010C
-+#define ACP_SCRATCH_REG_68                            0x1250110
-+#define ACP_SCRATCH_REG_69                            0x1250114
-+#define ACP_SCRATCH_REG_70                            0x1250118
-+#define ACP_SCRATCH_REG_71                            0x125011C
-+#define ACP_SCRATCH_REG_72                            0x1250120
-+#define ACP_SCRATCH_REG_73                            0x1250124
-+#define ACP_SCRATCH_REG_74                            0x1250128
-+#define ACP_SCRATCH_REG_75                            0x125012C
-+#define ACP_SCRATCH_REG_76                            0x1250130
-+#define ACP_SCRATCH_REG_77                            0x1250134
-+#define ACP_SCRATCH_REG_78                            0x1250138
-+#define ACP_SCRATCH_REG_79                            0x125013C
-+#define ACP_SCRATCH_REG_80                            0x1250140
-+#define ACP_SCRATCH_REG_81                            0x1250144
-+#define ACP_SCRATCH_REG_82                            0x1250148
-+#define ACP_SCRATCH_REG_83                            0x125014C
-+#define ACP_SCRATCH_REG_84                            0x1250150
-+#define ACP_SCRATCH_REG_85                            0x1250154
-+#define ACP_SCRATCH_REG_86                            0x1250158
-+#define ACP_SCRATCH_REG_87                            0x125015C
-+#define ACP_SCRATCH_REG_88                            0x1250160
-+#define ACP_SCRATCH_REG_89                            0x1250164
-+#define ACP_SCRATCH_REG_90                            0x1250168
-+#define ACP_SCRATCH_REG_91                            0x125016C
-+#define ACP_SCRATCH_REG_92                            0x1250170
-+#define ACP_SCRATCH_REG_93                            0x1250174
-+#define ACP_SCRATCH_REG_94                            0x1250178
-+#define ACP_SCRATCH_REG_95                            0x125017C
-+#define ACP_SCRATCH_REG_96                            0x1250180
-+#define ACP_SCRATCH_REG_97                            0x1250184
-+#define ACP_SCRATCH_REG_98                            0x1250188
-+#define ACP_SCRATCH_REG_99                            0x125018C
-+#define ACP_SCRATCH_REG_100                           0x1250190
-+#define ACP_SCRATCH_REG_101                           0x1250194
-+#define ACP_SCRATCH_REG_102                           0x1250198
-+#define ACP_SCRATCH_REG_103                           0x125019C
-+#define ACP_SCRATCH_REG_104                           0x12501A0
-+#define ACP_SCRATCH_REG_105                           0x12501A4
-+#define ACP_SCRATCH_REG_106                           0x12501A8
-+#define ACP_SCRATCH_REG_107                           0x12501AC
-+#define ACP_SCRATCH_REG_108                           0x12501B0
-+#define ACP_SCRATCH_REG_109                           0x12501B4
-+#define ACP_SCRATCH_REG_110                           0x12501B8
-+#define ACP_SCRATCH_REG_111                           0x12501BC
-+#define ACP_SCRATCH_REG_112                           0x12501C0
-+#define ACP_SCRATCH_REG_113                           0x12501C4
-+#define ACP_SCRATCH_REG_114                           0x12501C8
-+#define ACP_SCRATCH_REG_115                           0x12501CC
-+#define ACP_SCRATCH_REG_116                           0x12501D0
-+#define ACP_SCRATCH_REG_117                           0x12501D4
-+#define ACP_SCRATCH_REG_118                           0x12501D8
-+#define ACP_SCRATCH_REG_119                           0x12501DC
-+#define ACP_SCRATCH_REG_120                           0x12501E0
-+#define ACP_SCRATCH_REG_121                           0x12501E4
-+#define ACP_SCRATCH_REG_122                           0x12501E8
-+#define ACP_SCRATCH_REG_123                           0x12501EC
-+#define ACP_SCRATCH_REG_124                           0x12501F0
-+#define ACP_SCRATCH_REG_125                           0x12501F4
-+#define ACP_SCRATCH_REG_126                           0x12501F8
-+#define ACP_SCRATCH_REG_127                           0x12501FC
-+#define ACP_SCRATCH_REG_128                           0x1250200
- #endif
--- 
-2.51.2
+best regards
+Shengjiu Wang
 
+>
+> Frank
+> >
+> > Best regards
+> > Shengjiu Wang
+> >
+> > >
+> > > Frank
+> > > > +
+> > > > +     if (ret || !retry) {
+> > > > +             pair_warn("output is not ready\n");
+> > > > +             return false;
+> > > > +     }
+> > > > +
+> > > > +     return true;
+> > > > +}
+> > > > +
+> > > >  static int fsl_asrc_m2m_prepare(struct fsl_asrc_pair *pair)
+> > > >  {
+> > > >       struct fsl_asrc_pair_priv *pair_priv =3D pair->private;
+> > > > @@ -1275,6 +1296,7 @@ static int fsl_asrc_probe(struct platform_dev=
+ice *pdev)
+> > > >
+> > > >       asrc_priv->soc =3D of_device_get_match_data(&pdev->dev);
+> > > >       asrc->use_edma =3D asrc_priv->soc->use_edma;
+> > > > +     asrc->start_before_dma =3D asrc_priv->soc->start_before_dma;
+> > > >       asrc->get_dma_channel =3D fsl_asrc_get_dma_channel;
+> > > >       asrc->request_pair =3D fsl_asrc_request_pair;
+> > > >       asrc->release_pair =3D fsl_asrc_release_pair;
+> > > > @@ -1289,6 +1311,7 @@ static int fsl_asrc_probe(struct platform_dev=
+ice *pdev)
+> > > >       asrc->m2m_get_maxburst =3D fsl_asrc_m2m_get_maxburst;
+> > > >       asrc->m2m_pair_resume =3D fsl_asrc_m2m_pair_resume;
+> > > >       asrc->m2m_get_cap =3D fsl_asrc_m2m_get_cap;
+> > > > +     asrc->m2m_output_ready =3D fsl_asrc_m2m_output_ready;
+> > > >
+> > > >       if (of_device_is_compatible(np, "fsl,imx35-asrc")) {
+> > > >               asrc_priv->clk_map[IN] =3D input_clk_map_imx35;
+> > > > diff --git a/sound/soc/fsl/fsl_asrc.h b/sound/soc/fsl/fsl_asrc.h
+> > > > index 1c492eb237f5..60b6865ca952 100644
+> > > > --- a/sound/soc/fsl/fsl_asrc.h
+> > > > +++ b/sound/soc/fsl/fsl_asrc.h
+> > > > @@ -257,6 +257,8 @@
+> > > >  #define ASRFSTi_OUTPUT_FIFO_WIDTH    7
+> > > >  #define ASRFSTi_OUTPUT_FIFO_SHIFT    12
+> > > >  #define ASRFSTi_OUTPUT_FIFO_MASK     (((1 << ASRFSTi_OUTPUT_FIFO_W=
+IDTH) - 1) << ASRFSTi_OUTPUT_FIFO_SHIFT)
+> > > > +#define ASRFSTi_OUTPUT_FIFO_FILL(v)  \
+> > > > +     (((v) & ASRFSTi_OUTPUT_FIFO_MASK) >> ASRFSTi_OUTPUT_FIFO_SHIF=
+T)
+> > > >  #define ASRFSTi_IAEi_SHIFT           11
+> > > >  #define ASRFSTi_IAEi_MASK            (1 << ASRFSTi_IAEi_SHIFT)
+> > > >  #define ASRFSTi_IAEi                 (1 << ASRFSTi_IAEi_SHIFT)
+> > > > @@ -432,10 +434,12 @@ struct dma_block {
+> > > >   *
+> > > >   * @use_edma: using edma as dma device or not
+> > > >   * @channel_bits: width of ASRCNCR register for each pair
+> > > > + * @start_before_dma: start asrc before dma
+> > > >   */
+> > > >  struct fsl_asrc_soc_data {
+> > > >       bool use_edma;
+> > > >       unsigned int channel_bits;
+> > > > +     bool start_before_dma;
+> > > >  };
+> > > >
+> > > >  /**
+> > > > diff --git a/sound/soc/fsl/fsl_asrc_common.h b/sound/soc/fsl/fsl_as=
+rc_common.h
+> > > > index 0cd595b0f629..c8a1a2b5915d 100644
+> > > > --- a/sound/soc/fsl/fsl_asrc_common.h
+> > > > +++ b/sound/soc/fsl/fsl_asrc_common.h
+> > > > @@ -107,6 +107,7 @@ struct fsl_asrc_pair {
+> > > >   * @asrc_rate: default sample rate for ASoC Back-Ends
+> > > >   * @asrc_format: default sample format for ASoC Back-Ends
+> > > >   * @use_edma: edma is used
+> > > > + * @start_before_dma: start asrc before dma
+> > > >   * @get_dma_channel: function pointer
+> > > >   * @request_pair: function pointer
+> > > >   * @release_pair: function pointer
+> > > > @@ -116,6 +117,7 @@ struct fsl_asrc_pair {
+> > > >   * @m2m_start: function pointer
+> > > >   * @m2m_unprepare: function pointer
+> > > >   * @m2m_stop: function pointer
+> > > > + * @m2m_output_ready: function pointer, check output fifo ready or=
+ not
+> > > >   * @m2m_calc_out_len: function pointer
+> > > >   * @m2m_get_maxburst: function pointer
+> > > >   * @m2m_pair_suspend: function pointer
+> > > > @@ -143,6 +145,7 @@ struct fsl_asrc {
+> > > >       int asrc_rate;
+> > > >       snd_pcm_format_t asrc_format;
+> > > >       bool use_edma;
+> > > > +     bool start_before_dma;
+> > > >
+> > > >       struct dma_chan *(*get_dma_channel)(struct fsl_asrc_pair *pai=
+r, bool dir);
+> > > >       int (*request_pair)(int channels, struct fsl_asrc_pair *pair)=
+;
+> > > > @@ -154,6 +157,7 @@ struct fsl_asrc {
+> > > >       int (*m2m_start)(struct fsl_asrc_pair *pair);
+> > > >       int (*m2m_unprepare)(struct fsl_asrc_pair *pair);
+> > > >       int (*m2m_stop)(struct fsl_asrc_pair *pair);
+> > > > +     bool (*m2m_output_ready)(struct fsl_asrc_pair *pair);
+> > > >
+> > > >       int (*m2m_calc_out_len)(struct fsl_asrc_pair *pair, int input=
+_buffer_length);
+> > > >       int (*m2m_get_maxburst)(u8 dir, struct fsl_asrc_pair *pair);
+> > > > diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_=
+m2m.c
+> > > > index f46881f71e43..77999526dd9e 100644
+> > > > --- a/sound/soc/fsl/fsl_asrc_m2m.c
+> > > > +++ b/sound/soc/fsl/fsl_asrc_m2m.c
+> > > > @@ -253,15 +253,21 @@ static int asrc_m2m_device_run(struct fsl_asr=
+c_pair *pair, struct snd_compr_task
+> > > >       reinit_completion(&pair->complete[IN]);
+> > > >       reinit_completion(&pair->complete[OUT]);
+> > > >
+> > > > +     if (asrc->start_before_dma)
+> > > > +             asrc->m2m_start(pair);
+> > > > +
+> > > >       /* Submit DMA request */
+> > > >       dmaengine_submit(pair->desc[IN]);
+> > > >       dma_async_issue_pending(pair->desc[IN]->chan);
+> > > >       if (out_dma_len > 0) {
+> > > > +             if (asrc->start_before_dma && asrc->m2m_output_ready)
+> > > > +                     asrc->m2m_output_ready(pair);
+> > > >               dmaengine_submit(pair->desc[OUT]);
+> > > >               dma_async_issue_pending(pair->desc[OUT]->chan);
+> > > >       }
+> > > >
+> > > > -     asrc->m2m_start(pair);
+> > > > +     if (!asrc->start_before_dma)
+> > > > +             asrc->m2m_start(pair);
+> > > >
+> > > >       if (!wait_for_completion_interruptible_timeout(&pair->complet=
+e[IN], 10 * HZ)) {
+> > > >               dev_err(dev, "out DMA task timeout\n");
+> > > > --
+> > > > 2.34.1
+> > > >
