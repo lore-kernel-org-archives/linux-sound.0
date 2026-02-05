@@ -1,96 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9930E3AA1AF;
-	Thu,  5 Feb 2026 11:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9480F2D47E4
+	for <linux-sound@vger.kernel.org>; Thu,  5 Feb 2026 13:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770289501; cv=none; b=dP9CjT/lr2XAwOWZ8MD46e1n13OoMDasZ66ui5/VYENd+OEXSxJSY9npfs/8wWZdK/sQLPdyN4mo3r0g/63Gal5hb/l1kWsQQMupIsOcwWdfKuRJKZNjSvr/jVXCcvJxQoyaU93pzCrti8yMnVZXWzWrCC4yy7DX4keyNlUptaM=
+	t=1770296419; cv=none; b=VuvkNVxPoff+XboO6iXf9FwcBVwXSpZOnNbVMCg6lD654FI9u85dop4uM/Mz1h9gUJZDm5kzcBtWteyCA/FCfBk8YW1NhT6gf849lP8FaUoeTk+bo10NvSPl6tTTCzELF4yb4pQoVnyYj3TPR6VbqWOsuat3MiNdbv2C3IiQrWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770289501; c=relaxed/simple;
-	bh=cvgfcVc9gU3b37VPRr96iaWieeqcbC0E0oA/LppwcvQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d8Mt13Nk45eIkA6s3sBu91HrdaY+yTZjisY1Pab9mB/9ty/OyfVZaewulnp7OEL/T02wrNFBb9kLxUs9VasafwZxrbGjH8v0vDaJW6ZW31dDvimimg8zzxOiCX+3wy2yyIpIXBm7SBhUmlVxaHQs+A9imUYl+uF7HALVwxHscTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7y8InbV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770296419; c=relaxed/simple;
+	bh=zVLkl+/sqMBqN0whpK4INw4Nr04WKy1mfq1u+orpKVA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hO1/foTd2BWyaC04ga8lM5ost1XXxqaOkMuR/Co7OEjfIoyMTlebu1n2ps8tS5IOf272Iq/UcOoF/XGjnhbHLVEkK9IJ+gFc98B1Tr6LAQYTSDb1+HygBY0PBiEFZ1Ttgsq3QqxU8d4c1J49xTEoX8+zZCt9zxIrQtWKVRMnqko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Zex0tIZa; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7y8InbV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41EF9C4CEF7;
-	Thu,  5 Feb 2026 11:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770289501;
-	bh=cvgfcVc9gU3b37VPRr96iaWieeqcbC0E0oA/LppwcvQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=V7y8InbVJqAtELuXLzBpWEko5WFUDc/6FrHLFypMzxsamGSK7oQfq0V2NJnFYEy8K
-	 qxS3yc3RMMNFp2GQxs///gPnlyvAw0tD36AZu6e3FkTDE6E3RuHpltnM7kjRlpj3Re
-	 TGdFTLzmDL9fAv4w9UWHy1TCz2l4Q28H5bClFeHt9k2xKEZnPTFaJyL3jWfPKe6h0t
-	 UAZIkuWQhP0BL/2Pi9uZZUfAtKBvVJdhOkdmX3UCKdT73UM6pNimOuouJneQKhg1Rd
-	 z0nrhmsd/MI4gjMWRXUAilbiP/RdLK5s/UhaYYeUd1x055/oImfE4IhQUETDnyIysI
-	 /NRjnFwg/PCJw==
-From: Mark Brown <broonie@kernel.org>
-To: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- Sen Wang <sen@ti.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260203003703.2334443-1-sen@ti.com>
-References: <20260203003703.2334443-1-sen@ti.com>
-Subject: Re: [PATCH v2 0/4] ASoC: ti: davinci-mcasp: Add asynchronous mode
- support for McASP
-Message-Id: <177028949900.8656.5002268865840174084.b4-ty@kernel.org>
-Date: Thu, 05 Feb 2026 11:04:59 +0000
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Zex0tIZa"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so7111155e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 05 Feb 2026 05:00:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1770296417; x=1770901217; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ea5Wau3tyaotoVdTXU1AX44w/mbst5DuRTitl7uLstw=;
+        b=Zex0tIZaf0eYh2XxCRHg0JzIXxrn/5miK3N5RCpp+1ixG+oGgJz2IY/DYkGpyGx883
+         t2CFJiuHt7H/YB2jfHd/KhuS88PkQwIGKV4Td4vO7Ck/rAyRJ4nlGSuZjIslSBNxTHKm
+         FqQ+DvC9VEw+mp7OBhH6bIdtoj9djYMvRFYLfUBzj4MDYCc/t8JmFpiYor04SFxTB/k+
+         D2hZ1vL7mJr6WeNar4yv/uO7oo3iAZWwicgspO7rywAQp8nTYxadLDhnucTS8rPnFguX
+         w6/En+8OEOtpJudMwSXnzcgR05GygH2KuttHYze6Npu2U+ayk84aQUMz4VIZedj2896X
+         2ZRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770296417; x=1770901217;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ea5Wau3tyaotoVdTXU1AX44w/mbst5DuRTitl7uLstw=;
+        b=cUc1uhCppzrEMLWqYnMKMa2f5a8NpP2UvASD25CHUPvZm7MrKKbu4uvGs/wPBppV23
+         lKNjERUSUbis28UAPs5ZJMoYguDJoW9d3jPWewC4SxWbt26x/n3/NfXIrRP2/cMNCGgE
+         jNXmZP8ADoXYSLjllwv3lDxhF+jn+WfwAx3K6/TJ5/GM6OeBlheYPIAsYccVT2h2PnR3
+         lFPlqJlkcUX6kxCwYRPwwp0EDfo8rUhVKhoccb1JtZjWwOjfG73GpNqsUs8jJaksBRCE
+         6vPVPXBzFQpyNst8EgQKgwQ908g1AoXUK4haK45OWj0xf/XzgUNZ2j4rhjQ/gcVn0fzm
+         o4yA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYvbASmmH5OGdIt+eg+DUZmuZUy3bfu8QXEpLwv3pFUnY0B4Fj67vLepOJUzHmORzNRh53WeTUJyCJqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQFJQJ5S5zDDH3VdLdgd2edwC8s6FU878YaU26xZr6xiC5CMjW
+	IHDQSZhckd53dDWxiS8Ni0bVa3jeP6OQ/7DVdSbiuyDJS1NbfKskexkp8BfrO0u4ayc=
+X-Gm-Gg: AZuq6aJWzaWfaTmj5OSiX6KPqKpFCshJdA6BBTQUzf+t4e+yjHqsyy52393ZXal+CPq
+	Oxbn14kuw6XjbkMBmSHhD8FBIO5EVPOl6mhWarZ5mfH0l74cNhvw+pVEMuwtrrDVFrvk7JbLFdp
+	3FaEy9yC0/AeBqruMZuLhjWPgZwftg2VEo5ek58px6wp9VSoeoSNef6GsRuQ5j7VTEPmW+hUbJV
+	2WaA5lDutGYHAltgMx4P8kjpICUajNqOZonEjJ+psO0fYi9v11uON5KX+2UC+llLUVzteaKj+VQ
+	ta3K3SSMvgiTtJLIVX8cfmU0z6AY/BeReBbc4Odb1/O+0W/tAtnK04reCX7INaIdAgcGdQWfhnO
+	ELvX3KUW1svbhfTg3RdXUMvFWK2PqTVYqNu95uA6ynyz7aA3Q5yHOjRQ1NnSc86yuH90laofzv0
+	Hl43qwTyBhEYz719LHTiy9X27RcVNh/g==
+X-Received: by 2002:a05:600c:c3db:10b0:480:4a8f:2d5c with SMTP id 5b1f17b1804b1-4830e991dccmr65465125e9.29.1770296416641;
+        Thu, 05 Feb 2026 05:00:16 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.215])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483179dbdcfsm72255075e9.0.2026.02.05.05.00.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Feb 2026 05:00:16 -0800 (PST)
+Message-ID: <7f0305f6-ae2d-4069-b53a-d2a81e75d164@tuxon.dev>
+Date: Thu, 5 Feb 2026 15:00:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
+ <vkoul@kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260126103155.2644586-6-claudiu.beznea.uj@bp.renesas.com>
+ <TY3PR01MB113461F734BA087B60605C6FC8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <16a6f14a-93e6-472c-8718-d46972f0ac5e@tuxon.dev>
+ <TY3PR01MB113463BE8A4B1A40DBB0860538693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <5438ccc8-ed5a-4dd6-8995-e8e9926883a5@tuxon.dev>
+ <TY3PR01MB11346325F46C2BCA6B2B181D08693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <ad752abc-275b-43ca-aec3-188c1a69c50b@tuxon.dev>
+ <TY3PR01MB113460006A458AB2F8B96542C8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB11346C8AD27554E40EC5746E38693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TY3PR01MB11346C8AD27554E40EC5746E38693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
 
-On Mon, 02 Feb 2026 18:36:59 -0600, Sen Wang wrote:
-> This series adds asynchronous mode support to the McASP driver, which
-> enables independent configuration of bitclocks, frame sync, and audio
-> configurations between tx(playback) and rx(record). And achieves
-> simultaneous playback & record using different audio configurations.
+Hi, Biju,
+
+On 1/26/26 17:28, Biju Das wrote:
+> Hi All,
 > 
-> It also adds two clean up patches to the McASP driver that disambiguate
-> and simplifies the logic which avoids the async enhancement from being
-> too convoluted to review and analyze.
+>> -----Original Message-----
+>> From: Biju Das
+>> Sent: 26 January 2026 13:12
+>> Subject: RE: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+>>
+
+[ ... ]
+
+>>
+>> For s2idle issue on RZ/G3L is DMA device is in asserted state, not forwarding any IRQ to cpu for
+>> wakeup.
+>>
+>> For S2RAM issue on RZ/G3L is during suspend hardware turns DMAACLK off/ Asserted state. Clock framwork
+>> is not turning On DMAACLK as it critical clk.
+>>
+>> Can you please check your TF-A for the second case? First case, RZ/G3S may ok for reset assert state,
+>> it can forward IRQs to CPU.
 > 
-> [...]
+> Just to summarize, currently there are 2 differences identified between RZ/G3S and RZ/G3L:
+> 
+> SoC differences for s2idle:
+> 
+> RZ/G3S: Can wake the system if the DMA device is in the assert state
+> 
+> RZ/G3L: Cannot wake the system if the DMA device is in the assert state.
+> 
+> 
+> TF-A differences for s2ram:
+> 
+> RZ/G3S: TF_A turns on DMA_ACLK during boot/resume.
+> 
+> RZ/G3L: TF_A does not handle DMA_ACLK during boot/resume.
 
-Applied to
+I'm seeing at [1] you are addressing these differences in the clock/reset 
+drivers. With that, are you still considering this patch is breaking your system?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Thank you,
+Claudiu
 
-Thanks!
-
-[1/4] ASoC: dt-bindings: davinci-mcasp: Add properties for asynchronous mode
-      commit: f1ef70a4a32042984d29b8d02bdf6167474373af
-[2/4] ASoC: ti: davinci-mcasp: Disambiguate mcasp_is_synchronous function
-      commit: e683cb088fdcbdc86fc30008319312cc0bb80226
-[3/4] ASoC: ti: davinci-mcasp: Streamline pdir behavior across rx & tx streams
-      commit: 016efcaa470cdbc658df46d968d875f6a1cf9a78
-[4/4] ASoC: ti: davinci-mcasp: Add asynchronous mode support
-      commit: 9db327083f7e0da702e2ec0169f8a34f3576f371
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+[1] https://lore.kernel.org/all/20260130143456.256813-1-biju.das.jz@bp.renesas.com
