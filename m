@@ -1,128 +1,94 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFE2296BCD
-	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 13:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD1D2FF164
+	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 14:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770385560; cv=none; b=MSvTJfm0e90vpWc4Av+unSg7tH9HE1JbVcdVHaS+j6tfiO+rpDbxWp1Eip4F/lNGzUAKNk1+vbM99i7bRU9cNC0cmidEeXk4Dk3Mdw/L4OWdefsqXRq6X1anjRnWOcXFXO/tpRK7IcFCW3sxb0lcbb0h/K/SpJM2Df77OlV5wjM=
+	t=1770386914; cv=none; b=IQhtFoVYhAUTkLh2atd2/Dya180drjmmxmL4OjQUHzrSg3IP0EPE2sDAy4gI1xH52oQFK9/6XdgBYLfKNBHiJji8nliDG9WEi5Oyb3f+YQm8Yflk5y8OXur8AODopz5BdXTDiT3Lqj4SEOyclHbB4R2o8dR9S6qklD3OAaxpMhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770385560; c=relaxed/simple;
-	bh=89yh1QiXKI2Jts0olOiajmg0U5qtmjfCoXB/fnfFT8k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ICzgUBhaIFTWVVDvVAoTPT+sS/lGiXf5gBNTxYhjfp9qFOD/2jE8NQ0JgEhHuJy0GhMD2rg8tzFrjwa9yQ23wTiKovLy11yP+Ukgwo+2GiZFCMC8Xa/6uNsawgmi2uW4DGQ/BQS2uJVgg7x4fQrKXDwShcWDlGZ+38NH73vYK4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HQF+F7zF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ak3vyguJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=O7DjVMbx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NEhykCX/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1770386914; c=relaxed/simple;
+	bh=UY/nf6EPW4a2v1n4TYF134vFMmEfUXZ+Bquc0fuO/3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GRCmNJ7YCdjVirXCly5aqQscs4SBvn5PGUk+W9o6cMMhmv4sgSikaw5IVVe2AAg+DvGZs98C7PzDPHSOiAM3w9AE6P8UYr04fhCCI33PLqJoi8Ietm/Mvy5DzSH2eGgh0mGMAf8HlQw52pgMd9QcaCTg5O+/cH116mQ9poNawEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0C8A72t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HQF+F7zF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ak3vyguJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="O7DjVMbx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NEhykCX/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EFBB15BCC5;
-	Fri,  6 Feb 2026 13:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770385559; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4Jmcd64dI6Xh+cMrYC87CgBGDD03F64mVODdCX+9cG0=;
-	b=HQF+F7zFpI0WFcqZxXmg3jkwRrQoC5cERVhytvT9hLuK+T4XDE+HpS1LamYTeK1bQ0Jjnu
-	5/ZjNy900gTj2ZmBwgSb/1rE19pwAFFMwMLxKwNEZMpXo9eWSnn8hdasIWUGifW96FQZne
-	60p1H7+xcqzWRVBmavHDY2WkyQfc/PI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770385559;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4Jmcd64dI6Xh+cMrYC87CgBGDD03F64mVODdCX+9cG0=;
-	b=ak3vyguJ9Oe6BSojylL6fXZVXFNHKHVodDSFfXn32lkneun+MWerZue5ZHfAcVInI6RKOJ
-	iKxnlYSkFkCyq3Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770385558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4Jmcd64dI6Xh+cMrYC87CgBGDD03F64mVODdCX+9cG0=;
-	b=O7DjVMbxLXwy6tbhI+7btnGgrO+MgSE9oAjh0kgz4uMQALM9g1Szf6gL2uCD2jEObnMYQ/
-	Hf4DxYvuiKHRi+Ng7+H/fLrIRQ4sen8oaMXJVBeHcQavHx9VDa+DEH1RDv7yvbcYsoxpwu
-	R0O1pLQvC1IbAhyP0mJHcPH0iWH6Gw0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770385558;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4Jmcd64dI6Xh+cMrYC87CgBGDD03F64mVODdCX+9cG0=;
-	b=NEhykCX/BpdK87Ej66dLoh2DfIySeuldkZ7UJXpIemxY1Fx4p73UC/pZOmcDd1fkL313kC
-	susQq2wEkums1XAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B41083EA63;
-	Fri,  6 Feb 2026 13:45:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4F6yKpbwhWnXJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Feb 2026 13:45:58 +0000
-Date: Fri, 06 Feb 2026 14:45:58 +0100
-Message-ID: <874inu9e95.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] ALSA: oss: delete self assignment
-In-Reply-To: <aYXvm2YoV2yRimhk@stanley.mountain>
-References: <aYXvm2YoV2yRimhk@stanley.mountain>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0C8A72t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DBF2C116C6;
+	Fri,  6 Feb 2026 14:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770386914;
+	bh=UY/nf6EPW4a2v1n4TYF134vFMmEfUXZ+Bquc0fuO/3c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S0C8A72thwxYZD8+iz+O+moFjGbNGopFZ/qLppj2GFCzGJchNfggnNxaUcLbC7Wv4
+	 WyOo7imadnBP2hwH9LeZJ72C+ZD1G1a4DORc4vacU4FRdgxJP96VgzCY5cNKSolvXz
+	 9nZUy95E+rHjWq8sPVXSR/ddfFATRyX15/kyslEMIALo18Pma7cLBXkD8K2BclQ0ob
+	 hXFlVKllJzLYp5ZOhQybnGsGj+toWt3/MRXnalyb0NIR+yYkqtKMgZFYyO3+SANJIG
+	 WaaCWofC1BnpvmcQI+2oBmil6Ch7Ka+jFGSiIhSscNz3Fg3N/WXrPaYFTyC22j9H+d
+	 Oey6PVFxnP+Mw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id D6BEB1AC57C6; Fri, 06 Feb 2026 14:08:28 +0000 (GMT)
+Date: Fri, 6 Feb 2026 14:08:28 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+	perex@perex.cz, amade@asmblr.net, linux-sound@vger.kernel.org,
+	kuninori.morimoto.gx@renesas.com
+Subject: Re: [PATCH v3] ALSA: control: Verify put() result when in debug mode
+Message-ID: <aYX13LsGaMjO8X92@sirena.co.uk>
+References: <20260206113250.207179-1-cezary.rojewski@intel.com>
+ <87ms1m9htu.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,linaro.org:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-
-On Fri, 06 Feb 2026 14:41:47 +0100,
-Dan Carpenter wrote:
-> 
-> No need to assign "uctl" to itself.  Delete it.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Thanks, it's a garbage at the previous fix commit 55f98ece9939 ("ALSA:
-oss: Relax __free() variable declarations").  So I applied with a
-Fixes tag.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DyOmcQbZ5ga6t5AY"
+Content-Disposition: inline
+In-Reply-To: <87ms1m9htu.wl-tiwai@suse.de>
+X-Cookie: Think big.  Pollute the Mississippi.
 
 
-Takashi
+--DyOmcQbZ5ga6t5AY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Feb 06, 2026 at 01:28:45PM +0100, Takashi Iwai wrote:
+> Cezary Rojewski wrote:
+
+> > +	if (retcmp == ret)
+> > +		pr_info("kctl->put() returned the expected value of '%d'\n", ret);
+> > +	else
+> > +		pr_warn("expected kctl->put() to return '%d' but got '%d'\n", ret, retcmp);
+
+> So this prints out a message at each access even if it succeeds.
+> I believe this would flood too many messages unnecessarily.  Can it be
+> better to be with debug level?
+
+> Also, this message doesn't show any relevant information about which
+> card, device and which control caused the error, and that makes
+> debugging harder.  Put some prefix to identify the problematic
+> control.
+
+Might it be worth considering doing this via trace_printk() or possibly
+tracepoints?  They're very low overhead and with tracepoints they're
+strutured so they're more suitable for very high volume logging.
+
+--DyOmcQbZ5ga6t5AY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmF9dkACgkQJNaLcl1U
+h9B+cQgAhTD1hCDk1lpRwjuVH8/FFOYBV2cKD+SWTwzAUyqWFFSwsML9GUYMWTPy
+ZGdhJjDUqYVTqGPlPJU/W2z1e2GArvs3eWyD4i5q47D+SVwQsMvBeTLpqPoKpBO8
+Qf1QufvbtEnOT0bKQRBW3n7ApwD7OG8f8aFsrDMbV63g7OxivAgaJn6W3F78CEiW
+xtr91/5aEB2Ugnhi0q4j+kS3CWRbfGcPwJp5VngqcAPBMtmzyaN/XagikYOXy1ii
+XlEqDxC01KauByZZmU94707h9O0c/J4nomd/CQhjAuU+NIQ2xUtuGZI2sAMUZAjZ
+3VdT1E36GfcJpJBYlfmdOCOuXgySvg==
+=68sB
+-----END PGP SIGNATURE-----
+
+--DyOmcQbZ5ga6t5AY--
