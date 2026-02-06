@@ -1,113 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010069.outbound.protection.outlook.com [52.101.69.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D47EAC7;
-	Fri,  6 Feb 2026 00:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770337742; cv=none; b=FMald19mFUlcWnplg1QvpoHkJdhsjXp1jljmePzHnqkDgDd5VNUBNKDTzxzkb19pVAg8huMOL56wc/LszivE3ka21m0BgM2ZHqH0N2iGy4aOsBWUt8H5r23oJtZyLUQgvlmWVKjtfSoWoea1T7bEsUFS/8GoWClMKVTS+u0v5tM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770337742; c=relaxed/simple;
-	bh=apBmKVMnwTAS3R0uk13bUBoQgoQDSo3+VEuXU97IqMQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ltS+EeGSJekhO9SdAsVuHb1UhguG8licAmC+pigjT5noMtW27KRlMoL8ueR/xNRPGOOqaiFicfy7eCCsD7dCZ7XxkjPH+0FZAzxr+5woEX9kB5FBnLWrQLh2zus2mRHFw7+8G4EJBkoB5uyDtUzeOShI4NSfaiuuKm0eJx9vvwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Im5BJplu; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9676D2475CE;
+	Fri,  6 Feb 2026 01:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770342433; cv=fail; b=MVcVhmETQwMuUrcwOPngQFscPLTNp204aTWBf939wYvuIBRgW7KNI3uzzyBGqet4LCO8QfcHC0p22P5/RkVU9ATFX7H7bxrRT7kNziWBBZ7o1/HNXXMVqTIRcfXBGrnj2RXi5s6UpbkzwY3RzPoe9HhEmMlWVjj2aTcLi7zH/3A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770342433; c=relaxed/simple;
+	bh=HKAuuLzqO1iNtLbakRpyE+18XqkJ2f5lQn8Gv4V99s0=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=WxQdM4wL5qr0u28j1xhuFi+dhNgVHuZNYLSqQDU4LF3aLKFsm2IoTvWGKkV3M658QqJL1qF3+rg0EREX1EOPGio3FkF8Rg5USEjdryzDdV398hvD0ZqQ+8C/I9DxPgS0g6rqoCm5QAvwvKAPCuL38v1BIcEUGewmOzRTC8MQ1gw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=l4TB9BiN; arc=fail smtp.client-ip=52.101.69.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Im5BJplu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E86DC4CEF7;
-	Fri,  6 Feb 2026 00:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770337741;
-	bh=apBmKVMnwTAS3R0uk13bUBoQgoQDSo3+VEuXU97IqMQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Im5BJplu4iNPz6yJY488GVY+zYsWlySGUhf5cOH0KXAFVAxxLHpuP7TJZLYjMw4V3
-	 Xv2S3qFosVtzrWS13RYWSWuBwQ2WZ1MdTTPYOSOy7XwlTAw+Hqm1YCCl0SQR+/LKgR
-	 vTVQ0rXj+em/EPXcsWX8LGvbYTsTO3konHV7kX7b8QQsxlvPOG6AwOIeDLQVf6ghOn
-	 Ssp5EWhu1DwFf8H9rYQjJC1MdE/RTlhvEfA00+YAC8S5IyIw6q86ngEFoPfimjd5/3
-	 5o0A1RBYA2eHUbBEosoqWQX6lIMXJw0zHU6X+09l0vpURA7oiFBWqmk96ZuCUXvJch
-	 Mp2cj9wd40x9g==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Alexey Charkov <alchark@gmail.com>, 
- Sjoerd Simons <sjoerd.simons@collabora.com>, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, Zohn Ni <zohn.ni@rock-chips.com>
-In-Reply-To: <20260203-rockchip-spdif-cleanup-and-bsp-sync-v2-0-4412016cf577@collabora.com>
-References: <20260203-rockchip-spdif-cleanup-and-bsp-sync-v2-0-4412016cf577@collabora.com>
-Subject: Re: [PATCH v2 00/10] ASoC: rockchip: spdif: Cleanups and port
- features from Rockchip's BSP kernel
-Message-Id: <177033773886.236064.14543193521688333504.b4-ty@kernel.org>
-Date: Fri, 06 Feb 2026 00:28:58 +0000
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="l4TB9BiN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yWR0pR2rNfCTL7g9sLP6Hzpz/8Xpci68/UhbdqjNBq7sit+9L0VBbf+hCwfX+yCsjfeguFZJxUtcUhRxCrDt1hcL6VSg2+leF+iKUEvRwFqqTXtRCq4x5DjfDO2xWZPFKIeUl5N8cqgAZEqAHVbY1DzH0pYB8uFaFOfiLhNgOoFgjAlg+pAXgB6y+jDgVwgELq9shSmEsRqswlq4/fURyQAgkdltNGwTL3rnVFNGUxXar9klvLmikaJ5jZyWoYPf3OYyuxRKYSfhAr+DpszbwN/dtAegNmnJTEt+t4BWnlhARJBmQ7IS26S8HgjMvUFoWsCoVGHW/LU2fsfHt9GLbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FJ3woXOlvx8FJrmfeb/nTYyCumv4dKp+OLrCyub2gsQ=;
+ b=J3h5CiSosyxbnyZ8Dx9JDMEB3RPtVMS0ywAhB22IHArrz1+pnxzInb3U6BPARdwdl5mwWZ5CYM5isCsQUCKXZ8IrtBpTTAE1I6FJAe6UJXET7Ya4WaNMCSgpdHj2m8yN4BZNeyPVOgJ3M7HQBxlr4GnBsPA+ZfMw6eWuaF8hPn/9J819w31eRcIx65y+cjCAexE//3T0DzRm2MiP4bnppG16YQkuCwlqC7bjyA5izjotRZmGGsvDppbIJ6eJGKH8A7n0mXLwMHyFfcMuA71t+LjksZ1/OUhrgR82bVpcnjzSw2vphizkLfePN9Cd+4IVY9yTChe7nsZuheCsa/U6fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FJ3woXOlvx8FJrmfeb/nTYyCumv4dKp+OLrCyub2gsQ=;
+ b=l4TB9BiNW6bVmGY3Yg4czpNfYinDRxLrTO/5J65TPd26drb6euHdOYCbpFP4gSUm/xGy9SgxOrA4wTyHPPYWX8LIBdYDiCBmjLvJqGgOZZ0TZi78M2JoQH2AnWIR21wx6RvDT60zBq7VrqQRbhEYyu1FOUHwLIVKnsL0Iw5d2GGzSbnksu/aAzyVfHxAE2Hk5XHY0fCg7rMAUpGqVcVJpNm56kXWxsLQx6SDeSkl7sqJKIDgs8kLXAG2JHrbgWbtWR2yHYeb2FnQT23qk5Vz7MgKvebm9aBf2S61fgj4EpN7t2gTSXzi7xFmoy+scoo2HrumnrEVipsTAMY7uSlqEw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB7055.eurprd04.prod.outlook.com (2603:10a6:800:123::21)
+ by VI0PR04MB12210.eurprd04.prod.outlook.com (2603:10a6:800:335::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Fri, 6 Feb
+ 2026 01:47:09 +0000
+Received: from VI1PR04MB7055.eurprd04.prod.outlook.com
+ ([fe80::d6ab:1538:d868:bf8]) by VI1PR04MB7055.eurprd04.prod.outlook.com
+ ([fe80::d6ab:1538:d868:bf8%7]) with mapi id 15.20.9564.014; Fri, 6 Feb 2026
+ 01:47:08 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	nicoleotsuka@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v4 0/4] ASoC: fsl_asrc: support the i.MX952 platform
+Date: Fri,  6 Feb 2026 09:48:01 +0800
+Message-Id: <20260206014805.3897764-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR04CA0004.apcprd04.prod.outlook.com
+ (2603:1096:4:197::22) To VI1PR04MB7055.eurprd04.prod.outlook.com
+ (2603:10a6:800:123::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7055:EE_|VI0PR04MB12210:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30131bfc-0ea5-4838-4581-08de6521a35a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?PGNi5tpYYTsJHvD09jtGFAlYZenzaSDn+vMMxFONsiWLcCi3cijPoEyf6CEr?=
+ =?us-ascii?Q?NKK/HcwNcgkvecciYvQDh2ZWFf8tgW5avVt1LQO58mio4OoPeHQJiFbaGVKq?=
+ =?us-ascii?Q?BUiobBadZPhspl/jyJTSSWdoffSwIi8VdI2hY8u/sbTklKnmT+WH61Ih6eql?=
+ =?us-ascii?Q?MFncCRGazd2ji5QmWcPqBQGzoa6fPo/crD/a9klgWwAqOyD8i+oQi0vJEIZa?=
+ =?us-ascii?Q?NxOOnNELTG765lLo8/NkbY3OsKCYc6lgLDVDEaW9aNS7W4TFSg1c711/OQ6j?=
+ =?us-ascii?Q?p0tCXseqib4IGZkH+S65GKCwn9RY2Pb60Hbb+/zOVUPRAp6asoo/wyz4fleg?=
+ =?us-ascii?Q?uOWv1wBddiE7va3SotKwszdfJMYfT6n8hAUmnCwovVRHlFc77U4XXbpHcH9G?=
+ =?us-ascii?Q?Wy1r35Dsd9U7jGojXPOhhh2krq3HOja5YePPQRwg1iI5aA4CA9/cRpVbI3Mn?=
+ =?us-ascii?Q?C37atQBydhtfSLHfDWgHiAQIAYTa+s0hG1x9UzajmCHN4lLU9BKMkPE54gEU?=
+ =?us-ascii?Q?GGnIaAOjN0+plA/oajHWfb/5EdWY9Qs4reu1MIh/X+si4uCEpKSDzU6TuJbI?=
+ =?us-ascii?Q?2xgyFMQUtj6rr5+YasYFMRIBAzL5QESZqaaaGtb6eLF74tOM3Cl4Rb2LYJzg?=
+ =?us-ascii?Q?vQ5/0Da5IcEZgi9TOYFmbnshLB7mhmnIYWex5HwAK7T6/uzEphz97Pr+0Jqr?=
+ =?us-ascii?Q?Jadc2vJpwpAHScIDl/Nu2f7xsfuk8F4gG5cg/V9uAfLTi0KL3npZPG/hDoQo?=
+ =?us-ascii?Q?7aM3sXrq9jK0bH5q+05Vc2umvYbw+kOpDKUP8kMSUupMQFjJfkaguxD5uWFt?=
+ =?us-ascii?Q?oQoXSf3MYqvQfiF0mspsWPTrbQcFmnRS9cI2xjCUklozXwtWp4H2qZi3RekG?=
+ =?us-ascii?Q?T2dMTiaVC7EOxxFJsdE4Je8BUXGZw/H1SIoBMRjA94pM8x1m6WSsu/+Uq6a8?=
+ =?us-ascii?Q?l92LS9TpV/GJHhJpaenRGGs0HPIj5LdwZZrtsdnohcv9SzPnpeWd14CZSaUq?=
+ =?us-ascii?Q?6gFfEId3R5w3wE8qtZ4xRfEwioF2l43ZkMBwUKdG0H+W7K4m8cQo5cOEI99h?=
+ =?us-ascii?Q?Ou0jiqlk6T9iYSf0cwFw1qUH0hxdQavHaDxfTV3Au1k/o8gGKmv5a0myEOtD?=
+ =?us-ascii?Q?k4N2XYDrpKLUV/5GDjX/OYDbiTGttm1j5Y7VzjfMyzFDV2Y8sCj/4dLJmqZu?=
+ =?us-ascii?Q?hQsp382LQM89dKJZjUpGELCjaeABG5N2qpF2WGb3KEmU8oiV9idd9owa7KA7?=
+ =?us-ascii?Q?nDs2tq0xUxuyhU6nxg2CMyqPPwYiOSCW5LfaiwbqxOaGRrASIQXHk2aGEgE1?=
+ =?us-ascii?Q?2c/pLHjzx09BoI6YfwFZWUiwxSt/vOV742D6Qj/OZqXujgdmVLixmrShTDD2?=
+ =?us-ascii?Q?kSlzMdGhe40VYnYoUhd9tmufKjsuEXu6sOzxYU27jhiLgGTgRuHTi5BjNYuQ?=
+ =?us-ascii?Q?OmJzHvuQrvCL5mmIOy3dYijL45iRQWtJneyTbFfsv5/fuT1HX3T3IKrm7CsO?=
+ =?us-ascii?Q?BuSC+caQbf9HsUtx8xFv8P54pRRcMncqFIN8qjZjGstmiEBCBketgl/Qbr8l?=
+ =?us-ascii?Q?1ECrgBc9CBsWjBCUOC26z2rBur000Vw4CBObRL3oow3zls2rOY9muZY0gCwP?=
+ =?us-ascii?Q?hz5PsqM/ZDvfPYitCe1UbqSVobWZyC/lMPrphFsAnYqg?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7055.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SGVUxICREMamKMNSAyPdG/+DX1XVaCNBO3scFGJD1JvoZYectVGDLJzXNtTI?=
+ =?us-ascii?Q?/75ZbkEa331zJrisytXsSaP6vdi2esLFKY5f44xslY1rtgJJaEKIiCKCg4gw?=
+ =?us-ascii?Q?cfUJYc9s0TpmHaGBHepfAD1R+X2g/gQBlVpyLll3kE3q9qaI7+uz9shLZX7D?=
+ =?us-ascii?Q?cKrI/t2h6oer/m32gIzRNInOjCyJiS8PnbKXpDmU8BnbKzx/rW4SydFRmCGn?=
+ =?us-ascii?Q?95kGRq7AkqjF8NjqvpFSv+0jUQvxBkFW8SDJrHaxF0rGRKlaqexkji5xnJqf?=
+ =?us-ascii?Q?sZPhglb/+P4PmfoDcRlOQoN09ZQVNqvMywEHqq6DiRJS2KX/rlQkms8Sa/zs?=
+ =?us-ascii?Q?uGpj3QqAOoAQbGRafNp6TMM85F3XKeI6ndn+wVHrT5xwIp8rveNF0H99Z6ag?=
+ =?us-ascii?Q?/BQBF9pUyHUpFNJI5un29lbcX7q8APr/dfhxp8g9U7Sf7uVtxkcdP7qslgh+?=
+ =?us-ascii?Q?4JmQObZ+EoUMeXsstPEEv3I+IgiXcp8Yfqia9llt+LObu5mb52paMDi78U07?=
+ =?us-ascii?Q?+kAauRE7oYMtW8GjQrZM00C0jZB81PF2Zk3iw2sPG28NTiH+fBzKaIZql8NM?=
+ =?us-ascii?Q?wjPex+83dwhxa4gfuECYsYPdN1/+jwf/Uf2AueNu7H8riE3pfQ3Km8BlJm9J?=
+ =?us-ascii?Q?IdXQ980LVbRfLa9tihqKszDeGl6LN370Jdx0aZaSAUawIBUoy3auUCAEqCKd?=
+ =?us-ascii?Q?qJHoNVx36K6IA9NLg0yCzNRP4Gdl+wK/S1W4OotS5bzm4Yw0++xWuy8n5Be3?=
+ =?us-ascii?Q?OV3aVCEa4bsvp3nxeeOx1lZ+JjRUO/1tBdHshjx5Z290Wn/AIMdNEF+j5sn2?=
+ =?us-ascii?Q?D4QZS/TmKq0S+dA11c9hzGflwlfgAggvUpxPRSffMHeO4AvhAMkfNwt2Brfs?=
+ =?us-ascii?Q?EKl8YglmlLHRFWqHzqy0NL1CmAwAld0VTr0RgTqOSDHzELDoqI2THNNDEput?=
+ =?us-ascii?Q?/at4VEjTxPiJbN6xymN8HKKEC6GN2jYfhiEnHfbLz7H1Lsp3WuuTt+HsH8EK?=
+ =?us-ascii?Q?C3SIvSVmOFp6R4HdC3ACnxG3EDtdbBav+5eQB8cdCz1nphOHT9zKoesDvzA3?=
+ =?us-ascii?Q?470m9sOuVBbAenjCSejNt9C6RBJK4rCFhDMpOZF2BXIJ0dtufQjjNf1Zyhqe?=
+ =?us-ascii?Q?S+lJ0xlp/M22gvw2nbpkODFV/1TY7CeABDnZS+rngLpqi3c90tKqwbo+JuH2?=
+ =?us-ascii?Q?88QnHw+E9vdvCL2WO4YzkCqTYytM7ETxSHdIiIJ5IjLnKSD6VjfFdSN2iC/d?=
+ =?us-ascii?Q?a4VkXaKhjiJnw08d+toBSBxPjgh3K1sYvI3CL9V09llzTwa5PkE8AcYW3o2U?=
+ =?us-ascii?Q?tYdug750tWW22mJ0MDhqV3cyLHDG6Sg+Jd8ibw9WPQ7vmTnK2hsBvg7ZrONx?=
+ =?us-ascii?Q?AnQ3tOZrhTxz84FRpqnchNGwQ7mWsRvVIuqzxh97Fjq4oEhuG6+rQPRMNAC7?=
+ =?us-ascii?Q?sde4LHhZeaSGM2QKdP2t3hhbnQUbOlZSLvczstSdTKjA6L6lZlxVVQfoQZk5?=
+ =?us-ascii?Q?1ZSzUZEZtex9MsDj3V8DTBVD0CDbehyDq5EccH0jhbGMN+lV9OJmQh3x306N?=
+ =?us-ascii?Q?SI1tkA4t1duA0r4aweWWtV+3Z+pE7E+LMUJFq3CazNQghiRpVbmnx3gc4LU0?=
+ =?us-ascii?Q?T+hd504i+sItFK5c70oXY5l6I5Pe3jUwMcfsPQjlda9aHDj4Op3Jikdm/hFt?=
+ =?us-ascii?Q?d7T9LvmmbOlcwfbyvPBM5sTEtkl1KC5hvarUaTz96BaULP8V3yssYPnQtANf?=
+ =?us-ascii?Q?3Vde42RsNQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30131bfc-0ea5-4838-4581-08de6521a35a
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7055.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 01:47:08.6437
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r+DJ4NoUxp/ykJu0Q8V0jl/iu7+sQNetZQv8kYTEbO/Kaag9pZvKzNUrpwvqXMqrWZElTN1UUs8yERVIY/RJzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12210
 
-On Tue, 03 Feb 2026 17:46:22 +0100, Sebastian Reichel wrote:
-> I'm currently working on DisplayPort audio support for the Rockchip
-> RK3588/RK3576 SoCs, which preferrably use S/PDIF as DAI source.
-> 
-> Apparently the upstream Rockchip S/PDIF driver is lacking a couple of
-> features right now, which are necessary to get things going (i.e.
-> setting the sysclk from the machine driver). I found the missing bits
-> in Rockchip's 6.1 BSP kernel and ported them over. This series effectly
-> brings the mainline kernel on-par with the BSP driver, but also contains
-> a couple of cleanup patches of my own to bring the driver to the modern
-> age.
-> 
-> [...]
+Update dt binding document and update driver to suppot ASRC on i.MX952.
 
-Applied to
+Changes in v4:
+- add Reviewed-by from Daniel in patch 2/4, 3/4
+- add Reviewed-by from Frank in patch 4/4
+- update the commit message for patch 4/4
+- remove 'retry' in patch 2/4, reduce the threshold for timeout.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Changes in v3:
+- add Reviewed-by from Daniel in patch 1/4
+- swap the patch 2/4 and patch 3/4
+- use regmap_read_poll_timeout in the fsl_asrc_m2m_output_ready()
+- refine the code in asrc_m2m_device_run()
 
-Thanks!
+Changes in v2:
+- update commit message for add more infos
+- split original patch 2/3 to two patches: patch 2/4 3/4
+- use size_add() in patch 4/4
 
-[01/10] ASoC: rockchip: spdif: Use device_get_match_data()
-        commit: 27b5096ef0f3a78441128b993f0353a77f2f5f53
-[02/10] ASoC: rockchip: spdif: Move DT compatible table
-        commit: 45df1f66b99340e1d6e90501f1e938400a3e9768
-[03/10] ASoC: rockchip: spdif: Fully convert to device managed resources
-        commit: 7e2de68e4dbaee65864b0c5972e1b03037243632
-[04/10] ASoC: rockchip: spdif: Use dev_err_probe
-        commit: 730b0af2748a74528e0ad25f2bcd3272e96db10a
-[05/10] ASoC: rockchip: spdif: Improve sample rate support
-        commit: 72bcc223032cb71e640e466eb644537e369959a5
-[06/10] ASoC: rockchip: spdif: Swap PCM and DAI component registration order
-        commit: 7bdde9a2fd6577e18cd99e4f0e71e466ba626e77
-[07/10] ASoC: rockchip: spdif: Add support for set mclk rate
-        commit: 298082783a0d6d07109f8ce09ab410a1de12876d
-[08/10] ASoC: rockchip: spdif: Add support for format S32_LE
-        commit: c43ec509019842c0b836e858dc486c216b51b087
-[09/10] ASoC: rockchip: spdif: Fill IEC958 CS info per params
-        commit: 07a791020be9b190d4a57b5ee823ede1e98df493
-[10/10] ASoC: rockchip: spdif: Convert to FIELD_PREP
-        commit: d94ea902462ac39846d878aa67b78408727e0674
+Shengjiu Wang (4):
+  ASoC: dt-bindings: fsl,imx-asrc: Add support for i.MX952 platform
+  ASoC: fsl_asrc_m2m: Add option to start ASRC before DMA device for M2M
+  ASoC: fsl_asrc: Add support for i.MX952 platform
+  ASoC: fsl_asrc_dma: allocate memory from dma device
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ .../bindings/sound/fsl,imx-asrc.yaml          |  1 +
+ sound/soc/fsl/fsl_asrc.c                      | 38 +++++++++++++++
+ sound/soc/fsl/fsl_asrc.h                      | 18 +++++++
+ sound/soc/fsl/fsl_asrc_common.h               |  4 ++
+ sound/soc/fsl/fsl_asrc_dma.c                  | 48 ++++++++++++++++---
+ sound/soc/fsl/fsl_asrc_m2m.c                  |  8 +++-
+ 6 files changed, 109 insertions(+), 8 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.34.1
 
