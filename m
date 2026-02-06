@@ -1,86 +1,66 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228F22FE044
-	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 09:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC653624B1
+	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 09:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770371524; cv=none; b=KsjjuuS11yz7BJ2i2cUCw+aQd4y73qBawpfGdvJefO7Vjc1xhZ1Rq0vWomDv5C7vOvNhX/T1BmGIcVTxzehlYJ2YaM69XCaJ8N5vdaIR0QSZEuhzoiUNDOaKGpuVK0/KhKxy/Kwrx74+GHyeCJGgKCfQu4iRSn29PHcC3UfwFGw=
+	t=1770371937; cv=none; b=F+bY296F/CPbm8NuxkxhuYzcynODB2Lc9IkJZOkulQimn9hQfF6XmlD+7SzmBVjn9mOAXfUUXq1yJ5Wllt3lOBrJQSbR6N9NOFxOtYaaCuwWTN7N7iYCvoSVCjKiFH8HG5Mqfjg6qNDKoq4YYkHyd/sSpDbUjO7L8Arieim9KXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770371524; c=relaxed/simple;
-	bh=mYBee9Hggj8rVvtez+7n7E5QCcVPUnFcTz/sm/1IMXs=;
+	s=arc-20240116; t=1770371937; c=relaxed/simple;
+	bh=jEHVM2uAFpnYm9PtPyvn7k9l3RglrtAY0EfiLY0es90=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NpqEUzdE7tJ62AsPBCjdWGiQtvzVeOL15N+8EJnkNCfo4faHiqUGYS8Zy0U4yHeBnuor407MpZQaIava+S5RsmUJbAwXqYw4OZBqIGHFNzCugD7wBTJNQL4B56yQw1T2h6qGxm6DpkERAzG//NfRqA03AR6u04oz7mEDAXAvKE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UMuWGk/K; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=frUVE0ed; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=pVMe3qWufPz9UlGg/0h/MagCGiATqAFPO2gO7+5wiivlv8UuIWjEC3F8etgulIwnAyY/Lb9XvVjoX8e1Lmy71ZZF8EXKvSBskiqx67AXq9Q1NjjSE9g/3KRJm4o967oUdlJJZbVvRok4AR0vdRKodT9mbaSsJ7LbCZmhg2q2J5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ftapXC+n; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UMuWGk/K";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="frUVE0ed"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6167XdpE1852683
-	for <linux-sound@vger.kernel.org>; Fri, 6 Feb 2026 09:52:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tJl4PHjuM44K9kkjbDDtaJP+LO52a6d8NDjnT5ppwZk=; b=UMuWGk/KGBAoq+mg
-	gKSL8ho4mhJP+nvPmpTg+f3BSMYqpGd1Ee6gt7x4v8V9MMsjTTEZtvT7sqb16iR5
-	mYh+G3Az8Xkc4a8QGlUX2kDXems5CPDfSHaQfqUEXmQb1/SYa5WEU9ysM1u4TS/1
-	APXN0ROCuslcFODpcfMbUStHlSgJ0vj+WLBkWxMKsjspdk4ly3Z60zgPA1Vnf4Fa
-	PkrppbYkl20WKHJwMjlAkU0YBQ0BkaRt5I3am+JX/9tpV3qMoAX9HLjhLSIgZybK
-	JYONw4zG1eB3naEMR7vcLSS1mGRxm9qD7aR/h3mCmP/vS5I6C7P1Iu6qH6zAHqAP
-	2DvsAQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c5c148exx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 09:52:03 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c6b315185aso223253885a.2
-        for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 01:52:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ftapXC+n"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48327b8350dso1725515e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 01:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770371522; x=1770976322; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1770371935; x=1770976735; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tJl4PHjuM44K9kkjbDDtaJP+LO52a6d8NDjnT5ppwZk=;
-        b=frUVE0edL5wEpfBPU7HcYfq1FElDoVmV9jPXxi+58EpgXBCRpkVwvZg2mT/CXVPCRy
-         usOXR4H6SD73W4BsHx+eYBRfaiOjpipW/oiGl8xG9FA2SH7Eq5ZO2m0SwnKqG653v2x6
-         ufhyEd+J44yjLkZr9rn1HI1u4YWKbSpNc7cn2xNsUYsFPiOCXZbPCWdIl+tX0f5X35Hr
-         3KWjuEjv6ai9F3YEumTMZ/e1HLsadToRLEajhqNaZ+XPc/ugn5Ti4IvjNI92zD8dn1NG
-         oJNI5di5+E/Hspvc6UxCC2qlSk5U5nhgGYgGx+RPpLjm0tlerxrDmG8EzM/IWkYefdhc
-         YerQ==
+        bh=QFozp/2BFyrawQi8Bi3WGk4TGqqtNng52TReapzy6oA=;
+        b=ftapXC+njD6iuyDVMsjMkryPKO2duqrT+B6YKm8HS8w99MlkEtN9NyOWxN+d+qRc7v
+         wxNZ9xXOpsjCKQ4celJ85HAqf0FG2N3QyF74MMY+Oeu4/txiK4Uv+XgJ4bdNLdH8YAX2
+         tVQYydeLypiNdS9TTVZ1x8lzZtxD14MIx6jWw+2d0pIWnAAktSrcauSvTeQnm5SXSZbO
+         y1C7y0/68C1A+FjvzNwnsEKuiB5h+FRjNURq+CnCW7xEhEQVvayHjHiPW1AO38V/oKqp
+         ArkzJENwcveQIx4hJYGtBcSpgQWMO0xQgul6o8aknfs2rWwPECaEv7izA/pjSW4qq24P
+         MPNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770371522; x=1770976322;
+        d=1e100.net; s=20230601; t=1770371935; x=1770976735;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tJl4PHjuM44K9kkjbDDtaJP+LO52a6d8NDjnT5ppwZk=;
-        b=uC9V2up5Tq1HSYXGL2PYdkg7XDmEGUkT3Rs9XXyJMj+1p5H3kNPBaMolU9Qdh79XGw
-         lbjSkyOBVMkNEnPMc6ZWK4eZGBfhXHubQ7xJq7DUG6M4MbaI24r3pahESOx7m/St66JX
-         TOi4cqCihYZq380t1GSZLOmLlUb1KybZVttOpjKFmzu4xc3rngw/+kX8FFL5XvrbJ+uv
-         6aq/Pfp+4gQeyo9+pVrBYiFhrrVRV5/HfTLitpyD/UZ78g3ulU0GD/DcbUjO766j/z/U
-         maR2r7ACOZ+EYPolNUgKHtabIsw8rmVMuzmX5YvZ/VJs+wokE4E+LjRM+m9LD93DzcH+
-         Ogcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdZ3kLbgYc5wUVYjnyQeYnuG6VTHRs4S4Q+j1/g2TepgexmLxT5tq87L7PC+QngE0M/gqddfIzByP9lw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2Gju9aGcEbVt7SpjUhya8JXkBUx5IWlxStCspjvMNmJLYxeQ9
-	LgDWZQjekiXe3QiclHrTnY4UHL+g0fIYtM5wTgTLaTofLFqpya6/zUX5m0sVL0rZl5oZu0eAejy
-	+ukWdwG37Rc/NDk8j5qBOyxEbQzqDFNjRuLSg48/5XaeZoe9kFrbOT5ZNa0cMrClsIQ==
-X-Gm-Gg: AZuq6aJUa2/+IiJo6i69Cgn6fGdoSilYzwYhX9RD9247wiw8YNmM26crb0+xz+PwvwJ
-	f8C2SCiFJZWoJ2eWEyXxEm/WQ3wkJwjKgGyZcZ371INTJCAWvV2di1U/cIfMJGYXjt53SCBEi1V
-	hmzhHL7IxCqiQHMzC07fJNSPZKFY81qivjLb9k43obts1b/LiURVnEUqFJmjcfQvBjXWXmG+6yS
-	LXYaF2FEBoOkMlFZxEvGFvD/+sKcekirkht2X+Yck/Op1CWgTVNyMnD4hwABl31uBL2xZcijZ46
-	7OFobayn2JXc5DOl1yKFXgb8rLGbbbRxDu2eZt/LuTj9aonYUPNBuK0FgaFQvqAxBLufc6YnQc0
-	q3+mi2TmTKNdV/Agcr1JFJKGQiQn9R+K3Tx5p
-X-Received: by 2002:a05:620a:28c5:b0:8b8:dd7f:f032 with SMTP id af79cd13be357-8caf17e4993mr252606285a.78.1770371522519;
-        Fri, 06 Feb 2026 01:52:02 -0800 (PST)
-X-Received: by 2002:a05:620a:28c5:b0:8b8:dd7f:f032 with SMTP id af79cd13be357-8caf17e4993mr252604185a.78.1770371522136;
-        Fri, 06 Feb 2026 01:52:02 -0800 (PST)
-Received: from [192.168.68.118] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4362974527fsm5024424f8f.31.2026.02.06.01.52.01
+        bh=QFozp/2BFyrawQi8Bi3WGk4TGqqtNng52TReapzy6oA=;
+        b=K+YfeCoJn21qKhIaU8/jWwQO0Ez9TbnfXHIIrqqa/jOqW6wQFk03syXOr+2Pdk6xxE
+         mo/wui+FIVKKqvHkNBM+fNrBIItssfwIPxD7MShICVa8JjOoSwK6MRzTZNIAL/Cs+2vV
+         TKOXhRt8ThRI5DoEqIIfLZN7k+Uili+eIhlDrgMp73SShvbXeryUwzysOw62uwdBtag/
+         dN65bYbsJFpD+7Sp9N+XpfmWGUsQiNxLo5vqpU7Y0ijdXiYgdt2x4mC40XjXCTBqWwMI
+         NlGLFA3tJizkEFLaX6mfGdzXYX0SyTDbtvKXf9cFy3IwnB2+H0rnyOuh+EGldMLhyuUK
+         wzIg==
+X-Forwarded-Encrypted: i=1; AJvYcCXcdmx42wt+zMwfyhPPwmNIbY/nkO9E7xVhSvnIv7yExMG++JhB8ryDXIM2CB1S9q7OTEyDKSxi4aUhQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtYKMdbuBukcmL6xm4hA5A2kc9dnLVN0kzm18uB8QUKSK/85RO
+	Blewp15cW/ncQdtfZdkreHU7lqi70c+MMo+1oXmQMNOazrmwvsbfv4VUwgQCaRA3vZA=
+X-Gm-Gg: AZuq6aJfOAc7DVvCQ4aSqjO/SLoW+dtgwmRboI3G9jBBwbN7geQZb4xQBTLmlURmsR3
+	CcXsoZOLT82jYyMOmoumb/+aUC9pu/7wwxuluRpFHtiRyZO4orEYDC+MF7abgQ2uXtL17jiQWg6
+	fXxE4W7tgVqcFad3GCIfanY9R+wcPniNVuFJKbHmOfq819tLuYfd+3SrsnlCYVbzBRZHJMZImPl
+	O0sorPWl9fco8ZOIPaJfr5QCXxSuifU5OiQ5yQYAdnUeZHb1tQ98zClgXx8NFvnzEVuDB4FzUf6
+	63l1cgTooxFi/5w5+wMnNq2w6BxI15BlFl9abmkJ0rif3FvNopyvCVu9een8HgQryL8aWOecqZS
+	8JG6yfkIHVNNzoFia34ygUuLclI968Uuo+UbLNXwhtcNvimVwRdknOCquKiW3IcmBkzQsYiL4Kd
+	qQeDRSOC69TkVKx4cghL8=
+X-Received: by 2002:a05:600c:470c:b0:477:7ae0:cd6e with SMTP id 5b1f17b1804b1-483201daa3amr29029995e9.5.1770371934663;
+        Fri, 06 Feb 2026 01:58:54 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.215])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296c0f2esm4622854f8f.19.2026.02.06.01.58.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Feb 2026 01:52:01 -0800 (PST)
-Message-ID: <6b12d222-f0ad-449d-a1b7-5c605c7def81@oss.qualcomm.com>
-Date: Fri, 6 Feb 2026 04:52:00 -0500
+        Fri, 06 Feb 2026 01:58:54 -0800 (PST)
+Message-ID: <4dd522fe-8143-4423-b428-2774a185ad73@tuxon.dev>
+Date: Fri, 6 Feb 2026 11:58:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,62 +68,173 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] ASoC: qcom: q6apm: fix array out of bounds on lpass
- ports
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, srini@kernel.org, perex@perex.cz, tiwai@suse.com,
-        alexey.klimov@linaro.org, mohammad.rafi.shaik@oss.qualcomm.com,
-        quic_wcheng@quicinc.com, johan@kernel.org,
-        dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stable@vger.kernel.org
-References: <20260205171411.34908-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260205171411.34908-2-srinivas.kandagatla@oss.qualcomm.com>
- <a8706da6-20fb-456e-a428-4c7b2c5bc26b@sirena.org.uk>
+Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+To: Biju Das <biju.das.jz@bp.renesas.com>, geert <geert@linux-m68k.org>
+Cc: "vkoul@kernel.org" <vkoul@kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
+ <16a6f14a-93e6-472c-8718-d46972f0ac5e@tuxon.dev>
+ <TY3PR01MB113463BE8A4B1A40DBB0860538693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <5438ccc8-ed5a-4dd6-8995-e8e9926883a5@tuxon.dev>
+ <TY3PR01MB11346325F46C2BCA6B2B181D08693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <ad752abc-275b-43ca-aec3-188c1a69c50b@tuxon.dev>
+ <TY3PR01MB113460006A458AB2F8B96542C8693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <TY3PR01MB11346C8AD27554E40EC5746E38693A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <7f0305f6-ae2d-4069-b53a-d2a81e75d164@tuxon.dev>
+ <TY3PR01MB11346321A9AAE93C7070C6E578699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CAMuHMdWUpq1bUbNLu4WGheovQ1pYdEJGBMN3jdb6PZqXanN_GA@mail.gmail.com>
+ <TY3PR01MB1134661E4B93CE785700FC5AF8699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <32ea84f2-621a-47d9-a661-9acd62d50662@tuxon.dev>
+ <TY3PR01MB113460619AE8C46BC674B28078699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <a8706da6-20fb-456e-a428-4c7b2c5bc26b@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=P5k3RyAu c=1 sm=1 tr=0 ts=6985b9c3 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=MH57ECg2-oXzDb99KDQA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDA2NiBTYWx0ZWRfX5hrclneTMJh8
- 937zdYTn+CxSbZeUtMyo5SMyRd3t1wcSatbwHbfBrOY1PVa9OrSrizF0l+4ypjFb0ua+CoFMypv
- ETgRzfSEWk3USQp//DUVaLPZXVZGt2CI/u0q2xyWSJ1hfkGB+2hryesrnvD8XLpy1DAle+LNehg
- kjqETruXuY0EgUUUttEg5yJmX8I30tTeXEwyvyPrIbvzIok2qczDuy9EG4MUR8IS1fn55v5waxx
- huVxPwuzqlrRdM34WnidH89Hvv6OtgzwoOV5vP4thjlndhnanTCl/1SvICdW5inf5VvLF3s6Tbj
- 6jppiZnDywm3BkKEHMvAoTTFSnszhctSuC0KWZZxNXZxdeBqfsrH4aoPxpSwr5xxEQXgx1hSfhb
- qyfaXxBU8VbWJkg6j6iU+0QS5DGj/NIq3jI8xhfLgMvlBVQg5ETdPNfIvC9lLS38R6yICcQ1d4l
- oqCssz8NAmW+JKdPULw==
-X-Proofpoint-ORIG-GUID: pHqFV-CocfHHsRMEQm-dxmVyWgX9k6b4
-X-Proofpoint-GUID: pHqFV-CocfHHsRMEQm-dxmVyWgX9k6b4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-06_03,2026-02-05_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602060066
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TY3PR01MB113460619AE8C46BC674B28078699A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2/5/26 12:46 PM, Mark Brown wrote:
-> On Thu, Feb 05, 2026 at 12:14:02PM -0500, Srinivas Kandagatla wrote:
->> lpass ports numbers have been added but the apm driver never got updated
->> with new max port value that it uses to store dai specific data.
->>
->> This will result in array out of bounds and weird driver behaviour.
->> Fix this by adding a new LPASS_MAX_PORT which is can be used by driver
->> instead of using number and any new port additional can only be done in
->> one place, which should avoid these type of mistakes in future.
+Hi, Biju,
+
+On 2/5/26 19:41, Biju Das wrote:
+> Hi Claudiu,
 > 
-> It would probably be good to improve the valdiation in the driver when
-> it starts using port numbers.
-Good idea, will try that out in next spin.
---srini
+>> -----Original Message-----
+>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>> Sent: 05 February 2026 17:21
+>> Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+>>
+>> Hi, Biju,
+>>
+>> On 2/5/26 16:06, Biju Das wrote:
+>>> Hi Geert,
+>>>
+>>>> -----Original Message-----
+>>>> From: Geert Uytterhoeven <geert@linux-m68k.org>
+>>>> Sent: 05 February 2026 13:34
+>>>> Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM
+>>>> support
+>>>>
+>>>> Hi Biju,
+>>>>
+>>>> On Thu, 5 Feb 2026 at 14:30, Biju Das <biju.das.jz@bp.renesas.com> wrote:
+>>>>>> From: Claudiu Beznea <claudiu.beznea@tuxon.dev> On 1/26/26 17:28,
+>>>>>> Biju Das wrote:
+>>>>>>>> For s2idle issue on RZ/G3L is DMA device is in asserted state,
+>>>>>>>> not forwarding any IRQ to cpu for wakeup.
+>>>>>>>>
+>>>>>>>> For S2RAM issue on RZ/G3L is during suspend hardware turns
+>>>>>>>> DMAACLK off/ Asserted state. Clock framwork is not turning On DMAACLK as it critical clk.
+>>>>>>>>
+>>>>>>>> Can you please check your TF-A for the second case? First case,
+>>>>>>>> RZ/G3S may ok for reset assert state, it can forward IRQs to CPU.
+>>>>>>>
+>>>>>>> Just to summarize, currently there are 2 differences identified between RZ/G3S and RZ/G3L:
+>>>>>>>
+>>>>>>> SoC differences for s2idle:
+>>>>>>>
+>>>>>>> RZ/G3S: Can wake the system if the DMA device is in the assert
+>>>>>>> state
+>>>>>>>
+>>>>>>> RZ/G3L: Cannot wake the system if the DMA device is in the assert state.
+>>>>>>>
+>>>>>>>
+>>>>>>> TF-A differences for s2ram:
+>>>>>>>
+>>>>>>> RZ/G3S: TF_A turns on DMA_ACLK during boot/resume.
+>>>>>>>
+>>>>>>> RZ/G3L: TF_A does not handle DMA_ACLK during boot/resume.
+>>>>>>
+>>>>>> I'm seeing at [1] you are addressing these differences in the
+>>>>>> clock/reset drivers. With that, are you still considering this patch is breaking your system?
+>>>>>
+>>>>> Still, thinking whether to add critical reset or go with SoC quirk in DMA driver.
+>>>>> Some SoCs need DMA should be deasserted like critical clock that can
+>>>>> be handled either
+>>>>>
+>>>>> 1) Add a simple SoC quirk in DMA driver
+>>>>>
+>>>>> Or
+>>>>>
+>>>>> 2) Implement critical reset in SoC specific clock driver and check for all resets.
+>>>>>
+>>>>> Is simple SoC quirk in DMA driver, something can be done for RZ/G2L family SoCs?
+>>>>
+>>>> What if the DMA driver is not enabled?
+>>>
+>>> The below use cases will work (patch[1] - removing the code for
+>>> deassert in cpg_resume) as there is no DMA driver to assert the reset.
+>>>
+>>> 1) system will boot without DMA driver
+>>> 2) s2idle will work as there is no DMA driver to assert the reset.
+>>> 3) s2ram will work without DMA driver.
+>>>
+>>> If DMA driver is enabled, then there is an issue with  s2idle as DMA
+>>> driver assert the reset and we cannot use serial console as wakeup
+>>> source
+>>
+>> I think we're taking here about both DMA clocks and resets.
+>>
+>> What if the DMA clocks are declared critical in Linux and clocks and resets are not handled by
+>> bootloader in probe or resume? Who will restore critical clocks?
+> 
+> Patch [1] will restore critical clocks.
+>>
+>>>
+>>> One solution is SoC quirk will prevent assert/deassert  of the DMA
+>>> reset during
+>>> suspend/resume() for affected SoCs.
+>>
+>> This can't work w/o taking care of the DMA clocks in the clock driver resume function (in case DMA
+>> clocks are critical). If so, why handling DMA clocks and resets differently?
+> 
+> 
+> What will you prefer
+> 
+> a single check in suspend/resume of DMA driver?
+> 
+> Or
+> 
+> Around 100 checks in suspend/resume in clock driver for checking critical resets for skipping DMA reset?
 
+I see no conditions in your code. Just raw writes for DMA clocks and resets. I 
+suspect the intention for v2 is to loop over all the resets in the resume path 
+to find the critical one.
+
+While reviewing it I asked to avoid asserting the DMA resets on reset assert 
+API. That could be handled either by adding the concept of critical assert in 
+the reset driver (or framework) of by just checking directly the reset ID to 
+match the DMA reset ID (as this is the only critical reset identified at the 
+moment).
+
+To answer you, my personal taste would be:
+- to handle the setup of the critical clocks and resets in a single driver, for
+   probe and suspend/resume as well
+- to handle it in a SoC specific code as this is micro-architecture specific
+   issue; this problem is only for some of the SoCs, if I'm not wrong; the
+   manuals for some of the SoCs using this DMA driver states the following
+   (RZ/G3S HW manual, Rev.1.20., chapter 8.8.1):
+
+In addition, need following register settings *even if DMA controller is not used*.
+
+● Set CPG_CLKON_DMAC_REG register to supply a clock for DMA Controller.
+
+Refer to Section 7.2.4, Clock Control Register DMAC_REG for register detail.
+
+● Set CPG_RST_DMAC register to release a reset for DMA Controller.
+
+Refer to Section 7.2.4, Reset Control Register DMAC for register detail.
+
+Geert, Vinod: could you please let us know how would you like us to handle this?
+
+Thank you,
+Claudiu
