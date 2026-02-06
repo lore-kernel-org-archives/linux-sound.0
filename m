@@ -1,200 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F78350A17
-	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 09:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228F22FE044
+	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 09:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770371119; cv=none; b=CHQvKt8cWChY4PXc5ro3azhhAN1gv4ku07UKCA1a7xMtewULpp9cVPr14zVOgGYh1tgkbaLHghnCgraWs4hushBHS0othfAQeIach2kX4q/21l34qNF2BDpqv8cwoGHcwSmVF05GpEXj4EtyFybdhLjRSNwRUXknbPusCUmbbn8=
+	t=1770371524; cv=none; b=KsjjuuS11yz7BJ2i2cUCw+aQd4y73qBawpfGdvJefO7Vjc1xhZ1Rq0vWomDv5C7vOvNhX/T1BmGIcVTxzehlYJ2YaM69XCaJ8N5vdaIR0QSZEuhzoiUNDOaKGpuVK0/KhKxy/Kwrx74+GHyeCJGgKCfQu4iRSn29PHcC3UfwFGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770371119; c=relaxed/simple;
-	bh=PzFwXnhVlPMQz9czgCDLFhlAddyJb1P0AjEtW3rYpJ4=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=cNeOBzQdlnSeT9pNxV8vOADuAu/cKOm/bDHmzKYhGNNFJc2o0TUagWska+K8XSfkhIFQvCwKlAHPuO0mpdDvwGn857kweI/3U+pqhuAW3c8u1uV9o651sO5ksMIAoA6dRZid4iATIqI3W3kaQBG6kaX4U4yPWBJH5dUva91s6Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dDkDTNoP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X4vZG2pJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dDkDTNoP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X4vZG2pJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1770371524; c=relaxed/simple;
+	bh=mYBee9Hggj8rVvtez+7n7E5QCcVPUnFcTz/sm/1IMXs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NpqEUzdE7tJ62AsPBCjdWGiQtvzVeOL15N+8EJnkNCfo4faHiqUGYS8Zy0U4yHeBnuor407MpZQaIava+S5RsmUJbAwXqYw4OZBqIGHFNzCugD7wBTJNQL4B56yQw1T2h6qGxm6DpkERAzG//NfRqA03AR6u04oz7mEDAXAvKE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UMuWGk/K; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=frUVE0ed; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dDkDTNoP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X4vZG2pJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dDkDTNoP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X4vZG2pJ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 304553E6D4;
-	Fri,  6 Feb 2026 09:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770371117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
-	b=dDkDTNoPQo7taO0pFxjF87kgT0adenNvxS7swssMLxoRJOOD8JLQ9z327694wuNwl66jx0
-	9EE2mBN7WsxsEdF62PAcl+YutD9sh1/Vn26qrjz29TftPeh1nSYahFCIplC5O6xOL9aWbu
-	D2f6jgJ9GV+NhmY5GH+BGM1Bf6qb6xI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770371117;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
-	b=X4vZG2pJAG4SLyJ/i2r+rkWCGaXP1fcqzZ5sASUm0ogK8zdzOeKce2c4QBGsWElwZ8VXjv
-	85eSezb7nYrGeCAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dDkDTNoP;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X4vZG2pJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770371117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
-	b=dDkDTNoPQo7taO0pFxjF87kgT0adenNvxS7swssMLxoRJOOD8JLQ9z327694wuNwl66jx0
-	9EE2mBN7WsxsEdF62PAcl+YutD9sh1/Vn26qrjz29TftPeh1nSYahFCIplC5O6xOL9aWbu
-	D2f6jgJ9GV+NhmY5GH+BGM1Bf6qb6xI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770371117;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
-	b=X4vZG2pJAG4SLyJ/i2r+rkWCGaXP1fcqzZ5sASUm0ogK8zdzOeKce2c4QBGsWElwZ8VXjv
-	85eSezb7nYrGeCAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0F4A3EA63;
-	Fri,  6 Feb 2026 09:45:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S3TSNCy4hWkUQwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Feb 2026 09:45:16 +0000
-Date: Fri, 06 Feb 2026 10:45:16 +0100
-Message-ID: <87h5rub3yr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.19
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UMuWGk/K";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="frUVE0ed"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6167XdpE1852683
+	for <linux-sound@vger.kernel.org>; Fri, 6 Feb 2026 09:52:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tJl4PHjuM44K9kkjbDDtaJP+LO52a6d8NDjnT5ppwZk=; b=UMuWGk/KGBAoq+mg
+	gKSL8ho4mhJP+nvPmpTg+f3BSMYqpGd1Ee6gt7x4v8V9MMsjTTEZtvT7sqb16iR5
+	mYh+G3Az8Xkc4a8QGlUX2kDXems5CPDfSHaQfqUEXmQb1/SYa5WEU9ysM1u4TS/1
+	APXN0ROCuslcFODpcfMbUStHlSgJ0vj+WLBkWxMKsjspdk4ly3Z60zgPA1Vnf4Fa
+	PkrppbYkl20WKHJwMjlAkU0YBQ0BkaRt5I3am+JX/9tpV3qMoAX9HLjhLSIgZybK
+	JYONw4zG1eB3naEMR7vcLSS1mGRxm9qD7aR/h3mCmP/vS5I6C7P1Iu6qH6zAHqAP
+	2DvsAQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c5c148exx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 09:52:03 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c6b315185aso223253885a.2
+        for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 01:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1770371522; x=1770976322; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tJl4PHjuM44K9kkjbDDtaJP+LO52a6d8NDjnT5ppwZk=;
+        b=frUVE0edL5wEpfBPU7HcYfq1FElDoVmV9jPXxi+58EpgXBCRpkVwvZg2mT/CXVPCRy
+         usOXR4H6SD73W4BsHx+eYBRfaiOjpipW/oiGl8xG9FA2SH7Eq5ZO2m0SwnKqG653v2x6
+         ufhyEd+J44yjLkZr9rn1HI1u4YWKbSpNc7cn2xNsUYsFPiOCXZbPCWdIl+tX0f5X35Hr
+         3KWjuEjv6ai9F3YEumTMZ/e1HLsadToRLEajhqNaZ+XPc/ugn5Ti4IvjNI92zD8dn1NG
+         oJNI5di5+E/Hspvc6UxCC2qlSk5U5nhgGYgGx+RPpLjm0tlerxrDmG8EzM/IWkYefdhc
+         YerQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770371522; x=1770976322;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tJl4PHjuM44K9kkjbDDtaJP+LO52a6d8NDjnT5ppwZk=;
+        b=uC9V2up5Tq1HSYXGL2PYdkg7XDmEGUkT3Rs9XXyJMj+1p5H3kNPBaMolU9Qdh79XGw
+         lbjSkyOBVMkNEnPMc6ZWK4eZGBfhXHubQ7xJq7DUG6M4MbaI24r3pahESOx7m/St66JX
+         TOi4cqCihYZq380t1GSZLOmLlUb1KybZVttOpjKFmzu4xc3rngw/+kX8FFL5XvrbJ+uv
+         6aq/Pfp+4gQeyo9+pVrBYiFhrrVRV5/HfTLitpyD/UZ78g3ulU0GD/DcbUjO766j/z/U
+         maR2r7ACOZ+EYPolNUgKHtabIsw8rmVMuzmX5YvZ/VJs+wokE4E+LjRM+m9LD93DzcH+
+         Ogcg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdZ3kLbgYc5wUVYjnyQeYnuG6VTHRs4S4Q+j1/g2TepgexmLxT5tq87L7PC+QngE0M/gqddfIzByP9lw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2Gju9aGcEbVt7SpjUhya8JXkBUx5IWlxStCspjvMNmJLYxeQ9
+	LgDWZQjekiXe3QiclHrTnY4UHL+g0fIYtM5wTgTLaTofLFqpya6/zUX5m0sVL0rZl5oZu0eAejy
+	+ukWdwG37Rc/NDk8j5qBOyxEbQzqDFNjRuLSg48/5XaeZoe9kFrbOT5ZNa0cMrClsIQ==
+X-Gm-Gg: AZuq6aJUa2/+IiJo6i69Cgn6fGdoSilYzwYhX9RD9247wiw8YNmM26crb0+xz+PwvwJ
+	f8C2SCiFJZWoJ2eWEyXxEm/WQ3wkJwjKgGyZcZ371INTJCAWvV2di1U/cIfMJGYXjt53SCBEi1V
+	hmzhHL7IxCqiQHMzC07fJNSPZKFY81qivjLb9k43obts1b/LiURVnEUqFJmjcfQvBjXWXmG+6yS
+	LXYaF2FEBoOkMlFZxEvGFvD/+sKcekirkht2X+Yck/Op1CWgTVNyMnD4hwABl31uBL2xZcijZ46
+	7OFobayn2JXc5DOl1yKFXgb8rLGbbbRxDu2eZt/LuTj9aonYUPNBuK0FgaFQvqAxBLufc6YnQc0
+	q3+mi2TmTKNdV/Agcr1JFJKGQiQn9R+K3Tx5p
+X-Received: by 2002:a05:620a:28c5:b0:8b8:dd7f:f032 with SMTP id af79cd13be357-8caf17e4993mr252606285a.78.1770371522519;
+        Fri, 06 Feb 2026 01:52:02 -0800 (PST)
+X-Received: by 2002:a05:620a:28c5:b0:8b8:dd7f:f032 with SMTP id af79cd13be357-8caf17e4993mr252604185a.78.1770371522136;
+        Fri, 06 Feb 2026 01:52:02 -0800 (PST)
+Received: from [192.168.68.118] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4362974527fsm5024424f8f.31.2026.02.06.01.52.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Feb 2026 01:52:01 -0800 (PST)
+Message-ID: <6b12d222-f0ad-449d-a1b7-5c605c7def81@oss.qualcomm.com>
+Date: Fri, 6 Feb 2026 04:52:00 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 304553E6D4
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] ASoC: qcom: q6apm: fix array out of bounds on lpass
+ ports
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, srini@kernel.org, perex@perex.cz, tiwai@suse.com,
+        alexey.klimov@linaro.org, mohammad.rafi.shaik@oss.qualcomm.com,
+        quic_wcheng@quicinc.com, johan@kernel.org,
+        dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stable@vger.kernel.org
+References: <20260205171411.34908-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260205171411.34908-2-srinivas.kandagatla@oss.qualcomm.com>
+ <a8706da6-20fb-456e-a428-4c7b2c5bc26b@sirena.org.uk>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <a8706da6-20fb-456e-a428-4c7b2c5bc26b@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=P5k3RyAu c=1 sm=1 tr=0 ts=6985b9c3 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=MH57ECg2-oXzDb99KDQA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDA2NiBTYWx0ZWRfX5hrclneTMJh8
+ 937zdYTn+CxSbZeUtMyo5SMyRd3t1wcSatbwHbfBrOY1PVa9OrSrizF0l+4ypjFb0ua+CoFMypv
+ ETgRzfSEWk3USQp//DUVaLPZXVZGt2CI/u0q2xyWSJ1hfkGB+2hryesrnvD8XLpy1DAle+LNehg
+ kjqETruXuY0EgUUUttEg5yJmX8I30tTeXEwyvyPrIbvzIok2qczDuy9EG4MUR8IS1fn55v5waxx
+ huVxPwuzqlrRdM34WnidH89Hvv6OtgzwoOV5vP4thjlndhnanTCl/1SvICdW5inf5VvLF3s6Tbj
+ 6jppiZnDywm3BkKEHMvAoTTFSnszhctSuC0KWZZxNXZxdeBqfsrH4aoPxpSwr5xxEQXgx1hSfhb
+ qyfaXxBU8VbWJkg6j6iU+0QS5DGj/NIq3jI8xhfLgMvlBVQg5ETdPNfIvC9lLS38R6yICcQ1d4l
+ oqCssz8NAmW+JKdPULw==
+X-Proofpoint-ORIG-GUID: pHqFV-CocfHHsRMEQm-dxmVyWgX9k6b4
+X-Proofpoint-GUID: pHqFV-CocfHHsRMEQm-dxmVyWgX9k6b4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-06_03,2026-02-05_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602060066
 
-Linus,
-
-please pull sound fixes for v6.19 from:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19
-
-The topmost commit is 51db05283f7c9c95a3e6853a3044cd04226551bf
-
-----------------------------------------------------------------
-
-sound fixes for 6.19
-
-A collection of small fixes.  It became a bit larger than wished,
-but all of them are device-specific small fixes, and it should be
-still fairly safe to take at the last minute.
-
-Included are a few quirks and fixes for Intel, AMD, HD-audio, and
-USB-audio, as well as a race fix in aloop driver and corrections
-of Cirrus firmware kunit test
-
-----------------------------------------------------------------
-
-Bard Liao (1):
-      ASoC: SOF: Intel: use hdev->info.link_mask directly
-
-Breno Baptista (1):
-      ALSA: hda/realtek: Enable headset mic for Acer Nitro 5
-
-Charles Keepax (1):
-      ASoC: cs42l43: Correct handling of 3-pole jack load detection
-
-Chris Bainbridge (1):
-      ASoC: amd: fix memory leak in acp3x pdm dma ops
-
-Dirk Su (1):
-      ASoC: amd: yc: Add quirk for HP 200 G2a 16
-
-Frank Li (1):
-      ASoC: dt-bindings: ti,tlv320aic3x: Add compatible string ti,tlv320aic23
-
-Maciej Strozek (1):
-      ASoC: sof_sdw: Add a quirk for Lenovo laptop using sidecar amps with cs42l43
-
-Richard Fitzgerald (1):
-      firmware: cs_dsp: rate-limit log messages in KUnit builds
-
-Sergey Shtylyov (1):
-      ALSA: usb-audio: fix broken logic in snd_audigy2nx_led_update()
-
-Shuming Fan (1):
-      ASoC: rt1320: fix intermittent no-sound issue
-
-Tagir Garaev (1):
-      ASoC: Intel: sof_es8336: Add DMI quirk for Huawei BOD-WXX9
-
-Takashi Iwai (1):
-      ALSA: aloop: Fix racy access at PCM trigger
-
-Ziyi Guo (1):
-      ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
-
----
- .../devicetree/bindings/sound/ti,tlv320aic3x.yaml  |  1 +
- drivers/firmware/cirrus/cs_dsp.c                   | 37 +++++++++++++
- drivers/firmware/cirrus/cs_dsp.h                   | 18 +++++++
- drivers/firmware/cirrus/test/cs_dsp_test_bin.c     | 22 +++++++-
- .../firmware/cirrus/test/cs_dsp_test_bin_error.c   | 24 ++++++---
- drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c    | 26 ++++++++-
- .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  | 24 ++++++---
- drivers/firmware/cirrus/test/cs_dsp_tests.c        |  1 +
- sound/drivers/aloop.c                              | 62 +++++++++++++---------
- sound/hda/codecs/realtek/alc269.c                  |  1 +
- sound/soc/amd/renoir/acp3x-pdm-dma.c               |  2 +
- sound/soc/amd/yc/acp6x-mach.c                      |  7 +++
- sound/soc/codecs/cs42l43-jack.c                    | 37 ++++++++++---
- sound/soc/codecs/rt1320-sdw.c                      |  2 +
- sound/soc/fsl/fsl_xcvr.c                           |  3 ++
- sound/soc/intel/boards/sof_es8336.c                |  9 ++++
- sound/soc/sof/intel/hda.c                          |  5 +-
- sound/usb/mixer_quirks.c                           |  9 +---
- 18 files changed, 234 insertions(+), 56 deletions(-)
- create mode 100644 drivers/firmware/cirrus/cs_dsp.h
+On 2/5/26 12:46 PM, Mark Brown wrote:
+> On Thu, Feb 05, 2026 at 12:14:02PM -0500, Srinivas Kandagatla wrote:
+>> lpass ports numbers have been added but the apm driver never got updated
+>> with new max port value that it uses to store dai specific data.
+>>
+>> This will result in array out of bounds and weird driver behaviour.
+>> Fix this by adding a new LPASS_MAX_PORT which is can be used by driver
+>> instead of using number and any new port additional can only be done in
+>> one place, which should avoid these type of mistakes in future.
+> 
+> It would probably be good to improve the valdiation in the driver when
+> it starts using port numbers.
+Good idea, will try that out in next spin.
+--srini
 
