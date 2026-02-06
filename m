@@ -1,150 +1,316 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011067.outbound.protection.outlook.com [52.101.70.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B91B328241;
-	Fri,  6 Feb 2026 16:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770394809; cv=none; b=m1wcFcIJHZ8ZqwkVIrLthAbg/LClz4J9LGa5MQiDb5xGkoHzVSquwnvmSVFpFg3houEvzbx+inxQlL870vz+YtsnQO8yZ6zrj7yJwwdZxbQwZmd4hirif0jAPiKqL1qCXmUegtI4IrUbTsz4DsdZWjIWrJ1F1zMeIqu8WepmVOo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770394809; c=relaxed/simple;
-	bh=f0XDwV9tjto381cHBE9tb6ddkN7CanMXtXtA+02cOqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P6lihmbzc6E4iVNHtVL7bqGnKmWJcbnnFFSGaMOix8jTaQOtLzL4dtyrlolSDAXvqGOKxk/Zb/IjDz6IxXDVimfC1F4kdUcbNK0L+K60t08mwIZBZxlHMbJm8WtXw9KnSfYo0G7w5Btet2PJzisdiejFoePHWfAUaL6CLJfVjGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QAlvcnm5; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C4632E132;
+	Fri,  6 Feb 2026 16:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770396240; cv=fail; b=uP9xKctH+J4GpQ2mOgWBM10aLYZH1IoIwjt6NMOkYLl4ftoG4IQRLST+yIsaAoqNqGsRdEl7+PPU7bn8OglZ7pBOE9B+9sNEPaENGhWdNgakcj0UKiYxWniuLAX0okcPu4+c89F0FgzAtdxSBAsAQVQ8AFQ0OUDFFuupDu6mtZY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770396240; c=relaxed/simple;
+	bh=VdOteclqLhcEJ0CUiEmc/ch2OKeUVcPGHqjCqBnEKgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qPa2m/KqD5v9ZBFTbcWjQuTgB5Jt6p0mOHpyz87i+OUMIVOnhY/h50OjIlPYQmdn7xxRViYNR4p+N11FMOFuKt5VAmQp2q60SaUlHtasS56uZWdrfAO6POtzqHJNdnyFugMJ3GVzzCBOM7Z8QS0SzKxqQulXbBSSh4/dYt8DCqk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jsDRl2uo; arc=fail smtp.client-ip=52.101.70.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QAlvcnm5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770394809; x=1801930809;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f0XDwV9tjto381cHBE9tb6ddkN7CanMXtXtA+02cOqU=;
-  b=QAlvcnm5lV5j1YwFRp0D8IVfTMh549R5zcPfMS/l+rzVAnpKAKtgQsK5
-   awGnKU3ndqtyUI0Z+s3JCY0eKHzb1mhUeBlB43Ie0qR1g0O7HFO7cyTpf
-   cPfMcyX9pZsEXociwjp8Awon7jW9m0E/27qiBTpmVoRFb0XtsFoGUKs1Q
-   SedT4QwYDoh/sN/5As0OAT9N1+Go98N8kRhU45RyFvcxHTva+hMG20mR7
-   GKMQ1tX9OT7N/vQPeY5/1f4fxHiX2MK81c6MbtbfTplq8/9FIedYKlWNL
-   7HxAR8v8TmjswSZMtcaZxOB+h7MKcDb54VCeiMiO4fi+23yRbzKgZ3pO3
-   g==;
-X-CSE-ConnectionGUID: CowXNkDmSniEZbaARtrLDg==
-X-CSE-MsgGUID: a6wf11SyR+ipzzGVyYNjzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75224963"
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="75224963"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 08:20:08 -0800
-X-CSE-ConnectionGUID: eEkGmmJjQXC8p+o7zp96Fw==
-X-CSE-MsgGUID: 8nvw3XAgQKK8jD09amGXiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="215085419"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Feb 2026 08:20:05 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voOYs-00000000ktM-1Zd1;
-	Fri, 06 Feb 2026 16:20:02 +0000
-Date: Sat, 7 Feb 2026 00:19:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] ASoC: fsl_xcvr: add bitcount and timestamp controls
-Message-ID: <202602070032.CtJMTCOn-lkp@intel.com>
-References: <20260206084334.483404-3-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jsDRl2uo"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TTbExGVlYS78Q2yudSYWCfBhXIqbqINxxRtQgdh72EBAw6yNL8bVbl9we7A7heYnmpLwZ/akQSaG8iS2rfoL2sMacKA80rbfvV0p92F6ODqnxLe2hxu0M/ASn2KixQOG/8T9NnZmnm9AyRzRBMFwkcgcfRVbGklFprG7dTTo+22RaHLu5+L11VYwkMbIjNhIdUNVn2OsW6JwXiqsZ1jRCctXAXXcbpvZtj2MoxFBak0Pyho07BhvrM+7nKJdeT4+pFseWFIkNPqiUhVaWfwFJ/C/CAFaWc4oJX0RzlgK5Zymu7dRMF5qHKaiOdnpB39xwibTJfOOL8mk2aRQ9JDq0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nFLaBjjK09rniIiVhCXK3VZjRMWijSK6xBMP31roE4M=;
+ b=pg9aCTDhFEmiQf6qQ+NvWKDGmYFGNcQQdSoAu/hLNYkSD9rnYH30tSyO8kAqIHS4i7JL6iaMXxDbJtcnNu0j09DpdmS4C+9op1pYlldnmcGp6W93Gs7M174y3kb5toz/Te5KYRRiPgNImhtR548mTIFHhdRHWWqHwO20hwmHgDZPHbnzKIBSJQsOSr51HDAD5XAVkkoEBgtIee2BJrGNe8stDo4VnJjc4HV2kzupTBgXdXjn1hHyeC0cF8PvuKihCOPeATim2vJ0zgFnNde17wIbwh+v0LBjxZpglDHN6eEsmCFNj7h4wH7qCYhM2jG/4m1AceVHNHWp/2xoasjxNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nFLaBjjK09rniIiVhCXK3VZjRMWijSK6xBMP31roE4M=;
+ b=jsDRl2uoL35Go1NzcUPfUIA1h3syfiY6pnrb9Y6PTyPz6PV6x4xCkZkmBLntvZ7x4Gnc8k1/ox/slut43oTmZcxi0FISMZqPPRYkLzi7FHF4aqHW14x7RBrFrskx3Mn6ctDxGlvs5lMASyA7LL09mK8Pq/5/A4tUrlSpXkEyMKPenZXBJPuph02hBDHU49h6ucJOlvs6nk7ar0Xew/0ZZTjGwTjFHuseWeuwrs4qewroB7RnhaLKn5zBPVRhzqmVoHvXB5Kqv497DE5C7GF4QSHOErB+lm8S1AJLr1I3t3I8AOnLhPCzIVrJNztw9lwOY/5KG5z+p4FAvWLcY1lYnw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DB9PR04MB9844.eurprd04.prod.outlook.com (2603:10a6:10:4c4::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Fri, 6 Feb
+ 2026 16:43:56 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9587.010; Fri, 6 Feb 2026
+ 16:43:55 +0000
+Date: Fri, 6 Feb 2026 11:43:46 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v4 2/4] ASoC: fsl_asrc_m2m: Add option to start ASRC
+ before DMA device for M2M
+Message-ID: <aYYaQtF46oDTR-Mi@lizhi-Precision-Tower-5810>
+References: <20260206014805.3897764-1-shengjiu.wang@nxp.com>
+ <20260206014805.3897764-3-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206014805.3897764-3-shengjiu.wang@nxp.com>
+X-ClientProxiedBy: PH7P220CA0064.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32c::8) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206084334.483404-3-shengjiu.wang@nxp.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB9844:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62647d6c-c46c-42e5-9785-08de659eea84
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|7416014|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?k4/+y/DhfxsaUyqK1UBcAVF3to3gDxCu6GEZl3j5rRRDwwwQTf7cMii+5KaW?=
+ =?us-ascii?Q?BvkEY1rF9dhMEKzc5UQ4Tz5Jjto/FX+NF8BB5jQn6eJXWnhp3YqgFa+cUeZp?=
+ =?us-ascii?Q?bfK5LczKf4nsa7nOL+cjOhUGbwpQxQMcjQH6C4oRVN+e+eXl6HqeVambAXiJ?=
+ =?us-ascii?Q?eUfu+Gn9RvaCVJIVMUbOPVjjA45scFhDUfU9B/fc+GjT5ZdgABEMRMebNCLd?=
+ =?us-ascii?Q?yTkKRVw05z4dHCrgch9TF6EmYK6bakMzVnSOXhXiWRrweNSKlOsYfI1EbQx/?=
+ =?us-ascii?Q?klKSB+oUGOtrHK2TyfVGGsF019XGnYlVUHqo4s+AjtBzGV3IT6l9mnzbp6Eu?=
+ =?us-ascii?Q?nH96hUWbqiPV3NLv0j830PfYzdM0wLQwiTWqD2WUOR/BX0TUcIMU9WY9RpxW?=
+ =?us-ascii?Q?epGa/zZrZKizxWc9S13QkX7UqDihdh/50uzuXFn7gYovpUCsWlhIglF2k49l?=
+ =?us-ascii?Q?3QVEpwG49njMuorSshC/Kw5eRvg3Xu7x4aXPcwYIkse/vAvxNA+XTxmynDkh?=
+ =?us-ascii?Q?F7x18pUb7pG18icOsJiX3tXvFYREO9x0V647ufischTCrLLN9TyMF1txVgWO?=
+ =?us-ascii?Q?v5KXTpzqJUY5V8UeDYYNPBC8v9qnDu/IwVITtLW8eweeLlFKKDnv8cRCQBWV?=
+ =?us-ascii?Q?WGpxzPzb45eu/qThZpq1mzeg0LcEus/klfMWDV1EPD42ezDzv7r3B6LODVMc?=
+ =?us-ascii?Q?Kzwq0ypsLzcJIlzHLfqGBTABjvbPvPJaEPQJUYuRgVHcu5IQllMBxo1KVgNm?=
+ =?us-ascii?Q?V559xQqp1f8CiQwz3FDwiARFIhbnweaIxzAXVKXfRgVGAuWr0dYbjSppjjUr?=
+ =?us-ascii?Q?zpmwvc2qLPLqLPjg5s1B0tF0EtPlgDeBxPY3atrq59dkqQDOikuoLrjqe0IV?=
+ =?us-ascii?Q?ei231/C52uquDz7q4yE/AFVUPYihP5eUANgHzujFi3Yh0zpzHgXBd9Ekgp02?=
+ =?us-ascii?Q?chX9wbpeE2ro+hpqUJAFKd+4OCtoroW+dqqX/Lz7o7XYEdS9CDS4GoYGnobd?=
+ =?us-ascii?Q?HVf2E2kO4LWhDxg8Uv1xkSXXCbJjF2EQ56F1iAdwRxHUCrjt3S65md+O6RNQ?=
+ =?us-ascii?Q?x6i6mDSX5uVL7s3z8NpA2RqGPTqWMHttgrRv/qXd45pYnXh38aUZGS2dpbf5?=
+ =?us-ascii?Q?01PtFXlEgxH35AYBHKOsWi+zrkVYygEn/q8RKHwXV+WAI8M/+RlSWi/rk17v?=
+ =?us-ascii?Q?3v6t2VcFMbKqWd1cGGblB9Fu/l4hc2qPqzminnNjIbCbyYjX9ufejWjNLPsD?=
+ =?us-ascii?Q?jNbTUQsHsJ4DkvGquH+hI1PU5gkOaE/3A5s1NZOL1q3LV2lULPC3BkhQwyGs?=
+ =?us-ascii?Q?XkPeomMoc8ItqzIkX1XX3Hybek+tcAj6qwN2Iw/RFHG88nTgjSdY1cAwNJI7?=
+ =?us-ascii?Q?Wa1iTJhv59J6SGAwUoiNDC7/5ZSek79JeZfENB4tZmMQs3polKn0FZkP4QGN?=
+ =?us-ascii?Q?+M8S8SXAsnI3bJjg3C3lZsCZvtLJ2ewx9X7U1w4+yf3m7IyD72bM94GJ+bFW?=
+ =?us-ascii?Q?w9GL0E0Mh7jjE3fnoxlAQzdj/TxsreHAfPhRLBckMT9Af4YlXiMrQgzCov3k?=
+ =?us-ascii?Q?bDwyrKIf/j6kkB1brMZylgc3NjXRY0QnRFlDFHaQkzWUsroxVl1ObxEmnHj2?=
+ =?us-ascii?Q?KbCV3xZZvnLETREmvYxgn5A=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(7416014)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?CgmLadXGnmZK8lbzveZDpS2+GGqPjtw+5PccBgtX2r9NcpShWThyRy4HhlQ1?=
+ =?us-ascii?Q?C0FT4MWBKQwGiYQ5fHZR+weGUWpA3JNJOEdstFroGBjAgynCt7J5iIxTkQO/?=
+ =?us-ascii?Q?3ZDS+boS2SQl+9JXDcbnovu6irkD+TXy6b8tymk15KHQpI4NGbcRb+fFsp6S?=
+ =?us-ascii?Q?9onA5bWpeamQz+hLbUTBS3nqieMBwdwRIUD+7BhKb8mq3A7hidT65bCifi3S?=
+ =?us-ascii?Q?fKwxtOJf9bpdAWNjc0PSFSjRHLUmgGkjYI5AWHWNH3K8SZ30IWNrDx2xSqYa?=
+ =?us-ascii?Q?zzQFZ+AbBxH5H5cu6IJeEpIZ0GN42WvudnBEzxqZNqpishHzpcGPFwPDH5iB?=
+ =?us-ascii?Q?wvH7sqGSQa1ZGsuljZJcJT3B6TMkP6w34alHkC/EqblHAue2sSEYWHjp1fh9?=
+ =?us-ascii?Q?wzDG6aml7KXoxhS9pX4SRNDsbpayfPkXwopgiB3pXcNyAIZ7isvGJSfFEU00?=
+ =?us-ascii?Q?YRdRsHvDgkNsRFvxWggW6HBe9kLFV03wJIgmVq3/EP7zhaBLxQ/amkoP8xvR?=
+ =?us-ascii?Q?OL59+8Zb5uhOZiuEeb/Fl+la6cFhZxq5tWxQGBX0+W8k8Rt3SxVV1bF0CRHK?=
+ =?us-ascii?Q?dD6Ia0lct1CC4u02FZ/nRsHuxpRSpC6fmiAO8/PnE1q/kGPsKYRmcrcsQP1f?=
+ =?us-ascii?Q?MfmrHhmQ1TJPz+oOzj00hiMiBt2J43Gex2znH+orsNxqLLezMPMc7NVJ7cJb?=
+ =?us-ascii?Q?SqAzespW/LvtuYYjFStB5i9EEEzDI6SdrFv9GTnXqe9Qo/A+PFHtY1Blno/9?=
+ =?us-ascii?Q?T0/yDrKhAB11uEDgBwxnkh+MpTXDp7kUV7bfTusKKJvTEe+BYMeTWp1Ny7bI?=
+ =?us-ascii?Q?vyrREblAHYwQMVw5Wuw+zOOnhIeBUMH4gOSvP0nfZqXQCaSnKkWsRjuOQX+V?=
+ =?us-ascii?Q?GbpoXPvByAN2/MHW19JWvE0erdOTxldnaqsxnMOH9FaJ49gLWF2RIj62H5sD?=
+ =?us-ascii?Q?oATBiPl+YYokcQNoCWkIbJeP3CcrWv2ewPVgnFC0uaLpO8XojflNjNDPcUPg?=
+ =?us-ascii?Q?Q69+UDtJ7XGLCCmbHr5X6L0vAFsYq/4U6A1GBHToAD0dlwI3lM5hAdxkciHN?=
+ =?us-ascii?Q?2CUz7tdCgsgNYQI3FQKTzsm4lnE68CjfYZI6G3wNtHERMS1mUNxd+2tAXR6n?=
+ =?us-ascii?Q?/YUpdS05LbIWBdzjNCEBrfswkrFd90BgGFA4g2oP/c7DS5cUszuBDmMkjM2q?=
+ =?us-ascii?Q?2EW2RZPMgVrp6piS8h6deSzkvokmQHGyftEL5SycMFcjgGp4mrA9fLE23NJL?=
+ =?us-ascii?Q?1bnE343+2Rlp7zXnog3G2hXzwU6AP8sI/3KFyIA3C7QbHofoxinRjq16Uzza?=
+ =?us-ascii?Q?2UpaUVVMV236iPGwTcM9dnttmsnz+LaCv9zdPHGSUPb+KixT7r+yhaXSd8PM?=
+ =?us-ascii?Q?hEh5e0TWcUN0hK8hPNHF8PdW+cOOT2b9h3DUgkXnDgAdHCb+PeVcYUvDdOzs?=
+ =?us-ascii?Q?Dtz2bk4yYGIYh4DT5AhW78S2z6Ugi+RSx+eRrZVfOOSsBXxSRQbBSShl0Yig?=
+ =?us-ascii?Q?nqRjWakIZaPD8UU00dtatuTEtYijjifntJGFqpN9sEvzHj8g/CMPHgjm8xq/?=
+ =?us-ascii?Q?Sgvq7qxAQGgPBZcZOqSgpZgxOifidKkPg8dBAXZpca133YdhYIvb9gb4kymP?=
+ =?us-ascii?Q?dE9M6jYkolGNfK7BBBWZ/jtkboJFBJUfAgcCuyNtW4VU7FDSzeNp6ge1unZr?=
+ =?us-ascii?Q?7UL3KqzJZr6K59MgsLMuZXAszz9KQIbZzl0HlhLZcrY1EoBn?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62647d6c-c46c-42e5-9785-08de659eea84
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 16:43:54.9399
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3vhyf4uNPP0Noe269heaO1U/WUUq/mV+NBBV9FHCKUDSnoeygM9cxHjo2zo/kC5Xz6xr09zQ5krNR+4OWEH16Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9844
 
-Hi Shengjiu,
+On Fri, Feb 06, 2026 at 09:48:03AM +0800, Shengjiu Wang wrote:
+> There is a limitation on i.MX952 that dma request is not cleared at the
+> end of conversion with dma slave mode. Which causes sample is dropped
+> from the input fifo on the second time if dma is triggered before the
+> client device and EDMA may copy wrong data from output fifo as the output
+> fifo is not ready in the beginning.
+>
+> The solution is to trigger asrc before dma on i.MX952, and add delay to
+> wait output data is generated then start the EDMA for output, otherwise
+> the m2m function has noise issues.
+>
+> So add an option to start ASRC first for M2M before ASRC is enabled on
+> i.MX952.
+>
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+> ---
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on linus/master v6.19-rc8 next-20260205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shengjiu-Wang/ASoC-fsl_sai-add-bitcount-and-timestamp-controls/20260206-164423
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260206084334.483404-3-shengjiu.wang%40nxp.com
-patch subject: [PATCH 2/2] ASoC: fsl_xcvr: add bitcount and timestamp controls
-config: hexagon-randconfig-002-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070032.CtJMTCOn-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070032.CtJMTCOn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070032.CtJMTCOn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> sound/soc/fsl/fsl_xcvr.c:70:46: error: call to undeclared function '__bf_shf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      70 |         SOC_ENUM_SINGLE(FSL_XCVR_TX_DPTH_CNTR_CTRL, __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC),
-         |                                                     ^
->> sound/soc/fsl/fsl_xcvr.c:70:46: error: initializer element is not a compile-time constant
-      70 |         SOC_ENUM_SINGLE(FSL_XCVR_TX_DPTH_CNTR_CTRL, __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      71 |                         ARRAY_SIZE(inc_mode), inc_mode),
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/sound/soc.h:215:24: note: expanded from macro 'SOC_ENUM_SINGLE'
-     215 |         SOC_ENUM_DOUBLE(xreg, xshift, xshift, xitems, xtexts)
-         |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/sound/soc.h:211:27: note: expanded from macro 'SOC_ENUM_DOUBLE'
-     211 | {       .reg = xreg, .shift_l = xshift_l, .shift_r = xshift_r, \
-         |                                 ^~~~~~~~
-   sound/soc/fsl/fsl_xcvr.c:78:6: error: initializer element is not a compile-time constant
-      78 |                    __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN), 1, 0),
-         |                    ^
-   sound/soc/fsl/fsl_xcvr.c:81:6: error: initializer element is not a compile-time constant
-      81 |                    __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC), 1, 0),
-         |                    ^
-   sound/soc/fsl/fsl_xcvr.c:83:6: error: initializer element is not a compile-time constant
-      83 |                    __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC), 1, 0),
-         |                    ^
-   sound/soc/fsl/fsl_xcvr.c:93:6: error: initializer element is not a compile-time constant
-      93 |                    __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN), 1, 0),
-         |                    ^
-   sound/soc/fsl/fsl_xcvr.c:96:6: error: initializer element is not a compile-time constant
-      96 |                    __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC), 1, 0),
-         |                    ^
-   sound/soc/fsl/fsl_xcvr.c:98:6: error: initializer element is not a compile-time constant
-      98 |                    __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC), 1, 0),
-         |                    ^
->> sound/soc/fsl/fsl_xcvr.c:1133:19: error: invalid application of 'sizeof' to an incomplete type 'const struct snd_kcontrol_new[]'
-    1133 |         .num_controls           = ARRAY_SIZE(fsl_xcvr_timestamp_ctrls),
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   9 errors generated.
-
-
-vim +/__bf_shf +70 sound/soc/fsl/fsl_xcvr.c
-
-    68	
-    69	static const struct soc_enum tstmp_enum[] = {
-  > 70		SOC_ENUM_SINGLE(FSL_XCVR_TX_DPTH_CNTR_CTRL, __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC),
-    71				ARRAY_SIZE(inc_mode), inc_mode),
-    72		SOC_ENUM_SINGLE(FSL_XCVR_RX_DPTH_CNTR_CTRL, __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC),
-    73				ARRAY_SIZE(inc_mode), inc_mode),
-    74	};
-    75	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+>  sound/soc/fsl/fsl_asrc.c        | 22 ++++++++++++++++++++++
+>  sound/soc/fsl/fsl_asrc.h        |  4 ++++
+>  sound/soc/fsl/fsl_asrc_common.h |  4 ++++
+>  sound/soc/fsl/fsl_asrc_m2m.c    |  8 +++++++-
+>  4 files changed, 37 insertions(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+> index 92fb16f7be45..2fe25667c888 100644
+> --- a/sound/soc/fsl/fsl_asrc.c
+> +++ b/sound/soc/fsl/fsl_asrc.c
+> @@ -1078,6 +1078,26 @@ static unsigned int fsl_asrc_get_output_fifo_size(struct fsl_asrc_pair *pair)
+>  	return val >> ASRFSTi_OUTPUT_FIFO_SHIFT;
+>  }
+>
+> +static bool fsl_asrc_m2m_output_ready(struct fsl_asrc_pair *pair)
+> +{
+> +	struct fsl_asrc *asrc = pair->asrc;
+> +	enum asrc_pair_index index = pair->index;
+> +	u32 val;
+> +	int ret;
+> +
+> +	/* Check output fifo status if it exceeds the watermark. */
+> +	ret = regmap_read_poll_timeout(asrc->regmap, REG_ASRFST(index), val,
+> +				       (ASRFSTi_OUTPUT_FIFO_FILL(val) >= ASRC_M2M_OUTPUTFIFO_WML),
+> +				       1, 1000);
+> +
+> +	if (ret) {
+> +		pair_warn("output is not ready\n");
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static int fsl_asrc_m2m_prepare(struct fsl_asrc_pair *pair)
+>  {
+>  	struct fsl_asrc_pair_priv *pair_priv = pair->private;
+> @@ -1275,6 +1295,7 @@ static int fsl_asrc_probe(struct platform_device *pdev)
+>
+>  	asrc_priv->soc = of_device_get_match_data(&pdev->dev);
+>  	asrc->use_edma = asrc_priv->soc->use_edma;
+> +	asrc->start_before_dma = asrc_priv->soc->start_before_dma;
+>  	asrc->get_dma_channel = fsl_asrc_get_dma_channel;
+>  	asrc->request_pair = fsl_asrc_request_pair;
+>  	asrc->release_pair = fsl_asrc_release_pair;
+> @@ -1289,6 +1310,7 @@ static int fsl_asrc_probe(struct platform_device *pdev)
+>  	asrc->m2m_get_maxburst = fsl_asrc_m2m_get_maxburst;
+>  	asrc->m2m_pair_resume = fsl_asrc_m2m_pair_resume;
+>  	asrc->m2m_get_cap = fsl_asrc_m2m_get_cap;
+> +	asrc->m2m_output_ready = fsl_asrc_m2m_output_ready;
+>
+>  	if (of_device_is_compatible(np, "fsl,imx35-asrc")) {
+>  		asrc_priv->clk_map[IN] = input_clk_map_imx35;
+> diff --git a/sound/soc/fsl/fsl_asrc.h b/sound/soc/fsl/fsl_asrc.h
+> index 1c492eb237f5..60b6865ca952 100644
+> --- a/sound/soc/fsl/fsl_asrc.h
+> +++ b/sound/soc/fsl/fsl_asrc.h
+> @@ -257,6 +257,8 @@
+>  #define ASRFSTi_OUTPUT_FIFO_WIDTH	7
+>  #define ASRFSTi_OUTPUT_FIFO_SHIFT	12
+>  #define ASRFSTi_OUTPUT_FIFO_MASK	(((1 << ASRFSTi_OUTPUT_FIFO_WIDTH) - 1) << ASRFSTi_OUTPUT_FIFO_SHIFT)
+> +#define ASRFSTi_OUTPUT_FIFO_FILL(v)	\
+> +	(((v) & ASRFSTi_OUTPUT_FIFO_MASK) >> ASRFSTi_OUTPUT_FIFO_SHIFT)
+>  #define ASRFSTi_IAEi_SHIFT		11
+>  #define ASRFSTi_IAEi_MASK		(1 << ASRFSTi_IAEi_SHIFT)
+>  #define ASRFSTi_IAEi			(1 << ASRFSTi_IAEi_SHIFT)
+> @@ -432,10 +434,12 @@ struct dma_block {
+>   *
+>   * @use_edma: using edma as dma device or not
+>   * @channel_bits: width of ASRCNCR register for each pair
+> + * @start_before_dma: start asrc before dma
+>   */
+>  struct fsl_asrc_soc_data {
+>  	bool use_edma;
+>  	unsigned int channel_bits;
+> +	bool start_before_dma;
+>  };
+>
+>  /**
+> diff --git a/sound/soc/fsl/fsl_asrc_common.h b/sound/soc/fsl/fsl_asrc_common.h
+> index 0cd595b0f629..c8a1a2b5915d 100644
+> --- a/sound/soc/fsl/fsl_asrc_common.h
+> +++ b/sound/soc/fsl/fsl_asrc_common.h
+> @@ -107,6 +107,7 @@ struct fsl_asrc_pair {
+>   * @asrc_rate: default sample rate for ASoC Back-Ends
+>   * @asrc_format: default sample format for ASoC Back-Ends
+>   * @use_edma: edma is used
+> + * @start_before_dma: start asrc before dma
+>   * @get_dma_channel: function pointer
+>   * @request_pair: function pointer
+>   * @release_pair: function pointer
+> @@ -116,6 +117,7 @@ struct fsl_asrc_pair {
+>   * @m2m_start: function pointer
+>   * @m2m_unprepare: function pointer
+>   * @m2m_stop: function pointer
+> + * @m2m_output_ready: function pointer, check output fifo ready or not
+>   * @m2m_calc_out_len: function pointer
+>   * @m2m_get_maxburst: function pointer
+>   * @m2m_pair_suspend: function pointer
+> @@ -143,6 +145,7 @@ struct fsl_asrc {
+>  	int asrc_rate;
+>  	snd_pcm_format_t asrc_format;
+>  	bool use_edma;
+> +	bool start_before_dma;
+>
+>  	struct dma_chan *(*get_dma_channel)(struct fsl_asrc_pair *pair, bool dir);
+>  	int (*request_pair)(int channels, struct fsl_asrc_pair *pair);
+> @@ -154,6 +157,7 @@ struct fsl_asrc {
+>  	int (*m2m_start)(struct fsl_asrc_pair *pair);
+>  	int (*m2m_unprepare)(struct fsl_asrc_pair *pair);
+>  	int (*m2m_stop)(struct fsl_asrc_pair *pair);
+> +	bool (*m2m_output_ready)(struct fsl_asrc_pair *pair);
+>
+>  	int (*m2m_calc_out_len)(struct fsl_asrc_pair *pair, int input_buffer_length);
+>  	int (*m2m_get_maxburst)(u8 dir, struct fsl_asrc_pair *pair);
+> diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_m2m.c
+> index f46881f71e43..77999526dd9e 100644
+> --- a/sound/soc/fsl/fsl_asrc_m2m.c
+> +++ b/sound/soc/fsl/fsl_asrc_m2m.c
+> @@ -253,15 +253,21 @@ static int asrc_m2m_device_run(struct fsl_asrc_pair *pair, struct snd_compr_task
+>  	reinit_completion(&pair->complete[IN]);
+>  	reinit_completion(&pair->complete[OUT]);
+>
+> +	if (asrc->start_before_dma)
+> +		asrc->m2m_start(pair);
+> +
+>  	/* Submit DMA request */
+>  	dmaengine_submit(pair->desc[IN]);
+>  	dma_async_issue_pending(pair->desc[IN]->chan);
+>  	if (out_dma_len > 0) {
+> +		if (asrc->start_before_dma && asrc->m2m_output_ready)
+> +			asrc->m2m_output_ready(pair);
+>  		dmaengine_submit(pair->desc[OUT]);
+>  		dma_async_issue_pending(pair->desc[OUT]->chan);
+>  	}
+>
+> -	asrc->m2m_start(pair);
+> +	if (!asrc->start_before_dma)
+> +		asrc->m2m_start(pair);
+>
+>  	if (!wait_for_completion_interruptible_timeout(&pair->complete[IN], 10 * HZ)) {
+>  		dev_err(dev, "out DMA task timeout\n");
+> --
+> 2.34.1
+>
