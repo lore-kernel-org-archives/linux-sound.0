@@ -1,162 +1,125 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51123ECBD7
-	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 13:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3937B3EDACF
+	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 13:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770385278; cv=none; b=DlxlUcn9iWV1fuNfdehDS6BdYGFIyYajyeKYDeSpCmCBKE2TLv5MAzNnvxaOYz5ILcpyOKlkOeT5HBWHGPtcvOqvZt1pGhDgcCh1m01eVUc7mfRUyXjull2DalUQSsCwuBdqqYHmiCzYrY6a+gMsllPkzf5QKIsYWANMQ7zmbqk=
+	t=1770385301; cv=none; b=mnoomzVyAL4nnmv785G0xdZ2L1IpHHI/Q0nu7Q9RTeoZoJ7m3KQIfHLPrNNngro+UpGIm5JB9oQ0VqbZ1JZ14mnlDsnYMY6YZGPH3xYhZWbfBDptAOdkMFJvdLQD/X29xEp3CdKANVQP8TZnPdyD9P4eagC0aSKMLVZQWqmZ8w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770385278; c=relaxed/simple;
-	bh=pNmYl4SRRlxoqTa+HBhQFonZHLfqFv5puocqMEMJFj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M+EkJG3YY3CQCN/ApvbncIqPHrNLhu5xm8QxBSs/G8P8gKJNZX0lHj/Tz0UloIuUK1mIa7gMt0tlIs+/GwnVg823JOAGYXkE0U5/DQ+CBJi0alk7f3lwiZcrKMjn1TanUV+75jxlkoDv8zvUDDPDeJm8acPtzLdfHFDLfDn2E3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mpkrKjFL; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770385301; c=relaxed/simple;
+	bh=dltAOsfvqmiLl34gqv+BIiZQuyORgIiCPPcMRrqVJ1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=L9ZetqwhcumLkjK2ySZyEFbFbzOhsW7bPP4IJEPxfuQfn0C5Dw4DOHKU4xMhH+ZckFEnE8Q5zcPrpu1egEAqtv+ezyrQb8Fu+oVf+KMHD5elPUnz0Tu6XNg6VpL8J/nRWE5sDVQ1yhWTkjZor9cikwqAWBiAOOK4SDzd8xAmgmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CovTZjX2; arc=none smtp.client-ip=209.85.221.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mpkrKjFL"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47ee07570deso6543645e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 05:41:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CovTZjX2"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-4362507f0feso908521f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 06 Feb 2026 05:41:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770385276; x=1770990076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c3KiMSbLBLSEsZOHG/N7zBYQbCkkX7NdFxJPu+HPiHo=;
-        b=mpkrKjFLWlPK798p7MsBCUYBfHq29fQuEpM51w+laLP9PB1XJwAlkjeSSnwvFurN6y
-         6ia7B/kW8+j715tuGe2pfo49GBRrEs4cduuRRPcgyczQL9vzHEK1J2PF6KSPXmve/EK/
-         tzAIuYDDDHD7qFxI8dnlwoledmVSkj3n23yph14of4QhynVcujbylWnH+jRjLJLrnczN
-         jhBMt0lQcapIwFXq8IwIo83w6Dd6Awvl64Z0872Fj6XSL2MDTygDWt6WWipBBOzJ0KVE
-         NuWIqmWLf2pkhMnl25DYCez8fI/w0o0VKRRK5ywzinowFr9SjLE0oQal19shSQLmfzkJ
-         LkzQ==
+        d=linaro.org; s=google; t=1770385300; x=1770990100; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+DneofI0b3bWnhUm/hamnT1PEF7kcL7B2JETqoeLkGY=;
+        b=CovTZjX2fbwNpO2HSiFMdH3zYIi20iFWidcmE1XIHUq65qOURRM/bvhUC5/QeiKzMS
+         0cvt/7x/PqOCs8rB/XWlA+63SvTtb/tPd9unJpC43Nh7xbtlrJS6VvXJ8cIAxFvwnmUl
+         0uQhbSqdp77tkRE8PXXGpu6Du/sN9LogiXLyRTe3haFXjWTgy4NbBJszinGB3jdvJVIa
+         f/6CQO46iyf6/suhfIYajQTBlVdZjB7OQn/2YjZBCYx59gFLHX80oPFMPvFlcnwyRSQO
+         TjOoavV/vkJjrw0/z4oHSoCQU7MAr0nW29Ut1UEKWMvXxMci58jNGg65cL22+eFFrJba
+         +ztw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770385276; x=1770990076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1770385300; x=1770990100;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c3KiMSbLBLSEsZOHG/N7zBYQbCkkX7NdFxJPu+HPiHo=;
-        b=EQ+U0N0pzLnDdho70WpCXgT8tW7fstHH3GoFFGkZRsMzA/Xa50Lk7N6pzMp7mrWQPK
-         hcJYgUb0q6FFRJUJkFjcH99g0ghcILRYcR0IqDlHWdF3ISbIPf9p9OWhHipEPdNPOwhH
-         zCwG3boM/TE/6aAH2wsRc0g/SvgC7RoOePtMtN6XyPWbK/YpNS4pq+GD2EcySFDCNUhy
-         HLV2fNdNQORhh25ifZXxctUHvWQRIM0uu1yCRXArJ/29RZnCHeMap5SrB+32o5i02udq
-         qOSopv+0ANYHOVdEh/Q/tVtWD7KPH5po+aizOJv1apt6TM7/HZIbw6bPhRv7gvYoSSuv
-         VEpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVEwhRrBQIC+j1FAGOKISJjWr5Oc/2akTBozU4DsIxBaf4/31xQHYbn7B0mnPXgRB+xUe2pPNyGvMf/+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGs8br+UbPQmm7JfCwS5gp2pqM6lMidtM7GFnn+kzIPkr/Rtg8
-	U7jkiEpB8B1/f6cMK2XqkK8qvscq+fxbVN2DvyXHcXJCvnr+W1Ak/2N5
-X-Gm-Gg: AZuq6aJ+lDVGQgm4oFE+ofAXZh8pgvfFvibZJSwFhSNa/0QTewGM2D0zEnVkAyAB7PY
-	+fkE/3gu5rGAbzGbJ2CiDJEpeU3Jjaqzjygv+/wIQXX0jbEzIsJZhnQ/lhe3irsvKhFT+HfwZgK
-	TnbMyxxQxs1UYnGlmaFv5UHlkayhtXBXiPHQ79y3x37Yi/+RDpHIHBEsPWv9miDfZLDLjULrZeN
-	V46JJv40NJUt/GUPVDgSqx19v4Rnd/KkqHKgPOgrsOUADS3nBLhL6zMbZURAV6jee+/tU4SttXW
-	tAE+l4zf07r1cZwD9fyOzd6OcC3C4PU8Dsi7Fz1WgZtc2CqILdseX6rLGnRUmpYFoQVo7Rkj4DY
-	TJPofUCtkyIIGsjY15sBbAReVOFzGDMe8bi7TrbE+PxfpjtXJXRnJstbkPWocxzwanAf3FiT1J5
-	UJfy0XFaY4/BD6xN3I/8EmGQAdtKJAT0BpYb5lHj0IZUJS7bkKwAC0c49+fipbjfJgnyN5m/1rO
-	xyzrgS39nTje03lEIevNprr/VY=
-X-Received: by 2002:a05:600c:37c8:b0:47e:e952:86c9 with SMTP id 5b1f17b1804b1-4832017dcfcmr39432355e9.0.1770385275553;
-        Fri, 06 Feb 2026 05:41:15 -0800 (PST)
-Received: from Lord-Beerus.station (net-188-152-100-94.cust.dsl.teletu.it. [188.152.100.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4832039d238sm33156995e9.0.2026.02.06.05.41.14
+        bh=+DneofI0b3bWnhUm/hamnT1PEF7kcL7B2JETqoeLkGY=;
+        b=rumnb+YsMATAiK0reXwXtE7A4ToMe2pFVNnC2InL6s7Lc4HdEcSnZeGrGhvSFBtGLE
+         LSCYXucnEVct7xUnE6CfQqA3w8cdtQmBqIZIVkTjdfpKjbiWtYHZCH10uRhVYIpqyDt4
+         /gZPhtN+pqMnLA1zClu116R/Av/Vre80aw838OgUtEBXbAJFSz4z19ritgKDfcC8hzf6
+         T8mZLwgiY4ySL55bpzPn3WHt4RP4RUB64sCw5bpZUht66LTEmZ2Tq/A2T2Xqq39ZasgJ
+         r+CM20uzTCuQKacBMOPwxAdIHnJ2rkvKIYujEAz84iO/XmoeePDg9y0jzqcINvsT6l19
+         Ykxw==
+X-Gm-Message-State: AOJu0YyvRK7BFnrR38e/V1nJPSfK+RPCeUlzJuVasyXImPugOZSgBfx1
+	AZzgtSSz03kVfoHBmgXxic+oPXhMoShpfuZm32Qg9Yy9o2ZcnsYy0wRRpAx23I+8h2b25MKH6kk
+	iCeBH
+X-Gm-Gg: AZuq6aINP5VFhrWkuSOZjbXSAIcVWt0V2zK5gIAxTfmOPAEP1srbzCxvS6AZA2AzdVS
+	qo6Eh9fpUzM6eTzzQ3u2zXvuQ0+gtYiV/E2Yfl3ooarVYArzioIWA88bw8+5eWZTIq8TbjYSz21
+	jeaNl6AM3O/VywnyfroI9S1bTJb7Z8+6bRabl7Vl2kWQkYr7rgpwLCQRgl7jdmlvePbBgr4syvt
+	JDmpQXs6tNOFupqizV2dQAXuA/ebiyjnoe0PtF/3A9VGXJZtbANoVqhbr3jZFFdAknBXaa5tNLZ
+	N1TGJjWoWvDJ6u5qDeuxhKx8FqKo3NQV1WSQPeLqswo/81r1Rn4tqy0SAFRXgK12ph1vn2vEMOk
+	+Lz1mTHnWfnf++K8wtlclvfTCwifa+LRJAeGTWr2aya67/dG+pvrCWyScQKMqs/3hdaZz8TtFZv
+	b5zyt5aBIiqgh5ZbcQ
+X-Received: by 2002:a05:6000:186b:b0:435:9223:c625 with SMTP id ffacd0b85a97d-43629348118mr4453533f8f.28.1770385299743;
+        Fri, 06 Feb 2026 05:41:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b2facsm5963511f8f.9.2026.02.06.05.41.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 05:41:15 -0800 (PST)
-From: Stefano Radaelli <stefano.radaelli21@gmail.com>
-X-Google-Original-From: Stefano Radaelli <stefano.r@variscite.com>
-To: Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: alexander.h@variscite.com,
-	pierluigi.p@variscite.com,
-	Stefano Radaelli <stefano.r@variscite.com>
-Subject: [PATCH v1] ASoC: simple-card-utils: set CPU sysclk before codec for mclk-fs
-Date: Fri,  6 Feb 2026 14:40:14 +0100
-Message-ID: <20260206134014.143057-1-stefano.r@variscite.com>
-X-Mailer: git-send-email 2.47.3
+        Fri, 06 Feb 2026 05:41:39 -0800 (PST)
+Date: Fri, 6 Feb 2026 16:41:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Weidong Wang <wangweidong.a@awinic.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: [bug report] ASoC: codecs: ACF bin parsing and check library file
+ for aw88395
+Message-ID: <aYXvkD03l40F-OZ9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <caa37f28-a2e8-4e0a-a9ce-a365ce805e4b@stanley.mountain>
 
-From: Stefano Radaelli <stefano.r@variscite.com>
+[ Smatch checking is paused while we raise funding.  #SadFace
+  https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
 
-When simple-audio-card uses simple-audio-card,mclk-fs,
-simple_util_hw_params() programs sysclk for codec DAIs and CPU DAIs.
+Hello Weidong Wang,
 
-Some CPU DAIs may apply the final MCLK rate as part of their .set_sysclk()
-callback (e.g. by changing the underlying clock rate via clk_set_rate()).
-If codec sysclk is configured before the CPU DAI applies the final
-MCLK rate, the codec may configure its internal clocking based on a
-non-final MCLK setting, leading to an incorrect clocking state on the
-first playback after boot.
+Commit 4345865b003b ("ASoC: codecs: ACF bin parsing and check library
+file for aw88395") from Jan 13, 2023 (linux-next), leads to the
+following Smatch static checker warning:
 
-This behaviour was observed on i.MX95 systems using fsl_sai with
-downstream kernels, which made the issue visible.
-However, the problem is generic and can affect any setup where the
-CPU DAI applies the final MCLK rate in set_sysclk() while
-simple-audio-card uses mclk-fs.
+	sound/soc/codecs/aw88395/aw88395_lib.c:712 aw_dev_create_prof_name_list_v1()
+	warn: double check that we're allocating correct size: 8 vs 32
 
-A reproducible symptom is that the first playback runs at the wrong speed
-("slow" audio), while subsequent playbacks work correctly.
+sound/soc/codecs/aw88395/aw88395_lib.c
+    701 static int aw_dev_create_prof_name_list_v1(struct aw_device *aw_dev)
+    702 {
+    703         struct aw_prof_info *prof_info = &aw_dev->prof_info;
+    704         struct aw_prof_desc *prof_desc = prof_info->prof_desc;
+    705         int i;
+    706 
+    707         if (!prof_desc) {
+    708                 dev_err(aw_dev->dev, "prof_desc is NULL");
+    709                 return -EINVAL;
+    710         }
+    711 
+--> 712         prof_info->prof_name_list = devm_kzalloc(aw_dev->dev,
+    713                                         prof_info->count * PROFILE_STR_MAX,
+                                                                   ^^^^^^^^^^^^^^^
+PROFILE_STR_MAX this is the maximum length of the string but we only
+need to allocate a pointer to the string sizeof(char *).  So this
+allocates 32bytes instead of just 8.
 
-Example setup:
-  - CPU DAI: fsl_sai (i.MX95)
-  - Codec: wm8904
-  - simple-audio-card,mclk-fs enabled
+It's a small waste of space but otherwise it's harmless.
 
-Reproducer:
-  aplay -D hw:wm8904audio /home/Front_Center_8k.wav
+    714                                         GFP_KERNEL);
+    715         if (!prof_info->prof_name_list)
+    716                 return -ENOMEM;
+    717 
+    718         for (i = 0; i < prof_info->count; i++) {
+    719                 prof_desc[i].id = i;
+    720                 prof_info->prof_name_list[i] = prof_desc[i].prf_str;
+    721                 dev_dbg(aw_dev->dev, "prof name is %s", prof_info->prof_name_list[i]);
+    722         }
+    723 
+    724         return 0;
+    725 }
 
-Debug evidence:
-ftrace showed snd_soc_dai_set_sysclk() called from simple_util_hw_params
-for both codec and CPU DAIs, and confirmed wm8904_set_sysclk() ran before
-the CPU DAI sysclk call, and the CPU DAI then applied the final
-MCLK settings.
-
-Fix this by setting the CPU DAI sysclk before the codec sysclk
-when mclk-fs is used, so that the codec always configures its internal
-clocking based on the final MCLK rate.
-
-Signed-off-by: Stefano Radaelli <stefano.r@variscite.com>
----
- sound/soc/generic/simple-card-utils.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index bdc02e85b089..50f60e4996a5 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -501,15 +501,21 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
- 				goto end;
- 		}
- 
--		for_each_rtd_codec_dais(rtd, i, sdai) {
--			pdai = simple_props_to_dai_codec(props, i);
-+		/*
-+		 * When mclk-fs is used, some CPU DAIs may change the
-+		 * actual MCLK rate in set_sysclk() (e.g. via clk_set_rate()).
-+		 * Configure CPU DAI first so codec clocking/FLL sees
-+		 * the final MCLK rate.
-+		 */
-+		for_each_rtd_cpu_dais(rtd, i, sdai) {
-+			pdai = simple_props_to_dai_cpu(props, i);
- 			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
- 			if (ret && ret != -ENOTSUPP)
- 				goto end;
- 		}
- 
--		for_each_rtd_cpu_dais(rtd, i, sdai) {
--			pdai = simple_props_to_dai_cpu(props, i);
-+		for_each_rtd_codec_dais(rtd, i, sdai) {
-+			pdai = simple_props_to_dai_codec(props, i);
- 			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
- 			if (ret && ret != -ENOTSUPP)
- 				goto end;
-
-base-commit: b7ff7151e653aa296ab6c5495b2c1ab7c21eb250
--- 
-2.47.3
-
+regards,
+dan carpenter
