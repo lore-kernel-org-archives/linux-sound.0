@@ -1,113 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A703612FE;
-	Fri,  6 Feb 2026 10:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E4735F8B2
+	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 11:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770375168; cv=none; b=drz9Sn77Y3+OpTiFyVPsr5LWEo3cijSqS7gUTDNXtogkKKEHcjax0Kg0ZyaIIOXB475VepjxwjamdCwwszfVdanOmfJCjd5PV8CU78pDEUFBe0ti0ijMi4dM4qBc9K3u7W19KWfBMR/5CoVC7tqGcRw0uOX7xCj4Mhzma/AbRNI=
+	t=1770377568; cv=none; b=n3qrtRw8TqJ4fA2DQw6HLorP2A59xDRKKzwpvEPh3AUPB+BC6cIDwfhF4PAQdsfh3m4N3JYQRzhAgeh5OAM9ii+eD42BrexzJIQwT2iXOpc7yoqWN9lCu4wIX8ErFP0oqDGWlbOrSYydxcauv/1XfcRRi+8G2r4lnWFUGNzKJVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770375168; c=relaxed/simple;
-	bh=bQIbx0jzCGYY95Wu3743INeD+jyhetLVWU3vQ1Vjemc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TJpNMCScGLMYbztyEpjL15h9CGURvTlRMdE05FMgFCddyqmMlj464Sj2PzJAytfgvyh5lx/0iltkfg50+GOIxYKG6dCN8f9gn+mkNxK+4KzvCDn7q1Cwuajil9OV5O/F7PTCmc5Uit/68VvYZ63LCzeEIG7tveFhbERDY5v6uY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ql+R0Ozb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770377568; c=relaxed/simple;
+	bh=pMk3ZlIS/mpPGQ4lAS8x90Wz7iD0YuUEpwvVwoT7WQ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K6FAvicbgDhSuolcMCnwU8huYJ5+GlqQ+Q5E19sBbOq7gViDMh64PL5++Jpis/e62mBTUDWj2VT444VWjlIwzcbKVfJFPr5k7TAtNhC+EDzNFXHVquQDhWE5KfO2soYmRvLUBwLYlJ3sbbIjUsJ6WpPsZrpMAnedPzui2lQrlwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y76DTqAN; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ql+R0Ozb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EEA1C19421;
-	Fri,  6 Feb 2026 10:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770375168;
-	bh=bQIbx0jzCGYY95Wu3743INeD+jyhetLVWU3vQ1Vjemc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ql+R0OzbtyvZAeOivYFn+52ariL1yQJyBbv/rgEp1OObE8cbJG/DQIcJp7Wse7rFS
-	 qQwGVQrMD4HkfN9+vjsYTwnS1vaYIKhFrYUwKvAyPwXIhtj7d5BkvRV0hUzmZhfA/t
-	 MzdvwGva+mzfWYR07Nq6OXGMNIV/zg2xZ2dSUm4PH//M2Rir7GeonjlukIEmP/GIUN
-	 +s/EMJ7UMmqQ/P72Z8pHyOpw/VmxDNCPiOG9Kdw17w/WMWwXUYOOBuKKbk1wezRGqR
-	 +gKvYdKjJiQlNCUijBUXLc969OYLJ4ZYOGTZ7Q54fyuM3BQwrGyXYcOUd6f/7CNfQg
-	 3EyVArgzkcZyg==
-Message-ID: <e9fd0da1-90b2-43bc-8c1b-95f2e147a39b@kernel.org>
-Date: Fri, 6 Feb 2026 11:52:42 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y76DTqAN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770377567; x=1801913567;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pMk3ZlIS/mpPGQ4lAS8x90Wz7iD0YuUEpwvVwoT7WQ8=;
+  b=Y76DTqANyQov8nUZeEbeHl5e8OhDNhGuehDBQI1+KbF+aHRi4BvOq9Yp
+   RXMem0DKbrgwvBZXnWSCt9N44n9PqY1RcF6enKEidIKoGsbG6iSjweKjn
+   f9RiQhkUgLzjMFlNy0lHQllclkrlgUUsh3ikdJ9Sm76HpzIkwEadpjh1F
+   hf4gFD2lfKYnFvZ987sxJTuaEAg5QGq5xDG5d1lm7Yx1Ujt8+Fm6/sxvb
+   o59P8Jk7OrBzK2ulD+ld+YagnYbU1CO+bjFb1fDHBHUu6gQeMORWTUe0z
+   vbFa9NPPEQzwgGfFemCOIzZQ8AaLbSHFUUG9Ypkfn3APz7VAYK7vesZ2G
+   A==;
+X-CSE-ConnectionGUID: HLR4IdgAQiWAoLRPqAVXcw==
+X-CSE-MsgGUID: JDx7KZzrTnCt03MYBLSF7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71483414"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="71483414"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 03:32:46 -0800
+X-CSE-ConnectionGUID: 0KZBQeRdS0SmlrqaqES1eQ==
+X-CSE-MsgGUID: cOLj5EO/SIaEoqm9gI4+Sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="215821327"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2026 03:32:44 -0800
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: tiwai@suse.com
+Cc: broonie@kernel.org,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-sound@vger.kernel.org,
+	kuninori.morimoto.gx@renesas.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v3] ALSA: control: Verify put() result when in debug mode
+Date: Fri,  6 Feb 2026 12:32:50 +0100
+Message-Id: <20260206113250.207179-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/10] ASoC: qcom: q6dsp: add support for LPASS LPI MI2S
- dais
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, srini@kernel.org, perex@perex.cz,
- tiwai@suse.com, alexey.klimov@linaro.org,
- mohammad.rafi.shaik@oss.qualcomm.com, quic_wcheng@quicinc.com,
- johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
- konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260205171411.34908-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260205171411.34908-6-srinivas.kandagatla@oss.qualcomm.com>
- <20260206-petite-tireless-iguana-addf9e@quoll>
- <8f61563d-8875-4aaa-b94f-1866454367aa@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <8f61563d-8875-4aaa-b94f-1866454367aa@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/02/2026 11:02, Srinivas Kandagatla wrote:
->> Confusing change or actual proof that my previous comments for similar
->> patch are valid:
->> 1. not a binding> or
->> 2. you cannot change this, because you break ABI.
->> Choose only one from these options.
-> Is this because the max port keeps changing?, I can try to see how this
+The put() operation is expected to return:
+1) 0 on success if no changes were made
+2) 1 on success if changes were made
+3) error code otherwise
 
-Yes.
+Currently 2) is usually ignored when writing control-operations. While
+forcing compliance is not an option right now, make it easier for
+developers to adhere to the expectations and notice problems by logging
+them when CONFIG_SND_CTL_DEBUG is enabled.
 
-Best regards,
-Krzysztof
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+
+Changes in v3:
+
+- simplified the memcmp() as suggested by Jaroslav
+- added ->access verification for SKIP_CHECK and VOLATILE as suggested
+  by Jaroslav and Takashi. For that very purpose I've deviced to use the
+  kcontrol-volatile (vd) pointer that already part of
+  snd_ctl_elem_write().
+
+- as things are more complex now, replaced snd_ctl_put() macros with
+  functions. This aligns with suggestion previously provided by Kuninori
+
+- reordered operations within snd_ctl_put_verify() so that it's more
+  intuitive to read, at least in my opinion:
+  get/info/put -> info/get/put
+
+
+Changes in v2:
+
+A number of fixes as suggested by Mark and Takashi. The initial version
+did not account for possibility of invalid payload sent from the userspace
+and was buggy.
+- enlisted ->info() operation and reused existing
+  fill_remaining_elem_value() to sanitize the 'new' value provided by
+  user
+- fixed size provided to memcmp()
+- the 'original' value is now initilized with memset()
+
+Readability improvements suggested by Kuninori.
+- added conditional #define snd_ctl_put() so that no additional
+  if-statements are needed in the actual code.
+
+
+ sound/core/control.c | 57 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
+
+diff --git a/sound/core/control.c b/sound/core/control.c
+index 9c3fd5113a61..18ddae138795 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -1264,6 +1264,60 @@ static int snd_ctl_elem_read_user(struct snd_card *card,
+ 	return result;
+ }
+ 
++#if IS_ENABLED(CONFIG_SND_CTL_DEBUG)
++static int snd_ctl_put_verify(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *control)
++{
++	struct snd_ctl_elem_value original;
++	struct snd_ctl_elem_info info;
++	int ret, retcmp;
++
++	memset(&original, 0, sizeof(original));
++	memset(&info, 0, sizeof(info));
++
++	ret = kctl->info(kctl, &info);
++	if (ret)
++		return ret;
++
++	ret = kctl->get(kctl, &original);
++	if (ret)
++		return ret;
++
++	ret = kctl->put(kctl, control);
++	if (ret < 0)
++		return ret;
++
++	/* Sanitize the new value (control->value) before comparing. */
++	fill_remaining_elem_value(control, &info, 0);
++
++	/* With known state for both new and original, do the comparison. */
++	retcmp = memcmp(&original.value, &control->value, sizeof(original.value));
++	if (retcmp)
++		retcmp = 1;
++
++	if (retcmp == ret)
++		pr_info("kctl->put() returned the expected value of '%d'\n", ret);
++	else
++		pr_warn("expected kctl->put() to return '%d' but got '%d'\n", ret, retcmp);
++	return ret;
++}
++
++static int snd_ctl_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *control,
++		       unsigned int access)
++{
++	if ((access & SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK) ||
++	    (access & SNDRV_CTL_ELEM_ACCESS_VOLATILE))
++		return kctl->put(kctl, control);
++
++	return snd_ctl_put_verify(kctl, control);
++}
++#else
++static inline int snd_ctl_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *control,
++			      unsigned int access)
++{
++	return kctl->put(kctl, control);
++}
++#endif
++
+ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
+ 			      struct snd_ctl_elem_value *control)
+ {
+@@ -1300,7 +1354,8 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
+ 							   false);
+ 	}
+ 	if (!result)
+-		result = kctl->put(kctl, control);
++		result = snd_ctl_put(kctl, control, vd->access);
++
+ 	if (result < 0) {
+ 		up_write(&card->controls_rwsem);
+ 		return result;
+-- 
+2.34.1
+
