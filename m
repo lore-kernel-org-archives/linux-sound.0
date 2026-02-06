@@ -1,280 +1,200 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011060.outbound.protection.outlook.com [40.107.130.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD91934CFA7;
-	Fri,  6 Feb 2026 08:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770367371; cv=fail; b=IaW8ACoejZfWjACdD8BU18WapKg9g+HrmagZv8uh5UhvKQ6yS6+00+1hGcj1boomgU8UK/bScolmdv+5eHopP12VpEqnuIy0kCpRcsSjSSXrxfdACkSCTu+WANJevPGAHTUzlUzsBmqboSS3K2Enz0p25YAwrNYGKHDk/9URuB4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770367371; c=relaxed/simple;
-	bh=7aj2MyiCRI6CE8ZUnZncVWymLP1SOkG72JDvHfu8tU4=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rkGHHdiCneoMzUifjKsf07LLRQttCyULYfbQ38RJBRClPhQcvVwYv/86tQmB/WTJUdKxFQ5m8u/Ar33RTpi2rTzivHhFz9FidS/x1tTTQXv3WS1ITTmVWuLKbFHnhUE0PIo2gBe04nw269qoJhd1wBxmWVWE0z5No4d6xxU728Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=XUneEf+l; arc=fail smtp.client-ip=40.107.130.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F78350A17
+	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 09:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770371119; cv=none; b=CHQvKt8cWChY4PXc5ro3azhhAN1gv4ku07UKCA1a7xMtewULpp9cVPr14zVOgGYh1tgkbaLHghnCgraWs4hushBHS0othfAQeIach2kX4q/21l34qNF2BDpqv8cwoGHcwSmVF05GpEXj4EtyFybdhLjRSNwRUXknbPusCUmbbn8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770371119; c=relaxed/simple;
+	bh=PzFwXnhVlPMQz9czgCDLFhlAddyJb1P0AjEtW3rYpJ4=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=cNeOBzQdlnSeT9pNxV8vOADuAu/cKOm/bDHmzKYhGNNFJc2o0TUagWska+K8XSfkhIFQvCwKlAHPuO0mpdDvwGn857kweI/3U+pqhuAW3c8u1uV9o651sO5ksMIAoA6dRZid4iATIqI3W3kaQBG6kaX4U4yPWBJH5dUva91s6Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dDkDTNoP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X4vZG2pJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dDkDTNoP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X4vZG2pJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="XUneEf+l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hc9dB8+NLq4W6gkE+FgxKBgUsr8MWFra9Nm/4nNzUGx6D9o5qTDoDPhcODRV3cwvHpxXKYs4bm8wxBirmL/ZxG9diTFx3s3vIHx0dX6zmpP9w82twDMUXnPnRCoIBmSCHR0DX7lrWgaatIVxrS+NyyjFqPMLHZMo/T7mnzJ+QKIc1OW/O5IzS+I7/0qbL5vezH8D+T8PHOEPGyLPOpMQ6dHbXBfHS0n/WHFR+KCWRRcwENpnHQDCYjqnOwc6Q4rwKgTi4erWGK/o1oUdzo5/tKGEx7oyeFTW7sUo1+YHQSCWwQdJtl5lAHgrJgsrms6cb9LZH0SPbymOkrOmYb8CKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E2wxNCPBKapEPkH/d65SEN/5C5Rx2mGd22mOiRHmRiI=;
- b=VXTqhmLHemsjQItEc3Dw0cixNhzZE2TkYfmGSNgCWjP7/wQSoam0BYDQpZNk9EbYKVzDllVMjJuH37/zvdSzCx/T20qJsLkvCVRGLyrC6/F1gAOwVgXW0M1b2NSjUMtYCPkuRzYtnewdRGA9fYfczeKenyAmSsfF11wDApHqZmg4QGTL2gHDY+s90Y1xTPC56WLP8nfIKfNFZpO28PstFkww4UbB+xuh5URwERRe59wOw3LXI1/PwV/EwXUJdRc45TUMgOhpzWdeNjLbDnIMLVtG0LV52SPPwMnoXGFvoqDIBt21J5FfaUpz5CdkCEa+Ci1eSgKR2GrFON9653vihQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E2wxNCPBKapEPkH/d65SEN/5C5Rx2mGd22mOiRHmRiI=;
- b=XUneEf+lfu4t8ytos0MqeKKFZfOscTsK46JPecsnmxVzY9Mv3EANrlCPP91+33bOy7drQtKqb0rJEYW2iJQNX9EpQichRrKnS7k7KaHsqTTTVp0CDTeAsSMw4RtZuWLyaukSSyrN7XIMh3JxclDpBkPdhCDwvx/lvHMGEbsDfvkAntqwA3+BR2yQSjUBzrsnliv76g1T2mNEfo4QV3EbbGpV75vJFVF82fK4Ejw7Drec03l4OXM9IUhkbN1mi4PWkNQGxjRIsnkfLo26bSZ9OF79WLsM4d5Jfibj/7YAutZ/LKf26fYxiV4iGLFGlgsNrHdV2zt5iSur0rsomkmMdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB7055.eurprd04.prod.outlook.com (2603:10a6:800:123::21)
- by VI0PR04MB11503.eurprd04.prod.outlook.com (2603:10a6:800:2c7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Fri, 6 Feb
- 2026 08:42:47 +0000
-Received: from VI1PR04MB7055.eurprd04.prod.outlook.com
- ([fe80::d6ab:1538:d868:bf8]) by VI1PR04MB7055.eurprd04.prod.outlook.com
- ([fe80::d6ab:1538:d868:bf8%7]) with mapi id 15.20.9564.014; Fri, 6 Feb 2026
- 08:42:47 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: fsl_xcvr: add bitcount and timestamp controls
-Date: Fri,  6 Feb 2026 16:43:34 +0800
-Message-Id: <20260206084334.483404-3-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260206084334.483404-1-shengjiu.wang@nxp.com>
-References: <20260206084334.483404-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5PR01CA0107.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1d1::10) To VI1PR04MB7055.eurprd04.prod.outlook.com
- (2603:10a6:800:123::21)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dDkDTNoP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X4vZG2pJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dDkDTNoP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X4vZG2pJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 304553E6D4;
+	Fri,  6 Feb 2026 09:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770371117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
+	b=dDkDTNoPQo7taO0pFxjF87kgT0adenNvxS7swssMLxoRJOOD8JLQ9z327694wuNwl66jx0
+	9EE2mBN7WsxsEdF62PAcl+YutD9sh1/Vn26qrjz29TftPeh1nSYahFCIplC5O6xOL9aWbu
+	D2f6jgJ9GV+NhmY5GH+BGM1Bf6qb6xI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770371117;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
+	b=X4vZG2pJAG4SLyJ/i2r+rkWCGaXP1fcqzZ5sASUm0ogK8zdzOeKce2c4QBGsWElwZ8VXjv
+	85eSezb7nYrGeCAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dDkDTNoP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X4vZG2pJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770371117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
+	b=dDkDTNoPQo7taO0pFxjF87kgT0adenNvxS7swssMLxoRJOOD8JLQ9z327694wuNwl66jx0
+	9EE2mBN7WsxsEdF62PAcl+YutD9sh1/Vn26qrjz29TftPeh1nSYahFCIplC5O6xOL9aWbu
+	D2f6jgJ9GV+NhmY5GH+BGM1Bf6qb6xI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770371117;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Pj9eYxSkjjOUJW2K2At9l/4+KF6qnHytY4W99eYRZ10=;
+	b=X4vZG2pJAG4SLyJ/i2r+rkWCGaXP1fcqzZ5sASUm0ogK8zdzOeKce2c4QBGsWElwZ8VXjv
+	85eSezb7nYrGeCAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0F4A3EA63;
+	Fri,  6 Feb 2026 09:45:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id S3TSNCy4hWkUQwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Feb 2026 09:45:16 +0000
+Date: Fri, 06 Feb 2026 10:45:16 +0100
+Message-ID: <87h5rub3yr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.19
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7055:EE_|VI0PR04MB11503:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d057479-0d26-4fcc-4139-08de655bb461
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|19092799006|1800799024|7416014|52116014|376014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ZCFe563ZN/0h3Pk4mQrarsE5PX34tkMdKBBsLoZYb8KFg1NGpBbjxKfjqX+a?=
- =?us-ascii?Q?QAIRRXSpfXqUzWj6pzB6vPhWPaZRqeTFbaiHjNtBG29seoyM+7RQIK14rTz5?=
- =?us-ascii?Q?brVHe5aACj/XSIj0Wh12bEstrtw0b4xxidbbGX5CjZfNBL3xomhVMY/jn3dV?=
- =?us-ascii?Q?uAOV45ZHNnVb/VCWTtKd4GfQodEJNdOmoAoQFnqbl9PLrWH3tkvLecp7Az1e?=
- =?us-ascii?Q?wURLjZ2t1iG223SE/Esov8UaXxOrlz4LjqF6uTO9GV/gy/t1WFYAuBy5NE30?=
- =?us-ascii?Q?+RsT3dyQS25vIqxySruDk8x8ST/UVEVzxgbMvsor94tVpGGT6LYc56m0lXtu?=
- =?us-ascii?Q?PCbm1BpkFDMLEGgd4LxzuwAicd2j+v3ZwxmE9QA8Nb2142InLZBLTYqZqPvg?=
- =?us-ascii?Q?4EUU+rrXCTXPkPPMCMeMPqqn7ZYGaGXHdqX+/ANc4C2S1nae+Dgyljwzc19L?=
- =?us-ascii?Q?JOA+bix9DRR21d9Br/dT5sDZgJbOs2MARwZuxYkm4wAyqiYTrFj7rl3kKK4O?=
- =?us-ascii?Q?LTaTLpGcPy6SCQ77JQGp8Ktoruhp1JbT+elLgluMP0hJ5AALN0+DmvLpOAQJ?=
- =?us-ascii?Q?xVEmsh/Z+572H3r9Bv1auBFG90TWEeX73JJYpWFa83FFC3+vQEAmNUGSM1PV?=
- =?us-ascii?Q?0w9lkvhCR1FuN1tB8IaH04cynZpjoGVabeqU9IsEuZARd44w3QBb74Mquw4F?=
- =?us-ascii?Q?9xAwg6dcCPQKpKJkbTvFKTealUQ+7396ncIX6tj36Y9mxSKEAU4UQo46s9iq?=
- =?us-ascii?Q?o/wR5ap2iJZQEVAPoWIEDnXzL3Qm7UsYVzbIvVHkYZMA+wy9w4whODle+KXM?=
- =?us-ascii?Q?+rWRCG0oZc5/QB7AzedSSHDD/+YZYZfvwETvet6q/GqnlpCaz2MNRnQb83o0?=
- =?us-ascii?Q?bd22SwEmzHR5RqNzzA0uqMx7yNe3gqbm0SLoepcAFxAaN4jAiyyTMd1IG7Gr?=
- =?us-ascii?Q?A/szBycy6VSgU6UTbWJTtKDlmCuXp9FseeYJAYR+L23djgSVeSEItjSdfb38?=
- =?us-ascii?Q?0UuBT8eRfbG7oT8Fdlerqp/+kdQ//K7SVAwvC8yXk4IyFlgrZ4bt/YztNIv8?=
- =?us-ascii?Q?7P7WwJdiik1tbJ5ZcOt60w3LAqxbkJ1xOGv2RKJYiAf4aKAbZZVDiKZpSVgR?=
- =?us-ascii?Q?kKzCLE6dbcK4BwUdKIGVs5Itkxg6a4LeNT/mjv56KJLMPgMajRFC7o87tYg7?=
- =?us-ascii?Q?7DbNAhtqHyOsNhVwT1JezAHiBhgpqcYanEiB4e/CEuex/4T/28aHIrYQ9cYo?=
- =?us-ascii?Q?a4tZGdWsBY1mg5Yfp6eRNt9N+hLOGzCA5XAT68QPAWhjHOKbIoEBnbc1KdQB?=
- =?us-ascii?Q?PiMuJusHKVfvcsHrUWjsLiqsvonP5mh2kADhtEi4ZAy0IsRHSEbMxgNkzy9/?=
- =?us-ascii?Q?EBDzKSN/L3CNF3J15JKHJLc6kykuYewyHu/s2Yt0PcHIswy5//WW2dBYcyw3?=
- =?us-ascii?Q?nu3oVbqtttsO5PMiHtJxIm6obUjDWvXSQzKmnv4sdIrw9Te1Llm3dUrMyvNU?=
- =?us-ascii?Q?+YjItATmgeZSUmSZ4vFXypAtEX8X7yPIpvEO3YqtcOiQh6fALYEiHZbbUL1+?=
- =?us-ascii?Q?Cg8kAzOIDglB7Uk8mIPdAPkSzUhFEB+luhlb7U2phLzCTwWfVRciBsoIkY3Y?=
- =?us-ascii?Q?8xV80GIaz20x7Em5P34jychltJB0X4ZXbT+4G0XneIC5?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7055.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(7416014)(52116014)(376014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hrtMR1hPHnqGXX5l6RGRl7fDd2AuMFqTg9BRKV1zEOPfP6Jq2eR/EN2ANohL?=
- =?us-ascii?Q?zl8Z6IQsAT9ycY3Dp9KpVB1/SA3WtZ0ZIRy1TxfZXpyO3+vtqVgc10HAWJp6?=
- =?us-ascii?Q?yvSIHcs0Hh/MHC3PV+IMhnTHkr0cfqIo9UJbAzeNylgy2YZsiy08WJrFFZdY?=
- =?us-ascii?Q?GfcBYNdg/u7irEs1bLWZUzW1n8uaJ16Ea3zIYyaL7gFm6M4VPT76lMAH0Hgo?=
- =?us-ascii?Q?4xoL4PizziCsni93j0dONKA0+Uxfiz3PeynUPtrYUIW3VRBR1l81i1+jXXFA?=
- =?us-ascii?Q?/YZhsiQfWs7I0nDchuD+ECPSM/Ko/hAOjQK3wBic9yADpP/wlu6BGqcQiG0e?=
- =?us-ascii?Q?i9kBV/mn0NIJrUWgaoQSJBA6hRuIxeXMr9L3/hXQktb+T+zzxfWV8pFqeqnf?=
- =?us-ascii?Q?luJ41128SIfUXjNW+EodiPYfh1J5OTQsbp4VbI32ABznlByky6mqZaMqzafT?=
- =?us-ascii?Q?u4L/Rollhpx8nYPMu/W60k1mHuTKEE4bozYOH2JAB5ekFWZifLcsgCtIGYcE?=
- =?us-ascii?Q?krHPfmrfcYf5YhrWD/LpR7pLCoj/EY+GbSsP1JDBONMyh9gKTWhIHOdg2xPp?=
- =?us-ascii?Q?Dg8Zi2HMQk9GF20OgL631EJz9eJHdKV2FkQwcPV+SOuPYHFEFP8xg+6FCPYb?=
- =?us-ascii?Q?JSB//E2CW93LutpGdLP6w7h2daCsNaTiguAsETKKWRsnD89p2cFnxtoITqU0?=
- =?us-ascii?Q?YXUyT/0rFE3P//nRk9Qhr540owxEx2npoxvicq0UytEkN5ogOokvtAoIPjPj?=
- =?us-ascii?Q?hH8vt9klPPv8fGBRcSj+/NENXPKukYCUR/dSDaFtWTrzS4MyuCi2uKaFoAt9?=
- =?us-ascii?Q?F3+uT8pyjPYPaMSi5ZeGni95163w8MMQKhwyFCmde68o1xwgJnG3d8FGzFpZ?=
- =?us-ascii?Q?sbTSGYTSQQIYbZNVcYu2eLUsvYF7RFfi/k9vkRQ0ATtVBKBgUr4lU6IPgcff?=
- =?us-ascii?Q?mBIl+KxZ3STomftAI8+FeKczYCl4pikRCoXvpknjrFA0qy3t2Px9XNoynDko?=
- =?us-ascii?Q?dsTW8VT9oywaxIsuBIZ36zZ9xTT1yp2wjH5YMYGPQfgV/cOaUKhWBjNw56IL?=
- =?us-ascii?Q?tkQPGbZENgvZeTL6rHhOQNl36ncHDuu8sX7lu+nE1z5a08MKcHk7tOlsGh8X?=
- =?us-ascii?Q?dAn+KOfpMfYIiYPzqQkkf+pFtWna5nzBkvohUgH7B4nqzoC1sJGV5nWr+VII?=
- =?us-ascii?Q?ZTByQC0a5C7yoFkb/XSRy/Q2Lg7VbnvCYZ5dLXWchX8Uyuvee0VO+YB8V/XH?=
- =?us-ascii?Q?qwNqJXT6hv/IuWYXXhIyt+w2PMK0azQnDYWVpJu80G0pc2AGjM09332kt1NF?=
- =?us-ascii?Q?kfjJRNInT+nwGyAu2XVnrmX7heBLIrQGYYH2z+ZYW6kzr5PZQpHjli413DLv?=
- =?us-ascii?Q?99EoBsiKBCNLothEF+E4j44SJ2kTO9OAyZQIk/qLO3zKcBSmNk4/rypKQ6Xy?=
- =?us-ascii?Q?FYKGDhkug/kVRBbJ5KR/lfuaOL9mA8OxrK3psTcEfBhUY3a5iggGRfteT2hb?=
- =?us-ascii?Q?V6U5oRTRPjkDQOcmu+KmE817m7MWuEvlOXt1ry2PPS98ltf9iG2OFe56RCq0?=
- =?us-ascii?Q?Sju8TCO1LYXaHAXDoF5RQ+z7iM2qvWMTQSsWj4Bp9p7qeHltdbrwEPKR1Ke0?=
- =?us-ascii?Q?pK/NCAuEK6D8Ig6sRekvRcM4KEn1LOJMXRBkTlZldnf5gfa7ZE2W2869pjrt?=
- =?us-ascii?Q?Zn57jjDrhAyF7/gf6odWssBSkY+G/E68ku5v6a76gvvHdSAlJ/CKFQti7G1M?=
- =?us-ascii?Q?4k14eNo1xw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d057479-0d26-4fcc-4139-08de655bb461
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB7055.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 08:42:47.8346
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x84BqoGGF5DWYsRRTPe8BQKF+zYMG7VizvejlYdBmmhqI1puk7xKwWRUFg2UsKm2/vlyBAMSELdDmxEuMQpl2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11503
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 304553E6D4
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-The transmitter and receiver implement separate timestamp counters and
-bit counters. The bit counter increments at the end of each bit in a
-frame whenever the transmitter or receiver is enabled. The bit counter
-can be reset by software. The timestamp counter increments on the bus
-interface clock whenever it is enabled. The current value of the
-timestamp counter is latched whenever the bit counter increments.
-Reading the bit counter register will cause the latched timestamp
-value to be saved in the bit counter timestamp register. The timestamp
-counter can be reset by software, this also resets the latched timestamp
-value and the bit counter timestamp register.
+Linus,
 
-The timestamp counter and bit counter can be used by software to track
-the progress of the transmitter and receiver. It can also be used to
-calculate the relative frequency of the bit clock against the bus
-interface clock.
+please pull sound fixes for v6.19 from:
 
-As there are three regmap handlers defined in this driver, explicitly
-call the snd_soc_component_init_regmap() to init regmap handler for the
-component.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+The topmost commit is 51db05283f7c9c95a3e6853a3044cd04226551bf
+
+----------------------------------------------------------------
+
+sound fixes for 6.19
+
+A collection of small fixes.  It became a bit larger than wished,
+but all of them are device-specific small fixes, and it should be
+still fairly safe to take at the last minute.
+
+Included are a few quirks and fixes for Intel, AMD, HD-audio, and
+USB-audio, as well as a race fix in aloop driver and corrections
+of Cirrus firmware kunit test
+
+----------------------------------------------------------------
+
+Bard Liao (1):
+      ASoC: SOF: Intel: use hdev->info.link_mask directly
+
+Breno Baptista (1):
+      ALSA: hda/realtek: Enable headset mic for Acer Nitro 5
+
+Charles Keepax (1):
+      ASoC: cs42l43: Correct handling of 3-pole jack load detection
+
+Chris Bainbridge (1):
+      ASoC: amd: fix memory leak in acp3x pdm dma ops
+
+Dirk Su (1):
+      ASoC: amd: yc: Add quirk for HP 200 G2a 16
+
+Frank Li (1):
+      ASoC: dt-bindings: ti,tlv320aic3x: Add compatible string ti,tlv320aic23
+
+Maciej Strozek (1):
+      ASoC: sof_sdw: Add a quirk for Lenovo laptop using sidecar amps with cs42l43
+
+Richard Fitzgerald (1):
+      firmware: cs_dsp: rate-limit log messages in KUnit builds
+
+Sergey Shtylyov (1):
+      ALSA: usb-audio: fix broken logic in snd_audigy2nx_led_update()
+
+Shuming Fan (1):
+      ASoC: rt1320: fix intermittent no-sound issue
+
+Tagir Garaev (1):
+      ASoC: Intel: sof_es8336: Add DMI quirk for Huawei BOD-WXX9
+
+Takashi Iwai (1):
+      ALSA: aloop: Fix racy access at PCM trigger
+
+Ziyi Guo (1):
+      ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
+
 ---
- sound/soc/fsl/fsl_xcvr.c | 56 ++++++++++++++++++++++++++++++++++++++++
- sound/soc/fsl/fsl_xcvr.h | 10 +++++++
- 2 files changed, 66 insertions(+)
-
-diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-index 5de93f458b56..d9e76ea9cf07 100644
---- a/sound/soc/fsl/fsl_xcvr.c
-+++ b/sound/soc/fsl/fsl_xcvr.c
-@@ -62,6 +62,50 @@ struct fsl_xcvr {
- 	u32 spdif_constr_rates_list[SPDIF_NUM_RATES];
- };
- 
-+static const char * const inc_mode[] = {
-+	"On enabled and bitcount increment", "On enabled"
-+};
-+
-+static const struct soc_enum tstmp_enum[] = {
-+	SOC_ENUM_SINGLE(FSL_XCVR_TX_DPTH_CNTR_CTRL, __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC),
-+			ARRAY_SIZE(inc_mode), inc_mode),
-+	SOC_ENUM_SINGLE(FSL_XCVR_RX_DPTH_CNTR_CTRL, __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC),
-+			ARRAY_SIZE(inc_mode), inc_mode),
-+};
-+
-+static const struct snd_kcontrol_new fsl_xcvr_timestamp_ctrls[] = {
-+	SOC_SINGLE("Transmit Timestamp Control Switch", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+		   __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN), 1, 0),
-+	SOC_ENUM("Transmit Timestamp Increment", tstmp_enum[0]),
-+	SOC_SINGLE("Transmit Timestamp Reset", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+		   __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC), 1, 0),
-+	SOC_SINGLE("Transmit Bit Counter Reset", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+		   __bf_shf(FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC), 1, 0),
-+	SOC_SINGLE_XR_SX("Transmit Timestamp Counter", FSL_XCVR_TX_DPTH_TSCR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE_XR_SX("Transmit Bit Counter", FSL_XCVR_TX_DPTH_BCR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE_XR_SX("Transmit Bit Count Timestamp", FSL_XCVR_TX_DPTH_BCTR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE_XR_SX("Transmit Latched Timestamp Counter", FSL_XCVR_TX_DPTH_BCRR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE("Receive Timestamp Control Switch", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+		   __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN), 1, 0),
-+	SOC_ENUM("Receive Timestamp Increment", tstmp_enum[1]),
-+	SOC_SINGLE("Receive Timestamp Reset", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+		   __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC), 1, 0),
-+	SOC_SINGLE("Receive Bit Counter Reset", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+		   __bf_shf(FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC), 1, 0),
-+	SOC_SINGLE_XR_SX("Receive Timestamp Counter", FSL_XCVR_RX_DPTH_TSCR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE_XR_SX("Receive Bit Counter", FSL_XCVR_RX_DPTH_BCR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE_XR_SX("Receive Bit Count Timestamp", FSL_XCVR_RX_DPTH_BCTR,
-+			 1, 32, 0, 0xffffffff, 0),
-+	SOC_SINGLE_XR_SX("Receive Latched Timestamp Counter", FSL_XCVR_RX_DPTH_BCRR,
-+			 1, 32, 0, 0xffffffff, 0),
-+};
-+
- static const struct fsl_xcvr_pll_conf {
- 	u8 mfi;   /* min=0x18, max=0x38 */
- 	u32 mfn;  /* signed int, 2's compl., min=0x3FFF0000, max=0x00010000 */
-@@ -1073,8 +1117,20 @@ static struct snd_soc_dai_driver fsl_xcvr_dai = {
- 	},
- };
- 
-+static int fsl_xcvr_component_probe(struct snd_soc_component *component)
-+{
-+	struct fsl_xcvr *xcvr = snd_soc_component_get_drvdata(component);
-+
-+	snd_soc_component_init_regmap(component, xcvr->regmap);
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_component_driver fsl_xcvr_comp = {
- 	.name			= "fsl-xcvr-dai",
-+	.probe			= fsl_xcvr_component_probe,
-+	.controls		= fsl_xcvr_timestamp_ctrls,
-+	.num_controls		= ARRAY_SIZE(fsl_xcvr_timestamp_ctrls),
- 	.legacy_dai_naming	= 1,
- };
- 
-diff --git a/sound/soc/fsl/fsl_xcvr.h b/sound/soc/fsl/fsl_xcvr.h
-index dade3945cc0c..1c3636567763 100644
---- a/sound/soc/fsl/fsl_xcvr.h
-+++ b/sound/soc/fsl/fsl_xcvr.h
-@@ -233,6 +233,16 @@
- #define FSL_XCVR_TX_DPTH_CTRL_CLK_RATIO		BIT(29)
- #define FSL_XCVR_TX_DPTH_CTRL_TM_NO_PRE_BME	GENMASK(31, 30)
- 
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN		BIT(0)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC	BIT(1)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC		BIT(8)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC		BIT(9)
-+
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN		BIT(0)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC	BIT(1)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC		BIT(8)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC		BIT(9)
-+
- #define FSL_XCVR_PHY_AI_CTRL_AI_RESETN		BIT(15)
- #define FSL_XCVR_PHY_AI_CTRL_AI_RWB		BIT(31)
- 
--- 
-2.34.1
+ .../devicetree/bindings/sound/ti,tlv320aic3x.yaml  |  1 +
+ drivers/firmware/cirrus/cs_dsp.c                   | 37 +++++++++++++
+ drivers/firmware/cirrus/cs_dsp.h                   | 18 +++++++
+ drivers/firmware/cirrus/test/cs_dsp_test_bin.c     | 22 +++++++-
+ .../firmware/cirrus/test/cs_dsp_test_bin_error.c   | 24 ++++++---
+ drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c    | 26 ++++++++-
+ .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  | 24 ++++++---
+ drivers/firmware/cirrus/test/cs_dsp_tests.c        |  1 +
+ sound/drivers/aloop.c                              | 62 +++++++++++++---------
+ sound/hda/codecs/realtek/alc269.c                  |  1 +
+ sound/soc/amd/renoir/acp3x-pdm-dma.c               |  2 +
+ sound/soc/amd/yc/acp6x-mach.c                      |  7 +++
+ sound/soc/codecs/cs42l43-jack.c                    | 37 ++++++++++---
+ sound/soc/codecs/rt1320-sdw.c                      |  2 +
+ sound/soc/fsl/fsl_xcvr.c                           |  3 ++
+ sound/soc/intel/boards/sof_es8336.c                |  9 ++++
+ sound/soc/sof/intel/hda.c                          |  5 +-
+ sound/usb/mixer_quirks.c                           |  9 +---
+ 18 files changed, 234 insertions(+), 56 deletions(-)
+ create mode 100644 drivers/firmware/cirrus/cs_dsp.h
 
