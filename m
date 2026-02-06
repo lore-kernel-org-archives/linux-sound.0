@@ -1,83 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C065296BD3
-	for <linux-sound@vger.kernel.org>; Fri,  6 Feb 2026 17:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4656330DECE;
+	Fri,  6 Feb 2026 23:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770400670; cv=none; b=a4vMYlGVfRjBXVX0AUbk9iAMlSNc43AQ3KZJwwz2f8TSWbSfAhGyk14CNjaCRPoyEzycsmP1d8NsfNcaOFgi6KXgAaq10mfTxSJx5Qw6tWkIsPYrlWjRcat0NzEKC6aRQWpmxWnAeePKvWLmBDIlqLSnXr03CBZlmsb7+CO1gF0=
+	t=1770419392; cv=none; b=HX1WHDIo5ygg/v+TdyPDNCVLKWgjlnvNEJyu/W+1n1tuoFnNr9MRT6kSQpAkor0dZV7KiYiI4ZGuKZbS1Pzm4uDE9b3GjA7qztQXvFgXiNCp3F0qwK9FJkE9/7KwrVe310r70XI6/0AK7hbaQF1QFpKHRFVx5MgdkT1HFYGJpjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770400670; c=relaxed/simple;
-	bh=xKHWMyO98Gl5YTOIGxQYRr3rvRDinvv2FKGyOL32Sy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nboZUhQVRIS3GPMoOC7FykJN+pEQe6u44m0LemkAdwiUIe/ffZWWCVLID0NQncQyIFjqX6QjU961wwVZJaG+vRQfx0cMDUxe1Tjqqny5z3/Apuc0jQuayotLg7RmMDl7rE+H1XIdGtGIREU/77UaEKjdBPD9m58q4yAsAy9MRIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AetnHTkB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770419392; c=relaxed/simple;
+	bh=SZ99dtIxOVBOlRWO16UlLLjAJ3OKNP/m+PK2cmlPQFU=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GZMoAlDy+ZYesNRAQnp7aiZj95G1g8ycQxeUM7b7+B49JZy//CT5ghJQPEStpoDW7hGF/DBc1gSTIHinautAq4RF7yKNb9RwotNod1w2PxG8n9EtZpbSpCEFVonQBjB1EzsjJ60lyje18dW0la35W+M9+DcVw5E9cP+NfvU6yk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHB9J5Gb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AetnHTkB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8BFBC116C6;
-	Fri,  6 Feb 2026 17:57:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHB9J5Gb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2223C16AAE;
+	Fri,  6 Feb 2026 23:09:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770400669;
-	bh=xKHWMyO98Gl5YTOIGxQYRr3rvRDinvv2FKGyOL32Sy4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AetnHTkBaZPDfJHBAEdnlFVGqzjqjZxUVQUUTrW6jsvFhrgxQZGE0B2eXfUU7ICkj
-	 4MgJfzATpUVWrLl0aYOUal1UYsKrdam3LrFeMmiueVx381qQdIB4bXHw6mXd/JOPzZ
-	 i9YE6XkvKRY/3hRTCih0AjWq1He/sFGmNSLVzApQYwIc6hlWsIaLPzX5WhmnhR814B
-	 rug8mHl+wechQ7QouIomgmckMiU0yd9gblAacd4zIE3UBlFX6FRoj3+5hsTSulRDb6
-	 H6o0GmmCLKL6UWREhP4st1lZeAQDn42nFEvv2l4GytpPtzflDZFbyev/CU9ldJdJaY
-	 vQPWgXAmdL9nA==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 1C7471AC57FA; Fri, 06 Feb 2026 17:57:47 +0000 (GMT)
-Date: Fri, 6 Feb 2026 17:57:47 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>, tiwai@suse.com, perex@perex.cz,
-	amade@asmblr.net, linux-sound@vger.kernel.org,
-	kuninori.morimoto.gx@renesas.com
-Subject: Re: [PATCH v3] ALSA: control: Verify put() result when in debug mode
-Message-ID: <aYYrm1WvF5tBTuYg@sirena.co.uk>
-References: <20260206113250.207179-1-cezary.rojewski@intel.com>
- <87ms1m9htu.wl-tiwai@suse.de>
- <56885643-6602-4155-8644-58eb6e561ed4@intel.com>
+	s=k20201202; t=1770419391;
+	bh=SZ99dtIxOVBOlRWO16UlLLjAJ3OKNP/m+PK2cmlPQFU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=EHB9J5GbbK9704caRHoOmG3nJslJfVBSqEY7tlA/7XuRaPnNGIgp9d28B+0gS8pSF
+	 PWOgMtIIUeK/gnLLEsiP+XhMDnw6pCELf98tJlrj8Mgp69WFw9hHurmxb6FP13WANs
+	 K1yMWWNl/FQRHOvC9SkMxwiBHatXHgeQDcoMtnc54K2GYYenar/O9zMSemGGBV2SE/
+	 2G1W4xKL0i7O+QcxPb6mg4J20MrWcapGnijaCScuv5k8iaG4hdROc+dGxTva5l6i8X
+	 KPc4OtXgk+0mEolM1MBzy3w2+EiIIxFnF34va7uNSVDlvxPr2j2muVcvytCYkG1KBa
+	 rA5UB9OtsxTtA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 483193809A17;
+	Fri,  6 Feb 2026 23:09:50 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.19
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87h5rub3yr.wl-tiwai@suse.de>
+References: <87h5rub3yr.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87h5rub3yr.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19
+X-PR-Tracked-Commit-Id: 51db05283f7c9c95a3e6853a3044cd04226551bf
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 8770bd8f91749dfd05714447dfbd511147cb9576
+Message-Id: <177041938874.1109628.11238105590753401520.pr-tracker-bot@kernel.org>
+Date: Fri, 06 Feb 2026 23:09:48 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zR7Pi7/Vdix8+GKY"
-Content-Disposition: inline
-In-Reply-To: <56885643-6602-4155-8644-58eb6e561ed4@intel.com>
-X-Cookie: Think big.  Pollute the Mississippi.
 
+The pull request you sent on Fri, 06 Feb 2026 10:45:16 +0100:
 
---zR7Pi7/Vdix8+GKY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.19
 
-On Fri, Feb 06, 2026 at 06:45:08PM +0100, Cezary Rojewski wrote:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/8770bd8f91749dfd05714447dfbd511147cb9576
 
-> TBH, I thought going for ~1K on the stack is fine, as IIRC, the typical
-> limit is 4K. This function should not be folded into any of its callers
-> either.
+Thank you!
 
-We trigger build warnings on individual stack frames at a much lower
-limit.
-
---zR7Pi7/Vdix8+GKY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmGK5oACgkQJNaLcl1U
-h9D7VQf/ZhMADgigvlFIioEsEI4mNf1fsj9ObKK3/tFof2Fzh8mTWjTOoCTT7eN1
-5JGxyKfkIUBB7Ih/B5rlLoJITolKwP87z967iLZJb25C/ExmfE8Rsi7rVtBeo3Nk
-KNfoOXJOI31K0mihX4Bbk5uLxnHkxog/d6+NOdAX/rSDOL5+b3WCY5CfgNojR0tm
-nr2Eiq0fI/REle1FwZW7CrzSWZtLn/rbUOaqd8FWGYgGkhKPy5pjJAFoaSudN63V
-/U5Fln087LgWFPdkeMsYgryk6YHSC/afVZzNBtBVPwh0Ea3oBucHdu6arjNPYTS9
-HFfy8dk2TlZ0JnPcqRXbSNAYOvYiXw==
-=a5hU
------END PGP SIGNATURE-----
-
---zR7Pi7/Vdix8+GKY--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
