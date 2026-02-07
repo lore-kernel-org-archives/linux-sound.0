@@ -1,139 +1,156 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CCC3090EE
-	for <linux-sound@vger.kernel.org>; Sat,  7 Feb 2026 13:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3A93090EE
+	for <linux-sound@vger.kernel.org>; Sat,  7 Feb 2026 13:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770470014; cv=none; b=QUrEcAEVtBI53qXz1vzZlr88URbrN9xrbhYg7MGKWNT/6/mtJNK6nL/VeVULeTOyoF4dUT609Ppo6iVfJnnJP5m5WOHkpGU0eQizNEu7gWS8d7ZAl0n/Du67aC9caS8GMupVvMtaeejqcu1ayGfm/mwI4jw1ZpcKRX/GGx90RUQ=
+	t=1770470062; cv=none; b=jC2xhWAzAPQS8iLvLMJkyUqPcrLLSvUSZ/cBKUTwcCtnxbkjCVDamyEaah2vn7geA/rJHjnlIX+/g6hcL+UCxKwDreSyBeH28tNd5oH6L4AHels+uY5lou5mEXYqwuTF4ZFfXF8vF88ZsuTKLOAG+4VNTSttpu5+azmICBLsWMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770470014; c=relaxed/simple;
-	bh=CMrnUtcU7/ymXpxfYHAzYvdxtMQCVj/QIeL73cUvxEc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bW9o5yA2Km1LReRqWTY+RixuLkqYqFdMFmjUbvuUnbG++HUEsxyo+L16L4q7MTibzTPshL+X0JG3qWGCbOFygFqj2RnTptVBOqhTj+QgnPa9KEsEWWk1XqXSYgMOvehJ5ybsWQ8cRUMOFPXLkoAribT23Jw1frd8dda5iEzcibU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P3k7Y2eG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y1k74uAn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P3k7Y2eG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y1k74uAn; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1770470062; c=relaxed/simple;
+	bh=YAy3BjTLwxhUVmIWihgxABicphPFEq9V072wkUJWlaU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K9xu59VRZbdtzkS8TpFQBQ5yoBtgVXuQcd+/kHovcPacHvg9U8/k2hLTu+s5LNdP7IJk5rKKRFcE65z17e0w80HXmuEQZC2hUTis44aLuEfqth5mDOZ15JI3iTV9dApctCMdbyMXGGDy4boaQjlmqw3JulzAwddhAvMNFQ3nMvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bPcegvjv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lsTZl98G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bPcegvjv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lsTZl98G; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P3k7Y2eG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y1k74uAn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P3k7Y2eG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y1k74uAn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bPcegvjv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lsTZl98G";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bPcegvjv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lsTZl98G"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8182C5BCCB;
-	Sat,  7 Feb 2026 13:13:26 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 31A103E6D3;
+	Sat,  7 Feb 2026 13:14:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770470006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=9N3leVFYOigzMr8Rd1iGe8oWWsElI5rtDm/HJRNO1sY=;
-	b=P3k7Y2eGdfpWElewZGbTldsszZjlMfybbzu0cUvFAOExIk/tR1zu0KEkED2CcknO2Tt1Ib
-	lk7aYMOndYYIDRsMckyg70re3oJ8ACPwkjacsfEZKC6Jjah+chgWxk948h5a0bVjF8UrFq
-	OzDjriLUGUi3c+jainnkuwfAVzNJ5jA=
+	t=1770470055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5lATmPIYnRlxz34499Bn1BA4TaAHCUA1Hj5fNzvwmo=;
+	b=bPcegvjvs9hAkrrEBmhar4sigY/ZNw9t1UFTLcDUQamJfcd2PzAksxtNv+eG09iVTmNjab
+	knI9QZ14xkW8NMv6ateom5wc/ftSevXEVy6ozbYCxPDKrZYBQhgpfBPR5jqBIL1eCH47Gx
+	6JAp2QzpveyMREbgoHpS7gfk0u5qSVI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770470006;
+	s=susede2_ed25519; t=1770470055;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=9N3leVFYOigzMr8Rd1iGe8oWWsElI5rtDm/HJRNO1sY=;
-	b=y1k74uAn0dHhqCQGvg5lVaHdCMMGJyaEcMa5eSfFwWN5G0xrvJEzeKBHLvJqdZ+yUPhyOs
-	rnFFtAvw/PmLsJCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=P3k7Y2eG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y1k74uAn
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5lATmPIYnRlxz34499Bn1BA4TaAHCUA1Hj5fNzvwmo=;
+	b=lsTZl98G2SqdLfC8pNXsKqcdO2gdnhBmG+0TPAOpbDjKTedsnMQKv3ndw9+rVdH/qQ6xoc
+	4FXgR+Bno2exGdCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770470006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=9N3leVFYOigzMr8Rd1iGe8oWWsElI5rtDm/HJRNO1sY=;
-	b=P3k7Y2eGdfpWElewZGbTldsszZjlMfybbzu0cUvFAOExIk/tR1zu0KEkED2CcknO2Tt1Ib
-	lk7aYMOndYYIDRsMckyg70re3oJ8ACPwkjacsfEZKC6Jjah+chgWxk948h5a0bVjF8UrFq
-	OzDjriLUGUi3c+jainnkuwfAVzNJ5jA=
+	t=1770470055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5lATmPIYnRlxz34499Bn1BA4TaAHCUA1Hj5fNzvwmo=;
+	b=bPcegvjvs9hAkrrEBmhar4sigY/ZNw9t1UFTLcDUQamJfcd2PzAksxtNv+eG09iVTmNjab
+	knI9QZ14xkW8NMv6ateom5wc/ftSevXEVy6ozbYCxPDKrZYBQhgpfBPR5jqBIL1eCH47Gx
+	6JAp2QzpveyMREbgoHpS7gfk0u5qSVI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770470006;
+	s=susede2_ed25519; t=1770470055;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=9N3leVFYOigzMr8Rd1iGe8oWWsElI5rtDm/HJRNO1sY=;
-	b=y1k74uAn0dHhqCQGvg5lVaHdCMMGJyaEcMa5eSfFwWN5G0xrvJEzeKBHLvJqdZ+yUPhyOs
-	rnFFtAvw/PmLsJCg==
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5lATmPIYnRlxz34499Bn1BA4TaAHCUA1Hj5fNzvwmo=;
+	b=lsTZl98G2SqdLfC8pNXsKqcdO2gdnhBmG+0TPAOpbDjKTedsnMQKv3ndw9+rVdH/qQ6xoc
+	4FXgR+Bno2exGdCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 50ED13EA63;
-	Sat,  7 Feb 2026 13:13:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0213F3EA63;
+	Sat,  7 Feb 2026 13:14:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xtIYEnY6h2lnNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 07 Feb 2026 13:13:26 +0000
+	id vafpOqY6h2kFQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 07 Feb 2026 13:14:14 +0000
+Date: Sat, 07 Feb 2026 14:14:14 +0100
+Message-ID: <877bso8zmh.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: antonvg7@gmail.com
-Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
-Date: Sat,  7 Feb 2026 14:13:17 +0100
-Message-ID: <20260207131324.2428030-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.52.0
+To: anton <antonvg7@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: Could you help me upstream a quirk for HP ZBook Studio G4 mute LED?
+In-Reply-To: <64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com>
+References: <3ccd4c55-9b8d-47d2-bac9-8c1e9290c410@gmail.com>
+	<64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_CONTAINS_FROM(1.00)[];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4]
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 8182C5BCCB
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Score: -2.30
 X-Spam-Level: 
 
-It was reported that we need the same quirk for HP ZBook Studio G4
-(SSID 103c:826b) as other HP models to make the mute-LED working.
+On Fri, 06 Feb 2026 15:21:51 +0100,
+anton wrote:
+> 
+> 
+> Dear kernel sound maintainers,
+> 
+> Could you help me with upstreaming the following Linux kernel patch to add a
+> quirk for the HP ZBook Studio G4 mute LED?
+> I don¢t know how to start, but I saw similar patches get upstreamed before.
+> 
+> An associated bug report was made to the kernel bugzilla at 
+> https://bugzilla.kernel.org/show_bug.cgi?id=221002.
+> 
+> After some research on forums and wiki¢s I found that adding a file at /etc/
+> modprobe.d/alsa-base.conf with the contents ¡options snd-hda-intel model=
+> mute-led-gpio¢ makes the mute LED work as expected for this laptop. To my
+> understanding, the patch below should configure the corresponding quirk. I
+> have tested the patch on the HP ZBook Studio G4 laptop in fedora, which made
+> the mute led work without the file mentioned above.
+> 
+> Thank you for reading this far. Please let me know if you can help, or what
+> the next step would be.
+> 
+> Best regards,
+> Anton
+> 
+> (the patch is also added as an attachment, in case the email messed with the
+> formatting.)
 
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221002
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/codecs/conexant.c | 1 +
- 1 file changed, 1 insertion(+)
+OK, now I submitted the proper patch.  Will be included likely in the
+next 6.20 / 7.0 rc1.
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 2384e64eada3..5623d8c0a0f7 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -1081,6 +1081,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
- 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
-+	SND_PCI_QUIRK(0x103c, 0x826b, "HP ZBook Studio G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
--- 
-2.52.0
 
+thanks,
+
+Takashi
