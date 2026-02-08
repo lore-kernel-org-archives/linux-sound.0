@@ -1,73 +1,53 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-g121.zoho.com (sender4-pp-g121.zoho.com [136.143.188.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1D030E826
-	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 10:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770546131; cv=none; b=RYW5lz7FOEL+enCr1CVllg6TVgIiiHDitc9tKGaE37OohvhaQNMKjKCr7kE2NlRJX9K4qDuxG3S+lXnU2d49SxIvUA6DEhfsc6YJL2RIeMrycO87i9YLAZWFOdtiMwmeAnYv0Lnf9AhSs0p2HtebviQKu/xGVpiVcXFmFaIkmJ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770546131; c=relaxed/simple;
-	bh=Cz7ehfn80ppvyadi41DqxbXL/1+dC5KJYoDecVOu8dk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnAkAdiTStxHVA9I2bHS/M6s7CyKHwWzLdqhGu6imWJvDjV9NNcg7KaAygxBNFHDeaeDAftGGVFYhs7Y1W3Tu9nuLDjGHmo2WaKsPSpwdwTW6hZNBbGI++hyFTdimS4DlknqfdRKKrwMgtEJJCGNzlEMGNvA2kZ0RZjKD9l0zRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cdjCC+lT; arc=none smtp.client-ip=209.85.214.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FA9611E;
+	Sun,  8 Feb 2026 13:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.121
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770557468; cv=pass; b=gHM8FS+MdKxGeLfjmFoVqwOBZOrMRkMP5TJ0VpmYaMlhUITymqtmfXyk5wn0MstR3iIG3uDuh9R6OWRPwBHM0NsOYhSJY+NUtcV3QvICzEcC8U4c4RWe+0Pz3SzOds3CldkEkRexsrN+5aDhOD1rn5Zjv4hrHp6+lwsFHWIAIvg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770557468; c=relaxed/simple;
+	bh=/O5mKxoGV28/wNnM44sF4XWh64/pKH6bZPe77nUaEXY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V65NBooZCOlfhTi0Tyl/eQoeS6ZZZSoQD97zlPFhzu7+fxDR7KkZy6GnUibHCN/N1Zc2FeAea6tryuTeDWyVjcptOaYt82/hvCBe4hi9psWNFCJ/1YqR39XSsfA6aBlGAg55M7cf0lRialtCxJFRKglXd88zOndmV1sTwkktGkk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=L6R8myzt; arc=pass smtp.client-ip=136.143.188.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cdjCC+lT"
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2aae985a839so23285ad.3
-        for <linux-sound@vger.kernel.org>; Sun, 08 Feb 2026 02:22:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770546130; x=1771150930; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o84JYzpW0aJdlM9C8zoxk8gq6pZWxToMJv5PSwDwwGk=;
-        b=cdjCC+lTIMqUB942TREkNdHe/Zv2k1z7FQwWtSk3C7Wf2F1pjNOtemtF45itFr6FU3
-         +s85QwBszG8tXOC9JVJrk5PV20n/OKGYIfMDcKd36qXEhXIOdwtWEgY69JdgYx9XejB4
-         eUdrKbriU4kvI1wv3bChjGPJZl6z1lF5eKEkq3NalnSuo8iFwCPEkXvnkXhHP8FeXFwG
-         23UgTJVzzaj5256HgpUxSstWrOpLcNv1Mf2ocqhtRdYuSRgUd0f3v9dtmdBTWzX2Om6S
-         rvbp3ZKeOlPHotISAVVdaATlvSDwI24B3RZta7josGkrVyy1u7zl5DD+20Aep3N9+sEp
-         RGSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770546130; x=1771150930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o84JYzpW0aJdlM9C8zoxk8gq6pZWxToMJv5PSwDwwGk=;
-        b=MPDZI55Buvymnzh5Ss2vi7HO3Q8A/qIKv4R7B+AD/fVnhFR+xsqc8C4WM+g16WYhBX
-         S3lEnoG/8kn60muaO4HwRqnfAtBoE1lohQDbJX6eGmehL9bX/AHgghSr0+IqS7r+9/rM
-         j13ShjeQmI1sjywZ/TGquX/56RXDSQm+3jp/rNQNqibAOyJ0Pv52NVVN8KleSSS3TLi9
-         EYK/jAXlqxUTDvoX0umyDODhLgdvRizhNuGxYIa4NPUBtXdHAg+YByQTOcv59tfZ8agd
-         VN3eGMK4d1YEjr9yPkGlznLH8R8k4gGv0VNawMuNqWgX0yzhd2sNy20F6dPgFwF54bGX
-         hs0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVg7UkqOBxyLUtFa8xmtquSLlsj1rWrbCls8+FObRyXujSP+yonGK/e/mfM2KZq63Iu0fWEsuQQKCrqYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIy6QG63z5l6Xd7FSyzhJQJStYiA12RixCFzVa7zYL8if09bAZ
-	9X/vf2Hy4P56P5AdIN3n/2cYSTnieb8b4cKyGgBGJfLDP/8dbVH5AiMU
-X-Gm-Gg: AZuq6aICMBL2XAoenxjO7gbIjFaNbzthVsTTd+7XmQ+xOazKCn6uBzB1zgdO80Zv0xZ
-	QE5T7nNEtR2yJpe+ohwDA9mjvGRZgfus3NoP6gpMYv7Hrva+7dPf3l4pRZMaG7Mq9FSo3SvlaSK
-	wB9zwzNbXH7cuzxciEhYN4ULxM2SBlwh6ikyAWImhULke8aKxgtMuqNBXq5klsTDq6P02YkF5qq
-	baiNt0911IRlOxpqx7tRxMtUmDx3tN3mPMEJ1E4vQ/6KNhr+bi2ElVW/PJBfPashe7b0K24h14H
-	s5Io+YxAYEaIYRBDQeVvUPKKcX7qTr04FMM7Axrih4QwKQSbIYNMJKEqE7sMCyzaKcP3be3OPxK
-	g5bKu0J+K2xaUlm2ED6HcNZ1E0TalWXB9ix2481C4WILkdjI8/YMBMNF+Bia6PHBtlCvXulnQHG
-	kJOhs6aqx31rxKYNe4yrGYFuacTiW1LBrLr5mOmS6SngqzYZAbDWqDdqJLruh5NCY9Hd0lQT8QL
-	a4=
-X-Received: by 2002:a17:902:da8e:b0:2a9:4555:99d8 with SMTP id d9443c01a7336-2a9519c3c6emr66999515ad.7.1770546130537;
-        Sun, 08 Feb 2026 02:22:10 -0800 (PST)
-Received: from cute.. ([2405:201:31:d01f:5dd4:d722:2dec:7570])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a9521b9999sm89592565ad.64.2026.02.08.02.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 02:22:10 -0800 (PST)
-From: Soham Kute <officialsohamkute@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="L6R8myzt"
+ARC-Seal: i=1; a=rsa-sha256; t=1770557451; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=C6GFsPkbI+7EiGnA72heIJKBz8+OUwD5yWgtj84bCdviwWn4P5c/TXVkqsqF1qFvxMolqvyjP9oXzgC1h6gZ7HXAC7yTCdcjarhREZo7jjQcRAAtq/JpsrWA2fWSoFeAumzYE6N/PiT9iWGOjErG67NyZDr/lLNE/WAVYMlfK6c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770557451; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=DGpU7aDJggpGbJTfo5yQwlJlfHLNXv5oGb8mywPX4u4=; 
+	b=NecZl9s7vd8f0kUgEM8+rkPnEP4nY6nuEBYyXUfnBs7pE/qyTaHt8zPXzb+DweRRVtUR0v6TjQHl7q3jZekLHSnkWcDQUZba+H4BjAmzR1xs0/FmKOQoBDrRqhMQN6Akt2Xgu0Z7X9M72j+qufdHqFpmZj4mkaREXh/Wj7lKIq0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=harin.net;
+	spf=pass  smtp.mailfrom=me@harin.net;
+	dmarc=pass header.from=<me@harin.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770557451;
+	s=zmail; d=harin.net; i=me@harin.net;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=DGpU7aDJggpGbJTfo5yQwlJlfHLNXv5oGb8mywPX4u4=;
+	b=L6R8myztm+CKpHFtqfYCBDiWdBR0BV9GToaDbeJvX8hu2JJiTH6NAR3PBIqaqAjW
+	8ZA6jn18+ehMwQOA22SKfd5EtfEprm8HIoRqZx8KfWujvfLEScsKQZHGop2SjZ9S/n3
+	HVDW8FsomyJUKAD3QS6NXSMYTwb11YSaMWnbk+MoPKV3evBmfJURytZZtk4dRM+vP/5
+	JI8pLHnSfN4uwpB4VRUFhqdbcuJAP46x5cIlbE8BwnmvSGYlI7fEnGU34AtggPypHqU
+	N2JOhySUQUSYMbTNUcCeq0MsYx1ppTBFonxzDLzsK5cD1DDERXIYQKufnKs0eKfHdIx
+	tNZj+x8rLA==
+Received: by mx.zohomail.com with SMTPS id 1770557447085157.3678129429951;
+	Sun, 8 Feb 2026 05:30:47 -0800 (PST)
+From: Harin Lee <me@harin.net>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Soham Kute <officialsohamkute@gmail.com>,
-	syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
-Subject: [PATCH] ALSA: pcm: fix use-after-free in snd_pcm_post_stop
-Date: Sun,  8 Feb 2026 15:50:58 +0530
-Message-Id: <20260208102058.9794-1-officialsohamkute@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Harin Lee <me@harin.net>
+Subject: [PATCH] ALSA: ctxfi: Add quirk for SE-300PCIE variant (160b:0102)
+Date: Sun,  8 Feb 2026 22:30:01 +0900
+Message-ID: <20260208133001.680550-1-me@harin.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,38 +55,58 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-syzbot reported a slab-use-after-free in snd_pcm_post_stop() when the
-PCM runtime may already be freed during teardown.
+Add quirk for the Onkyo SE-300PCIE variant with PCI subsystem ID
+(160b:0102). This variant (OK0011) was found in the official Windows
+driver packages.
 
-snd_pcm_post_stop() can be called after snd_pcm_detach_substream()
-releases the runtime, leading to a use-after-free when accessing
-runtime state and wait queues.
+Also, reorder entries and fix the indentation to maintain
+consistency.
 
-Add a defensive check to avoid dereferencing a freed runtime pointer.
-
-Reported-by: syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
-
-Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+Signed-off-by: Harin Lee <me@harin.net>
 ---
- sound/core/pcm_native.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/pci/ctxfi/ctatc.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 932a9bf98..7b9e2aea5 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1542,6 +1542,10 @@ static void snd_pcm_post_stop(struct snd_pcm_substream *substream,
- 			      snd_pcm_state_t state)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
-+
-+	if (!runtime)
-+		return;
-+		
- 	if (runtime->state != state) {
- 		snd_pcm_trigger_tstamp(substream);
- 		__snd_pcm_set_state(runtime, state);
+diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
+index 227d8c8490e1..a25a599fc5be 100644
+--- a/sound/pci/ctxfi/ctatc.c
++++ b/sound/pci/ctxfi/ctatc.c
+@@ -52,18 +52,19 @@ static const struct snd_pci_quirk subsys_20k1_list[] = {
+ static const struct snd_pci_quirk subsys_20k2_list[] = {
+ 	SND_PCI_QUIRK(PCI_VENDOR_ID_CREATIVE, PCI_SUBDEVICE_ID_CREATIVE_SB0760,
+ 		      "SB0760", CTSB0760),
+-	SND_PCI_QUIRK(PCI_VENDOR_ID_CREATIVE, PCI_SUBDEVICE_ID_CREATIVE_SB1270,
+-		      "SB1270", CTSB1270),
+ 	SND_PCI_QUIRK(PCI_VENDOR_ID_CREATIVE, PCI_SUBDEVICE_ID_CREATIVE_SB08801,
+ 		      "SB0880", CTSB0880),
+ 	SND_PCI_QUIRK(PCI_VENDOR_ID_CREATIVE, PCI_SUBDEVICE_ID_CREATIVE_SB08802,
+ 		      "SB0880", CTSB0880),
+ 	SND_PCI_QUIRK(PCI_VENDOR_ID_CREATIVE, PCI_SUBDEVICE_ID_CREATIVE_SB08803,
+ 		      "SB0880", CTSB0880),
++	SND_PCI_QUIRK(PCI_VENDOR_ID_CREATIVE, PCI_SUBDEVICE_ID_CREATIVE_SB1270,
++		      "SB1270", CTSB1270),
++	SND_PCI_QUIRK(0x160b, 0x0101, "OK0010", CTOK0010),
++	SND_PCI_QUIRK(0x160b, 0x0102, "OK0010", CTOK0010),
+ 	SND_PCI_QUIRK_MASK(PCI_VENDOR_ID_CREATIVE, 0xf000,
+ 			   PCI_SUBDEVICE_ID_CREATIVE_HENDRIX, "HENDRIX",
+ 			   CTHENDRIX),
+-	SND_PCI_QUIRK(0x160b, 0x0101, "OK0010", CTOK0010),
+ 	{ } /* terminator */
+ };
+ 
+@@ -78,8 +79,8 @@ static const char *ct_subsys_name[NUM_CTCARDS] = {
+ 	[CTSB0760]	= "SB076x",
+ 	[CTHENDRIX]	= "Hendrix",
+ 	[CTSB0880]	= "SB0880",
+-	[CTSB1270]      = "SB1270",
+-	[CTOK0010]    = "OK0010",
++	[CTSB1270]	= "SB1270",
++	[CTOK0010]	= "OK0010",
+ 	[CT20K2_UNKNOWN] = "Unknown",
+ };
+ 
 -- 
-2.34.1
+2.53.0
 
