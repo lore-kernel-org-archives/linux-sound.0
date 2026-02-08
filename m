@@ -1,114 +1,97 @@
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C651D7E5C
-	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 18:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BBD346E7A;
+	Sun,  8 Feb 2026 21:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770576872; cv=none; b=cvFvYeRzT69s/7wWYrwhGkMhT7189uNAAItMAQWNr+C5dWDH2sP5sJkLYlJgS0CN8UuIv+Sbg/vCttfY/iRt4daJOB4NGu6414js5CER/40DOWjl6seQx1jkkzcpXoSiUOi+KHzJgmm1oH3q5oiU0FRlZIuPLw2CIn1NoLRNPgY=
+	t=1770585693; cv=none; b=DYt8RJI6cKBVHOEdE0Vij88kgO/9es/7Byxprcg8cFC3cNcRHZEp9XvVZuolzAQILcXHFZ6ti7EFuEEdb170qGhxhV53OC48iZQWly8itU+wGnepJnerkLWy2U+dp1mqgj0yz0I9cYjsEVUH3fbhDmNTumpn5l31lsEDR0pi57s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770576872; c=relaxed/simple;
-	bh=LXYmBSfO6x+yIZrevFFTHCRtbMkdIUri01dEzgoJq6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M7BQUSQRXTq1S0GeGBm1G+HeQpEMA+fDU/W3An+5o8f8jtQ2uQ3I3FZmAJkg9jC8lMY1HDE11ZudznTIZDxjrKFPItZJ7rNb2DjN4iL+fr64UZcoyAhTd86dBJru9pqb2UTE3tctfX1yo6CLrpBQOQlb4lG25XJvQLwNOxFN+tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VM9++Kpb; arc=none smtp.client-ip=209.85.216.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770585693; c=relaxed/simple;
+	bh=WniId9rylPyWCg6DYb8OFQ8yG1Mf1fld/+NjW0lsf8k=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OiozTt6rC/ypISXz58bbNVtfLzUzj1i73KUoSlHjvkz20+NAyNjpoDrtlCKGLQ6MkLFQDGp1eoLfRG0wPFmNFBwGozqF66uj/jNNKW7jGDdjH1TJyGnVJfolFzTk9Un1w8dnKTXXrLVkgqbLOLcILlEDOQaAtBb87BLsmgPwank=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OL0cmPMG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VM9++Kpb"
-Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-35519fd4d59so242261a91.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Feb 2026 10:54:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770576872; x=1771181672; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gC8y831kn5k4ckN6j0puA3kqRju65NM/epLUWWwdaU=;
-        b=VM9++KpbBzMNjYg2FXvLMMbVtaFERbms9VJgWycxO4J2gqtJ7199gbl3AvQ5aYUImH
-         sbanDtLbVgjYI5/CoGUq4CqWRBq9Ve0eUBs46hjahahQrwiGaZZCU/JInPxY5O9+VLtF
-         KB3IXHAxDZWzsHIWWci1lCSdqzGKlvTQtvw1MK26xr2LC36Qrg1KubdJx52O3gjvx36E
-         OLoVJlqx1wS2e4T5kYzrq+KCuaEIfUVPvKSec64uBToyRG6cINxQIdzvl3iAQsuHJQfD
-         X4bCyYYw6dH5HvXFsk8UqTzxiVJ+2M3LIGg+eYwbYBvpRifOpHtzaRQ9OJtzkmaPzxu8
-         EiJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770576872; x=1771181672;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9gC8y831kn5k4ckN6j0puA3kqRju65NM/epLUWWwdaU=;
-        b=vnbNSVKuPJyY94QGP/gkwSEai2s/VM8fEAA2WLaPifVEiaw5UoKIax9Wd82qwGByz6
-         uzMXnTFWJRsN9jeb6JnCjti4ICFNcPu+1n/NaxTPDc1YPyTm8zhndCwtUFMfXnVQUN8/
-         JOcJ7yH+l4ARxXaLUsiD238lJt0sRSFaR03cnFnRHXFB3rRGx7wiJZ75pwdjnZcHAD3l
-         Cz+a0tZEjbeOkI2LZPIxf0ZCx293UmdCPrRYwWxjCMj3N36OzOVqQ7sRb02WHGCYt8iV
-         nubZaajNlV7RbNckOVMLci+d4hXoV5+2t5esNurp4fUwaF2vp5fo+HdFRiPB1TEhkJwp
-         08og==
-X-Forwarded-Encrypted: i=1; AJvYcCVXPCnEar0ChDZG66ZGsyL1KohX64nqlPgV6bdijh8dvHlahtukmyi/+hE+DJujvAw3GQ0O+k5CzQ5mAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjBsn+x08mMu72tnvtqLKQ2irFK1bShP5DTBC043pZy1/1sIEs
-	EYsRHK6o7hZX3CnZpr+juEXOwcTICM/w0hixTJwQ2nPyrz0PlsTdJAy8
-X-Gm-Gg: AZuq6aIqSIevuBU9c+b9fXTIrh0spZfzO9s7W/decv+TRBdsiOaMkIR+7AnWs/r4CRF
-	mW2CONmgD3aued0LL+7+ZFftQRz522QbcJYGJ2J7ud823T9xBYDKmQd4EUt3Qn4LaTbfljo7Q9D
-	3g0TuVERBg1Og0h4ldC1YW6u61ExChUjg+au/NwIJPifhnOBfwPPj2mW9Tk2s8bI+rvkRPjcjgy
-	DF89pdjhsdVkF1iLVujfPV0zfw/+kVXut+BND4iSDiIEsQZvp5lOD459+RThdqmsvcDMKNrA3xW
-	QFW/Dq8AaHSKjeZZX+yYPNg1VevuX0S3854+9Sy/KF948S1OgM/PZlJf7pHpgARWfV+MHMIZ/7d
-	bpglcYy21RyXVGb0GYf6uK9ljA9rGr4Y0kWGeVYrLS8E8r6zYtWmSt+bryO4OTb7eN5R6sQ4f6f
-	f5io9wTje6RZv/pJxnMaAZPE9ZUtoRgm89sclkkhNIRN2lVbpyCCkcm9TRIGfA6KUNExf1dFkdj
-	g==
-X-Received: by 2002:a17:90b:3f0f:b0:356:2c88:1e77 with SMTP id 98e67ed59e1d1-3562c88205bmr1862080a91.1.1770576871554;
-        Sun, 08 Feb 2026 10:54:31 -0800 (PST)
-Received: from cute.. ([2405:201:31:d01f:6701:1a40:3367:d89])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-354c6898e82sm5379828a91.1.2026.02.08.10.54.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 10:54:31 -0800 (PST)
-From: Soham Kute <officialsohamkute@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Soham Kute <officialsohamkute@gmail.com>,
-	syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
-Subject: [PATCH] ALSA: pcm: prevent snd_pcm_action after substream detach
-Date: Mon,  9 Feb 2026 00:23:40 +0530
-Message-Id: <20260208185340.8379-1-officialsohamkute@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OL0cmPMG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A8BC4CEF7;
+	Sun,  8 Feb 2026 21:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770585692;
+	bh=WniId9rylPyWCg6DYb8OFQ8yG1Mf1fld/+NjW0lsf8k=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=OL0cmPMGq5hb4ML2UnBGJ7XL+Cd2QuvbF2LHCwzNxbt2D5NdVfL1HUi1K2BJFm7qe
+	 FO6ErvhzO/VPNdM00QJdKkXJThRqPgNp7pgtPAQo/is0wG00tWKu3YsT/8AmKsB/1W
+	 Zi1lF6Y52pNAoJeqjcGO58ozFPqmmkB78ZPpN5gF7Rm4ov7vZt63BXQhH90d9GhH+x
+	 H91figU7ZpSIpGrvLTiHduM/rwS4K7YyONIs7mDupxe+jsBe89IhoDPyt9tfHYoH1B
+	 st2sf9XgeYYZK0mZpaXpkvQ6oZ9d6j8K+a05oJGBzVFy/Pwc3s2M24i/5M6I0M6eHX
+	 rdhZtuE3oXrrg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
+ perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20260206014805.3897764-1-shengjiu.wang@nxp.com>
+References: <20260206014805.3897764-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v4 0/4] ASoC: fsl_asrc: support the i.MX952 platform
+Message-Id: <177058568882.654564.1085917355716546232.b4-ty@kernel.org>
+Date: Sun, 08 Feb 2026 21:21:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-syzbot reported a slab use-after-free in snd_pcm_post_stop() caused by
-snd_pcm_action() being invoked after snd_pcm_detach_substream() has
-already freed the PCM runtime.
+On Fri, 06 Feb 2026 09:48:01 +0800, Shengjiu Wang wrote:
+> Update dt binding document and update driver to suppot ASRC on i.MX952.
+> 
+> Changes in v4:
+> - add Reviewed-by from Daniel in patch 2/4, 3/4
+> - add Reviewed-by from Frank in patch 4/4
+> - update the commit message for patch 4/4
+> - remove 'retry' in patch 2/4, reduce the threshold for timeout.
+> 
+> [...]
 
-The previous approach attempted to guard against NULL runtime access in
-the post-action callback, which only masked the symptom.  As pointed out
-in review, this does not address the underlying lifetime issue.
+Applied to
 
-Fix the root cause by preventing snd_pcm_action() from running once the
-substream runtime has been detached, ensuring that no PCM actions are
-executed after teardown.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Reported-by: syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
+Thanks!
 
-Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
----
- sound/core/pcm_native.c | 3 +++
- 1 file changed, 3 insertions(+)
+[1/4] ASoC: dt-bindings: fsl,imx-asrc: Add support for i.MX952 platform
+      commit: 37bb773b4a5a5107b92beda3447a7c6c0cfc1237
+[2/4] ASoC: fsl_asrc_m2m: Add option to start ASRC before DMA device for M2M
+      commit: 83447a38ba9abac52bc110566d3e117753899f69
+[3/4] ASoC: fsl_asrc: Add support for i.MX952 platform
+      commit: 6a8c6f5587337eceb387812b6f47bc16c125b883
+[4/4] ASoC: fsl_asrc_dma: allocate memory from dma device
+      commit: b010c782341b79edbeb80706360b772db908daa6
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 932a9bf98..a29dbbc21 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1391,6 +1391,9 @@ static int snd_pcm_action(const struct action_ops *ops,
- 	struct snd_pcm_group *group;
- 	int res;
- 
-+	if (WARN_ON_ONCE(!substream->runtime))
-+		return 0;
-+	
- 	group = snd_pcm_stream_group_ref(substream);
- 	if (group)
- 		res = snd_pcm_action_group(ops, substream, state, true);
--- 
-2.34.1
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
