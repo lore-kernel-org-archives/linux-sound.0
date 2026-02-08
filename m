@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BBD346E7A;
-	Sun,  8 Feb 2026 21:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A0F349B1D;
+	Sun,  8 Feb 2026 21:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770585693; cv=none; b=DYt8RJI6cKBVHOEdE0Vij88kgO/9es/7Byxprcg8cFC3cNcRHZEp9XvVZuolzAQILcXHFZ6ti7EFuEEdb170qGhxhV53OC48iZQWly8itU+wGnepJnerkLWy2U+dp1mqgj0yz0I9cYjsEVUH3fbhDmNTumpn5l31lsEDR0pi57s=
+	t=1770585695; cv=none; b=eXk8rAh3sbSUS6P+ndm0zNyx/fHTx8M0pAqcB4kldm88VRDZ4iCa6FQBGsNUrbzXiGmGxoy7ZeGHZjbONukiwLOsbj/53/R/dd0x/57UFxJ1Vd/UJvzFSuV52Vjly7jK/5h5A1FZO6ea2H7eCM5XAC84OInXDqEOCnRHfajehcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770585693; c=relaxed/simple;
-	bh=WniId9rylPyWCg6DYb8OFQ8yG1Mf1fld/+NjW0lsf8k=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OiozTt6rC/ypISXz58bbNVtfLzUzj1i73KUoSlHjvkz20+NAyNjpoDrtlCKGLQ6MkLFQDGp1eoLfRG0wPFmNFBwGozqF66uj/jNNKW7jGDdjH1TJyGnVJfolFzTk9Un1w8dnKTXXrLVkgqbLOLcILlEDOQaAtBb87BLsmgPwank=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OL0cmPMG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770585695; c=relaxed/simple;
+	bh=wG2Czxba3jBUtDYEP03z3BSVfH9BgzaCkKXFXxUgMJk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FxWjW1ZiZA6ycvscM5JGsfU9AIXi78QS2cw8tFfi8Cis8BQNMn4PZf6OJR01VZFMErbAsN9RAZCn3IQ3GJkLJ2Ienw7O5LtvlpyMsRpIISTFfnHSdYaF3KGjGPEMDTJtkM1OSAuyNVWwPziYv4ch827Tu67I4zlerOXE8QBn48w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1CcVF7g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OL0cmPMG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16A8BC4CEF7;
-	Sun,  8 Feb 2026 21:21:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1CcVF7g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36CDDC116C6;
+	Sun,  8 Feb 2026 21:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770585692;
-	bh=WniId9rylPyWCg6DYb8OFQ8yG1Mf1fld/+NjW0lsf8k=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=OL0cmPMGq5hb4ML2UnBGJ7XL+Cd2QuvbF2LHCwzNxbt2D5NdVfL1HUi1K2BJFm7qe
-	 FO6ErvhzO/VPNdM00QJdKkXJThRqPgNp7pgtPAQo/is0wG00tWKu3YsT/8AmKsB/1W
-	 Zi1lF6Y52pNAoJeqjcGO58ozFPqmmkB78ZPpN5gF7Rm4ov7vZt63BXQhH90d9GhH+x
-	 H91figU7ZpSIpGrvLTiHduM/rwS4K7YyONIs7mDupxe+jsBe89IhoDPyt9tfHYoH1B
-	 st2sf9XgeYYZK0mZpaXpkvQ6oZ9d6j8K+a05oJGBzVFy/Pwc3s2M24i/5M6I0M6eHX
-	 rdhZtuE3oXrrg==
+	s=k20201202; t=1770585695;
+	bh=wG2Czxba3jBUtDYEP03z3BSVfH9BgzaCkKXFXxUgMJk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=R1CcVF7glaSQlsj4cJPcbz2Pfi307Gbd5Uop6i5Leauixn7BNQWSmBeffXulMzbqA
+	 0hh9xJNPNas6af2dS7acY93EqSpqExY4S4glYAWfNIWHGJmBo0t8vj9/3PdIK5PQAW
+	 Qza4KAxB5F6x5XhDm9eCL1qgIw5Bdv+f+jmsh5gh7ju1WaNccOsrLyGZKJts7QJIdj
+	 QdUM4IgktDX0xTW/9HFYqjcxEme/D+QZcwiWG/k3NkKwmv/IgJZvrqqEWUy8NNzxaJ
+	 aoXVXvYSf0fV+SjBydukAWMKl3Fpb1DAkfk+JbEDebF2goDqPDEmB3UUPVPEl1vV+R
+	 CtUnhVRxMED5w==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
- perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
- Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20260206014805.3897764-1-shengjiu.wang@nxp.com>
-References: <20260206014805.3897764-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v4 0/4] ASoC: fsl_asrc: support the i.MX952 platform
-Message-Id: <177058568882.654564.1085917355716546232.b4-ty@kernel.org>
-Date: Sun, 08 Feb 2026 21:21:28 +0000
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ venkataprasad.potturu@amd.com, mario.limonciello@amd.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260207062433.1465232-1-Vijendar.Mukunda@amd.com>
+References: <20260207062433.1465232-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] ASoC: amd: maintainer information
+Message-Id: <177058569295.654564.1440552951713342235.b4-ty@kernel.org>
+Date: Sun, 08 Feb 2026 21:21:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,16 +47,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 06 Feb 2026 09:48:01 +0800, Shengjiu Wang wrote:
-> Update dt binding document and update driver to suppot ASRC on i.MX952.
+On Sat, 07 Feb 2026 11:53:51 +0530, Vijendar Mukunda wrote:
+> Update MAINTAINERS file for AMD ASoC drivers.
 > 
-> Changes in v4:
-> - add Reviewed-by from Daniel in patch 2/4, 3/4
-> - add Reviewed-by from Frank in patch 4/4
-> - update the commit message for patch 4/4
-> - remove 'retry' in patch 2/4, reduce the threshold for timeout.
 > 
-> [...]
 
 Applied to
 
@@ -67,14 +58,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: dt-bindings: fsl,imx-asrc: Add support for i.MX952 platform
-      commit: 37bb773b4a5a5107b92beda3447a7c6c0cfc1237
-[2/4] ASoC: fsl_asrc_m2m: Add option to start ASRC before DMA device for M2M
-      commit: 83447a38ba9abac52bc110566d3e117753899f69
-[3/4] ASoC: fsl_asrc: Add support for i.MX952 platform
-      commit: 6a8c6f5587337eceb387812b6f47bc16c125b883
-[4/4] ASoC: fsl_asrc_dma: allocate memory from dma device
-      commit: b010c782341b79edbeb80706360b772db908daa6
+[1/1] ASoC: amd: maintainer information
+      commit: 77d31948a88368f1e8516cb74614ab2e0340e840
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
