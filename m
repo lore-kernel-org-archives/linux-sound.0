@@ -1,108 +1,146 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E76819309C
-	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 05:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442CD33BBB8
+	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 08:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770528312; cv=none; b=dODQw16BmsNDD7PEy8++CqTCV/08WdFYgXBzevyLeJ3d3f14n3TZ7cjsVvcZ2cgAvUcJON6/ukXKYbXt2xfhvno9T5YS7h3XN5dvy0P3GE1w0bOVSaqNKdG4Zx1JiUGvDcE8E9TlBwCCzeqbxw26w2v0vl1w84a16suoD0Q4TrY=
+	t=1770539132; cv=none; b=H3OKNIiZ9Xh03B+3ND8yJ2cxwqCaoM21afrqTZGCwdULycf3lPzd2N75YJ4aEidmORkhLVwBPlOGfl9oc2HKgY5KE1m5LrGotu+Tj8GlPmJ5jOW1LoGbh2ZuLPftOBQrxbT+hKqm2LZdHY464HyY+Ow68VAiGyuWURkKXFJbfjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770528312; c=relaxed/simple;
-	bh=2lHIkzqPzs4sd1yC7eNNKhKVYCGKTK9Pc/gpSaXeRTo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hqfCD20s8YdK3WByLjI+w3dn+e1yiONTfYZKuY7bgZnBPyvghEthlGy6VahBLf8DJVw0v9gPc3xyhnudpCS9z4t8KOprGoGd+4yZmvcvN+Y+j7UNWKj/Btr6Gafasc9/X0d0sizbJe8lYhLCdibqNTqdGr+40iB4cvenHX/7J74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EhIcizlY; arc=none smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770539132; c=relaxed/simple;
+	bh=faFR92bZ7BZKZrskjnPmB/d7oBaBvifnJn8IXKqJxUI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V5xxrntnjhncwSKx+ZZMQY1rlq9r1vnVFAd9dn+RmjNgeA+t9VdJpbBGkpzp3HIpb+aIlsFWpuVXGm94YTlZlRM6t7dzIhb9xS+CJJI/TTTywVBQH1U5VpBvMl6ZVl1rgjvbl+03A8WboUjnJrCHzmpO7iglkjON6IunA2jnNxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ukd3djoG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lQWad9ev; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iTdm4WZ5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EtQpD2tM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EhIcizlY"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64a64421387so1882566d50.1
-        for <linux-sound@vger.kernel.org>; Sat, 07 Feb 2026 21:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770528311; x=1771133111; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yHH0s6jdN+yWhY5R0en9MuhPT97WUQFrS2g6Z0r3EGo=;
-        b=EhIcizlYZOd7ISAn9jyjlqmyAXSuWT97mCOvcvPpS70ZdCAVamUrzf7ySiec+IMS1u
-         oddpT/IdrtSNv0INJLhbfJu2TsNtZxpXYJeydE7Ztqlj1NhKoxuy9iz+WeBrZHPw199Z
-         bY2B4vjc0nbsBnxr5+CeI6LQh5zD7ZJ9FNKe6WawkMbD4qhktfPiD0oN3yMrUbYKYqtx
-         RELT472p5SMPFjWFhGSjUWtJ/ZwqsGeqC6S9kXn5j3TK5+GjMPMfNq9KdEpqs5Sur3M0
-         0VOn3Qm1esPrt8c87Jgqox4+52YQFbuwZ3WfDHKHxPSKIB04bFlyhS7zwP7fUiB4iW/I
-         vD5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770528311; x=1771133111;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yHH0s6jdN+yWhY5R0en9MuhPT97WUQFrS2g6Z0r3EGo=;
-        b=d4Kfsf09gT1eZT29yNemGHT/vdeu1g6qcq6YK+Q3uG2jvOxXgTXVjy9YBfVy/JL40D
-         QDb/bEfmo6ycCI4TbhxH82DYqK5us090IrZTO63edMzOpAZWmUB0y4Z9b94WWmIsJEOi
-         mcpghSPbFmmSO/bpJAkCTp+bHA3BQPfRbfAWwaqplTBhYx7gYFc2mOIZHBeSQFoZ3thl
-         h3ZwdbcPlyYp4hcNRcbCR6MqHUH317WlYXuvMeDqoRW6kylULep1/m3XEPNjMWbyuyw5
-         vZwh6VbPxR0wYP+5v3JLZvfHt4vjPKUYu03NWkDuKNvN6yEk4TEnTgqEhZIXC78eO3OW
-         kqJA==
-X-Gm-Message-State: AOJu0YxoQMTpMLkvM280VKVnxVsHtnje7Bv4bmTaMj7u4RPcxOixGd+x
-	9QwgDrLSwQ2JFfvQ76stFHCEolHSxGBnOZkejBv+D0aSsheex8r8hPhqdaWcXVkZL0CvFDK3
-X-Gm-Gg: AZuq6aJK7kIemfLaJxQkZtLJ8Lwex76dzfkqCjZ7Z6h6POw2adNJqXHz3Y9747cfBs4
-	DNTsPvI638PaTDOpY38vbCHrj7Y5S85P8PHdA/eijYwTOwR75risiFA1MJe6PM8Mg548fLXxsPT
-	T5GItMgqgVEk0JhNdbOW4NHwYFgTCzKcgdpbabz5nkzw9RD+LOYm3nNDYR0R9L4jSlts3Mtt7/8
-	kBizycblrYuaFcOxDuTxXIBEPmGyzi8UCD2M5A4T7ERFrAmiIWtrhIeIfElCYB8BBEcXMfB6FZE
-	VEMdoO2R8AbEwBbQ0F6/agS5N77SSZ+7NSMlICn0XP+wEnWKCIWzpX0wcUMRG8R6PjAh5+7PoDn
-	lfOuHPeBrCga0hJfgcBt5tqvg28rRFP58TAX7X3hDCOr1KC7koQf774uf/AhmqBVt5LVVTvZQ5Q
-	SwyU13fbltdHUzZP19Vm2MMBWMkQoQ0hvkBWTCqem2jI5bLAITeyTwz0GYRvsBz8d5eHbmU0giv
-	Eu4OI86icsLldqp
-X-Received: by 2002:a05:690e:1c09:b0:64a:d705:31d0 with SMTP id 956f58d0204a3-64ad7053464mr3315618d50.28.1770528311128;
-        Sat, 07 Feb 2026 21:25:11 -0800 (PST)
-Received: from pedrow11.tail4d61c3.ts.net (108-67-6-145.lightspeed.sntcca.sbcglobal.net. [108.67.6.145])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79640c8a54esm4154347b3.38.2026.02.07.21.25.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 21:25:10 -0800 (PST)
-From: Pedro Amarante <ppedrolia@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pedro Amarante <ppedrolia@gmail.com>
-Subject: [PATCH] ALSA: hda/generic: fix typos in comments
-Date: Sat,  7 Feb 2026 21:24:39 -0800
-Message-ID: <20260208052439.11498-1-ppedrolia@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ukd3djoG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lQWad9ev";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iTdm4WZ5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EtQpD2tM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3253D3E6FA;
+	Sun,  8 Feb 2026 08:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770539130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xG2Qom/pP99D1JYSj7ayPkwReGbl3Wf/fTghvN8UA+w=;
+	b=Ukd3djoG7QeKGAeApbR8Ui5CYWEcxRxrm2uesMv3z4VwPHvsVx7078HIY/y4/pcdHeGGH4
+	ghZR8AQv20XWDH5CNz1Sj/jqY9BQDURxSh6QYiQvpJoLLalCwJzmSvY/Yla+DqEbI37QcR
+	idymZ7PCaN4/bu/6giY/79BrpC/Tfek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770539130;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xG2Qom/pP99D1JYSj7ayPkwReGbl3Wf/fTghvN8UA+w=;
+	b=lQWad9ev9FBk8NDuVWUJK+SUQ/xL/anJpGVXb+BJMfDYorJIST0P8Zlx9xbwgtM1E+en0b
+	CkpitrTldwlc1vAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iTdm4WZ5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EtQpD2tM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770539129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xG2Qom/pP99D1JYSj7ayPkwReGbl3Wf/fTghvN8UA+w=;
+	b=iTdm4WZ5Kf64eNplNQw3cE2V9Km3EdJbvS/olLGub1N96sH3f6or+A6Vb5fjnTA052lSSc
+	soU4dqM4JHAKKPGogEF0+LDUzl7nF3RtHlMslB1jvd5+C4pCxoTMqK+A1jrU1QGiJT38f3
+	o0ojBVTzNfu9JOMFYLVocdniAHaYEqc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770539129;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xG2Qom/pP99D1JYSj7ayPkwReGbl3Wf/fTghvN8UA+w=;
+	b=EtQpD2tMV24fFs0JuycyOz9BAI08St3XNEg4VBO1NJoRebxpDBUG4ZtLDRjwb3k1PC1JZ+
+	jBiZZWUv6/EiCwCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BF5FC3EA63;
+	Sun,  8 Feb 2026 08:25:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PdxZLXhIiGmQMAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 08 Feb 2026 08:25:28 +0000
+Date: Sun, 08 Feb 2026 09:25:28 +0100
+Message-ID: <871piv8ww7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Illia Barbashyn <04baril@gmail.com>
+Cc: tiwai@suse.com,
+	Jaroslav Kysela <perex@perex.cz>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Chris Chiu <chris.chiu@canonical.com>,
+	Edip Hazuri <edip@medip.dev>,
+	linux-sound@vger.kernel.org (open list:SOUND),
+	linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH] ALSA: hda/realtek - Enable mute LEDs on HP ENVY x360 15-es0xxx
+In-Reply-To: <20260207221955.24132-1-04baril@gmail.com>
+References: <20260207221955.24132-1-04baril@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 3253D3E6FA
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Fix 'ony' -> 'only' and 'evalute' -> 'evaluate' in code comments.
+On Sat, 07 Feb 2026 23:19:37 +0100,
+Illia Barbashyn wrote:
+> 
+> The mute and mic-mute LEDs on HP ENVY x360 Convertible 15-es0xxx
+> (PCI SSID 103c:88b3) do not work with the current driver.
+> 
+> This model requires a combination of COEFBIT and GPIO fixups to
+> correctly control the LEDs. Introduce a new fixup function
+> alc245_fixup_hp_envy_x360_mute_led and add a quirk to apply it.
+> 
+> Signed-off-by: Illia Barbashyn <04baril@gmail.com>
 
-Signed-off-by: Pedro Amarante <ppedrolia@gmail.com>
----
- sound/hda/codecs/generic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied to for-next branch now.  Thanks.
 
-diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
-index 7bcf9aef8..a13e16a65 100644
---- a/sound/hda/codecs/generic.c
-+++ b/sound/hda/codecs/generic.c
-@@ -1517,7 +1517,7 @@ static int count_multiio_pins(struct hda_codec *codec, hda_nid_t reference_pin)
- /*
-  * multi-io helper
-  *
-- * When hardwired is set, try to fill ony hardwired pins, and returns
-+ * When hardwired is set, try to fill only hardwired pins, and returns
-  * zero if any pins are filled, non-zero if nothing found.
-  * When hardwired is off, try to fill possible input pins, and returns
-  * the badness value.
-@@ -4889,7 +4889,7 @@ static int check_auto_mic_availability(struct hda_codec *codec)
-  * snd_hda_gen_path_power_filter - power_filter hook to make inactive widgets
-  * into power down
-  * @codec: the HDA codec
-- * @nid: NID to evalute
-+ * @nid: NID to evaluate
-  * @power_state: target power state
-  */
- unsigned int snd_hda_gen_path_power_filter(struct hda_codec *codec,
--- 
-2.43.0
 
+Takashi
