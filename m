@@ -1,150 +1,205 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9AC23A9B3
-	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 16:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712702DFA2D
+	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 17:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770568676; cv=none; b=Mpm9bIQLIYgaYtToHM1JvZJW2LBQ+IlpvyuxnXnYqe+7VnELTkvyBokR/A4NZttVBoDP5zA0c1VhIVGPjDobSfRygrM8q/aDLQ4u10jGO8Vzq37zbB06F/b4Ugzm/Iod1u7hJC4hABBYWaotF89iTyG9SA9XATTCYgUu8RM7siI=
+	t=1770572813; cv=none; b=KKWWUyZdh32lzLM8NAfM+e4f3RuS5AOuFRebqiLJRb8UJAXiH+0K2FJTrs0YL4fsYb44uC5RQRLp5H1Iik2Bz/2LMB61jBS7oYOsrtD9JnPtjGXF8hCiUQOCTX+Mr5gAExur3NbSY1jao6kXVHi6L9cJ9ynZJh/lMoprc6Al73g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770568676; c=relaxed/simple;
-	bh=4b/W+Wn8KHUEXcoqloS8iiU9vv9654cA+JfrwZfcC3c=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aZmSw9jq+v11h1B0cNIW8yuWfQKF1f0ElCvAhdwnKAGukp/ID14bLYr2j8WecVxF0jHLXtJCg+L8N2udwWCEOemvRf+NTvzQmHhM+8UBSvR/2OdZRrObUg7zSnnov/Fp1sgWUUZc4VBienowox6wFNVbOmZwqgczW/bHc/duTJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BEvqq8zD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZWeI7tw7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BEvqq8zD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZWeI7tw7; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1770572813; c=relaxed/simple;
+	bh=2pcA+r2fHf8d107BA21EY+cPX+UBCltN7HBNk4EjK9M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oyXnPXErwKAKf4rr9aEGxlmPilFnUVjO9h/OSy6LBm1cqcNRWDjkpZFz+9cpXMzkdqE0aKocZmhN2m6BYTj8TqTwnyinxLU8qO6SWsko+9V2jcpCNqKhl3zyGvXXkh/IAB7t2jtaT+gVsih1vthSAXoxQykVwlL9W1XASwMov8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G0R4Zffd; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BEvqq8zD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZWeI7tw7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BEvqq8zD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZWeI7tw7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A771B5BCDF;
-	Sun,  8 Feb 2026 16:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770568674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lQnYSRc6+j6vqqITFVpJm5Px8kXGis3O1jP2aTLDB98=;
-	b=BEvqq8zDI/gOWrW83D5VvhjnmS5M1izZ38xPeHKmiE/1CetOj6wHkEklo4Ri+dd8YxN7Da
-	nXmsRHAIBQON8njsdq6vaB1FTQo1/g+wWZVWha7IqrRP5+YeGo7Ffv3Y84okLxptIfvWDh
-	6RWtDzLe9xh5BAOnMHcUa3i4r8ZeTIw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770568674;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lQnYSRc6+j6vqqITFVpJm5Px8kXGis3O1jP2aTLDB98=;
-	b=ZWeI7tw7VnuCh1YpNOdV5a28sYwOeiuCbAQspz0WfCrJbm8HPbZf31Pjx+b/yZBvIy5lTq
-	JM/nQD8dO8qWUzDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770568674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lQnYSRc6+j6vqqITFVpJm5Px8kXGis3O1jP2aTLDB98=;
-	b=BEvqq8zDI/gOWrW83D5VvhjnmS5M1izZ38xPeHKmiE/1CetOj6wHkEklo4Ri+dd8YxN7Da
-	nXmsRHAIBQON8njsdq6vaB1FTQo1/g+wWZVWha7IqrRP5+YeGo7Ffv3Y84okLxptIfvWDh
-	6RWtDzLe9xh5BAOnMHcUa3i4r8ZeTIw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770568674;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lQnYSRc6+j6vqqITFVpJm5Px8kXGis3O1jP2aTLDB98=;
-	b=ZWeI7tw7VnuCh1YpNOdV5a28sYwOeiuCbAQspz0WfCrJbm8HPbZf31Pjx+b/yZBvIy5lTq
-	JM/nQD8dO8qWUzDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B8EE3EA63;
-	Sun,  8 Feb 2026 16:37:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gCvgGOK7iGloOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 08 Feb 2026 16:37:54 +0000
-Date: Sun, 08 Feb 2026 17:37:54 +0100
-Message-ID: <87o6lz6vj1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Soham Kute <officialsohamkute@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0R4Zffd"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6582e8831aeso6120144a12.1
+        for <linux-sound@vger.kernel.org>; Sun, 08 Feb 2026 09:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770572812; x=1771177612; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1STPksu+iQHTeYb1NED752bbPs9vh7Nsw9UP33wg1So=;
+        b=G0R4ZffdYSlPQKJIux/QJzHLej8CsNDdMS7n2F62u6gDYuZc6E9jOpGBOF5r87ehe7
+         wrVlbrK1uDMug2PctMs6t0j+54KaEWm77xvb4JyfqTYv1W2dEItyY2dvkp3+bAFN6yhq
+         oHIznokc9wygIcg8Dhc10rmqCEem1up72j5+7kDDC/4p2+zWUQ3PoE+mkWVVVgVU9cND
+         x4P9wqqdV1KsNVOsmCa7ZIqGFWbddS4y+a0vnDOuSjVaKvKGd7dRIY1U0S/KG430wrdc
+         ItEyb6TS4Fyror+FVH25ioJpfzphTw4qNCZWdizX9GzDh2+e5mjWl1yOzvWAnauP3uV4
+         npPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770572812; x=1771177612;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1STPksu+iQHTeYb1NED752bbPs9vh7Nsw9UP33wg1So=;
+        b=rjvgGn5QzyEnkfiK68s6+nAl8J4+TZ09Oco/go3YJDk55+c8AxvLeiY6F+n7evM/be
+         QeZFz8aAM8mTVkkTgsO9YX9IZ+rXzjtau7quO5Of+iB/cXAoPd0IsQ/zmUfr61VKZe4y
+         MONdOKME2a6xZy6wNEnTvP9OClfQsNkBEQbuSLU5iIixrsWqpomC1Njfx0Edyo3+k12W
+         epR01aU4WCptE8t9E2Cs135RJpq/6HPSlxamo8pPav2IOhuA2JURJOFC3MTfQ0aXI2xA
+         GPuKT+G7yGth1z10oJ+pYPhfKXO17SSkP4+WCHXZFtBzRLX0BergKWc6Ob+pSqe7eIwC
+         ckxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4+NiNCmurkGtBgIfXELp8uAAY1XFgmfvOOYsFDp0dZCH5FWuLgoI8KGVtLf3o6Jwb0dNu63fi95fJSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhOxcS1gO40C6lewsR6JodOG+TBCMHMI6AhDAKz7NkYwMsb49p
+	5JD5mTyuWBeif2eXHo4RV1ixqbVTRHf07B6Dssk4IhzQhBvtcRtcgwoz
+X-Gm-Gg: AZuq6aK6Hy78VmvncrQP1FgSd2AZsz5FAwE5Uh+0KGFTRIhY3RgWFiKyjYKpu1rQCj1
+	E8437E1w8FgZgO0Fk64GqkNh/hMjlxrbjo9h9Hibvy5dW7aTAMnCVywbOqVhNV+nz4yTYHoMdhP
+	5GjOx6mWfl6H0BroLQmI62YEByN51sZUZdmOk8kmbxMkhRNj47RUvTVdOcogChAmttEQ4hK5opB
+	XS5uygQnPfLPKIn3psBCMw/ofjRhdnd0mMmXU2sVk6yOujjpSK99EvOtakoMJmIjKxN5Ltntoj/
+	JOSIVoaGoRWOXKfM3dVWBKgKzkUVSxj8PWt2AcmaipZ8moyLKDMQAzsuBAF7mC9ttDgvpST+zmO
+	FmDFVbq25Sa8G6acdFfPz9O2NylsXLyANrDW6jszfFvVTL0ISbyqhpJcXQe+gIaYgZBsG+6HW7s
+	Bfoc9yZyWJQcscD2fu3KL/DXeC38ojJB4JuXLy
+X-Received: by 2002:a05:6402:40d6:b0:658:cc59:1608 with SMTP id 4fb4d7f45d1cf-6598415c102mr4153303a12.14.1770572811350;
+        Sun, 08 Feb 2026 09:46:51 -0800 (PST)
+Received: from Andrzej.rolna3517.home (d176-77.icpnet.pl. [109.173.176.77])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65983eaa44dsm2164857a12.7.2026.02.08.09.46.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 09:46:50 -0800 (PST)
+From: Daniel Kamil Kozar <dkk089@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ALSA: pcm: fix use-after-free in snd_pcm_post_stop
-In-Reply-To: <20260208102058.9794-1-officialsohamkute@gmail.com>
-References: <20260208102058.9794-1-officialsohamkute@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Daniel Kamil Kozar <dkk089@gmail.com>
+Subject: Re: [PATCH RFC] Fix speaker/mic mute LEDs on HP OmniBook 7 AI 14-fr0220nw
+Date: Sun,  8 Feb 2026 18:46:27 +0100
+Message-ID: <20260208174647.377444-1-dkk089@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <87wm0n7i0b.wl-tiwai@suse.de>
+References: <87wm0n7i0b.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[16b2b67ae905feb8a289];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 08 Feb 2026 11:20:58 +0100,
-Soham Kute wrote:
-> 
-> syzbot reported a slab-use-after-free in snd_pcm_post_stop() when the
-> PCM runtime may already be freed during teardown.
-> 
-> snd_pcm_post_stop() can be called after snd_pcm_detach_substream()
-> releases the runtime, leading to a use-after-free when accessing
-> runtime state and wait queues.
-> 
-> Add a defensive check to avoid dereferencing a freed runtime pointer.
-> 
-> Reported-by: syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
-> 
-> Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+Thanks Takashi. Unfortunately, the codec does have the exact same SSID as
+the one already defined. Here's what I was able to come up with, it's
+basically a new SND_PCI_ macro that allows passing in the codec's vendor_id
+when matching. This also means that the FIXME: block in alc269_probe is
+no longer needed as it seems to be fixing the same problem I'm having
+(i.e. machines with duplicate PCI SSIDs).
 
-Thanks for the patch, but IMO it's rather a wrong "fix".  It just
-papers over some place that had casually a NULL dereference due to a
-UAF.  That is, this change itself is no fix for UAF, but just trying
-to avoid a casual Oops; more worse, it may still happen at another
-place if happening at a little bit different moment even if you plug
-like that.
+Let me know what you think.
 
-If any, we could put such a sanity check with WARN_ON() to indicate
-the obvious code flow error.  But, still there is no much reason to
-put the check only here at this place.  After all, the actual UAF must
-be fixed in the caller side.
+---
+ sound/hda/codecs/realtek/alc269.c | 12 ++----------
+ sound/hda/common/auto_parser.c    | 14 +++++++++++---
+ sound/hda/common/hda_local.h      | 15 ++++++++++++++-
+ 3 files changed, 27 insertions(+), 14 deletions(-)
 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index b66965a52107..b53d8ff42988 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6821,6 +6821,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8e36, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e37, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e3a, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_HDA_VENDOR_ID_QUIRK(0x103c, 0x8e3b, 0x10ec0245, "HP OmniBook 7 AI 14-fr0220nw", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e60, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e61, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
+@@ -6857,6 +6858,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1032, "ASUS VivoBook X513EA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1034, "ASUS GU605C", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
++	SND_PCI_HDA_VENDOR_ID_QUIRK(0x1043, 0x103f, 0x10ec0294, "ASUS ROG Strix G17", HDA_FIXUP_ID_NOT_SET),
+ 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
+ 	SND_PCI_QUIRK(0x1043, 0x1054, "ASUS G614FH/FM/FP", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+@@ -8253,16 +8255,6 @@ static int alc269_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 
+ 	snd_hda_pick_fixup(codec, alc269_fixup_models,
+ 		       alc269_fixup_tbl, alc269_fixups);
+-	/* FIXME: both TX300 and ROG Strix G17 have the same SSID, and
+-	 * the quirk breaks the latter (bko#214101).
+-	 * Clear the wrong entry.
+-	 */
+-	if (codec->fixup_id == ALC282_FIXUP_ASUS_TX300 &&
+-	    codec->core.vendor_id == 0x10ec0294) {
+-		codec_dbg(codec, "Clear wrong fixup for ASUS ROG Strix G17\n");
+-		codec->fixup_id = HDA_FIXUP_ID_NOT_SET;
+-	}
+-
+ 	snd_hda_pick_pin_fixup(codec, alc269_pin_fixup_tbl, alc269_fixups, true);
+ 	snd_hda_pick_pin_fixup(codec, alc269_fallback_pin_fixup_tbl, alc269_fixups, false);
+ 	snd_hda_pick_fixup(codec, NULL,	alc269_fixup_vendor_tbl,
+diff --git a/sound/hda/common/auto_parser.c b/sound/hda/common/auto_parser.c
+index 8923813ce424..8369eec455bb 100644
+--- a/sound/hda/common/auto_parser.c
++++ b/sound/hda/common/auto_parser.c
+@@ -1000,7 +1000,8 @@ hda_quirk_lookup_id(u16 vendor, u16 device, const struct hda_quirk *list)
+  * The function tries to find the matching model name at first, if given.
+  * If the model string contains the SSID alias, try to look up with the given
+  * alias ID.
+- * If nothing matched, try to look up the PCI SSID.
++ * If nothing matched, try to look up the PCI SSID, optionally matching
++ * against the codec's vendor_id too.
+  * If still nothing matched, try to look up the codec SSID.
+  */
+ void snd_hda_pick_fixup(struct hda_codec *codec,
+@@ -1065,8 +1066,15 @@ void snd_hda_pick_fixup(struct hda_codec *codec,
+ 
+ 	/* match primarily with the PCI SSID */
+ 	for (q = quirk; q->subvendor || q->subdevice; q++) {
+-		/* if the entry is specific to codec SSID, check with it */
+-		if (!codec->bus->pci || q->match_codec_ssid) {
++		/* if the entry is specific to vendor_id, check it first */
++		if (q->codec_vendor_id && q->codec_vendor_id == codec->core.vendor_id) {
++			if (codec->bus->pci && hda_quirk_match(pci_vendor, pci_device, q)) {
++				type = "PCI SSID + codec vendor_id";
++				goto found_device;
++			}
++		}
++		/* otherwise try codec and PCI SSIDs */
++		else if (!codec->bus->pci || q->match_codec_ssid) {
+ 			if (hda_quirk_match(codec_vendor, codec_device, q)) {
+ 				type = "codec SSID";
+ 				goto found_device;
+diff --git a/sound/hda/common/hda_local.h b/sound/hda/common/hda_local.h
+index a7e53277a0fe..9ff7e9a89799 100644
+--- a/sound/hda/common/hda_local.h
++++ b/sound/hda/common/hda_local.h
+@@ -297,12 +297,15 @@ struct hda_fixup {
+ /*
+  * extended form of snd_pci_quirk:
+  * for PCI SSID matching, use SND_PCI_QUIRK() like before;
+- * for codec SSID matching, use the new HDA_CODEC_QUIRK() instead
++ * for codec SSID matching, use the new HDA_CODEC_QUIRK() instead;
++ * use SND_PCI_HDA_VENDOR_ID_QUIRK() for cases with duplicated PCI SSIDs which
++ * can be distinguished based on the codec's vendor_id.
+  */
+ struct hda_quirk {
+ 	unsigned short subvendor;	/* PCI subvendor ID */
+ 	unsigned short subdevice;	/* PCI subdevice ID */
+ 	unsigned short subdevice_mask;	/* bitmask to match */
++	unsigned int codec_vendor_id;	/* codec's vendor_id if nonzero */
+ 	bool match_codec_ssid;		/* match only with codec SSID */
+ 	int value;			/* value */
+ #ifdef CONFIG_SND_DEBUG_VERBOSE
+@@ -320,6 +323,16 @@ struct hda_quirk {
+ 			.match_codec_ssid = true }
+ #endif
+ 
++#ifdef CONFIG_SND_DEBUG_VERBOSE
++#define SND_PCI_HDA_VENDOR_ID_QUIRK(vend, dev, codec_vend_id, xname, val) \
++	{ _SND_PCI_QUIRK_ID(vend, dev), .value = (val), .name = (xname),\
++			.codec_vendor_id = (codec_vend_id) }
++#else
++#define SND_PCI_HDA_VENDOR_ID_QUIRK(vend, dev, codec_vend_id, xname, val) \
++	{ _SND_PCI_QUIRK_ID(vend, dev), .value = (val), \
++			.codec_vendor_id = (codec_vend_id) }
++#endif
++
+ struct snd_hda_pin_quirk {
+ 	unsigned int codec;             /* Codec vendor/device ID */
+ 	unsigned short subvendor;	/* PCI subvendor ID */
+-- 
+2.53.0
 
-thanks,
-
-Takashi
