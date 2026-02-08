@@ -1,165 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734AB5FDA7
-	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 08:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1D030E826
+	for <linux-sound@vger.kernel.org>; Sun,  8 Feb 2026 10:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770539542; cv=none; b=m0CF3O+BWMQH+VQqistkDuSrTaa3+f8nd5wdGzapSyZT3IpRNE1u9UDjXLQX4oHIMU5747ngpapppo5JXfdp9DbJblJw2J4aOK9UUmEls5jWU1HJpizl4KSE79DPFE0XUqSLWymjuQV5Ugv094HSPAzf/bsyiDrXo8Ah2Ov9KaE=
+	t=1770546131; cv=none; b=RYW5lz7FOEL+enCr1CVllg6TVgIiiHDitc9tKGaE37OohvhaQNMKjKCr7kE2NlRJX9K4qDuxG3S+lXnU2d49SxIvUA6DEhfsc6YJL2RIeMrycO87i9YLAZWFOdtiMwmeAnYv0Lnf9AhSs0p2HtebviQKu/xGVpiVcXFmFaIkmJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770539542; c=relaxed/simple;
-	bh=hHEOy9LrADks+sMUS+GSQGb2CCwnCjnxkbuyM45D4kE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o5XXSvikP0vwa3fLrBAIDTnReMdZKJU/C04avmWyMHwtR99vjSzAoaMWhXjqVv/S25jwPM9PDBK68y+EiPgrDcOVd5EGUONtyij1K9vRFvjpQ/F8oE6sEIsNjOWQULYCMfZ971AV+9VHNZ1s0LRfgXcviA8RsEc7PVM12ImVe7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FcDwo7bw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YOLcAJLJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FcDwo7bw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YOLcAJLJ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1770546131; c=relaxed/simple;
+	bh=Cz7ehfn80ppvyadi41DqxbXL/1+dC5KJYoDecVOu8dk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dnAkAdiTStxHVA9I2bHS/M6s7CyKHwWzLdqhGu6imWJvDjV9NNcg7KaAygxBNFHDeaeDAftGGVFYhs7Y1W3Tu9nuLDjGHmo2WaKsPSpwdwTW6hZNBbGI++hyFTdimS4DlknqfdRKKrwMgtEJJCGNzlEMGNvA2kZ0RZjKD9l0zRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cdjCC+lT; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FcDwo7bw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YOLcAJLJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FcDwo7bw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YOLcAJLJ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A32B05BCC4;
-	Sun,  8 Feb 2026 08:32:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770539540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JnvfukynJpFpRT/Jfq9RjBV3bstBZ0diX0wWK0zZs7A=;
-	b=FcDwo7bwsoGbOQ+u7nRMhY/g7Qjq5DvLVi0UgOvAlILn5J+9dg6/4uvy2J+nDjP/IJg23J
-	bt4smUWWLUbPZfwu1bIvyYK586BcTwQ8tq0RxSyRYwxZ/pSZ0qQdESXkpLI/25U2mi1eAb
-	0EtLDJtL7a/YL4O4Q8HfwsMB61p0hwA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770539540;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JnvfukynJpFpRT/Jfq9RjBV3bstBZ0diX0wWK0zZs7A=;
-	b=YOLcAJLJO17gMdVQI7NHCKanTcelWipcvw3cA1Yi3nO/UT7F7u6x91Wl4AyhfqUUx8pERX
-	ttH2xmSnI8ShqyBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770539540; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JnvfukynJpFpRT/Jfq9RjBV3bstBZ0diX0wWK0zZs7A=;
-	b=FcDwo7bwsoGbOQ+u7nRMhY/g7Qjq5DvLVi0UgOvAlILn5J+9dg6/4uvy2J+nDjP/IJg23J
-	bt4smUWWLUbPZfwu1bIvyYK586BcTwQ8tq0RxSyRYwxZ/pSZ0qQdESXkpLI/25U2mi1eAb
-	0EtLDJtL7a/YL4O4Q8HfwsMB61p0hwA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770539540;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JnvfukynJpFpRT/Jfq9RjBV3bstBZ0diX0wWK0zZs7A=;
-	b=YOLcAJLJO17gMdVQI7NHCKanTcelWipcvw3cA1Yi3nO/UT7F7u6x91Wl4AyhfqUUx8pERX
-	ttH2xmSnI8ShqyBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 680883EA63;
-	Sun,  8 Feb 2026 08:32:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0bsNFxRKiGlJHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 08 Feb 2026 08:32:20 +0000
-Date: Sun, 08 Feb 2026 09:32:20 +0100
-Message-ID: <87wm0n7i0b.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Daniel Kamil Kozar <dkk089@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH RFC] Fix speaker/mic mute LEDs on HP OmniBook 7 AI 14-fr0220nw
-In-Reply-To: <20260207211219.769419-1-dkk089@gmail.com>
-References: <20260207211219.769419-1-dkk089@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cdjCC+lT"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2aae985a839so23285ad.3
+        for <linux-sound@vger.kernel.org>; Sun, 08 Feb 2026 02:22:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770546130; x=1771150930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o84JYzpW0aJdlM9C8zoxk8gq6pZWxToMJv5PSwDwwGk=;
+        b=cdjCC+lTIMqUB942TREkNdHe/Zv2k1z7FQwWtSk3C7Wf2F1pjNOtemtF45itFr6FU3
+         +s85QwBszG8tXOC9JVJrk5PV20n/OKGYIfMDcKd36qXEhXIOdwtWEgY69JdgYx9XejB4
+         eUdrKbriU4kvI1wv3bChjGPJZl6z1lF5eKEkq3NalnSuo8iFwCPEkXvnkXhHP8FeXFwG
+         23UgTJVzzaj5256HgpUxSstWrOpLcNv1Mf2ocqhtRdYuSRgUd0f3v9dtmdBTWzX2Om6S
+         rvbp3ZKeOlPHotISAVVdaATlvSDwI24B3RZta7josGkrVyy1u7zl5DD+20Aep3N9+sEp
+         RGSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770546130; x=1771150930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o84JYzpW0aJdlM9C8zoxk8gq6pZWxToMJv5PSwDwwGk=;
+        b=MPDZI55Buvymnzh5Ss2vi7HO3Q8A/qIKv4R7B+AD/fVnhFR+xsqc8C4WM+g16WYhBX
+         S3lEnoG/8kn60muaO4HwRqnfAtBoE1lohQDbJX6eGmehL9bX/AHgghSr0+IqS7r+9/rM
+         j13ShjeQmI1sjywZ/TGquX/56RXDSQm+3jp/rNQNqibAOyJ0Pv52NVVN8KleSSS3TLi9
+         EYK/jAXlqxUTDvoX0umyDODhLgdvRizhNuGxYIa4NPUBtXdHAg+YByQTOcv59tfZ8agd
+         VN3eGMK4d1YEjr9yPkGlznLH8R8k4gGv0VNawMuNqWgX0yzhd2sNy20F6dPgFwF54bGX
+         hs0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVg7UkqOBxyLUtFa8xmtquSLlsj1rWrbCls8+FObRyXujSP+yonGK/e/mfM2KZq63Iu0fWEsuQQKCrqYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIy6QG63z5l6Xd7FSyzhJQJStYiA12RixCFzVa7zYL8if09bAZ
+	9X/vf2Hy4P56P5AdIN3n/2cYSTnieb8b4cKyGgBGJfLDP/8dbVH5AiMU
+X-Gm-Gg: AZuq6aICMBL2XAoenxjO7gbIjFaNbzthVsTTd+7XmQ+xOazKCn6uBzB1zgdO80Zv0xZ
+	QE5T7nNEtR2yJpe+ohwDA9mjvGRZgfus3NoP6gpMYv7Hrva+7dPf3l4pRZMaG7Mq9FSo3SvlaSK
+	wB9zwzNbXH7cuzxciEhYN4ULxM2SBlwh6ikyAWImhULke8aKxgtMuqNBXq5klsTDq6P02YkF5qq
+	baiNt0911IRlOxpqx7tRxMtUmDx3tN3mPMEJ1E4vQ/6KNhr+bi2ElVW/PJBfPashe7b0K24h14H
+	s5Io+YxAYEaIYRBDQeVvUPKKcX7qTr04FMM7Axrih4QwKQSbIYNMJKEqE7sMCyzaKcP3be3OPxK
+	g5bKu0J+K2xaUlm2ED6HcNZ1E0TalWXB9ix2481C4WILkdjI8/YMBMNF+Bia6PHBtlCvXulnQHG
+	kJOhs6aqx31rxKYNe4yrGYFuacTiW1LBrLr5mOmS6SngqzYZAbDWqDdqJLruh5NCY9Hd0lQT8QL
+	a4=
+X-Received: by 2002:a17:902:da8e:b0:2a9:4555:99d8 with SMTP id d9443c01a7336-2a9519c3c6emr66999515ad.7.1770546130537;
+        Sun, 08 Feb 2026 02:22:10 -0800 (PST)
+Received: from cute.. ([2405:201:31:d01f:5dd4:d722:2dec:7570])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a9521b9999sm89592565ad.64.2026.02.08.02.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 02:22:10 -0800 (PST)
+From: Soham Kute <officialsohamkute@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Soham Kute <officialsohamkute@gmail.com>,
+	syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
+Subject: [PATCH] ALSA: pcm: fix use-after-free in snd_pcm_post_stop
+Date: Sun,  8 Feb 2026 15:50:58 +0530
+Message-Id: <20260208102058.9794-1-officialsohamkute@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 07 Feb 2026 22:12:07 +0100,
-Daniel Kamil Kozar wrote:
-> 
-> The OmniBook seems to be reusing PCI SSIDs from the HP Agusta, but it uses the
-> ALC245 codec instead, so the current quirk cannot work on this machine.
-> Using ALC245_FIXUP_HP_X360_MUTE_LEDS makes the mute LEDs work properly without
-> any loss of audio functionality.
-> I'm aware that this patch cannot go in as-is as it possibly breaks the Agusta
-> , but I wasn't able to work out what kind of extra data can be used to
-> distinguish these two machines.
-> Please let me know if you need any extra information.
+syzbot reported a slab-use-after-free in snd_pcm_post_stop() when the
+PCM runtime may already be freed during teardown.
 
-I suppose your machine has a different codec SSID.  Please check
-/proc/asound/card*/codec#* file whether "Subsystem Id" field shows
-0x103c8e3b or not.  If it's a different value, you can put an entry
-with HDA_CODEC_QUIRK() with that codec SSID just before the existing
-SND_PCI_QUIRK() for HP OmniBook.
+snd_pcm_post_stop() can be called after snd_pcm_detach_substream()
+releases the runtime, leading to a use-after-free when accessing
+runtime state and wait queues.
 
-See an example in the commit 1386d16761c0 ("ALSA: hda/realtek: Add
-quirk for Lenovo Yoga 7 2-in-1 14AKP10").
+Add a defensive check to avoid dereferencing a freed runtime pointer.
 
-OTOH, if it has the very same codec SSID, we'd need a different
-solution.  Please show the output of alsa-info.sh (with --no-upload
-option).
+Reported-by: syzbot+16b2b67ae905feb8a289@syzkaller.appspotmail.com
 
+Signed-off-by: Soham Kute <officialsohamkute@gmail.com>
+---
+ sound/core/pcm_native.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-thanks,
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 932a9bf98..7b9e2aea5 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1542,6 +1542,10 @@ static void snd_pcm_post_stop(struct snd_pcm_substream *substream,
+ 			      snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++
++	if (!runtime)
++		return;
++		
+ 	if (runtime->state != state) {
+ 		snd_pcm_trigger_tstamp(substream);
+ 		__snd_pcm_set_state(runtime, state);
+-- 
+2.34.1
 
-Takashi
-
-> ---
->  sound/hda/codecs/realtek/alc269.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index b66965a52107..84ea1ae7b36b 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -6821,7 +6821,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8e36, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8e37, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8e3a, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
-> -	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
-> +	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP OmniBook 7 AI 14-fr0220nw", ALC245_FIXUP_HP_X360_MUTE_LEDS),
->  	SND_PCI_QUIRK(0x103c, 0x8e60, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8e61, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8e62, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
-> -- 
-> 2.53.0
-> 
