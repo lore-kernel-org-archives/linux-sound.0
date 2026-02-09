@@ -1,189 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBEA3019CB;
-	Mon,  9 Feb 2026 12:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B0336F425;
+	Mon,  9 Feb 2026 13:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770640061; cv=none; b=FoUODheWiRCR8+dAIBnvn51Bxtgz/2z71wSAGoWMGegMZFE4675JHP4Pbrykb2jEtifCcp4UYBR85SQvMNc4CcORTqWzOgksjNSG5nmoq12AonRE+YhkJWTzQthXWZ4TNcK25uzSZGIp/Wn2AVuyXrloOrWpspxVo4+8TY0W+5k=
+	t=1770644524; cv=none; b=ZsfFNEZqT10QT4IvBf8lBKykhaq0B4jpCKbxnEsB2E1C6yfCrDq2OpvGYaqY4oUC7dT+hQIWWRTGXfqcRaG4SZj4VCYRVFI9EX28hhM7SP+p2CINo6xhqg8/KC9YUL+3ifbXXkhzeqv2rBfDhnwebCRgn3Ihf/LspHTmvAPnAGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770640061; c=relaxed/simple;
-	bh=hLs9OLJDEPbxFuGB2sd94CU5PFLTgqmQPHiFlsGsbP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ec4tFW/PARR/5TWtdLF0tCPa6DbNWGtOT5fXkxBUIQEX5ogBAVnXEyJluN14oMSTrKFkftJyUWbGaTRkC7idXH45Qc0I7PjxQyriquVKyOrJfVCe0XoTMnv8K4TeqTaE6Z1DTRTrcwswrL5C3A/gtEEyRH1MhHwwt81OdgVR9Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ng6MLnKf; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ng6MLnKf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F4CC16AAE;
-	Mon,  9 Feb 2026 12:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770640061;
-	bh=hLs9OLJDEPbxFuGB2sd94CU5PFLTgqmQPHiFlsGsbP4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ng6MLnKfIUJt+mBp7jKM23KrSiyN/CJ8XKdmSpPZLGMi/uB/BA8cCeg+Nd5MOu2IY
-	 moMu47aypn1MPJoWPPPQGKEFYegTWAilEahQ0qIeIjomaniUIV6HqgwYqKuvn94TCR
-	 dy5mZwYuA6MlNg9XQdyvxtsxgb7/0YPgu73O4PwzQRAjrkANve68TQrRnH867fMWfD
-	 ep/Y9Qtb4+JVoT6kWGCHBtOIj1BQ5JxpXxrkJ7mKDYAv/HI7PadjGhltu2N9AUB7cE
-	 Qqw1exuGuo4umB+GOKdWcKs9SD64FIRw+GJ9Im2IinY0zLmzdv4DygTTvWPdWF3D/8
-	 b3rmh4b8O8egA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
+	s=arc-20240116; t=1770644524; c=relaxed/simple;
+	bh=lVs8Si8Z2R42UoPGdQMp03LDeDGSS5OmAm8Zyz7u6Dk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h+V1La/RvD8LOMv8A9ZGrtJq/gA5slTJBOAy60MyFYWoD2+++kVtMIeAUsvu7Hc+rgm07acfF/3pHaR8RHH5TNwYVtaDOm8CJUCoUeESOLl173As4slbiBPYiJw2XIhMS+GpYDNzJr0Vl8JxumEsj7RH+LOXAecDoBwk0TxCktc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 187db76605bd11f1b0f03b4cfa9209d1-20260209
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:36384692-47de-4f38-8a4f-1c2075c295f0,IP:0,UR
+	L:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:ff362aafda7649171c38f987d93f5ce4,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|898,TC:nil,Content:0|15|50,EDM:5,IP:
+	nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:
+	0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 187db76605bd11f1b0f03b4cfa9209d1-20260209
+X-User: zhangheng@kylinos.cn
+Received: from kylin-pc.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1216626094; Mon, 09 Feb 2026 21:41:54 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	chris.chiu@canonical.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
 	stable@vger.kernel.org
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH AUTOSEL 6.18-6.6] ASoC: cs42l43: Correct handling of 3-pole jack load detection
-Date: Mon,  9 Feb 2026 07:26:53 -0500
-Message-ID: <20260209122714.1037915-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260209122714.1037915-1-sashal@kernel.org>
-References: <20260209122714.1037915-1-sashal@kernel.org>
+Subject: [PATCH] ALSA: hda/realtek: add quirk for Acer Nitro ANV15-51
+Date: Mon,  9 Feb 2026 21:41:49 +0800
+Message-ID: <20260209134149.3076957-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18.9
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+fix mute/micmute LEDs and headset microphone for Acer Nitro ANV15-51.
 
-[ Upstream commit e77a4081d7e324dfa876a9560b2a78969446ba82 ]
+[ The headset microphone issue is solved by Kailang]
 
-The load detection process for 3-pole jacks requires slightly
-updated reference values to ensure an accurate result. Update
-the code to apply different tunings for the 3-pole and 4-pole
-cases. This also updates the thresholds overall so update the
-relevant comments to match.
-
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260130150927.2964664-1-ckeepax@opensource.cirrus.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220279
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
+There is a small issue now, the mute LED stays on when I mute the
+laptop microphone, unmute the headphone microphone, and set the
+headphone mic as default. Is it possible to fix this?
 
-LLM Generated explanations, may be completely bogus:
+ sound/hda/codecs/realtek/alc269.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-The driver was added in August 2023 (likely kernel 6.6 or 6.7
-timeframe), so it exists in recent stable trees.
-
-### User Impact Assessment
-
-- **Who is affected**: Users with CS42L43 audio codec hardware (Cirrus
-  Logic codec, likely found in laptops/tablets)
-- **Symptom**: Headphones could be misdetected as line-out, resulting in
-  incorrect audio output behavior
-- **Severity**: MEDIUM — not a crash, but audio malfunction that
-  directly impacts user experience
-- **Vendor fix**: From Cirrus Logic themselves, high confidence in
-  correctness
-
-### Risk vs. Benefit
-
-- **Benefit**: Correct headphone/line-out detection for CS42L43 users,
-  especially for 3-pole jacks
-- **Risk**: Very low — codec-specific, vendor-provided values, only
-  affects this hardware
-- **Backport complexity**: The patch is self-contained;
-  `regmap_multi_reg_write_bypassed()` already exists in stable trees
-
-### Conclusion
-
-This is a vendor-provided hardware tuning fix from Cirrus Logic that
-corrects jack detection behavior on their CS42L43 codec. It fixes real-
-world audio misdetection where headphones are wrongly classified as
-line-out. The fix is contained to a single codec driver, uses existing
-kernel APIs, and comes directly from the hardware vendor with
-authoritative knowledge of the correct register values. It's analogous
-to a hardware quirk — different tuning values needed for different jack
-types.
-
-The change is small, well-scoped, low-risk, and fixes a user-visible bug
-(incorrect jack type detection).
-
-**YES**
-
- sound/soc/codecs/cs42l43-jack.c | 37 +++++++++++++++++++++++++++------
- 1 file changed, 31 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
-index 867e23d4fb8d8..744488f371ea4 100644
---- a/sound/soc/codecs/cs42l43-jack.c
-+++ b/sound/soc/codecs/cs42l43-jack.c
-@@ -496,7 +496,23 @@ void cs42l43_bias_sense_timeout(struct work_struct *work)
- 	pm_runtime_put_autosuspend(priv->dev);
- }
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index c4228d982271..1c11f7c3b193 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4047,6 +4047,7 @@ enum {
+ 	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO,
+ 	ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY,
+ 	ALC245_FIXUP_BASS_HP_DAC,
++	ALC245_FIXUP_ACER_MICMUTE_LED,
+ };
  
--static void cs42l43_start_load_detect(struct cs42l43_codec *priv)
-+static const struct reg_sequence cs42l43_3pole_patch[] = {
-+	{ 0x4000,	0x00000055 },
-+	{ 0x4000,	0x000000AA },
-+	{ 0x17420,	0x8500F300 },
-+	{ 0x17424,	0x36003E00 },
-+	{ 0x4000,	0x00000000 },
-+};
-+
-+static const struct reg_sequence cs42l43_4pole_patch[] = {
-+	{ 0x4000,	0x00000055 },
-+	{ 0x4000,	0x000000AA },
-+	{ 0x17420,	0x7800E600 },
-+	{ 0x17424,	0x36003800 },
-+	{ 0x4000,	0x00000000 },
-+};
-+
-+static void cs42l43_start_load_detect(struct cs42l43_codec *priv, bool mic)
- {
- 	struct cs42l43 *cs42l43 = priv->core;
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -6554,6 +6555,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		/* Borrow the DAC routing selected for those Thinkpads */
+ 		.v.func = alc285_fixup_thinkpad_x1_gen7,
+ 	},
++	[ALC245_FIXUP_ACER_MICMUTE_LED] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_fixup_hp_coef_micmute_led,
++		.chained = true,
++		.chain_id = ALC2XX_FIXUP_HEADSET_MIC,
++	}
+ };
  
-@@ -520,6 +536,15 @@ static void cs42l43_start_load_detect(struct cs42l43_codec *priv)
- 			dev_err(priv->dev, "Load detect HP power down timed out\n");
- 	}
- 
-+	if (mic)
-+		regmap_multi_reg_write_bypassed(cs42l43->regmap,
-+						cs42l43_4pole_patch,
-+						ARRAY_SIZE(cs42l43_4pole_patch));
-+	else
-+		regmap_multi_reg_write_bypassed(cs42l43->regmap,
-+						cs42l43_3pole_patch,
-+						ARRAY_SIZE(cs42l43_3pole_patch));
-+
- 	regmap_update_bits(cs42l43->regmap, CS42L43_BLOCK_EN3,
- 			   CS42L43_ADC1_EN_MASK | CS42L43_ADC2_EN_MASK, 0);
- 	regmap_update_bits(cs42l43->regmap, CS42L43_DACCNFG2, CS42L43_HP_HPF_EN_MASK, 0);
-@@ -598,7 +623,7 @@ static int cs42l43_run_load_detect(struct cs42l43_codec *priv, bool mic)
- 
- 	reinit_completion(&priv->load_detect);
- 
--	cs42l43_start_load_detect(priv);
-+	cs42l43_start_load_detect(priv, mic);
- 	time_left = wait_for_completion_timeout(&priv->load_detect,
- 						msecs_to_jiffies(CS42L43_LOAD_TIMEOUT_MS));
- 	cs42l43_stop_load_detect(priv);
-@@ -622,11 +647,11 @@ static int cs42l43_run_load_detect(struct cs42l43_codec *priv, bool mic)
- 	}
- 
- 	switch (val & CS42L43_AMP3_RES_DET_MASK) {
--	case 0x0: // low impedance
--	case 0x1: // high impedance
-+	case 0x0: // < 22 Ohm impedance
-+	case 0x1: // < 150 Ohm impedance
-+	case 0x2: // < 1000 Ohm impedance
- 		return CS42L43_JACK_HEADPHONE;
--	case 0x2: // lineout
--	case 0x3: // Open circuit
-+	case 0x3: // > 1000 Ohm impedance
- 		return CS42L43_JACK_LINEOUT;
- 	default:
- 		return -EINVAL;
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -6605,6 +6612,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
++	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x1826, "Acer Helios ZPC", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1025, 0x182c, "Acer Helios ZPD", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1025, 0x1844, "Acer Helios ZPS", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
 -- 
-2.51.0
+2.47.1
 
