@@ -1,100 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66F02E62C0
-	for <linux-sound@vger.kernel.org>; Mon,  9 Feb 2026 09:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0200364E83
+	for <linux-sound@vger.kernel.org>; Mon,  9 Feb 2026 09:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770629686; cv=none; b=Q7edxRA2j8sv1FnKZmoqz9e42pOZGuOTBDMcHPdPLVDesFqj1KVuPtB5tAmCLzDmzrLPGxXS7SM3S5Q0IJI8vz/91RivOBn12sjwXrSzox3bMNV2On4Lf+K3WTv+Hg+et1J8zOYrSB2yDkpTKYs+j3rSPDo7k0jD3jV7QdZTykM=
+	t=1770629859; cv=none; b=ZHod1USDTFHA7pfFKrEWT6g2Ma7CWhtEcQscWQJprvigxawcDl7BIHWbVvSEvnUo69CQgGuD+GGFWwlKF2YFEWcD9dmn6Usz9J0De0YgGnXj887HPTPkPQLMGgBoVI3zA9vy87syR5w7uxuQBiGUW4J++yveDhHrFsk1cckKhcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770629686; c=relaxed/simple;
-	bh=Epwy6dQUfbvxy4PK7qJYFc1c362d2JWMfyrhB0RSGpY=;
+	s=arc-20240116; t=1770629859; c=relaxed/simple;
+	bh=a8II9qhplVHTF4Bh4ragebrFwStbzGqjieogHOf+X58=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=srj4WF8cLBuWRqsPHHyPCaGIl/IK1L6mqPneMHYGCMK5SEmp28CaYMsHqB/x9bMlkjPuapCxbevp5CxuFsEzcE99woFB3iejQlXa3TOT9nyvUpxtm0fHSmP90ctR4xCJxQKgUhYPqOhRJFAkucups1f0l4iIQyeFmQlAhOYoADA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ys3GVSu7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qLbcpiDx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ys3GVSu7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qLbcpiDx; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=L/gFKrWa+VxADf+WwLap7u16632lXEpfRmZEkfCGWvUBkFiUHlygqRAmvlyvBcNt4g/tmnRcRv+Lfm2MBtXm9HPE535hny1YpIznBDrGQgZ2Fj8CP/OugXcCb/jMCYx/5RB/MvybeSf4N8PjIMltxxbkLcBGX0+jWgciw/ebo20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=swq4pL7g; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gsQWB+CS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=swq4pL7g; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gsQWB+CS; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ys3GVSu7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qLbcpiDx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ys3GVSu7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qLbcpiDx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="swq4pL7g";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gsQWB+CS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="swq4pL7g";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gsQWB+CS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9EE1F5BCD8;
-	Mon,  9 Feb 2026 09:34:43 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0950A3E6C6;
+	Mon,  9 Feb 2026 09:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770629683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770629857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JEV0fJaKkvjHMF1mHhbNGC/tmO6e/s1c6VHfB/GTsdU=;
-	b=Ys3GVSu78iyxvzDuyC4g5CbW7nyStDW1R/oq3BOKlzmOgChObQ6pfeGm6GeNWm61jSnUsE
-	CkEMmr5rKLp4x1+XOWlhF02g/YkLrlUzH91wOeGwxXhnvPyHHGo1wC2R6Rdzf9isSL8J0b
-	YlmhGaudpFeqvK8n7+ViHNyZ6CA66Iw=
+	bh=nrS5Yalz0svOvoHNUBS4kXhBLdyzfRK7KL8XV5hriFc=;
+	b=swq4pL7gLFr+6MCBoqBddXnJXf+VD1rkGe45rl7VYju7nTjD7ex9Baa2YOgyK2w2lklefK
+	4XjErom5UEk49FF8rljrgJCzyN1sDeRbZt6tkNl8Wgsskh8QDZnFGday9IqvK4hp0BQCfh
+	+11VAmA7oVA3b+Xd64MKRXxx7oWvc3w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770629683;
+	s=susede2_ed25519; t=1770629857;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JEV0fJaKkvjHMF1mHhbNGC/tmO6e/s1c6VHfB/GTsdU=;
-	b=qLbcpiDxl/udM/vkEx9S2AeknRWyg6zdbCAnQPef0jbFv6nuCEe9KbAkK11nQdtHbSrEw6
-	Vu6Nth4F6uLOc7Cg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=nrS5Yalz0svOvoHNUBS4kXhBLdyzfRK7KL8XV5hriFc=;
+	b=gsQWB+CSuMJe5TMKygG2BZ9oWB8EkQjY+cV503xh4NAmGUUqrLTvVY857lWUqCaA7A++Mg
+	jt22zLp8vyeOSYDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=swq4pL7g;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gsQWB+CS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770629683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770629857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JEV0fJaKkvjHMF1mHhbNGC/tmO6e/s1c6VHfB/GTsdU=;
-	b=Ys3GVSu78iyxvzDuyC4g5CbW7nyStDW1R/oq3BOKlzmOgChObQ6pfeGm6GeNWm61jSnUsE
-	CkEMmr5rKLp4x1+XOWlhF02g/YkLrlUzH91wOeGwxXhnvPyHHGo1wC2R6Rdzf9isSL8J0b
-	YlmhGaudpFeqvK8n7+ViHNyZ6CA66Iw=
+	bh=nrS5Yalz0svOvoHNUBS4kXhBLdyzfRK7KL8XV5hriFc=;
+	b=swq4pL7gLFr+6MCBoqBddXnJXf+VD1rkGe45rl7VYju7nTjD7ex9Baa2YOgyK2w2lklefK
+	4XjErom5UEk49FF8rljrgJCzyN1sDeRbZt6tkNl8Wgsskh8QDZnFGday9IqvK4hp0BQCfh
+	+11VAmA7oVA3b+Xd64MKRXxx7oWvc3w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770629683;
+	s=susede2_ed25519; t=1770629857;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JEV0fJaKkvjHMF1mHhbNGC/tmO6e/s1c6VHfB/GTsdU=;
-	b=qLbcpiDxl/udM/vkEx9S2AeknRWyg6zdbCAnQPef0jbFv6nuCEe9KbAkK11nQdtHbSrEw6
-	Vu6Nth4F6uLOc7Cg==
+	bh=nrS5Yalz0svOvoHNUBS4kXhBLdyzfRK7KL8XV5hriFc=;
+	b=gsQWB+CSuMJe5TMKygG2BZ9oWB8EkQjY+cV503xh4NAmGUUqrLTvVY857lWUqCaA7A++Mg
+	jt22zLp8vyeOSYDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5149C3EA63;
-	Mon,  9 Feb 2026 09:34:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C16723EA63;
+	Mon,  9 Feb 2026 09:37:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BPmZEjOqiWlHSwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Feb 2026 09:34:43 +0000
-Date: Mon, 09 Feb 2026 10:34:42 +0100
-Message-ID: <87cy2e2rbh.wl-tiwai@suse.de>
+	id khD3LeCqiWnzdwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Feb 2026 09:37:36 +0000
+Date: Mon, 09 Feb 2026 10:37:36 +0100
+Message-ID: <87bjhy2r6n.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	"perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	"pav@iki.fi" <pav@iki.fi>,
-	"jussi@sonarnerd.net" <jussi@sonarnerd.net>,
-	"roy.vegard.ovesen@gmail.com"
-	<roy.vegard.ovesen@gmail.com>,
-	"linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: =?GB2312?B?tPC4tDo=?= [PATCH] ALSA: usb-audio: Add iface reset
- and delay quirk for AB13X USB Audio
-In-Reply-To: <TYUPR06MB621791C06D1E683E87FBA590D265A@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB6217522D0DB6E2C9DF46B56ED265A@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	<87h5rq2s0g.wl-tiwai@suse.de>
-	<TYUPR06MB621791C06D1E683E87FBA590D265A@TYUPR06MB6217.apcprd06.prod.outlook.com>
+To: V-Conet <v-conet@outlook.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add DSD support for iBasso DC04U
+In-Reply-To: <TYYPR01MB140982EB52459BA89009AED3BF465A@TYYPR01MB14098.jpnprd01.prod.outlook.com>
+References: <TYYPR01MB140982EB52459BA89009AED3BF465A@TYYPR01MB14098.jpnprd01.prod.outlook.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -102,66 +88,55 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,uniontech.com,iki.fi,sonarnerd.net,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[outlook.com];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
 X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 0950A3E6C6
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 
-On Mon, 09 Feb 2026 10:26:50 +0100,
-ºúÁ¬ÇÚ wrote:
+On Mon, 09 Feb 2026 03:06:47 +0100,
+V-Conet wrote:
 > 
-> Hi  Takashi:
+> The vendor ID 0x0661 is assigned to Hamamatsu Photonics K.K., but is used by iBasso for the iBasso DC04U USB DAC (0x0661:0x0883), which supports native DSD playback.
 > 
-> > > Setting up the interface when suspended/resumeing fail on this card.
-> > > Adding a reset and delay quirk will eliminate this problem.
-> > >
-> > > usb 1-1: New USB device found, idVendor=001f, idProduct=0b21
-> > > usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> > > usb 1-1: Product: AB13X USB Audio
-> > > usb 1-1: Manufacturer: Generic
-> > > usb 1-1: SerialNumber: 20210926172016
-> > >
-> > > Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
-> > 
-> > Thanks, applied now.
-> > But...
-> > 
-> > >
-> > >  sound/usb/quirks.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > 
-> > Those lines must be after the delimiter line '--'.
-> > I guess you accidentally removed that line.
-> > Please check at the next time.
+> This patch adds QUIRK_FLAG_DSD_RAW for the iBasso DC04U, enabling native DSD playback (DSD_U32_BE). The change has been verified on Arch Linux using mpd and pw-cat.
 > 
-> I accidentally deleted it. Do I need to modify it and resend the patch?
+> Signed-off-by: V-Conet <v-conet@outlook.com>
 
-No worry, I already applied with the manual edit.
+Thanks for the patch.  The code change looks OK, but could you give
+your Signed-off-by with a real name (or a known identity), as it's a
+legal requirement for upstreaming?
+
+Also, please fold the patch description texts properly, too.
 
 
 thanks,
