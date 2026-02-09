@@ -1,143 +1,158 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8619D36BCE2;
-	Mon,  9 Feb 2026 14:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8DE27AC4D
+	for <linux-sound@vger.kernel.org>; Mon,  9 Feb 2026 15:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770648230; cv=none; b=aENynHDblZz71Easlkzeg/1JK5RR0tbBW80gb6Lxc8Q4bL/70A5jAs+shm05vk7kwuXrS4geJP6mmh0Ko2KJ1nTNkO+CH4FP70U5f9ptVVopIGgIwynqzK6Jdj+oHvMVPKQnEhuXv4lsgGTZEKhMHzAk1cvTrpb4+iTRjQwdXrQ=
+	t=1770649629; cv=none; b=Ipwo28J/UTBP/O8dGaBsaX/I+c/xE/ivBTq2JZZtV3YExwgK25bW4M82YxmJEje0ZWcWxR3BeT3xLx8j+UBejAJF0sRBVR7ERpvK/3JIfltllm2ftVJ4hnu+iP98WS8/InRbIyHLpV+D1AaueaADv8qCzLZbXTgj5nkFZrq8J74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770648230; c=relaxed/simple;
-	bh=00rOhvs5qc6QTK9XcwiJLsjBLBDJxPh3bJZcNCGKFxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PpmbtYDGISAkxxxkzii6h3LPVDIUkpRbtGPB6c+N5xQ5JCYEp/MdMEbdnEnpoDhTUC/8BNfFAATnXqNJhsBpd7h+ZTuQmGCPc7gMlF3bSd7d7Ih46I2NnghfSHHD4I9GZ3d/b/7BbaxjiGoyhzbl4buYl3V2Q5b20u7fWvDZDbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DnkF5hRW; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1770649629; c=relaxed/simple;
+	bh=jF9RSM5Y7pBiaLJGZcON6IUJF0aE5pB9qleNg7wJqmc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e1owu8Pk5PJ6p7mlUAh9+nMQ6bXS8KUTk5o68Ghg6BjDVh1SemfbJ8ASEVTLEyXsqFaz8uf2ITayUQbyQNbs4bp2/nLccIJwSwV8Q2gLbqsXg3kCWsHJCmcYM8WpRItlxD7W3RMzOuUsxHF62yMXkMMgbdMLKRChqfR/zQgGQLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2NHkCrZg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DBvoYZtF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2NHkCrZg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DBvoYZtF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DnkF5hRW"
-Message-ID: <97872c17-73c9-4484-9f8e-373ed9a59a25@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770648227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2NHkCrZg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DBvoYZtF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2NHkCrZg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DBvoYZtF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 602C65BD14;
+	Mon,  9 Feb 2026 15:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770649627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qhXKLl2uXpP817f1WZGWWnuqUMaj0deJkohjQB02LEw=;
-	b=DnkF5hRWEfEwHfrphundW+hcvKewGMX197CJlvXPaxwJaHzx6R5IlNiPJhG/nhkJ8iuQPO
-	Y91kmUQX8pdzCaRmBnw0hXCV9LBcnybJYSz+tXP+j/+WyAEMlit3NAZVhzaBzuQaYC3n8K
-	/IRmrLOZ8SNL1FA3ukn9JlyWTDcxYYE=
-Date: Mon, 9 Feb 2026 15:43:01 +0100
+	bh=E+wrrYjlwUDgajjGgiMcvhqhawv8sly7a28Vhc4YD4s=;
+	b=2NHkCrZge0ItcV1HZBKO/ugoIAzguqKtYhFY+vVkJjVY89mPnImq5AF7bJIfx1X1djnd/r
+	6vsoCNXP7poqLyZTCnjJMNrpSRMePF4JeSM/jTHXXtjFzI+Vj8QrOMVEZqhWm4OIeeYTi+
+	S15JQgoQrSWvmVlBTmt5/Vz7VQ/l6Xo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770649627;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E+wrrYjlwUDgajjGgiMcvhqhawv8sly7a28Vhc4YD4s=;
+	b=DBvoYZtFrM+pV3KGd3DkpwyiGhCZdGdTyb45JrEbzg9sA5cy/5BXneJqzBblRVskiCEXau
+	AZ8xfYKG45qp6vAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2NHkCrZg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DBvoYZtF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770649627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E+wrrYjlwUDgajjGgiMcvhqhawv8sly7a28Vhc4YD4s=;
+	b=2NHkCrZge0ItcV1HZBKO/ugoIAzguqKtYhFY+vVkJjVY89mPnImq5AF7bJIfx1X1djnd/r
+	6vsoCNXP7poqLyZTCnjJMNrpSRMePF4JeSM/jTHXXtjFzI+Vj8QrOMVEZqhWm4OIeeYTi+
+	S15JQgoQrSWvmVlBTmt5/Vz7VQ/l6Xo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770649627;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E+wrrYjlwUDgajjGgiMcvhqhawv8sly7a28Vhc4YD4s=;
+	b=DBvoYZtFrM+pV3KGd3DkpwyiGhCZdGdTyb45JrEbzg9sA5cy/5BXneJqzBblRVskiCEXau
+	AZ8xfYKG45qp6vAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17B4D3EA63;
+	Mon,  9 Feb 2026 15:07:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id h6RTBBv4iWniDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Feb 2026 15:07:07 +0000
+Date: Mon, 09 Feb 2026 16:07:06 +0100
+Message-ID: <87bjhy0xd1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	chris.chiu@canonical.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: add quirk for Acer Nitro ANV15-51
+In-Reply-To: <20260209134149.3076957-1-zhangheng@kylinos.cn>
+References: <20260209134149.3076957-1-zhangheng@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v1 RESEND] SoundWire: Allow Prepare command for
- Simplified_CP_SM
-To: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, yung-chuan.liao@linux.intel.com
-Cc: broonie@kernel.org, ckeepax@opensource.cirrus.com, shumingf@realtek.com,
- lgirdwood@gmail.com, ranjani.sridharan@linux.intel.com,
- cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com,
- kai.vehmanen@linux.intel.com, vkoul@kernel.org, shenghao-ding@ti.com,
- baojun.xu@ti.com, sandeepk@ti.com,
- Richard Fitzgerald <rf@opensource.cirrus.com>
-References: <20260209070905.10749-1-niranjan.hy@ti.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260209070905.10749-1-niranjan.hy@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 602C65BD14
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On 2/9/26 08:09, Niranjan H Y wrote:
-> As defined in the MIPI SoundWire specification v1-2 for
-> Simplified Channel Prepare State Machine (Simplified_CP_SM):
+On Mon, 09 Feb 2026 14:41:49 +0100,
+Zhang Heng wrote:
 > 
-> * Figure 141 for the Simplified_CP_SM in the specification
->   shows the "Ready" state (NF=0, P=1) that can be reached via
->   "Prepare0 OR Prepare1" transitions.
-> * Table 115 (Stimulus to the Channel Prepare State Machine)
->   indicates that Prepare0 and Prepare1 are read-only/"write-ignored"
->   bits for Simplified_CP_SM.
+> fix mute/micmute LEDs and headset microphone for Acer Nitro ANV15-51.
 > 
-> In TI device implementations, we've found that some devices with
-> Simplified_CP_SM still benefit from receiving the Prepare command.
-
-This is a bit weird really...
-
-There is no such thing as a Prepare command, what is used is a regular write that sets or clears Prepare bits in port registers. If those bits are NOT read-only/write-ignored, then presumably they are writable. One could then argue the device does not follow the Simplified_CP_SM state machine but the generic one.
-It would also be good to clarify when the device is actually prepared after the bits are set, if the implementation cannot guarantee that the prepared status is reached by the end of the frame where the write occurs, then it's definitively NOT a Simplified_CP_SM.
-
-What happens is the simple_ch_prep_sm bit is not set for those devices, and the regular state machine is used instead? Is anything broken?
-
-> This patch modifies the code to:
-> 1. Send the Prepare command to all devices, including those with
->    Simplified_CP_SM
-> 2. Ignore errors returned by devices with Simplified_CP_SM that
->    might not support this command
+> [ The headset microphone issue is solved by Kailang]
 > 
-> This approach maintains compatibility with all devices while ensuring
-> proper functionality of dataport operations for devices that can
-> make use of the Prepare command despite using Simplified_CP_SM.
-> 
-> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Tested-by: Shuming Fan <shumingf@realtek.com>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=220279
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 > ---
->  drivers/soundwire/stream.c | 24 +++++++++++++++++-------
->  1 file changed, 17 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-> index 38c9dbd35..33605dc83 100644
-> --- a/drivers/soundwire/stream.c
-> +++ b/drivers/soundwire/stream.c
-> @@ -504,14 +504,19 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
->  	sdw_do_port_prep(s_rt, prep_ch, prep ? SDW_OPS_PORT_PRE_PREP : SDW_OPS_PORT_PRE_DEPREP);
->  
->  	/* Prepare Slave port implementing CP_SM */
-> -	if (!simple_ch_prep_sm) {
-> -		addr = SDW_DPN_PREPARECTRL(p_rt->num);
-> -
-> -		if (prep)
-> -			ret = sdw_write_no_pm(s_rt->slave, addr, p_rt->ch_mask);
-> -		else
-> -			ret = sdw_write_no_pm(s_rt->slave, addr, 0x0);
-> +	/* For Simplified_CP_SM, MIPI SoundWire specification v1-2 indicates
-> +	 * Prepare bits are "write-ignored" - this means devices may ignore the command.
-> +	 * Some devices still benefit from receiving this command even when using
-> +	 * Simplified_CP_SM, so we send it to all devices and ignore errors from those
-> +	 * that don't support it.
-> +	 */
-> +	addr = SDW_DPN_PREPARECTRL(p_rt->num);
-> +	if (prep)
-> +		ret = sdw_write_no_pm(s_rt->slave, addr, p_rt->ch_mask);
-> +	else
-> +		ret = sdw_write_no_pm(s_rt->slave, addr, 0x0);
->  
-> +	if (!simple_ch_prep_sm) {
->  		if (ret < 0) {
->  			dev_err(&s_rt->slave->dev,
->  				"Slave prep_ctrl reg write failed\n");
-> @@ -530,6 +535,11 @@ static int sdw_prep_deprep_slave_ports(struct sdw_bus *bus,
->  				"Chn prep failed for port %d: %d\n", prep_ch.num, ret);
->  			return ret;
->  		}
-> +	} else {
-> +		/* Some device return error for the prepare command,
-> +		 * ignore the error for Simplified CP_SM
+> There is a small issue now, the mute LED stays on when I mute the
+> laptop microphone, unmute the headphone microphone, and set the
+> headphone mic as default. Is it possible to fix this?
 
-that comment is misleading anyways, it's not 'some device' it's ALL the conformant devices that will return Command_Ignored when trying to write read-only bits. You haven't described what the TI devices would return in this case.
+Can LED be controlled dynamically by writing to a sysfs file in
+/sys/class/leds/*? e.g.
 
-> +		 */
-> +		ret = 0;
->  	}
->  
->  	/* Inform slaves about ports prepared */
+  % cat /sys/class/leds/platform::micmute/brightness
+  1
+  % echo 0 > /sys/class/leds/platform::micmute/brightness
 
+If the direct write changes the actual LED status, it's not about the
+sound driver problem, but possibly some plumbing in user-space via
+UCM, etc.
+
+
+thanks,
+
+Takashi
