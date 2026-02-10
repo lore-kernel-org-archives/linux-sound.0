@@ -1,162 +1,124 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E7D2EC57C;
-	Tue, 10 Feb 2026 14:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E02D32939A
+	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 14:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770733701; cv=none; b=HxocA8nv8HMaHtytQmBu36U83ioFE6Kbx4cZ/Q/+umLuyNWdLPX/617qFe6VjoMJ7ayx3u5mXpUXokreuqByF+0PenvVujgTDqykheuOrtTJ8xglsRl8+4CEvX0fei3t9BMMmQj61vqyjDf2ZvZVyxx87LIhDgE1Lwe1u12m1cM=
+	t=1770734294; cv=none; b=uajZ/Ea57j4wj/31+B+ZwFDEv2G/1umpbcKzwjLC6VN1+sCs7a0m3mzISAY1+hDFFLaEx1acze1FC7uU7W9Zox6umdg1FaNQBJo1wU5BqNAEt5fOY0weaakjHbY1BszZPRboe7xP8k9ZCnwkiawDHmtHEZXiw5YF6IpKNK3SinQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770733701; c=relaxed/simple;
-	bh=muVQ1zQzdc9CjW+SMGZIOKie1oQVfcVMN3gvbBxDNQw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nbl34xnz0ecUgaTjCjl3NvDRlEuiSSr/DHc1csS5X7zppdQVnRS8K6j6UEQwB3sdlV5tTje9hIZy9gyw9SvCmDzJ7Tfl6csIzgLI1L5mK/SxCm43W95b+X+1V/RFV3FnznD3gMqGhdKb/3QjG1ywnIHq/2p7oKl4haY5iQFPEtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=n6QsXv0H; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1770734294; c=relaxed/simple;
+	bh=oLSi/r/QsoPbrfShTfx4Ji4Iiw+HqD1AABhGoJTxIC0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aaoFveufZEHT4dJTKVyV4Dq8yez2fxQpzV5BLRx9Nj91h+9V4/nMwKq+qWiOeg8a0I0/OcNI7rNOaBuAD2YmEaX8LWJ1im4uYliI1sn8sWbRdxrq1hKN7CTrUY/9Q3aHTey8s3cq2S0Z2BWaeMN6cEwqPUjInnSm/TRYSWd5L30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu; spf=pass smtp.mailfrom=u.northwestern.edu; dkim=pass (2048-bit key) header.d=u-northwestern-edu.20230601.gappssmtp.com header.i=@u-northwestern-edu.20230601.gappssmtp.com header.b=l75fvNXK; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=u.northwestern.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="n6QsXv0H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1770733698;
-	bh=muVQ1zQzdc9CjW+SMGZIOKie1oQVfcVMN3gvbBxDNQw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n6QsXv0HmwEC4rsdnP2MtqVr7K2V/6R9qghoJSN7lLgDKzayX8QLq7Z3JT7nF2b11
-	 f2goSCY2LqBw56NAm/s7IDxxyiAL74ofPiLNc56kPLdOXYIrEstWGiTlmHD4QuSI9Y
-	 q4ruM/bLlfad2Oq1DPAzvWtDSrVWgRt4Uw17mlDQW9GUIUGgw++IO8KB4vheHBEsIk
-	 iyHxWEuVbE7mU9q+xwO258CHdCPasCNjmHKZotgf0LC8P3RKGpVQpjEvybX/hDkxYS
-	 2KAhXNLy9yjE1oRVvxgeghNTrq9YjsqBhOYJNDIdJtV0S03hT+PXjpOPqeHIEdZByC
-	 PfVZ0TBb919dg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E580C17E12A9;
-	Tue, 10 Feb 2026 15:28:17 +0100 (CET)
-Message-ID: <0ccca45c-34af-4d38-ad0f-6cd080f2882d@collabora.com>
-Date: Tue, 10 Feb 2026 15:28:17 +0100
+	dkim=pass (2048-bit key) header.d=u-northwestern-edu.20230601.gappssmtp.com header.i=@u-northwestern-edu.20230601.gappssmtp.com header.b="l75fvNXK"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cb20bcff5aso56388385a.3
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 06:38:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=u-northwestern-edu.20230601.gappssmtp.com; s=20230601; t=1770734292; x=1771339092; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pkYuyRwsnTcRNpSowH2WXxBKWT/+EdlbZCcoZtFynkQ=;
+        b=l75fvNXKOKzBVL6wF3APn7ZRTtryn5NRUYZw3QV2373ffHmGZWdquy1qdQ7s0Oc3rP
+         Tv9+7bYyIyu2HvEAiOhP9/niLFce0J0U07z6CeS0FwpPL45B2QTe8euPll7E/47gnzdb
+         pvYhT+jRLR3fjaz9sBjQ2C2cHo6e9BEKSncGfCPfvfv+XfOp77pZ9GQva7H26J5i6cKT
+         jA0OvbKxskN0IVw2UT5fSjzYTKOKi2My/w4hkXrLP7OYR9KrHAWot+S+qjD2EyrfGHrV
+         /1Y4p6qS/EyCubNcKc2F2AMQBR8lhrkUVOTHCPxZ/UFbjMbsD7XCac8GtlO5Z5sdoM0s
+         iDVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770734292; x=1771339092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pkYuyRwsnTcRNpSowH2WXxBKWT/+EdlbZCcoZtFynkQ=;
+        b=Uhi2stTMEk15dD1R7BZwrWMlUwqwdJMY1xdOqRDLDAaJKfv3PypypvdE6pfNph/BnY
+         PZZPt3wP0mb1tn/s6ixEEzutPdpvjeHuAecUQtdz171BM5a6Cvgwj8GWsUSG3pErHR9i
+         FurbZHTZ06ysK9BeYgRkntgpOpp/8jDmXrOODqWd5/FNoa9B81uTqPR5m6+wphyUtkDR
+         tTbYDxTwKkw5NTdYs+JuHYx9YKrafAzETaVI/ETqpHpI1inwgsS6MY9VA9KpmEus7ypu
+         xiRz1Bt5xmJhX3EiWd+ZKGK6p+895BB5iWTuH+Xa94F45cVgWwuNRJigQ5Qa9LVJeBMM
+         BiJw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6JvLCnrcciB9kLAVfIiZ4020o/IapcgT0aGxmrODaautvWlPQxxLJtP4VKFGBj0Bg+83OaeVAyuunjA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIwKoaUpJubUqPwkCEgRntwH+udJ/bwucuVrwYZEl/mRR35e6H
+	BbkDhoTbttB0SOLBESR0w4nfIb9c+c3s3/N4r/kybmKT0WVsfnLOCksNJWyltMHvDJw=
+X-Gm-Gg: AZuq6aKkDclt8oT7GF/8rBVFlk8A4PvbFOSBNYNY1rFzv/YEryBuNRB0flcoBmX+tgV
+	GOm0kybfuqVTByjIR5zKfLnRHA4Qgkaea+GGhjhUroto/Q+j/fQqnLqECzNdx/m4Ph89dJtIEjz
+	GUcetsuhIKj3ORA5khODqD6VUwhz7D9xi9jRnjgUa8N3Vbqy6Kd51mqPEH3qpPWnF6ozjE9W9Gf
+	w6Nd5Fth/tL5bDAYkt7rgTKxyZoeQAWG4r8r0W9tHjo/AP+qLxBrmVPX2GRx6byAxpONKeDKE2w
+	DlJeJPqYiCoGLZOT15CwW6lNjVc8P5ks8zFotPyYygImhH2Zxm0/NoH+pFsqQa94nOLQaMxNNX0
+	HnR95wmEMeaUTRsIiB7085WOUiqELPBT3haAVBiK3PeTz+mubNex+gahxT+DrDrsNxqkVNd0imX
+	uxZr2l1pq/QV36QsIZquwcNiyxSmsUfybGueTag0C7GLW8jfI3qioox6UE6e/xZ00670W3bNY5P
+	Vt8mtGzWU9+DjonzLqtrpfXI5xliiqlJSZh2WI4Gh8=
+X-Received: by 2002:a05:620a:7087:b0:8cb:1d86:aa4f with SMTP id af79cd13be357-8cb1f72ee0dmr272527185a.78.1770734292144;
+        Tue, 10 Feb 2026 06:38:12 -0800 (PST)
+Received: from security.cs.northwestern.edu (security.cs.northwestern.edu. [165.124.184.136])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9a1575asm1132760985a.32.2026.02.10.06.38.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 06:38:11 -0800 (PST)
+From: Ziyi Guo <n7l8m4@u.northwestern.edu>
+To: Mark Brown <broonie@kernel.org>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	Ziyi Guo <n7l8m4@u.northwestern.edu>
+Subject: [PATCH] Revert "ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()"
+Date: Tue, 10 Feb 2026 14:38:09 +0000
+Message-Id: <20260210143809.297565-1-n7l8m4@u.northwestern.edu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: arm: mediatek: audsys: Support
- mt8192-audsys variant
-To: Rob Herring <robh@kernel.org>
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, tudor.ambarus@linaro.org,
- pratyush@kernel.org, mwalle@kernel.org, miquel.raynal@bootlin.com,
- richard@nod.at, vigneshr@ti.com, lgirdwood@gmail.com, broonie@kernel.org,
- matthias.bgg@gmail.com, julien.massot@collabora.com,
- eugen.hristev@linaro.org, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- kernel@collabora.com
-References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
- <20260115125624.73598-4-angelogioacchino.delregno@collabora.com>
- <CAL_JsqL=zAqyVDAP_B1VW1FWKoS9OEdTNZiZabSNxDscBryYgw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAL_JsqL=zAqyVDAP_B1VW1FWKoS9OEdTNZiZabSNxDscBryYgw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Il 10/02/26 14:41, Rob Herring ha scritto:
-> On Thu, Jan 15, 2026 at 6:56 AM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Add support for the mediatek,mt8192-audsys compatible, which uses
->> a different audio controller (mt8192-afe-pcm) compared to mt8183
->> and mt2701.
->>
->> This resolves a dtbs_check warning on all MT8192 devicetrees.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   .../arm/mediatek/mediatek,audsys.yaml         | 46 +++++++++++++------
->>   1 file changed, 33 insertions(+), 13 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
->> index f3a761cbd0fd..09a6c16e7e82 100644
->> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
->> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
->> @@ -48,19 +48,39 @@ required:
->>     - compatible
->>     - '#clock-cells'
->>
->> -if:
->> -  properties:
->> -    compatible:
->> -      contains:
->> -        const: mediatek,mt8183-audiosys
->> -then:
->> -  properties:
->> -    audio-controller:
->> -      $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
->> -else:
->> -  properties:
->> -    audio-controller:
->> -      $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
->> +allOf:
->> + - if:
-> 
-> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2:
-> [warning] wrong indentation: expected 2 but found 1 (indentation)
-> 
-> 
->> +     properties:
->> +       compatible:
->> +         contains:
->> +           enum:
->> +             - mediatek,mt2701-audsys
->> +             - mediatek,mt7622-audsys
->> +   then:
->> +     properties:
->> +       audio-controller:
->> +         $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
->> +
->> + - if:
->> +     properties:
->> +       compatible:
->> +         contains:
->> +           const: mediatek,mt8183-audiosys
->> +   then:
->> +     properties:
->> +       audio-controller:
->> +         $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
->> +
->> + - if:
->> +     properties:
->> +       compatible:
->> +         contains:
->> +           const: mediatek,mt8192-audsys
->> +   then:
->> +     properties:
->> +       audio-controller:
->> +         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
->> +
->>
-> 
-> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1:
-> [warning] too many blank lines (2 > 1) (empty-lines)
-> 
-> Please fix as these are warnings in linux-next now.
-> 
+This reverts commit f514248727606b9087bc38a284ff686e0093abf1.
 
-Ack. Sorry for the mistakes. Not sure how this happened.
+The original patch attempted to acquire the card->controls_rwsem lock in
+fsl_xcvr_mode_put(). However, this function is called from the upper ALSA
+core function snd_ctl_elem_write(), which already holds the write lock on
+controls_rwsem for the whole put operation. So there is no need to simply
+hold the lock for fsl_xcvr_activate_ctl() again.
 
-Let me see when I can get some minutes to get this addressed.
+Acquiring the read lock while holding the write lock in the same thread
+results in a deadlock and a hung task, as reported by Alexander Stein.
 
-Cheers,
-Angelo
+Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Closes: https://lore.kernel.org/linux-sound/5056506.GXAFRqVoOG@steina-w/
+Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
+---
+ sound/soc/fsl/fsl_xcvr.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> 
->>   additionalProperties: false
->>
->> --
->> 2.52.0
->>
-
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index 0b9dd64b9a82..a268fb81a2f8 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -223,13 +223,10 @@ static int fsl_xcvr_mode_put(struct snd_kcontrol *kcontrol,
+ 
+ 	xcvr->mode = snd_soc_enum_item_to_val(e, item[0]);
+ 
+-	down_read(&card->snd_card->controls_rwsem);
+ 	fsl_xcvr_activate_ctl(dai, fsl_xcvr_arc_mode_kctl.name,
+ 			      (xcvr->mode == FSL_XCVR_MODE_ARC));
+ 	fsl_xcvr_activate_ctl(dai, fsl_xcvr_earc_capds_kctl.name,
+ 			      (xcvr->mode == FSL_XCVR_MODE_EARC));
+-	up_read(&card->snd_card->controls_rwsem);
+-	
+ 	/* Allow playback for SPDIF only */
+ 	rtd = snd_soc_get_pcm_runtime(card, card->dai_link);
+ 	rtd->pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream_count =
+-- 
+2.34.1
 
