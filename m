@@ -1,82 +1,90 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C60426D4EF
-	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 15:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4FB2E2EF9
+	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 15:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770737505; cv=none; b=o7gM+F7266FeiudhdohAzjOldn0+ClKlKCC+QRcg8kTa4jfyrvRv7eYq82ouPGIvPEjQc54BFFIsnLm6Ec26STtBMaQ0qjIE7Lji5rjN+bI1QKRmkkYaxl9gdUzsaKgFl1Znl63Bas+FDricyhXF1e1U7JdXAB1bh4zIHXuNito=
+	t=1770737966; cv=none; b=Sp4jrmYDN/9ATaqEqmeHtl9I8evr3YWuFi829t6rf3UKELhrRHihjs1HHoqWFhaVOgTBXZF9MZpt4hKfrEGNex56MymXOrTZPDD+PXKoo5ycnoycpoQcEBjQu/xUlDNM4F9lm30ESc0S52JK1ED4e/vFVoUoi6o1k4sfj9HoeTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770737505; c=relaxed/simple;
-	bh=F2GejhekjFlmiHFsZ5tCaBvRO+4k1/xsk5F1pZFUSU0=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=Ase9L8tdcumPZ+JwVg3gv620en178oScveupuLrtP6I779AT9WBRU1YJYeu36W+fixIAfDe1m1+hmbNKAJTAe4Uo/KKUn4Tf6mIWqdn+VgV3R7klHIUR8UoLmhlbys9w2HgNqRfYjBCKgniqtwU9cXN7xbpdnSXkFeDfNR/xB5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OsQ3TdF6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gABC9aH/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OsQ3TdF6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gABC9aH/; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1770737966; c=relaxed/simple;
+	bh=gpvAQQjNTjLymJgE06qq8wcthVHwpXDb16+jSF+IJNE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eSdM9U4/B0CQL1GG9wFrsDU0n0huN87O03TXHwsnfA3y5qjHLoUHz7qfQlOfnG41LR7nEB09jMaT3bP+7ep4HCRMnLtwVsqBqbqkvVALOSRnDQPrYs4idL+4QaLGYl3r7LFb+LTzj2/m9k2ia4X56EQAD3pv4F2Ban8kDWgd+0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AOVLs6o2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5o3XfR0+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AOVLs6o2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5o3XfR0+; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OsQ3TdF6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gABC9aH/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OsQ3TdF6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gABC9aH/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AOVLs6o2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5o3XfR0+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AOVLs6o2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5o3XfR0+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6AFF45BD6C;
-	Tue, 10 Feb 2026 15:31:39 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EFF5E3E714;
+	Tue, 10 Feb 2026 15:39:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770737499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770737961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hpuSYpiHVR/Mw9YKdJB58ozYhcMpjsL4kfLa+elVfwQ=;
-	b=OsQ3TdF6KCc3XMIwXdSxoxXS+lpQbTkjcPS+vrDLSZI5GfD1f5WLLSzljVL7JDqKR/Rho0
-	zGONJXjnhNQNxfsNIVlQktAgx3JW1Q+IBsSrZuLXyX6NDkC/0p/hGHhopz5/DU1RtfKteM
-	qYVkzvv2la18OVLokv/us39itWgGYlA=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6IeyyXHU15rylELGR72Q8SABesZ/OWvA0R9IGYAaEiQ=;
+	b=AOVLs6o2GnAvrDWZcuAAPkrYVcEBbdKrdJ3oB70WU96cKZ8zl2MKFH3Kg4BbKO5YubM4lK
+	V1N4TubZiTMfKO55qlJX6D9yUf4LYYBvTBDeQhFLb7ExLJCSE6gzttD00zKS1fhsNs3tWW
+	9FFoIlwdIYHWC+mxDmGf32lnMCAXIZI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770737499;
+	s=susede2_ed25519; t=1770737961;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hpuSYpiHVR/Mw9YKdJB58ozYhcMpjsL4kfLa+elVfwQ=;
-	b=gABC9aH/hh/IKmh5G11v0FVykvIqe2q259H01IAzPM3wD9wKXCE8kr3XhwvZ9V6mo95xUd
-	UvpX7BFAy9nrhHCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OsQ3TdF6;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="gABC9aH/"
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6IeyyXHU15rylELGR72Q8SABesZ/OWvA0R9IGYAaEiQ=;
+	b=5o3XfR0+X0yyzuVTFgYd4VOZG9LqWqOMxmPIcBx56EotlHbLY5RRuwchqKHIl4M7joadyo
+	HIgt2K+gEKiDWkCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770737499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770737961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hpuSYpiHVR/Mw9YKdJB58ozYhcMpjsL4kfLa+elVfwQ=;
-	b=OsQ3TdF6KCc3XMIwXdSxoxXS+lpQbTkjcPS+vrDLSZI5GfD1f5WLLSzljVL7JDqKR/Rho0
-	zGONJXjnhNQNxfsNIVlQktAgx3JW1Q+IBsSrZuLXyX6NDkC/0p/hGHhopz5/DU1RtfKteM
-	qYVkzvv2la18OVLokv/us39itWgGYlA=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6IeyyXHU15rylELGR72Q8SABesZ/OWvA0R9IGYAaEiQ=;
+	b=AOVLs6o2GnAvrDWZcuAAPkrYVcEBbdKrdJ3oB70WU96cKZ8zl2MKFH3Kg4BbKO5YubM4lK
+	V1N4TubZiTMfKO55qlJX6D9yUf4LYYBvTBDeQhFLb7ExLJCSE6gzttD00zKS1fhsNs3tWW
+	9FFoIlwdIYHWC+mxDmGf32lnMCAXIZI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770737499;
+	s=susede2_ed25519; t=1770737961;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=hpuSYpiHVR/Mw9YKdJB58ozYhcMpjsL4kfLa+elVfwQ=;
-	b=gABC9aH/hh/IKmh5G11v0FVykvIqe2q259H01IAzPM3wD9wKXCE8kr3XhwvZ9V6mo95xUd
-	UvpX7BFAy9nrhHCw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6IeyyXHU15rylELGR72Q8SABesZ/OWvA0R9IGYAaEiQ=;
+	b=5o3XfR0+X0yyzuVTFgYd4VOZG9LqWqOMxmPIcBx56EotlHbLY5RRuwchqKHIl4M7joadyo
+	HIgt2K+gEKiDWkCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E3FC3EA62;
-	Tue, 10 Feb 2026 15:31:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD8CC3EA62;
+	Tue, 10 Feb 2026 15:39:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id V/uBDltPi2mPawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Feb 2026 15:31:39 +0000
-Date: Tue, 10 Feb 2026 16:31:38 +0100
-Message-ID: <87tsvohaxx.wl-tiwai@suse.de>
+	id 4TylLShRi2lJZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 10 Feb 2026 15:39:20 +0000
+Date: Tue, 10 Feb 2026 16:39:16 +0100
+Message-ID: <87seb8hal7.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linux Sound Mailing List <linux-sound@vger.kernel.org>,
+	Linux Kernel
  Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound updates for 7.0-rc1
+Subject: Re: [GIT PULL] sound updates for 7.0-rc1
+In-Reply-To: <87tsvohaxx.wl-tiwai@suse.de>
+References: <87tsvohaxx.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -86,47 +94,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.51
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6AFF45BD6C
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 
+On Tue, 10 Feb 2026 16:31:38 +0100,
+Takashi Iwai wrote:
+> 
+> Linus,
+> 
+> please pull sound fixes for v7.0-rc1 from:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc1
+> 
+> The topmost commit is 5fafe02a7ea954b5605d69c5a8621fb148f0fc27
+
+Sorry, it was a merge from a wrong branch, pointing to a wrong commit.
+Below is the correct entry.
+
+-- 8< --
 Linus,
 
 please pull sound fixes for v7.0-rc1 from:
 
   git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc1
 
-The topmost commit is 5fafe02a7ea954b5605d69c5a8621fb148f0fc27
+The topmost commit is dd03dd60e8cdd5ef0f0cbc18276c45009bcc51f4
 
 ----------------------------------------------------------------
 
@@ -154,8 +168,7 @@ HD- and USB-audio:
 
 ----------------------------------------------------------------
 
-Andy Shevchenko (3):
-      ALSA: docs: Correct the kernel object suffix of target
+Andy Shevchenko (2):
       ASoC: Fix acronym for Intel Gemini Lake
       ASoC: codecs: rt1320-sdw: Refactor to reduce stack frames
 
@@ -224,9 +237,6 @@ Cezary Rojewski (5):
       ASoC: Intel: catpt: Specify image names in the device descriptor
       ASoC: Intel: catpt: Drop superfluous space in PCM code
 
-Chaitanya Kumar Borah (1):
-      ALSA: hda: Add Intel BMG PCI ID and HDMI codec vid
-
 Chancel Liu (2):
       ASoC: dt-bindings: fsl_rpmsg: Add compatible string for i.MX94
       ASoC: dt-bindings: fsl_rpmsg: Add compatible string for i.MX952
@@ -264,22 +274,12 @@ Chris Morgan (2):
       ASoC: dt-bindings: aw87390: Add Anbernic RG-DS Amplifier
       ASoC: codecs: aw87390: Add Anbernic RG-DS amp driver
 
-Chris Wilson (1):
-      ALSA: hda - Handle pm failure during hotplug
-
-Christoffer Nielsen (1):
-      ALSA: usb-audio: Add registration quirk for Kingston HyperX Cloud Flight S
-
 Claudiu Beznea (5):
       ASoC: codecs: da7213: Move comma operator at the end of the line
       ASoC: renesas: rz-ssi: Simplify the logic in rz_ssi_stream_is_play()
       ASoC: renesas: rz-ssi: Drop unnecessary if condition
       ASoC: renesas: rz-ssi: Drop the & operator in front of function name
       ASoC: renesas: rz-ssi: Drop goto label
-
-Colin Ian King (2):
-      ALSA: usb-audio: fix spelling mistake "Frequence" -> "Frequency"
-      ALSA: hda/ca0132: remove redundant initialization of variable status
 
 Cristian Ciocaltea (7):
       ASoC: nau8821: Fixup nau8821_enable_jack_detect()
@@ -293,8 +293,7 @@ Cristian Ciocaltea (7):
 Cédric Bellegarde (1):
       ASoC: qcom: q6asm: drop DSP responses for closed data streams
 
-Damien Dagorn (2):
-      ALSA: hda/realtek: fix LG Gram Style 14 speakers
+Damien Dagorn (1):
       ALSA: hda/realtek: fix LG Gram Style 14 speakers
 
 Dan Carpenter (2):
@@ -304,9 +303,6 @@ Dan Carpenter (2):
 David Lin (2):
       ASoC: Intel: ti-common: support tas2563 amplifier
       ASoC: Intel: sof_rt5682: add tas2563 speaker amp support
-
-Dongliang Mu (1):
-      ALSA: control led: fix memory leak in snd_ctl_led_register
 
 Emil Svendsen (1):
       ASoC: tlv320adcx140: add channel sum control
@@ -345,11 +341,7 @@ Hsieh Hung-En (7):
 Illia Barbashyn (1):
       ALSA: hda/realtek - Enable mute LEDs on HP ENVY x360 15-es0xxx
 
-Jaroslav Kysela (1):
-      selftests/alsa: make dump_config_tree() as void function
-
-Jegor van Opdorp (2):
-      ALSA: usb-audio: add mixer support for Focusrite Forte
+Jegor van Opdorp (1):
       ALSA: usb-audio: add mixer support for Focusrite Forte
 
 Johan Hovold (2):
@@ -367,8 +359,7 @@ Jyri Sarha (4):
       ASoC: SOF: ipc4: sof_ipc4_module_init_ext_init structs and macros
       ASoC: sof ipc4: Add sof_ipc4_widget_setup_msg_payload() and call it
 
-Kailang Yang (2):
-      ALSA: hda/realtek - Suooprt Dell headset mode for ALC3271
+Kailang Yang (1):
       ALSA: hda/realtek - Enable Mute LED for Lenovo platform
 
 Krzysztof Kozlowski (20):
@@ -422,25 +413,14 @@ Leo Tsai (1):
 Lianqin Hu (1):
       ALSA: usb-audio: Add iface reset and delay quirk for AB13X USB Audio
 
-Libin Yang (3):
-      ALSA: hda - add DP mst verb support
-      ALSA: hda - add DP MST audio support
-      ALSA: Documentation about HDA DP MST pin init and connection
-
 Luca Weiss (2):
       ASoC: codecs: aw88261: Remove AW88261_I2C_NAME macro
       ASoC: codecs: aw88261: Add devicetree support
-
-Lukasz Tyl (1):
-      ALSA: usb-audio: Add quirk flag for HEM devices to enable native DSD playback
 
 Mac Chiang (3):
       ASoC: sdw_utils: Add quirk to ignore RT722 DMIC DAI
       ASoC: Intel: soc-acpi-intel-ptl-match: drop rt721 related match tables
       ASoC: SOF: Intel: hda: add SDCA property check
-
-Manuel Barrio Linares (1):
-      ALSA: usb-audio: Add sampling rates support for Mbox3
 
 Marco Crivellari (1):
       ASoC: SDCA: Replace use of system_wq with system_dfl_wq
@@ -592,9 +572,8 @@ Sheetal (4):
       ASoC: tegra: Add AHUB writeable_reg for RX holes
       ASoC: tegra: set reg_default_cb callback
 
-Shenghao Ding (4):
+Shenghao Ding (3):
       ALSA: hda/tas2781: Drop the unused macro definition
-      ALSA: hda/tas2781: Add tas2781_hda::catlog_id init
       ALSA: hda/tas2781: Add tas2781_hda::catlog_id init
       ASoC: tas2781: Put three different calibrated data solution into the same data structure
 
@@ -623,10 +602,6 @@ Simon Trimmer (6):
       ASoC: amd: acp: Sort Cirrus Logic match entries
       ASoC: amd: acp: Add ACP7.0 match entries for Cirrus Logic parts
 
-Stefan Binding (2):
-      ALSA: hda: cs35l41: Ignore errors when configuring IRQs
-      ALSA: hda: cs35l41: Add support for ASUS ROG 2024 Laptops
-
 Sugar Zhang (5):
       ASoC: rockchip: spdif: Improve sample rate support
       ASoC: rockchip: spdif: Swap PCM and DAI component registration order
@@ -637,35 +612,7 @@ Sugar Zhang (5):
 Syed Saba Kareem (1):
       ASoC: amd: acp: Fix Kconfig dependencies for SND_SOC_ACPI_AMD_SDCA_QUIRKS
 
-Takashi Iwai (47):
-      ALSA: dummy: Implement timer backend switching more safely
-      ALSA: timer: Allow backend disabling start/stop from handler
-      ALSA: hrtimer: Use manual start/stop in callback
-      Revert "ALSA: hrtimer: Use manual start/stop in callback"
-      Revert "ALSA: timer: Allow backend disabling start/stop from handler"
-      ALSA: x86: Avoid unconditional call of snd_pcm_period_elapsed()
-      Revert "ALSA: x86: Avoid unconditional call of snd_pcm_period_elapsed()"
-      Revert "ALSA: hda - Handle pm failure during hotplug"
-      ALSA: Replace snd_malloc_pages() and snd_free_pages() with standard helpers
-      Revert "ALSA: Replace snd_malloc_pages() and snd_free_pages() with standard helpers"
-      edd: Use scnprintf() for avoiding potential buffer overflow
-      ALSA: hda/conexant: Fix missing headphone node after reboot from Windows
-      Revert "ALSA: hda/conexant: Fix missing headphone node after reboot from Windows"
-      ALSA: usb-audio: Drop implicit fb quirk entries dubbed for capture
-      ALSA: hda: Code refactoring snd_hda_pick_fixup()
-      ALSA: hda: Allow model option to specify PCI SSID alias
-      ALSA: hda: Update documentation for aliasing via the model option
-      ALSA: pcm: oss: Fix race at SNDCTL_DSP_SYNC
-      ALSA: hda/realtek: More robust component matching for CS35L41
-      ALSA: seq: oss: Fix racy open/close of MIDI devices 85;95;0c Although snd_seq_oss_midi_open() and snd_seq_oss_midi_close() can be called concurrently from different code paths, we have no proper data protection against races.  Introduce open_mutex to each seq_oss_midi object for avoiding the races.
-      ALSA: usb-audio: Fix broken resume due to UAC3 power state
-      ALSA: scarlett2: Fix yet more -Wformat-truncation warnings
-      ALSA: seq: Fix incorrect UMP type for system messages
-      ALSA: ump: Transmit RPN/NRPN message at each MSB/LSB data reception
-      ALSA: ump: Explicitly reset RPN with Null RPN
-      ALSA: seq: ump: Use the common RPN/bank conversion context
-      ALSA: seq: ump: Transmit RPN/NRPN message at each MSB/LSB data reception
-      ALSA: seq: ump: Explicitly reset RPN with Null RPN
+Takashi Iwai (18):
       ALSA: compress_offload: Relax __free() variable declarations
       ALSA: control: Relax __free() variable declarations
       ALSA: pcm: Relax __free() variable declarations
@@ -682,16 +629,11 @@ Takashi Iwai (47):
       ALSA: hda/tas2781: Clean up runtime PM with guard()
       ALSA: hda/tegra: Clean up runtime PM with guard()
       ALSA: x86: Clean up locks and runtime PM with guard() and co
-      Revert "ALSA: usb-audio: add mixer support for Focusrite Forte"
       ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
       ALSA: mixer: oss: Add card disconnect checkpoints
 
-Takashi Sakamoto (1):
-      ALSA: firewire-tascam: deleyed registration of sound card
-
-Thorsten Blum (3):
+Thorsten Blum (2):
       ASoC: codecs: wm0010: Replace cpu_to_be64 + le64_to_cpu with swab64
-      ALSA: jack: Improve string handling in jack_kctl_name_gen
       ALSA: jack: Improve string handling in jack_kctl_name_gen
 
 Uwe Kleine-König (10):
@@ -709,9 +651,6 @@ Uwe Kleine-König (10):
 Vijendar Mukunda (2):
       ASoC: amd: acp: soc-acpi: add is_device_rt712_vb() helper
       ASoC: amd: maintainer information
-
-Wolfram Sang (1):
-      ALSA: aoa: soundbus: i2sbus: pcm: use 'time_left' variable with wait_for_completion_timeout()
 
 Zhang Yi (7):
       ASoC: codecs: ES8326: Add a kcontrol for PGAGAIN
@@ -1099,4 +1038,5 @@ gongqi (1):
  create mode 100644 sound/soc/sophgo/cv1800b-sound-adc.c
  create mode 100644 sound/soc/sophgo/cv1800b-sound-dac.c
  create mode 100644 sound/soc/sophgo/cv1800b-tdm.c
+
 
