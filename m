@@ -1,64 +1,64 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7439B31D72D
-	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 16:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918B6324B26
+	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 16:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770741920; cv=none; b=kzG1rzCwvkcaDqAPoyN5IYAlL4dnvHRtRT30WxfZZwNt1kheRy4nKSkYJqSyeuoZaOfO8ZmBJVc/EyAIApNHy2LZsS8NC/Af68kOWSE2zm3aTq3XxFKkhbfIs0I42f3wsj5MoY4MiLRBTDf4LW+lEZXFvLLA8+f78u+cNnLPgAo=
+	t=1770741922; cv=none; b=EaTbxWJ230zxTN+89LL5vDJu+t8rYV4Ql/oILjOcVIet10O3HeAEYydke1HYOYKnQuAYEtQIMeMjwlcyhO871O4xh+Wfo00U2V9ndx+YB92txzds7WK7KL/7epN2Bfu+P+F4ptPZ4vzmpmjfUQ3HaJB7T606sik7/Bu+JUF1HrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770741920; c=relaxed/simple;
-	bh=rM5wReeBWtgy9nmTdYAlxFeY/pYQ4Hi13y3M6Ph4508=;
+	s=arc-20240116; t=1770741922; c=relaxed/simple;
+	bh=8XLFcuGCoDNtMNhZSpvJ5AtY+fBT/jH4kJppxgBBCMI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SIRpSankHjBeDQXd8h/wLtxXYvl8jYBe4CPTCCZabuyCMLBepAjbcslf0eBuKOcwicS6droQA3KhAnUmQ7h1a4aCr/MRpDPW+mFd/Vu6mKrjLMfcQt6QQHwqBKmhkyvBuXoyyiv4bf42txm2xub8AfPPUUrEmc901m/a63PtGlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbuzp09Z; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=EhL+oj0ZDGHTUlA5XS0ml+b23O2TktJ5USlfAy7mVzjPl/q+DMnIVEzEURD29uNhPWi1uaxFdCxQfJVwfmA8thR9RviYa0w+O9QVgtwEAvsUSlCdt3yQQL5CxHUPirGqfeIWnzxkuMQWFiXQIzST55KzzRHu8yKc8gdz84xeGA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8TqODZP; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbuzp09Z"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48068ed1eccso58494515e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 08:45:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8TqODZP"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4805ef35864so50048345e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 08:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770741918; x=1771346718; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770741919; x=1771346719; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5UbDOXAtO3a1IS407zSIaYrMcpaX7Lzf/cb9+OP6YuM=;
-        b=fbuzp09ZXbIEt5bPvOJqaavp3j26Nekj78OiVbnOenKf9BWB+rpy/zbxOK3RRGRUSy
-         4H6Q+zj4PR5RqvZfTHANY02tRGz8PsyWJWseprdw5HhRhQsSnl6vpUBW53tiPF4QyIN9
-         s16q1mNfb8hGdvmbLxii/MIBTjq9gGbl+0//RYBM9xsYECNJSfgLkKmfoPxe39IYuXLj
-         MIiYog3VnncktOYbF7hJ531oV0bSx5Z2862t9ZP/iBWpNJl7gEJRuWeFn5P5AX+8Z6z3
-         abEYaXjRgrT9e6HjbUlD/x8rtiQkYXQHzdHGv9tVGPMEu6458g3FIcu2AZLxQWeFtzhJ
-         ZkgA==
+        bh=8M/AzEHOLu66CWQK6hdbu+gOPzelRhtjh/h1JCujosM=;
+        b=k8TqODZPnIyAk+JStUq3t39mIoLJqOZbNgfv2vCO58JsguTb6oZeVduLWCBWu0wub9
+         yA2h44U6qNiKXmxrqakyVt195uwM1lR//qkWCMSdrfSJUl7QJNvO18qvhZErAkSSMUq9
+         KDuNBR7pnCuimjOLPG3xJ2RiHClYPIZWL9QikgJpFKdV/qfkRhgjz2pJsOlFWPOkbIC0
+         ldqzqJ/JKKoIJz/aZhVyJKy4Iar9fwUfXuI92+pB/fBiGIMK0mTOUtLu8k/iRcUsBODd
+         ppT0trpOGqTNR8gMOPuZOe/v8F9rhdFsDPuArVsNJcJyzHflOd8E9Z3IZaZ8gsG+bCDM
+         XS7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770741918; x=1771346718;
+        d=1e100.net; s=20230601; t=1770741919; x=1771346719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5UbDOXAtO3a1IS407zSIaYrMcpaX7Lzf/cb9+OP6YuM=;
-        b=i6mAtqMEtQR5zLLw8yNy5vvK/Xu0uSinJAJVsgCok1jdlO1YWU+QW0cYeJ0AFRZgj4
-         ji6/LEsJ6sK6kj2d7bigGWOA3I9sQp/bHLQ8H6k1LMtEIWFwwSlvQMt1SuiSL1s98yh4
-         C3y+36Gu3u+iyXTPCjazpzdsrPSlArRLmDyzB6wS7wd+ELzKfWt20yhBDxjea0WP07yI
-         lR6Igjlh7m0V/gknqQ3mhUsid+7ABp66RJpEphjdaAvIBHIjrYZQ/C4EZLt0PJZkniwR
-         NC0WL1Z9zShPmLrBcziPMq6QJ5RO9XN951kSpM8p4kiAZnEMB9w82VCjeuZnTrkpviu1
-         VisQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVyw3iIyl+/eMu+fRftGCTmfD4X1XCbKadM4M0MZ/Ru+uehuVaESwI1S5Y5YP/SPFI8S8iqaphFb41vA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB98qWjNTIhOBOw8EyX9RvZoG35v0UcQM40OSoM/P7GrFPBbCJ
-	odHgJ0fnqPNYM0Eq/bzB5ML9sZ6bEPjwD8Aw6eYM7I6TT6fp4UQD+TAm
-X-Gm-Gg: AZuq6aKTAk6HWuzN3O8UGtJfMI0d7A2Hrh3/PJrM4sj28N++hKYKkQgLbKrROF4DaNp
-	1u8s75F+PtoK4Oi25GHFLXp0JkgL5U9IGx3JPyTpz7Vj0qi64R4LiD1cQ0u1djNcvlS5JX4ev/v
-	7ctRJNJMvTCaqiovkTfmQodavmys32vuvdBimaFNfUfIPT/KVpOcAkLRr55XuHqntJopo7ePdYJ
-	mqBnJz5fOwx4D1U+sVkYUe+dvRmyXMydvR0qzxs4q63P8247zLiJK9gsOaze+r4pSWZwao+/Drn
-	gaBAl3+37Eg/X3gebBN6HZvNCFJ86WrUtNr1BJgfizv/hy0OCoATJY2dG2gkDX0envaQspiO6rM
-	/Bq5hW+wlueXBS/fupET2kpyP7mw+DUe6rG62DnYngyX7NFa3+dKEV+M4BTJ9gfoE+ttsmaw6vu
-	7D2mtB3G+y7TsZFRl+pJB5CxgiGAwOQaXw0KN+IE2XqXGFASNcqXzO7S4CwFlfwCtnKFk8bImRF
-	TRqeqFDfGgStGgHOxgqG+C8Te8sZXTyRm7+grw4mwdxeMyshVc=
-X-Received: by 2002:a05:600c:a43:b0:477:93f7:bbc5 with SMTP id 5b1f17b1804b1-483507e18acmr44929135e9.10.1770741917807;
-        Tue, 10 Feb 2026 08:45:17 -0800 (PST)
+        bh=8M/AzEHOLu66CWQK6hdbu+gOPzelRhtjh/h1JCujosM=;
+        b=Vah+DrGNDXHgga1UTXY9W19ReXdK2JH1c9vJhhGNBiFR+ENUcq0c2AodIWcfVHhrRI
+         pFwg+TSiqGizdWeYI0zSDPC7FWj5jAqrnKOgN2pLuQZQO0HHc2KujxkdIlCc4XsPt31D
+         EI4TsTkg1n9TOsCrhLbSfIBOoEQgDxNASzZbxv2jYspqDW3EtOeoFRvPtQkEtvvwlA4h
+         sPSlJ6+I7YwIg36vTDJAVehUUqSRA2uCBezqzRySckFYuh/BSYpOi3yUWJoCjmhG4gk5
+         +18JNekUkJgWOJCFzCG4AQ1lP8CbVFfoaPZzvMRQ1dWYKBzLtpwC6dPeLb6lx0nzSPcP
+         fqmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUT6IiDklpPrZ0FfKXZsPjG+NRJ/Ixq23GPTIc/9Cfc0bdFt7kPln2qUeYxlRAp1cmHgL18Iz0BN8i1HQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz214CP4+pBuJxBcnWdLWvpvGMh5pODc8fWImwOg7TWbpBr3ONT
+	h5ZJYlNO4pYNFi+DvFJAQpFXpJ85gM+BKtKT0kXPjkfWqBp+MJXD9vwb
+X-Gm-Gg: AZuq6aKBaY/qrU3RuLMbci4abFvEiik/dp7CnEoW0HD/olC9WRneOdsrO/CGelg4EUw
+	IYxuYoyK6ORidwVDpHHSTvs1vclJMITli1YBVULj5iqENBtjdYuPR/1IfQK5W3kqU4/RKjNRckZ
+	Gl9Ib0rbi4/ndvvLEiFEesB4CGZsZbpyHfGKckR+gbLGbjin4wxNLxzEFOvFjt8bwuPFcaJL/rD
+	VfjtMVi5vsyJuw4PGUrFik4d17wNHsSmeEY8sXylf+mlKqXDDtnDH3QSg/as9L0+WukYrs06hJ7
+	3PbDrphwPbN01mWn1EZ4dEL9ovo5JcX386dtWUZ343A4lrzkCJMbfIU8e35EavXgeIrX71e1+Sx
+	1yAdETmktIvqeOvxPbWiJR6o3HhEiVU8lPRsjDrD+b1VHh8mnijjpjNCfyOa9eTlaXT0vWSDFyu
+	RabnA2aXVnQx0XhrlzwyNPVvwKzN50LHClopA9TvgehXLE+7R6s55B5B/MYUvVAutqjbY08TbxS
+	/DMK2di3wLKFCBqjk5DWksvnlkywuaHUX2cMdHGmT1/CjPpoSY=
+X-Received: by 2002:a05:600c:1381:b0:477:6d96:b3c8 with SMTP id 5b1f17b1804b1-4835081e44dmr37145235e9.23.1770741918836;
+        Tue, 10 Feb 2026 08:45:18 -0800 (PST)
 Received: from Lord-Beerus.station (net-188-152-100-94.cust.vodafonedsl.it. [188.152.100.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5d78cfsm96294245e9.1.2026.02.10.08.45.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5d78cfsm96294245e9.1.2026.02.10.08.45.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 08:45:17 -0800 (PST)
+        Tue, 10 Feb 2026 08:45:18 -0800 (PST)
 From: Stefano Radaelli <stefano.radaelli21@gmail.com>
 X-Google-Original-From: Stefano Radaelli <stefano.r@variscite.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -74,9 +74,9 @@ Cc: Mark Brown <broonie@kernel.org>,
 	alexander.h@variscite.com,
 	pierluigi.p@variscite.com,
 	Stefano Radaelli <stefano.r@variscite.com>
-Subject: [PATCH v2 1/2] dt-bindings: sound: simple-card: add sysclk-cpu-first flag
-Date: Tue, 10 Feb 2026 17:45:05 +0100
-Message-ID: <20260210164506.161810-2-stefano.r@variscite.com>
+Subject: [PATCH v2 2/2] ASoC: simple-card-utils: add selectable sysclk ordering
+Date: Tue, 10 Feb 2026 17:45:06 +0100
+Message-ID: <20260210164506.161810-3-stefano.r@variscite.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260210164506.161810-1-stefano.r@variscite.com>
 References: <20260210164506.161810-1-stefano.r@variscite.com>
@@ -90,56 +90,129 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefano Radaelli <stefano.r@variscite.com>
 
-The simple-audio-card driver can program sysclk for CPU and codec DAIs
-during hw_params. Some setups require calling the CPU DAI sysclk first
-so that the codec sees the final MCLK rate.
+When simple-audio-card programs sysclk for CPU and codec DAIs during
+hw_params, the ordering of these calls can matter on some platforms.
 
-Document a new boolean DT flag, sysclk-cpu-first, which allows selecting
-CPU-first sysclk ordering where needed. The property is supported both
-as a top-level simple-audio-card property (prefixed) and on dai-link
-subnodes (non-prefixed).
+Some CPU DAIs apply the final MCLK rate as part of their set_sysclk()
+callback (for example by changing the underlying clock rate via
+clk_set_rate()). If the codec sysclk is configured before the CPU DAI
+applies the final MCLK rate, the codec may configure its internal
+clocking based on a non-final MCLK value, leading to an incorrect
+clocking state on the first playback after boot.
+
+This behaviour was observed on i.MX95 systems using fsl_sai with
+downstream kernels, but the issue is generic and can affect any setup
+where the CPU DAI finalizes the MCLK rate in set_sysclk().
+
+A reproducible symptom is that the first playback runs at the wrong
+speed, while subsequent playbacks work correctly.
+
+Keep the existing default behaviour (codec sysclk configured before
+CPU sysclk) to avoid regressions, and add a DT flag that allows
+selecting CPU-first sysclk ordering when needed.
+
+Example setup:
+  - CPU DAI: fsl_sai (i.MX95)
+  - Codec: wm8904
+
+Reproducer:
+  aplay -D hw:wm8904audio /home/Front_Center_8k.wav
 
 Signed-off-by: Stefano Radaelli <stefano.r@variscite.com>
 ---
- .../devicetree/bindings/sound/simple-card.yaml        | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/sound/simple_card_utils.h     |  1 +
+ sound/soc/generic/simple-card-utils.c | 39 +++++++++++++++++++--------
+ sound/soc/generic/simple-card.c       |  7 +++++
+ 3 files changed, 36 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/simple-card.yaml b/Documentation/devicetree/bindings/sound/simple-card.yaml
-index 533d0a1da56e..ddad440636be 100644
---- a/Documentation/devicetree/bindings/sound/simple-card.yaml
-+++ b/Documentation/devicetree/bindings/sound/simple-card.yaml
-@@ -35,6 +35,13 @@ definitions:
-     description: see tdm-slot.txt.
-     $ref: /schemas/types.yaml#/definitions/uint32
+diff --git a/include/sound/simple_card_utils.h b/include/sound/simple_card_utils.h
+index 69a9c9c4d0e9..60ab4df8e954 100644
+--- a/include/sound/simple_card_utils.h
++++ b/include/sound/simple_card_utils.h
+@@ -63,6 +63,7 @@ struct simple_util_priv {
+ 		struct snd_soc_codec_conf *codec_conf;
+ 		struct prop_nums num;
+ 		unsigned int mclk_fs;
++		bool sysclk_cpu_first;
+ 	} *dai_props;
+ 	struct simple_util_jack hp_jack;
+ 	struct simple_util_jack mic_jack;
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index bdc02e85b089..f5b851e7782d 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -501,18 +501,35 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
+ 				goto end;
+ 		}
  
-+  sysclk-cpu-first:
-+    description:
-+      When mclk-fs is used, configure CPU DAI sysclk before codec DAI sysclk
-+      so the codec sees the final MCLK rate.
-+      This property only affects the mclk-fs code path.
-+    $ref: /schemas/types.yaml#/definitions/flag
+-		for_each_rtd_codec_dais(rtd, i, sdai) {
+-			pdai = simple_props_to_dai_codec(props, i);
+-			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
+-			if (ret && ret != -ENOTSUPP)
+-				goto end;
+-		}
++		if (props->sysclk_cpu_first) {
++			for_each_rtd_cpu_dais(rtd, i, sdai) {
++				pdai = simple_props_to_dai_cpu(props, i);
++				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
++				if (ret && ret != -ENOTSUPP)
++					goto end;
++			}
+ 
+-		for_each_rtd_cpu_dais(rtd, i, sdai) {
+-			pdai = simple_props_to_dai_cpu(props, i);
+-			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
+-			if (ret && ret != -ENOTSUPP)
+-				goto end;
++			for_each_rtd_codec_dais(rtd, i, sdai) {
++				pdai = simple_props_to_dai_codec(props, i);
++				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
++				if (ret && ret != -ENOTSUPP)
++					goto end;
++			}
++		/* default: codec first */
++		} else {
++			for_each_rtd_codec_dais(rtd, i, sdai) {
++				pdai = simple_props_to_dai_codec(props, i);
++				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
++				if (ret && ret != -ENOTSUPP)
++					goto end;
++			}
 +
-   system-clock-frequency:
-     description: |
-       If a clock is specified and a multiplication factor is given with
-@@ -194,6 +201,8 @@ properties:
-     $ref: "#/definitions/format"
-   simple-audio-card,mclk-fs:
-     $ref: "#/definitions/mclk-fs"
-+  simple-audio-card,sysclk-cpu-first:
-+    $ref: "#/definitions/sysclk-cpu-first"
-   simple-audio-card,aux-devs:
-     $ref: "#/definitions/aux-devs"
-   simple-audio-card,additional-devs:
-@@ -251,6 +260,8 @@ patternProperties:
-         $ref: "#/definitions/format"
-       mclk-fs:
-         $ref: "#/definitions/mclk-fs"
-+      sysclk-cpu-first:
-+        $ref: "#/definitions/sysclk-cpu-first"
-       aux-devs:
-         $ref: "#/definitions/aux-devs"
-       convert-rate:
++			for_each_rtd_cpu_dais(rtd, i, sdai) {
++				pdai = simple_props_to_dai_cpu(props, i);
++				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
++				if (ret && ret != -ENOTSUPP)
++					goto end;
++			}
+ 		}
+ 	}
+ 
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index 5af6d1b308f2..a16ead577f50 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -188,6 +188,7 @@ static int simple_link_init(struct simple_util_priv *priv,
+ 	enum snd_soc_trigger_order trigger_start = SND_SOC_TRIGGER_ORDER_DEFAULT;
+ 	enum snd_soc_trigger_order trigger_stop  = SND_SOC_TRIGGER_ORDER_DEFAULT;
+ 	bool playback_only = 0, capture_only = 0;
++	bool cpu_first = false;
+ 	int ret;
+ 
+ 	ret = simple_util_parse_daifmt(dev, node, codec,
+@@ -209,6 +210,12 @@ static int simple_link_init(struct simple_util_priv *priv,
+ 	of_property_read_u32(codec,		"mclk-fs", &dai_props->mclk_fs);
+ 	of_property_read_u32(codec,	PREFIX	"mclk-fs", &dai_props->mclk_fs);
+ 
++	cpu_first |= of_property_read_bool(top,		"sysclk-cpu-first");
++	cpu_first |= of_property_read_bool(top,	PREFIX	"sysclk-cpu-first");
++	cpu_first |= of_property_read_bool(node,	"sysclk-cpu-first");
++	cpu_first |= of_property_read_bool(node, PREFIX	"sysclk-cpu-first");
++	dai_props->sysclk_cpu_first = cpu_first;
++
+ 	graph_util_parse_trigger_order(priv, top,	&trigger_start, &trigger_stop);
+ 	graph_util_parse_trigger_order(priv, node,	&trigger_start, &trigger_stop);
+ 	graph_util_parse_trigger_order(priv, cpu,	&trigger_start, &trigger_stop);
 -- 
 2.47.3
 
