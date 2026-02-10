@@ -1,168 +1,171 @@
-Received: from mx-relay49-hz3.antispameurope.com (mx-relay49-hz3.antispameurope.com [94.100.134.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6356F33343F
-	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 07:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.134.238
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770707942; cv=pass; b=PWkguB+Xbekpkv4+48w9AKo8HWT75NdWcUf2sAzzO0CYXa6jjuEgLOEfdYue/r2sD4xgKn9+gLHLEnW0+LxdHf4/PH8nu3OYLUfQtBMi9wpGfyJIkVMO8rWprkZxLhajEgBM9jsUH3e4OURStsr2VFSuuUksJ4NXKs8SvRM6/00=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770707942; c=relaxed/simple;
-	bh=MwZ2lkVillUybxEY1cC/HwW6MsPjMsur1kBiv1yRowE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NL+ZlQ5D15Sjq4YGlxHuSm3mv8tmM70UbRty33CCusxkwL7Vq/BeYoSbciZvuWkrHlStINnxarGBnKqKPv9WuCh3dKTboQQ7pVSZCEoialLY3dtGyd78kQi77V2bZxdtzSc+oEf7yJ8gnvCVe1SNlgtr36NVmTZnyThM5XOxPwk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=BdKDE+ny; arc=pass smtp.client-ip=94.100.134.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D04329E40
+	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 08:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770713524; cv=none; b=AKEA4ZUauxwjvoPY8mjuCwoMMeDK8LmSjB5MTxG5N0DtbVY8oiL+1OZIMI14+zHAonPKJsu+rr92Z0fQokeeAp84wlRWngpIWhttBhshSZJUANHTcN5SS7xKYvirlZotqIpHyY2Y0el+vfaUaNW69wx9CPHG3pLr1FX0xdGQ+6E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770713524; c=relaxed/simple;
+	bh=6bxSCRQjKfdz1kx/1+7y+FWItuyvamgzcwltHnv3Oik=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=fdbSke5Ja9SDHrIEoGYmJZQ1PIMy4JBhPv6CAx8HUSWkn6voSKxJ4d1x7SxbyRo5CduPgZlbXu06d8/3CJd0HXtCqaIKWpwlcpe9OkirFQSR+wmB2mllMqAwHaDXYimE8eR4eA69DlfdJgx03a9ei2xcy1QYoDXUyYaduUzqiQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LIIFZvRf; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="BdKDE+ny"
-ARC-Authentication-Results: i=1; mx-gate49-hz3.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out02-hz1.hornetsecurity.com;
- dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=pabMGLGGXLOcOo/Dpjkxu/cClFC72VFL87C8/t2PX84=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1770707919;
- b=F9jVLY/PhiAzH2BOW3dbCPGRrC6zN74V3tUeWh6fjkemhRzijBoGsOIOGdDAeqHB8HIfPqCf
- NQhA6oDREX2ayWHXwiZs4CpF2qSIIdmWt2OuJogd2i8P17A7UqcUYXJ+w2Smvuk33XSq76cfGgm
- V+zhHhR+f6x376LAIT/v8q+cI6axSzrC/bzSn2lDlmp7ti04TKPcMxzyZeMBDnf0djvgx3owQqj
- uqwnnl53SFuoF5w2SzyWsSfztF+tMccrmpSpMedSY8uVWbQchxltUOlhOqdgUQ2Go34R3WGMz8a
- 1KOzNFzsipWCgH3adqBba+WgO67vYfqRfsXtvSd3FAt3A==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1770707919;
- b=M8cGCf0fFXU4965MIcv2sbwvTLheB9uz9Dun7+oQgFf0HvKDu0HIBw4XRh8cfDdX2wGD7NAB
- cv1Frs3/lM0UOzOUTaXQQO5VAeAbGERKZpt7L2r0HHfi35dIwP0GL9j3p4xQ974wO6WpUK2SsNJ
- xW/7ZjWk0CybgEbKB0P5EMZ6v7eo48B3gdNAGFub6nKQUu1b9xDGjdYJ9lKt8kkwTd07jocAmZE
- 36o+Y4j7BM8cn+O5tL5dE9bpKFCVfUvEROkKKOfR+dnMWlMQ2ozET8Pps204dw0Kf+ODzNyA7gL
- 7uF2PYwSqfKdjLzSeNQkmf/SbDGCzUcGOd7Ce1SdjrYvw==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay49-hz3.antispameurope.com;
- Tue, 10 Feb 2026 08:18:39 +0100
-Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net [82.135.125.110])
-	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by smtp-out02-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 59A1B5A3119;
-	Tue, 10 Feb 2026 08:18:27 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Ziyi Guo <n7l8m4@u.northwestern.edu>
-Cc: Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Ziyi Guo <n7l8m4@u.northwestern.edu>
-Subject: Re: [PATCH] ASoC: fsl_xcvr: fix missing lock in fsl_xcvr_mode_put()
-Date: Tue, 10 Feb 2026 08:18:26 +0100
-Message-ID: <5056506.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20260202174112.2018402-1-n7l8m4@u.northwestern.edu>
-References: <20260202174112.2018402-1-n7l8m4@u.northwestern.edu>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LIIFZvRf"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4833115090dso5360245e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 00:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770713521; x=1771318321; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ggQrZbIS00PuyIC/VAAyPH4Kb3amYUqQ1eGorEAsp18=;
+        b=LIIFZvRfBz32GWLTMFIRx4TjRIDezEDMdAbGnMVDxpHghqY6CHb6zFAYryETB9J87L
+         wh3UipGMb2D8Zb4h9Sn4Nmp0i3hRSHfMdmf7a0lHMiTCfpHW9DPs99dICbH0OP/QeM8k
+         7kJCtwyqCv9yNPuzO8yLj9SEooZAwksFT95T5GPujDpmOm57MQXmE2TkPl8MBbYITyUM
+         FUCtfMGgdeuAJ7stN0VzRBL5fFmG0f2oWCwueDQWqVvw1Bo/bqkrjFBa4EDNNK4z7b48
+         yBAkD3uOdiVOgqk5tl7OmiItuvfcfzc5adInSCTVPd5jkW6M0vMnFv6OfSKkwkFGZHzJ
+         4rcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770713521; x=1771318321;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ggQrZbIS00PuyIC/VAAyPH4Kb3amYUqQ1eGorEAsp18=;
+        b=tJ3pEbo73OY7cw942D5ubsRiGeHLF6fRr9rBG/IRuO8NRY/wvhZs5dBtPmNymlr1R3
+         aTTLxwNDldG8smBQsGvrRznYQ4Ac9kmk+8NqtylfVcTi6WuEuEXS0TkbTBCrvFKRl9UQ
+         pgTSFEG2LxjLxj3MTxmJyOMZkiu/zN2pFW6FNrvzKDAlJrNgc5MUdNn0GSj2KDf/K6ph
+         jCojlbba5xJyrgnu0o9lMb/jPluYx/rfC7lHCpet1FTfmQtjZSTPHouC9GDRRKY9AHrJ
+         rDp/wRcz5Of13Gz/yo21UE3En/clU6PTSlGi76FdHgp42Jem9jT77BivYp0Fr5xq6pvG
+         GU1A==
+X-Forwarded-Encrypted: i=1; AJvYcCU3iAXauWZJeLDGAxJlyeaixGDz5o0VFfZe0dxPaJ7P3i0MlnbiZUsflOzh0bjyB6vMAowcwRL3vANOrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyL2MJyxry7dK6Q/NjhWPUFzpxog+m9aEa6/W20vugygCItWMt1
+	Uhw+iOUCs39TwNsT3B+Y0kqI6QjQBPPLu+PQs5schLrlXv2VC+1TWs2wIFzfTREpkY4=
+X-Gm-Gg: AZuq6aLVmqNbTaY090xY9rafUgqJPNMU1MJfLQsP3O0eTJUdkzZZtcjs5sjZDfO/yMJ
+	Wcq6y04yWMm9i3Ioa+549wCoT0hVSGEp6bxxJE3ZSlIJoYJeKiZ6I50wdTjvpSamjJcJvxofvEW
+	/OtHTsUAcBuDCnekwgSC9/TXENM1a7vGv8CaxBVyjn4Kk6RkFZqurmb4+rcsXUwZMAu5iBFJWsr
+	43UOD04AS+u09JzJAPMG1oO8hu250nOysMeyVV9l0GQPQT+FZJT7N6v4a9toaJB7hV46v/PWuzV
+	FSM2Psxm5FxVR9j+cnrmbKbn5/NbqC9z2daYPkKDP9kMBpOSas7EdtTl4oPpb4CMkDvA1JXFH75
+	iQR7iWgJtb5hWQOURdJAU3xKN9NO90DO2dRdvPNOcwcZlW4srhk57ZQf2tcxTrIo4oFK1Z+6p4/
+	csiweMBBm4Ke+nPpZcvcbXQ9HSI9MY
+X-Received: by 2002:a05:600c:3e19:b0:483:5310:dc43 with SMTP id 5b1f17b1804b1-4835310ddedmr8808095e9.32.1770713520986;
+        Tue, 10 Feb 2026 00:52:00 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b2ed9sm33056703f8f.5.2026.02.10.00.52.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 00:52:00 -0800 (PST)
+Date: Tue, 10 Feb 2026 11:51:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: [bug report] ASoC: SOF: sof-audio: Add support for loopback capture
+Message-ID: <aYrxrYG3ZSGDfpn6@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-cloud-security-sender:alexander.stein@ew.tq-group.com
-X-cloud-security-recipient:linux-sound@vger.kernel.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype:outbound
-X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay49-hz3.antispameurope.com with 4f9Cb80s0Mz3ybFB
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:f91bf45b2c1e1e4dad7653f0d57fe9b6
-X-cloud-security:scantime:2.062
-DKIM-Signature: a=rsa-sha256;
- bh=pabMGLGGXLOcOo/Dpjkxu/cClFC72VFL87C8/t2PX84=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1770707918; v=1;
- b=BdKDE+nyqU2cQ2rkz3FT+n8IjpygTxe8ZAb6u5pZ2i7S0zdKSpgvEZszgoMGWYDavVr6qmD/
- poNcG7wTq2w8K+FbOH3qpH4qqwgUmw3vwSVaXB9n5PisRcrrWZ274/A4l+JpV35PU8LrLA+bJuQ
- c/rURd5G3bPcDzzdDIx7gka+ExO9XPFXpwFlD4Yt8+H2JEyGwtjFvU3BIZ/9wBqu6dJ0DO0bRIi
- DzL2v95q5ohS/qBECEJHdmzgCfLGnnX5/oKOjqqBWYHPUZcKddXyuQXj2/q/nK4rVQSWMyvBa+3
- O+v83taB6G/Hxniq3zMFo9hjad8mRf4FFrEgxOSUeWPsg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <caa37f28-a2e8-4e0a-a9ce-a365ce805e4b@stanley.mountain>
 
-Hi,
+[ Smatch checking is paused while we raise funding. #SadFace
+  https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
 
-Am Montag, 2. Februar 2026, 18:41:12 CET schrieb Ziyi Guo:
-> fsl_xcvr_activate_ctl() has=20
-> lockdep_assert_held(&card->snd_card->controls_rwsem),
-> but fsl_xcvr_mode_put() calls it without acquiring this lock.
->=20
-> Other callers of fsl_xcvr_activate_ctl() in fsl_xcvr_startup() and
-> fsl_xcvr_shutdown() properly acquire the lock with down_read()/up_read().
->=20
-> Add the missing down_read()/up_read() calls around fsl_xcvr_activate_ctl()
-> in fsl_xcvr_mode_put() to fix the lockdep assertion and prevent potential
-> race conditions when multiple userspace threads access the control.
->=20
-> Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
-> ---
->  sound/soc/fsl/fsl_xcvr.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-> index a268fb81a2f8..0b9dd64b9a82 100644
-> --- a/sound/soc/fsl/fsl_xcvr.c
-> +++ b/sound/soc/fsl/fsl_xcvr.c
-> @@ -223,10 +223,13 @@ static int fsl_xcvr_mode_put(struct snd_kcontrol *k=
-control,
-> =20
->  	xcvr->mode =3D snd_soc_enum_item_to_val(e, item[0]);
-> =20
-> +	down_read(&card->snd_card->controls_rwsem);
+Hello Ranjani Sridharan,
 
-This lock causes a blocked task on my TQMa8MPxL based board:
+Commit c4b37c21c75d ("ASoC: SOF: sof-audio: Add support for loopback
+capture") from Feb 4, 2026 (linux-next), leads to the following
+Smatch static checker warning:
 
-INFO: task alsactl:1969 blocked for more than 120 seconds.
-      Tainted: G        W           6.19.0-next-20260209+ #3331
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:alsactl         state:D stack:0     pid:1969  tgid:1969  ppid:1      t=
-ask_flags:0x400100 flags:0x00000a01
-Call trace:
- __switch_to+0xdc/0x120 (T)
- __schedule+0x258/0x790
- schedule+0x30/0xb0
- schedule_preempt_disabled+0x20/0x40
- rwsem_down_read_slowpath+0x214/0x68c
- down_read+0xb0/0xb8
- fsl_xcvr_mode_put+0x4c/0xc0 [snd_soc_fsl_xcvr ac1b31380c6a6ea0d613bd5f7848=
-9e314a40f91f]
- snd_ctl_elem_write+0xdc/0x180 [snd 852e63996474051c57bcd1a86ebfd8108307385=
-3]
- snd_ctl_ioctl+0x7a4/0xaec [snd 852e63996474051c57bcd1a86ebfd81083073853]
- __arm64_sys_ioctl+0x9c/0xe4
- invoke_syscall.constprop.0+0x58/0xcc
- el0_svc_common.constprop.0+0xac/0xd4
- do_el0_svc+0x18/0x20
- el0_svc+0x24/0xa0
- el0t_64_sync_handler+0x98/0xdc
- el0t_64_sync+0x154/0x158
-INFO: task alsactl:1969 <reader> blocked on an rw-semaphore likely owned by=
- task alsactl:1969 <writer>
+	sound/soc/sof/sof-audio.c:534 sof_prepare_widgets_in_path()
+	error: uninitialized symbol 'widget_ops'.
 
-Best regards,
-Alexander
+sound/soc/sof/sof-audio.c
+    478 static int
+    479 sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget *widget,
+    480                             struct snd_pcm_hw_params *fe_params,
+    481                             struct snd_sof_platform_stream_params *platform_params,
+    482                             struct snd_pcm_hw_params *pipeline_params, int dir,
+    483                             struct snd_soc_dapm_widget_list *list)
+    484 {
+    485         const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
+    486         struct snd_sof_widget *swidget = widget->dobj.private;
+    487         const struct sof_ipc_tplg_widget_ops *widget_ops;
+    488         struct snd_soc_dapm_path *p;
+    489         int ret;
+    490 
+    491         if (is_virtual_widget(sdev, widget, __func__))
+    492                 return 0;
+    493 
+    494         if (!swidget)
+    495                 goto sink_prepare;
+                        ^^^^^^^^^^^^^^^^^
+widget_ops is uninitialized.
 
->  	fsl_xcvr_activate_ctl(dai, fsl_xcvr_arc_mode_kctl.name,
->  			      (xcvr->mode =3D=3D FSL_XCVR_MODE_ARC));
->  	fsl_xcvr_activate_ctl(dai, fsl_xcvr_earc_capds_kctl.name,
->  			      (xcvr->mode =3D=3D FSL_XCVR_MODE_EARC));
-> +	up_read(&card->snd_card->controls_rwsem);
-> +
->  	/* Allow playback for SPDIF only */
->  	rtd =3D snd_soc_get_pcm_runtime(card, card->dai_link);
->  	rtd->pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream_count =3D
->=20
+    496 
+    497         widget_ops = tplg_ops ? tplg_ops->widget : NULL;
+    498         if (!widget_ops)
+    499                 return 0;
+    500 
+    501         if (swidget->spipe && swidget->spipe->direction_valid &&
+    502             !sof_widget_in_same_direction(swidget, dir))
+    503                 return 0;
+    504 
+    505         /* skip widgets already prepared or aggregated DAI widgets*/
+    506         if (!widget_ops[widget->id].ipc_prepare || swidget->prepared ||
+    507             is_aggregated_dai(swidget))
+    508                 goto sink_prepare;
+    509 
+    510         /* prepare the source widget */
+    511         ret = widget_ops[widget->id].ipc_prepare(swidget, fe_params, platform_params,
+    512                                              pipeline_params, dir);
+    513         if (ret < 0) {
+    514                 dev_err(sdev->dev, "failed to prepare widget %s\n", widget->name);
+    515                 return ret;
+    516         }
+    517 
+    518         swidget->prepared = true;
+    519 
+    520 sink_prepare:
+    521         /* prepare all widgets in the sink paths */
+    522         snd_soc_dapm_widget_for_each_sink_path(widget, p) {
+    523                 if (!widget_in_list(list, p->sink))
+    524                         continue;
+    525 
+    526                 if (!p->walking && p->sink->dobj.private) {
+    527                         p->walking = true;
+    528                         ret = sof_prepare_widgets_in_path(sdev, p->sink,  fe_params,
+    529                                                           platform_params, pipeline_params, dir,
+    530                                                           list);
+    531                         p->walking = false;
+    532                         if (ret < 0) {
+    533                                 /* unprepare the source widget */
+--> 534                                 if (widget_ops[widget->id].ipc_unprepare &&
+    535                                     swidget && swidget->prepared && swidget->use_count == 0) {
 
+We need to check that swidget is non-NULL first before checking
+widget_ops[widget->id].ipc_unprepare, otherwise widget_ops is
+uninitialized and it leads to a crash.
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+Wait, the zero day bot already reported this on Jan 5th.
+https://lore.kernel.org/all/202512232221.Ub3HwrFz-lkp@intel.com/
 
+    536                                         widget_ops[widget->id].ipc_unprepare(swidget);
+    537                                         swidget->prepared = false;
+    538                                 }
+    539                                 return ret;
+    540                         }
+    541                 }
+    542         }
+    543 
+    544         return 0;
+    545 }
 
+regards,
+dan carpenter
