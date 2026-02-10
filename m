@@ -1,69 +1,76 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D04329E40
-	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 08:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA5B32D0E6
+	for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 09:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770713524; cv=none; b=AKEA4ZUauxwjvoPY8mjuCwoMMeDK8LmSjB5MTxG5N0DtbVY8oiL+1OZIMI14+zHAonPKJsu+rr92Z0fQokeeAp84wlRWngpIWhttBhshSZJUANHTcN5SS7xKYvirlZotqIpHyY2Y0el+vfaUaNW69wx9CPHG3pLr1FX0xdGQ+6E=
+	t=1770715970; cv=none; b=EFOfQEZN4if0v6uDUUsTJRvtZrJIcowReXzXQ0CcMCRI2myZ+Enzx6Xr40Bs0aAKOt/mZnfkzydpL9CyFFpunkfI/Xh6b3r+joYZGFOXn9g5D7Sdk5w41wf2fJNuZBQhCFFprnpVtLdEyPbj9jMUaWXIswGr/e16m2/aIZn9t0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770713524; c=relaxed/simple;
-	bh=6bxSCRQjKfdz1kx/1+7y+FWItuyvamgzcwltHnv3Oik=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fdbSke5Ja9SDHrIEoGYmJZQ1PIMy4JBhPv6CAx8HUSWkn6voSKxJ4d1x7SxbyRo5CduPgZlbXu06d8/3CJd0HXtCqaIKWpwlcpe9OkirFQSR+wmB2mllMqAwHaDXYimE8eR4eA69DlfdJgx03a9ei2xcy1QYoDXUyYaduUzqiQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LIIFZvRf; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770715970; c=relaxed/simple;
+	bh=laKkbAsQf0SJtxRljSNn44EolGwtZv0xIZlmeJAHA0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qt1ATIN3DgZqX9o82R9lMeXxIr//x0L0ed+aBBD7siR4ZU/SyNjTVDjqK1qCpnSPLCiPF4F14AWu3jTMtMkmXJUJp2cpwNwtX1VnVl2QwCt9bdhNKaD4O74LnsbIZxeMkLMGqWDQSgcIJu/+tvox1+n65tjLqccNGCudjvIEZZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfXYf+Mg; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LIIFZvRf"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4833115090dso5360245e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 00:52:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfXYf+Mg"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-482f2599980so6949255e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 01:32:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770713521; x=1771318321; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ggQrZbIS00PuyIC/VAAyPH4Kb3amYUqQ1eGorEAsp18=;
-        b=LIIFZvRfBz32GWLTMFIRx4TjRIDezEDMdAbGnMVDxpHghqY6CHb6zFAYryETB9J87L
-         wh3UipGMb2D8Zb4h9Sn4Nmp0i3hRSHfMdmf7a0lHMiTCfpHW9DPs99dICbH0OP/QeM8k
-         7kJCtwyqCv9yNPuzO8yLj9SEooZAwksFT95T5GPujDpmOm57MQXmE2TkPl8MBbYITyUM
-         FUCtfMGgdeuAJ7stN0VzRBL5fFmG0f2oWCwueDQWqVvw1Bo/bqkrjFBa4EDNNK4z7b48
-         yBAkD3uOdiVOgqk5tl7OmiItuvfcfzc5adInSCTVPd5jkW6M0vMnFv6OfSKkwkFGZHzJ
-         4rcQ==
+        d=gmail.com; s=20230601; t=1770715967; x=1771320767; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kDX1cQwulzVuiLj3eO/jgS06mt+GxmC17rynSR+42DU=;
+        b=XfXYf+MgNrpjM9F2C/C4PKZjNKGijbUnuiUN1RfeLblhP6d51TmZDRAfv9l20fqiwK
+         kwM7RunYYoVNJPQgUtMXJLJaY1/R4B0zMXQRgiYD5Udda/vgYXWHwxkw3v6I49MgSFq2
+         dh9tpuvtz6Vi2OLHWbGElL7fH7SpFpWiH7khR7zeszNiQNTS2SHOLHj39C8z8ixYwyrV
+         r328avN7fdNEzgRtrSGvtVM82u3t5PU9Miv57RJ2d9EJ8ELs9jgVCU0JFHNAE7XdwPOl
+         GcZ6BZN0f2LI4Zw1cgo3s3zh6RYEHJCAsweSN7DCz7b0zX3T3gm80Hl7QkD67DTZD1aO
+         7XCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770713521; x=1771318321;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ggQrZbIS00PuyIC/VAAyPH4Kb3amYUqQ1eGorEAsp18=;
-        b=tJ3pEbo73OY7cw942D5ubsRiGeHLF6fRr9rBG/IRuO8NRY/wvhZs5dBtPmNymlr1R3
-         aTTLxwNDldG8smBQsGvrRznYQ4Ac9kmk+8NqtylfVcTi6WuEuEXS0TkbTBCrvFKRl9UQ
-         pgTSFEG2LxjLxj3MTxmJyOMZkiu/zN2pFW6FNrvzKDAlJrNgc5MUdNn0GSj2KDf/K6ph
-         jCojlbba5xJyrgnu0o9lMb/jPluYx/rfC7lHCpet1FTfmQtjZSTPHouC9GDRRKY9AHrJ
-         rDp/wRcz5Of13Gz/yo21UE3En/clU6PTSlGi76FdHgp42Jem9jT77BivYp0Fr5xq6pvG
-         GU1A==
-X-Forwarded-Encrypted: i=1; AJvYcCU3iAXauWZJeLDGAxJlyeaixGDz5o0VFfZe0dxPaJ7P3i0MlnbiZUsflOzh0bjyB6vMAowcwRL3vANOrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL2MJyxry7dK6Q/NjhWPUFzpxog+m9aEa6/W20vugygCItWMt1
-	Uhw+iOUCs39TwNsT3B+Y0kqI6QjQBPPLu+PQs5schLrlXv2VC+1TWs2wIFzfTREpkY4=
-X-Gm-Gg: AZuq6aLVmqNbTaY090xY9rafUgqJPNMU1MJfLQsP3O0eTJUdkzZZtcjs5sjZDfO/yMJ
-	Wcq6y04yWMm9i3Ioa+549wCoT0hVSGEp6bxxJE3ZSlIJoYJeKiZ6I50wdTjvpSamjJcJvxofvEW
-	/OtHTsUAcBuDCnekwgSC9/TXENM1a7vGv8CaxBVyjn4Kk6RkFZqurmb4+rcsXUwZMAu5iBFJWsr
-	43UOD04AS+u09JzJAPMG1oO8hu250nOysMeyVV9l0GQPQT+FZJT7N6v4a9toaJB7hV46v/PWuzV
-	FSM2Psxm5FxVR9j+cnrmbKbn5/NbqC9z2daYPkKDP9kMBpOSas7EdtTl4oPpb4CMkDvA1JXFH75
-	iQR7iWgJtb5hWQOURdJAU3xKN9NO90DO2dRdvPNOcwcZlW4srhk57ZQf2tcxTrIo4oFK1Z+6p4/
-	csiweMBBm4Ke+nPpZcvcbXQ9HSI9MY
-X-Received: by 2002:a05:600c:3e19:b0:483:5310:dc43 with SMTP id 5b1f17b1804b1-4835310ddedmr8808095e9.32.1770713520986;
-        Tue, 10 Feb 2026 00:52:00 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b2ed9sm33056703f8f.5.2026.02.10.00.52.00
+        d=1e100.net; s=20230601; t=1770715967; x=1771320767;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kDX1cQwulzVuiLj3eO/jgS06mt+GxmC17rynSR+42DU=;
+        b=T/RBj3DMOnXGMBwlhW7la82Lk9d9XuPf+9/qiDk+D6y1aeSLUWuiLx7ecJnafhvUbZ
+         jhr/Vp99haaPNF6iRL+YrrUFk1LuJKG47E6yGFjN3GD7Fn2V+CdAm9a19QMt85tGvukD
+         E2wuVqTJ4zcWzhcxNajhxQzVlg3rCqp3+j/Qsv7/PBMx36jCGBLqSXKWV9PNJI7Kyimp
+         TJX1CDqjlMvB9xE3ag2o7yDfPkZXdS35fogpMmAZVzmk5VNazAth8uDFV6p/Rs0yZpIb
+         q7yQ2nta0sbJT31mv8upXygdHVknWWJYS77oyp6p16wzUBW0eRiwg7FiLn2HgNwaC7Ke
+         4GuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmIqehBEz3QtVS9j6wYVfk6uJG14wDLZ2hqxIKllIKRw0sJLrI0vvrDUK0lh0LIA4JN2iWtL/ziUt+4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7U/IAItnE+x9UVKcy3wUwLfgMRxoim6+9GzWyUJVF8v0BBO/6
+	PBQxdNKtJ2QUrUnk1OX2FtUQCjo5bDn6b7eHIIzejCpeC1YSpR0rAzoy
+X-Gm-Gg: AZuq6aK3T8l84xPLv3gv4KLheQ0vHhjYyh5pjhP/IikhJq2Ont68Z654KtV2MTASoB1
+	6c5W6YojJ0PCsxWejon8Aqx6dsZznoolK5fJP7/uaMBoSaeqIAlqbhTWNkW5bZJF9rrnNFdpRrB
+	LfgHzQeqdc/G3iDg35qcRk+9RR5moLzWsrklSvOyHfsXkKiBMtnoX/mFzERuNUVhKevXpoDVDAL
+	Yy1ZqGvXAQ2fGw06+0pCdQ21Tma5rK5VbYRQHeFoTIP1RRSOiX8g+U1yLgjWDE1ccbiFmz2ORNa
+	LelQCwoaH2p31lPAS1fbrfPi/psYskKNoxN+ty7A7D6nvBFosgzvP/8XA1cUCqfw14oabdG25mW
+	S65K8gzd/WNVevG0X4WAf2iW0iYe+TeR2wMJfv+H5smXjM5mGh8upq5zqZO/jBbaNjsSN5B8Zdd
+	1V9SSz8rUIzdZcP9r/RYkC/qItYcV45XUZyR4OaYHqzfn6nwjMV3oGJJXtEGTdEcfkw/3Scf0cp
+	CTESPvR1hmibryH5fvcYUYR6VYUzw6xIA9ZcQD3bjQ13g==
+X-Received: by 2002:a05:600c:4f0e:b0:477:9eb8:97d2 with SMTP id 5b1f17b1804b1-483201dce33mr230022905e9.8.1770715966548;
+        Tue, 10 Feb 2026 01:32:46 -0800 (PST)
+Received: from Lord-Beerus.station (net-188-152-100-94.cust.dsl.teletu.it. [188.152.100.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48320410b78sm174961565e9.2.2026.02.10.01.32.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 00:52:00 -0800 (PST)
-Date: Tue, 10 Feb 2026 11:51:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [bug report] ASoC: SOF: sof-audio: Add support for loopback capture
-Message-ID: <aYrxrYG3ZSGDfpn6@stanley.mountain>
+        Tue, 10 Feb 2026 01:32:46 -0800 (PST)
+Date: Tue, 10 Feb 2026 10:32:44 +0100
+From: Stefano Radaelli <stefano.radaelli21@gmail.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	alexander.h@variscite.com, pierluigi.p@variscite.com,
+	Stefano Radaelli <stefano.r@variscite.com>
+Subject: Re: [PATCH v1] ASoC: simple-card-utils: set CPU sysclk before codec
+ for mclk-fs
+Message-ID: <aYr7PMyJ1ERcG8rp@Lord-Beerus.station>
+References: <20260206134014.143057-1-stefano.r@variscite.com>
+ <873439o1xt.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,100 +79,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <caa37f28-a2e8-4e0a-a9ce-a365ce805e4b@stanley.mountain>
+In-Reply-To: <873439o1xt.wl-kuninori.morimoto.gx@renesas.com>
 
-[ Smatch checking is paused while we raise funding. #SadFace
-  https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
+Hi Kuninori
+> 
+> Actually, this is one of my concern (= which should be worked first
+> (CPU or Codec)). I don't remember why current code calls Codec first,
+> but maybe original code was.
+> I guess, some other Card needs to call as-is (= Codec first), and
+> you want to call opposite (= CPU first). It depends on clock
+> provider/consumer settings, instead of mclk-fs, but based on each Card.
+> 
+> Not same but similar issue we had before about how we want to call
+> .trigger.
+> 
+> 	356caf663deee8dc46ff3168ec0b24bcbeb00b28
+> 	("ASoC: add new trigger ordering method")
+> 
+> It was fixed order, but is now controlled by flag.
+> Maybe we want to have similar method ?
+> 
+> // unreliable name
+> #define XX_CLK_START_CODEC_FIRST	0
+> #define XX_CLK_START_CPU_FIRST		1
+> 
+> 	if (xx_clk_start_first == XX_CLK_START_CODEC_FIRST) {
+> 		// same as current code
+> 		start_codec_clk()
+> 		start_cpu_clk()
+> 	} else {
+> 		// opposite
+> 		start_cpu_clk()
+> 		start_codec_clk()
+> 	}
+> 
 
-Hello Ranjani Sridharan,
+Thank you for your suggestion. I agree that the default ordering should
+remain unchanged to maintain backward compatibility, and we should
+implement a configurable feature to change the order when needed.
+Following your recommendation, I could implement something similar to the
+trigger ordering approach:
 
-Commit c4b37c21c75d ("ASoC: SOF: sof-audio: Add support for loopback
-capture") from Feb 4, 2026 (linux-next), leads to the following
-Smatch static checker warning:
+#define SND_SOC_SYSCLK_ORDER_CODEC_FIRST    0
+#define SND_SOC_SYSCLK_ORDER_CPU_FIRST      1
 
-	sound/soc/sof/sof-audio.c:534 sof_prepare_widgets_in_path()
-	error: uninitialized symbol 'widget_ops'.
+static int asoc_simple_init_dai(struct snd_soc_dai *dai,
+                                struct asoc_simple_dai *simple_dai)
+{
+    int sysclk_order = SND_SOC_SYSCLK_ORDER_CODEC_FIRST;  // <- Default
 
-sound/soc/sof/sof-audio.c
-    478 static int
-    479 sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget *widget,
-    480                             struct snd_pcm_hw_params *fe_params,
-    481                             struct snd_sof_platform_stream_params *platform_params,
-    482                             struct snd_pcm_hw_params *pipeline_params, int dir,
-    483                             struct snd_soc_dapm_widget_list *list)
-    484 {
-    485         const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
-    486         struct snd_sof_widget *swidget = widget->dobj.private;
-    487         const struct sof_ipc_tplg_widget_ops *widget_ops;
-    488         struct snd_soc_dapm_path *p;
-    489         int ret;
-    490 
-    491         if (is_virtual_widget(sdev, widget, __func__))
-    492                 return 0;
-    493 
-    494         if (!swidget)
-    495                 goto sink_prepare;
-                        ^^^^^^^^^^^^^^^^^
-widget_ops is uninitialized.
+    if (simple_dai->sysclk) {
+        if (sysclk_order == SND_SOC_SYSCLK_ORDER_CODEC_FIRST) {
+            // Codec first
+            ret = snd_soc_dai_set_sysclk(codec_dai, 0, sysclk, ...);
+            ret = snd_soc_dai_set_sysclk(cpu_dai, 0, sysclk, ...);
+        } else {
+            // CPU first
+            ret = snd_soc_dai_set_sysclk(cpu_dai, 0, sysclk, ...);
+            ret = snd_soc_dai_set_sysclk(codec_dai, 0, sysclk, ...);
+        }
+    }
+}
 
-    496 
-    497         widget_ops = tplg_ops ? tplg_ops->widget : NULL;
-    498         if (!widget_ops)
-    499                 return 0;
-    500 
-    501         if (swidget->spipe && swidget->spipe->direction_valid &&
-    502             !sof_widget_in_same_direction(swidget, dir))
-    503                 return 0;
-    504 
-    505         /* skip widgets already prepared or aggregated DAI widgets*/
-    506         if (!widget_ops[widget->id].ipc_prepare || swidget->prepared ||
-    507             is_aggregated_dai(swidget))
-    508                 goto sink_prepare;
-    509 
-    510         /* prepare the source widget */
-    511         ret = widget_ops[widget->id].ipc_prepare(swidget, fe_params, platform_params,
-    512                                              pipeline_params, dir);
-    513         if (ret < 0) {
-    514                 dev_err(sdev->dev, "failed to prepare widget %s\n", widget->name);
-    515                 return ret;
-    516         }
-    517 
-    518         swidget->prepared = true;
-    519 
-    520 sink_prepare:
-    521         /* prepare all widgets in the sink paths */
-    522         snd_soc_dapm_widget_for_each_sink_path(widget, p) {
-    523                 if (!widget_in_list(list, p->sink))
-    524                         continue;
-    525 
-    526                 if (!p->walking && p->sink->dobj.private) {
-    527                         p->walking = true;
-    528                         ret = sof_prepare_widgets_in_path(sdev, p->sink,  fe_params,
-    529                                                           platform_params, pipeline_params, dir,
-    530                                                           list);
-    531                         p->walking = false;
-    532                         if (ret < 0) {
-    533                                 /* unprepare the source widget */
---> 534                                 if (widget_ops[widget->id].ipc_unprepare &&
-    535                                     swidget && swidget->prepared && swidget->use_count == 0) {
+This approach would work well for our case and is acceptable as-is for now.
+The ordering would be controlled via the define in the driver code.
+As a future enhancement, would you be open to adding a device tree property
+to make this configurable per-board?
 
-We need to check that swidget is non-NULL first before checking
-widget_ops[widget->id].ipc_unprepare, otherwise widget_ops is
-uninitialized and it leads to a crash.
+I'll send you v2 with this modification.
 
-Wait, the zero day bot already reported this on Jan 5th.
-https://lore.kernel.org/all/202512232221.Ub3HwrFz-lkp@intel.com/
-
-    536                                         widget_ops[widget->id].ipc_unprepare(swidget);
-    537                                         swidget->prepared = false;
-    538                                 }
-    539                                 return ret;
-    540                         }
-    541                 }
-    542         }
-    543 
-    544         return 0;
-    545 }
-
-regards,
-dan carpenter
+Thanks a lot for your guidance,
+Best Regards,
+Stefano
