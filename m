@@ -1,63 +1,63 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B9C1EEA54
-	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 00:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC6E1F419F
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 00:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770769404; cv=none; b=I+pDgskRMw2vRhSgml3WkWBh3RamGk+4MybZVgNDQi5XhgNU2B0H+KQYwYP4LGyKZvPpBGWhDV45UAnhcnIxmernAe8VY++S1QETF0lrE3ltHWJDtsUft93Gd/mDa8G8DEPskEYcKMymZxTJv+3aRmRk+7ytgIHZ7AQg4U+PUbo=
+	t=1770769404; cv=none; b=pmH4e8bLHgV3dzymHG/bvSjR+xQWBQkI0Em5PQUHtfzTdj60cWx6nX3KpWA91LZa7ykoU/f+lnpYtz6afiLSgsxhpE95SUXausbCeWUGa+4Ohar9Aunjxk01c7I/OnFUUxtLw6qR+nb1VtmFwQvdFMNwHw60OpKlam93pSxvLWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770769404; c=relaxed/simple;
-	bh=M/gnqtVTJy6hC5xCqoKYPlOVtd/MmVT7i8ovqwvZpJQ=;
+	bh=zjnSdqVkVaoHQrO03XCxlVruAUnMFOShINCIrN8MR9M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iqsSe6sk67ymDPqKebBbb20lsod3TvX0lHm34HNixUM4Qx8BOdZQXq7vwEtpslejMjG8+8M5MfifeTCr817S0pJXIzu9h7YRZMNjueWt2tQTMc7Ea519x8N5oXt21zZfeLjQR/YOJLwPeDdtIkS2nGS0jby8XqwWqx8pmlTU6+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpMueeN3; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version; b=Y95aUZijSFdQTJ+ojN1IwEiowOu5oas+7jV/356GIioaXkqVMsG32lwwpoeR4gz1ZVNrcMKYxlxZDwc44hHhTSq+33+rh+SHalDCjgRfDDRPnyPLtAzbuqqVWafa4PzIggpwGm9LUHE/gmw1Xak51xFJB8OAqjZSyAztnwf7nLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fefft5mk; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpMueeN3"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b872f1c31f1so175763066b.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 16:23:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fefft5mk"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b885e8c679bso651426866b.1
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 16:23:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770769400; x=1771374200; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770769401; x=1771374201; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GqtiDoHe1hXnMnvoCnlwaWBKlrntzDmjJI57vg8nEf8=;
-        b=WpMueeN3Sa2NAu/bGj4qWRtwyoXxTKe355SS9Zmrl8qEEVXgOoR++JtqZ68hjnh/fR
-         BpX0L6GU8z4dcWiRhEvHhsHKj44UZ0swzDIiDRsp2lw3/RjslXO6spODvs4tuQMN4RxD
-         Lo7MpC9caw7DRRUuQXTtBzBE1m37SRym6sNLMbKExRENJuZHxoxqw2Jt9kvCnSOQFHi6
-         YqptXUJeq3z1ksV4PuVD7C8RN74gGg5PyPMH9IEZcvfgPKgVZYOieg+ijwXP0m71GseG
-         WMLUFhma2A4oZ4LaPVhZYAJPM4bdUjeeDPzUEaqNYDmEUTERWVJECRqzqox38xpiuaAj
-         Ya8g==
+        bh=QVUmABIw9GwPlMCIzNfdjfNTotzrtAIlHX0zrtN6WRc=;
+        b=Fefft5mkLS8OMMyHlDKhU5OskD/iYww7GyVPfarBD5tMWN8IPgS2IMtlzikHwdoie+
+         vX+rdEo+1FtVdNQbSngwIAEJifTYDeaO6u+FIsNbV600trdsAowwA6YX0jBpJX2KRrbp
+         HvNfO4DuqnfaXnOYWxVv0GCaZ4xYbUehnPH7v4wDJtK31/Zny+bDwgJOlV6yx0UkP8EV
+         udvHJOL24Pt/2yeAGho0hriBmzUiGJIVr2wior21wMzQZSxBnUxw9qhPnoIjQYW8P6Hj
+         Iz3N9/iCwX5OjIuUP6eQVxXahQ3iA2XnvYsJdSHty7TOCgCqIpNK+Ps0FY48bZMe4lB0
+         BdDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770769400; x=1771374200;
+        d=1e100.net; s=20230601; t=1770769401; x=1771374201;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GqtiDoHe1hXnMnvoCnlwaWBKlrntzDmjJI57vg8nEf8=;
-        b=iXEa58QTXRSoIk2aHQzG/PhjKhJfPyRzaRwdSWSeOzHYjDwo2DrKLZfGYrS+xsOoLT
-         x0C5vUy+kEWdotrv0tp8s9DEWOj1H20tqiuTnbYAvsfwKDcY7P31EqoTi+KsDtkFYy79
-         yGBiQrf8wKtPVpCzfwmsjYjF+JGWjbrTpSP29lm+ssWwasXB2iR199KJ9IiYoH0KCh8g
-         6Tp1QEaPnPCqjEpFSTS8vG14WA5RVqPy+b3ThRy/b7A55L+gAvXQlLN1f+O3nGIRa8tG
-         1GDkZ/4Qs3Eciix+pcxNBFy7vRDzRozXvOqQ0TGVUubzd1rvprELY1F524LbIX268YRD
-         1Fvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXOH2+vt62PJitE0oUAo337QAmoQgOMKAfmwwBdIOilObb0giylUaE5vABtKNCEC/+5zlrE5ir/iaOXLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8GCBSYRlBXoZ2w8LdN7PYrDMd30GycJqgDX5ow6JKiFUi2xY7
-	IpMnYIZZ5sTmtm9/4SAQKBQpVTIoKCquPsm1WDiW+URgRBHFRaOw6g97
-X-Gm-Gg: AZuq6aIvmwXKynNclq3He62CevDesvWrHOcBkEQvVMjSNO/t9PbBB7YPEiw8l+yTtCW
-	YKlKMgf060eNsnkB0ni3Qs6SxROud7BzBcgwjthx+3ZbeymNVpw/l/FgqPYxcsBBq9d5OPNXPkr
-	wRPU5oSuZi9nFoElPALY3Fk7O5GguUh2/7pVydn72uHVNNKiEPLy4HwUIfjhR/NZIerimZB1NNi
-	65t2L45E3Qk1HaJnuFI/TVU1XDduwXNZZFgQjOwdGLpsLhv49W4vOHwX8nvP0emVdfrTnKQdCvd
-	69rcFBcFYEN7YVFPTfQmkDkrEWmEbqBH71CL9B/fbsdmGBL3GXBTzz4cT6g+yWfRX0aiNmzHMme
-	2GMjZ/zhqwn+0vRCfUBm0wWmJcVlzrDfuPw6uMxDjim9N7pZ4SXisLYuYZVgWUC/GD6WHxu2B+G
-	2NGc9S8gBOvCzlBg==
-X-Received: by 2002:a17:907:3d45:b0:b88:7568:26ed with SMTP id a640c23a62f3a-b8edf3ec116mr905654066b.50.1770769399518;
-        Tue, 10 Feb 2026 16:23:19 -0800 (PST)
+        bh=QVUmABIw9GwPlMCIzNfdjfNTotzrtAIlHX0zrtN6WRc=;
+        b=pmgJJMf+c5LgEa0g51zwNsvFpI8KvFOzxRhDdvm5WdDNVVxBQoonH3tWCvJoB77Xaj
+         8jRJxt5xVpHaguxciRpK5ahr+nZFNy/PoGX2S9ocAgIdg0avQRGCZDilKeQWp2xahJ5i
+         QPjG+RjJR3CIWsyBhfwPVYvwPn/4Ki4iP8dIrtoleLPM4zYHaw1FldxFazVuLsll/7qP
+         HD9axEmhjUjq3c70eu7hGnE1QHvKl29Ctct13Fg9MdAp9r7Zj6CJs0JxE0vycQnXm27a
+         dT2nQUcKmYkw8UhI7tjDJtlpTm/N7sJbTPEuyER96kwMi+lTfB63hYsxTudTeRG24Bv9
+         YL2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVBec51sTqFwH1O9UjDRBH3q90Q88YGbIRvwDtOXPjHG5q0hyVBh3Gu6BcW+glhMrHXQagFxw9/EkEOZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/Qr/IthmK7XoaS0dhE8B3MSmAPC2kiUEKx02dzH93+vi4EerG
+	bza2o9hLr8KowHrhDMg7B6/jVwU9pUb4AU88NjB3zIcnSnp3mDhaCCLOm9w5Zw==
+X-Gm-Gg: AZuq6aITiuBLWIu4XZlShO4dk4oy1SPnCW//cgyE0HjIFkrBolgxDH2AHf5oyPxWzbE
+	J2PVgTyVOwRzZFdThbU7tR52QKqxGBXNwPdh/0wi1wHrg0bdolAaqiWHK8SS2s8UXc/izT5sPLO
+	83jAUWpBOxmmcMtj47/6V9yqP92mFAs3GiG/lay5wzDrYKLhcXEuaENjgEtLqsSp+DQBhJ58ZTD
+	kYsRGEV1ZfyMmCoDoes+7KmFcwZynTJYyPbxKD7ANVEvwGrF6EZhGMSG4JVK7GPTd8kWtUWIHqP
+	QjeVIGBySACb5YpuRMHdm4RBuRU/6ll42XWi50KQIiBwmKk1Iu6ipAUHZqgaOpKB8tZfe/27laz
+	U7lRx1SJsJkG3Udxm2pWQyeklDL4bAA6NwgmQa5iLEksR7yaC1QQaDQmPid5U32jToM4oejJN4v
+	samhXAZEEVJjBFGWh2xEn5tk85
+X-Received: by 2002:a17:907:9449:b0:b88:48ba:cdd with SMTP id a640c23a62f3a-b8f6ae33146mr61763666b.43.1770769401310;
+        Tue, 10 Feb 2026 16:23:21 -0800 (PST)
 Received: from jekhomev ([46.251.53.180])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8f6ec1db0bsm9992866b.46.2026.02.10.16.23.18
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8f6ec1db0bsm9992866b.46.2026.02.10.16.23.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 16:23:19 -0800 (PST)
+        Tue, 10 Feb 2026 16:23:21 -0800 (PST)
 From: Yauhen Kharuzhy <jekhor@gmail.com>
 To: Oder Chiou <oder_chiou@realtek.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -68,9 +68,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-kernel@vger.kernel.org,
 	Hans de Goede <hansg@kernel.org>,
 	Yauhen Kharuzhy <jekhor@gmail.com>
-Subject: [PATCH 6/7] ASoC: rt5677: Reset the codec during probing
-Date: Wed, 11 Feb 2026 02:18:38 +0200
-Message-ID: <20260211002255.4090440-7-jekhor@gmail.com>
+Subject: [PATCH 7/7] ASoC: rt5677-spi: Add SPI device ID matching table
+Date: Wed, 11 Feb 2026 02:18:39 +0200
+Message-ID: <20260211002255.4090440-8-jekhor@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260211002255.4090440-1-jekhor@gmail.com>
 References: <20260211002255.4090440-1-jekhor@gmail.com>
@@ -82,41 +82,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To ensure that the codec is in a known state, reset it during driver
-initialization.
+To allow defining a device in board-specific drivers, add 'rt5677'
+as a supported SPI device ID.
 
 Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
 ---
- sound/soc/codecs/rt5677.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ sound/soc/codecs/rt5677-spi.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/codecs/rt5677.c b/sound/soc/codecs/rt5677.c
-index f56ac267f53b..60a93c3fe2e7 100644
---- a/sound/soc/codecs/rt5677.c
-+++ b/sound/soc/codecs/rt5677.c
-@@ -5581,14 +5581,21 @@ static int rt5677_i2c_probe(struct i2c_client *i2c)
- 		dev_err(&i2c->dev, "Failed to request POW_LDO2: %d\n", ret);
- 		return ret;
- 	}
-+
- 	rt5677->reset_pin = devm_gpiod_get_optional(&i2c->dev,
--			"realtek,reset", GPIOD_OUT_LOW);
-+			"realtek,reset", GPIOD_OUT_HIGH);
-+
- 	if (IS_ERR(rt5677->reset_pin)) {
- 		ret = PTR_ERR(rt5677->reset_pin);
- 		dev_err(&i2c->dev, "Failed to request RESET: %d\n", ret);
- 		return ret;
- 	}
+diff --git a/sound/soc/codecs/rt5677-spi.c b/sound/soc/codecs/rt5677-spi.c
+index 885edcf0a3a5..548180ec5762 100644
+--- a/sound/soc/codecs/rt5677-spi.c
++++ b/sound/soc/codecs/rt5677-spi.c
+@@ -624,12 +624,19 @@ static const struct acpi_device_id rt5677_spi_acpi_id[] = {
+ MODULE_DEVICE_TABLE(acpi, rt5677_spi_acpi_id);
+ #endif
  
-+	if (rt5677->reset_pin) {
-+		msleep(1);
-+		gpiod_set_value_cansleep(rt5677->reset_pin, 0);
-+	}
++static const struct spi_device_id rt5677_spi_ids[] = {
++	{ "rt5677", 0 },
++	{ },
++};
++MODULE_DEVICE_TABLE(spi, rt5677_spi_ids);
 +
- 	if (rt5677->pow_ldo2 || rt5677->reset_pin) {
- 		/* Wait a while until I2C bus becomes available. The datasheet
- 		 * does not specify the exact we should wait but startup
+ static struct spi_driver rt5677_spi_driver = {
+ 	.driver = {
+ 		.name = DRV_NAME,
+ 		.acpi_match_table = ACPI_PTR(rt5677_spi_acpi_id),
+ 	},
+ 	.probe = rt5677_spi_probe,
++	.id_table = rt5677_spi_ids,
+ };
+ module_spi_driver(rt5677_spi_driver);
+ 
 -- 
 2.51.0
 
