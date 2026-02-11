@@ -1,123 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADAE31B81C;
-	Wed, 11 Feb 2026 17:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685FC36B07B;
+	Wed, 11 Feb 2026 20:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770830029; cv=none; b=pcDAQH0czZOf2UXrMLjpW3rh3Q9g96Rk9EoqnD1iE5qGJdMXIV/K/zG5IjJv1L/7f67833dmd1fV7eRSAyuh5H39LvSQOiKPnzCdp0FXXQ/8uXh9lgyAUsip40XgxTvFkDvH9ataF8i5o+JNBJ7t9Iq1U24qZ6h/3EU1S69LZrs=
+	t=1770841721; cv=none; b=qMBX8tzDSoGLl9TYo1ILzotZMTI+gvP/+NRGsiVsLNecdaFjkql/F2jwj5aVTG+Ii4Cl/8Zy+fe+HXHhuwk+s5lz2AD41s7hhk6OUQF6Da23iYnLcWXPacgommX7Rhu9DCwiWkOcW3Oa/qQuTFNudm2M3YEc2b8vafj8AxOI1VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770830029; c=relaxed/simple;
-	bh=QjwlKs2xQSRK1utWvls9c9WLNv2DAfLyv6moOK2FkIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HmQKRXI2sOwgSCq0K1yh1wYtTpG+ZTdR1pywIMKXl7TdxQHR1sOtaYBTyy9ssBYvYEOApFh1VvOa7Ei5lwpLT2PJTGZhlqHoKACETEIW1Wr5lxYcqGiNe+t3SepgfSGRyXlD/ho8rD42a7t20HrNG4T/Si5KZx1PtOnB6iGDE2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKomcLqr; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770841721; c=relaxed/simple;
+	bh=Ou6BdmLGIrZ9bX04vPkSkiX3x1ZE+QJug34tDXYtmck=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=UXzjs7SCm2syu9qu1D/bQUjMz4O8SFBfDrjkptBpQ3/sl+WLlt7Jg2SoxIbM4O4Ertl6Tt90XT46Dr1TCb+KNje7tzfpmlKy7E9qZMyLOexXcnUOFWNv62tyFBvIQVAg7FX3qyV9Pvgi7xENFOboIIRuJnIJsxjJ0Wh9PabR9WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNqY0ECu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKomcLqr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770830028; x=1802366028;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QjwlKs2xQSRK1utWvls9c9WLNv2DAfLyv6moOK2FkIo=;
-  b=fKomcLqrqiKhY1ZloGTB3A7ThuIowzqnzgQE/dVZQ4GByg89IT4yc2fH
-   AnpqiCaBy32XPazNVm8DYpUVHmFqMRppl8B+kV2l/1pYEuw2X2bBXfS1u
-   /PgO7jPwM0/NkI+nNJpKhbI/5uTubyGMAImtuBCuLzeR0kEtxguPYsGBE
-   iSMj8Ql6dy1GXT/O2mMUmWyXLN0dWclGSJpLdVexr2du6OWbW1RdJa/ES
-   qV7sy+/dbfPt/aVkLXavt33PzcU7TdQ+8v1Z6EYZaZ1nVCbEE0QRTaXuL
-   S7zWlkpX0k22RtGSF/F8jjSWoy0UJdHmALy6KA2P6jXijhkEZgk0fNdln
-   w==;
-X-CSE-ConnectionGUID: N2bCysXlQ+C2ti9rn5g3aQ==
-X-CSE-MsgGUID: O8LNUvpJT9GZAh6vNiBJOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="72054937"
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="72054937"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 09:13:44 -0800
-X-CSE-ConnectionGUID: JiYx1NvHRHiU7hfpHcjsfA==
-X-CSE-MsgGUID: 0B8o6Y8MRFSGcL8k7mXYJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="242054302"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Feb 2026 09:13:41 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vqDmU-00000000qCK-2mzh;
-	Wed, 11 Feb 2026 17:13:38 +0000
-Date: Thu, 12 Feb 2026 01:13:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mingyou Chen <qby140326@gmail.com>, vijendar.mukunda@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, mario.limonciello@amd.com,
-	venkataprasad.potturu@amd.com, Sunil-kumar.Dommati@amd.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mingyou Chen <qby140326@gmail.com>
-Subject: Re: [PATCH v2] ASoC: amd: add DMIC support for RPL platform
-Message-ID: <202602120150.0yxjhYKZ-lkp@intel.com>
-References: <20260211115008.100239-1-qby140326@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNqY0ECu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46CBFC19425;
+	Wed, 11 Feb 2026 20:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770841721;
+	bh=Ou6BdmLGIrZ9bX04vPkSkiX3x1ZE+QJug34tDXYtmck=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=FNqY0ECuI7XQLuRmBgf4SitssPBkPwSLKouhtGmDr0OHoOR5ggHX5NOuz0WKex//u
+	 wuoZ5hJKmO2nmlNwvMtz3NvXUWpXhSP9m5DxbOh1aiCtFEYshkac2tkMAUOFr2kKDr
+	 k8zqtf2EyDhqylzoOriYmoFEggBEJ0U/dInYP1PjWK4o9odvW6W9By8Bd4BXP/41+D
+	 WZSrKpDMJVpsLzNOfN3DM6zT8z/yxaAnk4hwoW64oYJpoQ1NdK7wuzgg5w5SIwPUvm
+	 H6+mLLmO6tYpNOjRzAonPIfaZ5r6hLukpG8F5HrZ4+ZB+l2yHPUT+pS+GRVQVNynfA
+	 t3L9v52b5Y9zQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 4817A39EF964;
+	Wed, 11 Feb 2026 20:28:37 +0000 (UTC)
+Subject: Re: Re: [GIT PULL] sound updates for 7.0-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87seb8hal7.wl-tiwai@suse.de>
+References: <87tsvohaxx.wl-tiwai@suse.de> <87seb8hal7.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87seb8hal7.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc1
+X-PR-Tracked-Commit-Id: dd03dd60e8cdd5ef0f0cbc18276c45009bcc51f4
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: d061251387903e8502843ac983553f0b2e098ef8
+Message-Id: <177084171576.710910.1420725889507497204.pr-tracker-bot@kernel.org>
+Date: Wed, 11 Feb 2026 20:28:35 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260211115008.100239-1-qby140326@gmail.com>
 
-Hi Mingyou,
+The pull request you sent on Tue, 10 Feb 2026 16:39:16 +0100:
 
-kernel test robot noticed the following build errors:
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc1
 
-[auto build test ERROR on 63804fed149a6750ffd28610c5c1c98cce6bd377]
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/d061251387903e8502843ac983553f0b2e098ef8
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mingyou-Chen/ASoC-amd-add-DMIC-support-for-RPL-platform/20260211-195242
-base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-patch link:    https://lore.kernel.org/r/20260211115008.100239-1-qby140326%40gmail.com
-patch subject: [PATCH v2] ASoC: amd: add DMIC support for RPL platform
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260212/202602120150.0yxjhYKZ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602120150.0yxjhYKZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602120150.0yxjhYKZ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> scripts/Makefile.clean:12: sound/soc/amd/rpl/Makefile: No such file or directory
->> make[7]: *** No rule to make target 'sound/soc/amd/rpl/Makefile'.
-   scripts/Makefile.clean:12: Failed to remake makefile 'sound/soc/amd/rpl/Makefile'.
-   make[6]: *** [scripts/Makefile.clean:61: sound/soc/amd/rpl] Error 2
-   make[6]: Target '__clean' not remade because of errors.
-   make[5]: *** [scripts/Makefile.clean:61: sound/soc/amd] Error 2
-   make[5]: Target '__clean' not remade because of errors.
-   make[4]: *** [scripts/Makefile.clean:61: sound/soc] Error 2
-   make[4]: Target '__clean' not remade because of errors.
-   make[3]: *** [scripts/Makefile.clean:61: sound] Error 2
-   make[3]: Target '__clean' not remade because of errors.
-   make[2]: *** [Makefile:2059: _clean_.] Error 2
-   make[2]: Target 'distclean' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'distclean' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'distclean' not remade because of errors.
-
-
-vim +12 scripts/Makefile.clean
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16   7  
-4f1933620f5714 Paul Smith      2006-03-05   8  PHONY := __clean
-^1da177e4c3f41 Linus Torvalds  2005-04-16   9  __clean:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  10  
-3204a7fb98a3bc Masahiro Yamada 2021-02-28  11  include $(srctree)/scripts/Kbuild.include
-a2430b25c31840 Masahiro Yamada 2022-11-19 @12  include $(kbuild-file)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  13  
+Thank you!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
