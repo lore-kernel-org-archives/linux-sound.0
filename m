@@ -1,63 +1,63 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5994C2F25FB
-	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371932F0C62
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770775415; cv=none; b=QOxUKQEh4Ft4FSK1edsgH2MstmIOhbpIbiiHv2bpvBLkle9QIvvsa4wJxgDIBuU2ruqi96zu9EqNoOLQA2Yb7nkuyQB9T0wtS83/U980EeKunnaVgLS/JCRlRZGrcBep4TdOzuDDRVnvSWwa1nM069CZwkTEwm359KjbxnSLZOQ=
+	t=1770775427; cv=none; b=QXTabu6B1G+zAhByB13Dx698plQ5rSPICqDzUo0ic+KYGR5/xgwZb7vtf9wAUUuAn1p4YbMQ60bh6gWC64BiDzREZrQ21Bzbr5u/EiZNLncGs6jdFFlNZpP5BduBFbIROVcXMAgpS5C32XdjLq3P4kAhAp+4uvAm2tibqFSbpBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770775415; c=relaxed/simple;
-	bh=FUwD9F8Iz5eo71Y2bnIIZAmmu2oxZd+6v2B/zGTonO8=;
+	s=arc-20240116; t=1770775427; c=relaxed/simple;
+	bh=EY4BO1esIzW6WkXAlJRYz+1OzcPsW9ZtxwuvdrlbJ5A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jKrYCwY5EojPLTODAj2Ka6BFJjqyve3OKH6tTjxmF4jnzSKwu0VNR9r/LCYe35dAWhzJrliXMbfPzHHewR4HuAO62yq9CFcqKdXJvsTpoXRWMSbaZvujyXj089Y9cLhjAOeM96hwuJezlsoatrNxx+hf4/jh5MCgJhzIFEb+ehA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEX+mrVH; arc=none smtp.client-ip=209.85.219.51
+	 MIME-Version; b=cL+SitupNWNTzBdgLocpdHVwzGAclrrN96+RsGFklCosyV3wosm0LLnpL8Ie2jaDP8srXMTtWFLUGMNcuD10NnnfgyTE8xTxmc5z/uKMU4k+9PQ9Gp9nQuYSvpoeKvmpdTlDzdrMmRkp1GNyVMCmocMUYhaGemi9MAH850XYcHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYFxsPwE; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEX+mrVH"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8954c9daaeaso51865896d6.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 18:03:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYFxsPwE"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5062fc5d86aso53747701cf.1
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 18:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770775412; x=1771380212; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770775425; x=1771380225; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gt575dBNBRRhS9fBmhA5a1S0d5GWcSnTvUyNr2H8bgA=;
-        b=PEX+mrVHdb5PyTxiNHn+QNTFce99LFq4kiRb4u9SoLu3pRC7i+O/sYN6od/z5rCgdG
-         4uFLBxHhrQv9HLITf2lsRklV2U3g64Wvd0GDM+U4aLvcBtpETkAf9bUO9WtKDSDFCCQ9
-         9hzZ5j8HgI7fhE9XwMx2OMhxa/umbnnLs03pWbk7FDsMCfi0/sREiujrIOTZgkQorQvL
-         FKVD0n0gCRslqnTfq8SxK3XmMJzcj1fnTdWPaoSQLYSwcdTX4+HJgY09SufyjFoY7ksk
-         0U+/c2+HY/B59Lrn7cjLSOHNFKMr9NGDwv/GqBvWVSZo5DVcVywIA4SAXTwD/eO4KWK1
-         2UUQ==
+        bh=vYsO9VMFUab61ZBhjwug7zpcW4jpZ2h1dPhNlTsioFg=;
+        b=FYFxsPwEETaZgl7h1fh4JcjBc5LQJTI/RaFUlvt996Ygl/ONBCt4QnXMf9KUTQiIix
+         2to4eePOx96dN5x2zZTwuBYT+VdKjv+Gb9CSFJGYzfVyjUHpjmC+14zmFNHDOq4zhs+D
+         eW2U5DY2XAx6SD/SFx3VgmneW8Ew9s+eI/hY/Z9DdOpSBkXuQ2ODblmzs1lbV5m5Pqwl
+         Pc6G4+Plkq+O0KfVXq7wn/iPafxPWyfmK+6okepakG6Bj3M643mtshzdEznzT0ej/Hfw
+         70cVgN38874/9IjsAN2zuTDdgNXMHZveQ6VEBxUbOtKbHG1V2yrHVEL+3k55AwnzfLW1
+         906A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770775412; x=1771380212;
+        d=1e100.net; s=20230601; t=1770775425; x=1771380225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Gt575dBNBRRhS9fBmhA5a1S0d5GWcSnTvUyNr2H8bgA=;
-        b=AU78/YLbdCxSdVnuldme96lOh3kYtwmibB3HBXJS0YOFCEve8uGM256/9XOuCpeUD8
-         YwRLZKnyLaf98Y6e7NFgPzxFT5/Vp+RCFRwenpiPMwd4fP0VqIJoWWbkKAFqsG27JOh8
-         KKJHpZPpxzAakfjcLn60gHlinfF7RBmPdpD453X27I/DBzl+0abmQg/HGdmIexT1MaBS
-         xIy3IMZYaDg+O42nB8QrWlVnKc+FfVFyPtVpdGfQcZAs9+QL8KOLCPkEeEAtVp9vuoiD
-         fsoY78NzjPyHngBSKYKqiU6xBBC68QxukXVlmI8h58DS0FuTcjhIv4i2QN17NIT1e0i3
-         mqWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoy6mXCK3wS3qAgLX1n7XryaJbzGAAMcmrge5ZJOU+MdubJf4ACtiPUIGWW1g4kutpS9GYuDJngkHusQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywtu5x3fJqeXUF+Ml6aTj3uBN+Myn2FPN/HdQUTZsA5we3aP3Oz
-	Eyz3fSeO6zR/KnBJbXK6IfWklrJq2DjYcHQL9UyvPLBNNWO6NPAZzVC5
-X-Gm-Gg: AZuq6aLn9u+KGwHboRe4Cp0LXZo7RmZpIzyXYndt++RQekSKzMvnuqkYkDLtlLyoOQF
-	oMi2QayJ9CfKfZJRS6sYvXpPt+TTxMqdLj5fOlIAMjKetiOOqsTUYhmmvreOF3/QPcuJAbutBCU
-	twl7MJwOXf3PACFB8ZId9ZnkU4OSIIhiuTbIzV+gTq/WHWvo61hq6WHcXjY+3B0PNZKVP6krgGB
-	spu0Qt9Zq/zqatT4L4+kbyII6ulo2Et83R+T64bqoESsNWWVOx87xZ8ci1mDmzxjoGry9ENks4X
-	wjy6TKSDn+5JPZ3BvayvdRrd1GBgGJphHOGhI/mToY7m1RWBmch0y9f4Bpai3HLUXcjGYmyCCXF
-	7NNAhiRIFJoHafyQoCkMAri8CSgx29uEdc3Nui0rlytqI51hph4WUo8iZNXNEukIo+D03EB/bdX
-	iz6s5XfmT0xT9tumPwtTWB/tJBjA==
-X-Received: by 2002:a05:6214:1cc9:b0:896:fe42:e88f with SMTP id 6a1803df08f44-8971dbabf8amr2709246d6.61.1770775412360;
-        Tue, 10 Feb 2026 18:03:32 -0800 (PST)
+        bh=vYsO9VMFUab61ZBhjwug7zpcW4jpZ2h1dPhNlTsioFg=;
+        b=S4UmCW1m4AmQbagCfqcGL7bK0qnH7rA635uOaErTs0EgpvMiX7oYpT7gNIvZ7zzjDf
+         rX/z/AdbW72abJZgGFS9uixb2dBrMw7YxuiQGEcT37yEEv1LPv4Zg4MGP1/aCHH8SVg1
+         hcz89W5fO9IMFkhOjLOMunmTuI4D/54CX5nb+ZnH3yfcj/5bS2cTqtgWQY8vGDGUERq8
+         9uZWXVgqFkHgsXHSgJt2mI2gZS1Q7YJcCL/Fo1bYDglpnJCr0HS4TqM6iKc8XZYwUufp
+         CmPQOwodgUm0foSJRBtkTnWJ/QbGEVv4E2Y77SU0Q/nAB2YFt3w2VM3CIfDNlFEnQyQH
+         y+8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX0Unvun87SwHVWEVAgi4pmOK8cJ4i7kDzCYUJVCWaSo03Kv5f9DTdNq49ukryj0cwbTbbr0LfvUXYUzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywc11uxeCnarvRynuIihJyOBCyVnY3piBZuVjMXNQuosNhvBELL
+	LxgFwdU62n5U2JN+WvKNTx6ZJ3b7Lkkw6PLuug4Y5S1v73L+9BqX+Sz5
+X-Gm-Gg: AZuq6aKTPwZfg1eg1BzMLHf+oJfEe6CcevKQJHSi7LkaSYpAcSiICXaHQfKfZ+npQqf
+	CBOYozR2XD4CD9f8I6I1C8pIveu0HTq4iLnOADTfsN/CjIQV6h3Oyqi2VsEYmNRt5UhkdpxRKqr
+	WmRXf7FE15FLKwqk1GGjZOABlZbLh+DdcWyEvs+sr6/2mrKEI5OfYVzz4Q6aVYbA6OfHNTCnUmw
+	Wk6u8wcyxFzDhjOsb7DkJT4Hd6IZVGVmlurz62ZsfVEkHPulZmyLPyBUZ3NyT1o6jmnpXcsSKSM
+	MyhU3ilcVHAkfaUEzBqP8JuuBmBRfyn5d7lXTEf/ky1A80D47aoAmLq9MJl9zuzU198swj34qrt
+	nzfm/wHmhGuoTlhPvQtFuzO9/RzUd2RJ0eyRpqCa0lYYDth1ZqpPxWrpcbxxWrB+qMedc3axQNd
+	guBv7gZbdW8H1psEN4TDYfc/4qDw==
+X-Received: by 2002:a05:622a:43:b0:4f3:57ec:b252 with SMTP id d75a77b69052e-50673d98dabmr44112011cf.48.1770775425044;
+        Tue, 10 Feb 2026 18:03:45 -0800 (PST)
 Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8971cca9b6bsm4006526d6.23.2026.02.10.18.03.31
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50684b9d5ebsm1446581cf.26.2026.02.10.18.03.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 18:03:31 -0800 (PST)
+        Tue, 10 Feb 2026 18:03:44 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -76,9 +76,9 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 	devicetree@vger.kernel.org
 Cc: Nickolay Goppen <setotau@mainlining.org>,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 08/10] ASoC: qdsp6: q6routing: add internal mi2s support
-Date: Tue, 10 Feb 2026 21:03:00 -0500
-Message-ID: <20260211020302.2674-9-mailingradian@gmail.com>
+Subject: [PATCH 09/10] ASoC: qcom: add sdm660 internal sound card support
+Date: Tue, 10 Feb 2026 21:03:01 -0500
+Message-ID: <20260211020302.2674-10-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260211020302.2674-1-mailingradian@gmail.com>
 References: <20260211020302.2674-1-mailingradian@gmail.com>
@@ -90,130 +90,338 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the ASM-AFE routing for internal MI2S ports.
+The Snapdragon 670 and Snapdragon 660 both share the same drivers for
+the sound cards. These different sound cards are tasha, tavil, and
+internal. Add support for the internal sound card.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- sound/soc/qcom/qdsp6/q6routing.c | 78 +++++++++++++++++++++++++++++++-
- 1 file changed, 77 insertions(+), 1 deletion(-)
+ sound/soc/qcom/Kconfig           |  12 ++
+ sound/soc/qcom/Makefile          |   2 +
+ sound/soc/qcom/sdm660-internal.c | 271 +++++++++++++++++++++++++++++++
+ 3 files changed, 285 insertions(+)
+ create mode 100644 sound/soc/qcom/sdm660-internal.c
 
-diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-index aaa3af9f1993..f5d285c6590f 100644
---- a/sound/soc/qcom/qdsp6/q6routing.c
-+++ b/sound/soc/qcom/qdsp6/q6routing.c
-@@ -127,7 +127,14 @@
- 	{ mix_name, "TX_CODEC_DMA_TX_2", "TX_CODEC_DMA_TX_2"},	\
- 	{ mix_name, "TX_CODEC_DMA_TX_3", "TX_CODEC_DMA_TX_3"},	\
- 	{ mix_name, "TX_CODEC_DMA_TX_4", "TX_CODEC_DMA_TX_4"},	\
--	{ mix_name, "TX_CODEC_DMA_TX_5", "TX_CODEC_DMA_TX_5"}
-+	{ mix_name, "TX_CODEC_DMA_TX_5", "TX_CODEC_DMA_TX_5"},	\
-+	{ mix_name, "INT0_MI2S_TX", "INT0_MI2S_TX" },		\
-+	{ mix_name, "INT1_MI2S_TX", "INT1_MI2S_TX" },		\
-+	{ mix_name, "INT2_MI2S_TX", "INT2_MI2S_TX" },		\
-+	{ mix_name, "INT3_MI2S_TX", "INT3_MI2S_TX" },		\
-+	{ mix_name, "INT4_MI2S_TX", "INT4_MI2S_TX" },		\
-+	{ mix_name, "INT5_MI2S_TX", "INT5_MI2S_TX" },		\
-+	{ mix_name, "INT6_MI2S_TX", "INT6_MI2S_TX" }
+diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
+index e6e24f3b9922..86b2778adc1a 100644
+--- a/sound/soc/qcom/Kconfig
++++ b/sound/soc/qcom/Kconfig
+@@ -167,6 +167,18 @@ config SND_SOC_MSM8996
+ 	  APQ8096 SoC-based systems.
+ 	  Say Y if you want to use audio device on this SoCs
  
- #define Q6ROUTING_TX_MIXERS(id)						\
- 	SOC_SINGLE_EXT("PRI_MI2S_TX", PRIMARY_MI2S_TX,			\
-@@ -320,6 +327,27 @@
- 		id, 1, 0, msm_routing_get_audio_mixer,			\
- 		msm_routing_put_audio_mixer),				\
- 	SOC_SINGLE_EXT("TX_CODEC_DMA_TX_5", TX_CODEC_DMA_TX_5,		\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT0_MI2S_TX", INT0_MI2S_TX,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT1_MI2S_TX", INT1_MI2S_TX,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT2_MI2S_TX", INT2_MI2S_TX,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT3_MI2S_TX", INT3_MI2S_TX,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT4_MI2S_TX", INT4_MI2S_TX,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT5_MI2S_TX", INT5_MI2S_TX,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("INT6_MI2S_TX", INT6_MI2S_TX,			\
- 		id, 1, 0, msm_routing_get_audio_mixer,			\
- 		msm_routing_put_audio_mixer),
- 
-@@ -709,6 +737,26 @@ static const struct snd_kcontrol_new rxcodec_dma_rx_6_mixer_controls[] = {
- static const struct snd_kcontrol_new rx_codec_dma_rx_7_mixer_controls[] = {
- 	Q6ROUTING_RX_MIXERS(RX_CODEC_DMA_RX_7) };
- 
-+static const struct snd_kcontrol_new int0_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT0_MI2S_RX) };
++config SND_SOC_SDM660_INT
++	tristate "SoC Machine driver for SDM660 and SDM670 boards"
++	depends on QCOM_APR
++	depends on OF
++	depends on PM
++	select SND_SOC_QDSP6
++	select SND_SOC_QCOM_COMMON
++	help
++	  This adds support for audio on Qualcomm Technologies Inc.
++	  SDM660 and SDM670 SoC-based systems.
++	  Say Y if you want to use audio devices on these SoCs.
 +
-+static const struct snd_kcontrol_new int1_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT1_MI2S_RX) };
+ config SND_SOC_SDM845
+ 	tristate "SoC Machine driver for SDM845 boards"
+ 	depends on QCOM_APR && I2C && SOUNDWIRE
+diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
+index 985ce2ae286b..9a0da6279299 100644
+--- a/sound/soc/qcom/Makefile
++++ b/sound/soc/qcom/Makefile
+@@ -24,6 +24,7 @@ snd-soc-apq8016-sbc-y := apq8016_sbc.o
+ snd-soc-apq8096-y := apq8096.o
+ snd-soc-sc7180-y := sc7180.o
+ snd-soc-sc7280-y := sc7280.o
++snd-soc-sdm660-int-y := sdm660-internal.o
+ snd-soc-sdm845-y := sdm845.o
+ snd-soc-sm8250-y := sm8250.o
+ snd-soc-sc8280xp-y := sc8280xp.o
+@@ -38,6 +39,7 @@ obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-apq8096.o
+ obj-$(CONFIG_SND_SOC_SC7180) += snd-soc-sc7180.o
+ obj-$(CONFIG_SND_SOC_SC7280) += snd-soc-sc7280.o
+ obj-$(CONFIG_SND_SOC_SC8280XP) += snd-soc-sc8280xp.o
++obj-$(CONFIG_SND_SOC_SDM660_INT) += snd-soc-sdm660-int.o
+ obj-$(CONFIG_SND_SOC_SDM845) += snd-soc-sdm845.o
+ obj-$(CONFIG_SND_SOC_SM8250) += snd-soc-sm8250.o
+ obj-$(CONFIG_SND_SOC_QCOM_COMMON) += snd-soc-qcom-common.o
+diff --git a/sound/soc/qcom/sdm660-internal.c b/sound/soc/qcom/sdm660-internal.c
+new file mode 100644
+index 000000000000..beb810aa4eb9
+--- /dev/null
++++ b/sound/soc/qcom/sdm660-internal.c
+@@ -0,0 +1,271 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2015-2020, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2023, Richard Acayan. All rights reserved.
++ */
 +
-+static const struct snd_kcontrol_new int2_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT2_MI2S_RX) };
++#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/jack.h>
++#include <sound/soc.h>
++#include <sound/soc-card.h>
++#include <sound/soc-dai.h>
++#include <sound/soc-dapm.h>
++#include <sound/soc-jack.h>
 +
-+static const struct snd_kcontrol_new int3_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT3_MI2S_RX) };
++#include "common.h"
++#include "qdsp6/q6afe.h"
 +
-+static const struct snd_kcontrol_new int4_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT4_MI2S_RX) };
++#define DEFAULT_SAMPLE_RATE_48K		48000
++#define DEFAULT_INT_MCLK_RATE		9600000
++#define MI2S_BCLK_RATE			1536000
 +
-+static const struct snd_kcontrol_new int5_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT5_MI2S_RX) };
++struct sdm660_int_snd_data {
++	struct snd_soc_jack jack;
++	bool jack_setup;
++	uint32_t int0_mi2s_clk_count;
++	uint32_t int3_mi2s_clk_count;
++};
 +
-+static const struct snd_kcontrol_new int6_mi2s_rx_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(INT6_MI2S_RX) };
- 
- static const struct snd_kcontrol_new mmul1_mixer_controls[] = {
- 	Q6ROUTING_TX_MIXERS(MSM_FRONTEND_DAI_MULTIMEDIA1) };
-@@ -938,6 +986,27 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
- 	SND_SOC_DAPM_MIXER("USB_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
- 			   usb_rx_mixer_controls,
- 			   ARRAY_SIZE(usb_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT0_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int0_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int0_mi2s_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT1_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int1_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int1_mi2s_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT2_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int2_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int2_mi2s_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT3_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int3_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int3_mi2s_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT4_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int4_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int4_mi2s_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT5_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int5_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int5_mi2s_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("INT6_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		int6_mi2s_rx_mixer_controls,
-+		ARRAY_SIZE(int6_mi2s_rx_mixer_controls)),
- 	SND_SOC_DAPM_MIXER("MultiMedia1 Mixer", SND_SOC_NOPM, 0, 0,
- 		mmul1_mixer_controls, ARRAY_SIZE(mmul1_mixer_controls)),
- 	SND_SOC_DAPM_MIXER("MultiMedia2 Mixer", SND_SOC_NOPM, 0, 0,
-@@ -1031,6 +1100,13 @@ static const struct snd_soc_dapm_route intercon[] = {
- 	Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_6 Audio Mixer", "RX_CODEC_DMA_RX_6"),
- 	Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_7 Audio Mixer", "RX_CODEC_DMA_RX_7"),
- 	Q6ROUTING_RX_DAPM_ROUTE("USB_RX Audio Mixer", "USB_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT0_MI2S_RX Audio Mixer", "INT0_MI2S_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT1_MI2S_RX Audio Mixer", "INT1_MI2S_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT2_MI2S_RX Audio Mixer", "INT2_MI2S_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT3_MI2S_RX Audio Mixer", "INT3_MI2S_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT4_MI2S_RX Audio Mixer", "INT4_MI2S_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT5_MI2S_RX Audio Mixer", "INT5_MI2S_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("INT6_MI2S_RX Audio Mixer", "INT6_MI2S_RX"),
- 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia1 Mixer"),
- 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia2 Mixer"),
- 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia3 Mixer"),
++static int snd_sdm660_int_startup(struct snd_pcm_substream *stream)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(stream);
++	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
++	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
++
++	switch (cpu->id) {
++	case INT0_MI2S_RX:
++		data->int0_mi2s_clk_count++;
++		if (data->int0_mi2s_clk_count == 1)
++			snd_soc_dai_set_sysclk(cpu,
++				Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
++				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++
++		/*
++		 * Downstream specifies that the AFE is a clock consumer, but
++		 * the sound is distorted (loud on the right channel and sped
++		 * up) unless we set it as a producer.
++		 */
++		snd_soc_dai_set_fmt(cpu, SND_SOC_DAIFMT_CBP_CFP);
++
++		break;
++	case INT3_MI2S_TX:
++		data->int3_mi2s_clk_count++;
++		if (data->int3_mi2s_clk_count == 1)
++			snd_soc_dai_set_sysclk(cpu,
++				Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
++				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++
++		/*
++		 * Downstream specifies that the AFE is a clock consumer, but
++		 * the sound is distorted (slowed down) unless we set it as a
++		 * producer.
++		 */
++		snd_soc_dai_set_fmt(cpu, SND_SOC_DAIFMT_CBP_CFP);
++
++		break;
++	default:
++		dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__,
++			cpu->id);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void snd_sdm660_int_shutdown(struct snd_pcm_substream *stream)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(stream);
++	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
++	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
++
++	switch (cpu->id) {
++	case INT0_MI2S_RX:
++		data->int0_mi2s_clk_count--;
++		if (data->int0_mi2s_clk_count == 0)
++			snd_soc_dai_set_sysclk(cpu,
++				Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
++				0, SNDRV_PCM_STREAM_PLAYBACK);
++
++		break;
++	case INT3_MI2S_TX:
++		data->int3_mi2s_clk_count--;
++		if (data->int3_mi2s_clk_count == 0)
++			snd_soc_dai_set_sysclk(cpu,
++				Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
++				0, SNDRV_PCM_STREAM_PLAYBACK);
++
++		break;
++	default:
++		dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__,
++			cpu->id);
++		break;
++	}
++}
++
++static int snd_sdm660_int_hw_free(struct snd_pcm_substream *stream)
++{
++	return 0;
++}
++
++static int snd_sdm660_int_prepare(struct snd_pcm_substream *stream)
++{
++	return 0;
++}
++
++static const struct snd_soc_ops sdm660_int_ops = {
++	.startup = snd_sdm660_int_startup,
++	.shutdown = snd_sdm660_int_shutdown,
++	.hw_free = snd_sdm660_int_hw_free,
++	.prepare = snd_sdm660_int_prepare,
++};
++
++static int sdm660_int_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
++					 struct snd_pcm_hw_params *params)
++{
++	struct snd_interval *rate = hw_param_interval(params,
++					SNDRV_PCM_HW_PARAM_RATE);
++	struct snd_interval *channels = hw_param_interval(params,
++			SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
++
++	rate->min = rate->max = DEFAULT_SAMPLE_RATE_48K;
++	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
++
++	channels->min = channels->max = 2;
++
++	return 0;
++}
++
++static void sdm660_int_jack_free(struct snd_jack *jack)
++{
++	struct snd_soc_component *component = jack->private_data;
++
++	snd_soc_component_set_jack(component, NULL, NULL);
++}
++
++static int sdm660_int_dai_init(struct snd_soc_pcm_runtime *rtd)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(card);
++	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
++	/* first codec on INT0_MI2S_RX must be the analog codec */
++	struct snd_soc_dai *codec = snd_soc_rtd_to_codec(rtd, 0);
++	struct snd_jack *jack;
++	int ret;
++
++	if (!data->jack_setup) {
++		/* headset buttons not tested */
++		ret = snd_soc_card_jack_new(card, "Headset Jack",
++					    SND_JACK_HEADSET | SND_JACK_BTN_0
++					  | SND_JACK_BTN_1 | SND_JACK_BTN_2
++					  | SND_JACK_BTN_3 | SND_JACK_BTN_4,
++					    &data->jack);
++		if (ret < 0) {
++			dev_err(card->dev, "could not create headset jack\n");
++			return ret;
++		}
++
++		data->jack_setup = true;
++	}
++
++	switch (cpu->id) {
++	case INT0_MI2S_RX:
++		jack = data->jack.jack;
++
++		jack->private_data = codec->component;
++		jack->private_free = sdm660_int_jack_free;
++
++		ret = snd_soc_component_set_jack(codec->component,
++						 &data->jack,
++						 NULL);
++		if (ret < 0) {
++			dev_err(card->dev, "could not set headset jack\n");
++			return ret;
++		}
++
++		break;
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static void snd_sdm660_int_add_ops(struct snd_soc_card *card)
++{
++	struct snd_soc_dai_link *link;
++	int i;
++
++	for_each_card_prelinks(card, i, link) {
++		if (link->no_pcm == 1) {
++			link->ops = &sdm660_int_ops;
++			link->be_hw_params_fixup = sdm660_int_be_hw_params_fixup;
++		}
++
++		link->init = sdm660_int_dai_init;
++	}
++}
++
++static const struct snd_soc_dapm_widget snd_sdm660_int_dapm_widgets[] = {
++};
++
++static int snd_sdm660_int_probe(struct platform_device *pdev)
++{
++	struct snd_soc_card *card;
++	struct sdm660_int_snd_data *data;
++	struct device *dev = &pdev->dev;
++	int ret;
++
++	card = devm_kzalloc(dev, sizeof(struct snd_soc_card), GFP_KERNEL);
++	if (!card)
++		return -ENOMEM;
++
++	data = devm_kzalloc(dev, sizeof(struct sdm660_int_snd_data), GFP_KERNEL);
++	if (!card)
++		return -ENOMEM;
++
++	card->driver_name = "sdm660-internal";
++	card->dapm_widgets = snd_sdm660_int_dapm_widgets;
++	card->num_dapm_widgets = ARRAY_SIZE(snd_sdm660_int_dapm_widgets);
++	card->dev = dev;
++	card->owner = THIS_MODULE;
++
++	ret = qcom_snd_parse_of(card);
++	if (ret)
++		return ret;
++
++	snd_soc_card_set_drvdata(card, data);
++
++	snd_sdm660_int_add_ops(card);
++
++	return devm_snd_soc_register_card(dev, card);
++}
++
++static void snd_sdm660_int_remove(struct platform_device *pdev)
++{
++}
++
++static const struct of_device_id snd_sdm660_int_device_id[] = {
++	{ .compatible = "qcom,sdm660-internal-sndcard", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, snd_sdm660_int_device_id);
++
++static struct platform_driver snd_sdm660_int_driver = {
++	.probe = snd_sdm660_int_probe,
++	.remove = snd_sdm660_int_remove,
++	.driver = {
++		.name = "sdm660-int-sndcard",
++		.of_match_table = snd_sdm660_int_device_id,
++		.pm = &snd_soc_pm_ops,
++	},
++};
++module_platform_driver(snd_sdm660_int_driver);
++
++MODULE_DESCRIPTION("sdm660 Internal ASoC Machine Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.53.0
 
