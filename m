@@ -1,199 +1,167 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B4D2F531F
-	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412092F83AC
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770775429; cv=none; b=KKO0siKaMlr7/CfqesBdwP1JKv4T2VnwEjPKzoVOjm8JP+BmLVtwM9DumNAqCwSRjmag9soCVw3gMeXl7Q+VE4bQSHAb04yLBLBjvV+qeSW+OpJmQD/eVbEYK1pdZZDLpVFSFV6M7uQqZY1GrVE/3zrrJeovvEXaDruVHfJQy0Y=
+	t=1770775892; cv=none; b=AxLTozC6ap2gWCK6MwleFdZLLZk/5gWRHTKV6tXIQNU9rQZqgUJQPzRxKZwBl5rxx8KimweJEdWgKOHoU/6WdUshPGUP3H+LE+3eRsObGK21gejMjiV4FA8lzpHFO2m15lOVb9XAUuiZDwIPujwPeUxlPP8GdOyHotJIVBKiAGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770775429; c=relaxed/simple;
-	bh=8/f4hdOSdwYHmvZUxaFmVQurWRhk7GDQgpmiggd0Y9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qA9U5qRv0e//aPLZ8EzTvstKp1ilY4bE/dn8celtK2PAOLdA6JIfCUqYeADj9WswXGWF1AuWREAojGExl2OytD157MB2sqmcdHexbMxA9py9gxhu8XlqBukCmXxSyiNQR+8zTtn5KZS16TasIcqyrBT8msfxLhl539RM7v8l4eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AVf2KCa2; arc=none smtp.client-ip=209.85.222.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770775892; c=relaxed/simple;
+	bh=8KmGqu10I2UcckwyPpRC8tNe/8eY+hosqLQUnpOWz2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SHNkok4WYz9QLDGlnIudmsG2q6cppb7z/RHbYthmduQGNlOC3R4SMWNanfnYC66NNlQx3xgi/ZoliUWch4kO+cM8HqjlYu5KEqngvh0yPSNmtvFI9izYHO9WRDbMfG017NWr9dodNBcYdcVlSwDxf+/8WoO+6Fio6poWk6gJN78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JNi4s4HY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eHgHBjLY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AVf2KCa2"
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8c7199e7f79so668705385a.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 18:03:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JNi4s4HY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eHgHBjLY"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61AIoZxp4013760
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:11:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=rwAUFN3fNP8Oixckb9rh2aw5
+	H+/4LllRHz6cpH0F5RM=; b=JNi4s4HYu9+2mYBSTf+/RQnDhUPEtIlvSpaxQomj
+	QMBZYa+9aVvAGYAA41QxvFj88VYf5JMOT5Nqp0z6OsB12T0DXoh4wOsL3t9ctsWt
+	n1ukx9BUdNLsQClg6n42y4XK8ntSFpShdPtQLGOFHgXQTUr38inOufus0hYDuGLb
+	2gk30O9O046TDYehLoTZSgey9QsySrjAoY0sX3INtaMvUXftv4Ha95Evo7YL3JIM
+	v85zhT6Pwek7Tc7OSgFjaMm7XrpAGmn/JNzamEhGdv9JmNq+Ve0lyfQwJvrmERTs
+	QTqtUv6q+I4tbWedmmH3DtZL6RpQ6SyQl8sbbkeQlwj7Rg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c8aad97yk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:11:29 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c70b6a5821so1492408285a.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 18:11:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770775427; x=1771380227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8TOsv1PGUXfFuGxG5SQQqgTLrZyW8alSpUKXMJIOho4=;
-        b=AVf2KCa2tSmsDui1ZEcFqUcfjOcfdd6onU07nHgyYepPfC+2uTUAmeJwvpucgM1cNv
-         C0wKZ1jJY6g6SFW/vxtFUlNiI6k/CFKBwp//PeZBjJFXeifgKl/B31FRK/TdD4DfMUhb
-         CuNZjI0BjqaIISxIJxgVVyeAAzMm6Jz/DMb0FY8+YldCGgkEYHthK2Q1vbRC01dLBoF6
-         uEXzac5WpBivfgwq0ZGTyag4D3ycCpk77RspHZUMDL78GhMQY89ApRWApmIJcoAOJ8Qt
-         wPBXQoNhe6/6BZHz9qb7eH0Z0FsP82WTjq3tCT/M7F7ZFSmOXzeb/oYz0qM2Dg56Zz0d
-         G+PA==
+        d=oss.qualcomm.com; s=google; t=1770775889; x=1771380689; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rwAUFN3fNP8Oixckb9rh2aw5H+/4LllRHz6cpH0F5RM=;
+        b=eHgHBjLYb4PdT9/kKcLUI1TEPbieVJPutH2oeNcp4eJ17RIfxSAzARUIpo+XMYpg/D
+         vBD5h6MyL1WyQM2nnWIhxynRcyJYNCK6Dxvo34BgX4GP3VIfT/wpSGHg/Q/N6mZX4dUE
+         anjxyepWKi913F+uFItUc7aU1QaCOFlxaiiDver5E9YsTY5DdHB6nswfKZkCLrqm/IjU
+         Z+opL8N2ztc/Y0FGVQCJmT5PbA2uyAaD32iW8IcRptUu140n/oXEEPOBCmgQTp4yurcN
+         d9kWD9fchYZQEBgdjey0Ye1KejWG/64j3NI3jDPhjxmiBlWapDiI0O7Lau2WVLbk1ob5
+         4cXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770775427; x=1771380227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8TOsv1PGUXfFuGxG5SQQqgTLrZyW8alSpUKXMJIOho4=;
-        b=wS7TZfw70u0Z5coy7ULiuuc+mUFPMWTv/ZfXPA7zSB0LPiM3qtP3A9udY+tohbRfc+
-         tQSsiLDOuvwQ/O9lZDf4PrLg2Spmgq1g7CoAvCN2TWAiCTwT5mTkJesxwFsgeC9D6fzm
-         q0PYime+GVDxm7MzjSHbybnlMyhogYWJmO92RKyozxKmpdgR7oFKQ3XMv/p6onnaLfc+
-         FYzrweWrjwkt48rNIP/o68G14WCYs3WRvM0pYp+CXFea6GQCSaJQN+HG1MIdVGxStM5x
-         LfPp4qJFpHzaAhrAqDY1WEHSwHoY0VLhocLHqqYRm1LvFl3+x6hLSsUodaJQqUqSmuHb
-         6Qtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMno5oUxJwsOdj3NRKipPxe8PR+mXZBD+4nTCKtCdslPoqTdZV+IRZ8z+QInfMtCtEJdI10L3KTL+/rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKdOKXO1zkEWIWRIXq6Wd6BSXRiN4V1hQFaZUNb27tLhTtWw71
-	0/5tB3Ihr7NelQIsZMZOC04VewubFQgx7I0+rlTloxSW39xv67cv5ij0
-X-Gm-Gg: AZuq6aJRntSmlQO3Ba1FKDDkevE4dyOIoCQkGMiQpkGrOEh5DnE9+8QsuJHwP1mY7lc
-	Tt87a0+HyFQmDXdETAYalRyzlpV3wAoGx4Jqt7RCtT5EiuUnCNVvpQw8a8vPHt4Pb507Sn/lXrt
-	FHxzSWRmMqkK8Q3WDG2yEOMawyLpFidNFIa6cm6nS8NcE/kz+Waq8cgOC4HAgvcClvhE7GJF7Si
-	ggwP5lBPAD9iqjh/8tLLJWqJXmZ5iC9kMl8EZEH09m/QUCtrnU1BFuagKATQURqGCEdfbOUgiAv
-	9Av/7Asb0zAnRTsYPFEXRZcaY6E7/z/QCZBbFS6s9efj310qCJrtVSWYLl3GDV7/v+oiyz0IM1n
-	b1HtmJ2dfCmc+QvyH7wx73qXx+Nt6gBTYEOcWqisAOpYKy+pkL8i6Y/q6Ydbizr/A1el/44O6SH
-	0Vyga0/kkwYTqwe5N0663V+fmhNkcdIGXB+Qw2WvPpVJSFpg3xpJmgeFNBlhFtPklLWeRrGjKyo
-	Vq8ac4cJMfLYgs=
-X-Received: by 2002:a05:620a:408c:b0:8c6:a539:55d4 with SMTP id af79cd13be357-8cb28041932mr174538085a.48.1770775426955;
-        Tue, 10 Feb 2026 18:03:46 -0800 (PST)
-Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb2b20f5desm9522785a.41.2026.02.10.18.03.46
+        d=1e100.net; s=20230601; t=1770775889; x=1771380689;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rwAUFN3fNP8Oixckb9rh2aw5H+/4LllRHz6cpH0F5RM=;
+        b=IhprKpRdjBrIP0MHMn2SAChXmLK17sgdHjTqYIers+8ax8c5ccXEwT0Up8WkKuZGva
+         GPqpbyBuu3kx3DYvSN7jEWwXP9rR0ICrt4uDdO+syG0QM+gYsy1Q2X3FeV0lymQZ/Hgw
+         K0WBi2Otl2NiBcsOJpg+tGJ/c0bjNqr0ITcHzJXIcOKiD/Af8BJuA12Ko7y1o124Ccda
+         SVBeahoUvWUimdHaTxHitCAUopjBwpV69QqBCLml5EawtH6jyIK+ee2JCNG7cUkG6ViA
+         G3dhLWn0hZE1wQPy8FQvxQavZsNW3Syv3Cqbm2TVXfdIFf85w05S+rjZz5QCjHxUX54/
+         NPqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCkHRbewOd7DdnWrWoDsMqbMciJfNSVFIn9Kdvyy8OYBANNTTFkHf2hx3sy5xuUU8cFfrqFoZLLvr5Lw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJHvurAU6e12k3jy197dCgpyy9SM9cZlA5ZSRyp3xSg4jOK/i3
+	kE0N7i3VpbZe9EJMD+hhTjMwOd/fyFPZaJNZ1FqC7KVe+bUN06m9laufj+Ve6a06fURmuGHFv6c
+	8Kvv1i4bQUizULLFmyI4IwPheedZQoYKQ1EXmrGtOGSKNSj1ndw+ahWVwktGw9mDrGw==
+X-Gm-Gg: AZuq6aJ1aCzhx29DoXI+TjbixX/ziyIiFumhhiEUnksbW3CQdHHeBISx44bJxT1uW3k
+	J7Bmm+3r73BInjt3M3fnvNLaoiZzhz67v6pxwOVWgTu4VC035zVlJ6RprTtgwyjWtGMgE7ew0nU
+	AofYd60aT/9uDlggxy1ePj8+kw2vIUpPku5j1MJbPa1a+LpxxVUqToULBE7LBRAyORQM8yRnaxf
+	q4E2THLFFFvaIO+BnHcgZy6ht8QVfTrxPIJUmNzndlsxAV+ta2p/qder9QVvIywdo154sRWB73x
+	QlrUhRD7LqC5niQuzRqbCvxEPGRHhq6BUXx6WDNiCVmFGtOWzBdiX4U6QZBnEjEAlsw0wNTzdmx
+	QzGn4DQHlMeBPr+hXkrz+s2qHNMVr0N48dnKNypOf6Yd9PGwRxKamJYkE5XNs7k+dqWI/g1xoST
+	s1ssBEeh6H3cjIg8KDOwk5E4749Qy5eWBCu88=
+X-Received: by 2002:a05:620a:190d:b0:8cb:104b:bef with SMTP id af79cd13be357-8cb2ad54a5amr28601985a.88.1770775888574;
+        Tue, 10 Feb 2026 18:11:28 -0800 (PST)
+X-Received: by 2002:a05:620a:190d:b0:8cb:104b:bef with SMTP id af79cd13be357-8cb2ad54a5amr28598285a.88.1770775888057;
+        Tue, 10 Feb 2026 18:11:28 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-387068e5f35sm565761fa.22.2026.02.10.18.11.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 18:03:46 -0800 (PST)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Johan Hovold <johan@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Nickolay Goppen <setotau@mainlining.org>,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 10/10] ASoC: msm8916-wcd-analog: add quirk for cajon 2.0
-Date: Tue, 10 Feb 2026 21:03:02 -0500
-Message-ID: <20260211020302.2674-11-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260211020302.2674-1-mailingradian@gmail.com>
+        Tue, 10 Feb 2026 18:11:27 -0800 (PST)
+Date: Wed, 11 Feb 2026 04:11:24 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Johan Hovold <johan@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+        Nickolay Goppen <setotau@mainlining.org>
+Subject: Re: [PATCH 01/10] ASoC: dt-bindings: qcom,sm8250: add compatible for
+ sdm660-internal
+Message-ID: <yxrhmblavwkuhfrfgskujs7tz7cykojnqnl2mfrf365lhdem35@bgqwiaft67b3>
 References: <20260211020302.2674-1-mailingradian@gmail.com>
+ <20260211020302.2674-2-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260211020302.2674-2-mailingradian@gmail.com>
+X-Proofpoint-ORIG-GUID: buREgOot-k-6rfhb13qHZ_e74iZo80zR
+X-Proofpoint-GUID: buREgOot-k-6rfhb13qHZ_e74iZo80zR
+X-Authority-Analysis: v=2.4 cv=OoVCCi/t c=1 sm=1 tr=0 ts=698be551 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=OuZLqq7tAAAA:8
+ a=pGLkceISAAAA:8 a=Nn-6Z7DYh3BI_mgflx0A:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=AKGiAy9iJ-JzxKVHQNES:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjExMDAxNyBTYWx0ZWRfX8wgjxo0IggtZ
+ oRIDOe83aJ7nhlKNLzhLHdZYzox9+JOpGOvQGygXzh8xU1xKVAg4/FHvBVdGq/BaT3JA9F5XpJH
+ YFy9JhGWVN+N25tuEGo/UGIjjCxDBdIJ2IZeqjuFDga4qROsEH8W59EgkXjPukqE5yZeIuNG60L
+ 5VoKVhhje1r8518TVz8zVAg3zDdws5+v5/KwYF0FjwQFvGIcaggpMuITYgoLeGg+mWBKdpX7Fv4
+ HKEsFx8suPWcBrx1RgZn98bE0gjnAqy0g4sWJHAu4TjUI/7E5Du9rCi+gfrqaBQY2nYOpSCaqDd
+ E5j5bARSsNbliN8GLSkWDt/eWkHCTtoAoDOI2mv41uFxp/j1iIJpIJa2ZJYy8JbBSAmLv3HOu2x
+ HGYx6F3UkW+tS6nxW1Ws9rtH+6FEkV4rCsa4+55eiY8pu4ijnv2mBmKcc3fFiDtS4afRxY+QSL7
+ S3tT2hK8qFZHv6oatvg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-10_03,2026-02-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 phishscore=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602110017
 
-The codec version CAJON_2_0 on the Snapdragon 670 requires touching the
-HPH test registers. Add the quirk so this driver can also support
-SDM670.
+On Tue, Feb 10, 2026 at 09:02:53PM -0500, Richard Acayan wrote:
+> From: Nickolay Goppen <setotau@mainlining.org>
+> 
+> Add compatibles for sdm660-internal based soundcards.
 
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
----
- sound/soc/codecs/msm8916-wcd-analog.c | 63 ++++++++++++++++++++++++++-
- 1 file changed, 61 insertions(+), 2 deletions(-)
+Why is it called "internal"?
 
-diff --git a/sound/soc/codecs/msm8916-wcd-analog.c b/sound/soc/codecs/msm8916-wcd-analog.c
-index 9ca381812975..6fe111e6d686 100644
---- a/sound/soc/codecs/msm8916-wcd-analog.c
-+++ b/sound/soc/codecs/msm8916-wcd-analog.c
-@@ -217,9 +217,11 @@
- #define CDC_A_RX_HPH_BIAS_LDO_OCP	(0xf195)
- #define CDC_A_RX_HPH_BIAS_CNP		(0xf196)
- #define CDC_A_RX_HPH_CNP_EN		(0xf197)
-+#define CDC_A_RX_HPH_L_TEST		(0xf19A)
- #define CDC_A_RX_HPH_L_PA_DAC_CTL	(0xf19B)
- #define RX_HPA_L_PA_DAC_CTL_DATA_RESET_MASK	BIT(1)
- #define RX_HPA_L_PA_DAC_CTL_DATA_RESET_RESET	BIT(1)
-+#define CDC_A_RX_HPH_R_TEST		(0xf19C)
- #define CDC_A_RX_HPH_R_PA_DAC_CTL	(0xf19D)
- #define RX_HPH_R_PA_DAC_CTL_DATA_RESET	BIT(1)
- #define RX_HPH_R_PA_DAC_CTL_DATA_RESET_MASK BIT(1)
-@@ -696,6 +698,59 @@ static int pm8916_wcd_analog_enable_ear_pa(struct snd_soc_dapm_widget *w,
- 	return 0;
- }
- 
-+static int pm8916_wcd_analog_enable_hphl_pa(struct snd_soc_dapm_widget *w,
-+					    struct snd_kcontrol *kcontrol,
-+					    int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct pm8916_wcd_analog_priv *priv = dev_get_drvdata(component->dev);
-+
-+	/* This quirk is not required for revisions prior to CAJON_2_0 */
-+	if (priv->codec_version < 4)
-+		return 0;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(7000, 7100);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_L_TEST,
-+				0x04, 0x04);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		/* wait 20 ms after the digital codec has powered down */
-+		msleep(20);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_L_TEST,
-+				0x04, 0x00);
-+		break;
-+	}
-+	return 0;
-+}
-+
-+static int pm8916_wcd_analog_enable_hphr_pa(struct snd_soc_dapm_widget *w,
-+					    struct snd_kcontrol *kcontrol,
-+					    int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct pm8916_wcd_analog_priv *priv = dev_get_drvdata(component->dev);
-+
-+	/* This quirk is not required for revisions prior to CAJON_2_0 */
-+	if (priv->codec_version < 4)
-+		return 0;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(7000, 7100);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_R_TEST,
-+				0x04, 0x04);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		msleep(20);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_R_TEST,
-+				0x04, 0x00);
-+		break;
-+	}
-+	return 0;
-+}
-+
- static const struct reg_default wcd_reg_defaults_2_0[] = {
- 	{CDC_A_RX_COM_OCP_CTL, 0xD1},
- 	{CDC_A_RX_COM_OCP_COUNT, 0xFF},
-@@ -883,11 +938,15 @@ static const struct snd_soc_dapm_widget pm8916_wcd_analog_dapm_widgets[] = {
- 	SND_SOC_DAPM_MUX("EAR_S", SND_SOC_NOPM, 0, 0, &ear_mux),
- 	SND_SOC_DAPM_SUPPLY("EAR CP", CDC_A_NCP_EN, 4, 0, NULL, 0),
- 
--	SND_SOC_DAPM_PGA("HPHL PA", CDC_A_RX_HPH_CNP_EN, 5, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA_E("HPHL PA", CDC_A_RX_HPH_CNP_EN, 5, 0, NULL, 0,
-+			   pm8916_wcd_analog_enable_hphl_pa,
-+			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
- 	SND_SOC_DAPM_MUX("HPHL", SND_SOC_NOPM, 0, 0, &hphl_mux),
- 	SND_SOC_DAPM_MIXER("HPHL DAC", CDC_A_RX_HPH_L_PA_DAC_CTL, 3, 0, NULL,
- 			   0),
--	SND_SOC_DAPM_PGA("HPHR PA", CDC_A_RX_HPH_CNP_EN, 4, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA_E("HPHR PA", CDC_A_RX_HPH_CNP_EN, 4, 0, NULL, 0,
-+			   pm8916_wcd_analog_enable_hphr_pa,
-+			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
- 	SND_SOC_DAPM_MUX("HPHR", SND_SOC_NOPM, 0, 0, &hphr_mux),
- 	SND_SOC_DAPM_MIXER("HPHR DAC", CDC_A_RX_HPH_R_PA_DAC_CTL, 3, 0, NULL,
- 			   0),
+> 
+> Signed-off-by: Nickolay Goppen <setotau@mainlining.org>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> index 15f38622b98b..ad5add422c4d 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> @@ -44,6 +44,7 @@ properties:
+>            - qcom,qrb5165-rb5-sndcard
+>            - qcom,sc7180-qdsp6-sndcard
+>            - qcom,sc8280xp-sndcard
+> +          - qcom,sdm660-internal-sndcard
+>            - qcom,sdm845-sndcard
+>            - qcom,sm8250-sndcard
+>            - qcom,sm8450-sndcard
+> -- 
+> 2.53.0
+> 
+
 -- 
-2.53.0
-
+With best wishes
+Dmitry
