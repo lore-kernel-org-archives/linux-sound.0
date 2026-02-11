@@ -1,322 +1,186 @@
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6344934FF62
-	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 03:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F0F1A3157;
+	Wed, 11 Feb 2026 05:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770782096; cv=none; b=MMC414T2EwYonjxH/H5zMMDlU0Tm7w/fbvEgiQAFx9IYBaTVWCnAy4bm908xSfC4kgtoL553JrxWJ76DakZzzgrh/4E1c06QE2K320YoNT1gWaROiWx0LcOg3acSVrZWFurEkcbMq7g82aIXiGuUhEctPK3NGLdVHJYRLwCfVmU=
+	t=1770787733; cv=none; b=DuKPfCxuqoG62enjcrrjqpjQvMN/kYMmvpZwDME9w1FnPkBSa0qOIgvHN7hHKg6rl1l7QpML1jgHRKJnw2NUeT296y5lX0CvFdC+BOH0xgOpgpC43D4WLFpjobZIr39O19Qufx/FD4AnN8IPXRBqLE2ZUdQ/cHsr/4Yr2RfKud8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770782096; c=relaxed/simple;
-	bh=P5kLVST21mq0WXtrvYwRskLpaUtwd4R/FfjlYu/PcQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NAOX1uf95g5B4ay4Wum8rN6FrbGNkFxikJ7LfiWxqAH3MHj48UNaGfzCD9mV5TzpykkWhxgCXz5ih2lGrRTfPvyOgM+g9fKYsNZFyo+o31024QjFDR2Auf23rrPuqIeb9uqgGeuA7/5K6qr8fjQEGj3l5r58sYQHspPNsYRjT+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cq60VWuL; arc=none smtp.client-ip=209.85.167.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770787733; c=relaxed/simple;
+	bh=TAkiIMK4DI4uBVK+3/Ppt2zqAIMTUHf/3UPZkQdd5Ek=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dm6D/ODJ4LgEQTkg8Ir3LecKS2X4c1/vY+y1UXjO3wm63QZTwfEizUX6LvmB4EegHMJumpiArq3Mw4WkQ/5rbN7te9gvUon5ZtRK1+x7o+3whMwVqs2syxpooG8FW6q1lz/LRc/rzVWThNievJiTv13mq5+GJwAINTsypJt4OrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=TvUet5vF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=g6Kdctyq; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cq60VWuL"
-Received: by mail-oi1-f196.google.com with SMTP id 5614622812f47-45f004e7d71so337955b6e.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 19:54:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770782094; x=1771386894; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WsTdfccGqb1uJ0g1iA5avj4gtZCqVvJmBjk0T3KnHAo=;
-        b=Cq60VWuLGlQVI2wRx3T9kYOhpfA6Ag71++WoU1kamkdAZeQMMjwa+gBpeU3P9aMDS4
-         duj1qweOOqfesr7wfLQV8UIV0ysWwLxg3XGt/SERQar76YfhWnzdz4VO+2JgiJIsg++o
-         4Bm9rsncgB/t6Mv8zyGgL1L4NO7LQu0EmIUX11wMC2RPGflH+01vX2gILcE+x9Wth/sk
-         T7DvftbYFBADSZ3sJindnhJkiJWTeVtdScE1IgfCVv89ZBB7pkH3t6XTqDXWCwCyrblw
-         Vm5z98BIFj88KWeOcOzjvVvXNs4kOJL7bvui+BCRvfUmS1SEbkeXUJ3qOXvwBua6+WIV
-         +tMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770782094; x=1771386894;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WsTdfccGqb1uJ0g1iA5avj4gtZCqVvJmBjk0T3KnHAo=;
-        b=qvhWsWZNoZeMGpld2fkOyp2eBKNl5A+TO1zg7NwtwvBrp0TSSTeUa/PEHCtxl/B6Zh
-         amGxDcmR+FIC8oCO+tP2eZ+KPahhUojtpgH92JsgVQruC8D0GeMvd93HipK+OALGyBUH
-         T2y24i3SSduie0NKTGoAXGUVsjyQBopovtIiJNQyV7D/CwUfZLT9A5b0JzqkO83Rn5x4
-         agddAdFaVIUyNqMgghn6dCg6CTNjRNRaDzEEcbLMBE68s7Vb3dDW7nneefsciJsjQwi2
-         uxFNo6zF0tCmK2d3SjT2V7JTCSCAWT53UMEXwCzHlLFBWp8M7gTa+H4//2ShSKdyMbK2
-         dhfA==
-X-Forwarded-Encrypted: i=1; AJvYcCVb0E2UhQR347taalhMeel9nGvLIDeC7eokXL1zgUikJvY2JU0YG1LxP3r05GiF9TtX2LlsRCfw5Js/Cg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YykvRKmPm3apAWqU8JbQjoZid52NrGXNyP31fnIpfs0DOOfc1Xw
-	MhZ2sfXhucA95Xyl8kXrNDX4XTniJOLkVKGHTzBdE+2LhaeCusjOpZdyz/btr61N
-X-Gm-Gg: AZuq6aLr3ORw1yCdE2Qa0fVhsIOWYRKf0azNfZJCSK9bpge2nsTn+DmQGcKwcqqQvFN
-	xi7+Rpn34gKiPglr+FgESSPs0AF90kSo+a8B+D6eGRwg6dbmRPpznVzDVWYvej9Xkp8uBxz3vxr
-	dLwHeZrHKkluW+Ld+aosSXeRsn8rgUYxb0BXA8ctFmzb8PtBPP59DYafpZsIaGeuLaE3TBZQV0v
-	slODpyyV8Prpq10y0WiQlO2L9wiG+DUGnZ2hvgYAAaPJwkU+9RMtZ5KEiX2YqeaIiLFnt0LgU+I
-	H5SFrt087xsatvIEr1+qJ8npH4tEjTGY91DDg01R1tNEQCtY9QGbsF9olgRyRZ0YKN2vY18dOrB
-	nqcvGXseKV6TUUwNiKENGExk1tLhNmM/nh2o8CP8JxVAo40V56Vkbbdd9r1Pp3vRYWYLQm+P77n
-	X8H6ibC60WqkdDxgKSZiySM4flwQ==
-X-Received: by 2002:a05:622a:1353:b0:4f1:e79a:1e0 with SMTP id d75a77b69052e-50672e0c220mr51930831cf.20.1770775386125;
-        Tue, 10 Feb 2026 18:03:06 -0800 (PST)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50684b6b220sm1673851cf.18.2026.02.10.18.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 18:03:05 -0800 (PST)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Johan Hovold <johan@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Nickolay Goppen <setotau@mainlining.org>,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH 05/10] ASoC: qdsp6: q6dsp-lpass-ports: add internal mi2s support
-Date: Tue, 10 Feb 2026 21:02:57 -0500
-Message-ID: <20260211020302.2674-6-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260211020302.2674-1-mailingradian@gmail.com>
-References: <20260211020302.2674-1-mailingradian@gmail.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="TvUet5vF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g6Kdctyq"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 87B3CEC0330;
+	Wed, 11 Feb 2026 00:28:49 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 11 Feb 2026 00:28:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1770787729; x=1770874129; bh=G1+3OfqilYqpZhvwLHHP9
+	6i+MEfztzDD2SNO+N/sZEw=; b=TvUet5vFZobmbLStKO6YA6KFqBxrDHPUXy5Ja
+	f3+syfWr2+4JoKtNy2TNWPqt70yuWwZvHj0Uyy86uzMElxMaiRAOQ7y1QDkOtIYF
+	1rBzvk4MVKf/OGttz+Vi2mwDJ5ZTB5K0GFms1GAkjyc2d7uUtPJo+Ca75S1Uk54C
+	jWsvHahtBDt3Mgo+8ZdtljtNtYrvztnoRoF2sVUSMNaeS5JESjw7gMw8vKhrtExO
+	MHh57bD1AKQ/YqyVfqJ4zzH6xpvAm7Brqugj3b7VfRWZOfygTb6QlBNhX9B+0I8K
+	/ll1Jqty+yBkWg7ru80sFkKyuuxN+pDreBLTW/iFJ4oxhBR6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770787729; x=
+	1770874129; bh=G1+3OfqilYqpZhvwLHHP96i+MEfztzDD2SNO+N/sZEw=; b=g
+	6KdctyqAYf/Ggl4HDFSMGU/HiBZ+M9L/XGHLcvWZrQHVxxnxY3XFyLhcr7zfUKv0
+	1FuS8wzgo3qbdcYnOJXZeBbyplxcGRKxgMGaDwOqdtERnUKatst+Fm/imriXfAvF
+	O3VhlMlO3k+ASIITrtrbmmHDzAy1DssPI7f1NRPN3qzjKhtUSkDcLnuGmsFxwyBF
+	pNvtY4TPRU3wG45w9rVxSvzDg45rqFiU8bV8T0hiItDiE6xyhDNixzBFo5kM68Ua
+	VADwmWZL1AmkZ0XSfhcvzQMALZsqF4zenPfNvL6bjjgAuoBVK6lk7yc/1QrDpjxb
+	T52EbmJIKvw0FGXGqqaOg==
+X-ME-Sender: <xms:kROMacfYgBwjF73Ns2GoakAReevng74pSFLrNaKKrarQQK4Bc0nzow>
+    <xme:kROMaZI1Q97WGA5DelnY-PEGGa5-9y75CbCh_9JuvkHUeJ07xz4cGBotylf6skie8
+    8n3VZ0z1bDTdP9Zg3q9UzeRuFDlLDT6SYOERiHZAHPhpNNYVftcT2NJ>
+X-ME-Received: <xmr:kROMachxXxHsipXl-i2kNij-y_tPXtVLxlKlgwUuNGLwTglGsGbQ9kPadj6VLOzLVgRTOd6xVSl-jT_gFSCmt7Qdj8-7cAbB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvtddujeduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfggtggusehttdertddttd
+    dvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeetfeeiteefveegvd
+    fggeffheetleejkeekleeugeffffdtgfdtteetkeevvddvgfenucffohhmrghinhepkhgv
+    rhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghrtghp
+    thhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhorhhvrghlughsse
+    hlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhk
+    vghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigud
+    efleegqdguvghvvghlsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghp
+    thhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehjvghnshdrfihikhhlrghnuggvrheslhhinhgrrhhordhorhhgpdhrtghpthht
+    ohepjhhgghesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:kROMaXQmC3ndl7UVWLn5hrTsNNhBezdJhHK-J-vuh7EZe3RPXzYDdg>
+    <xmx:kROMaWVzf4R80jgPrfLDgt1T3sHOlnVbM3yLBaTI9ns58LmlJDK_7Q>
+    <xmx:kROMaTROvHGVLMxwmCTfPAls0y8qNfuKan_35SgomiWyG66NW-iEBA>
+    <xmx:kROMaYnYFBPDFAgQCy8ZHjV11dfeAgpTJrY8r3PMoSR2wfAN5Cjx8A>
+    <xmx:kROMaf4jA2Gywmivjeb_sShFrVVUcrE6PKls24FASuWE2T_0vFdNvidT>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Feb 2026 00:28:47 -0500 (EST)
+Date: Wed, 11 Feb 2026 14:28:45 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: torvalds@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+	linux-sound@vger.kernel.org, jens.wiklander@linaro.org,
+	jgg@nvidia.com
+Subject: [GIT PULL] firewire updates for 7.0-rc1
+Message-ID: <20260211052845.GA155338@workstation.local>
+Mail-Followup-To: torvalds@linux-foundation.org,
+	linux-kernel@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+	linux-sound@vger.kernel.org, jens.wiklander@linaro.org,
+	jgg@nvidia.com
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add the internal MI2S stream capabilities as specified by the audio
-kernel modules and configure the ports as MI2S ports.
+Hi Linus,
+(C.C.ed to linux-sound, Jens Wiklander, and Jason Gunthorpe)
 
-Link: https://android.googlesource.com/kernel/msm-extra/+/530cffa4cc977a348753831b163eb9d3302b954a/asoc/msm-dai-q6-v2.c#4597
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+Please pull firewire changes for 7.0. It includes the following changes:
+
+ - Refactor page allocation dedicated to 1394 OHCI IR/IT/AR DMA contexts
+ - Allocate variable-sized buffer for isochronous context header
+   - Including a small change in sound subsystem
+
+This subsystem has been a long-standing, single user of dma_alloc_pages().
+Recently, TEE subsystem added usage in a commit
+ab09dd6d9201 ("tee: add tee_shm_alloc_dma_mem()"), and it still remains.
+I think the kernel API can be avoided in direct calls and encapsulated for
+the convenience of DMA mapping layer developers.
+
+
+Thanks
+
+Takashi Sakamoto
+(on a national holiday in Japan)
+
 ---
- sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 200 +++++++++++++++++++++++
- 1 file changed, 200 insertions(+)
 
-diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-index 4eed54b071a5..fc79934fc1bf 100644
---- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-+++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-@@ -594,6 +594,205 @@ static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
- 	Q6AFE_CDC_DMA_TX_DAI(TX_CODEC_DMA_TX_5),
- 	Q6AFE_CDC_DMA_RX_DAI(RX_CODEC_DMA_RX_6),
- 	Q6AFE_CDC_DMA_RX_DAI(RX_CODEC_DMA_RX_7),
-+	{
-+		.playback = {
-+			.stream_name = "INT0 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
-+				 SNDRV_PCM_RATE_192000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     192000,
-+		},
-+		.id = INT0_MI2S_RX,
-+		.name = "INT0_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT0 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT0_MI2S_TX,
-+		.name = "INT0_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "INT1 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT1_MI2S_RX,
-+		.name = "INT1_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT1 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT1_MI2S_TX,
-+		.name = "INT1_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "INT2 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT2_MI2S_RX,
-+		.name = "INT2_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT2 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT2_MI2S_TX,
-+		.name = "INT2_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "INT3 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT3_MI2S_RX,
-+		.name = "INT3_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT3 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT3_MI2S_TX,
-+		.name = "INT3_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "INT4 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
-+				 SNDRV_PCM_RATE_192000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     192000,
-+		},
-+		.id = INT4_MI2S_RX,
-+		.name = "INT4_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT4 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT4_MI2S_TX,
-+		.name = "INT4_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "INT5 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT5_MI2S_RX,
-+		.name = "INT5_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT5 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT5_MI2S_TX,
-+		.name = "INT5_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "INT6 MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S24_3LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT6_MI2S_RX,
-+		.name = "INT6_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "INT6 MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				 SNDRV_PCM_RATE_48000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     48000,
-+		},
-+		.id = INT6_MI2S_TX,
-+		.name = "INT6_MI2S_TX",
-+	},
- };
- 
- int q6dsp_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
-@@ -636,6 +835,7 @@ struct snd_soc_dai_driver *q6dsp_audio_ports_set_config(struct device *dev,
- 			break;
- 		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
- 		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
-+		case INT0_MI2S_RX ... INT6_MI2S_TX:
- 			q6dsp_audio_fe_dais[i].ops = cfg->q6i2s_ops;
- 			break;
- 		case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
--- 
-2.53.0
+The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
 
+  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git tags/firewire-updates-7.0
+
+for you to fetch changes up to 6b617317e5bc95e9962a712314ae0c4b7a4d5cc3:
+
+  ALSA: firewire: remove PCM buffer size constraint from isoc context header (2026-01-18 17:18:48 +0900)
+
+----------------------------------------------------------------
+firewire updates for v7.0
+
+This update includes the following changes.
+
+ - Refactor page allocation dedicated to 1394 OHCI IR/IT/AR DMA contexts
+
+   Although 1394 OHCI specification does not impose any restriction on
+   the memory size dedicated to these DMA contexts, 1394 OHCI PCI driver
+   allocates pages for convenience when mapping them into either kernel
+   space or userspace VMA. The driver previously used dma_alloc_pages()
+   for both page allocation and mapping creation, even though this kernel
+   API is rarely used. Following discussions questioning the page-oriented
+   kernel API in the DMA layer, the driver has been refactored to avoid
+   using this API. In addition, the use of private members in the
+   allocated pages has been removed following long-standing concern.
+
+ - Allocate variable-sized buffer for isochronous context header
+
+   1394 OHCI PCI driver previously allocated a single page for isochronous
+   context header. As a result, the buffer size for the header was fixed
+   to PAGE_SIZE, which imposed a limitation on IEC 61883-1/6 packet
+   streaming engine. Consequently, the ALSA PCM devices provided by
+   drivers for audio and music units in IEEE 1394 bus were constrained in
+   the maximum size of buffer period (64 ms in most cases). This limitation
+   is resolved by dynamically allocating the header buffer with an
+   arbitrary size.
+
+----------------------------------------------------------------
+Takashi Sakamoto (18):
+      firewire: core: move private function declaration from public header to internal header
+      firewire: core: use mutex instead of spinlock for client isochronous context
+      firewire: core: code refactoring with cleanup function for isoc pages
+      firewire: core: use common kernel API to allocate and release a batch of pages
+      firewire: core: stop using page private to store DMA mapping address
+      firewire: ohci: use MAX macro to guarantee minimum count of pages for AR contexts
+      firewire: ohci: split page allocation from dma mapping
+      firewire: ohci: stop using page private to store DMA mapping address
+      firewire: ohci: fix index of pages for dma address to 1394 OHCI IT context
+      firewire: core: add function variants for isochronous context creation
+      firewire: ohci: refactor isoc single-channel state using a union
+      firewire: ohci: code refactoring to use union for isoc multiple channel state
+      firewire: ohci: use cleanup helper for isoc context header allocation
+      firewire: core: add flags member for isochronous context structure
+      firewire: ohci: allocate isoc context header by kvmalloc()
+      firewire: core: provide isoc header buffer size outside card driver
+      firewire: core: add fw_iso_context_create() variant with header storage size
+      ALSA: firewire: remove PCM buffer size constraint from isoc context header
+
+ drivers/firewire/core-card.c  |   4 +-
+ drivers/firewire/core-cdev.c  |  71 +++++--------
+ drivers/firewire/core-iso.c   | 102 +++++++++---------
+ drivers/firewire/core.h       |  14 ++-
+ drivers/firewire/ohci.c       | 234 ++++++++++++++++++++++++------------------
+ include/linux/firewire.h      |  36 +++++--
+ sound/firewire/amdtp-stream.c |  31 ++----
+ 7 files changed, 266 insertions(+), 226 deletions(-)
