@@ -1,63 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CEB36BCFA;
-	Wed, 11 Feb 2026 20:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF9035CBB6;
+	Wed, 11 Feb 2026 21:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770841723; cv=none; b=ovtCL3Z34gq3KE4gIors1+AkDHQteyAE6OuqJebtx0vrIvUseUvqlpcxwHIRCOHgEz22pDBC4gIVQumcPIRRKiQTDiry+6hHO1E1h77qilquQWRT8UVm9zPJ5bgq6VJKeN/yCmKySaieG1lE1HltZcJER6rJU4xIfEgfmkaUHz8=
+	t=1770844411; cv=none; b=R85U3WbzKC9rpEdlj/QxF602Jigbz/wd2agJbg1ouVWd60FPS36LpjkgggrZQ6QjQguaDpf1JS/wDNwv5uA01YdBH17LsUQXkK/HsCJzdi6o0PQVEuDXgnyI4cikjZqIAeE5Fo7xLtoNlPwYAIsYfcOp5ZeVVtalF0IELPn+lrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770841723; c=relaxed/simple;
-	bh=2TIMPOxIAMHbDjfMd1taW694oi5no6OzNC0DFfGhElQ=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ekR4cczZkpRp4w0lSR+3Ss7xYYFSNPHDBY55rk9L67p24llRyTAppX2LgEMF4UB2T5SsdPg6RnjBJApvzfmS8pE4R1XkJyn331+p1bplx/HbnjmquK/ga0hIWF2DRnamuqvzE0+xiaSiV94r7GmL/aXwhFP3x8jAxU8mm3JC2rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIiTvfRN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770844411; c=relaxed/simple;
+	bh=elREHuzud4aN187FLQs9JvA1JdI3V1NW13W5rgg4Kyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=su0xuVs7B/BTFFAeWWdwOrNhVqtpnJcF/7ey5fqCkRCXNYSyTmIycoexdI+YaQ0IguGpwPF6tSOJiozdAV/7noEwdgPV4kG+G5/X/GHPFQ1QqBqniVEespqHg2a62NjYdMjs/DevLe3sSjO2I1cL3OuTwnUEoZ4PCODOt9XxqMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cjvvDZUB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIiTvfRN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A1AC19424;
-	Wed, 11 Feb 2026 20:28:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cjvvDZUB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 982D5C4CEF7;
+	Wed, 11 Feb 2026 21:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770841723;
-	bh=2TIMPOxIAMHbDjfMd1taW694oi5no6OzNC0DFfGhElQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=gIiTvfRNqi55BOYZmluewv+ECWGQbRakrPnQU2/f2QtlPdpK/np8U4nHguiSNR6py
-	 BLXiqkwXfxaxEfmprcLwt3eVi62S5cW8ZnX9gpm7nFSqQxRXMPKMrDVlOtN8+w5Htn
-	 WwoenB6vaoJpHqjYCzO17UAATfJofcYgU7Ue1vGPi6+qQCI82sUgjfTS+bCgHAH/KL
-	 IBqVi2yPmbqq01om+npQXVjRHWVGeQKGK7eVpVWKyp6PpKHyf1jViOjIo4iwTrRo0H
-	 3w+FNlgLs4St7zFPiDbkucYV+Kyi3me1eML2o1LFUY7e3u7tdD80Pu2JkO/6xQb8qm
-	 2T6kV59+Pllyw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 0C63F39EF964;
-	Wed, 11 Feb 2026 20:28:39 +0000 (UTC)
-Subject: Re: [GIT PULL] firewire updates for 7.0-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260211052845.GA155338@workstation.local>
-References: <20260211052845.GA155338@workstation.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260211052845.GA155338@workstation.local>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git tags/firewire-updates-7.0
-X-PR-Tracked-Commit-Id: 6b617317e5bc95e9962a712314ae0c4b7a4d5cc3
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0d6dd4738dbcc32b60c0c0c1388d41e171b76845
-Message-Id: <177084171766.710910.2907457953327595894.pr-tracker-bot@kernel.org>
-Date: Wed, 11 Feb 2026 20:28:37 +0000
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: torvalds@linux-foundation.org, linux-kernel@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, jens.wiklander@linaro.org, jgg@nvidia.com
+	s=k20201202; t=1770844410;
+	bh=elREHuzud4aN187FLQs9JvA1JdI3V1NW13W5rgg4Kyc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cjvvDZUBmHRBg6WwgZJqPoDEmcAq12mjfKiODxsFuV4ztoq93P8EddciiIh55MP/g
+	 +vs7/5B55vaPzo7Aw9nwAwo5mXk5vFkqmbRaTDtLyj7qJuyfVykvm96ySM6vgRGNM+
+	 0Mc35RlhQLAyPQn4Aan0WV0NY/XKyVMI01aYKQarK8Oy+FEWmH8OR1sA/DMuaHHznA
+	 DQRUgWP8CieAD7+lNXEqrUUyoVNI/68ygGk4WZnaeS7aLnuskOOmDev8R9DixiPePJ
+	 9YqYQMHUIVqCg66c+li1lSyZiHUpdIHPZ7HDoCY4TsPXsybGeTdvudOAgJe0HV1QnR
+	 8m4mUeZ36CZ1g==
+Date: Wed, 11 Feb 2026 15:13:29 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: devicetree@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	linux-tegra@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	linux-kernel@vger.kernel.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH v2 5/5] ASoC: dt-bindings: nvidia,tegra-audio-max9808x:
+ document additional board pins
+Message-ID: <177084440873.3909872.156538446557882874.robh@kernel.org>
+References: <20260206173423.145954-1-clamor95@gmail.com>
+ <20260206173423.145954-6-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206173423.145954-6-clamor95@gmail.com>
 
-The pull request you sent on Wed, 11 Feb 2026 14:28:45 +0900:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git tags/firewire-updates-7.0
+On Fri, 06 Feb 2026 19:34:22 +0200, Svyatoslav Ryhel wrote:
+> Document additional board pins that may be used in routing.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../bindings/sound/nvidia,tegra-audio-max9808x.yaml          | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0d6dd4738dbcc32b60c0c0c1388d41e171b76845
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
