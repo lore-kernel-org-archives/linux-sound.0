@@ -1,60 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685FC36B07B;
-	Wed, 11 Feb 2026 20:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CEB36BCFA;
+	Wed, 11 Feb 2026 20:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770841721; cv=none; b=qMBX8tzDSoGLl9TYo1ILzotZMTI+gvP/+NRGsiVsLNecdaFjkql/F2jwj5aVTG+Ii4Cl/8Zy+fe+HXHhuwk+s5lz2AD41s7hhk6OUQF6Da23iYnLcWXPacgommX7Rhu9DCwiWkOcW3Oa/qQuTFNudm2M3YEc2b8vafj8AxOI1VQ=
+	t=1770841723; cv=none; b=ovtCL3Z34gq3KE4gIors1+AkDHQteyAE6OuqJebtx0vrIvUseUvqlpcxwHIRCOHgEz22pDBC4gIVQumcPIRRKiQTDiry+6hHO1E1h77qilquQWRT8UVm9zPJ5bgq6VJKeN/yCmKySaieG1lE1HltZcJER6rJU4xIfEgfmkaUHz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770841721; c=relaxed/simple;
-	bh=Ou6BdmLGIrZ9bX04vPkSkiX3x1ZE+QJug34tDXYtmck=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=UXzjs7SCm2syu9qu1D/bQUjMz4O8SFBfDrjkptBpQ3/sl+WLlt7Jg2SoxIbM4O4Ertl6Tt90XT46Dr1TCb+KNje7tzfpmlKy7E9qZMyLOexXcnUOFWNv62tyFBvIQVAg7FX3qyV9Pvgi7xENFOboIIRuJnIJsxjJ0Wh9PabR9WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNqY0ECu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770841723; c=relaxed/simple;
+	bh=2TIMPOxIAMHbDjfMd1taW694oi5no6OzNC0DFfGhElQ=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ekR4cczZkpRp4w0lSR+3Ss7xYYFSNPHDBY55rk9L67p24llRyTAppX2LgEMF4UB2T5SsdPg6RnjBJApvzfmS8pE4R1XkJyn331+p1bplx/HbnjmquK/ga0hIWF2DRnamuqvzE0+xiaSiV94r7GmL/aXwhFP3x8jAxU8mm3JC2rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIiTvfRN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FNqY0ECu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46CBFC19425;
-	Wed, 11 Feb 2026 20:28:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIiTvfRN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A1AC19424;
+	Wed, 11 Feb 2026 20:28:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770841721;
-	bh=Ou6BdmLGIrZ9bX04vPkSkiX3x1ZE+QJug34tDXYtmck=;
+	s=k20201202; t=1770841723;
+	bh=2TIMPOxIAMHbDjfMd1taW694oi5no6OzNC0DFfGhElQ=;
 	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=FNqY0ECuI7XQLuRmBgf4SitssPBkPwSLKouhtGmDr0OHoOR5ggHX5NOuz0WKex//u
-	 wuoZ5hJKmO2nmlNwvMtz3NvXUWpXhSP9m5DxbOh1aiCtFEYshkac2tkMAUOFr2kKDr
-	 k8zqtf2EyDhqylzoOriYmoFEggBEJ0U/dInYP1PjWK4o9odvW6W9By8Bd4BXP/41+D
-	 WZSrKpDMJVpsLzNOfN3DM6zT8z/yxaAnk4hwoW64oYJpoQ1NdK7wuzgg5w5SIwPUvm
-	 H6+mLLmO6tYpNOjRzAonPIfaZ5r6hLukpG8F5HrZ4+ZB+l2yHPUT+pS+GRVQVNynfA
-	 t3L9v52b5Y9zQ==
+	b=gIiTvfRNqi55BOYZmluewv+ECWGQbRakrPnQU2/f2QtlPdpK/np8U4nHguiSNR6py
+	 BLXiqkwXfxaxEfmprcLwt3eVi62S5cW8ZnX9gpm7nFSqQxRXMPKMrDVlOtN8+w5Htn
+	 WwoenB6vaoJpHqjYCzO17UAATfJofcYgU7Ue1vGPi6+qQCI82sUgjfTS+bCgHAH/KL
+	 IBqVi2yPmbqq01om+npQXVjRHWVGeQKGK7eVpVWKyp6PpKHyf1jViOjIo4iwTrRo0H
+	 3w+FNlgLs4St7zFPiDbkucYV+Kyi3me1eML2o1LFUY7e3u7tdD80Pu2JkO/6xQb8qm
+	 2T6kV59+Pllyw==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 4817A39EF964;
-	Wed, 11 Feb 2026 20:28:37 +0000 (UTC)
-Subject: Re: Re: [GIT PULL] sound updates for 7.0-rc1
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 0C63F39EF964;
+	Wed, 11 Feb 2026 20:28:39 +0000 (UTC)
+Subject: Re: [GIT PULL] firewire updates for 7.0-rc1
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <87seb8hal7.wl-tiwai@suse.de>
-References: <87tsvohaxx.wl-tiwai@suse.de> <87seb8hal7.wl-tiwai@suse.de>
+In-Reply-To: <20260211052845.GA155338@workstation.local>
+References: <20260211052845.GA155338@workstation.local>
 X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87seb8hal7.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc1
-X-PR-Tracked-Commit-Id: dd03dd60e8cdd5ef0f0cbc18276c45009bcc51f4
+X-PR-Tracked-Message-Id: <20260211052845.GA155338@workstation.local>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git tags/firewire-updates-7.0
+X-PR-Tracked-Commit-Id: 6b617317e5bc95e9962a712314ae0c4b7a4d5cc3
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d061251387903e8502843ac983553f0b2e098ef8
-Message-Id: <177084171576.710910.1420725889507497204.pr-tracker-bot@kernel.org>
-Date: Wed, 11 Feb 2026 20:28:35 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-PR-Merge-Commit-Id: 0d6dd4738dbcc32b60c0c0c1388d41e171b76845
+Message-Id: <177084171766.710910.2907457953327595894.pr-tracker-bot@kernel.org>
+Date: Wed, 11 Feb 2026 20:28:37 +0000
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: torvalds@linux-foundation.org, linux-kernel@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-sound@vger.kernel.org, jens.wiklander@linaro.org, jgg@nvidia.com
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Tue, 10 Feb 2026 16:39:16 +0100:
+The pull request you sent on Wed, 11 Feb 2026 14:28:45 +0900:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc1
+> git://git.kernel.org/pub/scm/linux/kernel/git/ieee1394/linux1394.git tags/firewire-updates-7.0
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d061251387903e8502843ac983553f0b2e098ef8
+https://git.kernel.org/torvalds/c/0d6dd4738dbcc32b60c0c0c1388d41e171b76845
 
 Thank you!
 
