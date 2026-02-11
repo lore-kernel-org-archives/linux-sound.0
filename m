@@ -1,81 +1,87 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013048.outbound.protection.outlook.com [40.93.201.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211FB33FE06;
-	Wed, 11 Feb 2026 03:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770779416; cv=fail; b=snE0lblbu/r0G6BpJ1zRwww+Q+avz2hE58spa3gG7YMc1QzmxJ9B/zNh1XIc2Iz0/EvbTRXzaCuUOPQP8cGwVKrXHZUttIzXm6gD6+8gRKdwtFqlM/O/diIDko0AvGt63Z445bTdr/SxaN2qiQkiVKYHt42OMLWLfBUNGISH5Uk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770779416; c=relaxed/simple;
-	bh=F4cT2cDpQYmIp9uDSPogd72ieMzLzj8uVxdLYXyEwQU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bki4FJhDVqHk0MgQMqKu4rs0/rPyeI63/ElqN1qIIkHtOUvGwnZBFZ6X6om20bqrX3ZlkyBT6Znh4dgDn6wsJ6gnbFobZhiyeMqy+9xZnLDT8YOtbBV1/DuhUUATxG4AOuxe8BZPgCZDPYnN3g+G+WDJ6r9GcClO9MCGKenNvCo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=wgXNEERw; arc=fail smtp.client-ip=40.93.201.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6344934FF62
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 03:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.196
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770782096; cv=none; b=MMC414T2EwYonjxH/H5zMMDlU0Tm7w/fbvEgiQAFx9IYBaTVWCnAy4bm908xSfC4kgtoL553JrxWJ76DakZzzgrh/4E1c06QE2K320YoNT1gWaROiWx0LcOg3acSVrZWFurEkcbMq7g82aIXiGuUhEctPK3NGLdVHJYRLwCfVmU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770782096; c=relaxed/simple;
+	bh=P5kLVST21mq0WXtrvYwRskLpaUtwd4R/FfjlYu/PcQM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NAOX1uf95g5B4ay4Wum8rN6FrbGNkFxikJ7LfiWxqAH3MHj48UNaGfzCD9mV5TzpykkWhxgCXz5ih2lGrRTfPvyOgM+g9fKYsNZFyo+o31024QjFDR2Auf23rrPuqIeb9uqgGeuA7/5K6qr8fjQEGj3l5r58sYQHspPNsYRjT+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cq60VWuL; arc=none smtp.client-ip=209.85.167.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="wgXNEERw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jVcCqWggLvvXGL73a8pFFJmPXYKEs26Eesje0tdoted+fm2cnX/Cv12ss96MM312n/8faY4umKNNAY2v7Slx2wWsMaYmOPriHV6GdFJXoEG0OcsTFQPRbfK5lTW6n0NWOfA+qFlkqsvCuZZWuDrQzOMG4nmFGus+dmpypDW7yb820K3uApyuRzvb5yLVJUsdfq0kNf+JjR8Sh8y/Jtu/gdWTPp3KYqFr2/WiP5TgbFQaYdkq4qFUI3nPAnb5MeujSToc61kneEC5U31wrs5e2j2q3kycSWqJCADmeyPHbFL5P0b3vJuDFCcsa2DFWsGRthZz8kfRsz8M+V+M2x2thQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EpUP8L2xhj6l0nmm8XQ0GyP25fssvq1KZAgBcsqhTsU=;
- b=G5BnXEI1DXhhXt6Kf7JZtA0E7mXO4tMXcF8g2wjGDlyo/XGO8EXzkUbOgASP5XPz8a0eh/bAMB56tkjvblQZZuoqrFu2o18ch8La3zeW8n1Ay/5Fj1qGn5EzZGZoWIYwXb6Uw67xGSVISLkkftOEzdzxRwFVZF2QEiRN2iOSrMKHpTwI4WcSrrhqpLPVk/PiWqcWP5dhJ2YUVvSOQcW+PIi8G9rj6ggT6cQxJzSeXO0KI3faM3G9jDqw/LcW3yz40IKR7xTNDeynQWI6pdPl817jtUJhEJQae8H5Tm5wMJ/YKpLyySTT6kVVA/NOZvDkksO3XRedkIUrD3KZSEgv3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=canonical.com smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EpUP8L2xhj6l0nmm8XQ0GyP25fssvq1KZAgBcsqhTsU=;
- b=wgXNEERwh6NfQ0ptuWcwikD5ZbUm5VZYyxQi1UAzZ6eBjt/CBtBmbw0a8Egux4+pfgFDdpydrR3PplLpqa49hlfnusSEeQcw8AHthrqLqxtoEM6rlskn5RqDvg8YK2+6BUAYCFQ4yGhFCNxlpCFHJeboF1m4IskfiLHqJxcwqZI=
-Received: from SJ0PR05CA0055.namprd05.prod.outlook.com (2603:10b6:a03:33f::30)
- by IA3PR10MB8758.namprd10.prod.outlook.com (2603:10b6:208:579::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Wed, 11 Feb
- 2026 03:10:12 +0000
-Received: from MWH0EPF000971E9.namprd02.prod.outlook.com
- (2603:10b6:a03:33f:cafe::23) by SJ0PR05CA0055.outlook.office365.com
- (2603:10b6:a03:33f::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9611.6 via Frontend Transport; Wed,
- 11 Feb 2026 03:10:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- MWH0EPF000971E9.mail.protection.outlook.com (10.167.243.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9611.8 via Frontend Transport; Wed, 11 Feb 2026 03:10:11 +0000
-Received: from DLEE208.ent.ti.com (157.170.170.97) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 10 Feb
- 2026 21:10:10 -0600
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 10 Feb
- 2026 21:10:10 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 10 Feb 2026 21:10:10 -0600
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61B3A5vi893642;
-	Tue, 10 Feb 2026 21:10:05 -0600
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>, <hansg@kernel.org>
-CC: <ilpo.jarvinen@linux.intel.com>, <broonie@kernel.org>,
-	<andriy.shevchenko@linux.intel.com>, <shenghao-ding@ti.com>,
-	<13916275206@139.com>, <platform-driver-x86@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<baojun.xu@ti.com>, <letitia.tsai@hp.com>, <bill.yu@canonical.com>
-Subject: [PATCH v2] ALSA: hda/tas2781: Ignore reset check for SPI device
-Date: Wed, 11 Feb 2026 11:09:46 +0800
-Message-ID: <20260211030946.2330-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cq60VWuL"
+Received: by mail-oi1-f196.google.com with SMTP id 5614622812f47-45f004e7d71so337955b6e.1
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 19:54:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770782094; x=1771386894; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WsTdfccGqb1uJ0g1iA5avj4gtZCqVvJmBjk0T3KnHAo=;
+        b=Cq60VWuLGlQVI2wRx3T9kYOhpfA6Ag71++WoU1kamkdAZeQMMjwa+gBpeU3P9aMDS4
+         duj1qweOOqfesr7wfLQV8UIV0ysWwLxg3XGt/SERQar76YfhWnzdz4VO+2JgiJIsg++o
+         4Bm9rsncgB/t6Mv8zyGgL1L4NO7LQu0EmIUX11wMC2RPGflH+01vX2gILcE+x9Wth/sk
+         T7DvftbYFBADSZ3sJindnhJkiJWTeVtdScE1IgfCVv89ZBB7pkH3t6XTqDXWCwCyrblw
+         Vm5z98BIFj88KWeOcOzjvVvXNs4kOJL7bvui+BCRvfUmS1SEbkeXUJ3qOXvwBua6+WIV
+         +tMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770782094; x=1771386894;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WsTdfccGqb1uJ0g1iA5avj4gtZCqVvJmBjk0T3KnHAo=;
+        b=qvhWsWZNoZeMGpld2fkOyp2eBKNl5A+TO1zg7NwtwvBrp0TSSTeUa/PEHCtxl/B6Zh
+         amGxDcmR+FIC8oCO+tP2eZ+KPahhUojtpgH92JsgVQruC8D0GeMvd93HipK+OALGyBUH
+         T2y24i3SSduie0NKTGoAXGUVsjyQBopovtIiJNQyV7D/CwUfZLT9A5b0JzqkO83Rn5x4
+         agddAdFaVIUyNqMgghn6dCg6CTNjRNRaDzEEcbLMBE68s7Vb3dDW7nneefsciJsjQwi2
+         uxFNo6zF0tCmK2d3SjT2V7JTCSCAWT53UMEXwCzHlLFBWp8M7gTa+H4//2ShSKdyMbK2
+         dhfA==
+X-Forwarded-Encrypted: i=1; AJvYcCVb0E2UhQR347taalhMeel9nGvLIDeC7eokXL1zgUikJvY2JU0YG1LxP3r05GiF9TtX2LlsRCfw5Js/Cg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykvRKmPm3apAWqU8JbQjoZid52NrGXNyP31fnIpfs0DOOfc1Xw
+	MhZ2sfXhucA95Xyl8kXrNDX4XTniJOLkVKGHTzBdE+2LhaeCusjOpZdyz/btr61N
+X-Gm-Gg: AZuq6aLr3ORw1yCdE2Qa0fVhsIOWYRKf0azNfZJCSK9bpge2nsTn+DmQGcKwcqqQvFN
+	xi7+Rpn34gKiPglr+FgESSPs0AF90kSo+a8B+D6eGRwg6dbmRPpznVzDVWYvej9Xkp8uBxz3vxr
+	dLwHeZrHKkluW+Ld+aosSXeRsn8rgUYxb0BXA8ctFmzb8PtBPP59DYafpZsIaGeuLaE3TBZQV0v
+	slODpyyV8Prpq10y0WiQlO2L9wiG+DUGnZ2hvgYAAaPJwkU+9RMtZ5KEiX2YqeaIiLFnt0LgU+I
+	H5SFrt087xsatvIEr1+qJ8npH4tEjTGY91DDg01R1tNEQCtY9QGbsF9olgRyRZ0YKN2vY18dOrB
+	nqcvGXseKV6TUUwNiKENGExk1tLhNmM/nh2o8CP8JxVAo40V56Vkbbdd9r1Pp3vRYWYLQm+P77n
+	X8H6ibC60WqkdDxgKSZiySM4flwQ==
+X-Received: by 2002:a05:622a:1353:b0:4f1:e79a:1e0 with SMTP id d75a77b69052e-50672e0c220mr51930831cf.20.1770775386125;
+        Tue, 10 Feb 2026 18:03:06 -0800 (PST)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50684b6b220sm1673851cf.18.2026.02.10.18.03.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 18:03:05 -0800 (PST)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Johan Hovold <johan@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Nickolay Goppen <setotau@mainlining.org>,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH 05/10] ASoC: qdsp6: q6dsp-lpass-ports: add internal mi2s support
+Date: Tue, 10 Feb 2026 21:02:57 -0500
+Message-ID: <20260211020302.2674-6-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260211020302.2674-1-mailingradian@gmail.com>
+References: <20260211020302.2674-1-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,115 +89,234 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E9:EE_|IA3PR10MB8758:EE_
-X-MS-Office365-Filtering-Correlation-Id: b643cc60-cd52-4bbe-d5d6-08de691b1191
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+pZRVdRnyCy3drUNTJRQWQSvima9vK4o/QIW22qRl8DvmH1YTuIHlUHsSXEI?=
- =?us-ascii?Q?lf+GBIsQJV9HPrpOpiIT9Ux1vWn0CvOYNSbb0vS8pyeqIYLx6OPpicWFw9CJ?=
- =?us-ascii?Q?G0kULoPVLviHOze67WAhJW0Uvjbd3HeKkz/O+mBj6L0PGBjjqe5a3SEyH8LJ?=
- =?us-ascii?Q?FBCAe7iiSiTnCIXlq/x8ifD86awb4IB9nlzxFBK8VSZ4Z7PZ5zbSdlXCVs5u?=
- =?us-ascii?Q?SRKDijmB0RScAOJErHf8jZVky9jJa4a1z/O1KRIj0s4d0i1cHHpCBUNI4Xof?=
- =?us-ascii?Q?q4WY3dK29AWV2fuvntjloEl3QD34TFzX+GB1lDtnkvMWhG6Q4AYeAGx1tD06?=
- =?us-ascii?Q?tMObu3H3ZxhT179CIAQTii9Pf8mpoyWlmiAwru4NPxNSMvJO5THgUqPakpHS?=
- =?us-ascii?Q?CkVvvZdiZ8Dugb1fSsh6+XJuDRAwzIuX8WJurOhNuyegW/iJxvHYNsbrFcyI?=
- =?us-ascii?Q?oNLjsyaVexBWoAEKDGSYirJXp07PYsdJs0TbKMcAe40NoXFtZE55Gf1dNM/+?=
- =?us-ascii?Q?SB2DDmZ6MAqBea/XXg7jkH+zH1tRNv3iWICHNTKz86kFuWtNAhwKBWI1lFRH?=
- =?us-ascii?Q?/K6y/JzPp0uamDGzWeLFj8EDF2sndscmPHnJM7A5n/jgfgZLTbW+hp5Sa0Vi?=
- =?us-ascii?Q?LKhd/sS6YZpq4nc49meh2sWYGDkm/YkXilADKC2W9TPwWaLkGyWaRdHui/CS?=
- =?us-ascii?Q?hk8NxnReFTbjZGHKg4CT7BOg/3IM5osEIFyd1UuwJHZg2oiMm1jC8Or6wJBq?=
- =?us-ascii?Q?/Qlv0Ij1T+MDxsfl9ctj3h2XggQNjwX5LkHSb6BqVwyIA4e2WnyPpz7Gfbap?=
- =?us-ascii?Q?X3jEz3YR5xhLY0Qgi0fnBoZtzf+jwzJvHnMhNcj+s9Eeh6R3NQUSNFzkIgFT?=
- =?us-ascii?Q?vU1eVT3hzfIkeH6On2vXpLiaRECEvKV7RUAFbsrgWpFVA0E0Rhx7URk1UEiE?=
- =?us-ascii?Q?11KXK4GZ1yY3qVUr6SdfVFpxVxUTtsbIdLagWSUQlklVZb0uKr5wVXb/zGvH?=
- =?us-ascii?Q?F3T3NaQUhqGJuP4eYsUCjGVtyRsKuijkR9L3XzTfiIrIz75utsVeziIeBvGp?=
- =?us-ascii?Q?OaH0QWysBGVn+ye4xUSy7sdINpTrWHhEwbKnFpuWbc2t+qc58VoVoyj9MoBT?=
- =?us-ascii?Q?bsc7sxCae07QBtT2FcKGaWrczbbFrbSYVXg+5fUeQ7PlAVoeg9Ksy/HJC/VX?=
- =?us-ascii?Q?S2TZj/1wLqJuiVL0+nulhLsYCTIu8JSrTmO/w4zvYA4JniiqzC5FEJj6VnPC?=
- =?us-ascii?Q?Itrh7kh51Va1gDkz0S2wrPPp+CDRHz6oqSwDhRCDFL7b1Ca22vaHApVfAAmC?=
- =?us-ascii?Q?WXojCfC7p9C55NOrZ2n+GSmBXNQUVYNUj6zhqZ+YfYhXsQ0pJ11r7+jsxir9?=
- =?us-ascii?Q?pvgSYMgaBoHgDIgsIqt1hwli2mLYc/T+yD37Bfk+iTQ6J1GY5c/2zJlg3bRS?=
- =?us-ascii?Q?epZceZZYSRqsFo8ELNNRcOwfhLNvXj6kJRlkNtvMt8/RQe5B4wRjQD4kji6Y?=
- =?us-ascii?Q?0TNY369kvuPdeBV82Sr94fdYDPEC+LNGQdilCTPVfqKKp2voPFbkc2OofSHi?=
- =?us-ascii?Q?/QAhalFxQi+3s3eJveH6dJT5k5vgO2Ak/KqCq4Ku61D2ZrrKVtic2oxXXpmj?=
- =?us-ascii?Q?/FPtosHHg3I7e1CfE6JC4gNT84tp7/mN9kVcTLXY2/zwJpieIRO6pmcg7LM/?=
- =?us-ascii?Q?fn6FMA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	X3OylGUbms3d4iRJnoT7kqHUswRGl+3EmIWkJfakELvRgQ0U6w8sTcGvvUGa9CUH6Bapt909vRdFeyzqriKeBsrO9zRAZpzhgu6s874a+H9Ci73jdt4QpKThTiskGZXECj/uZIiN2CCl2EEThiSO68mxWtuhy8ekQioQHaLSfPp87vl6Qx1EvXp94tcnvP3ap3Asckg7iLk+b3QSj1IUVMhic+TLp/iEjuLyg+UHTRfYvE9+UUUkmdkkp1SsZH84TSgbhVTuz7T3a0nI64540K3hIW4DcmBAyeFrAoUqJUPKI/MlENbaimJA4zlYvjwRt3vybtFsuF7uuKC9TlpafABIsdoScDZ1O2CrXUnxtKsXgLGg5PFQiEt3zFRedvfX2r3MSKPR/7Rf2B3lVQhV9nG0cciO3xCnz28XY3s8KZeuaeaQ+OVJ3NqkruQ/Ri4b
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2026 03:10:11.1604
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b643cc60-cd52-4bbe-d5d6-08de691b1191
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000971E9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8758
 
-In the SPI driver probe, the device should be in the default state, so the
-device status check is not necessary. It should be forced to do the
-firmware download as I2C device.
+Add the internal MI2S stream capabilities as specified by the audio
+kernel modules and configure the ports as MI2S ports.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+Link: https://android.googlesource.com/kernel/msm-extra/+/530cffa4cc977a348753831b163eb9d3302b954a/asoc/msm-dai-q6-v2.c#4597
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
-v2:
- - No update, re-send.
----
- .../hda/codecs/side-codecs/tas2781_hda_spi.c  | 20 +++++++------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 200 +++++++++++++++++++++++
+ 1 file changed, 200 insertions(+)
 
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-index 0c9b57b6ff55..f860e0eb7602 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-@@ -631,7 +631,7 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
- 	struct tasdevice_priv *tas_priv = context;
- 	struct tas2781_hda *tas_hda = dev_get_drvdata(tas_priv->dev);
- 	struct hda_codec *codec = tas_priv->codec;
--	int ret, val;
-+	int ret;
+diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
+index 4eed54b071a5..fc79934fc1bf 100644
+--- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
++++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
+@@ -594,6 +594,205 @@ static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
+ 	Q6AFE_CDC_DMA_TX_DAI(TX_CODEC_DMA_TX_5),
+ 	Q6AFE_CDC_DMA_RX_DAI(RX_CODEC_DMA_RX_6),
+ 	Q6AFE_CDC_DMA_RX_DAI(RX_CODEC_DMA_RX_7),
++	{
++		.playback = {
++			.stream_name = "INT0 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
++				 SNDRV_PCM_RATE_192000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     192000,
++		},
++		.id = INT0_MI2S_RX,
++		.name = "INT0_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT0 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT0_MI2S_TX,
++		.name = "INT0_MI2S_TX",
++	}, {
++		.playback = {
++			.stream_name = "INT1 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT1_MI2S_RX,
++		.name = "INT1_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT1 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT1_MI2S_TX,
++		.name = "INT1_MI2S_TX",
++	}, {
++		.playback = {
++			.stream_name = "INT2 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT2_MI2S_RX,
++		.name = "INT2_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT2 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT2_MI2S_TX,
++		.name = "INT2_MI2S_TX",
++	}, {
++		.playback = {
++			.stream_name = "INT3 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT3_MI2S_RX,
++		.name = "INT3_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT3 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT3_MI2S_TX,
++		.name = "INT3_MI2S_TX",
++	}, {
++		.playback = {
++			.stream_name = "INT4 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
++				 SNDRV_PCM_RATE_192000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     192000,
++		},
++		.id = INT4_MI2S_RX,
++		.name = "INT4_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT4 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT4_MI2S_TX,
++		.name = "INT4_MI2S_TX",
++	}, {
++		.playback = {
++			.stream_name = "INT5 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT5_MI2S_RX,
++		.name = "INT5_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT5 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT5_MI2S_TX,
++		.name = "INT5_MI2S_TX",
++	}, {
++		.playback = {
++			.stream_name = "INT6 MI2S Playback",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE |
++				   SNDRV_PCM_FMTBIT_S24_LE |
++				   SNDRV_PCM_FMTBIT_S24_3LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT6_MI2S_RX,
++		.name = "INT6_MI2S_RX",
++	}, {
++		.capture = {
++			.stream_name = "INT6 MI2S Capture",
++			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
++				 SNDRV_PCM_RATE_48000,
++			.formats = SNDRV_PCM_FMTBIT_S16_LE,
++			.channels_min = 1,
++			.channels_max = 8,
++			.rate_min =     8000,
++			.rate_max =     48000,
++		},
++		.id = INT6_MI2S_TX,
++		.name = "INT6_MI2S_TX",
++	},
+ };
  
- 	guard(pm_runtime_active_auto)(tas_priv->dev);
- 	guard(mutex)(&tas_priv->codec_lock);
-@@ -670,20 +670,14 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
- 	tas_priv->rcabin.profile_cfg_id = 0;
- 
- 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
--	ret = tasdevice_spi_dev_read(tas_priv, tas_priv->index,
--		TAS2781_REG_CLK_CONFIG, &val);
--	if (ret < 0)
--		goto out;
- 
--	if (val == TAS2781_REG_CLK_CONFIG_RESET) {
--		ret = tasdevice_prmg_load(tas_priv, 0);
--		if (ret < 0) {
--			dev_err(tas_priv->dev, "FW download failed = %d\n",
--				ret);
--			goto out;
--		}
--		tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
-+	ret = tasdevice_prmg_load(tas_priv, 0);
-+	if (ret < 0) {
-+		dev_err(tas_priv->dev, "FW download failed = %d\n", ret);
-+		goto out;
- 	}
-+	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
-+
- 	if (tas_priv->fmw->nr_programs > 0)
- 		tas_priv->tasdevice[tas_priv->index].cur_prog = 0;
- 	if (tas_priv->fmw->nr_configurations > 0)
+ int q6dsp_audio_ports_of_xlate_dai_name(struct snd_soc_component *component,
+@@ -636,6 +835,7 @@ struct snd_soc_dai_driver *q6dsp_audio_ports_set_config(struct device *dev,
+ 			break;
+ 		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
+ 		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
++		case INT0_MI2S_RX ... INT6_MI2S_TX:
+ 			q6dsp_audio_fe_dais[i].ops = cfg->q6i2s_ops;
+ 			break;
+ 		case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
 -- 
-2.25.1
+2.53.0
 
