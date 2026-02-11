@@ -1,135 +1,128 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752DB369975
-	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 11:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770809397; cv=pass; b=nlxMUp/WgpVbazXqYF00AKcckNUKVrx5PuJLtXaadYG3mTbN+z42xMWJhCSX7sqNBniy949CK5wRKjmGXt0FDuGTN6NVuDIiuuYKzq8MUw4xxWbWUcUG0FYVa3T7Ub7ruJLL+8qMumC+tzuRPSIFqdHybuL1SrPRqqb+/FSMRSs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770809397; c=relaxed/simple;
-	bh=sLnOa71h29WYuZ9LNj9fnvGyP/4g4rt7bz1/6hf6FC0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RnCyCmr83+lQie4Fg/RDGiiY77sxPbd5QywjiNU4oKEkK8FkkVv4yFmuMjWrVyKHHbRCzEsQJUe9J7KFEwSrs+c+ms93qQu2li+3m7KsqpicgVYgYbqXaDvhvjZjxZFMUMRjdcw86urJx9lqYaJGRdH/ETlE2UfQwXhM7qzJ+n8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/x5kKtw; arc=pass smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEBF263F2D
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 11:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770809415; cv=none; b=bDcCbg4j+VUz3UC9SdNcJnrrpv9LOXrClTntfzAcfVXAnkAC/vxtJZy3KGC+WwEqnA9BXw54b8JEdoayfePwnIisAosBY0PlPyITOG2RqRCmKh8OECpsHrT6r3Q+AHT5ErSuWVAyRlVPUkbMt/5GQuVQeeo7/+P9ZqZyomJmSVA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770809415; c=relaxed/simple;
+	bh=JydT74Ik20zhf7j+53D/IEutWhUVbmqSkEHShdtGWkE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OL0U7dqrTjr73SL6ukXBDuzuwFtctRk+YMcnjeISLfA+bn1YNEm5Wxwb0TSLmddg/CrUvgl1gCoJklczyD34pae1a2vMQ6+/X3VHC7m453RqJr2QGqQ1tOhpY9W1d4O4KCUKq1+9tLTrvsFm4qNdpmOzhOmp99bLK4Se4tjgfok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=1yQOk0s0; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/x5kKtw"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a9057b2ec3so8884505ad.2
-        for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 03:29:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770809396; cv=none;
-        d=google.com; s=arc-20240605;
-        b=c55rHMHkF9pI+8/sGwZhcOICcWMInHz+QgHyDPsQGiZayzCWlyfF+4a1ioroPLzJtf
-         19vSJ56LoItwoTGfUp5l5fUnySim/TDZFvPzkFxnVSxaBOXKEfQMdF0iXnzDxPi4NRdz
-         EfxXT1Cr6hdwrW9v9DXmNCEvNxy4nWGbrooM7n55e4Wi1z5sKxmsEphMalzML3kyhnzv
-         SEYQ4Exrd2FnGt8AoyuQePUiyK/fShdOnvOj+kkLA7Q0273nfF459XPn8HPn7TbgpNdD
-         9uuJ+s/GWab2HeowVVECH3CQsSrJo0vInJhI9RAgoQXbeROIlzdRjrkrt683ef9ZYq2c
-         hVHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cMkh7cnzDv96CNvbeCbaRTyM6wLKZu/qXnz0rFwQJdY=;
-        fh=cl4AqUfPgvNYbSSExdfddsQEsZdyI01+KCSWtK9cDq4=;
-        b=T+RyiXdCK4WGGu4khZq08/1/t6fP9jTeMTNtxbc+yBHwPoMgbw49AU6GNZQKb+DPFc
-         31WEb03VitOT05PlQP4b79VghXLEimz7ufPW8UIBU8YmRoAgVVG9u5Km3KbIw1LbKo1Y
-         Z1Fr7GypVEYktT8v2yNHYzC4NaSFhbvXbibDuhwiEvne4EJQiGuZUROS2bFbZOEjhXyK
-         swoCmNjXqk1gwYOnkyZbu0N6x2eFd/cfORF4MbppG+WW3mITXLCWjdUbzGHqRgGMSwtJ
-         u8af9fEHCnj0pW2EOfME1hhZAQMWtCwtoIUzqe+w9KjWzURlj2SlR/1OT1mb04gJ7CJT
-         jpdA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="1yQOk0s0"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8d7f22d405so257418966b.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 03:30:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770809396; x=1771414196; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cMkh7cnzDv96CNvbeCbaRTyM6wLKZu/qXnz0rFwQJdY=;
-        b=K/x5kKtwqkbRsAOPp0C2IMLHa86pRws/mouUgEnLGFhShfaYL0V3et4nrOFf39sCsQ
-         lY30nML6mrjYliISKC/TYSumKvdIrtcwLn0YUkOV6BZHacUPeIjQQOAp+0Z/XomnAxbK
-         FfjyyUyPFOmxU/PZcgX0lTO37uwRAzx5IADd5VU8EM+jrI7eNRyGxsfTzTSGTwakppII
-         xKChENQBIti0bL59ZI6BxkcQeTEuGoImp90eoHUf4AQr1QK7RihWT7L0TCE0Hgd7yajQ
-         Sr6CzGtQd+kxCmBaWym8eqBu1Ox/wp7wOvlJv6GWKIMW0bqB0uBV4cYza8MnK/ZJWQQN
-         lOhA==
+        d=fairphone.com; s=fair; t=1770809412; x=1771414212; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l3tM0LL3TR4HqHxF8JKfN9gElsIHEa+EJ7h4mR4mWc8=;
+        b=1yQOk0s0I571PCVOY8cn8CfFb51cX70iuSkTYPEypWGdT6EhjtqeGg0uQXhPIXFtGi
+         0ARRd0uNQ+3VTcvCPxlbWU8OmzfLa1clpS2DhTEacDeOXjGhu4KaW4PEYPfh8ygCMSkb
+         J5TXK4vkIwJivsDhAyrpChSTwCiskgg3pwGnPamcjYwG81iEAmi5n8++/JfSxl6zYDAc
+         B5Nl4f9jdlwRXhCV4KsItg13bfFQGAUJ8IDAhG5GH22UFXwmM1GilFaDntFs0IjQxFce
+         8Vn8WhonmO1TmryDq/aadbaG4WxksadAmld6dzWz7zgcHrJBaJQaqYc7RJqlhLMne1RQ
+         j6Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770809396; x=1771414196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cMkh7cnzDv96CNvbeCbaRTyM6wLKZu/qXnz0rFwQJdY=;
-        b=CKHaVRbDn3lJDKsWgTCqgMRtrldwbWeIsMjGtZ6bLLBu6lzyBNNGgX/K7jLM/6cFis
-         tF01+9tld7Lf+R7uDxySBqoTUECragcaOJvAq4atSP2fWbiujQX51czLTeYqNZi7WimD
-         E7NfmmlovayTVwnLhu8mOrftCKb3qyB4+LTsA4Bg5WqOlL1IGmaXwz/9hqUIfX/ALTn7
-         RRdfEZ2OTkfQoIwk33DTs25U3BGmmIyujJp/PRoeXXpOZy6Nl5Ox/ig+RvVx15qQQiRb
-         A51mc+sAY+z+7GvabcMndDqjH0yGMkBGUHQMRRqH28zszTlUWtdFlzs5Cxt+OcfUFDnR
-         ooxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxE3tVpFD6mOHvmMtVK3IU7w7EEEhBGwgAQSAmyhaUisenQk4Kgs87kNBwcWGlXDbekeWRa6NJnHm7kg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzINFOHqhvIGV+jl1F7pH2S0lhEEH+aFCv8iMBC3gLky+ijz3Ni
-	zJRW3c1xbRNpKNG65YoF4ZKUyomSOGA6mAX7zGD0ILj+eJQzSoWelP8U4bSao6WpwgDNuB5hLvK
-	lJIvVUDfKlvDkhhO47JNvSRLqndV86Cs=
-X-Gm-Gg: AZuq6aK3eAiXm2RXRYqe9kCJnOI0XFMQjV0FwZ3HW0Wvr2pxfTRcNsRHu8GN1VBW8H2
-	AL5nhtKwWzTHPKICpevHDtmEBh5E9UVAmhfW6AoL3oPbEGROftpS4PsILfz/2KjvqBSS49DBzJx
-	uhlakV2rQt2n2xmWNkFkMK48byt7m+LhRb6zZQsAy4WkevwDrjj2uxqRMkmLclk56XcJAIIadtb
-	pVr/3h3XxBL/ktjFkA2596coALgLYFy+zvFdFJnbgWi0hqSDnWdKX4wf8z7JH5psJ5wZFTdMT1t
-	qYk2wqsbAzhldOx93NU=
-X-Received: by 2002:a17:902:d4c2:b0:2aa:e6c1:cea1 with SMTP id
- d9443c01a7336-2aae6c1d148mr108095975ad.17.1770809395707; Wed, 11 Feb 2026
- 03:29:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770809412; x=1771414212;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l3tM0LL3TR4HqHxF8JKfN9gElsIHEa+EJ7h4mR4mWc8=;
+        b=UVV4ZmxfZkQDorUkFi8wnhO9mu/0ZsC3J3gueveXU6+0TqtPlWqryul1BQOSB8y8ac
+         y7FLbfOc182XF6xBhK0JWYci5NMHlbWWih8vXp+qCi9T9sFdSMaXU1p6u2Ywhh5CmlCh
+         Bk649H3G0J+HxWwjWZuzneNScU1zILJuWgtIqyUWOqRnb5OtZI1yM/KZbOLiM001Kjk1
+         IaL2mTy3HRcJH5x5Y0z4IdZvVbdphlwWBmJZms2zv2hGUhljExhpZwzwiTitYHBohNT7
+         EIcCD+Cg1bU5qeHGU8JS43aQEa5mt3j+Ue/JnK8Ds7opAN7BqivOA/K8SkVuAL0WlhRw
+         tejg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCiOROz9CCOfCUUpFJ1nQgohiwiAQ8t6Q5E/1aIuGpzxNcY9eqfSRxysoPao4Oao9V4GNCSpkpcLCwHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8JZXFOq5xigU67ISJLDYy0m07heY2/XlbOQRltX/6a2lHZIQc
+	BPGeYThfxRFRB4mJFiZ03A0nDTKULDZtPeQS5JMI4wg1ZdpFlPVJrA7qtjUmuGdwWpY=
+X-Gm-Gg: AZuq6aJain0OeQJzU4vO0x5ahLnln5kN4pTGcM/k9RciGKU1ZhJIGLTaTN1Ln8Bx1sd
+	oeOSqsosFsTTQNZPn7q6el0uGseIsPO/JLdfff4H+zPJbbdQ3dZ6GfjXGMO/vMqK/Owh+6J2hz4
+	RpILQrRa/by81iRSXhJYiNSUMpaOX2KRRNA0SpIUs9P3x0TT3mxctzONMXWyZ6ETPowBim3lIcA
+	L4nHbgqr2lBJWM4IlVEX+e2uesTKTf30bp+HVfGphaGrPY5+69Omp8WsmNlkbufidReLaxsW58T
+	NOEETd7slJSI8m2G1U0aaZ0R6k/akZoeSURzIxpth6h+m/OffeP0K3XEZnAFZg66gVyzIPeilkV
+	NEWlqmDblwekfMwU0URfhJhITzkhCEoQRHaBo9tV19IajinJ6A86ksqhx7GDilqxnswU9nHJ/mV
+	MPmpCaTu4ljlHxaoIrpZAAeJAb9x92gWHftZIJq/e9DzOGD4IJLz6INpuuHfxma5gMFpPz4wK+Z
+	sAZU2yvYreR+QQ=
+X-Received: by 2002:a17:907:3d16:b0:b88:510a:59b3 with SMTP id a640c23a62f3a-b8edf40a6a6mr1078241766b.48.1770809412028;
+        Wed, 11 Feb 2026 03:30:12 -0800 (PST)
+Received: from [172.16.240.99] (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8f83e1a853sm5827766b.19.2026.02.11.03.30.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Feb 2026 03:30:11 -0800 (PST)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Date: Wed, 11 Feb 2026 12:30:10 +0100
+Subject: [PATCH] ASoC: qcom: sm8250: Add quinary MI2S support
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260211093527.2892297-1-shengjiu.wang@nxp.com>
- <20260211093527.2892297-4-shengjiu.wang@nxp.com> <aYxl-84o20htTnNt@smile.fi.intel.com>
-In-Reply-To: <aYxl-84o20htTnNt@smile.fi.intel.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 11 Feb 2026 19:29:42 +0800
-X-Gm-Features: AZwV_QgnSiInqQGmLAwo2fh7tDu38fawLdb6UdwB4QGSTTwD8LZCvKhPLMw4ToA
-Message-ID: <CAA+D8AM6SxpfUpZJQAT9cif+7+cXwQCOmFqOXcNyQj=jd2VpJQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ASoC: ak5558: Fix the supply names
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, perex@perex.cz, tiwai@suse.com, 
-	ckeepax@opensource.cirrus.com, nichen@iscas.ac.cn, 
-	kuninori.morimoto.gx@renesas.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260211-snd-sm8250-quinary-mi2s-v1-1-f62e49d85af8@fairphone.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQqEMAxA4atI1hNIA/7gVWQW1UbNwuo0jCji3
+ S0uv8V7F5gkFYO2uCDJrqZrzHCfAobZx0lQQzYwcUXsHFoMaEvDJeHvr9GnExdlQ24olFVNPXm
+ BXG9JRj3ec/e97weut9DYaQAAAA==
+X-Change-ID: 20260211-snd-sm8250-quinary-mi2s-280d5670b0ae
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Bhushan Shah <bhushan.shah@machinesoul.in>, 
+ Bharadwaj Raju <bharadwaj.raju@machinesoul.in>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770809411; l=1126;
+ i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
+ bh=JydT74Ik20zhf7j+53D/IEutWhUVbmqSkEHShdtGWkE=;
+ b=ix9w6XYmpDNWd5a+88QxR/nsD/I3Xxh8ndtsxAiOEhnOiN/Mvjw/zRGx6lKQVcfpjRz0jJyO8
+ y6CPsM2F+j0CqL9L0X9dJvGuBceeihilY7kU6Y0hafUF/S0oEkwWX96
+X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
+ pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 
-On Wed, Feb 11, 2026 at 7:21=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Feb 11, 2026 at 05:35:27PM +0800, Shengjiu Wang wrote:
-> > According to the binding document, the supply name characters are
-> > lowercase.
->
-> Same question. If it's okay to convert, please elaborate that it doesn't =
-have
-> any side-effects for in-kernel users. Also, check if these names may come=
- from
-> DTS (some old DTS might have it, in such case it's a documentation issue,=
- or
-> driver needs to support both).
+Add support for the QUINARY_MI2S_RX which is used on some devices to
+send audio data to speaker amplifiers.
 
-Thanks.
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+ sound/soc/qcom/sm8250.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-I go through all the DTS,  no DTS uses DVDD/AVDD or dvdd/avdd for ak4458 an=
-d
-ak5558 codecs.  so there is no side-effect.
+diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+index 05a8b04e50e0..f193d0ba63d0 100644
+--- a/sound/soc/qcom/sm8250.c
++++ b/sound/soc/qcom/sm8250.c
+@@ -104,6 +104,14 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 		snd_soc_dai_set_fmt(cpu_dai, fmt);
+ 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+ 		break;
++	case QUINARY_MI2S_RX:
++		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
++		snd_soc_dai_set_sysclk(cpu_dai,
++			Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
++			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++		snd_soc_dai_set_fmt(cpu_dai, fmt);
++		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		break;
+ 	default:
+ 		break;
+ 	}
 
-I just am thinking it is better to fix it in document,  it is caused
-by converting txt to
-dtschema.
+---
+base-commit: 1a2a7222c84a6954dc411caced820dfd6b991ff4
+change-id: 20260211-snd-sm8250-quinary-mi2s-280d5670b0ae
 
-Best regards
-shengjiu Wang
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
->
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
+
