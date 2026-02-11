@@ -1,79 +1,83 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC6E1F419F
-	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 00:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387342ECEAE
+	for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 02:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770769404; cv=none; b=pmH4e8bLHgV3dzymHG/bvSjR+xQWBQkI0Em5PQUHtfzTdj60cWx6nX3KpWA91LZa7ykoU/f+lnpYtz6afiLSgsxhpE95SUXausbCeWUGa+4Ohar9Aunjxk01c7I/OnFUUxtLw6qR+nb1VtmFwQvdFMNwHw60OpKlam93pSxvLWA=
+	t=1770775358; cv=none; b=VHJ3w3QqGggOqVIjEe7ufg83/2aAYNzKuAdOgK5q3st7wUpZ5i7VI7xpAKX0LOQLZ+101A2Rm0Nx7dlcYwPumlgi3z8EIcQN16dPJrLukGbNE505BbCYlzRTx3Ps45+yKoiKeA5uTJTLqeo2WlvQRaODevAsMq6UzBDpG/0k494=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770769404; c=relaxed/simple;
-	bh=zjnSdqVkVaoHQrO03XCxlVruAUnMFOShINCIrN8MR9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y95aUZijSFdQTJ+ojN1IwEiowOu5oas+7jV/356GIioaXkqVMsG32lwwpoeR4gz1ZVNrcMKYxlxZDwc44hHhTSq+33+rh+SHalDCjgRfDDRPnyPLtAzbuqqVWafa4PzIggpwGm9LUHE/gmw1Xak51xFJB8OAqjZSyAztnwf7nLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fefft5mk; arc=none smtp.client-ip=209.85.218.45
+	s=arc-20240116; t=1770775358; c=relaxed/simple;
+	bh=7iBmMV3IeRy0dczSX2iF4AnGnzqaHOm6/o61iS3KdUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LQ7KhfFaAe6TzENzIslvbZ5qLJbcR+otSe2Qi9YnxL6Hp2M5cSoa6GvljCqSB2GVPRBz0pbbGxVTI5RPzp+0Dj3cZ2xFj3ZQ+3QfgyGru0pWXQzEcMpD5R4KseqfSmBTukU0iTE99EFCCMp+8of+dEwTiBWzctY3B9lEh34TArM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJHO+cOq; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fefft5mk"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b885e8c679bso651426866b.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 16:23:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJHO+cOq"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8954ae375efso4243496d6.1
+        for <linux-sound@vger.kernel.org>; Tue, 10 Feb 2026 18:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770769401; x=1771374201; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QVUmABIw9GwPlMCIzNfdjfNTotzrtAIlHX0zrtN6WRc=;
-        b=Fefft5mkLS8OMMyHlDKhU5OskD/iYww7GyVPfarBD5tMWN8IPgS2IMtlzikHwdoie+
-         vX+rdEo+1FtVdNQbSngwIAEJifTYDeaO6u+FIsNbV600trdsAowwA6YX0jBpJX2KRrbp
-         HvNfO4DuqnfaXnOYWxVv0GCaZ4xYbUehnPH7v4wDJtK31/Zny+bDwgJOlV6yx0UkP8EV
-         udvHJOL24Pt/2yeAGho0hriBmzUiGJIVr2wior21wMzQZSxBnUxw9qhPnoIjQYW8P6Hj
-         Iz3N9/iCwX5OjIuUP6eQVxXahQ3iA2XnvYsJdSHty7TOCgCqIpNK+Ps0FY48bZMe4lB0
-         BdDA==
+        d=gmail.com; s=20230601; t=1770775356; x=1771380156; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z3/DkbEFqHBXb0M+n8zjFECxKzYIFrSQHVAtTa88e6U=;
+        b=RJHO+cOqU6ciJeMZF1f3ZWHVW2w+Ito1H5vvjIi5r9Co6ohbYaLewKbsm9Ko0DMAJy
+         WSc+rna3ne9Rf9B9HGriwr3TaOeCWSmZz3YnVOanYClkiwdyMaqrkiaHadzAx5mbAe/I
+         PTyMsoWnZPdpNnDAxVNjOVHDPOaWYXrw6T1bZ+Xek0iy5lcROOBGYqCphdMMiMWDF+1x
+         B4a24cmGHhCRSTQhutPr75wZ7wEqc3Z2dQiJBOoSsGPpKUSItXi1xPnHkYW0r4Uettyw
+         QCpxIjuoq9d6AhNrybFF5mCfF7FlhrD0lwucZc+v7cvBEEj5hwAE5KezA5iiGZcDGlAL
+         krNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770769401; x=1771374201;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QVUmABIw9GwPlMCIzNfdjfNTotzrtAIlHX0zrtN6WRc=;
-        b=pmgJJMf+c5LgEa0g51zwNsvFpI8KvFOzxRhDdvm5WdDNVVxBQoonH3tWCvJoB77Xaj
-         8jRJxt5xVpHaguxciRpK5ahr+nZFNy/PoGX2S9ocAgIdg0avQRGCZDilKeQWp2xahJ5i
-         QPjG+RjJR3CIWsyBhfwPVYvwPn/4Ki4iP8dIrtoleLPM4zYHaw1FldxFazVuLsll/7qP
-         HD9axEmhjUjq3c70eu7hGnE1QHvKl29Ctct13Fg9MdAp9r7Zj6CJs0JxE0vycQnXm27a
-         dT2nQUcKmYkw8UhI7tjDJtlpTm/N7sJbTPEuyER96kwMi+lTfB63hYsxTudTeRG24Bv9
-         YL2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVBec51sTqFwH1O9UjDRBH3q90Q88YGbIRvwDtOXPjHG5q0hyVBh3Gu6BcW+glhMrHXQagFxw9/EkEOZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/Qr/IthmK7XoaS0dhE8B3MSmAPC2kiUEKx02dzH93+vi4EerG
-	bza2o9hLr8KowHrhDMg7B6/jVwU9pUb4AU88NjB3zIcnSnp3mDhaCCLOm9w5Zw==
-X-Gm-Gg: AZuq6aITiuBLWIu4XZlShO4dk4oy1SPnCW//cgyE0HjIFkrBolgxDH2AHf5oyPxWzbE
-	J2PVgTyVOwRzZFdThbU7tR52QKqxGBXNwPdh/0wi1wHrg0bdolAaqiWHK8SS2s8UXc/izT5sPLO
-	83jAUWpBOxmmcMtj47/6V9yqP92mFAs3GiG/lay5wzDrYKLhcXEuaENjgEtLqsSp+DQBhJ58ZTD
-	kYsRGEV1ZfyMmCoDoes+7KmFcwZynTJYyPbxKD7ANVEvwGrF6EZhGMSG4JVK7GPTd8kWtUWIHqP
-	QjeVIGBySACb5YpuRMHdm4RBuRU/6ll42XWi50KQIiBwmKk1Iu6ipAUHZqgaOpKB8tZfe/27laz
-	U7lRx1SJsJkG3Udxm2pWQyeklDL4bAA6NwgmQa5iLEksR7yaC1QQaDQmPid5U32jToM4oejJN4v
-	samhXAZEEVJjBFGWh2xEn5tk85
-X-Received: by 2002:a17:907:9449:b0:b88:48ba:cdd with SMTP id a640c23a62f3a-b8f6ae33146mr61763666b.43.1770769401310;
-        Tue, 10 Feb 2026 16:23:21 -0800 (PST)
-Received: from jekhomev ([46.251.53.180])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8f6ec1db0bsm9992866b.46.2026.02.10.16.23.20
+        d=1e100.net; s=20230601; t=1770775356; x=1771380156;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z3/DkbEFqHBXb0M+n8zjFECxKzYIFrSQHVAtTa88e6U=;
+        b=MapL/f7ZmJWkD6TVPmFWNeuPuYe15Av11FsQdeNSvwR/QwoHnW2SfNFEeCiQWB59S1
+         port0r7k3bugVQpu+lXMqxx3iwjfSbEYwDL6zdenQqXE6lOUXS2iH7S3PMEaLcGs+Ara
+         yQMgSXaB8byOlvN0b5kRWbY4/rKggTqIaxQ7XXH/PEKgf7jyLQK2w1GGtMCad8zUwMDu
+         +7HtLPWAZervkQ+UCnhfonHWtpLxXuoFYKLRhYV1+6xTy3OTxLC+4h8Ymzzp1vf2X0zL
+         2WijuTIHuwg2X+9AN/bWJ5CXu/Hn6mcx3IkCm02L7delrOMx/2OfuVOOSbDfQ6D/r5Lc
+         wNiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVnggWoEaGC/OkGtS05wow8XILVoMfbMEkX4x20WQcAlV8Y9ayRylxJQnD+/57Kf4v02VVuvO/LQ+djDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmPjlFZ3M1ZUXyKWepUv1BzbzaA3suKlZZ+8Zl2j2I47oxD+5r
+	liS+PGhkD6KpQ6Dgp4eGnfqyzSnAMFWEK1EM9pTCVH05ozlY1NSrO3tZ
+X-Gm-Gg: AZuq6aJ3Xs1moYHstEMQJSSl+6h5Xq2VCGfDocaePnG7C+JJnq0Au+FgAib1ehADaxK
+	fVTCQsSGqPDhobR5jnu/bRuLTbWhKmRywCDehADCBH2ePzEqIaXDGK2ELuH4IA9QThxGFwAeIei
+	kaZBa74H8MTf51JS7jmuYh6Oig5363qYsMFsVS6AtVUpE8gqzfQ8xnKxl6pd20Yhr1Z0sL82Sg0
+	27mCb4ZrgayI1w6CoMKEL9Or1JaSQtIcUE3pq4sbfsl4MdbatIuNuF98Rblug88Z0vBrl8777ii
+	SRQjDnlm4Q9JGkrUJZZXaWF7Kq7AuJ3Jug1glSTaHKAnhSuwSyo92xxUViNOPQFh7IW/KfnQUCm
+	EeAuONWBISLRGmxfEdHuCd46BVt4E2I/b/wic65lY2/mg2jqHT6y1MUle5UxwGSC6IHe+d+P1kY
+	EU2uSviX2oC/FVLO4mtI6lrgjW4Q==
+X-Received: by 2002:ac8:57d6:0:b0:4ed:ba4c:bda8 with SMTP id d75a77b69052e-50672e01149mr50112371cf.18.1770775356032;
+        Tue, 10 Feb 2026 18:02:36 -0800 (PST)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-506849f8af5sm1685621cf.14.2026.02.10.18.02.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 16:23:21 -0800 (PST)
-From: Yauhen Kharuzhy <jekhor@gmail.com>
-To: Oder Chiou <oder_chiou@realtek.com>,
+        Tue, 10 Feb 2026 18:02:35 -0800 (PST)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Johan Hovold <johan@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Yauhen Kharuzhy <jekhor@gmail.com>
-Subject: [PATCH 7/7] ASoC: rt5677-spi: Add SPI device ID matching table
-Date: Wed, 11 Feb 2026 02:18:39 +0200
-Message-ID: <20260211002255.4090440-8-jekhor@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260211002255.4090440-1-jekhor@gmail.com>
-References: <20260211002255.4090440-1-jekhor@gmail.com>
+	devicetree@vger.kernel.org
+Cc: Nickolay Goppen <setotau@mainlining.org>,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH 00/10] SDM660 internal sound card support
+Date: Tue, 10 Feb 2026 21:02:52 -0500
+Message-ID: <20260211020302.2674-1-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,38 +86,47 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To allow defining a device in board-specific drivers, add 'rt5677'
-as a supported SPI device ID.
+This adds support for the SDM660 internal sound card. It is used on the
+Xiaomi Redmi Note 7 for headset (playback + capture) and earpiece. It is
+also used on the Google Pixel 3a for the headset.
 
-Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
----
- sound/soc/codecs/rt5677-spi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Like MSM8916 and MSM8953, the SDM660 internal sound card connects to a
+digital and analog codec. Its connection to the digital codec is through
+special "internal" MI2S ports.
 
-diff --git a/sound/soc/codecs/rt5677-spi.c b/sound/soc/codecs/rt5677-spi.c
-index 885edcf0a3a5..548180ec5762 100644
---- a/sound/soc/codecs/rt5677-spi.c
-+++ b/sound/soc/codecs/rt5677-spi.c
-@@ -624,12 +624,19 @@ static const struct acpi_device_id rt5677_spi_acpi_id[] = {
- MODULE_DEVICE_TABLE(acpi, rt5677_spi_acpi_id);
- #endif
- 
-+static const struct spi_device_id rt5677_spi_ids[] = {
-+	{ "rt5677", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(spi, rt5677_spi_ids);
-+
- static struct spi_driver rt5677_spi_driver = {
- 	.driver = {
- 		.name = DRV_NAME,
- 		.acpi_match_table = ACPI_PTR(rt5677_spi_acpi_id),
- 	},
- 	.probe = rt5677_spi_probe,
-+	.id_table = rt5677_spi_ids,
- };
- module_spi_driver(rt5677_spi_driver);
- 
+This series does not include devicetree patches.
+
+Nickolay Goppen (1):
+  ASoC: dt-bindings: qcom,sm8250: add compatible for sdm660-internal
+
+Richard Acayan (9):
+  ASoC: dt-bindings: qcom: q6dsp: add internal mi2s support
+  ASoC: dt-bindings: pm8916-analog-codec: Add PM660L compatible
+  ASoC: dt-bindings: msm8916-digital-codec: Add SDM660 compatible
+  ASoC: qdsp6: q6dsp-lpass-ports: add internal mi2s support
+  ASoC: qdsp6: q6afe: add internal mi2s support
+  ASoC: qdsp6: q6afe-dai: add internal mi2s support
+  ASoC: qdsp6: q6routing: add internal mi2s support
+  ASoC: qcom: add sdm660 internal sound card support
+  ASoC: msm8916-wcd-analog: add quirk for cajon 2.0
+
+ .../sound/qcom,msm8916-wcd-digital-codec.yaml |   8 +-
+ .../sound/qcom,pm8916-wcd-analog-codec.yaml   |   8 +-
+ .../sound/qcom,q6dsp-lpass-ports.yaml         |   5 +-
+ .../bindings/sound/qcom,sm8250.yaml           |   1 +
+ .../sound/qcom,q6dsp-lpass-ports.h            |  14 +
+ sound/soc/codecs/msm8916-wcd-analog.c         |  63 +++-
+ sound/soc/qcom/Kconfig                        |  12 +
+ sound/soc/qcom/Makefile                       |   2 +
+ sound/soc/qcom/qdsp6/q6afe-dai.c              |  46 +++
+ sound/soc/qcom/qdsp6/q6afe.c                  |  56 ++++
+ sound/soc/qcom/qdsp6/q6afe.h                  |   2 +-
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c      | 200 +++++++++++++
+ sound/soc/qcom/qdsp6/q6routing.c              |  78 ++++-
+ sound/soc/qcom/sdm660-internal.c              | 271 ++++++++++++++++++
+ 14 files changed, 759 insertions(+), 7 deletions(-)
+ create mode 100644 sound/soc/qcom/sdm660-internal.c
+
 -- 
-2.51.0
+2.53.0
 
