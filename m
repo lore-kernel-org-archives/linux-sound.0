@@ -1,47 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487631A58D;
-	Thu, 12 Feb 2026 11:34:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFD8346A1F;
+	Thu, 12 Feb 2026 12:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770896047; cv=none; b=GtZF/1/zyDvygHm9EgJbZ6Q+AZpkdQYtn34RzV9irPeuDCmccCelshldsz/IapFOr6fdpH06GC0Ao8GpQPcWnkHBodvNhtcwvjIUyB1SAigKmkbLRPFTP+IRYCl6wPyllcVhmm1zZECAmw3zYRwOS3pxeAeIKTBBo10iduIKD3s=
+	t=1770897893; cv=none; b=chCJ8M5HN7838HsefdJ9GO4fYoJhfiatKvIm8EV99qVhoOO2C27nK/4Dmqml7QK2CGHvzCJYkKYFF6PLQ874vydMOXa2sK2su4dNYFgzoBD+ik3v5cSN6RflLP5jZcN010MczIzGb4P+YFn0z3qI9Z1Oo1mB+4kdaODyHyozuNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770896047; c=relaxed/simple;
-	bh=jateon4Aiqe0KKjigwVbefTRycI6oGqG8zKuLU/8HSY=;
+	s=arc-20240116; t=1770897893; c=relaxed/simple;
+	bh=kht88UPCcdjdbb6rQuHUzPbMAe23E6O8r/InhqpgmxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fQDZi++tsEudPXeaS4NUcemioWZwaKu2O4/kaTfPNg2J0uB0VXDniT66q/qndiajpQYlR3HtxpdQOwDqvlxHA8wOFGu4OnoS+a5p3kINOUTeZozO04SBwvWsCwjmp4awzksTvtJOVBpisdZbuejnkx9jAHea8SnORNyOdMbl/co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkUhZ/ph; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+XJdUH92AWPZLu8PRVMXpO7sRd3AjFeYAnLTT3hDcDiV6ylcfPsjJ0bHikYJVlA0crnfYE5AFJpaXXbfBgZ6L+IgCi8XrEYlvS+cWe+DzQJqFGjUW390i13ny+kuOENPCxxL4nO8zuJhdxl5LvDw1MHCLMLuSHAmUnn24Od590=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m0PET97J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkUhZ/ph"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35DD3C16AAE;
-	Thu, 12 Feb 2026 11:34:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m0PET97J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D37C4CEF7;
+	Thu, 12 Feb 2026 12:04:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770896046;
-	bh=jateon4Aiqe0KKjigwVbefTRycI6oGqG8zKuLU/8HSY=;
+	s=k20201202; t=1770897892;
+	bh=kht88UPCcdjdbb6rQuHUzPbMAe23E6O8r/InhqpgmxU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mkUhZ/phkSFLWbwvlQh+Erq2H7VuaxJhJvoHaDGC7Nc/ks55jZzA57kk5Ak/O9gZ9
-	 yyU5o1xK40koNXCPf5etJRCzXLm+2Ut8V6zrDkSIwqs3ND46ywMwfYIFLCSt3sJM79
-	 Vft5jupK9CCCNfcztRsVRnvJaRwV7bv1oVlPoho59qJ026c0vaywLpd73qIZv+mn22
-	 ucuLt8YsSPkFcKu6HurPeCHPV/iIXkWLo+o0ec+SuFGbCHH08W1H11x9yyDI/GFwNI
-	 P1GlvWaacLp/z7QXmiEfpK1GRnnuRddjxl6OpfZvDcWjFoXlJTeeC/I72v5dph6ykA
-	 hk/CSpMwHurMw==
-Date: Thu, 12 Feb 2026 12:34:04 +0100
+	b=m0PET97JMWnNsbWb8sMeIktf1PCJX/diLa57FzC0jnO4/BfMovkQu4BOxoSU3CkQj
+	 RxT4IWzS+AM7DVAcdWc23j6ieZWkS58KsnK/YZfV6K5+3toQjQEFMc6tQGyfj8rHG/
+	 A5egrQ+9x9EU0H8piDN/Q5UbGwrlXyszIdLMoSpi9JamfFDxaMygg9YcvOHDAKoCNb
+	 9Z/In5/F7poyxSp2acmhPtZbBkoQ7RL/LtAANv7150gy8Dx3Oq96z2+FfyBjtRN7CK
+	 scFf1WDRH7AYi4lvwGvt5U3/1c6BbFp7BRNA+nAtT+hnSTblVbyMdauRbnyfCYCfxb
+	 FaeEqXLhZB3iQ==
+Date: Thu, 12 Feb 2026 13:04:50 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Weidong Wang <wangweidong.a@awinic.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Alexandre Ferrieux <alexandre.ferrieux@orange.com>, Bhushan Shah <bhushan.shah@machinesoul.in>, 
-	Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/3] ASoC: dt-bindings: awinic,aw88395: Document
- firmware-name property
-Message-ID: <20260212-passionate-wallaby-of-psychology-b7fa43@quoll>
-References: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
- <20260211-aw88261-fwname-v1-2-e24e833a019d@fairphone.com>
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, shengjiu.wang@gmail.com, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
+Message-ID: <20260212-incredible-smart-honeybee-7203a8@quoll>
+References: <20260212053036.2581083-1-chancel.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,20 +45,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260211-aw88261-fwname-v1-2-e24e833a019d@fairphone.com>
+In-Reply-To: <20260212053036.2581083-1-chancel.liu@nxp.com>
 
-On Wed, Feb 11, 2026 at 11:27:33AM +0100, Luca Weiss wrote:
-> Since the aw88261_acf.bin file appears to be device-specific, add a
-> firmware-name property so that devicetree users can point to a
-> device-specific path to not conflict with other devices that might also
-> ship a aw88261_acf.bin.
-> 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
->  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+On Thu, Feb 12, 2026 at 02:30:36PM +0900, Chancel Liu wrote:
+> This machine driver can parse DAI format from format property. Add
+> "dsp_a" because it's one of the DAI formats this driver can support.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Since when it can support it? Maybe driver is wrong? What are the
+differences?
+
+Maybe there was a reason this was rejected in the first place?
+
+You have commit msg to explain all this.
 
 Best regards,
 Krzysztof
