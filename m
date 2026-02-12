@@ -1,44 +1,47 @@
 Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C6F1A9FBA
-	for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 18:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E8A299943
+	for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 19:14:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770921085; cv=none; b=dlUPN+actHNWJfEJa0OFAnOwbRpsgfCzkStjM5E4+eeTjRyQLxC6dVKlN0uyaQSy2r+x6lKWuMpc0aZRwfd3pdSCPn33XjhD8jpSJ2RIsOO1VIyKCFu7wrOuWOibupl3YWeTJTrkeSb8VL0HyY4qL2uXPsPKf5dAb7jGQcoo3aw=
+	t=1770923670; cv=none; b=H3UozGS1NA41uSn2T99AeomAlYe/4FG3jn1kbIzmEwXKYcgaf8K0aBczBqQT/CnKA0LTLcjNPplJaE7mOf0g6uTSjlPJz2VxKLneSc01SwuBF2r4Wea11amL8zsU0n8OCts5m/qug/398Pp3zCdVTr9qt2y1i+2Db9xgRKX3Wzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770921085; c=relaxed/simple;
-	bh=ZvfsJllkKu+Pbf4uWXJo/Xj6tsq8n6O+CzE9psDE/Hw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GCq2GOQhzSHLjVlYmMJCrvn/xL4RejIMqEoNz+o3DRmyrngaiC+1vJDp3W/CHqneEd9H0F0pgbva5J94SWjIY7L70ZfjlvjwYSuaTIaNev1cuKnqqBd86hIQxOHwIHks3Zb+fyHFP6Ft0bMjsVRpQZ5YpUr6tu0h9Fred+dSB28=
+	s=arc-20240116; t=1770923670; c=relaxed/simple;
+	bh=vRIhXOcuSVaBBAxyQLVRjWtMNs9xUlj0tw4k1JMv6eU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WKb6nxUTaPb28+9OxKVXKs8WESnurT/FSJQ3YLlZehT+YAYNjTZ0yJmC30FJG+QcaLTIf0IEAUDIrnA3V2Vy7iWt4aehLnWNKkafsVwHNPq1mn1OB3Fj6sc+pmX1/fCp0r7Ve52UYpil3e/m3QtTRaf52u6CzU3WiRZuv/zJfX8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; arc=none smtp.client-ip=44.202.169.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
-Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
+Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
 	by cmsmtp with ESMTPS
-	id qVMbvAjBZCxrGqbTAv0ifv; Thu, 12 Feb 2026 18:31:16 +0000
+	id qVMavAjA1CxrGqc8xv1A1n; Thu, 12 Feb 2026 19:14:27 +0000
 Received: from host2044.hostmonster.com ([67.20.76.238])
 	by cmsmtp with ESMTPS
-	id qbT9vxt3aV6WMqbTAv3ORr; Thu, 12 Feb 2026 18:31:16 +0000
-X-Authority-Analysis: v=2.4 cv=E//Npbdl c=1 sm=1 tr=0 ts=698e1c74
+	id qc8wvbHuvSqlVqc8xvWwm9; Thu, 12 Feb 2026 19:14:27 +0000
+X-Authority-Analysis: v=2.4 cv=I7FlRMgg c=1 sm=1 tr=0 ts=698e2693
  a=O1AQXT3IpLm5MaED65xONQ==:117 a=uc9KWs4yn0V/JYYSH7YHpg==:17
- a=HzLeVaNsDn8A:10 a=z6gsHLkEAAAA:8 a=foHCeV_ZAAAA:8 a=nttIoOZdAhEHGoIFS30A:9
- a=h8a9FgHX5U4dIE3jaWyr:22 a=iekntanDnrheIxGr1pkv:22
-Received: from [66.118.46.62] (port=36044 helo=timdesk..)
+ a=HzLeVaNsDn8A:10 a=z6gsHLkEAAAA:8 a=cDym0dv03349cYdJ0XsA:9 a=RVmHIydaz68A:10
+ a=KsjdKihiusvmYKwfN6su:22 a=iekntanDnrheIxGr1pkv:22
+Received: from [66.118.46.62] (port=33666 helo=timdesk..)
 	by host2044.hostmonster.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.99.1)
 	(envelope-from <tim.bird@sony.com>)
-	id 1vqbT8-00000002M3F-1QSe;
-	Thu, 12 Feb 2026 11:31:14 -0700
+	id 1vqc8u-00000003DWj-03Sq;
+	Thu, 12 Feb 2026 12:14:24 -0700
 From: Tim Bird <tim.bird@sony.com>
 To: perex@perex.cz,
-	tiwai@suse.com
+	tiwai@suse.com,
+	clemens@ladisch.de,
+	tglx@kernel.org,
+	gregkh@linuxfoundation.org
 Cc: linux-spdx@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Tim Bird <tim.bird@sony.com>
-Subject: [PATCH] sound: core: Add SPDX license id to files
-Date: Thu, 12 Feb 2026 11:31:03 -0700
-Message-ID: <20260212183103.3720788-1-tim.bird@sony.com>
+Subject: [PATCH] sound: drivers: opl4: Add SPDX id lines to files
+Date: Thu, 12 Feb 2026 12:14:16 -0700
+Message-ID: <20260212191416.3723397-1-tim.bird@sony.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -55,270 +58,233 @@ X-AntiAbuse: Sender Address Domain - sony.com
 X-BWhitelist: no
 X-Source-IP: 66.118.46.62
 X-Source-L: No
-X-Exim-ID: 1vqbT8-00000002M3F-1QSe
+X-Exim-ID: 1vqc8u-00000003DWj-03Sq
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: (timdesk..) [66.118.46.62]:36044
+X-Source-Sender: (timdesk..) [66.118.46.62]:33666
 X-Source-Auth: tim@bird.org
 X-Email-Count: 3
 X-Org: HG=bhshared_hm;ORG=bluehost;
 X-Source-Cap: YmlyZG9yZztiaXJkb3JnO2hvc3QyMDQ0Lmhvc3Rtb25zdGVyLmNvbQ==
 X-Local-Domain: no
-X-CMAE-Envelope: MS4xfILz9iN17yxFu+OjFESZWsIYFVo49mGVUGj7LjOSd6hS/Tt1Cwq2ZXB+VNeCYlv8IFns1duISRHDRclMbN/tUt23SCsVO3WXM7dm+TrnKW7KuR/q2VNn
- HtqP9QO6OR48AP1bFE+tPu//GzmoiYwEAdrPdk17CG01y3L6feM1cBJEhPsAlG33gHNglBdGt7PeJqAzr5hdX9NeP3gQsmqhQjE=
+X-CMAE-Envelope: MS4xfA3FZHbmb3AlWL64sNZn0PxrT/Zn675tvgfYjB7ZAz2g8m+WpnQKvzr5wUOhA2ayvtIgYZke4O9xxrk9r8/wr6a27reO94S2yGA8+EWIT1nZEf69s+Tp
+ tyYfOq2nopg1D/vGTVk+0K48YV1T23/gcoB6y7dxrwYZEzIvPAT9A+4VDlLbmTpUpWd7Gj5OnLED3TBcM2HOOCp11ettR6eqZiU=
 
-Add an SPDX id of LGPL-2.0+ to files in the
-sound core sub-system that are missing ids.  Remove
-boilerplate text.
-
-These files were originally submitted in a big commit
-for the ALSA sound system for kernel version 2.5.4,
-by Jaroslav Kysela, in Feb 2002.
+Add a license file to reflect variants of BSD licenses, with the
+first variant being a BSD-3-Clause license modified to
+remove clause 2 (attribution on binary formats).  Add the SPDX id:
+"GPL-2.0-or-later OR LicenseRef-BSD-variants"
+to capture the complexity of custom licenses.
 
 Signed-off-by: Tim Bird <tim.bird@sony.com>
 ---
- sound/core/oss/copy.c       | 17 +----------------
- sound/core/oss/io.c         | 17 +----------------
- sound/core/oss/linear.c     | 17 +----------------
- sound/core/oss/mulaw.c      | 16 +---------------
- sound/core/oss/pcm_plugin.c | 17 +----------------
- sound/core/oss/rate.c       | 17 +----------------
- sound/core/oss/route.c      | 17 +----------------
- sound/core/pcm_misc.c       | 19 ++-----------------
- 8 files changed, 9 insertions(+), 128 deletions(-)
+ LICENSES/deprecated/BSD-variants | 32 ++++++++++++++++++++++++++++++++
+ sound/drivers/opl4/opl4_local.h  | 27 +--------------------------
+ sound/drivers/opl4/opl4_seq.c    | 27 +--------------------------
+ sound/drivers/opl4/opl4_synth.c  | 27 +--------------------------
+ sound/drivers/opl4/yrw801.c      | 27 +--------------------------
+ 5 files changed, 36 insertions(+), 104 deletions(-)
+ create mode 100644 LICENSES/deprecated/BSD-variants
 
-diff --git a/sound/core/oss/copy.c b/sound/core/oss/copy.c
-index 05b58d4fc2b7..467fc6847bc9 100644
---- a/sound/core/oss/copy.c
-+++ b/sound/core/oss/copy.c
-@@ -1,22 +1,7 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  Linear conversion Plug-In
-  *  Copyright (c) 2000 by Abramo Bagnara <abramo@alsa-project.org>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
- 
- #include <linux/time.h>
-diff --git a/sound/core/oss/io.c b/sound/core/oss/io.c
-index d870b2d93135..9317f971a0d3 100644
---- a/sound/core/oss/io.c
-+++ b/sound/core/oss/io.c
-@@ -1,22 +1,7 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  PCM I/O Plug-In Interface
-  *  Copyright (c) 1999 by Jaroslav Kysela <perex@perex.cz>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
-   
- #include <linux/time.h>
-diff --git a/sound/core/oss/linear.c b/sound/core/oss/linear.c
-index 797d838a2f9e..6e51cfdca238 100644
---- a/sound/core/oss/linear.c
-+++ b/sound/core/oss/linear.c
-@@ -1,23 +1,8 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  Linear conversion Plug-In
-  *  Copyright (c) 1999 by Jaroslav Kysela <perex@perex.cz>,
-  *			  Abramo Bagnara <abramo@alsa-project.org>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
- 
- #include <linux/time.h>
-diff --git a/sound/core/oss/mulaw.c b/sound/core/oss/mulaw.c
-index fe27034f2846..a95386e55fa1 100644
---- a/sound/core/oss/mulaw.c
-+++ b/sound/core/oss/mulaw.c
-@@ -1,24 +1,10 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  Mu-Law conversion Plug-In Interface
-  *  Copyright (c) 1999 by Jaroslav Kysela <perex@perex.cz>
-  *                        Uros Bizjak <uros@kss-loka.si>
-  *
-  *  Based on reference implementation by Sun Microsystems, Inc.
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
-   
- #include <linux/time.h>
-diff --git a/sound/core/oss/pcm_plugin.c b/sound/core/oss/pcm_plugin.c
-index 82e180c776ae..a4c8c9f538f1 100644
---- a/sound/core/oss/pcm_plugin.c
-+++ b/sound/core/oss/pcm_plugin.c
-@@ -1,23 +1,8 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  PCM Plug-In shared (kernel/library) code
-  *  Copyright (c) 1999 by Jaroslav Kysela <perex@perex.cz>
-  *  Copyright (c) 2000 by Abramo Bagnara <abramo@alsa-project.org>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
-   
- #if 0
-diff --git a/sound/core/oss/rate.c b/sound/core/oss/rate.c
-index b56eeda5e30e..68711ad251ee 100644
---- a/sound/core/oss/rate.c
-+++ b/sound/core/oss/rate.c
-@@ -1,22 +1,7 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  Rate conversion Plug-In
-  *  Copyright (c) 1999 by Jaroslav Kysela <perex@perex.cz>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
-   
- #include <linux/time.h>
-diff --git a/sound/core/oss/route.c b/sound/core/oss/route.c
-index 72dea04197ef..20f7032d12bb 100644
---- a/sound/core/oss/route.c
-+++ b/sound/core/oss/route.c
-@@ -1,22 +1,7 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  Route Plug-In
-  *  Copyright (c) 2000 by Abramo Bagnara <abramo@alsa-project.org>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
- 
- #include <linux/time.h>
-diff --git a/sound/core/pcm_misc.c b/sound/core/pcm_misc.c
-index 71eec32a7a0a..180b6b64a448 100644
---- a/sound/core/pcm_misc.c
-+++ b/sound/core/pcm_misc.c
-@@ -1,24 +1,9 @@
-+// SPDX-License-Identifier: LGPL-2.0+
- /*
-  *  PCM Interface - misc routines
-  *  Copyright (c) 1998 by Jaroslav Kysela <perex@perex.cz>
-- *
-- *
-- *   This library is free software; you can redistribute it and/or modify
-- *   it under the terms of the GNU Library General Public License as
-- *   published by the Free Software Foundation; either version 2 of
-- *   the License, or (at your option) any later version.
-- *
-- *   This program is distributed in the hope that it will be useful,
-- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *   GNU Library General Public License for more details.
-- *
-- *   You should have received a copy of the GNU Library General Public
-- *   License along with this library; if not, write to the Free Software
-- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-- *
-  */
--  
+diff --git a/LICENSES/deprecated/BSD-variants b/LICENSES/deprecated/BSD-variants
+new file mode 100644
+index 000000000000..83f24d68fb87
+--- /dev/null
++++ b/LICENSES/deprecated/BSD-variants
+@@ -0,0 +1,32 @@
++Valid-License-Identifier: LicenseRef-BSD-variant1
 +
- #include <linux/time.h>
- #include <linux/export.h>
- #include <sound/core.h>
++Description:
++Here is the "no-binary-attribution" variant of a BSD license, numbered
++here as variant1.  It is a standard BSD-3-Clause license, with the
++condition removed for attribution required in binary formats.
++
++License-Text:
++
++Copyright (c) <year> <owner> . All rights reserved.
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted provided that the following conditions are met:
++
++ - Redistributions of source code must retain the above copyright notice,
++   this list of conditions and the following disclaimer,
++   without modification.
++
++ - The name of the author may not be used to endorse or promote products
++   derived from this software without specific prior written permission.
++
++THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS "AS IS" AND
++ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
++ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
++OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
++HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
++LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
++OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++SUCH DAMAGE.
+diff --git a/sound/drivers/opl4/opl4_local.h b/sound/drivers/opl4/opl4_local.h
+index a16b4677c1e9..4914ddc27576 100644
+--- a/sound/drivers/opl4/opl4_local.h
++++ b/sound/drivers/opl4/opl4_local.h
+@@ -1,34 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later OR LicenseRef-BSD-variant1 */
+ /*
+  * Local definitions for the OPL4 driver
+  *
+  * Copyright (c) 2003 by Clemens Ladisch <clemens@ladisch.de>
+  * All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed and/or modified under the
+- * terms of the GNU General Public License as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any later
+- * version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
+  */
+ 
+ #ifndef __OPL4_LOCAL_H
+diff --git a/sound/drivers/opl4/opl4_seq.c b/sound/drivers/opl4/opl4_seq.c
+index 7bb22089a093..4ace07e885c1 100644
+--- a/sound/drivers/opl4/opl4_seq.c
++++ b/sound/drivers/opl4/opl4_seq.c
+@@ -1,34 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR LicenseRef-BSD-variant1
+ /*
+  * OPL4 sequencer functions
+  *
+  * Copyright (c) 2003 by Clemens Ladisch <clemens@ladisch.de>
+  * All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed and/or modified under the
+- * terms of the GNU General Public License as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any later
+- * version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
+  */
+ 
+ #include "opl4_local.h"
+diff --git a/sound/drivers/opl4/opl4_synth.c b/sound/drivers/opl4/opl4_synth.c
+index 82dbb8519ab1..a6a605a3abf6 100644
+--- a/sound/drivers/opl4/opl4_synth.c
++++ b/sound/drivers/opl4/opl4_synth.c
+@@ -1,34 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR LicenseRef-BSD-variant1
+ /*
+  * OPL4 MIDI synthesizer functions
+  *
+  * Copyright (c) 2003 by Clemens Ladisch <clemens@ladisch.de>
+  * All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed and/or modified under the
+- * terms of the GNU General Public License as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any later
+- * version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
+  */
+ 
+ #include "opl4_local.h"
+diff --git a/sound/drivers/opl4/yrw801.c b/sound/drivers/opl4/yrw801.c
+index 9e464b84b905..34f140bf0fd3 100644
+--- a/sound/drivers/opl4/yrw801.c
++++ b/sound/drivers/opl4/yrw801.c
+@@ -1,34 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0-or-later OR LicenseRef-BSD-variant1
+ /*
+  * Information about the Yamaha YRW801 wavetable ROM chip
+  *
+  * Copyright (c) 2003 by Clemens Ladisch <clemens@ladisch.de>
+  * All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed and/or modified under the
+- * terms of the GNU General Public License as published by the Free Software
+- * Foundation; either version 2 of the License, or (at your option) any later
+- * version.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
+  */
+ 
+ #include "opl4_local.h"
 -- 
 2.43.0
 
