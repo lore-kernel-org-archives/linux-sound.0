@@ -1,99 +1,135 @@
-Received: from mx4.sberdevices.ru (mx4.sberdevices.ru [152.89.196.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814C61D9663;
-	Thu, 12 Feb 2026 08:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=152.89.196.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B5F2D7D41
+	for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 09:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770884258; cv=none; b=pUlVpepi2IvM0RGGjDMvwuprCCJbzuIinF45QnvVZIukR3ovnB7de6VGBod5l7VspDbP+UqpS+a7PGbu+yk1RyV6BSpzcFIsXpBHlZCIbXX8MnvHPIby3qyFA1JqHx8OHSLG26QeWeYKRNjQuTROpwkdV9cJl5MXJNfJqb9VQlM=
+	t=1770888009; cv=none; b=TG7yQ0Lfd329rR+3gaGXL5WqM7OuZhjFGC4aMwfi0UF7CGaBptqg7dMnXppZP0aidS0lKUtJQiSf5rrgjmP0idZaAHB2hwPB0YeHg2ZbyIjpv2n8htov6q85el5QMejC7qb5kQln90QGWgbcqVkHCr2BjHG8ci9HIqwRqZTc6u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770884258; c=relaxed/simple;
-	bh=OwY3fCUXHvn7c0b6myczIXZwS6nAMjOf2RxQweyvf2g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=U4H+7WWDquivBcjcw+zllPfl6M0rtcZNaqGhJGhUL+xi2/ZSKlr1BmDVgPSMEJxa0xvHy6CZvwdNzizlI55XxgNQCFL/6QAZCSCj9gIqK/bxqiI1UqqBXdIcE2HZZlDsFQWEO+puUfphHZxqpAY7JFD4J69jReGmXdkL0TTJfWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sberdevices.ru; spf=pass smtp.mailfrom=sberdevices.ru; dkim=pass (2048-bit key) header.d=sberdevices.ru header.i=@sberdevices.ru header.b=KKzaoBkL; arc=none smtp.client-ip=152.89.196.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sberdevices.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sberdevices.ru
+	s=arc-20240116; t=1770888009; c=relaxed/simple;
+	bh=EVvRpWbkzklwILoJ9jNRQ8WJ/fBJztkBG71RCwf6PZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AKzqroNj0HrTifMhlh05veSYJfTGTIVvEyDrBqiJVPOjVQgYru1rtRbSrQ4WwOKyVEaKX0iQ7oLOens1eMhNp2VkyY+lZ/SDr5Ko3xziydmNkboWxpBn8vS/Hwo2qrdvdFyF/m+ukQzNUaOoyfz3Gbns17pvT0EEpz0qV9U1ECA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=II3Lu45W; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sberdevices.ru header.i=@sberdevices.ru header.b="KKzaoBkL"
-Received: from p-antispam-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
-	by mx4.sberdevices.ru (Postfix) with ESMTP id BDE6D40006;
-	Thu, 12 Feb 2026 11:09:25 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx4.sberdevices.ru BDE6D40006
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-	s=post; t=1770883765;
-	bh=MLELW5b3tq0rLe8NynhUtk8Sj1P8dS+MehnwoUa3xpE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
-	b=KKzaoBkLfKidGW321d2pNpi2ClcRZ68ZqzCayW77q6OZYaRBRWi1fOGybl27c8c5M
-	 KeWCWCSKIFPdtwm4Dg4fkmiejIoyxdvJ5JLpJoh0e9BT0aYalmw91TrXWZL/FH78w7
-	 /zcHL/EupGq612MJYuAwrs8wAD+ly3985G1tNIJJVTaeYWUm2XfAxJIrgTr9fiDIqe
-	 NKOw9RlzxGaIqbfYH/qHk6E9wm4a9Ri8pb+6RfFxDV9itVWdst4+CRsWlbaPERIlz7
-	 Vs90qVP4UUtQt4z7qD4yjxDOes6yPTu4fc/WAuRUfvVqT0Joy5EwwT18E95EbQ6Mm+
-	 OO9t0FDw8GQ0w==
-Received: from smtp.sberdevices.ru (p-exch-cas-s-m1.sberdevices.ru [172.16.210.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "sberdevices.ru", Issuer "R12" (verified OK))
-	by mx4.sberdevices.ru (Postfix) with ESMTPS;
-	Thu, 12 Feb 2026 11:09:23 +0300 (MSK)
-Message-ID: <810bf4fe-8c97-4580-ac8e-31c6bdcd74d9@sberdevices.ru>
-Date: Thu, 12 Feb 2026 11:08:42 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="II3Lu45W"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-481188b7760so55342235e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 01:20:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770888006; x=1771492806; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hY6CiLhnKwBTZyp27azh8kEPNVSN1EDcWkJd3Yb4vdA=;
+        b=II3Lu45WspaRCpgtSbyGs4DdQka2IJsJPXRgfz49cHBTHmdaD7ITIZ+VZbD59RlpSf
+         flRzzawAnmIcEmqbLhlKT+4uib4f7YKRWmd9Lt1131baoJyDNlm+WIAjwkD/kfUfbkR/
+         mkZg+9iSm/MY/GO/uDM5eEbclDHpS+lxpay9N5bE332D/JeBoE2hBgKnTHgGws8YtNMm
+         nUxQ+qacG8L7uTAG/ixysrfoN9VkA0ZKjpWoA6ulp16DMKznkB1agc5o2DFHfVP/tl/m
+         hGDw8h2w+hjVIUwRRFH34VlsZHAkJSU6DKTH+YeNsCKXwvFkUuYPF6vJs5dZEJyVs8QM
+         N1+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770888006; x=1771492806;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hY6CiLhnKwBTZyp27azh8kEPNVSN1EDcWkJd3Yb4vdA=;
+        b=o0ystB2yV/97Xsa2NvcrtGfK57cr54b60X8l9yZT12Myl09ljRkrpR3nM6BLhDvUB3
+         pbcUcYoISMRVNmVnfE7Om5PFouEhjNB8O2O2PHPAFQudXOWNtWqPMUdlG5huPUuGOfL5
+         7K9SeybuHrLUWedaaMg007n4UG75b/yhg90TppKz2B8frk38HFj3ypwX/NqFTtVo4MxK
+         y1Ug/A2fdPY49eEb+fL8Tgnfws4WFdyV/Og8UunuwmQ3UwoPLaK/MyNWC+o1a32zqhW8
+         UnnbAN/c/dTAzb+95gIEA0ceXrS6Q9hvsc1fMc65o5J3dKFud9zmE2h56l8l+sGyh4SM
+         xzVw==
+X-Gm-Message-State: AOJu0YxNdDZuKpbVyAnbciXI/cPj5TE8l9zUon5TLDGivNHTS7CIoeDH
+	i1oTsaGbITMQmnKeVB1IkOtZlKI1hgaoByy+F5a7Y4tUlQLkVNZHCsuA
+X-Gm-Gg: AZuq6aLivO5PWOG4sw8DcBjnBCYYapMOGSsMTCspILK8CSXTB0ssnXqNS74jARcFFOq
+	jmyn1rihd8BTLIw2OORnfB+RXtmoFpE3lQCeLKcTOKU5R87XgvCW9PhCz1R45pVi5XpZd27QKxN
+	3QnIChYddtTBQbnAjSiXx4KZoxNiuo+lsDFsDmZRr+IPvVopSDIPYK0v6sfz2OHTunHNyF9BKpx
+	gyPKtcVDVFiubIN+XD4HlQPiVGWzYUaZc7DdfR5xgpOculBMjnEjIYp3jpDrGmVsJINUNd4IC63
+	r4deGO3eF8DNzGVIZLETV2Lh8qSzSxWRz0QQdQ6YJHWsejx0C26LsLQ0LjXzH1kjoXsVGqpfZ/Z
+	EVzTepmEzJ1oUl4iu5blhtop0+k5NjhWTdT8n8+hWJVjzmrO88gJj4+wU8A1khgwz/tUoGZGnsU
+	rb+UNKrPGlJtzOuGdB7clM0ImkOeVz4UCmT1zVjnagoc9KO5wEFQxvVyqXuux/K2N/XFiYiWeDt
+	Gy6nb7dFY8runsLAcppT6gvBMIbXYsCWjCrlKXoYmtmig==
+X-Received: by 2002:a05:600c:5298:b0:477:73e9:dbe7 with SMTP id 5b1f17b1804b1-4836572257cmr29099455e9.35.1770888006045;
+        Thu, 12 Feb 2026 01:20:06 -0800 (PST)
+Received: from Lord-Beerus.station (net-188-152-100-94.cust.dsl.teletu.it. [188.152.100.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835d994670sm84262955e9.4.2026.02.12.01.20.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 01:20:05 -0800 (PST)
+Date: Thu, 12 Feb 2026 10:20:03 +0100
+From: Stefano Radaelli <stefano.radaelli21@gmail.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alexander.h@variscite.com, pierluigi.p@variscite.com,
+	Stefano Radaelli <stefano.r@variscite.com>
+Subject: Re: [PATCH v3] ASoC: simple-card-utils: add sysclk ordering support
+Message-ID: <aY2bQ0_bKBqvSFsB@Lord-Beerus.station>
+References: <20260211112815.126734-1-stefano.r@variscite.com>
+ <87y0kyu7iv.wl-kuninori.morimoto.gx@renesas.com>
+ <87o6luu00l.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] Fix snd_soc_component_update_bits return handling
-To: Ilias Izmaylov <ikizmaylov@salutedevices.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Igor Prusov
-	<ivprusov@salutedevices.com>, Chen Ni <nichen@iscas.ac.cn>
-CC: <kernel@salutedevices.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <rulkc@linuxtesting.org>
-References: <20260120161200.3590305-1-ikizmaylov@salutedevices.com>
-Content-Language: en-US
-From: Ilias Izmaylov <ikizmaylov@sberdevices.ru>
-In-Reply-To: <20260120161200.3590305-1-ikizmaylov@salutedevices.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: p-exch-cas-a-m1.sberdevices.ru (172.24.201.216) To
- p-exch-cas-s-m1.sberdevices.ru (172.16.210.2)
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: ikizmaylov@sberdevices.ru
-X-KSMG-AntiSpam-Info: LuaCore: 87 0.3.87 7430d8ffafccd8879e1d8370e5b501352446c2ba, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;sberdevices.ru:7.1.1,5.0.1;smtp.sberdevices.ru:7.1.1,5.0.1, {Tracking_white_helo}, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 200430 [Feb 12 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.20
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2026/02/11 23:32:00 #28234100
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-KATA-Status: Not Scanned
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o6luu00l.wl-kuninori.morimoto.gx@renesas.com>
 
-Hey!
-
-I noticed that it's been more than two weeks since I submitted this patch series and there is still no reply so I decided to ping you guys just in case
-
-On 1/20/26 19:11, Ilias Izmaylov wrote:
-> This patchset fixes the way that snd_soc_component_update_bits
-> function's return values are handled by codecs ntp8918 and ntp8835.
+Hi Kuninori,
 > 
-> Currently the return value "0" is considered erroneous when in fact it
-> isn't and what would correctly indicate an error is a negative return
-> value.
+> > (snip)
+> > > +enum simple_util_sysclk_order {
+> > > +	SIMPLE_SYSCLK_ORDER_UNSPEC = 0,
+> > > +	SIMPLE_SYSCLK_ORDER_CODEC_FIRST,
+> > > +	SIMPLE_SYSCLK_ORDER_CPU_FIRST,
+> > > +};
+> > 
+> > I think UNSPEC is not needed ?
+> > 
+> > 	enum simple_util_sysclk_order {
+> > 		SIMPLE_SYSCLK_ORDER_CODEC_FIRST = 0,
+> > 		SIMPLE_SYSCLK_ORDER_CPU_FIRST,
+> > 	};
+> > 
+> > Do you set this "order" via custome driver if you want ot use CPU_FIRST ?
 > 
-> Ilias Izmaylov (2):
->   ASoC: codecs: ntp8918: fix snd_soc_component_update_bits handling
->   ASoC: codecs: ntp8835: fix snd_soc_component_update_bits handling
-> 
->  sound/soc/codecs/ntp8835.c | 17 ++++++++++++-----
->  sound/soc/codecs/ntp8918.c | 17 ++++++++++++-----
->  2 files changed, 24 insertions(+), 10 deletions(-)
+> Or, not use flag, but check whether "clock master" ?
 > 
 
+thanks for the feedback!
+
+Yes, my initial idea was to set CPU_FIRST from our downstream/custom
+kernel (e.g. via a small local change) when needed.
+
+Also thanks for the suggestion about checking the clock master.
+I had a look at it, but unfortunately the information we can reliably
+derive is about BCLK/FS (bitclock-master and frame-master).
+These properties describe who provides the serial bus clocks, but they
+do not imply anything about MCLK.
+
+In my case, for example, the codec is both frame-master and bitclock-master,
+yet I still need to call CPU DAI .set_sysclk() first because the CPU DAI may
+finalize/adjust the actual MCLK rate (e.g. via clk_set_rate()) and the codec
+may otherwise configure its internal clocking based on a non-final MCLK value.
+
+So selecting the sysclk ordering based on BCLK/FS master would not
+cover this case.
+
+So, do you think the solution I proposed would be acceptable if I remove
+SIMPLE_SYSCLK_ORDER_UNSPEC and keep only:
+
+enum simple_util_sysclk_order {
+        SIMPLE_SYSCLK_ORDER_CODEC_FIRST = 0,
+        SIMPLE_SYSCLK_ORDER_CPU_FIRST,
+};
+
+with codec-first as the default behaviour?
+
+Many thanks and best regards,
+Stefano Radaelli
