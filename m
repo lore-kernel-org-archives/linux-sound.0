@@ -1,185 +1,195 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011016.outbound.protection.outlook.com [40.107.74.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3ED2264B0;
-	Thu, 12 Feb 2026 22:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770935683; cv=fail; b=b1hTG0FfkR8O7WINoPPHhJg9fen/4lijCJSb8Wktu2LHCeWpS9+S3oYTVv5bZ3iuImiQwg3Cnh053v7avmMm5tc9OoMw+/PCOisQTlapLQZXsuZaEOGjYOZ/epEEa7I89x79r5O7Mb48Rf51EDDkwekJuuMucg4X1lq6NIWhDag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770935683; c=relaxed/simple;
-	bh=Zuc1FqQfUyDq4MU4p90cBbykfJcZMq3dtFBa67Q2enY=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=kgQoEieUKwTDoNF6CLVPA9tnRFirkFy9wuzaVa0oDKIPoxM72BX/hN39M/yWhhI7xa8R67ToWHPkrbNe1O4kKmA0uvT9NRcPDvEAdFjQtSfZh+fAq381Bahto3VnsmFcqFrpAHTd0BY8CQ5CzGw/KoeNNFpsqMlGT3rWw9gOVs0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=dIO8sSdJ; arc=fail smtp.client-ip=40.107.74.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BB43EBF3D
+	for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 23:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770938694; cv=none; b=I0N3Jk51v4ymEPSlNGFL5FeBvZFD21aXNaNOg6fqVEsyDReQN5NnMRjF3igKe2HQ9BJFrdBHG60jO3AXBr1pbwyP3H6V0hdIUfEn7QE0F4yc5eq0DS6Dlko3YsCmC9Fkfvzo4g73TG2dyi+KVo8lThpurfRleFbIoOe9EiM/Xwk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770938694; c=relaxed/simple;
+	bh=jTDU5G7cGunQKEkGurxRrFP6PlMJEvACtjaatPJUPOw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fqUcDVpAVjfwsU8dWcP6ohKg5Hsjc6xU/p9pckWZDHOJFgnQrKwSOVc461Ld8PTJ6lwNn8K2W85ChWHVKAsOTBbyFPLESZFI7HCm3aPeVNi9SG2G2FzmYlgayQ4+JrDoaAFMPlGKWsPjB5HtbVbkYTOkFjJ9WCjeRSAceKixtWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IUm0I1fu; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="dIO8sSdJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EsvPmRZEL855PXobKx6TOyFeDBKsWuyJufhUiWoO4oUuWNJSFxVhk8WFG0ENDbjdWQ1N+A8w4bBnAXPr5ik2/dRpuwdv5vh5mOZHtp+gZcf5lGi5kJZTakDA/cif5VY+9h3yVtm/e0+/c+XQHsyJSdNpczSPG9A/S6SbQfXSFkPOw5d2vmsZYcX7q88lLHKaqedh1S00UOiK0CfM0LGdCz8jJi8WQgZbTBYcKmdsNkfe+dLrWMezeUj7U4KchzsjcpfSnVuwk9iJNQn4JAVhjyWQcoSMaXG75j/QixfH3q8RfiSX/I41RdOD2e298PAjgOErRAZY7PxNIgnFFcZ0Fg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H50HhJCGFHOdCkzYPorFaC+mke6kW115hvglHDOBhdk=;
- b=tUz8gwK6fqHBxmH3VgMHDSMvzSGcMUhHqqnka3QuDPXkEzYJV/WpAcw4+DFuXmoQjkQw/2PyXDj9rocZiWwCvVsKymps5v5AG9r0XO41a4Zk3XZHYH6sVnY/4AEPZwF7+yQj2TPtKKM/ZS4P4AfkdpjDUVpFmQmqmPMTXRv92lv+Xgqvq/j4pJnRqsGvJwCHnKKvM48+mEYYnwnbVPTa7eRYEhofznjipkF5aybydSlXIECkNpBeImKVAswmWkEXCGgTk/OwigY1wuE40ql3LQdiotfRxcQoWdGVE3jS95mr9IzYzsKovmXAVAS06s/Gqg9MWqpbRZTKHQCsUBn26A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H50HhJCGFHOdCkzYPorFaC+mke6kW115hvglHDOBhdk=;
- b=dIO8sSdJw+vCb1fNzpnKBtSJLcVVR3X9G6k2cqz+2eXNPGrCXK2UVnEN0H0l9Qv3vTNezrqgx2buh3NpSznboi3CIu0dM9UxEEeYr/EcsWYS24Ntprxebbq1fVGP6wUt5eRPOyumOUm+TzgOeadDwD5zBGD75MPanW3YZUjxhQ8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB13067.jpnprd01.prod.outlook.com (2603:1096:405:1bf::6)
- by OSCPR01MB16444.jpnprd01.prod.outlook.com (2603:1096:604:344::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.13; Thu, 12 Feb
- 2026 22:34:37 +0000
-Received: from TYYPR01MB13067.jpnprd01.prod.outlook.com
- ([fe80::dac1:6ae:15b:67ee]) by TYYPR01MB13067.jpnprd01.prod.outlook.com
- ([fe80::dac1:6ae:15b:67ee%4]) with mapi id 15.20.9611.012; Thu, 12 Feb 2026
- 22:34:37 +0000
-Message-ID: <87bjht616r.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Stefano Radaelli <stefano.radaelli21@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alexander.h@variscite.com,
-	pierluigi.p@variscite.com,
-	Stefano Radaelli <stefano.r@variscite.com>
-Subject: Re: [PATCH v3] ASoC: simple-card-utils: add sysclk ordering support
-In-Reply-To: <aY2bQ0_bKBqvSFsB@Lord-Beerus.station>
-References: <20260211112815.126734-1-stefano.r@variscite.com>
-	<87y0kyu7iv.wl-kuninori.morimoto.gx@renesas.com>
-	<87o6luu00l.wl-kuninori.morimoto.gx@renesas.com>
-	<aY2bQ0_bKBqvSFsB@Lord-Beerus.station>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 12 Feb 2026 22:34:37 +0000
-X-ClientProxiedBy: TY4P301CA0079.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:36f::6) To TYYPR01MB13067.jpnprd01.prod.outlook.com
- (2603:1096:405:1bf::6)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IUm0I1fu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770938692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RzY+agXCqQxOyyksWZOqHWsVBeUJ5doZtZdtqHEE6zw=;
+	b=IUm0I1fuqctmQcVl7SK0O5S6skfK8Y1SZettK8Nb9+jzZHvBGjQcrYidKrnn+ay0bf15hr
+	qO5naOuN1K/rTbMM46HeybA1y6kLolfpbuGfkqW04L6O6l3xWGTs36DUMNKoQpTgxqn6Um
+	o+mOKGly/lrOu7fFUzfhtE5tWg0KI6w=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-530-OJ5WGgcAMlyQDQZM4UOLOw-1; Thu, 12 Feb 2026 18:24:51 -0500
+X-MC-Unique: OJ5WGgcAMlyQDQZM4UOLOw-1
+X-Mimecast-MFC-AGG-ID: OJ5WGgcAMlyQDQZM4UOLOw_1770938690
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-b8fa5744b82so25469366b.3
+        for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 15:24:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770938690; x=1771543490;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RzY+agXCqQxOyyksWZOqHWsVBeUJ5doZtZdtqHEE6zw=;
+        b=gljzhIch4SMayYWVK+k2WlqYMN7xk8pGqNiV/9gam5c96uloqJge3pSR0o6XAqaCRc
+         pj0t3Z7MlCV7b8BEccJ7t+gCDp7wQ2UAPkI356Ae8EkGuimI3CfZDm7XBvz8d51SHo5k
+         lEzgTvPb2mKdK/APeQ6LUu+9BpSOCS156dXn6jh+PMEopldUg0TXaKY4zME6sYIfUJnU
+         BbTCa1oNR0d6/UJTTqJQqOAW9BZnBlqPNKwAR2ZXALkP6qM8Sp1gAs24/RQ8dLwEVQeC
+         +vuyv/Y5Q7viW8XL4HSKu/ycbEr7/Acm24yhkLV6kIquRotUH0GQNnc13eesXFasZqoI
+         bC4g==
+X-Forwarded-Encrypted: i=1; AJvYcCU9thX1fRQdMCxAgYHIbklRrcBJUpnT/cOF/TQLvqzVGP4DEdIrFfD/VFwvf+U3eisYyisSnbcvniigUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoBdtJSOJM1NJuk/KgpdFU2a55eVOVJod/8vdXAxaXs3Pzk1YN
+	61VRdAmANTGWv28CUlpUyQRV6d/FfF1mgTo+PTB3EGZPEy4J72NLgqUiFk7g757ZqamTdGIfgdi
+	HIK7mkRGGKP6HJ5v6JZeE9uuMll8LA2uecGchvdkrdv/2SvLCWPhmICE7zuHgEphGVvEDcQWcyi
+	Sy5elX+Snei+b9LprTn9TsgGqWroafjySxw65YLlQ=
+X-Gm-Gg: AZuq6aK/ES4mMvN6rOC+Z4h/1GrY4kJ2V77u9HCkJqnTbTYUtoWu13IJCLfDvl0RZzQ
+	lLqwhZHTljYcPE/Fs8/S+qHiiiK8smAd0QiqW05Eq+EadkETmGsi41hpW7w/LPkMWO/WJPmRsNk
+	gANO2fUth6ktqJbgz6QKjH7h5P0hi0x73a742aZDrAo+24Jm8egQTEj8/FnTkC6LcShOyrwQzW0
+	t1NtLDwr3m1SRiKwXDejakUTJADoG6uYc/q6XDM
+X-Received: by 2002:a17:907:c0e:b0:b87:7485:b4bf with SMTP id a640c23a62f3a-b8fac8b91ecmr35964966b.0.1770938689800;
+        Thu, 12 Feb 2026 15:24:49 -0800 (PST)
+X-Received: by 2002:a17:907:c0e:b0:b87:7485:b4bf with SMTP id
+ a640c23a62f3a-b8fac8b91ecmr35963266b.0.1770938689315; Thu, 12 Feb 2026
+ 15:24:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB13067:EE_|OSCPR01MB16444:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4663b0da-07c0-4804-c660-08de6a86e741
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|7416014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?80LFIoEWE6ifM2VFSdfOF4bl4MOUcMGLkvKuisFPUS24rhaxVBYVEMnDRS6+?=
- =?us-ascii?Q?R4SphMXTtWhce67A/xEBi/D9AtxtM8x0T8Cn/l5cr8Ia3QZ1ZRn9DK4Mo8q2?=
- =?us-ascii?Q?eVDnhhmmFalBxSSe3hAfpAN6AEK208WE58lVf7pYPv5GV4yzM1NWzw5wYVao?=
- =?us-ascii?Q?4UTXRKRvKzIrUsKChqvjCi+fksMbxw6NuHH3jfHEsP2LHJ4y7gleDoQk5DoJ?=
- =?us-ascii?Q?i13oPcABi2zXIKVCZydIPxvqxp3VBnU/0rI5Ecbs73wa5HKOUb156h5QiqKb?=
- =?us-ascii?Q?cPlYckipOhoJPMuWbeKUMQQzzmo6PjH3B8voM4soBgalDm6Gqw/sVOeVTCiY?=
- =?us-ascii?Q?EH6iHTWGHXRMLAUibia9CdcFIxs7/3ZCvMolP0ruC229YzU17qQYoHLZqZwO?=
- =?us-ascii?Q?VZurdDzC/grHf2+3dkg4oDkQd45TEH30v0UKt+wELU106wyVsZLza7+YaW0W?=
- =?us-ascii?Q?WY6Vmu1cm/YA80tE+ncOMpyBiSgzcV9p9Pec0y268vfI1BwrGgl2iNKBVSh0?=
- =?us-ascii?Q?+qm/OnsTj/N6hH68bR/l2eGA3BLrfmYIlJooQ9i93/QDYX67YA8pJ2GVn3BO?=
- =?us-ascii?Q?NTHZRLjLFfWW42BjeJwuxuGGoHY2U3FJpkBakkAw/i3USOHLEhAJ+QhsgwFx?=
- =?us-ascii?Q?xRf4/K0dzMCraOSnCuL40sbp6dqyDKmxQ6jlPI/SY+V6b2/3XyJixu6YOIFI?=
- =?us-ascii?Q?xJuBUp0gS49d4xVDJgBBwpXUc2yc2BN1kLVuPITIrw9/HChECtaZYa85NgZt?=
- =?us-ascii?Q?LaKktPRfqTZzdq4jpYSp1mxjLUbOuHU/4OL7D9MqJmY6OFlPvoPzGkQEXb0t?=
- =?us-ascii?Q?TLb4dOxovaxuJnDr+V2t5USC6KHUrczozzt9h3sHM1zYf4Le8KOCsuIL5l/b?=
- =?us-ascii?Q?UkZFT9BR3YYZcQ8GcvU2wOOmgpV2vOPibPHB7avKyqq8QzigkzdLbf90dQTP?=
- =?us-ascii?Q?+b1e5EXgfRLwYmHtqbq0BPa/W6mJntNtfccyW3jNLj99Ao8ezjTs5ZFtuQeZ?=
- =?us-ascii?Q?sqKOTHu5D1KiEy8kyJXtE6fS+0yrSjFJkzsQaceng/u6jN3ayvVS076WP0hq?=
- =?us-ascii?Q?PuGNIaNnCXlB9DD/SDIcfX+e5Pmv/1xoplJe7vpsLpnjS7sGA6+Go4q+xfeI?=
- =?us-ascii?Q?QFo2Am+83I5Jg3uLaIV9HwGM/RsPg2bpW2wBTgrr/OoGwv1mrw48w800d5y5?=
- =?us-ascii?Q?ERsmNj/1GLbZlc1mAzYuAWVjhfK5cWOvYJtpXcf2RGR/ERfskY5oeAV3eL+V?=
- =?us-ascii?Q?zY8bZQy7lDbeQDJOvLPP0szOLonJkttUPuRJMMxc/uoSybACI9MtxQY5a+Pu?=
- =?us-ascii?Q?FjYlAwTV/C4gAxhYPml/VT5gd6lOgNjey3aWvMLj57J1ESEMabCEM4wVek9A?=
- =?us-ascii?Q?GkR4aY578af/VaL6YWFThBc9t0moAEf+olO4WEqT3fvVnoE15eNGAPgyuvfU?=
- =?us-ascii?Q?/4q1SWEAhR4dNvpfNRJGUnRo2FPaliPiRAl2n6JN99Pwwfd+2uQ4Nm6Be2L5?=
- =?us-ascii?Q?IfKifdJivrAAtLbD8bn7rouVn7PU0NuAQJIKpWi+NcbQT7H1wbE27lxkiJWI?=
- =?us-ascii?Q?+/DETwX2+FvXgkYKQf3Tj3vYuXGJI9iUBOkkcY3vwkMypEG+wgUKmhwAcnIc?=
- =?us-ascii?Q?WRi0FY1d+5uHli1zXGmnW+0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB13067.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XGvqmnc7ipZsGI5X1V+SPwxHoyqYJkivQPpPsV4QLksuhJUiSANLFyIPvSEL?=
- =?us-ascii?Q?pcAlYzC8we6IBRTkMqc9URGF2z54HmmaGnzBmlTG3GxWA4hMGcxX23e7dEYF?=
- =?us-ascii?Q?lYYMFaf6Uc1KVXwCgoKwKu6elg2vi7V8K2bZuFExsZ3k8J0qaDTOOiMjbPdH?=
- =?us-ascii?Q?3qSBgkeBLv5vk2GSCAQq5SACOixeki6CrAXP6S+vkOqkLlMaldiUywGIjNzq?=
- =?us-ascii?Q?NTBZZg76JM+f8macAML9rSCjFaqugi/y+Ris2lTSdXDuC0jkj8jftR60zSUD?=
- =?us-ascii?Q?HYy0XZXb4fkODNKF4GMQCDUVkR8kfUfWBbr6HRQQE69vJbQ+nnM1R7rvGGuM?=
- =?us-ascii?Q?GWvjtG0G+UjoSgUYuB4w59JntVsveyJ3OUbIX2Kuazgb0/8RklKd+nfDpiLC?=
- =?us-ascii?Q?MrZpZxHXRj2CZeHvthkemg+rvM52iFPhYYFKQnhCk2ORQEqETfoE2xow5CTL?=
- =?us-ascii?Q?hQ31lDSGRQl88eBXiDHfPnpKaJh9qjbIrQLokoCwYlp4/1yr9f5/XtZKD8iZ?=
- =?us-ascii?Q?3sM+Vk3rdwva4Cg1iKkzHJH9vE3Qlg9j2WdzkRLV7mTD7IJy9KN4Q5Ff0S17?=
- =?us-ascii?Q?uZMSC1J/nVsMSLCNdrQVe+cLkaLdkr1lCrrHNBRvXucCbkBF3y2ArKFHRh+h?=
- =?us-ascii?Q?zVJTaKdYW2ePucW1HCeRIbHIrkv42i6Mnh8kfv3zIIsbwap574z5WyyWQIbP?=
- =?us-ascii?Q?3tlh1x18aLso2AqHYQx2a39j3sB0m9kO/CjNqf+Iegtlv17Q9KmdQrhsYXzB?=
- =?us-ascii?Q?lYUtbZwxxbMldQAo51xilYhpkd+J64hg8erRSUz0SCYwRpOi+/iL2YvFG/pV?=
- =?us-ascii?Q?hSe8X0MAGWXy03d1fMHBp8K7AtEX+FkanJ7L6Yzu9lHgfTRp97BoNK1e8/4y?=
- =?us-ascii?Q?XwwX++es/+WA1aw89xujAPbPwcOATok/f0jNi3i3v00a719BeOppgZ29YVHW?=
- =?us-ascii?Q?R3mg/E3bQE1flrYfHG8jAOZA6wvKDOGFYtv7W3UxJOIJ9GsJqrIEhu5qyxtS?=
- =?us-ascii?Q?xwf3tekZLxUPevf65sFz2gsak4vOZDl9xGJhWxsCKXuuUXxfk8JhUcXfMHHk?=
- =?us-ascii?Q?mL50xY6s3oQQQW3cJmBRvWG8ignp3idcYtVWc4rZsdVWqGCqPdoe88L9kk4c?=
- =?us-ascii?Q?4ZeWF9iBXkxQRx7FEan0cBcKnNEdgJCujp1tXeSNQR4+S8el+z5wWnCFFABv?=
- =?us-ascii?Q?AJ24YMzUnk0HnyF6csDqPg9wLgYWDBvNVO4srApQJPClzgdCKNw2CKFIaV5w?=
- =?us-ascii?Q?CobA5Xs7SZE25nAD1uyucYZVPD5ZtzohNcZ6FajP3gwAQu18GU04ka7CtK8l?=
- =?us-ascii?Q?g0GBp4stEn3OFhbic+M2os1XKKQJFjNbRiueVWj/BQqbmiDPZx3bn3E4OGHA?=
- =?us-ascii?Q?bVuPlBW2gEO5Wl9LuOi8tEzqOMdxM3hLLPCFWSk2vYbaoNZ6Cqyr361HuxpL?=
- =?us-ascii?Q?Oe5lrqy3qhrMklOinQpxnEObETirmKpeALFe3+0c9rimsfnjAgwOM3AX2rX6?=
- =?us-ascii?Q?i9Uw5vIZU9BtnZ06OW6i28nSoyMaMGqotC5iPa6+e2jl5UscVHRPo+rAH1Rd?=
- =?us-ascii?Q?tQg9GZsVkgrazH0uOh6d7+UajBraqwnQfNWL6+NVAATOMCP3faTD1QUPdH90?=
- =?us-ascii?Q?EiqnfZ36GaCLqqCXONSk4+TrG3IS9xcZTHEHM37lzTsLHgq0tX8SZpKvZaBW?=
- =?us-ascii?Q?THFvpD5HlmdLYMO6sOiG9SEortDjg2UObfD8AqmYRGkNmrsE9NCwQVCAM6uq?=
- =?us-ascii?Q?+0fJN6a9mL2twu5kLACxq8Hut1YevAqdXi/2Ju8enEsKy5x2VOd9?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4663b0da-07c0-4804-c660-08de6a86e741
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB13067.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2026 22:34:37.2310
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NCL1XObZ4uFd4OmOxcqQML9aTU5Cg32z1/W4qdzCML89raC23lEkM8Yi66lXDSGxNNyu+Ix0KuDIa0kivI1vZDhj3bWmI/OPpe9vWICsSon3IVdsqrB+BSxaw29/5gw+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB16444
+References: <20260212191416.3723397-1-tim.bird@sony.com> <CAC1cPGzabh8d0MQ52d4iPfWdVG731Js8JmdPhu_dMOx9kOt5Ew@mail.gmail.com>
+ <MW5PR13MB563268BC53570D4C8D3ABAE6FD60A@MW5PR13MB5632.namprd13.prod.outlook.com>
+In-Reply-To: <MW5PR13MB563268BC53570D4C8D3ABAE6FD60A@MW5PR13MB5632.namprd13.prod.outlook.com>
+From: Richard Fontana <rfontana@redhat.com>
+Date: Thu, 12 Feb 2026 18:24:38 -0500
+X-Gm-Features: AZwV_QiaAhOX2ib-qxnOQd9MTXHMILUMvZWBpJCDlCnZbbCn5hDEYi-Tc6XWoe4
+Message-ID: <CAC1cPGyh140A=0cwCWVecCOqQFLHttXkpi554pjFVBb7+6J21w@mail.gmail.com>
+Subject: Re: [PATCH] sound: drivers: opl4: Add SPDX id lines to files
+To: "Bird, Tim" <Tim.Bird@sony.com>
+Cc: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>, 
+	"clemens@ladisch.de" <clemens@ladisch.de>, "tglx@kernel.org" <tglx@kernel.org>, 
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"linux-spdx@vger.kernel.org" <linux-spdx@vger.kernel.org>, 
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Kate Stewart <kstewart@linuxfoundation.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 8LEMsedXESYbH6wTNeGyAgHwW-Lxm80OXAthlcxqFzA_1770938690
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Feb 12, 2026 at 4:13=E2=80=AFPM Bird, Tim <Tim.Bird@sony.com> wrote=
+:
+>
+> > -----Original Message-----
+> > From: Richard Fontana <rfontana@redhat.com>
+> > Sent: Thursday, February 12, 2026 12:29 PM
+> >
+> > On Thu, Feb 12, 2026 at 2:=E2=80=8A14 PM Tim Bird <tim.=E2=80=8Abird@=
+=E2=80=8Asony.=E2=80=8Acom> wrote: > > Add a license file to reflect varian=
+ts of BSD licenses, with the >
+> > first variant being a BSD-3-Clause license modified to > remove clause =
+2 (attribution
+> >
+> > On Thu, Feb 12, 2026 at 2:14=E2=80=AFPM Tim Bird <tim.bird@sony.com> wr=
+ote:
+> > >
+> > > Add a license file to reflect variants of BSD licenses, with the
+> > > first variant being a BSD-3-Clause license modified to
+> > > remove clause 2 (attribution on binary formats).
+> >
+> > > diff --git a/LICENSES/deprecated/BSD-variants b/LICENSES/deprecated/B=
+SD-variants
+> > > new file mode 100644
+> > > index 000000000000..83f24d68fb87
+> > > --- /dev/null
+> > > +++ b/LICENSES/deprecated/BSD-variants
+> > > @@ -0,0 +1,32 @@
+> > > +Valid-License-Identifier: LicenseRef-BSD-variant1
+> > > +
+> > > +Description:
+> > > +Here is the "no-binary-attribution" variant of a BSD license, number=
+ed
+> > > +here as variant1.  It is a standard BSD-3-Clause license, with the
+> > > +condition removed for attribution required in binary formats.
+> > > +
+> > > +License-Text:
+> > > +
+> > > +Copyright (c) <year> <owner> . All rights reserved.
+> > > +
+> > > +Redistribution and use in source and binary forms, with or without
+> > > +modification, are permitted provided that the following conditions a=
+re met:
+> > > +
+> > > + - Redistributions of source code must retain the above copyright no=
+tice,
+> > > +   this list of conditions and the following disclaimer,
+> > > +   without modification.
+> > > +
+> > > + - The name of the author may not be used to endorse or promote prod=
+ucts
+> > > +   derived from this software without specific prior written permiss=
+ion.
+> > > +
+> > > +THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS "AS IS" AND
+> > > +ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, TH=
+E
+> > > +IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR P=
+URPOSE
+> > > +ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIAB=
+LE FOR
+> > > +ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTI=
+AL
+> > > +DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GO=
+ODS
+> > > +OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION=
+)
+> > > +HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, =
+STRICT
+> > > +LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN AN=
+Y WAY
+> > > +OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY =
+OF
+> > > +SUCH DAMAGE.
+> >
+> > As far as I can tell this does not match an existing SPDX identifier,
+> > though it seems to be pretty close to `BSD-Source Code`
+> > https://spdx.org/licenses/BSD-Source-Code.html .
+> > Might be worthwhile for someone to open an issue in
+> > github.com/spdx/license-list-XML to add it.
+>
+> Thanks very much for the info and suggestion.
+>
+> I looked and didn't find an existing SDPX id, so I ended up using a
+> LicenseRef-...  ID, which is not ideal. It would be better if there were
+> an existing ID I could use.  I agree that BSD-Source-Code is a close matc=
+h.
+>
+> I did a cursory check, and found that this style of BSD variant is sprink=
+led
+> around in other kernel files as well (at least 10 more confirmed, and may=
+be
+> up to 50 based on grepping without closer review, yet).  So this BSD vari=
+ant
+> seems to have been popular at some point.
+>
+> There are a few (minor?) wording changes between the different versions,
+> mostly having to do with naming the author or organization to exempt
+> from endorsing the product.  I'm not sure if legally it matters if the ex=
+act
+> entity to exempt is named or not, or if "AUTHOR", "ORGANIZATION" or
+> "CONTRIBUTORS" is sufficient.
 
-Hi Stefano
+I submitted: https://github.com/spdx/license-list-XML/issues/2940
 
-> Do you set this "order" via custome driver if you want ot use CPU_FIRST ?
-(snip)
-> Yes, my initial idea was to set CPU_FIRST from our downstream/custom
-> kernel (e.g. via a small local change) when needed.
+Richard
 
-OK, nice to know.
-I'm not sure how it helps you, but Audio-Graph-Card1/2 allows custom
-driver. You can call audio_graph[2]_parse_of() from it.
-These are sample code for you
-	sound/soc/tegra/tegra_audio_graph_card.c		// for Audio-Graph-Card
-	sound/soc/generic/audio-graph-card2-custom-sample.c	// for Audio-Graph-Card2
-
-> enum simple_util_sysclk_order {
->         SIMPLE_SYSCLK_ORDER_CODEC_FIRST = 0,
->         SIMPLE_SYSCLK_ORDER_CPU_FIRST,
-> };
-> 
-> with codec-first as the default behaviour?
-
-Looks good
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
