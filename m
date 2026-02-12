@@ -1,147 +1,99 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx4.sberdevices.ru (mx4.sberdevices.ru [152.89.196.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757EE28F5
-	for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 07:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814C61D9663;
+	Thu, 12 Feb 2026 08:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=152.89.196.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770881813; cv=none; b=F2kRVkY5RkX7xSrLnRkvH45DmhH2xNHJV1u++sCBZ5ltVTK7dYHnySYEzWSKmsmaSPFu5XNjMmEQJxlqh4cyH/z1OJ7d6Hiyyfsv+DC8QLKjIy36eGwN8bVeTl1SwQpyq+sNxzkF425Vuzh90uCfHPpyGEXEBoRWD83LhAwAaJY=
+	t=1770884258; cv=none; b=pUlVpepi2IvM0RGGjDMvwuprCCJbzuIinF45QnvVZIukR3ovnB7de6VGBod5l7VspDbP+UqpS+a7PGbu+yk1RyV6BSpzcFIsXpBHlZCIbXX8MnvHPIby3qyFA1JqHx8OHSLG26QeWeYKRNjQuTROpwkdV9cJl5MXJNfJqb9VQlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770881813; c=relaxed/simple;
-	bh=B7g+WgqyPiliNjIcZ17kUXoulONTHQDh2v4Dsy562eg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UtSAdwYEekVrGKcnG43KApLbtn8FWYBZvKn1Gru4RFCI+Z7cv7vSVYzTsxGO8Xj3KfI2VqEyZbcQtaL33BjSNq3iguDwzCbfQWIi+ul3N64MVpzXAp9t19i6I+qdThKYYX3qQ/yonYMvl+OQrF+kHTdHSz6NTsIHvohO2r0Mbls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NspZKnjj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XUtKukFh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NspZKnjj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XUtKukFh; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1770884258; c=relaxed/simple;
+	bh=OwY3fCUXHvn7c0b6myczIXZwS6nAMjOf2RxQweyvf2g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=U4H+7WWDquivBcjcw+zllPfl6M0rtcZNaqGhJGhUL+xi2/ZSKlr1BmDVgPSMEJxa0xvHy6CZvwdNzizlI55XxgNQCFL/6QAZCSCj9gIqK/bxqiI1UqqBXdIcE2HZZlDsFQWEO+puUfphHZxqpAY7JFD4J69jReGmXdkL0TTJfWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sberdevices.ru; spf=pass smtp.mailfrom=sberdevices.ru; dkim=pass (2048-bit key) header.d=sberdevices.ru header.i=@sberdevices.ru header.b=KKzaoBkL; arc=none smtp.client-ip=152.89.196.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sberdevices.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sberdevices.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NspZKnjj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XUtKukFh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NspZKnjj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XUtKukFh"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A9A633E6F2;
-	Thu, 12 Feb 2026 07:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770881810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/SNuoaAS9RgmNWTKkhBODBH8ze0MXOsDjKJvHxN6EQI=;
-	b=NspZKnjjEqiX6TCIfINMzPbboWG205Oes8M9J1A6ecQp0IKnTyZ1rvOFTVtmVIfnc3SuCd
-	Z9/BGinnKhfRPDYPL1Aat/+2cU/dQPuRcRZemhqFXuV17tSXe/I2uX19hUmuY/aOUnF4zK
-	xVMuRJsGogrtd+Eq59Ll9blMkt40kGY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770881810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/SNuoaAS9RgmNWTKkhBODBH8ze0MXOsDjKJvHxN6EQI=;
-	b=XUtKukFhJeIe4ehf/vVJ1Kv7SNs2qcnEn/LiNaJTEwH4K0ucHUVVRIaug9YHPMMNV8eE7J
-	Kf16Rx0m/ustLjDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770881810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/SNuoaAS9RgmNWTKkhBODBH8ze0MXOsDjKJvHxN6EQI=;
-	b=NspZKnjjEqiX6TCIfINMzPbboWG205Oes8M9J1A6ecQp0IKnTyZ1rvOFTVtmVIfnc3SuCd
-	Z9/BGinnKhfRPDYPL1Aat/+2cU/dQPuRcRZemhqFXuV17tSXe/I2uX19hUmuY/aOUnF4zK
-	xVMuRJsGogrtd+Eq59Ll9blMkt40kGY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770881810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/SNuoaAS9RgmNWTKkhBODBH8ze0MXOsDjKJvHxN6EQI=;
-	b=XUtKukFhJeIe4ehf/vVJ1Kv7SNs2qcnEn/LiNaJTEwH4K0ucHUVVRIaug9YHPMMNV8eE7J
-	Kf16Rx0m/ustLjDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5BB763EA62;
-	Thu, 12 Feb 2026 07:36:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id m2/rFBKDjWlOUAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 12 Feb 2026 07:36:50 +0000
-Date: Thu, 12 Feb 2026 08:36:49 +0100
-Message-ID: <87ldgywgz2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Cc: "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	"pav@iki.fi" <pav@iki.fi>,
-	"jussi@sonarnerd.net"
-	<jussi@sonarnerd.net>,
-	"roy.vegard.ovesen@gmail.com"
-	<roy.vegard.ovesen@gmail.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for GHW-123P
-In-Reply-To: <TYUPR06MB62176831E47899AB98902012D260A@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB62176831E47899AB98902012D260A@TYUPR06MB6217.apcprd06.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=sberdevices.ru header.i=@sberdevices.ru header.b="KKzaoBkL"
+Received: from p-antispam-ksmg-sc-msk02.sberdevices.ru (localhost [127.0.0.1])
+	by mx4.sberdevices.ru (Postfix) with ESMTP id BDE6D40006;
+	Thu, 12 Feb 2026 11:09:25 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx4.sberdevices.ru BDE6D40006
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+	s=post; t=1770883765;
+	bh=MLELW5b3tq0rLe8NynhUtk8Sj1P8dS+MehnwoUa3xpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:From;
+	b=KKzaoBkLfKidGW321d2pNpi2ClcRZ68ZqzCayW77q6OZYaRBRWi1fOGybl27c8c5M
+	 KeWCWCSKIFPdtwm4Dg4fkmiejIoyxdvJ5JLpJoh0e9BT0aYalmw91TrXWZL/FH78w7
+	 /zcHL/EupGq612MJYuAwrs8wAD+ly3985G1tNIJJVTaeYWUm2XfAxJIrgTr9fiDIqe
+	 NKOw9RlzxGaIqbfYH/qHk6E9wm4a9Ri8pb+6RfFxDV9itVWdst4+CRsWlbaPERIlz7
+	 Vs90qVP4UUtQt4z7qD4yjxDOes6yPTu4fc/WAuRUfvVqT0Joy5EwwT18E95EbQ6Mm+
+	 OO9t0FDw8GQ0w==
+Received: from smtp.sberdevices.ru (p-exch-cas-s-m1.sberdevices.ru [172.16.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "sberdevices.ru", Issuer "R12" (verified OK))
+	by mx4.sberdevices.ru (Postfix) with ESMTPS;
+	Thu, 12 Feb 2026 11:09:23 +0300 (MSK)
+Message-ID: <810bf4fe-8c97-4580-ac8e-31c6bdcd74d9@sberdevices.ru>
+Date: Thu, 12 Feb 2026 11:08:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,uniontech.com,iki.fi,sonarnerd.net,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/2] Fix snd_soc_component_update_bits return handling
+To: Ilias Izmaylov <ikizmaylov@salutedevices.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Igor Prusov
+	<ivprusov@salutedevices.com>, Chen Ni <nichen@iscas.ac.cn>
+CC: <kernel@salutedevices.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <rulkc@linuxtesting.org>
+References: <20260120161200.3590305-1-ikizmaylov@salutedevices.com>
+Content-Language: en-US
+From: Ilias Izmaylov <ikizmaylov@sberdevices.ru>
+In-Reply-To: <20260120161200.3590305-1-ikizmaylov@salutedevices.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: p-exch-cas-a-m1.sberdevices.ru (172.24.201.216) To
+ p-exch-cas-s-m1.sberdevices.ru (172.16.210.2)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: ikizmaylov@sberdevices.ru
+X-KSMG-AntiSpam-Info: LuaCore: 87 0.3.87 7430d8ffafccd8879e1d8370e5b501352446c2ba, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;sberdevices.ru:7.1.1,5.0.1;smtp.sberdevices.ru:7.1.1,5.0.1, {Tracking_white_helo}, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 200430 [Feb 12 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.20
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2026/02/11 23:32:00 #28234100
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-KATA-Status: Not Scanned
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 5
 
-On Thu, 12 Feb 2026 05:20:36 +0100,
-ºúÁ¬ÇÚ wrote:
+Hey!
+
+I noticed that it's been more than two weeks since I submitted this patch series and there is still no reply so I decided to ping you guys just in case
+
+On 1/20/26 19:11, Ilias Izmaylov wrote:
+> This patchset fixes the way that snd_soc_component_update_bits
+> function's return values are handled by codecs ntp8918 and ntp8835.
 > 
-> Setting up the interface when suspended/resumeing fail on this card.
-> Adding a reset and delay quirk will eliminate this problem.
+> Currently the return value "0" is considered erroneous when in fact it
+> isn't and what would correctly indicate an error is a negative return
+> value.
 > 
-> usb 1-1: New USB device found, idVendor=0020, idProduct=0b21
-> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> usb 1-1: Product: GHW-123P
-> usb 1-1: Manufacturer: Generic
-> usb 1-1: SerialNumber: 20210726905926
+> Ilias Izmaylov (2):
+>   ASoC: codecs: ntp8918: fix snd_soc_component_update_bits handling
+>   ASoC: codecs: ntp8835: fix snd_soc_component_update_bits handling
 > 
-> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
+>  sound/soc/codecs/ntp8835.c | 17 ++++++++++++-----
+>  sound/soc/codecs/ntp8918.c | 17 ++++++++++++-----
+>  2 files changed, 24 insertions(+), 10 deletions(-)
+> 
 
-Applied now.  Thanks.
-
-
-Takashi
