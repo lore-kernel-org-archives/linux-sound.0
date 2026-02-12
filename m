@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E489E3EBF1F;
-	Thu, 12 Feb 2026 11:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487631A58D;
+	Thu, 12 Feb 2026 11:34:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770895241; cv=none; b=Pm8ZXgE9ZMt+U7w2vBQf6vL1rQ1DwNI855yZi/qrBBxTB73XqPsCpb84p/U3V9hE04sj7/jz0SRa+aD+nm3qa1ijEoA0OKf+vN+KhRkpsp+jNGmGIHYde1R6sNHn9wIoBaahzQlz5fUkG8nUa/9AXEC3zX9HxQrwJJBKFsUMr7Q=
+	t=1770896047; cv=none; b=GtZF/1/zyDvygHm9EgJbZ6Q+AZpkdQYtn34RzV9irPeuDCmccCelshldsz/IapFOr6fdpH06GC0Ao8GpQPcWnkHBodvNhtcwvjIUyB1SAigKmkbLRPFTP+IRYCl6wPyllcVhmm1zZECAmw3zYRwOS3pxeAeIKTBBo10iduIKD3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770895241; c=relaxed/simple;
-	bh=vjzJAHv8zt1XgxnWKeBYUrM7Qh0gd4tkKzX5pfQ/UMo=;
+	s=arc-20240116; t=1770896047; c=relaxed/simple;
+	bh=jateon4Aiqe0KKjigwVbefTRycI6oGqG8zKuLU/8HSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a7xs5JwratixQhYLfhFLk2B3Ke+6JJBQSNguVOQHa3vRFVlkuWOQNMjRgPfWYmEkWPkplJV3ARVQMBUfFWzF1D5YnEe7NmeZnAGi4meJ6A+q7fRdMhgiYuKPWOrV2Z1OpBR127Q7ZqQStC9B0lqbm6dpVgpxHQfs475Yte9SIo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRXx3T8l; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQDZi++tsEudPXeaS4NUcemioWZwaKu2O4/kaTfPNg2J0uB0VXDniT66q/qndiajpQYlR3HtxpdQOwDqvlxHA8wOFGu4OnoS+a5p3kINOUTeZozO04SBwvWsCwjmp4awzksTvtJOVBpisdZbuejnkx9jAHea8SnORNyOdMbl/co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkUhZ/ph; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRXx3T8l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C21C16AAE;
-	Thu, 12 Feb 2026 11:20:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkUhZ/ph"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35DD3C16AAE;
+	Thu, 12 Feb 2026 11:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770895240;
-	bh=vjzJAHv8zt1XgxnWKeBYUrM7Qh0gd4tkKzX5pfQ/UMo=;
+	s=k20201202; t=1770896046;
+	bh=jateon4Aiqe0KKjigwVbefTRycI6oGqG8zKuLU/8HSY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jRXx3T8lNEID8+znPhVC9hW5ftJruShMEFcXvy+m3OXqZ5DVjexPXrq/NWxj9ZYh4
-	 wAZNIf+Wfi3/ySoTRf/ANz9EW7TuUGjmRcM7fb//G7RHTQ3HxYDpqU2PPTFDTxRcgB
-	 HIBHdTqvxWx/TMKYiP1Rdbirn9HVzTtpiYAdMiwCzNXDViOncz3axin5i5CsZuxCsK
-	 GH92Bktd+AYiFIv4LqwzURzZV9QPb3/dhMYK5PEaN1GL+yjQPStHx6vdDZnZ6CXfLK
-	 P1aNkFEj8WAWIymrxxE6/ICG/gDvO71hWYylGbl3qvGknWrlDsqKXxHzSaD5jqh387
-	 isEYfTAolx4Ew==
-Date: Thu, 12 Feb 2026 12:20:38 +0100
+	b=mkUhZ/phkSFLWbwvlQh+Erq2H7VuaxJhJvoHaDGC7Nc/ks55jZzA57kk5Ak/O9gZ9
+	 yyU5o1xK40koNXCPf5etJRCzXLm+2Ut8V6zrDkSIwqs3ND46ywMwfYIFLCSt3sJM79
+	 Vft5jupK9CCCNfcztRsVRnvJaRwV7bv1oVlPoho59qJ026c0vaywLpd73qIZv+mn22
+	 ucuLt8YsSPkFcKu6HurPeCHPV/iIXkWLo+o0ec+SuFGbCHH08W1H11x9yyDI/GFwNI
+	 P1GlvWaacLp/z7QXmiEfpK1GRnnuRddjxl6OpfZvDcWjFoXlJTeeC/I72v5dph6ykA
+	 hk/CSpMwHurMw==
+Date: Thu, 12 Feb 2026 12:34:04 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, perex@perex.cz, tiwai@suse.com, 
-	ckeepax@opensource.cirrus.com, andriy.shevchenko@linux.intel.com, nichen@iscas.ac.cn, 
-	kuninori.morimoto.gx@renesas.com
-Subject: Re: [PATCH v2 3/3] ASoC: dt-bindings: asahi-kasei,ak5558: Fix the
- supply names
-Message-ID: <20260212-humongous-golden-whale-cba6ef@quoll>
-References: <20260212021829.3244736-1-shengjiu.wang@nxp.com>
- <20260212021829.3244736-4-shengjiu.wang@nxp.com>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Weidong Wang <wangweidong.a@awinic.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Alexandre Ferrieux <alexandre.ferrieux@orange.com>, Bhushan Shah <bhushan.shah@machinesoul.in>, 
+	Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: awinic,aw88395: Document
+ firmware-name property
+Message-ID: <20260212-passionate-wallaby-of-psychology-b7fa43@quoll>
+References: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
+ <20260211-aw88261-fwname-v1-2-e24e833a019d@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,19 +50,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260212021829.3244736-4-shengjiu.wang@nxp.com>
+In-Reply-To: <20260211-aw88261-fwname-v1-2-e24e833a019d@fairphone.com>
 
-On Thu, Feb 12, 2026 at 10:18:29AM +0800, Shengjiu Wang wrote:
-> In the original txt format binding document ak4458.txt, the supply names
-> are 'AVDD-supply', 'DVDD-supply', and they are also used in driver. But in
-> the commit converting to yaml format, they are changed to 'avdd-supply',
-> 'dvdd-supply'. After search all the dts file, these names 'AVDD-supply',
-> 'DVDD-supply', 'avdd-supply', 'dvdd-supply' are not used in any dts
-> file. So it is safe to fix the yaml binding document.
+On Wed, Feb 11, 2026 at 11:27:33AM +0100, Luca Weiss wrote:
+> Since the aw88261_acf.bin file appears to be device-specific, add a
+> firmware-name property so that devicetree users can point to a
+> device-specific path to not conflict with other devices that might also
+> ship a aw88261_acf.bin.
 > 
-> Fixes: 829d78e3ea32 ("ASoC: dt-bindings: ak5558: Convert to dtschema")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
