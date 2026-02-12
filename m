@@ -1,128 +1,127 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40094221D9E
-	for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 07:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770880184; cv=pass; b=eCGNGGtYTNwBdHdTki5g0Np/rSIl70gKy4m4yDkmqLsrQjP0/V5vgOb9clvFyTS3qQlug6/kfak2IjgWOQRzkwKWCqVstXAvHsH3s51EG8TA0zygo49AHejQU1hWfMdgATuxFQWBfy9lP33K77BtezeM+KAxcsHtvrKJYrG5rNI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770880184; c=relaxed/simple;
-	bh=Z2nqFiMrEK54GkzHQWYfhFXprKLWoPHmJuZaC2Yd5rc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W+0IXscN1+s2JIfuhfJRV/oEPHCJKuEsEfEa7Z0eGDRmT+uqzYQKMaOVvsTOeAehwVOSIpAYcTZC8Y3siVdvf3VVSh7CyLzyNN6Ldgha0/jhVICcKrYKImXE+oMC7gYls3G2lLd/02Q2QcQm86OhX+YPKZUxewfcwR041btMTrE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JCV3ejdt; arc=pass smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3339145355;
+	Thu, 12 Feb 2026 07:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770880604; cv=none; b=n3E/LKWBnGmDYeM/gOXRVqvOM9qsl6BMxqCxYGWu5/PJnuQwWsIaHhEadXEqA/slaPenR9mV1W6UQP4g6aAfBWWI7Sga548qauYWMiEGmDc/edpbRw2j35rzKar0ezmxbb6/Ef4wCDR9QDsTE0VVXyvQpBgrgK3geOc2YU7Nb+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770880604; c=relaxed/simple;
+	bh=TKJjqGtPjkayBm+H1hIaqbQi8Y1M39K7SITFsex/TN4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z0jgjY9jv9YTFKjCc4Oe8+6ZccvQNNwdnt4Ao1fdup7jdnaU0kBMFSskLiudEwouqqiJUJgXE2jR+hvKJnQJ48n/HQ92LjgYz5AJM+dgqkbNntfUc0y2kusd+sLr0HMS5O2z3TvglyamkHFY6bzAIZMnFTs20w9X2yhkD1VoVTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hHDdyF7j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCV3ejdt"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-126ea4e9694so2221844c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 11 Feb 2026 23:09:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770880182; cv=none;
-        d=google.com; s=arc-20240605;
-        b=b35kW0eloG4xlxkRTvgKWtREIPYwcNp10Qn7aGe+7ITIlk5BWYWJBVcZFzMRnlaIyQ
-         PjS34Hciqhs1IpqH+gwluHFzAnrdBhQ9Fb3DAncGxj8ZOW1YcIH9hcTDy/C7sLYOeAXT
-         tTn/WkuclXg1xBuXoOA/kXx1Wkvdvt3QcUDvDxf5FQx6DqcSwbABEa9pTHdzrH+Mhp2K
-         cTDc7qzMM72lLuYthKMDJ/9IdFg+shaosAstV+hbGLvgoAt4GKnjaYAGjBTWx0Ux47Np
-         0fRzd19mcMN4SXZqzUunOhSyUwyx9ltYkL6V87GYpgEhNsVVXDeGl5RdgP1khZTlr2iM
-         OIdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Fs5C+REHQEO0fnXAJqU+7UtASftmJuMuGkq66Fx7Ru8=;
-        fh=hmoH38b/Gzja4atJYk7sMEZAduM27JWmw4jO7J4yTOQ=;
-        b=jpttLpPVMf0F6sNE0QNGt0iaOqVEydM1LcWjwhykaano0oG6udyiPysOGLGVnMOsE1
-         h6rYO1F0DEQJ2/aq2CgeiFkG1nYfjdcOmpEJV0lS6ZCYRjRJyBSuZE5ruis5+0CPVrVV
-         FNFGXufJd9kns1yDBQnwwaOQ8etUhnXoEqWftTDm55sJ8iYC3FsvKnvy/Phb5tyV7ZJL
-         TDZCD5HCjt1XEBg5YSBrZQ+KU/EDQLag6OS1DpVGOa2b+TQBKr007aeJBa3JCIcoUbkx
-         UcslLYsXo0hUrzguVkUuHby05jL5/PPg6qhfve5XJXHdiE0/Y3kw6QGN5UIDw1dCbFuN
-         ue9g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770880182; x=1771484982; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fs5C+REHQEO0fnXAJqU+7UtASftmJuMuGkq66Fx7Ru8=;
-        b=JCV3ejdt/+jPJBLeyv/SRb6bklb0gfn0QXDawZszmis1l0MWT2AtUG8V2o/Ix7WutU
-         xz7FE5LoZCaj97/pgUI1t9+oXaCOvB10mg293vp9x9Jdh/WOX7JxCc93xmjutqLvAlCl
-         HLJ6LqC47tgpTT4gEMJBoVhr5GeeH/Yszvu23RbJIaXv0u1+cj1cLp+n1Jj4j2jlM5Ar
-         h8ZsKh40XFrzGWG9WcYjcKmFBN6SXIt7l/Vt5tyezZNQGiWJvdurak9jbS1+xgifwzD3
-         Rez+0R+fkf28jOHSGw9sGptUJ/Evg5t7x+mL8YPCqkJr3tpggScfvnNQXb9kZmOyybq/
-         YUJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770880182; x=1771484982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Fs5C+REHQEO0fnXAJqU+7UtASftmJuMuGkq66Fx7Ru8=;
-        b=XAs4uZEyGqX2F7/nn3Z6Pi2x2+Qu9nKg9On2w2BMMSlsk75GdUoTzn3TKxGuDICrbc
-         eWV0EYCJyIj6diGjX/g1Ef69A4BnEY9MT5G7odqPbVlXPh6pEKubj87jCk8TDjnuOlI9
-         anNUlLJ/ALfrymeVLGCqC4Wt+aba40gNyGFAvKwCcQ2CJiDnGoo9yBLOjCmE5Xc3aOzz
-         VB/K2qBnOO5YfNBaEi/KaXCPjeVOOyZ3dDOQLkThCyAiNQCW+sWq99XO1C3j6xt5W1TI
-         n6XeMeMDr6Uih0QhFmbptvE6vv8GwaqJ73p9kIbGuTAtwZj8yXRdwnHPvBjfxzNpWC4/
-         t6bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUE6cPUpON5HvsQJUQHU3UmW3Ed1NhuKuaBcbyVGZAMN90FxHerkX1c/MsdHHCxsqx3w68FgsBg21WN0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGldk2IPYb8S8zOyxRNRGsK4sp3D3hHVZYcybD+hg4gcy0hvwX
-	M2Ap2zVAPUrCHSDGtUviI3mlLkyGcv3y0job/bYl1wQQg8TiyYWZF6YgkHul63xR1kWKDAImdWF
-	LAYi7e9H4C0rcWspRJyRx4su8a47NjIU=
-X-Gm-Gg: AZuq6aLHL1T5oECMeK2XMPZC/WTWvTxwhMuy6iJ1ACcl0PpJB9naC6hjviOAWMMDbWF
-	Tht6OIK2CrumNyZRBnIgdLgxdomqoSd5402RceYO54QOLEqUmG7yXndVXN86bCG4Hn/O5zUWxBk
-	V+mfv40vuBh0evdzCnaw5KHilFiS3KbOXkt6nlljoAdtKiX+v54NBLPdtcjpVUYSeR6/rKrlZkf
-	d7axjDDcfEJ1BcWNQXOqgT9mgtL+XC7HMjfpD4BfqVUYvphqax43IGieFLleX00N+qJBt3qj6M4
-	IhP94wGgOUiIlUn51XGwvjlKObA3sHgwHG+rADRUQ4Q+PW0+ldigkemQwNMcsu4jHx285d4rfnh
-	SsoI1jv9oCC9pZ48sjUFGrA==
-X-Received: by 2002:a05:7022:61a1:b0:11b:ca88:c4f7 with SMTP id
- a92af1059eb24-1272f796ad2mr846334c88.40.1770880182309; Wed, 11 Feb 2026
- 23:09:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hHDdyF7j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3D5C4CEF7;
+	Thu, 12 Feb 2026 07:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770880604;
+	bh=TKJjqGtPjkayBm+H1hIaqbQi8Y1M39K7SITFsex/TN4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hHDdyF7jUYu66VtIn+KWRT1+QLr1A5ihUjviVqDjKIIIIsAPxoXAGbFYq+AQc667c
+	 WdL+GXGlNe5P6RqXuWpuvrIIVs7AyLMoHdM5ZYXVGzkOQjBqyiLqQUYE58dip2UWxe
+	 FcmQM9Ffy6SkLvxxwQvRH2S21KGVTggI8UVz6YZIEcascyEFdOrHeKVofCUjVFM/Qo
+	 O5ICzZjG3ZttHcF8ijS9J6LWYXFnxTSVg1eM+7Y8lm30GYccHQbKrX4IFEVO7sl524
+	 QS+4gJrE16uXHvG3yUPviDBXw4VM6LCOdEr75Kc8yMLT9/ogoJpDfucv9Z/zp75xOd
+	 aqQ1qJ1eDkjBw==
+Message-ID: <c157a2e9-eadd-4fcd-9f04-8a3b3fd5dc47@kernel.org>
+Date: Thu, 12 Feb 2026 08:16:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260212053036.2581083-1-chancel.liu@nxp.com>
-In-Reply-To: <20260212053036.2581083-1-chancel.liu@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Thu, 12 Feb 2026 09:12:24 +0200
-X-Gm-Features: AZwV_QherBboHyGiDA8CJURenUrUDzC_HZm3EldthyJ-DQtvEc8-3hgQOSJYk0c
-Message-ID: <CAEnQRZBTHt7XjCqDzavdRw+kjSCJ3YyK9rW_Xqg5xUuckOkV5g@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
-	shengjiu.wang@gmail.com, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] ASoC: dt-bindings: qcom,sm8250: add compatible for
+ sdm660-internal
+To: Nickolay Goppen <setotau@mainlining.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Richard Acayan <mailingradian@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>, Johan Hovold <johan@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+References: <20260211020302.2674-1-mailingradian@gmail.com>
+ <20260211020302.2674-2-mailingradian@gmail.com>
+ <yxrhmblavwkuhfrfgskujs7tz7cykojnqnl2mfrf365lhdem35@bgqwiaft67b3>
+ <20260211-skilled-transparent-moth-fac10f@quoll>
+ <f1b67c1e-cfc1-4d23-a24e-4dd342edd2e9@mainlining.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <f1b67c1e-cfc1-4d23-a24e-4dd342edd2e9@mainlining.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 12, 2026 at 7:31=E2=80=AFAM Chancel Liu <chancel.liu@nxp.com> w=
-rote:
->
-> This machine driver can parse DAI format from format property. Add
-> "dsp_a" because it's one of the DAI formats this driver can support.
+On 11/02/2026 22:55, Nickolay Goppen wrote:
+> 
+> 11.02.2026 09:51, Krzysztof Kozlowski wrote:
+>> On Wed, Feb 11, 2026 at 04:11:24AM +0200, Dmitry Baryshkov wrote:
+>>> On Tue, Feb 10, 2026 at 09:02:53PM -0500, Richard Acayan wrote:
+>>>> From: Nickolay Goppen <setotau@mainlining.org>
+>>>>
+>>>> Add compatibles for sdm660-internal based soundcards.
+>>> Why is it called "internal"?
+>> Yeah... I am pretty sure there is no such sound card. You cannot have
+>> sound card internal to the soc, because you need the external components
+>> like codecs.
+> 
+> It comes mainly from downstream driver name [1].
 
-Hi Chancel,
+Downstream is antipattern, don't use it ever as argument for bindings.
+It is actually very good counter argument - if downstream does something
+in the bindings, then it is for sure wrong code.
 
-Are there any other supported formats?
 
-Possible variants are:
-
-        - i2s
-        - right_j
-        - left_j
-        - dsp_a
-        - dsp_b
-        - ac97
-        - pdm
-        - msb
-        - lsb
-
-Can you also add more explanation on the scenario for which this patch
-is needed?
-
-Thanks,
-Daniel.
+Best regards,
+Krzysztof
