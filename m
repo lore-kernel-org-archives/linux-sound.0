@@ -1,141 +1,122 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C83361DA1
-	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 14:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B8A35B137
+	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 14:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770993590; cv=none; b=P8V2AFHl0H4h9j/swG1Zc2Ykd8eFpFpQuhxocCdrOZgUIkHJvm3DNsAA8WXXuwRsaC1T/znN+WjvBylJzCYr60pNC6sMtcyXcwqgc4ag/9TL+sTdNhjbKC5orgYXi/5evyVDcbkH9xvgTxiscBuK+ZPZf8MNb7DizTJMheecWxo=
+	t=1770994618; cv=none; b=TjZ12GXFxm5BLP5wECLUdtzayicDsKH0fPmi7frv0CYhI6t3bb/fvGuAdDGRjKDpN7x7vhpSwHlTf13/jjeJ/yvVBHujpaC7D96adBXseMXmPHRxeYHqBlhMXTZWqyMkbgEvZQX5KONUFEimKXgQbzgwmBkKP0CU23UvSiDrkRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770993590; c=relaxed/simple;
-	bh=Ufx2LQuVsPemONElURIztMjbQMMbf+4gtqztqAWWexA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o+FtVLzvKMQx4AyJg3hWIEbnBrdLdy9fsneUvia74XEjawa0olnpOHDN5f/vVPys2RvKcqUTB3a/vdK5YToCXDd4tFAfZc6suYYl4MSvRC0MBfQENha0TwwvqrtmEnGyA4YuolloABzIDLmySmHz2i13gwcCQUpjhiVZWQxNv0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJYIAIqt; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770994618; c=relaxed/simple;
+	bh=UbyWwxwp22Y+6MQsco8eyEnd+wcTcmbaO4dzVdxuawY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z7XOXqKipzfwJjdz+SdAmO7Iow2ZovXYhs/Hq9ylea0cKRuHMa+eeY17yBd3qIavO5UBffRHOf111sEOsZhf48CrTep4aUUkuOhgZNKWamm/POvt7ZDS7ejVgkya43ZM0g+RSFtTieTUipHLiNB2LcGgj6LI39hQqh2LjhP0yBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ppa2spSr; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJYIAIqt"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8230c33f477so545057b3a.2
-        for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 06:39:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770993584; x=1771598384; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BUN5m9KdWt5VPnYVJOX/YZHFeP0Re4SEll9bpIlXeb0=;
-        b=RJYIAIqtDW8E1MXKb312gXAyOr3UmiTnFvIOweP1Prtz6n9gyAxGdszPK8B4U3uEe/
-         5i12DtZnntBO5h7Zn+g84usYawMMLPT193aFWIPQ00X7sJWrKrMHrod0Fd3PY5L2EfQd
-         /MSGYKfMv+RsmTE47XiS4TxAO9gSMorQKkig6ORx05dNVzfJYZjlX1vSDkWVIn17+N5L
-         bglzSr97zJQvEA/5Cs3Ej4n3isEJcnYAzKJQR+p26xgxhme6IDrTcbsiagibfFIFDbXX
-         kSjH3khVEbIvpUT/avAen7xkUDNr6QynzDPPU+YxOClxyukbn3sM7VeOBVePAKbbj++N
-         9kxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770993584; x=1771598384;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BUN5m9KdWt5VPnYVJOX/YZHFeP0Re4SEll9bpIlXeb0=;
-        b=rhzy1aQBJMHXl/TsUkB8/0C/kJPEy0gkUu0Wuzu8B0X+vFE9sq3JmGdI4Y43jAo53y
-         /VC9JB+WY7IBPltUV5wNKEKRoI+uhROhrRhOr+m+3ELi2bO2Uj4xyDer0GWf6r3uA0L3
-         V5VcNpujojB6tfjy1Nfh89ajhc2Km282mhp4mjMwBMPZTEDWNUO9/hivsiCPEM7lwA+v
-         Gusb/Wxhm4RaS8PsEwo/No22xnNHZJU1xkr+HeU77bU59Ev5VRuyarb88zWkUhUJPC7E
-         QhG1+/8GzCfN9RJ+nxUEn9EiL0ShIZncmmc1L5YmB9Z24Gc6y7N8XPNI+WDj7wzbKIwc
-         6epw==
-X-Gm-Message-State: AOJu0Ywcx8EqqylTA3pwN2/q+fSxLIDnnUABOMw8g1d6RkRwtVD2vU0v
-	wLHu4t9Vh2v3qustPS42ws6X4gP+/DOc8L/DYZahPJruYdvf/Zr8vwZ9VCE88Z7t
-X-Gm-Gg: AZuq6aJnfM9siNbA1wa/0NRU3jzyqpDSRxA+ujngXpHlhwbZ41LJaiRq+Wghx+XjJea
-	jJ/drkpL11EzWsVxbqUIcke66it2civf1r7R9MsyHC1ghQpzvIOZ4zjQRV/rzxHcY91+H24Y3gE
-	zoNaqK/Vx51RFlHMdxWagClyVs1ANaoZZyLLMjKN/6eUnhc67TviNq3IYq6StFBYsKCWwIEJw44
-	UNVPVTXqag3i8fjrb1qB3sOOIm/AYUenDTaObueffjpW3HfiSrA1wOtJ+3ZaApFqVswThGT3sKr
-	RQwWMTrteCQ2RrYgCpPefAx/UjH9ESL0FErWlluBjTgE2io0SyR01Amrjr9AAn1JQtRK9CoBzci
-	89UtTY54zsk7BZrTD4rFo0j0XBneXubYslO0gmkIXeYSsc9AHrKqrRwJCtotRj1q4U4D/LY4hsX
-	n/nq3Gn3KOlyHjXRyzsFJ1aJXsmFGKmf7VciGpsWkCjcj/oj0+3kVVIn4JGycXPK/mFCZ94pKYV
-	WDOQfGoaRL9JZDFM5oUad01+TRJQBARYzPnyw5g6BDgrO3Cbg==
-X-Received: by 2002:a05:6a21:6f0d:b0:38e:99a0:105b with SMTP id adf61e73a8af0-3946c8bf40fmr2021017637.51.1770993583680;
-        Fri, 13 Feb 2026 06:39:43 -0800 (PST)
-Received: from localhost.localdomain (wnpgmb016qw-ds01-160-103-199.dynamic.bellmts.net. [142.160.103.199])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6e196accf9sm7676094a12.13.2026.02.13.06.39.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 06:39:43 -0800 (PST)
-From: Rob Hermann <supgeek@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	kailang@realtek.com,
-	supgeek@gmail.com
-Subject: [PATCH] ALSA: hda/realtek: Fix speaker output on ASUS ROG Strix G512
-Date: Fri, 13 Feb 2026 08:39:41 -0600
-Message-ID: <20260213143941.29696-1-supgeek@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ppa2spSr"
+Message-ID: <f3a7b462-477d-459b-91ba-1ccf4bde5268@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770994613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ectMXPbSquiq9zXOoYBh3vT9HE72FpLY1ylwn5HS1Tw=;
+	b=Ppa2spSrux2XmjsqHsR4Go5oTrel8g/nkGAFSyqge5+RWwC9eYFmcOrjiTi6uf1bTP9pc1
+	5xpJ6MzayJcOOJLSQj3U0r8rM7+ZEhcHxZpRE2wM3+dVBnMdOSTLADB6aRLhtWESrfsbWv
+	GWK8WOnTu2eAv52kTgDASsyqSpjhKaU=
+Date: Fri, 13 Feb 2026 15:56:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [EXTERNAL] Re: [PATCH v1 RESEND] SoundWire: Allow Prepare command
+ for Simplified_CP_SM
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
+Cc: "broonie@kernel.org" <broonie@kernel.org>,
+ "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
+ "shumingf@realtek.com" <shumingf@realtek.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
+ "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
+ "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+ "kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>, "Ding, Shenghao"
+ <shenghao-ding@ti.com>, "Xu, Baojun" <baojun.xu@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Kasargod, Sandeep" <sandeepk@ti.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>
+References: <20260209070905.10749-1-niranjan.hy@ti.com>
+ <97872c17-73c9-4484-9f8e-373ed9a59a25@linux.dev>
+ <87773927e37c4d70862c5f047431c7b0@ti.com>
+ <e9e27355-a3d1-4ae2-aa6a-da47c6bced1f@linux.dev>
+ <5066fa12-3ac1-4619-8fbe-62d61f9d446c@opensource.cirrus.com>
+ <5c8a4d68-0f43-40d1-971f-7d1f4f55eb5c@linux.dev>
+ <286c2158-5f53-42a2-a04d-e9bed3e7acf0@opensource.cirrus.com>
+ <54a891e5ee36487d9b6665cd73a19af7@ti.com>
+ <b1238db5-25ce-4046-9719-bd6fa8fbc82c@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <b1238db5-25ce-4046-9719-bd6fa8fbc82c@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The ASUS ROG Strix G512LW (subsystem ID 0x10431f21) with ALC294 codec
-has no speaker output on Linux. The internal speaker amplifier requires
-specific codec coefficient writes that differ from the existing
-ALC294_FIXUP_ASUS_SPK quirk values.
 
-The required coefficients were identified by comparing codec register
-dumps with and without working speaker output:
-  - Coefficient index 0x0f needs value 0x7778 (vs 0x7774 in existing quirk)
-  - Coefficient index 0x40 needs value 0x0800 (vs 0x8800 in existing quirk)
+>>> Are you referring to the DPN_IntStat::PortReady bit? IOW do the errors during
+>>> prepare happen because the interrupt is not generated?
+>>> If that is the case, then you should be aware of the thread "soundwire:
+>>> stream: Prepare ports in parallel to reduce stream start latency", where it was
+>>> agreed that the use of the PortReady interrupt is broken. We do need to move
+>>> to a different code where we have a polling loop on the
+>>> DPN_PrepareStatus::NotFinished bits.
+>>
+>> Thanks for the info.
+>>
+>>> So is the problem in the interrupt generation, or is the problem with the 'Not
+>>> Finished' bits?
+>> Both, while using Full CP_SM on a simplified CP_SM device:
+>> * First problem: the interrupt will not get generated on a simple CP_SM device.
+>> * Second problem: even after timeout waiting for interrupt with huge delays,
+>>    we can't rely on 'Not Finished' bits, causing timeout errors.
+>>    In the current code for full CP_SM, 'Not Finished' = 0 is a good response even
+>>    with timeout.
+>>
+> That's because it _IS_ a good response. If the part is reporting
+> NotFinished=0, then it's good to go and we don't need to treat it as a
+> timeout. The timeout is caused by the deadlock that Pierre mentioned.
+> Full CP_SM will always timeout because that code is holding the bus
+> lock, which blocks the interrupt handler.
+> 
+> Ignoring the timeout if NotFinished=0 was a workaround until I found
+> time to fix the interrupt handling. Otherwise full CP_SM would never
+> work.
+> 
+> We've now decided to replace that code with a polling loop instead of
+> using interrupts.
 
-Without this patch, speakers are completely silent. Headphones and HDMI
-audio work correctly.
+IOW the suggestion would be to use Richard's patch and force the drive to use a regular state machine.
+see https://github.com/thesofproject/linux/pull/5649
 
-This affects at least the following models:
-  - ASUS ROG Strix G512LW (i7-10750H, RTX 2070)
-  - ASUS ROG Strix G512LV (reported on Fedora forums)
+>>> If that works then an alternate solution to this patch would be to quirk all TI
+>>> devices to use the regular state machine, and use the polling loop as
+>>> suggested by Richard Fitzgerald.
+>>> I think it's worth exploring what happens if the PortReady interrupt is not
+>>> used. If that's broken as well, then your solution would work but needs
+>>> more/better comments indeed.
+>> Currently, we have one device which needs this workaround.
+>> Initially, it looked like a generic solution to me. However, if it makes sense,
+>> I can implement sdw_slave_ops->port_prep to make custom changes
+>> for the required devices only, handle any errors and drop this patch.
+>> Please suggest.
 
-Link: https://discussion.fedoraproject.org/t/asus-rog-strix-g512lv-speakers-do-not-work-headset-works-fine/74918
-Link: https://forum.endeavouros.com/t/asus-rog-strix-g15-g512lw-no-audio-through-the-speakers-alc294/72857
-Signed-off-by: Rob Hermann <supgeek@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+But if you want to keep following the CP_SM state machine, then you could indeed add the required write in a port_prep() routine.
+That'd fine as well, you'd be relying on what the core SoundWire stream management provides - namely a means to do device-specific stuff before/after port setup.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index XXXXXXX..XXXXXXX 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7859,6 +7859,7 @@ enum {
- 	ALC294_FIXUP_ASUS_MIC,
- 	ALC294_FIXUP_ASUS_HEADSET_MIC,
- 	ALC294_FIXUP_ASUS_SPK,
-+	ALC294_FIXUP_ASUS_G512_SPK,
- 	ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
- 	ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE,
- 	ALC255_FIXUP_ACER_HEADSET_MIC,
-@@ -9166,6 +9167,19 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC294_FIXUP_ASUS_HEADSET_MIC
- 	},
-+	[ALC294_FIXUP_ASUS_G512_SPK] = {
-+		.type = HDA_FIXUP_VERBS,
-+		.v.verbs = (const struct hda_verb[]) {
-+			/* Enable speaker amp on ASUS ROG Strix G512 */
-+			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x0f },
-+			{ 0x20, AC_VERB_SET_PROC_COEF, 0x7778 },
-+			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x40 },
-+			{ 0x20, AC_VERB_SET_PROC_COEF, 0x0800 },
-+			{ }
-+		},
-+		.chained = true,
-+		.chain_id = ALC294_FIXUP_ASUS_HEADSET_MIC
-+	},
- 	[ALC295_FIXUP_CHROME_BOOK] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc295_fixup_chromebook,
-@@ -10977,6 +10991,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f1f, "ASUS H7604JI/JV/J3D", ALC245_FIXUP_CS35L41_SPI_2),
-+	SND_PCI_QUIRK(0x1043, 0x1f21, "ASUS ROG Strix G512", ALC294_FIXUP_ASUS_G512_SPK),
- 	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
---
-2.47.0
