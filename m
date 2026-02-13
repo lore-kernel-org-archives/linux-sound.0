@@ -1,215 +1,160 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9295F244694
-	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 15:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC2C24E4A8
+	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 15:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770995053; cv=none; b=A84A4das3R0O15Kadae9vnOezwQEoz0gicZHVpHjD3Nf0vjxB5/RTqbqmmo8u1SxfiFqmSUTOXWmdxCQ3m2zAdexn4um4gl40jZsim6VaG/anfnHIROQv4A/hGvmg0jNOb/O4j7aqsmymluuabWk/2kMR2M5SjO5dJ1RbIGmNxo=
+	t=1770995526; cv=none; b=Y3podJDvJJ2IvwTRV0OT/6Ag+tEzMyNAmcdMbkNCyq1eQnQVCAarAyhScoj6DmVIvnkn68llhLtcc5xyNzNqrzmYwxV9j2Y6HmpPX9Ae5OHhOomeQfNpv8donI5jNKyGXa1cmwfa8i4KNuGaCLWCOMEGMSABzErvLo5OkbNs1o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770995053; c=relaxed/simple;
-	bh=rd7ftiDWeKZpxjuPpHq5ntNrtMaA2MU27hdgoilzni8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JFpmgQhAkGhkKmSheP/2C1jUwgRkhlzWQGUuihJw+N6y9r81JHXKu0nOMFmn1y8bT+gMmZI2z0ZYoXm19sT+HcWKJNmhUTgNsjflqH8KbJV3/w0bkGI4DhLrUlXh1bT+NvIYqdhaqUWYuIDu2SMMDbRSXldu/23MRvIIGq3LO/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OmoiW3ul; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770995526; c=relaxed/simple;
+	bh=7U4CUZSxAynVDQoFjE+zvKC5UKsFyz2ffjEmmtncxHA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=caP4x82zj89URS9FCJSC1+gPxpe8/hpnHbU57Kf7Zcyb3XQ2H2maYWTJCaQmfJ0lKbQx4s08095cdspKAIf5E6N6++W57sWgfJm1xgwHVtOwoySuqwr8uK2DYbpp+n8fl/Skecj7Q5+oA6YqANd8AReQNz8MaEL0ZzHrYhZdlSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tMaIq4uS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=91pVjTCs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ubyl74mN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qSRWAQFr; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OmoiW3ul"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4836d4c26d3so8203175e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 07:04:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770995050; x=1771599850; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XnKqcCRtDukSklHMOGY9brz+NRiecjhUSwToNuGRBho=;
-        b=OmoiW3ulN3QBNmxKtLhFhzkcytDnWbHG8FueTcz8bSRTkAUwYgXLb6a9AtCqXPe5jO
-         8lbfKwbobk4/DHZgTpd9QeXtff4BYF2aZu04LjjJWd0xgoLZxXM9zR6eY8u/4J1glqMA
-         h4fRVV4xEyem2gVzt6sXP54GIrhiPi7ed5oXYe3BK1jTtGqiCgTl4jEJvGtZelH6cTSc
-         lBwr+vmkURN+TJty7HwG1+RkJRZPVUgOFAR7DKUDJxZBBto1AqThvPyf/6WVfOC2Ivs+
-         VskVHcA09NbhxBFrcZ1UajqDIhWApmz0Rnc4kN/CLml6W23npZ9Zq0hWVijW41EvDZTi
-         EgfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770995050; x=1771599850;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XnKqcCRtDukSklHMOGY9brz+NRiecjhUSwToNuGRBho=;
-        b=EE3l1qZVW+i4inEatZK38xskZQgpfUpBwLDUUMr4H8xdL5+qO+7eMT7ekbx9UiLL28
-         EsQfmNIx9lP54hjGGzyYWrsgk7s36TfuBTPtHLJ1SpHfkzEWpxrUsR1cT2cosDq+PZN5
-         w9kC7EzfLSZy1bIV7guoUAwJTQD4ISCGCof8YxB2PLEDw+tUVLJ9r5VfOLRm/d27M9ez
-         SbQB4IjDoX2V31PLSgtBHCXdm96iTSjhdmPwEhnBrSUx8QytUg6EBUwwQQxkc2Ex+Lk/
-         6rpYQAp4AXAcU9I+EoDk/xH2YnbgVv6oSVmsAmK8HDYxMIwUjH/ASw9FAkLLlp0ETL2U
-         +Q6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWhNxI+ay56F2KuQcpoAk0Le+YwwCNgsl2ZRzGKEbQ91D0XGhf2A/MjI0+pqn7ILPgwoVCFVLzkQf0ORw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQIpQgvW3xnDTsNhZsphqV8BNz9n8MwEKsbP845mqMV1NUFsK2
-	6BT/QUI7WsToJGljLKQFiFtguUHoyOJxmPKF9/v0klEIm1VStv14bDyC
-X-Gm-Gg: AZuq6aJkG1gXRffqAUXUxcdrCY+migosdiRF0WvF10bVNxvLIxUcrzC/+YT8eXHZVTW
-	VVbalC25OvjovGrIzO2+UxNHprBlcC922kt4Ty/k7RKEkaBYQdgGWqVkgWvXyHWgSBc3xPH6Ao+
-	j0+1mjFgXKwvnfET5X5WuzB378pu+IKqvX8AtxuTnrROUgRJ6yvS6nRBzgI4FuXn4COVni8rf4s
-	8JVbbLP6spAX1wsOtLmKl/aYQPZcHondsaCIh6nQngqyGTEC5/pVqIM3HlFYigX1YcsoohYw8wb
-	zDVUiPONDxxMSPu55kjOjlcNQ0xvMFb1VcsWDcf9v96XclHRwxnMWdbI+0W6h6yJV7nO50KvKtE
-	y0MF7r3WOXA8ze+Vo/uuoSHveZOhZlJcbsj6hraw4UCcHIDEIeClZxVgFBU34Z6lH5JeQdf3yZ0
-	ISVnf0ifY9XCrpSnHrvhGjqhyaKfBmyi4RJca/hiJylD/JzNOn0lJBiYXYqTEG/BngQDZR/wNv1
-	wgfEGljBgl740/E9J0JftKJmbtZ20kDNXY4Mtfw
-X-Received: by 2002:a05:600c:450d:b0:482:eec4:758 with SMTP id 5b1f17b1804b1-48373a4f05bmr38130885e9.26.1770995049313;
-        Fri, 13 Feb 2026 07:04:09 -0800 (PST)
-Received: from Lord-Beerus.station (net-188-152-100-94.cust.vodafonedsl.it. [188.152.100.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835d92267bsm290459385e9.0.2026.02.13.07.04.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 07:04:08 -0800 (PST)
-From: Stefano Radaelli <stefano.radaelli21@gmail.com>
-X-Google-Original-From: Stefano Radaelli <stefano.r@variscite.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alexander.h@variscite.com,
-	pierluigi.p@variscite.com,
-	Stefano Radaelli <stefano.r@variscite.com>
-Subject: [PATCH v4] ASoC: simple-card-utils: add sysclk ordering support
-Date: Fri, 13 Feb 2026 16:03:55 +0100
-Message-ID: <20260213150355.442609-1-stefano.r@variscite.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tMaIq4uS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="91pVjTCs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ubyl74mN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qSRWAQFr"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE5A13E6F6;
+	Fri, 13 Feb 2026 15:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770995523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFuxRyJ2+72Q15Flm0pAqhgEe7QN8I9BzaGJRRPqYL4=;
+	b=tMaIq4uSs/Nsh3lmQY/tR/ySuGTBsKrOO7MPk5C8svJN9kIfk3f0Qm+59sZR9z2YAzZsvl
+	pTdkX6u7Tg4cP0UUKH7NlyPaxcngV08viTqSr8CagwHSV2HKOeoj1TLpHkJTGgKye8yJNy
+	CLPqOPFJK6xYIqoFmV9hyPORRUXtlt0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770995523;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFuxRyJ2+72Q15Flm0pAqhgEe7QN8I9BzaGJRRPqYL4=;
+	b=91pVjTCsl96tbs4TxImzD5OHEFqdKGgW58m9fJurpW6x/Ec8uLP3Kq/vAOXn/foeuPeWnJ
+	IFBac+BuvdpVZUBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ubyl74mN;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qSRWAQFr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770995522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFuxRyJ2+72Q15Flm0pAqhgEe7QN8I9BzaGJRRPqYL4=;
+	b=ubyl74mNH02OiFPaTKvY6N8Jv5wqC4ZoCDBoUihuT9pAcVZZIMrBsi2LYkWnB7oUHGx3M3
+	gUnjt9e0VmbHf8kEMpUHTZAYGcszNALlXN2s34tgQGSI/DjWZ/HiVsg902w34y+dBWjgAP
+	P3eROTsNjolc2ZScoucCxFULZVN0i/Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770995522;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFuxRyJ2+72Q15Flm0pAqhgEe7QN8I9BzaGJRRPqYL4=;
+	b=qSRWAQFrRLWxbnlLAK+XzO0b7xMq9UzsJzTdalubMG8y0ahBBN05n9D6jLw1prTrQLFCrk
+	qQi8IK/HWrZGBfAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E2403EA62;
+	Fri, 13 Feb 2026 15:12:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qTGVHUI/j2kuHAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 13 Feb 2026 15:12:02 +0000
+Date: Fri, 13 Feb 2026 16:12:02 +0100
+Message-ID: <87jywgu18d.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rob Hermann <supgeek@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	kailang@realtek.com
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix speaker output on ASUS ROG Strix G512
+In-Reply-To: <20260213143941.29696-1-supgeek@gmail.com>
+References: <20260213143941.29696-1-supgeek@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: AE5A13E6F6
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-From: Stefano Radaelli <stefano.r@variscite.com>
+On Fri, 13 Feb 2026 15:39:41 +0100,
+Rob Hermann wrote:
+> 
+> The ASUS ROG Strix G512LW (subsystem ID 0x10431f21) with ALC294 codec
+> has no speaker output on Linux. The internal speaker amplifier requires
+> specific codec coefficient writes that differ from the existing
+> ALC294_FIXUP_ASUS_SPK quirk values.
+> 
+> The required coefficients were identified by comparing codec register
+> dumps with and without working speaker output:
+>   - Coefficient index 0x0f needs value 0x7778 (vs 0x7774 in existing quirk)
+>   - Coefficient index 0x40 needs value 0x0800 (vs 0x8800 in existing quirk)
+> 
+> Without this patch, speakers are completely silent. Headphones and HDMI
+> audio work correctly.
+> 
+> This affects at least the following models:
+>   - ASUS ROG Strix G512LW (i7-10750H, RTX 2070)
+>   - ASUS ROG Strix G512LV (reported on Fedora forums)
+> 
+> Link: https://discussion.fedoraproject.org/t/asus-rog-strix-g512lv-speakers-do-not-work-headset-works-fine/74918
+> Link: https://forum.endeavouros.com/t/asus-rog-strix-g15-g512lw-no-audio-through-the-speakers-alc294/72857
+> Signed-off-by: Rob Hermann <supgeek@gmail.com>
+> ---
+>  sound/pci/hda/patch_realtek.c | 15 +++++++++++++++
 
-When simple-audio-card programs sysclk for CPU and codec DAIs during
-hw_params, the ordering of these calls may matter on some platforms.
+Thanks for the patch.  But your patch seems based on an old kernel
+code.  The HD-audio code was reorganized and in the recent kernel it's
+found in sound/hda/codecs/realtek/al269.c.
 
-Some CPU DAIs finalize or adjust the MCLK rate as part of their
-set_sysclk() callback (for example by calling clk_set_rate()). If the
-codec sysclk is configured before the CPU DAI applies the final MCLK
-rate, the codec may configure its internal clocking based on a
-non-final MCLK value.
+Please try to rebase to the latest kernel tree, retest whether
+everything still works, then resubmit.
 
-Such situations can arise depending on the clock provider/consumer
-relationship between the CPU DAI and the codec.
 
-Introduce an explicit sysclk ordering enum in simple-card-utils and use
-it to control the order of snd_soc_dai_set_sysclk() calls in the mclk-fs
-handling path. The default behaviour remains unchanged (codec-first)
-to avoid regressions.
-
-Signed-off-by: Stefano Radaelli <stefano.r@variscite.com>
----
-v4:
- - Removed SIMPLE_SYSCLK_ORDER_UNSPEC enum
-
-v3:
- - DT flag not applicable, not a hardware configuration
- - Introduced enum to support order configuration
-Link: https://patchwork.kernel.org/project/alsa-devel/patch/20260211112815.126734-1-stefano.r@variscite.com/
-
-v2:
- - Do not change the default sysclk ordering
- - Make the ordering selectable via DT flag
- - Add DT binding documentation
-Link: https://patchwork.kernel.org/project/alsa-devel/patch/20260210164506.161810-2-stefano.r@variscite.com/
-
-v1:
- - Changed sysclk order, cpu first, then codec
-Link: https://patchwork.kernel.org/project/alsa-devel/patch/20260206134014.143057-1-stefano.r@variscite.com/
-
- include/sound/simple_card_utils.h     |  6 ++++
- sound/soc/generic/simple-card-utils.c | 41 ++++++++++++++++++++-------
- 2 files changed, 36 insertions(+), 11 deletions(-)
-
-diff --git a/include/sound/simple_card_utils.h b/include/sound/simple_card_utils.h
-index 69a9c9c4d0e9..915e6ae5f68d 100644
---- a/include/sound/simple_card_utils.h
-+++ b/include/sound/simple_card_utils.h
-@@ -54,6 +54,11 @@ struct prop_nums {
- 	int platforms;
- };
- 
-+enum simple_util_sysclk_order {
-+	SIMPLE_SYSCLK_ORDER_CODEC_FIRST = 0,
-+	SIMPLE_SYSCLK_ORDER_CPU_FIRST,
-+};
-+
- struct simple_util_priv {
- 	struct snd_soc_card snd_card;
- 	struct simple_dai_props {
-@@ -63,6 +68,7 @@ struct simple_util_priv {
- 		struct snd_soc_codec_conf *codec_conf;
- 		struct prop_nums num;
- 		unsigned int mclk_fs;
-+		enum simple_util_sysclk_order sysclk_order;
- 	} *dai_props;
- 	struct simple_util_jack hp_jack;
- 	struct simple_util_jack mic_jack;
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index bdc02e85b089..fdd8b76f2914 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -468,6 +468,7 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_soc_dai *sdai;
- 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(rtd->card);
- 	struct simple_dai_props *props = runtime_simple_priv_to_props(priv, rtd);
-+	enum simple_util_sysclk_order order = props->sysclk_order;
- 	unsigned int mclk, mclk_fs = 0;
- 	int i, ret;
- 
-@@ -501,18 +502,36 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
- 				goto end;
- 		}
- 
--		for_each_rtd_codec_dais(rtd, i, sdai) {
--			pdai = simple_props_to_dai_codec(props, i);
--			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
--			if (ret && ret != -ENOTSUPP)
--				goto end;
--		}
-+		if (order == SIMPLE_SYSCLK_ORDER_CPU_FIRST) {
-+			/* CPU first */
-+			for_each_rtd_cpu_dais(rtd, i, sdai) {
-+				pdai = simple_props_to_dai_cpu(props, i);
-+				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
-+				if (ret && ret != -ENOTSUPP)
-+					goto end;
-+			}
- 
--		for_each_rtd_cpu_dais(rtd, i, sdai) {
--			pdai = simple_props_to_dai_cpu(props, i);
--			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
--			if (ret && ret != -ENOTSUPP)
--				goto end;
-+			for_each_rtd_codec_dais(rtd, i, sdai) {
-+				pdai = simple_props_to_dai_codec(props, i);
-+				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
-+				if (ret && ret != -ENOTSUPP)
-+					goto end;
-+			}
-+		} else {
-+			/* default: codec first */
-+			for_each_rtd_codec_dais(rtd, i, sdai) {
-+				pdai = simple_props_to_dai_codec(props, i);
-+				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
-+				if (ret && ret != -ENOTSUPP)
-+					goto end;
-+			}
-+
-+			for_each_rtd_cpu_dais(rtd, i, sdai) {
-+				pdai = simple_props_to_dai_cpu(props, i);
-+				ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
-+				if (ret && ret != -ENOTSUPP)
-+					goto end;
-+			}
- 		}
- 	}
- 
-
-base-commit: b7ff7151e653aa296ab6c5495b2c1ab7c21eb250
--- 
-2.47.3
-
+Takashi
