@@ -1,115 +1,117 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B04283C82
-	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 05:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DDA29B8FE
+	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 10:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770962375; cv=none; b=Bup3PhcTQbyxgZOqRV64ePdNZGoYQTvIDzyo4nR5prypX+aSKNPFwxJ1xvTLO13wo8AE+t9Iv8MhMxkyYfoRBg2OFOIwsWzc+bZAk4/tzLmm0aZAHP7/qbhwK8rWTMvo2UG1Izg4qCha4bip+Wo2VNPIllNjDwTkZ/v9iJkXrrA=
+	t=1770977360; cv=none; b=CSiUCnDm2ETdD7YR/qIKwGidMYG796xx4Q2D2Trp3S0nS0vWgR/MDLOAeUkcD8v4ZtdMcUcemAq6h0bOwG+9DKjTuq92PI+Mlt57y/625+HhbsT7OS90b2bnpzyvzMrsmO2DYbeuRnaD5W1lrJtHdP+ihti3H781BQY3pXRLruw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770962375; c=relaxed/simple;
-	bh=M7KZCK98ow0KPWs+XO9UwmlYlB1lKcgTJc20cOATSL0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B3xFujHSYfF7XAw7825yzLCQOaSr3yT6GooGiqQZoQJ1SlBYiHF8aFhdNKjkY5bXiCtW8EZh+pxIE/pXyvzxOUQx31l2+jPdUjD/CDT/OpIh3JYwtdWDWcpmSAm0pRYwhsbvQ/loMHToBytsOWsGMqm8RhYNQHysMn8CwoJqMDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKK+jF3n; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770977360; c=relaxed/simple;
+	bh=mNiqJWiiuf4qjeh9FL8FnIeCmlWo4rOAoNCWhUe4854=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=q6Zl3+MYz0gKn7fX8f4tyGr1b9uBBgN5eoxfpi5KPJsY7asAB9c8gHmhcnLHGkbZbxEFhgOL/TZ9204XxufkDdwOKSzY0K7ep2T/xBwforVl1YmklElgNUGjFFAB67FME/9onvKWx7p7hc2Dj03AZFmVYk5r9vEbBvYSvNT04Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CxZjYZgb; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKK+jF3n"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a7d98c1879so3310235ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Feb 2026 21:59:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CxZjYZgb"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2a7b7f04a11so30060155ad.3
+        for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 02:09:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770962373; x=1771567173; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0AN0mP+ZmQTR3ELzZZTOreC2XTtK2a0bz6wEq+iw7zE=;
-        b=GKK+jF3nfmLPftOHkgCcH6MFo87yN9JvuyWNFB39bPlBIXurWno/WjXwH1p88SxdXd
-         xbzDChL+wsBVNTldNpu4tPEMVEpRLL5d7PSAb2peqH70B8OsV+3RWPxP8xFK1HWZnp4j
-         fanrzcQALzGqaeiwHvOQtw/bk/BcJ3iX9IuYFWapdhbnHF6HoFtrUZ96trr0OPXqzQvI
-         0pIC9CUu6ly5niOR+BpFWQutTn24uTD4bo/fAkFEdjduHZQEO5WibBABCDM3NQe9pX9e
-         foHAh8hkhp5Sb8ykg+fEyyuLNyaBS4rG6Zd7Ol9y1O7xPGloiSuYG6IBR1GSNTQvxdAP
-         IbCQ==
+        d=google.com; s=20230601; t=1770977358; x=1771582158; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+3luSD5LpgzelIQotxW7JLGJfxcioAB1HiWlg97wEX0=;
+        b=CxZjYZgb2N1u724K9udLUlQOMtvEhkQ7oBS2hN5WT8bdGwa6cDJbLWut7itlV+I0yH
+         GznE3kSSMVGF2tTkNM2+85gKWFmaXRhZStXberylPkfkKrhkl7btTh3s5LH3332Ekxr3
+         jdgE0ppfrrBDJS9Ms7XTKyDaEeiNRVYy8zUqzKTlSx14y/T2ePTRWlBsApIeB6x33tUR
+         I7XXEfcNXFO77KwWTXXBPa6ikwqlwyuW6ea5BcTEnUZIgK0kYwdKdcOm5x92jCmagYR8
+         ag2aQ7OBzzkNW4Mdqpq+HlOzHIIx2XUQc65ffDnucHZqZjxNazG9gsOBpKx4folISapR
+         /mjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770962373; x=1771567173;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0AN0mP+ZmQTR3ELzZZTOreC2XTtK2a0bz6wEq+iw7zE=;
-        b=tvoEgug3TJGBsFdCKz2V+3Y0AoBK0wMnQs2gJx7g4qhTxIfxncPdVm3onu+lpE4kgh
-         wFL4igAy0zcrNWwV3TWguuugk7kdKJ6P7OGNsU0gUOUXCBgU5tXdGZs+S4LyKqt4kg9x
-         eOhHMEN+N6jHg998M3RGeGokG/+c41b80qANy5/MdadxI5ut017wAw0Cn1XwmEeSxMjp
-         1TosNP6Sxsp8qgZvQzQS+E1r0tSmwa1y968K9QvwB3X6q6d53yNE4dk4o/pYl9N5yDQb
-         naqpN6MR6Zgrp0FqMAT/VDF88FWwWBiR/tkJ+ip7GINA1J+vCvsByoOMJwa9HpEpwQpc
-         Qf1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUty7/5eQnOhxlJuXuIg5LvtoC06htnhYSC77ab78m3GKvUdg8lUkFGpHdX0RMRTGAUYDvtfUk1VyZBGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/VWZD7LNh0LK3JD80bpX9xI/YETmK7R7yIZU/lmabaCCgJKAy
-	qsYzH4lUpTIA+NDpUuh56O9qzsweaa1jrOKeIIA57u5O8fR2UlqHlpO8
-X-Gm-Gg: AZuq6aJz3jLUbYfujJlqwTadm9VEHExEOlZwc/QDVXpoxCYV1TBgUWeRDaAgZvB/2Oq
-	fdmaYuGaRUc9LgGQnB4hh1jFFFma49C4wGbidtaQLff+Ox9BOdRxZqw4hBFc+AmLTAy1ZXOtqei
-	R04rn1wZ5CF/u0TjYMWhUbshLYV+2HrbmwQ9yWncZO5DtwQMITZVMaVumfA+sSMjBO2mF21ZBrW
-	7H/zjPh/MeX5WYsZTJ6xJ4zYYLANaIX9Leyv8HClAULs0DHV2Nei4bvCA19TLwtOK1yj2F9RDhH
-	L/kKSsv39r1Hm/B91nNLv2r93qruq0DlmkqnKuhP8wQ3dyIjLbZ76EHdwQOEvfQdz7rjTUrb+Bd
-	x4hdDKpKR3sRkdaZMr1ehz0MvXWRXaoICtIJsIC1Qz3fMwD8cm/j8muhHYTagfhQQL4tZ/7+Aqg
-	==
-X-Received: by 2002:a17:902:f609:b0:2ab:230d:2d96 with SMTP id d9443c01a7336-2ab50521f49mr9038285ad.11.1770962373513;
-        Thu, 12 Feb 2026 21:59:33 -0800 (PST)
-Received: from qby-laptop ([2a13:edc0:18:16f::a])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6e1ac0e004sm6274588a12.6.2026.02.12.21.59.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 21:59:33 -0800 (PST)
-From: Mingyou Chen <qby140326@gmail.com>
-To: vijendar.mukunda@amd.com
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	venkataprasad.potturu@amd.com,
-	Sunil-kumar.Dommati@amd.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mingyou Chen <qby140326@gmail.com>
-Subject: [PATCH v6 3/3] ASoC: Add quirk for Lecoo Bellator N176
-Date: Fri, 13 Feb 2026 13:59:04 +0800
-Message-ID: <20260213055904.110256-4-qby140326@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260213055904.110256-1-qby140326@gmail.com>
-References: <20260213055904.110256-1-qby140326@gmail.com>
+        d=1e100.net; s=20230601; t=1770977358; x=1771582158;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+3luSD5LpgzelIQotxW7JLGJfxcioAB1HiWlg97wEX0=;
+        b=kkiuqnn+HggTt3OCc+Q4TI8TYIv76scyxz+A+OSfJZ39xpIPcCbAVZ9E27Y23uO2ig
+         Uy0j7U8kiLRgrpyqfPhkRvRpiygW3RES3iHfHR0GIqkS6rMqzGi1w+i8K2FvPRa/TUPQ
+         kiFzFVheYhezlNukHr44PQshM/EpHIfgUSSnhOSKykF0Sm2FiNFcahH1dARggZqFpqxi
+         un4smS79B6Irj7A91s0WIm+auEgMckm2NlV6ZJyeciNrxmPq9snyLKJvlIsZ6hbqincT
+         AdXPQhhiFKKaMyiF3n/yFxT/9dZ7/hJi2Jw3zR7Ee2ChRp2u0l95Lla3TQw7vENL0wNv
+         HhqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHJ7pshtpPdzSKeEjXlxfQpp8sa9RtYwmE6RuRC0znNHw8KnNHrPjD/deTYAzRfPzOCa/x6d0FJEtnhg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxEDX498srr5A2GLDaYU32bpLzGYyz8j96ahg1vunFqtpmQUGM
+	KGQnBtBRRasKuuNjAbubi2gbk5AYHVVeUALZ5drHMmaQ11ul71r0dhgZkuo4IiHoW4gTAcc+Q5D
+	zPa1RJlTsFurv7Z/EkQ==
+X-Received: from plei5.prod.google.com ([2002:a17:902:e485:b0:298:33c9:da0c])
+ (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:e852:b0:2aa:e7f3:faf3 with SMTP id d9443c01a7336-2ab505229e3mr15965125ad.23.1770977358272;
+ Fri, 13 Feb 2026 02:09:18 -0800 (PST)
+Date: Fri, 13 Feb 2026 10:07:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.273.g2a3d683680-goog
+Message-ID: <20260213100736.2914690-1-guanyulin@google.com>
+Subject: [RFC PATCH v2 0/2] usb: offload: Decouple interrupter lifecycle and
+ refactor usage tracking
+From: Guan-Yu Lin <guanyulin@google.com>
+To: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
+	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
+	harshit.m.mogalapalli@oracle.com, wesley.cheng@oss.qualcomm.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The Lecoo Bellator N176 requires a specific quirk to enable the DMIC
-support.
+The current USB offload implementation couples the allocation of xHCI
+sideband interrupters with the device's offload usage counter. This
+coupling is conceptually incorrect, as hardware resource availability
+and power management state serve distinct purposes.
 
-Signed-off-by: Mingyou Chen <qby140326@gmail.com>
+This series decouples these mechanisms by removing the usage counting
+logic from the xHCI sideband layer and shifting the responsibility
+to the consumer drivers. This allows interrupters to be managed
+independently of the device's active offload status.
+
+Furthermore, this refactoring addresses a recursive locking issue.
+When a USB device is disconnected, the USB core invokes the driver's
+disconnect callback while holding the udev device lock. Previously,
+the xHCI sideband layer would call usb_offload_put(), which
+attempted to re-acquire the same udev lock, resulting in a deadlock.
+
+By shifting lock acquisition responsibility to the upper-level USB
+driver, we ensure that offload usage updates can be safely performed
+from contexts where the lock is already held. This standardizes the
+lock hierarchy and prevents potential deadlocks during teardown.
+
+Patch 1 performs the core refactoring by updating the offload APIs
+to require caller-held device locks and removing implicit usage
+counting from the interrupter paths.
+
+Patch 2 updates the Qualcomm USB audio offload driver to explicitly
+manage the usage counter during its stream lifecycle, serving as a
+derivative consumer of the new API contract. This also ensures the
+device remains active during playback, preventing premature
+autosuspend.
+
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changes in v2:
+- Move device locking to callers 
+- Decouple sideband from offload counting.
+Link to v1: https://lore.kernel.org/all/20260130074746.287750-1-guanyulin@google.com/
+---
+Guan-Yu Lin (2):
+  usb: offload: move device locking to callers in offload.c
+  ALSA: usb: qcom: manage offload device usage
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 0294177acc66..de49c812124a 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -45,6 +45,13 @@ static struct snd_soc_card acp6x_card = {
- };
- 
- static const struct dmi_system_id yc_acp_quirk_table[] = {
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Lecoo"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Bellator N176"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+ drivers/usb/core/offload.c        | 34 +++++++++++--------------------
+ drivers/usb/host/xhci-sideband.c  | 14 +------------
+ sound/usb/qcom/qc_audio_offload.c | 23 ++++++++++++++++++---
+ 3 files changed, 33 insertions(+), 38 deletions(-)
+
 -- 
-2.51.2
+2.53.0.273.g2a3d683680-goog
 
