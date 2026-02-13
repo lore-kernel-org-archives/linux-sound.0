@@ -1,181 +1,141 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA163350A27
-	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 10:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C83361DA1
+	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 14:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770977366; cv=none; b=UzFyx1J36UCLkdlHbeFpGhuW48SrNzglNjAgtWgUYKnxW8KW3aMAsFDr7+WGMASzMPCQ7CUlRc6yYHpV3TXAoOxi0eiAjIFnnoo9w61+chZ4Yb/ByZxn5THL7wfTyMnwTUagbiQjBLUDEvwjytyc1geC6RUQOotJxe44rnezZxI=
+	t=1770993590; cv=none; b=P8V2AFHl0H4h9j/swG1Zc2Ykd8eFpFpQuhxocCdrOZgUIkHJvm3DNsAA8WXXuwRsaC1T/znN+WjvBylJzCYr60pNC6sMtcyXcwqgc4ag/9TL+sTdNhjbKC5orgYXi/5evyVDcbkH9xvgTxiscBuK+ZPZf8MNb7DizTJMheecWxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770977366; c=relaxed/simple;
-	bh=nEMCIOnsanEJMnLYmB5e41nP6UMT7vo619hj5X6ToIQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VzavKRia3V32qbm0sqLOLEeZNMrq3dfTIU22hcBfer6/xZUO7nR6CsNlO67T5sMk5xJbHkGtogHwH3pDkS/KGl0BH8sOu+ou8yGWMN3A/LHxtbU9gyLN2zRz8SsWJH0PVDbUK9BLFzS5ltRqeAB/KGobqnyqgLfeufPhp29nVVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qrRATXF/; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
+	s=arc-20240116; t=1770993590; c=relaxed/simple;
+	bh=Ufx2LQuVsPemONElURIztMjbQMMbf+4gtqztqAWWexA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o+FtVLzvKMQx4AyJg3hWIEbnBrdLdy9fsneUvia74XEjawa0olnpOHDN5f/vVPys2RvKcqUTB3a/vdK5YToCXDd4tFAfZc6suYYl4MSvRC0MBfQENha0TwwvqrtmEnGyA4YuolloABzIDLmySmHz2i13gwcCQUpjhiVZWQxNv0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJYIAIqt; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qrRATXF/"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-353c9d644b0so644564a91.2
-        for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 02:09:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJYIAIqt"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8230c33f477so545057b3a.2
+        for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 06:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770977365; x=1771582165; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6H578zF40bIvw0kW2/BZM5eR8EPStj53jblRqAXiqY4=;
-        b=qrRATXF/DSXdU5UJqW3LPIGgJIjEkRjTN89lmtG8kzDeaVlcTM9S9JQfUKnaSqYbJ/
-         wBDPU7ZBCc365c0JAoPccaWcOJgCXDHTSnZebvwPuChdTSAAWxILFscDniFsqXPawIpn
-         ed46QkXBKjKjt/W51iU52UB1FevqK+yT5JflHmH3s+DfsXSHxy5+WKfaQ8aXA9K249pq
-         jw+Z5BFrU3IcHwG5EZMVPIexP4NS3xc3Y/l+qCt6KzPMTmi6RXQzqhWjPyIwPZCDB0UT
-         9LOSE5PKkOiw28RdCcMLYlRVIB8xZRdxODfseQnfGyzNnX3eNatbCkKgX8Dr7s5Mk3jB
-         l9sA==
+        d=gmail.com; s=20230601; t=1770993584; x=1771598384; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BUN5m9KdWt5VPnYVJOX/YZHFeP0Re4SEll9bpIlXeb0=;
+        b=RJYIAIqtDW8E1MXKb312gXAyOr3UmiTnFvIOweP1Prtz6n9gyAxGdszPK8B4U3uEe/
+         5i12DtZnntBO5h7Zn+g84usYawMMLPT193aFWIPQ00X7sJWrKrMHrod0Fd3PY5L2EfQd
+         /MSGYKfMv+RsmTE47XiS4TxAO9gSMorQKkig6ORx05dNVzfJYZjlX1vSDkWVIn17+N5L
+         bglzSr97zJQvEA/5Cs3Ej4n3isEJcnYAzKJQR+p26xgxhme6IDrTcbsiagibfFIFDbXX
+         kSjH3khVEbIvpUT/avAen7xkUDNr6QynzDPPU+YxOClxyukbn3sM7VeOBVePAKbbj++N
+         9kxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770977365; x=1771582165;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6H578zF40bIvw0kW2/BZM5eR8EPStj53jblRqAXiqY4=;
-        b=ZR6cU9Wx0TbEmbsF1N+XHa+6T05UFOMKitfBiZeWpDJbnjvlL/gSbPAZwgXt+ZGauM
-         C4fP9Y4mojALhmRQfrNzUK2DaPALgeS5PHM61e0UGWhVpwwmoZxhri2YA9ZZwTHBz9fq
-         BzpoAT+1lAuUTi1MqIUbr17kfQRc0vq2BmWHjkcYrK70LkH+eQ7pYyuuF2rZnb11aH4F
-         sB1m8qxF9liltCElLm0nIsRGOa1hOM6UORYVmw5wn4fGWdyLKp0t9thIh8ZB+1Hi+XSP
-         GxscoYiDphR115pL3odahtHhsbsLiJGGLSnGilCR34VpfmLuLPulTG+Bu+KpxlidYq8k
-         5RiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcb+3SQfW7+vY8p1k+wbo6WAliaU88NzUaZFKIqo8+xGXq26yhA8CmEIFoj9xAhwcQHJiRoDGmpA5tLg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybhmiX6vSnOJHrFt9moQkqqZTFcPefRnrLDJN8piYhK75dyzym
-	3d1zX1JcR8mNu7IWaf6ZCOi44UHjcvXS57X27xWiAnDRhBxO3IRfBOFg/sRMnHHhmGawPhh2Bt6
-	2iiguVnMDXiXQ3PaL3g==
-X-Received: from pjbbx10.prod.google.com ([2002:a17:90a:f48a:b0:356:28cb:9650])
- (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:5550:b0:354:a065:ec3e with SMTP id 98e67ed59e1d1-356aad900fbmr1526714a91.26.1770977364914;
- Fri, 13 Feb 2026 02:09:24 -0800 (PST)
-Date: Fri, 13 Feb 2026 10:07:36 +0000
-In-Reply-To: <20260213100736.2914690-1-guanyulin@google.com>
+        d=1e100.net; s=20230601; t=1770993584; x=1771598384;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BUN5m9KdWt5VPnYVJOX/YZHFeP0Re4SEll9bpIlXeb0=;
+        b=rhzy1aQBJMHXl/TsUkB8/0C/kJPEy0gkUu0Wuzu8B0X+vFE9sq3JmGdI4Y43jAo53y
+         /VC9JB+WY7IBPltUV5wNKEKRoI+uhROhrRhOr+m+3ELi2bO2Uj4xyDer0GWf6r3uA0L3
+         V5VcNpujojB6tfjy1Nfh89ajhc2Km282mhp4mjMwBMPZTEDWNUO9/hivsiCPEM7lwA+v
+         Gusb/Wxhm4RaS8PsEwo/No22xnNHZJU1xkr+HeU77bU59Ev5VRuyarb88zWkUhUJPC7E
+         QhG1+/8GzCfN9RJ+nxUEn9EiL0ShIZncmmc1L5YmB9Z24Gc6y7N8XPNI+WDj7wzbKIwc
+         6epw==
+X-Gm-Message-State: AOJu0Ywcx8EqqylTA3pwN2/q+fSxLIDnnUABOMw8g1d6RkRwtVD2vU0v
+	wLHu4t9Vh2v3qustPS42ws6X4gP+/DOc8L/DYZahPJruYdvf/Zr8vwZ9VCE88Z7t
+X-Gm-Gg: AZuq6aJnfM9siNbA1wa/0NRU3jzyqpDSRxA+ujngXpHlhwbZ41LJaiRq+Wghx+XjJea
+	jJ/drkpL11EzWsVxbqUIcke66it2civf1r7R9MsyHC1ghQpzvIOZ4zjQRV/rzxHcY91+H24Y3gE
+	zoNaqK/Vx51RFlHMdxWagClyVs1ANaoZZyLLMjKN/6eUnhc67TviNq3IYq6StFBYsKCWwIEJw44
+	UNVPVTXqag3i8fjrb1qB3sOOIm/AYUenDTaObueffjpW3HfiSrA1wOtJ+3ZaApFqVswThGT3sKr
+	RQwWMTrteCQ2RrYgCpPefAx/UjH9ESL0FErWlluBjTgE2io0SyR01Amrjr9AAn1JQtRK9CoBzci
+	89UtTY54zsk7BZrTD4rFo0j0XBneXubYslO0gmkIXeYSsc9AHrKqrRwJCtotRj1q4U4D/LY4hsX
+	n/nq3Gn3KOlyHjXRyzsFJ1aJXsmFGKmf7VciGpsWkCjcj/oj0+3kVVIn4JGycXPK/mFCZ94pKYV
+	WDOQfGoaRL9JZDFM5oUad01+TRJQBARYzPnyw5g6BDgrO3Cbg==
+X-Received: by 2002:a05:6a21:6f0d:b0:38e:99a0:105b with SMTP id adf61e73a8af0-3946c8bf40fmr2021017637.51.1770993583680;
+        Fri, 13 Feb 2026 06:39:43 -0800 (PST)
+Received: from localhost.localdomain (wnpgmb016qw-ds01-160-103-199.dynamic.bellmts.net. [142.160.103.199])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6e196accf9sm7676094a12.13.2026.02.13.06.39.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Feb 2026 06:39:43 -0800 (PST)
+From: Rob Hermann <supgeek@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	kailang@realtek.com,
+	supgeek@gmail.com
+Subject: [PATCH] ALSA: hda/realtek: Fix speaker output on ASUS ROG Strix G512
+Date: Fri, 13 Feb 2026 08:39:41 -0600
+Message-ID: <20260213143941.29696-1-supgeek@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260213100736.2914690-1-guanyulin@google.com>
-X-Mailer: git-send-email 2.53.0.273.g2a3d683680-goog
-Message-ID: <20260213100736.2914690-3-guanyulin@google.com>
-Subject: [RFC PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
-From: Guan-Yu Lin <guanyulin@google.com>
-To: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
-	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
-	harshit.m.mogalapalli@oracle.com, wesley.cheng@oss.qualcomm.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The Qualcomm USB audio offload driver currently does not report its offload
-activity to the USB core. This prevents the USB core from properly tracking
-active offload sessions, which could allow the device to auto-suspend while
-audio offloading is in progress.
+The ASUS ROG Strix G512LW (subsystem ID 0x10431f21) with ALC294 codec
+has no speaker output on Linux. The internal speaker amplifier requires
+specific codec coefficient writes that differ from the existing
+ALC294_FIXUP_ASUS_SPK quirk values.
 
-Integrate usb_offload_get() and usb_offload_put() calls into the offload
-stream setup and teardown paths. Specifically, call usb_offload_get() when
-initializing the event ring and usb_offload_put() when freeing it.
+The required coefficients were identified by comparing codec register
+dumps with and without working speaker output:
+  - Coefficient index 0x0f needs value 0x7778 (vs 0x7774 in existing quirk)
+  - Coefficient index 0x40 needs value 0x0800 (vs 0x8800 in existing quirk)
 
-Since the updated usb_offload_get() and usb_offload_put() APIs require the
-caller to hold the USB device lock, add the necessary device locking in
-handle_uaudio_stream_req() and qmi_stop_session() to satisfy this
-requirement.
+Without this patch, speakers are completely silent. Headphones and HDMI
+audio work correctly.
 
-Cc: stable@vger.kernel.org
-Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
-Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
+This affects at least the following models:
+  - ASUS ROG Strix G512LW (i7-10750H, RTX 2070)
+  - ASUS ROG Strix G512LV (reported on Fedora forums)
+
+Link: https://discussion.fedoraproject.org/t/asus-rog-strix-g512lv-speakers-do-not-work-headset-works-fine/74918
+Link: https://forum.endeavouros.com/t/asus-rog-strix-g15-g512lw-no-audio-through-the-speakers-alc294/72857
+Signed-off-by: Rob Hermann <supgeek@gmail.com>
 ---
- sound/usb/qcom/qc_audio_offload.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ sound/pci/hda/patch_realtek.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index cfb30a195364..6bcb6033e688 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -699,6 +699,7 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
- 		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
- 				   PAGE_SIZE);
- 		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
-+		usb_offload_put(dev->udev);
- 	}
- }
- 
-@@ -750,6 +751,7 @@ static void qmi_stop_session(void)
- 	struct snd_usb_substream *subs;
- 	struct usb_host_endpoint *ep;
- 	struct snd_usb_audio *chip;
-+	struct usb_device *udev;
- 	struct intf_info *info;
- 	int pcm_card_num;
- 	int if_idx;
-@@ -791,8 +793,13 @@ static void qmi_stop_session(void)
- 			disable_audio_stream(subs);
- 		}
- 		atomic_set(&uadev[idx].in_use, 0);
--		guard(mutex)(&chip->mutex);
--		uaudio_dev_cleanup(&uadev[idx]);
-+
-+		udev = uadev[idx].udev;
-+		if (udev) {
-+			guard(device)(&udev->dev);
-+			guard(mutex)(&chip->mutex);
-+			uaudio_dev_cleanup(&uadev[idx]);
-+		}
- 	}
- }
- 
-@@ -1183,11 +1190,15 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	er_pa = 0;
- 
- 	/* event ring */
-+	ret = usb_offload_get(subs->dev);
-+	if (ret < 0)
-+		goto exit;
-+
- 	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
- 					       0, uaudio_qdev->data->intr_num);
- 	if (ret < 0) {
- 		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
--		goto exit;
-+		goto put_offload;
- 	}
- 
- 	sgt = xhci_sideband_get_event_buffer(uadev[card_num].sb);
-@@ -1219,6 +1230,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	mem_info->dma = 0;
- remove_interrupter:
- 	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-+put_offload:
-+	usb_offload_put(subs->dev);
- exit:
- 	return ret;
- }
-@@ -1483,6 +1496,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
- 	uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZE);
- free_sec_ring:
- 	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-+	usb_offload_put(subs->dev);
- drop_sync_ep:
- 	if (subs->sync_endpoint) {
- 		uaudio_iommu_unmap(MEM_XFER_RING,
-@@ -1528,6 +1542,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 	u8 pcm_card_num;
- 	u8 pcm_dev_num;
- 	u8 direction;
-+	struct usb_device *udev = NULL;
- 	int ret = 0;
- 
- 	if (!svc->client_connected) {
-@@ -1597,6 +1612,8 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 
- 	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
- 
-+	udev = subs->dev;
-+	guard(device)(&udev->dev);
- 	if (req_msg->enable) {
- 		ret = enable_audio_stream(subs,
- 					  map_pcm_format(req_msg->audio_format),
--- 
-2.53.0.273.g2a3d683680-goog
-
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index XXXXXXX..XXXXXXX 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7859,6 +7859,7 @@ enum {
+ 	ALC294_FIXUP_ASUS_MIC,
+ 	ALC294_FIXUP_ASUS_HEADSET_MIC,
+ 	ALC294_FIXUP_ASUS_SPK,
++	ALC294_FIXUP_ASUS_G512_SPK,
+ 	ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
+ 	ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE,
+ 	ALC255_FIXUP_ACER_HEADSET_MIC,
+@@ -9166,6 +9167,19 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC294_FIXUP_ASUS_HEADSET_MIC
+ 	},
++	[ALC294_FIXUP_ASUS_G512_SPK] = {
++		.type = HDA_FIXUP_VERBS,
++		.v.verbs = (const struct hda_verb[]) {
++			/* Enable speaker amp on ASUS ROG Strix G512 */
++			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x0f },
++			{ 0x20, AC_VERB_SET_PROC_COEF, 0x7778 },
++			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x40 },
++			{ 0x20, AC_VERB_SET_PROC_COEF, 0x0800 },
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC294_FIXUP_ASUS_HEADSET_MIC
++	},
+ 	[ALC295_FIXUP_CHROME_BOOK] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc295_fixup_chromebook,
+@@ -10977,6 +10991,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1f1f, "ASUS H7604JI/JV/J3D", ALC245_FIXUP_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x1f21, "ASUS ROG Strix G512", ALC294_FIXUP_ASUS_G512_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
+--
+2.47.0
