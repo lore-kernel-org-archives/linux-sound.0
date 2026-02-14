@@ -1,208 +1,569 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA90C28D8D0
-	for <linux-sound@vger.kernel.org>; Fri, 13 Feb 2026 20:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771015729; cv=fail; b=ruJxecSidrDEzTOZ4t0HBJhIST6Y0kTjiPN2d35tgdFGNSj0nQYRCFVdje6/PNXb/YltEXFUJruEdUow+UjUZYNQLKaui9/lA9n2bX60uyCa9Llp/QyfHpsqQwKKGXRSvgfx35C3zq3szt2DEC1XiGS4fMfkx7Tfo8/KDpvFAEE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771015729; c=relaxed/simple;
-	bh=EqGKar6ebpMbzoynZ5OEf0gXMNyYXjiJ3CaWjsw7d2U=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Eb/UQ0PIG7p2vZoVJZtHbrK/1Y6HPFfnAhR+nD+K5s+L6+0yrGZRiavF49RI5cRQsL3m0hdvLbElrJOyE+5+Li0sNevqkzWAP7sFXg8ZelSNQHML9d0HaSUbpbtyIkFffpe9hDx64HoaeOi2ozCq6bdcvKi7LmZpiZyWvU+Ok9k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRDzIxns; arc=fail smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRDzIxns"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771015727; x=1802551727;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=EqGKar6ebpMbzoynZ5OEf0gXMNyYXjiJ3CaWjsw7d2U=;
-  b=jRDzIxnsPRwx8iF1q1QODaDSyP3EGgUTKM9QsMZpbjPh2LUxiv2JIKl3
-   YPvsjVzTAYTw2TuANIDxVTBqraMaPYM2O9vy+V/7UW6jcDLaOsH6ACgt6
-   7NZaux1TiZAAskHZAxbFtktmw2SmtUY68SEfpeLMQQLesXg6BvNz9xqjz
-   r2bK+L12S8UMKXR2d9CEoDQSGuGSYME6CqpQDJZuotsoRgPqtLMyzPLU4
-   aYvpr7VzcmJ4z4uEkRZJqBtgGjh1yl9qUI/wJwWLDRbGfLbt3PVOxB6r5
-   SxvqqMdh2v9JvdoBjkrT4ecinb6jB1gnbkFrmb2ySTMBBk2+W3/G6wLYN
-   A==;
-X-CSE-ConnectionGUID: dXWmcThXR2uhWwjvNK9vVg==
-X-CSE-MsgGUID: iNx+Ygv4StG+1hLjr1q2BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="76055075"
-X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="76055075"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 12:48:46 -0800
-X-CSE-ConnectionGUID: INNqzNfcRsGrfLSWwsCj1g==
-X-CSE-MsgGUID: NLDZ7tZVTby6KajHr9eU/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="217563628"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 12:48:46 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Fri, 13 Feb 2026 12:48:45 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Fri, 13 Feb 2026 12:48:45 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.62) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Fri, 13 Feb 2026 12:48:45 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hLZBC2OsYRgY7wUlMYf5MNiKTgB2C4d5xqQp2LcK988b7SoNPa4wwlQr1HbtwSCSzk90xdgcEm1hhn5jOfD4tKOcRssBeoWHgYAdfBUBakmzwvX5DZfl9N66nIlGuDfv7LVSh/utyGheC7D1zxPvxNPfLqv63Y3/9pIVTA2xTIQxeYxrxHtk83dOwE4xpJ+SOcLmHGqNAPLR4Gbkr4vkQE7mRpT3qLrZRPghqotxdp0rlHqD72Pkd3e4aL3gc2YQFGu8tBRXE2H7ZxstjIgcyyhS+Vs8l0tJsz0rtWiviygxiAuhAEVxoWgWVVHkagtyLa6rDEsSZFvKoKwo2beoLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lnteXQmCmFq9qwgSB7dWnRxzOJveNISN/enAO9FF5io=;
- b=rBbIpLb2jvYYc5ucIu1OT+At6GVcW84cNlQLjpLpzI7dbWnvavzTsGT+Yk3Ix9J+WR4IH5+Mb8iEZDvcWKCU9ToynifZ4iLVpdn+lf19i5GN5IGfcM+flNYM9wvVc3Ud1+iWtw2IxglmXCT35/wIlePBkITPf5/JgvFq4d0JeeHnXcwqm1Ma88VSuMq+T/lZ0wR5js40xmquUCS9Vb3PupXAYlbnS1fvamG7pzPcLhccoV3T+hOsOtyUijEKQ0lYV8LdJhhj8SX5Mg3Lz6BB9Eb/aesdX+6GjX5jNom3UYmkV0BJVgvcznwjz7PQF+UKsUD8y/4ODTw09bPRfkq7UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by DS0PR11MB6495.namprd11.prod.outlook.com (2603:10b6:8:c1::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.14; Fri, 13 Feb
- 2026 20:48:37 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::d18f:6b38:584a:214%4]) with mapi id 15.20.9611.008; Fri, 13 Feb 2026
- 20:48:37 +0000
-Message-ID: <fde361f5-55ee-43e0-a5a9-1e458a2b9bcd@intel.com>
-Date: Fri, 13 Feb 2026 21:48:32 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PAATCH v4] ALSA: control: Verify put() result when in debug mode
-To: <tiwai@suse.com>
-CC: <broonie@kernel.org>, <perex@perex.cz>, <amade@asmblr.net>,
-	<linux-sound@vger.kernel.org>, <kuninori.morimoto.gx@renesas.com>
-References: <20260210152737.347279-1-cezary.rojewski@intel.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260210152737.347279-1-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA0P291CA0021.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::25) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C419E18CC13
+	for <linux-sound@vger.kernel.org>; Sat, 14 Feb 2026 00:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771029821; cv=none; b=H/DuBsqVWte2+9lXIPHm8rnQNHrfJLJLL23KMOKDXJYvrL7Th+R9FolK3mWkQKG5SIzkqd+ier8fqQWJ8XThpPPJPA5s+Vu/CLdXphbOMenf+NDQ6qYMH4/nek45t8EhV/rVyMKsAKdjZUpaAcFjF0juQQxltGl1MCjz7VoUG3k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771029821; c=relaxed/simple;
+	bh=0waAntkINh0HJbY52IWO/+UCUnXlCGmlARVanym+CF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q5e/uKv/eIb0eoC2LSoDC51XiP1iSJbe/0gxU6g8kYkGhulGLQTI2KIv9W1QNGgOfvaOTkS+OO144zGZ1B3WiF0hshpdpZd58r+rloyTx8MxEvleN8vZjHpWLnjPZIfi/0JZrZL+gUG7on7R5sNjVu2mWgBMxKfvTaPmwyIW1Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; arc=none smtp.client-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+Received: from eig-obgw-5006b.ext.cloudfilter.net ([10.0.29.217])
+	by cmsmtp with ESMTPS
+	id qaMhvVWpUaPqLr3kyvS00z; Sat, 14 Feb 2026 00:43:32 +0000
+Received: from host2044.hostmonster.com ([67.20.76.238])
+	by cmsmtp with ESMTPS
+	id r3kxvjXWhOs9Rr3kxvFT2F; Sat, 14 Feb 2026 00:43:31 +0000
+X-Authority-Analysis: v=2.4 cv=HPPDFptv c=1 sm=1 tr=0 ts=698fc533
+ a=O1AQXT3IpLm5MaED65xONQ==:117 a=uc9KWs4yn0V/JYYSH7YHpg==:17
+ a=HzLeVaNsDn8A:10 a=z6gsHLkEAAAA:8 a=6ohNodAXAAAA:8 a=pGLkceISAAAA:8
+ a=jIQo8A4GAAAA:8 a=8b9GpE9nAAAA:8 a=QyXUC8HyAAAA:8 a=4nyrerzH5YTAYOrcb2sA:9
+ a=0gLUg1G2xj6MhZ7RLP3J:22 a=T3LWEMljR5ZiDmsYVIUa:22 a=iekntanDnrheIxGr1pkv:22
+Received: from [66.118.46.62] (port=52000 helo=timdesk..)
+	by host2044.hostmonster.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.99.1)
+	(envelope-from <tim.bird@sony.com>)
+	id 1vr3kq-00000004J0n-2NCA;
+	Fri, 13 Feb 2026 17:43:24 -0700
+From: Tim Bird <tim.bird@sony.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	povik+lin@cutebit.org,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	cezary.rojewski@intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com
+Cc: linux-spdx@vger.kernel.org,
+	asahi@lists.linux.dev,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tim Bird <tim.bird@sony.com>
+Subject: [PATCH] sound: soc: Add SPDX ids to many soc files
+Date: Fri, 13 Feb 2026 17:43:14 -0700
+Message-ID: <20260214004314.3787727-1-tim.bird@sony.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|DS0PR11MB6495:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a04505b-1e7d-4232-4774-08de6b4142c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NVhMOEdEemNYYnRRTERPdjVxa3B2aTlSRStyZUNWUk5ReWtQVENOczgySjVO?=
- =?utf-8?B?OWhhUkxMQzJteHUxUURQZnIvR1lnczVtTHIvWUlCa3VjSlFVUUFEa3dvWXhP?=
- =?utf-8?B?N3FCdFIvVFlhb2ZXQkY4QkZHbUlYUVhTb2w2Tjljcy81bWo3TzAwc3RXbEda?=
- =?utf-8?B?UlhQcnpuQkl4eUl4MFFRckNldkxlVW0vZ2lTRlA1U24vUHl4cWNyeWhlVUNF?=
- =?utf-8?B?SGZ6U1d5bDd0SnNnSjBoOUt4bkRyL3paUkJHZ3QzWDY1TkIrQWY5ZFpHTURl?=
- =?utf-8?B?N2JwaW92aGJBdE1sK0hiTHRYNzJaMHNvdm1jNklNcWhiOEZNaVZobWZ2Z0lk?=
- =?utf-8?B?SjR2VVhVcWpESW9iR1lwcnNVNXQ1SmpvblBjWU5XUUFab3pWM25GcUtnZDd5?=
- =?utf-8?B?OGN3U2swbVBUM2lVNzlrTk1mNkpWN0l4ZnEwcVNMTHc1T3NUalRNK0pGRFB1?=
- =?utf-8?B?dUNrcDRaYVp0NDNkSXBCQytvaWQ2TUhpTjhNcTFXMmRhTzhUZmxLeVFyTGVO?=
- =?utf-8?B?WXJFSExpelZvVlE1MmZ4c2h1MDRuZWxDWXE1NytUNEU4ODhtT1YwMno3QWF5?=
- =?utf-8?B?bllYQWFHUldlVm8wMUF0YW4yeldna1dqR2FvLzlCUk9NRHNoV29jUHdzSFNT?=
- =?utf-8?B?bUpmZmZuTFRBV0VzQnN4RVdYTVUxQ0w2WVNHaWpQVG1reFBka1l4bk9NYmF6?=
- =?utf-8?B?bTVHNENvSnZnQk16a2dZVjhWYXNGd2tDbTdzdXJLUk5MTVFoblhkaDNINTEx?=
- =?utf-8?B?ZWszUngzQXAvSC9JV29NZVRSUUNQMW5sWU9PeStBR1pIUGppc0R4SndJSGZU?=
- =?utf-8?B?QXZvV0xudGFxWWM4cE53cmk0QmFVVk9ReVJyU09yNlNZRHc2cTg4bVFzbitr?=
- =?utf-8?B?K2d3MHcyVXJDblZ6alhzald4UmxDOElHa2dwR0RCLzNVR0E3ellMOTE4UTdJ?=
- =?utf-8?B?bkhuQkE3SXpuSGN1ZXdSZGV3RU1PaHVoSkhQSGNxL2tYelNUZGpObktqVlds?=
- =?utf-8?B?QzljZUpydVpSN016OU13VzlyWTB4U0MvY0IwaDdYTVRQVXFwSmlrSDI5ZmhM?=
- =?utf-8?B?azI4RkRFd0dlM1JoYyt2dTJuOGNEVHZjUlJlRVpuc2FjbWw4MmgrTUxyR1JS?=
- =?utf-8?B?R3IzWVB4bDR5Mk1uaEtVOXFkb0pYbmJwQXhyNzIveTU1aFlia0xmblV1QUlv?=
- =?utf-8?B?UmQwNERiZFhOMGtjQVc1c1lOSkxBMDMySFlaeTBtMjdjalczdVdndjdDU2NP?=
- =?utf-8?B?ank5SjZ1OWRCYnVFZGVOWGpXVUpwVWtFRWZhZlV4ZUJrdXI5bWZBQ3l5S0dL?=
- =?utf-8?B?TExQZTNZeDdjUnlFaStxTmR4Wm5wWGJHanR4VFk0Q1NsSENyN21oMDBSVGEx?=
- =?utf-8?B?TXFWTWhUNitYSlIvb3hYZmYzTVgrbFlBNnFaNURNQ21xRFBZdHNBZkRvdmJt?=
- =?utf-8?B?a2R2WlpNZVE3WnZmNUZVekhmMndMNUw5NGJXdi81V0ljQnRvbWRkM3Vid1dK?=
- =?utf-8?B?S3NnWkdYTWc0c2p1RkZhazNsRGhUb09wcnR4bHJIcEVPdFB1RE1vRFN2VEs5?=
- =?utf-8?B?Nld1bWhtbTNzT3JBeVpub1JmV1plNTJjWXZjVTJVSmRhci9VYWQ0aGgreHhs?=
- =?utf-8?B?R2hwcGt3eENaRUlvV1JFcGt4VEZDdzZTejEyT1RNaHp1WUp4cXRIdFpXR0Ns?=
- =?utf-8?B?UkZqQ3JqMjFBODJvTDgycEZmZVBVaTlRYXhwbEY5WnZlUUpqMGxFcUNWbVJZ?=
- =?utf-8?B?WklYZlo0b0tIbGJpSUxjdk8vM1JOUlpFUG1tbU1ld0V2VHExVHRwamsydXNH?=
- =?utf-8?B?MGo5b01JWFBvUDlZeTQ1bVFOZFN3czYwS1p4Y3orOHFyT0h4Q2x6Z0hrWXlM?=
- =?utf-8?B?dExZQXVSVFkzakVoTnRMemNkYldFVzJ0QlZiblQ2cTNYckFTNVhqeFNuaTln?=
- =?utf-8?B?SEloVDVmbDB1Wnk2VnV3MStKVVBURGlSVWhJNWpPWWhqOS9PbHFzODRtNEFU?=
- =?utf-8?B?dHZ5bW5RUXVpSS94UlJyM0EwYXlHbWx1eXVKUmYvbTM0WEc2MVhaMXVydE5o?=
- =?utf-8?B?WTU3S3FFU3FqNENjb2Z5WUkydm1mdkdyaWJkMlJScTZhUkRLL05OVFhCZFJR?=
- =?utf-8?Q?diNk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDRSZ3V0dll6WXZDNVJURzRxamJ0YUNpRi9YZDhtdmkyTzkvWTFRNThRT0kx?=
- =?utf-8?B?UElZcDZubVhzdHZzUVJVTStEM1hoLzVNOXVQMW94TWcyNmR6bThqQkJsamFa?=
- =?utf-8?B?NmlnYnI4SGVGalBKWmVNUSs3eTA3ZVJlN3BZNTJzMEgrYlR1Sm9qU1hNN0py?=
- =?utf-8?B?eEdjMjRzcHJEOFhtZm1vOUtqUXBQOTBOcFNrL2RiZ1paKys0UnJlUk1UTVNm?=
- =?utf-8?B?Vm5RWUdvb0RqTWZMbWNZTDJIckU0VlIwMTdERDJSMmU4NGZvMExxRmVtSDUy?=
- =?utf-8?B?U0xob1VxVUJWcnRhV25lekpOaFJ3N2QyQjNCWXg1VXA0OTF3R1ZBNEZFdm9w?=
- =?utf-8?B?RWVKSXA4WTJIcEd5d0hYWjRiek1tVGpmR0hoTCtMVHovUXc0TnNoTS9MNEUx?=
- =?utf-8?B?ckp6akpXTHE5dkY0VVpJcEpVdHAwbXh0NENBNFBUWTRCNU5KSno4NTk5NkhP?=
- =?utf-8?B?a1lzdEIyM0pkZVZmU01SQk1ZMU9NU05nTjlvMG1XQjR6VS9lZVJscnFUSW9C?=
- =?utf-8?B?eU1XSGg1cHNtb2JEZ2RpSXlXdy81aFB5RlIvcHkvRTlXd3FMMWVRTVJvZjJ3?=
- =?utf-8?B?Q1ZKcllMU04xVys4QnB5THUraW8xbVAyWHBvUW9iZjlKY0FtZ29kMzlLRS9S?=
- =?utf-8?B?cUNnVk1raUpXUTBPUnA0WjFHUEVYNGpsQzZ5dll4UTJFcVBaZHVBTkprU2ND?=
- =?utf-8?B?YWJMMjFSeTVEdllFM3JqY21LRlhBUlJzSzF3ZUZQVTY0ekZPYTNXVWl1WHlQ?=
- =?utf-8?B?OFBuekpyVWtROE45cHNNNVhocllXWG5BRUlWcnJ4TEFTZFVET2lvc3JMWGtV?=
- =?utf-8?B?dS9WbUJhQmtyYnVkQUoxdUJzLzN5aWI4VnRCTC9nSkozeXQ0WGVpWlduUG04?=
- =?utf-8?B?YnJEUkdmVkNCMnp6eTVJTWVsZDlZcFJzeUJkWmo1eUhrcG1IQUE4c241bnBE?=
- =?utf-8?B?TXh3QjBFOTJ3S0hjUUlyTTdtVWp3N0Qvd2k4MEsyaXlSZnRPeFc3NVgvV2Jw?=
- =?utf-8?B?WkJCSGh6QVVlWjFibUhVSnFYWXBpaG5DSmt3aGc1cmVDQnViYnJSWnNHNi9Z?=
- =?utf-8?B?YkZ0L0J4WTdOS2V6ZnA4enVZd2djdG1MRG0wVUxtR1llZEZFZWxQSHJ6QkJ6?=
- =?utf-8?B?UlhsVDhMeENZbDFGQVg1ckgyWmlwRGJIUEFRcmZrQ1NDQUZwTlhhMUVreHNp?=
- =?utf-8?B?NEZ0aVV6T1JDR3JIa3ZZRXhNSW8rbUpMQXBUUFY4allpekRCWkp1UWN1VUo5?=
- =?utf-8?B?Vm5LMlc5QUFaK1dQQ2dTRkY3YzZGVFppT2wrOERkM08zTERXSkNmR0t3WEV2?=
- =?utf-8?B?bWVWMFNmbWNCOFAvWGFpWmdBOERycy8rRmFUYkswSHZFRktDOGR4dGRoNTRv?=
- =?utf-8?B?VlVMQnZMdm9iTmtlRnlINXZEaFVlVUlYWVhPMnJHZHhYU2pTQ0FUNG5oVlhy?=
- =?utf-8?B?OTZiRGRoSXRpN1dYeUpDTi93V0syQWVkMTNFeXprWTFjSGdVbjdYMTVlUWxz?=
- =?utf-8?B?T0ZXU1RteXRBZDlYL3hnT2dDRnlDT2Q1VGswSDNPTXJudDB4ZEZOa1hyZ2JW?=
- =?utf-8?B?ZlJTWkNzNHA0Qk1SR1I1RjFTNUhzWW9TOVZRbEFrRXF0RS81T0tDdUhVeFJn?=
- =?utf-8?B?MGk0RzYvb3RsWlFqSm5LazlINEg2d2YyaVRvYlJIeDQ4c3V2Z3hrMXdnamZi?=
- =?utf-8?B?ZnNha2JVaUNnckxSa0pTNDdocnpiWFdWdkU1OENRVHRnYVhIRGdMRUZrWTll?=
- =?utf-8?B?T3FPL0MxYWxmdXlCdHczSkxLNUxSTGg0ckFtK0MxY2xsZEdCNUlZSG9DT21T?=
- =?utf-8?B?cVpYZ0FwVEVEUXdEOFl6ZVRMZTBLckUxM3dYNE1kSTIyc21mZTE3MGc0Z2ZQ?=
- =?utf-8?B?VWZRdGg4b2tsRUpzOU5WYzk4TUpxT2VnS1V6c253T3pPQitJWXp0Zlhod2VM?=
- =?utf-8?B?bU5TeWo3VEozb1loV1dsSVFBeXF1WXVVUzBZUnFkcU5UUlAvaHBINzhvUzcr?=
- =?utf-8?B?U2d0YnViLzhobzd0M0ZnSEJrQ1BGU2FFeWpFampySXBQbVZSS0dEVzRtNzQr?=
- =?utf-8?B?ZXRxU3k1TnIrTU0wMTZWazNpRGN3b2xRbit3amUvb2hIWGxueFQ3SWViQVFD?=
- =?utf-8?B?aEJTV05kbk4rTFU4cGZQSG9vaEx2aUNDbVI5OEpVU1hpZktIUTJKUkZUY2NR?=
- =?utf-8?B?c2doMnlyT1UvZWVPYzJJYnZidlZ6Q3dXSFEvbGxocnc5Y0pjSE11aEZPTUJY?=
- =?utf-8?B?M01jSzJLUlJqOXRBYzF4R3NwY09qNFRjZERJdjgzaVVPRlpmSGcrRlFDZ2lZ?=
- =?utf-8?B?RWdnZWpPdGVrRmg3TnFuZVhBT3V5VWdHSzZ2THI4WS9DNzkxYTFnYmk4QmZM?=
- =?utf-8?Q?NNIIgeVRWADEMfbI=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a04505b-1e7d-4232-4774-08de6b4142c3
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 20:48:37.3584
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: behYt06sSSa8O1a9BMyxrwuhKP3/S+qGOXrFZ6zWXDiU5CZB8OwFI1S6oPKFwYCyeI6WuEUtI5ybCUBgbGt6yCgaAGF7EvuQU8gsjlNa/NE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6495
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - host2044.hostmonster.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - sony.com
+X-BWhitelist: no
+X-Source-IP: 66.118.46.62
+X-Source-L: No
+X-Exim-ID: 1vr3kq-00000004J0n-2NCA
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (timdesk..) [66.118.46.62]:52000
+X-Source-Auth: tim@bird.org
+X-Email-Count: 3
+X-Org: HG=bhshared_hm;ORG=bluehost;
+X-Source-Cap: YmlyZG9yZztiaXJkb3JnO2hvc3QyMDQ0Lmhvc3Rtb25zdGVyLmNvbQ==
+X-Local-Domain: no
+X-CMAE-Envelope: MS4xfCGjfU8xuM/cT4jK3yrWY0+FldFXutPb9KYrZNvNg/HVaF6Dp6qwD3UF/bMc6zo+hnuxm7AMfo62BGvWZ13xCGD1sEGpR9/DJNfTEwyJMpCMbuSXGoQ9
+ 364ODx/16vq4IAV58cr0WEDAP1w4sTnUKfHbmfw0i1uRTPuUPmMTItNikPZxtyN99+K8DrAQYm19WbY2yKb2n+Zg70suKcrGcEQ=
 
-On 2026-02-10 4:27 PM, Cezary Rojewski wrote:
-> The put() operation is expected to return:
-> 1) 0 on success if no changes were made
-> 2) 1 on success if changes were made
-> 3) error code otherwise
-...
+Add appropriate SPDX-License-Identifier lines to the
+the remaining files that are missing such lines in the
+sound/soc directory, and in a few other miscelaneous files.
+Remove boilerplate license text.
 
-Only just now I've realized that there is a typo in the title - should 
-have been "PATCH v4" instead. Let me know if I should resend this one.
+Signed-off-by: Tim Bird <tim.bird@sony.com>
+---
+ sound/hda/codecs/side-codecs/Kconfig    |  1 +
+ sound/soc/amd/acp-rt5645.c              | 21 +--------------------
+ sound/soc/amd/include/acp_2_2_d.h       | 18 +-----------------
+ sound/soc/amd/include/acp_2_2_enum.h    | 18 +-----------------
+ sound/soc/amd/include/acp_2_2_sh_mask.h | 18 +-----------------
+ sound/soc/apple/Kconfig                 |  1 +
+ sound/soc/apple/Makefile                |  1 +
+ sound/soc/codecs/cs4270.c               |  6 ++----
+ sound/soc/codecs/cs42xx8-i2c.c          |  5 +----
+ sound/soc/codecs/cs42xx8.c              |  5 +----
+ sound/soc/codecs/cs42xx8.h              |  5 +----
+ sound/soc/codecs/sta529.c               |  5 +----
+ sound/soc/dwc/dwc-i2s.c                 |  5 +----
+ sound/soc/dwc/dwc-pcm.c                 |  5 +----
+ sound/soc/dwc/local.h                   |  5 +----
+ sound/soc/fsl/efika-audio-fabric.c      |  5 +----
+ sound/soc/intel/catpt/Makefile          |  1 +
+ sound/soc/intel/keembay/Makefile        |  1 +
+ sound/soc/spear/spdif_in.c              |  5 +----
+ sound/soc/spear/spdif_out.c             |  5 +----
+ sound/soc/spear/spear_pcm.c             |  5 +----
+ sound/soc/starfive/Makefile             |  1 +
+ sound/usb/qcom/Makefile                 |  1 +
+ sound/x86/intel_hdmi_audio.h            | 22 +---------------------
+ 24 files changed, 25 insertions(+), 140 deletions(-)
 
-Kind regards,
-Czarek
+diff --git a/sound/hda/codecs/side-codecs/Kconfig b/sound/hda/codecs/side-codecs/Kconfig
+index f674e9a9c7d7..fc5651e555e3 100644
+--- a/sound/hda/codecs/side-codecs/Kconfig
++++ b/sound/hda/codecs/side-codecs/Kconfig
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0-only
+ config SND_HDA_CIRRUS_SCODEC
+ 	tristate
+ 
+diff --git a/sound/soc/amd/acp-rt5645.c b/sound/soc/amd/acp-rt5645.c
+index 11d373169380..d545516760b9 100644
+--- a/sound/soc/amd/acp-rt5645.c
++++ b/sound/soc/amd/acp-rt5645.c
+@@ -1,29 +1,10 @@
++// SPDX-License-Identifier: MIT
+ /*
+  * Machine driver for AMD ACP Audio engine using Realtek RT5645 codec
+  *
+  * Copyright 2017 Advanced Micro Devices, Inc.
+  *
+  * This file is modified from rt288 machine driver
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included in
+- * all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+- * OTHER DEALINGS IN THE SOFTWARE.
+- *
+- *
+  */
+ 
+ #include <sound/core.h>
+diff --git a/sound/soc/amd/include/acp_2_2_d.h b/sound/soc/amd/include/acp_2_2_d.h
+index 0118fe9e6a87..d07ec8646ee8 100644
+--- a/sound/soc/amd/include/acp_2_2_d.h
++++ b/sound/soc/amd/include/acp_2_2_d.h
+@@ -1,24 +1,8 @@
++/* SPDX-License-Identifier: MIT */
+ /*
+  * ACP_2_2 Register documentation
+  *
+  * Copyright (C) 2014  Advanced Micro Devices, Inc.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included
+- * in all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
+ #ifndef ACP_2_2_D_H
+diff --git a/sound/soc/amd/include/acp_2_2_enum.h b/sound/soc/amd/include/acp_2_2_enum.h
+index f3577c851086..26c7993ac395 100644
+--- a/sound/soc/amd/include/acp_2_2_enum.h
++++ b/sound/soc/amd/include/acp_2_2_enum.h
+@@ -1,24 +1,8 @@
++/* SPDX-License-Identifier: MIT */
+ /*
+  * ACP_2_2 Register documentation
+  *
+  * Copyright (C) 2014  Advanced Micro Devices, Inc.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included
+- * in all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
+ #ifndef ACP_2_2_ENUM_H
+diff --git a/sound/soc/amd/include/acp_2_2_sh_mask.h b/sound/soc/amd/include/acp_2_2_sh_mask.h
+index 32d2d4104309..9749c11e733f 100644
+--- a/sound/soc/amd/include/acp_2_2_sh_mask.h
++++ b/sound/soc/amd/include/acp_2_2_sh_mask.h
+@@ -1,24 +1,8 @@
++/* SPDX-License-Identifier: MIT */
+ /*
+  * ACP_2_2 Register documentation
+  *
+  * Copyright (C) 2014  Advanced Micro Devices, Inc.
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the "Software"),
+- * to deal in the Software without restriction, including without limitation
+- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+- * and/or sell copies of the Software, and to permit persons to whom the
+- * Software is furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included
+- * in all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
+ #ifndef ACP_2_2_SH_MASK_H
+diff --git a/sound/soc/apple/Kconfig b/sound/soc/apple/Kconfig
+index d8dc2f1ccc83..f1d071a99fbf 100644
+--- a/sound/soc/apple/Kconfig
++++ b/sound/soc/apple/Kconfig
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0-only
+ menu "Apple"
+ 
+ config SND_SOC_APPLE_MCA
+diff --git a/sound/soc/apple/Makefile b/sound/soc/apple/Makefile
+index 1eb8fbef60c6..d727d0c63181 100644
+--- a/sound/soc/apple/Makefile
++++ b/sound/soc/apple/Makefile
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
+ snd-soc-apple-mca-y	:= mca.o
+ 
+ obj-$(CONFIG_SND_SOC_APPLE_MCA)	+= snd-soc-apple-mca.o
+diff --git a/sound/soc/codecs/cs4270.c b/sound/soc/codecs/cs4270.c
+index 3139f03cd42b..a48980e746ff 100644
+--- a/sound/soc/codecs/cs4270.c
++++ b/sound/soc/codecs/cs4270.c
+@@ -1,12 +1,10 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * CS4270 ALSA SoC (ASoC) codec driver
+  *
+  * Author: Timur Tabi <timur@freescale.com>
+  *
+- * Copyright 2007-2009 Freescale Semiconductor, Inc.  This file is licensed
+- * under the terms of the GNU General Public License version 2.  This
+- * program is licensed "as is" without any warranty of any kind, whether
+- * express or implied.
++ * Copyright 2007-2009 Freescale Semiconductor, Inc.
+  *
+  * This is an ASoC device driver for the Cirrus Logic CS4270 codec.
+  *
+diff --git a/sound/soc/codecs/cs42xx8-i2c.c b/sound/soc/codecs/cs42xx8-i2c.c
+index 039b3ecb3b9b..0faca384073a 100644
+--- a/sound/soc/codecs/cs42xx8-i2c.c
++++ b/sound/soc/codecs/cs42xx8-i2c.c
+@@ -1,13 +1,10 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * Cirrus Logic CS42448/CS42888 Audio CODEC DAI I2C driver
+  *
+  * Copyright (C) 2014 Freescale Semiconductor, Inc.
+  *
+  * Author: Nicolin Chen <Guangyu.Chen@freescale.com>
+- *
+- * This file is licensed under the terms of the GNU General Public License
+- * version 2. This program is licensed "as is" without any warranty of any
+- * kind, whether express or implied.
+  */
+ 
+ #include <linux/i2c.h>
+diff --git a/sound/soc/codecs/cs42xx8.c b/sound/soc/codecs/cs42xx8.c
+index d14538c49b97..f6b8fe7d53e2 100644
+--- a/sound/soc/codecs/cs42xx8.c
++++ b/sound/soc/codecs/cs42xx8.c
+@@ -1,13 +1,10 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * Cirrus Logic CS42448/CS42888 Audio CODEC Digital Audio Interface (DAI) driver
+  *
+  * Copyright (C) 2014 Freescale Semiconductor, Inc.
+  *
+  * Author: Nicolin Chen <Guangyu.Chen@freescale.com>
+- *
+- * This file is licensed under the terms of the GNU General Public License
+- * version 2. This program is licensed "as is" without any warranty of any
+- * kind, whether express or implied.
+  */
+ 
+ #include <linux/clk.h>
+diff --git a/sound/soc/codecs/cs42xx8.h b/sound/soc/codecs/cs42xx8.h
+index 342389e8b1a8..4087c91471d1 100644
+--- a/sound/soc/codecs/cs42xx8.h
++++ b/sound/soc/codecs/cs42xx8.h
+@@ -1,13 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * cs42xx8.h - Cirrus Logic CS42448/CS42888 Audio CODEC driver header file
+  *
+  * Copyright (C) 2014 Freescale Semiconductor, Inc.
+  *
+  * Author: Nicolin Chen <Guangyu.Chen@freescale.com>
+- *
+- * This file is licensed under the terms of the GNU General Public License
+- * version 2. This program is licensed "as is" without any warranty of any
+- * kind, whether express or implied.
+  */
+ 
+ #ifndef _CS42XX8_H
+diff --git a/sound/soc/codecs/sta529.c b/sound/soc/codecs/sta529.c
+index 8c3b2652b02e..946aa6a4e57c 100644
+--- a/sound/soc/codecs/sta529.c
++++ b/sound/soc/codecs/sta529.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * ASoC codec driver for spear platform
+  *
+@@ -5,10 +6,6 @@
+  *
+  * Copyright (C) 2012 ST Microelectronics
+  * Rajeev Kumar <rajeevkumar.linux@gmail.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/clk.h>
+diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+index 28001e9857d9..74dfd39fd604 100644
+--- a/sound/soc/dwc/dwc-i2s.c
++++ b/sound/soc/dwc/dwc-i2s.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * ALSA SoC Synopsys I2S Audio Layer
+  *
+@@ -5,10 +6,6 @@
+  *
+  * Copyright (C) 2010 ST Microelectronics
+  * Rajeev Kumar <rajeevkumar.linux@gmail.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/clk.h>
+diff --git a/sound/soc/dwc/dwc-pcm.c b/sound/soc/dwc/dwc-pcm.c
+index a418265c030a..15ff39b1a509 100644
+--- a/sound/soc/dwc/dwc-pcm.c
++++ b/sound/soc/dwc/dwc-pcm.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * ALSA SoC Synopsys PIO PCM for I2S driver
+  *
+@@ -5,10 +6,6 @@
+  *
+  * Copyright (C) 2016 Synopsys
+  * Jose Abreu <joabreu@synopsys.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/io.h>
+diff --git a/sound/soc/dwc/local.h b/sound/soc/dwc/local.h
+index dce88c9ad5f3..6510b3496371 100644
+--- a/sound/soc/dwc/local.h
++++ b/sound/soc/dwc/local.h
+@@ -1,9 +1,6 @@
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * Copyright (ST) 2012 Rajeev Kumar (rajeevkumar.linux@gmail.com)
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #ifndef __DESIGNWARE_LOCAL_H
+diff --git a/sound/soc/fsl/efika-audio-fabric.c b/sound/soc/fsl/efika-audio-fabric.c
+index de17b103a4cf..4d3266d9cbb7 100644
+--- a/sound/soc/fsl/efika-audio-fabric.c
++++ b/sound/soc/fsl/efika-audio-fabric.c
+@@ -1,13 +1,10 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * Efika driver for the PSC of the Freescale MPC52xx
+  * configured as AC97 interface
+  *
+  * Copyright 2008 Jon Smirl, Digispeaker
+  * Author: Jon Smirl <jonsmirl@gmail.com>
+- *
+- * This file is licensed under the terms of the GNU General Public License
+- * version 2. This program is licensed "as is" without any warranty of any
+- * kind, whether express or implied.
+  */
+ 
+ #include <linux/init.h>
+diff --git a/sound/soc/intel/catpt/Makefile b/sound/soc/intel/catpt/Makefile
+index f5f6a7e956ce..e8316e33b820 100644
+--- a/sound/soc/intel/catpt/Makefile
++++ b/sound/soc/intel/catpt/Makefile
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
+ snd-soc-catpt-y := device.o dsp.o loader.o ipc.o messages.o pcm.o sysfs.o
+ 
+ # tell define_trace.h where to find the trace header
+diff --git a/sound/soc/intel/keembay/Makefile b/sound/soc/intel/keembay/Makefile
+index 3da9a6f9ba2a..fe3d761743d9 100644
+--- a/sound/soc/intel/keembay/Makefile
++++ b/sound/soc/intel/keembay/Makefile
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
+ snd-soc-kmb_platform-y := \
+ 	        kmb_platform.o
+ 
+diff --git a/sound/soc/spear/spdif_in.c b/sound/soc/spear/spdif_in.c
+index 4ad8b1fc713a..b31b120a85de 100644
+--- a/sound/soc/spear/spdif_in.c
++++ b/sound/soc/spear/spdif_in.c
+@@ -1,12 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * ALSA SoC SPDIF In Audio Layer for spear processors
+  *
+  * Copyright (C) 2012 ST Microelectronics
+  * Vipin Kumar <vipin.kumar@st.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/clk.h>
+diff --git a/sound/soc/spear/spdif_out.c b/sound/soc/spear/spdif_out.c
+index 469373d1bb41..c06f09c646a8 100644
+--- a/sound/soc/spear/spdif_out.c
++++ b/sound/soc/spear/spdif_out.c
+@@ -1,12 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * ALSA SoC SPDIF Out Audio Layer for spear processors
+  *
+  * Copyright (C) 2012 ST Microelectronics
+  * Vipin Kumar <vipin.kumar@st.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/clk.h>
+diff --git a/sound/soc/spear/spear_pcm.c b/sound/soc/spear/spear_pcm.c
+index e8476da157cd..f222956e857c 100644
+--- a/sound/soc/spear/spear_pcm.c
++++ b/sound/soc/spear/spear_pcm.c
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * ALSA PCM interface for ST SPEAr Processors
+  *
+@@ -5,10 +6,6 @@
+  *
+  * Copyright (C) 2012 ST Microelectronics
+  * Rajeev Kumar<rajeevkumar.linux@gmail.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2. This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/module.h>
+diff --git a/sound/soc/starfive/Makefile b/sound/soc/starfive/Makefile
+index 9e958f70ef51..cfe03c83d5f7 100644
+--- a/sound/soc/starfive/Makefile
++++ b/sound/soc/starfive/Makefile
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
+ # StarFive Platform Support
+ obj-$(CONFIG_SND_SOC_JH7110_PWMDAC) += jh7110_pwmdac.o
+ obj-$(CONFIG_SND_SOC_JH7110_TDM) += jh7110_tdm.o
+diff --git a/sound/usb/qcom/Makefile b/sound/usb/qcom/Makefile
+index 6567727b66f0..aa8fcf8d2458 100644
+--- a/sound/usb/qcom/Makefile
++++ b/sound/usb/qcom/Makefile
+@@ -1,3 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0
+ snd-usb-audio-qmi-y := usb_audio_qmi_v01.o qc_audio_offload.o
+ snd-usb-audio-qmi-y += mixer_usb_offload.o
+ obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
+diff --git a/sound/x86/intel_hdmi_audio.h b/sound/x86/intel_hdmi_audio.h
+index 7ce8c2a7d714..88bf9ef2c491 100644
+--- a/sound/x86/intel_hdmi_audio.h
++++ b/sound/x86/intel_hdmi_audio.h
+@@ -1,30 +1,10 @@
++/* SPDX-License-Identifier: MIT */
+ /*
+  * Copyright (C) 2016 Intel Corporation
+  *  Authors:	Sailaja Bandarupalli <sailaja.bandarupalli@intel.com>
+  *		Ramesh Babu K V	<ramesh.babu@intel.com>
+  *		Vaibhav Agarwal <vaibhav.agarwal@intel.com>
+  *		Jerome Anand <jerome.anand@intel.com>
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining
+- * a copy of this software and associated documentation files
+- * (the "Software"), to deal in the Software without restriction,
+- * including without limitation the rights to use, copy, modify, merge,
+- * publish, distribute, sublicense, and/or sell copies of the Software,
+- * and to permit persons to whom the Software is furnished to do so,
+- * subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial
+- * portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+- * NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+- * SOFTWARE.
+  */
+ 
+ #ifndef _INTEL_HDMI_AUDIO_H_
+-- 
+2.43.0
+
