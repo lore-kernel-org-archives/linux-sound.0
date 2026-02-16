@@ -1,50 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B7C1C1F02;
-	Mon, 16 Feb 2026 12:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2A53016F1;
+	Mon, 16 Feb 2026 13:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771245563; cv=none; b=So1cUrDy3VAek8jFyMWHLqjohjJmKc2/NtwQL/2RLcRwhM5Y2dYXKsha7AVgy9KNI6R0o0+u3QmByaGdRv2c3Jbz7FANc0vhXV02jjPyM0kkW1ubBstt/241zM2uFLphRJTJiifB7XiXrKDTRLyYYCJJJCwHwe1/hWFbRHBd6xs=
+	t=1771248865; cv=none; b=nAgwVf/UfHOucbYv2bNalzC1qXBdaM7xnFb7jTI/wq+kZjmaioKZ2ZzyKh+TXNZDA7cEJ1YwHhL8OTU+EmmTIpE26hRt5ZZ0JOi/MTutPNd1Lf1gEa4Yty3zrL6hNtT9/pApq2++6/d+lr8AlTFZcvjcQLck9aYWC8X7rXpwyP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771245563; c=relaxed/simple;
-	bh=Li0OTzOGnf5gYzC2Wy0M2WlkXwnBBvzo0k8CbhncHgY=;
+	s=arc-20240116; t=1771248865; c=relaxed/simple;
+	bh=y0fQTQo6X8umeZ/M7VxvcuIfs0YY6Q0TYhb3UdnM1CQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BXSZItfiuaJBzSB+M3nGofwhThRUNWoyhDf/1ncWcS/lckEWy+9w8r3sSmaZHZZB3FYpUmRbqfzS2nNM0Dcpeyk/W8V4Cp0IVeYjY9tVV25okOql2vELP0K6GgwyFHs2XsQv1uySHOQzNUEq2x8/t7zSzsNf/Cm33weNIDUvHtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n55B+uhZ; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=VVEA4FQHCdSlxNcbVV1kbmKz0UAMtUZ+Z7KHmqzIopYIjCBw+MFCkINRkJzfPKFYnHUxcwLNHriNAsYglitlOr3ly30M+AoioUOx3zfgQj/awr+Y45QyPs+E/TPskt9149iVS15/bpvST+DXrsxt1uRYBb4e55rbFCLBgbQiL7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwxS7QnZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n55B+uhZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771245562; x=1802781562;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Li0OTzOGnf5gYzC2Wy0M2WlkXwnBBvzo0k8CbhncHgY=;
-  b=n55B+uhZo+2h7//UG/HKR+2uaaHxBVXfu9MpimroJBP175IWVJgH+QrL
-   jbEgMZWgNFVu/HHngxP99lYa0Zfkua/knltNQkgqYWXN4B+/RfhzOV3j3
-   rNNm3WVgu6Sz3OKG3cnTSX0U6JeuKiIknvNKes41XnPa260xhl6NflJ7I
-   S7O3Ek2RkrGhp0WTteezvLn286Yuib3PbIodcfZIAGnvUUbNzq34aNv6l
-   BG1acYmaev04g4UBtkX89uOdaxKFjjdrqgv3pOlmktsqOPJj61U41gtLf
-   ZWpMpVfKGER7M6VQED43rAlLc+8T9tHHf0CsAtkxBLm7IJBaRtQW63EU7
-   A==;
-X-CSE-ConnectionGUID: +zpjd0GiSSyc5qSV1zL9og==
-X-CSE-MsgGUID: YUTZUc8nQDyvK4fs6uJeFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72420614"
-X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="72420614"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 04:39:21 -0800
-X-CSE-ConnectionGUID: 1vzLBX32QOONlETDt9YRGA==
-X-CSE-MsgGUID: 7wCTKMHbRsmH8aM7pZozXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="213606471"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.251]) ([10.245.246.251])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 04:39:17 -0800
-Message-ID: <6dfb6f6a-3729-4fd0-9ddd-690728ef94f8@linux.intel.com>
-Date: Mon, 16 Feb 2026 14:39:21 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwxS7QnZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8395C116C6;
+	Mon, 16 Feb 2026 13:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771248864;
+	bh=y0fQTQo6X8umeZ/M7VxvcuIfs0YY6Q0TYhb3UdnM1CQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IwxS7QnZAuAnm+0K4bsO2QA2PNHJ7y1v77ekOdLUkC0cg4rdQZ5YKdzF/13vwNy+I
+	 yfb7ufPWgkEn9keP5ytodVXXNvMAh84iGL2mJ5VBbWfMdZsw3bXlI1hXPGIM2wE02a
+	 +y5gmFEucDPtEgq/0QpkPSV+Upy7kRcGWeTRrA3agdUwhmiMgoH+siftToI7zlHtWf
+	 EG4lFG5Aoe/CqNxgzsucm0MMe4fA8yAyDJNl3lsJsb3xoSxf7GwyLwjzqdp9TjEheh
+	 6uC/QeXP/ANUmkeNRvr2ytfpDM5EvA/caaBCYYn+wZhUfnracZxfbv3UtfpvmObqUM
+	 b/w4HzHIr4B1A==
+Message-ID: <05873ad7-ca35-4542-b064-5b401f7bd069@kernel.org>
+Date: Mon, 16 Feb 2026 13:34:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,198 +35,382 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: SOF: Replace IPC TX busy deferral with bounded
- retry
-To: Cole Leavitt <cole@unwrap.rs>, Bard Liao
- <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260214064054.19961-1-cole@unwrap.rs>
- <20260214064054.19961-2-cole@unwrap.rs>
+Subject: Re: [PATCH 09/10] ASoC: qcom: add sdm660 internal sound card support
+To: Richard Acayan <mailingradian@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wesley Cheng <quic_wcheng@quicinc.com>, Johan Hovold <johan@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+Cc: Nickolay Goppen <setotau@mainlining.org>
+References: <20260211020302.2674-1-mailingradian@gmail.com>
+ <20260211020302.2674-10-mailingradian@gmail.com>
 Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20260214064054.19961-2-cole@unwrap.rs>
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20260211020302.2674-10-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 14/02/2026 08:40, Cole Leavitt wrote:
-> The SOF IPC4 platform send_msg functions (hda_dsp_ipc4_send_msg,
-> mtl_ipc_send_msg, cnl_ipc4_send_msg) previously stored the message in
-> delayed_ipc_tx_msg and returned 0 when the TX register was busy. The
-> deferred message was supposed to be dispatched from the IRQ handler
-> when the DSP acknowledged the previous message.
+On 2/11/26 2:03 AM, Richard Acayan wrote:
+> The Snapdragon 670 and Snapdragon 660 both share the same drivers for
+> the sound cards. These different sound cards are tasha, tavil, and
+tasha, tavil are codecs, most of differences is pretty much taken care
+at dt level.
+
+> internal. Add support for the internal sound card.
 > 
-> This mechanism silently drops messages during D0i3 power transitions
-> because the IRQ handler never fires while the DSP is in a low-power
-> state. The caller then hangs in wait_event_timeout() for up to 500ms
-> per IPC chunk, causing multi-second audio stalls under CPU load.
-
-I do wonder how this can happen as we only send IPC messages when the fw
-has booted up and thus the fw should be replying to messages.
-The delayed message handling meant to handle the case when the firmware
-sent the reply already, but the TX doorbell is not cleared, FW is not
-yet ready to receive a new meesage (or if we send it might be lost) or
-we will never send such message (and send it after the next firmware boot?).
-
-see:
-47772f905cd8 ("ASoC: SOF: Intel: ipc4: Wait for channel to be free
-before sending a message")
-
-I agree that rapid IPC sending attempt would drop messages and will only
-send the last one. This would be visible with:
-https://github.com/thesofproject/linux/pull/5521
-
-> Fix this by making the platform send_msg functions return -EBUSY
-> immediately when the TX register is busy (safe since they execute
-> under spin_lock_irq in sof_ipc_send_msg), and adding a bounded retry
-> loop with usleep_range() in ipc4_tx_msg_unlocked() which only holds
-> the tx_mutex (a sleepable context). The retry loop attempts up to 50
-> iterations with 100-200us delays, bounding the maximum busy-wait to
-> approximately 10ms instead of the previous 500ms timeout.
-> 
-> Also remove the now-dead delayed_ipc_tx_msg field from
-> sof_intel_hda_dev, the dispatch code, and the ack_received tracking
-> variable from all three IRQ thread handlers (hda_dsp_ipc4_irq_thread,
-> mtl_ipc_irq_thread, cnl_ipc4_irq_thread).
-> 
-> Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 > ---
+>  sound/soc/qcom/Kconfig           |  12 ++
+>  sound/soc/qcom/Makefile          |   2 +
+>  sound/soc/qcom/sdm660-internal.c | 271 +++++++++++++++++++++++++++++++
+>  3 files changed, 285 insertions(+)
+>  create mode 100644 sound/soc/qcom/sdm660-internal.c
+internal name really looks odd.
 
-...
+Any reason why totally new driver without resusing the existing ones or
+even the helper functions from existing code?
 
-diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
-> index 095dcf1a18e4..24dec128f589 100644
-> --- a/sound/soc/sof/intel/mtl.c
-> +++ b/sound/soc/sof/intel/mtl.c
-> @@ -101,12 +101,8 @@ static int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *ms
->  	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
->  	struct sof_ipc4_msg *msg_data = msg->msg_data;
+
+> 
+> diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
+> index e6e24f3b9922..86b2778adc1a 100644
+> --- a/sound/soc/qcom/Kconfig
+> +++ b/sound/soc/qcom/Kconfig
+> @@ -167,6 +167,18 @@ config SND_SOC_MSM8996
+>  	  APQ8096 SoC-based systems.
+>  	  Say Y if you want to use audio device on this SoCs
 >  
-> -	if (hda_ipc4_tx_is_busy(sdev)) {
-> -		hdev->delayed_ipc_tx_msg = msg;
-> -		return 0;
-> -	}
-> -
-> -	hdev->delayed_ipc_tx_msg = NULL;
-> +	if (hda_ipc4_tx_is_busy(sdev))
-> +		return -EBUSY;
->  
->  	/* send the message via mailbox */
->  	if (msg_data->data_size)
-> @@ -559,7 +555,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
->  {
->  	struct sof_ipc4_msg notification_data = {{ 0 }};
->  	struct snd_sof_dev *sdev = context;
-> -	bool ack_received = false;
->  	bool ipc_irq = false;
->  	u32 hipcida;
->  	u32 hipctdr;
-> @@ -576,7 +571,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
->  		mtl_ipc_dsp_done(sdev);
->  
->  		ipc_irq = true;
-> -		ack_received = true;
->  	}
->  
->  	if (hipctdr & MTL_DSP_REG_HFIPCXTDR_BUSY) {
-> @@ -628,13 +622,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
->  		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
->  	}
->  
-> -	if (ack_received) {
-> -		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
-> -
-> -		if (hdev->delayed_ipc_tx_msg)
-> -			mtl_ipc_send_msg(sdev, hdev->delayed_ipc_tx_msg);
-> -	}
-> -
->  	return IRQ_HANDLED;
->  }
->  
-> diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
-> index a4a090e6724a..2e24308ef9cc 100644
-> --- a/sound/soc/sof/ipc4.c
-> +++ b/sound/soc/sof/ipc4.c
-> @@ -365,20 +365,33 @@ static int ipc4_wait_tx_done(struct snd_sof_ipc *ipc, void *reply_data)
->  	return ret;
->  }
->  
-> +#define SOF_IPC4_TX_BUSY_RETRIES	50
-> +#define SOF_IPC4_TX_BUSY_DELAY_US	100
-> +#define SOF_IPC4_TX_BUSY_DELAY_MAX_US	200
+> +config SND_SOC_SDM660_INT
+> +	tristate "SoC Machine driver for SDM660 and SDM670 boards"
+> +	depends on QCOM_APR
+> +	depends on OF
+> +	depends on PM
+> +	select SND_SOC_QDSP6
+> +	select SND_SOC_QCOM_COMMON
+> +	help
+> +	  This adds support for audio on Qualcomm Technologies Inc.
+> +	  SDM660 and SDM670 SoC-based systems.
+> +	  Say Y if you want to use audio devices on these SoCs.
 > +
->  static int ipc4_tx_msg_unlocked(struct snd_sof_ipc *ipc,
->  				void *msg_data, size_t msg_bytes,
->  				void *reply_data, size_t reply_bytes)
->  {
->  	struct sof_ipc4_msg *ipc4_msg = msg_data;
->  	struct snd_sof_dev *sdev = ipc->sdev;
-> -	int ret;
-> +	int ret, i;
->  
->  	if (msg_bytes > ipc->max_payload_size || reply_bytes > ipc->max_payload_size)
->  		return -EINVAL;
->  
->  	sof_ipc4_log_header(sdev->dev, "ipc tx      ", msg_data, true);
->  
-> -	ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
-> +	for (i = 0; i < SOF_IPC4_TX_BUSY_RETRIES; i++) {
-> +		ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
-> +		if (ret != -EBUSY)
-> +			break;
-> +		usleep_range(SOF_IPC4_TX_BUSY_DELAY_US,
-> +			     SOF_IPC4_TX_BUSY_DELAY_MAX_US);
+>  config SND_SOC_SDM845
+>  	tristate "SoC Machine driver for SDM845 boards"
+>  	depends on QCOM_APR && I2C && SOUNDWIRE
+> diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
+> index 985ce2ae286b..9a0da6279299 100644
+> --- a/sound/soc/qcom/Makefile
+> +++ b/sound/soc/qcom/Makefile
+> @@ -24,6 +24,7 @@ snd-soc-apq8016-sbc-y := apq8016_sbc.o
+>  snd-soc-apq8096-y := apq8096.o
+>  snd-soc-sc7180-y := sc7180.o
+>  snd-soc-sc7280-y := sc7280.o
+> +snd-soc-sdm660-int-y := sdm660-internal.o
+>  snd-soc-sdm845-y := sdm845.o
+>  snd-soc-sm8250-y := sm8250.o
+>  snd-soc-sc8280xp-y := sc8280xp.o
+> @@ -38,6 +39,7 @@ obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-apq8096.o
+>  obj-$(CONFIG_SND_SOC_SC7180) += snd-soc-sc7180.o
+>  obj-$(CONFIG_SND_SOC_SC7280) += snd-soc-sc7280.o
+>  obj-$(CONFIG_SND_SOC_SC8280XP) += snd-soc-sc8280xp.o
+> +obj-$(CONFIG_SND_SOC_SDM660_INT) += snd-soc-sdm660-int.o
+>  obj-$(CONFIG_SND_SOC_SDM845) += snd-soc-sdm845.o
+>  obj-$(CONFIG_SND_SOC_SM8250) += snd-soc-sm8250.o
+>  obj-$(CONFIG_SND_SOC_QCOM_COMMON) += snd-soc-qcom-common.o
+> diff --git a/sound/soc/qcom/sdm660-internal.c b/sound/soc/qcom/sdm660-internal.c
+> new file mode 100644
+> index 000000000000..beb810aa4eb9
+> --- /dev/null
+> +++ b/sound/soc/qcom/sdm660-internal.c
+> @@ -0,0 +1,271 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2015-2020, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023, Richard Acayan. All rights reserved.
+> + */
+> +
+> +#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <sound/pcm.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/jack.h>
+> +#include <sound/soc.h>
+> +#include <sound/soc-card.h>
+> +#include <sound/soc-dai.h>
+> +#include <sound/soc-dapm.h>
+> +#include <sound/soc-jack.h>
+> +
+> +#include "common.h"
+> +#include "qdsp6/q6afe.h"
+> +
+> +#define DEFAULT_SAMPLE_RATE_48K		48000
+> +#define DEFAULT_INT_MCLK_RATE		9600000
+> +#define MI2S_BCLK_RATE			1536000
+> +
+> +struct sdm660_int_snd_data {
+> +	struct snd_soc_jack jack;
+> +	bool jack_setup;
+> +	uint32_t int0_mi2s_clk_count;
+> +	uint32_t int3_mi2s_clk_count;
+> +};
+> +
+> +static int snd_sdm660_int_startup(struct snd_pcm_substream *stream)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(stream);
+> +	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
+> +
+> +	switch (cpu->id) {
+> +	case INT0_MI2S_RX:
+> +		data->int0_mi2s_clk_count++;
+> +		if (data->int0_mi2s_clk_count == 1)
+> +			snd_soc_dai_set_sysclk(cpu,
+> +				Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
+> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> +
+> +		/*
+> +		 * Downstream specifies that the AFE is a clock consumer, but
+> +		 * the sound is distorted (loud on the right channel and sped
+> +		 * up) unless we set it as a producer.
+This comment does not make any value, Who is driving the bit clk and
+frame clock is totally depended on the hw setup on the platform, Driving
+incorrect clock would lead to such issues. Does the codec drive on the
+platform that you are testing?
+
+> +		 */
+> +		snd_soc_dai_set_fmt(cpu, SND_SOC_DAIFMT_CBP_CFP);
+> +
+> +		break;
+> +	case INT3_MI2S_TX:
+> +		data->int3_mi2s_clk_count++;
+> +		if (data->int3_mi2s_clk_count == 1)
+> +			snd_soc_dai_set_sysclk(cpu,
+> +				Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
+> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> +
+> +		/*
+> +		 * Downstream specifies that the AFE is a clock consumer, but
+> +		 * the sound is distorted (slowed down) unless we set it as a
+> +		 * producer.
+> +		 */
+> +		snd_soc_dai_set_fmt(cpu, SND_SOC_DAIFMT_CBP_CFP);
+> +
+> +		break;
+> +	default:
+> +		dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__,
+> +			cpu->id);
+> +		return -EINVAL;
 > +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void snd_sdm660_int_shutdown(struct snd_pcm_substream *stream)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(stream);
+> +	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
+> +
+> +	switch (cpu->id) {
+> +	case INT0_MI2S_RX:
+> +		data->int0_mi2s_clk_count--;
+> +		if (data->int0_mi2s_clk_count == 0)
+> +			snd_soc_dai_set_sysclk(cpu,
+> +				Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
+> +				0, SNDRV_PCM_STREAM_PLAYBACK);
+> +
+> +		break;
+> +	case INT3_MI2S_TX:
+> +		data->int3_mi2s_clk_count--;
+> +		if (data->int3_mi2s_clk_count == 0)
+> +			snd_soc_dai_set_sysclk(cpu,
+> +				Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
+> +				0, SNDRV_PCM_STREAM_PLAYBACK);
+> +
+> +		break;
+> +	default:
+> +		dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__,
+> +			cpu->id);
+> +		break;
+> +	}
+> +}
+> +
+> +static int snd_sdm660_int_hw_free(struct snd_pcm_substream *stream)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int snd_sdm660_int_prepare(struct snd_pcm_substream *stream)
+> +{
+> +	return 0;
+> +}
 
-The reason why I ended up with the dead simple delay msg handling which
-sends the message when the ack is received rigth away is to avoid delays
-without a need of a busy loop.
-Before that I had similar approach, but dropped it due to the delay it
-introduced on the message sending.
+Why dummy functions?
 
-The delayed message combined with IPC timeouts are an interesting
-problem to tackle, the PR I mentioned:
-https://github.com/thesofproject/linux/pull/5521
-plus this patch
-https://github.com/ujfalusi/sof-linux/commit/e6c6ca613e60c477dcc025207f9732c8ae4a1b33
+> +
+> +static const struct snd_soc_ops sdm660_int_ops = {
+> +	.startup = snd_sdm660_int_startup,
+> +	.shutdown = snd_sdm660_int_shutdown,
+> +	.hw_free = snd_sdm660_int_hw_free,
+> +	.prepare = snd_sdm660_int_prepare,
+> +};
+> +
+> +static int sdm660_int_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+> +					 struct snd_pcm_hw_params *params)
+> +{
+> +	struct snd_interval *rate = hw_param_interval(params,
+> +					SNDRV_PCM_HW_PARAM_RATE);
+> +	struct snd_interval *channels = hw_param_interval(params,
+> +			SNDRV_PCM_HW_PARAM_CHANNELS);
+> +	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+> +
+> +	rate->min = rate->max = DEFAULT_SAMPLE_RATE_48K;
+> +	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
+> +
+> +	channels->min = channels->max = 2;
+> +
+> +	return 0;
+> +}
+> +
+> +static void sdm660_int_jack_free(struct snd_jack *jack)
+> +{
+> +	struct snd_soc_component *component = jack->private_data;
+> +
+> +	snd_soc_component_set_jack(component, NULL, NULL);
+> +}
+> +
+> +static int sdm660_int_dai_init(struct snd_soc_pcm_runtime *rtd)
+> +{
+> +	struct snd_soc_card *card = rtd->card;
+> +	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(card);
+> +	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
+> +	/* first codec on INT0_MI2S_RX must be the analog codec */
+> +	struct snd_soc_dai *codec = snd_soc_rtd_to_codec(rtd, 0);
+> +	struct snd_jack *jack;
+> +	int ret;
+> +
+> +	if (!data->jack_setup) {
+> +		/* headset buttons not tested */
+> +		ret = snd_soc_card_jack_new(card, "Headset Jack",
+> +					    SND_JACK_HEADSET | SND_JACK_BTN_0
+> +					  | SND_JACK_BTN_1 | SND_JACK_BTN_2
+> +					  | SND_JACK_BTN_3 | SND_JACK_BTN_4,
+> +					    &data->jack);
+> +		if (ret < 0) {
+> +			dev_err(card->dev, "could not create headset jack\n");
+> +			return ret;
+> +		}
+> +
+> +		data->jack_setup = true;
+> +	}
+> +
+> +	switch (cpu->id) {
+> +	case INT0_MI2S_RX:
+> +		jack = data->jack.jack;
+> +
+> +		jack->private_data = codec->component;
+> +		jack->private_free = sdm660_int_jack_free;
+> +
+> +		ret = snd_soc_component_set_jack(codec->component,
+> +						 &data->jack,
+> +						 NULL);
+> +		if (ret < 0) {
+> +			dev_err(card->dev, "could not set headset jack\n");
+> +			return ret;
+> +		}
+> +
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+looks like common.c has something pretty much identicaly, can you not
+use it or make it usable?
 
-worked locally for most of the time, but I give that I have not faced
-with the issue that I have lost IPCs.
+> +
+> +static void snd_sdm660_int_add_ops(struct snd_soc_card *card)
+> +{
+> +	struct snd_soc_dai_link *link;
+> +	int i;
+> +
+> +	for_each_card_prelinks(card, i, link) {
+> +		if (link->no_pcm == 1) {
+> +			link->ops = &sdm660_int_ops;
+> +			link->be_hw_params_fixup = sdm660_int_be_hw_params_fixup;
+> +		}
+> +
+> +		link->init = sdm660_int_dai_init;
+> +	}
+> +}
+> +
+> +static const struct snd_soc_dapm_widget snd_sdm660_int_dapm_widgets[] = {
+> +};
+> +
+??
 
-I'm not sure if the two approces can be somehow combined.
-Receving the reply to the message does not mean that the FW can receive
-a new message, but from the kernel pow the IPC sequence was done (when
-we receive out of sync ACK, the reply data might not be valid anymore).
-We cannot make the IPC completion based on the ACK as I have seen in
-debug logs all permutations: ACK then REPLY, ACK and REPLAY at the same
-time, REPLY followed by ACK.
-
-Having said that, I think this is still a bit safer to not loose
-messages, 200us is close to polling.
-
-> +	if (i == SOF_IPC4_TX_BUSY_RETRIES)
-> +		dev_dbg(sdev->dev, "%s: TX still busy after %d retries\n",
-> +			__func__, i);
-
-no need to print the __func_ it is added by the infra.
-
-Can you add
-dev_dbg(sdev->dev, "message sending delayed by %d loops for %#x|%#x\n",
-	i, ipc4_msg->primary, ipc4_msg->extension);
-
-when the message got delayed due to EBUSY?
-
->  	if (ret) {
->  		dev_err_ratelimited(sdev->dev,
->  				    "%s: ipc message send for %#x|%#x failed: %d\n",
-
--- 
-Péter
+> +static int snd_sdm660_int_probe(struct platform_device *pdev)
+> +{
+> +	struct snd_soc_card *card;
+> +	struct sdm660_int_snd_data *data;
+> +	struct device *dev = &pdev->dev;
+> +	int ret;
+> +
+> +	card = devm_kzalloc(dev, sizeof(struct snd_soc_card), GFP_KERNEL);
+> +	if (!card)
+> +		return -ENOMEM;
+> +
+> +	data = devm_kzalloc(dev, sizeof(struct sdm660_int_snd_data), GFP_KERNEL);
+> +	if (!card)
+> +		return -ENOMEM;
+> +
+> +	card->driver_name = "sdm660-internal";
+> +	card->dapm_widgets = snd_sdm660_int_dapm_widgets;
+> +	card->num_dapm_widgets = ARRAY_SIZE(snd_sdm660_int_dapm_widgets);
+> +	card->dev = dev;
+> +	card->owner = THIS_MODULE;
+> +
+> +	ret = qcom_snd_parse_of(card);
+> +	if (ret)
+> +		return ret;
+> +
+> +	snd_soc_card_set_drvdata(card, data);
+> +
+> +	snd_sdm660_int_add_ops(card);
+> +
+> +	return devm_snd_soc_register_card(dev, card);
+> +}
+> +
+> +static void snd_sdm660_int_remove(struct platform_device *pdev)
+> +{
+> +}
+Why do we need this empty function.
+> +
+> +static const struct of_device_id snd_sdm660_int_device_id[] = {
+> +	{ .compatible = "qcom,sdm660-internal-sndcard", },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, snd_sdm660_int_device_id);
+> +
+> +static struct platform_driver snd_sdm660_int_driver = {
+> +	.probe = snd_sdm660_int_probe,
+> +	.remove = snd_sdm660_int_remove,
+> +	.driver = {
+> +		.name = "sdm660-int-sndcard",
+> +		.of_match_table = snd_sdm660_int_device_id,
+> +		.pm = &snd_soc_pm_ops,
+> +	},
+> +};
+> +module_platform_driver(snd_sdm660_int_driver);
+> +
+> +MODULE_DESCRIPTION("sdm660 Internal ASoC Machine Driver");
+> +MODULE_LICENSE("GPL");
 
