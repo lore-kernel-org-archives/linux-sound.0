@@ -1,416 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2A53016F1;
-	Mon, 16 Feb 2026 13:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BBA30F95E
+	for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 13:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771248865; cv=none; b=nAgwVf/UfHOucbYv2bNalzC1qXBdaM7xnFb7jTI/wq+kZjmaioKZ2ZzyKh+TXNZDA7cEJ1YwHhL8OTU+EmmTIpE26hRt5ZZ0JOi/MTutPNd1Lf1gEa4Yty3zrL6hNtT9/pApq2++6/d+lr8AlTFZcvjcQLck9aYWC8X7rXpwyP8=
+	t=1771250253; cv=none; b=oYfZa10XWqBfAHlHU2b/V7UxdRnUEKlmIBM2gPB2vG/rOg5m7kg2AGoeeDkKcezFyC/iJ7fav1LmqVyb0buLKDjM4tLliC4rrIR7q6rSeugYRjjDwV+u5MOmKS+KCsx71iPnJxn5FHy4VSww0Zq2DK+wMQSI7Njdly9DrFoWOYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771248865; c=relaxed/simple;
-	bh=y0fQTQo6X8umeZ/M7VxvcuIfs0YY6Q0TYhb3UdnM1CQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VVEA4FQHCdSlxNcbVV1kbmKz0UAMtUZ+Z7KHmqzIopYIjCBw+MFCkINRkJzfPKFYnHUxcwLNHriNAsYglitlOr3ly30M+AoioUOx3zfgQj/awr+Y45QyPs+E/TPskt9149iVS15/bpvST+DXrsxt1uRYBb4e55rbFCLBgbQiL7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwxS7QnZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771250253; c=relaxed/simple;
+	bh=egi0uDkw6MG+glwNePYnB+SNvuHEajDza2jPy+y0ccg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q0eVTC9iPEnmfOXnOWE7MO1SokWFEEsLN45rOxaqApGLPmAiCd3xfo4qrz/uOmg4u5X6GADRtcS19RrF0gRdPb3HfIlHqfuVdjOXxcbEG49XuuweyWS5XH1+QBEveKU/0yptwsyhlC4RTGT1KdEpBZeX6RFfcY6xeZyGqrIefCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NzRB+jN/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MhgRI902; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwxS7QnZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8395C116C6;
-	Mon, 16 Feb 2026 13:34:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771248864;
-	bh=y0fQTQo6X8umeZ/M7VxvcuIfs0YY6Q0TYhb3UdnM1CQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IwxS7QnZAuAnm+0K4bsO2QA2PNHJ7y1v77ekOdLUkC0cg4rdQZ5YKdzF/13vwNy+I
-	 yfb7ufPWgkEn9keP5ytodVXXNvMAh84iGL2mJ5VBbWfMdZsw3bXlI1hXPGIM2wE02a
-	 +y5gmFEucDPtEgq/0QpkPSV+Upy7kRcGWeTRrA3agdUwhmiMgoH+siftToI7zlHtWf
-	 EG4lFG5Aoe/CqNxgzsucm0MMe4fA8yAyDJNl3lsJsb3xoSxf7GwyLwjzqdp9TjEheh
-	 6uC/QeXP/ANUmkeNRvr2ytfpDM5EvA/caaBCYYn+wZhUfnracZxfbv3UtfpvmObqUM
-	 b/w4HzHIr4B1A==
-Message-ID: <05873ad7-ca35-4542-b064-5b401f7bd069@kernel.org>
-Date: Mon, 16 Feb 2026 13:34:20 +0000
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NzRB+jN/";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MhgRI902"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61GArfKY2732830
+	for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 13:57:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=cCkrZtY6hQvMdL46XWacBkUg
+	M+AID+bF+UdrFpXbxMg=; b=NzRB+jN/Znh5sz4kiyG83yneyobsm9dqWFCpRT7j
+	5/F88FofvlgxTQd42JwL9VK3dt2lNUB6kl6sB9Z1VQzpRNlsB/+PHyS6jJWbKig/
+	cAWCVVF1i3WBPorLYce03CUhQd/jjRwuA6OF41NgXQmesi1j3vA+GbPuQwQ7HmMP
+	CORrVc9BPV3/XVWrCAta4cbuR1FJREbWYS6snE/w92nKX6TV2274k08/+RoL21qu
+	x2DYlFImxIdw/5uWjveZkdrOUo5ms+kDNQ8xUG9BVOqHoWfPgMYSyYtVDwLtPs22
+	zpR51Ax38jJS9CA+OfyRFWY5RWd4qfXQQBR+wKvjFB2jIg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cahtcmmdu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 13:57:30 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb5359e9d3so1412033985a.2
+        for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 05:57:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771250249; x=1771855049; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cCkrZtY6hQvMdL46XWacBkUgM+AID+bF+UdrFpXbxMg=;
+        b=MhgRI902lNG3zb1LmPwAXABXFa1EBsmJ21SnoUScdiEiaDVgGrXeu9AZjddF+qtbPu
+         mukEuZVqh4Xo4wuSa1r5XalmAQUve6PscvddhuZxLR7Nhbr3Kw3oOqgAQ4EDUP9KU0Hz
+         +wtzQcHfahYVBXGa0994aJpBZnc7y3GavppGANOV57wbvN3rX/Bcrkf2HmzD7h7SdxOT
+         nVVATSTSn1A57aD/0EEaN7lS0TwLUYf9OeaSNKgeMVbASZd0IzZNmARwXsaa0ZlVG7Bo
+         ezQz1f7jIvPh7FFWfmv+HqAvnKOyagTYmsxltWcKolxRjGxMGRpHWCfc+Oc2EtFQVjsV
+         QLbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771250249; x=1771855049;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cCkrZtY6hQvMdL46XWacBkUgM+AID+bF+UdrFpXbxMg=;
+        b=NAfCVBQvlMDar7qeXicKCW23e7BmAcqBDb2T0RdR/lVv8U2jf8NshcGVd6yU60XYNn
+         iS6kmw/Ya6rfd2KLv9AY+ylFuqgIWQ4NRFoWbpBmQolycoI1kH7YACyzFrCmDcyg+jzG
+         dpDu93QTVw5nBhUI2hwRhIJWlYeyA728/rJm8DNsYl50RTcFAMTLmI7UQO/c9EtfcMB4
+         YGoPj/D6FcbXTFNROVtn4httT5R/c4IGnIQp03JFOa+PAcwMslibPszuf9KhDWE6uA6l
+         S7Lgl+btE4krFpziYvmNMouz82uMncMk7VcvnUASFCSNwqD9oNxn5EMTGvxwmij08mb0
+         9ksA==
+X-Forwarded-Encrypted: i=1; AJvYcCWcbRYhGH5LGy3oROy5qKJOO5dtNRmdxxjgLBtMpsM+mj6bmCXU3FwobJXQyzmb3i5QW0EqxeEcpg4/YA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YypilF3cXP93iq9eoVwYfzYcsz3ZBRgcuHbofx8nEhojXlZeT2v
+	PEzxFAooygLZCimtOC9D4pSOTLcDwgZ6DU97hJiZZtyWRPXJflFqEwBrS7XKJWS+3szWiQx9QuX
+	DnJ1M/cvAUV4Me0tomLQ8WvU/Pwc4Z6veF1wgWPYQFubj6VEU4xwMxyxkYetPReJltA==
+X-Gm-Gg: AZuq6aIp6vvIa5Ts1bp1gFrvUmBMqrHo+M5mFn9lBmB89tfJiyL2AMRujg24s4W+wuE
+	YRgVODOtx/GKdKsodHxm7iFasUeY3XiHjBdHKrvUHvYEE1Qm7HJVKN1lJnqJNFAGd8xi4WTR7S2
+	7/Unn64L36si1hgHjmHPy1Fs/3Vwbcjy8iDivL5+8cGaLGARnQ3SOhaKeW3fxKT0K7WB29h84hA
+	JzK4hHX0Twn7f556j7acZK/AwnCSvkm8CL1QPsrehpItNdvb6dRWIECtaT1Lh53c9viqW3tjvp5
+	TCpZzKDdMpqPNRLByu9Lw4JwtY0z1PMTSoX+GobgbDDD6oVUZen8EKXD/0SQkRbo+vYcW/yQ3mO
+	vv1xC9NKFY2YHa2fexXBrgBhzWELblRYYjFJAbSjzKa7L3e9KiwgXU7b4mft6zw7InzFk0westQ
+	+mkKTfG6aBkqb8sO5h8VxAreabX2VzvX52UU0=
+X-Received: by 2002:a05:620a:4486:b0:8c6:abc5:f169 with SMTP id af79cd13be357-8cb42479b59mr1248158685a.73.1771250249161;
+        Mon, 16 Feb 2026 05:57:29 -0800 (PST)
+X-Received: by 2002:a05:620a:4486:b0:8c6:abc5:f169 with SMTP id af79cd13be357-8cb42479b59mr1248155585a.73.1771250248687;
+        Mon, 16 Feb 2026 05:57:28 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e5f5a4f8dsm3257023e87.49.2026.02.16.05.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 05:57:28 -0800 (PST)
+Date: Mon, 16 Feb 2026 15:57:26 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Richard Acayan <mailingradian@gmail.com>,
+        Nickolay Goppen <setotau@mainlining.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Johan Hovold <johan@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 01/10] ASoC: dt-bindings: qcom,sm8250: add compatible for
+ sdm660-internal
+Message-ID: <nt7rqp577vxb7qoqxbaqldv4n2erfg6gpkycfqi7hqkdwirncb@squrvhxi2tlz>
+References: <20260211020302.2674-1-mailingradian@gmail.com>
+ <20260211020302.2674-2-mailingradian@gmail.com>
+ <yxrhmblavwkuhfrfgskujs7tz7cykojnqnl2mfrf365lhdem35@bgqwiaft67b3>
+ <20260211-skilled-transparent-moth-fac10f@quoll>
+ <f1b67c1e-cfc1-4d23-a24e-4dd342edd2e9@mainlining.org>
+ <f27ec5bb-1562-4bcc-9178-4ff4d4fe00d8@oss.qualcomm.com>
+ <aY_uQZxuwt8rDf6n@rdacayan>
+ <ddb41df1-2d60-481b-999e-cc480a6900f3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] ASoC: qcom: add sdm660 internal sound card support
-To: Richard Acayan <mailingradian@gmail.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>, Johan Hovold <johan@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org
-Cc: Nickolay Goppen <setotau@mainlining.org>
-References: <20260211020302.2674-1-mailingradian@gmail.com>
- <20260211020302.2674-10-mailingradian@gmail.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260211020302.2674-10-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ddb41df1-2d60-481b-999e-cc480a6900f3@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDExOSBTYWx0ZWRfX7Ac1GeEAEPxz
+ hIefvkUKWD3hbapZuCCiHCoL+QFQpxWOQjR4DlD9lxneRX62c7Xai08NFi2fwXZdPKoqedFDFXZ
+ /RsixSN/Cxnn5Va7FFXovGChR1pLopgVKpP9eTUjMD0zw5bZfvR8w9DIE++Ov77B7UoYP5Wh/YM
+ J7a0tsUsISACt4t1dCc7fkhd2eAX76eI4SI4+RRDbkZpdJy5Hdj+VYc8ZEloNAJJWeIit46b4oi
+ PrpeuphMK8rhMlQRHLWSdleobgR5zaCzLJns9ZxDBk/NvUveF1Wfmu0armATNz5GX+3utULYFfb
+ 1WamhXmNQD2jucd8RkB6ez2y9gRmA6olWAzJqVWvIEy7DPSb8UceNGTPg0O37l0SCSIleYTA5/g
+ aitL4gKhNoSuSo5Ff1HbllPnAQI6C01IKqJA8nzgYKEtnj0i6/3rtkULfMq80dQQierUlFLYjK8
+ bPiud0ZkMcrFcpOXPQw==
+X-Proofpoint-ORIG-GUID: 3ZhhmWkv_27J_FHCFgf8RuLT1Xu28WMX
+X-Authority-Analysis: v=2.4 cv=DJOCIiNb c=1 sm=1 tr=0 ts=6993224a cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=OuZLqq7tAAAA:8
+ a=0c9jgaLhmclDbT0NVeYA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+ a=AKGiAy9iJ-JzxKVHQNES:22
+X-Proofpoint-GUID: 3ZhhmWkv_27J_FHCFgf8RuLT1Xu28WMX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-16_04,2026-02-16_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 phishscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602160119
 
-
-
-On 2/11/26 2:03 AM, Richard Acayan wrote:
-> The Snapdragon 670 and Snapdragon 660 both share the same drivers for
-> the sound cards. These different sound cards are tasha, tavil, and
-tasha, tavil are codecs, most of differences is pretty much taken care
-at dt level.
-
-> internal. Add support for the internal sound card.
+On Mon, Feb 16, 2026 at 11:53:49AM +0100, Konrad Dybcio wrote:
+> On 2/14/26 4:38 AM, Richard Acayan wrote:
+> > On Thu, Feb 12, 2026 at 10:34:27AM +0100, Konrad Dybcio wrote:
+> >> On 2/11/26 10:55 PM, Nickolay Goppen wrote:
+> >>>
+> >>> 11.02.2026 09:51, Krzysztof Kozlowski wrote:
+> >>>> On Wed, Feb 11, 2026 at 04:11:24AM +0200, Dmitry Baryshkov wrote:
+> >>>>> On Tue, Feb 10, 2026 at 09:02:53PM -0500, Richard Acayan wrote:
+> >>>>>> From: Nickolay Goppen <setotau@mainlining.org>
+> >>>>>>
+> >>>>>> Add compatibles for sdm660-internal based soundcards.
+> >>>>> Why is it called "internal"?
+> >>>> Yeah... I am pretty sure there is no such sound card. You cannot have
+> >>>> sound card internal to the soc, because you need the external components
+> >>>> like codecs.
+> >>>
+> >>> It comes mainly from downstream driver name [1].
+> >>>
+> >>> Downstream also mentions it as int_codec [2].
+> >>>
+> >>> There's also an sdm660-external sndcard [3].
+> >>
+> >> It seems like "external" means "coupled with WCD934x+WSA881x" and "internal"
+> >> means "coupled with (digital cdc on SoC and analog on PMIC)-over-intI2S plus
+> >> optionally WSA881x".
+> > 
+> > Interesting you left out WCD9335 (codename tasha), is it never used in
+> > production on SDM660?
 > 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  sound/soc/qcom/Kconfig           |  12 ++
->  sound/soc/qcom/Makefile          |   2 +
->  sound/soc/qcom/sdm660-internal.c | 271 +++++++++++++++++++++++++++++++
->  3 files changed, 285 insertions(+)
->  create mode 100644 sound/soc/qcom/sdm660-internal.c
-internal name really looks odd.
+> I don't know.
 
-Any reason why totally new driver without resusing the existing ones or
-even the helper functions from existing code?
-
+msm-4.4 lists WCD8335 in sdm660-audio.dtsi. I'd assume that's the
+standard codec. On the development kits side, IFC6560 uses PM660L, while
+Open-Q 660 uSOM uses WCD9335.
 
 > 
-> diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-> index e6e24f3b9922..86b2778adc1a 100644
-> --- a/sound/soc/qcom/Kconfig
-> +++ b/sound/soc/qcom/Kconfig
-> @@ -167,6 +167,18 @@ config SND_SOC_MSM8996
->  	  APQ8096 SoC-based systems.
->  	  Say Y if you want to use audio device on this SoCs
->  
-> +config SND_SOC_SDM660_INT
-> +	tristate "SoC Machine driver for SDM660 and SDM670 boards"
-> +	depends on QCOM_APR
-> +	depends on OF
-> +	depends on PM
-> +	select SND_SOC_QDSP6
-> +	select SND_SOC_QCOM_COMMON
-> +	help
-> +	  This adds support for audio on Qualcomm Technologies Inc.
-> +	  SDM660 and SDM670 SoC-based systems.
-> +	  Say Y if you want to use audio devices on these SoCs.
-> +
->  config SND_SOC_SDM845
->  	tristate "SoC Machine driver for SDM845 boards"
->  	depends on QCOM_APR && I2C && SOUNDWIRE
-> diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
-> index 985ce2ae286b..9a0da6279299 100644
-> --- a/sound/soc/qcom/Makefile
-> +++ b/sound/soc/qcom/Makefile
-> @@ -24,6 +24,7 @@ snd-soc-apq8016-sbc-y := apq8016_sbc.o
->  snd-soc-apq8096-y := apq8096.o
->  snd-soc-sc7180-y := sc7180.o
->  snd-soc-sc7280-y := sc7280.o
-> +snd-soc-sdm660-int-y := sdm660-internal.o
->  snd-soc-sdm845-y := sdm845.o
->  snd-soc-sm8250-y := sm8250.o
->  snd-soc-sc8280xp-y := sc8280xp.o
-> @@ -38,6 +39,7 @@ obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-apq8096.o
->  obj-$(CONFIG_SND_SOC_SC7180) += snd-soc-sc7180.o
->  obj-$(CONFIG_SND_SOC_SC7280) += snd-soc-sc7280.o
->  obj-$(CONFIG_SND_SOC_SC8280XP) += snd-soc-sc8280xp.o
-> +obj-$(CONFIG_SND_SOC_SDM660_INT) += snd-soc-sdm660-int.o
->  obj-$(CONFIG_SND_SOC_SDM845) += snd-soc-sdm845.o
->  obj-$(CONFIG_SND_SOC_SM8250) += snd-soc-sm8250.o
->  obj-$(CONFIG_SND_SOC_QCOM_COMMON) += snd-soc-qcom-common.o
-> diff --git a/sound/soc/qcom/sdm660-internal.c b/sound/soc/qcom/sdm660-internal.c
-> new file mode 100644
-> index 000000000000..beb810aa4eb9
-> --- /dev/null
-> +++ b/sound/soc/qcom/sdm660-internal.c
-> @@ -0,0 +1,271 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2015-2020, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2023, Richard Acayan. All rights reserved.
-> + */
-> +
-> +#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <sound/pcm.h>
-> +#include <sound/pcm_params.h>
-> +#include <sound/jack.h>
-> +#include <sound/soc.h>
-> +#include <sound/soc-card.h>
-> +#include <sound/soc-dai.h>
-> +#include <sound/soc-dapm.h>
-> +#include <sound/soc-jack.h>
-> +
-> +#include "common.h"
-> +#include "qdsp6/q6afe.h"
-> +
-> +#define DEFAULT_SAMPLE_RATE_48K		48000
-> +#define DEFAULT_INT_MCLK_RATE		9600000
-> +#define MI2S_BCLK_RATE			1536000
-> +
-> +struct sdm660_int_snd_data {
-> +	struct snd_soc_jack jack;
-> +	bool jack_setup;
-> +	uint32_t int0_mi2s_clk_count;
-> +	uint32_t int3_mi2s_clk_count;
-> +};
-> +
-> +static int snd_sdm660_int_startup(struct snd_pcm_substream *stream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(stream);
-> +	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-> +	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
-> +
-> +	switch (cpu->id) {
-> +	case INT0_MI2S_RX:
-> +		data->int0_mi2s_clk_count++;
-> +		if (data->int0_mi2s_clk_count == 1)
-> +			snd_soc_dai_set_sysclk(cpu,
-> +				Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +
-> +		/*
-> +		 * Downstream specifies that the AFE is a clock consumer, but
-> +		 * the sound is distorted (loud on the right channel and sped
-> +		 * up) unless we set it as a producer.
-This comment does not make any value, Who is driving the bit clk and
-frame clock is totally depended on the hw setup on the platform, Driving
-incorrect clock would lead to such issues. Does the codec drive on the
-platform that you are testing?
+> I think both were used with MSM8998, so I wouldn't rule that out being the
+> case for 660 too
+> 
+> Konrad
 
-> +		 */
-> +		snd_soc_dai_set_fmt(cpu, SND_SOC_DAIFMT_CBP_CFP);
-> +
-> +		break;
-> +	case INT3_MI2S_TX:
-> +		data->int3_mi2s_clk_count++;
-> +		if (data->int3_mi2s_clk_count == 1)
-> +			snd_soc_dai_set_sysclk(cpu,
-> +				Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +
-> +		/*
-> +		 * Downstream specifies that the AFE is a clock consumer, but
-> +		 * the sound is distorted (slowed down) unless we set it as a
-> +		 * producer.
-> +		 */
-> +		snd_soc_dai_set_fmt(cpu, SND_SOC_DAIFMT_CBP_CFP);
-> +
-> +		break;
-> +	default:
-> +		dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__,
-> +			cpu->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void snd_sdm660_int_shutdown(struct snd_pcm_substream *stream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(stream);
-> +	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-> +	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
-> +
-> +	switch (cpu->id) {
-> +	case INT0_MI2S_RX:
-> +		data->int0_mi2s_clk_count--;
-> +		if (data->int0_mi2s_clk_count == 0)
-> +			snd_soc_dai_set_sysclk(cpu,
-> +				Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +
-> +		break;
-> +	case INT3_MI2S_TX:
-> +		data->int3_mi2s_clk_count--;
-> +		if (data->int3_mi2s_clk_count == 0)
-> +			snd_soc_dai_set_sysclk(cpu,
-> +				Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +
-> +		break;
-> +	default:
-> +		dev_err(rtd->dev, "%s: invalid dai id 0x%x\n", __func__,
-> +			cpu->id);
-> +		break;
-> +	}
-> +}
-> +
-> +static int snd_sdm660_int_hw_free(struct snd_pcm_substream *stream)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int snd_sdm660_int_prepare(struct snd_pcm_substream *stream)
-> +{
-> +	return 0;
-> +}
-
-Why dummy functions?
-
-> +
-> +static const struct snd_soc_ops sdm660_int_ops = {
-> +	.startup = snd_sdm660_int_startup,
-> +	.shutdown = snd_sdm660_int_shutdown,
-> +	.hw_free = snd_sdm660_int_hw_free,
-> +	.prepare = snd_sdm660_int_prepare,
-> +};
-> +
-> +static int sdm660_int_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
-> +					 struct snd_pcm_hw_params *params)
-> +{
-> +	struct snd_interval *rate = hw_param_interval(params,
-> +					SNDRV_PCM_HW_PARAM_RATE);
-> +	struct snd_interval *channels = hw_param_interval(params,
-> +			SNDRV_PCM_HW_PARAM_CHANNELS);
-> +	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
-> +
-> +	rate->min = rate->max = DEFAULT_SAMPLE_RATE_48K;
-> +	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
-> +
-> +	channels->min = channels->max = 2;
-> +
-> +	return 0;
-> +}
-> +
-> +static void sdm660_int_jack_free(struct snd_jack *jack)
-> +{
-> +	struct snd_soc_component *component = jack->private_data;
-> +
-> +	snd_soc_component_set_jack(component, NULL, NULL);
-> +}
-> +
-> +static int sdm660_int_dai_init(struct snd_soc_pcm_runtime *rtd)
-> +{
-> +	struct snd_soc_card *card = rtd->card;
-> +	struct sdm660_int_snd_data *data = snd_soc_card_get_drvdata(card);
-> +	struct snd_soc_dai *cpu = snd_soc_rtd_to_cpu(rtd, 0);
-> +	/* first codec on INT0_MI2S_RX must be the analog codec */
-> +	struct snd_soc_dai *codec = snd_soc_rtd_to_codec(rtd, 0);
-> +	struct snd_jack *jack;
-> +	int ret;
-> +
-> +	if (!data->jack_setup) {
-> +		/* headset buttons not tested */
-> +		ret = snd_soc_card_jack_new(card, "Headset Jack",
-> +					    SND_JACK_HEADSET | SND_JACK_BTN_0
-> +					  | SND_JACK_BTN_1 | SND_JACK_BTN_2
-> +					  | SND_JACK_BTN_3 | SND_JACK_BTN_4,
-> +					    &data->jack);
-> +		if (ret < 0) {
-> +			dev_err(card->dev, "could not create headset jack\n");
-> +			return ret;
-> +		}
-> +
-> +		data->jack_setup = true;
-> +	}
-> +
-> +	switch (cpu->id) {
-> +	case INT0_MI2S_RX:
-> +		jack = data->jack.jack;
-> +
-> +		jack->private_data = codec->component;
-> +		jack->private_free = sdm660_int_jack_free;
-> +
-> +		ret = snd_soc_component_set_jack(codec->component,
-> +						 &data->jack,
-> +						 NULL);
-> +		if (ret < 0) {
-> +			dev_err(card->dev, "could not set headset jack\n");
-> +			return ret;
-> +		}
-> +
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-looks like common.c has something pretty much identicaly, can you not
-use it or make it usable?
-
-> +
-> +static void snd_sdm660_int_add_ops(struct snd_soc_card *card)
-> +{
-> +	struct snd_soc_dai_link *link;
-> +	int i;
-> +
-> +	for_each_card_prelinks(card, i, link) {
-> +		if (link->no_pcm == 1) {
-> +			link->ops = &sdm660_int_ops;
-> +			link->be_hw_params_fixup = sdm660_int_be_hw_params_fixup;
-> +		}
-> +
-> +		link->init = sdm660_int_dai_init;
-> +	}
-> +}
-> +
-> +static const struct snd_soc_dapm_widget snd_sdm660_int_dapm_widgets[] = {
-> +};
-> +
-??
-
-> +static int snd_sdm660_int_probe(struct platform_device *pdev)
-> +{
-> +	struct snd_soc_card *card;
-> +	struct sdm660_int_snd_data *data;
-> +	struct device *dev = &pdev->dev;
-> +	int ret;
-> +
-> +	card = devm_kzalloc(dev, sizeof(struct snd_soc_card), GFP_KERNEL);
-> +	if (!card)
-> +		return -ENOMEM;
-> +
-> +	data = devm_kzalloc(dev, sizeof(struct sdm660_int_snd_data), GFP_KERNEL);
-> +	if (!card)
-> +		return -ENOMEM;
-> +
-> +	card->driver_name = "sdm660-internal";
-> +	card->dapm_widgets = snd_sdm660_int_dapm_widgets;
-> +	card->num_dapm_widgets = ARRAY_SIZE(snd_sdm660_int_dapm_widgets);
-> +	card->dev = dev;
-> +	card->owner = THIS_MODULE;
-> +
-> +	ret = qcom_snd_parse_of(card);
-> +	if (ret)
-> +		return ret;
-> +
-> +	snd_soc_card_set_drvdata(card, data);
-> +
-> +	snd_sdm660_int_add_ops(card);
-> +
-> +	return devm_snd_soc_register_card(dev, card);
-> +}
-> +
-> +static void snd_sdm660_int_remove(struct platform_device *pdev)
-> +{
-> +}
-Why do we need this empty function.
-> +
-> +static const struct of_device_id snd_sdm660_int_device_id[] = {
-> +	{ .compatible = "qcom,sdm660-internal-sndcard", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, snd_sdm660_int_device_id);
-> +
-> +static struct platform_driver snd_sdm660_int_driver = {
-> +	.probe = snd_sdm660_int_probe,
-> +	.remove = snd_sdm660_int_remove,
-> +	.driver = {
-> +		.name = "sdm660-int-sndcard",
-> +		.of_match_table = snd_sdm660_int_device_id,
-> +		.pm = &snd_soc_pm_ops,
-> +	},
-> +};
-> +module_platform_driver(snd_sdm660_int_driver);
-> +
-> +MODULE_DESCRIPTION("sdm660 Internal ASoC Machine Driver");
-> +MODULE_LICENSE("GPL");
-
+-- 
+With best wishes
+Dmitry
