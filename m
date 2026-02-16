@@ -1,87 +1,50 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C003016F7
-	for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 10:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B7C1C1F02;
+	Mon, 16 Feb 2026 12:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771239238; cv=none; b=UxEAbpj/M4WLmUZwbwnYq6YwKhl0ZQd+76xveJkeLNkbHv2/SuZaN5cYV+QwU3tPtIoeF8Qf8keoeRsbvO0tVoR3HhTjrYSyC8aOpXU8TizJvfccc15s7COy65Ol3x9FDPZfNdUnrkSFvBi0Q0m4t3TR4KOQzxhz/FfaL50/xIc=
+	t=1771245563; cv=none; b=So1cUrDy3VAek8jFyMWHLqjohjJmKc2/NtwQL/2RLcRwhM5Y2dYXKsha7AVgy9KNI6R0o0+u3QmByaGdRv2c3Jbz7FANc0vhXV02jjPyM0kkW1ubBstt/241zM2uFLphRJTJiifB7XiXrKDTRLyYYCJJJCwHwe1/hWFbRHBd6xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771239238; c=relaxed/simple;
-	bh=UlEkGTGIllzJjcj1vpPZqPHwtWge5pHUmyyG9E18Cyg=;
+	s=arc-20240116; t=1771245563; c=relaxed/simple;
+	bh=Li0OTzOGnf5gYzC2Wy0M2WlkXwnBBvzo0k8CbhncHgY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lSHieAVnhxEUKacWT2uLQwCC9k9aVA581twCFTUkPn78h0syVTb3T76ZFYoLgfi95FNi0NxVuBGkVx4PXshppr4ivHddcd51CWwAiXCRAu4lUePOYeyWwHBjR7s47YzWZvAxSKI5zpGmRM1U5s9/ZXEBhV5TC6hdglqKzFrttvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IOo2vy07; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BxUaXkA9; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=BXSZItfiuaJBzSB+M3nGofwhThRUNWoyhDf/1ncWcS/lckEWy+9w8r3sSmaZHZZB3FYpUmRbqfzS2nNM0Dcpeyk/W8V4Cp0IVeYjY9tVV25okOql2vELP0K6GgwyFHs2XsQv1uySHOQzNUEq2x8/t7zSzsNf/Cm33weNIDUvHtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n55B+uhZ; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IOo2vy07";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BxUaXkA9"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61G8fwAf2802096
-	for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 10:53:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Gh/tKm/6XgT6aWWSRjrbhrc3i/EPKiGjArcoNsxyffk=; b=IOo2vy07XhtQLrRE
-	aDejHiZeE5MkVyoqbqTtOcsFcOwtmJBoPI6r1hCCOBcX+Vr9VMZbmPM0vUfHZy4D
-	YTLXtzpr5ZxpWG/ShRsdiYhqYMwgm/k9Tr4nBAnkTQjrtzw8cdu1+9uJQMe4Rzns
-	BPDVM92CF9iBECU2G8Eq/l6FErz/Ba8w64fovridvk9FLH2UVOlli3ygHegZmkxM
-	7RYZtxVxA9PlnXXeTTSYDjRsDY7JJEYl+S8mh4Kxf8HO2TUWTM1ejUdD+sps18ek
-	c2Ye/3QLKBdCbesuweIMEQwPgO1B9mAa7hy2Ga1kuso3O8E8VK3lR9Y8GkHQtite
-	v7mcHg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cbyxugawf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 10:53:55 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-506a610db26so24664511cf.3
-        for <linux-sound@vger.kernel.org>; Mon, 16 Feb 2026 02:53:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771239235; x=1771844035; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gh/tKm/6XgT6aWWSRjrbhrc3i/EPKiGjArcoNsxyffk=;
-        b=BxUaXkA9Jx7kj1CJ9wRoefVhWON/AqdVbSf7lUNVu4bF4Nb5UAyLp1My1xJ8RmmRCv
-         FDadVBNghuFg5Stp26ZoDcLzsHw+NpAeOBOy3cFYGfXGd7A7pPwY8RLf2I3k91q91itp
-         Dh5b6BgHba/HiMD7QW+to0vm7xzsNXXtP9FL/14gqF9QVDnjKscq4TNJAuoP7DP4Gnm6
-         /H6canaPBoZJDvTKSLagycUilsXRzY3WOS7BR9vagPK3QTnkCz8tBh26zZkzUhVqIWZd
-         MX3UZyqot07UZptPqTB+GgxxXCOz34Y+jb41rYURDPqst2w4Tb8FJCW3MM0KmgxjhtFN
-         1lAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771239235; x=1771844035;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gh/tKm/6XgT6aWWSRjrbhrc3i/EPKiGjArcoNsxyffk=;
-        b=L07VmGHPeTpJrP2al3rrqLXAYGCVDAX5EyK2zkPZje6oKVmfvpmG4y4d1fsBZQ9ogD
-         ie9/MGWBsOXl4v2pc41xiHDBQU2/WGk1xP9ZSxOOCKWgMisolyHoYDntHjjEgAr5KD3W
-         6njTBLUSMHH+IpIkZGerhbl49+3vd1L0OpFqjvTpCY8JhTjhE2pavHenF9scgloORORQ
-         2ibjSM0/SHOfKy7htD8K0Tnnz+u58peaGKkKyzcFEW62E6Lw4ZvnLShYPpMpZm3Ix1mZ
-         emwZ9yVgWFIPVvkAPI2+xW7WWwT3K9P99J4rHQklSJiD7BX/H4IVcbWp69VJBUqngAMs
-         RUxA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhgxOsfDYh2JJ+u7QNTuKzyo7t/HYj1sIZ7/EVU7DvVaWMXCN3riOCNUcMT8MaPDQ4bNy8B3WffeSH/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBXiSPm4qBhkWEOLaDaeu/a3FarykmmqJUHXeZkStSreFxv+P3
-	qo8hdy+Rx3pFnY16x2v1WNjH+BdwtTcT7F7lkScdZ4JZVIMY5uOT7G8edXqYnO7pVZ7GPsCww8n
-	1LhGmF4/L0rLZEplW07zL/EXB/YWPQ64+AF3VjWuqamvuuJ7rklA/c3VlNyeknVdmBg==
-X-Gm-Gg: AZuq6aKGoabYw0LxWt876Mo4UeepNahRibEbfVQizBvOoeTzIM1WWuIwzTew/gGPmBP
-	EHboj+EyeGreaR7egGmEgN10EtfI78FA9EPUPCEFiPpntQrcXx2rKBTWfwGZUbG4MNRzsPRxrCO
-	jDDpe71HDVlethAj7kMcFn1kyevocFJ4BCusjFm+wUMrIA8hw2P+qwMesRAgbEEQlfLiG0SUuFG
-	et+Qn/hBaLcgUwLBeakeu47OYfdMqm7y0dwiczGp/iD2OUGnY+byS0XHyr973o46OOp68wQaZA6
-	N2sNtKbEf2xc1ndEV/455HDA4qCBd8mdIFio4rJV7b30enZfko39Xt1RktOGdn7kgSMChI9JCus
-	K7U7Uu81cOQQsJx9UPj2ZnJ8DHyCAw7yPDMNKmcQK0nafesTfwrdSUif7zILzTfaSUdOBNjsB0X
-	GmNWw=
-X-Received: by 2002:ac8:5890:0:b0:4ff:b757:1210 with SMTP id d75a77b69052e-506a661e8bemr100575661cf.0.1771239235141;
-        Mon, 16 Feb 2026 02:53:55 -0800 (PST)
-X-Received: by 2002:ac8:5890:0:b0:4ff:b757:1210 with SMTP id d75a77b69052e-506a661e8bemr100575521cf.0.1771239234684;
-        Mon, 16 Feb 2026 02:53:54 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65bad3e390bsm1779138a12.17.2026.02.16.02.53.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Feb 2026 02:53:53 -0800 (PST)
-Message-ID: <ddb41df1-2d60-481b-999e-cc480a6900f3@oss.qualcomm.com>
-Date: Mon, 16 Feb 2026 11:53:49 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n55B+uhZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771245562; x=1802781562;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Li0OTzOGnf5gYzC2Wy0M2WlkXwnBBvzo0k8CbhncHgY=;
+  b=n55B+uhZo+2h7//UG/HKR+2uaaHxBVXfu9MpimroJBP175IWVJgH+QrL
+   jbEgMZWgNFVu/HHngxP99lYa0Zfkua/knltNQkgqYWXN4B+/RfhzOV3j3
+   rNNm3WVgu6Sz3OKG3cnTSX0U6JeuKiIknvNKes41XnPa260xhl6NflJ7I
+   S7O3Ek2RkrGhp0WTteezvLn286Yuib3PbIodcfZIAGnvUUbNzq34aNv6l
+   BG1acYmaev04g4UBtkX89uOdaxKFjjdrqgv3pOlmktsqOPJj61U41gtLf
+   ZWpMpVfKGER7M6VQED43rAlLc+8T9tHHf0CsAtkxBLm7IJBaRtQW63EU7
+   A==;
+X-CSE-ConnectionGUID: +zpjd0GiSSyc5qSV1zL9og==
+X-CSE-MsgGUID: YUTZUc8nQDyvK4fs6uJeFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="72420614"
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
+   d="scan'208";a="72420614"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 04:39:21 -0800
+X-CSE-ConnectionGUID: 1vzLBX32QOONlETDt9YRGA==
+X-CSE-MsgGUID: 7wCTKMHbRsmH8aM7pZozXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
+   d="scan'208";a="213606471"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.251]) ([10.245.246.251])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 04:39:17 -0800
+Message-ID: <6dfb6f6a-3729-4fd0-9ddd-690728ef94f8@linux.intel.com>
+Date: Mon, 16 Feb 2026 14:39:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,92 +52,198 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] ASoC: dt-bindings: qcom,sm8250: add compatible for
- sdm660-internal
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Nickolay Goppen <setotau@mainlining.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Johan Hovold <johan@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260211020302.2674-1-mailingradian@gmail.com>
- <20260211020302.2674-2-mailingradian@gmail.com>
- <yxrhmblavwkuhfrfgskujs7tz7cykojnqnl2mfrf365lhdem35@bgqwiaft67b3>
- <20260211-skilled-transparent-moth-fac10f@quoll>
- <f1b67c1e-cfc1-4d23-a24e-4dd342edd2e9@mainlining.org>
- <f27ec5bb-1562-4bcc-9178-4ff4d4fe00d8@oss.qualcomm.com>
- <aY_uQZxuwt8rDf6n@rdacayan>
+Subject: Re: [PATCH 1/2] ASoC: SOF: Replace IPC TX busy deferral with bounded
+ retry
+To: Cole Leavitt <cole@unwrap.rs>, Bard Liao
+ <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260214064054.19961-1-cole@unwrap.rs>
+ <20260214064054.19961-2-cole@unwrap.rs>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <aY_uQZxuwt8rDf6n@rdacayan>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20260214064054.19961-2-cole@unwrap.rs>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: MIyleYPuPQ8XLid8el7UMpiCs8h_zIKH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDA5MiBTYWx0ZWRfX8kKPz32UmJra
- 7aYQg4a5XLFVznsekNZWVBbXdUK7kdRnwcmzEoCSMx3d37ZbZCb6sKG1upFYvVj0e6fZJgkQdpa
- tZDvvR5oIlx4lnwn4pQcV6GT8NKxlanUL9TVBjEOgP8INcWHucteYp8D0dxFrYjK0Vgq7+2lbkH
- 4O54NjsbQ4roKydo2cYQTUbAG3By9d0uhDKyWfa76lYW/azaFFJNijmnL3iUte+38dIOG1eGiP9
- R86/9BOyuON3yfe1sPuoT9pS5oFBdgCtOz4fiFcbSx30IUOsn8pRg9Ctxd/2zKZheTsvN7Hno9V
- PhqeOSiwxuOGA1DUjfF4D4JOrtJSZyjMEi2YXsOyAr9x0KxAP+aTh2pJi3s1H5vxg2pSeZ2JFZk
- uPR9StmrfudGQoyLomhDAgpT3VV2oiVSWafiJ7LHv7Pl7IwBSTBpr3LVUq75ZwErOJZ5/EiWHsZ
- e8GDE//uVVx2zA4qmRA==
-X-Authority-Analysis: v=2.4 cv=BpuQAIX5 c=1 sm=1 tr=0 ts=6992f743 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=OuZLqq7tAAAA:8 a=9TPAvQA5bqdBw0Rm8CEA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=AKGiAy9iJ-JzxKVHQNES:22
-X-Proofpoint-ORIG-GUID: MIyleYPuPQ8XLid8el7UMpiCs8h_zIKH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-16_04,2026-02-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 adultscore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602160092
+Content-Transfer-Encoding: 8bit
 
-On 2/14/26 4:38 AM, Richard Acayan wrote:
-> On Thu, Feb 12, 2026 at 10:34:27AM +0100, Konrad Dybcio wrote:
->> On 2/11/26 10:55 PM, Nickolay Goppen wrote:
->>>
->>> 11.02.2026 09:51, Krzysztof Kozlowski wrote:
->>>> On Wed, Feb 11, 2026 at 04:11:24AM +0200, Dmitry Baryshkov wrote:
->>>>> On Tue, Feb 10, 2026 at 09:02:53PM -0500, Richard Acayan wrote:
->>>>>> From: Nickolay Goppen <setotau@mainlining.org>
->>>>>>
->>>>>> Add compatibles for sdm660-internal based soundcards.
->>>>> Why is it called "internal"?
->>>> Yeah... I am pretty sure there is no such sound card. You cannot have
->>>> sound card internal to the soc, because you need the external components
->>>> like codecs.
->>>
->>> It comes mainly from downstream driver name [1].
->>>
->>> Downstream also mentions it as int_codec [2].
->>>
->>> There's also an sdm660-external sndcard [3].
->>
->> It seems like "external" means "coupled with WCD934x+WSA881x" and "internal"
->> means "coupled with (digital cdc on SoC and analog on PMIC)-over-intI2S plus
->> optionally WSA881x".
+
+
+On 14/02/2026 08:40, Cole Leavitt wrote:
+> The SOF IPC4 platform send_msg functions (hda_dsp_ipc4_send_msg,
+> mtl_ipc_send_msg, cnl_ipc4_send_msg) previously stored the message in
+> delayed_ipc_tx_msg and returned 0 when the TX register was busy. The
+> deferred message was supposed to be dispatched from the IRQ handler
+> when the DSP acknowledged the previous message.
 > 
-> Interesting you left out WCD9335 (codename tasha), is it never used in
-> production on SDM660?
+> This mechanism silently drops messages during D0i3 power transitions
+> because the IRQ handler never fires while the DSP is in a low-power
+> state. The caller then hangs in wait_event_timeout() for up to 500ms
+> per IPC chunk, causing multi-second audio stalls under CPU load.
 
-I don't know.
+I do wonder how this can happen as we only send IPC messages when the fw
+has booted up and thus the fw should be replying to messages.
+The delayed message handling meant to handle the case when the firmware
+sent the reply already, but the TX doorbell is not cleared, FW is not
+yet ready to receive a new meesage (or if we send it might be lost) or
+we will never send such message (and send it after the next firmware boot?).
 
-I think both were used with MSM8998, so I wouldn't rule that out being the
-case for 660 too
+see:
+47772f905cd8 ("ASoC: SOF: Intel: ipc4: Wait for channel to be free
+before sending a message")
 
-Konrad
+I agree that rapid IPC sending attempt would drop messages and will only
+send the last one. This would be visible with:
+https://github.com/thesofproject/linux/pull/5521
+
+> Fix this by making the platform send_msg functions return -EBUSY
+> immediately when the TX register is busy (safe since they execute
+> under spin_lock_irq in sof_ipc_send_msg), and adding a bounded retry
+> loop with usleep_range() in ipc4_tx_msg_unlocked() which only holds
+> the tx_mutex (a sleepable context). The retry loop attempts up to 50
+> iterations with 100-200us delays, bounding the maximum busy-wait to
+> approximately 10ms instead of the previous 500ms timeout.
+> 
+> Also remove the now-dead delayed_ipc_tx_msg field from
+> sof_intel_hda_dev, the dispatch code, and the ack_received tracking
+> variable from all three IRQ thread handlers (hda_dsp_ipc4_irq_thread,
+> mtl_ipc_irq_thread, cnl_ipc4_irq_thread).
+> 
+> Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+> ---
+
+...
+
+diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
+> index 095dcf1a18e4..24dec128f589 100644
+> --- a/sound/soc/sof/intel/mtl.c
+> +++ b/sound/soc/sof/intel/mtl.c
+> @@ -101,12 +101,8 @@ static int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *ms
+>  	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+>  	struct sof_ipc4_msg *msg_data = msg->msg_data;
+>  
+> -	if (hda_ipc4_tx_is_busy(sdev)) {
+> -		hdev->delayed_ipc_tx_msg = msg;
+> -		return 0;
+> -	}
+> -
+> -	hdev->delayed_ipc_tx_msg = NULL;
+> +	if (hda_ipc4_tx_is_busy(sdev))
+> +		return -EBUSY;
+>  
+>  	/* send the message via mailbox */
+>  	if (msg_data->data_size)
+> @@ -559,7 +555,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
+>  {
+>  	struct sof_ipc4_msg notification_data = {{ 0 }};
+>  	struct snd_sof_dev *sdev = context;
+> -	bool ack_received = false;
+>  	bool ipc_irq = false;
+>  	u32 hipcida;
+>  	u32 hipctdr;
+> @@ -576,7 +571,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
+>  		mtl_ipc_dsp_done(sdev);
+>  
+>  		ipc_irq = true;
+> -		ack_received = true;
+>  	}
+>  
+>  	if (hipctdr & MTL_DSP_REG_HFIPCXTDR_BUSY) {
+> @@ -628,13 +622,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
+>  		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
+>  	}
+>  
+> -	if (ack_received) {
+> -		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+> -
+> -		if (hdev->delayed_ipc_tx_msg)
+> -			mtl_ipc_send_msg(sdev, hdev->delayed_ipc_tx_msg);
+> -	}
+> -
+>  	return IRQ_HANDLED;
+>  }
+>  
+> diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
+> index a4a090e6724a..2e24308ef9cc 100644
+> --- a/sound/soc/sof/ipc4.c
+> +++ b/sound/soc/sof/ipc4.c
+> @@ -365,20 +365,33 @@ static int ipc4_wait_tx_done(struct snd_sof_ipc *ipc, void *reply_data)
+>  	return ret;
+>  }
+>  
+> +#define SOF_IPC4_TX_BUSY_RETRIES	50
+> +#define SOF_IPC4_TX_BUSY_DELAY_US	100
+> +#define SOF_IPC4_TX_BUSY_DELAY_MAX_US	200
+> +
+>  static int ipc4_tx_msg_unlocked(struct snd_sof_ipc *ipc,
+>  				void *msg_data, size_t msg_bytes,
+>  				void *reply_data, size_t reply_bytes)
+>  {
+>  	struct sof_ipc4_msg *ipc4_msg = msg_data;
+>  	struct snd_sof_dev *sdev = ipc->sdev;
+> -	int ret;
+> +	int ret, i;
+>  
+>  	if (msg_bytes > ipc->max_payload_size || reply_bytes > ipc->max_payload_size)
+>  		return -EINVAL;
+>  
+>  	sof_ipc4_log_header(sdev->dev, "ipc tx      ", msg_data, true);
+>  
+> -	ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
+> +	for (i = 0; i < SOF_IPC4_TX_BUSY_RETRIES; i++) {
+> +		ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
+> +		if (ret != -EBUSY)
+> +			break;
+> +		usleep_range(SOF_IPC4_TX_BUSY_DELAY_US,
+> +			     SOF_IPC4_TX_BUSY_DELAY_MAX_US);
+> +	}
+
+The reason why I ended up with the dead simple delay msg handling which
+sends the message when the ack is received rigth away is to avoid delays
+without a need of a busy loop.
+Before that I had similar approach, but dropped it due to the delay it
+introduced on the message sending.
+
+The delayed message combined with IPC timeouts are an interesting
+problem to tackle, the PR I mentioned:
+https://github.com/thesofproject/linux/pull/5521
+plus this patch
+https://github.com/ujfalusi/sof-linux/commit/e6c6ca613e60c477dcc025207f9732c8ae4a1b33
+
+worked locally for most of the time, but I give that I have not faced
+with the issue that I have lost IPCs.
+
+I'm not sure if the two approces can be somehow combined.
+Receving the reply to the message does not mean that the FW can receive
+a new message, but from the kernel pow the IPC sequence was done (when
+we receive out of sync ACK, the reply data might not be valid anymore).
+We cannot make the IPC completion based on the ACK as I have seen in
+debug logs all permutations: ACK then REPLY, ACK and REPLAY at the same
+time, REPLY followed by ACK.
+
+Having said that, I think this is still a bit safer to not loose
+messages, 200us is close to polling.
+
+> +	if (i == SOF_IPC4_TX_BUSY_RETRIES)
+> +		dev_dbg(sdev->dev, "%s: TX still busy after %d retries\n",
+> +			__func__, i);
+
+no need to print the __func_ it is added by the infra.
+
+Can you add
+dev_dbg(sdev->dev, "message sending delayed by %d loops for %#x|%#x\n",
+	i, ipc4_msg->primary, ipc4_msg->extension);
+
+when the message got delayed due to EBUSY?
+
+>  	if (ret) {
+>  		dev_err_ratelimited(sdev->dev,
+>  				    "%s: ipc message send for %#x|%#x failed: %d\n",
+
+-- 
+Péter
+
