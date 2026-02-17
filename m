@@ -1,91 +1,295 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803EE264A97;
-	Tue, 17 Feb 2026 19:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18442F5491;
+	Tue, 17 Feb 2026 21:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.232.15.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771356284; cv=none; b=URtj66BMQVamAh16JV9Gtll6ryCtl+pHeQo505LC6ae7aH8c7iT7d2F/+xcjOqIUm4vihlLaxu7X1+bxgNHA1VAgf3PkzEDGJFvN3wtUmYTQDwJPpPxVQhcB97l7IXuLLWnDtt3soiTY8cmJjFgD+utZiOLlJGAY0inA9lvI+1s=
+	t=1771365025; cv=none; b=p1DDOnxz0VoPYHdW/vQ60rXTDYDywWzLqrQjYq4UbiFsbhvZzpLTuFQcohDZUr2TqRZ7hHTQyzBVuHqxLdg/1OnrvSpY3JBElwPvRM5x1zC7H/Wp80Gc/gWVc8zM/pFzzGGzT8t6RGmVxC3PH9ob8e7vYfHnT4myBttZCYbiGJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771356284; c=relaxed/simple;
-	bh=UBdePPv19uaL81ASanxtUzA/Qh7h0X8+eypdZNRQKxY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ARNvnbtFg6UOIgz6wbOedm+dLK88Qt0wnNw8cuC+T+6+Ar4E8bjt9s275CumS9GM3lUpmCNLdLfmnMOm7SloLCahSZGYZIqQZPzHHhYRNvkXkXjZUpuy/xdXPLCrxQGKXYweW8chQLgphBxCiS3VksSDzZJsew+xMkLIlBATUqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQhnJnmr; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQhnJnmr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB3CC4CEF7;
-	Tue, 17 Feb 2026 19:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771356284;
-	bh=UBdePPv19uaL81ASanxtUzA/Qh7h0X8+eypdZNRQKxY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uQhnJnmrSJtJy9aCZlD96gakRwyp06O7fm39QS/5A/vGVQnv/fHdSFOHOQA2BfHd3
-	 L1K4V/pzqAH0kt7hpB4QIuZlHj8yUeTX3qsHZca3UKFN9T8vlSuUAFfjRACNTbEN3O
-	 yP3ESHuRlKG76ApVYycPOgdOafsZBMeWE+iXHAFkglrh7vrmdzNExKBtTu4RUOzFm7
-	 T06/KeQGeLzqHxZXN6ioyUSAoRkYPtHiOkSdd2LhaCegnEC548B7nbajX0lwZnxn9g
-	 Zq+VvyZuwvpSDjV50xHr5rFcOknPCxUNktqsewhfLaQPO3n2PclraJ+sjZ0801hBQl
-	 ra6xoR+RAVVVA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Weidong Wang <wangweidong.a@awinic.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Ferrieux <alexandre.ferrieux@orange.com>, 
- Bhushan Shah <bhushan.shah@machinesoul.in>, 
- Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org
-In-Reply-To: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
-References: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
-Subject: Re: (subset) [PATCH 0/3] Bitmask logic fix and firmware-name
- support for AW88261 amplifier driver
-Message-Id: <177135628111.310944.13830467532641718835.b4-ty@kernel.org>
-Date: Tue, 17 Feb 2026 19:24:41 +0000
+	s=arc-20240116; t=1771365025; c=relaxed/simple;
+	bh=IvLGdKHknhdImuhZEbfhcJmJMumZv0f1ocpoQLGbqGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X3d7dqsphR1Ys6pguRjqBImZo5JmAKmB4kT9N7Z3woQRElt9GSBQFS7pKOPRSPDL+NssnOo15/xsU/ychim86SQzIGVyWI0zWaheo6AQJZ54ZDZtc1czVOz26XBRBUkqH33vFFEn6XZMxffivu2GsVmwSgBPHt6xGQFVgwESXnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; arc=none smtp.client-ip=172.232.15.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
+From: Cole Leavitt <cole@unwrap.rs>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cole Leavitt <cole@unwrap.rs>
+Subject: [PATCH v2] ASoC: SOF: Replace IPC TX busy deferral with bounded retry
+Date: Tue, 17 Feb 2026 14:49:45 -0700
+Message-ID: <20260217214945.6493-1-cole@unwrap.rs>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <6dfb6f6a-3729-4fd0-9ddd-690728ef94f8@linux.intel.com>
+References: <6dfb6f6a-3729-4fd0-9ddd-690728ef94f8@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Feb 2026 11:27:31 +0100, Luca Weiss wrote:
-> First a patch which fixes a logic error in the aw88261 driver. And then
-> we add "firmware-name" support for that driver to support loading
-> the device-specific firmware properly.
-> 
-> 
+The SOF IPC4 platform send_msg functions (hda_dsp_ipc4_send_msg,
+mtl_ipc_send_msg, cnl_ipc4_send_msg) previously stored the message in
+delayed_ipc_tx_msg and returned 0 when the TX register was busy. The
+deferred message was supposed to be dispatched from the IRQ handler
+when the DSP acknowledged the previous message.
 
-Applied to
+This mechanism silently drops messages during D0i3 power transitions
+because the IRQ handler never fires while the DSP is in a low-power
+state. The caller then hangs in wait_event_timeout() for up to 500ms
+per IPC chunk, causing multi-second audio stalls under CPU load.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fix this by making the platform send_msg functions return -EBUSY
+immediately when the TX register is busy (safe since they execute
+under spin_lock_irq in sof_ipc_send_msg), and adding a bounded retry
+loop with usleep_range() in ipc4_tx_msg_unlocked() which only holds
+the tx_mutex (a sleepable context). The retry loop attempts up to 50
+iterations with 100-200us delays, bounding the maximum busy-wait to
+approximately 10ms instead of the previous 500ms timeout.
 
-Thanks!
+Also remove the now-dead delayed_ipc_tx_msg field from
+sof_intel_hda_dev, the dispatch code, and the ack_received tracking
+variable from all three IRQ thread handlers (hda_dsp_ipc4_irq_thread,
+mtl_ipc_irq_thread, cnl_ipc4_irq_thread).
 
-[1/3] ASoC: codecs: aw88261: Fix erroneous bitmask logic in Awinic init
-      commit: b82fa9b0c26eeb2fde6017f7de2c3c544484efef
+Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+---
+Changes in v2:
+  - Removed __func__ from debug prints (dyndbg adds it automatically)
+  - Added dev_dbg() when message sending is delayed due to EBUSY
+  - Dropped patch 2/2 (dai_link_hw_ready) per Pierre's feedback
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ sound/soc/sof/intel/cnl.c     | 17 ++---------------
+ sound/soc/sof/intel/hda-ipc.c | 17 ++---------------
+ sound/soc/sof/intel/hda.h     |  8 --------
+ sound/soc/sof/intel/mtl.c     | 17 ++---------------
+ sound/soc/sof/ipc4.c          | 20 ++++++++++++++++++--
+ 5 files changed, 24 insertions(+), 55 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/intel/cnl.c b/sound/soc/sof/intel/cnl.c
+index 0cc5725515e7..a2c6c7894a0f 100644
+--- a/sound/soc/sof/intel/cnl.c
++++ b/sound/soc/sof/intel/cnl.c
+@@ -37,7 +37,6 @@ irqreturn_t cnl_ipc4_irq_thread(int irq, void *context)
+ {
+ 	struct sof_ipc4_msg notification_data = {{ 0 }};
+ 	struct snd_sof_dev *sdev = context;
+-	bool ack_received = false;
+ 	bool ipc_irq = false;
+ 	u32 hipcida, hipctdr;
+ 
+@@ -51,7 +50,6 @@ irqreturn_t cnl_ipc4_irq_thread(int irq, void *context)
+ 		cnl_ipc_dsp_done(sdev);
+ 
+ 		ipc_irq = true;
+-		ack_received = true;
+ 	}
+ 
+ 	if (hipctdr & CNL_DSP_REG_HIPCTDR_BUSY) {
+@@ -101,13 +99,6 @@ irqreturn_t cnl_ipc4_irq_thread(int irq, void *context)
+ 		/* This interrupt is not shared so no need to return IRQ_NONE. */
+ 		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
+ 
+-	if (ack_received) {
+-		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+-
+-		if (hdev->delayed_ipc_tx_msg)
+-			cnl_ipc4_send_msg(sdev, hdev->delayed_ipc_tx_msg);
+-	}
+-
+ 	return IRQ_HANDLED;
+ }
+ EXPORT_SYMBOL_NS(cnl_ipc4_irq_thread, "SND_SOC_SOF_INTEL_CNL");
+@@ -266,12 +257,8 @@ int cnl_ipc4_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
+ 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+ 	struct sof_ipc4_msg *msg_data = msg->msg_data;
+ 
+-	if (hda_ipc4_tx_is_busy(sdev)) {
+-		hdev->delayed_ipc_tx_msg = msg;
+-		return 0;
+-	}
+-
+-	hdev->delayed_ipc_tx_msg = NULL;
++	if (hda_ipc4_tx_is_busy(sdev))
++		return -EBUSY;
+ 
+ 	/* send the message via mailbox */
+ 	if (msg_data->data_size)
+diff --git a/sound/soc/sof/intel/hda-ipc.c b/sound/soc/sof/intel/hda-ipc.c
+index 94425c510861..78449452041c 100644
+--- a/sound/soc/sof/intel/hda-ipc.c
++++ b/sound/soc/sof/intel/hda-ipc.c
+@@ -106,12 +106,8 @@ int hda_dsp_ipc4_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
+ 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+ 	struct sof_ipc4_msg *msg_data = msg->msg_data;
+ 
+-	if (hda_ipc4_tx_is_busy(sdev)) {
+-		hdev->delayed_ipc_tx_msg = msg;
+-		return 0;
+-	}
+-
+-	hdev->delayed_ipc_tx_msg = NULL;
++	if (hda_ipc4_tx_is_busy(sdev))
++		return -EBUSY;
+ 
+ 	/* send the message via mailbox */
+ 	if (msg_data->data_size)
+@@ -168,7 +164,6 @@ irqreturn_t hda_dsp_ipc4_irq_thread(int irq, void *context)
+ {
+ 	struct sof_ipc4_msg notification_data = {{ 0 }};
+ 	struct snd_sof_dev *sdev = context;
+-	bool ack_received = false;
+ 	bool ipc_irq = false;
+ 	u32 hipcie, hipct;
+ 
+@@ -182,7 +177,6 @@ irqreturn_t hda_dsp_ipc4_irq_thread(int irq, void *context)
+ 		hda_dsp_ipc_dsp_done(sdev);
+ 
+ 		ipc_irq = true;
+-		ack_received = true;
+ 	}
+ 
+ 	if (hipct & HDA_DSP_REG_HIPCT_BUSY) {
+@@ -236,13 +230,6 @@ irqreturn_t hda_dsp_ipc4_irq_thread(int irq, void *context)
+ 		/* This interrupt is not shared so no need to return IRQ_NONE. */
+ 		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
+ 
+-	if (ack_received) {
+-		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+-
+-		if (hdev->delayed_ipc_tx_msg)
+-			hda_dsp_ipc4_send_msg(sdev, hdev->delayed_ipc_tx_msg);
+-	}
+-
+ 	return IRQ_HANDLED;
+ }
+ EXPORT_SYMBOL_NS(hda_dsp_ipc4_irq_thread, "SND_SOC_SOF_INTEL_HDA_COMMON");
+diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
+index 562fe8be79c1..ac9f76a5ef97 100644
+--- a/sound/soc/sof/intel/hda.h
++++ b/sound/soc/sof/intel/hda.h
+@@ -549,14 +549,6 @@ struct sof_intel_hda_dev {
+ 
+ 	/* work queue for mic privacy state change notification sending */
+ 	struct sof_ace3_mic_privacy mic_privacy;
+-
+-	/*
+-	 * Pointing to the IPC message if immediate sending was not possible
+-	 * because the downlink communication channel was BUSY at the time.
+-	 * The message will be re-tried when the channel becomes free (the ACK
+-	 * is received from the DSP for the previous message)
+-	 */
+-	struct snd_sof_ipc_msg *delayed_ipc_tx_msg;
+ };
+ 
+ static inline struct hdac_bus *sof_to_bus(struct snd_sof_dev *s)
+diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
+index 095dcf1a18e4..24dec128f589 100644
+--- a/sound/soc/sof/intel/mtl.c
++++ b/sound/soc/sof/intel/mtl.c
+@@ -101,12 +101,8 @@ static int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *ms
+ 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+ 	struct sof_ipc4_msg *msg_data = msg->msg_data;
+ 
+-	if (hda_ipc4_tx_is_busy(sdev)) {
+-		hdev->delayed_ipc_tx_msg = msg;
+-		return 0;
+-	}
+-
+-	hdev->delayed_ipc_tx_msg = NULL;
++	if (hda_ipc4_tx_is_busy(sdev))
++		return -EBUSY;
+ 
+ 	/* send the message via mailbox */
+ 	if (msg_data->data_size)
+@@ -559,7 +555,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
+ {
+ 	struct sof_ipc4_msg notification_data = {{ 0 }};
+ 	struct snd_sof_dev *sdev = context;
+-	bool ack_received = false;
+ 	bool ipc_irq = false;
+ 	u32 hipcida;
+ 	u32 hipctdr;
+@@ -576,7 +571,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
+ 		mtl_ipc_dsp_done(sdev);
+ 
+ 		ipc_irq = true;
+-		ack_received = true;
+ 	}
+ 
+ 	if (hipctdr & MTL_DSP_REG_HFIPCXTDR_BUSY) {
+@@ -628,13 +622,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
+ 		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
+ 	}
+ 
+-	if (ack_received) {
+-		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
+-
+-		if (hdev->delayed_ipc_tx_msg)
+-			mtl_ipc_send_msg(sdev, hdev->delayed_ipc_tx_msg);
+-	}
+-
+ 	return IRQ_HANDLED;
+ }
+ 
+diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
+index a4a090e6724a..ad99e2e07b66 100644
+--- a/sound/soc/sof/ipc4.c
++++ b/sound/soc/sof/ipc4.c
+@@ -365,20 +365,36 @@ static int ipc4_wait_tx_done(struct snd_sof_ipc *ipc, void *reply_data)
+ 	return ret;
+ }
+ 
++#define SOF_IPC4_TX_BUSY_RETRIES	50
++#define SOF_IPC4_TX_BUSY_DELAY_US	100
++#define SOF_IPC4_TX_BUSY_DELAY_MAX_US	200
++
+ static int ipc4_tx_msg_unlocked(struct snd_sof_ipc *ipc,
+ 				void *msg_data, size_t msg_bytes,
+ 				void *reply_data, size_t reply_bytes)
+ {
+ 	struct sof_ipc4_msg *ipc4_msg = msg_data;
+ 	struct snd_sof_dev *sdev = ipc->sdev;
+-	int ret;
++	int ret, i;
+ 
+ 	if (msg_bytes > ipc->max_payload_size || reply_bytes > ipc->max_payload_size)
+ 		return -EINVAL;
+ 
+ 	sof_ipc4_log_header(sdev->dev, "ipc tx      ", msg_data, true);
+ 
+-	ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
++	for (i = 0; i < SOF_IPC4_TX_BUSY_RETRIES; i++) {
++		ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
++		if (ret != -EBUSY)
++			break;
++		usleep_range(SOF_IPC4_TX_BUSY_DELAY_US,
++			     SOF_IPC4_TX_BUSY_DELAY_MAX_US);
++	}
++	if (i == SOF_IPC4_TX_BUSY_RETRIES) {
++		dev_dbg(sdev->dev, "ipc tx failed: TX busy after %d retries\n", i);
++	} else if (i > 0) {
++		dev_dbg(sdev->dev, "ipc tx delayed by %d loops for %#x|%#x\n",
++			i, ipc4_msg->primary, ipc4_msg->extension);
++	}
+ 	if (ret) {
+ 		dev_err_ratelimited(sdev->dev,
+ 				    "%s: ipc message send for %#x|%#x failed: %d\n",
+-- 
+2.52.0
 
