@@ -1,60 +1,62 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A03C2C1598
-	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 23:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D896530C370
+	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 23:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771370015; cv=none; b=a8QLIuS8AOz3RLFxi6p7zow5oC69eSm5uEb/kgLIOpjsfBw3bXYMzaX5m1nEIlk86QBVby7TM5rFMTjpBV93u/v0Uxj53HpiDhwxooE5B9QB88mtlGYOsNtFTeDlQHyLD6ryC9rDhBc1GoSZZpto+E/x61qp/+tyNPb5Do/Ncy0=
+	t=1771370015; cv=none; b=sBVFsCxPtFEfiKDOTG1CprmOLv596L9m0Dtp6IZeXZNKwsZ6rtyR1W1mJHsFG+GIWI0uS2YMs2X/ZFeV586qraUWr0ZOfzZWZlCXTdnp+mX3jTzHzN7tEblTlatA9UO+KC+VSum+JuK9jibgzSzKBf5X87wRJfP8VHWw9WxJJeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771370015; c=relaxed/simple;
-	bh=8CXx5KGYHmTT1pcaXlh1JWyPSkCdfVKWKnhkw/+2UD8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjgnkNAEY+ZBVNGFg5TAAzm6zqm5jhSxX6FSUN9hdaQJgAqCnGk6CJ3j5MX5NoRAs7lsQ8MbwDkkWA+poPIB+LDH0ITB8FfmgyIWPzbCB9sJBH1oTBEv7bDp2jyTVQCJ1B12v2UmVDj7od+//lktkQsk7EKzcpVoZkcTLA1CyDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhiT89QU; arc=none smtp.client-ip=209.85.208.48
+	bh=gC0e01eJBPun914gwlEhfyHeJO2JZFG21Vn6CMakvBI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dNwzvHuOVJnQ8Z6CX9utzIeUFEjlZYY2zZo8B0sgGuckzRO8oKbmIJWZtN2AQBSWuNUbsBwo0vI/bMRGOzNkestbFQn5G2ysosec7a2qOQVN9M4fdGG7e7wANi0jUHLoaO7n8/1IyVieE3Qv/vxjzb0bv5MqSApGpC/RxcRMzJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrtmGzFB; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhiT89QU"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65a36583ef9so622077a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 15:13:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrtmGzFB"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b8876d1a39bso530349866b.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 15:13:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771370011; x=1771974811; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TuCtFSo1/BpbElvw/aCMIq5QPc8B+MlFWaQWA/8BJQM=;
-        b=LhiT89QUcJVX7auNCjmargZvDpmQ50z+kT0GMcSkZnRmDVBlW+ZSwT1k1a/4n8Kaqs
-         oQ77YxqHjCtFG2I7u0bcNey4nwhGsZWKB52xqI9Hav/cXpOl1D7Iag20BRKnAU0blQMg
-         0DeIDU3TZFJmuZfhvYM6pifx6/lV8XC1IdOiqE2UQw8IBtAtYp3oS2b28M7FP6SV9hg8
-         gbmix/T3BsF0lA64l99KJcqEFlad+bRXpiOkjOw2IJQzvgjnnVhyjquBrX7xhCoGo4j1
-         6jgjYy2hFbxafdhgcBVeBowaklRJzSyyxZdH+xjNebN2IuSL26DlMd6uerBY33dF0L21
-         js0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771370011; x=1771974811;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771370012; x=1771974812; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TuCtFSo1/BpbElvw/aCMIq5QPc8B+MlFWaQWA/8BJQM=;
-        b=GJopUldv3h+OBKlO7PLZ+6dyxynAXq+f8+ckEA/8KZTfZrpe1uI/0QQmLS0ifeUkrC
-         VB9DCsa1OWd42F2YxtvAoN9U2uk9Lie2Bjski0xwHDgRtEgTSUoW1dyodSi+ukfuo2iO
-         RDFDc81t/PGAsNiV8Milu9tVzjLqwe2NNo8rjw3kXqllvLuZ8oT+b9M80VwE3evA5vlM
-         GfJsevvxhKs4K3bAaBjCx/1f9CzL3hcQVANnlcfpO7AbWzNfIdigCh11te3UVLN4P1s6
-         K/39rVLX0HyLA6AlYZxaweMdArZwUZBlfr4qu19x1tWG1UfimQJNPVwfXMAp/bgn6sDQ
-         yLXA==
-X-Gm-Message-State: AOJu0YxZFuXB3RzSD6HJIF7UF77kV8jW3Rac13Dqs7ICj6bRnGBK2J67
-	wwzO7BsBqsivQwwrYOydjiZPhTyCZbvba3Vro7IizP6nMn5Y7qD7+/yvZiIalw==
-X-Gm-Gg: AZuq6aKGwVxogQVQvj8538ZW9QTXpIna+oKbux67QvRxqX52Dxh2gMrjIC1mkUaw0iU
-	aYcQWgOgcOGj6Ig794MUerKb5dfbW2+hKUp5wRo/pspszYAs5ogGJtLn0jM0o5iOfe4SRiaGnd/
-	lRp5q/QHZgeabqEiOr1N4B/gZ/FHN4Eou1jXcTd5KzwXuiIqeLOF2O4uoOsRMHgDGqhP3LVMEBK
-	DF3+FKHIaiv7Qup6X+CdD6dpk9dIODmSWe4U2GYMZ2O4Ts4rI3kPYObq5mxAOszm2qt1+tJqdTC
-	lxBqZlP8hP1jTcdduIBIOTYE+3/gDnp+DltHKUFAgr87iqhOXlOKcgLOKjZjUc/oWExuBVHR66M
-	+DCB74pEz19Kwn9275GxFX0rF0w7Qj9v1uYrSsCFEL8Q8ggwq93wdSflGjnSmFfUmSBs6wJ7gwv
-	DgBlwvmGImhpI+2A==
-X-Received: by 2002:a05:6402:34cf:b0:65b:94e0:a593 with SMTP id 4fb4d7f45d1cf-65c771b4037mr23303a12.1.1771370010832;
-        Tue, 17 Feb 2026 15:13:30 -0800 (PST)
+        bh=I4clpRw+MW0lpDpQZNraBpNnI6WWTp28IpMKJeRXQP8=;
+        b=lrtmGzFByecvHkfuaJAFiniqlmw2FhtkL0uFhXN296fIwgeyFjyd9yOewEbLS9UVw7
+         tO6g8BqPN6skyH+byBR5sfoKk+hDOR8hZfj5JgM11sNrCUrfxmIvRfRk/TRrd9mPrznl
+         NKnqZv16ZylfxyaERmfYVeqUjL8J/9y/RmnxC9l7cGa5DAtq2JVovZbD2JUO6o9YAEU/
+         Y99XVsunu0s+d20YPUtM2ereyxBPLdXKDLqmeI2HC/bRfupvSKvSsxRnyGF57NHrY5xu
+         nZ8Byj90CglosIk1s+gXieFWrir2rcWXfEymVQY8kXxhm8sjYcqmelMxe2L92glylHVr
+         vSag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771370012; x=1771974812;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=I4clpRw+MW0lpDpQZNraBpNnI6WWTp28IpMKJeRXQP8=;
+        b=vkOISRiTqBGfHdSSmeG3LRf+XsH3rPo8DuQO8XW+9J+zc3nQIfY4npGy40vG9RetxS
+         90LDPx/ZE+/nXWkAhj09jUk1+XAyOCHO0XLWw1hfHNZIirf0qpjPLTVaTj552BH1Od9U
+         Iu9RDDbXmr4WXMprH21PMOEmLImpN73rigdhp384hXJowI8Ge6wMEwQD5bI7dVxctBq/
+         nQ+Ol5TfPb8DDNu/sYi1K+k6vk+htUGqDbrsNO1DhE71uFR5bdd1NuaGRdb8jmVT1yN2
+         zEQPnyV3lYi0A2HlcNOExQJbUwgXH8KWxBMgv9kpaFfu5TW2vYNBWbWaNB1aYttTSk8A
+         y5RQ==
+X-Gm-Message-State: AOJu0Yx779Ehj28YOmYevCDMFaGiDGfBUbsBEsa+iCkDa/JWYo5R0ctG
+	WDF5O/AuTIuW1UCivMps+mvWQ9Vkd6An82jIGvUg1sng2aDfGT/co+SES0YO4Q==
+X-Gm-Gg: AZuq6aKLcEc7ja+OLy6Jt9jy7TdzbVTVvrOqfAu35e5Y8ecmByQfk3kG6MVe+moGSsP
+	d3/3hJQ6i8+70p3xn5t6ygtEtEXKLn+Wflx/6UVCTL/mqa3Kc8q4NDQ2NzTn9xVfoq56prrRCFK
+	hCrjroUNs0WuE4Eilr7J+7V+pDoug51W56z2xF56yF5m+QK3d5hB1ALXfYdK8x2TQfAzV2rWGCM
+	aCZSVUhsrCjP8SSks3D0N2UEyGkkLdTnpZ7n7sSgpx0uhw1V59EyMpuE4KP5TAnwNMKgTQ7Dftr
+	nccAdfnr9SViYfn9f9IKwVfDnyUmr4IXK8sw70DV+5CIVW5Ee2Ll+ZllF83ATdGfqED/a0uGEVh
+	rT9DgaCePfTkYGKLH//JrnoIRJGrjigpdiSS0oZVOhuho2X9alyIno+7y6Is11jIHImURx5YOER
+	T2u7UZ5xUiC/kEmg==
+X-Received: by 2002:a17:907:3e14:b0:b8f:99c2:1a99 with SMTP id a640c23a62f3a-b8fc38f1e4dmr642097566b.9.1771370011630;
+        Tue, 17 Feb 2026 15:13:31 -0800 (PST)
 Received: from jekhomev ([46.251.53.180])
         by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65bad3f137dsm2661375a12.27.2026.02.17.15.13.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 15:13:30 -0800 (PST)
+        Tue, 17 Feb 2026 15:13:31 -0800 (PST)
 From: Yauhen Kharuzhy <jekhor@gmail.com>
 To: linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -64,10 +66,12 @@ To: linux-sound@vger.kernel.org,
 Cc: linux-kernel@vger.kernel.org,
 	Hans de Goede <hansg@kernel.org>,
 	Yauhen Kharuzhy <jekhor@gmail.com>
-Subject: [PATCH v1 0/2] Add ASoC machine driver for Lenovo YB1 tablets
-Date: Wed, 18 Feb 2026 01:13:22 +0200
-Message-ID: <20260217231324.1319392-1-jekhor@gmail.com>
+Subject: [PATCH v1 1/2] ASoC: Intel: cht_yogabook: Add driver for Lenovo Yoga Book tablets
+Date: Wed, 18 Feb 2026 01:13:23 +0200
+Message-ID: <20260217231324.1319392-2-jekhor@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260217231324.1319392-1-jekhor@gmail.com>
+References: <20260217231324.1319392-1-jekhor@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,142 +80,684 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is the first iteration of my submission for sound support for Lenovo
-Yoga Book YB1-X90/X91 tablets.
+Add a new ASoC machine driver for Lenovo Yoga Book Intel Cherry
+Trail-based tablets (YB1-X90F/L, YB1-X91F/L models).
 
-These are Cherry Trail-based platforms that use the RT5677 codec and
-TS3A227E jack detection IC.
+This platform uses a Realtek ALC5677 codec accompanied by a TS3A227E jack
+configuration detection IC.
 
-The YB1-X90 is an Android-designated device and has incorrect ACPI entries
-for many onboard peripherals, including sound devices. The YB1-X91 has a
-DSDT node for the codec, and the same node is shared with the TS3A227E
-jack detection IC (see below).
+The driver is based on the cht_bsw_rt5672.c mainline driver and the driver
+from the vendor's Android kernel [1].
 
-Matching with ACPI entries is somewhat tricky; see the corresponding
-commit. Jack detection IC info is defined in the x86-android-tablets driver
-for both platforms to simplify the code.
+There are no other known Cherry Trail platforms using an RT5677 codec, so
+the driver is named 'cht_yogabook', and some device-specific tricks are
+hardcoded, such as jack events and additional GPIOs controlling the
+speaker amplifier.
 
-The machine driver is called 'cht_yogabook' because it has some
-hardcoded device-specific elements and it seems this is the only known
-Cherry Trail platform using the RT5677 codec. This naming is open
-to discussion: a more generic name like 'cht_rt5677' or 'cht_bsw_rt5677'
-may be better (requiring reworking of the driver to make it
-more generic with device-specific quirks).
+[1] https://github.com/deadman96385/android_kernel_lenovo_yeti/blob/master/sound/soc/intel/board/cht_bl_dpcm_rt5677.c
 
-The driver requires support for the RT5677 definition as an ACPI node or
-i2c_board_info, submitted earlier in [1].
-
-1. https://lore.kernel.org/linux-sound/20260211002255.4090440-1-jekhor@gmail.com/
-
-For reference, there is an ACPI node for sound configuration from YB1-X91
-DSDT below:
-
-HID: 10EC5677
-_CRS resources:
-
-  I2C devices:
-  0: rt5677 codec
-  1: ts3a227e jack detection IC
-
-  GPIOs:
-  0: rt5677 codec reset
-  1: rt5677 codec pow-ldo2
-  2: speaker enable
-
-  INTs:
-  0: rt5677 codec
-  1: ts3a227e jack detection IC
-
-  SPI device:
-  0: rt5677 codec SPI connection
-
-ACPI decompiled dump fragment:
-
-    Device (RTEK)
-    {
-        Name (_ADR, Zero)  // _ADR: Address
-        Name (_HID, "10EC5677")  // _HID: Hardware ID
-        Name (_CID, "10EC5677")  // _CID: Compatible ID
-        Name (_DDN, "Realtek IIS Audio Codec")  // _DDN: DOS Device Name
-        Name (_SUB, "17AA7005")  // _SUB: Subsystem ID
-        Name (_UID, One)  // _UID: Unique ID
-        Name (_PR0, Package (0x01)  // _PR0: Power Resources for D0
-        {
-            CLK3
-        })
-        Name (CHAN, Package (0x02)
-        {
-            One,
-            0x0124F800
-        })
-        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-        {
-            Name (SBUF, ResourceTemplate ()
-            {
-                I2cSerialBusV2 (0x002C, ControllerInitiated, 0x000186A0,
-                    AddressingMode7Bit, "\\_SB.PCI0.I2C1",
-                    0x00, ResourceConsumer, , Exclusive,
-                    )
-                I2cSerialBusV2 (0x003B, ControllerInitiated, 0x000186A0,
-                    AddressingMode7Bit, "\\_SB.PCI0.I2C1",
-                    0x00, ResourceConsumer, , Exclusive,
-                    )
-                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
-                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0019
-                    }
-                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
-                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0012
-                    }
-                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
-                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0030
-                    }
-                GpioInt (Edge, ActiveLow, Exclusive, PullNone, 0x0000,
-                    "\\_SB.GPO0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x005B
-                    }
-                GpioInt (Edge, ActiveLow, Exclusive, PullNone, 0x0000,
-                    "\\_SB.GPO0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x004D
-                    }
-                SpiSerialBusV2 (0x0001, PolarityLow, FourWireMode, 0x08,
-                    ControllerInitiated, 0x003D0900, ClockPolarityHigh,
-                    ClockPhaseSecond, "\\_SB.PCI0.SPI1",
-                    0x00, ResourceConsumer, , Exclusive,
-                    )
-            })
-            Return (SBUF) /* \_SB_.PCI0.I2C1.RTEK._CRS.SBUF */
-        }
-    }
-
-
-Yauhen Kharuzhy (2):
-  ASoC: Intel: cht_yogabook: Add driver for Lenovo Yoga Book tablets
-  ASoC: Intel: soc-acpi-cht: Add Lenovo Yoga Book entries
-
- sound/soc/intel/boards/Kconfig                |  15 +
- sound/soc/intel/boards/Makefile               |   2 +
- sound/soc/intel/boards/cht_yogabook.c         | 602 ++++++++++++++++++
- .../intel/common/soc-acpi-intel-cht-match.c   | 144 +++--
- 4 files changed, 713 insertions(+), 50 deletions(-)
+Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+---
+ sound/soc/intel/boards/Kconfig        |  15 +
+ sound/soc/intel/boards/Makefile       |   2 +
+ sound/soc/intel/boards/cht_yogabook.c | 602 ++++++++++++++++++++++++++
+ 3 files changed, 619 insertions(+)
  create mode 100644 sound/soc/intel/boards/cht_yogabook.c
 
-
-base-commit: 635c467cc14ebdffab3f77610217c1dacaf88e8c
-message-id: 20260211002255.4090440-1-jekhor@gmail.com
-
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index c5942b5655d3..f7346ee085e7 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -237,6 +237,21 @@ config SND_SOC_INTEL_BYT_CHT_ES8316_MACH
+ 	  Say Y or m if you have such a device. This is a recommended option.
+ 	  If unsure select "N".
+ 
++config SND_SOC_INTEL_CHT_YOGABOOK_MACH
++	tristate "Cherrytrail-based Lenovo Yoga Book tablet"
++	depends on I2C && ACPI
++	depends on X86_INTEL_LPSS || COMPILE_TEST
++	depends on GPIOLIB || COMPILE_TEST
++	select SND_SOC_ACPI
++	select SND_SOC_RT5677
++	select SND_SOC_TS3A227E
++        help
++	  This adds support for ASoC machine driver for the Lenovo Yoga Book
++	  tablets based on CherryTrail platform with RT5677 audio codec, models
++	  YB1-X90F, YB1-X90L, YB1-X91F, YB1-X91L.
++          Say Y or m if you have such a device. This is a recommended option.
++          If unsure select "N".
++
+ endif ## SND_SST_ATOM_HIFI2_PLATFORM || SND_SOC_SOF_BAYTRAIL
+ 
+ if SND_SST_ATOM_HIFI2_PLATFORM
+diff --git a/sound/soc/intel/boards/Makefile b/sound/soc/intel/boards/Makefile
+index 25a1a9066cbf..58bd6029545b 100644
+--- a/sound/soc/intel/boards/Makefile
++++ b/sound/soc/intel/boards/Makefile
+@@ -15,6 +15,7 @@ snd-soc-sst-cht-bsw-nau8824-y := cht_bsw_nau8824.o
+ snd-soc-sst-byt-cht-cx2072x-y := bytcht_cx2072x.o
+ snd-soc-sst-byt-cht-da7213-y := bytcht_da7213.o
+ snd-soc-sst-byt-cht-es8316-y := bytcht_es8316.o
++snd-soc-sst-cht-yogabook-objs := cht_yogabook.o
+ snd-soc-sst-byt-cht-nocodec-y := bytcht_nocodec.o
+ snd-soc-sof_rt5682-y := sof_rt5682.o
+ snd-soc-sof_cs42l42-y := sof_cs42l42.o
+@@ -47,6 +48,7 @@ obj-$(CONFIG_SND_SOC_INTEL_CHT_BSW_NAU8824_MACH) += snd-soc-sst-cht-bsw-nau8824.
+ obj-$(CONFIG_SND_SOC_INTEL_BYT_CHT_CX2072X_MACH) += snd-soc-sst-byt-cht-cx2072x.o
+ obj-$(CONFIG_SND_SOC_INTEL_BYT_CHT_DA7213_MACH) += snd-soc-sst-byt-cht-da7213.o
+ obj-$(CONFIG_SND_SOC_INTEL_BYT_CHT_ES8316_MACH) += snd-soc-sst-byt-cht-es8316.o
++obj-$(CONFIG_SND_SOC_INTEL_CHT_YOGABOOK_MACH) += snd-soc-sst-cht-yogabook.o
+ obj-$(CONFIG_SND_SOC_INTEL_BYT_CHT_NOCODEC_MACH) += snd-soc-sst-byt-cht-nocodec.o
+ obj-$(CONFIG_SND_SOC_INTEL_SKL_HDA_DSP_GENERIC_MACH) += snd-soc-skl_hda_dsp.o
+ obj-$(CONFIG_SND_SOC_INTEL_EHL_RT5660_MACH) += snd-soc-ehl-rt5660.o
+diff --git a/sound/soc/intel/boards/cht_yogabook.c b/sound/soc/intel/boards/cht_yogabook.c
+new file mode 100644
+index 000000000000..2ce8233a1630
+--- /dev/null
++++ b/sound/soc/intel/boards/cht_yogabook.c
+@@ -0,0 +1,602 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ *  cht_yogabook.c - ASoc Machine driver for Lenovo Yoga Book YB1-X90/X91
++ *  tablets, based on Intel Cherrytrail platform with RT5677 codec.
++ *
++ *  Copyright (C) 2026 Yauhen Kharuzhy <jekhor@gmail.com>
++ *
++ *  Based on cht_bsw_rt5672.c:
++ *  Copyright (C) 2014 Intel Corp
++ *  Author: Subhransu S. Prusty <subhransu.s.prusty@intel.com>
++ *          Mengdong Lin <mengdong.lin@intel.com>
++ *
++ *  And based on the cht_bl_dpcm_rt5677.c from the Lenovo's Android kernel:
++ *  Copyright (C) 2014 Intel Corp
++ *  Author: Mythri P K <mythri.p.k@intel.com>
++ */
++
++#include <linux/clk.h>
++#include <linux/dmi.h>
++#include <linux/gpio/consumer.h>
++#include <linux/gpio/machine.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <sound/jack.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc.h>
++#include "../../codecs/rt5677.h"
++#include "../../codecs/ts3a227e.h"
++#include "../atom/sst-atom-controls.h"
++
++#define RT5677_I2C_DEFAULT	"i2c-rt5677"
++
++/* The platform clock #3 outputs 19.2Mhz clock to codec as I2S MCLK */
++#define CHT_PLAT_CLK_3_HZ	19200000
++#define CHT_CODEC_DAI		"rt5677-aif1"
++
++struct cht_mc_private {
++	char codec_name[SND_ACPI_I2C_ID_LEN];
++	struct snd_soc_jack jack;
++	struct clk *mclk;
++	struct gpio_desc *gpio_spk_en1;
++	struct gpio_desc *gpio_spk_en2;
++	struct gpio_desc *gpio_hp_en;
++};
++
++static int cht_yb_platform_clock_control(struct snd_soc_dapm_widget *w,
++					 struct snd_kcontrol *k, int  event)
++{
++	struct snd_soc_card *card = snd_soc_dapm_to_card(w->dapm);
++	struct snd_soc_dai *codec_dai;
++	struct cht_mc_private *ctx = snd_soc_card_get_drvdata(card);
++	int ret;
++
++	codec_dai = snd_soc_card_get_codec_dai(card, CHT_CODEC_DAI);
++	if (!codec_dai) {
++		dev_err(card->dev,
++			"Codec dai not found; Unable to set platform clock\n");
++		return -EIO;
++	}
++
++	if (SND_SOC_DAPM_EVENT_ON(event)) {
++		if (ctx->mclk) {
++			ret = clk_prepare_enable(ctx->mclk);
++			if (ret < 0) {
++				dev_err(card->dev,
++					"could not configure MCLK state");
++				return ret;
++			}
++		}
++
++		/* set codec PLL source to the 19.2MHz platform clock (MCLK) */
++		ret = snd_soc_dai_set_pll(codec_dai, 0, RT5677_PLL1_S_MCLK,
++					  CHT_PLAT_CLK_3_HZ, 48000 * 512);
++		if (ret < 0) {
++			dev_err(card->dev, "can't set codec pll: %d\n", ret);
++			return ret;
++		}
++
++		/* set codec sysclk source to PLL */
++		ret = snd_soc_dai_set_sysclk(codec_dai, RT5677_SCLK_S_PLL1,
++					     48000 * 512, SND_SOC_CLOCK_IN);
++		if (ret < 0) {
++			dev_err(card->dev, "can't set codec sysclk: %d\n", ret);
++			return ret;
++		}
++	} else {
++		/* Set codec sysclk source to its internal clock because codec
++		 * PLL will be off when idle and MCLK will also be off by ACPI
++		 * when codec is runtime suspended. Codec needs clock for jack
++		 * detection and button press.
++		 */
++		snd_soc_dai_set_sysclk(codec_dai, RT5677_SCLK_S_RCCLK,
++				       48000 * 512, SND_SOC_CLOCK_IN);
++
++		if (ctx->mclk)
++			clk_disable_unprepare(ctx->mclk);
++	}
++	return 0;
++}
++
++static int cht_yb_hp_event(struct snd_soc_dapm_widget *w,
++			   struct snd_kcontrol *k, int event)
++{
++	struct snd_soc_card *card = snd_soc_dapm_to_card(w->dapm);
++	struct cht_mc_private *ctx = snd_soc_card_get_drvdata(card);
++
++	dev_dbg(card->dev, "HP event: %s\n",
++		SND_SOC_DAPM_EVENT_ON(event) ? "ON" : "OFF");
++
++	if (SND_SOC_DAPM_EVENT_ON(event)) {
++		msleep(20);
++		gpiod_set_value_cansleep(ctx->gpio_hp_en, 1);
++		msleep(50);
++	} else {
++		gpiod_set_value_cansleep(ctx->gpio_hp_en, 0);
++	}
++
++	return 0;
++}
++
++static int cht_yb_spk_event(struct snd_soc_dapm_widget *w,
++			    struct snd_kcontrol *k, int event)
++{
++	struct snd_soc_card *card = snd_soc_dapm_to_card(w->dapm);
++	struct cht_mc_private *ctx = snd_soc_card_get_drvdata(card);
++
++	dev_dbg(card->dev, "SPK event: %s\n",
++		SND_SOC_DAPM_EVENT_ON(event) ? "ON" : "OFF");
++
++	/* Black magic from the Lenovo's Android kernel
++	 * FIXME: Check if it is needed, an original comment:
++	 * "use gpio GPIO_SPK_EN to enable/disable ext boost pa
++	 * use mode 3"
++	 */
++	if (SND_SOC_DAPM_EVENT_ON(event)) {
++		gpiod_set_value_cansleep(ctx->gpio_spk_en1, 1);
++		udelay(2);
++		gpiod_set_value_cansleep(ctx->gpio_spk_en1, 0);
++		udelay(2);
++		gpiod_set_value_cansleep(ctx->gpio_spk_en1, 1);
++		udelay(2);
++		gpiod_set_value_cansleep(ctx->gpio_spk_en1, 0);
++		udelay(2);
++	}
++
++	gpiod_set_value_cansleep(ctx->gpio_spk_en1,
++				 SND_SOC_DAPM_EVENT_ON(event));
++	gpiod_set_value_cansleep(ctx->gpio_spk_en2,
++				 SND_SOC_DAPM_EVENT_ON(event));
++	msleep(50);
++
++	return 0;
++}
++
++static const struct snd_soc_dapm_widget cht_yb_dapm_widgets[] = {
++	SND_SOC_DAPM_HP("Headphone", cht_yb_hp_event),
++	SND_SOC_DAPM_MIC("Headset Mic", NULL),
++	SND_SOC_DAPM_MIC("Int Mic", NULL),
++	SND_SOC_DAPM_SPK("Speaker", cht_yb_spk_event),
++	SND_SOC_DAPM_SUPPLY("Platform Clock", SND_SOC_NOPM, 0, 0,
++			    cht_yb_platform_clock_control,
++			    SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
++};
++
++static const struct snd_soc_dapm_route cht_yb_audio_map[] = {
++	{"IN1P", NULL, "Headset Mic"},
++	{"IN1N", NULL, "Headset Mic"},
++	{"DMIC L1", NULL, "Int Mic"},
++	{"DMIC R1", NULL, "Int Mic"},
++	{"Headphone", NULL, "LOUT1"},
++	{"Headphone", NULL, "LOUT2"},
++	{"Speaker", NULL, "LOUT1"},
++	{"Speaker", NULL, "LOUT2"},
++
++	{"AIF1 Playback", NULL, "ssp2 Tx"},
++	{"ssp2 Tx", NULL, "codec_out0"},
++	{"ssp2 Tx", NULL, "codec_out1"},
++	{"codec_in0", NULL, "ssp2 Rx"},
++	{"codec_in1", NULL, "ssp2 Rx"},
++	{"ssp2 Rx", NULL, "AIF1 Capture"},
++	{"Headphone", NULL, "Platform Clock"},
++	{"Speaker", NULL, "Platform Clock"},
++	{"Headset Mic", NULL, "Platform Clock"},
++	{"Int Mic", NULL, "Platform Clock"},
++};
++
++static const struct snd_kcontrol_new cht_mc_controls[] = {
++	SOC_DAPM_PIN_SWITCH("Headphone"),
++	SOC_DAPM_PIN_SWITCH("Headset Mic"),
++	SOC_DAPM_PIN_SWITCH("Int Mic"),
++	SOC_DAPM_PIN_SWITCH("Speaker"),
++};
++
++static int cht_yb_aif1_hw_params(struct snd_pcm_substream *substream,
++				 struct snd_pcm_hw_params *params)
++{
++	struct snd_soc_pcm_runtime *rtd = substream->private_data;
++	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++	int ret;
++
++	/* set codec PLL source to the 19.2MHz platform clock (MCLK) */
++	ret = snd_soc_dai_set_pll(codec_dai, 0, RT5677_PLL1_S_MCLK,
++				  CHT_PLAT_CLK_3_HZ, params_rate(params) * 512);
++	if (ret < 0) {
++		dev_err(rtd->dev, "can't set codec pll: %d\n", ret);
++		return ret;
++	}
++
++	/* set codec sysclk source to PLL */
++	ret = snd_soc_dai_set_sysclk(codec_dai, RT5677_SCLK_S_PLL1,
++				     params_rate(params) * 512,
++				     SND_SOC_CLOCK_IN);
++	if (ret < 0) {
++		dev_err(rtd->dev, "can't set codec sysclk: %d\n", ret);
++		return ret;
++	}
++	/*
++	 * Default mode for SSP configuration is TDM 4 slot
++	 */
++	ret = snd_soc_dai_set_fmt(codec_dai,
++				  SND_SOC_DAIFMT_DSP_B |
++				  SND_SOC_DAIFMT_IB_NF |
++				  SND_SOC_DAIFMT_CBC_CFC);
++	if (ret < 0) {
++		dev_err(codec_dai->dev, "can't set format to TDM %d\n", ret);
++		return ret;
++	}
++
++	/* TDM 4 slots 24 bit, set Rx & Tx bitmask to 4 active slots */
++	ret = snd_soc_dai_set_tdm_slot(codec_dai, 0xF, 0xF, 4, 25);
++	if (ret < 0) {
++		dev_err(rtd->dev, "can't set codec TDM slot %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int cht_yb_jack_event(struct notifier_block *nb,
++			     unsigned long event, void *data)
++{
++	struct snd_soc_jack *jack = (struct snd_soc_jack *)data;
++	struct snd_soc_dapm_context *dapm = jack->card->dapm;
++
++	if (event & SND_JACK_MICROPHONE) {
++		snd_soc_dapm_force_enable_pin(dapm, "MICBIAS1");
++		snd_soc_dapm_sync(dapm);
++	} else {
++		snd_soc_dapm_disable_pin(dapm, "MICBIAS1");
++		snd_soc_dapm_sync(dapm);
++	}
++
++	return 0;
++}
++
++static struct notifier_block cht_yb_jack_nb = {
++	.notifier_call = cht_yb_jack_event,
++};
++
++static int cht_yb_codec_init(struct snd_soc_pcm_runtime *runtime)
++{
++	int ret = 0;
++	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(runtime, 0);
++	struct snd_soc_component *component = codec_dai->component;
++	struct cht_mc_private *ctx = snd_soc_card_get_drvdata(runtime->card);
++	struct snd_soc_jack *jack = &ctx->jack;
++
++	/* Enable codec ASRC function for Stereo DAC/Stereo1 ADC/DMIC/I2S1.
++	 * The ASRC clock source is clk_i2s1_asrc.
++	 */
++	rt5677_sel_asrc_clk_src(component, RT5677_DA_STEREO_FILTER |
++			RT5677_AD_STEREO1_FILTER | RT5677_I2S1_SOURCE,
++			RT5677_CLK_SEL_I2S1_ASRC);
++	/* Enable codec ASRC function for Mono ADC L.
++	 * The ASRC clock source is clk_sys2_asrc.
++	 */
++	rt5677_sel_asrc_clk_src(component, RT5677_AD_MONO_L_FILTER,
++				RT5677_CLK_SEL_SYS2);
++
++	ctx->gpio_spk_en1 = devm_gpiod_get(component->dev, "speaker-enable",
++					   GPIOD_OUT_LOW);
++	if (IS_ERR(ctx->gpio_spk_en1)) {
++		dev_err(component->dev, "Can't find speaker enable GPIO\n");
++		return PTR_ERR(ctx->gpio_spk_en1);
++	}
++
++	ctx->gpio_spk_en2 = devm_gpiod_get(component->dev, "speaker-enable2",
++					   GPIOD_OUT_LOW);
++	if (IS_ERR(ctx->gpio_spk_en2)) {
++		dev_err(component->dev, "Can't find speaker enable 2 GPIO\n");
++		return PTR_ERR(ctx->gpio_spk_en2);
++	}
++
++	ctx->gpio_hp_en = devm_gpiod_get(component->dev, "headphone-enable",
++					 GPIOD_OUT_LOW);
++	if (IS_ERR(ctx->gpio_hp_en)) {
++		dev_err(component->dev, "Can't find headphone enable GPIO\n");
++		return PTR_ERR(ctx->gpio_hp_en);
++	}
++
++	snd_soc_jack_notifier_register(jack, &cht_yb_jack_nb);
++
++	if (ctx->mclk) {
++		/*
++		 * The firmware might enable the clock at
++		 * boot (this information may or may not
++		 * be reflected in the enable clock register).
++		 * To change the rate we must disable the clock
++		 * first to cover these cases. Due to common
++		 * clock framework restrictions that do not allow
++		 * to disable a clock that has not been enabled,
++		 * we need to enable the clock first.
++		 */
++		ret = clk_prepare_enable(ctx->mclk);
++		if (!ret)
++			clk_disable_unprepare(ctx->mclk);
++
++		ret = clk_set_rate(ctx->mclk, CHT_PLAT_CLK_3_HZ);
++
++		if (ret) {
++			dev_err(runtime->dev, "unable to set MCLK rate\n");
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int cht_yb_codec_fixup(struct snd_soc_pcm_runtime *rtd,
++			      struct snd_pcm_hw_params *params)
++{
++	struct snd_interval *rate = hw_param_interval(params,
++			SNDRV_PCM_HW_PARAM_RATE);
++	struct snd_interval *channels = hw_param_interval(params,
++						SNDRV_PCM_HW_PARAM_CHANNELS);
++
++	/* The DSP will convert the FE rate to 48k, stereo, 24bits */
++	rate->min = rate->max = 48000;
++	channels->min = channels->max = 2;
++
++	/*
++	 * set SSP2 to 24-bit
++	 * Looks like strange black magic because ssp2-port supports S16LE
++	 * format only, taken from Intel's code
++	 */
++	params_set_format(params, SNDRV_PCM_FORMAT_S24_LE);
++
++	return 0;
++}
++
++static struct snd_soc_jack_pin cht_yb_jack_pins[] = {
++	{
++		.pin = "Headphone",
++		.mask = SND_JACK_HEADPHONE,
++	},
++	{
++		.pin = "Headset Mic",
++		.mask = SND_JACK_MICROPHONE,
++	},
++};
++
++static int cht_yb_headset_init(struct snd_soc_component *component)
++{
++	struct snd_soc_card *card = component->card;
++	struct cht_mc_private *ctx = snd_soc_card_get_drvdata(card);
++	struct snd_soc_jack *jack = &ctx->jack;
++	int jack_type;
++	int ret;
++
++	/*
++	 * TS3A227E supports 4 butons headset detection
++	 * KEY_MEDIA
++	 * KEY_VOICECOMMAND
++	 * KEY_VOLUMEUP
++	 * KEY_VOLUMEDOWN
++	 */
++	jack_type = SND_JACK_HEADPHONE | SND_JACK_MICROPHONE |
++		    SND_JACK_BTN_0 | SND_JACK_BTN_1 |
++		    SND_JACK_BTN_2 | SND_JACK_BTN_3;
++
++	ret = snd_soc_card_jack_new_pins(card, "Headset Jack",
++					 jack_type, jack,
++					 cht_yb_jack_pins,
++					 ARRAY_SIZE(cht_yb_jack_pins));
++	if (ret) {
++		dev_err(card->dev, "Headset Jack creation failed %d\n", ret);
++		return ret;
++	}
++
++	return ts3a227e_enable_jack_detect(component, jack);
++}
++
++static int cht_yb_aif1_startup(struct snd_pcm_substream *substream)
++{
++	return snd_pcm_hw_constraint_single(substream->runtime,
++			SNDRV_PCM_HW_PARAM_RATE, 48000);
++}
++
++static const struct snd_soc_ops cht_yb_aif1_ops = {
++	.startup = cht_yb_aif1_startup,
++};
++
++static const struct snd_soc_ops cht_yb_be_ssp2_ops = {
++	.hw_params = cht_yb_aif1_hw_params,
++};
++
++static struct snd_soc_aux_dev cht_yb_headset_dev = {
++	.dlc = COMP_AUX("i2c-ts3a227e"),
++	.init = cht_yb_headset_init,
++};
++
++SND_SOC_DAILINK_DEF(dummy,
++	DAILINK_COMP_ARRAY(COMP_DUMMY()));
++
++SND_SOC_DAILINK_DEF(media,
++	DAILINK_COMP_ARRAY(COMP_CPU("media-cpu-dai")));
++
++SND_SOC_DAILINK_DEF(deepbuffer,
++	DAILINK_COMP_ARRAY(COMP_CPU("deepbuffer-cpu-dai")));
++
++SND_SOC_DAILINK_DEF(ssp2_port,
++	DAILINK_COMP_ARRAY(COMP_CPU("ssp2-port")));
++SND_SOC_DAILINK_DEF(ssp2_codec,
++	DAILINK_COMP_ARRAY(COMP_CODEC(RT5677_I2C_DEFAULT, "rt5677-aif1")));
++
++SND_SOC_DAILINK_DEF(platform,
++	DAILINK_COMP_ARRAY(COMP_PLATFORM("sst-mfld-platform")));
++
++static struct snd_soc_dai_link cht_yb_dailink[] = {
++	/* Front End DAI links */
++	[MERR_DPCM_AUDIO] = {
++		.name = "Audio Port",
++		.stream_name = "Audio",
++		.nonatomic = true,
++		.dynamic = 1,
++		.ops = &cht_yb_aif1_ops,
++		SND_SOC_DAILINK_REG(media, dummy, platform),
++	},
++	[MERR_DPCM_DEEP_BUFFER] = {
++		.name = "Deep-Buffer Audio Port",
++		.stream_name = "Deep-Buffer Audio",
++		.nonatomic = true,
++		.dynamic = 1,
++		.playback_only = 1,
++		.ops = &cht_yb_aif1_ops,
++		SND_SOC_DAILINK_REG(deepbuffer, dummy, platform),
++	},
++
++	/* Back End DAI links */
++	{
++		/* SSP2 - Codec */
++		.name = "SSP2-Codec",
++		.id = 0,
++		.no_pcm = 1,
++		.nonatomic = true,
++		.init = cht_yb_codec_init,
++		.be_hw_params_fixup = cht_yb_codec_fixup,
++		.ops = &cht_yb_be_ssp2_ops,
++		SND_SOC_DAILINK_REG(ssp2_port, ssp2_codec, platform),
++	},
++};
++
++/* SoC card */
++static struct snd_soc_card snd_soc_card_cht_yb = {
++	.owner = THIS_MODULE,
++	.dai_link = cht_yb_dailink,
++	.num_links = ARRAY_SIZE(cht_yb_dailink),
++	.aux_dev = &cht_yb_headset_dev,
++	.num_aux_devs = 1,
++	.dapm_widgets = cht_yb_dapm_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(cht_yb_dapm_widgets),
++	.dapm_routes = cht_yb_audio_map,
++	.num_dapm_routes = ARRAY_SIZE(cht_yb_audio_map),
++	.controls = cht_mc_controls,
++	.num_controls = ARRAY_SIZE(cht_mc_controls),
++};
++
++static const struct acpi_gpio_params speaker_enable_gpio = { 2, 0, false };
++static const struct acpi_gpio_mapping cht_yb_gpios[] = {
++	{ "speaker-enable-gpios", &speaker_enable_gpio, 1 },
++	{ NULL }
++};
++
++#define SOF_CARD_NAME "cht yogabook"
++#define SOF_DRIVER_NAME "SOF"
++
++#define CARD_NAME "cht-yogabook"
++#define DRIVER_NAME NULL
++
++static int snd_cht_yb_mc_probe(struct platform_device *pdev)
++{
++	int ret_val = 0;
++	struct cht_mc_private *drv;
++	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
++	const char *platform_name;
++	struct acpi_device *adev;
++	struct device *codec_dev;
++	bool sof_parent;
++	int i;
++
++	drv = devm_kzalloc(&pdev->dev, sizeof(*drv), GFP_KERNEL);
++	if (!drv)
++		return -ENOMEM;
++
++	strscpy(drv->codec_name, RT5677_I2C_DEFAULT);
++
++	/* fixup codec name based on HID if ACPI node is present */
++	adev = acpi_dev_get_first_match_dev(mach->id, NULL, -1);
++	if (adev) {
++		snprintf(drv->codec_name, sizeof(drv->codec_name),
++			 "i2c-%s", acpi_dev_name(adev));
++		dev_info(&pdev->dev, "real codec name: %s\n", drv->codec_name);
++
++		put_device(&adev->dev);
++		for (i = 0; i < ARRAY_SIZE(cht_yb_dailink); i++) {
++			if (cht_yb_dailink[i].codecs->name &&
++			    !strcmp(cht_yb_dailink[i].codecs->name,
++				    RT5677_I2C_DEFAULT)) {
++				cht_yb_dailink[i].codecs->name = drv->codec_name;
++				break;
++			}
++		}
++	}
++
++	codec_dev = bus_find_device_by_name(&i2c_bus_type, NULL,
++					    drv->codec_name);
++	if (!codec_dev)
++		return -EPROBE_DEFER;
++
++	if (adev) {
++		ret_val = devm_acpi_dev_add_driver_gpios(codec_dev,
++							 cht_yb_gpios);
++		if (ret_val)
++			dev_warn(&pdev->dev,
++				 "Unable to add GPIO mapping table: %d\n",
++				 ret_val);
++	}
++
++	/* override platform name, if required */
++	snd_soc_card_cht_yb.dev = &pdev->dev;
++	platform_name = mach->mach_params.platform;
++
++	ret_val = snd_soc_fixup_dai_links_platform_name(&snd_soc_card_cht_yb,
++							platform_name);
++	if (ret_val) {
++		dev_err(&pdev->dev,
++			"snd_soc_fixup_dai_links_platform_name failed: %d\n",
++			ret_val);
++		return ret_val;
++	}
++
++	drv->mclk = devm_clk_get(&pdev->dev, "pmc_plt_clk_3");
++	if (IS_ERR(drv->mclk)) {
++		dev_err(&pdev->dev,
++			"Failed to get MCLK from pmc_plt_clk_3: %ld\n",
++			PTR_ERR(drv->mclk));
++		return PTR_ERR(drv->mclk);
++	}
++	snd_soc_card_set_drvdata(&snd_soc_card_cht_yb, drv);
++
++	sof_parent = snd_soc_acpi_sof_parent(&pdev->dev);
++
++	/* set the card and driver name */
++	if (sof_parent) {
++		snd_soc_card_cht_yb.name = SOF_CARD_NAME;
++		snd_soc_card_cht_yb.driver_name = SOF_DRIVER_NAME;
++	} else {
++		snd_soc_card_cht_yb.name = CARD_NAME;
++		snd_soc_card_cht_yb.driver_name = DRIVER_NAME;
++	}
++
++	/* register the soc card */
++	snd_soc_card_cht_yb.dev = &pdev->dev;
++	ret_val = devm_snd_soc_register_card(&pdev->dev, &snd_soc_card_cht_yb);
++	if (ret_val) {
++		dev_err(&pdev->dev,
++			"snd_soc_register_card failed %d\n", ret_val);
++		return ret_val;
++	}
++	platform_set_drvdata(pdev, &snd_soc_card_cht_yb);
++
++	return ret_val;
++}
++
++static struct platform_driver snd_cht_yb_mc_driver = {
++	.driver = {
++		.name = "cht-yogabook",
++	},
++	.probe = snd_cht_yb_mc_probe,
++};
++
++module_platform_driver(snd_cht_yb_mc_driver);
++
++MODULE_DESCRIPTION("Lenovo Yoga Book YB1-X9x machine driver");
++MODULE_AUTHOR("Yauhen Kharuzhy");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:cht-yogabook");
 -- 
 2.51.0
 
