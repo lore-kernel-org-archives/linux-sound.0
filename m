@@ -1,16 +1,16 @@
 Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCEF2C1598;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AF42D7D47;
 	Tue, 17 Feb 2026 23:35:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.232.15.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771371358; cv=none; b=tfGNVoYlAoTvvlfs4brhKmJHCtdwy6B+J92YfJ87Ka/a//EXSeDg7yspx3et3cZORKYNnrEPXKtB0Qc0y4V2mGHjJzbz/V2JcnMaVEbZAfWg8baPuMBn6wbvYETGs2dreGRcCJciWN3d9uGaefWJF5tWWMinajhLZpez3ri7ToU=
+	t=1771371358; cv=none; b=bNDqp8omvDvNfHGj6swmtXsoattc6jMJSVBYyhkmqF8fIP09kqb/vuUX8IJKkrPL/ysnQo6rncgNqj/jaZ0I5oZs5swzvV8LkRArXxnOV+RsWLVE1fA+9aRd6OfApH3pnnr0J5sVdDDmBO5laIgazzn8LpwtG79JS6D2EnvC884=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771371358; c=relaxed/simple;
-	bh=chF8byulc7vGETJ8uuyrLnT2EdBhd01wrsU+vUAuAKQ=;
+	bh=Z5rLsdcetRawaXfWJMg3rS9yrgIvWSBJ7nau4HA2BVk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bcznDQ8e4ofpCSka6+99b3FaiYi5/1otis2C2I7ijIA8WMKlokm5EplF6HvQ7o6DhXHx0/IB7zAPxPgsPYSjXSptwbSTLuvo+NzLsFAy3EzCyzem37KidtLlP1QEmnE4DKBF71Rm2gbConWvdfhltksZUaKLvrvQPzTURf24uIs=
+	 MIME-Version; b=j8ZcbUvpPdsrVajivTVYL1/IfoL0KP9UH3hFWiuJGTgVIhbgEEZ2KNimRIhz9LqcGYB/MLJQlzokOH3L7ydUQJOiJ8HBS0sTkPR9AkKohws3tqqtPME5Dd0W2aNnPEN+OiFhH7TatuVgDkNHt4h80CG+y3fQje9FC7v2fpI4kIo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; arc=none smtp.client-ip=172.232.15.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
@@ -28,9 +28,9 @@ Cc: pierre-louis.bossart@linux.dev,
 	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org,
 	cole@unwrap.rs
-Subject: [PATCH 1/2] soundwire: bus: downgrade expected unattach warnings to dev_dbg
-Date: Tue, 17 Feb 2026 16:35:32 -0700
-Message-ID: <20260217233533.4716-2-cole@unwrap.rs>
+Subject: [PATCH 2/2] ASoC: cs35l56: set unattach_pending before SoundWire system reset
+Date: Tue, 17 Feb 2026 16:35:33 -0700
+Message-ID: <20260217233533.4716-3-cole@unwrap.rs>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260217233533.4716-1-cole@unwrap.rs>
 References: <20260217233533.4716-1-cole@unwrap.rs>
@@ -42,56 +42,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sdw_handle_slave_status() function emits dev_warn() whenever a
-peripheral transitions to UNATTACHED from a previously ATTACHED state.
-While useful for debugging genuinely unexpected detachments, this
-warning also fires during normal operation when a codec driver
-intentionally triggers a system reset (e.g., after firmware download),
-causing unnecessary noise in the kernel log on every boot.
+The CS35L56 driver triggers a system reset after firmware download and
+during initial probe when no hardware reset GPIO is available. This
+reset physically detaches the codec from the SoundWire bus while the
+driver waits for re-enumeration, which is expected and handled
+gracefully.
 
-Add an 'unattach_pending' flag to struct sdw_slave that codec drivers
-can set before triggering an expected detach. When this flag is set,
-the bus layer emits a dev_dbg() instead of dev_warn() and clears the
-flag, preserving the warning for genuinely unexpected detachments.
+However, the bus layer emits a dev_warn() for this intentional
+transition to UNATTACHED because it cannot distinguish expected
+detachments from genuine failures. This produces misleading warnings
+on every boot for systems with CS35L56 codecs on SoundWire:
+
+  cs35l56 sdw:0:2:01fa:3556:01:0: Slave 2 state check1: UNATTACHED, status was 1
+  cs35l56 sdw:0:2:01fa:3556:01:1: Slave 1 state check1: UNATTACHED, status was 1
+
+Set the unattach_pending flag on the SoundWire peripheral before
+triggering a system reset in both the firmware patch path and the
+initial probe soft reset path. This allows the bus layer to downgrade
+the warning to dev_dbg() for these expected transitions.
 
 Signed-off-by: Cole Leavitt <cole@unwrap.rs>
 ---
- drivers/soundwire/bus.c       | 9 +++++++--
- include/linux/soundwire/sdw.h | 1 +
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ sound/soc/codecs/cs35l56.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
-index fb68738dfb9b..a5a71ab1feed 100644
---- a/drivers/soundwire/bus.c
-+++ b/drivers/soundwire/bus.c
-@@ -1899,8 +1899,13 @@ int sdw_handle_slave_status(struct sdw_bus *bus,
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 2ff8b172b76e..6566350a59c7 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -807,6 +807,8 @@ static void cs35l56_patch(struct cs35l56_private *cs35l56, bool firmware_missing
+ 	reinit_completion(&cs35l56->init_completion);
  
- 		if (status[i] == SDW_SLAVE_UNATTACHED &&
- 		    slave->status != SDW_SLAVE_UNATTACHED) {
--			dev_warn(&slave->dev, "Slave %d state check1: UNATTACHED, status was %d\n",
--				 i, slave->status);
-+			if (slave->unattach_pending)
-+				dev_dbg(&slave->dev, "Slave %d state check1: UNATTACHED (expected), status was %d\n",
-+					i, slave->status);
-+			else
-+				dev_warn(&slave->dev, "Slave %d state check1: UNATTACHED, status was %d\n",
-+					 i, slave->status);
-+			slave->unattach_pending = false;
- 			sdw_modify_slave_status(slave, SDW_SLAVE_UNATTACHED);
+ 	cs35l56->soft_resetting = true;
++	if (cs35l56->sdw_peripheral)
++		cs35l56->sdw_peripheral->unattach_pending = true;
+ 	cs35l56_system_reset(&cs35l56->base, !!cs35l56->sdw_peripheral);
  
- 			/* Ensure driver knows that peripheral unattached */
-diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index f462717acf20..4318f2b144e1 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -682,6 +682,7 @@ struct sdw_slave {
- 	struct completion enumeration_complete;
- 	struct completion initialization_complete;
- 	u32 unattach_request;
-+	bool unattach_pending;
- 	bool first_interrupt_done;
- 	bool is_mockup_device;
- 	struct mutex sdw_dev_lock; /* protect callbacks/remove races */
+ 	if (cs35l56->sdw_peripheral) {
+@@ -1903,6 +1905,8 @@ int cs35l56_init(struct cs35l56_private *cs35l56)
+ 	if (!cs35l56->base.reset_gpio) {
+ 		dev_dbg(cs35l56->base.dev, "No reset gpio: using soft reset\n");
+ 		cs35l56->soft_resetting = true;
++		if (cs35l56->sdw_peripheral)
++			cs35l56->sdw_peripheral->unattach_pending = true;
+ 		cs35l56_system_reset(&cs35l56->base, !!cs35l56->sdw_peripheral);
+ 		if (cs35l56->sdw_peripheral) {
+ 			/* Keep alive while we wait for re-enumeration */
 -- 
 2.52.0
 
