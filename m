@@ -1,153 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F5C2D47EF
-	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 10:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F271D33373B;
+	Tue, 17 Feb 2026 11:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771325075; cv=none; b=dbarGiaTnswd7b83WUsMmgTrSrYgUZQr7yKaE8tG3xd218MMjSBM3BaBRJLErP6kz/gpd7BaxM/jUiXySiobvL65Dv0+mqMy7DA86UpOXi7p1s5hwH5SuJYDJmfHnkNiSQ9WSBUfwGs09geO/ZbI49Vu4YpJhxHu2F6vUW7saU8=
+	t=1771328149; cv=none; b=sqHE7tSPfhqcJVy/zNShFdA7nesaxaABNsVE8Gy0q0W1Ii8Kks5OWTGYyNbJeTdjJQHvkfQeIQhISrC79biNdk/WKdZQf4Ede5mAF0hv8upZhAS3aX+daX6oO5BbzbpXoZAyF86rWz4z2k6Ll1z94qJ/T2MvmUM4LQzAx7cQ94E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771325075; c=relaxed/simple;
-	bh=JyydnjPwejq3PlYWyEqMnZK8U9ZgZLberX4/b6HSYi0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lz9ylttthn/yzDVtRBF//B8tazNLRXZ4T9fOI5OTmrF72MClB4oJklDN3vKvfFZPjkQ5z6p7HkB+Ef0ECu9yIfFCixJTQkkEyucQGtSEIWkvf7UwtFalTtV1u07OBuJohy3S4ejuvus4fDum4xGYzuFmpYAOLRsunmtiOxLnz6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vYpya3vw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CcJQ2OtZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vYpya3vw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CcJQ2OtZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1771328149; c=relaxed/simple;
+	bh=s0SYbDrrnZrLZfPHiZPzCoZQTZSDIN3KASbQJWOqObI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uT48AJKi6u9Nj0Zlt9Wv40xhLzpvDIU/nDj6FyC9lh4IsNnI0E/XGNTCdRxGNlGAr53tb0a0r7XeopBUDPT5mMGgwLkvrZCMch7k6UaxnTb1N+RLweYtp3KhE6bqm5gqk2143MGLs7arDHF1BQbbvy+xKOKekdVEuqN2QcVwpUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KSCYsFIB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vYpya3vw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CcJQ2OtZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vYpya3vw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CcJQ2OtZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 300FA5BF75;
-	Tue, 17 Feb 2026 10:44:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771325072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
-	b=vYpya3vwjtazfz4Fv8gwKxMSbKNyMQ8unoanY54CpnCBhRFO28jh2opz9GFmbWBvHdgGxb
-	l7IuoStpPN4dgWwntsy6DI7UcC/0nvPqLS3WiTOxb8+TEeBL6lfuw9WcEJsLfS7ADT9tX1
-	w4ovn7JIdUdbeMezGiTgePStwEzQqNw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771325072;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
-	b=CcJQ2OtZ8de6ydTVaI2PK5VxzSdm5D9i9NKaYA717YVXNM8s2QEuBldncvBrLz6jz5nZF+
-	ieu3aOl/KT6r+7Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771325072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
-	b=vYpya3vwjtazfz4Fv8gwKxMSbKNyMQ8unoanY54CpnCBhRFO28jh2opz9GFmbWBvHdgGxb
-	l7IuoStpPN4dgWwntsy6DI7UcC/0nvPqLS3WiTOxb8+TEeBL6lfuw9WcEJsLfS7ADT9tX1
-	w4ovn7JIdUdbeMezGiTgePStwEzQqNw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771325072;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
-	b=CcJQ2OtZ8de6ydTVaI2PK5VxzSdm5D9i9NKaYA717YVXNM8s2QEuBldncvBrLz6jz5nZF+
-	ieu3aOl/KT6r+7Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 127A23EA65;
-	Tue, 17 Feb 2026 10:44:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id v40NA5BGlGnccQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 17 Feb 2026 10:44:32 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda/conexant: Fix headphone jack handling on Acer Swift SF314
-Date: Tue, 17 Feb 2026 11:44:11 +0100
-Message-ID: <20260217104414.62911-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KSCYsFIB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6ADFC4CEF7;
+	Tue, 17 Feb 2026 11:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771328148;
+	bh=s0SYbDrrnZrLZfPHiZPzCoZQTZSDIN3KASbQJWOqObI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KSCYsFIB+X3jEzsPOB45RAWtmBkw9Hnoz+UnlKKaK57hJMm+n22Sc3tkfVCI4QTyj
+	 oz5ts00cPFofayqHl7cYiTgEbCyrfvgCw2SXe+3DPOs7Iem+Tu+MLZh7p1ORJzZsbG
+	 O186gprofajpy6/nICqraYZO8SH8Vz80BnuRXcZsFiH4fexmgdUMXPWzbOd+KcLQz2
+	 ClNVFvGOm437TYwAxEw9LJ6c/auM+xQcVA9VjfS08kYKanWL0wnCL3JdUcM8hC6jHD
+	 LgtG2+Q2eAj2kyGL9dQgOQkCIzTvF8rhdX0FH37e1Uq9AhNJiNhCbG+5te2TjfYuFt
+	 uNTBSU5IHfxEw==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bhushan Shah <bhushan.shah@machinesoul.in>, 
+ Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
+ Luca Weiss <luca.weiss@fairphone.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260211-snd-sm8250-quinary-mi2s-v1-1-f62e49d85af8@fairphone.com>
+References: <20260211-snd-sm8250-quinary-mi2s-v1-1-f62e49d85af8@fairphone.com>
+Subject: Re: [PATCH] ASoC: qcom: sm8250: Add quinary MI2S support
+Message-Id: <177132814641.11429.11218650201291165140.b4-ty@kernel.org>
+Date: Tue, 17 Feb 2026 11:35:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-Acer Swift SF314 (SSID 1025:136d) needs a bit of tweaks of the pin
-configurations for NID 0x16 and 0x19 to make the headphone / headset
-jack working.  NID 0x17 can remain as is for the working speaker, and
-the built-in mic is supported via SOF.
+On Wed, 11 Feb 2026 12:30:10 +0100, Luca Weiss wrote:
+> Add support for the QUINARY_MI2S_RX which is used on some devices to
+> send audio data to speaker amplifiers.
+> 
+> 
 
-Cc: <stable@vger.kernel.org>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221086
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/codecs/conexant.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Applied to
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 5623d8c0a0f7..f71123a47546 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -299,6 +299,7 @@ enum {
- 	CXT_PINCFG_SWS_JS201D,
- 	CXT_PINCFG_TOP_SPEAKER,
- 	CXT_FIXUP_HP_A_U,
-+	CXT_FIXUP_ACER_SWIFT_HP,
- };
- 
- /* for hda_fixup_thinkpad_acpi() */
-@@ -1024,6 +1025,14 @@ static const struct hda_fixup cxt_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = cxt_fixup_hp_a_u,
- 	},
-+	[CXT_FIXUP_ACER_SWIFT_HP] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x16, 0x0321403f }, /* Headphone */
-+			{ 0x19, 0x40f001f0 }, /* Mic */
-+			{ }
-+		},
-+	},
- };
- 
- static const struct hda_quirk cxt5045_fixups[] = {
-@@ -1073,6 +1082,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x1025, 0x0543, "Acer Aspire One 522", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x1025, 0x054c, "Acer Aspire 3830TG", CXT_FIXUP_ASPIRE_DMIC),
- 	SND_PCI_QUIRK(0x1025, 0x054f, "Acer Aspire 4830T", CXT_FIXUP_ASPIRE_DMIC),
-+	SND_PCI_QUIRK(0x1025, 0x136d, "Acer Swift SF314", CXT_FIXUP_ACER_SWIFT_HP),
- 	SND_PCI_QUIRK(0x103c, 0x8079, "HP EliteBook 840 G3", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x807C, "HP EliteBook 820 G3", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x80FD, "HP ProBook 640 G2", CXT_FIXUP_HP_DOCK),
--- 
-2.53.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: qcom: sm8250: Add quinary MI2S support
+      commit: 957e5be2e1ff10d4b5e86d420c12580897069114
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
