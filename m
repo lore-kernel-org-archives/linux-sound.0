@@ -1,43 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41580264A97;
-	Tue, 17 Feb 2026 19:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803EE264A97;
+	Tue, 17 Feb 2026 19:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771356281; cv=none; b=Lm51gfSNg9uo9uG88SH2PdJ9R7dzUdozGC/m6rVmleutDFJ/e0G0ZfbBTV+5hryuPfeoeS88cJT3NlRQCX6HgTYzCSlUzwxwtz5qWvV56sZg0mM5mwMAI3eRMZWtHGMGp0L25OcifZZQREzsHg2fLHcGmKw8V5t9tIEK82HHUCc=
+	t=1771356284; cv=none; b=URtj66BMQVamAh16JV9Gtll6ryCtl+pHeQo505LC6ae7aH8c7iT7d2F/+xcjOqIUm4vihlLaxu7X1+bxgNHA1VAgf3PkzEDGJFvN3wtUmYTQDwJPpPxVQhcB97l7IXuLLWnDtt3soiTY8cmJjFgD+utZiOLlJGAY0inA9lvI+1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771356281; c=relaxed/simple;
-	bh=8ghGAV5BxOgH283VZgsGWAPOfml4IsqZmeuT3P3pPGA=;
+	s=arc-20240116; t=1771356284; c=relaxed/simple;
+	bh=UBdePPv19uaL81ASanxtUzA/Qh7h0X8+eypdZNRQKxY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=G4/aLhgBEQkcako1gFQzLafIoo9wMqCdr3NCjHMQzdA3RqjhNwjXMBWeFWAyNJhvFCowj32xly+YUyLY1MUTyldIGwq5t/sZYVIMMwIumX8o/1rapcmet/8zMNqv0U+sWX1Sj4/UzHKTY2bDFIaAPnXOKupy1NN5BEDKsWiGjf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es+E5cJM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ARNvnbtFg6UOIgz6wbOedm+dLK88Qt0wnNw8cuC+T+6+Ar4E8bjt9s275CumS9GM3lUpmCNLdLfmnMOm7SloLCahSZGYZIqQZPzHHhYRNvkXkXjZUpuy/xdXPLCrxQGKXYweW8chQLgphBxCiS3VksSDzZJsew+xMkLIlBATUqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQhnJnmr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es+E5cJM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10060C19421;
-	Tue, 17 Feb 2026 19:24:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQhnJnmr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB3CC4CEF7;
+	Tue, 17 Feb 2026 19:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771356280;
-	bh=8ghGAV5BxOgH283VZgsGWAPOfml4IsqZmeuT3P3pPGA=;
+	s=k20201202; t=1771356284;
+	bh=UBdePPv19uaL81ASanxtUzA/Qh7h0X8+eypdZNRQKxY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Es+E5cJMKEEF4PKdnglxC2Ff4C0FRKZFDscrE0pViTuy906rPTZnA14vh2HC81t9R
-	 ZupJNpBXy2z/edWWB7Ip/K+uYy0SbN0CyRSlk6RkZjdDVIKcK8lkojssz6pX2aDUqd
-	 jE8n0GK0z86tGuOVDm1ng7tKk0n/9nHltF9/komb7TH94+DEpqngi4c2TXWO2KMe0b
-	 3DRiSCLAGMH+bgyc95Zrf8J2/fshfMhUS19aWE3j6SznxG7U5Cflql6xIDQjRbCUJe
-	 XYbjrwS2ky99Qnk70Y0Bn9Ozztf0hDqSh0JuE2z9zGwrH7ogByNvGB9ax7B2LziN1b
-	 nxCOBesE7aISA==
+	b=uQhnJnmrSJtJy9aCZlD96gakRwyp06O7fm39QS/5A/vGVQnv/fHdSFOHOQA2BfHd3
+	 L1K4V/pzqAH0kt7hpB4QIuZlHj8yUeTX3qsHZca3UKFN9T8vlSuUAFfjRACNTbEN3O
+	 yP3ESHuRlKG76ApVYycPOgdOafsZBMeWE+iXHAFkglrh7vrmdzNExKBtTu4RUOzFm7
+	 T06/KeQGeLzqHxZXN6ioyUSAoRkYPtHiOkSdd2LhaCegnEC548B7nbajX0lwZnxn9g
+	 Zq+VvyZuwvpSDjV50xHr5rFcOknPCxUNktqsewhfLaQPO3n2PclraJ+sjZ0801hBQl
+	 ra6xoR+RAVVVA==
 From: Mark Brown <broonie@kernel.org>
-To: biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20260213172434.3801015-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20260213172434.3801015-1-claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Fix playback and capture
-Message-Id: <177135627881.310944.2441265883960352070.b4-ty@kernel.org>
-Date: Tue, 17 Feb 2026 19:24:38 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Weidong Wang <wangweidong.a@awinic.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Ferrieux <alexandre.ferrieux@orange.com>, 
+ Bhushan Shah <bhushan.shah@machinesoul.in>, 
+ Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
+ Luca Weiss <luca.weiss@fairphone.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+In-Reply-To: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
+References: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
+Subject: Re: (subset) [PATCH 0/3] Bitmask logic fix and firmware-name
+ support for AW88261 amplifier driver
+Message-Id: <177135628111.310944.13830467532641718835.b4-ty@kernel.org>
+Date: Tue, 17 Feb 2026 19:24:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +54,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 13 Feb 2026 19:24:34 +0200, Claudiu wrote:
-> In the current codebase the rz_ssi_stream_get() is called at the beginning
-> of rz_ssi_dai_trigger() before rz_ssi_stream_init() is called.
-> Since rz_ssi_stream_init() sets the ssi->{playback, capture}->substream,
-> relying on it in rz_ssi_stream_get() is incorrect. Fix this by checking
-> substream->stream instead as the original code did.
+On Wed, 11 Feb 2026 11:27:31 +0100, Luca Weiss wrote:
+> First a patch which fixes a logic error in the aw88261 driver. And then
+> we add "firmware-name" support for that driver to support loading
+> the device-specific firmware properly.
 > 
 > 
-> [...]
 
 Applied to
 
@@ -64,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: renesas: rz-ssi: Fix playback and capture
-      commit: 82e3265487c018814b789e251fb8aee8e683674c
+[1/3] ASoC: codecs: aw88261: Fix erroneous bitmask logic in Awinic init
+      commit: b82fa9b0c26eeb2fde6017f7de2c3c544484efef
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
