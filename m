@@ -1,74 +1,75 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729C42D0602
-	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 10:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F5C2D47EF
+	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 10:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771323730; cv=none; b=f68JFMkxNTF0XNHohab3htx2DF+4sEDeVViWtNHozOV2lWG7RTMslfOMaZwgoao8d/ryYFTV9jLOaluuSBkbGvtuwIXFrWLZwI4JUzWqVk+uZfQSYFknRikreGvnbWt5PEGdOhOXFQXrKtOCVNyRPVwkoGGQkbj0jMbro1ZCEWk=
+	t=1771325075; cv=none; b=dbarGiaTnswd7b83WUsMmgTrSrYgUZQr7yKaE8tG3xd218MMjSBM3BaBRJLErP6kz/gpd7BaxM/jUiXySiobvL65Dv0+mqMy7DA86UpOXi7p1s5hwH5SuJYDJmfHnkNiSQ9WSBUfwGs09geO/ZbI49Vu4YpJhxHu2F6vUW7saU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771323730; c=relaxed/simple;
-	bh=6VZzx/kL2dvPzaEFaWwQ+R5XdhqPH3Ktk4NegYuQiDc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rQXMxLbAUUZV5HL6WwBtIb0Ggjz1DVMZeOEAkPoYxOcnVyRi57xCihxHkR1JP6Nb2ja6IK76G6Qg3154zMDk9ifO2DcypiMbrhWnsZUdACi4QCJhkQYUReL/nhdR0ZL5G0rRi/N9irX+NRK9U2rj7eXPEi1BdSZCA+4ySKdBBUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fmFRUrnZ; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771325075; c=relaxed/simple;
+	bh=JyydnjPwejq3PlYWyEqMnZK8U9ZgZLberX4/b6HSYi0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lz9ylttthn/yzDVtRBF//B8tazNLRXZ4T9fOI5OTmrF72MClB4oJklDN3vKvfFZPjkQ5z6p7HkB+Ef0ECu9yIfFCixJTQkkEyucQGtSEIWkvf7UwtFalTtV1u07OBuJohy3S4ejuvus4fDum4xGYzuFmpYAOLRsunmtiOxLnz6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vYpya3vw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CcJQ2OtZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vYpya3vw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CcJQ2OtZ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fmFRUrnZ"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c6e248aa446so1612896a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 02:22:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771323729; x=1771928529; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=odpiWOWJ49Gr7MKWlkFU3XEsAbytu1q3J5WtSm8EifE=;
-        b=fmFRUrnZ/R74NPuwsMMDJhb6d/4NvQJ5sAe+QVoCz3ygnw9bCNUHHSnJxNtXSgQk/w
-         XvNNWakoFdMauncEwNYmH9MyqpSLU5RFr9dvC6MwN3wNx2liki4VclAZ6vEf0KgsJLpI
-         C3G3eu8DAUDUKcvcHP9l0tk/5DRo5H8IqT0hopFBDelxYZ/pfOiksrJACGP1o74VeVpp
-         XZ5VlWw++xNHjiXp5jOvYc2y4PJ4kpZx9ATNTMxv3fN3J6gsvWx9eweQzKAsBtQt9xJ1
-         NcQnXJ30NaPZqmqJD2dexwyeJbrNhsPIVcqvpAp+ftxGOM1IXS63brLEYuSYVCinKLOX
-         nLYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771323729; x=1771928529;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=odpiWOWJ49Gr7MKWlkFU3XEsAbytu1q3J5WtSm8EifE=;
-        b=D+ztqtps+usMilqbjaKv6PFs0X5mzHcz3tBZcDMukSfIUm8bTngd16Z+0mmJCVO9ue
-         6GH6ETcUSCcMHOfgojbeVJwwCzK4klqta1TnedGAtit4qNQ47CMoqEOcWIFtB8KArfbP
-         3JG7fYQx4wPCpp8DLOxPAiaHuG4iWr4cs0FxhAsr14OJPJaEywClg6uZFjki7OXGpa09
-         HtDEmhkpk9Xn4F+S7/E4D0E5m3gcuA413C8nEOr0KeHPf+55i5P2fd2zUG996FHKPJeO
-         KAfGJjo0EW7FeCxCAg4g1KZUEgoFIKnXRcFDHQln8o2IlYGg6za/MxKtXl9L7aDJWeBf
-         cdeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUcEsqzJFEEb11G7yyOBpy1rvz8JmwDJXx0lbxVyaXaJVC5LZ0MnkqK1ZCRJ6aCPGE0HpivXlU+9PoBIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUZvUNiyCO4TX8ltELMZVOqyLAJMhEn3WFLIl+swiy0iJslZZl
-	ZCjNYbfY4XmB+Y345qX/om1jjIBWphB5jAVFoDc+E0MTQZDnBzZjvY3k
-X-Gm-Gg: AZuq6aI/7SCrGY8/1KMp2QvQ277DO7rzIzRHo1Oq5N5nBngYcacVLROT7JZI7dyRAUG
-	Kj9yl9QqHS6+Ez8+8xBlvE/depq8HRf2RNby5myeCwnW8hKZryShXrKpKWlK5NOs1z3pmyJJiSB
-	q/uMYYqruHLuPVMjHw4SMNhhN6Xb6EodjTqZO43zVZaA8Odj7LpvRcQeL7vq4Tp0jLhCgHTXX2S
-	TqNAk8lxWrABIqNeR2XXJ1M+qF5vItHE4qjiei/dYz7eFh8w7aMli30LNfWGDqbJWatKZeuLmlN
-	sIfDfeE+BAW1kj+BCknzCw/UxREErqM1iZrVq8tfaGfdxtZAom9cjN+J7v0PmpwJEzDerv93NyD
-	SYMMP5oUViDahhlI4Lmg/sAUmf4Nm7ZXpBbTYCbQa9da3BFliyYbeuv9Rib7v5cuPddwIgk3yFQ
-	QNXn0V7ypcEotSbjuz
-X-Received: by 2002:a17:90b:1a86:b0:354:9b26:cdfc with SMTP id 98e67ed59e1d1-356aabe68e1mr11547802a91.11.1771323728786;
-        Tue, 17 Feb 2026 02:22:08 -0800 (PST)
-Received: from amarui ([103.216.223.41])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35662fac3c1sm22317999a91.17.2026.02.17.02.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 02:22:08 -0800 (PST)
-From: Erik Sanjaya <sirreidlos@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	chris.chiu@canonical.com,
-	Erik Sanjaya <sirreidlos@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on ASUS Zenbook 14 UX3405MA
-Date: Tue, 17 Feb 2026 17:21:12 +0700
-Message-ID: <20260217102112.20651-1-sirreidlos@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vYpya3vw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CcJQ2OtZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vYpya3vw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CcJQ2OtZ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 300FA5BF75;
+	Tue, 17 Feb 2026 10:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771325072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
+	b=vYpya3vwjtazfz4Fv8gwKxMSbKNyMQ8unoanY54CpnCBhRFO28jh2opz9GFmbWBvHdgGxb
+	l7IuoStpPN4dgWwntsy6DI7UcC/0nvPqLS3WiTOxb8+TEeBL6lfuw9WcEJsLfS7ADT9tX1
+	w4ovn7JIdUdbeMezGiTgePStwEzQqNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771325072;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
+	b=CcJQ2OtZ8de6ydTVaI2PK5VxzSdm5D9i9NKaYA717YVXNM8s2QEuBldncvBrLz6jz5nZF+
+	ieu3aOl/KT6r+7Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771325072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
+	b=vYpya3vwjtazfz4Fv8gwKxMSbKNyMQ8unoanY54CpnCBhRFO28jh2opz9GFmbWBvHdgGxb
+	l7IuoStpPN4dgWwntsy6DI7UcC/0nvPqLS3WiTOxb8+TEeBL6lfuw9WcEJsLfS7ADT9tX1
+	w4ovn7JIdUdbeMezGiTgePStwEzQqNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771325072;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=i19bYgI1n3ltfaW7THjCEFpJpwUTx6Byjw6obEADo9w=;
+	b=CcJQ2OtZ8de6ydTVaI2PK5VxzSdm5D9i9NKaYA717YVXNM8s2QEuBldncvBrLz6jz5nZF+
+	ieu3aOl/KT6r+7Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 127A23EA65;
+	Tue, 17 Feb 2026 10:44:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id v40NA5BGlGnccQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 17 Feb 2026 10:44:32 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/conexant: Fix headphone jack handling on Acer Swift SF314
+Date: Tue, 17 Feb 2026 11:44:11 +0100
+Message-ID: <20260217104414.62911-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,61 +77,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-The ASUS Zenbook 14 UX3405MA uses an ALC294 codec with CS35L41
-amplifiers over SPI. The existing quirk for this model only configured
-the amplifiers, leaving the headset microphone on the combo jack
-non-functional.
+Acer Swift SF314 (SSID 1025:136d) needs a bit of tweaks of the pin
+configurations for NID 0x16 and 0x19 to make the headphone / headset
+jack working.  NID 0x17 can remain as is for the working speaker, and
+the built-in mic is supported via SOF.
 
-Introduce a new fixup that configures pin 0x19 as headset mic input
-and chains to ALC245_FIXUP_CS35L41_SPI_2 to preserve speaker
-functionality.
-
-Similar to the fix done for the UM3406HA in commit 018f659753fd
-("ALSA: hda/realtek: Fix headset mic on ASUS Zenbook 14").
-
-Signed-off-by: Erik Sanjaya <sirreidlos@gmail.com>
+Cc: <stable@vger.kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221086
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/realtek/alc269.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ sound/hda/codecs/conexant.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 80f0be13b69f..7b05d24f8253 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3886,6 +3886,7 @@ enum {
- 	ALC294_FIXUP_ASUS_MIC,
- 	ALC294_FIXUP_ASUS_HEADSET_MIC,
- 	ALC294_FIXUP_ASUS_I2C_HEADSET_MIC,
-+	ALC294_FIXUP_ASUS_SPI_HEADSET_MIC,
- 	ALC294_FIXUP_ASUS_SPK,
- 	ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
- 	ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE,
-@@ -5236,6 +5237,15 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC287_FIXUP_CS35L41_I2C_2
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 5623d8c0a0f7..f71123a47546 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -299,6 +299,7 @@ enum {
+ 	CXT_PINCFG_SWS_JS201D,
+ 	CXT_PINCFG_TOP_SPEAKER,
+ 	CXT_FIXUP_HP_A_U,
++	CXT_FIXUP_ACER_SWIFT_HP,
+ };
+ 
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -1024,6 +1025,14 @@ static const struct hda_fixup cxt_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cxt_fixup_hp_a_u,
  	},
-+	[ALC294_FIXUP_ASUS_SPI_HEADSET_MIC] = {
++	[CXT_FIXUP_ACER_SWIFT_HP] = {
 +		.type = HDA_FIXUP_PINS,
 +		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x04a11020 }, /* use as headset mic */
++			{ 0x16, 0x0321403f }, /* Headphone */
++			{ 0x19, 0x40f001f0 }, /* Mic */
 +			{ }
 +		},
-+		.chained = true,
-+		.chain_id = ALC245_FIXUP_CS35L41_SPI_2
 +	},
- 	[ALC294_FIXUP_ASUS_SPK] = {
- 		.type = HDA_FIXUP_VERBS,
- 		.v.verbs = (const struct hda_verb[]) {
-@@ -7189,7 +7199,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x19ce, "ASUS B9450FA", ALC294_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x19e1, "ASUS UX581LV", ALC295_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1a13, "Asus G73Jw", ALC269_FIXUP_ASUS_G73JW),
--	SND_PCI_QUIRK(0x1043, 0x1a63, "ASUS UX3405MA", ALC245_FIXUP_CS35L41_SPI_2),
-+	SND_PCI_QUIRK(0x1043, 0x1a63, "ASUS UX3405MA", ALC294_FIXUP_ASUS_SPI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC294_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1a8e, "ASUS G712LWS", ALC294_FIXUP_LENOVO_MIC_LOCATION),
- 	SND_PCI_QUIRK(0x1043, 0x1a8f, "ASUS UX582ZS", ALC245_FIXUP_CS35L41_SPI_2),
+ };
+ 
+ static const struct hda_quirk cxt5045_fixups[] = {
+@@ -1073,6 +1082,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x0543, "Acer Aspire One 522", CXT_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x054c, "Acer Aspire 3830TG", CXT_FIXUP_ASPIRE_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x054f, "Acer Aspire 4830T", CXT_FIXUP_ASPIRE_DMIC),
++	SND_PCI_QUIRK(0x1025, 0x136d, "Acer Swift SF314", CXT_FIXUP_ACER_SWIFT_HP),
+ 	SND_PCI_QUIRK(0x103c, 0x8079, "HP EliteBook 840 G3", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x807C, "HP EliteBook 820 G3", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x80FD, "HP ProBook 640 G2", CXT_FIXUP_HP_DOCK),
 -- 
-2.52.0
+2.53.0
 
