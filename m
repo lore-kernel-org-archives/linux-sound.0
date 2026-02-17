@@ -1,295 +1,321 @@
-Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18442F5491;
-	Tue, 17 Feb 2026 21:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.232.15.166
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771365025; cv=none; b=p1DDOnxz0VoPYHdW/vQ60rXTDYDywWzLqrQjYq4UbiFsbhvZzpLTuFQcohDZUr2TqRZ7hHTQyzBVuHqxLdg/1OnrvSpY3JBElwPvRM5x1zC7H/Wp80Gc/gWVc8zM/pFzzGGzT8t6RGmVxC3PH9ob8e7vYfHnT4myBttZCYbiGJM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771365025; c=relaxed/simple;
-	bh=IvLGdKHknhdImuhZEbfhcJmJMumZv0f1ocpoQLGbqGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X3d7dqsphR1Ys6pguRjqBImZo5JmAKmB4kT9N7Z3woQRElt9GSBQFS7pKOPRSPDL+NssnOo15/xsU/ychim86SQzIGVyWI0zWaheo6AQJZ54ZDZtc1czVOz26XBRBUkqH33vFFEn6XZMxffivu2GsVmwSgBPHt6xGQFVgwESXnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; arc=none smtp.client-ip=172.232.15.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
-From: Cole Leavitt <cole@unwrap.rs>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Cole Leavitt <cole@unwrap.rs>
-Subject: [PATCH v2] ASoC: SOF: Replace IPC TX busy deferral with bounded retry
-Date: Tue, 17 Feb 2026 14:49:45 -0700
-Message-ID: <20260217214945.6493-1-cole@unwrap.rs>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <6dfb6f6a-3729-4fd0-9ddd-690728ef94f8@linux.intel.com>
-References: <6dfb6f6a-3729-4fd0-9ddd-690728ef94f8@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E453307492
+	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 22:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771366468; cv=pass; b=YDIf6//35KD00FeeiLRJwkMWRtxf6ZuxQsm6aK/2yHlnDsiozGrS3CR8qY/FvlQ1HVtLteDVHONtgsIJcePB1Ji5YWQR3NwA6/f8CzE8R/sZocHF4vxzKgCvhc5w24TuW52E67KxcTF80Icm6BBN4r4r0vejGvAmduBlc6OwFwI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771366468; c=relaxed/simple;
+	bh=S+VUFCu6rlLqwWm0NnnC2mnkLSyVV8nguqsug+kWh3U=;
+	h=MIME-Version:from:Date:Message-ID:Subject:To:Cc:Content-Type; b=SV3pz8E23Hxdr/Kj+on4mCnVerfJyod4MxYKCdU0jYsS+ZUQpHJDSG3rq1c7gGYvFgb++OItOUIthyQOYLubcglZQ/IA0vDkK2qVvVo+lEOYvpfiTBG576ZbPDMuyUigfqdVA5AmW9kciaOqXiMCWWcACN13X30rtwzirt3pS3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b=NkYMZ9gb; arc=pass smtp.client-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b="NkYMZ9gb"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-649df393c04so4207007d50.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 14:14:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771366465; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JTDJa6YHBsCrh2nMIscUOxJZkVGC9nXZ9foRs6A7nRr7FOsSsfeO1m54jcCWiw7MUl
+         nsaO4VOUF8IhN3dntnC7ohe9FPfX5r/leO/Tr+4Q08ah+Sw+GaXjugSKyUYbSXwviuqz
+         PdZt9BMBiQ2lD8gsihSzXDCCKgQqS/jg9+tS10+z+90lJmNa5KzEmFeQXknMmcupkTIZ
+         MMxmjs+5jv2svbd73+z5Zb9XCK5+s6u8IhfnjDeNQSKEWdkrMhrDX/m2PHJzaXpYcNlq
+         Feo//b9wSr5mWkmCpSHHhiWLUTdGUOa9rNhqGsjr1NBjaIr0VIvoWvTMQaFMGQufKy/h
+         wszw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=N/Rid5NqxxgBRg/S4kEAGGXjmMFCG2xtP2qbUOz07gY=;
+        fh=JrsW5q6BAbaxshaJQM57sz97idGhGD/4Xpj+7yoKctE=;
+        b=MSbyfl5k3Lzu/ygbptwfq+oKxbgPc1UqasDLARCNE/z0VH1pXeAlKaW2V+jBwFY/ow
+         +dR4c2WlY53mFNDahhCmA6ROITktpgfF0+1u49ikyj9h4LtWIHGqWuZjDSLtTEY3zkCp
+         sjmdjyNH6zI6wFnws5bCnzWmvcI15kWK6kIbXgz2jwauMS+twujxolPDYLYalvk36Eug
+         NCkEN7pEMivIO5Bg9lF97o4NSL6kB9GkQIvAVoS9q4OAcNs3Wr7rjGmFt9S6RIicZ/WP
+         4YEwcprTZ5OXc0iKQUM9GVyRZasNhs6exyK57R296oG2V5jnMTr5NzaGOLDYjg5PCsTT
+         XeIQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=starlabs-systems.20230601.gappssmtp.com; s=20230601; t=1771366465; x=1771971265; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=N/Rid5NqxxgBRg/S4kEAGGXjmMFCG2xtP2qbUOz07gY=;
+        b=NkYMZ9gbucMnmBi4Y5d8YV7ytw+4FSjfndM0IklwIcJLHqxsCn+uaM6/3O80Sua+lC
+         ujcCT9lcYHXGCE1fbJKpXvXVfJ8KI63bDFb1P5kk16J4Z9dCs7mS99KoF4KU1xp1qFgh
+         S5cn57OFzEGhyMrHt0U6CJL2AzxSJU3Q+RaNpnGGCi8wx+aZMuJXmEFteQ/Z3w7Xq3pc
+         iewbjaIUqNqb7c2eyM2Bk4v0W3eIefZ6NHzVy7Iig0kAyJg9yQb6iUXQ5FZeUNT6bxwZ
+         qsL1PViUnX794YKPMHzqerrtCFTHMVs4UEkhe+i4ka0fVkb5VzYt2gwOCJXUHCMMeDsZ
+         py4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771366465; x=1771971265;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N/Rid5NqxxgBRg/S4kEAGGXjmMFCG2xtP2qbUOz07gY=;
+        b=cvrEB/3V2OTWmSo7B2ZY4Pwpr4/TBZByXhnI4NuGlag9dw96k4CEwkaEBmHN1f3dVP
+         EE4W+3dZNv8yxNR5+lN7vCeGRb7AoP/s+LvxqrHMzkvKWEHG5Bb/gINwM8zAWWLYcQzQ
+         WgOGy2C77TeosYQTPhlHAfRxW2T97ILRnLNRmiQohIrKdvA2hmmdYnvPLvUbTDtbhPLc
+         9oKQICMql0mD/uCaa/UvcFvNmltceZjIEHrC00NlwM2eD29YNE1MFw783tLUk3azIBo0
+         wILX3XjkgXbZpJpPoYDJC4xNL+UmO6ToXqdT64JIDf4eylP28PB7hoOCvqOmPVagmGr1
+         Fv/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWwV9Hk1zOj0FiPCrtc/aumUhRWdvxljZzUI9Mk29vxldCNwYqAjQeiFTIQ+udRhDFnOKaeofp3zkCLNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0mUqxiJniik8s+hO+XELrmyeMdgUHnyBBRB48bJEQauPhI57g
+	XrVbVb1VOh3L3R2RtMAY5jzpKUOYS6zCawKSWTH/vsjdeyczxJdLKFkNpDOakYsdChmBoEgjZyK
+	WIQfBdqVjlcI6iqQgTBirJ9hLOMRxtZFKx/hWPm70
+X-Gm-Gg: AZuq6aKTRFGI3mHh1rfDhab2+zSmEmIFHJgynXfNvRf/To8mDv0oXD//h4R9M8BPP3i
+	QkQMrjO5PlRSLhWPjTpNc4OtQz7Gi1gWHos6hlP0XtLee+/Mkf8CIFdys1cN9n1p/7UEgxOt/VS
+	6chbttp1WLlVjNg4WvdK+siW4F+hxrOCySJvfgITyt/Po3WSOEL01nuwGvWxrY/eChw0Zu9zurN
+	zvUME71JkZBwr/TPDP4Ab6qlIOuYwWmN437Y3VUOVq1pp7Pr4LMPY3LoJkZUY3YEFu1O0gA0nXO
+	LmCO3L4rBe9hs7HLc2vw5NEcI82vH/ScPr+ofA==
+X-Received: by 2002:a05:690e:150c:b0:649:ae49:f58b with SMTP id
+ 956f58d0204a3-64c198c7ac6mr11065944d50.25.1771366464775; Tue, 17 Feb 2026
+ 14:14:24 -0800 (PST)
+Received: from 239600423368 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 17 Feb 2026 14:14:24 -0800
+Received: from 239600423368 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 17 Feb 2026 14:14:24 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+from: Sean Rhodes <sean@starlabs.systems>
+Date: Tue, 17 Feb 2026 14:14:24 -0800
+X-Gm-Features: AaiRm50vV7ROzbwZCEB0gZP6KUbFwGf7XDciOrThMx_hJAknP5Fvs0PUmNClGh4
+Message-ID: <CABtds-0aHEfz3=i=q_4bNHwfEg1aCFD4=1Js6hZ=FWpB9c8onw@mail.gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
+To: linux-kernel@vger.kernel.org
+Cc: tiwai@suse.com, chris.chiu@canonical.com, edip@medip.dev, 
+	kailang@realtek.com, linux-sound@vger.kernel.org, perex@perex.cz, 
+	david.henningsson@canonical.com, sbinding@opensource.cirrus.com
+Content-Type: text/plain; charset="UTF-8"
 
-The SOF IPC4 platform send_msg functions (hda_dsp_ipc4_send_msg,
-mtl_ipc_send_msg, cnl_ipc4_send_msg) previously stored the message in
-delayed_ipc_tx_msg and returned 0 when the TX register was busy. The
-deferred message was supposed to be dispatched from the IRQ handler
-when the DSP acknowledged the previous message.
+From 278f2646b0942aa2c57f2da1839b6e18adb38ed9 Mon Sep 17 00:00:00 2001
+From: Sean Rhodes <sean@starlabs.systems>
+Date: Tue, 17 Feb 2026 11:53:41 +0000
+Subject: [PATCH] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+    sbinding@opensource.cirrus.com,
+    kailang@realtek.com,
+    chris.chiu@canonical.com,
+    edip@medip.dev,
+    david.henningsson@canonical.com,
+    linux-sound@vger.kernel.org,
+    linux-kernel@vger.kernel.org
 
-This mechanism silently drops messages during D0i3 power transitions
-because the IRQ handler never fires while the DSP is in a low-power
-state. The caller then hangs in wait_event_timeout() for up to 500ms
-per IPC chunk, causing multi-second audio stalls under CPU load.
+On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
+emit an audible pop when resuming from runtime suspend.
 
-Fix this by making the platform send_msg functions return -EBUSY
-immediately when the TX register is busy (safe since they execute
-under spin_lock_irq in sof_ipc_send_msg), and adding a bounded retry
-loop with usleep_range() in ipc4_tx_msg_unlocked() which only holds
-the tx_mutex (a sleepable context). The retry loop attempts up to 50
-iterations with 100-200us delays, bounding the maximum busy-wait to
-approximately 10ms instead of the previous 500ms timeout.
+The speaker amplifier is controlled via EAPD. The generic Realtek shutup
+path can toggle EAPD/pin widget control while the amp is still unmuted,
+causing the pop.
 
-Also remove the now-dead delayed_ipc_tx_msg field from
-sof_intel_hda_dev, the dispatch code, and the ack_received tracking
-variable from all three IRQ thread handlers (hda_dsp_ipc4_irq_thread,
-mtl_ipc_irq_thread, cnl_ipc4_irq_thread).
+Mute the speaker output before toggling EAPD on suspend/resume and restore
+the previous mute state after resume. Also toggle EAPD for the auxiliary
+pin (0x14) so runtime PM can fully power down the codec instead of being
+held in D0.
 
-Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+On this machine the internal speaker pin is exposed as a line-out pin with
+type speaker, so use the line-out pin as the target for mute/EAPD when
+no dedicated speaker pin is present.
+
+Test results: fixes the runtime PM suspend/resume speaker pop. Pops that can
+occur on cold boot (G3 exit) and around display manager start/shutdown are not
+addressed.
+
+Tested-by: Sean Rhodes <sean@starlabs.systems>
+Signed-off-by: Sean Rhodes <sean@starlabs.systems>
 ---
-Changes in v2:
-  - Removed __func__ from debug prints (dyndbg adds it automatically)
-  - Added dev_dbg() when message sending is delayed due to EBUSY
-  - Dropped patch 2/2 (dai_link_hw_ready) per Pierre's feedback
+ sound/hda/codecs/realtek/alc269.c  | 127 +++++++++++++++++++++++++++++
+ sound/hda/codecs/realtek/realtek.h |   2 +
+ 2 files changed, 129 insertions(+)
 
- sound/soc/sof/intel/cnl.c     | 17 ++---------------
- sound/soc/sof/intel/hda-ipc.c | 17 ++---------------
- sound/soc/sof/intel/hda.h     |  8 --------
- sound/soc/sof/intel/mtl.c     | 17 ++---------------
- sound/soc/sof/ipc4.c          | 20 ++++++++++++++++++--
- 5 files changed, 24 insertions(+), 55 deletions(-)
+diff --git a/sound/hda/codecs/realtek/alc269.c
+b/sound/hda/codecs/realtek/alc269.c
+index b66965a52107..4fec84b1bf5c 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -1017,6 +1017,126 @@ static int alc269_resume(struct hda_codec *codec)
+ 	return 0;
+ }
 
-diff --git a/sound/soc/sof/intel/cnl.c b/sound/soc/sof/intel/cnl.c
-index 0cc5725515e7..a2c6c7894a0f 100644
---- a/sound/soc/sof/intel/cnl.c
-+++ b/sound/soc/sof/intel/cnl.c
-@@ -37,7 +37,6 @@ irqreturn_t cnl_ipc4_irq_thread(int irq, void *context)
- {
- 	struct sof_ipc4_msg notification_data = {{ 0 }};
- 	struct snd_sof_dev *sdev = context;
--	bool ack_received = false;
- 	bool ipc_irq = false;
- 	u32 hipcida, hipctdr;
- 
-@@ -51,7 +50,6 @@ irqreturn_t cnl_ipc4_irq_thread(int irq, void *context)
- 		cnl_ipc_dsp_done(sdev);
- 
- 		ipc_irq = true;
--		ack_received = true;
- 	}
- 
- 	if (hipctdr & CNL_DSP_REG_HIPCTDR_BUSY) {
-@@ -101,13 +99,6 @@ irqreturn_t cnl_ipc4_irq_thread(int irq, void *context)
- 		/* This interrupt is not shared so no need to return IRQ_NONE. */
- 		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
- 
--	if (ack_received) {
--		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
--
--		if (hdev->delayed_ipc_tx_msg)
--			cnl_ipc4_send_msg(sdev, hdev->delayed_ipc_tx_msg);
--	}
--
- 	return IRQ_HANDLED;
- }
- EXPORT_SYMBOL_NS(cnl_ipc4_irq_thread, "SND_SOC_SOF_INTEL_CNL");
-@@ -266,12 +257,8 @@ int cnl_ipc4_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
- 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
- 	struct sof_ipc4_msg *msg_data = msg->msg_data;
- 
--	if (hda_ipc4_tx_is_busy(sdev)) {
--		hdev->delayed_ipc_tx_msg = msg;
--		return 0;
--	}
--
--	hdev->delayed_ipc_tx_msg = NULL;
-+	if (hda_ipc4_tx_is_busy(sdev))
-+		return -EBUSY;
- 
- 	/* send the message via mailbox */
- 	if (msg_data->data_size)
-diff --git a/sound/soc/sof/intel/hda-ipc.c b/sound/soc/sof/intel/hda-ipc.c
-index 94425c510861..78449452041c 100644
---- a/sound/soc/sof/intel/hda-ipc.c
-+++ b/sound/soc/sof/intel/hda-ipc.c
-@@ -106,12 +106,8 @@ int hda_dsp_ipc4_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
- 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
- 	struct sof_ipc4_msg *msg_data = msg->msg_data;
- 
--	if (hda_ipc4_tx_is_busy(sdev)) {
--		hdev->delayed_ipc_tx_msg = msg;
--		return 0;
--	}
--
--	hdev->delayed_ipc_tx_msg = NULL;
-+	if (hda_ipc4_tx_is_busy(sdev))
-+		return -EBUSY;
- 
- 	/* send the message via mailbox */
- 	if (msg_data->data_size)
-@@ -168,7 +164,6 @@ irqreturn_t hda_dsp_ipc4_irq_thread(int irq, void *context)
- {
- 	struct sof_ipc4_msg notification_data = {{ 0 }};
- 	struct snd_sof_dev *sdev = context;
--	bool ack_received = false;
- 	bool ipc_irq = false;
- 	u32 hipcie, hipct;
- 
-@@ -182,7 +177,6 @@ irqreturn_t hda_dsp_ipc4_irq_thread(int irq, void *context)
- 		hda_dsp_ipc_dsp_done(sdev);
- 
- 		ipc_irq = true;
--		ack_received = true;
- 	}
- 
- 	if (hipct & HDA_DSP_REG_HIPCT_BUSY) {
-@@ -236,13 +230,6 @@ irqreturn_t hda_dsp_ipc4_irq_thread(int irq, void *context)
- 		/* This interrupt is not shared so no need to return IRQ_NONE. */
- 		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
- 
--	if (ack_received) {
--		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
--
--		if (hdev->delayed_ipc_tx_msg)
--			hda_dsp_ipc4_send_msg(sdev, hdev->delayed_ipc_tx_msg);
--	}
--
- 	return IRQ_HANDLED;
- }
- EXPORT_SYMBOL_NS(hda_dsp_ipc4_irq_thread, "SND_SOC_SOF_INTEL_HDA_COMMON");
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index 562fe8be79c1..ac9f76a5ef97 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -549,14 +549,6 @@ struct sof_intel_hda_dev {
- 
- 	/* work queue for mic privacy state change notification sending */
- 	struct sof_ace3_mic_privacy mic_privacy;
--
--	/*
--	 * Pointing to the IPC message if immediate sending was not possible
--	 * because the downlink communication channel was BUSY at the time.
--	 * The message will be re-tried when the channel becomes free (the ACK
--	 * is received from the DSP for the previous message)
--	 */
--	struct snd_sof_ipc_msg *delayed_ipc_tx_msg;
- };
- 
- static inline struct hdac_bus *sof_to_bus(struct snd_sof_dev *s)
-diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
-index 095dcf1a18e4..24dec128f589 100644
---- a/sound/soc/sof/intel/mtl.c
-+++ b/sound/soc/sof/intel/mtl.c
-@@ -101,12 +101,8 @@ static int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *ms
- 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
- 	struct sof_ipc4_msg *msg_data = msg->msg_data;
- 
--	if (hda_ipc4_tx_is_busy(sdev)) {
--		hdev->delayed_ipc_tx_msg = msg;
--		return 0;
--	}
--
--	hdev->delayed_ipc_tx_msg = NULL;
-+	if (hda_ipc4_tx_is_busy(sdev))
-+		return -EBUSY;
- 
- 	/* send the message via mailbox */
- 	if (msg_data->data_size)
-@@ -559,7 +555,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
- {
- 	struct sof_ipc4_msg notification_data = {{ 0 }};
- 	struct snd_sof_dev *sdev = context;
--	bool ack_received = false;
- 	bool ipc_irq = false;
- 	u32 hipcida;
- 	u32 hipctdr;
-@@ -576,7 +571,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
- 		mtl_ipc_dsp_done(sdev);
- 
- 		ipc_irq = true;
--		ack_received = true;
- 	}
- 
- 	if (hipctdr & MTL_DSP_REG_HFIPCXTDR_BUSY) {
-@@ -628,13 +622,6 @@ static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
- 		dev_dbg_ratelimited(sdev->dev, "nothing to do in IPC IRQ thread\n");
- 	}
- 
--	if (ack_received) {
--		struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
--
--		if (hdev->delayed_ipc_tx_msg)
--			mtl_ipc_send_msg(sdev, hdev->delayed_ipc_tx_msg);
--	}
--
- 	return IRQ_HANDLED;
- }
- 
-diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
-index a4a090e6724a..ad99e2e07b66 100644
---- a/sound/soc/sof/ipc4.c
-+++ b/sound/soc/sof/ipc4.c
-@@ -365,20 +365,36 @@ static int ipc4_wait_tx_done(struct snd_sof_ipc *ipc, void *reply_data)
- 	return ret;
- }
- 
-+#define SOF_IPC4_TX_BUSY_RETRIES	50
-+#define SOF_IPC4_TX_BUSY_DELAY_US	100
-+#define SOF_IPC4_TX_BUSY_DELAY_MAX_US	200
++#define STARLABS_STARFIGHTER_AUX_EAPD_PIN	0x14
++#define STARLABS_STARFIGHTER_EAPD_DELAY_MS	30
++#define STARLABS_STARFIGHTER_RESUME_DELAY_MS	20
 +
- static int ipc4_tx_msg_unlocked(struct snd_sof_ipc *ipc,
- 				void *msg_data, size_t msg_bytes,
- 				void *reply_data, size_t reply_bytes)
- {
- 	struct sof_ipc4_msg *ipc4_msg = msg_data;
- 	struct snd_sof_dev *sdev = ipc->sdev;
--	int ret;
-+	int ret, i;
- 
- 	if (msg_bytes > ipc->max_payload_size || reply_bytes > ipc->max_payload_size)
- 		return -EINVAL;
- 
- 	sof_ipc4_log_header(sdev->dev, "ipc tx      ", msg_data, true);
- 
--	ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
-+	for (i = 0; i < SOF_IPC4_TX_BUSY_RETRIES; i++) {
-+		ret = sof_ipc_send_msg(sdev, msg_data, msg_bytes, reply_bytes);
-+		if (ret != -EBUSY)
++static hda_nid_t starlabs_starfighter_get_spk_pin(struct hda_codec *codec)
++{
++	struct alc_spec *spec = codec->spec;
++	const struct auto_pin_cfg *cfg = &spec->gen.autocfg;
++	const hda_nid_t *pins = auto_cfg_speaker_pins(cfg);
++
++	if (auto_cfg_speaker_outs(cfg) > 0 && pins[0])
++		return pins[0];
++
++	if (cfg->line_out_type == AC_JACK_SPEAKER && cfg->line_out_pins[0])
++		return cfg->line_out_pins[0];
++
++	return 0;
++}
++
++static void starlabs_starfighter_set_mute(struct hda_codec *codec,
++					  hda_nid_t nid, bool mute)
++{
++	snd_hda_codec_amp_stereo(codec, nid, HDA_OUTPUT, 0, HDA_AMP_MUTE,
++				 mute ? HDA_AMP_MUTE : 0);
++	/* sync after issuing the verbs */
++	snd_hda_codec_amp_read(codec, nid, 0, HDA_OUTPUT, 0);
++	snd_hda_codec_amp_read(codec, nid, 1, HDA_OUTPUT, 0);
++}
++
++static void starlabs_starfighter_set_eapd(struct hda_codec *codec,
++					  hda_nid_t nid, bool enable)
++{
++	if (!(snd_hda_query_pin_caps(codec, nid) & AC_PINCAP_EAPD))
++		return;
++
++	snd_hda_codec_write(codec, nid, 0, AC_VERB_SET_EAPD_BTLENABLE,
++			    enable ? 0x02 : 0x00);
++	/* sync after issuing the verb */
++	snd_hda_codec_read(codec, nid, 0, AC_VERB_GET_EAPD_BTLENABLE, 0);
++}
++
++static void starlabs_starfighter_shutup(struct hda_codec *codec)
++{
++	struct alc_spec *spec = codec->spec;
++	hda_nid_t spk_pin = starlabs_starfighter_get_spk_pin(codec);
++	unsigned int amp_l, amp_r;
++
++	if (!spk_pin)
++		return;
++
++	amp_l = snd_hda_codec_amp_read(codec, spk_pin, 0, HDA_OUTPUT, 0);
++	amp_r = snd_hda_codec_amp_read(codec, spk_pin, 1, HDA_OUTPUT, 0);
++	spec->speaker_pop_spk_was_muted =
++		!!((amp_l & HDA_AMP_MUTE) && (amp_r & HDA_AMP_MUTE));
++	spec->speaker_pop_resume_pending = 1;
++
++	/*
++	 * Star Labs StarFighter: the internal speaker amplifier is controlled via
++	 * EAPD. Mute before toggling EAPD on suspend/resume to avoid speaker pops.
++	 */
++	starlabs_starfighter_set_mute(codec, spk_pin, true);
++	msleep(STARLABS_STARFIGHTER_EAPD_DELAY_MS);
++
++	starlabs_starfighter_set_eapd(codec, spk_pin, false);
++	if (spk_pin != STARLABS_STARFIGHTER_AUX_EAPD_PIN)
++		starlabs_starfighter_set_eapd(codec,
++					      STARLABS_STARFIGHTER_AUX_EAPD_PIN,
++					      false);
++	msleep(STARLABS_STARFIGHTER_EAPD_DELAY_MS);
++}
++
++static unsigned int starlabs_starfighter_power_filter(struct hda_codec *codec,
++						      hda_nid_t nid,
++						      unsigned int power_state)
++{
++	unsigned int state;
++
++	state = snd_hda_gen_path_power_filter(codec, nid, power_state);
++	return snd_hda_codec_eapd_power_filter(codec, nid, state);
++}
++
++static void alc233_fixup_starlabs_speaker_pop(struct hda_codec *codec,
++					      const struct hda_fixup *fix,
++					      int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
++		codec->power_save_node = 1;
++		codec->power_filter = starlabs_starfighter_power_filter;
++		spec->shutup = starlabs_starfighter_shutup;
++		break;
++	case HDA_FIXUP_ACT_INIT: {
++		hda_nid_t spk_pin;
++
++		if (!spec->speaker_pop_resume_pending)
 +			break;
-+		usleep_range(SOF_IPC4_TX_BUSY_DELAY_US,
-+			     SOF_IPC4_TX_BUSY_DELAY_MAX_US);
++
++		spec->speaker_pop_resume_pending = 0;
++		spk_pin = starlabs_starfighter_get_spk_pin(codec);
++		if (!spk_pin)
++			break;
++
++		starlabs_starfighter_set_mute(codec, spk_pin, true);
++		starlabs_starfighter_set_eapd(codec, spk_pin, true);
++		if (spk_pin != STARLABS_STARFIGHTER_AUX_EAPD_PIN)
++			starlabs_starfighter_set_eapd(codec,
++						      STARLABS_STARFIGHTER_AUX_EAPD_PIN,
++						      true);
++		msleep(STARLABS_STARFIGHTER_EAPD_DELAY_MS);
++		msleep(STARLABS_STARFIGHTER_RESUME_DELAY_MS);
++
++		if (!spec->speaker_pop_spk_was_muted)
++			starlabs_starfighter_set_mute(codec, spk_pin, false);
++		break;
 +	}
-+	if (i == SOF_IPC4_TX_BUSY_RETRIES) {
-+		dev_dbg(sdev->dev, "ipc tx failed: TX busy after %d retries\n", i);
-+	} else if (i > 0) {
-+		dev_dbg(sdev->dev, "ipc tx delayed by %d loops for %#x|%#x\n",
-+			i, ipc4_msg->primary, ipc4_msg->extension);
 +	}
- 	if (ret) {
- 		dev_err_ratelimited(sdev->dev,
- 				    "%s: ipc message send for %#x|%#x failed: %d\n",
--- 
-2.52.0
++}
++
+ static void alc269_fixup_pincfg_no_hp_to_lineout(struct hda_codec *codec,
+ 						 const struct hda_fixup *fix, int action)
+ {
+@@ -3802,6 +3922,7 @@ enum {
+ 	ALC245_FIXUP_CLEVO_NOISY_MIC,
+ 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
+ 	ALC233_FIXUP_MEDION_MTL_SPK,
++	ALC233_FIXUP_STARLABS_SPEAKER_POP,
+ 	ALC294_FIXUP_BASS_SPEAKER_15,
+ 	ALC283_FIXUP_DELL_HP_RESUME,
+ 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
+@@ -6238,6 +6359,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[ALC233_FIXUP_STARLABS_SPEAKER_POP] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc233_fixup_starlabs_speaker_pop,
++	},
+ 	[ALC294_FIXUP_BASS_SPEAKER_15] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc294_fixup_bass_speaker_15,
+@@ -7370,6 +7495,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x2782, 0x1705, "MEDION E15433", ALC269VC_FIXUP_INFINIX_Y4_MAX),
+ 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
+ 	SND_PCI_QUIRK(0x2782, 0x4900, "MEDION E15443", ALC233_FIXUP_MEDION_MTL_SPK),
++	SND_PCI_QUIRK(0x7017, 0x2014, "Star Labs StarFighter",
+ALC233_FIXUP_STARLABS_SPEAKER_POP),
+ 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+ 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged",
+ALC256_FIXUP_INTEL_NUC8_RUGGED),
+ 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
+@@ -7466,6 +7592,7 @@ static const struct hda_model_fixup
+alc269_fixup_models[] = {
+ 	{.id = ALC298_FIXUP_TPT470_DOCK_FIX, .name = "tpt470-dock-fix"},
+ 	{.id = ALC298_FIXUP_TPT470_DOCK, .name = "tpt470-dock"},
+ 	{.id = ALC233_FIXUP_LENOVO_MULTI_CODECS, .name = "dual-codecs"},
++	{.id = ALC233_FIXUP_STARLABS_SPEAKER_POP, .name = "starlabs-starfighter"},
+ 	{.id = ALC700_FIXUP_INTEL_REFERENCE, .name = "alc700-ref"},
+ 	{.id = ALC269_FIXUP_SONY_VAIO, .name = "vaio"},
+ 	{.id = ALC269_FIXUP_DELL_M101Z, .name = "dell-m101z"},
+diff --git a/sound/hda/codecs/realtek/realtek.h
+b/sound/hda/codecs/realtek/realtek.h
+index b2a919904c4c..293fc0f3373f 100644
+--- a/sound/hda/codecs/realtek/realtek.h
++++ b/sound/hda/codecs/realtek/realtek.h
+@@ -119,6 +119,8 @@ struct alc_spec {
+ 	unsigned int has_hs_key:1;
+ 	unsigned int no_internal_mic_pin:1;
+ 	unsigned int en_3kpull_low:1;
++	unsigned int speaker_pop_resume_pending:1;
++	unsigned int speaker_pop_spk_was_muted:1;
+ 	int num_speaker_amps;
 
+ 	/* for PLL fix */
+-- 
+2.51.0
