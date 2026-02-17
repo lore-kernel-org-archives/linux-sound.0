@@ -1,239 +1,190 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011043.outbound.protection.outlook.com [52.101.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEC22DE6F8
-	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 08:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771315801; cv=none; b=RfggH+sbMaPjfH9p7YgX5wydXZnq+/R2pCh/72+3fMTHE/ylb8NBbzI8LAT+dk+Oz9DoGUwpueWwxUMfl+rmAP033t/Un55lNDBT+gRw2I87mH8GwMUMCGsG08MvwqySvtQiT7h8OQLTAWV8UWZHhF0MySi4pQo+MDnlpV7JVkg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771315801; c=relaxed/simple;
-	bh=NhPetunM/1Kzy8TcfsR8rjExTqVQHjNtOpG8P43CsH4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m/g1W4y8uL7PMMSIXThoTMjuXLXLDf4mgqBUN3qN+mKgR/U3GX6hvYjWZjFVJxHq2WL7l5nxfq/IZtSZNpJmzw6v56tpKx6IuNYB0FxM8KayScb5c6bUpqJPG5ysNGnemRqGQOUM3o+hlgym6UvTJ2Tqmj4qQReugCeI8sCjMvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pn70bvU3; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0928C322A28;
+	Tue, 17 Feb 2026 10:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771322699; cv=fail; b=Onebvy8/Ar3LQpkImlW9Uzw4x31Usn3js0WkTb6STpvzE9LBX35Ei+FwVx0Mw4EXQ7WTyg9KlXOWFsCT8+yw8LDu4gAI8vOWxnoNTSXgAKnsltrJ/0AAFM27jD9po7xDTMvnt4+50+SKEp/1KD7EThWK+yU2IoutLAA6vlu2Hd4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771322699; c=relaxed/simple;
+	bh=+J63JOA+pAYYbDC32K2YDxUC+egStW8/x18M9xtx/rk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=REPYVdduE9wM8+HG8SOA2NGiLTy64tyfnwz0CNG9cG/dqmi/IJI/ILAi895TSFSM5cAg/ps6+UpHfjPrT9NqiOGmqERDVY5s3VitkPbg94N60nvXy95Uf1/IlzKFhhUPayIQgiyfTExJsTYQiXsk+EShmkkMrsX6Te4WzQdBnQ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=lJ/THRIb; arc=fail smtp.client-ip=52.101.52.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pn70bvU3"
-Message-ID: <7026f072-5ed4-4277-9cf6-a4dec0930fd5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1771315795;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=92R4qDx/QMDSVsqyvlkSDSWNIzrNNM47V+5wQrDCMXE=;
-	b=pn70bvU3HHzo9agzVe0jLjycYwN6IQ4LmUlVkspjiHPllGmrwzHl3p3M9iEd/B3/iP1KH1
-	oDkodWgmaXOn9mBkh5AqDzeXGMCMe0WmmLom0YothF7vd0SEtbCZeWAIGLv9wLb4V/Y7Ib
-	bdy94E9k66tcSlLM5yPQ0Xs91h1NALA=
-Date: Tue, 17 Feb 2026 09:08:32 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="lJ/THRIb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZhB4GK/M2vB2i1ec0BtwUqWd7o7OFTqR4QPGZdsySz+oLW7TMR2fJ9LHA0Iw5cjHpVHhZH17YpEPlii5hELFNCfx3hpXuseGTvVTb6Sl42YnYgL5nWRtwbYd5ylx5C6nzz15/bnNZGyx8CNOSCRqgSRXEARTP7NDlffL81Ss+lSlOgPznGjzYKAhtzPTGLw/8C1JajZoFVbBi6A11ZKKVNg5wMZdibK4Ru1qzguCbq2HwTFhYNJfhP+asK+VI7+7Jeqk1iZG04icqa3kb8wA/GseSE53ZkttsB0z2Hpg36etOiLYZsL8Va3Du7cUPbHP/29MH528+tg1OpyZ+RLzHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iay4TSC0KFsZ+Umm/Tu2tje5YNQJX19Vn++8Dcr30Y0=;
+ b=CCeA2O+jpUuCtmcObN79V3ksqmd3HRw4ZKv0tFsoOBosUBRbbetheBIpKeHWLXpkLH9fBOsCfF2Z4EFt1u208VrBKSeq/nZuA7cSRhF5sOoupTbKAvyIyn1amPHVT1AGJDx53cfYorBFC/a35jD6SriY9WxRs8XUHvV9wTXzFeBZj5FYtIYjzji1JV4Ir8mgjTOgQPo2Hs4+O5doYR2JuG/YXW4xR9HkY8MuTg8g13tDLw/BevNoMxdy9FUes7K89oIWxfeXGEcge7S6WbEx6Tz2JKOmnEKigJcgTiF1YBFWN0MLW2zsK0i+m4YybrdhvRjpmKlXQlo6BoXceY/h1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iay4TSC0KFsZ+Umm/Tu2tje5YNQJX19Vn++8Dcr30Y0=;
+ b=lJ/THRIbn7dTS8vwFaxRQgBO6r/llB89PSoy7bQ7a3B/HYjMC6A+m8iyTuENewk7v2YCWezhMaOOmN8DFUjBwgwrlM1g449Ilc2lbrQdv8v4seENrZWEFGnMcIjcbfa6jkw9wAXjq9umWgku0tP7ICGbPcU+bBeYEKfNTkrHRMQ=
+Received: from MN2PR08CA0028.namprd08.prod.outlook.com (2603:10b6:208:239::33)
+ by SJ5PPF136884A98.namprd10.prod.outlook.com (2603:10b6:a0f:fc02::78b) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Tue, 17 Feb
+ 2026 10:04:52 +0000
+Received: from BL6PEPF0001AB77.namprd02.prod.outlook.com
+ (2603:10b6:208:239:cafe::f6) by MN2PR08CA0028.outlook.office365.com
+ (2603:10b6:208:239::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.13 via Frontend Transport; Tue,
+ 17 Feb 2026 10:04:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BL6PEPF0001AB77.mail.protection.outlook.com (10.167.242.170) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9611.8 via Frontend Transport; Tue, 17 Feb 2026 10:04:52 +0000
+Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Feb
+ 2026 04:04:49 -0600
+Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Feb
+ 2026 04:04:49 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 17 Feb 2026 04:04:49 -0600
+Received: from [10.250.151.50] ([10.250.151.50])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61HA4i153172664;
+	Tue, 17 Feb 2026 04:04:45 -0600
+Message-ID: <3fed8767-d0a8-4136-b602-f236254c3efa@ti.com>
+Date: Tue, 17 Feb 2026 15:34:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] ASoC: SOF: Add platform ops callback for DAI link
- hardware readiness
-To: Cole Leavitt <cole@unwrap.rs>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260214064054.19961-1-cole@unwrap.rs>
- <20260214064054.19961-3-cole@unwrap.rs>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: ti: davinci-mcasp: Add system suspend/resume
+ support
+To: Sen Wang <sen@ti.com>, <peter.ujfalusi@gmail.com>, <broonie@kernel.org>,
+	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <r-donadkar@ti.com>, <s-jain1@ti.com>, <m-shah@ti.com>
+References: <20260211221001.155843-1-sen@ti.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260214064054.19961-3-cole@unwrap.rs>
-Content-Type: text/plain; charset=UTF-8
+From: devarsh <devarsht@ti.com>
+In-Reply-To: <20260211221001.155843-1-sen@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB77:EE_|SJ5PPF136884A98:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5eaf8cc0-450c-4bd6-0afa-08de6e0bfe36
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OS9TNkQzeHcrZDBUMmtyeHdMSmZsWFU1OUQrNmxOa1cvNUtSS09JdHpWc3pk?=
+ =?utf-8?B?RnY2dzRNSVNZRDVZeGVCZTZxSFRqYkdMS2VkSGlEa0ZiR2IrWnF6ZFVVVHFm?=
+ =?utf-8?B?SVFzK3VsclB0SHVTTjkrY2lGMThNbVU2dktYZGxGbFVSN1EzK3dYdWcvMFRz?=
+ =?utf-8?B?cUwvKzArM25EcGxieHN0bGtLWmhUbXFDWjVVd2N4a09iMzdNeEtXVTh3cEN5?=
+ =?utf-8?B?K2dQUTY1SDl0VkRNOUJLMEJianM4STBjbUpHclppV2ZqVG13QUY3Z05WSW5s?=
+ =?utf-8?B?VkpqVDljam9uM3Z1RTJWcFVFR2ZBTUswV2RQOFpQZGUzeHoxNDRCV2VUVW8y?=
+ =?utf-8?B?RHNMeG1uWDl4UXBmMnRScCtEcVRFaWtPblRrVWlVM20zL2c5bzl5YkRhVlVI?=
+ =?utf-8?B?d3B5UTVWbHBZYVBYaFpDNzZRc3Jnc1dsMUFsYWwrczdqY2d3RGwxd041UTFZ?=
+ =?utf-8?B?c2p3R3M2OTFFZHlubWdYMDI2Uysrcm8zQmdhOGxGQXhsdkgzbUJLWlc2Rkhu?=
+ =?utf-8?B?UjA2eEdHU3lpOG1GT0pVb3dKa3F5TkJMUlhKUjVrbEtBYW1pTkxpWUxSeUhF?=
+ =?utf-8?B?aUM3Q1lhQ0xaRyt3OFovYmMrVEpna0k2YXBvV3VtMzhPUVozbHFzYUlkbGVx?=
+ =?utf-8?B?NlNCODdwVVd4UEhQZVNXWkNBNFhWWk9tNUxCVVlsQ0NtR0lpQzRpdmJpeW5m?=
+ =?utf-8?B?clpQSTRHOVd0REpaNkNORFNtcVhWeWUyajdoYWU0MmJ5bnFrMDNLcGJNMjJp?=
+ =?utf-8?B?dmVmZmFDaS9HZGEreDBNNlI1bnFsRG9mWWVRcE5EdjhTTWRSdUpra0drM0FN?=
+ =?utf-8?B?dHJreHJnMWNDbFNuSXd0QnBOSXhHUjNOYlRzU0I1dGlvRkx4Q21UQklqekY1?=
+ =?utf-8?B?dGFHSVlsTDRjbms4RTc5enlOM2c0UWdtQ1JzanBCTjhaRmdoaGNLNkV2OUlX?=
+ =?utf-8?B?VVo2Rmg0N2tEeGlZemtIZTRBMzdRaHBod1dlcmJPUVAyZnFwSG9LeDdxOTRh?=
+ =?utf-8?B?dE5jTHJ4QUhMSWhJeXNsQXhUWFRSaTdSUVRUTStnWEhUQnpyaEFrZ0JXc2Nx?=
+ =?utf-8?B?cUNVSzNpZVBlUnEyWG9uQ0p1T0d2ajZaVlBZdjVkcVYwRTJBLytMSlc0bTFM?=
+ =?utf-8?B?bWR4ejdScGhvVk5ucUcvd3NPOWVHSWtPMVhhYS9HMHN5d2J1Yk85N25yLzFn?=
+ =?utf-8?B?aWp1c2tVMkZ2TlJJeGJQU2R5ZUZ4ZjBacTI3ZzBUTERqWmovYjcwZ1FqK1FP?=
+ =?utf-8?B?dzRQSk9NdFk5c3F1c0RJUUtrU3ZEeC9UMWpYYlU1elpnZHR6MVpkaVRaRUti?=
+ =?utf-8?B?THp2UmRFL21SNXpCSWU1TXQydGtXZ2xyRUJJUTlyRmQ5WGZDNXo3YkNyc1JC?=
+ =?utf-8?B?YTJkRm5va0lMOXVxbGV4Y0lnaldPbEpWZ0pHaDhGNEhkbkpBN1NFNFozMGFk?=
+ =?utf-8?B?OEk5d1NCaWYwdG00Nzc2bE1JMWdKMWtGNDFnL0IvRW1pZGtIa3AwdEZ2Rit2?=
+ =?utf-8?B?VCs5aDU4ZTVMSk04M3BpcFA3MHY5NUVTMjdtcDQzM2RLazZIR0h4WkZWQmRR?=
+ =?utf-8?B?QnA4Z0JXSkRsUHJhZmpJeDFwekp3aG9hcmRkeG4zU3ZvTThFZHJwVkFpVllZ?=
+ =?utf-8?B?NUJlWW5ZenJXNWMyNVE1dFdpcFExNkYrUlhMMEw3SEdLQ3VWVGQxTFZnSC9S?=
+ =?utf-8?B?VldZS1B3VUxFMnVpUk5wUnp1ak1PQTVUWXh4VUVSamdHbkNmLzlDTTlQSGxw?=
+ =?utf-8?B?NGFlUHlaOERFbkNURTVNQ0Z4RmlPdFRiYlR0bjRkZG9NcGVsa1c5M0M5V2dF?=
+ =?utf-8?B?SG9oZUdRUlBoZkhhSTNkYUJnZllZU2dJWEVBYXlUdkpTTk5kY1lFazJVSzRr?=
+ =?utf-8?B?cHI4ODF1ejNkdnduTVBPVEdhUGJENXE4c0h4TVFmbVd3MmVOdDRrbEtBSVFr?=
+ =?utf-8?B?NzVwcEZqQzNra09Vc3dXZ0lTZ0ZQZnNHV3ozS0x1OUlqVGdOdC9jaEJBSyt1?=
+ =?utf-8?B?aS9aL2VTTjB0bEJpVUl4UVBjMzFSYkVGOG1WY0s2Zkg2eHZRR3RWODByTGlu?=
+ =?utf-8?B?UkF6ajF0akdOQzhrd2RnR1E5aFZaVFN1Ym9tVmV2bUU4dk5qbGN5NktCcW04?=
+ =?utf-8?B?VUU4UTVKczVxWVBhRE1DTEdKRXhvelNRT2RKblVLYnZJL0k0SUNHRGNGbGRF?=
+ =?utf-8?B?RGc9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	gRl0xol+vxOxGZNpgOtM/rwE2n0G5ioswBt6xGu05sNNfPEHAaQWL5aeNGEcA4waOZsyfapvsxhFEvR5jSspoX7jpeffrS8jieVOUVAhSS5ou8tI58lWizhdK02VkJj6DnNyF4Itvjyc+Zd1DNRmdPQwj3urdeBYSflYblBUVSeEQ0eSI5Z02xay4EKJc+hW4uEuZMtGB6GtEUzYz4QvvU3yz0gQWtz/ToEpX6I905BfgICA9gkXDP+S1dXKRvEmFGs0ptI4bcI0GZoWId6CXqSscrRSGifhpyTNmtYRB3VqLt3Ef0VLY8zM43d8FvRfRoSYkAYeOHo5f4r+U7IP5CnSDiRAZqSPxg8O28VA+TRUApeOavWWDu0bA8iNgswOzzbfFpkBGbd93RZ7ZdJ2XjHcVm+P2p4bONnZhjl1CLaR+VmOntvL2+zfUXjPp8e1
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 10:04:52.0698
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5eaf8cc0-450c-4bd6-0afa-08de6e0bfe36
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB77.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF136884A98
 
-On 2/14/26 07:40, Cole Leavitt wrote:
-> After suspend/resume (D3->D0), the SOF firmware is reloaded fresh and
-
-Is this really correct? I vaguely remember that with the IMR stuff started in MTL, the firmware saves/restore its context. No need to reload firmware.
-
-> pipelines are recreated lazily when userspace opens a PCM. However,
-> SoundWire slave re-enumeration runs asynchronously via a 100ms delayed
-> work item (SDW_INTEL_DELAYED_ENUMERATION_MS). If userspace attempts to
-> play audio before SoundWire slaves finish re-enumerating, the firmware
-> returns error 9 (resource not found) when creating ALH copier modules,
-> leaving the DSP in an unrecoverable wedged state requiring reboot.
-
-The ALH copier stuff has absolutely nothing to do with SoundWire enumeration.
-That's a wrong assumption, in fact the SOF driver should know absolutely nothing about peripherals.
-Exhibit A is the fake codec mode, where we can stream data across the bus without any peripheral present on the bus.
-
-If you can share a test case that exposes the issue, that would help.
-
-> Add a new optional dai_link_hw_ready callback to struct snd_sof_dsp_ops
-> that allows platform-specific code to wait for DAI link hardware to
-> become ready before pipeline setup. The generic ipc4-topology.c calls
-> this callback (when set) in sof_ipc4_prepare_copier_module() before
-> configuring DAI copiers, maintaining SOF's platform abstraction.
+On 12/02/26 03:40, Sen Wang wrote:
+> The McASP driver supports runtime PM callbacks for register save/restore
+> during device idle, but doesn't provide system suspend/resume callbacks.
+> This causes audio to fail to resume after system suspend.
 > 
-> The Intel HDA implementation (hda_sdw_dai_hw_ready) waits for all
-> attached SoundWire slaves to complete initialization using
-> wait_for_completion_interruptible_timeout() with a 2-second timeout.
-> This is safe for multiple waiters since the SoundWire subsystem uses
-> complete_all() for initialization_complete. Unattached slaves (declared
-> in ACPI but not physically present) are skipped to avoid false timeouts.
+> Since the driver already handles runtime suspend & resume, we can reuse
+> existing runtime PM logics.
 > 
-> The function returns -ETIMEDOUT on timeout (instead of warn-and-continue)
-> to prevent the DSP from entering a wedged state. On non-resume paths the
-> completions are already done, so the wait returns immediately.
-> 
-> Link: https://github.com/thesofproject/sof/issues/8662
+> Signed-off-by: Sen Wang <sen@ti.com>
 
-come on, it's a 2023 issue on an early test device in 'nocodec' mode, which means NOT SoundWire...
+Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
 
-> Link: https://github.com/thesofproject/sof/issues/9308
-
-Again nocodec mode, nothing to do with SoundWire.
-
-please file a real issue...
-
-> Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+Regards
+Devarsh
 > ---
->  sound/soc/sof/intel/hda-common-ops.c |  1 +
->  sound/soc/sof/intel/hda.c            | 44 ++++++++++++++++++++++++++++
->  sound/soc/sof/intel/hda.h            |  6 ++++
->  sound/soc/sof/ipc4-topology.c        |  8 +++++
->  sound/soc/sof/sof-priv.h             |  3 ++
->  5 files changed, 62 insertions(+)
+> Tested on SK-AM62Px with audio playback during system suspend/resume cycles
 > 
-> diff --git a/sound/soc/sof/intel/hda-common-ops.c b/sound/soc/sof/intel/hda-common-ops.c
-> index 746b426b1329..315cb61426da 100644
-> --- a/sound/soc/sof/intel/hda-common-ops.c
-> +++ b/sound/soc/sof/intel/hda-common-ops.c
-> @@ -84,6 +84,7 @@ const struct snd_sof_dsp_ops sof_hda_common_ops = {
->  	.unregister_ipc_clients = hda_unregister_clients,
->  
->  	/* DAI drivers */
-> +	.dai_link_hw_ready = hda_sdw_dai_hw_ready,
->  	.drv		= skl_dai,
->  	.num_drv	= SOF_SKL_NUM_DAIS,
->  	.is_chain_dma_supported	= hda_is_chain_dma_supported,
-> diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-> index 686ecc040867..956106dc0e02 100644
-> --- a/sound/soc/sof/intel/hda.c
-> +++ b/sound/soc/sof/intel/hda.c
-> @@ -378,6 +378,50 @@ static void hda_dsp_sdw_process_mic_privacy(struct snd_sof_dev *sdev)
->  		chip->process_mic_privacy(sdev, true, AZX_REG_ML_LEPTR_ID_SDW);
->  }
->  
-> +int hda_sdw_dai_hw_ready(struct snd_sof_dev *sdev, int dai_type)
-> +{
-> +	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
-> +	struct sdw_peripherals *sdw_p;
-> +	long ret;
-> +	int idx;
-> +
-> +	if (dai_type != SOF_DAI_INTEL_ALH)
-> +		return 0;
-> +
-> +	if (!hdev || !hdev->sdw || !hdev->sdw->peripherals)
-> +		return 0;
-> +
-> +	sdw_p = hdev->sdw->peripherals;
-> +
-> +	for (idx = 0; idx < sdw_p->num_peripherals; idx++) {
-> +		struct sdw_slave *slave = sdw_p->array[idx];
-> +
-> +		if (!slave)
-> +			continue;
-> +
-> +		if (slave->status != SDW_SLAVE_ATTACHED)
-> +			continue;
-> +
-> +		ret = wait_for_completion_interruptible_timeout(
-> +				&slave->initialization_complete,
-> +				msecs_to_jiffies(2000));
-> +		if (ret == 0) {
-> +			dev_err(sdev->dev,
-> +				"timeout waiting for SoundWire slave %s initialization\n",
-> +				dev_name(&slave->dev));
-> +			return -ETIMEDOUT;
-> +		}
-> +		if (ret < 0) {
-> +			dev_dbg(sdev->dev,
-> +				"interrupted waiting for SoundWire slave %s initialization: %ld\n",
-> +				dev_name(&slave->dev), ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  #else /* IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE) */
->  static inline int hda_sdw_acpi_scan(struct snd_sof_dev *sdev)
->  {
-> diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-> index ac9f76a5ef97..9bd8fe82ae9e 100644
-> --- a/sound/soc/sof/intel/hda.h
-> +++ b/sound/soc/sof/intel/hda.h
-> @@ -830,6 +830,7 @@ bool hda_sdw_check_wakeen_irq_common(struct snd_sof_dev *sdev);
->  void hda_sdw_process_wakeen_common(struct snd_sof_dev *sdev);
->  void hda_sdw_process_wakeen(struct snd_sof_dev *sdev);
->  bool hda_common_check_sdw_irq(struct snd_sof_dev *sdev);
-> +int hda_sdw_dai_hw_ready(struct snd_sof_dev *sdev, int dai_type);
->  
->  #else
->  
-> @@ -879,6 +880,11 @@ static inline bool hda_common_check_sdw_irq(struct snd_sof_dev *sdev)
->  	return false;
->  }
->  
-> +static inline int hda_sdw_dai_hw_ready(struct snd_sof_dev *sdev, int dai_type)
-> +{
-> +	return 0;
-> +}
-> +
+> Testlog:
+>   https://gist.github.com/SenWang125/065c2840071f2569a79db9e99010603f
+> 
+>  sound/soc/ti/davinci-mcasp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
+> index 8a2977093df1..643661ebee83 100644
+> --- a/sound/soc/ti/davinci-mcasp.c
+> +++ b/sound/soc/ti/davinci-mcasp.c
+> @@ -2811,6 +2811,8 @@ static int davinci_mcasp_runtime_resume(struct device *dev)
 >  #endif
 >  
->  int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
-> diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-> index d621e7914a73..a8b107d7e786 100644
-> --- a/sound/soc/sof/ipc4-topology.c
-> +++ b/sound/soc/sof/ipc4-topology.c
-> @@ -2256,6 +2256,14 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
->  	case snd_soc_dapm_dai_in:
->  	case snd_soc_dapm_dai_out:
->  	{
-> +		/* Wait for DAI link hardware (e.g. SoundWire slaves) to be ready */
-> +		if (sdev->pdata->desc->ops->dai_link_hw_ready) {
-> +			ret = sdev->pdata->desc->ops->dai_link_hw_ready(
-> +					sdev, ipc4_copier->dai_type);
-
-that one is clearly wrong, the IPC copier stuff has nothing to do with link management. The wait may be needed but it's in the wrong location in this patch.
-
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
->  		/*
->  		 * Only SOF_DAI_INTEL_ALH needs copier_data to set blob.
->  		 * That's why only ALH dai's blob is set after sof_ipc4_init_input_audio_fmt
-> diff --git a/sound/soc/sof/sof-priv.h b/sound/soc/sof/sof-priv.h
-> index 0f624d8cde20..346b5c34c6c8 100644
-> --- a/sound/soc/sof/sof-priv.h
-> +++ b/sound/soc/sof/sof-priv.h
-> @@ -346,6 +346,9 @@ struct snd_sof_dsp_ops {
->  	int (*register_ipc_clients)(struct snd_sof_dev *sdev); /* optional */
->  	void (*unregister_ipc_clients)(struct snd_sof_dev *sdev); /* optional */
->  
-> +	/* optional: wait for DAI link hardware readiness (e.g. SoundWire slave init) */
-> +	int (*dai_link_hw_ready)(struct snd_sof_dev *sdev, int dai_type); /* optional */
-> +
->  	/* DAI ops */
->  	struct snd_soc_dai_driver *drv;
->  	int num_drv;
+>  static const struct dev_pm_ops davinci_mcasp_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+>  	SET_RUNTIME_PM_OPS(davinci_mcasp_runtime_suspend,
+>  			   davinci_mcasp_runtime_resume,
+>  			   NULL)
 
