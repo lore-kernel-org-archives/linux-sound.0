@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3909264A97
-	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 19:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41580264A97;
+	Tue, 17 Feb 2026 19:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771356279; cv=none; b=qYTuHEOs2KJ6KmFJjx+R4PsVuMYNIcaV+WNnHqynpGfHtsH0cJ6uQlQWs27pJ1XWTrsQMf4fpuBrlRAcH8KGbAdffMhiozYz2R3Wtzwy0XwXdY7quuEdWJajvxgSfhNqb76OyKQ/9imZeKT7Rj6ZPWjDcbbD10o10z5uqV5UMjY=
+	t=1771356281; cv=none; b=Lm51gfSNg9uo9uG88SH2PdJ9R7dzUdozGC/m6rVmleutDFJ/e0G0ZfbBTV+5hryuPfeoeS88cJT3NlRQCX6HgTYzCSlUzwxwtz5qWvV56sZg0mM5mwMAI3eRMZWtHGMGp0L25OcifZZQREzsHg2fLHcGmKw8V5t9tIEK82HHUCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771356279; c=relaxed/simple;
-	bh=wIjh6yOyK9DvQrfMqC6CYjP8Xq2hI3p/QomBiTZqeDQ=;
+	s=arc-20240116; t=1771356281; c=relaxed/simple;
+	bh=8ghGAV5BxOgH283VZgsGWAPOfml4IsqZmeuT3P3pPGA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=n7vqbs4UFl7Rl+GGogCZaNMw1LFCpUkop1ujJdYa9+NI+AbD/moXv83eE1wN7HDdznVA52XtY+XeiG5MsVrSS4/klFcd7dLjMwDCvGik9+vhwAIyqM9/fLdAgenuD1zLdQRFGaJhGO9zS53I3kfwRaqDLdslesJqzkfBJZY3Pcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXS0WWk/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=G4/aLhgBEQkcako1gFQzLafIoo9wMqCdr3NCjHMQzdA3RqjhNwjXMBWeFWAyNJhvFCowj32xly+YUyLY1MUTyldIGwq5t/sZYVIMMwIumX8o/1rapcmet/8zMNqv0U+sWX1Sj4/UzHKTY2bDFIaAPnXOKupy1NN5BEDKsWiGjf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es+E5cJM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXS0WWk/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD78C4CEF7;
-	Tue, 17 Feb 2026 19:24:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es+E5cJM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10060C19421;
+	Tue, 17 Feb 2026 19:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771356278;
-	bh=wIjh6yOyK9DvQrfMqC6CYjP8Xq2hI3p/QomBiTZqeDQ=;
+	s=k20201202; t=1771356280;
+	bh=8ghGAV5BxOgH283VZgsGWAPOfml4IsqZmeuT3P3pPGA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZXS0WWk/SEhYE2UgtiVxYfMprA0V3mTvmuBWGpsGrYButsFgpVf2A8rBlKF0ggnML
-	 MFpd75tjsw3oH7r7ZBFVT/NEc5Tg/kwkMuzG6mQJ+ZKdYFM0S9UPcHueNiHHVZswbK
-	 jmdQakIX/xUrxjHawla6ShbxtVSo9A5CYlW52dRP4QTO9h/Z16zeiSfUBSoULY0kOq
-	 iDt3kgTYa+ovYWyjEAsFaWpNNlv4O/wgutEl+Fy01RyaMM8YX9PWykdJk9LgdEVIIy
-	 L2mjK9qMWWSRJDz0Jkv+k4Xw4tOfDUye8v1EyVPZrv3zkEd+lygji7+IOYzCTcCMtU
-	 okz22Y36QRCUA==
+	b=Es+E5cJMKEEF4PKdnglxC2Ff4C0FRKZFDscrE0pViTuy906rPTZnA14vh2HC81t9R
+	 ZupJNpBXy2z/edWWB7Ip/K+uYy0SbN0CyRSlk6RkZjdDVIKcK8lkojssz6pX2aDUqd
+	 jE8n0GK0z86tGuOVDm1ng7tKk0n/9nHltF9/komb7TH94+DEpqngi4c2TXWO2KMe0b
+	 3DRiSCLAGMH+bgyc95Zrf8J2/fshfMhUS19aWE3j6SznxG7U5Cflql6xIDQjRbCUJe
+	 XYbjrwS2ky99Qnk70Y0Bn9Ozztf0hDqSh0JuE2z9zGwrH7ogByNvGB9ax7B2LziN1b
+	 nxCOBesE7aISA==
 From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-sound@vger.kernel.org, ckeepax@opensource.cirrus.com, 
- lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, perex@perex.cz, tiwai@suse.com, 
- cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
- kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
- shenghao-ding@ti.com, v-hampiholi@ti.com, baojun.xu@ti.com, 
- dan.carpenter@linaro.org, sandeepk@ti.com
-In-Reply-To: <20260214104710.632-1-niranjan.hy@ti.com>
-References: <20260214104710.632-1-niranjan.hy@ti.com>
-Subject: Re: [PATCH v1] ASoC: tas2783A: add explicit port prepare handling
-Message-Id: <177135627519.310944.4176958928133427758.b4-ty@kernel.org>
-Date: Tue, 17 Feb 2026 19:24:35 +0000
+To: biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20260213172434.3801015-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20260213172434.3801015-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Fix playback and capture
+Message-Id: <177135627881.310944.2441265883960352070.b4-ty@kernel.org>
+Date: Tue, 17 Feb 2026 19:24:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,15 +48,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Sat, 14 Feb 2026 16:17:10 +0530, Niranjan H Y wrote:
->  TAS2783a required port prepare bits to be set during playback
-> even when it is using simplified CP_SM.
+On Fri, 13 Feb 2026 19:24:34 +0200, Claudiu wrote:
+> In the current codebase the rz_ssi_stream_get() is called at the beginning
+> of rz_ssi_dai_trigger() before rz_ssi_stream_init() is called.
+> Since rz_ssi_stream_init() sets the ssi->{playback, capture}->substream,
+> relying on it in rz_ssi_stream_get() is incorrect. Fix this by checking
+> substream->stream instead as the original code did.
 > 
->  Normally, SoundWire core handles prepare sequencing automatically
-> depending on the type of the device available. For simplified CP_SM
-> there is no need to set the prepare bits. However, due to a hardware
-> limitation in TAS2783A, the port must still be explicitly prepared and
-> de-prepared by the driver to ensure reliable playback.
 > 
 > [...]
 
@@ -68,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tas2783A: add explicit port prepare handling
-      commit: 0d68ad088e334088b031423e59886ae118c11202
+[1/1] ASoC: renesas: rz-ssi: Fix playback and capture
+      commit: 82e3265487c018814b789e251fb8aee8e683674c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
