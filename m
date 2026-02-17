@@ -1,86 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22D31D5CD1;
-	Tue, 17 Feb 2026 19:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3909264A97
+	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 19:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771356183; cv=none; b=YG+alZgKzIYzjzLMpVgrbsa+rhk5GusnCRMH/qHFCggMB3PsaQ4IK5asx9Tg9CAAPFe30RIULmg2aY+oZpWxnACj124pCimh1ZPJXJ595TED/mMwvgSWXPMeCkhlXFR+9Mb9b8SpcsTIbyS6/Rd87zOiOtk7R0t5wSRPyqE0Y1o=
+	t=1771356279; cv=none; b=qYTuHEOs2KJ6KmFJjx+R4PsVuMYNIcaV+WNnHqynpGfHtsH0cJ6uQlQWs27pJ1XWTrsQMf4fpuBrlRAcH8KGbAdffMhiozYz2R3Wtzwy0XwXdY7quuEdWJajvxgSfhNqb76OyKQ/9imZeKT7Rj6ZPWjDcbbD10o10z5uqV5UMjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771356183; c=relaxed/simple;
-	bh=AuzP1RjH2J93oglEEmMjAhLwguv68kNmitEf4HtcFgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ht7rfClS5hPtSHRsepgphlVdJ7aGrW2bRDBLKJOA07LOTha41xfwTzLFQt6W3+nWvO7psUV/TG8FkhzDCTOwHythptqyDnYN/UqdQ3iicDarA5Y59S4+PZUOKRZ+KwcSkBAkZyNkC9vBER6YfnMp80+xmdJpOQVHSqcY/Xx2+vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkvlKQ1s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771356279; c=relaxed/simple;
+	bh=wIjh6yOyK9DvQrfMqC6CYjP8Xq2hI3p/QomBiTZqeDQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=n7vqbs4UFl7Rl+GGogCZaNMw1LFCpUkop1ujJdYa9+NI+AbD/moXv83eE1wN7HDdznVA52XtY+XeiG5MsVrSS4/klFcd7dLjMwDCvGik9+vhwAIyqM9/fLdAgenuD1zLdQRFGaJhGO9zS53I3kfwRaqDLdslesJqzkfBJZY3Pcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXS0WWk/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkvlKQ1s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 297B1C4CEF7;
-	Tue, 17 Feb 2026 19:23:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXS0WWk/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD78C4CEF7;
+	Tue, 17 Feb 2026 19:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771356182;
-	bh=AuzP1RjH2J93oglEEmMjAhLwguv68kNmitEf4HtcFgE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZkvlKQ1sAlkJX0vA8Tfn/Qm6cXriGO4FcK4Iq+24smpf4EOQUndrJZuiEfBUsvDTb
-	 8f5oygBZtahKpGeWEtE9ucsZrCF9lp2nOLIPJrr2qGUAYQlxS1ON62M5jFt0LdlJ20
-	 m8NrK2gPPqO/16qTZ2SatXHf3a2dTo20wfa+LvXccSrpz+UjlDMi9Z1V68l8Evv9NF
-	 GfGTL8E+sRfYbyO9Wkru7Lv3HYqvO1ANbgDyxKXtfwCRSbOX7VJZKA0QyBplFI+i9w
-	 kkkKZE3VVU4vbv0aw/OFHK6tZh8BF65PofnAs6fFBBJJt3yIvKPjyhrZPe7o2yrY7Z
-	 AZC0uat5+b0Rw==
-Date: Tue, 17 Feb 2026 19:22:57 +0000
+	s=k20201202; t=1771356278;
+	bh=wIjh6yOyK9DvQrfMqC6CYjP8Xq2hI3p/QomBiTZqeDQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ZXS0WWk/SEhYE2UgtiVxYfMprA0V3mTvmuBWGpsGrYButsFgpVf2A8rBlKF0ggnML
+	 MFpd75tjsw3oH7r7ZBFVT/NEc5Tg/kwkMuzG6mQJ+ZKdYFM0S9UPcHueNiHHVZswbK
+	 jmdQakIX/xUrxjHawla6ShbxtVSo9A5CYlW52dRP4QTO9h/Z16zeiSfUBSoULY0kOq
+	 iDt3kgTYa+ovYWyjEAsFaWpNNlv4O/wgutEl+Fy01RyaMM8YX9PWykdJk9LgdEVIIy
+	 L2mjK9qMWWSRJDz0Jkv+k4Xw4tOfDUye8v1EyVPZrv3zkEd+lygji7+IOYzCTcCMtU
+	 okz22Y36QRCUA==
 From: Mark Brown <broonie@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Detlev Casanova <detlev.casanova@collabora.com>,
-	linux-kernel@vger.kernel.org,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-	alexandre.belloni@bootlin.com, thomas.petazzoni@bootlin.com
-Subject: Re: [REGRESSION] Re: [PATCH v1] ASoC: rockchip: i2s_tdm: Re-add the
- set_sysclk callback
-Message-ID: <49e43733-1366-4a4a-a787-f7221b9612d2@sirena.org.uk>
-References: <20250117163102.65807-1-detlev.casanova@collabora.com>
- <DGB6VK7LC8N7.322SYGWZXPL5W@bootlin.com>
+To: alsa-devel@alsa-project.org, Niranjan H Y <niranjan.hy@ti.com>
+Cc: linux-sound@vger.kernel.org, ckeepax@opensource.cirrus.com, 
+ lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, perex@perex.cz, tiwai@suse.com, 
+ cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ shenghao-ding@ti.com, v-hampiholi@ti.com, baojun.xu@ti.com, 
+ dan.carpenter@linaro.org, sandeepk@ti.com
+In-Reply-To: <20260214104710.632-1-niranjan.hy@ti.com>
+References: <20260214104710.632-1-niranjan.hy@ti.com>
+Subject: Re: [PATCH v1] ASoC: tas2783A: add explicit port prepare handling
+Message-Id: <177135627519.310944.4176958928133427758.b4-ty@kernel.org>
+Date: Tue, 17 Feb 2026 19:24:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r2QkDNKpLEvUVJ3W"
-Content-Disposition: inline
-In-Reply-To: <DGB6VK7LC8N7.322SYGWZXPL5W@bootlin.com>
-X-Cookie: I'm into SOFTWARE!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
+On Sat, 14 Feb 2026 16:17:10 +0530, Niranjan H Y wrote:
+>  TAS2783a required port prepare bits to be set during playback
+> even when it is using simplified CP_SM.
+> 
+>  Normally, SoundWire core handles prepare sequencing automatically
+> depending on the type of the device available. For simplified CP_SM
+> there is no need to set the prepare bits. However, due to a hardware
+> limitation in TAS2783A, the port must still be explicitly prepared and
+> de-prepared by the driver to ensure reliable playback.
+> 
+> [...]
 
---r2QkDNKpLEvUVJ3W
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Feb 10, 2026 at 10:54:04AM +0100, Luca Ceresoli wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> I'm afraid I just found this commit breaks audio capture on the RK3308.
+Thanks!
 
-Can you please send a revert explaining the issue so we can drop the
-patch (unless a fix is forthcoming which doesn't seem likely right now,
-we can always re-add the support later)?
+[1/1] ASoC: tas2783A: add explicit port prepare handling
+      commit: 0d68ad088e334088b031423e59886ae118c11202
 
---r2QkDNKpLEvUVJ3W
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmUwBAACgkQJNaLcl1U
-h9Dd2Af9HGtRQCrve806p8Dm1UkaY3VZUZSB8RwkclUugeGfGhNUiOQJuarjCy6n
-U5Nh1vijddpOuXxHlFWzj3QXeCLnbnHixhdua3InE577kp6SYrV+B+DQQecLtRHe
-jy6zRPH/HsN3147BbqLYuAeAP3Zo+fwGxbhcvkIOUqmergCqBXHTSbRbI8E1C2iW
-YaBHlV/HR3J6kAwjKK6a739hGCWzS4D21f3TE5trL/+buFSstLcki67zTBJDnKVZ
-z09GrxLYVcmTcILzSUplO0s9kWzfRbbjcdid1OnYH+vyO0Q+GOWRav7jnL77C1ip
-u19vZSXZGcCE+wzi9nh6cE1A4gLUfQ==
-=wiOT
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---r2QkDNKpLEvUVJ3W--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
