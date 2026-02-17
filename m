@@ -1,321 +1,186 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010061.outbound.protection.outlook.com [52.101.85.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E453307492
-	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 22:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C83318B95;
+	Tue, 17 Feb 2026 22:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.61
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771366468; cv=pass; b=YDIf6//35KD00FeeiLRJwkMWRtxf6ZuxQsm6aK/2yHlnDsiozGrS3CR8qY/FvlQ1HVtLteDVHONtgsIJcePB1Ji5YWQR3NwA6/f8CzE8R/sZocHF4vxzKgCvhc5w24TuW52E67KxcTF80Icm6BBN4r4r0vejGvAmduBlc6OwFwI=
+	t=1771367232; cv=fail; b=MqSpkdVFEcKDptkKnl0E0GbyMyPrcTEpqOEPRRwIIVUhTA5veesPS5Xaag9KXJQnyPRfKvJVmriczSDQvAGYnvSQW7uW7Y17H2MkckDpuOQo+p4paLaO2Zlr631z3eZXA7yKdzLLGmuyN4Vc62t7q57tZ2M2qnKavISq1zQU+FE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771366468; c=relaxed/simple;
-	bh=S+VUFCu6rlLqwWm0NnnC2mnkLSyVV8nguqsug+kWh3U=;
-	h=MIME-Version:from:Date:Message-ID:Subject:To:Cc:Content-Type; b=SV3pz8E23Hxdr/Kj+on4mCnVerfJyod4MxYKCdU0jYsS+ZUQpHJDSG3rq1c7gGYvFgb++OItOUIthyQOYLubcglZQ/IA0vDkK2qVvVo+lEOYvpfiTBG576ZbPDMuyUigfqdVA5AmW9kciaOqXiMCWWcACN13X30rtwzirt3pS3s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b=NkYMZ9gb; arc=pass smtp.client-ip=74.125.224.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
+	s=arc-20240116; t=1771367232; c=relaxed/simple;
+	bh=eG2rVPv4wYkFiKBSF9wXt2UIaBLt6eR3GdPL73NW7dE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DoN8Z9wl4+d553dlYCU5pOxcv6b8mFtWid8NlvW2cap9mDs4cW8C5i96GJgWBQ1ODwXf0BmW9eCuMpdEzbArOaq9dAMV211XUz3CsWnv8CI1CFyf/bWH+nWgh0rarOKSU3hr6fc7lXbxT754spQkgZuBs/CkMF2GPmXxqely+nA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=f/alUl+9; arc=fail smtp.client-ip=52.101.85.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b="NkYMZ9gb"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-649df393c04so4207007d50.1
-        for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 14:14:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771366465; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JTDJa6YHBsCrh2nMIscUOxJZkVGC9nXZ9foRs6A7nRr7FOsSsfeO1m54jcCWiw7MUl
-         nsaO4VOUF8IhN3dntnC7ohe9FPfX5r/leO/Tr+4Q08ah+Sw+GaXjugSKyUYbSXwviuqz
-         PdZt9BMBiQ2lD8gsihSzXDCCKgQqS/jg9+tS10+z+90lJmNa5KzEmFeQXknMmcupkTIZ
-         MMxmjs+5jv2svbd73+z5Zb9XCK5+s6u8IhfnjDeNQSKEWdkrMhrDX/m2PHJzaXpYcNlq
-         Feo//b9wSr5mWkmCpSHHhiWLUTdGUOa9rNhqGsjr1NBjaIr0VIvoWvTMQaFMGQufKy/h
-         wszw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=N/Rid5NqxxgBRg/S4kEAGGXjmMFCG2xtP2qbUOz07gY=;
-        fh=JrsW5q6BAbaxshaJQM57sz97idGhGD/4Xpj+7yoKctE=;
-        b=MSbyfl5k3Lzu/ygbptwfq+oKxbgPc1UqasDLARCNE/z0VH1pXeAlKaW2V+jBwFY/ow
-         +dR4c2WlY53mFNDahhCmA6ROITktpgfF0+1u49ikyj9h4LtWIHGqWuZjDSLtTEY3zkCp
-         sjmdjyNH6zI6wFnws5bCnzWmvcI15kWK6kIbXgz2jwauMS+twujxolPDYLYalvk36Eug
-         NCkEN7pEMivIO5Bg9lF97o4NSL6kB9GkQIvAVoS9q4OAcNs3Wr7rjGmFt9S6RIicZ/WP
-         4YEwcprTZ5OXc0iKQUM9GVyRZasNhs6exyK57R296oG2V5jnMTr5NzaGOLDYjg5PCsTT
-         XeIQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=starlabs-systems.20230601.gappssmtp.com; s=20230601; t=1771366465; x=1771971265; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=N/Rid5NqxxgBRg/S4kEAGGXjmMFCG2xtP2qbUOz07gY=;
-        b=NkYMZ9gbucMnmBi4Y5d8YV7ytw+4FSjfndM0IklwIcJLHqxsCn+uaM6/3O80Sua+lC
-         ujcCT9lcYHXGCE1fbJKpXvXVfJ8KI63bDFb1P5kk16J4Z9dCs7mS99KoF4KU1xp1qFgh
-         S5cn57OFzEGhyMrHt0U6CJL2AzxSJU3Q+RaNpnGGCi8wx+aZMuJXmEFteQ/Z3w7Xq3pc
-         iewbjaIUqNqb7c2eyM2Bk4v0W3eIefZ6NHzVy7Iig0kAyJg9yQb6iUXQ5FZeUNT6bxwZ
-         qsL1PViUnX794YKPMHzqerrtCFTHMVs4UEkhe+i4ka0fVkb5VzYt2gwOCJXUHCMMeDsZ
-         py4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771366465; x=1771971265;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N/Rid5NqxxgBRg/S4kEAGGXjmMFCG2xtP2qbUOz07gY=;
-        b=cvrEB/3V2OTWmSo7B2ZY4Pwpr4/TBZByXhnI4NuGlag9dw96k4CEwkaEBmHN1f3dVP
-         EE4W+3dZNv8yxNR5+lN7vCeGRb7AoP/s+LvxqrHMzkvKWEHG5Bb/gINwM8zAWWLYcQzQ
-         WgOGy2C77TeosYQTPhlHAfRxW2T97ILRnLNRmiQohIrKdvA2hmmdYnvPLvUbTDtbhPLc
-         9oKQICMql0mD/uCaa/UvcFvNmltceZjIEHrC00NlwM2eD29YNE1MFw783tLUk3azIBo0
-         wILX3XjkgXbZpJpPoYDJC4xNL+UmO6ToXqdT64JIDf4eylP28PB7hoOCvqOmPVagmGr1
-         Fv/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWwV9Hk1zOj0FiPCrtc/aumUhRWdvxljZzUI9Mk29vxldCNwYqAjQeiFTIQ+udRhDFnOKaeofp3zkCLNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0mUqxiJniik8s+hO+XELrmyeMdgUHnyBBRB48bJEQauPhI57g
-	XrVbVb1VOh3L3R2RtMAY5jzpKUOYS6zCawKSWTH/vsjdeyczxJdLKFkNpDOakYsdChmBoEgjZyK
-	WIQfBdqVjlcI6iqQgTBirJ9hLOMRxtZFKx/hWPm70
-X-Gm-Gg: AZuq6aKTRFGI3mHh1rfDhab2+zSmEmIFHJgynXfNvRf/To8mDv0oXD//h4R9M8BPP3i
-	QkQMrjO5PlRSLhWPjTpNc4OtQz7Gi1gWHos6hlP0XtLee+/Mkf8CIFdys1cN9n1p/7UEgxOt/VS
-	6chbttp1WLlVjNg4WvdK+siW4F+hxrOCySJvfgITyt/Po3WSOEL01nuwGvWxrY/eChw0Zu9zurN
-	zvUME71JkZBwr/TPDP4Ab6qlIOuYwWmN437Y3VUOVq1pp7Pr4LMPY3LoJkZUY3YEFu1O0gA0nXO
-	LmCO3L4rBe9hs7HLc2vw5NEcI82vH/ScPr+ofA==
-X-Received: by 2002:a05:690e:150c:b0:649:ae49:f58b with SMTP id
- 956f58d0204a3-64c198c7ac6mr11065944d50.25.1771366464775; Tue, 17 Feb 2026
- 14:14:24 -0800 (PST)
-Received: from 239600423368 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 17 Feb 2026 14:14:24 -0800
-Received: from 239600423368 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 17 Feb 2026 14:14:24 -0800
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="f/alUl+9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oyLcg2JH1xYD7AgpY2s9eu7jGwnJhyMTX1qs4LZ/3nRN+jl612IQC4tyu4+xOKv/dERzpIlSGuRIEbHDWdMYu0DtTYA6ukGwzZ/wgOIaJ1GyEA92wDZ8DTAF0if6unD2ATmXZL5S6cT67Ppq6PTSau5tnrnXemQ/LqLIM0vnxTpCb1RmlM+c3/mXVAOlngPq0sZYjRsR6AVrARZEpVF8HpG1WQqdg+PEOWAv62NGthzIiRwHxr4PTExA8fuC/g1F5hL/WAJqvJbeJAOMZU1gESCwMelju2qzhual7RnCa9mE2QbtIeR6g5pKw+P9e6bYr8W6I2OsA6s647qK4yrQZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P3wOSy1tIc/smxZgZIInzR6HIyUOMtM/v1OMu9XLGUw=;
+ b=ALr9ZB33jkpbicNniB87B2rNsKOSGrvzCqHweY6Hbb9db+qkWvA6NLo+AgwMgCZ+vaycyfTDyqlEiQxwZfbVHDSdmny1AJg2BJtNTgCpEkL0UJ1hvfuLWBPX1UeOAXyWifh71XBWpdGWGMT5+I6nriitnE1hvV918vD6AXGxdKL0M82AAjrqcGfqm+Fe8bUc6aoqXS8QvOgACw9gnJtv0xK12XZPLu+7nb274SgfH4I8cGwu4eJRydW18ec+Jas035Wy+GIsFs5/7fYtaYlzDFw5gwO/g0QxLWq76cUal6HPfq97d9NIs6OIFsqCEyhDdvd9z6LaM3psJELo4NAbuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P3wOSy1tIc/smxZgZIInzR6HIyUOMtM/v1OMu9XLGUw=;
+ b=f/alUl+9bTnimd1AFluVvlClMnDGGsGFHUDI9ynJsYr3GS7KdDcZWziLyo4BvV0FO2pfsUPhdotZHwVhJ9ofE/biGAk1/7yrcze2voMcb6pwW3766/VPlJxCa/lJvW1bYR3MxEH+cv6Z+Z8LM4FV97dELOaUaCvSAHYGaqD586k=
+Received: from BYAPR21CA0019.namprd21.prod.outlook.com (2603:10b6:a03:114::29)
+ by LVUPR10MB997810.namprd10.prod.outlook.com (2603:10b6:408:39e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Tue, 17 Feb
+ 2026 22:27:08 +0000
+Received: from BY1PEPF0001AE16.namprd04.prod.outlook.com
+ (2603:10b6:a03:114:cafe::d3) by BYAPR21CA0019.outlook.office365.com
+ (2603:10b6:a03:114::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.9 via Frontend Transport; Tue,
+ 17 Feb 2026 22:27:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BY1PEPF0001AE16.mail.protection.outlook.com (10.167.242.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Tue, 17 Feb 2026 22:27:06 +0000
+Received: from DFLE202.ent.ti.com (10.64.6.60) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Feb
+ 2026 16:26:45 -0600
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Feb
+ 2026 16:26:45 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 17 Feb 2026 16:26:45 -0600
+Received: from [128.247.81.19] (uda0506412.dhcp.ti.com [128.247.81.19])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61HMQi8F3573069;
+	Tue, 17 Feb 2026 16:26:45 -0600
+Message-ID: <52ff9d7c-7a62-46d0-a432-d51b29edc0d6@ti.com>
+Date: Tue, 17 Feb 2026 16:26:44 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-from: Sean Rhodes <sean@starlabs.systems>
-Date: Tue, 17 Feb 2026 14:14:24 -0800
-X-Gm-Features: AaiRm50vV7ROzbwZCEB0gZP6KUbFwGf7XDciOrThMx_hJAknP5Fvs0PUmNClGh4
-Message-ID: <CABtds-0aHEfz3=i=q_4bNHwfEg1aCFD4=1Js6hZ=FWpB9c8onw@mail.gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
-To: linux-kernel@vger.kernel.org
-Cc: tiwai@suse.com, chris.chiu@canonical.com, edip@medip.dev, 
-	kailang@realtek.com, linux-sound@vger.kernel.org, perex@perex.cz, 
-	david.henningsson@canonical.com, sbinding@opensource.cirrus.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: ti: davinci-mcasp: Add system suspend/resume
+ support
+To: Sen Wang <sen@ti.com>, <peter.ujfalusi@gmail.com>, <broonie@kernel.org>,
+	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <devarsht@ti.com>, <r-donadkar@ti.com>, <s-jain1@ti.com>, <m-shah@ti.com>
+References: <20260211221001.155843-1-sen@ti.com>
+Content-Language: en-US
+From: Kendall Willis <k-willis@ti.com>
+In-Reply-To: <20260211221001.155843-1-sen@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE16:EE_|LVUPR10MB997810:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0619457f-acec-4ce9-46fe-08de6e73af11
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bGNTaXV6elA5N0JSMGo0dDMvc0h0am1wd3BoUmI3RU5mdUZxcVplMlo1N3Nu?=
+ =?utf-8?B?enYyMENCZEhNZnhXUXFId0RRckRiM1RiUzNzRmxpdTlvMzB3WXQyeDR3VERV?=
+ =?utf-8?B?VE43cnFLUytiVTZydDFrVERLaEtoakZ4Wk9PT0Z5TXlTMEdrcTZ3TEhhZzkx?=
+ =?utf-8?B?dk5KWUpWb1EyRG84RUpmWlBMVHJvVkVpTytVaUx4WHY2emxuZjcrZm1vNEJ1?=
+ =?utf-8?B?WnhzZENYMzJkbUFlclFjUkF3SXBOWUlmZG9ybE05R0hlM1FsWXVhOXNyYjhW?=
+ =?utf-8?B?YjhGcHVkNHEvRHUyT0s4TThzQk1WRWMwK2NzS2RwbkVWUTRXM0tPekVpZTEz?=
+ =?utf-8?B?d1RRdlZ0MGxuUlVpNlB0SDZ3NVpQcjE0dkhYQUkyejQreStnQTRYaHo4cmZ1?=
+ =?utf-8?B?WEthTnFPT2dZQ1BRUDgyRjg0Q0E2K0NKb0lWcDhYK3YrUWZleldiSGxpUW1K?=
+ =?utf-8?B?ZlFvUFV2TU0vZlF1MHFaclhBWit3aHpkWncrSXk5bElQSFRWcUVDUDIvQ0xw?=
+ =?utf-8?B?b2x0RWFHcGpOSnVzTVpmanFwSnZOWWthbVBPekhZSWNaeTl1Z0FLZTB1R2Vl?=
+ =?utf-8?B?NFRHbDI3OFBndWpsT0JaUzFOR29YeDc1VHN4dUhJcUkyeW40cm9uNjduU0JR?=
+ =?utf-8?B?d0wvMzNLa3RRTEhzMG4rbmZuZjQ5MERZTC84ZkdVendPUEYvdG5XN1hnRVdD?=
+ =?utf-8?B?akVzNnRqZE9JdGM2dkJhVzdjMUZzTUx0bXVGK0x2Yi9kSjl4ejA0L2JCeUVZ?=
+ =?utf-8?B?OFFDRklOYVFaa0RWc1NXdEh3MWJ2WlVYcHFRQkptRENFNzErYTk2U2x2a3Rk?=
+ =?utf-8?B?TjlsbFBUMlUxekNhSFgxSjJSWnFraW45MjJZYTNGYTh4MFVHUWVDdGd3Nk1n?=
+ =?utf-8?B?Sks3OWRpVTJVWjhLT1gyMGlKd1NkSnIyQmMvT0paM3ErM3VOZlJoY0RuVUNn?=
+ =?utf-8?B?VUFRdk9uTk8wV2NiM1BzbmptajVpZE5ka3JJSXFGRkxnOXZCWDhreHlUbkxp?=
+ =?utf-8?B?eWZONi9PaC9aSmNRUm5hM3pJVzZDeDFUOFRhVUhPSGRMcmh1ZkNrbkhpeGhO?=
+ =?utf-8?B?eHd4Q0drdlpTMDlBbU5lUm93NjRibWJTdUxBSFhZZHlGR1FyNXQxSXQrbm9N?=
+ =?utf-8?B?dG03elFsbjRtS0IveGZka0grMmN5TnpZdk1MTnFSN0h5NDIwOThxNXFQQldt?=
+ =?utf-8?B?L3puYUVMVjk2K1B4YWFMQ1NRYnE1a0llOGd0aUxXNHRNeUtIQXgxc0hvdThH?=
+ =?utf-8?B?S2NnanFneURHR2pUYVNaMHp0Uld1VWhuTmg5ZU5Hc0FtN0hqaW5vVk9UUTRI?=
+ =?utf-8?B?MWhESXJhc0kyK0hWdGVFZTBkOWJVVDhaOGJtRE1JRXMrRmdLNHNCb1gwaW5N?=
+ =?utf-8?B?YnlpQVYzZkx5MVFFcmdQSjd0NFJ5Um0rZkFSck5jdE9aTlE4TFY4bzNOTlZp?=
+ =?utf-8?B?YUNUdmdrSGk3ZkFjNDZCemIvRTlQWUpDYlJJdm1jalJvbWFmRGlHV1JSZ09W?=
+ =?utf-8?B?SHlwZ3dHS1F5eEpTWjZHRzN0VFRhV1lMQm1QUW1YS2EwZEMzNkNScHU4NzJC?=
+ =?utf-8?B?L0FYMTBzV1BUU0hrZjRpbG1HRnpLdWphZENLMEV3VThQbTJNNTdrNUZjUXdm?=
+ =?utf-8?B?N1g2QUFIWXZFazdXUXQ2Tk5xNGpvaE8xemlOWmo2NmsyTFFXVUY5L2RkMkM2?=
+ =?utf-8?B?Nm5mU2d0VDhmQjBYSzNxU2Z0TUJOYitkN3dPdnVkNlRlWEpYUDZTUVQ2aENT?=
+ =?utf-8?B?eTlidWdIVGNIbGJnMEI1by9Ia1ZKSnA2VkFuZ3lrZlYxYVkxbmRJZWRwbHRX?=
+ =?utf-8?B?VjlxTkU0RjN0RS83Wk1INXhHV1RDd1BESXN2QmpqczlHVWVYaHJRT3RDclQ3?=
+ =?utf-8?B?VHAzU01Vd2FFVlRQVDhEWkxNRytmdW1lMHUwZW9ER2ptVE00RUlpNTQxUTRF?=
+ =?utf-8?B?OHg5U1greXhYNkh3YUptb0pONkRmMmRSZHk1bFNTVDlwVDF1Y3JiZ0FqUjJl?=
+ =?utf-8?B?Qk0raDJGaXpVQXl1eFk2YjZ0TzRMTTc0bkRRNXBuS1JiQmZkZ0pHbHhzRjB3?=
+ =?utf-8?B?U2hjd05HVy9QM0M3SktjYU5uWHVhd3hibXhYdjhpamZqeXhTN3pySGNOUjky?=
+ =?utf-8?B?d0dIeWZaSThHZVlJbnh4ZHUzZjZwR2N1SldwNysvUnZkQXV3eDV0dzkvRlZ3?=
+ =?utf-8?B?Mmc9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	+OW6vVPIdXpLSw6DmQGTu4fAyD5PNYByhPs4Z64spmag/UtSdgnh+RHhL1ZIdzZGsvWd54xtx/M+a82VHJpvA23TDqw6XdHN+Sz2FgPH50YhaVH2VpQGPWwaF5HY5gGeR6ErJgOwr6x2dXocwZhbOLbLmEulhSMTgALcJ2VS7sA3DAuv5WNbzaBMqzVZxyS9O+5gKLSS4t2+qSG13aedCQRqmLSnU8TeXb1gFbKSW0OYdueVrdYhEMsBWy62fZzOQJvwX/Q3mW9KBPcamvHJo5yPJSRM54jjz67FhvqsdpJedDADhbXwmdfXXkD8aaiEsTJ9zOWEXnbie8wKGAVCUfXSjP0eWvV7yY/p2kw/PBkND/Ivogns7+o7KrL1vHHaXhoV+LkJRbiHOoaggOa/9bXGkBBUHvaMBoq46O5beYWj4GOY6SZBsGtAc6qMMiRW
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 22:27:06.9275
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0619457f-acec-4ce9-46fe-08de6e73af11
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BY1PEPF0001AE16.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR10MB997810
 
-From 278f2646b0942aa2c57f2da1839b6e18adb38ed9 Mon Sep 17 00:00:00 2001
-From: Sean Rhodes <sean@starlabs.systems>
-Date: Tue, 17 Feb 2026 11:53:41 +0000
-Subject: [PATCH] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-    sbinding@opensource.cirrus.com,
-    kailang@realtek.com,
-    chris.chiu@canonical.com,
-    edip@medip.dev,
-    david.henningsson@canonical.com,
-    linux-sound@vger.kernel.org,
-    linux-kernel@vger.kernel.org
+On 2/11/26 16:10, Sen Wang wrote:
+> The McASP driver supports runtime PM callbacks for register save/restore
+> during device idle, but doesn't provide system suspend/resume callbacks.
+> This causes audio to fail to resume after system suspend.
+> 
+> Since the driver already handles runtime suspend & resume, we can reuse
+> existing runtime PM logics.
+> 
+> Signed-off-by: Sen Wang <sen@ti.com>
+> ---
+> Tested on SK-AM62Px with audio playback during system suspend/resume cycles
+> 
+> Testlog:
+>    https://gist.github.com/SenWang125/065c2840071f2569a79db9e99010603f
+> 
+>   sound/soc/ti/davinci-mcasp.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
+> index 8a2977093df1..643661ebee83 100644
+> --- a/sound/soc/ti/davinci-mcasp.c
+> +++ b/sound/soc/ti/davinci-mcasp.c
+> @@ -2811,6 +2811,8 @@ static int davinci_mcasp_runtime_resume(struct device *dev)
+>   #endif
+>   
+>   static const struct dev_pm_ops davinci_mcasp_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+>   	SET_RUNTIME_PM_OPS(davinci_mcasp_runtime_suspend,
+>   			   davinci_mcasp_runtime_resume,
+>   			   NULL)
 
-On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
-emit an audible pop when resuming from runtime suspend.
-
-The speaker amplifier is controlled via EAPD. The generic Realtek shutup
-path can toggle EAPD/pin widget control while the amp is still unmuted,
-causing the pop.
-
-Mute the speaker output before toggling EAPD on suspend/resume and restore
-the previous mute state after resume. Also toggle EAPD for the auxiliary
-pin (0x14) so runtime PM can fully power down the codec instead of being
-held in D0.
-
-On this machine the internal speaker pin is exposed as a line-out pin with
-type speaker, so use the line-out pin as the target for mute/EAPD when
-no dedicated speaker pin is present.
-
-Test results: fixes the runtime PM suspend/resume speaker pop. Pops that can
-occur on cold boot (G3 exit) and around display manager start/shutdown are not
-addressed.
-
-Tested-by: Sean Rhodes <sean@starlabs.systems>
-Signed-off-by: Sean Rhodes <sean@starlabs.systems>
----
- sound/hda/codecs/realtek/alc269.c  | 127 +++++++++++++++++++++++++++++
- sound/hda/codecs/realtek/realtek.h |   2 +
- 2 files changed, 129 insertions(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c
-b/sound/hda/codecs/realtek/alc269.c
-index b66965a52107..4fec84b1bf5c 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -1017,6 +1017,126 @@ static int alc269_resume(struct hda_codec *codec)
- 	return 0;
- }
-
-+#define STARLABS_STARFIGHTER_AUX_EAPD_PIN	0x14
-+#define STARLABS_STARFIGHTER_EAPD_DELAY_MS	30
-+#define STARLABS_STARFIGHTER_RESUME_DELAY_MS	20
-+
-+static hda_nid_t starlabs_starfighter_get_spk_pin(struct hda_codec *codec)
-+{
-+	struct alc_spec *spec = codec->spec;
-+	const struct auto_pin_cfg *cfg = &spec->gen.autocfg;
-+	const hda_nid_t *pins = auto_cfg_speaker_pins(cfg);
-+
-+	if (auto_cfg_speaker_outs(cfg) > 0 && pins[0])
-+		return pins[0];
-+
-+	if (cfg->line_out_type == AC_JACK_SPEAKER && cfg->line_out_pins[0])
-+		return cfg->line_out_pins[0];
-+
-+	return 0;
-+}
-+
-+static void starlabs_starfighter_set_mute(struct hda_codec *codec,
-+					  hda_nid_t nid, bool mute)
-+{
-+	snd_hda_codec_amp_stereo(codec, nid, HDA_OUTPUT, 0, HDA_AMP_MUTE,
-+				 mute ? HDA_AMP_MUTE : 0);
-+	/* sync after issuing the verbs */
-+	snd_hda_codec_amp_read(codec, nid, 0, HDA_OUTPUT, 0);
-+	snd_hda_codec_amp_read(codec, nid, 1, HDA_OUTPUT, 0);
-+}
-+
-+static void starlabs_starfighter_set_eapd(struct hda_codec *codec,
-+					  hda_nid_t nid, bool enable)
-+{
-+	if (!(snd_hda_query_pin_caps(codec, nid) & AC_PINCAP_EAPD))
-+		return;
-+
-+	snd_hda_codec_write(codec, nid, 0, AC_VERB_SET_EAPD_BTLENABLE,
-+			    enable ? 0x02 : 0x00);
-+	/* sync after issuing the verb */
-+	snd_hda_codec_read(codec, nid, 0, AC_VERB_GET_EAPD_BTLENABLE, 0);
-+}
-+
-+static void starlabs_starfighter_shutup(struct hda_codec *codec)
-+{
-+	struct alc_spec *spec = codec->spec;
-+	hda_nid_t spk_pin = starlabs_starfighter_get_spk_pin(codec);
-+	unsigned int amp_l, amp_r;
-+
-+	if (!spk_pin)
-+		return;
-+
-+	amp_l = snd_hda_codec_amp_read(codec, spk_pin, 0, HDA_OUTPUT, 0);
-+	amp_r = snd_hda_codec_amp_read(codec, spk_pin, 1, HDA_OUTPUT, 0);
-+	spec->speaker_pop_spk_was_muted =
-+		!!((amp_l & HDA_AMP_MUTE) && (amp_r & HDA_AMP_MUTE));
-+	spec->speaker_pop_resume_pending = 1;
-+
-+	/*
-+	 * Star Labs StarFighter: the internal speaker amplifier is controlled via
-+	 * EAPD. Mute before toggling EAPD on suspend/resume to avoid speaker pops.
-+	 */
-+	starlabs_starfighter_set_mute(codec, spk_pin, true);
-+	msleep(STARLABS_STARFIGHTER_EAPD_DELAY_MS);
-+
-+	starlabs_starfighter_set_eapd(codec, spk_pin, false);
-+	if (spk_pin != STARLABS_STARFIGHTER_AUX_EAPD_PIN)
-+		starlabs_starfighter_set_eapd(codec,
-+					      STARLABS_STARFIGHTER_AUX_EAPD_PIN,
-+					      false);
-+	msleep(STARLABS_STARFIGHTER_EAPD_DELAY_MS);
-+}
-+
-+static unsigned int starlabs_starfighter_power_filter(struct hda_codec *codec,
-+						      hda_nid_t nid,
-+						      unsigned int power_state)
-+{
-+	unsigned int state;
-+
-+	state = snd_hda_gen_path_power_filter(codec, nid, power_state);
-+	return snd_hda_codec_eapd_power_filter(codec, nid, state);
-+}
-+
-+static void alc233_fixup_starlabs_speaker_pop(struct hda_codec *codec,
-+					      const struct hda_fixup *fix,
-+					      int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	switch (action) {
-+	case HDA_FIXUP_ACT_PRE_PROBE:
-+		codec->power_save_node = 1;
-+		codec->power_filter = starlabs_starfighter_power_filter;
-+		spec->shutup = starlabs_starfighter_shutup;
-+		break;
-+	case HDA_FIXUP_ACT_INIT: {
-+		hda_nid_t spk_pin;
-+
-+		if (!spec->speaker_pop_resume_pending)
-+			break;
-+
-+		spec->speaker_pop_resume_pending = 0;
-+		spk_pin = starlabs_starfighter_get_spk_pin(codec);
-+		if (!spk_pin)
-+			break;
-+
-+		starlabs_starfighter_set_mute(codec, spk_pin, true);
-+		starlabs_starfighter_set_eapd(codec, spk_pin, true);
-+		if (spk_pin != STARLABS_STARFIGHTER_AUX_EAPD_PIN)
-+			starlabs_starfighter_set_eapd(codec,
-+						      STARLABS_STARFIGHTER_AUX_EAPD_PIN,
-+						      true);
-+		msleep(STARLABS_STARFIGHTER_EAPD_DELAY_MS);
-+		msleep(STARLABS_STARFIGHTER_RESUME_DELAY_MS);
-+
-+		if (!spec->speaker_pop_spk_was_muted)
-+			starlabs_starfighter_set_mute(codec, spk_pin, false);
-+		break;
-+	}
-+	}
-+}
-+
- static void alc269_fixup_pincfg_no_hp_to_lineout(struct hda_codec *codec,
- 						 const struct hda_fixup *fix, int action)
- {
-@@ -3802,6 +3922,7 @@ enum {
- 	ALC245_FIXUP_CLEVO_NOISY_MIC,
- 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
- 	ALC233_FIXUP_MEDION_MTL_SPK,
-+	ALC233_FIXUP_STARLABS_SPEAKER_POP,
- 	ALC294_FIXUP_BASS_SPEAKER_15,
- 	ALC283_FIXUP_DELL_HP_RESUME,
- 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
-@@ -6238,6 +6359,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[ALC233_FIXUP_STARLABS_SPEAKER_POP] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc233_fixup_starlabs_speaker_pop,
-+	},
- 	[ALC294_FIXUP_BASS_SPEAKER_15] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc294_fixup_bass_speaker_15,
-@@ -7370,6 +7495,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0x1705, "MEDION E15433", ALC269VC_FIXUP_INFINIX_Y4_MAX),
- 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
- 	SND_PCI_QUIRK(0x2782, 0x4900, "MEDION E15443", ALC233_FIXUP_MEDION_MTL_SPK),
-+	SND_PCI_QUIRK(0x7017, 0x2014, "Star Labs StarFighter",
-ALC233_FIXUP_STARLABS_SPEAKER_POP),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
- 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged",
-ALC256_FIXUP_INTEL_NUC8_RUGGED),
- 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
-@@ -7466,6 +7592,7 @@ static const struct hda_model_fixup
-alc269_fixup_models[] = {
- 	{.id = ALC298_FIXUP_TPT470_DOCK_FIX, .name = "tpt470-dock-fix"},
- 	{.id = ALC298_FIXUP_TPT470_DOCK, .name = "tpt470-dock"},
- 	{.id = ALC233_FIXUP_LENOVO_MULTI_CODECS, .name = "dual-codecs"},
-+	{.id = ALC233_FIXUP_STARLABS_SPEAKER_POP, .name = "starlabs-starfighter"},
- 	{.id = ALC700_FIXUP_INTEL_REFERENCE, .name = "alc700-ref"},
- 	{.id = ALC269_FIXUP_SONY_VAIO, .name = "vaio"},
- 	{.id = ALC269_FIXUP_DELL_M101Z, .name = "dell-m101z"},
-diff --git a/sound/hda/codecs/realtek/realtek.h
-b/sound/hda/codecs/realtek/realtek.h
-index b2a919904c4c..293fc0f3373f 100644
---- a/sound/hda/codecs/realtek/realtek.h
-+++ b/sound/hda/codecs/realtek/realtek.h
-@@ -119,6 +119,8 @@ struct alc_spec {
- 	unsigned int has_hs_key:1;
- 	unsigned int no_internal_mic_pin:1;
- 	unsigned int en_3kpull_low:1;
-+	unsigned int speaker_pop_resume_pending:1;
-+	unsigned int speaker_pop_spk_was_muted:1;
- 	int num_speaker_amps;
-
- 	/* for PLL fix */
--- 
-2.51.0
+Reviewed-by: Kendall Willis <k-willis@ti.com>
