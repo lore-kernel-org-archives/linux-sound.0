@@ -1,186 +1,217 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010061.outbound.protection.outlook.com [52.101.85.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C83318B95;
-	Tue, 17 Feb 2026 22:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771367232; cv=fail; b=MqSpkdVFEcKDptkKnl0E0GbyMyPrcTEpqOEPRRwIIVUhTA5veesPS5Xaag9KXJQnyPRfKvJVmriczSDQvAGYnvSQW7uW7Y17H2MkckDpuOQo+p4paLaO2Zlr631z3eZXA7yKdzLLGmuyN4Vc62t7q57tZ2M2qnKavISq1zQU+FE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771367232; c=relaxed/simple;
-	bh=eG2rVPv4wYkFiKBSF9wXt2UIaBLt6eR3GdPL73NW7dE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=DoN8Z9wl4+d553dlYCU5pOxcv6b8mFtWid8NlvW2cap9mDs4cW8C5i96GJgWBQ1ODwXf0BmW9eCuMpdEzbArOaq9dAMV211XUz3CsWnv8CI1CFyf/bWH+nWgh0rarOKSU3hr6fc7lXbxT754spQkgZuBs/CkMF2GPmXxqely+nA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=f/alUl+9; arc=fail smtp.client-ip=52.101.85.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A03C2C1598
+	for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 23:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771370015; cv=none; b=a8QLIuS8AOz3RLFxi6p7zow5oC69eSm5uEb/kgLIOpjsfBw3bXYMzaX5m1nEIlk86QBVby7TM5rFMTjpBV93u/v0Uxj53HpiDhwxooE5B9QB88mtlGYOsNtFTeDlQHyLD6ryC9rDhBc1GoSZZpto+E/x61qp/+tyNPb5Do/Ncy0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771370015; c=relaxed/simple;
+	bh=8CXx5KGYHmTT1pcaXlh1JWyPSkCdfVKWKnhkw/+2UD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjgnkNAEY+ZBVNGFg5TAAzm6zqm5jhSxX6FSUN9hdaQJgAqCnGk6CJ3j5MX5NoRAs7lsQ8MbwDkkWA+poPIB+LDH0ITB8FfmgyIWPzbCB9sJBH1oTBEv7bDp2jyTVQCJ1B12v2UmVDj7od+//lktkQsk7EKzcpVoZkcTLA1CyDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhiT89QU; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="f/alUl+9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oyLcg2JH1xYD7AgpY2s9eu7jGwnJhyMTX1qs4LZ/3nRN+jl612IQC4tyu4+xOKv/dERzpIlSGuRIEbHDWdMYu0DtTYA6ukGwzZ/wgOIaJ1GyEA92wDZ8DTAF0if6unD2ATmXZL5S6cT67Ppq6PTSau5tnrnXemQ/LqLIM0vnxTpCb1RmlM+c3/mXVAOlngPq0sZYjRsR6AVrARZEpVF8HpG1WQqdg+PEOWAv62NGthzIiRwHxr4PTExA8fuC/g1F5hL/WAJqvJbeJAOMZU1gESCwMelju2qzhual7RnCa9mE2QbtIeR6g5pKw+P9e6bYr8W6I2OsA6s647qK4yrQZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P3wOSy1tIc/smxZgZIInzR6HIyUOMtM/v1OMu9XLGUw=;
- b=ALr9ZB33jkpbicNniB87B2rNsKOSGrvzCqHweY6Hbb9db+qkWvA6NLo+AgwMgCZ+vaycyfTDyqlEiQxwZfbVHDSdmny1AJg2BJtNTgCpEkL0UJ1hvfuLWBPX1UeOAXyWifh71XBWpdGWGMT5+I6nriitnE1hvV918vD6AXGxdKL0M82AAjrqcGfqm+Fe8bUc6aoqXS8QvOgACw9gnJtv0xK12XZPLu+7nb274SgfH4I8cGwu4eJRydW18ec+Jas035Wy+GIsFs5/7fYtaYlzDFw5gwO/g0QxLWq76cUal6HPfq97d9NIs6OIFsqCEyhDdvd9z6LaM3psJELo4NAbuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P3wOSy1tIc/smxZgZIInzR6HIyUOMtM/v1OMu9XLGUw=;
- b=f/alUl+9bTnimd1AFluVvlClMnDGGsGFHUDI9ynJsYr3GS7KdDcZWziLyo4BvV0FO2pfsUPhdotZHwVhJ9ofE/biGAk1/7yrcze2voMcb6pwW3766/VPlJxCa/lJvW1bYR3MxEH+cv6Z+Z8LM4FV97dELOaUaCvSAHYGaqD586k=
-Received: from BYAPR21CA0019.namprd21.prod.outlook.com (2603:10b6:a03:114::29)
- by LVUPR10MB997810.namprd10.prod.outlook.com (2603:10b6:408:39e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Tue, 17 Feb
- 2026 22:27:08 +0000
-Received: from BY1PEPF0001AE16.namprd04.prod.outlook.com
- (2603:10b6:a03:114:cafe::d3) by BYAPR21CA0019.outlook.office365.com
- (2603:10b6:a03:114::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.9 via Frontend Transport; Tue,
- 17 Feb 2026 22:27:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- BY1PEPF0001AE16.mail.protection.outlook.com (10.167.242.104) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Tue, 17 Feb 2026 22:27:06 +0000
-Received: from DFLE202.ent.ti.com (10.64.6.60) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Feb
- 2026 16:26:45 -0600
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE202.ent.ti.com
- (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Feb
- 2026 16:26:45 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 17 Feb 2026 16:26:45 -0600
-Received: from [128.247.81.19] (uda0506412.dhcp.ti.com [128.247.81.19])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61HMQi8F3573069;
-	Tue, 17 Feb 2026 16:26:45 -0600
-Message-ID: <52ff9d7c-7a62-46d0-a432-d51b29edc0d6@ti.com>
-Date: Tue, 17 Feb 2026 16:26:44 -0600
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhiT89QU"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65a36583ef9so622077a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 17 Feb 2026 15:13:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771370011; x=1771974811; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TuCtFSo1/BpbElvw/aCMIq5QPc8B+MlFWaQWA/8BJQM=;
+        b=LhiT89QUcJVX7auNCjmargZvDpmQ50z+kT0GMcSkZnRmDVBlW+ZSwT1k1a/4n8Kaqs
+         oQ77YxqHjCtFG2I7u0bcNey4nwhGsZWKB52xqI9Hav/cXpOl1D7Iag20BRKnAU0blQMg
+         0DeIDU3TZFJmuZfhvYM6pifx6/lV8XC1IdOiqE2UQw8IBtAtYp3oS2b28M7FP6SV9hg8
+         gbmix/T3BsF0lA64l99KJcqEFlad+bRXpiOkjOw2IJQzvgjnnVhyjquBrX7xhCoGo4j1
+         6jgjYy2hFbxafdhgcBVeBowaklRJzSyyxZdH+xjNebN2IuSL26DlMd6uerBY33dF0L21
+         js0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771370011; x=1771974811;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TuCtFSo1/BpbElvw/aCMIq5QPc8B+MlFWaQWA/8BJQM=;
+        b=GJopUldv3h+OBKlO7PLZ+6dyxynAXq+f8+ckEA/8KZTfZrpe1uI/0QQmLS0ifeUkrC
+         VB9DCsa1OWd42F2YxtvAoN9U2uk9Lie2Bjski0xwHDgRtEgTSUoW1dyodSi+ukfuo2iO
+         RDFDc81t/PGAsNiV8Milu9tVzjLqwe2NNo8rjw3kXqllvLuZ8oT+b9M80VwE3evA5vlM
+         GfJsevvxhKs4K3bAaBjCx/1f9CzL3hcQVANnlcfpO7AbWzNfIdigCh11te3UVLN4P1s6
+         K/39rVLX0HyLA6AlYZxaweMdArZwUZBlfr4qu19x1tWG1UfimQJNPVwfXMAp/bgn6sDQ
+         yLXA==
+X-Gm-Message-State: AOJu0YxZFuXB3RzSD6HJIF7UF77kV8jW3Rac13Dqs7ICj6bRnGBK2J67
+	wwzO7BsBqsivQwwrYOydjiZPhTyCZbvba3Vro7IizP6nMn5Y7qD7+/yvZiIalw==
+X-Gm-Gg: AZuq6aKGwVxogQVQvj8538ZW9QTXpIna+oKbux67QvRxqX52Dxh2gMrjIC1mkUaw0iU
+	aYcQWgOgcOGj6Ig794MUerKb5dfbW2+hKUp5wRo/pspszYAs5ogGJtLn0jM0o5iOfe4SRiaGnd/
+	lRp5q/QHZgeabqEiOr1N4B/gZ/FHN4Eou1jXcTd5KzwXuiIqeLOF2O4uoOsRMHgDGqhP3LVMEBK
+	DF3+FKHIaiv7Qup6X+CdD6dpk9dIODmSWe4U2GYMZ2O4Ts4rI3kPYObq5mxAOszm2qt1+tJqdTC
+	lxBqZlP8hP1jTcdduIBIOTYE+3/gDnp+DltHKUFAgr87iqhOXlOKcgLOKjZjUc/oWExuBVHR66M
+	+DCB74pEz19Kwn9275GxFX0rF0w7Qj9v1uYrSsCFEL8Q8ggwq93wdSflGjnSmFfUmSBs6wJ7gwv
+	DgBlwvmGImhpI+2A==
+X-Received: by 2002:a05:6402:34cf:b0:65b:94e0:a593 with SMTP id 4fb4d7f45d1cf-65c771b4037mr23303a12.1.1771370010832;
+        Tue, 17 Feb 2026 15:13:30 -0800 (PST)
+Received: from jekhomev ([46.251.53.180])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65bad3f137dsm2661375a12.27.2026.02.17.15.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 15:13:30 -0800 (PST)
+From: Yauhen Kharuzhy <jekhor@gmail.com>
+To: linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Hans de Goede <hansg@kernel.org>,
+	Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: [PATCH v1 0/2] Add ASoC machine driver for Lenovo YB1 tablets
+Date: Wed, 18 Feb 2026 01:13:22 +0200
+Message-ID: <20260217231324.1319392-1-jekhor@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: ti: davinci-mcasp: Add system suspend/resume
- support
-To: Sen Wang <sen@ti.com>, <peter.ujfalusi@gmail.com>, <broonie@kernel.org>,
-	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <devarsht@ti.com>, <r-donadkar@ti.com>, <s-jain1@ti.com>, <m-shah@ti.com>
-References: <20260211221001.155843-1-sen@ti.com>
-Content-Language: en-US
-From: Kendall Willis <k-willis@ti.com>
-In-Reply-To: <20260211221001.155843-1-sen@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE16:EE_|LVUPR10MB997810:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0619457f-acec-4ce9-46fe-08de6e73af11
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bGNTaXV6elA5N0JSMGo0dDMvc0h0am1wd3BoUmI3RU5mdUZxcVplMlo1N3Nu?=
- =?utf-8?B?enYyMENCZEhNZnhXUXFId0RRckRiM1RiUzNzRmxpdTlvMzB3WXQyeDR3VERV?=
- =?utf-8?B?VE43cnFLUytiVTZydDFrVERLaEtoakZ4Wk9PT0Z5TXlTMEdrcTZ3TEhhZzkx?=
- =?utf-8?B?dk5KWUpWb1EyRG84RUpmWlBMVHJvVkVpTytVaUx4WHY2emxuZjcrZm1vNEJ1?=
- =?utf-8?B?WnhzZENYMzJkbUFlclFjUkF3SXBOWUlmZG9ybE05R0hlM1FsWXVhOXNyYjhW?=
- =?utf-8?B?YjhGcHVkNHEvRHUyT0s4TThzQk1WRWMwK2NzS2RwbkVWUTRXM0tPekVpZTEz?=
- =?utf-8?B?d1RRdlZ0MGxuUlVpNlB0SDZ3NVpQcjE0dkhYQUkyejQreStnQTRYaHo4cmZ1?=
- =?utf-8?B?WEthTnFPT2dZQ1BRUDgyRjg0Q0E2K0NKb0lWcDhYK3YrUWZleldiSGxpUW1K?=
- =?utf-8?B?ZlFvUFV2TU0vZlF1MHFaclhBWit3aHpkWncrSXk5bElQSFRWcUVDUDIvQ0xw?=
- =?utf-8?B?b2x0RWFHcGpOSnVzTVpmanFwSnZOWWthbVBPekhZSWNaeTl1Z0FLZTB1R2Vl?=
- =?utf-8?B?NFRHbDI3OFBndWpsT0JaUzFOR29YeDc1VHN4dUhJcUkyeW40cm9uNjduU0JR?=
- =?utf-8?B?d0wvMzNLa3RRTEhzMG4rbmZuZjQ5MERZTC84ZkdVendPUEYvdG5XN1hnRVdD?=
- =?utf-8?B?akVzNnRqZE9JdGM2dkJhVzdjMUZzTUx0bXVGK0x2Yi9kSjl4ejA0L2JCeUVZ?=
- =?utf-8?B?OFFDRklOYVFaa0RWc1NXdEh3MWJ2WlVYcHFRQkptRENFNzErYTk2U2x2a3Rk?=
- =?utf-8?B?TjlsbFBUMlUxekNhSFgxSjJSWnFraW45MjJZYTNGYTh4MFVHUWVDdGd3Nk1n?=
- =?utf-8?B?Sks3OWRpVTJVWjhLT1gyMGlKd1NkSnIyQmMvT0paM3ErM3VOZlJoY0RuVUNn?=
- =?utf-8?B?VUFRdk9uTk8wV2NiM1BzbmptajVpZE5ka3JJSXFGRkxnOXZCWDhreHlUbkxp?=
- =?utf-8?B?eWZONi9PaC9aSmNRUm5hM3pJVzZDeDFUOFRhVUhPSGRMcmh1ZkNrbkhpeGhO?=
- =?utf-8?B?eHd4Q0drdlpTMDlBbU5lUm93NjRibWJTdUxBSFhZZHlGR1FyNXQxSXQrbm9N?=
- =?utf-8?B?dG03elFsbjRtS0IveGZka0grMmN5TnpZdk1MTnFSN0h5NDIwOThxNXFQQldt?=
- =?utf-8?B?L3puYUVMVjk2K1B4YWFMQ1NRYnE1a0llOGd0aUxXNHRNeUtIQXgxc0hvdThH?=
- =?utf-8?B?S2NnanFneURHR2pUYVNaMHp0Uld1VWhuTmg5ZU5Hc0FtN0hqaW5vVk9UUTRI?=
- =?utf-8?B?MWhESXJhc0kyK0hWdGVFZTBkOWJVVDhaOGJtRE1JRXMrRmdLNHNCb1gwaW5N?=
- =?utf-8?B?YnlpQVYzZkx5MVFFcmdQSjd0NFJ5Um0rZkFSck5jdE9aTlE4TFY4bzNOTlZp?=
- =?utf-8?B?YUNUdmdrSGk3ZkFjNDZCemIvRTlQWUpDYlJJdm1jalJvbWFmRGlHV1JSZ09W?=
- =?utf-8?B?SHlwZ3dHS1F5eEpTWjZHRzN0VFRhV1lMQm1QUW1YS2EwZEMzNkNScHU4NzJC?=
- =?utf-8?B?L0FYMTBzV1BUU0hrZjRpbG1HRnpLdWphZENLMEV3VThQbTJNNTdrNUZjUXdm?=
- =?utf-8?B?N1g2QUFIWXZFazdXUXQ2Tk5xNGpvaE8xemlOWmo2NmsyTFFXVUY5L2RkMkM2?=
- =?utf-8?B?Nm5mU2d0VDhmQjBYSzNxU2Z0TUJOYitkN3dPdnVkNlRlWEpYUDZTUVQ2aENT?=
- =?utf-8?B?eTlidWdIVGNIbGJnMEI1by9Ia1ZKSnA2VkFuZ3lrZlYxYVkxbmRJZWRwbHRX?=
- =?utf-8?B?VjlxTkU0RjN0RS83Wk1INXhHV1RDd1BESXN2QmpqczlHVWVYaHJRT3RDclQ3?=
- =?utf-8?B?VHAzU01Vd2FFVlRQVDhEWkxNRytmdW1lMHUwZW9ER2ptVE00RUlpNTQxUTRF?=
- =?utf-8?B?OHg5U1greXhYNkh3YUptb0pONkRmMmRSZHk1bFNTVDlwVDF1Y3JiZ0FqUjJl?=
- =?utf-8?B?Qk0raDJGaXpVQXl1eFk2YjZ0TzRMTTc0bkRRNXBuS1JiQmZkZ0pHbHhzRjB3?=
- =?utf-8?B?U2hjd05HVy9QM0M3SktjYU5uWHVhd3hibXhYdjhpamZqeXhTN3pySGNOUjky?=
- =?utf-8?B?d0dIeWZaSThHZVlJbnh4ZHUzZjZwR2N1SldwNysvUnZkQXV3eDV0dzkvRlZ3?=
- =?utf-8?B?Mmc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	+OW6vVPIdXpLSw6DmQGTu4fAyD5PNYByhPs4Z64spmag/UtSdgnh+RHhL1ZIdzZGsvWd54xtx/M+a82VHJpvA23TDqw6XdHN+Sz2FgPH50YhaVH2VpQGPWwaF5HY5gGeR6ErJgOwr6x2dXocwZhbOLbLmEulhSMTgALcJ2VS7sA3DAuv5WNbzaBMqzVZxyS9O+5gKLSS4t2+qSG13aedCQRqmLSnU8TeXb1gFbKSW0OYdueVrdYhEMsBWy62fZzOQJvwX/Q3mW9KBPcamvHJo5yPJSRM54jjz67FhvqsdpJedDADhbXwmdfXXkD8aaiEsTJ9zOWEXnbie8wKGAVCUfXSjP0eWvV7yY/p2kw/PBkND/Ivogns7+o7KrL1vHHaXhoV+LkJRbiHOoaggOa/9bXGkBBUHvaMBoq46O5beYWj4GOY6SZBsGtAc6qMMiRW
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 22:27:06.9275
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0619457f-acec-4ce9-46fe-08de6e73af11
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BY1PEPF0001AE16.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR10MB997810
+Content-Transfer-Encoding: 8bit
 
-On 2/11/26 16:10, Sen Wang wrote:
-> The McASP driver supports runtime PM callbacks for register save/restore
-> during device idle, but doesn't provide system suspend/resume callbacks.
-> This causes audio to fail to resume after system suspend.
-> 
-> Since the driver already handles runtime suspend & resume, we can reuse
-> existing runtime PM logics.
-> 
-> Signed-off-by: Sen Wang <sen@ti.com>
-> ---
-> Tested on SK-AM62Px with audio playback during system suspend/resume cycles
-> 
-> Testlog:
->    https://gist.github.com/SenWang125/065c2840071f2569a79db9e99010603f
-> 
->   sound/soc/ti/davinci-mcasp.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-> index 8a2977093df1..643661ebee83 100644
-> --- a/sound/soc/ti/davinci-mcasp.c
-> +++ b/sound/soc/ti/davinci-mcasp.c
-> @@ -2811,6 +2811,8 @@ static int davinci_mcasp_runtime_resume(struct device *dev)
->   #endif
->   
->   static const struct dev_pm_ops davinci_mcasp_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> +				pm_runtime_force_resume)
->   	SET_RUNTIME_PM_OPS(davinci_mcasp_runtime_suspend,
->   			   davinci_mcasp_runtime_resume,
->   			   NULL)
+This is the first iteration of my submission for sound support for Lenovo
+Yoga Book YB1-X90/X91 tablets.
 
-Reviewed-by: Kendall Willis <k-willis@ti.com>
+These are Cherry Trail-based platforms that use the RT5677 codec and
+TS3A227E jack detection IC.
+
+The YB1-X90 is an Android-designated device and has incorrect ACPI entries
+for many onboard peripherals, including sound devices. The YB1-X91 has a
+DSDT node for the codec, and the same node is shared with the TS3A227E
+jack detection IC (see below).
+
+Matching with ACPI entries is somewhat tricky; see the corresponding
+commit. Jack detection IC info is defined in the x86-android-tablets driver
+for both platforms to simplify the code.
+
+The machine driver is called 'cht_yogabook' because it has some
+hardcoded device-specific elements and it seems this is the only known
+Cherry Trail platform using the RT5677 codec. This naming is open
+to discussion: a more generic name like 'cht_rt5677' or 'cht_bsw_rt5677'
+may be better (requiring reworking of the driver to make it
+more generic with device-specific quirks).
+
+The driver requires support for the RT5677 definition as an ACPI node or
+i2c_board_info, submitted earlier in [1].
+
+1. https://lore.kernel.org/linux-sound/20260211002255.4090440-1-jekhor@gmail.com/
+
+For reference, there is an ACPI node for sound configuration from YB1-X91
+DSDT below:
+
+HID: 10EC5677
+_CRS resources:
+
+  I2C devices:
+  0: rt5677 codec
+  1: ts3a227e jack detection IC
+
+  GPIOs:
+  0: rt5677 codec reset
+  1: rt5677 codec pow-ldo2
+  2: speaker enable
+
+  INTs:
+  0: rt5677 codec
+  1: ts3a227e jack detection IC
+
+  SPI device:
+  0: rt5677 codec SPI connection
+
+ACPI decompiled dump fragment:
+
+    Device (RTEK)
+    {
+        Name (_ADR, Zero)  // _ADR: Address
+        Name (_HID, "10EC5677")  // _HID: Hardware ID
+        Name (_CID, "10EC5677")  // _CID: Compatible ID
+        Name (_DDN, "Realtek IIS Audio Codec")  // _DDN: DOS Device Name
+        Name (_SUB, "17AA7005")  // _SUB: Subsystem ID
+        Name (_UID, One)  // _UID: Unique ID
+        Name (_PR0, Package (0x01)  // _PR0: Power Resources for D0
+        {
+            CLK3
+        })
+        Name (CHAN, Package (0x02)
+        {
+            One,
+            0x0124F800
+        })
+        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+        {
+            Name (SBUF, ResourceTemplate ()
+            {
+                I2cSerialBusV2 (0x002C, ControllerInitiated, 0x000186A0,
+                    AddressingMode7Bit, "\\_SB.PCI0.I2C1",
+                    0x00, ResourceConsumer, , Exclusive,
+                    )
+                I2cSerialBusV2 (0x003B, ControllerInitiated, 0x000186A0,
+                    AddressingMode7Bit, "\\_SB.PCI0.I2C1",
+                    0x00, ResourceConsumer, , Exclusive,
+                    )
+                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0019
+                    }
+                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0012
+                    }
+                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0030
+                    }
+                GpioInt (Edge, ActiveLow, Exclusive, PullNone, 0x0000,
+                    "\\_SB.GPO0", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x005B
+                    }
+                GpioInt (Edge, ActiveLow, Exclusive, PullNone, 0x0000,
+                    "\\_SB.GPO0", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x004D
+                    }
+                SpiSerialBusV2 (0x0001, PolarityLow, FourWireMode, 0x08,
+                    ControllerInitiated, 0x003D0900, ClockPolarityHigh,
+                    ClockPhaseSecond, "\\_SB.PCI0.SPI1",
+                    0x00, ResourceConsumer, , Exclusive,
+                    )
+            })
+            Return (SBUF) /* \_SB_.PCI0.I2C1.RTEK._CRS.SBUF */
+        }
+    }
+
+
+Yauhen Kharuzhy (2):
+  ASoC: Intel: cht_yogabook: Add driver for Lenovo Yoga Book tablets
+  ASoC: Intel: soc-acpi-cht: Add Lenovo Yoga Book entries
+
+ sound/soc/intel/boards/Kconfig                |  15 +
+ sound/soc/intel/boards/Makefile               |   2 +
+ sound/soc/intel/boards/cht_yogabook.c         | 602 ++++++++++++++++++
+ .../intel/common/soc-acpi-intel-cht-match.c   | 144 +++--
+ 4 files changed, 713 insertions(+), 50 deletions(-)
+ create mode 100644 sound/soc/intel/boards/cht_yogabook.c
+
+
+base-commit: 635c467cc14ebdffab3f77610217c1dacaf88e8c
+message-id: 20260211002255.4090440-1-jekhor@gmail.com
+
+-- 
+2.51.0
+
