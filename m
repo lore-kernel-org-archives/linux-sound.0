@@ -1,49 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398482F49EB;
-	Wed, 18 Feb 2026 23:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5F02F49EB;
+	Wed, 18 Feb 2026 23:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771457691; cv=none; b=mdKWBmXgdLSy+4xUJZqi8HSvccjE3ARh/wtUBnpmE6quhOqSjT8KoJlF2FdiyHr1CyTYrIw5Mpw0GC1ZE+cxy2x2T1GRbroBrZ8U/ZZF10OpsPbz3/HQK7TPm/HYgSK5eiomfl8wGl7xUEfny+IGA8gI4tbfX1YhwZx4AKHyUQ0=
+	t=1771457694; cv=none; b=e7XBXK5ga6cSab5mSJgWyjuAW8Jos3niwHRai4kQxgB7iyBbDuKqslFAAVlGwZQEne2BcFkea8XH4oN5/oEA6ArRuWhxT3JsiOQxMb1BwwFyVu/B2SUxNT4mwBobRhOSPwVg1MrjMqDGL3sMs8asLZG0lKooe68q/Mk9dOI6lrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771457691; c=relaxed/simple;
-	bh=qpmummim78gKeegZYCtVyp5iwX18vKvMYjnNgD8l0OE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YoTmNdzHBtq1orxbaB+xgtrI3QQxn4To+unaMvwtPxh1Oex3OPXBET0N5wSBMe/jjvRMEZ2ViI5w1W7MgTqZYIlOgqnecKI6ElCNQMS3IATC4mjlx1R//Ns9WTSM7sGd//PMxlvUT/8B1e2xxjp6rAyIoavlqvRtkItMYLKnofg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jl69D+Do; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771457694; c=relaxed/simple;
+	bh=KT5Dw3IpFGRyOt2RzNiqycDyZwdvt3eYyDUGYMMFHHo=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ge2OiiOKZpioTMJqWssJjgI7BMG92on2/SgibLrOeBRV9m6MIHcgNqhVaSAcDrCTKVwZyhZnnxYC+uTtHc3Bj9lVOm4ebNPJDp2ELfFsDbsmSnysjexUgUmMt5Q3+AojzlDYngnaNVjHxmM2y+NfIbUAJYH9laYQLtec+RMf9O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tDnZ2EFz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jl69D+Do"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EE38C19421;
-	Wed, 18 Feb 2026 23:34:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tDnZ2EFz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99785C19425;
+	Wed, 18 Feb 2026 23:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771457690;
-	bh=qpmummim78gKeegZYCtVyp5iwX18vKvMYjnNgD8l0OE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jl69D+DoZkStaY2t47YypxsCLd3CevtFy84xk5J11X5goiW4pR06Zk98qjsQIzhHT
-	 lB60HhAP9YpZDXVUv93WB5kYWUNymt15kRzZACjvy85H0eBN6ulLruWNNiHFPvpxIm
-	 dEH4wf8e0wn1RNN1NZrOj0bMd3TS5IiM2AXuxo9WrBz81wNfWMwsMCYQHoeajlUYzl
-	 s3pycgZ4DZFZkySQlJNMJXdS8hCFFYLiVE4PTkGli1+FYsAsmGxytpDLAyZzH68gje
-	 TRKmtmkdzxENsS9XcKLk961MRaRgwdbugP2qHHUNOoyTwjtNEQFdvKcm9/yaQINW9D
-	 LR/ukAqzLNF4w==
+	s=k20201202; t=1771457694;
+	bh=KT5Dw3IpFGRyOt2RzNiqycDyZwdvt3eYyDUGYMMFHHo=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=tDnZ2EFzGLZlmoorJ5sCzqZy4H8lf1RnKseaWaiQHEcz14MXRJBFI8fBFIbYr2wch
+	 /Nk+EC6JgXGwZ2aMeVIXxCnrU2s6HORFK5CegSpOLBbGScZAJi2HTB0yWyItBXADdY
+	 nwH93wK6hAxXeQdeOv4JWPZ2jLdmgDeUt+Bk7QK1qkFU2n8QHiPEnd6lC466AHR2d/
+	 QFtwMxou8NZDTcIKElPCsvcP6gb6WTRY7B5zRvfDNRwCSpZYUz0LxUC1CCYLk510ah
+	 E1Dz0YHWe6KQxPyv892fzjjnCM7qW3h9GoRPMbxmURopsR5h0GAO8u1hYnSi0hR3Jm
+	 W2NSre8YKVScg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Weidong Wang <wangweidong.a@awinic.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Ferrieux <alexandre.ferrieux@orange.com>, 
- Bhushan Shah <bhushan.shah@machinesoul.in>, 
- Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org
-In-Reply-To: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
-References: <20260211-aw88261-fwname-v1-0-e24e833a019d@fairphone.com>
-Subject: Re: [PATCH 0/3] Bitmask logic fix and firmware-name support for
- AW88261 amplifier driver
-Message-Id: <177145768781.2257280.10716165868413631584.b4-ty@kernel.org>
-Date: Wed, 18 Feb 2026 23:34:47 +0000
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, perex@perex.cz, 
+ tiwai@suse.com, ckeepax@opensource.cirrus.com, 
+ andriy.shevchenko@linux.intel.com, nichen@iscas.ac.cn, 
+ kuninori.morimoto.gx@renesas.com, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20260212021829.3244736-1-shengjiu.wang@nxp.com>
+References: <20260212021829.3244736-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v2 0/3] ASoC: dt-bindings: fix the ak4458 and ak5558
+ binding doc
+Message-Id: <177145769138.2257280.5500868757051833326.b4-ty@kernel.org>
+Date: Wed, 18 Feb 2026 23:34:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,12 +49,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 11 Feb 2026 11:27:31 +0100, Luca Weiss wrote:
-> First a patch which fixes a logic error in the aw88261 driver. And then
-> we add "firmware-name" support for that driver to support loading
-> the device-specific firmware properly.
+On Thu, 12 Feb 2026 10:18:26 +0800, Shengjiu Wang wrote:
+> Set unevaluatedProperties:false in ak4458 dt-binding doc.
+> Fix supply name in ak4458 and ak5558 dt-binding doc.
 > 
+> Changes in v2:
+> - update the commit message for patch 1/3.
+> - Fix the supply name in dt-binding doc, not in driver, replace the
+>   patch 2/3 and 3/3.
 > 
+> [...]
 
 Applied to
 
@@ -67,12 +66,12 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: codecs: aw88261: Fix erroneous bitmask logic in Awinic init
-      commit: b82fa9b0c26eeb2fde6017f7de2c3c544484efef
-[2/3] ASoC: dt-bindings: awinic,aw88395: Document firmware-name property
-      (no commit info)
-[3/3] ASoC: codecs: aw88261: Add firmware-name support
-      (no commit info)
+[1/3] ASoC: dt-bindings: asahi-kasei,ak4458: set unevaluatedProperties:false
+      commit: 50a634f1d795721ce68583c78ba493f1d7aa8bc2
+[2/3] ASoC: dt-bindings: asahi-kasei,ak4458: Fix the supply names
+      commit: e570a5ca307f6d7a6acd080fc219db2ce3c0737b
+[3/3] ASoC: dt-bindings: asahi-kasei,ak5558: Fix the supply names
+      commit: 80ca113671a005430207d351cb403c1637106212
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
