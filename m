@@ -1,185 +1,84 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796972BDC04
-	for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 12:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D23E30DEA2
+	for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 12:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771416699; cv=none; b=fotaBaULxjkDzR1+7rpJZ7ysQ0J2SCvakKrA1g8KYErhOuUyodRjjqNT3CFV26JZf1TmnD4wUWSsuhwsT1Ja+Olii//I97KaaTCczlJNth3XU8qkR6cxoEpmUc0H6QeMqvQsJz5Up1jvp0eq7WX3cLtH7qfVTKLkuk/HjT4aBiA=
+	t=1771416882; cv=none; b=Cap5D7i8Grw4mc2wW6XS1bhf+YjAw6OR+k6GK+X1ZalGQZJ1rLZQWn9noA4CKtRbT9Lrmarh3LAC7WpZZ0M73FPKHPH+4X4Tds+Z6BPfg3kj8bdPV9doygmMdCr0CIC0gQkOSrZtQUMidh4jkjNnSiUgGpBdkensts/cxFpp/q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771416699; c=relaxed/simple;
-	bh=Pw3fZI9b2cVPG5utxMZwIpqznAduVP02xmFaGRrThcU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aPcgDUKzLpPJ/LAO4b/T4gW16L6tDj0FSJj72SwzpE5yKraZBesCrwvKa+5FxkmpGpurPf4YgLrimm1/Jqlz9dIm9wZ0OST2GXfE5kw5XrdNvBzP/0LhqJrk+8/6D9B3ChWosZwS90mo8rb8tr1FhHG89NOMHvldodZCl26P7sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=c1zF88ol; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1771416882; c=relaxed/simple;
+	bh=H1SEXdCn6Ivy44E3s/UlBooYRFgSXnmehGPBAK+5r7w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=uAS0YYuemzEQyL351w5mRCFl3kvLy7QXpzaXiyjej+K3q+lho76Tel37xEtnbeh2Tx+rv4HdHAEVqdvk7GmRq8zUGMidtE7bk6BV0XGGUtMJIUV0BA7V78nahzR2DN/7OrPIXmPoSsmZjGGaoKfflQNKtUVafApB3dqF3zKwKa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HYTBvtLM; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="c1zF88ol"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HYTBvtLM"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id DB5D31A10FB;
-	Wed, 18 Feb 2026 12:11:34 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id CFBD64E40F58;
+	Wed, 18 Feb 2026 12:14:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AD63F60738;
-	Wed, 18 Feb 2026 12:11:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4017710368B5D;
-	Wed, 18 Feb 2026 13:11:29 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8B45F60738;
+	Wed, 18 Feb 2026 12:14:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BB03810368B5D;
+	Wed, 18 Feb 2026 13:14:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771416693; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=SZ+4RuppPKjR3qQWfgPnGLn2XDy90FMtkHwzrPksBgw=;
-	b=c1zF88olfwh1e55esZHyUrYZ+A3rMtmzliwOZXO+KyGGXeKaDqg40ijVi9lrUnuqFiEk/4
-	Xi3uoRvk8S3j2gnY8aMHuHqFYJWFVN+KuYtCy1Ug9gtujt5He178rzVmmxt56zf2K4Fmzm
-	1BJJStUSs22nNRBxxiBMsTOKuc7lbAxZ8N1WLNDYwBGXPJVR2wkVL3rwTcEJ7bsvKRTwhf
-	L7VLCoDqloOcMw85Leht4X/Pfy0sVCiWiVaGpxk0dc0NbOBtNTMnM6F7Bs5E+JnRhITVt0
-	lGE7T/Dhc6y2erlYRpYaGMOw0pd5tai0rtChvut1WSMk6GpzK5UOSlAkvsvw8A==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 18 Feb 2026 13:11:24 +0100
-Subject: [PATCH] Revert "ASoC: rockchip: i2s_tdm: Re-add the set_sysclk
- callback"
+	t=1771416878; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=H1SEXdCn6Ivy44E3s/UlBooYRFgSXnmehGPBAK+5r7w=;
+	b=HYTBvtLMo0ZI1vTmR3shXPdXnQSaLhlps7FOcyorYrgRXMTUk3zc08EhkeCDdsPXDollAH
+	wUscZMnh7Z2pdfMI0cNNN3NGXBn0pRc6R4BIwenYaV7G62cZOFca+FqCGHGf6foul7WObY
+	GgJtZWzZim0ZGTnRsJYoQlMW2q06dXb9ee3f1CwSYfehu0pnlJEa5VKn7/W7t4wX0ByweI
+	kiB/LFKr8WFqi8AKUaDvl5Az/3bxmfZTrRKkMiTwhjc9R4x1Vp0aKL0olbGxn2zAa+E3It
+	z1Y9JKzH8DUP5ybferD/yQqjdn00yhKc4qx9g4UBWcUcQkkYhP0ifv5Zwh7Tvg==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260218-snd-rk3308-i2s-revert-set_sysclk-v1-1-79ab787f88ac@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAGuslWkC/x2NwQqDMBAFf0X23IUkFtH+SimiyWtdlLTsSqmI/
- 27ocQ4zs5NBBUa3aifFV0zeuYC/VBSnIb/AkgpTcKFxwbdsObHOde1almBcHOjKhrW3zeIyM5L
- rYtP5K/xIJfNRPOX3X9wfx3EC2kzycnIAAAA=
-X-Change-ID: 20260218-snd-rk3308-i2s-revert-set_sysclk-ed09c6914e1b
-To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Feb 2026 13:14:36 +0100
+Message-Id: <DGI2VIKQYD6Y.2R4TM6UD58OSU@bootlin.com>
+Subject: Re: [REGRESSION] Re: [PATCH v1] ASoC: rockchip: i2s_tdm: Re-add the
+ set_sysclk callback
+Cc: "Detlev Casanova" <detlev.casanova@collabora.com>,
+ <linux-kernel@vger.kernel.org>, "Nicolas Frattaroli"
+ <frattaroli.nicolas@gmail.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Heiko
+ Stuebner" <heiko@sntech.de>, <linux-rockchip@lists.infradead.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kernel@collabora.com>, <alexandre.belloni@bootlin.com>,
+ <thomas.petazzoni@bootlin.com>
+To: "Mark Brown" <broonie@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20250117163102.65807-1-detlev.casanova@collabora.com>
+ <DGB6VK7LC8N7.322SYGWZXPL5W@bootlin.com>
+ <49e43733-1366-4a4a-a787-f7221b9612d2@sirena.org.uk>
+In-Reply-To: <49e43733-1366-4a4a-a787-f7221b9612d2@sirena.org.uk>
 X-Last-TLS-Session-Version: TLSv1.3
 
-This reverts commit 5323186e2e8d33c073fad51e24f18e2d6dbae2da.
+Hello Mark,
 
-The reverted commit broke this driver for the RK3308 I2S.
+On Tue Feb 17, 2026 at 8:22 PM CET, Mark Brown wrote:
+> On Tue, Feb 10, 2026 at 10:54:04AM +0100, Luca Ceresoli wrote:
+>
+>> I'm afraid I just found this commit breaks audio capture on the RK3308.
+>
+> Can you please send a revert explaining the issue so we can drop the
+> patch (unless a fix is forthcoming which doesn't seem likely right now,
+> we can always re-add the support later)?
 
-The 'arecord -Vmono -d 2 -c 8 -f S16_LE -r 96000 /dev/null' command on
-RK3308 now results in:
-
-  rockchip-i2s-tdm ff320000.i2s: ASoC error (-22): at snd_soc_dai_hw_params() on ff320000.i2s
-   ff320000.i2s-rk3308-hifi: ASoC error (-22): at __soc_pcm_hw_params() on ff320000.i2s-rk3308-hifi
-
-Tested on:
-
- * Radxa Rock Pi S
- * Upstream Linux kernel
- * arm64 defconfig
-
-Tested kernel versions:
-
- * v6.12: OK
- * 5323186e2e8d (commit being reverted): FAIL
- * 5323186e2e8d^: OK
- * 21cfbeae7d7c (commit being reverted, on stable/linux-6.12.y): FAIL
- * 21cfbeae7d7c^: OK
- * v6.19: FAIL
- * v6.19 + 'git revert 5323186e2e8d': OK
- * v6.19-11566-g254edc893f3a (current master as of today): FAIL
- * v6.19-11566-g254edc893f3a (current master as of today) + this revert: OK
-
-Fixes: 5323186e2e8d ("ASoC: rockchip: i2s_tdm: Re-add the set_sysclk callback")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/lkml/DGB6VK7LC8N7.322SYGWZXPL5W@bootlin.com/
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- sound/soc/rockchip/rockchip_i2s_tdm.c | 31 ++-----------------------------
- 1 file changed, 2 insertions(+), 29 deletions(-)
-
-diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
-index 770b9bfbb384..b056d72e61ff 100644
---- a/sound/soc/rockchip/rockchip_i2s_tdm.c
-+++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-@@ -22,6 +22,7 @@
- 
- #define DRV_NAME "rockchip-i2s-tdm"
- 
-+#define DEFAULT_MCLK_FS				256
- #define CH_GRP_MAX				4  /* The max channel 8 / 2 */
- #define MULTIPLEX_CH_MAX			10
- 
-@@ -69,8 +70,6 @@ struct rk_i2s_tdm_dev {
- 	bool has_playback;
- 	bool has_capture;
- 	struct snd_soc_dai_driver *dai;
--	unsigned int mclk_rx_freq;
--	unsigned int mclk_tx_freq;
- };
- 
- static int to_ch_num(unsigned int val)
-@@ -618,27 +617,6 @@ static int rockchip_i2s_trcm_mode(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static int rockchip_i2s_tdm_set_sysclk(struct snd_soc_dai *cpu_dai, int stream,
--				       unsigned int freq, int dir)
--{
--	struct rk_i2s_tdm_dev *i2s_tdm = to_info(cpu_dai);
--
--	if (i2s_tdm->clk_trcm) {
--		i2s_tdm->mclk_tx_freq = freq;
--		i2s_tdm->mclk_rx_freq = freq;
--	} else {
--		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
--			i2s_tdm->mclk_tx_freq = freq;
--		else
--			i2s_tdm->mclk_rx_freq = freq;
--	}
--
--	dev_dbg(i2s_tdm->dev, "The target mclk_%s freq is: %d\n",
--		stream ? "rx" : "tx", freq);
--
--	return 0;
--}
--
- static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
- 				      struct snd_pcm_hw_params *params,
- 				      struct snd_soc_dai *dai)
-@@ -653,19 +631,15 @@ static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
- 
- 		if (i2s_tdm->clk_trcm == TRCM_TX) {
- 			mclk = i2s_tdm->mclk_tx;
--			mclk_rate = i2s_tdm->mclk_tx_freq;
- 		} else if (i2s_tdm->clk_trcm == TRCM_RX) {
- 			mclk = i2s_tdm->mclk_rx;
--			mclk_rate = i2s_tdm->mclk_rx_freq;
- 		} else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
- 			mclk = i2s_tdm->mclk_tx;
--			mclk_rate = i2s_tdm->mclk_tx_freq;
- 		} else {
- 			mclk = i2s_tdm->mclk_rx;
--			mclk_rate = i2s_tdm->mclk_rx_freq;
- 		}
- 
--		err = clk_set_rate(mclk, mclk_rate);
-+		err = clk_set_rate(mclk, DEFAULT_MCLK_FS * params_rate(params));
- 		if (err)
- 			return err;
- 
-@@ -825,7 +799,6 @@ static const struct snd_soc_dai_ops rockchip_i2s_tdm_dai_ops = {
- 	.hw_params = rockchip_i2s_tdm_hw_params,
- 	.set_bclk_ratio	= rockchip_i2s_tdm_set_bclk_ratio,
- 	.set_fmt = rockchip_i2s_tdm_set_fmt,
--	.set_sysclk = rockchip_i2s_tdm_set_sysclk,
- 	.set_tdm_slot = rockchip_dai_tdm_slot,
- 	.trigger = rockchip_i2s_tdm_trigger,
- };
-
----
-base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
-change-id: 20260218-snd-rk3308-i2s-revert-set_sysclk-ed09c6914e1b
+Thanks for the feedback! Revert patch sent.
 
 Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+Luca
 
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
