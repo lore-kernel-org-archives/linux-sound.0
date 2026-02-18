@@ -1,196 +1,226 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1A633CE87
-	for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 09:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367B522156B;
+	Wed, 18 Feb 2026 10:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771407924; cv=pass; b=kv8hOujNPYDFO8gerAhr5IYvO6+z9JoRgkljaHjj+8UIb+2w8VNiclZgUuDZT8zQAgEEyXNLfK9YfGOazP9YyJPM5PDE+FIp9ymP9XlxINpItY/eyEo1Mkn8SeT3P6Wiu7dW1IWtn+R3gHzvIitZ/saakikWTC+RyAsdnI3F6xE=
+	t=1771409770; cv=fail; b=YU2YXjXVguVn1xLsKeFfg5OioKPmQ0PGeUTpu3s171VfpzL8gC8ufnp0LXYz1+pam27McBVJIe9ZQvMVAXSco7GEn+6JMf0Et3l+69Amr7OJ+UyS6QeZF+ZWYA6x+ockHJeA3QNR87VItnKCdlPaE5yXM3TtmytcBoDADkjuStc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771407924; c=relaxed/simple;
-	bh=vZYaHq8XIaGCe3yL01xxAzr4U7wZPV5HIrm0Ssppl+k=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JXOXkmHSclp6I5b53uTK72XJCF4E63MRF7YlJNchVfXexkWDybWGdGlDzFguNk6vX7T+qE+MuGnlsN98a/9DBk0hONDWlb/L09BMXMSPV7GHo4Nwn+HHK8ISGiPvfN3YAASsJu5qn7bVcE1iH9o1YkXCzK7sR84CHs7ZxyHTTv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b=GXHRnj7Q; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
+	s=arc-20240116; t=1771409770; c=relaxed/simple;
+	bh=JvRHmpT/LuxQhddRe151RyQqatbhXrDOrgi7xT11Oh4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EAK1pWlZmwDjssfcjrVqs80t/Bvra9/Yc1fvKZz5MnxUwX9VQ4K5yI6lJUbeblARXO0G9H2eLmV21idPAE7s7FmMQTCUqEcH5ut3B98QZ3qn5m2gCOd+dTtZRep758uKhpNgWYtLdcfPHC/X6yhoIaRrKLGH+N5dem+pHSX8oog=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=lDSaRzPs; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Y7IAxV6m; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b="GXHRnj7Q"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-649e456e8a2so4434095d50.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 01:45:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771407922; cv=none;
-        d=google.com; s=arc-20240605;
-        b=W8q/1FaqtTUIHqeqckqAhhDqIgUX3viZWCzjLkkk/2SRevbe1uMpBmHVELzPxX+Wci
-         1YzA0TrMfN+WKoKMQjuCVloYnZ4B7Gc2nirAbDXhsK4L0zdtWlUH2H4pVLYegl2qm6+2
-         LkdTgV1jBCNYetzh2cZdWpfxHINsd4DuROeYXIEz6RyNw0z4QCDw1dl3LmuZ2VWQSgA8
-         PCaUDSVAupREv/nyivgWuOFjKzqY5gKLfzY9Cga+Igm+i2Aux27Fz2BTFI9B1sZrkwZs
-         it6DNAm0mnn/KnLU2n3xKAfIXOQIY/99ofI2CjYEwAKkwryQCUE7DXJs9E+XVVBPOPQr
-         fhVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=zh2XBD//+tf+dYXF4FzuNwerEvQ8DxJonv37jHw22p8=;
-        fh=uUNk+lNqRxUqFlpxcdJLASD2Ljk21wHO/iM18albeXs=;
-        b=kPTx9Wsy2UA8GgYTSse0sYn4PB9rx1gPvZNDU4a/QlB21uXxOlPruk3yXkNILOmmDX
-         Kx91gNitoWJ+8btN5NQ3113GdL0dIPeqxxKLZ/rACvubvovFbDlMwG24vHXdLOOMqSBx
-         L9oA34zwqX35TMp9K3BqbJShmOO5DkRDa7jNvxMoSssmf4d2Is7AWbsfe+jXplaYIRM+
-         f1Gi9tdU555bcuLwVNTxihKd80azB9sEBVrhcaQTnMrsMJw/I3620aTgLrre/no7ymsV
-         9XudTzQxGK3sBElo5jBLFI7eBAdMMDhh0iURNnWo9Nlij/i8t/njaW66eL+iTmKaxmla
-         wo2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lDSaRzPs";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Y7IAxV6m"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61I7198F1981812;
+	Wed, 18 Feb 2026 04:14:37 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=Jh4Qek2tppCNT03LnmUJRQbfuxLmC97H7yYbq5IWvts=; b=
+	lDSaRzPsNKXj5Ehxn0ddyqqVrmHnB1lIdggSsBi7V69k0DqXOqLA2ph9q8o6N0Qy
+	/1sjQhhgOGJ0Rj1CktY9eOYofR/sxuksVKPX9quMGi/A8UGUAXXedHo9GNel7A/M
+	t9IAEaa+sX5LJHJ+da9FIO+1Tf64UOVJU3TvLJj0KBevGblmghZfjvkcTBD2xknI
+	c802knS79I5RRD1XqOtyE1IPtjQIjcdXNEsY3Um/Ab6acIEcEBf1C9pei3qa7vSs
+	2C5Rwy9Hz/6CEVzleY7XAkqqSfzV84NiqhaEratdXPwzwyJqWZ6chR8tyUkMZOTS
+	3llCRkdg3MFNzXsMPfMKyA==
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11021132.outbound.protection.outlook.com [40.93.194.132])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4capbnkwdc-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Feb 2026 04:14:37 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zaq31M8sfWymjKTPDOz9WMi2UtD2NArZnAQkNayZYbZPseEdTTz3OJSqorvUlVEa+4Tqh/MjjASsjfr2H1HdjGFpTZiMtvO8lnp7ODpjFm6qBRWMNjxIfH8KjjeEbYNWsTHLWkDl+kHnGsbaYsz2imOPyjtxdYnzEPWsFzIelY6j58iEFPgUOGFDSyvf5Iy0ABiHS90rFnjIl92uM3T0aXNitZbchGk8syFVyBJJI6XVrDBU3TvNmPQF2jbER5EV2CckYgSsklrvL9SUnRw4LPqmFKaWZHiPj1W1BdDpnnPw7nYfynJ+i9ep5RP2XYURN7xYkf6uIegekXVe8L1e/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jh4Qek2tppCNT03LnmUJRQbfuxLmC97H7yYbq5IWvts=;
+ b=OH11LZbhfAc8VME5Kj4iZ7pypFylylBdWQHKbohM5k0AwtsHwNfK3t7QV4m9DS8glL8mh/1R7E3tTJo7wP7paBRRCNky+xZCSWy6KFwVF79ksqXWDLxAUEfh+y6CDv1zp5p48whxxuzxbnbSIsRYV4y3iJhQdnX2HfKnIx6XcHlKNiZ9bfS6WG9ADf/z9/ICqZtd+huQc/liq9X5hz+72P7Yp7IL6lHv4o6vKQt0qupScPrCmhLMc0rg4E+jiMdANZiMUbEl3b/CkRhCo0i9LmdK37chTbWG4kyh9HShVhd6DECyh6HWBGuTRO3WvZnJjEZKw/wiQX7+AIDiuuxu5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=starlabs-systems.20230601.gappssmtp.com; s=20230601; t=1771407922; x=1772012722; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zh2XBD//+tf+dYXF4FzuNwerEvQ8DxJonv37jHw22p8=;
-        b=GXHRnj7QnqIfBNgt8HdLd/mjnDPw+mvyPLA7PtDnT8h7puCxiHnaRKEBmVAXW8M39+
-         vcja/bXGvJPeMOHvWRMErLnqKm6xVnUbkN8ch6W1tBNVaSjSNBLmyH5ifmMdV7xuvjoT
-         YASPMEn7myLV/sfL5NkJQgLipMjGPCoV1kJ6BVzQGcCliiP6yEEwoZSOXgnzUINyaGvT
-         1YLL0JDrPyJYS2C002WzoTVsRXUUWiwEsztYyunKVC4NsU4CUj5IybNx9gvOemYRaVTy
-         Sp0uz0xY1oMJFc2cCTwqtB9du6FlmPZ3YeLQr10VgKzpL3k0B8NzuMuIR1pl826tVxbn
-         yI4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771407922; x=1772012722;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zh2XBD//+tf+dYXF4FzuNwerEvQ8DxJonv37jHw22p8=;
-        b=jVrXH65PUiqxocMQWEBL9w4dhsxkqCMU9re3JEhCywugr9tI8iwmdsNgYWOIJ+QdC+
-         iTBzyxjusD3mkssJXis/bg7Tpm44Okju7U8mp/5iW7o2jmI5S0gN0lqQH3PcMssthPsL
-         GVEmcnRMkgVpDBKqCJePN7KoC/AbQa5wyTCxfdte0BD4zJf1fEfeIWXKYtlVKHTr20Xq
-         Ifwig4VkIG3FslYacysTcVHQu6Ics6LmZQ8ozLzE6X+tma+GAwCBZomZB/uDEV0cgxRB
-         +upIszphWtIJl5qzsR2zm8yt69xJNCGl2ALciNnmtndq4dZ78bCcPLOGKavV72+/wQJq
-         u/Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCXituuiwdTSrul9XHzH/tsVuSz0nb2tT/IIHZMHQSAGEWMYn1SubkatDVc8gKSwgUoZFdV/WpdU0G+uJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxBpebtH7SIOZFUZe0HlLCr2bgyHUyMaoaPMt3mu6yQGZOEq0v
-	QtPM1xebZDAKEBYN/vAlePxRQ2iGNS7jKgHuFFB5giLksHm/2ZlZv7dMRQnYCEHmyfI6mKin7at
-	NWv0tdKrMdLJ2RHHsos4rn5B/9k8uGsCD8ef8O6B0
-X-Gm-Gg: AZuq6aLl+Z5RUUf1TmPmnIOkm7N5J8Yf8fhUmb9mrImWD6NWtTGRPu2PzOYOoAQGfU1
-	mqQHoaYUx/Snh4pqKEUcy/RrefV/BKOmEec6AtwkM7rl3NsDLrP/vktoeeKNUJ6JXlrh5jkfHAb
-	Mo8CjVyBNs4tA7OD9T+7VMeRcQ47HvKbToMmOUmc8nU1PQSOUjtRhFF1V9vTLd6N0VhyW6Yk1we
-	R/Pb2nrWNI+jGT247La8V/TH+0wPRv8yxx/KipQ4xqUhawn8X4qq2qCMLf9sqyzOrtSmyAFkol4
-	UmJKKkizESYr2rIFniM7yTjQ9Zi7bTCeKWcYxQ5B
-X-Received: by 2002:a05:690e:d4f:b0:64c:2a4b:72e with SMTP id
- 956f58d0204a3-64c556b2d57mr490842d50.54.1771407922021; Wed, 18 Feb 2026
- 01:45:22 -0800 (PST)
-Received: from 239600423368 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Feb 2026 01:45:21 -0800
-Received: from 239600423368 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Feb 2026 01:45:21 -0800
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jh4Qek2tppCNT03LnmUJRQbfuxLmC97H7yYbq5IWvts=;
+ b=Y7IAxV6mBdPwjzkC+lT947JP1doBgyTV75ZL4oyhiFNIHmx7IOBguR+GjjkBeD13zmnOLU7i7aT+lu838dH0IYGqjigpZNWdOCZyxR08efB19MWv2AWl/RPUZIeA8/wK9Yi5eI2tRt6uJxzriAZSu51rBjykSKWTspVFfC+0+sM=
+Received: from MN0P223CA0009.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:52b::7)
+ by SA6PR19MB8673.namprd19.prod.outlook.com (2603:10b6:806:417::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Wed, 18 Feb
+ 2026 10:14:34 +0000
+Received: from BL6PEPF0001AB52.namprd02.prod.outlook.com
+ (2603:10b6:208:52b:cafe::8d) by MN0P223CA0009.outlook.office365.com
+ (2603:10b6:208:52b::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.15 via Frontend Transport; Wed,
+ 18 Feb 2026 10:14:33 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL6PEPF0001AB52.mail.protection.outlook.com (10.167.241.4) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.12
+ via Frontend Transport; Wed, 18 Feb 2026 10:14:32 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3F52C406540;
+	Wed, 18 Feb 2026 10:14:31 +0000 (UTC)
+Received: from [198.61.69.19] (EDIN4L06LR3.ad.cirrus.com [198.61.69.19])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B10AE820259;
+	Wed, 18 Feb 2026 10:14:30 +0000 (UTC)
+Message-ID: <10794ce3-a1ec-4286-868c-53abb20c3094@opensource.cirrus.com>
+Date: Wed, 18 Feb 2026 10:14:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sean Rhodes <sean@starlabs.systems>
-Date: Wed, 18 Feb 2026 01:45:21 -0800
-X-Gm-Features: AaiRm52gX5a_5aeMBm4HuSK2B8Pxrx0P8MGCuYuCFyrk9bOEay2WTmkJcrLLTns
-Message-ID: <CABtds-3xYN0OEOGfyaBL-N4KBjXZuMnKT+E3FsfoMwt8aReYsg@mail.gmail.com>
-Subject: [PATCH v3] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
-To: linux-kernel@vger.kernel.org
-Cc: tiwai@suse.com, perex@perex.cz, sbinding@opensource.cirrus.com, 
-	kailang@realtek.com, chris.chiu@canonical.com, edip@medip.dev, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] soundwire: suppress expected unattach warnings during
+ codec reset
+To: Cole Leavitt <cole@unwrap.rs>, vkoul@kernel.org,
+        yung-chuan.liao@linux.intel.com
+Cc: pierre-louis.bossart@linux.dev, david.rhodes@cirrus.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+References: <20260217233533.4716-1-cole@unwrap.rs>
+Content-Language: en-US
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260217233533.4716-1-cole@unwrap.rs>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB52:EE_|SA6PR19MB8673:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5638632-68af-473e-46bb-08de6ed682a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|7416014|376014|61400799027|54012099003;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eVhiMncyMVBZQ09NU29Vdmg2TmZSaDZ1UGxHT3hDbHBnOFpBTjRWTE5SRDFr?=
+ =?utf-8?B?diswL1YyUzN3VEN0dmFTRXBMSzZ6Ti81QWJyS2x2M2I1Z08vVmtJb0hwRlZq?=
+ =?utf-8?B?S0ptWHBxRElGblBWOENQUVZKdUdjRXcvN1ZTOTNyYVJUS2ZWaFNXa2c0VnVa?=
+ =?utf-8?B?KzI0YmI1Tng4RWxkcmZmTnlhempUUlBuemtLdGhMUkZNMU4rWS9rZW5UMUox?=
+ =?utf-8?B?dlkzUDFwWEhuS0ZMUzFLb1J6Z21FK3hDc1E5c1JjenlQeHZBYjYvUWZTSkZ1?=
+ =?utf-8?B?OEtSeHBvQmhWT1NDTmhiUVNramZxWUozMjcxVmtkSXVvU3ZTWTlFOVZXSVVm?=
+ =?utf-8?B?YUY3L0JYb2ZFRW9BcUVaeGx4Y2xGNW5tT2NEanJsejJ5OFQ1NDljOWYzVlN6?=
+ =?utf-8?B?STJ3TnNXRXA0eXN2T09lTUhheURySUkvOFpidFc2UzNJa2tnYWNPZDRRUk83?=
+ =?utf-8?B?Z3FXK1pGWWx1R2tsek5DTjl1VGZ0UlZSVDNHaTZscGxoQ3lxYVlFL3RZRXF1?=
+ =?utf-8?B?dXhFODJJME03SDJmVFZhL0ZLVUNaYm9ZaUVBWEluN1JLMU9xSVY2V2lZVDhj?=
+ =?utf-8?B?a25VQXN3MFRML214UWFNaFN6U2pEdXdkUVVzZkgvYUFqOGtiNmd4am5LYVpq?=
+ =?utf-8?B?b29WOEFuczBjcEVqUkxCbG5UTjV5VTJ1K2tOeEpGdEFrazgrbGRkZjNvU0tq?=
+ =?utf-8?B?aXBjZlViZTVvMGduZ2JTSEM5VDhabFZLZnJxR2dVN3JnTUhwODNmQTc3b1A2?=
+ =?utf-8?B?aGxCdm43RzNLd3JaV0RzMmR1bkd2VnFzZWF6M3BtUjlFTDdlR056bXhNYTZl?=
+ =?utf-8?B?ZldUV0J5MnR2cFpKWGcxZUUxSTM4NWwzRjVIU2ZiRmI1OTFsV3Z3ME1PcllG?=
+ =?utf-8?B?d0hGcVA5WG9FQ2pUdldzcm5tWjczTjJSQ2ttTlVjSjFzOHp6azB0V2x3MkVh?=
+ =?utf-8?B?bFpqeStWZVhRQTZMMG1FbWhDNm9mSjJvVG1mV085MTJPZFNWU3RsRjNEMVhn?=
+ =?utf-8?B?am1uWjg0ZCtMVnFKV2Z5VVI3aGYvUkxBbTUxMDU0d3RENDNTWFRhL3haQ2Zw?=
+ =?utf-8?B?RU5DNXVhUERtQzhBRUdVU08yajR6WUtTZUVJdFlrSHlzZDlQayt3cW44cms5?=
+ =?utf-8?B?THdxQWFQVkgvOFlKQjZ5WFQ1S3pqd1ZEdThLVEtqbWxjbFlhbUVNWGRtQ2VF?=
+ =?utf-8?B?bFQySnhZR2pGb0ZyRG1ZYVJNc2c3Q3p3Y1hCNUtLTnc0R0JEUmFtR2NEMzAr?=
+ =?utf-8?B?WER3T3UrU0Q4Rm1ZeHpUVklCd00wS0hwUTk1bmlzYm80QjMrZGRjWWJQZG1H?=
+ =?utf-8?B?M1JzUFVhYlNudEdlTXRTZy92TUllRGhMSW1lcXVzY3FmVUR5d3p6dVRLVVls?=
+ =?utf-8?B?dDA1dTI4TGRlNkN6YVFsZjQ1RFZ4cC84c0NQSUh2NHN3NVdpelVMWXVNVm5m?=
+ =?utf-8?B?SWg5Ukw3bHdjSmtpVVM1cU5tdzZHd3E2aDFxMHZEbHRhUzIvNkM1VWhIalRC?=
+ =?utf-8?B?YTdpWUFyUExBbW1CcTNSbGU2OEdEWEVmVThiWlVEYkRxLy9wL0xHR25PRmNI?=
+ =?utf-8?B?SXY5bzZkdUNzT1pKSXhtdXpiVVdNdzROUWpCdnp5bnVuNW82Zm1FOTFreExk?=
+ =?utf-8?B?SllxSHRvT1piZnRYMFhYLzJBY3VkOWtGeVRMQ21RUmVRU1NXYUJsYllFWjc2?=
+ =?utf-8?B?azZoVTBJR2J2Sjcrd3Z2ZkxMa3NqZmlGdks3MkNjeGdES2hVakZicHgzdGEy?=
+ =?utf-8?B?cjJEUlpxTWNCb056QWNBSDZHWUVSMmJJOUhuQUE4eUFTSmdrS1U4QW1TdW0y?=
+ =?utf-8?B?UmhzamQzc3R1ZW1LRkJJZ1FUMVdNVGhyM1RPVUtUdGNpV0p6S2htbkdnamZD?=
+ =?utf-8?B?SlpLNTJhSzRXYW4ySWVmVWZtSmsvUUNjd09qQXZ2KzhNVHFQNWd4U0V1bmdG?=
+ =?utf-8?B?UDljYnBManpvOERRc0p1VUVCNSszWE82TWtEQ3N6L29tY0VZK21iaTFtYmYw?=
+ =?utf-8?B?c3pNeUZ3T2NQK2tBZGZ5Z2gxS1NkZ0RkUXNmaHM4eFBSNk5raThiQkl2OWFs?=
+ =?utf-8?B?TnRsdm1yZ0MyTDViMXdNMEdlaHhVc1R6bFhiZEJjak9JSm9PL0JNQkRQY1h6?=
+ =?utf-8?B?UFo3eElPdEtwVnU1YXZuVGhhbEh5RVozZ1NMeXZidTdZYUNjWHZKc0hCOVpR?=
+ =?utf-8?B?QlJ5b2RJTkZmNjJBNURNek9xMi9hd2MyZTA4cFNHMTY3UVAwL1gxdzV6eUNy?=
+ =?utf-8?B?YmUzaWhZUUIyV2plV1RkZ0tyZTl3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(61400799027)(54012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	mfHdQNnPeZxmrjCdKQLlax11z2gi9DUPy2AZMBjrD4AGiNyz/WhuUs7NptAqhWcWssvHsy7+/Nod3XzQfnBUp8jH51xitarBtr+oehMxW8oNXFWs9WTBRzwJa65ZV7KBtiT1qRkzydbYDaXnqYFBtqH2Dg8voXaCB0vrFLv+Awy7pR2NIGas87CZ5Mx+RVKyARIRtyzUrijZseoSPD6zzbOIxrvWO0ZbaETtYbMbnxirrHOLezoqA+oIWS1vv0twOmvHB8uO/gJeeKL0t444FTmRwz0ZqxS8O+7j7PiVoRbdApBjK/tEcNCmPEPQhWYUoRh9IfIEIm8lCb0ninzsTm8pYH9CUlfYmDH2RNq6GJyEQ9QTzpr4xNecB8V5hQSgwlKEVQmeYMQH4An23uR32WVdTK7wBMdnfaMsELGknSBSNnMASWWtEOlyh/7EVAVG
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 10:14:32.4797
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5638632-68af-473e-46bb-08de6ed682a1
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF0001AB52.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR19MB8673
+X-Authority-Analysis: v=2.4 cv=G+QR0tk5 c=1 sm=1 tr=0 ts=6995910d cx=c_pps
+ a=hMPBqNrkZiCD5Zgemr5n7Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=hyfEzSwnMbY3Cd_HcmsA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDA5MCBTYWx0ZWRfX7REzPstRXiiY
+ evQr8ly6CWuaXSEJfmGz9CsEtH6IV/FMHU4UV68vPgTfchkTBB81MhH/qrjlKY6jWL8izHDAjt2
+ F+muc2k4c/CzbfQjlOszKwuNoYsXQ55nT+LYLyU2DRouIWiwgVyPlsuoVA2gdKyrSUBovTrffDg
+ aOL7vTu4Oskr+6DPJWVGLFXXrKONxXvJYIJstE49nSybItJOLPzX61X0s9x2JGRHjf5gjtoKof6
+ hTJMuuLou2H2MpNMGB0AF9WSx6p9u/QJ3SUmb2L14+o+DN4n2HQ0qwyDUb3aeT3KR/t38pwpOpO
+ u4dfdZ78kzl44xPHhBEU8HSKcD0oic+9HhLznAZ5e47E46x3OBriRIJeN4PV8yDfhP2FQeZAkEY
+ f/vzYcznxojJvI9hq4sgfydm8IXkzmCNp+xNT7JCtgfxN6G9tcplRbMvMLlaUmhMWojBvWZcwnl
+ u2HIoRMDfHmw7IDFvuQ==
+X-Proofpoint-GUID: DS6VqFGrz-OFI2cJtXogwlGMjxYx6UHD
+X-Proofpoint-ORIG-GUID: DS6VqFGrz-OFI2cJtXogwlGMjxYx6UHD
+X-Proofpoint-Spam-Reason: safe
 
-From 4929cc45c32e30361c7e35f0581c83a08fd29b88 Mon Sep 17 00:00:00 2001
-From: Sean Rhodes <sean@starlabs.systems>
-Date: Tue, 17 Feb 2026 11:53:41 +0000
-Subject: [PATCH] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
+On 17/2/26 23:35, Cole Leavitt wrote:
+> On systems with CS35L56 SoundWire codecs (e.g. Lenovo ThinkPad P16
+> Gen3), every boot produces misleading dev_warn() messages:
+> 
+>    cs35l56 sdw:0:2:01fa:3556:01:0: Slave 2 state check1: UNATTACHED, status was 1
+>    cs35l56 sdw:0:2:01fa:3556:01:1: Slave 1 state check1: UNATTACHED, status was 1
+>
 
-On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
-emit an audible pop when entering or leaving runtime suspend.
+Is this really a problem?
+They are warns, not errors. Nothing in that message says that this is
+an error, or that it's unexpected. The message is accurate.
 
-Mute the speaker output paths via snd_hda_gen_shutup_speakers() in the
-Realtek shutup callback before the codec is powered down.
+> These fire when the CS35L56 driver triggers a system reset after
+> firmware download, which physically detaches the codec from the bus.
+> This is expected and handled gracefully -- the driver waits for
+> re-enumeration and the codec recovers within milliseconds.
+> 
+> The warnings were added in commit d1b328557058 ("soundwire: bus: add
+> dev_warn() messages to track UNATTACHED devices") to debug genuine
+> attachment failures. They remain valuable for unexpected detachments,
+> but firing on every boot for normal codec operation degrades their
+> diagnostic value.
+> 
+> This series adds a simple boolean flag (unattach_pending) to struct
+> sdw_slave that codec drivers can set before triggering an expected
+> detach. When set, the bus layer emits dev_dbg() instead of dev_warn()
+> and auto-clears the flag.
+> 
+> Note: There is also a separate set of UNATTACHED warnings during
+> initial multi-device enumeration, caused by the known PING frame race
+> documented in cadence_master.c. That is a different problem with
+> different constraints and is not addressed here.
+> 
+> Cole Leavitt (2):
+>    soundwire: bus: downgrade expected unattach warnings to dev_dbg
+>    ASoC: cs35l56: set unattach_pending before SoundWire system reset
+> 
+>   drivers/soundwire/bus.c       | 9 +++++++--
+>   include/linux/soundwire/sdw.h | 1 +
+>   sound/soc/codecs/cs35l56.c    | 4 ++++
+>   3 files changed, 12 insertions(+), 2 deletions(-)
+> 
 
-This is enough to avoid the pop without special EAPD handling.
-
-Test results:
-- runtime PM pop fixed
-- still reaches D3 (PCI 0000:00:1f.3 power_state=D3hot)
-- does not address pops on cold boot (G3 exit) or around display manager
-  start/shutdown
-
-journalctl -k (boot):
-- snd_hda_codec_alc269 hdaudioC0D0: ALC233: picked fixup for PCI SSID
-  7017:2014
-- snd_hda_codec_alc269 hdaudioC0D0: autoconfig for ALC233: line_outs=1
-  (0x1b/0x0/0x0/0x0/0x0) type:speaker
-
-Suggested-by: Takashi Iwai <tiwai@suse.com>
-Tested-by: Sean Rhodes <sean@starlabs.systems>
-Signed-off-by: Sean Rhodes <sean@starlabs.systems>
----
- sound/hda/codecs/realtek/alc269.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c
-b/sound/hda/codecs/realtek/alc269.c
-index b66965a52107..00a92da0ba05 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -1017,6 +1017,24 @@ static int alc269_resume(struct hda_codec *codec)
- 	return 0;
- }
-
-+#define STARLABS_STARFIGHTER_SHUTUP_DELAY_MS	30
-+
-+static void starlabs_starfighter_shutup(struct hda_codec *codec)
-+{
-+	if (snd_hda_gen_shutup_speakers(codec))
-+		msleep(STARLABS_STARFIGHTER_SHUTUP_DELAY_MS);
-+}
-+
-+static void alc233_fixup_starlabs_starfighter(struct hda_codec *codec,
-+					      const struct hda_fixup *fix,
-+					      int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE)
-+		spec->shutup = starlabs_starfighter_shutup;
-+}
-+
- static void alc269_fixup_pincfg_no_hp_to_lineout(struct hda_codec *codec,
- 						 const struct hda_fixup *fix, int action)
- {
-@@ -3802,6 +3820,7 @@ enum {
- 	ALC245_FIXUP_CLEVO_NOISY_MIC,
- 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
- 	ALC233_FIXUP_MEDION_MTL_SPK,
-+	ALC233_FIXUP_STARLABS_STARFIGHTER,
- 	ALC294_FIXUP_BASS_SPEAKER_15,
- 	ALC283_FIXUP_DELL_HP_RESUME,
- 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
-@@ -6238,6 +6257,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[ALC233_FIXUP_STARLABS_STARFIGHTER] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc233_fixup_starlabs_starfighter,
-+	},
- 	[ALC294_FIXUP_BASS_SPEAKER_15] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc294_fixup_bass_speaker_15,
-@@ -7370,6 +7393,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0x1705, "MEDION E15433", ALC269VC_FIXUP_INFINIX_Y4_MAX),
- 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
- 	SND_PCI_QUIRK(0x2782, 0x4900, "MEDION E15443", ALC233_FIXUP_MEDION_MTL_SPK),
-+	SND_PCI_QUIRK(0x7017, 0x2014, "Star Labs StarFighter",
-ALC233_FIXUP_STARLABS_STARFIGHTER),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
- 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged",
-ALC256_FIXUP_INTEL_NUC8_RUGGED),
- 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
-@@ -7466,6 +7490,7 @@ static const struct hda_model_fixup
-alc269_fixup_models[] = {
- 	{.id = ALC298_FIXUP_TPT470_DOCK_FIX, .name = "tpt470-dock-fix"},
- 	{.id = ALC298_FIXUP_TPT470_DOCK, .name = "tpt470-dock"},
- 	{.id = ALC233_FIXUP_LENOVO_MULTI_CODECS, .name = "dual-codecs"},
-+	{.id = ALC233_FIXUP_STARLABS_STARFIGHTER, .name = "starlabs-starfighter"},
- 	{.id = ALC700_FIXUP_INTEL_REFERENCE, .name = "alc700-ref"},
- 	{.id = ALC269_FIXUP_SONY_VAIO, .name = "vaio"},
- 	{.id = ALC269_FIXUP_DELL_M101Z, .name = "dell-m101z"},
--- 
-2.51.0
