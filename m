@@ -1,80 +1,80 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302872EAB71
-	for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 09:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1A633CE87
+	for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 09:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771407920; cv=pass; b=s22J3nTiTh08L/cV65sTCvwaOTVtgERduURUbejIADVmc+0+h56+xbJik4uJTwUlaD1KdS8yD4WU+rLFuNlc5Ly2hnq9I+YOa3lHPRANX61LRiqGzvhg4ivUerQ6+fd4f74is8NQ9untQZA8WrjDypJa40Sx3hsJflCuCxn6mlw=
+	t=1771407924; cv=pass; b=kv8hOujNPYDFO8gerAhr5IYvO6+z9JoRgkljaHjj+8UIb+2w8VNiclZgUuDZT8zQAgEEyXNLfK9YfGOazP9YyJPM5PDE+FIp9ymP9XlxINpItY/eyEo1Mkn8SeT3P6Wiu7dW1IWtn+R3gHzvIitZ/saakikWTC+RyAsdnI3F6xE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771407920; c=relaxed/simple;
-	bh=E19+ToorRxaDsMlevRO1o66igwvNZTwDx7nCEzb9mpM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=le09Z9lNZjLPc6/JxVK+zvm6ZPaZRRag4XRO0SW1DGwquQSUSCsisRZlzKYexaOUZTUvTD/T7eFvOF0pQ4/Pf+LJHmBI4LPgIvJYj9hcFuyiTW+UdGSHM+Yi72FNnyQtj9svW0TxNpGJlnEdTKBsrM0Q91MTWvzKTS0IHSGpAS8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b=UWO1qq1r; arc=pass smtp.client-ip=209.85.128.177
+	s=arc-20240116; t=1771407924; c=relaxed/simple;
+	bh=vZYaHq8XIaGCe3yL01xxAzr4U7wZPV5HIrm0Ssppl+k=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JXOXkmHSclp6I5b53uTK72XJCF4E63MRF7YlJNchVfXexkWDybWGdGlDzFguNk6vX7T+qE+MuGnlsN98a/9DBk0hONDWlb/L09BMXMSPV7GHo4Nwn+HHK8ISGiPvfN3YAASsJu5qn7bVcE1iH9o1YkXCzK7sR84CHs7ZxyHTTv4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b=GXHRnj7Q; arc=pass smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b="UWO1qq1r"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-797de0727a4so18885697b3.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 01:45:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771407916; cv=none;
+	dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b="GXHRnj7Q"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-649e456e8a2so4434095d50.0
+        for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 01:45:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771407922; cv=none;
         d=google.com; s=arc-20240605;
-        b=D62zZRqriTP5lIaEdiDDy/+oK9ZgquqYBDJL7WlwRQNDV7DHtKZ36tAO1uEB0SfJIk
-         ymNKDDlYTruVMzC/O9faACwkeVAG1puYAs+OnTz4aZ75t44zxkNdDUhc+HkRXtxQrOel
-         VnITcenmrjUDAE/T/epVI6uPHZxsPI2s9W/ypOqBJkEbkzjJ88uTh3kUaNMIMtYW5xKF
-         NZNTzX1Rlu7xjnYZbpJfIqkMyvVi3GQLavUPfueGxQXFndaDdZ+vPtExD8aZHE722/EV
-         lhVlMmiapDZ1Wvj6YKs7q7Wu5gSIL0hfXcXJHoYL4bmvRlSVEwUOtHE14hCvUipMSvOK
-         6R5Q==
+        b=W8q/1FaqtTUIHqeqckqAhhDqIgUX3viZWCzjLkkk/2SRevbe1uMpBmHVELzPxX+Wci
+         1YzA0TrMfN+WKoKMQjuCVloYnZ4B7Gc2nirAbDXhsK4L0zdtWlUH2H4pVLYegl2qm6+2
+         LkdTgV1jBCNYetzh2cZdWpfxHINsd4DuROeYXIEz6RyNw0z4QCDw1dl3LmuZ2VWQSgA8
+         PCaUDSVAupREv/nyivgWuOFjKzqY5gKLfzY9Cga+Igm+i2Aux27Fz2BTFI9B1sZrkwZs
+         it6DNAm0mnn/KnLU2n3xKAfIXOQIY/99ofI2CjYEwAKkwryQCUE7DXJs9E+XVVBPOPQr
+         fhVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=IT51WJyaCcatx1dqA8OfeeJe8+GbWb120BHsdoQgm8s=;
-        fh=J6542bCp4aYg7k17keXpbbKzWQ9ZriijAa5hgG7Kz+o=;
-        b=B4ynSRVY5CkkAKWZSNlq/6r+2MofXOi2OyS379FP8SZisAjL5u6tmRFS34JgtDuUBj
-         x92RiseHpYg6PY3Wd++tSkekXiass23S17VDCj6uQChnaS7Yim3B6Uay33g21JVE1Ckn
-         GRp1Rhoc1dmxpjX2uI04s0UTmcnERBB1/1inDvcJ0Qfs+9mc94QXmmW/Z39wEugKlHp4
-         ArTaMyBFAhkME4iqZ7I+KVXkRND4R/zxXETMfs8hiZM6wBx2l8zTScob0w0iWxFECpDc
-         rL2cpg1qN4unJBG0YZnnuLGhg/PTx/1QL+f/fFmTAm4L2M8FNDwFQivRvf3Kj0oskNRq
-         X8Ow==;
+        bh=zh2XBD//+tf+dYXF4FzuNwerEvQ8DxJonv37jHw22p8=;
+        fh=uUNk+lNqRxUqFlpxcdJLASD2Ljk21wHO/iM18albeXs=;
+        b=kPTx9Wsy2UA8GgYTSse0sYn4PB9rx1gPvZNDU4a/QlB21uXxOlPruk3yXkNILOmmDX
+         Kx91gNitoWJ+8btN5NQ3113GdL0dIPeqxxKLZ/rACvubvovFbDlMwG24vHXdLOOMqSBx
+         L9oA34zwqX35TMp9K3BqbJShmOO5DkRDa7jNvxMoSssmf4d2Is7AWbsfe+jXplaYIRM+
+         f1Gi9tdU555bcuLwVNTxihKd80azB9sEBVrhcaQTnMrsMJw/I3620aTgLrre/no7ymsV
+         9XudTzQxGK3sBElo5jBLFI7eBAdMMDhh0iURNnWo9Nlij/i8t/njaW66eL+iTmKaxmla
+         wo2w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=starlabs-systems.20230601.gappssmtp.com; s=20230601; t=1771407916; x=1772012716; darn=vger.kernel.org;
+        d=starlabs-systems.20230601.gappssmtp.com; s=20230601; t=1771407922; x=1772012722; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=IT51WJyaCcatx1dqA8OfeeJe8+GbWb120BHsdoQgm8s=;
-        b=UWO1qq1ryZES53OKJc0AqaHkDtVsRwI5nofp4PSHoDNVuV+JvVgmRePSxtjpLoU7BD
-         yJ4buAE4K8BJJ2QG7kXM+hiI96mExnQbKqPwOTrOFPklmllq1WuUH+Cr23Omr8I2iVgx
-         0gg2c7qS7FbqM/HwqL6EB5mav+ZjDIYQ+rVaBEDRi3yazCKGdjNKHj1bbG8w9BFqnD+Q
-         CfbmhaUzq/dwbhuaS6QKNmZPaln82JowTqBNaPtJgsaxjMT0PPy9cHBKuCM+0WVyfU5B
-         t8EUOlpiBDwLyl2b8IBZz9XgoZ5NWu0Q2FC9tZ74y6VLiGhP/0ha+CfeSzNrG1fInD+g
-         6DiQ==
+        bh=zh2XBD//+tf+dYXF4FzuNwerEvQ8DxJonv37jHw22p8=;
+        b=GXHRnj7QnqIfBNgt8HdLd/mjnDPw+mvyPLA7PtDnT8h7puCxiHnaRKEBmVAXW8M39+
+         vcja/bXGvJPeMOHvWRMErLnqKm6xVnUbkN8ch6W1tBNVaSjSNBLmyH5ifmMdV7xuvjoT
+         YASPMEn7myLV/sfL5NkJQgLipMjGPCoV1kJ6BVzQGcCliiP6yEEwoZSOXgnzUINyaGvT
+         1YLL0JDrPyJYS2C002WzoTVsRXUUWiwEsztYyunKVC4NsU4CUj5IybNx9gvOemYRaVTy
+         Sp0uz0xY1oMJFc2cCTwqtB9du6FlmPZ3YeLQr10VgKzpL3k0B8NzuMuIR1pl826tVxbn
+         yI4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771407916; x=1772012716;
+        d=1e100.net; s=20230601; t=1771407922; x=1772012722;
         h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IT51WJyaCcatx1dqA8OfeeJe8+GbWb120BHsdoQgm8s=;
-        b=sT6RMbZvJcYTII4Ur/4yqQhGXRN4EVmyvdrwwOzDDkk7etDafA27Zwy87JwWv1uS7C
-         CoyuqH4qDJkz6GUHM379zQrDPAG5xQ3nGjysdm8stuHsjrkk8OCoZxWER765QMx6eAIU
-         B1JVIXj3s8NanXm7Qcck9cu8Yh0Ezeh1EGZfymCiLNxnQfUw7Kv5Zkg0CgKrn14cMeU5
-         K03iq/0HOLJAmk7Ymb6Wnf2umdWFlSK3y1zb4DntGRFHftPF9QMogtOKLMSWHziLTIjm
-         W9vBamXiAzRVxYEDjeFBhkzt8qdubZA+MQg/Pa7rqJogdzY+FQasaESZ+1isgVEZC/6t
-         26Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5gru9DpALXJs0vi1Hv9XeuzigVAlEJkyXOY8N3SWuvvmugVNzEqmtgESMTJSFFazooV94KmOAiUliUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsWJqjorLts5jfSKZr8zKIYvukz71E3boWFEhFDkOmV3y7mQQx
-	JzQwVGffYY9LSLtewAjwpm0qC+p1e6bVtiCQ++jYfukAd7fcdTI5Dhph9RiPYelif3fBVWuIgAP
-	7alpSWqTXoDz/6Zj7q+aEl25bYBmG4OkG3nRLr1SS
-X-Gm-Gg: AZuq6aLosI5fgUi4H+7XkTkBzbBQHq67tfcq2puD3BHPwjp69Fd93KYbaAbH4c9aLvy
-	bgKdLJkbqBbISzAQtMtEVHloMCOzEVjnFS3LxyDTmtxtxQ995XLUmjmKyl2mn6tX46vAg3KhfHD
-	P3TRSECgjYGXrHNQBzvk/A6MXIQ+GsaTB8SgRESh7cIIkbSV06rF1y4QHcWnsaQtF13tW6zYpMq
-	Di6hJbIpu57gq9rTwoLTAv8pqT8HL9zz/qYRuRQjlkFXxO+0+sWsZypaDdANBANR1NVnhEFXwx5
-	91DOr0+nt2cqdbyjnIsgUa0MS1q8NH/VbGnD3OEsYXi2Ymg+nUo=
-X-Received: by 2002:a05:690c:e3e8:b0:796:4235:ea0d with SMTP id
- 00721157ae682-797f73525d3mr12443267b3.37.1771407915946; Wed, 18 Feb 2026
- 01:45:15 -0800 (PST)
+        bh=zh2XBD//+tf+dYXF4FzuNwerEvQ8DxJonv37jHw22p8=;
+        b=jVrXH65PUiqxocMQWEBL9w4dhsxkqCMU9re3JEhCywugr9tI8iwmdsNgYWOIJ+QdC+
+         iTBzyxjusD3mkssJXis/bg7Tpm44Okju7U8mp/5iW7o2jmI5S0gN0lqQH3PcMssthPsL
+         GVEmcnRMkgVpDBKqCJePN7KoC/AbQa5wyTCxfdte0BD4zJf1fEfeIWXKYtlVKHTr20Xq
+         Ifwig4VkIG3FslYacysTcVHQu6Ics6LmZQ8ozLzE6X+tma+GAwCBZomZB/uDEV0cgxRB
+         +upIszphWtIJl5qzsR2zm8yt69xJNCGl2ALciNnmtndq4dZ78bCcPLOGKavV72+/wQJq
+         u/Bg==
+X-Forwarded-Encrypted: i=1; AJvYcCXituuiwdTSrul9XHzH/tsVuSz0nb2tT/IIHZMHQSAGEWMYn1SubkatDVc8gKSwgUoZFdV/WpdU0G+uJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxBpebtH7SIOZFUZe0HlLCr2bgyHUyMaoaPMt3mu6yQGZOEq0v
+	QtPM1xebZDAKEBYN/vAlePxRQ2iGNS7jKgHuFFB5giLksHm/2ZlZv7dMRQnYCEHmyfI6mKin7at
+	NWv0tdKrMdLJ2RHHsos4rn5B/9k8uGsCD8ef8O6B0
+X-Gm-Gg: AZuq6aLl+Z5RUUf1TmPmnIOkm7N5J8Yf8fhUmb9mrImWD6NWtTGRPu2PzOYOoAQGfU1
+	mqQHoaYUx/Snh4pqKEUcy/RrefV/BKOmEec6AtwkM7rl3NsDLrP/vktoeeKNUJ6JXlrh5jkfHAb
+	Mo8CjVyBNs4tA7OD9T+7VMeRcQ47HvKbToMmOUmc8nU1PQSOUjtRhFF1V9vTLd6N0VhyW6Yk1we
+	R/Pb2nrWNI+jGT247La8V/TH+0wPRv8yxx/KipQ4xqUhawn8X4qq2qCMLf9sqyzOrtSmyAFkol4
+	UmJKKkizESYr2rIFniM7yTjQ9Zi7bTCeKWcYxQ5B
+X-Received: by 2002:a05:690e:d4f:b0:64c:2a4b:72e with SMTP id
+ 956f58d0204a3-64c556b2d57mr490842d50.54.1771407922021; Wed, 18 Feb 2026
+ 01:45:22 -0800 (PST)
 Received: from 239600423368 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Feb 2026 01:45:15 -0800
+ HTTPREST; Wed, 18 Feb 2026 01:45:21 -0800
 Received: from 239600423368 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 Feb 2026 01:45:15 -0800
+ HTTPREST; Wed, 18 Feb 2026 01:45:21 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,15 +82,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Sean Rhodes <sean@starlabs.systems>
-Date: Wed, 18 Feb 2026 01:45:15 -0800
-X-Gm-Features: AaiRm50__4O_tjTmy2kk4l4FZuyhnBO_h99w7tVDNYchd53O_aU9LFL4TMi12ZU
-Message-ID: <CABtds-2kJzvqDN3Afcrrx1Hg8QBLSzXRzxj6QeYU61pT_XKDVQ@mail.gmail.com>
+Date: Wed, 18 Feb 2026 01:45:21 -0800
+X-Gm-Features: AaiRm52gX5a_5aeMBm4HuSK2B8Pxrx0P8MGCuYuCFyrk9bOEay2WTmkJcrLLTns
+Message-ID: <CABtds-3xYN0OEOGfyaBL-N4KBjXZuMnKT+E3FsfoMwt8aReYsg@mail.gmail.com>
 Subject: [PATCH v3] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
 To: linux-kernel@vger.kernel.org
 Cc: tiwai@suse.com, perex@perex.cz, sbinding@opensource.cirrus.com, 
 	kailang@realtek.com, chris.chiu@canonical.com, edip@medip.dev, 
 	linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+
+From 4929cc45c32e30361c7e35f0581c83a08fd29b88 Mon Sep 17 00:00:00 2001
+From: Sean Rhodes <sean@starlabs.systems>
+Date: Tue, 17 Feb 2026 11:53:41 +0000
+Subject: [PATCH] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
 
 On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
 emit an audible pop when entering or leaving runtime suspend.
