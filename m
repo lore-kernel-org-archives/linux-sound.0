@@ -1,84 +1,94 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D23E30DEA2
-	for <linux-sound@vger.kernel.org>; Wed, 18 Feb 2026 12:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16723243964;
+	Wed, 18 Feb 2026 12:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771416882; cv=none; b=Cap5D7i8Grw4mc2wW6XS1bhf+YjAw6OR+k6GK+X1ZalGQZJ1rLZQWn9noA4CKtRbT9Lrmarh3LAC7WpZZ0M73FPKHPH+4X4Tds+Z6BPfg3kj8bdPV9doygmMdCr0CIC0gQkOSrZtQUMidh4jkjNnSiUgGpBdkensts/cxFpp/q0=
+	t=1771416946; cv=none; b=PQcckOanv/W11r2KDHDadoxZjMpie5LGKMjSeVh2uxOkId6TBaDSlCXqaQb6/LVzLMbwbbAQdha/muYAt9ZFdP3NbtDywESkQ6ozCt4JDEO9U1VF+n4Z8Tivn1HEPCtG4+aB4jhjaKmv3HgJ7BfwLqeL/G/UxPgf2N4Whx/tin4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771416882; c=relaxed/simple;
-	bh=H1SEXdCn6Ivy44E3s/UlBooYRFgSXnmehGPBAK+5r7w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=uAS0YYuemzEQyL351w5mRCFl3kvLy7QXpzaXiyjej+K3q+lho76Tel37xEtnbeh2Tx+rv4HdHAEVqdvk7GmRq8zUGMidtE7bk6BV0XGGUtMJIUV0BA7V78nahzR2DN/7OrPIXmPoSsmZjGGaoKfflQNKtUVafApB3dqF3zKwKa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HYTBvtLM; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1771416946; c=relaxed/simple;
+	bh=CMfoICr25vJULHXEU9DptywfEfHQ/EWd11ZFFXA3TZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lQrxouwsD1hHlvaENDv7eJkcbcq4QX9etErSpzx/5AHh0+hDa4lFZRrygfBWd63rS3FrgJh4clrP0uz1qfovoLt20ygPl2k9OE1LOdeev/4zU6oRzJ161XHWH4k7na5FDkdVLJAu1D0ew3ySMBk7UaWvQYlOU4JzSLoBQLnVIMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CS2hMCua; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HYTBvtLM"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id CFBD64E40F58;
-	Wed, 18 Feb 2026 12:14:39 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8B45F60738;
-	Wed, 18 Feb 2026 12:14:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BB03810368B5D;
-	Wed, 18 Feb 2026 13:14:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771416878; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=H1SEXdCn6Ivy44E3s/UlBooYRFgSXnmehGPBAK+5r7w=;
-	b=HYTBvtLMo0ZI1vTmR3shXPdXnQSaLhlps7FOcyorYrgRXMTUk3zc08EhkeCDdsPXDollAH
-	wUscZMnh7Z2pdfMI0cNNN3NGXBn0pRc6R4BIwenYaV7G62cZOFca+FqCGHGf6foul7WObY
-	GgJtZWzZim0ZGTnRsJYoQlMW2q06dXb9ee3f1CwSYfehu0pnlJEa5VKn7/W7t4wX0ByweI
-	kiB/LFKr8WFqi8AKUaDvl5Az/3bxmfZTrRKkMiTwhjc9R4x1Vp0aKL0olbGxn2zAa+E3It
-	z1Y9JKzH8DUP5ybferD/yQqjdn00yhKc4qx9g4UBWcUcQkkYhP0ifv5Zwh7Tvg==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CS2hMCua"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31118C19421;
+	Wed, 18 Feb 2026 12:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771416945;
+	bh=CMfoICr25vJULHXEU9DptywfEfHQ/EWd11ZFFXA3TZ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CS2hMCuaN/8Ioi7cWg7F/BI7xAIrCVt7pqw22ip7EXsHh2HkOngNgTItqKBdBKSZN
+	 PuvEUOGJhMDa7zf4Szyar2n3kXf+EDRiK8cLNWFEln3rI5tN11fW/5VxvYJoUQzU6K
+	 ULN1P75IFUJw1hpYwA3c0+v8mhYWR6iZ5/h/GEWoWkHLkDx07oXM6YVmOH9DyX4/EC
+	 pPaX3vwMTxii9k1A5s0KXFEB0pD8G9ZmG0nW3FC1VHuhujA/PHXqC/qtxJ8EfVm4ip
+	 lSM7LyG7bEUuuhPmjSh+ucBzjSSncoLAwMDchIVoNtjzUnRJ4yxSGHCwEZpY4CZTuv
+	 8xiRO/BnZ5Acg==
+Date: Wed, 18 Feb 2026 12:15:40 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] Revert "ASoC: rockchip: i2s_tdm: Re-add the set_sysclk
+ callback"
+Message-ID: <6ffc8939-147f-4b2f-a8cb-63a388d3dad4@sirena.org.uk>
+References: <20260218-snd-rk3308-i2s-revert-set_sysclk-v1-1-79ab787f88ac@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 18 Feb 2026 13:14:36 +0100
-Message-Id: <DGI2VIKQYD6Y.2R4TM6UD58OSU@bootlin.com>
-Subject: Re: [REGRESSION] Re: [PATCH v1] ASoC: rockchip: i2s_tdm: Re-add the
- set_sysclk callback
-Cc: "Detlev Casanova" <detlev.casanova@collabora.com>,
- <linux-kernel@vger.kernel.org>, "Nicolas Frattaroli"
- <frattaroli.nicolas@gmail.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Heiko
- Stuebner" <heiko@sntech.de>, <linux-rockchip@lists.infradead.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <kernel@collabora.com>, <alexandre.belloni@bootlin.com>,
- <thomas.petazzoni@bootlin.com>
-To: "Mark Brown" <broonie@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20250117163102.65807-1-detlev.casanova@collabora.com>
- <DGB6VK7LC8N7.322SYGWZXPL5W@bootlin.com>
- <49e43733-1366-4a4a-a787-f7221b9612d2@sirena.org.uk>
-In-Reply-To: <49e43733-1366-4a4a-a787-f7221b9612d2@sirena.org.uk>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tN0IzqP3xmtYQ7S/"
+Content-Disposition: inline
+In-Reply-To: <20260218-snd-rk3308-i2s-revert-set_sysclk-v1-1-79ab787f88ac@bootlin.com>
+X-Cookie: They just buzzed and buzzed...buzzed.
 
-Hello Mark,
 
-On Tue Feb 17, 2026 at 8:22 PM CET, Mark Brown wrote:
-> On Tue, Feb 10, 2026 at 10:54:04AM +0100, Luca Ceresoli wrote:
->
->> I'm afraid I just found this commit breaks audio capture on the RK3308.
->
-> Can you please send a revert explaining the issue so we can drop the
-> patch (unless a fix is forthcoming which doesn't seem likely right now,
-> we can always re-add the support later)?
+--tN0IzqP3xmtYQ7S/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for the feedback! Revert patch sent.
+On Wed, Feb 18, 2026 at 01:11:24PM +0100, Luca Ceresoli wrote:
 
-Best regards,
-Luca
+> This reverts commit 5323186e2e8d33c073fad51e24f18e2d6dbae2da.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--tN0IzqP3xmtYQ7S/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmVrWsACgkQJNaLcl1U
+h9CiRwf/b/PyM6sh+/IY6KcTy577bNhqdqaZ3r+FuOqbpZngqzuc09sJKu284k1Q
+vuU3JJ3he28hEUSwkazGVpEiLAWvGxNP3MPFuCgDGqtKb5fYCXORj8EX4ilVBiTE
+dYC9oAab3VILGDf3lHQlPG3B/ZunIYQGdITIdmgHHsJ2Uet9TLEGEm7uhUZQybCp
+jXzXTlRRh4Vx5oArEOWKIZdUw4IxtGQD7iLwG+N6Pt3L13d/8WG+XVgIdTzpMU78
+SqviGJyfrH05JA4w3vlg1IXf/K9UYQ361nHhkCI2YQVlI6IokGh7eqr3LAzwQx/3
+bkKavE7823h5HkFxYwH0lviYWdSTUA==
+=y9au
+-----END PGP SIGNATURE-----
+
+--tN0IzqP3xmtYQ7S/--
