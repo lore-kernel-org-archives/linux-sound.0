@@ -1,91 +1,341 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26919199920;
-	Thu, 19 Feb 2026 15:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DD3341ACA
+	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 15:46:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771515390; cv=none; b=WDXOXA4lMEm/OZnBAcgSrIlmsDbVe0jMi7KG2D8/nnlAuqvVC8nwGIUg4BqGHhsTTvqoA2MTUN2Q5joKLFpNjKUJb+hjSb+ww2XF+rwA332u5DiOUpqsezKGI7vVT6utNROC5NUn7Gnvl72pKF14eDI9l7sji+b+N2AMPzaFjjk=
+	t=1771515965; cv=none; b=qP1eAfp8USOM4Fx+3YOfmHv+egzF529Trc59D5Kk/B4PaMLLVOTQh/zD8GP4GSqSuUS9uKOTUbxjaUi1iccckPrsvQQRwvjE9HiIFqyXbktQT4VxdsGr02McTyTdbpEcB5bgOg3QbyvjH3mCcUS3OoKWLg6v936CE2NA4vTXlro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771515390; c=relaxed/simple;
-	bh=dnerQRAkWguoqhDbE6xYkx4ycJCWKMZ2dF+v2bxWQ8o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FMgQa+ksUwzYINGT4Xo6Q1AXe9SOuvbyXtcYMdtgIj2d4B42mh3HLJOzw40zrDPXmr1V2f6vVOsrhFcc78XBo3vN/yWH26CnUABi+qaRtNqvg74L5NlwnVpuaGeXazB2mo9iapadruAPP3obVsIChcpK/e8Q/gjUG6K3E6SUPKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kSSRDVrx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771515965; c=relaxed/simple;
+	bh=PgsdApZlunf/9wUyAIr+RPj1nl3zVzEKiIP3jbhsBDI=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=seTs7MjaPJ+0X2d40jqtQTHqZ0Yikwu5Gr8NMIAnXnY/n2UE08Pw9VR5IhsM6W6MjLXEV9uveaEpHyrUiZw1R8KDjtUhXMeTvKGARttcm78O4Va/FjuqpnOa88FxxNbMMCXHIq3GjB8DY3a0hSiOkqo4gyppbA+/rPfr7UVTz1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kpEYZiXZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kSSRDVrx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3F1C4CEF7;
-	Thu, 19 Feb 2026 15:36:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kpEYZiXZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3DB5C116D0;
+	Thu, 19 Feb 2026 15:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771515390;
-	bh=dnerQRAkWguoqhDbE6xYkx4ycJCWKMZ2dF+v2bxWQ8o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kSSRDVrx1HY5u5gxDKR1bty/30CCkC3qhwWpzo+55b9o1gmyqq4DNJFvqGBLxJ+cP
-	 l9ah4CAIA4eQ7bLMap8fzdfdFqDfCXB5VzVu13nJWiE6sYvvGn/bKy3lV1KFgn0K3P
-	 3H/6VNr0av9PHl+GokoPwX/mCBWPcMQSKkl6LOCRkH/4ZX9bpICXH+cd8GsUyVxndX
-	 1Sw5NNX+o4PkaDq25lnTSh3g9OdsPFDiBipolic/gHGsxYBic7AU6jJhdDjUQ8oeNX
-	 QHE7RoD/uhIfAY0iTvJP62xa2yCJVr/41JnOIsG5azjQhky2z4WXJURGGZousPXRAa
-	 M87wcMnBoC3Mw==
+	s=k20201202; t=1771515965;
+	bh=PgsdApZlunf/9wUyAIr+RPj1nl3zVzEKiIP3jbhsBDI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kpEYZiXZYznYLUfR0CEqiECmC35XWy3hY63L+9pPSLQLn0bcqoy4KD1KjITkhNcKS
+	 /gCKW5vnayMTqiwM4vifJlEBXezyLFxjMuyBgZgX2+mbgthgSr0AEGTFFTAhZwQR+J
+	 FHY+wrJh4xQnBWEb7nFI/zH0ACtzL8xOLrM9MkP26yXuJOTCzaZZqnrAZFwHZnXsnR
+	 Clt4oX1PdLiv/pEP6XCV64rm2mjFVgQX81nlKbeRayVpMjuwZmCuDAr0NtJo1c+Eje
+	 /rtFDlaWPQQSzLvkirjPJZsV9cvnmviK80N9mJV4CIdVAovQnzYfE0//Pnf6pSVAH6
+	 TWA/lTBASl5uQ==
+Message-ID: <a3a96a98d6e168c6b044ce2b5671e648@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-In-Reply-To: <20260218201834.924358-1-detlev.casanova@collabora.com>
-References: <20260218201834.924358-1-detlev.casanova@collabora.com>
-Subject: Re: [PATCH] ASoC: rockchip: i2s-tdm: Use param rate if not
- provided by set_sysclk
-Message-Id: <177151538730.130550.12673698490748954577.b4-ty@kernel.org>
-Date: Thu, 19 Feb 2026 15:36:27 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.0-rockchip-i2s-tdm
+Date: Thu, 19 Feb 2026 15:45:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
 
-On Wed, 18 Feb 2026 15:18:34 -0500, Detlev Casanova wrote:
-> Drivers will not always call set_sysclk() for all clocks, especially when
-> default mclk-fs can be used.
-> When that is the case, use the clock rate set in the params multiplied by the
-> default mclk-fs.
-> 
-> 
+The following changes since commit f8f774913b4b599169381073f6674e20976e5529:
 
-Applied to
+  ASoC: SOF: ipc4-control: Set correct error code in refresh_bytes_control (2026-02-09 12:27:28 +0000)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.0-rockchip-i2s-tdm
 
-[1/1] ASoC: rockchip: i2s-tdm: Use param rate if not provided by set_sysclk
-      commit: 0783052534f547f8f201dd4554b1df9f1f8615b5
+for you to fetch changes up to 0783052534f547f8f201dd4554b1df9f1f8615b5:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: rockchip: i2s-tdm: Use param rate if not provided by set_sysclk (2026-02-19 11:45:49 +0000)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Additional Rockchip fix for v7.0
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+One more ASoC fix, for a regression with the Rockchip I2S TDM support on
+a number of platforms.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Alexandre Ferrieux (1):
+      ASoC: codecs: aw88261: Fix erroneous bitmask logic in Awinic init
 
-Thanks,
-Mark
+Claudiu Beznea (1):
+      ASoC: renesas: rz-ssi: Fix playback and capture
 
+Detlev Casanova (1):
+      ASoC: rockchip: i2s-tdm: Use param rate if not provided by set_sysclk
+
+Gustavo Salvini (1):
+      ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 15X M6501RR
+
+Jack Yu (1):
+      ASoC: rt721-sdca: Fix issue of fail to detect OMTP jack type
+
+Luca Weiss (1):
+      ASoC: qcom: sm8250: Add quinary MI2S support
+
+Mark Brown (1):
+      ASoC: Merge up release
+
+Niranjan H Y (1):
+      ASoC: tas2783A: add explicit port prepare handling
+
+Shengjiu Wang (4):
+      ASoC: dt-bindings: asahi-kasei,ak5558: Reference common DAI properties
+      ASoC: dt-bindings: asahi-kasei,ak4458: set unevaluatedProperties:false
+      ASoC: dt-bindings: asahi-kasei,ak4458: Fix the supply names
+      ASoC: dt-bindings: asahi-kasei,ak5558: Fix the supply names
+
+Vijendar Mukunda (2):
+      ASoC: amd: acp: Add ACP7.0 match entries for Realtek parts
+      ASoC: amd: amd_sdw: add machine driver quirk for Lenovo models
+
+Ziyi Guo (1):
+      ASoC: fsl_xcvr: Revert fix missing lock in fsl_xcvr_mode_put()
+
+ .mailmap                                           |   4 +-
+ Documentation/ABI/testing/sysfs-class-tsm          |  10 --
+ Documentation/admin-guide/kernel-parameters.txt    |   5 +
+ .../bindings/sound/asahi-kasei,ak4458.yaml         |   6 +-
+ .../bindings/sound/asahi-kasei,ak5558.yaml         |   9 +-
+ .../devicetree/bindings/sound/ti,tlv320aic3x.yaml  |   1 +
+ MAINTAINERS                                        |  53 ++++--
+ Makefile                                           |   2 +-
+ arch/arm/include/asm/string.h                      |   5 +-
+ arch/x86/include/asm/kfence.h                      |   7 +-
+ arch/x86/include/asm/vmware.h                      |   4 +-
+ arch/x86/kvm/irq.c                                 |   3 +-
+ arch/x86/kvm/svm/avic.c                            |   4 +-
+ arch/x86/kvm/svm/svm.c                             |   2 +
+ arch/x86/kvm/vmx/vmx.c                             |   2 +
+ arch/x86/kvm/x86.c                                 |  30 ++--
+ arch/x86/kvm/x86.h                                 |   2 +
+ drivers/android/binder.c                           |  19 ++-
+ drivers/android/binder/rust_binderfs.c             |  17 +-
+ drivers/android/binder/thread.rs                   | 109 +++++++-----
+ drivers/android/binderfs.c                         |   8 +-
+ drivers/block/loop.c                               |  45 ++---
+ drivers/block/rbd.c                                |  33 ++--
+ drivers/crypto/ccp/sev-dev-tsm.c                   |  15 +-
+ drivers/firmware/cirrus/cs_dsp.c                   |  37 +++++
+ drivers/firmware/cirrus/cs_dsp.h                   |  18 ++
+ drivers/firmware/cirrus/test/cs_dsp_test_bin.c     |  22 ++-
+ .../firmware/cirrus/test/cs_dsp_test_bin_error.c   |  24 ++-
+ drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c    |  26 ++-
+ .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  |  24 ++-
+ drivers/firmware/cirrus/test/cs_dsp_tests.c        |   1 +
+ drivers/gpio/gpio-loongson-64bit.c                 |   2 +-
+ drivers/gpio/gpiolib-acpi-core.c                   |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   3 -
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |   2 +-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c |  37 ++++-
+ .../drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h |   2 +-
+ .../drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c    |   9 +-
+ .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    |  18 +-
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  |  16 +-
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c       |  15 ++
+ drivers/gpu/drm/gma500/psb_irq.c                   |  36 ++--
+ drivers/gpu/drm/mgag200/mgag200_bmc.c              |  31 ++--
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |   6 +
+ drivers/gpu/drm/nouveau/include/nvif/client.h      |   2 +-
+ drivers/gpu/drm/nouveau/include/nvif/driver.h      |   2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/device.h |   3 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/engine.h |   2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/object.h |   5 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/oproxy.h |   2 +-
+ drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h |   4 +-
+ .../drm/nouveau/include/nvkm/core/suspend_state.h  |  11 ++
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h  |   6 +
+ drivers/gpu/drm/nouveau/nouveau_display.c          |   2 -
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_nvif.c             |  10 +-
+ drivers/gpu/drm/nouveau/nvif/client.c              |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/core/engine.c         |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/core/ioctl.c          |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/core/object.c         |  20 ++-
+ drivers/gpu/drm/nouveau/nvkm/core/oproxy.c         |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/core/subdev.c         |  18 +-
+ drivers/gpu/drm/nouveau/nvkm/core/uevent.c         |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/ga100.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/ce/priv.h      |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  |  22 ++-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/pci.c   |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/priv.h  |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/user.c  |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c    |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/chan.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/falcon.c       |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/uchan.c   |   6 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/base.c      |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv04.c      |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv10.c      |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv20.c      |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv20.h      |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/nv40.c      |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/mpeg/nv44.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/sec2/base.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/xtensa.c       |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/bar/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/clk/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c   |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fault/user.c   |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gpio/base.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/gh100.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h     |   8 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fbsr.c |   2 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  |   8 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c  |   6 +
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/fbsr.c |   8 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gsp.c  |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/rm.h    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/base.c |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pci/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c   |   6 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/timer/base.c   |   2 +-
+ drivers/gpu/drm/xe/xe_guc.c                        |   6 +-
+ drivers/gpu/drm/xe/xe_guc.h                        |   2 +-
+ drivers/gpu/drm/xe/xe_migrate.c                    |   2 +-
+ drivers/gpu/drm/xe/xe_pm.c                         |  13 +-
+ drivers/gpu/drm/xe/xe_query.c                      |   2 +-
+ drivers/gpu/drm/xe/xe_tlb_inval.c                  |   2 +-
+ drivers/gpu/drm/xe/xe_tlb_inval_job.c              |   2 +-
+ drivers/hwmon/acpi_power_meter.c                   |  17 +-
+ drivers/hwmon/dell-smm-hwmon.c                     |   8 +
+ drivers/hwmon/gpio-fan.c                           |   6 +-
+ drivers/hwmon/occ/common.c                         |   1 +
+ drivers/i2c/busses/i2c-imx.c                       |   3 +-
+ drivers/iommu/intel/pasid.h                        |   2 +-
+ drivers/net/ethernet/adi/adin1110.c                |   3 +
+ drivers/net/ethernet/cavium/liquidio/lio_main.c    |  39 ++---
+ drivers/net/ethernet/cavium/liquidio/lio_vf_main.c |   4 +-
+ .../net/ethernet/freescale/dpaa2/dpaa2-switch.c    |  10 ++
+ drivers/net/ethernet/freescale/enetc/enetc.c       |  11 +-
+ drivers/net/ethernet/freescale/enetc/enetc4_pf.c   |   6 +-
+ drivers/net/ethernet/freescale/enetc/enetc_cbdr.c  |   4 -
+ drivers/net/ethernet/freescale/enetc/enetc_hw.h    |  17 +-
+ drivers/net/ethernet/google/gve/gve_ethtool.c      |  77 ++++++---
+ drivers/net/ethernet/google/gve/gve_main.c         |   4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c        |   1 -
+ drivers/net/ethernet/intel/ice/ice_main.c          |  26 +--
+ drivers/net/ethernet/intel/ice/ice_ptp.c           | 179 ++++++++++++--------
+ drivers/net/ethernet/intel/ice/ice_ptp.h           |  18 +-
+ drivers/net/ethernet/spacemit/k1_emac.c            |  21 ++-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  |   3 +-
+ drivers/net/ethernet/ti/cpsw.c                     |  41 ++++-
+ drivers/net/ethernet/ti/cpsw_new.c                 |  34 +++-
+ drivers/net/ethernet/ti/cpsw_priv.h                |   1 +
+ drivers/net/macvlan.c                              |   5 +-
+ drivers/net/phy/sfp.c                              |   2 +
+ drivers/net/usb/r8152.c                            |  29 ++--
+ drivers/net/wireless/intel/iwlwifi/mld/iface.c     |   2 -
+ drivers/net/wireless/intel/iwlwifi/mld/mac80211.c  |   2 +
+ drivers/net/wireless/intel/iwlwifi/mvm/d3.c        |   6 +-
+ drivers/nvme/host/pci.c                            |  45 +++--
+ drivers/nvme/target/tcp.c                          |  17 ++
+ drivers/pci/ide.c                                  |  10 +-
+ drivers/platform/x86/amd/pmc/pmc-quirks.c          |   7 +
+ drivers/platform/x86/classmate-laptop.c            |  32 ++++
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.c       |   5 +
+ drivers/platform/x86/intel/plr_tpmi.c              |   2 +-
+ drivers/platform/x86/intel/telemetry/debugfs.c     |   4 +-
+ drivers/platform/x86/intel/telemetry/pltdrv.c      |   2 +-
+ drivers/platform/x86/intel/vsec.c                  |   2 +
+ drivers/platform/x86/lg-laptop.c                   |  11 +-
+ drivers/platform/x86/panasonic-laptop.c            |   4 +-
+ drivers/platform/x86/toshiba_haps.c                |   2 +-
+ drivers/pmdomain/imx/gpcv2.c                       |   8 +-
+ drivers/pmdomain/imx/imx8m-blk-ctrl.c              |   2 +-
+ drivers/pmdomain/imx/imx8mp-blk-ctrl.c             |  30 ++++
+ drivers/pmdomain/qcom/rpmpd.c                      |   2 +-
+ drivers/regulator/spacemit-p1.c                    |   6 +-
+ drivers/soc/qcom/smem.c                            |   5 +-
+ drivers/spi/spi-tegra114.c                         |   3 +
+ drivers/spi/spi-tegra20-slink.c                    |   6 +-
+ drivers/spi/spi-tegra210-quad.c                    |  56 ++++++-
+ drivers/usb/gadget/function/f_fs.c                 | 108 ++++++------
+ drivers/usb/gadget/function/u_fs.h                 |   2 +-
+ drivers/virt/coco/tsm-core.c                       |  30 ----
+ fs/btrfs/raid56.c                                  |   1 +
+ fs/ceph/crypto.c                                   |   9 +-
+ fs/ceph/mds_client.c                               |   5 +-
+ fs/ceph/mdsmap.c                                   |  26 ++-
+ fs/ceph/mdsmap.h                                   |   1 +
+ fs/ceph/super.h                                    |  16 +-
+ fs/proc/task_mmu.c                                 |  42 +++--
+ fs/smb/client/cifstransport.c                      |   4 +-
+ fs/smb/client/smb2file.c                           |   1 +
+ include/linux/buildid.h                            |   3 +
+ include/linux/ceph/ceph_fs.h                       |   6 +
+ include/linux/livepatch.h                          |   3 +
+ include/linux/pci-ide.h                            |   4 +-
+ include/linux/rseq_types.h                         |   6 +-
+ include/linux/skbuff.h                             |  12 ++
+ include/linux/tsm.h                                |   3 -
+ include/trace/events/dma.h                         |  25 ++-
+ io_uring/fdinfo.c                                  |  13 +-
+ io_uring/zcrx.c                                    |   9 +-
+ kernel/cgroup/dmem.c                               |  70 +++++++-
+ kernel/dma/contiguous.c                            |  10 +-
+ kernel/livepatch/core.c                            |  19 +++
+ kernel/liveupdate/luo_file.c                       |   2 -
+ kernel/sched/core.c                                | 184 ++++++++++++++-------
+ kernel/sched/ext.c                                 |  48 ++++++
+ kernel/sched/sched.h                               |  44 ++++-
+ kernel/trace/trace.h                               |   7 +-
+ kernel/trace/trace_entries.h                       |  32 ++--
+ kernel/trace/trace_export.c                        |  21 ++-
+ lib/buildid.c                                      |  42 +++--
+ mm/memory-failure.c                                |  42 +++--
+ mm/shmem.c                                         |  23 ++-
+ mm/slub.c                                          |   6 +-
+ net/core/filter.c                                  |   8 +-
+ net/core/gro.c                                     |   2 +
+ net/core/link_watch.c                              |  20 ++-
+ net/core/net-procfs.c                              |  50 ++++--
+ net/ethtool/common.c                               |   3 -
+ net/ethtool/rss.c                                  |   9 +-
+ net/ipv6/ip6_fib.c                                 |   3 +-
+ net/netfilter/nf_tables_api.c                      |   2 +-
+ net/sched/cls_u32.c                                |  13 +-
+ net/tipc/crypto.c                                  |   4 +-
+ scripts/livepatch/init.c                           |  20 +--
+ scripts/livepatch/klp-build                        |   4 +
+ scripts/module.lds.S                               |   9 +-
+ security/lsm.h                                     |   9 -
+ security/lsm_init.c                                |   7 +-
+ security/min_addr.c                                |   5 +-
+ sound/drivers/aloop.c                              |  62 ++++---
+ sound/hda/codecs/realtek/alc269.c                  |   1 +
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c            |  16 ++
+ sound/soc/amd/acp/amd-acp70-acpi-match.c           |  37 +++++
+ sound/soc/amd/renoir/acp3x-pdm-dma.c               |   2 +
+ sound/soc/amd/yc/acp6x-mach.c                      |  15 +-
+ sound/soc/codecs/aw88261.c                         |   3 +-
+ sound/soc/codecs/cs42l43-jack.c                    |  37 ++++-
+ sound/soc/codecs/rt1320-sdw.c                      |   2 +
+ sound/soc/codecs/rt721-sdca.c                      |   4 +-
+ sound/soc/codecs/tas2783-sdw.c                     |  43 +++++
+ sound/soc/intel/boards/sof_es8336.c                |   9 +
+ sound/soc/qcom/sm8250.c                            |   8 +
+ sound/soc/renesas/rz-ssi.c                         |   2 +-
+ sound/soc/rockchip/rockchip_i2s_tdm.c              |  10 ++
+ sound/soc/sof/intel/hda.c                          |   5 +-
+ sound/usb/mixer_quirks.c                           |   9 +-
+ tools/objtool/check.c                              |   4 +-
+ tools/objtool/include/objtool/klp.h                |  10 +-
+ tools/objtool/klp-diff.c                           |  41 ++++-
+ tools/testing/selftests/kvm/Makefile.kvm           |   1 +
+ tools/testing/selftests/net/udpgro_fwd.sh          |  64 +++++++
+ virt/kvm/eventfd.c                                 |  44 ++---
+ 243 files changed, 2272 insertions(+), 1072 deletions(-)
+ create mode 100644 drivers/firmware/cirrus/cs_dsp.h
+ create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/core/suspend_state.h
