@@ -1,238 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D4C2E973F
-	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 17:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771520772; cv=fail; b=QVfktHRA2s0jRJv/RN7OcIePNpNs6l2siCIwIKIXVUa1Yt/O4cJsVhLDO8Ev6nohA9YihlqO3Txquz7qbLTMF5MR17/WbB8lzYck0rLMQdaDBrdlIgFTqPrFwIQkhYqLTeJy+CX5LLsrkJKh0vUKrWNsDpY9le3PeTE4vbreVdc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771520772; c=relaxed/simple;
-	bh=THw4OKAfPO4cfnVdkF9r7zTEM7QgprtWVW7bYUx6KKg=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=q4p5zAT2BTIwF+T1bWSwHlW/BcqDW9EtxPlHTqRI2Kp26WcuvZwqlua9wjQgC0VNxAHOWPVLJYyVIRSX16sF/bmD1SL33f2Pgb4qkmdpDhKCw+Qd+1+1hrEkLTdNfHPoApegF1l+zseaAe90b3V3S+iye8Q8bXUydswuD5xmRgM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MSJxRUuR; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6202C11C6
+	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 20:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771532072; cv=none; b=bWo03EDZ6LsdPQxtGmvirlAR1oWZokNWVRdlp35oxE8LG3iDRtyjE054nfwdEBkNZ4fWh9XtPwcy9qiKKGV5AgOpPmWzSHxJv+2mPu3rSG4EAjCoyqXykPQH/0ZqcF2cThMkNNA4ZzQy4XWWmvPVW/fU7xHp0C5qenD4Jf2Wpz8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771532072; c=relaxed/simple;
+	bh=jDyL0qh/dpJye64qSsHuwF4DVOZLRQOXsUwwOv00TO4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nYl7Fm0oeQ6iCiFIKmmYnQTkk7+3IDh5BB+ft0JikTcwvtDSahw7j/tncm5nP6oe4F7MaMVqracIIoWliGChCfUWCN1w+ww91IYDmltUMHwejWiEW9JqyBZgpIJP69D0M+29h0e2Ijdqr8DaZMgnQjAU7eZx9x+lG+hOSs5d4tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b=Y9CHsTap; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MSJxRUuR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771520770; x=1803056770;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=THw4OKAfPO4cfnVdkF9r7zTEM7QgprtWVW7bYUx6KKg=;
-  b=MSJxRUuRKKadQivva17OMFZPpzzd+Dj/YrBiBtxy6ewXTN9i1dTa5Iou
-   DexhFEp7+fU7Sp6uBf7qpr9jVJkpv+yHeELml9LHVqd6tagZ4NVo1ElHb
-   PVWu0x5x/N0yL/l4n8iPdhtOMRqTpI46wyuAlcYzRTV57JI+jj7OIDUOi
-   0gnsKbHcDQi7K6e7i0eZVCtzzxCR1UIgKQJf8lUeLVacMdsdDIDhRbpOP
-   PQVaDE82Ig8ouq15NVqUKYXlgZwNm169fyeUXMLGTIIgHtXH0emnv96q4
-   caZkVSFgzGnrwvxt9YhWfuUKufUgNWYEOntjPKyzk/ojQ0jhel13c7AoA
-   A==;
-X-CSE-ConnectionGUID: XAhOFu70Sw+eZpqJh3yZrw==
-X-CSE-MsgGUID: UgzYt1pVRnq0lV62svAQ8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="82937197"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="82937197"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 09:06:10 -0800
-X-CSE-ConnectionGUID: J/S3IAhIQou3yo8S3ST2Tw==
-X-CSE-MsgGUID: 4/KcfRm+Qr2FdZseE5L4sA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="237564501"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 09:06:10 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 19 Feb 2026 09:06:09 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Thu, 19 Feb 2026 09:06:09 -0800
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.42) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 19 Feb 2026 09:06:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PpexeYMmlHeYdb/J8SqePERqmkf62UN4rSSkq/KA/r/xYb88nqFCvbIBEzLW8lxabKD9IYRa8ssO970xAZuOuL5rBhRooTfEwAdo45vj593S42nctznzcHtx0xI4AXF2V0ocxFaHOXJdUkULL+kp3ACqm47E1CuDchPmo6F3dGIvWmCmA/0pU2PoeMw+JZFQn3wBSnqQmCGO+/9pkraoW7V+zHGrCFqDD7eqd5RzGtrOMxEkPGL3mIV8N/KpKXd+CQ+tqRgjoa45SwpYDWKsg5xy8IAZVYskcg4lqz5e5wld56/5cmKhG+JEPciLGT4CNXW+vPZTaLOqCBoZxmwRVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=insO2/fXOoZCT0Tppd1Ig53GgAaXueW5PAUK9FuLPnE=;
- b=qyYPGqXq1kwwA5V7Xyp80h5wsdZWKg0HX9TVpKsXHYQrR0u0Nck6CSXnjLaA5jvSGpKw9OoNeITnY6ixU1p+z5MRvcbgJ6Wp+XpMK8XHkQI4GuhnJ5A5krEOLRLHfuIw3XN+l3vtCKaFR37snsoUNTMHztTLVaiO91Hew6LlMv1M4tLfpLqXv+udG1ILzpr1Tzo/PIGnbn3LY1tfFlHNx2eV4Y4XR8OMSdXDGdf5v+ktHP/dnoWEdU93hxCop14WiznrLqyqt5cw+QUA/qEsyBgJ30z8wdYWQvqi+d1TDSPo4zcF/h2PeoB7Xfnty1xtSIAX6dd0PHuuCivRdPzGQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by PH7PR11MB8453.namprd11.prod.outlook.com (2603:10b6:510:308::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Thu, 19 Feb
- 2026 17:06:02 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::d18f:6b38:584a:214%4]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
- 17:06:01 +0000
-Message-ID: <b9f5071d-dc20-40df-847a-d8ff0ade2f5d@intel.com>
-Date: Thu, 19 Feb 2026 18:05:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] ALSA: control: Verify put() result when in debug mode
-To: Takashi Iwai <tiwai@suse.de>
-CC: <tiwai@suse.com>, <broonie@kernel.org>, <perex@perex.cz>,
-	<amade@asmblr.net>, <linux-sound@vger.kernel.org>,
-	<kuninori.morimoto.gx@renesas.com>
-References: <20260219094614.504459-1-cezary.rojewski@intel.com>
- <87y0kpqc4z.wl-tiwai@suse.de> <87wm09qc2y.wl-tiwai@suse.de>
- <2f5d09b7-6cbc-49d0-b1d8-52c48dfadc66@intel.com>
- <87v7ftqb4d.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <87v7ftqb4d.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0102CA0082.eurprd01.prod.exchangelabs.com
- (2603:10a6:803:15::23) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	dkim=pass (2048-bit key) header.d=starlabs-systems.20230601.gappssmtp.com header.i=@starlabs-systems.20230601.gappssmtp.com header.b="Y9CHsTap"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso10683455e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 12:14:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=starlabs-systems.20230601.gappssmtp.com; s=20230601; t=1771532068; x=1772136868; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1xKXhp4Fjqh4vlJBlQb5Cv14X7D63Yn5e1MBMaZJXKw=;
+        b=Y9CHsTapMvATqr6i4iAeuhE5Wsb5BE6jtLIxgcqREofKaT9lmduLbg6gIWoYCdAR4A
+         8gRW3GiFr/1PXaFir9r19oqe3aU2aPDzvLg/kx8z1yTmO9XHGOlkQKkfIMUgC+xc/ahq
+         m8kR61zIGwf6y/Di3Iot1Zm8Y2E19Df1cUtOvXlPvdA7iQ86WKraZ650sPHOtJy9CFIn
+         DrMnv5DMXrhRmp6dv+sWPsQli/kvS3W1aVDnVOiNtv6qtVnnqCLpk1hQpbolO2nxysN5
+         XTzDJRqARasOd3WAhlnDp2XYolkgcQnpL1lW0MQVsF4HLY+7nsXJifZ3PgRhnDjaAaob
+         LcvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771532068; x=1772136868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1xKXhp4Fjqh4vlJBlQb5Cv14X7D63Yn5e1MBMaZJXKw=;
+        b=ZbFJZ1/87we8wghDNDiiwpQbkNZYoYjSGh0hV+YmWFBWO1i8DOb+drmCwDMU02IBKG
+         VlLZT39HI6RGOxsZE5lWzu5hGtj04H/k4nVEWz6sKbvl5/X0wjx9NsaVIefakrHhFY+5
+         Telwk/CRHNqnxRCtBIU66dywe62VvZqSEMdLvgIHzOzoWnaBzZrI5DiW+vc7bUJmLhxD
+         3L+8i9IfBbelwC7iGFIFhEDS5m8acXzNZPUdfXmKr3rnx5AcmDe/B7Mx2hoZr3fBJfxK
+         mcDemx64Io7Yz4VzMX4ZkhcpvYEc+7oGPG3QHhH5admEvUTKL8ojzq5hLpt0hcez4JcZ
+         Yeyw==
+X-Forwarded-Encrypted: i=1; AJvYcCW87C3jCJzgY49Mo1ogoDr/r2XmxH/YUIbzT6+QbbAJn/bEK7APfU+ekZM5hZq8ndr5nSye8IjWXeXwYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcZZ8RreVGM9jv4eYR5lZPS7fTPQTffcbyr/Pd/Ie4y0RFhiRG
+	q5jnM/mgzsmSGkFxL1KPfMt2FH9UD3Hk6pcRtdiVgbzhVlPAv8iVqwmFJAI0qnRSQA==
+X-Gm-Gg: AZuq6aI3mSGfuG84qJE+FJv5sAKhwHlIBMJ/wFct71//Rccw7exnWO7mNvimsgUXTbk
+	ogSFkJ4arff3UndOqiRTF91gnpAEbmQbeTKonkv3hClZe2MFTZppsotPYvMDNVAg+l53A2/QxoF
+	a8wy7bN/gEHRnMjjMsryav2vPthH8jyjFhBqEdB5fIejBwMf5STzM6F4byj4GN7hCuYh8hwO7qr
+	CMCgNBhT5unM7L/5qC+ffX72ZV/IuPMRoWDblsT/PV2QiP26HKoSYFrEyVwBQAI75gjGiIev1Kc
+	+FpqHP2yCU02uZCkCziOPZLC1o4aghdwf2WibMG7Lv0o80AEvBRm8feMYR+h/nFAWdTGqdSwXCi
+	Jxb8uhryDCCavKu5TVtKSL9IKn1e6Y7vc7JaRJXDWt9wknSCicVP2egz25L2FzV6cmkzcbKzqZ1
+	ZTPSmJKYZOaP6hseTu0uT+trjOdyfJgq5KGBxs2S903hNCI/3Kzxg=
+X-Received: by 2002:a05:600c:3110:b0:477:73e9:dc17 with SMTP id 5b1f17b1804b1-48398af0206mr142458725e9.35.1771532067676;
+        Thu, 19 Feb 2026 12:14:27 -0800 (PST)
+Received: from starbook ([217.155.46.38])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31bfef4sm37975515e9.7.2026.02.19.12.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 12:14:27 -0800 (PST)
+From: Sean Rhodes <sean@starlabs.systems>
+To: linux-kernel@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Chris Chiu <chris.chiu@canonical.com>,
+	Edip Hazuri <edip@medip.dev>,
+	linux-sound@vger.kernel.org,
+	Sean Rhodes <sean@starlabs.systems>
+Subject: [PATCH v6] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
+Date: Thu, 19 Feb 2026 20:14:26 +0000
+Message-ID: <4d5fb71b132bb283fd41c622b8413770b2065242.1771532060.git.sean@starlabs.systems>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|PH7PR11MB8453:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1094d3ac-7325-4f80-04fe-08de6fd928b4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bXRZVXd4QjYyOVVXajlSbGRJUEU4NExsS2xrT3JjYUphalozcHNoQk5xZ284?=
- =?utf-8?B?QW5tR1NFN1JJcVluNnp3TTdHRFFENzl1RXJETWxsV2VzdEkvbWd0LzhSbzJv?=
- =?utf-8?B?TVlxa2xQR3hGWmdXOUt0b0ZKUjRGNmVRY2xMdEJvYXIybkhGZlpzb0tDNmtv?=
- =?utf-8?B?cVQvV0Z1MWtHMjJSaVFNU3YyUlB1MHJrTjdzU01vTE1OVXRaeTg5cWc1aU1h?=
- =?utf-8?B?aFgrL0RZelduRFFFaEkwbVRTbUFJWVplSjZUOFVNYmNHQlFPdW1weFpxaG8v?=
- =?utf-8?B?TFd3ZkVjaGdNU1pwOHR4T2diVGtoRVV4S0dNM1VqbFczbXdWT2NHV2o3ZytD?=
- =?utf-8?B?L0p6SHR4Nkowbkx4WW1wMjRIQ3hyeVB0eEpucFR6VitpL3VwbkVJUUxJb3Fk?=
- =?utf-8?B?TmJmME9JcmdGY2hhckxEZDhDNm5sZ2FKYk9kdUowdEd0WjhSNzIzcVBBN2VC?=
- =?utf-8?B?Q2ZvQXZkbWhWK1B1UEh4L2xDakJIUFNndzJua2NkaDNtSUpzWksvVDc0K3VR?=
- =?utf-8?B?djN6UWNTbVJEOHBPT01FejdtQVg2WVQvTk12c2JYMTBFb0h0MEJlRjZLei9O?=
- =?utf-8?B?a2dHUHFlZksweGlMQVZ3TGYvZlloQis4KytuaE5mRXE2Q1FmSnRLTi96WEox?=
- =?utf-8?B?UEk1aDl4bjhadkRIaVVpdmk4RWcweFVUNW5kWE1sVXpYWFZzVm9DWDlDTHRz?=
- =?utf-8?B?UkFjaUp0UkFwSUw5WUhZVVdNbVlaT2l1Uk5KbVVpdkpmRVBDb2p0dDdZbkFx?=
- =?utf-8?B?OEM5cWZzWjM2MmRTREE4ZU9sMjJEK0c2NmlwSWNVVkVRODZ5MkNqeC9VcWE4?=
- =?utf-8?B?TEZxRGRQamppeVFJTks2SFF4S0VWZG1RbWt0bkt3MzY4UmlBMjdaSFZzWFVX?=
- =?utf-8?B?MnBVZi9FcTRFcm1FbVV0c2pJcER0TmJIUWV3VVlvN1dtSmlRYXZCdGQ4MkZO?=
- =?utf-8?B?RkRBK3JXNDQ0NkswQ2RlRSt1SkNoa0pCMHdaVjlPOTBIVmF0c1hzaWlKSFEr?=
- =?utf-8?B?ZFFvdGE3U0xjLyszVXJiWFVIWlZ4Q3RuUmRJWjhvZTJFSVp5eG5PZnFuOGhE?=
- =?utf-8?B?MG5wcTFhT2YwV0JqRUVweU9OSEJkT1VNNkMwejc2YnVrV21na2UvZHF4Vzkx?=
- =?utf-8?B?TnZIQ2FWeU1Qb0J3TjlPZnZsdnk1YWttNjduU205RnBsT1FTVHZFcmI4cUpL?=
- =?utf-8?B?NDlMUmFneS9QR1BwYzgwdVRjdUdYWkNOYm45NUNib25Qd25FYVVuZUZQblpn?=
- =?utf-8?B?Q1RSRElHTnhDdStKcm9sVVFPOGd5dDI0WmFqb1NQNSszbk5nZ21vZnBaK3NK?=
- =?utf-8?B?TVZuNnJ3cVRnVjloSFpYVkZodWgvOS9JSUswbHViZ2JRRWk0STRMdFVJTk8z?=
- =?utf-8?B?SzIxTE5MeTU5ckszbDBlZnU0THo1eVFtWUhrUkxGdUZMaWJjVGpTUTljSFBo?=
- =?utf-8?B?bGFrdy9RV3d4VXBLR1E2dnpMTWtJbFhIazB0cXVNU1M1K29OcmkwM3NiVWdi?=
- =?utf-8?B?cFpmRnFzVUZEcURlT2RvMjJveGlORjhaejAydmdqTTZaS2t1SngycDk5SDIz?=
- =?utf-8?B?a0VKY3pzMXIxdEhTSUdJME95bFNOYndXY2M2UllhYWwxU1YrUS9XejgzZndF?=
- =?utf-8?B?cUJSMzZYWTNKRzZiMmU5OU9IM25BejhZVUxtbmtpcFcrSE5NWGNQYUxKOVJy?=
- =?utf-8?B?MkdnRlhSR2ZiQW1sTnYzOTduOURzZFFvdjNuUmFSNFVBby80bFErMHcwcURv?=
- =?utf-8?B?dGg0RUswT2RDdFBWbG1qKzBGUzQyWHpHUDd6UjZ4OXZudytQTStzb1FMUGVQ?=
- =?utf-8?B?QkxvSnJUVFo4STNvRzc5T2FLOG5mNUhMTVVzRkVKL0w4b3QrZitlODVJcnpx?=
- =?utf-8?B?T0hJa1ZITVgzcjBHZzB6U29xeHdVNGNIYUxxOFA1dVBXRm9BMGhFazd3NXpV?=
- =?utf-8?B?SUxCd095SExDNDN0S2JHamZPem9zZGlYRitMajZqcld1cFZ5K0tOWjI0cmlE?=
- =?utf-8?B?WHdRZ3A1K2Ntd0o0N1dhbG16TVB0SXVtUXp6c1NEU2lmbG9yT0xBU2ZsYUdB?=
- =?utf-8?B?blpNZTdwckN4QndQS3hIL2hZRVVSdVl0TU44emoyWmNxS3Z0NUhMQ3Z6bjNy?=
- =?utf-8?Q?hnOs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VUJSR1VoZkluOVBMTVFEcU04NWpvYzR2Wm4vV3ZxRmhFRVhZVnhzdUx4RURy?=
- =?utf-8?B?bU43U09EZU1hSTV5RmloZ01DRUdLSmRLVm1YamJOMVRKM0JLVVc0dUdnMUZT?=
- =?utf-8?B?QmRUZGVJSllsN3RVdVlmWFIzUGVqemg0V2QzU0t5bnp1eHgyL2x5Z1h6bFRH?=
- =?utf-8?B?TS9ZMzlkL25IUE9lVVRxQ1NkckxpdGhheE9jcFQxblNGdFFvZncxd0ZTblU4?=
- =?utf-8?B?WU9MV2U4Ryt4MGtldlVIV0c3THovZWQ1TzNPSGl3ZjNNc0JXOGx6VnRtZXRv?=
- =?utf-8?B?aXVqNjBQaE81TkZ3S3BJV1JXUFlZVnpsVEcwZzljaDBqRlJKK3RqWStMTlJl?=
- =?utf-8?B?K0lTV0U3VldpdlhXeVpoWjZBSnlQV2E2dlRaZEVCRVh5WUdBUncyUUxhUUxF?=
- =?utf-8?B?OUNLNUFPT2ZzeTcxUWw5SWp1U3RLSEZiT1NaM1V2Zzd1clVZcGJYNEpId21L?=
- =?utf-8?B?V3NIQy80dWhlOXY3MmdITGJHd1BXZHZmUElPcGdQU1BPRTRqVU1EbmRUalU3?=
- =?utf-8?B?UW1ldmQrQm9hWjVyRUk3RHA2RUVITUlWZmg3UXU2M3BrUFhzUGlqaW5sQVZU?=
- =?utf-8?B?Zk14T2pUTFFXZW94cjUyT0dVNE4xaWEwNGdpUDNGcHV4eVYzWFV6TXduYnZp?=
- =?utf-8?B?SlgxSVMvS1ZLYlh4Zkt2dVROVnZ1K0RrUDV0MEI0dC8wRS93SGVYaGpkVk5l?=
- =?utf-8?B?a2dkbUdTMkJpRWVHUkxwRkNzbWtGRnhZVW05ZSs0b0x1OTlieGZlWnVkemV0?=
- =?utf-8?B?YTR3UC8rVXN4dFNIK09YSUE2ZElYUFlucDhOQnBjSDZlS2ltTUVGbWRtWFcv?=
- =?utf-8?B?eWU5SDRXaUhPS3o0WlVDTEdmVFRCUkIzUW91YW9vZ3l2V0xCazRVb0VtWVRT?=
- =?utf-8?B?Q0t2NGVDdDZicVUzeld6dUlWc2QzRG1qb2pDSnBwZXZxRW5JYU9xTDdwemt6?=
- =?utf-8?B?RmN5NVNkZmgyRXBpa0RUa2oxd01XMS9BdVBXeHBlRlF3ZytxUXpFOTgxVWd6?=
- =?utf-8?B?MjRBaXozTGw2Sk9QNDdTNDhUT2lpZkQ0V0VhZDhSUjBicnpKc0VkU20rV09w?=
- =?utf-8?B?OWJYL0tKdUZtS0JSUXdvTGhJNk8yY2pEOWwxQVR4eC95RC9pTTNvdngrcGZk?=
- =?utf-8?B?R2R3VWU3eW1zMVl1SXN4VFVpZTk0dDd0NUMxMm11a2ppUWlFVW1zdTNmejVO?=
- =?utf-8?B?dTlVNkkxMzJObFh5R2NXQlBTUVpsRHpiWFJiQ3YyVVJ3VUNWcGdBai80VWFR?=
- =?utf-8?B?cU5TRjYySVFNdWw2bnpUa29XTE9ZbndQUXJqOG9JZDlRTlIvZmVpVDdNN1Qv?=
- =?utf-8?B?ampESGdLblhXd3NHT0RJYmh4bjhSZXFiS0E0SFdMVGw3ZDQvWUhVQTJISkRE?=
- =?utf-8?B?dDFCcjl1eVBaQytRU1Bsdk9LaHJhdHhhaERueldXZHZIcGVsTjJmbGx0UDQ2?=
- =?utf-8?B?UmU0b01RclRpbitMNndqdE9vcVc2NHNGMERmMUJTL1k5cnFqZ2hrWFNXS1hI?=
- =?utf-8?B?QnZzcGFuTk0xVlRyRUtNVmRQNDl6Ykw3TXdWQWUrR2dITjM5cCt3b2Zud3Y2?=
- =?utf-8?B?ajJabVQ5L3pJSjNqdFFHL0NrK2lxdFpZUHpVWEJyVmh0WEt0RmR4NWhVYkxY?=
- =?utf-8?B?dmNYMWY5WG84QmhPNW5UN2VlZjYxUktpT3NtYVlrZUNhUTZuZ2J2am1GMkdY?=
- =?utf-8?B?SXpOVUV5Q3FheGM5UVRrR3BlQjVnbnZ4dHQrakdpUFlwS3M1aDBCSXdMWlV4?=
- =?utf-8?B?dm54eTJRbk5aQkJLcXNYaGJReEZ4aDZMZzFNa0NFOXNNRWIzYnpYUVJCNmhR?=
- =?utf-8?B?anJHdXFUV2g5OTRCTUJxdXQvdXJQcE9SRzl2WjMxSytERUc2UlNKTDdPVmNR?=
- =?utf-8?B?STFqbS9MYkVsU3N3ZUhud1FoZExrVEFqYXkxeFBxMmc0NmU4Y0RUR1ZhdENy?=
- =?utf-8?B?elRwZVlIaUEzU0FJY1B0K05ITzJBS1Rsa25Oc2tTVWg1K21VZVVQSi9KQmtL?=
- =?utf-8?B?V3NwMGlVa0E0dFM4dHJRQlp1YkxINDk3aFh1UWV0Qmo3cnJzWFN1VkJBZWtq?=
- =?utf-8?B?dTN5MmFPbjFRZU5ZZnMwVUQxNllKZWlUdWZFc05uNE84S3FQbXNVWUVyYmRE?=
- =?utf-8?B?TjdHOVFvN3JlYlR4MUhEVHhFOU1NZVoxTkMzQ3dyeEo0TXdKMlg1VWMvNDFx?=
- =?utf-8?B?Y0RGdGRkM3BmREVmNFptb2RBanpkeWFDTTMxdGxBS1lzN0NicTNvOWRHbHM1?=
- =?utf-8?B?a2pUTU5VMmEva2RHeEVBby9zMVhZdFRCaXJQV2QyNzFSYzF4ZnZmdkRIMHBD?=
- =?utf-8?B?VGZoYjAxQ2ZZNCtkamptb2lKWHpvR3lPS0t0dWVzQzRKV3JnVVhwY1RNcXY3?=
- =?utf-8?Q?5S5ftMN0NyT292ys=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1094d3ac-7325-4f80-04fe-08de6fd928b4
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 17:06:01.7747
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kzz2WcIQbL0PmVfvbizv9qO7bHRIkVfRKYbjmiWC4yeYOTKGeXl2rFvzN35NOv4XRdGhAxyzC+wLVpacIBH6RXCkMxX7SDCuk7UMAUygztY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8453
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 2026-02-19 11:30 AM, Takashi Iwai wrote:
-> On Thu, 19 Feb 2026 11:15:41 +0100,
-> Cezary Rojewski wrote:
+On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
+emit an audible pop when entering or leaving runtime suspend.
 
-...
+Mute the speaker output paths via snd_hda_gen_shutup_speakers() in the
+Realtek shutup callback before the codec is powered down.
 
->> In regard to the "trace system", not a fan of adding a new "system"
->> just for the sake of a single event.
-> 
-> Why not?  We may extend the tracing of controls, too, and it'll make
-> easier to enable all tracepoints relevant either for PCM or control.
-> 
->> If we are going that route, I'd
->> rather reword "snd_pcm" to "snd" or something similar. From sound-core
->> perspective, I believe there should be 1 directory for the events
->> declared in sound/core. The event-names are prefixed already, further
->> division looks redundant.
-> 
-> That'll be messy under /sys/kernel/debug/tracing/events/*; it'll
-> become snd/applptr, snd/hwptr, etc.  So, if we want to consolidate
-> into a single directory, we need to put "pcm_" prefix again to each.
-> 
-> Or maybe better to use subdirectories "snd/pcm" and "snd/ctl" instead.
+This is enough to avoid the pop without special EAPD handling.
 
-Well, I'm taking example from existing directories e.g.: 
-trace/events/power or trace/events/sched. TBH, trace/event/asoc fits 
-here too - all of them just group events together. sched_kthread_xxx are 
-in the same bucket as sched_process_xxx (as are plenty of others). The 
-'name' alone is enough of a filter. I believe that until one reaches 
-certain number of event-types, there is no reason to dilute the hierarchy.
+Test results:
+- runtime PM pop fixed
+- still reaches D3 (PCI 0000:00:1f.3 power_state=D3hot)
+- does not address pops on cold boot (G3 exit) or around display manager
+  start/shutdown
 
-However, looking at the subject from a high-level perspective, I think 
-it isn't in the scope of this patch - I can align to any suggested 
-pattern and we can work on the details in a dedicated series.
+journalctl -k (boot):
+- snd_hda_codec_alc269 hdaudioC0D0: ALC233: picked fixup for PCI SSID
+  7017:2014
+- snd_hda_codec_alc269 hdaudioC0D0: autoconfig for ALC233: line_outs=1
+  (0x1b/0x0/0x0/0x0/0x0) type:speaker
 
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: Kailang Yang <kailang@realtek.com>
+Cc: Chris Chiu <chris.chiu@canonical.com>
+Cc: Edip Hazuri <edip@medip.dev>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Suggested-by: Takashi Iwai <tiwai@suse.com>
+Tested-by: Sean Rhodes <sean@starlabs.systems>
+Signed-off-by: Sean Rhodes <sean@starlabs.systems>
+---
+ sound/hda/codecs/realtek/alc269.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-Kind regards,
-Czakre
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index b66965a52107..00a92da0ba05 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -1017,6 +1017,24 @@ static int alc269_resume(struct hda_codec *codec)
+ 	return 0;
+ }
+ 
++#define STARLABS_STARFIGHTER_SHUTUP_DELAY_MS	30
++
++static void starlabs_starfighter_shutup(struct hda_codec *codec)
++{
++	if (snd_hda_gen_shutup_speakers(codec))
++		msleep(STARLABS_STARFIGHTER_SHUTUP_DELAY_MS);
++}
++
++static void alc233_fixup_starlabs_starfighter(struct hda_codec *codec,
++					      const struct hda_fixup *fix,
++					      int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE)
++		spec->shutup = starlabs_starfighter_shutup;
++}
++
+ static void alc269_fixup_pincfg_no_hp_to_lineout(struct hda_codec *codec,
+ 						 const struct hda_fixup *fix, int action)
+ {
+@@ -3802,6 +3820,7 @@ enum {
+ 	ALC245_FIXUP_CLEVO_NOISY_MIC,
+ 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
+ 	ALC233_FIXUP_MEDION_MTL_SPK,
++	ALC233_FIXUP_STARLABS_STARFIGHTER,
+ 	ALC294_FIXUP_BASS_SPEAKER_15,
+ 	ALC283_FIXUP_DELL_HP_RESUME,
+ 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
+@@ -6238,6 +6257,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[ALC233_FIXUP_STARLABS_STARFIGHTER] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc233_fixup_starlabs_starfighter,
++	},
+ 	[ALC294_FIXUP_BASS_SPEAKER_15] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc294_fixup_bass_speaker_15,
+@@ -7370,6 +7393,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x2782, 0x1705, "MEDION E15433", ALC269VC_FIXUP_INFINIX_Y4_MAX),
+ 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
+ 	SND_PCI_QUIRK(0x2782, 0x4900, "MEDION E15443", ALC233_FIXUP_MEDION_MTL_SPK),
++	SND_PCI_QUIRK(0x7017, 0x2014, "Star Labs StarFighter", ALC233_FIXUP_STARLABS_STARFIGHTER),
+ 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+ 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
+ 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
+@@ -7466,6 +7490,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
+ 	{.id = ALC298_FIXUP_TPT470_DOCK_FIX, .name = "tpt470-dock-fix"},
+ 	{.id = ALC298_FIXUP_TPT470_DOCK, .name = "tpt470-dock"},
+ 	{.id = ALC233_FIXUP_LENOVO_MULTI_CODECS, .name = "dual-codecs"},
++	{.id = ALC233_FIXUP_STARLABS_STARFIGHTER, .name = "starlabs-starfighter"},
+ 	{.id = ALC700_FIXUP_INTEL_REFERENCE, .name = "alc700-ref"},
+ 	{.id = ALC269_FIXUP_SONY_VAIO, .name = "vaio"},
+ 	{.id = ALC269_FIXUP_DELL_M101Z, .name = "dell-m101z"},
