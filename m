@@ -1,345 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D966918A6A8
-	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 09:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771494377; cv=none; b=sBpKhfH2HvdtvewI2UH4FRmsugOFDzvLhYiXAk/ClpuQ2EAVMpfUwiZrS+unjCATLjaJxcO1EblGJUqfEzx6qDb4QgAGm+i1yj1MvQboaYn/6sHicPn3CHUtRBK1AKt6evX5gDqwcou5hW7dzp1GSpOWqJyfIZ4SuCF0sjrJ+G4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771494377; c=relaxed/simple;
-	bh=/jN3yCmh/yHp3+A7ErPK+5BcuwyPOdsYbATk9IqgVzQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ttCuxMphMjOZG54Jht3KQE5pF3HlXhI3uJqH2iF0U3O6yTGbgf8Aqqs+3aOO6qTjilAAgcR/S+/KNiKaA1SuhzZvsS+ldjqytJCeQzZq/Zk5aDzuAjUIGJgB331tAZWZ9DDoAYiEcM3avlA/HQnuswhQsNHeeEIpu481IXg6Szg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ieprUYNf; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB1B21ADB7
+	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 09:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771494394; cv=fail; b=ZSj+OELMJVN17kVqAFLU+sAdn+9SrIck6bSWEqX8jdzfC0heOaSvK541YnztdmkyosUkTRMaZPM0LYILw9Ny/MZcjwciYeavRd94b1RSuwlagM88P1q/q5EwDa/h4nhx24/KtLzxJlRoCdZaVb7J7miwCTKaAIENhFCTnBCAXA0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771494394; c=relaxed/simple;
+	bh=g9yzm5wnQLiRN/cKlIhYY2SVpWhz11Z5pOsT36bd1Vo=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pe5AW1xS1m91LYRYDTO1GZnYcggmRayBR1iRA9IAbvm0YKYQo/WwfZv/mgF5ImVclutY+zp0xI7cQUvq9tN8w+xMOcdAiklm0fgU8dMB6wnx2guhjO3HqTIvFobs+C6K5pbbbTTFFnYwJSqlQSHpaYy1LucIfRScPhS7SSqTmSQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T4ICdTis; arc=fail smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ieprUYNf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T4ICdTis"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771494375; x=1803030375;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/jN3yCmh/yHp3+A7ErPK+5BcuwyPOdsYbATk9IqgVzQ=;
-  b=ieprUYNfPeD+CXlFO88m80OCoqh5W/km2CMazzRaki/dRKIwXNiLggN3
-   WhIC0tZuYMK/Qz0UOCo9CgjKQdWQ/dIawFiwus8yjUZ09GvcaIg91IdP5
-   PNsfirF0l1lyk4Cd9fhVZtK1RnyCzI3ogjKYRfLl7/+XcSkVrqzsEY4yJ
-   2X4owYHj29lKIoZxbRCMWVeRP4j1C9LgrClTm/5hmYnpddFhRhq7GYNXv
-   Xopi12GSVXVqqlw7Zk639FPcLF177lR5j2nvKdkf7eE0sQGleLQgSzqUv
-   O35XzZ7hp9i5YmhxcCY7UoiSc2vdnvSUd9kWfi0sQA5YTt/WMaNUKGnHY
+  t=1771494393; x=1803030393;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=g9yzm5wnQLiRN/cKlIhYY2SVpWhz11Z5pOsT36bd1Vo=;
+  b=T4ICdTisCkRVCcPsznpszbJ8hubGup6zIdOc3rTa1YWRxJmpylrs/CLR
+   I4jC+s7QPovwMQ7UyVfNZ4ewfYH3ffBfHlf583/ITh6BqrLIwHe7ZOpxd
+   NtUY8zkN7XexnAeOEMW78p5gRWIYaTNiKfj8HzGpR5vCRVACf7YKBGFg7
+   MkQ4kuSGudthWsrbjYONeqj+1kyLWoqQGwIJUYetF4lL30noU9T5cKEkd
+   Q04PK2BOua+wcQFMdAW39V7oC8M2ILiJ5HD6IFuh4D1OqDM+MBwIBjL3W
+   A9qOZKtPpvNaszrGi4xoH4ZNsMld9Rg4v+FOb5naw0uwBEkxnDQfYNg2B
    w==;
-X-CSE-ConnectionGUID: UlFGTd87TSO2ygB6uFXYfA==
-X-CSE-MsgGUID: sh6ZWBTtRPm1PcHlyxM0TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="82900596"
+X-CSE-ConnectionGUID: QB9umPG+RoKZC7k8vVK47g==
+X-CSE-MsgGUID: 1jjE0PSETrynXlmMmqUAaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="95193636"
 X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
-   d="scan'208";a="82900596"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 01:46:14 -0800
-X-CSE-ConnectionGUID: +cd3/dVHTEeU4Swb0N0BzA==
-X-CSE-MsgGUID: AMJDrTRQT8OJoKZPVdctiw==
+   d="scan'208";a="95193636"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 01:46:33 -0800
+X-CSE-ConnectionGUID: ZqaxCj14TTezvS2ZBQzxiw==
+X-CSE-MsgGUID: mPkIjTX0Rie2KZAgviBM3Q==
 X-ExtLoop1: 1
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Feb 2026 01:46:12 -0800
+X-IronPort-AV: E=Sophos;i="6.21,299,1763452800"; 
+   d="scan'208";a="237456087"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 01:46:32 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Thu, 19 Feb 2026 01:46:32 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Thu, 19 Feb 2026 01:46:32 -0800
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.0) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Thu, 19 Feb 2026 01:46:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nuKDBKuG0qGqP9aizQp4WkKNWUBrWk3jQqbr3FLv2H2/bTOAkFAs8LQ6OT76G5m4ociU/ELumI8CXJxSvCM8XUJSHc8ceNDKHfbQ0zTR6f2bfVu8pu5Oe4raNCQq2RWU0QWKLPS1Pp91+ah8IMeXpV2FZM+YfQg03nkEvaCCC2UrWNNh0VCkjvVMZ/ZmvkCh30KPaR3O0x3+zSujQsCYzbG6c3RMAFrLTq8ZdmU+FfSrFyxvKtthSxSsy26roW2HXUZq35+iytSVbZROppFnmK/nrnQ323Fq6fVxbLQdWV5p/Pr8t4VBJZnVLMCfg9a8jhJkedYqlhNRQy0K9WWP8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jQqOzt/xyT0/1ywustiobkdkO1sp740sm+ZBO2d74Kc=;
+ b=d+uLfbnBesvfkry3umPvIDoDsv73SYH2Yx/WITw9XL2p8ZpPwIOXGv68stOGTharJNCUIte2GdftYvqrMfva1y5yOSBvO9LGNtikTzb2uGw3xn6v5eBolZmAWxlK0L44AKXHKH7VyglNM0Rw2VeHaT1hu83pUVB08FXJPQzCix0nYTp4X6zs83j6vnsi41o09lfbAXHFm5OGSt567LKlztYjzqDIW//ywVK4R2ld178JjrwNrIlm3sALrc81RqCtY61+sxD+I+zIebk6ERT0i3tYuE4I6w6F5L0qm9zx858/IrPAqTSbajxhOAJeVNQdX9IcY/F4oPvTcJI23IZC3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
+ by CY5PR11MB6281.namprd11.prod.outlook.com (2603:10b6:930:23::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
+ 2026 09:46:29 +0000
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214%4]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
+ 09:46:29 +0000
+Message-ID: <d220e660-71a0-472e-b402-7a8c0d999908@intel.com>
+Date: Thu, 19 Feb 2026 10:46:23 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PAATCH v4] ALSA: control: Verify put() result when in debug mode
+To: Mark Brown <broonie@kernel.org>
+CC: <tiwai@suse.com>, <perex@perex.cz>, <amade@asmblr.net>,
+	<linux-sound@vger.kernel.org>, <kuninori.morimoto.gx@renesas.com>
+References: <20260210152737.347279-1-cezary.rojewski@intel.com>
+ <8d133f5f-dee1-46cb-b0b2-48a50b747d8b@sirena.org.uk>
+ <29563f08-a478-40db-8c86-23977508205e@intel.com>
+ <d48daf72-89fe-4ed0-add2-717dcc5d03fe@sirena.org.uk>
+Content-Language: en-US
 From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: tiwai@suse.com
-Cc: broonie@kernel.org,
-	perex@perex.cz,
-	amade@asmblr.net,
-	linux-sound@vger.kernel.org,
-	kuninori.morimoto.gx@renesas.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v5] ALSA: control: Verify put() result when in debug mode
-Date: Thu, 19 Feb 2026 10:46:14 +0100
-Message-Id: <20260219094614.504459-1-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.34.1
+In-Reply-To: <d48daf72-89fe-4ed0-add2-717dcc5d03fe@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR04CA0074.eurprd04.prod.outlook.com
+ (2603:10a6:802:2::45) To SN7PR11MB8283.namprd11.prod.outlook.com
+ (2603:10b6:806:26c::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|CY5PR11MB6281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ebaf968-607b-464e-7931-08de6f9bc173
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K1ArdGZLRm9PblpXZ2dJcFhBYm0zbUdVelNWOWZEMitHcjlOVU92aWpnZ0FY?=
+ =?utf-8?B?ZlJFcnVXTm1iSVBjZWhQYi92RXJWc0xtL3p5RlU5UGkraUpncmJ6c1FsVE9u?=
+ =?utf-8?B?aDJNSkxCVUFXZVFGbUlGQTYweCtYR01BdlNzeUVuY2JXWEY5WklGVUd4OFVu?=
+ =?utf-8?B?c2hkOGNPdEMzQ3ZPTGNLYU5VZFpndkZFT1dVK0hVY2hEMWdvMGlTYjI3bG5Q?=
+ =?utf-8?B?YjFVemcwRTZPdGp1NkdIaHhVRzFpQWRLYUxPTG4xTUs4bUY2N0xXRFQ1RjNT?=
+ =?utf-8?B?ZjA1UXpDa2tWd09NTDZHTUNRK1VsSjlEd0wzRzVXamtFcVJKd2wwL1Y1OG1r?=
+ =?utf-8?B?dnd4cFlQNjMrTkNtNVFFR2VzMHNiNWt2eHg3cWx4am9IeUVhdDJnTWxvVGds?=
+ =?utf-8?B?dFRNTnF4ZEliZ2JkMWdOSm1hMUdkdHZpWmZaNENJTkx4dWIyb1NLaVZXY2xU?=
+ =?utf-8?B?SS9sMFgxdFdlYTMzOW42aTAvem1mVVh5aEMvcU5yNEc5dFJCR3k3TUNYMmlZ?=
+ =?utf-8?B?THROVVNFSHZxTDNxaUY0YXljMUdzazQ5Q2JkS0VCbXdidlFCOSt4MTMzdTFh?=
+ =?utf-8?B?TFk3Z0FoWDkyOTA4MDU0K2dDRTRNQ2ZOeUhkbDlWMFFhNGc2bUpKV1l1Vmxz?=
+ =?utf-8?B?Qm1tL0FUUVlVYm5TcHhRcWxocXErTWxRWW1XQWdrYjJWUGM3MDRBblM1Y2RM?=
+ =?utf-8?B?NzVlUjg0ZHErNG5weDcvMnNnOXB2ZloxZFZKeGcvR0ltM3hDZXk0ZEhTTS9t?=
+ =?utf-8?B?OHZOdnFvTXFKa0dJbTV6Y1FxK3V2NU5YUm5DUVY4QUp4dUhNN0h4UjdZclpk?=
+ =?utf-8?B?ZkVuMTZZZzZBK1MzMEhZSWxqOGJqMGZvcjEyVDhhaUpKYzVoa0RTdmxxaURQ?=
+ =?utf-8?B?bEVyQStkV3FZK09pZ2RpbzFkZFFzNnQwNGVIWWpqSXNBVHNPVzNaSUJLTXBV?=
+ =?utf-8?B?N2hVT3U5ZFV1ODR0NGJ4NSszSUZtbFREblZKZnQ2anErdWdhdWptR1JSRytV?=
+ =?utf-8?B?NEI1bFlUR3ZxR2ZkRGtpMlhPNk9NTG00bXhMSnQyUm9tYmJGbmxXdklRb0Y5?=
+ =?utf-8?B?MFVrQUFKZFMwVmQ4Y0FvMUFlYkcxNXlYRHRadk9mc29IUUVzTzBhTW42UGlP?=
+ =?utf-8?B?ZHZOL3R6QURVTnA0UDVqMnM1YWNkRjRTdkRqTlZPK003aFhoZDRKZFUrRnNY?=
+ =?utf-8?B?RDczeGp3SndLbUgxb0N1Q0FXanlhRmYvNjFzQkF3S3lnZ1ZnUmhhRlZpbnFE?=
+ =?utf-8?B?clRIa3hNRFFIREpoVC92aEI0d0NDRHFFMVFGTjBIZ2VyT1pwV1RWSlBLS3Z0?=
+ =?utf-8?B?QmNvazFEdE1VVnUxY0JXZkJTVFY3MDFOa0t0SVVUZm1lRXJiQmdreGpUTndx?=
+ =?utf-8?B?NU1QT3hsVjM1bTN5REIyNGtTbE43Uk5hK3JmYzY0bVlDamJ1YVg0TE1RekYz?=
+ =?utf-8?B?QUFSc1dCSjc0RDUzRHMzRDl5Zk0rOXNzaUp2aCtQenNVbUNFL3dGdGpQOGpV?=
+ =?utf-8?B?WXRVOE55N3picm9KSFBmQ1RPVnU1UmN3R1NaUGdpTXN5bTkxVDhDcTVKVEhN?=
+ =?utf-8?B?Zmc4V0M1M2x2Vms2ZWVHNEptY3A1WGUxbllUMlBDNTJaM0xHOTJFYWp1UDMv?=
+ =?utf-8?B?TVdHY2JaR0ZqRkxFOFozN0VTSVM2YU1wR3p5dkQwRlB3NmkwbkJJL0Vjdi83?=
+ =?utf-8?B?ZHZmd1drMEhxTTdna2dQMDJ0VnpXVjA1bENTTm9NSmpqdHo1KzQ2OFowdC83?=
+ =?utf-8?B?TnNWTDMyRTVSSHhJVjBJREwzajh5bzAxSVByMG96UjJQMHpkRW9BYWRRTUEx?=
+ =?utf-8?B?d3VxM0JmYWZyM1NzQ1RudUV4OUVuYkNabjE0M0VNRDVOdjIxaFlnUG9taTBT?=
+ =?utf-8?B?R1JTR251emRFUkxzSWZMQ2JYZWpMeU5uTEVFeE9VdUJaNmgxVW1ucVkxamFX?=
+ =?utf-8?B?d2xLWU9mZW94aUtTaEY0WkUwaXk5ZGVHZFlYSFRITmN2bmpIam94UndEcFdD?=
+ =?utf-8?B?Sk9pMUZvQ3FDOGtBMkNwL0R3ZTUrOS9mUUh0SkhvczlJSGxxN3YvME5hdFJn?=
+ =?utf-8?B?cjQvU3BjUGh2VldlbkZmdytzbTMzNWFTRXFleWJSa0d0aStBdGd2bzBSQUdl?=
+ =?utf-8?Q?AS1E=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnBKUFEvODgwMk9oaEZWN0cydHJTallmeTVJbGJaYUxmTkE1ZU9HOGdDQlRH?=
+ =?utf-8?B?cDd4cXVGVysxSmgyL2tnaGpJYW96T0F2dFVxNnpHTTQ2cUxtV21JN0hZaGI5?=
+ =?utf-8?B?T3FNRFhCZDNlS01CUEhMMnFrWmJ3N3NvRzNsWDJya3JSQkh4VlBxUW1HWlNZ?=
+ =?utf-8?B?TGozdDhWZzd2M2tkc0pNM0xPcGxmc1gzeGM3dmJBOEw2eVB0U05CRmRva0pr?=
+ =?utf-8?B?aVoxRitPRS9CenpIRGJyNkxXWktxSFYzaWwrT1p1RGF6eFZ5TnJOWE02UHA0?=
+ =?utf-8?B?Mnh6MEZTVkwzMVVGWU1wR2piOEw0bUFJVm1pZFU3M2RZcEQwZHM1NDl6eVQy?=
+ =?utf-8?B?Qkk0WUZIaUtESGIybWtJZ0x3SGxXWW1UVE5iOVMwQXdJM0JodmV6MDhWejBh?=
+ =?utf-8?B?VUkvNStwWXozcnlBNVg0VG5SdVlMS0E0bmZXalptc3d6M2QvZjJCbms3ODNC?=
+ =?utf-8?B?RDluWEZ3OHpodkNyK2VVQnN3THJyRnVuNmdVS2dQSW1rbTFKaVZPSVZQOVJF?=
+ =?utf-8?B?SWhSeU4xUG9QZWRsNGRicXcwajZIbHR0a29xUjdiR3NFdVN0eTBWeEw4Q2RL?=
+ =?utf-8?B?Z21tZFZrUDM5Y0gvNGVWVmpzOGJOb1F3dHdBaXZRTFRtajBiSlJud0dsMFly?=
+ =?utf-8?B?NWg1ei90YUhVdUdRSy9JTFRSM1VsQ1VxSXNESnBSM2M3anlzS0Q3Q0tUa01Q?=
+ =?utf-8?B?L0tnQ0hlVjdFYTVWN0VldTUzTk1yS0ozaFBmNEFTbGRHK1dzeFFlUWJzdmZO?=
+ =?utf-8?B?WGtDanVmTGZyR3E2SGkrRGt0VlhMbHd2bEQ4S3oweEFSbTA3MjRWRnc1YUxk?=
+ =?utf-8?B?NUhWdFZmcEl4RjBLMWtNdy9EcWJCc0U0dTNUQ3RncksxdzVESHhpTG1pdFNq?=
+ =?utf-8?B?alg3TzBLZDg4OWpXZmNvZXNnbHZybUdKRlBJUzhUL3doV1Bpekh6cG5qS1k5?=
+ =?utf-8?B?dFJ6WGlWMlpMREFCTThwa3VlcjgzSkg5cWtBR2d3MzJxa3AySDdCeEprNGdW?=
+ =?utf-8?B?UFEya05wOFB2ZC9HV3RMRGNxMkZibjMxRlZTcCtnVWlGcXQ1Y2JxWEFkVk5a?=
+ =?utf-8?B?dXQwMERRMnRHMk9LRzFFUXJ4SEhlSlhkdGtDTWNWQnNMWVJ3cXlEbFFPZ3Jr?=
+ =?utf-8?B?QUdSTERKaG1EUlROTWRqU2JjYUFJQVYwd0ltekEyd2ZqZ2JPT1YxLytvWmF0?=
+ =?utf-8?B?TTM5T2RaR2VadjlvamViNldHVXY4Tzk2d1JrdFFPZXhRRVlpU2FzaXJJdy9w?=
+ =?utf-8?B?RWowbEVhT3lGdDl5b3NhcnptZnlZMmFQZzFFZUJ2eEhLeXdzdnpNU1lLY0pL?=
+ =?utf-8?B?SmxMWnJseWhjUkJTZHFoK0IxeHliZVlUQ0RZWnZSdE1zdmk3bFVKWENRYWVz?=
+ =?utf-8?B?WThUODVqMDZwZkY4OWlQeWNueEVhUitsdzg3UC9GUlc4b2xnUDY2NW1pTzI4?=
+ =?utf-8?B?ZUFYRkZjYk96S1B3eFArNm53L3RoSmQ1L0ZneDZrYVA3UXd3NlRLSmdVZk9k?=
+ =?utf-8?B?L0tTOXVsMzY4M2lJNU5HWTRVc2xkNGNIb2VDclU2aG1zZzduMnoyOTNYMmNn?=
+ =?utf-8?B?R21KMTg5QzNXVXVvSkR6eFYvd3FVZ2lMOVhUR05ra0pSK29XVk96bnNJb1My?=
+ =?utf-8?B?SG1RUEVQa1NVWndXZWNwOFoyZWREaTNWZ1dJNWpxKzVRbXhyL2NONE1QakpC?=
+ =?utf-8?B?L0ZKSStDWUxmVjUzWXREN1dQWFdkVEU3dkhaVWU0cXhkeXgxL042NVVMZzFX?=
+ =?utf-8?B?elJuUzVCZ2tJNEhBNDZiM3F5SUcxcC9aMmhteHM5VExhY3phcWxlLy80S3hi?=
+ =?utf-8?B?enNhYlZvc1YvNWRQa2F1aUhlUnlvSVk3N0R4Mm44RDlmYlp2ajc3S0R3ZWhM?=
+ =?utf-8?B?NHBQNXFZbEZDbzBhM2dMSG53ekREaHl6eDhNWjdCWGJtajB5Rm9KS2pkQXdi?=
+ =?utf-8?B?T2ZEK3A0bkt4UGR3K0orNXFFb29IL090UkdSc0pHaThpYVNSVmY3dG5YOGoz?=
+ =?utf-8?B?aUl3ay8wd1lmbXBtV1owUFpUR3J5cTdTSkQ1QUdCT281NEIzZy9SRWVWaitV?=
+ =?utf-8?B?aHNtRWgzZWZzaWpYVEV6UTVVM0Y2UlVOdlpXRm5vbzVLbmVIVTNtbkpyNEdQ?=
+ =?utf-8?B?ZGc3MFhXdkdDcFU0QnhOeDUwU0I1RGF3U0tsQXhFamt1L01sSkZ3NFhOWnBt?=
+ =?utf-8?B?U1k2MmVUQmhwWUZFMzR0WTROQytPTWxWeGk0NkpWVUloWUR3L001cFVtNnBQ?=
+ =?utf-8?B?cnlySTg1QnA1enhVc25EWDJhZlloak5zSGcvU3MvdzF0ZlQ5RGUwV0srdUx4?=
+ =?utf-8?B?czc3eHQyQjdlakdRUmVVWERraXBHZW5iS3JVODZYODQ4SVQxZzVhdytPMU54?=
+ =?utf-8?Q?kacMDT9mSZqZZZlI=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ebaf968-607b-464e-7931-08de6f9bc173
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 09:46:29.1809
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9KvE4Mx75kRihJ9qZSXOtWWVl8tjj4lU1pAvASu5CWE5DHvwa1u/8VMmoNoKGTw6XUzFtzYwPId0dCYFj7GemR80APinjGrN3Niw7A1F7MY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6281
+X-OriginatorOrg: intel.com
 
-The put() operation is expected to return:
-1) 0 on success if no changes were made
-2) 1 on success if changes were made
-3) error code otherwise
+On 2026-02-18 2:40 PM, Mark Brown wrote:
+> On Wed, Feb 18, 2026 at 02:32:34PM +0100, Cezary Rojewski wrote:
+>> On 2026-02-18 2:20 PM, Mark Brown wrote:
+> 
+>>>> +	trace_snd_ctl_put_success(card, kctl, iname, ret, retcmp);
+>>>> +	trace_snd_ctl_put_fail(card, kctl, iname, ret, retcmp);
+> 
+>>> It feels weird that we have two events here - given the result of one
+>>> you know the value of the other.  It seems like it'd be more idiomatic
+>>> to just log the result of the comparison, the output is structured so
+>>> it's easy to parse.
+> 
+>> I don't mind either form.  Typically, I filter just for the fails (here:
+>> trace_snd_ctl_put_fail) but greping for the 'fail' in the output is fine
+>> too.
+> 
+> I'm not super bothered either way - it is a conditional event so only
+> one will actually be generated for a given put but it looks odd in the
+> code.  Possibly worth a comment?
 
-Currently 2) is usually ignored when writing control-operations. While
-forcing compliance is not an option right now, make it easier for
-developers to adhere to the expectations and notice problems by logging
-them when CONFIG_SND_CTL_DEBUG is enabled.
-
-Due to large size of struct snd_ctl_elem_value, 'value_buf' is provided
-as a reusable buffer for kctl->put() verification. This prevents
-exhausting the stack when verifying the operation.
-
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
-
-Changes in v5:
-- converged xxx_success() and xxx_fail() macros as suggested by Mark.
-  The keyword "success" or "fail" is now denoted in the output of the
-  trace event
-
-
-Changes in v4:
-
-- moved away from pr_xxx() in favor of trace events
-- refactired the print format so that it aligns closer to 'amixer
-  controls' output
-- added 'value_buf' to 'struct snd_card' as suggested - to prevent stack
-  overflow in snd_ctl_put_verify()
-
-
-Changes in v3:
-
-- simplified the memcmp() as suggested by Jaroslav
-- added ->access verification for SKIP_CHECK and VOLATILE as suggested
-  by Jaroslav and Takashi. For that very purpose I've deviced to use the
-  kcontrol-volatile (vd) pointer that already part of
-  snd_ctl_elem_write().
-
-- as things are more complex now, replaced snd_ctl_put() macros with
-  functions. This aligns with suggestion previously provided by Kuninori
-
-- reordered operations within snd_ctl_put_verify() so that it's more
-  intuitive to read, at least in my opinion:
-  get/info/put -> info/get/put
-
-
-Changes in v2:
-
-A number of fixes as suggested by Mark and Takashi. The initial version
-did not account for possibility of invalid payload sent from the userspace
-and was buggy.
-- enlisted ->info() operation and reused existing
-  fill_remaining_elem_value() to sanitize the 'new' value provided by
-  user
-- fixed size provided to memcmp()
-- the 'original' value is now initilized with memset()
-
-Readability improvements suggested by Kuninori.
-- added conditional #define snd_ctl_put() so that no additional
-  if-statements are needed in the actual code.
-
-
- include/sound/core.h       |  3 ++
- sound/core/Makefile        |  1 +
- sound/core/control.c       | 76 +++++++++++++++++++++++++++++++++++++-
- sound/core/control_trace.h | 49 ++++++++++++++++++++++++
- sound/core/init.c          |  8 ++++
- 5 files changed, 136 insertions(+), 1 deletion(-)
- create mode 100644 sound/core/control_trace.h
-
-diff --git a/include/sound/core.h b/include/sound/core.h
-index 64327e971122..4093ec82a0a1 100644
---- a/include/sound/core.h
-+++ b/include/sound/core.h
-@@ -133,6 +133,9 @@ struct snd_card {
- #ifdef CONFIG_SND_DEBUG
- 	struct dentry *debugfs_root;    /* debugfs root for card */
- #endif
-+#ifdef CONFIG_SND_CTL_DEBUG
-+	struct snd_ctl_elem_value *value_buf; /* buffer for kctl->put() verification */
-+#endif
- 
- #ifdef CONFIG_PM
- 	unsigned int power_state;	/* power state */
-diff --git a/sound/core/Makefile b/sound/core/Makefile
-index 31a0623cc89d..fdd3bb6e81a9 100644
---- a/sound/core/Makefile
-+++ b/sound/core/Makefile
-@@ -23,6 +23,7 @@ snd-pcm-$(CONFIG_SND_PCM_IEC958) += pcm_iec958.o
- # for trace-points
- CFLAGS_pcm_lib.o := -I$(src)
- CFLAGS_pcm_native.o := -I$(src)
-+CFLAGS_control.o := -I$(src)
- 
- snd-pcm-dmaengine-y := pcm_dmaengine.o
- 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 9c3fd5113a61..5cf6702f550d 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -19,6 +19,13 @@
- #include <sound/info.h>
- #include <sound/control.h>
- 
-+#ifdef CONFIG_SND_CTL_DEBUG
-+#define CREATE_TRACE_POINTS
-+#include "control_trace.h"
-+#else
-+#define trace_snd_ctl_put(card, kctl, iname, expected, actual)
-+#endif
-+
- // Max allocation size for user controls.
- static int max_user_ctl_alloc_size = 8 * 1024 * 1024;
- module_param_named(max_user_ctl_alloc_size, max_user_ctl_alloc_size, int, 0444);
-@@ -1264,6 +1271,72 @@ static int snd_ctl_elem_read_user(struct snd_card *card,
- 	return result;
- }
- 
-+#if IS_ENABLED(CONFIG_SND_CTL_DEBUG)
-+
-+static const char *const snd_ctl_elem_iface_names[] = {
-+	[SNDRV_CTL_ELEM_IFACE_CARD]		= "CARD",
-+	[SNDRV_CTL_ELEM_IFACE_HWDEP]		= "HWDEP",
-+	[SNDRV_CTL_ELEM_IFACE_MIXER]		= "MIXER",
-+	[SNDRV_CTL_ELEM_IFACE_PCM]		= "PCM",
-+	[SNDRV_CTL_ELEM_IFACE_RAWMIDI]		= "RAWMIDI",
-+	[SNDRV_CTL_ELEM_IFACE_TIMER]		= "TIMER",
-+	[SNDRV_CTL_ELEM_IFACE_SEQUENCER]	= "SEQUENCER",
-+};
-+
-+static int snd_ctl_put_verify(struct snd_card *card, struct snd_kcontrol *kctl,
-+			      struct snd_ctl_elem_value *control)
-+{
-+	struct snd_ctl_elem_value *original = card->value_buf;
-+	struct snd_ctl_elem_info info;
-+	const char *iname;
-+	int ret, retcmp;
-+
-+	memset(original, 0, sizeof(*original));
-+	memset(&info, 0, sizeof(info));
-+
-+	ret = kctl->info(kctl, &info);
-+	if (ret)
-+		return ret;
-+
-+	ret = kctl->get(kctl, original);
-+	if (ret)
-+		return ret;
-+
-+	ret = kctl->put(kctl, control);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Sanitize the new value (control->value) before comparing. */
-+	fill_remaining_elem_value(control, &info, 0);
-+
-+	/* With known state for both new and original, do the comparison. */
-+	retcmp = memcmp(&original->value, &control->value, sizeof(original->value));
-+	if (retcmp)
-+		retcmp = 1;
-+
-+	iname = snd_ctl_elem_iface_names[kctl->id.iface];
-+	trace_snd_ctl_put(card, kctl, iname, ret, retcmp);
-+
-+	return ret;
-+}
-+
-+static int snd_ctl_put(struct snd_card *card, struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *control, unsigned int access)
-+{
-+	if ((access & SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK) ||
-+	    (access & SNDRV_CTL_ELEM_ACCESS_VOLATILE))
-+		return kctl->put(kctl, control);
-+
-+	return snd_ctl_put_verify(card, kctl, control);
-+}
-+#else
-+static inline int snd_ctl_put(struct snd_card *card, struct snd_kcontrol *kctl,
-+			      struct snd_ctl_elem_value *control, unsigned int access)
-+{
-+	return kctl->put(kctl, control);
-+}
-+#endif
-+
- static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- 			      struct snd_ctl_elem_value *control)
- {
-@@ -1300,7 +1373,8 @@ static int snd_ctl_elem_write(struct snd_card *card, struct snd_ctl_file *file,
- 							   false);
- 	}
- 	if (!result)
--		result = kctl->put(kctl, control);
-+		result = snd_ctl_put(card, kctl, control, vd->access);
-+
- 	if (result < 0) {
- 		up_write(&card->controls_rwsem);
- 		return result;
-diff --git a/sound/core/control_trace.h b/sound/core/control_trace.h
-new file mode 100644
-index 000000000000..48afb56c5b71
---- /dev/null
-+++ b/sound/core/control_trace.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM snd_pcm
-+
-+#if !defined(_TRACE_SND_CTL_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_SND_CTL_H
-+
-+#include <linux/tracepoint.h>
-+#include <sound/control.h>
-+#include <sound/core.h>
-+
-+TRACE_EVENT(snd_ctl_put,
-+
-+	TP_PROTO(struct snd_card *card, struct snd_kcontrol *kctl, const char *iname,
-+		 int expected, int actual),
-+
-+	TP_ARGS(card, kctl, iname, expected, actual),
-+
-+	TP_STRUCT__entry(
-+		__field(unsigned int,	card_id)
-+		__field(unsigned int,	numid)
-+		__string(kname,		kctl->id.name)
-+		__string(iname,		iname)
-+		__field(int,		expected)
-+		__field(int,		actual)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->card_id = card->number;
-+		__entry->numid = kctl->id.numid;
-+		__assign_str(kname);
-+		__assign_str(iname);
-+		__entry->expected = expected;
-+		__entry->actual = actual;
-+	),
-+
-+	TP_printk("%s: expected=%d, actual=%d for ctl numid=%d, iface=%s, name='%s', card id=%d\n",
-+		  __entry->expected == __entry->actual ? "success" : "fail",
-+		  __entry->expected, __entry->actual, __entry->numid,
-+		  __get_str(iname), __get_str(kname), __entry->card_id)
-+);
-+
-+#endif /* _TRACE_SND_CTL_H */
-+
-+/* This part must be outside protection */
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+#define TRACE_INCLUDE_FILE control_trace
-+#include <trace/define_trace.h>
-diff --git a/sound/core/init.c b/sound/core/init.c
-index c372b3228785..15868dd50f6a 100644
---- a/sound/core/init.c
-+++ b/sound/core/init.c
-@@ -362,6 +362,11 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
- #ifdef CONFIG_SND_DEBUG
- 	card->debugfs_root = debugfs_create_dir(dev_name(&card->card_dev),
- 						sound_debugfs_root);
-+#endif
-+#ifdef CONFIG_SND_CTL_DEBUG
-+	card->value_buf = kmalloc(sizeof(*card->value_buf), GFP_KERNEL);
-+	if (!card->value_buf)
-+		return -ENOMEM;
- #endif
- 	return 0;
- 
-@@ -537,6 +542,9 @@ void snd_card_disconnect(struct snd_card *card)
- 		synchronize_irq(card->sync_irq);
- 
- 	snd_info_card_disconnect(card);
-+#ifdef CONFIG_SND_CTL_DEBUG
-+	kfree(card->value_buf);
-+#endif
- #ifdef CONFIG_SND_DEBUG
- 	debugfs_remove(card->debugfs_root);
- 	card->debugfs_root = NULL;
--- 
-2.34.1
-
+git diff shows +5/-18 after your suggestion, so now I mind the form :) 
+Shipping it with v5!
