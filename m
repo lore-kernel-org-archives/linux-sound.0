@@ -1,90 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2274F2DC352
-	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 11:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E613376A9
+	for <linux-sound@vger.kernel.org>; Thu, 19 Feb 2026 11:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771499288; cv=none; b=pSV+NjOxX8N2HCHNSx9nbAZv4WPSHqQ4+PvcCl0GPmTmmmAIRoZki5hq8bxSULODG2K5M133TPBBdxqRCqS0TIKOGASg54f9J7D8t6zgvQvnxiIobpeA3dZCXKxeQsJ4qxyWalro3G4LT9M9+z5hyDuCvhBjlO/X80C0D7b3XAg=
+	t=1771499318; cv=none; b=g4i6CQ9Fp0XBbJgmwqmePNYqXXDsTaS2Y/W2g9jqQhaP6Xm1L803S8R5ZdxYdjklS9Hvo2K0KIhfpcnmnDMHLSYO1jR4MYpsFtb0PQTOCa6Apdg3BvNE9xjrUwP7FhGxVfax4krtVHSPr+NybaniiuGJb/EdUcV8gd8Juy91w+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771499288; c=relaxed/simple;
-	bh=Q68gS/nH3/I/k3xKx+/DuG1zq5jf5Ki7VwxZINFN7FM=;
+	s=arc-20240116; t=1771499318; c=relaxed/simple;
+	bh=s+k5QhVF7dUHfvzC24GlxK7mUzXCPLWUxLkagDjo7hc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=saoiVJ1fbva3Lrp6MS6eR/f5bdHWh8ahZnxHgs9Xx9JA4l1iZWjTKvflfddX8I3ic+0nxSXpANyR9it0SkU763pvv4aHLIafF9yMClcuuFAOQToJ4atEkGfYrIks7OOuPH9vcHVYr871LN6kDszM7It12Sfc/uLU34og/PP/1og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QkD/MTa+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dRTIP7cx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QkD/MTa+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dRTIP7cx; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=MBWksCTTm/TlGGGnKouNzI/7OJhk8qVI9yoRSdH/8Kf2FKgPrATPhJyMFi5LRELVmyVd0jc92wDQb4Hw+wW8EoHXg5Rfaj1Wuqqq8DXYTjz6fqKX4RprrA8RUl90eppmQS8OZDyhMJPEDCNjPUqEk8xd00Ileofe37cfGD6SgOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cbw51Zpr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JI8W3AWF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y3INA3Yk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9nryR2ZY; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QkD/MTa+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dRTIP7cx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QkD/MTa+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dRTIP7cx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cbw51Zpr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JI8W3AWF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y3INA3Yk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9nryR2ZY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B5F53E6F3;
-	Thu, 19 Feb 2026 11:08:04 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D43355BCC1;
+	Thu, 19 Feb 2026 11:08:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771499284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771499316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=maTQZnWTSRxJ56k0jycEiQstTIJ6/4fKqeMg5h6ypUo=;
-	b=QkD/MTa+21lK/svDBme32RyS92A7KfuHgatd8ez2uMpgClMcLTcPzAAiwMWPs34GxXmqW8
-	/GJ9sVHP3bDQ1bCtm0Wo7zhcsdWw+iM2H/MxErrD/GamdUVMQgFOApHwesf3t7XwI2P/Kq
-	vmS+6r0nZ4/uHB70cFUP5DQ+sKCLMMA=
+	bh=IyOjEf2Qtj+w34iOStuB3QOkaAPeZLOnd1oqpC+qzMY=;
+	b=cbw51ZprJYpfA/4TK9QXANR2zKD04UxphYKuzhCK79KPPzcPCf5TabKxEYkvbZew4MPBjC
+	l0sqH+ZoWc1hTLP/PX5Upbtxz0jxTnzbB/EAUI+MW4Fj7F/VAmUiskVsjmnFiKMIEpLG88
+	xEJzdHd5XEQxFqi7UeBMVeVb/26/bHY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771499284;
+	s=susede2_ed25519; t=1771499316;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=maTQZnWTSRxJ56k0jycEiQstTIJ6/4fKqeMg5h6ypUo=;
-	b=dRTIP7cxrDWkPjmiKdwaOVrbxnDA7En+EmO5JfV8WFsFkLWOsaV7vpVRizuWlJqWblUENc
-	SJknN+9V0PeL61BA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="QkD/MTa+";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dRTIP7cx
+	bh=IyOjEf2Qtj+w34iOStuB3QOkaAPeZLOnd1oqpC+qzMY=;
+	b=JI8W3AWFTpsGzKgLju4j6RJChLJRkunzL7DVBsQZD4Fr1jECQBgIxukkeZA9Qu+5KI1YvX
+	NR+nvT1EhF/uvSCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771499284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771499315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=maTQZnWTSRxJ56k0jycEiQstTIJ6/4fKqeMg5h6ypUo=;
-	b=QkD/MTa+21lK/svDBme32RyS92A7KfuHgatd8ez2uMpgClMcLTcPzAAiwMWPs34GxXmqW8
-	/GJ9sVHP3bDQ1bCtm0Wo7zhcsdWw+iM2H/MxErrD/GamdUVMQgFOApHwesf3t7XwI2P/Kq
-	vmS+6r0nZ4/uHB70cFUP5DQ+sKCLMMA=
+	bh=IyOjEf2Qtj+w34iOStuB3QOkaAPeZLOnd1oqpC+qzMY=;
+	b=Y3INA3YkCCATaZ+cWBFSoi6yn4k5HwtQTQ2mPbXmiwgRjPbXjbLjFv82Iwd2HSngB7G5jw
+	mFUTn4i3KxjbMKISWT/ud6nA/iIcsJHKyI/BEM6IjrRc4br4NQZ5pI3af1lfju911dUG2B
+	jyeOYnDiub9kqUZoYua2tfAmOAmdxhc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771499284;
+	s=susede2_ed25519; t=1771499315;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=maTQZnWTSRxJ56k0jycEiQstTIJ6/4fKqeMg5h6ypUo=;
-	b=dRTIP7cxrDWkPjmiKdwaOVrbxnDA7En+EmO5JfV8WFsFkLWOsaV7vpVRizuWlJqWblUENc
-	SJknN+9V0PeL61BA==
+	bh=IyOjEf2Qtj+w34iOStuB3QOkaAPeZLOnd1oqpC+qzMY=;
+	b=9nryR2ZYSiQZVCWZ98m5GfHG+vq0NjbafM2CSsqnALgOzeoLPU+KIgNPl1/tAHOMQntP90
+	StF0Bi3kxaLZE5Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE6FD3EA65;
-	Thu, 19 Feb 2026 11:08:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9CEE13EA65;
+	Thu, 19 Feb 2026 11:08:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5Hs9OBPvlmkPGQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 19 Feb 2026 11:08:03 +0000
-Date: Thu, 19 Feb 2026 12:08:03 +0100
-Message-ID: <87o6llq9d8.wl-tiwai@suse.de>
+	id jKQaJTPvlmlQGQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 19 Feb 2026 11:08:35 +0000
+Date: Thu, 19 Feb 2026 12:08:35 +0100
+Message-ID: <87ms15q9cc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Sean Rhodes <sean@starlabs.systems>
-Cc: linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	Chris Chiu <chris.chiu@canonical.com>,
-	Edip Hazuri <edip@medip.dev>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
-In-Reply-To: <CABtds-0DS24GY7e_ST9uRLYoVNvJRwNE7XLz2tLFqibe9SFifA@mail.gmail.com>
-References: <CABtds-0DS24GY7e_ST9uRLYoVNvJRwNE7XLz2tLFqibe9SFifA@mail.gmail.com>
+	Aaron Erhardt <aer@tuxedocomputers.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/hdmi: Add quirk for TUXEDO IBS14G6
+In-Reply-To: <20260218213234.429686-1-wse@tuxedocomputers.com>
+References: <20260218213234.429686-1-wse@tuxedocomputers.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -93,85 +89,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.com:email];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
+X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4B5F53E6F3
 
-On Wed, 18 Feb 2026 21:37:16 +0100,
-Sean Rhodes wrote:
+On Wed, 18 Feb 2026 22:32:10 +0100,
+Werner Sembach wrote:
 > 
-> On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
-> emit an audible pop when entering or leaving runtime suspend.
+> From: Aaron Erhardt <aer@tuxedocomputers.com>
 > 
-> Mute the speaker output paths via snd_hda_gen_shutup_speakers() in the
-> Realtek shutup callback before the codec is powered down.
+> Depending on the timing during boot, the BIOS might report wrong pin
+> capabilities, which can lead to HDMI audio being disabled. Therefore,
+> force HDMI audio connection on TUXEDO InfinityBook S 14 Gen6.
 > 
-> This is enough to avoid the pop without special EAPD handling.
-> 
-> Test results:
-> - runtime PM pop fixed
-> - still reaches D3 (PCI 0000:00:1f.3 power_state=D3hot)
-> - does not address pops on cold boot (G3 exit) or around display manager
->   start/shutdown
-> 
-> journalctl -k (boot):
-> - snd_hda_codec_alc269 hdaudioC0D0: ALC233: picked fixup for PCI SSID
->   7017:2014
-> - snd_hda_codec_alc269 hdaudioC0D0: autoconfig for ALC233: line_outs=1
->   (0x1b/0x0/0x0/0x0/0x0) type:speaker
-> 
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: Stefan Binding <sbinding@opensource.cirrus.com>
-> Cc: Kailang Yang <kailang@realtek.com>
-> Cc: Chris Chiu <chris.chiu@canonical.com>
-> Cc: Edip Hazuri <edip@medip.dev>
-> Cc: linux-sound@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Suggested-by: Takashi Iwai <tiwai@suse.com>
-> Tested-by: Sean Rhodes <sean@starlabs.systems>
-> Signed-off-by: Sean Rhodes <sean@starlabs.systems>
+> Signed-off-by: Aaron Erhardt <aer@tuxedocomputers.com>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 
-This still failed to apply, unfortunately.  The line is folded
-unexpectedly.
+Thanks, applied now.
 
-Please test posting a patch locally at first (post to yourself and
-check whether you can apply it via git-am).  Once after it's working,
-try to submit to the upstream ML.
-
-If it's too hard to achieve by some reason, just let me know.  We can
-use attachments as a last resort, too.
-
-
-thanks,
 
 Takashi
