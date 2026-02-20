@@ -1,125 +1,98 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B0633554F
-	for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 14:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771596386; cv=pass; b=imNAp+s1tbk32vOYi2vcPcNrjZa48KnjXjYpjlX9P26aNL+el1Y1rEZtkSwsYa6nVROOdJVTzDHXNaBbaQNeUWpRzTlC+YQiq+WB0PvOoOyNDR21+sddrRJmKlq/JIud1KiLtJ/AOwNAWpGcFoYf+diGbWtZXSEdSD/ppAA5Qh8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771596386; c=relaxed/simple;
-	bh=QRaCONRc5hdaV5yD6G1ws4j28HOx/kIzkIfaOLPIQzU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VqgvDH0nJmBITn85ElDfUjx1nKwk6LyjSxc9UKP/zJm1VMV++HlvadD7Icruea5SasANy0cLYCw7X99I+P6j145F1nntL8If0QZpxMoapOeHdF5gaXtF46xx8TNlFxkBmPLLxgksX8yOk0D50Y+5/cSSBdTWIVhMhoPnzLbv2ko=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fE7sq6+7; arc=pass smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E4D345757
+	for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 15:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771601791; cv=none; b=GMSC/uVZui88eQPmg+3Jod3+2KojBzaLqWb/MxdlmQGUmf4kk2d8tB5fCJZm+kuN6xJcd2Xp0TVjttJQLzDCPkngDUxMcvx0ir6ApoJJCudZLlImMwT1IiEhkE+dQ3rYSt0OT81BNBSZ7UmWaM8R6HoGa6hhXivwpyRGCKvOZ88=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771601791; c=relaxed/simple;
+	bh=Xem+9+NYuPqFcysC1ghb2B7deW3QOQr+l7gKtSKQt3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c22hLgTAfh21D4SmNvjHvUBLXk4gws/Waonw+KWrfU4A7AvO3gyejRecA77g8XjCdk97ZGayHzfwlPOnUCfi5dnk7yOJ+ro+DALLcuyBfRuOKsLmYlL8ff3OpqpW9IljSa/+J+LdSBCok0m8VlhHuzAZchMtPFdxmyyJ16v0HmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=U4EXLbgh; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fE7sq6+7"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64937edbc9eso2021612d50.2
-        for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 06:06:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771596384; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RLCy3TueV7/ENj7fbTUGE3Kqi5OfFwHZa2caIphrG509/HH4MPIcN9lwWaQEKuGeNR
-         ckDiMPuHvazAwMnsLClJYD1Zj0SV4wLo5r+WstHppdns2PGpNgUqd58e+ITSn+OHQ/6W
-         kSx4hb+QAkYM7XUBEewmpiFJEu5H4l1hBnp0QQMs31U7X1W/Ng8o+isg+Q2+6wggP/nR
-         lGDExhS+GGO5bfJmjSymw4y/QtMvVdKQ8LLtn29yOvDXV/T/WPHlVzmLcAXfONxEPsFK
-         qQOdAG6ZzfRSVlQkZuan7HQdDkuTb+KXI3YpVyQVuS9ketMt4hqecdgSoQXLaVfLNdLJ
-         RdCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=UOgAazGljr+ot4x0/70qWQLnH5bbSRlyxZpCa4QF8mA=;
-        fh=ibqLfxMa4VarTg7MLeSoUYsRniTglauNDtciOHAAtJM=;
-        b=fguRGVdGqodaGRf+QXNVEUGPaBaZfSFiAm27wUfeCP1V6k12vfjVrRyzTibGlWNTYD
-         TvQADSjX9E49R2eSQLAsbQSCVZ8MUlWxoezHDvRagJ+FZokXbYJrS1C2y2wibp2nn6PR
-         2UfO/0f9bPNpdlzCriGTAx1ppXXIyMZdxt2pbjI4ftR9vQMAnqHu/0siKCRt8/qitDkJ
-         fJG+cgdA66wt3N0oDOpPP/KVeMaouiVLQTxqMF3E+XVYZPvA3FTt8OCGlMA3nzS9fgD0
-         r9s8c1PjnuDTTvfLt7iW32xJ+UI0cD3m6SS0UV6O8OzZXgIF+2SmutqsFYwvWi59tkFC
-         XCuw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771596384; x=1772201184; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UOgAazGljr+ot4x0/70qWQLnH5bbSRlyxZpCa4QF8mA=;
-        b=fE7sq6+7n/vZGu23M9dvburjHPuonzu6oq1/iW+uZ3eDSvK/5bS9+lV8UDBE3t9va9
-         NzKaOgX3sTXlBjenjkQ953ToHpwfpFYa8ARUfHp2YLe4YaufPmKCI23brCOU01Guj1lR
-         Y6qOzfBxQmdktAbHYpJ8KajakAJULEpihNELlmIfyuKdEuwlHVpojYTAI8c1ex2uG6DJ
-         03SUwfdL+nu88eH/GrLhFnuFlPJwaLgZkwzYSPJUC2r08Lo5KbtLLPFjXDefKYCJcoJi
-         /rql8tObUltBabzCb+d3/kiUoHf4eoqWQbk7zhhMX2otvKZ3VZ5xDoH7SXmZQKKnj2rR
-         AvMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771596384; x=1772201184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UOgAazGljr+ot4x0/70qWQLnH5bbSRlyxZpCa4QF8mA=;
-        b=sHgF9eZbz81+fAwVJH44CiGPBzpDBu87e9kX2h5QQ5ifyFatvuycSRAyhvO3aYWU/5
-         737iEpmz3h2Jo73yslG8Cs7oHYqXd+Py6cR0sQx7DJWFwKBWfX4XUJBDxlLxP9rfX1Os
-         NI0MlD1IJh+PUwVLcDnRcktO5+gzvMFuBbGaygGb3+Umwn0jODyWlUZRlsUx/6qh1pGZ
-         nCGLowMj4BadPtoxz4hPXHsEE0Ll+zWGbWgLaH8sGppjEWWReQUBoQ2iCJK7Srg2NtLm
-         uAzfQEBS8m9yFh2pw4Zg2PhdYUYiug7ExVjaxjhYf/Ra21tAaWHFwFbJXBfZcHe5W3Gl
-         hieQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWj3UEHRA9W3w9Y7LCGwKeeC1CBO2NiegmeIE+UU+h3XA4bpvxNVF2wOCJlyDWNEP4iOCwehnZfDO6HaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze5K0voni+VSDqGIHemFhIaUfA58gQvjKWwcBU7JAmICIvyduK
-	kfF4Tx8z4XYJpOW80iPuxJqKtdUAO0oOntKmDpagZh2msBxgIqgUXC4zD8ZRdKmn955UPSfbaME
-	IQKFn6R7RIy6z9idhwKq8zL77vjyf+Zb57kwANAvjDQ==
-X-Gm-Gg: AZuq6aLQ51JFz7glb2MoIaPm+z6nFOuYsiQ1iuEHazK/xarR3TGxBWKcougkLRT/UCk
-	5Au8bN4B2KhnHfx2YsP4GnNsAjqqXV/iRD57Vsohm8XNbyjv0CPC+R7Xs7+GORpc0tw1XNl+36F
-	zSHcnkb/mbmsyoS9pyHq/URg0xKlPIk9x3UCQJD+yq7LiHSh4E8Akpv5Fx3/Rj5Ap3hyqp6apsB
-	qLnBI+lQxuDQN9hGL6Lw9K9TWklNdncSPVkS5SIA11QJ/0BZbA/86QKo5sBU4tPADLeeqvFFBMo
-	m/5QiZ6iXtmvujjV6UoMy3oOB+gIWcbBZGYj3U+bTKhhlrlnADwaAS0pvTrk/mRlNSzNIvmv4N0
-	r1X4M2Fa4wWguhukMHLKnb5Lx4pKPxHjkY5rP
-X-Received: by 2002:a05:690e:dc6:b0:64a:ea66:bb2a with SMTP id
- 956f58d0204a3-64c21a68e0bmr17293799d50.21.1771596384461; Fri, 20 Feb 2026
- 06:06:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="U4EXLbgh"
+Received: from terra.vega.svanheule.net (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 80EF26E864F;
+	Fri, 20 Feb 2026 16:26:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1771601204;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c2RuCT8Qm+s9GPN54drWO1to0j5bHvqrgebgVAWgN/M=;
+	b=U4EXLbgheo4CARe6zP0SMZ+UU9VKDE0Jj5n16RYmr+cxZor3ACcCy+FORjCFgLStFCUoED
+	fLsEy8urMiZ80c0jPx6Wg8lvYBaZApS9SJO9mfaYxwZ78fldPTzC+7KPIJhka49s2U1Zw+
+	t6VvPwbVGGM/nxM/zHtv2EeukwrHzBX4cpWR9oUW/fbCRIUdr/u+cGv+QVhTH9knTPPaxx
+	0QcpLiXldKzKVjtk/KwcKDf3Ise+xY2WhY9f02aEySZBYd7VFgdwbdWEHaGS3xz6hE07W2
+	/Z1PnT6Z8zhXZ32WBFEeN0RKzrNrwPK9JwxX8kYyW2DJN5o/5K8vDYkxG/wK5w==
+From: Sander Vanheule <sander@svanheule.net>
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sander Vanheule <sander@svanheule.net>
+Subject: [PATCH 1/2] ASoC: sti: Return errors from regmap_field_alloc()
+Date: Fri, 20 Feb 2026 16:26:33 +0100
+Message-ID: <20260220152634.480766-2-sander@svanheule.net>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260220152634.480766-1-sander@svanheule.net>
+References: <20260220152634.480766-1-sander@svanheule.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250912083225.228778-5-srinivas.kandagatla@oss.qualcomm.com> <DGJTU2TOFZR7.2MOU6I6J8GV4L@fairphone.com>
-In-Reply-To: <DGJTU2TOFZR7.2MOU6I6J8GV4L@fairphone.com>
-From: Alexey Klimov <alexey.klimov@linaro.org>
-Date: Fri, 20 Feb 2026 14:06:25 +0000
-X-Gm-Features: AZwV_Qgk2erDViJ_8BJxfIIzRd6Ulo2V3D2EYpqI2bpv3wyflTdm2QSyvgXPDbQ
-Message-ID: <CANgGJDri==VUhMKhEeDYs5tmkcGcOBHbzMT3U314bxK79z4mTA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] soundwire: qcom: deprecate qcom,din/out-ports
-To: Luca Weiss <luca.weiss@fairphone.com>, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, vkoul@kernel.org, conor+dt@kernel.org, 
-	srini@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 20 Feb 2026 at 13:34, Luca Weiss <luca.weiss@fairphone.com> wrote:
->
-> Hi Srinivas,
->
-> On Fri Sep 12, 2025 at 10:32 AM CEST, Srinivas Kandagatla wrote:
-> > Number of input and output ports can be dynamically read from the
-> > controller registers, getting this value from Device Tree is redundant
-> > and potentially lead to bugs.
-> >
-> > Remove the code parsing this property along with marking this as
-> > deprecated in device tree bindings.
->
-> Could you help suggest how to correct kodiak.dtsi?
->
-> I'm seeing these warnings on QCM6490:
->
-> [   36.952517] qcom-soundwire 3210000.soundwire: din-ports (0) mismatch with controller (1)
-> [   36.952524] qcom-soundwire 3210000.soundwire: dout-ports (5) mismatch with controller (6)
-> [   36.954285] qcom-soundwire 3230000.soundwire: din-ports (3) mismatch with controller (4)
+When regmap_field_alloc() fails, it can return an error. Specifically,
+it will return PTR_ERR(-ENOMEM) when the allocation returns a NULL
+pointer. The code then uses these allocations with a simple NULL check:
 
-Such messages were present on other platforms too, this is not only
-Kodiak. IIRC on sm8550 and maybe on other little SoCs like on qrb2210.
-It would be good to have something that will work for all platforms.
+    if (player->clk_sel) {
+        // May dereference invalid pointer (-ENOMEM)
+        err = regmap_field_write(player->clk_sel, ...);
+    }
 
-Best regards,
-Alexey
+Ensure initialization fails by forwarding the errors from
+regmap_field_alloc(), thus avoiding the use of the invalid pointers.
+
+Fixes: 76c2145ded6b ("ASoC: sti: Add CPU DAI driver for playback")
+Signed-off-by: Sander Vanheule <sander@svanheule.net>
+---
+ sound/soc/sti/uniperif_player.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/sound/soc/sti/uniperif_player.c b/sound/soc/sti/uniperif_player.c
+index 6d1ce030963c..f1b7e76f97b5 100644
+--- a/sound/soc/sti/uniperif_player.c
++++ b/sound/soc/sti/uniperif_player.c
+@@ -1029,7 +1029,12 @@ static int uni_player_parse_dt_audio_glue(struct platform_device *pdev,
+ 	}
+ 
+ 	player->clk_sel = regmap_field_alloc(regmap, regfield[0]);
++	if (IS_ERR(player->clk_sel))
++		return PTR_ERR(player->clk_sel);
++
+ 	player->valid_sel = regmap_field_alloc(regmap, regfield[1]);
++	if (IS_ERR(player->valid_sel))
++		return PTR_ERR(player->valid_sel);
+ 
+ 	return 0;
+ }
+-- 
+2.53.0
+
