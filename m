@@ -1,41 +1,40 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E632DC321
-	for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 16:04:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E34241695
+	for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 16:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771603491; cv=none; b=jXtK2nMB45444gPKjBU7d72DbQzCiuGWXsprB9HvVYaUmoAEbOOuCm7DoNYjJUokYwr39ruPNk0u/sbpCe8pMYiNvpv6R5ro+NJOxVMCQ69ep0k57xQ4KKmPr3P/Z6gcsUwe0x56Re55MzVpr+OeMefIpAN1FVImXMbj0jdf4aw=
+	t=1771603598; cv=none; b=rogk0FroKtbBK8AeihXjHByJJ5OebWXO099ZWkOLNw/H8vEYLhKVisAfwYK4ekLHjDaz+SQKo/MDMQtxKdkRy0jgiLoEtTjb4qSqB9qRoYYB65CLtfdpA2rAlT5OWvrgbjjx++O9GnN2BVdyWPGDBWPhWq1wOG7fRlJefYk3I4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771603491; c=relaxed/simple;
-	bh=fOVGa/HswoterHEuzM8is6Hdq3m/pKbkD8YQzMi0KnI=;
+	s=arc-20240116; t=1771603598; c=relaxed/simple;
+	bh=Xu+fQIcLCypq3ZNDJDHaC7cv5tnbY5Q7rWT7rA4FcJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LHVfI9OzBgvcm+8uMI4DIgUIXf+rUaXjLsI2G0kxmfnAarr9v4s7Fa1fU1VIooTYGHEXQ8N6SPZcdEeluVNN4Nvsu0272l3eZmr1Be0T2sFXPUoNdyTczV58HFc6cBfC2vW68YM9kKTRM7FCsVrqSdTEYWv3MYwEl5/cx7SGky4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=nDjOdisV; arc=none smtp.client-ip=203.16.231.148
+	 Content-Type:Content-Disposition:In-Reply-To; b=BbCqi+1hsNpVhXDn8qwAgzK7A1pVv3jJH511+xBLKPJIZK2hSn4rGAboj/MMaYFdC7peF1+kV66k6bsqEL2h5gV7NnP/Tj/9aqkBAlZBlAiw0G3D1Hp5bpS0EJ+s3dw59m+YclwrptUZRi2K8/7QIqRUk0RxskBQ0Tz4PtbY1Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=rabpO+fJ; arc=none smtp.client-ip=203.16.231.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="nDjOdisV"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="rabpO+fJ"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 2AA056756E04; Sat, 21 Feb 2026 02:34:48 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 2AA056756E04
+	id AB05A6756E24; Sat, 21 Feb 2026 02:36:35 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu AB05A6756E24
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1771603488; bh=BDyAMqNYsgbP/cHLV39jiuEuWAn6nAWP9BVRYz8/WBQ=;
+	t=1771603595; bh=gXZ6P5l9udmBNjz7cTvAlh9wxn5F8ISM2QG0KPyDui0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nDjOdisVlxcz/ddnAcnNiNHbMFA5bmnG0kI8bmoIizRV2IpnKzsLqVa3xNA9VB+jg
-	 XH9EnLPeto439n5AvK6e3KPo7LHsYwfAl+tNjtfEvPWinVUCzhJLADd85PzrJ6uX1R
-	 IiiZN+RKZfse6AYXTpDYcq296WmhUarEJfrvRjsvx3pJZ8WGf/qLXjy3ZI2KpEN9PX
-	 LSWWQ7Drv1lNsaxIXq35FnTVtq/dthvpEWcaS2JCmE7UFW4ZHQX8iIqTHUmXZXiAO5
-	 YOVeZvYIyVYTzYexd0OT3UKzmjI2HYpYEpWuayYG9+6ccpPKcf6UYnDEcMuXXoutqC
-	 ULbvx+ql8tDog==
-Date: Sat, 21 Feb 2026 02:34:48 +1030
+	b=rabpO+fJyGrArH8jZQ3ue6i8dyi7lkxv55/bEmzSZpCSAM2CkxG7kp1UBRhjCgSZi
+	 i8sxWlZ9c5dJhpwsiNEt7YjR9LKn5scq83zrSC4/0bY7TetVBqN64tzd6p5aj/GE7m
+	 Kp0XG5IWZCCvKr32D8EsFUT0p/qsTUJhUCOI+WzUmuCaWdHlWffiR+WB9DiGEqfREB
+	 pJ0BGqScb8v7YNbsgjtkWxWAADLDcYWY+uMA7vzDhJTOQM2oJ+YL68FGboFhc8W15d
+	 YLIOyCMnppoVIWG50DOIW+1eVj5csaTk4h9mZRv2Q0Q/ebquCGd1kgu6gWMBrCryyv
+	 SakGuvt9OtIdQ==
+Date: Sat, 21 Feb 2026 02:36:35 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
 	Alexander Tsoy <alexander@tsoy.me>, Tina Wuest <tina@wuest.me>
-Subject: [PATCH 2/4] ALSA: usb-audio: Remove VALIDATE_RATES quirk for
- Focusrite devices
-Message-ID: <09b9c012024c998c4ca14bd876ef0dce0d0b6101.1771594828.git.g@b4.vu>
+Subject: [PATCH 3/4] ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP
+Message-ID: <65a7909b15f9feb76c2a6f4f8814c240ddc50737.1771594828.git.g@b4.vu>
 References: <cover.1771594828.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -47,35 +46,88 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1771594828.git.g@b4.vu>
 
-Remove QUIRK_FLAG_VALIDATE_RATES for Focusrite. With the previous
-commit, focusrite_valid_sample_rate() produces correct rate tables
-without USB probing.
+Add a quirk flag to skip the usb_set_interface(),
+snd_usb_init_pitch(), and snd_usb_init_sample_rate() calls in
+__snd_usb_parse_audio_interface(). These are redundant with
+snd_usb_endpoint_prepare() at stream-open time.
 
-QUIRK_FLAG_VALIDATE_RATES sends SET_CUR requests for each rate (~25ms
-each) and leaves the device at 192kHz. This is a problem because that
-rate: 1) disables the internal mixer, so outputs are silent until an
-application opens the PCM and sets a lower rate, and 2) the Air and
-Safe modes get disabled.
+Enable the quirk for Focusrite devices, as init_sample_rate(rate_max)
+sets 192kHz during probing, which disables the internal mixer and Air
+and Safe modes.
 
-Fixes: 5963e5262180 ("ALSA: usb-audio: Enable rate validation for Scarlett devices")
+Fixes: 16f1f838442d ("Revert "ALSA: usb-audio: Drop superfluous interface setup at parsing"")
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/usb/quirks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/usb/quirks.c   | 3 ++-
+ sound/usb/stream.c   | 3 +++
+ sound/usb/usbaudio.h | 6 ++++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 17e49617218b..3e6ade7ded92 100644
+index 3e6ade7ded92..5c977ba3c944 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
 @@ -2424,7 +2424,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
  	VENDOR_FLG(0x07fd, /* MOTU */
  		   QUIRK_FLAG_VALIDATE_RATES),
  	VENDOR_FLG(0x1235, /* Focusrite Novation */
--		   QUIRK_FLAG_VALIDATE_RATES),
-+		   0),
+-		   0),
++		   QUIRK_FLAG_SKIP_IFACE_SETUP),
  	VENDOR_FLG(0x1511, /* AURALiC */
  		   QUIRK_FLAG_DSD_RAW),
  	VENDOR_FLG(0x152a, /* Thesycon devices */
+@@ -2506,6 +2506,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
+ 	QUIRK_STRING_ENTRY(MIC_RES_384),
+ 	QUIRK_STRING_ENTRY(MIXER_PLAYBACK_MIN_MUTE),
+ 	QUIRK_STRING_ENTRY(MIXER_CAPTURE_MIN_MUTE),
++	QUIRK_STRING_ENTRY(SKIP_IFACE_SETUP),
+ 	NULL
+ };
+ 
+diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+index ec7d756d78d1..421e94b233e1 100644
+--- a/sound/usb/stream.c
++++ b/sound/usb/stream.c
+@@ -1259,6 +1259,9 @@ static int __snd_usb_parse_audio_interface(struct snd_usb_audio *chip,
+ 			set_iface_first = true;
+ 
+ 		/* try to set the interface... */
++		if (chip->quirk_flags & QUIRK_FLAG_SKIP_IFACE_SETUP)
++			continue;
++
+ 		usb_set_interface(chip->dev, iface_no, 0);
+ 		if (set_iface_first)
+ 			usb_set_interface(chip->dev, iface_no, altno);
+diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
+index 79978cae9799..085530cf62d9 100644
+--- a/sound/usb/usbaudio.h
++++ b/sound/usb/usbaudio.h
+@@ -224,6 +224,10 @@ extern bool snd_usb_skip_validation;
+  *  playback value represents muted state instead of minimum audible volume
+  * QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE
+  *  Similar to QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE, but for capture streams
++ * QUIRK_FLAG_SKIP_IFACE_SETUP
++ *  Skip the probe-time interface setup (usb_set_interface,
++ *  init_pitch, init_sample_rate); redundant with
++ *  snd_usb_endpoint_prepare() at stream-open time
+  */
+ 
+ enum {
+@@ -253,6 +257,7 @@ enum {
+ 	QUIRK_TYPE_MIC_RES_384			= 23,
+ 	QUIRK_TYPE_MIXER_PLAYBACK_MIN_MUTE	= 24,
+ 	QUIRK_TYPE_MIXER_CAPTURE_MIN_MUTE	= 25,
++	QUIRK_TYPE_SKIP_IFACE_SETUP		= 26,
+ /* Please also edit snd_usb_audio_quirk_flag_names */
+ };
+ 
+@@ -284,5 +289,6 @@ enum {
+ #define QUIRK_FLAG_MIC_RES_384			QUIRK_FLAG(MIC_RES_384)
+ #define QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE	QUIRK_FLAG(MIXER_PLAYBACK_MIN_MUTE)
+ #define QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE	QUIRK_FLAG(MIXER_CAPTURE_MIN_MUTE)
++#define QUIRK_FLAG_SKIP_IFACE_SETUP		QUIRK_FLAG(SKIP_IFACE_SETUP)
+ 
+ #endif /* __USBAUDIO_H */
 -- 
 2.53.0
 
