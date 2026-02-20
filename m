@@ -1,196 +1,185 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEE841754
-	for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 16:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268EA2D97A4
+	for <linux-sound@vger.kernel.org>; Fri, 20 Feb 2026 16:03:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771603395; cv=none; b=Epgg8XbD6bzKDEY8rROVKnvA9LVZjy2BJ9iPLhngiR58ChjZf/+5V1l5D4IFmZaY5RMBoHnP24V1qe7lO2Qvx/W1B4hasdB1VQaus03GpIa5DzQnVUBVU1MWMq1FvEJRQaompNye4a78UCpLxlpdentzB+UOAOKQO/U4H1TK7u0=
+	t=1771603430; cv=none; b=o6hs4M0+9Fm8DNW3S5P2VjdVJlM7neV8325PXV/TiYEuazjYY6vUKhh1bbfOXT3hqWsYD8VnOFrLzTZe9CFx4Ezhr4wvrMWTZIkSptk1dGAcNa3fneEp8SqIg4A6OqKTVLhPETW2tIdkzuXZotpl3ryQmAB1a6cT65OHzBKpx9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771603395; c=relaxed/simple;
-	bh=cSXkTyp3Di9QwXqTQxoL0zSgmUyCpoRTqq5uTqZqvNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LiNiTWyFNgsfq6y3PkCF2Z6PFtH3x+Wook8WmdWHZac4Pndt+jogqfzDZuGsixc5c7FWzXhzu4RLHDR1rfSi+b1fAwqgwsy7chW/Dcn2I4xity95POJ9cazzCR6kMF7qokESygvPVZBlPbIG/ihVFwJqKJME/sqVSn17Tb+/MLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=AONMxbpO; arc=none smtp.client-ip=203.16.231.148
+	s=arc-20240116; t=1771603430; c=relaxed/simple;
+	bh=b88zze8k5NROh+MTrdZnOXfAzgSBPaitOk41RGlPE7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A6KynrHgv8YY1M0RKycowcDde4UiD4llpjK1XLSwipSWPRC/2Wg0omr5LTBq1kvZ/j/zNRtyx5dUtBq/2cAE6CpozNt9y2ESs4urex0kv97j/NvgTmtNORC6udf/yN+l2et9p9XD3TcZS7Si/kVfS+3wtzggdL8CPyPgU1brFPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=m/FCSqpA; arc=none smtp.client-ip=203.16.231.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="AONMxbpO"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="m/FCSqpA"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id 257FF6756E24; Sat, 21 Feb 2026 02:33:11 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 257FF6756E24
+	id E36D06756E04; Sat, 21 Feb 2026 02:33:45 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu E36D06756E04
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1771603391; bh=UewMgYMXHuwQw7ZCvqrB297zFcsYDcjQ6AOtW8dWaDM=;
-	h=Date:From:To:Cc:Subject:From;
-	b=AONMxbpO8B9ZUuzl5qNfZXliF9gVwLu7QAw5mGMBvmEZy6LfH9STZDL1CzlczpP//
-	 vQOC4n61MiIQFpSAAiiuQURHv06ST/tPnY5zknHL8W6oOojxsNm13jPXVMggsp2vTC
-	 bNVd3dlG2waaXyZHy17ILNYKKQk3Y1syu5TSW53yBrXfzhvubmgfrJm9COTHfgk7Xg
-	 mQ7t/M1JwcBYj0z005B8kypxkibPElzZVkSqDmJr4kXeOKKxrTi+GrN2HuG21fK9VP
-	 +eIMxxkTmDYWkGZRrOi+vpxRD3kKNetjKcAZsGwp9+KvO9Moc7n8rEpSoUzPmbfCC8
-	 5mt5BtShqQcCQ==
-Date: Sat, 21 Feb 2026 02:33:11 +1030
+	t=1771603425; bh=/oCC+oyQpeM/yppRde/tz2PC5G/0JNwi3DbhGct3obk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/FCSqpAP2gGgguwo86p8CfeK4F9XvTzVtXuO51qzo7QwBoE8rurkAy+res6fK3JD
+	 k2hy40uJ0jnUBWIsiHoXs1cLZniSTUgY9DVjguQoiLgZYTFsiK3hH7GNEbcLxVVp0v
+	 /qvaMrrg0H0z8VeLS+LL8nz3N5NKm88AxuDJGZXFOiLhsgbAX9KWeH2l9K4ozmr9RB
+	 PBOa8sRTU7ncgbIbblM71NQAUlGouNFugV8jzkx3dwu2dNI1a1IFU8Q4fwTq4pCh8C
+	 sGQYgIdaLZtJqykiaIPbhpUiEeXKG1uZKcjh6P/aMjod1azCGxBCsWWN3wceGKCiLj
+	 XBK4G9LFqIzKg==
+Date: Sat, 21 Feb 2026 02:33:45 +1030
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
 	Alexander Tsoy <alexander@tsoy.me>, Tina Wuest <tina@wuest.me>
-Subject: [PATCH 0/4] ALSA: usb-audio: Fix Focusrite probe-time side effects
-Message-ID: <cover.1771594828.git.g@b4.vu>
+Subject: [PATCH 1/4] ALSA: usb-audio: Improve Focusrite sample rate filtering
+Message-ID: <7e18c1f393a6ecb6fc75dd867a2c4dbe135e3e22.1771594828.git.g@b4.vu>
+References: <cover.1771594828.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1771594828.git.g@b4.vu>
 
-Hi all,
+Replace the bLength == 10 max_rate check in
+focusrite_valid_sample_rate() with filtering that also examines the
+bmControls VAL_ALT_SETTINGS bit.
 
-This series fixes two problems caused by probe-time testing of
-altsettings and sample rates on Focusrite devices. When a sample rate
-of 192kHz is selected during the probe's trial and error, the internal
-mixer and Air and Safe modes are disabled. I.e. no audio passes
-through the mixer, and Air and Safe modes cannot be selected until an
-application opens the PCM and sets a lower rate. This results in user
-annoyance and bug reports of unexpected silence and mode changes.
+When VAL_ALT_SETTINGS is readable, the device uses strict
+per-altsetting rate filtering (only the highest rate pair for that
+altsetting is valid). When it is not readable, all rates up to
+max_rate are valid.
 
-I tested 20 Focusrite devices (Scarlett 2nd, 3rd, 4th Gen, Clarett+,
-and Vocaster) and found that the valid sample rates can be determined
-from USB descriptors alone, without the QUIRK_FLAG_VALIDATE_RATES
-trial-and-error testing of each rate and altsetting. I also added a
-quirk to skip the redundant interface setup and enabled the quirk to
-skip the clock selector write-back (reading the current value then
-writing it back unchanged triggers a ~300ms delay per altsetting).
+For devices without the bLength == 10 Format Type descriptor extension
+but with VAL_ALT_SETTINGS readable and multiple altsettings (only seen
+in Scarlett 18i8 3rd Gen playback), fall back to the Focusrite
+convention: alt 1 = 48kHz, alt 2 = 96kHz, alt 3 = 192kHz.
 
-The result of all this: the probe time drops from ~4 seconds to ~4ms,
-there is no interruption to audio, and the mode settings do not
-inadvertently get reset. The contents of /proc/asound/card*/stream0 is
-identical before and after on all tested devices.
+This produces correct rate tables for all tested Focusrite devices
+(all Scarlett 2nd, 3rd, and 4th Gen, Clarett+, and Vocaster) using
+only USB descriptors, allowing QUIRK_FLAG_VALIDATE_RATES to be removed
+for Focusrite in the next commit.
 
-Background
-----------
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ sound/usb/format.c | 70 ++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 65 insertions(+), 5 deletions(-)
 
-Focusrite interfaces with digital I/O use multiple altsettings for
-different channel counts at different sample rates (more channels at
-48kHz, fewer at 192kHz). The clock source reports all rates for every
-altsetting, so rates need filtering.
-
-Two mechanisms currently do this:
-
-1. focusrite_valid_sample_rate() reads a non-standard Format Type
-   descriptor (bLength=10, vs standard UAC2 bLength=6) with a max_rate
-   in bytes 6-9.
-
-2. validate_sample_rate_table_v2v3() (QUIRK_FLAG_VALIDATE_RATES) sets
-   each rate on the device and queries UAC2_AS_VAL_ALT_SETTINGS to
-   check validity. Prunes rates that fail.
-
-Mechanism #1 currently uses fallthrough logic (commit cc8e91054c0a):
-an altsetting with max_rate=192000 accepts all rates down to 44100.
-This is correct for Clarett+ but wrong for Scarlett 3rd/4th Gen, where
-only the matching rate pair should be accepted. Mechanism #2 gets the
-right answer but has the USB side effects above.
-
-Commit 05f254a6369a had strict 1:1 mapping, correct for Scarlett but
-wrong for Clarett+. Neither approach alone works for all devices.
-
-The UAC2_AS_VAL_ALT_SETTINGS readable bit in the AS header bmControls
-predicts which behaviour the device needs:
-
-- val_alt readable: strict — each altsetting only accepts its own rate
-  pair
-- val_alt not readable: fallthrough — all rates up to max_rate
-
-Device test matrix:
-
-  Device                   Playback          Capture           val_alt
-  -------------------------------------------------------------------
-  Scarlett 6i6 2nd Gen     1 alt, bLen=6     1 alt, bLen=6     no
-  Scarlett 18i8 2nd Gen    1 alt, bLen=6     3 alts, bLen=10   no
-  Scarlett 18i20 2nd Gen   3 alts, bLen=10   3 alts, bLen=10   no
-  Scarlett Solo 3rd Gen    1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 2i2 3rd Gen     1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 4i4 3rd Gen     1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 8i6 3rd Gen     1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 18i8 3rd Gen    3 alts, bLen=6    3 alts, bLen=10   yes
-  Scarlett 18i20 3rd Gen   3 alts, bLen=10   3 alts, bLen=10   yes
-  Scarlett Solo 4th Gen    1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 2i2 4th Gen     1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 4i4 4th Gen     1 alt, bLen=6     1 alt, bLen=6     yes
-  Scarlett 16i16 4th Gen   3 alts, bLen=10   3 alts, bLen=10   yes
-  Scarlett 18i16 4th Gen   3 alts, bLen=10   3 alts, bLen=10   yes
-  Scarlett 18i20 4th Gen   3 alts, bLen=10   3 alts, bLen=10   yes
-  Clarett+ 2Pre            1 alt, bLen=6     3 alts, bLen=10   mixed*
-  Clarett+ 4Pre            3 alts, bLen=6    3 alts, bLen=10   no
-  Clarett+ 8Pre            3 alts, bLen=10   3 alts, bLen=10   no
-  Vocaster One             1 alt, bLen=6     1 alt, bLen=6     yes
-  Vocaster Two             1 alt, bLen=6     1 alt, bLen=6     yes
-
-  * Clarett+ 2Pre: playback val_alt=no (single alt),
-    capture val_alt=yes
-
-  bLen=10: non-standard Focusrite Format Type descriptor with max_rate
-  in bytes 6-9 (LE u32). Standard UAC2 is bLen=6. Single-altsetting
-  devices need no rate filtering. Vocaster only supports 48kHz.
-
-For val_alt=yes multi-alt devices, the old VALIDATE_RATES probing
-agreed with the new strict filtering. For val_alt=no (2nd Gen,
-Clarett+), the device accepts all rates up to max_rate on any
-altsetting. I confirmed this on the Scarlett 18i20 2nd Gen and
-Clarett+ 8Pre with speaker-test running 10 channels at 48kHz on the
-up-to-192kHz altsetting.
-
-Patches
--------
-
-1/4: Improve focusrite_valid_sample_rate() to check bmControls for
-UAC2_AS_VAL_ALT_SETTINGS:
-  - val_alt readable + bLength=10: strict mapping
-  - val_alt not readable + bLength=10: fallthrough (unchanged)
-  - val_alt readable + bLength!=10 + multi-alt: use the Focusrite
-    altsetting convention (alt 1=48k, 2=96k, 3=192k)
-  - otherwise: no filtering
-
-The third case handles the Scarlett 18i8 3rd Gen, which has bLength=6
-on playback (no max_rate) but 3 altsettings with val_alt=yes,
-requiring strict mapping.
-
-2/4: Remove QUIRK_FLAG_VALIDATE_RATES for Focusrite. With patch 1,
-descriptor-based filtering gets the right rates without USB probing.
-
-3/4: Add QUIRK_FLAG_SKIP_IFACE_SETUP. Skips the probe-time interface
-setup (usb_set_interface, init_pitch, init_sample_rate) in
-__snd_usb_parse_audio_interface() which is redundant with
-snd_usb_endpoint_prepare() at stream-open time. Enabled this quirk for
-Focusrite devices. This is similar to commit ac5e2fb4 ("ALSA:
-usb-audio: Drop superfluous interface setup at parsing") but gated as
-a quirk. It's a worthwhile optimisation and is the second half of
-fixing the problem with the sample rate being changed.
-
-4/4: Enable QUIRK_FLAG_SKIP_CLOCK_SELECTOR for Focusrite devices.
-snd_usb_clock_find_source() reads the clock selector value then writes
-it back unchanged. On Focusrite devices this triggers an unnecessary
-~300ms delay per altsetting.
-
-Tested on all devices listed above: /proc/asound/card*/stream0
-identical before and after.
-
-Regards,
-Geoffrey
-
-Geoffrey D. Bennett (4):
-  ALSA: usb-audio: Improve Focusrite sample rate filtering
-  ALSA: usb-audio: Remove VALIDATE_RATES quirk for Focusrite devices
-  ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP
-  ALSA: usb-audio: Skip clock selector for Focusrite devices
-
- sound/usb/format.c   | 70 ++++++++++++++++++++++++++++++++++++++++----
- sound/usb/quirks.c   |  4 ++-
- sound/usb/stream.c   |  3 ++
- sound/usb/usbaudio.h |  6 ++++
- 4 files changed, 77 insertions(+), 6 deletions(-)
-
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index 64cfe4a9d8cd..1207c507882a 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -305,17 +305,48 @@ static bool s1810c_valid_sample_rate(struct audioformat *fp,
+ }
+ 
+ /*
+- * Many Focusrite devices supports a limited set of sampling rates per
+- * altsetting. Maximum rate is exposed in the last 4 bytes of Format Type
+- * descriptor which has a non-standard bLength = 10.
++ * Focusrite devices use rate pairs: 44100/48000, 88200/96000, and
++ * 176400/192000. Return true if rate is in the pair for max_rate.
++ */
++static bool focusrite_rate_pair(unsigned int rate,
++				unsigned int max_rate)
++{
++	switch (max_rate) {
++	case 48000:  return rate == 44100 || rate == 48000;
++	case 96000:  return rate == 88200 || rate == 96000;
++	case 192000: return rate == 176400 || rate == 192000;
++	default:     return true;
++	}
++}
++
++/*
++ * Focusrite devices report all supported rates in a single clock
++ * source but only a subset is valid per altsetting.
++ *
++ * Detection uses two descriptor features:
++ *
++ * 1. Format Type descriptor bLength == 10: non-standard extension
++ *    with max sample rate in bytes 6..9.
++ *
++ * 2. bmControls VAL_ALT_SETTINGS readable bit: when set, the device
++ *    only supports the highest rate pair for that altsetting, and when
++ *    clear, all rates up to max_rate are valid.
++ *
++ * For devices without the bLength == 10 extension but with
++ * VAL_ALT_SETTINGS readable and multiple altsettings (only seen in
++ * Scarlett 18i8 3rd Gen playback), fall back to the Focusrite
++ * convention: alt 1 = 48kHz, alt 2 = 96kHz, alt 3 = 192kHz.
+  */
+ static bool focusrite_valid_sample_rate(struct snd_usb_audio *chip,
+ 					struct audioformat *fp,
+ 					unsigned int rate)
+ {
++	struct usb_interface *iface;
+ 	struct usb_host_interface *alts;
++	struct uac2_as_header_descriptor *as;
+ 	unsigned char *fmt;
+ 	unsigned int max_rate;
++	bool val_alt;
+ 
+ 	alts = snd_usb_get_host_interface(chip, fp->iface, fp->altsetting);
+ 	if (!alts)
+@@ -326,9 +357,21 @@ static bool focusrite_valid_sample_rate(struct snd_usb_audio *chip,
+ 	if (!fmt)
+ 		return true;
+ 
++	as = snd_usb_find_csint_desc(alts->extra, alts->extralen,
++				     NULL, UAC_AS_GENERAL);
++	if (!as)
++		return true;
++
++	val_alt = uac_v2v3_control_is_readable(as->bmControls,
++					       UAC2_AS_VAL_ALT_SETTINGS);
++
+ 	if (fmt[0] == 10) { /* bLength */
+ 		max_rate = combine_quad(&fmt[6]);
+ 
++		if (val_alt)
++			return focusrite_rate_pair(rate, max_rate);
++
++		/* No val_alt: rates fall through from higher */
+ 		switch (max_rate) {
+ 		case 192000:
+ 			if (rate == 176400 || rate == 192000)
+@@ -344,12 +387,29 @@ static bool focusrite_valid_sample_rate(struct snd_usb_audio *chip,
+ 			usb_audio_info(chip,
+ 				"%u:%d : unexpected max rate: %u\n",
+ 				fp->iface, fp->altsetting, max_rate);
+-
+ 			return true;
+ 		}
+ 	}
+ 
+-	return true;
++	if (!val_alt)
++		return true;
++
++	/* Multi-altsetting device with val_alt but no max_rate
++	 * in the format descriptor. Use Focusrite convention:
++	 * alt 1 = 48kHz, alt 2 = 96kHz, alt 3 = 192kHz.
++	 */
++	iface = usb_ifnum_to_if(chip->dev, fp->iface);
++	if (!iface || iface->num_altsetting <= 2)
++		return true;
++
++	switch (fp->altsetting) {
++	case 1:		max_rate = 48000; break;
++	case 2:		max_rate = 96000; break;
++	case 3:		max_rate = 192000; break;
++	default:	return true;
++	}
++
++	return focusrite_rate_pair(rate, max_rate);
+ }
+ 
+ /*
 -- 
 2.53.0
 
