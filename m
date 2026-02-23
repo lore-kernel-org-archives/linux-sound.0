@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3D0366807;
-	Mon, 23 Feb 2026 12:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4C5369980;
+	Mon, 23 Feb 2026 12:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771850287; cv=none; b=HfYtHkfB1RFbU6FTsrGjzND5fmd5b0XRaBT0oZRF+0iJoNYVnPCR5xjnvoEZIF5M90P3ANZdYi0Gj2IuYycERh0Ss9pWALoHZsppuN9pIC89uqDlCL4t4ELNtkfyW6Gr1bTveREOnk5/g8poAt5zXvBlQOMwpbBou9J5E0SLPT4=
+	t=1771850296; cv=none; b=Nnvc05DVsEdAmk2BoYh/CH989q3jlv9KnZltvARwSLF0fGylTMETBy4p0cQteRHmbmHQApXi4sH0Dz7t9lE8qN0ChzK3OdZp/TwZRND8g2dcXq2T+XGdThZKkjJpkTc4J+aYG/O9EMspQe4SF8+s3SO1+G+Cv3+1lTCG5RhjNP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771850287; c=relaxed/simple;
-	bh=GH64Xio/xNmrTz43HQgczXVCE9RAw80ZZ/U8bMFFlzQ=;
+	s=arc-20240116; t=1771850296; c=relaxed/simple;
+	bh=S/5Sg1QaN/ZPsrUGbMZye4NSw0Cx7AOMez0I6MYtngI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rhGjzE9D58ow/IhPCJO2Ogug8gWmviGmGDiUg0NxwETyB1sToJe5Zr1UWom1R+6u7e9zRt2G/hqqbyThGmhGUYKWjLyrJHsl8UeMrmRZ1LQM9WXQy7VFeP65zxXiLS0foX6TQSLk2A7iOFXOJWzmp9GDTYKMLFq6lzwwfApbv1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KG2yg52P; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NeW9A+7xLXvusII0DtHCS9I8CE4z9AHkEbFQD+5EEKDeODa4aqAWbW52FrIzJi5hgfjNYUFhZyyu+z/V7HzyGzyBq9FckFPTddKLmJQmtJ1N8ZG5zgzKKwBjzf8lwLZUJCAh+KsmBI2MBuWFLomV2gCd1XILLsY1f6pB2L2bnDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ts7NayFC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KG2yg52P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60BD6C2BC87;
-	Mon, 23 Feb 2026 12:38:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ts7NayFC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3024C116C6;
+	Mon, 23 Feb 2026 12:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771850287;
-	bh=GH64Xio/xNmrTz43HQgczXVCE9RAw80ZZ/U8bMFFlzQ=;
+	s=k20201202; t=1771850295;
+	bh=S/5Sg1QaN/ZPsrUGbMZye4NSw0Cx7AOMez0I6MYtngI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KG2yg52Pn+QsxFuklWzElpRdJ5rgkpqI9zYzIL6Rh77F1F7iDuCTPFnif07BAOofT
-	 nhZ0Px7cTt4shFVCEWva5PfwlKJ2sB9VhMUtc5B3Yc3dj18cY8Rz6KwzCnrLUI5fVW
-	 egO1uzXUHGKYA0G/vim1XWnZhMl67JzYdY6fARYEvx37BwAUIp6CNRGparsk0b4EuM
-	 9YJ0YaKEWr3H6UGpLs3Mg74PazL4F9fhtw1Hh0+DT4lhSJCrosIPwOxB/n1/Fzlx3y
-	 PEKoVN7q4k+0Tone08xyaIXVtVwE0G4V8KOpar7umunCMfDPWMv2mCRX1/QraK8jfp
-	 TWxjAJ0Ke1EbQ==
+	b=Ts7NayFCwkI4cJIRh0Zx37Ngg2FmrMs5B3+9PnFbg1AROXb1le/lpTZDNrtVPzDwz
+	 hTPQP3oV4O1poKKR2HxxAhcT1qQKXhlNiP/jO7f4MvG2vKUedEgCYKr3fNjEvXdl0o
+	 56NJYv5IH6Jo8ifzmptYmUXwxxO7SOABYksYo88/fvVUgrWpW/kKYm2vhmAGXepeJ6
+	 KMePvNIefBXtH0piPhoV1muCP0a3MCPy9aMRx065Hm3Ira1kqXhFLSC2Bb88AzJFmz
+	 /UefxhYLQAKpeUyzZkZo68PZo9TtWS3BF1ZboVCw04bQxzZbU0qfuXz6fRFf8ewReV
+	 BI2SlzhfgSE6w==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Aaron Erhardt <aer@tuxedocomputers.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] ALSA: hda/hdmi: Add quirk for TUXEDO IBS14G6
-Date: Mon, 23 Feb 2026 07:37:24 -0500
-Message-ID: <20260223123738.1532940-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.15] ALSA: usb-audio: Update the number of packets properly at receiving
+Date: Mon, 23 Feb 2026 07:37:29 -0500
+Message-ID: <20260223123738.1532940-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260223123738.1532940-1-sashal@kernel.org>
 References: <20260223123738.1532940-1-sashal@kernel.org>
@@ -52,127 +50,125 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.3
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Aaron Erhardt <aer@tuxedocomputers.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit d649c58bcad8fb9b749e3837136a201632fa109d ]
+[ Upstream commit cf044e44190234a41a788de1cdbb6c21f4a52e1e ]
 
-Depending on the timing during boot, the BIOS might report wrong pin
-capabilities, which can lead to HDMI audio being disabled. Therefore,
-force HDMI audio connection on TUXEDO InfinityBook S 14 Gen6.
+At receiving the packets from the implicit feedback source, we didn't
+update ctx->packets field but only the ctx->packet_size[] data.
+In exceptional cases, this might lead to unexpectedly superfluous data
+transfer (although this won't happen usually due to the nature of USB
+isochronous transfer).  Fix it to update the field properly.
 
-Signed-off-by: Aaron Erhardt <aer@tuxedocomputers.com>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Link: https://patch.msgid.link/20260218213234.429686-1-wse@tuxedocomputers.com
+Link: https://patch.msgid.link/20260216141209.1849200-2-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
+Now I have all the information needed for a thorough analysis.
+
 ## Analysis
 
-### Commit Summary
-This commit adds a single `SND_PCI_QUIRK` entry to the
-`force_connect_list[]` table in the HDA HDMI audio codec driver for the
-TUXEDO InfinityBook S 14 Gen6 laptop (PCI subsystem ID `0x1558:0x14a1`).
+### What the commit fixes
 
-### Problem Being Fixed
-The commit message explains that depending on boot timing, the BIOS may
-report incorrect pin capabilities, which can result in HDMI audio being
-completely disabled. The quirk forces the HDMI audio connection to work
-around this firmware bug.
+The commit adds a single line: `ctx->packets = packet->packets;` before
+the loop that copies `packet->packet_size[i]` values. Without this fix,
+when implicit feedback mode is active, the `ctx->packet_size[]` array
+gets updated from the feedback source, but `ctx->packets` retains its
+original value set during initialization in
+`snd_usb_endpoint_set_params()`.
 
-### Code Change Analysis
-The change is a single line addition:
-```c
-SND_PCI_QUIRK(0x1558, 0x14a1, "TUXEDO InfinityBook S 14 Gen6", 1),
-```
+### Bug mechanism
 
-This is added to the existing `force_connect_list[]` table, which is
-already populated with many similar entries for HP, ASUS, MSI, and Intel
-devices. The quirk value `1` forces the HDMI connection, matching the
-pattern of all other entries in the list.
+In implicit feedback mode, the capture endpoint tells the playback
+endpoint exactly how many packets to send and what size each should be.
+The feedback info is stored in `struct snd_usb_packet_info` with both a
+`packets` count and `packet_size[]` array. When
+`snd_usb_queue_pending_output_urbs()` processes this info, it copies the
+packet sizes but **fails to update the packet count**.
 
-### Stable Kernel Rules Assessment
+Downstream, `ctx->packets` is used in:
+- `prepare_playback_urb()` (pcm.c:1554) - loop bound for setting up ISO
+  frame descriptors
+- `prepare_silent_urb()` (endpoint.c:291) - loop bound +
+  `urb->number_of_packets`
 
-1. **Obviously correct and tested**: Yes - it's a trivial one-line
-   addition to an existing quirk table, following the exact same pattern
-   as ~20 other entries. The authors are from TUXEDO Computers (the
-   hardware vendor), so they tested on the actual hardware.
+If `ctx->packets` (stale, from initialization) is **larger** than
+`packet->packets` (actual feedback), the code iterates beyond the valid
+packet sizes into uninitialized/stale `packet_size[]` entries, leading
+to superfluous data transfer. If it's **smaller**, some feedback-
+supplied packet sizes are ignored.
 
-2. **Fixes a real bug**: Yes - HDMI audio can be non-functional on this
-   laptop due to a BIOS timing issue. This is a real user-facing bug.
+### Severity assessment
 
-3. **Important issue**: Yes - complete loss of HDMI audio output is a
-   significant functional issue for users of this laptop.
+The commit author (Takashi Iwai, ALSA maintainer) notes this "won't
+happen usually due to the nature of USB isochronous transfer" - meaning
+the packet count in practice rarely differs between what was initialized
+and what arrives via feedback. However, in exceptional cases it can
+cause incorrect data transfer behavior.
 
-4. **Small and contained**: Yes - it's a single line in a single file,
-   adding an entry to an existing table.
+### Stable kernel criteria evaluation
 
-5. **No new features**: Correct - this is a hardware quirk/workaround
-   for a broken BIOS, not a new feature.
+1. **Fixes a real bug**: Yes - mismatch between packet count and packet
+   size array in implicit feedback mode
+2. **Obviously correct**: Yes - single line addition that ensures
+   `ctx->packets` matches the feedback data, exactly parallel to what's
+   already done for `ctx->packet_size[]`
+3. **Small and contained**: Yes - literally 1 line added
+4. **No new features**: Correct - pure bug fix
+5. **Risk**: Extremely low - it's adding the obvious missing assignment
+   that pairs with the existing `packet_size[]` copy loop
+6. **Author**: Takashi Iwai is the ALSA maintainer and subsystem expert
+7. **Independence**: The followup commit (36adb51ac0b19) is a pure
+   optimization (loop to memcpy) and is NOT needed for this fix to work
 
-6. **Applies cleanly**: The change is a simple table entry addition that
-   should apply cleanly to any stable tree that has the
-   `force_connect_list[]` table.
+### Risk vs benefit
 
-### Exception Category
-This falls squarely into the **QUIRKS and WORKAROUNDS** exception
-category. Hardware-specific quirks for broken/buggy devices (in this
-case, a BIOS firmware bug) are explicitly listed as appropriate for
-stable backporting. Audio codec quirks via `SND_PCI_QUIRK` entries are
-specifically called out in the stable kernel guidelines.
-
-### Risk Assessment
-- **Risk**: Essentially zero. The quirk only activates for the specific
-  PCI subsystem ID `0x1558:0x14a1`. It cannot affect any other hardware.
-- **Benefit**: Fixes HDMI audio for all users of the TUXEDO InfinityBook
-  S 14 Gen6.
+- **Risk**: Negligible. One line that brings `ctx->packets` in sync with
+  the data it should have always tracked.
+- **Benefit**: Prevents potential audio glitches or incorrect USB
+  isochronous transfers in implicit feedback mode, which is used by many
+  USB audio interfaces (especially pro audio equipment).
 
 ### Verification
 
-- Verified the diff: Single-line addition of `SND_PCI_QUIRK(0x1558,
-  0x14a1, "TUXEDO InfinityBook S 14 Gen6", 1)` to the existing
-  `force_connect_list[]` table.
-- Verified the table structure: All other entries in the table follow
-  the identical `SND_PCI_QUIRK(vendor, device, name, 1)` pattern,
-  confirming this entry is consistent.
-- Verified authors: `@tuxedocomputers.com` email domains confirm the
-  authors are from the hardware vendor, meaning they have direct access
-  to and have tested on the affected hardware.
-- Verified the maintainer ack: Signed-off-by from Takashi Iwai (ALSA/HDA
-  maintainer at SUSE), confirming proper review.
-- Verified no dependencies: This is a standalone table entry addition
-  with no prerequisite commits needed.
-- The `force_connect_list[]` table has existed for multiple stable
-  kernel versions (verified by the presence of many existing entries in
-  the code).
-
-### Conclusion
-This is a textbook stable backport candidate. It's a single-line
-hardware quirk addition that fixes a real bug (HDMI audio disabled) on
-specific hardware, with zero risk to other systems. It follows the exact
-same pattern as dozens of similar quirk entries already in the table.
+- Read the full `snd_usb_queue_pending_output_urbs()` function
+  (endpoint.c:457-525) confirming `ctx->packets` was not updated before
+  the fix
+- Verified `ctx->packets` is used downstream in `prepare_silent_urb()`
+  (line 291, 311, 312) and `prepare_playback_urb()` (pcm.c:1554, 1581)
+  as the loop bound for ISO frame descriptor setup
+- Confirmed the mainline commit is cf044e4419023 by Takashi Iwai
+- Verified the followup commit 36adb51ac0b19 is a pure optimization
+  (loop→memcpy) with no functional changes, confirming this fix is self-
+  contained
+- Confirmed `struct snd_urb_ctx` has `packets` field (card.h:58) used
+  for `urb->number_of_packets`
+- Could NOT independently verify a user report triggering this bug
+  (author says "exceptional cases" and "won't happen usually")
 
 **YES**
 
- sound/hda/codecs/hdmi/hdmi.c | 1 +
+ sound/usb/endpoint.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
-index 111c9b5335afc..c2e3adc7b3c00 100644
---- a/sound/hda/codecs/hdmi/hdmi.c
-+++ b/sound/hda/codecs/hdmi/hdmi.c
-@@ -1557,6 +1557,7 @@ static const struct snd_pci_quirk force_connect_list[] = {
- 	SND_PCI_QUIRK(0x1043, 0x86ae, "ASUS", 1),  /* Z170 PRO */
- 	SND_PCI_QUIRK(0x1043, 0x86c7, "ASUS", 1),  /* Z170M PLUS */
- 	SND_PCI_QUIRK(0x1462, 0xec94, "MS-7C94", 1),
-+	SND_PCI_QUIRK(0x1558, 0x14a1, "TUXEDO InfinityBook S 14 Gen6", 1),
- 	SND_PCI_QUIRK(0x8086, 0x2060, "Intel NUC5CPYB", 1),
- 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", 1),
- 	{}
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 8f9313857ee9d..27ade2aa16f5a 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -481,6 +481,7 @@ int snd_usb_queue_pending_output_urbs(struct snd_usb_endpoint *ep,
+ 
+ 		/* copy over the length information */
+ 		if (implicit_fb) {
++			ctx->packets = packet->packets;
+ 			for (i = 0; i < packet->packets; i++)
+ 				ctx->packet_size[i] = packet->packet_size[i];
+ 		}
 -- 
 2.51.0
 
