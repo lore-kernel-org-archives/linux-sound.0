@@ -1,87 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E5D36A03E
-	for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 19:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F705695
+	for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 23:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771873754; cv=none; b=NIrP6mM7g/p4q5Jic6oSI+dfNkNfLbiduiKysyZ6k2jut1pj3h/5n18iczQ2K/WH4SNJJWYqhmJ5BqnkP2XilcodhQyLdkMqcHHS5szpyXi3SeUA0+7v3RnH3q+Rl/ItDDPehqXMiEYk+eAVQSa5SWyu2QkAETwfLGD/y4sKPyw=
+	t=1771891121; cv=none; b=r0LIgS8+29VTGJk87ntX0NT8lVucptTcW3D2137eBGm5I+61WDH2tm0VxNyAz7MUoYgav0O/TXfPUeYe0uJnZ/UUh2U64KVeHnj6jGUZhdtaA7TvOd4W3rNauYgdtkAtytaz724W7PKlQHOux9W3F1ETZvsoNpJZk5NgutrxraE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771873754; c=relaxed/simple;
-	bh=LeHaocUj8mpS2u8EoZ+cNdQ0LHiCqXddGuYOrovc7aM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dhbglBFeGbK5TdYRpBFaX8Ya2AhPWhMjYhOeGEY+rYws+ZO3FL0rW+khcpq6aeQkTLZL7E5QEgVRrPNwlH86m/NPi+WNa56+hVKuNyOgxL0CqpPGerbWCSUenzF98VT04KO6VCz7asgj6R3bq1oV2WH8OfWgELE/jy+NzLEYgMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XEH/6eRW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771891121; c=relaxed/simple;
+	bh=OBb3x/truGDCCFIPZeH0rrEVFuYOxFOq7Vz5fDajFOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jxEAPmzttPnNeZ/GAE1sx9mFTYayVHlIovq0slswaCDHFLMR8EZ0NYolxV1TeSEVdccyu9tAJkSuP0eKW+/FvEvwbVsaLl93g62etAqp3K7TEkO25HJd+8fvkc9Iljsn6kO9hSAIx1bQDV3v3+Qk+wUo8irNrCdrs/dNSGsEbUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=socllw+7; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XEH/6eRW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE097C116D0;
-	Mon, 23 Feb 2026 19:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771873753;
-	bh=LeHaocUj8mpS2u8EoZ+cNdQ0LHiCqXddGuYOrovc7aM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XEH/6eRWOH73JF82J1rur+hgfo0yZFow2wAux6euFlgQ4hVKYmUj3ycamql0Mv9NO
-	 Sehh3UsRHfpw8RpdYi8lbZxC692+Zn9TI1VotRvvy4vAC1wtQ4vToASqB/scwmTxuh
-	 Eqg5bcNd9XXm7BwLQYavAUGQ+iGNN46iq4ube3QTDEe/U08Z8iTa+jf/RzFZK3ycKE
-	 LaHijhaED2D6gy6aOXZyvA5I3Hha7a+RmwB88d9qMgEFnJErqnR4aWFnCzNKrGb3VE
-	 4JM4EDLuxoOkAK1DVJZgnEz777pR5yGtqVvo7wJZjYAj02ij7WX1+qnYGCcT66DWAK
-	 gCDX+xIrfV6Cw==
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Azamat Almazbek uulu <almazbek1608@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20260221114813.5610-1-almazbek1608@gmail.com>
-References: <20260221114813.5610-1-almazbek1608@gmail.com>
-Subject: Re: [PATCH v2] ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to
- quirk table
-Message-Id: <177187375264.720764.14102449854497732641.b4-ty@kernel.org>
-Date: Mon, 23 Feb 2026 19:09:12 +0000
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="socllw+7"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 16A47674077C; Tue, 24 Feb 2026 10:28:31 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 16A47674077C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1771891111; bh=96jLiM6fbHrstpfR/wo0kpZY9B+wMufjfPoGi6qLkfE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=socllw+7HnNfjSyThlWbTFkQrvS2ps18cRCFFF74zCmuH4TuTflHpN4bVAa1Db4ak
+	 k0DA4nnIZ8bfrlyBG6H740wxf9tGvTsrwYedgmplhYTZItN0vJHzbaIx7CfpKfddbd
+	 2qEpARG4wyGU+z9I1uYYHkORvL7EZqehPmprPoYUulRUTuzpDASY9Kx/MMThHrSvsP
+	 G9k5wpx6IPjEoW/08kk1buv58sYhoHqeocVTiMCdwJS1miCSZmdjgm5N14YT0nkWdP
+	 IG8i27OEx9Xazk1AlNFiIsrb3n7r7p77Hgj/NNZ+JIAsayEEO+5zBy2ow7CZBQxT0w
+	 uYEM22tXkSPRg==
+Date: Tue, 24 Feb 2026 10:28:31 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	Alexander Tsoy <alexander@tsoy.me>, Tina Wuest <tina@wuest.me>
+Subject: Re: [PATCH 0/4] ALSA: usb-audio: Fix Focusrite probe-time side
+ effects
+Message-ID: <aZzpp6XeFsiwIA6/@m.b4.vu>
+References: <cover.1771594828.git.g@b4.vu>
+ <87zf4zlttl.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87zf4zlttl.wl-tiwai@suse.de>
 
-On Sat, 21 Feb 2026 12:48:13 +0100, Azamat Almazbek uulu wrote:
-> The ASUS ExpertBook BM1503CDA (Ryzen 5 7535U, Barcelo-R) has an
-> internal DMIC connected through the AMD ACP (Audio CoProcessor)
-> but is missing from the DMI quirk table, so the acp6x machine
-> driver probe returns -ENODEV and no DMIC capture device is created.
+On Mon, Feb 23, 2026 at 09:58:46AM +0100, Takashi Iwai wrote:
+> On Fri, 20 Feb 2026 17:03:11 +0100,
+> Geoffrey D. Bennett wrote:
+[...]
+> > Geoffrey D. Bennett (4):
+> >   ALSA: usb-audio: Improve Focusrite sample rate filtering
+> >   ALSA: usb-audio: Remove VALIDATE_RATES quirk for Focusrite devices
+> >   ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP
+> >   ALSA: usb-audio: Skip clock selector for Focusrite devices
 > 
-> Add the DMI entry so the internal microphone works out of the box.
-> 
-> [...]
+> Although it's a bit risky to take, the result looks still worth for
+> 7.0 inclusion, and the code changes look mostly only for Forcusrite
+> devices, so I decided to apply those to for-linus branch now.
 
-Applied to
+Thanks Takashi.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk table
-      commit: 32fc4168fa56f6301d858c778a3d712774e9657e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+I've packaged it up for easy building out-of-tree for anyone who wants
+to help test it but isn't familiar with building kernels:
+https://github.com/geoffreybennett/linux-fcp/releases/tag/v6.18-f15
