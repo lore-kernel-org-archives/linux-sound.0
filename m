@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEB917BA2
-	for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 19:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E5D36A03E
+	for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 19:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771873752; cv=none; b=PaeFeHpTifmbZETiA623BY0u+tURTbGzyNr/cADzxQQd6jmAsAygyB/TqKq/1YwxyYNalkyOX2hg1JojBDfEHimLBi5t1Mg9QRmfTVAx6dPG+wUp+5AVStfxa8N9CVSluV66ny923lZMBvYEqIxuIyLGwsYhHe+bm+wtmZXQ3KU=
+	t=1771873754; cv=none; b=NIrP6mM7g/p4q5Jic6oSI+dfNkNfLbiduiKysyZ6k2jut1pj3h/5n18iczQ2K/WH4SNJJWYqhmJ5BqnkP2XilcodhQyLdkMqcHHS5szpyXi3SeUA0+7v3RnH3q+Rl/ItDDPehqXMiEYk+eAVQSa5SWyu2QkAETwfLGD/y4sKPyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771873752; c=relaxed/simple;
-	bh=a+PDB+tS/fkgeicly3iZ8eFXPqkZVvLK0OIbpOHT9Fw=;
+	s=arc-20240116; t=1771873754; c=relaxed/simple;
+	bh=LeHaocUj8mpS2u8EoZ+cNdQ0LHiCqXddGuYOrovc7aM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IiQYNQu1DUq9nA8MDdHz5a0Ru88K32ZdlvCs4aV8vOuoMzV2fPlZEENf6k9yj1j/1hfTGRbD6zRBL0AYK/AniwGfV9+ItO9zUXcXFn/QO4Xqrqxvli+qThHvygB8/uxsKDqew4x3Pn5D2prAQGbsQIyYAKuM8S4xE1/laQT6c+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAzeZdDL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dhbglBFeGbK5TdYRpBFaX8Ya2AhPWhMjYhOeGEY+rYws+ZO3FL0rW+khcpq6aeQkTLZL7E5QEgVRrPNwlH86m/NPi+WNa56+hVKuNyOgxL0CqpPGerbWCSUenzF98VT04KO6VCz7asgj6R3bq1oV2WH8OfWgELE/jy+NzLEYgMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XEH/6eRW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAzeZdDL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79123C116C6;
-	Mon, 23 Feb 2026 19:09:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XEH/6eRW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE097C116D0;
+	Mon, 23 Feb 2026 19:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771873752;
-	bh=a+PDB+tS/fkgeicly3iZ8eFXPqkZVvLK0OIbpOHT9Fw=;
+	s=k20201202; t=1771873753;
+	bh=LeHaocUj8mpS2u8EoZ+cNdQ0LHiCqXddGuYOrovc7aM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WAzeZdDLCQsyLEAbEpZXu0QLxG/3X6vsitePNowev4PVBzyaYCVG18+hXqP0FWJQ7
-	 Kg7kXi+NscXW2i32XejUlKDi6u2ehTx4tl2iYCDrmEm5ynTcmgnnB/KU6OKSucdhCG
-	 nZ/XVGTh9dIdU/Nm919ykpScg4DxFyMSLqIPrr7J5cMyYtPabojRB5I3tzDJdvjDDZ
-	 4YBPrvjuuhtygGI/OQ6jfpo65hWZOGJQErckPAMZ9vDBMCJ6V/orkBzmdk2JoU0SrS
-	 vNSRmpJH/mfs3ajHtUnmiFyhVohCekow20424nWiXFSL5qkYFOQztZmvBoHrTr9mC+
-	 fSUZM8jQSYM+Q==
+	b=XEH/6eRWOH73JF82J1rur+hgfo0yZFow2wAux6euFlgQ4hVKYmUj3ycamql0Mv9NO
+	 Sehh3UsRHfpw8RpdYi8lbZxC692+Zn9TI1VotRvvy4vAC1wtQ4vToASqB/scwmTxuh
+	 Eqg5bcNd9XXm7BwLQYavAUGQ+iGNN46iq4ube3QTDEe/U08Z8iTa+jf/RzFZK3ycKE
+	 LaHijhaED2D6gy6aOXZyvA5I3Hha7a+RmwB88d9qMgEFnJErqnR4aWFnCzNKrGb3VE
+	 4JM4EDLuxoOkAK1DVJZgnEz777pR5yGtqVvo7wJZjYAj02ij7WX1+qnYGCcT66DWAK
+	 gCDX+xIrfV6Cw==
 From: Mark Brown <broonie@kernel.org>
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
  Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
  Azamat Almazbek uulu <almazbek1608@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20260217121219.79960-1-almazbek1608@gmail.com>
-References: <20260217121219.79960-1-almazbek1608@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk
- table
-Message-Id: <177187375122.720764.9171311551512811536.b4-ty@kernel.org>
-Date: Mon, 23 Feb 2026 19:09:11 +0000
+In-Reply-To: <20260221114813.5610-1-almazbek1608@gmail.com>
+References: <20260221114813.5610-1-almazbek1608@gmail.com>
+Subject: Re: [PATCH v2] ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to
+ quirk table
+Message-Id: <177187375264.720764.14102449854497732641.b4-ty@kernel.org>
+Date: Mon, 23 Feb 2026 19:09:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,7 +47,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Tue, 17 Feb 2026 12:12:19 +0000, Azamat Almazbek uulu wrote:
+On Sat, 21 Feb 2026 12:48:13 +0100, Azamat Almazbek uulu wrote:
 > The ASUS ExpertBook BM1503CDA (Ryzen 5 7535U, Barcelo-R) has an
 > internal DMIC connected through the AMD ACP (Audio CoProcessor)
 > but is missing from the DMI quirk table, so the acp6x machine
