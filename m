@@ -1,196 +1,156 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8289834D4C4
-	for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 08:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13833491D6
+	for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 08:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771835854; cv=none; b=vBROB5iyA6enAtyEU8TYHxRYlpyHgFimf6lYpmGJq8a+izWdeVqzuEmN6Yd2m1bgs0n+TFzHUKfq9fVW1iHBswVZtkm8nzqIgsCZxQevG8obSd1h4m0LTHpMcepM6xWhPSuIrWFm6UBdgrxLOIcfyRI9Kb6QM4QOVBnD3syzezc=
+	t=1771836671; cv=none; b=XC2eHrZpzTCswcfUzI+iZ9NJKfovBOfN/6l4ICD9ZkHf6xhGT1xmazbCxVplg+51/KybkZ3YB84HWzs0YrkNUnU+ttJLXAJ4mrWDZPhu1gyTXVHSDcqIwphSnvyhkT0PxeZncwpreESS1ESo6S4cHFpGa9OCzzblQxI8U4guvBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771835854; c=relaxed/simple;
-	bh=QeLyuN/2seU7NDyjmTtE2l7+boc7LAWG8fBCNm5LX8M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Uu589nrRSpDMlSacme+xfYyR1fdF66mmGthsZkuxTuek7QZC8YlGJfSeFxo7WIcFsKSJ9NnIxea/utzOi9RrsHkPFc4cv1Wqqbt9W99U/RrhG8E5X7uaQAuE8tn8XvCNSd5J9bfee02ZzHgodwsOx1waW+qru1KWRCwEFKBjG0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TwzTyLUx; arc=none smtp.client-ip=209.85.208.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771836671; c=relaxed/simple;
+	bh=Wml5/a0xLKpxzAIiktcB6ycfHbaMQbFz0v3xTOUUbF0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ACe0sHYg4lCuY7I5HlGe0rkSgr5Nb6x+LRvpgPMnW/ibcR/TdhOAZ7vdnY+DF+5ZKGN2st8EbG7nLeptc1yo/OpD09L4y0Pepx5hlLWp4uipeZCTKMDuzcmLpU7VtRjwFZC5N+15UB6YfzrNn8q9s9tELGjlmP70DyI8eWF07NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EkX2sOr3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T6VLCxT/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qq8C+ff9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XnK3rByJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TwzTyLUx"
-Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-65c20dc9577so7619808a12.2
-        for <linux-sound@vger.kernel.org>; Mon, 23 Feb 2026 00:37:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771835852; x=1772440652; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wwfoQIZP8rgjlqT6i1sqvtnJ8vCvBM4mV5XScfELGpI=;
-        b=TwzTyLUxSUud0Et9oFoRC7sQ3Hb/VmT8QOt6LqAn/TeGK1VZmzUsFUzGILqxyZH/Q5
-         A8w1Tkd2fuIoLuYns6TeSKKVmfdUm0VxxW9KhdeVesDmThQ+Pko6BCFVvLyhn3q2/Zqz
-         XnT3Zf8RBmaiynk4ufLl/yt+wqJA4ICl9cnezs8w3pGVRxEZPZpxYYm/KpPjh8glLQi+
-         UsBCoQSeOzpAHDK6+BHde3pyGgzpjArSecQeMFNsvw6OFLkae31plvYYcCgL4easvDSl
-         LxOJrs39xma0gg1ZBhVS0DGIL4CsUB4hpnp+76l84dv2DtWMPxDzGLOvYJan74j6abi9
-         hnoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771835852; x=1772440652;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wwfoQIZP8rgjlqT6i1sqvtnJ8vCvBM4mV5XScfELGpI=;
-        b=W9Y0IWFbZ+88L1fMEsA2jcCfOZ4KG6WzSqs5ylElLuM+OZk2rwUv1AkqbeTcJQwEMx
-         XX2hFBY/bBiimCdfVUgtKzxpE0+bQ8KwnA7hOThV3diyY1aATMmfhv+yMEKcHpqkXb8O
-         p6RzfkBptCnDnyqwExH9hfaHmYFnSFwwGf8BDzLHsI0y8/DdLyW5Cu9eq/dQuwe+UVxQ
-         hi4GHtC30Z+GAIkAhtEVcBpPTivzcb1yvpvIGIScJnOycRWQezzw5dlhiZlockXwp6lV
-         kH5j1UiQOFg8SsYjyKQz9ang/HCu2rN4lgy29Tw8USCLspeempmqQwY5qGufLCeE/ug3
-         R+/g==
-X-Gm-Message-State: AOJu0YwceHAgORqPBZvpP0o+vR55BdFsXlY+0SlH7bwWJdh5/MqHX1WM
-	1KDDm89WJovV9Q0s5KbkAi7fy1NkrAljBW4mByLJgBYbFQkcpY36FFEe3k/ti4M1
-X-Gm-Gg: AZuq6aKgiGvZHT6USTOZFKRHd4HGzUyGRUcPm2ApZewyrHOwmCWKy3GtkDKJcQzxXPD
-	vPGCBzWlm04Q08qWfahcaZAEd8h0tWDRu1UpGWqnKW/XeyCMfpttrWz/HmT5+GlbeYpqYK7bX1s
-	hH9uos0YsLgUkyDWHGqXt7HSfOpKLpCng6S6gv7ixHmeqaCiSt5Ey+pgyrfkNEt3KTjkuYjJF7f
-	7O2HuYKjY91DGlPk7pqUUvfPpGJTpmr/XxxMPcelZDD5yGtWAZI7U+rKuW7gL8P81nEN5ewo9wx
-	50RCm6jr4eOOmfEZp2DWFOlA+ZumzQN9iytAAdBeIjIOrZXZ1Jeek8tU8Dl7sReMmaWQfmMNN9a
-	gm/93gvuJwiuB7k41fLluL1vvGJL9SePzeDp89Q/Iem/cZ1P8qqYy4UJMNSmQRkP9ojwS5jmXgT
-	IJk3pxmgzI+T3M
-X-Received: by 2002:a05:6512:1081:b0:5a0:f5e6:7f91 with SMTP id 2adb3069b0e04-5a0f5e67ffbmr142293e87.43.1771829461585;
-        Sun, 22 Feb 2026 22:51:01 -0800 (PST)
-Received: from xeon ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389a78b4a45sm13916521fa.13.2026.02.22.22.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 22:51:01 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EkX2sOr3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T6VLCxT/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qq8C+ff9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XnK3rByJ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ED7EE3EBA0;
+	Mon, 23 Feb 2026 08:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771836668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IfeLpCUDhmM5Ji3ZzYoYtyi4AXV/pQuFz6bnFMiLB7o=;
+	b=EkX2sOr3ATh8Av8fKsL4Sd15hmLouu6KxNaqXumN8Ih6Vx1elJ6FbxqSXr3NUpbTYGA9Mf
+	wNdFlyPkgcIUO4APZEVw3dOHAe5xc3GdJqg0hhGxeickLC9pjdfPtRcUj7D19gitmdwSl0
+	9hQHjOiyZLPO9Dv6gwNqkIkpeGKGPSI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771836668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IfeLpCUDhmM5Ji3ZzYoYtyi4AXV/pQuFz6bnFMiLB7o=;
+	b=T6VLCxT/wR6OPeShkksJKtov3UL0l0Vio6z/GmSrTSLCAowADfgn8jmSbjICNjaFEWCOOW
+	2CzQ8Cpv4kMoOCBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771836667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IfeLpCUDhmM5Ji3ZzYoYtyi4AXV/pQuFz6bnFMiLB7o=;
+	b=Qq8C+ff9PucJfOWz8vRyVhyHauLta7wDOh3+3kJbPdFijTqbgnNZtBWb5N5OELXUaHQ4h6
+	VGBsgJrC8oClQZyOGzoxVWDTCWrm5myztwIkfeaTg9hNXhpnv1fBROAZqLPdkDYLJ4NU3B
+	Z/nWvHfXAf8UT20hGicF0zkggHn8DFE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771836667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IfeLpCUDhmM5Ji3ZzYoYtyi4AXV/pQuFz6bnFMiLB7o=;
+	b=XnK3rByJiusHJJZTBZGHh/XCKI8RRk7TYqqSQyzFY34yjMba7vgoEvPQTAWm2PnQ5h6G/C
+	79aaaM+TRyUXcnAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F4EB3EA68;
+	Mon, 23 Feb 2026 08:51:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id erCMJfsUnGldegAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 23 Feb 2026 08:51:07 +0000
+Date: Mon, 23 Feb 2026 09:51:07 +0100
+Message-ID: <877bs3n8qs.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sean Rhodes <sean@starlabs.systems>
+Cc: linux-kernel@vger.kernel.org,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/5] ASoC: dt-bindings: nvidia,tegra-audio: document CPCAP CODEC
-Date: Mon, 23 Feb 2026 08:50:47 +0200
-Message-ID: <20260223065051.13070-2-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260223065051.13070-1-clamor95@gmail.com>
-References: <20260223065051.13070-1-clamor95@gmail.com>
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Chris Chiu <chris.chiu@canonical.com>,
+	Edip Hazuri <edip@medip.dev>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v6] ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
+In-Reply-To: <4d5fb71b132bb283fd41c622b8413770b2065242.1771532060.git.sean@starlabs.systems>
+References: <4d5fb71b132bb283fd41c622b8413770b2065242.1771532060.git.sean@starlabs.systems>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-Add dt-binding for CPCAP CODEC.
+On Thu, 19 Feb 2026 21:14:26 +0100,
+Sean Rhodes wrote:
+> 
+> On Star Labs StarFighter (Realtek ALC233/235), the internal speakers can
+> emit an audible pop when entering or leaving runtime suspend.
+> 
+> Mute the speaker output paths via snd_hda_gen_shutup_speakers() in the
+> Realtek shutup callback before the codec is powered down.
+> 
+> This is enough to avoid the pop without special EAPD handling.
+> 
+> Test results:
+> - runtime PM pop fixed
+> - still reaches D3 (PCI 0000:00:1f.3 power_state=D3hot)
+> - does not address pops on cold boot (G3 exit) or around display manager
+>   start/shutdown
+> 
+> journalctl -k (boot):
+> - snd_hda_codec_alc269 hdaudioC0D0: ALC233: picked fixup for PCI SSID
+>   7017:2014
+> - snd_hda_codec_alc269 hdaudioC0D0: autoconfig for ALC233: line_outs=1
+>   (0x1b/0x0/0x0/0x0/0x0) type:speaker
+> 
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Stefan Binding <sbinding@opensource.cirrus.com>
+> Cc: Kailang Yang <kailang@realtek.com>
+> Cc: Chris Chiu <chris.chiu@canonical.com>
+> Cc: Edip Hazuri <edip@medip.dev>
+> Cc: linux-sound@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Suggested-by: Takashi Iwai <tiwai@suse.com>
+> Tested-by: Sean Rhodes <sean@starlabs.systems>
+> Signed-off-by: Sean Rhodes <sean@starlabs.systems>
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- .../sound/nvidia,tegra-audio-cpcap.yaml       | 90 +++++++++++++++++++
- 1 file changed, 90 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-cpcap.yaml
+Applied now.  Thanks.
 
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-cpcap.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-cpcap.yaml
-new file mode 100644
-index 000000000000..69af2022d0fa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-cpcap.yaml
-@@ -0,0 +1,90 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-cpcap.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra audio complex with CPCAP CODEC
-+
-+maintainers:
-+  - Svyatoslav Ryhel <clamor95@gmail.com>
-+
-+allOf:
-+  - $ref: nvidia,tegra-audio-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - pattern: '^motorola,tegra-audio-cpcap(-[a-z0-9]+)+$'
-+      - const: nvidia,tegra-audio-cpcap
-+
-+  nvidia,audio-routing:
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    description:
-+      A list of the connections between audio components. Each entry is a
-+      pair of strings, the first being the connection's sink, the second
-+      being the connection's source. Valid names for sources and sinks are
-+      the pins (documented in the binding document), and the jacks on the
-+      board.
-+    minItems: 2
-+    items:
-+      enum:
-+        # Board Connectors
-+        - Speakers
-+        - Int Spk
-+        - Earpiece
-+        - Int Mic
-+        - Headset Mic
-+        - Internal Mic 1
-+        - Internal Mic 2
-+        - Headphone
-+        - Headphones
-+        - Headphone Jack
-+        - Mic Jack
-+
-+        # CODEC Pins
-+        - MICR
-+        - HSMIC
-+        - EMUMIC
-+        - MICL
-+        - EXTR
-+        - EXTL
-+        - EP
-+        - SPKR
-+        - SPKL
-+        - LINER
-+        - LINEL
-+        - HSR
-+        - HSL
-+        - EMUR
-+        - EMUL
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra20-car.h>
-+    #include <dt-bindings/soc/tegra-pmc.h>
-+    sound {
-+        compatible = "motorola,tegra-audio-cpcap-olympus",
-+                     "nvidia,tegra-audio-cpcap";
-+        nvidia,model = "Motorola Atrix 4G (MB860) CPCAP";
-+
-+        nvidia,audio-routing =
-+                "Headphones", "HSR",
-+                "Headphones", "HSL",
-+                "Int Spk", "SPKR",
-+                "Int Spk", "SPKL",
-+                "Earpiece", "EP",
-+                "HSMIC", "Mic Jack",
-+                "MICR", "Internal Mic 1",
-+                "MICL", "Internal Mic 2";
-+
-+        nvidia,i2s-controller = <&tegra_i2s1>;
-+        nvidia,audio-codec = <&cpcap_audio>;
-+
-+        clocks = <&tegra_car TEGRA20_CLK_PLL_A>,
-+                 <&tegra_car TEGRA20_CLK_PLL_A_OUT0>,
-+                 <&tegra_car TEGRA20_CLK_CDEV1>;
-+        clock-names = "pll_a", "pll_a_out0", "mclk";
-+    };
--- 
-2.51.0
 
+Takashi
