@@ -1,212 +1,156 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010009.outbound.protection.outlook.com [52.101.61.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4248B77F39;
-	Tue, 24 Feb 2026 09:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771926151; cv=fail; b=Pkfi78B5IxBzIIsTj3WqK9zdHAyHX8OeqMK0rOZApS4v2f317kp4PaMGWutWKdjYIEqiKPb20moYha9aFE0g4JT9ZM9Ilyj67lLvYFqQiFTL0VTepGlWyk2jfI5Y9fXgWKE6+K7+8Iw1ETjOBnJOHPCTx2J1p2wy0Wqd6ZHohyo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771926151; c=relaxed/simple;
-	bh=FPQh4Pm8M7h3TRnhTYfaHRLMDIY2GtYmVOQuAKLv2nk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=FOVJVAJVw+tGzrHoYRQ9bmn4Yg3Y//lZtfp/tjNfFdYWc7VDK+O/f7D1OFmoPeUYkQWDEb9rwrrKTpZMhUp60wIprVcUBA5o69cN17vZp4HGe5edXElM6QfNO4zj0vodb30UQru9eXI+Q++L4+ilf3XetPZs6ulmUIN6rfHeDAI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iLFpcFfG; arc=fail smtp.client-ip=52.101.61.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D556376BCA
+	for <linux-sound@vger.kernel.org>; Tue, 24 Feb 2026 10:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771927967; cv=none; b=XSzrL0ctJCgPJdmgW4L1+YzLL42zC7ps/9UvjKvlrjaLG91SP4Hf9KrB58CM/Ddak9COO7E67yBZAU2zbm5jjlza5mJyogHN8Qu9bzW6Wit1HZ+jeqYfi4sXwGSSHLPuQNleziq3V0zllR8IM0tV0oIwhYFVsywA/p+GzHId3Gs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771927967; c=relaxed/simple;
+	bh=FCMRXZR8SAuy+rR/oG39tLfH/1KCNmdkdQtzyJsu8Vw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l1RnI+j5OpcBl4VF2KFxGwSehMNGpBDh0ttZpaozo4VnRuyLqU5d5v5Y+HaXEbBEZPKyXc/kde78kEv9qFa9IfYrXWC+Vi07oCSgyC2EZKpPEy7n5tZ5tvAfM82mYo9YYjyaSFlMkFpHOvR09GO0GxlzmfTXq7nGCcKWL17wQAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MMsXfLAZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bgzXG40l; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iLFpcFfG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q5p2KN2PSUaBmzs/F9Yxhy58V/NX4SkeR8+RvBIbLaIVYzEN9UMWP4ZhsdjEcbMkDprmd/QSxZuSzu+AtP6tTlaGVjbM5bkBcpoZdinkEsnWM6uGj9t7ZBtwVTgiKP8MuW/Zr+4jYYQk3U3nu5e7+4szU7y1V+iGBu2uBbRdhEBlnO8sMy0Qxq7LirM5FDlWqsGTWCWUbdqESHWdXnVgDzwnGX4IjGm6iE/1kiQ9/KCq13g0/ScDYJu0arOwZiGmgkjqGK0ujhJXxOBl0OCzT2plhWGhg9nhY2xSX0hnsW8fgHfVBSjR9STakbWzgzWgODA6CGUNMYGmjYMWFoewcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FPQh4Pm8M7h3TRnhTYfaHRLMDIY2GtYmVOQuAKLv2nk=;
- b=g5hQigSOZPR3Gs9/h8DUHV742FK7bJkrqRxEsm9RHRyVXaRJ5Zvh4g/zUqPFDmrVYYQlgB7M7uqg86VUQlrVFbUcD0ELCKYHa7uEEfrXfV35ecyzVWW9uD8ZckDVnzaQC8ZpkBnB5fOWY+HFnT3j6brQDRqOt4kdeC+ldv+9syRwDs8OHFIIBVSnJUNiWEMNA7WZQX25AkmTuITCtmmzak/7L409paoZNMTI3+gAF//F11U/yJVxnroyTwb7I2nVzAQYmcCtSbLoc2SMEoZr726BNhRvqamkDyNweTNMEihWSBc1XB6eG6KHQ9py5gVKjssBpU80C/bNYuuJ/aCebg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FPQh4Pm8M7h3TRnhTYfaHRLMDIY2GtYmVOQuAKLv2nk=;
- b=iLFpcFfGEgYHutAl3h8uhRxvJNteOAyTcwSJwt0d83pRWbp/AdFqaL62jOC6oZDHDL9mIxUWoZ1HrGq5+xTk+6dtZV5MVfxeibK48UyiaPrJv1EpQMXekWA2TxMWpFmNlpmmuGpL9kQ1QRoP2aFUPHDOaXQvxZfn31GEHJMOiFU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- CY8PR12MB7683.namprd12.prod.outlook.com (2603:10b6:930:86::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.22; Tue, 24 Feb 2026 09:42:27 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 09:42:27 +0000
-Message-ID: <009d1f30-4e8b-43bc-8b4d-45d1b062366d@amd.com>
-Date: Tue, 24 Feb 2026 15:12:20 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: DMIC support on AMD RPL platform produces I/O error after quirk
- addition
-To: Jason Mo <NukaColaM@outlook.com>,
- "qby140326@gmail.com" <qby140326@gmail.com>,
- "mario.limonciello@amd.com" <mario.limonciello@amd.com>
-Cc: "broonie@kernel.org" <broonie@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "venkataprasad.potturu@amd.com" <venkataprasad.potturu@amd.com>,
- "Sunil-kumar.Dommati@amd.com" <Sunil-kumar.Dommati@amd.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <MN2PR07MB6511E6D445F37FAE817F5ADEA16BA@MN2PR07MB6511.namprd07.prod.outlook.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <MN2PR07MB6511E6D445F37FAE817F5ADEA16BA@MN2PR07MB6511.namprd07.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0149.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:c8::22) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MMsXfLAZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bgzXG40l"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O9sewa2727329
+	for <linux-sound@vger.kernel.org>; Tue, 24 Feb 2026 10:12:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/zUFJH/jB3soteowiXuTedDU0sM6XkQn3T2X92OyF00=; b=MMsXfLAZE5ynACpp
+	FWhZxfOch8YxVJDeYcSsHfthQw5oo/DhMEoqBTJwY99Pk8tMduRE+meYw5fTfkgo
+	2w+Giycozlkcg1CeqPpjcBSqsNUlGHK4z/5as6cG3Z4CRgPKJ4KKK4h1Hs7qnRs9
+	W+w358ncbTbBZnmstNNc7CzuqJ5i/jwrhgOEBwstJ0VETln0wmTIOEFY2N9+0CH4
+	PvGUNYt12JFPTyIJKGVCR2tHeO3spDyFNDULWJNH/dQwl5cT44LMWpwCCcGqPTq0
+	rfx9UFwvIB0MXJ04okXrCc4LEzvvNue20bY02TjRHE8lrszsfM2/eUvmhZVLJUvL
+	trqH1Q==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgr69k9tk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 24 Feb 2026 10:12:44 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-89545f12461so51341656d6.2
+        for <linux-sound@vger.kernel.org>; Tue, 24 Feb 2026 02:12:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771927964; x=1772532764; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/zUFJH/jB3soteowiXuTedDU0sM6XkQn3T2X92OyF00=;
+        b=bgzXG40lX6xeziXyfMHgZdN46GtdVH9ZN5Mg5PVZqS73VWneANFw5/Wa7JXOEhpeYP
+         Gmz1XZ+omAC5IRqv51shOD782oRS/BPUxu2BCUq7unUO3/X6v//P7Vl9jQTyjh5UB4wY
+         yrsxET4W3uIjqR2MUp3XW3C0igeD8BNie1kq1UigJZqfFRaiGoKS/oJcfveK7iVxEgZk
+         ZQyiTgdNf85wMnf+rXpt6RbXA7kkdNSWswCNTvtxEl4ITF7tRucINBe07uCbma0BgAaf
+         Uj7010GUBRTTQ2O/P1+5vqyw4M0oVN5eJuB2V4BTFyaMFRhVQm7HkwbgE+TqInPc1RuT
+         uZFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771927964; x=1772532764;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/zUFJH/jB3soteowiXuTedDU0sM6XkQn3T2X92OyF00=;
+        b=QMOkCKYnw1aGp9LyLEyjQRjq7zB1SJ7+qEaatk8IHFXxpw/JIWw+aFElyNQQroYEbA
+         3zJxvs6t1oQFnWIv2WWry3iYKSl9JqPJtCr+RsRWVUQWuHMbSA9r3q9SJXfdfxjyL9wb
+         imeBtWgRm2/Vb6bUqv23StcHYsBQ7lU0sW/7XqyydGYMJ63AZ3zdixieXyjpQWXxcUbO
+         MXKCTf9Qljtr1T2ZD98lh7U4n19H2q8xCLzoBOVl17Vxy0ehsZCMfLkdkujQQnv4wDjl
+         tJtJxBhqKamCwHbRi4DVjGquA7sssPGA+xVzT5qxe+Un3K3n7VRT0ioOMEV/7LQoxOaI
+         gS9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVZuOARCN2RrytAixGWzAncowXc4gV99hOGqrh8TAlK9qKQWbwm/NM/uyAXwWpOThwvjGXqHCzruuSwJQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2+U4POXjWFRr44Tb+Tw4IIS3VMGFvFzkYHDAYWeKY5K75BEDx
+	SYYhiIJBF8LJRm6g8FZ9+o1x9CVNXx+y1qb3y7DGLlgP0eCHdwAWnFerPX6Nd07pmCjb2TK9S/8
+	OufgWFyKcWuBtU3f6CJXuWY3hfqqnQFJ2tEWUIzjE5hi+8SOLfytiWjK0o2cyO3awAw==
+X-Gm-Gg: ATEYQzxoPFXfDBy4Cb9ryESBxOTNhKSe07PFUm1pZ270RLDh5iu8ueuL4/jBEYO4tXq
+	X8ntV6YlEKgUQN3mJcHxGp8Z/M7o0QZ7ndEDPIYDC8W+pKXfRpVZucxVT6nXFvfT4bhOIMAHgXU
+	PaqR+WNSDg+Cft6FYgTeUkqa0vBqzEGH2E18/3oMQK17wdB+66H7j/8BW4XXHkfnqJlNZEGDxgj
+	AWd5NXRWTPbzQ3an/R9D//CEV/RHA2Sbq0nPHjZVjnHPhVHt+UZ29Tqi8C4csJoDMCBYOL9f79/
+	D0Ebf4GV0KrOwJBDZjpZVRnUbc0WGkIgQEJpUSbX25wSgeZSEW5CsOUI0yrzhfn2rZgRgRAJ8rY
+	x0vI+1tQ1BqxcPcBYPBBY0XnI5WlRPsQ1m1OP20nDuRKce3QIiHKxiSm2DC3bAy8fYWwl//CZ+b
+	suPXg=
+X-Received: by 2002:a05:6214:8095:b0:895:4919:f536 with SMTP id 6a1803df08f44-89979dbc49bmr120768146d6.3.1771927963619;
+        Tue, 24 Feb 2026 02:12:43 -0800 (PST)
+X-Received: by 2002:a05:6214:8095:b0:895:4919:f536 with SMTP id 6a1803df08f44-89979dbc49bmr120767896d6.3.1771927963147;
+        Tue, 24 Feb 2026 02:12:43 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9084e4be53sm411811166b.31.2026.02.24.02.12.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Feb 2026 02:12:42 -0800 (PST)
+Message-ID: <c6ceab84-899d-476a-b2d8-e57028cc91dd@oss.qualcomm.com>
+Date: Tue, 24 Feb 2026 11:12:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|CY8PR12MB7683:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01129783-9abb-406e-5dfb-08de7389058c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TUdXbDNZQldGOCswNno0bkhxK1BtVlFvekI3TUlIdWpWeDJPWFkwci91QkhJ?=
- =?utf-8?B?OWpBNWZUdkQ0QW5KV3BSOE93T1JXSU51SlJYbGxlZ2pQdFZSREE3T1hFSnFD?=
- =?utf-8?B?VGt6N09kb3NTay9vOFByY09jdU4xTGpVWTg1ZXp4Skk4eWNZcEU0bWhvdWx4?=
- =?utf-8?B?VFdLSW5CcDhmN3dFSk0xU3dBaFl6OFgzM1o0Q3Z4UDk3ZjFiaTM4eERVdFhh?=
- =?utf-8?B?aTkweS9qTkhQTlpKWGRzR3VRNDJVMHREWXg2anR5L0RoeHNjRE9GSkFPbEJt?=
- =?utf-8?B?d2wvbFNnNHp4ZnAycHF6cVVxaStGSVk4N2xhMTdPYjlTS29oYnU4Mjd5S20v?=
- =?utf-8?B?WlVuNlpLWjRDRUQ3THJEZW00VzVZVDZpSGhlWHlZNzkxMzJ1MVdzUVNuSkZp?=
- =?utf-8?B?YSsyNEhMTUtGbzV4TkMvNjl0UlczdG1iQzVURVNla3hhdmRVcElSZW9Lb1Zw?=
- =?utf-8?B?dmxkQXRvcUJzNzhmb2twMzFSZFVrOVFsRXV4SDFEZEVDMGJiWkVwK0h3S3Vj?=
- =?utf-8?B?TkhzbFh0RWk3alZrUlk5WDZOc2pmclpuc09UWjFhME5WaWpzTm11NGpJcXlw?=
- =?utf-8?B?dEtrOEdxc0NpWllTNWpzbnRneVk4NEZ6WWRRQkd6SEJ2Y2ZqajRGakh2blNl?=
- =?utf-8?B?VGUzU2ZHSjVhUUt2U0VZWXpjVmRKOUk5SThMdWtuMXdBaEZBc1EvcnM5elFs?=
- =?utf-8?B?REQ0azEyTk41WjBXRlFMSmw5alU5VGJFZktQZ1VCU3BJc2N0ZXlnMCtMVG9U?=
- =?utf-8?B?TGx0bFduczhnM2x2ZTQzSmVzT2duRjB1Y1p1ellQSUJzdlFpdkIvNVp6bktU?=
- =?utf-8?B?aTc2MVZOSFczdW5YS3NWN21vb2VLc2FxUTh5anZ0T2VzM05UWTZPQm1xMGZj?=
- =?utf-8?B?NlpFOW5iV2FVLzRjYSt1MUsvZlg3UWxxa2hXMkc1eWp6VlltNXJrUmJQOStP?=
- =?utf-8?B?L1pSQmlEYy90Ry9mVFFFL3VBeEhhaUdESkxiTVhNcmhuWlY0ZzJrMDVBSTln?=
- =?utf-8?B?WlFiYkdIbHdPeVZLdnBPQ20ycW1ZQ2ZqLzBCMGxNRy9jaktoT09DVGJEZGdH?=
- =?utf-8?B?Q0dIYTU3QllBTGdRQzRwRWh5SUJ2anJyYWczNGYzMTNReS9IaEtlVmdvQXh5?=
- =?utf-8?B?TUEzSHNVR0E2UnlUdXZzVDIrOGt2Z1E3dmFFVDkyQ0d0YXNxL29vYnY3TW4r?=
- =?utf-8?B?Q21EcFJNTDAxS3FyMlErWHVMSEdtaHVuVE5DVkdDak1Pb0FRL0FJZ1p6Yzg2?=
- =?utf-8?B?c2R5djMyMXpjNVorczVFbWMyN0FrSStYRStDTnMzckxVa1I0c3FmbTI3UWdr?=
- =?utf-8?B?NFVxWUh6bnR5UzU1N1lhRGxJRjFIZGNVSVVRY3o3S3lDYWhrRmdOU3dVam9E?=
- =?utf-8?B?THRlTk50UUoxQWlqM1NqZmVwcjEzSVorcTZOeVpGUjNhNWZUdFpqN1o3eHht?=
- =?utf-8?B?TXpsLzF2Qk85SU96WHJlem4vY1hzZ1hzakdNbHBTcDR4NWpncUVrSWxGK1lR?=
- =?utf-8?B?TkZZU2dvVmxCU1BPbFlsNW1UMmZmVjdOaUQyeVhVcXRkSld5eUFzUXdVdjhD?=
- =?utf-8?B?K2N5ODlzWlhkU2ZJMVBhQkF6eUQ2ZVpWbnI0cm83a2cySlJCbHZWSm90L2NO?=
- =?utf-8?B?QnpZQlR0K2tzZ09TOTNERmx3M3lWa09BWm5VcFhRRmdTcUprV1NMWldFVDlo?=
- =?utf-8?B?TFhsdU1iS2E3dWhBZ0VuUTMwbTVFKzhoVzhkUU93YzlSaGJ4clptUkdkdkFw?=
- =?utf-8?B?NC81dVhDS1FYVmE2YTZBbGlhTDhFT3lOZE5mb3NLZ1UrN00wTG51QlFyT0dn?=
- =?utf-8?B?cG1vdnhVSEFPajBCcmJ5M2hhUnQwQ2t1OHRuOXVMYzdIam1iWlBsbnYrS0lY?=
- =?utf-8?B?K2ZHRmlrK2RoVkJxaHd4dG04UHhpN2VzTEtrNzNmQW5kbkpJazViK0xENE1P?=
- =?utf-8?B?VnFvWjhzSnBoL3hrZkttNmNkSHZYRW03QWFScmVvUXNYcm50SGR0K1JUR2w3?=
- =?utf-8?B?NElvYjEwc0V0QUEvV1Vjbks4bGl2aTVxUHh6ZmhKb0lLcXVZbTQzaEpPK0gr?=
- =?utf-8?Q?ZEzQ8F?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ym5FNmUvRytpV0REcXROQkhNUVlHSW0wVmlqa05mNTNnZS9PSmQ2N0dDUUsw?=
- =?utf-8?B?WnBKdFlTeGdXbEtMZFFwdzRjSlFKN3dCVjFJdWVWUi9lMmFqMk9zSy9KQmFG?=
- =?utf-8?B?ZFlxZktOdXQzQUZDTllhR0V6M2FVbU1wTDRYN0k2eTJmcS9aN050UFJ0R2ta?=
- =?utf-8?B?YzlwTmtLNWdUS3ZkN1R0LzVFSmZaemsvR0RlTEJYODBLTXNZaHdLNlNFbERD?=
- =?utf-8?B?Tno0di9tTjJRRXdOZEl4NDRVN01NSnBzMVl5aWRqODlET1hsMXlkVWFuQzVX?=
- =?utf-8?B?cU5xeEJ6N25HRTZqdG5SancydDRrc0ZSeDRzN3dSbG9NS2Y5SlNKUHJGd0dF?=
- =?utf-8?B?Z0NRN1dQSjdJQzNHRmtVK2E3clVhUXhnaTl2bUJ1Smh6eWNQRlIzcTRUNm5Z?=
- =?utf-8?B?c29ZR0Z6UTIvSkRIdGRKakRLQVEwNnJMZ2swT2R6Nk5jN01BM2Y2eWNxOG9v?=
- =?utf-8?B?dDU4Sy9mRjgramMwY0RBOXAxT0Z4V3kvZWJVbFFUZ1FJdjRxZ0JzY0orRlRE?=
- =?utf-8?B?STNRbG9taDhIYlFJTVB6OFpOUDQ1MEdTd0QxOWFSeWp0RnN2QXdwYzNJRXRr?=
- =?utf-8?B?dkNHZFhVVFk0cmxLeGtyVkM2Vzc4dSsxSDFjTVh6QlFUd0RJN3ZGNURRQmkv?=
- =?utf-8?B?UDUxc0J1Q01kVnE3MEt6UjI4WHBQZkJVdGh1Z3AxME1tS3VheGtwRGVVSGcv?=
- =?utf-8?B?d1VMbmhLQkFxVnkzOENpbUpSR2hjelVOTHBRWklCUEFQNmVxajRVN1ZqTnFF?=
- =?utf-8?B?ZEFEczI5a2RCdDYrN0FndHhjaTFiTTRiYmdPa2k3QnZXblZwNFhtQ1FMY0xx?=
- =?utf-8?B?TjB1TGNBY1E3d0Mvb1ZMUjZ6QlNiN2UzdXdONkFBTnpXd0V2ZjNpNTNocWs3?=
- =?utf-8?B?S3pkeDdScGZEQU5QcHhuKzBqZC95Sjd0OXBvOW9lQndRaW4xRWlLekg4dTR3?=
- =?utf-8?B?eDhEeUUrclFQVGpwSUhjOXZvMW54TmlWTFdUQnFjbnhoVlgxSy9PdVE2eWxz?=
- =?utf-8?B?UFVKV0E0b3BmVm5RamswZXBEVncrL1M1OTJYKzBHYkpPTjFxL2JGWnVFTGpr?=
- =?utf-8?B?WTVHdTdYMzh2ekMxMFM3UmZXWDR3K25zRlVVZkx5VzBqcy9PeThQWWE3TXJH?=
- =?utf-8?B?bEpFRkg3M0RDVGtYWlpYMVU3VGtkdC8rUXFmMmFTZlU1RlRNYWoyaWFrek41?=
- =?utf-8?B?ZGtwTk54S0k5NkEzNXVqWGNGZFhSeVZnOXduWEx4VjBWTTlEZkNZRzViZ2tr?=
- =?utf-8?B?cTkzSDBJRXFvb1J3d21vT1ZUQ3BNRDRVMGlQVzdlaDRIWjF2ajArRytXTTds?=
- =?utf-8?B?RlJ6STN2cXBPa1VGWHNlUHl4NWlUT2ZuS2FGZkRFMm1sdy9sRWE5bzFaZ0oy?=
- =?utf-8?B?bmg0MTBxQlBqWGRCQzdab08xSlF2Uy9URDk3ZmlmdU5qU082UFk1eXBUbFdv?=
- =?utf-8?B?TklWRFBlelFBYWJNRExPdnphaGhWWDNCR0xzQXE4YkhjcHVKR283Y0svcXV3?=
- =?utf-8?B?WW9oZXVIcXdRWGVGR21rV29VK2hPWVRNU0h6TERKVS90TTM4TUtDWFNJbHM3?=
- =?utf-8?B?RVpWTnU0Y3oyaGRER05FWTVJVW1HRGFLZmJvNjI4TjJjWERjMkIzU3AvT2lH?=
- =?utf-8?B?Q1N2MVhVNE9IaXUxWWE1clQ4Ukl0OWJWS25oOFVXMGQ4bzNzVVNMQWRYcHU3?=
- =?utf-8?B?VjFSY1l0WklJZ3JoL1R1c1F3WE1iUGFjMFlDeHVGT3pON3pBZ2tnYXUxRDhY?=
- =?utf-8?B?czYzek5zbGI1Tm9TMUdVZGpmSzZ3dWovSkliK2dYd2lSWkY0c2FhNGI3dm1W?=
- =?utf-8?B?MzFuVXVRRVVNVWJvYitBQ3lNd25ERlJVZjkvUUlvWm1HbW1HYlhZYWVsZzNK?=
- =?utf-8?B?RVdsMGVJa0R2RmlLbFlzRjRIWFFmd01saUpTcEV2WDJKOWIvRTQxM1ZvZG5R?=
- =?utf-8?B?Q1p2Zkp1MHZFeENxeE9GSDczYmNPQmxtbDZWNVZnQi9tNis0R3p6eFEvZzNr?=
- =?utf-8?B?ajhtYzRZKzR4MTNXVWVVQm9tRmlQL05JZk10Z0k4VmhxM2dSZFNCV0hOUXRE?=
- =?utf-8?B?b3lRRm43T3owaGpXaHJVY2hRRGdMQ3pZK3NFeXhNaVZ3OXRFak43ejh4ZjB0?=
- =?utf-8?B?ZllLZ0dDajN1Qko5ZHVhRjh3U2pPUngvRVhDYzJVUU4xcjJpZWpxRmYyZzU3?=
- =?utf-8?B?VG1xUGxKYmdpYTRzWGh3TERzejB2WDJhZ1Rublc1TXp1NjBPSnZuZTU4ZURl?=
- =?utf-8?B?TDZPcGlUM0Q5c0I5Zm9DT0k3b3RRK1JHTHVhSGhWbkFER1F3VnMvTGwwSURj?=
- =?utf-8?B?NCs3ZkJ6WHBRRU1DMzJ6cnE2UytMRzBIK2tVaVdSNmt2VWxsalJpUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01129783-9abb-406e-5dfb-08de7389058c
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 09:42:27.5307
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AF52mip5/5VBLW5t+ix8/kss6YdpM+VcEA3QqI6F4NmzNW4HIE/eIuYbQByS4gSI8KnTVHDPPpQcx4cP3otBIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7683
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/14] ASoC: qcom: qdapm-lpass-dai: correct the error
+ message
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org
+Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
+        dmitry.baryshkov@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        srini@kernel.org
+References: <20260223180740.444311-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260223180740.444311-12-srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260223180740.444311-12-srinivas.kandagatla@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=O6A0fR9W c=1 sm=1 tr=0 ts=699d799c cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=gJfCF8_cG8V4FlLix1QA:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: X78QRaJV1mRtzLHepZkKMa-yn1Ze588S
+X-Proofpoint-GUID: X78QRaJV1mRtzLHepZkKMa-yn1Ze588S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDA4NCBTYWx0ZWRfX4NnzR1xWcBmk
+ vCWuFai1lrktBkRkLt5kiPeMuyOP+cwOk5wWsUFQ3PEZhcJxkpJXt9hp1B+VzQoD+5koqBdcHKJ
+ Ws6s8oF6IRyII5RaFmsCEvjvl5GR5d+EiG4PRHN5Ylfm8WtFZZytYegkVRWAvTcSSsR4tiWIyPQ
+ 3bBtvv+whXfZU6/dmS45LWlG8ktQhJtk8ZZ44Ma410y2bBjC4VRHt+LNdMbf0tbhtfTpQv61pd9
+ B+Hz9D1EFu0FK2uLh6YkoD5xLGvgpSS5lsGIY4qVirACjkbH2m5KvaTA4UNdo/79xFIDcYzuW7z
+ zgvnYmxm55zE0B3nMgic6XpObnSvDt2tcQONmLG7upS0IqiZVDRJfuV3bMIASgYtdymn19cqu3Y
+ blZ/h26VtpyptaGoHd7MgenZ/HkJcqbyFdSjcF/QaB5KDWxeyy0MJF6QXeezz0oxzDKqmFFvZgl
+ 0GQMLve00M7o0GgVbZA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-24_01,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602240084
 
-On 19/02/26 19:50, Jason Mo wrote:
-> Approximately one year ago, I raised a concern regarding the lack of DMIC support for AMD Raphael (RPL) platforms in the following thread:
-> https://lore.kernel.org/linux-sound/BY5PR07MB66126978095912E5D4A26E50A1802@BY5PR07MB6612.namprd07.prod.outlook.com/T/#u
->
-> Recently, I noticed the patch series submitted at:
-> https://lore.kernel.org/linux-sound/20260213055904.110256-1-qby140326@gmail.com/T/#u
-> which adds initial DMIC support for these platforms. After applying the relevant changes and adding my device to the quirk list, the DMIC capture device is now correctly enumerated by the kernel.
->
-> However, when attempting to record audio, the operation fails with an I/O error. Below are the reproduction steps and corresponding logs from a Gentoo live environment:
->
-> gentoo@livecd ~ $ arecord -l
-> **** List of CAPTURE Hardware Devices ****
-> card 2: Generic_1 [HD-Audio Generic], device 0: SN6140 Analog [SN6140 Analog]
->   Subdevices: 1/1
->   Subdevice #0: subdevice #0
-> card 3: acp6x [acp6x], device 0: DMIC capture dmic-hifi-0 []
->   Subdevices: 1/1
->   Subdevice #0: subdevice #0
-> gentoo@livecd ~ $ arecord -D hw:3,0 -f S32_LE -r 48000 -c 2 -d 10 /tmp/test.wav
-> Recording WAVE '/tmp/test.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
-> arecord: pcm_read:2272: read error: Input/output error
-Typically, I/O errors will be reported when DMA is not progressing.
-RPL based platforms are intended for desktop variants, and DMIC is not
-expected to be present on these platforms.  Before proceeding with further
-debugging, we would like to double-check whether DMIC actually exists on this
-platform.
-Additionally, please log a kernel Bugzilla ticket and include detailed
-information such as
-Alsa info dump, lspci -vvv output, ACPI dump and dmidecode output. 
+On 2/23/26 7:07 PM, Srinivas Kandagatla wrote:
+> Fix the error message to reflect the actual graph stop error
+> instead of graph close error.
+> 
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+> index f68d4b4974f3..fc246485e326 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+> @@ -150,7 +150,7 @@ static void q6apm_lpass_dai_shutdown(struct snd_pcm_substream *substream, struct
+>  		rc = q6apm_graph_stop(dai_data->graph[dai->id]);
+>  		dai_data->is_port_started[dai->id] = false;
+>  		if (rc < 0)
+> -			dev_err(dai->dev, "fail to close APM port (%d)\n", rc);
+> +			dev_err(dai->dev, "fail to stop APM port (%d)\n", rc);
 
--
-Vijendar
+Might also make it "failed" while at it?
 
-> gentoo@livecd ~ $
->
-> The device node appears functional at the ALSA layer, but data transfer fails during capture. No obvious dmesg errors appear during device initialization beyond the I/O failure.
->
-> Could you kindly advise whether further logs (e.g., ftrace, ACP debug registers) would be helpful for diagnosis?
-> I am happy to provide additional system information, test patches, or perform targeted debugging as needed.
->
-> thanks,
-> Jason Mo
-
+Konrad
