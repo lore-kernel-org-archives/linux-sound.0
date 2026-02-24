@@ -1,40 +1,40 @@
 Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D94F39C657
-	for <linux-sound@vger.kernel.org>; Tue, 24 Feb 2026 13:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388CD21C173
+	for <linux-sound@vger.kernel.org>; Tue, 24 Feb 2026 13:21:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771939082; cv=none; b=R6Bq1MpyK8y7iLGnWE1Fw/GvRhB6qN0qYxyHVZYQm+N2YVqzChr+w99RQ85Kk8hy2aMUQvRL8OSMxm6MLpNrFy8+kjG1j6ajKGuC02IJb7wR7nR4op78iqDSGT8Z9a24f65V7hLY7oN7ZVpKvQrfDSqYZlDbqdAUqIXaKtEdqDQ=
+	t=1771939284; cv=none; b=YHV9Rz67XmLycYHOC11RUDvuEbc8k9oR3K2PhBFM4Pl0/GVfDhPt9i6qNiGOxd8PNVd7LiG4CMwZsyNVLk4wVEwvUKsEnsZhMhIeF9Vf+moVChDHzmTN0tTPY6xSgZd3rX70N87GPg1NeKJ2LfgbSnXZElfYozC3LwIgv2BhPmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771939082; c=relaxed/simple;
-	bh=8nhWkpdAR++xz90wQLvzTUaurYVp8JTrrT7zHwiOjA8=;
+	s=arc-20240116; t=1771939284; c=relaxed/simple;
+	bh=dOmj8DAmuUEmwBBrULhxeQJSmeEcjVirjfRGg9EnTdY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KWVpjo5hcKLJS9WEcdtJBtPBvzihacnBSMVFuDWNhUPuqneUWjlT1jXh9iLUVtnMc0DaFnsdyBn/q9zHiBwnQvmLafQb/7IOUObi1B7bC5mywdF96rwi2j9973CID4Z9jdvs2oWdCHHx1TFchuDMeK70dKchkyH0gAcTKy2aZI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=vwpOxVDW; arc=none smtp.client-ip=77.48.224.245
+	 In-Reply-To:Content-Type; b=BFz6NAkOpBNsIN3UU9Kec23/caennn533PtnhD+j9WE5yO332SanxkZQSYDj+ippUIMPTuqTfewO0g6DzrJYdkKEWvidpIXHWoOK7VwkT+md3/zjpn77AniiLp+dM3FEm4qhje0ADJvQ2XVghdAw4IrsKBBY+tsJritFF7/er6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=HIC+uGL5; arc=none smtp.client-ip=77.48.224.245
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="vwpOxVDW"
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="HIC+uGL5"
 Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 2FF2B11D9;
-	Tue, 24 Feb 2026 14:17:49 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 2FF2B11D9
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id D2C2311D9;
+	Tue, 24 Feb 2026 14:21:18 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz D2C2311D9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1771939069; bh=6g6X/xyxofYap7dwyw/aYk9pcHze8ck9jU9b79Vi2MM=;
+	t=1771939278; bh=+/bK00dYTZ1BccuYI3Y5tasHdhapyAU7/9rSzcCFpiM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vwpOxVDWMr0QLuSYMjwHSS5sS205yEAOebogdLT4OqtKAf1TAGNBtE1+YLM59BKOm
-	 WHwUyJI60oYdS8k1Y8ViW3MCa4g8BTwj4Vw1VvWRvx7WvxjLIvWeJ5RCZi2Gfa73+8
-	 Zy50VuwyQAjNyiqanE44X86iC/VqVfZiBwx7UD1g=
+	b=HIC+uGL59JiY03oxcB7/dLh1vZHWnEluCdod3gZnPL6VZ6/MklVwQxu5xypJndaVi
+	 wU5DRlSiBT++r4rXEzuT70U3jB19ztHacxKmwcrsGKBqxVp4mipb+WYTe1kRNfIaTd
+	 pw+AME8z8ydget7jWmsjk0iM2mlFzzJ+3J6oTEm0=
 Received: from [192.168.100.98] (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: perex)
 	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue, 24 Feb 2026 14:17:43 +0100 (CET)
-Message-ID: <a9191fd3-1317-4b76-b35e-367afeccf1de@perex.cz>
-Date: Tue, 24 Feb 2026 14:17:42 +0100
+	Tue, 24 Feb 2026 14:21:12 +0100 (CET)
+Message-ID: <4f8a3505-8c6a-46bd-ad03-0ceeab4f89b5@perex.cz>
+Date: Tue, 24 Feb 2026 14:21:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,13 +42,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] ALSA: control: Verify put() result when in debug mode
+Subject: Re: [PATCH v6] ALSA: control: Verify put() result when in debug mode
 To: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com
-Cc: broonie@kernel.org, amade@asmblr.net, linux-sound@vger.kernel.org,
- kuninori.morimoto.gx@renesas.com
-References: <20260219094614.504459-1-cezary.rojewski@intel.com>
- <40c8dde9-0801-4bbb-abdb-fe7be4df58ff@perex.cz>
- <3839a346-5b5b-496c-97b0-3a556a570b44@intel.com>
+Cc: broonie@kernel.org, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
+ linux-sound@vger.kernel.org
+References: <20260223144937.524019-1-cezary.rojewski@intel.com>
 From: Jaroslav Kysela <perex@perex.cz>
 Content-Language: en-US
 Autocrypt: addr=perex@perex.cz; keydata=
@@ -94,36 +92,39 @@ Autocrypt: addr=perex@perex.cz; keydata=
  k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
  m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
  WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <3839a346-5b5b-496c-97b0-3a556a570b44@intel.com>
+In-Reply-To: <20260223144937.524019-1-cezary.rojewski@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 2/19/26 17:54, Cezary Rojewski wrote:
-> On 2026-02-19 11:36 AM, Jaroslav Kysela wrote:
->> On 2/19/26 10:46, Cezary Rojewski wrote:
->>> +    TP_STRUCT__entry(
->>> +        __field(unsigned int,    card_id)
->>> +        __field(unsigned int,    numid)
->>> +        __string(kname,        kctl->id.name)
->>> +        __string(iname,        iname)
->>> +        __field(int,        expected)
->>> +        __field(int,        actual)
->>
->> Trace also the control index. I know that ASoC ignores this field to
->> allow simple string concat (easy name stacking), but we have drivers
->> which are using those integer index numbers.
+On 2/23/26 15:49, Cezary Rojewski wrote:
+> The put() operation is expected to return:
+> 1) 0 on success if no changes were made
+> 2) 1 on success if changes were made
+> 3) error code otherwise
 > 
-> amixer seems not to do so. Isn't ctl's numid sufficient? The reason I'm
-> asking is that the message is quite long as is already.
+> Currently 2) is usually ignored when writing control-operations. While
+> forcing compliance is not an option right now, make it easier for
+> developers to adhere to the expectations and notice problems by logging
+> them when CONFIG_SND_CTL_DEBUG is enabled.
+> 
+> Due to large size of struct snd_ctl_elem_value, 'value_buf' is provided
+> as a reusable buffer for kctl->put() verification. This prevents
+> exhausting the stack when verifying the operation.
+> 
+>>From user perspective, patch introduces a new trace/events category
+> 'snd_ctl' containing a single 'snd_ctl_put' event type. Log sample:
+> 
+>    amixer-1107    [002] .....   9.553687: snd_ctl_put: success: expected=0, actual=0 for ctl numid=1, iface=MIXER, name='Master Playback Volume', card id=0
+>    amixer-1108    [003] .....   9.498897: snd_ctl_put: success: expected=1, actual=1 for ctl numid=1, iface=MIXER, name='Master Playback Volume', card id=0
+>    amixer-1111    [001] .....   9.882768: snd_ctl_put: success: expected=1, actual=1 for ctl numid=5, iface=MIXER, name='Loopback Mute', card id=0
+>    amixer-1114    [002] .....   9.212184: snd_ctl_put: fail: expected=1, actual=0 for ctl numid=5, iface=MIXER, name='Loopback Mute', card id=0
 
-Amixer prints index and also device and subdevice numbers when they are not 
-zero. See function snd_ctl_ascii_elem_id_get() in [1].
+Index (and maybe device/subdevice) numbers are missing to get full control 
+identification to follow amixer. Also, "card id" is usually referred to 
+automatically or manually assigned ASCII card identifier/alias (like USB-audio 
+or PCH). I would just use 'card=<number>' in TP_printk.
 
-Jaroslav
-
-[1] 
-https://github.com/alsa-project/alsa-lib/blob/master/src/control/ctlparse.c#L117
-
+					Jaroslav
 
 -- 
 Jaroslav Kysela <perex@perex.cz>
