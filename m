@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3A03D3D06;
-	Wed, 25 Feb 2026 19:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C340D3AEF3C;
+	Wed, 25 Feb 2026 19:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772046419; cv=none; b=fBfx06/rgz8w20+XkjQPhEmRK0DFQG/KN00EYvA+zLLThGxweIvzfIff9tAxEbS70WQMNSLwX4bM8Yi2jE//cZ5ZvPcZUPoHT339CdEYB1Cy0ynSpJk4jYy2TRt2JkWVjWQv0QO1lnkisVU/67TG9camh0uV8w5zyD/mm2JrGNc=
+	t=1772046419; cv=none; b=Yu4BUoL1zkrao/FKeZnJCBMrfOmVGiD0/GtbchvqIBt83UQQI2ZAwVs6lRmzcnnUbSHM2yq4K6+mBkqJ4nKKIN1iK+h1q1pUH+8R5q7ABgHogbRNNhU7GBSlj8J/tkv4I0IcDMVU84iLM8xj4mxtzf1kWYiZUUs78udmxOpfcac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772046419; c=relaxed/simple;
-	bh=/FEye4rNjs8Wwq+Ua5WTxJydlL/Isd3Pr3jCUPwBu80=;
+	bh=OxyI80SkQKd6nKmFbFyfbzg7zpFsOJcRxKeYWLO/JmE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uP9XH8EAW0Nchj0dyUDMSEtWXc7muxAegc0iMcRTQHON52OA3vbU5ccrWy5jdLJCyPHj27rJDdG7WjX4qCLUwadmj7Bq5KrFfmewBcjScKNJs0mf1GHXjQPUVOXYExBcI5i4vubIIg9jn0yKLzqxnJje+wsf8ah7qMD35mxnsyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s/vNyNym; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=S8+0ySDV/CPvLOe7HM5wsyAMY0tIqyAam9qW53zY57e/OE5AjdcXn3yDMLbbhPtigGsOG4ot3kPZqBE/XIflEn9m6rpShSGLnbXeJrNhRbnxh+fOSTCsSx4z49w/y2fo5rJdXsUmlOMPzgjiC4JFVwp2aRmkKLNvUtOyiZ4rtko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MnG0AaxX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s/vNyNym"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1CCC19421;
-	Wed, 25 Feb 2026 19:06:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MnG0AaxX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBAC4C19422;
+	Wed, 25 Feb 2026 19:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772046418;
-	bh=/FEye4rNjs8Wwq+Ua5WTxJydlL/Isd3Pr3jCUPwBu80=;
+	s=k20201202; t=1772046419;
+	bh=OxyI80SkQKd6nKmFbFyfbzg7zpFsOJcRxKeYWLO/JmE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=s/vNyNymqlMwFlvWvx3TPV4M4496/+jkOZ9y0zaO8mYpuCTXSag6opKK95xFUBSiJ
-	 QWjpeKwrHA3ani+S1IHEYtkyqw8ROGrdG08gR3golJquMblvq8dEuHbjR1QlrjjdnM
-	 iB8Gy5QV0d51KozQvHkTJRLHNYVWfzvNIeIlBtwXGkLShpL+H5tVdWcWACP9IoAWI0
-	 DCDfD1Sib1qQmJLR+HjvfjlqonMLcqLl5rcLg3WGemz9GMvm4ihkXbcOnKmAwuGlnX
-	 5AkREe56wDbTjgZmPLNommD57eZpOk+ZgPTd+X6amUhRDun4pXLL9Lp0P2cXSuwcfu
-	 NyaaIEpSM3pRQ==
+	b=MnG0AaxXRyJdP84eUqVMzUfT0BxOFKDv/7qA7y2hWbZztjln6iTepuJSGaPJ3ORCf
+	 pVewA1M9+SdYdQXtMzrlDY95/sNbsd5x9oVF7QpMt0VIPLjlSFPzlxRHMtymdscbHp
+	 c8b5V2oLXVKBco5qxh+RT/VdWtWoiFUqsG9XGTI4fC15M3QsB9duA2cWN/S0BFDzdd
+	 PQO5UNDhndhGaYBJjilxyNy1pL1tPZmsK1BIQuF1uVwG8IzLWpm6EvyQBGBLEZtpMX
+	 GvsljISxF1bWY21bXSAdTlaAZs3RwONHTy0mgh3XOAfpw/vCGULJHovAtUIcBK9Ekk
+	 8J/bL5q5jv5Ow==
 From: Mark Brown <broonie@kernel.org>
-To: vkoul@kernel.org, Richard Fitzgerald <rf@opensource.cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
 Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
  patches@opensource.cirrus.com
-In-Reply-To: <20260223150256.326143-1-rf@opensource.cirrus.com>
-References: <20260223150256.326143-1-rf@opensource.cirrus.com>
-Subject: Re: (subset) [PATCH 0/3] ASoC: SDCA: Initial support for Cirrus
- Logic CS47L47
-Message-Id: <177204641724.168100.15814746388493184771.b4-ty@kernel.org>
-Date: Wed, 25 Feb 2026 19:06:57 +0000
+In-Reply-To: <20260225112339.1179585-1-rf@opensource.cirrus.com>
+References: <20260225112339.1179585-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs-amp-lib-test: Stop including
+ platform_device.h
+Message-Id: <177204641864.168100.275257750286969163.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,19 +46,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 23 Feb 2026 15:02:53 +0000, Richard Fitzgerald wrote:
-> The CS47L47 is a SDCA smart codec with UAJ (headset, jack detect) and DMIC.
-> This series adds the initial support for the Cirrus Logic CS47L47 codec.
+On Wed, 25 Feb 2026 11:23:39 +0000, Richard Fitzgerald wrote:
+> commit d1965f008f22 ("ASoC: cs-amp-lib-test: Use faux bus instead of
+> creating a dummy platform device") replaced all use of platform device
+> with faux_bus but forgot to remove the header include.
 > 
-> The soundwire patch can be taken separately from the two ASoC patches;
-> there aren't any build dependencies.
 > 
-> Richard Fitzgerald (3):
->   soundwire: intel_auxdevice: Add CS47L47 to wake_capable_list
->   ASoC: soc_sdw_utils: Add device info for CS47L47
->   ASoC: SDCA: Add CS47L47 to class driver
-> 
-> [...]
 
 Applied to
 
@@ -66,10 +59,8 @@ Applied to
 
 Thanks!
 
-[2/3] ASoC: soc_sdw_utils: Add device info for CS47L47
-      commit: 80930d81c4b0753ba2ca750708e4d2fcc0627dc8
-[3/3] ASoC: SDCA: Add CS47L47 to class driver
-      commit: ada32396f90951e12465224c04742607ca56a982
+[1/1] ASoC: cs-amp-lib-test: Stop including platform_device.h
+      commit: 260c3fff1fefc570d8f23e87953e181d7d248861
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
