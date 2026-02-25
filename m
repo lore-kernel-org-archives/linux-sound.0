@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE853AEF34;
-	Wed, 25 Feb 2026 19:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717C02BDC0B;
+	Wed, 25 Feb 2026 19:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772046406; cv=none; b=N7g2rxHUBN/MXGOlMv7CfCexP79DiVDy1NWiSRSGvWsuikMFfMHNR6xQc012v2+3quFyidihjrBofwFzDHFFV6b6SRlk4Pi49yyatz44yq77EQ+JfPynT59bUqTZe3IPV+HYsuoULcZHzytsBwO22QJaEKJGZOnid7uJYWT0TPI=
+	t=1772046410; cv=none; b=C2iJcL/+480I/YHjZXlKGyMdjBZz7D9rDBrfjHOYcTLQZ1oJzFLE/IxdiHUbLjjJy1MCcr1WpVUu+WMQJdQwI4q6ys5H7pk7TvcCtL2hRgCwIdoBN0THPsklbDTHMxMzFtXWeHh6iogEskFPdI8fyXckDm3EhXMBzybjNfhHgUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772046406; c=relaxed/simple;
-	bh=RN7eL0CoziHQfO/K6Gkxx1PRI6Li9lToOWl0Sp+5LDY=;
+	s=arc-20240116; t=1772046410; c=relaxed/simple;
+	bh=CkF2t8pRuS74frv5kvj9lORnS27YFPg618nCWr1Qn6Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=geyndPFeG2q1ltA9/ZKPtK7ASlFcCDoMaaGkHOgdsW0Ng3DHgxCQKBNqMrSWZeSOZI9mOk312wiXhoqlxOFpqclMdMrHD7o0Hc0LmgoAP4CqkHufXtxu3SNTYH5WDtI+FbH/OXDBk1XCfszT0EcknKXTDNiZvjvVuIYxeVvbeOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M3wUZlpi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XHJaii9FZuMf61IdwYWUHXxGoBMFZxG6+/BXmbOVUaQBIINICQTuG2qoP9z8zVQHjBoF80t7ts1htwChBMe4D3f3K2oQsSQYtb0M1w2vpWHDjb8SLkTAF5JghMdtGACFj6tqkNNerTun1cPFM3bFVT7Jvkxz73o8UCy1I/aDNkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEwqBYzu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M3wUZlpi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B229EC19421;
-	Wed, 25 Feb 2026 19:06:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEwqBYzu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0949CC19421;
+	Wed, 25 Feb 2026 19:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772046406;
-	bh=RN7eL0CoziHQfO/K6Gkxx1PRI6Li9lToOWl0Sp+5LDY=;
+	s=k20201202; t=1772046410;
+	bh=CkF2t8pRuS74frv5kvj9lORnS27YFPg618nCWr1Qn6Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=M3wUZlpi6seD1vHMRMkTCR8OQHCji2yhdbO9ZdBaZkGHpIqwghT0VbWF8MbDlcDYX
-	 S3zk8qX4OV9fHLqN8fxyEVzQ8++vZCYbYZX97wgthtyOyQAQYvPFQac1y4uXyrOfmE
-	 kp6+Q26e8OUFrfvCnyHg3LOhovfe/8t1YgpZIubF30oggP0OoLOJbJ0IZEidM+W2Q+
-	 KSa5k6sskAe3CkAnrg/Qv0sMP9r94vo15LAIVneYcW2aT49cNWmdGUESRsYYvHOeOM
-	 jD+jg660UxzSa4d6AGliEmlgX81b6v5WRQ+4ApcqakKD0FlSQ40m0V0JjxpwvMq/fU
-	 jki25fKC/4E2Q==
+	b=fEwqBYzuisJzZFLaNXC2/Siri2s27nszmXZUOHm4uJ3lrv6rdifahP13kPkv8iU++
+	 872LULForDTlAejjPQm2UicYYv0L2L7RXYjPoTXfsN0oZahkiRzFKr1hUtD9/Js5Si
+	 9QgneQzrgp00+lAeNKhYzAfllpwkkzXXpkmMrphrn3wXlqFRl3bUtUDqjObfSpsHUZ
+	 6GjvF0zUVWZbiEn90lRzbqnKWneOsoHHVcC/zPkLRLyM24QSoWVYimj/1FHvFrm6B2
+	 /4os9rB4VZAH83t62VvC0fAjPWY+U2Ht6mJ4XefGRjlCzyPLt0w7C3uklY+921i0Sc
+	 w9tW9LBwopTbA==
 From: Mark Brown <broonie@kernel.org>
-To: vijendar.mukunda@amd.com, Mingyou Chen <qby140326@gmail.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- mario.limonciello@amd.com, venkataprasad.potturu@amd.com, 
- Sunil-kumar.Dommati@amd.com, linux-sound@vger.kernel.org, 
+To: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, 
+ povik+lin@cutebit.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com, 
+ cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, Tim Bird <tim.bird@sony.com>
+Cc: linux-spdx@vger.kernel.org, asahi@lists.linux.dev, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20260213055904.110256-1-qby140326@gmail.com>
-References: <20260213055904.110256-1-qby140326@gmail.com>
-Subject: Re: [PATCH v6 0/3] ASoC: Add DMIC support for the AMD RPL platform
-Message-Id: <177204640447.168100.4667388323512096726.b4-ty@kernel.org>
-Date: Wed, 25 Feb 2026 19:06:44 +0000
+In-Reply-To: <20260217190837.165504-1-tim.bird@sony.com>
+References: <20260217190837.165504-1-tim.bird@sony.com>
+Subject: Re: [PATCH v2] ASoC: Add SPDX ids to many soc files
+Message-Id: <177204640678.168100.16145526317077921085.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,20 +50,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 13 Feb 2026 13:59:01 +0800, Mingyou Chen wrote:
-> v2:
->   - Reverse ACP CONFIG PIN from 10 to 14 for rpl
->   - Remove the rpl folder
-> v3:
->   - Remove rpl configuration from Kconfig and Makefile
-> v4:
->   - Handle separate switch case for RPL platform (ACP Pin config)
-> v5:
->   - Remove clangd generated compiler_attributes.h include statement
-> v6:
->   - Fix typo issue ("reverse" -> "reserve")
+On Tue, 17 Feb 2026 12:08:37 -0700, Tim Bird wrote:
+> Add appropriate SPDX-License-Identifier lines to the
+> the remaining files that are missing such lines in the
+> sound/soc directory, and in a few other miscelaneous files.
+> Remove boilerplate license text.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -68,12 +64,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: Add DMIC support for the AMD RPL platform
-      commit: 70bbd833986ae6691b3609a0052a733ff2421565
-[2/3] ASoC: Drop RPL driver
-      commit: d3fbf61317f6ec99398661b95d1046008ee61282
-[3/3] ASoC: Add quirk for Lecoo Bellator N176
-      commit: 78dfbd4ad0be9f51de7b9a19388809254aeccd26
+[1/1] ASoC: Add SPDX ids to many soc files
+      commit: 0fa3df83d5537c5cc3eacb9896c457f0c22791f8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
