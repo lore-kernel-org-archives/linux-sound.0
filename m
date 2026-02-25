@@ -1,42 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645EF3D6488;
-	Wed, 25 Feb 2026 19:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292772BDC0B
+	for <linux-sound@vger.kernel.org>; Wed, 25 Feb 2026 19:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772046412; cv=none; b=gg0Y6esF8gBNAhEKvPb/2OGQpu7OYJgbZWG7sNEWSgG1+MBSp9DHwqs5vEMQ0b+t/+Ef3pGcXb5WqsDFoElUwOErchyrwS3Iv41rNYNx6ncfwwt0z7N2/84qeeavSt6KgV8B8zyok9GIfPmdGGDYCLFUrHuK70iJUN4tgtS5++k=
+	t=1772046413; cv=none; b=G6baQIhwpcMHZMdLDASJ9ykxvOCXprYvkPrlA6T3uf7m7Lgl9Puat61gCDSY0U70B+6iqn4NKe39mVdkfEQHjizjSiBoyRbWKPOdTwz+YoQPWsMl0rPWseVjugoD3RVr12+4AHLTyfGFuQhq5wGbe2b14XelYo+Wf0vHO3LNvIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772046412; c=relaxed/simple;
-	bh=Jc/lX+/LywfDJ22uI3S6YEygDd03csTPApxYkxm63kM=;
+	s=arc-20240116; t=1772046413; c=relaxed/simple;
+	bh=38t0tBDUoCsG0xmXEAVKJTqI4xdsP4h2//1wmSiIswE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Y+kBZeCKeYh2kaqhaRW/lYyZT8yG+hcvwGQny6T9VHrYnBUlU6qAJJtlOMvcaZJlFNeW0/3Ic8s3HYnnNCoGcydzzK4frWwVVpeDxxWNACKE4jnxunYXpQAUIp4xdN0T3czvnqucMiNr7mxO6T4WgwfF2ujFN3lzia0CIyA7a0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HJs3WT3R; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=k4BCkplpxpvcJpeJJWzXH9rnVer5/aYw98tsXZSXF6mkSSlXc6Y2aMlnp6l+CXKoU0DN3AiZY2u4soWuHG9QZ18ERul1fDIhitpHzzGhrGd/4Tbi/qj3n+QURZ01HWHoViMNRsEqGFpBbdB9fDti0Z+PeBERhASBCXDez1Qelow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5XK6w4S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJs3WT3R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800DFC116D0;
-	Wed, 25 Feb 2026 19:06:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5XK6w4S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A40C19421;
+	Wed, 25 Feb 2026 19:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772046412;
-	bh=Jc/lX+/LywfDJ22uI3S6YEygDd03csTPApxYkxm63kM=;
+	s=k20201202; t=1772046413;
+	bh=38t0tBDUoCsG0xmXEAVKJTqI4xdsP4h2//1wmSiIswE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HJs3WT3R/0yFCcSKyhclheVQEviduH+p1chZ5omAzVRY8ByEkbtr121tk9sxqjTqi
-	 /7EAKV23YrxbaVDd8zNwJ9doixn2pJdir+2/cmma8IXt+LlMuG1OYDGBY3/aYuYKmO
-	 8Le8wjJqD7/y/FFkjaJQ+op/9jxDydAKqjqv98VrpesJv84NNx6QSGTuaPI57ywQBJ
-	 tMWEh3Z5vPDq6jTKI1XvwkJUC+etKmWhZC374iYy0rHcgI99vwNq8tvEFJPfWwAybr
-	 ghesym9/2MZGvcrolRH7q1000dFVTs5irJi7MSrY6Sx4GcLS+UL90vkM/Ai2BL8izP
-	 uSzsLiX3r1fOA==
+	b=E5XK6w4SaByC0EjkaQY+5tBcyE5X6QyXvp9Xlm19t0QjCgszZl+DnyQsSd4iyMESD
+	 OvLOOOfQBZGB6UDpqXU4CkzQjuOV+Lrc3VWqxUUfnAHUO/9wcbMWleCG9k6GaliTPZ
+	 ueOIqBBlqU6saP/ZvQccyOXv4RcJt5EdqFaz4O8LI4Idk0ZwOB8J9F5sBNlp2FE/nx
+	 hXRcuS0JaiduT/fM0IhV4+OZ1Y4bXyIj8kdli9BSSz2WbUMaUGC8kdbN1foKkVl3oi
+	 /1Qoupi8KnIjPNvISetD3VgG6E/Ax1Hen+Gt3jMHcSDH99KyQ9AAGtM7dG4OVoY85r
+	 B8QFA2nUqjLMg==
 From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Yauhen Kharuzhy <jekhor@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20260211002255.4090440-2-jekhor@gmail.com>
-References: <20260211002255.4090440-2-jekhor@gmail.com>
-Subject: Re: [PATCH 1/7] ASoC: rt5677: Add 10EC5677 ACPI ID as supported
-Message-Id: <177204641023.168100.17663316355355939070.b4-ty@kernel.org>
-Date: Wed, 25 Feb 2026 19:06:50 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, Nicolin Chen <b42378@freescale.com>
+In-Reply-To: <87ms15e3kv.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ms15e3kv.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc-compress: use function to clear symmetric
+ params
+Message-Id: <177204641217.168100.8197122488118261701.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,11 +45,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Wed, 11 Feb 2026 02:18:33 +0200, Yauhen Kharuzhy wrote:
-> Add 10EC5677 ACPI ID to the match table. It is used in the Lenovo
-> Yoga Book YB1-X91 tablet at least.
+On Thu, 19 Feb 2026 04:53:52 +0000, Kuninori Morimoto wrote:
+> Current soc-compress.c clears symmetric_rate, but it clears rate only,
+> not clear other symmetric_channels/sample_bits.
 > 
+> 	static int soc_compr_clean(...)
+> 	{
+> 		...
+> 		if (!snd_soc_dai_active(cpu_dai))
+> =>			cpu_dai->symmetric_rate = 0;
 > 
+> [...]
 
 Applied to
 
@@ -59,20 +63,8 @@ Applied to
 
 Thanks!
 
-[1/7] ASoC: rt5677: Add 10EC5677 ACPI ID as supported
-      commit: f43aed8dfecb10e95b8235d002990739ebe72c5e
-[2/7] ASoC: rt5677: Allow it to be defined as an I2C board
-      commit: 9f56f0bd2e49876ceeaf9036887fe9b50dfa6b6b
-[3/7] ASoC: rt5677: Fix typo in the header file
-      commit: 687f2679e8bf65bca247ca7f4013130d609e1e56
-[4/7] ASoC: rt5677: Report error if the ID register cannot be read
-      commit: 14848e6a8058916e9b008734aa36da989725b6df
-[5/7] ASoC: rt5677: Set up ACPI GPIO pins mapping table
-      commit: 0cc00de3dd5b66c80e6ec1705ec929f4a45ffa1c
-[6/7] ASoC: rt5677: Reset the codec during probing
-      commit: 904e71d42505ca2af19b0031ffffefc8c1fefb48
-[7/7] ASoC: rt5677-spi: Add SPI device ID matching table
-      commit: bf122191473e26a8f195308b1ba924c98424c8e1
+[1/1] ASoC: soc-compress: use function to clear symmetric params
+      commit: 07c774dd64ba0c605dbf844132122e3edbdbea93
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
