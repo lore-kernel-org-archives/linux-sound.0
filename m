@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD693D904F;
-	Wed, 25 Feb 2026 19:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3A03D3D06;
+	Wed, 25 Feb 2026 19:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772046417; cv=none; b=sJsRoDPss81aWXEAsot57TD/xZcuac37AV/sf+Y1CWnuwnHXy1d6vuoLcsPdzh67lY/dcKgVF9YfXnuPlUbjSpQzGF6IiMnS03k6TJgMAWH37YO1i3TWZ8HpmIsmD/iemUpwmoancHUBOSacVlxlq/ppQbuQFP0AWD0xAGVeE7k=
+	t=1772046419; cv=none; b=fBfx06/rgz8w20+XkjQPhEmRK0DFQG/KN00EYvA+zLLThGxweIvzfIff9tAxEbS70WQMNSLwX4bM8Yi2jE//cZ5ZvPcZUPoHT339CdEYB1Cy0ynSpJk4jYy2TRt2JkWVjWQv0QO1lnkisVU/67TG9camh0uV8w5zyD/mm2JrGNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772046417; c=relaxed/simple;
-	bh=msDGJt11R7pzkgyElkJq8JOnM1hRaWIvCs+4Qvb05Rc=;
+	s=arc-20240116; t=1772046419; c=relaxed/simple;
+	bh=/FEye4rNjs8Wwq+Ua5WTxJydlL/Isd3Pr3jCUPwBu80=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ViVff4NJPUwTdz7mWTanA9m6pwnnUNIZjUiJ7MfG4Js3W2GBoG0RrPLpX6Hd4MpIwaszj8iXmRFwXO3+fInUSboOyTLJe/baW6aNvl+IY+9TDzfpI11iS69oJSwRO94/Y/E6+RX+PTceBq8GDQzCra7EB/UqvH6Yf8qwI1HrnPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R5Of7Rtu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=uP9XH8EAW0Nchj0dyUDMSEtWXc7muxAegc0iMcRTQHON52OA3vbU5ccrWy5jdLJCyPHj27rJDdG7WjX4qCLUwadmj7Bq5KrFfmewBcjScKNJs0mf1GHXjQPUVOXYExBcI5i4vubIIg9jn0yKLzqxnJje+wsf8ah7qMD35mxnsyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s/vNyNym; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R5Of7Rtu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A0D6C19421;
-	Wed, 25 Feb 2026 19:06:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s/vNyNym"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1CCC19421;
+	Wed, 25 Feb 2026 19:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772046417;
-	bh=msDGJt11R7pzkgyElkJq8JOnM1hRaWIvCs+4Qvb05Rc=;
+	s=k20201202; t=1772046418;
+	bh=/FEye4rNjs8Wwq+Ua5WTxJydlL/Isd3Pr3jCUPwBu80=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=R5Of7RtuWYFoqO6P1UgomikjL9MElesCcfQJcrQbwVRgKlQBY7pMdh5Ns9TMCn/VE
-	 n+b5wSyjwHt1XBTIhaDRc5DbuvNnTRHyR25ybLRsyOAUGCN5Esv68+veCJSVDb0Xr4
-	 pcNNfcpPHDFVg8eKIGZP+St2FVoJz11UxHn62BeUnb/4sVLXtc8kGBPXyS2MbrCeqA
-	 OxJ0SR0v8bIWw8vKV1+ed/u6Xm7ECTxHsBTSYGiNJDsyJ3KFV2k7Xp4mekkIJZ4497
-	 kwfKHeZH+WctaGIUUZO+84MSGkCcMh50i+tllcOBNJ3tDGrABvWfMAMhBAM2hjgbFh
-	 gi7kB6Vy6Vk3g==
+	b=s/vNyNymqlMwFlvWvx3TPV4M4496/+jkOZ9y0zaO8mYpuCTXSag6opKK95xFUBSiJ
+	 QWjpeKwrHA3ani+S1IHEYtkyqw8ROGrdG08gR3golJquMblvq8dEuHbjR1QlrjjdnM
+	 iB8Gy5QV0d51KozQvHkTJRLHNYVWfzvNIeIlBtwXGkLShpL+H5tVdWcWACP9IoAWI0
+	 DCDfD1Sib1qQmJLR+HjvfjlqonMLcqLl5rcLg3WGemz9GMvm4ihkXbcOnKmAwuGlnX
+	 5AkREe56wDbTjgZmPLNommD57eZpOk+ZgPTd+X6amUhRDun4pXLL9Lp0P2cXSuwcfu
+	 NyaaIEpSM3pRQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Marek Vasut <marex@nabladev.com>
-Cc: Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
- Kevin Lu <kevin-lu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Takashi Iwai <tiwai@suse.com>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260220202332.241035-1-marex@nabladev.com>
-References: <20260220202332.241035-1-marex@nabladev.com>
-Subject: Re: [PATCH] ASoC: tas2552: Allow audio enable GPIO to sleep
-Message-Id: <177204641517.168100.14910312125326255613.b4-ty@kernel.org>
-Date: Wed, 25 Feb 2026 19:06:55 +0000
+To: vkoul@kernel.org, Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260223150256.326143-1-rf@opensource.cirrus.com>
+References: <20260223150256.326143-1-rf@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH 0/3] ASoC: SDCA: Initial support for Cirrus
+ Logic CS47L47
+Message-Id: <177204641724.168100.15814746388493184771.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,12 +46,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Fri, 20 Feb 2026 21:22:19 +0100, Marek Vasut wrote:
-> The audio enable GPIO is not toggled in any critical section where it
-> could not sleep, allow the audio enable GPIO to sleep. This allows the
-> driver to operate the audio enable GPIO connected to I2C GPIO expander.
+On Mon, 23 Feb 2026 15:02:53 +0000, Richard Fitzgerald wrote:
+> The CS47L47 is a SDCA smart codec with UAJ (headset, jack detect) and DMIC.
+> This series adds the initial support for the Cirrus Logic CS47L47 codec.
 > 
+> The soundwire patch can be taken separately from the two ASoC patches;
+> there aren't any build dependencies.
 > 
+> Richard Fitzgerald (3):
+>   soundwire: intel_auxdevice: Add CS47L47 to wake_capable_list
+>   ASoC: soc_sdw_utils: Add device info for CS47L47
+>   ASoC: SDCA: Add CS47L47 to class driver
+> 
+> [...]
 
 Applied to
 
@@ -60,8 +66,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tas2552: Allow audio enable GPIO to sleep
-      commit: 5ebc20921b7fff9feb44de465448e17a382c9965
+[2/3] ASoC: soc_sdw_utils: Add device info for CS47L47
+      commit: 80930d81c4b0753ba2ca750708e4d2fcc0627dc8
+[3/3] ASoC: SDCA: Add CS47L47 to class driver
+      commit: ada32396f90951e12465224c04742607ca56a982
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
