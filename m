@@ -1,84 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB583242D7
-	for <linux-sound@vger.kernel.org>; Wed, 25 Feb 2026 08:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7643D242D76
+	for <linux-sound@vger.kernel.org>; Wed, 25 Feb 2026 08:52:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772009569; cv=none; b=FHYJvRRUpQVC4nphCVDhvYaHtOL3WWesDQ+auLTpeUP9Oowbas8VkDN7RsUOCF8ER5mzuzzM4o1GU2U8b/CoB+5UrDsg/tsXjw2zyqGEHVfGkoMDdiQpgYHHI3tciwFyIw8VBi6MOb44YyNnIfJCJEv0FAgX5zpeIgjqfeN9Oas=
+	t=1772009574; cv=none; b=BBpgy6rDclJorps3M4U9QCsH+FLpvt6Ati+uiz3Al/GmzmFFvxtjlxobX1bE/bTOxC7+quU5oMic3UwkdSGz1Si7KplJxksz5ULyQ2C3B9CkDJrnDMSKYlM0WzSvUbdSFkiNPnXs34kzc3PAeWxk6mVAt9YJb3RxH9p4eSUgIY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772009569; c=relaxed/simple;
-	bh=5Dazr7K5xhPbh2c5j7qlS/O4Cw9FcvLZl8/V7SRnD0Q=;
+	s=arc-20240116; t=1772009574; c=relaxed/simple;
+	bh=btn5qr5THU32z0VUqYzowt+PipcMP2XprBPJ2FVWnTY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tHYQc04AyOryaKgwr+x/v8GK6yJGkKGkHiXYNIIxT292gzU1RJ6OS694R9LAjLlNYFki4bXrKRaQaUWt7Qi7OSm6vJy4D6/6oM9PNfuIdrcIODWx9ccfFftRrSTOJwCROkOrteQiEa2ZPocnbm3Me36/of7ziz+0GUB8SpRRIec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wbba95Pc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VC3zvHk/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wbba95Pc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VC3zvHk/; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=EBPjpAFgMJOo7tFAKZJhfuNa+ogOEuxbAEzIhMdARUmCFvXqJfud4QcaadzIKrLlVRme/FZS3ygEeW9hxHKIGRJVc6NIXCb4rKok1e+DSpUJjI3VA+RhnJfQoL5dOpYpr6BthyxY04jHRpzdxGxJhvyvu1664b7loSHYB+HCPCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0HRx0VPO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uy7D7pga; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0HRx0VPO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uy7D7pga; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wbba95Pc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VC3zvHk/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wbba95Pc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VC3zvHk/"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0HRx0VPO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uy7D7pga";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0HRx0VPO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uy7D7pga"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C1ED3F702;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BA9EF3F706;
 	Wed, 25 Feb 2026 08:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1772009555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZoaB4xrDa8pUDbARiqX/ATV2BEDei9iBnw/6NRjUCs=;
-	b=Wbba95Pck0AHY2VkucKqYIKduLyTEPC2h96/Vvb+6vta9n/QZSg/2XJDuP3GMbdn7Xbrdf
-	9LQDRtCLbis4jbMWHtTp6z2ZUcZDIhQ+SHKaYsGvp4ehxwtEzLetgBfpcYGSgzHeqgeUux
-	X0dXAHaRWbVkPbElgAbyfWGd0nH2PsY=
+	bh=mpdNiXqiJgZ9CaBu8KuNNPMB1IAfVJ4yrNKvz8zDztg=;
+	b=0HRx0VPOxbQz2sf+gtHbfZ35GIxc5SH57aj33JCu6M4n7U2RDSVRwoBmh7+V+dw2v9oID8
+	pw/n8WW0QILfCY+VhzpUhiQYssetzuKJ7JrrYO0jSR9VU1njE+kA2G3lK9MaKxGiGYlZI8
+	XOVsSlia63ScgeSQmWcfjnyYcsfNt58=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1772009555;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZoaB4xrDa8pUDbARiqX/ATV2BEDei9iBnw/6NRjUCs=;
-	b=VC3zvHk/vDqlaYRLR9a9jguV7IuzNEcfwAV58VRWrj7OcTZ2aEE/Koprrsi1p49k1xDxu4
-	pQZfq9BCI4nGrICA==
+	bh=mpdNiXqiJgZ9CaBu8KuNNPMB1IAfVJ4yrNKvz8zDztg=;
+	b=uy7D7pgaFjvR7NAXrpV87NdUxgqwb7qO5dHOueQIfEvSZ8XUYdQsSKK1RRfVmbF1+pbCq1
+	FNYE/3JhM69FEFBA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Wbba95Pc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="VC3zvHk/"
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0HRx0VPO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uy7D7pga
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1772009555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZoaB4xrDa8pUDbARiqX/ATV2BEDei9iBnw/6NRjUCs=;
-	b=Wbba95Pck0AHY2VkucKqYIKduLyTEPC2h96/Vvb+6vta9n/QZSg/2XJDuP3GMbdn7Xbrdf
-	9LQDRtCLbis4jbMWHtTp6z2ZUcZDIhQ+SHKaYsGvp4ehxwtEzLetgBfpcYGSgzHeqgeUux
-	X0dXAHaRWbVkPbElgAbyfWGd0nH2PsY=
+	bh=mpdNiXqiJgZ9CaBu8KuNNPMB1IAfVJ4yrNKvz8zDztg=;
+	b=0HRx0VPOxbQz2sf+gtHbfZ35GIxc5SH57aj33JCu6M4n7U2RDSVRwoBmh7+V+dw2v9oID8
+	pw/n8WW0QILfCY+VhzpUhiQYssetzuKJ7JrrYO0jSR9VU1njE+kA2G3lK9MaKxGiGYlZI8
+	XOVsSlia63ScgeSQmWcfjnyYcsfNt58=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1772009555;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZoaB4xrDa8pUDbARiqX/ATV2BEDei9iBnw/6NRjUCs=;
-	b=VC3zvHk/vDqlaYRLR9a9jguV7IuzNEcfwAV58VRWrj7OcTZ2aEE/Koprrsi1p49k1xDxu4
-	pQZfq9BCI4nGrICA==
+	bh=mpdNiXqiJgZ9CaBu8KuNNPMB1IAfVJ4yrNKvz8zDztg=;
+	b=uy7D7pgaFjvR7NAXrpV87NdUxgqwb7qO5dHOueQIfEvSZ8XUYdQsSKK1RRfVmbF1+pbCq1
+	FNYE/3JhM69FEFBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 545853EA6A;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97D713EA69;
 	Wed, 25 Feb 2026 08:52:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iMFrE1O4nmlTcgAAD6G6ig
+	id eK3tI1O4nmlTcgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 25 Feb 2026 08:52:35 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 2/4] ALSA: usb-audio: Check max frame size for implicit feedback mode, too
-Date: Wed, 25 Feb 2026 09:52:29 +0100
-Message-ID: <20260225085233.316306-3-tiwai@suse.de>
+Subject: [PATCH 4/4] ALSA: usb-audio: Use inclusive terms
+Date: Wed, 25 Feb 2026 09:52:31 +0100
+Message-ID: <20260225085233.316306-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260225085233.316306-1-tiwai@suse.de>
 References: <20260225085233.316306-1-tiwai@suse.de>
@@ -89,8 +89,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -109,7 +107,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_HAS_DN(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
@@ -117,36 +115,46 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 7C1ED3F702
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
 X-Spam-Score: -3.01
 X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: BA9EF3F706
 
-When the packet sizes are taken from the capture stream in the
-implicit feedback mode, the sizes might be larger than the upper
-boundary defined by the descriptor.  As already done for other
-transfer modes, we have to cap the sizes accordingly at sending,
-otherwise this would lead to an error in USB core at submission of
-URBs.
+Replace the remaining with inclusive terms; it's only this function
+name we overlooked at the previous conversion.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221076
+Fixes: 53837b4ac2bd ("ALSA: usb-audio: Replace slave/master terms")
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/endpoint.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/endpoint.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index c887c2f5b25d..2e70dbc479b4 100644
+index 2e70dbc479b4..bf4401aba76c 100644
 --- a/sound/usb/endpoint.c
 +++ b/sound/usb/endpoint.c
-@@ -221,6 +221,7 @@ int snd_usb_endpoint_next_packet_size(struct snd_usb_endpoint *ep,
+@@ -160,8 +160,8 @@ int snd_usb_endpoint_implicit_feedback_sink(struct snd_usb_endpoint *ep)
+  * This won't be used for implicit feedback which takes the packet size
+  * returned from the sync source
+  */
+-static int slave_next_packet_size(struct snd_usb_endpoint *ep,
+-				  unsigned int avail)
++static int synced_next_packet_size(struct snd_usb_endpoint *ep,
++				   unsigned int avail)
+ {
+ 	unsigned int phase;
+ 	int ret;
+@@ -228,7 +228,7 @@ int snd_usb_endpoint_next_packet_size(struct snd_usb_endpoint *ep,
+ 	}
  
- 	packet = ctx->packet_size[idx];
- 	if (packet) {
-+		packet = min(packet, ep->maxframesize);
- 		if (avail && packet >= avail)
- 			return -EAGAIN;
- 		return packet;
+ 	if (ep->sync_source)
+-		return slave_next_packet_size(ep, avail);
++		return synced_next_packet_size(ep, avail);
+ 	else
+ 		return next_packet_size(ep, avail);
+ }
 -- 
 2.53.0
 
