@@ -1,147 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BF01917FB
-	for <linux-sound@vger.kernel.org>; Wed, 25 Feb 2026 14:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BF82BDC0B;
+	Wed, 25 Feb 2026 19:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772031523; cv=none; b=d40OF3tXzfF9GHsXboXXvzi7tvVUFr4rgSuBlFPkpwflceN9YEr4HGI5oNihG0PuvaClBZxVj3Mf4CnJjSHcAjS8Ffgk5Ujpypl3qroGacfgmoraXAsYflCInOILfAkf8tvBfn+ObZfwRzftmh8VnL+elnX1zG8tykz2XzserNo=
+	t=1772046402; cv=none; b=M29HW2YqU9D/vOmW0v+JG7CtnhZlP07rofXnQ55qSt7v6eMDi7tpNQPhisnstdtp0okxcLFDnoS8uSmJEjJkUwws5dIr6Jyg2yAOxJ0Imw6S2bnxC/Tc/+gI7vQFP3oF0dAufkYjglkxfuoKH4HhJFPy2iPIs2kqAay9JHfMjV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772031523; c=relaxed/simple;
-	bh=TOXolt1ZEZ55MOem9gzZADQa0H5pkMHgdanhH7VrG+Y=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TxYsJu3snDUnBVHEZl/tcsrGsTKZxIomgy9Oq2WDtvUGVrFKNNoPoxUt/6O8/48Ifl5osFMAsfjOPl7iKLMyynnsFk94CM1fZK+m7L6FbBCV3SEPzJwgKrYwCCHGXMdeet9k7aX+7GiAVoqSGjbSOh1PXn6Shbvv0zkikY9ZNX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZSfGsxES; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+rJd+1z2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZSfGsxES; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+rJd+1z2; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772046402; c=relaxed/simple;
+	bh=A8aJaYhK7KdewEtEavhsWkja5CIjebUc7Lik1+H3QhM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pgMC6F0KkF/XRlIot9cGsAzOq0iz6BCVfVLBkFCq4x8H+SYQiAyDrTUa116gwwARGTY4Pz/MovZ+RKZ+ZKtLiegywVfNa9pqda0kXHv4vL5Z2p17eWVrvnSq4syFDKO8jgl6kx1ST4JjMSjBlsOQckljaUpsWEZ4JocV2cfDdQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVmCP4IW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZSfGsxES";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+rJd+1z2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZSfGsxES";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+rJd+1z2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2C1764DE40;
-	Wed, 25 Feb 2026 14:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772031520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VHEqX9xxCeI9WxLOmOpXmMPtTruZUUNG8IqYcX0fsoo=;
-	b=ZSfGsxESg+oqDKl3/CGhvfLoRlI2D+52Odac7lsWB8B2shCflEFhE9fs+vLwYSv6ayFRSy
-	2e+F+id61uopy6lxYN3mtAMDPQvy3Zs3ILRIdxBee7rYdBUOyHUxknshf6mMZoy4hRTVmQ
-	CmdLfTr1XAypzG1J5r2w8uZDj8Cky0k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772031520;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VHEqX9xxCeI9WxLOmOpXmMPtTruZUUNG8IqYcX0fsoo=;
-	b=+rJd+1z2TLwcpM8jKMeCgIdlfNRv2a5NXmKJZ6ZLWAja9Vhc4D2l7mxPnDOecOkZzi7Prh
-	cX7wVt9+VXHFHOBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZSfGsxES;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+rJd+1z2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772031520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VHEqX9xxCeI9WxLOmOpXmMPtTruZUUNG8IqYcX0fsoo=;
-	b=ZSfGsxESg+oqDKl3/CGhvfLoRlI2D+52Odac7lsWB8B2shCflEFhE9fs+vLwYSv6ayFRSy
-	2e+F+id61uopy6lxYN3mtAMDPQvy3Zs3ILRIdxBee7rYdBUOyHUxknshf6mMZoy4hRTVmQ
-	CmdLfTr1XAypzG1J5r2w8uZDj8Cky0k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772031520;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VHEqX9xxCeI9WxLOmOpXmMPtTruZUUNG8IqYcX0fsoo=;
-	b=+rJd+1z2TLwcpM8jKMeCgIdlfNRv2a5NXmKJZ6ZLWAja9Vhc4D2l7mxPnDOecOkZzi7Prh
-	cX7wVt9+VXHFHOBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7CE53EA65;
-	Wed, 25 Feb 2026 14:58:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zCiDMx8On2kLeAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 25 Feb 2026 14:58:39 +0000
-Date: Wed, 25 Feb 2026 15:58:39 +0100
-Message-ID: <87v7fkdg4g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Panagiotis Foliadis <pfoliadis@posteo.net>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Charalampos Mitrodimas <charmitro@posteo.net>
-Subject: Re: [PATCH] ALSA: hda/intel: increase default bdl_pos_adj for Nvidia controllers
-In-Reply-To: <20260225-nvidia-audio-fix-v1-1-b1383c37ec49@posteo.net>
-References: <20260225-nvidia-audio-fix-v1-1-b1383c37ec49@posteo.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVmCP4IW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DDFC116D0;
+	Wed, 25 Feb 2026 19:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772046402;
+	bh=A8aJaYhK7KdewEtEavhsWkja5CIjebUc7Lik1+H3QhM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=YVmCP4IWAYo9OyVKbnYui6IFnF5c03AqxQQKO3TwcciOi1FylweIVBZ/+wOT+bnGS
+	 JUoOfwAaXfKegMQ0Yx1USLvCXKkYnD2sFOA865kltGew3prOqPGHENeMIxVZRpjspz
+	 69OSCyR5Ikl7f0tGYx7Vc3//19szHD+IcZtS/gnVPB3ohBtYxv5woxi/C142q6hUdl
+	 QpT3Ni+eeNac6IvQHCGRyqzoQxs5hALaVaw6aRaLHasjP6mqFXzndjSxRYYNVgljsP
+	 6D+hLKKa1OZ+r/zifkYNt0ZD4t5+e1QC6BYQCkmLluIK0WIwuY8DL6aO7jD8zcjpcE
+	 FWDxMJ3T+qO4g==
+From: Mark Brown <broonie@kernel.org>
+To: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sen Wang <sen@ti.com>
+Cc: devarsht@ti.com, r-donadkar@ti.com, s-jain1@ti.com, m-shah@ti.com
+In-Reply-To: <20260211221001.155843-1-sen@ti.com>
+References: <20260211221001.155843-1-sen@ti.com>
+Subject: Re: [PATCH] ASoC: ti: davinci-mcasp: Add system suspend/resume
+ support
+Message-Id: <177204639977.168100.3708657297928006171.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 2C1764DE40
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-On Wed, 25 Feb 2026 15:53:43 +0100,
-Panagiotis Foliadis wrote:
+On Wed, 11 Feb 2026 16:10:01 -0600, Sen Wang wrote:
+> The McASP driver supports runtime PM callbacks for register save/restore
+> during device idle, but doesn't provide system suspend/resume callbacks.
+> This causes audio to fail to resume after system suspend.
 > 
-> The default bdl_pos_adj of 32 for Nvidia HDA controllers is
-> insufficient on GA102 (and likely other recent Nvidia GPUs) after S3
-> suspend/resume. The controller's DMA timing degrades after resume,
-> causing premature IRQ detection in azx_position_ok() which results in
-> silent HDMI/DP audio output despite userspace reporting a valid
-> playback state and correct ELD data.
+> Since the driver already handles runtime suspend & resume, we can reuse
+> existing runtime PM logics.
 > 
-> Increase bdl_pos_adj to 64 for AZX_DRIVER_NVIDIA, matching the value
-> already used by Intel Apollo Lake for the same class of timing issue.
-> 
-> Cc: stable@vger.kernel.org
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221069
-> Suggested-by: Charalampos Mitrodimas <charmitro@posteo.net>
-> Signed-off-by: Panagiotis Foliadis <pfoliadis@posteo.net>
+> [...]
 
-Thanks, applied now.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: ti: davinci-mcasp: Add system suspend/resume support
+      commit: 5879521cb558871472b97c4744dbe634a4286f0e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
