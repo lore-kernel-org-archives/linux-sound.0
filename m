@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292772BDC0B
-	for <linux-sound@vger.kernel.org>; Wed, 25 Feb 2026 19:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5A72BDC0B;
+	Wed, 25 Feb 2026 19:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772046413; cv=none; b=G6baQIhwpcMHZMdLDASJ9ykxvOCXprYvkPrlA6T3uf7m7Lgl9Puat61gCDSY0U70B+6iqn4NKe39mVdkfEQHjizjSiBoyRbWKPOdTwz+YoQPWsMl0rPWseVjugoD3RVr12+4AHLTyfGFuQhq5wGbe2b14XelYo+Wf0vHO3LNvIc=
+	t=1772046415; cv=none; b=VsIXoqXG89bwbQXwllpGE0HqxD5yzhWUg5tAd73JF+ERydBmUX8jnGPrF59iByWfv9jqefkI75UWTFNh49BoYU89A5BCVeqwJg+DscGfbUx+gNTSnp8e3Sq1DXUnkqJqKhqwt6smbcNfSUGbbQBJhv+xTpY8APnVCAEe3VKBSlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772046413; c=relaxed/simple;
-	bh=38t0tBDUoCsG0xmXEAVKJTqI4xdsP4h2//1wmSiIswE=;
+	s=arc-20240116; t=1772046415; c=relaxed/simple;
+	bh=fWyEZqip8K7jn3+ho1mdD7U6eRbhI41to6ECzaNSyAk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=k4BCkplpxpvcJpeJJWzXH9rnVer5/aYw98tsXZSXF6mkSSlXc6Y2aMlnp6l+CXKoU0DN3AiZY2u4soWuHG9QZ18ERul1fDIhitpHzzGhrGd/4Tbi/qj3n+QURZ01HWHoViMNRsEqGFpBbdB9fDti0Z+PeBERhASBCXDez1Qelow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5XK6w4S; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LOEBepdINKvOQEYfaozJqhMSXeM7MRxMytUWwfOohC7MbsTsTc8FfLQJcznpQFH276jNnSnI3Xpy2DGR+yfoIVxE57e27rxFSn0s6KoiKUPTylWeH++5tU0iUqbAqpRFhc18qS4PeVUDPYkGNeabho9twdVYNozuyMNBaxPsBts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sNfWSg48; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5XK6w4S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A40C19421;
-	Wed, 25 Feb 2026 19:06:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sNfWSg48"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A50AC116D0;
+	Wed, 25 Feb 2026 19:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772046413;
-	bh=38t0tBDUoCsG0xmXEAVKJTqI4xdsP4h2//1wmSiIswE=;
+	s=k20201202; t=1772046415;
+	bh=fWyEZqip8K7jn3+ho1mdD7U6eRbhI41to6ECzaNSyAk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=E5XK6w4SaByC0EjkaQY+5tBcyE5X6QyXvp9Xlm19t0QjCgszZl+DnyQsSd4iyMESD
-	 OvLOOOfQBZGB6UDpqXU4CkzQjuOV+Lrc3VWqxUUfnAHUO/9wcbMWleCG9k6GaliTPZ
-	 ueOIqBBlqU6saP/ZvQccyOXv4RcJt5EdqFaz4O8LI4Idk0ZwOB8J9F5sBNlp2FE/nx
-	 hXRcuS0JaiduT/fM0IhV4+OZ1Y4bXyIj8kdli9BSSz2WbUMaUGC8kdbN1foKkVl3oi
-	 /1Qoupi8KnIjPNvISetD3VgG6E/Ax1Hen+Gt3jMHcSDH99KyQ9AAGtM7dG4OVoY85r
-	 B8QFA2nUqjLMg==
+	b=sNfWSg48ZFAvrJ/HNewkh2uZYeTMChVt/kL4pxR4fTXvSaLfzOwYxUaWboGqfNu+I
+	 bPBIPqzh69sv1rW5oNwsZ3S1/SkC8MB7/ugLcl1yb+7MwCrtHGl4bs5uJCbJcd0CcK
+	 ZnwFccZNVdb6rB9aGgbAsEdX39tQdbOAudTG611+aTCx79UTabn1dZHfcq72rGmFtr
+	 DLUfSPOzs4rwhne3jrBuvXDrQ4sUxiGmSJ7rG563ejas1V2X9iZXIRmAjbCiLryTmF
+	 8Xb4XSAqCoj/5WUjwEn9MZ2cyIlcXo1gb472GuZN0py6WiHP93GbqOG2hqa86oJ9kU
+	 z0N9e3NxYKuEA==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, Nicolin Chen <b42378@freescale.com>
-In-Reply-To: <87ms15e3kv.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ms15e3kv.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: soc-compress: use function to clear symmetric
- params
-Message-Id: <177204641217.168100.8197122488118261701.b4-ty@kernel.org>
-Date: Wed, 25 Feb 2026 19:06:52 +0000
+To: oder_chiou@realtek.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ xiaopeitux@foxmail.com
+Cc: Pei Xiao <xiaopei01@kylinos.cn>
+In-Reply-To: <tencent_D7DDB8B646B471AF50B541DA7AC99FBCCD0A@qq.com>
+References: <tencent_D7DDB8B646B471AF50B541DA7AC99FBCCD0A@qq.com>
+Subject: Re: [PATCH] ASoC: rt5575: Remove redundant assignment to .owner
+Message-Id: <177204641324.168100.559517723659515864.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,15 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Thu, 19 Feb 2026 04:53:52 +0000, Kuninori Morimoto wrote:
-> Current soc-compress.c clears symmetric_rate, but it clears rate only,
-> not clear other symmetric_channels/sample_bits.
+On Fri, 20 Feb 2026 10:56:40 +0800, xiaopeitux@foxmail.com wrote:
+> The coccicheck tool reports the following warning for this driver:
+> ./rt5575.c:342:3-8: No need to set .owner here. The core will do it.
 > 
-> 	static int soc_compr_clean(...)
-> 	{
-> 		...
-> 		if (!snd_soc_dai_active(cpu_dai))
-> =>			cpu_dai->symmetric_rate = 0;
+> The manual assignment of .owner = THIS_MODULE; in the rt5575_i2c_driver
+> struct is redundant. The i2c_add_driver() function, which is called to
+> register the driver, automatically sets the driver's owner to THIS_MODULE.
 > 
 > [...]
 
@@ -63,8 +62,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-compress: use function to clear symmetric params
-      commit: 07c774dd64ba0c605dbf844132122e3edbdbea93
+[1/1] ASoC: rt5575: Remove redundant assignment to .owner
+      commit: f817c6a21235b503e68c50d0900d66cb1e1cf7bc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
