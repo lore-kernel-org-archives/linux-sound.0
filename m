@@ -1,116 +1,134 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D3746AF38
-	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 16:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79BB3290C3
+	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 16:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772123495; cv=none; b=QkU0rN//fxDp8r0nLPv7y8vQSm3T2n7wgwZfyP0LjY8juVIv8elqRo8gropXkPsCOZExTiUa2zOOiffqwB/WNEyZabokq/ne9WZ4niUeKHnRrWtcn4/Y3pINkHSvDl8UAzp1GjXdqoNLuIqic86gzOySxIBKruvzFeszjAiezu8=
+	t=1772125171; cv=none; b=iNdCPW8Pr1Ve6kODFgzN3Pf2nobFRolAq1xLVUSvsf2nf+lReGCvXko0F79rExQsRkxhRAH3gB+/X35FeMUwIy/2iSf/8o5quxCCGpqRl8BRXBQ5CD3IGSH47oDKWTrpxxgODi/hGJ6L/rLZIc7n/jOiJiG7MjzrHA1D4Ycy4+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772123495; c=relaxed/simple;
-	bh=6qqVQ33hVXkAfsz+KcgW/oA+wyX6hEQTDpvT0DKO2g4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ztn/HZKRBivKW+XtjYWjgnb9LCPlzTE7so3IK+8sYcUPoSW32JX5wqfGHa+s90o+Ji/UmQmD8Z6vOlX0yERi4rCJMUe5Hk4NBjbNHjUYaFnh/ncGuCmfyZ3k2l8ywIMsITAci6iQ14P1Lsvt1LerzaxsHG1ygqZYdlVolil+R9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HZxRdLfR; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772125171; c=relaxed/simple;
+	bh=IXAtEeV7m9zIpGVJxlz2NTCNsPqPn6tthh3D2M8EbJE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=clB9RXzrt5SUWgKyXVLcLd+If89QlGyIxA8q1zOEtLq5iw3bmHYx30KTyVstlZ2zwjo7AB2M88R3NYlacpO+Je0kKuxQ+ZqUg9sjKKc0dwtP/HUAZxjYaenbLZc04WzGnZr3mnaOAop5EoAazK6fJ2cCwKIzPOb3cJNTJr76aqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ina9FHKv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hvS0qcrN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ina9FHKv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hvS0qcrN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZxRdLfR"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5688b639a19so518373e0c.2
-        for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 08:31:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772123492; x=1772728292; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kXCR6g4/g6RlGQz2vJbBm0z0cr7lhrip1+owdU+eUAE=;
-        b=HZxRdLfRvna7jmb+5xkqecr1ZTsqbrHcaBYwnyagBz4F9E9ox5VW1IgYPeXvKivLBg
-         suSU/bpzZ0n5XjD9MHc7XkugWwJQMnPzISxzJPJqmDH1siy9bx8egcDb4mJ+j+WWexN5
-         jRX0U0XQ3ECKryToI1pg8lQSF5mhFTr7Qvd0vcZFvkmNZ8p6zhFNOpGiP81EjDm0lMVJ
-         hZZxm7sWWrjHgG/AXTErUt+fSIaVokSVIXrW/Otz2cr5matAYR8znGIO00XkkBmkBsH4
-         hYdocp36vAT3gzpNjCGjcG0Uk4q7/QiiRu7AVDTfoWIVywFrRaY2NBbd84fstWrBdGWl
-         oQTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772123492; x=1772728292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kXCR6g4/g6RlGQz2vJbBm0z0cr7lhrip1+owdU+eUAE=;
-        b=ZIbRljoJI91+06GxS7W03WCbx2sZivAV//2a9NpqYLE+35TOE4u/RvSnWU5hS+Vm7h
-         KJDMTTAGiJpW8q7mo2oUQLT7umMJHIZjECQTsVnN/QjioINfzXvHPqeNjTAtHT0oX3GB
-         yUpoonIJhGSdOkN7mfayGqDY+FDpCIzWDbGkiZzotJURJRzH4sFNxGKAX5g/fHrpRp5q
-         ykVlNAm00eB7+gXICxysZFRkIYm/RvVbCCZfAhJJOPPU6xUSwZqmyNQdPcjz0fQMEdb+
-         K1diHWPTat/Qn385fxpYw7AUSVuxHu5SWNoJuJf8VFqVBN2NhmtqJ9UTGfa7KFyfEXAL
-         vI0Q==
-X-Gm-Message-State: AOJu0YzZBTb/ZhCdqW9LFUSPwSA5mhqGl0+4prDg+8WS45TOcuRqxInc
-	SvqYuMSGJkTTDX4JYmYcqqsSoTah3pGXfNjs+Od45W/tWcHbqnqdnYGv86dilA==
-X-Gm-Gg: ATEYQzwwWznEC9ilZd/XMMHXrdJkLtGOhHTxsRi2z/N/71IMITLfNEwz3r7IzGET5Qt
-	CogwmyUwPvq3UB/XHxnGtnUiiiChozBs5gvpVxCN7BHg1B2ukDkNAzAVtyLf2t1+MuaJeCneyyF
-	KCb43Yp0NAyQ2HLj2AYgyUEsEvOvVZIRnnnxR7d5GDEzoj6+1hJb/aaZNaRoWTlaONdGg3VFqGE
-	JdGDej1fLnCTyVgw9gq9HVNmwSHdeaXCgtRvXfn9ADsHjbNtrUM2wc3ac5bh+Rc4930TLP05FrL
-	lD2QXJowe5M2NJCFeiQPmoeE8wFu3QsNAOFtXMBoj4bdQcG0BHd999+3hrlTYiUfc50dq3h15mh
-	qp3vdcR/Gvlh8SEvNJa1ztIQXoMP6b/NQk0hkT7IJhOsJIOcIclDIcd4EnA7PSBv7btxUUViJrx
-	hx3ndUXzLghJXUORx+06raYK1KazmsOCCmxRG/LhtgkWrmY9M=
-X-Received: by 2002:a05:6122:468a:b0:55b:74ac:72cf with SMTP id 71dfb90a1353d-56a8bcb4e16mr2525124e0c.17.1772123486335;
-        Thu, 26 Feb 2026 08:31:26 -0800 (PST)
-Received: from sh170r6.taild616b6.ts.net ([47.220.173.75])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899c739f275sm19341256d6.45.2026.02.26.08.31.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 08:31:25 -0800 (PST)
-From: Matt DeVillier <matt.devillier@gmail.com>
-To: linux-sound@vger.kernel.org,
-	tiwai@suse.de
-Cc: Matt DeVillier <matt.devillier@gmail.com>
-Subject: [PATCH] ALSA: hda/ca0132: Set HP/Speaker auto-detect default from headphone pin verb
-Date: Thu, 26 Feb 2026 10:30:55 -0600
-Message-ID: <20260226163055.825167-1-matt.devillier@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ina9FHKv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hvS0qcrN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ina9FHKv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hvS0qcrN"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2DAF41FAB3;
+	Thu, 26 Feb 2026 16:59:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772125168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
+	b=Ina9FHKvgouAuBUbdbifZyh5oCIfJxVKNfwSa35v5WrH2XfQkTzzrVY77nUFRM+ZivSBbj
+	jdl/TaLwlKzBn2xMepYKF+MjEpK7ibM+BlzDYEPfj1oypooxsWzaAi14CX09HAuXwTYVVO
+	WDmGZwRiPho117ewLBZtEpsv9zKV/S0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772125168;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
+	b=hvS0qcrN9L4Stpp9qe8ALlWilWwk4eIiDnajZyJOoDWY4gzaLevQNCyPyxtsdzCBDZKs+6
+	fb4+LdITg04AuVBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772125168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
+	b=Ina9FHKvgouAuBUbdbifZyh5oCIfJxVKNfwSa35v5WrH2XfQkTzzrVY77nUFRM+ZivSBbj
+	jdl/TaLwlKzBn2xMepYKF+MjEpK7ibM+BlzDYEPfj1oypooxsWzaAi14CX09HAuXwTYVVO
+	WDmGZwRiPho117ewLBZtEpsv9zKV/S0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772125168;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
+	b=hvS0qcrN9L4Stpp9qe8ALlWilWwk4eIiDnajZyJOoDWY4gzaLevQNCyPyxtsdzCBDZKs+6
+	fb4+LdITg04AuVBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1F063EA62;
+	Thu, 26 Feb 2026 16:59:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b5fDOe97oGkaOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Feb 2026 16:59:27 +0000
+Date: Thu, 26 Feb 2026 17:59:27 +0100
+Message-ID: <87ikbja1ao.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: SDCA: Fix comments for sdca_irq_request()
+In-Reply-To: <c41f115e-b8ba-417d-86b6-0548fd86caaf@sirena.org.uk>
+References: <20260226154753.1083320-1-tiwai@suse.de>
+	<c41f115e-b8ba-417d-86b6-0548fd86caaf@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-HP/Speaker auto-detect (VNID_HP_ASEL) has been off by default for every
-CA0132 device since the driver was added in 2012. vnode_lswitch is
-always initialized to 0 in ca0132_init_chip(), and no quirk or other
-code path enables it. As a result, headphone jack detection works only
-after the user manually turns on "HP/Speaker Auto Detect" in alsamixer,
-which is not obvious on laptops with combo jacks (e.g. Google Link,
-Alienware).
+On Thu, 26 Feb 2026 16:53:09 +0100,
+Mark Brown wrote:
+> 
+> On Thu, Feb 26, 2026 at 04:47:52PM +0100, Takashi Iwai wrote:
+> > The kernel-doc comments for sdca_irq_request() contained some typos
+> > that lead to build warnings with W=1.  Let's correct them.
+> > 
+> > Fixes: b126394d9ec6 ("ASoC: SDCA: Generic interrupt support")
+> 
+> Probably easiest if you apply this directly for sending a PR to Linus:
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-Change the default to follow the headphone pin config: if the pin verb
-has presence detect enabled (no AC_DEFCFG_MISC_NO_PRESENCE) and the
-codec supports it (AC_PINCAP_PRES_DETECT), enable HP_ASEL by default.
-This lets firmware (coreboot, UEFI, etc.) express whether the headphone
-jack supports insertion detection. Devices with combo jacks can default
-to auto-detect; devices with fixed/no jack leave it off.
+OK, as it's a trivial fix, I took now.
 
-Signed-off-by: Matt DeVillier <matt.devillier@gmail.com>
----
- sound/hda/codecs/ca0132.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index dd054aedd501..ca6cb57347ea 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -9816,6 +9816,15 @@ static void ca0132_config(struct hda_codec *codec)
- 		spec->dig_in = 0x09;
- 		break;
- 	}
-+
-+	/* Default HP/Speaker auto-detect from headphone pin verb: enable if the
-+	 * pin config indicates presence detect (not AC_DEFCFG_MISC_NO_PRESENCE).
-+	 */
-+	if (spec->unsol_tag_hp &&
-+	    (snd_hda_query_pin_caps(codec, spec->unsol_tag_hp) & AC_PINCAP_PRES_DETECT) &&
-+	    !(get_defcfg_misc(snd_hda_codec_get_pincfg(codec, spec->unsol_tag_hp)) &
-+	      AC_DEFCFG_MISC_NO_PRESENCE))
-+		spec->vnode_lswitch[VNID_HP_ASEL - VNODE_START_NID] = 1;
- }
- 
- static int ca0132_prepare_verbs(struct hda_codec *codec)
--- 
-2.51.0
+thanks,
 
+Takashi
