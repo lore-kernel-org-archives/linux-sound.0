@@ -1,45 +1,46 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010026.outbound.protection.outlook.com [52.101.201.26])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012007.outbound.protection.outlook.com [52.101.48.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B80341ADF;
-	Thu, 26 Feb 2026 06:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DA438BF94;
+	Thu, 26 Feb 2026 06:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772089017; cv=fail; b=FSE3lgM57Jj24qlw0+Kyk3cm6nog4UDJM2BJQ4fMPs+D46/2QNhLrwmX5ZxxAMV+EzeA+BxYePZg9ZCsL5oq6yAYp1JK/nvs2wEufKLKVdgo9FnTwyR2D/vWx5oMiMLP8jG3cRVYfRwsohTzoi7inqReqlU2pVC6q+Z0zpR1Ln4=
+	t=1772089020; cv=fail; b=NsyrlaSVgedCv6iRb5kWNRgNpPKVh/BKVAc/MSNNZoBCp5yfGTtgHWuh+CJyHBCznTajizovcr6T0+9Q7yhJdmTZt+nkJ9vrFdMw0wfH6Q/Q+1q/mQFu/zwLmNmmuYsPk3H1gPoNLqc9azuyWcwaQw4BqNRUv/c0iQK2UMDooUs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772089017; c=relaxed/simple;
-	bh=geG0GHQEXZbL2phIp2DiVEDy25kQRJU+FyMz+YEIBPU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CBPfwnu4crYXtyWbNbBfJh7sR6QtuIwKi9UyyeQGZ26GhwCd9KJ+n4xmffnkNWXAQpIXjhikZ0qCTLWn/TExBPbAV3WfOawiZ3U2Gigz8DjLg5gnDimPTlWkNcf6Fm9L0UTvCMbjXwqQm97tPK84i5jiOT153oa7ul9ueVUs/JI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xp/rWFH2; arc=fail smtp.client-ip=52.101.201.26
+	s=arc-20240116; t=1772089020; c=relaxed/simple;
+	bh=e49kd4q7mdDz4JEvYWGCnkpRBoCCPmZljLMrVoodJss=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NZlmbrQmb7BNVkAOKtEU0KWoChWdW+jQvIHYFXlNjStUYDqz9NxKh/zLInXY2QRka1JZH/OofQpht5ggtcUXIKK1GKTAZ1aCCxKlzSh0Iwbt5kw43dtwbi3qFGLCmnHnczUt+FZAufTzX77heUuhxVhiFor0XsANwAhkQfTLZXY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EQ3D0Etx; arc=fail smtp.client-ip=52.101.48.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xp/rWFH2"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EQ3D0Etx"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wUZZOTVHzDu79t6jfp90E+z/ncze2HkZqYNmMOhsO5AUrKU4PE8UOtsJLgAF/BMYlp++5RKjKj9DDzVsrFLOd19doH4LJ+BhVbJH8x+NOtiCTwK87iIQsiRm4g6HZI2soC0l3OeIQ8CSxv9Mh2Ep7Xs1CdTnINh7FrwMQaFu5Vim39mrFXyvDUfF231DBR6eiNNbh8bPW1iu9tQYoH8mafc/p4ZhEFBKOgKfVjDcTbPcp4uhIeNhv/ngecqsTaV+wF6AdXuXZ1DeyLpHlKIJCRRiskh33tUNi4fOs3Hbtzuad/cSUp4ej31d55/FsCnr3MsjmZfqhEXtjW+zLew8pw==
+ b=WhRCBIZ5GZ+9BLyz0K0DX2niHfpF97OOzBf0EAZa8sK6Zyqb0744gHkFWq8D1Bf1sdaRpKkSLU1ZEiWO67e6AOcj7awJsz2lH/savvCriQXF8XSmVysuGz1K1qlLrBuIXlpKaX2bMIIkAQfZlpO9BLxCe11YRXMklev5PP4gVL9GfH+2IA+Hhm+iwnoYsucyHc9Xh3EQP8hIG/SPSZnPTiISIlbIa/Bq26RsX9o91997ZSPflfxGHHGGKo8dPp/DyTrAa7jezUKnYvhpQVX4OV5H7XX0Vp5AhurpPkUMjOdv9rO3J59a4kP5yBGCez4RHi0m/M71LY781PXJsDgIBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=igF3GbXOWncFqGGUrydMwKKXHCRPnT3M2caI+Hphdic=;
- b=LlH0chyMJslM2+dxvWQahfdjhxbArXZTHjBf+Z1rh2j8aXUeu5yW3bQ9X1fkQhX4M0c1HGgJBB2Ciz+qoro1XkwVWC9+TDHNxw4dSLQ+XxZVe0u75B9JejzWqF9fOCSC09plNM00U0426LmvFA66l3m4ITGeOSBy9UF2skEnHCUa6HnXFFoawPsGEot4p8NQ0C1o+JY6h10PDNaXWDPnaXflPtApQUuZ6pQoZK9CMgzRu/p/hYQZMT6gE4u+DWDzvB7hl8B4n9LY/V8Dn4d3faH6aMWRpCVznB+396mklNLti2hMqygisOPyY8EReoQ9BCK65f2gNr9Sa+w+6W4GYA==
+ bh=nD/Xrb6+x1w7j8ERxB3qP+k5DkNDxWCVTQERpk3DS/s=;
+ b=SkNuuodEtH50DsDDi+LcgFcdPPP9HPJpgIfkTL4iRTrrskdE2ZvI+Vaqy+OMP8OMRA0v2a9B/ZxX43eBGVNUJArxiSYXBmhSh51JNNZ9U1q2jzGzvKiw0NK7UEraQGzga5sBUwSA1x8i1Fodt0GCDBsNgwQg9jwWBike0D2hmiWAB8cXZBo2jUZ55oYurMtdp1M7+TTNKgIl+O2E283Pr/qYUKZTvK+uOGrJqOLXsZe16GKXs1LkLp8Dal/+gKKafm/xFh+I5/3nrMfm/vZJ3l7F46Kh7H+ca89zYy+/qgrQKPe0IwBk/qY3DJR0DIBYGi/Ux1m+xMSTMmLAcEI6ww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=igF3GbXOWncFqGGUrydMwKKXHCRPnT3M2caI+Hphdic=;
- b=xp/rWFH2/Cgi2zCkzZgRHdMjXBW6K5d7ecwQgRu6SCS8qbuWvVHAoAXim8/qYB08Dgmn5i56v2fg4suWfC7WM4cfrBpUTn9DVweN1WaeRbuyTXm/e+CjVDvzbdt4Rlfs/IE6e020lOHO6o5OnLt+ngAAQr7MrKgc/btHT7TvlLc=
-Received: from BN9P222CA0005.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::10)
- by SA5PPFB2BF91BC0.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8de) with
+ bh=nD/Xrb6+x1w7j8ERxB3qP+k5DkNDxWCVTQERpk3DS/s=;
+ b=EQ3D0Etxi6okkzzLd0DChB2tiA2PNOuL+tO641DGuYdxFQcKFn+UgJycXRml8YXRXnt30px6SyuE1JRKWiwGVKeOxAy6jBHGEmiCXU6hTr5tw2r2k6DhuGHD//Lh6foRw8dsep612Vq+WBlKM0KqAK9kOf7OPkZ7TTS5eGerOyE=
+Received: from BN9P222CA0008.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::13)
+ by DM6PR12MB4156.namprd12.prod.outlook.com (2603:10b6:5:218::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Thu, 26 Feb
- 2026 06:56:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
+ 2026 06:56:55 +0000
 Received: from BN2PEPF000055DB.namprd21.prod.outlook.com
- (2603:10b6:408:10c:cafe::8e) by BN9P222CA0005.outlook.office365.com
- (2603:10b6:408:10c::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.25 via Frontend Transport; Thu,
- 26 Feb 2026 06:56:52 +0000
+ (2603:10b6:408:10c:cafe::62) by BN9P222CA0008.outlook.office365.com
+ (2603:10b6:408:10c::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.26 via Frontend Transport; Thu,
+ 26 Feb 2026 06:56:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,21 +50,23 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  BN2PEPF000055DB.mail.protection.outlook.com (10.167.245.5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.0 via Frontend Transport; Thu, 26 Feb 2026 06:56:52 +0000
+ 15.20.9654.0 via Frontend Transport; Thu, 26 Feb 2026 06:56:55 +0000
 Received: from vijendar-linux.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 26 Feb
- 2026 00:56:49 -0600
+ 2026 00:56:52 -0600
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <vkoul@kernel.org>
 CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
 	<Sunil-kumar.Dommati@amd.com>, <Mario.Limonciello@amd.com>,
 	<venkataprasad.potturu@amd.com>, <linux-sound@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH V6 0/2] soundwire: amd: clock related changes
-Date: Thu, 26 Feb 2026 12:25:52 +0530
-Message-ID: <20260226065638.1251771-1-Vijendar.Mukunda@amd.com>
+Subject: [PATCH V6 1/2] soundwire: amd: add clock init control function
+Date: Thu, 26 Feb 2026 12:25:53 +0530
+Message-ID: <20260226065638.1251771-2-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20260226065638.1251771-1-Vijendar.Mukunda@amd.com>
+References: <20260226065638.1251771-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,65 +79,141 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|SA5PPFB2BF91BC0:EE_
-X-MS-Office365-Filtering-Correlation-Id: 147fd312-7b08-47ef-480c-08de750438ab
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|DM6PR12MB4156:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52d66adb-9393-4446-9f2b-08de75043a52
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	9UG8kqWi2vPH6T5yj+3cS/JPFnZDeDeOT2KFFIrgzSglAB/ZLG0Qu8kGHRT3xme32mlf13RU0y/MEsvYBvIsDqIFcjjXSj4B/W1Gx42SsAEClvSFeh6kGSTuOe3XzlxFQ9Dkml+fKIv6lLKNLMyetJEusBu5sI1GuqXT/HWpOZH8PfCLPOjj9AnRVX86D9RqJwwYzKrpE6Yo89PmSzj5IqoBPJUIJ3KdUque3rBcvOKuJ5Key2Lqp9Rm9j2t/bqk9CIuT5BLfJU+SM507HGBerF2sW6X4ze7h/TfjjTWXXb8BRz+lb2UPLTOTK4T2B/9I1oL1ilWsIrNhCX4LNqzgp8nXq0Th0Xd+JR348i7Y19RV0G7+YCgv1EYXdHl+iH4a344U7BCpvucWR4hs1m2NQsVNjqWfK1Uj238sI9OoUlZ0HDZbfaUYGt3JfopW7nhgiVHbJ0IuAEQGlC9aQuJPiJjRp/QJnW8SGSL4xf11XZv0t0sDpsUbuukXCeoahvTtsmp1mCvM91719XA+D7Cry+pzA8BJ3JhYnLs+LPHEg8N8YyQ6J8wBSkQeBy5tNFC6eS589RGwhyqEonX9QVQjfUcGc5MFxfh9ccAQcxpJ4uySUVIlimgCcNtBcxO/sswEr6+lrjEPTMT/0ui/seSuGynmaC1RAYsMsJIRVBpqDVdO2iyeWrxvlSRkjkYMJT0CPlP93NcFbEo03zVfJSSdO3mVe2m4BAyWHe/WCQ0mZac5Mrpuhhc8T/RMiv158dpiDrCVcHUDX4IrnH31QnonyH/pdQCIKvh/gN/O0BiU8BLJenDy2GZbb/OrcrCF89G4FCrAEdxmiJQ3diTromIiA==
+	20RvRhlmcpkvr36BNkTAIkwMQnWS2XAgFau4FhDaJvjrVaoK+efXtc94VizB5ZFS/Mfr+kRRMPk50pMQ32vOMfvW3OtqK1cvcjwTRDgZiCQR9Vx2qqsdnrDYPSgmwx2TRm2eKxcO/7unzTfwVcD7sUHI7uKdzMTqPKx39qMe9Y+0lfAYNkqDsFtBoM/pudHOuP+m+Fax8pvF+DOPT8Rj88xhpHnn+c603DzMy9/RPjx1T8B8SWZAexQYtsPL3uesMp8yf6TyD4UiomQj4Iti0rdV0xxWLdNDxhv3C36tW5kiEpAg8ixMOFmkDTKQqSSGVekx7SQnGDPkIFP8thMFiMeKVHHlkBsxvhwbHOgMK8IzxEUk6w9JGu5+rEt8wt6EgH2vL9tFEAbFF34oeFxjtI12YX7DqE9L65TPREhn8B8aGmhBjVWbxTlW6dQaRCMvplGwpAda8sxjL7vfNiVx+xwEoaF1TyvlNypqY7a5CEmD0VEiOWw3/dsgzsnjvkXknIkfMmYArqZ0WuSb9+yOD6hGR9n/Jz+5TInBkNXDXC4O4f12qCzQunx9Xjs3989mq4fZ0Ipn3jo5YMOJvOUCu3tekFpE/P6O5na43vUxxMkl45S9KWIXrFxPtfnJRoDEJlbYThricqaFiwPkG8wl3XrsrPWCB15M6ILS/FMXfpnB7SX0+kovlHvAm6AmP9ronpk5ArI8MWaSo8k9BY0/alXcsnlw/g7S4Pqnnhu8+mzletUIHyS3rUT/nUo/ltDjUlEVr7c8xm1CjcdMzhPpuzAeAS0uIik4+XLHbWh8uHZJkFfUQiRi4j/4tArsrxD7dXE3JTHU9mETSPD7T2zE9w==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	9GcLzF5D7Vz67hfmvDAj1bIydsnT89K2po2QVjxf9MrVwihSpwqR3KsNAgLqqT+xxH7GsYdJAyhQtun4YnzgAKzyedOZCu8JrXTKqNTP/gqaikzgWmz8tNCryhDQPJrZWFRADXd+lUuOM3OoJI41M2h9EPdZrLBldlefEy6w/m6pfUtueeyqThn3MusChnHbm8lFNer0cUvwGWJxU15lWwADQKtVprDJqrbH8VZ6stXcQv17U3x7PxfygshNI7x1vDhLozd8LsiqHN+jw0KwqtE54ZcaQQfi4pWTniOZNqzKCTrm4z50XPOBFC+LwYi+uQHTDpY4jq3lAaqs48WZaA67sso86vRm9WIQeEtIVmJrwo/RQXykxXY3HEVsthifhtnqowqHEtVhWRzA52Uy7GU3SNpYAa6jqzmj1U9W5CGF0jmKn2jYlbqbQNNVPiK/
+	EKKDRgIqmPG5n4f5G9wNI9GWROTzBW3gJ7BDWPTlIyXotvW8aAwvk4DyN1bnq/JKegBPZj/17xs8A9KYLpwtCAYqcCszSJDEwF0weakcAtcFNTDbtJcOXFhgJ9XqSNy6DbYigB0AxDyzrj7tFXrye7Xlbpdx4nToOCCYxy9KPPA9UJFdMLFMF6drYE2bpgUFQWwspjcl+N59A1wOWoZDqi4cVekX3iK0QUm9YAo3LTNIqKA+Sp0hDSZ7w7PqmGhm9TcmLfgkLXxp2KzU38metjSgjnxLkTkZ58Dn79dGUcY1c1V+xCDqqSD9uHq28NRm2Jwf/l0sg2HTU6PbwOOhJAnvsxpfY/bzwc6Twu5mjT56VpmJJg9eI1X7ljSxItf+5mYMdu5Wx9tPSVm8QmHXjNAslnGrdW0RJrrNyKUuYLmjlCHlN2pIkMSRi+gwWCB1
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 06:56:52.3815
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 06:56:55.1555
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 147fd312-7b08-47ef-480c-08de750438ab
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52d66adb-9393-4446-9f2b-08de75043a52
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	BN2PEPF000055DB.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFB2BF91BC0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4156
 
-Refactor clock init sequence to support different bus clock frequencies
-other than 12Mhz. Modify the bandwidth calculation logic to support 12Mhz,
-6Mhz with different frame sizes.
+Add generic SoundWire clock initialization sequence to support
+different SoundWire bus clock frequencies for ACP6.3/7.0/7.1/7.2
+platforms and remove hard coding initializations for 12Mhz bus
+clock frequency.
 
-Vijendar Mukunda (2):
-  soundwire: amd: add clock init control function
-  soundwire: amd: refactor bandwidth calculation logic
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ drivers/soundwire/amd_manager.c | 43 +++++++++++++++++++++++++++------
+ drivers/soundwire/amd_manager.h |  4 ---
+ 2 files changed, 36 insertions(+), 11 deletions(-)
 
-Changes since v5:
-	- change the 'divider' variable from signed to unsigned
-	- drop dev_dbg() logs in clock init control function
-	- change few variables(stream_slot_size, max_slots, next_offset)
-	  from signed to unsigned in compute port parameters callback.
-
-Changes since v4:
-	- update commit message
-
-Changes since v3:
-	- drop unnecessary debug logs.
-
-Changes since v2:
-	- Update commit message
-	- add comments in the code.
-
-Changes since v1:
-	- Update Cover letter title.
-	- Fix typo error in commit message.
-	- drop unnecessary condition check in compute params callback.
-
- drivers/soundwire/amd_manager.c   | 100 ++++++++++++++++++++++++++----
- drivers/soundwire/amd_manager.h   |   4 --
- include/linux/soundwire/sdw_amd.h |   4 ++
- 3 files changed, 93 insertions(+), 15 deletions(-)
-
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 5fd311ee4107..447b9d1f9cc7 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -27,6 +27,36 @@
+ 
+ #define to_amd_sdw(b)	container_of(b, struct amd_sdw_manager, bus)
+ 
++static int amd_sdw_clk_init_ctrl(struct amd_sdw_manager *amd_manager)
++{
++	struct sdw_bus *bus = &amd_manager->bus;
++	struct sdw_master_prop *prop = &bus->prop;
++	u32 divider;
++
++	dev_dbg(amd_manager->dev, "mclk %d max %d row %d col %d frame_rate:%d\n",
++		prop->mclk_freq, prop->max_clk_freq, prop->default_row,
++		prop->default_col, prop->default_frame_rate);
++
++	if (!prop->default_frame_rate || !prop->default_row) {
++		dev_err(amd_manager->dev, "Default frame_rate %d or row %d is invalid\n",
++			prop->default_frame_rate, prop->default_row);
++		return -EINVAL;
++	}
++
++	/* Set clock divider */
++	divider = (prop->mclk_freq / bus->params.curr_dr_freq);
++	writel(divider, amd_manager->mmio + ACP_SW_CLK_FREQUENCY_CTRL);
++
++	/* Set frame shape base on the actual bus frequency. */
++	prop->default_col = bus->params.curr_dr_freq /
++			    prop->default_frame_rate / prop->default_row;
++	amd_manager->cols_index = sdw_find_col_index(prop->default_col);
++	amd_manager->rows_index = sdw_find_row_index(prop->default_row);
++	bus->params.col = prop->default_col;
++	bus->params.row = prop->default_row;
++	return 0;
++}
++
+ static int amd_init_sdw_manager(struct amd_sdw_manager *amd_manager)
+ {
+ 	u32 val;
+@@ -961,6 +991,9 @@ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
+ 
+ 	prop = &amd_manager->bus.prop;
+ 	if (!prop->hw_disabled) {
++		ret = amd_sdw_clk_init_ctrl(amd_manager);
++		if (ret)
++			return ret;
+ 		ret = amd_init_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+@@ -985,7 +1018,6 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+ 	struct resource *res;
+ 	struct device *dev = &pdev->dev;
+ 	struct sdw_master_prop *prop;
+-	struct sdw_bus_params *params;
+ 	struct amd_sdw_manager *amd_manager;
+ 	int ret;
+ 
+@@ -1049,14 +1081,8 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	params = &amd_manager->bus.params;
+-
+-	params->col = AMD_SDW_DEFAULT_COLUMNS;
+-	params->row = AMD_SDW_DEFAULT_ROWS;
+ 	prop = &amd_manager->bus.prop;
+-	prop->clk_freq = &amd_sdw_freq_tbl[0];
+ 	prop->mclk_freq = AMD_SDW_BUS_BASE_FREQ;
+-	prop->max_clk_freq = AMD_SDW_DEFAULT_CLK_FREQ;
+ 
+ 	ret = sdw_bus_master_add(&amd_manager->bus, dev, dev->fwnode);
+ 	if (ret) {
+@@ -1348,6 +1374,9 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+ 			}
+ 		}
+ 		sdw_clear_slave_status(bus, SDW_UNATTACH_REQUEST_MASTER_RESET);
++		ret = amd_sdw_clk_init_ctrl(amd_manager);
++		if (ret)
++			return ret;
+ 		amd_init_sdw_manager(amd_manager);
+ 		amd_enable_sdw_interrupts(amd_manager);
+ 		ret = amd_enable_sdw_manager(amd_manager);
+diff --git a/drivers/soundwire/amd_manager.h b/drivers/soundwire/amd_manager.h
+index 6cc916b0c820..88cf8a426a0c 100644
+--- a/drivers/soundwire/amd_manager.h
++++ b/drivers/soundwire/amd_manager.h
+@@ -203,10 +203,6 @@
+ #define AMD_SDW_DEVICE_STATE_D3				3
+ #define ACP_PME_EN					0x0001400
+ 
+-static u32 amd_sdw_freq_tbl[AMD_SDW_MAX_FREQ_NUM] = {
+-	AMD_SDW_DEFAULT_CLK_FREQ,
+-};
+-
+ struct sdw_manager_dp_reg {
+ 	u32 frame_fmt_reg;
+ 	u32 sample_int_reg;
 -- 
 2.45.2
 
