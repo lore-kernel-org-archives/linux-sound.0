@@ -1,348 +1,393 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010034.outbound.protection.outlook.com [52.101.193.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55769368952
-	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 17:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772125992; cv=none; b=IrpWDLr1izbJY0bBCKBkcG9oLbBfLnGc823U4O0oeoGc20KiETDtey7kYDxCqkhmfohdqg2rrG7RxhEzT0Quwq863keClza91CrPOIS7eopE56oXmUXWW12dUD8pbPdUbL8PKeCty0NETNXm1qBiw7PzQKVaxZXzbKOdIgf/heE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772125992; c=relaxed/simple;
-	bh=vuNF+CsgDhYGhajv9QOfHxvpySDi0aQnR8cDGX6FixI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mGdXkUY5P/zyZYRRfeTiNDEjDNhNEnlX4lb1oyEfRS9UJrJ+hYNRPTWLabj1N1+ZpE8B+o65EIQrjx8fXCg/4NGH3D/lbPnsZhrElz9CieuwFyKN7qEEUpjLHhUfaG2WhFpfFcOya8ZuaGwYvIOlY2x/jEcTzUnHZsmgX7jEL3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVUO7vuA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PjDsIFJs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVUO7vuA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PjDsIFJs; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF9F1DF258;
+	Thu, 26 Feb 2026 18:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772130348; cv=fail; b=BLHbHGa26Gk6qEc+oeEuHRL9LDcqSuocsCFHc7PSmECzxOfjDbuLKOoSghBRlMIeZVdYC2uTLBZ3YMVgS6SWY+7hpMBEiTwrCpP7J3G4eREbLahNpDVXvKMwBLUO1EL5aTQYmKS+stG2PBglHJTwGStOlEoc045kfJdMMAelgYo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772130348; c=relaxed/simple;
+	bh=+IFQQExeW4f3iMc8tyJmYRBOL3rRt7kmtxQrJHwWb4k=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qaEtdWR6e0tSGm0Ey/Zk3zN8JFI5VleOU2QKj34877hT8FeloR8P5YQF8xnjJJ3FiFytJADa9oHi+QA5/BNzZlZum6QMDrywC13OXmj4xjuQldD2I821XYO5hf4w3L9ObBRllEYyIQeemZWh/AR1XAZv5kzfUgWtrnMt8JOmDVo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=T5Rd1Ref; arc=fail smtp.client-ip=52.101.193.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVUO7vuA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PjDsIFJs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVUO7vuA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PjDsIFJs"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A6CA11FAA8;
-	Thu, 26 Feb 2026 17:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772125988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
-	b=XVUO7vuAJumaORaLN7Qb+0Mxsfpvc9lG8/D2D9hsSKk1cn+zam9mYFOrJPjCna4a6rcaSX
-	rV8FRfKJ3KLDVI+UiUXuzZLU6p18rPSaDZKgCXYbnhq+6T5mQUkhVXp3m1CV0BxAOkBR4S
-	K8Q9dKuPSteh1iEqi2zCRvAl+Z9so2A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772125988;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
-	b=PjDsIFJswnEipvFHgf0wLq3ZFRNMQdjuPuHbX5a6FPU52YueUVMK6OUF7sSeEwzaFst/pd
-	bmmGkHN2b9y2mwCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XVUO7vuA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PjDsIFJs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772125988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
-	b=XVUO7vuAJumaORaLN7Qb+0Mxsfpvc9lG8/D2D9hsSKk1cn+zam9mYFOrJPjCna4a6rcaSX
-	rV8FRfKJ3KLDVI+UiUXuzZLU6p18rPSaDZKgCXYbnhq+6T5mQUkhVXp3m1CV0BxAOkBR4S
-	K8Q9dKuPSteh1iEqi2zCRvAl+Z9so2A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772125988;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
-	b=PjDsIFJswnEipvFHgf0wLq3ZFRNMQdjuPuHbX5a6FPU52YueUVMK6OUF7sSeEwzaFst/pd
-	bmmGkHN2b9y2mwCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F86A3EA62;
-	Thu, 26 Feb 2026 17:13:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SZJIDiR/oGl3SQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 26 Feb 2026 17:13:08 +0000
-Date: Thu, 26 Feb 2026 18:13:07 +0100
-Message-ID: <87fr6na0nw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: gregkh@linuxfoundation.org,
-	mathias.nyman@intel.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	quic_wcheng@quicinc.com,
-	broonie@kernel.org,
-	arnd@arndb.de,
-	harshit.m.mogalapalli@oracle.com,
-	wesley.cheng@oss.qualcomm.com,
-	dan.carpenter@linaro.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ALSA: usb: qcom: manage offload device usage
-In-Reply-To: <20260225064601.270301-3-guanyulin@google.com>
-References: <20260225064601.270301-1-guanyulin@google.com>
-	<20260225064601.270301-3-guanyulin@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="T5Rd1Ref"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DUduklsZrHkQishuUPheRHmgVXZDZtxmGW/ZDp/KN1jcJEU5FAn+/plxULygOltk5HUm6z/1OENO8oeodgTQMMQZ/xuFzuJnocuX46lG34Bg0pyTrImLEJrhO1moAvlp5pfaK+ntLOB/lXy/jQBFb3jsGnjgl23UQ7IxwqZmESPzrTKC7V7P2ZDGA9rk/JhhsA2PGATemEJYdyA7KrofffH1Fz2yBk4KW9yLcHd/k46BNz9jLB4VVe9eExI7J0a2+9OweDp/qE7fo3Uzii30HJOqlA4SlZOgHIuowTTrxawVVAixzKpiaiE9CzXjVkiG1fMuUtR7rdtGxphbooZwUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vPJp5w19Fx+MlYCGTQ73OECtl6RWRLR8f56KXzk5WL0=;
+ b=jWU5DksezKpEO2lrEqIpywS5iCGg0U/kdTkSE5fSRGQd0VPW1QkZzI4vuFwpZYJGVN72eqQWulR5w3W1+lNoEyoFlWFboQj7XMorTTIFSsKljek/Eq6NeW+LIvd3T4hFLDHI2qeU90kXu0x4jbeFuo9rupuUblhShPpk3+9UGenNrGfSIUdqziliBEzGfjDynkEwnT7wPkAhHLY6njeKpqzecKmrh/Erx1fvMWLQ1HVXhOI2JRUa54J8+6Bawg1B9FUfodWkx/4dDhi2PqUaK8tZp4SsGuZQL3kDQWF98CG7nYb+4rLU2drYgz7n9WlNs2Cu8QaVO91j/oHcT4EIMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vPJp5w19Fx+MlYCGTQ73OECtl6RWRLR8f56KXzk5WL0=;
+ b=T5Rd1RefJz7HEyjGB5AdSupkSAwnPBJ3/dAGQmGJzq+YHWfDIBx0ldTGkENN6GS1JKVxfmV4L9xSUSuqbkHlrZZFQUtrF6f7nE1GpUNjsYx3EPVrJC7LZ5gqJ1HK6qihTn8/ew27NdN5hw5miJABNDDzPDmJzd/k2zaEoXvoPofG7G6NoBQwDsP5W8VeeLcPrTNDOItEOYV+ywmqbD30DcxbMDCG5KiAAVH/lT6+dbWuey230mosgTA6dIUijSC9CEm7i1Jn6/DmNKqaVOEtVcDzxo0V/dKFYy7vYSJ2I/Iah9sW/u426AwhatO/GTY/W/G45l9MCId+4xqVQHU8GA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by MN2PR12MB4173.namprd12.prod.outlook.com (2603:10b6:208:1d8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.15; Thu, 26 Feb
+ 2026 18:25:41 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%5]) with mapi id 15.20.9654.007; Thu, 26 Feb 2026
+ 18:25:41 +0000
+Message-ID: <fb23d54a-fca0-43a2-ae1d-03ae52112192@nvidia.com>
+Date: Thu, 26 Feb 2026 20:25:35 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] PCI/MSI: Conservatively generalize no_64bit_msi
+ into msi_addr_mask
+To: Vivian Wang <wangruikang@iscas.ac.cn>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Brett Creeley <brett.creeley@amd.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
+ sophgo@lists.linux.dev, Takashi Iwai <tiwai@suse.de>,
+ Maor Gottlieb <maorg@nvidia.com>
+References: <20260129-pci-msi-addr-mask-v4-0-70da998f2750@iscas.ac.cn>
+ <20260129-pci-msi-addr-mask-v4-1-70da998f2750@iscas.ac.cn>
+Content-Language: en-US
+From: Mark Bloch <mbloch@nvidia.com>
+In-Reply-To: <20260129-pci-msi-addr-mask-v4-1-70da998f2750@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0184.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::16) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A6CA11FAA8
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|MN2PR12MB4173:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a7bee03-677f-4c20-7d11-08de75647295
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+	9PsqS6ngW9OR79WvmoGbuLJT/Njq9tmn1Y4kvWKFRcHaqMXldP8HOWVYX46z8WeonfN8WfJUoVu82cTYacwuOgeqjFg2iX8mrd2TTwQTkl4KQKDMNN4CVErLry1dFopRS4rv4TntRLONZni2EQ8hVZ4uM64SHN0/hmx30g75xcs3CBS3ycUBWburJCmxM2xX4bonbAE1cfG3c6Xp6Shtx6/EwR+O4K21WVLphuRuQlcaw20fRpFe43mOG4g6P6tpqnRrr5QmiTKK9Tcm6A45A+nI1WRchacp4w0zkZPeN7ZcOpw8SWCeO1Qw7jmgU5kTDwmw1KTo9wsUAWjWeaGwrZYlg4Le6w++ekYYYVVd74QD/J1IvIQBOHMLhJrbr911iHYuLbXHvv56hT1bmaSaiYMfAEABEImTpp3TIYVEL3yB7sqAzOoSm1vvR9S5ozVhI8vMXqQO5Zeq02Bq1ORu/gPHjlDYHgNW9zTFUaQgFti4b+raO4CO8CL8gijpCzwVb6/qpuOJ98kh9Ty6vyh+DS4ygtC7grkJlORQsOceyiMrQQ8L6k791Uf2wTai+HMW+V432jJqkZdMs60jpUTIYmU1spudUBf1G/J2KY76FG6fw2RBsN0kJ9FwJoHBPuH/nvHpPOsdXVV2nUMig1EKk50lzeyrJfAkU+S2Y6wISuPx0Sw/8xXMNnZBlSecidU7H6Px9Kg/6CZt6DXIW+ZC9bGwtwWiYZa05uQAHUktPdmVHbP4p51UEIXYyTdmy+CjfzNomScronvuYkoyA3FWhd0PDkj4ATclX/WqjqoNUMM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bFdERFpreHJzMy8xL3kxTG5rcXp2S3JKa2FCRzRDOVp6bDBaa1dPZUtyYVMw?=
+ =?utf-8?B?SWpJUXhxbTRsNGUzTW0xV09uamF6UzRIN2wvSklpTEFOWW1CK0E3cUJ6c1V3?=
+ =?utf-8?B?cGpoU21vMDRaRDdnUG1nSy9ocXpaNS9zV293NkdsZ1ZWakE0bEFrRVZNdS96?=
+ =?utf-8?B?SEEzYWdDc3Y0emh2cDRhWVJ6bHFhdmVaR1BSMGZVc2dPRUNmMGozdWx0TVpV?=
+ =?utf-8?B?b3NWTkkzNTE3d2REdXZjL1dnOXE4eDFTbUZMSHBWalFrSUE2aFNXWituYVFQ?=
+ =?utf-8?B?cXFwVGhxc1JvRDR2NUhHb0NJQ3pEdHlqUmliU0xOMm80dk56eVh0TzJEOXNM?=
+ =?utf-8?B?SkpXZ205QXhvbTRjN2I0TWxYcTJIbER1bFVoVlZnN2cra2x0U1JZL3ZGcFRs?=
+ =?utf-8?B?cG1QWE9JMGF5bXJsZkhWeEEwVng4RmJHZC9kZGRON2tiUmhkOXJ5eGk2ZzJ0?=
+ =?utf-8?B?dGE2SlhJc25VMTgzRkJUZisxVGNiL0tiOW5oV2JwMXZGMHo4dDN6TXdPT2Zh?=
+ =?utf-8?B?WEZQaWl5UndNYXkyQ3FwR3U5djNQUjVCeC8zdmtBOHcrVzgzaHJiL0VSQnND?=
+ =?utf-8?B?TWNsT1ZGcE9MT3NCNXhvbkRyUUt5dWZzWThOQm5sc3IydWdGUDlZbXljcnVo?=
+ =?utf-8?B?QWxhbC90ZG1CK25nM1p0QVZKTUp1OFZPU2ZSSGVON0d3bFVYZmlkQU9QYk1U?=
+ =?utf-8?B?cVZJc2pDR1RlcnFmSDBoUjZBemF6ZnFDTFNoSGNGd3VIWFFrdGUxUzhHcnBx?=
+ =?utf-8?B?Rmk0dEJNRy9qdStZdUNZQUVrRDVKODZQN3luS0tpKzVCZ0hVenpJS0IzOHFZ?=
+ =?utf-8?B?dGpuazBBYnBlM2h2aWhNS2RqZGU5MzF1TktoYzFoN1ArcjFGYkVzVThTZXlp?=
+ =?utf-8?B?U2pnNGJQL1IrZkkrSEFtNURkTktNVGJYcjVUUU15YmN1OWY5N1NjdWExOVN0?=
+ =?utf-8?B?UnZtWUF2MjB6MnJSTzVjOWVaVkJreUtkaHgycGJRNTVmUiswMGpTS1BYSXNM?=
+ =?utf-8?B?aTJOUnh4VTlrUmpHQmdrVGU0SnlXUktJQlVjaUFtdzhZSXQxcFdHZEZCMTU2?=
+ =?utf-8?B?V2tBbnJJdjNFNFRJb3NkSEM1K1k0VEhWRlErRDFXdkIwYThPOW9zamRFQW9G?=
+ =?utf-8?B?RlY5RnV4cFpKVmkxWWgxSHN1UTRzbjJXVURMMmJHMXYvUmNHN0o5THBzQ0tB?=
+ =?utf-8?B?aVUreWhHY2xjbk84NFJmSlpQYUthZmhGd2xIbUUwSHgxRkN3b2IzMDlTNERN?=
+ =?utf-8?B?Qk85YXF1dkYyRGE5TmQ4c3F1T0wxdW5aaDg1Y0FETjYvZlVPUWhLSm92R0Ft?=
+ =?utf-8?B?TVdqY2crRno5Ym43VHl1NHl3djZVYjR3amE3ZElsT2d3ekdZQ0xDaE1tNDhs?=
+ =?utf-8?B?bHdFOEpSMFNMRm0yRFpPTG9iS2ZqdWd3MjNuTzNDeXdjMDNMamZySXVCakdk?=
+ =?utf-8?B?K0VDK0xKMVJucjlsTlhhWFJtN3N4ZSthVnNEZE5maElxOC9XVGFJNnNENzZP?=
+ =?utf-8?B?dUF3djh2WDNmNXkyT3VsYkdHZTcrTjB5UU81ekpyWHl0WXROVTNpd08zU09L?=
+ =?utf-8?B?ZHZLS0RQVmU5SjJXU3RwUDBiMjQrZDZPM2pNdkR4WC85MWNqNzlPQ1pYM0Fv?=
+ =?utf-8?B?TlNlVDhwM2dZeHpKSStpSTJ0TFA5YU80UUNkSWtuVHpNQzMxMnp6QjMvZHNj?=
+ =?utf-8?B?eVp2cnh4clY2MEtCRk0xRXhUZ2FtVTBvUGRseEdkcVJ0cG51R2NESjNRUkZt?=
+ =?utf-8?B?bU9GazZZTFYxRFl3dlkxaEtjTzNwazdGWFRqWWRpUWdacFhGVm43cHFnUFRj?=
+ =?utf-8?B?NWFRTklybTY1YU53aWNXWTBvdUdkdy9SdldQOTgxQTVCcW9GKy9vZlB0cnJX?=
+ =?utf-8?B?eGlMZTl2TWg2SlZqOEhNRzFwUEx3QjErb2paY1VOeC9HZGZEY0VJNC9nQ0sw?=
+ =?utf-8?B?Rm9NRDBrTyttRVlyT1NCbzFKdUxuMVlWOTR3RW81MXlUeEpzNkRucU54T3pR?=
+ =?utf-8?B?ZWNjNkx6SFJPb3oxTWdLTFJ3emp6S2pnK1Jkbko5Wk54OEYxbXFMd0xwRTJQ?=
+ =?utf-8?B?VlBtMERxbVRPKzhicjl1enM2b3M0T2FGZU9KWXNFWHQ1SnNuS2NzbXdta21G?=
+ =?utf-8?B?dmVZYU1rQi9nZnduYzhjRm5IaSsvcEZMY1lDQVovY3BweUdNazBsa0xsR0dt?=
+ =?utf-8?B?Y2Y5cnhSTG90YXZPMElQTVdadnRNUGgvUkFyTVNiYWNYUFF0REJPZHdMWklS?=
+ =?utf-8?B?NkJYS2wweWgwT2VEc1BEVkREY3ZCRll5SmZ3WkZydnp3d1FFbEpnVnI2RElk?=
+ =?utf-8?B?RXV2TVd0ZG5YV24xbTF2QVEycFpwV2h1dDMvQnRtenVSV1RkQUhNQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a7bee03-677f-4c20-7d11-08de75647295
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 18:25:41.4895
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OlFLm3GZ1y9vpyXQeLQV0YKwzzLKC23HIr14pChwyB7Gy2h2Z79whxlIAx9Hcgzrm4pA4z5E1CcLKN7aJgyqPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4173
 
-On Wed, 25 Feb 2026 07:45:51 +0100,
-Guan-Yu Lin wrote:
+
+
+On 29/01/2026 3:56, Vivian Wang wrote:
+> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
+> implement less than 64 address bits. This breaks on platforms where such
+> a device is assigned an MSI address higher than what's reachable.
 > 
-> The Qualcomm USB audio offload driver currently does not report its offload
-> activity to the USB core. This prevents the USB core from properly tracking
-> active offload sessions, which could allow the device to auto-suspend while
-> audio offloading is in progress.
+> Currently, the no_64bit_msi bit is set for these devices, meaning that
+> only 32-bit MSI addresses are allowed for them. However, on some
+> platforms the MSI doorbell address is above the 32-bit limit but within
+> the addressable range of the device.
 > 
-> Integrate usb_offload_get() and usb_offload_put() calls into the offload
-> stream setup and teardown paths. Specifically, call usb_offload_get() when
-> initializing the event ring and usb_offload_put() when freeing it.
+> As a first step to enabling MSI on those combinations of devices and
+> platforms, conservatively generalize the single-bit flag no_64bit_msi
+> into msi_addr_mask. (The name msi_addr_mask is chosen to avoid confusion
+> with msi_mask.)
 > 
-> Since the updated usb_offload_get() and usb_offload_put() APIs require the
-> caller to hold the USB device lock, add the necessary device locking in
-> handle_uaudio_stream_req() and qmi_stop_session() to satisfy this
-> requirement.
+> The translation is essentially:
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
-> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
+> - no_64bit_msi = 1    ->    msi_addr_mask = DMA_BIT_MASK(32)
+> - no_64bit_msi = 0    ->    msi_addr_mask = DMA_BIT_MASK(64)
+> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
+> 
 
-Mostly it looks good to me, but a slight concern is the
-usb_offload_put() call in the error path of prepare_qmi_response().
-IIUC, the bitmap is cleared only at uaudio_event_ring_cleanup_free(),
-and you have also the usb_offload_put() call there.  I wonder whether
-this might lead to the refcount unbalance.
+Hey Vivian,
 
-I'm not sure whether the original driver code handles it well, and
-this could be already a bug there calling
-xhci_sideband_remove_interrupter(), though.
+We are seeing issues while reloading mlx5 on a PPC64 platform.
+We see the following messages in dmesg:
 
+mlx5_core 0000:00:08.0: mlx5_load:1266:(pid 1283): Failed to alloc IRQs
+mlx5_core 0000:00:08.0: E-Switch: cleanup
+mlx5_core 0000:00:08.0: probe_one:1959:(pid 1283): mlx5_init_one failed with error code -19
+mlx5_core 0000:00:08.1: lsa_required: 0, lsa_enabled: 0, direct mapping: 0
+mlx5_core 0000:00:08.1: lsa_required: 0, lsa_enabled: 0, direct mapping: 0
+mlx5_core 0000:00:08.1: firmware version: 16.35.4506
+mlx5_core 0000:00:08.1: 0.000 Gb/s available PCIe bandwidth (Unknown x16 link)
+mlx5_core 0000:00:08.1: Rate limit: 127 rates are supported, range: 0Mbps to 97656Mbps
+mlx5_core 0000:00:08.1: E-Switch: Total vports 2, per vport: max uc(128) max mc(2048)
+mlx5_core 0000:00:08.1: Flow counters bulk query buffer size increased, bulk_query_len(8)
+mlx5_core 0000:00:08.1: mlx5_load:1266:(pid 1283): Failed to alloc IRQs
+mlx5_core 0000:00:08.1: E-Switch: cleanup
+mlx5_core 0000:00:08.1: probe_one:1959:(pid 1283): mlx5_init_one failed with error code -19
 
-thanks,
+We've bisectedthe issue to this patch.
+We've pointed some AI tool to look at the reproducation script and this patch and it came
+up with the following idea:
 
-Takashi
+"
+The bug is a missing initialization of msi_addr_mask on PPC64LE, caused by a PPC-specific PCI device creation path.
+On most architectures, PCI devices are enumerated via the standard path:
+> pci_scan_device() -> pci_alloc_dev() (kzalloc) -> pci_setup_device() -> pci_device_add()
+But PPC has its own device-tree-based PCI enumeration in arch/powerpc/kernel/pci_of_scan.c.
+The function of_create_pci_dev() does this:
+ 
+pci_of_scan.cLines 215-235
+ 
+    dev = pci_alloc_dev(bus);       // kzalloc -> all fields zeroed, msi_addr_mask = 0
+    // ... manually sets vendor, device, class, dma_mask, etc.
+    // ... does NOT call pci_setup_device() !!!
+    pci_device_add(dev, bus);       // calls pci_init_capabilities -> pci_msi_init
 
+Inside pci_msi_init(), the code only sets msi_addr_mask = DMA_BIT_MASK(32) when 64-bit MSI is not supported.
+If the device does support 64-bit MSI (like mlx5), it leaves msi_addr_mask untouched -- meaning it stays at 0 from the kzalloc.
+"
+
+We tried a patch that moved dev->msi_addr_mask = DMA_BIT_MASK(64) from pci_setup_device()
+to pci_alloc_dev() and it solved the issue we were seeing (don't know if this is the proper fix).
+
+Can you please have a look?
+
+Mark
+
+> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) are
+> used, no functional change is intended. Future patches that make use of
+> intermediate values of msi_addr_mask will follow, allowing devices that
+> cannot use full 64-bit addresses for MSI to work on platforms with MSI
+> doorbell above the 32-bit limit.
+> 
+> Acked-by: Takashi Iwai <tiwai@suse.de> # sound
+> Reviewed-by: Brett Creeley <brett.creeley@amd.com> # ionic
+> Reviewed-by: Thomas Gleixner <tglx@kernel.org>
+> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
 > ---
->  sound/usb/qcom/qc_audio_offload.c | 102 ++++++++++++++++++------------
->  1 file changed, 60 insertions(+), 42 deletions(-)
+> v4: Patch message rewording (Thomas)
 > 
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> index cfb30a195364..1da243662327 100644
-> --- a/sound/usb/qcom/qc_audio_offload.c
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -699,6 +699,7 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
->  		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
->  				   PAGE_SIZE);
->  		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
-> +		usb_offload_put(dev->udev);
->  	}
->  }
->  
-> @@ -750,6 +751,7 @@ static void qmi_stop_session(void)
->  	struct snd_usb_substream *subs;
->  	struct usb_host_endpoint *ep;
->  	struct snd_usb_audio *chip;
-> +	struct usb_device *udev;
->  	struct intf_info *info;
->  	int pcm_card_num;
->  	int if_idx;
-> @@ -791,8 +793,13 @@ static void qmi_stop_session(void)
->  			disable_audio_stream(subs);
->  		}
->  		atomic_set(&uadev[idx].in_use, 0);
-> -		guard(mutex)(&chip->mutex);
-> -		uaudio_dev_cleanup(&uadev[idx]);
-> +
-> +		udev = uadev[idx].udev;
-> +		if (udev) {
-> +			guard(device)(&udev->dev);
-> +			guard(mutex)(&chip->mutex);
-> +			uaudio_dev_cleanup(&uadev[idx]);
-> +		}
->  	}
->  }
->  
-> @@ -1183,11 +1190,15 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
->  	er_pa = 0;
->  
->  	/* event ring */
-> +	ret = usb_offload_get(subs->dev);
-> +	if (ret < 0)
-> +		goto exit;
-> +
->  	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
->  					       0, uaudio_qdev->data->intr_num);
->  	if (ret < 0) {
->  		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
-> -		goto exit;
-> +		goto put_offload;
->  	}
->  
->  	sgt = xhci_sideband_get_event_buffer(uadev[card_num].sb);
-> @@ -1219,6 +1230,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
->  	mem_info->dma = 0;
->  remove_interrupter:
->  	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-> +put_offload:
-> +	usb_offload_put(subs->dev);
->  exit:
->  	return ret;
->  }
-> @@ -1483,6 +1496,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
->  	uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZE);
->  free_sec_ring:
->  	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-> +	usb_offload_put(subs->dev);
->  drop_sync_ep:
->  	if (subs->sync_endpoint) {
->  		uaudio_iommu_unmap(MEM_XFER_RING,
-> @@ -1528,6 +1542,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->  	u8 pcm_card_num;
->  	u8 pcm_dev_num;
->  	u8 direction;
-> +	struct usb_device *udev = NULL;
->  	int ret = 0;
->  
->  	if (!svc->client_connected) {
-> @@ -1597,50 +1612,53 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->  
->  	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
->  
-> -	if (req_msg->enable) {
-> -		ret = enable_audio_stream(subs,
-> -					  map_pcm_format(req_msg->audio_format),
-> -					  req_msg->number_of_ch, req_msg->bit_rate,
-> -					  datainterval);
-> -
-> -		if (!ret)
-> -			ret = prepare_qmi_response(subs, req_msg, &resp,
-> -						   info_idx);
-> -		if (ret < 0) {
-> -			guard(mutex)(&chip->mutex);
-> -			subs->opened = 0;
-> -		}
-> -	} else {
-> -		info = &uadev[pcm_card_num].info[info_idx];
-> -		if (info->data_ep_pipe) {
-> -			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> -					       info->data_ep_pipe);
-> -			if (ep) {
-> -				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> -							    ep);
-> -				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> -							      ep);
-> +	udev = subs->dev;
-> +	scoped_guard(device, &udev->dev) {
-> +		if (req_msg->enable) {
-> +			ret = enable_audio_stream(subs,
-> +						map_pcm_format(req_msg->audio_format),
-> +						req_msg->number_of_ch, req_msg->bit_rate,
-> +						datainterval);
-> +
-> +			if (!ret)
-> +				ret = prepare_qmi_response(subs, req_msg, &resp,
-> +							info_idx);
-> +			if (ret < 0) {
-> +				guard(mutex)(&chip->mutex);
-> +				subs->opened = 0;
-> +			}
-> +		} else {
-> +			info = &uadev[pcm_card_num].info[info_idx];
-> +			if (info->data_ep_pipe) {
-> +				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> +							info->data_ep_pipe);
-> +				if (ep) {
-> +					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +				}
-> +
-> +				info->data_ep_pipe = 0;
->  			}
->  
-> -			info->data_ep_pipe = 0;
-> -		}
-> -
-> -		if (info->sync_ep_pipe) {
-> -			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> -					       info->sync_ep_pipe);
-> -			if (ep) {
-> -				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> -							    ep);
-> -				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> -							      ep);
-> +			if (info->sync_ep_pipe) {
-> +				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-> +							info->sync_ep_pipe);
-> +				if (ep) {
-> +					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-> +									ep);
-> +				}
-> +
-> +				info->sync_ep_pipe = 0;
->  			}
->  
-> -			info->sync_ep_pipe = 0;
-> +			disable_audio_stream(subs);
-> +			guard(mutex)(&chip->mutex);
-> +			subs->opened = 0;
->  		}
-> -
-> -		disable_audio_stream(subs);
-> -		guard(mutex)(&chip->mutex);
-> -		subs->opened = 0;
->  	}
->  
->  response:
-> -- 
-> 2.53.0.414.gf7e9f6c205-goog
+> checkpatch complains about the comment include/linux/pci.h, which I have
+> formatted similarly with other comments in the vicinity.
+> ---
+>  arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
+>  arch/powerpc/platforms/pseries/msi.c                | 4 ++--
+>  drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
+>  drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
+>  drivers/pci/msi/msi.c                               | 2 +-
+>  drivers/pci/msi/pcidev_msi.c                        | 2 +-
+>  drivers/pci/probe.c                                 | 7 +++++++
+>  include/linux/pci.h                                 | 8 +++++++-
+>  sound/hda/controllers/intel.c                       | 2 +-
+>  9 files changed, 22 insertions(+), 9 deletions(-)
 > 
+> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
+> index b0c1d9d16fb5..1c78fdfb7b03 100644
+> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
+> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
+> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_phb *phb, struct pci_dev *dev,
+>  		return -ENXIO;
+>  
+>  	/* Force 32-bit MSI on some broken devices */
+> -	if (dev->no_64bit_msi)
+> +	if (dev->msi_addr_mask < DMA_BIT_MASK(64))
+>  		is_64 = 0;
+>  
+>  	/* Assign XIVE to PE */
+> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platforms/pseries/msi.c
+> index a82aaa786e9e..7473c7ca1db0 100644
+> --- a/arch/powerpc/platforms/pseries/msi.c
+> +++ b/arch/powerpc/platforms/pseries/msi.c
+> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
+>  	 */
+>  again:
+>  	if (type == PCI_CAP_ID_MSI) {
+> -		if (pdev->no_64bit_msi) {
+> +		if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
+>  			rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSI_FN, nvec);
+>  			if (rc < 0) {
+>  				/*
+> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
+>  		if (use_32bit_msi_hack && rc > 0)
+>  			rtas_hack_32bit_msi_gen2(pdev);
+>  	} else {
+> -		if (pdev->no_64bit_msi)
+> +		if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
+>  			rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSIX_FN, nvec);
+>  		else
+>  			rc = rtas_change_msi(pdn, RTAS_CHANGE_MSIX_FN, nvec);
+> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> index 9961251b44ba..d550554a6f3f 100644
+> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rdev)
+>  	 */
+>  	if (rdev->family < CHIP_BONAIRE) {
+>  		dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
+> -		rdev->pdev->no_64bit_msi = 1;
+> +		rdev->pdev->msi_addr_mask = DMA_BIT_MASK(32);
+>  	}
+>  
+>  	/* force MSI on */
+> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+> index 70d86c5f52fb..0671deae9a28 100644
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  
+>  #ifdef CONFIG_PPC64
+>  	/* Ensure MSI/MSI-X interrupts lie within addressable physical memory */
+> -	pdev->no_64bit_msi = 1;
+> +	pdev->msi_addr_mask = DMA_BIT_MASK(32);
+>  #endif
+>  
+>  	err = ionic_setup_one(ionic);
+> diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
+> index 34d664139f48..48f5f03d1479 100644
+> --- a/drivers/pci/msi/msi.c
+> +++ b/drivers/pci/msi/msi.c
+> @@ -322,7 +322,7 @@ static int msi_verify_entries(struct pci_dev *dev)
+>  {
+>  	struct msi_desc *entry;
+>  
+> -	if (!dev->no_64bit_msi)
+> +	if (dev->msi_addr_mask == DMA_BIT_MASK(64))
+>  		return 0;
+>  
+>  	msi_for_each_desc(entry, &dev->dev, MSI_DESC_ALL) {
+> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi.c
+> index 5520aff53b56..0b0346813092 100644
+> --- a/drivers/pci/msi/pcidev_msi.c
+> +++ b/drivers/pci/msi/pcidev_msi.c
+> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
+>  	}
+>  
+>  	if (!(ctrl & PCI_MSI_FLAGS_64BIT))
+> -		dev->no_64bit_msi = 1;
+> +		dev->msi_addr_mask = DMA_BIT_MASK(32);
+>  }
+>  
+>  void pci_msix_init(struct pci_dev *dev)
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 41183aed8f5d..a2bff57176a3 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2047,6 +2047,13 @@ int pci_setup_device(struct pci_dev *dev)
+>  	 */
+>  	dev->dma_mask = 0xffffffff;
+>  
+> +	/*
+> +	 * Assume 64-bit addresses for MSI initially. Will be changed to 32-bit
+> +	 * if MSI (rather than MSI-X) capability does not have
+> +	 * PCI_MSI_FLAGS_64BIT. Can also be overridden by driver.
+> +	 */
+> +	dev->msi_addr_mask = DMA_BIT_MASK(64);
+> +
+>  	dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
+>  		     dev->bus->number, PCI_SLOT(dev->devfn),
+>  		     PCI_FUNC(dev->devfn));
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 864775651c6f..0fe32fef0331 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -377,6 +377,13 @@ struct pci_dev {
+>  					   0xffffffff.  You only need to change
+>  					   this if your device has broken DMA
+>  					   or supports 64-bit transfers.  */
+> +	u64		msi_addr_mask;	/* Mask of the bits of bus address for
+> +					   MSI that this device implements.
+> +					   Normally set based on device
+> +					   capabilities. You only need to
+> +					   change this if your device claims
+> +					   to support 64-bit MSI but implements
+> +					   fewer than 64 address bits. */
+>  
+>  	struct device_dma_parameters dma_parms;
+>  
+> @@ -441,7 +448,6 @@ struct pci_dev {
+>  
+>  	unsigned int	is_busmaster:1;		/* Is busmaster */
+>  	unsigned int	no_msi:1;		/* May not use MSI */
+> -	unsigned int	no_64bit_msi:1;		/* May only use 32-bit MSIs */
+>  	unsigned int	block_cfg_access:1;	/* Config space access blocked */
+>  	unsigned int	broken_parity_status:1;	/* Generates false positive parity */
+>  	unsigned int	irq_reroute_variant:2;	/* Needs IRQ rerouting variant */
+> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+> index 1e8e3d61291a..c9542ebdf7e2 100644
+> --- a/sound/hda/controllers/intel.c
+> +++ b/sound/hda/controllers/intel.c
+> @@ -1905,7 +1905,7 @@ static int azx_first_init(struct azx *chip)
+>  
+>  	if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+>  		dev_dbg(card->dev, "Disabling 64bit MSI\n");
+> -		pci->no_64bit_msi = true;
+> +		pci->msi_addr_mask = DMA_BIT_MASK(32);
+>  	}
+>  
+>  	pci_set_master(pci);
+> 
+
