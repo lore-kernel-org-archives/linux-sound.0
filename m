@@ -1,86 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6F837C0F8;
-	Thu, 26 Feb 2026 11:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602CE3358C0
+	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 12:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772106420; cv=none; b=RV32GoZqeyjCP3Vh4a5ydHmX0eyyaClR8ziSSnYpwJdQIu9lZGkYMXxV1yWP4h07jyISZTB0teAkG+cE6DtS13GqBynq4/AqdEuUXCdVgbjahCOqfJXEC13Xrgl1qekHKofZYSdygkNZjHEkzRKhRyfm/5jIfR3VywhN7CiSOLY=
+	t=1772108023; cv=none; b=SVstK1R6x18owrcMMg89eOtq2zi+JrIHQ+QfEjtety6V7w6IJu/DQD+HCYHT1K0yclagxnK57ll0UE4iaE9e0PI+9hqb5yG4RB46uTrHH/G/HnlJWCZquDqwYSPaH0CWt9ZUu5YrkZsWmeHKqOhnuggJ/11ILn8j9LJnv68XRG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772106420; c=relaxed/simple;
-	bh=XYIYfOlOxbETbNhy2mcNP/ssY5SgbES2Ai+ZQ6Ut/pM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NdfqIOx7OsqC0VSxFSmEVxG9zAD5ZDUApOwVGeu0JD3phKINShk/D4CUnfuRJ0xwATv4nHDE3GRO1EM3HZY8vMrNffvL5MCsoU+i5Quiejjs32aywvZ6+3JtsZhTVz87hgjg8B54vLlTDzcOrLLFw3d1NdHAhDhHcT40bTZXYxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZil3bLY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772108023; c=relaxed/simple;
+	bh=7BAdmPyOKJ1QEM3M9r0UGakTNfKtugYYuFz2Cro/YVs=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=Zg4cZf7fxevqhLbhwjKZZDOlUbvnaw2sIJl8QPI+2kvWN/gplBPzwcLH0mmtldpgxZa1OzfM1COOFPwYuMgmwf9U5oNiWf0J6l0NxFtUQQQ7H4E8A7QBqi5hNYU0f1P3uMlvIX9QHhcdtvvqB7GKpynq9kUSZwCkbEXh0zVkXJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i93GaD4x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZil3bLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44D09C4AF0B;
-	Thu, 26 Feb 2026 11:46:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i93GaD4x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD15CC116C6;
+	Thu, 26 Feb 2026 12:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772106420;
-	bh=XYIYfOlOxbETbNhy2mcNP/ssY5SgbES2Ai+ZQ6Ut/pM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dZil3bLYWcqOmIUxdj+ig09tUTaUEbvpAyVifespSEe7Wk6FRKrvfP/uNkKr0u9o4
-	 rj8w1jG/pmpncfcku8Jvktc8v082yg8ElBA56Niz/DGGncrjXfueYG3OAmv40OPoLg
-	 y60gJarnhuHsbVqhBhafKnPDKR2NdGeO4/xVkRc86w+z83tOWG0JH25knxchLV1w8p
-	 my1hs0yf5oVvcvYP0JTBydB9j0IUquA81g6eXzb25Uy35Y78tVUM/55QEGViyKrc3r
-	 6RRrD+3LFSrs/RSlZHh0AyBlqRD19rGVPYhV8s+wPjAsim1DP/SDw3lC2IENpZfGEo
-	 s4wbSWwgC8VOQ==
+	s=k20201202; t=1772108023;
+	bh=7BAdmPyOKJ1QEM3M9r0UGakTNfKtugYYuFz2Cro/YVs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i93GaD4x5JDXwPzqxpRulW598AKfONVUkIVk5TtsfABMJnWqjHSHF7iWRneVhNOUu
+	 cE4kWZwKgqMisCRFWUdD8nR2WIB5VsL8ValIFPRcZ9bqt9udnRJTGbqU2LBkuki0w2
+	 cC6FrZs5N51WgpWl1vhEBQajkSErE+jzZUnO4jPpz8xID8QZ11eodE2rW43I8kG8xe
+	 zV2FhevD0YfRUfhh7P2/+rVP5u3dxiX4jmq0Z0pR1Gw56YNSzBCzfRLTCDhn2qF/mO
+	 znOVoPGzyId1LCJPGsN8/3iEYiDWM9sVu14X7FiUn5meVZay7+Yw4rtOv/+47v9lnu
+	 DTU0mO+TKMrug==
+Message-ID: <de64faa8c22aa935fb62b898f33f7f58@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260225125644.1248826-1-rf@opensource.cirrus.com>
-References: <20260225125644.1248826-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] firmware: cs_dsp: Mark KUnit test suites
- KUNIT_SPEED_SLOW
-Message-Id: <177210641900.55910.7989949504501145552.b4-ty@kernel.org>
-Date: Thu, 26 Feb 2026 11:46:59 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.0-rc1
+Date: Thu, 26 Feb 2026 12:13:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
 
-On Wed, 25 Feb 2026 12:56:44 +0000, Richard Fitzgerald wrote:
-> Most of the test suites perform a large number of test cases, so
-> mark the suites as KUNIT_SPEED_SLOW for anyone who finds that useful.
-> 
-> The callback test suites haven't been marked because they don't
-> perform many test cases, and the tests are quick.
-> 
-> 
-> [...]
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
-Applied to
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.0-rc1
 
-[1/1] firmware: cs_dsp: Mark KUnit test suites KUNIT_SPEED_SLOW
-      commit: 5c74a008ffc62fc57a041602b4517519c8bf9436
+for you to fetch changes up to 32fc4168fa56f6301d858c778a3d712774e9657e:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk table (2026-02-23 14:52:11 +0000)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Fixes for v7.0
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+One quirk and a fix for handling of exotic peripherals on cs42l43.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Azamat Almazbek uulu (1):
+      ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk table
 
-Thanks,
-Mark
+Charles Keepax (1):
+      ASoC: cs42l43: Report insert for exotic peripherals
 
+ sound/soc/amd/yc/acp6x-mach.c   | 7 +++++++
+ sound/soc/codecs/cs42l43-jack.c | 1 +
+ 2 files changed, 8 insertions(+)
