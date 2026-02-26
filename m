@@ -1,29 +1,29 @@
-Received: from r3-72.sinamail.sina.com.cn (r3-72.sinamail.sina.com.cn [202.108.3.72])
+Received: from r3-73.sinamail.sina.com.cn (r3-73.sinamail.sina.com.cn [202.108.3.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6EC38E116
-	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 07:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B93038E116
+	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 07:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772091388; cv=none; b=rzOzDgSEiDEvkrKzh8l9hNnihxr7zIY4u+dnItwdVVNm7TwcMBPk2AuQGFFgI3U0vrQYVdOOjI+XF1E0D0S92tJZRquoNXxRurJVpvwIUJaYlpslgYQT5d7wDYembruoLvfSX6SNwjySkw3QfDPfMPZe9uSRO2HeS0N5fPxWbko=
+	t=1772091391; cv=none; b=HKobEAQMgDCC7FDAEH/ceGZoLUt43BEbASMONe7nRyeB9EnwbVQcDcnVurzPOcguqRDp+iopkzD92CDjd5BFaR4N/uzoPfnS/CAoG8wxXLttO7JXb66vIRZUen2jHu4fBG4fYp8whlHy7Il0Q8RztX5JXaG5sHApJaQKV3RHwyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772091388; c=relaxed/simple;
-	bh=hdhydBUfswnmRQT0EBqGv1rOSPqaA6IoP0wXMRaS2ic=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=uWmwvR5lyitBpK+CjEVqVLbP0RMWXgXNdUf/SRbOlbM1GSx9wa5bWJvVuiTZJ0UT3NhlMr6iAjxY721Z7De1SF/MsROkozgFn8CXEqRK5Ii0ID2amkdoVL/ZmrUNWCGCucDUlWj6kCgCd/FhEcH49ub+tFoX6DeE2iVzr8r/L1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.72
+	s=arc-20240116; t=1772091391; c=relaxed/simple;
+	bh=j6Vn/g6uqEPpXX8fFTItQfPe4WbNmEoLH4IEFsVlErU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ZKw7F2D22N1IgzlqekNEQi5ZWIRhSxqb4STaPNFgOv7uTRKjUMr/32Im+dDm5clrjclfBUgqqKBeoiSNY+ZGOSgjXA16qez4V+W4GCerQe//uS7yD7XgzUFkVKtGUOSOmRMJe5n2CZZpqzidCMoTwk0q4LLa8AyAcQggaUF3dkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
 	by sina.net (10.54.253.39) with ESMTP
-	id 699FF7CB00003FE6; Thu, 26 Feb 2026 15:35:48 +0800 (CST)
+	id 699FF7CB00003FE6; Thu, 26 Feb 2026 15:35:49 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: A8FA73D29F5A4C3CA4C3B8D1F17D1BA6
-X-SMAIL-UIID: A8FA73D29F5A4C3CA4C3B8D1F17D1BA6-20260226-153548
+X-SMAIL-MID: 6371DEACE592472BB79A8C800C653DA9
+X-SMAIL-UIID: 6371DEACE592472BB79A8C800C653DA9-20260226-153549
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -33,9 +33,9 @@ Cc: peter.ujfalusi@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v2 3/6] ASoC: sdw_utils: add soc_sdw_es9356
-Date: Thu, 26 Feb 2026 15:35:31 +0800
-Message-Id: <20260226073534.3347-4-zhangyi@everest-semi.com>
+Subject: [PATCH v2 5/6] ASoC: Intel: soc-acpi: arl: Add es9356 support
+Date: Thu, 26 Feb 2026 15:35:33 +0800
+Message-Id: <20260226073534.3347-6-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260226073534.3347-1-zhangyi@everest-semi.com>
 References: <20260226073534.3347-1-zhangyi@everest-semi.com>
@@ -45,308 +45,90 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Add a utility program for handling ES9356 in the universal machine driver
+Add support for the es9356 codec in the ARL board configuration.
 
 Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- sound/soc/sdw_utils/Makefile         |   1 +
- sound/soc/sdw_utils/soc_sdw_es9356.c | 275 +++++++++++++++++++++++++++
- 2 files changed, 276 insertions(+)
- create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
+ .../intel/common/soc-acpi-intel-arl-match.c   | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
-index e8bd5ffb1..f47b0cada 100644
---- a/sound/soc/sdw_utils/Makefile
-+++ b/sound/soc/sdw_utils/Makefile
-@@ -7,6 +7,7 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
- 		       soc_sdw_cs42l42.o soc_sdw_cs42l43.o 		\
- 		       soc_sdw_cs42l45.o				\
- 		       soc_sdw_cs_amp.o					\
-+		       soc_sdw_es9356.o					\
- 		       soc_sdw_maxim.o \
- 		       soc_sdw_ti_amp.o
- obj-$(CONFIG_SND_SOC_SDW_UTILS) += snd-soc-sdw-utils.o
-diff --git a/sound/soc/sdw_utils/soc_sdw_es9356.c b/sound/soc/sdw_utils/soc_sdw_es9356.c
-new file mode 100644
-index 000000000..d6649f0e9
---- /dev/null
-+++ b/sound/soc/sdw_utils/soc_sdw_es9356.c
-@@ -0,0 +1,275 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright (c) 2020 Intel Corporation
-+
-+/*
-+ *  soc_sdw_es9356 - Helpers to handle ES9356 from generic machine driver
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/input.h>
-+#include <linux/soundwire/sdw.h>
-+#include <linux/soundwire/sdw_type.h>
-+#include <sound/control.h>
-+#include <sound/soc.h>
-+#include <sound/soc-acpi.h>
-+#include <sound/soc-dapm.h>
-+#include <sound/jack.h>
-+#include <sound/soc_sdw_utils.h>
-+
-+/*
-+ * Note this MUST be called before snd_soc_register_card(), so that the props
-+ * are in place before the codec component driver's probe function parses them.
-+ */
-+static int es9356_add_codec_device_props(struct device *sdw_dev, unsigned long quirk)
-+{
-+	struct property_entry props[SOC_SDW_MAX_NO_PROPS] = {};
-+	struct fwnode_handle *fwnode;
-+	int ret;
-+
-+	if (!SOC_SDW_JACK_JDSRC(quirk))
-+		return 0;
-+	props[0] = PROPERTY_ENTRY_U32("everest,jd-src", SOC_SDW_JACK_JDSRC(quirk));
-+
-+	fwnode = fwnode_create_software_node(props, NULL);
-+	if (IS_ERR(fwnode))
-+		return PTR_ERR(fwnode);
-+
-+	ret = device_add_software_node(sdw_dev, to_software_node(fwnode));
-+
-+	fwnode_handle_put(fwnode);
-+
-+	return ret;
-+}
-+
-+static const struct snd_soc_dapm_route es9356_map[] = {
-+	/* Headphones */
-+	{ "Headphone", NULL, "es9356 HP" },
-+	{ "es9356 MIC1", NULL, "Headset Mic" },
-+};
-+
-+static const struct snd_soc_dapm_route es9356_spk_map[] = {
-+	/* Speaker */
-+	{ "Speaker", NULL, "es9356 SPK" },
-+};
-+
-+static const struct snd_soc_dapm_route es9356_dmic_map[] = {
-+	/* DMIC */
-+	{ "es9356 PDM_DIN", NULL, "DMIC" },
-+};
-+
-+static struct snd_soc_jack_pin es9356_jack_pins[] = {
-+	{
-+		.pin    = "Headphone",
-+		.mask   = SND_JACK_HEADPHONE,
+diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+index c952f7d2b..e03bf072b 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+@@ -192,6 +192,42 @@ static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_endpoint es9356_endpoints[] = {
++	{ /* Jack Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
 +	},
-+	{
-+		.pin    = "Headset Mic",
-+		.mask   = SND_JACK_MICROPHONE,
++	{ /* DMIC Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Jack Capture Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Speaker Playback Endpoint */
++		.num = 3,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
 +	},
 +};
 +
-+int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	int ret;
-+
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s spk:es9356-spk",
-+					  card->components);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	ret = snd_soc_dapm_add_routes(dapm, es9356_spk_map,
-+				      ARRAY_SIZE(es9356_spk_map));
-+	if (ret)
-+		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_spk_rtd_init, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	int ret;
-+
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s mic:es9356-dmic",
-+					  card->components);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	ret = snd_soc_dapm_add_routes(dapm, es9356_dmic_map,
-+				      ARRAY_SIZE(es9356_dmic_map));
-+	if (ret)
-+		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_dmic_rtd_init, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct snd_soc_component *component;
-+	struct snd_soc_jack *jack;
-+	int ret;
-+
-+	component = dai->component;
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s hs:es9356",
-+					  card->components);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	ret = snd_soc_dapm_add_routes(dapm, es9356_map,
-+				      ARRAY_SIZE(es9356_map));
-+
-+	if (ret) {
-+		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
-+		return ret;
++static const struct snd_soc_acpi_adr_device es9356_adr[] = {
++	{
++		.adr = 0x00013004b3935601ull,
++		.num_endpoints = ARRAY_SIZE(es9356_endpoints),
++		.endpoints = es9356_endpoints,
++		.name_prefix = "es9356"
 +	}
++};
 +
-+	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-+					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
-+					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-+					 SND_JACK_BTN_3 | SND_JACK_BTN_4 |
-+					 SND_JACK_BTN_5,
-+					 &ctx->sdw_headset,
-+					 es9356_jack_pins,
-+					 ARRAY_SIZE(es9356_jack_pins));
-+	if (ret) {
-+		dev_err(rtd->card->dev, "Headset Jack creation failed: %d\n",
-+			ret);
-+		return ret;
-+	}
+ static const struct snd_soc_acpi_adr_device cs42l43_0_adr[] = {
+ 	{
+ 		.adr = 0x00003001FA424301ull,
+@@ -255,6 +291,15 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
+ 	}
+ };
+ 
++static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link0[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(es9356_adr),
++		.adr_d = es9356_adr,
++	},
++	{}
++};
 +
-+	jack = &ctx->sdw_headset;
-+
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOICECOMMAND);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEUP);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOLUMEDOWN);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_4, KEY_NEXTSONG);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_5, KEY_PREVIOUSSONG);
-+
-+	ret = snd_soc_component_set_jack(component, jack, NULL);
-+
-+	if (ret)
-+		dev_err(rtd->card->dev, "Headset Jack call-back failed: %d\n",
-+			ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_rtd_init, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+
-+	if (!ctx->headset_codec_dev)
-+		return 0;
-+
-+	device_remove_software_node(ctx->headset_codec_dev);
-+	put_device(ctx->headset_codec_dev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_exit, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_es9356_init(struct snd_soc_card *card,
-+		       struct snd_soc_dai_link *dai_links,
-+		       struct asoc_sdw_codec_info *info,
-+		       bool playback)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct device *sdw_dev;
-+	int ret;
-+
-+	/*
-+	 * headset should be initialized once.
-+	 * Do it with dai link for playback.
-+	 */
-+	if (!playback)
-+		return 0;
-+
-+	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
-+	if (!sdw_dev)
-+		return -EPROBE_DEFER;
-+
-+	ret = es9356_add_codec_device_props(sdw_dev, ctx->mc_quirk);
-+	if (ret < 0) {
-+		put_device(sdw_dev);
-+		return ret;
-+	}
-+	ctx->headset_codec_dev = sdw_dev;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_init, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
-+		       struct snd_soc_dai_link *dai_links,
-+		       struct asoc_sdw_codec_info *info,
-+		       bool playback)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct device *sdw_dev1, *sdw_dev2;
-+	int ret;
-+
-+	if (!playback)
-+		return 0;
-+
-+	info->amp_num++;
-+
-+	if (info->amp_num == 2) {
-+		sdw_dev1 = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
-+
-+		if (!sdw_dev1)
-+			return -EPROBE_DEFER;
-+
-+		ret = es9356_add_codec_device_props(sdw_dev1, ctx->mc_quirk);
-+		if (ret < 0) {
-+			put_device(sdw_dev1);
-+			return ret;
-+		}
-+		ctx->amp_dev1 = sdw_dev1;
-+
-+		sdw_dev2 = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[1].name);
-+
-+		if (!sdw_dev2)
-+			return -EPROBE_DEFER;
-+
-+		ret = es9356_add_codec_device_props(sdw_dev2, ctx->mc_quirk);
-+		if (ret < 0) {
-+			put_device(sdw_dev2);
-+			return ret;
-+		}
-+		ctx->amp_dev2 = sdw_dev2;
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_amp_init, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_es9356_amp_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+
-+	if (ctx->amp_dev1) {
-+		device_remove_software_node(ctx->amp_dev1);
-+		put_device(ctx->amp_dev1);
-+	}
-+
-+	if (ctx->amp_dev2) {
-+		device_remove_software_node(ctx->amp_dev2);
-+		put_device(ctx->amp_dev2);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_es9356_amp_exit, "SND_SOC_SDW_UTILS");
+ static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -528,6 +573,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(1),
++		.links = arl_n_mrd_es9356_link0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-arl-es9356.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
 -- 
 2.17.1
 
