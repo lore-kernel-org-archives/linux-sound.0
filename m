@@ -1,87 +1,97 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79BB3290C3
-	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 16:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55769368952
+	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 17:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772125171; cv=none; b=iNdCPW8Pr1Ve6kODFgzN3Pf2nobFRolAq1xLVUSvsf2nf+lReGCvXko0F79rExQsRkxhRAH3gB+/X35FeMUwIy/2iSf/8o5quxCCGpqRl8BRXBQ5CD3IGSH47oDKWTrpxxgODi/hGJ6L/rLZIc7n/jOiJiG7MjzrHA1D4Ycy4+0=
+	t=1772125992; cv=none; b=IrpWDLr1izbJY0bBCKBkcG9oLbBfLnGc823U4O0oeoGc20KiETDtey7kYDxCqkhmfohdqg2rrG7RxhEzT0Quwq863keClza91CrPOIS7eopE56oXmUXWW12dUD8pbPdUbL8PKeCty0NETNXm1qBiw7PzQKVaxZXzbKOdIgf/heE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772125171; c=relaxed/simple;
-	bh=IXAtEeV7m9zIpGVJxlz2NTCNsPqPn6tthh3D2M8EbJE=;
+	s=arc-20240116; t=1772125992; c=relaxed/simple;
+	bh=vuNF+CsgDhYGhajv9QOfHxvpySDi0aQnR8cDGX6FixI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=clB9RXzrt5SUWgKyXVLcLd+If89QlGyIxA8q1zOEtLq5iw3bmHYx30KTyVstlZ2zwjo7AB2M88R3NYlacpO+Je0kKuxQ+ZqUg9sjKKc0dwtP/HUAZxjYaenbLZc04WzGnZr3mnaOAop5EoAazK6fJ2cCwKIzPOb3cJNTJr76aqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ina9FHKv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hvS0qcrN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ina9FHKv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hvS0qcrN; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=mGdXkUY5P/zyZYRRfeTiNDEjDNhNEnlX4lb1oyEfRS9UJrJ+hYNRPTWLabj1N1+ZpE8B+o65EIQrjx8fXCg/4NGH3D/lbPnsZhrElz9CieuwFyKN7qEEUpjLHhUfaG2WhFpfFcOya8ZuaGwYvIOlY2x/jEcTzUnHZsmgX7jEL3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVUO7vuA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PjDsIFJs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVUO7vuA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PjDsIFJs; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ina9FHKv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hvS0qcrN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ina9FHKv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hvS0qcrN"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVUO7vuA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PjDsIFJs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVUO7vuA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PjDsIFJs"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2DAF41FAB3;
-	Thu, 26 Feb 2026 16:59:28 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A6CA11FAA8;
+	Thu, 26 Feb 2026 17:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772125168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772125988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
-	b=Ina9FHKvgouAuBUbdbifZyh5oCIfJxVKNfwSa35v5WrH2XfQkTzzrVY77nUFRM+ZivSBbj
-	jdl/TaLwlKzBn2xMepYKF+MjEpK7ibM+BlzDYEPfj1oypooxsWzaAi14CX09HAuXwTYVVO
-	WDmGZwRiPho117ewLBZtEpsv9zKV/S0=
+	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
+	b=XVUO7vuAJumaORaLN7Qb+0Mxsfpvc9lG8/D2D9hsSKk1cn+zam9mYFOrJPjCna4a6rcaSX
+	rV8FRfKJ3KLDVI+UiUXuzZLU6p18rPSaDZKgCXYbnhq+6T5mQUkhVXp3m1CV0BxAOkBR4S
+	K8Q9dKuPSteh1iEqi2zCRvAl+Z9so2A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772125168;
+	s=susede2_ed25519; t=1772125988;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
-	b=hvS0qcrN9L4Stpp9qe8ALlWilWwk4eIiDnajZyJOoDWY4gzaLevQNCyPyxtsdzCBDZKs+6
-	fb4+LdITg04AuVBw==
+	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
+	b=PjDsIFJswnEipvFHgf0wLq3ZFRNMQdjuPuHbX5a6FPU52YueUVMK6OUF7sSeEwzaFst/pd
+	bmmGkHN2b9y2mwCw==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XVUO7vuA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PjDsIFJs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772125168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772125988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
-	b=Ina9FHKvgouAuBUbdbifZyh5oCIfJxVKNfwSa35v5WrH2XfQkTzzrVY77nUFRM+ZivSBbj
-	jdl/TaLwlKzBn2xMepYKF+MjEpK7ibM+BlzDYEPfj1oypooxsWzaAi14CX09HAuXwTYVVO
-	WDmGZwRiPho117ewLBZtEpsv9zKV/S0=
+	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
+	b=XVUO7vuAJumaORaLN7Qb+0Mxsfpvc9lG8/D2D9hsSKk1cn+zam9mYFOrJPjCna4a6rcaSX
+	rV8FRfKJ3KLDVI+UiUXuzZLU6p18rPSaDZKgCXYbnhq+6T5mQUkhVXp3m1CV0BxAOkBR4S
+	K8Q9dKuPSteh1iEqi2zCRvAl+Z9so2A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772125168;
+	s=susede2_ed25519; t=1772125988;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qkLSL+H9zoe1QulwO02E36WEVTivH6+YHjxCzuHkd7I=;
-	b=hvS0qcrN9L4Stpp9qe8ALlWilWwk4eIiDnajZyJOoDWY4gzaLevQNCyPyxtsdzCBDZKs+6
-	fb4+LdITg04AuVBw==
+	bh=chsq2oq74SxheHrAUdoA/OBtFxtpPWmDeHM3rlP8M3Q=;
+	b=PjDsIFJswnEipvFHgf0wLq3ZFRNMQdjuPuHbX5a6FPU52YueUVMK6OUF7sSeEwzaFst/pd
+	bmmGkHN2b9y2mwCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1F063EA62;
-	Thu, 26 Feb 2026 16:59:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F86A3EA62;
+	Thu, 26 Feb 2026 17:13:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b5fDOe97oGkaOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 26 Feb 2026 16:59:27 +0000
-Date: Thu, 26 Feb 2026 17:59:27 +0100
-Message-ID: <87ikbja1ao.wl-tiwai@suse.de>
+	id SZJIDiR/oGl3SQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Feb 2026 17:13:08 +0000
+Date: Thu, 26 Feb 2026 18:13:07 +0100
+Message-ID: <87fr6na0nw.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: gregkh@linuxfoundation.org,
+	mathias.nyman@intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	quic_wcheng@quicinc.com,
+	broonie@kernel.org,
+	arnd@arndb.de,
+	harshit.m.mogalapalli@oracle.com,
+	wesley.cheng@oss.qualcomm.com,
+	dan.carpenter@linaro.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: SDCA: Fix comments for sdca_irq_request()
-In-Reply-To: <c41f115e-b8ba-417d-86b6-0548fd86caaf@sirena.org.uk>
-References: <20260226154753.1083320-1-tiwai@suse.de>
-	<c41f115e-b8ba-417d-86b6-0548fd86caaf@sirena.org.uk>
+	stable@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] ALSA: usb: qcom: manage offload device usage
+In-Reply-To: <20260225064601.270301-3-guanyulin@google.com>
+References: <20260225064601.270301-1-guanyulin@google.com>
+	<20260225064601.270301-3-guanyulin@google.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,45 +100,249 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
+X-Spam-Score: -3.51
 X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A6CA11FAA8
 
-On Thu, 26 Feb 2026 16:53:09 +0100,
-Mark Brown wrote:
+On Wed, 25 Feb 2026 07:45:51 +0100,
+Guan-Yu Lin wrote:
 > 
-> On Thu, Feb 26, 2026 at 04:47:52PM +0100, Takashi Iwai wrote:
-> > The kernel-doc comments for sdca_irq_request() contained some typos
-> > that lead to build warnings with W=1.  Let's correct them.
-> > 
-> > Fixes: b126394d9ec6 ("ASoC: SDCA: Generic interrupt support")
+> The Qualcomm USB audio offload driver currently does not report its offload
+> activity to the USB core. This prevents the USB core from properly tracking
+> active offload sessions, which could allow the device to auto-suspend while
+> audio offloading is in progress.
 > 
-> Probably easiest if you apply this directly for sending a PR to Linus:
+> Integrate usb_offload_get() and usb_offload_put() calls into the offload
+> stream setup and teardown paths. Specifically, call usb_offload_get() when
+> initializing the event ring and usb_offload_put() when freeing it.
 > 
-> Acked-by: Mark Brown <broonie@kernel.org>
+> Since the updated usb_offload_get() and usb_offload_put() APIs require the
+> caller to hold the USB device lock, add the necessary device locking in
+> handle_uaudio_stream_req() and qmi_stop_session() to satisfy this
+> requirement.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
+> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
 
-OK, as it's a trivial fix, I took now.
+Mostly it looks good to me, but a slight concern is the
+usb_offload_put() call in the error path of prepare_qmi_response().
+IIUC, the bitmap is cleared only at uaudio_event_ring_cleanup_free(),
+and you have also the usb_offload_put() call there.  I wonder whether
+this might lead to the refcount unbalance.
+
+I'm not sure whether the original driver code handles it well, and
+this could be already a bug there calling
+xhci_sideband_remove_interrupter(), though.
 
 
 thanks,
 
 Takashi
+
+> ---
+>  sound/usb/qcom/qc_audio_offload.c | 102 ++++++++++++++++++------------
+>  1 file changed, 60 insertions(+), 42 deletions(-)
+> 
+> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+> index cfb30a195364..1da243662327 100644
+> --- a/sound/usb/qcom/qc_audio_offload.c
+> +++ b/sound/usb/qcom/qc_audio_offload.c
+> @@ -699,6 +699,7 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
+>  		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
+>  				   PAGE_SIZE);
+>  		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
+> +		usb_offload_put(dev->udev);
+>  	}
+>  }
+>  
+> @@ -750,6 +751,7 @@ static void qmi_stop_session(void)
+>  	struct snd_usb_substream *subs;
+>  	struct usb_host_endpoint *ep;
+>  	struct snd_usb_audio *chip;
+> +	struct usb_device *udev;
+>  	struct intf_info *info;
+>  	int pcm_card_num;
+>  	int if_idx;
+> @@ -791,8 +793,13 @@ static void qmi_stop_session(void)
+>  			disable_audio_stream(subs);
+>  		}
+>  		atomic_set(&uadev[idx].in_use, 0);
+> -		guard(mutex)(&chip->mutex);
+> -		uaudio_dev_cleanup(&uadev[idx]);
+> +
+> +		udev = uadev[idx].udev;
+> +		if (udev) {
+> +			guard(device)(&udev->dev);
+> +			guard(mutex)(&chip->mutex);
+> +			uaudio_dev_cleanup(&uadev[idx]);
+> +		}
+>  	}
+>  }
+>  
+> @@ -1183,11 +1190,15 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
+>  	er_pa = 0;
+>  
+>  	/* event ring */
+> +	ret = usb_offload_get(subs->dev);
+> +	if (ret < 0)
+> +		goto exit;
+> +
+>  	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
+>  					       0, uaudio_qdev->data->intr_num);
+>  	if (ret < 0) {
+>  		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
+> -		goto exit;
+> +		goto put_offload;
+>  	}
+>  
+>  	sgt = xhci_sideband_get_event_buffer(uadev[card_num].sb);
+> @@ -1219,6 +1230,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
+>  	mem_info->dma = 0;
+>  remove_interrupter:
+>  	xhci_sideband_remove_interrupter(uadev[card_num].sb);
+> +put_offload:
+> +	usb_offload_put(subs->dev);
+>  exit:
+>  	return ret;
+>  }
+> @@ -1483,6 +1496,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
+>  	uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZE);
+>  free_sec_ring:
+>  	xhci_sideband_remove_interrupter(uadev[card_num].sb);
+> +	usb_offload_put(subs->dev);
+>  drop_sync_ep:
+>  	if (subs->sync_endpoint) {
+>  		uaudio_iommu_unmap(MEM_XFER_RING,
+> @@ -1528,6 +1542,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>  	u8 pcm_card_num;
+>  	u8 pcm_dev_num;
+>  	u8 direction;
+> +	struct usb_device *udev = NULL;
+>  	int ret = 0;
+>  
+>  	if (!svc->client_connected) {
+> @@ -1597,50 +1612,53 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>  
+>  	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
+>  
+> -	if (req_msg->enable) {
+> -		ret = enable_audio_stream(subs,
+> -					  map_pcm_format(req_msg->audio_format),
+> -					  req_msg->number_of_ch, req_msg->bit_rate,
+> -					  datainterval);
+> -
+> -		if (!ret)
+> -			ret = prepare_qmi_response(subs, req_msg, &resp,
+> -						   info_idx);
+> -		if (ret < 0) {
+> -			guard(mutex)(&chip->mutex);
+> -			subs->opened = 0;
+> -		}
+> -	} else {
+> -		info = &uadev[pcm_card_num].info[info_idx];
+> -		if (info->data_ep_pipe) {
+> -			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
+> -					       info->data_ep_pipe);
+> -			if (ep) {
+> -				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
+> -							    ep);
+> -				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
+> -							      ep);
+> +	udev = subs->dev;
+> +	scoped_guard(device, &udev->dev) {
+> +		if (req_msg->enable) {
+> +			ret = enable_audio_stream(subs,
+> +						map_pcm_format(req_msg->audio_format),
+> +						req_msg->number_of_ch, req_msg->bit_rate,
+> +						datainterval);
+> +
+> +			if (!ret)
+> +				ret = prepare_qmi_response(subs, req_msg, &resp,
+> +							info_idx);
+> +			if (ret < 0) {
+> +				guard(mutex)(&chip->mutex);
+> +				subs->opened = 0;
+> +			}
+> +		} else {
+> +			info = &uadev[pcm_card_num].info[info_idx];
+> +			if (info->data_ep_pipe) {
+> +				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
+> +							info->data_ep_pipe);
+> +				if (ep) {
+> +					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
+> +									ep);
+> +					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
+> +									ep);
+> +				}
+> +
+> +				info->data_ep_pipe = 0;
+>  			}
+>  
+> -			info->data_ep_pipe = 0;
+> -		}
+> -
+> -		if (info->sync_ep_pipe) {
+> -			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
+> -					       info->sync_ep_pipe);
+> -			if (ep) {
+> -				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
+> -							    ep);
+> -				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
+> -							      ep);
+> +			if (info->sync_ep_pipe) {
+> +				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
+> +							info->sync_ep_pipe);
+> +				if (ep) {
+> +					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
+> +									ep);
+> +					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
+> +									ep);
+> +				}
+> +
+> +				info->sync_ep_pipe = 0;
+>  			}
+>  
+> -			info->sync_ep_pipe = 0;
+> +			disable_audio_stream(subs);
+> +			guard(mutex)(&chip->mutex);
+> +			subs->opened = 0;
+>  		}
+> -
+> -		disable_audio_stream(subs);
+> -		guard(mutex)(&chip->mutex);
+> -		subs->opened = 0;
+>  	}
+>  
+>  response:
+> -- 
+> 2.53.0.414.gf7e9f6c205-goog
+> 
