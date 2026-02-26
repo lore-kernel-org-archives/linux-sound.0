@@ -1,83 +1,83 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAAA410D35
-	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 15:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F726410D29
+	for <linux-sound@vger.kernel.org>; Thu, 26 Feb 2026 15:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772120673; cv=none; b=RC67iTmhbG6kWZKglygwP2QAcNLNAYJLnClYmSfzi2X80wt6WyUolP/F4o1VqeUKoTMvuCXr5XhZcliWRm7kAGKMMzJySb63WXd+ZQMRWpiFY79hLlhyTeWtOWRFVovMGrxtBC0P0+iXu7ocdCGIxvcWL3WB9yZlJ58jSCa6LgM=
+	t=1772120678; cv=none; b=UrpkToeAfQgCRE68LXLJpiHY/dge/K81L/6SdlZUYDoNynXMNSMlcMqR5SznVEsPldGaCfmXoQ/eGXNh+zLrvKfNqAHp0OdTUh6psmSTPcUEjUpQPQ9vOphmJUbGw/6v3hHBhCTuuXCVRMAAkARwl3F6F6P4FjUf/fjCc2EPWRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772120673; c=relaxed/simple;
-	bh=rdUpBcQEUNoSEWdHrN+/rzL160lR9Q8GuYE8BwqWBo4=;
+	s=arc-20240116; t=1772120678; c=relaxed/simple;
+	bh=GT0U6WeK0Q3W1eRSkwKfmSspq0Txr+Rf1YxZId2CyUI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lJpOlQ8bEazRCQ/1HvblRRj/fIOQ6GJfw0ioeMAk3z6JMVAF8g0Jv9Eer4u3cdPZaSMTuwCfToztDu/cvozAgkIAhgkWv++8LcbTqjaWoefpnZffcXUZnZ/FNw1BC8RST3TpkjHt5Tpss6yCZQRKify39ftK4DJtRVz/EZvEVuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=asnN4iBI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q6D66ETg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uighRfrV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ihf3B6C9; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=WZjjAdCpnWrNmjXhyNpF5A1JU8LqFSLmzdXf6gcLVvep+H1vBckcVyay+7ta+DGyEWS6RNGZdGg/qJQL5bSvGU1gObYDpsmnxws7Y71LPpY1VcsDzPCyhaqDEpY/SnqjGKe0SR52H3HbbXi7AntllVz9rkjwKfxBWwkAM17uOXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qdt9aU6/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K+ZHCmMw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qdt9aU6/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K+ZHCmMw; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="asnN4iBI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q6D66ETg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uighRfrV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ihf3B6C9"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qdt9aU6/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K+ZHCmMw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qdt9aU6/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K+ZHCmMw"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DCE001FA9B;
-	Thu, 26 Feb 2026 15:44:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 28F421FA9C;
+	Thu, 26 Feb 2026 15:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1772120658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG3DcKQY50mS3BUmsXCOp5SmqY0iMxJGxWEM6y1bYvU=;
-	b=asnN4iBIQBqlGNIBEsvBc0npsfoUwYuYguijwZ3gccoEXD31W+ki4VWOBEcnfUV3s9wKsz
-	yA3DO67zn5aCUE4JGV/FSlvaaRKJzHViYFfiX0Gv/UlLwf7uUnjdUeZuH/DR2lKPIYlO6k
-	91oSsHMAs297Boauc80rq3nFPCaOYXg=
+	bh=TFjicT8+4OjWCusYB3v2bELqGHuYwXaGp3FcuGDOygo=;
+	b=Qdt9aU6/s9IMU+mkRfwfm84PTEJYj894ydm5LfTtrWJyyR8sKn92KFJk2Ovl148n5aqRO1
+	/7kLzLzoOz91PLCrRMWC/wjTxy7HD64YFhapxliwYPLhjwtvIM6s7s6eXPIbYLXj7Qmg8G
+	56LnBHJPHvlq3Xy+Ffc+PeOT+g5CdBU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1772120658;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG3DcKQY50mS3BUmsXCOp5SmqY0iMxJGxWEM6y1bYvU=;
-	b=Q6D66ETgwUVjPWYN8+RIyZNyfDHgHLwcROYv0L/wkqbcTcAy9Z0eMwxkGwR8iUFrAeB/Kk
-	mpXQcHNLHOOIyKCw==
+	bh=TFjicT8+4OjWCusYB3v2bELqGHuYwXaGp3FcuGDOygo=;
+	b=K+ZHCmMwsS67Nt5eOk5c5yWYCC8IaSkGkbSy9Q8FcLJXCzTshec9gdWvcK7Ty/k58gGigC
+	MBKVevJUR6hVwECA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772120657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1772120658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG3DcKQY50mS3BUmsXCOp5SmqY0iMxJGxWEM6y1bYvU=;
-	b=uighRfrVxw+2nA075xf186zy35k3LZ5eJ+SzcQhqfe1iIBaB2BGCaobP8N6cTVdxyn1egO
-	bWyWqQYdCALegEhQSRAZj2TtxSPbY5ppBE/sfuZwmdDJnrmU6wrrPqdMAu1/7Yk0n18jlR
-	G6xY5wAdhF9EhOeToWO08MltmA9LINc=
+	bh=TFjicT8+4OjWCusYB3v2bELqGHuYwXaGp3FcuGDOygo=;
+	b=Qdt9aU6/s9IMU+mkRfwfm84PTEJYj894ydm5LfTtrWJyyR8sKn92KFJk2Ovl148n5aqRO1
+	/7kLzLzoOz91PLCrRMWC/wjTxy7HD64YFhapxliwYPLhjwtvIM6s7s6eXPIbYLXj7Qmg8G
+	56LnBHJPHvlq3Xy+Ffc+PeOT+g5CdBU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772120657;
+	s=susede2_ed25519; t=1772120658;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wG3DcKQY50mS3BUmsXCOp5SmqY0iMxJGxWEM6y1bYvU=;
-	b=ihf3B6C9UN+5DuFJhbIDuBDBLFcEhULouJqkoFII8taxCjmgoD3Iiunwf9S4MjDyhuAFUc
-	YWFseMm5ozbQtiCQ==
+	bh=TFjicT8+4OjWCusYB3v2bELqGHuYwXaGp3FcuGDOygo=;
+	b=K+ZHCmMwsS67Nt5eOk5c5yWYCC8IaSkGkbSy9Q8FcLJXCzTshec9gdWvcK7Ty/k58gGigC
+	MBKVevJUR6hVwECA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C21AE3EA62;
-	Thu, 26 Feb 2026 15:44:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C98A3EA6B;
+	Thu, 26 Feb 2026 15:44:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wK0sLlFqoGnMawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 26 Feb 2026 15:44:17 +0000
+	id yPfoAVJqoGnMawAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Feb 2026 15:44:18 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 2/3] ALSA: usb-audio: Drop superfluous kernel-doc markers
-Date: Thu, 26 Feb 2026 16:43:48 +0100
-Message-ID: <20260226154414.1081568-3-tiwai@suse.de>
+Subject: [PATCH 4/4] ASoC: SDCA: Fix comments for sdca_irq_request()
+Date: Thu, 26 Feb 2026 16:43:50 +0100
+Message-ID: <20260226154414.1081568-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260226154414.1081568-1-tiwai@suse.de>
 References: <20260226154414.1081568-1-tiwai@suse.de>
@@ -89,7 +89,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
@@ -112,72 +112,31 @@ X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
 
-We don't process USB-audio driver code for kernel-doc, and the "/**"
-marker leads to warnings with W=1 builds.  Drop the superfluous
-markers.
+The kernel-doc comments for sdca_irq_request() contained some typos
+that lead to build warnings with W=1.  Let's correct them.
 
+Fixes: b126394d9ec6 ("ASoC: SDCA: Generic interrupt support")
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/mixer_s1810c.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ sound/soc/sdca/sdca_interrupts.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
-index 473cb29efa7f..7eac7d1bce64 100644
---- a/sound/usb/mixer_s1810c.c
-+++ b/sound/usb/mixer_s1810c.c
-@@ -71,7 +71,7 @@
-  *   * e I guess the same as with mixer
-  *
-  */
--/** struct s1810c_ctl_packet - basic vendor request
-+/* struct s1810c_ctl_packet - basic vendor request
-  * @selector: device/mixer/output
-  * @b: request-dependant field b
-  * @tag: fixed value identifying type of request
-@@ -94,14 +94,14 @@ struct s1810c_ctl_packet {
- 	__le32 e;
- };
+diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
+index d9e22cf40f77..95b1ab4ba1b0 100644
+--- a/sound/soc/sdca/sdca_interrupts.c
++++ b/sound/soc/sdca/sdca_interrupts.c
+@@ -265,9 +265,9 @@ static int sdca_irq_request_locked(struct device *dev,
+ }
  
--/** selectors for CMD request
-+/* selectors for CMD request
-  */
- #define SC1810C_SEL_DEVICE 0
- #define SC1810C_SEL_MIXER 0x64
- #define SC1810C_SEL_OUTPUT 0x65
- 
- 
--/** control ids */
-+/* control ids */
- #define SC1810C_CTL_LINE_SW	0
- #define SC1810C_CTL_MUTE_SW	1
- #define SC1824C_CTL_MONO_SW	2
-@@ -127,7 +127,7 @@ struct s1810c_ctl_packet {
- #define SC1810C_GET_STATE_TAG	SC1810C_SET_STATE_TAG
- #define SC1810C_GET_STATE_LEN	SC1810C_SET_STATE_LEN
- 
--/** Mixer levels normally range from 0 (off) to 0x0100 0000 (0 dB).
-+/* Mixer levels normally range from 0 (off) to 0x0100 0000 (0 dB).
-  * raw_level = 2^24 * 10^(db_level / 20), thus
-  * -3dB = 0xb53bf0 (technically, half-power -3.01...dB would be 0xb504f3)
-  * -96dB = 0x109
-@@ -145,7 +145,7 @@ struct s1810c_ctl_packet {
- #define MIXER_LEVEL_N3DB 0xb53bf0
- #define MIXER_LEVEL_0DB 0x1000000
- 
--/**
-+/*
-  * This packet includes mixer volumes and
-  * various other fields, it's an extended
-  * version of ctl_packet, with a and b
-@@ -155,7 +155,7 @@ struct s1810c_state_packet {
- 	__le32 fields[63];
- };
- 
--/** indices into s1810c_state_packet.fields[]
-+/* indices into s1810c_state_packet.fields[]
-  */
- #define SC1810C_STATE_TAG_IDX	2
- #define SC1810C_STATE_LEN_IDX	3
+ /**
+- * sdca_request_irq - request an individual SDCA interrupt
++ * sdca_irq_request - request an individual SDCA interrupt
+  * @dev: Pointer to the struct device against which things should be allocated.
+- * @interrupt_info: Pointer to the interrupt information structure.
++ * @info: Pointer to the interrupt information structure.
+  * @sdca_irq: SDCA interrupt position.
+  * @name: Name to be given to the IRQ.
+  * @handler: A callback thread function to be called for the IRQ.
 -- 
 2.53.0
 
