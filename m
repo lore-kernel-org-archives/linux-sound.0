@@ -1,278 +1,192 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948B1428487
-	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 14:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740D536E490
+	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 14:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772203562; cv=none; b=dBxjzXxAbNDaX27UTUxSoS8ffJVGKfGJ4ijTbcPORWR92wXE3mmA2BFBWBrwPNt9KMKIrpgQOyjzn4tgni8KzHO8cH0uq3byXbqF+OwwlTqlFNZMKyZf0a3HANiihjAQrOKFW5fnpQqBDIkUxdmOrGl3lRwCqbEHXev+OIpCjnw=
+	t=1772203651; cv=none; b=uLUl3qMDAzgSSMQPQtlgNMdjWzu6Se1kFbRw1B0evxqqDgFrK1IPwiig5BjQlGtOgrc9rVKjAmCkllUPNcXDZNACLZ3D3fBcWHHb/Vf+nWW/OGGEYyZyaVrNgIe2J6IU1AKT6CSWv7B/WQrXGtD58amLxi25lynVdq1e7LdUeT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772203562; c=relaxed/simple;
-	bh=YDWz9jB1FI6KeBCMCSeoXI0nSgY1wfreJnp73RIt0Bs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jpqm6aaYjJ10VcdHUYP4Ke+3qdxtt7R4mfF/sVOtbF3yRPJ+Ha4XbaFlwyI1n7hjyRCwsobdQ84gIZdJ/yH+7lQvZ5ygUTV9R1ND8nNoV+e0IXG763wLr4TwmNzvtY4cd7/ZugTxxqvjhYYh5K5HkSH1/sRK4fnc3ZMyyY9RtGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=InrNlf/H; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UCwgPD0x; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1772203651; c=relaxed/simple;
+	bh=xfCKdhRaaIZOdlujjCMyKze/wSF1H+ahKFnx+HZlr5Y=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=DU6lYwLpnDTxRJ/01KUG37I6ei+S0fsqddF0cWOd772xC2DfKfMxAlv4bXZISd+0c2sZQjckfdCmQSu7Q6OJiZ6kg357wLOkxzpkdTskOTmvicXBORzJkYpzfsHfP8Q5UswKzEpUhe5fNxqA98PFhCC0FeNn1GgruXxkJD+EvQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V9g/f1EG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v+pYxNDV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V9g/f1EG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v+pYxNDV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="InrNlf/H";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UCwgPD0x"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61REaR514030873
-	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 14:45:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=j5r+JvKBntcYpndiGkA6YNl9DgG04kM5mo2
-	y8/Nhf7Q=; b=InrNlf/HenFHaKU1QAF04p01TzAsfyImFRNBv6tva0rMK6eVNRI
-	eIYXAooZtWcIznqH4e+bGBn/WZBG2ytqmJ2Vf+E+tesw0/WJ8Iz545C5eb+i/87c
-	5f03v70ouBIDQI9w2AQEl6szU+fLWvJ2AtFjiZBvIev816Tc27F6mV0u/SUk9Jhk
-	53kDf93ZWlok5KWD2XTWUouqYvPxNmMvfxNOqYM86Imc7+kYkJv55whxMs6m9FF5
-	WebrjS35G1PQbwY6GY3Y9a88B9YXbX0wKr2RPboHxB3/2a/e2v0vhAZnX65dclCM
-	7xOZ50uwBzUxDE55jMTkv4ikY7V0h+kLAUA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cju4r3rgs-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 14:45:58 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2add1118c19so13069325ad.2
-        for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 06:45:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772203558; x=1772808358; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j5r+JvKBntcYpndiGkA6YNl9DgG04kM5mo2y8/Nhf7Q=;
-        b=UCwgPD0x5/09P7HA2p88hoH2ogaDrBEwJlkIID2CzKTHsNxd3f3H31s05g9Muq/oQG
-         CVOq0Lop7i4zBhpz3NgstBbHoXNqwHq3MUE5fM7NS012HICMA5jDomT8+779h1SzKJV/
-         bAyQAP9+tIHg4/Gc2ATpDMWXHzyoYrzYs4BU2fOCIVgcYV9gYzjdK2o172TgN/8quBkv
-         hPXqVRX+wBoI8Rm1rlxtlEImmAYADSgdiUz8DnaktQUXNHFtWRKBYab7wNyUNZLxQICA
-         OAoECgAp1OiTG+x/nXbXktnDFN8T6SIiHvWH/tkVfAA1a8Iivl+XHxXPWFTkbq25eOZu
-         B7GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772203558; x=1772808358;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j5r+JvKBntcYpndiGkA6YNl9DgG04kM5mo2y8/Nhf7Q=;
-        b=fFhiefkS1OJblovLG5Svbo9HXAJDm0TFu25FuoZTUz5muGJy9IyJPxNSpAkA8ahitJ
-         5DnAaWHNyCciTiR2EJKN7401SP4byvT/F/kFQsy6gtRDR1SqA36AJbdqrV/bRJz/0/Bf
-         pSMu69tY1JUFjZIdG//mLpBXdfNbG7kI7PlOPkBbCdFFEEHJCboY8b+vLtOOzIxEh3z+
-         AojkyW3SYA6HrO16nIAC0bBupgyaBOsLgsst3uaQbwVULI3ss3RYF2c03+Lihh2apLPP
-         9MzL1Tgd9iardykJHw607EJiVPLVomvkqceDVrrJV+6co9lSRiMHTzdxS0h2BJRrLzqp
-         VudQ==
-X-Gm-Message-State: AOJu0Yw7t1U04f1JzuySX76TnUE22D3kkXkKYyP99liOFSe9iTMdi1pV
-	+tJB73mbsa+ZaUhc6UvhDEKCigHQQi8+zHHzR36+/ySNjdvvtioUajKdQmqN/VKVLSrVsWUNfRt
-	TILFnX6TNhvAw/mgzzS7Luam59oJteTFjzWCZFZ+6wb+MpbR3apO/cXjT56dqgPB5Eg==
-X-Gm-Gg: ATEYQzxyA3PMH/amcC0zwadtFxMlG9t6HqmebZ/ci1gZUnCIfsMbDPaKBA+wBNFPfqW
-	mIQPmcadfhVFVf4FNmydUEITvkz+gJyBW6VbcHbOvitLzpWJEHicAA8Z7bl24FS8FWIkP7FGCUK
-	0IND5wPudcdDq8aVAgO/eTOunOuLVyrplzCYNPw3YTjZS9+M4q/zAwsVpXTELGjGSCNM8SXnC3/
-	zsS0CCe6aZM+IRuLbWjK5A9rQ8aTQBkqPaAKF0tD9aVuz/C/NGlS7NM7gYhbSmpGmsjiqFApw5t
-	Q2A0i1FkOQUj4epuNHQhkyZ0n5V95iSF0HrvettsmAfIRlNp2NsImST3Ugm2oXrkQRmOvNzVYj/
-	/Awh9H/V+u0ImppVea15bLLTCow3oUblO31E4hAgVT4UVwFaKINs=
-X-Received: by 2002:a17:903:4b07:b0:2aa:dad4:d34f with SMTP id d9443c01a7336-2ae2e4b0b7bmr25063735ad.27.1772203557874;
-        Fri, 27 Feb 2026 06:45:57 -0800 (PST)
-X-Received: by 2002:a17:903:4b07:b0:2aa:dad4:d34f with SMTP id d9443c01a7336-2ae2e4b0b7bmr25063505ad.27.1772203557203;
-        Fri, 27 Feb 2026 06:45:57 -0800 (PST)
-Received: from hu-raviravi-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb757a8dsm81917535ad.40.2026.02.27.06.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 06:45:56 -0800 (PST)
-From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com,
-        ajay.nandam@oss.qualcomm.com, stable@vger.kernel.org
-Subject: [PATCH v1] ASoC: qcom: qdsp6: Fix q6apm remove ordering during ADSP stop and start
-Date: Fri, 27 Feb 2026 20:15:34 +0530
-Message-Id: <20260227144534.278568-1-ravi.hothi@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V9g/f1EG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v+pYxNDV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V9g/f1EG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v+pYxNDV"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B6CC568009;
+	Fri, 27 Feb 2026 14:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772203648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=XCo4/Jkx1EkL6Agbp7527gKCLYHx8DgJwFzCmnpKmq8=;
+	b=V9g/f1EGH0FB0KtYxEe6JTlGGdFkuxbWOFY4zxCjZ9vPRqBRoU4gvf8qLnTT/RqAccFzRp
+	7ZuZCeGtFnUQ8F6pINvMzK8L0aY2frk4lx9Hm1dqUoKDGyqovArtFX28zUT+gDHagGo1I2
+	Sk32VYaHdbQp9TH+bxEIqfU074p4ed4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772203648;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=XCo4/Jkx1EkL6Agbp7527gKCLYHx8DgJwFzCmnpKmq8=;
+	b=v+pYxNDVSLXAn94+Ql3PiRhFLizcFKs+xfxijCDp8HQnkZCO8UIyYbyJA4QtEN3KmfEX5w
+	bQKwmK2+uBEianBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772203648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=XCo4/Jkx1EkL6Agbp7527gKCLYHx8DgJwFzCmnpKmq8=;
+	b=V9g/f1EGH0FB0KtYxEe6JTlGGdFkuxbWOFY4zxCjZ9vPRqBRoU4gvf8qLnTT/RqAccFzRp
+	7ZuZCeGtFnUQ8F6pINvMzK8L0aY2frk4lx9Hm1dqUoKDGyqovArtFX28zUT+gDHagGo1I2
+	Sk32VYaHdbQp9TH+bxEIqfU074p4ed4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772203648;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=XCo4/Jkx1EkL6Agbp7527gKCLYHx8DgJwFzCmnpKmq8=;
+	b=v+pYxNDVSLXAn94+Ql3PiRhFLizcFKs+xfxijCDp8HQnkZCO8UIyYbyJA4QtEN3KmfEX5w
+	bQKwmK2+uBEianBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BCB03EA69;
+	Fri, 27 Feb 2026 14:47:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fuLUIICuoWn5fAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Feb 2026 14:47:28 +0000
+Date: Fri, 27 Feb 2026 15:47:28 +0100
+Message-ID: <87a4wu8cqn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.0-rc2
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDEzMSBTYWx0ZWRfX9R5zQppww+ZN
- rMi1jqc96oCLuYyCAf0yTTHiMsj1NOlyyo0ddhoi80qE0zJ1sGeeILeBzPLqDDadeUlly3AC3Mk
- N9BnV8PikMDuZm3qvfNQ67RLanhTyF6bOHagWPoOg4lPkfB1U4GhB4nMDwTMCYHmLoH/zwOEY6S
- 9A9dtzaTmWJIC+2ulKTBgxCiKpDo9YAJLxnjjm016UNCRFSGJ67Cc021qQzekhw7gRt3n8Np93Q
- 3euOlXVzrLgd4nhL7adnqEiaTqH416CJ+EGshlXNv2qtxozYt31hDvgHwd252w/4FZ9xEO46DJA
- umCYfHHnubkd8Vq//HaRrd9rye/RilLqbpOcmlDdBx+/N5HzB6ZbxLS2yG5jiLnV2ORdZXhk00+
- GMV1ka0hHTAnwTRvxju5iuZ3eFJEYWMAsPzmquguLlZCoEeHsUzergoTPth+RhyjfkzORDJSySa
- La4+YV+eHGkQ3TGC2Ug==
-X-Proofpoint-GUID: L8LaEYeQAEdc0rOBdoz1rVLdvukEnDjI
-X-Authority-Analysis: v=2.4 cv=KZzfcAYD c=1 sm=1 tr=0 ts=69a1ae26 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=rf00gIwgXPVrdr1aJ6AA:9 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-ORIG-GUID: L8LaEYeQAEdc0rOBdoz1rVLdvukEnDjI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-27_02,2026-02-27_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- malwarescore=0 bulkscore=0 adultscore=0 phishscore=0 spamscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602270131
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-During ADSP stop and start, the kernel crashes due to the order in which
-ASoC components are removed.
+Linus,
 
-On ADSP stop, the q6apm-audio .remove callback unloads topology and removes
-PCM runtimes during ASoC teardown. This deletes the RTDs that contain the
-q6apm DAI components before their removal pass runs, leaving those
-components still linked to the card and causing crashes on the next rebind.
+please pull sound fixes for v7.0-rc2 from:
 
-Fix this by ensuring that all dependent (child) components are removed
-first, and the q6apm component is removed last.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc2
 
-[   48.105720] Unable to handle kernel NULL pointer dereference at virtual =
-address 00000000000000d0
-[   48.114763] Mem abort info:
-[   48.117650]   ESR =3D 0x0000000096000004
-[   48.121526]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-[   48.127010]   SET =3D 0, FnV =3D 0
-[   48.130172]   EA =3D 0, S1PTW =3D 0
-[   48.133415]   FSC =3D 0x04: level 0 translation fault
-[   48.138446] Data abort info:
-[   48.141422]   ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
-[   48.147079]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-[   48.152354]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-[   48.157859] user pgtable: 4k pages, 48-bit VAs, pgdp=3D00000001173cf000
-[   48.164517] [00000000000000d0] pgd=3D0000000000000000, p4d=3D00000000000=
-00000
-[   48.171530] Internal error: Oops: 0000000096000004 [#1]  SMP
-[   48.177348] Modules linked in: q6prm_clocks q6apm_lpass_dais q6apm_dai s=
-nd_q6dsp_common q6prm snd_q6apm 8021q garp mrp stp llc snd_soc_hdmi_codec a=
-pr pdr_interface phy_qcom_edp fastrpc qcom_pd_mapper rpmsg_ctrl qrtr_smd rp=
-msg_char qcom_pdr_msg qcom_iris v4l2_mem2mem videobuf2_dma_contig ath11k_pc=
-i msm ubwc_config at24 ath11k videobuf2_memops mac80211 ocmem videobuf2_v4l=
-2 libarc4 drm_gpuvm mhi qrtr videodev drm_exec snd_soc_sc8280xp gpu_sched v=
-ideobuf2_common nvmem_qcom_spmi_sdam snd_soc_qcom_sdw drm_dp_aux_bus qcom_q=
-6v5_pas qcom_spmi_temp_alarm snd_soc_qcom_common rtc_pm8xxx qcom_pon drm_di=
-splay_helper cec qcom_pil_info qcom_stats soundwire_bus drm_client_lib mc d=
-ispcc0_sa8775p videocc_sa8775p qcom_q6v5 camcc_sa8775p snd_soc_dmic phy_qco=
-m_sgmii_eth snd_soc_max98357a i2c_qcom_geni snd_soc_core dwmac_qcom_ethqos =
-llcc_qcom icc_bwmon qcom_sysmon snd_compress qcom_refgen_regulator coresigh=
-t_stm stmmac_platform snd_pcm_dmaengine qcom_common coresight_tmc stmmac co=
-resight_replicator qcom_glink_smem coresight_cti stm_core
-[   48.177444]  coresight_funnel snd_pcm ufs_qcom phy_qcom_qmp_usb gpi phy_=
-qcom_snps_femto_v2 coresight phy_qcom_qmp_ufs qcom_wdt gpucc_sa8775p pcs_xp=
-cs mdt_loader qcom_ice icc_osm_l3 qmi_helpers snd_timer snd soundcore displ=
-ay_connector qcom_rng nvmem_reboot_mode drm_kms_helper phy_qcom_qmp_pcie sh=
-a256 cfg80211 rfkill socinfo fuse drm backlight ipv6
-[   48.301059] CPU: 2 UID: 0 PID: 293 Comm: kworker/u32:2 Not tainted 6.19.=
-0-rc6-dirty #10 PREEMPT
-[   48.310081] Hardware name: Qualcomm Technologies, Inc. Lemans EVK (DT)
-[   48.316782] Workqueue: pdr_notifier_wq pdr_notifier_work [pdr_interface]
-[   48.323672] pstate: 20400005 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[   48.330825] pc : mutex_lock+0xc/0x54
-[   48.334514] lr : soc_dapm_shutdown_dapm+0x44/0x174 [snd_soc_core]
-[   48.340794] sp : ffff800084ddb7b0
-[   48.344207] x29: ffff800084ddb7b0 x28: ffff00009cd9cf30 x27: ffff00009cd=
-9cc00
-[   48.351544] x26: ffff000099610190 x25: ffffa31d2f19c810 x24: ffffa31d2f1=
-85098
-[   48.358869] x23: ffff800084ddb7f8 x22: 0000000000000000 x21: 00000000000=
-000d0
-[   48.366198] x20: ffff00009ba6c338 x19: ffff00009ba6c338 x18: 00000000fff=
-fffff
-[   48.373528] x17: 000000040044ffff x16: ffffa31d4ae6dca8 x15: 07200774077=
-5076f
-[   48.380853] x14: 0765076d07690774 x13: 00313a323a656369 x12: 767265733a6=
-37673
-[   48.388182] x11: 00000000000003f9 x10: ffffa31d4c7dea98 x9 : 00000000000=
-00001
-[   48.395519] x8 : ffff00009a2aadc0 x7 : 0000000000000003 x6 : 00000000000=
-00000
-[   48.402854] x5 : 0000000000000000 x4 : 0000000000000028 x3 : ffff000ef39=
-7a698
-[   48.410180] x2 : ffff00009a2aadc0 x1 : 0000000000000000 x0 : 00000000000=
-000d0
-[   48.417506] Call trace:
-[   48.420025]  mutex_lock+0xc/0x54 (P)
-[   48.423712]  snd_soc_dapm_shutdown+0x44/0xbc [snd_soc_core]
-[   48.429447]  soc_cleanup_card_resources+0x30/0x2c0 [snd_soc_core]
-[   48.435719]  snd_soc_bind_card+0x4dc/0xcc0 [snd_soc_core]
-[   48.441278]  snd_soc_add_component+0x27c/0x2c8 [snd_soc_core]
-[   48.447192]  snd_soc_register_component+0x9c/0xf4 [snd_soc_core]
-[   48.453371]  devm_snd_soc_register_component+0x64/0xc4 [snd_soc_core]
-[   48.459994]  apm_probe+0xb4/0x110 [snd_q6apm]
-[   48.464479]  apr_device_probe+0x24/0x40 [apr]
-[   48.468964]  really_probe+0xbc/0x298
-[   48.472651]  __driver_probe_device+0x78/0x12c
-[   48.477132]  driver_probe_device+0x40/0x160
-[   48.481435]  __device_attach_driver+0xb8/0x134
-[   48.486011]  bus_for_each_drv+0x80/0xdc
-[   48.489964]  __device_attach+0xa8/0x1b0
-[   48.493916]  device_initial_probe+0x50/0x54
-[   48.498219]  bus_probe_device+0x38/0xa0
-[   48.502170]  device_add+0x590/0x760
-[   48.505761]  device_register+0x20/0x30
-[   48.509623]  of_register_apr_devices+0x1d8/0x318 [apr]
-[   48.514905]  apr_pd_status+0x2c/0x54 [apr]
-[   48.519114]  pdr_notifier_work+0x8c/0xe0 [pdr_interface]
-[   48.524570]  process_one_work+0x150/0x294
-[   48.528692]  worker_thread+0x2d8/0x3d8
-[   48.532551]  kthread+0x130/0x204
-[   48.535874]  ret_from_fork+0x10/0x20
-[   48.539559] Code: d65f03c0 d5384102 d503201f d2800001 (c8e17c02)
-[   48.545823] ---[ end trace 0000000000000000 ]---
+The topmost commit is 71c1978ab6d2c6d48c31311855f1a85377c152ae
 
-Fixes: 5477518b8a0e ("ASoC: qdsp6: audioreach: add q6apm support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
+----------------------------------------------------------------
+
+sound fixes for 7.0-rc2
+
+A bunch of small device-specific fixes.  Mostly quirks and fix-ups
+for USB- and HD-audio at this time, in addition to a couple of ASoC
+AMD and Cirrus fixes.
+
+----------------------------------------------------------------
+
+Azamat Almazbek uulu (1):
+      ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk table
+
+Charles Keepax (1):
+      ASoC: cs42l43: Report insert for exotic peripherals
+
+Geoffrey D. Bennett (5):
+      ALSA: scarlett2: Fix DSP filter control array handling
+      ALSA: usb-audio: Improve Focusrite sample rate filtering
+      ALSA: usb-audio: Remove VALIDATE_RATES quirk for Focusrite devices
+      ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP
+      ALSA: usb-audio: Skip clock selector for Focusrite devices
+
+Juhyung Park (2):
+      ALSA: hda/realtek: fix model name typo for Samsung Galaxy Book Flex (NT950QCG-X716)
+      ALSA: hda/realtek: add quirk for Samsung Galaxy Book Flex (NT950QCT-A38A)
+
+Jun Seo (1):
+      ALSA: usb-audio: Use correct version for UAC3 header validation
+
+Panagiotis Foliadis (2):
+      ALSA: hda/realtek: Add quirk for Acer Aspire V3-572G
+      ALSA: hda/intel: increase default bdl_pos_adj for Nvidia controllers
+
+Richard Fitzgerald (2):
+      ALSA: hda: cs35l56: Fix signedness error in cs35l56_hda_posture_put()
+      ALSA: hda: cs35l56: Remove unnecessary struct cs_dsp_client_ops
+
+Sean Rhodes (1):
+      ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter
+
+Takashi Iwai (8):
+      ALSA: usb-audio: Cap the packet size pre-calculations
+      ALSA: usb-audio: Check max frame size for implicit feedback mode, too
+      ALSA: usb-audio: Avoid implicit feedback mode on DIYINHK USB Audio 2.0
+      ALSA: usb-audio: Use inclusive terms
+      ALSA: usb-audio: Drop superfluous kernel-doc markers
+      ALSA: usb: qcom: Correct parameter comment for uaudio_transfer_buffer_setup()
+      ALSA: us144mkii: Drop kernel-doc markers
+      ASoC: SDCA: Fix comments for sdca_irq_request()
+
+Zhang Heng (1):
+      ALSA: hda/realtek: add quirk for Acer Nitro ANV15-51
+
 ---
- sound/soc/qcom/qdsp6/q6apm-dai.c        | 1 +
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 1 +
- sound/soc/qcom/qdsp6/q6apm.c            | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-=
-dai.c
-index de3bdac3e791..168c166c960d 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -838,6 +838,7 @@ static const struct snd_soc_component_driver q6apm_fe_d=
-ai_component =3D {
- 	.ack		=3D q6apm_dai_ack,
- 	.compress_ops	=3D &q6apm_dai_compress_ops,
- 	.use_dai_pcm_id =3D true,
-+	.remove_order   =3D SND_SOC_COMP_ORDER_EARLY,
- };
-=20
- static int q6apm_dai_probe(struct platform_device *pdev)
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6=
-/q6apm-lpass-dais.c
-index 528756f1332b..5be37eeea329 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -278,6 +278,7 @@ static const struct snd_soc_component_driver q6apm_lpas=
-s_dai_component =3D {
- 	.of_xlate_dai_name =3D q6dsp_audio_ports_of_xlate_dai_name,
- 	.be_pcm_base =3D AUDIOREACH_BE_PCM_BASE,
- 	.use_dai_pcm_id =3D true,
-+	.remove_order   =3D SND_SOC_COMP_ORDER_FIRST,
- };
-=20
- static int q6apm_lpass_dai_dev_probe(struct platform_device *pdev)
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index 44841fde3856..970b08c89bb3 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -715,6 +715,7 @@ static const struct snd_soc_component_driver q6apm_audi=
-o_component =3D {
- 	.name		=3D APM_AUDIO_DRV_NAME,
- 	.probe		=3D q6apm_audio_probe,
- 	.remove		=3D q6apm_audio_remove,
-+	.remove_order   =3D SND_SOC_COMP_ORDER_LAST,
- };
-=20
- static int apm_probe(gpr_device_t *gdev)
---=20
-2.34.1
+ sound/hda/codecs/realtek/alc269.c          | 37 +++++++++++++++-
+ sound/hda/codecs/side-codecs/cs35l56_hda.c |  7 +--
+ sound/hda/controllers/intel.c              |  2 +
+ sound/soc/amd/yc/acp6x-mach.c              |  7 +++
+ sound/soc/codecs/cs42l43-jack.c            |  1 +
+ sound/soc/sdca/sdca_interrupts.c           |  4 +-
+ sound/usb/endpoint.c                       | 10 +++--
+ sound/usb/format.c                         | 70 +++++++++++++++++++++++++++---
+ sound/usb/mixer_s1810c.c                   | 12 ++---
+ sound/usb/mixer_scarlett2.c                | 10 ++---
+ sound/usb/qcom/qc_audio_offload.c          |  2 +-
+ sound/usb/quirks.c                         |  6 ++-
+ sound/usb/stream.c                         |  3 ++
+ sound/usb/usbaudio.h                       |  6 +++
+ sound/usb/usx2y/us144mkii.c                | 14 +++---
+ sound/usb/usx2y/us144mkii_capture.c        | 12 ++---
+ sound/usb/usx2y/us144mkii_controls.c       | 42 +++++++++---------
+ sound/usb/usx2y/us144mkii_midi.c           | 22 +++++-----
+ sound/usb/usx2y/us144mkii_playback.c       | 10 ++---
+ sound/usb/validate.c                       |  2 +-
+ 20 files changed, 196 insertions(+), 83 deletions(-)
 
