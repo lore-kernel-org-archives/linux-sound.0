@@ -1,110 +1,97 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481AC2D73A6;
-	Fri, 27 Feb 2026 05:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714FE265298
+	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 06:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772169948; cv=none; b=FXwcZJPIjopiYO5FTWx7FF3OgsoDtEz+aztRph6Dd6RztjcjIjNnRLWznGrAGUS09zL084bxngH1Pm2xi3GVJi7OKJo6nZ8nZOHhP46ql9IGssIveYp+GF8YR0AK3/s4nzd2vePTuPJlABr75FJ11BaBkbQwoaNmV5zsE3IaaOk=
+	t=1772174263; cv=none; b=etT1S6vE/PtYSXVi5l7LAswIJ3qV+gEy58/+WvkcxKNak4WVdPca++gH+FsPJfcgtpncdvvG5+vwzn1VBWXDimuwldzLkBOg94VBx0gH9dZEYnCV9lhJGzH9kz9JbtJYLxofNRGyXgXrjjHIRCcuIHVjsI+7QuufS5Piy+DnrsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772169948; c=relaxed/simple;
-	bh=+31iF3OoYMGJbCN6LTtZ31nBlwQ8uRo+RoyxWzMNZYc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oPf9bgBiQXYfFyPvmTVKYnIUzj7p1jhV8YW8LZyB8DRJ40TdIVF3ZzlG/vvlXo03SOGD7ZuRb6MmQtEcvIVuwbCmb+AMX1hcAZUi4Sjguo9Pdq51kgmSE7b8aRoBPyehhfYDis9XbNpFN/KkE8GV0/6dIGaGOIJQ8KPG+pMs1CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.103] (unknown [123.118.222.47])
-	by APP-01 (Coremail) with SMTP id qwCowABH72qvKqFp4fXQCA--.7323S2;
-	Fri, 27 Feb 2026 13:25:04 +0800 (CST)
-Message-ID: <c9329ae2-721d-4127-9380-b1ea454bd8f2@iscas.ac.cn>
-Date: Fri, 27 Feb 2026 13:25:03 +0800
+	s=arc-20240116; t=1772174263; c=relaxed/simple;
+	bh=TKmebeuWwFmZ6UaFP03XossK9UE3K1kOP/d1C1/VIAs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BwYhCdxV+csI0rx/oFLWcs4EkgNe0CS+qcnol2inf2cbabiFNwHfwWSMICm9mcavynggQB+2cgeJUtjj7zjF7+JJTSsNMWk2SOLtfYfZNgFUeSyGxdgKFvicqQgI6ZgOj87Ky55SILHa2pXRHwKFFKSMNeh0kSBmLmA/4Dx/764=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/h6AoVJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/h6AoVJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9FB4C116C6;
+	Fri, 27 Feb 2026 06:37:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772174263;
+	bh=TKmebeuWwFmZ6UaFP03XossK9UE3K1kOP/d1C1/VIAs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=q/h6AoVJnouSC5eSBh5ALkPokItIQa9L8gq7X1eDFNiW88v7fzyOXJfv2G2gsqizF
+	 6lf69IDlwC4xqAY4T80pTGloEytAo+eOTQBe1puoiRFpNShwWQaD40eY9C0AZcNw3M
+	 FYU1TpcD8W7+frvt6rJJYy4RzjEGqDfFj0AmCEpbc6BfqsJU22z82yzByqn2Gn5GHV
+	 XEUF/cOlCpNWlq2R8BIzf9XWJAN1a/6Rrmxb3bswo+sxqkc/t+LcCBMmj3CVIeinAG
+	 vTkerROKytPyI2JkmVbT/HOoEPZ1R/CGub//6QjzCP+cRVMUy0H7j1XbVB3/a418eI
+	 0/wZOO/mdbftg==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
+ yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260223095425.3905703-1-ckeepax@opensource.cirrus.com>
+References: <20260223095425.3905703-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 0/4] SDCA Improvements
+Message-Id: <177217426160.28674.10391056947552992217.b4-ty@kernel.org>
+Date: Fri, 27 Feb 2026 06:37:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] PCI/MSI: Conservatively generalize no_64bit_msi
- into msi_addr_mask
-To: Mark Bloch <mbloch@nvidia.com>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Brett Creeley <brett.creeley@amd.com>
-Cc: Han Gao <gaohan@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev, Takashi Iwai <tiwai@suse.de>,
- Maor Gottlieb <maorg@nvidia.com>
-References: <20260129-pci-msi-addr-mask-v4-0-70da998f2750@iscas.ac.cn>
- <20260129-pci-msi-addr-mask-v4-1-70da998f2750@iscas.ac.cn>
- <fb23d54a-fca0-43a2-ae1d-03ae52112192@nvidia.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <fb23d54a-fca0-43a2-ae1d-03ae52112192@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qwCowABH72qvKqFp4fXQCA--.7323S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WrykArWkCrW7tr1xAr48tFb_yoW8Gr4fpF
-	WDWF4rtF4UKry7t39Fvw1DZF45Zws5Z3s3Wry5twnakan0v3W2qr1qyr4aga42gr48Jw4Y
-	kryjgw1vqrs8Z37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvE14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
-	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
-	1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
-	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-	evJa73UjIFyTuYvjTRM6wCDUUUU
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+X-Mailer: b4 0.15-dev-47773
 
-On 2/27/26 02:25, Mark Bloch wrote:
+On Mon, 23 Feb 2026 09:54:21 +0000, Charles Keepax wrote:
+> Another fairly mixed bag of small SDCA fixes/improvements. Fix one DisCo
+> property that was treated as mandatory but is actually not present in
+> the first version of the specification. Fix the counting of routes for
+> SU/GE DAPM widgets, this currently makes assumptions that are not
+> guaranteed to be true which can result in too many/few DAPM routes.
+> 
+> Then finally a couple improvements to the volume controls, simplify the
+> mapping between ALSA and SDCA volumes and pull the volume stuff back
+> into the SDCA code. It just wasn't sitting right with me that it was
+> being handled in the ASoC core given it is unlikely to ever see any
+> reuse outside of SDCA.
+> 
+> [...]
 
-> On 29/01/2026 3:56, Vivian Wang wrote:
->> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
->> implement less than 64 address bits. This breaks on platforms where such
->> a device is assigned an MSI address higher than what's reachable.
->>
->> Currently, the no_64bit_msi bit is set for these devices, meaning that
->> only 32-bit MSI addresses are allowed for them. However, on some
->> platforms the MSI doorbell address is above the 32-bit limit but within
->> the addressable range of the device.
->>
->> As a first step to enabling MSI on those combinations of devices and
->> platforms, conservatively generalize the single-bit flag no_64bit_msi
->> into msi_addr_mask. (The name msi_addr_mask is chosen to avoid confusion
->> with msi_mask.)
->>
->> The translation is essentially:
->>
->> - no_64bit_msi = 1    ->    msi_addr_mask = DMA_BIT_MASK(32)
->> - no_64bit_msi = 0    ->    msi_addr_mask = DMA_BIT_MASK(64)
->> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
->>
-> Hey Vivian,
->
-> We are seeing issues while reloading mlx5 on a PPC64 platform.
+Applied to
 
-Mea culpa. There's a fix on the list [1] since last Friday. I'm not sure
-why it hasn't moved yet, but please take a look.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Vivian "dramforever" Wang
+Thanks!
 
-[1]: https://lore.kernel.org/all/20260220070239.1693303-1-nilay@linux.ibm.com/
+[1/4] ASoC: SDCA: Add default value for mipi-sdca-function-reset-max-delay
+      commit: 1bbbda5b178a1399339139eb3c326300008b72d6
+[2/4] ASoC: SDCA: Update counting of SU/GE DAPM routes
+      commit: 1fb720d33eecdb9a90ee340b3000ba378d49f5ca
+[3/4] ASoC: SDCA: Improve mapping of Q7.8 SDCA volumes
+      commit: d4f7d5a9a0f963dc895c18084425ce332a80d3a8
+[4/4] ASoC: SDCA: Pull the Q7.8 volume helpers out of soc-ops
+      commit: 501efdcb3b3ab099fc0ce2f6e668b1c4095dd476
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
