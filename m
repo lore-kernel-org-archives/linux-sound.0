@@ -1,539 +1,546 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817B122424C;
-	Fri, 27 Feb 2026 13:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772197425; cv=fail; b=Sfhp+M8VCnq81U7fOfvfkPZxMnthpc446yFqQgpXiYta+/0YZfSB7iVsF2TLVAI84c+FHCw05qk9ZotLUaW2nHNkzbwo7qkfHslB6UFjcs+dPx5aiKEg/sLvO6zqqX8gqSZr8EBvp/+WoI1RGnv7rjt73F/T7mViRCp+mE11fCw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772197425; c=relaxed/simple;
-	bh=eCQzzQarrowADTgzpYIjTmihHgZj9ckI48uMeghQWLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GWv5FqyVHyvgfZtcDRbgB1fV+PDNaqBKM0V93fmXqRr7ruJu9X9/xKzTAuFHg9ISB5LOSBO4PLxjKwgnNsJIKeG/uJs9iw2n5bWv8mW/pKWtFUwIgDwHWRrTp6kq/8w02oGOXqmE1i5dYz/5K3+UOWMHrAKmm+ckBl/m4T9qu8I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dk6UL390; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=wCooMY77; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A8A3F23C7;
+	Fri, 27 Feb 2026 13:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772200511; cv=none; b=JQGvzAhJDtrnsZOYcVRlPM5omd7F5DWBUvKhsR6Tqr+jgr0m4HFhX00QxKU6Z+HP9EONJ9W+HX6ux33L9j748bEzb1ElBArwM3oidLne73aSdhamMLXI9jd9yNbfCGwfNSCrr0AMxtw+BG0qb1cn1Xd/tA7ndtgUDhzAzSJzr6o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772200511; c=relaxed/simple;
+	bh=C1DkhxjU6XOyhVwLQ6OUr299uGDSgaNu52Va6SbVWqk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pHhjaEeDgQxVbMCAIsFKxnvHhfVLrSbCSy62QuQfC0tjxZ4JB9eiCxgnIacpSij6gtK5WbdWRZ26fFIC4oz7jkhndS/LmtQAIbw7KwCjHttCAoTs/H+RUdAWZiaELGEdAyj9ia0Tv1v9r7SXxDCQ9xRpByUo3C0EBHMs3p3FpK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=igX8lQVp; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dk6UL390";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="wCooMY77"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61R5054P2382702;
-	Fri, 27 Feb 2026 07:03:33 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=F4emaFBkL/nARGAtVnUWj08IqlcvM6Fah8cKxEvNnvk=; b=
-	dk6UL390RluxREQVZioHJZGLRmnZtxZB9sHgrucZqVmbUC/vW0W8VqAODa25KYwZ
-	66Pvc3zLZThHhQ47hJeTTjs1N9/W8XylyZC/63OASh0MIlUkVSScE8cY4bzItFtu
-	7T1Zcx/vlVj+3H+dGQC8sbdnJdWvxgwFVfkX2oqvdBsH/1XJ0Qny6yGQaAa3Lty5
-	l48ejlActv6uBuzqdtHJQ/8o81Qe7ehOo7ywUeLKb1ANBWVvSJuwFvao3i4EXODS
-	DkTn7LPyTqU/KZBRcefgTf43NuymeYNykxBPzEdqaFkxZDhm5fBBVDSetXrctG8G
-	laWuv1TL5vanGA++7cBiLQ==
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11021074.outbound.protection.outlook.com [40.93.194.74])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4cjmds1fjb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 27 Feb 2026 07:03:33 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gD+Vh03uEBn5QKtHvNLhsawQsL2xVhtje9yLNmqYwoygSt9y5Z4FBan3uQBOqk0t/YDUIfnTvDftX/pjjUpGYmXhopi6r+meBZk/fEzNhg4ukghSw9nMwsbBHZ+OnWus0QfuFzIY5MSlLZvz/14OirAJr3hl7nLnPMKEq4U+f7mzC6JOYaL/c8oAzoJPBho8TwMHKzGuhOctGeGcLW/vaGhG/ESBFcgsTNNd8WJRvcHngbBS1rZigoR1oueAaJ5Fpf4i9cWv+pkhbAxQSTwbTjgvCzO6aKCHUY+LytkJ0DskWSwhHkTw8SvKbV1mGh0ZqkGHpM7PtRx1fJttakohjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F4emaFBkL/nARGAtVnUWj08IqlcvM6Fah8cKxEvNnvk=;
- b=FZougWDX6OlI5zPE9HeJs/n4yULtkONMhuMvVj81XC/xCv0h0VQ1qNYJSMHjlH3eJJsRFR56jsmXK9GMBddxX/oN/EEdBO/MdVo1bcBz+adqt0c4SiTuD4Pv07R5ZmaB9LNfSbLxYbxVnfV4v08jiDlFx7TBSX5VClXkNDR6TWQzmlpOPY+ywUVL9eepAfx96/hiHHSfn1U0c0oPzfl1aaO3kRjug5FEZTAlxT0I833TA3XmjkzjsM9X+wSfTeeQSyrvth7GJpoPcI9729qFUICmf91O34DZvrBGf3+xHPY69Mq4AOaApWs/WV2Rpfj0Mn8MVuI2c/vzEzYxe8c1ZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F4emaFBkL/nARGAtVnUWj08IqlcvM6Fah8cKxEvNnvk=;
- b=wCooMY77zN2K329pobN2XPVA3WZIjFFxDOWSlFRBrS9HtPN2XdZ/GKI++lIiWn/a5BEytfQvszfgqSsf3UGZi5vDgy2iXHbhRHeCZ2gU8Dtl6vjwnzA0ozef6AnedzZ75ZCvthZOqFhUsmMkfgWbzV0jf/vlp/31c+4miwIq4VM=
-Received: from SA9PR13CA0063.namprd13.prod.outlook.com (2603:10b6:806:23::8)
- by DS4PPFED68AC8DF.namprd19.prod.outlook.com (2603:10b6:f:fc00::a5e) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Fri, 27 Feb
- 2026 13:02:15 +0000
-Received: from SA2PEPF00003F65.namprd04.prod.outlook.com
- (2603:10b6:806:23:cafe::2a) by SA9PR13CA0063.outlook.office365.com
- (2603:10b6:806:23::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.20 via Frontend Transport; Fri,
- 27 Feb 2026 13:02:14 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF00003F65.mail.protection.outlook.com (10.167.248.40) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.16
- via Frontend Transport; Fri, 27 Feb 2026 13:02:14 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B08B6406545;
-	Fri, 27 Feb 2026 13:02:12 +0000 (UTC)
-Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 79136822542;
-	Fri, 27 Feb 2026 13:02:12 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v4 RESEND 3/4] mfd: cs42l43: Add support for the B variant
-Date: Fri, 27 Feb 2026 13:01:00 +0000
-Message-ID: <20260227130120.3070893-4-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260227130120.3070893-1-mstrozek@opensource.cirrus.com>
-References: <20260227130120.3070893-1-mstrozek@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="igX8lQVp"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 0C01B4E419CC;
+	Fri, 27 Feb 2026 13:55:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BBE295FE74;
+	Fri, 27 Feb 2026 13:55:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2C7C21036945B;
+	Fri, 27 Feb 2026 14:54:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1772200503; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=ir0k/DdY5XLICbT9UseNVUNN8qOUDOalOZGSQwnXHDQ=;
+	b=igX8lQVpeb5/H+C47rMVNhzbUaZ1op5dL8EK1XWqlUukaX3vmO7mCdeOhrG11TdXW4Ew9i
+	+LKVvVtmtcU6gcUS9d8hKTpTdNfTEi+xd4kPp3ZdCjTnuFa310SmS203u7dbOE3+BmNGKx
+	mjMKxmZfdTlWrtc+B88z3snvBESBHathdL9sVd4t388XdCMfiGxu7sg+dt7IWsNx5SEYBw
+	T5eHCD358lxGHP2HgSVxt9HnV7Cyz0S+NoO1gZ7qDvBoQMiMUTX6ccvzJq6g7uqMGjhDEz
+	X6zOIBw5fa9NPAEVIW5Q8g6f1R/wGP3oCMxwiaxrDnqBfhZpftj2HVkpgSGi6Q==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kalle Niemi <kaleposti@gmail.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Peter Rosin <peda@axentia.se>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Shawn Guo <shawnguo@kernel.org>
+Cc: Wolfram Sang <wsa@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-gpio@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	Allan Nielsen <allan.nielsen@microchip.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v5 00/28] lan966x pci device: Add support for SFPs
+Date: Fri, 27 Feb 2026 14:53:57 +0100
+Message-ID: <20260227135428.783983-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F65:EE_|DS4PPFED68AC8DF:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: f1de8d3a-bca3-46fc-060f-08de76006d9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|7416014|376014|82310400026|36860700013|54012099003;
-X-Microsoft-Antispam-Message-Info:
-	WSB+RcGNh9G94WI4McJRmWVuulJBOM0ACs+gMugXL031IOTHOL+87q5LXZyY3h3XhCetssM3/W9s5rheZASbYqVpZJIWZti0Iq009cXjoHJGQdD4yP6x5Nis4ruoQWWmpQob0Ggf4NEvwig1eWNAVVkEtet3p0W3PCxDmztBACVk6R4nCKL8dsN7ypwbwvoByk5K9/xPzWH9CXA6lOxzrdWqt32if7DFiY+8CJX/3JGiecmqtE83k36yd1Mw5X2nuytlomwfZS/11EQH5xtwat9Pdpk7sLJDlwH/a/R7xYEK7RS6jQgDhtX5yJKVGPkxAQx5EYwhiP2LHMYTvs501BnJiBS2wQqgHjjIBbT1ZcUUQpsqRAwukZot3dkzfWs8FiQ5Hlj8KeMG4nMp54QEabtvUfL4pAt6ZU0PILc7I/tG5UppIUFfEGuIy8008jGUhtqXwBpPcPYxmpNMu8aICfoXvZrePG5PoExO7gmE5BDFjD/JtH8ARyceGJAlzWcmcvL+hAJNzEyWu2ifxxli7C3FmsuDQUf4WuyVybfW1/cTBydCBkDA481KktvnvBinUlgKltHuQm6TExvTklH5k1/i6aR/kzHsljCrgitOQozPnUNdvhOkHIy3PO0tnOm+Vpeu9UDv2OmMwNkYR4AHGQMYzRPsnbhS1O2zvl64hQ9mfX0a51NYBv8J4o5fmu+yhlHCRbO6DVW+kK2UURYBFmXIc2+7BiWciqpes42T6oeTo7UDi6oEok5bL3Z1FTcrx3wEfsfkndWaYRT9uOoRMbRGg+jIirZDcI5WvWed8UbkI4ozOl4XtwuyjOMZ3MstnCLPbsOyWgCtgnoPrHmK8g==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(7416014)(376014)(82310400026)(36860700013)(54012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Lt+T4fSnQ45DsslqRlYDaMAhQckIrWmxg2PQt+Ql3eOchn3P0gI06n9lz1jCCaW/IIVikROirvZw4J+nE9/34XxClGQRy8FTONEtVDpQpPefCS5HD9feoiw+P/GMVK0dsVWRrQhrqj3XSdAUhIK+z/Ua2R2LDfLYHpyxhwvHRR66UWyxu5MgpYOdSzTFN8W3b1QYC1Z3rN5yAZlragdfmu6vrBRmqiDcDg+14mlluEbH6RbEvnPCJVO3gdRYhYQdImwgikufnGIa7x9G27VcZW/wFvfSwEnHI/WMj2B5I+D18bgajAym+OWXGGr2DX6g1wlo5/lUgQIxyXttr2ptg/1PB+wLNwXTzCYJt+AqvJgVdidnC1IltgOq4wsh8sWjduH4No33Ax2k4hCOdihUUYPNyIpkx12eeFMnSrVhXNhzKjEYH4H4kKl2MS5MBRlA
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 13:02:14.1443
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1de8d3a-bca3-46fc-060f-08de76006d9c
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003F65.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFED68AC8DF
-X-Authority-Analysis: v=2.4 cv=dO2rWeZb c=1 sm=1 tr=0 ts=69a19625 cx=c_pps
- a=pHX0GuESvmlUVbyXmFftrw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=HzLeVaNsDn8A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=XPwATKmoEvXA9jVZorMA:9
-X-Proofpoint-GUID: pGN-aQj0BmuH99oe2jax0pqlqQG_oB1a
-X-Proofpoint-ORIG-GUID: pGN-aQj0BmuH99oe2jax0pqlqQG_oB1a
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDExNCBTYWx0ZWRfXwXI6xY7xfrpU
- KONl9zFJogUXaj4HHWHSotA/FpML+NTE/qhcl1svFN0CqLI97GPL4SmsYpe01TkciJtUMHhPCwW
- uKl/ur+E/WX+HEGXjUBStN/jRh5Giy/2C6XR+34ISYk5dflY3o6RtGLHza7iSN+xQefQIxZdYeu
- K7uRfm/hji+9DLilQlqCe5XbRW/qoYTMjxWPVf8e1qaOx1//ziIydQS6heI8oMNi/Rrtv+1HBnW
- F+OXVmH5o53GcCGtXVtlIv904woNs8F8yUgLix9Tpd+6VKV36YsLiUngC2k2yzoSxS+g3U+cU7z
- 3AzWBZreCHqTOWxQD+7IMzZznsRbj4FBmeL1Jd4z0Fq4fhXFjDLO3nNXUVrtlGwGY/VNMZT+XD3
- pTfpMg6yq5w9mC5FRSupTRC22TokqpBgBfDFx7HAakBweUGhTuHn252/3sAMrKIMRE8Uxj6dHYY
- wMwuaU9lXAWCn6atN2A==
-X-Proofpoint-Spam-Reason: safe
+X-Last-TLS-Session-Version: TLSv1.3
 
-Introducing CS42L43B codec, a variant of CS42L43 which can be driven by
-the same driver.
+Hi,
 
-Changes in CS42L43 driver specific for CS42L43B:
-- Decimator 1 and 2 are dedicated to ADC, can't be selected for PDM
-- Decimators 3 and 4 are connected to PDM1
-- Added Decimator 5 and 6 for PDM2
-- Supports SoundWire Clock Gearing
-- Updated ROM requiring no patching
-- Reduced RAM space
-- Each ISRC has 4 decimators now
+This series add support for SFPs ports available on the LAN966x PCI
+device. In order to have the SFPs supported, additional devices are
+needed such as clock controller and I2C.
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
-Changes in v4:
- - change variant_id to long int
-Changes in v3:
- - fix incorrect type cast (long -> int) in cs42l43-i2c.c
-Changes in v2:
- - Rework the mechanism to identify the new variant along with some
-   error handling improvements.
- - Added some comments in cs42l43_readable_register() for clarity.
- - Add handling of the I2C path for the B variant
----
- drivers/mfd/cs42l43-i2c.c        |  7 ++-
- drivers/mfd/cs42l43-sdw.c        |  4 +-
- drivers/mfd/cs42l43.c            | 93 +++++++++++++++++++++++++++-----
- drivers/mfd/cs42l43.h            |  2 +-
- include/linux/mfd/cs42l43-regs.h | 76 ++++++++++++++++++++++++++
- include/linux/mfd/cs42l43.h      |  1 +
- 6 files changed, 166 insertions(+), 17 deletions(-)
+As a reminder, the LAN966x PCI device driver use a device-tree overlay
+to describe devices available on the PCI board. Adding support for SFPs
+ports consists in adding more devices in the already existing
+device-tree overlay.
 
-diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
-index a2ab001a600ae..0a0ab5e549a5a 100644
---- a/drivers/mfd/cs42l43-i2c.c
-+++ b/drivers/mfd/cs42l43-i2c.c
-@@ -47,6 +47,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
- 	cs42l43->irq = i2c->irq;
- 	/* A device on an I2C is always attached by definition. */
- 	cs42l43->attached = true;
-+	cs42l43->variant_id = (long)device_get_match_data(cs42l43->dev);
+With those devices added, the device-tree overlay is more complex and
+some consumer/supplier relationship are needed in order to remove
+devices in correct order when the LAN966x PCI driver is removed.
 
- 	cs42l43->regmap = devm_regmap_init_i2c(i2c, &cs42l43_i2c_regmap);
- 	if (IS_ERR(cs42l43->regmap))
-@@ -58,7 +59,8 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
+Those links are typically provided by fw_devlink and we faced some
+issues with fw_devlink and overlays.
 
- #if IS_ENABLED(CONFIG_OF)
- static const struct of_device_id cs42l43_of_match[] = {
--	{ .compatible = "cirrus,cs42l43", },
-+	{ .compatible = "cirrus,cs42l43", .data = (void *)CS42L43_DEVID_VAL },
-+	{ .compatible = "cirrus,cs42l43b", .data = (void *)CS42L43B_DEVID_VAL },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, cs42l43_of_match);
-@@ -66,7 +68,8 @@ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
+This series gives the big picture related to the SFPs support from
+fixing issues to adding new devices. Of course, it can be split if
+needed.
 
- #if IS_ENABLED(CONFIG_ACPI)
- static const struct acpi_device_id cs42l43_acpi_match[] = {
--	{ "CSC4243", 0 },
-+	{ "CSC4243", CS42L43_DEVID_VAL },
-+	{ "CSC2A3B", CS42L43B_DEVID_VAL },
- 	{}
- };
- MODULE_DEVICE_TABLE(acpi, cs42l43_acpi_match);
-diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
-index 023f7e1a30f8c..794c983781750 100644
---- a/drivers/mfd/cs42l43-sdw.c
-+++ b/drivers/mfd/cs42l43-sdw.c
-@@ -178,6 +178,7 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
+The first part of the series (patch 1, 2 and 3) fixes fw_devlink when it
+is used with overlay. Patches 1 and 3 were previously sent by Saravana
+[0]. I rebased them on top of v7.0-rc1 and added patch 2 in order to
+take into account feedback received on the series sent by Saravana.
 
- 	cs42l43->dev = dev;
- 	cs42l43->sdw = sdw;
-+	cs42l43->variant_id = (long)id->driver_data;
+Also I added a call to driver_deferred_probe_trigger() in Saravana's
+patch (patch 3) to ensure that probes are retried after the modification
+performed on the dangling consumers. This allows to fix issues reported
+by Matti and Geert [2] with the previous iteration patches.
 
- 	cs42l43->regmap = devm_regmap_init_sdw(sdw, &cs42l43_sdw_regmap);
- 	if (IS_ERR(cs42l43->regmap))
-@@ -188,7 +189,8 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
- }
+Those modification were not sufficient in our case and so, on top of
+that, patches 4 to 6 fix some more issues related to fw_devlink.
 
- static const struct sdw_device_id cs42l43_sdw_id[] = {
--	SDW_SLAVE_ENTRY(0x01FA, 0x4243, 0),
-+	SDW_SLAVE_ENTRY(0x01FA, 0x4243, (void *) CS42L43_DEVID_VAL),
-+	SDW_SLAVE_ENTRY(0x01FA, 0x2A3B, (void *) CS42L43B_DEVID_VAL),
- 	{}
- };
- MODULE_DEVICE_TABLE(sdw, cs42l43_sdw_id);
-diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-index 107cfb983fec4..166881751e698 100644
---- a/drivers/mfd/cs42l43.c
-+++ b/drivers/mfd/cs42l43.c
-@@ -115,9 +115,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_DECIM_HPF_WNF_CTRL2,			0x00000001 },
- 	{ CS42L43_DECIM_HPF_WNF_CTRL3,			0x00000001 },
- 	{ CS42L43_DECIM_HPF_WNF_CTRL4,			0x00000001 },
-+	{ CS42L43B_DECIM_HPF_WNF_CTRL5,			0x00000001 },
-+	{ CS42L43B_DECIM_HPF_WNF_CTRL6,			0x00000001 },
- 	{ CS42L43_DMIC_PDM_CTRL,			0x00000000 },
- 	{ CS42L43_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
- 	{ CS42L43_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
-+	{ CS42L43B_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
-+	{ CS42L43B_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
-+	{ CS42L43B_DECIM_VOL_CTRL_CH5_CH6,		0x20122012 },
- 	{ CS42L43_INTP_VOLUME_CTRL1,			0x00000180 },
- 	{ CS42L43_INTP_VOLUME_CTRL2,			0x00000180 },
- 	{ CS42L43_AMP1_2_VOL_RAMP,			0x00000022 },
-@@ -155,8 +160,12 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_SWIRE_DP2_CH2_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP3_CH1_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP3_CH2_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP3_CH3_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP3_CH4_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP4_CH1_INPUT,			0x00000000 },
- 	{ CS42L43_SWIRE_DP4_CH2_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP4_CH3_INPUT,			0x00000000 },
-+	{ CS42L43B_SWIRE_DP4_CH4_INPUT,			0x00000000 },
- 	{ CS42L43_ASRC_INT1_INPUT1,			0x00000000 },
- 	{ CS42L43_ASRC_INT2_INPUT1,			0x00000000 },
- 	{ CS42L43_ASRC_INT3_INPUT1,			0x00000000 },
-@@ -169,10 +178,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
- 	{ CS42L43_ISRC1INT2_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC1DEC1_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC1DEC2_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC1DEC3_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC1DEC4_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2INT1_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2INT2_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2DEC1_INPUT1,			0x00000000 },
- 	{ CS42L43_ISRC2DEC2_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC2DEC3_INPUT1,			0x00000000 },
-+	{ CS42L43B_ISRC2DEC4_INPUT1,			0x00000000 },
- 	{ CS42L43_EQ1MIX_INPUT1,			0x00800000 },
- 	{ CS42L43_EQ1MIX_INPUT2,			0x00800000 },
- 	{ CS42L43_EQ1MIX_INPUT3,			0x00800000 },
-@@ -269,6 +282,8 @@ EXPORT_SYMBOL_NS_GPL(cs42l43_reg_default, "MFD_CS42L43");
+Patches 7 to 12 introduce and use fw_devlink_set_device() in already
+existing code.
 
- bool cs42l43_readable_register(struct device *dev, unsigned int reg)
- {
-+	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
-+
- 	switch (reg) {
- 	case CS42L43_DEVID:
- 	case CS42L43_REVID:
-@@ -292,7 +307,6 @@ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
- 	case CS42L43_ADC_B_CTRL1 ...  CS42L43_ADC_B_CTRL2:
- 	case CS42L43_DECIM_HPF_WNF_CTRL1 ... CS42L43_DECIM_HPF_WNF_CTRL4:
- 	case CS42L43_DMIC_PDM_CTRL:
--	case CS42L43_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43_DECIM_VOL_CTRL_CH3_CH4:
- 	case CS42L43_INTP_VOLUME_CTRL1 ... CS42L43_INTP_VOLUME_CTRL2:
- 	case CS42L43_AMP1_2_VOL_RAMP:
- 	case CS42L43_ASP_CTRL:
-@@ -387,8 +401,16 @@ bool cs42l43_readable_register(struct device *dev, unsigned int reg)
- 	case CS42L43_BOOT_CONTROL:
- 	case CS42L43_BLOCK_EN:
- 	case CS42L43_SHUTTER_CONTROL:
--	case CS42L43_MCU_SW_REV ... CS42L43_MCU_RAM_MAX:
--		return true;
-+	case CS42L43B_MCU_SW_REV ... CS42L43B_MCU_RAM_MAX:
-+		return true; // registers present on all variants
-+	case CS42L43_MCU_SW_REV ... CS42L43B_MCU_SW_REV - 1:
-+	case CS42L43B_MCU_RAM_MAX + 1 ... CS42L43_MCU_RAM_MAX:
-+	case CS42L43_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43_DECIM_VOL_CTRL_CH3_CH4:
-+		return cs42l43->variant_id == CS42L43_DEVID_VAL; // regs only in CS42L43 variant
-+	case CS42L43B_DECIM_VOL_CTRL_CH1_CH2 ... CS42L43B_DECIM_HPF_WNF_CTRL6:
-+	case CS42L43B_SWIRE_DP3_CH3_INPUT ... CS42L43B_SWIRE_DP4_CH4_INPUT:
-+	case CS42L43B_ISRC1DEC3_INPUT1 ... CS42L43B_ISRC2DEC4_INPUT1:
-+		return cs42l43->variant_id == CS42L43B_DEVID_VAL; // regs only in CS42L43B variant
- 	default:
- 		return false;
- 	}
-@@ -597,15 +619,27 @@ static int cs42l43_wait_for_attach(struct cs42l43 *cs42l43)
- static int cs42l43_mcu_stage_2_3(struct cs42l43 *cs42l43, bool shadow)
- {
- 	unsigned int need_reg = CS42L43_NEED_CONFIGS;
-+	unsigned int boot_reg;
- 	unsigned int val;
- 	int ret;
+Patches 13 and 14 are related also to fw_devlink but specific to PCI and
+the device-tree nodes created during enumeration.
 
--	if (shadow)
--		need_reg = CS42L43_FW_SH_BOOT_CFG_NEED_CONFIGS;
-+	switch (cs42l43->variant_id) {
-+	case CS42L43_DEVID_VAL:
-+		if (shadow)
-+			need_reg = CS42L43_FW_SH_BOOT_CFG_NEED_CONFIGS;
-+		boot_reg = CS42L43_BOOT_STATUS;
-+		break;
-+	case CS42L43B_DEVID_VAL:
-+		need_reg = CS42L43B_NEED_CONFIGS;
-+		boot_reg = CS42L43B_BOOT_STATUS;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
+Patches 15, 16 and 17 are related fw_devlink too but specific to I2C
+muxes. Patches purpose is to correctly set a link between an adapter
+supplier and its consumer. Indeed, an i2c mux adapter's parent is not
+the i2c mux supplier but the adapter the i2c mux is connected to. Adding
+a new link between the adapter supplier involved when i2c muxes are used
+avoid a freeze observed during device removal.
 
- 	regmap_write(cs42l43->regmap, need_reg, 0);
+Patch 18 adds support for fw_delink on x86. fw_devlink is needed to have
+the consumer/supplier relationship between devices in order to ensure a
+correct device removal order. Adding fw_devlink support for x86 has been
+tried in the past but was reverted [1] because it broke some systems.
+Instead of enabling fw_devlink on *all* x86 system, enable it on *all*
+x86 except on those where it leads to issue.
 
--	ret = regmap_read_poll_timeout(cs42l43->regmap, CS42L43_BOOT_STATUS,
-+	ret = regmap_read_poll_timeout(cs42l43->regmap, boot_reg,
- 				       val, (val == CS42L43_MCU_BOOT_STAGE3),
- 				       CS42L43_MCU_POLL_US, CS42L43_MCU_CMD_TIMEOUT_US);
- 	if (ret) {
-@@ -644,13 +678,25 @@ static int cs42l43_mcu_stage_3_2(struct cs42l43 *cs42l43)
-  */
- static int cs42l43_mcu_disable(struct cs42l43 *cs42l43)
- {
--	unsigned int val;
-+	unsigned int val, cfg_reg, ctrl_reg;
- 	int ret;
+Patches 19 and 20 allow to build clock and i2c controller used by the
+LAN966x PCI device when the LAN966x PCI device is enabled.
 
--	regmap_write(cs42l43->regmap, CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG,
--		     CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL);
--	regmap_write(cs42l43->regmap, CS42L43_FW_MISSION_CTRL_MM_CTRL_SELECTION,
--		     CS42L43_FW_MM_CTRL_MCU_SEL_MASK);
-+	switch (cs42l43->variant_id) {
-+	case CS42L43_DEVID_VAL:
-+		cfg_reg = CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG;
-+		ctrl_reg = CS42L43_FW_MISSION_CTRL_MM_CTRL_SELECTION;
-+		break;
-+	case CS42L43B_DEVID_VAL:
-+		cfg_reg = CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG;
-+		ctrl_reg = CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	regmap_write(cs42l43->regmap, cfg_reg, CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL);
-+	regmap_write(cs42l43->regmap, ctrl_reg, CS42L43_FW_MM_CTRL_MCU_SEL_MASK);
-+
- 	regmap_write(cs42l43->regmap, CS42L43_MCU_SW_INTERRUPT, CS42L43_CONTROL_IND_MASK);
- 	regmap_write(cs42l43->regmap, CS42L43_MCU_SW_INTERRUPT, 0);
+Patches 21 to 25 are specific to the LAN966x. They touch the current
+dtso, split it in dtsi/dtso files, rename the dtso and improve the
+driver to allow easier support for other boards.
 
-@@ -740,18 +786,32 @@ static int cs42l43_mcu_update_step(struct cs42l43 *cs42l43)
- {
- 	unsigned int mcu_rev, bios_rev, boot_status, secure_cfg;
- 	bool patched, shadow;
-+	int boot_status_reg, mcu_sw_rev_reg;
- 	int ret;
+The next patch (patch 26) update the LAN966x device-tree overlay itself
+to have the SPF ports and devices they depends on described.
 
-+	switch (cs42l43->variant_id) {
-+	case CS42L43_DEVID_VAL:
-+		boot_status_reg = CS42L43_BOOT_STATUS;
-+		mcu_sw_rev_reg = CS42L43_MCU_SW_REV;
-+		break;
-+	case CS42L43B_DEVID_VAL:
-+		boot_status_reg = CS42L43B_BOOT_STATUS;
-+		mcu_sw_rev_reg = CS42L43B_MCU_SW_REV;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
- 	/* Clear any stale software interrupt bits. */
- 	regmap_read(cs42l43->regmap, CS42L43_SOFT_INT, &mcu_rev);
+The last two patches (patches 27 and 29) sort the existing drivers in
+the needed driver list available in the Kconfig help and add new drivers
+in this list keep the list up to date with the devices described in the
+device-tree overlay.
 
--	ret = regmap_read(cs42l43->regmap, CS42L43_BOOT_STATUS, &boot_status);
-+	ret = regmap_read(cs42l43->regmap, boot_status_reg, &boot_status);
- 	if (ret) {
- 		dev_err(cs42l43->dev, "Failed to read boot status: %d\n", ret);
- 		return ret;
- 	}
+We believe some items from the above list can be merged separately, with
+no build dependencies. We expect:
 
--	ret = regmap_read(cs42l43->regmap, CS42L43_MCU_SW_REV, &mcu_rev);
-+	ret = regmap_read(cs42l43->regmap, mcu_sw_rev_reg, &mcu_rev);
- 	if (ret) {
- 		dev_err(cs42l43->dev, "Failed to read firmware revision: %d\n", ret);
- 		return ret;
-@@ -918,6 +978,13 @@ static void cs42l43_boot_work(struct work_struct *work)
+ - Patches 1 to 6 to be taken by driver core maintainers
 
- 	switch (devid) {
- 	case CS42L43_DEVID_VAL:
-+	case CS42L43B_DEVID_VAL:
-+		if (devid != cs42l43->variant_id) {
-+			dev_err(cs42l43->dev,
-+				"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
-+				devid, cs42l43->variant_id);
-+			goto err;
-+		}
- 		break;
- 	default:
- 		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
-diff --git a/drivers/mfd/cs42l43.h b/drivers/mfd/cs42l43.h
-index f3da783930f53..a0068f6572e2c 100644
---- a/drivers/mfd/cs42l43.h
-+++ b/drivers/mfd/cs42l43.h
-@@ -9,7 +9,7 @@
- #ifndef CS42L43_CORE_INT_H
- #define CS42L43_CORE_INT_H
+ - Patches 7 to 12 to be taken by driver core maintainers
 
--#define CS42L43_N_DEFAULTS 176
-+#define CS42L43_N_DEFAULTS 189
+ - Patches 13 and 14 to be taken by driver core or PCI maintainers
+  (depend on patch 7)
 
- struct dev_pm_ops;
- struct device;
-diff --git a/include/linux/mfd/cs42l43-regs.h b/include/linux/mfd/cs42l43-regs.h
-index c39a49269cb7d..68831f113589d 100644
---- a/include/linux/mfd/cs42l43-regs.h
-+++ b/include/linux/mfd/cs42l43-regs.h
-@@ -1181,4 +1181,80 @@
- /* CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_REG */
- #define CS42L43_FW_MISSION_CTRL_MM_MCU_CFG_DISABLE_VAL		0xF05AA50F
+ - Patches 15 to 17 to be taken by I2C maintainers
 
-+/* CS42L43B VARIANT REGISTERS */
-+#define CS42L43B_DEVID_VAL					0x0042A43B
-+
-+#define CS42L43B_DECIM_VOL_CTRL_CH1_CH2				0x00008280
-+#define CS42L43B_DECIM_VOL_CTRL_CH3_CH4				0x00008284
-+
-+#define CS42L43B_DECIM_VOL_CTRL_CH5_CH6				0x00008290
-+#define CS42L43B_DECIM_VOL_CTRL_UPDATE				0x0000829C
-+
-+#define CS42L43B_DECIM_HPF_WNF_CTRL5				0x000082A0
-+#define CS42L43B_DECIM_HPF_WNF_CTRL6				0x000082A4
-+
-+#define CS42L43B_SWIRE_DP3_CH3_INPUT				0x0000C320
-+#define CS42L43B_SWIRE_DP3_CH4_INPUT				0x0000C330
-+#define CS42L43B_SWIRE_DP4_CH3_INPUT				0x0000C340
-+#define CS42L43B_SWIRE_DP4_CH4_INPUT				0x0000C350
-+
-+#define CS42L43B_ISRC1DEC3_INPUT1				0x0000C780
-+#define CS42L43B_ISRC1DEC4_INPUT1				0x0000C790
-+#define CS42L43B_ISRC2DEC3_INPUT1				0x0000C7A0
-+#define CS42L43B_ISRC2DEC4_INPUT1				0x0000C7B0
-+
-+#define CS42L43B_FW_MISSION_CTRL_NEED_CONFIGS			0x00117E00
-+#define CS42L43B_FW_MISSION_CTRL_HAVE_CONFIGS			0x00117E04
-+#define CS42L43B_FW_MISSION_CTRL_PATCH_START_ADDR_REG		0x00117E08
-+#define CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION		0x00117E0C
-+#define CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG			0x00117E10
-+
-+#define CS42L43B_MCU_SW_REV					0x00117314
-+#define CS42L43B_PATCH_START_ADDR				0x00117318
-+#define CS42L43B_CONFIG_SELECTION				0x0011731C
-+#define CS42L43B_NEED_CONFIGS					0x00117320
-+#define CS42L43B_BOOT_STATUS					0x00117330
-+
-+#define CS42L43B_FW_MISSION_CTRL_NEED_CONFIGS			0x00117E00
-+#define CS42L43B_FW_MISSION_CTRL_HAVE_CONFIGS			0x00117E04
-+#define CS42L43B_FW_MISSION_CTRL_PATCH_START_ADDR_REG		0x00117E08
-+#define CS42L43B_FW_MISSION_CTRL_MM_CTRL_SELECTION		0x00117E0C
-+#define CS42L43B_FW_MISSION_CTRL_MM_MCU_CFG_REG			0x00117E10
-+
-+#define CS42L43B_MCU_RAM_MAX					0x00117FFF
-+
-+/* CS42L43B_DECIM_DECIM_VOL_CTRL_CH5_CH6 */
-+#define CS42L43B_DECIM6_MUTE_MASK				0x80000000
-+#define CS42L43B_DECIM6_MUTE_SHIFT				31
-+#define CS42L43B_DECIM6_VOL_MASK				0x3FC00000
-+#define CS42L43B_DECIM6_VOL_SHIFT				22
-+#define CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_MASK		0x00380000
-+#define CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_SHIFT		19
-+#define CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_MASK		0x00070000
-+#define CS42L43B_DECIM6_PATH1_VOL_RISE_RATE_SHIFT		16
-+#define CS42L43B_DECIM5_MUTE_MASK				0x00008000
-+#define CS42L43B_DECIM5_MUTE_SHIFT				15
-+#define CS42L43B_DECIM5_VOL_MASK				0x00003FC0
-+#define CS42L43B_DECIM5_VOL_SHIFT				6
-+#define CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_MASK		0x00000038
-+#define CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_SHIFT		3
-+#define CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_MASK		0x00000007
-+#define CS42L43B_DECIM5_PATH1_VOL_RISE_RATE_SHIFT		0
-+
-+/* CS42L43B_DECIM_VOL_CTRL_UPDATE */
-+#define CS42L43B_DECIM6_PATH1_VOL_TRIG_MASK			0x00000800
-+#define CS42L43B_DECIM6_PATH1_VOL_TRIG_SHIFT			11
-+#define CS42L43B_DECIM5_PATH1_VOL_TRIG_MASK			0x00000100
-+#define CS42L43B_DECIM5_PATH1_VOL_TRIG_SHIFT			8
-+#define CS42L43B_DECIM4_VOL_UPDATE_MASK				0x00000020
-+#define CS42L43B_DECIM4_VOL_UPDATE_SHIFT			5
-+
-+/* CS42L43_ISRC1_CTRL..CS42L43_ISRC2_CTRL */
-+#define CS42L43B_ISRC_DEC4_EN_MASK				0x00000008
-+#define CS42L43B_ISRC_DEC4_EN_SHIFT				3
-+#define CS42L43B_ISRC_DEC4_EN_WIDTH				1
-+#define CS42L43B_ISRC_DEC3_EN_MASK				0x00000004
-+#define CS42L43B_ISRC_DEC3_EN_SHIFT				2
-+#define CS42L43B_ISRC_DEC3_EN_WIDTH				1
-+
- #endif /* CS42L43_CORE_REGS_H */
-diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
-index 2239d8585e785..ff0f7e365a19f 100644
---- a/include/linux/mfd/cs42l43.h
-+++ b/include/linux/mfd/cs42l43.h
-@@ -98,6 +98,7 @@ struct cs42l43 {
- 	bool sdw_pll_active;
- 	bool attached;
- 	bool hw_lock;
-+	long variant_id;
- };
+ - Patch 18 to be taken by driver core or OF maintainers
 
- #endif /* CS42L43_CORE_EXT_H */
---
-2.47.3
+ - Patch 19 to be taken by clock maintainers
+
+ - Patch 20 to be taken by I2C maintainers
+
+ - Patches 21 to 28 to be taken by misc maintainers
+
+Once again, this series gives the big picture and can be split if
+needed. Let me know.
+
+Compare to previous iteration, this v5 series mainly:
+ - Handle Matti and Geert use cases [2]
+ - Remove simple-platform-bus driver introduced in v4 and switch the
+   simple-bus modification back to what was proposed in v3. In the v4
+   iteration, conclusion was to use v3 changes [3].
+
+[0] https://lore.kernel.org/lkml/20240411235623.1260061-1-saravanak@google.com/
+[1] https://lore.kernel.org/lkml/3c1f2473-92ad-bfc4-258e-a5a08ad73dd0@web.de/
+[2] https://lore.kernel.org/all/072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com/
+[3] https://lore.kernel.org/lkml/20251114083056.31553866@bootlin.com/
+
+Best regards,
+Hervé
+
+Changes:
+
+v4 -> v5
+  v4: https://lore.kernel.org/lkml/20251015071420.1173068-1-herve.codina@bootlin.com/
+
+  - Patch 2:
+    Add 'Acked-by: Ulf Hansson'
+
+  - Patch 3:
+    Add a call to driver_deferred_probe_trigger()
+
+  - Patch 5: (new patch)
+    Depopulate devices at remove
+
+  - Patch 6:
+    Populate devices at probe.
+    Switched back to modification proposed in v3
+
+  - Patch 7 in v3 removed
+
+  - Patch 7 (8 in v4):
+    Add 'Reviewed-by: Andy Shevchenko'
+    Add 'Reviewed-by: Ulf Hansson'
+
+  - Patch 8 (9 in v4):
+    Add 'Reviewed-by: Ulf Hansson'
+
+  - Patches 9 to 15 (10 to 16 in v3)
+    No changes
+
+  - Patch 16 (17 in v4):
+    Add 'Reviewed-by: Andi Shyti'
+
+  - Patch 17 (18 in v4):
+    Change an error code from -EINVAL to -ENODEV
+    Add a blank line and fix a typo in commit log
+
+  - Patch 18 (19 in v4):
+    Simplify of_is_fwnode_add_links_supported().
+    Move IS_ENABLED(CONFIG_X86) check in of_is_fwnode_add_links_supported().
+
+  - Patches 19 to 21 (20 to 22 in v4)
+    No changes
+
+  - Patch 22 (23 in v4)
+    Update due to simple-platform-bus removal
+
+  - Patches 23 to 28 (24 to 29 in v4)
+    No changes
+
+v3 -> v4
+  v3: https://lore.kernel.org/lkml/20250613134817.681832-1-herve.codina@bootlin.com/
+
+  - Patch 1:
+    No change
+
+  - Patch 2:
+    Update and fix conflicts. Indeed, since v3 iteration
+    get_dev_from_fwnode() has been moved to device.h and used by
+    pmdomain/core.c.
+
+  - Patch 3:
+    remove '#define get_device_from_fwnode()'
+
+  - Patch 4:
+    Fix conflict (rebase v6.17-rc6)
+    Add 'Reviewed-by: Rafael J. Wysocki'
+    Add 'Reviewed-by: Saravana Kannan'
+
+  - Patch 5 (new in v4):
+    Introduce simple-platform-bus (binding)
+
+  - Patch 6 (5 in v3):
+    Rework patch and introduce simple-platform-bus
+
+  - Patch 7: (new)
+    Use simple-platform-bus in LAN966x
+
+  - Patch 8 (6 in v3):
+    - No change
+
+  - Patch 9 and 10 (7 and 8 in v3):
+    Add 'Reviewed-by: Andy Shevchenko'
+
+  - Patch 11 and 12 (9 and 10 in v3):
+    Add 'Reviewed-by: Dave Jiang'
+
+  - Patch 13 (11 in v3):
+    Add 'Reviewed-by: Andy Shevchenko'
+
+  - Patch 12 in v3:
+    Patch removed.
+    Adding __private tag in fwnode.dev is going to be handled in a
+    dedicated series. Indeed a test robot reported an issue and more
+    patches are needed (I have missed fwnode.dev users in several part
+    in the kernel).
+
+  - Patch 14 and 15 (13 and 14 in v3):
+    No change
+
+  - Patch 16 (14 in v3):
+    Add 'Reviewed-by: Andi Shyti'
+
+  - Patch 17 and 18 (16 and 17 in v3):
+    No change
+
+  - Patch 19 (18 in v3):
+    Filter out support for fw_devlink on x86 based on some device-tree
+    properties.
+    Rewrite commit changelog
+    Remove 'Reviewed-by: Andy Shevchenko' (significant modification)
+
+  - Patch 20 (19 in v3):
+    Add 'Acked-by: Stephen Boyd'
+
+  - Patch 21 (20 in v3):
+    Fix conflict (rebase v6.18-rc1)
+
+  - Patches 22 to 24 (21 to 23 in v3):
+    No change
+
+  - Patch 25 (24 in v3):
+    Fix conflict (rebase v6.18-rc1)
+    Add 'Acked-by: Bjorn Helgaas'
+
+  - Patches 26 to 29 (25 to 28 in v3):
+    No change
+
+v2 -> v3
+  v2: https://lore.kernel.org/all/20250507071315.394857-1-herve.codina@bootlin.com/
+
+  - Patch 1:
+    Add 'Acked-by: Mark Brown'
+
+  - Patch 2 and 3:
+    No changes
+
+  - Patch 4:
+    Rewrite the WARN_ON() condition to avoid an additional 'if'
+
+  - Patch 5:
+    Fix typos in commit log
+    Update a comment
+    Remove the unneeded check before calling of_platform_depopulate()
+
+  - Patches 6 to 11:
+    No changes
+
+  - Patch 12 (new in v3)
+    Tag the fwnode dev member as private
+
+  - Patch 13 (12 in v2)
+    Fix a typo in the commit log
+
+  - Patches 14 to 16 (13 to 15 in v2)
+    No changes
+
+  - Patch 17 (16 in v2)
+    Check parent_physdev for NULL
+
+  - Patch 18 (17 in v2)
+    Capitalize "Link:"
+    Add 'Reviewed-by: Andy Shevchenko'
+
+  - Patch 19 (18 in v2)
+    No changes
+
+  - Patch 20 (19 in v2)
+    Add 'Acked-by: Andi Shyti'
+
+  - Patch 21 (20 in v2)
+    No changes
+
+  - Patch 22 (21 in v2)
+    Add 'Reviewed-by: Andrew Lunn'
+
+  - Patch 23 (22 in v2)
+    Add 'Reviewed-by: Andrew Lunn'
+
+  - Patch 24 (new in v3)
+    Introduce PCI_DEVICE_ID_EFAR_LAN9662, the LAN966x PCI device ID
+
+  - Patch 25 (23 in v2)
+    Add 'Reviewed-by: Andrew Lunn'
+    Use PCI_DEVICE_DATA() with PCI_DEVICE_ID_EFAR_LAN9662 instead of
+    PCI_VDEVICE()
+
+  - Patch 26 to 28 (24 to 26 in v2)
+    No changes
+
+v1 -> v2
+  v1: https://lore.kernel.org/lkml/20250407145546.270683-1-herve.codina@bootlin.com/
+
+  - Patch 1 and 3
+    Remove 'From' tag from the commit log
+
+  - Patch 2
+    Add 'Reviewed-by: Andy Shevchenko'
+    Add 'Reviewed-by: Saravana Kannan'
+    Add 'Reviewed-by: Luca Ceresoli'
+
+  - Patch 4 and 5
+    No changes
+
+  - Patch 6 (new in v2)
+    Introduce fw_devlink_set_device()
+
+  - Patch 7 (new in v2)
+    Use existing device_set_node() helper.
+
+  - Patch 8 to 11 (new in v2)
+    Use fw_devlink_set_device() in existing code.
+
+  - Patch 12 (6 in v1)
+    Use fw_devlink_add_device()
+
+  - Patch 13 (7 in v1)
+    No changes
+
+  - Patch 14 (8 in v1)
+    Update commit log
+    Use 'physdev' instead of 'supplier'
+    Minor fixes in i2c_get_adapter_physdev() kdoc
+
+  - Patch 15 and 16 (9 and 10 in v1)
+    Use 'physdev' instead of 'supplier' (commit log, title and code)
+
+  - Patch 17 (11 in v2)
+    Enable fw_devlink on x86 only if PCI_DYNAMIC_OF_NODES is enabled.
+    Rework commit log.
+
+  - Patch 18, 19 and 20 (12, 13 and 14 in v1)
+    No changes
+
+  - Patch 21 (new in v2)
+    Split dtso in dtsi/dtso
+
+  - Patch 22 (new in v2)
+    Rename lan966x_pci.dtso using the specific board name
+
+  - Patch 23 (new in v2)
+    Improve the driver introducing board specific data to ease support
+    for other boards (avoid the direct dtbo reference in the function
+    loading the dtbo).
+
+  - Patch 24 (15 in v1)
+    Refactor due to dtso split in dtsi/dtso
+
+  - Patch 25 (new in v2)
+    Sort exist driver list in Kconfig help
+
+  - Patch 26 (16 in v1)
+    Keep alphanumeric order for new drivers added in Kconfig help
+
+Herve Codina (26):
+  driver core: Rename get_dev_from_fwnode() wrapper to
+    get_device_from_fwnode()
+  driver core: Avoid warning when removing a device while its supplier
+    is unbinding
+  bus: simple-pm-bus: Remove child devices when the bus is unbound
+  bus: simple-pm-bus: Populate child nodes at probe
+  driver core: fw_devlink: Introduce fw_devlink_set_device()
+  drivers: core: Use fw_devlink_set_device()
+  pinctrl: cs42l43: Use fw_devlink_set_device()
+  cxl/test: Use device_set_node()
+  cxl/test: Use fw_devlink_set_device()
+  PCI: of: Use fw_devlink_set_device()
+  PCI: of: Set fwnode device of newly created PCI device nodes
+  PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge
+    node
+  i2c: core: Introduce i2c_get_adapter_physdev()
+  i2c: mux: Set adapter physical device
+  i2c: mux: Create missing devlink between mux and adapter physical
+    device
+  of: property: Allow fw_devlink device-tree on x86
+  clk: lan966x: Add MCHP_LAN966X_PCI dependency
+  i2c: busses: at91: Add MCHP_LAN966X_PCI dependency
+  misc: lan966x_pci: Fix dtso nodes ordering
+  misc: lan966x_pci: Split dtso in dtsi/dtso
+  misc: lan966x_pci: Rename lan966x_pci.dtso to
+    lan966x_evb_lan9662_nic.dtso
+  PCI: Add Microchip LAN9662 PCI Device ID
+  misc: lan966x_pci: Introduce board specific data
+  misc: lan966x_pci: Add dtsi/dtso nodes in order to support SFPs
+  misc: lan966x_pci: Sort the drivers list in Kconfig help
+  misc: lan966x_pci: Add drivers needed to support SFPs in Kconfig help
+
+Saravana Kannan (2):
+  Revert "treewide: Fix probing of devices in DT overlays"
+  of: dynamic: Fix overlayed devices not probing because of fw_devlink
+
+ MAINTAINERS                               |   3 +-
+ drivers/base/core.c                       | 108 ++++++++++---
+ drivers/bus/imx-weim.c                    |   6 -
+ drivers/bus/simple-pm-bus.c               |  24 +--
+ drivers/clk/Kconfig                       |   2 +-
+ drivers/i2c/busses/Kconfig                |   2 +-
+ drivers/i2c/i2c-core-base.c               |  16 ++
+ drivers/i2c/i2c-core-of.c                 |   5 -
+ drivers/i2c/i2c-mux.c                     |  26 ++++
+ drivers/misc/Kconfig                      |  11 +-
+ drivers/misc/Makefile                     |   2 +-
+ drivers/misc/lan966x_evb_lan9662_nic.dtso | 167 ++++++++++++++++++++
+ drivers/misc/lan966x_pci.c                |  30 +++-
+ drivers/misc/lan966x_pci.dtsi             | 172 +++++++++++++++++++++
+ drivers/misc/lan966x_pci.dtso             | 177 ----------------------
+ drivers/of/dynamic.c                      |   1 -
+ drivers/of/overlay.c                      |  15 ++
+ drivers/of/platform.c                     |   5 -
+ drivers/of/property.c                     |  26 +++-
+ drivers/pci/of.c                          |  10 +-
+ drivers/pci/quirks.c                      |   2 +-
+ drivers/pinctrl/cirrus/pinctrl-cs42l43.c  |   2 +-
+ drivers/pmdomain/core.c                   |   4 +-
+ drivers/spi/spi.c                         |   5 -
+ include/linux/device.h                    |   2 +-
+ include/linux/fwnode.h                    |   7 +
+ include/linux/i2c.h                       |   3 +
+ include/linux/pci_ids.h                   |   1 +
+ tools/testing/cxl/test/cxl.c              |   4 +-
+ 29 files changed, 584 insertions(+), 254 deletions(-)
+ create mode 100644 drivers/misc/lan966x_evb_lan9662_nic.dtso
+ create mode 100644 drivers/misc/lan966x_pci.dtsi
+ delete mode 100644 drivers/misc/lan966x_pci.dtso
+
+-- 
+2.53.0
 
