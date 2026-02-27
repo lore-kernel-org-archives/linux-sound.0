@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714FE265298
-	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 06:37:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A04265298
+	for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 06:37:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772174263; cv=none; b=etT1S6vE/PtYSXVi5l7LAswIJ3qV+gEy58/+WvkcxKNak4WVdPca++gH+FsPJfcgtpncdvvG5+vwzn1VBWXDimuwldzLkBOg94VBx0gH9dZEYnCV9lhJGzH9kz9JbtJYLxofNRGyXgXrjjHIRCcuIHVjsI+7QuufS5Piy+DnrsM=
+	t=1772174264; cv=none; b=IF0qGP6GKvNlmw7bXDB0KIybJU8ZQM6JHREr4JB4E5pWe3JhToobp1YrPUlOibHyBqjXVkkdQL36W4b4i8twe9jedrs2jkGS1TFPuRCCc0leTzLwNpxKPq38TphU9NAR4EJ4u7likBvi/qinwht0UlvpGeTESrwd8Ej2HQHb+xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772174263; c=relaxed/simple;
-	bh=TKmebeuWwFmZ6UaFP03XossK9UE3K1kOP/d1C1/VIAs=;
+	s=arc-20240116; t=1772174264; c=relaxed/simple;
+	bh=J5KH16Mdq4vuiDiXJIyoeFyltYbNInxMgV2XLUhparM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BwYhCdxV+csI0rx/oFLWcs4EkgNe0CS+qcnol2inf2cbabiFNwHfwWSMICm9mcavynggQB+2cgeJUtjj7zjF7+JJTSsNMWk2SOLtfYfZNgFUeSyGxdgKFvicqQgI6ZgOj87Ky55SILHa2pXRHwKFFKSMNeh0kSBmLmA/4Dx/764=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/h6AoVJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=T2htls/8381j9IWcZRWhjWoJoJ3o+pOUXXJ4GHmTPWF/7DiTrB8Rs3kTCEj7YBK0reU677rlQxtYsZ+9eBd+AnrEpWYxhqsKOPcbYsmrFkNMTVyz6VislI20K4O+eaxyIKQCyenUWx41t+BOsMUvKvKME+kuN09EZdbhAcpFWyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THe1sS8Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/h6AoVJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9FB4C116C6;
-	Fri, 27 Feb 2026 06:37:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THe1sS8Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CB30C19422;
+	Fri, 27 Feb 2026 06:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772174263;
-	bh=TKmebeuWwFmZ6UaFP03XossK9UE3K1kOP/d1C1/VIAs=;
+	s=k20201202; t=1772174264;
+	bh=J5KH16Mdq4vuiDiXJIyoeFyltYbNInxMgV2XLUhparM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=q/h6AoVJnouSC5eSBh5ALkPokItIQa9L8gq7X1eDFNiW88v7fzyOXJfv2G2gsqizF
-	 6lf69IDlwC4xqAY4T80pTGloEytAo+eOTQBe1puoiRFpNShwWQaD40eY9C0AZcNw3M
-	 FYU1TpcD8W7+frvt6rJJYy4RzjEGqDfFj0AmCEpbc6BfqsJU22z82yzByqn2Gn5GHV
-	 XEUF/cOlCpNWlq2R8BIzf9XWJAN1a/6Rrmxb3bswo+sxqkc/t+LcCBMmj3CVIeinAG
-	 vTkerROKytPyI2JkmVbT/HOoEPZ1R/CGub//6QjzCP+cRVMUy0H7j1XbVB3/a418eI
-	 0/wZOO/mdbftg==
+	b=THe1sS8Yyjoz7JIcVYOrbJxAyqKuhvgN9fUs6r7hLcTxqFGD54wo730lpOs08kbhv
+	 0DFvXWckspuXDXrCG56+y8WXjS+1z8rlU0lAKcwnyHStvCCHddsmz9jza9y5ZGEOfy
+	 7i9fkafkkAgEqNSSfMDyzRHaeyYSnG4QNPJvuZCAcEA9nhVxtqfUfNXjrkjxMl4P89
+	 oqRHgrzvqd8MXZUKEqjqrEFCFQypztokhh4mimSigakmjhk7mjlo+02cFq4vx4QwBh
+	 t316w1FQT/vMFMMVBroQYeT80xvBlLn3B/lq5F6EkP2KLDXPD+XMfZBLGOKCqnY/QK
+	 YD6UPNefzSWNA==
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
  yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
  patches@opensource.cirrus.com
-In-Reply-To: <20260223095425.3905703-1-ckeepax@opensource.cirrus.com>
-References: <20260223095425.3905703-1-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20260225140118.402695-1-ckeepax@opensource.cirrus.com>
+References: <20260225140118.402695-1-ckeepax@opensource.cirrus.com>
 Subject: Re: [PATCH 0/4] SDCA Improvements
-Message-Id: <177217426160.28674.10391056947552992217.b4-ty@kernel.org>
-Date: Fri, 27 Feb 2026 06:37:41 +0000
+Message-Id: <177217426324.28674.4204621642385459066.b4-ty@kernel.org>
+Date: Fri, 27 Feb 2026 06:37:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,7 +46,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-47773
 
-On Mon, 23 Feb 2026 09:54:21 +0000, Charles Keepax wrote:
+On Wed, 25 Feb 2026 14:01:14 +0000, Charles Keepax wrote:
 > Another fairly mixed bag of small SDCA fixes/improvements. Fix one DisCo
 > property that was treated as mandatory but is actually not present in
 > the first version of the specification. Fix the counting of routes for
