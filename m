@@ -1,368 +1,145 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D67D387591
-	for <linux-sound@vger.kernel.org>; Sat, 28 Feb 2026 00:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772236808; cv=pass; b=NJzQAv60amPa9nFp8+Uq8RXgJgtGAuqWQHD1wBuX2pG/3WUJMU4uJZC9wTk3qzt7drYvs0eXLkyVTIpTe1nXqR5M30JXA94vjPGJpU7dSJQMoAmLhv4jSVawSb+PYQSzdeHDPonueW9RBMdLpej7U/WntGbRsWqYDjWAKUjqPEA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772236808; c=relaxed/simple;
-	bh=B28KfXTVIHWAH+pwOzTyktHs/wteIJxouZMrqga+cf0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TUxLt3+no/Y012cFVU1KyBACBdF7X0SvzOr/7lH+bsrdv/rSTVSe8aG8fSorr2+WyJ3brNhsPhpIP9HzRmKGe7QvNTnchzVQzz9Zsu6CSSxy0rb7QZ1tQ2OQwCFxMyIJEUEjVBdyfBmRPo8P6okyVTn9MCKagOB7uhq2fo72u8E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D3kJf7Ul; arc=pass smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5BF1448D5
+	for <linux-sound@vger.kernel.org>; Sat, 28 Feb 2026 08:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772267087; cv=none; b=Cm6BQr2r8lPf+fbewkepJVcpAUYg8774QLrnDZxbCgySgjKGGpaS7Z9vIOu4rJsNziAlzDUIBAfE2jdrXebbi2VD6XmMdnUUjvaTy+hj3CYVxi2DHpOS72HpG2GUKZl0IPsRWz3CQcyGQiS6qRO/O8MoYErC7X0yCAPeJuBlPtg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772267087; c=relaxed/simple;
+	bh=GhmueDz7dfb5ZyDM1MB8QkL/8CASHhTCR9U32EE44to=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mV5HH2BuvWZfXeSfPh54I/NcUpgD7x4M6JYscWoT1aZcbwpeJIOYgb80cUXBOW6skQdwLripKUPtmxeCFTxsk4PX4H20vckcW/M+QOQtVlliKmsMeNNoAJwCR5mepJXyxqj/kdfVnaHGWx3aSNuUtcYUjLRReG7qUpS9azCZ+bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sE2+C3D1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LGJOmxV9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sE2+C3D1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LGJOmxV9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D3kJf7Ul"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-505d3baf1a7so93271cf.1
-        for <linux-sound@vger.kernel.org>; Fri, 27 Feb 2026 16:00:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772236806; cv=none;
-        d=google.com; s=arc-20240605;
-        b=D/YNeVHxJ2ePvK4EvVI5OcG+GPL6OK3m9002keY5oafX5FRBC9Uw++dVJF8QSBo3e4
-         hbG3O/n0VfmkeFXmQglqyOaAZKl3mcTKjAkKI2KsNQhJ20WwvFcrCHJ3/H04iwvD2eRh
-         Oum8DhTdqXZOwSPAjdGuLtcVsVpdqcL7nQk0a8jdBu24eJcW3//o8V8y0UsyhgyLhtvE
-         Xc8XfoQ9fNIr+8lGeWWUchRs0Omz+l81awhmzFIqCo78Bji0bGaYtnr0dh3+vjzSji58
-         APDI+lzjLoGoHkdiBQVuzb5WkKFFZwHZwTSjNDznP7Niltu0YpiewVBLjZw7K8002vgN
-         Y+jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3yddjG/5Y0KXabUKtjnkcKD4FXkRFrDhaHT6JScxTco=;
-        fh=YUlotEWz0PT6tQSg/TEFHso+WZQmxNfd2PgajcPIFBM=;
-        b=KMu/rJ2otR37yGTJeuATOFTE8WL5BcujbMw/guWbfjr7m99KYknc4naguc1IU3YtyC
-         UVL4FOKLsdGG6D+d/En6wg0502+9licd03OIgKgX095FTMWJIbWQhZhVYYhGuXL21EzL
-         Vbu1GLytT/SUBgeazXCL6x/CRLOZV9rqexnIUljP2pLcaDAMJrNao5AOr9Ap62IGhWSC
-         PbBM6crH3GJh4I1Ud25PAS1G2M2cSriWW7HcZhKv+UNCDconk+nIbKOvj9Jsu5WthTBb
-         kzrhbeQgJuf8+AJhjS2tczZy4t3BLPciteclpw/YmaoMQ7WJvJOk0CLbNM99jBqfZrkZ
-         hZGQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772236806; x=1772841606; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3yddjG/5Y0KXabUKtjnkcKD4FXkRFrDhaHT6JScxTco=;
-        b=D3kJf7Ulct0SCkvf7I3kIVjfSnw596oHVi88qXDIsj1L78jKIfXZpnsApvXgSMA87p
-         uNLRUEO5pHJaeADxQ2BzKrsZbUzGyPi0vbi8H1jCqxtnUDB/MwYsfHNZcUPmcv9JoEZG
-         wk6UbzmB3fBlyflTajSQulknPQLEhL3veyhx/6FuLUlZnPniF2BlHbhc+jXEDwqnHBgq
-         dEqKMCXccxx7pahMiowXkeS1Pf7CZiqh8IgazTnGXWY1JMoLIvxiiuQk/RIZWDYCg2Kl
-         UXJpKeQC0oE2mxvTTK2OblRPmahc8XV5jQ3Q74FljHMaBKeV81bXtRvWItOb3R9oyotH
-         uLuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772236806; x=1772841606;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3yddjG/5Y0KXabUKtjnkcKD4FXkRFrDhaHT6JScxTco=;
-        b=DCcSPhsGjMoOj2mluAtKQKLWLigdNO0VjH7t6y4USl1/9uljjDDKhLw+PwYb650fWN
-         I5JXUDDMq9Lgf16ajvb7vo+VEBI3kAwXRC92dyXx8OvpgNkxj8ihpnYiPhbfd2Zku8vT
-         4gXk3fHMmjPeWqvKYENzUDB7+/+F+9hLacK/OBwUyp7Bkg2gmGwryz2Q6smPVYsqRwmn
-         h40AQTfoV656xtpDDlxU7OedJ1ALFHdvQ/RnDhdeV9m4wlvxehjWwzO5f+FSFfeAWRIT
-         pKosMMdkgjeJEyGloi1wF0TwAoacihSQVqOp1N0ZuVkiS2fU4+lMuIrqC/KEseFEiQhM
-         G8jA==
-X-Forwarded-Encrypted: i=1; AJvYcCWrahI62/k1rNCfZ9/XkexH4DlvXizu1HfWhHyGl98AeLafisMZ4b4FGh6RCwF6kbJFbRr4zds6scYL/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9QAWebszGT0Iep+XaEzYblrwNs/10frVv803zAEiColt65W1G
-	S1Dgj8G22aaNmEDEk3Rn4L3c//UK9FlDYq28BiaJOumYaTFmr00cXw8PzMG0q88gXU4kaFVBWl9
-	jqqRAAF+cSVM9WzZIBd0KhGVjoISOIKlIOzLowmnc
-X-Gm-Gg: ATEYQzy8qtRbhJ0O0ztafucGdzj7eXeWnm3ocZdJN5c7xFIhPLznlGwWQHUGIy2dV5E
-	vu782k6HWyGpQpBJSJfjhIWxZ4ukTGQo+TNPKowezd9j7zSApKq6Tw5+6Ec4HD2IEPCSRXXUv/K
-	dpEnrNwajCCAUCMzV8hKEUBGPCpPoePBdbmk41YmvqareNBOJcjUUGIMLvcQNS9OLDUyCTYnifx
-	d/JRhuF+B1kZTHd3FrU6GwDNtHw52LJ9LOTh4fIzt/RGCZgDV/+p4P/JtsLuc/QvK5uAx6DvZHU
-	N1Y2oyWW2EZjZjerznHM8CjdxXnVJdwWdns2Z1i1VA==
-X-Received: by 2002:a05:622a:1308:b0:501:4eae:dbfc with SMTP id
- d75a77b69052e-5076182d63bmr1756811cf.5.1772236805650; Fri, 27 Feb 2026
- 16:00:05 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sE2+C3D1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LGJOmxV9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sE2+C3D1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LGJOmxV9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 259E65BCF4;
+	Sat, 28 Feb 2026 08:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772267084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TvAscZNfUdVpSlaF6X0gPxwgk7FvkR2wbUiAaPjJ4X4=;
+	b=sE2+C3D1zIniEA1DW/RxPfwqwW9c6GL78C65P3W/PuycNeVVLioWsKF7Y5ofcWLuGgnMwU
+	d2BTGJQ1PpPubf5vFteHRNGDxNF6G7gVkOgOR8Tl4GUc7KCGA2kDXptBZ6lTpJxJeCvsaU
+	KQD2ZjnI848JjVBAW4MLK1zR+VbMaas=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772267084;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TvAscZNfUdVpSlaF6X0gPxwgk7FvkR2wbUiAaPjJ4X4=;
+	b=LGJOmxV9y5INjX2MhNh6FXyKYn2Upwy3wZI/nEcNqJ1jOUftNWpcXG7qxERvPUot+gp/hJ
+	JXAHymQOmaCuy9Cg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sE2+C3D1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LGJOmxV9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772267084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TvAscZNfUdVpSlaF6X0gPxwgk7FvkR2wbUiAaPjJ4X4=;
+	b=sE2+C3D1zIniEA1DW/RxPfwqwW9c6GL78C65P3W/PuycNeVVLioWsKF7Y5ofcWLuGgnMwU
+	d2BTGJQ1PpPubf5vFteHRNGDxNF6G7gVkOgOR8Tl4GUc7KCGA2kDXptBZ6lTpJxJeCvsaU
+	KQD2ZjnI848JjVBAW4MLK1zR+VbMaas=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772267084;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TvAscZNfUdVpSlaF6X0gPxwgk7FvkR2wbUiAaPjJ4X4=;
+	b=LGJOmxV9y5INjX2MhNh6FXyKYn2Upwy3wZI/nEcNqJ1jOUftNWpcXG7qxERvPUot+gp/hJ
+	JXAHymQOmaCuy9Cg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F3F6C3EA65;
+	Sat, 28 Feb 2026 08:24:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nP7XOUumomliRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 28 Feb 2026 08:24:43 +0000
+Date: Sat, 28 Feb 2026 09:24:43 +0100
+Message-ID: <87ikbh6zsk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Matt DeVillier <matt.devillier@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de
+Subject: Re: [PATCH] ALSA: hda/ca0132: Set HP/Speaker auto-detect default from headphone pin verb
+In-Reply-To: <20260226163055.825167-1-matt.devillier@gmail.com>
+References: <20260226163055.825167-1-matt.devillier@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260225064601.270301-1-guanyulin@google.com> <20260225064601.270301-3-guanyulin@google.com>
- <87fr6na0nw.wl-tiwai@suse.de>
-In-Reply-To: <87fr6na0nw.wl-tiwai@suse.de>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Sat, 28 Feb 2026 08:00:00 +0800
-X-Gm-Features: AaiRm53ptCFt_q2nGAuGSY2eM5lPNdvP7VORHK8-qrElNH6Lb3G9HX2FDoTgLos
-Message-ID: <CAOuDEK1Rek7vaLLzvOqiN1jcuiESyOLYqjR+rY5htqEFayG2JA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] ALSA: usb: qcom: manage offload device usage
-To: Takashi Iwai <tiwai@suse.de>
-Cc: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
-	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
-	harshit.m.mogalapalli@oracle.com, wesley.cheng@oss.qualcomm.com, 
-	dan.carpenter@linaro.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 259E65BCF4
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-Hi Takashi,
+On Thu, 26 Feb 2026 17:30:55 +0100,
+Matt DeVillier wrote:
+> 
+> HP/Speaker auto-detect (VNID_HP_ASEL) has been off by default for every
+> CA0132 device since the driver was added in 2012. vnode_lswitch is
+> always initialized to 0 in ca0132_init_chip(), and no quirk or other
+> code path enables it. As a result, headphone jack detection works only
+> after the user manually turns on "HP/Speaker Auto Detect" in alsamixer,
+> which is not obvious on laptops with combo jacks (e.g. Google Link,
+> Alienware).
+> 
+> Change the default to follow the headphone pin config: if the pin verb
+> has presence detect enabled (no AC_DEFCFG_MISC_NO_PRESENCE) and the
+> codec supports it (AC_PINCAP_PRES_DETECT), enable HP_ASEL by default.
+> This lets firmware (coreboot, UEFI, etc.) express whether the headphone
+> jack supports insertion detection. Devices with combo jacks can default
+> to auto-detect; devices with fixed/no jack leave it off.
+> 
+> Signed-off-by: Matt DeVillier <matt.devillier@gmail.com>
 
-Thanks for raising the concern. The fix I proposed aims only to
-separate xhci_sideband_remove_interrupter() and usb_offload_put().
-Let's wait for QC's reply to see whether this is a rigid fix.
+Applied now.  Thanks.
 
- Regards,
- Guan-Yu
 
-On Fri, Feb 27, 2026 at 1:13=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Wed, 25 Feb 2026 07:45:51 +0100,
-> Guan-Yu Lin wrote:
-> >
-> > The Qualcomm USB audio offload driver currently does not report its off=
-load
-> > activity to the USB core. This prevents the USB core from properly trac=
-king
-> > active offload sessions, which could allow the device to auto-suspend w=
-hile
-> > audio offloading is in progress.
-> >
-> > Integrate usb_offload_get() and usb_offload_put() calls into the offloa=
-d
-> > stream setup and teardown paths. Specifically, call usb_offload_get() w=
-hen
-> > initializing the event ring and usb_offload_put() when freeing it.
-> >
-> > Since the updated usb_offload_get() and usb_offload_put() APIs require =
-the
-> > caller to hold the USB device lock, add the necessary device locking in
-> > handle_uaudio_stream_req() and qmi_stop_session() to satisfy this
-> > requirement.
-> >
-> > Cc: stable@vger.kernel.org
-> > Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
-> > Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
->
-> Mostly it looks good to me, but a slight concern is the
-> usb_offload_put() call in the error path of prepare_qmi_response().
-> IIUC, the bitmap is cleared only at uaudio_event_ring_cleanup_free(),
-> and you have also the usb_offload_put() call there.  I wonder whether
-> this might lead to the refcount unbalance.
->
-> I'm not sure whether the original driver code handles it well, and
-> this could be already a bug there calling
-> xhci_sideband_remove_interrupter(), though.
->
->
-> thanks,
->
-> Takashi
->
-> > ---
-> >  sound/usb/qcom/qc_audio_offload.c | 102 ++++++++++++++++++------------
-> >  1 file changed, 60 insertions(+), 42 deletions(-)
-> >
-> > diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audi=
-o_offload.c
-> > index cfb30a195364..1da243662327 100644
-> > --- a/sound/usb/qcom/qc_audio_offload.c
-> > +++ b/sound/usb/qcom/qc_audio_offload.c
-> > @@ -699,6 +699,7 @@ static void uaudio_event_ring_cleanup_free(struct u=
-audio_dev *dev)
-> >               uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
-> >                                  PAGE_SIZE);
-> >               xhci_sideband_remove_interrupter(uadev[dev->chip->card->n=
-umber].sb);
-> > +             usb_offload_put(dev->udev);
-> >       }
-> >  }
-> >
-> > @@ -750,6 +751,7 @@ static void qmi_stop_session(void)
-> >       struct snd_usb_substream *subs;
-> >       struct usb_host_endpoint *ep;
-> >       struct snd_usb_audio *chip;
-> > +     struct usb_device *udev;
-> >       struct intf_info *info;
-> >       int pcm_card_num;
-> >       int if_idx;
-> > @@ -791,8 +793,13 @@ static void qmi_stop_session(void)
-> >                       disable_audio_stream(subs);
-> >               }
-> >               atomic_set(&uadev[idx].in_use, 0);
-> > -             guard(mutex)(&chip->mutex);
-> > -             uaudio_dev_cleanup(&uadev[idx]);
-> > +
-> > +             udev =3D uadev[idx].udev;
-> > +             if (udev) {
-> > +                     guard(device)(&udev->dev);
-> > +                     guard(mutex)(&chip->mutex);
-> > +                     uaudio_dev_cleanup(&uadev[idx]);
-> > +             }
-> >       }
-> >  }
-> >
-> > @@ -1183,11 +1190,15 @@ static int uaudio_event_ring_setup(struct snd_u=
-sb_substream *subs,
-> >       er_pa =3D 0;
-> >
-> >       /* event ring */
-> > +     ret =3D usb_offload_get(subs->dev);
-> > +     if (ret < 0)
-> > +             goto exit;
-> > +
-> >       ret =3D xhci_sideband_create_interrupter(uadev[card_num].sb, 1, f=
-alse,
-> >                                              0, uaudio_qdev->data->intr=
-_num);
-> >       if (ret < 0) {
-> >               dev_err(&subs->dev->dev, "failed to fetch interrupter\n")=
-;
-> > -             goto exit;
-> > +             goto put_offload;
-> >       }
-> >
-> >       sgt =3D xhci_sideband_get_event_buffer(uadev[card_num].sb);
-> > @@ -1219,6 +1230,8 @@ static int uaudio_event_ring_setup(struct snd_usb=
-_substream *subs,
-> >       mem_info->dma =3D 0;
-> >  remove_interrupter:
-> >       xhci_sideband_remove_interrupter(uadev[card_num].sb);
-> > +put_offload:
-> > +     usb_offload_put(subs->dev);
-> >  exit:
-> >       return ret;
-> >  }
-> > @@ -1483,6 +1496,7 @@ static int prepare_qmi_response(struct snd_usb_su=
-bstream *subs,
-> >       uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZ=
-E);
-> >  free_sec_ring:
-> >       xhci_sideband_remove_interrupter(uadev[card_num].sb);
-> > +     usb_offload_put(subs->dev);
-> >  drop_sync_ep:
-> >       if (subs->sync_endpoint) {
-> >               uaudio_iommu_unmap(MEM_XFER_RING,
-> > @@ -1528,6 +1542,7 @@ static void handle_uaudio_stream_req(struct qmi_h=
-andle *handle,
-> >       u8 pcm_card_num;
-> >       u8 pcm_dev_num;
-> >       u8 direction;
-> > +     struct usb_device *udev =3D NULL;
-> >       int ret =3D 0;
-> >
-> >       if (!svc->client_connected) {
-> > @@ -1597,50 +1612,53 @@ static void handle_uaudio_stream_req(struct qmi=
-_handle *handle,
-> >
-> >       uadev[pcm_card_num].ctrl_intf =3D chip->ctrl_intf;
-> >
-> > -     if (req_msg->enable) {
-> > -             ret =3D enable_audio_stream(subs,
-> > -                                       map_pcm_format(req_msg->audio_f=
-ormat),
-> > -                                       req_msg->number_of_ch, req_msg-=
->bit_rate,
-> > -                                       datainterval);
-> > -
-> > -             if (!ret)
-> > -                     ret =3D prepare_qmi_response(subs, req_msg, &resp=
-,
-> > -                                                info_idx);
-> > -             if (ret < 0) {
-> > -                     guard(mutex)(&chip->mutex);
-> > -                     subs->opened =3D 0;
-> > -             }
-> > -     } else {
-> > -             info =3D &uadev[pcm_card_num].info[info_idx];
-> > -             if (info->data_ep_pipe) {
-> > -                     ep =3D usb_pipe_endpoint(uadev[pcm_card_num].udev=
-,
-> > -                                            info->data_ep_pipe);
-> > -                     if (ep) {
-> > -                             xhci_sideband_stop_endpoint(uadev[pcm_car=
-d_num].sb,
-> > -                                                         ep);
-> > -                             xhci_sideband_remove_endpoint(uadev[pcm_c=
-ard_num].sb,
-> > -                                                           ep);
-> > +     udev =3D subs->dev;
-> > +     scoped_guard(device, &udev->dev) {
-> > +             if (req_msg->enable) {
-> > +                     ret =3D enable_audio_stream(subs,
-> > +                                             map_pcm_format(req_msg->a=
-udio_format),
-> > +                                             req_msg->number_of_ch, re=
-q_msg->bit_rate,
-> > +                                             datainterval);
-> > +
-> > +                     if (!ret)
-> > +                             ret =3D prepare_qmi_response(subs, req_ms=
-g, &resp,
-> > +                                                     info_idx);
-> > +                     if (ret < 0) {
-> > +                             guard(mutex)(&chip->mutex);
-> > +                             subs->opened =3D 0;
-> > +                     }
-> > +             } else {
-> > +                     info =3D &uadev[pcm_card_num].info[info_idx];
-> > +                     if (info->data_ep_pipe) {
-> > +                             ep =3D usb_pipe_endpoint(uadev[pcm_card_n=
-um].udev,
-> > +                                                     info->data_ep_pip=
-e);
-> > +                             if (ep) {
-> > +                                     xhci_sideband_stop_endpoint(uadev=
-[pcm_card_num].sb,
-> > +                                                                     e=
-p);
-> > +                                     xhci_sideband_remove_endpoint(uad=
-ev[pcm_card_num].sb,
-> > +                                                                     e=
-p);
-> > +                             }
-> > +
-> > +                             info->data_ep_pipe =3D 0;
-> >                       }
-> >
-> > -                     info->data_ep_pipe =3D 0;
-> > -             }
-> > -
-> > -             if (info->sync_ep_pipe) {
-> > -                     ep =3D usb_pipe_endpoint(uadev[pcm_card_num].udev=
-,
-> > -                                            info->sync_ep_pipe);
-> > -                     if (ep) {
-> > -                             xhci_sideband_stop_endpoint(uadev[pcm_car=
-d_num].sb,
-> > -                                                         ep);
-> > -                             xhci_sideband_remove_endpoint(uadev[pcm_c=
-ard_num].sb,
-> > -                                                           ep);
-> > +                     if (info->sync_ep_pipe) {
-> > +                             ep =3D usb_pipe_endpoint(uadev[pcm_card_n=
-um].udev,
-> > +                                                     info->sync_ep_pip=
-e);
-> > +                             if (ep) {
-> > +                                     xhci_sideband_stop_endpoint(uadev=
-[pcm_card_num].sb,
-> > +                                                                     e=
-p);
-> > +                                     xhci_sideband_remove_endpoint(uad=
-ev[pcm_card_num].sb,
-> > +                                                                     e=
-p);
-> > +                             }
-> > +
-> > +                             info->sync_ep_pipe =3D 0;
-> >                       }
-> >
-> > -                     info->sync_ep_pipe =3D 0;
-> > +                     disable_audio_stream(subs);
-> > +                     guard(mutex)(&chip->mutex);
-> > +                     subs->opened =3D 0;
-> >               }
-> > -
-> > -             disable_audio_stream(subs);
-> > -             guard(mutex)(&chip->mutex);
-> > -             subs->opened =3D 0;
-> >       }
-> >
-> >  response:
-> > --
-> > 2.53.0.414.gf7e9f6c205-goog
-> >
+Takashi
