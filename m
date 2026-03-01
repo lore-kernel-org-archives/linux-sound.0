@@ -1,42 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3811A2DF12A;
-	Sun,  1 Mar 2026 01:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF542ECE9B;
+	Sun,  1 Mar 2026 01:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329171; cv=none; b=GbIf9jfrlaIiSn91DWQ5mTXqKv+ZdkDi1vZddv2148FkGjKvehiYcg9iotJ8f0PKpTG57bqc4tbGZkzSUJe1RxGs0hrR0mo40/CpAJ0Hx1PAnH1e3x4hEZ0IDgKvVtwoLsKDUNAe5nGTEAV9emBpWqOZ/XSb8Q79qforZNlayx8=
+	t=1772329538; cv=none; b=t6Y+wS3Gxw40f9zOrxad3ni0uZG2ayC4/cvVct8iDZ0TgRqUqH+UjPq4fyxndoE9VAYrs7hx/Bab60EYE0FWm2LCSLShxmFFFGsyfzOiWt5SINbks6bJHConyvsE23A47Cova38EFxy5CX4LJxz7epf4P+yRYH6mB8wUIveoHh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329171; c=relaxed/simple;
-	bh=ko9fHYcXPgW9Yu5KL70TWNOLqAo2KPcVQ9OgI1jhV94=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SIXXCKxudTIuo8Dn/Qiueq9f2a3Ah/8EQFWZEuzgDuGddpjS0b1vrDvA7obrHV0gKeBg31k9hCLJpfADriHERGaKD4AfumEqRU0PwUm3h9KFsgwAYv784BBbWotnfc/NzH1gXj/K6Jt/8ik1lgKXZwiU+U8Xqo5GXYO0hq1hs18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jLSirBKo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329538; c=relaxed/simple;
+	bh=Bj9PxNN2SnZcnaOh3eT7QwjQ7UZTxibAL6O1RZrACiM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A11xvQ+XEIQFpyx4hnMewvcB6GaX1BZdm7TsgUbgBqxzLcp9xSDEDTm8HzgAA13o3/AaxeO+9zAVjnDtCqLcCj55cgGFheYrohdLraLowLqSv614hXZJdZSxFYV9wsh2Kj/N/alFqpSeynoi3G+xSuxiG36Djp8kb2PXY5hP6Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KsK/ed/P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jLSirBKo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B1FC19421;
-	Sun,  1 Mar 2026 01:39:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KsK/ed/P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FB5C19421;
+	Sun,  1 Mar 2026 01:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329171;
-	bh=ko9fHYcXPgW9Yu5KL70TWNOLqAo2KPcVQ9OgI1jhV94=;
+	s=k20201202; t=1772329537;
+	bh=Bj9PxNN2SnZcnaOh3eT7QwjQ7UZTxibAL6O1RZrACiM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=jLSirBKoCewwyC3XLRPK3+meGY8Z7gDf0kEDuoIYNwyYqcpn0FjlVB/ICaqhOPzc3
-	 HRAZfxPRrTIGacFCa0dVeVHHxeXizXLLGJMPlqWzm2fM5nISRabj4Ym/rNybgDDWZD
-	 K80Ph0WqDiwKqa+bL4UB5Wrm3xOy7XmmkK9kTjEpyuvqdGKAEvv+QQFohcX3isaiP7
-	 cKrcNANcZ/AmNXKx9uiL+xYVX9ZwS252aFGCKgigH54CdWVawV7AFuFIs6nWjoLUKP
-	 XtBfdwPOaMo4LQmI1ska56wMIy6A+ULbl1jXTckv33hTy6fKUVXmHvCjT1vpSf0X9j
-	 euVwQIxX3uXTg==
+	b=KsK/ed/PlIk4/jm/EwvVaiU92Tjc8JCqH7xBTTrHpBRwIHmdgfyNEjBWRCIIuMqZP
+	 FyjLTTkV114b9jDBeTlUqY/ZMVrDo5SdiUDuYo4k65KxhaIU+joZJqt5KWqvlN5yJ1
+	 dXb/5mDgjR2fdzgyGbf28ZInV6q4aJsE4wPwMWcte2K0v9DXrlbq5pJDMyOEK+TKxS
+	 MxGmnDsZIumNK1SEOFBkZazx0/f18Jtrq+/l1NrHxssN3UmJxmR4g1jvv9RiE8o6iJ
+	 OASkkPaMhu3HWaoHsbYm87d7Wy+guI96mk7rnQPT6PumhU/QdodtF5s3Pagh+XXH24
+	 j5rsYfBIVCnug==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	shengjiu.wang@nxp.com
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Junichi,
-	Mihai,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: FAILED: Patch "ASoC: dt-bindings: asahi-kasei,ak5558: Fix the supply names" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:39:28 -0500
-Message-ID: <20260301013929.1700488-1-sashal@kernel.org>
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org
+Subject: FAILED: Patch "ALSA: hda/conexant: Add quirk for HP ZBook Studio G4" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:45:36 -0500
+Message-ID: <20260301014536.1708248-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -48,7 +43,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.6-stable tree.
+The patch below does not apply to the 6.1-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
@@ -58,45 +53,35 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 80ca113671a005430207d351cb403c1637106212 Mon Sep 17 00:00:00 2001
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-Date: Thu, 12 Feb 2026 10:18:29 +0800
-Subject: [PATCH] ASoC: dt-bindings: asahi-kasei,ak5558: Fix the supply names
+From 1585cf83e98db32463e5d54161b06a5f01fe9976 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Sat, 7 Feb 2026 14:13:17 +0100
+Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
 
-In the original txt format binding document ak4458.txt, the supply names
-are 'AVDD-supply', 'DVDD-supply', and they are also used in driver. But in
-the commit converting to yaml format, they are changed to 'avdd-supply',
-'dvdd-supply'. After search all the dts file, these names 'AVDD-supply',
-'DVDD-supply', 'avdd-supply', 'dvdd-supply' are not used in any dts
-file. So it is safe to fix the yaml binding document.
+It was reported that we need the same quirk for HP ZBook Studio G4
+(SSID 103c:826b) as other HP models to make the mute-LED working.
 
-Fixes: 829d78e3ea32 ("ASoC: dt-bindings: ak5558: Convert to dtschema")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Link: https://patch.msgid.link/20260212021829.3244736-4-shengjiu.wang@nxp.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221002
+Link: https://patch.msgid.link/20260207131324.2428030-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- .../devicetree/bindings/sound/asahi-kasei,ak5558.yaml         | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/hda/codecs/conexant.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml
-index 5c2f131c86c3f..18919d9112a3f 100644
---- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml
-+++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml
-@@ -19,10 +19,10 @@ properties:
-   reg:
-     maxItems: 1
- 
--  avdd-supply:
-+  AVDD-supply:
-     description: A 1.8V supply that powers up the AVDD pin.
- 
--  dvdd-supply:
-+  DVDD-supply:
-     description: A 1.2V supply that powers up the DVDD pin.
- 
-   reset-gpios:
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 2384e64eada36..5623d8c0a0f7c 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -1081,6 +1081,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
+ 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
++	SND_PCI_QUIRK(0x103c, 0x826b, "HP ZBook Studio G4", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
 -- 
 2.51.0
 
