@@ -1,39 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A504287265;
-	Sun,  1 Mar 2026 01:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA28430BB5;
+	Sun,  1 Mar 2026 01:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328480; cv=none; b=ex5BABsJZC7AqslxQrbAv0zRJPsXND8BcHjoyyWrzeBhBLXjeCV4bY+8kfgB6MTS4n/EE5xWXyvdqPpfhmTa7zTRk9mhxgcmWLPB5yaGLFnIJzrT/9QYjzbU0iLdaU69372WExrvrhTfvMmOw01ewmQEyLakTjHzF5ejFalE5nE=
+	t=1772328539; cv=none; b=uVUSAhx3EMLLCEunU+Lmw3EnMAR4bBJWOnaogeDbguXM4Yo/nyo50+TAuZWbaL01qhHMulzIdV4eJMZVIjqFegSG5jEHpwoZY+eMuukyoaLdmRCaNJPCOdkn45fE3l3vPvEnsBFioG4a0fx9qWqZKLNhvbyb9OZt6GoXTboi4gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328480; c=relaxed/simple;
-	bh=ys/o4yzy0c9Wme9/BZsLqJFYT6JpQHh2MXo3m/IMZLY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GzI7ENg6agJr7RqEN50pvHGMVJ89nKFV0IYq5G+2j357y3RADUWrHawgLQhJHx2afsaOwUBYUdN/WNks2N90at678QZgy/4j06jyJhyJ7JUCt1LIyGIXBZt5bsZ2x876u32icOptTtU1IZ0XAMavzPSch+BAAvK3wiVSojaj1dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikre+hWc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328539; c=relaxed/simple;
+	bh=T6ilbPT6n3N+sYAGmiaYyKSry/fnNT5u4TmPVdQ01vU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qv7Q5xL1VHwFKzrMiuEJJoqp9zLUWEpmWq1YGTbRPvj5wuHbnLACShUmNLLDv2N7opeobbDqdVkneunYMeMqaESiIKQrtQrIV1e0hUbywZjm3MgxCLrY5YC5NVUmTYAMYjOYU0HvHPY38gT+2HwXm0mybSk5FJFkjwZpEg4trpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LqcrPXwz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikre+hWc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5FFAC19421;
-	Sun,  1 Mar 2026 01:27:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LqcrPXwz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 616DAC19421;
+	Sun,  1 Mar 2026 01:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328480;
-	bh=ys/o4yzy0c9Wme9/BZsLqJFYT6JpQHh2MXo3m/IMZLY=;
+	s=k20201202; t=1772328539;
+	bh=T6ilbPT6n3N+sYAGmiaYyKSry/fnNT5u4TmPVdQ01vU=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ikre+hWcNX7RdHS1/+BC50C87X6h77zjcH9XU1U1DkxzJ38RHOlA0o7wD2KEstkFg
-	 iV9u9tkm4AS0s0CsqM1XcxrWxgYabRjTOVNloNcdZpnNk9qyxU22XCDcTbReC/dp3P
-	 Ia9K83HHVdp2HZUSKGPyPPwdye/nWKilwcRDO+7s4SY2hbqGCCKmEfjq6/meXVdr6F
-	 U2IM/sQLbAMDFF2jBexhj6a26owRfer7vFMQ8BKvDsgIncJjyVXY/yibGJK/j+Bip3
-	 7Kym4g/2eU27AQuntvNofmueRpZ7BSoS94WLHJBvrubc2FAKms1zSKFz/WRW0gyG/i
-	 5W9LCgv1yy3HQ==
+	b=LqcrPXwzZJKaXBb2RL+EYKC/ujfVepXRi0clkMvTiwWGFS8Qcv7PAf8cpe8dL3eVS
+	 eJQz9IELhYumPIYWSPBxlDEKN2wQPj9bR7LbjxTha7pcqMZh8ZmyQXWmwVY+P2ZVI0
+	 UqjyjQaG8CKVRxSILn69BvLBU3z1LNKbvavO1o4cIzgYtfYLebHGyxiWPKuW4eoyKe
+	 ONCr+mdDqVGgcvFtBT1OrEsVI4dvyYFjCA1iJKL29oeseXSrEGkv72dbu+zKmILWQz
+	 SiPe5sWH0mifdSXDs7sgpYmTFOFQYapz5g8iAa+gE1OrWs/mT/W+AP4rWAv+/xGpdq
+	 6ImbTBhVQcu7w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	mason8110@gmail.com
-Cc: Lewis Mason <lewis@ocuru.co.uk>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/realtek: Add quirk for Samsung Galaxy Book3 Pro 360 (NP965QFG)" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:27:58 -0500
-Message-ID: <20260301012758.1685614-1-sashal@kernel.org>
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org
+Subject: FAILED: Patch "ALSA: hda/conexant: Fix headphone jack handling on Acer Swift SF314" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:28:58 -0500
+Message-ID: <20260301012858.1686809-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -55,37 +53,60 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 3a6b7dc431aab90744e973254604855e654294ae Mon Sep 17 00:00:00 2001
-From: Lewis Mason <mason8110@gmail.com>
-Date: Tue, 10 Feb 2026 23:13:37 +0000
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Samsung Galaxy Book3 Pro 360
- (NP965QFG)
+From 7bc0df86c2384bc1e2012a2c946f82305054da64 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Tue, 17 Feb 2026 11:44:11 +0100
+Subject: [PATCH] ALSA: hda/conexant: Fix headphone jack handling on Acer Swift
+ SF314
 
-The Samsung Galaxy Book3 Pro 360 NP965QFG (subsystem ID 0x144d:0xc1cb)
-uses the same Realtek ALC298 codec and amplifier configuration as the
-NP960QFG (0x144d:0xc1ca). Apply the same ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS
-fixup to enable the internal speakers.
+Acer Swift SF314 (SSID 1025:136d) needs a bit of tweaks of the pin
+configurations for NID 0x16 and 0x19 to make the headphone / headset
+jack working.  NID 0x17 can remain as is for the working speaker, and
+the built-in mic is supported via SOF.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Lewis Mason <lewis@ocuru.co.uk>
-Link: https://patch.msgid.link/20260210231337.7265-1-lewis@ocuru.co.uk
+Cc: <stable@vger.kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221086
+Link: https://patch.msgid.link/20260217104414.62911-1-tiwai@suse.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/hda/codecs/conexant.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 8664446648096..c11312aa5ca76 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7318,6 +7318,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP950XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-+	SND_PCI_QUIRK(0x144d, 0xc1cb, "Samsung Galaxy Book3 Pro 360 (NP965QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x1458, 0x900e, "Gigabyte G5 KF5 (2023)", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 5623d8c0a0f7c..f71123a475464 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -299,6 +299,7 @@ enum {
+ 	CXT_PINCFG_SWS_JS201D,
+ 	CXT_PINCFG_TOP_SPEAKER,
+ 	CXT_FIXUP_HP_A_U,
++	CXT_FIXUP_ACER_SWIFT_HP,
+ };
+ 
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -1024,6 +1025,14 @@ static const struct hda_fixup cxt_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cxt_fixup_hp_a_u,
+ 	},
++	[CXT_FIXUP_ACER_SWIFT_HP] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x16, 0x0321403f }, /* Headphone */
++			{ 0x19, 0x40f001f0 }, /* Mic */
++			{ }
++		},
++	},
+ };
+ 
+ static const struct hda_quirk cxt5045_fixups[] = {
+@@ -1073,6 +1082,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x0543, "Acer Aspire One 522", CXT_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x054c, "Acer Aspire 3830TG", CXT_FIXUP_ASPIRE_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x054f, "Acer Aspire 4830T", CXT_FIXUP_ASPIRE_DMIC),
++	SND_PCI_QUIRK(0x1025, 0x136d, "Acer Swift SF314", CXT_FIXUP_ACER_SWIFT_HP),
+ 	SND_PCI_QUIRK(0x103c, 0x8079, "HP EliteBook 840 G3", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x807C, "HP EliteBook 820 G3", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x80FD, "HP ProBook 640 G2", CXT_FIXUP_HP_DOCK),
 -- 
 2.51.0
 
