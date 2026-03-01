@@ -1,44 +1,44 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C192DAFB0;
-	Sun,  1 Mar 2026 21:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C77337BB5;
+	Sun,  1 Mar 2026 21:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772401084; cv=pass; b=OU5wt/PmrqNMM2U+3AAtB643ItJwltMkBFUZ3ty7ZUf+upIyaC+D0XzAO8DFkbjQkltyP1rS3coygrsiA/pPwnUkZByqSEuaU4FpKdhXKCXAfCw87zR8JM2g139HgSe/XSiDTHjHhqQMB6xEGwRE3fP1qA9zkmykmeIjjN2Toc4=
+	t=1772401088; cv=pass; b=cw9E351LsM3isPeFmNYNFlSPcYQ3JLAlwlwmeQjaBnhNf3EcA0NJSmZyvbi3OP/PkC6LfE9h0hcTrn88EUtwPVdCJmiH75s3+h2oi2DD2MMPPBYIylnb7y/exXleMyVB8sRGv7Iityy/iKlcTcdNl73dBfWWDycr5IhOWrRHcso=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772401084; c=relaxed/simple;
-	bh=cmKQeW5KbUAo3wyFi/wc1QyH3nk9s0ofvckbCyAw97E=;
+	s=arc-20240116; t=1772401088; c=relaxed/simple;
+	bh=lczvhptfCNDqAj/xQ2IouLznCNoPQjxx9kJs0HqVGa0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ew4Xuq35rcWDCPQGtZ2o8V2Wa809Pq6gbAUKudBklm7Ur8Wi5lJ/KE2dDk6q0TiKnwO5UytqnYN+3Jd6rHn85vGbuV4rdeTGcLlZl7ZRp9PpaDIsEl0u3moLDg/eeqZGK+nUEsnbabxNibAtMyNG4+1uaE+SAIS5ogsEUzycIHg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=FKcf6lj5; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=Ie3rCb+2GsS9EhkovhRJIiEab+UJdHiuo2Jf7EugfGj/0lA3zfJ/ptish1Yh1wTvRyy57Y20sZDSx8Hd5xuEId3jTtIU/jCWFos4SLBemcT9RQF/86DrXbf0t98O7J38iKMbJuFXCZDiEUYu3B2XrR76TKww6ABrF64oHZHOXG0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=KSaQXlU2; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="FKcf6lj5"
-ARC-Seal: i=1; a=rsa-sha256; t=1772401068; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="KSaQXlU2"
+ARC-Seal: i=1; a=rsa-sha256; t=1772401072; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=KCbci48IgbAUDvSFECc2doD/ANTMyES+/2D7/Bc74PRnxkXGB9/Mkm0BHNS7KvcTDUYzq0muUPOjIVZLs54lXcdvfeZb6w8gSvstSLWQ/fbCFfKfLgcMR65uqXXRmfqUu4SSVdYnp1xJvRoLZa9I+Bee7qzUyK3LpRN5A3iuHjI=
+	b=HduUuQmGpxN9hS4l4PVdyqsbx4wtiE7iMPg3cXgV86RaSU61tEPXx7T8owWMd5BfbygkpQnSs2kgnL0F+BYDEvNEtApmjygGvExsajcfHJYGBIcZgJQVJwcRk50c+SEzN3i9BLt8e6vQqCesbf1l2aNRonlcYTAgoVLgMZ12BUk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772401068; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wVzjsoySm0puYUAQlobj5BlJAVClteKPejGg2hR7+yc=; 
-	b=K211ssyb0Qiw0G3NyNdqi9pYleECUrfYWPY0QQialoqdoc9TGbgDbDSqmVl/SO/riVOUneeoGWgk/6ugY8Go7N1E4F9ZKQK3ngb9L2UzycxqKn9M5uRmw+zoA2Z+7TXA1VSzbOhY1Z4mcxyz9Vggail98QVlaiWGPQnpMTPpYLs=
+	t=1772401072; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=FfPX+WxmbQTz243CKnnpQci8rBV7QviMzCvuGaRyn40=; 
+	b=nKuYVZPl1/PkL9bwbfzGCqGEsWkTVRbDIoE+h5g+3wgM/PrqqYqDAo9XCDTnif8zIGDUqc/AJgds5ksvuNqyGe37EaKZFeda6WBr4j4kp1WJg3AonJ7ftXa6OqNL7NZcQlUlqlAkKwIhex6B/bjaVP4KgRoMxxkp0BAdjpCKWFs=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772401068;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772401072;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=wVzjsoySm0puYUAQlobj5BlJAVClteKPejGg2hR7+yc=;
-	b=FKcf6lj5PUBYeR2mwR+SijKCfqeQUWnoF7ETI+Zy04NyY7/RZPszJA3cemidbnXT
-	ZGvKeI1mzXKqqT/vtZ0PEyrszfk8XZ6BC1yudWYgHNmvdE+Zj3Tn/PJRonTy6cYb3tI
-	mOLCVYOih7fDV8dqWsoFehyv67sCghF8Aaozc9QeeVoWe22ljIoCZu7aildkwYce3Rw
-	djrnEYquDgofVJwIl0rZ3io8bFJyV0VoC9ObApWD7FzMHiEgF9gD37KxqsT01waDyD/
-	fGvPQPDTcKs/vGYxxN9G2Jnubupy0nLtKVpVgrUAHffjTbdJAjsZua7T5eCscK7Gd52
-	QFPHCIcMiw==
-Received: by mx.zohomail.com with SMTPS id 1772401067209476.7686188353042;
-	Sun, 1 Mar 2026 13:37:47 -0800 (PST)
+	bh=FfPX+WxmbQTz243CKnnpQci8rBV7QviMzCvuGaRyn40=;
+	b=KSaQXlU2rquNgz/sPmuLi3hvErBwRnX87817FlHqCgAE9jb/cs6Rap33Nt5LJeJX
+	c4MqTegd9154IMLvbPtflBbEv7Ig8kvCsTRKSEyKvLH9vAN7SJu4FtP2lOLphQQwAOl
+	d67cxQTP9HrHn0AQtWCvDdXiHZYgVt+I86fvKFnjZ8zPlmvmBITsecCa83LCFceXVk7
+	e2WS8RQUvzftSSYlwrBpeT6QGyWENc9VaoVGPy8+CJS5+G7mJCrV4PTy8/DaPIdWwET
+	4J/gG7lFEzeUesQA9f8zVK20ESJT6irPvjkPhRDhFOmTNtJeXdh8PXcAkCQSu6tkOdQ
+	VetuyDWDaQ==
+Received: by mx.zohomail.com with SMTPS id 1772401070492785.438855171703;
+	Sun, 1 Mar 2026 13:37:50 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -51,9 +51,9 @@ Cc: Rong Zhang <i@rong.moe>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 4/9] ALSA: usb-audio: Support string-descriptor-based quirk table entry
-Date: Mon,  2 Mar 2026 05:37:20 +0800
-Message-ID: <20260301213726.428505-5-i@rong.moe>
+Subject: [PATCH 5/9] ALSA: usb-audio: Deconflict VID between Focusrite Novation & MV-SILICON
+Date: Mon,  2 Mar 2026 05:37:21 +0800
+Message-ID: <20260301213726.428505-6-i@rong.moe>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260301213726.428505-1-i@rong.moe>
 References: <20260301213726.428505-1-i@rong.moe>
@@ -66,154 +66,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Some quirky devices do not have a unique VID/PID. Matching them using
-DEVICE_FLG() or VENDOR_FLG() may result in conflicts.
+MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
+Many budget-oriented OEM devices are built on top of them. However, some
+of them are just too budget-constrained that their manufacturers didn't
+even have a USB VID and simply picked a random VID.
 
-Add two new macros DEVICE_STRING_FLG() and VENDOR_STRING_FLG() to match
-USB string descriptors (manufacturer and/or product) in addition to VID
-and/or PID, so that we can deconflict these devices safely.
+Some OEMs unfortunately picked the VID of Focusrite Novation (0x1235),
+resulting in VID conflicts as we had defined a VENDOR_FLG() for the
+latter.
 
-No functional change intended.
+Add a VENDOR_STRING_FLG() for MV-SILICON to stop the matching procedure
+for these quirky devices, so that quirk flags for Focusrite Novation
+won't be accidentally applied on them.
+
+Quirky device samples:
+
+  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
+  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 7-1: Product: G1
+  usb 7-1: Manufacturer: MV-SILICON
+  usb 7-1: SerialNumber: 20190808
+
+  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
+  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 7-1: Product: mvsilicon B1 usb audio
+  usb 7-1: Manufacturer: MV-SILICON
+  usb 7-1: SerialNumber: 20190808
+
+  usb 1-1.2: New USB device found, idVendor=1235, idProduct=0002, bcdDevice= 1.00
+  usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=...
+  usb 1-1.2: Product: V8
+  usb 1-1.2: Manufacturer: MV-SILICON
+  usb 1-1.2: SerialNumber: ...
+  * https://github.com/linuxhw/Dmesg/blob/main/Desktop/Others/Intel/Intel%20X79/96ED1CC44499/LINUXMINT-19.3/5.0.0-32-GENERIC/X86_64/5BE1E4C74C#L1122
+
+  usb 2-1.6: New USB device found, idVendor=1235, idProduct=0002, bcdDevice= 1.00
+  usb 2-1.6: New USB device strings: Mfr=1, Product=2, SerialNumber=...
+  usb 2-1.6: Product: V9
+  usb 2-1.6: Manufacturer: MV-SILICON
+  usb 2-1.6: SerialNumber: ...
+  * https://github.com/linuxhw/Dmesg/blob/main/Desktop/Hewlett-Packard/ProLiant/ProLiant%20ML110%20G6/79B1D707316A/KUBUNTU-21.04/5.11.0-33-GENERIC/X86_64/A43F59C4AB#L1009
 
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- sound/usb/quirks.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+ sound/usb/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index c6a78efbcaa30..495dd46ce515c 100644
+index 495dd46ce515c..5370bcd99e9d0 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
-@@ -2,8 +2,10 @@
- /*
-  */
- 
-+#include <linux/build_bug.h>
- #include <linux/init.h>
- #include <linux/slab.h>
-+#include <linux/string.h>
- #include <linux/usb.h>
- #include <linux/usb/audio.h>
- #include <linux/usb/midi.h>
-@@ -2135,16 +2137,39 @@ void snd_usb_audioformat_attributes_quirk(struct snd_usb_audio *chip,
- /*
-  * driver behavior quirk flags
-  */
-+struct usb_string_match {
-+	const char *manufacturer;
-+	const char *product;
-+};
-+
- struct usb_audio_quirk_flags_table {
- 	u32 id;
- 	u32 flags;
-+	const struct usb_string_match *usb_string_match;
- };
- 
- #define DEVICE_FLG(vid, pid, _flags) \
- 	{ .id = USB_ID(vid, pid), .flags = (_flags) }
- #define VENDOR_FLG(vid, _flags) DEVICE_FLG(vid, 0, _flags)
- 
-+/* Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts. */
-+#define DEVICE_STRING_FLG(vid, pid, _manufacturer, _product, _flags)	\
-+{									\
-+	.id = USB_ID(vid, pid),						\
-+	.usb_string_match = &(const struct usb_string_match) {		\
-+		.manufacturer = _manufacturer,				\
-+		.product = _product,					\
-+	},								\
-+	.flags = (_flags),						\
-+}
-+
-+/* Use as a last resort if using VENDOR_FLG() is prone to VID conflicts. */
-+#define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
-+	DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
-+
- static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
-+	/* Device and string descriptor matches */
-+
- 	/* Device matches */
- 	DEVICE_FLG(0x001f, 0x0b21, /* AB13X USB Audio */
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-@@ -2414,6 +2439,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
+@@ -2440,6 +2440,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
  		   QUIRK_FLAG_ALIGN_TRANSFER),
  
-+	/* Vendor and string descriptor matches */
-+
+ 	/* Vendor and string descriptor matches */
++	VENDOR_STRING_FLG(0x1235, /* VID conflict with Focusrite Novation */
++			  "MV-SILICON",
++			  0), /* Stop matching */
+ 
  	/* Vendor matches */
  	VENDOR_FLG(0x045e, /* MS Lifecam */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
-@@ -2558,14 +2585,69 @@ void snd_usb_apply_flag_dbg(const char *reason,
- 	}
- }
- 
-+#define USB_STRING_SIZE 128
-+
-+static inline int snd_usb_get_strings(struct snd_usb_audio *chip,
-+				      char *manufacturer, char *product)
-+{
-+	int ret;
-+
-+	if (manufacturer) {
-+		ret = usb_string(chip->dev, chip->dev->descriptor.iManufacturer,
-+				 manufacturer, USB_STRING_SIZE);
-+		if (ret < 0) {
-+			usb_audio_warn(chip, "failed to get manufacturer string: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	if (product) {
-+		ret = usb_string(chip->dev, chip->dev->descriptor.iProduct,
-+				 product, USB_STRING_SIZE);
-+		if (ret < 0) {
-+			usb_audio_warn(chip, "failed to get product string: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 1; /* ok */
-+}
-+
- void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
- {
- 	const struct usb_audio_quirk_flags_table *p;
-+	char manufacturer[USB_STRING_SIZE];
-+	char product[USB_STRING_SIZE];
-+	int got_usb_strings = 0; /* <0: error, 0: pending, >0: ok */
- 
- 	for (p = quirk_flags_table; p->id; p++) {
- 		if (chip->usb_id == p->id ||
- 		    (!USB_ID_PRODUCT(p->id) &&
- 		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
-+			if (!p->usb_string_match)
-+				goto apply; /* DEVICE_FLG or VENDOR_FLG */
-+
-+			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
-+			if (!got_usb_strings) {
-+				got_usb_strings = snd_usb_get_strings(chip,
-+					p->usb_string_match->manufacturer ? manufacturer : NULL,
-+					p->usb_string_match->product ? product : NULL);
-+			}
-+
-+			BUILD_BUG_ON(!got_usb_strings);
-+
-+			if (got_usb_strings < 0)
-+				continue;
-+
-+			if (p->usb_string_match->manufacturer &&
-+			    strcmp(p->usb_string_match->manufacturer, manufacturer))
-+				continue;
-+
-+			if (p->usb_string_match->product &&
-+			    strcmp(p->usb_string_match->product, product))
-+				continue;
-+
-+apply:
- 			snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
- 			chip->quirk_flags |= p->flags;
- 			return;
 -- 
 2.51.0
 
