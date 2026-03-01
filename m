@@ -1,43 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C17E1DC198;
-	Sun,  1 Mar 2026 01:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40431CD2C;
+	Sun,  1 Mar 2026 01:36:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328623; cv=none; b=JEcPip5HbqLRKj3qAvwLLCVBm0vKy6je2m0TdjUiabmJ13yegdjUDn7CRQocuoaXbBQ8bwHXy7tnK0wtx4mgsyjIKOyrDo/8ytoBiRwy0EWQ1Mr8MsbWRp2vxypWKM7FN9Hj4VnpxJK+pw35FBxAtQ4F/JMlM2McLk/Ybd61xrc=
+	t=1772329007; cv=none; b=q2I4jvgW7n26gMcR7dFCMM52Yl2FG9A8ttlZsNx5M2dYvUPY1z6RQ/QmDQIwUuhR+joHFK1tu6XKH6igB4CJrENphy46K7rrUzC2MfWysTnDbKF8QSECqwlcwWrN5CYPajxxxwKfda4OkZp3C15VYFQOAhhK9AN4vrK8r5I2JtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328623; c=relaxed/simple;
-	bh=9K0GOwbaEvddCr+MWg1DlBshH3uyuhJVpAhQgqO2SbA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X0U7pB5SsVp2PVtFAtAkpOAyIU9oU9NA36JI94tZW9SnR8/gE2R31P8a0n9gC+IBinQEjTeYTy1kp1e6gG2ukx/h+OJYFZiPrF/S+N9tBN3QfVWSuZlMmmN2DpOCxg0HfasCNSXa2qZCmuV/ambdX9oskFuVcwzbchZeH+IR/Lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdEtRhld; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329007; c=relaxed/simple;
+	bh=cPnHsNkfBiF94anblz/RhqAQDGDOuq1guSvohUlr86E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L/fIQ4MLGneZynaa6wvA94S5rX2tr6Ds2estSfIVzEY3p9XbITMCFLb/7yQZFKy0gm/OESEjBDy6dZtQRAQ++zlZV8YA6X8JshIJrLZnnUJT2PXCA7NRXWmg6c85x+dq+4E4GJnEliaVE9QvY7Jk/3WMPyNNXBzVgkgFhSn6kaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oK76txYM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdEtRhld"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CD68C19421;
-	Sun,  1 Mar 2026 01:30:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oK76txYM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78598C19421;
+	Sun,  1 Mar 2026 01:36:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328623;
-	bh=9K0GOwbaEvddCr+MWg1DlBshH3uyuhJVpAhQgqO2SbA=;
+	s=k20201202; t=1772329006;
+	bh=cPnHsNkfBiF94anblz/RhqAQDGDOuq1guSvohUlr86E=;
 	h=From:To:Cc:Subject:Date:From;
-	b=kdEtRhldItseCVxJt6BRejw9waG2q5gM+IlRa0awu3Po4RNs1JW8MXnfsiazYyLHQ
-	 1zZhpaRsAhvy0+TEEQkbsce43mh6rLjW1FPB7oa2Ci3F9KUyF0KMtGcuR7ab7Udzqu
-	 rsAFRyfonLaTWMWn8UAyxnb2DdOXkOrh9TAH2m63RDFBy7VizOjooRwxYlq5+hRsbC
-	 DTsNH6wosRZbik3yM1RQQvvwLd6OAuyWcm4Ro8V22MVTG1t7gIBetyTgTKx0c4nrFy
-	 2cp7r58Pkj7zcaTIptkhbLbntbuCZdfgei5AJNgtTe3rg1HMk7aPcsFd3KdYN9tUy6
-	 JFQT8uDOO5n/Q==
+	b=oK76txYMu/fyo0UhgnLqY6WybP3RL/hJ3Wl9C9d/5eJsDKOD6zzJYix7dghgyoKx7
+	 yGzkistUBRQw8dnqSo7/kmXGH+BFsr1J9x6A477li7ttTKzmI4cY2IohHd2kxNZKuM
+	 rwDrHNAi0G+RgQ/WBqWVgwEAQtXpLbTruxkC5wvnNQMK3l+VFLNuAVu0IFDqeqoSA3
+	 juCp5XHO+WTN2X/uoKFz238o/Bz93i74+7hLjHu7I9gzyTxFvKhGAoqZigs2JuA3VF
+	 dp5hE3bWk5pzOXNLAjCsieYWC5i7eizN/PIYTrPuzO6+2otJmyvmX2SSGbGHXOF+QR
+	 wG/bPqdz9Q+fQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	peter.ujfalusi@linux.intel.com
-Cc: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ASoC: SOF: ipc4-control: Keep the payload size up to date" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:30:20 -0500
-Message-ID: <20260301013020.1688494-1-sashal@kernel.org>
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org
+Subject: FAILED: Patch "ALSA: hda/conexant: Add quirk for HP ZBook Studio G4" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:36:45 -0500
+Message-ID: <20260301013645.1696793-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,97 +53,35 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From ebcfdbe4add923dfb690e6fb9d158da87ae0b6bf Mon Sep 17 00:00:00 2001
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Date: Wed, 17 Dec 2025 16:39:41 +0200
-Subject: [PATCH] ASoC: SOF: ipc4-control: Keep the payload size up to date
+From 1585cf83e98db32463e5d54161b06a5f01fe9976 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Sat, 7 Feb 2026 14:13:17 +0100
+Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
 
-When the bytes data is read from the firmware, the size of the payload
-can be different than what it was previously.
-For example when the topology did not contained payload data at all for the
-control, the data size was 0.
-For get operation allow maximum size of payload to be read and then update
-the sizes according to the completed message.
+It was reported that we need the same quirk for HP ZBook Studio G4
+(SSID 103c:826b) as other HP models to make the mute-LED working.
 
-Similarly, keep the size in sync when updating the data in firmware.
-
-With the change we will be able to read data from firmware for bytes
-controls which did not had initial payload defined in topology.
-
-Fixes: a062c8899fed ("ASoC: SOF: ipc4-control: Add support for bytes control get and put")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Link: https://patch.msgid.link/20251217143945.2667-5-peter.ujfalusi@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221002
+Link: https://patch.msgid.link/20260207131324.2428030-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/sof/ipc4-control.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ sound/hda/codecs/conexant.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 80111672c1796..453ed1643b89c 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -426,13 +426,21 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof_dev *sdev,
- 	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
- 
- 	msg->data_ptr = data->data;
--	msg->data_size = data->size;
-+	if (set)
-+		msg->data_size = data->size;
-+	else
-+		msg->data_size = scontrol->max_size - sizeof(*data);
- 
- 	ret = sof_ipc4_set_get_kcontrol_data(scontrol, set, lock);
--	if (ret < 0)
-+	if (ret < 0) {
- 		dev_err(sdev->dev, "Failed to %s for %s\n",
- 			set ? "set bytes update" : "get bytes",
- 			scontrol->name);
-+	} else if (!set) {
-+		/* Update the sizes according to the received payload data */
-+		data->size = msg->data_size;
-+		scontrol->size = sizeof(*cdata) + sizeof(*data) + data->size;
-+	}
- 
- 	msg->data_ptr = NULL;
- 	msg->data_size = 0;
-@@ -448,6 +456,7 @@ static int sof_ipc4_bytes_put(struct snd_sof_control *scontrol,
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	struct sof_abi_hdr *data = cdata->data;
- 	size_t size;
-+	int ret;
- 
- 	if (scontrol->max_size > sizeof(ucontrol->value.bytes.data)) {
- 		dev_err_ratelimited(scomp->dev,
-@@ -469,9 +478,12 @@ static int sof_ipc4_bytes_put(struct snd_sof_control *scontrol,
- 	/* copy from kcontrol */
- 	memcpy(data, ucontrol->value.bytes.data, size);
- 
--	sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
-+	ret = sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
-+	if (!ret)
-+		/* Update the cdata size */
-+		scontrol->size = sizeof(*cdata) + size;
- 
--	return 0;
-+	return ret;
- }
- 
- static int sof_ipc4_bytes_get(struct snd_sof_control *scontrol,
-@@ -581,6 +593,9 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
- 		return -EFAULT;
- 	}
- 
-+	/* Update the cdata size */
-+	scontrol->size = sizeof(*cdata) + header.length;
-+
- 	return sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
- }
- 
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 2384e64eada36..5623d8c0a0f7c 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -1081,6 +1081,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
+ 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
++	SND_PCI_QUIRK(0x103c, 0x826b, "HP ZBook Studio G4", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
 -- 
 2.51.0
 
