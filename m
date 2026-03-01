@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF542ECE9B;
-	Sun,  1 Mar 2026 01:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D996E244670;
+	Sun,  1 Mar 2026 01:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329538; cv=none; b=t6Y+wS3Gxw40f9zOrxad3ni0uZG2ayC4/cvVct8iDZ0TgRqUqH+UjPq4fyxndoE9VAYrs7hx/Bab60EYE0FWm2LCSLShxmFFFGsyfzOiWt5SINbks6bJHConyvsE23A47Cova38EFxy5CX4LJxz7epf4P+yRYH6mB8wUIveoHh4=
+	t=1772329622; cv=none; b=t2e0TgNBjBAUDfzB++iJjEXd8KZi2/vAPCLIQQjq6KjDTLKsZnx9xCx5lL1/wF/D9t9UWZ5HUQpW1CWpga1HLKJToPKRRdlyJ+6kc8gnU/UESa9YU8gek37tiRJmoly1GTWdGwRKhbZ8cwTSbiAW1fmG+De5aPEV4ul4LUqlZ/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329538; c=relaxed/simple;
-	bh=Bj9PxNN2SnZcnaOh3eT7QwjQ7UZTxibAL6O1RZrACiM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A11xvQ+XEIQFpyx4hnMewvcB6GaX1BZdm7TsgUbgBqxzLcp9xSDEDTm8HzgAA13o3/AaxeO+9zAVjnDtCqLcCj55cgGFheYrohdLraLowLqSv614hXZJdZSxFYV9wsh2Kj/N/alFqpSeynoi3G+xSuxiG36Djp8kb2PXY5hP6Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KsK/ed/P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329622; c=relaxed/simple;
+	bh=DI7CriJEZh8qBsAv6qqWR30Z4fP3jri8eIrAEjiwl2o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UocRvZfw17C5+J7Rdq1uRcuDfP59Eb521BSZC28PIyQROijhQqGZIDOqg/Y9/2vvxmFzJ9rmKjv8Sw3LaNqdaNUD7ObtRh9TRB5RAFeUs6hOydUy+Fen83BLQsHDsMrf+O8rNkh+rOJc8Y5FwHRdPyKQtrpPA+6It/M0FQPVCqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZvXn70e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KsK/ed/P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83FB5C19421;
-	Sun,  1 Mar 2026 01:45:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZvXn70e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BBD0C19421;
+	Sun,  1 Mar 2026 01:47:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329537;
-	bh=Bj9PxNN2SnZcnaOh3eT7QwjQ7UZTxibAL6O1RZrACiM=;
+	s=k20201202; t=1772329622;
+	bh=DI7CriJEZh8qBsAv6qqWR30Z4fP3jri8eIrAEjiwl2o=;
 	h=From:To:Cc:Subject:Date:From;
-	b=KsK/ed/PlIk4/jm/EwvVaiU92Tjc8JCqH7xBTTrHpBRwIHmdgfyNEjBWRCIIuMqZP
-	 FyjLTTkV114b9jDBeTlUqY/ZMVrDo5SdiUDuYo4k65KxhaIU+joZJqt5KWqvlN5yJ1
-	 dXb/5mDgjR2fdzgyGbf28ZInV6q4aJsE4wPwMWcte2K0v9DXrlbq5pJDMyOEK+TKxS
-	 MxGmnDsZIumNK1SEOFBkZazx0/f18Jtrq+/l1NrHxssN3UmJxmR4g1jvv9RiE8o6iJ
-	 OASkkPaMhu3HWaoHsbYm87d7Wy+guI96mk7rnQPT6PumhU/QdodtF5s3Pagh+XXH24
-	 j5rsYfBIVCnug==
+	b=rZvXn70eSZu3GIFbu2rY1B3/8Pc2H8359vR0tC45QC07vazSSWbd/9IwIjQyKwxDW
+	 nN0geo9djVenWsWR4o5RgLzstnXdGl4yOPrfn/DIDbkCYf7YZpBjNWQjMDOT/tSLIs
+	 hz9AEh0EO09nQsQazV7llco9wFN+PU6a6m+kPzNZaEvoENdWPZpOQ4SYw+AJpM6hVa
+	 jHrAsCYi/fBjy0nGxKoQjFPRXX0EvwFbmz6PmnNtVXfombKrcYAV0W+3JMwuOblxPl
+	 p7IlPH8QiPlfyQUWbLl+pWDHlvdAR09q+nlEPRsrXOV+z3BjlvolM/0T3BIbac/nxv
+	 PuFeL/2AlWmmA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/conexant: Add quirk for HP ZBook Studio G4" failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:45:36 -0500
-Message-ID: <20260301014536.1708248-1-sashal@kernel.org>
+	dnaim@cachyos.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org
+Subject: FAILED: Patch "ALSA: hda/realtek: Add quirk for Gigabyte G5 KF5 (2023)" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:47:00 -0500
+Message-ID: <20260301014701.1710192-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -53,35 +54,34 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 1585cf83e98db32463e5d54161b06a5f01fe9976 Mon Sep 17 00:00:00 2001
-From: Takashi Iwai <tiwai@suse.de>
-Date: Sat, 7 Feb 2026 14:13:17 +0100
-Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
+From 405d59fdd2038a65790eaad8c1013d37a2af6561 Mon Sep 17 00:00:00 2001
+From: Eric Naim <dnaim@cachyos.org>
+Date: Tue, 10 Feb 2026 17:34:02 +0800
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Gigabyte G5 KF5 (2023)
 
-It was reported that we need the same quirk for HP ZBook Studio G4
-(SSID 103c:826b) as other HP models to make the mute-LED working.
+Fixes microphone detection when a headset is connected to the audio jack
+using the ALC256.
 
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221002
-Link: https://patch.msgid.link/20260207131324.2428030-1-tiwai@suse.de
+Cc: stable@vger.kernel.org
+Signed-off-by: Eric Naim <dnaim@cachyos.org>
+Link: https://patch.msgid.link/20260210093403.21514-1-dnaim@cachyos.org
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/conexant.c | 1 +
+ sound/hda/codecs/realtek/alc269.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 2384e64eada36..5623d8c0a0f7c 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -1081,6 +1081,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
- 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
-+	SND_PCI_QUIRK(0x103c, 0x826b, "HP ZBook Studio G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 80f0be13b69f5..8664446648096 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7319,6 +7319,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
++	SND_PCI_QUIRK(0x1458, 0x900e, "Gigabyte G5 KF5 (2023)", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
 -- 
 2.51.0
 
