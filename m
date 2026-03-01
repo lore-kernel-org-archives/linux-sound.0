@@ -1,43 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627FE244665;
-	Sun,  1 Mar 2026 01:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EAE284898;
+	Sun,  1 Mar 2026 01:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327897; cv=none; b=K3rUdCZvlUMHvTyCb+lm2nVGezcGR7yo0TAi0vSFbCE6hz65GCDrS11Kv7RodR0ezBYGqAMOgpADVPX7fYWOw7eCTBo+iKBqhK+oI0wJRZQfn61TYslF+vOZbU5DDclaM+NT1Gi5yC0l0D/zUzRv3EJt6R0ngH0ODRV4TRy2hrc=
+	t=1772328375; cv=none; b=r4dSzxV7yrsbtZKMj1ZkIPiufbM9Kve1r914QVYpJUyI82/g19iEMeshGaOlMKMocETW9FJ5By/LUCe1gotpbPISICk3XmgtP+9W21Stdx00grZadlJVOLG6EwRdK51ndZhUKOUna7WPzhsqH7KdtTvlBP4F8QsKZYuicRQHuYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327897; c=relaxed/simple;
-	bh=oC2sJt2h07YwRdnFOR4X5qt7rj0uJMtbWumNTGiKa20=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AXrXIR83DAMcoGYefVohpHYm7iV6RDyyF/qVlssSV4vA2esjfCKcYRNeD5QNxRDgCck8IXcKaehq61KW2yQmPSGTCB8C9pwvga/smFAU2Blav2VdKe51CZ8niWybuM09GCYiOV4OHhDUEBrOFfpDRW8ZlXDHm0P2E3WNmkrAxXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZ6Ik/KQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328375; c=relaxed/simple;
+	bh=0YBoZkuBhWQY4AkmUH0Bgi7uK2R+Kp9cbMA0T2At4Hk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NH1G9F7lRC1eNyjT/HEZBFl8chHatu6Tp4J9BZhFwBuQ+tsgVC+270tRE+Za2axnPT7gyKTIqBt5OU/2hRrJzuZdPDUMOKv+A4kzfuJYB+uwXnRuqzOQMmkn+6P4PejvPIRfTeR0J2UcuCq3lF+5o2/Zry0tdwuG9oXUPLe6YkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftIEooZY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZ6Ik/KQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57C54C19421;
-	Sun,  1 Mar 2026 01:18:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftIEooZY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE591C19421;
+	Sun,  1 Mar 2026 01:26:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327897;
-	bh=oC2sJt2h07YwRdnFOR4X5qt7rj0uJMtbWumNTGiKa20=;
+	s=k20201202; t=1772328375;
+	bh=0YBoZkuBhWQY4AkmUH0Bgi7uK2R+Kp9cbMA0T2At4Hk=;
 	h=From:To:Cc:Subject:Date:From;
-	b=NZ6Ik/KQq1sO4jLynMC/+B7Sn8M3h6UZkaJMrFlqUtfL7XeuMXQVPYaUSKgQywQv6
-	 HOuJcj8L1zr+u06FVz+OfMxBxTgwXA8eIiw5PwchZ6ePyFMiABdE1pDKQoHa9KBPUU
-	 HNyZgeACIoFCddVZyZkstdWKRPm14R7G/nWzgjO0yTGtjug53DrV4YbRbFHebJOH0h
-	 aHVLa0pzWbIuZO5AUa5EdmNiI3AIEDgSUuGrZo02UQf77715qJLOHZL3AhMLY43auH
-	 5xLqAmsTuFWZnF4UQ9V4xtnYxzOmHHOn9RRRT84yydmmdKdMCn4AW7qPO24QEthVKN
-	 Gx5JPRgKyC1wA==
+	b=ftIEooZYl5WlPXc3xSPmS7abvB5ZERD2YezpChRNsYQOsOTe6l3WTHBku+LprUOEQ
+	 20RyGKu0IAWX+mdcWcC3QtkmyIcXHkX92BWHrmEOpbQRMnHZhzRT6Kd0A3qHkhf9bq
+	 5vsSn3oDdbXWvXIjOblIl9X5j4YLjLBeojXHmeSfuFMvfoiIH8uI4DpowfH/OCeDkw
+	 vam3UF31yNa5IXjxf8oWTt5i0CcYsai+czpUMBPTihwth/2DvzZ1Sv5ch5XLZ7paYM
+	 lOTOxTs0GCmFSlb4unnFMhI48oO1IH9OeWoW5NLq3N5lZQCrE2P8NW1DOkHJzMK2qc
+	 jZeFKe35dJKuA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	peter.ujfalusi@linux.intel.com
-Cc: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ASoC: SOF: ipc4-control: Use the correct size for scontrol->ipc_control_data" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:18:14 -0500
-Message-ID: <20260301011815.1672457-1-sashal@kernel.org>
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org
+Subject: FAILED: Patch "ALSA: hda/conexant: Add quirk for HP ZBook Studio G4" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:26:13 -0500
+Message-ID: <20260301012613.1683590-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,59 +53,35 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From c1876fc33c5976837e4c73719c7582617efc6919 Mon Sep 17 00:00:00 2001
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Date: Wed, 17 Dec 2025 16:39:40 +0200
-Subject: [PATCH] ASoC: SOF: ipc4-control: Use the correct size for
- scontrol->ipc_control_data
+From 1585cf83e98db32463e5d54161b06a5f01fe9976 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Sat, 7 Feb 2026 14:13:17 +0100
+Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
 
-The size of the data behind scontrol->ipc_control_data is stored in
-scontrol->size, use this when copying data for backup/restore.
+It was reported that we need the same quirk for HP ZBook Studio G4
+(SSID 103c:826b) as other HP models to make the mute-LED working.
 
-Fixes: db38d86d0c54 ("ASoC: sof: Improve sof_ipc4_bytes_ext_put function")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Link: https://patch.msgid.link/20251217143945.2667-4-peter.ujfalusi@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Cc: <stable@vger.kernel.org>
+Link: https://lore.kernel.org/64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221002
+Link: https://patch.msgid.link/20260207131324.2428030-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/sof/ipc4-control.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/hda/codecs/conexant.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 0a05f66ec7d92..80111672c1796 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -66,7 +66,7 @@ static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
- 		 * configuration
- 		 */
- 		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
--		       scontrol->max_size);
-+		       scontrol->size);
- 		kfree(scontrol->old_ipc_control_data);
- 		scontrol->old_ipc_control_data = NULL;
- 		/* Send the last known good configuration to firmware */
-@@ -567,7 +567,7 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
- 	if (!scontrol->old_ipc_control_data) {
- 		/* Create a backup of the current, valid bytes control */
- 		scontrol->old_ipc_control_data = kmemdup(scontrol->ipc_control_data,
--							 scontrol->max_size, GFP_KERNEL);
-+							 scontrol->size, GFP_KERNEL);
- 		if (!scontrol->old_ipc_control_data)
- 			return -ENOMEM;
- 	}
-@@ -575,7 +575,7 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
- 	/* Copy the whole binary data which includes the ABI header and the payload */
- 	if (copy_from_user(data, tlvd->tlv, header.length)) {
- 		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
--		       scontrol->max_size);
-+		       scontrol->size);
- 		kfree(scontrol->old_ipc_control_data);
- 		scontrol->old_ipc_control_data = NULL;
- 		return -EFAULT;
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 2384e64eada36..5623d8c0a0f7c 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -1081,6 +1081,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
+ 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
++	SND_PCI_QUIRK(0x103c, 0x826b, "HP ZBook Studio G4", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
 -- 
 2.51.0
 
