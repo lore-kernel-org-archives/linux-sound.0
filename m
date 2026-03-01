@@ -1,66 +1,67 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E4532ED27
-	for <linux-sound@vger.kernel.org>; Sun,  1 Mar 2026 08:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB5F32ED27
+	for <linux-sound@vger.kernel.org>; Sun,  1 Mar 2026 08:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772352401; cv=none; b=HnwKLmJ3ibosAfruVnQBT8U+lA1DAEmGrgxhfBmg6oF4/DoemVSQIN06gnbVz6/PJST2gwV961tm4CLePVNmU6TCQISiknBIrVjJ5WNZYKk3jnn6WyoFna0w2f6y43NdCI4+txU0WLsjWEsehnXDN5ok7JlsNRzbqCXGJ/SZv1Y=
+	t=1772352409; cv=none; b=gKUE8T4rkOzOK7he7JXbxIgKgrB0KGmxjLLDOHwg4yt5UeqQvRQ/qRmKgoaZ8YneO74PFUJlAJyk1pxbrHVNzCiibr9DKx4sujntZJc+rxppx/Rd+W2f9ZGkWu95CgBhxxxTtQKvMWP5lBjxnpeg7BrGAES2FYjxKz/VeG8XdZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772352401; c=relaxed/simple;
-	bh=VyTWRPS81+vOo86P7NyB7zBl67kC7Sarhern+hi6yV0=;
+	s=arc-20240116; t=1772352409; c=relaxed/simple;
+	bh=rqHc/7eJJOJ6QC/+Z/HBxx57SV1pobAnEybE9GKRIxI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R5o3bMaGLpwAdd2+YAFmkQr/iNhtJMt4pumS7li/Tm8fptOvnG833vd2DUbxRnGgHQ1aZhDEtLKCDml6KjjNwBMx3JI83ZWNwML/GxrcvczeIIVcfOzg7bnwZYCUkUdwPsr5kI6aFMPpAVB0OhnKQz8g9oMuxGasqKPDciuf3hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9bwnysP; arc=none smtp.client-ip=209.85.216.52
+	 In-Reply-To:To:Cc; b=WdpmS6SB3XeLyV94eDAxl0AEhDnrXUxxjNcs34IwNit+2C9JX5R3QqwYoWULUJYf5GhZheF+dati/UTNO+xCVQ3kSN6uV4ufObBAUlqNv9MuRRnTLvU6/otkPVbFa8SuV26yi5F2kHyW/ITPlR6gwIceqkAp9fU/DaynmCDJrMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ilXetxV/; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9bwnysP"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3597df496f6so362378a91.1
-        for <linux-sound@vger.kernel.org>; Sun, 01 Mar 2026 00:06:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ilXetxV/"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-354c825dc77so1540750a91.0
+        for <linux-sound@vger.kernel.org>; Sun, 01 Mar 2026 00:06:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772352400; x=1772957200; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772352408; x=1772957208; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=COktpS70G1jBT7Oq0awQeJHx1NZJeipbMMF36OzY5Z0=;
-        b=U9bwnysPsazAHpbYU8klwctF30VxW0j2I3eRmugN45MVcbGBNG8WrxWxAsUAD2AZVz
-         YYng8FmyQTqiQkLiwKXUgP63t2geqsGGR/aiZE0HLCCiI53SIw4NzP3mlFgIimuKaIEA
-         qfPLt1Xky++OIMNBrnXJliqb69p96D1CjdBQlWZBde6xI7NqHxkneDQUErLiIxdHyQJ3
-         dV1jlvJFY6UHzLkchbIkUL1u0X/FrY5Oj2Y7+6PvwgXVkANLP7KsXcgu0wAY04IZumwk
-         PMlsihkZghn+EH7bomWaoVhjr7mM6OXHdvchV6u+iD5oSdEK8vMaxfHo5cQbQ7g0biQT
-         kR9w==
+        bh=A7FTeTejosz3HBWt4lvx3HRODQxLOqbKVT6yXP2mGuM=;
+        b=ilXetxV/zcUPo/7SgqT+LY2jiBmHLRg1+8tv2oJSmRx95DyLVEtv1wFqV7YLqzeXyB
+         zpDTMrU+UxgttG0YhdSa79vdGUcVCXkqSW89tNlS16G43FDs3vp6M3LIQ1FfZVGzrhwL
+         A6TcO9W4q9jij8zIvE4F1vYD8QIFFbit0ZfJAlh9SjzLUdNnOzYiLCREglZBeJVkoA3T
+         FVqUsypxeiQrhqu4zISqQrncxZOUsUbxVaGtSeWWD+JfOPr4KsZR4GtYNfmyqwCjC3my
+         tyxx2NIQ3x6LsrhQWP67zp3inDp/OVnvXI98B5TW6beeWNxvZAab7ENFnjSe5X9VNA0X
+         EZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772352400; x=1772957200;
+        d=1e100.net; s=20230601; t=1772352408; x=1772957208;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=COktpS70G1jBT7Oq0awQeJHx1NZJeipbMMF36OzY5Z0=;
-        b=W/XEySys6Lfk3i/YCV9jNBsHsQziY3TCnlPevh5TNzV1e00QEdje8eZaiZGVpUVbZE
-         7D6Id13G0bOIYFXRPciWf8FuFT8tk8vth6TUv1DvToQWnzEN4ucDyEtXwuscKcMbEReh
-         bzywk09DGbz1OdSbsSisyejoso/PE/b7eyf5Ah2t0nLCKlX+f+tlFYOhxGsH6rqWmf4y
-         hEAXBubVKp+/9br8pBfczLenBsu8EnOo/AOkIOLMFgHK2Z9Q3wRJcaprANxrnIwb8Bj1
-         eX3p01LiKVLoHJ/Yz8X9Dr/g6eiZ3Lt3sqRDtKcx+j8OoNcBqahCNCpmfJt8bRheo/S7
-         qbMQ==
-X-Gm-Message-State: AOJu0Ywlw0ID+7KvVUDkWkE36rfE2AfGMQOtwaEfxGyzPujGEutzXK0B
-	vvKfowHMijmfGQS7KqdcOUBTL3r0cKCiDsEMHFKBWyi5VQLdot0oYBN5
-X-Gm-Gg: ATEYQzzctCGYNvgZPgMwma2i8Ie+O5C6+zcRFqLpPon6SNRLDRrZ7V/Ghe8UEdn17qA
-	jjNna5nhs4PSXnpGqrYu8cR+/s8scxXzr22tRIlbntCqVOYGiYCJ00UHbHTYe4xGsgtNcyIzsk7
-	Pq09aGWPze3JhWc+kfOYJVigBedlUwIvsMdajDvC4LtEMc26nG/0i/cL20GFp+itQlUNfZo7IWh
-	MiDDJAFeMDCI0Hscy2zbfyu6mHaI2f2BC8w9lyubuI0dNdVyv6kvbnhqv5fJt3gem3WWiID0Cgr
-	TNmEIJKlAuZTVyDaTDXFm1GDjuk3e5D8T/TC8im1JezwgKg4D9spU7jBOgtrXA6h6DzpPNKSTF8
-	8Bo1J6/C/onD+cPJP1H0WR0+wTh+HqjfG6BgxgJfbhDa4ezJMEFocJByWGioTnJrZsFcatlpYhX
-	b6CkMLCT7rhjP2D6b8FHtk50DI2zmTwDZQHaZHgwmjWij+mMSN0BvfXc9xGp9B9pLZ0a78F3xGs
-	f3r59OgJai6dWxAyUYvkfRm9hI7bO35kj38p2qVriFhqKm7SAh979T5aNhCWncc+z0otsIpk5hk
-X-Received: by 2002:a17:90a:fd97:b0:349:3fe8:e7de with SMTP id 98e67ed59e1d1-35965cd1066mr4480685a91.28.1772352399832;
-        Sun, 01 Mar 2026 00:06:39 -0800 (PST)
+        bh=A7FTeTejosz3HBWt4lvx3HRODQxLOqbKVT6yXP2mGuM=;
+        b=Mm46QhiDkn797M8vU4Mufjk1OnN5rtyV91GlIpFvNXlDfsZqmQHT12S9XcUVtvCkun
+         3edNRtp8Hw5JFca2c6l9pYnA2+lfS/gNjqnLKfcaRmPCx7ti4gAX3hc2jLEItKQ6sxsP
+         grYw4zKNlHFvFQ2NGPIMoQuHp5yxRS9Urt64FiOFtc9srnkK2t+UueNUvoPK9rHVtVkw
+         380SHDc4lXr0XWR78B8+3b7+Ll4jbQV6vV4boGuw5tPQJ1bbuiow7j3KOShAuq6ssut2
+         TRGxSNDKkHVRzcj++1Lc96ZtstYOsLtuj6TIKEDUXI8qwqwTBk0tUag+8A43p6grAC7N
+         hzOw==
+X-Gm-Message-State: AOJu0YxYyCtfnTo9Fuc/1pARYqL9Fb2Ct0fDwmhPgItQo1960a2NNZYZ
+	daZ/9ZdHyJgFHTSnw9G51/McuMPb6+hYC9nSBWcpvQz+iWtOcm/+7uIu
+X-Gm-Gg: ATEYQzy4w3a1Y+FPJkEC1Md/Qyh495NRXUPHN2FlGmGkCnapDzUr7ehmjl40wkQLILg
+	WRszXpLLAhoayqFiOfMi2aajAuoc1iTPAguqk0AOpBxoB0TN6jNXi+jHIvYiXHGCg6lfyx6SQMt
+	v+7y4mh/lvJAf9e9hy5uL2cnFF0DDlA+CrzrgmLACafTvbQ/94qRIs63R30hwip0gn5RCGFxRfc
+	Vso5qX3hkRHDILe59fyq6fez8+AdJQeOrhlPNllSPAAznGADIe+FWLh1iSRYkMg9U+6heqkAFuQ
+	JJy9CAdJrXIrXinB1eOGDsFVaE+FX+i97TenW5Z+dIm1MRycjmpkaOW3wygS6qciAHG7u9eRGfG
+	1OXsRXkTzN0kdFiApA1QIFptIfSxGA9y4HC83Q/bsa0Xe84VURPZ0ifFKfwePe/lhlsHLSaGdNw
+	KOWd+4nrdHNz9FzkcBn+v7I4cCTR03KBEdjyoIMUl7GmVTbPTrdgp6Fr2hzJ+uZdfcJZ+iyliGd
+	2CG5OOk/kB74TrKgu1cQey0LZVyPE6m5lNo0L6vIwzvr0ySK4Tj0QzcBiY6C2F/Oxep3i/VZwoe
+X-Received: by 2002:a17:90a:f950:b0:356:22ef:57ba with SMTP id 98e67ed59e1d1-35965c17f28mr6826445a91.7.1772352407658;
+        Sun, 01 Mar 2026 00:06:47 -0800 (PST)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359135ef1d7sm8885384a91.5.2026.03.01.00.06.32
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359135ef1d7sm8885384a91.5.2026.03.01.00.06.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 00:06:39 -0800 (PST)
+        Sun, 01 Mar 2026 00:06:47 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 01 Mar 2026 18:05:23 +1000
-Subject: [PATCH v3 4/7] ASoC: soc-dai: define possible idle TDM slot modes
+Date: Sun, 01 Mar 2026 18:05:24 +1000
+Subject: [PATCH v3 5/7] ASoC: soc-dai: add common operation to set TDM idle
+ mode
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260301-tdm-idle-slots-v3-4-c6ac5351489a@gmail.com>
+Message-Id: <20260301-tdm-idle-slots-v3-5-c6ac5351489a@gmail.com>
 References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
 In-Reply-To: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -88,74 +89,111 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2335;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3972;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=VyTWRPS81+vOo86P7NyB7zBl67kC7Sarhern+hi6yV0=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJmLP6fXyj+ot16S9/zirdpppzcc2LDlnapn6bXO1G+Hz
- 6y9z3LmXMdEFgYxLgZLMUWWDU1CHrON2G72i1TuhZnDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
- DI10jHWMGLg4BWCqJ+gx/GJO9N22/us5k96pFR4/V7C08c4w3xVVcFidZcP8zCcfjNIZGQ6lTXT
- u+PN3rYrwtOxN968V75nySMXRV/eSfPhus8QJ+iwA
+ bh=rqHc/7eJJOJ6QC/+Z/HBxx57SV1pobAnEybE9GKRIxI=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJmLP6fHbmx7kXl96WTxidGSMsWbznFOqazZpjSdxWp3p
+ OgcsdayjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6xgxcHEKwFQHlTIy7H+vPHeZsVjRqpyjTIlX6t/3GuyeUMb6iHdldILNd5V78xj++y1kKM/
+ kX1mzJXNuWVb416nGnxV5G11PqHusm5xx8qY2FwA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Some audio devices, such as certain Texas Instruments codecs,
-include configurable bus keepers. We currently don't have
-a standardised way to configure such hardware, and instead
-rely on the hardware initialising setting itself up into a
-sane state. There are situations where this is insufficient,
-however, and some platforms require more concrete guarantees
-as to the state of the bus, and being able to explicitly
-configure bus keepers enables this.
+Some audio devices, like certain Texas Instruments codecs, integrate
+configurable bus keepers that dictate the codec's behaviour during
+idle TDM slots. Now that we have definitions for various idle modes,
+add a snd_soc_dai_set_tdm_idle() operation to control this in a
+standardised way.
 
-For example, some Apple Silicon machines have an odd bus topology where
-the SDOUT pins of all codecs are split across two data lines, which
-are summed via an OR gate in front of the receiving port on the
-SoC's I2S peripheral. Each line must transmit 0 while a codec
-on the other line is actively transmitting data, or the SoC
-will receive garbage data. To do this, one codec on each line
-must be configured to transmit zeroes during the other line's
-active TDM slots.
-
-Thus, we define seven possible bus-keeping modes that a device can
-be in: NONE (UB/as initialised), OFF (explicitly disabled), ZERO
-(actively transmit a 0), PULLDOWN, HIZ (floating), PULLUP, and
-DRIVE_HIGH.
-
-These will be consumed by CODEC/CPU drivers via a common DAI
-op, enabling the explicit configuration of bus keepers where
-required.
+This is useful on Apple Silicon laptops, where a single I2S bus is
+comprised of two physical lines which are ORed just before the
+receiving port. When a codec on one line is transmitting, we must
+guarantee that the other line is low. We can achieve this by
+configuring one codec on each line to use its bus keeper to fill
+its line with zeroes during the active slots of the other line.
 
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/soc-dai.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ include/sound/soc-dai.h |  7 +++++
+ sound/soc/soc-dai.c     | 40 +++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
 
 diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
-index 224396927aef..44dd06add52e 100644
+index 44dd06add52e..6a42812bba8c 100644
 --- a/include/sound/soc-dai.h
 +++ b/include/sound/soc-dai.h
-@@ -52,6 +52,21 @@ struct snd_compr_stream;
- #define SND_SOC_POSSIBLE_DAIFMT_AC97		(1 << SND_SOC_DAI_FORMAT_AC97)
- #define SND_SOC_POSSIBLE_DAIFMT_PDM		(1 << SND_SOC_DAI_FORMAT_PDM)
+@@ -196,6 +196,10 @@ int snd_soc_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt);
+ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
+ 	unsigned int tx_mask, unsigned int rx_mask, int slots, int slot_width);
  
-+/*
-+ * DAI TDM slot idle modes
-+ *
-+ * Describes a CODEC/CPU's behaviour when not actively receiving or
-+ * transmitting on a given TDM slot. NONE is undefined behaviour.
-+ * Add new modes to the end.
-+ */
-+#define SND_SOC_DAI_TDM_IDLE_NONE	0
-+#define SND_SOC_DAI_TDM_IDLE_OFF	1
-+#define SND_SOC_DAI_TDM_IDLE_ZERO	2
-+#define SND_SOC_DAI_TDM_IDLE_PULLDOWN	3
-+#define SND_SOC_DAI_TDM_IDLE_HIZ	4
-+#define SND_SOC_DAI_TDM_IDLE_PULLUP	5
-+#define SND_SOC_DAI_TDM_IDLE_DRIVE_HIGH	6
++int snd_soc_dai_set_tdm_idle(struct snd_soc_dai *dai,
++			     unsigned int tx_mask, unsigned int rx_mask,
++			     int tx_mode, int rx_mode);
 +
- /*
-  * DAI Clock gating.
-  *
+ int snd_soc_dai_set_channel_map(struct snd_soc_dai *dai,
+ 	unsigned int tx_num, const unsigned int *tx_slot,
+ 	unsigned int rx_num, const unsigned int *rx_slot);
+@@ -312,6 +316,9 @@ struct snd_soc_dai_ops {
+ 	int (*set_tdm_slot)(struct snd_soc_dai *dai,
+ 		unsigned int tx_mask, unsigned int rx_mask,
+ 		int slots, int slot_width);
++	int (*set_tdm_idle)(struct snd_soc_dai *dai,
++			    unsigned int tx_mask, unsigned int rx_mask,
++			    int tx_mode, int rx_mode);
+ 	int (*set_channel_map)(struct snd_soc_dai *dai,
+ 		unsigned int tx_num, const unsigned int *tx_slot,
+ 		unsigned int rx_num, const unsigned int *rx_slot);
+diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
+index a1e05307067d..2f370fda1266 100644
+--- a/sound/soc/soc-dai.c
++++ b/sound/soc/soc-dai.c
+@@ -282,6 +282,46 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_slot);
+ 
++/**
++ * snd_soc_dai_set_tdm_idle() - Configure a DAI's TDM idle mode
++ * @dai: The DAI to configure
++ * @tx_mask: bitmask representing idle TX slots.
++ * @rx_mask: bitmask representing idle RX slots.
++ * @tx_mode: idle mode to set for TX slots.
++ * @rx_mode: idle mode to set for RX slots.
++ *
++ * This function configures the DAI to handle idle TDM slots in the
++ * specified manner. @tx_mode and @rx_mode can be one of
++ * SND_SOC_DAI_TDM_IDLE_NONE, SND_SOC_DAI_TDM_IDLE_ZERO,
++ * SND_SOC_DAI_TDM_IDLE_PULLDOWN, or SND_SOC_DAI_TDM_IDLE_HIZ.
++ * SND_SOC_TDM_IDLE_NONE represents the DAI's default/unset idle slot
++ * handling state and could be any of the other modes depending on the
++ * hardware behind the DAI. It is therefore undefined behaviour when set
++ * explicitly.
++ *
++ * Mode and mask can be set independently for both the TX and RX direction.
++ * Some hardware may ignore both TX and RX masks depending on its
++ * capabilities.
++ */
++int snd_soc_dai_set_tdm_idle(struct snd_soc_dai *dai,
++			     unsigned int tx_mask, unsigned int rx_mask,
++			     int tx_mode, int rx_mode)
++{
++	int ret = -EOPNOTSUPP;
++
++	/* You can't write to the RX line */
++	if (rx_mode == SND_SOC_DAI_TDM_IDLE_ZERO)
++		return soc_dai_ret(dai, -EINVAL);
++
++	if (dai->driver->ops &&
++	    dai->driver->ops->set_tdm_idle)
++		ret = dai->driver->ops->set_tdm_idle(dai, tx_mask, rx_mask,
++						     tx_mode, rx_mode);
++
++	return soc_dai_ret(dai, ret);
++}
++EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_idle);
++
+ /**
+  * snd_soc_dai_set_channel_map - configure DAI audio channel map
+  * @dai: DAI
 
 -- 
 2.53.0
