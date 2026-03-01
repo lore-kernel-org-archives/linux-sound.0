@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA362D838A;
-	Sun,  1 Mar 2026 01:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3811A2DF12A;
+	Sun,  1 Mar 2026 01:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329168; cv=none; b=MbmrTt4/v09R4wsJv/tX/zY4+wWIymRycxAjPeR8F4POXLwB2+51bmy4GL3zhTX5XfI52LNamgIesLG/4e8dddT2Ctm2PuKr8Ac4NYA8xJFTQfZdAiW5oxvsdQYrMoMlcIUUMkFc5K/EJ/3Px/nSkUDf/7U/GikhrSrrBu8OoIc=
+	t=1772329171; cv=none; b=GbIf9jfrlaIiSn91DWQ5mTXqKv+ZdkDi1vZddv2148FkGjKvehiYcg9iotJ8f0PKpTG57bqc4tbGZkzSUJe1RxGs0hrR0mo40/CpAJ0Hx1PAnH1e3x4hEZ0IDgKvVtwoLsKDUNAe5nGTEAV9emBpWqOZ/XSb8Q79qforZNlayx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329168; c=relaxed/simple;
-	bh=gdcyUrN+ICOriwujZVrmtZcPmJjpRmveLri9zQ/JwLA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AN91ENgZJU21KWgYLCR6vs4QoH7Od0X369HFvdses+5QPFBGwB5pVRW7EhcB1BCdH2937o+o8QTkAvnyULo7S0c+zbuuyHTt+vtFeZ9+hhWnoqKhEBbI8MBBPRuFtVF6bx6xhjD+2SNzZEqst33e2r4JtiWxTpElhaGFTo5Szro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=en5n2Xqm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329171; c=relaxed/simple;
+	bh=ko9fHYcXPgW9Yu5KL70TWNOLqAo2KPcVQ9OgI1jhV94=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SIXXCKxudTIuo8Dn/Qiueq9f2a3Ah/8EQFWZEuzgDuGddpjS0b1vrDvA7obrHV0gKeBg31k9hCLJpfADriHERGaKD4AfumEqRU0PwUm3h9KFsgwAYv784BBbWotnfc/NzH1gXj/K6Jt/8ik1lgKXZwiU+U8Xqo5GXYO0hq1hs18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jLSirBKo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="en5n2Xqm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C189BC19421;
-	Sun,  1 Mar 2026 01:39:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jLSirBKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B1FC19421;
+	Sun,  1 Mar 2026 01:39:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329168;
-	bh=gdcyUrN+ICOriwujZVrmtZcPmJjpRmveLri9zQ/JwLA=;
+	s=k20201202; t=1772329171;
+	bh=ko9fHYcXPgW9Yu5KL70TWNOLqAo2KPcVQ9OgI1jhV94=;
 	h=From:To:Cc:Subject:Date:From;
-	b=en5n2Xqm7Yrp294bboYX4Mf9X+f1N5qf+tZVEng6/UosknpozLTCGTJHKvRTMYzQD
-	 QtVwjdNsDao2otHOvmL9wYSqJehZZAP4iQvQVUkjtfSagFwnoih7nTf3qYBjLVkoa0
-	 aOQ34MkUCTjwyY8bG8jiQi29/V0wf/WI0UyjcWd+PXQwcOH8qhn0RpxgzBbhQcOtnK
-	 CIxIPX5toeZBZTBmw8mfJXDl7aTlbZ+iOPcSYpF06NuqgDBLKNc0tId9Fp6XF4583z
-	 cw3MSIroMpOT+NQVHlEJYs/nhSEAcKYccwzNEb8R3MznNq403eDympgVHotyMla1fy
-	 YptpL2WWV072g==
+	b=jLSirBKoCewwyC3XLRPK3+meGY8Z7gDf0kEDuoIYNwyYqcpn0FjlVB/ICaqhOPzc3
+	 HRAZfxPRrTIGacFCa0dVeVHHxeXizXLLGJMPlqWzm2fM5nISRabj4Ym/rNybgDDWZD
+	 K80Ph0WqDiwKqa+bL4UB5Wrm3xOy7XmmkK9kTjEpyuvqdGKAEvv+QQFohcX3isaiP7
+	 cKrcNANcZ/AmNXKx9uiL+xYVX9ZwS252aFGCKgigH54CdWVawV7AFuFIs6nWjoLUKP
+	 XtBfdwPOaMo4LQmI1ska56wMIy6A+ULbl1jXTckv33hTy6fKUVXmHvCjT1vpSf0X9j
+	 euVwQIxX3uXTg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	shengjiu.wang@nxp.com
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
 	Mark Brown <broonie@kernel.org>,
-	Shengjiu,
+	Junichi,
+	Mihai,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: FAILED: Patch "ASoC: dt-bindings: asahi-kasei,ak4458: Fix the supply names" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:39:26 -0500
-Message-ID: <20260301013926.1700439-1-sashal@kernel.org>
+Subject: FAILED: Patch "ASoC: dt-bindings: asahi-kasei,ak5558: Fix the supply names" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:39:28 -0500
+Message-ID: <20260301013929.1700488-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -57,43 +58,43 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From e570a5ca307f6d7a6acd080fc219db2ce3c0737b Mon Sep 17 00:00:00 2001
+From 80ca113671a005430207d351cb403c1637106212 Mon Sep 17 00:00:00 2001
 From: Shengjiu Wang <shengjiu.wang@nxp.com>
-Date: Thu, 12 Feb 2026 10:18:28 +0800
-Subject: [PATCH] ASoC: dt-bindings: asahi-kasei,ak4458: Fix the supply names
+Date: Thu, 12 Feb 2026 10:18:29 +0800
+Subject: [PATCH] ASoC: dt-bindings: asahi-kasei,ak5558: Fix the supply names
 
 In the original txt format binding document ak4458.txt, the supply names
 are 'AVDD-supply', 'DVDD-supply', and they are also used in driver. But in
 the commit converting to yaml format, they are changed to 'avdd-supply',
 'dvdd-supply'. After search all the dts file, these names 'AVDD-supply',
 'DVDD-supply', 'avdd-supply', 'dvdd-supply' are not used in any dts
-file. So it is safe to fix this yaml binding document.
+file. So it is safe to fix the yaml binding document.
 
-Fixes: 009e83b591dd ("ASoC: dt-bindings: ak4458: Convert to dtschema")
+Fixes: 829d78e3ea32 ("ASoC: dt-bindings: ak5558: Convert to dtschema")
 Cc: stable@vger.kernel.org
 Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Link: https://patch.msgid.link/20260212021829.3244736-3-shengjiu.wang@nxp.com
+Link: https://patch.msgid.link/20260212021829.3244736-4-shengjiu.wang@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- .../devicetree/bindings/sound/asahi-kasei,ak4458.yaml         | 4 ++--
+ .../devicetree/bindings/sound/asahi-kasei,ak5558.yaml         | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml
-index 259e97b7a3c0f..3a3313ea0890a 100644
---- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml
-+++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml
-@@ -21,10 +21,10 @@ properties:
+diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml
+index 5c2f131c86c3f..18919d9112a3f 100644
+--- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml
++++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak5558.yaml
+@@ -19,10 +19,10 @@ properties:
    reg:
      maxItems: 1
  
 -  avdd-supply:
 +  AVDD-supply:
-     description: Analog power supply
+     description: A 1.8V supply that powers up the AVDD pin.
  
 -  dvdd-supply:
 +  DVDD-supply:
-     description: Digital power supply
+     description: A 1.2V supply that powers up the DVDD pin.
  
    reset-gpios:
 -- 
