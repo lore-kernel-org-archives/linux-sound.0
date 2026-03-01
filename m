@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0408F2517AF;
-	Sun,  1 Mar 2026 01:47:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420DB2F49FD;
+	Sun,  1 Mar 2026 01:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329632; cv=none; b=CWHC6pUA/VKNjqlPlIgLGf17LXL83zbLrH2GiFnVMAJwI7ncw3FTAxxorL17Cdv0/QE+oGz7sOiNlartTXjO6VLnWMcMoF54cfga46t3nfVjhFwss6zG/OCz+s3/r4jy+H5dXmS4XJFl3CACwdYyYf1cni87w1EzEGruPN4ttR0=
+	t=1772329680; cv=none; b=q3WEJP6G5KCURe1GkAKw6PcDsfK39uVHy/hf6m0PlaCJ6SuhyY3UyaDf9f7hviP7tExByX56hT/b7Sr1A+5wm3cADVaKUr51AuR6vtuxS1yuN1aGepBtbuSgwo9BR/JMK4IUpvtNv9xmhbRvGTvy+/sfun0eT0eA2vgvc0vsQMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329632; c=relaxed/simple;
-	bh=rHK4REzGY1+yso1p7zplzZyMlEnnHvPxSFsoT+qjoQo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CN7i4bTF8XU14zukP1jlUo2hD/xiqbTmg8GCZiaVhwPn8zjejNv+tvR5CT0Xq/wFqGVd2WaF4ZVZSj8VcjQ8l0DMuUd6+ivZELhpMeTlQnaQs068bKt6HAROSHlOtMjanxKiWLfTZLq16VToV+RRY02U/Q6z78IicCMs81Vi+aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALRNdVAy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329680; c=relaxed/simple;
+	bh=aLgXm2MDOFieEr5niTOWxwLuliiD1luGdcd8iC1r7VI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hrU2Gi/f6GlvV2btJz62A2tn65gxHTjK3QHnoxYvUqR6CDV8+m6WQF1b+6usaw2XUbxEntemjPu0jPsCjTb3BH8OdEYTHJWFbfE2ZGEyxBjnOb4KbWym6wPO/M1/8/J5ONfzhqL3UgdRRsNU7F0YnnKLt4ANtZfB+fG682aCMBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvqSfWOi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALRNdVAy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541F4C19421;
-	Sun,  1 Mar 2026 01:47:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvqSfWOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC48C19424;
+	Sun,  1 Mar 2026 01:47:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329631;
-	bh=rHK4REzGY1+yso1p7zplzZyMlEnnHvPxSFsoT+qjoQo=;
+	s=k20201202; t=1772329680;
+	bh=aLgXm2MDOFieEr5niTOWxwLuliiD1luGdcd8iC1r7VI=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ALRNdVAyaYrKK0/hz9gzJgYoC6bt7hsFrKGv7GRKYwfMkjBQbyKPkBaFeP228Fn2m
-	 sUO5385mCWQo5sd1ML6xdDKAti/gF8ez2I6u5jGf9ytTxr70W2jbF61i2I/pq1zVB+
-	 x0FwT6PjMBtRohtloi898qC8R0HZIDCsz90nMOofO+3kNScS0oKjtYny3zKabPGDOk
-	 UFrPPBeHU+5+kKC2kFz5laTO+KX5z4t7xQTJOOalv+t/ZYZZ8OpWllfqtzjjQk17rV
-	 w/XMfrdvnSjgYo8iOuVMxhaZqc0rdCNKqdhQ0ekweyThB3zyBDljNNX73FSgL9bzhW
-	 N4SPqI7FdhplQ==
+	b=KvqSfWOiSVlQMTEwSLWKOHxvwMzqhqwgAH+IUBwRp/aRM2NWcV0qNC3Ng7yOHXCsQ
+	 4a96NnDykvSxGxp5JgsODoLWU8kfJv2arJ9NJuJdach1mfQNA+QMe3z0GZHT57ebsA
+	 HX6uSuZ0tNLKLBplIJkBrQTAoHgDhnG1BMvlhTgK5mFTLY9AyCrNfYcy/neeYSoNj3
+	 CrEpE5yfhnzklb1aCxwOsr9GtCrIYB1NAF6PTsJr8vv+rLOMBBarWfeBFqjg1KOoa1
+	 Bh3PkUs0jQOTLHx/CIHaeh1QG9u6mse0zevpEprEdnFUPWNAi9IxtVFSS9P0DZsKmN
+	 Zb4movDA+KJZw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	mason8110@gmail.com
-Cc: Lewis Mason <lewis@ocuru.co.uk>,
-	Takashi Iwai <tiwai@suse.de>,
+	guspatagonico@gmail.com
+Cc: Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/realtek: Add quirk for Samsung Galaxy Book3 Pro 360 (NP965QFG)" failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:47:09 -0500
-Message-ID: <20260301014710.1711055-1-sashal@kernel.org>
+Subject: FAILED: Patch "ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 15X M6501RR" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:47:58 -0500
+Message-ID: <20260301014758.1711998-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -55,37 +54,47 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 3a6b7dc431aab90744e973254604855e654294ae Mon Sep 17 00:00:00 2001
-From: Lewis Mason <mason8110@gmail.com>
-Date: Tue, 10 Feb 2026 23:13:37 +0000
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Samsung Galaxy Book3 Pro 360
- (NP965QFG)
+From ff9cadd1a2c0b2665b7377ac79540d66f212e7e3 Mon Sep 17 00:00:00 2001
+From: Gustavo Salvini <guspatagonico@gmail.com>
+Date: Tue, 10 Feb 2026 12:51:56 -0300
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 15X
+ M6501RR
 
-The Samsung Galaxy Book3 Pro 360 NP965QFG (subsystem ID 0x144d:0xc1cb)
-uses the same Realtek ALC298 codec and amplifier configuration as the
-NP960QFG (0x144d:0xc1ca). Apply the same ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS
-fixup to enable the internal speakers.
+The ASUS Vivobook Pro 15X (M6501RR) with AMD Ryzen 9 6900HX has an
+internal DMIC that is not detected without a DMI quirk entry, as the
+BIOS does not set the AcpDmicConnected ACPI _DSD property.
+
+Adding the DMI entry enables the ACP6x DMIC machine driver to probe
+successfully.
 
 Cc: stable@vger.kernel.org
-Signed-off-by: Lewis Mason <lewis@ocuru.co.uk>
-Link: https://patch.msgid.link/20260210231337.7265-1-lewis@ocuru.co.uk
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 8664446648096..c11312aa5ca76 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7318,6 +7318,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP950XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-+	SND_PCI_QUIRK(0x144d, 0xc1cb, "Samsung Galaxy Book3 Pro 360 (NP965QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x1458, 0x900e, "Gigabyte G5 KF5 (2023)", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
+Signed-off-by: Gustavo Salvini <guspatagonico@gmail.com>
+Link: https://patch.msgid.link/20260210155156.29079-1-guspatagonico@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 67f2fee193980..f1a63475100d1 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -696,7 +696,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "XyloD5_RBU"),
+ 		}
+ 	},
+-
++	{
++			.driver_data = &acp6x_card,
++			.matches = {
++				DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++				DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook_ASUSLaptop M6501RR_M6501RR"),
++			}
++		},
+ 	{}
+ };
+ 
 -- 
 2.51.0
 
