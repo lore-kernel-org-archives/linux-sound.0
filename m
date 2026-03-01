@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09EA302147;
-	Sun,  1 Mar 2026 02:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DEB13D53C;
+	Sun,  1 Mar 2026 02:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772330617; cv=none; b=SyYbzS/0h9uISl1WzYzE4/8SKZw+DqTBAxoY0I5jO5mfh1nPsYm2QtyXWVz3yPun4B+C5T0OJaCP3zsLv/ncGP0XhGebqCllRmK8Jnub2t2ylEkuokWhiZV5RbDvpp5mG7HY1+HXmtWF2WI5VcG0/SWSJEiXVjBVL5lMH5CXHL8=
+	t=1772330705; cv=none; b=F8vnKwao+WMe90Vn5XNAw8ml2eO/HRd2IwvREZM958FoMmLFoJ3G1JJqDK00eJN23A/H3ymdwqwsRudHdne+hEVsg2rwFp8iiaKKX9OthMv5zNoM6yG+8OL6YF7mMISW2AmShN8jo6hqQb/ifkydU17Yb3JhPmNNtT5Kg73M5cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772330617; c=relaxed/simple;
-	bh=WrVLA2VEKz05X1Sqx6guuyKsYYSTyz+W7CKJMfGiHKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pCUZJ1omyqHf+Ne7AcHJTNTqw7+pDC5vs1qJhxZlg7Mk7wl9w6QRo55JGbwwthXVHOMz1kS9nBzjhejXA85ukLhAGYacFeiqrPE1pZVOA5V1UkgAiAk2N9EsEHWj8CxjCw15kh3/5R2lnj5n/pAf8Dc0gCjhe9MTTLcubMt6NDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wi892R0h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772330705; c=relaxed/simple;
+	bh=RNNJdn87lG+GN1BNPjAhglmrAR88/Rabx7WzNXXq6eg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LkgGC6/q+4W8Fbyy8O3pREzzPlP1HYeQwlgaMNZhUpYkPRkX6+mvLuvYUKj+5CBOBsa6i1yWDdc6lCAq5nLzkKeb6ODRniZ3FbtFi/tbK1e8fO32k0P3OfxGNOvEooQukWQY8qG63GQE8BoTPq7JhZsQ9k1jGudCZQkBNxhvoAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqyMFibY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wi892R0h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E59C19421;
-	Sun,  1 Mar 2026 02:03:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqyMFibY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CA5C19421;
+	Sun,  1 Mar 2026 02:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772330617;
-	bh=WrVLA2VEKz05X1Sqx6guuyKsYYSTyz+W7CKJMfGiHKw=;
+	s=k20201202; t=1772330705;
+	bh=RNNJdn87lG+GN1BNPjAhglmrAR88/Rabx7WzNXXq6eg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Wi892R0ht/d2OyNXvTtkRID6tpwaI2kduxTmHSonwRrN72mM5KN237psJuyY2UFsj
-	 /iXkzMDiV8jWq8rghGkUI91WsHRtUgJtAzmFFQEurqzVuUwKkgJaa0Js3ys1k9flKP
-	 +sQ6YLpVvXHjGR5CWEkmv1eW4Y9urdclP75RfvIuoRPSC5uzw4rK0gY842v00z9gz2
-	 jl8f2B3H+eAvB4dOFbzVwtQgX2eBHij/PvZQvJgXg2E3J9gKFqFsrl6AnsR+RPtDVo
-	 dOFslaWJyZVfrIfmxQiw9FuDZ36lVc8MHUgu28OF9kBjNMLQ34spvFeM1bqG1hIB7h
-	 OJYXrTg8sOEqg==
+	b=iqyMFibYwr1aFGKc6zr7g/PgcK6ND3myDgL2FjcDzQYTurn/Y2UnEH2AiRWoQW2bv
+	 QWIVjEBSqmuYEvSfRCMfqzy85YzIDhU/8QGVxrSzQFOl0rM51R7KNdsxbWtPCterXb
+	 ZWhF5VwvD7dM5GdMm2P1NTYo73EHeB6emrBqE+A6eaubOmUr2z2azTY9s/voRYLf20
+	 G+USe4TVPqfi78zoF8g8rU66VT7JVvRKDkzcgqSUfK/7NSxAwyYlS6FDJ5+iwixn46
+	 EJS2WN+OtdwoRIuzDspcEOCd10ROgAKPI2q/j8iXd0XRJQa4KAI3EA+raJ5EX9xFmG
+	 n+YPm8F+9g8Hw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/conexant: Add quirk for HP ZBook Studio G4" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:03:35 -0500
-Message-ID: <20260301020336.1731695-1-sashal@kernel.org>
+	mason8110@gmail.com
+Cc: Lewis Mason <lewis@ocuru.co.uk>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org
+Subject: FAILED: Patch "ALSA: hda/realtek: Add quirk for Samsung Galaxy Book3 Pro 360 (NP965QFG)" failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:05:03 -0500
+Message-ID: <20260301020503.1733666-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -53,35 +55,37 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 1585cf83e98db32463e5d54161b06a5f01fe9976 Mon Sep 17 00:00:00 2001
-From: Takashi Iwai <tiwai@suse.de>
-Date: Sat, 7 Feb 2026 14:13:17 +0100
-Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ZBook Studio G4
+From 3a6b7dc431aab90744e973254604855e654294ae Mon Sep 17 00:00:00 2001
+From: Lewis Mason <mason8110@gmail.com>
+Date: Tue, 10 Feb 2026 23:13:37 +0000
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Samsung Galaxy Book3 Pro 360
+ (NP965QFG)
 
-It was reported that we need the same quirk for HP ZBook Studio G4
-(SSID 103c:826b) as other HP models to make the mute-LED working.
+The Samsung Galaxy Book3 Pro 360 NP965QFG (subsystem ID 0x144d:0xc1cb)
+uses the same Realtek ALC298 codec and amplifier configuration as the
+NP960QFG (0x144d:0xc1ca). Apply the same ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS
+fixup to enable the internal speakers.
 
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/64d78753-b9ff-4c64-8920-64d8d31cd20c@gmail.com
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221002
-Link: https://patch.msgid.link/20260207131324.2428030-1-tiwai@suse.de
+Cc: stable@vger.kernel.org
+Signed-off-by: Lewis Mason <lewis@ocuru.co.uk>
+Link: https://patch.msgid.link/20260210231337.7265-1-lewis@ocuru.co.uk
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/conexant.c | 1 +
+ sound/hda/codecs/realtek/alc269.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 2384e64eada36..5623d8c0a0f7c 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -1081,6 +1081,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
- 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
-+	SND_PCI_QUIRK(0x103c, 0x826b, "HP ZBook Studio G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 8664446648096..c11312aa5ca76 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7318,6 +7318,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP950XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
+ 	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
++	SND_PCI_QUIRK(0x144d, 0xc1cb, "Samsung Galaxy Book3 Pro 360 (NP965QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1458, 0x900e, "Gigabyte G5 KF5 (2023)", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
 -- 
 2.51.0
 
