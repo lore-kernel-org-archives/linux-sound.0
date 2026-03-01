@@ -1,38 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14ACC430BB5;
-	Sun,  1 Mar 2026 01:29:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59CF2C027A;
+	Sun,  1 Mar 2026 01:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328542; cv=none; b=NaEC2VDf6940GMyuddb6IkigcjRrCbPwo7JcWceWj0AB9fzVgmIJNiRGRzUgOtJjHDYJLCAjHDJ7dgToOPpQx9o8S/dDLa6Ud8rnb5ZPW4w7vtJLKbeVj3glZcgjdH0RcW16XFnvKL9iIgM2SpYgKjFpJv73dKYnNhTfu+14exw=
+	t=1772328565; cv=none; b=iB/waGBi6/XenWLQ7Fz7pwmJccRlFXDm1JNAfaBsijOuIbd4K/6xxznYlVKvNf1RhNLXjNJvtJnt+J6ilc0yWW9MB1nfkyL5W0eCzhEZ7WfijmDqnkwq8UZNheeJgWqtLhtv8p630y5TYhjs4iQqoX2YGiFEXQCYf+71JQL3znc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328542; c=relaxed/simple;
-	bh=yCFWfBeF+PZWVyzX7yo0tje+vkMpIDDmkqMn7lQz3oM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WpQSZjvyhNClKx+I38kxsO0RISQpxCMWSwYESVuIgQVpuOPMzE/BY70ErooDXSqfgaWdkuhjYQ+AVIijxztFIbDL1LZcRrxHX0nuDfCWd/jzFei38HWeEQkocAxYrMAR+9prqXn3u518TSK4vkaAvbYeOg8ai95QQf5vqEw/4jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NmiAXkpN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328565; c=relaxed/simple;
+	bh=m/1fxpkhaQCd0EwW/XKukVJU9AfCekF88fZqrJ6uprQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OZrHeMiDMAE2G/oQ16x8gnnNnb86Hlis3jGTwxoqHCDQZva/6Ekqe5l6LokpPeRlPm2OxAlxaYIgzb2t4IJz5nARP9Q0Dzvd/TBsOXLwAmsmK2MNgbRm8Z13+SQUpSZU8YlXvTLN2XQiTrZmxXLEAEeeSUXogMBnzZ2oAKbxAbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EonhW3GM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NmiAXkpN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79121C19421;
-	Sun,  1 Mar 2026 01:29:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EonhW3GM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8356C2BC87;
+	Sun,  1 Mar 2026 01:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328542;
-	bh=yCFWfBeF+PZWVyzX7yo0tje+vkMpIDDmkqMn7lQz3oM=;
+	s=k20201202; t=1772328565;
+	bh=m/1fxpkhaQCd0EwW/XKukVJU9AfCekF88fZqrJ6uprQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=NmiAXkpN0YXZskNBYaqO00ycoX0M98kHron4VtUpMVskZ+Km3VSzcENyVZGEJuEeY
-	 yB7a0AsUzRFP5fOqwIWq7l+Qmk7BaYodC2R9HgX9exKlL8Br1xMM58Oqe6KEm8J5ta
-	 Ga6cAtHLZIIME4EYlq1yCmaIuZwuHIkthzBpWjoX6XplWv6MWGTBMOuX6l6dQcHI9K
-	 3/hX8IobIsRyBZISAU7cBb6zf08DYSBIB4HIZ22o7KhZzGF2m77ZlfGAb/mrIAukmj
-	 UHKUvZ1iKQr9E3jalHJl8Od3a/4CAA0jv06wMEe0tsccP1e9L2pCT69wfjjIO5Ulr8
-	 Typ+3v8xODvSg==
+	b=EonhW3GMe1eU3F3pjTyRCxtQ7//+269vO6Lx0xWFcH+549VIZsM183B3LZ9/ttvf3
+	 1QneXVJgod3P55twDQDGjf8sqgSG4sfvpa3pQ4bo9ktNEVUIm6zWLmMGOX6jzeABgL
+	 soVgbbK7kU8w+jTk7Q0/2LM1jmAUYTm4aZViVrcQ0K/MBrmluK+U5DyKR6kH76jNt2
+	 nYIxicXK7uqMo4EfiHHuRKfBC1OFK45M2aqCumtXhhff8UuZlC0Xd65bJx9nW3qzJ1
+	 vZYT/39WzPjpiJgE3pxWJSLYCA0lUD6w+wmmxUhvE+YLzMjBGhj1NP/MfyTmrGPT2B
+	 BUrNlEhkEtlAA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	guspatagonico@gmail.com
-Cc: Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 15X M6501RR" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:29:00 -0500
-Message-ID: <20260301012900.1686856-1-sashal@kernel.org>
+	shengjiu.wang@nxp.com
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Shengjiu,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: FAILED: Patch "ASoC: dt-bindings: asahi-kasei,ak4458: Fix the supply names" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:29:23 -0500
+Message-ID: <20260301012923.1687143-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -54,47 +57,45 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From ff9cadd1a2c0b2665b7377ac79540d66f212e7e3 Mon Sep 17 00:00:00 2001
-From: Gustavo Salvini <guspatagonico@gmail.com>
-Date: Tue, 10 Feb 2026 12:51:56 -0300
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 15X
- M6501RR
+From e570a5ca307f6d7a6acd080fc219db2ce3c0737b Mon Sep 17 00:00:00 2001
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+Date: Thu, 12 Feb 2026 10:18:28 +0800
+Subject: [PATCH] ASoC: dt-bindings: asahi-kasei,ak4458: Fix the supply names
 
-The ASUS Vivobook Pro 15X (M6501RR) with AMD Ryzen 9 6900HX has an
-internal DMIC that is not detected without a DMI quirk entry, as the
-BIOS does not set the AcpDmicConnected ACPI _DSD property.
+In the original txt format binding document ak4458.txt, the supply names
+are 'AVDD-supply', 'DVDD-supply', and they are also used in driver. But in
+the commit converting to yaml format, they are changed to 'avdd-supply',
+'dvdd-supply'. After search all the dts file, these names 'AVDD-supply',
+'DVDD-supply', 'avdd-supply', 'dvdd-supply' are not used in any dts
+file. So it is safe to fix this yaml binding document.
 
-Adding the DMI entry enables the ACP6x DMIC machine driver to probe
-successfully.
-
+Fixes: 009e83b591dd ("ASoC: dt-bindings: ak4458: Convert to dtschema")
 Cc: stable@vger.kernel.org
-
-Signed-off-by: Gustavo Salvini <guspatagonico@gmail.com>
-Link: https://patch.msgid.link/20260210155156.29079-1-guspatagonico@gmail.com
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Link: https://patch.msgid.link/20260212021829.3244736-3-shengjiu.wang@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/sound/asahi-kasei,ak4458.yaml         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 67f2fee193980..f1a63475100d1 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -696,7 +696,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "XyloD5_RBU"),
- 		}
- 	},
--
-+	{
-+			.driver_data = &acp6x_card,
-+			.matches = {
-+				DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+				DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook_ASUSLaptop M6501RR_M6501RR"),
-+			}
-+		},
- 	{}
- };
+diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml
+index 259e97b7a3c0f..3a3313ea0890a 100644
+--- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml
++++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4458.yaml
+@@ -21,10 +21,10 @@ properties:
+   reg:
+     maxItems: 1
  
+-  avdd-supply:
++  AVDD-supply:
+     description: Analog power supply
+ 
+-  dvdd-supply:
++  DVDD-supply:
+     description: Digital power supply
+ 
+   reset-gpios:
 -- 
 2.51.0
 
