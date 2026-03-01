@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D425DB1C;
-	Sun,  1 Mar 2026 01:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682B91ADFE4;
+	Sun,  1 Mar 2026 01:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328605; cv=none; b=ty4tS9eD6dFiRrOP0WxPq68Y5kt7GZy6D1Fmb3vRI/Hr90Yn9Gwe5aje2rebqSe+wES64Jus1mxZz2XHNyjrby8XTN4gJVkmcG7b5joL9Czw8jtKTtroVBVLHj84UxubsJbm9Uoh2JChPzJvapiB44Mz7aziXY/+oR/ajsJx7VE=
+	t=1772328620; cv=none; b=QTl2gPzbEq51NRRcHUUOdNm88abu8TbOaML76ygZwpzk+gRtDTYCwMWR0SYnH0gwyZbPjX5ZJcbA6PDznMutY64JwonXHyWUIXxtqf2CTe71I7cQM1o7RhNpDDZxgoB9wEPkzWGjc7wMf2Il1wr3WXd7kMUeOWR0+zRBg+f2x0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328605; c=relaxed/simple;
-	bh=7Cfp/4SVUGcIqWMA3vGiYG1fxuEciPnA5xbxttMSn5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cuIkNp1zSI2wLFxVFqGBG4cbS2lkZIZxFhdbrUmWN+mbOExK7sX0w+jzVqV76Hm8jfdJ0HG/GfgGKUSCeswNl0KvU1tcB+fyRXwKhpmaeelWFuy88Z802Ewojf+GBj/IcIV0DESP+S+41wUWGxoQ+Cy5lqABoHMyem8Yyij9onM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aax7YxzQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328620; c=relaxed/simple;
+	bh=lUyqfoeZ/RcnremLn+Ua7NUWSV0Lh/CAzvePVnGiGa8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n1ilQA6ZxvG2h3zkU3OyMqxPMsjNhOLH8aWRduXuFTnQKzF277K8xT7QOJjufQmoWp9Fm/gGBk9uuqFrFMe6i/SP1PseJw9+5dxZmbb50Sc+lA7gvzAEPRuVcDZwbMgfMq4aokL+VXJ6RN+LUhGBq5ANiYagOHoOZMjp7K8NtYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=od2+3s0G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aax7YxzQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B07AC19424;
-	Sun,  1 Mar 2026 01:30:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="od2+3s0G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7ADC19421;
+	Sun,  1 Mar 2026 01:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328605;
-	bh=7Cfp/4SVUGcIqWMA3vGiYG1fxuEciPnA5xbxttMSn5g=;
+	s=k20201202; t=1772328620;
+	bh=lUyqfoeZ/RcnremLn+Ua7NUWSV0Lh/CAzvePVnGiGa8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Aax7YxzQ37WVcZ+iedeAXxePRytm2TkbMR3SBClxu+tli7YyjxQu4Z86OKAL14pWx
-	 lr96xOCbo74ITvgPPnEHvovcmycn7m2ceQ+rIlSyXDMf3q4MfeUAdHpH7LkjxC284z
-	 S8kH2Iil9QmCB6qmjJjpsWlhQCy9GH6Wef1h1GIobo/VSSjmCyrjkCh9xl2uQpvyPL
-	 jezJFbJ2hnK0fXeMtyz1xhgvUkFaTeZs8rtGOcoE9NtQhuDpKQVctgPVy+cBX+jBvV
-	 rXrW0wE18l9u16LPDaoAWhvXtKhELuKm/xy8Czf1jbxbdrrw3kF2ra3abcf9pYtQa9
-	 a75xtzZco8kUw==
+	b=od2+3s0G4+BtpiOs8hSt8nCD0k25EHfVCaQqga8vK98J3MeRNxHWfY+xK3dVKMxSC
+	 mgD0JDR1TwFH1GJ/HG0uefCVBRMO1fnPp8bWogKHjL0xEYfLbh5BeFszDuOwH13Rz1
+	 oBfoa1CBG5O8fJPGKd8W4Eb9oKiiL9aJml861Pig2hXSTk94CdaKZHY2IXlk+I2lnV
+	 8Y+X/7jnQuzRT3YpXh6ZdZ6o687wqTagPSHAV6X8oo1O+HBMmaGR0Ezr1RVlbWnuIc
+	 onuBvfNoR6s6FdDvVJSpGDGgJgZzvIN736pZOoWhbRVnLZG9UXa4URI3f9opEhXnJv
+	 J1FP9cY+Tcdmg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	peter.ujfalusi@linux.intel.com
@@ -35,9 +35,9 @@ Cc: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: FAILED: Patch "ASoC: SOF: ipc4-control: If there is no data do not send bytes update" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:30:02 -0500
-Message-ID: <20260301013003.1687979-1-sashal@kernel.org>
+Subject: FAILED: Patch "ASoC: SOF: ipc4-topology: Correct the allocation size for bytes controls" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:30:17 -0500
+Message-ID: <20260301013018.1688391-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,50 +59,91 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 2fa74713744dc5e908fff851c20f5f89fd665fb7 Mon Sep 17 00:00:00 2001
+From a653820700b81c9e6f05ac23b7969ecec1a18e85 Mon Sep 17 00:00:00 2001
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Date: Wed, 17 Dec 2025 16:39:38 +0200
-Subject: [PATCH] ASoC: SOF: ipc4-control: If there is no data do not send
- bytes update
+Date: Wed, 17 Dec 2025 16:39:39 +0200
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Correct the allocation size for
+ bytes controls
 
-When the bytes control have no data (payload) then there is no need to send
-an IPC message as there is nothing to send.
+The size of the data behind of scontrol->ipc_control_data for bytes
+controls is:
+[1] sizeof(struct sof_ipc4_control_data) + // kernel only struct
+[2] sizeof(struct sof_abi_hdr)) + payload
 
-Fixes: a062c8899fed ("ASoC: SOF: ipc4-control: Add support for bytes control get and put")
+The max_size specifies the size of [2] and it is coming from topology.
+
+Change the function to take this into account and allocate adequate amount
+of memory behind scontrol->ipc_control_data.
+
+With the change we will allocate [1] amount more memory to be able to hold
+the full size of data.
+
+Fixes: a382082ff74b ("ASoC: SOF: ipc4-topology: Add support for TPLG_CTL_BYTES")
 Cc: stable@vger.kernel.org
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Link: https://patch.msgid.link/20251217143945.2667-2-peter.ujfalusi@linux.intel.com
+Link: https://patch.msgid.link/20251217143945.2667-3-peter.ujfalusi@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/sof/ipc4-control.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 35 +++++++++++++++++++++++++++--------
+ 1 file changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 976a4794d6100..0a05f66ec7d92 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -412,8 +412,16 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof_dev *sdev,
- 	int ret = 0;
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 221e9d4052b8f..4272d84679ac1 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -2855,22 +2855,41 @@ static int sof_ipc4_control_load_bytes(struct snd_sof_dev *sdev, struct snd_sof_
+ 	struct sof_ipc4_msg *msg;
+ 	int ret;
  
- 	/* Send the new data to the firmware only if it is powered up */
--	if (set && !pm_runtime_active(sdev->dev))
--		return 0;
-+	if (set) {
-+		if (!pm_runtime_active(sdev->dev))
-+			return 0;
-+
-+		if (!data->size) {
-+			dev_dbg(sdev->dev, "%s: No data to be sent.\n",
-+				scontrol->name);
-+			return 0;
-+		}
+-	if (scontrol->max_size < (sizeof(*control_data) + sizeof(struct sof_abi_hdr))) {
+-		dev_err(sdev->dev, "insufficient size for a bytes control %s: %zu.\n",
++	/*
++	 * The max_size is coming from topology and indicates the maximum size
++	 * of sof_abi_hdr plus the payload, which excludes the local only
++	 * 'struct sof_ipc4_control_data'
++	 */
++	if (scontrol->max_size < sizeof(struct sof_abi_hdr)) {
++		dev_err(sdev->dev,
++			"insufficient maximum size for a bytes control %s: %zu.\n",
+ 			scontrol->name, scontrol->max_size);
+ 		return -EINVAL;
+ 	}
+ 
+-	if (scontrol->priv_size > scontrol->max_size - sizeof(*control_data)) {
+-		dev_err(sdev->dev, "scontrol %s bytes data size %zu exceeds max %zu.\n",
+-			scontrol->name, scontrol->priv_size,
+-			scontrol->max_size - sizeof(*control_data));
++	if (scontrol->priv_size > scontrol->max_size) {
++		dev_err(sdev->dev,
++			"bytes control %s initial data size %zu exceeds max %zu.\n",
++			scontrol->name, scontrol->priv_size, scontrol->max_size);
++		return -EINVAL;
 +	}
++
++	if (scontrol->priv_size < sizeof(struct sof_abi_hdr)) {
++		dev_err(sdev->dev,
++			"bytes control %s initial data size %zu is insufficient.\n",
++			scontrol->name, scontrol->priv_size);
+ 		return -EINVAL;
+ 	}
  
- 	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
+-	scontrol->size = sizeof(struct sof_ipc4_control_data) + scontrol->priv_size;
++	/*
++	 * The used size behind the cdata pointer, which can be smaller than
++	 * the maximum size
++	 */
++	scontrol->size = sizeof(*control_data) + scontrol->priv_size;
+ 
+-	scontrol->ipc_control_data = kzalloc(scontrol->max_size, GFP_KERNEL);
++	/* Allocate the cdata: local struct size + maximum payload size */
++	scontrol->ipc_control_data = kzalloc(sizeof(*control_data) + scontrol->max_size,
++					     GFP_KERNEL);
+ 	if (!scontrol->ipc_control_data)
+ 		return -ENOMEM;
  
 -- 
 2.51.0
