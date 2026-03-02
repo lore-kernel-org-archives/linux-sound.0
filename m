@@ -1,115 +1,203 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6119336C9C0;
-	Mon,  2 Mar 2026 12:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772454295; cv=none; b=TD9pabN5H9t/N6Xwhx/ROn+PhQN+IRiLbhgHGrJlj4050xQctgoHiHlPL2raltdVG/G65/UPyD3HYTaCAyry+gyPjCTuwIFpss8Y777jLfBYIqF6fXK2AUuIZUOfd2OEmE92URRAMXKtPbYN5alnOthdAz6JjtnbFwkqDX/pwak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772454295; c=relaxed/simple;
-	bh=x7t/iAkWcnd9QyYdAw+6vUuJizpL9ieaOGsdRW/mZTI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Plzmmjwo/rkdSWqDPiCNpKpq5/enW0sgvoeIhjIAs7uRGmj+ntrdJ3RQOvGPSzV2978iyH1zEEAU/RbAWWCysC/zy9BY90O90H6Tccr+QCg8Uoy19NOFASmyWuYwT0BZctuCsCmS2T3CxDoan6wo/7MAs+7uSzZXkNPsBRk2ktc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fPdQT1L9qzHnH7x;
-	Mon,  2 Mar 2026 20:24:01 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id E1AB340584;
-	Mon,  2 Mar 2026 20:24:52 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Mar
- 2026 12:24:50 +0000
-Date: Mon, 2 Mar 2026 12:24:49 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Herve Codina <herve.codina@bootlin.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Geert
- Uytterhoeven" <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, "Sascha Hauer"
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, "Michael Turquette"
-	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Andi Shyti"
-	<andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Peter Rosin <peda@axentia.se>, "Arnd Bergmann" <arnd@arndb.de>, Saravana
- Kannan <saravanak@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>, Charles
- Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
-	<rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, "Linus
- Walleij" <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, "Mark
- Brown" <broonie@kernel.org>, Len Brown <lenb@kernel.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
- Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, "Shawn Guo" <shawnguo@kernel.org>,
-	Wolfram Sang <wsa@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <imx@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>,
-	<linux-i2c@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<patches@opensource.cirrus.com>, <linux-gpio@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-cxl@vger.kernel.org>, Allan Nielsen
-	<allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli
-	<luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 11/28] cxl/test: Use fw_devlink_set_device()
-Message-ID: <20260302122449.00006c77@huawei.com>
-In-Reply-To: <20260227135428.783983-12-herve.codina@bootlin.com>
-References: <20260227135428.783983-1-herve.codina@bootlin.com>
-	<20260227135428.783983-12-herve.codina@bootlin.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D1836DA15;
+	Mon,  2 Mar 2026 12:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772455016; cv=pass; b=amw9hkIMaaT8FI1WHawiEWc8T6h3sgQqnuawxsK1JH6CB9foCsJw/fXCDf6Mw1VFsVcAybncQbNsN6Kqji1yljANbmF9cuiNSEZunAOngpeuu/otRZj7ZpzbjOJlFtBsTjKoGJrnRnpg/vclNXs6takzDw8UCqz8mAGVLohBgT8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772455016; c=relaxed/simple;
+	bh=i2PaH7mcmgnXSUUp+CWSP+o26LYx16eN4NbzWNUWqOw=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=XwqgnT1tEvYAlPzz+CDWqybOSfpHyYTsMY933VCjQL0zAG+nEkldV5G/cCcht9bPGVXPiW9X7ebl3x36LgaXH2QIlSJPJNa+Op0iDywACDk5GysSPOK/YdKJ1UYchMy6Xy23ydoyLw8+QtQaED1r4Yxf6xCM/THNOzHFVIYwEas=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=RoNcasnd; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="RoNcasnd"
+ARC-Seal: i=1; a=rsa-sha256; t=1772454994; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Xz3gk0dsdCfqpF8Z/WT4RzR69rWGSqYBPXy4sv3rlsEj3ENMyOapfKLvSmlqb5DyR3j5vW+E/SMgfNBqDNcoFOrZ1GpgFxb5QXjb2xuF420ggw6C37QR9Wc/ixaYpXFdVEh2XZLDYlYQmMkyjqNdkORAqNr2RYriYWbHzsIqi4c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772454994; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=EsZpR6vMuAbfQSEH07cTsIQT6XkmB9hhhtN7g2YBkjE=; 
+	b=GYRhpCvtkqv1pge/qVcT0+OLJNQMmVBbnhqblt2qsew4wPAS9TTyaWgJjMcLxGWWCLeVeHGWDm4TlnUhWqZ7Z8BPuhaM+9QoPKS0n/DgFlCJwF2LixkH0aRoEQxAK1N2ptmYH7KPQDCBJsGjapL2d4zZMloxd8+3bTmRRD3IUtE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772454994;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=EsZpR6vMuAbfQSEH07cTsIQT6XkmB9hhhtN7g2YBkjE=;
+	b=RoNcasndp7fp3Gtk/jHIvYo3/CP7yeKAObgWnwBIfAAsqq59EeqOSiJCWcBg3iiZ
+	8xBKvgZWPIJ6kd0QQwZeWONSFE3ZgeQCoOsdkftB5p0xoaFo9teJwEA35i3Xt7mHGKz
+	uZxa+gnSsqP9CNuydgWy1NKDTk72h+xlDbFfI85+JPmMLVSgUX6m1cO3byu+R16PCQt
+	ZYXNaQuLIMNPWxRD+RQodB8YE/woRDqT1Ctt8tbiNY+gj4qYq6V/BHolMcw2hM50s/L
+	JuaSpwFHpIcRFg6KwBVHwwLE2+xtiEddChqFe3aHXnnm1axnkuZzwYswpETxplMcayd
+	WhZeo3b2uQ==
+Received: by mx.zohomail.com with SMTPS id 1772454993200513.7002571997001;
+	Mon, 2 Mar 2026 04:36:33 -0800 (PST)
+Message-ID: <136445f6a9b01e423b6b380fb87bad059900f2b3.camel@rong.moe>
+Subject: Re: [PATCH 4/9] ALSA: usb-audio: Support string-descriptor-based
+ quirk table entry
+From: Rong Zhang <i@rong.moe>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Cryolitia PukNgae	 <cryolitia@uniontech.com>, Arun Raghavan
+ <arunr@valvesoftware.com>, 	linux-sound@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org, Icenowy Zheng
+ <uwu@icenowy.me>
+In-Reply-To: <87ms0qmu8e.wl-tiwai@suse.de>
+References: <20260301213726.428505-1-i@rong.moe>
+		<20260301213726.428505-5-i@rong.moe> <87ms0qmu8e.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Mar 2026 20:31:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+User-Agent: Evolution 3.56.2-8 
+X-ZohoMailClient: External
 
-On Fri, 27 Feb 2026 14:54:08 +0100
-Herve Codina <herve.codina@bootlin.com> wrote:
+Hi Takashi,
 
-> The code set directly fwnode.dev field.
+Thanks for your review.
+
+On Mon, 2026-03-02 at 10:54 +0100, Takashi Iwai wrote:
+> On Sun, 01 Mar 2026 22:37:20 +0100,
+> Rong Zhang wrote:
+> > @@ -2558,14 +2585,69 @@ void snd_usb_apply_flag_dbg(const char *reason,
+> >  	}
+> >  }
+> > =20
+> > +#define USB_STRING_SIZE 128
+> > +
+> > +static inline int snd_usb_get_strings(struct snd_usb_audio *chip,
+> > +				      char *manufacturer, char *product)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (manufacturer) {
+> > +		ret =3D usb_string(chip->dev, chip->dev->descriptor.iManufacturer,
+> > +				 manufacturer, USB_STRING_SIZE);
+> > +		if (ret < 0) {
+> > +			usb_audio_warn(chip, "failed to get manufacturer string: %d\n", ret=
+);
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	if (product) {
+> > +		ret =3D usb_string(chip->dev, chip->dev->descriptor.iProduct,
+> > +				 product, USB_STRING_SIZE);
+> > +		if (ret < 0) {
+> > +			usb_audio_warn(chip, "failed to get product string: %d\n", ret);
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	return 1; /* ok */
+> > +}
+> > +
+> >  void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+> >  {
+> >  	const struct usb_audio_quirk_flags_table *p;
+> > +	char manufacturer[USB_STRING_SIZE];
+> > +	char product[USB_STRING_SIZE];
 >=20
-> Use the dedicated fw_devlink_set_device() helper to perform this
-> operation.
+> Keeping those a bit largish strings on the stack doesn't look good.
+> Maybe better to do kalloc with __free(kfree).
+
+Makes sense.
+
+> > +	int got_usb_strings =3D 0; /* <0: error, 0: pending, >0: ok */
 >=20
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-
-=46rom practical point of view, what path do you expect this to take?
-Is there urgency to make the change, or does it make more sense to
-add the helper this cycle and cleanup up the various places it can be
-used next?
-
-> ---
->  tools/testing/cxl/test/cxl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I think this global flag could go wrong since...
 >=20
-> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
-> index 3d9107b2661c..7f232a869389 100644
-> --- a/tools/testing/cxl/test/cxl.c
-> +++ b/tools/testing/cxl/test/cxl.c
-> @@ -1137,7 +1137,7 @@ static void mock_companion(struct acpi_device *adev=
-, struct device *dev)
->  	device_initialize(&adev->dev);
->  	fwnode_init(&adev->fwnode, NULL);
->  	device_set_node(dev, &adev->fwnode);
-> -	adev->fwnode.dev =3D dev;
-> +	fw_devlink_set_device(&adev->fwnode, dev);
->  }
-> =20
->  #ifndef SZ_64G
+> >  	for (p =3D quirk_flags_table; p->id; p++) {
+> >  		if (chip->usb_id =3D=3D p->id ||
+> >  		    (!USB_ID_PRODUCT(p->id) &&
+> >  		     USB_ID_VENDOR(chip->usb_id) =3D=3D USB_ID_VENDOR(p->id))) {
+> > +			if (!p->usb_string_match)
+> > +				goto apply; /* DEVICE_FLG or VENDOR_FLG */
+> > +
+> > +			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
+> > +			if (!got_usb_strings) {
+> > +				got_usb_strings =3D snd_usb_get_strings(chip,
+> > +					p->usb_string_match->manufacturer ? manufacturer : NULL,
+> > +					p->usb_string_match->product ? product : NULL);
+>=20
+> ... here you try to extract strings only once, but this retrieval
+> depends on the current entry.  If the current entry has only
+> manufacturer and the next entry has only product, it won't work.
 
+Nice catch! Thanks. Will fix it in v2.
+
+> IMO, a simpler way would be something like:
+>=20
+> #define USB_STRING_SIZE 128
+>=20
+> static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
+> {
+> 	char *buf =3D kmalloc(USB_STRING_SIZE, GFP_KERNEL);
+> 	int ret;
+>=20
+> 	if (!buf)
+> 		return ERR_PTR(-ENOMEM);
+> 	ret =3D usb_string(chip->dev, id, buf, USB_STRING_SIZE);
+> 	if (ret < 0) {
+> 		usb_audio_warn(chip, "failed to get string for id%d: %d\n", ret);
+> 		kfree(buf);
+> 		return ERR_PTR(ret);
+> 	}
+> 	return buf;
+> }
+
+I guess we may use usb_cache_string() so that we don't need to
+kmalloc() the buffer ourselves and can get rid of USB_STRING_SIZE.
+
+> void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+> {
+> 	....
+> 	char *manufacturer __free(kfree) =3D NULL;
+> 	char *product __free(kfree) =3D NULL;
+>=20
+>   	for (p =3D quirk_flags_table; p->id; p++) {
+> 		....
+> 		if (p->usb_string_match->manufacturer) {
+> 			if (!manufacturer)
+> 				manufaturer =3D
+> 					snd_usb_get_string(chip,
+> 						chip->dev->descriptor.iManufacturer);
+> 			if (!IS_ERR_OR_NULL(manufacturer) &&
+> 			    strcmp(p->usb_string_match->manufacturer, manufacturer))
+> 				continue;		=09
+> 		}
+> 		if (p->usb_string_match->product) {
+> 			if (!product)
+> 				product =3D
+> 					snd_usb_get_string(chip,
+> 						chip->dev->descriptor.iProduct);
+> 			if (!IS_ERR_OR_NULL(product) &&
+> 			    strcmp(p->usb_string_match->product, product))
+> 				continue;		=09
+> 		}
+>=20
+>=20
+
+Sounds neat. Will do in v2. I will also skip the warning if id =3D=3D 0
+since string-descriptor-based quirk table entries has nothing to do
+with devices without corresponding descriptors.
+
+Thanks,
+Rong
+
+> thanks,
+>=20
+> Takashi
