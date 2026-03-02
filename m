@@ -1,44 +1,44 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6E3373C17;
-	Mon,  2 Mar 2026 18:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E2837BE75;
+	Mon,  2 Mar 2026 18:59:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772477971; cv=pass; b=M2Zq+tQ5IskTgFTKkv9S60HJHVROMH3oUuU6BnLG3G3k+dn5RYh+/BDGlO4zLUZHrxaNv0iKNAkX/55ouQxunVZTQZCBDPmwmuon8plWoQAhfLxUgj5rpMm5ckDvR+HskkebZAYaty/ZEbWsccMso5iIFeV/6IH9vLueWeqoTNE=
+	t=1772477974; cv=pass; b=c3nMWxCNNtNGWqTnqT6SGrcSfUXCLCWDuSBKtLyBhNFzkN+Xc0ZuzEka8cS+wwttCnXYCxv+c/zF9osiLNxeDdpUQVllgaVGjSv88/fM3bhf0ufyh9X2eG1cxqCagWWuFmz74qLnRpRPVB3r8a++MoufBXf2LVAwURNElpZrEM4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772477971; c=relaxed/simple;
-	bh=bwsJSfMDmrTaxkbp/XYlbzcwS+2yEhdoPtsODrAUjJQ=;
+	s=arc-20240116; t=1772477974; c=relaxed/simple;
+	bh=Qw0zZSYuL7MErMf7Jfleria3+Y6KnwCYVtKLkVGJ9rU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KvEKGVlFXWPnTwUXbT8Of4x/p9HftUKvOQR1RRGWmqzPhGIsRGrbPSvlrQZyUKDZUTW9V5OFOKYgAXROUsYn7/AVpuX1jR8s14zkcXg9xeFjz8yYmyONopK+lZ5Hqeki5Mths76omrLsG3pDRk1g6lJ+P8Ld0mGUlJqEZSt7MI8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=BOWvaVyR; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=JogsAvB8SQ4SJz+6kx7DUeokAb2txVjVpmcxZXecvD89rnQ7mHYPI9wyrHgkKe0B6VFjVNqRjb+7BYWTxboyMAgVB63kbdtUJIBAd8zoUwxkUTrJ4N5QCuzrRlhZNP///Jb/V6pG10wRWzEQIyViYn1zsUP2+sqYANDKaSJiXYk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=LGdXC7TH; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="BOWvaVyR"
-ARC-Seal: i=1; a=rsa-sha256; t=1772477957; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="LGdXC7TH"
+ARC-Seal: i=1; a=rsa-sha256; t=1772477961; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=HZw6HfouYnHMSyPDUorLLPAD8R79kSAVY7bPGS9bG/2sEfOhcbwYPQ/S9Dxhsc7elFLUHHcPJ24YFvFhcLzyAsAht7EI7OjHc+q3KI/N124dPdOjOywhB7XVduud9RkxjFduP4MED49xB/J7ubVs2eA1YJqs2R4w18RcvGdLihw=
+	b=i/LVGNbfyX6Tc/cAJ1v7UV5ubx2H0GuyT54efVcTvG6Bz7B9jIY7G3EIaqT+I9ekwKo1gI+gl55D1sCEvQwZ7oZDh2tdDOcGN9tHmyVi7BxxALXhTbBy31EmkgersgaI+KMmTUNGrGJdW96E4NENhvqmJe4XFbQFYx4Jrs6h8NE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772477957; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=9lmwt1a5i7dWGlVNbXzYeTJ7RIriT+tawyy94Ui5hSg=; 
-	b=Hldu0miMK1n2bx+0MjO8RO+3KaIYar05q9cwpD8BmW5zmsl/6iAoNuAXs+Rq1yN0KLf4ZAVBA5z91lim/1mNPc/wczc20P6K60VhEjjk0OCd4NivdWO8KT/GPNcvC0PJXT0QfEd6+Fbl0p88/2JYe7wqV8BgG5stlj7NuZdS9yA=
+	t=1772477961; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=dv6bdqcyhYgJyaJ0g+4K2PA4ZxzA5UgFv7aCp+89l/U=; 
+	b=Jbc6fq/rt44rhtgzslRahAJYA4+KXQdHS9bLY23RvT3UsOlIgT/4ohjlJEyrLSYsUIdTRefrivh31MmKnjDMzXiPtcU7e4KxmsqtoBRRl2+21pkSmx9PaF4sxSFokCD13QXdntLBHhfhcxpekfDIjZbMVn1fcD+iItTH0n+GcYM=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477957;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477961;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=9lmwt1a5i7dWGlVNbXzYeTJ7RIriT+tawyy94Ui5hSg=;
-	b=BOWvaVyRsmCHEbt22mII5JeAIymbpggIJ7xjDyA2Pr2QerhmuvGq+zuml6ymIx2n
-	faEi+QIw5f78VotOuHEANNck4mqQiOqASgHUUvVR+EYL5o1bhWZAcqozbDo2ifvOyKT
-	0XKdqnz0XJoIaMfYCjxHEFXhrfDIsuAEesDUxApR0icDMKJii1oKgQFhoQnBzhv9sFB
-	F/DOcSmzxL6roNCcVskGFz/TLsBpijWO3L9mIdgUaEI2HuBUvdXzX4O7Lw7heI2RVo3
-	2uK2PS7JzGTRtr5ZmHTzCPc6GnNbOiYYkXCoq423HNXi5xRjDsTOOS6hoWjboO//HK8
-	/1KnkqmhBw==
-Received: by mx.zohomail.com with SMTPS id 1772477956122902.5162994222561;
-	Mon, 2 Mar 2026 10:59:16 -0800 (PST)
+	bh=dv6bdqcyhYgJyaJ0g+4K2PA4ZxzA5UgFv7aCp+89l/U=;
+	b=LGdXC7THBaIGzoGEdN50h+IOB/ceusHN0uUAelkifodxdmPl4N0r+OxUQG9y2a6f
+	b9Y9T3+mBr4+mhyzTUlAZH1O80xTF0KZJvrJFRu8Xb2bVOBq1pMvWt9tEAWmj+dFfKI
+	hMTE+am3fFTtemc1tYruUc82x9OBo8EkHK7RvUXW9xa3w1W1vgrsgH+b6MDCFV8Rn9N
+	lywMiM8de2P4lIGnXxcuO6BUfxTH0DTSEnz8muKSoAXoJ+W1XAIhwzY9OqkzL060AT6
+	8AHxMgHj2ydSPRolyX52dFpyJzAqcN4V/0C5VvBAlQS6TU4fHaAlA8BdfygdoS+0IZy
+	a5ZWG5W7dQ==
+Received: by mx.zohomail.com with SMTPS id 1772477959220498.95061102923967;
+	Mon, 2 Mar 2026 10:59:19 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -51,9 +51,9 @@ Cc: Rong Zhang <i@rong.moe>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v2 3/8] ALSA: usb-audio: Improve volume range checks
-Date: Tue,  3 Mar 2026 02:58:54 +0800
-Message-ID: <20260302185900.427415-4-i@rong.moe>
+Subject: [PATCH v2 4/8] ALSA: usb-audio: Support string-descriptor-based quirk table entry
+Date: Tue,  3 Mar 2026 02:58:55 +0800
+Message-ID: <20260302185900.427415-5-i@rong.moe>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302185900.427415-1-i@rong.moe>
 References: <20260302185900.427415-1-i@rong.moe>
@@ -66,105 +66,182 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Currently the volume range check is only meant to discover quirky
-microphone on webcam devices and facing these issues:
+Some quirky devices do not have a unique VID/PID. Matching them using
+DEVICE_FLG() or VENDOR_FLG() may result in conflicts.
 
-- The check is only meaningful for dB volume, but it doesn't check if
-  the TLV callback is the corresponding one
-- A common quirky pattern "val = 0/100/1" doesn't trigger any warning
-- Some modern devices trigger the check, but they are legit
-- The warning message doesn't apply to some quirky messages with linear
-  volume
-- The term "range" in the warning message is confusing. At readers'
-  first glance it should be (max - min), but it turns out to be
-  ((max - min) / res)
+Add two new macros DEVICE_STRING_FLG() and VENDOR_STRING_FLG() to match
+USB string descriptors (manufacturer and/or product) in addition to VID
+and/or PID, so that we can deconflict these devices safely.
 
-Solve these issues by improving the checking logic to:
-
-- Ignore mixers with non-dB TLV
-- Warn on unlikely small volume ranges (max - min < 256)
-- Add some heuristics to determine if the volume range is unlikely big
-- Rephrase the warning message to mention linear volume
-- Rephrase the warning message in correct wording
+No functional change intended.
 
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- sound/usb/mixer.c | 54 +++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 48 insertions(+), 6 deletions(-)
+Changes in v2:
+- Alloc string buffers with kmalloc() instead of on stack (thanks
+  Takashi Iwai)
+- Get string descriptors in a neater way (ditto)
+- Tiny differences compared to Takashi's sugeestion:
+  - Use `IS_ERR_OR_NULL() || strcmp()' instead of `!IS_ERR_OR_NULL() &&
+    strcmp()', so failure in getting the string descriptor won't
+    resulting in quirk flags being applied to irrelevant devices
+  - Use trivial goto cleanup patterns instead of `__free(kfree)' as the
+    latter can't handle ERR_PTR()
+- Tiny differences compared to my previous reply:
+  - Use usb_string() as Takashi suggested instead of usb_cache_string(),
+    so that we can retrieve the errno and print it out on failure
+---
+ sound/usb/quirks.c | 94 ++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 91 insertions(+), 3 deletions(-)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index f52ca0d7e6653..7007e0c9489b4 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1664,20 +1664,62 @@ static bool check_insane_volume_range(struct usb_mixer_interface *mixer,
- 				      struct snd_kcontrol *kctl,
- 				      struct usb_mixer_elem_info *cval)
- {
--	int range = (cval->max - cval->min) / cval->res;
-+	int range, steps, threshold;
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c6a78efbcaa30..8deeb9d247500 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2,8 +2,10 @@
+ /*
+  */
  
- 	/*
--	 * Are there devices with volume range more than 255? I use a bit more
--	 * to be sure. 384 is a resolution magic number found on Logitech
--	 * devices. It will definitively catch all buggy Logitech devices.
-+	 * If a device quirk has overrode our TLV callback, no warning should
-+	 * be generated since our checks are only meaningful for dB volume.
- 	 */
--	if (range > 384) {
-+	if (!(kctl->vd[0].access & SNDRV_CTL_ELEM_ACCESS_TLV_CALLBACK) ||
-+	    kctl->tlv.c != snd_usb_mixer_vol_tlv)
-+		return false;
++#include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/usb.h>
+ #include <linux/usb/audio.h>
+ #include <linux/usb/midi.h>
+@@ -2135,16 +2137,39 @@ void snd_usb_audioformat_attributes_quirk(struct snd_usb_audio *chip,
+ /*
+  * driver behavior quirk flags
+  */
++struct usb_string_match {
++	const char *manufacturer;
++	const char *product;
++};
 +
-+	/*
-+	 * Meaningless volume control capability (<1dB). This should cover
-+	 * devices mapping their volume to val = 0/100/1, which are very likely
-+	 * to be quirky.
-+	 */
-+	range = cval->max - cval->min;
-+	if (range < 256) {
- 		usb_audio_warn(mixer->chip,
--			       "Warning! Unlikely big volume range (=%u), cval->res is probably wrong.",
-+			       "Warning! Unlikely small volume range (=%u), linear volume or custom curve?",
- 			       range);
- 		return true;
+ struct usb_audio_quirk_flags_table {
+ 	u32 id;
+ 	u32 flags;
++	const struct usb_string_match *usb_string_match;
+ };
+ 
+ #define DEVICE_FLG(vid, pid, _flags) \
+ 	{ .id = USB_ID(vid, pid), .flags = (_flags) }
+ #define VENDOR_FLG(vid, _flags) DEVICE_FLG(vid, 0, _flags)
+ 
++/* Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts. */
++#define DEVICE_STRING_FLG(vid, pid, _manufacturer, _product, _flags)	\
++{									\
++	.id = USB_ID(vid, pid),						\
++	.usb_string_match = &(const struct usb_string_match) {		\
++		.manufacturer = _manufacturer,				\
++		.product = _product,					\
++	},								\
++	.flags = (_flags),						\
++}
++
++/* Use as a last resort if using VENDOR_FLG() is prone to VID conflicts. */
++#define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
++	DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
++
+ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
++	/* Device and string descriptor matches */
++
+ 	/* Device matches */
+ 	DEVICE_FLG(0x001f, 0x0b21, /* AB13X USB Audio */
+ 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+@@ -2414,6 +2439,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
+ 		   QUIRK_FLAG_ALIGN_TRANSFER),
+ 
++	/* Vendor and string descriptor matches */
++
+ 	/* Vendor matches */
+ 	VENDOR_FLG(0x045e, /* MS Lifecam */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+@@ -2558,19 +2585,80 @@ void snd_usb_apply_flag_dbg(const char *reason,
  	}
- 
-+	steps = range / cval->res;
-+
-+	/*
-+	 * There are definitely devices with ~20,000 ranges (e.g., HyperX Cloud
-+	 * III with val = -18944/0/1), so we use some heuristics here:
-+	 *
-+	 * min < 0 < max: Attenuator + amplifier? Likely to be sane
-+	 *
-+	 * min < 0 = max: DSP? Voltage attenuator with FW conversion to dB?
-+	 * Likely to be sane
-+	 *
-+	 * min < max < 0: Measured values? Neutral
-+	 *
-+	 * min = 0 < max: Oversimplified FW conversion? Linear volume? Likely to
-+	 * be quirky (e.g., MV-SILICON)
-+	 *
-+	 * 0 < min < max: Amplifier with fixed gains? Likely to be quirky
-+	 * (e.g., Logitech webcam)
-+	 */
-+	if (cval->min < 0 && 0 <= cval->max)
-+		threshold = 24576; /* 65535 * (3 / 8) */
-+	else if (cval->min < cval->max && cval->max < 0)
-+		threshold = 1024;
-+	else
-+		threshold = 384;
-+
-+	if (steps > threshold) {
-+		usb_audio_warn(mixer->chip,
-+			       "Warning! Unlikely big volume step count (=%u), linear volume or wrong cval->res?",
-+			       steps);
-+		return true;
-+	}
-+
- 	return false;
  }
  
++#define USB_STRING_SIZE 128
++
++static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
++{
++	char *buf;
++	int ret;
++
++	/*
++	 * Devices without the corresponding string descriptor.
++	 * This is non-fatal as *_STRING_FLG have nothing to do in this case.
++	 */
++	if (id == 0)
++		return ERR_PTR(-ENODATA);
++
++	buf = kmalloc(USB_STRING_SIZE, GFP_KERNEL);
++	if (buf == NULL)
++		return ERR_PTR(-ENOMEM);
++
++	ret = usb_string(chip->dev, id, buf, USB_STRING_SIZE);
++	if (ret < 0) {
++		usb_audio_warn(chip, "failed to get string for id%d: %d\n", id, ret);
++		kfree(buf);
++		return ERR_PTR(ret);
++	}
++
++	return buf;
++}
++
+ void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+ {
+ 	const struct usb_audio_quirk_flags_table *p;
++	char *manufacturer = NULL;
++	char *product = NULL;
+ 
+ 	for (p = quirk_flags_table; p->id; p++) {
+ 		if (chip->usb_id == p->id ||
+ 		    (!USB_ID_PRODUCT(p->id) &&
+ 		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
+-			snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
+-			chip->quirk_flags |= p->flags;
+-			return;
++			if (!p->usb_string_match)
++				goto apply; /* DEVICE_FLG or VENDOR_FLG */
++
++			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
++			if (p->usb_string_match->manufacturer) {
++				if (!manufacturer) {
++					manufacturer = snd_usb_get_string(chip,
++						chip->dev->descriptor.iManufacturer);
++				}
++				if (IS_ERR_OR_NULL(manufacturer) ||
++				    strcmp(p->usb_string_match->manufacturer, manufacturer))
++					continue;
++			}
++			if (p->usb_string_match->product) {
++				if (!product) {
++					product = snd_usb_get_string(chip,
++						chip->dev->descriptor.iProduct);
++				}
++				if (IS_ERR_OR_NULL(product) ||
++				    strcmp(p->usb_string_match->product, product))
++					continue;
++			}
++			goto apply;
+ 		}
+ 	}
++	goto clean;
++
++apply:
++	snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
++	chip->quirk_flags |= p->flags;
++
++clean:
++	if (!IS_ERR_OR_NULL(manufacturer))
++		kfree(manufacturer);
++	if (!IS_ERR_OR_NULL(product))
++		kfree(product);
+ }
+ 
+ void snd_usb_init_quirk_flags_parse_string(struct snd_usb_audio *chip,
 -- 
 2.51.0
 
