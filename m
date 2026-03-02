@@ -1,160 +1,109 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B941E2D060B;
-	Sun,  1 Mar 2026 21:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772401220; cv=pass; b=dsSMcmCwx9mSi3r8ZhkcICT19NS2wQ6DgsNfJnnm6cCVPolqm7CygfdkO2yxbLOKflfnu0h3Ez6fAxJM0Sto1+DEg3QOanmm+kI9sJBy7KoJDmQedl03IrOUz0iufnzRhzYZBNd1PnZyTmITqtf3JGWdheOwtxIAd38xXBwtVbo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772401220; c=relaxed/simple;
-	bh=A5QVI4sc3toPzsBJ0eGEdjAvm937Zw+ZKOz9Z1bfWys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eEENI+H/k6ATT3w8sbC18HyMipIW7Kn5oJvGugh6TEwbY7DCLObu167AXmHbkwFnaONFOd1ex8FIdVJa2QtnKHt7InF/gW1hjwmULte3jVRVi4h0Ua6LkwOEjrr0RjOWFcveZHY7H22gWXlWUWadtObxQ7rBUXBW7/ELfpHYJSI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=Lei5bRoz; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD254183CC3;
+	Mon,  2 Mar 2026 00:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772411274; cv=none; b=ps1N2ewQYScVyaYszYKbUXTpyAsBHfcIPPGaY8GO/WqVIhAR6HJRSOKLUAcEkrIh53Pr1zhzLReYwyVwG+0kiJjgdT10k5ohl3Rph8SLqmRrKpWx1Y6CZ0dVf/nTWAJSZmCZQU8l6wHq64DbtzucZ199fpalS/3DN2tbsoQtswo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772411274; c=relaxed/simple;
+	bh=Pns+Gig1BWJSqDMXsjGA6andnLvpaxx09TdwPTjU55g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UZHZp1wkJKyBMObNjnOTGv5tkjC4/ujSP2s+jxgYkyvs9+Q7siOKZfPKRyOtut26VXRlasMzmaZHvqiGpKagf80MqhWezbhE8BrOTbmXZZjtLMyBIio5BKJdw68jYxm4Oak7f1wls2k1Pi1hq/hcjb5F1dvdPnzXF1V/5W5SXLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EjtZn7Aa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="Lei5bRoz"
-ARC-Seal: i=1; a=rsa-sha256; t=1772401086; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=AkufcGUvDYmFgTf+4E+ZxuYgHHmDSaJ/tS2bxjK+ClXMmVhalnSQjwpzEBKuv4XZDIFxDrsV6yQKN0gwKfk0yDsvGVlodyv0Dq0gN3DzerrJWlAQfy4f3dOZ0MV+xx2LJ80zBE1ue3GKyq/kzueDKiWBfMqM7/AAjJ/kQNlH/dk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772401086; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/BvEQBitzjedx/UMLrqh7LvNZcltcVro9BjyKn24tic=; 
-	b=YS3X/CWsP8v8/q3DqJH6wH7Lr5jG95xgeZItF5ptG6POuFrAeEL5HJEq6jtD1ughnSTQsxbR/kNzU9qOyF/aEXEl0BrcwQ/YYfxMNYsfQjTDdyvfS6adpjlbj1Dgyq68d8NZhc6Dx6n/NE+AkUzbZ34pOYcQsukD+1+zefQRKgo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772401086;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/BvEQBitzjedx/UMLrqh7LvNZcltcVro9BjyKn24tic=;
-	b=Lei5bRozpthnVLtXlK4V2HXOxe4dUcBZwg4uiy5wY4UE/GM21DdQdrv3C7tnqtk0
-	BDl3QvUV8WTyWD0gjTYGUR6qDT0hvu32MPourBU0mWWXMkPibqzQwRuYQnVsXQIzpEO
-	my5hg1pkAPvmwk4+29f11UOxdioFUS4+dq7a6fwfLbdoc4Jc1bpgTpyK+VW6KGoy8EP
-	/GDn+T87QxHdNvwtumLOfG8ktl2VDpqGe5ZScuuQufNCb/H9u9gRfAWZqga2SRtg2y5
-	ChM+RNP5iSNjKbqveIq5M6vQcf7p/xcTut2GQfn9zgXHgGeixwFa3TqxN+j4x4mxO1B
-	L0AVjSm1Wg==
-Received: by mx.zohomail.com with SMTPS id 1772401084192965.1066787772661;
-	Sun, 1 Mar 2026 13:38:04 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EjtZn7Aa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8EEC116C6;
+	Mon,  2 Mar 2026 00:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772411274;
+	bh=Pns+Gig1BWJSqDMXsjGA6andnLvpaxx09TdwPTjU55g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=EjtZn7AaXiIU2Ks2SxjbV1LgW/hXT8bmYzHXEb91QrW0MDYwU5i3yjwu31XlQXr/+
+	 cl5+dWxBDhFArVxrZ77ImiU6MLDVYrimHtUcgsWKnfXhgfJr+R1hJnwzcKDn+izlHJ
+	 YltjyggOMjkjkDbDycQSpjLu3SsHHKexwU6tY/xF+E0DenRaySoNiWUueHXxSEg3hE
+	 9X2cgbajLIaz5vrCxD5UoTerJyGusi22Gxcw+TyifyZa9hPtQZvT3ewKFd18js4S1g
+	 KJbr9EEUCFaUBJ4r3hWVMlGQnRu0MQ3kZ0jnGNnPDb4wOkbDQ1rJj0+UW+vXENIium
+	 yce6JBBlvZa4Q==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	hanguidong02@gmail.com,
+	ysato@users.sourceforge.jp,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	abelvesa@kernel.org,
+	srini@kernel.org,
+	s.nawrocki@samsung.com,
+	nuno.sa@analog.com
+Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 9/9] ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
-Date: Mon,  2 Mar 2026 05:37:25 +0800
-Message-ID: <20260301213726.428505-10-i@rong.moe>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260301213726.428505-1-i@rong.moe>
-References: <20260301213726.428505-1-i@rong.moe>
+	imx@lists.linux.dev,
+	linux-hwmon@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/3] driver core: generalize driver_override infrastructure
+Date: Mon,  2 Mar 2026 01:25:55 +0100
+Message-ID: <20260302002729.19438-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
-Many devices built on top of their SDK share a common quirk that the
-Playback and Capture mixers use linear volume with val = 0/4096/1.
+Currently, there are 12 busses (including platform and PCI) that duplicate the
+driver_override logic for their individual devices.
 
-The SDK seems to always report "MV-SILICON" for manufacturer string.
-Hence, match it so that we don't need to define quirk table entries
-separately for each devices. The "val = 0/4096/1" pattern is also
-checked against before applying the quirk, in order that the quirk won't
-accidentally break unseen variants.
+All of them seem to be prone to the bug described in [1].
 
-Quirky device samples:
+While this could be solved for every bus individually using a separate lock,
+solving this in the driver-core generically results in less (and cleaner)
+changes overall.
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: G1
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+Thus, move driver_override to struct device, provide corresponding accessors for
+busses and handle locking with a separate lock internally.
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: mvsilicon B1 usb audio
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+In particular, add device_set_driver_override(), device_has_driver_override(),
+device_match_driver_override() and a helper, DEVICE_ATTR_DRIVER_OVERRIDE(), to
+declare the corresponding sysfs store() and show() callbacks.
 
-  usb 5-1.4: New USB device found, idVendor=8888, idProduct=1719, bcdDevice= 1.00
-  usb 5-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 5-1.4: Product: HF310 USB Audio
-  usb 5-1.4: Manufacturer: MV-SILICON
-  usb 5-1.4: SerialNumber: 20190808
+Until all busses have migrated, keep driver_set_override() in place.
 
-  usb 7-1: New USB device found, idVendor=2717, idProduct=5086, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: Redmi 电脑音箱
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+Note that we can't use the device lock for the reasons described in [2].
 
-  usb 2-1.2: New USB device found, idVendor=3142, idProduct=a601, bcdDevice= 1.00
-  usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 2-1.2: Product: fifine Microphone
-  usb 2-1.2: Manufacturer: MV-SILICON
-  usb 2-1.2: SerialNumber: 20190808
-  * https://forum.ubuntu-it.org/viewtopic.php?t=659345
+This patch series includes the migration of the platform bus; patches for all
+other affected busses still need to be extracted as a follow-up of the WIP
+treewide patch in [3].
 
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/mixer_quirks.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=220789
+[2] https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=driver_override
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 539044c0c6440..e97814dc90259 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4588,6 +4588,24 @@ static void snd_dragonfly_quirk_db_scale(struct usb_mixer_interface *mixer,
- 	}
- }
- 
-+static void snd_usb_mv_silicon_quirks(struct usb_mixer_interface *mixer,
-+				      struct usb_mixer_elem_info *cval,
-+				      struct snd_kcontrol *kctl)
-+{
-+	if (cval->min == 0 && cval->max == 4096 && cval->res == 1) {
-+		/* The final effects will be printed later. */
-+		usb_audio_info(mixer->chip, "applying MV-SILICON quirks (0/4096/1 variant)\n");
-+
-+		/* Respect MIN_MUTE set by module parameters. */
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL;
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL;
-+	} else {
-+		usb_audio_dbg(mixer->chip, "not applying MV-SILICON quirks on unknown variant");
-+	}
-+}
-+
- /*
-  * Some Plantronics headsets have control names that don't meet ALSA naming
-  * standards. This function fixes nonstandard source names. By the time
-@@ -4664,6 +4682,10 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- 		break;
- 	}
- 
-+	if (cval->control == UAC_FU_VOLUME &&
-+	    !strncmp(mixer->chip->card->longname, "MV-SILICON", 10))
-+		snd_usb_mv_silicon_quirks(mixer, cval, kctl);
-+
- 	/* lowest playback value is muted on some devices */
- 	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE)
- 		if (strstr(kctl->id.name, "Playback")) {
+Danilo Krummrich (3):
+  driver core: generalize driver_override in struct device
+  hwmon: axi-fan: don't use driver_override as IRQ name
+  driver core: platform: use generic driver_override infrastructure
+
+ arch/sh/drivers/platform_early.c |  6 ++-
+ drivers/base/core.c              |  2 +
+ drivers/base/dd.c                | 60 +++++++++++++++++++++++
+ drivers/base/platform.c          | 35 ++------------
+ drivers/bus/simple-pm-bus.c      |  4 +-
+ drivers/clk/imx/clk-scu.c        |  3 +-
+ drivers/hwmon/axi-fan-control.c  |  2 +-
+ drivers/slimbus/qcom-ngd-ctrl.c  |  6 +--
+ include/linux/device.h           | 81 ++++++++++++++++++++++++++++++++
+ include/linux/platform_device.h  |  5 --
+ sound/soc/samsung/i2s.c          |  6 +--
+ 11 files changed, 161 insertions(+), 49 deletions(-)
+
+
+base-commit: 78437ab3b769f80526416570f60173c89858dd84
 -- 
-2.51.0
+2.53.0
 
