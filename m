@@ -1,168 +1,331 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011026.outbound.protection.outlook.com [52.101.52.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4794F1E1DE5;
-	Mon,  2 Mar 2026 08:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B930E38BF60
+	for <linux-sound@vger.kernel.org>; Mon,  2 Mar 2026 08:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772441692; cv=fail; b=jAt7VN6z/lGAnysSrlFSgMWpjPaWhBjCtbwdU80uQSuc7oF1b5doO3U1BmaKXcDT2k/M9fu96Dajcy/so57Em2LAAM7DV/yJmiiCnSYoSPtuZdTkNp0erDb5ZN6IiHmCKQOZNRq86ZWs8uEH78NcMyTQAJvtkoU6p1yzIHxunM0=
+	t=1772441717; cv=pass; b=CVjJBiOGr9SmuTN6lJYI3olVjguT/EuWIiNf+ev9Gi70zj8fVD9f1DuP9z4uws0XpcBaIzTpM/kTzZAWmVSXhV9SVZWgzx5yiWrtYXGs5Qcw4cpxONlFG3JkvwGNsXB1+EJ8dO8nWYUp1R9xUBlhZ6iJ4OM5QBXIXDy63czFzeM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772441692; c=relaxed/simple;
-	bh=QQWl2JmI7KmG/LcS7heFMzKFjo5iYKupNstn32D0L2E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dr3eW5x35v5WUMRq/czosSquPUCOiZA3/zKPW8twLJ5dxbBdsDJP631nT44zK23czobf8A3lLacp1U6TZ1KNzKFYvjixyGayrQpC7/Uz7gNVJ+e9iC4w36tb8EG84n9rhOz6fZGQAw+XeTYFhBmlt2EQDvWedtuea+M3xJhRoWo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f2hjdS/m; arc=fail smtp.client-ip=52.101.52.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1772441717; c=relaxed/simple;
+	bh=bFpTLNONMCtq/hflXyzdrakhOOHzGsAXXxv5XUvHc6c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=omlGl3uUBU23rS+L/mtz9soes7TCZfmA/UlbQpNrOP2HWSj1oJGV9dxQ9fN0ebnmQGMKAEpqo4Dfe/LD4HkIEf564ptF2oc6Y7qnxbhk6KDsoWfPW7L1EWjwRs8DVi0EVTw9lmwFsucegCllA21B9ePIs8rE22eCheCPuND7jyA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PLcp4fjs; arc=pass smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f2hjdS/m"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SFPtrTPqML7N9jQdE2fHHmkvPaQN1UdSzRC7yBO/zzXUn8B5WNhwbktZfPdek/WCbU+D9IFNiWADzhqnYwjrG1bl9poJsiGPLG5pBlzgpnKO5GN2rMS+Q32nyDY2tf11FbaYNq3oQk07q4+ME/Nu34vKOWfgod0Tl0AAf/3xsy9p43xk8qBfI/lR5WL7WnYEmo5qoGdP6C86DNZyfX3a3pU44c3tQX+4laqmuwVLihRpIU4SqWDJpNEnzknQFmXln2ED3/AQJ7Pl5cqgsUDHVjCQvMERRg7Hwt2U8Bodv6cDv1gJklnzm+MWjEVRKfiRufJ1YocYwKFEUCsDJSrv2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+JUjC3eslQe/SgNeXLuwem+FCMfis02f9Rmdi55NedI=;
- b=iAEgX8m40Fzh3a2tKiDvH5DazLbQbznJSGur5DmDgPeMaU/WSgdgwcfSB4bBGI4tttWVLyRcvnEFRT5rB+YVtn0w/RR4Fx75ynDowGwvErQVB86e3b7UatJLQds37bnAgj1HHUd0rw3Uy7hgAbMFSsquS+jphF3JkX3ZgknDbhv+pNdZxBng9FWq62Z4bJk8AwGxisVxKVa5YYgDoOqFAP96RffcpE9Gk4PsQPnd5z6Zvlu9/1nTNYsh2mZVozYDKrjaud8/xv1mMdFQfNO6kdKMN6bnNzLogVJBwp8zw0IoHWvTV0BVXTxOtLufntcNmXICNq9SvVdoM0OSuk7Vyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+JUjC3eslQe/SgNeXLuwem+FCMfis02f9Rmdi55NedI=;
- b=f2hjdS/mYc++Mb03hlzW2QbD/73ox3Tn6t2T9aj+YahnggCugzv/kG97oW5RsQvd2Ce4N7u9Og6sajPumH+b4R92Nb9wM/OnyM6ozzN080gbjRh5WQkjFpNK8QRpH5Y1gt6s5sartJn+746dFPVrYibLzZIMpXERqbiNcxr/ANEsZEzs9EKYKJQSSwOZYqPB/LHIsbXsylOGZJqvSyfdxxj8zU8+2NbZ62N4AApmhCpX0bt4M208j8JAJWpN9/qpwxJUHRdkcc4JD5Gz5Fpkvv3PqsEhWrcCfzGrouRl+XGan6CD3R4moyDaXlGHh4uD8iyM5HZQ6NVBxcyqIlTtdQ==
-Received: from CH0P223CA0007.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:116::31)
- by SA1PR12MB9516.namprd12.prod.outlook.com (2603:10b6:806:45b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Mon, 2 Mar
- 2026 08:54:43 +0000
-Received: from CH2PEPF0000009F.namprd02.prod.outlook.com
- (2603:10b6:610:116:cafe::ff) by CH0P223CA0007.outlook.office365.com
- (2603:10b6:610:116::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20 via Frontend
- Transport; Mon, 2 Mar 2026 08:54:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH2PEPF0000009F.mail.protection.outlook.com (10.167.244.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 08:54:43 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Mar
- 2026 00:54:25 -0800
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 2 Mar
- 2026 00:54:24 -0800
-Received: from sheetal.nvidia.com (10.127.8.13) by mail.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Mon, 2 Mar 2026 00:54:20 -0800
-From: "Sheetal ." <sheetal@nvidia.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>
-CC: Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Sameer Pujar <spujar@nvidia.com>, Mohan kumar
-	<mkumard@nvidia.com>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Sheetal <sheetal@nvidia.com>, Aditya Bavanari
-	<abavanari@nvidia.com>
-Subject: [PATCH 2/2] ASoC: tegra: Add support for Tegra238 soundcard
-Date: Mon, 2 Mar 2026 14:23:23 +0530
-Message-ID: <20260302085323.3139571-3-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260302085323.3139571-1-sheetal@nvidia.com>
-References: <20260302085323.3139571-1-sheetal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PLcp4fjs"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d4c7d04890so3958674a34.3
+        for <linux-sound@vger.kernel.org>; Mon, 02 Mar 2026 00:55:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772441715; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LywuGFiLOwFBZfvfsWDZ/dPM0CCxrULZCtAB3vHu/sJB2Y+69c3MVN0laBJqIyQu0D
+         4nbyF5caCulsoy20NyX+mh7zrsk+IeWYMFzXZhbgtkjn95KZIGltag4/Q83wB2JNndVh
+         o/KvhRuzZnYnubgT3QsqybxyrvMpptzZMOvO/yVE4LoBcea1NUnlgBXnwSKPI7Leofnk
+         f83Y+3b3Do4MlKdpwYeYgAOnjr21QqH0M8iJS3iBOBg5Vmi1Wm+y7Lcdq6AnRB8+uNSQ
+         4SXh1v8lBkpCicVbNvRHV1ONSg2ywtADSP5nrhKjCwtKpXeqsiV3c5f5jlbYTGXg5pIq
+         8p0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ePit+T4AFW9LmVvwSqNQ9rEOMAXI8L897EaFC+SIDkg=;
+        fh=jsvWox3q4bAl4O3+pQ8/G59ONOTkI3u8FX+ZHxr7ytQ=;
+        b=PYHG7Tpfer9ClOVAm5LJhovEDmIdFLWPcfA4N0kEMUa/dENRCxUdRs2awIT7B/W9T2
+         fZ7GEmDOpKe/6oMXh6iBLn02N+5E1ZsPzh7Zd4OP9MjJi4Jplnq2+cBcNT8DDfbssm58
+         r6OTsKrkDf7NtHf5515hSfQ8Ig2wWxPJaglbE9r4MgZbszzNGZx7eJ6rhmy8z2ElQsgD
+         ST6sX6n7WJYKNvX/it/ggSHbrswKzxvYBJnfEAsaMQlFUcztJODmI48l2xESiLnRsCXX
+         Go8qagRljK4gHoKjyABtH3EPBIG9yjuzik0+iLiHABTV5KRYbdbWHcQokOIPfPlkMheq
+         ti6w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772441715; x=1773046515; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ePit+T4AFW9LmVvwSqNQ9rEOMAXI8L897EaFC+SIDkg=;
+        b=PLcp4fjs+mIqjl/yN0Ko9QvKE7iPRmNGo8QohIukOXiu/PTvlxChDMi5rZ/MPygrsG
+         U8lSQQJOQjuxVcghG6DkxEicrqP4W6F6Ak2RIHFX5+ZYq43WBILPPEm+JXcLxr8qhx3s
+         fYVPSPdAGr03YjfS9E+tIGI2DmNLqFfI7/la8N1bYOER7fEA84B2boMW687Dyb6dsE+j
+         ZWa3UQHg0Bkvyzjoyjd4dYFnSmuSfjmZ85JNHFVN9kTIKx+hQcuJlsxdAduLCMjQTWX5
+         DGEvs6Ca0TL+ApoIvgnux4AL6FTOmHF++hWRB1Uz6bj1ll1diD4aJ66Afexena3bRUZc
+         wucg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772441715; x=1773046515;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ePit+T4AFW9LmVvwSqNQ9rEOMAXI8L897EaFC+SIDkg=;
+        b=L38NPRG06mUGuqd8OMUOnFt2wLIfd9M6T38e5obTFeywohc/arv9TqweA4eOumQmA2
+         cfytUPsrr30b/4RWxQuOi0yiFqiTYx+VeGSyRzbcf07qzAenn+rp1rXYUbItglLKbfdj
+         nWZ+GzzBe8GspxjdICMdxKDhuon+fsuVf+YsUgeDfyG1G+po9dJ4RDuA0QwRH61oKD9L
+         PwVcbEqtOsH/EFqaUrRHNA6AVFLO/rgtxdtlZqCwvN/lYJp8Ito3sK87iLHOCkesb/qE
+         m9QsClHz31kE79s0FDF63Oc90MjjmZglszRw3AncZ+7sSSTQ/rVnjr1e/muKCOjQht7R
+         +hbw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsEPAMRS8Z8UFUNQ1EXUUr/fWWVUZtDcGXv2dT8OCN7LkswPBZnlS5uTklfwSdKGoAhFG/RpYkdGMKlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFbkKDZB3te7KdoYtKIRBaohxVLbHhkdm20viGAtjEyfyWZilX
+	aPm9Leq7VpjBUyDa1xHvJp9FFUuAIri4RHa9WIGM6zJX48JF2bn8xxiWVvuQkT7ENOm0HtRmSIb
+	BfHnbJ5rNKRB1/yNSzt7uWpk1rauRPQQ=
+X-Gm-Gg: ATEYQzysu0Df2bxZ8U09fg2eHGOp3Ss/k/9ur3L9STLsdmTFOEXJ7rDsn0ByX5za/Jr
+	DnAqkyiI7PAvIvOcz70H4OHOg/Mr3VsI2YVODJgCc0Byq/+LSQarke8PT6yi5mo4C9SvsLsQEiV
+	VH70Uw/XfTd2jR7cG3TstFQJ9x5PZTxYWsu34Cvr5d38+bcTqmjG08Pu3dyqZboQx1H0ySxFmjM
+	ccGpPNEc4fL/LUuKa+/xTL7O34hPjLy1osi6mS8wlsSTjMnaJ6gHeNLCqc86j8uKD9RUX1vjMf4
+	rxDsAns6R/6V9cTUpxtcag0CA5W+Dawpu8THucwD0yFtvaeCfHJcz0a23sZBBkolTtGJiUZ4EZY
+	=
+X-Received: by 2002:a05:6870:330b:b0:3d3:d18f:8920 with SMTP id
+ 586e51a60fabf-41626fba307mr7800002fac.31.1772441714550; Mon, 02 Mar 2026
+ 00:55:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000009F:EE_|SA1PR12MB9516:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5094acb-c8be-4067-839f-08de78395906
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	ueoWEVsHbOXkcBp6X8E9uHb/DeBgbSN1QKOGhFjiC6yLw8j/S9VbcEbZbrWmLz3X6eusmpeyHHtORl5+jD3/v32XfwBVyVkFtJ26AwTo/CaJynWDbdEGI94Sl5TIorwMD0XMryRcxXI289b82+OFqK2LVRzEpaW1HpArc210UoslIT74SBvNI0Yu9PdTl8/gWK/mFReO+LNKLPfGa/bPXVeFyCixw6Ji1GV26lDXFe3bZyuqqjMO5EJF+KhUHWQNJMiiGq+51dJ0cD8DbfUsBqwzyrgfUr99hEH/MMrnL+8ltrATtrbt1ews1pWWDlK2sE0Kd5JYjTYyY0zOQXnCEi3pyGx95zJUTqHDOKmmuBFnudvlxX3/Sn974qDNmoGqo+vRHKahJ3tzd4vfBaevySRWLNRAvuq1/pApOsoAtfz30gHAwhjdGmB4nlkDkaLVI/K2MZ6JoLow47nnnMbsPC0kc5F1MGVIm6rpz2RfMQ52WDu9yKPuarPfMG66RadXol9fPPOASdEt26N9/JwnXe6mAJIw3oqhJMmaP7FhAUg4+5VDMi/b402W25aP65WJzU3GJYV+9Ff79saKDXndmK2zwmNjLF3ggBhtzwHvCfsUF25jCJVMPatVNIzj6pxJASsayDIPPb8B5Lr52hk2cZaPqA/Y3pf/V1kmQxNfc3ZCOBxtWFFTgJ4Xd9E6JNqpvvWErVEC/KGr+/sokD0ezC0ESTQHQ9q09zjUZQWX5v9wD6RKRUC2PZCKOo9RD7s1nY/GKg87yW+xZlgOlu8C4LE1mnCbdRYmTDzulRVLwnwaGC6yeABOeG8/5gPpGq2qSF2MBK34LLdUu/C6fF5ndw==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Yk3eRSEpvJA3SxQ1Q1HrMPq9cKJPpw2UyFruTFeenTGLkP1pRRgah3sVxtKAca9sSBqAmr0kZEoBSbndffLWO/Rdhj/hWaE27yQiuD5HWkuMGceflGNd8w+NHN025E9SwpBktJk7umxtgW191XdYQX99L7KV/2iuUtToA/qCyCK/j2zOpZ7HDYxVavVLVO5b6Sq63253+sQomToeH5SJUak20y7MgfGOlOj09Fp2uhIE0XwzCbsBhXLJuaDewDW7noGDlaRvhGUs5V16Nh76Lk7G7tF4wwvpzJQ7M6eoHbuklED4CeKu66kOHoJSD8rGH1DQZdTKFstcYE3qWiGl6PSN17YMBucXtO2OmWC4nlDHGJYdB6imI7vmvAgn4P8Uqxc0ixdmrR9bTQyBgaqOvZN23/GsbA82UFGR6JajSyAb3TbnkA/ZXAzKGUwe6T+2
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 08:54:43.3729
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5094acb-c8be-4067-839f-08de78395906
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000009F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9516
+References: <20260302002729.19438-1-dakr@kernel.org> <20260302002729.19438-4-dakr@kernel.org>
+In-Reply-To: <20260302002729.19438-4-dakr@kernel.org>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Mon, 2 Mar 2026 16:55:04 +0800
+X-Gm-Features: AaiRm51xUTuS6Qp9H7dqDZ552mwa44_EA1IClTLmHMV7GPVb6Uir69uksp6caw0
+Message-ID: <CALbr=LbNE+aviHf+EwZNohzm86skWJu=adQsHaM98vQyKUAyvQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] driver core: platform: use generic driver_override infrastructure
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ysato@users.sourceforge.jp, 
+	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org, 
+	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sh@vger.kernel.org, Wang Jiayue <akaieurus@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Sheetal <sheetal@nvidia.com>
+On Mon, Mar 2, 2026 at 8:28=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+>
+> When a driver is probed through __driver_attach(), the bus' match()
+> callback is called without the device lock held, thus accessing the
+> driver_override field without a lock, which can cause a UAF.
+>
+> Fix this by using the driver-core driver_override infrastructure taking
+> care of proper locking internally.
+>
+> Note that calling match() from __driver_attach() without the device lock
+> held is intentional. [1]
+>
+> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kern=
+el.org/ [1]
+> Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D220789
+> Fixes: 3d713e0e382e ("driver core: platform: add device binding path 'dri=
+ver_override'")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Tegra238 platforms use different clock rates for plla and
-plla_out0 clocks. Add Tegra238 support in the Tegra
-sound card driver to apply specific clock configurations.
+Looks good to me.
 
-Signed-off-by: Aditya Bavanari <abavanari@nvidia.com>
-Signed-off-by: Sheetal <sheetal@nvidia.com>
----
- sound/soc/tegra/tegra_audio_graph_card.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+One minor note for the commit message: this UAF can also be triggered
+from the bind_store path, not just __driver_attach(). It would be good
+to mention this as well.
 
-diff --git a/sound/soc/tegra/tegra_audio_graph_card.c b/sound/soc/tegra/tegra_audio_graph_card.c
-index 94b5ab77649b..b6dadd6a3d3d 100644
---- a/sound/soc/tegra/tegra_audio_graph_card.c
-+++ b/sound/soc/tegra/tegra_audio_graph_card.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--// SPDX-FileCopyrightText: Copyright (c) 2020-2025 NVIDIA CORPORATION. All rights reserved.
-+// SPDX-FileCopyrightText: Copyright (c) 2020-2026 NVIDIA CORPORATION. All rights reserved.
- //
- // tegra_audio_graph_card.c - Audio Graph based Tegra Machine Driver
- 
-@@ -231,6 +231,15 @@ static const struct tegra_audio_cdata tegra186_data = {
- 	.plla_out0_rates[x11_RATE] = 45158400,
- };
- 
-+static const struct tegra_audio_cdata tegra238_data = {
-+	/* PLLA */
-+	.plla_rates[x8_RATE] = 1277952000,
-+	.plla_rates[x11_RATE] = 1264435200,
-+	/* PLLA_OUT0 */
-+	.plla_out0_rates[x8_RATE] = 49152000,
-+	.plla_out0_rates[x11_RATE] = 45158400,
-+};
-+
- static const struct tegra_audio_cdata tegra264_data = {
- 	/* PLLA1 */
- 	.plla_rates[x8_RATE] = 983040000,
-@@ -245,6 +254,8 @@ static const struct of_device_id graph_of_tegra_match[] = {
- 	  .data = &tegra210_data },
- 	{ .compatible = "nvidia,tegra186-audio-graph-card",
- 	  .data = &tegra186_data },
-+	{ .compatible = "nvidia,tegra238-audio-graph-card",
-+	  .data = &tegra238_data },
- 	{ .compatible = "nvidia,tegra264-audio-graph-card",
- 	  .data = &tegra264_data },
- 	{},
--- 
-2.34.1
+Reviewed-by: Gui-Dong Han <hanguidong02@gmail.com>
 
+> ---
+>  arch/sh/drivers/platform_early.c |  6 ++++--
+>  drivers/base/platform.c          | 35 +++++---------------------------
+>  drivers/bus/simple-pm-bus.c      |  4 ++--
+>  drivers/clk/imx/clk-scu.c        |  3 +--
+>  drivers/slimbus/qcom-ngd-ctrl.c  |  6 ++----
+>  include/linux/platform_device.h  |  5 -----
+>  sound/soc/samsung/i2s.c          |  6 +++---
+>  7 files changed, 17 insertions(+), 48 deletions(-)
+>
+> diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_=
+early.c
+> index 143747c45206..3cd17bb0be67 100644
+> --- a/arch/sh/drivers/platform_early.c
+> +++ b/arch/sh/drivers/platform_early.c
+> @@ -25,10 +25,12 @@ static int platform_match(struct device *dev, struct =
+device_driver *drv)
+>  {
+>         struct platform_device *pdev =3D to_platform_device(dev);
+>         struct platform_driver *pdrv =3D to_platform_driver(drv);
+> +       int ret;
+>
+>         /* When driver_override is set, only bind to the matching driver =
+*/
+> -       if (pdev->driver_override)
+> -               return !strcmp(pdev->driver_override, drv->name);
+> +       ret =3D device_match_driver_override(dev, drv);
+> +       if (ret >=3D 0)
+> +               return ret;
+>
+>         /* Then try to match against the id table */
+>         if (pdrv->id_table)
+> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> index b45d41b018ca..22ae87921a7a 100644
+> --- a/drivers/base/platform.c
+> +++ b/drivers/base/platform.c
+> @@ -603,7 +603,6 @@ static void platform_device_release(struct device *de=
+v)
+>         kfree(pa->pdev.dev.platform_data);
+>         kfree(pa->pdev.mfd_cell);
+>         kfree(pa->pdev.resource);
+> -       kfree(pa->pdev.driver_override);
+>         kfree(pa);
+>  }
+>
+> @@ -1306,33 +1305,7 @@ static ssize_t numa_node_show(struct device *dev,
+>  }
+>  static DEVICE_ATTR_RO(numa_node);
+>
+> -static ssize_t driver_override_show(struct device *dev,
+> -                                   struct device_attribute *attr, char *=
+buf)
+> -{
+> -       struct platform_device *pdev =3D to_platform_device(dev);
+> -       ssize_t len;
+> -
+> -       device_lock(dev);
+> -       len =3D sysfs_emit(buf, "%s\n", pdev->driver_override);
+> -       device_unlock(dev);
+> -
+> -       return len;
+> -}
+> -
+> -static ssize_t driver_override_store(struct device *dev,
+> -                                    struct device_attribute *attr,
+> -                                    const char *buf, size_t count)
+> -{
+> -       struct platform_device *pdev =3D to_platform_device(dev);
+> -       int ret;
+> -
+> -       ret =3D driver_set_override(dev, &pdev->driver_override, buf, cou=
+nt);
+> -       if (ret)
+> -               return ret;
+> -
+> -       return count;
+> -}
+> -static DEVICE_ATTR_RW(driver_override);
+> +DEVICE_ATTR_DRIVER_OVERRIDE();
+>
+>  static struct attribute *platform_dev_attrs[] =3D {
+>         &dev_attr_modalias.attr,
+> @@ -1377,10 +1350,12 @@ static int platform_match(struct device *dev, con=
+st struct device_driver *drv)
+>  {
+>         struct platform_device *pdev =3D to_platform_device(dev);
+>         struct platform_driver *pdrv =3D to_platform_driver(drv);
+> +       int ret;
+>
+>         /* When driver_override is set, only bind to the matching driver =
+*/
+> -       if (pdev->driver_override)
+> -               return !strcmp(pdev->driver_override, drv->name);
+> +       ret =3D device_match_driver_override(dev, drv);
+> +       if (ret >=3D 0)
+> +               return ret;
+>
+>         /* Attempt an OF style match first */
+>         if (of_driver_match_device(dev, drv))
+> diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
+> index 3f00d953fb9a..c920bd6fbaaf 100644
+> --- a/drivers/bus/simple-pm-bus.c
+> +++ b/drivers/bus/simple-pm-bus.c
+> @@ -36,7 +36,7 @@ static int simple_pm_bus_probe(struct platform_device *=
+pdev)
+>          * that's not listed in simple_pm_bus_of_match. We don't want to =
+do any
+>          * of the simple-pm-bus tasks for these devices, so return early.
+>          */
+> -       if (pdev->driver_override)
+> +       if (device_has_driver_override(&pdev->dev))
+>                 return 0;
+>
+>         match =3D of_match_device(dev->driver->of_match_table, dev);
+> @@ -78,7 +78,7 @@ static void simple_pm_bus_remove(struct platform_device=
+ *pdev)
+>  {
+>         const void *data =3D of_device_get_match_data(&pdev->dev);
+>
+> -       if (pdev->driver_override || data)
+> +       if (device_has_driver_override(&pdev->dev) || data)
+>                 return;
+>
+>         dev_dbg(&pdev->dev, "%s\n", __func__);
+> diff --git a/drivers/clk/imx/clk-scu.c b/drivers/clk/imx/clk-scu.c
+> index a85ec48a798b..9b33df9967ec 100644
+> --- a/drivers/clk/imx/clk-scu.c
+> +++ b/drivers/clk/imx/clk-scu.c
+> @@ -706,8 +706,7 @@ struct clk_hw *imx_clk_scu_alloc_dev(const char *name=
+,
+>         if (ret)
+>                 goto put_device;
+>
+> -       ret =3D driver_set_override(&pdev->dev, &pdev->driver_override,
+> -                                 "imx-scu-clk", strlen("imx-scu-clk"));
+> +       ret =3D device_set_driver_override(&pdev->dev, "imx-scu-clk");
+>         if (ret)
+>                 goto put_device;
+>
+> diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-c=
+trl.c
+> index 9aa7218b4e8d..1ed6be6e85d2 100644
+> --- a/drivers/slimbus/qcom-ngd-ctrl.c
+> +++ b/drivers/slimbus/qcom-ngd-ctrl.c
+> @@ -1535,10 +1535,8 @@ static int of_qcom_slim_ngd_register(struct device=
+ *parent,
+>                 ngd->id =3D id;
+>                 ngd->pdev->dev.parent =3D parent;
+>
+> -               ret =3D driver_set_override(&ngd->pdev->dev,
+> -                                         &ngd->pdev->driver_override,
+> -                                         QCOM_SLIM_NGD_DRV_NAME,
+> -                                         strlen(QCOM_SLIM_NGD_DRV_NAME))=
+;
+> +               ret =3D device_set_driver_override(&ngd->pdev->dev,
+> +                                                QCOM_SLIM_NGD_DRV_NAME);
+>                 if (ret) {
+>                         platform_device_put(ngd->pdev);
+>                         kfree(ngd);
+> diff --git a/include/linux/platform_device.h b/include/linux/platform_dev=
+ice.h
+> index 813da101b5bf..ed1d50d1c3c1 100644
+> --- a/include/linux/platform_device.h
+> +++ b/include/linux/platform_device.h
+> @@ -31,11 +31,6 @@ struct platform_device {
+>         struct resource *resource;
+>
+>         const struct platform_device_id *id_entry;
+> -       /*
+> -        * Driver name to force a match.  Do not set directly, because co=
+re
+> -        * frees it.  Use driver_set_override() to set or clear it.
+> -        */
+> -       const char *driver_override;
+>
+>         /* MFD cell pointer */
+>         struct mfd_cell *mfd_cell;
+> diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
+> index e9964f0e010a..140907a41a70 100644
+> --- a/sound/soc/samsung/i2s.c
+> +++ b/sound/soc/samsung/i2s.c
+> @@ -1360,10 +1360,10 @@ static int i2s_create_secondary_device(struct sam=
+sung_i2s_priv *priv)
+>         if (!pdev_sec)
+>                 return -ENOMEM;
+>
+> -       pdev_sec->driver_override =3D kstrdup("samsung-i2s", GFP_KERNEL);
+> -       if (!pdev_sec->driver_override) {
+> +       ret =3D device_set_driver_override(&pdev_sec->dev, "samsung-i2s")=
+;
+> +       if (ret) {
+>                 platform_device_put(pdev_sec);
+> -               return -ENOMEM;
+> +               return ret;
+>         }
+>
+>         ret =3D platform_device_add(pdev_sec);
+> --
+> 2.53.0
+>
