@@ -1,193 +1,147 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C3532938D
-	for <linux-sound@vger.kernel.org>; Mon,  2 Mar 2026 09:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772444475; cv=pass; b=GbeSBCY9mkHRjw15jecrhM+kNoVWp90mYr2rpCPdHfmYbJJbW6OtOdmj5Jr1yaN6DsaLiDzQXMHqek4SAS9Ds814WHUE6YYrGu40+Owc5GkAJhVwIMU1YflqTlMgmZxcepvo1EvgoSlQkhouxTx3nQz9zgUuUCdmQYjZoLxTmRo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772444475; c=relaxed/simple;
-	bh=TBJ1yrzYQ1NnCqjl7xWYSvAiw/tj2uso2ls5/23iYEQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JkZGw/B0IGH50EWIdljTNUCW4wStUabTl6NnzYcxxw1tlBYEpJdvHqBw7jNL+sRTnQ1HxQDCdH1lS2EBHAXJTmKm0RuvZ6DbXfiP8yO5zkPkr1rs1UMA722lFobXIRKqPQzJx4FVJnlKrBqA94MuWrnDBsxFvUc5OauEtJMBJ50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KTw8UYEC; arc=pass smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0F938F645;
+	Mon,  2 Mar 2026 09:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772444698; cv=none; b=W/a4biXjET3tWLMTceNwTpOWL9ATq0yYFtPJh3H1amCXcT8FGWwGJHLdy9QUVbkSRR4yn1abJOaLtlJIhMLqmr+nD/0Qqykxl583Eqgkyy+26pJS5l2iMdLftdVlZV8spQM0s5AcCbiVVSdkKuN+CMiKJQN4YNxx7XdbPpF0f0c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772444698; c=relaxed/simple;
+	bh=YgrilhQNpe9Lj6ukah4A+zh/1X64Yb8snFI0f/+CLA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fh6iuLow5piWpa3FN4oYQHwF15Fpll3FHP0b8CmvzoYbSJ9ejrMCDNbnLyz7KvX3j+kuoIhzUhYqxmOyER5thKUxKbpaJlAz7SWzROozLtHPpF4ClOcbxfuVZmXFUrxaSEkMDOZYAHJu4VghVdgxRy+sQZKvbEAAp35qYsRdu/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLb60bEl; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KTw8UYEC"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d4c85307b2so3046934a34.0
-        for <linux-sound@vger.kernel.org>; Mon, 02 Mar 2026 01:41:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772444473; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TK10YOlIh7cJaTBcNfzZ2TtB8Mi9wN4GaLvoGXsimh2SnyOBJOvdhARanhZ7EYbMG1
-         uGBfcKy1YIwuJR7mb/w6RJiWHubiX9vhcJMszr4ilpS5LO0CwEsoxIak3VZ3tdWklrqf
-         qQwE5U1d4SUoQDMWH/tAzdS2bjlQBNmoeyPmrF17KHl3k8PLkae6B3H2X4DUXRzeliag
-         +xB+16sVlpGWc5q+9XSwl290bstGwbWNZR/itEDNNP3n2Wwb03yWjY8veN0uSJ4w4TkG
-         Qnk9is2ANMPlOp1+vOiRhSXAWRTcYDBF3X5dPhzhgnXdRy4jJawMBVBsqL6JzusXG0xP
-         ChWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WMS7e/VtXgxxHiT5+aAGAuDmBujfavKZuiOoKfzvjp4=;
-        fh=/FV892yf7XgRuV+HHL/f8s5l2EbOdbqb0BfrV9cbHNQ=;
-        b=lLbRtaZ59LxH1dN2lqgOqCISEz4p3MQnzgQ1lpZkOCMEEByroOyDzDwwTIwKsZHjCz
-         bSJQfg6dj5qeyzEScXMT+Jgxyg/ZYWGmXVk6vP6+aCH5MsZD5duOJ5F1nqB5LTDPMCga
-         PubBdBOLMZAbGoS06ZB7UwCFMmEqyM6HkpVnL8vvR5tB+HOcjFZ0K+1C3mUiCkVYMjCi
-         3EM3RlAhUw8sw16V0PklopIczDiRQP+6jJilYS4dJfHUjZQGCBuO3SZW2U7dBHXi57Ze
-         JDn3hkYO4toqTaoI1p8K9mcgiBxs0sr8INeZebx9lGI04Dej7Gt9rIAD18u/9ewywib2
-         wYjQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772444473; x=1773049273; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WMS7e/VtXgxxHiT5+aAGAuDmBujfavKZuiOoKfzvjp4=;
-        b=KTw8UYECl8rTlbQ/egk9PMarg7ENZ5K7KbRpMAy3WgiMlkYYc9nAU4b6k+ireh7Mue
-         SxU6TJaYsZcbzBdG1QayZIGULW5fcX2IA5N7OJ6vhgkC+BAQtULkuKh7w9Svy8sKv6Nz
-         HHD1f9oNAj2HkdYFiUrrfdQFIQt3dGvvcBloBUuzEKQfmKj+s0W7SH/JmbhPTc1aK9rP
-         OLOK961XHVbPj6kfBMHI45XN4fCdJOAxBZb3/yhzjd9h0miRaiXIl9wRUUHTSS/91SXC
-         deO0ClCYeVWWMT8/8BgBENdGPmD1nhtrktVrGql6RItE9Bqj3qURXyV0VVKRM8Ft2XOI
-         qffQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772444473; x=1773049273;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WMS7e/VtXgxxHiT5+aAGAuDmBujfavKZuiOoKfzvjp4=;
-        b=bOeZBkA5LrUMpQQcRwT22QzJATYgkt7aeNzFOt6XO0QShuwr+4M4A/ukP4H2/uY77j
-         4PSbs2j6G97xTD6U3UDZ5163n92qTi9TuC7ieei0IadORgzQ/L8BCLPODSVwDEl6vZuV
-         tA8JKYqcu+zFyJl920wgrQmWxohPKbLCMTh+whSQHN0p+HR+qBY5T3OYX6FdueDw1N+9
-         ijwq/RXtdV/euwNOFW9ZQxQBgem+ibKpNMjGXNqCMigr6o7yDw+QrXGoOmD0YTzEtf8K
-         aoEUa20StBE8IBPqahWWzfZQnOhsh9xGpLrm3jet2XoR6hBswzHWbfCe/j82fGrQMLYT
-         ycDg==
-X-Forwarded-Encrypted: i=1; AJvYcCX6T3VN6fP5BxjPY1+LIrLZf24aDtDUVqLaw6Sl/3PqNPFcMtnQrNMDyaDlQax1r866hG+xqXbS3TPPkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9l0Rsf8RUHMUPnYO/WHOjQKN8ZMjuC625CoLN2rbdQvoBBafE
-	toZb4JS+Jc8EuLzgPtpGp/pF20UEvOgw7FaqEkSdyMSJEntMLA4epDxdLPWh2zJy3faEsfWFG6Q
-	An57FhCG4K4CjT+P3zIx/dsfY+yrC8Lk=
-X-Gm-Gg: ATEYQzxqYdtGXo5IItioYwaYAJ8GrzgWOuT746ZD0NTBxsZ9vYNBuwIgENrcZ+bo2sT
-	8dllDExnQF0J2wV0gYWxQDWwcRuu6kdPR0XUTmrhzdz/R59GIJKWTa5qqeFYni10IxGpHsGpMCx
-	mJsMuHfw/j2BPhjxLfwgpTj0NUd+zZS9oR4wDToDVHSw7SHqGww1N7lsUKWXP/Zj4s+S2ACjugE
-	0CuNzfdo0M5hKxqz9C50/llM2bWX6Q/NGZzkCAfLFoNmJve8ogBII4ZYzvcUHbbd9CKl5dDw1Uw
-	r0ZLdloy/Eai/9QjICHJec4i1c6xDxOx/ktDP8lSOgUoKPZpln3LkxLoX8Y/EVA1HXLE/QKzsEI
-	=
-X-Received: by 2002:a05:6870:5ba3:b0:40e:e5c4:a4b2 with SMTP id
- 586e51a60fabf-41626e7efd7mr6527665fac.14.1772444473484; Mon, 02 Mar 2026
- 01:41:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLb60bEl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772444695; x=1803980695;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=YgrilhQNpe9Lj6ukah4A+zh/1X64Yb8snFI0f/+CLA4=;
+  b=mLb60bElbKV+DPxID3K+se/XTRFxhfNOvEXrTA4o3SGHvSibZYO6VwrZ
+   tpVMQHUrwZqqGcixDefux08LLEX0slvhh/X1CSxarAGL7q3qCq7SzRSc4
+   FpWR5semx7oEcbwhpVuSmnsFDFJw8fLVhKkGJ3enIFmd74bHb9PQmR6Pc
+   bOjjFCYMUuWyAMfKEiGkeIavuMue7HWOyflu6DisY7adxb2dLP04xz+Aa
+   SB79qjeV/7TADj3CUmcShsIc7t7ulRp/nNVg/RZ+ZVeIgsCGNV5baP7B5
+   8t0wrW5k0KRV6ukzGtxrVh8QKY5TTL8GEE90SBjs7VtrAfbMrk7s66bvH
+   A==;
+X-CSE-ConnectionGUID: VEF4jYCeQwq2c8We155hMg==
+X-CSE-MsgGUID: 7qqGpIlSTwGoW9JaiyDkOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="96064454"
+X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
+   d="scan'208";a="96064454"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 01:44:54 -0800
+X-CSE-ConnectionGUID: ReacdULBQP6op7Tn3RSdVQ==
+X-CSE-MsgGUID: 136BOjurRWOSDHlTh0O8gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
+   d="scan'208";a="222105255"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.52])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 01:44:49 -0800
+Date: Mon, 2 Mar 2026 11:44:46 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: "Xu, Baojun" <baojun.xu@ti.com>,
+	"broonie@kernel.org" <broonie@kernel.org>,
+	"tiwai@suse.de" <tiwai@suse.de>,
+	"13916275206@139.com" <13916275206@139.com>,
+	"Ding, Shenghao" <shenghao-ding@ti.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Yi, Ken" <k-yi@ti.com>, "Lo, Henry" <henry.lo@ti.com>,
+	"Chen, Robin" <robinchen@ti.com>, "Wang, Will" <will-wang@ti.com>,
+	"jim.shil@goertek.com" <jim.shil@goertek.com>,
+	"toastcheng@google.com" <toastcheng@google.com>,
+	"chinkaiting@google.com" <chinkaiting@google.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: tas2781: Add tas5832 support
+Message-ID: <aaVcDvYvi28wFR2S@ashevche-desk.local>
+References: <20260226075737.405-1-baojun.xu@ti.com>
+ <20260226075737.405-2-baojun.xu@ti.com>
+ <20260227-ubiquitous-dashing-copperhead-b2c6a0@quoll>
+ <9f861c7df09c4434a98a203ecff913bc@ti.com>
+ <63b0f42e-56e8-474f-8805-4e01bb2f189e@kernel.org>
+ <a7316acf9ba248f9ad1fab0313a95654@ti.com>
+ <3cfa4036-e7a7-4cde-9dab-a171a63bdee3@kernel.org>
+ <4865c7f626a340d7847354512367577e@ti.com>
+ <596f90d0-8dbd-4afe-a722-bf2ba65e1776@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260302002729.19438-1-dakr@kernel.org>
-In-Reply-To: <20260302002729.19438-1-dakr@kernel.org>
-From: Gui-Dong Han <hanguidong02@gmail.com>
-Date: Mon, 2 Mar 2026 17:41:03 +0800
-X-Gm-Features: AaiRm52ksdTFNUhtDCiLRoaU2IvMaCTzMMj20OxNJCH2RxR4-dFP_MGc6WdRh8I
-Message-ID: <CALbr=LYYUH_yQL1PO7mXzK6Oubt0LvKb0714iZCx_eEXScVdyQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] driver core: generalize driver_override infrastructure
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ysato@users.sourceforge.jp, 
-	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org, 
-	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-hwmon@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-sh@vger.kernel.org, Wang Jiayue <akaieurus@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <596f90d0-8dbd-4afe-a722-bf2ba65e1776@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Mar 2, 2026 at 8:27=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> w=
-rote:
->
-> Currently, there are 12 busses (including platform and PCI) that duplicat=
-e the
-> driver_override logic for their individual devices.
->
-> All of them seem to be prone to the bug described in [1].
->
-> While this could be solved for every bus individually using a separate lo=
-ck,
-> solving this in the driver-core generically results in less (and cleaner)
-> changes overall.
->
-> Thus, move driver_override to struct device, provide corresponding access=
-ors for
-> busses and handle locking with a separate lock internally.
->
-> In particular, add device_set_driver_override(), device_has_driver_overri=
-de(),
-> device_match_driver_override() and a helper, DEVICE_ATTR_DRIVER_OVERRIDE(=
-), to
-> declare the corresponding sysfs store() and show() callbacks.
->
-> Until all busses have migrated, keep driver_set_override() in place.
->
-> Note that we can't use the device lock for the reasons described in [2].
->
-> This patch series includes the migration of the platform bus; patches for=
- all
-> other affected busses still need to be extracted as a follow-up of the WI=
-P
-> treewide patch in [3].
->
-> [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D220789
-> [2] https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel=
-.org/
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=
-=3Ddriver_override
->
-> Danilo Krummrich (3):
->   driver core: generalize driver_override in struct device
->   hwmon: axi-fan: don't use driver_override as IRQ name
->   driver core: platform: use generic driver_override infrastructure
+On Mon, Mar 02, 2026 at 10:27:49AM +0100, Krzysztof Kozlowski wrote:
+> On 02/03/2026 10:22, Xu, Baojun wrote:
+> >> From: Krzysztof Kozlowski <krzk@kernel.org>
+> >> Sent: 02 March 2026 16:58
+> >> On 02/03/2026 09:24, Xu, Baojun wrote:
 
-Hi Danilo,
+...
 
-It looks like some usages of platform_device->driver_override were
-missed. I found them here:
-- drivers/bus/simple-pm-bus.c
-- drivers/clk/imx/clk-scu.c
-- drivers/slimbus/qcom-ngd-ctrl.c
-- sound/soc/samsung/i2s.c
+> >>>>>>> static const struct of_device_id tasdevice_of_match[] = {
 
-The good news is these can be easily updated to use the new APIs. This
-is required to avoid breaking the build, since the field is removed
-from struct platform_device. The previous build likely passed because
-these weren't enabled. I will use allyesconfig for testing going
-forward.
+> >>>>>>>       { .compatible = "ti,tas5827" },
+> >>>>>>>       { .compatible = "ti,tas5828" },
+> >>>>>>>       { .compatible = "ti,tas5830" },
+> >>>>>>> +     { .compatible = "ti,tas5832" },
+> >>>>>>
+> >>>>>> So it is fully compatible with tas5830 and most of the changes here are
+> >>>>>> not needed?
+> >>>>>
+> >>>>> Yes, it's fully compatible with tas5827/28/30.
+> >>>>
+> >>>> Then above hunk and many others are not needed.
+> >>>
+> >>> Hi, because those chips have different on the voltage, so the parameters
+> >>> is different, have to use different firmware binary, so we must identify
+> >>> every chip in the driver.
+> >>
+> >> That would explain other ID tables (and should be briefly mentioned in
+> >> the commit msg), but not this one, because here you do not customize the
+> >> binary at all.
+> > 
+> > Hi, we save the chip_id in the dev_name:
+> > strscpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name,
+> > 	sizeof(tas_priv->dev_name));
+> 
+> And where do you see the name in above table?
 
-I scanned for similar cases and most fit the new APIs perfectly. One
-exception is drivers/xen/xen-pciback/pci_stub.c. It does
-strcmp(dev->driver_override, PCISTUB_DRIVER_NAME) instead of using
-drv->name. We might want to change device_match_driver_override() to
-take a const char * instead to handle this.
+I don't know what you are trying to get from them, but I²C enumeration
+on DT platforms works in a way that it takes two tables into account,
+hence, if there is no compatible (with given part number) there will be
+no matching name.
 
-Besides axi-fan, I didn't find any other drivers that need to read
-driver_override. This is great, as it means we hopefully won't need to
-expose a read API at all.
+AFAIK it has to have a compatible to make it work in such a case.
+What did I miss?
 
-Thanks.
+The code in question is i2c_of_match_device_sysfs() call in
+i2c_of_match_device() which does this magic.
 
->
->  arch/sh/drivers/platform_early.c |  6 ++-
->  drivers/base/core.c              |  2 +
->  drivers/base/dd.c                | 60 +++++++++++++++++++++++
->  drivers/base/platform.c          | 35 ++------------
->  drivers/bus/simple-pm-bus.c      |  4 +-
->  drivers/clk/imx/clk-scu.c        |  3 +-
->  drivers/hwmon/axi-fan-control.c  |  2 +-
->  drivers/slimbus/qcom-ngd-ctrl.c  |  6 +--
->  include/linux/device.h           | 81 ++++++++++++++++++++++++++++++++
->  include/linux/platform_device.h  |  5 --
->  sound/soc/samsung/i2s.c          |  6 +--
->  11 files changed, 161 insertions(+), 49 deletions(-)
->
->
-> base-commit: 78437ab3b769f80526416570f60173c89858dd84
-> --
-> 2.53.0
->
+> > And get firmware binary from this dev_name:
+> > scnprintf(tas_priv->rca_binaryname, 64, "%sRCA%d.bin",
+> > 	tas_priv->dev_name, tas_priv->ndev);
+> 
+> Or here?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
