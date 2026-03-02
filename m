@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C9C38CFEE;
-	Mon,  2 Mar 2026 08:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECD3383C8E;
+	Mon,  2 Mar 2026 09:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772441911; cv=none; b=o56bj1bVgosdo6sxjC2chb4FDcc1LxV1TjG8iMUMkNja6P5+mCvIgAgN7dQUsKlolRqGW+6cc/kpqL9QwWZ2BBm5A3Akz5fn4NA7nbPCwvdTqIB1/APyNwlbjfNL6jAKSjLDXcyDa5LNI/f6AqyOwRsOCiT/1NreAUlgtxc1v0Q=
+	t=1772442190; cv=none; b=cBhE6qEE8xUD0bEtPBr9AQTyZqzrWt1YnEAx/EiuYUvL2BUsUB2BT6tdrfhoLtY1loZupt4xP5CcnRbtds2qRlhYry5o54Fg29eoSjks4tGCwbGGDR8F4/BzkpURFoi/9XCqz1NYYvlNPr7p5PBMMbLestyn99NUn0+DHaDb5HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772441911; c=relaxed/simple;
-	bh=ABCA5+IUsI6syzkKsP94i/DRJfBN6155VIt9H+qtr/k=;
+	s=arc-20240116; t=1772442190; c=relaxed/simple;
+	bh=mIhC1osNgAUxZYse4Scup5RMDaCSbE6vBXfShNOqGsk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YbDg4FmvK69nqgxOJUnNDaVfV5IXa8Avii5LxDdrnN+wTo21IxANQaNrhRbI/Nf9E2oqwjde0iT/6twNrqxP4E1QYg0IJSbi9Wm5bHdHioRzext/yqstSelNPVbZmWnN3jK5p6CLIxpMccS0aonnkMevIJsaY0qNUYRYnnSzZp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko8G8iX4; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=u0txQNKRoEulXYBeOxIMb6KyeWXXkRffgEjtPqkrTPex3y0s6+znaavBv3OlNJ4i+u6hLGc0QARKulBPlE8bsaPeZ0cFCy13Ee0Hw/KlT6wOejHoI/8K4QC21ttm+eZCc7McIlizSXAdw86rIErP7OZyZZCdnkrTmOTsDE+uZRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtbjJQV+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko8G8iX4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113DAC2BC87;
-	Mon,  2 Mar 2026 08:58:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtbjJQV+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353F3C19423;
+	Mon,  2 Mar 2026 09:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772441910;
-	bh=ABCA5+IUsI6syzkKsP94i/DRJfBN6155VIt9H+qtr/k=;
+	s=k20201202; t=1772442190;
+	bh=mIhC1osNgAUxZYse4Scup5RMDaCSbE6vBXfShNOqGsk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ko8G8iX49Q+4O5OtGJBNkF1+e689C3f1XRL2TFXs/I3bESEPP8S441u4M58+GLzWv
-	 QCq7DF65xYdNdq5qBNtatZyjMXWdtqs6+CuLH99/5tG7YHLO+TnRiw5gw7lmFT6yQA
-	 wkgrVqYDPk20VEOr0nBApwd0pOJuFeEygthk4a2hr6dRzLLNdhZseMfjYGlrNcDofy
-	 K1vXhXAnHat/bi1FyN/TcRqlmRStBBfJVdueTBcVjGwd/qVt3uwNty2/J50PSkZ0cT
-	 RI5//4liLLQsJvVSMJXdmpxhFwxgo4FMl0PZPo3dDO8vpWhguXIxCu1uUdmz1Gibgz
-	 2zPvieVzmGWMw==
-Message-ID: <3cfa4036-e7a7-4cde-9dab-a171a63bdee3@kernel.org>
-Date: Mon, 2 Mar 2026 09:58:24 +0100
+	b=YtbjJQV+pRyp4EEb6/eSlnd0L59+Gt0KpyUuG7qJ2YwWysjidtX8uRlwI0mkpDPP+
+	 oyWIVmFCQ2aXNTxVNQtbakvVfS+kPiycaYe5Hok25XmPr+VIGbkz8sWYIw8SR54P1A
+	 H5cPo2yF4wDSqfKN4Ij8QbhtLX2FRu+TqGQGN9N4vIQDI8cvyNsvpYaPPKo20CXROR
+	 2Hb1XdBHYlcZbKuv5ht0qJMNmfbU0+QE1nAXlkeYWYFVfDKmM8j7qTzIEKxz8T5M1o
+	 sgpk3PCdq5U8hKUDdvfXoMO6xbKwzwM7BeCisZgPGvH6Dx9A/IJYJcfRZf6lpl50Co
+	 hG2CHrggjEZug==
+Message-ID: <cd61c6dd-6224-42f7-8032-7fde13d068cf@kernel.org>
+Date: Mon, 2 Mar 2026 10:03:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,30 +35,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: tas2781: Add tas5832 support
-To: "Xu, Baojun" <baojun.xu@ti.com>
-Cc: "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de"
- <tiwai@suse.de>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "13916275206@139.com" <13916275206@139.com>,
- "Ding, Shenghao" <shenghao-ding@ti.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Yi, Ken" <k-yi@ti.com>, "Lo, Henry" <henry.lo@ti.com>,
- "Chen, Robin" <robinchen@ti.com>, "Wang, Will" <will-wang@ti.com>,
- "jim.shil@goertek.com" <jim.shil@goertek.com>,
- "toastcheng@google.com" <toastcheng@google.com>,
- "chinkaiting@google.com" <chinkaiting@google.com>
-References: <20260226075737.405-1-baojun.xu@ti.com>
- <20260226075737.405-2-baojun.xu@ti.com>
- <20260227-ubiquitous-dashing-copperhead-b2c6a0@quoll>
- <9f861c7df09c4434a98a203ecff913bc@ti.com>
- <63b0f42e-56e8-474f-8805-4e01bb2f189e@kernel.org>
- <a7316acf9ba248f9ad1fab0313a95654@ti.com>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: tegra: Add compatible for Tegra238
+ sound card
+To: "Sheetal ." <sheetal@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Sameer Pujar <spujar@nvidia.com>,
+ Mohan kumar <mkumard@nvidia.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260302085323.3139571-1-sheetal@nvidia.com>
+ <20260302085323.3139571-2-sheetal@nvidia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,33 +93,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <a7316acf9ba248f9ad1fab0313a95654@ti.com>
+In-Reply-To: <20260302085323.3139571-2-sheetal@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/03/2026 09:24, Xu, Baojun wrote:
->>>>
->>>>>  MODULE_DEVICE_TABLE(i2c, tasdevice_id);
->>>>> @@ -144,6 +145,7 @@ static const struct of_device_id tasdevice_of_match[] = {
->>>>>       { .compatible = "ti,tas5827" },
->>>>>       { .compatible = "ti,tas5828" },
->>>>>       { .compatible = "ti,tas5830" },
->>>>> +     { .compatible = "ti,tas5832" },
->>>>
->>>> So it is fully compatible with tas5830 and most of the changes here are
->>>> not needed?
->>>
->>> Yes, it's fully compatible with tas5827/28/30.
->>
->> Then above hunk and many others are not needed.
+On 02/03/2026 09:53, Sheetal . wrote:
+> From: Sheetal <sheetal@nvidia.com>
 > 
-> Hi, because those chips have different on the voltage, so the parameters
-> is different, have to use different firmware binary, so we must identify
-> every chip in the driver.
+> Tegra238 requires different PLLA and PLLA_OUT0 clock rates compared to
+> other Tegra platforms. Add Tegra238 compatible string to the APE
+> tegra-audio-graph-card bindings.
+> 
+> Signed-off-by: Sheetal <sheetal@nvidia.com>
 
-That would explain other ID tables (and should be briefly mentioned in
-the commit msg), but not this one, because here you do not customize the
-binary at all.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
