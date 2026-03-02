@@ -1,44 +1,44 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134D83859FD;
-	Mon,  2 Mar 2026 18:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AC3375ACE;
+	Mon,  2 Mar 2026 18:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772477977; cv=pass; b=SaxK2/gc0XdBAsshZ1ZqVzZDHD8q+B90FjjVBopDnLMJW4rMxzIGNAMhuHQVCd861EzZIU78PNFcqgVbzJUPowjaWMCzrc6PFRjKfnSlENkuk35FM8Sn3MtzW4toTGvH4/7TkUdYWQYqx3/s5WvrpYBSW2OToOYdQHSK+ffkn+s=
+	t=1772477981; cv=pass; b=Rgpo8B3F1cZIn/3oMehPnSODKFn84IJtS3H7LAk9em/JuY6rQsyT8f9G2Zp06pn+T4Gkurs7RCloS6dkS4BPiLMMfrqSEIQNDr+KhVPOqZCw7chRkYiuh3Gz0xln1Zx4Cdpp6NddBDOGr8jqN4vfBwVe/CwDLx/8njFiCL4n0TA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772477977; c=relaxed/simple;
-	bh=E90wE1wuk4q4Njnn47OTbEtjKUtAuOq3F6cInIdE8Rc=;
+	s=arc-20240116; t=1772477981; c=relaxed/simple;
+	bh=jkOYA2NxwZJOVf2xfldlhNIEcy3ntqlXitFNbPnDQ8E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uOSrccauFBes6AeB5V/WhAzWIOY9XJNQNOt+rPDtS877kgzwxmmPd6Zmst/i8/pbHLgAqzdxY8SgMPN6HiezL21DmgZasiz5yTbcoGWBFTZVdrr7pLxJv7Ib14Mle/QfhIDWu6OCtiKKVK7Tdv5ZCj3KLmHhOAvvwHPLC9mVg7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=qshaKfVa; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=HxQgfnAyR9b//Vdl2NQ/7nKgWVWvFNtCu+3AEpp5oNdc/UPxV7ExMoInyWzqLedCzI6dMhoF36Q9LZEwVVLNQZfg8cPTjpHJB+T1uUhJ/cxqV0QzY4SETgmoJiMNA3/AsDb78JCuhOifhESAKIWfxYMyD4Qlj/b/xOk8KDSVD+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=L8mofidm; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="qshaKfVa"
-ARC-Seal: i=1; a=rsa-sha256; t=1772477963; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="L8mofidm"
+ARC-Seal: i=1; a=rsa-sha256; t=1772477969; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Fk+PViuctFmzl4E29n73RX5qEl+I3CegOvnEEeFK5GdgwBkE/xwEZvhbFtNbbrYgiEWeIqlHz7YRskrTBPkF49uK/QEe7wOzE8n/j0RS2LktBlpbN1shKsJ94h7e4gW47MpcDLn3HuoOCanmtYv9jiOnA7/2o+JDvmBhVqp7hJI=
+	b=UlbTrGcJIoFX6njB8HfmY5d2uKb8PnF3+NbO0Qn5Uabd/XBQy74QHI4tqFA8sx9I46FNP0Pfzwuc6/XQM4QHHqmkdsL1QLNRDijt+S1ZS02FlgdxPEkQLjB59drciaMe1zjZHoWrZazYbf5rDsPRzwIclALta5eaBnzvxfvPjJA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772477963; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=8ZCcQUb9VW8DjR9aznsCaYh+9K7iFtDmGRjmJ8Tn9pw=; 
-	b=me0/ZCjGFpzpGBHqpU1Mn2ZtxyR8TjR28ky1DR8SRH801Y/PjjPoNQuyrgmTh25IzSnKU4/FIg4rXlAj1YxR4vy1wfGt7+omGHDi8zyNL0wUpZEmSvhmFmMO3IpV4kf+VGbBTJn36qtMoRWai0vAMa5Gy18XMPfQ8rwTIgNwnas=
+	t=1772477969; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=2vILH0Hgahd9bs8JmMib5OXj/WY5tcMeweFVJlplY/M=; 
+	b=IIcqXCYSWGHCAghNdB7nHJB2NOk5niN9SsNMkrniCUltRlPYRXk8wmlRmhR22UrzMuVweckU9Uw6gEXCrKElonqummbdNDd5zNkguEvc0n+FS2KLVTOhn3y6IWXIoY84I5WSxUbqpl2VkLlrCn/LR4hzo3JWGBqFdXoS0s2nBqU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477963;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477969;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=8ZCcQUb9VW8DjR9aznsCaYh+9K7iFtDmGRjmJ8Tn9pw=;
-	b=qshaKfVa2Jt8DycIzyA6SOrnd+7iEaHo5cBt7yo/rQ+xC0MwBZEX+R7e9n16o6pW
-	0W+PbqHLJw6BUmjwBrEzuI87qPZvUklAE8NYPNxk+dQSQumUMqEq9G+GxgO1XXQj+uI
-	yCXV/yVxgruHimudooMdDOovlfWC508VtArTt3LBYC/0iIr6VY7xWVBDWoEYl1Jm+43
-	FRt6R+rgvwwkLA52z1Om22tiQ07wm1kEtzfHyeA7r5HXLMDwTWIdyAGkW+Fs5CCT3fg
-	nfu4lotkrFYuDXoyWcBw3parV/rJf/gdEPG7FW7ghs+ZhMTHMBzbvDljJ+OsVt6p/Pf
-	PNwV96dKiw==
-Received: by mx.zohomail.com with SMTPS id 1772477962321798.6615877962031;
-	Mon, 2 Mar 2026 10:59:22 -0800 (PST)
+	bh=2vILH0Hgahd9bs8JmMib5OXj/WY5tcMeweFVJlplY/M=;
+	b=L8mofidmvBt6LwpR9HvBW9spfwRolyEBsnOWHIP/e1lrpG2XWxTaZX3wl3+nAswh
+	DTd19LpldtSy3c6e9mWxX8B2zovbZfPZyD/448yC6p9qxrHk2OV+KBxD+C9tAlkpzG8
+	1aUojoif0eD8da0b1WPBRrTJvUzX8oP8ZTQMP8tunJwkJ0SWYh+orI2avzvpUtG0UeS
+	ybCYknrXeSGEAbSixck2EMBpCmZj057XA57HmpWOvN5GTpahS91SDRjmumdeQGdTq20
+	3AMnH/wl86hI672qi/tsaRFFWmsuROvBeYeXBQU7ifSSyzFR3WEi8jiKs95N9pFDMJj
+	pyTOOA90Tg==
+Received: by mx.zohomail.com with SMTPS id 1772477968532963.3711183766075;
+	Mon, 2 Mar 2026 10:59:28 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -51,9 +51,9 @@ Cc: Rong Zhang <i@rong.moe>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v2 5/8] ALSA: usb-audio: Deconflict VID between Focusrite Novation & MV-SILICON
-Date: Tue,  3 Mar 2026 02:58:56 +0800
-Message-ID: <20260302185900.427415-6-i@rong.moe>
+Subject: [PATCH v2 7/8] ALSA: usb-audio: Add linear volume quirk for Hotone Audio Pulze Mini
+Date: Tue,  3 Mar 2026 02:58:58 +0800
+Message-ID: <20260302185900.427415-8-i@rong.moe>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302185900.427415-1-i@rong.moe>
 References: <20260302185900.427415-1-i@rong.moe>
@@ -66,66 +66,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
-Many budget-oriented OEM devices are built on top of them. However, some
-of them are just too budget-constrained that their manufacturers didn't
-even have a USB VID and simply picked a random VID.
+Hotone Audio Pulze Mini is a modeling amplifier with UAC interface. Its
+Playback and Capture mixers use linear volume with val = 0/100/1.
 
-Some OEMs unfortunately picked the VID of Focusrite Novation (0x1235),
-resulting in VID conflicts as we had defined a VENDOR_FLG() for the
-latter.
+Add a quirk table entry matching VID/PID=0x84ef/0x0082 and applying
+linear volume quirk flags, so that it can work properly.
 
-Add a VENDOR_STRING_FLG() for MV-SILICON to stop the matching procedure
-for these quirky devices, so that quirk flags for Focusrite Novation
-won't be accidentally applied on them.
+Quirky device sample:
 
-Quirky device samples:
-
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
+  usb 7-1: New USB device found, idVendor=84ef, idProduct=0082, bcdDevice= 1.03
   usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: G1
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
-
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: mvsilicon B1 usb audio
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
-
-  usb 1-1.2: New USB device found, idVendor=1235, idProduct=0002, bcdDevice= 1.00
-  usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=...
-  usb 1-1.2: Product: V8
-  usb 1-1.2: Manufacturer: MV-SILICON
-  usb 1-1.2: SerialNumber: ...
-  * https://github.com/linuxhw/Dmesg/blob/main/Desktop/Others/Intel/Intel%20X79/96ED1CC44499/LINUXMINT-19.3/5.0.0-32-GENERIC/X86_64/5BE1E4C74C#L1122
-
-  usb 2-1.6: New USB device found, idVendor=1235, idProduct=0002, bcdDevice= 1.00
-  usb 2-1.6: New USB device strings: Mfr=1, Product=2, SerialNumber=...
-  usb 2-1.6: Product: V9
-  usb 2-1.6: Manufacturer: MV-SILICON
-  usb 2-1.6: SerialNumber: ...
-  * https://github.com/linuxhw/Dmesg/blob/main/Desktop/Hewlett-Packard/ProLiant/ProLiant%20ML110%20G6/79B1D707316A/KUBUNTU-21.04/5.11.0-33-GENERIC/X86_64/A43F59C4AB#L1009
+  usb 7-1: Product: Pulze Mini
+  usb 7-1: Manufacturer: Hotone Audio
+  usb 7-1: SerialNumber: 20240807
 
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- sound/usb/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 8deeb9d247500..c5b89d7964b48 100644
+index 1c7ca52c92d08..d907b273a1cc1 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
-@@ -2440,6 +2440,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+@@ -2438,6 +2438,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
  		   QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
+ 		   QUIRK_FLAG_ALIGN_TRANSFER),
++	DEVICE_FLG(0x84ef, 0x0082, /* Hotone Audio Pulze Mini */
++		   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL | QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL),
  
  	/* Vendor and string descriptor matches */
-+	VENDOR_STRING_FLG(0x1235, /* VID conflict with Focusrite Novation */
-+			  "MV-SILICON",
-+			  0), /* Stop matching */
- 
- 	/* Vendor matches */
- 	VENDOR_FLG(0x045e, /* MS Lifecam */
+ 	VENDOR_STRING_FLG(0x1235, /* VID conflict with Focusrite Novation */
 -- 
 2.51.0
 
