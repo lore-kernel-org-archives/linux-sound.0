@@ -1,44 +1,44 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FD3375AD8;
-	Mon,  2 Mar 2026 18:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903A1373C05;
+	Mon,  2 Mar 2026 18:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772477966; cv=pass; b=t6vjLlniGxt1vortLX70+lI1uRdtsI8sfFjza3ApL9huwayBgWgvoIC/UqRx8FIDnTLfC14UDZU/9efibDJ+ugAMp3UgxFSWSIrNvd+nSQyfWrPm9IAGS8mcQ5OW3Vfq7EjTHTFKJYcg2WX0Ji+atkiws7L1gmgieogNkPVH/kI=
+	t=1772477970; cv=pass; b=k8N/IDf7jT38+pG7BJ4C8R5x2DyhRABiQeImc/XjTgViAj9IF4TO+2bPTchzaJzQ5WbZ7GOn+qeKmnjhGRche4xtSzZixVjW0pPmIBqU7ZYwAJa5IAh/HMUN3ZohqBeJmAwLXfEhpW0xf7TMa9HA5QsShVArmhA+ZAyViyI5mwI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772477966; c=relaxed/simple;
-	bh=ZmnG1mvLC+nqfqk1ivL295tgmudCFqWeCE+Ry39YMC4=;
+	s=arc-20240116; t=1772477970; c=relaxed/simple;
+	bh=/lQIky8CZKavwRz8u5C5zMFPyf0VvC0LS2EBXvJ14Mg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hOWVJcCYCHmwhI8O2Ee0bPtVd3viE0jsRF9G1+KDkJ64wpIs9nQDsPGqt84IXTnuulIxdRGY9n2DyUl75jRMd7HYT8HzJ0QFf7Qn1XcKDNSnw6Rg8cn0GHDXdI4ApDop6Gib1eKxWSO9y3rF9gFnFbfwreSkt844T7xcH1dyM9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=IopU1XMI; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=NvhEvX8fBlO9uGU/JMMW7nrxcBb38EL17P8OLaFJzcG+1pXWhrpmBUDKgZTIlD9kSBZ8fRq4018X2KpDuE4vnLdSymmshfjp86hUp+1HXaPP4w/p9YewHapQsxB0axswc3GpVCK4dh0TeOyITs6yK8P84MT6KjlV9fe+91OrWD8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=jiyLqlPp; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="IopU1XMI"
-ARC-Seal: i=1; a=rsa-sha256; t=1772477951; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="jiyLqlPp"
+ARC-Seal: i=1; a=rsa-sha256; t=1772477955; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=aeA15Y/c+tit1VCdaK7rv78xw8PkK7x8I61+OTFYA4ti7W0u3E/K4SsucctGCU4kQsVgbsJFyfVfXu8idiVKC1GCFPg0zf9vM2Gt6bO7V5g7cYiBRFzYZTh/2/9TN0J+zgMOPz+NcKUysixZKOoZFi1/2wTVJHO2PhAuV+KHZow=
+	b=U1eqRarNYQI4fg3IGAlPTvg0c2iV+amw9jUfs5Mn9kMhsAf9mMfM4CsRwEAhenisBLTy0gC53MIP14eB0YOiydQIeWu2gOOd3RSH6oWP1jBtH8nCko7ryzPLdIN2YmC4a2Crcs5HJZpqDCal9pqBsFdYhhUdKIRnlBHX9mJroqk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772477951; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=m5MkS0FlgjmLHAzJnS3KdKIY+xY7EDfUNnbvaa6b+l4=; 
-	b=Pg6/wBX9Xu0UuSDOGVY98gKe7e6CNeXqxm2zOQzb4fo/glvvF2ovlPQljVLM+QijTPW1dyMWNEtaPRgkk5gbBCaBR85cJVW5P1rBEJv4zBvkU2/tIWL+6UrnYww/5vNhAtIgm36CftLD76hDbA5K2BR/KcHf4/C4Aaq+quJTt9I=
+	t=1772477955; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=dfOtOj2mJ90DyMmFUn0bS67YeVG/vNESqFGEOc96Ml8=; 
+	b=MDXUkZSOpuKeKKgaq7N6c5QsHU/SL/SLmUqerwWuIJfqoTVvxHDM4wABzGkGgZuak7hAHJhef5dKjoArwI5JJrOYzznhRGdZwG0HvrfyHFnB0/j3vGOrl2QTtmWgcf5ynzqzIJ/LCsnFIThw7iHgGu5UHlo/RbamxCuSL3328AM=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477951;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477955;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=m5MkS0FlgjmLHAzJnS3KdKIY+xY7EDfUNnbvaa6b+l4=;
-	b=IopU1XMIA+Rn5ltQhog/8UorJnmP67MUPZnrfC847Wmdpt2GcGdTnL5H40ntLpNn
-	NMZT4xsQZ5zBxCpTs4of8GIy8w5XlHKGUmgJmfCuJ62QwHHFgMT0xX90tLpzFSPmZHn
-	gxdSBN4rRf0jY1/rXgSRIlxj0z5D8P69JbWlSM8x+Gnyn3rIpmucfHoFI+w/oY0ngYv
-	Y1e8UZsxgp8FVxQ9einMDopCMm8NqqpwJEubt/PHAYUtE+93YbiPKTsZ5dCV7nb8U7o
-	z/BBk016F2i/SZUNeD4XpWKQVFCeL4bL8SRKnBMVlOHlDvtXZcrvL7gyAKp7EV0cRd3
-	nJbfHKCxZw==
-Received: by mx.zohomail.com with SMTPS id 1772477949830999.8581879892873;
-	Mon, 2 Mar 2026 10:59:09 -0800 (PST)
+	bh=dfOtOj2mJ90DyMmFUn0bS67YeVG/vNESqFGEOc96Ml8=;
+	b=jiyLqlPpzBtkuR/9pj/T2G9cEAP7DNBM0+Qzx8Lw7pQuaQzQii+No8aMwh0wE9ru
+	0vNU5xVVPx1DePDpBZ87eRYLh8c3N6pAeatKJKpBBijPSqI/N7XBb1fxnxej3fPtQpi
+	ct6P9If240gmZmIj/L5ZSdtgMyNJOqfVND8IG5REum8zjFqnspxfGeyO1GX6x3USeHP
+	ulrZk363oy4u1x4hWogeUPvbFBv8jxa3d73ouMtFDGOtdOm+LJfPN1FsI4k3w9EvpFy
+	9hjjSy0Z3bEAeeVO6dyZxMvEL8h0r9qMN+eEFjA6sX3YFPIPWRUjS3XgWrdc/0tEPZ+
+	TqkDTlKkqA==
+Received: by mx.zohomail.com with SMTPS id 1772477952939128.88145861487385;
+	Mon, 2 Mar 2026 10:59:12 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -50,11 +50,10 @@ Cc: Rong Zhang <i@rong.moe>,
 	linux-sound@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 1/8] Revert "ALSA: usb: Increase volume range that triggers a warning"
-Date: Tue,  3 Mar 2026 02:58:52 +0800
-Message-ID: <20260302185900.427415-2-i@rong.moe>
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH v2 2/8] ALSA: usb-audio: Add helper function for volume range checks
+Date: Tue,  3 Mar 2026 02:58:53 +0800
+Message-ID: <20260302185900.427415-3-i@rong.moe>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302185900.427415-1-i@rong.moe>
 References: <20260302185900.427415-1-i@rong.moe>
@@ -67,42 +66,94 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-UAC uses 2 bytes to store volume values, so the maximum volume range is
-0xFFFF (65535, val = -32768/32767/1).
+When a potentially insane volume range is found, the volume control
+parameters will be printed in WARN level instead of DEBUG level.
+Currently, it's done by emitting a open-coded usb_audio_warn() in the
+corresponding check.
 
-The reverted commit bumpped the range of triggering the warning to >
-65535, effectively making the range check a no-op. It didn't fix
-anything but covered any potential problems and deviated from the
-original intention of the range check.
+The following changes are about to add more checks against volumen
+ranges. As the first step, extract the current check logic into a helper
+function to improve readability.
 
-This reverts commit 6b971191fcfc9e3c2c0143eea22534f1f48dbb62.
+No functional change intended.
 
-Fixes: 6b971191fcfc ("ALSA: usb: Increase volume range that triggers a warning")
-Cc: stable@vger.kernel.org
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- sound/usb/mixer.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ sound/usb/mixer.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
 diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index ac8c71ba94834..df0d3df9c7ece 100644
+index df0d3df9c7ece..f52ca0d7e6653 100644
 --- a/sound/usb/mixer.c
 +++ b/sound/usb/mixer.c
-@@ -1813,10 +1813,11 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+@@ -1660,6 +1660,27 @@ static const struct usb_feature_control_info *get_feature_control_info(int contr
+ 	return NULL;
+ }
  
- 	range = (cval->max - cval->min) / cval->res;
- 	/*
--	 * There are definitely devices with a range of ~20,000, so let's be
--	 * conservative and allow for a bit more.
++static bool check_insane_volume_range(struct usb_mixer_interface *mixer,
++				      struct snd_kcontrol *kctl,
++				      struct usb_mixer_elem_info *cval)
++{
++	int range = (cval->max - cval->min) / cval->res;
++
++	/*
 +	 * Are there devices with volume range more than 255? I use a bit more
 +	 * to be sure. 384 is a resolution magic number found on Logitech
 +	 * devices. It will definitively catch all buggy Logitech devices.
- 	 */
--	if (range > 65535) {
++	 */
 +	if (range > 384) {
- 		usb_audio_warn(mixer->chip,
- 			       "Warning! Unlikely big volume range (=%u), cval->res is probably wrong.",
- 			       range);
++		usb_audio_warn(mixer->chip,
++			       "Warning! Unlikely big volume range (=%u), cval->res is probably wrong.",
++			       range);
++		return true;
++	}
++
++	return false;
++}
++
+ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 				const struct usbmix_name_map *imap,
+ 				unsigned int ctl_mask, int control,
+@@ -1673,7 +1694,6 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 	struct snd_kcontrol *kctl;
+ 	struct usb_mixer_elem_info *cval;
+ 	const struct usbmix_name_map *map;
+-	unsigned int range;
+ 
+ 	if (control == UAC_FU_GRAPHIC_EQUALIZER) {
+ 		/* FIXME: not supported yet */
+@@ -1811,25 +1831,16 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 
+ 	snd_usb_mixer_fu_apply_quirk(mixer, cval, unitid, kctl);
+ 
+-	range = (cval->max - cval->min) / cval->res;
+-	/*
+-	 * Are there devices with volume range more than 255? I use a bit more
+-	 * to be sure. 384 is a resolution magic number found on Logitech
+-	 * devices. It will definitively catch all buggy Logitech devices.
+-	 */
+-	if (range > 384) {
+-		usb_audio_warn(mixer->chip,
+-			       "Warning! Unlikely big volume range (=%u), cval->res is probably wrong.",
+-			       range);
+-		usb_audio_warn(mixer->chip,
+-			       "[%d] FU [%s] ch = %d, val = %d/%d/%d",
++	if (check_insane_volume_range(mixer, kctl, cval)) {
++		usb_audio_warn(mixer->chip, "[%d] FU [%s] ch = %d, val = %d/%d/%d\n",
+ 			       cval->head.id, kctl->id.name, cval->channels,
+ 			       cval->min, cval->max, cval->res);
++	} else {
++		usb_audio_dbg(mixer->chip, "[%d] FU [%s] ch = %d, val = %d/%d/%d\n",
++			      cval->head.id, kctl->id.name, cval->channels,
++			      cval->min, cval->max, cval->res);
+ 	}
+ 
+-	usb_audio_dbg(mixer->chip, "[%d] FU [%s] ch = %d, val = %d/%d/%d\n",
+-		      cval->head.id, kctl->id.name, cval->channels,
+-		      cval->min, cval->max, cval->res);
+ 	snd_usb_mixer_add_control(&cval->head, kctl);
+ }
+ 
 -- 
 2.51.0
 
