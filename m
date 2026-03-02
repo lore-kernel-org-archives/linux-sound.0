@@ -1,77 +1,77 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE7838F64A
-	for <linux-sound@vger.kernel.org>; Mon,  2 Mar 2026 09:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A86138F65E
+	for <linux-sound@vger.kernel.org>; Mon,  2 Mar 2026 09:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772445302; cv=none; b=PVu6Y4d+y6/j8AmvlfA9HreW1rFVdWbEeKWgpOzwsOAQQNA2muOFO/fXPQuxkCS6/3RRa/LuLnxRbyYfgdnHQKiAQJG5NjFkqFJwgC4SW/x51xxZoo6zZ0GVXFd7D09+I3cF8Pjr1TJ1mHgQBJ1g6/IJU96t3zmud45D+Y6crMg=
+	t=1772445575; cv=none; b=XQN67LUt6zTzlFiqkBnnmk0fxyS8I91IPG1s16CL07vNOj5EKxWyz+FIxym730xcgqIpzchji/GLybI3iUS30sNR4Fzeuuqe5LJ0q+/VyALYbP43WnhqDr3bff26YJUsnLRNAcMm365ZEMZOUF2iBcGo7VML8METouAH9RlvSoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772445302; c=relaxed/simple;
-	bh=in+cVyH68+i8C5JXpgBAsgJeCwZSzeTcViJ/Gms9VsU=;
+	s=arc-20240116; t=1772445575; c=relaxed/simple;
+	bh=taRjSMjKPq6MvjNWJ8aTlxRWcj2a7ABpwlKs5emFqqc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LQRNtMoK/rUS1dWZM8eiIatu8K1JCRc4vCHGose51NgYf6KpzgdHznD7BKNTuyBDdi1tPXCZDRSjyVlqZxouL7IBhQ9hbpiiI1M2aE/3oLx++oXwlCUxtP6au0zu7rjh01RWuSlxWWY0tpPCBZZHfqHnQvBnNSk18OX8Ghd9J9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OTNn5IZz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vfcvPxRH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IkrOd6Xa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EHo9G4KX; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=k3DlTsTkB+z1y8G2JANK+9KL2IZCeinZhxEwomIuNW8D3ug1DMPwUzhhgO8Ka5NSN3ueI9LTR6NFBbc222RSAJ88cXdf5g7qN5CwCC2965PNR/yhg5JcKjR2vlBmrmsmM0bfdFCiJh322tFktOZBe9tTrF/SUxGJix5WAoJlXOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uly6fAcJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LHm/cuhv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uly6fAcJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LHm/cuhv; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OTNn5IZz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vfcvPxRH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IkrOd6Xa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EHo9G4KX"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uly6fAcJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LHm/cuhv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uly6fAcJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LHm/cuhv"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EA3483F722;
-	Mon,  2 Mar 2026 09:54:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BA08D5BD0E;
+	Mon,  2 Mar 2026 09:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772445298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772445571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
-	b=OTNn5IZzWCxDs8/5TBLKFuouV/WgKCu4woIPhDNtsSxBCbm1aeo3P1sY3tsKPYmuJQRPZv
-	gt2sZzcHDCXxm/A34ktlmsmH0w6laj/2yWl4rooZDtbHpe0O/8sscNzKeq1a9JaY4KdOG3
-	cy7XInt9sa0xLni/VyMKyVyUxWIb/hI=
+	bh=nm5OVqtVrOhnUOnAK1dgDtX9mldifh6E/oCBcCGVQHY=;
+	b=uly6fAcJS4cCfTcFFKbyfRTVAQYOFd6BgwdQt7qfj7zHrOXr2eInWPLElWqCl8hZSsLzgY
+	tHhoRUqG9lKl00kLP0td9SB+JHaFrP1cyUxRqRIR5ALk4r/eynJT5IlCHhjtId69lfY2s1
+	yPIO7SCg7krKLS9zr/DObaExTdlcUCA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772445298;
+	s=susede2_ed25519; t=1772445571;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
-	b=vfcvPxRHaTAL9Y/Sm+MSW9G49U1AMhQrOpiOrLjAMIKuStWRxZF4qyRatBy0ECNwdrxyPW
-	q/wwJe/s4E3J9XAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IkrOd6Xa;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EHo9G4KX
+	bh=nm5OVqtVrOhnUOnAK1dgDtX9mldifh6E/oCBcCGVQHY=;
+	b=LHm/cuhvhxUjVS7lD4d4afQOl15JAvkrDnYFWKjHYn19PhaXzplrv7EA+Pw5Nhi8rgu4VG
+	EJSOfe0Ur8lkdZDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uly6fAcJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="LHm/cuhv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772445297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772445571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
-	b=IkrOd6Xa0h1aculHrzGeUO4GpO9bPBPjUSbNiEqj0nIZ53Q0LbifR+G/T2Jx7V2MsiE1wt
-	9tveqa1JJzVtSZos26GCHEz5x7slL2CsV0cMePaeegrh/y2dsBy+IqebEADw0z1/LoCjxR
-	s1ciKGm6ueGlClegB4R/ZK1d1Snfm10=
+	bh=nm5OVqtVrOhnUOnAK1dgDtX9mldifh6E/oCBcCGVQHY=;
+	b=uly6fAcJS4cCfTcFFKbyfRTVAQYOFd6BgwdQt7qfj7zHrOXr2eInWPLElWqCl8hZSsLzgY
+	tHhoRUqG9lKl00kLP0td9SB+JHaFrP1cyUxRqRIR5ALk4r/eynJT5IlCHhjtId69lfY2s1
+	yPIO7SCg7krKLS9zr/DObaExTdlcUCA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772445297;
+	s=susede2_ed25519; t=1772445571;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
-	b=EHo9G4KXB0K5kFGuWxb0P9/7C9tohmPUBmPtEg+Cg9walOi9ETCgeCextAvMwOB6ShWSuE
-	OcuvWe7n+5DpxgBw==
+	bh=nm5OVqtVrOhnUOnAK1dgDtX9mldifh6E/oCBcCGVQHY=;
+	b=LHm/cuhvhxUjVS7lD4d4afQOl15JAvkrDnYFWKjHYn19PhaXzplrv7EA+Pw5Nhi8rgu4VG
+	EJSOfe0Ur8lkdZDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E3CB3EA69;
-	Mon,  2 Mar 2026 09:54:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C1BC3EA69;
+	Mon,  2 Mar 2026 09:59:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /4tzJXFepWk8DQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 02 Mar 2026 09:54:57 +0000
-Date: Mon, 02 Mar 2026 10:54:57 +0100
-Message-ID: <87ms0qmu8e.wl-tiwai@suse.de>
+	id YsMRGYNfpWmiEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Mar 2026 09:59:31 +0000
+Date: Mon, 02 Mar 2026 10:59:31 +0100
+Message-ID: <87ldgamu0s.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Rong Zhang <i@rong.moe>
 Cc: Jaroslav Kysela <perex@perex.cz>,
@@ -84,10 +84,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH 4/9] ALSA: usb-audio: Support string-descriptor-based quirk table entry
-In-Reply-To: <20260301213726.428505-5-i@rong.moe>
+Subject: Re: [PATCH 0/9] ALSA: usb-audio: Add quirks for linear volume devices and deconflict VID
+In-Reply-To: <20260301213726.428505-1-i@rong.moe>
 References: <20260301213726.428505-1-i@rong.moe>
-	<20260301213726.428505-5-i@rong.moe>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -118,7 +117,7 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Action: no action
@@ -126,120 +125,49 @@ X-Spam-Flag: NO
 X-Spam-Score: -3.51
 X-Spam-Level: 
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: EA3483F722
+X-Rspamd-Queue-Id: BA08D5BD0E
 
-On Sun, 01 Mar 2026 22:37:20 +0100,
+On Sun, 01 Mar 2026 22:37:16 +0100,
 Rong Zhang wrote:
-> @@ -2558,14 +2585,69 @@ void snd_usb_apply_flag_dbg(const char *reason,
->  	}
->  }
->  
-> +#define USB_STRING_SIZE 128
-> +
-> +static inline int snd_usb_get_strings(struct snd_usb_audio *chip,
-> +				      char *manufacturer, char *product)
-> +{
-> +	int ret;
-> +
-> +	if (manufacturer) {
-> +		ret = usb_string(chip->dev, chip->dev->descriptor.iManufacturer,
-> +				 manufacturer, USB_STRING_SIZE);
-> +		if (ret < 0) {
-> +			usb_audio_warn(chip, "failed to get manufacturer string: %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	if (product) {
-> +		ret = usb_string(chip->dev, chip->dev->descriptor.iProduct,
-> +				 product, USB_STRING_SIZE);
-> +		if (ret < 0) {
-> +			usb_audio_warn(chip, "failed to get product string: %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 1; /* ok */
-> +}
-> +
->  void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
->  {
->  	const struct usb_audio_quirk_flags_table *p;
-> +	char manufacturer[USB_STRING_SIZE];
-> +	char product[USB_STRING_SIZE];
+> 
+> Some quirky devices tune their volume by linearly tuning the voltage
+> level (linear volume). In other words, such devices has a linear TLV
+> mapping of DECLARE_TLV_DB_LINEAR(scale, TLV_DB_GAIN_MUTE, 0).
+> 
+> The series mainly adds quirk flags MIXER_PLAYBACK_LINEAR_VOL and
+> MIXER_CAPTURE_LINEAR_VOL to represent this case respectively for
+> playback and capture mixers. Afterward, apply these quirk flags on them.
+> 
+> Some MV-SILICON devices with these quirks also have another quirk: VID
+> conflicts with Focusrite Novation (0x1235). Hence, add support for
+> string-descriptor-based quirk table entries and define an entry for MV-
+> SILICON to deconflict them.
+> 
+> Some improvements to the logic of volume range checks is also included
+> in the series to help identify quirky devices with linear volume.
+> 
+> Rong Zhang (9):
+>   Revert "ALSA: usb: Increase volume range that triggers a warning"
+>   ALSA: usb-audio: Add helper function for volume range checks
+>   ALSA: usb-audio: Improve volume range checks
+>   ALSA: usb-audio: Support string-descriptor-based quirk table entry
+>   ALSA: usb-audio: Deconflict VID between Focusrite Novation &
+>     MV-SILICON
+>   ALSA: doc: Add doc for QUIRK_FLAG_SKIP_IFACE_SETUP of snd-usb-audio
+>   ALSA: usb-audio: Add QUIRK_FLAG_MIXER_{PLAYBACK,CAPTURE}_LINEAR_VOL
+>   ALSA: usb-audio: Add linear volume quirk for Hotone Audio Pulze Mini
+>   ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
 
-Keeping those a bit largish strings on the stack doesn't look good.
-Maybe better to do kalloc with __free(kfree).
+Thanks for patches!  The logic looks good and the implementation
+seems reasonable.  One slight concern was about the string matching
+patch (I explained in another mail), but others look fine.
 
-> +	int got_usb_strings = 0; /* <0: error, 0: pending, >0: ok */
+Maybe the patch to add the missing documentation for
+QUIRK_FLAG_SKIP_IFACE_SETUP should be applied individually beforehand.
+Could you send it a fix for 7.0?
 
-I think this global flag could go wrong since...
+The revert of volume range check makes sense, but maybe that should be
+combined with your rest changes.
 
->  	for (p = quirk_flags_table; p->id; p++) {
->  		if (chip->usb_id == p->id ||
->  		    (!USB_ID_PRODUCT(p->id) &&
->  		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
-> +			if (!p->usb_string_match)
-> +				goto apply; /* DEVICE_FLG or VENDOR_FLG */
-> +
-> +			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
-> +			if (!got_usb_strings) {
-> +				got_usb_strings = snd_usb_get_strings(chip,
-> +					p->usb_string_match->manufacturer ? manufacturer : NULL,
-> +					p->usb_string_match->product ? product : NULL);
-
-... here you try to extract strings only once, but this retrieval
-depends on the current entry.  If the current entry has only
-manufacturer and the next entry has only product, it won't work.
-
-IMO, a simpler way would be something like:
-
-#define USB_STRING_SIZE 128
-
-static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
-{
-	char *buf = kmalloc(USB_STRING_SIZE, GFP_KERNEL);
-	int ret;
-
-	if (!buf)
-		return ERR_PTR(-ENOMEM);
-	ret = usb_string(chip->dev, id, buf, USB_STRING_SIZE);
-	if (ret < 0) {
-		usb_audio_warn(chip, "failed to get string for id%d: %d\n", ret);
-		kfree(buf);
-		return ERR_PTR(ret);
-	}
-	return buf;
-}
-
-void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
-{
-	....
-	char *manufacturer __free(kfree) = NULL;
-	char *product __free(kfree) = NULL;
-
-  	for (p = quirk_flags_table; p->id; p++) {
-		....
-		if (p->usb_string_match->manufacturer) {
-			if (!manufacturer)
-				manufaturer =
-					snd_usb_get_string(chip,
-						chip->dev->descriptor.iManufacturer);
-			if (!IS_ERR_OR_NULL(manufacturer) &&
-			    strcmp(p->usb_string_match->manufacturer, manufacturer))
-				continue;			
-		}
-		if (p->usb_string_match->product) {
-			if (!product)
-				product =
-					snd_usb_get_string(chip,
-						chip->dev->descriptor.iProduct);
-			if (!IS_ERR_OR_NULL(product) &&
-			    strcmp(p->usb_string_match->product, product))
-				continue;			
-		}
-
-
-thanks,
 
 Takashi
