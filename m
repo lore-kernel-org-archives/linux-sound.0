@@ -1,105 +1,84 @@
-Received: from us-smtp-delivery-172.mimecast.com (us-smtp-delivery-172.mimecast.com [170.10.129.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5EA38C2A0
-	for <linux-sound@vger.kernel.org>; Mon,  2 Mar 2026 20:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8DF1A6804;
+	Mon,  2 Mar 2026 21:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772484809; cv=none; b=Ma7lDQAzpzFDFlxv09lZO1LdNEgHa991IvvY9VI/64PCGJZgPGYJdG1zSFlodzoJ0hZpxtu1DHvi58qj4MgdjIPN+e5nnnt9arRUGUjEGfAOQkpWDCrE+n2uiNFX9fNlH0ry94LcOPeYhKdHMsKDJ0E1qvb1SBc7uR5NHRI1rsg=
+	t=1772485641; cv=none; b=o+tqW09Kw6h+lARQrEawkXLghvKrS8x2901QayLIOLl4IsC/BqkrX9KX3Xkfc3w3mOLuAVFxoyl6XCbM7FkEL3O3MaQQc+o5nliOxxHzkBfmcYZMh6HQWa04qM2yBGRhOSWiu4CzduHHrCXFBTq2+FsBvI/E5/7+pDCIvJ4xyk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772484809; c=relaxed/simple;
-	bh=16uxkWL5hX4j7KosRvOHcNcAEDOs7nmqZeye1nOhNDg=;
-	h=Date:Message-ID:CC:Subject:From:To:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=Qt7W8Shc/yi6Kxwv8HVFhVT4VS5/cCKoEd6nuXnYXn7QlTlhVH0CLWpU6IZSRclQDGy3vakBQ3G4opS+OmNCt3r4u1o8rvol6Kazzx1ftNLw5upzLAlWW7rjE3iO6eBjZJOnJ5OQ9hB3wK6CRyjJK+hAunlmr4mTp8nndj2e2RU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com; spf=pass smtp.mailfrom=valvesoftware.com; dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b=Dbi5LEw4; arc=none smtp.client-ip=170.10.129.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valvesoftware.com
+	s=arc-20240116; t=1772485641; c=relaxed/simple;
+	bh=ZcpbPZzjAcuhP9CCScbDLc4UsNaN0uJXOcl33J21nmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DJTIWr0U+hKaoK4a9I68yOuiCPVCmFo6vujmjKrEXi/6jwAGQqqokY5gjNN3EeXxs+hX68fvvdy3SC4TqH6WjW/yj7l/g2P936ikQO2LYG/oNfKHV44rbvp4YBWeIhZygC2ImAVknVtFZoaHQp3FJG29wz/SumBIObuai03hJtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KFQWY2Fy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b="Dbi5LEw4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
-	s=mc20150811; t=1772484806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16uxkWL5hX4j7KosRvOHcNcAEDOs7nmqZeye1nOhNDg=;
-	b=Dbi5LEw4en0dZ9luuvKYVAVeFC85iku3CAkI8zZ8HJ5+tOM/jOQxGhkh6tTXUO3ILHfE+A
-	nipqibx+NQhyRBN1F2UqIgGvX8Yq/UT5dZbgoy8Bxdo453pjNp3BxVQMyqhPYq/6MGCyyb
-	g7xFgU+khNsZowXgdrhAsOEDgPx7Glc=
-Received: from smtp-02-tuk3.valvesoftware.com
- (smtp-02-blv1.valvesoftware.com [208.64.203.182]) by relay.mimecast.com
- with ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384)
- id us-mta-637-5KoDUlM7NYexLNzraLPZVA-1; Mon, 02 Mar 2026 15:53:23 -0500
-X-MC-Unique: 5KoDUlM7NYexLNzraLPZVA-1
-X-Mimecast-MFC-AGG-ID: 5KoDUlM7NYexLNzraLPZVA_1772484802
-Received: from antispam.valve.org ([172.16.1.107])
-	by smtp-02-tuk3.valvesoftware.com with esmtp (Exim 4.97)
-	(envelope-from <arunr@valvesoftware.com>)
-	id 1vxAGX-00000002kig-3oVT;
-	Mon, 02 Mar 2026 12:53:21 -0800
-Received: from antispam.valve.org (127.0.0.1) id hknsc20171sr; Mon, 2 Mar 2026 12:53:21 -0800 (envelope-from <arunr@valvesoftware.com>)
-Received: from mail2.valvemail.org ([172.16.144.23])
-	by antispam.valve.org ([172.16.1.107]) (SonicWall 10.0.15.7233)
-	with ESMTP id o202603022053210081302-5; Mon, 02 Mar 2026 12:53:21 -0800
-Received: from localhost (172.18.17.18) by mail2.valvemail.org (172.16.144.23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 2 Mar
- 2026 12:53:21 -0800
-Date: Mon, 2 Mar 2026 12:53:21 -0800
-Message-ID: <DGSLF8NH5JAV.59WNEOEXYHV@valvesoftware.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>, Arun Raghavan
-	<arunr@valvesoftware.com>, <linux-sound@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Icenowy Zheng"
-	<uwu@icenowy.me>, <stable@vger.kernel.org>
-Subject: Re: [External Mail] [PATCH v2 1/8] Revert "ALSA: usb: Increase
- volume range that triggers a warning"
-From: Arun Raghavan <arunr@valvesoftware.com>
-To: Rong Zhang <i@rong.moe>, Jaroslav Kysela <perex@perex.cz>, "Takashi Iwai"
-	<tiwai@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFQWY2Fy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910F5C19423;
+	Mon,  2 Mar 2026 21:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772485640;
+	bh=ZcpbPZzjAcuhP9CCScbDLc4UsNaN0uJXOcl33J21nmQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KFQWY2FyxX5PaAiE/GN/Yz6HIMf+rSSjFge/XIeaf62XPaHEuUca2DyAVV78Xex5r
+	 w2iKQuFHkfuf6o9uElF1h0m9GIG43S2c4Bli4SOycfQQfPKjz6FMZvLd3/aYlO9184
+	 2LTVqkdAmf1b0PgYi5BO5sU5NZauwO/5TVvCYqa6n/juIlwackWz8v+s6U984XEN7T
+	 jgiTI9gXzCDQw34wDcbRPtMz893/S9GB1jMm28ZaEFCx/2dcv65FA9zgQv/RZPeNaj
+	 6H+fmSitUCDw10m1ns8GZ3SDuM7lnKWdTbJ1uo7bq39ZyJIgp20yQkXBYLJRIORPrd
+	 DI387Bl1/bBFw==
+Date: Mon, 2 Mar 2026 21:07:15 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.com>, Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 RESEND 3/4] mfd: cs42l43: Add support for the B variant
+Message-ID: <a141da68-35a7-491e-bb6f-ca9b448030ff@sirena.org.uk>
+References: <20260227130120.3070893-1-mstrozek@opensource.cirrus.com>
+ <20260227130120.3070893-4-mstrozek@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mailer: aerc 0.21.0
-References: <20260302185900.427415-1-i@rong.moe>
- <20260302185900.427415-2-i@rong.moe>
-In-Reply-To: <20260302185900.427415-2-i@rong.moe>
-X-ClientProxiedBy: mail2.valvemail.org (172.16.144.23) To mail2.valvemail.org
- (172.16.144.23)
-X-Mlf-DSE-Version: 6871
-X-Mlf-Rules-Version: s20260226225627; ds20230628172248;
-	di20260302185333; ri20160318003319; fs20260302184959
-X-Mlf-Smartnet-Version: 20210917223710
-X-Mlf-Envelope-From: arunr@valvesoftware.com
-X-Mlf-Version: 10.0.15.7233
-X-Mlf-License: BSV_C_AP_T_R
-X-Mlf-UniqueId: o202603022053210081302
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6YNZVL3t7UvHN-fWMTzR_FXupc1_IiNugAUiXVhG_Z4_1772484802
-X-Mimecast-Originator: valvesoftware.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VVwGhJdQXqV/B+G5"
+Content-Disposition: inline
+In-Reply-To: <20260227130120.3070893-4-mstrozek@opensource.cirrus.com>
+X-Cookie: You love peace.
 
-On Mon Mar 2, 2026 at 10:58 AM PST, Rong Zhang wrote:
-> UAC uses 2 bytes to store volume values, so the maximum volume range is
-> 0xFFFF (65535, val =3D -32768/32767/1).
->
-> The reverted commit bumpped the range of triggering the warning to >
-> 65535, effectively making the range check a no-op. It didn't fix
-> anything but covered any potential problems and deviated from the
-> original intention of the range check.
->
-> This reverts commit 6b971191fcfc9e3c2c0143eea22534f1f48dbb62.
->
-> Fixes: 6b971191fcfc ("ALSA: usb: Increase volume range that triggers a wa=
-rning")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Rong Zhang <i@rong.moe>
 
-Thanks for catching and fixing this.
+--VVwGhJdQXqV/B+G5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Arun Raghavan <arunr@valvesoftware.com>
+On Fri, Feb 27, 2026 at 01:01:00PM +0000, Maciej Strozek wrote:
+> Introducing CS42L43B codec, a variant of CS42L43 which can be driven by
+> the same driver.
 
+Lee, this seems like it's mostly an ASoC series - does it make sense for
+me to apply this along with everything else and send a tag (assuming
+it's OK of course, I just scanned this patch very quickly rather than
+reviewing it)?
+
+--VVwGhJdQXqV/B+G5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmml/AMACgkQJNaLcl1U
+h9CrNQf9FGCObA8+p4zISGqfaM9g+jILUSgdkilYduwDYgJpyNrFIk6vLY3yQvK/
+33d7CvXQp8FZQfWLlMGais6i1lpAwu4KKE7NbqV+7EYeNRwia7a8lfNDSvpIGft7
+I6xWVYWslDWti7VVCTjwzkgSaVXqQSZrz9N6a3QYCyc5ZFSqgoow+Xf+Hl9jBKWy
+rtCYH7zZJbdwy3FBloHJ5d1Ec+KLuROJdfMVkq64cadfenB2/RMdC8IrytBpLhJy
+5uqRQDmsRMDExnIlpz8TcTTigRCv+oBT8dEKtPWRmLR91fAb+Wjp6MHXmiob7kML
+b19MoLv+rX2mihcE3zIzQkQE71Zm5A==
+=h1F1
+-----END PGP SIGNATURE-----
+
+--VVwGhJdQXqV/B+G5--
