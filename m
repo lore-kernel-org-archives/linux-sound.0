@@ -1,161 +1,180 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012028.outbound.protection.outlook.com [52.101.43.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1591138C40D;
-	Tue,  3 Mar 2026 10:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075053090C5
+	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 10:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772532254; cv=fail; b=GzjjKK+F0XOA1AEAlS9kISzVyTC5fpn1261RceRZd3s1zWkWFGs8E5JZXGs1yU/thmb6h4t4F7+YdU3QbW6MYubMQoUZ08NfVjA2u9HtyP0ddK1HSoMHT7wdN72wWQRnSJx+cIoJZWsAG2abu+6RZ0npqwsZiqwF/wvmELDCfxQ=
+	t=1772533684; cv=pass; b=mSYqgKK7y6XGo8GIxtiRmgaXSUf1tnnQ9wyUT2+m/bKSk33F/XfpbvZK/EwizP+0j/gtPiQcTumAbZd0hi35YA2yA6iJqwokm9HgLF/7mH36P1EQLF231mHRTlZ9HsnkhjLIm2JRuDm/kdaQQ1lvDpnaf/3By+V4GuVayzVrxT4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772532254; c=relaxed/simple;
-	bh=Gqkd5kQ5zH973YnnkaJ0jRtvfwvF32Et/bhXZnEeZKU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fYV75Zzk5wHRA3LFE1i3kvBjwVM2QXVW3/FdNFNyOIw3gWyaj1zKxRpHTPDiLowYX4PVcXwqPHdzfVgY6TIJ8a1MWYTo3ZyFQ/WVVlJ5oy7EwGqQxjt+3bWzFQF20w2QYq/3p8ZCyG6IbGsjP/f3ekp59FljGCR3RbEHLz6jE1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ArWUg6p1; arc=fail smtp.client-ip=52.101.43.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1772533684; c=relaxed/simple;
+	bh=F8fSIlrbGpTwPSs4tePme8eV1lOBC1TWFiHUqgyg4V0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YL17Giubrs9VTh+kqdcuOZfEtlz/jGtZFWzoXU1UK6NidS0VQgCClutflWQjwzYQAFPRcKwgi+3nMvSLO8J4RPeNCWKEoXO236tAUOpdUOoYe9ydEs7+fuy2xuEQ8XypJEugjMb/Hqv39+YdCFYfgizuaC5qN1Vxx9YVj4S230E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyQ2LE/5; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ArWUg6p1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ejgixP2qEk2UT1JL0FmwNFA4bE394Qjkx+b7rKTo/drOuG0X0UbuX0jSgrzBE/8EyBUbbOBbxbu069M708bdldNIw6M4m2clV4EnROdSbkS4qY5a2vujtgq/5uk4vg6ONehTEZT9nvuyPQq2nzvPn46fclKUXOzjXGATT6k91Hg9mvrCS7spOBFpqm+cvqaBPDeOvSaCmWNthQP40zDDVrqJyxkavVckvNcAuwILx7mbTRyfWTHO9n3+/Yn1HjDEQ8RVRhFcPKScdXCqy+a/VltXLBMPSuutxqLyCw8Cx+3CJ0Nkbw52+QuuM7DbcutCtnYGw+MX4t4dawSwa4QNQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WVW8hrtNSuE328DO2H4QY5j4ktghoOKevkCWOROqeX4=;
- b=xjzZ/j/aJy766Q0dM8unOJrz+6ERc/zxFwi1pQyZbkbNspWz3IO7vnm+9nvj6WvYHegecskThk4OwhCFwoyOfQ8NE9AEInedmfMKGUQZEZZF59y8BBN4RaonVvdDXDMUctV0H7awdrEGf4LsNnLUOkknjyGN/+cv/S+CgNGoGTgcL+r6CUjFIt33kMsmWyvCur9BVQoEYIMwhECcthp/YTHtKwbinb4NsE3IcOEekRe9WNu8Fd7ENhksFPmjV+2AS57v+VFjhPArQUGD1UFH3pyHNy7e7yMsc3Wewvj3yUHaT4j3hrszwen379dx8Ot+w5Uj8QPuETtCiwaObHCKpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WVW8hrtNSuE328DO2H4QY5j4ktghoOKevkCWOROqeX4=;
- b=ArWUg6p1WsLU7b+0OTZC1KRKOHl6baeZ0vJOq/3anItoUOJcpM63PxKELujHY2odCkmRqD19II5f+jZhH2rK7Kt8NcG253OdxDq2M/kHvtYfGQfZdBqkH047cBFjJ+rxVw8w663DqpzfPPfuEy9KaiE9P4Bpq+oIO9JGN76QORLrVndXpLBUtgsDnbr9U3F7L9VnFrM8CHOPU/gXavHkWSP6cXeB97AVGfhWfGg+GjxFze46k4ibtUL9xh+VXr4Ht4JxrbtSOx13/ThwP2+c1B3rM3hrL7k5iBEpU9vY+16os9gYOEyKiSjaMeb+S4GfVOiyuofjQUzZwRGxSWVF8w==
-Received: from DM6PR07CA0131.namprd07.prod.outlook.com (2603:10b6:5:330::19)
- by MW5PR12MB5623.namprd12.prod.outlook.com (2603:10b6:303:199::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Tue, 3 Mar
- 2026 10:04:08 +0000
-Received: from DS1PEPF00017095.namprd03.prod.outlook.com
- (2603:10b6:5:330:cafe::f9) by DM6PR07CA0131.outlook.office365.com
- (2603:10b6:5:330::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.22 via Frontend Transport; Tue,
- 3 Mar 2026 10:04:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- DS1PEPF00017095.mail.protection.outlook.com (10.167.17.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.16 via Frontend Transport; Tue, 3 Mar 2026 10:04:07 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 3 Mar
- 2026 02:03:52 -0800
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 3 Mar
- 2026 02:03:52 -0800
-Received: from sheetal.nvidia.com (10.127.8.13) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Tue, 3 Mar 2026 02:03:47 -0800
-From: "Sheetal ." <sheetal@nvidia.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>
-CC: Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Sameer Pujar <spujar@nvidia.com>, Mohan kumar
-	<mkumard@nvidia.com>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Sheetal <sheetal@nvidia.com>, Aditya Bavanari
-	<abavanari@nvidia.com>
-Subject: [PATCH v2 2/2] ASoC: tegra: Add support for Tegra238 soundcard
-Date: Tue, 3 Mar 2026 15:32:49 +0530
-Message-ID: <20260303100249.3214529-3-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260303100249.3214529-1-sheetal@nvidia.com>
-References: <20260303100249.3214529-1-sheetal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyQ2LE/5"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so1611017f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 02:28:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772533681; cv=none;
+        d=google.com; s=arc-20240605;
+        b=I2cjS9gBDhlOYGbfnrR16QsHQ1Y3cTGYt5IoQMr3DztXweMk5fzQCz06/e+GTb88ra
+         k7p85c7lFqPUJLeMC792e/VkV073Py4iNJpuC75iPb5iqmtRaBrkp4TIrQmaIohLKsDX
+         ApRJC2+L42yoHtT8MTgSC8xGmRFecUF8qYku1zp0TK5nECBtyhmmPwcaDQgKLXb3tcZ3
+         AcVz5bOYC5O/5mlr3UCNUjLUyEOBV9hpDNG3xKquiSGczc6Yf4hBfWllKK+YM+k4l0YR
+         qTGlqUfUaa95c+bw8OzN6jPu73fQT+wljhDEy8u8T7rc4TjtEfdtZSECu1GngjeQJ2/F
+         7/Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nh1F71xhn/gfVzHSfHqSRk3VvkCsPoO2b7Ux7gLiqhc=;
+        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
+        b=YOE9EEioqy+B567Ll6eEeITp0qU7LU6H4lLic3nm+kaFkAw8n5ExpK0jZ/aWe4d3FW
+         yfqZ175nqRCaegZ3AGtOzBTASBNhY2YMybm6pUWRxF8mPGEKLM0gRvIvlSfrRemlbdlt
+         Bt5UNOlkUfIHH/6FSgWjGgr+yaoSc9GQUYRCJ4kDhoIXOBGJGHXHz6Q8vmavVLt5h6O1
+         gyl2KCR7PHKjpyiohb6z1onoc4uNiydSdjThOW3MaA3gWnZ6nr4ZludHxu/Vr0mpGBfE
+         8nWuz8lVHFN5Dvvr2rPV1rMd+SrOtXGjwNUJBBlMbG+iSMrZxhOm74e+rQfKCrMMHmDy
+         5xyg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772533681; x=1773138481; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nh1F71xhn/gfVzHSfHqSRk3VvkCsPoO2b7Ux7gLiqhc=;
+        b=JyQ2LE/5I61XlWgv2wwL2miRzeomc0AXef1FinJITKUUZSR/AU/3z1U+ygdtFFnfpQ
+         B7pdv9Z943YuG/RBAeWFHaBWkNGibpAPKVyvGay0wM9rYZ+ufl0K8qa2qPMfKX93tgZt
+         1zGVh7fBFaHmUf/OwyRWhXQuxOWlgcHHNYEDREOSCd0FThvE5AyVxhBAXxTDp90zJygU
+         8U9NRkIAlv/9Cty6L5FpkYKagw8d3vm3qQgvekWdkXTW3jBTLO2Jtb1+ibTF0RzOpMkm
+         nEdj4+Gb6gATT3sPEKO7Uk0cWMAi6gMFmgQ+lY0hhQWSI5isOQBWI2IdlUEO+TSXOV2R
+         7yAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772533681; x=1773138481;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nh1F71xhn/gfVzHSfHqSRk3VvkCsPoO2b7Ux7gLiqhc=;
+        b=i1N+0dPAupFllvKRirXpbE04tNLpDFf45guUczktjLr5f8IPaXqzCfxaIJ4BEvhrP5
+         DJESsKjEZqwgaA+6X/mxQDutF8iER3u7V/rlFwLK3MEKj+HGYbWbfl9Prl/CFqBS78R9
+         iZa0X9jBN0MyXtsA5UdOEO7EgfzZEn6kEE9gpfdCFnsLggc8tDwhpcG77R5cf4G05EvI
+         pou1qAV125JtDIqmCx/YXLulEOY1oAvqI50maGqDrZLbkz83IFz9/LxrwsQ6b9pesK0H
+         DiTl4oYzOzDF0qvYNGiOAGzxQS13BP2V6s3YOWhuDlzjHdC+uv7v+abXLGbuu7ExUz4I
+         O4bg==
+X-Gm-Message-State: AOJu0YwXhE3D9OOWdaosoNLk3xbUGfpHWUNpzPJJOL16hJw1e/FkGU3t
+	n0sjwPPlL93t0mDTGJRQRP3iwx4hFEIoU7jPeLgiZiQ75juJKVquhi3TeurR3jMGJBMQhAX+8R9
+	Pz5RrXw5YTIfIUJD6zZ7LidHe74lrzBHFek8DiS3kBK/X
+X-Gm-Gg: ATEYQzwp5Ftb86A8PErfzz7AG+zy0eUz+xjmiBesEJadiNH53tFnsCQnPNuzfs1fyoU
+	WugYsSFAWKQXk89yUUzCqbgyGWdEt4v+wGI6Wcllvnq1fneHLUD1pMVIl3wWjRZTNpbSTs1vijS
+	rMiCnsbOdGgtc/fadmC1UUnUdc2YnvyOGUQR5iSzQ+oC5L49r4th8362z9HVZiK64BtU3I7mKB2
+	O0h2fSHoLpyN23p0Ka/OcIJ2gC3/QguZIMEVPTEos//7xPSTGxmBS3VocBZKOUfJBzAdSaFI1Go
+	hzcx0rBydVMiVFhMrsNndsI3G6dvAxIFJ0+g8VZIZrXfrLiBzbk=
+X-Received: by 2002:a05:6000:1885:b0:439:befa:91cb with SMTP id
+ ffacd0b85a97d-439befa9385mr4770374f8f.45.1772533681076; Tue, 03 Mar 2026
+ 02:28:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017095:EE_|MW5PR12MB5623:EE_
-X-MS-Office365-Filtering-Correlation-Id: 715ddd67-4d64-48a0-54a9-08de790c3577
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|7416014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	Vtea1MfJvcaudOT0FZmU54wlBkQavk6qDSOQc43gCDEEVB6r0apI5tlV8bnGEKdqVLJE24q8Gay8XhcpeZDkBcPc/JP7aDw/yxKqrXiVQL8tozbbkYJtBocqj4XGaO/YOF/uRw3wgR8TJJoEsm9brHKty+fZ2wTD8rL6QfxWDr7yu8p7e56TTdrDva+kjtZDSx5wnSohzQ+QaUVTt0SCb2dM+963tXImOPs/sLAnVd/EBRzC1/imPRRv19kXCPqRVGyrOk1hJmLWXmu7Ume1F3mHXvKu+yb0cug9T0I5cafYrDkBuDVk+MxeDAHNfaofEqqCcA0RCfIUd7lWYew6Dwpc9qA85gdPtXZ+MxjRyX06fBjw7CBI4d7v2mCCRLqtiHw8vp+eavy2x10UEJP4y70a6U9QNecqE47/S6OymBLvqjXlLiGL70nEEQYJcn4Vu/h2Fr6iKAkWnGg5tZIZoWicYC4Y721kfyMoxVh639MMZsPDupRhBYOlBeclwp9X+Dkyk5WP4RSHrZ+xUbb1BPoMvDR5OfUOh1FRf+MgCg91vsIkwr2iTVJS+R6aeak5hrEVx2yiAm1SOvi9b7tLs7ALJtqdYOmcJcSbsHuBxaoUyx08pj5B1EV2PQwaJbEkYEcm4gYiWqEXtkU1SLAFw09crCVrqiu8EhbCQsK5TKmAShQ6X7hxn4Cl9/b+EtirHxK9bGecrKN8yDFnzb/UQ9rlPMnYCN8lCWMmTuarHFRLHM70sihLVv6Z6eYFDuc8pXOBqeHKjA7XIPiPAdpN2uGkA5nN3BXBWIkTzSSItgcTB6bL1JKgiH5eMSrxDkxkC0UMYoWLAcCWvF0xjR8TzA==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	hH3UMVX4BR8m+hJ6L4j8nD5MpG0AzE6CsIR3AMqBUDSbr56LOddIHh/N9KnZ9jAWqzdqAh+yIMDJ9SFUBgW2srsbQRauhdOZPmWccTle01kx9BNxoXArplJoUharuQ0P5Cb8YdGZI9387r6RWjkpaLNPqK1/HXgIefAJ90Fsh9kM/ZXOSqhCXI589PcE92R2rDo8ndoYSTiB8QBEWdpS15UGs9d5TbU7i4dNbfHjwdln2uDX2WoA1dihbG/bJD/qmOItKQRX+Ltar81a+7jKjjr+U0We7no284zkfgJIBo0lPbPBQshBGREP4sKBRP1KWQ/FUGkWOi6rp7jmDweXHBmZn6SmuS/yPHb4hfityQZ3Df3TEQxfnaVgmdx/89f8+DivOYChI4ILqIy9A0ptuvAjah0JFyt/5R8cuhIQDtXcsB1DGKhnXCXSrjRy9D6T
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 10:04:07.5348
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 715ddd67-4d64-48a0-54a9-08de790c3577
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017095.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5623
+References: <CAOKSTBs1VNBdjRZe3M2v-nC+pLZZ0-KQtRUZUj6ACqb4Xe7LDg@mail.gmail.com>
+ <87qzq2kxrc.wl-tiwai@suse.de> <CAOKSTBtpqPEnihFhopocV_RC8VR_RribXctUayEkUCav3omr3g@mail.gmail.com>
+ <87ldgakvsc.wl-tiwai@suse.de> <CAOKSTBvbopXOuOfstmasijZgUnT9_qW_dsaeMcHUXhyjj3iRmw@mail.gmail.com>
+ <CAOKSTBsWiwwwrmBt3dshrYYo3fQN9eF-gi2Z7BoX6c-Nb3ZoHg@mail.gmail.com>
+ <CAOKSTBvND=d4Fq7mt=36p2Y+hKr6aDUbJ6zA4wDOWASwcWjmNQ@mail.gmail.com> <87h5qxl8tj.wl-tiwai@suse.de>
+In-Reply-To: <87h5qxl8tj.wl-tiwai@suse.de>
+From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
+Date: Tue, 3 Mar 2026 07:27:24 -0300
+X-Gm-Features: AaiRm502kHO8E7uFNNK04bE3uCKnOOlo0ClEP2NngdUZGdgp2ulHY3739Te9bV8
+Message-ID: <CAOKSTBtQi6ZmLmy6u5mP9_gLKZTZHmbb9S36hO99xSsk_EEbcA@mail.gmail.com>
+Subject: Re: No HDMI audio with Linux Kernel 7 rc1 or rc2...
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Sheetal <sheetal@nvidia.com>
+Sorry... I am not an expert on this stuff.
+I just like to compile the kernel...
 
-Tegra238 platforms use different clock rates for plla and
-plla_out0 clocks. Add Tegra238 support in the Tegra
-sound card driver to apply specific clock configurations.
+>> You need to *compare* between two kernel logs.  You can strip the time
+>> prefix, and check which lines appear and which disappear in the new
+>> kernel log.
+How can I do that?
+Via journalctl -xe -p3? journalctl -r -b?
 
-Signed-off-by: Aditya Bavanari <abavanari@nvidia.com>
-Signed-off-by: Sheetal <sheetal@nvidia.com>
+>> And, have you tested the revert?
+I don't know how to do that.
+
+If you can point me to some doc, it would be nice.
+
+Thanks
+
 ---
- sound/soc/tegra/tegra_audio_graph_card.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/tegra/tegra_audio_graph_card.c b/sound/soc/tegra/tegra_audio_graph_card.c
-index 94b5ab77649b..b6dadd6a3d3d 100644
---- a/sound/soc/tegra/tegra_audio_graph_card.c
-+++ b/sound/soc/tegra/tegra_audio_graph_card.c
-@@ -231,6 +231,15 @@ static const struct tegra_audio_cdata tegra186_data = {
- 	.plla_out0_rates[x11_RATE] = 45158400,
- };
- 
-+static const struct tegra_audio_cdata tegra238_data = {
-+	/* PLLA */
-+	.plla_rates[x8_RATE] = 1277952000,
-+	.plla_rates[x11_RATE] = 1264435200,
-+	/* PLLA_OUT0 */
-+	.plla_out0_rates[x8_RATE] = 49152000,
-+	.plla_out0_rates[x11_RATE] = 45158400,
-+};
-+
- static const struct tegra_audio_cdata tegra264_data = {
- 	/* PLLA1 */
- 	.plla_rates[x8_RATE] = 983040000,
-@@ -245,6 +254,8 @@ static const struct of_device_id graph_of_tegra_match[] = {
- 	  .data = &tegra210_data },
- 	{ .compatible = "nvidia,tegra186-audio-graph-card",
- 	  .data = &tegra186_data },
-+	{ .compatible = "nvidia,tegra238-audio-graph-card",
-+	  .data = &tegra238_data },
- 	{ .compatible = "nvidia,tegra264-audio-graph-card",
- 	  .data = &tegra264_data },
- 	{},
--- 
-2.34.1
 
+Gilberto Nunes Ferreira
++55 (47) 99676-7530 - Whatsapp / Telegram
+
+---
+
+
+Gilberto Nunes Ferreira
++55 (47) 99676-7530 - Whatsapp / Telegram
+
+
+
+
+
+
+Em ter., 3 de mar. de 2026 =C3=A0s 03:35, Takashi Iwai <tiwai@suse.de> escr=
+eveu:
+>
+> On Mon, 02 Mar 2026 19:28:48 +0100,
+> Gilberto Ferreira wrote:
+> >
+> > I don't know this can help in some way, but I got this ops
+> >
+> > dmesg | grep hda
+> > [seg mar  2 15:26:10 2026] snd_hda_intel 0000:04:00.1: enabling device
+> > (0000 -> 0002)
+> > [seg mar  2 15:26:10 2026] snd_hda_intel 0000:04:00.1: Handle
+> > vga_switcheroo audio client
+> > [seg mar  2 15:26:10 2026] snd_hda_intel 0000:04:00.6: enabling device
+> > (0000 -> 0002)
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:
+> > CX11970: BIOS auto-probing.
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:
+> > autoconfig for CX11970: line_outs=3D1 (0x17/0x0/0x0/0x0/0x0)
+> > type:speaker
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:
+> > speaker_outs=3D0 (0x0/0x0/0x0/0x0/0x0)
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:
+> > hp_outs=3D1 (0x16/0x0/0x0/0x0/0x0)
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:
+> > mono: mono_out=3D0x0
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:    input=
+s:
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:      Mic=
+=3D0x19
+> > [seg mar  2 15:26:10 2026] snd_hda_codec_conexant hdaudioC1D0:
+> > Internal Mic=3D0x1a
+> > [seg mar  2 15:26:12 2026] snd_hda_intel 0000:04:00.1: bound
+> > 0000:04:00.0 (ops amdgpu_dm_audio_component_bind_ops [amdgpu])
+> >
+> >
+> > I really don't know what that means...
+>
+> You need to *compare* between two kernel logs.  You can strip the time
+> prefix, and check which lines appear and which disappear in the new
+> kernel log.
+>
+> FWIW, the above is the normal information from HD-audio at parsing the
+> BIOS info and at binding the interface.
+>
+> And, have you tested the revert?
+>
+>
+> Takashi
