@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB38421F1C;
-	Tue,  3 Mar 2026 11:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C834421F04;
+	Tue,  3 Mar 2026 11:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772536800; cv=none; b=er0yM5LUwclFGia4ScZi59XygpbUeNHI9nK7NWIuB1unpFb8s6YpHtERwfoFA4x0UFne928QwKrqoeLRHAJXSzMJ2ATk4yoQRuuhzEaivt6faTfdv7iein7VEmIRQmXSJgBIJsUpFg3D23WF3SVAOGQ57QT/mFOLEoh3FVBZYfU=
+	t=1772536801; cv=none; b=Rxxs/9yTgo/Gy3bE6jSDsN+lTJhi380SMltLT7Flu42KrwHyRREMUUvZAp8AzxJnDBVE5MMS/F6mrnvHt+xpXnlcptk8JMHoUuertXPHc8TSRKD6GIrNygMxh3Ug4IMxoDpEhcwdDxIrS8l82ncjhd4KFvaA97rkIzYwWf9zQkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772536800; c=relaxed/simple;
-	bh=ZkfPkmeb4b3mbKdTJj7BYrsiQTgkQIrQs4AML5lW6QA=;
+	s=arc-20240116; t=1772536801; c=relaxed/simple;
+	bh=e6PnPUg1XGOVaWuQ6hjVA5UYSiO6q8mUbF8THA+ulsM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rb7I9CaMMt5m4C7rHRFIun2r3XM2wPdQYXPRHm38FH9TgxbQYhZ2FWqtM8+MXrHAK29ex+CgRoxL2K6fgH2yh4O7H7k4A5YUYKTDK+sY/M2FukgLOlFoWwT6cWm+8ZJXMQPzEpC0Y3CG+EKbNi8Hk39KxUtFihRa4tnXeRmuRY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngehF4Yl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MZnBfNsMwEDoWbWlGCbwdAQwS5EPGuD8obyX4GRwDVMyKudfXDR4eMyhVF0xqU96aJmb9WvRkxWj1dJ7naq3v5xhO9pyTJBBHBzTGMTXBfIo7zVpM2GPS0hP464q8wN3QFSXvpnlJjJU/RCRAreylp6fAwnEkTRBwtXdgTH+6ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LyWRwC+L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngehF4Yl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D72C19422;
-	Tue,  3 Mar 2026 11:19:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LyWRwC+L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BDB3C2BCAF;
+	Tue,  3 Mar 2026 11:19:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772536799;
-	bh=ZkfPkmeb4b3mbKdTJj7BYrsiQTgkQIrQs4AML5lW6QA=;
+	s=k20201202; t=1772536800;
+	bh=e6PnPUg1XGOVaWuQ6hjVA5UYSiO6q8mUbF8THA+ulsM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ngehF4Yl5wRK6sphaWZMniJ2iV1Gbwudy+5HH/tzD5Fa5Xa5SvejBRC3dt4J+db3P
-	 96fgXYlQVfyiVaprHLNu34pG075ianSEVmQrbYGcNe0y4uXZGzTyiTKZg8wIwUqTbz
-	 rvZ7eGdFkj6+z4qiOxOOPDO5kOSmvYuUTDQyCHH7Fzv8WWfQIHXDj+reES/BAWVelD
-	 1jDI3As08vJJcq8WFO4gvB5f6NJmMHa81rJYo3tlJfQsLcRsO+Xf+rm/+pTOMmU7dr
-	 EfxnL15HAQP3FgRyKKxwgAagoRakLQZab8daTpP4u221ui3Y4Lt1Ljx+j8so1LIfEV
-	 Mm1kV/T7oP8Rg==
+	b=LyWRwC+LOU4XGgEvVsevH6bc8aJ20pCUg//KlUB+1JSsYOlNQbz+QOufXADFRJwe9
+	 xOvaXP/ExHLco0KVIBBeI+1cJjWKRaRVyDpbkIzEhtGRiZZc19ZTIexj7RCUT/kI6B
+	 nzBbGe6zUUSp5UT6LBEP5S2NzI2WyXMNgNhf5qNqVLKVd/zp5HpJrYHw5F0AqlRAN6
+	 mt/oe4Rq+sr8pbIGre12wbmxg0R/XdgGvVYOEMnvNl7O/MshgbKjDaKpfLQ37Q0KiX
+	 IlpQS7ioBLZq4E1OaF6e3kQ7dfSdpoQ+QE+ze6FCKm6OEtCtetx7sQkhLjx1tQKhRF
+	 1AQDUfDe0A7wQ==
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260205-asoc-fsl-easrc-fix-events-v1-0-39d4c766918b@kernel.org>
-References: <20260205-asoc-fsl-easrc-fix-events-v1-0-39d4c766918b@kernel.org>
-Subject: Re: [PATCH 0/2] ASoC: fsl_easrc: Fix control writes
-Message-Id: <177253679744.22767.4381073391012911431.b4-ty@kernel.org>
-Date: Tue, 03 Mar 2026 11:19:57 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260226110137.1664562-1-rf@opensource.cirrus.com>
+References: <20260226110137.1664562-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56: Only patch ASP registers if the DAI is
+ part of a DAIlink
+Message-Id: <177253679976.22767.11860743678669302046.b4-ty@kernel.org>
+Date: Tue, 03 Mar 2026 11:19:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,11 +46,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-38bf1
 
-On Thu, 05 Feb 2026 00:25:36 +0000, Mark Brown wrote:
-> I noticed that neither of the put() operations for the controls defined
-> by the fsl_easrc driver was flagging value changes properly, fix that.
+On Thu, 26 Feb 2026 11:01:37 +0000, Richard Fitzgerald wrote:
+> Move the ASP register patches to a separate struct and apply this from the
+> ASP DAI probe() function so that the registers are only patched if the DAI
+> is part of a DAI link.
 > 
+> Some systems use the ASP as a special-purpose interconnect and on these
+> systems the ASP registers are configured by a third party (the firmware,
+> the BIOS, or another device using the amp's secondary host control
+> interface).
 > 
+> [...]
 
 Applied to
 
@@ -58,10 +64,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_put_bits()
-      commit: 54a86cf48eaa6d1ab5130d756b718775e81e1748
-[2/2] ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_set_reg()
-      commit: 31ddc62c1cd92e51b9db61d7954b85ae2ec224da
+[1/1] ASoC: cs35l56: Only patch ASP registers if the DAI is part of a DAIlink
+      commit: 9351cf3fd92dc1349bb75f2f7f7324607dcf596f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
