@@ -1,87 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D8396564;
-	Tue,  3 Mar 2026 19:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC07396595;
+	Tue,  3 Mar 2026 19:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772565487; cv=none; b=LYsJHnTHx3FJHM5tZp1E0XjeXjHzhWdfkMVQMxUdUkLMUM0g/CD/Uzf/FXwlr83y9x7Qi0m08XmxiBC/6VNmgkic8oQVJPEL2ak2bfr0DWXT7sAg5gooYvDKSjFtYPKI88wST3MS2rFeqobS6Maqu9wwo/YhT27DN9owHqUm820=
+	t=1772565811; cv=none; b=bs6sdYIMSWYM3dkH4h0w6BFXslpsMzN+botA/IAt1g8i84zYQxt7BARagpYaKzbrtCGTgJ2EPkIwCFEm+OBwgobkQ3i/koyu6u0APC0M4z9LpUzIWtHtTgvaasmqvAPYaOmh4MMFDZU3fUx81KJYmPxa43LwU4tdmTWJrACBCjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772565487; c=relaxed/simple;
-	bh=BoXGBCau5r1s+WRSBZCVeE9Fm89KK3KvHWbTxi92Xto=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Yg8exQYjbfeDbtsempnSIJMcSt5Znmuop7TIycPkLeU8ZrYfrMGvf0RbXpiAvXIdHLHhgK48ejdR/w367ntbIUFKFGFUI9ij6/yQeiQt/8ziPNvq61pD6UCE0Qfo7/d4Kc1c34obfLLovZKuOHey9krz3JAvIGFARfS8sugOUPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6JqshVM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772565811; c=relaxed/simple;
+	bh=+isYS/A1ddc4bXaYmSq5j0VjzO5wrpF96XT61ST9+qc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cc0q+3PeDRVgdpu7BS//8FsShBmG+bvZmHE+Le4PtPOcNqowMS41iLQ4qJ0auI52S/+jUsSU/pmHFvDEeaZTi4zTecjU25ZfSiYwqMZcTa7ccmCiRJvnBgp3eS8mbv6W36SkOw00j3c8BcZxgk1YFNOoLW4OEuxeQwvqwkVPSPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=RolMTCN4; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6JqshVM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5BF0C116C6;
-	Tue,  3 Mar 2026 19:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772565487;
-	bh=BoXGBCau5r1s+WRSBZCVeE9Fm89KK3KvHWbTxi92Xto=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=q6JqshVMljVfv8Cd2y14LY/Fw+tfw4Z3Qg3z5MkVCBZhhe0ogNqXS6OLV/Ivla58I
-	 CeTdH8njEHd6YOE1TyLfCCsn+lKGDuDzIFavZ7Cq5Yd8IM+2+5iw+fq6XjPxMflqVM
-	 Le/bWg9TcGuCaLAg1eTtVEJYp+wKLTSiKdwWGlXggTlGwKIdlePgrw+UiEWb7+aBfV
-	 6CndtHTuoBJwaPgwpiKAq9mMsB3z0w1CzgGQ5UvG3R9gAim36pjDmjYQwJsQevqfpc
-	 h6p4mNHEcWhnJMLVZcmu3tL7Z3yAPQL3z9qrSnADIOgO0REq0Z+Y+WFSDp1QS5/b7r
-	 ThUsp43QE4TSw==
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="RolMTCN4"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 331DB2E6A;
+	Tue,  3 Mar 2026 20:23:19 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 331DB2E6A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1772565799; bh=BaduwV1QdGJvXYLZjbFIHDMOkRuUACDPwqpSeXs7aVM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RolMTCN4SqCYgFWVBPhr1pea5oieOCt4mWghCeVdvgGsofF2eclFkhFfYX65qsllo
+	 pfINqcrAxcrYDc9Yl/bTGzJdtFtf+xXjoRWnYcxDXI73ipwpgXQuowy3Bv8z+BptBu
+	 bDBWTTaLS5Fnz5m2BzxoRQoJ7BN4Pri9dpIECvx0=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue,  3 Mar 2026 20:23:11 +0100 (CET)
+Message-ID: <2a28e6a4-f6c8-4539-a45e-bd5ce7da43c6@perex.cz>
+Date: Tue, 3 Mar 2026 20:23:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 20:18:01 +0100
-Message-Id: <DGTE0SSHFRC9.U45YIYN3PZ8I@kernel.org>
-Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
- name
-Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
- <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
- <s.nawrocki@samsung.com>, <nuno.sa@analog.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-sh@vger.kernel.org>, "Guenter Roeck" <groeck7@gmail.com>
-To: "Guenter Roeck" <linux@roeck-us.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260303115720.48783-1-dakr@kernel.org>
- <20260303115720.48783-4-dakr@kernel.org>
- <b46c5757-b67d-4949-b8d8-54b799464b5d@roeck-us.net>
- <DGTACERFTTCV.29XON9ZLYAEQL@kernel.org>
- <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
-In-Reply-To: <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] ALSA: control: add ioctl to retrieve full card
+ components
+To: Takashi Iwai <tiwai@suse.de>,
+ Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ alsa-devel@alsa-project.org
+References: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
+ <20260303145815.9930-2-mstrozek@opensource.cirrus.com>
+ <87seagx6c4.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87seagx6c4.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue Mar 3, 2026 at 5:57 PM CET, Guenter Roeck wrote:
-> On 3/3/26 08:25, Danilo Krummrich wrote:
->> On Tue Mar 3, 2026 at 5:23 PM CET, Guenter Roeck wrote:
->>> On Tue, Mar 03, 2026 at 12:53:20PM +0100, Danilo Krummrich wrote:
->>>> Do not use driver_override as IRQ name, as it is not guaranteed to poi=
-nt
->>>> to a valid string; use NULL instead (which makes the devm IRQ helpers
->>>> use dev_name()).
->>>>
->>>> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
->>>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
->>>> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
->>>
->>> Applied.
->>=20
->> I need this patch in the driver-core tree, otherwise I can't land patch =
-4 of
->> this series [1]. :(
->>=20
->> Any chance you can drop it from your tree?
->>=20
->> [1] https://lore.kernel.org/driver-core/20260303115720.48783-5-dakr@kern=
-el.org/
->>=20
->
-> Sure, I'll drop it. Please add
->
-> Acked-by: Guenter Roeck <linux@roeck-us.net>
+On 3/3/26 16:47, Takashi Iwai wrote:
+> On Tue, 03 Mar 2026 15:58:00 +0100,
+> Maciej Strozek wrote:
+>>
+>> The fixed-size components field in SNDRV_CTL_IOCTL_CARD_INFO can be too
+>> small on systems with many audio devices.
+>>
+>> Keep the existing struct snd_ctl_card_info ABI intact and add a new ioctl
+>> to retrieve the full components string.
+>>
+>> When the legacy components field is truncated, append '>' to indicate
+>> that the full string is available via the new ioctl.
+>>
+>> Link: https://github.com/alsa-project/alsa-lib/pull/494
+>> Suggested-by: Jaroslav Kysela <perex@perex.cz>
+>> Suggested-by: Takashi Iwai <tiwai@suse.com>
+>> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+>> ---
+>> Changes for v3:
+>>   - change components field to a dynamic array resizable in 32 byte increments
+>>   - removed SNDRV_CTL_COMPONENTS_LEN define
+>>   - sanity check if 'components' requests more than 512 bytes
+>>   - added a commit to clean up trailing whitespaces
+>>   - alsa-utils link no longer needed
+>> Changes for v2:
+>>   - do not modify existing card->components field
+>>   - add a new ioctl and struct to keep the full components string
+>>   - handle the split/trim in snd_ctl_card_info()
+>> ---
+>>   include/sound/core.h        |  4 ++--
+>>   include/uapi/sound/asound.h | 14 ++++++++++++-
+>>   sound/core/control.c        | 35 ++++++++++++++++++++++++++++++++-
+>>   sound/core/control_compat.c |  2 ++
+>>   sound/core/init.c           | 39 +++++++++++++++++++++++++++++--------
+>>   5 files changed, 82 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/include/sound/core.h b/include/sound/core.h
+>> index 4093ec82a0a1..2b58f79b524d 100644
+>> --- a/include/sound/core.h
+>> +++ b/include/sound/core.h
+>> @@ -87,8 +87,8 @@ struct snd_card {
+>>   	char longname[80];		/* name of this soundcard */
+>>   	char irq_descr[32];		/* Interrupt description */
+>>   	char mixername[80];		/* mixer name */
+>> -	char components[128];		/* card components delimited with
+>> -								space */
+>> +	char *components_ptr;
+>> +	unsigned int components_ptr_alloc_size; // current memory allocation components_ptr.
+>>   	struct module *module;		/* top-level module */
+>>
+>>   	void *private_data;		/* private data for soundcard */
+>> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+>> index d3ce75ba938a..422b0b07613d 100644
+>> --- a/include/uapi/sound/asound.h
+>> +++ b/include/uapi/sound/asound.h
+>> @@ -1058,7 +1058,7 @@ struct snd_timer_tread {
+>>    *                                                                          *
+>>    ****************************************************************************/
+>>
+>> -#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 9)
+>> +#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 10)
+>>
+>>   struct snd_ctl_card_info {
+>>   	int card;			/* card number */
+>> @@ -1072,6 +1072,17 @@ struct snd_ctl_card_info {
+>>   	unsigned char components[128];	/* card components / fine identification, delimited with one space (AC97 etc..) */
+>>   };
+>>
+>> +/*
+>> + * Card components can exceed the fixed 128 bytes in snd_ctl_card_info.
+>> + * Use SNDRV_CTL_IOCTL_CARD_COMPONENTS to retrieve the full string.
+>> + *
+>> + */
+>> +struct snd_ctl_card_components {
+>> +	int card;
+>> +	unsigned int length;
+>> +	unsigned char *components;
+>> +};
+> 
+> Embedding a pointer for ioctl is a nightmare for 32bit compatibility,
+> and you seem to have forgotten it, too ;)
 
-Thanks!
+It's doable and we have other more important structures like struct snd_xferi 
+using those pointers. But yes, the translation is missing in this patch set. I 
+already gave hint that control_compat.c must be modified, too.
+
+> IMO, in this case, it'd be easier to use a flex array instead, e.g.
+> 
+> struct snd_ctl_card_components {
+> 	int card;
+> 	unsigned int length;
+> 	unsigned char components[];
+> };
+
+There is an issue that flex arrays will break _IOC_SIZE().
+
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
