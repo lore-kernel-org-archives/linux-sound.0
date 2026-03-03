@@ -1,269 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B890C33DEE0;
-	Tue,  3 Mar 2026 11:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772539067; cv=none; b=I+jyviOZ3utaZ+XsRyS1AHHG4ibl09HvRt6hxjXo0eowxl91qW3gmuRtk8WxBfeVG+2RlAhWnB+kA1juAOg6bbtoQFv7N1EDjKLfjyCKtEkDMe9Lovw2VaXy/vh/Cymn4P8hZBttNe0Pe1+YDv894qvrfSfH0chk12iAAMcp47I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772539067; c=relaxed/simple;
-	bh=gMiU4B7aXqUIwr1QMMO3H+NRPoBJrVaacNBNpA/ZYTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ag6cXEMPaSWcK8/+LIeszzCqybIt83y/SWhHn25XbTq8Nlfil8wLx8qKl2CKueKiRksQLO9IOZt7yln8WpAkFVi+FsE044tN3E0rkhdmYy80Ulu6icsAJ9c656+5xXVQIQMkWqXNxbr5V8QgJYRA6zOnIQJ93ol8Uewd1lkayoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYdEyHSk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1422725F7A5
+	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 12:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772540265; cv=pass; b=auhlG5pEIWsRaI1DcbaSn81tI8jCAgdfu8RDOUwwr3La35YWXNQk4AafiCCevdIagCN1RHCP2IMFzlseknCX8HqzlKIErbIOHTgTgFNVZ7ay1Y4ySFAncYvDCqROSpomOOaJ+KKdN3JbLRjs1KL9y6BbFL5WYY6jCbYDgcAYITA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772540265; c=relaxed/simple;
+	bh=bvzhtx+FGu1xxotHnZZQAPPY3OIUwg2a5ra2FINlZSc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EFgtZKtoKMomSlMt5BGNmejw6VttP0mTDP+/P090S2YiphvQw2M/PCPVn2rFi0RytsODhc2tvkACyP5acr518khdwm/5vlNVa44ngYN9SZQnLdK3ICUfFzIPX9Po4N2yqp8FCVqbAHzsVk0EqZO3zsMjgCMCg7q9YCNTukDFU7w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eM1oQV1I; arc=pass smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYdEyHSk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1C5C116C6;
-	Tue,  3 Mar 2026 11:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772539067;
-	bh=gMiU4B7aXqUIwr1QMMO3H+NRPoBJrVaacNBNpA/ZYTw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZYdEyHSkPk0Q+jTdZU0EFxuXND5MW1lXOobmRpuVKvoecoW1h8SuvPEp13UvRI1e+
-	 42muQQmPujqgFsZEI+JjIZcieTQKhCPIBKqn7y/qeY/U3XUcIo8y33sb4I448Z31HE
-	 KCmFRgwUWOpCxKJNX8z8SO0BlrQRYWA0kSj/EclyQkm/VcXF5GnZw337xCA1khtx0O
-	 HB0R/1D16n0DZSsxIpFXqQzxYE4M0n/XDQvj0F+g3YxDO09O5aBi/bZVo4DMVctiE9
-	 7cOkRdaxC7ABOF0Qf+pjiwypPWnF1kjhoGin3HansScyRnRh4ueaQGcWM6Z/l41IZw
-	 ZLOYBQEyIBaHg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	hanguidong02@gmail.com,
-	ysato@users.sourceforge.jp,
-	dalias@libc.org,
-	glaubitz@physik.fu-berlin.de,
-	abelvesa@kernel.org,
-	srini@kernel.org,
-	s.nawrocki@samsung.com,
-	nuno.sa@analog.com
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-hwmon@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 4/4] driver core: platform: use generic driver_override infrastructure
-Date: Tue,  3 Mar 2026 12:53:21 +0100
-Message-ID: <20260303115720.48783-5-dakr@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260303115720.48783-1-dakr@kernel.org>
-References: <20260303115720.48783-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eM1oQV1I"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439a7b48df2so2373703f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 04:17:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772540262; cv=none;
+        d=google.com; s=arc-20240605;
+        b=k6QZjGwL8cwL43A66DwlTKle1NNvaQiKc7G10nMi1hUhWq1d3+k2BhafzcrXaox0pX
+         4td5L24AtiAAVo+Ako42J0wyQjAUhhtzUYL852dU7J48zyCbQEjOhpgK2wQQ/hRbcyLM
+         J5Y4yidzl8SxZgM1q+MQkRsD+j8IPQ33ltHyadLZs8APZsi+nnw0UJ1felCudg/6AQWl
+         DeAnIeaQrNF1T1jIZSivr8bwAKSDX27/0iuCQkl/moccRgh67vWKrVpfsCwxJBCiXDre
+         Mcud8ALSWx0SV0zZVa2bDYtMy3ei1KHC3aCEGX5CMtDclQTUsxP9QjWq0v7C6VMp+Q0A
+         7vSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wru8A5TizOl//nb7mqw4WHEfnfNTrZUb6Yk5NL0xwU8=;
+        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
+        b=aIkE3PWdUNi9euRvh6vHQiW6GVBC9fFGdlmP3O7XDH3VdCQbVGRMHltjEksOpLiVZZ
+         u+nh2WP7Dmd65U6gzyRbbWCbwx/vGhXQw5RyCG0OWDKxuo/PQYxhhlWqYa71SnN4VXXR
+         QVa3x28G4tVtFu16MydqKBEEI4DKclqTBfXspVonOXLfo4mtQpYxTMu0YS5vzg3ZWO6m
+         4yit7hzfqsISurlHsAJ80ITcd57vkih8lHSXQs2nScYyjqPqm6p1AkFHpGpkezbm5yOx
+         WV9Eeheyh/pymSo0+qRE817BTHXB+Kw3lR+t3ZlHbxcn3hJgc9f7YpfgSz5XQQ5j/w3M
+         f+Qg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772540262; x=1773145062; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wru8A5TizOl//nb7mqw4WHEfnfNTrZUb6Yk5NL0xwU8=;
+        b=eM1oQV1I7YHsnUoM+plhMuNC5gwMCcOWIuL90RuMBOg2024RCApNN1PjMlmVyoWnF2
+         mnlk+BvmvtEuQsNo6EyBNliUL2GWzNWx0DrGlYKW0OSEjE7xZvy0wNtWBhETJa4U45TJ
+         7xG+4YUfxGq08ZVbg7+Q3/UaPOZg6mXBMF03PC4plEtIcGcZlpV/k2XICj02HTKgZyo+
+         duZ/p3OmziHlkmwP4q4TsNVUqRu2zT8YKyIRrn7mZYQDlNPY/wCpYkDlJFhIZPD27/qC
+         CV79lLh0oRhHAK4nGrQk1fzRFeOD5u9BM/q+tkF0j0jhcGXIvDr2198iHnEqO/h8nZKg
+         ZMKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772540262; x=1773145062;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wru8A5TizOl//nb7mqw4WHEfnfNTrZUb6Yk5NL0xwU8=;
+        b=S1BV7QjS70kRCfhJnsgkPysP+sMWSSH1GtgkwnLdkQ0KLPAgmerx5D2ingGE18G/TR
+         Rf6WFdDokElkVxNhomclXtL5t2SJfEXlnaFrGD5IumMJspUNTq3LxHA+tk+6jWGE7Lfw
+         aIGTACcOWRdZP4sH9TwhImNjIrGeYkbMkI75MUybe3K56uuO/kZsXl2CaUQHs9aeYp2E
+         Wja6+WABs9aa98g9qEk4N9sRaZM85uSJD4OOGwVNq+zPawwgLq1RIsbxtKKZPzjkYvE+
+         BL57E1mS1qtQZeFCmyrqoQiHQPeqHh5aCUlvKk9DuBKckGB3ntoxvh0VJ65YwQ0UvgLQ
+         3+JA==
+X-Gm-Message-State: AOJu0YyqlSOTgMlstE120jDfBfaS7KGeri7XiIEoaWTNL8m8Qc4EE4uC
+	GYxncZUuQuN5V8ma+IGnc7H5SotHA2G3k/Jo9ZtEGiJw+IZPWy++Coal4GjE8C6KDPwZnRxjI3V
+	cIdAlxrAapXTGTyTVvQ45kLb26FBZssQ=
+X-Gm-Gg: ATEYQzxvDntwJDVq1+tPg6ZRcCqpuSLZFtzCOnly3A/gie4AP4LV3UKK6AAEgGoMG7b
+	2VTGGmPDZfKGG+E3xQNNkMwRbUyD4/VB/Xo8Gfo4UwUVPVtYa107cMWKuz2zye45YgFD+1TCdEU
+	OBJdsEAIlGWZdhS0R13X86o/ZDF7JH6WLd6Ro5giMgr/trMx/FR0G61CQYyI8tbreCYtHTRUkVF
+	A0sEK5o2lG4zcbnNxxMLjx26e1YnBWKpK33d8DdBz5kG8Ne3gJqsT8HjdWv5NI2yB3MfF0ULBld
+	Fdr6I8GKMhkOuijrSypNjyTBhZNDYVjeyTUkSSDW
+X-Received: by 2002:adf:f211:0:b0:439:abcd:b314 with SMTP id
+ ffacd0b85a97d-439abcdb6e2mr14264544f8f.18.1772540262102; Tue, 03 Mar 2026
+ 04:17:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOKSTBs1VNBdjRZe3M2v-nC+pLZZ0-KQtRUZUj6ACqb4Xe7LDg@mail.gmail.com>
+ <87qzq2kxrc.wl-tiwai@suse.de> <CAOKSTBtpqPEnihFhopocV_RC8VR_RribXctUayEkUCav3omr3g@mail.gmail.com>
+ <87ldgakvsc.wl-tiwai@suse.de> <CAOKSTBvbopXOuOfstmasijZgUnT9_qW_dsaeMcHUXhyjj3iRmw@mail.gmail.com>
+ <CAOKSTBsWiwwwrmBt3dshrYYo3fQN9eF-gi2Z7BoX6c-Nb3ZoHg@mail.gmail.com>
+ <CAOKSTBvND=d4Fq7mt=36p2Y+hKr6aDUbJ6zA4wDOWASwcWjmNQ@mail.gmail.com>
+ <87h5qxl8tj.wl-tiwai@suse.de> <CAOKSTBtQi6ZmLmy6u5mP9_gLKZTZHmbb9S36hO99xSsk_EEbcA@mail.gmail.com>
+ <87ecm1jii6.wl-tiwai@suse.de>
+In-Reply-To: <87ecm1jii6.wl-tiwai@suse.de>
+From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
+Date: Tue, 3 Mar 2026 09:17:04 -0300
+X-Gm-Features: AaiRm52elnAHqibQ5u0-lBFTJcrAcfqorjA1O880j5BuKMi9K3DwCpf_WR5Y1qc
+Message-ID: <CAOKSTBtdt=enKSv4ZF7VxDD4QF8+ntyFM5CPJ1Y1QQ7M6TsiKg@mail.gmail.com>
+Subject: Re: No HDMI audio with Linux Kernel 7 rc1 or rc2...
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When a driver is probed through __driver_attach(), the bus' match()
-callback is called without the device lock held, thus accessing the
-driver_override field without a lock, which can cause a UAF.
+Well... I really don't know what happened.
+Probably my fault, as usual.
+I do this:
+git clone https://github.com/torvalds/linux.git
+cd linux
+git checkout cb9b6f9d2be6bda1b0117b147df40f982ce06888
+make mrproper
+cp /boot/config-$(uname -r) .config
+fakeroot make -j$(nproc) deb-pkg
 
-Fix this by using the driver-core driver_override infrastructure taking
-care of proper locking internally.
+But after that, the result was
+linux-image-6.19.0-rc1+_6.19.0~rc1-00011-gcb9b6f9d2be6-1_amd64.deb!
+I don't get it.
 
-Note that calling match() from __driver_attach() without the device lock
-held is intentional. [1]
+git log shows me this:
 
-Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
-Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220789
-Fixes: 3d713e0e382e ("driver core: platform: add device binding path 'driver_override'")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+commit cb9b6f9d2be6bda1b0117b147df40f982ce06888 (HEAD)
+Author: Vivian Wang <wangruikang@iscas.ac.cn>
+Date:   Thu Jan 29 09:56:09 2026 +0800
+
+   ALSA: hda/intel: Make MSI address limit based on the device DMA limit
+
+So, basically, I give up!
+When this issue gets fixed, I will try kernel 7.0 again.
+
+Sorry to bother.
+
+
+
+
+
 ---
- arch/sh/drivers/platform_early.c |  6 ++++--
- drivers/base/platform.c          | 37 +++++---------------------------
- drivers/bus/simple-pm-bus.c      |  4 ++--
- drivers/clk/imx/clk-scu.c        |  3 +--
- drivers/slimbus/qcom-ngd-ctrl.c  |  6 ++----
- include/linux/platform_device.h  |  5 -----
- sound/soc/samsung/i2s.c          |  6 +++---
- 7 files changed, 17 insertions(+), 50 deletions(-)
 
-diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_early.c
-index 143747c45206..3cd17bb0be67 100644
---- a/arch/sh/drivers/platform_early.c
-+++ b/arch/sh/drivers/platform_early.c
-@@ -25,10 +25,12 @@ static int platform_match(struct device *dev, struct device_driver *drv)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct platform_driver *pdrv = to_platform_driver(drv);
-+	int ret;
- 
- 	/* When driver_override is set, only bind to the matching driver */
--	if (pdev->driver_override)
--		return !strcmp(pdev->driver_override, drv->name);
-+	ret = device_match_driver_override(dev, drv);
-+	if (ret >= 0)
-+		return ret;
- 
- 	/* Then try to match against the id table */
- 	if (pdrv->id_table)
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index b45d41b018ca..d44591d52e36 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -603,7 +603,6 @@ static void platform_device_release(struct device *dev)
- 	kfree(pa->pdev.dev.platform_data);
- 	kfree(pa->pdev.mfd_cell);
- 	kfree(pa->pdev.resource);
--	kfree(pa->pdev.driver_override);
- 	kfree(pa);
- }
- 
-@@ -1306,38 +1305,9 @@ static ssize_t numa_node_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(numa_node);
- 
--static ssize_t driver_override_show(struct device *dev,
--				    struct device_attribute *attr, char *buf)
--{
--	struct platform_device *pdev = to_platform_device(dev);
--	ssize_t len;
--
--	device_lock(dev);
--	len = sysfs_emit(buf, "%s\n", pdev->driver_override);
--	device_unlock(dev);
--
--	return len;
--}
--
--static ssize_t driver_override_store(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf, size_t count)
--{
--	struct platform_device *pdev = to_platform_device(dev);
--	int ret;
--
--	ret = driver_set_override(dev, &pdev->driver_override, buf, count);
--	if (ret)
--		return ret;
--
--	return count;
--}
--static DEVICE_ATTR_RW(driver_override);
--
- static struct attribute *platform_dev_attrs[] = {
- 	&dev_attr_modalias.attr,
- 	&dev_attr_numa_node.attr,
--	&dev_attr_driver_override.attr,
- 	NULL,
- };
- 
-@@ -1377,10 +1347,12 @@ static int platform_match(struct device *dev, const struct device_driver *drv)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct platform_driver *pdrv = to_platform_driver(drv);
-+	int ret;
- 
- 	/* When driver_override is set, only bind to the matching driver */
--	if (pdev->driver_override)
--		return !strcmp(pdev->driver_override, drv->name);
-+	ret = device_match_driver_override(dev, drv);
-+	if (ret >= 0)
-+		return ret;
- 
- 	/* Attempt an OF style match first */
- 	if (of_driver_match_device(dev, drv))
-@@ -1516,6 +1488,7 @@ static const struct dev_pm_ops platform_dev_pm_ops = {
- const struct bus_type platform_bus_type = {
- 	.name		= "platform",
- 	.dev_groups	= platform_dev_groups,
-+	.driver_override = true,
- 	.match		= platform_match,
- 	.uevent		= platform_uevent,
- 	.probe		= platform_probe,
-diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
-index 3f00d953fb9a..c920bd6fbaaf 100644
---- a/drivers/bus/simple-pm-bus.c
-+++ b/drivers/bus/simple-pm-bus.c
-@@ -36,7 +36,7 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
- 	 * that's not listed in simple_pm_bus_of_match. We don't want to do any
- 	 * of the simple-pm-bus tasks for these devices, so return early.
- 	 */
--	if (pdev->driver_override)
-+	if (device_has_driver_override(&pdev->dev))
- 		return 0;
- 
- 	match = of_match_device(dev->driver->of_match_table, dev);
-@@ -78,7 +78,7 @@ static void simple_pm_bus_remove(struct platform_device *pdev)
- {
- 	const void *data = of_device_get_match_data(&pdev->dev);
- 
--	if (pdev->driver_override || data)
-+	if (device_has_driver_override(&pdev->dev) || data)
- 		return;
- 
- 	dev_dbg(&pdev->dev, "%s\n", __func__);
-diff --git a/drivers/clk/imx/clk-scu.c b/drivers/clk/imx/clk-scu.c
-index a85ec48a798b..9b33df9967ec 100644
---- a/drivers/clk/imx/clk-scu.c
-+++ b/drivers/clk/imx/clk-scu.c
-@@ -706,8 +706,7 @@ struct clk_hw *imx_clk_scu_alloc_dev(const char *name,
- 	if (ret)
- 		goto put_device;
- 
--	ret = driver_set_override(&pdev->dev, &pdev->driver_override,
--				  "imx-scu-clk", strlen("imx-scu-clk"));
-+	ret = device_set_driver_override(&pdev->dev, "imx-scu-clk");
- 	if (ret)
- 		goto put_device;
- 
-diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 9aa7218b4e8d..1ed6be6e85d2 100644
---- a/drivers/slimbus/qcom-ngd-ctrl.c
-+++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1535,10 +1535,8 @@ static int of_qcom_slim_ngd_register(struct device *parent,
- 		ngd->id = id;
- 		ngd->pdev->dev.parent = parent;
- 
--		ret = driver_set_override(&ngd->pdev->dev,
--					  &ngd->pdev->driver_override,
--					  QCOM_SLIM_NGD_DRV_NAME,
--					  strlen(QCOM_SLIM_NGD_DRV_NAME));
-+		ret = device_set_driver_override(&ngd->pdev->dev,
-+						 QCOM_SLIM_NGD_DRV_NAME);
- 		if (ret) {
- 			platform_device_put(ngd->pdev);
- 			kfree(ngd);
-diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
-index 813da101b5bf..ed1d50d1c3c1 100644
---- a/include/linux/platform_device.h
-+++ b/include/linux/platform_device.h
-@@ -31,11 +31,6 @@ struct platform_device {
- 	struct resource	*resource;
- 
- 	const struct platform_device_id	*id_entry;
--	/*
--	 * Driver name to force a match.  Do not set directly, because core
--	 * frees it.  Use driver_set_override() to set or clear it.
--	 */
--	const char *driver_override;
- 
- 	/* MFD cell pointer */
- 	struct mfd_cell *mfd_cell;
-diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
-index e9964f0e010a..140907a41a70 100644
---- a/sound/soc/samsung/i2s.c
-+++ b/sound/soc/samsung/i2s.c
-@@ -1360,10 +1360,10 @@ static int i2s_create_secondary_device(struct samsung_i2s_priv *priv)
- 	if (!pdev_sec)
- 		return -ENOMEM;
- 
--	pdev_sec->driver_override = kstrdup("samsung-i2s", GFP_KERNEL);
--	if (!pdev_sec->driver_override) {
-+	ret = device_set_driver_override(&pdev_sec->dev, "samsung-i2s");
-+	if (ret) {
- 		platform_device_put(pdev_sec);
--		return -ENOMEM;
-+		return ret;
- 	}
- 
- 	ret = platform_device_add(pdev_sec);
--- 
-2.53.0
 
+Gilberto Nunes Ferreira
++55 (47) 99676-7530 - Whatsapp / Telegram
+
+
+Em ter., 3 de mar. de 2026 =C3=A0s 07:48, Takashi Iwai <tiwai@suse.de> escr=
+eveu:
+>
+> On Tue, 03 Mar 2026 11:27:24 +0100,
+> Gilberto Ferreira wrote:
+> >
+> > Sorry... I am not an expert on this stuff.
+> > I just like to compile the kernel...
+> >
+> > >> You need to *compare* between two kernel logs.  You can strip the ti=
+me
+> > >> prefix, and check which lines appear and which disappear in the new
+> > >> kernel log.
+> > How can I do that?
+> > Via journalctl -xe -p3? journalctl -r -b?
+>
+> You can run "dmesg > dmesg.log" on the running kernel.  And you can
+> get two outputs.  You can strip the time prefix from there by some
+> script for easier comparison.
+>
+> > >> And, have you tested the revert?
+> > I don't know how to do that.
+> >
+> > If you can point me to some doc, it would be nice.
+>
+> Have you ever built a kernel by yourself?  If yes, it should be just a
+> git revert of the suggested commit and rebuild / retest.
+> If not, which (distro) kernel are you using?  Usually you can ask
+> distro people to build a test kernel.
+>
+> In general, please be more specific about your system and
+> configuration.
+>
+>
+> Takashi
