@@ -1,115 +1,153 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C605147CC8A
-	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 14:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F3B47DD78;
+	Tue,  3 Mar 2026 14:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772549564; cv=none; b=WuhuqBIrM5OfAJbLa58pp0QEZDxwM5+gUrMKK1mj3MHmAGIckgGXBiCAJ/mE5l1ZBaTQcD9C156MF4kWRchCJiROHyY6hq6MRz9Frhu2mmVwR81eca4thidEPO2jr11SAdVrjr/5b+DQXC/W+vmvSMYAXVk2ac03NUYTB9UsIZM=
+	t=1772549665; cv=none; b=DDu92WXS97frYjMVWvejQr1MWBtot0pzHaX+U4XGccv3zPDD3qo+KVlUSa9GbdBU8PrteNWNO2ygZJhA4EguSk40lxHsVf8Az/V3/CMl17IB+F4CljALpRDAWyvdxx4dHs4ZiE6wUbT43jYP4ihDyuHD0lj9nHTQD9YzlmydyY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772549564; c=relaxed/simple;
-	bh=mSRQ1eMomHCwVtqBWfZCdjiyysv7g8iYFUzJOGWZess=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hyHa94eT6UYdDqqiy0cU7Z79S6kiklr/IXUyDbwwNufsV4X4AfQ0vC7CzEcQzlIeCyyE2Q0ADtM2HywSCVp+yfhg6JGX7VqsNVcMEBb43Yo2aQYeE/GRyo8NyRkyWDo6uxxn+BEeP+kpAejZYwhbR36PN8LvPVAdtv4ZJtxRPsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIeDQHi0; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772549665; c=relaxed/simple;
+	bh=Slb45QWwmAR2MlJYLyxHM7i5vjmCP+MZCFMlFewVzGs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ba0rrJULO5OCjahlC+OBpJeOfoqC5JUmxkVtdlXd3kjKIBRQq4lcxKtiBKXpoQW0HpxANZ4RWKiJwIGbje/IwhnQcUWu5Xjjx1YR4gXToD5GoFMpfus6nuc6M+DZx05/movwR+r0zkK+vwtjQfN/JGJ9rjakSgEYu7S4myYA0oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3OnuGIA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIeDQHi0"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b2965d4bso2398523f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 06:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772549561; x=1773154361; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=h+8QbcRC2pjzuahdlMd9N/WzqWRbPt5M/XdWso0LY5g=;
-        b=DIeDQHi0AAP91R6YbGWauz2eMg14tui6twbk5qs60s0DoQ+1m4sNZYPu4gM/D9DH1t
-         hNmg2wPiCPvmc55Y13z7FQ6XbJB5Tou0H+GOL3lB5aw7HmnYKeMv0+mwUBic/58SF7oZ
-         wihlcPIH4+FqRGqWqn04EyiWDXuZmM1k0zPviKdcBcgND8M5aRd1aWRm2fS16xL1pjoh
-         boqcDFZv3MptHnPpOhCbOZnxFpV+yeIZ36XKxIy48p8jJ7CGYar4mNBW6FIPHgKRrOj7
-         U+jozLWw9ItdmiDZTQQvdptl4UqQuTo626xTP3rk0nf+6jVzTUnnvm4a9kMDiVnUZHyJ
-         yaYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772549561; x=1773154361;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h+8QbcRC2pjzuahdlMd9N/WzqWRbPt5M/XdWso0LY5g=;
-        b=CAF4Whx5KdBhXloEOGSW6e6nP7csvxVRz23g+GqE8s+Qixl4AO+dyRTbxQZXxsh6t1
-         /pVU29GYZDPlnRkU6PgiW2sDEkaKH14W0ELUrjxRpr7+zff1CeqIA8fMPVsZDlfEr+kT
-         LNes+BqgdhtwfZBMcFHqTbXJOF/C45KBcQhGVvRpRKu7yGT5JrntNJwHroh8Hv6Z5hh8
-         p2WciN80yUCJsfQIh4C6fEktgAa90vGdV7niYyYQKIxkbctMNINoak60gjUiYy/Zjlex
-         kVRl3nJsTqihokjfhiwTOUBVM0P0/5hJ08BmkfC3GewjmCoAqhw4snrugJShiMYTfNeI
-         1FGw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/aHCm8KiDyJ5k7OjyZmt3aFu9+Ow4tJlpzIaJ8uUZKD32XnD4J/pwx4rfHVtR5MngDDmW79T2GdufLA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaVJ1iqBHtc9V0dGTbZG200d4QiKYtkHke+vYME5nyZ80ghh4S
-	RUbthawbn0kOLrH9eeEHkwFO+Jy/K1+6x+KU1Po+LYbnecGMAXeo5/RL
-X-Gm-Gg: ATEYQzy2OizGngilcef4P71YNCnkDzZGYJv9PrCVxgrzNclbqucfnTIbusRgV+mi+eq
-	fpD0Qw+11h+bMSN96kQHaOl3iqRpxPcoOZzXCyUKNMxIb3ZKr8ji8nGg5utq+h6XvaRUKS3bqPS
-	SoADn7YxTGiEEWm60BHEy0ob0SwcdKLcAsAs7Ga0oETlI6a3pm8zB/gtJVphstUjXe7i7yiCO/k
-	JHzAn3o1lxrpf4QKyAxrqCq540Kh7Q5iYP1LDqUFEgl0as79s5jhcet9BRQgEacJdBvEF3oEayL
-	XH7DcIjBgUY9vRC6J18tIIzFPfgI8I8Ez/hR829qDoSgD00sdigCxI7iNnpZxVFcz3CNI9h2FEE
-	dLDe8iDc43mAdZerYaldvO/A7SoD6F/QndTUHCF6ynUMRVHMcpq9/q4c+5+EfWCOYkXeu3f5Ze4
-	8/5qYVpt4JH4WSyJFp5APUDJcqYwlVVaA=
-X-Received: by 2002:a05:6000:4387:b0:439:c279:32ea with SMTP id ffacd0b85a97d-439c27935b1mr3280566f8f.39.1772549560930;
-        Tue, 03 Mar 2026 06:52:40 -0800 (PST)
-Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b03db76bsm20531779f8f.18.2026.03.03.06.52.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 06:52:40 -0800 (PST)
-Message-ID: <bddd7c86f5d9535ce5fe58e6271396da40750cb0.camel@gmail.com>
-Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
- name
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, hanguidong02@gmail.com, ysato@users.sourceforge.jp, 
-	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org, 
-	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-hwmon@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, 	linux-sound@vger.kernel.org,
- linux-sh@vger.kernel.org
-Date: Tue, 03 Mar 2026 14:53:24 +0000
-In-Reply-To: <20260303115720.48783-4-dakr@kernel.org>
-References: <20260303115720.48783-1-dakr@kernel.org>
-	 <20260303115720.48783-4-dakr@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3OnuGIA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AC70C116C6;
+	Tue,  3 Mar 2026 14:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772549665;
+	bh=Slb45QWwmAR2MlJYLyxHM7i5vjmCP+MZCFMlFewVzGs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=k3OnuGIADSsLdlI8xZPEqDDKjRK8ycb5RmHYSLY7OAgQC1QfuXs2VnnDz54gNUYG2
+	 tgPA8lJBYOJFhX/dqVq8T+RiSVvC1QSDlEYchLSUEC1xALOZg1zO7kgHUoZTVKX3VE
+	 JpMKR5dOILbJDG53Yp9LWJrsImlVVAS5r8+XxQpyzTtffLUeJcyHc/emrjNQVUJfwy
+	 /U77bFOjBh+mLgO069Ov6W6ez8URZTrC7+EG9jkQJ3qyUo+yCX9Ze23150SH5uBC7C
+	 vFffB+x/clZd2O76RL4TGv9z/xA20TcwrsbSZIOZ5DI+mkkoGUeM3cLfceyPj91RIa
+	 0gbSf4qNgeh1Q==
+Message-ID: <38e38531-ad06-4971-b750-e77a3268b97a@kernel.org>
+Date: Tue, 3 Mar 2026 15:54:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: tegra: Add support for Tegra238 soundcard
+To: Jon Hunter <jonathanh@nvidia.com>, "Sheetal ." <sheetal@nvidia.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sameer Pujar <spujar@nvidia.com>, Mohan kumar <mkumard@nvidia.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Aditya Bavanari <abavanari@nvidia.com>
+References: <20260302085323.3139571-1-sheetal@nvidia.com>
+ <20260302085323.3139571-3-sheetal@nvidia.com>
+ <7447fde1-7eae-4bbc-b36e-fc0da9609c8c@kernel.org>
+ <92292069-a60d-4ea8-9c3a-182a5c0cd267@nvidia.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <92292069-a60d-4ea8-9c3a-182a5c0cd267@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2026-03-03 at 12:53 +0100, Danilo Krummrich wrote:
-> Do not use driver_override as IRQ name, as it is not guaranteed to point
-> to a valid string; use NULL instead (which makes the devm IRQ helpers
-> use dev_name()).
->=20
-> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
+On 03/03/2026 15:24, Jon Hunter wrote:
+> 
+> On 02/03/2026 09:04, Krzysztof Kozlowski wrote:
+>> On 02/03/2026 09:53, Sheetal . wrote:
+>>> From: Sheetal <sheetal@nvidia.com>
+>>>
+>>> Tegra238 platforms use different clock rates for plla and
+>>> plla_out0 clocks. Add Tegra238 support in the Tegra
+>>> sound card driver to apply specific clock configurations.
+>>>
+>>> Signed-off-by: Aditya Bavanari <abavanari@nvidia.com>
+>>> Signed-off-by: Sheetal <sheetal@nvidia.com>
+>>> ---
+>>>   sound/soc/tegra/tegra_audio_graph_card.c | 13 ++++++++++++-
+>>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/sound/soc/tegra/tegra_audio_graph_card.c b/sound/soc/tegra/tegra_audio_graph_card.c
+>>> index 94b5ab77649b..b6dadd6a3d3d 100644
+>>> --- a/sound/soc/tegra/tegra_audio_graph_card.c
+>>> +++ b/sound/soc/tegra/tegra_audio_graph_card.c
+>>> @@ -1,5 +1,5 @@
+>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>> -// SPDX-FileCopyrightText: Copyright (c) 2020-2025 NVIDIA CORPORATION. All rights reserved.
+>>> +// SPDX-FileCopyrightText: Copyright (c) 2020-2026 NVIDIA CORPORATION. All rights reserved.
+>>
+>> If updating it, you should rather drop it and use standard copyright.
+>> This tag is not supported in kernel in general and I document it only
+>> because it already spread all over.
+> 
+> To be clear, you mean that 'SPDX-FileCopyrightText' is not supported? 
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+Yes
 
-> =C2=A0drivers/hwmon/axi-fan-control.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/hwmon/axi-fan-control.c b/drivers/hwmon/axi-fan-cont=
-rol.c
-> index b7bb325c3ad9..01590dfa55e6 100644
-> --- a/drivers/hwmon/axi-fan-control.c
-> +++ b/drivers/hwmon/axi-fan-control.c
-> @@ -507,7 +507,7 @@ static int axi_fan_control_probe(struct platform_devi=
-ce *pdev)
-> =C2=A0	ret =3D devm_request_threaded_irq(&pdev->dev, ctl->irq, NULL,
-> =C2=A0					axi_fan_control_irq_handler,
-> =C2=A0					IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-> -					pdev->driver_override, ctl);
-> +					NULL, ctl);
-> =C2=A0	if (ret)
-> =C2=A0		return dev_err_probe(&pdev->dev, ret,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "failed to request an irq\n");
+> Where exactly do you document it for reference?
+
+paste SPDX-FileCopyrightText in lore
+
+
+> 
+> I know that Rob previously indicated that the 'Copyright' string in the 
+> above was redundant, but we have been told to keep this by the people at 
+> NVIDIA that specify how we should be formatting such tags when adding 
+> NVIDIA copyrights.
+
+For the kernel, for most of us, most likely legally it is redundant and
+Rob was right, but some companies insist on it and I don't want to
+discuss with them, because they never use actual arguments except "my
+legal told me I must do", so you can have it. That's not a problem.
+
+
+Best regards,
+Krzysztof
