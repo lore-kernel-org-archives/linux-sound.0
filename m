@@ -1,182 +1,184 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18353C1985;
-	Tue,  3 Mar 2026 14:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772549926; cv=fail; b=WzLgzsCpQCKa4U9nK4jGRyVl06trFsQS1y7xldC9E66tAmCld0ql8yaNDyvPSgebhLvk+MakyxK1DIpn3Iidg4gGSMBMNlbS++nycA7sic0Km3Eunw8JZCu1pGL4oggd9vnVfLdsj/kRXZ8in8R0oCvL14qpIZaAkzanAqh7VmY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772549926; c=relaxed/simple;
-	bh=rYwZ/YOdDmCkdkWnf7NlqilK9rTRBM6IBAPVnKl1gRs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rDvgtK4torH0Ni3NlyxOUquj6STv8Bu4enyMU3coZwu7R/dzqsvAgeijMql3L4G6l7ou08Y7SvVlw7EPLZEO4vWVypmPU4FxZGvcWzM5JTPsywhICEQcvbq15aFqt0A4rp3sDDRLHeScnaWiz+50sCQpOQAwLpBQT5MzwDndwQw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=CX1nTKjP; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=vjmHqiBD; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035C847F2F3
+	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 14:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772549929; cv=none; b=eX8re/Qzd3i8o1M7vJCfL8u6PNk2qXFffolk1X/xkPjHMg3k6M1gDnF2M+qXbj9VUHSk95BcuaxXBAL/FkUSzBehMne6Fs6uo3Ejgv2YMFWQ5XVBPf+sAwqbBKT3Uh4UGuNKIsojEfkNYM4NOEZ2PCGbM0CGh6N88ZAZq3iEhW4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772549929; c=relaxed/simple;
+	bh=oGjc1yjeiIqz4fk/uBDQWtGhcY0iItbRMgLP4C00KAw=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=qEDK81W+R7TyUDpfPDMo9sGLh3Bl83fGjX2Cvg/gwBASkV8ueJA5S7+2QN4hTpSs4L9aMMh7jNBwqQGdJFRMWNwPqs8VIObXdwGFaEqvHAZuCQZoBpU83ZnwdUSsobgFsFGVlH1bGizwzK3b5vrESuLizINCCVXWg5xHhGo5zIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LveiTJjN; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="CX1nTKjP";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="vjmHqiBD"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6237FvqG3406224;
-	Tue, 3 Mar 2026 08:58:28 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=wAcsY9LKR593YkEM
-	8+3l2onE/5McnlxDOs7XtGVn2xs=; b=CX1nTKjPaPYNVfBCLEDxwvrZcG7rDz9+
-	zcH5xaH4jx8g5gY2ztg7MCUTZ3AwQf/8LSEKJLWcHZjVqBoDUXYMo/BtOW6Amc6U
-	9Q8EIvET0FCk0opWYDA0eYaK9P3i+4CJoytFot/xfs+TmZ5HmTPw4aCHMiMv+3an
-	OHDf/VWYGUORq4uMdBP/8eJq2B9X1p65Sanbp/hSWGuSDfLrXaLm9wqkEpWj1NpW
-	YfWvTbExOvJNDvJzCoPcP7NHK/Ef1aIwr4SNqVI36Ro4DPkGPMvqoZ+q07q+1Jfa
-	PwItmomcAevZTM8ObNW42y/NXBQJcXYfnjPLbtejgJZe3PiR/djnkQ==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020099.outbound.protection.outlook.com [52.101.85.99])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4ckxn03dtu-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Mar 2026 08:58:28 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bokdQWvKK8jkdjGk1t3v3XrlRjSZEf9zAydNUkoI8bOhibrFztOQbksUHGazh52U7IEAU1ZZbCtp6mWYPHm+6EM1GOQKsLyylltX5+cMNr6mm+peCieGN+Gtf2zYSrDXfkNgmsG0hSZ6awXPRVB6ibcqWwZleD88iW4KZM8qY1lX8bTF41EsKcehdub+5Jg8Rv+d9EURWwGkcRR/dvqaFFwPFB2u1jCt6zyg/DS9f6DxkLcOHZiDhetysSM+/pkt/hE9+FfISGYRcNeoLZYyyT1lvd3BmZYCo76W0gvlX1L3uJRFzSxeqTHcMcxHK3lfqMk8Duai8F8241ns4v3wag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wAcsY9LKR593YkEM8+3l2onE/5McnlxDOs7XtGVn2xs=;
- b=DngU9mquiOo8MZfbMDT/V8gidhw/8ewPwftDglpUtvue1+W5e385gwVknSAnhlbP0hjDyrQ7IdY9fL1jf9Uti/TbmD3dlgwAlXALPgzHb6M8CoFCeYWfZWpOpzK6W7KIyzDDV+P43OJi+JRkZIYoUihbHUF+VEPrTye+QfVL3paljkwotbhIdh9lj2E4mR1QaI86qaArQ83wyLSw1AV3tv/fGahm15IrWSSPBVq1/q9219XUDdauXDBOOjpFzcVDZeTQwOqSAhba5bAO9HSBhDFMnEKi//yFQML3Xo4wos0j49gm53kdyHSW/DUAJ269FP5V6tXlSRJzZ4RjXSKtcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=alsa-project.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LveiTJjN"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-389f9895c81so34367001fa.2
+        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 06:58:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wAcsY9LKR593YkEM8+3l2onE/5McnlxDOs7XtGVn2xs=;
- b=vjmHqiBDyGrTgMimKlFV6LDIEWfau9SoVnSmnVOPkETBlmzGoODYt557t5FtGPdQyNA5Kr3K4ldAw65Mi9YI+07oZ1dTIqYbVICw3KMwSxrtorcc60ofNfxQHL6yo6C5IXk9kDRvratQmNiOIMNjWprDrzpk5Jc7kYFx4aMN+Ak=
-Received: from CH2PR08CA0024.namprd08.prod.outlook.com (2603:10b6:610:5a::34)
- by DS2PR19MB9102.namprd19.prod.outlook.com (2603:10b6:8:2b1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 14:58:25 +0000
-Received: from DM2PEPF00003FC9.namprd04.prod.outlook.com
- (2603:10b6:610:5a:cafe::d0) by CH2PR08CA0024.outlook.office365.com
- (2603:10b6:610:5a::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.21 via Frontend Transport; Tue,
- 3 Mar 2026 14:58:12 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DM2PEPF00003FC9.mail.protection.outlook.com (10.167.23.27) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.16
- via Frontend Transport; Tue, 3 Mar 2026 14:58:23 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3F02B406540;
-	Tue,  3 Mar 2026 14:58:22 +0000 (UTC)
-Received: from upx-mtl-008.ad.cirrus.com (upx-mtl-008.ad.cirrus.com [198.90.251.5])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2272782024B;
-	Tue,  3 Mar 2026 14:58:22 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v3 1/2] ALSA: control: tidy up whitespaces
-Date: Tue,  3 Mar 2026 14:57:59 +0000
-Message-ID: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.48.1
+        d=gmail.com; s=20230601; t=1772549924; x=1773154724; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oGjc1yjeiIqz4fk/uBDQWtGhcY0iItbRMgLP4C00KAw=;
+        b=LveiTJjNXx5hPNvBlBSnvouKNtULsS930y+9lYTIz0ur59YAQK7guIOg6a0J4M4toT
+         awLTA2i7sR8LN9EhZvoi5ZnVNxcpk4B1ck1z9aOvPluM1ywHwjMLcmN8FC7lQsu6w4zI
+         xTu1DidaNqIdXgj8C3RAERdLJLmjDd8PVaZY3pF3KuQR95d60HDUA4NozaDCq/1NgoZc
+         V3uiyI8EaJ172xFb8kc9+L1xswUS2mByrvyuIJqfsTKiP1QMsbtVzL6mpAt9yYnsr8+c
+         2r1AEd2/cQhW1bg5BdXdgFy4+dobuUmpoHmRy/aVb1M6h5N7e5dNZViz+9tNR6Z35+CY
+         LdZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772549924; x=1773154724;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oGjc1yjeiIqz4fk/uBDQWtGhcY0iItbRMgLP4C00KAw=;
+        b=Zd4iFltTlDgNdPYpBx/HPYh9It0/jBI13jp2CvaFjLOsBsP4Cd8B1PpbZLsJL9r8fz
+         I5gbRSlSQ2fJ/2IwBATSGaqmhtMVkSjiHYs3XVjKtQK2xwMP1W7uLVb3+GSOtCbuhV3Y
+         OYfXqMXHJHOkaQmRjI11VNXTjN0/0zq7q5eKCqd+sB4okOm3BPM+584AgeGK72I9drxW
+         H0OOif9sADd3FXcgW2wJ15ZH59bRGJ2upf053iTUbmbDPKhMA4f66WDBeRkDo5Y+YGXN
+         OYuAHFllOhQsSUKXV2GLnzkJ0GAxYQZhDSl2/168gswz5TLykHsAvUq7OPshPTzOr8SY
+         N2JA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgGDoyXU3k5Z2GR8mZl0d+EXOAXJDRgnnSkCL+uvU+v5q3Qy3WuyclQEKEY9g/eAHv8hKuk2zEj2gyKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxArztg6W1eZBe2eqXi0D4+MpXwKv3qcRTe3h/p9Jwa8q/xdeND
+	UBGqumDQ273KW7baeFae/GQGe+GsNUzBmsR1Vp8LDjZOA5oEAZnjGnsX
+X-Gm-Gg: ATEYQzxg7BJZm1jI3cQEwWzGC6Bm9ZYJf/1LLOy5CoN+KRYEuNhID3QmByaa8B1hTGt
+	oNbFvJfFS8C91IA3D3m5MB87EthhUy7fZD/C3ZVktwctvOttKyb48eyEegT1Hy2JjPOuHoCtAGv
+	Kmko0kVYJeZx6sSID8as8TzPfJlmXzCaHJn+TfDDeDhR0KOKCiQRbC19kzGggZOlRS3zbr3+/BN
+	WWpLaoPVOVqTF5ov8omMklI4qEthivD5b4YdrO8Bij250qaNR0F4cDyupC3s0XMYpbckxtiaUPt
+	etaLNkgbbgJ1Ce21823sxK02h5GAVds63NSmfxvTa0B1fJfWD3tc/gDo7byaGATz6OfDi6bcWJr
+	Uf185Q4mYZBzrpChJ2Oj9cNanlYTuPKWZl+oXbVrhirDxINe9EioIxbNKclrEfqRRJobHEE8OjN
+	aBtQjlSTWq8rD+YI/fXEZFJpxu9psbsvfjnNhCHTAWZthyP0IqHOK12t+Dp/Jfa03HUEySN1R5s
+	Bbdk44kMPbJzb0vPPC0sIEmxWB1haL6XolGS3C//338Y6Y=
+X-Received: by 2002:a2e:80cf:0:b0:37b:aaf7:f022 with SMTP id 38308e7fff4ca-389ff3644bemr93473051fa.35.1772549923580;
+        Tue, 03 Mar 2026 06:58:43 -0800 (PST)
+Received: from smtpclient.apple (2001-14ba-437-c00-1991-9ef0-d3f1-621a.rev.dnainternet.fi. [2001:14ba:437:c00:1991:9ef0:d3f1:621a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a124d7fd31sm359172e87.68.2026.03.03.06.58.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Mar 2026 06:58:43 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC9:EE_|DS2PR19MB9102:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 603b74c9-90b3-4d10-c351-08de79355170
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013|54012099003;
-X-Microsoft-Antispam-Message-Info:
-	r3D1siiVO5h2cuf0utt86LTVwNLuhH7fSlCUizmrRluEmp2+G++cBVtMgN/19w4pCKii0/ADX59vh9LhT3EYhBztqnoKeX7CPdkSza4dbLjwp5E8V1GrHGLmslpgQVXodPSPWAruiSWqohdIHSPdPf10fg1r6jhMEgzQYnLz8gieBMU6sj2dy9iUboJ5qsSVjcjwF7Nbl9A+riS7TwtmszWgP2mca1lQy2c/mK0RsM9UgrfmAwVrJgPQZyWfPS/AjawHTRS4tTeEdwqanSWJNkWq+NomfWuJgHTU3/EMWPKW4VfnFzINBNJ+TASlaKW8G9g+hUU92BtM921aGOTsQZ7L27KIpmTrjpgN60MBeNLaJWNcXwTzb7FKTQL+2yYcRfs2NnL52KXz8zR6K7XpUoQuuNKTbGtDeGVrPb4iV/ts7cnt41GXgLAyZlK0hcI2m0BGD1FgjWjmKQIyuo1w+lpaIje4gQbayQzGihV4Yf+xfnM1Orv5sRjRVA/Jxr6HeEhWBC9Pj1zgVALcFVd+fuePtZ8ddCOLg1rE0MPhG5bWCoX8XUD6P71+qQzOJcLad/Eu7Fko1D8ZxOGOcgW8+tjsrVdf0tUwqUFlxK0rRpvXT8oqmtCF7GY53ZYuZ+eaPps7Lg0m+9jh8UeFgzgkgztqd16kGt+ezXzdUVqrbNLqZAPGI+s7Z+31EAjTnpB3IZEa6lYgXnvBdPWM4g2q129IXgTWJv5vVLMRuHFbqoTVz7rQYLVuYsl5hzozxC4KCzwzrsMUZBegGfmpvkdR+OiON31zOeSY1j+LzYJUPfuIUMdRP+TE7SId2TmeFR2pUk2mSkiWHfP8W5+t4QcUJQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013)(54012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	XHEwkF4H3j24HzM1dWakKNpEsMeH3i0grirHvOyAoShPn66d6PvYhUJLRlVnxMWwUzuQm8JnCjFMt9TdcNk7q10qQQZEgMc8fUTiYTRketClE9Dazxgfv29brqLm4a1JB/phTGhx0HmGP17lgsJTy+zSnrbze/GylaCh8Y8Q7zagLo+a6pNTYSAKPG3QXHwxEgGaTCAO6PJpmWU3mqjgTrFElf5ZYHSqylYGvaew1JQohk9EAtFIkyK9Q6aoXb6BBCDDGKXWRv7dpzds/+r9TXRtP5T3MOGKD03a9Gl0EEquzr9aOON+ibmsLpXLDGYKpDu5RrHtdcF4jQy97xVnr8JvwraovqTUrInF1z2thfjZNiXsQ/W2gvw78iYVa6jqZYsmhTRWY/WFYZiLx7yDRJNfDmYi7NG9wOHLUPm+HGipmqqnh9xdmj1WoCSS1Q1/
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 14:58:23.7031
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 603b74c9-90b3-4d10-c351-08de79355170
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DM2PEPF00003FC9.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9102
-X-Proofpoint-GUID: XsBGtCZhnaMM3WfRQaT9C6CgHM9xeNZ_
-X-Authority-Analysis: v=2.4 cv=VtQuwu2n c=1 sm=1 tr=0 ts=69a6f714 cx=c_pps
- a=GGH+j3rhJf5zTl2H81NwCw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=Yq5XynenixoA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=UOLwL_aBn4USr_LkpIIA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDExOSBTYWx0ZWRfXyzS+0RvLr24x
- km+LuwFSaBJIYVmtHiwvmBLq+T4hZujQWfQDk1An6NlfrD1M/kRpKuu5CLsltK3TDQMTgzj4PYY
- I74dlzhNeGfjPulvwml3nqk+PAaa+IhMESymAuT5KrJhvXnYMwYRXzgcgb2OR/3Kpq9YiqbEjE6
- BEszkWVGxEoBlS9ZoFrEnwP3iODKMA1FfuH+bBP56LqEpWfQFtOTARChP85rKM+eZWYqqo2kPlm
- PTELrvZt/hOUoNwv0LMHqitQn4Wmbouy6zBLuGRrw76Gxmyb2i9EcV7s4qW1M2MaItxmMPgPVR5
- RFOoWk73AJKL66EeTQ5zS5VsooKnQIZiHLvw7sLzo89WSnT3gD6pX2pUwlLkd5RBll6lQYwDwQH
- BsLVV1qSnZ1cgV972zZ4LfFWMBok6FWmmZ78TyjzWNW4squyW3K5nxxzjgWDJPsx7zkTNb2P/me
- i0yE+PgJmDbi/T9Tchw==
-X-Proofpoint-ORIG-GUID: XsBGtCZhnaMM3WfRQaT9C6CgHM9xeNZ_
-X-Proofpoint-Spam-Reason: safe
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
+Subject: Re: [PATCH v5 03/28] of: dynamic: Fix overlayed devices not probing
+ because of fw_devlink
+From: Kalle Niemi <kaleposti@gmail.com>
+In-Reply-To: <20260227135428.783983-4-herve.codina@bootlin.com>
+Date: Tue, 3 Mar 2026 16:58:30 +0200
+Cc: Andrew Lunn <andrew@lunn.ch>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Linus Walleij <linusw@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>,
+ Len Brown <lenb@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Wolfram Sang <wsa@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev,
+ imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com,
+ linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org,
+ linux-cxl@vger.kernel.org,
+ Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ Steen Hegelund <steen.hegelund@microchip.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Saravana Kannan <saravanak@google.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E7575FC9-7D0D-43E8-A477-4DEE79101C13@gmail.com>
+References: <20260227135428.783983-1-herve.codina@bootlin.com>
+ <20260227135428.783983-4-herve.codina@bootlin.com>
+To: Herve Codina <herve.codina@bootlin.com>
+X-Mailer: Apple Mail (2.3864.400.21)
 
-Clean up trailing whitespaces by the way of changing card components array.
+On 27. Feb 2026, at 15.54, Herve Codina <herve.codina@bootlin.com> =
+wrote:
+>=20
+> From: Saravana Kannan <saravanak@google.com>
+>=20
+> When an overlay is applied, if the target device has already probed
+> successfully and bound to a device, then some of the fw_devlink logic
+> that ran when the device was probed needs to be rerun. This allows =
+newly
+> created dangling consumers of the overlayed device tree nodes to be
+> moved to become consumers of the target device.
+>=20
+> Fixes: 1a50d9403fb9 ("treewide: Fix probing of devices in DT =
+overlays")
+> Reported-by: Herve Codina <herve.codina@bootlin.com>
+> Closes: =
+https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=3D9F9r=
+Z+-KzjOg@mail.gmail.com/
+> Closes: =
+https://lore.kernel.org/all/20240221095137.616d2aaa@bootlin.com/
+> Closes: =
+https://lore.kernel.org/lkml/20240312151835.29ef62a0@bootlin.com/
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Link: =
+https://lore.kernel.org/lkml/20240411235623.1260061-3-saravanak@google.com=
+/
+> [Herve: Rebase on top of recent kernel and use =
+get_device_from_fwnode()]
+> [Herve: Add the call to driver_deferred_probe_trigger()]
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+>=20
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
- sound/core/control_compat.c | 2 +-
- sound/core/init.c           | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Hello Herv=C3=A9,
 
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 16bc80555f26..4ad571087ff5 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -417,7 +417,7 @@ static int snd_ctl_elem_add_compat(struct snd_ctl_file *file,
- 		break;
- 	}
- 	return snd_ctl_elem_add(file, data, replace);
--}
-+}
+Tested this patch series with BeagleBone Black and all tests pass. =
+bd718x7 driver probes.
 
- enum {
- 	SNDRV_CTL_IOCTL_ELEM_LIST32 = _IOWR('U', 0x10, struct snd_ctl_elem_list32),
-diff --git a/sound/core/init.c b/sound/core/init.c
-index 0c316189e947..593c05895e11 100644
---- a/sound/core/init.c
-+++ b/sound/core/init.c
-@@ -722,7 +722,7 @@ static void snd_card_set_id_no_lock(struct snd_card *card, const char *src,
- 	int len, loops;
- 	bool is_default = false;
- 	char *id;
--
-+
- 	copy_valid_id_string(card, src, nid);
- 	id = card->id;
+Tested-by: Kalle Niemi <kaleposti@gmail.com>
 
-@@ -1031,7 +1031,7 @@ int __init snd_card_info_init(void)
-  *
-  *  Return: Zero otherwise a negative error code.
-  */
--
-+
- int snd_component_add(struct snd_card *card, const char *component)
- {
- 	char *ptr;
---
-2.48.1
-
+BR
+Kalle=
