@@ -1,78 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDDF372663
-	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 18:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627872459C6;
+	Tue,  3 Mar 2026 19:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772564212; cv=none; b=sZlXzbdTLhDDz/HAblQlgqTG83iXG/HVvcjqfjMK+EcieiSqIRVMAaKCOYtVwik35LMA0JrwaRfxxtZ1Oym3UJ0K9s9xyfy3bGLWonvqwLRjf8krrXN1Jlkt9JdbndxtndUginaVOG1A7zyNf0fO/z4VuAi0gCvn+nBDhjf+Tk0=
+	t=1772564845; cv=none; b=WQi91dggM48RwDgHI4tJ5v0rJGAEr68bpBnKG7anPQPIJUvZdBo9cnKvunLuSrO/GvPqcUj0D6gEyhL2PEzysFs2eihoWW+Qvy0Srxo8XOlx/QABqUrmjN21liA1W4hUWJQv9kZpWjOwMjSPbZ1MautWIqdaE8MhrFWpM5W+/EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772564212; c=relaxed/simple;
-	bh=46PB+32RhKyiI6BQSppb/+s1jk7hiQ3bCMpII+GLcu4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nT2oqHwP5qyXUzUtkLfPWEi0vO344XqtZZHn/R/cFTwwuHvrIflOHLb0xvdpRthp1oxi6bXBP81DIMn7hf4LbbywjkgKMUohN4T+bRqef95NdsPUjfBIt3vOZlGN6zEtiEeZ97NgeoskGRfXOYnxFEi2dJDCk+te+eS6SCq5JI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q3/lUiTg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772564845; c=relaxed/simple;
+	bh=5ULvDVEqgQGDwaFAFPW0DuAG2LRnxp0XDjYdD4epkNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2iLMQwDUrQRNQAudDLSVrWe3IFHZ4Ef+FgPOkV8o+G31I2Oqd+AGf6Wgv+Hba02MdpwAzcspjqVKauh90NpxxGv48ypubX84R9BCdpJ94sTLbUyS8QJB3bEAFs+jb5bPItBp751VlArs1Jv0TkHPSFWgWkSoWGB7L8VNKqSOO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lYVUjjYM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q3/lUiTg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F06C116C6;
-	Tue,  3 Mar 2026 18:56:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lYVUjjYM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06798C116C6;
+	Tue,  3 Mar 2026 19:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772564212;
-	bh=46PB+32RhKyiI6BQSppb/+s1jk7hiQ3bCMpII+GLcu4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=q3/lUiTgdkyBAXmBY5G+bKzJ0FLPtmBLREbw2S04/+xvnn1UqtBpPDGjOIEkxQVEX
-	 lZHKTS3MQutQZqn08Bs0vvRXCVLWysOCAYKMwRuX5WmBA5FiUOAAX9SFBwy5e8lNcA
-	 mlUkZQLSWcoESPW+p2QjMrh+8QwhFt81kNXGnyleKaj1nk6QicG+9BpB3tEZ7nyf8S
-	 vfDuhvToO8ND6PyUCTmb0zD6ssD5tYAQeFk2MOuuxavOVx0it/XZmuirkLzPeauYDk
-	 Pl/1VW+TUXCmebDQiaJWKsqHUR6HHcWN9YEuWMoNq0SfkmziwlQFmVfBwpH5GQ8E5G
-	 LT/JW1wCryZXw==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <875x7dac26.wl-kuninori.morimoto.gx@renesas.com>
-References: <875x7dac26.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: soc-core: Use guard()/scoped_guard() for mutex
- lock
-Message-Id: <177256421123.550348.9716098578086481028.b4-ty@kernel.org>
-Date: Tue, 03 Mar 2026 18:56:51 +0000
+	s=k20201202; t=1772564845;
+	bh=5ULvDVEqgQGDwaFAFPW0DuAG2LRnxp0XDjYdD4epkNM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lYVUjjYM/FE2OyByy7fL8C43KXl9P3XqyhTKqyFWsmfpsvLtQvqQXT0wJJI2+lmd1
+	 l+DXdzLI9RjQq4a24fDGWLk/nLqUbDAtnjbdyHCrHIZdJa/fyFgvZPytsj1U1kaukf
+	 DufWxPcUnScPGAB6XcxIh5G2QuWx5lQ3Y3v15b13rXGXiY7jnQafgMaN95NXh6PZXg
+	 /igaRvr7xwuoMYkX9cWyyHN4//w0SlAK1u7douHjItpFBMHC/IKHHfNeiZlCMXGMT7
+	 mwSLHT4fS+ehmXYwepq92ne/zc8D0kyd3idnedg6mthBwDrHo8CrmWrtNImuxkYJKS
+	 3K1ujQ0kbwo/Q==
+Date: Tue, 3 Mar 2026 19:07:19 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Sheetal ." <sheetal@nvidia.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sameer Pujar <spujar@nvidia.com>, Mohan kumar <mkumard@nvidia.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: tegra: Add compatible for
+ Tegra238 sound card
+Message-ID: <20260303-frighten-landmark-f345560d25d0@spud>
+References: <20260303100249.3214529-1-sheetal@nvidia.com>
+ <20260303100249.3214529-2-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-6ac23
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eQybRr4RlYSyFv0W"
+Content-Disposition: inline
+In-Reply-To: <20260303100249.3214529-2-sheetal@nvidia.com>
 
-On Tue, 03 Mar 2026 02:20:33 +0000, Kuninori Morimoto wrote:
-> Replace the manual mutex lock/unlock pairs with guard()/scoped_guard().
 
-Applied to
+--eQybRr4RlYSyFv0W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Thanks!
+--eQybRr4RlYSyFv0W
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1/1] ASoC: soc-core: Use guard()/scoped_guard() for mutex lock
-      commit: f48e7a246a567e3764112e2463274c479d95cd96
+-----BEGIN PGP SIGNATURE-----
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaacxZwAKCRB4tDGHoIJi
+0nSbAQDT+UeupT7k5wMwJ7XmCVbs82Xikdgb8oY2XbPYEUbB3gD8DgUshC9QIAz3
+7yK4Y4R7JwMrcvRlN5gCz+O+x2OImQw=
+=bgj3
+-----END PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--eQybRr4RlYSyFv0W--
