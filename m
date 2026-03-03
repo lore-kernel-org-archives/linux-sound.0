@@ -1,40 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56214219E2;
-	Tue,  3 Mar 2026 11:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00575425CFE;
+	Tue,  3 Mar 2026 11:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772536804; cv=none; b=Sybbe2GOYcC6sWbns93URnjuBk7XMixkdMZKLlVbF6WrM7zOv/pNdqGybSEeuG0wsh+VMs5kTcgR+g/JQWqKB2f6d+ygOVl/U+0cBW7MXtNIIhrmEMf2IL9TjCzQV/MKYKLR6qpMxcrei1aT1F8GWhglJaO6dXNogLNfTP6//IE=
+	t=1772536807; cv=none; b=rYqZI4pMbRwqNL9YZog7euaFnRkrqg9aRxYPVdbBTvYHUEZwuUg3kqHfgXmhvYOaJL5K45Wv1vd8Z6s7+Xho/jb5noU+JSSOkhzb2zDHWFE7yEAz1494va3U+4DBOor7PdEi9RY0YkgwDRfXLtxAqI6Ybz0jPJRMvCb4pKBT4u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772536804; c=relaxed/simple;
-	bh=qpVwGrhwBxlw+Pc+vRHoNGotcYi9/V3FMBymFuQSras=;
+	s=arc-20240116; t=1772536807; c=relaxed/simple;
+	bh=e2Qz2CYwgr1iExAfg2nlZe4rZPclxfu/shWDQAvDFzQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Mxi/7DRPGR44kpzrx6eUxhGQblIDHtUTREUw55nom/ai2WlsDttqnA9zmneFrvZ+BUujpT8CL/NRO0QKAQk7fmi8WNTvXepGsP0wSrbP+vt5saHeWqEeJuErSvoam3koW376OIcppHdYDQ2AsaDAw+CV4WZEbE+OSy80HPaWz6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCYVSElG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=H6Ldb2CGbLd7HESf3JQXpMuN1y/9c9UiXwQqJzgtkML8Lc3XzM2wxFhPg+8XQuld45Zn19HRa8Ko5r+BeMw1eku8JOIpYw9wSiC1hyNMungHT8fEAr8q/sMjT3biCNPxrdKX2YISHKQK4sN9vjSDi5h0Ppi59AVEH9pPv7C2pWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J08A6Omr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCYVSElG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0EE1C19422;
-	Tue,  3 Mar 2026 11:20:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J08A6Omr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1EDC2BC9E;
+	Tue,  3 Mar 2026 11:20:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772536803;
-	bh=qpVwGrhwBxlw+Pc+vRHoNGotcYi9/V3FMBymFuQSras=;
+	s=k20201202; t=1772536806;
+	bh=e2Qz2CYwgr1iExAfg2nlZe4rZPclxfu/shWDQAvDFzQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nCYVSElG0YofkabMk9wMSyyIe0qFT2iU8d5KgZQexCz80FpNCkR/hvSTkRDun43Co
-	 pGV+x/J4730tpEKfQH8E5Q3VLlKNgDnbHyF+Y5v8Y3W4IObl1vRGplM49p90/oalM3
-	 hMR3LsDTSrUYqzYL9LhUah9+gw+ZZTuLYoakjcczmKp4AiNe0F4VTUDT/J2+O7wmxz
-	 AI0zcrjMFLBcDTnkngxqG1n2U6DGLzlNs5mMIkDMKe7iZP4MRmFE+1HEAjRw6tZysT
-	 7UyF0ED9llVMbOUc+3lxG58aJDCfE49c95Jt8Ru9YG4OVBMf2xS5Lo9WVtQhPbjGRh
-	 mCA1B/axlfRPw==
+	b=J08A6OmrKnYtc0kF6TmtANYWU1D0kgvs92Sym498jl0fG/U1Kql1FpRf+HHawmIuh
+	 F+uvXAp4dRueO+6YhWDp/WhOtC4dI45mOn/0YsZzXcecOIF7hyMzceKgpV5tIqOGd6
+	 +S/NLYi2HkGFnc0JLiwcsXQcFAInCO2D6ZadkKsqf7W1AjFIU/AVdIFuvRVVkgsVrC
+	 QvTglGQLaA6eY1X7g7MFzz+66mUZREq8YPFJT4OFWv9wmip1xa392aWwqlk/4qOcb1
+	 8bPB1gKfSpt02Dn4wD03Pm2y45Jboq4op1xeBMFjn26eqFppypG4ppEIvfyUL1OQqg
+	 XaXfNYLChtyfQ==
 From: Mark Brown <broonie@kernel.org>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260224161821.93365-1-sbinding@opensource.cirrus.com>
-References: <20260224161821.93365-1-sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v2 0/4] Support wm_adsp hibernation for runtime suspend
-Message-Id: <177253680239.22767.16138184990022496541.b4-ty@kernel.org>
-Date: Tue, 03 Mar 2026 11:20:02 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260223065051.13070-1-clamor95@gmail.com>
+References: <20260223065051.13070-1-clamor95@gmail.com>
+Subject: Re: [PATCH v3 0/5] ASoC: tegra: Add support for WM8962 and CPCAP
+ codecs
+Message-Id: <177253680370.22767.5594712156788646964.b4-ty@kernel.org>
+Date: Tue, 03 Mar 2026 11:20:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,19 +53,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-38bf1
 
-On Tue, 24 Feb 2026 16:18:04 +0000, Stefan Binding wrote:
-> When the CS35L41 and CS35L45 drivers suspend, they are put into
-> hibernation, and the regmap goes into cache_only, but the firmware is
-> still running, and wm_adsp is not stopped. If userspace attempts to
-> read a firmware control, it will perform a regmap_raw_read() and this
-> will produce an error in the kernel log.
+On Mon, 23 Feb 2026 08:50:46 +0200, Svyatoslav Ryhel wrote:
+> Add support for WM8962 and CPCAP codecs found in various Tegra devices.
 > 
-> To prevent these spurious errors, add an apis into cs_dsp and wm_adsp
-> to allow wm_adsp to hibernate. In this hibernation mode, reads or
-> writes to the dsp controls would be rejected with -EPERM rather than
-> -EBUSY, and no error will be printed to the kernel log.
-> 
-> [...]
 
 Applied to
 
@@ -65,14 +63,16 @@ Applied to
 
 Thanks!
 
-[1/4] firmware: cs_dsp: Add API to hibernate the DSP
-      commit: 73942a6ea26bd7e02b7c260b8b7aa942397be894
-[2/4] ASoC: codecs: wm_adsp: Allow wm_adsp to hibernate without stopping DSP
-      commit: 6394a52c90c4abd10c8265983ec1f53207cd283e
-[3/4] ASoC: cs35l41: Hibernate wm_adsp on runtime suspend
-      commit: 4d80c0dbcda551b8b86ff14c6ae93026993970b2
-[4/4] ASoC: cs35l45: Hibernate wm_adsp on runtime suspend
-      commit: 17c6bf433742e0c1ff5ce175145877c0194e4a7a
+[1/5] ASoC: dt-bindings: nvidia,tegra-audio: document CPCAP CODEC
+      commit: d6b634cbc2eed73497877c95a7807d0f34fa4459
+[2/5] ASoC: tegra: Support CPCAP by machine driver
+      commit: a34547b389a91bf0709f0901c3752ccaf63730cd
+[3/5] ASoC: dt-bindings: nvidia,tegra-audio: document WM8962 CODEC
+      commit: 79d73f5a0b7a702a19189c1a237ae3728d88de59
+[4/5] ASoC: tegra: Support WM8962 by machine driver
+      commit: 536ffa105e16ca3f6e7de53f9d6059f53d0207f7
+[5/5] ASoC: dt-bindings: nvidia,tegra-audio-max9808x: document additional board pins
+      commit: 06dba254de95b16e7793224d29daa5195de2e581
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
