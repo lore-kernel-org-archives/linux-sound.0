@@ -1,44 +1,43 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85CC42EEBD;
-	Tue,  3 Mar 2026 19:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A103C38643D;
+	Tue,  3 Mar 2026 19:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772567334; cv=pass; b=fylGDKkSdE01xkJdqqWMjuQb6ii4zBacmr0aVQTj7+rIqDeYarS0ppHWGC6f0xJDIjAF0+al83XPPJPL1XCFPd+43GgOqy8PmprCXxX4VpVHyol5RqttW6CCxrxITs/GbbeYBZeDfanPJO/vKANikzoLaLf9WyDOgHk8cSHGQH8=
+	t=1772567430; cv=pass; b=O5ib4nquY5+y/b0Jl/kmBMVDyH7rleLD5M5jg24xCBwUIF4iE4uC6l/0gF3mN9WNjVb+I+x0hHkbEWzjbIp+wW8REd8dxlidhdYg3R+6QyHxk1DRegfBAT37N/OlSNvug6iEo4LxHi1xLMkahL2Seae/jfcx7EJSZUSWLmczsz8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772567334; c=relaxed/simple;
-	bh=k/j1dDb0TiBV30wnb9DVBj+O831fHg6SEj20fhuUzMs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S9/C11B/GpmJwS82pjaeZRoviVngIcpPCtLk3+QRwqBxtpy6iG2m2MGc9EO3CJRUzt05nAFsAgkPgVnbN00gD6n5VRfdwtWK2wMhcKJmSRxlrv5hc33i7m3noH+V8Nph6WkItcowE8d2StU7LuhjJIK7rRyM9dsNiuzbSULiB1M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=YB4g8/Kj; arc=pass smtp.client-ip=136.143.188.15
+	s=arc-20240116; t=1772567430; c=relaxed/simple;
+	bh=DgCDy76J/msDhB3mPy6eXfxx3MwQApX7KCISfKk1anY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T/ftU28Cz15ceMC/vNXS9KywyCoxggDv5yX4dglbz6qpi+Wir0Q2aHd0WRSzzR2xz5K7542ZqL7gcGUeved8l6Br8c1Vvou1aXfZUWYl99ocRdFo+RCzpNZvvqdoSaac2q/LZWmoYcybk6aiUPePnWfBUbF+LQjZ6dmcjh87AEQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=dYwAQ6z9; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="YB4g8/Kj"
-ARC-Seal: i=1; a=rsa-sha256; t=1772567319; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="dYwAQ6z9"
+ARC-Seal: i=1; a=rsa-sha256; t=1772567293; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=UX6LKg1Y84bUd2W/D2GnnKswTubIoMEehjSVCwfzMd1AnzirWE5cuHcJ37U7RkihTQVoIztwgOPfOHsvQuJd7avztmL/baxWnYq0mOeg8pBe2GLisgv/+O64jE6lsGhH3ghoo0kTHkCHsmIAhIUrgBM8YQv/CxYzHvxVWthrKhg=
+	b=eP4l0NDbHn7Jutj+JV475DmQoVlop1OCw+8R3/0jv99ZOPUHvn2belgQrlRs2KdlTzP2bf+FDHr64e54+laYiwykqZWUO5Z3rzIUIpRwsVU0ONwoUl7nyQBG7SM0zy3yifVSnmkEb/MX3AU1M1M58G7QwTtX0tUD5IH0uCJCdpA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772567319; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=n4Vn0pbl99xPEiHHtN8VjnR2w8nLax2cHEruMeH3bIU=; 
-	b=TBRguYeQLavV4MUxG60OfgnKeaMLAE3VGaITDeOXwMpv4J9VhyZReMFJOShXtUkLHd4yMMPsRmzI1dPnVnq6u1U3aIb5q6+HN25GXrytiTtJ2rT/0mHh365nbhuCbGX93uWTa+dfeK5Nf+KKPr5/KTZhFHPpn51WBybwe4w6opc=
+	t=1772567293; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Y18qqMZWDPBwIEG3oJSl7DALpFqCPbAAjqKcRfr13ZE=; 
+	b=OS6LJTxLMhr1dh40ZDnsthy+lrgc6LD7zIuhIigva596I8Hh0K1xLmYRCprzaM4omPZ6qn40gqFReY8LkagHLKdSmfoGmrQtAsbDMOa9T770L85WRCeFB/S0k1HtU+yF5F1MktHgWsr/Ra1Lnyl6uLqkPoyk9M5s4SxdQZJUjsM=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772567319;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772567293;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=n4Vn0pbl99xPEiHHtN8VjnR2w8nLax2cHEruMeH3bIU=;
-	b=YB4g8/KjdgrccMje16DtArdtxqF9Is9kY3OEQRL2qDHLw8/XV5n+/7D3a1ozvSfE
-	HzEQRSrdjD9ZY9FvEEix5hNSmLRP9YXPxzw8xxV/HGqPeAjkJHLycW035tV7ez8K72o
-	vKVM+3QZBiKYCaZX/k7jf+LcF4ABHGMGD1cZ/yxAnNKFb3ey8QBe62aACXVyCDekJRT
-	VYwNjbx/cENPhVG7ATrttynG5smWUJbdtwYCGvc4w3FPwYjvvcX7WC09VspS2r58OEc
-	0RltZp4JMGwgvgceiwXtQOeAhtnHHmpT0d1SS3yDemKaE1q6K4DKcBJFB1VIyyk/xA/
-	3gZWYtqnvw==
-Received: by mx.zohomail.com with SMTPS id 1772567318377252.90102794541485;
-	Tue, 3 Mar 2026 11:48:38 -0800 (PST)
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Y18qqMZWDPBwIEG3oJSl7DALpFqCPbAAjqKcRfr13ZE=;
+	b=dYwAQ6z979U1JabpUetgdmonVBEaFls1tIrAoPh1DZcXWB3KjYSTVndA/9zPgM58
+	nAkrJSkCVfJawStLdVAPSwVlLaqTyISRSKE/NMqbfkOhLXPsp2QfR+tZ/Bk2RBj+m4s
+	xuvl+Hdj8i93aMj5WqH/DGMWd0b60YR/0XWuWUWSLtq8z55WDiSAqGJz5S/UdoLWZT8
+	9Z9PBo/Iz7hInHJdFi89JIG+4nD1SQT3khGXWaDXYVI2LgjmaxWZ/m5PcD7hccVC3Sm
+	grqkgFFULvFX9K/vtjUgYAgHJKs5kAJOEtbpJ+Zqcnqs5lH4ABXlJnFVCrYWjqwdXPx
+	/MU9Xr81OQ==
+Received: by mx.zohomail.com with SMTPS id 1772567292500723.4550315360998;
+	Tue, 3 Mar 2026 11:48:12 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -51,12 +50,10 @@ Cc: Rong Zhang <i@rong.moe>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v3 8/8] ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
-Date: Wed,  4 Mar 2026 03:48:03 +0800
-Message-ID: <20260303194805.266158-9-i@rong.moe>
+Subject: [PATCH v3 0/8] ALSA: usb-audio: Add quirks for linear volume devices and deconflict VID
+Date: Wed,  4 Mar 2026 03:47:55 +0800
+Message-ID: <20260303194805.266158-1-i@rong.moe>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260303194805.266158-1-i@rong.moe>
-References: <20260303194805.266158-1-i@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,94 +64,66 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
-Many devices built on top of their SDK share a common quirk that the
-Playback and Capture mixers use linear volume with val = 0/4096/1.
+Some quirky devices tune their volume by linearly tuning the voltage
+level (linear volume). In other words, such devices has a linear TLV
+mapping of DECLARE_TLV_DB_LINEAR(scale, TLV_DB_GAIN_MUTE, 0).
 
-The SDK seems to always report "MV-SILICON" for manufacturer string.
-Hence, match it so that we don't need to define quirk table entries
-separately for each devices. The "val = 0/4096/1" pattern is also
-checked against before applying the quirk, in order that the quirk won't
-accidentally break unseen variants.
+The series mainly adds quirk flags MIXER_PLAYBACK_LINEAR_VOL and
+MIXER_CAPTURE_LINEAR_VOL to represent this case respectively for
+playback and capture mixers. Afterward, apply these quirk flags on them.
 
-Quirky device samples:
+Some MV-SILICON devices with these quirks also have another quirk: VID
+conflicts with Focusrite Novation (0x1235). Hence, add support for
+string-descriptor-based quirk table entries and define an entry for MV-
+SILICON to deconflict them.
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: G1
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+Some improvements to the logic of volume range checks is also included
+in the series to help identify quirky devices with linear volume.
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: mvsilicon B1 usb audio
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+Changes in v3:
+- Adopt __free(kfree) on string buffers as it turns out to be able to
+  handle ERR_PTR() gracefully (thanks Takashi Iwai)
+- Improve readability by replacing the goto pattern with
+  `p->usb_string_match && p->usb_string_match->*'. The compiler should
+  generate equivalent control paths thanks to the optimizer
+- Link to v2: https://lore.kernel.org/r/20260302185900.427415-1-i@rong.moe/
 
-  usb 5-1.4: New USB device found, idVendor=8888, idProduct=1719, bcdDevice= 1.00
-  usb 5-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 5-1.4: Product: HF310 USB Audio
-  usb 5-1.4: Manufacturer: MV-SILICON
-  usb 5-1.4: SerialNumber: 20190808
+Changes in v2:
+- Separate [PATCH v1 6/9] into https://lore.kernel.org/r/20260302173300.322673-1-i@rong.moe/
+- Alloc string buffers with kmalloc() instead of on stack (thanks
+  Takashi Iwai)
+- Get string descriptors in a neater way (ditto)
+- Tiny differences compared to Takashi's sugeestion:
+  - Use `IS_ERR_OR_NULL() || strcmp()' instead of `!IS_ERR_OR_NULL() &&
+    strcmp()', so failure in getting the string descriptor won't
+    resulting in quirk flags being applied to irrelevant devices
+  - Use trivial goto cleanup patterns instead of `__free(kfree)' as the
+    latter can't handle ERR_PTR()
+- Tiny differences compared to my previous reply:
+  - Use usb_string() as Takashi suggested instead of usb_cache_string(),
+    so that we can retrieve the errno and print it out on failure
+- Link to v1: https://lore.kernel.org/r/20260301213726.428505-1-i@rong.moe/
 
-  usb 7-1: New USB device found, idVendor=2717, idProduct=5086, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: Redmi 电脑音箱
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+Rong Zhang (8):
+  Revert "ALSA: usb: Increase volume range that triggers a warning"
+  ALSA: usb-audio: Add helper function for volume range checks
+  ALSA: usb-audio: Improve volume range checks
+  ALSA: usb-audio: Support string-descriptor-based quirk table entry
+  ALSA: usb-audio: Deconflict VID between Focusrite Novation &
+    MV-SILICON
+  ALSA: usb-audio: Add QUIRK_FLAG_MIXER_{PLAYBACK,CAPTURE}_LINEAR_VOL
+  ALSA: usb-audio: Add linear volume quirk for Hotone Audio Pulze Mini
+  ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
 
-  usb 2-1.2: New USB device found, idVendor=3142, idProduct=a601, bcdDevice= 1.00
-  usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 2-1.2: Product: fifine Microphone
-  usb 2-1.2: Manufacturer: MV-SILICON
-  usb 2-1.2: SerialNumber: 20190808
-  * https://forum.ubuntu-it.org/viewtopic.php?t=659345
+ Documentation/sound/alsa-configuration.rst |  7 ++
+ sound/usb/mixer.c                          | 84 +++++++++++++++++----
+ sound/usb/mixer_quirks.c                   | 56 ++++++++++++++
+ sound/usb/quirks.c                         | 85 ++++++++++++++++++++++
+ sound/usb/usbaudio.h                       | 12 +++
+ 5 files changed, 229 insertions(+), 15 deletions(-)
 
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/mixer_quirks.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 539044c0c644..e97814dc9025 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4588,6 +4588,24 @@ static void snd_dragonfly_quirk_db_scale(struct usb_mixer_interface *mixer,
- 	}
- }
- 
-+static void snd_usb_mv_silicon_quirks(struct usb_mixer_interface *mixer,
-+				      struct usb_mixer_elem_info *cval,
-+				      struct snd_kcontrol *kctl)
-+{
-+	if (cval->min == 0 && cval->max == 4096 && cval->res == 1) {
-+		/* The final effects will be printed later. */
-+		usb_audio_info(mixer->chip, "applying MV-SILICON quirks (0/4096/1 variant)\n");
-+
-+		/* Respect MIN_MUTE set by module parameters. */
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL;
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL;
-+	} else {
-+		usb_audio_dbg(mixer->chip, "not applying MV-SILICON quirks on unknown variant");
-+	}
-+}
-+
- /*
-  * Some Plantronics headsets have control names that don't meet ALSA naming
-  * standards. This function fixes nonstandard source names. By the time
-@@ -4664,6 +4682,10 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- 		break;
- 	}
- 
-+	if (cval->control == UAC_FU_VOLUME &&
-+	    !strncmp(mixer->chip->card->longname, "MV-SILICON", 10))
-+		snd_usb_mv_silicon_quirks(mixer, cval, kctl);
-+
- 	/* lowest playback value is muted on some devices */
- 	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE)
- 		if (strstr(kctl->id.name, "Playback")) {
+base-commit: 63082d085f52a3c77ef572d71d2d08c642da2a55
 -- 
 2.53.0
 
