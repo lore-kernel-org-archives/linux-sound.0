@@ -1,127 +1,233 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010045.outbound.protection.outlook.com [52.101.69.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9FD1862
-	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 20:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF0437C91D;
+	Tue,  3 Mar 2026 21:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772570854; cv=pass; b=Q/9peVzlPR48hr8lst7o1xMg8whfUz7KtiahOgjV7lPLNUCc7WSiUgoRm+Za07wKTOV/h5ZLGoqDkQAKsjuMmTQ4BAGEPtCJB7SNuF+g9ZPkFDsZgGfI28Orz/KAmVRwxH0Kw2gI/GE0r5v0fg5W+mybj7jbk0DoD4eUU2GDDfI=
+	t=1772571759; cv=fail; b=XdVUXSIgxGOJ+2o8YFaF83mTWvuYCBDKbVrI/k/tYASWioFHaAdDZMDbVtKtt9dZO8jA4IudrZDbdY1DKZ8mKJOGYKKXn3WrTOfdCs9VWTtmwlLMQBlO1lQDWh6TdWd5ricVVfvZyfUNCQ2jLDes/ghee5nVODI+8Rjp7rvT5rc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772570854; c=relaxed/simple;
-	bh=xfyvHQMIN8v09SJTHWaJlZvBGmLWdidMZR4N0iqvGKg=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=PR+nFOzGfBCOyi24DXL7MJ40aYxowAxTeb/X56yNuIY3GpcF2zarD8C6DRVxByUUYi9Ay9IVl23ChxFD4lzkTIgSWZejVqEgszAdObF1YX9wuggsz4T9ZCnwMlTd3J1dFcYOBRTPr9LPgAOxe6YkigKFLJwUrma6TwxAN1GmB2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fz+RJk13; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772571759; c=relaxed/simple;
+	bh=N4TxgSNEeAxJ+Hn+lrOXC42iffdTXxV8AKATvU9pH+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=e6B0CGT6FvxVU2dBh114Qd2YRJU3HZRFpC5ZHoDzJc5fbpng7/x6HjJFhgAd8VtwhM+K372J18l9tmF3m0tmbWsD31+LymKcXPBmnRdjnZ+HfhKZbzDXE3wv0PwTmZVjsLuVsAi24I5g+iYp1IuSoNb0ecgiizb4fF/0LL5ZUZ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=WOPmefoh; arc=fail smtp.client-ip=52.101.69.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fz+RJk13"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439c4bde55cso440006f8f.1
-        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 12:47:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772570851; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cSPPnmkd5p6GUulGqPtlh6rmsN4Ffgb3uHWamI16n1cyXoPxZb3YJN4xEE1QkaULds
-         YE5WsecunhbTzxq4KP196cEEXnFp1+YASf30IpGuXUOpF0Erpj2/ZI5+sNgWCf/7HBJm
-         ml9Cdcg2+O6vPmxs8/6+T5l6rwiV9FiSSE33W/SUaurn1jdVPjqYFePlfJKn5hKldpf4
-         HXr7qUKSj6sdI7vjWZcyz64UcO8gXeCtR21pcuyTS8rRpFFiISVifRLAVMKm3bXBTomW
-         oWRjJbZJlsxzFmNfN5xkhZF9mFVItxRN0Ldb9Txv79IpoAoqv9IBttt48Ei1erSwag/s
-         C3XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=xfyvHQMIN8v09SJTHWaJlZvBGmLWdidMZR4N0iqvGKg=;
-        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
-        b=WnGrgxu/MLTWD2aJ44FQ4DICjlee8WO0KRwkDqkXMl1inzteFD5bC1J8i3NJjXt6Sd
-         fGaz4ekQ+HzjawPmTA1W1zomY4iZJ4zXGFfHVg1v/fdrZ/cxtpOym1jhf0M80FMFimP3
-         iHXLXQ+4e5VFYXG25JWsD4QscwmXsUoqaR78P2zJVZuZV88E7EZgeiU5MW3dZgQowEWD
-         WRM+2dZk4fS3KSJnaW6ebN6wP1ePBQP8S8P60sNTu3gkw36T/ZIt2gGS2mqHHfZTErog
-         iCDPDlaDhLThLme0A0Dnl57jnAXxnswar1RF3Evg7A7AoV7RtXfH5MnwlG82smcVHj2B
-         WhAQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772570851; x=1773175651; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xfyvHQMIN8v09SJTHWaJlZvBGmLWdidMZR4N0iqvGKg=;
-        b=fz+RJk13nV+uN64PBwpU01UX+SWIFfiRsfYxUVf2nnLyE3xdo02h0OBYkDqNRZ3H5d
-         0RBN4LZyT83LZi859f0+w8CpWDMcEvwVxf5MS4m6xjKMM48mU7rnn67krrTDrqDqM5j+
-         Fk6QusliLKqeUxWF0TN0xbuDqaToY1PwDI7phVlxEgoOQPChk3UZ7qJEEM9/XnsU95Zw
-         MpLGjoakL8dbuut8mFsTQIWAxvTE1XTjCVLgpB0c3MDbeDqd/S1Cg6qzWQsfZRYZGvuT
-         R071i2VYXfF0lKBmFI8y8IaMHHrDiEHQc6eJhPdN+xWFNsvVMKxhsoztEeoBYdTxyn8s
-         rnOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772570851; x=1773175651;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xfyvHQMIN8v09SJTHWaJlZvBGmLWdidMZR4N0iqvGKg=;
-        b=hInfQ0kXhdzhOcnQSag8BZAKRU78hw/7yK+W1rbU4pMwANKeoED/jnliB58HuThYtG
-         fK/rZ2uAJUpMGA/LCXZgdGXBZlPKv8bPx7B6cK2tqhgaaCD0ezDhZdgVbmdnQpK6v1D/
-         ImtWjGhHOOlbmJVheLkzwrHBrVflSEgLds3znWqT980W8pp/9U10z/LwUStTb5badXt+
-         gqPsuI7vEU7/rVOTTn8hI/4PLUA4p3kd+0S6dkm/EqiLBP0GavyVFC2rl23JBd2W5ynq
-         OoKm5oK5JS8sOmGFzzqTfcSc27U5H5JQw01oVTGeLuB+sfdsJHd4AMQpFhRdULXtyQjP
-         dbUA==
-X-Gm-Message-State: AOJu0YyOa+daBSANKKmptxGpPRevruXbuoTuc9901ZBFX7NjAg8or+fb
-	2lXgsZMq0eLl127nDMEcCQ5Yxtf4C/aGX/JWuFCntZjX+WJgvEwOvjIeamjbrBBHGFzTDowQAVS
-	1CNcFUlvhrRHmNNGlNPzHSmvPbz11NYxDtnst
-X-Gm-Gg: ATEYQzzm1jgYhPJAwCnWElqJwLnxu8+Rr5GI0LfsRaBTHA2fY43T7GCVCu3eosZPE63
-	0ptIEZmfwpMLRjlqu3abUDVU6X/BbkuIxjV47tOOr354F/3S5gm0gSm3VYaos5M5xIjO4nu8pnJ
-	G1kVNloA3nIuGGln0StgCHD0PQgnNw+HIVSBuOGIAHpohemHEpMQTBkcAdEr/sbZNf3JXFfU4Os
-	AZ6CUvWNBAoF/1kZuHkNCtqN7ApjQAkcuSiAP9FZQPnoO4ActNUAxumpFjbZniUeMgR3I3IgiDz
-	5zx4
-X-Received: by 2002:a05:6000:2384:b0:439:b4dc:1e1d with SMTP id
- ffacd0b85a97d-439b4dc2030mr17864883f8f.44.1772570851499; Tue, 03 Mar 2026
- 12:47:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="WOPmefoh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N0c0XBSyLsHRJO2of9Id2jqXfmgMYtsiWmbd+b8Dh6pqwoKZntM1h6JZSIaXsTaAzxnGGmJ4u/qQwl9fqWVhniIy0I4aYnVHoRONvdJGSt3N9C4VJQwUNthDZE54I6yF7HTWp7p5N9zIGYqYZz+h1gcgeEhxYD06sni2nt2SCKOCMZUUW0pBBYDZ3lC6WJK/31H8HtBj4utboN1bpkVwMvt96kgGb8oVM50gWOqcr/noeCi7YyrPHejEgORWtX9ztvyjisodeVRml9UqwCPRiIcRa5nmR5b5ikXp9KF8glr04sK80BH7SnM3SS2GNeBhFarnfrJ9Cq4cR/VJP5QYig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=25PTrhWjTAhZEg63K5aZdBMhoUCXwapuX4m7iNV5lBg=;
+ b=akR5geM4zhS+E8JraFd4l36OcD9GClueiEouZ7e0idS9/H9m6ch6gAB5JUyp+qgDuYUTSZOK0xtwEULEPt9Ll5KXtbWOh9mKRBC8wTVkqEITGpBuypjPQs0ncjQil5LwjTcjntsuAW+dWFPzagvbThkrrxkAHrE16vOYMLn7FQHmTZO8CRmlyr8j5/Kf5WNAlg6g+RgX5RZV/mnfSa76PzSAIM3/jvXs54Wuqu1TClsJ4//9+y+ghUG1NeiMHZQj+gRcGf9Rr1kSmaz8TzDKKfLf4yUizFPN4a7jp6W2kx1FVrey/v9ql64c3qwFFJDCILP2irs0t2FvLF1LiAAhRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=25PTrhWjTAhZEg63K5aZdBMhoUCXwapuX4m7iNV5lBg=;
+ b=WOPmefoh+1Bt8O3Ky0leiDuDP8+L+ZXDzUih3K0cC0uTWcz+DR6I+7S0VMYi+cLouCA1VVDNgdT1s1D7bloUA6r0b0BskbZIklN5kaJmVWGuj6sMIgiza9ZGFhwS+c3rXGMCtWNdhq2sGHXBSIuaiUWov7Tenedxg+jxvESimU4sEjzJaeqeIp+AMED49gn1byIaI5+mvqOVwYcPK5UX+gG6A22B3mKvx05W57rQqJiT7K2UH554iUvqn+wiLG29e4tYAH6J6FeixGpsgZo7Eo9a8Xnv8cRIDl6153T9L/V/cJPCiKMmwNCLdVuAMfrIs/MdVyOACnM2jBO5Po+iDw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by GVUPR04MB12217.eurprd04.prod.outlook.com (2603:10a6:150:33d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
+ 2026 21:02:32 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
+ 21:02:32 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	hanguidong02@gmail.com,
+	ysato@users.sourceforge.jp,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	abelvesa@kernel.org,
+	srini@kernel.org,
+	s.nawrocki@samsung.com,
+	nuno.sa@analog.com
+Cc: Frank Li <frank.li@nxp.com>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-hwmon@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v2 1/4] driver core: generalize driver_override in struct device
+Date: Tue,  3 Mar 2026 16:01:05 -0500
+Message-ID: <20260303210131.2966214-10-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260303115720.48783-2-dakr@kernel.org>
+References: <20260303115720.48783-2-dakr@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SA1PR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:806:2d2::23) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Philip Willoughby <willerz@gmail.com>
-Date: Tue, 3 Mar 2026 20:47:20 +0000
-X-Gm-Features: AaiRm5142uvixVESvyaqv-ORO61FWXyo7llQzIbRSVKbmPokA75nfRG1_jbEVts
-Message-ID: <CAKSkzpsn71v1GQYkj9pGq_FjyLaY1HT_7qBmJqUj75OEXEGbNQ@mail.gmail.com>
-Subject: [PATCH] disavow Arturia AudioFuse 16Rig
-To: linux-sound@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000f182e0064c24cf7a"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|GVUPR04MB12217:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6d8bd2f-64e1-4db7-b931-08de79683020
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|19092799006|7416014|376014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	NFd/UOQswrCvuX4yQTRAtdCkcxtR2oV6CTXtt2MEx1r3CnuW5W4zHiYEk+A9I9VN6CBl8UQO1+nM4J103h+6JkYGp2Qy2EwtqJW0Nr5oUxyajkI22k1BkyWuetDCxpjmC0wGBIxlWj4O3Mjq7OAeQhSYTNOqns7IUEZ682k3erBKM/fm6oiCZew9OsPYBCfSa1/MQD3iAYcUNc0IW6VhezKeP7g1Zf2p/QHrCEPjmM79oVjdhC6aWG7mbWLveQRZhTUeL4UGcvd6MMWiYToqpS55kcTIsQSNxCaV0Lb1sx26PQNpq3HhQMtJPRnUDHpPxEqlX5z102G0mykPJRTvhrTxw9bvf+M5EtmQdZKiIqC/3tgHj8VnWUEQ0F7XL3dLhhcOmjiYSDDa2mxdFJnIJS3QhPVK+cOTKIBrAYKg0MGi9vFjJmFLQxD1MCUkm1GNRdB2GfJi03o8xEDVIIVFFtCmbVp7mxGCrX/txJP1I25u20UJ8EV7xPVlQ5KPHpngLq4Af9lpq6QnfbkqHHfHvZK3Alii7ASVObaSt/kFMyMLrPInKFseRX9J3uLndjamQ3LhzvjoaYDIG94RA48eg2v+DWYUVp/UyvgUiAy7elm5f8UhbuvSXYMxeWsg+Pbu6qw/CBl38MFOpDRQVKlKK3zwtodf7GL6rr4s/CtFKS4dISOqO47JoAJYZZ8uXnds4aNkRVxGrvMADAtgH1uMWLt3/Yob5gTUT/CQFJcUmUSUstiPn4JW1adeK7KJwXT8hoU2iFSR0TozBErbOWQ/RhG3jsh08V3yswHz/dR7OIkvMXMyXvW3Oq4wmuZEWFYn
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(19092799006)(7416014)(376014)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8tDOkyk0ztXuZ/W+Pcdr6z6Qh01EJz8QIdUqssLnBY3NEwKInBFMro9t+2lJ?=
+ =?us-ascii?Q?5boWY2VauOYGYn7YOEGikabumhUgttMNtBWHQYdcSP94hh2IpgIHkeG1yom9?=
+ =?us-ascii?Q?jtXck2LsbQdn/rTsBbulDj8YKjv8fkafpNSasDZWOOTx8oXfpDv9lBfl7933?=
+ =?us-ascii?Q?CC5vdWeDu+wUQOeSwYZClAqUMbOY41Qr5s9YzdZ2O8QVKVKlZktru00CodVr?=
+ =?us-ascii?Q?WDb1ufqNctfk+XzBdr12lgZwNSDRBL6Ws1RSFErKDrFPKUJbx1XzmNcyLvqQ?=
+ =?us-ascii?Q?nkJpu0x9Cxg36CTrZV5WikILemO9AcapwNQjxgjP6b9gR9ax3oxZXPorBfhh?=
+ =?us-ascii?Q?yAvFSPDOgOWMBy651IQOVN1CQgqdDbghYktf9IxyhaAKO50lXG31Q3iI690d?=
+ =?us-ascii?Q?pRJ4GyPlDV3KYNRqF1aZ67qrttUTegKMHyRxMiGdQddu+ZVnNfsefAoK4cH8?=
+ =?us-ascii?Q?5bh97NFsaSXv9t5FaVUrfsWLzrgXxqcpkY7DD5VIPcszA45L4EGnvFBuFXTC?=
+ =?us-ascii?Q?9l0hGQLPz65n98eOJgcwfBlCp7HaSt0/Nq08M0Dnl77JgK3QCd8ZKwXovH7/?=
+ =?us-ascii?Q?fJdsHJ23aW5zGs3/s3vk80rF4uMj+O0GUyJKBz6pmnYVxc/Bdxu9EFupqgSF?=
+ =?us-ascii?Q?2S2idfR1khFV6f0mmGiB/g21LTuy//F4DKn0SnvuOwnGeWKBkeJdirISYAmz?=
+ =?us-ascii?Q?epcwwbY1v9Zpql/WojJp+h7Bm2ChPYOs0INlqpwg5oTp4IUgHhz2QNonPv1Y?=
+ =?us-ascii?Q?Ihlj9GNtjyG9fYlwDygXHCLv2vGz+gjlaBM67JB5O2nzBurTjmPTYguXe5ec?=
+ =?us-ascii?Q?ypYh8xZRdcfmL9N70Gm/l4pSITP32Mm9lZ6ANeS81cpSBD/kp1tNEsjULsJc?=
+ =?us-ascii?Q?eM2lIp/7vZNuBIlz/DRQ87LNZX2crWSp3igmhNeXlFimkaU2zkHHyDeAlV40?=
+ =?us-ascii?Q?Jc76aOH7E5P5K87UoIVsEJnSU56ZflKMYjsWodJloEZ/XYvDMeT6wzFxJsx+?=
+ =?us-ascii?Q?aCh1Qk53TjlWTgu5LG0uj3nWYLtVta7D+EZUXrbuHiRL+RSKeAKuo9hGFw4G?=
+ =?us-ascii?Q?VPPd6rR9WrYl/xwbZmqeepZHmstQoBFlQEVL5Ty/fQ9EJlC12Qcg/BsQBT1k?=
+ =?us-ascii?Q?bqw/Crmd6/mDIHhdPwLLvDN9/n4GePGHHOXTs30UTNoHoMhVZtt614PkGYwz?=
+ =?us-ascii?Q?tgL2OayrmH54CDtcv/AtvAPBaCueX+qj52aDLiAr8q2Dcjhzn0vHJeYgDaNK?=
+ =?us-ascii?Q?M21y4Gxog4MAnx+/3eWegCvUJdqLXO16J6+Pn4Qc9pdesqoKyKx7dL+vcFsf?=
+ =?us-ascii?Q?rbrAHyDf63EG/9q4sXkubh64nVUezU3njGN2+J3tnoCCfGL2wM0BBrHXd5EO?=
+ =?us-ascii?Q?4SWSTsiSUbUZcCaTpIzmfK+PBqnXYk2rwI6yPvwD72i9SFXcUgVMlkxcs1CT?=
+ =?us-ascii?Q?XN43Dxc7cYA8vGGSfGTBmfKOvxkQBG0dTFPZ/2UGYmrbetvWUZ6itTu5y7+/?=
+ =?us-ascii?Q?x7veVUDli+5nzsDXn9jUrq3GqhWSPcYS7zx7CoYKbS/FbCa+gYe/GA8BXI1n?=
+ =?us-ascii?Q?+7QvzNkiYMn3Y2U/nFwmTl4PcCMmQgFRCzaAuB03ZHuCxkPAmMlEkFhz4S7N?=
+ =?us-ascii?Q?y3GZgtJVh0vRISNHqHGGNVnBbOIGFlmbkfxeyT69t7RN8OSSuuxU6d8WtZTb?=
+ =?us-ascii?Q?8Z9AtcIFXdH1KR4szLs+VuO5wwKp3oQjfDlXWgUBYuz0xJAu20zyhfyyz1gL?=
+ =?us-ascii?Q?ksDM+XHMsQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6d8bd2f-64e1-4db7-b931-08de79683020
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 21:02:32.6105
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wyvHvoUTOGlzgOfezEApEgARBTE1gSDg7gpbFNv0aBFouZFKwbX74DzvuuyTkPWyzblqg26m5rVPUeXEDzUuPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVUPR04MB12217
 
---000000000000f182e0064c24cf7a
-Content-Type: text/plain; charset="UTF-8"
+From: Frank Li (AI-BOT) <frank.li@nxp.com>
 
-Short version: it doesn't work (no audio IO works) and it actually
-causes harm right now.
+AI bot review and may be useless.
 
-I made this patch to make it easier to test my in-progress custom
-driver, I'm sending it out because the current behavior stops the
-device from working as a standalone device as soon as it's loaded.
+> +static ssize_t driver_override_store(struct device *dev,
+> +				     struct device_attribute *attr,
+> +				     const char *buf, size_t count)
+> +{
+> +	int ret;
+> +
+> +	ret = __device_set_driver_override(dev, buf, count);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return count;
+> +}
 
-During its probing, snd_usb_audio changes the sample rate to 192kHz,
-which has the side-effect of disabling all the ADAT inputs, ADAT
-outputs, and mixer inserts. With this patch (obviously) that doesn't
-happen and the device carries on doing whatever I had configured it to
-do.
+Potential issue: if __device_set_driver_override() succeeds but
+modifies state, returning 'count' may not reflect actual bytes
+consumed if buf contains embedded nulls. Consider documenting
+expected behavior or validating input length upfront.
 
-If I get a dedicated driver to work I will of course report back to
-you. Thanks for the assistance thus far.
+> +static ssize_t driver_override_show(struct device *dev,
+> +				    struct device_attribute *attr, char *buf)
+> +{
+> +	guard(spinlock)(&dev->driver_override.lock);
+> +	return sysfs_emit(buf, "%s\n", dev->driver_override.name);
+> +}
 
-Phil
+Potential NULL dereference: if dev->driver_override.name is NULL,
+sysfs_emit() will print "(null)". Add explicit check or document
+that NULL is acceptable output.
 
---000000000000f182e0064c24cf7a
-Content-Type: application/x-patch; name="patch-willerz.patch"
-Content-Disposition: attachment; filename="patch-willerz.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mmb21gxo0>
-X-Attachment-Id: f_mmb21gxo0
+> +	if (sp->bus->driver_override) {
+> +		error = device_add_group(dev, &driver_override_dev_group);
+> +		if (error)
+> +			goto out_groups;
+> +	}
 
-ZGlmZiAtcnVwTiBsaW51eC02LjE4LjE0L3NvdW5kL3VzYi9xdWlya3MtdGFibGUuaCBsaW51eC02
-LjE4LjE0LXdpbGxlcnovc291bmQvdXNiL3F1aXJrcy10YWJsZS5oCi0tLSBsaW51eC02LjE4LjE0
-L3NvdW5kL3VzYi9xdWlya3MtdGFibGUuaAkyMDI2LTAyLTI2IDIyOjU5OjQ3LjAwMDAwMDAwMCAr
-MDAwMAorKysgbGludXgtNi4xOC4xNC13aWxsZXJ6L3NvdW5kL3VzYi9xdWlya3MtdGFibGUuaAky
-MDI2LTAzLTAzIDE4OjE3OjQ4LjgzNDQyMjcxNiArMDAwMApAQCAtMzkwMCw1ICszOTAwLDE0IEBA
-IFlBTUFIQV9ERVZJQ0UoMHg3MDEwLCAiVUI5OSIpLAogUVVJUktfUk1FX0RJR0lGQUNFKDB4M2Y4
-YyksCiBRVUlSS19STUVfRElHSUZBQ0UoMHgzZmEwKSwKIAorLyogQXJ0dXJpYSBBdWRpb0Z1c2Ug
-MTZSaWcgZG9lc24ndCB3b3JrOyBkaXNhdm93IGl0IHNvIGEgZHJpdmVyIGNhbiBiZSBkZXZlbG9w
-ZWQgKi8KK3sKKwkuaWRWZW5kb3IgPSAweDFjNzUsCisJLmlkUHJvZHVjdCA9IDB4YWYyMCwKKwlR
-VUlSS19EUklWRVJfSU5GTyB7CisJCS5pZm51bSA9IFFVSVJLX05PREVWX0lOVEVSRkFDRQorCX0s
-Cit9LAorCiAjdW5kZWYgVVNCX0RFVklDRV9WRU5ET1JfU1BFQwogI3VuZGVmIFVTQl9BVURJT19E
-RVZJQ0UK
---000000000000f182e0064c24cf7a--
+Error path bug: on device_add_group() failure, code jumps to
+out_groups but should jump to out_override (which doesn't exist
+yet). This leaks the sysfs link created below. Reorder or add
+intermediate label.
+
+> +	error = sysfs_create_link(&sp->devices_kset->kobj, &dev->kobj, dev_name(dev));
+> +	if (error)
+> -		goto out_groups;
+> +		goto out_override;
+
+Good: label renamed to match new cleanup order.
+
+> +out_override:
+> +	if (dev->bus->driver_override)
+> +		device_remove_group(dev, &driver_override_dev_group);
+
+Potential issue: dev->bus may be NULL or different from sp->bus at
+this point. Use sp->bus for consistency with the add path above.
+
+> +int __device_set_driver_override(struct device *dev, const char *s, size_t len)
+> +{
+> +	const char *new, *old;
+> +	char *cp;
+> +
+> +	if (!s)
+> +		return -EINVAL;
+
+Inconsistency: len parameter is passed but then recalculated via
+strlen(s) below. If len is meant to be trusted, don't recalculate.
+If not, remove the parameter or document why both exist.
+
+> +	len = strlen(s);
+
+This overwrites the len parameter, making the initial bounds check
+at PAGE_SIZE potentially useless. Clarify intent: is len from
+userspace or always recomputed?
+
+> +	new = kstrndup(s, len, GFP_KERNEL);
+> +	if (!new)
+> +		return -ENOMEM;
+> +
+> +	spin_lock(&dev->driver_override.lock);
+> +	old = dev->driver_override.name;
+> +	if (cp != s) {
+> +		dev->driver_override.name = new;
+> +		spin_unlock(&dev->driver_override.lock);
+> +	} else {
+> +		/* "\n" passed - clear override */
+> +		dev->driver_override.name = NULL;
+> +		spin_unlock(&dev->driver_override.lock);
+> +
+> +		kfree(new);
+> +	}
+> +	kfree(old);
+
+Logic is correct but confusing: cp is set only if '\n' is found, so
+the condition `if (cp != s)` is checking "was newline NOT at start".
+Add a comment explaining the two paths (newline-at-start clears,
+otherwise
