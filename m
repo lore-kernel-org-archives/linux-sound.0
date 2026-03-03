@@ -1,164 +1,109 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9821D3BD622
-	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 16:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A08322B83;
+	Tue,  3 Mar 2026 18:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772557071; cv=none; b=J6o6NbymaA2cMc+2vW+UduZQ/EepENNtVbHYlLY3FxtRiVam6B8F2v+HzUNjAZEYyxoLA2nL6xlpYh9StS8GSLk4jeuE5wOf4Im1s9lZzILaJN1D+XpHDV9hpZBbCEQnTyvYaginF3J8GJh6kiAdtuqrsc+Uq8NWd/Nq+t3zIhc=
+	t=1772561865; cv=none; b=sw/P5QCGgNjQaohi2z8Ec8nBoQFC5o/H0exZ6fWRLqs6maDr9p458UxatdHm7PUXOWx0x2K2D4puZ3NTsfjXVxcWUp0dHYoypY9SDETvI8yzSXtMeVK+ElH0WnW5jJwRFzazFR13L0tl5m71VhD/2obYQNQafFnIpKoBC/qBQeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772557071; c=relaxed/simple;
-	bh=3/GzSmoRFQsgGZDBWOEZf5WA45dc4iHal7c2SQqyU/M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dhaj0d20F4Xy+bXbphrj0WhgdKGhOP8dJR6SRf99RS7YB9lR9envDLvubEArkoZRzA3byoaeXkEnkDOp3/Vi1wkltiSatVoIKRENLUOAMrGyJRfa2ZmkEWl0ciZNpWXAaY/ADmF0x+RO6wc6EIHvms5CkMYHy5VUQxL3/S7dieE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HvwwAKDA; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772561865; c=relaxed/simple;
+	bh=RRSAF7Cbn+Y7/qFbIiFd50NDJ3b2Hsk6Fs1KYlOpjjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W48sCDVhDVNxCu1Y47fAB9D1T3h2vwnNx2IMvOxAzw3Tu/qvCwgyHlyJNjeIbF2fhGV0ToNi6Hb5GdKxqYUaYEgqKQDs1AhydChYrVI2O7pffeFllmqbpu6h9ZtuvkmYYe9YuOsvO/aCVLghPD6H4JUxaqPfxzPL9UWW9A96ggs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFmnpksV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HvwwAKDA"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c70fb6aa323so1922355a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 08:57:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772557070; x=1773161870; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DV/HSQAamVa6HSuuaGYt1Sx9aCryyCjzy9hIsHP5+oE=;
-        b=HvwwAKDARrPFqD3SS5xzq/r5mXo7NoKE7T6BD9dD8EDEFQAuJqiXbPvOGTZ7zuexG+
-         p4++vojTrsNVrp7npf+SU6Nw78R1rhpXT8fcWBzC+YBecRbmnYKdZXDoE12WbFRid0zG
-         eoeRH77r9zOan6tV+X89Ph36kU6ygpjYsrWzcc1zfYScYeiAnDtXXMGoHrh9+03Twx/k
-         nKTXQQYYfBdhyQgvm5xhqY/1Vq+jz1jHoqNOkXXD/udJGDS4sxQ2keR2sNcF07T+ogoa
-         YkzxBu72PM8Eyjh6GQnOjQQtRaHDztyY5J2WrUXUEXm+3CAPvv0Tuz3Wvcx/T5USEVAu
-         6aQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772557070; x=1773161870;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DV/HSQAamVa6HSuuaGYt1Sx9aCryyCjzy9hIsHP5+oE=;
-        b=wnpJVIUKESZPuoczVZmqZKJ2wDM2UFUVSyPAvr00wCAhqWRZgfMEs8l3bTh9WP2Rm4
-         vxW7KC/19eJZS+FE6YPlDkWhwoCSXSk54XruYrduggBpNxXdrhWsnSeGMdQv9tcve+Pb
-         nGdXnKrys6jRj+SbO5YjgOADX+2O/Ujag86oMsAE5kqeFFDh1RSaDomT/cish1C4Zk/1
-         1LGp/P2PujL3jrzvqxtZvWk4QnMYVBI8LnxuUc05t5u1SoRcDnGNCEFOfvPV2QAjgs9F
-         8EXSdvTEugSQWV0uYRipi6MH0f94E2oeYC+YDKpKE2pUO8lO6WFlhi9gBh2jl52pKrjm
-         WdvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjUSmDVKS2jeO5CKGqCDufAupYXY9+8XFVIJQwCJjvKHF2XUolK12q7xc2qnUzk0idjMfn+Br0clduzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0DX8DB9Qn9Oth8ZyR4EPcJkF/ZgtubS/2RpPVpg20BWlxO5ck
-	APJG1HyVreKFHzyqAupiJUgoxxWgCyUIBKg1EfGVJBl1FNyY9cYOU3Xk
-X-Gm-Gg: ATEYQzzK7bZcjhqef4rcuSgToyZyZCyqiOmmczZqlHNRWb6oumXSb6NBoi4EUTCs5u7
-	x2kOTPscnUrCREui4y1ugBhD+NbRK1iHn81AHB6f4NmuoRhhTv/F31hBH7wSL7VSBOeEbU8ynNH
-	4GFiRj+6Zlu63zlWrxg4AjDteojBuMds/TfOhRfun/cFH60gNSN+dZ+2yXkK4jFDrA3tbGMHN34
-	P/79VGPKANV4o/F9XD3DFkVfIgO4c7udeQPneJpuNRKxef1obABySWy2odhiTTRMyVKroztqdnm
-	YR+16pI+c95DKgAIeVHqbhzkO9/Y6zSt/nx9oodmU35AWHySgsGVwGjOsCwlKSCSBHVyERIk77N
-	crY5UR2MJeeC+9WqReGtwJIL4IUMVu9yO+o14pqwdv+VBS/g7YiKg24mGwXZ4XzZzcYkgsqxjN6
-	ZuShb18w9YvXxHDBDLIhc2pDl1pRLdzsBZAIEJz0VTFfKpryFGgBIwnBvB6WAQ3npmykL8pvma1
-	A4wQaNmNqk=
-X-Received: by 2002:a17:903:2f89:b0:2ae:6317:56e3 with SMTP id d9443c01a7336-2ae63175cb8mr20707785ad.28.1772557069742;
-        Tue, 03 Mar 2026 08:57:49 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae4802645bsm83989515ad.12.2026.03.03.08.57.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2026 08:57:49 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
-Date: Tue, 3 Mar 2026 08:57:47 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFmnpksV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F0EC116C6;
+	Tue,  3 Mar 2026 18:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772561864;
+	bh=RRSAF7Cbn+Y7/qFbIiFd50NDJ3b2Hsk6Fs1KYlOpjjY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AFmnpksVfSIPe8qCt/hkyH5cbrYtt39OP5Dd9AY32ahzBq/SfLssswMsrvhiZRR/0
+	 THUs+C/sfmMEfBQ3aTu06jlY3qRA3M2qpVNVOIco91EKL0ooeTPTsmD2PhdGZdNSAC
+	 /HUblPl8vVEFgHnRUcjE8ArtRxPgBw6cNho4didjxHeBzd5lijRUQHXIs3KtRFRLY5
+	 pK91xQHZ62j+GzG/i0sVJ/cBF9K/guf93KYaZj1/R2GpLN0zvUF65JurCgymnNYEfX
+	 bUnyPAtYBhR2G/ik3yzTQFf0ZrdfA+LBkoXtVvzyTTfzjaveRUubMSKbi6DIEYSiNP
+	 ZWZvArNOwxdlQ==
+Date: Tue, 3 Mar 2026 18:17:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Frank Li <Frank.Li@nxp.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v3 5/7] ASoC: soc-dai: add common operation to set TDM
+ idle mode
+Message-ID: <0478f3d0-4b96-41f6-a69a-818255463203@sirena.org.uk>
+References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+ <20260301-tdm-idle-slots-v3-5-c6ac5351489a@gmail.com>
+ <877brtacgp.wl-kuninori.morimoto.gx@renesas.com>
+ <4716405.LvFx2qVVIh@setsuna>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
- name
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, hanguidong02@gmail.com,
- ysato@users.sourceforge.jp, dalias@libc.org, glaubitz@physik.fu-berlin.de,
- abelvesa@kernel.org, srini@kernel.org, s.nawrocki@samsung.com,
- nuno.sa@analog.com, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-hwmon@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-sh@vger.kernel.org,
- Guenter Roeck <groeck7@gmail.com>
-References: <20260303115720.48783-1-dakr@kernel.org>
- <20260303115720.48783-4-dakr@kernel.org>
- <b46c5757-b67d-4949-b8d8-54b799464b5d@roeck-us.net>
- <DGTACERFTTCV.29XON9ZLYAEQL@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <DGTACERFTTCV.29XON9ZLYAEQL@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="R4THYWriuVzE2xcg"
+Content-Disposition: inline
+In-Reply-To: <4716405.LvFx2qVVIh@setsuna>
+X-Cookie: Use the Force, Luke.
 
-On 3/3/26 08:25, Danilo Krummrich wrote:
-> On Tue Mar 3, 2026 at 5:23 PM CET, Guenter Roeck wrote:
->> On Tue, Mar 03, 2026 at 12:53:20PM +0100, Danilo Krummrich wrote:
->>> Do not use driver_override as IRQ name, as it is not guaranteed to point
->>> to a valid string; use NULL instead (which makes the devm IRQ helpers
->>> use dev_name()).
->>>
->>> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
->>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
->>> Reviewed-by: Nuno Sá <nuno.sa@analog.com>
->>
->> Applied.
-> 
-> I need this patch in the driver-core tree, otherwise I can't land patch 4 of
-> this series [1]. :(
-> 
-> Any chance you can drop it from your tree?
-> 
-> [1] https://lore.kernel.org/driver-core/20260303115720.48783-5-dakr@kernel.org/
-> 
 
-Sure, I'll drop it. Please add
+--R4THYWriuVzE2xcg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+On Tue, Mar 03, 2026 at 07:10:49PM +1000, James Calligeros wrote:
+> On Tuesday, 3 March 2026 12:11:50=E2=80=AFpm Australian Eastern Standard =
+Time Kuninori=20
+> Morimoto wrote:
 
-Thanks,
-Guenter
+> > > +int snd_soc_dai_set_tdm_idle(struct snd_soc_dai *dai,
+> > > +			     unsigned int tx_mask, unsigned int rx_mask,
+> > > +			     int tx_mode, int rx_mode);
 
+> > Do we need "rx_mode" ?
+> > Only "tx_mode" is enough if my understanding was correct.
+
+> For our (Asahi) purposes yes, we only require TX. However, TAS2770 also
+> has a bus keeper on SDIN, and I suspect other hardware may too. Rather th=
+an
+> break the API later on should the need to configure this arise,
+> I decided to add the capability now. I am happy to get rid of it if
+> we think it is superfluous at this time though.
+
+I do think it's reasonable to keep things symmetric, it's probably
+better to have an API that's consistent even if some of the code doesn't
+currently get used.
+
+--R4THYWriuVzE2xcg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmnJcAACgkQJNaLcl1U
+h9DTSAf8D0G8Yi1rPXU5owawPsaqcagcoZ+c0UhX0QTxFfnDUvvp1d5jHbmNGo9m
+ZWx0C0/ZFmCimlRnGHpyt4YEhenuHsyN8/oqKUsy1Txgo3ix21CkQY5bPPetoZp3
+QX+0g0TRFVIkz9SSddjj26w5rZ9QYwQhZDNv//HsXSHpCTOjCM5gjDyNYIbOz76M
+N7gxBwo+HvyeR6kBXpNJAISqQNBJOK/9n4Cg3RxQfwz9UIooBBfzzGIirpbPJl2G
+uJxs/9pk1MDUivxcR6CEVjexjRn3GhZFrQ4UQLoW3fuiRvbgJ7yEJlEHh1URHr1B
+n9BDBFv0uM3a9yipyoTLWwzG6NOX0Q==
+=12yo
+-----END PGP SIGNATURE-----
+
+--R4THYWriuVzE2xcg--
