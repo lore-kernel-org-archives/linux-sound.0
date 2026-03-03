@@ -1,44 +1,44 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1048937C932;
-	Tue,  3 Mar 2026 19:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2EB37C932;
+	Tue,  3 Mar 2026 19:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772567318; cv=pass; b=i0mde5XSm8zcjmogTSEaFPD6L71gsfrPJLbqDylXYw84uc5eT/qEyzluweAvDrVB6/PFXYuJnOweEhIQTg3Xw+5q9cfT0jnrGb59cAWxpaAtezHTQW0xa+hJFo9RYgdWyjI1/cMvdAOQWJH4Nhef8OMkQjbdqGJeuJ+I53e6Rwg=
+	t=1772567325; cv=pass; b=LQunq5WE21J61U6/3i0UDIOqE/FgOQGpb7U5gvLck+M2c9zXJplf/03xrmla6t/jX7aswwkdnnikXhpgU7OVMEdLsBZJNJjB2fsj3KAXkrZn6hKsqLeagEa4cJ7aTa2aq/YkYUMOzJmH5Tv9wloY2zZCrFrkcibhjYHAACK1zPM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772567318; c=relaxed/simple;
-	bh=Ol5wfXidt2YBtsIvhP73Xs9hMxo3bigYItyn+32vSZ8=;
+	s=arc-20240116; t=1772567325; c=relaxed/simple;
+	bh=Gt1pwsGJPq7luoF4wZqMPto7/GcBrVpk5nSnpRgW9W8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XQyTWRKD51fQ8u++Z+hDiGw3FE5kyg+9LI/4hv5dTZFFhE3UWi4Pr1IRgL+EnUWqOAQasgA0pvVV1RRnJr+tIWrXT0O/Jo7/CyMagWxFOfGG1lcTLwbC4Jpa7WaZNWTTJSEhaNRrOz6Mq/PFhpgqrOu/sQ7nu93fFRDH/cuYBl4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=JaX5wAbm; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=RlN3FD9MGb/RY1/WuQO64kjmW43PZdeaFey3WwjPlHZ6KCugre/XSoxOm8jEGRHW2Du3IAcWgtVvxQqJUGjWfrkG1I/qJ8J9u4kZKiXOo6tvBogKffKGKLYamXwuMo2aoTDwNNKvhajnyzBAexVPT0OTTdyGSYXwI9KoKryH2zc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=gOnhMWoI; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="JaX5wAbm"
-ARC-Seal: i=1; a=rsa-sha256; t=1772567297; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="gOnhMWoI"
+ARC-Seal: i=1; a=rsa-sha256; t=1772567309; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=g76eAs3aVQHdB+1PIKmssuAXwIsNRripgKtt+l7YeeNu64AT+rbsAx38RebFCs9+D7PG3NjZSlrF/DarkekPaNWais7Kf10Y9JGdkTeZAEQuARKp9RAuCeaeEu02IM4uLHaMdXS5f8hhPq2weRADM0z+ENfUrbxKFpKFyoTRcgg=
+	b=D/ojVr+9IA5gfH/F4TH+Y9trGwRx03ibzEt0rKPCcBPyGe/M0ibUfDykF3By4gHGEbgxUrkrlyYiJWC58xhpZlp/IRzTZJ/FfCPRnZlSsZnwGyW6cNmdlWg4s0gDirBC+eWdQS+FJnP2p5TIGbD+aCNtXGNO5GECSlYilWFHtlU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772567297; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=nsa1pQ/g85W+rCXtSixQQwz2hYzHYiKCiOFYkThsOOQ=; 
-	b=fEgD7FFeOul+2ZT62/z8KDBsJ6jyzxNw84HE7rPRSEj9PyVgx46ixguLjvBIwJocU59bF9RFr/+J5zVNQL2clnBSE0DYApVGyhSqmfGMa/lmu1nFkkglHqNn54e14BND7RG1kvA6z2CApUpxzam+6EIN/2x8d8lUPHuzMCe6170=
+	t=1772567309; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GdODKBTj69CoOEfVAMgHkBpJL6zX0edZTyHBVBanc6s=; 
+	b=hL9zo0MDE7iP8es1m/MjIRwsOKHsYX4haAH19Mvjbwcf4sUxka8x3SFdSyhFhd8YPr+LfhmUU01yIDHsVeRjju90HH10xZgMZNzedSYyXdTnFBNQ+ilfLDi0vuMih07wHQ8Itr/J1r7T5u7IHHuA3Y4a/jz06n+Tzk49HE1wEaU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772567297;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772567309;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=nsa1pQ/g85W+rCXtSixQQwz2hYzHYiKCiOFYkThsOOQ=;
-	b=JaX5wAbmTTHKNvMB/xXGAdzFZSgo4E2+uiC+zqLSr1Awa57WMyxpC5GVBsk2z5Oo
-	UUm4P9z7pLbUhDUJ3NrkMU0ibFNyX5ZbTKZD+4kVZXZK8LbUzPw4yoYKzx4FuEGPb4w
-	ZZtQfPTHfufuNjotrVpvP8T8oFMQJs7IHKr6A/A4FrcfmJmb45qtlrRhsW/+kH+k3Vl
-	xLwVlghf2aaV1lgULsyPwwWbhFq8ffZm+e3qpdtwMH6H768OeyKW+mzrRcs7T+2fUG9
-	N+KgZwIC8/Ifrpx9UERYTmtd/2LVTSHHAQtMqcKpzOXgZVDWwdKmp1/1YLqbr2BNsEg
-	A3H5mJ2wuA==
-Received: by mx.zohomail.com with SMTPS id 1772567295942497.5492576939479;
-	Tue, 3 Mar 2026 11:48:15 -0800 (PST)
+	bh=GdODKBTj69CoOEfVAMgHkBpJL6zX0edZTyHBVBanc6s=;
+	b=gOnhMWoIL3t/s3bk2OuK8zR2g7QU/mQPu7VufiBE8KlDnGNnhClrFwIvm0nYU9lE
+	pimhjKuzvvDM1NFpj8Fmk41YBzXW4ANj6nS2dkVwa+y+jxhC1bOmdjRja0E54gAephV
+	FxC+8Yr9YJ105zdezcqLzGWlVr+FDVJ2zUPHyKK9/1306bU4oNPA2SRzJh9Dt8NcIzG
+	gxmWUvraMSntvDWTOWQMiXIhIXnEsE0cAyW01WBuY1+Y1xH6YkO03qS+G0j/6e5f6c5
+	YzLEIji/yAY78AigzR1nBNzhTt1TNL7r/1D4NV7znRIhLZaovJ5QvSpMLrLP9C7wU7k
+	BSJVB8FFiQ==
+Received: by mx.zohomail.com with SMTPS id 1772567308326261.20672561756817;
+	Tue, 3 Mar 2026 11:48:28 -0800 (PST)
 From: Rong Zhang <i@rong.moe>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -50,11 +50,10 @@ Cc: Rong Zhang <i@rong.moe>,
 	linux-sound@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 1/8] Revert "ALSA: usb: Increase volume range that triggers a warning"
-Date: Wed,  4 Mar 2026 03:47:56 +0800
-Message-ID: <20260303194805.266158-2-i@rong.moe>
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH v3 5/8] ALSA: usb-audio: Deconflict VID between Focusrite Novation & MV-SILICON
+Date: Wed,  4 Mar 2026 03:48:00 +0800
+Message-ID: <20260303194805.266158-6-i@rong.moe>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260303194805.266158-1-i@rong.moe>
 References: <20260303194805.266158-1-i@rong.moe>
@@ -67,43 +66,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-UAC uses 2 bytes to store volume values, so the maximum volume range is
-0xFFFF (65535, val = -32768/32767/1).
+MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
+Many budget-oriented OEM devices are built on top of them. However, some
+of them are just too budget-constrained that their manufacturers didn't
+even have a USB VID and simply picked a random VID.
 
-The reverted commit bumpped the range of triggering the warning to >
-65535, effectively making the range check a no-op. It didn't fix
-anything but covered any potential problems and deviated from the
-original intention of the range check.
+Some OEMs unfortunately picked the VID of Focusrite Novation (0x1235),
+resulting in VID conflicts as we had defined a VENDOR_FLG() for the
+latter.
 
-This reverts commit 6b971191fcfc9e3c2c0143eea22534f1f48dbb62.
+Add a VENDOR_STRING_FLG() for MV-SILICON to stop the matching procedure
+for these quirky devices, so that quirk flags for Focusrite Novation
+won't be accidentally applied on them.
 
-Fixes: 6b971191fcfc ("ALSA: usb: Increase volume range that triggers a warning")
-Cc: stable@vger.kernel.org
+Quirky device samples:
+
+  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
+  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 7-1: Product: G1
+  usb 7-1: Manufacturer: MV-SILICON
+  usb 7-1: SerialNumber: 20190808
+
+  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
+  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 7-1: Product: mvsilicon B1 usb audio
+  usb 7-1: Manufacturer: MV-SILICON
+  usb 7-1: SerialNumber: 20190808
+
+  usb 1-1.2: New USB device found, idVendor=1235, idProduct=0002, bcdDevice= 1.00
+  usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=...
+  usb 1-1.2: Product: V8
+  usb 1-1.2: Manufacturer: MV-SILICON
+  usb 1-1.2: SerialNumber: ...
+  * https://github.com/linuxhw/Dmesg/blob/main/Desktop/Others/Intel/Intel%20X79/96ED1CC44499/LINUXMINT-19.3/5.0.0-32-GENERIC/X86_64/5BE1E4C74C#L1122
+
+  usb 2-1.6: New USB device found, idVendor=1235, idProduct=0002, bcdDevice= 1.00
+  usb 2-1.6: New USB device strings: Mfr=1, Product=2, SerialNumber=...
+  usb 2-1.6: Product: V9
+  usb 2-1.6: Manufacturer: MV-SILICON
+  usb 2-1.6: SerialNumber: ...
+  * https://github.com/linuxhw/Dmesg/blob/main/Desktop/Hewlett-Packard/ProLiant/ProLiant%20ML110%20G6/79B1D707316A/KUBUNTU-21.04/5.11.0-33-GENERIC/X86_64/A43F59C4AB#L1009
+
 Signed-off-by: Rong Zhang <i@rong.moe>
-Acked-by: Arun Raghavan <arunr@valvesoftware.com>
 ---
- sound/usb/mixer.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ sound/usb/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index ac8c71ba9483..df0d3df9c7ec 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1813,10 +1813,11 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index d365eb41910a..00d1a7c2260e 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2443,6 +2443,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_ALIGN_TRANSFER),
  
- 	range = (cval->max - cval->min) / cval->res;
- 	/*
--	 * There are definitely devices with a range of ~20,000, so let's be
--	 * conservative and allow for a bit more.
-+	 * Are there devices with volume range more than 255? I use a bit more
-+	 * to be sure. 384 is a resolution magic number found on Logitech
-+	 * devices. It will definitively catch all buggy Logitech devices.
- 	 */
--	if (range > 65535) {
-+	if (range > 384) {
- 		usb_audio_warn(mixer->chip,
- 			       "Warning! Unlikely big volume range (=%u), cval->res is probably wrong.",
- 			       range);
+ 	/* Vendor and string descriptor matches */
++	VENDOR_STRING_FLG(0x1235, /* Conflict with Focusrite Novation */
++			  "MV-SILICON",
++			  0), /* Stop matching */
+ 
+ 	/* Vendor matches */
+ 	VENDOR_FLG(0x045e, /* MS Lifecam */
 -- 
 2.53.0
 
