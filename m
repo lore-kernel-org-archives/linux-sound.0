@@ -1,123 +1,115 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F09426D17;
-	Tue,  3 Mar 2026 14:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C605147CC8A
+	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 14:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772548119; cv=none; b=OC75F4bHbkC4PMXmeePNa+WG4ngzcyFbL5mDYSpXyB3pHGvANnO2NfdQiYWsXlrL5eUhTnEw3Ms8qeFZLYy6z74gu1dgItl8P6yiN40oPqM5REs2iODP0VC13CRgE+lp2Jbqr8hfdZa/9/+VNkp3VIbPIl6GAsGL5tixOdwqAbU=
+	t=1772549564; cv=none; b=WuhuqBIrM5OfAJbLa58pp0QEZDxwM5+gUrMKK1mj3MHmAGIckgGXBiCAJ/mE5l1ZBaTQcD9C156MF4kWRchCJiROHyY6hq6MRz9Frhu2mmVwR81eca4thidEPO2jr11SAdVrjr/5b+DQXC/W+vmvSMYAXVk2ac03NUYTB9UsIZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772548119; c=relaxed/simple;
-	bh=sFdspMKJumEMO4fDQc2+117471ZtpGFHB8cFzHcqV9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O8n8KdcANGeo5HgRhp7ATof0t1m3PSlrlvObMxNog3FLmh4gnm3KfYUejjZ27p1Y1F/lB9gi/D1MrzkeqCAC4bqrdUsKMmzBPHU8QKX7NF0mwW4DGqwh4wQvbPfRIX1W8WAZu2L6HKKwkuq54fmm/cu2pdv+TrItM7KtuC0j05o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=d/O+JXo5; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1772549564; c=relaxed/simple;
+	bh=mSRQ1eMomHCwVtqBWfZCdjiyysv7g8iYFUzJOGWZess=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hyHa94eT6UYdDqqiy0cU7Z79S6kiklr/IXUyDbwwNufsV4X4AfQ0vC7CzEcQzlIeCyyE2Q0ADtM2HywSCVp+yfhg6JGX7VqsNVcMEBb43Yo2aQYeE/GRyo8NyRkyWDo6uxxn+BEeP+kpAejZYwhbR36PN8LvPVAdtv4ZJtxRPsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIeDQHi0; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="d/O+JXo5"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 03C62C40FAC;
-	Tue,  3 Mar 2026 14:28:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3AFBB5FF87;
-	Tue,  3 Mar 2026 14:28:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2BC881036864C;
-	Tue,  3 Mar 2026 15:28:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1772548112; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=GWUy5XUp50lxxjU1GZxGSJIelBHwpc1HiL3azJ0BLV4=;
-	b=d/O+JXo543vedMVvGLT5gKQytZfFXK8awsVgYA6R2ojxBslqYDSqG0VaRPH7bRUxFJlQN8
-	1vkegNiRGY41CrTbPRA1NgXIqSpHHXeFNACKcalOr4bzHngc7EbH0CSSUuvUxXHy5MVFSy
-	vEESymOX/4StaUul4BCuzjnEikImvMMtImKAjJiVJGCmUvbpNeHT+w2j0OOFIPwqXLeYpl
-	cStsMnmcoZTIpyS3EgJxQykjVvH8H5XHlQadKad7TsG6qk3H2sE9QULsdlhxCLsvdS6N3P
-	Oejd8rD6YiajdGxXjpbhWcTxEQM/3Nco4XUAiT9M4D/MHRwg24QTsSLti/Lp2w==
-Date: Tue, 3 Mar 2026 15:28:12 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Geert
- Uytterhoeven" <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, "Sascha
- Hauer" <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, "Michael
- Turquette" <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- "Andi Shyti" <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, "Arnd
- Bergmann" <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, "Bjorn
- Helgaas" <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, "Linus
- Walleij" <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, "Mark
- Brown" <broonie@kernel.org>, Len Brown <lenb@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
- Jiang" <dave.jiang@intel.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, "Ira
- Weiny" <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
- "Shawn Guo" <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>,
- <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-clk@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>,
- <linux-gpio@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-spi@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, Allan Nielsen <allan.nielsen@microchip.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 11/28] cxl/test: Use fw_devlink_set_device()
-Message-ID: <20260303152812.5d699701@bootlin.com>
-In-Reply-To: <20260302122449.00006c77@huawei.com>
-References: <20260227135428.783983-1-herve.codina@bootlin.com>
-	<20260227135428.783983-12-herve.codina@bootlin.com>
-	<20260302122449.00006c77@huawei.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIeDQHi0"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b2965d4bso2398523f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 06:52:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772549561; x=1773154361; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=h+8QbcRC2pjzuahdlMd9N/WzqWRbPt5M/XdWso0LY5g=;
+        b=DIeDQHi0AAP91R6YbGWauz2eMg14tui6twbk5qs60s0DoQ+1m4sNZYPu4gM/D9DH1t
+         hNmg2wPiCPvmc55Y13z7FQ6XbJB5Tou0H+GOL3lB5aw7HmnYKeMv0+mwUBic/58SF7oZ
+         wihlcPIH4+FqRGqWqn04EyiWDXuZmM1k0zPviKdcBcgND8M5aRd1aWRm2fS16xL1pjoh
+         boqcDFZv3MptHnPpOhCbOZnxFpV+yeIZ36XKxIy48p8jJ7CGYar4mNBW6FIPHgKRrOj7
+         U+jozLWw9ItdmiDZTQQvdptl4UqQuTo626xTP3rk0nf+6jVzTUnnvm4a9kMDiVnUZHyJ
+         yaYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772549561; x=1773154361;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h+8QbcRC2pjzuahdlMd9N/WzqWRbPt5M/XdWso0LY5g=;
+        b=CAF4Whx5KdBhXloEOGSW6e6nP7csvxVRz23g+GqE8s+Qixl4AO+dyRTbxQZXxsh6t1
+         /pVU29GYZDPlnRkU6PgiW2sDEkaKH14W0ELUrjxRpr7+zff1CeqIA8fMPVsZDlfEr+kT
+         LNes+BqgdhtwfZBMcFHqTbXJOF/C45KBcQhGVvRpRKu7yGT5JrntNJwHroh8Hv6Z5hh8
+         p2WciN80yUCJsfQIh4C6fEktgAa90vGdV7niYyYQKIxkbctMNINoak60gjUiYy/Zjlex
+         kVRl3nJsTqihokjfhiwTOUBVM0P0/5hJ08BmkfC3GewjmCoAqhw4snrugJShiMYTfNeI
+         1FGw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/aHCm8KiDyJ5k7OjyZmt3aFu9+Ow4tJlpzIaJ8uUZKD32XnD4J/pwx4rfHVtR5MngDDmW79T2GdufLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaVJ1iqBHtc9V0dGTbZG200d4QiKYtkHke+vYME5nyZ80ghh4S
+	RUbthawbn0kOLrH9eeEHkwFO+Jy/K1+6x+KU1Po+LYbnecGMAXeo5/RL
+X-Gm-Gg: ATEYQzy2OizGngilcef4P71YNCnkDzZGYJv9PrCVxgrzNclbqucfnTIbusRgV+mi+eq
+	fpD0Qw+11h+bMSN96kQHaOl3iqRpxPcoOZzXCyUKNMxIb3ZKr8ji8nGg5utq+h6XvaRUKS3bqPS
+	SoADn7YxTGiEEWm60BHEy0ob0SwcdKLcAsAs7Ga0oETlI6a3pm8zB/gtJVphstUjXe7i7yiCO/k
+	JHzAn3o1lxrpf4QKyAxrqCq540Kh7Q5iYP1LDqUFEgl0as79s5jhcet9BRQgEacJdBvEF3oEayL
+	XH7DcIjBgUY9vRC6J18tIIzFPfgI8I8Ez/hR829qDoSgD00sdigCxI7iNnpZxVFcz3CNI9h2FEE
+	dLDe8iDc43mAdZerYaldvO/A7SoD6F/QndTUHCF6ynUMRVHMcpq9/q4c+5+EfWCOYkXeu3f5Ze4
+	8/5qYVpt4JH4WSyJFp5APUDJcqYwlVVaA=
+X-Received: by 2002:a05:6000:4387:b0:439:c279:32ea with SMTP id ffacd0b85a97d-439c27935b1mr3280566f8f.39.1772549560930;
+        Tue, 03 Mar 2026 06:52:40 -0800 (PST)
+Received: from [192.168.1.187] ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b03db76bsm20531779f8f.18.2026.03.03.06.52.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 06:52:40 -0800 (PST)
+Message-ID: <bddd7c86f5d9535ce5fe58e6271396da40750cb0.camel@gmail.com>
+Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
+ name
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, hanguidong02@gmail.com, ysato@users.sourceforge.jp, 
+	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org, 
+	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-hwmon@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, 	linux-sound@vger.kernel.org,
+ linux-sh@vger.kernel.org
+Date: Tue, 03 Mar 2026 14:53:24 +0000
+In-Reply-To: <20260303115720.48783-4-dakr@kernel.org>
+References: <20260303115720.48783-1-dakr@kernel.org>
+	 <20260303115720.48783-4-dakr@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Jonathan,
+On Tue, 2026-03-03 at 12:53 +0100, Danilo Krummrich wrote:
+> Do not use driver_override as IRQ name, as it is not guaranteed to point
+> to a valid string; use NULL instead (which makes the devm IRQ helpers
+> use dev_name()).
+>=20
+> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
 
-On Mon, 2 Mar 2026 12:24:49 +0000
-Jonathan Cameron <jonathan.cameron@huawei.com> wrote:
+Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-> On Fri, 27 Feb 2026 14:54:08 +0100
-> Herve Codina <herve.codina@bootlin.com> wrote:
-> 
-> > The code set directly fwnode.dev field.
-> > 
-> > Use the dedicated fw_devlink_set_device() helper to perform this
-> > operation.
-> > 
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>  
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> 
-> From practical point of view, what path do you expect this to take?
-> Is there urgency to make the change, or does it make more sense to
-> add the helper this cycle and cleanup up the various places it can be
-> used next?
-
-I hoped to have patches 7 to 12 applied by one maintainer on his/her trees.
-
-As it is related to fw_devlink, I expect to have them applied by a driver
-core maintainer.
-
-Any other plan can work as well.
-
-Best regards,
-Hervé
-
+> =C2=A0drivers/hwmon/axi-fan-control.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/hwmon/axi-fan-control.c b/drivers/hwmon/axi-fan-cont=
+rol.c
+> index b7bb325c3ad9..01590dfa55e6 100644
+> --- a/drivers/hwmon/axi-fan-control.c
+> +++ b/drivers/hwmon/axi-fan-control.c
+> @@ -507,7 +507,7 @@ static int axi_fan_control_probe(struct platform_devi=
+ce *pdev)
+> =C2=A0	ret =3D devm_request_threaded_irq(&pdev->dev, ctl->irq, NULL,
+> =C2=A0					axi_fan_control_irq_handler,
+> =C2=A0					IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
+> -					pdev->driver_override, ctl);
+> +					NULL, ctl);
+> =C2=A0	if (ret)
+> =C2=A0		return dev_err_probe(&pdev->dev, ret,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "failed to request an irq\n");
