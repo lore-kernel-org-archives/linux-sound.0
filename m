@@ -1,132 +1,140 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C374D38642B
-	for <linux-sound@vger.kernel.org>; Tue,  3 Mar 2026 07:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0575430B514;
+	Tue,  3 Mar 2026 07:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772521285; cv=none; b=J+vJgG/3J2LklrXW7jA64U/5GsOL3gOpyoks2lnYNGoZ2bxouz2AjKo/mgUjU/eRSPlRxUtCMeoQTJyIYP5ZC3rao6lqdnrulgY6BtNruPJAZjXx4xEpnQlJ2ZAPgsIHvlpuXHtwoP4H9aom/fpHj72o3qyt3VvsZhigT9LyolU=
+	t=1772521817; cv=none; b=BupwF+HNZHMjRwE22F5XlzFnEyoxVeyA0GtRCCVd+A8ZxsH+RR5SV+uSjWsmlGzwOWv1F7hwqp2wCpmVk7WWbj+elBCvdhfwcrWEsPzeX0qBclSRfU/p6FbOwJ3X/jU4JS7mLqQuO8+ge6QGQ43VWzY/T5CbzQe6xn7SbiHa9fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772521285; c=relaxed/simple;
-	bh=S4W4SlOPek1o6+UEfR3LLAkJJzlnYCpXXDuktf/LMJc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cg53YdDguqXu6gTesX2cqUPrnBtkxKGsV0SeG8bdGP1K5xkzMwCXbCY3vRN7UctAfCd1MS9uf6yzQD4GUL19dUL6EUygJfwSoL+0xWL5JFYWbrR09sztnoxwckH6laEPq62kh4mcnnSHQ3Kuxna2k69f7YO6ihaxJTK0R2FH0cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nUg3hpef; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wu9XWUax; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nUg3hpef; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wu9XWUax; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772521817; c=relaxed/simple;
+	bh=io2t34RM9jMe7nqoiRObcqa9Itk20wXo3QHIa68irm8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LTFwJb7TvHG6i5v053jY88EYFjF4ElquKQrj5WYaA7DDKOMXisjrMyfQpiKmz5I7ShWF7BtUa1usBAWY8D5fw0wzNs0TjsRn2xvAojWJblrmgkzgkfczoJm1OFwNAvz9zNTv7fKKH0/l3bKyrwYdyveufu9nvztfAW1in/T6UdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUcN1OH5; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nUg3hpef";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wu9XWUax";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nUg3hpef";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wu9XWUax"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 082215BDDA;
-	Tue,  3 Mar 2026 07:01:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772521283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb74L+VFSECUQ5wzgoc9k9OZk5WMCPgrHZjQPumpT4Q=;
-	b=nUg3hpefqRoviD8yBllsztJRlEeh6Bm0TmfF+WvytOgYEn+liAFwzBBOdTA0yf+0NZYJf+
-	tHwUS6vfRuiK27ReQa0kXkWw5UHpbqP/BCi3Iad1YNAh20GusApd04oV9DsGJf5caBPmkD
-	zSD/sr5c37Lfc9iDUzUvduGluJptB7w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772521283;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb74L+VFSECUQ5wzgoc9k9OZk5WMCPgrHZjQPumpT4Q=;
-	b=wu9XWUaxtloAOm5xA1bROSCmq6RU4z4tF4UrdgIonkvOmeDWIqG/FIR9pg3299kNXM8WHL
-	TOQTTEragOSBkcDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772521283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb74L+VFSECUQ5wzgoc9k9OZk5WMCPgrHZjQPumpT4Q=;
-	b=nUg3hpefqRoviD8yBllsztJRlEeh6Bm0TmfF+WvytOgYEn+liAFwzBBOdTA0yf+0NZYJf+
-	tHwUS6vfRuiK27ReQa0kXkWw5UHpbqP/BCi3Iad1YNAh20GusApd04oV9DsGJf5caBPmkD
-	zSD/sr5c37Lfc9iDUzUvduGluJptB7w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772521283;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb74L+VFSECUQ5wzgoc9k9OZk5WMCPgrHZjQPumpT4Q=;
-	b=wu9XWUaxtloAOm5xA1bROSCmq6RU4z4tF4UrdgIonkvOmeDWIqG/FIR9pg3299kNXM8WHL
-	TOQTTEragOSBkcDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C89DC3EA69;
-	Tue,  3 Mar 2026 07:01:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BnPIL0KHpmm4KwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Mar 2026 07:01:22 +0000
-Date: Tue, 03 Mar 2026 08:01:22 +0100
-Message-ID: <87bjh5l7lp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: wangdich9700@163.com
-Cc: bo.liu@senarytech.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/senary: Use codec->core.afg for GPIO access
-In-Reply-To: <20260303054242.318062-1-wangdich9700@163.com>
-References: <20260303054242.318062-1-wangdich9700@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUcN1OH5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772521816; x=1804057816;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=io2t34RM9jMe7nqoiRObcqa9Itk20wXo3QHIa68irm8=;
+  b=eUcN1OH5WfzoA+UcPbgD3LIL/T0vrHqcICD2YxB7RhN5atb0LWj0E9p+
+   qznyolrLpjGU7Dv84qgU5//F+u9qcRI+ji5wFPSga9N9IIE4hZCyAty6N
+   EHXtHLCuKqZqmX52e3uurrotqNTmZCIxBVtBefpyPZ4kWVg3My8yywDwq
+   C0D+XHCqOGS/yYMuQoE3gK4wPHz35JSUD4puHiJrkVpshEaEgX26lxW96
+   MmhFcrxkLxYn9Vx/a4h4emzUnylioLgXh6S4oGQs4B+5eiDdqPajYSTBK
+   bJNoyJ64I+/27/FcqC0q870+r/tj0MmmBx2A3Npdk8YOINsTDQa/dYA4M
+   A==;
+X-CSE-ConnectionGUID: NRXj54VcQGqRuRgzUBBErQ==
+X-CSE-MsgGUID: FIM7ED6aRyCF7b9zxxAVUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73455465"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="73455465"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 23:10:15 -0800
+X-CSE-ConnectionGUID: H12cI5sDQaetGLOVsu+Qpw==
+X-CSE-MsgGUID: oU0RVV5STnalnSMsyyjvSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="215457941"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.202]) ([10.245.244.202])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 23:10:12 -0800
+Message-ID: <cb319d2d-295b-4d3d-ba73-f3d28f67c942@linux.intel.com>
+Date: Tue, 3 Mar 2026 09:10:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[163.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] ASoC: Intel: soc-acpi-cht: Unify device quirks
+To: Yauhen Kharuzhy <jekhor@gmail.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hans de Goede <hansg@kernel.org>
+References: <20260301-asoc-yogabook-v2-v2-0-adcc7ed40985@gmail.com>
+ <20260301-asoc-yogabook-v2-v2-1-adcc7ed40985@gmail.com>
+ <e29bd016-b8f4-46d1-8cfb-ace4b2512082@linux.intel.com>
+ <aaYO8_i0f-5s3Nsq@jekhomev>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <aaYO8_i0f-5s3Nsq@jekhomev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 03 Mar 2026 06:42:42 +0100,
-wangdich9700@163.com wrote:
+
+
+On 03/03/2026 00:33, Yauhen Kharuzhy wrote:
+> On Mon, Mar 02, 2026 at 05:54:05PM +0200, Péter Ujfalusi wrote:
+>>
+>>
+>> On 01/03/2026 23:33, Yauhen Kharuzhy wrote:
+>>> This file contains two types of quirks, both checking DMI for
+>>> machine-specific strings and returning machine data for a matching entry.
+>>>
+>>> The first one, `cht_quirk`, is used to override the default entry for an
+>>> existing ACPI codec node if the node's info is invalid. It returns either
+>>> the matched machine data or the default entry if no match is found.
+>>>
+>>> The second one, `cht_yt3_quirk_cb`, is used for devices (originally the
+>>> Lenovo Yoga Tab 3 Pro) without a valid codec DSDT entry. It is bound to
+>>> the SST ACPI node and returns either the matched machine data or NULL if
+>>> no match is found.
+>>>
+>>> To allow adding new machine entries to the second case and to use a single
+>>> DMI match entry for both cases (for example, if two variants of one device
+>>> exist: one with a valid ACPI entry and one without, like the Lenovo Yoga
+>>> Book YB1-X91 and YB1-X90 - Windows and Android versions), reorganize
+>>> these quirks functions to use the same approach: machine data is set in
+>>> the matched dmi_system_id entry as driver_data field.
+>>>
+>>> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+>>> ---
+>>>  sound/soc/intel/common/soc-acpi-intel-cht-match.c | 100 +++++++++-------------
+>>>  1 file changed, 42 insertions(+), 58 deletions(-)
+>>>
+>>> diff --git a/sound/soc/intel/common/soc-acpi-intel-cht-match.c b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+>>> index e4c3492a0c28..57097c1d011e 100644
+>>> --- a/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+>>> +++ b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+>>
+>>>  
+>>> +static struct snd_soc_acpi_mach *cht_quirk_nocodec(void *arg)
+>>
+>> This is confusing, why it is _nocodec?
+>> cht_quirk_strict() or something might be better?
 > 
-> From: wangdicheng <wangdicheng@kylinos.cn>
+> Something like "a quirk for machines without of codec definition in the
+> ACPI DSDT". But yes, it is confusing because we have separated "nocodec" entry
+> in the table. I just couldn't think of anything better. 'strict' doesn't
+> seem to reflect the meaning for my opinion also.
+
+I see, the strict came to mind to imply that it will only return with a
+match if there is a match, otherwise it will return NULL.
+No fallback to default (or self match), only a strict match is allowed.
+
+cht_match_only_quirk(), cht_no_fallback_quirk() ?
+
+I'm extremely bad at naming..
+
 > 
-> Replace the hardcoded GPIO node ID (0x01) with codec->core.afg.
-> This follows the standard HDA driver practice and makes the driver
-> more robust against different hardware configurations.
 > 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+>>
+>> -- 
+>> Péter
+>>
+> 
 
-Applied now.  Thanks.
+-- 
+Péter
 
-
-Takashi
