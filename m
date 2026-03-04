@@ -1,123 +1,169 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F1E3537C2
-	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 02:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC921A681F
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 03:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772592581; cv=none; b=bOX+kgi68j3ZurM54YqUTDQ9wd1fcoxwJV1mK6YSU4OXOhtdrvaeEKGvegdFjq4i5AhXPRRcuS263zCKL5O5pXHXw4zOJHR18QLnsYTItXULTpUq8cIdO3d9cBMxW6oyC5UOzO9wX7yU788wYsoInk0/MG09UBDx2HA7eCHfaog=
+	t=1772594117; cv=none; b=EdEBLS4ZFkVL/aUZKKb58dKqEqFACLtx5F3HMMrWPpLjZrEtgXpMjWZ3K96ugaBHzPrggMN2MLV4nS5UG+Viq/n8w8IBOO+s7ktZ8QKqOv+9RfqoOASES2EDzMUFGKPof5l4Usw4ow3q7dxrTcDRZrYVTwI7i3dMziG9CE3o6B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772592581; c=relaxed/simple;
-	bh=Yh8dBMe3ibg8tK09EirKlKZM1uMUm94vien5uMRloZQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rAKknsjBmrZs/9mnBzZmZbf1DYyP43D5G54hvzMxS1qYEFjiq9CHKa57OcmLQSQpWnk/MzBmCSaLSY/dg1d98YfpXi5Oygzu9Pp9sSi0c/vWps8jjLxYauUVbL1Xka3TJ6VsZhZxRG6PsoBDTI5Lawr4OVZa86vAGiKUUYJ4OVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YaMguHx/; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1772594117; c=relaxed/simple;
+	bh=adrxhRBK5VGSwmvLMLS00LJzCjjD2NiB2SXH8DIyaK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F6QkCfCfRt3Gnj4dtkmmt7HY5QDffwrlLHm/l4X+7d9UHKYf0s4yNnU3VzjnJmN72tJsY95ZbzAABr7Sg+gHrHuDDmleRY1KDYxoFInEGsKQkwZWh1g0yA6foNSKsFuK6gPIMIuGs5ezcbLRna/Byv1ZRBnobrLgPhXcesYanpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q3q0goJk; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YaMguHx/"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2ae66ee7354so7477055ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 18:49:39 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q3q0goJk"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ae527552acso10381795ad.0
+        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 19:15:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772592579; x=1773197379; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlfxAiLCYE9X+ss6Nds/jzCWOjzdQvgrRAY6r5Hx7j0=;
-        b=YaMguHx/XyM/m07PCeyY2cFDDiFrJoBZh1suL3phGhiwuPU4HbaF8dBI7/oxnBA7EQ
-         DP7Uv40OpLjWf67rl3FYeDuBGzuzu3K8mPH36k88+FoOIw/eNpGlw9DLpXmHl/kST5iI
-         5GdcB8chw+KKsvLBepAG9aIOJpB/r6MzOwQMb2RR3SkjcnxRXl5A+rcCqqZVFMIMh8f6
-         yik1vOKuE8ds9o/b39IEEwp9qy+D9fT7paehWj88CD4NyMydT2588hg9LzvF1e3mioqm
-         wh3+F0X2NcOY6wv6BPmWMbMXV/0b04RrN4gHnDhhMEJp/4WnMoILUruTShr7KDOebZWI
-         JyVg==
+        d=chromium.org; s=google; t=1772594115; x=1773198915; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F3ZuLgwSN0G7v9/OIE+XUVdG12gsyO2jvTrJvM7l85s=;
+        b=Q3q0goJkdSsWm8MhB3ih5vL5mUqIS75h7WiZEg7LEHaOSdTAUsgceSak2vqpZS9ShL
+         i4Nhum8VT9mR+UW1yzqvL3l2s30RtVEcf02b5bTHNstuJrGhyPzYkI2Umbyeep3wssQ6
+         Ndppi9Dtt6aWmn2C1kSlJsmDMo8NvG4lS6HGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772592579; x=1773197379;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlfxAiLCYE9X+ss6Nds/jzCWOjzdQvgrRAY6r5Hx7j0=;
-        b=AUGaI/d1yIHZkavYvFlkB3DglMnA5zi/k2pnxnegksoYCTYY4CeX5MChTnA5/VztKq
-         aI5INgVAH07YVRiYrLgGm75AdVf0/fw+p1jBR1a0uGilwUs306xYQCliR4049p6Qa8KG
-         BBG1TjAaZlzWy7oy+skcZHTkDRiVCL2bkAWkgk3ICGEDqXYq4prTCaCUJhgiDwhfmbLB
-         za9GylJacw8lQwJXraTb5g/w9Dh4EusuDSe7gpRrnLzRbsh4FfFinYVo6Ca9CGXNAZPE
-         ync7vHG8axS5v37S0dO96FmIYDk6dKTug63HOYeQvmQ4kDyAhfGjOVsR5/egiLrAsyrp
-         E66w==
-X-Forwarded-Encrypted: i=1; AJvYcCXOUkxc+8dvRgI12gpjLpHYwtsoZajlAwiw2ZzhusjmmFaXsdxFfQ5m5hjgpyOUWFvd4nvcnq4gAMvjQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwI7NwfzFAmZJ4X1c579EjaP85ZAIPTE3O9Mui2E3iG2z85SR5/
-	18C9QL1kwHqsgSsOxIUB/BoRLzlK4ZvON6anIz2+cyx3hLzncs3lB47ZPLrRPJDX1ZgVnHuqHMz
-	5tmzPcA==
-X-Received: from plzv9.prod.google.com ([2002:a17:902:b7c9:b0:2ae:6338:73ca])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2446:b0:2ae:483f:b239
- with SMTP id d9443c01a7336-2ae6aaf9469mr6114485ad.30.1772592577810; Tue, 03
- Mar 2026 18:49:37 -0800 (PST)
-Date: Tue, 3 Mar 2026 18:49:36 -0800
-In-Reply-To: <f8d86743-6231-414d-a5e8-65e867123fea@kernel.dk>
+        d=1e100.net; s=20230601; t=1772594115; x=1773198915;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F3ZuLgwSN0G7v9/OIE+XUVdG12gsyO2jvTrJvM7l85s=;
+        b=N4VYFHlhHoXucNlJ8ZY0w2uUJTJSd8Qfky5HoPwR+oKBSrRQY77ery9aihjienX4EM
+         potg65IbbdUz3VQ1x2sg711RPr0pwbtfuUukQtKSXlQO0gkJa7Q7SEH8AINsSbvSiP6R
+         /21J5pzPcvqCzP8fXgocSqetgS3ixYgfX5Sjr+/xMXj9xHRFbVHiJxPzxFlCy7qF7ab6
+         uQ/AgYGSDgwNpFlY3zxMKoRsZpPIdhoNiqx0hAG+TnAxKJFik3x5bVU7UpHALIKKo98o
+         uchB2OFaHgrCwjr5bfmlSjmLrE3lFCYY+rEIt85kEhxjYIzoKdZsY0NJShiqsfTHIWDL
+         OJCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXbTHw3lfjXURJ/J5MPyCaYX0ScfAiKrKyanoy+WMYfUJPpVTXLDFUF+Y8sNuqEu3F7SI4qn1+jLb1V6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT34PmdLE7N9+GegEkzbzbqOY3uhcUFOftraHbt8WkaR68HBz8
+	wa/EhI40XcReReNh46zQGwv60AREpCl3Wo4WrktdXB8vZZwAKciGovpQQP71q8+hwAC6rOW4N1w
+	fMFs=
+X-Gm-Gg: ATEYQzzL3MSsutxCyUWA77rilrSJPtnvT2aqhDvdeWn5Om9DCrBjEK8XSuyc3aX+59F
+	GE1AQykTV/ZR22ctbP712VWm/d2vDLqpa94NiaeEJfbfePLvv2Xs18iQ/PxOfgMqESHJUWaUBsZ
+	TLDtg+Nlgg+Z2gHslBj0IKso0stZqD9dU2MS+535U5ZHBCQIp7hFM92T4JnY+R8hnANJmtG7xrW
+	m/9C1HsVHXYqifT7bgN5SyQ9AMuSf+hvJal+yBZziNsqgOk5YcRNu6JYOLMlk7sLyTqvC3KH7zW
+	+PoBh3DdJwWQ8JMasMM2+PrL1AAFoo30FYR72kfzPHvjLFHJI2lI+zyZkbJM3BKhtJX+iK7xjxh
+	Yr/R+dL9cPQAWc2YxOzZbT84bn2RR+90EyWWaiZF2uN30b6k22RFa/Ad20FXktvmI5Bsb7JkIhq
+	URf5nXX4wEhHSl7SyH8sdn6gAeWW2QQI9dpfmDE7ANOf2yhmVq/KMuSVrhxQvMqIw=
+X-Received: by 2002:a17:903:1a23:b0:2ae:6579:4795 with SMTP id d9443c01a7336-2ae6aa1904dmr6603965ad.21.1772594115319;
+        Tue, 03 Mar 2026 19:15:15 -0800 (PST)
+Received: from google.com ([2a00:79e0:2031:6:7218:9151:d36e:8e85])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae3d1b2c5esm114166475ad.6.2026.03.03.19.15.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 19:15:14 -0800 (PST)
+Date: Wed, 4 Mar 2026 12:15:11 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+	Baojun Xu <baojun.xu@ti.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [RFC][stable 6.6] ASoC: tas2781: ABBA deadlock in
+ tasdevice_fw_ready()
+Message-ID: <oujimewjf4um4hz3r6clucgnbtgntrkvzjl55rthiqahzqdy4v@aydjs5dibdqn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260304012717.201797-1-ynorov@nvidia.com> <20260303182845.250bb2de@kernel.org>
- <f8d86743-6231-414d-a5e8-65e867123fea@kernel.dk>
-Message-ID: <aaedwFwXh9QXS3Ju@google.com>
-Subject: Re: [PATCH 0/8] mm: globalize rest_of_page() macro
-From: Sean Christopherson <seanjc@google.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Jakub Kicinski <kuba@kernel.org>, Yury Norov <ynorov@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "David S. Miller" <davem@davemloft.net>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, "Theodore Ts'o" <tytso@mit.edu>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexander Duyck <alexanderduyck@fb.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Alexandra Winter <wintera@linux.ibm.com>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Anna Schumaker <anna@kernel.org>, Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Aswin Karuvally <aswin@linux.ibm.com>, Borislav Petkov <bp@alien8.de>, 
-	Carlos Maiolino <cem@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Chao Yu <chao@kernel.org>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Christian Brauner <brauner@kernel.org>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Airlie <airlied@gmail.com>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Dongsheng Yang <dongsheng.yang@linux.dev>, Eric Dumazet <edumazet@google.com>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Janosch Frank <frankja@linux.ibm.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Latchesar Ionkov <lucho@ionkov.net>, 
-	Linus Walleij <linusw@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Namhyung Kim <namhyung@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Paul Walmsley <pjw@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Simona Vetter <simona@ffwll.ch>, Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Trond Myklebust <trondmy@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>, Yury Norov <yury.norov@gmail.com>, 
-	Zheng Gu <cengku@gmail.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-block@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	dm-devel@lists.linux.dev, netdev@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-crypto@vger.kernel.org, linux-mm@kvack.org, 
-	linux-perf-users@vger.kernel.org, v9fs@lists.linux.dev, 
-	virtualization@lists.linux.dev, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Mar 03, 2026, Jens Axboe wrote:
-> On 3/3/26 7:28 PM, Jakub Kicinski wrote:
-> > On Tue,  3 Mar 2026 20:27:08 -0500 Yury Norov wrote:
-> >> The net/9p networking driver has a handy macro to calculate the
-> >> amount of bytes from a given pointer to the end of page. Move it
-> >> to core/mm, and apply tree-wide. No functional changes intended.
-> >>
-> >> This series was originally introduced as a single patch #07/12 in:
-> >>
-> >> https://lore.kernel.org/all/20260219181407.290201-1-ynorov@nvidia.com/
-> >>
-> >> Split it for better granularity and submit separately.
-> > 
-> > I don't get what the motivation is here. Another helper developers
-> > and readers of the code will need to know about just to replace 
-> > obvious and easy to comprehend math.
-> 
-> I fully agree, I had the same thought reading this.
+Not a formal patch, just RFC.
 
-+1 from KVM-land.
+I'm seeing the following deadlock in tasdevice_fw_ready():
+
+TaskA first takes ->codec_lock in tasdevice_fw_ready() and then
+->controls_rwsem in snd_ctl_add_replace():
+
+ down_write+0x88/0xb8
+ snd_ctl_add+0x38/0xb0
+ snd_soc_add_component_controls+0xe8/0x160
+ tasdevice_fw_ready+0x284/0x620
+ request_firmware_work_func+0x54/0xa8
+ worker_thread+0x368/0x9d8
+ kthread+0x108/0x1c8
+ ret_from_fork+0x10/0x20
+
+TaskB first takes ->controls_rwsem in snd_ctl_elem_read() and then
+->codec_lock in tas2563_digital_gain_get():
+
+ mutex_lock+0x50/0x80
+ tas2563_digital_gain_get+0x4c/0x138
+ snd_ctl_elem_read+0xf4/0x178
+ snd_ctl_ioctl+0xa04/0x1430
+ __arm64_sys_ioctl+0x2e4/0x548
+ invoke_syscall+0x6c/0xe0
+ do_el0_svc+0x68/0xe8
+ el0_svc+0x34/0x88
+ el0t_64_sync_handler+0x1c/0xf8
+ el0t_64_sync+0x180/0x188
+
+Which results in ABBA deadlock.
+
+This is seen on stable 6.6, but looking at linux-next the ABBA
+pattern still seem to be there (tas2563_digital_gain_get() was
+renamed into tasdevice_digital_gain_get()).
+
+So I have a patch that drops ->codec_lock before calling functions
+that add ALSA controls (which internally acquire ->controls_rwsem),
+and re-acquire it afterwards.  snd_ctl_add() doesn't modify tas_priv
+members, at the same we are still in init (loading firmware) so the
+controls that are already visible to user space don't modify tas_priv
+either.  (at least it seems so).
+
+Does it make sense? Or what should be the right way to fix this?
+
+---
+
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 41b89fcc69c3..18c8c7471301 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -1638,7 +1638,19 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 		tasdevice_config_info_remove(tas_priv);
+ 		goto out;
+ 	}
++
++	/*
++	 * Release codec_lock before adding ALSA controls to avoid ABBA
++	 * deadlock: the ALSA core acquires controls_rwsem (read) before
++	 * calling kcontrol .get/.put callbacks which then take codec_lock,
++	 * establishing the lock order controls_rwsem -> codec_lock.
++	 * Calling snd_ctl_add() (via snd_soc_add_component_controls())
++	 * under codec_lock would acquire controls_rwsem (write) under
++	 * codec_lock, inverting the lock order.
++	 */
++	mutex_unlock(&tas_priv->codec_lock);
+ 	tasdevice_create_control(tas_priv);
++	mutex_lock(&tas_priv->codec_lock);
+ 
+ 	tasdevice_dsp_remove(tas_priv);
+ 	tasdevice_calbin_remove(tas_priv);
+@@ -1675,8 +1687,11 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 
+ 	/*
+ 	 * If no dsp-related kcontrol created, the dsp resource will be freed.
++	 * Release codec_lock before adding controls (see comment above).
+ 	 */
++	mutex_unlock(&tas_priv->codec_lock);
+ 	ret = tasdevice_dsp_create_ctrls(tas_priv);
++	mutex_lock(&tas_priv->codec_lock);
+ 	if (ret) {
+ 		dev_err(tas_priv->dev, "dsp controls error\n");
+ 		goto out;
+@@ -1685,7 +1700,9 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 
+ 	/* There is no calibration required for TAS58XX. */
+ 	if (tas_priv->chip_id < TAS5802) {
++		mutex_unlock(&tas_priv->codec_lock);
+ 		ret = tasdevice_create_cali_ctrls(tas_priv);
++		mutex_lock(&tas_priv->codec_lock);
+ 		if (ret) {
+ 			dev_err(tas_priv->dev, "cali controls error\n");
+ 			goto out;
