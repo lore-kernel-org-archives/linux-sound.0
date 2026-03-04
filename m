@@ -1,90 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8D7364058
-	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 10:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EE33976AF
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 11:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772620088; cv=none; b=BwzF1VHPXQE/Edlfa2Uo7w/VL11AIS+/uIGQg9mjqTuRKELvnHRGUWsvEeQ5uuSbELJU1Jo8LwP+hjvO4Jb4TKWeNkCb2m/Q0USjEFNut/lXUgfMSImuW0DlbWHszrX3LXdytuP7YMeS8SIumPtO8TvbzLccK+j6eGJiCh/0n3Y=
+	t=1772622556; cv=none; b=l7DVKMTRQbA6CgPHRt0oSbcCj/+5bTCznPc0CQ+LPhj5S0u+Xc/H9q5zpFMjp92oOUx/RpRH6grWLUpidBCN5/eEcxtkVSVziOrbuGjt6xbsi62Nl+xr77JYdTJ7tRSJCRzX4pONEfxfapKuN7V94Oq6cq1/pn8bLkiJFoZP0Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772620088; c=relaxed/simple;
-	bh=b81ScfWd1jG0p5XYX1b6cvjWXGekZhFJodb+XVntRmc=;
+	s=arc-20240116; t=1772622556; c=relaxed/simple;
+	bh=7MkQaw8+6WErb6OQVO9IawLRGgmva++XkydmKdEEsPk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tnlt7G3hYyuEr2ugq8xgirNH805545lS1AhfzbaftSHtd72FaSqSbzYL5HVFU+HuHuGU06+K1m5VvL9o3JhytB0WD6aNgw7k/kudkllUbxRhCn2PPJWDRHVN6TbebrHHUGGNrRo0NxX6rFpEUJL7dwQsFUFc1TVLxzx64xtKtMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eiAOisyL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RPIN6G5x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FGIouS6O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CWw/IMdP; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=IomBVBlT0oW9sSZ19tZav4ws5nfHEWmPpVMuwNLX7pRTqASbTSGjCvP83Hz53bWImbgyHHFwOr9QqELAQW2KrYrUm7PmkqHHOlmfLb+/zAbHIhoiFOMWWLpb5971gr69bcOhlS9nymm0fGZtriQz5UvahOGkYdmsz9UW1uyzOck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QV5+l6SC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iZozPZIj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QV5+l6SC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iZozPZIj; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eiAOisyL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RPIN6G5x";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FGIouS6O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CWw/IMdP"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QV5+l6SC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iZozPZIj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QV5+l6SC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iZozPZIj"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F08665BDE4;
-	Wed,  4 Mar 2026 10:28:02 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A12E3E7E6;
+	Wed,  4 Mar 2026 11:09:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772620084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772622553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mArf4tYNRibel5SvxLMlnaDeIs8CZ/vp1KvzeNQk6z4=;
-	b=eiAOisyLdj0DW8rrPO/XGn7Mlliv7RFdjDBqlElni1lruvNIPwwkgWWNd4YtmnZNny2m+s
-	PpoT+5x5XGdQ1CWezac3FQQtd/j1oI5MuHXKMtNZEpS14LhZs7oYl7LjycZjbZgVM/ozDq
-	CwaGABkykRKSNl4GDkh3K+4JtcoAVjg=
+	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
+	b=QV5+l6SCiCOo+ZwscrD0mzKN9Z7HhscP5RnqO6cd/wpf6YUOJTUsoh7u39pZ7OGM5Udw1m
+	vpioGCYF9GU4O8QDZuat1CiJLVcireqcD7D7f3beDHKzLqW+wSSGL6ljugphWJbltV/YFx
+	2ZhzxeuuhsISzRMD7xfwo9IeVgk7ztk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772620084;
+	s=susede2_ed25519; t=1772622553;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mArf4tYNRibel5SvxLMlnaDeIs8CZ/vp1KvzeNQk6z4=;
-	b=RPIN6G5xGjoSF7LCI6t5F5hHrXqMdFv5ANiaRJNL/OVQ5Ir8UX4ZWZ6tzAC6faYNjQeZax
-	M7jV1bZziwhU1FBQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
+	b=iZozPZIjUSij1MdND5fpJHOkN3UFtOOIet7LPG08SAl47jEg1J8Cbd5tU7iVh6Q3018DDf
+	HBrBLSgkCd02qdCg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772620082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772622553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mArf4tYNRibel5SvxLMlnaDeIs8CZ/vp1KvzeNQk6z4=;
-	b=FGIouS6OA5iQ72pzcq6tg4lwfTjpVjm8OT6hQZ45JkVlrIyo7vXDa6WBT7wk5INbnQIREY
-	gbuS0oW7ZfX8D2/MnLLqyXV2zkAgn1r2FYNVGzFR9eD0M0Im5k5dznIYbEOZje0bNeSDxN
-	gbJUSdc6NKHeK9Kz485cYz5Z5RzO+is=
+	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
+	b=QV5+l6SCiCOo+ZwscrD0mzKN9Z7HhscP5RnqO6cd/wpf6YUOJTUsoh7u39pZ7OGM5Udw1m
+	vpioGCYF9GU4O8QDZuat1CiJLVcireqcD7D7f3beDHKzLqW+wSSGL6ljugphWJbltV/YFx
+	2ZhzxeuuhsISzRMD7xfwo9IeVgk7ztk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772620082;
+	s=susede2_ed25519; t=1772622553;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mArf4tYNRibel5SvxLMlnaDeIs8CZ/vp1KvzeNQk6z4=;
-	b=CWw/IMdPuUjJ9AjZqidpjbPXBUZynkWQagzjkqtsEkkWfFA/H7/19WZ2xnc76RknoIEaMB
-	SKfkrnVbk2TAuNCg==
+	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
+	b=iZozPZIjUSij1MdND5fpJHOkN3UFtOOIet7LPG08SAl47jEg1J8Cbd5tU7iVh6Q3018DDf
+	HBrBLSgkCd02qdCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC4E23EA69;
-	Wed,  4 Mar 2026 10:28:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1BD43EA69;
+	Wed,  4 Mar 2026 11:09:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wu7CLDIJqGmnDAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Mar 2026 10:28:02 +0000
-Date: Wed, 04 Mar 2026 11:28:02 +0100
-Message-ID: <875x7bx51p.wl-tiwai@suse.de>
+	id 5zHcMdgSqGmuNwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Mar 2026 11:09:12 +0000
+Date: Wed, 04 Mar 2026 12:09:12 +0100
+Message-ID: <87342fx353.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+To: Rong Zhang <i@rong.moe>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Arun Raghavan <arunr@valvesoftware.com>,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 2/2] ALSA: control: add ioctl to retrieve full card components
-In-Reply-To: <2a28e6a4-f6c8-4539-a45e-bd5ce7da43c6@perex.cz>
-References: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
-	<20260303145815.9930-2-mstrozek@opensource.cirrus.com>
-	<87seagx6c4.wl-tiwai@suse.de>
-	<2a28e6a4-f6c8-4539-a45e-bd5ce7da43c6@perex.cz>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH v3 0/8] ALSA: usb-audio: Add quirks for linear volume devices and deconflict VID
+In-Reply-To: <20260303194805.266158-1-i@rong.moe>
+References: <20260303194805.266158-1-i@rong.moe>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -97,137 +98,80 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,perex.cz:email,cirrus.com:email,suse.de:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Tue, 03 Mar 2026 20:23:11 +0100,
-Jaroslav Kysela wrote:
+On Tue, 03 Mar 2026 20:47:55 +0100,
+Rong Zhang wrote:
 > 
-> On 3/3/26 16:47, Takashi Iwai wrote:
-> > On Tue, 03 Mar 2026 15:58:00 +0100,
-> > Maciej Strozek wrote:
-> >> 
-> >> The fixed-size components field in SNDRV_CTL_IOCTL_CARD_INFO can be too
-> >> small on systems with many audio devices.
-> >> 
-> >> Keep the existing struct snd_ctl_card_info ABI intact and add a new ioctl
-> >> to retrieve the full components string.
-> >> 
-> >> When the legacy components field is truncated, append '>' to indicate
-> >> that the full string is available via the new ioctl.
-> >> 
-> >> Link: https://github.com/alsa-project/alsa-lib/pull/494
-> >> Suggested-by: Jaroslav Kysela <perex@perex.cz>
-> >> Suggested-by: Takashi Iwai <tiwai@suse.com>
-> >> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> >> ---
-> >> Changes for v3:
-> >>   - change components field to a dynamic array resizable in 32 byte increments
-> >>   - removed SNDRV_CTL_COMPONENTS_LEN define
-> >>   - sanity check if 'components' requests more than 512 bytes
-> >>   - added a commit to clean up trailing whitespaces
-> >>   - alsa-utils link no longer needed
-> >> Changes for v2:
-> >>   - do not modify existing card->components field
-> >>   - add a new ioctl and struct to keep the full components string
-> >>   - handle the split/trim in snd_ctl_card_info()
-> >> ---
-> >>   include/sound/core.h        |  4 ++--
-> >>   include/uapi/sound/asound.h | 14 ++++++++++++-
-> >>   sound/core/control.c        | 35 ++++++++++++++++++++++++++++++++-
-> >>   sound/core/control_compat.c |  2 ++
-> >>   sound/core/init.c           | 39 +++++++++++++++++++++++++++++--------
-> >>   5 files changed, 82 insertions(+), 12 deletions(-)
-> >> 
-> >> diff --git a/include/sound/core.h b/include/sound/core.h
-> >> index 4093ec82a0a1..2b58f79b524d 100644
-> >> --- a/include/sound/core.h
-> >> +++ b/include/sound/core.h
-> >> @@ -87,8 +87,8 @@ struct snd_card {
-> >>   	char longname[80];		/* name of this soundcard */
-> >>   	char irq_descr[32];		/* Interrupt description */
-> >>   	char mixername[80];		/* mixer name */
-> >> -	char components[128];		/* card components delimited with
-> >> -								space */
-> >> +	char *components_ptr;
-> >> +	unsigned int components_ptr_alloc_size; // current memory allocation components_ptr.
-> >>   	struct module *module;		/* top-level module */
-> >> 
-> >>   	void *private_data;		/* private data for soundcard */
-> >> diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-> >> index d3ce75ba938a..422b0b07613d 100644
-> >> --- a/include/uapi/sound/asound.h
-> >> +++ b/include/uapi/sound/asound.h
-> >> @@ -1058,7 +1058,7 @@ struct snd_timer_tread {
-> >>    *                                                                          *
-> >>    ****************************************************************************/
-> >> 
-> >> -#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 9)
-> >> +#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 10)
-> >> 
-> >>   struct snd_ctl_card_info {
-> >>   	int card;			/* card number */
-> >> @@ -1072,6 +1072,17 @@ struct snd_ctl_card_info {
-> >>   	unsigned char components[128];	/* card components / fine identification, delimited with one space (AC97 etc..) */
-> >>   };
-> >> 
-> >> +/*
-> >> + * Card components can exceed the fixed 128 bytes in snd_ctl_card_info.
-> >> + * Use SNDRV_CTL_IOCTL_CARD_COMPONENTS to retrieve the full string.
-> >> + *
-> >> + */
-> >> +struct snd_ctl_card_components {
-> >> +	int card;
-> >> +	unsigned int length;
-> >> +	unsigned char *components;
-> >> +};
-> > 
-> > Embedding a pointer for ioctl is a nightmare for 32bit compatibility,
-> > and you seem to have forgotten it, too ;)
+> Some quirky devices tune their volume by linearly tuning the voltage
+> level (linear volume). In other words, such devices has a linear TLV
+> mapping of DECLARE_TLV_DB_LINEAR(scale, TLV_DB_GAIN_MUTE, 0).
 > 
-> It's doable and we have other more important structures like struct
-> snd_xferi using those pointers. But yes, the translation is missing in
-> this patch set. I already gave hint that control_compat.c must be
-> modified, too.
+> The series mainly adds quirk flags MIXER_PLAYBACK_LINEAR_VOL and
+> MIXER_CAPTURE_LINEAR_VOL to represent this case respectively for
+> playback and capture mixers. Afterward, apply these quirk flags on them.
 > 
-> > IMO, in this case, it'd be easier to use a flex array instead, e.g.
-> > 
-> > struct snd_ctl_card_components {
-> > 	int card;
-> > 	unsigned int length;
-> > 	unsigned char components[];
-> > };
+> Some MV-SILICON devices with these quirks also have another quirk: VID
+> conflicts with Focusrite Novation (0x1235). Hence, add support for
+> string-descriptor-based quirk table entries and define an entry for MV-
+> SILICON to deconflict them.
 > 
-> There is an issue that flex arrays will break _IOC_SIZE().
+> Some improvements to the logic of volume range checks is also included
+> in the series to help identify quirky devices with linear volume.
+> 
+> Changes in v3:
+> - Adopt __free(kfree) on string buffers as it turns out to be able to
+>   handle ERR_PTR() gracefully (thanks Takashi Iwai)
+> - Improve readability by replacing the goto pattern with
+>   `p->usb_string_match && p->usb_string_match->*'. The compiler should
+>   generate equivalent control paths thanks to the optimizer
+> - Link to v2: https://lore.kernel.org/r/20260302185900.427415-1-i@rong.moe/
+> 
+> Changes in v2:
+> - Separate [PATCH v1 6/9] into https://lore.kernel.org/r/20260302173300.322673-1-i@rong.moe/
+> - Alloc string buffers with kmalloc() instead of on stack (thanks
+>   Takashi Iwai)
+> - Get string descriptors in a neater way (ditto)
+> - Tiny differences compared to Takashi's sugeestion:
+>   - Use `IS_ERR_OR_NULL() || strcmp()' instead of `!IS_ERR_OR_NULL() &&
+>     strcmp()', so failure in getting the string descriptor won't
+>     resulting in quirk flags being applied to irrelevant devices
+>   - Use trivial goto cleanup patterns instead of `__free(kfree)' as the
+>     latter can't handle ERR_PTR()
+> - Tiny differences compared to my previous reply:
+>   - Use usb_string() as Takashi suggested instead of usb_cache_string(),
+>     so that we can retrieve the errno and print it out on failure
+> - Link to v1: https://lore.kernel.org/r/20260301213726.428505-1-i@rong.moe/
+> 
+> Rong Zhang (8):
+>   Revert "ALSA: usb: Increase volume range that triggers a warning"
+>   ALSA: usb-audio: Add helper function for volume range checks
+>   ALSA: usb-audio: Improve volume range checks
+>   ALSA: usb-audio: Support string-descriptor-based quirk table entry
+>   ALSA: usb-audio: Deconflict VID between Focusrite Novation &
+>     MV-SILICON
+>   ALSA: usb-audio: Add QUIRK_FLAG_MIXER_{PLAYBACK,CAPTURE}_LINEAR_VOL
+>   ALSA: usb-audio: Add linear volume quirk for Hotone Audio Pulze Mini
+>   ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
 
-That's true.  OTOH, having a pointer for the external data to be
-copied means that _IOC_SIZE() doesn't cover the whole size but misses
-the data, too.  So it's a question which implementation is uglier (or
-easier to handle), after all.
+Applied all patches now to for-next branch.  Thanks.
 
-BTW, it might be better to have both length and actual_length fields
-in srtuct snd_ctl_card_components: the former specifies the allocated
-buffer length while the latter is stored by kernel pointing to the
-actual data size.  We can overwrite length field in return, but it
-might be confusing when releasing a resource.
-
-
-thanks,
 
 Takashi
