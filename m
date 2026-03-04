@@ -1,201 +1,192 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010034.outbound.protection.outlook.com [52.101.229.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16833DFC7E
-	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 19:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772654398; cv=none; b=oK2yJyQcQs2BuR+Wmy2uP2tneX4L6VhHe41+w10QXMO+bso5rhSPSPcxR60x7uQBzDNK52dKVt2QFJHhhAQSIROUGgUr/0+X36LP7FEZwI058Hz+r0Dl5dyNfX8RkgrY8ldVVj2aWQfZ1VgzR2ARf7LfmMAONNvlq2umq+5Aaoc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772654398; c=relaxed/simple;
-	bh=8/f4hdOSdwYHmvZUxaFmVQurWRhk7GDQgpmiggd0Y9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=irEtVIQR7Y2/WSja8BK3TmXuZ82xOtIPdlkIUIrJrhhIAiBVHFE4GkeDtv0XpJAD4SjgVB5X087R4mAW0nm7RY6AWTeiKTU//DMTuNcq+IAKaw0TWbBikgLBO2JuQwKZUykLTWENjHeHRAtr9UfVlrNbLr6G3vHHBFgfz4WBU0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d4OKRsw1; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ABC34DB56
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 23:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772668663; cv=fail; b=nBpWpNS07zGWkB0nl59AZRo2/O1dUNbcz6+ZkLrcL1Dx9xkny2s79c9ExaPmg/fQnqLheNAmXHVUQWnTip7YB9Vom/L3NwB0/+ZB47UBRj7eL2K6fgK5o+cJZoZKvzFjr877LT6zsWDP4ypYAJSQpesi+g1KyYklaTjI4ZfQ5rQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772668663; c=relaxed/simple;
+	bh=1p16rw+LHse6F5rbwOcp+UvN0gQ13M1WkGPCxcj/pDM=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=Q2M2V3CYZNx4PTU8OFdedynQrlH3uG310QhnvRfcr4w82dpTLhGXlYT25VgSauSJ4MOBqkLqapwdeA22+bRrK9v0n1u4DZL8kYP8obK9v6ooalbpBKxvSBHMO1jUmeIBdGdlxbpGHDTFAzTT8Q/a0AZ27vYarc3QyhfNrcjTmyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=a8TyzHB8; arc=fail smtp.client-ip=52.101.229.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d4OKRsw1"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-89a0b376fedso15553416d6.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Mar 2026 11:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772654397; x=1773259197; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8TOsv1PGUXfFuGxG5SQQqgTLrZyW8alSpUKXMJIOho4=;
-        b=d4OKRsw1GObVqE4eFja2CZKSLEsEq3xKWH1c9o4VK3lFnpve6Xq85cG1JGVFgeoNAL
-         4wWfM8xu/ho/Sse+YpskUkK4nKsuaAzteY/B5v7tQuzk6YdF07mrRtQtNlE3jASRkki1
-         k0B59ArPjcp0n+dR4S7MUjOcMNmQXYaCLf882Frg6A4FMoOlfcwzhsH3mw7vSzJqmgOt
-         8qRKbzuIrljC7ZQJIWLvhrvwvGt8+RsZfW01DhklZq1ee8htaDocMBcDfK045p3qDMT6
-         pU4QJp/H2Z90IG/ReOYd5pFicIK5/ccAcnksBdi7W+zYTgxOy2hlXkHCM2l/4qcXo20R
-         ir9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772654397; x=1773259197;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8TOsv1PGUXfFuGxG5SQQqgTLrZyW8alSpUKXMJIOho4=;
-        b=Xp3X3ar4JX2yTnV6VA0vVXYj8m3LsvFT9uxA36dDjE7ECvzXKTY5ngBhn4HW/XXT8n
-         VSh8BP0UzfdVZWVgEOR/Hu73RZ1B6FLN+zsJlZxPXVYD/9UNbLhMiUHZR7sM0gTX4Qfn
-         aD/oirEXYoKy/C7jmxEVH176aRpWc79EV1OrVL17cGtY+lhDd6jlS/BURY8oK6I/GukV
-         7Fie/7K6DMboSqkdwtafod9AMg0DrzI8f63V7jfT6Dx+F4Jq9j3EqhdDzZwMN9Vm2ulA
-         kHEGf0yNrhK9/J74mKZaUx7Nmi1tb0rQSNvMbOi1Cb0bCydRssJ13BAS8ZsR9J8ND1XS
-         Vm0w==
-X-Forwarded-Encrypted: i=1; AJvYcCU0KsQo9irBPVH6HbaUV8ZsTJabycozOgYFMS119KCSJSCFEE4js9NVT2sGycU/5Hx40f2JddcRNLBZTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn5E04BmcQkS7WGA3AZrHGA9C1f2vH48qKa02OGiB+kpoMNd8T
-	ttKWTXkoaO7Ww6wF3v5YRjCpzHpbQuZzu7uw4cdiafMKb/ny3zEj0aVZe1YStQ==
-X-Gm-Gg: ATEYQzzHEsAtzYTYV3V/TvMR3bT9RqSSoAbGILJGwlAqojOvpjw4O+sP50pXMxIAFVI
-	YcUGdQGyEbF0oXtOS6CO3k9rIpcdc7VRFmg2TFIEYGpOjzdcbga40qndNFAZ+fwBTCwUaBRo3fN
-	tzyXP9GShGmAKs+h9NQa3cuWWtUMyME0zYzbtg4pG/3s89OxRE0oI/jGT5M/ITthGskAcvz30Vq
-	+aFDq1tUSKJzqj4aSA4r6dpKWthmbL01pnZpMTCv02W84ViKJbxy/4MCCaqHzlZcPWJ3YZHQ2CH
-	fEew0eEIOeONQ1ffUBWduXn8ebC8KLkUnQUX9lhZ11rHvn+E+8wFCByLEG+2H4pGCEvjL9a9lyp
-	UflT16hO94i79Iyy8awaXtT7tlrGQfS+GZgjK0RpGqNRdQTH1BSeC9uTqBe77x1a0HVrNK7rWhI
-	6kg5BrBkY9uXmGhE6xH06jzP5StKpxER1nNnA8
-X-Received: by 2002:a05:6214:21ce:b0:89a:b94:3cb6 with SMTP id 6a1803df08f44-89a199967b1mr43265516d6.1.1772654396693;
-        Wed, 04 Mar 2026 11:59:56 -0800 (PST)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899eab5cf2asm100369486d6.13.2026.03.04.11.59.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 11:59:56 -0800 (PST)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Nickolay Goppen <setotau@mainlining.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v2 11/11] ASoC: msm8916-wcd-analog: add quirk for cajon 2.0
-Date: Wed,  4 Mar 2026 14:58:15 -0500
-Message-ID: <20260304195815.52347-12-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260304195815.52347-1-mailingradian@gmail.com>
-References: <20260304195815.52347-1-mailingradian@gmail.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="a8TyzHB8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NbeurW+ZitnNauQ3uM6b9CgMhu3mRkYkivaGBz+9CD4Q5XPY1m3n8uGpRaruBTxs83rVRozE4bPFmm+AIrSY/Nvd+SsvqMRKAuAojvndV+HCgAOUWXmmxYNLB7f5blyvqwjif+M8+jFGs1JKYC6msLdpC/zcNX3Oi3Gjo7K9AJr+qf9AIrj4uVdom2cVgm0mp34sAfYkolPvlP/2Km/NSG7vCcDkSoFLP0cjAXEEsDGGWHkSYvF6trIujrbx3DZlVRgv2A4p/Lg2MEYHJiIVE0DjqMiT1FTkiehxWUlTTC8Uvp4Q+4mVHF4Lqv8R2m/tmvt1rlIXVYUyHJDnhYkPfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VNT/efRSjTlondwNgJStHzhEG25pjf63A+aLBghIzbU=;
+ b=rFsM3OyL8T2T7NoUAul2hxtUTHLnjc8TpR4HPRtWqjYfANKl161WvAp5LsHWHl09v8eKPshkR+Qq5hKCXKQc9bnyN4uwJOma3qoq/V8GoUS4StnCpBVBCSV4efo7Xhj+gdcgZuClx7RMP7oMJHXGTPn87pbdLM67aiSNVymaOpc4LNM6ZofDNWWb4sF5giimqIz7UCTJrI4rdjfZ6BUvpxZb9VUtps2ZW0dFC6pLDTUQsFWbKFVeqy++amZzxanj8U6y9yxhhKEoo5jdfkRLQVkdONO/OyqNLUHLjeRa4OwbgmHRSgtuk71VPhGUa99+00oJpzrmnvyGUdxzzNu+hA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VNT/efRSjTlondwNgJStHzhEG25pjf63A+aLBghIzbU=;
+ b=a8TyzHB8SKu5XXYSGywLsebvFaQgAum6u3PXdrFL5hQtco2X8lqHoDhuMNhva2m81am1opOh/XCiZK06uYJMDbICf8CEE4dj4ZaXB3MsyVju383R+sqJm1aOWnYQiVmdpUYn+ogWInVhN1U4ySGfQnq8dTVrzeuQEvu0aWFOdjM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
+ by OS9PR01MB12373.jpnprd01.prod.outlook.com (2603:1096:604:2e8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Wed, 4 Mar
+ 2026 23:57:37 +0000
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9678.016; Wed, 4 Mar 2026
+ 23:57:36 +0000
+Message-ID: <87cy1j407r.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: <linux-sound@vger.kernel.org>,	Mark Brown <broonie@kernel.org>,	Amadeusz
+ =?ISO-8859-2?Q?S=B3awi=F1ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?= <amade@asmblr.net>
+Subject: Re: [PATCH v2][need test] ASoC: core: cleanup card rebinding
+In-Reply-To: <678371c4-257d-43dc-8118-cbadb50527a1@intel.com>
+References: <87y0k8p6ds.wl-kuninori.morimoto.gx@renesas.com>
+	<678371c4-257d-43dc-8118-cbadb50527a1@intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 4 Mar 2026 23:57:36 +0000
+X-ClientProxiedBy: TYCP286CA0140.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31b::14) To TYYPR01MB7976.jpnprd01.prod.outlook.com
+ (2603:1096:400:ff::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|OS9PR01MB12373:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4532847b-c708-4622-41be-08de7a49cf85
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	3s8cDtEZhENwL050kV+AfzWlT7Bt4k0Q6AFW87WcUnS9TLUj0DUmvKi2IS8/E7CZUmEjOdWpkdxcUt+DhqUzoUB9bm8hqnYAEs0bjXjHAFlG2wVE9tVFb/FlHWldMSAHWZJ/ragV1PR2t7zLMHTFTWVsRmJTE0NrXEsEpN7x9Qv/X0v+c/Q0FTq9MggQrdDf11BlFeVdAqMZ7L/57GJLApNNw//7HhkkJqGQ2S2au2/Ldf1Yh3DUUvlo3KSbBNhJmU2dqUhFahJL4gGMQSxOez93D2nP+BAuW4oAMX5wxmAYJTDET6ZRAfKvq4a20aWPDVjp9rEslP8rli8RcnT6UyH9gnRUSaLyiGPmdRRb5VIf6mSwaeF/e1xinw4sB8c5swoABLG+gO/YXy0AM4E72AGvBagAqy8baOH+lmE0rapmyDfWsuZgIKtX+S1nN3sLKakqmCBt3dAw1mUfV4Z+EWve9WdrE8fvemberf+PUH8OpO74aWjT3uZsaAiluaqgSn0mCjx9hu4CQNlDFX6LBhCakPCT0fhzUYYsE8g/1Qn+NVtmSw6QKTMHeEmIB9Uaq+VAekNnFGqBPuqZjSYHJrc6L0i2ZVVEWeGRMOSSsu4Tm8j91m3vEE7plifgDGHy5qVZsWFpusG/6jLuCZoR5Y7mlZsx18LhgnH5mn5cBApTP31WPdSaMRwAeXacJy7iIB7VXxU8FZl9GW/CiRicE5Ejs3rACmtOtjAAtUsy9+GTrRFYu8i3Cjh+ev4pyT5+kLFEUoSQRolotdvDK3CmO139QNLtfoeoCpxMH67O5ko=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-2?Q?Yzgty8GqWbCLAiUSOsls7SLErpR9921Qg3HElCX4HvoSiG1W2UZjIeu9Bg?=
+ =?iso-8859-2?Q?57D7gf2u1E7Gq/RzylbhzVVTmaXMV9yA0YUk00FtThgJ58O5a3JJCmAlCY?=
+ =?iso-8859-2?Q?6scxnV0ECXSku1uOqBuwuvhc5HPvqfxBawWAb9LUOp6ILBCltr9J8cDOlo?=
+ =?iso-8859-2?Q?fgj43nNN8PzdNAi3dI7M4HXgjzpKOB/VgIG/3T7SCuMIybVy1gUxLf6Vzf?=
+ =?iso-8859-2?Q?7T9wgH8SQIE0eEb0bgzktY7t5WrxHl14J4gHQnXQd6+FOOIV7VoXsXeGNu?=
+ =?iso-8859-2?Q?jWQolXVma4yKuwLrOZFIRb/I+pEnVphcfYV4RskdmDe3TREnSWY6Ek4vBC?=
+ =?iso-8859-2?Q?WZsHVdSfm7smChR05NnIuypt9eFmtOTqGmYqVYmVGpRBOnoZOEXaPNUmI9?=
+ =?iso-8859-2?Q?GpA6DyAJNihuMs8px32KFX8ChomPUJOXtlp28RoqYQq8F2NOip9I3skU/a?=
+ =?iso-8859-2?Q?f4YpOvXVMFl8BKdCXAMOaMIg/tPsAMwM5MSMyZevR6KOFdltR/SuuF0d/c?=
+ =?iso-8859-2?Q?6ZvgEuDnTWcCG2TD3VgyBUKyjlr/hzerJZVmwas/Yp4mdCd10EReiZ4mdO?=
+ =?iso-8859-2?Q?vx3MoButSurr3DGa/uxxJqAVe7TqWJ6tbiqTmjef164kSm3gIEpTccpQh5?=
+ =?iso-8859-2?Q?PauWHYSlGiJIX4JzNB92rdD0TWkKrwYf/SVJsBxCB5ai0KsichJ64N+8hA?=
+ =?iso-8859-2?Q?+QKS7di2fA7teY34aWK5XqFw8l1FJUZGB0WcJQfRnWE7eYlZBbwNXSiP4S?=
+ =?iso-8859-2?Q?RIltI7AIuVLk1Ta57CVrHDrkPndDSh1gwcZ0Jqy1xM3alVXjYQCqMYTRL4?=
+ =?iso-8859-2?Q?bhLDSnlCjfcEo5Pf4dChlGh2fbU1PRY/RFGMmJhIxwVytV6DZOCG7OMO7G?=
+ =?iso-8859-2?Q?kKXSqnDwCrXsGJOn9/T3QR5JD0Nd7lz8gw+3sc04b8UPTNvkGayiTCZXK8?=
+ =?iso-8859-2?Q?7mzN7POmSm42XM8AceBMr8kzfPou3miA61S7yjBDNsTmSNkC3dyd+57/bY?=
+ =?iso-8859-2?Q?RSEYM5F2ApLVKqSuBvCoYIwsjgrwRrn4/NGpPAx6aB2HhRbgzeIB/DI5SE?=
+ =?iso-8859-2?Q?fhnN9BMTaSVp/4i0/n1b+divjKfoX95TIlDH9J0PF8mDJUNTDMQkwUIBp7?=
+ =?iso-8859-2?Q?u07mdLlCoui7+2rxf2ueFNO25i7ko5/AF0Wi22UFwaeJAWkWQLkyGAwevw?=
+ =?iso-8859-2?Q?keZqh2eVTx+vg41HsebCeNzmI6kBghWQXXPi/tfKVEhyKP4J6WZX7T/tp1?=
+ =?iso-8859-2?Q?nBB9yf0cqPzdxyZqiDTMf9vYjLpmy0WiyTo7zdQuh2T+uOOGpKx0A1nHJH?=
+ =?iso-8859-2?Q?iXLJmvsSikKoCeNuLcmUsFG/1rfAaik00i2PjiTHm4fZNobl2NTRBclRdI?=
+ =?iso-8859-2?Q?mXeeRH8H4x44rMO41xbE1QUSOEqU4LgK2bJCpxZW+hzU4Clqr8Hfn+FY7l?=
+ =?iso-8859-2?Q?JVvBS5GKcAHd5tFU8O4SY5FEyLRwj6dM2riahFZYHmj4KrrXxYaI1Rz7cU?=
+ =?iso-8859-2?Q?Iz3T92jZwT/jv9CtY8pkGgEjEwDdcQeFKJ2DOZut9kDlLc7mBIFa6zrEl1?=
+ =?iso-8859-2?Q?ICmTVDIIiaj9TRXviisrsTEqM8qKm3jbQmUh6fQL/v32ZqcvK21JP9EpXc?=
+ =?iso-8859-2?Q?HeDdOp/s47kYCO6yNnnADj+6oREgnn4kzuTAWpnlcWIEzUCCsXOHaz6ROw?=
+ =?iso-8859-2?Q?OExZj8UUH7oQo7HKdKWnj2aoha5mJfZkbBx73PxOJfJTjmEFJfj00dHvtE?=
+ =?iso-8859-2?Q?fQFxqhD30XSRQD7GfZCtFN+Z5rtxtGZTK35xgwEQhuD4hL4btc9vIfDAzV?=
+ =?iso-8859-2?Q?k0lhnQ72PYJcki5KWodEZ0fg/2a5Oe4zH6DEowwVQE4qQx38ZB7j?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4532847b-c708-4622-41be-08de7a49cf85
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 23:57:36.8141
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cd7FZeJIab6Sb5EB8br7040ud4hfsfZHytd6tItGfcsYSc5FTuDn8har97VUzvF4E3Azu9Vfc48KpttA37MAAeXeFgedUFtUmde+JHfSgMQ7fWS56KFPKvho7nTJlGQ7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12373
 
-The codec version CAJON_2_0 on the Snapdragon 670 requires touching the
-HPH test registers. Add the quirk so this driver can also support
-SDM670.
 
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+Hi Cezary
+
+> > commit a3375522bb5e2 ("ASoC: core: Complete support for card rebinding"=
+)
+> > supports complete card rebinding, but it uses unbalanced pair functions
+> > It added devm_snd_soc_bind_card() (=3D bind), but its inverse function =
+is
+> > snd_soc_unregister_card() (=3D unregister), and it adds new
+> > devm_snd_soc_register_deferrable_card() (=3D register), but it doesn't =
+have
+> > inverse function (=3D merged with above inverse of bind function).
+> >=20
+> > Thus, it is difficult to understand, and difficult to cleanup soc-core.=
+c.
+> > This patch cleanup the rebinding code.
+> >=20
+> > The rebind method to connecting to "unbind_card_list" is merged into
+> > snd_soc_{bind/unbind}_card() which are used from all drivers.
+> > This means no need to use special bind function
+> > (=3D devm_snd_soc_register_deferrable_card()) to use complete card rebi=
+nding.
+> >=20
+> > When it bind the card, and if it failed with -EPROBE_DEFER, the card wa=
+s
+> > added into unbind_card_list (=3D snd_soc_bind_card()).
+> >=20
+> > When it unbind the card, and if it it needs to be reused, the card was
+> > added into unbind_card_list. If not reused, the card will be just remov=
+ed.
+> > (=3D snd_soc_unbind_card())
+> >=20
+> > Because snd_soc_card will be capsuled soon, separated from mutex_lock()
+> > (=3D client_mutex is soc-core local).
+> >=20
+> > It renames function name. Will be moved to soc-card.c soon.
+> > 	snd_soc_bind_card()	-> soc_card_bind()
+> > 	snd_soc_unbind_card()	-> soc_card_unbind()
+> >=20
+> > All Card user will use complete card rebinding by this patch.
+> >=20
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> > This patch needs Tested-by from
+> > 	Cezary Rojewski <cezary.rojewski@intel.com>
+> > 	Amadeusz S=B3awi=F1ski <amadeuszx.slawinski@linux.intel.com>,
+>=20
+> Thank you for the patch. Letting you know that I've seen the message but=
+=20
+> cannot test and provide the feedback immediately. The change isn't a=20
+> simple one and I'm don't want to ACK/NACK it blindly. Once I finish my=20
+> existing tasks (couple of days), I'll integrate it into our image and=20
+> run the cycle.
+
+Thank you for your feedback. OK no problem.
+The main point is that bind/unbind functions handles card connection
+to unbind_card_list.
+
+  "bind" will    connect the card in case of -EPROBE_DEFER.
+"unbind" will re-connect the card if it is mark as "reuse".
+
+When card      was unregistered, card is *not* reused.
+When component was unregistered, card is       reused.
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/codecs/msm8916-wcd-analog.c | 63 ++++++++++++++++++++++++++-
- 1 file changed, 61 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/msm8916-wcd-analog.c b/sound/soc/codecs/msm8916-wcd-analog.c
-index 9ca381812975..6fe111e6d686 100644
---- a/sound/soc/codecs/msm8916-wcd-analog.c
-+++ b/sound/soc/codecs/msm8916-wcd-analog.c
-@@ -217,9 +217,11 @@
- #define CDC_A_RX_HPH_BIAS_LDO_OCP	(0xf195)
- #define CDC_A_RX_HPH_BIAS_CNP		(0xf196)
- #define CDC_A_RX_HPH_CNP_EN		(0xf197)
-+#define CDC_A_RX_HPH_L_TEST		(0xf19A)
- #define CDC_A_RX_HPH_L_PA_DAC_CTL	(0xf19B)
- #define RX_HPA_L_PA_DAC_CTL_DATA_RESET_MASK	BIT(1)
- #define RX_HPA_L_PA_DAC_CTL_DATA_RESET_RESET	BIT(1)
-+#define CDC_A_RX_HPH_R_TEST		(0xf19C)
- #define CDC_A_RX_HPH_R_PA_DAC_CTL	(0xf19D)
- #define RX_HPH_R_PA_DAC_CTL_DATA_RESET	BIT(1)
- #define RX_HPH_R_PA_DAC_CTL_DATA_RESET_MASK BIT(1)
-@@ -696,6 +698,59 @@ static int pm8916_wcd_analog_enable_ear_pa(struct snd_soc_dapm_widget *w,
- 	return 0;
- }
- 
-+static int pm8916_wcd_analog_enable_hphl_pa(struct snd_soc_dapm_widget *w,
-+					    struct snd_kcontrol *kcontrol,
-+					    int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct pm8916_wcd_analog_priv *priv = dev_get_drvdata(component->dev);
-+
-+	/* This quirk is not required for revisions prior to CAJON_2_0 */
-+	if (priv->codec_version < 4)
-+		return 0;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(7000, 7100);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_L_TEST,
-+				0x04, 0x04);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		/* wait 20 ms after the digital codec has powered down */
-+		msleep(20);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_L_TEST,
-+				0x04, 0x00);
-+		break;
-+	}
-+	return 0;
-+}
-+
-+static int pm8916_wcd_analog_enable_hphr_pa(struct snd_soc_dapm_widget *w,
-+					    struct snd_kcontrol *kcontrol,
-+					    int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct pm8916_wcd_analog_priv *priv = dev_get_drvdata(component->dev);
-+
-+	/* This quirk is not required for revisions prior to CAJON_2_0 */
-+	if (priv->codec_version < 4)
-+		return 0;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(7000, 7100);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_R_TEST,
-+				0x04, 0x04);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		msleep(20);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_R_TEST,
-+				0x04, 0x00);
-+		break;
-+	}
-+	return 0;
-+}
-+
- static const struct reg_default wcd_reg_defaults_2_0[] = {
- 	{CDC_A_RX_COM_OCP_CTL, 0xD1},
- 	{CDC_A_RX_COM_OCP_COUNT, 0xFF},
-@@ -883,11 +938,15 @@ static const struct snd_soc_dapm_widget pm8916_wcd_analog_dapm_widgets[] = {
- 	SND_SOC_DAPM_MUX("EAR_S", SND_SOC_NOPM, 0, 0, &ear_mux),
- 	SND_SOC_DAPM_SUPPLY("EAR CP", CDC_A_NCP_EN, 4, 0, NULL, 0),
- 
--	SND_SOC_DAPM_PGA("HPHL PA", CDC_A_RX_HPH_CNP_EN, 5, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA_E("HPHL PA", CDC_A_RX_HPH_CNP_EN, 5, 0, NULL, 0,
-+			   pm8916_wcd_analog_enable_hphl_pa,
-+			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
- 	SND_SOC_DAPM_MUX("HPHL", SND_SOC_NOPM, 0, 0, &hphl_mux),
- 	SND_SOC_DAPM_MIXER("HPHL DAC", CDC_A_RX_HPH_L_PA_DAC_CTL, 3, 0, NULL,
- 			   0),
--	SND_SOC_DAPM_PGA("HPHR PA", CDC_A_RX_HPH_CNP_EN, 4, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA_E("HPHR PA", CDC_A_RX_HPH_CNP_EN, 4, 0, NULL, 0,
-+			   pm8916_wcd_analog_enable_hphr_pa,
-+			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
- 	SND_SOC_DAPM_MUX("HPHR", SND_SOC_NOPM, 0, 0, &hphr_mux),
- 	SND_SOC_DAPM_MIXER("HPHR DAC", CDC_A_RX_HPH_R_PA_DAC_CTL, 3, 0, NULL,
- 			   0),
--- 
-2.53.0
-
+Kuninori Morimoto
