@@ -1,94 +1,146 @@
-Received: from adishatz.org (ns314768.ip-37-187-26.eu [37.187.26.192])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB033A6EF9;
-	Wed,  4 Mar 2026 14:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.187.26.192
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E14330D50
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 15:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772633891; cv=none; b=p353vECnwTBdjUSRMvfQNHDsHfpSrlPHPikIWh9J2XnrD0Mu6AmdzmDsmoM/Z675inBVIRp7ZUz24I6j48ZUtYLvF1CLnU/bO/x/shtR2xZg4mrK+5qJ2kqEelKdEehH7RrgV6+Ng7AX/8vca8tWAKrBKddjMIWFyIwsQF2UHGA=
+	t=1772637478; cv=none; b=LXg7fCHf3pk8AmDU6lhgbmnDlGbq571R7ZlrA/sPHWESRfvgWC1vHiB64NibcwfGet++DDX/BPy9JqSzNdVXRGPXChVH0BCgrzkTG5Xw0PcnoWKqb6Yfp/vNMfapQDO7+TguNtpS53t2EY3Fm98LSwBKUqV1eOHtuB9zpiQfqIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772633891; c=relaxed/simple;
-	bh=6HBXokyc+vCWKhHp41UQSagjE6RZ5+wreWuFWTYT2Q4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XslswK2DfAiZLTy5o5PZs2dAjfAlcuLWJqJx/pMIuEsv2A1HvPWVQ6pAydjJgug3IqSU9XeULYWL3ySuFaM119lhVvosbd0guXHJT8NNBede+Qtwm1UlcEfom8Qle3sgZS0C31qArWhcN3GBK/9nE0johK5HMzujOri/m149ejQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=adishatz.org; spf=pass smtp.mailfrom=adishatz.org; dkim=pass (2048-bit key) header.d=adishatz.org header.i=@adishatz.org header.b=alkNn+ag; arc=none smtp.client-ip=37.187.26.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=adishatz.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=adishatz.org
+	s=arc-20240116; t=1772637478; c=relaxed/simple;
+	bh=RGnKwqND6TgUGHP6jCJ25LRnIYHDRiFdp/6Q+Ogipug=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fCAiWydZ6b4kaI4sL90ug5tceQDMr6VvGPYSVapnZlZKzmqE+u2modVnWKiR28YoiD62wJdB2eWvt1hHYV491bq6Plt6UKN84jphIqTluLQT4lfxD1i2JEHBYiQPPx51GGvHGjPIHGBUehvjEyx4wJeSyf8f0uvC13m4p1xGmPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mqgsbAv/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GMo8/1PE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mqgsbAv/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GMo8/1PE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=adishatz.org header.i=@adishatz.org header.b="alkNn+ag"
-Received: from p-si-bellegarde.univ-nantes.prive (unknown [193.52.84.14])
-	by adishatz.org (Postfix) with ESMTPSA id 38EE14C02DC;
-	Wed, 04 Mar 2026 15:10:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adishatz.org;
-	s=mail; t=1772633415;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ICg5aJiATtX7CngsxObvwgFdqjF1bhqFv/Y2pXy8BNY=;
-	b=alkNn+ag/VIyYv99YoJP1U7xluX9io/ZR5Pr2gidJZe9G3W1VMmqrXXStaQVWYq/7YzqqB
-	6D7hO73W/njOuDq96FMS8Pu0u4kHxzLedwEE8blTE+tycXKMK/Ny6ALa0XimxiZlO+x4GC
-	HCmXWM0ZVSGoX/9oCyooaqq/K23ceAusiY0+639BMcAh50rZCzYwhv/LpQOVz1J5aGL0av
-	CkWk7E4Jpx/BjH+l6cpP9+Z1MsFJ9BOekbSc2ktZBt3xaXP3ttMK0hsCruzyLS8IKpEgDF
-	J+Z7v/ALjq0ReCTJtePE76gifcGr6QAbVcMAVOdNz+FPaBtw/5olTpBB7FxpiA==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=cedric.bellegarde smtp.mailfrom=cedric.bellegarde@adishatz.org
-From: =?UTF-8?q?C=C3=A9dric=20Bellegarde?= <cedric.bellegarde@adishatz.org>
-To: srini@kernel.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mqgsbAv/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GMo8/1PE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mqgsbAv/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GMo8/1PE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 698033F8F3;
+	Wed,  4 Mar 2026 15:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772637475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DNh5kPVf/yUqnUeWbQD9jQrAdH9zWu6yDJF96uIJTU8=;
+	b=mqgsbAv/sLYpHzRMfmQdoBRoXa0cmTbxZLFRitCPGlHoQp4WWxfMRyIoSnk4nVbW39977J
+	g0N8rNQytsbmyGPD7eXgrV0cE08SMaghgdmlt2kq/LY3DLca8SO7rt0M79jjydcwVB+oK7
+	v+u5ynmNxM75ui4gx7QEr7qYDkzYcps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772637475;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DNh5kPVf/yUqnUeWbQD9jQrAdH9zWu6yDJF96uIJTU8=;
+	b=GMo8/1PE402dSaZuXOI/isgDU5pCLB84tYXRgK8HVXgo3I7b0SBntuwGFrersNQsHMNws7
+	EaCdwn/lcAxxGFDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772637475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DNh5kPVf/yUqnUeWbQD9jQrAdH9zWu6yDJF96uIJTU8=;
+	b=mqgsbAv/sLYpHzRMfmQdoBRoXa0cmTbxZLFRitCPGlHoQp4WWxfMRyIoSnk4nVbW39977J
+	g0N8rNQytsbmyGPD7eXgrV0cE08SMaghgdmlt2kq/LY3DLca8SO7rt0M79jjydcwVB+oK7
+	v+u5ynmNxM75ui4gx7QEr7qYDkzYcps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772637475;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DNh5kPVf/yUqnUeWbQD9jQrAdH9zWu6yDJF96uIJTU8=;
+	b=GMo8/1PE402dSaZuXOI/isgDU5pCLB84tYXRgK8HVXgo3I7b0SBntuwGFrersNQsHMNws7
+	EaCdwn/lcAxxGFDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D0743EA69;
+	Wed,  4 Mar 2026 15:17:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3eqYDSNNqGlERgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Mar 2026 15:17:55 +0000
+Date: Wed, 04 Mar 2026 16:17:54 +0100
+Message-ID: <87fr6fvd25.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: broonie@kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	cedric.bellegarde@adishatz.org
-Subject: [PATCH] ASoC: codecs: wcd-clsh: Always update buck/flyback on transitions on transitions
-Date: Wed,  4 Mar 2026 15:10:06 +0100
-Message-ID: <20260304141006.280894-1-cedric.bellegarde@adishatz.org>
-X-Mailer: git-send-email 2.47.3
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] firmware: cs_dsp: Fix fragmentation regression in firmware download
+In-Reply-To: <20260304141250.1578597-1-rf@opensource.cirrus.com>
+References: <20260304141250.1578597-1-rf@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-The WCD934x audio outputs (earpiece, headphone, speaker) share two power
-supply converters, a buck and a flyback, managed by reference counters
-(buck_users, flyback_users) in the Class-H controller.
+On Wed, 04 Mar 2026 15:12:50 +0100,
+Richard Fitzgerald wrote:
+> 
+> Use vmalloc() instead of kmalloc(..., GFP_DMA) to alloc the temporary
+> buffer for firmware download blobs. This avoids the problem that a
+> heavily fragmented system cannot allocate enough physically-contiguous
+> memory for a large blob.
+> 
+> The redundant alloc buffer mechanism was removed in commit 900baa6e7bb0
+> ("firmware: cs_dsp: Remove redundant download buffer allocator").
+> While doing that I was overly focused on the possibility of the
+> underlying bus requiring DMA-safe memory. So I used GFP_DMA kmalloc()s.
+> I failed to notice that the code I was removing used vmalloc().
+> This creates a regression.
+> 
+> Way back in 2014 the problem of fragmentation with kmalloc()s was fixed
+> by commit cdcd7f728753 ("ASoC: wm_adsp: Use vmalloc to allocate firmware
+> download buffer").
+> 
+> Although we don't need physically-contiguous memory, we don't know if the
+> bus needs some particular alignment of the buffers. Since the change in
+> 2014, the firmware download has always used whatever alignment vmalloc()
+> returns. To avoid introducing a new problem, the temporary buffer is still
+> used, to keep the same alignment of pointers passed to regmap_raw_write().
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Fixes: 900baa6e7bb0 ("firmware: cs_dsp: Remove redundant download buffer allocator")
 
-The early return in wcd_clsh_ctrl_set_state() when nstate == ctrl->state
-prevented _wcd_clsh_ctrl_set_state() from being called when switching
-between outputs sharing the same state value. As a result, the buck and
-flyback reference counters were never decremented on disable, leaving the
-converters active and their counters out of sync with the actual hardware
-state.
+FYI, if the data isn't always large, kvmalloc() could be a better
+alternative, which is a hybrid for both speed and size, too.
 
-This caused audible distortion on the earpiece output and spurious MBHC
-over-current protection interrupts on HPHL/HPHR during output switching.
 
-Remove the early return so that CLSH_REQ_ENABLE and CLSH_REQ_DISABLE are
-always dispatched, keeping the buck and flyback reference counters
-consistent on every state transition.
-
-Signed-off-by: Cédric Bellegarde <cedric.bellegarde@adishatz.org>
----
- sound/soc/codecs/wcd-clsh-v2.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/sound/soc/codecs/wcd-clsh-v2.c b/sound/soc/codecs/wcd-clsh-v2.c
-index df3512ed167f..31fc91d79a8b 100644
---- a/sound/soc/codecs/wcd-clsh-v2.c
-+++ b/sound/soc/codecs/wcd-clsh-v2.c
-@@ -849,9 +849,6 @@ int wcd_clsh_ctrl_set_state(struct wcd_clsh_ctrl *ctrl,
- {
- 	struct snd_soc_component *comp = ctrl->comp;
- 
--	if (nstate == ctrl->state)
--		return 0;
--
- 	if (!wcd_clsh_is_state_valid(nstate)) {
- 		dev_err(comp->dev, "Class-H not a valid new state:\n");
- 		return -EINVAL;
--- 
-2.53.0
-
+Takashi
