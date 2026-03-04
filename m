@@ -1,283 +1,445 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011055.outbound.protection.outlook.com [52.101.52.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99063334C27;
-	Wed,  4 Mar 2026 01:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE25E3093D3
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 02:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.176
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772587677; cv=fail; b=mGdlLRhVxepy/MwCyuQH8Dw+bwSxZRFu5QgRuJfZwfp6vwVm55uIfgqCzHKij6YV0tap3Fr1L7koJlCfsfyOt5BFMJLv8U/ilvHYUw+VLvQRXo4zVibRbmPzNwzcQLSWy+kmuzOxEnmzdd282QEwV5t+r9QR1TibRx+i87A/UQk=
+	t=1772591280; cv=pass; b=aNam1BCSdkz9Ben1YtsYUUw7fqIJAbEYu8v+n1JCjKRxrXi0ZcomWbzBecSF2qw1aRJR3iqxQuXDdxCRzo5QPJa7MamqjdDefAXK+MuH+Pv9uEb7FL3lPW7kwRBvR0eLsuAYUsB3W4NBb3hJ1+tt/annIG5qk8crn4Yp7+Eh488=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772587677; c=relaxed/simple;
-	bh=dacBUh9K0QdXUvNywbAyvPt5HJ99IaNmZU28a1tpGFQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rAVALJOIhIGtNOGsxnxNRnHbGL/pexi73AtG0PMuj49xcGQoJZ1vj024GgBvIQy5ggBKVoXUSUUEuFR9L49/XzRetPJ2VFwUMydjrFkDFyI4gIdfn+Qid2CiXESAtrxATTV/x2FRthIrlyGiZCBWknpor+dtOSJVYkMOxFVvy/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=maidt9YU; arc=fail smtp.client-ip=52.101.52.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1772591280; c=relaxed/simple;
+	bh=py3aKKVn93HvEcbikt3U0dk2M/t9J8+imzeqfvnOlMA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EN7haVeu9T+ORJhiYqJH5DD8FgV81FaawVoai9QmMGowmBXLVmDkK4YWwKIr523BxC6+JVk1AIRAobBog72U4YWqqwo/f6vFldDgVxa/fZqKRUawgSZm1K3NqKdso00wpgPyOUQQekIO99bQ+JUdzrEgfvxPaH5uC7Tme32niUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FITNUxCj; arc=pass smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="maidt9YU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p7IyXyBnfC59bhh/QDlC4xjm8gnxI/aVjCQ8NWjD+TQ/phVsvcvuW+NLBwz88oegj1uUlu3Eo3WVXfBEPFYLVctAff3OGVKs6Xv8Wggf01j3o0MSOeSxHA5GJqJjudqqXN/2oDkFpLWG7rNbgythWaGJW701F+WT+MDBwzxmlu9SXw/oaP0PeGTAWeV9kaOO841TnqajI5htVvdPBVcphxbO0+fCcLLs3ACa6zPrI8LdN0/pSUTyF6rkpr0iKAmaNhVLW3qunh4s7ITlNquQXbSIEekdoDCyuvRtVfUJe+oVe99SGOdiQIwubQe36N7K0Itb8+4Q5Sa+OhGYRxeCXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SMCVXE/QqXcN89uo56glYVb2KUIcE1svTHLTUm91N2M=;
- b=w+esDmCCph9thTxJi6D9QEtzrUzS5rQDHMVxzz6TS7qPP7AfnGlXihVXA05VntXiv4B6vEmeBEDvccO27e4Ko2dC7bs65ACkzY3wPreezzZgngCi9P8sE/duNHHHgFmmJN9NBZsU0Us9uaLpK0fJZ3mT/4xh4/TBtjrO2R3aQOUNEn7ml8MMFvfkHLLP3AVkyhgcLytd9ojZ31UtxREx6DQU0dataSsAq3aoeyhGOxQFcMtKumoym/0xXP8VzElidNH1V2VsQqfhnizX85t/USGwEFg+FsJhWpfu+cj7+GVZy9VnGvbC3Ym8VvzmSwj3kSb6OPoRbdlrpNeO3pp4+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SMCVXE/QqXcN89uo56glYVb2KUIcE1svTHLTUm91N2M=;
- b=maidt9YUEg9SE1s2e15IkLkTmsj5XGLJ0eWvmZLG17QCRfvRHNiGN9W3S5yzM2gLA3ZwjtK0HMjZkNSiN9sN7bTS9l2uk3KeXEbIqBn3LZ9aPcH2V7tMnIv7aSCbInGtrtlF2wl2hQtVVFRA0iLD8deJv7DgLNRD88+Qtd+yFA1TrYXYHfU+Y/QQCMYfQ8QTzb+CCv4rUUsIG1ZLmGNhWtC5E+8P0TBA208y90uayInBW54MyAATkCPSzlbHYLLHap/J/tssthm9awMpbHFDACRlatTjRTT4e7jAMrCvGEqGDgfcCtwSioUqVWfEw6oStZDZTh77KMsRBqjrVmO03A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com (2603:10b6:510:26f::12)
- by IA1PR12MB6651.namprd12.prod.outlook.com (2603:10b6:208:3a0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Wed, 4 Mar
- 2026 01:27:38 +0000
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::f79d:ddc5:2ad7:762d]) by PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::f79d:ddc5:2ad7:762d%4]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
- 01:27:38 +0000
-From: Yury Norov <ynorov@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Duyck <alexanderduyck@fb.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Anna Schumaker <anna@kernel.org>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Aswin Karuvally <aswin@linux.ibm.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Carlos Maiolino <cem@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Chao Yu <chao@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Airlie <airlied@gmail.com>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Dongsheng Yang <dongsheng.yang@linux.dev>,
-	Eric Dumazet <edumazet@google.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jens Axboe <axboe@kernel.dk>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Linus Walleij <linusw@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Will Deacon <will@kernel.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	Zheng Gu <cengku@gmail.com>
-Cc: Yury Norov <ynorov@nvidia.com>,
-	linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	dm-devel@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-perf-users@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	virtualization@lists.linux.dev,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 8/8] arch: use rest_of_page() macro where appropriate
-Date: Tue,  3 Mar 2026 20:27:16 -0500
-Message-ID: <20260304012717.201797-9-ynorov@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260304012717.201797-1-ynorov@nvidia.com>
-References: <20260304012717.201797-1-ynorov@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN0PR04CA0111.namprd04.prod.outlook.com
- (2603:10b6:408:ec::26) To PH0PR12MB8800.namprd12.prod.outlook.com
- (2603:10b6:510:26f::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FITNUxCj"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-45effa36240so4917428b6e.1
+        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 18:27:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772591278; cv=none;
+        d=google.com; s=arc-20240605;
+        b=a8G/cUp5Adsr4NJl8WnJ1/x5n4FBPQySp0mmJs2bX2ott+FzY4jlgWWZnqP0MY18sF
+         RqgRuGxbTWvdrar+pkQ1dkhJqAntlc1ULdNV2chAUVbzcrM6zcSbF23iAtg0OLQt5VoW
+         R4OjJsSQADDQNZCdmzCwkn/RFfskHmBhRzKac7mIGeZS5ISvz3KcMzLTTC3yQyBRJULE
+         0Bk0PlnFP1xCO7onAOZG4k0ZMLO0kbp8+b6r6CWUSYlaNpZSNMlZv9jUgtstetH7f7G7
+         IesA/7A9GoyzPw9cxhVh9wjsOVpG0wZHvSWTIS8whXkCF7FMApA98MA6xcBoWUGGPwx0
+         T8bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6Lcbeb/64UCshEgxWIZnEJ+ommj9WqeVen8Lhvcah74=;
+        fh=dPi2JNh+dkhTRF/A7LDGGAKretwVxiPGqHW/JtBPN+U=;
+        b=HCGPeTCi1T+tm0NAi3StDmCg14DilT8aPW3z55ix4ic8ObJINZafWnodpBQQpMJbh3
+         lfZUd8e+tjKHW5UT7RtC2njxdZ38S0x4IuNrrhGCTqK6LpozFwfiHQc2+C9EgaZYwBws
+         LoYdFE9oF2XIowoNgPbv10bBeFH7HLdKuA+WiwHDApkYThJBPSu3lDOD9d3smVgVU6le
+         E6Db2m4QszXkdAUWXJf2KNlAGiAOntNeearIzaAWjVU8uJ010GooiFTpL5y430JIw1PO
+         aTm2fCQgf4/wvX2EdAT1bullhmB4xV7a68lH/f15k6llL2mHTeWzoVBh51QCilmUflES
+         1kNw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772591278; x=1773196078; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Lcbeb/64UCshEgxWIZnEJ+ommj9WqeVen8Lhvcah74=;
+        b=FITNUxCj0wnZV+AucLW0u5QCeeR9Za4KXpVt5oPxTbfTrr5dzZDc5IEno46XyK6iP1
+         Pwyx7rq+nT/p60PLhXIN6klrfk3dErZW16ZAlsLzqFH5zywODRK5+j6WjHwY8fOWl7ys
+         XDY8QdOyLIj0zQG40HkvdHCrvNRWKzZSSOTLluFyi7A3KiQxKlV48RhJr7wYF8UHiiJp
+         8pqSJJFb3U3EtXXsmqsekfxfk6MSCD0UkHguo9OXPDfH1ta7Uf10EMPmaTsDZ7OMFYsr
+         ZxVX2azCNXbEMMhQEY1l/y81pv4x/ctv6rlxEztY8j4LbJfxfsNPZG8a4jGZr3Xc0DGr
+         nFqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772591278; x=1773196078;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6Lcbeb/64UCshEgxWIZnEJ+ommj9WqeVen8Lhvcah74=;
+        b=wgRcLe9FHX9fxzsHo24A6XvKZpjc706UG0TjuBCbl+25CZCpggSp3ylZbRRTHHMhFa
+         ei3W26UuPiEekpTS8+dF/H1wKTx6yAHHzEYAPsvtPQ8SavTFubTYr+QsCVz82IfcVnds
+         0cxhHnvcknFGzVtwmBeKQwBRu4P4bZIWFrUVEAw/eBJtIPXvT4jp4R9XUcNELVo6FD8d
+         LgiyMWJ2bcRruFI6BXchqevlf+scqYb+Ly+VJtgo2mcWYFQwy3GRxBI/tEyWqbt2mhBE
+         PEdT0SsgeFcVXAHhDWzNCAQZrJgPsy/QY9aOsypWIcjXSSbsAPE6T31aGzKFUTMWhqew
+         q2KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmU28vcXEW7A1ZRoLabbM22z/kbDhv+MP15F3kt3P7BSaK3aXJMe9SS5qNHDi2OAEAXTggQbjykc+8jw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxSyvj9SyNBmPoJRbIbN4vjzBvxYXdb/GwZnU/q1Zjwri0nxiw
+	hH3OYCOoTCBShQiWcitXGwma+9L8FumLYC6i97xOCtKVZuCR9uPkZVcyjRRh8jOcjW7keii8RMt
+	F7dPt1B/EAXk2+WtbUUw4QscNlqzmUPs=
+X-Gm-Gg: ATEYQzzPUMzkqtAvL0yUq5zx/EL9cSfPz9RLcxwgb9NEI3GqiCK/S9Zo+Om1903h31u
+	meQ71HVPPp3izmxC+GihBOnWtX8HxK47oBqFwEUzIcvpjico5gWlN3VFxMAeUcyFIrVlL7a0sqQ
+	y63FEUJVorWA9figuXOd176vEcCOz1SL/5HOoG93f9uCckxgDUCsJpyLoQVma+fD/nq2nKbON3W
+	lh+TT8M4IomrbB9dt4WDqNx6T35gsyS9gdx2cUVmzki6czrvCGmtfI5meuxS2RJHddW6Hzyvo9R
+	pEIi+V0+CvGmIhTFvm32pECHZ4RRWJSgBQ74nrA53q2xckBnoYQa8Iv3IiMfiDwLY108iGOtWw=
+	=
+X-Received: by 2002:a05:6808:30a1:b0:463:f9ad:a4cf with SMTP id
+ 5614622812f47-4651abb472dmr293614b6e.23.1772591277687; Tue, 03 Mar 2026
+ 18:27:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB8800:EE_|IA1PR12MB6651:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2609bae3-d7b5-4d6c-cdad-08de798d38be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info:
-	xtr88SI7Q4AcFK/iCkO/xPPWk0+R3vDrTpAEkNkbZ8qomfK3bAqE3XXgk3WCNroUewaQ35DD4OpAJK1mIhUjhWYvBFTqoeATTFnLAmqOp15cQE84BTc+8CnbiKwRE0wOPvR4+P9wrFVo6jX1SM5uRem1u/Gq0/uFWMPPtwK4pVRqQ6TaZagPbb9tU2AbyJI96CdJV+D/9u2lDuLkmio5k8PimILuLSWNRKkjzizNdjFIBx5FcpjDsKEPd36qCC8fgQ8K5WsoA4hd5dyEORYzDfvI2oH/zoDgA0hctTSJSGry0uzr+8AI9tV8nUZjlMsrDCf2UMGeEBPxCmE01gt5eH7odkBaAXu3EvlsN6LtmIu5GU5fD4aHKyOhJRiFYkfo3RM9lHPrff6Rd/B1e0mihJxDWgodSpZDp2Bpzx+5nG3mrD3EQJBDgDvfDixNyRZ+D2aSppWErIY/rwuO20KAcDloK2pH91Uj1qnwopT2ICDEqyTmNOvm+Gnr6DBGgKdRRa6zeWiOM/aYM9V6u0Pp7f4YTFLa/5PvZfCBhkWFIQy0buCigXXjKYExH4rTtmmMH+bAOCnV8nCxPP4RNKGZRMZGwhL9BYG4V4IVzgQ/aZ3+XTJFWe/5uwHcrp5qPa1zQTsFD/7c32RWrSRS12+/v+bw81rbNRTnOAvEZy5XDi1Eenxd3W6HyH5I09MHMhmlW1TOC/u2untYVG3C00LNI6+bNraN5Rg/0lUN9gfUQLS/TQXgz9Ud6SR48QdzfL6/4dmZN94g9vM+nkmTSClPgw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB8800.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jZT52MDM+eEm2ajfhuGGg1je2uDA86dzD5RM7cWtaSUcZsmLo3p4LUo+VZgH?=
- =?us-ascii?Q?CcFY4fZq73cONvgI/up9p5BMyftLSMlvV00Vm3N2XA2UaJorXSvVHlN6e9rG?=
- =?us-ascii?Q?+BS2M5jomKURFg3P4QGjVyE9mdjFeF/n4cBQznI+N8UtjPZtlqzw/pXI8KHJ?=
- =?us-ascii?Q?Jx8Li/Gt32NxfUzyb0Re2KRK2EpLasBGScpnd5rc93/stq2s6BEU/S9JEtQK?=
- =?us-ascii?Q?0J2Ig3D27nnZt1DlT36YFV/Z+bGIN1t7oc+eMYIJpkmGuytatGb6NtHeW9Qc?=
- =?us-ascii?Q?otPJ6O82PeDiCAbVWKAIGs3yRNs/jU7k0xlBn6jLHxH7TFNKFK5kVghg523j?=
- =?us-ascii?Q?oX4r5I9M2ZnolMGZb1AZcCOyJZe+YZOBWqTA8i6z72KvugdAVo9VtSpTTxLS?=
- =?us-ascii?Q?BiAlthrnV8VTo2+a4EracIh+n+0e5ma3dxFtYhg41j2oJp5krPwgvyFpYE1q?=
- =?us-ascii?Q?gMgzWOMwd+/EjN7Jmg97D8iRFNCImOLvjk/FwATm86gkRu7Fpj/L2qJLcp8f?=
- =?us-ascii?Q?9OirouLpKCmoGuAycTa4DutOGkyJXTl0yb5aiFywqakzGWYOCiK8p8fOjzVw?=
- =?us-ascii?Q?iJmYDNPuAuXYA6ifAnDtnyXjSYpku7Vd4oCULY+YgrnR+mD8jN8oUbTsfxDJ?=
- =?us-ascii?Q?70dcbbGaemRAcZ3oDRNwmkIIMM3OmgbkVbyPt0V4HT8ZIOCAN8xFEF4p6cGO?=
- =?us-ascii?Q?eW9Ix7e20XVgZMGLl7Rf4bR0GJbrbrvHzK5p6O8K530TWx2RmTkMKKovm9d6?=
- =?us-ascii?Q?hRiCXlxG9Mwxk8xdLTLIgXKCd2DteHO+ouNXq8Vy/6bTe2q9lFY/nozPKuSj?=
- =?us-ascii?Q?3XiTDROtScMtG+K/Sx8p0yHfEDmN8m4+AcFQDS5z0pUFiNGUNxzyWTdSlqXp?=
- =?us-ascii?Q?NCH3PO6j9oS5Rz6N9b7La609E0iQ+8jqEkej5ry+SuPdbJtjfWcZsxcpbA2l?=
- =?us-ascii?Q?PKq1KNKu5R4L67Dt5dzmNkYIj1t5aezZMVNdaTUYopF69DGNpu6XCnMIdzmx?=
- =?us-ascii?Q?YuclF7I1XJRth9WYwy50lhD7wU0Yx7UkWn0srKPJcBh6COcsxslET61mBVZY?=
- =?us-ascii?Q?hiRG2fLtJQw5l3Y7iLDndQBLijJWAeuWbrOFhTMeYQiOJsLuZD34AcS4n6I9?=
- =?us-ascii?Q?CSKMBYHwj3GQ1sjrBRQcLTs5r/rAu524+LplcySqtzj31wxZWNEsSGDhkhWq?=
- =?us-ascii?Q?gUHEJGESGgSe7ricmXWRJu/bL0g555G+7khTbaBSErtMHZO8cp4BPDMjlF8Y?=
- =?us-ascii?Q?AJh3p8vJq0AxIeaJW7+CEweIQWdGYANN2l/oBAA/seklaYQhht7LMXx47aEv?=
- =?us-ascii?Q?fe7x/gjpSQ6qh0sxrjjga5a2bxc/M1BYS1G0gpwCM7jIEl3r3Woh6Np/SssN?=
- =?us-ascii?Q?0bRjcJjYMdGY8VfCjp2wtkZgxg75kLzeHKTUkw1jiUTz+zJxIFneVF9ZOBS5?=
- =?us-ascii?Q?TZdcNGY9VNNZdRgyvbi61Lu/TOCIf+vn3O9hJ4SQzqE+XF2Fyvbf4qvfYGAj?=
- =?us-ascii?Q?TC+KI43yWW7FPkdnVxH0fYofJDaG+Z7428TtImGS7j10tIa2cscZjOsPhgHW?=
- =?us-ascii?Q?7r7El9t92QBbstiWTNULLaGH0t1N2FN8XcT0xQ8t4xk5O7IeK/48IZ6YiYqg?=
- =?us-ascii?Q?Nb04R/5oI4l0W1ht89mqdstkVexYsc2UQ1BQEX0A1uDg7sXC0xuBvZQ4yOKh?=
- =?us-ascii?Q?5ceyzxrZLiFnpOfqTHF2HzrtUnQDhu2Xj+OZwNZcxC1k777PWjJy30XAifgM?=
- =?us-ascii?Q?XXCFrLmaSRas1lUilO2bKMt1CtRSz/X7urTZvi79BSv9E/gD9ePe?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2609bae3-d7b5-4d6c-cdad-08de798d38be
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB8800.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 01:27:38.4368
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CXt8e378FJ0B3MzdzzWaWK9oK5KIDe3bPOTtrn+uSqUA2hwKB8rT9SRgsjZlbcdaW7oWw1Rhh0hszU/hvHkVeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6651
+References: <20260303115720.48783-1-dakr@kernel.org> <20260303115720.48783-2-dakr@kernel.org>
+In-Reply-To: <20260303115720.48783-2-dakr@kernel.org>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Wed, 4 Mar 2026 10:27:49 +0800
+X-Gm-Features: AaiRm50ScKkUps_9Yhs72XBQaSHbpuEPqc11o2wDZQVrApNZde3wmBwc1fLjihM
+Message-ID: <CALbr=LaR0B4BhEQ6md0nBe=7KtPHJYPq6i_p9Gn+s8zcoFAW6A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] driver core: generalize driver_override in struct device
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ysato@users.sourceforge.jp, 
+	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org, 
+	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sh@vger.kernel.org, Wang Jiayue <akaieurus@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Switch arch code to using the macro. No functional changes intended.
+On Tue, Mar 3, 2026 at 7:57=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+>
+> Currently, there are 12 busses (including platform and PCI) that
+> duplicate the driver_override logic for their individual devices.
+>
+> All of them seem to be prone to the bug described in [1].
+>
+> While this could be solved for every bus individually using a separate
+> lock, solving this in the driver-core generically results in less (and
+> cleaner) changes overall.
+>
+> Thus, move driver_override to struct device, provide corresponding
+> accessors for busses and handle locking with a separate lock internally.
+>
+> In particular, add device_set_driver_override(),
+> device_has_driver_override(), device_match_driver_override() and a
+> helper, DEVICE_ATTR_DRIVER_OVERRIDE(), to declare the corresponding
+> sysfs store() and show() callbacks.
+>
+> Until all busses have migrated, keep driver_set_override() in place.
+>
+> Note that we can't use the device lock for the reasons described in [2].
+>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D220789 [1]
+> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kern=
+el.org/ [2]
+> Co-developed-by: Gui-Dong Han <hanguidong02@gmail.com>
+> Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Signed-off-by: Yury Norov <ynorov@nvidia.com>
----
- arch/arm64/kernel/patching.c     | 4 +---
- arch/powerpc/lib/code-patching.c | 6 +++---
- arch/riscv/kernel/sbi.c          | 4 ++--
- 3 files changed, 6 insertions(+), 8 deletions(-)
+Tested this on QEMU PCI with various debug options enabled.
+Everything looks good so far, no issues found.
 
-diff --git a/arch/arm64/kernel/patching.c b/arch/arm64/kernel/patching.c
-index 1041bc67a3ee..4c3a4401719b 100644
---- a/arch/arm64/kernel/patching.c
-+++ b/arch/arm64/kernel/patching.c
-@@ -116,9 +116,7 @@ static void *__text_poke(text_poke_f func, void *addr, void *src, size_t len)
- 
- 	while (patched < len) {
- 		ptr = addr + patched;
--		size = min_t(size_t, PAGE_SIZE - offset_in_page(ptr),
--			     len - patched);
--
-+		size = min_t(size_t, rest_of_page(ptr), len - patched);
- 		waddr = patch_map(ptr, FIX_TEXT_POKE0);
- 		func(waddr, src, patched, size);
- 		patch_unmap(FIX_TEXT_POKE0);
-diff --git a/arch/powerpc/lib/code-patching.c b/arch/powerpc/lib/code-patching.c
-index f84e0337cc02..186a9cb79ee3 100644
---- a/arch/powerpc/lib/code-patching.c
-+++ b/arch/powerpc/lib/code-patching.c
-@@ -463,7 +463,7 @@ static int __patch_instructions(u32 *patch_addr, u32 *code, size_t len, bool rep
- 
- /*
-  * A page is mapped and instructions that fit the page are patched.
-- * Assumes 'len' to be (PAGE_SIZE - offset_in_page(addr)) or below.
-+ * Assumes 'len' to be rest_of_page(addr) or below.
-  */
- static int __do_patch_instructions_mm(u32 *addr, u32 *code, size_t len, bool repeat_instr)
- {
-@@ -514,7 +514,7 @@ static int __do_patch_instructions_mm(u32 *addr, u32 *code, size_t len, bool rep
- 
- /*
-  * A page is mapped and instructions that fit the page are patched.
-- * Assumes 'len' to be (PAGE_SIZE - offset_in_page(addr)) or below.
-+ * Assumes 'len' to be rest_of_page(addr) or below.
-  */
- static int __do_patch_instructions(u32 *addr, u32 *code, size_t len, bool repeat_instr)
- {
-@@ -554,7 +554,7 @@ int patch_instructions(u32 *addr, u32 *code, size_t len, bool repeat_instr)
- 		size_t plen;
- 		int err;
- 
--		plen = min_t(size_t, PAGE_SIZE - offset_in_page(addr), len);
-+		plen = min_t(size_t, rest_of_page(addr), len);
- 
- 		local_irq_save(flags);
- 		if (mm_patch_enabled())
-diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
-index c443337056ab..9a2f656f776f 100644
---- a/arch/riscv/kernel/sbi.c
-+++ b/arch/riscv/kernel/sbi.c
-@@ -602,7 +602,7 @@ int sbi_debug_console_write(const char *bytes, unsigned int num_bytes)
- 	else
- 		base_addr = __pa(bytes);
- 	if (PAGE_SIZE < (offset_in_page(bytes) + num_bytes))
--		num_bytes = PAGE_SIZE - offset_in_page(bytes);
-+		num_bytes = rest_of_page(bytes);
- 
- 	if (IS_ENABLED(CONFIG_32BIT))
- 		ret = sbi_ecall(SBI_EXT_DBCN, SBI_EXT_DBCN_CONSOLE_WRITE,
-@@ -631,7 +631,7 @@ int sbi_debug_console_read(char *bytes, unsigned int num_bytes)
- 	else
- 		base_addr = __pa(bytes);
- 	if (PAGE_SIZE < (offset_in_page(bytes) + num_bytes))
--		num_bytes = PAGE_SIZE - offset_in_page(bytes);
-+		num_bytes = rest_of_page(bytes);
- 
- 	if (IS_ENABLED(CONFIG_32BIT))
- 		ret = sbi_ecall(SBI_EXT_DBCN, SBI_EXT_DBCN_CONSOLE_READ,
--- 
-2.43.0
+Will keep testing.
 
+> ---
+>  drivers/base/bus.c         | 43 ++++++++++++++++++++++++++-
+>  drivers/base/core.c        |  2 ++
+>  drivers/base/dd.c          | 60 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/device.h     | 54 ++++++++++++++++++++++++++++++++++
+>  include/linux/device/bus.h |  4 +++
+>  5 files changed, 162 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+> index bb61d8adbab1..c734e7162b74 100644
+> --- a/drivers/base/bus.c
+> +++ b/drivers/base/bus.c
+> @@ -504,6 +504,36 @@ int bus_for_each_drv(const struct bus_type *bus, str=
+uct device_driver *start,
+>  }
+>  EXPORT_SYMBOL_GPL(bus_for_each_drv);
+>
+> +static ssize_t driver_override_store(struct device *dev,
+> +                                    struct device_attribute *attr,
+> +                                    const char *buf, size_t count)
+> +{
+> +       int ret;
+> +
+> +       ret =3D __device_set_driver_override(dev, buf, count);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return count;
+> +}
+> +
+> +static ssize_t driver_override_show(struct device *dev,
+> +                                   struct device_attribute *attr, char *=
+buf)
+> +{
+> +       guard(spinlock)(&dev->driver_override.lock);
+> +       return sysfs_emit(buf, "%s\n", dev->driver_override.name);
+> +}
+> +static DEVICE_ATTR_RW(driver_override);
+> +
+> +static struct attribute *driver_override_dev_attrs[] =3D {
+> +       &dev_attr_driver_override.attr,
+> +       NULL,
+> +};
+> +
+> +static const struct attribute_group driver_override_dev_group =3D {
+> +       .attrs =3D driver_override_dev_attrs,
+> +};
+> +
+>  /**
+>   * bus_add_device - add device to bus
+>   * @dev: device being added
+> @@ -537,9 +567,15 @@ int bus_add_device(struct device *dev)
+>         if (error)
+>                 goto out_put;
+>
+> +       if (sp->bus->driver_override) {
+> +               error =3D device_add_group(dev, &driver_override_dev_grou=
+p);
+> +               if (error)
+> +                       goto out_groups;
+> +       }
+> +
+>         error =3D sysfs_create_link(&sp->devices_kset->kobj, &dev->kobj, =
+dev_name(dev));
+>         if (error)
+> -               goto out_groups;
+> +               goto out_override;
+>
+>         error =3D sysfs_create_link(&dev->kobj, &sp->subsys.kobj, "subsys=
+tem");
+>         if (error)
+> @@ -550,6 +586,9 @@ int bus_add_device(struct device *dev)
+>
+>  out_subsys:
+>         sysfs_remove_link(&sp->devices_kset->kobj, dev_name(dev));
+> +out_override:
+> +       if (dev->bus->driver_override)
+> +               device_remove_group(dev, &driver_override_dev_group);
+>  out_groups:
+>         device_remove_groups(dev, sp->bus->dev_groups);
+>  out_put:
+> @@ -607,6 +646,8 @@ void bus_remove_device(struct device *dev)
+>
+>         sysfs_remove_link(&dev->kobj, "subsystem");
+>         sysfs_remove_link(&sp->devices_kset->kobj, dev_name(dev));
+> +       if (dev->bus->driver_override)
+> +               device_remove_group(dev, &driver_override_dev_group);
+>         device_remove_groups(dev, dev->bus->dev_groups);
+>         if (klist_node_attached(&dev->p->knode_bus))
+>                 klist_del(&dev->p->knode_bus);
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 791f9e444df8..09b98f02f559 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -2556,6 +2556,7 @@ static void device_release(struct kobject *kobj)
+>         devres_release_all(dev);
+>
+>         kfree(dev->dma_range_map);
+> +       kfree(dev->driver_override.name);
+>
+>         if (dev->release)
+>                 dev->release(dev);
+> @@ -3159,6 +3160,7 @@ void device_initialize(struct device *dev)
+>         kobject_init(&dev->kobj, &device_ktype);
+>         INIT_LIST_HEAD(&dev->dma_pools);
+>         mutex_init(&dev->mutex);
+> +       spin_lock_init(&dev->driver_override.lock);
+>         lockdep_set_novalidate_class(&dev->mutex);
+>         spin_lock_init(&dev->devres_lock);
+>         INIT_LIST_HEAD(&dev->devres_head);
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 0354f209529c..697e36e63cab 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -381,6 +381,66 @@ static void __exit deferred_probe_exit(void)
+>  }
+>  __exitcall(deferred_probe_exit);
+>
+> +int __device_set_driver_override(struct device *dev, const char *s, size=
+_t len)
+> +{
+> +       const char *new, *old;
+> +       char *cp;
+> +
+> +       if (!s)
+> +               return -EINVAL;
+> +
+> +       /*
+> +        * The stored value will be used in sysfs show callback (sysfs_em=
+it()),
+> +        * which has a length limit of PAGE_SIZE and adds a trailing newl=
+ine.
+> +        * Thus we can store one character less to avoid truncation durin=
+g sysfs
+> +        * show.
+> +        */
+> +       if (len >=3D (PAGE_SIZE - 1))
+> +               return -EINVAL;
+> +
+> +       /*
+> +        * Compute the real length of the string in case userspace sends =
+us a
+> +        * bunch of \0 characters like python likes to do.
+> +        */
+> +       len =3D strlen(s);
+> +
+> +       if (!len) {
+> +               /* Empty string passed - clear override */
+> +               spin_lock(&dev->driver_override.lock);
+> +               old =3D dev->driver_override.name;
+> +               dev->driver_override.name =3D NULL;
+> +               spin_unlock(&dev->driver_override.lock);
+> +               kfree(old);
+> +
+> +               return 0;
+> +       }
+> +
+> +       cp =3D strnchr(s, len, '\n');
+> +       if (cp)
+> +               len =3D cp - s;
+> +
+> +       new =3D kstrndup(s, len, GFP_KERNEL);
+> +       if (!new)
+> +               return -ENOMEM;
+> +
+> +       spin_lock(&dev->driver_override.lock);
+> +       old =3D dev->driver_override.name;
+> +       if (cp !=3D s) {
+> +               dev->driver_override.name =3D new;
+> +               spin_unlock(&dev->driver_override.lock);
+> +       } else {
+> +               /* "\n" passed - clear override */
+> +               dev->driver_override.name =3D NULL;
+> +               spin_unlock(&dev->driver_override.lock);
+> +
+> +               kfree(new);
+> +       }
+> +       kfree(old);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(__device_set_driver_override);
+> +
+>  /**
+>   * device_is_bound() - Check if device is bound to a driver
+>   * @dev: device to check
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 0be95294b6e6..e65d564f01cd 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -483,6 +483,8 @@ struct device_physical_location {
+>   *             on.  This shrinks the "Board Support Packages" (BSPs) and
+>   *             minimizes board-specific #ifdefs in drivers.
+>   * @driver_data: Private pointer for driver specific info.
+> + * @driver_override: Driver name to force a match.  Do not touch directl=
+y; use
+> + *                  device_set_driver_override() instead.
+>   * @links:     Links to suppliers and consumers of this device.
+>   * @power:     For device power management.
+>   *             See Documentation/driver-api/pm/devices.rst for details.
+> @@ -576,6 +578,10 @@ struct device {
+>                                            core doesn't touch it */
+>         void            *driver_data;   /* Driver data, set and get with
+>                                            dev_set_drvdata/dev_get_drvdat=
+a */
+> +       struct {
+> +               const char      *name;
+> +               spinlock_t      lock;
+> +       } driver_override;
+>         struct mutex            mutex;  /* mutex to synchronize calls to
+>                                          * its driver.
+>                                          */
+> @@ -701,6 +707,54 @@ struct device_link {
+>
+>  #define kobj_to_dev(__kobj)    container_of_const(__kobj, struct device,=
+ kobj)
+>
+> +int __device_set_driver_override(struct device *dev, const char *s, size=
+_t len);
+> +
+> +/**
+> + * device_set_driver_override() - Helper to set or clear driver override=
+.
+> + * @dev: Device to change
+> + * @s: NUL-terminated string, new driver name to force a match, pass emp=
+ty
+> + *     string to clear it ("" or "\n", where the latter is only for sysf=
+s
+> + *     interface).
+> + *
+> + * Helper to set or clear driver override of a device.
+> + *
+> + * Returns: 0 on success or a negative error code on failure.
+> + */
+> +static inline int device_set_driver_override(struct device *dev, const c=
+har *s)
+> +{
+> +       return __device_set_driver_override(dev, s, s ? strlen(s) : 0);
+> +}
+> +
+> +/**
+> + * device_has_driver_override() - Check if a driver override has been se=
+t.
+> + * @dev: device to check
+> + *
+> + * Returns true if a driver override has been set for this device.
+> + */
+> +static inline bool device_has_driver_override(struct device *dev)
+> +{
+> +       guard(spinlock)(&dev->driver_override.lock);
+> +       return !!dev->driver_override.name;
+> +}
+> +
+> +/**
+> + * device_match_driver_override() - Match a driver against the device's =
+driver_override.
+> + * @dev: device to check
+> + * @drv: driver to match against
+> + *
+> + * Returns > 0 if a driver override is set and matches the given driver,=
+ 0 if a
+> + * driver override is set but does not match, or < 0 if a driver overrid=
+e is not
+> + * set at all.
+> + */
+> +static inline int device_match_driver_override(struct device *dev,
+> +                                              const struct device_driver=
+ *drv)
+> +{
+> +       guard(spinlock)(&dev->driver_override.lock);
+> +       if (dev->driver_override.name)
+> +               return !strcmp(dev->driver_override.name, drv->name);
+> +       return -1;
+> +}
+> +
+>  /**
+>   * device_iommu_mapped - Returns true when the device DMA is translated
+>   *                      by an IOMMU
+> diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
+> index 99c3c83ea520..cda597812324 100644
+> --- a/include/linux/device/bus.h
+> +++ b/include/linux/device/bus.h
+> @@ -63,6 +63,9 @@ struct fwnode_handle;
+>   *                     this bus.
+>   * @pm:                Power management operations of this bus, callback=
+ the specific
+>   *             device driver's pm-ops.
+> + * @driver_override:   Set to true if this bus supports the driver_overr=
+ide
+> + *                     mechanism, which allows userspace to force a spec=
+ific
+> + *                     driver to bind to a device via a sysfs attribute.
+>   * @need_parent_lock:  When probing or removing a device on this bus, th=
+e
+>   *                     device core should lock the device's parent.
+>   *
+> @@ -104,6 +107,7 @@ struct bus_type {
+>
+>         const struct dev_pm_ops *pm;
+>
+> +       bool driver_override;
+>         bool need_parent_lock;
+>  };
+>
+> --
+> 2.53.0
+>
