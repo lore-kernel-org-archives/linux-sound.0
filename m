@@ -1,140 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C143A4F25;
-	Wed,  4 Mar 2026 11:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B77B3A872C
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 11:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772622631; cv=none; b=aZtHzLQpweEt+kh840pINpvzSE+nKnyhcJoOhxo+6R1N7Yw31nPRCynTzOGkPzNmmZJZRYKnQIgwHQsOfoZhbxhnjQv+KKhyj4y/jh6dN9In27WClQl1bg1Awldy4VcrF1MHVjT7ozDtmmCBbM9Y/+sJ3o7kDLmOcFQ97kz4LrY=
+	t=1772622651; cv=none; b=GEoOhbhuy0yqt/e9A6hELwAjBstDgUzsqhcFIKDBNSt5whnkL4kelnYHvkmUpM8r2OjZ3x5RDvRKqLjgsKN8OByf26rnWS9vpVXVALwz2ldrKE4DRKBVUjVL0IrNAeJV5Ytut6ZAAJ2ueYZza7KshL8rBPoyjDN6q/CXL4q4zLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772622631; c=relaxed/simple;
-	bh=NqNfQqjBGfmbAJo/aZtHMPo7003kq0HNHUa3oLLM9rE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOwlADegZNWRm0dv1I4xMg8DdkrRZbC46fUuw/aLiMnSDMLdPP8/cLmuhRe9Vw96PeB0QSAmg+sms6aFjjxTSOFAZjwpi9F7k594FFvGPhAoOOuNfBGe+Fx1beGv1+HxaEnI950JuPzQtAN/CqdL+7qCjmLB4Lo2GwEd3jnJrWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KtxESzLT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772622651; c=relaxed/simple;
+	bh=8q4I0+K3Qd+pKpBHKEg0QmrqNR8wj9CrheJKZvAvxoQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B3ZYO0Oy5qOYqwCthG/CmdYLuV9j/QbE5dRURpV0boYY4WgrkRCeEHvqZ5i9kFTka7gt+nAnH4VxpUil5SOYWgHJyP/wLYR8Xe+YQX9Jb2twRfnC/fN1DZKQNz1PmHYivh8ccP/0XvBS30B7PytlpCLxLcSC/86wfIX7xZT3hdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PWDaLL3h; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZrV67rsL; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KtxESzLT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64839C19423;
-	Wed,  4 Mar 2026 11:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772622630;
-	bh=NqNfQqjBGfmbAJo/aZtHMPo7003kq0HNHUa3oLLM9rE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KtxESzLTRevMkC0RMT3EArDVMk2FhTkCghz7l84S/Sl/uRFMKbvYjBO6WKTPLXZG2
-	 hDd+jtXTkQDCPlsNqrRNNBIS69FSEG3kyCqhhWldcKaA7lgmXmclpmibkTkxFDGx05
-	 L1mWc9QOtddQl0a6TEhhiss3l8edtqg3iz0dJiofY0wVH+4yeCbYY1MzoD2oPWrjdR
-	 EnDw2NjEjLAGM8p4Zym2vHqMmJuBYJNQQtn7Ix1yH9YiSler1bu8kJQI/BP/hsAWKP
-	 HCA4EbtIlLqW3pzKVaXGzu0CeEXA+pozdgRHL7CTE7jTeamnzsicmpnlaw5LC2gU+C
-	 eQD2mqeeLI41g==
-Date: Wed, 4 Mar 2026 11:10:13 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Theodore Ts'o <tytso@mit.edu>, Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Duyck <alexanderduyck@fb.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Anna Schumaker <anna@kernel.org>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Aswin Karuvally <aswin@linux.ibm.com>,
-	Borislav Petkov <bp@alien8.de>, Carlos Maiolino <cem@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Chao Yu <chao@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Airlie <airlied@gmail.com>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Dongsheng Yang <dongsheng.yang@linux.dev>,
-	Eric Dumazet <edumazet@google.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Linus Walleij <linusw@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Simona Vetter <simona@ffwll.ch>, Takashi Iwai <tiwai@suse.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Yury Norov <yury.norov@gmail.com>, Zheng Gu <cengku@gmail.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-block@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	dm-devel@lists.linux.dev, netdev@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
-	v9fs@lists.linux.dev, virtualization@lists.linux.dev,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 5/8] spi: use rest_of_page() macro where appropriate
-Message-ID: <e731e101-bf06-44d7-ac91-0756c5b8bbc8@sirena.org.uk>
-References: <20260304012717.201797-1-ynorov@nvidia.com>
- <20260304012717.201797-6-ynorov@nvidia.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PWDaLL3h";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZrV67rsL"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6245ST4s3110382
+	for <linux-sound@vger.kernel.org>; Wed, 4 Mar 2026 11:10:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	MCCLwpZefcWyGX97YnB9vElnqX71UTAgAeEXx3DfaRQ=; b=PWDaLL3hXJ8B+B3K
+	9BbHZWwPBW6Z86Zthjxd3PjGFDOXiE0Zf2cwHaRhIJ++rZpYaZwOcNUEkzsBPUl9
+	BosBeVr4+RZa0QEMEbcFuWlnEF9dImhBz86+8iws1Zg2fMoaaoWC/QBL5PsKzMzE
+	x/9ECkbkya3GvPuIFGj0pRVyRBnrpqFbRq0eEfk48E/hHtwe9eo+x/xK9Q8nWVas
+	UJJvNGbTkBycDYOpxWMGlPKNGWqj26mBwTnTh9svxquaLyfYRaHT2UB+aj7TPnRN
+	dBCiThI8kdAMDMSVOqFV2LcmBZqnL/eUrBqzVs46h3Y6yLdsAz3QQK2o8kxAOMfe
+	qKHv9g==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cp5h2awjj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 04 Mar 2026 11:10:49 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8c711251ac5so4177586185a.1
+        for <linux-sound@vger.kernel.org>; Wed, 04 Mar 2026 03:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772622648; x=1773227448; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MCCLwpZefcWyGX97YnB9vElnqX71UTAgAeEXx3DfaRQ=;
+        b=ZrV67rsLlsPYb1KROEKB26zUT2RXppjaV89Qjp1Y8DOO9OK/nN2seoiG1A7VcfHtuU
+         bDOEWzFfU6km/4kEQOp9fzdLuwPY1ZAX5PWDfzGaKQYiiJH+R4HQpPYDfpyRP0rnCLoG
+         HTwseTJRq4zUncnYxnWGecPCkasCidMBHCa63g/EZ9d27NbEaYHpFhjlJAyeYBuaGjVL
+         IWoLwlCstCXWILryow+acBjHKgICjF1PB1lYFNAFEjbvjW2mlktzdQn3kvzgG66ln6lH
+         vgTOxXZKeVu1l3MfB9xC4EoVIb44uIkDq1ssgfaxAVJCAVtIDeB2o+64ppPzWUuUVS6/
+         0J0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772622648; x=1773227448;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MCCLwpZefcWyGX97YnB9vElnqX71UTAgAeEXx3DfaRQ=;
+        b=EeEHx+NQjvel/8K7v/eBCgaKfDVSP2E17PporjtuY0vuBH8MH/nHZlVa0MnSQFmlPW
+         1dAGSSOvuQk3/kCnaQ/GL35CKYggcTIp8hRAPiTjy4RWFtTAaZs6jhKHKUWa7nC6gh11
+         Z7YxQh/8RqBSKL4cepbuTTo7hsCF6I/s75fBEWMkAQkf8EhxlwhOcTOkFElx54WJuPn2
+         JMODM1EcacTT2O9WmkJCgM9sdaV/8R1rsbtwB8QBWoeCFq7zm8sadFQHQLZoxkJPdvkD
+         oLQIR4luIQDBmtM0BfPu+IxrMHLqJ5kR1o75mySa7m/SM/ZvjHdG4tx49ULeqWjCN7Wy
+         XRJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWGtoB4VimvQ6PYOMUxjZvyxinW1ycmwe+NY//aJPXEeGQFf0acR82Zty2UmWh9t/V9N5x+rg58cZ4Zvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdNFm42si65iUhjIGqYDKZRC3J0mg91qeLdER/vbAWV+uIl3Zz
+	hMXX8FjBzi5dp7QI40FCThjMGpiWOUwNTMPs77EdT7vQNrYclPafzVsJV+SOl2wXOMVqCVQPTpT
+	0WNs0MioH8NXr+86UsWU9O5N6vOjP7t2phMTrsteTLwNguCl006gnUjdnQsrLp6ZVcw==
+X-Gm-Gg: ATEYQzxRbRzy45Mfe7J8r1wu8GmWYge3fEKQx9QZf0kkP5AzPSWDZac3Se1wBNms0rH
+	8br2UF4Qo2URKkRNrkz2NRCAx3BdCZysCeKN+2O42ZtOOmWDD5h26OZ/nT7/am8SYjyzyUGB7aw
+	6bPKf4Q+LrhQ0gTwx6XybBnPhcCLOiICXslm24C7amcSvXyCRkFU+xziuldfgkq5xfmHt5NSR/9
+	za8xj/Fz/ikjxicmrvnylAUXGbD3SswBg62zUiCMDEkaLC11inD97utxpWFUISfbZQKmV0iLleo
+	XafLMtaQ05levBGPx8RydJ1uPu9baJhXOQWE83zmfiVoL8XklJghDKFD+NssKWQMTObbcHwywE+
+	B3GgSacmGzRLWMc/zVAaTheqFt/Ad9THr4SwC3z4X87jbXlga
+X-Received: by 2002:a05:620a:1a08:b0:8c7:6f8:ae4c with SMTP id af79cd13be357-8cd5af774f7mr178536585a.43.1772622648408;
+        Wed, 04 Mar 2026 03:10:48 -0800 (PST)
+X-Received: by 2002:a05:620a:1a08:b0:8c7:6f8:ae4c with SMTP id af79cd13be357-8cd5af774f7mr178532685a.43.1772622647870;
+        Wed, 04 Mar 2026 03:10:47 -0800 (PST)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-b935aee56c2sm744482466b.65.2026.03.04.03.10.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Mar 2026 03:10:47 -0800 (PST)
+Message-ID: <47123dd6-d17f-4d82-b8a1-e04a50e73a27@oss.qualcomm.com>
+Date: Wed, 4 Mar 2026 11:10:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MuL6cN1k4g/DbVd2"
-Content-Disposition: inline
-In-Reply-To: <20260304012717.201797-6-ynorov@nvidia.com>
-X-Cookie: Take it easy, we're in a hurry.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 14/14] ASoC: qcom: q6apm: Add support for early buffer
+ mapping on DSP
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, broonie@kernel.org,
+        robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
+        dmitry.baryshkov@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        srini@kernel.org
+References: <20260223180740.444311-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260223180740.444311-15-srinivas.kandagatla@oss.qualcomm.com>
+ <3b4dfe95-9043-4682-8fee-7588fa1fde37@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <3b4dfe95-9043-4682-8fee-7588fa1fde37@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=JqL8bc4C c=1 sm=1 tr=0 ts=69a81339 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=29lxGkwPwxXT-BnxCXIA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: 1iEW0_iEaumPEMYRxEhWxxxttIEJ2OxD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA4NyBTYWx0ZWRfX3OKbJDpyo9qM
+ SAhrh19iNZrq9LYIGwkwlW7tooUBHN9OQuBkms9qbUe2nXShkv3nofc8fcD3uAxCLwCHlHQ6IzX
+ /PknoK1VkwYKKKVXCZpVO0DZ3zxAFZDSv4mhPVWvP9MjWRaSwPhofFVXBJLGtIEsL38mvjN+FEB
+ q1XL0lQKDamoMT9ft3oQ/312qH1eYAbMBxvuxyz3VdwWdIe6JQh6+f79CNMx8PQ43kKO0PDfee2
+ 1BIIEyTFKPkiYw9Q4Hm7ineSS1MvzrRv/tCIHNvwWpa68UYO1hVqtGmsVH5W+3FQoHiRCDytitd
+ yO6bN569TxOzuahn4DDRyqrp0Vkn2F3OUMSPJCuWcX4cAXm8bAjdKCmdpo7sTw7fRxC8KYKvQH9
+ 1LOouHcZxBofesUDQSLfJHu6fey2JUEUZssO863lZ8KTsAgjHWaI3T2GGTSRTcSd0EW4yj7zeli
+ GpbR1OurB+KlcQOSJkQ==
+X-Proofpoint-GUID: 1iEW0_iEaumPEMYRxEhWxxxttIEJ2OxD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-04_05,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 phishscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603040087
 
+On 2/24/26 10:16 AM, Konrad Dybcio wrote:
+> On 2/23/26 7:07 PM, Srinivas Kandagatla wrote:
+>> Buffers are allocated on pcm_new and mapped in the dsp on every prepare call,
+>> which is inefficient and unnecessary.
+>>
+>> Add new functions q6apm_[un]map_memory_fixed_region to map it on
+>> to dsp only once after allocation.
+>>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> ---
+> 
+> [...]
+> 
+>> -int q6apm_map_memory_regions(struct q6apm_graph *graph, unsigned int dir, phys_addr_t phys,
+>> -			     size_t period_sz, unsigned int periods)
+>> +int q6apm_set_memory_map_handle(struct q6apm_graph *graph, unsigned int dir)
+>> +{
+>> +	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+>> +		graph->rx_data.mem_map_handle = graph->info->mem_map_handle;
+>> +	else
+>> +		graph->tx_data.mem_map_handle = graph->info->mem_map_handle;
+>> +
+>> +	return 0;
+>> +}
+> 
+> This doesn't return a useful value today, will it ever?
+return type should be  void.
+> 
+> [...]
+> 
+> 
+>> +		case APM_CMD_SHARED_MEM_UNMAP_REGIONS:
+>> +			apm->result.opcode = hdr->opcode;
+>> +			apm->result.status = 0;
+>> +			rsp = data->payload;
+>> +
+>> +			info = idr_find(&apm->graph_info_idr, hdr->token);
+>> +			if (info)
+>> +				info->mem_map_handle = 0;
+>> +			else
+>> +				dev_err(dev, "Error (%d) Processing 0x%08x cmd\n", result->status,
+>> +					result->opcode);
+>> +
+>> +			dev_err(dev, "Memory Map region %x\n", rsp->mem_map_handle);
+> 
+> Looks like a debug leftover (also in the below 'case')
 
---MuL6cN1k4g/DbVd2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Right, will fix that in next spin.
 
-On Tue, Mar 03, 2026 at 08:27:13PM -0500, Yury Norov wrote:
-> Switch SPI code to using the macro. No functional changes intended.
->=20
+--srini
+> 
+> Konrad
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---MuL6cN1k4g/DbVd2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmoExQACgkQJNaLcl1U
-h9CfwQf+I/XcN+BTYZLFcHPKTZ6Gt21+q3GLOzdkgChqzxOybf6b2qD+OHDN55Te
-HvnosWIFzWzrD0ZP4eNe1TE0j1djIs+y2hdX6fElOOuJijsn21UWvVZXuuGdENdA
-tPZDWrSzxJ8sU12FFYyBJDxsnWysekc1llPy00e37sfeetOZOLaYg/1jnttOl6oU
-a3i0DGlMSVCN0pIYah+1R5Vbe35l4DlrcyOoswdwqqqEAzPLr0ysycWbbVmelm0M
-U/y3gvpx6ZZBlMMio/3WWZfu3pM/Kwc8nzHkdzsstdqSIsRHEWru1MF5W4E+IcwO
-Id51vK66wgwDVauWcfBpUUDez8/oEA==
-=1DSJ
------END PGP SIGNATURE-----
-
---MuL6cN1k4g/DbVd2--
