@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536F33B7B6F;
-	Wed,  4 Mar 2026 14:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6537B3A4512;
+	Wed,  4 Mar 2026 14:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772633079; cv=none; b=snmOBEEQZ0KgAbKYttJFtfiRrB8eO/M0xoOshQv32OtwQ2vt1xluYrtFMvg0u+kkFPXx+Y8v+tlZGCRzVQO+OL0hBEhnSNW25v1BCCGx5dF3//Qe9Yj1iLt2xUG2dVjKNDVeNAbhxClQFYwqASV0uzP710XeIQS1cEO5G8PUHS4=
+	t=1772633082; cv=none; b=nXre8naVXOiusTMyZuCgHacqen/u0cYE/qGhrWVpKunbmka9AjkNMp/eLYU7uULNiTm9lAA9MqMj4MtfTHexrEgcBUCo3s9zOxpsT2/yQrRMWxJwG2UqYQ86kUYlASDUpO5CO1nG4sw0ykKD9r1ek9kQgrUA3EBf+B4bi7icHqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772633079; c=relaxed/simple;
-	bh=8hKpZqobONRAFI8JbyXl4XVl7XkoJta4OpzfLBMKntk=;
+	s=arc-20240116; t=1772633082; c=relaxed/simple;
+	bh=nJlM3uqhcdtv948kNs3zutBgWNIPD3VVSvIYRFuWgas=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gqX2zUf8JEGqjXBYL8RNp+hLDfUjTL/68FvMGyMIEHjQT0XIgmLxPbIUu7PV02XGGcUG0+1XbUlOtDc3uuxMOLw0ISI8LZ9lki2lwZ/V6G8i8dWcWEnl3/tmotbHEzcbdSOomwG6/deYStuKakM6IKcOe1y8iYrky6EtgrTR9/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p0JMGk+4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kl8eml/ra7EbXcd/q7o/KRo7k9RGugHY7SS3nfQa0nofksy6+QY5hrW1HQM1aReFIUdriyJc1nMVjmcBkUWs3nQEwOqrX7mmxMMDyu0T+L3sT6xfZaCH7Ig2lMRS6daZ3SDg0aPEoIqMCXalqEvgX/ztq9ly+w4OJRU0QBpeP+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RQR13/ZH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p0JMGk+4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76D4C2BCB7;
-	Wed,  4 Mar 2026 14:04:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RQR13/ZH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8433AC19423;
+	Wed,  4 Mar 2026 14:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772633079;
-	bh=8hKpZqobONRAFI8JbyXl4XVl7XkoJta4OpzfLBMKntk=;
+	s=k20201202; t=1772633082;
+	bh=nJlM3uqhcdtv948kNs3zutBgWNIPD3VVSvIYRFuWgas=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p0JMGk+4owySwHekczhJSMQkDp/fuhBSto6xM6+0YZZqDAcX6rA7Wzw2Qhp4IjBbh
-	 rqr8zu9GrgpktD0P+9nU2n4cSwh1LUxserAID1nsSYFwf79zpQYE4fUwpYMlFl26c9
-	 +A/Ez9DE0MQZt06s1ZmJQLjbMtxafxpCwWKX/IuQzwl/mktFJJx7j1qIzN1+gSs6Ea
-	 /AIs1HYBdLSSiIhgM9m3nho0cpNocYoUnC901gfM2szvz5qdqzr4Rcj+7NZ5o2aGih
-	 ZfliyegvNx6K/3ShpnAlg2e0N4yXbkX6KxdLSfLCx+wOpJ2lA8sCRX+VDtbKT3yi+S
-	 EpWyTXaSIRGzQ==
+	b=RQR13/ZHOPgwvVHfqE6n2f0tncVYAlkmBndcaOJ3G8T2tIQPyC5e2KpqdiP96w7yp
+	 fy/7KYvqOqjxgBDkC2O2FwB5qK37qR3zk/sa/1/VUfjI9YsbPy/K7D/lYR9Arn0p9/
+	 A8yKHc5ABj/BWal5Lp1nlQweE9m5+YVTkD5tEllllxTkGGGtfX5FJ5TEWcQfjXJ8h8
+	 smuW+LpKOczErVcmbKGiObB3LID/FGvcamGUxkyN/Q3BpUwC8Uh2VmXwWeaqKKWBvz
+	 oBi1HgKpufrZCKR6mIL8p9m/KxJYyc65kwM9bXFKiHYNq/i9rQWtyRuywgtBSXe6SM
+	 n3sh9iRJEvLGA==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Zhang Heng <zhangheng@kylinos.cn>
-Cc: talhah.peerbhai@gmail.com, guspatagonico@gmail.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260304063255.139331-1-zhangheng@kylinos.cn>
-References: <20260304063255.139331-1-zhangheng@kylinos.cn>
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK
- PM1503CDA
-Message-Id: <177263307663.96340.2806963943399895082.b4-ty@kernel.org>
-Date: Wed, 04 Mar 2026 14:04:36 +0000
+To: Biju Das <biju.das.jz@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju <biju.das.au@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260304072000.6787-1-biju.das.jz@bp.renesas.com>
+References: <20260304072000.6787-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: renesas,rz-ssi: Document RZ/G3L SoC
+Message-Id: <177263307926.96340.355429636551743485.b4-ty@kernel.org>
+Date: Wed, 04 Mar 2026 14:04:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,9 +51,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-6ac23
 
-On Wed, 04 Mar 2026 14:32:55 +0800, Zhang Heng wrote:
-> Add a DMI quirk for the ASUS EXPERTBOOK PM1503CDA fixing the
-> issue where the internal microphone was not detected.
+On Wed, 04 Mar 2026 07:19:55 +0000, Biju wrote:
+> Document RZ/G3L SSIF-2 bindings. The RZ/G3L SSIF-2 IP is identical to one
+> found on the RZ/G2L SoC.
 
 Applied to
 
@@ -59,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK PM1503CDA
-      commit: 325291b20f8a6f14b9c82edbf5d12e4e71f6adaa
+[1/1] ASoC: dt-bindings: renesas,rz-ssi: Document RZ/G3L SoC
+      commit: fbb143e4a6efa4a175e856fc898754b06cb13c4f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
