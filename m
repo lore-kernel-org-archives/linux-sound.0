@@ -1,164 +1,172 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010023.outbound.protection.outlook.com [52.101.228.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D7A366822
-	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 03:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772595310; cv=none; b=h/11oDiit/E2UBbcTg0TQBdWK8mUB58EJAcin7fubqDaxy/wiudXYxKadQcy5w7p2j1H8JhPfM9q/0HTu+MffpIRl2GUc4wW2j9zzlXaKIJuAb1yTO4l8oVV1VuYiBe6Xu840qrU8qOlPBdP5U55E/uEq0hnvPbE8oCXzSCLWY0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772595310; c=relaxed/simple;
-	bh=XLiJ2nD8DJIVsSYbftRzQJ/qqbqmFgul82tptWrTWOA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FLYgtUtzgQw/Cy6q3zLT5Q8xAcePEW+vJ0VwrnJwlqgD+zdGma6Ov6s+6otTpNvAuE9U6XbzTsiCSKSLnsmVPw+sb4OstljY9QZgnxjLWPuOK6SbbO5j86SyRVHfyYR95v0KX23Y3vqaBlyvPNRkGSI7sn2EI4pCbbe9PyhJ79o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=V/RVqeIg; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD61324BBF4
+	for <linux-sound@vger.kernel.org>; Wed,  4 Mar 2026 04:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772598176; cv=fail; b=K+0GGlMgBmbscyj1T5u9XueApQr88LRlpYRuOp1LG6AQIR5AadfZQQRWY+YPm4U6ht1iy5HyCc5EWajej4jxxCrJ4KmuoRvQTQhoi08fgXVfPbBySLm/l117tfdmagqqLSZhZxzqpzPw29xFBnhqguIKGdrQDSpTcx6NDA1/ov4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772598176; c=relaxed/simple;
+	bh=1F9BYMxDCH8HQ7WN03I2oPU/x6QSzqnASVKCioIDUo4=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=TNCaQHPNHB7m8fHd3kbHVJrkZJO5jC0vqDglFTeGBRWQVaHuzMjGIdnIerCtoXadBM69nLEjTxwpl70wU/Ey5kzCpUZM0+ZGs7dA/g2mNio4HXKlawrVCQXLqUgSAXjWmq+UOTTNCch3VJDZrsT+k5rs8apgBi4B5hhV1DYnwzk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TyabW55g; arc=fail smtp.client-ip=52.101.228.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="V/RVqeIg"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d18a9d2b1aso6111979a34.2
-        for <linux-sound@vger.kernel.org>; Tue, 03 Mar 2026 19:35:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772595307; x=1773200107; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NrE0zI+7ilR1NedBJHHio8t27882PDymrHrpls6UPoo=;
-        b=V/RVqeIgbll4o4ue74s/NYWOyn6ZZujuTFopUtqhjail3GEAE5/viHb45qoLBheA0C
-         FjThpB0c+lktkioT8cLcDCupPIwr6ZtFjugZdaWmjPYCZvExg28dp2j5GNZKC+dwFIRT
-         nMYTLvuq7I98ei43l1fO8SZa0kkKx926Q5k3OSaMudvEhiEEeEmS0+UTFtTKWPCx5BtH
-         jppJ7leZ920nl2rr1NSxO3EsCbm7kJQgCQktDg8tjxpMgjzbh601eaHfku+ZFLcNfn/I
-         i2IKtcx8h6KQ7DdzF6qyt1xEaUJ+G7gmzB4DX6DIGKuctT6KVr0ZXVqee2uy5eeWmU1x
-         Tdcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772595307; x=1773200107;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NrE0zI+7ilR1NedBJHHio8t27882PDymrHrpls6UPoo=;
-        b=MAjxFgx0C4KlVZI/gE5jG6oGtH6HarKEso3jnZPI/emhIMaW4pZtA5TX0nlVFNxlGb
-         CoWeCXMhNfsm2Z+7vMe2bcTJnh34zA2cw8NFncppJRcYB2LKKo/o9Wv3zGNJUYVwWJ3n
-         t8cT5q42dAaD1YLSO7HduLWoo2raWJRS+XRlSErpNllJtZaAi+n2b3FpG2NkqayvchjS
-         vsCxFHFJ0iWGg6ezOlYy/aZ0fgOwltxXHB57YWx3t4j9bMsElZEvG9HcwjiftpZKGVge
-         9R/xX8oD8rekx82/7ZULDZWs8koYt+KXfIlGFsAydufcjFTnQ8kQH7dqvcdDvNtdGgKm
-         4oMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpfupw8NggTCW58K+ztLopuDhs9cpe5dfC9ureHIkQ5eCplMQ77tYPN1kr+IjqFDNyfu4BT1bcxnWioQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWZGw2meVqHyVclpMAdXcDPiAv3GGTM6/LLxRi2tyeQiunnlZW
-	aLRYb4eR3r/bN6Q2vNt7AIY+USDd9tnRMdbppaWfVx/No3BgZStZB1T7lVltlb0ekIc=
-X-Gm-Gg: ATEYQzzsjdTWrCKaI7/YflBDM0WHgzbVpwaLcjqpUofP2qWvwUUuxJIWc27cFYnfA2J
-	YsMTxoVXxeY6SI3ExIm8NRfz/rKtRSvzs4Cta6kVOD8bSrY8Q3mbKWgbXzrvGjCp+0QNDTDQUWT
-	aCEVvoLSmfyJNk13MdZQ40kOn/imAUiWci4FQVaDVTEmvKlJp5TmEgVp5dEzFHGIZdaJphq/Z5P
-	/ENlXee2OSOxo2tkj/TtTa0g45jW2eMCSrARPsG3xar6+WDOVjyomlIS0o1qsRi4EvbQtgUW/3L
-	qrKxrWWXrtfgplG43CYVMy9Ui4fd29wiwTGx9zeiyWLGz8vR/gldgt5RI/SPxoGCxlbBR56iZVB
-	MdA7uY68VyC9npRQ/ZPBrLtvSGvbLng8gPHCGIUkW1AysadyimOkrTsp6V+PIn26bH2O1hzKuKQ
-	CMgPskI+4RUr2Bo5ZyUHgTpRNII4sxkiFuHY37ahMIgiDEEwglptsmPSf1GGyyZm8f5TH9POp4x
-	VR6ZcxpnA==
-X-Received: by 2002:a05:6830:6185:b0:7c7:6977:17cb with SMTP id 46e09a7af769-7d6d139f788mr450044a34.21.1772595307034;
-        Tue, 03 Mar 2026 19:35:07 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d586653f6asm15202012a34.19.2026.03.03.19.35.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2026 19:35:06 -0800 (PST)
-Message-ID: <e96e851a-9050-4d8c-b1e5-bc3b5d91a84c@kernel.dk>
-Date: Tue, 3 Mar 2026 20:35:01 -0700
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TyabW55g"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QCunEKcEhvPmZD9pMYoJCIhSZNu2yrylhsVtLZ4fL5qyIH4wvXBHC6pWxcoZGUeQwgDHxoY0RW8wMvnC4qQAXYuoVOO4+lw8oVyYO/5VU5/IWrDtgTWn8djW80ezui16t1niKgJi7bo0Ai70u3lLBW4W/C0BLP7hjNLhcijtliGfjiiZg6v/Mo4p/Dy8Ubiip6IW67W04I5TJ0i8aL5d2gSQrKe5D01j6EhSsMVUsxZMFCUGpknaSLyIMOIqvCIi5LuYzn4rziAr8LENrhhR/yIPOc5KCffgUeGDBm36xrlowgcvdQsWLxUJ/GbuVE7PvQq3DL/ay9NzL0jjtNdpDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BhowpT03yEk/aNbV+czyBGMbFDutJ1xHwgSqiISa3pw=;
+ b=LERcWLHLg7+fskccBhrZVXJPyy9q+/6PYI074CdHQDMZnSh5wAmmOEDZG/0P6qHtSWi87lxl39MEOH/QuYkhBx60duSMjR6+Tfcls53oMXR79NknIbPTXepPAKSeHO1pabjRN6lbeltDD7rxMbCIdhBMILiCGpVRHBfOl4d6HQqY7IMcTjWomCxfmw01TGARrCS632AZxLB7cQsUy4V5CflROrARoTF8E0Vf6mNF4J0xemHkrGvsOrw8Aq57y7lOBbA4h5MPcbp5Wd09gu8ke5bZg5RdI5d2elGKiBYm+4aFYgtNxROBEX9Y42WouFmCI8ugJWM/YLV6TSnR5VodqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BhowpT03yEk/aNbV+czyBGMbFDutJ1xHwgSqiISa3pw=;
+ b=TyabW55g0039hXDbJlao+SdtQFFz9y4SVKE/Lic2xFsPIL14tIdcdUVgrjAwZ+e5Z+FAZfX2xbew7DI6WXsjzLl2FlgaZCaCVAlncPfsDoa+JpC7lXWd/XgI2tgJpJLpnnxXBxQ7hRZBsdnavpBNJ8qMFGtrZch77Ggb69HmSZY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
+ by TYWPR01MB10805.jpnprd01.prod.outlook.com (2603:1096:400:2a5::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Wed, 4 Mar
+ 2026 04:22:48 +0000
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
+ 04:22:48 +0000
+Message-ID: <87zf4op6jt.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>,	Cezary Rojewski
+ <cezary.rojewski@intel.com>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH][need test] ASoC: core: cleanup card rebinding
+In-Reply-To: <871pi0qvv1.wl-kuninori.morimoto.gx@renesas.com>
+References: <871pi0qvv1.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 4 Mar 2026 04:22:47 +0000
+X-ClientProxiedBy: OS0PR01CA0108.jpnprd01.prod.outlook.com
+ (2603:1096:604:9a::31) To TYYPR01MB7976.jpnprd01.prod.outlook.com
+ (2603:1096:400:ff::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] mm: globalize rest_of_page() macro
-To: Yury Norov <ynorov@nvidia.com>, Sean Christopherson <seanjc@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Theodore Ts'o <tytso@mit.edu>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexander Duyck <alexanderduyck@fb.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Alexandra Winter <wintera@linux.ibm.com>,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Anna Schumaker <anna@kernel.org>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Aswin Karuvally <aswin@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
- Carlos Maiolino <cem@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- Chao Yu <chao@kernel.org>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Christian Brauner <brauner@kernel.org>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, David Airlie <airlied@gmail.com>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Dongsheng Yang <dongsheng.yang@linux.dev>, Eric Dumazet
- <edumazet@google.com>, Eric Van Hensbergen <ericvh@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>,
- Jaegeuk Kim <jaegeuk@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- Janosch Frank <frankja@linux.ibm.com>, Jaroslav Kysela <perex@perex.cz>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Latchesar Ionkov <lucho@ionkov.net>, Linus Walleij <linusw@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Miklos Szeredi <miklos@szeredi.hu>,
- Namhyung Kim <namhyung@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Abeni <pabeni@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Walmsley <pjw@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@kernel.org>,
- Trond Myklebust <trondmy@kernel.org>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
- Yury Norov <yury.norov@gmail.com>, Zheng Gu <cengku@gmail.com>,
- linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, kvm@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-block@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- dm-devel@lists.linux.dev, netdev@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-crypto@vger.kernel.org, linux-mm@kvack.org,
- linux-perf-users@vger.kernel.org, v9fs@lists.linux.dev,
- virtualization@lists.linux.dev, linux-sound@vger.kernel.org
-References: <20260304012717.201797-1-ynorov@nvidia.com>
- <20260303182845.250bb2de@kernel.org>
- <f8d86743-6231-414d-a5e8-65e867123fea@kernel.dk>
- <aaedwFwXh9QXS3Ju@google.com> <aaen2pGs0UeiJqz1@yury>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aaen2pGs0UeiJqz1@yury>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|TYWPR01MB10805:EE_
+X-MS-Office365-Filtering-Correlation-Id: 554b6465-7aa4-4ce0-5ec2-08de79a5b0ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	fZolAyB/C5tTjktnQmfTmGvTRPuBiSP17SI9nu8cFoFKaUOWrSqATJC5ylTJBoqSbicKdaKlRnF92qYZdBSH6L92k3IlG2sk70GbL6SrLZXyAO50o1WkKetMgIaJXyOvHyU1mREht2GH3pNV5bv5Qn0/cELtF+gaYkK7W2qqa4dhJ3YdQMLd/+a0er4BgeLAyNkDD9yQwRA1f6/Qfu/U00gn/smG+3C10IJpTh3qfUR9XjGotgBLHwrGFqEjIskjKNqS4ubS4CMisvBDNsl7YUp4NpTq7twWLz4T5HgcweZSRTAXWTzGDzw4EfUbuQsIrbzUQ5MbtNwZikxYzVVsYcjzLYtaI2XfRYNEQwI5zExfeE1snI0n4TG3G1uDfMx0Dp8n7GSXXEQ/mVJhEYZHtrmDKO+kMocgrguIuCwKRq0+dy7eLSeUwjDSvOmuh2V0JgfT4K9TkrZEox8oJT4hfBkwOjivDu+Au4TVhuQbIROnMPg7dfaA2SFzH75lCJalJgdPaXUrqY1C05IJS55PArb8Lcps0UxYBoKdCYq+M8WwzNqAVA461oo7Pms4jxvg20HO8KaWQspM1T1LD/FSvm9eD4bC2/BVkaWhUdPJxdHMLQEaWIushH5Q2TpbJ1L78Ei1ycCkBE6YsMd6McysIYPckfe9pBny7chkGry+aRKzhLEpdrIhNmHCG6yDztGk3RZvDMhzJDIQBhYZiYTTq1ZBgN7ax3kMtIhg5YEV0rGJovD+Zyf0gpeJ6r6CNaDA8fVTo6hCo0yiohVa4IiskOSQBWjmNmUGMbrv1vYwhck=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-2?Q?v3tLNbMrg8Ym2/pQgXWTPPgzpEfdQsohI1+YKtHTcaJiv7EhkyEBYWbn+Z?=
+ =?iso-8859-2?Q?FjkBv+nlpdhSHgUmoChosHyuD7tfrIqvHM3Oah4AbgTvnwXy9LmNSQp+4o?=
+ =?iso-8859-2?Q?rIgfPqjFWw54h+dKMpVSZsii5FmB3Zk+gaozkrGatGISSFPXuCjKTAVAZk?=
+ =?iso-8859-2?Q?syNtGbeg9J/s3UxEyI+3q2XK2+Ev4DLfcJt2o2CqzFnxC8BOq5/bJ3eEFD?=
+ =?iso-8859-2?Q?5+9isF8Sax3sXrDOjXaJnIXSIa072lfCfdHW/73/jy7L2wEC4k4GmrnPPQ?=
+ =?iso-8859-2?Q?tJx7rvMC6g9yanKaDAzM60WSbbhN1YikWcXhAdzGPeGyNyYuJDS3TElYeO?=
+ =?iso-8859-2?Q?nH4ls3awdFv+nkJJ2c+kcqWN7jxHk2sZf348EdSQF0+LjnbZfBOeM/EpCG?=
+ =?iso-8859-2?Q?ZG84pzL6vaIe08qdvjv512ATznFbWKwd4rKqoOhRP1q+SBUVcnC6c8R5bH?=
+ =?iso-8859-2?Q?0yc4WNm96I78QDrNUuA1+dJ29XzR1RJ9fbqFuq2RtAGle7bLkqLkzmYUiU?=
+ =?iso-8859-2?Q?seZ5r83Pxqtiy1HMx/UmrG7+gQIUUIUZGZ3OHc7C4BmamBqNbwrsGHllly?=
+ =?iso-8859-2?Q?49aaMdMhTFCAB8mt+sjyDBL3FKG7QOtWgA0ctU8Zpo71rBIFGeeLxvL/oy?=
+ =?iso-8859-2?Q?WnPM+COc7mp5LIZSrelPdY7dCZ720IFAG+jBc6WXYOqftLFmIHpFv5OZS+?=
+ =?iso-8859-2?Q?LPPvGId+BCq59JjRCMzm0OMQKtwKSkv6LRpSNbkRixyRzkmyLhjQn1klT1?=
+ =?iso-8859-2?Q?97hx0nAewTHdYYbtjz6aKjiBBgUYghy3Wlx5V7pk49djijRdhxF1yxAuLj?=
+ =?iso-8859-2?Q?tHIko/FhzAWJO/j/5l9DmfhZkGRtzHCJ1Nfw2LJ4nXgGDe0m7fLixQUkwv?=
+ =?iso-8859-2?Q?4SsoLNoqPHPCsAfYlq4ucyzamgamchdFt7c5iRLeD/VmL/DiogU5fvKe9W?=
+ =?iso-8859-2?Q?7oQ448kRdqG+jwEb/vKsXr7CN3aTdXLO6t/JSNqXK3PkMJYU5MeEiT9Chl?=
+ =?iso-8859-2?Q?kIfX6283sJmJFPFoBMvPi7WKP5yrJ169F5pYIO8eG3rDEETbQhvt1DJCsN?=
+ =?iso-8859-2?Q?DX5OP53cYQYSWiZrShtnsSs+Dy6TScuZJCnKDTw6LQWa9M6kIJbMRrHVN6?=
+ =?iso-8859-2?Q?VdIPi41D0+LqTSjkmKLWf8p6A1hmb5zBz+c8iB4wfe9/rb2XRhcYY3bZzT?=
+ =?iso-8859-2?Q?SkcPFRV61rpuRaNb0gybNR1mizOL/PKzweVSdLdOubxfnrwnCOlRLuWWar?=
+ =?iso-8859-2?Q?pRRk+c2tZwgyHvfeTHrbABvWAxnyEvKK31LJ5sXHzmRIXAsA+cn0bkciFf?=
+ =?iso-8859-2?Q?GIJbEwU11B31LXoK50uhmXNi2RIn0mVvHNFiWMyVotxY3E4EmJVNFP5OQl?=
+ =?iso-8859-2?Q?iq0HT5XuOpml5BGcY4CAavcJRLEksonXTmQGViYTmFQOlTzBfjri0a9k/x?=
+ =?iso-8859-2?Q?o8ExAu6Hm9BZzs1ROgRh0EGFK4wqOIg4BwQIfIo88NvyiGzCkKYiWd4ZKy?=
+ =?iso-8859-2?Q?MSXbdtJUhFRQQT4e7p9HPbZr1Olq/cLjgUSCNUtpEVHrALqUHogNDk82tR?=
+ =?iso-8859-2?Q?RVv9u/ACiNK9dTqdB7zlt5RKe26ow9FWEJivbK/nM35x+UJzcdjewvgT2Q?=
+ =?iso-8859-2?Q?j3UqlcRIaS5XlC2q8IxDH30wQ0Zs71EJz/oWSXQHft9ZonRBaVDXyBIsB3?=
+ =?iso-8859-2?Q?HJ9TtR0LBnOfuSq1/VP8UMMiuCgTqP25OM3Ty4om9DKok33CLiSwopuaN1?=
+ =?iso-8859-2?Q?FBfGLt4M9c2w6+oMzT7VL/om3cdSOe7U050K/OT4/Mhc9RN+dAEqPJWi38?=
+ =?iso-8859-2?Q?zveMiqgiuDpjlUL8I/dRofQi4glP0G+1rcCTQPOUpqp0s9LoBMuq?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 554b6465-7aa4-4ce0-5ec2-08de79a5b0ea
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 04:22:47.9655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Fzpa9a7OPg5Bp3OHMUfMe2wJfaUrr9bXtL/37824F9gNN4wdsOo8f5hR/jTAuOmNvvHb3+LBim0jCri3GKtwgAPjaO2ssWmugfYOkKZMhz6jE6l0G+E/lIu4DzINCQE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10805
 
-On 3/3/26 8:32 PM, Yury Norov wrote:
-> My motivation is that it helps to simplify constructions like this:
-> 
-> -               loff_t cmp_len = min(PAGE_SIZE - offset_in_page(srcoff),
-> -                                    PAGE_SIZE - offset_in_page(dstoff));
-> +               loff_t cmp_len = min(rest_of_page(srcoff), rest_of_page(dstoff));
-> 
-> Or this:
-> 
-> -               if (folio_test_highmem(dst_folio) &&
-> -                   chunk > PAGE_SIZE - offset_in_page(dst_off))
-> -                       chunk = PAGE_SIZE - offset_in_page(dst_off);
-> -               if (folio_test_highmem(src_folio) &&
-> -                   chunk > PAGE_SIZE - offset_in_page(src_off))
-> -                       chunk = PAGE_SIZE - offset_in_page(src_off);
-> +               if (folio_test_highmem(dst_folio) && chunk > rest_of_page(dst_off))
-> +                       chunk = rest_of_page(dst_off);
-> +               if (folio_test_highmem(src_folio) && chunk > rest_of_page(src_off))
-> +                       chunk = rest_of_page(src_off);
-> 
-> To a point where I don't have to use my brains to decode them. I agree
-> it's an easy math. It's just too bulky to my (and 9p guys too) taste.
 
-The thing is, now I have to go lookup what on earth rest_of_page() does,
-whereas PAGE_SIZE - offset_in_page(page) is immediately obvious. It's a
-classic case of "oh let's add this helper to simplify things" which
-really just makes it worse, because now you have to jump to the
-definition of rest_of_page().
+Hi Mark, Cezary, Amadeusz
 
-IOW, just no.
+> commit a3375522bb5e2 ("ASoC: core: Complete support for card rebinding")
+> supports complete card rebinding, but it uses unbalanced pair functions
+> It added devm_snd_soc_bind_card() (=3D bind), but its inverse function is
+> snd_soc_unregister_card() (=3D unregister), and it adds new
+> devm_snd_soc_register_deferrable_card() (=3D register), but it doesn't ha=
+ve
+> inverse function (=3D merged with above inverse of bind function).
+>=20
+> Thus, it is difficult to understand, and difficult to cleanup soc-core.c.
+> This patch cleanup the rebinding code.
+>=20
+> The rebind method to connecting to "unbind_card_list" is merged into
+> snd_soc_{bind/unbind}_card() which are used from all drivers.
+> This means no need to use special bind function
+> (=3D devm_snd_soc_register_deferrable_card()) to use complete card rebind=
+ing.
+>=20
+> When it bind the card, and if it failed with -EPROBE_DEFER, the card was
+> added into unbind_card_list (=3D snd_soc_bind_card()).
+>=20
+> When it unbind the card, and if it it needs to be reused, the card was
+> added into unbind_card_list. If not reused, the card will be just removed=
+.
+> (=3D snd_soc_unbind_card())
+>=20
+> Because snd_soc_card will be capsuled soon, separated from mutex_lock()
+> (=3D client_mutex is soc-core local).
+>=20
+> It renames function name. Will be moved to soc-card.c soon.
+> 	snd_soc_bind_card()	-> soc_card_bind()
+> 	snd_soc_unbind_card()	-> soc_card_unbind()
+>=20
+> All Card user will use complete card rebinding by this patch.
+>=20
+> Cc: Cezary Rojewski <cezary.rojewski@intel.com>
+> Cc: Amadeusz S=B3awi=F1ski <amadeuszx.slawinski@linux.intel.com>,
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
 
--- 
-Jens Axboe
+I noticed that this patch has issue around mutex (client_mutex).
+Will post v2 soon
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
