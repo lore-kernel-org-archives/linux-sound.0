@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D6D33B949;
-	Thu,  5 Mar 2026 07:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D7A34678E;
+	Thu,  5 Mar 2026 07:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772697460; cv=none; b=WsK8lVbmef0vwyFeoUX3fbysR4lEF/vWQpG+ThIgsWkworMFQ+1VP8CrDfpxoPnD+axn0pfwaHuKPhj1YyNM27ZTvQXGHN8J/k683S9DPi16q7lbNf3aXSA4urNBSZqU/TPVJB0Q3t7XGOjhhhhV6zXh43ttSZI+4Xt26v7RI6s=
+	t=1772697575; cv=none; b=jAt2CoIeGRj4AdAASkfYJwsjjbmB3WYKJijXOR4CEYsRj1IZW1cjTItvHo1nEqWa45lSZp1NM7/bmKD69Fn583L7NheVwMXbNvC+XDFv7tTzltkY9gDEzci8jHxREUCRTXGC/SN/mzkvs4W3LzMpOESaGFAGkl36qsYIPtY6KTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772697460; c=relaxed/simple;
-	bh=LTFCOG5QXLiQSKnu7SNj+IKfRYZTwEVJn8wWTsU0rXk=;
+	s=arc-20240116; t=1772697575; c=relaxed/simple;
+	bh=mtIMcctID1kG6nERXwpE2Bzb0pNOLJjHpwMn79E2ywY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ehYUZ7oshWn+dWNnfpYgAWd9wXuCLeCV/3ugfHAgOP/UQwCXG3pr2MBGRJYMXM9TxEWNNQtgW54cNu1iMQTDJvDGX3hkts5VX8h9Ky0NBu556gDNTK4CirhBzGk1AO6aFiD1sLPb4B6WHZdNA5wVyG/1kIvdc4kdDOfxVpsdL6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eq93sB3x; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fIpbmcLLtkb8sg+zcHzbKhLAo7mxS9vu2QTkb9ZNIDXIbNZsu3QERITpEX2nio8YXGDCEa2WWU/NEukocOt2lFywalEi1kkJqrcfa3TFYAX7xpxktACx/syVuVbr5R8Uhsws01Klr8sZYaCAtPgYv63209TExtHLDtwekJbN+IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViOsm6ZL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eq93sB3x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 955BAC116C6;
-	Thu,  5 Mar 2026 07:57:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViOsm6ZL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C396FC116C6;
+	Thu,  5 Mar 2026 07:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772697460;
-	bh=LTFCOG5QXLiQSKnu7SNj+IKfRYZTwEVJn8wWTsU0rXk=;
+	s=k20201202; t=1772697574;
+	bh=mtIMcctID1kG6nERXwpE2Bzb0pNOLJjHpwMn79E2ywY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eq93sB3xaArZGPVhM1mPmY8W4sl3biK2h5i5jDNlSguadqXTPx9IgZ5tWipSAJmB9
-	 N/zDvFpjmoBGM8P5a7r2tb6vOLWvdFu4YNEDxWL4TPwac6HgXAZTD2yJ2y20bJ2Rfr
-	 K+QHBlHUHNw/JHAOGMZyyxAub/6P4GIOxWFMUCR68z26IDQHpYoKUBJgsBS5EPTV6u
-	 O8BbRQx92ZWsTi34C0gsf0RC/VKaf6/3b21asXEI3uMreRXctXAEiE1fHZ846dWtkp
-	 MOaIL/6GL2LmATWc4kgBmxgQQmwwBOtOffy411lETfZA2/MIqF5NYjq9y+upo8PPIm
-	 Gu26d5F8fZYZg==
-Date: Thu, 5 Mar 2026 08:57:37 +0100
+	b=ViOsm6ZLYi7ak85jiMC+qLsF0VtwwfCLIvL53A0ixOnWApfJVsPPTn8+G0O9PIRhx
+	 jdFiRa3yo5A8xeuJloL70WLYIr6UJUCiLb7pXRe4z+f6vLVpKjNrInXMk5C5TEEbSK
+	 1CvgitkDS2HarybQq6QmykIqJcD5SnGgVNt6gPhuBEOMyDYhUbRYxvQvNvrmiIaprX
+	 yC5Jux4JJbpZgGgBSAdDP+zDYskg5Af8AuP2mIqOd5I4v2I/ASvRT23Djv2tjzZmAB
+	 sdTWoPxGTupe6fl6qF6QXBUkBSRlCzQTnDDNDrLRQUdincStJOIxhaVRamQEYiAZiv
+	 ylOPDtcB2dhNw==
+Date: Thu, 5 Mar 2026 08:59:31 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Acayan <mailingradian@gmail.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>, 
@@ -38,11 +38,11 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Wesley Cheng <quic_wcheng@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
 	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 02/11] ASoC: dt-bindings: qcom: q6dsp: add internal
+Subject: Re: [PATCH v2 05/11] ASoC: qdsp6: q6dsp-lpass-ports: add internal
  mi2s support
-Message-ID: <20260305-fluorescent-gainful-unicorn-4f8d7e@quoll>
+Message-ID: <20260305-gigantic-gay-boar-86db8a@quoll>
 References: <20260304195815.52347-1-mailingradian@gmail.com>
- <20260304195815.52347-3-mailingradian@gmail.com>
+ <20260304195815.52347-6-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,42 +51,21 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260304195815.52347-3-mailingradian@gmail.com>
+In-Reply-To: <20260304195815.52347-6-mailingradian@gmail.com>
 
-On Wed, Mar 04, 2026 at 02:58:06PM -0500, Richard Acayan wrote:
->          then:
->            required:
->              - qcom,sd-lines
-> diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-> index 6d1ce7f5da51..6753f7bf004b 100644
-> --- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-> +++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-> @@ -140,6 +140,20 @@
->  #define DISPLAY_PORT_RX_6	134
->  #define DISPLAY_PORT_RX_7	135
->  #define USB_RX			136
-> +#define INT0_MI2S_RX		137
-> +#define INT0_MI2S_TX		138
-> +#define INT1_MI2S_RX		139
-> +#define INT1_MI2S_TX		140
-> +#define INT2_MI2S_RX		141
-> +#define INT2_MI2S_TX		142
-> +#define INT3_MI2S_RX		143
-> +#define INT3_MI2S_TX		144
-> +#define INT4_MI2S_RX		145
-> +#define INT4_MI2S_TX		146
-> +#define INT5_MI2S_RX		147
-> +#define INT5_MI2S_TX		148
-> +#define INT6_MI2S_RX		149
-> +#define INT6_MI2S_TX		150
-
-This conflicts with Srini's patches and looks pretty the same. Please
-look at his patches and avoid re-doing them.
-
-
->  
->  #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
->  #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
-> -- 
-> 2.53.0
+On Wed, Mar 04, 2026 at 02:58:09PM -0500, Richard Acayan wrote:
+> Add the internal MI2S stream capabilities as specified by the audio
+> kernel modules and configure the ports as MI2S ports.
 > 
+> Link: https://android.googlesource.com/kernel/msm-extra/+/530cffa4cc977a348753831b163eb9d3302b954a/asoc/msm-dai-q6-v2.c#4597
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 200 +++++++++++++++++++++++
+>  1 file changed, 200 insertions(+)
+> 
+
+This duplicates Srini's patches.
+
+Best regards,
+Krzysztof
+
