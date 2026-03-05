@@ -1,175 +1,184 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m15578.qiye.163.com (mail-m15578.qiye.163.com [101.71.155.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D0F21B1BF
-	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 10:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD70621B1BF;
+	Thu,  5 Mar 2026 10:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772705889; cv=none; b=NsDFC/RwacCcrghiN7gM7kUC0wLhBedLwQZ6hM4VBSCc3MGPBhNs67gJgLCrceCYTnZPhCE8QUAF+2EdATWiIf2Et9Vtls2B6MDZZ7QJoARLmc04bW1ogRs6VvQ2jNaByVCjqhYqLPnzS/L8IYiS3A4c0aO2B3wq1eR91xX6M4o=
+	t=1772708239; cv=none; b=oY8MS5CYB4lxMFshd31ArVHXUBjW1IKUwbqajA8p3kWzdV4vpTMcNlpMLQHeLivi2/j0d/R+lTpIoZVbrxaEzY6HtIQt+j07FseQa8TDS4sY90+zGGqc+rnmEQfyye8e5j8Rvgj7XrO6X6lTKT5ydHdnasRrX/st/8FZmwihTYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772705889; c=relaxed/simple;
-	bh=BnRy5OAYrtn4zXSIqDR+8Xc8KDN+p5CXNhVfoELcvuU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=btX+RkYt4edNifiE2AFko7rGpZ4gEvTizdebDBOp+3lGHWaPQL3Mzf4bWpQnLFJlciIH9tm/o+NhXuAe7YfrlVtTKIApEn0bg2+xHuvjS58rT4pepDcZ+Y1osGPbkCUk0z9HknIG+JKCaFvQDtjHvUFII44BvxQRXCTStZBmH9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HOjiXlrg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4a0UHMq7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HOjiXlrg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4a0UHMq7; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772708239; c=relaxed/simple;
+	bh=ydZzjkd3srY41pDjjauT8Po/r84+3B+ezhhvPSYyXME=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bn+GjqMbx+GxpIl1QunXWUs36iTu4JBuQAFQSTfgXxQmtyxTZMEgd3gR6G92kwfo1A97Iqp1EOJVOb7JsKOE5ijHNgbiY7ON9vzt3yLJE8W5Pe0Ru3RDBlobCt/Lg1dIsJmDp/LN+f8b3iHFyKtHBiNDzNTjKAcSNREVGS1Yjyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=bWSM/zls; arc=none smtp.client-ip=101.71.155.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HOjiXlrg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4a0UHMq7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HOjiXlrg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4a0UHMq7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 799B85BCF6;
-	Thu,  5 Mar 2026 10:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772705886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0B6E7IV+RocukvDYzrznAWf1CA3qHkgH4euHnWwhlxQ=;
-	b=HOjiXlrgpocBy0exQ5pcz5GshgfbWJCZqQRttrCkWHnKl5uTovcT0YWQ0Y1lG90KxRRA4v
-	Qdf6uydzbvtHk6PDGBFcrpA/u2+pSS+i8svXe+Dt7RP3EJDwKULpUltH8aOBznooHAzIC7
-	4EN3KA8B56yXxmXkH9eGBzVXhZyamGU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772705886;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0B6E7IV+RocukvDYzrznAWf1CA3qHkgH4euHnWwhlxQ=;
-	b=4a0UHMq7ABPKOOiDlN7qatKNtFD9Lo/2hjf77Lo1ES258szVqWaTkvIfR4aXOWy58kz9gM
-	wE8D+baGldVevnDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772705886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0B6E7IV+RocukvDYzrznAWf1CA3qHkgH4euHnWwhlxQ=;
-	b=HOjiXlrgpocBy0exQ5pcz5GshgfbWJCZqQRttrCkWHnKl5uTovcT0YWQ0Y1lG90KxRRA4v
-	Qdf6uydzbvtHk6PDGBFcrpA/u2+pSS+i8svXe+Dt7RP3EJDwKULpUltH8aOBznooHAzIC7
-	4EN3KA8B56yXxmXkH9eGBzVXhZyamGU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772705886;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0B6E7IV+RocukvDYzrznAWf1CA3qHkgH4euHnWwhlxQ=;
-	b=4a0UHMq7ABPKOOiDlN7qatKNtFD9Lo/2hjf77Lo1ES258szVqWaTkvIfR4aXOWy58kz9gM
-	wE8D+baGldVevnDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EF033EA68;
-	Thu,  5 Mar 2026 10:18:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id O0fxDV5YqWk+YwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Mar 2026 10:18:06 +0000
-Date: Thu, 05 Mar 2026 11:18:05 +0100
-Message-ID: <87pl5iy3z6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="bWSM/zls"
+Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.lan (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 35e01d3a4;
+	Thu, 5 Mar 2026 18:52:01 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+To: konrad.dybcio@oss.qualcomm.com
+Cc: andersson@kernel.org,
+	broonie@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	drake@endlessm.com,
+	hongyang.zhao@thundersoft.com,
+	katsuhiro@katsuster.net,
+	konradybcio@kernel.org,
+	krzk+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 2/2] ALSA: control: add ioctl to retrieve full card components
-In-Reply-To: <cf59b85f5bfa3607b7ef799714df56bf42daa67a.camel@opensource.cirrus.com>
-References: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
-	<20260303145815.9930-2-mstrozek@opensource.cirrus.com>
-	<87seagx6c4.wl-tiwai@suse.de>
-	<c4392a10442c436484d9758c54622888b07a3a74.camel@opensource.cirrus.com>
-	<87v7fay4l1.wl-tiwai@suse.de>
-	<cf59b85f5bfa3607b7ef799714df56bf42daa67a.camel@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	matteomartelli3@gmail.com,
+	perex@perex.cz,
+	robh@kernel.org,
+	rosh@debian.org,
+	srini@kernel.org,
+	tiwai@suse.com,
+	zhoubinbin@loongson.cn
+Subject: Re: [PATCH 6/6] arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
+Date: Thu,  5 Mar 2026 18:51:52 +0800
+Message-ID: <20260305105153.640356-1-hongyang.zhao@thundersoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <b63a9bde-c2e7-4718-878b-e4161eecdc0c@oss.qualcomm.com>
+References: <b63a9bde-c2e7-4718-878b-e4161eecdc0c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
+X-HM-Tid: 0a9cbda03dff09d5kunm80b40df2cbccd8
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTkgaVkpDGRlNQkJDThpITFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=bWSM/zlshVT82EN3dwqp2BadyVXkijiSLKAe/Ov900K8hoW3Xhui64yB2qsPjpBIHM/O2of4vQ7ePZhTCdLIUoc6LISFWzLFiC+joD77DKoIlXWon7QRIAQoRDqKjVLXR2/AH/FfZ78wO3CGvOCapnJg1L7vma1AYEJUrRV/GsI=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=Uepjv9AD2iGQI07qFYEAOP4DkAua1EFLAtIVvsFIl0g=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, 05 Mar 2026 11:11:40 +0100,
-Maciej Strozek wrote:
+Hi Konrad,
+
+Thank you for your review.
+
+> On 3/5/26 6:47 AM, Hongyang Zhao wrote:
+> > Add audio support for the Thundercomm RubikPi3 board:
+> > - Enable AudioReach via qcs6490-audioreach.dtsi
+> > - Add ES8316 codec on I2C0 with MCLK from LPASS PRM and jack detection
+> > - Add fixed 3.3V regulator for ES8316 power supply
+> > - Add MI2S playback/capture dai-links for ES8316
+> > - Add HDMI audio via LT9611 bridge on quaternary MI2S
+> > - Add SPDIF TX/RX on tertiary MI2S exposed at the board 40‑pin header
+> > - Add LPASS pin configurations for quaternary MI2S and LPI I2S1
+> > 
+> > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+> > ---
 > 
-> W dniu czw, 05.03.2026 o godzinie 11∶04 +0100, użytkownik Takashi Iwai
-> napisał:
-> > On Thu, 05 Mar 2026 10:54:35 +0100,
-> > Maciej Strozek wrote:
-> > > 
-> > > W dniu wto, 03.03.2026 o godzinie 16∶47 +0100, użytkownik Takashi
-> > > Iwai
-> > > napisał:
-> > > > > 
-> > > > > + */
-> > > > > +struct snd_ctl_card_components {
-> > > > > + int card;
-> > > > > + unsigned int length;
-> > > > > + unsigned char *components;
-> > > > > +};
-> > > > 
-> > > > And the ioctl can serve for two purposes:
-> > > > 
-> > > > - When length=0 is set, the kernel stores the current number of
-> > > > bytes
-> > > >   and returns without copying.  User-space can use this mode for
-> > > >   allocating the buffer.
-> > > > 
-> > > In alsa-lib all data must be allocated beforehand, so this
-> > > length==0
-> > > query is not very useful there, it will just go into a [512] array
-> > > anyway. Are there any other users that may benefit from this?
-> > 
-> > My suggested API can work even with the fixed size 512, too, if 512
-> > is
-> > hight enough.  It's just more flexible.  And there is no restriction
-> > about alsa-lib data allocation; the function can query the size then
-> > allocate, too.
-> > 
-> > 
-> > Takashi
+> [...]
 > 
-> OK, will prepare v4 with this, thanks
+> > +	spdif_tx: spdif-tx {
+> > +		compatible = "linux,spdif-dit";
+> > +		#sound-dai-cells = <0>;
+> > +	};
+> > +
+> > +	spdif_rx: spdif-rx {
+> 
+> 'r' < 't', please swap them
 
-Well, let's see how others think, too.  The API design needs more
-considerations because we can't change it any longer once after
-defined.
+I will swap them:
+	spdif_rx: spdif-rx { ... };
+	spdif_tx: spdif-tx { ... };
 
+> 
+> [...]
+> 
+> > +	mi2s-playback-dai-link {
+> > +		link-name = "MI2S-LPAIF-RX-PRIMARY";
+> > +		cpu {
+> > +			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
+> > +		};
+> > +		codec {
+> > +			sound-dai = <&es8316>;
+> > +		};
+> 
+> 'co'dec < 'cp'u, please reshuffle
+> 
+> and leave a \n between the property (link-name) and the following subnode
+> as well as between the individual subnodes (but not after the last one)
 
-thanks,
+I will change this series to:
+	mi2s-playback-dai-link {
+		link-name = "MI2S-LPAIF-RX-PRIMARY";
 
-Takashi
+		codec {
+			sound-dai = <&es8316>;
+		};
+
+		cpu {
+			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
+		};
+
+		platform {
+			sound-dai = <&q6apm>;
+		};
+	};
+
+> 
+> [...]
+> 
+> > +&lpass_tlmm {
+> > +	lpass_qua_mi2s_sclk: qua-mi2s-sclk-state {
+> > +		pins = "gpio0";
+> > +		function = "qua_mi2s_sclk";
+> > +		drive-strength = <8>;
+> > +		bias-disable;
+> > +		output-high;
+> > +	};
+> > +
+> > +	lpass_qua_mi2s_ws: qua-mi2s-ws-state {
+> > +		pins = "gpio1";
+> > +		function = "qua_mi2s_ws";
+> > +		drive-strength = <8>;
+> > +		output-high;
+> > +	};
+> > +
+> > +	lpass_qua_mi2s_data0: qua-mi2s-data0-state {
+> > +		pins = "gpio2";
+> > +		function = "qua_mi2s_data";
+> > +		drive-strength = <8>;
+> > +		bias-disable;
+> > +	};
+> > +
+> > +	lpass_qua_mi2s_data1: qua-mi2s-data1-state {
+> > +		pins = "gpio3";
+> > +		function = "qua_mi2s_data";
+> > +		drive-strength = <8>;
+> > +		bias-disable;
+> > +	};
+> 
+> Because they have identical properties, you can squash GPIOs 2-4 into
+> 'lpass_qua_mi2s_data' with:
+> 
+> gpios = "gpio2", "gpio3", "gpio4";
+> 
+> Konrad
+
+I will revise it to:
+	lpass_qua_mi2s_data: qua-mi2s-data-state {
+		pins = "gpio2", "gpio3", "gpio4";
+		function = "qua_mi2s_data";
+		drive-strength = <8>;
+		bias-disable;
+	};
+
+Thanks,
+Hongyang
