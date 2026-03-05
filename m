@@ -1,112 +1,154 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013016.outbound.protection.outlook.com [52.101.83.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD2820ED;
-	Thu,  5 Mar 2026 02:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772679047; cv=none; b=rUAWae/HVLtYPdRiYh5qatyvSYPy9qqEzVTROUfr8u+VuoFRJ052p4Tl7ya9RsWleGozc7fIWmMMzvAoH8gok66wJxwz+l/Pxa58Bz/8RS6yK7C7R+eMtycTwBZXZI4Tsogy0HdadPVvF6AiHdN3dtGLHpG0G7AUD8e2RqqLc6Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772679047; c=relaxed/simple;
-	bh=aNgN7aNG/PL4lKB530NyvDCGzTpOgA5GT6D+JVDpeeA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BiDqXSpZT7EhrFwgFsidDJjZdyexgwIsgcSoP6nUL4bB08ypLNcwg9XciUMGT4lQLPlizWhOqYyIo5c+F3nyVBQML0iFLqUZJVTUEj51xYJrPXj0TNZFEgg4Zp/1KDTT4Caxca5TbeWl6DCtjRTT7uqB9ya7ap7lmX02sqjY06o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 17fd1be0183e11f1a21c59e7364eecb8-20260305
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_UNTRUSTED, SA_UNFAMILIAR
-	SN_UNTRUSTED, SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	UD_TRUSTED, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_C_CI, GTI_FG_IT, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
-	ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.11,REQID:d197bb7d-7f93-47c3-8115-675f55f359ec,IP:10,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:-25
-X-CID-INFO: VERSION:1.3.11,REQID:d197bb7d-7f93-47c3-8115-675f55f359ec,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:89c9d04,CLOUDID:d7a3ab64d2f4556f72953df785e2d91a,BulkI
-	D:260305105040VVPRMN9N,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
-	|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:nil
-	,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:
-	0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 17fd1be0183e11f1a21c59e7364eecb8-20260305
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 932941648; Thu, 05 Mar 2026 10:50:39 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix headphone
-Date: Thu,  5 Mar 2026 10:49:58 +0800
-Message-Id: <20260305024958.49026-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D403A1A5B9D;
+	Thu,  5 Mar 2026 03:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772680184; cv=fail; b=N/qLe4UKwqdP86O6UH+EB5SAPkoBCAgI82BatLZ/JXrtn/N+nqbhotwgMSFWILZbmtJwMgAcZhB2z3aI2+oePsdY3LELRQ8dwrqaM2Am8f6BMryEJ5Krf19879nG7ZqHXiv447v2wAVUA2U5jmcwU7qqs3u9+VBQi4AqCS0Pfko=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772680184; c=relaxed/simple;
+	bh=O6CVlrN+EpIAGYcUn8H3r8DsVqRmdKr2kb6cVKMLJyo=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=FfPytHA58P/ItSSIh8jObRpFsPQgzBS8BTlHIDKXKqqDGiFQId4+N+FiqEoIFJkq/g0amBxkakBm/vOb9bChMRrcGHmybI71gPCIkR47uj/Mia6ggB2Hns82a4OPpiTL5EdV3VMV0/pBXDYioYLjBTrqfNwblG6R9M28bb6Nph0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=KVh7RTDB; arc=fail smtp.client-ip=52.101.83.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="KVh7RTDB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mnj0tAU5dlaNgNCv0O1Tk1tIpuqQGig5XBF6NFidtCdHWGbr2/awbr340NIfBVoRc0hYr4pcvbmOaI8vSANsGjGui8F5dVI5R0PaqMC5+lFbIVHxtl19o6BMoSY/oylI5Ah0Iz9+LSTR7c3ubHM+hcOLc1HLCuDnfkxUtDFy539p7DE6L7stX/MOs1TTFrZVqRvpNE/gIXlBin7tT2ZH6o1VFbeJEEuNnSjgkLrgt2csKijXUzCEspARAtE40Pv2GORhtqCy6VvR5lVdRI9SI0Op+fpWpX3MeWf6uCZ/Vie0HB4FMR2JlBnTjbXHqsuYCP9FvMJ1hNLTTpQFYHCdZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yNUDy3V4OPHAPfIylWbACb7QLAk9wR6xLKERnxjo+wE=;
+ b=UuQxCPIawzLtz41I/NXiy2mEr6Lph1Z8LTqnmET5OXxuj09QZIBzPY49rZRHZQU+UX2CFMqIefCbshZtlPreaWRQIuq8ubzBD/PYqqfFtSsudpm9BEEg6QFpthqPbPus8T95w0c77Jwun92YEsNgMiG3s7eSL3N/dDoO1nF5bF5rU4MVXL29GOSC22l4p/a3+qJWqFo/oCxH2LNGf0xqJrOV/LyC1PcWd0lAJAVkQ8e2vqNmYsMmG/GLhd8dsBokywuj8t+xYfn2siVQYiiFYmadCa9ciEpL4MVfdc+IU4GppV8K5+t5vD+xRHxKFBCd0863/wiavPRWSMxanfRAEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yNUDy3V4OPHAPfIylWbACb7QLAk9wR6xLKERnxjo+wE=;
+ b=KVh7RTDBMADKiEOvohw2J6C3HCetJtq8OtjbS4C5583NzqKh2/eOdf4kdTligB5VYYt1/q8teuIGwVOUADgYjOjGdiiP7TKDDOtd0fE/yms3rmum70dCA1d1YMoNmd6YJvgsJfGi1Q/q5ziP5midNA1+ZZ9v7+QF+QtGQIXVP8o44hG6K8uHrphDaOrQGF8qMSxpfCfO0fXuvP6U1z/Ws+QsAoZIuKK5t+GqwqxJ9s6uLWMA/r6LLKZBGL2zbo37RtVrnBlBD+vH0xEi1l4k/Wr+8Lz+Fjbzq9TCUhYHPbrnZqFLGJ6arKKdxKRXKSwqGmQjt2OBVvMICQr++hfUVQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB7055.eurprd04.prod.outlook.com (2603:10a6:800:123::21)
+ by PAXPR04MB8159.eurprd04.prod.outlook.com (2603:10a6:102:1c1::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 03:09:36 +0000
+Received: from VI1PR04MB7055.eurprd04.prod.outlook.com
+ ([fe80::4dee:baeb:a5cf:1664]) by VI1PR04MB7055.eurprd04.prod.outlook.com
+ ([fe80::4dee:baeb:a5cf:1664%3]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
+ 03:09:36 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] ASoC: fsl: add bitcount and timestamp controls
+Date: Thu,  5 Mar 2026 11:10:28 +0800
+Message-Id: <20260305031031.3808182-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA5P287CA0094.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d4::17) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7055:EE_|PAXPR04MB8159:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24041732-e318-471c-7945-08de7a6498e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|7416014|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	EXvdfdFCjwDi10VVQygrlF3pkB9slSQHtja1QQLu2psdPDa7lHuA41LEjjuy5W8fclouaIndBNCU38XCSu6il1+w2/SBqsc9Rt57hcHVRwBjMBMH9TNlFRIu41valqtIhy58mvuhGjnN5k4Vg+09jGqX/TNYTsXzhwV2iO+T6KbimuDIXP/6ls6CzLptHYuSZDFPwbwMk4h6GrPyOkbjGCeFC6UmXO+NzjvG2Q+fwgi3RI4lP4lAXIZx4dKm2zzZy6C1iJy4lFZnExdnSRbfNtCYRAjauekfWHwRxPZoJY0vOkChJ5AOLRr2JL6DR0jHu6mOgUBBp42RnybAzTii8+BO5oCBctoBIaUk1vSYcKjJq216CjLNg2d1BwUx1E+5cmCigJWbH6CL0Ny+EPoZg6V1MBpFo3p7Wr66uu/a0XCM+2nHVc7qFMUibDmtAypw8f0cu99UYF2nB7zsPw0sY9JciDrHCkbN+nzHcXLKovqPXsPU+s++fUD32R7D9DDKfY0FNCb0RX0wjjMXQV6lNdefdGhR4JkYfTZPOOE15GZ6eObtTyIdBdOHl7v+4nHm6PN9YWN04wNCjDfSYPAbeeReExDev5kP65tzQYoyNheoEzRguYcQ8bbWIZ20cD7K0F3UijUNrEc5xtuDmcZca3ZomwufcH0praPXoBs5Z9JEDXglvPjn3K0HTpTZNDKIYW/e1pIfcAxwT0itzM2RV3BmUlY9VlNNYI78bcvzxxinLUv1twp6wAmsk6gcwUKvSW7GVXKshi746TSwO6sGoZ2k0iGm0YpFlHUvNMHNNhjhnBBjt/eHkxiK5x/Vbsf0
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7055.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(7416014)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?tUML+RDM8j3ZOLjYiMsX14rthCGBJBrEzTCsZRxwdLNxCXKaqE9D0fQ8H0Y0?=
+ =?us-ascii?Q?LbhPz31A5l5py8nm+XPHkiHhwyvR6JcbKqXop+pYh3ENhgG6wjmc/KLMOsxc?=
+ =?us-ascii?Q?3xCTUttlFOC+FAEd7tggkpcYu784iajxZHmHKP/wsNk4WHipSyX74O8HlWqn?=
+ =?us-ascii?Q?eQVAcqesaut2GoNpo6iV0hXWQX4HPU8g8Poe5F5zom133735tGcokVv8Od40?=
+ =?us-ascii?Q?FIg/mwVMwXIwcfNEMVA/jzoSZgszKbFKg6/zMn9A6RKwpr1xq/DhlrxkTPJ8?=
+ =?us-ascii?Q?h5/eh2BMwNMZwHHToPtaNtB9Ynjy/SA0/1Re7HYZ9i2wld9nYwgcdm0zT2vY?=
+ =?us-ascii?Q?jNAu9JEM8FtvXhop3leV7xQJEFSv7zXt31XDgYxfffApmOLU1X/qLiyHKgvM?=
+ =?us-ascii?Q?Zq96mwPrYkj/xw+5DqIaguXuzjcV7pf1wGq75ZVHIPM2PdIUk8RU539GhK3y?=
+ =?us-ascii?Q?VgrBCpyJzW8L2ElxsSdZYxmNmvLpN91AQfxJK/uLXw4/yGPqjBN0TK0u2Ekn?=
+ =?us-ascii?Q?Frvn5NlvYn3FX0y0PyTx85/lmAGcWAPsKw5KodztcDqxhqVhp92VY0U2UOS/?=
+ =?us-ascii?Q?fvNzmC4qpyAcvSS8xCiqiY4iUoxtzGIRQvj6tSBQvULddyKlpQnbc509FHXz?=
+ =?us-ascii?Q?MWB/3oqkbjKaf1qw9UMZcmAy03eaePLc1S828UAARy3DcJFvIGDdW+maGQEM?=
+ =?us-ascii?Q?DmcVY+HuLNMsgTNtYT4GrdE/T0N+SHPSaQaviU4Yt+Cv7TlgThsxGE/n/EGa?=
+ =?us-ascii?Q?EDGoTmdxq1/W2dQ4WpXKjSbJQuwOksMYtqKkaqBQWgvDFzJP9gxKVG5EBc+t?=
+ =?us-ascii?Q?FdacS9dON/XuQDRllNcU+zz1E9Th5nrpK5DvMC4TLGDQ2h/0mzAbJM0SEbmv?=
+ =?us-ascii?Q?vKbYE4A6Z/VvU4lPErRypYTPHrgDgA6/Wt6djj1YcXmenlCwM3mPhWetFpyH?=
+ =?us-ascii?Q?rK9GgBVL1FLqjlTuWVXJGUroUJoOxK+ibNUdDbozh2wLIO8m21QeRNmgm/XF?=
+ =?us-ascii?Q?yOeqPz25D9NRctEoro/GXa8RzXDqh5hHIU5RI+kYLpNyYidy+GYAJxWH9U2A?=
+ =?us-ascii?Q?s9p5Q88QGde4obGWVQJu0KRX0fmsf1Ah2bkJK0X2W77MCUUQQd2nOWcYaC+i?=
+ =?us-ascii?Q?WWHBPrwhlv6wLVP3Ho7zZP5xcax0heS9AUFXvDicCFtbhrrF5Isbc/+r7R4/?=
+ =?us-ascii?Q?ANxU8h8MSvIqkDu+PIPYO27XeAa5Vu5st9hJ0z6q/O1/sPfmuZDvcTIIOjVe?=
+ =?us-ascii?Q?nxyRFJVjWTQto8CRHdTATdqYJEmy4UUrIDjWVupwowCWXd6mqVtXJZsRLnFx?=
+ =?us-ascii?Q?FSgRpi00BsczzvbaHiQw10GiXiqdMX2N2Hv/IS2Wpnp/0WrKF5r/aInpj4ZO?=
+ =?us-ascii?Q?8Dc4pup5vksyu6Ea9vuzkt0iK++xlJLu7DtW++9jg8d440q6NDzSgugBFB+t?=
+ =?us-ascii?Q?drFEFrKvXrmH1rx6F3idsYCGzEHAP4OUFUFmWKa+IqPA+DBr9MjCHR9CQqmq?=
+ =?us-ascii?Q?SaxBjKVkEPnvyKSU6Xi5T9N3ZNE/kQY6ElYV9FE/tHQ61TR3iTh0aMnnVgad?=
+ =?us-ascii?Q?OsWLQDnYemxopNTWX6T8lAlnYUQOmP4YWA2APctiPIyYh9HUagKV/WAiRBMu?=
+ =?us-ascii?Q?0lLsYRjq4moExbv3iYjuEpvYDjW15j/LNCrzFr9idH/az5UY48go+30hGLvr?=
+ =?us-ascii?Q?6YhkbcU7n+KbGZ/zPsHX6aochGQd28lVNvuWNfD/Oi9KYmu72p3erK1/beTd?=
+ =?us-ascii?Q?yMkXqXxUrQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24041732-e318-471c-7945-08de7a6498e3
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 03:09:36.5658
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dsmgg3pmumDzGUWJFlsO4YFAgVxJ2vUatw+c1Uir2Gr6/Dsj2sIaGAuxOiRSh7XXU/ch0mXByOuLu3x1oq0bbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8159
 
-The BIOS of this machine has set 0x19 to mic, which needs to be set
-to headphone pin in order to work properly.
+The SAI and XCVR have the timestamp counters and bit counters, which can
+be used by software to track the progress of the transmitter and receiver.
+They can also be used to calculate the relative frequency of the bit clock
+against the bus interface clock.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=220814
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/realtek/alc662.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+changes in v3:
+- define own functions which check the pm status before accessing the
+  registers to avoid -EBUSY error reported by mixer-test.
 
-diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
-index 5073165d1f3c..e5c75f27fca2 100644
---- a/sound/hda/codecs/realtek/alc662.c
-+++ b/sound/hda/codecs/realtek/alc662.c
-@@ -313,6 +313,7 @@ enum {
- 	ALC897_FIXUP_HEADSET_MIC_PIN2,
- 	ALC897_FIXUP_UNIS_H3C_X500S,
- 	ALC897_FIXUP_HEADSET_MIC_PIN3,
-+	ALC897_FIXUP_H610M_HP_PIN,
- };
- 
- static const struct hda_fixup alc662_fixups[] = {
-@@ -766,6 +767,13 @@ static const struct hda_fixup alc662_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[ALC897_FIXUP_H610M_HP_PIN] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x0321403f }, /* HP out */
-+			{ }
-+		},
-+	},
- };
- 
- static const struct hda_quirk alc662_fixup_tbl[] = {
-@@ -816,6 +824,7 @@ static const struct hda_quirk alc662_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x105b, 0x0cd6, "Foxconn", ALC662_FIXUP_ASUS_MODE2),
- 	SND_PCI_QUIRK(0x144d, 0xc051, "Samsung R720", ALC662_FIXUP_IDEAPAD),
- 	SND_PCI_QUIRK(0x14cd, 0x5003, "USI", ALC662_FIXUP_USI_HEADSET_MODE),
-+	SND_PCI_QUIRK(0x1458, 0xa194, "H610M H V2 DDR4", ALC897_FIXUP_H610M_HP_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x1036, "Lenovo P520", ALC662_FIXUP_LENOVO_MULTI_CODECS),
- 	SND_PCI_QUIRK(0x17aa, 0x1057, "Lenovo P360", ALC897_FIXUP_HEADSET_MIC_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x1064, "Lenovo P3 Tower", ALC897_FIXUP_HEADSET_MIC_PIN),
+Changes in v2:
+- remove arrays of enums, define transmit_tstmp_enum and receive_tstmp_enum
+  separately.
+- remove __bf_shf(), define the XXX_SHIFT macros.
+
+Shengjiu Wang (3):
+  ASoC: fsl_utils: Add snd_kcontrol functions for specific cases
+  ASoC: fsl_sai: add bitcount and timestamp controls
+  ASoC: fsl_xcvr: add bitcount and timestamp controls
+
+ sound/soc/fsl/fsl_sai.c   | 62 +++++++++++++++++++++++++++
+ sound/soc/fsl/fsl_sai.h   |  4 ++
+ sound/soc/fsl/fsl_utils.c | 89 +++++++++++++++++++++++++++++++++++++++
+ sound/soc/fsl/fsl_utils.h | 30 +++++++++++++
+ sound/soc/fsl/fsl_xcvr.c  | 64 ++++++++++++++++++++++++++++
+ sound/soc/fsl/fsl_xcvr.h  | 18 ++++++++
+ 6 files changed, 267 insertions(+)
+
 -- 
-2.25.1
+2.34.1
 
