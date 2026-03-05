@@ -1,76 +1,76 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B09390C98
-	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 11:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72CF3947BF
+	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 11:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772710747; cv=none; b=pQoOGcwldAytjer4gjOry9pn9t0yVU+vVczYPtAH++/GI4VYVFLYbrAk8AkajTqSPN0FU0NJdAe97NzXrwQe+Hte2XNumtlrM5r5EoL1p5nNjF3f3IA+HYwMbiShtn3lp1HYL7JbX46HYZr83GMSgorb4jxLnpu/4MnkIwOAV2U=
+	t=1772710925; cv=none; b=eu5+wxqJmXnFrMSzi4c1iyymzhuHkFoZ1+C/L3AQx7HTzNPF2X0y60Mf4bkJ2ZvEsi77b6hu6td44SURQeGkV2v/XiILjG3pyMsJGgyEl3mFw0I1iofeNikwnTNMo1PKbOcncDL6OGpesBAP614MJcB0wqHOk67mtM27kOc6oog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772710747; c=relaxed/simple;
-	bh=gAwbqVAbvtovkWNbvxGpZhOb4EGTwqcQ+sA9C3aQ5TQ=;
+	s=arc-20240116; t=1772710925; c=relaxed/simple;
+	bh=YlSn5mhehtXexk0UgzHeWWi/zuHQUIO0OKDNwuVeRCE=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LOT8IFr+Apgc5TOuzD8+PpDUpU1AUd9FooSLWm+vVAuXNRarBBlCm5uF7FTiwRuGjs6ZH11FKoqG1LhSlCE1IVGF98FULUC68WZqaj/Xzp9XaIGqwx7KAT2xMdCvfwBR692sQBWhadmHufQ5TgoX5AcwgAinKkJLyIYn78SqRL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OkuNjZeE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4z9q5Osh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OkuNjZeE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4z9q5Osh; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=MdJsXPWY74fqw8UKdCleV2T4rOo6U9Gjg0hlMaMOC/ht/9AMJq4fEwzAb1RD2X9MZcNlLrstJgrS/AmgcqjSFM/Fg84KjIp0DOo+jxxYhhKrlLDssR9KLlJKqoHIe2uG/njEHq/5YkKY4fWMsyvlA4rT/z1p+QbMVVVr7tHbUoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fPERXZbC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PjUF/u6e; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JVxue8mf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t93iDBFJ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OkuNjZeE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4z9q5Osh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OkuNjZeE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4z9q5Osh"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fPERXZbC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PjUF/u6e";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JVxue8mf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t93iDBFJ"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 877F15BCD5;
-	Thu,  5 Mar 2026 11:39:02 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DC2A63F308;
+	Thu,  5 Mar 2026 11:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772710742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772710920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Cl9nlUpIuPmsiULjqlseAdMCGZg93IbIU9y6iXHzfOM=;
-	b=OkuNjZeEmy68xYzfFEcfqfNAvR7rsglAtqWu2iZUkOt/4tsj2wppOyiiYpYOD4Z7RIECAl
-	DrYIPLJaf+ai5UXOOIo3EobHUY1uUE6RMH9BSdDLFmM3QjqxDhnrfxDgyH7auOCuuEJ0QK
-	FcfHQb4bf0HeNwbiqobDtZAv6VyZT7A=
+	bh=jP9CLbf19R5CcuLKu2ibX3EboVfph6KN9N/LRN7agDk=;
+	b=fPERXZbC9OHuYuN1UCufKnl/b2FfErlxR7DtApwz52eGizb0iipnR22lVWwyXqRLE+Au5k
+	0MAXFPjvy4GKzm65TA5hcbfsCbvqYmhW8OMnQpqzVxKd5uEBWXCbCkHUpzZP6WhsZAfpR+
+	pQe9s683BxIPUlcf8l4+AAlqtdNnsZs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772710742;
+	s=susede2_ed25519; t=1772710920;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Cl9nlUpIuPmsiULjqlseAdMCGZg93IbIU9y6iXHzfOM=;
-	b=4z9q5OshCKDVOhH+zvVYR+ux6JTo9k6xymoXMUSWAaJN29mdgV0FjUt0/KpaNMyirXlNR0
-	3Y/9TSGUKYSmI3Bw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=jP9CLbf19R5CcuLKu2ibX3EboVfph6KN9N/LRN7agDk=;
+	b=PjUF/u6eLQr8ShyM4/JRVjFmIM7W2k8agTDTllxrVx8kAl117bRA6edqXCanG5wPlUEFBo
+	6fIY/sdFwbxL79BA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772710742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772710919; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Cl9nlUpIuPmsiULjqlseAdMCGZg93IbIU9y6iXHzfOM=;
-	b=OkuNjZeEmy68xYzfFEcfqfNAvR7rsglAtqWu2iZUkOt/4tsj2wppOyiiYpYOD4Z7RIECAl
-	DrYIPLJaf+ai5UXOOIo3EobHUY1uUE6RMH9BSdDLFmM3QjqxDhnrfxDgyH7auOCuuEJ0QK
-	FcfHQb4bf0HeNwbiqobDtZAv6VyZT7A=
+	bh=jP9CLbf19R5CcuLKu2ibX3EboVfph6KN9N/LRN7agDk=;
+	b=JVxue8mf4zIrClxFUsOtYBOWTnzxdQEjKk9zQNW4lW2cATMMMbPKXfgEuR/Blh/5kRcrmX
+	FwqFqkVKaZ9q9LV4p6dk+971N3g2zdsFxq7ItpvirIlFF4SNLfK8++pYMSkOuY/MDQvH4g
+	ReFiGL+9WaKW2MIOFEoOVnZIvTwlxrA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772710742;
+	s=susede2_ed25519; t=1772710919;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Cl9nlUpIuPmsiULjqlseAdMCGZg93IbIU9y6iXHzfOM=;
-	b=4z9q5OshCKDVOhH+zvVYR+ux6JTo9k6xymoXMUSWAaJN29mdgV0FjUt0/KpaNMyirXlNR0
-	3Y/9TSGUKYSmI3Bw==
+	bh=jP9CLbf19R5CcuLKu2ibX3EboVfph6KN9N/LRN7agDk=;
+	b=t93iDBFJr2KHJce3XA4mYd3w4HNHTtMQEAbl7/+8FNrV4y8gKJG/L3BZk77eKlN92s6kb2
+	xDSq/iSMoBGHcYBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C7D83EA68;
-	Thu,  5 Mar 2026 11:39:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A35AD3EA68;
+	Thu,  5 Mar 2026 11:41:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kfFZEVZrqWkDPAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Mar 2026 11:39:02 +0000
-Date: Thu, 05 Mar 2026 12:39:01 +0100
-Message-ID: <87cy1iy08a.wl-tiwai@suse.de>
+	id V5SbJgdsqWlIPwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 05 Mar 2026 11:41:59 +0000
+Date: Thu, 05 Mar 2026 12:41:59 +0100
+Message-ID: <87bjh2y03c.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: wangdich9700@163.com
 Cc: bo.liu@senarytech.com,
@@ -79,9 +79,9 @@ Cc: bo.liu@senarytech.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH 4/4] ALSA: hda/senary: Fix microphone boost stability
-In-Reply-To: <20260305032756.236440-1-wangdich9700@163.com>
-References: <20260305032756.236440-1-wangdich9700@163.com>
+Subject: Re: [PATCH 3/4] ALSA: hda/senary: Add dynamic EAPD control via playback hook
+In-Reply-To: <20260305032741.236048-1-wangdich9700@163.com>
+References: <20260305032741.236048-1-wangdich9700@163.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -115,94 +115,78 @@ X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Thu, 05 Mar 2026 04:27:56 +0100,
+On Thu, 05 Mar 2026 04:27:41 +0100,
 wangdich9700@163.com wrote:
 > 
 > From: wangdicheng <wangdicheng@kylinos.cn>
 > 
-> Some SN6186 platforms experience microphone gain fluctuation.
+> To reduce power consumption and eliminate static noise during idle,
+> this patch introduces dynamic EAPD switching. It hooks into the PCM
+> playback stream to turn EAPD on only when audio is playing and off
+> when the stream stops.
+> 
+> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 
-What does this mean actually...?
+Hmm, this is usually controlled via runtime PM.
 
-> This patch adds a capture sync hook to lock the microphone boost
-> to a default value read during initialization, ensuring stable
-> recording levels.
-
-But it means that the mic boost value changed by users (via mixer)
-won't be followed at all?  Sounds fishy.
-
-
-thanks,
 
 Takashi
 
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 > ---
->  sound/hda/codecs/senarytech.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  sound/hda/codecs/senarytech.c | 37 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
 > diff --git a/sound/hda/codecs/senarytech.c b/sound/hda/codecs/senarytech.c
-> index c589b3b01171..9c6bad6e3866 100644
+> index 8ebd974817ac..c589b3b01171 100644
 > --- a/sound/hda/codecs/senarytech.c
 > +++ b/sound/hda/codecs/senarytech.c
-> @@ -31,6 +31,7 @@ struct senary_spec {
->  	unsigned int parse_flags; /* flag for snd_hda_parse_pin_defcfg() */
->  
->  	int mute_led_polarity;
-> +	unsigned char default_mic_boost[0x25];
->  	unsigned int gpio_led;
->  	unsigned int gpio_mute_led_mask;
->  	unsigned int gpio_mic_led_mask;
-> @@ -162,6 +163,30 @@ static void senary_playback_hook(struct hda_pcm_stream *hinfo,
->  	}
+> @@ -132,6 +132,36 @@ static void senary_init_verb(struct hda_codec *codec)
+>  	snd_hda_override_pin_caps(codec, 0x19, 0x2124);
 >  }
 >  
-> +static void senary_fixed_mic_boost(struct hda_codec *codec, hda_nid_t nid)
+> +static void senary_set_port_eapd(struct hda_codec *codec, hda_nid_t nid, bool enable)
 > +{
-> +	unsigned char value;
-> +	struct senary_spec *spec = codec->spec;
+> +	unsigned char port_eapd = 0, eapd_value = enable << 1;
 > +
-> +	if (!spec->default_mic_boost[nid])
-> +		return;
-> +
-> +	value = snd_hda_codec_read(codec, nid, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
-> +	if (value != spec->default_mic_boost[nid])
-> +		snd_hda_codec_amp_stereo(codec, nid, HDA_INPUT, 0,
-> +				HDA_AMP_VOLMASK, spec->default_mic_boost[nid]);
+> +	port_eapd = snd_hda_codec_read(codec, nid, 0, 0xf0c, 0x0);
+> +	if (port_eapd != eapd_value)
+> +		snd_hda_codec_write(codec, nid, 0, 0x70c, eapd_value);
 > +}
 > +
-> +static void senary_cap_sync_hook(struct hda_codec *codec,
-> +		struct snd_kcontrol *kcontrol,
-> +		struct snd_ctl_elem_value *ucontrol)
+> +static void senary_playback_hook(struct hda_pcm_stream *hinfo,
+> +		struct hda_codec *codec,
+> +		struct snd_pcm_substream *substream,
+> +		int action)
 > +{
 > +	struct senary_spec *spec = codec->spec;
-> +	hda_nid_t nid = spec->gen.imux_pins[spec->gen.cur_mux[0]];
+> +	struct auto_pin_cfg *cfg = &spec->gen.autocfg;
+> +	int i;
 > +
-> +	senary_fixed_mic_boost(codec, nid);
+> +	switch (action) {
+> +	case HDA_GEN_PCM_ACT_PREPARE:
+> +		for (i = 0; i < cfg->speaker_outs; i++)
+> +			senary_set_port_eapd(codec, cfg->speaker_pins[i], true);
+> +		break;
+> +	case HDA_GEN_PCM_ACT_CLEANUP:
+> +		for (i = 0; i < cfg->speaker_outs; i++)
+> +			senary_set_port_eapd(codec, cfg->speaker_pins[i], false);
+> +		break;
+> +	}
 > +}
 > +
 >  static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
 >  			      const hda_nid_t *pins, bool on)
 >  {
-> @@ -251,6 +276,7 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
->  {
->  	struct senary_spec *spec;
->  	int err;
-> +	int i;
+> @@ -270,6 +300,13 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
+>  	if (err < 0)
+>  		goto error;
 >  
->  	codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
->  
-> @@ -307,6 +333,13 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
->  	if (codec->core.vendor_id == 0x1fa86186)
->  		spec->gen.pcm_playback_hook = senary_playback_hook;
->  
-> +	/* Initialize and fix mic boost */
-> +	for (i = 0; i < ARRAY_SIZE(spec->default_mic_boost); i++) {
-> +		spec->default_mic_boost[i] = snd_hda_codec_read(codec, i, 0,
-> +				AC_VERB_GET_AMP_GAIN_MUTE, 0);
-> +	}
-> +	spec->gen.cap_sync_hook = senary_cap_sync_hook;
+> +	/* Register playback hook for dynamic EAPD control.
+> +	 * Vendor driver applies this specifically for subsystem 0x14f10101,
+> +	 * but we apply it broadly for SN6186 to fix noise issues.
+> +	 */
+> +	if (codec->core.vendor_id == 0x1fa86186)
+> +		spec->gen.pcm_playback_hook = senary_playback_hook;
 > +
 >  	/* Some laptops with Senary chips show stalls in S3 resume,
 >  	 * which falls into the single-cmd mode.
