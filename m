@@ -1,71 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m3289.qiye.163.com (mail-m3289.qiye.163.com [220.197.32.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D7A34678E;
-	Thu,  5 Mar 2026 07:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3747D30C368;
+	Thu,  5 Mar 2026 09:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772697575; cv=none; b=jAt2CoIeGRj4AdAASkfYJwsjjbmB3WYKJijXOR4CEYsRj1IZW1cjTItvHo1nEqWa45lSZp1NM7/bmKD69Fn583L7NheVwMXbNvC+XDFv7tTzltkY9gDEzci8jHxREUCRTXGC/SN/mzkvs4W3LzMpOESaGFAGkl36qsYIPtY6KTA=
+	t=1772702306; cv=none; b=FiUV3ZLM89kP89G04S9LHbfbNu17cyZiKM65BL3WTM7MB/lf8479rQqshfWbGc54IoFxjrEMVzZ4rv6u28FBAd5WV5oZSgAg5dqeh9xGAE82Ur58dynvxTcz55f0+LXAQrCMdnE9Rc3S/Bh0aE0njhheFD7UzsqxCz6ZAy3PjjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772697575; c=relaxed/simple;
-	bh=mtIMcctID1kG6nERXwpE2Bzb0pNOLJjHpwMn79E2ywY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fIpbmcLLtkb8sg+zcHzbKhLAo7mxS9vu2QTkb9ZNIDXIbNZsu3QERITpEX2nio8YXGDCEa2WWU/NEukocOt2lFywalEi1kkJqrcfa3TFYAX7xpxktACx/syVuVbr5R8Uhsws01Klr8sZYaCAtPgYv63209TExtHLDtwekJbN+IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViOsm6ZL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772702306; c=relaxed/simple;
+	bh=t8lhSjavVNyVN0m6itU2OGMsya1COEWO1iDxM84EcgU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kQvd7v/wOuE1AS0u8OFNbq1rGyru0Ox85zx6Te8BY8hXrNuFWuwsknjKnt+HY7oT183sgu9f+hxpsVrUziIfEwd5sVD/WKoeoDizFhqBzLCEvI0MQnWlY/luWgZL+oIZSzLqaN0imXdf0B9gzYAG1w6u9o8c81vwrApEs07cNWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=ZhKWxgcH; arc=none smtp.client-ip=220.197.32.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViOsm6ZL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C396FC116C6;
-	Thu,  5 Mar 2026 07:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772697574;
-	bh=mtIMcctID1kG6nERXwpE2Bzb0pNOLJjHpwMn79E2ywY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ViOsm6ZLYi7ak85jiMC+qLsF0VtwwfCLIvL53A0ixOnWApfJVsPPTn8+G0O9PIRhx
-	 jdFiRa3yo5A8xeuJloL70WLYIr6UJUCiLb7pXRe4z+f6vLVpKjNrInXMk5C5TEEbSK
-	 1CvgitkDS2HarybQq6QmykIqJcD5SnGgVNt6gPhuBEOMyDYhUbRYxvQvNvrmiIaprX
-	 yC5Jux4JJbpZgGgBSAdDP+zDYskg5Af8AuP2mIqOd5I4v2I/ASvRT23Djv2tjzZmAB
-	 sdTWoPxGTupe6fl6qF6QXBUkBSRlCzQTnDDNDrLRQUdincStJOIxhaVRamQEYiAZiv
-	 ylOPDtcB2dhNw==
-Date: Thu, 5 Mar 2026 08:59:31 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, Nickolay Goppen <setotau@mainlining.org>, 
-	Wesley Cheng <quic_wcheng@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 05/11] ASoC: qdsp6: q6dsp-lpass-ports: add internal
- mi2s support
-Message-ID: <20260305-gigantic-gay-boar-86db8a@quoll>
-References: <20260304195815.52347-1-mailingradian@gmail.com>
- <20260304195815.52347-6-mailingradian@gmail.com>
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="ZhKWxgcH"
+Received: from [127.0.1.1] (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 35d4e47d2;
+	Thu, 5 Mar 2026 13:48:23 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+Date: Thu, 05 Mar 2026 13:47:45 +0800
+Subject: [PATCH 4/6] ASoC: qcom: common: Add MI2S port IDs to jack setup
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260304195815.52347-6-mailingradian@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-rubikpi-next-20260304-v1-4-327595a4528a@thundersoft.com>
+References: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
+In-Reply-To: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
+ Matteo Martelli <matteomartelli3@gmail.com>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Roger Shimizu <rosh@debian.org>, 
+ Hongyang Zhao <hongyang.zhao@thundersoft.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772689696; l=890;
+ i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
+ bh=t8lhSjavVNyVN0m6itU2OGMsya1COEWO1iDxM84EcgU=;
+ b=Q5isSuJrJcCoSP8YPF5noG2zzC7RibS9qplvAbqZFsIqWI9FmCgMFl+c8A1y4p/W8OyU5t/H9
+ 4f+eGHZsERqDrOmUxXBLwq9SsY0hZ0rmoktF1IVIFIEDpOZClbL/TFd
+X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
+ pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
+X-HM-Tid: 0a9cbc8a43f309d5kunma04077fcc85688
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSUxMVh8aTENKQkMYHUNMQ1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=ZhKWxgcHihxWZI42+WXAKaVAR3weBWXeaSHsGNTEpCghgGssrhIcYCcy7L0btUIy2LDW0bA2qQsAJwzE4JD0Ru35ep7yBkSJcVtNAyQNWlEN+HukNBGHP2dDHQH0iZdFgX/rfhcIvgGjyprANfxAgKZSRot3hOXOXO+1iB3sFcQ=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=PYTEvEpolPMmlNBtv2AO7COTHMb4LGvNbz02lBXKnPg=;
+	h=date:mime-version:subject:message-id:from;
 
-On Wed, Mar 04, 2026 at 02:58:09PM -0500, Richard Acayan wrote:
-> Add the internal MI2S stream capabilities as specified by the audio
-> kernel modules and configure the ports as MI2S ports.
-> 
-> Link: https://android.googlesource.com/kernel/msm-extra/+/530cffa4cc977a348753831b163eb9d3302b954a/asoc/msm-dai-q6-v2.c#4597
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 200 +++++++++++++++++++++++
->  1 file changed, 200 insertions(+)
-> 
+Add PRIMARY_MI2S_RX through QUATERNARY_MI2S_TX and QUINARY MI2S port IDs
+to the qcom_snd_wcd_jack_setup() switch case, so that codecs connected
+via MI2S can use jack detection.
 
-This duplicates Srini's patches.
+Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+---
+ sound/soc/qcom/common.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
+index 7ee60a58a336..657378474254 100644
+--- a/sound/soc/qcom/common.c
++++ b/sound/soc/qcom/common.c
+@@ -230,6 +230,8 @@ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
+ 	case TX_CODEC_DMA_TX_1:
+ 	case TX_CODEC_DMA_TX_2:
+ 	case TX_CODEC_DMA_TX_3:
++	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
++	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
+ 		for_each_rtd_codec_dais(rtd, i, codec_dai) {
+ 			rval = snd_soc_component_set_jack(codec_dai->component,
+ 							  jack, NULL);
+
+-- 
+2.43.0
 
