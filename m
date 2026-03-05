@@ -1,103 +1,186 @@
-Received: from mail-m3283.qiye.163.com (mail-m3283.qiye.163.com [220.197.32.83])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011064.outbound.protection.outlook.com [40.107.74.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7E3246778;
-	Thu,  5 Mar 2026 06:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.83
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772691843; cv=none; b=adpFhepxJZFfPL5hJcpWSDmjtpuZfpIKpRnGcXDtAsBo9QrNgwSkYc0b14kvyUD9ahkVexK07G84SbR9H8M4INJuyaSWhhFgb05L6/ZMQ+FwDdwINo2j/pABlz/kBWrQ9gEVAbpa1Y9wCfIWVgEg9rcTtKHYG84JVKnNIQH2Mz8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772691843; c=relaxed/simple;
-	bh=Iht1r+yVIjhbmgorwffY/WZG4fvWpt012DxOBQaeKic=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OPOFIlmmoWKQjgJPozkdbYfT1N6wnIOHaSR1XT4bbI7Gg30FbqpgpqRjseNA4ysCCa2u4g50zPB8Jto2K2seNmdk0XT7yKHqUUekg+d34BXrnMwlZq05Vd6GqVHRmR2bDx1oIdFdQf7St0B8yp1jgOu19JhHTxRkmSbYmOXaysU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=VcZYJInK; arc=none smtp.client-ip=220.197.32.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3717021D590
+	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 06:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772692377; cv=fail; b=pYzqHo+egmKa0wBLLQIO4pSta4GmsDeI/yU1f9Xlpmi9ecTpSk4EjQwtAGCWsGLW6FdSQ5gN+MgmPaODmu9rm+m2AbN5rzFzW9pVNwPLIRskq9eB9eiBB/s+tGryq8sWmdV+3csbBVOraqtHfj4lF55iaJ4uPdzQfb6B73xL9Q8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772692377; c=relaxed/simple;
+	bh=iYQBLDKnmgwzAMvxUIYdA3xIRnYoGbGzhUGS+eEf6rU=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=XbOL6Khxp0vRq3/5Eq6QMfc2HjKtG+E1sVwgjG5Eh6FsRaDdgkVXu09Dw3EQdDBhC/rl0iapxbqD8gaU/L11i/xq0irHN9CYhOXtj9U0ucCkiKM7dIE8jHhXxVBjjjmhTjQANrVSL8APM4VQqBNWJXg0nneUR9PPMVPXqPKpNb8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=cnsSsL3h; arc=fail smtp.client-ip=40.107.74.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="VcZYJInK"
-Received: from [127.0.1.1] (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 35d4e47dc;
-	Thu, 5 Mar 2026 13:48:25 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Thu, 05 Mar 2026 13:47:46 +0800
-Subject: [PATCH 5/6] ASoC: qcom: sc8280xp: Set codec DAI format for MI2S
- links
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="cnsSsL3h"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kLSr4uVku56Vv/6UHWuX791VjtJrAOzOSJKVq2J/7Q1PyAF3InZCOG80iQy8q5pz43jonu+Ws8QY4XN56ntFgA5Zb3dPEni1KO1m7HkkxCZp0Iv1eLd3Y4xFfBtAweepzK3VdipAJNYlCQ/nUY4MW61Tn0gY1um5LnhlPPQSBkfhE0MsCN1MO7vP2YMOSasns802BcFMmlOP9d5Mu0tmpYVuz0l4w0YbDHb6WuKbspQyqi0ggmWkIKINCTlgISdvR0Lzr3qlZgwhlGNmOpI3TsBtAThrBPuqLWsqYACm4S99WdoCEyORmvDJ9zfQxBMHLN7FDLvi/qVoyEoQREf+iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xts7mhVFr/ROtZPD3nZ6OXYFvgvKFjxlpHSfr+ZxYso=;
+ b=hjVodWdQcJvtzzqGAQnfGxBMzdGuSatu79K0sCNFctn5tyYhNDgv1MDBw/xmrU6aFPWOLAlPKNyxmPC71bAAsRzR/57KKc2YlPWTxBr+6Yf8QhQeaVjbw0GWwY6cYdTiyqT6XOTJxZ30PGIEnCZ/fq+UQehGbcYvIiXxVmzUv30VR9e1P4beeIoM+XeVZjsjKTLrzMrMlyuGNGNfF/q35HG7ZHJ+XfobnH54b/naku5hm3mxRVbxoJyBrbSC01ZHjpdhALW2JaQBPghAT+CIVS5GBsJ0/5sl5V4JIEc1ANCzXzeCcIM5gzMirGdG0hlpSCS2bsCMQHSfmbwFYvVZ3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xts7mhVFr/ROtZPD3nZ6OXYFvgvKFjxlpHSfr+ZxYso=;
+ b=cnsSsL3hI4aoV4yUocD2LfzoNhRmAjm6MB5qNZwnL9ynl5N2eoE+xqb8q5WnND6+7vFw1rzGqj8dAe1KE/5hu7MDTQXF1adHBXioxyhrhpeol+ztLoA+9pXG3BTXkOB2IiwW8z9qRrLJ3uK7aB6r19KjnBc70qwKz3uHr0qMq8Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
+ by TYVPR01MB10796.jpnprd01.prod.outlook.com (2603:1096:400:2ad::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 06:32:52 +0000
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
+ 06:32:52 +0000
+Message-ID: <878qc64wh9.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] ASoC: soc-component: add missing #ifdef CONFIG_DEBUG_FS
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 5 Mar 2026 06:32:51 +0000
+X-ClientProxiedBy: OS7P286CA0004.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:26c::16) To TYYPR01MB7976.jpnprd01.prod.outlook.com
+ (2603:1096:400:ff::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-rubikpi-next-20260304-v1-5-327595a4528a@thundersoft.com>
-References: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
-In-Reply-To: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
- Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
- Matteo Martelli <matteomartelli3@gmail.com>, 
- Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Roger Shimizu <rosh@debian.org>, 
- Hongyang Zhao <hongyang.zhao@thundersoft.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772689696; l=1340;
- i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
- bh=Iht1r+yVIjhbmgorwffY/WZG4fvWpt012DxOBQaeKic=;
- b=RtpwU1OF/ulbTYhGoY/Rtg+Jc8GxAwlQQNL0MwQoj3b3KyJUECb6iGaAL+THI4hHIHJ8aUVqR
- yvB+Bk8JfhdA78Bh7/aVB47vybGH0G6ovHDAIec9vfGO2d8s3vq0fw9
-X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
- pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
-X-HM-Tid: 0a9cbc8a4ac009d5kunma04077fcc8569d
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR9LVhlDGR9PGE9NHR9PTlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=VcZYJInK1v3dPENNRAruuYoyHjwiLEY+4yiBbEjADutk89V7FOQdfRMkihQXK1D7qRemcguSX9IgdcxaIqnr4ZI5PBpALi49eT8jNJwh6cVtzU8ioPYHQhON9qpXB7wHaPShFjlH/Ved+pTG0EY0oIJvy2h/MTp+t1BabEeahTc=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=uD1bDfoNoFCDj51HBerfeeYEewmuLu8oZRNJDSFssSo=;
-	h=date:mime-version:subject:message-id:from;
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|TYVPR01MB10796:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a75509d-42c2-4b7e-d053-08de7a8106df
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	n/Ak6L2m4m2YHm5bJPgo8dPaPFV6kJ36VdfTXtrQ1fCP/v5hCBvR652JlYuZ5FxAq4PTTE6Uyg7bAnz+MUs91t9kh5na2up9WZ/JRgEZz1kZxAWKqAQUeX+S6LP4Pz3kNCL2UvGWFkrQ1OOHdzq2fLJgjndiWnkTPUWCylq9D6ex2mOPZE/lisQLiRuqaDLnV1wNUaV/53dWSbhR4Qvaa7VG7S6dOs6jp+oAbCQokxJB/atewimG/PeSCCGOtxZIPALNRkyulBS1lBr/fOJTPcvEYxAXi/bPuTWRwCPzbryZfeiQoVuULKsqUa/QZTdb4rWk83ikV+mszrb3rdeeCA2l27+eF/9ZUnnTLQ3vZitJgIqFfHa2dlqyOzlKrAYlO1L8vjepYh5xZE9uiLUMmK/a7mC2JCjd8ZaYx1WQsh2jbJHGJf4Qh2/TtopDoe/axlhl2PzJnerZhls+3a8Um3+08C3Q0W/cI3HS4SedouFM1M1JsgTjZGwRzdZpMPLYI5GT3HXp1xw9DL9YcL2Ig7aBhNBjOptQZla1x39s4kxZxhWQVlcbsudR23b3Z2k16ty5NhpCEeDZLEjXniQboktwMdlz+1QIpal/r4GDBel0ZfiB13HEzE2bIo3oql5XloZpcMakrPXdZDj669jHcsSLLdGlQP5hMUvt3ix77w8KwvESSE2rKvv+cy0Kw/cNATEXqDIqkMoYXUj/Z5qxt2vSsLOivARpk2cq8wqzXGV6Oe6lj60fwHYObZbUwI53QPi1wIs9Zkd0zC+f4kEJpsmJCTlhbP4J1XPitv0daac=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Vcb32fK55AnD6Fmul7NEWdCbxsvEJnrnIl8vniKTjISaIsFGIEAkWrVNaGgY?=
+ =?us-ascii?Q?nJR+EA7UdGp6GW16mLcNKYW7I/N95N+k63l+SAFjIcbP4b9gWTubZLLyMPrU?=
+ =?us-ascii?Q?Ty5F/7pAFcjXD5m2sHuciHud3e2WIavkHu5+wFfwxru3MzbJfYzPULk6R/Vd?=
+ =?us-ascii?Q?yo9SBVBtKkxaLHrp34VsI5z8R82smYpwaQTVeJZZF1NM6E1EHyJKbhEBkXvG?=
+ =?us-ascii?Q?XstGT/D7Ei1Jf6ag0P2AXQtWVpgGh+odGpRdjg/ca13e0dw2xA6Q2YS99b6I?=
+ =?us-ascii?Q?bXnx/mTvz37HrDJmnWgYP0yoqveeRA2jBhIegHzibXdNucnjZLZXJLcsDIaU?=
+ =?us-ascii?Q?1U0n+3OSl2JRBT/Hay/otKBj+GfnK3GuiqxGoeO8++102z6BLzP/H5mSG6Nz?=
+ =?us-ascii?Q?9mKVOvrRCFDqw0Cr+fg39TXY33n9/QIHE5FJrQvzQ9IX51qd19pA8Z2GRa7B?=
+ =?us-ascii?Q?WAv+qWhjaCLG22jZ0FFRSX1j8uvMpQns20Q+z87A3KG8dq2brBVXWuKLXpQ8?=
+ =?us-ascii?Q?OoR1JPoKm82/FbaxZnre+Zn+SntPdbGJ2J7+NZmKeuJ6MhaYOUM2F2Na/sKp?=
+ =?us-ascii?Q?NHsrnaFjhiIT4lwFF9LUd+zWhFM2+cmf2bGZS8APXaS6xp0ONRx0F2ftQ/gW?=
+ =?us-ascii?Q?DyTb6/HAKW/gKSkgUdd0qZRBMhH/h5yYi7vXtp7kmaFAh+TVQp7IrCSNCqrz?=
+ =?us-ascii?Q?IMy5vKsia6g6OoZlAqjDgqEt4gBdTNIg4DmOsMuznSzczs/tpbMusYiAOvq/?=
+ =?us-ascii?Q?lCQubM6pcL6Z2AjBuSYM1tBti1PL57mWya778ojdA2N+j0lOHHQh0xyfZSp1?=
+ =?us-ascii?Q?P7rWqCtLUhJDjep9yStw8rpU9ksH+14gT3YZGs6vZmSxRDPTvgGir2yuhYUf?=
+ =?us-ascii?Q?sm5ehYeChjU327GnZNBXHea9mWS/f7y2+a6Y4sAYCrsMUtXSrqSvF6rHc3wB?=
+ =?us-ascii?Q?+o+Z5HZOAVS3pHmwen0KxnFTAXAkE/vmrRDsYGghr9IqUV8PwAlZqI9pe3wD?=
+ =?us-ascii?Q?1SXkMXScqiShilDv6Au450CA0kzJ33UM4GvMonXbvaiXwjnvUcuKoe6siCRJ?=
+ =?us-ascii?Q?rEr8dn1sEI/TeNl7g7adPndC3qH6kRCdChnYZ1XwKadJBjZS+6nCbTlRmhwK?=
+ =?us-ascii?Q?hiZLR1sKQYxfhSMewOcxLZJZDWDyxuMMhqP5IBHV1D71WYtUj9ggUHo2OM87?=
+ =?us-ascii?Q?J8ipJEcYY1E7Qozs3bVe2aRQ5QkciWg6zQsMF/rkRRwWyeVH31vhVWUgdVGT?=
+ =?us-ascii?Q?u2jX3AhJHudoIp3cckVA+Pd7nkPpq0BSl14MQ6/+1GsZT+qPgg8o6M/1B2jQ?=
+ =?us-ascii?Q?IUk4OiXBV+/yX3Otf33dngCFS8Dx8B5ByouFsVtToSOEDAgRpUvbHQXxfWag?=
+ =?us-ascii?Q?xPGHoG3vYtZ0jNkDKL51gj5+Glbax3VpweIHRmV7AAyLITY1eoASmw4dfeZr?=
+ =?us-ascii?Q?Iggy3QdwepI/3nelkz2KWZjPrq+TDxno1DSstvvipGZkj57zK253nIn3lYPg?=
+ =?us-ascii?Q?vBC5qIIejdO72JAl2x6L2DckOeDk3h1VeEJpvA7pqp1bDluBVZSmKqyH+Zmy?=
+ =?us-ascii?Q?T0ZWVXUK5bycQEJ5W6+MByem6pvlC5LHKI8AXk6GQvMjJqv+OD1XzGMP4Klp?=
+ =?us-ascii?Q?8/xZ+05JX74PHM2iA3SUwBJ6/9xMSAsUIndf1NBwh6cNM5J3ov7V+LoQEfqz?=
+ =?us-ascii?Q?DrYKGYC+Han0HXz2YQbhYB/6Z3NBeqiaDlClZHfJfbmQnbFPvDXi1onWRT2o?=
+ =?us-ascii?Q?QQ3ue8zOz5nHem5app0NTBe0lxRYTjORbydBKcPZktcMH5xcv7BQ?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a75509d-42c2-4b7e-d053-08de7a8106df
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 06:32:51.9722
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xpzJM5m0p9VANiYWgReXPCs/32ZgmjtCia8JLhYq8e4EW+NAXfYszJnQRColz8SgdETjWh7CS+eHo+isQek9kmCntlnRfTMT6sgMb9oj7LfPL9QL3o0B7MDec0N8c5Bz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10796
 
-Set the codec DAI format to I2S consumer mode (BC_FC) with normal bit
-and frame clocks (NB_NF) for MI2S backend links. This is required for
-external codecs connected via MI2S to work properly.
+Many code cares whether it has CONFIG_DEBUG_FS (X) or not to access
+component->debugfs_prefix (A) / component->debugfs_root (B).
 
-Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+(X)	#ifdef CONFIG_DEBUG_FS
+	...
+	static void soc_init_component_debugfs()
+	{
+		...
+(A)		if (component->debugfs_prefix) {
+			...
+		} else {
+(B)			component->debugfs_root = ...
+		}
+		...
+	}
+	...
+(X)	#endif /* CONFIG_DEBUG_FS */
+
+	int snd_soc_component_initialize(...)
+	{
+		...
+(X)		#ifdef CONFIG_DEBUG_FS
+		if (!component->debugfs_prefix)
+(A)			component->debugfs_prefix = driver->debugfs_prefix;
+		#endif				    (T)
+		...
+	}
+
+struct snd_soc_component_driver (T) also cares CONFIG_DEBUG_FS (X).
+
+(T)	struct snd_soc_component_driver {
+		...
+(X)		#ifdef CONFIG_DEBUG_FS
+(A)		const char *debugfs_prefix;
+(X)		#endif
+	};
+
+But, struct snd_soc_component itself doesn't care about
+CONFIG_DEBUG_FS (X).
+
+	struct snd_soc_component {
+		...
+(A)		struct dentry *debugfs_root;
+(B)		const char *debugfs_prefix;
+	};
+
+This is strange. add CONFIG_DEBUG_FS.
+
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/qcom/sc8280xp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/sound/soc-component.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 7925aa3f63ba..04e15c85a145 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -27,6 +27,7 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
- 	struct snd_soc_card *card = rtd->card;
- 	struct snd_soc_jack *dp_jack  = NULL;
- 	int dp_pcm_id = 0;
-@@ -35,6 +36,9 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
- 	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
- 		snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-+		snd_soc_dai_set_fmt(codec_dai, SND_SOC_DAIFMT_BC_FC |
-+					       SND_SOC_DAIFMT_NB_NF |
-+					       SND_SOC_DAIFMT_I2S);
- 		break;
- 	case WSA_CODEC_DMA_RX_0:
- 	case WSA_CODEC_DMA_RX_1:
-
+diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
+index 2a2b74b24a609..74f3ad640bdcc 100644
+--- a/include/sound/soc-component.h
++++ b/include/sound/soc-component.h
+@@ -250,8 +250,10 @@ struct snd_soc_component {
+ 	struct snd_compr_stream  *mark_compr_open;
+ 	void *mark_pm;
+ 
++#ifdef CONFIG_DEBUG_FS
+ 	struct dentry *debugfs_root;
+ 	const char *debugfs_prefix;
++#endif
+ };
+ 
+ #define for_each_component_dais(component, dai)\
 -- 
 2.43.0
 
