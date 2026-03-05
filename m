@@ -1,108 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49194.qiye.163.com (mail-m49194.qiye.163.com [45.254.49.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66D13845AD;
-	Thu,  5 Mar 2026 11:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E90282F0A;
+	Thu,  5 Mar 2026 11:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772709504; cv=none; b=dDSYFIOTBNGC9g3UokQ/NO3cVEdo4Zo3W+J6OWTI7ji08QPdUWqDQExD+gNxglXs5VLLDPUIecU+ylw9cfNKe7K5XyiLt8QPa/43cFaoI7I84DBlVXjkO6rBC3b7R1C2Kgwngg3SIgzrHsMAUR8Dz+33gTt3PqAkCRpsYTeeLsw=
+	t=1772710319; cv=none; b=QQJLZvMoFfmzMCdF+cLBueyFsRBhOSUFFYgWWrP14d+ZkYPcqFMOUOV6eZ93/o+0IT+dB1DAuD+8NffetWN1PBRgEACJP+8AmCpBO7ngpEaW4kcnuSFLpN4VH96oWAl90/YIG8Np9B0LN+WTY/I7cu7l1pahaW8IBkXOsq7B1WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772709504; c=relaxed/simple;
-	bh=rcRHMjJ8sVRmrMIJYuF8wqW63BEDFzVNb3ol3zTZr24=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DShjR5785kHw8mo7T8P0wHAFjRj0VK+aKZXUu2zHE8hhYGTiDUc/mjZPfTHr7iYo5W2g28bTpzmWCSUmrCZcP5YcGWXyjGn0Sz9NevQbugShr0tYpFRh3D41grkpQUbG80/6tvZyC5DPRS4m591dSjx3qxKBp+G0NZxNW1WHGcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b5NCLOab; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772710319; c=relaxed/simple;
+	bh=M8YmCBXWRUvuN0A1ciAUTMOg8xKksj/9DdFrpECJ5QA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BMZp0YZ0I3FWw2s8Z6Zu5uz6RD0mx41c9uNzyoxG0R+3/jgTZ8+hjZcKfhI3Sdy7nnlZN6d0Hx8ilIb/3+YSFedGhH0R/p/oaxFcCh4sXZoTuFt9/nNbOB84djmBw2Ho9ckpZ+pjVP+Pmnc5V624kTplgnORwqk5kjmzEAwVkSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=FSqofB9p; arc=none smtp.client-ip=45.254.49.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b5NCLOab"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48AFDC116C6;
-	Thu,  5 Mar 2026 11:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772709504;
-	bh=rcRHMjJ8sVRmrMIJYuF8wqW63BEDFzVNb3ol3zTZr24=;
-	h=From:To:Cc:Subject:Date:From;
-	b=b5NCLOabZI4Jlf7hzSz88qYsZpNDGqgRqgStqdev3AntTRBz03cKLmkD05bG+puU/
-	 /gvS16353D38Gmmt8Rb3/P9I8WYULZRRJm+MUnMbEKayJ98GEa8N0wv9HQqIBuFH+x
-	 jrCzSqppiE7jekCOzgbBvQzZuW3P6MY5BAxKyLbSrgLBN2uYE6HSguZ5wUAmmBfAT5
-	 6z1bwqz0faeNzw2LwDK2X91NnJI9H3ovCLM4W05uhjuo8LQR1lIEd7R0Rp3pOj6ss7
-	 T0F2x8EJfjIVCIhcThpJ8cC2ORaS/bYhuk7zzyctwLAuhd5TcEGkV4d5OzOqA5u4iW
-	 RkPQysbvQUqFQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vy6ij-000000004rk-3j6s;
-	Thu, 05 Mar 2026 12:18:21 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH] ALSA: us122l: drop redundant interface references
-Date: Thu,  5 Mar 2026 12:18:10 +0100
-Message-ID: <20260305111810.18688-1-johan@kernel.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="FSqofB9p"
+Received: from [127.0.1.1] (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 35d4e47cb;
+	Thu, 5 Mar 2026 13:48:22 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+Date: Thu, 05 Mar 2026 13:47:44 +0800
+Subject: [PATCH 3/6] ASoC: qdsp6: q6prm: Add MCLK and internal digital
+ codec core clock IDs
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-rubikpi-next-20260304-v1-3-327595a4528a@thundersoft.com>
+References: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
+In-Reply-To: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
+ Matteo Martelli <matteomartelli3@gmail.com>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Roger Shimizu <rosh@debian.org>, 
+ Hongyang Zhao <hongyang.zhao@thundersoft.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772689696; l=2146;
+ i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
+ bh=M8YmCBXWRUvuN0A1ciAUTMOg8xKksj/9DdFrpECJ5QA=;
+ b=1gPMRbJMiO8hJjEU0U2f1suPHZrDWfrkgTDp6HQCkjhYn5704tZDDVnDOepdJ8KoFxLGLnVvA
+ WNLtF3rIbS5ASp1cRxtTPT20ZlpFpFTKhxSyTN6Ida0iCxUiay40jYm
+X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
+ pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
+X-HM-Tid: 0a9cbc8a3ce109d5kunma04077fcc8566c
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGhpOVklDTEsYHR9NSU0YGlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=FSqofB9pkmF7XWwLWthAuX66zwBRUZ/DpGSkmJQ2fR16RQsYtXG6FV0sNjw31lKW59fAFrcnLkJ3Kpxyjl0QQ+fAyufZJERQ8fIkE+9q6Rsjtc3XAtmHhQDSb1nXUDUzFp8FORPwEYsFWFXFwYPeVWBQ0lgrAv2BuA+NKxywIso=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=lInHZCBmmL5pqUl5DZ7z8GW8/VFiw7Z/gfijzEAjGzM=;
+	h=date:mime-version:subject:message-id:from;
 
-Driver core holds a reference to the USB interface and its parent USB
-device while the interface is bound to a driver and there is no need to
-take additional references unless the structures are needed after
-disconnect.
+Add clock IDs for MCLK_1 through MCLK_4 and internal digital codec core
+clock to the PRM clock driver. These clocks are needed to provide MCLK
+to external codecs connected via MI2S.
 
-Similarly, USB core holds a reference to all interfaces in the active
-configuration so there is no need for a driver to take a reference to a
-sibling interface only to release it at disconnect either.
-
-Drop the redundant references to reduce cargo culting, make it easier to
-spot drivers where extra references are needed, and reduce the risk of
-memory leaks when drivers fail to release them.
-
-Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 ---
- sound/usb/usx2y/us122l.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ sound/soc/qcom/qdsp6/q6prm-clocks.c |  5 +++++
+ sound/soc/qcom/qdsp6/q6prm.h        | 11 +++++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
-index 011ea96e9779..f00b53346abd 100644
---- a/sound/usb/usx2y/us122l.c
-+++ b/sound/usb/usx2y/us122l.c
-@@ -520,8 +520,6 @@ static int us122l_usb_probe(struct usb_interface *intf,
- 		return err;
- 	}
+diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+index 4c574b48ab00..8c28d33b2a54 100644
+--- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
++++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+@@ -59,6 +59,11 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
+ 	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_MCLK),
+ 	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_2X_MCLK),
+ 	Q6PRM_CLK(LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK),
++	Q6PRM_CLK(LPASS_CLK_ID_MCLK_1),
++	Q6PRM_CLK(LPASS_CLK_ID_MCLK_2),
++	Q6PRM_CLK(LPASS_CLK_ID_MCLK_3),
++	Q6PRM_CLK(LPASS_CLK_ID_MCLK_4),
++	Q6PRM_CLK(LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE),
+ 	Q6DSP_VOTE_CLK(LPASS_HW_MACRO_VOTE, Q6PRM_HW_CORE_ID_LPASS,
+ 		       "LPASS_HW_MACRO"),
+ 	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
+diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
+index a988a32086fe..85e6df6bd39f 100644
+--- a/sound/soc/qcom/qdsp6/q6prm.h
++++ b/sound/soc/qcom/qdsp6/q6prm.h
+@@ -52,6 +52,17 @@
+ /* Clock ID for QUINARY MI2S OSR CLK  */
+ #define Q6PRM_LPASS_CLK_ID_QUI_MI2S_OSR                         0x116
  
--	usb_get_intf(usb_ifnum_to_if(device, 0));
--	usb_get_dev(device);
- 	*cardp = card;
- 	return 0;
- }
-@@ -542,11 +540,9 @@ static int snd_us122l_probe(struct usb_interface *intf,
- 	if (intf->cur_altsetting->desc.bInterfaceNumber != 1)
- 		return 0;
++/* Clock ID for MCLK1 */
++#define Q6PRM_LPASS_CLK_ID_MCLK_1                              0x300
++/* Clock ID for MCLK2 */
++#define Q6PRM_LPASS_CLK_ID_MCLK_2                              0x301
++/* Clock ID for MCLK3 */
++#define Q6PRM_LPASS_CLK_ID_MCLK_3                              0x302
++/* Clock ID for MCLK4 */
++#define Q6PRM_LPASS_CLK_ID_MCLK_4                              0x304
++/* Clock ID for Internal Digital Codec Core */
++#define Q6PRM_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE         0x303
++
+ #define Q6PRM_LPASS_CLK_ID_WSA_CORE_MCLK			0x305
+ #define Q6PRM_LPASS_CLK_ID_WSA_CORE_NPL_MCLK			0x306
  
--	err = us122l_usb_probe(usb_get_intf(intf), id, &card);
--	if (err < 0) {
--		usb_put_intf(intf);
-+	err = us122l_usb_probe(intf, id, &card);
-+	if (err < 0)
- 		return err;
--	}
- 
- 	usb_set_intfdata(intf, card);
- 	return 0;
-@@ -574,10 +570,6 @@ static void snd_us122l_disconnect(struct usb_interface *intf)
- 		snd_usbmidi_disconnect(p);
- 	}
- 
--	usb_put_intf(usb_ifnum_to_if(us122l->dev, 0));
--	usb_put_intf(usb_ifnum_to_if(us122l->dev, 1));
--	usb_put_dev(us122l->dev);
--
- 	snd_card_free_when_closed(card);
- }
- 
+
 -- 
-2.52.0
+2.43.0
 
