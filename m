@@ -1,142 +1,127 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazhn15010016.outbound.protection.outlook.com [52.102.133.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931613C2775
-	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 19:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772740199; cv=none; b=g4uag5nDy6tH7pfvLdzQmZZ13nlVrXYr7XrUgsc6VOQx0NO0x1GMTizzBpXfQ5aUISNkWGJ0oTb+GKQwuGOlqrsyZzOZr7dFahDjWfObG51NsxpkSLIgsxDKvt4l7JJaOZ2/B39C4xWUBxRmZ0YwtGiLf+slTqXI3ZA41MOCYyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772740199; c=relaxed/simple;
-	bh=qlSti5DpZENgsi07jvU39xUxPwxfHv/F34mcYL59KrE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PNckJIuE7NzI3UNS9lL4Vm/2/4gXA23MT+ii6JoCUq4ZqkJaeArLE3BBWhoe1dRRi8mix/k2BzztBpdDxB6m4rGffeyy+HdarHS+SQrPR+XlCha5KKycr1zVB3Zjj2NOLk4kOqX6ls0ChNHA4oypwARrDRrrsEt4+zugETsHTDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C8RPtlUi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8VZ9Hqvc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VVPAgtur; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g6GJVhzA; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9E63EB81C;
+	Thu,  5 Mar 2026 19:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.102.133.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772740720; cv=fail; b=BDJuYFZjtRugldiqT8tZM4/gGdWa7W+CILl4sLYND+t68OXYP2FFuRxN9FIOChUd3tUco/U9HTi/185+eiNec8UE5PfrYfHEMkuXHS4mQBUdcBTFCgOOvkkTsjvVQdtx37wz8x9UnLir5TlYxAtoKCOJ4jfeeosvSXJffpBY/Zw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772740720; c=relaxed/simple;
+	bh=/EZSWOBqR1j6a8mTMEK/DZnx4Dao25qn6WjY4mddrmw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qP1b0Ruf2lCJ9qQ2Q8pdCj9SsRVYUUUWJ5hIcPgyqYWlHsD+Ew6RRIbJ84Xnfdgd7I7Eqa0G5GZKSiCE9az7heP4a0oI5/03LKhkLXqkJ/RGGpcpMeInQE+PkEVh9NlqDvICTHryTH83ehnUSd6Sd4mvaKelwO2+bTaZFGOuAxQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=XzZZkxZw; arc=fail smtp.client-ip=52.102.133.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C8RPtlUi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8VZ9Hqvc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VVPAgtur";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g6GJVhzA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DC8633E75E;
-	Thu,  5 Mar 2026 19:49:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772740197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=C8RPtlUiFhWqHknpSyp359rHsVfXyA+0rW9ECuI0mJeVZo76JQu9+J68k6AHvP04qdGwPe
-	ve6pUXy9RMO3WvsCgDQTwFLektqj6My6nIjWWvSbCOHA7mO/fC/lox2k6ZMTIrQ3jwzDmE
-	MRxbBAM8qGMLmw9A+dqBHty5HnQTdC8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772740197;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=8VZ9HqvcpKnnazB1LT1qD86w38oM8MEsSHyI8/KPPeYYp+u39XhL80kLVTj88fq/vVPwdV
-	1xw2VjmwUc8kQzBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772740196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=VVPAgturNf0FseloeEnUWgeD8RNb+tMwWaFc9owZeWv5B+Ys4Xt4DjLPWPYTQNp7eM8+v0
-	MxqNHTYPGLIY2kO76yMOIeYmaTEfsw94o60KB2quGLw+zvJk0ShqdsuZG7htfGVWmbiCi/
-	adZn7IODRcIA7v9nPwjJpFmXS7aIDVI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772740196;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=g6GJVhzAcV4K2rPLg5UIpqo0Lp3ONsMfcQk1zs6Arwl4lSWTP2+siw/vXfJJFA3p6lOadv
-	OiIftDudLWpplFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CD373EA68;
-	Thu,  5 Mar 2026 19:49:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jmgiIWTeqWmsQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Mar 2026 19:49:56 +0000
-Date: Thu, 05 Mar 2026 20:49:56 +0100
-Message-ID: <87a4wmvyxn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Terry Junge <linuxsound@cosmicgizmosystems.com>
-Subject: Re: [PATCH] ALSA: usb-audio: Refine string-descriptor-based quirk matching
-In-Reply-To: <20260305174711.1106324-1-i@rong.moe>
-References: <20260305174711.1106324-1-i@rong.moe>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="XzZZkxZw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CCRvjmU6ASjyDTLe6aehNFEmIAIxElMZCUv+q303qbqcLhpsqQasqCKZKCX86Pt0PYbATTbFY/UrM08oRGkSmHkA86+GDcxENCQpNUkcbcvw9jhcQN8Y3ZtQ4d93zf2+QylfbYtnzChbypL35nuKd8sIZFayofT6j4WK0dttPvkhEYoy6s251AR7ATHORTCOmgwhbLAVFjzdnHZt9SAPSSHqGt3zZHxTby+822rr62Aca9UckBqYFlTkd8pzwU+N77CSM7Ae/EIRnJpisfEX/AnpkyiRCNrUM1sm4M5WzTS4rc94IW0hvuRGcZL5DVawqsZ05KTO1K2LDsMiR1ut6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a4k60zfkiEJ7XCZxxziTcdWFP6OQIZOCN21yW1A+bEc=;
+ b=LWBWqsb8UaUvDxLmB+rCRDNPER31YA54uQM42EkEpTT+yFPbzJAY/q0QPCSC6U7j+mvZQnv0K2mWQL9o50pnsT9DW8ZSDTwHZZJQYpgsJXInIoznEdrivrXclI397EXZxlEKJEFWap9PyCmqIaBQKIWi6FlcPNvhOKijPRE2rqAqlq4Bq3PZo/14FN6Ge9k4w2IotO/vgNMI/r0um0MdifvHLgcG7ozX9iajKeaYlGd5gSTfjW1QVy9ZspBlI+gZrDt6JCYM+57KFbV3lxm8fZbNVQKu2w6FKubSuLLxdDHIv3WqRq3rawgr+BoISzFC57XkwKskmItefh5b8iCjNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a4k60zfkiEJ7XCZxxziTcdWFP6OQIZOCN21yW1A+bEc=;
+ b=XzZZkxZwTuNZlD4bl7ERCs0FsZkISG3Hfdi1bapAwJD/nJ2odgTMzj1zO7uGjOnklgJAGl1BHojvuC/4wthzeTGfzC4saf3/OBfZAt+oHZ6+rVWiKAWg6NgEh8NZjaBhx7iJYI/WjLe4YxMPemyPv7ebRx3igDlj7WsIzwngrbI=
+Received: from SJ0PR03CA0143.namprd03.prod.outlook.com (2603:10b6:a03:33c::28)
+ by LV3PR10MB8011.namprd10.prod.outlook.com (2603:10b6:408:28b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Thu, 5 Mar
+ 2026 19:58:31 +0000
+Received: from SJ5PEPF000001D2.namprd05.prod.outlook.com
+ (2603:10b6:a03:33c:cafe::d3) by SJ0PR03CA0143.outlook.office365.com
+ (2603:10b6:a03:33c::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.23 via Frontend Transport; Thu,
+ 5 Mar 2026 19:58:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ SJ5PEPF000001D2.mail.protection.outlook.com (10.167.242.54) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Thu, 5 Mar 2026 19:58:29 +0000
+Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 5 Mar
+ 2026 13:58:29 -0600
+Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 5 Mar
+ 2026 13:58:29 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 5 Mar 2026 13:58:29 -0600
+Received: from localhost (mz02jj9v.dhcp.ti.com [128.247.81.0])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 625JwS4t2458465;
+	Thu, 5 Mar 2026 13:58:28 -0600
+From: Sen Wang <sen@ti.com>
+To: <peter.ujfalusi@gmail.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+	<perex@perex.cz>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <devarsht@ti.com>, <r-donadkar@ti.com>, <s-jain1@ti.com>, <m-shah@ti.com>,
+	Sen Wang <sen@ti.com>
+Subject: [PATCH 0/2] ASoC: ti: davinci-mcasp: McASP code cleanup and clk div fixes
+Date: Thu, 5 Mar 2026 13:58:23 -0600
+Message-ID: <20260305195825.9998-1-sen@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.989];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D2:EE_|LV3PR10MB8011:EE_
+X-MS-Office365-Filtering-Correlation-Id: c5d2cb8b-95e8-478b-aef7-08de7af192a3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|1800799024|34020700016|82310400026|376014|12100799066;
+X-Microsoft-Antispam-Message-Info:
+	AvxIBD1GlrP8ai15Eskxd1sEsaEwI6ldQ2guQmW4btcytk4QrJRrdAeI52qA8QIrzNw92olwloZurqWZa7DCm/Ct8Igl3FVcM91Gl+iU0NQl9X/G20kC2yYQ9x8vs9HXssmFjPQxUA2McuyzJq3keXzpSlCbOgfod6COUtCJxJ/01elED3XX7tIsz/Bi9uIVNvPuLjF20kcXHsV0hvm4kO0maMy9zfnUPOAEMhe6ZS+W91SrMj76tFsxHgleJSwhVBK3dapoC1xT2U5GaKfBfwN5T1NHrgfQVNAH26ybVnDZVSYwdwrb4ixRwNvolokhwvbyKbQKU3vHkal1wKExIfPvgX+6kSr32xmJ9xiNiryFZ4iL8cnOYN8hNw8/j2x0Lh69X+KYnq7HCJambabjc15V1CXKh1iueJNrg4yNq2L6jR6ZF/mFL5/ygvz2LpCaL9p2ui3AgahmDgm8+QO+6fCZhZhbJmyQSZiTE6ubTnetXxEi/tbxE6HpK5HX/XO1siEdUh03P7awZTL5vFCuvb2J9/aeUNhk5yuUdfVHr4YX1DN8c9zlzVP+/hMPjzIQe52jANBAxKv6m54HbHRUqbEkTF5R2p9AgnLtLpVRlCK9dzNimKPCPh4oxgARL9e3SrzpLzGRt+mrY2iolkrIdTIWFfnsMuNEl0pAlkkwTeRAhEW4k0rrlYdA74jA2Q/UUOiAxd5fBYiKlam1VKLHB39GfkkiTniY+Q6Esjl3NZHydIKNILN8x/3tmeRai3VGAC3/R5sXPcBhKbcYab7l5g==
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(34020700016)(82310400026)(376014)(12100799066);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	wuE/Q4S/lJSuQAIpCYOew/3hogaTisLlvq2C98LosTukAlf3l+Ee97XPIJ1Ui6kXuHZ3VWHXcuGNn4ZJZpNIDmci7ZANq9bwtAu950pK8KTe4hXMEFUV7b44vdBySF2oh/bdosLcyUJUIFqeeOX+t2HR9z8+/2UgkIisCyy7OOPeEoLokiAZCBa3UefeV7y+VVVpr/Y+rZqhL27ItX9do3GhjEffphLNDJo2kJvnqA9rWY7C2IvxqPif2Rj44dIPnIcm2mdsDHcK1ug8ErA1u+W5aSs3v8dHmmjBMS/2wKPSEBJ1tQZr3fQWfrsymqWRUD/iK5KoBeF9iyofZ/CeKtsPwO9nimf3MQ7Hmh0Xuc5cVRbAObtrx8qofEsIWOxzW+bbupgI5RJ/T3P792PO7z4x2QASdjKhuxtkcQKrg8nJt+f6j/AfbHiiEPj9bLhH
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 19:58:29.7801
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5d2cb8b-95e8-478b-aef7-08de7af192a3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001D2.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB8011
 
-On Thu, 05 Mar 2026 18:46:39 +0100,
-Rong Zhang wrote:
-> 
-> Remove snd_usb_get_string() and use the manufacturer and product strings
-> stored in struct usb_device directly to match quirk table entries. Their
-> NULLity can be checked to determine if the device has no these strings.
-> This simplifies the code a lot.
-> 
-> Meanwhile, allow quirk table entries to match "no string" explicitly, and
-> add appropriate comments to show the expected usages of
-> DEVICE_STRING_FLG() and VENDOR_STRING_FLG(). These changes are tiny and
-> doesn't form another separate patch, so that back-and-forth changes can
-> be avoided.
-> 
-> Suggested-by: Terry Junge <linuxsound@cosmicgizmosystems.com>
-> Link: https://lore.kernel.org/r/b59da54a-9c80-4212-a337-c5ea98da52d1@cosmicgizmosystems.com
-> Signed-off-by: Rong Zhang <i@rong.moe>
+Just two minor patches that aim to tidy up the code a little bit,
+as well as fix the aux_div selection in davinci_mcasp_calc_clk_div()
+for mid-range dividers (33 <= div <= 4096).
 
-Thanks, applied now.
+Sen Wang (2):
+  ASoC: ti: davinci-mcasp: extract mcasp_is_auxclk_enabled() helper
+  ASoC: ti: davinci-mcasp: improve aux_div selection for mid-range dividers
 
+ sound/soc/ti/davinci-mcasp.c | 45 +++++++++++++++++++++++++-----------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
 
-Takashi
+-- 
+2.43.0
+
