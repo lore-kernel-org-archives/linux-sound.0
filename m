@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6561BF33;
-	Thu,  5 Mar 2026 07:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A5E32D7FB;
+	Thu,  5 Mar 2026 07:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772695385; cv=none; b=tiHtk2OhlvvYTuCQtkl+MjsPBYQg+WxmHu9Mg3iWFgMuuVAh2F7ZvPmDOVzQxBlM6s4XQ7//LAP9ikEbjN1WKpor5i75MJNML60sHLJGKjgRjr9NmfyNtHUfY7GEJFxRO7AbN0JzGNJUWdxlXel2pDaTF+35K2ZH6HbONPNPoqQ=
+	t=1772697118; cv=none; b=drHYuGJ2vcZ2A5x9RxcGNbPfV07+CGRECEYuox3TeEDdPCri6+02w2i13GWDHw14z9KK0E2Ugq7ETGdKW7U7cwqah0Qbk0F+cXZ9y68elIOlhvjKMQqD6DpvcEF2J6XzB6me7XjPzTSg4lSPomSmsFn3STvujRuxiagE310dyU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772695385; c=relaxed/simple;
-	bh=1ZZCSsE6odyfb2JuW9pbHt08dU+Ste48wn4Sc5jnvck=;
+	s=arc-20240116; t=1772697118; c=relaxed/simple;
+	bh=0CK2Jdavr+yUdl57OhO3y9nKTUk9/Qrm2nJwyhFSLNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=myJFiHyLjvXFZRI0TFkkoo5ZV8aVKQEQ0Ir86D5QfLwWLzSSMgHO1D8VguoXOlWo9eK9Mr60pTlCUfNfghm/pUfJ89yHFq6s/qO8yQp3/u+jXaIG8D7kl9HEoWdixPLVx6M+vKAF7wAou9AhtM7EwUTPcq/ZhxnBQzQ0oJGvWh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S01QHd21; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jqAdLGjuA1J7S6KbwOz4BiGJgMThLqt76UZOtuP/J8L0PrSByh72HmQi/KE569KzK2OC+B+1p90InzgeudKg+0XdWXRz+iv3NWI1th159eLxnMoXL+mVBlTmDv/jKQG7X3ZNqInRJGDuXLpwWVS3lP/4L0w9ocSFCwxVbHDbXAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o5HWHWmI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S01QHd21"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF57C116C6;
-	Thu,  5 Mar 2026 07:23:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o5HWHWmI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B5A6C116C6;
+	Thu,  5 Mar 2026 07:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772695384;
-	bh=1ZZCSsE6odyfb2JuW9pbHt08dU+Ste48wn4Sc5jnvck=;
+	s=k20201202; t=1772697117;
+	bh=0CK2Jdavr+yUdl57OhO3y9nKTUk9/Qrm2nJwyhFSLNI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S01QHd21WQcvPVbPR9gc4fVyNDHlj0tsdxHEyXMpad8qKf79J7DZx7oijGa7Rl4zS
-	 +N6X0OQ+/dindGi0tyIzMrpLrDOyjogbGzTUFN8xX/G8WgFbSsKyBA4amaB0Xla9TS
-	 8aSPMBtsXD2djAGKxoYn05OzO2uYlsqyeml9uhzzQuUcrCRDwywQZUG7Qlv8AeHpUa
-	 ZGw5i0JAYyG3nr/LSgQd3d33DJfjyxRcY59PQu3JYEuBuPhtcWrQMj16wlmdrBM1dC
-	 BSJeGOWYDFYgEzvoU8FnSNtFSyNs5W9B596l8yIxy+zlMhcnbVoHtOk4zH8NJFG0R+
-	 Sqg4i9M5LFBGA==
-Date: Thu, 5 Mar 2026 08:23:02 +0100
+	b=o5HWHWmITfNBTDrdHNfdkY2Zd5XM1EAsMQ+hwHlpAq4lu6DfT8nzrGwxB6JsRAdg5
+	 WJ1ToEAlsCKH3te0xbCpP1f1qiVq/9KrwOy4MiJ6QYY1sCIEeWNrXSf0bFmNcKjWw4
+	 koc9u9Xw8iVvlPvguzfmh4k7G81gzmjL70Sg3oTgawsPi1TrZb6eyqn9Vk1ScOAduK
+	 SNiZbFqiEvIwGO5D5Q3+1fp7smIQMDUxM0enmnuX0Y4PutC/PM7X7e4/NldTlp1nd3
+	 sr4h/w+pwyCHAlrMcNe4K2UI02nBNFQOoMTgqqGSszTJWbG6eyMw+gtpiBtgwN2232
+	 90Ql4CBYImGng==
+Date: Thu, 5 Mar 2026 08:51:55 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, mohammad.rafi.shaik@oss.qualcomm.com, 
-	linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com, 
-	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, srini@kernel.org
-Subject: Re: [PATCH v3 08/14] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add
- Senary MI2S port
-Message-ID: <20260305-glittering-devout-llama-fcfe75@quoll>
-References: <20260304130712.222246-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260304130712.222246-9-srinivas.kandagatla@oss.qualcomm.com>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, Nickolay Goppen <setotau@mainlining.org>, 
+	Wesley Cheng <quic_wcheng@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 10/11] ASoC: qcom: add sdm660 sound card support
+Message-ID: <20260305-industrious-sheep-from-eldorado-4413a5@quoll>
+References: <20260304195815.52347-1-mailingradian@gmail.com>
+ <20260304195815.52347-11-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +50,95 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260304130712.222246-9-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260304195815.52347-11-mailingradian@gmail.com>
 
-On Wed, Mar 04, 2026 at 01:07:06PM +0000, Srinivas Kandagatla wrote:
-> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+On Wed, Mar 04, 2026 at 02:58:14PM -0500, Richard Acayan wrote:
+> The Snapdragon 670 and Snapdragon 660 share the sound card, which can
+> have digital/analog WCD, WCD9335, WCD934X, or board-specific sound
+> codecs. Add support for the sound card.
 > 
-> Qualcomm platforms support the Senary MI2S interface for audio playback
-> and capture. Add a new definitions for the Senary MI2S RX and TX ports,
-> which are required for boards that utilize the Senary MI2S interface
-> for audio routing.
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  sound/soc/qcom/Kconfig  |  12 +++
+>  sound/soc/qcom/Makefile |   2 +
+>  sound/soc/qcom/sdm660.c | 192 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 206 insertions(+)
+>  create mode 100644 sound/soc/qcom/sdm660.c
 > 
+> diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
+> index e6e24f3b9922..2ef4c436e534 100644
+> --- a/sound/soc/qcom/Kconfig
+> +++ b/sound/soc/qcom/Kconfig
+> @@ -167,6 +167,18 @@ config SND_SOC_MSM8996
+>  	  APQ8096 SoC-based systems.
+>  	  Say Y if you want to use audio device on this SoCs
+>  
+> +config SND_SOC_SDM660
+> +	tristate "SoC Machine driver for SDM660 and SDM670 boards"
+> +	depends on QCOM_APR
+> +	depends on OF
+> +	depends on PM
+> +	select SND_SOC_QDSP6
+> +	select SND_SOC_QCOM_COMMON
+> +	help
+> +	  This adds support for audio on Qualcomm Technologies Inc.
+> +	  SDM660 and SDM670 SoC-based systems.
+> +	  Say Y if you want to use audio devices on these SoCs.
+> +
+>  config SND_SOC_SDM845
+>  	tristate "SoC Machine driver for SDM845 boards"
+>  	depends on QCOM_APR && I2C && SOUNDWIRE
+> diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
+> index 985ce2ae286b..8b6bdc19e780 100644
+> --- a/sound/soc/qcom/Makefile
+> +++ b/sound/soc/qcom/Makefile
+> @@ -24,6 +24,7 @@ snd-soc-apq8016-sbc-y := apq8016_sbc.o
+>  snd-soc-apq8096-y := apq8096.o
+>  snd-soc-sc7180-y := sc7180.o
+>  snd-soc-sc7280-y := sc7280.o
+> +snd-soc-sdm660-y := sdm660.o
+>  snd-soc-sdm845-y := sdm845.o
+>  snd-soc-sm8250-y := sm8250.o
+>  snd-soc-sc8280xp-y := sc8280xp.o
+> @@ -38,6 +39,7 @@ obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-apq8096.o
+>  obj-$(CONFIG_SND_SOC_SC7180) += snd-soc-sc7180.o
+>  obj-$(CONFIG_SND_SOC_SC7280) += snd-soc-sc7280.o
+>  obj-$(CONFIG_SND_SOC_SC8280XP) += snd-soc-sc8280xp.o
+> +obj-$(CONFIG_SND_SOC_SDM660) += snd-soc-sdm660.o
+>  obj-$(CONFIG_SND_SOC_SDM845) += snd-soc-sdm845.o
+>  obj-$(CONFIG_SND_SOC_SM8250) += snd-soc-sm8250.o
+>  obj-$(CONFIG_SND_SOC_QCOM_COMMON) += snd-soc-qcom-common.o
+> diff --git a/sound/soc/qcom/sdm660.c b/sound/soc/qcom/sdm660.c
+> new file mode 100644
+> index 000000000000..8dae01b733dd
+> --- /dev/null
+> +++ b/sound/soc/qcom/sdm660.c
+> @@ -0,0 +1,192 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2015-2020, The Linux Foundation. All rights reserved.
 
-This should be squashed. Adding IDs in multiple patches is pointless -
-it's one logical change. Plus patch is so trivial and obvious that even
-preserving authorship cannot be used as an argument.
+Don't upstream 10 year old code, but take newest drivers and change them
+to match your needs. Look here:
+
+...
+
+> +static int snd_sdm660_probe(struct platform_device *pdev)
+> +{
+> +	struct snd_soc_card *card;
+> +	struct sdm660_snd_data *data;
+> +	struct device *dev = &pdev->dev;
+> +	int ret;
+> +
+> +	card = devm_kzalloc(dev, sizeof(struct snd_soc_card), GFP_KERNEL);
+> +	if (!card)
+> +		return -ENOMEM;
+> +
+> +	data = devm_kzalloc(dev, sizeof(struct sdm660_snd_data), GFP_KERNEL);
+
+This is not the syntax we have. For like 10 years.
+
+It is always sizeof(*).
 
 Best regards,
 Krzysztof
