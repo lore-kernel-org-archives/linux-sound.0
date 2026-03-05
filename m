@@ -1,43 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF073CA48F;
-	Thu,  5 Mar 2026 15:37:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B943CA49B;
+	Thu,  5 Mar 2026 15:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772725037; cv=none; b=X8idQfWzrXzDyx9uw4uborLcIN5bM/tCrY6nwGRTKLAeRSzS1juM1R/LUYR1zamiAX6JvjKymjARYNXYxCEzoJpoN15KjXCvz4JSafdiqSIWaKa2YxkSbjjOp1BKRVq25Q3MIOI8Cu0LczTIXqH8q+C5v02+R0nzeJwaeh3lUik=
+	t=1772725042; cv=none; b=EJ5F5kkZcqOFyz+lsDDOL0kY3jQc38ADJcxk44j/HrsV9VMzT6OxW9ndKBZfoV6C8d7MK1IHbc911NPpnvqpKJz3u+j+hVNrL477HT3OAp2fZnRjznQW4TvKtRQBSoWRFleWg/PVr9j5iYXCgnhKC8yFm2woSP7xc3QoP2iBBnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772725037; c=relaxed/simple;
-	bh=FHmnBZ6LO5fcizUa6QpAAItmvNQ2Huv8oWPcHLLbW3s=;
+	s=arc-20240116; t=1772725042; c=relaxed/simple;
+	bh=o9uqiIEj6QMRQg/6N+H8jSXsxYL6TKchhBOcANcRrJ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F+4gQhheOxxmZcoERRMLIG2GZPPl5JlLBTCylgW/dD1oZZra8BxeZkokWd8VNg0xB7DPW8ZqTmI2P7mpqRiT5xhOLPVf+NG7PIlqiWBN+jgld6XC4i1I4tOQACUy6uas+opHY9766dKyreXluu3aZ1r4gw+wN/i0WWCBFSrHX/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cq1Y/z8d; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=shBXhwxyFXZ9T3aaRbnjduGNYXH+1CRU7Ht3j7XZGiorbS96mHAIwgAioqOfsXBiR2ogqGfGVAXhVwMOs9aM477Jso0cpnkDeZ8aBr4xpeRXOWqVd9NOm4w5DE1R4upu+c8c4O7RlWAIoyQ4VxWPTiDLNYx1kfDn3DXM5ymj6A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iPcBRxhg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cq1Y/z8d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8D8C2BCAF;
-	Thu,  5 Mar 2026 15:37:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iPcBRxhg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA344C2BC87;
+	Thu,  5 Mar 2026 15:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772725037;
-	bh=FHmnBZ6LO5fcizUa6QpAAItmvNQ2Huv8oWPcHLLbW3s=;
+	s=k20201202; t=1772725042;
+	bh=o9uqiIEj6QMRQg/6N+H8jSXsxYL6TKchhBOcANcRrJ4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cq1Y/z8dgpIBm1Z5+OtEr3x+VjzNtwoLRQmR+503OlegKXEvDjstTELy5f39nWQhM
-	 bivF021Cy9o6jC87+sCEl8a8v00WZgMLDztzcMwCPXscj7l8fyJh8809lgeCd5e5mu
-	 NP2CGGTzNA6MZsbO6hefEw67Wtceav0I/P7Etwon88/B82DqzDcVB4dAalS8WjgH77
-	 uYV9mEZV5+We9kXzUabJuEjc5xLYJmZnoX0OHs3/5r9YwiQTfZda9k80f4iVvelTrv
-	 M3kLOuigguaOXmcpruf/JED0/WLL9ciS1yKzgZdwAgIVcDOGOzoio4R0rIRzg6KpMl
-	 xVBVW6yI5/R0Q==
+	b=iPcBRxhgXO/p07PmcHK/TxUFVEMdm3kC5qLTXMJSaATIHpD0by4K4UqSPgo0qKkQq
+	 i7WYZTansFzc/jXO3GO4rtENrWRBxfPNqCyH+XmY3nVTjCzvt/eiZ+Ly55ZVbU6zET
+	 IF1pbgfBI1BnQHfM8jbH+tgw1dC8mu9/rwn7wtOCHRcAj2wQJVe8SGqYCd/yNKDZWL
+	 rs90nKshz9IYEbxe4+HSdcGSnndP9x/6E1LWQ2hWh6LMKq/Fl9PXZXEame6EeO13d4
+	 TypmIMowDShYKoHr91CKZSHEB2Hx4MJ5j4mun+R4JNf4s0oOCFLnZbdYJki6pCXo/M
+	 l9hoPy3GtUv3A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
+Cc: Azamat Almazbek uulu <almazbek1608@gmail.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] ALSA: usb-audio: Avoid implicit feedback mode on DIYINHK USB Audio 2.0
-Date: Thu,  5 Mar 2026 10:36:51 -0500
-Message-ID: <20260305153704.106918-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.1] ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk table
+Date: Thu,  5 Mar 2026 10:36:54 -0500
+Message-ID: <20260305153704.106918-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260305153704.106918-1-sashal@kernel.org>
 References: <20260305153704.106918-1-sashal@kernel.org>
@@ -50,127 +53,107 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.6
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Azamat Almazbek uulu <almazbek1608@gmail.com>
 
-[ Upstream commit c5bf24c8aba1ff711226ee0f039ff01a5754692b ]
+[ Upstream commit 32fc4168fa56f6301d858c778a3d712774e9657e ]
 
-Although DIYINHK USB Audio 2.0 (ID 20b1:2009) shows the implicit
-feedback source for the capture stream, this would cause several
-problems for the playback.  Namely, the device can get wMaxPackSize
-1024 for 24/32 bit format with 6 channels, and when a high sample rate
-like 352.8kHz or 384kHz is played, the packet size overflows the max
-limit.  Also, the device has another two playback altsets, and those
-aren't properly handled with the implicit feedback.
+The ASUS ExpertBook BM1503CDA (Ryzen 5 7535U, Barcelo-R) has an
+internal DMIC connected through the AMD ACP (Audio CoProcessor)
+but is missing from the DMI quirk table, so the acp6x machine
+driver probe returns -ENODEV and no DMIC capture device is created.
 
-Since the device has been working well even before introducing the
-implicit feedback, we can assume that it works fine in the async mode.
-This patch adds the explicit skip of the implicit fb detection to make
-the playback running in the async mode.
+Add the DMI entry so the internal microphone works out of the box.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221076
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Link: https://patch.msgid.link/20260225085233.316306-4-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Azamat Almazbek uulu <almazbek1608@gmail.com>
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Link: https://patch.msgid.link/20260221114813.5610-1-almazbek1608@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis
+## Analysis: ASoC: amd: yc: Add ASUS EXPERTBOOK BM1503CDA to quirk table
 
-### Problem Description
-This commit adds a USB audio device quirk for the DIYINHK USB Audio 2.0
-device (VID 0x20b1, PID 0x2009) to skip implicit feedback mode. The
-bugzilla report (#221076) documents a **kernel crash/oops** when playing
-6-channel audio at high sample rates (352.8kHz/384kHz). The root cause
-is that implicit feedback mode leads to packet sizes exceeding the
-device's wMaxPacketSize of 1024 bytes, causing buffer overruns, URB
-submission failures, and ultimately kernel panics.
+### What the commit does
 
-### Stable Kernel Criteria Assessment
+This is a simple DMI quirk table addition — a 7-line entry adding the
+ASUS EXPERTBOOK BM1503CDA to the `yc_acp_quirk_table[]` in
+`sound/soc/amd/yc/acp6x-mach.c`. Without this entry, the internal DMIC
+(digital microphone) on this laptop is not detected, and the driver
+probe returns `-ENODEV`, meaning **no microphone capture device is
+created** — the internal mic simply doesn't work.
 
-1. **Fixes a real bug**: YES - kernel crash/hard hang with specific
-   hardware at high sample rates. The bugzilla report documents kernel
-   oops with page faults in memset during URB preparation.
+### Stable kernel criteria assessment
 
-2. **Obviously correct and tested**: YES - it's a 2-line quirk flag
-   addition by the ALSA maintainer (Takashi Iwai). The fix was confirmed
-   working per the bugzilla discussion.
+1. **Fixes a real bug**: Yes — the internal microphone doesn't work on
+   this specific laptop model without the quirk entry.
+2. **Obviously correct and tested**: Yes — it's a trivial DMI match
+   entry following the exact same pattern as dozens of other entries in
+   the same table. Reviewed by the AMD audio maintainer (Vijendar
+   Mukunda).
+3. **Small and contained**: Yes — 7 lines added to a single file, no
+   logic changes whatsoever.
+4. **No new features**: Correct — this enables existing hardware support
+   on a specific device, not a new feature.
+5. **Exception category**: This falls squarely under **hardware
+   quirks/workarounds** — one of the explicitly allowed categories for
+   stable backports.
 
-3. **Small and contained**: YES - adds exactly 2 lines to the quirk
-   flags table. Zero risk to any other device.
+### Risk assessment
 
-4. **No new features**: Correct - this is a hardware workaround, not a
-   feature.
-
-5. **Category**: This falls squarely into the **hardware quirk**
-   exception category, which is explicitly listed as always appropriate
-   for stable backporting.
-
-### Risk Assessment
-
-- **Risk**: Essentially zero. The change only affects one specific USB
-  device (0x20b1:0x2009). The `QUIRK_FLAG_SKIP_IMPLICIT_FB` flag is
-  well-established (since 2022) and simply bypasses implicit feedback
-  detection. The `QUIRK_FLAG_DSD_RAW` flag enables DSD format support,
-  also well-established (since 2021).
-- **Benefit**: Prevents kernel crashes/hangs for users of this specific
-  USB audio device at high sample rates.
-
-### Dependencies
-
-The prerequisite infrastructure (`QUIRK_FLAG_SKIP_IMPLICIT_FB`
-introduced in commit `0f1f7a6661394` from April 2022, and
-`QUIRK_FLAG_DSD_RAW` from `68e851ee4cfd2` in July 2021) should be
-present in all currently maintained stable trees (6.1+, 6.6+, etc.). The
-patch is a simple table entry addition that should apply cleanly.
+- **Risk**: Essentially zero. The DMI match is specific to one laptop
+  model (`ASUS EXPERTBOOK BM1503CDA` from `ASUSTeK COMPUTER INC.`). It
+  cannot affect any other hardware.
+- **Benefit**: Internal microphone works on this laptop model.
+- **Dependencies**: None — the driver and quirk table infrastructure
+  already exist in stable trees.
 
 ### Verification
 
-- **Bugzilla link**
-  (https://bugzilla.kernel.org/show_bug.cgi?id=221076): Confirmed real
-  user-reported crash with kernel oops, page fault, and hard hangs at
-  high sample rates on DIYINHK D2 device.
-- **QUIRK_FLAG_SKIP_IMPLICIT_FB** defined in `sound/usb/usbaudio.h` and
-  used in `sound/usb/implicit.c:390-391` to return early from implicit
-  feedback setup - verified via agent exploration.
-- **QUIRK_FLAG_DSD_RAW** defined in `sound/usb/usbaudio.h` and used in
-  `sound/usb/quirks.c:2078-2079` - verified via agent exploration.
-- **Both flags have existed since 2021-2022** (commits `68e851ee4cfd2`
-  and `0f1f7a6661394`) - verified via git log, confirming they exist in
-  stable trees.
-- **Author is Takashi Iwai**, the ALSA subsystem maintainer - verified
-  from commit authorship.
-- **The change is a 2-line addition** to an existing quirk flags table
-  with no logic changes - verified from the diff.
+- Verified the diff is a pure DMI table entry addition (7 lines) with no
+  logic changes.
+- Verified the entry follows the identical pattern of all other entries
+  in the table (DMI_MATCH on BOARD_VENDOR + PRODUCT_NAME, driver_data =
+  &acp6x_card).
+- Verified the commit has `Reviewed-by: Vijendar Mukunda
+  <Vijendar.Mukunda@amd.com>` (AMD audio subsystem reviewer).
+- The file `sound/soc/amd/yc/acp6x-mach.c` and the `yc_acp_quirk_table`
+  have existed in stable trees — this is a mature driver with many
+  similar quirk entries.
 
 ### Conclusion
 
-This is a textbook stable backport candidate: a small, zero-risk
-hardware quirk that fixes a real kernel crash reported by users,
-authored by the subsystem maintainer, with well-established
-infrastructure already present in stable trees.
+This is a textbook stable backport candidate: a hardware quirk addition
+that enables an internal microphone on a specific laptop. Zero risk,
+clear user benefit, trivially correct.
 
 **YES**
 
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 86c329632e396..57c036ee9ba96 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2363,6 +2363,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
- 	DEVICE_FLG(0x2040, 0x7281, /* Hauppauge HVR-950Q-MXL */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
-+	DEVICE_FLG(0x20b1, 0x2009, /* XMOS Ltd DIYINHK USB Audio 2.0 */
-+		   QUIRK_FLAG_SKIP_IMPLICIT_FB | QUIRK_FLAG_DSD_RAW),
- 	DEVICE_FLG(0x2040, 0x8200, /* Hauppauge Woodbury */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
- 	DEVICE_FLG(0x21b4, 0x0081, /* AudioQuest DragonFly */
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index f1a63475100d1..7af4daeb4c6ff 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -703,6 +703,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 				DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook_ASUSLaptop M6501RR_M6501RR"),
+ 			}
+ 		},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ASUS EXPERTBOOK BM1503CDA"),
++		}
++	},
+ 	{}
+ };
+ 
 -- 
 2.51.0
 
