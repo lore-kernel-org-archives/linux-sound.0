@@ -1,269 +1,184 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012026.outbound.protection.outlook.com [52.101.66.26])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A86D2749ED;
-	Thu,  5 Mar 2026 03:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772680198; cv=fail; b=AS67A7UsrbzWTOfKRvfKY0311ngveataGqGBifOTd00el6oEu5bnUG4T0onyiqL8QqEYhhYJl+eSunFxdfIlKQ99Ky2/wB3K+9OVpoTBUzTi0H6CmcJGHT5bDVuKAVhJpODp8IeJsvkAczOSj2picYMZNjAuxRO0iaup4VI3biA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772680198; c=relaxed/simple;
-	bh=6a2A0dC7YMH2zeGuAte86NrC65WYnduomHZFfcFiLhI=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=P4ixmJQdUV9rfGMV/5D4tJZotzWPPPx/FQQIoM3sjktH+zMkssXgy0T6a3mtYchp6/ICqiXpRJ5SkQ8zoplU6vBZfzp9ov9in8SKw1tNYLV7b7dvD6grmPmcdQUJV/HqfupmECBMTWv0Q06ot871r9Ha7a1B13FoXD0ZIqIP1Vw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=V9xvWO4l; arc=fail smtp.client-ip=52.101.66.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F3220A5C4;
+	Thu,  5 Mar 2026 03:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772681266; cv=none; b=dHI1tFu0AjgQTosWMxXShU8GX+gS4PVvyQxVlfx5eWdYb12Gvxmsyp6wwygEy5E9P4DmfM9FAgvjjI43jIZ5IYQf4MBQCQZ7F6+CXfij4bJi4Ze/CcqjKlzTMMpFdRh5yTzHcJyD0IErW3TE3dyCl8Po+DK19b2dkk4hMDNVAfo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772681266; c=relaxed/simple;
+	bh=GvMglOdzKsSrDLBgpBYjS4qBmRSNMFwnjAcMLeAEctQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=teWNpiTPMzduUYKflUelqiOLJlsjzYSf542wW2/93qo3RgtiycvEsUqDWI4il09L7dOiNAcrHaThph+6iIT3XWgJtQzxNj0LPNYTPm0anxNCKtkw3dQVnq7vmVQMEDFnl1LJbs++WGE3MOlvRrdQD4GsZBUmJitHUH5uE2BL4OY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=DHQlLuDx; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="V9xvWO4l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XZNt5kOurnguEHwg0WTMhJc4EX+dIrOlVA6ZPUzWjKACcJ1Iy45wqHJGMYQZsHCWAwhbhzA+xPvSr6e/6+9aBCrz04zfmuj417HOsDB3EFpLvYL9bqod6ri3X55ij4GMwmR4oCpgWROy0BdjahDRmiXUZyfVKX7jT5lv0wZQFPbKQsafNFrRV+eEIuZelz2IJ/jrlSueA5aikRYWbELErNdnry7a/W2mvvICZLRfUtKI2OblvR0KgFencQRmt6DQLTNLwhtL0IEXGpqrfawalgg+tVCH6NY2DGj0UvrDsQKzIPaoHpLRKS1x37DmgDJZUBpU0jZjgqgKuNqkc7i6sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lNLCAJkY5y9KOlMh40hJZdodo8zWnpYY02Zu6ZApTd4=;
- b=F8E9d66lYrq9x1qDDqSbr8EUMfTO9wZ2OtU33Fkv2VyzX2VPQtkSdgLKqdSwXkLkwxAFPI4ixq/lSMwkvnc/xuYrzOdPYVuG9lKR91SLkHC69SeOSIIaTWoYp8YuEIB1R80eO7NqzjskknzsTwpsU5MbMQ1WF2xbUsiNKlgpnhb7lpK1R7YeV0W16No/vTcGL1dA+Gp6lioJYAtSGdCJeVxyuhMhI+lW35X5+wicHlg3Vd72tXfD660/CJZej1zMZ7kbiD6eSEqS78TsrjhoG4XhhqeNkgorc4W0nR/ZsnEyoLY3CPJ31fzjpTfcvElo6MvBfzmrB3Ii1N0l0wMxNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lNLCAJkY5y9KOlMh40hJZdodo8zWnpYY02Zu6ZApTd4=;
- b=V9xvWO4lmINh7N0gfgyHb/yJqsP/BzOzxV+NFCS/wEVyRSmynAiFEb9ryWvpRi5tpDp2dqjR0c3JScPg4rIs83mAia2Hn+50tVijUlTRUjaCnPfR9sjg2dBFsw2ycWFfZGUQHxi6nn1cdhVOAvZpV36Y84PD9N0K4FBtTZ6QF43TvLr6fb2WoKd0+hcK8l1N3Fwr+pp48jlsQMsDRmNEpNM0cd8ZXXbxqK2YzIb8+J1Vh2BxScot+nTx2v/QqLLekheZ8mZ0Sn/LH/FqTtBQtj1ddk7RtonIQOSZd+LzuMSwxtpcY3GS4wq9aVcDLHmmhfa3XkalIvcwcbeWzjHr9w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB7055.eurprd04.prod.outlook.com (2603:10a6:800:123::21)
- by PAXPR04MB8159.eurprd04.prod.outlook.com (2603:10a6:102:1c1::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
- 2026 03:09:55 +0000
-Received: from VI1PR04MB7055.eurprd04.prod.outlook.com
- ([fe80::4dee:baeb:a5cf:1664]) by VI1PR04MB7055.eurprd04.prod.outlook.com
- ([fe80::4dee:baeb:a5cf:1664%3]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
- 03:09:54 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="DHQlLuDx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=7I
+	kZQjW3QOpf5sjWCcv/xI3Yp2hOfKTaEWHsswUiQts=; b=DHQlLuDxC6L59W0Xb2
+	jK4d782LoQoXw084rX4c23bD53oXlsrc+r9xI/zZd9yeiWkeuYC1LFdxP45JVWTU
+	3pj41CC6ytVCULReBrMITeEdrLitJ4d39rgrwg5yppadZgHJBezSqC6DUdVrN/t5
+	6lSDp6WyhxyS8tRZm4Z+RvPMo=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDn12oT+Khp99vJQQ--.27064S2;
+	Thu, 05 Mar 2026 11:27:16 +0800 (CST)
+From: wangdich9700@163.com
+To: bo.liu@senarytech.com,
 	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] ASoC: fsl_xcvr: add bitcount and timestamp controls
-Date: Thu,  5 Mar 2026 11:10:31 +0800
-Message-Id: <20260305031031.3808182-4-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260305031031.3808182-1-shengjiu.wang@nxp.com>
-References: <20260305031031.3808182-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5P287CA0094.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d4::17) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH 1/4] ALSA: hda/senary: Add hardware init verbs and fixup framework
+Date: Thu,  5 Mar 2026 11:27:12 +0800
+Message-Id: <20260305032712.235231-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7055:EE_|PAXPR04MB8159:EE_
-X-MS-Office365-Filtering-Correlation-Id: 557ad167-a676-497f-21e6-08de7a64ac80
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|7416014|19092799006|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	Z58T1AdUGOcH6O4S5ypq2pYXFWiRB6zN6L8G8ZoUMhY2x1P/h0gkQAP0tBhdbauxRTG3xUqbMPOWdGuLUKRamnEfMqRiczXXwVGXgoU8ugCj/BhHQ2Rk5XwRbQlgOK36DlcGy3mzi/9FRKmFw0aLARogmvZqjYCX5to+OGzIwrPpp1URZGykin4Z4mJmWZ6K3hLK+KM6BlymDpq5XAoVoWbe+JsLE8BPa65MOSoMQce8Y2rdTaFqYDKumyACqnPBzg6nXxxevMk+N95VmUnfLoFfyPw1YBC90cHrBI4wB+th+p1T89Eu3cPZWY41KKM7xo0fdrd8rRX5GP+rcx5boio3mIoW+pEkX84Bqi/zoTnLEmf8+mizrShsxA/pxben+CPPCPonmMVMZRHuGMl2Myes/1K1CvF+x73TyGYHQkS13FONezxdBEpl5FtY5YguO0zl6Twzqzk+Fy/6DEdCsWaDsc8Y2Uey84aeqz8zKeGTsA6ibioF5GF/GO5t4PGFgOC+SOJszL+TgbqSti6SsVODbgxFU1fbahJ8yxVsjAVlT7GulryCPXnqVu+CUK45NvsMbS0EEGnWYOflQzfexGmhzSedN81TcioLmD9nQ4INxm5Hd54mFreS1zAI5LByzIoAMG26PdpR8s+pzhNEHMDeOgk5Y+PwPhlSRK6jBPZW9TxPjAK66pTnDNwiIf10xD7iQajQYFvdUKrsqk3SQt78ZUwCKEegdT40m+R6M69Nchf4OtPjFK5N1UNNSBm0//luNFFgd+UGj9F6LBN6hnQL3IQfJxT9HVYVv7tN4BVVR5ctaVKaqemj2T2G+0mn
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB7055.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(7416014)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XU80NtXe6wQKrehu948sgKmdN8Y8JD29KE3SHNPm8g0paaDbuBKnKQ5Ta3/W?=
- =?us-ascii?Q?nThcx0w1YX6R5tf0i22w8b9kb7hGv7H9Uma7zn3zMLXMXh/jyH+/OKQiOhWf?=
- =?us-ascii?Q?9bownIWzlPtgvHLPD1cdKdhSU7IZnaxTOxGzHdwh9BGQnfKG9gpTyvO7Pt/w?=
- =?us-ascii?Q?T4TyAELuOhkWntVqY7daVAKVkvxhy0N7EPELMdfmFUCxK+0nlszfn1bTLHE8?=
- =?us-ascii?Q?mHST+suDUXQp+q5pBfNKfvdXEsH8PvpC1suSr18raCSUTT2s78mVTv7vq+Wn?=
- =?us-ascii?Q?BHt12jKnw1xwqtjh9SoCKBpAaiekE5V+R0Mj28OJVet/SeBGh5+qop1dSmLp?=
- =?us-ascii?Q?SE44Rboe0seJ3MfYytYljMlCXgRdjP9icVYKqfElvZl7Ubkp2nc+eUdkXzBU?=
- =?us-ascii?Q?ra2hOAbmP7Mcv1JVo7uEFpb+2VprkIadgmYlE/anMsu0YQXLT4MMk1dIX9L7?=
- =?us-ascii?Q?x4Vrfc2cR696VGJM7Va3gvg5nHDLL2IubpWHetLVaDKe3Rvp6Z1suttcOdPf?=
- =?us-ascii?Q?IsuFg/uIEpWDKRTq/KPbAl3h5Bs4/H2w1PHirS2qoL/3ugLKXa0HXM9IRpux?=
- =?us-ascii?Q?80jJ7zX11FmfimmsbFStl44k1+Q7efLlqGw41pTv4fe/pec6EJQc69aaU8CX?=
- =?us-ascii?Q?5jQV6cZ+mCB2PHHdufcLSloP3ESHCyqghQi5Dy3WTY+MyVfVT0Qc1MKr7D+H?=
- =?us-ascii?Q?HQODNyJnSpuz/eD4NEdrReUbPxeqD5cvsuRCsgv6jzoAHf4qLP51G5ZY6vj3?=
- =?us-ascii?Q?2PoVlg7Yi16PdzON7VKAWUonJT7uq1twH6X8jZxgXQCRQCuyIrLSxkvoyOzB?=
- =?us-ascii?Q?Cs04wsKZs8TEOgrPnBj6J6fd8NGu2XeHJwMFV9BsRtz3joqUH8bUU96a13sn?=
- =?us-ascii?Q?SoSnDDG+ETcshM/MpjzEp16zpBAhnboa30KHrb2hvzPnITS4CzAoF2rBVVna?=
- =?us-ascii?Q?Kk9DdNDeVD/5dyTzPYZPYyWqW2f/DpKInMAqAQdRBHHqOItURmqsU6bCgPce?=
- =?us-ascii?Q?gzJfVsqZUHmyS+6HgDDp9N0UCB9mhnJbxcR/k2sGh2gdS7gm9vyh60/X6pby?=
- =?us-ascii?Q?3o+aXVaC/Ry9C7VwhBYlL4gJWRab52DUeQJO7PjaXs8MlAz1rfeaUWK+zeZb?=
- =?us-ascii?Q?Oryt7996TplKVbwe1VHLECGDD5URnCWroMT6XtTrILKq/cc9UhArpbuqRw3a?=
- =?us-ascii?Q?hdoyfMdTw4GOhTZ8lI0/TV1zAapTPZbk+4UdbmWA6aROk9g0cUVOYYWyZyIr?=
- =?us-ascii?Q?0HmvFWuoZYS1T+6eLxRgPdZ2FZciI/8d44tsOf8cRIMM8cofv9U99xx5mDye?=
- =?us-ascii?Q?wYtILE7RM8pi1FwhOUIMxF0DaFLNiG51dausp8/162gk7vQqaawz7sCTsEWa?=
- =?us-ascii?Q?c9deeIN6npgOesN8mvbZB2SE4TCZoBD1mYoDSdArZY5/hPQuK9k4UcCLaQDJ?=
- =?us-ascii?Q?aOUmPTVJD7I9uDCDMGdxWng2mN+/RBVJ4MEK63EdkCWz5EuC7+uV+2nk9lnc?=
- =?us-ascii?Q?ASgGyv7fzLsafR/CBDjBzOC1LFy4G7Vlk5DYpvBOZeAFRsL3vIKc5c8xMWt9?=
- =?us-ascii?Q?bwtFS3tC6fBQMUVyusxB7JsdER1V+/ElTsu/Af0YmG9AxzaKmbKAWRn2t2kS?=
- =?us-ascii?Q?yGdQE8m5vwq27pLzkHFXPjXcIVAeyTnUbq9LQyDmw27EBnL247LyvGYxv3x8?=
- =?us-ascii?Q?WJmOgF2tkd9LOFB587YXHgkoneQk941dHL+uLFKP6GTsXvcgFE9Vbl2yCbbi?=
- =?us-ascii?Q?fy5Y1n4L/Q=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 557ad167-a676-497f-21e6-08de7a64ac80
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 03:09:54.8918
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NpgIQ4OxhqGeOFtgQ6k6xJIbtFa4iDS4xZ7JrlOGKzMGDz8txuAHmmwZU3xfMFfAQD3E37cmpHOH/rsKdBjEdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8159
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDn12oT+Khp99vJQQ--.27064S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWryfWw4kAFWUGw4kAr1DZFb_yoWrZw4kpF
+	4rWFy5GFZrJF4Iyr4rGw1xC3WrWa4rWFW7t3y3tw1fGanIkrykJ3WFq343uF1fArZrK3Wa
+	q3WIvFyUG3sFyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOtxhUUUUU=
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xTHF2mo+BSMNgAA30
 
-The transmitter and receiver implement separate timestamp counters and
-bit counters. The bit counter increments at the end of each bit in a
-frame whenever the transmitter or receiver is enabled. The bit counter
-can be reset by software. The timestamp counter increments on the bus
-interface clock whenever it is enabled. The current value of the
-timestamp counter is latched whenever the bit counter increments.
-Reading the bit counter register will cause the latched timestamp
-value to be saved in the bit counter timestamp register. The timestamp
-counter can be reset by software, this also resets the latched timestamp
-value and the bit counter timestamp register.
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-The timestamp counter and bit counter can be used by software to track
-the progress of the transmitter and receiver. It can also be used to
-calculate the relative frequency of the bit clock against the bus
-interface clock.
+Port the essential hardware initialization logic from the vendor driver
+and introduce the standard HDA fixup framework to handle different
+machine configurations.
 
-As there are three regmap handlers defined in this driver, explicitly
-call the snd_soc_component_init_regmap() to init regmap handler for the
-component.
+Key changes:
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+1. Add hardware init verbs:
+   - Implement `senary_init_verb` to send the vendor-specific
+     initialization sequence required by the SN6186 chip.
+   - Override pin capabilities for Node 0x19 to ensure proper headset
+     microphone support.
+
+2. Introduce fixup framework:
+   - Define a default pin configuration table (`senary_pincfg_default`)
+     to provide a fallback for devices with invalid BIOS configurations.
+   - Establish a quirk table structure for future machine-specific
+     fixes.
+   - Since the standard quirk matching relies on Subsystem IDs, we
+     manually apply the default fixup if `snd_hda_pick_fixup` does not
+     find a specific match.
+
+This ensures the chip is correctly initialized during probe and resume,
+and provides a scalable mechanism for supporting specific hardware
+quirks.
+
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 ---
- sound/soc/fsl/fsl_xcvr.c | 64 ++++++++++++++++++++++++++++++++++++++++
- sound/soc/fsl/fsl_xcvr.h | 18 +++++++++++
- 2 files changed, 82 insertions(+)
+ sound/hda/codecs/senarytech.c | 63 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 61 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-index a268fb81a2f8..a945defa8b3f 100644
---- a/sound/soc/fsl/fsl_xcvr.c
-+++ b/sound/soc/fsl/fsl_xcvr.c
-@@ -62,6 +62,58 @@ struct fsl_xcvr {
- 	u32 spdif_constr_rates_list[SPDIF_NUM_RATES];
+diff --git a/sound/hda/codecs/senarytech.c b/sound/hda/codecs/senarytech.c
+index 6239a25bb8f3..f9a389df3a17 100644
+--- a/sound/hda/codecs/senarytech.c
++++ b/sound/hda/codecs/senarytech.c
+@@ -36,6 +36,32 @@ struct senary_spec {
+ 	unsigned int gpio_mic_led_mask;
  };
  
-+static const char * const inc_mode[] = {
-+	"On enabled and bitcount increment", "On enabled"
++enum {
++	SENARY_FIXUP_PINCFG_DEFAULT,
 +};
 +
-+static SOC_ENUM_SINGLE_DECL(transmit_tstmp_enum,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC_SHIFT, inc_mode);
-+static SOC_ENUM_SINGLE_DECL(receive_tstmp_enum,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC_SHIFT, inc_mode);
-+
-+static const struct snd_kcontrol_new fsl_xcvr_timestamp_ctrls[] = {
-+	SOC_SINGLE_EXT("Transmit Timestamp Control Switch", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+		       FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN_SHIFT, 1, 0,
-+		       fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	SOC_ENUM_EXT("Transmit Timestamp Increment", transmit_tstmp_enum,
-+		     fsl_asoc_get_enum_double, fsl_asoc_put_enum_double),
-+	SOC_SINGLE_EXT("Transmit Timestamp Reset", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+		       FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC_SHIFT, 1, 0,
-+		       fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	SOC_SINGLE_EXT("Transmit Bit Counter Reset", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+		       FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC_SHIFT, 1, 0,
-+		       fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Timestamp Counter", FSL_XCVR_TX_DPTH_TSCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Bit Counter", FSL_XCVR_TX_DPTH_BCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Bit Count Timestamp", FSL_XCVR_TX_DPTH_BCTR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Latched Timestamp Counter", FSL_XCVR_TX_DPTH_BCRR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	SOC_SINGLE_EXT("Receive Timestamp Control Switch", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+		       FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN_SHIFT, 1, 0,
-+		       fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	SOC_ENUM_EXT("Receive Timestamp Increment", receive_tstmp_enum,
-+		     fsl_asoc_get_enum_double, fsl_asoc_put_enum_double),
-+	SOC_SINGLE_EXT("Receive Timestamp Reset", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+		       FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC_SHIFT, 1, 0,
-+		       fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	SOC_SINGLE_EXT("Receive Bit Counter Reset", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+		       FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC_SHIFT, 1, 0,
-+		       fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Timestamp Counter", FSL_XCVR_RX_DPTH_TSCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Bit Counter", FSL_XCVR_RX_DPTH_BCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Bit Count Timestamp", FSL_XCVR_RX_DPTH_BCTR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Latched Timestamp Counter", FSL_XCVR_RX_DPTH_BCRR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
++static const struct hda_pintbl senary_pincfg_default[] = {
++	{ 0x16, 0x02211020 }, /* Headphone */
++	{ 0x17, 0x40f001f0 }, /* Not used */
++	{ 0x18, 0x05a1904d }, /* Mic */
++	{ 0x19, 0x02a1104e }, /* Headset Mic */
++	{ 0x1a, 0x01819030 }, /* Line-in */
++	{ 0x1d, 0x01014010 }, /* Line-out */
++	{}
 +};
 +
- static const struct fsl_xcvr_pll_conf {
- 	u8 mfi;   /* min=0x18, max=0x38 */
- 	u32 mfn;  /* signed int, 2's compl., min=0x3FFF0000, max=0x00010000 */
-@@ -1070,8 +1122,20 @@ static struct snd_soc_dai_driver fsl_xcvr_dai = {
- 	},
- };
++static const struct hda_fixup senary_fixups[] = {
++	[SENARY_FIXUP_PINCFG_DEFAULT] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = senary_pincfg_default,
++	},
++};
++
++/* Quirk table for specific machines can be added here */
++static const struct hda_quirk sn6186_fixups[] = {
++	{}
++};
++
+ #ifdef CONFIG_SND_HDA_INPUT_BEEP
+ /* additional beep mixers; private_value will be overwritten */
+ static const struct snd_kcontrol_new senary_beep_mixer[] = {
+@@ -93,6 +119,19 @@ static void senary_auto_parse_eapd(struct hda_codec *codec)
+ 	}
+ }
  
-+static int fsl_xcvr_component_probe(struct snd_soc_component *component)
++/* Hardware specific initialization verbs */
++static void senary_init_verb(struct hda_codec *codec)
 +{
-+	struct fsl_xcvr *xcvr = snd_soc_component_get_drvdata(component);
++	/* Vendor specific init sequence */
++	snd_hda_codec_write(codec, 0x1b, 0x0, 0x05a, 0xaa);
++	snd_hda_codec_write(codec, 0x1b, 0x0, 0x059, 0x48);
++	snd_hda_codec_write(codec, 0x1b, 0x0, 0x01b, 0x00);
++	snd_hda_codec_write(codec, 0x1b, 0x0, 0x01c, 0x00);
 +
-+	snd_soc_component_init_regmap(component, xcvr->regmap);
-+
-+	return 0;
++	/* Override pin caps for headset mic */
++	snd_hda_override_pin_caps(codec, 0x19, 0x2124);
 +}
 +
- static const struct snd_soc_component_driver fsl_xcvr_comp = {
- 	.name			= "fsl-xcvr-dai",
-+	.probe			= fsl_xcvr_component_probe,
-+	.controls		= fsl_xcvr_timestamp_ctrls,
-+	.num_controls		= ARRAY_SIZE(fsl_xcvr_timestamp_ctrls),
- 	.legacy_dai_naming	= 1,
- };
+ static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
+ 			      const hda_nid_t *pins, bool on)
+ {
+@@ -136,6 +175,7 @@ static int senary_init(struct hda_codec *codec)
  
-diff --git a/sound/soc/fsl/fsl_xcvr.h b/sound/soc/fsl/fsl_xcvr.h
-index dade3945cc0c..0cc7945b1d9f 100644
---- a/sound/soc/fsl/fsl_xcvr.h
-+++ b/sound/soc/fsl/fsl_xcvr.h
-@@ -233,6 +233,24 @@
- #define FSL_XCVR_TX_DPTH_CTRL_CLK_RATIO		BIT(29)
- #define FSL_XCVR_TX_DPTH_CTRL_TM_NO_PRE_BME	GENMASK(31, 30)
+ 	snd_hda_gen_init(codec);
+ 	senary_init_gpio_led(codec);
++	senary_init_verb(codec);
+ 	if (!spec->dynamic_eapd)
+ 		senary_auto_turn_eapd(codec, spec->num_eapds, spec->eapds, true);
+ 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_INIT);
+@@ -181,11 +221,30 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 	senary_auto_parse_eapd(codec);
+ 	spec->gen.own_eapd_ctl = 1;
  
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN_SHIFT	0
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN		BIT(0)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC_SHIFT	1
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC	BIT(1)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC_SHIFT	8
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC		BIT(8)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC_SHIFT	9
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC		BIT(9)
+-	if (!spec->gen.vmaster_mute.hook)
+-		spec->gen.vmaster_mute.hook = senary_auto_vmaster_hook;
++	/* Setup fixups based on codec vendor ID */
++	switch (codec->core.vendor_id) {
++	case 0x1fa86186:
++		codec->pin_amp_workaround = 1;
++		spec->gen.mixer_nid = 0x15;
++		snd_hda_pick_fixup(codec, NULL, sn6186_fixups, senary_fixups);
 +
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN_SHIFT	0
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN		BIT(0)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC_SHIFT	1
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC	BIT(1)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC_SHIFT	8
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC		BIT(8)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC_SHIFT	9
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC		BIT(9)
-+
- #define FSL_XCVR_PHY_AI_CTRL_AI_RESETN		BIT(15)
- #define FSL_XCVR_PHY_AI_CTRL_AI_RWB		BIT(31)
++		/* If no specific quirk found, apply the default pin configuration */
++		if (codec->fixup_id == HDA_FIXUP_ID_NOT_SET)
++			codec->fixup_id = SENARY_FIXUP_PINCFG_DEFAULT;
++		break;
++	default:
++		snd_hda_pick_fixup(codec, NULL, sn6186_fixups, senary_fixups);
++		break;
++	}
  
+ 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
+ 
++	/* Run hardware init verbs once during probe */
++	senary_init_verb(codec);
++
++	if (!spec->gen.vmaster_mute.hook)
++		spec->gen.vmaster_mute.hook = senary_auto_vmaster_hook;
++
+ 	err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
+ 				       spec->parse_flags);
+ 	if (err < 0)
 -- 
-2.34.1
+2.25.1
 
