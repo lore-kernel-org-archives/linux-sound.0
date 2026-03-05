@@ -1,163 +1,114 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4F6375F62
-	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 10:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C07373BF5
+	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 10:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772705101; cv=none; b=Zmlx4/p85WRZTElbpCb0O94butPkz6PcwcpEPxMkhBLgs3gs4XjTT8y3Sdz/fGuAWXQpWypt+SxA3EuqD/0csc433SNc4pYix6ZdpEJkdYy38ERCxF9C6cLUUcAVzub+kamXupTkMEDrZhtw/pYsreKNeUkO/bh9NWB4CTZxTy8=
+	t=1772705272; cv=none; b=GMvlB3cpmGNZ7E4lbU0yrlPQ0EK55AY8eax+9vFrox92o7W1mbgQ8HVAuQ+3UtMR+ysbLzTXtifj8C7CVyLpYsKngHLgsW4n4g/9naz9XYKPZKEhvgSoZY7tFoFUkDvdJJGVKNZbQ2PBdiPjT2ckNt6HMab1Jw886QsXmhGMvPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772705101; c=relaxed/simple;
-	bh=PK+lmcJgCr33KPHfKMa4Fj90Y6ypafAkz8NSiwaWXJ4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PW4ZmeOJ2rUX6UrZl6Pag/Mb/aP5Q+HZvAq3+0JXeGZhkC0APszuzTF6xOa7jUfhukIwB0sTwsYfvlaq6aoFoB842qDvY8syYafcEAoSgsPYOCxZsgLDV8cwtxzvOYdeUILBrz3zuzkFbvnhhL1OFn9ODi6FltoqEj0oj2l74Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pYHGoofg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1SPRpQ/j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pYHGoofg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1SPRpQ/j; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772705272; c=relaxed/simple;
+	bh=5E/DrpkixQ4gF4PhrEHz6o0m1Ts94BJPHeqX66PrFAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eDML1uNYHxDbNg17GBoPQlcg6dBaBuz/7cth38mKlrD5rOlHk/aDLh1dI1EweccUprJhzaMMvKnlq8c7oOTtU2CW6eGjv7vU08kJnPWSWUkEN7biMzceVx3j2T+kGYwUiAHpdTSaiIhrscLdI88wbwdwsyxqA969X8pXDIHgISE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VgXgDFd4; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pYHGoofg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1SPRpQ/j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pYHGoofg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1SPRpQ/j"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2947E3F8CF;
-	Thu,  5 Mar 2026 10:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772705099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLLIuUupvLUHzcyOCwC+BYpKrNbpWCDU1+MQcaHm6wE=;
-	b=pYHGoofgUf8kVSNyOQfC+9ZOBvUUzDU4LWLHTPex0+n70FIkFD2kcRKwZeE9Huo17tVn4z
-	+Rzp3T5X06JkMsdOHviQiravM9OVyo3aPGl4qjca5qhkLbrbJGOZRjgqkwMq5Ri/G6sR9/
-	gLMTIm8riEjM/wGgnjd3p2V4IWUjgr8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772705099;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLLIuUupvLUHzcyOCwC+BYpKrNbpWCDU1+MQcaHm6wE=;
-	b=1SPRpQ/jX2SqHr218sf3bYl4HKP3ouENo5AXeimOTQKsfbBSIUeEi/bqAlCMVHeT5KfRWS
-	VpHltP5wgJPo9QCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pYHGoofg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="1SPRpQ/j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772705099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLLIuUupvLUHzcyOCwC+BYpKrNbpWCDU1+MQcaHm6wE=;
-	b=pYHGoofgUf8kVSNyOQfC+9ZOBvUUzDU4LWLHTPex0+n70FIkFD2kcRKwZeE9Huo17tVn4z
-	+Rzp3T5X06JkMsdOHviQiravM9OVyo3aPGl4qjca5qhkLbrbJGOZRjgqkwMq5Ri/G6sR9/
-	gLMTIm8riEjM/wGgnjd3p2V4IWUjgr8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772705099;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLLIuUupvLUHzcyOCwC+BYpKrNbpWCDU1+MQcaHm6wE=;
-	b=1SPRpQ/jX2SqHr218sf3bYl4HKP3ouENo5AXeimOTQKsfbBSIUeEi/bqAlCMVHeT5KfRWS
-	VpHltP5wgJPo9QCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB3723EA68;
-	Thu,  5 Mar 2026 10:04:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NqcBOEpVqWlIVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Mar 2026 10:04:58 +0000
-Date: Thu, 05 Mar 2026 11:04:58 +0100
-Message-ID: <87v7fay4l1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 2/2] ALSA: control: add ioctl to retrieve full card components
-In-Reply-To: <c4392a10442c436484d9758c54622888b07a3a74.camel@opensource.cirrus.com>
-References: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
-	<20260303145815.9930-2-mstrozek@opensource.cirrus.com>
-	<87seagx6c4.wl-tiwai@suse.de>
-	<c4392a10442c436484d9758c54622888b07a3a74.camel@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VgXgDFd4"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b73f4ab4so4690287f8f.1
+        for <linux-sound@vger.kernel.org>; Thu, 05 Mar 2026 02:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772705269; x=1773310069; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cvdX/eNl5nD2MErDTD0kyGmc9AWzS3XjIck/Jl/7K2M=;
+        b=VgXgDFd48UrHM9XgormHHx5ryrK90oORBXumwnkqsXbDVJDsPt8lepzXm/Fz5jexn7
+         8ICvTZn5NGWn9KmAJtWb4FqAw1lLHl/OENOPEXmjfGRAUi7UOghs8uB7iBuC6iLOKofC
+         1/8IvJ4f4wKBai4xvRQUxQX8ytuDKMybanhVHzZAp6M0nN07rj1Zr1TQWMXkIIIaGC+j
+         tV9pi9DAlC5Gq/CK/0V2xcAgbOquNgrvY0CXqcIfq7XQveZ6CrPgjR4IWwHlh8a1uvsV
+         VALnPJ9hDSNpkItymQbZMDSSHwp/GnGIx32i7ehYM8SkfGI4XY7jGI8WiZyzC+l0pByM
+         eBgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772705269; x=1773310069;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cvdX/eNl5nD2MErDTD0kyGmc9AWzS3XjIck/Jl/7K2M=;
+        b=dF/e6VSc4BtUoCWn6Sg9ENnu1nrBqD+8KjQTedqnGUjvBEB8nHKSs8z/AaY8/c2WY/
+         SGzrnrNaOtuYxaZ7K9H4QnFa2QO8rZ1tDGBEmPJbYR6NlFmdQJEWb9TCuiFvwGv3MrbN
+         TPFzUJEDSPdBsmAjJ3F4jEZ7iM+ODo27kov7LppJYkQiXVmMPKUJ/j4GxCLawJ1/9Xvf
+         LgpigiM64rAxtnxZhFFP7mnMaqEO7gMEyFHH9Nznyq0zThsCoW54VEPFt42kDas7058I
+         S5c47pxivEwH4+vwducpZEMI2DcSHKu+UnhxxkOl3k+mWrGtp5I9YU6JQzcwVjIaa6Rw
+         otPA==
+X-Forwarded-Encrypted: i=1; AJvYcCVdYcDCoGBgeNy2vcaDrzvRfy/XBg4AvW2p1GgwpNR4xHLHacLmGmajoEzQvi/W8JFQyH0KlkE43BEP0Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBvqhqIeuSEWOLJGSGFFGKBwBhrBpXdNSKk6j1+eGu/cuBeofn
+	TDxfCPVt1HR33jB4UrIyuq5eUpAzmnzOC0pAecS9jq97H6M/Nn7rG2I+zoMipLao2d8=
+X-Gm-Gg: ATEYQzww930/NTdJqntXEaIeRaNvB2zEDJ1Zu19IEddXhktii3iLPrMl7aWnrYVPjDj
+	XbNusHwIQemo6sQ+grJF31HwU+AIzqlUuHYRAXw1nWHzDp78dz45TJn5FP/ZMVOGO45etW1Lntn
+	Lp6XdNA1ycWrJV48oxkTFqjIyu0gljLzDlOg5bqhtgCQVaefZgckwbuo5d+qMZ2AK2D3WKRIGzq
+	0stZtmbJxKqHCipujw8OGFd/YUsyt+kAf+s8d5H4plqJCQWhBWnTopBYxExFx9P6CXN39wXSDF8
+	uqs7o3q5Tijxz1bS/qxYE0yBb+hud/wh2qDMGEERTg6n0aYCcK73co05hZ3AlpjeuVKUOdVC5cz
+	Env51J+s/UZK2SpbKwanG5eROBQgL9zTr18I+0T6op+sd+u/sxjwxPk+EThxqqyd/aNWDHtz1MI
+	PpVcz5J7xUjtOUufOKWNIVy2cmWArc8ZRDI2JmcHA=
+X-Received: by 2002:a5d:64c8:0:b0:439:bdd7:425f with SMTP id ffacd0b85a97d-439c80088f0mr9728183f8f.35.1772705269355;
+        Thu, 05 Mar 2026 02:07:49 -0800 (PST)
+Received: from linaro.org ([77.64.146.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439abdf5430sm38580943f8f.5.2026.03.05.02.07.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 02:07:48 -0800 (PST)
+Date: Thu, 5 Mar 2026 11:07:33 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Nickolay Goppen <setotau@mainlining.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 11/11] ASoC: msm8916-wcd-analog: add quirk for cajon
+ 2.0
+Message-ID: <aalV5dBloD1BmwzZ@linaro.org>
+References: <20260304195815.52347-1-mailingradian@gmail.com>
+ <20260304195815.52347-12-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2947E3F8CF
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304195815.52347-12-mailingradian@gmail.com>
 
-On Thu, 05 Mar 2026 10:54:35 +0100,
-Maciej Strozek wrote:
+On Wed, Mar 04, 2026 at 02:58:15PM -0500, Richard Acayan wrote:
+> The codec version CAJON_2_0 on the Snapdragon 670 requires touching the
+> HPH test registers. Add the quirk so this driver can also support
+> SDM670.
 > 
-> W dniu wto, 03.03.2026 o godzinie 16∶47 +0100, użytkownik Takashi Iwai
-> napisał:
-> > > 
-> > > + */
-> > > +struct snd_ctl_card_components {
-> > > + int card;
-> > > + unsigned int length;
-> > > + unsigned char *components;
-> > > +};
-> > 
-> > And the ioctl can serve for two purposes:
-> > 
-> > - When length=0 is set, the kernel stores the current number of bytes
-> >   and returns without copying.  User-space can use this mode for
-> >   allocating the buffer.
-> > 
-> In alsa-lib all data must be allocated beforehand, so this length==0
-> query is not very useful there, it will just go into a [512] array
-> anyway. Are there any other users that may benefit from this?
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  sound/soc/codecs/msm8916-wcd-analog.c | 63 ++++++++++++++++++++++++++-
+>  1 file changed, 61 insertions(+), 2 deletions(-)
+> 
 
-My suggested API can work even with the fixed size 512, too, if 512 is
-hight enough.  It's just more flexible.  And there is no restriction
-about alsa-lib data allocation; the function can query the size then
-allocate, too.
+I think you need some more changes in this driver to support CAJON_2_0
+properly. Specifically, the initial register settings are different from
+what is currently in the driver (wcd_reg_defaults_2_0). There was a
+patch for this [1] (later [2]), but it doesn't look like it was
+merged/finished up.
 
+[1]: https://lore.kernel.org/linux-arm-msm/20240727182031.35069-3-a39.skl@gmail.com/
+[2]: https://lore.kernel.org/linux-arm-msm/20240731-msm8953-msm8976-asoc-v3-4-163f23c3a28d@gmail.com/
 
-Takashi
+Thanks,
+Stephan
