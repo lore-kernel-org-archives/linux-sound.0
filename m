@@ -1,59 +1,70 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0E3371054;
-	Thu,  5 Mar 2026 17:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772732867; cv=pass; b=U+RXpDqxZ4uwSYK/8urqKrsCNNPzJHxdZSazcMmfWrf4pA+1bi7ZqVfrNn8Myhqw7pLhLWG/i+mx3RrdajnjZVB0SgCMWvFI1gwpj6uJCZlC9LGLwQkilRAJe7ALGjJqY8k6qAqhUjFpF5OId8QFb3bh6SuZAKtwyj0RyKWhyHQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772732867; c=relaxed/simple;
-	bh=FHW5U5LimJCxTQHX4k4mumzkhqANr+afJlLHUpM7fQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W6TpN8XTKFjfwqIXg6o5CHE8US4f61pEb0pFyw5oYAJH7LIAPKZ+66Ak8SMn8KQDOH528Y5RnXatxcDVSPmNzR/tN/LHl646dArsqgpQFdKyIVd8y0pYh2aC4mKJDIv1J7ixtTmCb1tPXnc2dIwVyT/r3C/9QRkCKQss9sqAEzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=GzhbzmeR; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870429B79B
+	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 19:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772739327; cv=none; b=GkmN2moGtO7j4+GvyOQN4tEBrqNhlhmZ1fyVxVU903YApymQyMtgNcQzPQ73pSIYviSwGRCh8y48GnYt3D0wj3OThEo1hfLnAevzSHfnUf3gzUiHJ2bAcm73OjUbA1Y5VA7ThCVGGpcfVJNqlbiq0GmlTirwNKUOW4UxsFjAD6o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772739327; c=relaxed/simple;
+	bh=PAvtlUAZJV23Ogtz1NgVoBzstnncqqGvH6vEP62bhE4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NLfsIBsplk5qpqHOmqMZKuwPz+6S4KLYFXVWIlV/nzAfNF90n9AX6DrMSdRg1nZNgihBraTHA5WC8sO9m9u83GBRELpe1gkmWLHEQ9oNZQ3vny/b2mkQAPn/+CoT0rD5n2kfMpecTbumIddVhwHi8kpzqpSSXgmz+VNBV+nSvdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UP/AhDOq; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="GzhbzmeR"
-ARC-Seal: i=1; a=rsa-sha256; t=1772732841; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VtrkeHVb17Pv9UHf/NAaAYs0u091YYbOb6p9nNoGjL90i6DNxMDx5X4BZrcg1TKi10VUujd0fM4ySnf7O93qTfg2/+krUT/6Km0UY/XxQfwO7i+aMdHTLJD5s7XnwStjvb3cRe20NBqKxwmPJZI9NMKTS3X4KGEAvINEHm31jwQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772732841; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/M3Zc6FeipLmvGRey4I0i8sTJWwCU3xoQY4oC+FGgHE=; 
-	b=cVDJe1CP9LkE8jlHlhmpEU6xtge+48vYs41FjSp34aunsYOXphsb5TnCzIxiGVvaZDrhXEvBWSC7jDx6LIY5cMNj5Tkb7fz1gcXO4XN5ljHyL5P8ZFgiUNWfsvGPw/d0NWToYqbnSpu9PV6iCQt2S62ZOcxC2ueO5HbBpf3OhMk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772732841;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/M3Zc6FeipLmvGRey4I0i8sTJWwCU3xoQY4oC+FGgHE=;
-	b=GzhbzmeR1avIv7UXiahyRDLAUgMXmNUBjv7IccVtvp5grrUsrkDKH1hlTeMMFTDo
-	vh5jFq5xjTYjtNusibhamSE4tqHW7BGT2PnkKnfYAqBschKoCqDjm400XF0AV8Qbtno
-	/OIAZ5cIv6aiErnVX63HFYEavmSJZgFWI4/7tXbLHzAoH+OHb/6Ot40I0N3I2TKGQf8
-	pwXWNNKwqWIJc1E2ilY8CctKs10ib80snCvIKx2pS6TFo5lljw47hzfvSlSwIlaPIG/
-	ZRUmE2x6k34w3BW0vboRLjUIH/lhrwakBZYMkgbCAKcQLxmYJslZ411+BO67my5J+55
-	tG9KgNF9kQ==
-Received: by mx.zohomail.com with SMTPS id 1772732838388757.0467718429193;
-	Thu, 5 Mar 2026 09:47:18 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UP/AhDOq"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-79628fb5c05so69951017b3.2
+        for <linux-sound@vger.kernel.org>; Thu, 05 Mar 2026 11:35:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772739324; x=1773344124; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JUsSuBpeeeWw+tAHopXopwOdrzE4R0Nfqxb1XRb2Jes=;
+        b=UP/AhDOq7lRRIGG8N9dVPMz5ZmRxqOVJT+jDANcldTi3VO+InAk+eTfKb/IUVh/ITs
+         /4SY7j1GK6sSf7A3Kp5IBW3mjsBM28cU2u705i7plaw9NS5MpLaaSeG7kytZGzBP6Xp8
+         wu4vJjmNtBTjGzR9m4+ZqUQfWCcwLq9EXi3fb38n4YUuBR3mpxzKAleGtxpLMqMNTlDe
+         tGMMayYgKshxO9THLz5hZf73qwin84q/CFY2use14L500S0r9Wwk7RJBDpPJktitby1m
+         PUGkzP1C+TQ1L+rWyEp6uwrsinY/2+pCyDoa61qCJE45gJnNVQo0sSSHWgRo6GcFph1H
+         v8xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772739324; x=1773344124;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JUsSuBpeeeWw+tAHopXopwOdrzE4R0Nfqxb1XRb2Jes=;
+        b=lkTNkbM1vjQgKbXk6Vt49hkBVp5HbOtlGYTQnsEQUU1nPpt6c0VyKN/cAykaa5O1R7
+         xzdywvuAnOQvcbYdLT7XHhL8Vz+Abxf2Rd9vx3/0U1xt4QNh9gFH0I5YW8mxlSZcmKK1
+         5wRr0xgBkcKcOcOvSsioWBIOJzp685BVkaNyaa+RKbFP1TnEezgjSXDYh7ZT+rogcoHW
+         PnpLCMCU34V89iXCkUtmsiQrftCnp/8FgciSNOBWzg6EFj0mUPmOTdRF+iMxFX9viSwN
+         KmNaioikgLq2VpEA+tKYtZ14Ci9gim/Wkn+Fo++w4wLGoTSSuSkYZMsPTTVMQ8FEr9CM
+         dZvw==
+X-Gm-Message-State: AOJu0YyShAmTJvl9Ptya3UUGyUFh8REcHvIJgVzVF3/s0D+kiax9I4tY
+	iAQJTHnnttJn10myENjUExcFPstSTKh3YJZxEKWWu7F0eRvXOkXWM+7eA5yzSsnvCBU=
+X-Gm-Gg: ATEYQzyHiyR0MrVOwUrhyxwrmB0BE8pmedAFXd02UT9a3dv5xyh3N+zqSsB//rzyFlp
+	6weTUD0qTY1VoLDtBKtwSzeJND3RdKaDq6Ph6CEVKpquPh385vfWzu/0PoqywJBD1nJApNtJ8Ej
+	drNjZ8uOKW6AGN3t9Bfyg5VzyK6JfBIUFz9M0tGo8ZkQn2+fP9VC+76x57yW8LNI578iQRaXYyJ
+	e0wOvurHzWkSuFSZyK9i4GQ9Umn7W8M+g/mxSh6gB3bC2SxWuGcCniyjFuwkeGTysFavu1K9fck
+	9o4UbV+4xNfO1+hVW/SZJoH15aBWTy1/oXLaEu0XDCLc62qiPvwmytdqbxPRu6gviy7uJ7Vc7TC
+	UEKBAJ0NAkpsI4m+Ke5o/+1xGyiIHs7OeoYky3y4psEQFPnIelLX2M9MxvWgmd/rtdxPhuP1EHI
+	jKn8lS6TKY7EV63ktAy73s3k9jLb5s5qsjDQFKrZJjptbLe2dEMCxpRG1z
+X-Received: by 2002:a05:690c:4d09:b0:798:5660:9314 with SMTP id 00721157ae682-798c6d23fd6mr52715547b3.64.1772739324161;
+        Thu, 05 Mar 2026 11:35:24 -0800 (PST)
+Received: from desktop-linux.python-stargazer.ts.net ([50.168.180.218])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79876a9004dsm92396307b3.6.2026.03.05.11.35.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 11:35:23 -0800 (PST)
+From: Mehul Rao <mehulrao@gmail.com>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Cc: Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Terry Junge <linuxsound@cosmicgizmosystems.com>
-Subject: [PATCH] ALSA: usb-audio: Refine string-descriptor-based quirk matching
-Date: Fri,  6 Mar 2026 01:46:39 +0800
-Message-ID: <20260305174711.1106324-1-i@rong.moe>
+	stable@vger.kernel.org,
+	Mehul Rao <mehulrao@gmail.com>
+Subject: [PATCH] ALSA: pcm: fix use-after-free on linked stream runtime in snd_pcm_drain()
+Date: Thu,  5 Mar 2026 14:35:07 -0500
+Message-ID: <20260305193508.311096-1-mehulrao@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,153 +72,76 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Remove snd_usb_get_string() and use the manufacturer and product strings
-stored in struct usb_device directly to match quirk table entries. Their
-NULLity can be checked to determine if the device has no these strings.
-This simplifies the code a lot.
+In the drain loop, the local variable 'runtime' is reassigned to a
+linked stream's runtime (runtime = s->runtime at line 2157).  After
+releasing the stream lock at line 2169, the code accesses
+runtime->no_period_wakeup, runtime->rate, and runtime->buffer_size
+(lines 2170-2178) — all referencing the linked stream's runtime without
+any lock or refcount protecting its lifetime.
 
-Meanwhile, allow quirk table entries to match "no string" explicitly, and
-add appropriate comments to show the expected usages of
-DEVICE_STRING_FLG() and VENDOR_STRING_FLG(). These changes are tiny and
-doesn't form another separate patch, so that back-and-forth changes can
-be avoided.
+A concurrent close() on the linked stream's fd triggers
+snd_pcm_release_substream() → snd_pcm_drop() → pcm_release_private()
+→ snd_pcm_unlink() → snd_pcm_detach_substream() → kfree(runtime).
+No synchronization prevents kfree(runtime) from completing while the
+drain path dereferences the stale pointer.
 
-Suggested-by: Terry Junge <linuxsound@cosmicgizmosystems.com>
-Link: https://lore.kernel.org/r/b59da54a-9c80-4212-a337-c5ea98da52d1@cosmicgizmosystems.com
-Signed-off-by: Rong Zhang <i@rong.moe>
+Fix by caching the needed runtime fields (no_period_wakeup, rate,
+buffer_size) into local variables while still holding the stream lock,
+and using the cached values after the lock is released.
+
+Fixes: f2b3614cefb6 ("ALSA: PCM - Don't check DMA time-out too shortly")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mehul Rao <mehulrao@gmail.com>
 ---
- sound/usb/quirks.c | 90 +++++++++++++++++++++-------------------------
- 1 file changed, 40 insertions(+), 50 deletions(-)
+ sound/core/pcm_native.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 17f6be4d2350..ab67f7826e9b 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2153,7 +2153,28 @@ struct usb_audio_quirk_flags_table {
- 	{ .id = USB_ID(vid, pid), .flags = (_flags) }
- #define VENDOR_FLG(vid, _flags) DEVICE_FLG(vid, 0, _flags)
- 
--/* Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts. */
-+/*
-+ * Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts.
-+ *
-+ * Usage:
-+ *   // match vid, pid, "manufacturer", and "product"
-+ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", "product", flags)
-+ *
-+ *   // match vid, pid, "manufacturer", and any product string
-+ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", NULL,      flags)
-+ *
-+ *   // match vid, pid, "manufacturer", and device must have no product string
-+ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", "",        flags)
-+ *
-+ *   // match vid, pid, any manufacturer string, and "product"
-+ *   DEVICE_STRING_FLG(vid, pid, NULL,           "product", flags)
-+ *
-+ *   // match vid, pid, no manufacturer string, and "product"
-+ *   DEVICE_STRING_FLG(vid, pid, "",             "product", flags)
-+ *
-+ *   // match vid, pid, no manufacturer string, and no product string
-+ *   DEVICE_STRING_FLG(vid, pid, "",             "",        flags)
-+ */
- #define DEVICE_STRING_FLG(vid, pid, _manufacturer, _product, _flags)	\
- {									\
- 	.id = USB_ID(vid, pid),						\
-@@ -2164,7 +2185,16 @@ struct usb_audio_quirk_flags_table {
- 	.flags = (_flags),						\
- }
- 
--/* Use as a last resort if using VENDOR_FLG() is prone to VID conflicts. */
-+/*
-+ * Use as a last resort if using VENDOR_FLG() is prone to VID conflicts.
-+ *
-+ * Usage:
-+ *   // match vid, and "manufacturer"
-+ *   VENDOR_STRING_FLG(vid, "manufacturer", flags)
-+ *
-+ *   // match vid, and device must have no manufacturer string
-+ *   VENDOR_STRING_FLG(vid, "",             flags)
-+ */
- #define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
- 	DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
- 
-@@ -2595,63 +2625,23 @@ void snd_usb_apply_flag_dbg(const char *reason,
- 	}
- }
- 
--#define USB_STRING_SIZE 128
--
--static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
--{
--	char *buf;
--	int ret;
--
--	/*
--	 * Devices without the corresponding string descriptor.
--	 * This is non-fatal as *_STRING_FLG have nothing to do in this case.
--	 */
--	if (id == 0)
--		return ERR_PTR(-ENODATA);
--
--	buf = kmalloc(USB_STRING_SIZE, GFP_KERNEL);
--	if (buf == NULL)
--		return ERR_PTR(-ENOMEM);
--
--	ret = usb_string(chip->dev, id, buf, USB_STRING_SIZE);
--	if (ret < 0) {
--		usb_audio_warn(chip, "failed to get string for id%d: %d\n", id, ret);
--		kfree(buf);
--		return ERR_PTR(ret);
--	}
--
--	return buf;
--}
--
- void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
- {
- 	const struct usb_audio_quirk_flags_table *p;
--	char *manufacturer __free(kfree) = NULL;
--	char *product __free(kfree) = NULL;
- 
- 	for (p = quirk_flags_table; p->id; p++) {
- 		if (chip->usb_id == p->id ||
- 		    (!USB_ID_PRODUCT(p->id) &&
- 		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
- 			/* Handle DEVICE_STRING_FLG/VENDOR_STRING_FLG. */
--			if (p->usb_string_match && p->usb_string_match->manufacturer) {
--				if (!manufacturer) {
--					manufacturer = snd_usb_get_string(chip,
--						chip->dev->descriptor.iManufacturer);
--				}
--				if (IS_ERR_OR_NULL(manufacturer) ||
--				    strcmp(p->usb_string_match->manufacturer, manufacturer))
--					continue;
--			}
--			if (p->usb_string_match && p->usb_string_match->product) {
--				if (!product) {
--					product = snd_usb_get_string(chip,
--						chip->dev->descriptor.iProduct);
--				}
--				if (IS_ERR_OR_NULL(product) ||
--				    strcmp(p->usb_string_match->product, product))
--					continue;
--			}
-+			if (p->usb_string_match && p->usb_string_match->manufacturer &&
-+			    strcmp(p->usb_string_match->manufacturer,
-+				   chip->dev->manufacturer ? chip->dev->manufacturer : ""))
-+				continue;
-+			if (p->usb_string_match && p->usb_string_match->product &&
-+			    strcmp(p->usb_string_match->product,
-+				   chip->dev->product ? chip->dev->product : ""))
-+				continue;
- 
- 			snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
- 			chip->quirk_flags |= p->flags;
-
-base-commit: b364a0d23cae157691cde2c0137998d66b45b703
--- 
-2.53.0
-
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 67cf6a0e1..5a64453da 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2144,6 +2144,10 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 	for (;;) {
+ 		long tout;
+ 		struct snd_pcm_runtime *to_check;
++		unsigned int drain_rate;
++		snd_pcm_uframes_t drain_bufsz;
++		bool drain_no_period_wakeup;
++
+ 		if (signal_pending(current)) {
+ 			result = -ERESTARTSYS;
+ 			break;
+@@ -2163,16 +2167,25 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 		snd_pcm_group_unref(group, substream);
+ 		if (!to_check)
+ 			break; /* all drained */
++		/*
++		 * Cache the runtime fields needed after unlock.
++		 * A concurrent close() on the linked stream may free
++		 * its runtime via snd_pcm_detach_substream() once we
++		 * release the stream lock below.
++		 */
++		drain_no_period_wakeup = to_check->no_period_wakeup;
++		drain_rate = to_check->rate;
++		drain_bufsz = to_check->buffer_size;
+ 		init_waitqueue_entry(&wait, current);
+ 		set_current_state(TASK_INTERRUPTIBLE);
+ 		add_wait_queue(&to_check->sleep, &wait);
+ 		snd_pcm_stream_unlock_irq(substream);
+-		if (runtime->no_period_wakeup)
++		if (drain_no_period_wakeup)
+ 			tout = MAX_SCHEDULE_TIMEOUT;
+ 		else {
+ 			tout = 100;
+-			if (runtime->rate) {
+-				long t = runtime->buffer_size * 1100 / runtime->rate;
++			if (drain_rate) {
++				long t = drain_bufsz * 1100 / drain_rate;
+ 				tout = max(t, tout);
+ 			}
+ 			tout = msecs_to_jiffies(tout);
+--
+2.48.1
