@@ -1,81 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2324C3806AA
-	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 15:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7421799F
+	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 16:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772726286; cv=none; b=VhSwlPalh75FRYno4X09/jXZC52vjlpuHZLu3HA2mDXAtnOs6zurJmfMv0Ijqu5JMeJ4rigNglQaA0MADruTRjRW3GDNiw690wT9/F5rZir6pZKYqt2N37EqQlEjVAbXcIdxp+gd+wLzWE5dB+1Q5n2de64EmflDwnIl8mN/UwM=
+	t=1772726945; cv=none; b=MH9wp2zt32vfUP82tzsyRq27y1KEIhcVof9xhkxnXR6ZahCKvvc89xfL+Iq3bEbhp4Dx2QWTL16DwO/K9/kc+t8PwX53VWYXlh1sISlHXWWfcvhcosfltPApr5gqnlZ0wxrdHdeYr3Z6OEkYa9gpZWwKnr/5ZXVR0Dh/GYHAO8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772726286; c=relaxed/simple;
-	bh=4KyTgNXCt2ss8gOgww45sYr6uDE3yH8xjmfMAM4oe5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VILga64wF+uMYIsADZ3oLIJ1yosXcCGpw64qVoxG38KQekTONjYQKxaJcUQ6pR159JiziTCWqB/1nByyAOiXemmutbeb6Dy4IoqCG3tEKM8/L2i9PpDrN8DwHi/MwmUf0EUKJB0i/IxO0JDgPdCnqzQRZUHLyMsZ2xC6xY5pjZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDyMXzb/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772726945; c=relaxed/simple;
+	bh=n/jsFStn/BYXZr7Hl4JTiy1I1XD2nIItZjbkr2AYIH8=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=m487cpq+qX+lXtcykr/e5ALB3LR42mlnsibqFHLwe3ta6+kHE2SHDmRZ8A5Afo9nIPoDwDUmEuQhxG7+C6S3MAofTfe/oClCvcIy+5MEHbz0uHrooywDi4pmkD6LQ1lKgx/tP/T8PBp5/aWCdxxV6AsZ+DpSLoXOaQlgt0uhhMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FChNtr7D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDyMXzb/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9C1C116C6;
-	Thu,  5 Mar 2026 15:58:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FChNtr7D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA49CC116C6;
+	Thu,  5 Mar 2026 16:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772726285;
-	bh=4KyTgNXCt2ss8gOgww45sYr6uDE3yH8xjmfMAM4oe5s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mDyMXzb/T58zDXxPMp+VCOI+z/edNrWiPAX6SAicOt9w/kQERTIPVs+JbmamLCbLx
-	 kf63aoe3EamXJGqc0r8tm3cDK/7flIZYFrPP4OfVa6ivdrxN7lid3s3uRQFrglRJ6N
-	 lVMm+IEA5+DJpYReNK6bJtlmCW1Zfvm8r6sadwheONrNMb51cfPMuMv4q2ZFvz3C5x
-	 1WfCV8FD4tAGNfbUoj6s4hFaJP+VovB9hIOi8e6ZACZO9o4iT560cnc1C8ZTVAOU6l
-	 Vr+X8ZbfJ6zuC0RhRBh//3ISuBoKZWps4q9lQh2SYwRsmF8rcXu5VLBI0nUMS68dAE
-	 IDXrG7HBySbLQ==
-Date: Thu, 5 Mar 2026 15:58:02 +0000
+	s=k20201202; t=1772726945;
+	bh=n/jsFStn/BYXZr7Hl4JTiy1I1XD2nIItZjbkr2AYIH8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FChNtr7DO383inpFtYOnrh36E+HBDUw3nvlpXt6r+3hBvwMpskf/Z+uorxTK+LGFT
+	 +AN3+oKeIfxUGgs0QHkx0SQbjBZiyFAEqUGPy5Sn/T7vT9Ozx3InEMwPEZrTv3vdc5
+	 OxFLZ938YzIbACA4UHZXf0j/xPXBxjQFPSngxDCEIe10p+A3B98XvSrQwbuWT45Zd0
+	 CTUr8N2FUcSldD684SwUoVKsXaoPUiyeEL6TDZugGpS2uaQUjct4X7qoWz2BQPtE94
+	 AQKGumMOAkaFDgy+lT+3GvEF6+lFFF9jZMeyLob5YLKXFG7rRNIqzawJ761fH+cL+B
+	 e1vaMTzsshUhg==
+Message-ID: <7ad7ff6760638a45f9d77f53a870e817@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-component: add missing #ifdef CONFIG_DEBUG_FS
-Message-ID: <6a7e4e17-312d-4863-b66a-2a78fcb3d243@sirena.org.uk>
-References: <878qc64wh9.wl-kuninori.morimoto.gx@renesas.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.0-rc2
+Date: Thu, 05 Mar 2026 16:08:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ym31/96wKhhusWMn"
-Content-Disposition: inline
-In-Reply-To: <878qc64wh9.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: Onward through the fog.
 
+The following changes since commit 11439c4635edd669ae435eec308f4ab8a0804808:
 
---Ym31/96wKhhusWMn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  Linux 7.0-rc2 (2026-03-01 15:39:31 -0800)
 
-On Thu, Mar 05, 2026 at 06:32:51AM +0000, Kuninori Morimoto wrote:
+are available in the Git repository at:
 
-> +#ifdef CONFIG_DEBUG_FS
->  	struct dentry *debugfs_root;
->  	const char *debugfs_prefix;
-> +#endif
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.0-rc2
 
-It looks like this breaks the build for at least avs_component_probe()
-and wm_adsp2_component_probe(), they don't have ifdefs (I didn't
-actually try building).  ISTR we decided at some point that it was
-cleaner to not have ifdefs in the users but perhaps that could use
-revisiting.
+for you to fetch changes up to 325291b20f8a6f14b9c82edbf5d12e4e71f6adaa:
 
---Ym31/96wKhhusWMn
-Content-Type: application/pgp-signature; name="signature.asc"
+  ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK PM1503CDA (2026-03-04 11:40:17 +0000)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+ASoC: Fixes for v7.0
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmpqAkACgkQJNaLcl1U
-h9DNEAf+ORRmFkZ+s4qmoFo6wm/Nh9U+C+QOF+sqDFAm6SUTeUoCKhaXFT0ToHI/
-FLEkVYqTmRg324pCR1yP6hDec1HzbcKWQTEq1x3VMb4UKOblmVN+tZoMTnaxd1rU
-IGTN4mocVrRWut+R6KWAEXGKjonO2aqXs4Vbhy8nmo53qrl1SWfUW0ifg3OJA0fx
-OAf4hzgICNR711fe9KMGi8PIsHd5YiRlDWcv29WubD7du5yl2+5QJx+JlafyNMGw
-1rdjydJTF8hArpUEnVCh8zOkvSAOyghJeZSCxzBbJ4DPTkJOYHjyZtOrXTJLSDw5
-u1DJgd6XsInj5x1KabyZqzVtVGzIsA==
-=r1xp
------END PGP SIGNATURE-----
+A moderately large pile of fixes, though none of them are  super major,
+plus a few new quirks and device IDs.
 
---Ym31/96wKhhusWMn--
+----------------------------------------------------------------
+Biju Das (1):
+      ASoC: dt-bindings: renesas,rz-ssi: Document RZ/G3L SoC
+
+Charles Keepax (1):
+      ASoC: SDCA: Add allocation failure check for Entity name
+
+Mark Brown (3):
+      ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_put_bits()
+      ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_set_reg()
+      ASoC: fsl_easrc: Fix control writes
+
+Oliver Freyermuth (1):
+      ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCD SKU
+
+Richard Fitzgerald (2):
+      ASoC: cs35l56: Only patch ASP registers if the DAI is part of a DAIlink
+      ASoC: cs35l56: Suppress pointless warning about number of GPIO pulls
+
+Sheetal (1):
+      ASoC: dt-bindings: tegra: Add compatible for Tegra238 sound card
+
+Shuming Fan (1):
+      ASoC: rt1321: fix DMIC ch2/3 mask issue
+
+Simon Trimmer (1):
+      ASoC: amd: acp: Add ACP6.3 match entries for Cirrus Logic parts
+
+Zhang Heng (1):
+      ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK PM1503CDA
+
+ .../sound/nvidia,tegra-audio-graph-card.yaml       |   1 +
+ .../devicetree/bindings/sound/renesas,rz-ssi.yaml  |   1 +
+ include/sound/cs35l56.h                            |   1 +
+ sound/soc/amd/acp/amd-acp63-acpi-match.c           | 413 +++++++++++++++++++++
+ sound/soc/amd/yc/acp6x-mach.c                      |   7 +
+ sound/soc/codecs/cs35l56-shared.c                  |  16 +-
+ sound/soc/codecs/cs35l56.c                         |  12 +-
+ sound/soc/codecs/rt1320-sdw.c                      |   5 +-
+ sound/soc/fsl/fsl_easrc.c                          |  14 +-
+ sound/soc/intel/boards/sof_sdw.c                   |   8 +
+ sound/soc/sdca/sdca_functions.c                    |   5 +-
+ 11 files changed, 473 insertions(+), 10 deletions(-)
