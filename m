@@ -1,29 +1,29 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D019B20A5C4;
-	Thu,  5 Mar 2026 03:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7605C2750ED;
+	Thu,  5 Mar 2026 03:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772681287; cv=none; b=HRiBCRAzyAPRqVs9JrhfZ3GXbkkUCIlvzaOsgaN6jPSJJgAeJbUaroK6u0dILETIi3QFvUBlPiKm8zKYAzn6FTv8KUs4DTXViBn03BuQks605151i8tku+sNsUOVQbrtywf+AEph1V/5zGhpDxDXNc0BSLxiPIa1eDdUMILFIdY=
+	t=1772681299; cv=none; b=sYUyYTdFmnr4OKew7e0rq/OBCBnvRZT6vgIw2zdfHKqK68ERJWXq2BUStykLVGKQHOomnavfgReLphyrwRKu2QIXnroJFP9AP15EX7GEg4kezVL3+v0H6GYFBf3uDQa+MnAn3FPT1zF32eTmPYWUmNiyUCsTq3neEqJXOQgn9j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772681287; c=relaxed/simple;
-	bh=Y3JQojRhnTMufX7PcZ43HrlyAzhXECd/28w2+2P7enk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mFn79QkFQziZF2qBX1bHCpbYYvso9aaowkFzHeU7ZXnFFpjNYmgfA3bkolNYhFFPRRcXudXDuFP1bjOSAbMMGa/xpXNueDxJYkLL7FBwRqSkQMk+gDVMvX5Wkdl6L5Ik9aNDtqUAgUoXQsixW52P7dU034BhYU+VzVcxNg+YZt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=mfVXkyMl; arc=none smtp.client-ip=117.135.210.4
+	s=arc-20240116; t=1772681299; c=relaxed/simple;
+	bh=0kwR3Y+faBgjuTCk96xlSef8D2ceDrvv5v+SnF1mnPY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rQSu41ladOqOKVsNWk/4sWZY13Qeb8aXzr51UwarEm697Q+9WbczXCAwAkau1fYnK6WT2NgBjylcKVBJ+LRayug/KL89aAUmB9emg987EwnjmyNijvTWd3M6koGtoIaKIIWU4dCFopSIK1LhKprlwSEC8uFsvtW6EPrqpufLBlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=fH/VRJGC; arc=none smtp.client-ip=220.197.31.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="mfVXkyMl"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="fH/VRJGC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=AU
-	fbSAxfaQl7VFN5Lm12j0LZS6RJJTwepQJIlCvd5JY=; b=mfVXkyMl98mFr1Pct0
-	VjvULSMKiVyETmri1mbMYr4QbVNN4KoLSGkPTLQZO+aMsZamJnCp8afXnEJTsEOf
-	Mrv9pw5TfI/2r1FXO2fOg3ONE6CKNvUJF1cljW/01ZNN9rNa5SU1fUNNtJGfnTq5
-	+82jEa+4k/KyiWzMzvU/xJMJQ=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=7K
+	1OiXSfuK6+xPIXkQ8bHs0jwCPe7+dmxKCKxddCH5U=; b=fH/VRJGCieSu/yGJXY
+	gbs0+qA4GIEcGlMX+qJmgdv3bPq7in8Ac/DCkuhkNtPLGKKPN9ybLPzQnftxtA4v
+	gW1B1rxi7eUGuUnlecX3x4qbmAG8w0FT9pNonTX6h3CXfQrkGVZM/SMcx+y40uvy
+	AhD2im5dNFtjoTWS5hfmY3ShE=
 Received: from localhost.localdomain (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgBnP+ov+KhpKrvFRQ--.160S2;
-	Thu, 05 Mar 2026 11:27:45 +0800 (CST)
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wCHbq09+KhpCjh5Ow--.1630S2;
+	Thu, 05 Mar 2026 11:27:58 +0800 (CST)
 From: wangdich9700@163.com
 To: bo.liu@senarytech.com,
 	perex@perex.cz,
@@ -31,9 +31,9 @@ To: bo.liu@senarytech.com,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	wangdicheng <wangdicheng@kylinos.cn>
-Subject: [PATCH 3/4] ALSA: hda/senary: Add dynamic EAPD control via playback hook
-Date: Thu,  5 Mar 2026 11:27:41 +0800
-Message-Id: <20260305032741.236048-1-wangdich9700@163.com>
+Subject: [PATCH 4/4] ALSA: hda/senary: Fix microphone boost stability
+Date: Thu,  5 Mar 2026 11:27:56 +0800
+Message-Id: <20260305032756.236440-1-wangdich9700@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -42,76 +42,86 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgBnP+ov+KhpKrvFRQ--.160S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJrWkXrWrZF47CF4xAFy8Grg_yoW8KFykpF
-	15Ga45tFZxJFyIkr4fGw15A3WYga4rWF43t34aya43uF4DtrykXa10q34I9FyrAryIg3Wa
-	vF42qFy8G3yDArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:_____wCHbq09+KhpCjh5Ow--.1630S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAF4rKw48KFyDJw45tF43Wrg_yoW5XFy8pF
+	13ta43GFsxtF40kw4rGw4rZ3WFgas5WF43Gw4ay3W5Jrn5JryDXay0g340gF45AF9F9a43
+	ZFW29rWIkwsxArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOAwsUUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xHOHmmo+DGPwwAA3i
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbCwB7RIWmo+D7r-wAA39
 
 From: wangdicheng <wangdicheng@kylinos.cn>
 
-To reduce power consumption and eliminate static noise during idle,
-this patch introduces dynamic EAPD switching. It hooks into the PCM
-playback stream to turn EAPD on only when audio is playing and off
-when the stream stops.
+Some SN6186 platforms experience microphone gain fluctuation.
+This patch adds a capture sync hook to lock the microphone boost
+to a default value read during initialization, ensuring stable
+recording levels.
 
 Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 ---
- sound/hda/codecs/senarytech.c | 37 +++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ sound/hda/codecs/senarytech.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
 diff --git a/sound/hda/codecs/senarytech.c b/sound/hda/codecs/senarytech.c
-index 8ebd974817ac..c589b3b01171 100644
+index c589b3b01171..9c6bad6e3866 100644
 --- a/sound/hda/codecs/senarytech.c
 +++ b/sound/hda/codecs/senarytech.c
-@@ -132,6 +132,36 @@ static void senary_init_verb(struct hda_codec *codec)
- 	snd_hda_override_pin_caps(codec, 0x19, 0x2124);
+@@ -31,6 +31,7 @@ struct senary_spec {
+ 	unsigned int parse_flags; /* flag for snd_hda_parse_pin_defcfg() */
+ 
+ 	int mute_led_polarity;
++	unsigned char default_mic_boost[0x25];
+ 	unsigned int gpio_led;
+ 	unsigned int gpio_mute_led_mask;
+ 	unsigned int gpio_mic_led_mask;
+@@ -162,6 +163,30 @@ static void senary_playback_hook(struct hda_pcm_stream *hinfo,
+ 	}
  }
  
-+static void senary_set_port_eapd(struct hda_codec *codec, hda_nid_t nid, bool enable)
++static void senary_fixed_mic_boost(struct hda_codec *codec, hda_nid_t nid)
 +{
-+	unsigned char port_eapd = 0, eapd_value = enable << 1;
++	unsigned char value;
++	struct senary_spec *spec = codec->spec;
 +
-+	port_eapd = snd_hda_codec_read(codec, nid, 0, 0xf0c, 0x0);
-+	if (port_eapd != eapd_value)
-+		snd_hda_codec_write(codec, nid, 0, 0x70c, eapd_value);
++	if (!spec->default_mic_boost[nid])
++		return;
++
++	value = snd_hda_codec_read(codec, nid, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
++	if (value != spec->default_mic_boost[nid])
++		snd_hda_codec_amp_stereo(codec, nid, HDA_INPUT, 0,
++				HDA_AMP_VOLMASK, spec->default_mic_boost[nid]);
 +}
 +
-+static void senary_playback_hook(struct hda_pcm_stream *hinfo,
-+		struct hda_codec *codec,
-+		struct snd_pcm_substream *substream,
-+		int action)
++static void senary_cap_sync_hook(struct hda_codec *codec,
++		struct snd_kcontrol *kcontrol,
++		struct snd_ctl_elem_value *ucontrol)
 +{
 +	struct senary_spec *spec = codec->spec;
-+	struct auto_pin_cfg *cfg = &spec->gen.autocfg;
-+	int i;
++	hda_nid_t nid = spec->gen.imux_pins[spec->gen.cur_mux[0]];
 +
-+	switch (action) {
-+	case HDA_GEN_PCM_ACT_PREPARE:
-+		for (i = 0; i < cfg->speaker_outs; i++)
-+			senary_set_port_eapd(codec, cfg->speaker_pins[i], true);
-+		break;
-+	case HDA_GEN_PCM_ACT_CLEANUP:
-+		for (i = 0; i < cfg->speaker_outs; i++)
-+			senary_set_port_eapd(codec, cfg->speaker_pins[i], false);
-+		break;
-+	}
++	senary_fixed_mic_boost(codec, nid);
 +}
 +
  static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
  			      const hda_nid_t *pins, bool on)
  {
-@@ -270,6 +300,13 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
- 	if (err < 0)
- 		goto error;
+@@ -251,6 +276,7 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ {
+ 	struct senary_spec *spec;
+ 	int err;
++	int i;
  
-+	/* Register playback hook for dynamic EAPD control.
-+	 * Vendor driver applies this specifically for subsystem 0x14f10101,
-+	 * but we apply it broadly for SN6186 to fix noise issues.
-+	 */
-+	if (codec->core.vendor_id == 0x1fa86186)
-+		spec->gen.pcm_playback_hook = senary_playback_hook;
+ 	codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
+ 
+@@ -307,6 +333,13 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 	if (codec->core.vendor_id == 0x1fa86186)
+ 		spec->gen.pcm_playback_hook = senary_playback_hook;
+ 
++	/* Initialize and fix mic boost */
++	for (i = 0; i < ARRAY_SIZE(spec->default_mic_boost); i++) {
++		spec->default_mic_boost[i] = snd_hda_codec_read(codec, i, 0,
++				AC_VERB_GET_AMP_GAIN_MUTE, 0);
++	}
++	spec->gen.cap_sync_hook = senary_cap_sync_hook;
 +
  	/* Some laptops with Senary chips show stalls in S3 resume,
  	 * which falls into the single-cmd mode.
