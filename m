@@ -1,43 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6973C6A53;
-	Thu,  5 Mar 2026 15:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702BB3CA486;
+	Thu,  5 Mar 2026 15:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772725033; cv=none; b=nKCeB205b6K2SreasACwz8NAJwAVZ9awkBNXty6LM/mBZblQqibKNmiHB5XF4Kk8sXprJLznjFi9qgL0BDoCjUyexRSv+I1JsMXCor4df949TRWY3p8jx+gRj8FSRPUmy6KdGQ8U14IXR72af4UTKvSucJ0WhBal+NZLp9WwJng=
+	t=1772725036; cv=none; b=tHysndD2RmMv57XGJdsxlDdK9Rt5HnTJG+Z7yU+/KqpfhOc0VvbwHgFtal9E+iSLYFKZNncTo5OGG9zdJu6VAg+WVrHO7s3qqpQg8ze1QwzvU3Gk3BeOLqayR1etrCXidpWP0IhTmirzzgVAu3xRa0uXC5JZ+lxyPXjtLLFS8mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772725033; c=relaxed/simple;
-	bh=jkmKY9PNpEA8XYmeUaB2srzOcNVtTnu3eYd725GFAW8=;
+	s=arc-20240116; t=1772725036; c=relaxed/simple;
+	bh=BqbKEO0ra3UtYdhYFSHXRy4hyOD4ATuuxuw62fu7vx0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YRIC3CMnmqO3NSxwsEtg2Q7mJzqaWeANVTYy49sDMpgMAGUvveGRcAkHf0SvMjEWXgpN+atPkGwJBmL8UzweHDqMAGVY7dnus/HMM/yxENjJClrZ5hYg3fn7+7+RNUGd65bL2LjNfs0zTNEPsA3ftQ9VLhpkjX/Vg3oYFTEtihE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYIZhM6g; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ti2axHrFDxRjdzmvnICheQMBXsFr15zQBk+m1IIBMGuJhzu4PMZJn2b4B1xo4BkUXAqEMM39ttbYeuCV+uTBug5/QCvEez3su+FJsvwLiM30m3Bx9xvPdWbOhllDHFNmEgAKsdAep5B00KBNJv1wFcxBeBVFMHMhO3/dGFRaQOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpSev9bz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYIZhM6g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE1BC116C6;
-	Thu,  5 Mar 2026 15:37:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpSev9bz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA5CC19423;
+	Thu,  5 Mar 2026 15:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772725033;
-	bh=jkmKY9PNpEA8XYmeUaB2srzOcNVtTnu3eYd725GFAW8=;
+	s=k20201202; t=1772725036;
+	bh=BqbKEO0ra3UtYdhYFSHXRy4hyOD4ATuuxuw62fu7vx0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dYIZhM6gqZCYrg7aA7NzYtEiRsGDm1aK/alxaoETOxqcMNGXgMfm4say2ZQlC/D+z
-	 BFm5y+EoNYaumb5EzF47v6844ySx71vmlk0LgOlZxARsqFVSyB0JGUrjPd2W3BBwNh
-	 8dAnLBVL89qfRE2xp6MWX0zWYLLZOLCs50+AJOc7xfsC/PWavWrm8rbYIikeH6iUBR
-	 terrPEzV0x6y93VzQb3PsNAiLQuIwB0iwgiwjNE9ayQky9/JJxFppMzG3MB7KdcQ+u
-	 TmWzC8ECxWqXsu3h5hYy0tGVhIgT6+WZjTUs+Zgi417O28nAwVctZ3VsoIU/m9uEMc
-	 T761vZlo+QL4Q==
+	b=MpSev9bzTkUD1ZC9Es6nFzm6hfX++RZqxbT6sMpNnmyXzJfP0j/v3IimUs62QbrBa
+	 H14FFsn+rba1VFZ6goSmKUBYEqdEEh34VbO4R4Iep++qXYpwO5Mp0Ob8kJ1bxD+5zD
+	 fNtX03qXvRghH2vYjS3wONmKUS3wEK5AbeoW2Wq6I6hvfV3PNcWpOS3F511Mwdyv6v
+	 DEb38mvQ357O14bx+tVUUQZP/gqpMi56HYGZU5dA4zs4h+TacAZ/6p4xEfpeHmNgTs
+	 Kno5VD2zTmk5lfPk1OZXEllIrEqR8SW/jMYJSQx8D8DrjC5mPZsxQP00lDZNIjWFwp
+	 vPkmm1s4n0ucw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] ALSA: usb-audio: Check max frame size for implicit feedback mode, too
-Date: Thu,  5 Mar 2026 10:36:48 -0500
-Message-ID: <20260305153704.106918-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.6] ASoC: cs42l43: Report insert for exotic peripherals
+Date: Thu,  5 Mar 2026 10:36:50 -0500
+Message-ID: <20260305153704.106918-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260305153704.106918-1-sashal@kernel.org>
 References: <20260305153704.106918-1-sashal@kernel.org>
@@ -53,128 +58,103 @@ X-stable-base: Linux 6.19.6
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[ Upstream commit 7cb2a5422f5bbdf1cf32eae0eda41000485b9346 ]
+[ Upstream commit 6510e1324bcdc8caf21f6d17efe27604c48f0d64 ]
 
-When the packet sizes are taken from the capture stream in the
-implicit feedback mode, the sizes might be larger than the upper
-boundary defined by the descriptor.  As already done for other
-transfer modes, we have to cap the sizes accordingly at sending,
-otherwise this would lead to an error in USB core at submission of
-URBs.
+For some exotic peripherals the type detect can return a reserved value
+of 0x4. This will currently return an error and not report anything to
+user-space, update this to report the insert normally.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221076
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Link: https://patch.msgid.link/20260225085233.316306-3-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260223093616.3800350-1-ckeepax@opensource.cirrus.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have a complete picture. Let me write the analysis.
-
 ## Analysis
 
-### What the commit fixes
+### What the commit does
 
-This is a one-line fix that caps the packet size returned from the
-implicit feedback path to `ep->maxframesize`. When USB audio uses
-implicit feedback mode, packet sizes are derived from the **actual
-captured URB lengths** from a companion capture endpoint, rather than
-being pre-calculated. These actual lengths can exceed the maximum frame
-size defined by the USB descriptor/bus constraints.
+This is a one-line fix to the CS42L43 audio codec's jack type detection.
+The hardware's type detect register can return a reserved value of `0x4`
+for "exotic peripherals." Before this fix, value `0x4` falls through to
+the `default: return -EINVAL` case in the switch statement.
 
-Without this cap, oversized packets get submitted to the USB core, which
-rejects them with errors, causing audio failures or crashes.
+### What happens when -EINVAL is returned
 
-### Bug mechanism
+The caller `cs42l43_tip_sense_work()` checks `if (report < 0)` and on
+error:
+1. Logs `"Jack detect failed: %d\n"`
+2. Jumps to `error:` label
+3. **No jack insert event is reported to userspace**
 
-In `snd_usb_endpoint_next_packet_size()`, when `ctx->packet_size[idx]`
-is non-zero (implicit feedback path), the raw value from the capture
-stream was returned without any bounds check against `maxframesize`. The
-other two code paths already have this protection:
-- `slave_next_packet_size()` caps via `min(phase >> 16,
-  ep->maxframesize)` at line 174
-- `next_packet_size()` uses pre-calculated `packsize[]` values, which
-  are now capped by the companion commit `7fe8dec3f628`
+This means users with these "exotic peripherals" get no audio jack
+detection at all — the device appears to not be plugged in.
 
-This was a gap in the implicit feedback path specifically.
+### Bug classification
 
-### Real-world impact
-
-The linked bugzilla (221076) documents a real user hitting this with a
-DIYINHK USB Audio 2.0 device at high sample rates (352.8kHz/384kHz with
-6 channels at 32-bit). The device firmware reports an incorrect max
-packet size that USB core corrects downward, but the ALSA driver's
-implicit feedback path didn't respect this corrected limit.
+This is a **hardware quirk/workaround** — the hardware returns a
+reserved value for certain real peripherals. The fix treats type `0x4`
+the same as CTIA/OMTP (running load detection with headset=true), which
+allows the system to properly detect and report the insert.
 
 ### Stable criteria assessment
 
-1. **Obviously correct**: Adding `min(packet, ep->maxframesize)` mirrors
-   exactly what the other code paths already do. It's a one-line, self-
-   evident fix.
-2. **Fixes a real bug**: URB submission errors with real hardware
-   (bugzilla 221076).
-3. **Small and contained**: Single line addition in one file.
-4. **No new features**: Pure bug fix.
-5. **Low risk**: The cap was already applied in all other paths; this
-   just closes a gap for the implicit feedback path.
+1. **Fixes a real bug**: Yes — exotic peripherals are completely non-
+   functional without this fix (no insert reported to userspace)
+2. **Obviously correct**: Yes — the fix adds one case label to treat
+   `0x4` like other headset types. The author (Charles Keepax) is the
+   subsystem maintainer at Cirrus Logic.
+3. **Small and contained**: Yes — one line added to a switch statement
+   in a single file
+4. **No new features**: Correct — this just makes existing hardware work
+   properly
+5. **Risk**: Extremely low — it only affects the `0x4` type value which
+   previously returned an error anyway
 
-### Dependency check
-
-This commit depends on the companion commit `7fe8dec3f628` ("ALSA: usb-
-audio: Cap the packet size pre-calculations") which fixes the same class
-of bug for the pre-calculated path. Both should be backported together
-as they address the same bugzilla issue, but this commit is
-**independently valuable** — the implicit feedback path fix stands on
-its own since `maxframesize` has been available since long before.
-
-The `Fixes:` tag on the companion commit points to `f0bd62b64016`
-("ALSA: usb-audio: Improve frames size computation") from 2020, meaning
-the underlying code is present in all active stable trees.
+This falls squarely into the **hardware quirks/workarounds** exception
+category. The CS42L43 driver has been in the kernel since v6.6
+(introduced August 2023, merged for 6.6-rc1), so it exists in recent
+stable trees.
 
 ### Verification
 
-- Read `sound/usb/endpoint.c` lines 157-233: confirmed
-  `slave_next_packet_size()` caps at line 174 with `min(phase >> 16,
-  ep->maxframesize)`, `next_packet_size()` uses `ep->packsize[]` (now
-  capped by companion commit), but the `ctx->packet_size[idx]` path at
-  line 222-226 had no cap before this fix.
-- Confirmed `maxframesize` is set in `snd_usb_endpoint_set_params()` at
-  line ~1400 from `maxpacksize / cur_frame_bytes`.
-- Confirmed companion commit `7fe8dec3f628` exists and caps
-  `packsize[0]` and `packsize[1]` — it has an explicit `Fixes:` tag
-  pointing to `f0bd62b64016` (2020), confirming the buggy code exists in
-  stable trees.
-- Confirmed the bugzilla link 221076 is referenced in the commit
-  message, documenting a real user-reported issue.
-- The implicit feedback packet sizes come from actual URB lengths (set
-  in `retire_inbound_urb` path), which can exceed descriptor limits —
-  verified by reading the packet_size assignment code.
+- Explored `cs42l43_tip_sense_work()` at line ~766: confirmed that
+  negative return from `cs42l43_run_type_detect()` goes to `error:`
+  label without reporting jack state to userspace
+- Confirmed the file was introduced in commit `fc918cbe874ee` (August 4,
+  2023) — present since v6.6
+- Confirmed the author Charles Keepax is the original driver author and
+  Cirrus Logic engineer
+- The commit was reviewed and merged by Mark Brown (ASoC maintainer)
+- Multiple prior commits show ongoing type detection refinement for this
+  codec (dc96528b176fa, e77a4081d7e32, etc.)
+- The change is a single `case 0x4:` fallthrough to the existing
+  CTIA/OMTP handler — no new code paths introduced
 
-This is a textbook stable backport candidate: a one-line fix for a real
-user-reported bug, closing a gap where bounds checking was missing for
-one specific code path while already present in all others.
+The fix is small, surgical, low-risk, and makes real hardware work for
+users. It clearly meets stable kernel criteria.
 
 **YES**
 
- sound/usb/endpoint.c | 1 +
+ sound/soc/codecs/cs42l43-jack.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index 1eaf52d1ae9c7..46eff040a1511 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -221,6 +221,7 @@ int snd_usb_endpoint_next_packet_size(struct snd_usb_endpoint *ep,
- 
- 	packet = ctx->packet_size[idx];
- 	if (packet) {
-+		packet = min(packet, ep->maxframesize);
- 		if (avail && packet >= avail)
- 			return -EAGAIN;
- 		return packet;
+diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
+index b83bc4de1301d..3e04e6897b142 100644
+--- a/sound/soc/codecs/cs42l43-jack.c
++++ b/sound/soc/codecs/cs42l43-jack.c
+@@ -699,6 +699,7 @@ static int cs42l43_run_type_detect(struct cs42l43_codec *priv)
+ 	switch (type & CS42L43_HSDET_TYPE_STS_MASK) {
+ 	case 0x0: // CTIA
+ 	case 0x1: // OMTP
++	case 0x4:
+ 		return cs42l43_run_load_detect(priv, true);
+ 	case 0x2: // 3-pole
+ 		return cs42l43_run_load_detect(priv, false);
 -- 
 2.51.0
 
