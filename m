@@ -1,131 +1,129 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7605C2750ED;
-	Thu,  5 Mar 2026 03:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EF54503B;
+	Thu,  5 Mar 2026 04:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772681299; cv=none; b=sYUyYTdFmnr4OKew7e0rq/OBCBnvRZT6vgIw2zdfHKqK68ERJWXq2BUStykLVGKQHOomnavfgReLphyrwRKu2QIXnroJFP9AP15EX7GEg4kezVL3+v0H6GYFBf3uDQa+MnAn3FPT1zF32eTmPYWUmNiyUCsTq3neEqJXOQgn9j0=
+	t=1772684452; cv=none; b=a5J3ArMVqsoaFzxnMviENCCDWWlC4WYXmtvLE8xrOWMBNObudY/xrNDYoNUS6NKq/OW+kNlJjx+g8Y0XOlz6p2MLaEbwAGr6BZJFCcCzSSJ3CM+MFfBKQdxJyYFJ/6WshUjof8fpdnpZDE5mKiNgss4LwNF6tMQmX7ZbI0269X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772681299; c=relaxed/simple;
-	bh=0kwR3Y+faBgjuTCk96xlSef8D2ceDrvv5v+SnF1mnPY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rQSu41ladOqOKVsNWk/4sWZY13Qeb8aXzr51UwarEm697Q+9WbczXCAwAkau1fYnK6WT2NgBjylcKVBJ+LRayug/KL89aAUmB9emg987EwnjmyNijvTWd3M6koGtoIaKIIWU4dCFopSIK1LhKprlwSEC8uFsvtW6EPrqpufLBlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=fH/VRJGC; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1772684452; c=relaxed/simple;
+	bh=rwzheNDW+lOxCuTlt6Q/dE1VPSEPfFW3aRr1NzUYCA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sbuus4DOfz/XpUJUyQnsPWGlZvk7c7Eb3RXFhojTD+wd24c+AcgDK1mnVid8i9vIfGFiN0P03sZ5yYomNdSeIApQBJHThVRR7F2E1EurkoyRNHnhnE3+wjgpVmx/K9RXPIma9sh8cCspZQekdCye9TgDFGw6Qqnb3dxMHbMpwis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EjffKefi; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="fH/VRJGC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=7K
-	1OiXSfuK6+xPIXkQ8bHs0jwCPe7+dmxKCKxddCH5U=; b=fH/VRJGCieSu/yGJXY
-	gbs0+qA4GIEcGlMX+qJmgdv3bPq7in8Ac/DCkuhkNtPLGKKPN9ybLPzQnftxtA4v
-	gW1B1rxi7eUGuUnlecX3x4qbmAG8w0FT9pNonTX6h3CXfQrkGVZM/SMcx+y40uvy
-	AhD2im5dNFtjoTWS5hfmY3ShE=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wCHbq09+KhpCjh5Ow--.1630S2;
-	Thu, 05 Mar 2026 11:27:58 +0800 (CST)
-From: wangdich9700@163.com
-To: bo.liu@senarytech.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: [PATCH 4/4] ALSA: hda/senary: Fix microphone boost stability
-Date: Thu,  5 Mar 2026 11:27:56 +0800
-Message-Id: <20260305032756.236440-1-wangdich9700@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EjffKefi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772684451; x=1804220451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rwzheNDW+lOxCuTlt6Q/dE1VPSEPfFW3aRr1NzUYCA4=;
+  b=EjffKefijrgvNVuLwaBtSPK8F3aqyPBQ5DibJz7YrZfPm2norIwdz2cH
+   j6tzN3pfjb14IJedDgPhnqgQHorjsaavX8+lbuSXbKVdreeGKovB6oMCu
+   QXakyrh2QnEnPHI+b8JHsyvQChMAWe3z0iusnVbffHBAAZ6qLajti/0pn
+   iJqkh4VD0lj6gYYvVYqG3cCepNY1V6rK11bxpGPccSS4OX5btLwtzCEYC
+   c9DT55i6QWQ9RssHfotNoZji1/7wrCwQLqL8FipXyed4XDafvM9Ygk7IS
+   StfcxUlHZxQTTqno47SNNxiYO3YFo1G1QKHK6sFeFSwkOPYUUt6apeh2m
+   A==;
+X-CSE-ConnectionGUID: yQkCrr8PQRuRi5rO9GIbdQ==
+X-CSE-MsgGUID: ZRjMfMPEQluxXR70JnPI7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73675132"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="73675132"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 20:20:50 -0800
+X-CSE-ConnectionGUID: b7te/GcGQFq9ik40uy83OQ==
+X-CSE-MsgGUID: PculmDjPRs2RPA0SjCs9pQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="222706440"
+Received: from lkp-server02.sh.intel.com (HELO 456988d8841c) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2026 20:20:48 -0800
+Received: from kbuild by 456988d8841c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vy0C4-0000000005R-0HSC;
+	Thu, 05 Mar 2026 04:20:18 +0000
+Date: Thu, 5 Mar 2026 12:19:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: songxiebing <songxiebing@kylinos.cn>, tiwai@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/intel: Synchronize the module parameter values
+ of the power_save
+Message-ID: <202603051210.99ca99nW-lkp@intel.com>
+References: <20260302081218.771520-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCHbq09+KhpCjh5Ow--.1630S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAF4rKw48KFyDJw45tF43Wrg_yoW5XFy8pF
-	13ta43GFsxtF40kw4rGw4rZ3WFgas5WF43Gw4ay3W5Jrn5JryDXay0g340gF45AF9F9a43
-	ZFW29rWIkwsxArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOAwsUUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbCwB7RIWmo+D7r-wAA39
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302081218.771520-1-songxiebing@kylinos.cn>
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+Hi songxiebing,
 
-Some SN6186 platforms experience microphone gain fluctuation.
-This patch adds a capture sync hook to lock the microphone boost
-to a default value read during initialization, ensuring stable
-recording levels.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
----
- sound/hda/codecs/senarytech.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v7.0-rc2 next-20260304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/sound/hda/codecs/senarytech.c b/sound/hda/codecs/senarytech.c
-index c589b3b01171..9c6bad6e3866 100644
---- a/sound/hda/codecs/senarytech.c
-+++ b/sound/hda/codecs/senarytech.c
-@@ -31,6 +31,7 @@ struct senary_spec {
- 	unsigned int parse_flags; /* flag for snd_hda_parse_pin_defcfg() */
- 
- 	int mute_led_polarity;
-+	unsigned char default_mic_boost[0x25];
- 	unsigned int gpio_led;
- 	unsigned int gpio_mute_led_mask;
- 	unsigned int gpio_mic_led_mask;
-@@ -162,6 +163,30 @@ static void senary_playback_hook(struct hda_pcm_stream *hinfo,
- 	}
- }
- 
-+static void senary_fixed_mic_boost(struct hda_codec *codec, hda_nid_t nid)
-+{
-+	unsigned char value;
-+	struct senary_spec *spec = codec->spec;
-+
-+	if (!spec->default_mic_boost[nid])
-+		return;
-+
-+	value = snd_hda_codec_read(codec, nid, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
-+	if (value != spec->default_mic_boost[nid])
-+		snd_hda_codec_amp_stereo(codec, nid, HDA_INPUT, 0,
-+				HDA_AMP_VOLMASK, spec->default_mic_boost[nid]);
-+}
-+
-+static void senary_cap_sync_hook(struct hda_codec *codec,
-+		struct snd_kcontrol *kcontrol,
-+		struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct senary_spec *spec = codec->spec;
-+	hda_nid_t nid = spec->gen.imux_pins[spec->gen.cur_mux[0]];
-+
-+	senary_fixed_mic_boost(codec, nid);
-+}
-+
- static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
- 			      const hda_nid_t *pins, bool on)
- {
-@@ -251,6 +276,7 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
- {
- 	struct senary_spec *spec;
- 	int err;
-+	int i;
- 
- 	codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
- 
-@@ -307,6 +333,13 @@ static int senary_probe(struct hda_codec *codec, const struct hda_device_id *id)
- 	if (codec->core.vendor_id == 0x1fa86186)
- 		spec->gen.pcm_playback_hook = senary_playback_hook;
- 
-+	/* Initialize and fix mic boost */
-+	for (i = 0; i < ARRAY_SIZE(spec->default_mic_boost); i++) {
-+		spec->default_mic_boost[i] = snd_hda_codec_read(codec, i, 0,
-+				AC_VERB_GET_AMP_GAIN_MUTE, 0);
-+	}
-+	spec->gen.cap_sync_hook = senary_cap_sync_hook;
-+
- 	/* Some laptops with Senary chips show stalls in S3 resume,
- 	 * which falls into the single-cmd mode.
- 	 * Better to make reset, then.
+url:    https://github.com/intel-lab-lkp/linux/commits/songxiebing/ALSA-hda-intel-Synchronize-the-module-parameter-values-of-the-power_save/20260302-161555
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260302081218.771520-1-songxiebing%40kylinos.cn
+patch subject: [PATCH] ALSA: hda/intel: Synchronize the module parameter values of the power_save
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260305/202603051210.99ca99nW-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051210.99ca99nW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603051210.99ca99nW-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/hda/controllers/intel.c:2309:13: error: expression is not assignable
+    2309 |         power_save = val;
+         |         ~~~~~~~~~~ ^
+   1 error generated.
+
+
+vim +2309 sound/hda/controllers/intel.c
+
+  2289	
+  2290	static void set_default_power_save(struct azx *chip)
+  2291	{
+  2292		struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
+  2293		int val = power_save;
+  2294	
+  2295		if (pm_blacklist < 0) {
+  2296			const struct snd_pci_quirk *q;
+  2297	
+  2298			q = snd_pci_quirk_lookup(chip->pci, power_save_denylist);
+  2299			if (q && val) {
+  2300				dev_info(chip->card->dev, "device %04x:%04x is on the power_save denylist, forcing power_save to 0\n",
+  2301					 q->subvendor, q->subdevice);
+  2302				val = 0;
+  2303				hda->runtime_pm_disabled = 1;
+  2304			}
+  2305		} else if (pm_blacklist > 0) {
+  2306			dev_info(chip->card->dev, "Forcing power_save to 0 via option\n");
+  2307			val = 0;
+  2308		}
+> 2309		power_save = val;
+  2310		snd_hda_set_power_save(&chip->bus, val * 1000);
+  2311	}
+  2312	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
