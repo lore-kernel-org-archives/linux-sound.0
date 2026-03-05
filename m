@@ -1,184 +1,108 @@
-Received: from mail-m15578.qiye.163.com (mail-m15578.qiye.163.com [101.71.155.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD70621B1BF;
-	Thu,  5 Mar 2026 10:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66D13845AD;
+	Thu,  5 Mar 2026 11:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772708239; cv=none; b=oY8MS5CYB4lxMFshd31ArVHXUBjW1IKUwbqajA8p3kWzdV4vpTMcNlpMLQHeLivi2/j0d/R+lTpIoZVbrxaEzY6HtIQt+j07FseQa8TDS4sY90+zGGqc+rnmEQfyye8e5j8Rvgj7XrO6X6lTKT5ydHdnasRrX/st/8FZmwihTYo=
+	t=1772709504; cv=none; b=dDSYFIOTBNGC9g3UokQ/NO3cVEdo4Zo3W+J6OWTI7ji08QPdUWqDQExD+gNxglXs5VLLDPUIecU+ylw9cfNKe7K5XyiLt8QPa/43cFaoI7I84DBlVXjkO6rBC3b7R1C2Kgwngg3SIgzrHsMAUR8Dz+33gTt3PqAkCRpsYTeeLsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772708239; c=relaxed/simple;
-	bh=ydZzjkd3srY41pDjjauT8Po/r84+3B+ezhhvPSYyXME=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bn+GjqMbx+GxpIl1QunXWUs36iTu4JBuQAFQSTfgXxQmtyxTZMEgd3gR6G92kwfo1A97Iqp1EOJVOb7JsKOE5ijHNgbiY7ON9vzt3yLJE8W5Pe0Ru3RDBlobCt/Lg1dIsJmDp/LN+f8b3iHFyKtHBiNDzNTjKAcSNREVGS1Yjyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=bWSM/zls; arc=none smtp.client-ip=101.71.155.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	s=arc-20240116; t=1772709504; c=relaxed/simple;
+	bh=rcRHMjJ8sVRmrMIJYuF8wqW63BEDFzVNb3ol3zTZr24=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DShjR5785kHw8mo7T8P0wHAFjRj0VK+aKZXUu2zHE8hhYGTiDUc/mjZPfTHr7iYo5W2g28bTpzmWCSUmrCZcP5YcGWXyjGn0Sz9NevQbugShr0tYpFRh3D41grkpQUbG80/6tvZyC5DPRS4m591dSjx3qxKBp+G0NZxNW1WHGcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b5NCLOab; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="bWSM/zls"
-Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.lan (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 35e01d3a4;
-	Thu, 5 Mar 2026 18:52:01 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-To: konrad.dybcio@oss.qualcomm.com
-Cc: andersson@kernel.org,
-	broonie@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	drake@endlessm.com,
-	hongyang.zhao@thundersoft.com,
-	katsuhiro@katsuster.net,
-	konradybcio@kernel.org,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-arm-msm@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b5NCLOab"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48AFDC116C6;
+	Thu,  5 Mar 2026 11:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772709504;
+	bh=rcRHMjJ8sVRmrMIJYuF8wqW63BEDFzVNb3ol3zTZr24=;
+	h=From:To:Cc:Subject:Date:From;
+	b=b5NCLOabZI4Jlf7hzSz88qYsZpNDGqgRqgStqdev3AntTRBz03cKLmkD05bG+puU/
+	 /gvS16353D38Gmmt8Rb3/P9I8WYULZRRJm+MUnMbEKayJ98GEa8N0wv9HQqIBuFH+x
+	 jrCzSqppiE7jekCOzgbBvQzZuW3P6MY5BAxKyLbSrgLBN2uYE6HSguZ5wUAmmBfAT5
+	 6z1bwqz0faeNzw2LwDK2X91NnJI9H3ovCLM4W05uhjuo8LQR1lIEd7R0Rp3pOj6ss7
+	 T0F2x8EJfjIVCIhcThpJ8cC2ORaS/bYhuk7zzyctwLAuhd5TcEGkV4d5OzOqA5u4iW
+	 RkPQysbvQUqFQ==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vy6ij-000000004rk-3j6s;
+	Thu, 05 Mar 2026 12:18:21 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	matteomartelli3@gmail.com,
-	perex@perex.cz,
-	robh@kernel.org,
-	rosh@debian.org,
-	srini@kernel.org,
-	tiwai@suse.com,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH 6/6] arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
-Date: Thu,  5 Mar 2026 18:51:52 +0800
-Message-ID: <20260305105153.640356-1-hongyang.zhao@thundersoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <b63a9bde-c2e7-4718-878b-e4161eecdc0c@oss.qualcomm.com>
-References: <b63a9bde-c2e7-4718-878b-e4161eecdc0c@oss.qualcomm.com>
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH] ALSA: us122l: drop redundant interface references
+Date: Thu,  5 Mar 2026 12:18:10 +0100
+Message-ID: <20260305111810.18688-1-johan@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cbda03dff09d5kunm80b40df2cbccd8
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTkgaVkpDGRlNQkJDThpITFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=bWSM/zlshVT82EN3dwqp2BadyVXkijiSLKAe/Ov900K8hoW3Xhui64yB2qsPjpBIHM/O2of4vQ7ePZhTCdLIUoc6LISFWzLFiC+joD77DKoIlXWon7QRIAQoRDqKjVLXR2/AH/FfZ78wO3CGvOCapnJg1L7vma1AYEJUrRV/GsI=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=Uepjv9AD2iGQI07qFYEAOP4DkAua1EFLAtIVvsFIl0g=;
-	h=date:mime-version:subject:message-id:from;
 
-Hi Konrad,
+Driver core holds a reference to the USB interface and its parent USB
+device while the interface is bound to a driver and there is no need to
+take additional references unless the structures are needed after
+disconnect.
 
-Thank you for your review.
+Similarly, USB core holds a reference to all interfaces in the active
+configuration so there is no need for a driver to take a reference to a
+sibling interface only to release it at disconnect either.
 
-> On 3/5/26 6:47 AM, Hongyang Zhao wrote:
-> > Add audio support for the Thundercomm RubikPi3 board:
-> > - Enable AudioReach via qcs6490-audioreach.dtsi
-> > - Add ES8316 codec on I2C0 with MCLK from LPASS PRM and jack detection
-> > - Add fixed 3.3V regulator for ES8316 power supply
-> > - Add MI2S playback/capture dai-links for ES8316
-> > - Add HDMI audio via LT9611 bridge on quaternary MI2S
-> > - Add SPDIF TX/RX on tertiary MI2S exposed at the board 40‑pin header
-> > - Add LPASS pin configurations for quaternary MI2S and LPI I2S1
-> > 
-> > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-> > ---
-> 
-> [...]
-> 
-> > +	spdif_tx: spdif-tx {
-> > +		compatible = "linux,spdif-dit";
-> > +		#sound-dai-cells = <0>;
-> > +	};
-> > +
-> > +	spdif_rx: spdif-rx {
-> 
-> 'r' < 't', please swap them
+Drop the redundant references to reduce cargo culting, make it easier to
+spot drivers where extra references are needed, and reduce the risk of
+memory leaks when drivers fail to release them.
 
-I will swap them:
-	spdif_rx: spdif-rx { ... };
-	spdif_tx: spdif-tx { ... };
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ sound/usb/usx2y/us122l.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-> 
-> [...]
-> 
-> > +	mi2s-playback-dai-link {
-> > +		link-name = "MI2S-LPAIF-RX-PRIMARY";
-> > +		cpu {
-> > +			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
-> > +		};
-> > +		codec {
-> > +			sound-dai = <&es8316>;
-> > +		};
-> 
-> 'co'dec < 'cp'u, please reshuffle
-> 
-> and leave a \n between the property (link-name) and the following subnode
-> as well as between the individual subnodes (but not after the last one)
+diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
+index 011ea96e9779..f00b53346abd 100644
+--- a/sound/usb/usx2y/us122l.c
++++ b/sound/usb/usx2y/us122l.c
+@@ -520,8 +520,6 @@ static int us122l_usb_probe(struct usb_interface *intf,
+ 		return err;
+ 	}
+ 
+-	usb_get_intf(usb_ifnum_to_if(device, 0));
+-	usb_get_dev(device);
+ 	*cardp = card;
+ 	return 0;
+ }
+@@ -542,11 +540,9 @@ static int snd_us122l_probe(struct usb_interface *intf,
+ 	if (intf->cur_altsetting->desc.bInterfaceNumber != 1)
+ 		return 0;
+ 
+-	err = us122l_usb_probe(usb_get_intf(intf), id, &card);
+-	if (err < 0) {
+-		usb_put_intf(intf);
++	err = us122l_usb_probe(intf, id, &card);
++	if (err < 0)
+ 		return err;
+-	}
+ 
+ 	usb_set_intfdata(intf, card);
+ 	return 0;
+@@ -574,10 +570,6 @@ static void snd_us122l_disconnect(struct usb_interface *intf)
+ 		snd_usbmidi_disconnect(p);
+ 	}
+ 
+-	usb_put_intf(usb_ifnum_to_if(us122l->dev, 0));
+-	usb_put_intf(usb_ifnum_to_if(us122l->dev, 1));
+-	usb_put_dev(us122l->dev);
+-
+ 	snd_card_free_when_closed(card);
+ }
+ 
+-- 
+2.52.0
 
-I will change this series to:
-	mi2s-playback-dai-link {
-		link-name = "MI2S-LPAIF-RX-PRIMARY";
-
-		codec {
-			sound-dai = <&es8316>;
-		};
-
-		cpu {
-			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
-		};
-
-		platform {
-			sound-dai = <&q6apm>;
-		};
-	};
-
-> 
-> [...]
-> 
-> > +&lpass_tlmm {
-> > +	lpass_qua_mi2s_sclk: qua-mi2s-sclk-state {
-> > +		pins = "gpio0";
-> > +		function = "qua_mi2s_sclk";
-> > +		drive-strength = <8>;
-> > +		bias-disable;
-> > +		output-high;
-> > +	};
-> > +
-> > +	lpass_qua_mi2s_ws: qua-mi2s-ws-state {
-> > +		pins = "gpio1";
-> > +		function = "qua_mi2s_ws";
-> > +		drive-strength = <8>;
-> > +		output-high;
-> > +	};
-> > +
-> > +	lpass_qua_mi2s_data0: qua-mi2s-data0-state {
-> > +		pins = "gpio2";
-> > +		function = "qua_mi2s_data";
-> > +		drive-strength = <8>;
-> > +		bias-disable;
-> > +	};
-> > +
-> > +	lpass_qua_mi2s_data1: qua-mi2s-data1-state {
-> > +		pins = "gpio3";
-> > +		function = "qua_mi2s_data";
-> > +		drive-strength = <8>;
-> > +		bias-disable;
-> > +	};
-> 
-> Because they have identical properties, you can squash GPIOs 2-4 into
-> 'lpass_qua_mi2s_data' with:
-> 
-> gpios = "gpio2", "gpio3", "gpio4";
-> 
-> Konrad
-
-I will revise it to:
-	lpass_qua_mi2s_data: qua-mi2s-data-state {
-		pins = "gpio2", "gpio3", "gpio4";
-		function = "qua_mi2s_data";
-		drive-strength = <8>;
-		bias-disable;
-	};
-
-Thanks,
-Hongyang
