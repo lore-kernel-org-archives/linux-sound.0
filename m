@@ -1,166 +1,201 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010001.outbound.protection.outlook.com [52.101.229.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3663B2BA
-	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 00:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772668951; cv=none; b=MO94IU3thzYAlDCy38Ea7HSPbr8nE9Uwebt0gcmNWbct/q3Oo0a2W94c5Nz1L1nNzeSL3MgcyML7+mNFvmYyaHWKaSDazNzmb3Gfu0fcLSwJxxGom14LAELvKA49LPvKllW6OeYa4hk/kVP8WO01KL1AeFMUuxpXeZ0DNNTcL7o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772668951; c=relaxed/simple;
-	bh=qrNHVwQacnhh0gn86fmgbUh3DdQ6BkJxXbWGWASTxTo=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RzNT4KzbBxLuyFNa3W9Iajwrzr/2h3TCoU2o8n9Z6xaT6ds6cIN9y1Cqh4VrrL0pWiSKFHpakjY4lrVeeJ+T4A713bR2M1Fe20xhyo/fW9DA0uB7Dsfr9tLAFCm9Eokdzo1Y7nnMVRyD39qNZJGc4t636aE4anNDZXTMnvTHF80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QgVls6dy; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3261F1304
+	for <linux-sound@vger.kernel.org>; Thu,  5 Mar 2026 01:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772675810; cv=fail; b=HwvTWjOStDd3Vraqvo+EbWI9mCAYODLKqhbWmOQQi76L4WuhNByZ/u90nznRSZM6LyU1i0CLUzZejYel+YjjrM7UE1gk8TVJf9k84NcityRrcJFFXd3S20Gsv39zDUPQSbNjwttxvNxyj227HyQwu5ghxY/+F/YQ6D6fUN15ug4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772675810; c=relaxed/simple;
+	bh=Us4vvZqFsFq4aYwbya2k3Mm3rqDtFWTBx13y23X8IUQ=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=q3BgdpFY+g9RIIWwF6ciHUfZSGZuzPmSKqB/kfn0IKszaBiiiTEJKGGqevz8QfdgUAQXD91SM6kITJZv0Cedsi/TXboqyyW6zmkzP25adfYOU6EPHkkEuSVy1QDP0NLLrCPV1KpCnopcAM/iLT5LozqeA1t5W5+ApBTXdBUMJ6E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=G9h/mLHd; arc=fail smtp.client-ip=52.101.229.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QgVls6dy"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-358e3cc5e7eso3315759a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Mar 2026 16:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772668949; x=1773273749; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fndfnkiJRWkhuW+xvek/3orGGPPXnFwo/ptLxjPpUVM=;
-        b=QgVls6dylvhYzOWqj7jh61nLVyrK3+nzd3XS8Mi7IMyN7vKLYxcY2MnizYWp17A0tt
-         7EWDYBXapIzKIocVFrsKfkCi3C1ouPQUvUtHXX6R5bVtgbIhZcnQIW+vvuXyInJ4V8SO
-         yo6F09Bbjs1rC/oSKdylyPXhBxu4pefE+y7PEMjP+pxmaXTRwcr7owHYGirracLOYrvt
-         57OSZwbwKhy96+loqZF6mEJ6AaN2Ic4tpyxVuIGXS2fO0t1lxb1VDwfrUFCDeQEdjHT4
-         HYWKcUrOlR3Sq4gjiYhoH1Zd9PaaI/VqwEsz/StpYZ3nU+OOGFjxk8DH+jl+aam9zjna
-         2nuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772668949; x=1773273749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fndfnkiJRWkhuW+xvek/3orGGPPXnFwo/ptLxjPpUVM=;
-        b=if6TU4vAAHdyWTQ1d3V1yqvPvZghgT2LtuU8WzCr0eidAy9uR1cx/Nex40rGaTP6qM
-         RLYcj8r3H2dBs48VQ0CfoSsZsQZRKwRsaIpBCL+2y/pbs0LroZGWPXmOzKURapHS3ZD5
-         D+E1nliM1fYSSvncivpXZyK7Y9Q7vgnBAnEV2lpsUqzQdI4E2LYEuAzAZnleFOx5zXK3
-         ve+pn4/+9SyFjNq0UgYzcC+KaYwv01n3fGgBt6u5+J+r0ETWAauWy0KVGP1lJ6bvwsvS
-         kWKT4QUHpgOs642LSBY870QNE7+M8n+0WUNbY+rIYXs/O1tx50+fU+c6M4EytE2KoGcv
-         4AcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXi8Ei/B0WQgGwi3oKuKHkyj7L4l54hZjelTRVebspOnkLBV5XgVdVtOUgpBmkfPc2ObJRMSeu3RUqCPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoimMH13qcSdrrb2hFOuN5ma/ZZsKCmEyiRCDKuWA0Lz+jZylO
-	DjvrAys/jIebTdKwCukT3cjPNXF8WCPbBnPDJWQOsC3Hc+Gk7O1BeZ9x
-X-Gm-Gg: ATEYQzw2CKkyWAQVobkY/vylKXxfE2y6FO/FXlGNOMeTieZlVjqmg1xic6s3F1YZnUu
-	3u1gYDYdYwCR/GbTvFZoB02fdb0BHwu8EHTtOnoWG44PBy/yghu7RsDvF6Jt4qHuj3Thh11R5mY
-	yFyLHwiHDpuM0z5giubbz4cN3mYtDB954KptLuXH8Zg1pZXgEnFvU9eHrcCzN8HpCuVq+C3ZZlX
-	Zmc+BnmlQxBhYeJK9PN7C6G2Dqic6Z7kXe76NmwEI9nQ9eKKf+na2C+/005MEBiUK8wv46OQcr6
-	6bSAThix2rLBgncI1kDwt7kx+sRACuYriCgTj9ZJ8n/lVab7/JpSFBB8HAwjwJ2QGYg87sGRF/1
-	QBQHps3WOfNtXhAPFtu2FAm7d5rA+l4jDD+sPdiZnGl73EZ1W5yXYqB7959yakM1VQqu64zKaTj
-	ZdP1w51yEAwAYgqv8Su1rGXFs=
-X-Received: by 2002:a17:90b:1a91:b0:359:7c55:c160 with SMTP id 98e67ed59e1d1-359a69da7d6mr3299580a91.13.1772668949367;
-        Wed, 04 Mar 2026 16:02:29 -0800 (PST)
-Received: from localhost ([2001:19f0:8001:1b2d:5400:5ff:fefa:a95d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359aa1ff041sm1177382a91.3.2026.03.04.16.02.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 16:02:28 -0800 (PST)
-Date: Thu, 5 Mar 2026 08:01:58 +0800
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Inochi Amaoto <inochiama@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen Wang <unicorn_wang@outlook.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 6/6] riscv: dts: sophgo: dts nodes for i2s tdm modules
-Message-ID: <aajGmn3KsZGsZlhz@inochi.infowork>
-References: <20260120-cv1800b-i2s-driver-v4-0-6ef787dc6426@gmail.com>
- <20260120-cv1800b-i2s-driver-v4-6-6ef787dc6426@gmail.com>
- <aZ939evsOs6nCd5I@inochi.infowork>
- <aahuz5KJLL_rAZTH@anton.local>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="G9h/mLHd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ogRiQrpuu0m+E1bQNezq3XVhd01RxpQetVHW5KWCB1wtzfUxQlIOK8YsLFSPOjrvHBgTFjhpTKC6N3R8RSsAtQSV2IcUWZp0o8PJasrqCT62QRrd5HVyBKpgY23OmFLYg2FPJBvNUwzYJs+lainBYE8nQ7CnYSX9IcPH0B0a11qz9cituS6oQ2rexrJzXZO0D60OIXdswSvtvsRtnnYIc5MQeJYGpB6+nOmjv+5nTwB9s1qF4AYMvTN+8BVwSIVisxO9lPzn+pZgsxnuj6HUKC5qXESrA0cXi9PHzBTJ3m/oeB/jW4VOn9E0sS308HCxUjPsRfxaP89jLG7O5a4xRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RpcURw/lHatY5l3WrnCNipivwQZQ0DVDQfaPbuD2nuY=;
+ b=VUulu6nFSeNUaldRgnMWoJAkew4W4zMlHWqR+uo7iBp5mGP9xIeYgnRafGgS5wBW3yr5obvTt/foYw0fVqna5BwflaGZDN4ICCKr3Hzpy8ev6SErGeHLjCwM80Q2PRw25rheKvbQXxa435exfkVG8mtMy58SvVePrR/6Wsp75Yt5ENSjAqLRs8vVs33jYTWK4apVvuxM1/eAPeYe4BSJMNS4Mfw2SvSKb/VtaQziJKS7Z/I6hPcU2BtXWVZ7bCv0huSg1ZlSzB8Oz/w9D39Xfuv1Vq464IqtHLwtrmLM4GiQgw+OF+fvK9HbwQ6sdUoWJcVY7bl03g62u84SS23Axw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RpcURw/lHatY5l3WrnCNipivwQZQ0DVDQfaPbuD2nuY=;
+ b=G9h/mLHdgf2GGpdJuKBrYlfmgYY8V6cfWBuvajOxj3fMVww5ioXHco4imAHrvIRsmr0OOWrg6r9gTj9WTP33ZuTjolufPImNnkSk/1M3J3VApJRQkxmb0jH8eJzq1jW1KjMZciS9ODHgO/+LYgipuBWzsNtJWjzE1lFPABP4pZo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
+ by OSOPR01MB12251.jpnprd01.prod.outlook.com (2603:1096:604:2da::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 01:56:45 +0000
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9678.016; Thu, 5 Mar 2026
+ 01:56:45 +0000
+Message-ID: <87bjh33uoz.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Maciej Strozek <mstrozek@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: soc-dai: don't use dev_{set/get}_drvdata() on DAI
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 5 Mar 2026 01:56:44 +0000
+X-ClientProxiedBy: TYCP286CA0209.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::12) To TYYPR01MB7976.jpnprd01.prod.outlook.com
+ (2603:1096:400:ff::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aahuz5KJLL_rAZTH@anton.local>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|OSOPR01MB12251:EE_
+X-MS-Office365-Filtering-Correlation-Id: dca14f80-3adf-431f-2f75-08de7a5a7437
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	mnVxZeAymL4MiGsb86QzT2U+SOInn0zVyoXvAuStyj+LOppB2iRchjOOA8QVxxLGYDgrpY4kSkUdfYYwgtcBXZH2v1Syza1ajZ5ijxjMVMW2n7U2tiC15BKNY9igg3UF6vyWuxUKJrQaWae7aF5UXCmojnoPj/revNvnsShV2wlJza2f3WRRX+fGOB0KFGG+wJjXMSJrKAItRQtMXn4rrONXDPvdhhXBaY5pGRs3PMG8b2GXu4+0rI+5Mzr+HW7SbCl8vCnVi0vK5Vkl01O19WsxBgRwdTED+O5V4NNGZVoe0khAldz0aiYKtzcIb2M1RNOfu5apxUW1yVONMCkEVokMKJ46sFZLYZINTIA3jUpRMdC6SOO6RY9rCdDWBQtPBRu5gqABgq2Rn0kp/EatpDW+QEshPYVW87rjR4GVtiSO16ZqpOSK2pDdUj+hIJkIIiuu1puRXgrTxCVFg6RNvyXXbz5vcQoK8VW2KWUMENOepu/1PsE2UivHvjKqg85RGBTzU4a6eXxbpzpgH33YzaO01ko9X5heVm0e0xaLFRIurNvTPj/uHiLMa4+lXpKw75yJzpvwThGE4jL6DDOIp90yTStQajtQ+a9nJNew15fCcDz2qNalH7BPX7MoKcxQVOZ+cmquA1fU9RTo6IHyuR2D3LfqprkSsbvbwlFUj2UMTHoKEquj0zXRAhohptZOiCl2BRlSGYvgHJTsJLfR9sYd8IY/ikJ3PfNY5Frdb2Gd9In7ceLp2ZWBygcWqfAH1jQM1UzUK06Ojmv8MTNRv9ag6X+wBzx6uF8puXPaHdw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GaQ3LSyCFqS70Q5pAN9A7gcNTho2B9nkML78LxFMUm+Wncot6SC2EOzuv7DW?=
+ =?us-ascii?Q?Mnf1YXBR8gr/CYdYquHF6jwwR2A+CxlQi7wA3cXTDk0Vd6/YLZD5bbTsOGry?=
+ =?us-ascii?Q?lQMGNDw5tzorE+r4pBgop1EqRUY0PbM5vXCs8/ADmLNscA/P7BIA0mbgVjfl?=
+ =?us-ascii?Q?55VmBMmVVFr8c8P12jcYGJZdvBWANADh6fCVj9NPBLVQ0xxfyv92icsND7nm?=
+ =?us-ascii?Q?V9FSbLB8TNl7LrZ+gU6F3vmh73/imcy1/Tn6iBI29xDZga/ZU/ycwYKcJxZv?=
+ =?us-ascii?Q?IEbpWXlpjZ5tC9ctzvmZB1FLL365qscbvD//t9nI+MVI2QOuBWUuMmnfE93Y?=
+ =?us-ascii?Q?MdIo399ae6/zox/FbfBYul4p605xJSMRUCan8cuyk1gmqr0f4NSLGZ2MtoVM?=
+ =?us-ascii?Q?dCxiZTh1AJqo6wngPRYwgXBkDcxD6UezH3koiKG3+FbeVfmCPZhwFYORJC+X?=
+ =?us-ascii?Q?xPmAGhCvSDSz6tjFxS2SIDCBtXZ/AvPR9m1ueT+e3/Ge5VvY/too34UMij8K?=
+ =?us-ascii?Q?K4o69iAwd+d4eL4b1FhaPNHmF8TQazSTBxCiqNQdnIwgW0VSeT96so1Mr9mQ?=
+ =?us-ascii?Q?K0nsGNc2okck0J7Z1KMUu67Rjy646pbFwiJfJUo1aoA4wT4/A6VZAk2fnLd7?=
+ =?us-ascii?Q?0wmm9vL5ODq4sj7QeJaRfAbAMvSElqylCJZR7NLg+3sGXwwYDELcQn54CnN7?=
+ =?us-ascii?Q?2+To4tR83SVc20J4y0Mr6Eu/5VZ4K4MJuhMyYqm2PfUpixVYBhB1Pr0H2qsn?=
+ =?us-ascii?Q?PW0i09SGuAUekW/zX1J8V3bC4TipFzM34A6+D1A84AEt3T7yK4yBQ30BuTUD?=
+ =?us-ascii?Q?kVMrag2DKJkR74xiG2o+EypiNhUqaHgr4t4joP6Dk+H+LW3T3BDG/5EOXv+S?=
+ =?us-ascii?Q?x5NwhkDEONCrD9nNFGjCR1KQQI92NqXHxhtSr1ajbae77/ks5TnemPpdIp+w?=
+ =?us-ascii?Q?dbC3CT4wpA7KLRWa/zw6UoJz/F4M5qlR66gf75Y2WHOAZgySHtwgXtCFI2vE?=
+ =?us-ascii?Q?tHPzJfLDqrP/B6BawVBihB+uaWWA3t8NYGRkkSPyTVnDw/Yr9h1t/nrs81ZE?=
+ =?us-ascii?Q?tUfXfCUigwzWdGCGBdwG3VY1gI0nHS35RTa2LgIRnVSdvNyXg2j2JE63rr2E?=
+ =?us-ascii?Q?pEt2yWevrJ6/2yrzs7i0TIi/6nUqK+MaQsMuG4h2JVzk9pZuI4MlrGyjOCMH?=
+ =?us-ascii?Q?Ut/5iewGhv7+uy0I+xtNlSUn1YpPN76zs0u98BxMwDQJOSVnCysUe12DUbFs?=
+ =?us-ascii?Q?Gb3eIlM1I7bwh4kz+HD+UOKCMlwuJGLh4E2a4Q+FQUHIaHOCuG75+ladhlT0?=
+ =?us-ascii?Q?PIrDIRP8nZ7tVXTb5BdLWuufUDrd3png5oXen0AOnXfT3DWfdsmjuZ47FsCb?=
+ =?us-ascii?Q?pJz03mfO6G/+fszxxPukU/9/k3HAgKtU5t6HYCq6qT//nkxN9oitqLQjadap?=
+ =?us-ascii?Q?dhggSIgJA8JgDRCPJNL0qPqh5MQG7A+Efj3ojzvMJRiUATmP0KSTRDbx/o1y?=
+ =?us-ascii?Q?L4O17R7bXyfJHCsuft4l+FmbkEl+nQ4E3dC4YIST8/UMuQLmqGPprPyS8zDr?=
+ =?us-ascii?Q?VQnoXwZASEPacDzIMqtignGJcIsOS53g/7PrUErL9yottZ0dYl6fOa3VUwxI?=
+ =?us-ascii?Q?pSx5ClxexlFaj7c9lReCGSZpeRAchnJWIgRIwBWoRh7v1zYlrqPUiAHep4mv?=
+ =?us-ascii?Q?tTruAA4/cXkMyp0ms1ppjGs0YNQnju2DWFPaqrd3Wb325QzxxXwW3gs5XbnX?=
+ =?us-ascii?Q?hD/Eu/z56ac+pDSj1hsp+q+IHOybY1Sk9RQi8oPtz8rWs+UgAQeY?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dca14f80-3adf-431f-2f75-08de7a5a7437
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 01:56:45.0723
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r21PD2QEhhdpahHjVHXSdAUBGyQgHFmWqBIfe1/5JpRaQg0UPxd8JHlVNZ9Aj2SLUYAvcqTCznKuubZWqFp7eL5fAtGJmoETl9CPhmNsliD8HpD4k+NP4mMh89QbJ6tc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSOPR01MB12251
 
-On Wed, Mar 04, 2026 at 09:57:56PM +0400, Anton D. Stavinskii wrote:
-> On Thu, Feb 26, 2026 at 06:32:27AM +0400, Inochi Amaoto wrote:
-> 
-> > > +#define DMA_CPU_A53		0
-> > > +#define DMA_CPU_C906_0	1
-> > > +#define DMA_CPU_C906_1	2
-> > > +
-> > > +#endif // _SOPHGO_CV18XX_DMAMUX
-> > > diff --git a/arch/riscv/boot/dts/sophgo/cv180x.dtsi b/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-> > > index 06b0ce5a2db7..ebe5e8113939 100644
-> > > --- a/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-> > > +++ b/arch/riscv/boot/dts/sophgo/cv180x.dtsi
-> > > @@ -8,6 +8,7 @@
-> > >  #include <dt-bindings/gpio/gpio.h>
-> > >  #include <dt-bindings/interrupt-controller/irq.h>
-> > >  #include "cv18xx-reset.h"
-> > > +#include "cv180x-dmamux.h"
-> > >  
-> > >  / {
-> > >  	#address-cells = <1>;
-> > > @@ -448,6 +449,60 @@ usb: usb@4340000 {
-> > >  			status = "disabled";
-> > >  		};
-> > >  
-> > > +		i2s0: i2s@4100000 {
-> > > +			compatible = "sophgo,cv1800b-i2s";
-> > > +			reg = <0x04100000 0x1000>;
-> > > +			clocks = <&clk CLK_APB_I2S0>, <&clk CLK_SDMA_AUD0>;
-> > > +			clock-names = "i2s", "mclk";
-> > > +			dmas = <&dmamux DMA_I2S0_RX 1>, <&dmamux DMA_I2S0_TX 1>;
-> > > +			dma-names = "rx", "tx";
-> > > +			status = "disabled";
-> > > +		};
-> > 
-> > This magic number 1 is bind to the RISC-V cores, I think we should add a
-> > macro DMA_CPU_ID into CPU file to route the CPU id to real cores.
-> > Or, just let the borad dts configure which dma is enabled.
-> 
-> Hi, Inochi. Sorry for delay, I've missed the messages somehow. 
-> I'm not sure what is the best option TBH. 
-> If the problem is with the magic number, there are constants for this in your
-> file:
-> #define DMA_CPU_A53        0
-> #define DMA_CPU_C906_0     1
-> #define DMA_CPU_C906_1     2
-> 
-> So I could use them. 
-> 
-> If the problem with hardcoding the CPU - it is little bit more tricky. 
-> Ths commit is in the riscv branch so we could not use ID 0 at all.
-> Unless you want it to be more generic.
-> From my understanding we could not boot from CPUID 2. (may be i'm wrong
-> here) If it is correct, it means the whole setup will only work on CPU
-> 1. 
-> 
+We have 2 type of driver data set functions.
 
-Yes, that's true, the only boot cores are 0 (A53) or 1 (C906_0).
-And You only need to take care of these two cores. And the ARM
-DTS you can just find it in the arch/arm64/boot/dts/sophgo.
+(A)	snd_soc_component_set_drvdata()
+(B)	snd_soc_dai_set_drvdata()
 
-Or, just let the board determine the DMA required, as the DMA
-channel is shared across many devices. So it may be better to
-not allocate them without enabling the device.
+Both are using dev_set_drvdata() with own dev
 
-> In any case I will follow your suggestion. I agree, leaving this with 
-> the magic number is not good. 
-> 
-> 
-> Second question: 
-> Do you want me to resubmit this change as A separate patch as the rest
-> of this patch was applied? 
-> 
-> 
+(A)	static inline void snd_soc_component_set_drvdata(...)
+	{
+		dev_set_drvdata(component->dev, data);
+	}			^^^^^^^^^^^^^^
 
-A separate patch or a new version with this single patch are both
-fine to me. But you are always required to add the changelog and
-link to the old versions. Otherwise, others are lost the information
-about this.
+(B)	static inline void snd_soc_dai_set_drvdata(...)
+	{
+		dev_set_drvdata(dai->dev, data);
+	}			^^^^^^^^
 
-Regards,
-INochi
+But, these are same dev.
+
+	struct snd_soc_dai *snd_soc_register_dai(...)
+	{
+(A)		struct device *dev = component->dev;
+		...
+(B)		dai->dev = dev;
+		...
+	}
+
+This means, if (A) and (B) were called in the same time, private data
+will be overwritten.
+
+But, in the same time, commit 5f86d41d0410 ("ASoC: soc-dai: Add private
+data to snd_soc_dai") added dai->priv for private data, and sdca_asoc.c
+is only user of it.
+
+We can re-use this dai->priv for snd_soc_dai_set_drvdata() (B) instead,
+and avoid the issue.
+
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+ include/sound/soc-dai.h    | 4 ++--
+ sound/soc/sdca/sdca_asoc.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
+index 224396927aef3..2b006d3de777a 100644
+--- a/include/sound/soc-dai.h
++++ b/include/sound/soc-dai.h
+@@ -536,12 +536,12 @@ static inline unsigned int snd_soc_dai_stream_active(const struct snd_soc_dai *d
+ static inline void snd_soc_dai_set_drvdata(struct snd_soc_dai *dai,
+ 		void *data)
+ {
+-	dev_set_drvdata(dai->dev, data);
++	dai->priv = data;
+ }
+ 
+ static inline void *snd_soc_dai_get_drvdata(struct snd_soc_dai *dai)
+ {
+-	return dev_get_drvdata(dai->dev);
++	return dai->priv;
+ }
+ 
+ /**
+diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+index a342a4e56717a..c53c74952069f 100644
+--- a/sound/soc/sdca/sdca_asoc.c
++++ b/sound/soc/sdca/sdca_asoc.c
+@@ -1456,7 +1456,7 @@ int sdca_asoc_set_constraints(struct device *dev, struct regmap *regmap,
+ 		return ret;
+ 	}
+ 
+-	dai->priv = constraint;
++	snd_soc_dai_set_drvdata(dai, constraint);
+ 
+ 	return 0;
+ }
+@@ -1472,7 +1472,7 @@ EXPORT_SYMBOL_NS(sdca_asoc_set_constraints, "SND_SOC_SDCA");
+ void sdca_asoc_free_constraints(struct snd_pcm_substream *substream,
+ 				struct snd_soc_dai *dai)
+ {
+-	struct snd_pcm_hw_constraint_list *constraint = dai->priv;
++	struct snd_pcm_hw_constraint_list *constraint = snd_soc_dai_get_drvdata(dai);
+ 
+ 	kfree(constraint);
+ }
+-- 
+2.43.0
+
