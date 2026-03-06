@@ -1,116 +1,63 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B023ACF0C
-	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 17:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F1536D9F5;
+	Fri,  6 Mar 2026 18:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772819254; cv=none; b=kJT8PsqDzBnrcY48PLbRGAJKVMCBUtoGq/6IkmjAPdSDw65ZtJ2AvGafSxKO5HeTDRnAl6YBwuBABYrC5sDqTfoqUEVUQ1DicOQFT9ZbCjyCqao5fAjVcMR4VgDWiBXCbMIXy4eTdaduiZRVFcw99RaLL2aTyQjvgCzflrzF7xc=
+	t=1772822299; cv=none; b=fkbR9nLTKyBvDMrSc2LiESaSneRkVnTXLwhHo0345Ksx0yrFKQ4Np6qXmpEmmlFOFDMhkaNJvTcwm0HVsu9K+neMmWJKywjYlm+hI1E422Nu8v4Tw0gXygZi6HGwJmar6qaqfmA4qyy6A8gB5HEajo+vER0F/2hTJkV68xnREIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772819254; c=relaxed/simple;
-	bh=ZcB5/f0n4kKcagmGLyPbNc4jMo5CRTtZDy8I/8tDHDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RucOXJitlToQOdScaLbaH903TxFfjSdscSlwc1kjCXPnLxb8Ah5pVnb/301kQ5H8wijPD3tI/fDTYjjv3lCYVZEwS29uM6Pf/phUAZ4WB1kjzp0b73deM5aCd3L42ff5ziOP6nezQ7dz2DVMlj20p9ydWsdKtLVCDgYzheBcxrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mz84Nk+4; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1772822299; c=relaxed/simple;
+	bh=sP63ZjpJGD1Q/TZ5ZkTUfTiPX6Jg6Uv6WTKs/bT4eOo=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GgrGRqoqKA1yovQ2SaRdGhex6P/KfQtNEDj82qrk6uVFA628fNUrpFVFXixmBzJbBGUrZWEPSh+cj8qpqaKWYPtDF/NUz5cNy2xERl5O2m+fa0SFqul9ltHyJiHGovgsAtxYdKU3S/KNOKEyRuuABrHDqIOJjHHntNlwDlnNHiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arkSjnX7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mz84Nk+4"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48371119eacso113003365e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 06 Mar 2026 09:47:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772819251; x=1773424051; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qHkka1w7OV7hW9Oh3hoQM8Di/4bfbgpdkpmcV8tEmtE=;
-        b=Mz84Nk+4E7yIopsQTwfGitb4t0JAvQIow8IWzAjA8/d23AAoSn5HGxJNyZWuvDMae2
-         YA7OT+/nTgsqMNNJzcK+9PJAdlqsuW4Wuhe45wef5l2mbAefKOmB6LeDsltKRnraXg0u
-         GZPjzplCaWIomp9TzupAxVmbGmwl91s1C9wdABkkL2SUWGO20FU1jLkz6aAHaRu/kj/K
-         eHEz/DybkkkFpFpHhfWdZG/Dg/r8oo7UbSdBRHbZsz+qTvVkWBkcAx4sDhk0jeH/+axn
-         ydWWQBXoFsWBOM5Y5KKqKRZpiRVDsPE2/NXYzSGCWUXsiEK2FW1Fe0VBigT89TGp5WwP
-         DnJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772819251; x=1773424051;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qHkka1w7OV7hW9Oh3hoQM8Di/4bfbgpdkpmcV8tEmtE=;
-        b=atJ4slEcRVcBxRbYYRqsN/aBsb1MAIftCGvNWCWtRsxiQNR3OXjJq2skV3Gob1Rn7m
-         8MfXcUFLalJGk7P7n90826H6GhAg4L8xNttxxsSyfxnsaEvpA+cCl//2RG22hZyKmveO
-         B4yhlIVeh89hcuoGt2A6nlARl/fx2Mhgx9VGNAvBUUn8b5zdBXhgGGPXxejd6RW4y8eu
-         6YrHgVPkAIsKbaoLG3QixwxjG/Nwf7APnzso7sqVI7PwfJLLNJucRP1C3AVyz51CEstn
-         Xamdn+0cLyZL3KJrePSvpj74hzJGpMtWtTDeBMLu6vth5wRRCPiHSQRz7tOBnOOr14WW
-         uCMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjH2xZf4KHSU+acajIHCJqM5uj/CLQRg0gv9SAjIKF34ye7wdxMyXImE85GeYjymB65nstud3sFdanZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbQKm/1E02b7DB6hTxLq2my2WOauW+UFlwmJew5F3ow1IVhOa7
-	8pSWGccSkWAEKbLzHcCP3PwK+qVxfrHQQHkxybF2XfcwwZBQxQkujBOSZYfk24T36ZCdL5TLDEo
-	HQtit
-X-Gm-Gg: ATEYQzypp8Dequ2vTyw0EGGeWbtm5RT3M86HPgj+Nj2aONfA/6NHQrvKfWLpi8MKl6M
-	dcfmfnlf3JTpI2eY4kNrVQV1e2JDyIhf4Mljw7okYn9O444ys7YBUBqt+O8cEz8H8bmZxWVTmNT
-	Gfp2/He32pIBeJNEvF5pIOfbZPu11vI8M7q0mfDmKJmH1gEba7fUxiMQESRm0/ORz9ArGC0NwSb
-	nV97Ld084fN+vc83zhI66BsdHahAX2hykEFsXFRaPxSLngGadSJhX/HQ0gHKdiQ18SswhIYet+k
-	Bimd+nzkIN/1/C0+7weCT+KR4rEME0dptAvho8qDWzV9N1PDatH6OR6+wNkK2CyqpU8Vf+fHnPV
-	SL9TJlvb2YQ6JYfKoy8gFrJaZaT2OipB0nWV2jRInTSdlOGUjp4KH7rLOULdYiWaxjJ3m+vwrSc
-	Wj0MRzPt19KxfNaax/wzB4kaf8lib4KK7VKDC5sRAI1AOjwlzi+7+LKzBeyBix3hPe+n0=
-X-Received: by 2002:a05:600c:4f49:b0:483:b01c:9508 with SMTP id 5b1f17b1804b1-48526917205mr55754725e9.2.1772819251493;
-        Fri, 06 Mar 2026 09:47:31 -0800 (PST)
-Received: from toyger.fritz.box (p509936c9.dip0.t-ipconnect.de. [80.153.54.201])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527681e2bsm52758485e9.5.2026.03.06.09.47.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 09:47:30 -0800 (PST)
-From: Casey Connolly <casey.connolly@linaro.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Casey Connolly <casey.connolly@linaro.org>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: detect empty DMI strings
-Date: Fri,  6 Mar 2026 18:47:07 +0100
-Message-ID: <20260306174707.283071-2-casey.connolly@linaro.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arkSjnX7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03B0C4CEF7;
+	Fri,  6 Mar 2026 18:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772822299;
+	bh=sP63ZjpJGD1Q/TZ5ZkTUfTiPX6Jg6Uv6WTKs/bT4eOo=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=arkSjnX7GiPbEo3B4Kr8/NAZO3Xh7MaI4/HIHE59b0alcurpqJluJc2CkvpRLOgAI
+	 yzrtOFiEf2GCXe5Znn8fkqgGH00Fo+2EcALXMsHYqYx1DVzsuRIVGbzhqCF0ySFmcg
+	 pOrzkz1NhhwQ87k03c3sR5ICU/Xh8WgJ2CRhg3MO3+nX/d8e7t7IuLhRG44Px9E5Si
+	 PkWvxDpHgclSxgJw51Bm9YxQ7C9Q+UToC/De5IMPW4W0oCEFOtNTKExEpQp4xxqopR
+	 OWjef5Jr33/iESItvx7GQU9IthzAVgfQcUEm38ePfJ40qSs6axDOS43sJ+cuq21NoX
+	 A5NCr1JlsVrHg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CEEB3808200;
+	Fri,  6 Mar 2026 18:38:19 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 7.0-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87qzpxudtz.wl-tiwai@suse.de>
+References: <87qzpxudtz.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87qzpxudtz.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc3
+X-PR-Tracked-Commit-Id: 8457669db968c98edb781892d73fa559e1efcbd4
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: d249037ac4701c32d99bc062834d592a57cfed00
+Message-Id: <177282229800.7628.14821300527920226905.pr-tracker-bot@kernel.org>
+Date: Fri, 06 Mar 2026 18:38:18 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Some bootloaders like recent versions of U-Boot may install some DMI
-properties with empty values rather than not populate them. This manages
-to make its way through the validator and cleanup resulting in a rogue
-hyphen being appended to the card longname.
+The pull request you sent on Fri, 06 Mar 2026 17:23:20 +0100:
 
-Fixes: 4e01e5dbba96 ("ASoC: improve the DMI long card code in asoc-core")
-Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
----
- sound/soc/soc-core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc3
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 9dd84d73046b..ba5c60f64208 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1860,14 +1860,17 @@ static void cleanup_dmi_name(char *name)
- }
- 
- /*
-  * Check if a DMI field is valid, i.e. not containing any string
-- * in the black list.
-+ * in the black list and not the empty string.
-  */
- static int is_dmi_valid(const char *field)
- {
- 	int i = 0;
- 
-+	if (!field[0])
-+		return 0;
-+
- 	while (dmi_blacklist[i]) {
- 		if (strstr(field, dmi_blacklist[i]))
- 			return 0;
- 		i++;
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/d249037ac4701c32d99bc062834d592a57cfed00
+
+Thank you!
+
 -- 
-2.53.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
