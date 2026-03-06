@@ -1,101 +1,107 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mail-m3283.qiye.163.com (mail-m3283.qiye.163.com [220.197.32.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18FD33F5B1;
-	Fri,  6 Mar 2026 09:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41958479;
+	Fri,  6 Mar 2026 09:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772788725; cv=none; b=EwBrgyu2v1IIavf28CmYTSsHyWNJ40idC2hwIhdRLCcTL2lgHhJUXRrM9xvhABrxW9SaAdS30j5PtocKxN4SifkFULgzO5ISr5wBgUQWpOfO7ZN557lp2iLbke0ucOBQ9P8aHpEdetTcag+nQZQBi07nLHjnEiFPYSJ6OMu+9fk=
+	t=1772789158; cv=none; b=EWp5R7Xq/0LQF35Lj2lnw6V9BTlexOpSQAq2mnPGsfqEE440Tb6SUUQzoCB2/BjViCaDozo427Fm3L9a2bPaJQgG89eTSwCi943UPti3qIx6NG3k8VrAgR8mLbUGVgnpPtmI7E9MRrF8D4YIEM9HCMlxslta5ZYFF+YNHgZ83Bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772788725; c=relaxed/simple;
-	bh=OH702f+DlOSO+MCKoOLFzipEKjfAn3TXofGaFrLTaQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C7BgSTVtwH2H6L0xffesIapUUluncqdHgjd4DYSA1EGPgQoHo40ay4UAdeEGA5rbwoIWzj2s0ds9xu/JjyKqkMV4taaQD/r5stffNAqio2TthE3VFXe3NKmDo55PnzCilc8qMyT2L5aGUblSRLAdXfPrCWO//nLCnn7VLpm0k3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aQa1sWd2; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1772789158; c=relaxed/simple;
+	bh=a+ktl+6Z2ANxp+7oVzuLBl0HP4W7cWFJO9d6whe7qmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=n4w3L2sPpaUDoMluMtUkNEudnMiJOonuF+GxS65drQ2CiXc86JTcDsiA7Lyee+eMTHHhsabfGbozTyeWYqJcpRvx6l3Pd8UcRfj5EHdSwN5L7Zhn3CK6cPm0RmFR0PVfrpJpz4vQPI46ya1cF0kpIlUr+tVdz6y9eunfi232ht4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=LvJ4cei+; arc=none smtp.client-ip=220.197.32.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aQa1sWd2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1772788721;
-	bh=OH702f+DlOSO+MCKoOLFzipEKjfAn3TXofGaFrLTaQI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aQa1sWd2F8WTv1R+3RswL7qWrKeVIWzE2vX3Cg+7Ivx3TJuCLZIkf7zjgpblReBtu
-	 iep1moGyo0iCJFd9jL6w/BUkDeKLNxsajQolbE28XCR7HLEqapCEKHqCbkdLFklcni
-	 /BhNZNbHfWOmiiDvN4Nvn+jX4EwHpXVk8YNaZOmSM8Y3OxUIvufH+4s7G432o9F6VG
-	 5tLq/lNoQBJilutcyClY3N1V4Iu/2rrt/+u0+lZifvMNIvDgBbiR4OxwDLu3Wqyje2
-	 KwCcxdAEvCKA5Emi+uvO1pcgVemR8leQMVtdxWUMHcDPcdh6bCw2C5PmU9hD8e9F0+
-	 Y8fh0QkPcc3fw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D3AE817E04DC;
-	Fri,  6 Mar 2026 10:18:40 +0100 (CET)
-Message-ID: <e179c650-5d0e-4004-a983-e3b63d4c28c5@collabora.com>
-Date: Fri, 6 Mar 2026 10:18:40 +0100
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="LvJ4cei+"
+Received: from ROG.. (unknown [119.109.125.5])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 35f6f2408;
+	Fri, 6 Mar 2026 12:49:39 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+To: krzk@kernel.org
+Cc: andersson@kernel.org,
+	broonie@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	drake@endlessm.com,
+	hongyang.zhao@thundersoft.com,
+	katsuhiro@katsuster.net,
+	konradybcio@kernel.org,
+	krzk+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	matteomartelli3@gmail.com,
+	perex@perex.cz,
+	robh@kernel.org,
+	rosh@debian.org,
+	srini@kernel.org,
+	tiwai@suse.com,
+	zhoubinbin@loongson.cn
+Subject: Re: [PATCH 6/6] arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
+Date: Fri,  6 Mar 2026 12:49:34 +0800
+Message-ID: <20260306044934.8025-1-hongyang.zhao@thundersoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <d5296247-9d68-4004-a068-1484cb1b9183@kernel.org>
+References: <d5296247-9d68-4004-a068-1484cb1b9183@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: arm: mediatek: audsys: Support
- mt8192-audsys variant
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, tudor.ambarus@linaro.org,
- pratyush@kernel.org, mwalle@kernel.org, miquel.raynal@bootlin.com,
- richard@nod.at, vigneshr@ti.com, lgirdwood@gmail.com, broonie@kernel.org,
- matthias.bgg@gmail.com, julien.massot@collabora.com,
- eugen.hristev@linaro.org, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- kernel@collabora.com
-References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
- <20260115125624.73598-4-angelogioacchino.delregno@collabora.com>
- <CAL_JsqL=zAqyVDAP_B1VW1FWKoS9OEdTNZiZabSNxDscBryYgw@mail.gmail.com>
- <0ccca45c-34af-4d38-ad0f-6cd080f2882d@collabora.com>
- <0b3a1fa9-4024-44b9-a42f-6b82862e2ac9@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <0b3a1fa9-4024-44b9-a42f-6b82862e2ac9@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9cc17ad7b909d5kunmafd3db6bd33b36
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGkJNVh5DSR9KHh1KT0tCSlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSkJVSktCVUpJTlVOWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=LvJ4cei+UzZZnE7DTLBy+W/z3Bj5+2T8TZRDBGJPMsVXlZM39zFNek9fiotrPA3kAsioNBoY9S8MbgMIYKVGKPc+d1hJXxARf0ftTYbqeuHNowoiPNzPDayAiGumghA/hNEN4+tNRbcy7xGRA26XwP+N9Zgjq5ty/GO0aX25xPc=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=leLi0H7EThRKOfSwiKOklp2dVz45SXqTlCpOio5WA6U=;
+	h=date:mime-version:subject:message-id:from;
 
-Il 06/03/26 10:10, Krzysztof Kozlowski ha scritto:
-> On 10/02/2026 15:28, AngeloGioacchino Del Regno wrote:
->>>> + - if:
->>>> +     properties:
->>>> +       compatible:
->>>> +         contains:
->>>> +           const: mediatek,mt8192-audsys
->>>> +   then:
->>>> +     properties:
->>>> +       audio-controller:
->>>> +         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
->>>> +
->>>>
->>>
->>> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1:
->>> [warning] too many blank lines (2 > 1) (empty-lines)
->>>
->>> Please fix as these are warnings in linux-next now.
->>>
->>
->> Ack. Sorry for the mistakes. Not sure how this happened.
->>
->> Let me see when I can get some minutes to get this addressed.
->>
-> 
-> This was 2 weeks ago.
-> 
-> Warning is still there in next. Please revert your patch or take the fix
-> from mailing list, but anyway this should not be broken for two weeks.
-> 
-It's done. Sorry for the wait, but it's been extremely busy days around here.
+Hi Krzysztof,
 
-Cheers,
-Angelo
+Thank you for your review.
+
+> On 05/03/2026 06:47, Hongyang Zhao wrote:
+> >  
+> >  &apps_rsc {
+> > @@ -727,6 +755,23 @@ &gpu_zap_shader {
+> >  	firmware-name = "qcom/qcs6490/a660_zap.mbn";
+> >  };
+> >  
+> > +&i2c0 {
+> > +	status = "okay";
+> > +
+> > +	es8316: es8316@11 {
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> If you cannot find a name matching your device, please check in kernel
+> sources for similar cases or you can grow the spec (via pull request to
+> DT spec repo).
+
+I will change the node name to es8316: audio-codec@11 { ... };
+
+> 
+> > +		compatible = "everest,es8316";
+> > +		reg = <0x11>;
+> > +		#sound-dai-cells = <0>;
+> > +
+> > +		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+> > +		clock-names = "mclk";
+> > +
+> > +		interrupts-extended = <&tlmm 63 IRQ_TYPE_EDGE_BOTH>;
+> > +
+> > +		everest,jack-detect-inverted;
+> > +	};
+
+Thanks,
+Hongyang
