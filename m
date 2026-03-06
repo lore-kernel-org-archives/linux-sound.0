@@ -1,63 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F1536D9F5;
-	Fri,  6 Mar 2026 18:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245FA19E968
+	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 19:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772822299; cv=none; b=fkbR9nLTKyBvDMrSc2LiESaSneRkVnTXLwhHo0345Ksx0yrFKQ4Np6qXmpEmmlFOFDMhkaNJvTcwm0HVsu9K+neMmWJKywjYlm+hI1E422Nu8v4Tw0gXygZi6HGwJmar6qaqfmA4qyy6A8gB5HEajo+vER0F/2hTJkV68xnREIw=
+	t=1772826274; cv=none; b=IEcsoAPsU6TMp7jpiR461D5JABvupMIZeofeyvCet4jspdn4xfG/wANA0xjv+8EIUaitclxN2OJH6goYqp2mlOHoMnvz0PJeg3Tf4VLqnKzBqBztCw4ZMBUUxR/vU0WOIaWwS0Ox5uJnBvfoG65GTBhHgqGe/fEmzht5tY47zEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772822299; c=relaxed/simple;
-	bh=sP63ZjpJGD1Q/TZ5ZkTUfTiPX6Jg6Uv6WTKs/bT4eOo=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GgrGRqoqKA1yovQ2SaRdGhex6P/KfQtNEDj82qrk6uVFA628fNUrpFVFXixmBzJbBGUrZWEPSh+cj8qpqaKWYPtDF/NUz5cNy2xERl5O2m+fa0SFqul9ltHyJiHGovgsAtxYdKU3S/KNOKEyRuuABrHDqIOJjHHntNlwDlnNHiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arkSjnX7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772826274; c=relaxed/simple;
+	bh=kyRL39ZUU2fVc+qKgieTu6xtAYRDOjoAd+SFTTPDOLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bqn7mIHf1u19vkvzdJ4s663uKhFZ/RXMxCl33Ko8F3qQijqyFHk3ul+VT7L1SqVpqYT33XsTWAkCYiBIKRZpF4E2i4VNf1JgPI/PHSJziU08mBE6WO7qKhj5dxlxVCTb+pdd00xO7+NG8iL1UMbjmamTg1/rfLcFhnayHpehMdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ovX931A6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arkSjnX7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03B0C4CEF7;
-	Fri,  6 Mar 2026 18:38:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovX931A6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E40C4CEF7;
+	Fri,  6 Mar 2026 19:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772822299;
-	bh=sP63ZjpJGD1Q/TZ5ZkTUfTiPX6Jg6Uv6WTKs/bT4eOo=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=arkSjnX7GiPbEo3B4Kr8/NAZO3Xh7MaI4/HIHE59b0alcurpqJluJc2CkvpRLOgAI
-	 yzrtOFiEf2GCXe5Znn8fkqgGH00Fo+2EcALXMsHYqYx1DVzsuRIVGbzhqCF0ySFmcg
-	 pOrzkz1NhhwQ87k03c3sR5ICU/Xh8WgJ2CRhg3MO3+nX/d8e7t7IuLhRG44Px9E5Si
-	 PkWvxDpHgclSxgJw51Bm9YxQ7C9Q+UToC/De5IMPW4W0oCEFOtNTKExEpQp4xxqopR
-	 OWjef5Jr33/iESItvx7GQU9IthzAVgfQcUEm38ePfJ40qSs6axDOS43sJ+cuq21NoX
-	 A5NCr1JlsVrHg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CEEB3808200;
-	Fri,  6 Mar 2026 18:38:19 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 7.0-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87qzpxudtz.wl-tiwai@suse.de>
-References: <87qzpxudtz.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87qzpxudtz.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc3
-X-PR-Tracked-Commit-Id: 8457669db968c98edb781892d73fa559e1efcbd4
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d249037ac4701c32d99bc062834d592a57cfed00
-Message-Id: <177282229800.7628.14821300527920226905.pr-tracker-bot@kernel.org>
-Date: Fri, 06 Mar 2026 18:38:18 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1772826273;
+	bh=kyRL39ZUU2fVc+qKgieTu6xtAYRDOjoAd+SFTTPDOLg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ovX931A6/cFE29cM0X9RjBHW9k3S/oSFMh5AzrBSeugziYtxLPPp1b838pH3PhzRX
+	 udHujA8OP/3ZbccLoLYUQ7GBzItfoJvxu1Ey9toytZKcqi2nl4LtmOsKTmCy+Ga/0b
+	 GpN5M39xRP5FeDlnoGDJYS2eNxGYet3hP06O03pvEkNMrkL2wehbLBCRx00m6R0SXG
+	 HlBX3wWBwpXG44oaEMbiELYcFrrsjj12JDJxEmAcWyNh/sRV6OaaJ/Cfg8MBKCI1rb
+	 rmq2x1X6UDYw5xhz5mIdbMRk+QLDAG82++Va0Zd31EDRAn4CvrroPFJNIuDSdi90GP
+	 W6yj9vp+lArMA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 02D271AC52D3; Fri, 06 Mar 2026 19:44:24 +0000 (GMT)
+Date: Fri, 6 Mar 2026 19:44:24 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: soc-dai: don't use dev_{set/get}_drvdata() on DAI
+Message-ID: <aasumDrXSf7rfOJv@sirena.co.uk>
+References: <87bjh33uoz.wl-kuninori.morimoto.gx@renesas.com>
+ <aamBtfjzkM7onEfp@opensource.cirrus.com>
+ <aamGgjYd4ySf/4fW@opensource.cirrus.com>
+ <871phxu8tb.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7fDOXe22YHOV5710"
+Content-Disposition: inline
+In-Reply-To: <871phxu8tb.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Think big.  Pollute the Mississippi.
 
-The pull request you sent on Fri, 06 Mar 2026 17:23:20 +0100:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc3
+--7fDOXe22YHOV5710
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d249037ac4701c32d99bc062834d592a57cfed00
+On Thu, Mar 05, 2026 at 11:59:28PM +0000, Kuninori Morimoto wrote:
 
-Thank you!
+> I think it would be better to remove
+> snd_soc_{dai/component}_{set/get}_drvdata() ?
+> At least we can regain the balance.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> 	dev_set_drvdata(dai->dev, data);
+> 	...
+> -	data = snd_soc_dai_get_drvdata(dai);
+> +	data = dev_get_drvdata(dai->dev);
+
+> But what do you think ?
+
+IIRC the original demand for those functions was that drivers were doing
+a chain of lookups from whatever API they were working with to get back
+to their driver data and that this was before there was a convenient
+struct device around in all those structs.  With a struct device right
+there it's less clear that's buying us much, and now you mention it I
+can see the potential for surprises if people think each struct has it's
+own driver data.  Don't know what other people's opinion is though?
+
+--7fDOXe22YHOV5710
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmrLpgACgkQJNaLcl1U
+h9DG8gf/SHIEpeeFkkfEk0xaxn4ZzTk0qw3mnFGBKmZmhw70+gEVL5fwQNgl4AFL
+4tjMuE6VWCRL0PVi3KBe/JGH3qzbAYSBJJFYbSOF8Pwo773RMbio2P4PJ8ktXtOp
+GSuybWJmLQww/L6RxoMAG/iT4PHrvGYqrQGYk5nWdZy9wMpcNsPhHcFARsGZ4Bs6
+tf1u4fJ/o0wGbageAqz61Gb8ZBDSxZGY6wEPysHjMGAMKP84/sC+YAOP2Pdk6RTQ
+1BcHm6LiMthbuDQ8vTTQr72X6/k8JQjqjRcGa/RbD80Oa1+halbl3rdjMwVVypoH
+V2ASu2J+CYOqMcYvUdXHQO5pNa/2/A==
+=TQDv
+-----END PGP SIGNATURE-----
+
+--7fDOXe22YHOV5710--
