@@ -1,33 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F30519F11B;
-	Fri,  6 Mar 2026 09:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18FD33F5B1;
+	Fri,  6 Mar 2026 09:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772788219; cv=none; b=i3uvHT7D47f6Xc4vd3tKlOx1J8Nvp4mtiZhK48aOULO4fubyyAHjLumbK/EYQoUj6zdFTAqNZkKDJzoT9vc2CpWgJW2sr35imy/YYdbgh4uMIYJgBw9POUY5FN79IPK8lZNrUnCx++5X41ROm/wJll8HeSh9CnCspJAG1kjtyvs=
+	t=1772788725; cv=none; b=EwBrgyu2v1IIavf28CmYTSsHyWNJ40idC2hwIhdRLCcTL2lgHhJUXRrM9xvhABrxW9SaAdS30j5PtocKxN4SifkFULgzO5ISr5wBgUQWpOfO7ZN557lp2iLbke0ucOBQ9P8aHpEdetTcag+nQZQBi07nLHjnEiFPYSJ6OMu+9fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772788219; c=relaxed/simple;
-	bh=rTyE7/aIUa4yfhraRfzQKPA0xZnv5Eq7lGRT8IrcsaQ=;
+	s=arc-20240116; t=1772788725; c=relaxed/simple;
+	bh=OH702f+DlOSO+MCKoOLFzipEKjfAn3TXofGaFrLTaQI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qdgWH9Nj+Q2Y90WpvzvJct9tHn7aYL7QGu10tEYCWcm4FGUN+iCemuaEH7+hNRk3digbMB4qyNo4xnM4GuQMz6Lejcu61yfRxnmY1Nx2sBkZ++B11aIft017gjNyv+jJ0Wu95r3anPvi7MvAqUvWgFmZ+aLJljRAoGMSZI20lwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Clp/ld2v; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=C7BgSTVtwH2H6L0xffesIapUUluncqdHgjd4DYSA1EGPgQoHo40ay4UAdeEGA5rbwoIWzj2s0ds9xu/JjyKqkMV4taaQD/r5stffNAqio2TthE3VFXe3NKmDo55PnzCilc8qMyT2L5aGUblSRLAdXfPrCWO//nLCnn7VLpm0k3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aQa1sWd2; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Clp/ld2v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6284C19422;
-	Fri,  6 Mar 2026 09:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772788218;
-	bh=rTyE7/aIUa4yfhraRfzQKPA0xZnv5Eq7lGRT8IrcsaQ=;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aQa1sWd2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1772788721;
+	bh=OH702f+DlOSO+MCKoOLFzipEKjfAn3TXofGaFrLTaQI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Clp/ld2vvILJO6lLfcQwjrO4hdjk0e8gPrE3A8puIcsFpHVOICBl1jfdm7RYlprkB
-	 9/RyB8Rfm4hLHdtrNocOjmBCR1h6vPR3UToklg6txPcKdpxrS5HS2Hcvkt1Z0jQrNh
-	 jaNwBsij5aixWSPnrJXLEBE7EIRIAZuOF30ILlDWpCOUocVegnUthgdqCVdxS2RWmJ
-	 mKLHumOTsi09PYsGhG9bftB2M8KsfYxrGiXfCIYYNupQ4pbrQF2QFxAt2hsQxTd4wD
-	 YeL39Exo7lolbAap0k71R11gPhrT4jf5PdqKsCy9t67sWkkbo3EEjO1ruA9OYM3c2a
-	 dnBS9ixfLaT8A==
-Message-ID: <0b3a1fa9-4024-44b9-a42f-6b82862e2ac9@kernel.org>
-Date: Fri, 6 Mar 2026 10:10:11 +0100
+	b=aQa1sWd2F8WTv1R+3RswL7qWrKeVIWzE2vX3Cg+7Ivx3TJuCLZIkf7zjgpblReBtu
+	 iep1moGyo0iCJFd9jL6w/BUkDeKLNxsajQolbE28XCR7HLEqapCEKHqCbkdLFklcni
+	 /BhNZNbHfWOmiiDvN4Nvn+jX4EwHpXVk8YNaZOmSM8Y3OxUIvufH+4s7G432o9F6VG
+	 5tLq/lNoQBJilutcyClY3N1V4Iu/2rrt/+u0+lZifvMNIvDgBbiR4OxwDLu3Wqyje2
+	 KwCcxdAEvCKA5Emi+uvO1pcgVemR8leQMVtdxWUMHcDPcdh6bCw2C5PmU9hD8e9F0+
+	 Y8fh0QkPcc3fw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D3AE817E04DC;
+	Fri,  6 Mar 2026 10:18:40 +0100 (CET)
+Message-ID: <e179c650-5d0e-4004-a983-e3b63d4c28c5@collabora.com>
+Date: Fri, 6 Mar 2026 10:18:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,8 +44,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 3/4] dt-bindings: arm: mediatek: audsys: Support
  mt8192-audsys variant
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>
 Cc: krzk+dt@kernel.org, conor+dt@kernel.org, tudor.ambarus@linaro.org,
  pratyush@kernel.org, mwalle@kernel.org, miquel.raynal@bootlin.com,
  richard@nod.at, vigneshr@ti.com, lgirdwood@gmail.com, broonie@kernel.org,
@@ -52,83 +58,44 @@ References: <20260115125624.73598-1-angelogioacchino.delregno@collabora.com>
  <20260115125624.73598-4-angelogioacchino.delregno@collabora.com>
  <CAL_JsqL=zAqyVDAP_B1VW1FWKoS9OEdTNZiZabSNxDscBryYgw@mail.gmail.com>
  <0ccca45c-34af-4d38-ad0f-6cd080f2882d@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <0b3a1fa9-4024-44b9-a42f-6b82862e2ac9@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <0ccca45c-34af-4d38-ad0f-6cd080f2882d@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <0b3a1fa9-4024-44b9-a42f-6b82862e2ac9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/02/2026 15:28, AngeloGioacchino Del Regno wrote:
->>> + - if:
->>> +     properties:
->>> +       compatible:
->>> +         contains:
->>> +           const: mediatek,mt8192-audsys
->>> +   then:
->>> +     properties:
->>> +       audio-controller:
->>> +         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
->>> +
+Il 06/03/26 10:10, Krzysztof Kozlowski ha scritto:
+> On 10/02/2026 15:28, AngeloGioacchino Del Regno wrote:
+>>>> + - if:
+>>>> +     properties:
+>>>> +       compatible:
+>>>> +         contains:
+>>>> +           const: mediatek,mt8192-audsys
+>>>> +   then:
+>>>> +     properties:
+>>>> +       audio-controller:
+>>>> +         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
+>>>> +
+>>>>
+>>>
+>>> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1:
+>>> [warning] too many blank lines (2 > 1) (empty-lines)
+>>>
+>>> Please fix as these are warnings in linux-next now.
 >>>
 >>
->> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1:
->> [warning] too many blank lines (2 > 1) (empty-lines)
+>> Ack. Sorry for the mistakes. Not sure how this happened.
 >>
->> Please fix as these are warnings in linux-next now.
+>> Let me see when I can get some minutes to get this addressed.
 >>
 > 
-> Ack. Sorry for the mistakes. Not sure how this happened.
+> This was 2 weeks ago.
 > 
-> Let me see when I can get some minutes to get this addressed.
+> Warning is still there in next. Please revert your patch or take the fix
+> from mailing list, but anyway this should not be broken for two weeks.
 > 
+It's done. Sorry for the wait, but it's been extremely busy days around here.
 
-This was 2 weeks ago.
-
-Warning is still there in next. Please revert your patch or take the fix
-from mailing list, but anyway this should not be broken for two weeks.
-
-Best regards,
-Krzysztof
+Cheers,
+Angelo
