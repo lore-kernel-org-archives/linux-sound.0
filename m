@@ -1,216 +1,252 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAAB3ED5A6
-	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 16:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC033ED5B1
+	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 17:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772814204; cv=none; b=MmEh0SLTtqz6nKfEzXqgW3y2aOfQ5fAda2fgZoxprafqSzUC/i6tcpwvRXcaC0Qlgqkc+wWOgi9o6+s1zKojUQ0fqKn5HXZONABTqj6h0FuQkMboCw53WyfMkaooR1LVjnxq85p4jtyerzFx6VfdgO5njna8txb/HX2PNBP5ke4=
+	t=1772816690; cv=none; b=W0KCrJ0+qh5v0rBFuGBagAh1riEo3scdLP5Cb5Ky9fIOCfsAvoa0I+MhA7kce/aNrI7jDFBx+aSjw0wVRaCudvbyLAG6p2el68X0Mhl0T76ncwZVUVnwdG1zeWczR9QMymrCl2MrGhMVU8i29ED05TKzEAL+HVP/hBeuNswjlNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772814204; c=relaxed/simple;
-	bh=0qZO7XmVAQUfEbH9kbhH4BQqgkxpRNwcCwNVJpau3bg=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=h/nOHmu1Ulkph7tfIpm6hnW0XSffcGWLNSJjyd0JhA9IiGeXqdyB/+hQPnAF4wY98KK5YtmFOy93oheflAbUlPQSJoKesapIr+qRLRFf5s0pY+AO95b32Xa699cfP0YLtAxHlSzq/22GkaUV2EbU6JUYk5eNFks0RCM4LetC+SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=thCqclFs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OnGSt/58; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=thCqclFs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OnGSt/58; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772816690; c=relaxed/simple;
+	bh=3i0lS/jOLHvh97zTu+WpGgYG0i1iba6kUtOX/wFfAgA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VYAcKh9aOh82gRNaYwqeJj5j5f+BbzKuaTp8dwH5t1oC+1rOqHySDQmdVxbjSfTlmThH7wUBKLsQfyFlFhRlaoAAeWWw2inqiqs+06YIFG24QR2OCO8jSsXrl2uwtKtm8DUGzfXtNoDzGtECZSQBtCy0Oql+wcpEhq5jcN8TFnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/Ex87t0; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="thCqclFs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OnGSt/58";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="thCqclFs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OnGSt/58"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5DABE5BD91;
-	Fri,  6 Mar 2026 16:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772814201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=fokpHWyQBHnYHjcZT6Fn6y/BRrejeSYcr7Lvs9YFSW4=;
-	b=thCqclFsU79EFIQhfACjCLjpS5ulBTbeE2z77A1v4B4+40IFySB4iQN5mkV56+1GmQx9Go
-	eEZzktfd3hOPpcMVjY+I2+1W/cqBshMRG2iRdlozvDR3NJFyEfd+6f4FkVXKmG2TGOED1N
-	ZQk0lw+B2tw3+gyJl0O2yXslf5qZ55w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772814201;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=fokpHWyQBHnYHjcZT6Fn6y/BRrejeSYcr7Lvs9YFSW4=;
-	b=OnGSt/58fJKFjo4GMiuFO5rjZqJx2Oll7nPnSPxEwMnvIDLsPa3apecw2gEVrUD+K95g9B
-	s+xClEpXp/AwiBDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=thCqclFs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="OnGSt/58"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772814201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=fokpHWyQBHnYHjcZT6Fn6y/BRrejeSYcr7Lvs9YFSW4=;
-	b=thCqclFsU79EFIQhfACjCLjpS5ulBTbeE2z77A1v4B4+40IFySB4iQN5mkV56+1GmQx9Go
-	eEZzktfd3hOPpcMVjY+I2+1W/cqBshMRG2iRdlozvDR3NJFyEfd+6f4FkVXKmG2TGOED1N
-	ZQk0lw+B2tw3+gyJl0O2yXslf5qZ55w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772814201;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=fokpHWyQBHnYHjcZT6Fn6y/BRrejeSYcr7Lvs9YFSW4=;
-	b=OnGSt/58fJKFjo4GMiuFO5rjZqJx2Oll7nPnSPxEwMnvIDLsPa3apecw2gEVrUD+K95g9B
-	s+xClEpXp/AwiBDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 321403EA75;
-	Fri,  6 Mar 2026 16:23:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oqpWCnn/qmllOAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Mar 2026 16:23:21 +0000
-Date: Fri, 06 Mar 2026 17:23:20 +0100
-Message-ID: <87qzpxudtz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.0-rc3
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/Ex87t0"
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56b069fed64so349340e0c.2
+        for <linux-sound@vger.kernel.org>; Fri, 06 Mar 2026 09:04:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772816688; x=1773421488; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BuxO1nSghzb98GxKgSltIqgao3JhVu7jRzBHBXc7f4Y=;
+        b=e/Ex87t0CsX/rHY7FzS5dF2Fs9+JEX1saLx3Mv6bGr6ffpVrW4uc0luMt2uz/grdPc
+         PgZcahKtMuzNYzxyzQVKw0ohGefRv9B9foUMu5gqMbt0spO0exs1MWo/rtsqXdIIjqhJ
+         kBx9K4hjbjYhE4joZuVss3nVU06P+DW7uGAZWABxV+kjiuYOKhDwEovpb5UmNA0I8Dr9
+         wBPRpAbmQoJvgjei2gE0usH86/9cn9efNWA7pYSfBGax/uS/X0TasNa00+KyE7mqmJ7L
+         qXnxycP3RjaFCK4ovxmMU7IsGqFwy2Iipxnp8KDfLuzkpMgEa55ssgwyVqCJ0HYYlF+8
+         HqdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772816688; x=1773421488;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BuxO1nSghzb98GxKgSltIqgao3JhVu7jRzBHBXc7f4Y=;
+        b=pH+zF7kghUsm/a8xuVNKMCEYrZ24yKRKxVSQLnYKFwk4SLik7Jsin1fRRU5P+azxFn
+         wRQrAAzrQSJ2Q28RrJxKBhQ6xgeXQwEKUm5Kzc6Mx6YbqPg1jbNgY3ge64UJ1JQY5mzZ
+         bLl1hZUbLZMRkSSoATD0MtED0AtRbrezQuOrlAaG/jpywA+cQG5kntYsU/O1fAc9J/fk
+         gRc/91j1b/CqbSuSW+vIOu9VcSa7XEMRSjosOyrx231+CHCdr7CQ2RLwRLKcd3tA2u34
+         ZZ59cRYgzi7pNdqoYsdsa4rcZw/GW5EiH8Js7iDbVymt2SFLqvtFkTrv2nYlBAd57r4d
+         7dDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVljm4fbKzFcGTfhv3ly4GMkL/lEzO1M4A6q59g1wn/i0BLb0lvY1WaHZHAxbEgMb8yZWJQtgUCEvwmoQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRUSGMDmOZ/VdlEc8Maf6ud0CjvGpNMcL7RMtVaWFSvSRGohvA
+	rgnrB1/tGSxd/xJxRacPDFtGYEfGX8CLNnQqs06FMnK4FMdnlM6pDrbf9/P8PA==
+X-Gm-Gg: ATEYQzw6U774KwqUCSnvpm3pWYFJunwoPF8P4eKbWa2fQ8SWD10Pk6zvrrBeCCrXdcf
+	btGtQpfupwtWGKkMcrMja7x7Va//hAB8bBQFwnnOsBsq7X9D1Pt0K3FQt4FhnkdiQKoUej1uFNu
+	UfaDqBuyxGN6P7TeEgXvmxR7vw9wOrxg5BgRU3kx1CJRaVDuR3Upt/AVQ4m/OfFlsf1Wh8oaITK
+	YUGb3nTc9T0pc15GaTmTMTOmSzE9MxT1UiaW5ctmPDvzTFaDwKwuI9mZC5ntI4cqk3xpCbnRTGp
+	SAK9iAFgy7ykCzHxstkSv2vy+hKzoWnf9kukhQ+qdiok/GvP0SirZYYI3hH8CyCLaIXnIYK1e5I
+	+gqJ9KUOw30hpId604tJXStLPMOz34uGNWIRWRw26atRrYSCiOdaXFPy++/YEplrvoR4n6AXX0+
+	ioDVF8TvXZ0LYfpC3VmiKpRttJxIxZ4FQK6P9o9B3zm97K1B7/ZO2XvzfxzMnrf2e5KqdN
+X-Received: by 2002:a05:6122:6e05:b0:56a:ef89:34fc with SMTP id 71dfb90a1353d-56b07d7aebbmr953603e0c.6.1772816688042;
+        Fri, 06 Mar 2026 09:04:48 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:1b3:a802:8875:ddd6:ede8:90d6:abeb])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b0f889ed2sm332967e0c.13.2026.03.06.09.04.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 09:04:46 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: stable@vger.kernel.org
+Cc: broonie@kernel.org,
+	alexander.stein@ew.tq-group.com,
+	linux-sound@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2 stable-6.18 1/2] ASoC: fsl_xcvr: use dev_err_probe() replacing dev_err() + return
+Date: Fri,  6 Mar 2026 14:04:20 -0300
+Message-Id: <20260306170421.1430704-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 5DABE5BD91
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Linus,
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-please pull sound fixes for v7.0-rc3 from:
+commit 8ae28d04593a5fdddb16d3edcdabb8d1e4330d0b upstream.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc3
+Use dev_err_probe() to simplify the code. This also silences -517 errors.
 
-The topmost commit is 8457669db968c98edb781892d73fa559e1efcbd4
-
-----------------------------------------------------------------
-
-sound fixes for 7.0-rc3
-
-Again a collection of device-specific fixes.  Most of changes are
-fairly small device-specific quirks of fixes for HD- and USB-audio,
-ASoC Intel, AMD, fsl, Cirrus and co.  The only large LOC is for
-plumbing ASoC ACP driver to add the Cirrus Logic codec support, so
-this one is also just adding some tables.
-
-----------------------------------------------------------------
-
-Biju Das (1):
-      ASoC: dt-bindings: renesas,rz-ssi: Document RZ/G3L SoC
-
-Charles Keepax (1):
-      ASoC: SDCA: Add allocation failure check for Entity name
-
-Johan Hovold (1):
-      ALSA: us122l: drop redundant interface references
-
-Lianqin Hu (1):
-      ALSA: usb-audio: Add iface reset and delay quirk for AB13X USB Audio
-
-Mark Brown (2):
-      ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_put_bits()
-      ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_set_reg()
-
-Matt DeVillier (1):
-      ALSA: hda/ca0132: Set HP/Speaker auto-detect default from headphone pin verb
-
-Oliver Freyermuth (1):
-      ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCD SKU
-
-Richard Fitzgerald (2):
-      ASoC: cs35l56: Only patch ASP registers if the DAI is part of a DAIlink
-      ASoC: cs35l56: Suppress pointless warning about number of GPIO pulls
-
-Rong Zhang (1):
-      ALSA: doc: usb-audio: Add doc for QUIRK_FLAG_SKIP_IFACE_SETUP
-
-Sheetal (2):
-      ALSA: hda/hdmi: Add Tegra238 HDA codec device ID
-      ASoC: dt-bindings: tegra: Add compatible for Tegra238 sound card
-
-Shenghao Ding (1):
-      ALSA: hda/tas2781: A workaround solution to lower-vol issue among lower calibrated-impedance micro-speaker on TAS2781
-
-Shuming Fan (1):
-      ASoC: rt1321: fix DMIC ch2/3 mask issue
-
-Simon Trimmer (1):
-      ASoC: amd: acp: Add ACP6.3 match entries for Cirrus Logic parts
-
-Takashi Iwai (1):
-      ALSA: firewire: dice: Fix printf warning with W=1
-
-Zhang Heng (2):
-      ALSA: hda/realtek: Add quirk for HP Pavilion 15-eh1xxx to enable mute LED
-      ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK PM1503CDA
-
-wangdicheng (2):
-      ALSA: hda/senary: Use codec->core.afg for GPIO access
-      ALSA: hda/senary: Ensure EAPD is enabled during init
-
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Link: https://patch.msgid.link/20251125101334.1596381-1-alexander.stein@ew.tq-group.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
- .../sound/nvidia,tegra-audio-graph-card.yaml       |   1 +
- .../devicetree/bindings/sound/renesas,rz-ssi.yaml  |   1 +
- Documentation/sound/alsa-configuration.rst         |   4 +
- include/sound/cs35l56.h                            |   1 +
- include/sound/tas2781.h                            |   1 +
- sound/firewire/dice/dice.c                         |   2 +-
- sound/hda/codecs/ca0132.c                          |   9 +
- sound/hda/codecs/hdmi/tegrahdmi.c                  |   1 +
- sound/hda/codecs/realtek/alc269.c                  |   1 +
- sound/hda/codecs/senarytech.c                      |  14 +-
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c     |  15 +-
- sound/soc/amd/acp/amd-acp63-acpi-match.c           | 413 +++++++++++++++++++++
- sound/soc/amd/yc/acp6x-mach.c                      |   7 +
- sound/soc/codecs/cs35l56-shared.c                  |  16 +-
- sound/soc/codecs/cs35l56.c                         |  12 +-
- sound/soc/codecs/rt1320-sdw.c                      |   5 +-
- sound/soc/codecs/tas2781-fmwlib.c                  |  94 +++++
- sound/soc/fsl/fsl_easrc.c                          |  14 +-
- sound/soc/intel/boards/sof_sdw.c                   |   8 +
- sound/soc/sdca/sdca_functions.c                    |   5 +-
- sound/usb/quirks.c                                 |   2 +
- sound/usb/usx2y/us122l.c                           |  12 +-
- 22 files changed, 599 insertions(+), 39 deletions(-)
+Changes since v1:
+- Also include it as part of the series as it fixes a storm of:
+
+ [   3.217646] fsl-xcvr 30cc0000.r: failed to pcm register
+ [    4.450639] fsl-xcvr 30cc0000vr: failed t pcm register
+ [    4.485499] fsl-xcvr 30cc0000vr: failed to pcm register
+ [    4.508775 fsl-xcvr 30cc0000.r: failed to pcm register
+ [    4.624521] fsl-xcvr 30cc0000vr: failed to pcm reister
+ [    4.783004] fsl-xcvr 30cc0000vr: failed to pcm register
+ [    4.823300] fsl-xcv 30cc0000.r: failed to pcm register
+ [    4.863936] fsl-xcvr 30cc0000vr: failed to pcm register
+ [    4.907075] fsl-xcvr 30cc0000vr: failed to pcm register
+
+ sound/soc/fsl/fsl_xcvr.c | 86 ++++++++++++++++------------------------
+ 1 file changed, 34 insertions(+), 52 deletions(-)
+
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index 58db4906a01d..06434b2c9a0f 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -1548,28 +1548,24 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 	xcvr->soc_data = of_device_get_match_data(&pdev->dev);
+ 
+ 	xcvr->ipg_clk = devm_clk_get(dev, "ipg");
+-	if (IS_ERR(xcvr->ipg_clk)) {
+-		dev_err(dev, "failed to get ipg clock\n");
+-		return PTR_ERR(xcvr->ipg_clk);
+-	}
++	if (IS_ERR(xcvr->ipg_clk))
++		return dev_err_probe(dev, PTR_ERR(xcvr->ipg_clk),
++				     "failed to get ipg clock\n");
+ 
+ 	xcvr->phy_clk = devm_clk_get(dev, "phy");
+-	if (IS_ERR(xcvr->phy_clk)) {
+-		dev_err(dev, "failed to get phy clock\n");
+-		return PTR_ERR(xcvr->phy_clk);
+-	}
++	if (IS_ERR(xcvr->phy_clk))
++		return dev_err_probe(dev, PTR_ERR(xcvr->phy_clk),
++				     "failed to get phy clock\n");
+ 
+ 	xcvr->spba_clk = devm_clk_get(dev, "spba");
+-	if (IS_ERR(xcvr->spba_clk)) {
+-		dev_err(dev, "failed to get spba clock\n");
+-		return PTR_ERR(xcvr->spba_clk);
+-	}
++	if (IS_ERR(xcvr->spba_clk))
++		return dev_err_probe(dev, PTR_ERR(xcvr->spba_clk),
++				     "failed to get spba clock\n");
+ 
+ 	xcvr->pll_ipg_clk = devm_clk_get(dev, "pll_ipg");
+-	if (IS_ERR(xcvr->pll_ipg_clk)) {
+-		dev_err(dev, "failed to get pll_ipg clock\n");
+-		return PTR_ERR(xcvr->pll_ipg_clk);
+-	}
++	if (IS_ERR(xcvr->pll_ipg_clk))
++		return dev_err_probe(dev, PTR_ERR(xcvr->pll_ipg_clk),
++				     "failed to get pll_ipg clock\n");
+ 
+ 	fsl_asoc_get_pll_clocks(dev, &xcvr->pll8k_clk,
+ 				&xcvr->pll11k_clk);
+@@ -1593,51 +1589,42 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 
+ 	xcvr->regmap = devm_regmap_init_mmio_clk(dev, NULL, regs,
+ 						 &fsl_xcvr_regmap_cfg);
+-	if (IS_ERR(xcvr->regmap)) {
+-		dev_err(dev, "failed to init XCVR regmap: %ld\n",
+-			PTR_ERR(xcvr->regmap));
+-		return PTR_ERR(xcvr->regmap);
+-	}
++	if (IS_ERR(xcvr->regmap))
++		return dev_err_probe(dev, PTR_ERR(xcvr->regmap), "failed to init XCVR regmap\n");
+ 
+ 	if (xcvr->soc_data->use_phy) {
+ 		xcvr->regmap_phy = devm_regmap_init(dev, NULL, xcvr,
+ 						    &fsl_xcvr_regmap_phy_cfg);
+-		if (IS_ERR(xcvr->regmap_phy)) {
+-			dev_err(dev, "failed to init XCVR PHY regmap: %ld\n",
+-				PTR_ERR(xcvr->regmap_phy));
+-			return PTR_ERR(xcvr->regmap_phy);
+-		}
++		if (IS_ERR(xcvr->regmap_phy))
++			return dev_err_probe(dev, PTR_ERR(xcvr->regmap_phy),
++					     "failed to init XCVR PHY regmap\n");
+ 
+ 		switch (xcvr->soc_data->pll_ver) {
+ 		case PLL_MX8MP:
+ 			xcvr->regmap_pll = devm_regmap_init(dev, NULL, xcvr,
+ 							    &fsl_xcvr_regmap_pllv0_cfg);
+-			if (IS_ERR(xcvr->regmap_pll)) {
+-				dev_err(dev, "failed to init XCVR PLL regmap: %ld\n",
+-					PTR_ERR(xcvr->regmap_pll));
+-				return PTR_ERR(xcvr->regmap_pll);
+-			}
++			if (IS_ERR(xcvr->regmap_pll))
++				return dev_err_probe(dev, PTR_ERR(xcvr->regmap_pll),
++						     "failed to init XCVR PLL regmap\n");
+ 			break;
+ 		case PLL_MX95:
+ 			xcvr->regmap_pll = devm_regmap_init(dev, NULL, xcvr,
+ 							    &fsl_xcvr_regmap_pllv1_cfg);
+-			if (IS_ERR(xcvr->regmap_pll)) {
+-				dev_err(dev, "failed to init XCVR PLL regmap: %ld\n",
+-					PTR_ERR(xcvr->regmap_pll));
+-				return PTR_ERR(xcvr->regmap_pll);
+-			}
++			if (IS_ERR(xcvr->regmap_pll))
++				return dev_err_probe(dev, PTR_ERR(xcvr->regmap_pll),
++						     "failed to init XCVR PLL regmap\n");
+ 			break;
+ 		default:
+-			dev_err(dev, "Error for PLL version %d\n", xcvr->soc_data->pll_ver);
+-			return -EINVAL;
++			return dev_err_probe(dev, -EINVAL,
++					     "Error for PLL version %d\n",
++					     xcvr->soc_data->pll_ver);
+ 		}
+ 	}
+ 
+ 	xcvr->reset = devm_reset_control_get_optional_exclusive(dev, NULL);
+-	if (IS_ERR(xcvr->reset)) {
+-		dev_err(dev, "failed to get XCVR reset control\n");
+-		return PTR_ERR(xcvr->reset);
+-	}
++	if (IS_ERR(xcvr->reset))
++		return dev_err_probe(dev, PTR_ERR(xcvr->reset),
++				     "failed to get XCVR reset control\n");
+ 
+ 	/* get IRQs */
+ 	irq = platform_get_irq(pdev, 0);
+@@ -1645,17 +1632,13 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 		return irq;
+ 
+ 	ret = devm_request_irq(dev, irq, irq0_isr, 0, pdev->name, xcvr);
+-	if (ret) {
+-		dev_err(dev, "failed to claim IRQ0: %i\n", ret);
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to claim IRQ0\n");
+ 
+ 	rx_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "rxfifo");
+ 	tx_res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "txfifo");
+-	if (!rx_res || !tx_res) {
+-		dev_err(dev, "could not find rxfifo or txfifo resource\n");
+-		return -EINVAL;
+-	}
++	if (!rx_res || !tx_res)
++		return dev_err_probe(dev, -EINVAL, "could not find rxfifo or txfifo resource\n");
+ 	xcvr->dma_prms_rx.chan_name = "rx";
+ 	xcvr->dma_prms_tx.chan_name = "tx";
+ 	xcvr->dma_prms_rx.addr = rx_res->start;
+@@ -1678,8 +1661,7 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 	ret = devm_snd_dmaengine_pcm_register(dev, NULL, 0);
+ 	if (ret) {
+ 		pm_runtime_disable(dev);
+-		dev_err(dev, "failed to pcm register\n");
+-		return ret;
++		return dev_err_probe(dev, ret, "failed to pcm register\n");
+ 	}
+ 
+ 	ret = devm_snd_soc_register_component(dev, &fsl_xcvr_comp,
+-- 
+2.34.1
 
