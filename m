@@ -1,180 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC96235B12B;
-	Fri,  6 Mar 2026 10:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4761037B014
+	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 10:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772793689; cv=none; b=SjFWDXOZdnFfrk1GtxE2BA0bPlvEsf4kotWimEb+J9lpSFzjYyKr31kYxqMOmRrRED32x9ZM2/ENFSjaMdoQK8zIML1gR1IgQeKyZQ1JeZ49OxrqkPyxr8ehqYCa/kz9Zd3zsGyuLL/ruE9iNjUsOiBqXBqXhVx6FsrGOrgNMfs=
+	t=1772793833; cv=none; b=jXOzrnlGCHjbNwk2yoGGWc5fQCbfbTWaEdpcQFXz+Wof2/3jzBaCrOorgyZyLl5RNbdJUCkRtlXkTriUqKdLWxM7cQbiltgRtymEqSPiPMofwUx0/9u5jRCfPAE8BfiTJOklp+vlzOoIP3J/yPErzl+ex+lJqs/Q1ebU9Ys2pkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772793689; c=relaxed/simple;
-	bh=wUC14RnhdvcAhcWHU9TzbgcAedD2DWvQjmFMdi8UmZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UfqUhzVp05YD5z/+G0F5334PgpLO07Uvu9t3q7QROhNZUQ+a1QA5QbyoQLK9jFBaCP7Evew+F2H1tJAPTfrGEOR1csfk5peZgh+tqrug8lQegRo4ipsYMmm3hbxiRNYsQJuyRGpRfJyD2/Ef0YmnxvjKC29A+U8PRFRucf9eNBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HlqAXWcd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772793833; c=relaxed/simple;
+	bh=x2WxDK9hsTfOREZW7/Loy9BK384/SVTxyGUkU7yqQt0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=suB48Z1425Oz1xOQtDGqmgVP6vR9Ua15CVpMxnhgszdRAOX7Miy85WJQs8YA79P2C8lbm3cHfNSKDwvMa4+YoyD1lsCik3QFlLMFWK4xjBrzjK8Rpg7FPiec5cFdmNKwLOA51Mo65+7NxQg+7jCXr8JpG0jAYPWAvn+H6XE/S4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P9eIivNo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Um4H2o3w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P9eIivNo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Um4H2o3w; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HlqAXWcd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E47CC19422;
-	Fri,  6 Mar 2026 10:41:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772793689;
-	bh=wUC14RnhdvcAhcWHU9TzbgcAedD2DWvQjmFMdi8UmZ0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HlqAXWcdQBTWqkBU+RvjncHg2W2umlwoZVD32c3UXJcQPcr+23oeH/8yjmfdfqM3U
-	 19wihtbQXOhwACWoSBDh69qhginNXcXV8dBtlYgDXnNCiqirYoBqqoDfFYCkvD+uRE
-	 dx104NBd1oc5EJmukGDFTHcUQ+JO54vNElmJm3tomEH4gwCkeTF0zF0+AJbJrL/SJF
-	 GJvlxr4NpnZbhT7hzedjYNuvWXu27IFwIu1/8EMfKOY9lDqdLYIqwOEoxD/LlF4aXa
-	 766PV8+6CC7jF2rTWnVJY+TaviOzRbo/OIfPQ33CjfI70Q+mC308VevW9opsngxIXQ
-	 k5hN2wL9ZbgHQ==
-Message-ID: <f16d2a7f-04e2-4d99-9239-caca9fd1f7b5@kernel.org>
-Date: Fri, 6 Mar 2026 11:41:23 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P9eIivNo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Um4H2o3w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P9eIivNo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Um4H2o3w"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7E1085C178;
+	Fri,  6 Mar 2026 10:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772793830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGVEHa6EYMi1zRI6r6THaZteKNDGxx68SZ3Qp6nGYyE=;
+	b=P9eIivNo1+zCRIgiOBK5fE2Ea5Cvh56xE0x5cr7YVDmwYkFEQ4th6nYbQkT1KjErdyNlQ0
+	Y5cfFIUOtjfIEx3eFwqm8VYLWkAZUHFSqcCOsNOaZWK9+nT9Kt45n16gKzkRnSfkIKXNlT
+	sa4QYL/EWG6+QooO2++LlY/7KlMQgoA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772793830;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGVEHa6EYMi1zRI6r6THaZteKNDGxx68SZ3Qp6nGYyE=;
+	b=Um4H2o3wihXRCxdr4Ay3XIZwLa+jy5O+xf3lXdHnbSnrsATB9aq2lL6VFvfut2mHYmaDd5
+	pYrp3VjHooG52UDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=P9eIivNo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Um4H2o3w
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772793830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGVEHa6EYMi1zRI6r6THaZteKNDGxx68SZ3Qp6nGYyE=;
+	b=P9eIivNo1+zCRIgiOBK5fE2Ea5Cvh56xE0x5cr7YVDmwYkFEQ4th6nYbQkT1KjErdyNlQ0
+	Y5cfFIUOtjfIEx3eFwqm8VYLWkAZUHFSqcCOsNOaZWK9+nT9Kt45n16gKzkRnSfkIKXNlT
+	sa4QYL/EWG6+QooO2++LlY/7KlMQgoA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772793830;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGVEHa6EYMi1zRI6r6THaZteKNDGxx68SZ3Qp6nGYyE=;
+	b=Um4H2o3wihXRCxdr4Ay3XIZwLa+jy5O+xf3lXdHnbSnrsATB9aq2lL6VFvfut2mHYmaDd5
+	pYrp3VjHooG52UDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4434C3EA75;
+	Fri,  6 Mar 2026 10:43:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wow3D+avqmk4SAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Mar 2026 10:43:50 +0000
+Date: Fri, 06 Mar 2026 11:43:49 +0100
+Message-ID: <87zf4lutju.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v3 2/2] ALSA: control: add ioctl to retrieve full card components
+In-Reply-To: <3174b8c9-8801-4d09-8e30-450899b40ca2@perex.cz>
+References: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
+	<20260303145815.9930-2-mstrozek@opensource.cirrus.com>
+	<87seagx6c4.wl-tiwai@suse.de>
+	<c4392a10442c436484d9758c54622888b07a3a74.camel@opensource.cirrus.com>
+	<87v7fay4l1.wl-tiwai@suse.de>
+	<cf59b85f5bfa3607b7ef799714df56bf42daa67a.camel@opensource.cirrus.com>
+	<87pl5iy3z6.wl-tiwai@suse.de>
+	<3174b8c9-8801-4d09-8e30-450899b40ca2@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: tas2781: Add tas5832 support
-To: "Ding, Shenghao" <shenghao-ding@ti.com>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-Cc: "Xu, Baojun" <baojun.xu@ti.com>, "broonie@kernel.org"
- <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>,
- "13916275206@139.com" <13916275206@139.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Yi, Ken" <k-yi@ti.com>, "Lo, Henry" <henry.lo@ti.com>,
- "Chen, Robin" <robinchen@ti.com>, "Wang, Will" <will-wang@ti.com>,
- "jim.shil@goertek.com" <jim.shil@goertek.com>,
- "toastcheng@google.com" <toastcheng@google.com>,
- "chinkaiting@google.com" <chinkaiting@google.com>
-References: <20260226075737.405-1-baojun.xu@ti.com>
- <20260226075737.405-2-baojun.xu@ti.com>
- <20260227-ubiquitous-dashing-copperhead-b2c6a0@quoll>
- <9f861c7df09c4434a98a203ecff913bc@ti.com>
- <63b0f42e-56e8-474f-8805-4e01bb2f189e@kernel.org>
- <a7316acf9ba248f9ad1fab0313a95654@ti.com>
- <3cfa4036-e7a7-4cde-9dab-a171a63bdee3@kernel.org>
- <4865c7f626a340d7847354512367577e@ti.com>
- <596f90d0-8dbd-4afe-a722-bf2ba65e1776@kernel.org>
- <aaVcDvYvi28wFR2S@ashevche-desk.local>
- <c46a8bf5-7a6a-41a9-b18f-9a7ad7a60bb9@kernel.org>
- <3af19ebaf32d482ab5cf575b831b2d9d@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <3af19ebaf32d482ab5cf575b831b2d9d@ti.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 7E1085C178
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-On 06/03/2026 11:08, Ding, Shenghao wrote:
-> Hi, Krzysztof & Andy,
+On Fri, 06 Mar 2026 10:39:46 +0100,
+Jaroslav Kysela wrote:
 > 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Monday, March 2, 2026 6:09 PM
->> To: andriy.shevchenko@linux.intel.com
->> Cc: Xu, Baojun <baojun.xu@ti.com>; broonie@kernel.org; tiwai@suse.de;
->> 13916275206@139.com; Ding, Shenghao <shenghao-ding@ti.com>; linux-
->> sound@vger.kernel.org; linux-kernel@vger.kernel.org; lgirdwood@gmail.com;
->> robh@kernel.org; krzk+dt@kernel.org; conor+dt@kernel.org;
->> devicetree@vger.kernel.org; Yi, Ken <k-yi@ti.com>; Lo, Henry
->> <henry.lo@ti.com>; Chen, Robin <robinchen@ti.com>; Wang, Will <will-
->> wang@ti.com>; jim.shil@goertek.com; toastcheng@google.com;
->> chinkaiting@google.com
->> Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: tas2781: Add tas5832
->> support
->>
-> ...
->>> ...
->>>
->>>>>>>>>>> static const struct of_device_id tasdevice_of_match[] = {
->>>
->>>>>>>>>>>       { .compatible = "ti,tas5827" },
->>>>>>>>>>>       { .compatible = "ti,tas5828" },
->>>>>>>>>>>       { .compatible = "ti,tas5830" },
->>>>>>>>>>> +     { .compatible = "ti,tas5832" },
->>>>>>>>>>
-> ...
->>>
->>> I don't know what you are trying to get from them, but I²C enumeration
->>> on DT platforms works in a way that it takes two tables into account,
->>> hence, if there is no compatible (with given part number) there will
->>> be no matching name.
->>>
->>> AFAIK it has to have a compatible to make it work in such a case.
->>> What did I miss?
->>
->> Show me please then how the OF table is used here at all to get the name.
+> On 3/5/26 11:18, Takashi Iwai wrote:
+> > On Thu, 05 Mar 2026 11:11:40 +0100,
+> > Maciej Strozek wrote:
+> >> 
+> >> W dniu czw, 05.03.2026 o godzinie 11∶04 +0100, użytkownik Takashi Iwai
+> >> napisał:
+> >>> On Thu, 05 Mar 2026 10:54:35 +0100,
+> >>> Maciej Strozek wrote:
+> >>>> 
+> >>>> W dniu wto, 03.03.2026 o godzinie 16∶47 +0100, użytkownik Takashi
+> >>>> Iwai
+> >>>> napisał:
+> >>>>>> 
+> >>>>>> + */
+> >>>>>> +struct snd_ctl_card_components {
+> >>>>>> + int card;
+> >>>>>> + unsigned int length;
+> >>>>>> + unsigned char *components;
+> >>>>>> +};
+> >>>>> 
+> >>>>> And the ioctl can serve for two purposes:
+> >>>>> 
+> >>>>> - When length=0 is set, the kernel stores the current number of
+> >>>>> bytes
+> >>>>>    and returns without copying.  User-space can use this mode for
+> >>>>>    allocating the buffer.
+> >>>>> 
+> >>>> In alsa-lib all data must be allocated beforehand, so this
+> >>>> length==0
+> >>>> query is not very useful there, it will just go into a [512] array
+> >>>> anyway. Are there any other users that may benefit from this?
+> >>> 
+> >>> My suggested API can work even with the fixed size 512, too, if 512
+> >>> is
+> >>> hight enough.  It's just more flexible.  And there is no restriction
+> >>> about alsa-lib data allocation; the function can query the size then
+> >>> allocate, too.
+> >>> 
+> >>> 
+> >>> Takashi
+> >> 
+> >> OK, will prepare v4 with this, thanks
+> > 
+> > Well, let's see how others think, too.  The API design needs more
+> > considerations because we can't change it any longer once after
+> > defined.
 > 
-> This code will also be used for ACPI devices. To ensure consistent bin file 
-> naming between ACPI and DTS devices, the mapping table tasdevice_id[]
-> has been introduced.
+> I think that the indirect pointer in ioctl structure is the best at
+> the moment unless we decide to use the fixed char array.
 
-We need to stop discussing with irrelevant arguments, really.
+OK, it might be indeed better if the user-space API is something like:
 
-I asked to show me how this is going to be used in DT. No answer to this
-part.
+int snd_ctl_card_components(snd_ctl_t *ctl, unsigned char *buf, size_t len);
 
-Now you claim this OF ID will be used for ACPI devices, but YOU HAVE
-already ACPI table there, so that's clearly invalid argument. Do you
-understand how patch/email review works? Where the comments appear and
-what is being discussed?
+Then it's simpler to pass the pointer as is without copying.
 
-> The code retrieves the corresponding name of the chip from tasdevice_id[]
-> based on its order in tasdevice_of_match[] or tasdevice_acpi_match[].
+> But (for
+> discussion) we may try to be a bit clever and define universal bytes
+> ioctl which may carry also other things in future like:
+> 
+> enum {
+> 	SND_CTL_CARD_BTYPE_COMPONENTS = 1
+> };
 
-Based on the order in table? No, that's crazy buggy solution to tie
-order of entries in both tables. And it makes no sense... and I am sure
-code does not do it, so again irrelevant argument.
+So this is for future extensions?
 
-NAK, because all the replies so far are off-topic.
+> struct snd_ctl_card_bytes {
+> 	unsigned int card;		// this is duplication with info ioctl
+> 					// to be removed?
 
-Best regards,
-Krzysztof
+Right, it sounds like superfluous.  I thought we were to allow
+extracting a card info for a different card number, but it doesn't
+look so.
+
+> 	unsigned int type;		// e.g. SND_CTL_CARD_BTYPE_COMPONENTS
+> 	unsigned int data_allocated;	// overall size of data
+> 	unsigned int data_len;		// actual data len
+> 	unsigned char *data;		// pointer to data array
+> };
+> 
+> Scenarios:
+> 
+> data_allocated = 0 or data == NULL -> driver just returns data_len
+> data_allocated < data_len -> driver returns -ENOMEM
+> data_allocated >= data_len -> driver will copy data
+> 
+> Note that data_len will be zero from the user space for read
+> operations (driver knows it). But we can eventually use this ioctl to
+> set some data in future, so data_len/data will be used for the write
+> operation.
+
+In all cases, data_len is filled with the expected data size in
+return, right?
+
+
+thanks,
+
+Takashi
