@@ -1,82 +1,82 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE2E36605E
-	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 12:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD7538E10B
+	for <linux-sound@vger.kernel.org>; Fri,  6 Mar 2026 12:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772799728; cv=none; b=KdYIGMZYRryBj+8CNCa8duJvB/Aq/Fs+iasUCfl5nNssEYlNp8OJ4oBE8f6Cd2vZHXmxPGQN8E6NmZdNMUnRPErDxDgF0J3DKQ3D/6LrVHMmkAxBvTPabJibHCufXychcrjYSo1XKiWZO+eDRbx1h39cK+VT1y2fbFSfQCfznHM=
+	t=1772799731; cv=none; b=Ghee7YHmjAzazRKfSbxjeaQzfHgQ6bj9HZmOzJ+qeJt/b3yaq7aaQLThYHsmzJp4UqQC+UOBCcX/tZKdU8al0v7WDM5YH4ONXakPyCoApE0c+KZsn+QUqtfBblFp7g644NyfztbNluXV9QFcAKl6VpqN7Z4ByraB3SxseFnDwTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772799728; c=relaxed/simple;
-	bh=8xebNSAbJUskVVac7rNorJvuDpnXHbFrlQJGj+Tdu08=;
+	s=arc-20240116; t=1772799731; c=relaxed/simple;
+	bh=6jShP5otc7Z/xglFZY5mqaUqDhEckaI1JOm+jwe6kcI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q6e5uVJDAkH6mjXuLACl+mAwjvFpI0FQS3TblbU0zY/nOtEl5PisgajGc/z2umTmdzEK38rOkHT/6Cq8M9ygWX3bEUvafQP6hsdBg3tt6Jq+a+BbQqLhmz39AXlNWeDCzVEsJqbXT65puK7N4QobN/7G8Jt01bgDa49scvaDsnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DCqSTxW1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jkf6iktT; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=Ml1GAr9QKmSDI+7CAVQteT7P7iTey9YGSMmOu3IAeTDLOEtY9TkY6/T2KuKPqwiP5eajdnFeNPnfEW1O8aqAKL9359KGMEfzJEjdXhsOXZzSP0jncW3l6cQLBtm9Azj5QQiB9c5wOQA6QzIakASN7HqNQRL3xt0qtUg2Fv52WYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fwUHlBx5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iPU75X/q; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DCqSTxW1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jkf6iktT"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626BajWt3716436
-	for <linux-sound@vger.kernel.org>; Fri, 6 Mar 2026 12:22:02 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fwUHlBx5";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iPU75X/q"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626BbJ8x037698
+	for <linux-sound@vger.kernel.org>; Fri, 6 Mar 2026 12:22:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=IH7tu4cejEh
-	a0Z5gHxKrQArAxI79sxkumwMn24DAosQ=; b=DCqSTxW1NYnw8P4PQ9uOeLVhvze
-	Cwm190LF9q67ZhRd1baP+n3G45DKAzghJKSL+y5zLUYKVqoHV1P55uLCqo/RzhH0
-	fVXkKvSlyytVknwroFu7yAihsYvIM34vE7n//Pm1JGEfUkbpFiew2QnfI6hleqPJ
-	9tsQzli8XRinRjcxlUW8SS9K1UrOSzliL/rjVdDa7xnHNErFx/3nmtD2EXn8zFmB
-	8TkYDaBb3s5uNhowSQHnuifGvqQKv/w0/Xro+LtpafmitRIXvRfhwswpKGJU8Xer
-	PvqxO/D6C8/iMTxAYl4Pi+jNVWa9K/6aWRa3vf3nUwsZhRgtp4w8HsKIvrg==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqv98ggwt-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=xKWL+GAYqNp
+	+tTujHQMkzR7HCGoYVVs3sPVjIKR0hiY=; b=fwUHlBx5Up/NCWMRPmiMRow97nW
+	6NwmwsX87GzBm2jr4Fm8IwkbYkUcShqcGpq0Wf16LabS0y0hFq8o3d2S+Qk2Tfig
+	Szo4u2A9mKyO3x+nFGaat8FC4S6JSVNEHkUPxUPJTrYJvudTurH4CsczbVZ7ZSYd
+	x8L92BHrmpEIJDkoqhhDX2bxUC16kf/ssGd3J8q4kQ3RBJhLnQGvUfvRtDXVxWia
+	lzc6+jLpFUaJMa/HUj3rAHBd25CqnIJ/Oum0rozLfuEVt3Szx5F6uNCYRf+FVSe6
+	/3deDb4zyLEDxwn8lWeiNQviRYotEuZ+1Fa1Fk7RMdoT0FDUXeYNDLO4v/g==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqpxdsqje-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 06 Mar 2026 12:22:01 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-89a0258c5e5so86811616d6.3
-        for <linux-sound@vger.kernel.org>; Fri, 06 Mar 2026 04:22:01 -0800 (PST)
+	for <linux-sound@vger.kernel.org>; Fri, 06 Mar 2026 12:22:04 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8c70ef98116so6029542385a.1
+        for <linux-sound@vger.kernel.org>; Fri, 06 Mar 2026 04:22:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772799721; x=1773404521; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1772799723; x=1773404523; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IH7tu4cejEha0Z5gHxKrQArAxI79sxkumwMn24DAosQ=;
-        b=jkf6iktTOP3gM7CMiqW129B2pvHq6+Bja/9UPvU6HdQGm5uHpzujmTa3RR0+d4wsYM
-         PJrblEwYMHOX6jRm19cYZXw6fxc3Fqhcp1ux3nJDXlzzRpKOSPdK8zz3W3tyUwMsLqx0
-         rPid2DKkf8JS16CG9O3eo3J5r2rMlU1ORMv+oYGzpMX0ov+7GNb4MNkC0Yp63MoyAuMw
-         sLqVPuegVjf5nWhi0Mu986ot0RL4+CGIyOAquUR2vWV8IHMNEORTsxSJZlOk1MxGZx49
-         /fulXpnCt2lzScCIMvLyjXFiv1WLA7ekqLX/0Nm0UbzDOCiau2N0unt8akjhlkz1fXJY
-         358Q==
+        bh=xKWL+GAYqNp+tTujHQMkzR7HCGoYVVs3sPVjIKR0hiY=;
+        b=iPU75X/qUDdg94+sqBZ4xw9yIWI3mBv3YMKQvNOtKSAyJtfhjGVLw7cYp3O65u/9JD
+         pIylQxbAfMRD+J1GPYNQvIBq8Jqgwc0xdN68MYKPJf+LjaYSFjMSFn4gS7e8NrhwnJSC
+         7XXmMCBLUcQtZU6j3QnNLQuutHcJtBJcaL+CBn7fHE2C+WVcOJtaBoQ1NrwOomjdSvfN
+         OeNaNBfh4XraqMzB8lrXNLtY+BeBVbHv/T1aQsBYIKL+0EXBlNmOwi6foWUWMSnv5QWG
+         xptbI1To5exTCvm/Y2ViQbr3xU/gihMQQxhPULOpJCURD1ta6FDtJCzg2ya33pZEt/tw
+         Z0UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772799721; x=1773404521;
+        d=1e100.net; s=20230601; t=1772799723; x=1773404523;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=IH7tu4cejEha0Z5gHxKrQArAxI79sxkumwMn24DAosQ=;
-        b=E3sWSrbHE06k/LtWcaeyAt4OgNLHXeyqMMOYm67npXwURwBCWEMylFRzfkpfkzKI26
-         tzbzGyUovc0x43xk8W3X9CKWzk4klZv02sj1lWKa7hcpHe2Qjp+HeIogecLI9uSDaMHn
-         L5oRdAWtv4GR9u9ur8sNNiaXO7QbU0NPZkYFMgMVsvyT7FmJUXktCuN04pHWTtJkTtgn
-         A0DbidXgR1AGagkO6rgtbxBqO1XPq2cREyYbEf1HYFglzabdKTIasvPoo5HNKDO1mIbk
-         tHBgw3owCYQ1bduZWOLdIiIcEA0XysEfA9xZ1zNyLqHZxJpHd5CUMIh2BtLPT3lqPP/5
-         6mHA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZg3+YBkuuUQWIUKgT9DKOK4qVsgFGOndIxpxVIggzkWnzkXBTuRItBALzYXggYm+AIWorkwNM3jiu8A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YykcBfteSHDyUpGj5e2l6HoOrkZyjQKNCUCsh3FirxoHIw7ovAl
-	gD0WuqUQckyfR35iIAHMKBCCQhlWbtJBn3CSEA51BflHnWhZlJOITgoCN3BaJCwj27BsmaJCJLV
-	kEQ9VA2Mx4uuh/6hg92aYmvvHCKHXQk35ejVfN6fAzZzdskpt0Bfs6KDUCEEkzg5ARw==
-X-Gm-Gg: ATEYQzzr1YObA+RqdnHSxgPvTpd8JnCTYPW4wzmWQP2rOr/mdbyOpqQ4JuD1Equ626Y
-	FNkTMP+YYc5uZmGwqfCZrDx3/g32EKb+jYQ/R+nRoyLI52//cqCuMvxeVV7NyKm8U6cgxbWH847
-	wxQqqYE23tDVl6lnLp9WbBetBKZ85POGH3m/cIb4p6YxGN5A8XprJPZlcTD+JhHzI99r9pC64rJ
-	rhW150wAYgcYQ76YxwY36u9+iujWqC549v+JGbjncLWSzeSgljUuIh6gG0qmjrMt2q4TTreoeIR
-	c+pQSkspKqNBuuw9XoXIgGMCn+8kny5bdi4+/NDarYhFWUgFDxCLgDnOeMKO4V6ibSZ0nb6UlEZ
-	jXw2ZK2YeSguEQagsyk4fMjFdQL4WR8YVbCtkHJZuuDVvF4fz6Wokggw=
-X-Received: by 2002:a05:6214:4014:b0:89a:3c4:5159 with SMTP id 6a1803df08f44-89a30a185b6mr21352516d6.7.1772799720819;
-        Fri, 06 Mar 2026 04:22:00 -0800 (PST)
-X-Received: by 2002:a05:6214:4014:b0:89a:3c4:5159 with SMTP id 6a1803df08f44-89a30a185b6mr21352086d6.7.1772799720359;
-        Fri, 06 Mar 2026 04:22:00 -0800 (PST)
+        bh=xKWL+GAYqNp+tTujHQMkzR7HCGoYVVs3sPVjIKR0hiY=;
+        b=iDuzA3xe66i3Iv1sP3vADcO0v2unHxFyypA7f1brjfqm+q35Z1F8QbzbY2MQ3F8Azm
+         bzy7r/bZF7TQgYMM9jqVyofuH60UuRCgm3LXJTEQaBzgPDyWOcrlNxBycYw705Inreyv
+         9vYYHGoHBa32qmfl7BEne8CVyCnUsA/PTxlTkVT/0Uz1j3zlUftP4o/2XaHZREFSvkMv
+         EXse/naDFh9gGVH7+s7T0kkL+NB7ENUbhJVyU2lqw2I8pXqma0a7HgP7UT+wb4/zfl7m
+         qFPGGpzsA170ZkfBYYtZnJjzJGdcxa6za0u1rfeliMt8J9tLc4XdQI4XYshaNJufQH7l
+         dyig==
+X-Forwarded-Encrypted: i=1; AJvYcCUxtwOB8IydgFxVlkZ4HNPGEc2dYRaA/OUI/15BebivOfodfNO2dOjizI1+Ftq/UZVXz+szIXNUYhXXGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH3uqjl9ziraQejOOseo7RNmIe2WEJZhlPUwQ49CparOHwCUNG
+	QVi7zb02eOrygVu/rmNLjyLtL6FdiOhiIWWagV9bc4IFBQ4sGzYP62iBkFurNYbLn+6NRxtv8+L
+	S/jm4ZVaN0oF/E9T1J18wIKyj0WVN4pF+H6KAlHZECopcuG83FQcVP38C5AN+jhSjNQ==
+X-Gm-Gg: ATEYQzz0VWkKWwdDab/nbva3afJBNt4Wnkbh6+SWdJzOvhFtojPUMshREQWKkptUmNJ
+	2C1lHuM1ggvo/x4UF2gPThu/NtB7znuFLxlfbT482jO70vPADatyr1FEU36DU5Lu5zWbBBN1wCz
+	qdVfGaW+z9tKf7T/F+fb2Zyh6Fq/1o5AYqTu2ZEolDAi2XC8s8fnZhE98HFnSue4Wq57COXcL5N
+	R6AphbUKwpvPLDhdFchCpo9UjqUDinperBFddYhgvcbCMmWZeZc8Tty0kefBLifYd+wiSZxyxze
+	Q0T72meDVFPFHM9TjJz4jdkj0+NcOddFHsk6FIp+rUw0fAZc5v4JV7U8FVHRU/UyItlNcRjgKta
+	134Ps6YsUvmsOj+KZs7UEzyvTJUlVykgIA9oDQgWsOAx6n7rC9V/EOME=
+X-Received: by 2002:a05:620a:7115:b0:8c5:22b2:8b4a with SMTP id af79cd13be357-8cd6d40d21emr227966385a.16.1772799723400;
+        Fri, 06 Mar 2026 04:22:03 -0800 (PST)
+X-Received: by 2002:a05:620a:7115:b0:8c5:22b2:8b4a with SMTP id af79cd13be357-8cd6d40d21emr227964185a.16.1772799722936;
+        Fri, 06 Mar 2026 04:22:02 -0800 (PST)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fa87e56sm111972395e9.0.2026.03.06.04.21.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fa87e56sm111972395e9.0.2026.03.06.04.22.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 04:21:59 -0800 (PST)
+        Fri, 06 Mar 2026 04:22:02 -0800 (PST)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
         conor+dt@kernel.org
@@ -86,9 +86,9 @@ Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, mailingradian@gmail.com,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v4 01/13] ASoC: qcom: q6apm: move component registration to unmanaged version
-Date: Fri,  6 Mar 2026 12:21:03 +0000
-Message-ID: <20260306122115.509705-2-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v4 03/13] ASoC: qcom: qdsp6: topology: check widget type before accessing data
+Date: Fri,  6 Mar 2026 12:21:05 +0000
+Message-ID: <20260306122115.509705-4-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260306122115.509705-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20260306122115.509705-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -99,164 +99,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: BQiKDVzd1c1CSks13kGJ2X6k0mwn2Pa3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDExNyBTYWx0ZWRfX1wWFxnCK7tzm
- MijKNYDeFb3tJRdVOgrhcaFBJkuZAIEwtcKKZg8TZpg3A09fjWHd8cey6kg7/N304TE9UQkzUse
- 7mVrRr0jrfr9Z5dmRzj9zDSr5umziTnz3eZQnDqCOVERtQzBeazO5EanhLpHZpvGUTMS0aVTFK3
- bA9yk0Ud8vhhws8aQcgJNPdlYguvBozXcUqbSNnA46vUmUbfA0Ddt8qh71NrRag4wRo2ZV0K3pF
- 3p5Kz7m+Vn3FEM86N/gRyI2Y+GDvYVFYoP9W4co5Hou1SWdUfNLmmSeta1DS9HkjykyGuH5v4BV
- 6v77VrOZhc5a4bkoKTOXB2ZZwVciLM2KJV/lDYGhtbguHkqqt6SY+GqsQksVsDc8LNsswSgS852
- 5ASHdO25G6o5mQLKfqzO3moe11FwUix4hCjB6pN3q5Nz9IDEetH9lCOqEK7jC03cghZJnFB0kcx
- /rfPjnyHNgIL70FfiIA==
-X-Authority-Analysis: v=2.4 cv=LbcxKzfi c=1 sm=1 tr=0 ts=69aac6e9 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-ORIG-GUID: xbkEz1Lgb8HBCrbPRacOURRyuIg4DjgJ
+X-Authority-Analysis: v=2.4 cv=E83AZKdl c=1 sm=1 tr=0 ts=69aac6ec cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8
- a=ZjLH_7kMUelE1Q3ziugA:9 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-ORIG-GUID: BQiKDVzd1c1CSks13kGJ2X6k0mwn2Pa3
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
+ a=5HTw2GpdgXbBP0wXRk4A:9 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDExNyBTYWx0ZWRfXxs0J/F5s3kkZ
+ m6rUGnKHKZ6FDybPnibe2m9f23GjDCRlrHQM2+jimzg9FT11AR6aVT6EDlOh68YWZ+RMk4gb4w+
+ TDnJ/D9XXd7NMvuqhD+1IFavqVEaqUqURmngVb1QtRqHm53kFOGykp/p8mmKBQzhPHFs0aZkqc/
+ dV1tUU45pdQ/w5zyL3d4Xl/PsxTbWKmPdm3LVtJ+/o3r1VD7CImqpQUZ6BzYrwYkj0Hg+wI7uxn
+ 5n8+FqSDk3o1lxln+DCWJaxXb7qfURnBAcAcZXAWx8/nlCBOfDcWUx/b17FFRFtD6yicLF/O9z9
+ 5J10GVtJi6C2fEmhg1oA4l6C+Rz7r1ZYyynKZ8d+Ej0yFEBeVY5PfaGjee2gk+guTeYoGqki9XR
+ UhMRoo2F2fo5qUY0QJ8hNkVY6d7Fax+VXF02X1YPdsOL/XAxvfYKcufYCl6tdTNbAJXtDaeRNDB
+ YfGrHdUUO6fuldi3CxA==
+X-Proofpoint-GUID: xbkEz1Lgb8HBCrbPRacOURRyuIg4DjgJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-06_04,2026-03-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- phishscore=0 adultscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0
+ adultscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060117
 
-q6apm component registers dais dynamically from ASoC toplology, which
-are allocated using device managed version apis. Allocating both
-component and dynamic dais using managed version could lead to incorrect
-free ordering, dai will be freed while component still holding references
-to it.
+Check widget type before accessing the private data, as this could a
+virtual widget which is no associated with a dsp graph, container and
+module. Accessing witout check could lead to incorrect memory access.
 
-Fix this issue by moving component to unmanged version so
-that the dai pointers are only freeded after the component is removed.
-
-==================================================================
-BUG: KASAN: slab-use-after-free in snd_soc_del_component_unlocked+0x3d4/0x400 [snd_soc_core]
-Read of size 8 at addr ffff00084493a6e8 by task kworker/u48:0/3426
-Tainted: [W]=WARN
-Hardware name: LENOVO 21N2ZC5PUS/21N2ZC5PUS, BIOS N42ET57W (1.31 ) 08/08/2024
-Workqueue: pdr_notifier_wq pdr_notifier_work [pdr_interface]
-Call trace:
- show_stack+0x28/0x7c (C)
- dump_stack_lvl+0x60/0x80
- print_report+0x160/0x4b4
- kasan_report+0xac/0xfc
- __asan_report_load8_noabort+0x20/0x34
- snd_soc_del_component_unlocked+0x3d4/0x400 [snd_soc_core]
- snd_soc_unregister_component_by_driver+0x50/0x88 [snd_soc_core]
- devm_component_release+0x30/0x5c [snd_soc_core]
- devres_release_all+0x13c/0x210
- device_unbind_cleanup+0x20/0x190
- device_release_driver_internal+0x350/0x468
- device_release_driver+0x18/0x30
- bus_remove_device+0x1a0/0x35c
- device_del+0x314/0x7f0
- device_unregister+0x20/0xbc
- apr_remove_device+0x5c/0x7c [apr]
- device_for_each_child+0xd8/0x160
- apr_pd_status+0x7c/0xa8 [apr]
- pdr_notifier_work+0x114/0x240 [pdr_interface]
- process_one_work+0x500/0xb70
- worker_thread+0x630/0xfb0
- kthread+0x370/0x6c0
- ret_from_fork+0x10/0x20
-
-Allocated by task 77:
- kasan_save_stack+0x40/0x68
- kasan_save_track+0x20/0x40
- kasan_save_alloc_info+0x44/0x58
- __kasan_kmalloc+0xbc/0xdc
- __kmalloc_node_track_caller_noprof+0x1f4/0x620
- devm_kmalloc+0x7c/0x1c8
- snd_soc_register_dai+0x50/0x4f0 [snd_soc_core]
- soc_tplg_pcm_elems_load+0x55c/0x1eb8 [snd_soc_core]
- snd_soc_tplg_component_load+0x4f8/0xb60 [snd_soc_core]
- audioreach_tplg_init+0x124/0x1fc [snd_q6apm]
- q6apm_audio_probe+0x10/0x1c [snd_q6apm]
- snd_soc_component_probe+0x5c/0x118 [snd_soc_core]
- soc_probe_component+0x44c/0xaf0 [snd_soc_core]
- snd_soc_bind_card+0xad0/0x2370 [snd_soc_core]
- snd_soc_register_card+0x3b0/0x4c0 [snd_soc_core]
- devm_snd_soc_register_card+0x50/0xc8 [snd_soc_core]
- x1e80100_platform_probe+0x208/0x368 [snd_soc_x1e80100]
- platform_probe+0xc0/0x188
- really_probe+0x188/0x804
- __driver_probe_device+0x158/0x358
- driver_probe_device+0x60/0x190
- __device_attach_driver+0x16c/0x2a8
- bus_for_each_drv+0x100/0x194
- __device_attach+0x174/0x380
- device_initial_probe+0x14/0x20
- bus_probe_device+0x124/0x154
- deferred_probe_work_func+0x140/0x220
- process_one_work+0x500/0xb70
- worker_thread+0x630/0xfb0
- kthread+0x370/0x6c0
- ret_from_fork+0x10/0x20
-
-Freed by task 3426:
- kasan_save_stack+0x40/0x68
- kasan_save_track+0x20/0x40
- __kasan_save_free_info+0x4c/0x80
- __kasan_slab_free+0x78/0xa0
- kfree+0x100/0x4a4
- devres_release_all+0x144/0x210
- device_unbind_cleanup+0x20/0x190
- device_release_driver_internal+0x350/0x468
- device_release_driver+0x18/0x30
- bus_remove_device+0x1a0/0x35c
- device_del+0x314/0x7f0
- device_unregister+0x20/0xbc
- apr_remove_device+0x5c/0x7c [apr]
- device_for_each_child+0xd8/0x160
- apr_pd_status+0x7c/0xa8 [apr]
- pdr_notifier_work+0x114/0x240 [pdr_interface]
- process_one_work+0x500/0xb70
- worker_thread+0x630/0xfb0
- kthread+0x370/0x6c0
- ret_from_fork+0x10/0x20
-
-Fixes: 5477518b8a0e ("ASoC: qdsp6: audioreach: add q6apm support")
+Fixes: 36ad9bf1d93d ("ASoC: qdsp6: audioreach: add topology support")
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/q6apm.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ sound/soc/qcom/qdsp6/topology.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index 44841fde3856..a4c662be52e0 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -746,7 +746,7 @@ static int apm_probe(gpr_device_t *gdev)
+diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+index e732fac9b8ca..1f69fba6de26 100644
+--- a/sound/soc/qcom/qdsp6/topology.c
++++ b/sound/soc/qcom/qdsp6/topology.c
+@@ -952,9 +952,6 @@ static int audioreach_widget_unload(struct snd_soc_component *scomp,
+ 	struct audioreach_container *cont;
+ 	struct audioreach_module *mod;
  
- 	q6apm_get_apm_state(apm);
- 
--	ret = devm_snd_soc_register_component(dev, &q6apm_audio_component, NULL, 0);
-+	ret = snd_soc_register_component(dev, &q6apm_audio_component, NULL, 0);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to register q6apm: %d\n", ret);
- 		return ret;
-@@ -755,6 +755,11 @@ static int apm_probe(gpr_device_t *gdev)
- 	return of_platform_populate(dev->of_node, NULL, NULL, dev);
- }
- 
-+static void apm_remove(gpr_device_t *gdev)
-+{
-+	snd_soc_unregister_component(&gdev->dev);
-+}
+-	mod = dobj->private;
+-	cont = mod->container;
+-
+ 	if (w->id == snd_soc_dapm_mixer) {
+ 		/* virtual widget */
+ 		struct snd_ar_control *scontrol = dobj->private;
+@@ -963,6 +960,11 @@ static int audioreach_widget_unload(struct snd_soc_component *scomp,
+ 		kfree(scontrol);
+ 		return 0;
+ 	}
++	mod = dobj->private;
++	if (!mod)
++		return 0;
 +
- struct audioreach_module *q6apm_find_module_by_mid(struct q6apm_graph *graph, uint32_t mid)
- {
- 	struct audioreach_graph_info *info = graph->info;
-@@ -819,6 +824,7 @@ MODULE_DEVICE_TABLE(of, apm_device_id);
++	cont = mod->container;
  
- static gpr_driver_t apm_driver = {
- 	.probe = apm_probe,
-+	.remove = apm_remove,
- 	.gpr_callback = apm_callback,
- 	.driver = {
- 		.name = "qcom-apm",
+ 	mutex_lock(&apm->lock);
+ 	idr_remove(&apm->modules_idr, mod->instance_id);
 -- 
 2.47.3
 
