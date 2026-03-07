@@ -1,65 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023090.outbound.protection.outlook.com [52.101.127.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513A638A704;
-	Sat,  7 Mar 2026 10:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772880118; cv=none; b=rJJq2NXDdoclpJ5rI7iTpHIpXOAv5uQkajVxRKh/bEac4DHoJkisI1bkE45y2IaS7Me7dBLUms0FQyn0juT/uhevTSY3KOQ7PYT6xlSTygZ2tg9uIG+rOr2QmTq6MkkHKuvtFW660LunL184pNSPRWDszj5ys/uJar9VIYvugm8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772880118; c=relaxed/simple;
-	bh=T/aHKlqAw6W/3+ANfeBg4MJKKh0JMcXp1rJg0bYcTlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YjhFB9cDhyldaEe/UtinpiJ7vjxsRgGNNbbSCewAbyjAVKFuwLkcGsSuDQ4LfXf/YwuhncGyqknFpWK2hZM7O8uVPkHio+ii+2PrrDwlSSaZXNU6v0od+FAL3xmdXb11zM5ZTRdkZknHVQITtq29RQeaMEchkzABeInZD4m1Ask=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z467zIqt; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577DC20A5F3;
+	Sat,  7 Mar 2026 11:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.90
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772883977; cv=fail; b=Zl4h0k5AC82yxNLHyuR2jn+SMllUte8roOGbVQIuO7aczAEFOY0FpE9/qhkwC3CYYJiZsDCEOcA98F0lRtHold4+YVHXSCsCDejfYMy3g9RCz6B13J5oC9WPdNk95HTTDLA5GA5OY2X0BJgGE4CcU78/8CfBR8A/fauciALUDts=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772883977; c=relaxed/simple;
+	bh=kKh1ynEaOugFp04Gbgb+B41bQzp2wkbuTtvcQUXl2Lo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tKFU13wJUQLbj3CGppWwWAts69F58xs8qlhkTdm808Q6xy2aHpCuKFe6j3zasDotUdL2ihCTBMnrvrJlj9CvsonhUO4v52RCgA1aMVKoMhRorUGNy8FDvJFN397JEhhqyspnygnuMRqO1R9/cOtlcY/s72smy43QPPBfMr2H6QQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com; spf=pass smtp.mailfrom=oppo.com; dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b=WViOKLxG; arc=fail smtp.client-ip=52.101.127.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oppo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z467zIqt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 709A1C19422;
-	Sat,  7 Mar 2026 10:41:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772880118;
-	bh=T/aHKlqAw6W/3+ANfeBg4MJKKh0JMcXp1rJg0bYcTlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z467zIqtRX0K+4NraWKNETgJoYfJ+VlJhtDtJ/4bAbd35EkboToLEJuShmU6t3gnI
-	 ivqAW5EIjSSe0cvNKQVZ8mDiZu47DXJDigvCdeYPWBGQSiliBS0D9CViFJqjd1Jj8O
-	 uy6M52k+RnUO1Shl7jzj+DUrGzvTTIXCYPYgF8nJFeizJVRS1IeUS4sjBHvFEXnTDx
-	 It6cGbB0Cus3m83fwzJ3hCw52/RCHIwmm4ZJKzUtjdaPlHDFj87jFKIJNziF22D6at
-	 lMZXJr33/JtTfVAUpIXwBEdcINsTzRGcJ61BwMqpq9kQwmKPxbznhrnktTsuk0+b1Z
-	 TWXFxA0z4RXnA==
-Date: Sat, 7 Mar 2026 11:41:55 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, mohammad.rafi.shaik@oss.qualcomm.com, 
-	linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com, 
-	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mailingradian@gmail.com
-Subject: Re: [PATCH v4 06/13] ASoC: dt-bindings: qcom: add LPASS LPI MI2S dai
- ids
-Message-ID: <20260307-authentic-amphibian-stallion-9fafed@quoll>
-References: <20260306122115.509705-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260306122115.509705-7-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b="WViOKLxG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nRqjEh6erSlmw2Z4jNmtmBakWIzFPJOxIN56SYUO7rOzQ+T+hBEyQYe1AO9NN+/06e5J1WdQfthgqBJF3gLfJYlzvDc6WWqSR/wzKzFvlOVyKyCD+Bchkf/2MedbFCl3rOyKHDxZraM/y3ViJ4CYqLoHXyRY54EE3evD9whMXxbKr8jHnDA9YmvH4s2PGCr4dObSFlwtq+XWmRint2ezVx0sNK+gytn6yBkEXtOwIdEhoY9BCDsu1FWGvgjXcleiuNjdtETqyVKAStKOgcERzLNlXjcc71wGMfj/KW9Z6jcab0nLLnYTY7F280eNvTW6U68VEfs2VNWBr2UgG2bbsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kKh1ynEaOugFp04Gbgb+B41bQzp2wkbuTtvcQUXl2Lo=;
+ b=T/pVXhWZ649POOYH/SAFyETjfZ4Ns5Zct9V+zV4Sd44gohCWVoWmM1Yy8LnI8g/VGCDEcWF9kFVaid1z8r0gyY2apjsiZpr7Z9tCm0crL1Z047Juk8y2gaZBy6aMRBLcfVHn+SZo7R8y/5sOIl/SlHYwz0n3JRGvk6eUgy1oZo3Ob7KAdCw5cMvKEExgFXYkgaS8mPyQJAzZVaLzzIzOPhP08x0jQMnNNvUwskthnse0Zb2ruAIsUJ37NbtlJbR30KQRi0yD/R1qgllc1qHuAB9QjNW3gbMe6m3MYSh56XUc2IO26mzDKQySkqz2i2LCANQQUFgz3Y50Qxb98x5F9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 58.252.5.68) smtp.rcpttodomain=google.com smtp.mailfrom=oppo.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=oppo.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oppo.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kKh1ynEaOugFp04Gbgb+B41bQzp2wkbuTtvcQUXl2Lo=;
+ b=WViOKLxGURpnNrR5h1HyVU1OFlOM9eSt8RJc7tUGsV0kaGMWaIE8kqci/W2ZttODNjzI1FdJ+O85Qhdb38WL995wdEeOXio3LCxeInsG9qcD25+bGkUVoxX5X06cb8WIOKZo5UoqdSvH1NAXXWTMTIIC4sqjdM32G02azYdzJkk=
+Received: from TYCP286CA0265.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:455::17)
+ by SEYPR02MB6146.apcprd02.prod.outlook.com (2603:1096:101:b3::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.20; Sat, 7 Mar
+ 2026 11:46:08 +0000
+Received: from TY2PEPF0000AB84.apcprd03.prod.outlook.com
+ (2603:1096:400:455:cafe::55) by TYCP286CA0265.outlook.office365.com
+ (2603:1096:400:455::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.20 via Frontend Transport; Sat,
+ 7 Mar 2026 11:46:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 58.252.5.68)
+ smtp.mailfrom=oppo.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=oppo.com;
+Received-SPF: Pass (protection.outlook.com: domain of oppo.com designates
+ 58.252.5.68 as permitted sender) receiver=protection.outlook.com;
+ client-ip=58.252.5.68; helo=mail.oppo.com; pr=C
+Received: from mail.oppo.com (58.252.5.68) by
+ TY2PEPF0000AB84.mail.protection.outlook.com (10.167.253.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9678.18 via Frontend Transport; Sat, 7 Mar 2026 11:46:08 +0000
+Received: from PH80250894.adc.com (172.16.40.117) by mailappw31.adc.com
+ (172.16.56.198) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Sat, 7 Mar
+ 2026 19:46:07 +0800
+From: hailong <hailong.liu@oppo.com>
+To: <guanyulin@google.com>
+CC: <arnd@arndb.de>, <broonie@kernel.org>, <dan.carpenter@linaro.org>,
+	<gregkh@linuxfoundation.org>, <harshit.m.mogalapalli@oracle.com>,
+	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <mathias.nyman@intel.com>, <perex@perex.cz>,
+	<quic_wcheng@quicinc.com>, <stable@vger.kernel.org>, <tiwai@suse.com>,
+	<wesley.cheng@oss.qualcomm.com>, Hailong Liu <hailong.liu@oppo.com>
+Subject: Re [PATCH v1 1/2] usb: offload: move device locking to callers in offload.c
+Date: Sat, 7 Mar 2026 19:45:59 +0800
+Message-ID: <20260307114559.378132-1-hailong.liu@oppo.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260225064601.270301-2-guanyulin@google.com>
+References: <20260225064601.270301-2-guanyulin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260306122115.509705-7-srinivas.kandagatla@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: mailappw30.adc.com (172.16.56.197) To mailappw31.adc.com
+ (172.16.56.198)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB84:EE_|SEYPR02MB6146:EE_
+X-MS-Office365-Filtering-Correlation-Id: b06d805b-022d-4222-822e-08de7c3f1f95
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700016;
+X-Microsoft-Antispam-Message-Info:
+	VU8mWweJnkqF+lGnEri7U/zBoxIGPR8d35QIjmqWhrUMfFC/n5wuflc0wjm8r/Uq9kY9sVyH/NNp/OEG+J3F1qCzs3pec/JtoAccwE0mNg2Sz5NV0EUsy63qXlS6XQ9H5LS+XUeeWB9SILnPoFmkMNm8U1Vph7FsZwR+2THReF8y307zvDM5w8NywZyKY6enJavu1/3qbUT/PWPBwhEunl118AlA/gmRcljDQ8MQTjWUOV22XJOriSecLNdP6xpYfjfDQC7joD872CJSssxuWIaNbMtErpjYeVWOsjYHQ7BUDYdpjnlPnDJDceNYd99CaW2zuyahjehdTs42m2PaVmY2S/vcXaWKupxpo2OcirA0OTwVaKOXTy9nikTgJWvfz6xlkj3vHdZuUNry7WEjc0hn1qG0teYaFAREpjGzA8fRl3Rlbb/etHfaZ9lSaPryr2bQnKyitawvt8CBk4KKdCp5XOuoTZJ/13C3gK493WRlBdKdhMwB904wdYjZYHo28+BzqdSwg6ijRDpjitl8TtZWBuSuX0B4drrLAUM+HRExH7GddWZl5b/X0rwbY13jDHYy56H8nhFnwSKIm2VKZCwuNecD6ILk9HHgqvo6i+oYqpoL+XYXXrWqkoqh5GDmRHOSsZRAMx0fcuqPse9dI3/5UOFmZWWXgWR6d/dtb5L3fLDs04TWPfjZlNOGhNRSR/z6AyMCu1AKwo6B6tvET5z8L4Eir1cclOoClBoM0xgBDwGcgOdnAja9b7mxZclzV/u3DW2TO52zdjJTxUq7Ng==
+X-Forefront-Antispam-Report:
+	CIP:58.252.5.68;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.oppo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	fWm1WaIiZcP3zmH2RRSSsOVDMwOVAhVYAN8AoCKzLaMwUVopFGIcmE1cZN9nhf+71sXhKDL2HyLKU/UHNhHuglEcNliwX7R5oyaAM7YuxvRHr63Vwx7nk7YQsEbyFzFFx32Me8qjBL39M3JA0MwvXmI6SqkNR2tJ2q5KfMSbwj196lY85rLMYmAa1HC+FlBuoWeXSBCOwJUQdcXaFM9Uyzwzv+oU8l3Lg283GG5MMxMj7QoDerfq9F5Dkz6O8DVWMHy5Qh9g0r5TAKu5RTN3CCI4KVGeevGM+DRKjMEFv/fkfrCNh4+AkSWdGLaVPZfnFUlCTSODhqd6Gij/5/v4gOQYO4WnMRROm+jCBF0klTnB1dtftozh0d62zhukGhfocttzVk4VidgZE2yCAuH3HMqnS4QfbpsVJGjv5369069og0vWTEQ/AQXbvFJibJOn
+X-OriginatorOrg: oppo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2026 11:46:08.5944
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b06d805b-022d-4222-822e-08de7c3f1f95
+X-MS-Exchange-CrossTenant-Id: f1905eb1-c353-41c5-9516-62b4a54b5ee6
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f1905eb1-c353-41c5-9516-62b4a54b5ee6;Ip=[58.252.5.68];Helo=[mail.oppo.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB84.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR02MB6146
 
-On Fri, Mar 06, 2026 at 12:21:08PM +0000, Srinivas Kandagatla wrote:
-> Add new dai ids entries for LPASS LPI MI2S and SENARY MI2S audio lines.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> Co-developed-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Our OPPO team has tested this patch on an qcom8850 OPD2514 OnePlus
+Pad 4 (arm64), based on Android 16 kernel 6.12.
 
-Incorrect order of tags. You are sending the patch, you *must* sign the
-last.
+Before adding this patch, the issue was always present after 100
+electrostatic discharge tests on the headphone jack. With this patch,
+the problem has been fixed on both tested devices. We hope this can
+be merged into the final product list.
 
-Best regards,
-Krzysztof
-
+Tested-by: Hailong Liu <hailong.liu@oppo.com>
