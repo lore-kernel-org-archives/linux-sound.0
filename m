@@ -1,32 +1,73 @@
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B4D191F98
-	for <linux-sound@vger.kernel.org>; Sun,  8 Mar 2026 14:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.25.134.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763427260F
+	for <linux-sound@vger.kernel.org>; Sun,  8 Mar 2026 15:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772980843; cv=none; b=XmxkFwp6GkLrux2gv6XgF3bfxgj/AzrEtLq6UjlTOAIxQBreIqg65U5odJFGwSJjJ0mQp0cZ79q6qG0rXkmEx7SdXLRfelD5QwVp8pqmtg6ZM/V8J4BY8XiOqXjLulHQHcYmGSCPY6Cq7MuWhVkJJFty5ZonKiFk8AbtvGJreJ0=
+	t=1772983124; cv=none; b=NBFECPvHRcOFLfcVFSfkZQ7Qx9OLph5OGWR9Cx10AdPblD41QtW/MwIM7lU0ncb0b5g2aPd1ermGlY7dPPx5TuwBmkTIBiBpt2IGmkrmy9d+p+BPYRDFxyksSUWLm21UBuOPwVg+V3OvujunP9Yb3HBFIAQqUGuJgQZfyf+xoEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772980843; c=relaxed/simple;
-	bh=2jWl7Q95SRLJ3rcLFHg5s8Q7uS3lnUQcF3QO7Es4ma4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IzWBkVzVB56Z3RzYHMCK4sepwUlT0BpoDd3rLC6U3KYSszafJ7/echn10/gyeesAZjsV13yZ6NdME7gpx0W3TdxaZN4x1p19Ti5+0Myw8kyeZIB2GIJhpVQ3TpHmAWbN4gx3QbgVr/Nz44YIDIcUon9+BAEZJg4H137dji1y6Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=t-online.de; spf=pass smtp.mailfrom=t-online.de; arc=none smtp.client-ip=194.25.134.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=t-online.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-online.de
-Received: from fwd88.aul.t-online.de (fwd88.aul.t-online.de [10.223.144.114])
-	by mailout05.t-online.de (Postfix) with SMTP id A76769BC;
-	Sun,  8 Mar 2026 15:34:13 +0100 (CET)
-Received: from archboi.fritz.box ([82.135.83.228]) by fwd88.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1vzFCv-4BbXhA0; Sun, 8 Mar 2026 15:34:13 +0100
-From: Frederic Popp <frederic.l.popp@t-online.de>
+	s=arc-20240116; t=1772983124; c=relaxed/simple;
+	bh=0hRQPUOFtVRT/vuTqi26l+2s66+hGknfAuqzEEyzsCs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GqnI8MP6xMMXZIuqDDIiGJGPwfchhZOLkA+sgR4HE2Fv6QtHzOhjHrmbH7ZLVmJEjBtGo3memDvzGcer8vS0vEGO1mTEoHvFeXpNQKTHHFPCwofdFU+yycZfaSMdSPotkJdO+1aJE7hcjS9KDjlAXJPigPaFjmNmWAUCuQnrIm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtIk3S6J; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtIk3S6J"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-829a9d08644so1049163b3a.1
+        for <linux-sound@vger.kernel.org>; Sun, 08 Mar 2026 08:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772983122; x=1773587922; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rWe/VwNZRAGsRbWYDwWaTqIEE9ckZabtpEv8pWePrKk=;
+        b=AtIk3S6JQrGGmECOc7l6PvfT+LCGj/Ko8qNJH5+OBmvj2vaV1TTEioPEkazLc0NybC
+         SX+5tnrpnjBPvFSVuaq1T4079qUpeTUNMZ4Z25JyK9MCjOM2c/GyXFpS4bUHrGEmblIw
+         R6jG8a6sCnZ5tbVFrVIfjcYv9OmzGKvi9XZGztae5I83eVkw1T1E98SS4L29vL0s3eyS
+         J237TBQF569iqYYsla4Oki1ZoqFWAp6vAbhvlizcgrAaYheSIOep3UKf/ryOnWsDpSp2
+         XGWLpntdsGDSk9AHPcP4knhid8IRZy/i38FcBkxX6uLwRq8kYub6IKJ1ivxfw50wXk21
+         +X5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772983122; x=1773587922;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rWe/VwNZRAGsRbWYDwWaTqIEE9ckZabtpEv8pWePrKk=;
+        b=pQV2iv3xiAF9A3gKJqArvBwGidCRDJSNyViyb/BZAQWg6I7URbnEEvSRoZ/vPaRVgk
+         wXUT66S6cvJirKQStun/hPySGg1CkhrK3EjavEfhj+7mH6JveqMGm5Qs2/I9l16zWwfR
+         Sr8FJLVZ7Qe7Fu29G0sXNrJMQLCK4jVgQca1E22lCr+MJJz5s7chPuayKR4/ISck43zn
+         VjK8sA4Z35vt3Q+DhVk31kdUyIuu3INyhihsknUHvPfOD5DcbVexc7urTy5zqcWX8dMj
+         5WwyxeUn4Lw7sF90HD4EPYU/bxWszMUK8OiUXZHp199UMKNbt5dbQzC0iHaotSRylCMZ
+         sjxQ==
+X-Gm-Message-State: AOJu0YxcIZERV4LyEAm1zkZpzAhRB/As0k9mtiGmBd4RdoYzSJfQwotB
+	+eIjg3Er/KNLVMFVDT8vZkka/FtMiNf5ruATS9uW8t8bO9R9Cki/S5/EszqQ2zAngXQ=
+X-Gm-Gg: ATEYQzxlQITEX2XxkJdoJoMWYAKm0j0E+hJvYgKIznN//K+phMicZAyzNzOfuXkSII2
+	9S9PvJSxXV1cForTcMj/SfIBL5xFyWhZsaTNfKcGWltH3371riFBGBMNT4ehY5dFmaK523B+GZl
+	owKwE13VghvOkdMSyPsT/U5ds94jCARLDDrSfAvAFAOHha7XKkqGg34tpAgjFcaTdO/teksiCQa
+	QaNrnBDPqyBkksDbLoOR1K0SEpXUuwhHINg9100El38DfiXykFJJe9bDPeI3J3ooiCDvt5IThB3
+	be0LoGmf42ZsinDbnkOs3U9eq2seHbLD/7iv3T4X+Pv9a1VWO25zVi9+tIfANQV6KkJpDCTJa2H
+	8dRDhD0NFrJE/oanb7L1Fepj5m0JmQ6vXkMijEkTgZCcyItcubLtdhwxsdVdo7Svmn024gVfVoN
+	o3LNnPIhv+GYmvGg==
+X-Received: by 2002:a05:6a00:6f01:b0:829:793f:da78 with SMTP id d2e1a72fcca58-829a2f90aa2mr5859271b3a.48.1772983122389;
+        Sun, 08 Mar 2026 08:18:42 -0700 (PDT)
+Received: from px13 ([218.155.71.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48ddd18sm7432513b3a.56.2026.03.08.08.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 08:18:41 -0700 (PDT)
+From: hasunpark@gmail.com
 To: linux-sound@vger.kernel.org
-Cc: Frederic Popp <frederic.l.popp@t-online.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: [PATCH] ALSA: usb-audio: add Studio 1824 support
-Date: Sun,  8 Mar 2026 16:22:16 +0100
-Message-ID: <20260308153334.50433-2-frederic.l.popp@t-online.de>
+Cc: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	Hasun Park <hasunpark@gmail.com>
+Subject: [PATCH 0/3] ASoC: amd: acp: PX13 ACP70 config and machine quirks
+Date: Mon,  9 Mar 2026 00:16:51 +0900
+Message-ID: <20260308151654.29059-1-hasunpark@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -35,74 +76,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1772980453-967FE4A1-70B9D35D/0/0 CLEAN NORMAL
-X-TOI-MSGID: 6f9afb83-9168-406c-bc2a-37e2de9183b1
 
-Adapt the already implemented support for the Studio 1824c
-audio interface to the predecessor Studio 1824.
+From: Hasun Park <hasunpark@gmail.com>
 
-Basically just a change adding the
-different hardware ID in the relevant places.
+Hi,
 
-Tested as much as possible.
-All implemented functionality seemingly works.
+This series adds ACP70 platform quirks for ASUS ProArt PX13
+(HN7306EA/HN7306EAC).
 
-Signed-off-by: Frederic Popp <frederic.l.popp@t-online.de>
----
- sound/usb/format.c       | 4 ++++
- sound/usb/mixer_quirks.c | 3 +++
- sound/usb/mixer_s1810c.c | 2 ++
- 3 files changed, 9 insertions(+)
+The goal is to keep platform selection on the expected SoundWire path and
+add the required ACP70 machine/quirk entries for this board family.
 
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 1207c507882a..030b4307927a 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -455,6 +455,10 @@ static int parse_uac2_sample_rate_range(struct snd_usb_audio *chip,
- 			if (chip->usb_id == USB_ID(0x194f, 0x010d) &&
- 			    !s1810c_valid_sample_rate(fp, rate))
- 				goto skip_rate;
-+			/* Filter out invalid rates on Presonus Studio 1824 */
-+			if (chip->usb_id == USB_ID(0x194f, 0x0107) &&
-+			    !s1810c_valid_sample_rate(fp, rate))
-+				goto skip_rate;
- 
- 			/* Filter out invalid rates on Focusrite devices */
- 			if (USB_ID_VENDOR(chip->usb_id) == 0x1235 &&
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index e97814dc9025..a01510a855c2 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4477,6 +4477,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 	case USB_ID(0x194f, 0x010d): /* Presonus Studio 1824c */
- 		err = snd_sc1810_init_mixer(mixer);
- 		break;
-+	case USB_ID(0x194f, 0x0107): /* Presonus Studio 1824 */
-+		err = snd_sc1810_init_mixer(mixer);
-+		break;
- 	case USB_ID(0x2a39, 0x3fb0): /* RME Babyface Pro FS */
- 		err = snd_bbfpro_controls_create(mixer);
- 		break;
-diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
-index 7eac7d1bce64..2e5a8d37ec57 100644
---- a/sound/usb/mixer_s1810c.c
-+++ b/sound/usb/mixer_s1810c.c
-@@ -362,6 +362,7 @@ static int snd_s1810c_init_mixer_maps(struct snd_usb_audio *chip)
- 		snd_s1810c_send_ctl_packet(dev, a, 3, 0, 1, MIXER_LEVEL_0DB);
- 		break;
- 
-+	case USB_ID(0x194f, 0x0107): /* 1824 */
- 	case USB_ID(0x194f, 0x010d): /* 1824c */
- 		/* Set all output faders to unity gain */
- 		a = SC1810C_SEL_OUTPUT;
-@@ -685,6 +686,7 @@ int snd_sc1810_init_mixer(struct usb_mixer_interface *mixer)
- 			return ret;
- 
- 		break;
-+	case USB_ID(0x194f, 0x0107): /* Presonus Studio 1824 */
- 	case USB_ID(0x194f, 0x010d): /* Presonus Studio 1824c */
- 		ret = snd_s1810c_switch_init(mixer, &snd_s1824c_mono_sw);
- 		if (ret < 0)
+Baseline (without this series):
+  $ cat /proc/asound/cards
+   0 [Generic        ]: HDA-Intel - HD-Audio Generic
+                        HD-Audio Generic at 0xa0440000 irq 160
+   1 [acppdmmach     ]: acp-pdm-mach - acp-pdm-mach
+                        ASUSTeKCOMPUTERINC.-ProArtPX13HN7306EAC-1.0-HN7306EAC
+
+Result (with this series applied):
+  $ cat /proc/asound/cards
+   0 [Generic        ]: HDA-Intel - HD-Audio Generic
+   1 [amdsoundwire   ]: amd-soundwire - amd-soundwire
+
+  $ aplay -l
+   card 1: amdsoundwire [amd-soundwire], device 0: ... rt721 ...
+   card 1: amdsoundwire [amd-soundwire], device 2: ... SmartAmp ...
+
+  $ arecord -l
+   card 1: amdsoundwire [amd-soundwire], device 1: ... rt721 ...
+   card 1: amdsoundwire [amd-soundwire], device 3: ... SmartAmp ...
+   card 1: amdsoundwire [amd-soundwire], device 4: ... acp-dmic ...
+
+Patch summary:
+  1. Add DMI override for ACP70 ACPI config flag handling.
+  2. Add ACP70 SoundWire machine link for rt721 + tas2783x2.
+  3. Add ASUS HN7306EA quirk in legacy SDW machine table.
+
+Hasun Park (3):
+  ASoC: amd: acp: add DMI override for ACP70 flag
+  ASoC: amd: acp: add PX13 SoundWire machine link for rt721+tas2783x2
+  ASoC: amd: acp: add ASUS HN7306EA quirk for legacy SDW machine
+
+ sound/soc/amd/acp-config.c               | 15 +++++-
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c  |  8 ++++
+ sound/soc/amd/acp/amd-acp70-acpi-match.c | 61 ++++++++++++++++++++++++
+ 3 files changed, 83 insertions(+), 1 deletion(-)
+
+
+base-commit: 5b12bef92c1dca68a0e6ae42f6c51dfafb58e322
 -- 
 2.53.0
-
