@@ -1,203 +1,160 @@
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013063.outbound.protection.outlook.com [40.93.196.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FEC2C234A
-	for <linux-sound@vger.kernel.org>; Sun,  8 Mar 2026 04:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772943148; cv=none; b=nFz6Je8WsAojcgEphSOXaaDl1UknuhMaF9k55+6LlqhVs1AqBW8qVbKYip38qM5KUWC8QkKBtCFZqTHlTy18sO63zdmdcLM3QKUG0DncDUYiD4Nzp5u6NdPCxohCwAYzKiRuN8CMM8OSmqOWGgBGiIIHk4Dv+9MA/k/mOt5GHu0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772943148; c=relaxed/simple;
-	bh=qYRRhJ/rjVX6gADAftLWWxxgi7AUGT+kfAfgu9FnizM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=SEabc64uUAUKOhXu4fLdrl/joOoeaacjIkVtYWbTrsbZnKc8HhZvF5N/kmLPu3o79Ync/j7Fb6PNLAPAPGuct9PndEyY5e+5AhWKfnr6+xE+avL/vyzGSYMHwH90do0s61d2nwfyOTphzVjd6cCk0SsYYO8QeX/02qu3N0deaPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-67ba64650d9so12766395eaf.3
-        for <linux-sound@vger.kernel.org>; Sat, 07 Mar 2026 20:12:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772943146; x=1773547946;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zA1wgT+unS1d+T7tI8dP5Kbt/EPIFkFNGoMj1Twx1A8=;
-        b=q8V75J6s2EEn2R9tfjdfpLnOxCmgRUCum/TT4yKXfPi1aTti/Ls15Wh8jN6kHtN/CX
-         JbzlYy96g0pR/H5eBe2wO78q1XIO/eP+2Ip1wuRatocLqhi7UWXvHo2/iJ37WbBnJOg4
-         X9XJoH/u6dN3MxvJjTwQOEiQ4rfBGc/GyDktgIaJRMzaiJzAGx6PP1UW7PeK5+Ai1dci
-         pMs+67Uou0m/saOYUxSowKSfO7NSpYopZfyKW18SMPUbCmvUj2CV4uMMX6sVVoDRQS6k
-         X/SehpucKU668ErcubD/Gvf36m4z2ttcuZJlzdVdrv8kZ8G/seZdIDSwIYsCzxg2Kl7e
-         IkvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtjH9UCd/fnw3cUfNqRawwDS92GqDxBJKY8tTHrXmADLOulF0LomYiK/mJ/fqnMyYjjR9BzYQjII3hHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQx3mbbdxrqxEblkCgJFY1cAIH+gv85zjg22uXPH8hl+6caW0i
-	1PMWGKinfQvC+As59IKz/PQ2hv+K86G89EmPKfmD5jCQalJYaRaEVsOnNDh4ZmvFrbIX2kA/YV+
-	JXgOnvvJ5wZzi4FDpi1+Kdcc+cw+80zRtMS/PHq7ToIYX6SKBvJLgTcvvDdE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A68B1531C1;
+	Sun,  8 Mar 2026 04:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772944942; cv=fail; b=p8y2S/JOzCBPSDR2Z4bSQOsZxKm0lNOjLoML8F/TpKqN8AFcWvFiWPH7fkBvb83OjJp5hELYsVNV1jjR6QACLPGyTwtYOCrv8mf0Ys2tknVawTS//mwjTRHKfmQ3QzD62NYoPtnmqEcnCNuvP5DfWjg68xwi6BQ0kKXeb+DHwM0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772944942; c=relaxed/simple;
+	bh=JkaRXXZSD5YgVcsqoV/Vkp6AaNjGpCWs6S3aOk7S51E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I5bRbO4tQwyPSEZq53EjT+ELt37s4MkhdfqnWZPSSAl+olasfa5xCwkHupq18aLzP+jMXj5xdbWw/k4iJy3KlCg8PQxFVF5XkpgwuSw3qLATLnxuYRic8hHZWpv9VaiymPMdqQKWF+Me32RGyBd9mb+7bM7ctsoo3u3H3BELZ3g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=XRsh5AqS; arc=fail smtp.client-ip=40.93.196.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="XRsh5AqS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HL14XC5PHDpYBTVbH7Of8nyBJXdS9GIm8uaO4NRpGt6wSXI99apEWy0aSPhrDWMYw9f0L3mFAop9yNdJqMLiI8nslUAj33PZO5X56vbudlaKA8tFhbjHD5qk9FHWiG9VY/SzaKgZ8CwrrPWZC4c2R/WgwCuOPQtK3pFsDkMM7uCc06gV2ijZNZNGQsokqj5ovLtAPTX0aJgJASD+EsxHjqkdaLon9cNo0PquWDcJkTy9zD04dJFK57Ox+zl4lgLGOpGN+n+aPqJD9uQA5bWqT3n2EIoO5Ilnn0VCRjjEGsQ2BbUsIUk+GGZ2+GTigaEKdjJj966IONhbgRwvr+D4ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I4O/nDxAOhT7NPfq+liK8iPE96Fqxf2XrruXCCcb9vg=;
+ b=oiEpnKX3BXCGJdAgnEKZOnf18Ap1n+b/c8hZlwx61TTTjMMzn2OrA2Smh5+2TJpbcfNsFWTokJE+oB7L1k8ovkR6WrJ1nueLPBz2U/rMTeCOxH0ByIm51CPDQpuZUEt9yZw864Z5f8pKCeToj0Arn7Pl3eRhvrQKMufYfxxAW2Sjve15zDz/p7xiNSXCs0gAbf66Qz8ue714oDzBnTEsUbLz1nZ0YMoHp08bWdLt3a3NGHhhf8MtL++fox3BW0fEgC72x0Ucm2IDXG75mxv7lKqOAfBuGubucNwwVTk9WLduT8+M4EWinspEFAnFkT64z315IPQ1BgeHJoo6wS23uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I4O/nDxAOhT7NPfq+liK8iPE96Fqxf2XrruXCCcb9vg=;
+ b=XRsh5AqSwd4Y4mZ4N1+VYQ69uPTIx2tiiYySdetRRyrEdOCWIMZXeoelNMSKvCt8E33UGx6bNfRLT7yLNULtOG4MsQEY0R0VLNHrUxA1GJTpdliiI0DFbryFqslVAR9xk0I91ZWfmG7GsQTulPX9aF7hjTH8DY5yMx2I9TKhEns=
+Received: from CH3P221CA0014.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1e7::34)
+ by IA1PR10MB7516.namprd10.prod.outlook.com (2603:10b6:208:44f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.22; Sun, 8 Mar
+ 2026 04:42:17 +0000
+Received: from CH1PEPF0000AD81.namprd04.prod.outlook.com
+ (2603:10b6:610:1e7:cafe::c2) by CH3P221CA0014.outlook.office365.com
+ (2603:10b6:610:1e7::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.23 via Frontend Transport; Sun,
+ 8 Mar 2026 04:42:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ CH1PEPF0000AD81.mail.protection.outlook.com (10.167.244.89) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Sun, 8 Mar 2026 04:42:17 +0000
+Received: from DLEE213.ent.ti.com (157.170.170.116) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sat, 7 Mar
+ 2026 22:42:17 -0600
+Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE213.ent.ti.com
+ (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sat, 7 Mar
+ 2026 22:42:16 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Sat, 7 Mar 2026 22:42:16 -0600
+Received: from localhost (mz02jj9v.dhcp.ti.com [128.247.81.0])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6284gGje2920028;
+	Sat, 7 Mar 2026 22:42:16 -0600
+From: Sen Wang <sen@ti.com>
+To: <broonie@kernel.org>, <kuninori.morimoto.gx@renesas.com>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<devarsht@ti.com>, <v-singh1@ti.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Sen Wang <sen@ti.com>
+Subject: [PATCH] ASoC: simple-card-utils: fix graph_util_is_ports0() for DT overlays
+Date: Sat, 7 Mar 2026 22:41:30 -0600
+Message-ID: <20260308044130.1991091-1-sen@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4b92:b0:679:975b:f227 with SMTP id
- 006d021491bc7-67b9bd2e167mr4624023eaf.42.1772943146303; Sat, 07 Mar 2026
- 20:12:26 -0800 (PST)
-Date: Sat, 07 Mar 2026 20:12:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69acf72a.050a0220.310d8.0004.GAE@google.com>
-Subject: [syzbot] [sound?] general protection fault in snd_scarlett2_init
-From: syzbot <syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com>
-To: g@b4.vu, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, perex@perex.cz, syzkaller-bugs@googlegroups.com, 
-	tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD81:EE_|IA1PR10MB7516:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4ed8b57-f241-411a-6716-08de7ccd13c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700016;
+X-Microsoft-Antispam-Message-Info:
+	TsHNGHnjXPi7Rpm0ik76RTBda0pE8aNWFnnSMpjUQqdmgfdcpvdvEUhmv0ETmwOahyETrApP2U1uso3CG+jcjBhzvsfp6q2K2TWqw7x2pFqTRJ8lRL4UT/C5biiTCPpmLGYRGfKOEU3DfvkymW2yDzyJz7HaoNwf9Qf/kfGsF2bEOMoxaq5fjgEBkj3bTKfxDs5iFP0JVdkrj5a7Qfh36OtfoiY8i9ORmwYXncpCtqhsSOWWCljYh+DTd8+o7zR5aJPGG7Vnt73Yt41uCHShrP/pbHg0UmFuVbis0/mfh6RKDBxKb1BKELLayVYdHuDhMNCGJvGnuK1z0m8nQdDg5qAuHeKS6lX320VZoLZ8iIKR/bpz0ySR8gx7bWRS1VevHvFMWNwjSyllbLAtuXgSbzgoInXOAFo1kqSFyJwkegjrsARUOc69MTZ9T/UhFPi2kH1ij37R8Qw23z77PK3GNhz3IkE6cNuoFx7HvacwaqGmXSm21kGXt6xHHdPQ6SeSkj+aTxL0clAZQ4QGf+jhdHXO8MOdtTwvQXNPx+EPwCO9iJlFj/F8UiyE7oO9kdOXYAztNs58zEjWZTvA2orLUDAejZZGnHOqutVmqePeJ0osR9RQCMtnqvLhn0z2AgklYHV334OTHGytKLQFJ9PlcyBqKxq8sWhyaW8E6zX9y7KnKibyjbe2zoujqC95VGM+ep+HyDwHQ/NMWHzOUElTU+MJ5PrP7oiXVhLIEfHrgjGXTFk1ZfbiUDFQSz6uw/v9T03yYkMViKseHO5XuBy1NA==
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	fh3kmaHh2ptfwqZYazP+EUjXo4kXgty+NZgmNes672HHIkN9rrN9CORILumVHxNEvW1vRbKj+5ANcjWzkdTueoes2GR9E6pnQpA0DQG9iUyTeO7P6/I36VOyfcwlg5XjdmDtHJUgweD1vsDuubnU5qB5UlQ5klTfotCRgza/LDmiuhCUV1zPd64SmGDdsJbtwdC7HFjcEbmuTbiqJ/lIvF4z6b8sFuabyk57/lw7cbaxsWPxcG+MFo343nv8xeO29uG9C92kg7l6CS1EKErDygWqF0ADPh+Ad0aycq4fuNk+kZTklQEp4ZQJNI9QmAQZ5gnlI4nVj69ls45lFSxxmtl1VabIBLUCpJFTOThnsBlaWCmVqrkDAG4fI8QC3vsdfaIGQHlXlcm+9yRRngiKOUjuNenomY01r4dDmEFiQg2nti6Plos2/VBCEP8wEHVw
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 04:42:17.3864
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4ed8b57-f241-411a-6716-08de7ccd13c3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD81.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7516
 
-Hello,
+graph_util_is_ports0() identifies DPCM front-end (ports@0) vs back-end
+(ports@1) by calling of_get_child_by_name() to find the first "ports"
+child and comparing pointers. This relies on child iteration order
+matching DTS source order.
 
-syzbot found the following issue on:
+But when the DPCM topology comes from a DT overlay, __of_attach_node()
+inserts new children at the head of the sibling list, reversing the
+order. of_get_child_by_name() then returns ports@N instead of ports@0,
+causing all front-end links to be classified as back-ends in
+audio-graph-card2. The card subsequently breaks and registers with no
+PCM devices.
 
-HEAD commit:    bb375c251ab4 dt-bindings: usb: st,st-ohci-300x: convert to..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=138f1b5a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f1500201919951cc
-dashboard link: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14ffb006580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12ebbb5a580000
+Therefore fix this by string matching the unit address in the node name,
+instead of relying on sibling order.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2475c3172471/disk-bb375c25.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/30449aa672dd/vmlinux-bb375c25.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/46d3937d1c16/bzImage-bb375c25.xz
+To mimic the original behavior, the function will match against "ports"
+or "ports@0".
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-
-usb 4-1: 0:6 : does not exist
-usb 4-1: 0:7 : does not exist
-usb 4-1: 0:8 : does not exist
-usb 4-1: 0:9 : does not exist
-usb 4-1: 0:10 : does not exist
-usb 4-1: Focusrite Scarlett Gen 3 Mixer Driver enabled (pid=0x8215); report any issues to https://github.com/geoffreybennett/scarlett-gen2/issues
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 1 UID: 0 PID: 28 Comm: kworker/1:1 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
-RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
-RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
-RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
-RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
-Code: 84 c0 74 06 0f 8e ca 0b 00 00 48 8b 44 24 20 48 8d 7b 02 48 89 fa 40 88 a8 48 02 00 00 b8 ff ff 37 00 48 c1 ea 03 48 c1 e0 2a <0f> b6 04 02 48 89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 9e 0b 00 00
-RSP: 0018:ffffc900001e68d8 EFLAGS: 00010286
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff81543c4b
-RDX: 0000000000000000 RSI: ffffffff81543c5d RDI: 0000000000000002
-RBP: 0000000000000001 R08: 0000000000000001 R09: 00000000000000ff
-R10: 00000000000000ff R11: 0000000000000000 R12: ffff88811dd24804
-R13: dffffc0000000000 R14: ffff88811dd248a8 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8882687d3000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000558c34efbe88 CR3: 00000000094ae000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
- snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
- usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
- usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:583 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:661
- __driver_probe_device+0x1de/0x400 drivers/base/dd.c:803
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:833
- __device_attach_driver+0x1ff/0x3e0 drivers/base/dd.c:961
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1033
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1088
- bus_probe_device+0x64/0x160 drivers/base/bus.c:574
- device_add+0x11d9/0x1950 drivers/base/core.c:3689
- usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2208
- usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:583 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:661
- __driver_probe_device+0x1de/0x400 drivers/base/dd.c:803
- driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:833
- __device_attach_driver+0x1ff/0x3e0 drivers/base/dd.c:961
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1033
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1088
- bus_probe_device+0x64/0x160 drivers/base/bus.c:574
- device_add+0x11d9/0x1950 drivers/base/core.c:3689
- usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x314d/0x4af0 drivers/usb/core/hub.c:5953
- process_one_work+0x9d7/0x1920 kernel/workqueue.c:3275
- process_scheduled_works kernel/workqueue.c:3358 [inline]
- worker_thread+0x5da/0xe40 kernel/workqueue.c:3439
- kthread+0x370/0x450 kernel/kthread.c:467
- ret_from_fork+0x6c3/0xcb0 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
-RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
-RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
-RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
-RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
-Code: 84 c0 74 06 0f 8e ca 0b 00 00 48 8b 44 24 20 48 8d 7b 02 48 89 fa 40 88 a8 48 02 00 00 b8 ff ff 37 00 48 c1 ea 03 48 c1 e0 2a <0f> b6 04 02 48 89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 9e 0b 00 00
-RSP: 0018:ffffc900001e68d8 EFLAGS: 00010286
-
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff81543c4b
-RDX: 0000000000000000 RSI: ffffffff81543c5d RDI: 0000000000000002
-RBP: 0000000000000001 R08: 0000000000000001 R09: 00000000000000ff
-R10: 00000000000000ff R11: 0000000000000000 R12: ffff88811dd24804
-R13: dffffc0000000000 R14: ffff88811dd248a8 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8882687d3000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f4cb1355900 CR3: 00000001175e2000 CR4: 00000000003506f0
-----------------
-Code disassembly (best guess):
-   0:	84 c0                	test   %al,%al
-   2:	74 06                	je     0xa
-   4:	0f 8e ca 0b 00 00    	jle    0xbd4
-   a:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
-   f:	48 8d 7b 02          	lea    0x2(%rbx),%rdi
-  13:	48 89 fa             	mov    %rdi,%rdx
-  16:	40 88 a8 48 02 00 00 	mov    %bpl,0x248(%rax)
-  1d:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
-  22:	48 c1 ea 03          	shr    $0x3,%rdx
-  26:	48 c1 e0 2a          	shl    $0x2a,%rax
-* 2a:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax <-- trapping instruction
-  2e:	48 89 fa             	mov    %rdi,%rdx
-  31:	83 e2 07             	and    $0x7,%edx
-  34:	38 d0                	cmp    %dl,%al
-  36:	7f 08                	jg     0x40
-  38:	84 c0                	test   %al,%al
-  3a:	0f 85 9e 0b 00 00    	jne    0xbde
-
-
+Fixes: 92939252458f ("ASoC: simple-card-utils: add asoc_graph_is_ports0()")
+Signed-off-by: Sen Wang <sen@ti.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ sound/soc/generic/simple-card-utils.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index bdc02e85b089..8e0efc78b490 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -1038,11 +1038,12 @@ int graph_util_is_ports0(struct device_node *np)
+ 	else
+ 		port = np;
+ 
+-	struct device_node *ports  __free(device_node) = of_get_parent(port);
+-	struct device_node *top    __free(device_node) = of_get_parent(ports);
+-	struct device_node *ports0 __free(device_node) = of_get_child_by_name(top, "ports");
++	struct device_node *ports __free(device_node) = of_get_parent(port);
+ 
+-	return ports0 == ports;
++	const char *at = strchr(kbasename(ports->full_name), '@');
++
++	/* match "ports" or "ports@0" by unit address in node name */
++	return !at || !strcmp(at, "@0");
+ }
+ EXPORT_SYMBOL_GPL(graph_util_is_ports0);
+ 
+-- 
+2.43.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
