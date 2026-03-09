@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE49424DCF9
-	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 09:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FF133B6E3
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 09:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773047768; cv=none; b=IX09vuaGJBFdjAbZ6/20YAZpsxiDp3MA28xtvCkqwpBgNFnntDIW19GhV4T4MLVJmOE5kCCXDmaSfUTtM4i7qPb4wHbW4VD2t5Zpy8BhXiTE3kbqBqi7E16cbJBeD+rNk6uUxe6ewW0mlykNV10MGzW6p7SXTfNX5Nt5aC0eLLo=
+	t=1773047769; cv=none; b=daugMbprODdykwCrVvkBLDQZRw/rLXBWALx/YWTyJ4XBAaKGAHQkYSTJBlQmHAV/pwCw4/Ks5U1EADcdTEBZHwewB3Eg63NykrA4XoOQw9BuBgPM6LGs/veuqjPFD/QLzdExpdLOtAlVd3/5OOAIRHZEvHdw5F7+P0S6c5Ci6Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773047768; c=relaxed/simple;
-	bh=9ikCxfRIcl4vjNTX3L5gAgmeFC7symXRbKBW4KGuUQE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jHf6y+E1exHytjVe3RQZYPel+LggU2PmLsb0y4QfxJe3rDZEDR1cb/BBD5osyXPepHxQ9Q1WfmSrJcQ0jX8dTPHn85AkKKVtpvvL13Q9N0NyEqW/h9gKMtp/ZEJZ/jB4gfZ9rODRn8Dr+LsuKMsPoZG1sADyqGyCgTOXfl+N/5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebmTYi+r; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1773047769; c=relaxed/simple;
+	bh=am0xYbxdH+RkoKBXmS5J1ou8T8IE1kANqMU6lho0whw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Bd3N/3+vtmuiSjLhKZ0XPOXwV3JL8Mc7nwDvWNLfMfUICmW9HkmMS7A2uQmkrfDR02zJTtHbjXY8us4IWAnX/qmU2iazO15okh+RcPot7MVrK1QP+2d2HuKXpMH0ZEdOAp0+xcFLz1eLTxAmlmwqEW0XmMRARmZXlYu+WZ21o90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oe8Ivti4; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebmTYi+r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oe8Ivti4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773047767; x=1804583767;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9ikCxfRIcl4vjNTX3L5gAgmeFC7symXRbKBW4KGuUQE=;
-  b=ebmTYi+rNcmDECS+epV85AM7UA3m8im9y/w9jQ8J3YuH9JrH6Pd+YP0o
-   jRpwIuepzZOxEMy56Tk+n+rGXQBCJ9qSliOiJmGXEeX6BoUa8bMcsmN5z
-   fjcN8qbMA/xpLEGpeJ9XXHbh1ncxzMP1+0Gat6Ja5U9hWdtS1f3PfyclO
-   PVGDRgi2NuY5ygYiRFwW8d2uNpKrWxGmPAaVHyQYonCOztLcdfT6+X6uu
-   zbXosQ4GxW9z1RUP8ao8tc4c4K4bALq9aZBCRmz7NCBIfqZWpmIGeRi2e
-   mshyYwi7uetVy1aOIWqddoj1CKaXcJ9tJcW0FGAgOnxkcj1Qxid+NTSfS
-   g==;
-X-CSE-ConnectionGUID: HF9RDnMCTni1duxZsdtROw==
-X-CSE-MsgGUID: FnoL2oqkQ+eCI85XJZXQsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84776969"
+  t=1773047768; x=1804583768;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=am0xYbxdH+RkoKBXmS5J1ou8T8IE1kANqMU6lho0whw=;
+  b=Oe8Ivti4lg2LNLR2FYbNlP+WLmOET8OGqRR39mSlaN7BpW46vDJ30nl+
+   bT7qi78uH3BLy/vhVV01DTDyD8Dl9OiRi9Uf5maarw31wlVz7BqG3CMsI
+   dcPMhYJQnhbxyDL9tB1sYAtlPJcAnXQ5bB+cS5G0PP/D8Y/Ashf5GR1lV
+   HFoXEuFq0cc6wgD24VWPI8FmUxDIgeLwh0keyhckRvcXVrOpM0vp8Z8JJ
+   62UY2ttFowk+amvMGTFb8NxejDMhuUINOhzFkwEw/KfpSe6IuxcgZYOp4
+   btm9xlmCxcckR+xg8MFqDdQJegwXd2bm3Zdx5WmdU7NnpkWdNEpD11asq
+   Q==;
+X-CSE-ConnectionGUID: DFPeClbNSNCtdj9qnh3tYA==
+X-CSE-MsgGUID: m3IdwR5XSS2X6NHuq8xLRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84776977"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="84776969"
+   d="scan'208";a="84776977"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 02:16:06 -0700
-X-CSE-ConnectionGUID: Qc5Tl++9SHGjR8FtfFFciw==
-X-CSE-MsgGUID: N9KIDwXvRVCaXwHpcc79Og==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 02:16:08 -0700
+X-CSE-ConnectionGUID: 9wW6ZCqQSQu1tyCALBS1bQ==
+X-CSE-MsgGUID: tRH0PRvpQy+S0te4q4/+1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="245688611"
+   d="scan'208";a="245688616"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Mar 2026 02:16:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 09 Mar 2026 02:16:06 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -49,10 +50,12 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 0/5] ASoC: Intel: catpt: Overhaul volume and mute control operations
-Date: Mon,  9 Mar 2026 10:16:00 +0100
-Message-Id: <20260309091605.896307-1-cezary.rojewski@intel.com>
+Subject: [PATCH 1/5] ASoC: Intel: catpt: Synchronize stream access
+Date: Mon,  9 Mar 2026 10:16:01 +0100
+Message-Id: <20260309091605.896307-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260309091605.896307-1-cezary.rojewski@intel.com>
+References: <20260309091605.896307-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,77 +64,201 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Short summary first, longer description later:
+Streams may have individual controls assigned to them e.g.: volume
+control in case of offload streams.
 
-- fix the return code for kctl->put() - currently the driver returns
-  '0' even if changes were done
-- lower power consumption for kctl operations by waking the DSP only
-  when some streaming is done.  No streaming? Cache the values and
-  inform the AudioDSP firmware later.
-- drop the existing code duplication between individual and master
-  volume controls
+If such a stream is running and simultaneously its controls are being
+manipulated, both processes are touching the exact same descriptors -
+access to these must be synchronized. Replace spinlock with mutex as
+IPCs are non-atomic operations and add proper locking for all
+->stream_list users.
 
-The very first patch addresses synchronization problem that exists when
-an individual control and its paired stream are manipulated by a user
-simultaneously.  As the refactor integrates the fix in its new code,
-most of it gets shuffled but in case of a "refactor problem" I've
-decided to have it separated and leading the series.  This way the
-problem is fixed even if refactor, for whatever reason, would be
-reverted.
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ sound/soc/intel/catpt/core.h   |  2 +-
+ sound/soc/intel/catpt/device.c |  2 +-
+ sound/soc/intel/catpt/ipc.c    |  3 +++
+ sound/soc/intel/catpt/loader.c |  2 ++
+ sound/soc/intel/catpt/pcm.c    | 25 +++++++++++++++----------
+ 5 files changed, 22 insertions(+), 12 deletions(-)
 
---
-More of in-depth explanation for the refactor, taken from commit 2:
-
-The catpt-driver's volume and mute control operations always return '0'
-regardless if a change occurred or not.  To conform to ALSA's interface,
-value '1' shall be returned when a change occurred.
-
-The second major point is power consumption.  Existing control
-operations always wake the DSP even if no streams are running.  In such
-case waking the DSP just for the sake of updating the volume (or mute)
-settings on the firmware side is a waste of power.  The provided
-implementation caches the values and updates the settings only when
-streams are being opened for streaming or are already running.
-
-As changing existing code is non-trivial, provide new operations
-instead.  The put() operation, which interests us the most, takes the
-following shape:
-
-	// two values provided to put():
-	// @pin_id - which stream given control relates to
-	// @value_to_apply - the value from user
-
-	if (control->existing_val == value_to_apply)
-		return 0;
-
-	runtime_stream = get_running_stream(pin_id);
-	if (runtime_stream != NULL) {
-		ret = send_ipc();
-		if (ret)
-			return ret;
-	}
-
-	control->existing_val = value_to_apply;
-	return 1;
-
-Adheres to ALSA's expectation and avoids sending IPCs if there is no
-change to be made.
-
-Cezary Rojewski (5):
-  ASoC: Intel: catpt: Synchronize stream access
-  ASoC: Intel: catpt: New volume and mute control operations
-  ASoC: Intel: catpt: Simplify procedure of applying user settings
-  ASoC: Intel: catpt: Do not wake DSP just for volume setup
-  ASoC: Intel: catpt: Migrate to the new control operations
-
- sound/soc/intel/catpt/core.h     |   2 +-
- sound/soc/intel/catpt/device.c   |   2 +-
- sound/soc/intel/catpt/ipc.c      |   3 +
- sound/soc/intel/catpt/loader.c   |   2 +
- sound/soc/intel/catpt/messages.h |   3 +
- sound/soc/intel/catpt/pcm.c      | 394 +++++++++++++------------------
- 6 files changed, 174 insertions(+), 232 deletions(-)
-
+diff --git a/sound/soc/intel/catpt/core.h b/sound/soc/intel/catpt/core.h
+index df8a5fd95e13..7e479ef89ad0 100644
+--- a/sound/soc/intel/catpt/core.h
++++ b/sound/soc/intel/catpt/core.h
+@@ -96,7 +96,7 @@ struct catpt_dev {
+ 	struct catpt_module_type modules[CATPT_MODULE_COUNT];
+ 	struct catpt_ssp_device_format devfmt[CATPT_SSP_COUNT];
+ 	struct list_head stream_list;
+-	spinlock_t list_lock;
++	struct mutex stream_mutex;
+ 	struct mutex clk_mutex;
+ 
+ 	struct catpt_dx_context dx_ctx;
+diff --git a/sound/soc/intel/catpt/device.c b/sound/soc/intel/catpt/device.c
+index 0638aecba40d..b5f4361d4465 100644
+--- a/sound/soc/intel/catpt/device.c
++++ b/sound/soc/intel/catpt/device.c
+@@ -226,7 +226,7 @@ static void catpt_dev_init(struct catpt_dev *cdev, struct device *dev,
+ 	cdev->spec = spec;
+ 	init_completion(&cdev->fw_ready);
+ 	INIT_LIST_HEAD(&cdev->stream_list);
+-	spin_lock_init(&cdev->list_lock);
++	mutex_init(&cdev->stream_mutex);
+ 	mutex_init(&cdev->clk_mutex);
+ 
+ 	/*
+diff --git a/sound/soc/intel/catpt/ipc.c b/sound/soc/intel/catpt/ipc.c
+index 5a01a9afb26e..2e3b7a5cbb9b 100644
+--- a/sound/soc/intel/catpt/ipc.c
++++ b/sound/soc/intel/catpt/ipc.c
+@@ -5,6 +5,7 @@
+ // Author: Cezary Rojewski <cezary.rojewski@intel.com>
+ //
+ 
++#include <linux/cleanup.h>
+ #include <linux/irqreturn.h>
+ #include "core.h"
+ #include "messages.h"
+@@ -151,6 +152,8 @@ catpt_dsp_notify_stream(struct catpt_dev *cdev, union catpt_notify_msg msg)
+ 	struct catpt_notify_position pos;
+ 	struct catpt_notify_glitch glitch;
+ 
++	guard(mutex)(&cdev->stream_mutex);
++
+ 	stream = catpt_stream_find(cdev, msg.stream_hw_id);
+ 	if (!stream) {
+ 		dev_warn(cdev->dev, "notify %d for non-existent stream %d\n",
+diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
+index dc7afe587e6f..432cb1f0ab4e 100644
+--- a/sound/soc/intel/catpt/loader.c
++++ b/sound/soc/intel/catpt/loader.c
+@@ -90,6 +90,7 @@ int catpt_store_streams_context(struct catpt_dev *cdev, struct dma_chan *chan)
+ {
+ 	struct catpt_stream_runtime *stream;
+ 
++	/* Lockless as no streams can be added or removed during D3 -> D0 transition. */
+ 	list_for_each_entry(stream, &cdev->stream_list, node) {
+ 		u32 off, size;
+ 		int ret;
+@@ -180,6 +181,7 @@ catpt_restore_streams_context(struct catpt_dev *cdev, struct dma_chan *chan)
+ {
+ 	struct catpt_stream_runtime *stream;
+ 
++	/* Lockless as no streams can be added or removed during D3 -> D0 transition. */
+ 	list_for_each_entry(stream, &cdev->stream_list, node) {
+ 		u32 off, size;
+ 		int ret;
+diff --git a/sound/soc/intel/catpt/pcm.c b/sound/soc/intel/catpt/pcm.c
+index 2c5ea4e0ff3d..fbe4821755bd 100644
+--- a/sound/soc/intel/catpt/pcm.c
++++ b/sound/soc/intel/catpt/pcm.c
+@@ -5,6 +5,7 @@
+ // Author: Cezary Rojewski <cezary.rojewski@intel.com>
+ //
+ 
++#include <linux/cleanup.h>
+ #include <linux/pm_runtime.h>
+ #include <sound/soc.h>
+ #include <sound/pcm_params.h>
+@@ -97,12 +98,12 @@ catpt_get_stream_template(struct snd_pcm_substream *substream)
+ 	return catpt_topology[type];
+ }
+ 
++/* Caller responsible for holding ->stream_mutex. */
+ struct catpt_stream_runtime *
+ catpt_stream_find(struct catpt_dev *cdev, u8 stream_hw_id)
+ {
+ 	struct catpt_stream_runtime *pos, *result = NULL;
+ 
+-	spin_lock(&cdev->list_lock);
+ 	list_for_each_entry(pos, &cdev->stream_list, node) {
+ 		if (pos->info.stream_hw_id == stream_hw_id) {
+ 			result = pos;
+@@ -110,7 +111,6 @@ catpt_stream_find(struct catpt_dev *cdev, u8 stream_hw_id)
+ 		}
+ 	}
+ 
+-	spin_unlock(&cdev->list_lock);
+ 	return result;
+ }
+ 
+@@ -286,10 +286,6 @@ static int catpt_dai_startup(struct snd_pcm_substream *substream,
+ 	INIT_LIST_HEAD(&stream->node);
+ 	snd_soc_dai_set_dma_data(dai, substream, stream);
+ 
+-	spin_lock(&cdev->list_lock);
+-	list_add_tail(&stream->node, &cdev->stream_list);
+-	spin_unlock(&cdev->list_lock);
+-
+ 	return 0;
+ 
+ err_request:
+@@ -307,10 +303,6 @@ static void catpt_dai_shutdown(struct snd_pcm_substream *substream,
+ 
+ 	stream = snd_soc_dai_get_dma_data(dai, substream);
+ 
+-	spin_lock(&cdev->list_lock);
+-	list_del(&stream->node);
+-	spin_unlock(&cdev->list_lock);
+-
+ 	release_resource(stream->persistent);
+ 	kfree(stream->persistent);
+ 	catpt_dsp_update_srampge(cdev, &cdev->dram, cdev->spec->dram_mask);
+@@ -410,12 +402,15 @@ static int catpt_dai_hw_params(struct snd_pcm_substream *substream,
+ 	if (ret)
+ 		return CATPT_IPC_RET(ret);
+ 
++	guard(mutex)(&cdev->stream_mutex);
++
+ 	ret = catpt_dai_apply_usettings(dai, stream);
+ 	if (ret) {
+ 		catpt_ipc_free_stream(cdev, stream->info.stream_hw_id);
+ 		return ret;
+ 	}
+ 
++	list_add_tail(&stream->node, &cdev->stream_list);
+ 	stream->allocated = true;
+ 	return 0;
+ }
+@@ -430,6 +425,10 @@ static int catpt_dai_hw_free(struct snd_pcm_substream *substream,
+ 	if (!stream->allocated)
+ 		return 0;
+ 
++	mutex_lock(&cdev->stream_mutex);
++	list_del(&stream->node);
++	mutex_unlock(&cdev->stream_mutex);
++
+ 	catpt_ipc_reset_stream(cdev, stream->info.stream_hw_id);
+ 	catpt_ipc_free_stream(cdev, stream->info.stream_hw_id);
+ 
+@@ -910,6 +909,8 @@ static int catpt_stream_volume_get(struct snd_kcontrol *kcontrol,
+ 	int ret;
+ 	int i;
+ 
++	guard(mutex)(&cdev->stream_mutex);
++
+ 	stream = catpt_stream_find(cdev, pin_id);
+ 	if (!stream) {
+ 		for (i = 0; i < CATPT_CHANNELS_MAX; i++)
+@@ -941,6 +942,8 @@ static int catpt_stream_volume_put(struct snd_kcontrol *kcontrol,
+ 	long *ctlvol = (long *)kcontrol->private_value;
+ 	int ret, i;
+ 
++	guard(mutex)(&cdev->stream_mutex);
++
+ 	stream = catpt_stream_find(cdev, pin_id);
+ 	if (!stream) {
+ 		for (i = 0; i < CATPT_CHANNELS_MAX; i++)
+@@ -1017,6 +1020,8 @@ static int catpt_loopback_switch_put(struct snd_kcontrol *kcontrol,
+ 	bool mute;
+ 	int ret;
+ 
++	guard(mutex)(&cdev->stream_mutex);
++
+ 	mute = (bool)ucontrol->value.integer.value[0];
+ 	stream = catpt_stream_find(cdev, CATPT_PIN_ID_REFERENCE);
+ 	if (!stream) {
 -- 
 2.34.1
 
