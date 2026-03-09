@@ -1,118 +1,145 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011040.outbound.protection.outlook.com [52.101.125.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660DD26056C
-	for <linux-sound@vger.kernel.org>; Sun,  8 Mar 2026 15:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772983145; cv=none; b=KEkmmpwvrZvkHWTlE0OAmFEoKlHy+bc2f/m1F3EgR+qnVQgPnfttEdlG9muYEr1kWaQWbkbOytACbaGOnFLXN8AHPSZc5wwy7UqFUoKZPJx+xrGpiMrWNnXnIiq5apCB8nhd7XOUZ2i/k4u9dYKbX3XBQQznDJpH7LSM30Zoyu8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772983145; c=relaxed/simple;
-	bh=WzSycVV3n3m1nlglOCULinG6UucZXYoN/FwdD1o12u4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iKvqE7lx6cshEzAVPjj9FRwENYTV+zvNL+QDEUQqdvAxc7w37P5mz1rfPfUNchv/turA4Uacwee2emtw21Fay0gSVnApALXik1IO8WAOtHewRvxsYmMb7GgykAnlBrt9Yx/HbyftubqYtg7rvjZwxl1bUl9H0IoCICl9L115wvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5FSupfV; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721A61AAE28;
+	Mon,  9 Mar 2026 00:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773016852; cv=fail; b=AipReNVCGgZOrHN6R5Sjwyn7X/y2+z3vGLZwg4JHB51kDbNopLFdwSw/mk55vVLhQ2QSP5UMbvud2EpGzg1PIYRKJBDt5NnMAm9c24s4wr6VD59xMbjUqMNV0+xus/ToE95T9PQC3RBhtI3cB4LOCi2CcaKE4gZOMahLaj84Dlw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773016852; c=relaxed/simple;
+	bh=BGvBWraWmSkUiwiXQ3Go4A/U/WwW1X2xduIsB3hYM04=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=NAVId/82mRxToPZlxYnMsuzqtuf8qX3LMVOT9V6O0hGmc0sEaXAnCA9BplIula9iT/vcihOekWlQMC5jJNOEc9Jb81bqvFaLcIZSvzZLtvj1bXTZi/TxuuyW29r6KNhLjn7T9DxAJ2V138rsfEFKQDT+bny9HRnKah9TKoRIGE8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=QwIpgXSv; arc=fail smtp.client-ip=52.101.125.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5FSupfV"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82990763921so3170913b3a.1
-        for <linux-sound@vger.kernel.org>; Sun, 08 Mar 2026 08:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772983143; x=1773587943; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lrKwaPVIBucEK5MNDDk9LSQiLNqrs4JUIOgNjp4SUmE=;
-        b=B5FSupfV142iyxPFinD5Bj/cE4uLTyoimq9tn4pNkD2pHvP8nDU8s6aLgt4eudEoHm
-         fIX+XTLLPLI9NNN5eJ+2w06aTJN6vkmSqCtqNwnbZg/b7UwZ9Uq8L29qjk7lGjJlRKh3
-         KfoP2W1qxH4d3tvRoJ9cwZCpE/Is8RjGlo5kDhm4+z361dogSHO/jUpnEGunyH6+m7Ua
-         NZGcbCpHlYrtN6cAnFbFZHL5OtF6mzkgrqAr71j5AY+rghHWqeBk6Ax0kJkNAKyqbBtI
-         nfpe91j9u9GWHMhpi6neuhup5CUyCkEftGANFoDE/93CCz7F/8v6VatZ1tZeVscW+Kub
-         agdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772983143; x=1773587943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lrKwaPVIBucEK5MNDDk9LSQiLNqrs4JUIOgNjp4SUmE=;
-        b=pGShGA4LizPsPhaB4RSMmopGtZS89eJmzXth+MF7DbqR/6TmGyKJ+bdXSNerry0LGl
-         lhh5RPfiOi6KhWsx+rgocFiXlmQsbKkivLp2wamsyrj4QHVlU+qknbKi+s58qrkHYEZC
-         oF8oQ1yKbHlblaYdOhUGTZoCstS2Ap6fygfXZrrxmrnTFd/OK9bR54lh+2ijYwOiazun
-         5chKdlMHR2zJvb7UNSYvW+wAAd1rM34//lvmqbimjJSDeX9F23rfqPiYHYHwruYMI1SN
-         X079B8KNPcHCFziD2aEpHcWhlmn5QMkXJn82R3bf0ktyr7VuCA9NAtoihkg0pcqg0SSu
-         QoIA==
-X-Gm-Message-State: AOJu0YwVoXqbAEmk4oGSH7U3+botF7UPsxgj7gZTYnLiu+gdM7AY1/cn
-	FewEhDGBhVdmMW0bUyRDofrVqcOSyCX0VYUvrtUyyu8D2IdeUcHeQiqZWF2W7fj2N+o=
-X-Gm-Gg: ATEYQzyN1Jp2qus/7VZfv/QedL3tHqEoJ3bKT/A3oIhjbsv18UAaYlpEGk0R1pUadxF
-	8eZNtGt78/gRBfOJCXzqoldNZslhbIAt+U1+mp8dHyK+UDJRZsI/FnwE1rYNqboiQNtRntUMmhn
-	wTBhiViQu2rrUrZOYruf1+RHhyxtsqszd6VKKoYM/R/7/Vaps6Vs0VmCuTZVdNbZ7astsRHZp1r
-	J8lEgSPcAZMIxhsCBrzNp8T38IzcQfbkL5LSZ0e9G19KWd36thpc4qTVEBvPDGQu9F29WFpyyUN
-	kXuevBrF5mpvncsyGGUT75G8FrnJTE2gldT1OfRTNN+DCvBZNHj7D1vhRZH8l2GVw08RbHo6RhL
-	gALBX681ngCEY59pMSxYRArKlf9QHZiSj2aq0svAbZoO/pGTeCOfdznioZ2gsjpwUKLo8XgFJvF
-	9khQEwh5fTRoy4zEgQLex13HR0
-X-Received: by 2002:a05:6a00:2ea6:b0:827:39de:ecf2 with SMTP id d2e1a72fcca58-829a2e6847dmr7595189b3a.25.1772983143480;
-        Sun, 08 Mar 2026 08:19:03 -0700 (PDT)
-Received: from px13 ([218.155.71.249])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48ddd18sm7432513b3a.56.2026.03.08.08.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 08:19:03 -0700 (PDT)
-From: hasunpark@gmail.com
-To: linux-sound@vger.kernel.org
-Cc: Vijendar.Mukunda@amd.com,
-	venkataprasad.potturu@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	Hasun Park <hasunpark@gmail.com>
-Subject: [PATCH 3/3] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy SDW machine
-Date: Mon,  9 Mar 2026 00:16:54 +0900
-Message-ID: <20260308151654.29059-4-hasunpark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260308151654.29059-1-hasunpark@gmail.com>
-References: <20260308151654.29059-1-hasunpark@gmail.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="QwIpgXSv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mRhyPfN+h8M07QpyHsy9TEyVht0BU4KkQjK0Xgy4tHSkecU+7aJOlWTn7fmFbpsT3KcqBSh8ZGRZIsdnAS8YPxa8LHxfDKXSaM0URdteA7LUe6ugL52nWmdP1WCzn11Qhd6nWqorhhc8mUq9lhazLCm9EnSX0zAM7xVDK2ROxWsRL0BO8/tCnAvuO8fniDe5j/n7n4in+Y9caQ730qlzyKIHZ7hdb8QSOIv0FRx2lJ15GQpnEThLFeZ7zsXYa4aYbdbXA5CmCMZ0jbocJKMJiOQwjExNJW4Ijhvo3liazZAgqKc55wyGpT5RgbOrRKQvZw8xo5ehYPREXFeA215n2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VTynScpr82BcHKy3P8sYqSNO5MrdN0X0Ee0lzB1zvB0=;
+ b=wnhRima1oWC1Wcheds4nBsgxpa9OR8wImSTWTHF/N/K+HRhuU+kLbUT3KyXX05AkvwbNjpqMpQxF5MpPljYmSMAApZ+sTfsujJyEYHF3lFZMfY49e5jz80TPMKohMAkxKMSnYctLCVyUPcenFg3Viag2eFMoSIMs2Ntf8IoWOPMyL8vaVCZpejotJycX/fDDU8r6a14qL2LKTWoZphsnX3U6kssXQVdLdVSk3quKhFCBEboTWlCp8sMxNLY41FommKUWMDpnWdi2qql8rSlzZ5aJ4cCi0ZHEU/DwD7P9V09KDq9fUZ7yq4HgBF4A8Ht1WrbSwAwNn9ff4cvyCxSk/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VTynScpr82BcHKy3P8sYqSNO5MrdN0X0Ee0lzB1zvB0=;
+ b=QwIpgXSv+ax2Ah78poMdIhI19KQ1GIg1EpWDib5LHl2Oi3iMgCB8kind9toMZQFWa2fxw1grKwCuybAfTZ/UnYKPEh63vMaFcDPebeNy8ihCJuBFei9g+JHPT931vB0wTstpEr6lgLLcClA52Su46qlGXow8Gl0FmktSgORSkPE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
+ by OSZPR01MB8497.jpnprd01.prod.outlook.com (2603:1096:604:186::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.24; Mon, 9 Mar
+ 2026 00:40:45 +0000
+Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
+ ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9678.023; Mon, 9 Mar 2026
+ 00:40:44 +0000
+Message-ID: <87jyvl25tf.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Sen Wang <sen@ti.com>
+Cc: <broonie@kernel.org>,
+	<lgirdwood@gmail.com>,
+	<perex@perex.cz>,
+	<tiwai@suse.com>,
+	<devarsht@ti.com>,
+	<v-singh1@ti.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: simple-card-utils: fix graph_util_is_ports0() for DT overlays
+In-Reply-To: <20260308044130.1991091-1-sen@ti.com>
+References: <20260308044130.1991091-1-sen@ti.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 9 Mar 2026 00:40:44 +0000
+X-ClientProxiedBy: TYCP286CA0229.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c7::8) To TYYPR01MB7976.jpnprd01.prod.outlook.com
+ (2603:1096:400:ff::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|OSZPR01MB8497:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c43c21a-ea7e-4b4c-5e60-08de7d747fc2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	whKHouhbGkLb46yXWsbYqz6MStxOr1vIvD0tpChY5Uv3s+NyOjZAhrooBOQegg3/1pOm2eXEvtL8l02/wk1B1jzc8/H07pxN9BhAT4fAPkFRDvuotjopFBUudg82ni/cOx6+uaEvh/9ewHSuBIDBkld18yE/Rt0UjH+iB99xNqIAci69CJT4I181rb8ZqlaFBcyNGZxewUoODX20X3kiGS79HlByS1QNhjPie3bD1pEPl1WqPgOaqqwTKru+GOwpDHQymj6jBsOB6rCWLocffq3j7CQIKnLIL7fKT5EPVCb/uQ4teIZLg/JMwheu6IvPTb+jF+MoKq7alf5znrA/NM/oH+8yRpS+of3GisGa6eZinTTwoIsxDfhgyZMLlSNm9LddFT1/XHhsj4Il5jvtK8VJsJHMDLOUfN7CfnWvR4hCFYz5ACsUxqwcEvXpIqimd/EkSREXT89L4BdwBumzLgPRLoU3QwQwxYt7SqBRkrojskLdJgEwMRnfzqz+esNwobV+Gr+zQhn55uyUpcVAQqPsSoCjk3dZIkisCcHjMlRiLNwcVHgLPxTDlJ+00Bpvhpx8hDUSaBgIygHGIP+x6PGfSBobfq4HOrqzkDezfKjrXv19zDKu16tYhgPoO8AlO7x1fpnpmRancsqvNe9casebczG4RKKq1xnowcYDLQQU4fo/pBRQmKTV7JtirVXz9G8VOZaTC8QLJ5bxobOUojLvyVGR4vtXVPkBzm9jXp/GI/qYgsau1wndUMY5TdDTKog+rkW/XxGqnZAFSqE2KrXXHgRALEY/S9Pgc0sjIUc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?sxce+NYXpTEYpzrKqlVPYintODA09jCdBcpUL3V50XoumAL4ahQFsIwEeU4J?=
+ =?us-ascii?Q?toKUbFpB87jcz66FZlhTnU8Kw6BkPGJes1CJbSdIouMZTuiWHB0+3YVy5I76?=
+ =?us-ascii?Q?o0VzWMZJHk42eLpWImWWhguNBqhKz0BJAXAd+0wmSTgMcKujCTMfb9klBvRZ?=
+ =?us-ascii?Q?LqswwswnS3dVUUy9BOvhGwgUDYchA2n5CjIYXvNMCdiMO5Qdmay03FfsgtFr?=
+ =?us-ascii?Q?BTvuyUFUXF9mBidhC3LdSgTCxv2buALnhGAAUUfsvHOxTTWLOcNRSlEMsP3C?=
+ =?us-ascii?Q?9wwmy9riEsQIi6AMgbwftGF0bF7HJhJjFq9arTfWMs/ufMsqPOynd6hmSS2k?=
+ =?us-ascii?Q?GPzXOkCTQW9Qn2LqG4mdZGaYn3qyYpGcA5TzhsCTp3437+kQxiXBxvO726EG?=
+ =?us-ascii?Q?HB85otbsE6IV6QWqnFvGS50V+h4OVbZ0wK081cKkeutp8gXvPhyiQaXU6CoW?=
+ =?us-ascii?Q?ZH+NvSHn29vtJflgpCFCcOS/PeOh93wkAz7+LlzNwdWM7RuiCwhDxnmk5Ut0?=
+ =?us-ascii?Q?6GRvZyY6xPtG1OLttzxOU0gWhOKwQ+gst89sC3m1tw2/yXg70ZDn9aHeBZaZ?=
+ =?us-ascii?Q?MNoCTg6pFrrafC3pyy5++frJfQjWCZgnBeJvdVuxut5qGn/4eQjXWAoiS/KK?=
+ =?us-ascii?Q?MAs2iRM3W6fF3YwaraqdfGZkinFQA6VXuiemQzgFfq19ZNk2xKVZJafki8CE?=
+ =?us-ascii?Q?y0vwALTJbdJ3mJ2Dbkfl5vFyunjbrEtuecx3Nqwc1GKkbZeVBCRY8M2WmTKj?=
+ =?us-ascii?Q?A5oGJv02vKTEyvyzqT97qSWBYPggaaHFIn/noqAZv3SwheV2Re/Ksiu8tnL4?=
+ =?us-ascii?Q?Q2+7kj5V3NDF2LP2hq3GbLORS7im/i1qK5v62ipoSi/G02ZgMSdJD2gwZATr?=
+ =?us-ascii?Q?kx/3Pu6egiqcObCK+2//sUyJkqeZdqNdoPfODWR8giaYYWkpMJP7xO4VTsmY?=
+ =?us-ascii?Q?YVDhPC4PBKEA5p0Y5eNSiAtjmxhL8RrEQKb68Dapy8ALYUboHo8vXvDvVG10?=
+ =?us-ascii?Q?RTpe9jSzyEVYKXg0jNfLNZsj2X0d47iLBlv9E0tHTdKoN2iBAJmF2x6lhVT9?=
+ =?us-ascii?Q?LPzhQZm692X4qELiXR+6WiQwhuV7bbzlal9Mana2a0hQhmb+envhFDpYx4v4?=
+ =?us-ascii?Q?SvI+wxXAkvL1RZ6CaqmOF3myDQl9GpfMOlTBbETPFsV6eTPWlcCbvCSiWp4R?=
+ =?us-ascii?Q?PaS/lIogW0nfU9VNnNO9tZYWiYzjb8DS3e9Uvv9aH5PTarCSI/dcG9HzeNCa?=
+ =?us-ascii?Q?v/bOAzVTb6RytC2qsIR/P3XQKwHDE0XBreivsqGDbtRaBaAIviuDa89jj8Mi?=
+ =?us-ascii?Q?NEXQaomvKh8F6CVH2FeiHIsJDUa1n9zsDzdwcRQr3tQx+s2IeF1Iy+63cWSx?=
+ =?us-ascii?Q?EvfvYD+GSOR0EgKke5I5b+/GDjMyGJqvtJiZmIrR0xlLgxUbvISRRUUNBrjp?=
+ =?us-ascii?Q?VOsCXD/jlQE+PQWW1q0i5Tn0Avba2Sw77HH0hB0pkWlHJsD3lNd6ujSeKv38?=
+ =?us-ascii?Q?5087pU+zUc1qJ1XEidojzpQWzhx/1O/yq9t9LrRHm8XpyI1tT03LOUNkCAq3?=
+ =?us-ascii?Q?DFNqPfPGj3jSpWySFZpos8964bIRsji+3So2sMmR+E/68GtlYIl10cKosbPR?=
+ =?us-ascii?Q?Z3HGqydZaoG6TN6M1359FAF05rMk7Y2TyPSrSyfAmIs0HMD8+8tmJaaBgO9f?=
+ =?us-ascii?Q?dokKDbUYxydk9ISrV6xbbPXDfjzEGKmjBAu5g6fELr830f+PjRHuKb43/z87?=
+ =?us-ascii?Q?fCQjnbzrHwbX0fuwqotYWZmzpsQ2kRM/LK/oClmWvllhD2BQ/9hA?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c43c21a-ea7e-4b4c-5e60-08de7d747fc2
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 00:40:44.8005
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l+9kWcJ9BHx8IcrPdrUESASwGitwM6dtNwqHjW2ZJijlM+LwcnkxsNkBgoPvNPLfQviCpzohqQCUwSwyNP0L7P01zGy9OhqcOqQ/g6RyYxbiot9dj/6xr3u1aKXzP5LH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8497
 
-From: Hasun Park <hasunpark@gmail.com>
 
-Add a DMI quirk entry for ASUS HN7306EA in the ACP SoundWire legacy
-machine driver.
+Hi Sen
 
-Set driver_data to RT711_JD1 | ASOC_SDW_ACP_DMIC for this board so the
-platform-specific jack/DMIC quirk path is selected.
+> But when the DPCM topology comes from a DT overlay, __of_attach_node()
+> inserts new children at the head of the sibling list, reversing the
+> order. of_get_child_by_name() then returns ports@N instead of ports@0,
+> causing all front-end links to be classified as back-ends in
+> audio-graph-card2. The card subsequently breaks and registers with no
+> PCM devices.
+(snip)
+> +       /* match "ports" or "ports@0" by unit address in node name */
 
-Signed-off-by: Hasun Park <hasunpark@gmail.com>
+Could you please indicate this method is needed for DT overlay ?
+It is the main reason.
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/amd/acp/acp-sdw-legacy-mach.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-index c30ccf23005a..d22b71e3fd2d 100644
---- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-@@ -111,6 +111,14 @@ static const struct dmi_system_id soc_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(ASOC_SDW_CODEC_SPKR),
- 	},
-+	{
-+		.callback = soc_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
-+		},
-+		.driver_data = (void *)(RT711_JD1 | ASOC_SDW_ACP_DMIC),
-+	},
- 	{}
- };
- 
--- 
-2.53.0
-
+Kuninori Morimoto
