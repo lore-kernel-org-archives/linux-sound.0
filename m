@@ -1,154 +1,137 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DB374E46
-	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 09:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE49424DCF9
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 09:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773046926; cv=none; b=mV8oZtLljZAMdYn8LLgqPu+4RDeA/tvgWPcc6JxrsGN3VdGfeDQS1mQToHdvb+Ji01BampLB80EkrnLcEl92pVFF9SODsRR4oHh3o08GHFYIykFSdW6Im80ZYGA7uvpjRGDJ/WLQ0U6gXB2mB9j+DsPqz1FqP3JchdYnATSP4FY=
+	t=1773047768; cv=none; b=IX09vuaGJBFdjAbZ6/20YAZpsxiDp3MA28xtvCkqwpBgNFnntDIW19GhV4T4MLVJmOE5kCCXDmaSfUTtM4i7qPb4wHbW4VD2t5Zpy8BhXiTE3kbqBqi7E16cbJBeD+rNk6uUxe6ewW0mlykNV10MGzW6p7SXTfNX5Nt5aC0eLLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773046926; c=relaxed/simple;
-	bh=lxsngedNTuJ2gxdr+o7pki8ATm6ddiUn0I9/Iw9jR1E=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ptO3I5fH6xyckM1iUHj83TOTwCJIO1/G1FY24uNoa9lSf9tQjR1pTIX9Y4qS/kCfZxe/gx9DeKXzdL/Bl6njfxrcOGxEeyFqx/9HPyuggEjDdsp8hichiAtvgm7CiHI6lb5JozykRy/j7yGZF0pErQuk3s5hy3m6AOuGLmkMCME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wjHXkgGc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HQcSB+v6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0XQQeG5w; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pBkLwdU2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773047768; c=relaxed/simple;
+	bh=9ikCxfRIcl4vjNTX3L5gAgmeFC7symXRbKBW4KGuUQE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jHf6y+E1exHytjVe3RQZYPel+LggU2PmLsb0y4QfxJe3rDZEDR1cb/BBD5osyXPepHxQ9Q1WfmSrJcQ0jX8dTPHn85AkKKVtpvvL13Q9N0NyEqW/h9gKMtp/ZEJZ/jB4gfZ9rODRn8Dr+LsuKMsPoZG1sADyqGyCgTOXfl+N/5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebmTYi+r; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wjHXkgGc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HQcSB+v6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0XQQeG5w";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pBkLwdU2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 75DF75BE6D;
-	Mon,  9 Mar 2026 09:02:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773046923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=06VzGyHQUpRC/vwJO3GlSm4DtVrwQk8z5oewQG32Z9A=;
-	b=wjHXkgGcmDUss/w3UFCs4sXCKw5fwD+tCU0YedQs2V0OXcyR1qDr0O2olCWfdzrxH3V9rn
-	8Iqjk8S5pxct81UnaMT/nDsMufDelFPzFkD2Itvyr4X+cofZW09fmwPIJyj5+wmhwb/7gZ
-	ihBp94Ac1Be6RIK4bBJ2fm5CfT6SyEY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773046923;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=06VzGyHQUpRC/vwJO3GlSm4DtVrwQk8z5oewQG32Z9A=;
-	b=HQcSB+v6BduBCAQjxbhiM9AgztCNmyMF62hA3zWkoszs8iUaiIDY7bh/ZgQXoVu/kvkapP
-	DxgYnRSSKFzlAJBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773046922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=06VzGyHQUpRC/vwJO3GlSm4DtVrwQk8z5oewQG32Z9A=;
-	b=0XQQeG5woYfVkGeyNroyDAWbNMlL+tLVYeyiHDAqG0KjZe4y5ZSDRzH+grOJIYF5NeB1XO
-	dVkOUw460IJY8JC+8lDHDXhjxoNDvTE6JgG/jJlYIiL0+AtLMRFZCyFEKm/tTlEG80zzrY
-	DtW56BD9MFYzmeGe44Nuj54Q8Z8s56I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773046922;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=06VzGyHQUpRC/vwJO3GlSm4DtVrwQk8z5oewQG32Z9A=;
-	b=pBkLwdU2jv4rpQ4rkXWNLP/rFu1uHC8rrdw2ehag98baUXPppaYa2b3jMJU0ziaok9IWAz
-	j9FDjvMpbhVjjIDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 498683EDFE;
-	Mon,  9 Mar 2026 09:02:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id umawEIqMrmmGTQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Mar 2026 09:02:02 +0000
-Date: Mon, 09 Mar 2026 10:02:01 +0100
-Message-ID: <87ms0htlyu.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Uzair Mughal <contact@uzair.is-a.dev>
-Cc: perex@perex.cz,
-	alsa-devel@alsa-project.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebmTYi+r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773047767; x=1804583767;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9ikCxfRIcl4vjNTX3L5gAgmeFC7symXRbKBW4KGuUQE=;
+  b=ebmTYi+rNcmDECS+epV85AM7UA3m8im9y/w9jQ8J3YuH9JrH6Pd+YP0o
+   jRpwIuepzZOxEMy56Tk+n+rGXQBCJ9qSliOiJmGXEeX6BoUa8bMcsmN5z
+   fjcN8qbMA/xpLEGpeJ9XXHbh1ncxzMP1+0Gat6Ja5U9hWdtS1f3PfyclO
+   PVGDRgi2NuY5ygYiRFwW8d2uNpKrWxGmPAaVHyQYonCOztLcdfT6+X6uu
+   zbXosQ4GxW9z1RUP8ao8tc4c4K4bALq9aZBCRmz7NCBIfqZWpmIGeRi2e
+   mshyYwi7uetVy1aOIWqddoj1CKaXcJ9tJcW0FGAgOnxkcj1Qxid+NTSfS
+   g==;
+X-CSE-ConnectionGUID: HF9RDnMCTni1duxZsdtROw==
+X-CSE-MsgGUID: FnoL2oqkQ+eCI85XJZXQsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="84776969"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="84776969"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 02:16:06 -0700
+X-CSE-ConnectionGUID: Qc5Tl++9SHGjR8FtfFFciw==
+X-CSE-MsgGUID: N9KIDwXvRVCaXwHpcc79Og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="245688611"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa001.fm.intel.com with ESMTP; 09 Mar 2026 02:16:04 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add headset jack quirk for Thinkpad X390
-In-Reply-To: <20260307012906.20093-1-contact@uzair.is-a.dev>
-References: <20260307012906.20093-1-contact@uzair.is-a.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/5] ASoC: Intel: catpt: Overhaul volume and mute control operations
+Date: Mon,  9 Mar 2026 10:16:00 +0100
+Message-Id: <20260309091605.896307-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 07 Mar 2026 02:29:06 +0100,
-Uzair Mughal wrote:
-> 
-> The Lenovo ThinkPad X390 (ALC257 codec, subsystem ID 0x17aa2288)
-> does not report headset button press events. Headphone insertion is
-> detected (SW_HEADPHONE_INSERT), but pressing the inline microphone
-> button on a headset produces no input events.
-> 
-> Add a SND_PCI_QUIRK entry that maps this subsystem ID to
-> ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK, which enables
-> headset jack button detection through alc_fixup_headset_jack()
-> and ThinkPad ACPI integration. This is the same fixup used by
-> similar ThinkPad models (P1 Gen 3, X1 Extreme Gen 3).
-> 
-> Signed-off-by: Uzair Mughal <contact@uzair.is-a.dev>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index XXXXXXX..XXXXXXX 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -6998,6 +6998,7 @@
->  	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
->  	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
-> +	SND_PCI_QUIRK(0x17aa, 0x2288, "Thinkpad X390", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
->  	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
->  	SND_PCI_QUIRK(0x17aa, 0x22be, "Thinkpad X1 Carbon 8th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
-> -- 
-> 2.43.0
+Short summary first, longer description later:
 
-It looks like that the patch is malformed, failing one context line,
-and neither git-am nor patch can't apply it cleanly.
-Since the code change is trivial, I fixed it locally now.  But at the
-next time, please make sure that the patch is really applicable.
+- fix the return code for kctl->put() - currently the driver returns
+  '0' even if changes were done
+- lower power consumption for kctl operations by waking the DSP only
+  when some streaming is done.  No streaming? Cache the values and
+  inform the AudioDSP firmware later.
+- drop the existing code duplication between individual and master
+  volume controls
 
+The very first patch addresses synchronization problem that exists when
+an individual control and its paired stream are manipulated by a user
+simultaneously.  As the refactor integrates the fix in its new code,
+most of it gets shuffled but in case of a "refactor problem" I've
+decided to have it separated and leading the series.  This way the
+problem is fixed even if refactor, for whatever reason, would be
+reverted.
 
-thanks,
+--
+More of in-depth explanation for the refactor, taken from commit 2:
 
-Takashi
+The catpt-driver's volume and mute control operations always return '0'
+regardless if a change occurred or not.  To conform to ALSA's interface,
+value '1' shall be returned when a change occurred.
+
+The second major point is power consumption.  Existing control
+operations always wake the DSP even if no streams are running.  In such
+case waking the DSP just for the sake of updating the volume (or mute)
+settings on the firmware side is a waste of power.  The provided
+implementation caches the values and updates the settings only when
+streams are being opened for streaming or are already running.
+
+As changing existing code is non-trivial, provide new operations
+instead.  The put() operation, which interests us the most, takes the
+following shape:
+
+	// two values provided to put():
+	// @pin_id - which stream given control relates to
+	// @value_to_apply - the value from user
+
+	if (control->existing_val == value_to_apply)
+		return 0;
+
+	runtime_stream = get_running_stream(pin_id);
+	if (runtime_stream != NULL) {
+		ret = send_ipc();
+		if (ret)
+			return ret;
+	}
+
+	control->existing_val = value_to_apply;
+	return 1;
+
+Adheres to ALSA's expectation and avoids sending IPCs if there is no
+change to be made.
+
+Cezary Rojewski (5):
+  ASoC: Intel: catpt: Synchronize stream access
+  ASoC: Intel: catpt: New volume and mute control operations
+  ASoC: Intel: catpt: Simplify procedure of applying user settings
+  ASoC: Intel: catpt: Do not wake DSP just for volume setup
+  ASoC: Intel: catpt: Migrate to the new control operations
+
+ sound/soc/intel/catpt/core.h     |   2 +-
+ sound/soc/intel/catpt/device.c   |   2 +-
+ sound/soc/intel/catpt/ipc.c      |   3 +
+ sound/soc/intel/catpt/loader.c   |   2 +
+ sound/soc/intel/catpt/messages.h |   3 +
+ sound/soc/intel/catpt/pcm.c      | 394 +++++++++++++------------------
+ 6 files changed, 174 insertions(+), 232 deletions(-)
+
+-- 
+2.34.1
+
