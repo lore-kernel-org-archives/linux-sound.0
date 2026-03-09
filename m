@@ -1,102 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13DA7262E;
-	Mon,  9 Mar 2026 10:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEA538F95C
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 10:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773051099; cv=none; b=h1gVtkIJziMQfQOA7m7MEFg6YoHoW6cGaZ1RCwJ3R+88/DsOLNvckHM1F/wiXHsYtVJfQXCAcfiV5tR6d3wa+MQUtoMZgO0ZuYv0VNSo+DzXPrEpoV0Ig+AdNpsgy4Ghod9Cdm92ql+52QHlIEK2tHWHgIG0pVUOjMoiJJJo6RE=
+	t=1773052151; cv=none; b=U8ejurwrVCEmxzRlNwG/jJbRIEuMIhpHrQhBYqPTw8KqvJB7X+Nfn0rfrIHEBPz5lnXgguV9AAakrmXJWNSwI8ONnngB/b6YKciycfjSHaJ+OLH+ISCXu0BxZUbehZc7V3FyV/CBIozFONxuz6haNm9SVeS6wt5IFeKlqWPXe6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773051099; c=relaxed/simple;
-	bh=tLnmfFOZzESytsBgYKTuFVUj3SXiR9lxn7iooMlwSjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uXNW5e2y7x5QsqmQQ6Gn1CDM3S3SgciVkCWmbZGyWAZRNK5gwy7GHUfJ6PQ+ehy6TFMLi4Js1rBzOHmbsyaOzWHybTgNAI6lgk7RZIuj5zwaNqlaWnd7cIWYQn/kkhTOkyJRgpIWaAgpY2xjfouqQSqPV92rlMLg4Gb0jRaL/Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WQIgw8km; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773052151; c=relaxed/simple;
+	bh=vP5GpcwPngThlYOaQcpEC4g8S9lFe6VEs63geMSLyUA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WYw77yT7kLoBLkxiX5RD1vI8xMCIW+Yu+cvTXxjBur9F7VJEIp6ZHU/Ikvub9Q/P4KS8uWwXWJQgrQUfnHun4+GtgnUcAtRYfnHAhHbDsKnSkuBn/rp9FZ6cjYonbwhFtueBCSbJcxnYKHHEThup+W75DmKoh0KjWgut/l6dwsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZkbPnOen; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FtdzbZSr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gwKx+tcU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=krRm5Ibx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WQIgw8km"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E85EBC4CEF7;
-	Mon,  9 Mar 2026 10:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773051099;
-	bh=tLnmfFOZzESytsBgYKTuFVUj3SXiR9lxn7iooMlwSjM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WQIgw8kmYuDBBBt0pHS1So275S1ls7S4d26r3nG5ah6+nN8TUMclurIUX0FzJyTRy
-	 AtMFSacJXyFeaQGez/zWowB/Tk+zjwcz6Q8VlsEieKtcMgW2jjBpVhirLbLkuV0lh8
-	 XmIr/NnSADXpG1TFFYSrWyVHYMxAdO4bfdal1NE4=
-Date: Mon, 9 Mar 2026 11:11:36 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZkbPnOen";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FtdzbZSr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gwKx+tcU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="krRm5Ibx"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B1E845BD4B;
+	Mon,  9 Mar 2026 10:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773052148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2DzZXy3VmQDvkmf0CzfUL4/qtJz72VEQ8P/Q5zsg9Tw=;
+	b=ZkbPnOenbnxI+eZlbULAD7ziVN0mooncRSnXPnwFKMncM3sw2JQxvQiKw1YeiBiSynMz9m
+	SNsBBJZc1KiYw4KtV4fynk1IqO6Z6wWYCd0/CPOJ1u94Yv+C55Rk1AC8YjaTgUPXS9GLKQ
+	gOkum24DVc/NK0Fc+S6SfWiVhzXoGwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773052148;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2DzZXy3VmQDvkmf0CzfUL4/qtJz72VEQ8P/Q5zsg9Tw=;
+	b=FtdzbZSrEbKzalUevRzIiaLD337Z+15nLvIATSddYENZng5acd8cU8ovkO7a/Y26gTxKh4
+	RGVxen7+93lMmrBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773052147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2DzZXy3VmQDvkmf0CzfUL4/qtJz72VEQ8P/Q5zsg9Tw=;
+	b=gwKx+tcUdXY/0JtHIv2FMVi6dUOJCZS8RRkPDuo7tDJN2R0i5YqdxFzxAgYaPK5x35bWmF
+	F9R7jUWFXy9j3qxSuQvMW9JBrmgkTuqI28CEoTRRM5S4YWjfFyoReZn+olDuqSWuDOku0e
+	7x41FTlDCkqqIkG3gtl+kGU6HR/Vp3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773052147;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2DzZXy3VmQDvkmf0CzfUL4/qtJz72VEQ8P/Q5zsg9Tw=;
+	b=krRm5IbxwWGPKIbW5VmZp9u5SLbCHJq1AQ1VsVAbACFdM/YMLiBM0lTyz7yQ+i25oI0/7Q
+	KNjrKXLAjM+HGiBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 762353EE55;
+	Mon,  9 Mar 2026 10:29:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bSu3G/OgrmlWPAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Mar 2026 10:29:07 +0000
+Date: Mon, 09 Mar 2026 11:29:07 +0100
+Message-ID: <87cy1dnvnw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
 To: Edward Adam Davis <eadavis@qq.com>
-Cc: tiwai@suse.de, g@b4.vu, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+Cc: g@b4.vu,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
 	perex@perex.cz,
 	syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Subject: Re: [PATCH v2] ALSA: scarlett2: Add the number of endpoints checked
- was 0
-Message-ID: <2026030947-ladylike-deeply-402f@gregkh>
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v2] ALSA: scarlett2: Add the number of endpoints checked was 0
+In-Reply-To: <87h5qpnwu5.wl-tiwai@suse.de>
 References: <87y0k1toaz.wl-tiwai@suse.de>
- <tencent_986ED56EFECC99E7EF86D412F6064FC99906@qq.com>
+	<tencent_986ED56EFECC99E7EF86D412F6064FC99906@qq.com>
+	<87h5qpnwu5.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_986ED56EFECC99E7EF86D412F6064FC99906@qq.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[ae893a8901067fde2741];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[qq.com];
+	FREEMAIL_ENVRCPT(0.00)[qq.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qq.com:email,appspotmail.com:email]
+X-Spam-Flag: NO
 
-On Mon, Mar 09, 2026 at 05:57:03PM +0800, Edward Adam Davis wrote:
-> The user constructed a corrupted USB device, causing the USB device
-> enumeration phase to fail to resolve any endpoints. This resulted in
-> a null pointer dereference reported in [1] when the USB sound card
-> driver executed probe to initialize the mixer. 
+On Mon, 09 Mar 2026 11:03:46 +0100,
+Takashi Iwai wrote:
 > 
-> To avoid the problem reported in [1], a check was added to ensure that
-> the number of endpoints contained in the interface was 0 when creating
-> mixer controls for the Focusrite Scarlett 2nd/3rd Gen USB sound card.
+> On Mon, 09 Mar 2026 10:57:03 +0100,
+> Edward Adam Davis wrote:
+> > 
+> > The user constructed a corrupted USB device, causing the USB device
+> > enumeration phase to fail to resolve any endpoints. This resulted in
+> > a null pointer dereference reported in [1] when the USB sound card
+> > driver executed probe to initialize the mixer. 
+> > 
+> > To avoid the problem reported in [1], a check was added to ensure that
+> > the number of endpoints contained in the interface was 0 when creating
+> > mixer controls for the Focusrite Scarlett 2nd/3rd Gen USB sound card.
+> > 
+> > [1]
+> > KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+> > RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
+> > RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
+> > RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
+> > RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
+> > RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
+> > Call Trace:
+> >  snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
+> >  snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
+> >  usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
+> > 
+> > Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
+> > Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> > ---
+> > v1 -> v2: move the check to scarlett2
+> > 
+> >  sound/usb/mixer_scarlett2.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+> > index ef3150581eab..4b300226f16c 100644
+> > --- a/sound/usb/mixer_scarlett2.c
+> > +++ b/sound/usb/mixer_scarlett2.c
+> > @@ -9393,6 +9393,15 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
+> >  		return 0;
+> >  	}
+> >  
+> > +	if (get_iface_desc(mixer->hostif)->bNumEndpoints == 0) {
+> > +		usb_audio_err(chip,
+> > +			"%s: There are no endpoints for %04x:%04x\n",
+> > +			__func__,
+> > +			USB_ID_VENDOR(chip->usb_id),
+> > +			USB_ID_PRODUCT(chip->usb_id));
+> > +		return 0;
 > 
-> [1]
-> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-> RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
-> RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
-> RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
-> RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
-> RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
-> Call Trace:
->  snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
->  snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
->  usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
-> 
-> Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
-> v1 -> v2: move the check to scarlett2
-> 
->  sound/usb/mixer_scarlett2.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-> index ef3150581eab..4b300226f16c 100644
-> --- a/sound/usb/mixer_scarlett2.c
-> +++ b/sound/usb/mixer_scarlett2.c
-> @@ -9393,6 +9393,15 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
->  		return 0;
->  	}
->  
-> +	if (get_iface_desc(mixer->hostif)->bNumEndpoints == 0) {
-> +		usb_audio_err(chip,
-> +			"%s: There are no endpoints for %04x:%04x\n",
-> +			__func__,
-> +			USB_ID_VENDOR(chip->usb_id),
-> +			USB_ID_PRODUCT(chip->usb_id));
-> +		return 0;
-> +	}
+> This should be an error.  It's obviously a broken descriptor, and this
+> is the code specific to the certain configuration.
 
-Why not use the "normal" functions to check a USB device for the exact
-specific types and numbers of endpoints instead of hand-coding it all?
+... and that check alone doesn't cover all cases, I'm afraid.  The
+scarlett2 driver code parses over multiple interfaces.
+
+I guess rather a patch like below should cover better.
+
 
 thanks,
 
-greg k-h
+Takashi
+
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -8251,6 +8251,8 @@ static int scarlett2_find_fc_interface(struct usb_device *dev,
+ 
+ 		if (desc->bInterfaceClass != 255)
+ 			continue;
++		if (desc->bNumEndpoints < 1)
++			continue;
+ 
+ 		epd = get_endpoint(intf->altsetting, 0);
+ 		private->bInterfaceNumber = desc->bInterfaceNumber;
