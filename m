@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A878336AB43;
-	Mon,  9 Mar 2026 23:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA94392C39;
+	Mon,  9 Mar 2026 23:22:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773098532; cv=none; b=Y+ga3MncJsIiupijDuB0UWhSc3c0RBJY7LRidHHUZEKIDPHMAa7P3Zc6TlTqOxHidNajJCcogdGWxulWFgo1YbLH/FE+MMgkoGj1ZuPh+hmeF/+cUn5xjKEqLGrx0J+fGnum7MqeLuO5GK1FZg7zwLDyNQ5jJzrRunmAGNMozzE=
+	t=1773098535; cv=none; b=Bw8seU1yl0/9TDvRxYYiLZKyrV1xnh90WjsvPP21WlBoIQ5JFW2/pGHfK9iUlPYXI8gQcirl9qdd/0emAAt/a57/ymflwu1+5x6nIJZVwyYAtdk9gbKLVz4V9KTooTpgU7vs986e3KEHGALHHXC/TtRQojzt0pw4diPDAnoOoQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773098532; c=relaxed/simple;
-	bh=y9ANMg+f3/yHzixBiC6hVOCotGxKM9ROn+VrlINuGqM=;
+	s=arc-20240116; t=1773098535; c=relaxed/simple;
+	bh=3wBsIglRVS2Z7lLF91UUM4ivbzTh1kenyYebv67va3o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EtjF0D6awNueNRkK/Z+XppAdSyjDqRPPtZm7uZVGMXvFF/hL1Qu6V1DfaMAhq7cf7RVjfEY9WwYyYmeZUPi8CAYvpM5wG8zzjSLofVjIsmdNACzs46qW6wg/jayj4eNJZJ5gST5ofkboHIuB2a+DHO4j2uHG3x8zxBT04sUFRLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IXgljIcA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gBYVZgZlHCFxYfLHQ8c+QHE0xHf1g0Gr9hBbj7CwOOGUDKSiJI5y5M46HZ1kUGnW0h+qAkpBQLuxHvQjXjm0Tc0ygB46YnltVF4aEuo7OhLMClXjfITrbvd0kQ99XoqvetVmI+o0W/A6AXr1Wv0CIDx4B0uWAFL3/7jZcgX7XAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aK1//uXo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IXgljIcA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44617C4CEF7;
-	Mon,  9 Mar 2026 23:22:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aK1//uXo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9A7C2BC86;
+	Mon,  9 Mar 2026 23:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773098532;
-	bh=y9ANMg+f3/yHzixBiC6hVOCotGxKM9ROn+VrlINuGqM=;
+	s=k20201202; t=1773098534;
+	bh=3wBsIglRVS2Z7lLF91UUM4ivbzTh1kenyYebv67va3o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IXgljIcAoyv6VEL5LIHROPmDTCeYBoK/4AoJyKAYUvVwV1NtzKsQ/hLmZjEShyymU
-	 6gLt+l165tgddjH8TNtCDzBgVTVX99zfw/uP+kA9RTqY/H4n4Jp57kEdSqsCpp/m4v
-	 4IJqdQ8VKK11faXjnG3FmVpbddvmUXo6bGIYU/O4TtCmwP6BzDOKMCb9Ojn80Fjl7S
-	 ZxA4EwmSLhrSiMNqbdsqTI/AP066oveR1NNeV3n9RyiWCpe9Zr3kOE+2GDhUkXICws
-	 8Bcd3B1sTHLd+ZyB9mfcY5LzGuPqx0zP8AS1861iKg4SS8wdxqOpYniL8cqTvYiMqn
-	 4PTf4TL5F+3/w==
+	b=aK1//uXoSpwC2Jlv2TkxiE/3kV3G+nKIEiNWmVETXAJHEwrB+ZxHWQaMbgwhdKTdC
+	 WSweT051hFSS02mWgPe47N8wXhy/7Lig3IaOz/QmkKqIgqtaakELyZx7O+K5cy3Kv7
+	 +13U0IgCMX/4etmqhrirsi9BKrP5o6mAygFv70OeT2z4yZ1mv4RSQEbDpH2sz7z/bC
+	 ioPBqWZGnZN4XF89RleJ2q9tTF9Ari9Ba6Sf+RaTcwLkbNuScGU7oELuSOzOf2iUYz
+	 FZ3RA8ZutY4bMzRGJeyGZt+vyDFENWjBJFvCf7FdbmSJJZnAfJ2zhHXDvEVVstZn0J
+	 ha41uRNdJRd1g==
 From: Mark Brown <broonie@kernel.org>
 To: Takashi Iwai <tiwai@suse.com>, Lee Jones <lee@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -35,12 +35,12 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
  linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
  patches@opensource.cirrus.com, devicetree@vger.kernel.org
-In-Reply-To: <20260227130120.3070893-1-mstrozek@opensource.cirrus.com>
-References: <20260227130120.3070893-1-mstrozek@opensource.cirrus.com>
-Subject: Re: [PATCH v4 RESEND 0/4] Add support for CS42L43B codec to
- CS42L43 driver
-Message-Id: <177309853000.332178.4026460155937292587.b4-ty@kernel.org>
-Date: Mon, 09 Mar 2026 23:22:10 +0000
+In-Reply-To: <20260306152829.3130530-1-mstrozek@opensource.cirrus.com>
+References: <20260306152829.3130530-1-mstrozek@opensource.cirrus.com>
+Subject: Re: [PATCH v5 0/4] Add support for CS42L43B codec to CS42L43
+ driver
+Message-Id: <177309853251.332178.10976607511521199811.b4-ty@kernel.org>
+Date: Mon, 09 Mar 2026 23:22:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-83dbb
 
-On Fri, 27 Feb 2026 13:00:57 +0000, Maciej Strozek wrote:
+On Fri, 06 Mar 2026 15:28:07 +0000, Maciej Strozek wrote:
 > Introducing CS42L43B, a variant of the CS42L43 codec with changes to
 > PDM (DMIC) inputs, RAM/ROM memory and extra channels to two SoundWire
 > ports and ISRCs, and can be supported by the existing CS42L43 driver
