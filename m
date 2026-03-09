@@ -1,266 +1,120 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29195274FE9
-	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 02:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773022938; cv=none; b=U57vClbbVdNTXJiQfFHygMj19gINRdpWZf7TtBF6XJARVOMQcFUv9xFyAvYvsr4b7GNHIonIM96qo5WDPfF4wdiVXIJkACICG7HGI8YyTZkycrhCTk8aGG8nexl+avsBYligAVy5SkJqXYc6OomrtYkphC38eb+QzgqqtZFAiig=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773022938; c=relaxed/simple;
-	bh=sfhKlOxhZjp27RRqyMOv5tQbb25tvaGuKH9jjcuerK8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=oQSImUW9kL9CnNKt1HizL0oH0y67Bmdzp9RggnD0KI84vdZMF/438HI7Rvt2ABbE+UEu0U9pYEISOGBfINADkSP3d29aJkwos5PB9sZ6XTb77tItobZOrwkqZeOdwzYVl6DT+qkgL5AZHN7ys8bcDDFVSupeqyh69ijKbsPhZ5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qXS0xK/H; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F5A254B03
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 03:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773027622; cv=pass; b=YSn37KQQHrYduiQyh5KanvM/hUo57nuVPdTELNfdbOsXuC34qHbXZWtVIPIPoqE6TfJAXSDLcsUTosBzeAypT4BVzSUltxX9oRmN7wn0ZAcNGURSABm9UBfjGhlzgYYqond7qmnB1kdF8w2v5rAVE8D0EsCxK817qbsdY6b2D+Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773027622; c=relaxed/simple;
+	bh=gbFjA4BtZaKaC8NQ9F4CXhw4uIQOwb1y7yKyLOTKDOs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aolb5jkTp+WQbe9HCJn9oVSEEEYeTI6FdJ+6i6xMqDRiWQ4UyTsuKDgNPnQY/Tq0Czy3J6LV2AvVt6sICJgtReGLUoTwhHbpw4nMX0JFOL0cs46oDe/vwiX3sSQ/FBFTx7RrU7iY1HcbCwxX7mKdig+q19h3SWXsqXj+KbwAyX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L4mmMNCy; arc=pass smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qXS0xK/H"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2ae66ee7354so53899155ad.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Mar 2026 19:22:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L4mmMNCy"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-359866a1d02so6850282a91.0
+        for <linux-sound@vger.kernel.org>; Sun, 08 Mar 2026 20:40:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773027621; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hJsWfi7vF1MdTG5BIVLZEvi7GlCanq9ydngRSn3sV1YCWuaz1vRW8RZn7Sf/HkKvqI
+         uHaiVQe5QZ770EKE+/9g9Q7Te+xGo81Fb3EZptGXZQvSQ7sBHD58NhcA+9Kb/zpKSPHW
+         YgiwyVvmxKjDPhb6CbOAQy4U1IVKAmZzTCk0mN5tKL1uJxFXuEXgdruu8UiyFBX5TX2J
+         HxQ7AtzQfBL90utyUGeHCWPU1p9e5U6rsYH/rii1bgrBL0Ku2r7/7rkNU2pF6GDJUq9B
+         6Vy6858UIVguZNmmztx6d3QvpmoT8Ya8YDCVUbd8es8BVhQwye4sCUIVRPemywwif1s1
+         F2Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FKiYlaBVKzKkQ0fFD3dOHjGBjZMlXmQaDGVeIVxSCw8=;
+        fh=1vwhPdhrcqP9oribSLzAKZQ0TjXHZm/xm8EWgp5OQts=;
+        b=S7FrJSqubjAkClRRDvCT/8Dqq6RxZWoOclhmluNy7Q3hdZA+w70m/l42aNNLP78y0r
+         JB4L2R3bsxJuFZ7Exhz0z+wE1bIsfVRcqCxsgGF/4n6ObcsAePptvWP5I54VWEr07Zcr
+         oYRoycKZC/uuQ8ofFiggr6QIvs6jJputhUIiFgrlNSo9x96KFw47aRFtFehkdv4HLkBU
+         fdLJyoucn2tzgzoLDjPzTXfhJOUOn6LR2b2o+cHlQqfUZk1/BmskftYmGEJz7vSp3laM
+         B2Gw7Eq7yJEIyZIyfLJ62Vj2TSkbuaRPhqZ4jpVW5iLt5yAkoPGYTqB2tR9DE+EGskGc
+         chDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773022936; x=1773627736; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gplv2Tex9lazNCSIePgQz/7GHAFcH+CmqLMfgw0rRa0=;
-        b=qXS0xK/H+4hXaFLUlZ8x87PPHpUbo46YLYLBWMcdL9kyLAofzbPujHJCCKYCmfDIKI
-         BAaWPJKtf0PDXEyvBUJH3E98gWq9K6EfaAmpcYtIPoWKoQhKlNurghHkYy/OV2bqExfV
-         Eb1lGEnpPVGw1Y0vZ7+dIz611n+QcCpX/phanCnjfZbr22m7H9EUpzJHDj5Q6gH7kL88
-         A90UAYwwWr2fp4/MjdBikNAwFpE/NM8XRJeElQ8G+7xJJyXyZ0KIXrNNAtAcOBwia6an
-         vbOgLueVCmlSlNPm6E/SG7w/kjC/vBZNaJsjdqaz6fZ+1h5zHDx+ebWoCwIHouO8igbE
-         OjIA==
+        d=gmail.com; s=20230601; t=1773027621; x=1773632421; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FKiYlaBVKzKkQ0fFD3dOHjGBjZMlXmQaDGVeIVxSCw8=;
+        b=L4mmMNCy+rK0BA0UsA4ikQB0nppcdkZIufFUkuBqQsh1M0RwPSz25FYZ3fPuIUCLL7
+         wSxmu8nezpGDiO+vesaVJC0G+pT9W+VnbnYE0csc+VpQq2ypBxWfsDOI7GJ0L3XW3WJV
+         RaHhgz85J1x48TwTDdTGQoz+iFYrpAoAcVhsdnMlYOn3h1MVJFaeMCtwoUkuEt9Jrz7n
+         Wf7G2nLUHa4peBNi9Vsw0JHSyccnHQh3i60Q4fXg8q7GW+wVS/bMcuU204MpA/K7lax1
+         N86HNSCN0kx8lFYZ+PDKEje6TGXkeDXsDqCWpGPbk08ayY7ThZKK3xJ6OyEGuZIXhaEC
+         wc+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773022936; x=1773627736;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gplv2Tex9lazNCSIePgQz/7GHAFcH+CmqLMfgw0rRa0=;
-        b=PNZAWuUCedSmwQKGw0iN142fEFR67lBFr1LOKW0dbks2fWbKQ3g0OfhUl3SzjtdS4q
-         KdS4VdTiR9IblaefE12/mU5Xz16ZQmgcWMirrNKDgOfj2HDD99k0jvXawiUigen9gHLI
-         ztG7MWYtKaDdmstbpaOSAEZ7a4xLlKYU2PRpMtd7u8SyEGvLaCyNc/i3G35+CEgos1UT
-         Zc8iSgj7IsrgibjeX44ff+YvF5ikLMhTw8HzVaRZh368n9GqYIWV5dF96BdHnoq+TBQ/
-         cFfQ6sNEXW6rBahHdaH4dSD209FiZFicKxcOT8blP6+ZNwdssXrV92JcJO1Bafu1nUoh
-         7GVA==
-X-Forwarded-Encrypted: i=1; AJvYcCXKJtWvKY/wcZPiBROt63q7Ngi7Anont/F0mmi2akJrA0ACfT6v2nhBbS1vKJCI4sx10bMF6g07d8a0Yg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzti//fobkg4D5g8rMD1vKgA6Y+N/EEmKRJCG3O5ZXdxyuNFOBy
-	oKV5n59GiiMsxOOmWjz769qeWnMfnk5EAvi2eaW6NDxtaPHYS8eUb36mUBTVSxT81lITJD18S+r
-	6pj9C2vNtq+CbmZwDCw==
-X-Received: from pliy14.prod.google.com ([2002:a17:903:3d0e:b0:2ae:42de:7ed4])
- (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:f64e:b0:2ae:3ab7:1545 with SMTP id d9443c01a7336-2ae82505e81mr96587345ad.43.1773022936417;
- Sun, 08 Mar 2026 19:22:16 -0700 (PDT)
-Date: Mon,  9 Mar 2026 02:22:05 +0000
-In-Reply-To: <20260309022205.28136-1-guanyulin@google.com>
+        d=1e100.net; s=20230601; t=1773027621; x=1773632421;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FKiYlaBVKzKkQ0fFD3dOHjGBjZMlXmQaDGVeIVxSCw8=;
+        b=ZBU+yNiOESunaiH3ZoCmZL+IfyMLxsYqE1X8sefLGZjmlneuaDq1zVXVIOfKp9dudT
+         UO/idw/I/ZOWq06CRjOluA/ZTL/P+JjThCrqLwXobD9up8HIwxWEOMjbckv5kjiJCD49
+         UhYgVXfAOp7vl4XUkrQb7oyRw3ANBRSBuraSsxKjDcE6eFc2tlP8rXC634CNkow5Gu4j
+         z2bkB3e8PH2HIrMW5jpsYXsXuoyR6vV9qHyv/v9gR+PJdEu+oSmMr3sKBsxzydyLXhWO
+         J+veqSVYfkCLLC8DOenxqATxWOKppmcT89msKTk6xY6zzMhjRdgK9QkBKKWAcN2FJzzE
+         snZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUiofsEuLWxk1/8b7NpMtUY7QDQ5DZATXVk6zif/+AWEnanFmNw6X4yK2fKFchUXCUAnhycgDazdk9W/A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9/TQdDM3ta+N/WAWIA5gCVjoyLyQkoqHZu/3gb4VG3EauW5g0
+	jYuPMXQleGLFpB5NaFOMdD02PYXo7vacvbPsHoHHmmPDmOHz/LjZ/IvsrJeaw+WEMqGM+QTsOpo
+	OaLzgGortpl1ftnlqo1dPiGNZkJhIqyE=
+X-Gm-Gg: ATEYQzyIW13qlhlZdNdJIoMIE0ADseWqhGrQCJlp5hydLP/wSCq8Ohy3cCULxjeiMK/
+	Zwqx06GHfst+hKLGpGgG1Lxx/lGofng7bgiKd61f+siEFwELNz8Bed+pWy3et5NyHuTfU4Yb9Ys
+	x+Vk7Ibwp4NAfTMmLMuFOPF6e83o2ANaHVQLuPkS9H2VO0AQatqjba0caqpLwkkJquvAk/oUXmE
+	vj9wBYCEThbbRKXpfAw4CGFMR7QpttPUgHaOn13TO87gp/V5UxsrT3GrudBaBnEtOQDTsV+KKDZ
+	wCtkIIQ=
+X-Received: by 2002:a17:90b:3f46:b0:354:c602:a573 with SMTP id
+ 98e67ed59e1d1-359be31e12amr7562851a91.27.1773027620836; Sun, 08 Mar 2026
+ 20:40:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260309022205.28136-1-guanyulin@google.com>
-X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
-Message-ID: <20260309022205.28136-3-guanyulin@google.com>
-Subject: [PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
-From: Guan-Yu Lin <guanyulin@google.com>
-To: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
-	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
-	christophe.jaillet@wanadoo.fr, xiaopei01@kylinos.cn, 
-	wesley.cheng@oss.qualcomm.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>, stable@vger.kernel.org
+MIME-Version: 1.0
+References: <20260306093949.1647452-1-shengjiu.wang@nxp.com>
+ <20260306093949.1647452-2-shengjiu.wang@nxp.com> <0b110f10-dcc0-4573-803c-4dcf21643c3b@sirena.org.uk>
+In-Reply-To: <0b110f10-dcc0-4573-803c-4dcf21643c3b@sirena.org.uk>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 9 Mar 2026 11:40:06 +0800
+X-Gm-Features: AaiRm52wW7uO2soGEpfwj9NXlS5UrI1EZUcVw7BAu75E0A6zzAyAyjbuUGgZVeU
+Message-ID: <CAA+D8APr18xrX2ftRH_evVby5n1VQ1MSzqAref2bA9GnJUveeQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] ASoC: fsl_utils: Add snd_kcontrol functions for
+ specific cases
+To: Mark Brown <broonie@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Qualcomm USB audio offload driver currently does not report its offload
-activity to the USB core. This prevents the USB core from properly tracking
-active offload sessions, which could allow the device to auto-suspend while
-audio offloading is in progress.
+On Fri, Mar 6, 2026 at 8:04=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
+e:
+>
+> On Fri, Mar 06, 2026 at 05:39:47PM +0800, Shengjiu Wang wrote:
+> > There are some registers which are volatile, at pm runtime suspend stat=
+e,
+> > the regmap cache only is enabled, regmap will return -EBUSY when trying=
+ to
+> > access these registers.
+>
+> > +EXPORT_SYMBOL(fsl_asoc_get_xr_sx);
+>
+> Please make anything that exports ASoC or regmap functionality _GPL, the
+> underlying APIs are _GPL.
 
-Integrate usb_offload_get() and usb_offload_put() calls into the offload
-stream setup and teardown paths. Specifically, call usb_offload_get() when
-initializing the event ring and usb_offload_put() when freeing it.
+Ok.  I will update to use  EXPORT_SYMBOL_GPL.
+Thanks.
 
-Since the updated usb_offload_get() and usb_offload_put() APIs require the
-caller to hold the USB device lock, add the necessary device locking in
-handle_uaudio_stream_req() and qmi_stop_session() to satisfy this
-requirement.
-
-Cc: stable@vger.kernel.org
-Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
-Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
----
- sound/usb/qcom/qc_audio_offload.c | 102 ++++++++++++++++++------------
- 1 file changed, 60 insertions(+), 42 deletions(-)
-
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index cfb30a195364..1da243662327 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -699,6 +699,7 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
- 		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
- 				   PAGE_SIZE);
- 		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
-+		usb_offload_put(dev->udev);
- 	}
- }
- 
-@@ -750,6 +751,7 @@ static void qmi_stop_session(void)
- 	struct snd_usb_substream *subs;
- 	struct usb_host_endpoint *ep;
- 	struct snd_usb_audio *chip;
-+	struct usb_device *udev;
- 	struct intf_info *info;
- 	int pcm_card_num;
- 	int if_idx;
-@@ -791,8 +793,13 @@ static void qmi_stop_session(void)
- 			disable_audio_stream(subs);
- 		}
- 		atomic_set(&uadev[idx].in_use, 0);
--		guard(mutex)(&chip->mutex);
--		uaudio_dev_cleanup(&uadev[idx]);
-+
-+		udev = uadev[idx].udev;
-+		if (udev) {
-+			guard(device)(&udev->dev);
-+			guard(mutex)(&chip->mutex);
-+			uaudio_dev_cleanup(&uadev[idx]);
-+		}
- 	}
- }
- 
-@@ -1183,11 +1190,15 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	er_pa = 0;
- 
- 	/* event ring */
-+	ret = usb_offload_get(subs->dev);
-+	if (ret < 0)
-+		goto exit;
-+
- 	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
- 					       0, uaudio_qdev->data->intr_num);
- 	if (ret < 0) {
- 		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
--		goto exit;
-+		goto put_offload;
- 	}
- 
- 	sgt = xhci_sideband_get_event_buffer(uadev[card_num].sb);
-@@ -1219,6 +1230,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	mem_info->dma = 0;
- remove_interrupter:
- 	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-+put_offload:
-+	usb_offload_put(subs->dev);
- exit:
- 	return ret;
- }
-@@ -1483,6 +1496,7 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
- 	uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZE);
- free_sec_ring:
- 	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-+	usb_offload_put(subs->dev);
- drop_sync_ep:
- 	if (subs->sync_endpoint) {
- 		uaudio_iommu_unmap(MEM_XFER_RING,
-@@ -1528,6 +1542,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 	u8 pcm_card_num;
- 	u8 pcm_dev_num;
- 	u8 direction;
-+	struct usb_device *udev = NULL;
- 	int ret = 0;
- 
- 	if (!svc->client_connected) {
-@@ -1597,50 +1612,53 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 
- 	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
- 
--	if (req_msg->enable) {
--		ret = enable_audio_stream(subs,
--					  map_pcm_format(req_msg->audio_format),
--					  req_msg->number_of_ch, req_msg->bit_rate,
--					  datainterval);
--
--		if (!ret)
--			ret = prepare_qmi_response(subs, req_msg, &resp,
--						   info_idx);
--		if (ret < 0) {
--			guard(mutex)(&chip->mutex);
--			subs->opened = 0;
--		}
--	} else {
--		info = &uadev[pcm_card_num].info[info_idx];
--		if (info->data_ep_pipe) {
--			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
--					       info->data_ep_pipe);
--			if (ep) {
--				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
--							    ep);
--				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
--							      ep);
-+	udev = subs->dev;
-+	scoped_guard(device, &udev->dev) {
-+		if (req_msg->enable) {
-+			ret = enable_audio_stream(subs,
-+						map_pcm_format(req_msg->audio_format),
-+						req_msg->number_of_ch, req_msg->bit_rate,
-+						datainterval);
-+
-+			if (!ret)
-+				ret = prepare_qmi_response(subs, req_msg, &resp,
-+							info_idx);
-+			if (ret < 0) {
-+				guard(mutex)(&chip->mutex);
-+				subs->opened = 0;
-+			}
-+		} else {
-+			info = &uadev[pcm_card_num].info[info_idx];
-+			if (info->data_ep_pipe) {
-+				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-+							info->data_ep_pipe);
-+				if (ep) {
-+					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-+									ep);
-+					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-+									ep);
-+				}
-+
-+				info->data_ep_pipe = 0;
- 			}
- 
--			info->data_ep_pipe = 0;
--		}
--
--		if (info->sync_ep_pipe) {
--			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
--					       info->sync_ep_pipe);
--			if (ep) {
--				xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
--							    ep);
--				xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
--							      ep);
-+			if (info->sync_ep_pipe) {
-+				ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
-+							info->sync_ep_pipe);
-+				if (ep) {
-+					xhci_sideband_stop_endpoint(uadev[pcm_card_num].sb,
-+									ep);
-+					xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb,
-+									ep);
-+				}
-+
-+				info->sync_ep_pipe = 0;
- 			}
- 
--			info->sync_ep_pipe = 0;
-+			disable_audio_stream(subs);
-+			guard(mutex)(&chip->mutex);
-+			subs->opened = 0;
- 		}
--
--		disable_audio_stream(subs);
--		guard(mutex)(&chip->mutex);
--		subs->opened = 0;
- 	}
- 
- response:
--- 
-2.53.0.473.g4a7958ca14-goog
-
+Best regards
+Shengjiu Wang
