@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D074F26AA91;
-	Mon,  9 Mar 2026 19:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1538410D29;
+	Mon,  9 Mar 2026 19:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773085556; cv=none; b=JbsQnwmw5NBBTrZeSgvLS+pGCaitY4PaG6AStaeKfaMqg/skzRBKxqm9UMwYOPpabV0D5L2TMDA78RmwPAec0Pz7l6EO5HK8nOIo1+ebifpDgFounAs5V6gDpL6J/ulWMb7MuDDuJ3V1QTDNGXKZAz+wjSoHPBlRVgPpfblO1u0=
+	t=1773085557; cv=none; b=UtpBgZijeuerjhe8bZImIUpYnRh/gAoOxqMMcRoTVxwCCFBQoc1hrxhQd1iRkbFNEAuyVtCway+AlwvxmKH2QaJvMSQijSdKDltn5tSOmC7n4Hwdg0mwns8plNPoaKa4bsJ3AmG5vfWwCTCHI7E4GLEtTrpB2P+6Vd+6ZE1xJz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773085556; c=relaxed/simple;
-	bh=ebDCDH02HY8dLdv6CLj9lkBFrWd11fi3lfPOsmtQLiw=;
+	s=arc-20240116; t=1773085557; c=relaxed/simple;
+	bh=apVj9iq5RFJN9uFDQAXxD/YYPfKT+EgvKhv47ZHeNcg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lPUgPn/mL9PuqLf+rB3utDRLvjftNNN1DObd0lITwMUM7h5k5oKe1/qH1SURYqZ7DUfb3UeCoDoGkLegy6D4fGV0wXxzQHsvZF2eVjLOUE89XzI3jkBAGHbWnyV3n5gjngmh8wLymNLNJ1D7A8lifm0etpQJmMK2t3dJGFpK6yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEZ5sqQM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e/3r0Io/YuF8PJKgYne2i+2IB0FBwYuOwOndIG+DNVPSzYKZGVCQJH8dxEezsV7pQjeo29Sk3JBL3cKbExt7UZp4jO18SQHg7BazO1z3TBi9kNa8xvB73O2xfZLX2yUxuFGto8LBF/oJLRMe0uU5h2ndHS4hZuu5+BtTDtuLHOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ESFnLju4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEZ5sqQM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1797BC4CEF7;
-	Mon,  9 Mar 2026 19:45:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ESFnLju4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BDDC2BC87;
+	Mon,  9 Mar 2026 19:45:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773085556;
-	bh=ebDCDH02HY8dLdv6CLj9lkBFrWd11fi3lfPOsmtQLiw=;
+	s=k20201202; t=1773085557;
+	bh=apVj9iq5RFJN9uFDQAXxD/YYPfKT+EgvKhv47ZHeNcg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IEZ5sqQMXYK65tUbA28w5oSUsLwjxlvMqI5RCA3HRo26Obl8FSGy7CRgn3hfTgzru
-	 SHZP/N4+anV5aX19xFly1j5hcjJKoaCycdlsrCBLyqNeGtbp21dkQVAhCFE5W88eoW
-	 mbq2R3MsujS796zlxrTVyj4sqVa3BMS0TYZ2gy8mklNhhTZ/3H28VewR3rm3ygaPG2
-	 vF6pAirZPjf7+4geN3PJv7y4b3BKordks9UHb30tpvvTn3yzq16iMeGz7kLb6iCATz
-	 8I0UyzePv4q3GbvJnSwn/4YY54azNf8ObeLgRI41ReQkQPnJlsbcyHXXpN5JSfNeuB
-	 w4jv5nbrUqetQ==
+	b=ESFnLju4YqNeJUVPNRxFr46JKnMAkTnBs2KFXGX3U/IPpHnu6XLS6xoW8sJsYGkFs
+	 s17NtWo4acMnfGk5WqMpLAwbdMhmNQOT6pZ/b9whNL4l9W3yvpZsz072i9fAYZCrTb
+	 qrIlaFGBhw8v6Ta9owyO6Ue+o+8DzheiX1YO4CvNqbLqHwtyIT+zRGD+TiHREEzNw6
+	 1gTYaG4DLhVgjrdTDrUMJsN168NHTc+D7sOEoeYGmsBSIe/ydFXdWLXZgZDuC/42P3
+	 lhEyydOxjv+8wrUuIZWnmIwOOhIczmxJdsTp3tbV5Xm3s8W/T93tVZ0xxxA+FCoEBQ
+	 1oaHTNBEbfIEA==
 From: Mark Brown <broonie@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <418fe76d1c9efc8182ab57b6b426a8c723e025fe.1773056714.git.chleroy@kernel.org>
-References: <418fe76d1c9efc8182ab57b6b426a8c723e025fe.1773056714.git.chleroy@kernel.org>
-Subject: Re: [PATCH] ASoC: codecs: peb2466: Change the +/- 6dB switch to a
- volume
-Message-Id: <177308555482.265787.462958855234708253.b4-ty@kernel.org>
-Date: Mon, 09 Mar 2026 19:45:54 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260309115651.1090368-1-rf@opensource.cirrus.com>
+References: <20260309115651.1090368-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56-test: Remove pointless duplicate loop
+ counters
+Message-Id: <177308555665.265787.3452338794084665166.b4-ty@kernel.org>
+Date: Mon, 09 Mar 2026 19:45:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,14 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-83dbb
 
-On Mon, 09 Mar 2026 12:46:49 +0100, Christophe Leroy (CS GROUP) wrote:
-> In addition to the digital volume adjustment, infineon peb2466 codec
-> has an analog adjustment which can be set to either 0dB or +/-6dB.
-> At the time being it is defined as a switch and appears in 'alsamixer'
-> like a 'mute'.
+On Mon, 09 Mar 2026 11:56:51 +0000, Richard Fitzgerald wrote:
+> In cs35l56_test_parse_xu_onchip_spkid() the first two loops used
+> local i to index an array and num_gpios/num_pulls to count how
+> many entries it had seen. But both i and num_* started at 0 and
+> incremented on each loop so were identical. Remove i from these
+> loops.
 > 
-> This adjustment isn't a mute, change it to a 'volume' with an
-> associated dB range.
 > 
 > [...]
 
@@ -65,8 +62,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: peb2466: Change the +/- 6dB switch to a volume
-      commit: eae0946b2485109a9f24f46853497f5b1983ab79
+[1/1] ASoC: cs35l56-test: Remove pointless duplicate loop counters
+      commit: 66f71ec3539e0e724f5099e6d4bbc81db4d9954a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
