@@ -1,80 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC18410D1F;
-	Mon,  9 Mar 2026 19:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815C5325495;
+	Mon,  9 Mar 2026 19:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773085559; cv=none; b=eepPW0NgtGI5RMp4U3iEcOsoDTLUBG8H+VG2L1uUqQO7TjidLUl3EJfQ2WGItDkRSxtcwvcR4oVEgEhaNddxFNCYeY5JEWeOJUTZTI4JxZnrZmQ5OF5OuYOJuEaIIa0duUSWxBry2rWUrTDTBcXbot8gXMaqtYi4ixMy6QwxIPU=
+	t=1773085697; cv=none; b=MxOPd+MZPpKU4UxM+SciHsuIa+Ypy/d7aGuvQBssVNQHi6Rn5WlfmbK4ubOGS2xTfTXcXQYkgYrN7hrKN4b+1HXrOT8hsqmWetHdZV/cOZL0GKq/6b6KnQNehKDW1gJp/OWKgwP8Xxeb1+cxtnkEpoOxwpVqCeNkVvd4Y5HfNNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773085559; c=relaxed/simple;
-	bh=EKI1CQqiByYg164SvwZHtvPG0izGw0jMi1oet4qM1Nc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=C5zZ8i0Tq6vXjJKlZiSzGn3qhhBnCQFrTXoPhixSNcaAUhmdtFsFUB0Y/+EQWhTeySOkSJJSdELwVTkwoaiCF/1X915PPAwqGnBqEx0zQh/G7oC3iYd559MSFfzgNvT8b8KTWu+kmHVSJ6QAJ/S6eC1E9pMYpIrapmVOPnAtxPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjPT2IJb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773085697; c=relaxed/simple;
+	bh=QzTWT6ia2YclDzM1HBB1Vumppa1h5wSwHqRivPG7FAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEdTyvzLRm0IJis6pJLiJGETxeaM2qWifwVLNDAckHmr9JM+hyiPqPVTFeTjSkFyRyznumDM+5z8EqLpOCLcJ53tVl7S0K/buF1ewyPoWA2g2e67GJKpy0gEtAkifUtWVkPpQbHodLuLVNg8sbboZw0r3V20qAznFpDuO5FL4jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqaoZboT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjPT2IJb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CFC3C2BCAF;
-	Mon,  9 Mar 2026 19:45:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqaoZboT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8278DC4CEF7;
+	Mon,  9 Mar 2026 19:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773085559;
-	bh=EKI1CQqiByYg164SvwZHtvPG0izGw0jMi1oet4qM1Nc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qjPT2IJb782kL39mzHNecM+2xl5rbvYHznNnMswX2lEdOQB+4vNfQYHOyWt8E2C/0
-	 QUyHef5EgDCCpuMvLqrr2R/iAk1djBKnG1/uKjoFyZp5kBPgDrqUyP9/yNqdgEgGFV
-	 VSti2e8AnWGOCniJlJHles9505NUB8alN7RQhK9XWUu3JwC8PyI8Gr7bvgJWoJ4qJ+
-	 XTfZqxhSPLObsRAEB/yD0s6bQuNxtn+XZNTjlEdJONvI//Mlny3NsFpEgpFkRmC3zx
-	 BdR1sMu3QmmbMOMw4CNhZ/xeLKfvEaLoOeNROgoOOHvNnZTLK3JbdPCYyGzPyCYYrC
-	 7ogLGl/jwcP5g==
+	s=k20201202; t=1773085697;
+	bh=QzTWT6ia2YclDzM1HBB1Vumppa1h5wSwHqRivPG7FAw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oqaoZboTeCRmDB5WS15fZMc2qJFQrxb4hRxTJUvFqGIO5XBv2O6vgA3G+2lfC62bW
+	 LecXbbuRszN9KY21YwDQCYpTExa5rR0xCQmQ5bzhISTEtXdsEKJxIgF27W5x+Gdtfp
+	 HFu3Wm0udXg7D9z1tIj/HMrl2Qa7pp9E5vW+PM1l1PBd3VIZkbizYtO/3kFouLQ/0r
+	 OhZAmMnxwiwrz/MSjsK945odTn0ak+z5vpvHm/s5vuAlCxbKDNdONIXHGyCZjHprp8
+	 gfd/LS40FXuCH6c25YJ9DOmpB9xtu8P4o/AYdZouPuGLp6ypEHZqIzYvapPVTUoXQF
+	 AfGwD/F1tzjIw==
+Date: Mon, 9 Mar 2026 19:48:12 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260309124543.1135247-1-rf@opensource.cirrus.com>
-References: <20260309124543.1135247-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Put OTP register defines in correct
- address order
-Message-Id: <177308555792.265787.13390995977245366691.b4-ty@kernel.org>
-Date: Mon, 09 Mar 2026 19:45:57 +0000
+To: Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	18291782795@163.com, pengpeng@iscas.ac.cn
+Subject: Re: [PATCH] ASoC: da7219: scope AAD suspend and resume helpers to
+ CONFIG_PM
+Message-ID: <bc8a155b-9bf1-4902-854f-b67c1b70479d@sirena.org.uk>
+References: <20260309082824.717012-1-pengpeng.hou@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-83dbb
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d6cQmEi3k61O+us1"
+Content-Disposition: inline
+In-Reply-To: <20260309082824.717012-1-pengpeng.hou@isrc.iscas.ac.cn>
+X-Cookie: The end of labor is to gain leisure.
 
-On Mon, 09 Mar 2026 12:45:43 +0000, Richard Fitzgerald wrote:
-> Move the defines for the OTP registers to keep the register defines in
-> order of increasing address.
 
-Applied to
+--d6cQmEi3k61O+us1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Mon, Mar 09, 2026 at 08:28:24AM +0000, Pengpeng Hou wrote:
+> From: pengpeng.hou@isrc.iscas.ac.cn
+>=20
+> In current linux.git (1954c4f01220), da7219_aad_suspend() and
+> da7219_aad_resume() are defined and declared unconditionally. However,
+> their only in-tree callers are the component PM callbacks in da7219.c,
+> which are already guarded by #ifdef CONFIG_PM.
 
-Thanks!
+This doesn't apply against current code, please check and resend.
 
-[1/1] ASoC: cs35l56: Put OTP register defines in correct address order
-      commit: 97af961568c8682c44506c9ad4b26c8a5455ec1d
+--d6cQmEi3k61O+us1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmvI/sACgkQJNaLcl1U
+h9Bzhgf/QMtQMwhdAIb1rlxGyE08R4uv/H7NO299cMejnYO/L1SUdQKzt5ju+Pvo
+D/O31YXmGU1LjfHmrwQi99MKSBlZO0eugwtP3T/0kfgD1v1YGYMq28/2sJrBikU3
+JWyM5fQ+utOHYsUgfgZNdx8aIvNLrSxU943NOrHa0tNU3ssSjxon2ItAzhxgzfCg
+D/nhgnFV8BRYLNSHgbU21ZqAki06blL6C2S6swdmQVnsjkyM4Ch1+nG/tNu/QiF/
+i1ZP+2/JbGKlf7WsIxPLQ8b5s2O31KyMLT9qRv+SYPaUaPhIk3Fp32QBgVXfCnFY
+powhUMzCK0699a/AWAsxV3h8TO+l7w==
+=+cTn
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--d6cQmEi3k61O+us1--
