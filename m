@@ -1,120 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE64936897E;
-	Mon,  9 Mar 2026 07:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C39E36B04E
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 08:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773042096; cv=none; b=C5t/1ylbgtFmduPGDSvbe/WdBOEYVbpRIpZdfTdKC9i0Xm7DmxvLvbNL+Xi3evZyXPvPxTD1e5fDk3xQB5lEUpCkS5nomyabM1o1n7g0wd5XQQGgEYqmpw4riK0pnhZvljOqJF2WQ8Uheo0pIRpkA5OA9r4d6g+jcjr8AULq7J0=
+	t=1773043897; cv=none; b=Vsck6Uh4FtIJIvoxGfR2jwbwpxDwPJAnhdkexcDdwAHQgNc8rP1rRJrRkWgOB1kpj19/qM1BS0ejCzphsGEoYbfyUOY0YZuHmnzJN73QtRRIg6vvKYQO+AfdsUESA8Gvrmzc3TtsmmBCsIXMOBC7hF5/FlwPER4/Zx8dHzw1TKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773042096; c=relaxed/simple;
-	bh=S5lpZ2tWpeOHXFga/6TSs8zaeH3bzpbOvOP1BgJhGYA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dO67nXeutX/uKY9OKdrg0N8x+y5lvuAJU1PQG0GIdhpwFtjnFRLSLIseIsTwJCD2IeYAAScpdVODssl75GL77Vy1oaTPeB/h1VPkyNwLHUgL7OREZtadMWn9j9vaR0a81X79IU9IqHRVLH3nZd4hv9QjLrMo+7f7Vhg/7Bm8CKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3Ve4I2E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773043897; c=relaxed/simple;
+	bh=8Wr+QHGi2xKFzk++2DxKsRg1oRjab/yYDMRypPaMk/U=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SxY4ZK451o5iQvq0z70RmPzB+WEFZpQQlqKKuObjxtHzfMjPKffSuEtzAXnc2nr+ERPQIV/lFtETYKAU3SNLNm7yRCXv8s9MfU5RlnMXTgeeRqzT305Rv5gQbZmqF38h8PfvDdd1RNtjDgHR6C1TsiuZ+VeGC76Cd8vD7QN3oqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oTynYmyt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ia2Xpvmi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oTynYmyt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ia2Xpvmi; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3Ve4I2E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E46C19423;
-	Mon,  9 Mar 2026 07:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773042096;
-	bh=S5lpZ2tWpeOHXFga/6TSs8zaeH3bzpbOvOP1BgJhGYA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=B3Ve4I2EU1mcCD+R2yP6fmm6S/f1x9gFuwwzXrAFBlf1blT/0lknlV6eHz1yzvQHT
-	 VVh66BWTHHoGHmk6xajIFZDMualJs7hIzNX7CXvwy4XDu9f86AML4M8msSyexQl+1B
-	 WSZ5ImihaQetNF6Xb3lEu0YVuQhyqytJR4WQFQW8lApAkzjYdgEhY5Wkm06xSd28xt
-	 U8xt/YSI2FrrXGNEPmXOIsB1BMvLNKlt78sBxkEXWTGxrBYqn7EcDZ57Tehoyxw9Vr
-	 KLBKJjsltLqK0ChiQSmmh2ZQON+Ig0Xh3oqNxTCMNpcuoU85PBnt9AyScVsS/pRv0K
-	 XwFWCAO1qxTWw==
-Message-ID: <5a10a4cc-56b9-4695-af16-48912e63fd8d@kernel.org>
-Date: Mon, 9 Mar 2026 07:41:31 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oTynYmyt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ia2Xpvmi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oTynYmyt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ia2Xpvmi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A518F4D206;
+	Mon,  9 Mar 2026 08:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773043893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
+	b=oTynYmytO9kFu0cL7j7PzOfcphed01RinVZUnnFur5j6gXjx82OGmpQ7D+LJ0aJLVgc5+v
+	invi+CpwII6ND2zskEcMEetY7pPdGcZUiyb1nk6A95I6CYoW7uR2/hcicJEphYhm+wAdpD
+	0qVQpXWScMi/5vYsmdtPRnEzzpQRbhE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773043893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
+	b=Ia2XpvmiOPQPSNnJI0f27Z7vTFp0Ihaz2CmTrNegJhdPJ28BciTszWp8QVdrIs27MhV8Ll
+	BxwCKpYQlNLWkwAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oTynYmyt;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ia2Xpvmi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773043893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
+	b=oTynYmytO9kFu0cL7j7PzOfcphed01RinVZUnnFur5j6gXjx82OGmpQ7D+LJ0aJLVgc5+v
+	invi+CpwII6ND2zskEcMEetY7pPdGcZUiyb1nk6A95I6CYoW7uR2/hcicJEphYhm+wAdpD
+	0qVQpXWScMi/5vYsmdtPRnEzzpQRbhE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773043893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
+	b=Ia2XpvmiOPQPSNnJI0f27Z7vTFp0Ihaz2CmTrNegJhdPJ28BciTszWp8QVdrIs27MhV8Ll
+	BxwCKpYQlNLWkwAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F69E3EDCA;
+	Mon,  9 Mar 2026 08:11:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Db/tFbWArmkkFQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Mar 2026 08:11:33 +0000
+Date: Mon, 09 Mar 2026 09:11:32 +0100
+Message-ID: <87y0k1toaz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com,
+	g@b4.vu,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: usb-audio: Add the number of endpoints checked was 0
+In-Reply-To: <tencent_251BAA25F2BA69BB9533A19E651B204B3208@qq.com>
+References: <69acf72a.050a0220.310d8.0004.GAE@google.com>
+	<tencent_251BAA25F2BA69BB9533A19E651B204B3208@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] ASoC: qdsp6: q6prm: Add MCLK and internal digital
- codec core clock IDs
-To: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>,
- Katsuhiro Suzuki <katsuhiro@katsuster.net>,
- Matteo Martelli <matteomartelli3@gmail.com>,
- Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Roger Shimizu <rosh@debian.org>
-References: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
- <20260305-rubikpi-next-20260304-v1-3-327595a4528a@thundersoft.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260305-rubikpi-next-20260304-v1-3-327595a4528a@thundersoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[qq.com];
+	FREEMAIL_ENVRCPT(0.00)[qq.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[ae893a8901067fde2741];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: A518F4D206
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
 
-
-
-On 3/5/26 5:47 AM, Hongyang Zhao wrote:
-> Add clock IDs for MCLK_1 through MCLK_4 and internal digital codec core
-> clock to the PRM clock driver. These clocks are needed to provide MCLK
-> to external codecs connected via MI2S.
-
-This patch has already been submitted previously by Neil, Please pick
-the patch from https://lkml.org/lkml/2025/10/6/828
-
-
---srini
+On Mon, 09 Mar 2026 08:32:29 +0100,
+Edward Adam Davis wrote:
 > 
-> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+> The user constructed a corrupted USB device, causing the USB device
+> enumeration phase to fail to resolve any endpoints. This resulted in
+> a null pointer dereference reported in [1] when the USB sound card
+> driver executed probe to initialize the mixer. 
+> 
+> To avoid the problem reported in [1], a check was added to ensure that
+> the number of endpoints contained in the interface was 0 when checking
+> the mixer status.
+> 
+> [1]
+> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+> RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
+> RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
+> RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
+> RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
+> RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
+> Call Trace:
+>  snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
+>  snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
+>  usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
+> 
+> Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
+> Tested-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 > ---
->  sound/soc/qcom/qdsp6/q6prm-clocks.c |  5 +++++
->  sound/soc/qcom/qdsp6/q6prm.h        | 11 +++++++++++
->  2 files changed, 16 insertions(+)
+>  sound/usb/mixer.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
-> index 4c574b48ab00..8c28d33b2a54 100644
-> --- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
-> +++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
-> @@ -59,6 +59,11 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
->  	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_MCLK),
->  	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_2X_MCLK),
->  	Q6PRM_CLK(LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK),
-> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_1),
-> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_2),
-> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_3),
-> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_4),
-
-> +	Q6PRM_CLK(LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE),
->  	Q6DSP_VOTE_CLK(LPASS_HW_MACRO_VOTE, Q6PRM_HW_CORE_ID_LPASS,
->  		       "LPASS_HW_MACRO"),
->  	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
-> diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
-> index a988a32086fe..85e6df6bd39f 100644
-> --- a/sound/soc/qcom/qdsp6/q6prm.h
-> +++ b/sound/soc/qcom/qdsp6/q6prm.h
-> @@ -52,6 +52,17 @@
->  /* Clock ID for QUINARY MI2S OSR CLK  */
->  #define Q6PRM_LPASS_CLK_ID_QUI_MI2S_OSR                         0x116
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index ac8c71ba9483..bd28caec3004 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
+> @@ -3563,8 +3563,12 @@ static int snd_usb_mixer_status_create(struct usb_mixer_interface *mixer)
+>  	int buffer_length;
+>  	unsigned int epnum;
 >  
-> +/* Clock ID for MCLK1 */
-> +#define Q6PRM_LPASS_CLK_ID_MCLK_1                              0x300
-> +/* Clock ID for MCLK2 */
-> +#define Q6PRM_LPASS_CLK_ID_MCLK_2                              0x301
-> +/* Clock ID for MCLK3 */
-> +#define Q6PRM_LPASS_CLK_ID_MCLK_3                              0x302
-> +/* Clock ID for MCLK4 */
-> +#define Q6PRM_LPASS_CLK_ID_MCLK_4                              0x304
-> +/* Clock ID for Internal Digital Codec Core */
-> +#define Q6PRM_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE         0x303
+> +	epnum = get_iface_desc(mixer->hostif)->bNumEndpoints;
+> +	if (epnum == 0)
+> +		return -EINVAL;
 > +
->  #define Q6PRM_LPASS_CLK_ID_WSA_CORE_MCLK			0x305
->  #define Q6PRM_LPASS_CLK_ID_WSA_CORE_NPL_MCLK			0x306
->  
-> 
+>  	/* we need one interrupt input endpoint */
+> -	if (get_iface_desc(mixer->hostif)->bNumEndpoints < 1)
+> +	if (epnum < 1)
+>  		return 0;
 
+The change looks wrong.  We don't want to return an error here, as
+mixer->urb is optional.  And the second check introduced above is
+utterly nonsense; epnum is an unsigned int, so epnum < 1 means only
+epnum == 0.
+
+The problem is rather in the scarlett2 side, and it should have a
+check there, not in the core function.
+
+
+thanks,
+
+Takashi
