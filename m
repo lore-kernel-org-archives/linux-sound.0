@@ -1,100 +1,91 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B9E377ED5
-	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 10:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365C738B7A8
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 10:03:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773050540; cv=none; b=Y6nkM8LpRqCtmaoNUhAo7JVEgiFGFg9hejPG6T8lxa0WRORQCt+juzUKfPpP5sbffz4ZoHVmQ2CMoh6ZWT3g8ZQcF/K+TH5FPamq7ITGDykjmKLDD/pQVxUAZyFMEM4qh6+KXFC5r4jaes4lCIfl5x+lUURbf/BvbT0u3PSXwUc=
+	t=1773050630; cv=none; b=Lg9HNi4oBzcovgLsykLaSXWYvL1AlnR186m7Rvr/gwS+PfwNAjSzMmxaC4HALXp3YU/xDuX2MII1pXGTZlNg5wVdt30i1sMBfa4i00wyzPBug9uNWIBPvbvnsSd6SHoTuxfUaXf1FnNZmcKgXfvUD86yUDPJpIx2Av2MhFN72yY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773050540; c=relaxed/simple;
-	bh=aYHFuKYft/P8LUDEZLqIyXlMy1190wXMvq96SiysrBQ=;
+	s=arc-20240116; t=1773050630; c=relaxed/simple;
+	bh=yg3qLcXJHXojrXxTrTWkjp9BcnrTrykrh8m8I3U/BrQ=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WUKAJwF2DSQq5XEkgSVIlMmDrTKFzMqGhBflk9SVKCrLE1ioRk9l7lmpCl08n3PcmBgMddw1Opm8dcWhU2KLdvn1lQZg9e1YffgaSs0i0QXqIyTX5lcz1Z/GMSvXx054E3B8wVZocJo72xnQHHThL/jv0G9EEVIZUNxnWm6Gi3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GSqckg+l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LcOuS3eA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GSqckg+l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LcOuS3eA; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=mNJrlJfQMYPIDDGECUeK2gYQ/WpJNp5Heb6Cw34wa9gu80jo7w+Ueokr2hlzxJjg4iMKsOyFd1RpXSsv4L5rwcp5sp8ThL9FwUKrW7kBTTblC4fdJY/4fq3qCEcc0TP0x2FKZZzPPNx1dBciSAK5X+RS4nThZU8HUrCaimV4Xy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gadA1yOu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hyS81opS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gadA1yOu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hyS81opS; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GSqckg+l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LcOuS3eA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GSqckg+l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LcOuS3eA"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gadA1yOu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hyS81opS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gadA1yOu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hyS81opS"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D25B45BE24;
-	Mon,  9 Mar 2026 10:02:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9680A5BE23;
+	Mon,  9 Mar 2026 10:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773050537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773050627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bDJ1vFHK3HRa7YfLIk+B/yNORAMEFpRTQRFM5ciBjao=;
-	b=GSqckg+lQdlGi8w/t3dLuSVfaWGVzzZNQZGGZDPizW94a7ahwec5RtcvMjBtwUdsuV1c3r
-	g66Mt2J4MM96nTLnT0td5Nb+zuZu1Chlzy5Db9YBTlX/rtlFnaQf0M/Uc9MXcZOQIOYPLv
-	P6V86rOggyGn2okq/+eOvxJBnB9PBEo=
+	bh=LtSoxW0Hxz8yqH/IJyiZgQLFLXouXIsduA1nVp1VML0=;
+	b=gadA1yOucWj7dFg3a1CHOv6s/sE0n65mEqS7ky0tZlH9f8pRXC8FixzaSYALVpjBKHKfzT
+	T2E0VXnfI++D6CtZnDG8H3Xzhw48XtLw8X79NalC6dBWdoh9K63bqbzbQ54F5mjEIUvFpA
+	RPyPZqL193q0sTlRjJX1u/H/LDQuBtI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773050537;
+	s=susede2_ed25519; t=1773050627;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bDJ1vFHK3HRa7YfLIk+B/yNORAMEFpRTQRFM5ciBjao=;
-	b=LcOuS3eAVS4plAUDh1TnpiA8kK/37acDN+z6qszC4TyjtUX3A6+o81oJfSbXM0/gs8FsUr
-	Hf8rcdY9UtfbuuBA==
+	bh=LtSoxW0Hxz8yqH/IJyiZgQLFLXouXIsduA1nVp1VML0=;
+	b=hyS81opS92Bn9jSWXeLzFFgXIKmjy7m24dUGg4ClqT8S+avC1oMRjAxAyHUCr/fB08gdLy
+	m3cMbDdFi3ySzNAQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773050537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773050627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bDJ1vFHK3HRa7YfLIk+B/yNORAMEFpRTQRFM5ciBjao=;
-	b=GSqckg+lQdlGi8w/t3dLuSVfaWGVzzZNQZGGZDPizW94a7ahwec5RtcvMjBtwUdsuV1c3r
-	g66Mt2J4MM96nTLnT0td5Nb+zuZu1Chlzy5Db9YBTlX/rtlFnaQf0M/Uc9MXcZOQIOYPLv
-	P6V86rOggyGn2okq/+eOvxJBnB9PBEo=
+	bh=LtSoxW0Hxz8yqH/IJyiZgQLFLXouXIsduA1nVp1VML0=;
+	b=gadA1yOucWj7dFg3a1CHOv6s/sE0n65mEqS7ky0tZlH9f8pRXC8FixzaSYALVpjBKHKfzT
+	T2E0VXnfI++D6CtZnDG8H3Xzhw48XtLw8X79NalC6dBWdoh9K63bqbzbQ54F5mjEIUvFpA
+	RPyPZqL193q0sTlRjJX1u/H/LDQuBtI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773050537;
+	s=susede2_ed25519; t=1773050627;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bDJ1vFHK3HRa7YfLIk+B/yNORAMEFpRTQRFM5ciBjao=;
-	b=LcOuS3eAVS4plAUDh1TnpiA8kK/37acDN+z6qszC4TyjtUX3A6+o81oJfSbXM0/gs8FsUr
-	Hf8rcdY9UtfbuuBA==
+	bh=LtSoxW0Hxz8yqH/IJyiZgQLFLXouXIsduA1nVp1VML0=;
+	b=hyS81opS92Bn9jSWXeLzFFgXIKmjy7m24dUGg4ClqT8S+avC1oMRjAxAyHUCr/fB08gdLy
+	m3cMbDdFi3ySzNAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AD323EE3B;
-	Mon,  9 Mar 2026 10:02:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 54C673EE3C;
+	Mon,  9 Mar 2026 10:03:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jU1BJKmarmmnFQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Mar 2026 10:02:17 +0000
-Date: Mon, 09 Mar 2026 11:02:17 +0100
-Message-ID: <87ikb5nwwm.wl-tiwai@suse.de>
+	id Hy2OEwObrmm9IQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Mar 2026 10:03:47 +0000
+Date: Mon, 09 Mar 2026 11:03:46 +0100
+Message-ID: <87h5qpnwu5.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: tiwai@suse.de,
+	g@b4.vu,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 2/2] ALSA: control: add ioctl to retrieve full card components
-In-Reply-To: <a587fb9b-207f-4a24-a1b7-5c71601281d3@perex.cz>
-References: <20260303145815.9930-1-mstrozek@opensource.cirrus.com>
-	<20260303145815.9930-2-mstrozek@opensource.cirrus.com>
-	<87seagx6c4.wl-tiwai@suse.de>
-	<c4392a10442c436484d9758c54622888b07a3a74.camel@opensource.cirrus.com>
-	<87v7fay4l1.wl-tiwai@suse.de>
-	<cf59b85f5bfa3607b7ef799714df56bf42daa67a.camel@opensource.cirrus.com>
-	<87pl5iy3z6.wl-tiwai@suse.de>
-	<3174b8c9-8801-4d09-8e30-450899b40ca2@perex.cz>
-	<87zf4lutju.wl-tiwai@suse.de>
-	<a587fb9b-207f-4a24-a1b7-5c71601281d3@perex.cz>
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v2] ALSA: scarlett2: Add the number of endpoints checked was 0
+In-Reply-To: <tencent_986ED56EFECC99E7EF86D412F6064FC99906@qq.com>
+References: <87y0k1toaz.wl-tiwai@suse.de>
+	<tencent_986ED56EFECC99E7EF86D412F6064FC99906@qq.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -102,149 +93,85 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.79
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.79 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.19)[-0.954];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[ae893a8901067fde2741];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[qq.com];
+	FREEMAIL_ENVRCPT(0.00)[qq.com];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,syzkaller.appspot.com:url,qq.com:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
 
-On Mon, 09 Mar 2026 10:44:25 +0100,
-Jaroslav Kysela wrote:
+On Mon, 09 Mar 2026 10:57:03 +0100,
+Edward Adam Davis wrote:
 > 
-> On 3/6/26 11:43, Takashi Iwai wrote:
-> > On Fri, 06 Mar 2026 10:39:46 +0100,
-> > Jaroslav Kysela wrote:
-> >> 
-> >> On 3/5/26 11:18, Takashi Iwai wrote:
-> >>> On Thu, 05 Mar 2026 11:11:40 +0100,
-> >>> Maciej Strozek wrote:
-> >>>> 
-> >>>> W dniu czw, 05.03.2026 o godzinie 11∶04 +0100, użytkownik Takashi Iwai
-> >>>> napisał:
-> >>>>> On Thu, 05 Mar 2026 10:54:35 +0100,
-> >>>>> Maciej Strozek wrote:
-> >>>>>> 
-> >>>>>> W dniu wto, 03.03.2026 o godzinie 16∶47 +0100, użytkownik Takashi
-> >>>>>> Iwai
-> >>>>>> napisał:
-> >>>>>>>> 
-> >>>>>>>> + */
-> >>>>>>>> +struct snd_ctl_card_components {
-> >>>>>>>> + int card;
-> >>>>>>>> + unsigned int length;
-> >>>>>>>> + unsigned char *components;
-> >>>>>>>> +};
-> >>>>>>> 
-> >>>>>>> And the ioctl can serve for two purposes:
-> >>>>>>> 
-> >>>>>>> - When length=0 is set, the kernel stores the current number of
-> >>>>>>> bytes
-> >>>>>>>     and returns without copying.  User-space can use this mode for
-> >>>>>>>     allocating the buffer.
-> >>>>>>> 
-> >>>>>> In alsa-lib all data must be allocated beforehand, so this
-> >>>>>> length==0
-> >>>>>> query is not very useful there, it will just go into a [512] array
-> >>>>>> anyway. Are there any other users that may benefit from this?
-> >>>>> 
-> >>>>> My suggested API can work even with the fixed size 512, too, if 512
-> >>>>> is
-> >>>>> hight enough.  It's just more flexible.  And there is no restriction
-> >>>>> about alsa-lib data allocation; the function can query the size then
-> >>>>> allocate, too.
-> >>>>> 
-> >>>>> 
-> >>>>> Takashi
-> >>>> 
-> >>>> OK, will prepare v4 with this, thanks
-> >>> 
-> >>> Well, let's see how others think, too.  The API design needs more
-> >>> considerations because we can't change it any longer once after
-> >>> defined.
-> >> 
-> >> I think that the indirect pointer in ioctl structure is the best at
-> >> the moment unless we decide to use the fixed char array.
-> > 
-> > OK, it might be indeed better if the user-space API is something like:
-> > 
-> > int snd_ctl_card_components(snd_ctl_t *ctl, unsigned char *buf, size_t len);
-> > 
-> > Then it's simpler to pass the pointer as is without copying.
-> > 
-> >> But (for
-> >> discussion) we may try to be a bit clever and define universal bytes
-> >> ioctl which may carry also other things in future like:
-> >> 
-> >> enum {
-> >> 	SND_CTL_CARD_BTYPE_COMPONENTS = 1
-> >> };
-> > 
-> > So this is for future extensions?
-> > 
-> >> struct snd_ctl_card_bytes {
-> >> 	unsigned int card;		// this is duplication with info ioctl
-> >> 					// to be removed?
-> > 
-> > Right, it sounds like superfluous.  I thought we were to allow
-> > extracting a card info for a different card number, but it doesn't
-> > look so.
-> > 
-> >> 	unsigned int type;		// e.g. SND_CTL_CARD_BTYPE_COMPONENTS
-> >> 	unsigned int data_allocated;	// overall size of data
-> >> 	unsigned int data_len;		// actual data len
-> >> 	unsigned char *data;		// pointer to data array
-> >> };
-> >> 
-> >> Scenarios:
-> >> 
-> >> data_allocated = 0 or data == NULL -> driver just returns data_len
-> >> data_allocated < data_len -> driver returns -ENOMEM
-> >> data_allocated >= data_len -> driver will copy data
-> >> 
-> >> Note that data_len will be zero from the user space for read
-> >> operations (driver knows it). But we can eventually use this ioctl to
-> >> set some data in future, so data_len/data will be used for the write
-> >> operation.
-> > 
-> > In all cases, data_len is filled with the expected data size in
-> > return, right?
+> The user constructed a corrupted USB device, causing the USB device
+> enumeration phase to fail to resolve any endpoints. This resulted in
+> a null pointer dereference reported in [1] when the USB sound card
+> driver executed probe to initialize the mixer. 
 > 
-> I would return data_len only when data_allocated == 0 or when the user
-> space array can hold complete data. When ioctl returns an error code
-> (e.g. ENOMEM), the structure should not be modified IMHO.
+> To avoid the problem reported in [1], a check was added to ensure that
+> the number of endpoints contained in the interface was 0 when creating
+> mixer controls for the Focusrite Scarlett 2nd/3rd Gen USB sound card.
+> 
+> [1]
+> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+> RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
+> RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
+> RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
+> RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
+> RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
+> Call Trace:
+>  snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
+>  snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
+>  usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
+> 
+> Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+> v1 -> v2: move the check to scarlett2
+> 
+>  sound/usb/mixer_scarlett2.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+> index ef3150581eab..4b300226f16c 100644
+> --- a/sound/usb/mixer_scarlett2.c
+> +++ b/sound/usb/mixer_scarlett2.c
+> @@ -9393,6 +9393,15 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
+>  		return 0;
+>  	}
+>  
+> +	if (get_iface_desc(mixer->hostif)->bNumEndpoints == 0) {
+> +		usb_audio_err(chip,
+> +			"%s: There are no endpoints for %04x:%04x\n",
+> +			__func__,
+> +			USB_ID_VENDOR(chip->usb_id),
+> +			USB_ID_PRODUCT(chip->usb_id));
+> +		return 0;
 
-I find it OK, otherwise you'd need one more ioctl, but it's a kind of
-bike-shedding topic, and I don't mind much whether it should be so or
-not.
+This should be an error.  It's obviously a broken descriptor, and this
+is the code specific to the certain configuration.
 
-> Eventually, we can extend the structure to be even more universal and
-> add 'data_offset' and 'data_overall_len' to support fully partial
-> transfers. In this case, data_len would mean filled/used chunk size
-> and the "overflow" error won't exist.
-
-Yeah, we can, and I had that in mind, too.  But it makes things
-complex, so let's not step into it yet.
-
-
-thanks,
 
 Takashi
