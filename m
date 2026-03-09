@@ -1,118 +1,120 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC0B368953;
-	Mon,  9 Mar 2026 07:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE64936897E;
+	Mon,  9 Mar 2026 07:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773041565; cv=none; b=j9ZVrZaFYOUKRNsDxmCY2WExTwhGWz5TS3Kg5wXXSR/a1Cl/HUMIFn/itvEOKmMPVP7Bgj9g7YG3I8cvSq4Le93BUNAyfsQ++IF+g+bYvxClWt2mx/THdRLCxOuNxYv/ceRE9QtQZaM8GLUutrICXrGhQmTsvgCANfzcq4WA8Rw=
+	t=1773042096; cv=none; b=C5t/1ylbgtFmduPGDSvbe/WdBOEYVbpRIpZdfTdKC9i0Xm7DmxvLvbNL+Xi3evZyXPvPxTD1e5fDk3xQB5lEUpCkS5nomyabM1o1n7g0wd5XQQGgEYqmpw4riK0pnhZvljOqJF2WQ8Uheo0pIRpkA5OA9r4d6g+jcjr8AULq7J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773041565; c=relaxed/simple;
-	bh=AWFU9eSZdANBFGv2dNLetCdbSQN+C5pPC0+pMVGgRqE=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=DmQTam+7LvpC2Jc3GjDFbX6osp67wIu8JLXsEMgVCGU8iwXIrUljQKyLHwmdUaJTtLif9pKTEF/7jIgkgJD+KuCzqaekQ4pbv0DFZ5q4o2krdQHRFfdVDEHWsinghqQN79d7g6kYvYdn+rMzTnbw9rEaA9vL8brkCEUa+6NSNvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ReIk3GZM; arc=none smtp.client-ip=162.62.57.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1773042096; c=relaxed/simple;
+	bh=S5lpZ2tWpeOHXFga/6TSs8zaeH3bzpbOvOP1BgJhGYA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dO67nXeutX/uKY9OKdrg0N8x+y5lvuAJU1PQG0GIdhpwFtjnFRLSLIseIsTwJCD2IeYAAScpdVODssl75GL77Vy1oaTPeB/h1VPkyNwLHUgL7OREZtadMWn9j9vaR0a81X79IU9IqHRVLH3nZd4hv9QjLrMo+7f7Vhg/7Bm8CKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3Ve4I2E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ReIk3GZM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1773041551; bh=Mb3mrLLhazoKaVlGHpGuWLgJFSK9E6hT7xlTEjAaAWM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ReIk3GZMBzQevffP+PSh8vXLYqikFywjnoi+VHNgjwGUqZQZ+ZQNYGmBza6lfto0y
-	 J61YD2Grn6Hma1j96X70/NUnrMV51dOVRS0T2w99VVD7gxWJtVwy0zW7QVMZXErTPv
-	 WsW1yXkArrkaDk+0RfBE7dTgFilTY5Q3EGsTBcZ8=
-Received: from lxu-ped-host.. ([111.198.231.89])
-	by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
-	id 81C2AC9F; Mon, 09 Mar 2026 15:32:28 +0800
-X-QQ-mid: xmsmtpt1773041548t58i0fpci
-Message-ID: <tencent_251BAA25F2BA69BB9533A19E651B204B3208@qq.com>
-X-QQ-XMAILINFO: MMhobhVxpxw2M+h4Pou3ogAm24ZYV3r5PM6E+OocHbkcziIfuoflNX9oMP9BeY
-	 gMxiIw3E7NhJrD4JW4xXB+0vrAqYZNhtQHXyU1eHXccLdi4qMKq9XJIQAHObl+74DWhl/AIA6C37
-	 I6g60SsjxSdU8YWuDn+tb7J2RI+avdVXHE59SRt28azzKVKnDqhbego3MWxJHcv+TM8hry83AkYZ
-	 OByOyvhMyWudeFXXHlJmpLZLRmi14/1L/c16p1S/W+8Ncadgpefr+fawM4le6RVnrpVefW4OkBQ0
-	 UuFUXqi5CySuCJkYx4cZEop7FSs1KqnsZqHCsWtrlL9+I2GVY/20wg4JVM0vc0vgHzplM+e0m8yx
-	 mKKSqfvI1LXNifxU3Ky8WHvf7nNxxP2gjWM1QtLDJhRNgyC8WBMuenoDHn4azIzpVKXLFr7w9UoW
-	 7O9cBCsvzdn4sYV12pTXFu8OQi+1yG9+7KJS+T+BZzSqDvpCQVm+zUjZ/hleoTsgflhaikYr6z6E
-	 QEVXokTNmTSrN80/0JwKIt//OFuX0huC66VIp1VXtn7bsYvoXlWU4guucjgMHqtPVz9uV4FczExF
-	 oAb2LQLh0uM5OYJMp+HotCx5wcG/EjflSeuUUILHybb8RJt/YJs6TPD35PYaI3fLHqv5hXqBV2Hg
-	 tZXofiPehMLMWYiJnwO3TxDvPFmlyDJVm3rS+4Z1jSD5Ug5GuVMuNExxZLLxT4ARAsHyach63+1Q
-	 bOZXKSuD9MmII+ZZF3g65G3zA6p09na+Y8b3mC6GQeTbtxGhn3zMQ/rMfsrcg/CjZ69BfnWgI9Re
-	 7x3bDgjocTcesrCbxTF4d98J04epTdXIqPhmXjBQYc0y27hDMq9+DPeUVYgZKgjNl0jxSFj4XdL/
-	 mlcUkjO82aWeoHzWST4ZMZPvLDG6fanDnEJMccRK/WfPYUkLHvHvzdv3cmGeYtzJLzHQ8Li8OoVM
-	 mBec+6ToeOPtCJT+YXun/3Fg13KOKe3Po0ks1XHeeTM3zP4gNOdiZPp11AME84NqsumuJOxttu44
-	 lTawsUqB+JRV5NfCIo5CBLQNbpgxGm6vaf1RtlVpYwcYYtB7OE
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-Cc: g@b4.vu,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: [PATCH] ALSA: usb-audio: Add the number of endpoints checked was 0
-Date: Mon,  9 Mar 2026 15:32:29 +0800
-X-OQ-MSGID: <20260309073228.539672-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <69acf72a.050a0220.310d8.0004.GAE@google.com>
-References: <69acf72a.050a0220.310d8.0004.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3Ve4I2E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E46C19423;
+	Mon,  9 Mar 2026 07:41:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773042096;
+	bh=S5lpZ2tWpeOHXFga/6TSs8zaeH3bzpbOvOP1BgJhGYA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=B3Ve4I2EU1mcCD+R2yP6fmm6S/f1x9gFuwwzXrAFBlf1blT/0lknlV6eHz1yzvQHT
+	 VVh66BWTHHoGHmk6xajIFZDMualJs7hIzNX7CXvwy4XDu9f86AML4M8msSyexQl+1B
+	 WSZ5ImihaQetNF6Xb3lEu0YVuQhyqytJR4WQFQW8lApAkzjYdgEhY5Wkm06xSd28xt
+	 U8xt/YSI2FrrXGNEPmXOIsB1BMvLNKlt78sBxkEXWTGxrBYqn7EcDZ57Tehoyxw9Vr
+	 KLBKJjsltLqK0ChiQSmmh2ZQON+Ig0Xh3oqNxTCMNpcuoU85PBnt9AyScVsS/pRv0K
+	 XwFWCAO1qxTWw==
+Message-ID: <5a10a4cc-56b9-4695-af16-48912e63fd8d@kernel.org>
+Date: Mon, 9 Mar 2026 07:41:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] ASoC: qdsp6: q6prm: Add MCLK and internal digital
+ codec core clock IDs
+To: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>,
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+ Matteo Martelli <matteomartelli3@gmail.com>,
+ Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Roger Shimizu <rosh@debian.org>
+References: <20260305-rubikpi-next-20260304-v1-0-327595a4528a@thundersoft.com>
+ <20260305-rubikpi-next-20260304-v1-3-327595a4528a@thundersoft.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20260305-rubikpi-next-20260304-v1-3-327595a4528a@thundersoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The user constructed a corrupted USB device, causing the USB device
-enumeration phase to fail to resolve any endpoints. This resulted in
-a null pointer dereference reported in [1] when the USB sound card
-driver executed probe to initialize the mixer. 
 
-To avoid the problem reported in [1], a check was added to ensure that
-the number of endpoints contained in the interface was 0 when checking
-the mixer status.
 
-[1]
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
-RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
-RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
-RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
-RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
-Call Trace:
- snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
- snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
- usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
+On 3/5/26 5:47 AM, Hongyang Zhao wrote:
+> Add clock IDs for MCLK_1 through MCLK_4 and internal digital codec core
+> clock to the PRM clock driver. These clocks are needed to provide MCLK
+> to external codecs connected via MI2S.
 
-Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
-Tested-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- sound/usb/mixer.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+This patch has already been submitted previously by Neil, Please pick
+the patch from https://lkml.org/lkml/2025/10/6/828
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index ac8c71ba9483..bd28caec3004 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -3563,8 +3563,12 @@ static int snd_usb_mixer_status_create(struct usb_mixer_interface *mixer)
- 	int buffer_length;
- 	unsigned int epnum;
- 
-+	epnum = get_iface_desc(mixer->hostif)->bNumEndpoints;
-+	if (epnum == 0)
-+		return -EINVAL;
-+
- 	/* we need one interrupt input endpoint */
--	if (get_iface_desc(mixer->hostif)->bNumEndpoints < 1)
-+	if (epnum < 1)
- 		return 0;
- 	ep = get_endpoint(mixer->hostif, 0);
- 	if (!usb_endpoint_dir_in(ep) || !usb_endpoint_xfer_int(ep))
--- 
-2.43.0
+
+--srini
+> 
+> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+> ---
+>  sound/soc/qcom/qdsp6/q6prm-clocks.c |  5 +++++
+>  sound/soc/qcom/qdsp6/q6prm.h        | 11 +++++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+> index 4c574b48ab00..8c28d33b2a54 100644
+> --- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
+> +++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+> @@ -59,6 +59,11 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
+>  	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_MCLK),
+>  	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_2X_MCLK),
+>  	Q6PRM_CLK(LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_1),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_2),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_3),
+> +	Q6PRM_CLK(LPASS_CLK_ID_MCLK_4),
+
+> +	Q6PRM_CLK(LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE),
+>  	Q6DSP_VOTE_CLK(LPASS_HW_MACRO_VOTE, Q6PRM_HW_CORE_ID_LPASS,
+>  		       "LPASS_HW_MACRO"),
+>  	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
+> diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
+> index a988a32086fe..85e6df6bd39f 100644
+> --- a/sound/soc/qcom/qdsp6/q6prm.h
+> +++ b/sound/soc/qcom/qdsp6/q6prm.h
+> @@ -52,6 +52,17 @@
+>  /* Clock ID for QUINARY MI2S OSR CLK  */
+>  #define Q6PRM_LPASS_CLK_ID_QUI_MI2S_OSR                         0x116
+>  
+> +/* Clock ID for MCLK1 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_1                              0x300
+> +/* Clock ID for MCLK2 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_2                              0x301
+> +/* Clock ID for MCLK3 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_3                              0x302
+> +/* Clock ID for MCLK4 */
+> +#define Q6PRM_LPASS_CLK_ID_MCLK_4                              0x304
+> +/* Clock ID for Internal Digital Codec Core */
+> +#define Q6PRM_LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE         0x303
+> +
+>  #define Q6PRM_LPASS_CLK_ID_WSA_CORE_MCLK			0x305
+>  #define Q6PRM_LPASS_CLK_ID_WSA_CORE_NPL_MCLK			0x306
+>  
+> 
 
