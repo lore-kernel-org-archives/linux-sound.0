@@ -1,63 +1,63 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C8A36B06D
-	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 21:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54E634B197
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 21:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773092956; cv=none; b=PaPBDpZYVZC3kr4F/3f2pMWUgU2x2C+TwEP0OddFbnW10SP+c2IZIm4S4Wb5kP+JDyfoZNoIesxrXG1lDvPypxEi/IpEm++CnlA2gsWCP0qRu4S/sJhYDYX7JWRhjFBdn/+sGxmj8rt8P/g29S1RP4oJ77DHzIZDhw9ufmkKN2g=
+	t=1773093272; cv=none; b=nrAzY788QLlVVYCJ+9XNrtdfAQr7d4tWVOpHySzDUuG6dL3aXtRWgmq7FkMw7Ol7snr2gEW0NRKjblxJQq30xt7hsr+j6sMvLRasB/GPzFBDaQJIu0iNrKt6DOKEt/WhcyoFhjsDeYSaGZ1FA5NxO9ZjgmSMzEBPduRaBhXBwjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773092956; c=relaxed/simple;
-	bh=6ZepANxP71vzTeeFkk+myydgIBPE2f4n8g/mTa8Namw=;
+	s=arc-20240116; t=1773093272; c=relaxed/simple;
+	bh=J7xl59Fx58+zXtIX029IHEauG7FA+vlkguBok7F4oUA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EaIPB8dXaExiV5myRKdnOVD4pj2AIRGOgwQk+3Xaz7Z0Jzv5qUaenyCpx4u70zZ0ndqsysBa+Un/pV5sGkF2JM0P5ErmRRUJspX8yEZmWkQUEdVkue1A3pARr6I96EvQVaqVh7Edcmy6RZA2HNINP6LOW+Y9MnSvzbHrva7J7TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CCT3QN4R; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=FzAQsskrCPLO6mfD4Xy0H2pz4oXaYZQAXQWheX0P74lREs6GuH4qOn8paZ45XpHxSs19UGc/xYR74hSFH2y79YMzltnKrZiAsHDvPUF9Rs0aCHvSDWgXs/xOoBSr2XcAYAFAQiowVPd4KCFmphn5aQ7ARtTF+2TubZt2DRxBdjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzzL3Ikf; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCT3QN4R"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso98548285e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Mar 2026 14:49:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzzL3Ikf"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so14413525e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 09 Mar 2026 14:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773092954; x=1773697754; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773093269; x=1773698069; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UCOiS+RSyl4rQ1CP4ex+7wZZ9gyZAKKhYX8v9rsTRMo=;
-        b=CCT3QN4RX9Iejr0WM2iO/GPLs/unHLfd2ulBIPwvzRTvGg/nbewywn+s+1q1aT4HhX
-         O2U9m44wWvSwAXcJEgmQkHCy/ak+p/thJOx3no++mn4FISmP9IcaxH5RwL9NONS8YHe6
-         WcWhbhIA9yB3N36K3GDMuTFBk9887bCbWbh5t43PtJjnzc2crXF/fDRIf8DIAEdSQ4fd
-         VZR/cxeR+B1yxMW5p3cGkRqJT0bHxJhZeLc+muIuMtdRAw27kvdTpah4yaS3aRM8cx63
-         oR+BFjVZmzC/e2GzfRQQ07VOHsOuw9QlQ+Iy+acVqsmKecX/zyv5I8kDJPT4aM8dy7Q8
-         80GA==
+        bh=CQJo3BgcusRLIm3SnX57c68pebl/CK3B8z7Rc9lJ4Ds=;
+        b=LzzL3IkfrMijLyqzDN9+uZhUtb7FDvLsfo1UbJwaTUy8ZsaYCpj+Ii3lKLRp3m5YLE
+         VXynVl7k40tovoG+w3EJMAuQH602BfzvE7sS1JHRAY7WqV3mbbVo/q8/EeB+qCFvEdnM
+         n1HnrSa/1GhTyl4dmPc6wsDQAu27tX6zOXbOKnrivzSka8EQDlmDSY9YGQBX6SrGZE8f
+         9+t/NeRHhHJYjSy+OVx4Cvh8CPc/bQMCs11T2BIPrhqZCumDVRqjTdUZbz0Qt4W/Bg2H
+         ffP2cBhsIxagXB37qmJ2vPXnjPyRkTSaZdNlnl3L/KE7eNVHsWrsec8hJnjIWl9Y6Srk
+         0c1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773092954; x=1773697754;
+        d=1e100.net; s=20230601; t=1773093269; x=1773698069;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UCOiS+RSyl4rQ1CP4ex+7wZZ9gyZAKKhYX8v9rsTRMo=;
-        b=fpd5vzwbrNyDFX5yZhzg2SVhewkd30C28uhiBHxgsln2Mkj24RMfgQYwfYBQ0LbPac
-         xdeXD+vJkO8aJRtMyMFwdk9+jIMgCyxv/cED67uPH7XPjFusYLVmzxX+RQuVZmfwkPrK
-         veUf6yuB3KuKTT7keyEm+qch0u7yOQlxpibn0L/AUB2rS2K3jl+ZQYHHmCBbqkwPqyXJ
-         G8tWYZsncQBpQzOqYtEjwEkoD1A0jmmw7EdFcfo1n0a4OMV7+flKuaVlBrM8D3xeZJa/
-         gX+EBmb6KL9BsJ6Iniic/b+zWDzMk8Q6APV1YZUNdoA6jEdx1+wiG8NZSsaiPHxITzjr
-         rjVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWg+T8noc0xQDw9yQzvmaoUtu8slTE2DTMb6Pvx7Jsne9D5OiDqkj+yLjGu6y2IWK4l9Z4gr9P7Q68kKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj4SHcgHyjY+amUYoJEut/6kWjWJ70nX8Qk5hAaWz8cQJJzdoI
-	KOPMQ6FHg5R9SZZ/kZPY1/HN8CF7fwvy25i13JBR2iemmVbMM/QD8j4=
-X-Gm-Gg: ATEYQzzc59ba8zgMd/lFjBeQj2iPBqBTEZSTGvR/ZjikoNrJFdrz5JSr4ZyQJLFR244
-	Sk1l0pTWnhjkuk8alrtwCwbPqtrbnBbNN7BmHJB+LodunyDT6nl3udv0/E/H0kfnipBYREdacIK
-	9YzerfRISaITgsbMGaTVvfS37U+p+Qjucfoqf2A8Ghscz8Lmo7HqDT6h5yn1qVRI2bRB573t4r8
-	2JKQqD3jcjCOHkWhkIQnOxnVi8Ye/3SfayQXLn03tgSn0bl9VSExVo5rc3IONzbZg1UsCE1VJfg
-	yJathjSh4JhGrRhb5riq0gepytmuGT4LC6ilwI4NoYQkG1SN0K2/m/gglNDeQ49Y0XB1eWEOQzU
-	9AXBGosBdcuGvLbajGEfa2TMpJvhg38Z8eK6c6130fClb8yn9y3D6r60pGjWx3RWvV+nPGOijmX
-	D9cIZhmARb34J4E6mayoiQdxTX2Nntu/ggf1pNxqEFeDKcKu80q0PdqA==
-X-Received: by 2002:a05:600c:3b92:b0:485:3b00:f939 with SMTP id 5b1f17b1804b1-4853b00fa43mr93367735e9.8.1773092953435;
-        Mon, 09 Mar 2026 14:49:13 -0700 (PDT)
+        bh=CQJo3BgcusRLIm3SnX57c68pebl/CK3B8z7Rc9lJ4Ds=;
+        b=psuIWwTkWfAfFkHv9WsiUs5J/tpYUBjmA03vGNpqE3muMXMDBAN9CmMvZjAjZzFBRE
+         v6BtGAHyd31AH2UmQ9GILn4TQMaKXoB1ol5t5iCvxiMlxEeSyfLk4arw86+ylj6WoP0D
+         1rKXQ6ZYsAbldUBAVOfX/nUACS3HyKW/uk+izanLdyhBgHAYbQgSfkB7OSd+x4AZpSZA
+         nACLbDX6hIW2J2IHz1eRH5Qr9ZphhJpJxnePGkeo/5bwFwgZ8nPyeJ9yKsgvaGlKggT/
+         l4k8c8RRsEublpushZxhHkQSMpfppcLfpkPeWxaquIz8z1A1dXFlfhC+jb0q4R9S40S+
+         dFyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3sTeaHFfrzczVRjuZMjZJw/8Sv8gS5omORQrAaues4HXeBO87CFtLp6tRyUP/p0W+dbURc+ctoQ2vdw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5Ztk3ELE6z6g+2aUiZCSLCMh8B0CKOEne+xMYfEUhlhLLbsl+
+	/hGjW8w1l/7mzOkMhhHHVZOeZnR/Rgb5pFc0jgGe+PklF2EqHVYpsNU=
+X-Gm-Gg: ATEYQzzDJCDT1p1Fcbadil6PcbWS4EqRUPQGY1MxGtwHftA31n5SwR9Zn7xlOTxpTkc
+	yTqFgvcDy96CAD3u7iIzKhx0cznD0sQlCk+Tpjh60XSK/atduU++g4hQutl1V6EuomMK54KAx35
+	2MxBBg8zAKjzY3Keg3FGwx4fJnZig4cz+tglV35zjScQ/LhEj1jYgrHOhi/Ox5mgEcGtTczPoDH
+	LHENPSjjnYNzFUF1TPNOpPjsM27SR+etGEuvH10TmPa06VoS/RB7A5w+GLSjippv9sGgHKz9226
+	q0kQkay6Ar3a3AjPCLOAjCf8sKN54jCnH+hbpqh0WW9EKloOaOblGqL6JAaC55UVMxvuZ0/jRbm
+	qfsdlsjI3o2lwAp8TUqCR4pNDnQ4U4pVNAuz1h4d+j7F8jBclsuEp+wQFllnOVhFU2a6xiqDxwf
+	gqvDHNf+NSpyVbByHfnTXZeKxk41kodHSvO3wizQekSsJPQ/TLubXr7w==
+X-Received: by 2002:a05:600c:b93:b0:483:badb:618e with SMTP id 5b1f17b1804b1-48526923941mr208200345e9.8.1773093268946;
+        Mon, 09 Mar 2026 14:54:28 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e11:2401:e440:4d43:1ae9:c232:cc4d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485246fd127sm149015395e9.6.2026.03.09.14.49.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541a900easm28183845e9.9.2026.03.09.14.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 14:49:12 -0700 (PDT)
+        Mon, 09 Mar 2026 14:54:28 -0700 (PDT)
 From: "matteo.cotifava" <cotifavamatteo@gmail.com>
 To: broonie@kernel.org
 Cc: cotifavamatteo@gmail.com,
@@ -68,9 +68,9 @@ Cc: cotifavamatteo@gmail.com,
 	perex@perex.cz,
 	srini@kernel.org,
 	tiwai@suse.com
-Subject: Re: [PATCH] ASoC: soc-core: fix use-after-free in snd_soc_unbind_card()
-Date: Mon,  9 Mar 2026 22:49:06 +0100
-Message-Id: <20260309214906.543639-1-cotifavamatteo@gmail.com>
+Subject: [PATCH v2 0/2] ASoC: soc-core: fix use-after-free in close_delayed_work
+Date: Mon,  9 Mar 2026 22:54:10 +0100
+Message-Id: <20260309215412.545628-1-cotifavamatteo@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <17591222-b9f7-4056-9c13-4a2ccd0788df@sirena.org.uk>
 References: <17591222-b9f7-4056-9c13-4a2ccd0788df@sirena.org.uk>
@@ -82,32 +82,31 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 09, 2026 at 03:01:40PM +0000, Mark Brown wrote:
-> That's exactly what flush_delayed_work() is supposed to do?  Are you
-> sure whatever you're seeing isn't that something is managing to schedule
-> new work after the cancellations?
+Fix a use-after-free in snd_soc_dapm_stream_event() triggered when a
+sound card is unbound while a PCM close delayed work is pending.
 
-You're right, I was wrong about flush_delayed_work() in v1.
+As Mark pointed out in v1 review, flush_delayed_work() does handle
+pending timers correctly. The actual issue appears to be new work
+getting scheduled after the flush: snd_card_disconnect_sync() inside
+soc_cleanup_card_resources() can trigger PCM closes which call
+snd_soc_dapm_stream_stop(), scheduling new delayed work after the
+flush in snd_soc_unbind_card() has already completed. If the timer
+fires after soc_remove_link_components() frees the DAPM widgets,
+the work accesses freed memory.
 
-Looking at it more carefully, I believe the issue is exactly what you
-suggested: new work gets scheduled after the flush. Specifically,
-snd_card_disconnect_sync() inside soc_cleanup_card_resources() can
-trigger PCM closes which call snd_soc_dapm_stream_stop(), scheduling
-new delayed work after the flush in snd_soc_unbind_card() has already
-completed.
+v1 -> v2:
+- Split into two patches as requested
+- Dropped cancel_delayed_work_sync() approach, kept flush as suggested
+- Added a flush in soc_cleanup_card_resources() after disconnect_sync
+  (so no new work can be scheduled) and before DAIs/widgets are freed
 
-> These are two separate changes which should be in two separate commits.
+matteo.cotifava (2):
+  ASoC: soc-core: drop delayed_work_pending() check before flush
+  ASoC: soc-core: flush delayed work before removing DAIs and widgets
 
-Agreed, split in v2.
+ sound/soc/soc-core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> This now guarantees that we don't execute any queued work, presumably
-> something was expecting it to do something...
+-- 
+2.39.5
 
-Dropped the cancel approach entirely. v2 keeps flush and adds a second
-one in soc_cleanup_card_resources() after snd_card_disconnect_sync()
-(so no new work can be scheduled) and before DAIs/widgets are freed.
-
-v2 incoming.
-
-Thanks,
-Matteo
