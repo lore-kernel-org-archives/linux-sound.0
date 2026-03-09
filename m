@@ -1,191 +1,112 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C39E36B04E
-	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 08:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C25036CDE5;
+	Mon,  9 Mar 2026 08:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773043897; cv=none; b=Vsck6Uh4FtIJIvoxGfR2jwbwpxDwPJAnhdkexcDdwAHQgNc8rP1rRJrRkWgOB1kpj19/qM1BS0ejCzphsGEoYbfyUOY0YZuHmnzJN73QtRRIg6vvKYQO+AfdsUESA8Gvrmzc3TtsmmBCsIXMOBC7hF5/FlwPER4/Zx8dHzw1TKU=
+	t=1773044916; cv=none; b=f8Kl9ewXCMdKitmPZKouNMAH08nKJPEbYIHh+eYbYmaGTbYt1UgLNIiif+LY0cFTc+mj5N9UnwqpD3ArgzWb3irNdOfqwrZp+5ZUuw2pfHnqANDOFk97rVpxu0BZcrjTYNPQTtSnEs5Aeyq1zJgNIz8xokd7NLZyZB6d5i6J/2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773043897; c=relaxed/simple;
-	bh=8Wr+QHGi2xKFzk++2DxKsRg1oRjab/yYDMRypPaMk/U=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SxY4ZK451o5iQvq0z70RmPzB+WEFZpQQlqKKuObjxtHzfMjPKffSuEtzAXnc2nr+ERPQIV/lFtETYKAU3SNLNm7yRCXv8s9MfU5RlnMXTgeeRqzT305Rv5gQbZmqF38h8PfvDdd1RNtjDgHR6C1TsiuZ+VeGC76Cd8vD7QN3oqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oTynYmyt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ia2Xpvmi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oTynYmyt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ia2Xpvmi; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oTynYmyt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ia2Xpvmi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oTynYmyt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ia2Xpvmi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A518F4D206;
-	Mon,  9 Mar 2026 08:11:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773043893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
-	b=oTynYmytO9kFu0cL7j7PzOfcphed01RinVZUnnFur5j6gXjx82OGmpQ7D+LJ0aJLVgc5+v
-	invi+CpwII6ND2zskEcMEetY7pPdGcZUiyb1nk6A95I6CYoW7uR2/hcicJEphYhm+wAdpD
-	0qVQpXWScMi/5vYsmdtPRnEzzpQRbhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773043893;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
-	b=Ia2XpvmiOPQPSNnJI0f27Z7vTFp0Ihaz2CmTrNegJhdPJ28BciTszWp8QVdrIs27MhV8Ll
-	BxwCKpYQlNLWkwAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oTynYmyt;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ia2Xpvmi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773043893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
-	b=oTynYmytO9kFu0cL7j7PzOfcphed01RinVZUnnFur5j6gXjx82OGmpQ7D+LJ0aJLVgc5+v
-	invi+CpwII6ND2zskEcMEetY7pPdGcZUiyb1nk6A95I6CYoW7uR2/hcicJEphYhm+wAdpD
-	0qVQpXWScMi/5vYsmdtPRnEzzpQRbhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773043893;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6LfKcwrC+MnzBTWAPUwiLkszFKYg84zL7JEONpljn3I=;
-	b=Ia2XpvmiOPQPSNnJI0f27Z7vTFp0Ihaz2CmTrNegJhdPJ28BciTszWp8QVdrIs27MhV8Ll
-	BxwCKpYQlNLWkwAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F69E3EDCA;
-	Mon,  9 Mar 2026 08:11:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Db/tFbWArmkkFQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Mar 2026 08:11:33 +0000
-Date: Mon, 09 Mar 2026 09:11:32 +0100
-Message-ID: <87y0k1toaz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com,
-	g@b4.vu,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
+	s=arc-20240116; t=1773044916; c=relaxed/simple;
+	bh=lyww92yMoAnlrC3Qf5SoiaN9czveLaJMQmFhcl7njg4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Vgp4S/xr9jgjTmG48fj8VA8KNR9usttaWpJnZFznwpzzbt5j3TwLxHwtlpuBhl74UgWeE5QL8aHJ6enWHjF8GBsm4EFeyAGWRgFpVKbc6QyAf7n8HL8HNz7P4lzCqe76++3yaUWyegxgPDXWVS9rxRr9+3acpumiOyG2YO8Fbo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [210.73.43.101])
+	by APP-05 (Coremail) with SMTP id zQCowAAXpgmrhK5pMCHxCQ--.20883S2;
+	Mon, 09 Mar 2026 16:28:28 +0800 (CST)
+From: Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
 	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
 	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: usb-audio: Add the number of endpoints checked was 0
-In-Reply-To: <tencent_251BAA25F2BA69BB9533A19E651B204B3208@qq.com>
-References: <69acf72a.050a0220.310d8.0004.GAE@google.com>
-	<tencent_251BAA25F2BA69BB9533A19E651B204B3208@qq.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	18291782795@163.com,
+	pengpeng.hou@isrc.iscas.ac.cn,
+	pengpeng@iscas.ac.cn
+Subject: [PATCH] ASoC: da7219: scope AAD suspend and resume helpers to CONFIG_PM
+Date: Mon,  9 Mar 2026 08:28:24 +0000
+Message-Id: <20260309082824.717012-1-pengpeng.hou@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[qq.com];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[ae893a8901067fde2741];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: A518F4D206
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAAXpgmrhK5pMCHxCQ--.20883S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr48GryrJFy8tF48Aw17GFg_yoW8AF4rpF
+	n5trZ3Xw1DZa1Y9rWYvr1rZF12g34rCF47JasFg3y7Xr15AF1xCr18tr1ruFy8GFW3GFnF
+	vry2934UKFnYga7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	tVW8ZwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+	IFyTuYvjfUeFApDUUUU
+X-CM-SenderInfo: pshqw1hhqjhx1rx6x21ufox2xfdvhtffof0/
 
-On Mon, 09 Mar 2026 08:32:29 +0100,
-Edward Adam Davis wrote:
-> 
-> The user constructed a corrupted USB device, causing the USB device
-> enumeration phase to fail to resolve any endpoints. This resulted in
-> a null pointer dereference reported in [1] when the USB sound card
-> driver executed probe to initialize the mixer. 
-> 
-> To avoid the problem reported in [1], a check was added to ensure that
-> the number of endpoints contained in the interface was 0 when checking
-> the mixer status.
-> 
-> [1]
-> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-> RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
-> RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
-> RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
-> RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
-> RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
-> Call Trace:
->  snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
->  snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
->  usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
-> 
-> Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
-> Tested-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->  sound/usb/mixer.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-> index ac8c71ba9483..bd28caec3004 100644
-> --- a/sound/usb/mixer.c
-> +++ b/sound/usb/mixer.c
-> @@ -3563,8 +3563,12 @@ static int snd_usb_mixer_status_create(struct usb_mixer_interface *mixer)
->  	int buffer_length;
->  	unsigned int epnum;
->  
-> +	epnum = get_iface_desc(mixer->hostif)->bNumEndpoints;
-> +	if (epnum == 0)
-> +		return -EINVAL;
-> +
->  	/* we need one interrupt input endpoint */
-> -	if (get_iface_desc(mixer->hostif)->bNumEndpoints < 1)
-> +	if (epnum < 1)
->  		return 0;
+From: pengpeng.hou@isrc.iscas.ac.cn
 
-The change looks wrong.  We don't want to return an error here, as
-mixer->urb is optional.  And the second check introduced above is
-utterly nonsense; epnum is an unsigned int, so epnum < 1 means only
-epnum == 0.
+In current linux.git (1954c4f01220), da7219_aad_suspend() and
+da7219_aad_resume() are defined and declared unconditionally. However,
+their only in-tree callers are the component PM callbacks in da7219.c,
+which are already guarded by #ifdef CONFIG_PM.
 
-The problem is rather in the scarlett2 side, and it should have a
-check there, not in the core function.
+This inconsistency leads to unnecessary code inclusion and potential
+compiler warnings when CONFIG_PM is disabled. Match the helper
+declarations and definitions to the callers' scope and provide no-op
+!CONFIG_PM stubs in the header.
 
+Signed-off-by: pengpeng@iscas.ac.cn
+---
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@
+ /*
+  * Suspend/Resume
+  */
+ 
++#ifdef CONFIG_PM
+ void da7219_aad_suspend(struct snd_soc_component *component)
+ {
+ 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
+@@
+ 			da7219_aad->micbias_resume_enable = false;
+ 		}
+ 	}
+ }
++#endif
+ 
+ /*
+  * Init/Exit
+  */
+diff --git a/sound/soc/codecs/da7219-aad.h b/sound/soc/codecs/da7219-aad.h
+--- a/sound/soc/codecs/da7219-aad.h
++++ b/sound/soc/codecs/da7219-aad.h
+@@
+ void da7219_aad_jack_det(struct snd_soc_component *component, struct snd_soc_jack *jack);
+ 
+ /* Suspend/Resume */
++#ifdef CONFIG_PM
+ void da7219_aad_suspend(struct snd_soc_component *component);
+ void da7219_aad_resume(struct snd_soc_component *component);
++#else
++static inline void da7219_aad_suspend(struct snd_soc_component *component) { }
++static inline void da7219_aad_resume(struct snd_soc_component *component) { }
++#endif
+ 
+ /* Init/Exit */
+ int da7219_aad_init(struct snd_soc_component *component);
 
-thanks,
-
-Takashi
