@@ -1,168 +1,244 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012048.outbound.protection.outlook.com [40.93.195.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C0F3B52E3;
-	Mon,  9 Mar 2026 13:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD643C2781
+	for <linux-sound@vger.kernel.org>; Mon,  9 Mar 2026 14:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773064487; cv=fail; b=mPQ2yN6BnPcSW8u74rE/0jsjgc7zW3vp/AIuyrgwFsFo723sFPzsMPG0jk/EhthOz6Jk0j4I7+LKgyNcrjKqWX+d3AOjKFwVDzLqFCQHMLC3y4NAOc1cQLcyMUCWyUm2bTHps3fihxXpdP627zFIvScQXkh/1VJMKEnOaEHVN8s=
+	t=1773064977; cv=pass; b=RAWYJ+2w38lfu7RuEhZzayE5iLDuBkC/LVfLnTWgto3DOAy8ERR9W2WITurWnOxac8VkXijXj4A5Y4YXO7U/NUaR2l6exSo8VwMyhueUM6lqByyc+PCSpne0sbOVXX3wR7c/DnYIkE0kTHPcN34apo8TfUPYGODsKSA6IYs+OPI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773064487; c=relaxed/simple;
-	bh=cMl+aiem0qvLMv/Kv0zTj826dUvM5j1uGLkNT6zo/mo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=C3l4dVWeNHhvdz5HJMVBDBcrS6hz89zw2QdMybOF2lX+G/f4hSgu+/lnGDd0zG6ZrIlklzY9Rmye5+zOT006d0IFZzwnqCQRc5LOZui5sTBOcB66P0eWtelIR26MA0zVG0q4xxENyRQOF+rOveX/95NjP1y+f64JSl0ND/LGqp4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EDKbmxrZ; arc=fail smtp.client-ip=40.93.195.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1773064977; c=relaxed/simple;
+	bh=eS9fhLLqDJTHY91baTA6w5oY7zcCynBm2pTAMayjydI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NNn8KX5tk3ec4JzXsPpHPO0s6ZZb12p3DBWrWDNOHRq2+o3u76KHxyWuMcMUgB19/9awgJpeGl4shOwNNfO/Y8MQZdK45vvBiqgxuwTPC6Kw8kcVW17kOZjZDaoePHwVVE/1jfLJhskdR6sefk6rcmipd01sabviZjjEzR+j0U0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pi9b8d/O; arc=pass smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EDKbmxrZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=huV3Ohgb0PWD4aobvIrKz19v8wblYpFPVsbkfkSU8PCApY9K5X99CtX5aDttNJ9CL0ZmPefwISBWIdcX5TCzXrg3cSaOT/CC6ykwwLKFg+Kraf4mtLoGHRXjKIOOWQxroLWxze3445uLBThznzj26NUkr9DzrOHwm/v9J5ZC1M+D1RsABTsSpnF+4+IEYKYzJgNvDvDnJIMpVvtzuhBvmgjmwXcu/rdlLPB4CRRKOJqYDdfmQBvFNp5FIBA/TjKlqhbOD1FjbT20xQq3scDkNLGRSv2eoIkyIZAJOLUaylZ8CsP4cZOW7/awaVbPya1S9aHlT1IXDLRO3XoYQ3RNTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+dCsmKnpItLcqRc2vFhig5BH2C0nC+gTOUqabcbuhyU=;
- b=SZPYEfRcSNcTjPFh7EpIdJB4WLC3v+Qzsa2iq3MTgcsMYPHSsSXWKXpGMHuwB2PcvsmqtZhraKnluHTlyK8ja4HUvAD0BZati4Lu8ZWKE8rYQ7YYzmizX8f7mWjZbf7fuh/v+NnyGrU8P+4vtM+LKUcGyEnWdhRcWAJsLz5k1l9Q5QVcR/GHP+qeVGOjE/XP9Np4x3cUFqMMUnvvTC5uvoFKfHoT7+AwUpK0gwG7nT4JeVbPSyWOLQm1l4sLRgvVrxnCBHAQ6ZzNC60t8jrX8Z7s+SyhfHvo34Y4S2ENT1rVtzjkmsK96F2dhva9wSZWwf6BgaVjLo83HMDyZqtbtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+dCsmKnpItLcqRc2vFhig5BH2C0nC+gTOUqabcbuhyU=;
- b=EDKbmxrZwQT+bFAxzTamowVEzg0DHBMUG6Cr/KOIe4v71TTXHQpYl3QewkqamIjbF/V3+EinrmxH04Qg79fLwfBtHGj7B2kMGqxe+j708CCsl9B+bVd7UEtuwNPefHm8Z5WgJoSJwuhZJSZCUieQHdKsyfQrFuIYXnmENnmzvd8NMVNH1t4KIKNtNzygcxk9PuiSFnmBPM68TXf3byAp4+JxmRryevagum8deLF9FMpq9Tf2NCREchoK7XGotHLbjDzVLRp2X5GFu44xQ7mt4N2MJ8mRvNYps5AyqhRB8B5qUBufNWCg0KtKn7TkzYHUSmYiifi1YFHLnxeAW+F+/w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
- by BL3PR12MB6425.namprd12.prod.outlook.com (2603:10b6:208:3b4::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Mon, 9 Mar
- 2026 13:54:39 +0000
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391%5]) with mapi id 15.20.9700.010; Mon, 9 Mar 2026
- 13:54:39 +0000
-Message-ID: <e2995078-d30d-4a4d-aee4-55cfb4a24537@nvidia.com>
-Date: Mon, 9 Mar 2026 13:54:34 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] ASoC: tegra: Add Tegra238 sound card support
-To: "Sheetal ." <sheetal@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sameer Pujar <spujar@nvidia.com>, Mohan kumar <mkumard@nvidia.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260303100249.3214529-1-sheetal@nvidia.com>
-Content-Language: en-US
-From: Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <20260303100249.3214529-1-sheetal@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0648.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:296::19) To DS2PR12MB9750.namprd12.prod.outlook.com
- (2603:10b6:8:2b0::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pi9b8d/O"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b7c2788dso5916183f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 09 Mar 2026 07:02:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773064974; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OOLwycmevi0swGDXkZYhXzSXDKqEfbOrMsOTj4zkN/BKg01yIDBLHwCENxQCymL+Se
+         MmIoc/yOHPZzTHiY/J7UlhNnstKgKu1JOiyiiXLdq+d99rcX2FnNqCfSBw7cEnnt73pH
+         Rxp+MGD4B3qcPOhT6PO/bjs5MjCDptHxdCzY36X5ms12fXC/Z+x/kMYT1lLZImknIuwQ
+         UG1GadEPDPs/PQP8jo+6eadh2p+ZICljQd3fU6Y9WDxKCC1FdekCYZybf0ZPqpWBkRVd
+         S5jmk2sHleVmIjegz/4G82xVxE3cYdKEXQ1EUhD8x+/i6bGVgXIxEc3q4o5orDJK+kyN
+         J+4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=azYKkAJ/Pjym6jZWTK+th+Pxad4zfYpNRYlPPjQXN8Q=;
+        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
+        b=bMQJZMzyiQTTSKbXyhWdcLLvwtvjqldCiGWAethIdCwyxfBRfUKSkKFvkj0gY11XJG
+         LDvosRsn1wgTzPF8H172vJ0DNZtkXV/qAiyFBY4jZyciYnOq9DgQ6mQiyr34Z5YNwTws
+         2vd6ZZXfZkZ44/3/uzxflNwjCHW2qBoarNiK2bVW7SvezoHeRhSbvt4IVXFqMJ2uKOE7
+         RHvP/ZIeVbBSKKbHtLOJ0U0Fz2pCPX8uvfY6hykAGuPZAm6yjVF3I1ooiUOfhB20bXeK
+         zSgeqmdrt0j3scENmLlNzGznnI/u1FLOxNwUFONGIZ6vYV92RPhZuomsoIkM2hdR5uem
+         bo7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773064974; x=1773669774; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=azYKkAJ/Pjym6jZWTK+th+Pxad4zfYpNRYlPPjQXN8Q=;
+        b=Pi9b8d/OnlA4ktFaWhm/Au4vswa1FInXF4jOM4xdMw96x/cPMPMQg7dazCCio51hBr
+         qMzi2ZmbfRNI1venjIHtd8SUP5QU7AIDfEwLBRvAW4lg6al4vcRFzvsi4Illbjv24uJg
+         fEv7zBjlDFP1BaC7rBKYjtGbNx/RMHyGQVuGF3FYmqX7LRN8YKZelkPCHf0zl55nasoq
+         0mJYzcLxOiQdo0gOkX1UezmDVbEQ+tLJabNDRJQ+leFn2L2wJ0wjav7iJT8FsEnnrmAD
+         nulpKSS6sTdSMDERDZefWkd4nkS+gabbWU4zgIOOYJC9e9iTSgsdfcBNtVYQfyYrujpp
+         vjOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773064974; x=1773669774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=azYKkAJ/Pjym6jZWTK+th+Pxad4zfYpNRYlPPjQXN8Q=;
+        b=XK/Muwsl1/46Ths9Mn+zK5pbXbTuc4ksEH7wCoghNdzYYnUx8oWi12Rdu4m7biVEFX
+         QJyIJ4wzJXKMujGWeC3zoBjdQEAapFkc6ti0c4IjPYGfOmx/06UsoaDbscsgqc1to7sA
+         sikTnhDReM6aogx84COtV1vzDl3u4hkNOusqUnyVGL7fqHQI3pdYEVuFxYY33ReffBXd
+         X2rozt6KQwBsZcEXtQCHNiGMN7d/R/VOZ2ribKSptiXGAG1QjgzVu9Nv4opu8pl2NV90
+         ssDtRiPIbCfmA7UdCWDP6qNuQ0QHXac+/ZNmIBWmSgDN7LgxOT57RluaRk+aY8HpoxDA
+         Cbeg==
+X-Gm-Message-State: AOJu0YwCHzFe6SLxhWhuCz3WXf9y9CRNcsvmm8kJWswSPponpnfMsvZ8
+	dwPCftqYU4NhGRNYU9iFpex+/0GqVPFrCdUuf8NtRZlGIlm9eLMXStnWs2E9lZwbeAciJ9AiSQ2
+	ksQSvWDZzHWwiy73DTcEkycTG8l9xkQrZJj9AM4ewGA==
+X-Gm-Gg: ATEYQzz8CjsQkAn2X9TDMiE/LHIfsTwK+Pwe9nkCnfp5UbHeUB9M8+sy94zEHFm7Ywh
+	Vr0gOlDGEK0dOo+tVt/LsQpaVAz+0lpQ9caNjMgV+72cYnOaY/bPU3d4+iMtNMAZr9v95LzQdPV
+	vFbZ5oG9iMc2BjzPkeziTSXS1EaZ2D45xHPqwmT1+k/H5V5XoDpIZcF6w7lOee5qJv0P7VMXmij
+	bu3orUR4cj9Z/vVRhNPgwmXOUFaN7wOkDGnr0gijS3wQy6sgHramWmXZNDCmC34jK2Mq5JbnBuz
+	tmJhgDHVfGhxVYCSdlK0W/7xAEWgawdagsRWtnZTY+j5ygOHcA==
+X-Received: by 2002:a05:6000:2012:b0:439:abcd:b317 with SMTP id
+ ffacd0b85a97d-439da351ae3mr20823829f8f.14.1773064973961; Mon, 09 Mar 2026
+ 07:02:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|BL3PR12MB6425:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96249e40-7376-4563-c745-08de7de36836
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|10070799003|366016;
-X-Microsoft-Antispam-Message-Info:
-	Efk7CqOjTbnt7g8HcsPc8G95sDRyBHZ1hK+JaneL+nVXHx8Qd6Mv4spcvwDryhNkmyt5XpziEZPmIDjuRkEBp6W7/3RjtYiIIBhOFQh5z95PymrTIvA1rR9HZcf9fn1hAtn8MdD8fCzJr6OVmzODmQI1U8toyZPwnrW5zWf+9DKI9QeOKS3BeRuVQojy3+qBjMDt6miG9K2llp5vtnBObUBqBpTMo/xJu+CHRf7dt3kmyxZE7hTGPEl4Pgr5WvFCS6ZM6eppkRGz79II8XZwp3HTuoefWvB+26lHN0/9Kg/A+5n263fB2HDq68+cxMLo9Sl4W536XGYpaR3LrqQE2BQGHVW31FwJIneNMR1KWADl5JiWdNiTL7SFgERnuMrymrHyOVzQDQrsZb7cQjdTpXAYYmHJMyvdZIemEMUGIsUpUVbmJgh1eS81UwNB9BT5TkbY0J1vx83+UTYbmN1Uk63kGmTagzzO/1m6daVgfX7a4TWvJHUZiUoO97IoEwV0WOLKsBAH00CYroJ6BXX3h/CLoq3KBHwnCcgbZxbEwHb/q1cUPLSooSTBGX3Mwpd/Fbo9Y+F9KX4o2ayNqGjgPHUR9xuHUmiDzdW7qqY6ASclAqVhkpUzjfFgXCL0ynUkVptiDcpn6Fr9MY7xW0DU809fl+pY1yUnvRn6QEYX7yP7OIdnpc7/qYk46HSF1uWA/llZeTX9SR5Bm89UqviMdqnZLKU40IXPf2t1D/Kbnzo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(10070799003)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c3BzOGZKS0pOUUgwUXpNRGEzM3ZmWk9IQ2E2ZGIzK2RQaFNia1N4SVMyWGJR?=
- =?utf-8?B?VFpTYVZmdkNlSDAxdE10cE5LMDJ5NXdDOEVlN1lzYXJ0K2I5U3g5WWtEUGIy?=
- =?utf-8?B?M3ZIY0FYZHlpQ0t5R3R5SWNRcFlZazlsTE5abll1RW5GOW9yMGtpcVVtWU5h?=
- =?utf-8?B?cWVPcksrNzUzZmg2UHJxRU1LODNSU0RHVmxHTHVWZUZjajZndVVxMU5wZFJK?=
- =?utf-8?B?V3pYSTErSmRRWFpoNHpyenM5MjhCYU5jNk9Ka3NwZTFxRVc4cXo3dVJYOGR3?=
- =?utf-8?B?TzB1eTliWk1KaG9ZMUZyVDUyQWpwOW1RRDBZdUp3M25odzNCSEdhMGFpZDY0?=
- =?utf-8?B?WEhLM2sxVXR6bFZuRWliRDl2VkVzblhYeVhxVFZLQmF5SDNsRkoxdjVHbjh6?=
- =?utf-8?B?Wi92WUF1N3RiMDVWa2hwMU8xU1VtdmtFVG0wU2pXWkx3S2U4K2UydmtuMXdi?=
- =?utf-8?B?cU94YVRHKzZBVVZXZldycUpoakRRajVhdlF2SXhoVHNRRUl6VkJXTkE4eUpv?=
- =?utf-8?B?OE9OeTFLRkE4dlVSZThBbUt5YmFEUzNCVEo5TUcwQzc4eit4SUpxU3hCSENi?=
- =?utf-8?B?QWUvdkh2YUQ2Qm05dFRoa1hXYnFmRXFJWW5TenZJK2Q1VDd3NXh4TTBXMVpD?=
- =?utf-8?B?bGZNWDBnMmVlSm5YaHArMjR6aHcwNHIvOHNIR1dHMmtVZnlTZnJXTnFRR0JZ?=
- =?utf-8?B?bEJob3AvdWVhbTBsNlN1Y3pxK2RCeGxCYmZRZnVPNCttMzZmaHV5MTJTQTVQ?=
- =?utf-8?B?aFRxRDdsTkdva0V6eFoyQ3JGWnpoZ1V4QVlBZVN5dUpoY1cwZ2cvY1BTK0h4?=
- =?utf-8?B?RWEwa2E3N2VTZXlEMDdOdTlvMjlkNmxwUlV4K2lLTnFpMGJMbTVrem42UUl4?=
- =?utf-8?B?ZzI1Ym1YR3dwTmR1Wi94cWs5Y0Vnd0Y0eUlzWXFnY0NXRERrTDRJcjBHS1Fs?=
- =?utf-8?B?Q1VzWFl4cWNVSGtFQ3FYcTh4cG5YS2huOXdiTzNLeTE2NWNyZkttSVNGQ0t0?=
- =?utf-8?B?UHQ1Qjl2RTI2b1RqRzAwUnBFSHdVTzBEaHFMbmZhT0E2SjdYWUFnMjZINTU3?=
- =?utf-8?B?Nkx4NkRiSEpUUVdDQ2RjdTM5NWo5aFJRbVRGRXZGRC85Ujg4cFg4MjlZRS9G?=
- =?utf-8?B?bkg0RnNMMDhvdEZkdWQyN080SjdsLzdCamgzV2E4TFN3VmxrUGJmdllQSUNm?=
- =?utf-8?B?OFIyUm5EcXo2dG1tWTc3TGczaW1xbFlyUzRBNk9yY3M3ZmloNWJvRHVjYWZ6?=
- =?utf-8?B?K1R5d0Q4OFRwbjBUVldoVmdhQm9oN1NzbGhBSnFHc1pQeHAxOTA0RXdXN2ZD?=
- =?utf-8?B?Q1BUcjVFZUhIMFRqVXhqM21pUGlkd3o1S3g0TGxDV2x1b1dOWVIvY2M2a0ky?=
- =?utf-8?B?RHZjTktZdUoraE1Rb0dsQkh0MmJVc3Fmd056Q2VLV1cyalRUZ0lCa1RoSThH?=
- =?utf-8?B?R285L1c3c3F2ZGlVYkdSRDg1S2IxWitzTjA0VnMrUWxOQjdZRlQwck5jRVJD?=
- =?utf-8?B?ODZSbjI2WFYzeEZDTFZiTXZIVHBWbnFrSTVaRE40SFYxMHVUZDB6V0ZpWGRM?=
- =?utf-8?B?L3BtY2kzVWtZakZsUGszU0FWS0N2Q000VzA1bDhiV01pdUNMRmxycUlibXRs?=
- =?utf-8?B?R28yVDI4YXFxa09CVjZRVzZMTUVCSHNWSzJLV2c0d3NJVnpOQkliR01rR0dB?=
- =?utf-8?B?QjdSQ0FrbWZtNDZXaEMzNnlJRUpFS2J6Mjgxa1J4NXNMR1gvS0h1ZjQ2ZlU4?=
- =?utf-8?B?dEpHVXdJMGkzUVc1c3FtdVdOOGtYN3VBNGdrN2l1aHdLSGtiejNqTkpwQzVF?=
- =?utf-8?B?akpNNHk2YWVUMHFMaXZCLzY5d3Z2ZlYydW5Kc1ViT2MrNnRtTmkwSkVCMzN4?=
- =?utf-8?B?WmY2VE0wbzBlb0RiWXBCYUpvc0RjYmw4dG43eWpXQ1laMTdLTk9qWmlwOUZp?=
- =?utf-8?B?N0FEMmlQbklSZGJOUFA5dTBjbjhUcjNqOVhJTGtYZDN5K1ZNZG5CTUxhWFlL?=
- =?utf-8?B?SmJYdS9STWRKcy9aQTBMbEJUMTlkM2Q4RElWWGh4SWN0RWtPR2l4cXFnMVI0?=
- =?utf-8?B?dk1jUFAyQzFhS1Zib1ZoZUJpRkZIdU9VejJjcGpLWFBMcjhTQ21DWWpaeTh5?=
- =?utf-8?B?eUhabDZXMmsvZGM3MlRvbitNOUo5SDA1Y0NhSjM4YnN2RkNVZGM3OGJvZHNF?=
- =?utf-8?B?QWlQeWFGaU5zdHdDOGNyVU1yWnVHZy9MckI3b1V1NVYxbTBQT01VWWhUUUti?=
- =?utf-8?B?L2hWd1ZCME5taHZGOWlhN1Q4U1dUelFuQ3ZSODE4Yzg5SlNhTnFEM1dXbEFB?=
- =?utf-8?B?eGM3c2xNRWdZWHFYUDgySHJ0dmpjOEdTVnkzSy9pTUtpUjY2MGhxalRNdHNm?=
- =?utf-8?Q?EjS9xLkc/ryBBFSivgo1f0Y100n4fmkVGjYy5z/XnHE2E?=
-X-MS-Exchange-AntiSpam-MessageData-1: gENFooifaqOkFA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96249e40-7376-4563-c745-08de7de36836
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 13:54:39.3624
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rm0rjAh0JjvaNT2XAtHGW8grdaECF2PCwhJV4hYaUbB8dZ/f22LI1FyDOop6Y1vDwU6F8hGFewWGMbM1Sx7HOA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6425
+References: <CAOKSTBs1VNBdjRZe3M2v-nC+pLZZ0-KQtRUZUj6ACqb4Xe7LDg@mail.gmail.com>
+ <87qzq2kxrc.wl-tiwai@suse.de> <CAOKSTBtpqPEnihFhopocV_RC8VR_RribXctUayEkUCav3omr3g@mail.gmail.com>
+ <87ldgakvsc.wl-tiwai@suse.de> <CAOKSTBvbopXOuOfstmasijZgUnT9_qW_dsaeMcHUXhyjj3iRmw@mail.gmail.com>
+ <CAOKSTBsWiwwwrmBt3dshrYYo3fQN9eF-gi2Z7BoX6c-Nb3ZoHg@mail.gmail.com>
+ <CAOKSTBvND=d4Fq7mt=36p2Y+hKr6aDUbJ6zA4wDOWASwcWjmNQ@mail.gmail.com>
+ <87h5qxl8tj.wl-tiwai@suse.de> <CAOKSTBtQi6ZmLmy6u5mP9_gLKZTZHmbb9S36hO99xSsk_EEbcA@mail.gmail.com>
+ <87ecm1jii6.wl-tiwai@suse.de> <CAOKSTBtdt=enKSv4ZF7VxDD4QF8+ntyFM5CPJ1Y1QQ7M6TsiKg@mail.gmail.com>
+ <CAOKSTBuOV0=1Y62sqf3QALgR+_He=tKLPQ7LZN+xFC6oGWEKVw@mail.gmail.com> <87y0k6whm8.wl-tiwai@suse.de>
+In-Reply-To: <87y0k6whm8.wl-tiwai@suse.de>
+From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
+Date: Mon, 9 Mar 2026 11:02:17 -0300
+X-Gm-Features: AaiRm53ANEDefvXULp74OudujLid5zCmH9DP3QOfcka3kvc4pi-XMxrptyo-dAs
+Message-ID: <CAOKSTBuUnS=stepHySGVYH4GbQytEQL45cLj4eV8u0KAsquF5w@mail.gmail.com>
+Subject: Re: No HDMI audio with Linux Kernel 7 rc1 or rc2...
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Linux kernel 7 RC3 is out and still no HDMI sound.
+
+---
+
+Gilberto Nunes Ferreira
 
 
-On 03/03/2026 10:02, Sheetal . wrote:
-> From: sheetal <sheetal@nvidia.com>
-> 
-> Add Tegra238 sound card support in the Tegra audio graph card driver,
-> as Tegra238 requires different PLLA and PLLA_OUT0 clock rates compared
-> to other Tegra platforms.
-> 
-> Changes in v2:
-> - Drop SPDX-FileCopyrightText year update from patch 2/2
-> 
-> Sheetal (2):
->    ASoC: dt-bindings: tegra: Add compatible for Tegra238 sound card
->    ASoC: tegra: Add support for Tegra238 soundcard
-> 
->   .../sound/nvidia,tegra-audio-graph-card.yaml        |  1 +
->   sound/soc/tegra/tegra_audio_graph_card.c            | 11 ++++++++++-
->   2 files changed, 11 insertions(+), 1 deletion(-)
-> 
 
 
-For the series ...
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+---
 
-Thanks!
-Jon
 
--- 
-nvpublic
+Gilberto Nunes Ferreira
++55 (47) 99676-7530 - Whatsapp / Telegram
 
+
+
+
+
+
+Em qui., 5 de mar. de 2026 =C3=A0s 10:06, Takashi Iwai <tiwai@suse.de> escr=
+eveu:
+>
+> On Thu, 05 Mar 2026 13:54:45 +0100,
+> Gilberto Ferreira wrote:
+> >
+> > Hi there...
+> >
+> > I just installed ArchLinux, because I thought that perhaps
+> > Ubuntu/Debian was the culprit.
+> > So, I went ahead and installed linux-mainline from AUR.
+> > But I get this same result.
+>
+> Then please try to git bisect.  That's likely the most straightforward
+> way to figure out the culprit.
+>
+>
+> thanks,
+>
+> Takashi
+>
+> >
+> >
+> > ---
+> >
+> >
+> > Gilberto Nunes Ferreira
+> > +55 (47) 99676-7530 - Whatsapp / Telegram
+> >
+> >
+> >
+> >
+> > ---
+> >
+> >
+> > Gilberto Nunes Ferreira
+> > +55 (47) 99676-7530 - Whatsapp / Telegram
+> >
+> >
+> >
+> >
+> >
+> >
+> > Em ter., 3 de mar. de 2026 =C3=A0s 09:17, Gilberto Ferreira
+> > <gilberto.nunes32@gmail.com> escreveu:
+> > >
+> > > Well... I really don't know what happened.
+> > > Probably my fault, as usual.
+> > > I do this:
+> > > git clone https://github.com/torvalds/linux.git
+> > > cd linux
+> > > git checkout cb9b6f9d2be6bda1b0117b147df40f982ce06888
+> > > make mrproper
+> > > cp /boot/config-$(uname -r) .config
+> > > fakeroot make -j$(nproc) deb-pkg
+> > >
+> > > But after that, the result was
+> > > linux-image-6.19.0-rc1+_6.19.0~rc1-00011-gcb9b6f9d2be6-1_amd64.deb!
+> > > I don't get it.
+> > >
+> > > git log shows me this:
+> > >
+> > > commit cb9b6f9d2be6bda1b0117b147df40f982ce06888 (HEAD)
+> > > Author: Vivian Wang <wangruikang@iscas.ac.cn>
+> > > Date:   Thu Jan 29 09:56:09 2026 +0800
+> > >
+> > >    ALSA: hda/intel: Make MSI address limit based on the device DMA li=
+mit
+> > >
+> > > So, basically, I give up!
+> > > When this issue gets fixed, I will try kernel 7.0 again.
+> > >
+> > > Sorry to bother.
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > ---
+> > >
+> > >
+> > > Gilberto Nunes Ferreira
+> > > +55 (47) 99676-7530 - Whatsapp / Telegram
+> > >
+> > >
+> > > Em ter., 3 de mar. de 2026 =C3=A0s 07:48, Takashi Iwai <tiwai@suse.de=
+> escreveu:
+> > > >
+> > > > On Tue, 03 Mar 2026 11:27:24 +0100,
+> > > > Gilberto Ferreira wrote:
+> > > > >
+> > > > > Sorry... I am not an expert on this stuff.
+> > > > > I just like to compile the kernel...
+> > > > >
+> > > > > >> You need to *compare* between two kernel logs.  You can strip =
+the time
+> > > > > >> prefix, and check which lines appear and which disappear in th=
+e new
+> > > > > >> kernel log.
+> > > > > How can I do that?
+> > > > > Via journalctl -xe -p3? journalctl -r -b?
+> > > >
+> > > > You can run "dmesg > dmesg.log" on the running kernel.  And you can
+> > > > get two outputs.  You can strip the time prefix from there by some
+> > > > script for easier comparison.
+> > > >
+> > > > > >> And, have you tested the revert?
+> > > > > I don't know how to do that.
+> > > > >
+> > > > > If you can point me to some doc, it would be nice.
+> > > >
+> > > > Have you ever built a kernel by yourself?  If yes, it should be jus=
+t a
+> > > > git revert of the suggested commit and rebuild / retest.
+> > > > If not, which (distro) kernel are you using?  Usually you can ask
+> > > > distro people to build a test kernel.
+> > > >
+> > > > In general, please be more specific about your system and
+> > > > configuration.
+> > > >
+> > > >
+> > > > Takashi
