@@ -1,74 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CB9364026;
-	Mon,  9 Mar 2026 07:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC0B368953;
+	Mon,  9 Mar 2026 07:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773039937; cv=none; b=lerqxOIvw5ExKwD9RqGJwLH29aNl6Xz4yDD4LWM6B7VmklSsbs/QH7wnyOAa87H+GoxgIUMksOqFGs/jGq6DkDoByZVyfJYN9wOj4ZLmtIW4bxVlUoAsgXVVVbpRZ3w5CkiX+V1Tc4cAtlCbhqyajaOMA9pefG1790m1p1K2NPM=
+	t=1773041565; cv=none; b=j9ZVrZaFYOUKRNsDxmCY2WExTwhGWz5TS3Kg5wXXSR/a1Cl/HUMIFn/itvEOKmMPVP7Bgj9g7YG3I8cvSq4Le93BUNAyfsQ++IF+g+bYvxClWt2mx/THdRLCxOuNxYv/ceRE9QtQZaM8GLUutrICXrGhQmTsvgCANfzcq4WA8Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773039937; c=relaxed/simple;
-	bh=dMUZA1phAE6VrGhd2PGdMK3V3gWyr+QHqdwId/6ppMY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KJTw5R5+8IryW/ZRCJW7gBD1KwUU8xQYp1XglcKhtzFVQ/YcZq6tQyCPkZDDSF/8SSuzutBG50elKlS9SRRd22JtQecde7GKuE8HFqlg5UiG6y19IKtOkAsv9BKKpzp4QHWm+eU38mNu0vz1d5I9hwKInUA2/N9DNIERieF4+0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXMcz8NK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773041565; c=relaxed/simple;
+	bh=AWFU9eSZdANBFGv2dNLetCdbSQN+C5pPC0+pMVGgRqE=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=DmQTam+7LvpC2Jc3GjDFbX6osp67wIu8JLXsEMgVCGU8iwXIrUljQKyLHwmdUaJTtLif9pKTEF/7jIgkgJD+KuCzqaekQ4pbv0DFZ5q4o2krdQHRFfdVDEHWsinghqQN79d7g6kYvYdn+rMzTnbw9rEaA9vL8brkCEUa+6NSNvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ReIk3GZM; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXMcz8NK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8309C2BC87;
-	Mon,  9 Mar 2026 07:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773039936;
-	bh=dMUZA1phAE6VrGhd2PGdMK3V3gWyr+QHqdwId/6ppMY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=sXMcz8NK8TTVgFJMnDaCNbFUKJ0DqzVrsoyBlrWnkNmKL3WXdE6bokSmj5TfMoNUu
-	 3rN5CVy51hXydN6UqLZu7hXembdfnsxYMJ3uKJ8xrI1SAUVs//LoYECIxqlj5EHvaI
-	 xMDO1jponjYHts7vHvhiS8CmDM2cEX4qL8gr4sIIvU/JKYa2gR9Th0Hu2Dp2zhX4qA
-	 BeXWjD/21jGeYQESNie/vwMeBJpELOWgK44R2dqE7b9hZMDWrpdHhrn6kK0ThmFDLS
-	 orTZfdSoo38rYY7G3sflTwtgHU8aygYPsQG0Bw7lNYWc3Of2Sq1lIPi9Kmd6xHEvJa
-	 yAx4t/x/rqPPA==
-From: Vinod Koul <vkoul@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
- pierre-louis.bossart@linux.dev, bard.liao@intel.com, 
- simont@opensource.cirrus.com
-In-Reply-To: <20260126054045.2504103-1-yung-chuan.liao@linux.intel.com>
-References: <20260126054045.2504103-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] soundwire: Intel: test bus.bpt_stream before assigning
- it
-Message-Id: <177303993466.65210.10532084437729459880.b4-ty@kernel.org>
-Date: Mon, 09 Mar 2026 08:05:34 +0100
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ReIk3GZM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1773041551; bh=Mb3mrLLhazoKaVlGHpGuWLgJFSK9E6hT7xlTEjAaAWM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ReIk3GZMBzQevffP+PSh8vXLYqikFywjnoi+VHNgjwGUqZQZ+ZQNYGmBza6lfto0y
+	 J61YD2Grn6Hma1j96X70/NUnrMV51dOVRS0T2w99VVD7gxWJtVwy0zW7QVMZXErTPv
+	 WsW1yXkArrkaDk+0RfBE7dTgFilTY5Q3EGsTBcZ8=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
+	id 81C2AC9F; Mon, 09 Mar 2026 15:32:28 +0800
+X-QQ-mid: xmsmtpt1773041548t58i0fpci
+Message-ID: <tencent_251BAA25F2BA69BB9533A19E651B204B3208@qq.com>
+X-QQ-XMAILINFO: MMhobhVxpxw2M+h4Pou3ogAm24ZYV3r5PM6E+OocHbkcziIfuoflNX9oMP9BeY
+	 gMxiIw3E7NhJrD4JW4xXB+0vrAqYZNhtQHXyU1eHXccLdi4qMKq9XJIQAHObl+74DWhl/AIA6C37
+	 I6g60SsjxSdU8YWuDn+tb7J2RI+avdVXHE59SRt28azzKVKnDqhbego3MWxJHcv+TM8hry83AkYZ
+	 OByOyvhMyWudeFXXHlJmpLZLRmi14/1L/c16p1S/W+8Ncadgpefr+fawM4le6RVnrpVefW4OkBQ0
+	 UuFUXqi5CySuCJkYx4cZEop7FSs1KqnsZqHCsWtrlL9+I2GVY/20wg4JVM0vc0vgHzplM+e0m8yx
+	 mKKSqfvI1LXNifxU3Ky8WHvf7nNxxP2gjWM1QtLDJhRNgyC8WBMuenoDHn4azIzpVKXLFr7w9UoW
+	 7O9cBCsvzdn4sYV12pTXFu8OQi+1yG9+7KJS+T+BZzSqDvpCQVm+zUjZ/hleoTsgflhaikYr6z6E
+	 QEVXokTNmTSrN80/0JwKIt//OFuX0huC66VIp1VXtn7bsYvoXlWU4guucjgMHqtPVz9uV4FczExF
+	 oAb2LQLh0uM5OYJMp+HotCx5wcG/EjflSeuUUILHybb8RJt/YJs6TPD35PYaI3fLHqv5hXqBV2Hg
+	 tZXofiPehMLMWYiJnwO3TxDvPFmlyDJVm3rS+4Z1jSD5Ug5GuVMuNExxZLLxT4ARAsHyach63+1Q
+	 bOZXKSuD9MmII+ZZF3g65G3zA6p09na+Y8b3mC6GQeTbtxGhn3zMQ/rMfsrcg/CjZ69BfnWgI9Re
+	 7x3bDgjocTcesrCbxTF4d98J04epTdXIqPhmXjBQYc0y27hDMq9+DPeUVYgZKgjNl0jxSFj4XdL/
+	 mlcUkjO82aWeoHzWST4ZMZPvLDG6fanDnEJMccRK/WfPYUkLHvHvzdv3cmGeYtzJLzHQ8Li8OoVM
+	 mBec+6ToeOPtCJT+YXun/3Fg13KOKe3Po0ks1XHeeTM3zP4gNOdiZPp11AME84NqsumuJOxttu44
+	 lTawsUqB+JRV5NfCIo5CBLQNbpgxGm6vaf1RtlVpYwcYYtB7OE
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+Cc: g@b4.vu,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: [PATCH] ALSA: usb-audio: Add the number of endpoints checked was 0
+Date: Mon,  9 Mar 2026 15:32:29 +0800
+X-OQ-MSGID: <20260309073228.539672-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <69acf72a.050a0220.310d8.0004.GAE@google.com>
+References: <69acf72a.050a0220.310d8.0004.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
+The user constructed a corrupted USB device, causing the USB device
+enumeration phase to fail to resolve any endpoints. This resulted in
+a null pointer dereference reported in [1] when the USB sound card
+driver executed probe to initialize the mixer. 
 
-On Mon, 26 Jan 2026 13:40:45 +0800, Bard Liao wrote:
-> We only allow up to 1 bpt stream running on a SoundWire bus.
-> bus.bpt_stream will be assigned when it is opened and will be set to
-> NULL when it is closed. We do check bus->bpt_stream_refcount if the
-> stream type is SDW_STREAM_BPT in sdw_master_rt_alloc(), but at that
-> moment the bpt stream is allocated and set to bus.bpt_stream. It will
-> lead to the original bus.bpt_stream be changed to the new and not used
-> bpt stream. And it will be released and set to NULL when
-> sdw_slave_bpt_stream_add() return error as it supposed to. Then the
-> original stream will try to use the NULL bus.bpt_stream.
-> 
-> [...]
+To avoid the problem reported in [1], a check was added to ensure that
+the number of endpoints contained in the interface was 0 when checking
+the mixer status.
 
-Applied, thanks!
+[1]
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:479 [inline]
+RIP: 0010:scarlett2_find_fc_interface sound/usb/mixer_scarlett2.c:8261 [inline]
+RIP: 0010:scarlett2_init_private sound/usb/mixer_scarlett2.c:8295 [inline]
+RIP: 0010:snd_scarlett2_controls_create sound/usb/mixer_scarlett2.c:8684 [inline]
+RIP: 0010:snd_scarlett2_init.cold+0xbad/0x6c79 sound/usb/mixer_scarlett2.c:9407
+Call Trace:
+ snd_usb_mixer_apply_create_quirk+0x1c21/0x2b80 sound/usb/mixer_quirks.c:4446
+ snd_usb_create_mixer+0x7a2/0x1910 sound/usb/mixer.c:3641
+ usb_audio_probe+0xf6d/0x3a90 sound/usb/card.c:1033
 
-[1/1] soundwire: Intel: test bus.bpt_stream before assigning it
-      commit: b2c9f1d5a7eb50bcdda607afef1378e552bbb490
+Reported-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ae893a8901067fde2741 
+Tested-by: syzbot+ae893a8901067fde2741@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ sound/usb/mixer.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Best regards,
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index ac8c71ba9483..bd28caec3004 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -3563,8 +3563,12 @@ static int snd_usb_mixer_status_create(struct usb_mixer_interface *mixer)
+ 	int buffer_length;
+ 	unsigned int epnum;
+ 
++	epnum = get_iface_desc(mixer->hostif)->bNumEndpoints;
++	if (epnum == 0)
++		return -EINVAL;
++
+ 	/* we need one interrupt input endpoint */
+-	if (get_iface_desc(mixer->hostif)->bNumEndpoints < 1)
++	if (epnum < 1)
+ 		return 0;
+ 	ep = get_endpoint(mixer->hostif, 0);
+ 	if (!usb_endpoint_dir_in(ep) || !usb_endpoint_xfer_int(ep))
 -- 
-~Vinod
-
+2.43.0
 
