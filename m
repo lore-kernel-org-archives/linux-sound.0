@@ -1,113 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F763B6378;
-	Tue, 10 Mar 2026 12:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773145714; cv=none; b=YYkKrWTpvV1BCdEut7Nd0y3OeNd7lSOp9yLpWsbYu6r0umZce68M0AXdf+dwRFIuWgpcJ7UJVy7578BFMevBflxExLa4A/BQpsXBmcqMChEz3XkAN5p5wnWSQ9F3X14KDqkBjhR5I76Na0qns2N+W7/z/cYqrBunb4ho+bNsLgs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773145714; c=relaxed/simple;
-	bh=NZ5oTCN6VGzePwnu776uK+3unhTqb8pwokxv1IJtK7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=noHGQmxEL7IiXdiF1hNqEE9uS+fhYYF0hIJyU1chSxO/FtpJTW1bVVyqWOi1E4WPjAeBdzHrOL8ney+Biqjn3eN1PjYWD4Pfho2p9Fnl+y9Lm4V6kLLlMke34xalTNHMyPdq1PxQR9TH4x3t7rnw8iZk8l+7BH0gHYbtJACoJmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOutLnoL; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD973D1714
+	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 12:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773145992; cv=pass; b=nnpe1J5v7ZRu3B24+XmurBwhKKpZONyYW9TL/6nhVV8mP3TFc8zt2CXUQh23FtajaGhtoU7BL2w04YYBdOccviIuykr58gA0aKZAVV4zm6+fjJRg1I7sg1xAHEd5S0LX7zXu77QxagOOcJfojWgkH3m0hmzC95zXR3/LP19OOZk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773145992; c=relaxed/simple;
+	bh=/Ny/2pHVbwmRnywUAf1UbJK+BJuhOIH8kATny7+LvPY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aTfi2tV+RKbzUY4TdoNgvNrlQdqRlEhNxcQOkeS+7UPuSaO3xFn702Ibc5GeWjFyYV4uDnxu23/EETu8KZv+n2Re15PSthnexfdMpzlMrB2h5VdKu1gDJzlm032ssrf3gTm+KauliCyghRYX9do1OjNortNJ155behfbQj21et0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GeWxBgMB; arc=pass smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOutLnoL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8179C19423;
-	Tue, 10 Mar 2026 12:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773145714;
-	bh=NZ5oTCN6VGzePwnu776uK+3unhTqb8pwokxv1IJtK7c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FOutLnoL/seeB/icY17T5kE23weT+c8OWPxsN1CuLtbqZf1qO8twCXpCHPEW4zEb5
-	 uM5pcZxBh8XK3wQOjz6gQLnb8DbNMsJ6SwgjqzPaDdyeQRMdzDiadj+7d8CVSVSbbp
-	 WbSnGZkMbwo0cpPlViR1A0oh5e53oFE0sYAJxulW9oCNKaXKAhhACMzXx6XsRo3Hlx
-	 /XgKdmLcz/EtWl6VZEOUGY5PBqGn3Xb4X+aqLL+l2HoSL3wZMd6NhcSGeVt+ZFpBkn
-	 8s7ZymgPrZjLjSz7/xRlCoCIsHrVCduE0eaA6Z9IamuK4ZW4bnyThB9ZhLWcSUucoJ
-	 BJsDSXl6ZXWkQ==
-Date: Tue, 10 Mar 2026 12:28:20 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH 18/61] sound: Prefer IS_ERR_OR_NULL over manual NULL check
-Message-ID: <19aa26fc-8570-492e-8e17-23d6950676f0@sirena.org.uk>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <20260310-b4-is_err_or_null-v1-18-bd63b656022d@avm.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GeWxBgMB"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1273349c56bso15578218c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 05:33:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773145990; cv=none;
+        d=google.com; s=arc-20240605;
+        b=e3TbQ8hiyQh1uH+1AA+3CneB6oYC7d4h2zwHdOszHCpmbE12uWJs31iQtt/Evamn1j
+         CZIE00iGlTuM7iYweo0P1BgL1NhfjBPfvmZeJrl7H7porfi8O+67UndhICwYx+V8HAY8
+         8W8TlWp7R1w5gN8hshW0xZtr2Y8L7HYdPv6tIROyZhlnbpLTtEF/3RS4WYA3ARPrIMsr
+         Ca7U+VWbWIWO78bSVp98r6mtyDfUVyAwBvvkGJrCnHdhSsBcdx5Up6n2C03znAtPariG
+         KjZyr+L6uUYd+9eShJuBZM0wPPuzozhy2fT3NBcQDdjOg0TJYHCD2BplI1CaP9Q4LvJs
+         hGXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tNez6xRKrqWpV8nNjqKRy0PyfKwy8IyC9WwZhJ1ilto=;
+        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
+        b=MNzhGndWFUT2gTLB5CUjfd+RLt/662dxQMWqIDXVP4CRDgHbaH05S4mhr7oTCr7xIh
+         AweNFLDcIo2QzGcYBcriE0to48mdcycSXOLGuGMYDjBUre2IlU1SvSz08MESWCuA/tYS
+         /xETXgY0UX28qByk8RaeH8HjeR4GIYfV2CLuxdNkxjUki/ZAGc0ipBj+pGVbtrDmm/ko
+         baIPwYmgjisEQPCme68eTp6XzFNTtzB1yY1XjlJBN4A61o7+lmKPHuRKdC1d1ws1bWf9
+         FPP0vbL/v49X9RtQFYXG7RicpSFlsVWAXjxLpDEEf81e7Uu3YJ155GE2l2ySvS0+b/60
+         XAHg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773145990; x=1773750790; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tNez6xRKrqWpV8nNjqKRy0PyfKwy8IyC9WwZhJ1ilto=;
+        b=GeWxBgMBu46K4zT9gXPyZGBHI93qQQGQDadzmn1FvGncBc9YlmzQ+XIPO2copiuVF4
+         CLBRAs61HEaXEHoxn1PvPy7EtS8t055lTiOjV8WiVh4YYMruHbqjPOghhwyA1LnHaOfm
+         eplwe6ENt1ZvciSJWliSM9CK0DF9YBYGmJ137EzFv0z4ppF2cHRGEEYE6qDfR4wjk3FO
+         MPx2rr1iPJlw2IbFwbQawqDUDV2IrFFVYo4+T1UIf4DEPyPE0GMJoWOrLy3tZtycznpu
+         e5HX5MxtYhIWDmyrs1ru/ByF+WYBts0d1rZj2O1qnI7xLB0CDuUjO2wAVHELdOTwd0IR
+         NVeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773145990; x=1773750790;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tNez6xRKrqWpV8nNjqKRy0PyfKwy8IyC9WwZhJ1ilto=;
+        b=OEj6wfhRLsVudqtXoGyWiYdyuoSDtQ+8/nij+TSqpGc4KyTxyzo+a/vhU1qb7YZ7HU
+         73Guis4WqtKxnbnu5Dwtd5J2pqBAWUAksjxV5znWGn9BDJwkoMVFp3gV+R829KbUP+J8
+         yvw7KD2yY0fyXHOjIP8eyatxfKAneTTXvjXKjNzxaUDxaWcc/GbO0cOt0lElSAtTtBI8
+         YcEdo0cUGaneX3GvNaJv2VG9dsFpAH++HZeu9pbze7PYlc7dXpZao/ewX8Gy1F/HEKUW
+         rl7d8zlUIabDfhi54hvnwKDeViDP72Y2InxlEE3HG9xMxB/qXjDeCclK7owxOveI9G89
+         OlIA==
+X-Gm-Message-State: AOJu0Yy50MJmHuYKjGxvJF/KzxL4E+dMEC2znzgCEzCT5UJTmBgh5bOz
+	wdf6lCKZHz7bEKjncYSlvpVCbCSKe3yXgYtN39iEV65DIdBWjCHttLmTAxY0cq1yh2u7dxOgieC
+	Rn0HtNDdDsMWNDHjKoSsj8NTPAoUoIxl8vsIMDjaREAMi
+X-Gm-Gg: ATEYQzwFy16NJBlIprZRD49emt0SnLv5zf+87EnCWBWCU+ujbO0fsoPZ8uWCprS313b
+	Mw+Yu9sQ867FVCOIwYZF/i2UQm++d8fuKOhFULuMc5MA3CMNyxaDjA1j6kt4veM1+d8UwSoqZgq
+	7IEdFAT+KpuY+Tq2tViw7WMtWxLK75XOYQI8e2qwxi5tCfcWv8zdAxc3Bg0MekrY7GVUhOPoC6O
+	ChoPE66QZoHVQcQzrZVT6AOvw2ryXfcg7vRwf+YtBpL55ML83lNTZcJtODr/rqKRZnKERl9f+lM
+	r6iltLxGIHwzS7YVwuef9Z3kxFCXr6mhUlbt+71F
+X-Received: by 2002:a05:7022:2385:b0:128:ceac:6db1 with SMTP id
+ a92af1059eb24-128ceac6f7dmr4578052c88.28.1773145990352; Tue, 10 Mar 2026
+ 05:33:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7JjDB+7CEHk89uTh"
-Content-Disposition: inline
-In-Reply-To: <20260310-b4-is_err_or_null-v1-18-bd63b656022d@avm.de>
-X-Cookie: A fool and his honey are soon parted.
+References: <CAOKSTBs1VNBdjRZe3M2v-nC+pLZZ0-KQtRUZUj6ACqb4Xe7LDg@mail.gmail.com>
+ <87qzq2kxrc.wl-tiwai@suse.de> <CAOKSTBtpqPEnihFhopocV_RC8VR_RribXctUayEkUCav3omr3g@mail.gmail.com>
+ <87ldgakvsc.wl-tiwai@suse.de> <CAOKSTBvbopXOuOfstmasijZgUnT9_qW_dsaeMcHUXhyjj3iRmw@mail.gmail.com>
+ <CAOKSTBsWiwwwrmBt3dshrYYo3fQN9eF-gi2Z7BoX6c-Nb3ZoHg@mail.gmail.com>
+ <CAOKSTBvND=d4Fq7mt=36p2Y+hKr6aDUbJ6zA4wDOWASwcWjmNQ@mail.gmail.com>
+ <87h5qxl8tj.wl-tiwai@suse.de> <CAOKSTBtQi6ZmLmy6u5mP9_gLKZTZHmbb9S36hO99xSsk_EEbcA@mail.gmail.com>
+ <87ecm1jii6.wl-tiwai@suse.de> <CAOKSTBtdt=enKSv4ZF7VxDD4QF8+ntyFM5CPJ1Y1QQ7M6TsiKg@mail.gmail.com>
+ <CAOKSTBuOV0=1Y62sqf3QALgR+_He=tKLPQ7LZN+xFC6oGWEKVw@mail.gmail.com>
+ <87y0k6whm8.wl-tiwai@suse.de> <CAOKSTBuUnS=stepHySGVYH4GbQytEQL45cLj4eV8u0KAsquF5w@mail.gmail.com>
+ <87jyvlm6w0.wl-tiwai@suse.de> <CAOKSTBv102MCFnnm9JPp9Zaz_MQNBxu5OnWOCGw29MN7xLbXHA@mail.gmail.com>
+ <87h5qpm67n.wl-tiwai@suse.de> <CAOKSTBv3meaMDrJ2tn-dX6agFbTwiEmUeDYu2NTVzc559zd2OQ@mail.gmail.com>
+In-Reply-To: <CAOKSTBv3meaMDrJ2tn-dX6agFbTwiEmUeDYu2NTVzc559zd2OQ@mail.gmail.com>
+From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
+Date: Tue, 10 Mar 2026 09:32:30 -0300
+X-Gm-Features: AaiRm52nr-zURG9dQggPKGwRrZj21ye39ZaKBlmzw6h3oQu3JwznsVMswQnlQ-U
+Message-ID: <CAOKSTBv4GHxQGOhK2NR6QsJERsWSoh6RMp+yv-cV7QBsSgx9iw@mail.gmail.com>
+Subject: Re: No HDMI audio with Linux Kernel 7 rc1 or rc2...
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+I am sorry to reach you again, guys, but now I noticed that dmesg shows me =
+this:
+
+amdgpu 0000:04:00.0: [drm] Failed to setup vendor infoframe on
+connector HDMI-A-1: -22
+
+This never appears in the 6.19 kernel series.
+---
 
 
---7JjDB+7CEHk89uTh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Gilberto Nunes Ferreira
 
-On Tue, Mar 10, 2026 at 12:48:44PM +0100, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
 
-I can't tell what the dependency story is here, it looks like there's
-none?  If that's the case you shouldn't send things as a single series,
-send separate patches to the various subsystems.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
 
---7JjDB+7CEHk89uTh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmwDmMACgkQJNaLcl1U
-h9D4VAf/VCpoXjivQsq8mL1i6sHdID6byBqwG7egrwiRCrsZav80JlvY/F+1fWQl
-Fe3Ct+yRv1pWeNy67wSCZD3mtHtNH0JpwRTNxS1XQrnXc7CLjzKunCldDfzTbfom
-+QmXWHQB3Qo9ie1ugoAGet9gx/vkV0z+cv9sVHg1o1R7/AKqfgov7xnuP9Hlv9Uk
-p1pkMya/NhbXBsrh+BFbktLgp+7sAOMjWgtGZ3NfHzwju9n4Jdbl1JcPxgDl0SHp
-6z8kP2+oskOspesqLWw62mZF+bN32Ycjt1N7/EFjtPBdJKIcQJLICoACzxyQBZYg
-+i50s/oSRL1HiP4US2lxoy8BqxaqrQ==
-=U6jW
------END PGP SIGNATURE-----
-
---7JjDB+7CEHk89uTh--
+Em seg., 9 de mar. de 2026 =C3=A0s 11:25, Gilberto Ferreira
+<gilberto.nunes32@gmail.com> escreveu:
+>
+> Oh! I see. Sorry about that.
+>
+> ---
+>
+> Gilberto Nunes Ferreira
+>
+>
+>
+>
+>
+> Em seg., 9 de mar. de 2026 =C3=A0s 11:24, Takashi Iwai <tiwai@suse.de> es=
+creveu:
+> >
+> > On Mon, 09 Mar 2026 15:14:47 +0100,
+> > Gilberto Ferreira wrote:
+> > >
+> > > >> At best, please try git bisect.
+> > > Sorry! I am complete without any acknowledgment on how to proceed in =
+this.
+> > >
+> > > >> Or if it can't work for you, ask your distro people who can help.
+> > > I have tried 3 different distros! I don't think this is some distro
+> > > related problem.
+> >
+> > No, no, I meant you can ask distro people to build a test kernel, etc,
+> > instead of you.  And, it'd better to ask distros whether you are the
+> > only one in the world who hits the problem.  If it can be reproduced
+> > by others, they can help debugging or bisection, too.  Pinging
+> > repeatedly here on the list doesn't help much, as you can't build and
+> > test a patch, unfortunately.
+> >
+> >
+> > Takashi
