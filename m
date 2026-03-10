@@ -1,155 +1,150 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B450534B1B4
-	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 08:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC9A40759B;
+	Tue, 10 Mar 2026 09:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773131708; cv=none; b=DGJC2DOZ0+qig6uPcdGS+wQ+cJyfm7GbSZKjUgc+ztwDaMZT3hnTF5jr0jRSJvMagdwDtrtmBIkrA0rokQd20OxAv7UrpWPV4q76V8po2m/E3xWeW+Z4dRq23FOc56Jk6JVI08FePHJYxw1JsPBNFnDIUyxLd2vEp9NBKUu0i9k=
+	t=1773133308; cv=none; b=CyjIRuMA+j0T4qktd/yVqFA0jd61IdliXQsPeV7cU0aM/fvWeFs88qiAIKr7iDEYGZAuH2CaXI5KxY5Fp4K000Fna/y5jbOkJmbmyWpLu8UK3c0mHfBpMFxjL9O0JZ0dV7eTp/0iLYMcVH5mfm9gYcIFU2vKeeaXIPJzesb6+yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773131708; c=relaxed/simple;
-	bh=+9X+fgW3664oBx7NsKHAHe1LqWOoR/91iCSvUvHQ+tU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rQW5kGecnsRDO/U7QNxdviyKMEKvonXzCmMDG+iaUHFbP4XZVzjdh+F39QAhvkEgnDHi37eeFKvedhlSSyJbnzXw+/rWLx23lMNVMZLgVy2w7lZ3dlLAt5nreuYAG6gWmeh7QDMsIu0M1y4leokEYq4GJUV7Lhtv9KdD+tOAQQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BKbqk+Lq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wOeamNgk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BKbqk+Lq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wOeamNgk; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773133308; c=relaxed/simple;
+	bh=u2Vzam/bYA8NgPkPOiOe7/hybQIcVlVZQq2S9mdk6yA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=c+RAeywAUhGz6OW+nzC691sjbRK+ZPebpwBLaSp7YzlIL9Nl6J92Fbq6n264wMhchOJtyxgvz8UQnc0ILpumdIluoMfUj0wF31UrWEphlcYrRAqmUg465YGZpCtKVQsXuVqUgGQgeqRov9Xk+YqTaHxL8BpziA16HunzH7D5Ew4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m3CUmkxi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BKbqk+Lq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wOeamNgk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BKbqk+Lq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wOeamNgk"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 104A94D238;
-	Tue, 10 Mar 2026 08:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773131705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q3gpENzGojWyrZ/fRWIxGrs17u1WRs82JKGKEC6Slrc=;
-	b=BKbqk+LqkmKpnJ+JIO8JeSIiZNp5CB1qjNd8SiR8E9C4N/feosyeM182PWsAcXU/dLswut
-	V+LOC/IUXtJS1gSxY9Up4XbrcKXeFRunXFY9TTeTn3pSMF4PGUcuIZKHyBwcTnB4BKuqKR
-	dABr8OibSFw6mkAL31ZPPg/HHZQiz70=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773131705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q3gpENzGojWyrZ/fRWIxGrs17u1WRs82JKGKEC6Slrc=;
-	b=wOeamNgkgpFKS8O81u0DKJaPnH/VU+XmYAcJXB5KSgdCt7tmBwubht4j+BYXQLzswdVG43
-	xiCUwc0nF/NKpwCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BKbqk+Lq;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wOeamNgk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773131705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q3gpENzGojWyrZ/fRWIxGrs17u1WRs82JKGKEC6Slrc=;
-	b=BKbqk+LqkmKpnJ+JIO8JeSIiZNp5CB1qjNd8SiR8E9C4N/feosyeM182PWsAcXU/dLswut
-	V+LOC/IUXtJS1gSxY9Up4XbrcKXeFRunXFY9TTeTn3pSMF4PGUcuIZKHyBwcTnB4BKuqKR
-	dABr8OibSFw6mkAL31ZPPg/HHZQiz70=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773131705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q3gpENzGojWyrZ/fRWIxGrs17u1WRs82JKGKEC6Slrc=;
-	b=wOeamNgkgpFKS8O81u0DKJaPnH/VU+XmYAcJXB5KSgdCt7tmBwubht4j+BYXQLzswdVG43
-	xiCUwc0nF/NKpwCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAC293F372;
-	Tue, 10 Mar 2026 08:35:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j6U0MLjXr2lSGgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Mar 2026 08:35:04 +0000
-Date: Tue, 10 Mar 2026 09:35:04 +0100
-Message-ID: <87zf4gqdzb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: wangdich9700@163.com
-Cc: bo.liu@senarytech.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m3CUmkxi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED944C19423;
+	Tue, 10 Mar 2026 09:01:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773133308;
+	bh=u2Vzam/bYA8NgPkPOiOe7/hybQIcVlVZQq2S9mdk6yA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=m3CUmkxiQNWKnTq2OcXs1ei9ZwJ+kqQEJmYgF1nwy0UKJt/iQZOJ7aCFVWcLKAw74
+	 9fsioppodr4kXiO0yV2SrEzkKTV4o8ByF9T19sGs1qp11JFoTzI6kqSn6XnOktioLo
+	 MrucCmbwSW+Ga12hP0/GYYv6v9imyokDg/Zbp8HUup45zpv5sXUGbja3YMrwvNKuxG
+	 e0OnbmJgIXw1tZZiEEm/pZ3DEwERc0JvsHEHXJmW5x2i7TNVPNldD4UsZSAM01IREy
+	 /Kk9fZ7qRTmm+9MBuYRCu9r9yhgt3j42KdBDBPdjqKhdUE/U5h+xqfwJiehUUYvsei
+	 +A1McfDbIhLLw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Sheetal <sheetal@nvidia.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/senary: Fix beep error handling and optimize EAPD  switching
-In-Reply-To: <20260310023649.155858-1-wangdich9700@163.com>
-References: <20260310023649.155858-1-wangdich9700@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.18] ALSA: hda/hdmi: Add Tegra238 HDA codec device ID
+Date: Tue, 10 Mar 2026 05:01:01 -0400
+Message-ID: <20260310090145.2709021-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[163.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,kylinos.cn:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 104A94D238
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Mar 2026 03:36:49 +0100,
-wangdich9700@163.com wrote:
-> 
-> From: wangdicheng <wangdicheng@kylinos.cn>
-> 
-> This patch addresses a potential state inconsistency bug and optimizes
-> runtime performance:
-> 
-> 1. Fix error handling in set_beep_amp():
->    Previously, beep_nid was assigned before adding kcontrols. If
->    kcontrol creation failed, the function returned error but left
->    beep_nid set, causing inconsistent driver state. Moved the
->    assignment to the end of the function.
-> 
-> 2. Optimize senary_auto_turn_eapd():
->    Removed the redundant snd_hda_query_pin_caps() check inside the
->    loop. The target pins are sourced from spec->eapds, which is
->    strictly filtered during the initial parse phase. Checking
->    capabilities again during every mute/unmute hook is unnecessary
->    overhead.
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+From: Sheetal <sheetal@nvidia.com>
 
-Applied to for-next branch now.  Thanks.
+[ Upstream commit 5f4338e5633dc034a81000b2516a78cfb51c601d ]
 
+Add Tegra238 HDA codec device in hda_device_id list.
 
-Takashi
+Signed-off-by: Sheetal <sheetal@nvidia.com>
+Link: https://patch.msgid.link/20260302084217.3135982-1-sheetal@nvidia.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Analysis: ALSA: hda/hdmi: Add Tegra238 HDA codec device ID
+
+### Commit Overview
+This is a single-line addition of a new HDA codec device ID
+(`0x10de0032`) for the Tegra238 HDMI/DP audio codec to the existing
+`snd_hda_id_tegrahdmi[]` device ID table.
+
+### Classification: New Device ID Addition
+
+This falls squarely into the **"New Device IDs"** exception category for
+stable backports. The change:
+
+1. Adds exactly one line: `HDA_CODEC_ID_MODEL(0x10de0032, "Tegra238
+   HDMI/DP", MODEL_TEGRA234)`
+2. Uses an existing model type (`MODEL_TEGRA234`) — the same model used
+   by surrounding entries (Tegra234, SoC 33, Tegra264, SoC 35)
+3. The driver already fully exists in stable trees
+4. No new code paths, no new features, no behavioral changes for
+   existing hardware
+
+### Risk Assessment
+- **Risk: Extremely low.** This is a data-only change — adding an entry
+  to a device ID table. It cannot affect any existing hardware or code
+  path.
+- **Scope: Minimal.** One line in one file.
+- **Regression potential: Near zero.** The new entry is only matched
+  when the specific Tegra238 hardware is present.
+
+### User Impact
+Without this ID, users with Tegra238 SoCs would have no HDMI/DP audio
+support. This is a real hardware enablement fix for NVIDIA's Tegra238
+platform.
+
+### Stable Kernel Rules Compliance
+1. **Obviously correct and tested**: Yes — follows the exact same
+   pattern as all other entries in the table, uses the same model as the
+   adjacent Tegra234 entry.
+2. **Fixes a real bug**: Yes — hardware doesn't work without its device
+   ID in the table.
+3. **Small and contained**: Yes — one line.
+4. **No new features/APIs**: Correct — uses existing driver
+   infrastructure.
+
+### Verification
+- Reviewed the diff: confirms a single `HDA_CODEC_ID_MODEL` line
+  insertion using existing `MODEL_TEGRA234` model type, consistent with
+  adjacent entries.
+- The file `sound/hda/codecs/hdmi/tegrahdmi.c` contains the full Tegra
+  HDMI codec driver with probe, init, build_pcms, etc. — the driver is
+  complete and existing.
+- The new entry is placed in numerical order between `0x10de0031`
+  (Tegra234) and `0x10de0033` (SoC 33), both using `MODEL_TEGRA234`.
+- Commit is signed off by NVIDIA engineer (sheetal@nvidia.com) and
+  accepted by the ALSA maintainer (Takashi Iwai).
+
+### Conclusion
+This is a textbook device ID addition — the single most common and least
+risky type of stable backport. It enables HDMI/DP audio on Tegra238
+hardware with zero risk to existing functionality.
+
+**YES**
+
+ sound/hda/codecs/hdmi/tegrahdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/hdmi/tegrahdmi.c b/sound/hda/codecs/hdmi/tegrahdmi.c
+index 5f6fe31aa2028..ebb6410a48313 100644
+--- a/sound/hda/codecs/hdmi/tegrahdmi.c
++++ b/sound/hda/codecs/hdmi/tegrahdmi.c
+@@ -299,6 +299,7 @@ static const struct hda_device_id snd_hda_id_tegrahdmi[] = {
+ 	HDA_CODEC_ID_MODEL(0x10de002f, "Tegra194 HDMI/DP2",	MODEL_TEGRA),
+ 	HDA_CODEC_ID_MODEL(0x10de0030, "Tegra194 HDMI/DP3",	MODEL_TEGRA),
+ 	HDA_CODEC_ID_MODEL(0x10de0031, "Tegra234 HDMI/DP",	MODEL_TEGRA234),
++	HDA_CODEC_ID_MODEL(0x10de0032, "Tegra238 HDMI/DP",	MODEL_TEGRA234),
+ 	HDA_CODEC_ID_MODEL(0x10de0033, "SoC 33 HDMI/DP",	MODEL_TEGRA234),
+ 	HDA_CODEC_ID_MODEL(0x10de0034, "Tegra264 HDMI/DP",	MODEL_TEGRA234),
+ 	HDA_CODEC_ID_MODEL(0x10de0035, "SoC 35 HDMI/DP",	MODEL_TEGRA234),
+-- 
+2.51.0
+
