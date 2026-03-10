@@ -1,46 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D39544103C;
-	Tue, 10 Mar 2026 09:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34DA4534A2;
+	Tue, 10 Mar 2026 09:02:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773133325; cv=none; b=OWpLJmwc1l5yBfjhiZFJT1rmClWkiOQ7Uk2SeUAs7HsFbhV9/y3XoTshm94kT0UFa+QYSgcXaEAFaDPsjUYIqK3rvy/woI6209yYSG/E4Yiz6f2LfHy+Sc5WEYXp7j4F9sjMvhzwT9M0ayyFx2YZDU8vj6U9vcuswfYaXy+0tXk=
+	t=1773133343; cv=none; b=ZSIadmyru+A9CpnwfGuoF0ObO6/NTG9Tma4pEowlsHXnXIsdVaH28l36plIRa+aXZYY01+ptpQy7PbAG5X0AVFLiyYL29CCagePKTZ0Wo+gmRj3z41ZYx3BRR2dyNHAGTb5RxCC9wOQfGQrkitFAwKBvgjczTwXFyKZ2FybqnhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773133325; c=relaxed/simple;
-	bh=19Gx4tdBnUxpmwRSAVsv3/VSZBu/Y9k0M5OKJaD6cg4=;
+	s=arc-20240116; t=1773133343; c=relaxed/simple;
+	bh=0X3TJTI4Em9E0FN9ZgAJt3kvFeYp/2AMj6SxzZdNyqU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RmKTh8iO9BA1MJzrQhrtAUE9mzhdlhZu6ikdARU0gARMaMU7NSyGFi9xDbFp0gCXhnXMgLYBujOhh/TaCvPqv0yMjily5DO/UWt8wHJ+uLScQACHSOPiv+2Ahbapfh9A3/gPTDYW3Xh73CX1B0W51O86Z0sMC/7uPXxbxeF72OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K02iwP/D; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fUHy+H1UfnlSPTpuOIZ3484h2HB/YK4ZSln77MM2GX2kbiGelmy15TJ2Xt9WnTjI9mGdI//jP+3k+GFs6o6vnylYd0MAg7JEc8DC4HfrJ7e4L3cO9UftFGeO2RBu02XCmrPXFlq3hmTk9ZcbQZHZ6aNuqZvGDWZmZW0sa4gfgzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCJwjgOC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K02iwP/D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42398C2BCB3;
-	Tue, 10 Mar 2026 09:02:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCJwjgOC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3BB2C2BC86;
+	Tue, 10 Mar 2026 09:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773133325;
-	bh=19Gx4tdBnUxpmwRSAVsv3/VSZBu/Y9k0M5OKJaD6cg4=;
+	s=k20201202; t=1773133343;
+	bh=0X3TJTI4Em9E0FN9ZgAJt3kvFeYp/2AMj6SxzZdNyqU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K02iwP/Dv+WtibUAmb+9CUGsjJcvg22wJWRwOAwztoBCMxT8TKkI5R8ZwBJyeYa1D
-	 UjkjW9X/n7ys2hq4R0ZAiQOD8mU8SKFBntmrHAF4Dfz/pBR0Xvqma2iuhTgvuusQ30
-	 AUI1S/P9iK2mcw6cihm1aTUm7fg4bzT69xxqX2KBazmbzMa9b4KQF5tMOiMoI/zWDi
-	 Mpr7lzMqq4vqSDuhKI9f/TwE8lSWhmo8+bkTz7XVmA1j00RJ38AWoZlfz3gT+lA93m
-	 TJ9SG0cBiHVMKKy+mIq+hIg/MlFYWPqb4FReC85uHF08zbsuWejw+P3vSqity2LQuT
-	 VM1Rj1jGwqTlQ==
+	b=HCJwjgOCzvpl7dFzqViTfQbfVltDICuTDWVTR686Mo1ovhgr0jOjxxqZ+TRD/146R
+	 4LZMquPNL3YdalCHdDH+EOsfSIfxJhPHU5VCwvHL63FTDcRb+nICjDObNmnsOlNNfq
+	 ToLjVHSfAin1gHT9fyHhQa5Wf/8LNIiCn5A+MyufLyddfPM3IiiXvs7JnOivd74i86
+	 1BxNqi/c0Ub9CYEoKNf3x6ZDX7evTZWNUulazVuJZ40gD2VkAUIXQwRpiU8+W4C3BB
+	 oeC1bBLRkKX4hyFpt5vF+kTl0g3sH5WOS1syHAcrAgtCMNVWvBogpg2O8zbQ1q1PXR
+	 RyDtrxAGPwxcg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Shuming Fan <shumingf@realtek.com>,
+Cc: Oliver Freyermuth <o.freyermuth@googlemail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] ASoC: rt1321: fix DMIC ch2/3 mask issue
-Date: Tue, 10 Mar 2026 05:01:13 -0400
-Message-ID: <20260310090145.2709021-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.18] ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCD SKU
+Date: Tue, 10 Mar 2026 05:01:25 -0400
+Message-ID: <20260310090145.2709021-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260310090145.2709021-1-sashal@kernel.org>
 References: <20260310090145.2709021-1-sashal@kernel.org>
@@ -53,16 +57,20 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.6
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Shuming Fan <shumingf@realtek.com>
+From: Oliver Freyermuth <o.freyermuth@googlemail.com>
 
-[ Upstream commit 986841dcad257615a6e3f89231bb38e1f3506b77 ]
+[ Upstream commit 70eddf6a0a3fc6d3ab6f77251676da97cc7f12ae ]
 
-This patch fixed the DMIC ch2/3 mask missing problem.
+This adds the necessary quirk for the Alienware 18 Area 51 (2025).
+Complements commit 1b03391d073d ("ASoC: Intel: sof_sdw: Add quirk
+for Alienware Area 51 (2025) 0CCC SKU").
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
-Link: https://patch.msgid.link/20260225091210.3648905-1-shumingf@realtek.com
+Signed-off-by: Oliver Freyermuth <o.freyermuth@googlemail.com>
+Tested-by: Oliver Freyermuth <o.freyermuth@googlemail.com>
+Link: https://patch.msgid.link/20260224190224.30630-1-o.freyermuth@googlemail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -71,85 +79,91 @@ LLM Generated explanations, may be completely bogus:
 
 ## Analysis
 
-### What the commit fixes
-The RT1321 codec's DMIC (Digital Microphone) channel mask was hardcoded
-to `BIT(0) | BIT(1)`, which only enables channels 0 and 1. When more
-than 2 channels are requested (e.g., channels 2/3), those channels would
-be silently ignored because the mask didn't include them.
+### What the commit does
+This adds a single DMI quirk entry for the Alienware Area 51 (2025) with
+SKU "0CCD" to the SOF SoundWire quirk table. It enables
+`SOC_SDW_CODEC_SPKR` for this specific hardware, which is needed for the
+speaker codec to function. The commit explicitly references a companion
+commit (1b03391d073d) that added the same quirk for the "0CCC" SKU of
+the same laptop model.
 
-The fix dynamically calculates the channel mask using
-`GENMASK(num_channels - 1, 0)` based on the actual number of channels
-from the audio parameters, so all requested channels are properly
-enabled.
+### Classification: Hardware Quirk Addition
+This falls squarely into the **"QUIRKS and WORKAROUNDS"** exception
+category for stable backports:
+- It's a trivial addition of a DMI match entry to an existing quirk
+  table
+- The driver and quirk infrastructure already exist in stable
+- Without this quirk, audio speakers won't work on this specific laptop
+  SKU
+- The change is 8 lines of a new table entry, identical in structure to
+  dozens of existing entries
 
-### Stable kernel criteria assessment
-- **Fixes a real bug**: Yes - DMIC channels 2/3 are non-functional on
-  RT1321 hardware
-- **Obviously correct**: Yes - using `params_channels()` with
-  `GENMASK()` is the standard pattern (already used elsewhere in this
-  driver for RT1320_DEV_ID)
-- **Small and contained**: Yes - 3 lines changed in 1 file, only affects
-  the RT1321 code path
-- **No new features**: Correct - this purely fixes broken channel
-  masking
-- **Author**: Shuming Fan from Realtek (the codec vendor),
-  reviewed/merged by Mark Brown (ASoC maintainer)
+### Code change analysis
+The diff adds one new `dmi_system_id` struct to the
+`sof_sdw_quirk_table[]` array, matching:
+- Vendor: "Alienware"
+- Product SKU: "0CCD" (exact match)
+- Quirk: `SOC_SDW_CODEC_SPKR`
+
+This is identical in structure to the immediately preceding entry for
+SKU "0CCC" and many other Dell/Alienware entries in the same table.
 
 ### Risk assessment
-Very low risk. The change is isolated to the `RT1321_DEV_ID` case in
-`rt1320_sdw_hw_params()`. It cannot affect RT1320 or any other device
-path. The fix pattern (dynamic channel mask from params) is standard
-practice.
+- **Risk: Extremely low** — The entry only matches one specific DMI SKU,
+  so it cannot affect any other hardware
+- **Scope: Minimal** — 8 lines added to a data table, no logic changes
+- **Tested: Yes** — The commit has a Tested-by tag from the
+  author/reporter
+- **Benefit: High for affected users** — Without this, speakers don't
+  work on this laptop
 
-### Applicability to stable trees
-RT1321 support was added in commit `7bf9e646af9a0` which first appeared
-in v6.18. This fix is only relevant to stable trees that include that
-commit (6.18.y and newer).
+### Stable criteria
+- Obviously correct: Yes (copy of adjacent entry with different SKU)
+- Fixes real bug: Yes (no audio output from speakers on this hardware)
+- Small and contained: Yes (8-line table entry addition)
+- No new features: Correct (enables existing driver functionality on new
+  hardware)
 
 ### Verification
-- `git log --oneline -20 -- sound/soc/codecs/rt1320-sdw.c` confirmed the
-  file history and that RT1321 support was added in 7bf9e646af9a0
-- `git tag --contains 7bf9e646af9a0` confirmed RT1321 support first
-  appeared in v6.18
-- `git show e52b9ff96a5eb --stat` confirmed the fix is 3 insertions, 2
-  deletions in a single file
-- Read the diff: verified the old code hardcoded `BIT(0) | BIT(1)` and
-  the new code uses `GENMASK(num_channels - 1, 0)`
-- The RT1320_DEV_ID case already had a different (working) channel mask
-  approach, confirming this was an RT1321-specific oversight
+- The diff shows the new entry is structurally identical to the adjacent
+  0CCC SKU entry, confirming it's a straightforward quirk addition
+- The commit message references companion commit 1b03391d073d for the
+  0CCC SKU, establishing precedent
+- The Tested-by tag from the submitter confirms the fix works on real
+  hardware
+- The change only touches the `sof_sdw_quirk_table[]` DMI table in
+  `sound/soc/intel/boards/sof_sdw.c`, no logic changes
+- The `SOC_SDW_CODEC_SPKR` quirk value is already used by many other
+  entries in the same table, so it's well-established functionality
 
-This is a small, obvious bug fix from the hardware vendor that fixes
-non-functional DMIC channels on RT1321 hardware. It meets all stable
-kernel criteria.
+This is a textbook stable backport candidate — a hardware quirk that
+makes speakers work on a specific laptop with zero risk to any other
+system.
 
 **YES**
 
- sound/soc/codecs/rt1320-sdw.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index e6142645b9038..4d09dd06f2d83 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -1455,7 +1455,7 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 	struct sdw_port_config port_config;
- 	struct sdw_port_config dmic_port_config[2];
- 	struct sdw_stream_runtime *sdw_stream;
--	int retval;
-+	int retval, num_channels;
- 	unsigned int sampling_rate;
- 
- 	dev_dbg(dai->dev, "%s %s", __func__, dai->name);
-@@ -1487,7 +1487,8 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 				dmic_port_config[1].num = 10;
- 				break;
- 			case RT1321_DEV_ID:
--				dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
-+				num_channels = params_channels(params);
-+				dmic_port_config[0].ch_mask = GENMASK(num_channels - 1, 0);
- 				dmic_port_config[0].num = 8;
- 				break;
- 			default:
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 50b838be24e95..0186c281296ec 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -763,6 +763,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Alienware"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CCD")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
+ 	/* Pantherlake devices*/
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
 -- 
 2.51.0
 
