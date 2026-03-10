@@ -1,69 +1,104 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013045.outbound.protection.outlook.com [40.107.162.45])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA6336EAB1;
-	Tue, 10 Mar 2026 10:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934581F3D56
+	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 10:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773139291; cv=fail; b=Ingwzj4sBVjK+w8DECVawoZZemNMTABxNL+1XxNqDuSp6w8zxqMm1rtVZ6LmBrAGp7s32UnuaTHL33KE81AHPEAUmQ89Un2miimUy6EznXHpH+9a9tUS4SL9cRMrIkFvyS/14yf7roQzd5AowKSL6+jPdC3l0wLOA08t2RroxhA=
+	t=1773139792; cv=fail; b=cMNMjysaFWEYWh6cvgw3GJgTkEUEZ2hdtjPMLRpkjWhrirnCJ1Vvp6bZQZ627fE5I3GZZPuk8C3GGwj7HXfxBC1BUM6GSwrqUPgO6pjFL/4hQpwF5zUXguM0JSnqtZ65GaFOb0EzRrJb5NHg+3SY5miake19xCYpX/0qLv42vyQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773139291; c=relaxed/simple;
-	bh=uUEywGOB/kdu1XTKfKrwCDoPgir1cHyuK+NaIEF+W3o=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HNrQgv54QLqh3WUCJyyuQE7dQbGFai+pggCfyJljAodX9IkMGfbAJdPynviwS3YuMbEeC+Z9PSZRr2JMbDwJtJi4NbsTa97+26ZFCE/7YTpAGhWfXuOQRe1B6ujs11SBWf3sYxn5OzNIHDgnaeHXAx60J+rlci/sa3t6Ae6oDy4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=SjA1cFjN; arc=fail smtp.client-ip=40.107.162.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1773139792; c=relaxed/simple;
+	bh=3YuFvA9nDfv4YAxqgjtVxGnckdJUelkhmrxTwfHuZ90=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=C6WDL2ywtfN/fVaTJtnE8Q9A+fyXGPd0X/VTrZuzlwiAAJoEkc99jlrpxud//h9MUhoAYfP/g3B1fHUtSjsxucdU+9MDNuWJy/+dUBB3dommMDo6HUD1VSY4vvqatkMdfemwmo4NH3uVainnC7fb4D+i192aMX7kWq/eIW9dx2E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ype+J3xx; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="SjA1cFjN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ype+J3xx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773139790; x=1804675790;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=3YuFvA9nDfv4YAxqgjtVxGnckdJUelkhmrxTwfHuZ90=;
+  b=Ype+J3xxbUwsBJPHBbC6Gmbr2z4YxTbYTJli1DidnEx+XbRD21f6Xgq7
+   oOlBXVO4XOFQCRW6IV6H0cYbN2dIZX/I/nKLVY8FSLEXRtZNkOEfwCFye
+   vkOvKrrflIQGvqwUb3kQ6lIy2e+0cqYCL24mRFrPUThFiqdI7AUuVwtPs
+   25boNC0jcpiMXD1ao50Jpa+aXljpKrVVkiLQ9N/AP+DgkbAHRfBCEqVcW
+   N8xC7I4Sv8DQiGJ+ooMnRGdxaaldGLzNXajZJaFRZtiluQSYsObWQRS5I
+   BPE/l+vZMuRPNdxf0uQXxViN+fzuDqkxhuNtEGif5zcnNXXkWAbSeG99k
+   Q==;
+X-CSE-ConnectionGUID: Qf1Hfh69SXSwERV5uP1Wdw==
+X-CSE-MsgGUID: OeSyDgCpTh6OPx75EqB0/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="78036819"
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="78036819"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 03:49:49 -0700
+X-CSE-ConnectionGUID: 3vrrQg1WTBGgcPfl2aaCag==
+X-CSE-MsgGUID: NCtM5T63RVOi+hECbzQBCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="220248898"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 03:49:48 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 10 Mar 2026 03:49:48 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 10 Mar 2026 03:49:48 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.46)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 10 Mar 2026 03:49:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NCcVYXMuY8XseXRlJKIpliFGYixkSYN+5x6oDfX0t/kGwRnDH0qpKL4pCKPCxkKaAd2K0cX4KLobe1+laDMbEWBGPVK4pjeJ4sXBuagLUyxJlXmmg9lQlNKhFbx+AlVjPvmt+8iwfvVLM7qErNUYP5gr9jHSlJnmMIEi5GjNZuPG6UwUKLz54kiMU1hhVNBMDb7H8G+ANBoAtLPhgFX+dysw5eHS9lAQBRq7tNycunlQWHiMC/nQuTPE/lCddP1W3sscmuYte48V2BEYpEXIJwHVY74rD81u/Y97eRI9Qv4DbLbjj7p5sQoWMuI/YW3lfd9aevDWBYIt40WwqNXxYg==
+ b=yefYCaHW77gkSb6S4l8A80inbVmu6Y8HTbEOdGvl1QyqgcXaDl7nxGQPk0dix5tbG7SVdlNej9e+DdOqX/DdKnnf4DSpHemBmd7tK6+CW5FevOmlnfW9lr26jGHYsL/c+EJCVgkcXhRfRwOw3gYsepXnUm/QCklH4lVog7S0eQQ5E3f3jTFLy7BmWCfYbiYpnUZfx17JVYHLIhcZdAvriXwiiirdUTT/5IqCK/qOKyLYdgcjQFP3CCy3KN+C9P54JWwIagb3Y6nnbhvpQ8oiIw3jU8NpJ4bV8cMoMVsSzH0tu5qJoyzvey3LcpmRXIQKwfaFF2XijL8ofavXvhFaiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AG9wPmsqkKZQm02G9znqGFG+cPu8AxMXrwPcXWeJQR0=;
- b=i/nGtCktIpyQBfmogK10zmnJP9jtvYAy0MnNPduSk7vZrK0epCd/+yAl/Ha7o47ufR15JHZrerFSakM66ylpYey/G+O55FSrMm6RwbIEEDtj90qmLf5HRuAjgO8HI1BH3rXAcq/X/cdyUzYRd//BRPOJFr5x0vHApV/nBFHip1AXPcCZ6OK2yxYhQzORpPBOHHAV6KCrjMV/mHK4rctKk4RRtlHboxpP0jQ3tudo8J5V0EleTLQ264FRATVrOjoEDabDAu8edlyq5CeMjb6D3ouatvUgzbw0+ziU11kEKgo0F0dbd1JnT7l7jNn8w4Vt7L0dL2pz+PhUVykwW5vSDw==
+ bh=YB66yHE8YotjsoqGCj9rCz3r6W3BuavAHa3Folcyyxw=;
+ b=UenF5gU4lqAcvVcZh0FscNJ1Csj1ANOfpI1JVAcs3C0/1h9+LVa9fWKh7W1dwksiiQofo7KuoKILsG6daJJLYGFlOlcfG7S1aaGXKn9z9ezC/x5ID2auL3UuLhBW+daO0Ip4iC1r/j9HW8X6ZQ487idqw1Pzntv1PKygu3isYewJnYDb7dzw8qt++CXv10Qauv36U2cdBAArbOdCyOf8u4Cho3uvD14kO74ze4vLOM4k6eRQcE76XNLUhXotEGsuUYFozfo5kZNEKwxmBNHnVE5Bc4nuXkTZamXgDrzr0ZnLpb5blS3s/nVBwt6ZdO5MbfsOS+YSmMjFMUES4XqCKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AG9wPmsqkKZQm02G9znqGFG+cPu8AxMXrwPcXWeJQR0=;
- b=SjA1cFjNXbhYl92GiViMk0OQodNrv4qMh4lNbvpENbRNrhbkEXM778LU3NJe6WYAi1iL8iH8rmIWX/pEaBdfdlAc0H3eIh9rKqmCicB9z49w5jr7asymDxOb4+/O7/AXtF/ZPqzOxeVQlGHUaImSk1ZpCJ+YSrlEUiTdCIB6J0RrrBPVRbRD0o+1JSyLd9r2PeIWzuf1543usRYwh3MBKYOlZNghOUh3o7Z6L0wH/yJkFyxy8ivpmhwYomDQ0+ksb/eJkSueUKMiiQKMqwVHtzfSdFRuW9T1TXrJkfONQL+O/S82GdtTgm2RjWogb5d/PVYxCS68pIGAKdR726EE4g==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by GV2PR04MB11833.eurprd04.prod.outlook.com (2603:10a6:150:2fc::16) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
+ by MW4PR11MB6935.namprd11.prod.outlook.com (2603:10b6:303:228::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
- 2026 10:41:27 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%3]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
- 10:41:27 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 3/3] ASoC: fsl_xcvr: add bitcount and timestamp controls
-Date: Tue, 10 Mar 2026 18:42:35 +0800
-Message-Id: <20260310104235.1234569-4-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260310104235.1234569-1-shengjiu.wang@nxp.com>
-References: <20260310104235.1234569-1-shengjiu.wang@nxp.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
+ 2026 10:49:39 +0000
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214%6]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
+ 10:49:39 +0000
+Message-ID: <db9f9b64-aab8-49ad-8904-1c2c99c4ea2b@intel.com>
+Date: Tue, 10 Mar 2026 11:49:34 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Question] ASoC: Intel: avs: Guidance for finishing new board
+ support Apollo Lake/TAS5722
+To: Carsten Behling <Carsten.Behling@loewensteinmedical.com>
+CC: "liam.r.girdwood@linux.intel.com" <liam.r.girdwood@linux.intel.com>,
+	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
+	"ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
+	"kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
+	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+References: <7f3fde61-5319-4001-8b7e-ed44008a1521.152c0446-3a39-4bcf-a504-672812e167ea.c8587f20-63e8-402e-be65-78b29d37359b@emailsignatures365.codetwo.com>
+ <AM0PR01MB1244966F3CBED7538B41DA7AB9046A@AM0PR01MB12449.eurprd01.prod.exchangelabs.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <AM0PR01MB1244966F3CBED7538B41DA7AB9046A@AM0PR01MB12449.eurprd01.prod.exchangelabs.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0059.apcprd02.prod.outlook.com
- (2603:1096:4:54::23) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+X-ClientProxiedBy: BE1P281CA0170.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:66::9) To SN7PR11MB8283.namprd11.prod.outlook.com
+ (2603:10b6:806:26c::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -71,199 +106,180 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|GV2PR04MB11833:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81127696-b234-444b-3bf5-08de7e919590
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|MW4PR11MB6935:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6635f8f9-50f8-4402-0944-08de7e92ba98
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|7416014|52116014|19092799006|1800799024|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	emsuR85IUB20jDMfji1XNhrIsB1V+kD+6EX7Xw+VdlCS45bao0paDcMvo6DODBcj8WsQV2PPn+CLqqVhMqcr/p+dfXC+t98omDFVYMKFqBgQQygdFLqqHzSTIWyFyMe9oSfz75mkPYVJ31YmImEzM/mEULKqIUH+FcPdVJvT/gmI1uMYKPDpDY9/1ouHr3cY9dcox4A7gTOIZnBConzxUDeccXIvu9sXcMvYBvwSdwJmWOLtrcDp/xvFhGJaI+iiUyFnZMNAPP+M1gytp8wpJfRisUR//s4rMJVGMKgEDbEQA+BqMgS1KmiV8ZuqFeYxv7WqSKylMtkWfOHB7xivDMU3ln0VIBr7IKp2Sa/WlgJK7euR9AQdp4ophwG9aUR1RRM34pbYIVbLdeymYTOgStucLNpaETonVMC1AVdqVfn72b8gpULAtgC611slfSwRDe/VnlOdR/DD5GM2n+VIHncT+CLf8kWM2lylEf8hKhDbC9HdaUbeYD3zXR7cDWUbuhcmUmfiYAzwpSalAWhp+7X25noP+A2adWJmWMrx1a8Zs/hVweJVk6rZqBi4RMQABU5Gc6Uoj/m5HdVZEFwXbtgLRBkx43RAGVRU577afrnLZrY/T+ynB0vhAIlDW33Y8HkbdhOzpY7qraHTQARjansUl4KQSicn7TtRr8qLddI6pM8JmiI53L+E28elhbmt/C56uq7LUhbYHgLtC15YNzIJ/ncvGnOorYzzRM6V6I9Gv2Gr8R3lmyDZnvUvqTa4ahB1MgWyoHsvs7FYyO4sKkzs2DOeHzk39U2wcczI2ASvrU8RzBFc+z3BwOTVj3Kg
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(52116014)(19092799006)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: F2RKPYhTwqI1cRZtCkrWBaiNV13zpTrnPLMyxzyVjxmzZNOMlaQzkMSqZrvaj2xOETm4GtsYOuqFek+DSNzTAYLIjLHPkVJ8E6W/i8YaW5sIRUvoWAOT9ZOPXjbqVhvAFhnM1XEjVN9dmwTosYYdC40kMJ9ujhsA0Iex8B8QwGUCFBahaRK481WDXrwETDe5owEEr4v1YXfZqPrm3EKY0hhDilJwlOViowyuKrWLaFrytfRWUOzGccBVWQAxCtIwfTzl1MT/0E3KBXlqcehooDBF6KepSGtTR8ZykS7gpIoH7a0xZUXQwL2b5oyywTvjClxKvLCppytlMs9DT2PILe474q7acXGnKcBC4CdkUmwKnaOkjIH+JEhJBHBhgqUU3o6gj/whDE1XjBMV6WM4QzmUUf4HaQ0W7VTkl11Xu+Xw6fqx//H9lPxNnZKPTtJOqqKKtimhlfeR5tmHlRn8/HZJ8u2NwfEZlRtAq3xYlMiiLt7eeaWd2iaGhc9FmYDZjYMvyGMjJ9jybGwhww1xylefEuo2dWsHnN2PfETXG1geu4huws1I/2d9CBAva/ckoZdyvo/JIEqcEOlX8AvQavQRl/PtjZywsBSuvy9JXvaqs5vDZJMedHV/aViJ1MZh1PvmB6cZOcLUz5JQFddUVe+BgjqupvGQkzt19WmPuKyYy0qFrdWJnLwQxRzeOVtV+ZdVfARBfJUniC5Bg8QIWg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?L/jtcmbFWkA9Xx0YL1O+WUOMvI8ulDq51R2aTA8p3w10pW5m5X6rCWUpyxmY?=
- =?us-ascii?Q?31csKKfYWxSwdvJFi9vxS+e5gMbK6v0B9PwHRVJ7Sw+FpUHnE0971DXHC2XL?=
- =?us-ascii?Q?4ZtAYZx8x1mtBZLvdBZ+Y+Pal3mNRjmPuGWZCCoq0cu/X9RQ11RBEWCb7H8p?=
- =?us-ascii?Q?aoZZUjzY6MgE7hrccTl0Bww0SavbxbFCQmp3hO5wCKBoIOJRGsuE/lBtd+Rz?=
- =?us-ascii?Q?lYRFB2uUboyhstVPrA5yp1bv94esLa6KL1vHHRG58AiPK66oxuEqk8POTh0/?=
- =?us-ascii?Q?zEaaZNAnNOfgNNkindE06NFUkqlCVZEB2D9OdaTxFIk6Aw2ogVbgHgOA1sse?=
- =?us-ascii?Q?OSSS3YbWObZ9IdSrnDHDeJrSITOzJhHD4oeCGdTTXo1jLL2V9UCITxOY2JJK?=
- =?us-ascii?Q?HhhSA/JIkjw8u3DSjO7F//7CE77VISHiR0rU0UyyQFf3zUDtstUj/ZT6FUb7?=
- =?us-ascii?Q?oLe8csUrRwVqnvIc/+8MLiI/Xq3CJCua6YAWhBK9dE2xvyNU4S3KSXi5O0pt?=
- =?us-ascii?Q?0DfSQUufAPXcOtEo+fOMcJMDnshvz3vnH9qvBAeOeRTcX1JbXf+NQbuDgUjN?=
- =?us-ascii?Q?90nxTbtzNhhSQfncimTr3w9UtvOV78QqDBxkF/l8NWAN9Q0GUBdZkgh/OK0I?=
- =?us-ascii?Q?yPjNLZ5L0arR+S76SYe6mgMhY05mww40gdxijziaDouoKt6HDbc+fAAQMGaJ?=
- =?us-ascii?Q?EEWbWnlOqq6LqnCLS1oWbO/tbt8IQm+NAKyMqUydRJxm7lomZCzrNv4wUMBH?=
- =?us-ascii?Q?58kIFL8Y4fXsBUlSDW7+Ymt16buhwE1gcmtwqrQ+LLvn2Zp6coGeP0T5LvsG?=
- =?us-ascii?Q?XW0cpKC7g1bya8bqDY8jvZr5GhBdZ0uvsaTqUcWVLuFIeq3SV1ylFwz/KYf2?=
- =?us-ascii?Q?MQpY45BEhyjQyakykOzzbaHDWEixLfCIr57AE2FKzP23lSRSJlW5fKAIbtWQ?=
- =?us-ascii?Q?BzgT69w0T510xPrxDo2xcrOMFGLC05N4tURy5BBTYbQWb7dstUPkSkZysfCx?=
- =?us-ascii?Q?I+FhQYe5/q50LJUCkGnsTXrsDG4VcvJM5rYXJ6OLk21Ft4FuLpt8q8bG6toI?=
- =?us-ascii?Q?LwFQr6vtCTUaCtV2he/IXyJEABsluHYdBqNafySu64m/vwQzCoieLorofwoZ?=
- =?us-ascii?Q?BcsABaHWe3cYD1nXoINHkNKViNr0/GxrMWlb2r1cg0uF2zqbKnCcKw02xBaU?=
- =?us-ascii?Q?eKbVFjtTgmxHOnCOTzrmkhnVJ7vcwlvQz2HZcXF+gzrta55KiRKWY50wz9YJ?=
- =?us-ascii?Q?3f+qocsf9o0MxWq02DvyQLHNpkEsck/B1qgqqfAG5/ejftPf507CVp8rQx/7?=
- =?us-ascii?Q?WNz50rrrovvQP99bAAEaqBjHls5Nl3ArlcwvBiXBCjCRpH1Ynp+pebImjUCZ?=
- =?us-ascii?Q?el1eCzVOSvqMAwTMHO1SD/sBEVlqs7vVcmp4JImH4GcbSblZryWcl4TAMat0?=
- =?us-ascii?Q?mpP7RgNUSPsfUbh9puDcJkbBaFgLU/KDeRmp+xm4Ac1w2KvmyZG+zjeOQPaJ?=
- =?us-ascii?Q?HoxRpTpwES/YJHXal0C+myR+fiTC+n639WToF2afj/IkvnuOZL21cRP4L+O6?=
- =?us-ascii?Q?roqru6NG4bw3YmmDZRUYUICNbsns3IaUtnNJmmzwH9cfsyW/1W0HrSvtPGk3?=
- =?us-ascii?Q?c7mbLHnDLyn1Mta05+wHgXP3kSHBrD/zYosC6kAQya08oNMqTMD9GF+sHxhL?=
- =?us-ascii?Q?KlmEc9DWt+wihSHPUXQPiJu1aW9Bo5aQeHkvnDROkjF4OhT2x+texcO7jH68?=
- =?us-ascii?Q?R9jpTZeg9Q=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81127696-b234-444b-3bf5-08de7e919590
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VUl6N2tGQldvdUJiNFdyalNrNnloSnhqb1VweWZPUFhMcXNNTTRnalBSamtW?=
+ =?utf-8?B?aW9WT01nTTFabHJvTk5KbDZyRGg2MU8wZHRRR0I4eTYzRmlSeU1xaitZVnU3?=
+ =?utf-8?B?VzNRd3d2cTVGNTlSVHVZT0ZnRkVuL2JCVjFwd0xGWVBWVzIzQzROU0VJWnRQ?=
+ =?utf-8?B?bjNlUTAzZlp1WDdtU3lpcFFrWkZsdm9penhKNjZRcTdDMzhiaTdrdVhIRHAr?=
+ =?utf-8?B?RTN6WXJJTjBEVUx1SWpjYkRZUzV5YWh3ZHBSek5DQjczTGp3OGo2LzVtK3NB?=
+ =?utf-8?B?NFUzZU9hejY4VXZkRUN5RVdmb09RVnhHQUNHaSt2dDFEcHE1WVFSUUZhNlNp?=
+ =?utf-8?B?bllhL1lSbGRMTGNkaXdoSXpwZXBHTDlVWlBqcGhsblErOTlROTA3cmRJU0ZN?=
+ =?utf-8?B?dSt6SERnN1Y0NDQyd056UTIxZkVXRGxSQlVNZ1VDNHN5SzNybW1jaEYrSlQ0?=
+ =?utf-8?B?ZEpnMytlcmNXMXNnSU12ODJlbHpGeUFJTHhpd0pwZWdRc0QvdjhxS1puM1RJ?=
+ =?utf-8?B?UnhmK09QSGtjV0x4SVhnL095TEVranpjWnJyS1JaSkljMEc2NXp1bWF6emVh?=
+ =?utf-8?B?QVBGZERyMUs0d0hYRWgyZks2MDNjTkRKL1dnVVg5TnNPam5sUStxMSttL0dN?=
+ =?utf-8?B?Q3B3cUM2RlV4c3RNeHlxNnJ5NElrNDBVQVllVE1wTE9kdFYwbG5wVzF6SHJr?=
+ =?utf-8?B?SVFRRDJPSklWZkpkKzBZRFRhUmRIS1JEY2R4aGs4YkE5N09Hd1dLbktJNXZj?=
+ =?utf-8?B?QloyYzhtZ2dOTFNBM2Ivblcyak1GZTNqZDJobjBzYTE2ZnJKLzdOZFVDZDJC?=
+ =?utf-8?B?ZlBqMDA3ZjN3eEl5RFEvc3dEZmxHSThVVDE1bHZJaVRqcTRCcFpFWFlzQStp?=
+ =?utf-8?B?N3hRRjh1VzU0akFJTUtIMjI3NTI3RHdRdkhRUENiQlJhREFWZk5TMDBWWlE0?=
+ =?utf-8?B?cXZIQnlTZTJtcHpkN0FvSEtGcGdMaWpTcVNSYlE1UE5vVkNsUERLTFNyVG11?=
+ =?utf-8?B?TG9hMFptOUZkRzBzazRXNGxlVFlPdldiSTZkRkFROXRRLzNUY0FER2xLZXYy?=
+ =?utf-8?B?dW9FTTdCemhoQldqYUtsTitncksxWHR6NzBwUGRvbW9laU11STVBWmdQZWM1?=
+ =?utf-8?B?UXZ0YW1ucmhEdHd5cGVNbVdVVmxYNzh6L2I3K0xibGFBbGhxMTBPOHBSRXZm?=
+ =?utf-8?B?ZWFpbTZzWHZJWHZnU1Bxc21LeFZQSXEwR3daMk1pZ1BkdE1Wa1NmcDh6YnV6?=
+ =?utf-8?B?RHoxZ3ljVXJFRHJWTS9jTTAxQUdnTjFqRHJWcU1sekJqNldISWhQa2tqeXdx?=
+ =?utf-8?B?MmwyOXJRUHYyYUZCQVVndmVVVk94N2g0SFFXWnZ4Z0ZRaS9GSlNiUGhGbUFC?=
+ =?utf-8?B?Sk5nbGlCcCtXcTF2bXlEenFFRWkrZDlnamtVSFEwRXZIUGROOEZDeFI1RWxZ?=
+ =?utf-8?B?MzR6dTYrQjAxZCtSN0lyT3JzUVFPenlrcjZ4WmpkZEYyQWF0eStLU2pFT3Rz?=
+ =?utf-8?B?OVBLYVluOXduYUZGSVY5a2NTRmtMNjdnZytkamZlS1VCNDM3OTg3SnRHM3Bz?=
+ =?utf-8?B?TDhNa2U0WXJDYXRGSmtFbWJOUlVEaHp4NHFGbkhZOEp0eWRWdXdnenkrMHB3?=
+ =?utf-8?B?dXNXUVNtYUo0QXdtWTVzTkRxL0trVUYyUUZ4dlVYYmhSS1Q3QXBkUHRod005?=
+ =?utf-8?B?WDlVUHNQY0VqMnB2RW9NMjVvM2FOQ0xwMTVGc2t3NFZUM2dTdkxnU2pGekpI?=
+ =?utf-8?B?UjVoQUtWaitIM2FRQTNnLzl4WDEyRFZ3aExIOFo1YjJqd2V1MUVXY2c1R3dl?=
+ =?utf-8?B?cXZxVjdTUzdaaW1VTGlGZE0yL2hTYjhacEwzRUpUNjhKc2grNVNCd3MvN1U1?=
+ =?utf-8?B?T29Nc0MxSThLVHdick1IUGtldHZRVGJ1NXlHOUlDa1ZjL2YvVWRiQXR4ZExN?=
+ =?utf-8?B?dVFJK1NJVGxTUFgxSDhUR1hiWWUweTc1bGZITGJSajNER2JMMTFrSEd6RFZz?=
+ =?utf-8?B?Z25qZXVjUzlpNzRnZHdrQXpoamdoZjFveHpiWXo3UFlNQk45ZTF0UUlLbVRp?=
+ =?utf-8?B?WDhVcllxV0Z3ZXV0Qmw5QjhWWkRzbms5Z0J3T2V1eWtUWWRtVytHMzVaZnho?=
+ =?utf-8?B?YUZZalozZ293TklUV1JhMWRzdGZSejFIMmRZM24vdDF2S0JvS0E3Q2huSzFK?=
+ =?utf-8?B?b3FJV2JoYVlNdStNNTBwOGI1RjFTREF6WG5VMjNNQ2RzcE1YVnF6TTZFUE9k?=
+ =?utf-8?B?M1RxVkZTUTZSaW1zTGduV2p5eGVqNEg1QlNuQmVhak1LMzBnNjVqd1hrNjV3?=
+ =?utf-8?B?QzFBWmhMRXJWa3E4d0RCOGQ1a0xtTnczc0Y4dWlyNytBb0dlMFExYVM4U1p3?=
+ =?utf-8?Q?Yvj+2k7OLd8adomg=3D?=
+X-Exchange-RoutingPolicyChecked: Z+ecy9DCmZn0xhw6cJRBuErSawQhLBBTT1VDaC48fQu170403Mp0qEcUNEujVKPqwesFHXQK5HwkzY36v2Q9lJpJv1VKGcSUJgrVYg7aKhDPoipmun117+zt4EGecppvzdy+ILaYxqrjOvLHIFZdE6CE415ofgyjzjajFfr2WvdTazz4WP5fgL3GlpKJbp3ygZBCenbbayZ8nbJBMSndplc0U9iBDYxjgRbyIsK/s2J+rxOO/yuWU19bwpG+vD67PN4asUU1uYd5HZKVsyE/n4a+M4jWCgre7c7jGZYQBwDHhgt4xSin9+5BIWmsCvkXn4Zuj7oCJaZZ2ZQpE91ong==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6635f8f9-50f8-4402-0944-08de7e92ba98
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 10:41:27.8694
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 10:49:39.6620
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fGaDv3JAC6ueQQHN0OBpKfUrRPoPYwEYswB70EpGtUSzwQz9/jw3D7bu26HrL4cz2dkmayws6MfgsylNIVQ6yA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11833
+X-MS-Exchange-CrossTenant-UserPrincipalName: ezr1afZACHdFzGE2Qk6wiAptoWv2B1gFDPtW8o8v102yDhpqg68frV2TxXBMIQuHAH1usrBJu7wsglNLXbqClrDcgDMcmeWf4mH7C44lfCw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6935
+X-OriginatorOrg: intel.com
 
-The transmitter and receiver implement separate timestamp counters and
-bit counters. The bit counter increments at the end of each bit in a
-frame whenever the transmitter or receiver is enabled. The bit counter
-can be reset by software. The timestamp counter increments on the bus
-interface clock whenever it is enabled. The current value of the
-timestamp counter is latched whenever the bit counter increments.
-Reading the bit counter register will cause the latched timestamp
-value to be saved in the bit counter timestamp register. The timestamp
-counter can be reset by software, this also resets the latched timestamp
-value and the bit counter timestamp register.
+On 2026-03-10 10:39 AM, Carsten Behling wrote:
+> Hi,
+> 
+> while moving to a recent kernel version, I need to port the E3930 (cAVS 
+> 1.5) <-> TA5722 sound soc support from 'Skylake-Driver' to AVS.
+> 
+> I assume these facts:
+> 
+>  1.
+>     The port covers basically four components:
+>      1.
+>         the board file aka ALSA Machine Class Driver
+>      2.
+>         the DSP firmware
+>      3.
+>         the Topology File
+>      4.
+>         the NHLT ACPI Table
+>  2.
+>       After some confusion it looks like the AVS driver is the way to go
+>     and SOF is dropped after old 'Skylake-Driver' was dropped.
+>  3.
+>     The DSP file is signed by intel and obtained by the linux-firmware
+>     project.
+>  4.
+>     The topology file can be written in XML as done in avs-topology-xml
+>     I2S subfolder and is then compiled with the AVSDK's avstplg tool
+>     into 'Use Case-File' and than with alsa-utils alsatplg tool into bin
+>     format.
+>  5.
+>     The board file can be added in sound/soc/avs/boards.
+>  6.
+>     The NHLT ACPI table is a little opaque to me.  Due to missing
+>     enpoints in the NHLT table, my predecessor extracted a
+>     byte array from a *.blob file and tweaked it into a struct
+>     nhlt_specific_cfg and hended it over to the old Skylake driver.
+>     I have no cue where this *blob file comes from and what the
+>     extracted contents means exactly.
+>     The ACPI specification is a little confusing on this. It seems to be
+>     the Format Configuration for the DSP.  I think the old
+>     Intel way was to pass the *.blob file to the kernel. I found that
+>     iasl compiler is capable to generate a template NHLT *.asl file that
+>     could be filled with the matching enpoint data and compiled back to
+>     *.aml .
+>     To me it's not clear where to but that array from NHLT blob above.
+>     Furthermore, I don't now how to load it by the kernel.
+>     I thought about some kind of overloading similar to
+>     CONFIG_ACPI_CUSTOM_DSDT_FILE, lets say CONFIG_ACPI_CUSTOM_NHLT_FILE
+>     feature.
+> 
+> 
+> In a first step I took a look on how everything works together by 
+> tweaking the original NHLT blob into AVS driver to prevent the board 
+> selection from failing loading the board driver.
+> I made a quit similar copy of topology file max98357a-tplg.xml and the 
+> sound/soc/intel/avs/boards/max98357a.c board file.
 
-The timestamp counter and bit counter can be used by software to track
-the progress of the transmitter and receiver. It can also be used to
-calculate the relative frequency of the bit clock against the bus
-interface clock.
+Hi,
 
-As there are three regmap handlers defined in this driver, explicitly
-call the snd_soc_component_init_regmap() to init regmap handler for the
-component.
+Yes, for ApolloLake (APL) devices the avs-driver is the way to go. The 
+driver, the available firmware (linux-firmware) and the machine board 
+drivers should enable base configuration without any issues. The TAS5722 
+support is a different story though. I believe that basing your code on 
+existing examples e.g. max98357a is good starting point.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_xcvr.c | 64 ++++++++++++++++++++++++++++++++++++++++
- sound/soc/fsl/fsl_xcvr.h | 18 +++++++++++
- 2 files changed, 82 insertions(+)
+In regard to NHLT, the table spec is public [1]. However, the details 
+for the hardware registers are not shared and are 
+configuration-specific. Fortunately, the avs solution does allow for 
+including such details within the topology file. So, no BIOS/ABL updates 
+required, topology will "patch" it. If you provide the details i.e.: 
+streaming formats, perhaps we will be able to help.
 
-diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-index a268fb81a2f8..de25d9e667ee 100644
---- a/sound/soc/fsl/fsl_xcvr.c
-+++ b/sound/soc/fsl/fsl_xcvr.c
-@@ -62,6 +62,58 @@ struct fsl_xcvr {
- 	u32 spdif_constr_rates_list[SPDIF_NUM_RATES];
- };
- 
-+static const char * const inc_mode[] = {
-+	"On enabled and bitcount increment", "On enabled"
-+};
-+
-+static SOC_ENUM_SINGLE_DECL(transmit_tstmp_enum,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC_SHIFT, inc_mode);
-+static SOC_ENUM_SINGLE_DECL(receive_tstmp_enum,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC_SHIFT, inc_mode);
-+
-+static const struct snd_kcontrol_new fsl_xcvr_timestamp_ctrls[] = {
-+	FSL_ASOC_SINGLE_EXT("Transmit Timestamp Control Switch", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN_SHIFT, 1, 0,
-+			    fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_ENUM_EXT("Transmit Timestamp Increment", transmit_tstmp_enum,
-+			  fsl_asoc_get_enum_double, fsl_asoc_put_enum_double),
-+	FSL_ASOC_SINGLE_EXT("Transmit Timestamp Reset Switch", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC_SHIFT, 1, 0,
-+			    fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_SINGLE_EXT("Transmit Bit Counter Reset Switch", FSL_XCVR_TX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC_SHIFT, 1, 0,
-+			    fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Timestamp Counter", FSL_XCVR_TX_DPTH_TSCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Bit Counter", FSL_XCVR_TX_DPTH_BCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Bit Count Timestamp", FSL_XCVR_TX_DPTH_BCTR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Transmit Latched Timestamp Counter", FSL_XCVR_TX_DPTH_BCRR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_EXT("Receive Timestamp Control Switch", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN_SHIFT, 1, 0,
-+			    fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_ENUM_EXT("Receive Timestamp Increment", receive_tstmp_enum,
-+			  fsl_asoc_get_enum_double, fsl_asoc_put_enum_double),
-+	FSL_ASOC_SINGLE_EXT("Receive Timestamp Reset Switch", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC_SHIFT, 1, 0,
-+			    fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_SINGLE_EXT("Receive Bit Counter Reset Switch", FSL_XCVR_RX_DPTH_CNTR_CTRL,
-+			    FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC_SHIFT, 1, 0,
-+			    fsl_asoc_get_volsw, fsl_asoc_put_volsw),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Timestamp Counter", FSL_XCVR_RX_DPTH_TSCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Bit Counter", FSL_XCVR_RX_DPTH_BCR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Bit Count Timestamp", FSL_XCVR_RX_DPTH_BCTR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+	FSL_ASOC_SINGLE_XR_SX_EXT_RO("Receive Latched Timestamp Counter", FSL_XCVR_RX_DPTH_BCRR,
-+				     1, 32, 0, 0xffffffff, 0, fsl_asoc_get_xr_sx),
-+};
-+
- static const struct fsl_xcvr_pll_conf {
- 	u8 mfi;   /* min=0x18, max=0x38 */
- 	u32 mfn;  /* signed int, 2's compl., min=0x3FFF0000, max=0x00010000 */
-@@ -1070,8 +1122,20 @@ static struct snd_soc_dai_driver fsl_xcvr_dai = {
- 	},
- };
- 
-+static int fsl_xcvr_component_probe(struct snd_soc_component *component)
-+{
-+	struct fsl_xcvr *xcvr = snd_soc_component_get_drvdata(component);
-+
-+	snd_soc_component_init_regmap(component, xcvr->regmap);
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_component_driver fsl_xcvr_comp = {
- 	.name			= "fsl-xcvr-dai",
-+	.probe			= fsl_xcvr_component_probe,
-+	.controls		= fsl_xcvr_timestamp_ctrls,
-+	.num_controls		= ARRAY_SIZE(fsl_xcvr_timestamp_ctrls),
- 	.legacy_dai_naming	= 1,
- };
- 
-diff --git a/sound/soc/fsl/fsl_xcvr.h b/sound/soc/fsl/fsl_xcvr.h
-index dade3945cc0c..0cc7945b1d9f 100644
---- a/sound/soc/fsl/fsl_xcvr.h
-+++ b/sound/soc/fsl/fsl_xcvr.h
-@@ -233,6 +233,24 @@
- #define FSL_XCVR_TX_DPTH_CTRL_CLK_RATIO		BIT(29)
- #define FSL_XCVR_TX_DPTH_CTRL_TM_NO_PRE_BME	GENMASK(31, 30)
- 
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN_SHIFT	0
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSEN		BIT(0)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC_SHIFT	1
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_TSINC	BIT(1)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC_SHIFT	8
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RBC		BIT(8)
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC_SHIFT	9
-+#define FSL_XCVR_RX_DPTH_CNTR_CTRL_RTSC		BIT(9)
-+
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN_SHIFT	0
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSEN		BIT(0)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC_SHIFT	1
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_TSINC	BIT(1)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC_SHIFT	8
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RBC		BIT(8)
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC_SHIFT	9
-+#define FSL_XCVR_TX_DPTH_CNTR_CTRL_RTSC		BIT(9)
-+
- #define FSL_XCVR_PHY_AI_CTRL_AI_RESETN		BIT(15)
- #define FSL_XCVR_PHY_AI_CTRL_AI_RWB		BIT(31)
- 
--- 
-2.34.1
+> Along with the newest dsp_fw_apl_release.bin DSP firmware the sound card 
+> comes up, the DSP starts without error and the topology file is loaded 
+> without errors.
 
+Using phrase "dsp_fw_apl_release.bin" explicitly made me curious. What 
+binary _exactly_ are we talking about here? The avs-driver _does not_ 
+expect such wording, neither did the skylake-driver.
+
+> 
+> While the Codec registers are set correctly while playing no I2S frames 
+> are output by the DSP.
+> 
+> My questions:
+> 
+>  1.
+>     Is this the correct way?
+>  2.
+>     Since the board supplier suggests SOF driver support giving a
+>     Elkhartlake/SGTL5000 reference only, the community
+>     seems to be the only way to get support. I started implementation on
+>     for-next audio soc branch and I'm ready to contribute with the help
+>     of the maintainers.
+>  3.
+>     Can I expect help?
+>  4.
+>     Can I provide my patches here to discuss though I haven't audio output?
+>  5.
+>     Since the topology file is part of avs-topology-xml, should I start
+>     a second thread there in parallel?
+In regard to the board driver, send a patch. We will review and process 
+it as any other piece of code.
+The preparation of XML file (avs-topology) is a separate subject. I 
+believe it would be best to open an "issue" on avs-topology-xml project 
+[2]. While support for the new board is not exactly an issue but I doubt 
+discussing such specific subject on linux-sound is a better idea.
+
+
+[1]: 
+https://uefi.org/specs/ACPI/6.6/05_ACPI_Software_Programming_Model.html#non-hdaudio-link-table-nhlt
+[2]: https://github.com/thesofproject/avs-topology-xml
+
+
+Kind regards,
+Czarek
