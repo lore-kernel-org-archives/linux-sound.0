@@ -1,99 +1,142 @@
-Received: from mail.sonarnerd.net (rankki.sonarnerd.net [213.186.235.122])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83DC38D694
-	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 13:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.186.235.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646A13B0AE6
+	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 13:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773148774; cv=none; b=k5MW5HXC2nGpCJqYnm+yTs3+u7bnowf7bUc57f0rFODlVONrQhO4pNm0nzgK8Y3+NF7AHhGDH8Ls9hJPoRvbdoDgmZuMOwPh+6udjGaSNRW6F8n1fuZ3LF7GHEc9OnWlwfbWs8zEawe1o0vSSgP9/bK9aE4ZHj7Srt2Av7Ka0uw=
+	t=1773148932; cv=none; b=tcNBXWb6RkDy/WITxYe44S3GXfThIm/JY2nv5a5NNFXNUnwhTthbz44nVaLQN9BmEdpnJNQ0pc6gJSRCpQ0F+nbAUL/K56xIvvdcCz+rSGTEfv1NxX8WnoEaECdyuBInnxdAf26z/C3xbq24WhejtP7gPoWjNMS+71do+lFj43I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773148774; c=relaxed/simple;
-	bh=HrDV1kgypu6BVDY0MU7OS5H1Cfmd39DcgsUebLQ7J1o=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=KuoKokyr/IZQXZKS8aKKRr29rr8//VFLdAazo/C2OrhmCHg7hzb/EcXZyjCIKuVa1tOk1TYb49WJxn6WS8yAYHoHBu2RiiSZmj2RXQ2EdZ6/OlmPB4uGsUJUzs/KuK3Ebwdp5IrmoIy0FBC1yLBtbKjnmKIR/o8FYmgpc1z0qhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sonarnerd.net; spf=pass smtp.mailfrom=sonarnerd.net; dkim=pass (2048-bit key) header.d=sonarnerd.net header.i=@sonarnerd.net header.b=nz4/h7fy; arc=none smtp.client-ip=213.186.235.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sonarnerd.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sonarnerd.net
+	s=arc-20240116; t=1773148932; c=relaxed/simple;
+	bh=7C48eJwQxF2SZSyojjO4eehKdtPdDBqSboD/LkVXOwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=SK0o1wICFHUcqgkJj0MXzfOKnqTi9oJalIXCdqEcBLe7v13HGyTP+NYcKaWzbhSt1U/UJNFPBlkmaxQVNKWvBmJL5M2yOhHAK9OC9ly+5+xTdgU8Qx7MTQoLfcoqegOyP2CaW2b+1zgRrXvjJ81Bcg/yySYapxb9IfQqD/epCgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zo0CYay3; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sonarnerd.net header.i=@sonarnerd.net header.b="nz4/h7fy"
-Received: from smtpclient.apple (87-196-82-49.net.novis.pt [87.196.82.49])
-	by mail.sonarnerd.net (Postfix) with ESMTPSA id 89008231133;
-	Tue, 10 Mar 2026 15:13:41 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sonarnerd.net 89008231133
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sonarnerd.net;
-	s=dkim; t=1773148422;
-	bh=1MXWgdy0VolXeqnmoulN8UrTfwwO1VLVbQjgTq7RILI=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=nz4/h7fyqEHUSNDdfDdNjbkRJLTBC3K8L4heHQLxiqaoK8M+hzDTDRR6fuAN7P6+P
-	 2BxrCxiw02bt1bZBLVQrNB9QbkeZI2t0OmnE6hybidWzy0hydAPdjym4IhAIEJIZbH
-	 vyCZOCSMc+41+ldP1/Z9iuREtiCriVPU9RX2vwWFnvffN4U8siQJYvYauKr7mlXCFo
-	 8ZeV8bAMQiRA6FpPG1B+NDQVcq1XamoTfy+kH+uxUH/l3fWMqxsq4FS8IJ0hPyxBmy
-	 5S5cmJca/hU19/a4StWogWyu/jIah1rT8oua3vOgilygwM5MH4RnWyOUE5uKdBrQEr
-	 rT8fd2j3KICOw==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zo0CYay3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773148928;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5/adDEbR57gUpYJcJq84OoDVxrrM3xMPFmZCRo0jKXM=;
+	b=Zo0CYay3fNS6nNUgO9JjxVGq9cPty8oV+Lr9ojdybQ8yTkOX4mN9U3Jy00cnf/ksl5lySC
+	yySxefhsO579pYAHU3v/+4/Km7BtCaevJSSgvrsHg4X0Gz9yvYwnOWWC6jIDZFWyj++WtH
+	+b+fK8uNDufV9iRkUqAPcaEBErJYWuI=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-586--nehqqsDNTWJ-eoBPsH58w-1; Tue, 10 Mar 2026 09:22:05 -0400
+X-MC-Unique: -nehqqsDNTWJ-eoBPsH58w-1
+X-Mimecast-MFC-AGG-ID: -nehqqsDNTWJ-eoBPsH58w_1773148925
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cd81506677so1375227385a.1
+        for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 06:22:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773148925; x=1773753725;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5/adDEbR57gUpYJcJq84OoDVxrrM3xMPFmZCRo0jKXM=;
+        b=GdDmce9cRKLalbGVdSv9w+cukloIhLBwIZoIuRlOM2aH63sqBeEr9Kob4fiXVaBp/g
+         TreKhz+VrJiynHsFsoO0PB/5jbHEilHymUNfCFkJrwYvLhOpI8h965kTShbUDV7paYky
+         WQA1Uwp6V73iuVUwo03QlzMHZ7bazzJnT4+8Gir7IFYcSO1qtpzQnC8nlDuXeWwwiQr8
+         I+lNgHo/bu8eeiQshLYIOiyMANLbvzK88psVPoldMCdV/j/ouVtreFfRHgrWlccARs8Y
+         C7TQoYhcCE4s1I+G85I8iyEQHoTc+t9+/NfzcByWvjiWNYyv40lzRIhm8l+zyCX+cWXr
+         TBog==
+X-Forwarded-Encrypted: i=1; AJvYcCWctfuU6QMan8moh1k9W8o7T0ENUJ/F6EwyRqYwtouPaLON3IRC7h1e2q9e22Ws93QfggsNDZt4xCoeWA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzs5npHLIazDF/TzoR2aMaPX5XxLg3LQALp8TDJx6YQPeMKwtCd
+	WckVqKfzo+S/QNgAWEspPaIqHCetR2GnXiGXWf6rzl0t0dx/4VBX9onjzVZPkWi9nefIx428vka
+	mSOGso3duaVXH5zs5hddd1LWpbN/3UVHCfutrZK7ZRONuM3df8k3g9WLKNpeiNKut
+X-Gm-Gg: ATEYQzzvA30x31Q/hU/8+MdvOagdB9N+A2yaHov2MuPiJuCYY8DXpU5DRdSflm1uhwD
+	hLJA06/oUyUthM7QM3NNggIPex4IJimD+XOwPESgIoZTZGnM75NEecrCUjHnt85dX5eUvHWQaOB
+	2Md5R/G24NWOM7ZgIuFgXlVhCuzvw9ZsQSRl7Z/4kFvsfPVTU16UhSx/4DzEnrjujcIeMxT5aBJ
+	i4JkbufX4G+MI7zAhmiOQpGW7eJHE+I+/gKThAbxIVniurUEDDy29lzaUmmvhCTEkli6+OCdEcX
+	zQzhOVpme0jh3bFBAGTHwiH+Mnm1HXD0Oy4SekRdvNt4myUN1SNTJLHJx1fOZGHcrlHrPhkOWQ4
+	irsRxD3fwVWez8++IXe348SIOM3IZyOsFmJeSo76Y4iT6kFPYaTY++0H3
+X-Received: by 2002:a05:620a:3713:b0:8ca:1240:4991 with SMTP id af79cd13be357-8cd6d4f9469mr1830786185a.45.1773148924710;
+        Tue, 10 Mar 2026 06:22:04 -0700 (PDT)
+X-Received: by 2002:a05:620a:3713:b0:8ca:1240:4991 with SMTP id af79cd13be357-8cd6d4f9469mr1830766185a.45.1773148922638;
+        Tue, 10 Mar 2026 06:22:02 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cd8576db0esm474754485a.47.2026.03.10.06.21.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 06:22:01 -0700 (PDT)
+Date: Tue, 10 Mar 2026 09:21:58 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Subject: Re: [PATCH 56/61] clk: Prefer IS_ERR_OR_NULL over manual NULL check
+Message-ID: <abAa9vQg4BSxl1BJ@redhat.com>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
-Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for USB
- Audio
-From: Jussi Laako <jussi@sonarnerd.net>
-In-Reply-To: <TYUPR06MB62179ADCD1B86A7E0C73E53ED246A@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Date: Tue, 10 Mar 2026 13:13:29 +0000
-Cc: "tiwai@suse.com" <tiwai@suse.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9A67CE55-CD09-4574-85B4-2C4F770497BB@sonarnerd.net>
-References: <TYUPR06MB62179ADCD1B86A7E0C73E53ED246A@TYUPR06MB6217.apcprd06.prod.outlook.com>
-To: =?utf-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
-X-Mailer: Apple Mail (2.3864.400.21)
+MIME-Version: 1.0
+In-Reply-To: <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: khg0m3yHCvArG2eySg4D4K73clDlwDEHdLwKXat1EAc_1773148925
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I would suggest to include information about the actual hardware device =
-in the comment. =E2=80=9CUSB Audio=E2=80=9D doesn=E2=80=99t really tell =
-anything here=E2=80=A6
+On Tue, Mar 10, 2026 at 12:49:22PM +0100, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
+> 
+> Semantich change: Previously the code only printed the warning on error,
 
+Semantic ...
 
-Best regards,
+> but not when the pointer was NULL. Now the warning is printed in both
+> cases!
+> 
+> Change found with coccinelle.
+> 
+> To: Michael Turquette <mturquette@baylibre.com>
+> To: Stephen Boyd <sboyd@kernel.org>
+> To: Daniel Lezcano <daniel.lezcano@kernel.org>
+> To: Thomas Gleixner <tglx@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
 
-	- Jussi
+With the minor typo addressed:
 
-
-> On 10. Mar 2026, at 8.33, =E8=83=A1=E8=BF=9E=E5=8B=A4 =
-<hulianqin@vivo.com> wrote:
->=20
-> Setting up the interface when suspended/resumeing fail on this card.
-> Adding a reset and delay quirk will eliminate this problem.
->=20
-> usb 1-1: New USB device found, idVendor=3D0666, idProduct=3D0880
-> usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumber=3D3
-> usb 1-1: Product: USB Audio
-> usb 1-1: Manufacturer: SPACETOUCH
-> usb 1-1: SerialNumber: 000000000
->=20
-> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
-> ---
-> sound/usb/quirks.c | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> index c6a78efbcaa3..3352e3538a19 100644
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -2241,6 +2241,8 @@ static const struct usb_audio_quirk_flags_table =
-quirk_flags_table[] =3D {
->   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
-> DEVICE_FLG(0x0661, 0x0883, /* iBasso DC04 Ultra */
->   QUIRK_FLAG_DSD_RAW),
-> + DEVICE_FLG(0x0666, 0x0880, /* USB Audio */
-> +   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-> DEVICE_FLG(0x06f8, 0xb000, /* Hercules DJ Console (Windows Edition) */
->   QUIRK_FLAG_IGNORE_CTL_ERROR),
-> DEVICE_FLG(0x06f8, 0xd002, /* Hercules DJ Console (Macintosh Edition) =
-*/
-> --=20
-> 2.39.0
->=20
+Reviewed-by: Brian Masney <bmasney@redhat.com>
 
