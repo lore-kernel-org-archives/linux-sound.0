@@ -1,39 +1,35 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA4C392C23;
-	Tue, 10 Mar 2026 02:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA433BA238;
+	Tue, 10 Mar 2026 02:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773110245; cv=none; b=WRTP0lsgo9gQOR+lQZbb8qWZUupe7kvBa0axQe/XJbBIPb5I8ciNU719T2Z1qxukgCH6Ibys7FT3bpL6t6cI4gyktDBL6atCZh310x1xktqmIl7nTV558Hw3D9YRD8tt9r1K4rcDDHv82XPLXVLF51gzYpzh0IjUVyn31JrU2Xc=
+	t=1773110838; cv=none; b=okklcC6tpVtVGgAtxMWuKRyJzpeooCJfR4HDnwePcx/e/vI9CZBdfkoD/qS7BICBeHPipKwQAbO4HblC+haS6yzKbDVuFUmFU0DSCZE9brIvm83ccG2V4m4Xv3bwSrrFvPsArlDQI00YQXjQtYO9GHUabVSYPUP26Tfm5jA/2To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773110245; c=relaxed/simple;
-	bh=DIA3YWVidP03/0RxJHHWW8GMkMV/yTdZ6P5PdvWazp4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JO6ynBASSGp1qooMiJZ2/8S+LLlVFi71b8EzrNaTv87I4SgdC/09rQUT+0aLgIudCSDAgl75fj1V5DarxSnCSVA1L5e99wsAnWJaWKBOdP+TxkN64Uv0gxjmR6UWowI1CN77vNr4SnbRVks3O0PTxzEof/4bqVfkvcVT2hVvBNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=eHokHIX0; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="eHokHIX0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Xz
-	GfF9uTO7/BdJLhrIT1lGfOoSlPLTyCgNfRzjWqUeU=; b=eHokHIX0EAo0y20GIs
-	g11JOpWBpt37eSiqQaPxvJ3vbac3pEGQ4KU8Kjqf4o2pjavmsAZUKEJhVVCQzlSx
-	aAGZHkWWMfLSniuFuHwyYZQpH5n20ISBwGA+Nz/hpbZtwnQoHDsOvfFE+R2q0pUt
-	EHEv/EKdDMBdVHW61jAsjVeAk=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgCnBavCg69pFb_4Rg--.151S2;
-	Tue, 10 Mar 2026 10:36:53 +0800 (CST)
-From: wangdich9700@163.com
-To: bo.liu@senarytech.com,
+	s=arc-20240116; t=1773110838; c=relaxed/simple;
+	bh=VfQGfBtKtbAJk38Cges1m1pdw29syY8nJiJwA6BaYj8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V/pUL5OMM2bTHTZkpKOG3ob3EvJgUNq7dx3JH2lXBC0UaansYcmaLGPENOrbDGKu+CqVZ2ItwDhLkc4rkCQPJZf6354VARKbbZw2+me11FRD9Hn/FbjxuCMuulVILBwd45xm8LTjBiRM9gvylIU9TaBVxnrcow0Bdp1BggB2tNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-05 (Coremail) with SMTP id zQCowAAXpgkohq9ptTYECg--.25800S2;
+	Tue, 10 Mar 2026 10:47:04 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	akshu.agrawal@amd.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: [PATCH] ALSA: hda/senary: Fix beep error handling and optimize EAPD  switching
-Date: Tue, 10 Mar 2026 10:36:49 +0800
-Message-Id: <20260310023649.155858-1-wangdich9700@163.com>
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: amd: acp3x-rt5682-max9836: Add missing error check for clock acquisition
+Date: Tue, 10 Mar 2026 10:42:46 +0800
+Message-Id: <20260310024246.2153827-1-nichen@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -42,71 +38,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgCnBavCg69pFb_4Rg--.151S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tF48JFW8XrWfXrWxGw4fAFb_yoW8ZFyrpF
-	4DCryrKF93JF4Fyr1rJw4ku3W3WayrWFW3C3y5K34IyFs0yrW8Xa4UK342qa1jgFWI93W2
-	vFy2vFWxA3Z8AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOtxhUUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC6AVYp2mvg8UIxgAA3c
+X-CM-TRANSID:zQCowAAXpgkohq9ptTYECg--.25800S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFy3Gryxtw47tFWfurW7Arb_yoW8GFW8pF
+	4kXrZ0qayUArZIkas8Za10vrn2yF48Aa1UAas8Wa4Fy3W3Ar4vgr47Kr1jqFWjvFy0g3Wx
+	Gr9xG3Z5ZF4rWF7anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
+	zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
+	8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
+	xwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_Gr
+	1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWU
+	JVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7V
+	AKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42
+	IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUosqWUUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+The acp3x_5682_init() function did not check the return value of
+clk_get(), which could lead to dereferencing error pointers in
+rt5682_clk_enable().
 
-This patch addresses a potential state inconsistency bug and optimizes
-runtime performance:
+Fix this by:
+1. Changing clk_get() to the device-managed devm_clk_get().
+2. Adding proper IS_ERR() checks for both clock acquisitions.
 
-1. Fix error handling in set_beep_amp():
-   Previously, beep_nid was assigned before adding kcontrols. If
-   kcontrol creation failed, the function returned error but left
-   beep_nid set, causing inconsistent driver state. Moved the
-   assignment to the end of the function.
-
-2. Optimize senary_auto_turn_eapd():
-   Removed the redundant snd_hda_query_pin_caps() check inside the
-   loop. The target pins are sourced from spec->eapds, which is
-   strictly filtered during the initial parse phase. Checking
-   capabilities again during every mute/unmute hook is unnecessary
-   overhead.
-
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+Fixes: 6b8e4e7db3cd ("ASoC: amd: Add machine driver for Raven based platform")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- sound/hda/codecs/senarytech.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/soc/amd/acp3x-rt5682-max9836.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/sound/hda/codecs/senarytech.c b/sound/hda/codecs/senarytech.c
-index 6239a25bb8f3..61b0dcf76305 100644
---- a/sound/hda/codecs/senarytech.c
-+++ b/sound/hda/codecs/senarytech.c
-@@ -50,7 +50,6 @@ static int set_beep_amp(struct senary_spec *spec, hda_nid_t nid,
- 	unsigned int beep_amp = HDA_COMPOSE_AMP_VAL(nid, 1, idx, dir);
- 	int i;
- 
--	spec->gen.beep_nid = nid;
- 	for (i = 0; i < ARRAY_SIZE(senary_beep_mixer); i++) {
- 		knew = snd_hda_gen_add_kctl(&spec->gen, NULL,
- 					    &senary_beep_mixer[i]);
-@@ -58,6 +57,8 @@ static int set_beep_amp(struct senary_spec *spec, hda_nid_t nid,
- 			return -ENOMEM;
- 		knew->private_value = beep_amp;
+diff --git a/sound/soc/amd/acp3x-rt5682-max9836.c b/sound/soc/amd/acp3x-rt5682-max9836.c
+index 4ca1978020a9..d1eb6f12a183 100644
+--- a/sound/soc/amd/acp3x-rt5682-max9836.c
++++ b/sound/soc/amd/acp3x-rt5682-max9836.c
+@@ -94,8 +94,13 @@ static int acp3x_5682_init(struct snd_soc_pcm_runtime *rtd)
+ 		return ret;
  	}
+ 
+-	rt5682_dai_wclk = clk_get(component->dev, "rt5682-dai-wclk");
+-	rt5682_dai_bclk = clk_get(component->dev, "rt5682-dai-bclk");
++	rt5682_dai_wclk = devm_clk_get(component->dev, "rt5682-dai-wclk");
++	if (IS_ERR(rt5682_dai_wclk))
++		return PTR_ERR(rt5682_dai_wclk);
 +
-+	spec->gen.beep_nid = nid;
- 	return 0;
- }
++	rt5682_dai_bclk = devm_clk_get(component->dev, "rt5682-dai-bclk");
++	if (IS_ERR(rt5682_dai_bclk))
++		return PTR_ERR(rt5682_dai_bclk);
  
-@@ -99,10 +100,9 @@ static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
- 	int i;
- 
- 	for (i = 0; i < num_pins; i++) {
--		if (snd_hda_query_pin_caps(codec, pins[i]) & AC_PINCAP_EAPD)
--			snd_hda_codec_write(codec, pins[i], 0,
--					    AC_VERB_SET_EAPD_BTLENABLE,
--					    on ? 0x02 : 0);
-+		snd_hda_codec_write(codec, pins[i], 0,
-+				    AC_VERB_SET_EAPD_BTLENABLE,
-+				    on ? 0x02 : 0);
- 	}
- }
- 
+ 	ret = snd_soc_card_jack_new_pins(card, "Headset Jack",
+ 					 SND_JACK_HEADSET |
 -- 
 2.25.1
 
