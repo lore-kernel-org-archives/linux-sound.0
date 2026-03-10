@@ -1,94 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FEA2517AF;
-	Tue, 10 Mar 2026 01:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA4C392C23;
+	Tue, 10 Mar 2026 02:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773106863; cv=none; b=MBCZXbKsT1mhC48zFDOhW6CDBUaf2nG0cl5zCDak82ACzSSwb5wJQnBuErI912CLlf10sSCBGOTnpcfZq3r2zHRVdLWnsMizo9u4uIW9hG4nbKrznAbzftVc7Ft+c9hGiwj6QZVpLogwYTiwooS5fspTzoT9YIDostbUU1n5qbQ=
+	t=1773110245; cv=none; b=WRTP0lsgo9gQOR+lQZbb8qWZUupe7kvBa0axQe/XJbBIPb5I8ciNU719T2Z1qxukgCH6Ibys7FT3bpL6t6cI4gyktDBL6atCZh310x1xktqmIl7nTV558Hw3D9YRD8tt9r1K4rcDDHv82XPLXVLF51gzYpzh0IjUVyn31JrU2Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773106863; c=relaxed/simple;
-	bh=zlwc+tx+AWlMJs8E8p03tjRU0ejrx8Ov89tKfIG0qZg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JTPVovVSA/OqLptv3EBZa0X/p3G3wOwWA+r4FRHJs/X2eTsTra2K4anonsVP1jTg8i0uC8LQIBetiUioItdIEYEhPuiQNPV64xpuOqmu7Y//hd1Kwkn1SMamUFaTqr5dSnhxQNyLLxRBOAEuoAHfoGS/wSqOt/rMyb/IJI3JbJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NShoTRTT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773110245; c=relaxed/simple;
+	bh=DIA3YWVidP03/0RxJHHWW8GMkMV/yTdZ6P5PdvWazp4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JO6ynBASSGp1qooMiJZ2/8S+LLlVFi71b8EzrNaTv87I4SgdC/09rQUT+0aLgIudCSDAgl75fj1V5DarxSnCSVA1L5e99wsAnWJaWKBOdP+TxkN64Uv0gxjmR6UWowI1CN77vNr4SnbRVks3O0PTxzEof/4bqVfkvcVT2hVvBNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=eHokHIX0; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NShoTRTT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E3FCC19423;
-	Tue, 10 Mar 2026 01:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773106863;
-	bh=zlwc+tx+AWlMJs8E8p03tjRU0ejrx8Ov89tKfIG0qZg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NShoTRTTYdFz4XcTTOPg4W+2WqjzlnRq/9byBzF5nvXpVzyjii+wUt+LOJ28ur6wz
-	 v7PzGQtPKnavB09pw5FcVBuHOi6gEZUqbeH+aBD1CdbGElFnMU/KvdnzaHCMKMIchX
-	 id7c6lhJEquKL9A13DdhwcxOmXPIfcTHIZuE4R7GnF7Msh2gjEHMu7TMgv6XhY/TmG
-	 iB9cqxq5xHgzv5KWZ83WnINd1cj/vNB3IFCqJiJTMFMOsoW88D4snGsKcwgDcY9HSg
-	 JtwhFboMNBCVwDg8gakU4gLBkODw5WppV0XbKo3M6rl2q6JJjbqneDw72fZr3GxUCj
-	 xqrHopPjHiN0Q==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- "Sheetal ." <sheetal@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sameer Pujar <spujar@nvidia.com>, Mohan kumar <mkumard@nvidia.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260303100249.3214529-1-sheetal@nvidia.com>
-References: <20260303100249.3214529-1-sheetal@nvidia.com>
-Subject: Re: [PATCH v2 0/2] ASoC: tegra: Add Tegra238 sound card support
-Message-Id: <177310686018.362709.882997583976128066.b4-ty@kernel.org>
-Date: Tue, 10 Mar 2026 01:41:00 +0000
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="eHokHIX0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Xz
+	GfF9uTO7/BdJLhrIT1lGfOoSlPLTyCgNfRzjWqUeU=; b=eHokHIX0EAo0y20GIs
+	g11JOpWBpt37eSiqQaPxvJ3vbac3pEGQ4KU8Kjqf4o2pjavmsAZUKEJhVVCQzlSx
+	aAGZHkWWMfLSniuFuHwyYZQpH5n20ISBwGA+Nz/hpbZtwnQoHDsOvfFE+R2q0pUt
+	EHEv/EKdDMBdVHW61jAsjVeAk=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgCnBavCg69pFb_4Rg--.151S2;
+	Tue, 10 Mar 2026 10:36:53 +0800 (CST)
+From: wangdich9700@163.com
+To: bo.liu@senarytech.com,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH] ALSA: hda/senary: Fix beep error handling and optimize EAPD  switching
+Date: Tue, 10 Mar 2026 10:36:49 +0800
+Message-Id: <20260310023649.155858-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-83dbb
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgCnBavCg69pFb_4Rg--.151S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tF48JFW8XrWfXrWxGw4fAFb_yoW8ZFyrpF
+	4DCryrKF93JF4Fyr1rJw4ku3W3WayrWFW3C3y5K34IyFs0yrW8Xa4UK342qa1jgFWI93W2
+	vFy2vFWxA3Z8AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOtxhUUUUU=
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC6AVYp2mvg8UIxgAA3c
 
-On Tue, 03 Mar 2026 15:32:47 +0530, Sheetal . wrote:
-> Add Tegra238 sound card support in the Tegra audio graph card driver,
-> as Tegra238 requires different PLLA and PLLA_OUT0 clock rates compared
-> to other Tegra platforms.
-> 
-> Changes in v2:
-> - Drop SPDX-FileCopyrightText year update from patch 2/2
-> 
-> [...]
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-Applied to
+This patch addresses a potential state inconsistency bug and optimizes
+runtime performance:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+1. Fix error handling in set_beep_amp():
+   Previously, beep_nid was assigned before adding kcontrols. If
+   kcontrol creation failed, the function returned error but left
+   beep_nid set, causing inconsistent driver state. Moved the
+   assignment to the end of the function.
 
-Thanks!
+2. Optimize senary_auto_turn_eapd():
+   Removed the redundant snd_hda_query_pin_caps() check inside the
+   loop. The target pins are sourced from spec->eapds, which is
+   strictly filtered during the initial parse phase. Checking
+   capabilities again during every mute/unmute hook is unnecessary
+   overhead.
 
-[1/2] ASoC: dt-bindings: tegra: Add compatible for Tegra238 sound card
-      (no commit info)
-[2/2] ASoC: tegra: Add support for Tegra238 soundcard
-      commit: 1bc17c67194716f53037685b7059a22cc1a911b2
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+---
+ sound/hda/codecs/senarytech.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/hda/codecs/senarytech.c b/sound/hda/codecs/senarytech.c
+index 6239a25bb8f3..61b0dcf76305 100644
+--- a/sound/hda/codecs/senarytech.c
++++ b/sound/hda/codecs/senarytech.c
+@@ -50,7 +50,6 @@ static int set_beep_amp(struct senary_spec *spec, hda_nid_t nid,
+ 	unsigned int beep_amp = HDA_COMPOSE_AMP_VAL(nid, 1, idx, dir);
+ 	int i;
+ 
+-	spec->gen.beep_nid = nid;
+ 	for (i = 0; i < ARRAY_SIZE(senary_beep_mixer); i++) {
+ 		knew = snd_hda_gen_add_kctl(&spec->gen, NULL,
+ 					    &senary_beep_mixer[i]);
+@@ -58,6 +57,8 @@ static int set_beep_amp(struct senary_spec *spec, hda_nid_t nid,
+ 			return -ENOMEM;
+ 		knew->private_value = beep_amp;
+ 	}
++
++	spec->gen.beep_nid = nid;
+ 	return 0;
+ }
+ 
+@@ -99,10 +100,9 @@ static void senary_auto_turn_eapd(struct hda_codec *codec, int num_pins,
+ 	int i;
+ 
+ 	for (i = 0; i < num_pins; i++) {
+-		if (snd_hda_query_pin_caps(codec, pins[i]) & AC_PINCAP_EAPD)
+-			snd_hda_codec_write(codec, pins[i], 0,
+-					    AC_VERB_SET_EAPD_BTLENABLE,
+-					    on ? 0x02 : 0);
++		snd_hda_codec_write(codec, pins[i], 0,
++				    AC_VERB_SET_EAPD_BTLENABLE,
++				    on ? 0x02 : 0);
+ 	}
+ }
+ 
+-- 
+2.25.1
 
