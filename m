@@ -1,46 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D460543CED8;
-	Tue, 10 Mar 2026 09:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D471A43C07F;
+	Tue, 10 Mar 2026 09:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773133309; cv=none; b=RaQDobSbR5u8A9k0+P9cLtQ+CjfYpOQlTA3EoNHa+7qZedQ1sHH0BP8I9GhVd5F1/lMZzkGP5Myr/4XvaG1BK/FW1Tn2XKR25MYu4cRj/3sRLNJhybfz3nDJTaAyD87abCPMgSC9rTvM7baf5axHif6xDa5lDDxcj5jTDWZoVZQ=
+	t=1773133312; cv=none; b=NyuyZBOG/jzmUU05a1J83hKaC5Fisdtx5j682QFof+U6aWtAeaD3HSVRT/Ia1/5vOCXvDVf1pJ2epKUQyXvru+yHFYrErfTGYBxI6m8UGBK8u0aHzmbdLauNU2UeJe+NDs+N8kBO5Bg2MBXi6cbbpN47o9ZZRPTWMUgK33TaAoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773133309; c=relaxed/simple;
-	bh=E9xPhaPQ+P5fGclHM43AYlGV/83k/G6SwZ4P2vVGS0Y=;
+	s=arc-20240116; t=1773133312; c=relaxed/simple;
+	bh=QSp+cJDd/+CmLLNITxn5D3V0lWZorncu4EOGJu0orBw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LXqZzWUcECv/IEttmoo8hh+BdDn/AqigH6TvEl7V7DF+KVyvE70nLqGD0X7sFOgir4jl75mdY5qUv8geub2KcV4IZPP36bPw51ahcwxyBbCiN6RBz9QxSjZM6qWh+Dh2YR/ae+9Mco/TnrR9e2NdnvPjoczDTfJLvBf2USpu5CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N3LEspGD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=icyClByiFIJRkiT9kpi9ZbpVb/1mI1ZSiE3i+oND/UZW/5c8CMowz/x4VOoJgxzow8IVtw7JOZg8BEvGT93zgI52U0YG0AHsLwPyjLxFSUbxzoa8KEEmhGyy6lt8t+O+pnKPp/rWtVGz/jncSrltpJTv013AFdAyzivjgVYS2lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q8GbFKiY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N3LEspGD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C7E0C2BC87;
-	Tue, 10 Mar 2026 09:01:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q8GbFKiY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72B24C2BC87;
+	Tue, 10 Mar 2026 09:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773133309;
-	bh=E9xPhaPQ+P5fGclHM43AYlGV/83k/G6SwZ4P2vVGS0Y=;
+	s=k20201202; t=1773133312;
+	bh=QSp+cJDd/+CmLLNITxn5D3V0lWZorncu4EOGJu0orBw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N3LEspGD7TbE6H1821SAN2fhfm1jRyH1m/dt2OQZEUTVt3i54rElqdRhC7vq5CIq4
-	 AYilJuikbAfR33g7PO8YtZpmjFJAxI4qUlUnKeFCGPxCzwJPzRazggoCNw/n1fMxj8
-	 4t/YsKfpWf22IRthMBn5v8gByLYRwWb5gMLB5d2465r+lv7r5XHz7nHq7oPvfsrGFk
-	 HtZJIiRmbla9BWvHQH8tI1FoytcKJ7XhSHZHoet3FBqrbE8PcB+svA0CW9gttdvCLs
-	 tieE5cTvXzxYJ9aqkhPCxKYrJ0qse8wqmjRch4TFTxh2b/A7jBW1ANfGtXWGIBmMfG
-	 6QGMhqPVS7WfA==
+	b=q8GbFKiYn9/t6jWZk2MPzJGzLldG4K9H1MensnbxdmadFJgwt1HgafdC8UNmPhkjK
+	 P8kODJizA5q+/hcYpyoxo0j1NHmp8oZ0+86riQ0v6jumqWS7KEqEH9OH1udzmR07Ce
+	 WiZNbMxSxbx20JkC+qD8kZ0+/PQU4xcZ7RD6k0n3DbqENwv82XIJjggc6GaCrLrKco
+	 3skSfQ/xVKMCeCA4Qbj5w+6fT3miw6lqA/9gJrr1taD3SQQ4mDNEiGwFLpj3K3Bc5i
+	 ZjEqGYqeOqJ/NulZE9lnU9ndil4fOjYMY1EmMtQPEszZu4STO8uOeawvjpgkgfvKy/
+	 zaXTEa982yI5A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Simon Trimmer <simont@opensource.cirrus.com>,
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	Vijendar.Mukunda@amd.com,
 	lgirdwood@gmail.com,
+	david.rhodes@cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] ASoC: amd: acp: Add ACP6.3 match entries for Cirrus Logic parts
-Date: Tue, 10 Mar 2026 05:01:02 -0400
-Message-ID: <20260310090145.2709021-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.18] ASoC: cs35l56: Only patch ASP registers if the DAI is part of a DAIlink
+Date: Tue, 10 Mar 2026 05:01:04 -0400
+Message-ID: <20260310090145.2709021-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260310090145.2709021-1-sashal@kernel.org>
 References: <20260310090145.2709021-1-sashal@kernel.org>
@@ -53,578 +54,203 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.6
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-[ Upstream commit fd13fc700e3e239826a46448bf7f01847dd26f5a ]
+[ Upstream commit 9351cf3fd92dc1349bb75f2f7f7324607dcf596f ]
 
-This adds some match entries for a few system configurations:
+Move the ASP register patches to a separate struct and apply this from the
+ASP DAI probe() function so that the registers are only patched if the DAI
+is part of a DAI link.
 
-cs42l43 link 0 UID 0
-cs35l56 link 1 UID 0
-cs35l56 link 1 UID 1
-cs35l56 link 1 UID 2
-cs35l56 link 1 UID 3
+Some systems use the ASP as a special-purpose interconnect and on these
+systems the ASP registers are configured by a third party (the firmware,
+the BIOS, or another device using the amp's secondary host control
+interface).
 
-cs42l45 link 1 UID 0
-cs35l63 link 0 UID 0
-cs35l63 link 0 UID 2
-cs35l63 link 0 UID 4
-cs35l63 link 0 UID 6
+If the machine driver does not hook up the ASP DAI then the ASP registers
+must be omitted from the patch to prevent overwriting the third party
+configuration.
 
-cs42l45 link 0 UID 0
-cs35l63 link 1 UID 0
-cs35l63 link 1 UID 1
+If the machine driver includes the ASP DAI in a DAI link, this implies that
+the machine driver and higher components (such as alsa-ucm) are taking
+ownership of the ASP. In this case the ASP registers are patched to known
+defaults and the machine driver should configure the ASP.
 
-cs42l45 link 0 UID 0
-cs35l63 link 1 UID 1
-cs35l63 link 1 UID 3
-
-cs42l45 link 1 UID 0
-cs35l63 link 0 UID 0
-cs35l63 link 0 UID 1
-
-cs42l43 link 1 UID 0
-cs35l56 link 1 UID 0
-cs35l56 link 1 UID 1
-cs35l56 link 1 UID 2
-cs35l56 link 1 UID 3
-
-cs35l56 link 1 UID 0
-cs35l56 link 1 UID 1
-cs35l56 link 1 UID 2
-cs35l56 link 1 UID 3
-
-cs35l63 link 0 UID 0
-cs35l63 link 0 UID 2
-cs35l63 link 0 UID 4
-cs35l63 link 0 UID 6
-
-cs42l43 link 0 UID 1
-
-cs42l43b link 0 UID 1
-
-cs42l45 link 0 UID 0
-
-cs42l45 link 1 UID 0
-
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260224130307.526626-1-simont@opensource.cirrus.com
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260226110137.1664562-1-rf@opensource.cirrus.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-### Key findings:
+I notice the HDA path still calls `cs35l56_set_patch()` but NOT
+`cs35l56_set_asp_patch()`. This makes sense - the HDA path uses HDA for
+audio, not ASP. The ASP on HDA systems would be used as a special-
+purpose interconnect and should NOT have its registers overwritten.
 
-1. **File introduced in v6.12** (commit `57677ccde7522`, Aug 2024) — so
-   it exists in 6.12.y and later stable trees.
+## Analysis
 
-2. **No new types introduced** — `spk_2_endpoint` and `spk_3_endpoint`
-   are just new static variables of the pre-existing `struct
-   snd_soc_acpi_endpoint` type. All struct types used
-   (`snd_soc_acpi_endpoint`, `snd_soc_acpi_adr_device`,
-   `snd_soc_acpi_link_adr`, `snd_soc_acpi_mach`) are already in stable
-   trees.
+### What the commit does
 
-3. **No dependencies on other patches** — this is a self-contained data
-   addition to existing infrastructure.
+This commit splits the ASP (Audio Serial Port) register initialization
+out of the general `cs35l56_set_patch()` function into a separate
+`cs35l56_set_asp_patch()` function. The ASP patch is now only applied
+from the DAI `.probe()` callback, meaning it only runs when the ASP DAI
+is actually included in a machine driver's DAI link.
 
-### Stable kernel rule assessment:
+### The bug being fixed
 
-| Criterion | Assessment |
-|-----------|------------|
-| Obviously correct and tested | Yes — purely data, merged via
-maintainer (Mark Brown) |
-| Fixes a real bug | Enables hardware — without these entries, audio
-doesn't work on affected systems |
-| Small and contained | Changes only one file, all static const data, no
-logic changes |
-| No new features/APIs | Correct — adds device match entries to existing
-driver, no new APIs |
-| Applies cleanly | Should apply cleanly to 6.12.y+ |
+On systems where the CS35L56 amplifier's ASP is used as a special-
+purpose interconnect (configured by firmware, BIOS, or a secondary host
+control interface), the kernel driver was unconditionally overwriting
+the ASP registers with hard-coded defaults during initialization. This
+would break the ASP configuration set by those third parties, causing
+**audio malfunction on those systems**.
 
-### Risk vs. Benefit:
+This is a real-world functional bug - audio would break or behave
+incorrectly on affected systems. The commit message explicitly describes
+the problem: "the ASP registers must be omitted from the patch to
+prevent overwriting the third party configuration."
 
-- **Risk**: Extremely low. All additions are static const data arrays
-  that are only matched if the specific hardware is present. Existing
-  configurations are completely untouched. If hardware doesn't match,
-  these entries are never used.
-- **Benefit**: Enables audio on AMD laptops with Cirrus Logic codecs
-  (cs42l43, cs42l45, cs35l56, cs35l63). Without these entries, users on
-  stable kernels with this hardware have no audio.
+### Stable kernel criteria assessment
 
-### Concerns:
+1. **Fixes a real bug**: Yes - ASP register overwrite causes audio
+   malfunction on systems where ASP is configured by firmware/BIOS.
+2. **Obviously correct**: Yes - the logic is clean and clear: only patch
+   ASP registers when the ASP DAI is actively used by the machine
+   driver.
+3. **Small and contained**: The change is moderate in size (~40 lines
+   across 3 files) but very contained - it only splits an existing array
+   and adds a new calling path.
+4. **No new features**: The commit does not add new functionality. It
+   makes existing functionality conditional to prevent a bug.
+5. **Risk**: Low - the change is well-scoped and only affects one codec
+   driver. The worst case if something goes wrong is audio issues on
+   cs35l56 devices.
 
-The change is large (~400 lines added), but every line is static data
-definition. This is a common pattern for device ID additions — the
-"size" is entirely boilerplate match table entries, not complexity.
+### Concerns
 
-### Verification:
-- git log confirmed file was introduced in commit `57677ccde7522`
-  (v6.12, Aug 2024)
-- git log showed 5 commits total to this file; the Cirrus Logic commit
-  is the latest
-- Code inspection confirmed all struct types (`snd_soc_acpi_endpoint`,
-  `snd_soc_acpi_adr_device`, `snd_soc_acpi_link_adr`,
-  `snd_soc_acpi_mach`) are pre-existing in `include/sound/soc-acpi.h`
-- `spk_2_endpoint` and `spk_3_endpoint` are new static variables of
-  existing type, not new types
-- Existing match table entries are untouched — only new entries appended
-  before the sentinel `{}`
-- No logic changes, no control flow changes, no function modifications —
-  purely static const data
+1. **Code exists in stable trees**: The driver was introduced in v6.4,
+   so it exists in stable trees 6.6.y and later.
+2. **Dependencies**: This commit appears to be self-contained - it only
+   restructures existing code and adds a standard DAI `.probe` callback.
+3. **New exported symbol**: `cs35l56_set_asp_patch` is a new export, but
+   it's only called from the same driver (cs35l56.c), and exporting from
+   shared modules is the established pattern for this driver.
+4. **Backport complexity**: The patch should apply relatively cleanly to
+   recent stable trees (6.6.y, 6.12.y) though minor conflicts may occur
+   if the register list has changed across versions.
 
-This is a textbook device ID / match entry addition. It enables real
-hardware for real users on existing driver infrastructure with zero risk
-to existing functionality.
+### Verdict
+
+This fixes a real audio regression/bug on systems where the ASP is
+managed by firmware/BIOS rather than by the Linux machine driver. The
+fix is well-contained, obviously correct, low risk, and self-contained.
+The driver exists in stable trees from v6.4 onward. It meets stable
+kernel criteria as a bug fix for real-world hardware.
+
+### Verification
+
+- `git log --diff-filter=A` confirmed cs35l56-shared.c was introduced in
+  commit e496112529006 ("ASoC: cs35l56: Add driver for Cirrus Logic
+  CS35L56")
+- `git tag --contains` confirmed the driver was first included in v6.4
+- `grep` confirmed `cs35l56_set_patch` is called from both the ASoC path
+  (cs35l56.c:1726) and HDA path (cs35l56_hda.c:1186)
+- `grep` confirmed `cs35l56_set_asp_patch` is only called from the new
+  DAI probe in cs35l56.c:353
+- Read of cs35l56_hda.c confirmed the HDA path does NOT call
+  `cs35l56_set_asp_patch`, consistent with HDA systems not using ASP via
+  the Linux driver
+- Read of the current cs35l56-shared.c confirmed the patch was properly
+  split - ASP registers in `cs35l56_asp_patch[]`, non-ASP registers in
+  `cs35l56_patch[]`
+- The commit is very recent (Feb 2026) and not yet in a release tag
+  (unverified whether it's had extensive testing in mainline, but it has
+  been reviewed by Mark Brown, the ASoC maintainer)
 
 **YES**
 
- sound/soc/amd/acp/amd-acp63-acpi-match.c | 413 +++++++++++++++++++++++
- 1 file changed, 413 insertions(+)
+ include/sound/cs35l56.h           |  1 +
+ sound/soc/codecs/cs35l56-shared.c | 16 +++++++++++++++-
+ sound/soc/codecs/cs35l56.c        |  8 ++++++++
+ 3 files changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/amd/acp/amd-acp63-acpi-match.c b/sound/soc/amd/acp/amd-acp63-acpi-match.c
-index 9b6a49c051cda..1dbbaba3c75b3 100644
---- a/sound/soc/amd/acp/amd-acp63-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp63-acpi-match.c
-@@ -30,6 +30,20 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1
- };
+diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
+index 5928af539c468..d0ae1ae2ae2a0 100644
+--- a/include/sound/cs35l56.h
++++ b/include/sound/cs35l56.h
+@@ -374,6 +374,7 @@ extern const char * const cs35l56_cal_set_status_text[3];
+ extern const char * const cs35l56_tx_input_texts[CS35L56_NUM_INPUT_SRC];
+ extern const unsigned int cs35l56_tx_input_values[CS35L56_NUM_INPUT_SRC];
  
-+static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 2,
-+	.group_id = 1
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 3,
-+	.group_id = 1
-+};
-+
- static const struct snd_soc_acpi_adr_device rt711_rt1316_group_adr[] = {
- 	{
- 		.adr = 0x000030025D071101ull,
-@@ -103,6 +117,345 @@ static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
- 	}
- };
++int cs35l56_set_asp_patch(struct cs35l56_base *cs35l56_base);
+ int cs35l56_set_patch(struct cs35l56_base *cs35l56_base);
+ int cs35l56_mbox_send(struct cs35l56_base *cs35l56_base, unsigned int command);
+ int cs35l56_firmware_shutdown(struct cs35l56_base *cs35l56_base);
+diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+index 60100c8f8c952..0ec6a96e80858 100644
+--- a/sound/soc/codecs/cs35l56-shared.c
++++ b/sound/soc/codecs/cs35l56-shared.c
+@@ -23,7 +23,7 @@
  
-+static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
-+	{ /* Jack Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* DMIC Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Jack Capture Endpoint */
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Speaker Playback Endpoint */
-+		.num = 3,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
+ #include "cs35l56.h"
+ 
+-static const struct reg_sequence cs35l56_patch[] = {
++static const struct reg_sequence cs35l56_asp_patch[] = {
+ 	/*
+ 	 * Firmware can change these to non-defaults to satisfy SDCA.
+ 	 * Ensure that they are at known defaults.
+@@ -40,6 +40,20 @@ static const struct reg_sequence cs35l56_patch[] = {
+ 	{ CS35L56_ASP1TX2_INPUT,		0x00000000 },
+ 	{ CS35L56_ASP1TX3_INPUT,		0x00000000 },
+ 	{ CS35L56_ASP1TX4_INPUT,		0x00000000 },
 +};
 +
-+static const struct snd_soc_acpi_adr_device cs35l56x4_l1u3210_adr[] = {
-+	{
-+		.adr = 0x00013301FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00013201FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+	{
-+		.adr = 0x00013101FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP3"
-+	},
-+	{
-+		.adr = 0x00013001FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP4"
-+	},
-+};
++int cs35l56_set_asp_patch(struct cs35l56_base *cs35l56_base)
++{
++	return regmap_register_patch(cs35l56_base->regmap, cs35l56_asp_patch,
++				     ARRAY_SIZE(cs35l56_asp_patch));
++}
++EXPORT_SYMBOL_NS_GPL(cs35l56_set_asp_patch, "SND_SOC_CS35L56_SHARED");
 +
-+static const struct snd_soc_acpi_adr_device cs35l63x2_l0u01_adr[] = {
-+	{
-+		.adr = 0x00003001FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00003101FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+};
++static const struct reg_sequence cs35l56_patch[] = {
++	/*
++	 * Firmware can change these to non-defaults to satisfy SDCA.
++	 * Ensure that they are at known defaults.
++	 */
+ 	{ CS35L56_SWIRE_DP3_CH1_INPUT,		0x00000018 },
+ 	{ CS35L56_SWIRE_DP3_CH2_INPUT,		0x00000019 },
+ 	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 55b4d0d55712a..1c1924c6f4070 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -346,6 +346,13 @@ static int cs35l56_dsp_event(struct snd_soc_dapm_widget *w,
+ 	return wm_adsp_event(w, kcontrol, event);
+ }
+ 
++static int cs35l56_asp_dai_probe(struct snd_soc_dai *codec_dai)
++{
++	struct cs35l56_private *cs35l56 = snd_soc_component_get_drvdata(codec_dai->component);
 +
-+static const struct snd_soc_acpi_adr_device cs35l63x2_l1u01_adr[] = {
-+	{
-+		.adr = 0x00013001FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00013101FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+};
++	return cs35l56_set_asp_patch(&cs35l56->base);
++}
 +
-+static const struct snd_soc_acpi_adr_device cs35l63x2_l1u13_adr[] = {
-+	{
-+		.adr = 0x00013101FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00013301FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l63x4_l0u0246_adr[] = {
-+	{
-+		.adr = 0x00003001FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00003201FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+	{
-+		.adr = 0x00003401FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP3"
-+	},
-+	{
-+		.adr = 0x00003601FA356301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP4"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l43_l0u0_adr[] = {
-+	{
-+		.adr = 0x00003001FA424301ull,
-+		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
-+		.endpoints = cs42l43_endpoints,
-+		.name_prefix = "cs42l43"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l43_l0u1_adr[] = {
-+	{
-+		.adr = 0x00003101FA424301ull,
-+		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
-+		.endpoints = cs42l43_endpoints,
-+		.name_prefix = "cs42l43"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l43b_l0u1_adr[] = {
-+	{
-+		.adr = 0x00003101FA2A3B01ull,
-+		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
-+		.endpoints = cs42l43_endpoints,
-+		.name_prefix = "cs42l43"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l43_l1u0_cs35l56x4_l1u0123_adr[] = {
-+	{
-+		.adr = 0x00013001FA424301ull,
-+		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
-+		.endpoints = cs42l43_endpoints,
-+		.name_prefix = "cs42l43"
-+	},
-+	{
-+		.adr = 0x00013001FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00013101FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+	{
-+		.adr = 0x00013201FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP3"
-+	},
-+	{
-+		.adr = 0x00013301FA355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP4"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l45_l0u0_adr[] = {
-+	{
-+		.adr = 0x00003001FA424501ull,
-+		/* Re-use endpoints, but cs42l45 has no speaker */
-+		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints) - 1,
-+		.endpoints = cs42l43_endpoints,
-+		.name_prefix = "cs42l45"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l45_l1u0_adr[] = {
-+	{
-+		.adr = 0x00013001FA424501ull,
-+		/* Re-use endpoints, but cs42l45 has no speaker */
-+		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints) - 1,
-+		.endpoints = cs42l43_endpoints,
-+		.name_prefix = "cs42l45"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs35l56x4_l1u3210[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l56x4_l1u3210_adr),
-+		.adr_d = cs35l56x4_l1u3210_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs35l63x4_l0u0246[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
-+		.adr_d = cs35l63x4_l0u0246_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l43_l0u1[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43_l0u1_adr),
-+		.adr_d = cs42l43_l0u1_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l43b_l0u1[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43b_l0u1_adr),
-+		.adr_d = cs42l43b_l0u1_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l43_l0u0_cs35l56x4_l1u3210[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43_l0u0_adr),
-+		.adr_d = cs42l43_l0u0_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l56x4_l1u3210_adr),
-+		.adr_d = cs35l56x4_l1u3210_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l43_l1u0_cs35l56x4_l1u0123[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs42l43_l1u0_cs35l56x4_l1u0123_adr),
-+		.adr_d = cs42l43_l1u0_cs35l56x4_l1u0123_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l45_l0u0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l45_l0u0_adr),
-+		.adr_d = cs42l45_l0u0_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l45_l0u0_cs35l63x2_l1u01[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l45_l0u0_adr),
-+		.adr_d = cs42l45_l0u0_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l63x2_l1u01_adr),
-+		.adr_d = cs35l63x2_l1u01_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l45_l0u0_cs35l63x2_l1u13[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l45_l0u0_adr),
-+		.adr_d = cs42l45_l0u0_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l63x2_l1u13_adr),
-+		.adr_d = cs35l63x2_l1u13_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l45_l1u0[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs42l45_l1u0_adr),
-+		.adr_d = cs42l45_l1u0_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l45_l1u0_cs35l63x2_l0u01[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs42l45_l1u0_adr),
-+		.adr_d = cs42l45_l1u0_adr,
-+	},
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs35l63x2_l0u01_adr),
-+		.adr_d = cs35l63x2_l0u01_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp63_cs42l45_l1u0_cs35l63x4_l0u0246[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs42l45_l1u0_adr),
-+		.adr_d = cs42l45_l1u0_adr,
-+	},
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
-+		.adr_d = cs35l63x4_l0u0246_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr acp63_rt722_only[] = {
- 	{
- 		.mask = BIT(0),
-@@ -135,6 +488,66 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp63_sdw_machines[] = {
- 		.links = acp63_4_in_1_sdca,
- 		.drv_name = "amd_sdw",
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = acp63_cs42l43_l0u0_cs35l56x4_l1u3210,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = acp63_cs42l45_l1u0_cs35l63x4_l0u0246,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = acp63_cs42l45_l0u0_cs35l63x2_l1u01,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = acp63_cs42l45_l0u0_cs35l63x2_l1u13,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = acp63_cs42l45_l1u0_cs35l63x2_l0u01,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(1),
-+		.links = acp63_cs42l43_l1u0_cs35l56x4_l1u0123,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(1),
-+		.links = acp63_cs35l56x4_l1u3210,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp63_cs35l63x4_l0u0246,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp63_cs42l43_l0u1,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp63_cs42l43b_l0u1,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp63_cs42l45_l0u0,
-+		.drv_name = "amd_sdw",
-+	},
-+	{
-+		.link_mask = BIT(1),
-+		.links = acp63_cs42l45_l1u0,
-+		.drv_name = "amd_sdw",
-+	},
- 	{},
- };
- EXPORT_SYMBOL(snd_soc_acpi_amd_acp63_sdw_machines);
+ static int cs35l56_asp_dai_set_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt)
+ {
+ 	struct cs35l56_private *cs35l56 = snd_soc_component_get_drvdata(codec_dai->component);
+@@ -550,6 +557,7 @@ static int cs35l56_asp_dai_set_sysclk(struct snd_soc_dai *dai,
+ }
+ 
+ static const struct snd_soc_dai_ops cs35l56_ops = {
++	.probe = cs35l56_asp_dai_probe,
+ 	.set_fmt = cs35l56_asp_dai_set_fmt,
+ 	.set_tdm_slot = cs35l56_asp_dai_set_tdm_slot,
+ 	.hw_params = cs35l56_asp_dai_hw_params,
 -- 
 2.51.0
 
