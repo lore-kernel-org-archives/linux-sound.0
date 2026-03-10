@@ -1,172 +1,124 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BE03EDAD9
-	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 08:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F683EF0A0;
+	Tue, 10 Mar 2026 08:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773129640; cv=none; b=llGv6roubswcLKDryZBKwRI+4YH8/+2Z+x2aIkj0HmZqeqsGwtb8I+vMRWosXx5jwSHljgbKKOquM6qIfXzShBkfjWH7pYe1XN1LksCNgP1nMsSvmHOsTPNmZ0W2KB5EalV7ThihdsAViKxChpcXFZ0dLgrnkiWIO1Pyo6vjGMo=
+	t=1773131041; cv=none; b=pqiCCn10oZUXXqDBdXBwMBQxEChcukzw22JF0pNK9nT49K9hNLEN4U182/iJwR1TQOUL+0qEBv9FU2PU/O2nBQke+fdGIiAAD6gBP49MgHJsF0JP0hAfAFUca+M4xdq1afkwi6xzanX657RMpu3mvD3VWc5hqSac4sDi9XxI6mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773129640; c=relaxed/simple;
-	bh=fYNOujxx6NxYe2zOaLlz1irIB+ilchNKF1jB0JvRFYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cH5ghz57loPIqqJD8i6Vwj/17KcFycvS5oRM5VNdwC312sZgD3zYqXPsRn6qZ60SMh5USLBEhV6fGYrTviMmhhWzgyF3Ja5OaosrcaxM3h0HDnxdyFO/IamMFLjfeNgpBXev2WQBtt5dyrta/8pxRSO3SGYoHe+M4FFwTRJtIDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lURctvYB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U9zFZmgX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lURctvYB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U9zFZmgX"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62A5lLjc568798
-	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 08:00:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=0glcIkHMPYElUIV5XbqxlIA8
-	HWv58+kwPpFRAYmUSIM=; b=lURctvYBQZwhlQib1Iy86m36wkqntNPJ8kjgRG8y
-	4PYTXRmI8uDRdE4uO+6LDwe6g3I0npgTTzqKXwsLtt/TY3pQhVWwfH/lbO5k8R0u
-	iQQ8b1k6NdI/e3io55rSpbibJX9ZoVjjogRtLerSZsIWLmKZz7+GTwHf9YYxhoyJ
-	kGVAKDPuQckWwJHRZZw0SvTlVyPgyLm4y3HBE/Hdbw8ukbgAoE4gDFXkOcYaypEs
-	HnBvnBRI1YDPo3fnNHv2PH1sEqcv5fp2jSkcIc9JHvWKaglpKr5ZBs/MBUAEILDY
-	u7Tf0HrB42UaZevgFfed9RAKFLApJsw7riq2NGeKT0XSog==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctdf8gdyw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 08:00:38 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-c7378ffeeacso24283112a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 01:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773129637; x=1773734437; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0glcIkHMPYElUIV5XbqxlIA8HWv58+kwPpFRAYmUSIM=;
-        b=U9zFZmgXEqU3UGf+B2QHjSET7cgbKCM1+TSOw3o95syviJcqJDkm/dU93Tm30bxrv8
-         wO1AgL/TdgzRhmG8G4/AZbBCcXCo5dEAslxbOy+MohQhcLGtNMGKLpxif36h560lTe4G
-         3fmP7tuK4Kb/yyG1/eGMdCxrPHpJ/9Q39qBnn7kU3URvib4KDrJhnNM9IbD47tMfOS7y
-         24yxHKRPeAExaAokPDgo+lXVrqbEEDWpm+4FkSzvpVlm1lOna+SNUcGRcbO6SO41nTFD
-         HiNpJLEqujic1N66MQOUpyPV48evVgtcVxPw3hkkHgoTr05tKxDYVCJlXBxeHCNAgzzr
-         lmsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773129637; x=1773734437;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0glcIkHMPYElUIV5XbqxlIA8HWv58+kwPpFRAYmUSIM=;
-        b=e5z26sZGMiOvCCBHOKpRtSJTvPWPG+UDrV34tVEtOF7cP5SzRZf1SxqkR5l68+Plp/
-         mgcvY9rRHiER1FlA06sFx6c4w9Jo7/st7FyALe++0f1xylVKGq1mX0OJ1LatmsfSu/kD
-         eseEuwYAcQEjazfKbvz+vwidSYiyBeMYWU17cQsAvjD8GyIa+Lg4zEyt+LIaQ6xElM7+
-         wapL76QkTABPhRCNMIXD1vgL+SRJ2RSZbl5/IYlRtXvFfyy1GKnOWfZddy+EmvZE1BwL
-         oo5Soku9QGbD5Iafj+VtBFYsANpKaEIO7UdacAlrB7mP3YMy/3Mt15DRWO+5ErEl735G
-         zDCg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHrcN15CGaEDsP7CF8atNazzmhE4MpJuQXTCVjeyvfnx25IbN8D0cTqLX0CYXhRNLq8mcGdev1X73/iQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYa4GA8InGg7TYkI1P6kh6glmXDmBgPCi53n0mTF0GyRM6WVyT
-	73QxGviq3ELotSxWGYCpgD31MNyf9F+Qq8vfnJLyT110eQzdlk8Of/AEUzSa90sADkB2D9/Q7tZ
-	46OBbztC4yKbaTdVQEbURvCXxn4/p6O0gDu4zlsecY54R/8tKe0p16UUCgJRE0+C53w==
-X-Gm-Gg: ATEYQzw8yxc6DuLIzpwjjdHhj7CiODmUXSi6lyK0MBEjbEnZGumUSGvqWp+l5JeZ3P8
-	Bd3UxZNTBBfvpVXjzuvJu4uLHK2B+VDLgWMA3Ggjgev7abUTIjzH/oy8SBQqOjWzy1xFs5CoHCR
-	TRD9DTknC+MON+p4/Wgm8fQls+tX16Nleps8hnUfm8F67zn2hIg8r64w+LT9p8hL1dBC9SiHAz5
-	uXd/MNE/z6ow6DFvVoLsmruVaY3bfnQIPGo53E4X2AjxZmeBrhJ+xjpF278CU8dDxlLIGO+8Hay
-	GK29hzBzDnvCouGV/1FbHZ2Xl4oCZW9/GlwBO5R5qa96rBVtUprzmltt9mDbGWDSlNnKiSqqOR/
-	FkVc+9IQz1sIOlh4YzK32c06eHk1oWOV/VFt29C6uXxWdwPcW
-X-Received: by 2002:a05:6a00:983:b0:829:7e6d:cf20 with SMTP id d2e1a72fcca58-829a30dfcb6mr11834539b3a.58.1773129637254;
-        Tue, 10 Mar 2026 01:00:37 -0700 (PDT)
-X-Received: by 2002:a05:6a00:983:b0:829:7e6d:cf20 with SMTP id d2e1a72fcca58-829a30dfcb6mr11834145b3a.58.1773129632002;
-        Tue, 10 Mar 2026 01:00:32 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a4638a7esm16029383b3a.7.2026.03.10.01.00.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 01:00:31 -0700 (PDT)
-Date: Tue, 10 Mar 2026 13:30:25 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 6/7] slimbus: qcom-ngd-ctrl: Balance pm_runtime
- enablement for NGD
-Message-ID: <20260310080025.lbof4hj5zqytc3vy@hu-mojha-hyd.qualcomm.com>
-References: <20260309-slim-ngd-dev-v1-0-5843e3ed62a3@oss.qualcomm.com>
- <20260309-slim-ngd-dev-v1-6-5843e3ed62a3@oss.qualcomm.com>
+	s=arc-20240116; t=1773131041; c=relaxed/simple;
+	bh=FjUAgwjIf0+Ityy0KooSq3QAAg+uxCsubNe4RbZ7ykM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JoaxEam2739c/a7GpXyx03negpvt+w6Dv+dfityo1wMiJxWW+cgWDZqO5clZi1+hWsI3/kzrUGo0nfSP5V+4zhPBUZZ647SSDUX0AONKylPmBf4V1M0pkZCzdx8YXDrOpNZMgflalCIykWPmhJ5G1VIxXgFd0oDod2iFSNnx+Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [210.73.43.101])
+	by APP-03 (Coremail) with SMTP id rQCowAA3V94V1a9pdnw7Cg--.6310S2;
+	Tue, 10 Mar 2026 16:23:49 +0800 (CST)
+From: Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
+To: Support Opensource <support.opensource@diasemi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
+Subject: [PATCH v2] ASoC: da7219: scope AAD suspend and resume helpers to CONFIG_PM
+Date: Tue, 10 Mar 2026 08:23:48 +0000
+Message-Id: <20260310082348.743716-1-pengpeng.hou@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309-slim-ngd-dev-v1-6-5843e3ed62a3@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDA2NyBTYWx0ZWRfX3Y+vsgtiOTrl
- j77pwquHGMycQjjzJAQ79f1OPtlCp5usMXkpYMdawG6NumSL5xd+tYLeGpCDWio9dunyGxhkylq
- xoqK4CuVdr2Aw6OwiBcrvkLY09OzI8DpPdJTwr6egc6as4qMnVyhoDVUTrvM0EV1IbwVEPc34/+
- qpkNfikXHwtnQhL3hvla7We0qZdjFEeoPPMTqBGQ/axi6juY2NWvBay0VOuJ1w/gMZZPm3PMfj1
- 7+tMABetu8jqstVgg5uVnBYPxHUPqyEX3fP66Ai2s6uoZnd+S3/pISAupi39P33muXTe32lbu7W
- Bk+aeJc8PujrW7HIZcnQ9KurahMeVmtUsV7Eeq6TeFK8e2aFWGLWzQyyIAEJh58B8J682GN2Czz
- 3fJtM9kAEmv0wqgXk3bW5mjN1Y9EsBnpMIHsWi7dLEBhSv3f/cV9y/UdOtjtyFsmpww5yTYO79D
- HX+wt4CnM43wytOhiXA==
-X-Proofpoint-ORIG-GUID: mLiHTihErh7GIp17IwPXzKXETvPa2E2s
-X-Proofpoint-GUID: mLiHTihErh7GIp17IwPXzKXETvPa2E2s
-X-Authority-Analysis: v=2.4 cv=b+W/I9Gx c=1 sm=1 tr=0 ts=69afcfa6 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=prLrz33j-ZeXCHbr2zwA:9 a=CjuIK1q_8ugA:10
- a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_01,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
- clxscore=1015 impostorscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100067
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAA3V94V1a9pdnw7Cg--.6310S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr48GryrJFy8tF48Aw17GFg_yoW5Jry3pr
+	s5JrZ3Ww1DZa15uryFvr48uF1ag34rCFWxJasF93yfXr15AF1xCr18tr15ZFW8GFWfGFnI
+	vFy2v3yUKF1xKa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
+	WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+	UI43ZEXa7VUUiiSJUUUUU==
+X-CM-SenderInfo: pshqw1hhqjhx1rx6x21ufox2xfdvhtffof0/
 
-On Mon, Mar 09, 2026 at 11:09:07PM -0500, Bjorn Andersson wrote:
-> The pm_runtime_enable() and pm_runtime_use_autosuspend() calls are
-> supposed to be balanced on exit, add these calls.
-> 
-> Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-> ---
->  drivers/slimbus/qcom-ngd-ctrl.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-> index d932f7fd6170773890f561e3af444ac2c5730338..54a4c6ee1e71fe55794f09575979826d9aa5be9f 100644
-> --- a/drivers/slimbus/qcom-ngd-ctrl.c
-> +++ b/drivers/slimbus/qcom-ngd-ctrl.c
-> @@ -1584,8 +1584,11 @@ static int qcom_slim_ngd_probe(struct platform_device *pdev)
->  	pm_runtime_enable(dev);
->  	pm_runtime_get_noresume(dev);
->  	ret = qcom_slim_ngd_qmi_svc_event_init(ctrl);
-> -	if (ret)
-> +	if (ret) {
->  		dev_err(&pdev->dev, "QMI service registration failed:%d", ret);
-> +		pm_runtime_dont_use_autosuspend(dev);
-> +		pm_runtime_disable(dev);
-> +	}
+In current linux.git, da7219_aad_suspend() and
+da7219_aad_resume() are defined and declared unconditionally. However,
+their only in-tree callers are the component PM callbacks in da7219.c,
+which are already guarded by #ifdef CONFIG_PM.
 
-Can this entire pm_runtime_* calls moved after
-qcom_slim_ngd_qmi_svc_event_init() ?
+This inconsistency leads to unnecessary code inclusion and potential
+compiler warnings when CONFIG_PM is disabled. Match the helper
+declarations and definitions to the callers' scope and provide no-op
+!CONFIG_PM stubs in the header.
 
->  
->  	return ret;
->  }
-> @@ -1699,6 +1702,7 @@ static void qcom_slim_ngd_remove(struct platform_device *pdev)
->  {
->  	struct qcom_slim_ngd_ctrl *ctrl = platform_get_drvdata(pdev);
->  
-> +	pm_runtime_dont_use_autosuspend(&pdev->dev);
->  	pm_runtime_disable(&pdev->dev);
->  	qcom_slim_ngd_enable(ctrl, false);
->  	qcom_slim_ngd_exit_dma(ctrl);
-> 
-> -- 
-> 2.51.0
-> 
+Signed-off-by: Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
+---
 
+Hi Mark, 
+I have rebased this patch against the current tree. The previous version 
+failed to apply likely due to context shifts in the AAD header/source file.
+
+Changes in v2:
+- Rebased on top of the latest tree to fix application failure.
+- No functional changes from v1.
+
+ sound/soc/codecs/da7219-aad.c | 3 ++-
+ sound/soc/codecs/da7219-aad.h | 5 +++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/da7219-aad.c b/sound/soc/codecs/da7219-aad.c
+index d9d932a78b710..0b3b108aaeee5 100644
+--- a/sound/soc/codecs/da7219-aad.c
++++ b/sound/soc/codecs/da7219-aad.c
+@@ -924,6 +924,7 @@ static void da7219_aad_handle_gnd_switch_time(struct snd_soc_component *componen
+  * Suspend/Resume
+  */
+ 
++#ifdef CONFIG_PM
+ void da7219_aad_suspend(struct snd_soc_component *component)
+ {
+ 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
+@@ -981,7 +982,7 @@ void da7219_aad_resume(struct snd_soc_component *component)
+ 
+ 	enable_irq(da7219_aad->irq);
+ }
+-
++#endif
+ 
+ /*
+  * Init/Exit
+diff --git a/sound/soc/codecs/da7219-aad.h b/sound/soc/codecs/da7219-aad.h
+index fbfbf3e67918d..ea5b818192477 100644
+--- a/sound/soc/codecs/da7219-aad.h
++++ b/sound/soc/codecs/da7219-aad.h
+@@ -209,8 +209,13 @@ struct da7219_aad_priv {
+ void da7219_aad_jack_det(struct snd_soc_component *component, struct snd_soc_jack *jack);
+ 
+ /* Suspend/Resume */
++#ifdef CONFIG_PM
+ void da7219_aad_suspend(struct snd_soc_component *component);
+ void da7219_aad_resume(struct snd_soc_component *component);
++#else
++static inline void da7219_aad_suspend(struct snd_soc_component *component) { }
++static inline void da7219_aad_resume(struct snd_soc_component *component) { }
++#endif
+ 
+ /* Init/Exit */
+ int da7219_aad_init(struct snd_soc_component *component);
 -- 
--Mukesh Ojha
+2.25.1
+
