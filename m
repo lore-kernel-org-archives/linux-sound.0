@@ -1,155 +1,154 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD973D1714
-	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 12:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773145992; cv=pass; b=nnpe1J5v7ZRu3B24+XmurBwhKKpZONyYW9TL/6nhVV8mP3TFc8zt2CXUQh23FtajaGhtoU7BL2w04YYBdOccviIuykr58gA0aKZAVV4zm6+fjJRg1I7sg1xAHEd5S0LX7zXu77QxagOOcJfojWgkH3m0hmzC95zXR3/LP19OOZk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773145992; c=relaxed/simple;
-	bh=/Ny/2pHVbwmRnywUAf1UbJK+BJuhOIH8kATny7+LvPY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aTfi2tV+RKbzUY4TdoNgvNrlQdqRlEhNxcQOkeS+7UPuSaO3xFn702Ibc5GeWjFyYV4uDnxu23/EETu8KZv+n2Re15PSthnexfdMpzlMrB2h5VdKu1gDJzlm032ssrf3gTm+KauliCyghRYX9do1OjNortNJ155behfbQj21et0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GeWxBgMB; arc=pass smtp.client-ip=74.125.82.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304BF3D9DCA;
+	Tue, 10 Mar 2026 12:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773146262; cv=none; b=CdyVRs7RFl6MhA9me7tyALg3Er2N87LDVOD68ioUVSobTLYctCgNFIBkl0qImCG8wLd9jiG1ssTjg88c4+xfXNNwcCkxsV16HOjtdSgrphIKPSqQt+/wBr7KoXYIEb01OFaMvdjHJW2l0TtEjnmF1Ni485+YivUqNEORoxms5oE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773146262; c=relaxed/simple;
+	bh=sVKX+7/tpaPWY6c7l/Ll1eUytum7Bi3A/KwLe+O8e50=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Q9YTPjub5sHgKQg9RaG5sK/sxQND9+FHCg3ZCewm9iJ8+PYAh6YHaJKnN87YoxbsGVNzaupqnkcS8SWDFqaqQrjXDqgseZEQlPgteDOP/XYC4fJr3NHlcffRbgDEsaZmRmzVxQ/ZLMqtgapw+fheK69+dz6Rpb0RCqU2ORhQi9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=lUuLIbhA; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GeWxBgMB"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1273349c56bso15578218c88.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 05:33:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773145990; cv=none;
-        d=google.com; s=arc-20240605;
-        b=e3TbQ8hiyQh1uH+1AA+3CneB6oYC7d4h2zwHdOszHCpmbE12uWJs31iQtt/Evamn1j
-         CZIE00iGlTuM7iYweo0P1BgL1NhfjBPfvmZeJrl7H7porfi8O+67UndhICwYx+V8HAY8
-         8W8TlWp7R1w5gN8hshW0xZtr2Y8L7HYdPv6tIROyZhlnbpLTtEF/3RS4WYA3ARPrIMsr
-         Ca7U+VWbWIWO78bSVp98r6mtyDfUVyAwBvvkGJrCnHdhSsBcdx5Up6n2C03znAtPariG
-         KjZyr+L6uUYd+9eShJuBZM0wPPuzozhy2fT3NBcQDdjOg0TJYHCD2BplI1CaP9Q4LvJs
-         hGXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tNez6xRKrqWpV8nNjqKRy0PyfKwy8IyC9WwZhJ1ilto=;
-        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
-        b=MNzhGndWFUT2gTLB5CUjfd+RLt/662dxQMWqIDXVP4CRDgHbaH05S4mhr7oTCr7xIh
-         AweNFLDcIo2QzGcYBcriE0to48mdcycSXOLGuGMYDjBUre2IlU1SvSz08MESWCuA/tYS
-         /xETXgY0UX28qByk8RaeH8HjeR4GIYfV2CLuxdNkxjUki/ZAGc0ipBj+pGVbtrDmm/ko
-         baIPwYmgjisEQPCme68eTp6XzFNTtzB1yY1XjlJBN4A61o7+lmKPHuRKdC1d1ws1bWf9
-         FPP0vbL/v49X9RtQFYXG7RicpSFlsVWAXjxLpDEEf81e7Uu3YJ155GE2l2ySvS0+b/60
-         XAHg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773145990; x=1773750790; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tNez6xRKrqWpV8nNjqKRy0PyfKwy8IyC9WwZhJ1ilto=;
-        b=GeWxBgMBu46K4zT9gXPyZGBHI93qQQGQDadzmn1FvGncBc9YlmzQ+XIPO2copiuVF4
-         CLBRAs61HEaXEHoxn1PvPy7EtS8t055lTiOjV8WiVh4YYMruHbqjPOghhwyA1LnHaOfm
-         eplwe6ENt1ZvciSJWliSM9CK0DF9YBYGmJ137EzFv0z4ppF2cHRGEEYE6qDfR4wjk3FO
-         MPx2rr1iPJlw2IbFwbQawqDUDV2IrFFVYo4+T1UIf4DEPyPE0GMJoWOrLy3tZtycznpu
-         e5HX5MxtYhIWDmyrs1ru/ByF+WYBts0d1rZj2O1qnI7xLB0CDuUjO2wAVHELdOTwd0IR
-         NVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773145990; x=1773750790;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tNez6xRKrqWpV8nNjqKRy0PyfKwy8IyC9WwZhJ1ilto=;
-        b=OEj6wfhRLsVudqtXoGyWiYdyuoSDtQ+8/nij+TSqpGc4KyTxyzo+a/vhU1qb7YZ7HU
-         73Guis4WqtKxnbnu5Dwtd5J2pqBAWUAksjxV5znWGn9BDJwkoMVFp3gV+R829KbUP+J8
-         yvw7KD2yY0fyXHOjIP8eyatxfKAneTTXvjXKjNzxaUDxaWcc/GbO0cOt0lElSAtTtBI8
-         YcEdo0cUGaneX3GvNaJv2VG9dsFpAH++HZeu9pbze7PYlc7dXpZao/ewX8Gy1F/HEKUW
-         rl7d8zlUIabDfhi54hvnwKDeViDP72Y2InxlEE3HG9xMxB/qXjDeCclK7owxOveI9G89
-         OlIA==
-X-Gm-Message-State: AOJu0Yy50MJmHuYKjGxvJF/KzxL4E+dMEC2znzgCEzCT5UJTmBgh5bOz
-	wdf6lCKZHz7bEKjncYSlvpVCbCSKe3yXgYtN39iEV65DIdBWjCHttLmTAxY0cq1yh2u7dxOgieC
-	Rn0HtNDdDsMWNDHjKoSsj8NTPAoUoIxl8vsIMDjaREAMi
-X-Gm-Gg: ATEYQzwFy16NJBlIprZRD49emt0SnLv5zf+87EnCWBWCU+ujbO0fsoPZ8uWCprS313b
-	Mw+Yu9sQ867FVCOIwYZF/i2UQm++d8fuKOhFULuMc5MA3CMNyxaDjA1j6kt4veM1+d8UwSoqZgq
-	7IEdFAT+KpuY+Tq2tViw7WMtWxLK75XOYQI8e2qwxi5tCfcWv8zdAxc3Bg0MekrY7GVUhOPoC6O
-	ChoPE66QZoHVQcQzrZVT6AOvw2ryXfcg7vRwf+YtBpL55ML83lNTZcJtODr/rqKRZnKERl9f+lM
-	r6iltLxGIHwzS7YVwuef9Z3kxFCXr6mhUlbt+71F
-X-Received: by 2002:a05:7022:2385:b0:128:ceac:6db1 with SMTP id
- a92af1059eb24-128ceac6f7dmr4578052c88.28.1773145990352; Tue, 10 Mar 2026
- 05:33:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="lUuLIbhA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1773146220; x=1773751020; i=markus.elfring@web.de;
+	bh=sVKX+7/tpaPWY6c7l/Ll1eUytum7Bi3A/KwLe+O8e50=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
+	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=lUuLIbhAx6mQ+68/oBgDEMkW0QLf54eSKNvU2sK5vYXHjbPq77B0B6I4p+YUQYNz
+	 OqUAQQ4+YtZ1+4SHOwpIxUU/azDhiVNCaZbfGywFGrLkRj4V/C4iVcZCnZSeNBOsq
+	 dfZC1fpGKl1vcHVjDKwydazIfTsKBxMrVDakjmKVfdI9pmTGQWwgqUbmGOfMFxJxN
+	 MSpKVyYoB3EO0vj9wfFdyMYHgudGm9b9C+8a4ZMaZ3YTppVVQgHhl0ZeiM7jBVnfx
+	 g7RHbw22YFrIT43YcDPxJeYNitl6CmA4k8X7BcRt3du2Af/etFymKc5LcGGktmFns
+	 l3QkVHTlryiRfgOg9Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlLE7-1vLhgX2iT7-00qL2R; Tue, 10
+ Mar 2026 13:37:00 +0100
+Message-ID: <9193e74e-cde4-49b8-860b-17be510e56ab@web.de>
+Date: Tue, 10 Mar 2026 13:36:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOKSTBs1VNBdjRZe3M2v-nC+pLZZ0-KQtRUZUj6ACqb4Xe7LDg@mail.gmail.com>
- <87qzq2kxrc.wl-tiwai@suse.de> <CAOKSTBtpqPEnihFhopocV_RC8VR_RribXctUayEkUCav3omr3g@mail.gmail.com>
- <87ldgakvsc.wl-tiwai@suse.de> <CAOKSTBvbopXOuOfstmasijZgUnT9_qW_dsaeMcHUXhyjj3iRmw@mail.gmail.com>
- <CAOKSTBsWiwwwrmBt3dshrYYo3fQN9eF-gi2Z7BoX6c-Nb3ZoHg@mail.gmail.com>
- <CAOKSTBvND=d4Fq7mt=36p2Y+hKr6aDUbJ6zA4wDOWASwcWjmNQ@mail.gmail.com>
- <87h5qxl8tj.wl-tiwai@suse.de> <CAOKSTBtQi6ZmLmy6u5mP9_gLKZTZHmbb9S36hO99xSsk_EEbcA@mail.gmail.com>
- <87ecm1jii6.wl-tiwai@suse.de> <CAOKSTBtdt=enKSv4ZF7VxDD4QF8+ntyFM5CPJ1Y1QQ7M6TsiKg@mail.gmail.com>
- <CAOKSTBuOV0=1Y62sqf3QALgR+_He=tKLPQ7LZN+xFC6oGWEKVw@mail.gmail.com>
- <87y0k6whm8.wl-tiwai@suse.de> <CAOKSTBuUnS=stepHySGVYH4GbQytEQL45cLj4eV8u0KAsquF5w@mail.gmail.com>
- <87jyvlm6w0.wl-tiwai@suse.de> <CAOKSTBv102MCFnnm9JPp9Zaz_MQNBxu5OnWOCGw29MN7xLbXHA@mail.gmail.com>
- <87h5qpm67n.wl-tiwai@suse.de> <CAOKSTBv3meaMDrJ2tn-dX6agFbTwiEmUeDYu2NTVzc559zd2OQ@mail.gmail.com>
-In-Reply-To: <CAOKSTBv3meaMDrJ2tn-dX6agFbTwiEmUeDYu2NTVzc559zd2OQ@mail.gmail.com>
-From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
-Date: Tue, 10 Mar 2026 09:32:30 -0300
-X-Gm-Features: AaiRm52nr-zURG9dQggPKGwRrZj21ye39ZaKBlmzw6h3oQu3JwznsVMswQnlQ-U
-Message-ID: <CAOKSTBv4GHxQGOhK2NR6QsJERsWSoh6RMp+yv-cV7QBsSgx9iw@mail.gmail.com>
-Subject: Re: No HDMI audio with Linux Kernel 7 rc1 or rc2...
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+From: Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH] ASoC: amd: acp-mach-common: Add missing error check for
+ clock acquisition
+To: Chen Ni <nichen@iscas.ac.cn>, linux-sound@vger.kernel.org,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20260310044327.2582018-1-nichen@iscas.ac.cn>
+Content-Language: en-GB, de-DE
+In-Reply-To: <20260310044327.2582018-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:28/GNVO+wr+JR2+NFgQmrta+FyKLH3i/644EoAL+BKHeSoPQXDF
+ agTE7I+ePVuC02FtfTWTkO7PwE9pZBr6UPKxHxTDHRqmr68KQfAlyXeultLSlkqWPRd8kK7
+ 546QDDFc8Z4s5rfngQ+u0ENf1dmeCq7Y+NtBDLhZYvkAAsVXS4ys9l94WaMx7G/MlMVF+in
+ 36s2hdoXxAzBIDRrKab8w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:j1mI3XhRiS4=;qyA5WLiWdPzeQOk38i6y9F0aDRO
+ 0458kl/zQwMpp/F5b6mgJfub8Etc1FNTZnL7JGLZ/k+zUZw2tbspWzZaJOgzGqzbTyHsLKuNW
+ veNvqPVajPrabDLyBYvQbwTcTAQ/+1Jy1x8vXkipLvU7ANCZq2Z3EvT/jiLzdwz4xaJc1RIHr
+ /1dqfy0F9pfwrzGC9AFxVGjK6GRzXQmgcvnriWFC05JtU4uXMv+Q3+UjIYI15OMeKxz0YQV9H
+ F737zrI9HkpYymtIw3ecPIRzZTQUxxAiDgCiU/YRw3M7JfKx/mAEq/UDZoGtvNENbDCS5xGQR
+ Y2/Y8HwUl/qsAtPG0iKltVSMTTJVTeUN8rkEq/yFN2cTBhbF///t44Uw6vxBlyltYRElM0O3A
+ Qe5MWMYvTZpZLVMf4s4nvU3yCtlCwsBoFVQy+QIHI78nK7BcQLjRRx6wz1TIgA6w292GNMaXX
+ fQM2t5IfkOMdhtYLlamPi/NBGYaQYpgxHOJc5MfMEp6Wkzoilyu/4CEVDJ0AzwK5TuWApZe8D
+ 6jAjXyTqzNFzvcycDFFJrN/+QzRxoeDV05jg4axan5/evatSNa+JH5Vpgobcsayu9isn7InQC
+ 35EbNSRrRbfIw5c4IgabO6W8Y06bEtF4jfxKoOMVbfv4UVmhwzSGnQUmEiTIad/kT0huBwIsU
+ DJHaCW3EKabnXAuVQsFfe+/nKnGKx8DToSMWwZo5lZ3GvKU5FEm/Ra9Vb2nRrbNUs+G7tBavR
+ MrnF1XyfWcI6/2wJttTw8K7LqpqnIr3ZIdGiKXYbXSXwStTBQyD3GzXxXqBDNC1GTNGz0SiJh
+ EdDM80iJcN4CCsPZSrgAAkINOO28jMB7k1NnH8Bpps+hUrgrNFPnE5JzYEw9Eud+/AUhQc1sK
+ 9VOBFpWFl28YaQQVqSl2eVTRO2iyZh2tGObO98Mi1J+7K3Q1oCG9fBMQDL9d6mePTnLYMGdZO
+ mwHZ625D4FNxzjakNfwY36xBlcoIYj8f9gNZgjP7xU7TRRdZT4S4XLOf/MPcaaMBG/fHDTKLB
+ e0Kktgnp1X5gcpBrARPM0D/OEId80hLyD5LSUpkWbWLQaNXmYPLjinDxvrIc/deGn7r1Woqzp
+ /2WhE5bYiDD5OU2dx0fqNzvFZb+GkFi6VabIGYYEpTOpwpfrBagFQmTLKy1gfMzkMRFIy7WEp
+ W6IBs3IRh3vT9ywsNSHT2UKEOw/0EhBa9ut1wk7clelz6JgxueisZcbwGP/j0u5q0UCDo+Lpj
+ xlvFjd+0KU+M/ZCsZ4W4YHB2tkWUR56mrMT46cicz1EVTuNNfSxq8X1iopvnoK8FL9FJ2apbZ
+ MpGo86l2Z8CU90kXHm2vXi/nzWXDMuSH2do8r+GC5ovtKng6PBBwkAJwHjOCW7Huz7jbYgcdy
+ J3zizadTXY1rrr4c6Cj5Hif1LKnIajgS8Jd8UM6WNGS3aaO2hrxiQAN2ywpeFGjcL0oBt4zPo
+ r2dwOhwvKAkAkG4rgk5F5kE/81C2lDO46p9XVpa899uGthSo/h1b2/WNwaODXIuWAKM559v9W
+ j5UY6+pSJbB4HNd66uXY9czsn/UnSBeLpwWZEYQDtdMXjlwD4gW8p6HfvVekH0XlhiZsKBvgw
+ OvpqEe8WYg9gKVcDmqeelo0C6fvagr9RBZN5yPqpiBnVn6M5wxvoqgRX8Nx3ftN7KKuRNRkPi
+ xa2K7fGXPOmid1OpjZG14mpL3ctom42z54/czRtG2f1YcEApm5oDQsaPZI4U9IEwTWz7eCbtk
+ /iISACDVzdH1ColqalFYuTXOEysiFSghhde3SKaYzoNV77bOTdNs29TdBgXMSj/t3E9IuZhuF
+ jO8W4Zjc8X8LTHoFvbPVKxojgByMWKMaQFdgQwOFjzJGfgDqQfikd5IlKID/Lezjk+cVHDC0r
+ /XdYvrpEr2UYi0+ebw/dwu57shmNM1eM82ZlhNhIGbS0srLEiYxmnn7Xmq2cEORn0PEUjrO1l
+ OZ7LKoWH/NOGEZOwdBTBAfG2mTHZxJgbO0WNzQdnQjEKOC0mHPnCmKxmES7hyVdh0DpoBFN44
+ vtcTtubcneWtBJmJaPfp8PPwF9MOySp3yF7w0LppwuvDouaiKVjVy4uW5uqMqS3MaunOclojd
+ twZ+nZyApSgfsgoK+V2a6urHkqIkISsUcEldzr37KV1++etpj9jIGP+0VbJ7hmzr4u1xHed19
+ VXJFrys83rMe4ZsumS7prJVbY1pmGEx2842wnJo966UPpjVHz/nWToIcMWHZh3qrvVT8bgae/
+ R6L08LWmOhfuiRL/dPwf/bxGmbJDV/HbrMVTa0iJLmB044Zmx9pSWGq4mwLGzEgr2eh+WE+BZ
+ IdvGgYYz6jBfiQTV97v71wPsWCSdUJpw1ryy5zgZvbxUZBwryT4AEuB03DSfzm6vcidZ/lWVX
+ g/TJSgHNt18vYkiaZ4vgdDc2pt9HZR/QG1S9nclTNTMAmFlZp8lsW7YsglLLwLmyJto4FVveD
+ HccZWUXpiFbkPPie8m92aCXZgSxBUhE839uXzHZ4MMDOgMyRPxjc0S7aCJrm2e/W8piVcjJhg
+ 9sfMCWYnQu6x6Qg3uO3o9Jx1GHBHLOmXjX5JGDYdekSrJKOpGeroK9fuyS1JeFMOOEHhMJZf8
+ I0rYUHOVJ9Xm/XdEj+QacTrkayJCIJHMcZxK4THfgKcaJl7dqzBHInb/trEmt0cbxZDAAkc2o
+ RYhrMCAl9vgSE4kQ7VHm6YVtohgw6vUGNcSqdBhu/ky57j3uF2I/bTn3F6ijVfElDukD0p6pb
+ BGH95RlaY7139TWpuk9r/9ohLqJ/wL3PlJimQwWGTUEId5cXgdAIDQ7SmCdzH1xsAErnaa3RH
+ ofvtwKdAZrRZqJl4UERQCop1BRPs6gIepTo/YkpzlZVsgayALiu9VZipiAuh18WfNk/lf4LnZ
+ lQgqdjiHIFtpCw7jT9pE7wtSWdsuaqPmEG5yFtBRCIJAL/ole/YvPdW4Ufq2IkpNaICqyfYkQ
+ 5Ky1LnusXiA8SlY08Tj+RTDEIfTWAXhP9CsrNsgpivy4Ws2ibYPg4BvFGE8uCJBC2V7BFd7ms
+ ZqII1KrACkmn5bpurHJ+HgkuhZpkpBj64n2kJUhq094AVZpEdesVe+wTj0aCX9aWVLcRQZaM+
+ Feg86VVXZRAn2DuXyaCktczpgspDRVwJn94xbiusNnYxHZvliltqUN4FQaPpNU1btaxgQFPWb
+ J+epEjhfx1X7jUf4abix49SlmuChbkL87zUKxcGlknHfGDi+X7xM0ailPUjZy11ztL8P1WFEW
+ SS37Yzk25x8oRmdeMcw+YvD4DQ2ACVrGw5+wZwlJuXe0yFOvEcQr0k56IYP19a9DGM+ItR0Ik
+ ZzN72VmNQZCNVt6FN01UOXvsCgSQrJpKlGNBTbQUm4ghRewSJmuaTfEofe5CIMsh1sQKCdAjL
+ nemCkq/araPH3QrrrgCCebWvoY/sC5R7rj0PxU9cfYKCoLvdIqyldzRYyFAh8zYKXdeUMAQyV
+ S28ahp6/3tpspsC9yO3j3BVMIN3F53Grfn79jnUqmsfGp36ImLZyPX+dkOPb2vvPkgC/dO21R
+ 4om1aXoGpWtknKAVcWlMpMxIiyCG4EwA1rCr/JMCXZQO0NGGYwR1fOXPzW83Pk2WSH3iH/78s
+ zDbF/5fzAl02OGDXc1NBdinO+T2LV34Hx4kD4GmULPVbDoVbjhDF5evB6k9BOynUftChJEkmI
+ QraxytskOEsrLayVIr9rM0oQJidT27AEYT4e+BzkqPJ5mc/yVJlF2p2IeRNGqJptZuaLRbCzE
+ K26D7OTFNbtJ8auYkpDccN6eyYi4Kn/z65O5isBOnUrYw7rPoFTd0g8dLD1EWo5/zQ3ArynrL
+ Z69vLYs9OP5EXVFmxpyTUn1p6aj/MR/GjsYPAs7XlLgJIIgNH45MAuiqdpa4fUfZV1GuZI8iL
+ rLCM+5LNVh444o0+N5YvAQYwA5yxWjs3CXC1m7ydU1My8qAsGGceypKqYmtOYbhM3X+EgrYL/
+ bqZEMYCrJ+do6M483ehoM/0m6yCkxikIkqX4Plhv/Cs/ybbMZaLzkE/yW21U4gTcWi0leViJb
+ s+rKX15bpNYuIk9xprpyfoBOIm7SIdV3vGmwIqAcEfkFufvEfja0Ny3bHAk1LNDz2GS/qp1E7
+ 6PN63n3+/2dFxBkinG9DqFXhiVNhWfY3XLY2d/rxC9+R0xHJGCObvwHlbl1vJj04PeeZzqi5L
+ S+QRYeWDBkXETgyfNctI8cApg/ox94d/Sj4dfduxhndWk/s+Di6ruMcU50VNSRN+XYAfa/yTM
+ jU8eaVUCJ3KHiuf1W89bOP5MSGkUSBLZ7eHSj8AmSpAxev7bSMMEhPYFubGDK9cUlLsXKvCl0
+ Wo6ZmmqWD01PzeOpwpYSGlyrW/cVwJTeMJtg7AbVCRR0u865BfrSp5+HSStgyrjwcnX4dTlnE
+ kbKWPxMpDCl01lWPfQbMg2ebW/eaS+6QDDAm/YvAX2w3JaPLUWTXwfcSEQNGmMLwUq96XDirL
+ oQHFAwILYndUWv9zW+IgD3IU/4dJ1FbaWtAoKM2u6fpK73t+WcR6jRZXyHey1DVPCm7juWrLe
+ adqGz8IQWFlC2Ry1ACA9apY5wxaCeHGD8BCvmjlA23hGaiVBvZw6QBv1U5hZqlJwiwPkX4wCd
+ EUDntyfWFCPRzIhlqHsEzQCKs1LLvxk6ko09E+hEDK9TViYRQhAid0s6JuFaoR/gvmGCXyF7E
+ qIYTVyo/zBaG2hPkKIBolg8w7sBQVifZztwY9CBqFEOAJeB4r+DPMiw/pcE0O+VTIPaeJGlOS
+ 9biWHKRTKRImPklv6vrS9UjThiN9I5vwfvDbtfHPntHi4LmnsN2gMyKrbxzSvX2zbxN/PmDHg
+ bJAXQGCFMscsryJRYcWAUtz5JUh1cD1wKsL3uojD7a6wya4TRtYqG7AS4CGVXuIQchXsjwxyY
+ sTt+7VKhG08JKG87KPFr/gtNRrEFzgM4J8muux3npJBAIb1n+QQVsBihhzhIOac6LcVK+MfyU
+ sH1CAJoGpbxz7i9eBiplv8Tb/U4UrtnJOp/IlVYdJdchb1VL0NPd8zijJF6xKnieiS/saGpD6
+ 4gu7ncgtkYd9H8Ya94HyyDQgPU/zIIGAbu4OnG3u70IQEEqrSh9VA4XtD9yllA/geWAyUVRNX
+ t/wDdo3CQqNb2NXR4X611eiQ2PXW2hB6InrLEfHMPCqdT7ujdOBuz0JaGbD6syn5Pr4sWZorC
+ ZHrYN5B8=
 
-I am sorry to reach you again, guys, but now I noticed that dmesg shows me =
-this:
+=E2=80=A6
+> Fix this by:
+> 1. Changing clk_get() to the device-managed devm_clk_get().
+> 2. Adding IS_ERR() checks immediately after each clock acquisition.
 
-amdgpu 0000:04:00.0: [drm] Failed to setup vendor infoframe on
-connector HDMI-A-1: -22
+Would contributors occasionally like to care more for further patch requir=
+ements?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv7.0-rc3#n94
 
-This never appears in the 6.19 kernel series.
----
-
-
-Gilberto Nunes Ferreira
-
-
-
-
-Em seg., 9 de mar. de 2026 =C3=A0s 11:25, Gilberto Ferreira
-<gilberto.nunes32@gmail.com> escreveu:
->
-> Oh! I see. Sorry about that.
->
-> ---
->
-> Gilberto Nunes Ferreira
->
->
->
->
->
-> Em seg., 9 de mar. de 2026 =C3=A0s 11:24, Takashi Iwai <tiwai@suse.de> es=
-creveu:
-> >
-> > On Mon, 09 Mar 2026 15:14:47 +0100,
-> > Gilberto Ferreira wrote:
-> > >
-> > > >> At best, please try git bisect.
-> > > Sorry! I am complete without any acknowledgment on how to proceed in =
-this.
-> > >
-> > > >> Or if it can't work for you, ask your distro people who can help.
-> > > I have tried 3 different distros! I don't think this is some distro
-> > > related problem.
-> >
-> > No, no, I meant you can ask distro people to build a test kernel, etc,
-> > instead of you.  And, it'd better to ask distros whether you are the
-> > only one in the world who hits the problem.  If it can be reproduced
-> > by others, they can help debugging or bisection, too.  Pinging
-> > repeatedly here on the list doesn't help much, as you can't build and
-> > test a patch, unfortunately.
-> >
-> >
-> > Takashi
+Regards,
+Markus
