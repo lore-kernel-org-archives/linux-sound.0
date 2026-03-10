@@ -1,90 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF08B40DFB3;
-	Tue, 10 Mar 2026 15:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0923C660A
+	for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 16:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773158018; cv=none; b=jORePaONL/j3rO5/e79faEYEBhAUbALyBGLLAf+E40wuc10pllgAAJ/uJtl+yPQnyZPhAlGnBHx4KvjifMqtLJuqsbDQWmn4B4kqZSeA44jID5Eo8wFtntNnz/MlphF9cNZWThnx0jSgOX+XR3o0BmVaxsu1VsdkjkvhY66ar/w=
+	t=1773160224; cv=none; b=sUCiiB8dwn4CN67aKvtjG9JcS3W+U0zkhlS1Oc98BkH/vY6qlQldIpen1C/YNQAbk4lWLc2IVE2IoE6hPTpadvKyU0N+rXzoHIqSsKZtCRR0SCDOKoF1qydwFsblZv5jmb8rEehW2OS1J65hpvvDOtnLYaHnWbxmoWokZYMBYiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773158018; c=relaxed/simple;
-	bh=BEuGEJjciZkPIN/dbZ6ppaeVVxnQ26nr/5S8e9B080Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RTefAm+a6WNb/k6eH0A3tTTv+NRyD0ZUlSA9jdoWW18JUDv6H7xueA2pPFC7oYIcBuXCX0RJyqcUoI6LyVd4sbxIYI1QvBl5n5gqgJfpNMfRwxYRhfQAvx/scGpOQE0IjbHt4FGWYbRiMOD0QE/zmF2szsoLQUgaXz+cwGesbSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QbRCXQ9v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773160224; c=relaxed/simple;
+	bh=8oegJtOi03HsgN93creTDzIpex0OLle0ko4k6FIeH1w=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=fWJQKsPFQbOiMGoF4uK4ipFNlxTbRODKhxwcO5TdnfSORSq5jWxlpbABhPE7QOL5wjsiyupQ2aVO02TxqHOrdnx5PUGuu4e/izj9HX0OPqDqVhIFX9iF4FEqm3BV8JZZOaS+P4HwbwRigGugHC+EOGM+YPA/ARMWa+f0EJqaFf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YqpYPpuU; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QbRCXQ9v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA38C19423;
-	Tue, 10 Mar 2026 15:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773158018;
-	bh=BEuGEJjciZkPIN/dbZ6ppaeVVxnQ26nr/5S8e9B080Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=QbRCXQ9v0aWn3EgO92R0wNdLgIo4XmZCLdHYvVe+ABZQhoV80oPC26qh4dNbiDEV4
-	 zKJ2INmx7d49kr+senwixTDgA9gPGq83l5/cF49PzrdLCqNvouE+Ha+WmiYLj8OrKC
-	 dU+j9CdxVHZhQVKUH7O6kjJ+VhBIf79l+2ApxfqqzTxGv0BRJE5CAEagAn1trlkEMp
-	 IINPxaPVm0ln2hcQtvskbJAXcyuql7ML1PdMEixjaAOt7PeSLzJnkCWSzIc2eM3CUN
-	 jn3zwHUqy/VHYpOICDIObH19wIdYvRSAyq2Hbmxsbr7N/Bd7yL48J2E5IMhtAkS6Dw
-	 Pcn93yG8+HVig==
-From: Mark Brown <broonie@kernel.org>
-To: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sen Wang <sen@ti.com>
-Cc: devarsht@ti.com, r-donadkar@ti.com, s-jain1@ti.com, m-shah@ti.com
-In-Reply-To: <20260305195825.9998-1-sen@ti.com>
-References: <20260305195825.9998-1-sen@ti.com>
-Subject: Re: [PATCH 0/2] ASoC: ti: davinci-mcasp: McASP code cleanup and
- clk div fixes
-Message-Id: <177315801605.195680.6424950053863150675.b4-ty@kernel.org>
-Date: Tue, 10 Mar 2026 15:53:36 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YqpYPpuU"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773160211;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lKuZ7sCTA23O6UMLzwIK0nZOTeVT/y7oS3+4wC3Dplg=;
+	b=YqpYPpuUFMvPakjiAl1Q2H5dZcCDlq0qYcNktSN2LvQlC4RB/QAnT6gNg63ahA2npf0g59
+	6427GcmRJjCT8rIgSWoMCgyMok2yhenK7NLlKF9o57DVwAMLJNSuqzid6jbgnrhT12yv8Q
+	OaeCQbkBNT19blXwzAhCxMTUhnd3h08=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+Subject: Re: [PATCH v2] ALSA: aoa: Skip devices with no codecs in
+ i2sbus_resume()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Thorsten Blum <thorsten.blum@linux.dev>
+In-Reply-To: <878qbzradt.wl-tiwai@suse.de>
+Date: Tue, 10 Mar 2026 17:30:01 +0100
+Cc: Johannes Berg <johannes@sipsolutions.net>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Kees Cook <kees@kernel.org>,
+ stable@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-53144
+Message-Id: <933E291B-23F2-4144-80F0-EC5730F65B75@linux.dev>
+References: <20260310102921.210109-3-thorsten.blum@linux.dev>
+ <878qbzradt.wl-tiwai@suse.de>
+To: Takashi Iwai <tiwai@suse.de>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 05 Mar 2026 13:58:23 -0600, Sen Wang wrote:
-> Just two minor patches that aim to tidy up the code a little bit,
-> as well as fix the aux_div selection in davinci_mcasp_calc_clk_div()
-> for mid-range dividers (33 <= div <= 4096).
+On 10. Mar 2026, at 16:07, Takashi Iwai wrote:
+> On Tue, 10 Mar 2026 11:29:20 +0100, Thorsten Blum wrote:
+>> --- a/sound/aoa/soundbus/i2sbus/core.c
+>> +++ b/sound/aoa/soundbus/i2sbus/core.c
+>> @@ -405,6 +405,9 @@ static int i2sbus_resume(struct macio_dev* dev)
+>> 	int err, ret = 0;
+>> 
+>> 	list_for_each_entry(i2sdev, &control->list, item) {
+>> +		if (list_empty(&i2sdev->sound.codec_list))
+>> +			continue;
 > 
-> Sen Wang (2):
->   ASoC: ti: davinci-mcasp: extract mcasp_is_auxclk_enabled() helper
->   ASoC: ti: davinci-mcasp: improve aux_div selection for mid-range dividers
-> 
-> [...]
+> This can be even outside the loop and immediately return 0, as the
+> remaining part is also the loop of codec_list.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: ti: davinci-mcasp: extract mcasp_is_auxclk_enabled() helper
-      commit: 5bebbfd64b879d1a7220233767be3274e7d442b8
-[2/2] ASoC: ti: davinci-mcasp: improve aux_div selection for mid-range dividers
-      commit: a8075ada4a341ce58ebf8bef0188cefe6c2f6487
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+The i2sdev pointer is only assigned by the outer list_for_each_entry(),
+which iterates the controller's device list. Since each device has its
+own codec list, list_empty(&i2sdev->sound.codec_list) must be checked
+inside the loop; before the loop i2sdev is uninitialized.
 
 Thanks,
-Mark
+Thorsten
 
