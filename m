@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE8B22423A;
-	Tue, 10 Mar 2026 18:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75556286409;
+	Tue, 10 Mar 2026 18:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773166617; cv=none; b=CAA0qWHz2EUrC7KpsTBoup6SZ3+pPTi1WUwql0XIi4F8MoAscNetm25/t17r0nK6Ri59osHGkKUmMFmmbNtkkviEBJCSFruo0zTvLxtUptAPgcXVk+f5jdR9jnehW7AFv9q6SLT1QxQ2LWowYfYB0XlPD90PyVhbfyvVz9Nh4GE=
+	t=1773166618; cv=none; b=eGPF8J2l0Rx744q8fZG3mWWUyVEveO2u1SxNaN3bZztv35w1yHwpl6jHFSoEBcYQd6GrEGQ7LwNwG2PJQjGDGl4RiJuNmkv3BMmWosLUpteLD+AG/yIFOgyjvImn3dxsuDdtzZhd+Whsrn7A74XtTbf1viP4RdsLBmbyQSUJe/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773166617; c=relaxed/simple;
-	bh=nDUKJKSS14X97yWKsZK3DCKxXmNEbO6twQSAQHC3gpE=;
+	s=arc-20240116; t=1773166618; c=relaxed/simple;
+	bh=8awRLsXynWiGFgRb8VB66XPRttd9hE2wsR72UFXb1vA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Qn6DNstT1KIGlWOgXWhyABCxyqG6RDaNstcHrOm9KDNUTXDkVdNReAnVppaooLqZJK0A2+1/etiaeAkVBfOkUu2dBSakTjY+F24+izcTsK4YV6kXggA1Qy5kl2DvUtXoSPt+uEgz7CqcfI3HPp41NdEjOzpgSFlh3r3kRkLvV/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DOS0gekY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=O2H41zvKnkMPfb4T+PeDOdb+J8Xl2gYcR9DzjMM35HyuQD/NBic2v0rbns+WlhJXWTe9aOzThrAemaIB6Uszkp7R7KnolWLSBprtBmmLhQ1PKdXm8JM1Dv9+MmgnYv6EKVXVsJ724o2eQB9npMCGOwky+acTj9YWd1YDFJ/xVIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hsppD59m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DOS0gekY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E768DC19423;
-	Tue, 10 Mar 2026 18:16:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hsppD59m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C2CCC2BCB0;
+	Tue, 10 Mar 2026 18:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773166617;
-	bh=nDUKJKSS14X97yWKsZK3DCKxXmNEbO6twQSAQHC3gpE=;
+	s=k20201202; t=1773166618;
+	bh=8awRLsXynWiGFgRb8VB66XPRttd9hE2wsR72UFXb1vA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DOS0gekYmZvZ95KYxGsM+ZRfVSuX61h95EnM0KHckg9+PVmu5/JIj4tTxKanzGStA
-	 0WMZO9XouLi5GKS97WdKO352xsIEncOsnEvVKeqNieU3icSQDusUxLRQZIpcWQXvJj
-	 HzUMlMEFqpX7DHRmHiGx97apcj3iO29ur5d4F7nDvzTQg43GWYkg9UKzxQI9e0Nq10
-	 i6aCoy8qxnrjHIxJwLJ8RN483MUIc5BKBDgOtEbHfl2bTTaDIC8BmLvs+UDjbsgTLZ
-	 m+KBW2kI5ZpkJMTDzAYxOpI0DvS9d48feGXVwB8g6sNf8akBhxFc0J/CusLAkKxg5n
-	 3tvzjw8nwZaWw==
+	b=hsppD59m7+A999xEt6W569MZVyoPWBzlfyUas2SD8zEYfKQHdC89FhFawHHfm77sw
+	 uksA3Kmor0xdcOrymlWW4F4S/wcyTtTqNmzbYs0GksXYOl1ivr2QYfC89InMGh5Q8w
+	 gBWn1tSwVu8Hj+p5L+78jMnu8NUM/bppXxu8R/k1BWaWpBSdmofgCUDynhsNIb4lHJ
+	 4KMQN0sPKm39fGNJdMN3xwoYcetPzit3Wo+9bmKazB3RLE/NkGjp9DXA0jMXEVndW/
+	 SyEyCe8MKZ6YFJeLxPwk0emCL012C+FHfd+NaX3HdTRuNQBeqBLYx6Q/DHR0IGqnfV
+	 w/Ex0tGDxm63g==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, lgirdwood@gmail.com, 
- pierre-louis.bossart@linux.dev, ranjani.sridharan@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com, 
- sound-open-firmware@alsa-project.org, Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: linux-kernel@vger.kernel.org, perex@perex.cz, tiwai@suse.com, 
- kai.vehmanen@linux.intel.com
-In-Reply-To: <20260310125106.178944-1-ben.dooks@codethink.co.uk>
-References: <20260310125106.178944-1-ben.dooks@codethink.co.uk>
-Subject: Re: [PATCH v3] ASoC: SOF: sof-audio: pcm_id is __le32
-Message-Id: <177316661468.442708.8595142825025446475.b4-ty@kernel.org>
-Date: Tue, 10 Mar 2026 18:16:54 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260310130343.1791951-1-rf@opensource.cirrus.com>
+References: <20260310130343.1791951-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] firmware: cs_dsp: Simplify suppressing log messages
+ during KUnit testing
+Message-Id: <177316661731.442708.18227201739492605208.b4-ty@kernel.org>
+Date: Tue, 10 Mar 2026 18:16:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,13 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9189f
 
-On Tue, 10 Mar 2026 12:51:06 +0000, Ben Dooks wrote:
-> The pcm_id value is __le32 so convert it before passing to the dev_dbg
-> function to be printed. Also fixup some other uses of __le32 data and
-> a couple of places where %u should have been used instead of %d
+On Tue, 10 Mar 2026 13:03:43 +0000, Richard Fitzgerald wrote:
+> Rework the way that kernel log messages are rate-limited or suppressed
+> while running the cs_dsp KUnit tests.
 > 
-> Picked up by sparse prototype for variadic and printf
-> function checking. Fixes a large number of sparse warnings, such as:
+> Under normal conditions cs_dsp doesn't produce an unreasonable number of
+> log messages, and state changes are relatively infrequent. But the KUnit
+> tests run through a very large number of test cases, especially error
+> cases, and this produces an unusually large amount of log output from
+> cs_dsp.
 > 
 > [...]
 
@@ -64,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: sof-audio: pcm_id is __le32
-      commit: 207fd1f4d84b7f073eaab556623bf4ad3a161f3f
+[1/1] firmware: cs_dsp: Simplify suppressing log messages during KUnit testing
+      commit: 9be71d462c33b1a00acfa4ab8f0f5332ed592817
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
