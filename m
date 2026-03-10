@@ -1,292 +1,149 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010039.outbound.protection.outlook.com [52.101.85.39])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8029F397E9B;
-	Tue, 10 Mar 2026 12:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773144565; cv=fail; b=KQoVc7WtqH44hdMB/honjWXKX5O8aRc6r2h6E6jeRE2DR2/NLcVE0D/8wYSDUAsBS61iz5XJBHR0652rEXdyV1Eu8taDalYaJsc5XAMCVBiiAHX4vWu+STcyXqkOvAh989/RhnvypHn87scaUEuKICrzlanZN4iI7irV1uDfTbM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773144565; c=relaxed/simple;
-	bh=INd9zdl1RgNEKrkIRXpq8ONSw/cnn5sh9psxX8U3W7w=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eyL4K04fRi3iE1NqRqC0jF+lDrQ1Lk5K3KSkz8LSTBDhSkpjkIFfmP50bXcS5HUZwGtFGCrXOJfnp9vnLd2mvQ7bRUjAkSvQcRJ1XdgruS7YGZL75fDo41+B3H2fhraGjVStf9lNaBIv1QDMvTodloXCZEUiESFASG3N1jPkWIA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZXl7dHcJ; arc=fail smtp.client-ip=52.101.85.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3F73B19A6;
+	Tue, 10 Mar 2026 12:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773144689; cv=none; b=bsSdogZr1GcbZV0ihBR6QX3EmYL247tlay21ccfIaOhCo5s70ALx9enid+AWlKsIH0RgK+PDe23C1qNboko5Zb2mCYCAR9dRQPxvfY4rMroWT51swf3y3xJTk2uuMKkIUqvIJr6CWzUHZkxfI3xLixBo0A82asFjwmbUgk9wT5k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773144689; c=relaxed/simple;
+	bh=s8FKFgdmWzbqAD+aJQzxRW9P8jZ9PHGe50Fktd3dCZk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=ZcnyiJiy/m2++lbqEYVMPUVDKa/NNcPN6OgEHfJsJsJpq2ksng1F/ago0ZCMettcY/LQbVmSNCJjDnh0KmW7ngDA5bdcxGgvy66lYNjaSP84CJT5Q+F3RnyjdfXfQEmGdA4AriN6KhQmnpbc5OaZROtf7d1QAQO+cyvFVWZEOBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=QEoRHBTU; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZXl7dHcJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TJsVMBb/tfGS87N6mIm9gRpXLCG42LAurayKGilMpxH/PDAr6bPNORfmCWZdjFU5R7D5YcYVguQFtqfLsyUmX6kxPFEiSnzSsT0X3i0FZTMjFiZB5JSgx61rS8Jiq20+4FG0+Db95lS++3Ok568q+HrUTsjrgmzRIPtYvLHTFAfoIVjW6PkzcMkPY/QZEoyboF3mMAY3EBMYeDlzkyUfQNgv2is2HOBv6kxvpCtksmMrmf2C17YqcNm63uz9PJF3rzu/pXmn+Y/40v82v0CJVF0IRzwjgpXNkpPu70bEE9PhaBjBzo/VB/yBbp3ICmJYmfpH5tnLllbLzWc8qcbqCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gF867SZzGYLT8GRpHbaChcflB30COqiDq6XJ+UvHW18=;
- b=A2Ru6EbP1EMp/PDkCT0cnRgB1/f8s00+cW4TFkcG/EjOacy1+TJQGOWYk0aHUmOpC/iMXYysAj27QcdMd/BifeatINVRALr3MGmWitIvYGtDPpaaAFSeBoN5DEyM2/QJ8S+tpub4ZOorKtpKdyn7FcqVVhHnus1onV+uLNBWMVPmeU0wQqfsudk9uYlLGgmXCwK/gGPYwXxxZiOtCx+KpkS4vkdrkM7hoso3ret+vtforbnCV+dubm12lKmnClHIQ4COIEeapD+O3McKAo0po2MlRrlzp3AwgsZZHp7CBIZXA6ITZnNhl8vT1O4jjw2v7/ovSA3Eojwqo3dIub9S/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gF867SZzGYLT8GRpHbaChcflB30COqiDq6XJ+UvHW18=;
- b=ZXl7dHcJkP06v2ir7fTUMJWqlo7worOJJa3N+67vK7KARsFWhcBYNtHJTOaUCi6oZtkQm51cDcHyyhtpA/QL8Xy29+4WVECz45gMFpNlOj/wUMB1wZvJFPAfkPFOghKdC2iGF8zP3A/t1JfyK/gDFnhPQayRDQYXxDcsnL/Ngpc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB8926.namprd12.prod.outlook.com (2603:10b6:a03:53b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
- 2026 12:09:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
- 12:09:15 +0000
-Message-ID: <e8a328f9-568c-428c-9111-8742e5dc9a4e@amd.com>
-Date: Tue, 10 Mar 2026 13:08:57 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 37/61] drm: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
- apparmor@lists.ubuntu.com, bpf@vger.kernel.org, ceph-devel@vger.kernel.org,
- cocci@inria.fr, dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Zhenyu Wang <zhenyuw.linux@gmail.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Alex Deucher <alexander.deucher@amd.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <20260310-b4-is_err_or_null-v1-37-bd63b656022d@avm.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-37-bd63b656022d@avm.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN0PR04CA0015.namprd04.prod.outlook.com
- (2603:10b6:408:ee::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="QEoRHBTU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1773144685; x=1773749485; i=markus.elfring@web.de;
+	bh=s8FKFgdmWzbqAD+aJQzxRW9P8jZ9PHGe50Fktd3dCZk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=QEoRHBTUioOUZJ7jBotorMiLa83xtpR2Y/V0MU9RnoX2fnmiCvUNApA8aKE6CGUs
+	 DWX/RUgsGniEGLGnYz8n817Jq9A+zGLlsn9YMKwkg9bpoL0R4ya+A8TBVAwReVdTZ
+	 FzmEzbu8RxYYD4ey79QDA0nY/5Hw0piugo5ueW2a+DPCstBE4UXYscQNciGR9Loye
+	 QyG2kWMHvsNWs5/KGcNCN2LTXlkuKAZ5tmcgfkrAAoDyuE6l173pMQmMsXcXUBJuc
+	 w7xgfaCX4wXn5Y4YVP+eU++a7YIdD6jvlsXw7wPnkF+XHTAT7A3VmS9jHsj36Li5V
+	 FhlB+OwioUGbN1eVZg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MMp8K-1wIhiH1Zum-00WqNZ; Tue, 10
+ Mar 2026 13:05:37 +0100
+Message-ID: <310708bd-dd61-4bdc-8e7b-ab9b095b6b8c@web.de>
+Date: Tue, 10 Mar 2026 13:05:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB8926:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47f3db0b-99c2-4a41-234d-08de7e9dd8e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020|22082099002|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	rOsxnTx2kr7OFzy5oepnHTPa0Bl5bJUKTo+63luhlotIfFC3KzHLS+E3VMqAH1iHBTKaMYJ2UmsdfGDNZaGu1pbEMDo//hCzcDM4M0QcZ45ZOizgGMHWaZ1ya6xgl3xwPkUvHxqqi0dZr9N6cRTFQsw2jWmjewkDeVuOnYane588HX2iWR3CYWIfa7Br5OJ8iwoNCOeglYq2hmCD+XVye2SYHUtE3Hy4SP9KBI+8BmSMAMQ/VOPLHLKz4RZ9XB2O5YjMjmZNxo77a9Wn4CGVWydbDau3GMYxKNosqPKCKb4Q1CUax6ft49mrg9SC//kqRW1zqMolNibmO7EJ8UrT+8LEQLFweVShgEKu5cPWaq3q4EG/+BJAf1IDt5+JDbViN17XVz70lGDOGZ4jwQRjV4vf9JdhxuB4SEEixCLVEvpCz1BN1wjaMZJjUQJ1rBtYeCl7QcnPw9U0IKylRYTF5xRaKrh7F+9YZM5fq1EYA8ZCM91wDsdBKj5lLGxj8vM0EN2SWbDWewgwDW8HgSigsEvdgly9gfuYdn31TzS0vOH/OX63TN1XP4v6vomPJEuUHP++WLg3pWBA3+DbKgempasoOCVE7DLrw/dyeIIxqkWziHoLnwrgnCzwadYNNG+thV2OSa9TYKcYx215HoD7gpmsNcq0zcO0TS0q9MaYHbyjHNj6G+3J45FlJseURnlO+nW1rf/TKjD52NDMyHLSNSRr9yuLpthUPmg9JNvsnPoFd1Ih5I4yneCQepirDpxfGM+ONzOAPJ8ruHE9n09qdA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(22082099002)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V1AwRVFocW41VXIyT21kL25qc09PRmMrUmFOdmVac0U0V1hTYjN6aUpIdDZ5?=
- =?utf-8?B?dkRQb21XQWNhaVdmelNIamQ4SXdCUDFSekF2NklUMC9ycDZyUWFFNXRGM1Q0?=
- =?utf-8?B?d1FUQ2d0b3Zpb3dqK2NNQ1lrUzJGeGlLRU9rekxOcFFhOTlqWWI3bit0TVJ5?=
- =?utf-8?B?V2liamcxbjM5SmRzcFJvTmNkYnpjWm1KSVI0SmZDNWIyV3hwQlNkT0phTUlJ?=
- =?utf-8?B?UUVSRDBpMVZvZ05xVGlNdWN5aC9lNGN4cXplUmVoREZUYzhEOWRUWjlOdlZ3?=
- =?utf-8?B?VlFvMEwzT1Z5TGwraTFMZmJRczdQV0R0emVocTlKUFpuOXA3TWJmRTJVVDJm?=
- =?utf-8?B?M0U2NnROelpvbEJKcWZLK3E3MzZaNXZFUzBxdzZ1NmJzSTZuZ1BrNXc3MitE?=
- =?utf-8?B?Q1FXUmRpR20rOStjVDRzeUxpTUp3VVRhbWVsSFdrV2lmZ0M0SFFDTjBQNERs?=
- =?utf-8?B?Q0dDcXdaVWoySXZNdWh4YVBGUkNPWWcrYTl5ZnRmamhKMks5NEQ4MUtoelBt?=
- =?utf-8?B?SmVITXBjVEwwTkgyTlhSUlVNVUZJOTlJM0ordkZBRUYyZmpNUjNQR0hCdTZ1?=
- =?utf-8?B?Sm9vNmZpMkg2VFc4OFh4VUVOZ1JJL2F0RGhxS3VWZitGVVRKWVQ3MktHOHVs?=
- =?utf-8?B?YnoyT1d2Q3Q0Z1o3MGRTcnpUVFZ3UVVYUTBFcjVSbE01azdaNytsUzQ2WFIr?=
- =?utf-8?B?WUZBZHB0bGIvOXFhV3VjK0xUZ3U4Yjc4OHdKSm5tOUxucFpOMkJjcXZXTVVC?=
- =?utf-8?B?RGJzOU1yU2N1c2tIR09qQW0zQ3AwaWc3OEdqUlQ0S3hubVVORXB4NmdndHFp?=
- =?utf-8?B?RXFwRjJ5cmUvMWRGZVduQk9IUFhXQVc0SjBKUEkzeXFQRU96dHc4VTJxdi92?=
- =?utf-8?B?c0VUNjJuZU85SUN6YXZ5M2cxeStJWkVNMXZrRnFpOGJoSW9XSER4aHkwZFVt?=
- =?utf-8?B?UGRnSkdSREJwNGJuNTh5bmtiS2VXMU1JUzc3OCtHY3VzcVZpUWl2MDByUEJL?=
- =?utf-8?B?TUN1M3pBVXZEcm5KaUdpNTVHZWZwNEZhZHlVbTRwQ1NjWThTa3ZHZ2pKdDF2?=
- =?utf-8?B?bkhmTjBPMEFONkFPeFhzZlVvZ1VRQm5KT1hLYWZEanVvaUlWWGtYUmJ0TCtx?=
- =?utf-8?B?MjRDei95ckRET05hVFFEdjVxcURHYlJleWhCV3Mwd2dZdE01K0t1V2lPeXlM?=
- =?utf-8?B?MXIwZHExd2hyZkNZUVZHYUNHbUxCU2wyVDh5WCtqWmNDRkF1RHJ5alQzVFha?=
- =?utf-8?B?cVpYbDZtMGxJQmpIZ1FkbW9UN2JFNDNCZEV6T09IaUoyUU5YOEN5WXlNN2V3?=
- =?utf-8?B?MkhUaVQ0ZnZFOHFTVFY1NHFJRFNZaStiUlVxamZtajJxTHFaczgzbXR6YmVC?=
- =?utf-8?B?bVNxdlZxUXhLVXBhM3AyRHVZczhxREJYdFdpOWRCajdRZUpDTzR0TTJoS0w2?=
- =?utf-8?B?VTczMUIwN1hnc1IrRldzY1dMdzZuU0NnTjc0cFljbDF2MzZtR1luWWltQmlD?=
- =?utf-8?B?cEw2Y1FEZXFwVjZKdG5xVDRUeGRTaEdpczgvUDEyWlU0b3h6cEFsa3d4bUdp?=
- =?utf-8?B?N2NiOStpMzY4cU1ZZStzWEJuOEplNnFHeFZCYlF5OGo1T0tvRVRKT0JiUERn?=
- =?utf-8?B?WG5PdHFvbWIwSUt2REFYMHh2MVNtUVZSMGJENjZNSXJoeGo4K1FpQVZMTkdw?=
- =?utf-8?B?Vm50bzFicFNuVVFvMUhMRS9tczM1Wk9rejRKanFkcC9SN000cUUxUlZSVzZt?=
- =?utf-8?B?SG01L1NJbWNnc09HSGk4YkNPeEdjaE1kN2FQQUY3VHFtMEpDdDFuclZnUDRR?=
- =?utf-8?B?dzVoWXZrS3hQcEdKMTlwTXQ1VlFjMlFuVnptNmVkRGFyQk9lL29jY0NwcStC?=
- =?utf-8?B?bS9BVGNQak1ka3Vsb0FON0pKbWltdVphN3ZtVm1WNUZ5UEVGM0pqQmRaT3dJ?=
- =?utf-8?B?TjBsaDVzSzhBekl0T3I1RXZGdVhIamNkSy8rdDQzSVFiV1J2U3NDQWx1OVBN?=
- =?utf-8?B?eXk4V3k5R3NpSlRNaktTWkJiNTZiVU1LeGdDZkw4NVBSWDZXRXhSMlErQ0NK?=
- =?utf-8?B?d24xSnZ2U2xOVm9JTjYzdW5qMGZEWWJEamZMMmkwQVhyeXdZUmV4Y0graDFN?=
- =?utf-8?B?V1VxRjBpVmxTaW0xZEswTG12a0pJTjRTU0hlUjZGZnc3SFZmNXZsR0t6QVpQ?=
- =?utf-8?B?TWF6eDBoWDFhcFJJaW9MYnRDUC9hZVRWTi9URVN2ckh1bVQvV0R6R3BXcVBC?=
- =?utf-8?B?QUtWME8vZzk5V3UxZDZUTnU5eHl6Y2ZoZ1hjdXI0MmwyODNZNU5vaEZnS3h2?=
- =?utf-8?Q?DfmazJR2VH3VghHRhw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47f3db0b-99c2-4a41-234d-08de7e9dd8e9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 12:09:15.0060
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HqRTO+mz3lE4w162bISlJt1G5cnWIiVsGPkfJ+DfwnudZuohoYCt/6AWclzBsAkl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8926
+User-Agent: Mozilla Thunderbird
+To: Chen Ni <nichen@iscas.ac.cn>, linux-sound@vger.kernel.org,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Akshu Agrawal
+ <akshu.agrawal@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20260310024246.2153827-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: amd: acp3x-rt5682-max9836: Add missing error check
+ for clock acquisition
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260310024246.2153827-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:MTJwsA1T50ZTuFyHNmHS7SovVX0s6AN+GXLJggvnnS82O2Uog1p
+ jaBJylfp7wLuR/gsu2mCrlH84+15TpEb6dzsXzCNQKAywurhMKxyDBqL3dF4TX8uW9KwY2k
+ fq4hyFoOVAlcDqXN+lBSO50SObDsHM7Xx3i65ocK/oqopr5klaxzol0gNtRxdNEVWNbgPCO
+ WP2ZAl2KrsHtsazmkq6cA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zk02R0rBRHo=;CHWsUgV9C+ffA0qEGU38Ca9t+iQ
+ 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
 
-On 3/10/26 12:49, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
+=E2=80=A6
+> Fix this by:
+> 1. Changing clk_get() to the device-managed devm_clk_get().
+> 2. Adding proper IS_ERR() checks for both clock acquisitions.
 
-Looks like a reasonable cleanup but could be that driver maintainers want to take that through their individual branches to avoid conflicts.
-
-Alternatively when the i915 and rockship maintainers say that they are fine with the change I'm happy to push this to drm-misc-next.
+Do any contributors care any more for further patch requirements?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv7.0-rc3#n94
 
 Regards,
-Christian.
-
-> 
-> Change generated with coccinelle.
-> 
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> To: Jonas Karlman <jonas@kwiboo.se>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Zhenyu Wang <zhenyuw.linux@gmail.com>
-> To: Zhi Wang <zhi.wang.linux@gmail.com>
-> To: Jani Nikula <jani.nikula@linux.intel.com>
-> To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> To: Tvrtko Ursulin <tursulin@ursulin.net>
-> To: Alex Deucher <alexander.deucher@amd.com>
-> To: "Christian König" <christian.koenig@amd.com>
-> To: Sandy Huang <hjc@rock-chips.com>
-> To: "Heiko Stübner" <heiko@sntech.de>
-> To: Andy Yan <andy.yan@rock-chips.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c       | 2 +-
->  drivers/gpu/drm/drm_sysfs.c                     | 2 +-
->  drivers/gpu/drm/i915/gvt/scheduler.c            | 4 ++--
->  drivers/gpu/drm/radeon/radeon_test.c            | 2 +-
->  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +-
->  5 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index ee88c0e793b0416d20105a43448cb4037402e64b..64fa2bc8d28197147ee22b4f74134cc27dd9b32d 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3608,7 +3608,7 @@ void dw_hdmi_remove(struct dw_hdmi *hdmi)
->  {
->         drm_bridge_remove(&hdmi->bridge);
-> 
-> -       if (hdmi->audio && !IS_ERR(hdmi->audio))
-> +       if (!IS_ERR_OR_NULL(hdmi->audio))
->                 platform_device_unregister(hdmi->audio);
->         if (!IS_ERR(hdmi->cec))
->                 platform_device_unregister(hdmi->cec);
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index ef4e923a872843339743d21e4877225855da921e..6748acb4163e8f5658c9201a0412b38862c7baab 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -600,7 +600,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
->   */
->  int drm_class_device_register(struct device *dev)
->  {
-> -       if (!drm_class || IS_ERR(drm_class))
-> +       if (IS_ERR_OR_NULL(drm_class))
->                 return -ENOENT;
-> 
->         dev->class = drm_class;
-> diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
-> index 15fdd514ca836e84f4de95e3207ab45bb9243426..933ec5ffa1f1ebafd687996f167b982490702211 100644
-> --- a/drivers/gpu/drm/i915/gvt/scheduler.c
-> +++ b/drivers/gpu/drm/i915/gvt/scheduler.c
-> @@ -675,10 +675,10 @@ static void release_shadow_batch_buffer(struct intel_vgpu_workload *workload)
->         list_for_each_entry_safe(bb, pos, &workload->shadow_bb, list) {
->                 if (bb->obj) {
->                         i915_gem_object_lock(bb->obj, NULL);
-> -                       if (bb->va && !IS_ERR(bb->va))
-> +                       if (!IS_ERR_OR_NULL(bb->va))
->                                 i915_gem_object_unpin_map(bb->obj);
-> 
-> -                       if (bb->vma && !IS_ERR(bb->vma))
-> +                       if (!IS_ERR_OR_NULL(bb->vma))
->                                 i915_vma_unpin(bb->vma);
-> 
->                         i915_gem_object_unlock(bb->obj);
-> diff --git a/drivers/gpu/drm/radeon/radeon_test.c b/drivers/gpu/drm/radeon/radeon_test.c
-> index 0b459f7df23bae3eef7e36f4b5f35638fb6f4985..573284c4af60f12d7edec889260fc8a2e2b70420 100644
-> --- a/drivers/gpu/drm/radeon/radeon_test.c
-> +++ b/drivers/gpu/drm/radeon/radeon_test.c
-> @@ -234,7 +234,7 @@ static void radeon_do_test_moves(struct radeon_device *rdev, int flag)
->                         radeon_bo_unreserve(gtt_obj[i]);
->                         radeon_bo_unref(&gtt_obj[i]);
->                 }
-> -               if (fence && !IS_ERR(fence))
-> +               if (!IS_ERR_OR_NULL(fence))
->                         radeon_fence_unref(&fence);
->                 break;
->         }
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 3547d91b25d317c6cad690da7d97a7e5436c0236..8a267de85da9c76c2e29b2ababf1218e400282c2 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -1095,7 +1095,7 @@ static int dw_mipi_dsi_rockchip_host_detach(void *priv_data,
->         struct device *second;
-> 
->         second = dw_mipi_dsi_rockchip_find_second(dsi);
-> -       if (second && !IS_ERR(second))
-> +       if (!IS_ERR_OR_NULL(second))
->                 component_del(second, &dw_mipi_dsi_rockchip_ops);
-> 
->         component_del(dsi->dev, &dw_mipi_dsi_rockchip_ops);
-> 
-> --
-> 2.43.0
-> 
-
+Markus
