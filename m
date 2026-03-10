@@ -1,116 +1,156 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013004.outbound.protection.outlook.com [52.101.83.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2F018859B;
-	Tue, 10 Mar 2026 04:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773117951; cv=none; b=UK1UKlM8rndXD0ICFTMmUNjfpndY2aIOmtReUVQje4iZPseu9QjN76h7sJP3lGsVyd0XobVj+2QQ46nPWZgf9HpfNoG3+HNA5xh6OCSVMnTDdUIiuoEKKgtPPslbJISHzssXKkiQfIUu/J4nf+PO2QBPmnzDZkUmyXCk74N7vIo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773117951; c=relaxed/simple;
-	bh=F5djB+eQJm+wqvcV17a/0nM90yNSjGvpwIycjyTxuKU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NkjfbNOcMrfURuNFPt+7YArKdxgKjSHTpy0NdE4L9AZCv0ZCjsOOLhrq94wxv2QDedl+j/B3QbQiIInNhMr07vORcRk5Waz+W2Seb/zHe2oo8YZT1Uhk+Go7dGo50Kre+/e7rajgQAivQ61oudHZP2tPUb8PyEmh88cgdg+24vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowADnj2vnoa9pkkyeCQ--.6715S2;
-	Tue, 10 Mar 2026 12:45:27 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: Vijendar.Mukunda@amd.com,
-	venkataprasad.potturu@amd.com
-Cc: lgirdwood@gmail.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0146133D6F8;
+	Tue, 10 Mar 2026 06:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773124577; cv=fail; b=MxW9BGY1gDpGnBv+JQpkGVrc5ntEDog8fsONm2K8KyIsETPPIGGNPeRXtZ8iNGr6KU2Gc2pdXh4TNBUPGbeNd20hYNYADrrLAhGzezvyxBLeoKeM8r5ycuKs7XP1AEvvxhSPaXyCPPc/VYUm7WYwR2NAeypagg+V4n4yQDtwts8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773124577; c=relaxed/simple;
+	bh=d8p23k3PeIC/JynBL86atwVD001GRyqvJUoCsruB78g=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=QLDkLNiKmuTIwyTrGb0jRHrpfDAprih8R5JlnOWtNjb5dFVV/gVOzYh5rqncpZj3PM1tsIeH8NW/g4Q5gjaVAGC4suflUWUsa9mPVltdKJ04yP1a8g63HIEO4nzRqL6+I1VVNUzfUZAod28CsmKpOjm445w3/NfKchFO5apNCoc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Pz+nta1l; arc=fail smtp.client-ip=52.101.83.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Pz+nta1l"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gFb9lxZPGb2JTs54mFphX6qkgtJg8LtySB3k1hpOEgSNKlC4sgPyHm75Z5JUMjKBIkvVReZ6cPa4q8ruXXmzB6ySBMjaECorxiI3gMZnQXAu3OdDZAuFoOB3+frB7vwjlVwfkZAQbxnQspYD2ABeqN05+lSM+u/aATW2ZRswrbrxK267ycPexF6CWDmBLOvRMUpZYfz7vC53BiL8MnvXN3qEG6SiEzOwmjBB2I4kGIqnTGSsW8A+ioCwIYzUcRB4ZrUQtecNFoNlZKDQq3/XYeEDgAvNYR2zw3/CIai9Dq2uO8MKoMPPFpmKtwjyvYdR98eBHen9IHJSvENd/g8Sog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iu8tuieL+YcqCVAFd6v7OJyvfbJXGGSAlxXf5sH7Ucs=;
+ b=mZ7tIMyd7JhwGQr/YI1x5tJph0rVJxf/4wSlZZZvRq005EZkzZ0eTu4JX0SwHqTWzphmbKzOxUJkT16PQTElvkrNfToONrpmPzhdmdlJF0YwBcGJAzS41xmcCIAxfFUMTGhjhbJIRHAHVAW0+nIUZG3pFLfhoHojVj6kUpZiWl3iY6sEsZCMByRNMByWNu1yyE49LfP3klvXW19D22WFO47l+jNlU8Tbz4LjVBo3lu9AAFw2ivcTkSOBxJRBXGOdTrzAYpKV5KHYqTQSQ8N4ekNyIJXnqjeYc7FI9DViWfDmiqGrYw2km+bPqdtndB87ZytBqX3TWFu6g8IHNU/TGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iu8tuieL+YcqCVAFd6v7OJyvfbJXGGSAlxXf5sH7Ucs=;
+ b=Pz+nta1lj2RIdl4yaOwnjie14fe4FRLTPPakVfQK60IAR5HWVOxoB+Zg9+0RtZHzWQsPkI8CJ7HrMoSsoqwjajWPa/BCThWNsUB9fricLKj4YQdlyT2O2/6tDIDjFXaz0IGDh24nDcdlTMklsxUhCA8AQJ9csvAMNNbGHeC0OJeCBWqHYELn+pWg4mIKotMyApbZXC+RTGdc2x3c8UorKv7uOnzxvsgVPOw8WeCg8fWVbv3lYl3W+ay54me1MAQxMiQ64o6XulRjCfQ5ZnAbJG00Tg8Jsyt4PXPb+RWcoR0vce3k2YSiFGZjTzK8h+U+Frdf/yCjY6SDS1dqKZ/UrA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by GV2PR04MB11759.eurprd04.prod.outlook.com (2603:10a6:150:2d6::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 06:36:08 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
+ 06:36:08 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: lgirdwood@gmail.com,
 	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	kuninori.morimoto.gx@renesas.com,
-	ckeepax@opensource.cirrus.com,
-	AjitKumar.Pandey@amd.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Frank.Li@nxp.com,
+	shengjiu.wang@gmail.com,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: amd: acp-mach-common: Add missing error check for clock acquisition
-Date: Tue, 10 Mar 2026 12:43:27 +0800
-Message-Id: <20260310044327.2582018-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
+Date: Tue, 10 Mar 2026 15:35:22 +0900
+Message-ID: <20260310063522.362545-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0116.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2b9::10) To AM9PR04MB8353.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADnj2vnoa9pkkyeCQ--.6715S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr48uF13Zry7Jw43Gw13twb_yoW8tFyfpa
-	4xXa90gayUZFsIva4Fyr4Dur1xXr4xAF4jyasxKa40y3WfKrWrWr4UJw10qFWFyFWkXFnr
-	AFy7GFyfKr4jgFUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_Gryl42xK82IYc2Ij64vIr4
-	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
-	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
-	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYfOzDUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|GV2PR04MB11759:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a2a3dbd-9652-4c39-9fa8-08de7e6f5005
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|19092799006|52116014|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	QibCumfdMbCIYbl3jDOc2IAJ5YbsgnzchrvSVjPj6lnXsrM4M+OARz2u2BCPMHTkIW9tJQkGT24L6M/96NkW4XELbwvy14/cp/KdzXxsy7cuCAxiIBwy5YZ7yRhdDIqOM5LaoWORyCKfIPiSVzuW1NzBuEvkP429YGH+GWlWISGKPjjuUPYfwdRkqwq/HgZw97ZLTmTAZPU7OgVQpW5aNAag7mttYhHYbV4uqnxcdIkcaCd0z7XHbKDNGAj8ygsQv89hI8d0nfJHKhRELdklpyhO0uuulkUL5Vusgcwn7INv0WZGxqOiuNPYNp5jCA9VMoeFrsWYkIOiJBiSaTON1+T8odbbFzL3xXl1UBuAlZ+yK6MxO0U8UMwWItynLORfaBRJfYJgP3DWTURSiQ8dZEkRLsuGM7bNHyzKBCHQ/v1Cl7LST3Gur+ldP51saQmtVhWcS9G0Lax13YZOCt6k+n+LkBnDitgNtP0z7IodRk9Rzsr5HMgtv37/gTuj3FMnRonQD5zALAM7aX2ansq6dTJZxwlYHgwtPDAa3+TWLXmLSPImVWlE4fYVMuJ8INJJ4Vq9rC/0Ef+MoShy/xb61wm48N1VDnW/Z46jGWbPFCD8Gtd5QD3gT8OXvVw/szsC4u4YTHtf8qI6ULdwM6MwgKSQmV0bfWwSjvsuZojyrd/PBCePJFobFr3P92t5fUbKxsroi6oKURah5fUtalZ4N4BuAAs/Hc9FfWUIYxC2erVxJcTHjHaH8CYIdyglKgqpNPq//SzDn0vH5e7HhHXWQdks0FkYj5bvMG599U0dtg2sy4XDHxJ2nXLmwt6SLxvM
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(19092799006)(52116014)(7416014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NMWf1c0CjaSecA8OKQ4Cm6j97qSC/CVwZQR8sGKnSm9FPXRttgPsRsWZbjBA?=
+ =?us-ascii?Q?BYgzEMmYMJNrAL7JzkFhPdAyWRhNAuqtI2Dzz8VZTjDaG6SDufU4IJrANzNV?=
+ =?us-ascii?Q?6VBmE6r/DvtOcQSmKa7GqfRNKkBE5iuz81B21cOafe4cV4wPwLNl7tGaKOpB?=
+ =?us-ascii?Q?AFOOSr3YB1+jeOlr4dldXagWdjtyHTz0qysJcGlGbKlaacELlwXBawmpgUaZ?=
+ =?us-ascii?Q?ZioQHOCk+BmnyJq19HijgoOv/bit9T6IqcvH1LRG8Bued/mG18PfQPmzVJQZ?=
+ =?us-ascii?Q?h7tm0BqofPMg5yQNx6FQPPSddPqesLk8U2yuOTAKEOW1PpRtcxFcEZM4yLM6?=
+ =?us-ascii?Q?tQDdeZPxLkj1IT/Lsv8UKNvvXgtk8l0Bah7zhVDCi2pjLNOWGg/jZz4RCu+D?=
+ =?us-ascii?Q?G6WeWBf+wAQHXb31dqnCWqBReoH7IC7xfLXQTo6WLy9MF6DYFtUw32oF2JZp?=
+ =?us-ascii?Q?YEY2K9KYxSFTizG+Hiy7s6mwD0mDyWxq7F3uo9OfuP+UPhWdHR1mlL5i6PI6?=
+ =?us-ascii?Q?BkTeeNoRKtqXjwt57XrIR+dhh2wUOEzu2pf528j0Cg39kvvMlLDiDkt8uBx6?=
+ =?us-ascii?Q?JjxiZk83RJd68c9lw4woEglYz2GswzWNy+iV/bKMrJ3rabdcX5IEVzDY3Fzq?=
+ =?us-ascii?Q?8QDLdF98FhiiODmb4VBOobWzGp4V+AWoBFSN5AMhe05B39lfFDmvNiyFek1D?=
+ =?us-ascii?Q?3RrmpLHGdx3STFSqzT/eFidHsK8HPb+rNQ+YrsrfJFayXSvtKmC1Qot1yYUx?=
+ =?us-ascii?Q?3NPY9MLAVXjIKTGohL7Pr9W4CLMhecxJE8vnfXLwZv8sEyNPLEUO25t1zIqC?=
+ =?us-ascii?Q?WZYu5bQLZxTHPxlS2lBC8eLlsVQZAo92cjnBIq4+7s1Cs81k8tt75dTWn8/l?=
+ =?us-ascii?Q?7wgwNNojVUmBuOAHc0YETGjTHf3wCKnq13ttUX9uaPlQ9YWuAqleXrygkm1E?=
+ =?us-ascii?Q?bXLHHU3Dc7CYg9tvULrRaYjzzvHR5acZU5fTXupfmSb6gb/O2czNTCekJitp?=
+ =?us-ascii?Q?LsTc0hSb9Pkud8YjKdQxV5aopf+8rKwQ9FvxVTQ2qMrkdCJsxw9bQFDcfbIk?=
+ =?us-ascii?Q?dAKuLtV+oKHjE6xHToVeO3yTnBj4nfHicL1WvCdZT75Uj1tgwVo4SwKg+FFN?=
+ =?us-ascii?Q?n9g0LFArholPwTGMMKDBIlwp7RzAeVofkqWXFVCKtLOqUXRlmukag3E1kKqh?=
+ =?us-ascii?Q?GA2g/NMxpKJWXca0o5LtNq0Fgun8UZLG8PVT2ua3DY7/yd+fl0ZDjAEyPYyX?=
+ =?us-ascii?Q?Ab6+i2j+QUPlMsOElcG5y8J6SH4JIcIc+pGO24i6+4x8wl1zjdO9MoDcakFf?=
+ =?us-ascii?Q?Q+80XNX1/Ix7flTTbF2WL5Z2r8J/QrH3DO4OSuxwvjgbvZS1jhXgfl1qHjVr?=
+ =?us-ascii?Q?oMx0hrIkg0A8BWuFUqxF3JhLyBsnoSf8oM66sjFMZvUPjxAlB59z/OZ7UODE?=
+ =?us-ascii?Q?W7BdOBtMdlYTKtYTvmMV2Eq2t4yXxwmJTUTQRfzqguPnm7+lAq+NvaXF2OWd?=
+ =?us-ascii?Q?VEHop4wdKFeQgAIigzvzB3NpgAJMoffh0+kSwhnDc9A+ht5UNHnHYvFpwfJ2?=
+ =?us-ascii?Q?9zlwx8SbeezJ/oAJ92elH9AT0NFi/N7ZN/s2pfKND0T/aRNjDcROxe+BucM3?=
+ =?us-ascii?Q?LLfswLgZA/yXO5iDzv/4R97y6G1pwv5vNGVwjXfUqVvbkEcbJVIiZlyQgRxb?=
+ =?us-ascii?Q?XdniAH2YIHo2gshv3z6zFeQRgy7WoBOeN4TLUIAwV1lscJZ6D30eDT8DrPz8?=
+ =?us-ascii?Q?VSArZo11zg=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a2a3dbd-9652-4c39-9fa8-08de7e6f5005
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 06:36:08.6392
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pBb13ZTIm3aDBEzz8GPOVaKKM6cODlelmQCqiMJUDxo63ktTg87G+OQgqnvCu0+5XyawK2tpSDCn1VfFcaYsJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11759
 
-The acp_card_rt5682_init() and acp_card_rt5682s_init() functions did not
-check the return values of clk_get(). This could lead to a kernel crash
-when the invalid pointers are later dereferenced by clock core
-functions.
+The imx-card machine driver originally supported only codecs operating
+in i2s or dsp_b formats. This machine driver can support CS42448 codec
+and this codec typically uses dsp_a for its TDM interface. Therefore,
+dsp_a format support is required for describing such sound cards in DT.
 
-Fix this by:
-1. Changing clk_get() to the device-managed devm_clk_get().
-2. Adding IS_ERR() checks immediately after each clock acquisition.
+Update DT bindings to include "dsp_a" in the list of supported DAI
+formats.
 
-Fixes: 8b7256266848 ("ASoC: amd: acp: Add support for RT5682-VS codec")
-Fixes: d4c750f2c7d4 ("ASoC: amd: acp: Add generic machine driver support for ACP cards")
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 ---
- sound/soc/amd/acp/acp-mach-common.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/sound/imx-audio-card.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
-index 4d99472c75ba..09f6c9a2c041 100644
---- a/sound/soc/amd/acp/acp-mach-common.c
-+++ b/sound/soc/amd/acp/acp-mach-common.c
-@@ -127,8 +127,13 @@ static int acp_card_rt5682_init(struct snd_soc_pcm_runtime *rtd)
- 	if (drvdata->hs_codec_id != RT5682)
- 		return -EINVAL;
+diff --git a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
+index 3c75c8c78987..5c08289346c0 100644
+--- a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
++++ b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
+@@ -36,6 +36,7 @@ patternProperties:
+         items:
+           enum:
+             - i2s
++            - dsp_a
+             - dsp_b
  
--	drvdata->wclk = clk_get(component->dev, "rt5682-dai-wclk");
--	drvdata->bclk = clk_get(component->dev, "rt5682-dai-bclk");
-+	drvdata->wclk = devm_clk_get(component->dev, "rt5682-dai-wclk");
-+	if (IS_ERR(drvdata->wclk))
-+		return PTR_ERR(drvdata->wclk);
-+
-+	drvdata->bclk = devm_clk_get(component->dev, "rt5682-dai-bclk");
-+	if (IS_ERR(drvdata->bclk))
-+		return PTR_ERR(drvdata->bclk);
- 
- 	ret = snd_soc_dapm_new_controls(dapm, rt5682_widgets,
- 					ARRAY_SIZE(rt5682_widgets));
-@@ -370,8 +375,13 @@ static int acp_card_rt5682s_init(struct snd_soc_pcm_runtime *rtd)
- 		return -EINVAL;
- 
- 	if (!drvdata->soc_mclk) {
--		drvdata->wclk = clk_get(component->dev, "rt5682-dai-wclk");
--		drvdata->bclk = clk_get(component->dev, "rt5682-dai-bclk");
-+		drvdata->wclk = devm_clk_get(component->dev, "rt5682-dai-wclk");
-+		if (IS_ERR(drvdata->wclk))
-+			return PTR_ERR(drvdata->wclk);
-+
-+		drvdata->bclk = devm_clk_get(component->dev, "rt5682-dai-bclk");
-+		if (IS_ERR(drvdata->bclk))
-+			return PTR_ERR(drvdata->bclk);
- 	}
- 
- 	ret = snd_soc_dapm_new_controls(dapm, rt5682s_widgets,
+       dai-tdm-slot-num:
 -- 
-2.25.1
+2.50.1
 
