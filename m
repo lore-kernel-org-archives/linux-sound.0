@@ -1,262 +1,197 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C2D13DDA4
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 01:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773193532; cv=none; b=dlvcr+HS3QpozwdHSFUfN5ttz0JNoGlLPjIfbxmNULzGkmAYNr+JvExz9qtCLav0mPYC0lVPXX+D4vVGjuMiwPIyVgApz1nHOtKYPJLhWQoRVoH//BXgueWQhar98BdDokUU/Q0FoLpTpZPmgsmBnyzwKXRj6y8xMHv2U2Xzwg0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773193532; c=relaxed/simple;
-	bh=5YtUYEmAFTe9h0/m9ByxK+bX3xsmB1lIBbTonuwpxL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XXzFBW/RTWvgvbeF3tnfqKkeplgc6PSGyOwLAExXjwEUQsA7wtnbQLM9ytcV/iANOnebe8JCnl1/cDZzdDffa1de1UP6Glm+ViONvz1FmCWCHXzFCv0Cu4YRmRhPf8mfSQzLL8gpVTlORgxomGOnmxymqTNEMt5LMZkToeAqPpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ClVhRmEd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ffjZc9XN; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF903290CB
+	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 02:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773194859; cv=pass; b=YDGjBNYlLVUDyouYkkupIBThWEMCX1pOOpcY6ucmaEkEowfn765uGxJl0r0UruuYtSIckV8lcXf1lhN78TZy8THNg4ywQ40o0Mpn4Gf+PgHYpCh3p5vymHiwUPAiefHQdY3WVPOJwXgy7yfSK3MuTovM8RJM2r24/aHbcMmMXwI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773194859; c=relaxed/simple;
+	bh=8UJnLa/DDQ+b65RDSHa97nR/Rm6zetnRjswOkVb13wc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l2g2yzZ4Dybh6kuhvcBULVguDYhdrEOCm8tFVHG5HxZiMK4r1ieV3XC7DvFbBP/+LmMwsbfu65u9ArSpCtaVdbPZteok84/rVMReHCYXmpmbYEy9zrdrliUY8eD89Ecnaq3KiIRSp5NcaBqhT+HUD7Ww+h1VR8ou9i4C8J9QSO4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SqpOgAb4; arc=pass smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ClVhRmEd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ffjZc9XN"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62AHClCi1572929
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 01:45:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=MnvYoQz83uuHbndV1q5nJmq+
-	tn2JTM91TDSnDm7YcUk=; b=ClVhRmEdykA/wzekWq7Ui6cVkrYWn5qU4rGioJoH
-	ZCBDRTCEirktT37AFltIBA+AuUWtM2vm4XG5BtD2ctSJQtZ7jNFQidtijVdOxyPA
-	WiEbrqB+TGW5UDz0fi1KdmAuFJm1h7YCAYCPlHf49xtZwrfn94yYzAGH63bGOXeA
-	zNmqgOWRwkbhSqiOeEY3vueBQe1DUT/oL1yfui4j2InrRPr6hbtl3bIGb/UxG76w
-	c9AaHmhVfj71vPsS1SA0y3pjJc9Rpsrajx4pCGGcadxSQ8T1yO3asQv7ESu7hYx0
-	bTYu6fuXE/vI8iHcNZ9NGCj06THoRvLEitYXMUnGS9drwg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctqgk9fja-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 01:45:29 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5093b19111fso19128481cf.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 18:45:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SqpOgAb4"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a13d1c6f25so4703793e87.3
+        for <linux-sound@vger.kernel.org>; Tue, 10 Mar 2026 19:07:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773194852; cv=none;
+        d=google.com; s=arc-20240605;
+        b=D9CvGu4+M/M9O6P7Tq+nI9e3Nln6MfSPfTvACmqQOH4GCIRPFiTD8/7gyyeDDQgWla
+         XFcaBaFgHoay2gsbXkngMTsqtmihCMDcKsNgo9CWKKgp3Q/rm3FBfvFc54DI5fkVlDNc
+         ptkuDzCfeUIYw9rfKuGZDgwnGrvZMq7wrsu2HvOohEZDwJcAqYyo+ZsP1G4JrEjUqvHq
+         6X/jSfqkBtEFVuD0CisAToE4LiNXoQWurqkBTPe5wxcPEbMtSIGCv5QvIsO32+q5gASH
+         M/D2pDMVweI/USCplrUlqZn3Tad+QB/E64bNBI5keBsQlDWDbTSmjbPbbvwegbCq+sTK
+         04wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
+        fh=DK+R0QsIVVEyFiabNyeLpYG7c+rKIbPHKqKa+/e1/Zw=;
+        b=NhQSoGOh93pX9qhnQ9ulfbnlOB0UwlNMq5JZEE4AZ9i2nBoZb1Wp/hnILBNSA5bufw
+         DeWpIidnMAcRDXMQAEgCpLNF36i+N/rcmB4LE5axCHyGVqOzU39HB2HBAJt/m3C78BqT
+         JA5bm+RCMjxLNvLH8dEs0sRxx71hsiMYGaKkLk740vlKpdW5UMyHlDkcZyMfq8ZtRWsC
+         BbCvdFtlYINFjBzNbncmb/RtVwiwNM9VunrRPalWK4jXvCaJk0hSiApxZtDx2VeNScbR
+         BPxrvUCa1x0dQb3EWtObVY5TsIE+nTj2M97xWx1ZCdRzxSzuhnXE1KPf96r8l/hZzdkM
+         T7+A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773193529; x=1773798329; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MnvYoQz83uuHbndV1q5nJmq+tn2JTM91TDSnDm7YcUk=;
-        b=ffjZc9XNnC3iTGt9sAYTjR5oFxXs0ff9XMoCtnay1UCNPmaOuj2rqe815syF5Jqcdu
-         zocDcLzIee+DYZbRB75T5qBFICSa1MdRtN7Phs2tLwFX4CRPtUA1ezaSiYEvHCb3XkTR
-         1O+OmVroAdH3vhGsCsYaky6Iv2BTleNCmULvyl9Pi5SVFp+suPGAhU5Vyrfed8AuxVI1
-         kfS/PNIxSsrrnJNZkT3PjEKCmSZORT+d7L6E6ljSdaYPeBYKIgmsE78aioHJZphgrkrn
-         pGe6hE8k8Qi0378QnLrMopPIhIPnJdxls4Cyunba361Uw/ME4VvEIQDffrrD4/l6yp9W
-         gr9w==
+        d=chromium.org; s=google; t=1773194852; x=1773799652; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
+        b=SqpOgAb4CQOCp6QT1IhDiJXNOENCCAthmmQiQ2Xm1LqdH6AuNnr9pWEOxoaM6J2EHp
+         TaZvrNsWvEAAdeAh3rGZCGLrxzU767HUy57VJt43+079ae3+2kuAr2+JBVbU8T9+l/BT
+         vjjO+GANIyds0bGFgUhdgNG0FnF3NJi/nWQH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773193529; x=1773798329;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MnvYoQz83uuHbndV1q5nJmq+tn2JTM91TDSnDm7YcUk=;
-        b=XKbRDR93AkAC17N2hprepJZYTFzA3SCl/R9Vt7H4S7xeKutnyxVuyJpRA/vFzsegzd
-         SSVzxegESB0ABm0S7w7dQhQ3ATBO92ZBNG20HufgKp3+YZaehitRlc38Mr75fUHPlniu
-         C8m2pOTwzpOLsJkTHMISdee1n7/RhIKTANpYYZ39WMvBaaX64gos658qoacptzFEs3Xm
-         aNJwoexJ0dboggem+qaKEOhUmiEVVZI6e5GWKVfmFlN1T7rZZlK9UZJBsbUKDGyXQire
-         /T5UKtKHyYyem/kXOSy69xToIlwVh/+SZU7t9IpXCwT1z7FGpkS0QZRz4ky3QZvYWdBD
-         8/5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWWn80umqPO7GE6lR7NBYrbz1K9ogaYHAaPA2UEFvwDTNlNRPxJny+rQfnUpGK/89PDylHFZ4IlzuQ6mQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzyk+S8tTPl8btbOFbjNieu+2cRUq/n13nUOQDj7hs7zezBfPV7
-	/nNRu6TvxRia6aaPa5dY0vKEFQAALiFC0D6kSd4XAJ7auWaE5fWqECXzttjsILBRYuNcLuk453q
-	VpW5tpopV1zHNDLLOObp4Hr/luxkNnxojYwYmPZ0Q9cnOlwtt3NJ0gtUXm5Wmql0Ang==
-X-Gm-Gg: ATEYQzzSVlPOq7ng7UVWau27sP31/7e6oGpqjawFqqxjCtfPSdsPi2TKvv6efoxoPFy
-	tQ5/siKwqINxBlv7KLG/Y/bwLU5CYtKQyn5U9no7nUBwY1qIt9HFHT1pe3x0vg/QOMDZ8lyGGfg
-	TZkC6AISlRG4Jhm5mEizLnuUw2XUxKi8MtDRvtDAPXcw9gTp/vqHqvvtQLa+KsW61daxutFyEZ5
-	oCA+gELhnQjgvlNXXpvj5+W7DgAJkmC0yFtz5cv0krbeqtkQRSiVjp/noMkSv80dmGWul7gehHH
-	x8r1Rz5R0hpa92DZ/4RTqDTRg36llZxRkb9CoOflHNM5pdjDJH59Hl5cCALOZU3/rHjyk+U8VHf
-	Y4uqK1c+yTi4ZDURIzalaL/thnxjlnoyF17WXzM3JT1qXIdRg/PNOHxZ1zfNSBslnsKG9UHOQHH
-	2MPLlKhl3yo9yJN4edB+RIhn6CKWxtq7faT18=
-X-Received: by 2002:a05:622a:180c:b0:509:379b:d48 with SMTP id d75a77b69052e-50939f530camr11693091cf.9.1773193528712;
-        Tue, 10 Mar 2026 18:45:28 -0700 (PDT)
-X-Received: by 2002:a05:622a:180c:b0:509:379b:d48 with SMTP id d75a77b69052e-50939f530camr11692941cf.9.1773193528307;
-        Tue, 10 Mar 2026 18:45:28 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a155f33be6sm132524e87.7.2026.03.10.18.45.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 18:45:27 -0700 (PDT)
-Date: Wed, 11 Mar 2026 03:45:25 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 4/7] slimbus: qcom-ngd-ctrl: Register callbacks after
- creating the ngd
-Message-ID: <auuvpevzpawojqo2girimhfaudtueukbgibklfzwiseslpswmg@qto5chpsermz>
-References: <20260309-slim-ngd-dev-v1-0-5843e3ed62a3@oss.qualcomm.com>
- <20260309-slim-ngd-dev-v1-4-5843e3ed62a3@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1773194852; x=1773799652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
+        b=RKru8SlXi1naEajGOrMej0tRIZnn6/xyNlmfVY/vUoVdWQyX5hoQFHUeo7/Xu/IWc7
+         GVF45iNFBD3SfvlsVKc4clsYzG5ELE5vadVhFelm7Ny0yV6zyRjuPyR1DyE7o0NWNdo3
+         shivOBtIn0SxcCg8OC67RTT7y1RVTeOfdUtwq8HUbLiU1X9NNwgiiGxJGeeTiCw3dKbo
+         nW1KwiirlrLGdomYfCaxrvvJD++3VOPQwfBSWYqUB02BAObuw3qjFviwT3L8YKpuXScN
+         Pr1lebUypM2IFumHXMl2kwDhGZ5O/mDcIWMT8kJ9V88/8X89GeufG1B1OYriKwTYSDlN
+         Fl1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWQxAzqqt4EofwB7ZnsAwJtAORAo2UE2+VVi5jo3MLJOsTBzDCEOiSrvqROYnd3CycNP/YipaNM9euQnQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbG9qLmxv6GbK9EXd157DxZnNA56H7qFnAeX2CAb2X1T9Fq10S
+	EXo89Js7PRTr9mPMYsov+nqfFyzlVCSdL41xbbqlo9qyWHZ11dYRSaCVvmdGvk95U6j2/Ik6qnP
+	CChxbXL+hStFKBxu3MZpR+n00z+A1J/cAAruwOKV1
+X-Gm-Gg: ATEYQzz99pXgVpsQnTKtguDBV+F0AWLR+gSJavgfVyQWVYoNkvElmtU3Bhoe9KTex/y
+	WXae85v5NZrdvxp6mKXflHymhIq9vd1cfFPviOphjQ5x4LvYORFGB3cCLL1UFy17eh4tPLkaGQa
+	jPzMhP3fkHHhnFgM3rvUBKUYdQznOR1AT0o4w3lAaKviPHe+sXueI9FWZQMw88PDShZjo2KOvd3
+	TbzSWKf/CnpiuxPuTjfuYBqEphpF/5SkZRpQBdQA4Il2l4oGmDEyHv3vhgQDoN4QV4YdOEUrIJm
+	qSbm9svbew==
+X-Received: by 2002:ac2:4427:0:b0:5a1:3134:9bac with SMTP id
+ 2adb3069b0e04-5a156cbd1bbmr169453e87.28.1773194852284; Tue, 10 Mar 2026
+ 19:07:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309-slim-ngd-dev-v1-4-5843e3ed62a3@oss.qualcomm.com>
-X-Proofpoint-GUID: STR8M932ME3u7_7y0CBEqQwTI5mJgz8E
-X-Proofpoint-ORIG-GUID: STR8M932ME3u7_7y0CBEqQwTI5mJgz8E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDAxMyBTYWx0ZWRfX4AKCcIHOiVSF
- oLVmcu3mzNkTUfP4905zxRNtICaQ6W08kmY9F/BpK9MJZVVOIStSW2C71cPLSZeB83epxMz+GeK
- 4GOtC0pcvTGhlUyzzGJlP89qDuXmumfgWp5NhGtTbbkSEf6VYW7Aj9G2yEDUZZWRCM2ReA57uqv
- ylTkWtXz+Fx0eREc8GI74a6utcbUDGCNXwpwGLPiSI1YRzo5fMDCJakzOwQQvG8kkS7AGiDa5h5
- wtu1V2h1afjUTlVQJjLgMMHpEB0Ac5uFgl/dzsUfvewAKvnOjquioUzMvs0IshcsS9AHybHFhkp
- Em9QPDpBfI1Sc2irUc4xmTuvrofH9XyrCde7BEtAujTRDh6IUguok2yovfwxd0IiHoGBdoBoNZo
- 5qpgn2z704GhrrqMnjdYE1oJ83sFnuIER5SgNzu3YdPxOjdtxpnTngFBH5qepOidplrEW0DKoKY
- R0TzgGtv7Nk2tGlNAPQ==
-X-Authority-Analysis: v=2.4 cv=M4JA6iws c=1 sm=1 tr=0 ts=69b0c939 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=1m0rO8gg5OcOTR6atC4A:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_05,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 adultscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603110013
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
+In-Reply-To: <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 11 Mar 2026 11:07:21 +0900
+X-Gm-Features: AaiRm5028PWt8n-JnveiRgn8oYMksdR_-_nk4JOkvxMfplWs-GDr7RRk-OxICyw
+Message-ID: <CAGXv+5FQAVaJjqhv+Xq-ysOc4SHQn2mCNTgCAp8XocmWBWGGoA@mail.gmail.com>
+Subject: Re: [PATCH 56/61] clk: Prefer IS_ERR_OR_NULL over manual NULL check
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
+	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
+	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
+	samba-technical@lists.samba.org, sched-ext@lists.linux.dev, 
+	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
+	v9fs@lists.linux.dev, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 09, 2026 at 11:09:05PM -0500, Bjorn Andersson wrote:
-> When the remoteproc starts in parallel with the NGD driver being probed,
-> or the remoteproc is already up when the PDR lookup is being registered,
-> or in the theoretical event that we get an interrupt from the hardware,
-> these callbacks will operate on uninitialized data. This result in
-> issues to boot the affected boards.
-> 
-> One such example can be seen in the following fault, where
-> qcom_slim_ngd_ssr_pdr_notify() schedules work on the NULL ngd_up_work.
-> 
-> [   21.858578] ------------[ cut here ]------------
-> [   21.858745] WARNING: kernel/workqueue.c:2338 at __queue_work+0x5e0/0x790, CPU#2: kworker/2:2/116
-> ...
-> [   21.859251] Call trace:
-> [   21.859255]  __queue_work+0x5e0/0x790 (P)
-> [   21.859265]  queue_work_on+0x6c/0xf0
-> [   21.859273]  qcom_slim_ngd_ssr_pdr_notify+0x110/0x150 [slim_qcom_ngd_ctrl]
-> [   21.859304]  qcom_slim_ngd_ssr_notify+0x24/0x40 [slim_qcom_ngd_ctrl]
-> [   21.859318]  notifier_call_chain+0xa4/0x230
-> [   21.859329]  srcu_notifier_call_chain+0x64/0xb8
-> [   21.859338]  ssr_notify_start+0x40/0x78 [qcom_common]
-> [   21.859355]  rproc_start+0x130/0x230
-> [   21.859367]  rproc_boot+0x3d4/0x518
-> ...
-> 
-> Move the three registrations of interrupts, SSR and PDR until after the
-> NGD device has been registered.
-> 
-> This could be further refined by moving initialization to the control
-> driver probe and by removing the platform driver model from the picture.
-> 
-> Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+On Tue, Mar 10, 2026 at 9:57=E2=80=AFPM Philipp Hahn <phahn-oss@avm.de> wro=
+te:
+>
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
+>
+> Semantich change: Previously the code only printed the warning on error,
+> but not when the pointer was NULL. Now the warning is printed in both
+> cases!
+>
+> Change found with coccinelle.
+>
+> To: Michael Turquette <mturquette@baylibre.com>
+> To: Stephen Boyd <sboyd@kernel.org>
+> To: Daniel Lezcano <daniel.lezcano@kernel.org>
+> To: Thomas Gleixner <tglx@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
 > ---
->  drivers/slimbus/qcom-ngd-ctrl.c | 52 ++++++++++++++++++++++++-----------------
->  1 file changed, 30 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-> index 09ce3299e15c25b1b9cf6b1559850adf4aa20737..76944c515291a62fb9cb192bec5cd5c2caa542f4 100644
-> --- a/drivers/slimbus/qcom-ngd-ctrl.c
-> +++ b/drivers/slimbus/qcom-ngd-ctrl.c
-> @@ -1613,6 +1613,7 @@ static int qcom_slim_ngd_ctrl_probe(struct platform_device *pdev)
->  	struct qcom_slim_ngd_ctrl *ctrl;
->  	int ret;
->  	struct pdr_service *pds;
-> +	int irq;
->  
->  	ctrl = devm_kzalloc(dev, sizeof(*ctrl), GFP_KERNEL);
->  	if (!ctrl)
-> @@ -1624,19 +1625,9 @@ static int qcom_slim_ngd_ctrl_probe(struct platform_device *pdev)
->  	if (IS_ERR(ctrl->base))
->  		return PTR_ERR(ctrl->base);
->  
-> -	ret = platform_get_irq(pdev, 0);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	ret = devm_request_irq(dev, ret, qcom_slim_ngd_interrupt,
-> -			       IRQF_TRIGGER_HIGH, "slim-ngd", ctrl);
+>  drivers/clk/clk.c               | 4 ++--
+>  drivers/clocksource/timer-pxa.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index 47093cda9df32223c1120c3710261296027c4cd3..35146e3869a7dd93741d10b72=
+23d4488a9216ed1 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -4558,7 +4558,7 @@ void clk_unregister(struct clk *clk)
+>         unsigned long flags;
+>         const struct clk_ops *ops;
+>
+> -       if (!clk || WARN_ON_ONCE(IS_ERR(clk)))
+> +       if (WARN_ON_ONCE(IS_ERR_OR_NULL(clk)))
+>                 return;
+>
+>         clk_debug_unregister(clk->core);
+> @@ -4744,7 +4744,7 @@ void __clk_put(struct clk *clk)
+>  {
+>         struct module *owner;
+>
+> -       if (!clk || WARN_ON_ONCE(IS_ERR(clk)))
+> +       if (WARN_ON_ONCE(IS_ERR_OR_NULL(clk)))
 
-This should be still called here, with the IRQF_NO_AUTOEN flag and then
-manually enabled after registering the subdevice.
+clk_get_optional() returns NULL if the clk isn't present.
 
-> -	if (ret)
-> -		return dev_err_probe(&pdev->dev, ret, "request IRQ failed\n");
-> -
-> -	ctrl->nb.notifier_call = qcom_slim_ngd_ssr_notify;
-> -	ctrl->notifier = qcom_register_ssr_notifier("lpass", &ctrl->nb);
-> -	if (IS_ERR(ctrl->notifier))
-> -		return PTR_ERR(ctrl->notifier);
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
->  
->  	ctrl->dev = dev;
->  	ctrl->framer.rootfreq = SLIM_ROOT_FREQ >> 3;
-> @@ -1659,24 +1650,41 @@ static int qcom_slim_ngd_ctrl_probe(struct platform_device *pdev)
->  	init_completion(&ctrl->qmi_up);
->  
->  	ctrl->pdr = pdr_handle_alloc(slim_pd_status, ctrl);
-> -	if (IS_ERR(ctrl->pdr)) {
-> -		ret = dev_err_probe(dev, PTR_ERR(ctrl->pdr),
-> -				    "Failed to init PDR handle\n");
-> -		goto err_unregister_ssr;
-> -	}
-> +	if (IS_ERR(ctrl->pdr))
-> +		return dev_err_probe(dev, PTR_ERR(ctrl->pdr), "Failed to init PDR handle\n");
-> +
-> +	ret = of_qcom_slim_ngd_register(dev, ctrl);
-> +	if (ret)
-> +		goto err_pdr_release;
->  
->  	pds = pdr_add_lookup(ctrl->pdr, "avs/audio", "msm/adsp/audio_pd");
->  	if (IS_ERR(pds) && PTR_ERR(pds) != -EALREADY) {
->  		ret = dev_err_probe(dev, PTR_ERR(pds), "pdr add lookup failed\n");
-> -		goto err_pdr_release;
-> +		goto err_unregister_ngd;
->  	}
->  
-> -	return of_qcom_slim_ngd_register(dev, ctrl);
-> +	ctrl->nb.notifier_call = qcom_slim_ngd_ssr_notify;
-> +	ctrl->notifier = qcom_register_ssr_notifier("lpass", &ctrl->nb);
-> +	if (IS_ERR(ctrl->notifier)) {
-> +		ret = PTR_ERR(ctrl->notifier);
-> +		goto err_unregister_ngd;
-> +	}
-> +
-> +	ret = devm_request_irq(dev, irq, qcom_slim_ngd_interrupt,
-> +			       IRQF_TRIGGER_HIGH, "slim-ngd", ctrl);
-> +	if (ret) {
-> +		ret = dev_err_probe(&pdev->dev, ret, "request IRQ failed\n");
-> +		goto err_unregister_ssr;
-> +	}
-> +
-> +	return 0;
->  
-> -err_pdr_release:
-> -	pdr_handle_release(ctrl->pdr);
->  err_unregister_ssr:
->  	qcom_unregister_ssr_notifier(ctrl->notifier, &ctrl->nb);
-> +err_unregister_ngd:
-> +	qcom_slim_ngd_unregister(ctrl);
-> +err_pdr_release:
-> +	pdr_handle_release(ctrl->pdr);
->  
->  	return ret;
->  }
-> 
-> -- 
-> 2.51.0
-> 
+Drivers would just pass this to clk_put(). Your change here would cause
+this pattern to emit a very big warning.
 
--- 
-With best wishes
-Dmitry
+I don't think this change should be landed.
+
+
+ChenYu
+
+>                 return;
+>
+>         clk_prepare_lock();
+> diff --git a/drivers/clocksource/timer-pxa.c b/drivers/clocksource/timer-=
+pxa.c
+> index 7ad0e5adb2ffac4125c34710fc67f4b45f30331d..f65fb0b7fc318b766227e5e7a=
+4c0fb08ba11c8f9 100644
+> --- a/drivers/clocksource/timer-pxa.c
+> +++ b/drivers/clocksource/timer-pxa.c
+> @@ -218,7 +218,7 @@ void __init pxa_timer_nodt_init(int irq, void __iomem=
+ *base)
+>
+>         timer_base =3D base;
+>         clk =3D clk_get(NULL, "OSTIMER0");
+> -       if (clk && !IS_ERR(clk)) {
+> +       if (!IS_ERR_OR_NULL(clk)) {
+>                 clk_prepare_enable(clk);
+>                 pxa_timer_common_init(irq, clk_get_rate(clk));
+>         } else {
+>
+> --
+> 2.43.0
+>
+>
