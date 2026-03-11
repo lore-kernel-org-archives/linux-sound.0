@@ -1,97 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4F03F54B2
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 09:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B1E1F0991;
+	Wed, 11 Mar 2026 10:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773221546; cv=none; b=r3A+jr7M1dmxDT8g1uoVxFNgfxGhaBjXsjvacilj3BcyZzwORvfTtvKjYFUNV4Iy3JNQcH9GUF3znb9l+F0WMVKwXSlZ9Owut5CA7zZwTFl5kLWk6ISIHa9CZHWTkspowx9370Jj+s/kpd7WyOrSsNIru3yckSVg/sqoBfc61UM=
+	t=1773226042; cv=none; b=Ldr1Lhfy0Vy63sCk3WV5we7th7RDYLq916RmB1EFgcodW9cUf49ylnS3rEZR1BWHRD9vM/W5F3gQOCCa9w0y1DhhaaqccegCnKrMmMPw7k0aPA7Hh2GWxQ5OZdPX3C6D4XUmm6SlGBpVIndS/VyHX+JWm6GnzCIRypkVYZAViJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773221546; c=relaxed/simple;
-	bh=JGYhPK256pxU9EiY8jbQSSjgozqR8V5kd9EUseD+GRo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lDPbIJX30/OfdLsE2BHzTX7jbYMiPXOpA5j6nZZN0URtgNrQnRggRxPparRQodJln6PKo0iETdOrUjfDMLAU6+mt52wlIj51GDRWbeyEWHKG6nftPOXTd1tMgwd1Ubeyd3mhnJ+hfZD/E/jaONTblzUxAJdIQu923r0pSmwOvoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFhFoVNi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773226042; c=relaxed/simple;
+	bh=GP1B1ZYgX1FnQaD4YpBvnLBXU6XwdrvHxpYOTRfNQxQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=l2m2MvaNQ+DyMzOfizhwmxnPB1umYMOik9wwzaAOg+uyzz49VQlNZw9TcKVdfU/ewDVvpFuh1VDzqw91XRPoR8p6e1l+V/YMaJ0UslRt3fM2UrIL5L9CUpTI3KU1alSCS5GJq/3k8DOMqNsvihzK5lD9ljaOE2NB73Xj/ukHfdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h0HfqY1U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFhFoVNi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36EDFC4AF0E
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 09:32:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h0HfqY1U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1144C4CEF7;
+	Wed, 11 Mar 2026 10:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773221546;
-	bh=JGYhPK256pxU9EiY8jbQSSjgozqR8V5kd9EUseD+GRo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HFhFoVNiTrG9LQIv0ppKNoD/HrLrqirjTX+9UZCfZCZR1ACy9KY8vzAF+UubsxXyb
-	 7A/AuxjB4pyfRVKpNo6VtwqDxAsV9i3OOu1suwbvFFD+dDURdR+fYaKC55vrGeQY9Q
-	 cSfgyMDf/Q66zJ3KWwfMvjGW3KxBKWlpZI+D0gyhlDHCmqkd60AvBaOv309nWmMVWV
-	 CYlN2OWwesW62EumkmGZjYKDzJerzMaIQkjARv2P34b/XlQnitMbZc1GQEBU1oFAvA
-	 btyT8hZcwwyybJD9LXcRDJBi0I3lkqqR8+lcx+5G7+1oP2ywnfC8KCi8970yZ/P/V5
-	 nMGE+UjgzzO6g==
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64ae222d87dso12762984d50.2
-        for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 02:32:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWlfVwrFY2fjAAiQBSuM3uzYmnCZ8N96DzS559Vk+Yy7i955feNiCuMtZLGlAfnhhq2zrjR7xksDhAnZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5e/djHxiGpBNYGoIzntfyOQoy5gdEqhcSM1mIdijd1vBrwOhD
-	tM2/S00xz0NtW4v45eyRy+4+EWZ2oJzPkDFq6j4xf89JaTfE48BS5oQc7yZ9tPM15wnYrSMjWn3
-	UwtVM3z6QAjo9NY58Qg8zUHRFd4WG+jQ=
-X-Received: by 2002:a05:690e:144d:b0:64c:e890:fbb9 with SMTP id
- 956f58d0204a3-64d656f696dmr1649157d50.20.1773221544775; Wed, 11 Mar 2026
- 02:32:24 -0700 (PDT)
+	s=k20201202; t=1773226042;
+	bh=GP1B1ZYgX1FnQaD4YpBvnLBXU6XwdrvHxpYOTRfNQxQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=h0HfqY1UE+TqiiCwKKe0rosUqYQ3pqVYaaUiBP/FFQ8e02esunfgsUqJHjdsnjGJe
+	 1vU+ET9ir+BnoGjnsstF7er9SDFvoTDg8XWq8gyEDfhxN8vxOyt8UmjZnlN0OwmGJ2
+	 NsdOM1qSKaR6EKCYBaGc5LNVY8Z7udwEcBjiGzqxeJZs5izkMBw7qEHLTO1CYo9Fd3
+	 aRmYGp6GAajQ5MrUIeui3LKh65324NZDPRWtx+BHSaQWnLPrucaGRK/0HZxatLSosr
+	 l8NXFj4odsOH+rQWxkHoRRrqANUWtbvmCr5rTsilHapL9/LNK8/yYI0k28xZF7Nv2J
+	 kMcwOm5l91fOw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Pengpeng Hou <pengpeng.hou@isrc.iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ 18291782795@163.com, pengpeng@iscas.ac.cn
+In-Reply-To: <20260309082824.717012-1-pengpeng.hou@isrc.iscas.ac.cn>
+References: <20260309082824.717012-1-pengpeng.hou@isrc.iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: da7219: scope AAD suspend and resume helpers to
+ CONFIG_PM
+Message-Id: <177322604039.10345.14331262388046644191.b4-ty@kernel.org>
+Date: Wed, 11 Mar 2026 10:47:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-41-bd63b656022d@avm.de>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-41-bd63b656022d@avm.de>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 11 Mar 2026 10:32:12 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnDv00ErgVdQ4EBpKH9KMWrPD8ODrQ6m846zyQ=wNzCzQ@mail.gmail.com>
-X-Gm-Features: AaiRm52aI8z_G2E4qYaKWPEA43RhLektjwMDQXSLwHd-Xy_BYcin-6heFFY4jM4
-Message-ID: <CAD++jLnDv00ErgVdQ4EBpKH9KMWrPD8ODrQ6m846zyQ=wNzCzQ@mail.gmail.com>
-Subject: Re: [PATCH 41/61] pinctrl: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	samba-technical@lists.samba.org, sched-ext@lists.linux.dev, 
-	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
-	v9fs@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-68380
 
-On Tue, Mar 10, 2026 at 12:55=E2=80=AFPM Philipp Hahn <phahn-oss@avm.de> wr=
-ote:
+On Mon, 09 Mar 2026 08:28:24 +0000, Pengpeng Hou wrote:
+> In current linux.git (1954c4f01220), da7219_aad_suspend() and
+> da7219_aad_resume() are defined and declared unconditionally. However,
+> their only in-tree callers are the component PM callbacks in da7219.c,
+> which are already guarded by #ifdef CONFIG_PM.
+> 
+> This inconsistency leads to unnecessary code inclusion and potential
+> compiler warnings when CONFIG_PM is disabled. Match the helper
+> declarations and definitions to the callers' scope and provide no-op
+> !CONFIG_PM stubs in the header.
+> 
+> [...]
 
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
->
-> Change generated with coccinelle.
->
-> To: Linus Walleij <linusw@kernel.org>
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+Applied to
 
-Patch applied to the pinctrl tree as obviously correct.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Yours,
-Linus Walleij
+Thanks!
+
+[1/1] ASoC: da7219: scope AAD suspend and resume helpers to CONFIG_PM
+      commit: 4ba5c63778e5cca15b1408f012d00b441f808f3d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
