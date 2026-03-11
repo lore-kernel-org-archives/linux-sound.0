@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034D02FFDE1;
-	Wed, 11 Mar 2026 13:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011052FFDE1;
+	Wed, 11 Mar 2026 13:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773234940; cv=none; b=P9tK8J8efpAs2GvtmU5AsjFy524GDJ20y3U+cxLXgGJxwq/6hWrStJnz53kCqARCzSqZBsO1XKHGtueNToeBndFf1jrnKD3WDYyoOnn4zDtw2xW2ou8RE9vwvhku+Ds9DRT34oE/WGhXrSB1omAzzO5/7Yr7RKXKJ0pC4AmDGFM=
+	t=1773235009; cv=none; b=uU7VLTLy3HPAxw8ok8GyjAwdtHLf7pcCX59BFVW3crGX1g4lTBL5xVWVkC2rRyTEoPB38iagDfj4EkqKzCYIdwL6MR5lFYoJwtRyuFCWm1H392ekcfY0eRtBMKFdWXCLCwZiL3heZKdWa0GoSwuM+8n0OSkSM6wUQl8GVFfRzfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773234940; c=relaxed/simple;
-	bh=gKZw/onhqWjwSGM+LV5eSnocT7BlAjHAUXpS4NXyE/w=;
+	s=arc-20240116; t=1773235009; c=relaxed/simple;
+	bh=JzqP23N58g6pyKhyaXS0PhblsH5uS5tXS9VBTLAteO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=loKVSeg1gmjTlzKRRd5fd4CsikeOWmyqQ5bARLEgqB28VXgvba8jxyHkUNbCgcoyXWZNC6ZdI1HOB0AQu5FFWpPbTiQF8816hg1//pOxQyzQ8e4R1dhA08v8MyPTxYjG3+arOgkSEhngDmLi9dMWTLLJ1Dg8aeHmjLzbRaKPNwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ht4MsTKD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lc8mQI4J35w73NM3g9kGHba7aihMh7O1DBk2Qajfo7xqx0uMJKMwR2N2vvGw7IxJmHqfr4U24Y33DMmJ26TI9ZXqQtzrQ0Kik1teTF2TRR4MzpZkyXINCYDDyc5BckokFeTxHoNWQXCN7DkDUQrLRHcXB6l6L4Uxww4sWpeM33A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+Yvuni7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ht4MsTKD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BC09C4CEF7;
-	Wed, 11 Mar 2026 13:15:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+Yvuni7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39AF9C19425;
+	Wed, 11 Mar 2026 13:16:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773234939;
-	bh=gKZw/onhqWjwSGM+LV5eSnocT7BlAjHAUXpS4NXyE/w=;
+	s=k20201202; t=1773235008;
+	bh=JzqP23N58g6pyKhyaXS0PhblsH5uS5tXS9VBTLAteO8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ht4MsTKDZD82fBFjqZ5duLvuB+kjQPhTYgDigFbyVuAkbFY1UTNNsc/skkDXXBDTX
-	 xmsEBlnNQyjbvLpO7i3X8XPd4Oqzb1/tf/W+SAqbEf83zEvuk9MxSjiy4OaCNiC2xd
-	 WD14jCy5s3wDhpCtV+FOXy+gM5jNXgvapB+bGwJ5o+OdlcpK1nledUmn+Qut7ylkCl
-	 2ixIf0jmYQ8ny6w41BFg2rBbleT9+KQWtIY0UUcngqsbX4+0wDrpE8XZNjNVEj168V
-	 yy+7uk9cb9nVbVDvUdQ4jT8hzkIov0jDzrZ/YIuxi6porfPSwH4qkxy5T9/vX776T/
-	 NmN3X+Me+7GOA==
-Date: Wed, 11 Mar 2026 14:15:37 +0100
+	b=N+Yvuni7S7oFtvk7f8vcjkiZT4OA49RsdUZTchythEBCVtbKzVGaZ5EEZzFTMBk+0
+	 igfYB/FFE6RWIdCu3kKB8nNBxA8HjSg8zHU8xXaJirVFlfzyVt4eOULy2ETBrCXTsI
+	 vnLO8/QzrFo34RS+QfPInTqvANRFfMD1MoqIvyHbG5IDgu6o+7TWhmWO1hKtYIrdiY
+	 vCm7P5gIiV6PDsMFAn7+59jGYrNGkoflR1/Y6sz6mE+OkZOC4wLRq/38pJr98sxCA9
+	 q4Dfr5nrjvD3ke4blDxH+A7fMXCLNHKY4gqCrnYMyk2WZyfFl+GlmbwM02Dv1jBbkH
+	 cxnmr3fDyWu/g==
+Date: Wed, 11 Mar 2026 14:16:46 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Aaron Kling <webgeek1234@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Weidong Wang <wangweidong.a@awinic.com>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Teguh Sobirin <teguh@sobir.in>
-Subject: Re: [PATCH 2/2] ASoC: codecs: aw88166: Support device specific
- firmware
-Message-ID: <20260311-glittering-elastic-deer-a2fa58@quoll>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: Document firmware-name for
+ awinic,aw88166
+Message-ID: <20260311-liberal-reindeer-from-hyperborea-40679f@quoll>
 References: <20260310-aw88166-fw-v1-0-2777563bb673@gmail.com>
- <20260310-aw88166-fw-v1-2-2777563bb673@gmail.com>
+ <20260310-aw88166-fw-v1-1-2777563bb673@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,75 +47,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260310-aw88166-fw-v1-2-2777563bb673@gmail.com>
+In-Reply-To: <20260310-aw88166-fw-v1-1-2777563bb673@gmail.com>
 
-On Tue, Mar 10, 2026 at 11:43:05PM -0500, Aaron Kling wrote:
-> From: Teguh Sobirin <teguh@sobir.in>
+On Tue, Mar 10, 2026 at 11:43:04PM -0500, Aaron Kling wrote:
+> The driver currently loads a hardcoded firmware. Allow devices to
+> provide specifically tuned firmware, so the driver can use that instead.
 > 
-> This driver currently loads firmware from a hardcoded path. Support
-> loading device specific firmware when provided by the boot firmware.
-> 
-> Signed-off-by: Teguh Sobirin <teguh@sobir.in>
-> Co-authored-by: Aaron Kling <webgeek1234@gmail.com>
-
-There is no such tag.
-
-Also, incomplete DCO chain.
-
+> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 > ---
->  sound/soc/codecs/aw88166.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
+>  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
-> index daee4de9e3b01fb335975a65456cc79575533d7e..52d33a2f7cb12877138ea5083ad42e2777f8d323 100644
-> --- a/sound/soc/codecs/aw88166.c
-> +++ b/sound/soc/codecs/aw88166.c
-> @@ -1574,18 +1574,22 @@ static int aw88166_dev_init(struct aw88166 *aw88166, struct aw_container *aw_cfg
->  static int aw88166_request_firmware_file(struct aw88166 *aw88166)
->  {
->  	const struct firmware *cont = NULL;
-> +	const char *fw_name;
->  	int ret;
+> diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> index 994d68c074a9f221576a5bfef6ba125e3e30bfea..e12d030475e24dd11afaa3c9af4b53703f25f981 100644
+> --- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> +++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> @@ -48,6 +48,9 @@ properties:
+>        Flag bit used to keep the phase synchronized in the case of multiple PA
+>      $ref: /schemas/types.yaml#/definitions/flag
 >  
->  	aw88166->aw_pa->fw_status = AW88166_DEV_FW_FAILED;
->  
-> -	ret = request_firmware(&cont, AW88166_ACF_FILE, aw88166->aw_pa->dev);
-> +	if (device_property_read_string(aw88166->aw_pa->dev, "firmware-name", &fw_name) < 0)
-> +		fw_name = AW88166_ACF_FILE;
-> +
-> +	ret = request_firmware(&cont, fw_name, aw88166->aw_pa->dev);
->  	if (ret) {
-> -		dev_err(aw88166->aw_pa->dev, "request [%s] failed!\n", AW88166_ACF_FILE);
-> +		dev_err(aw88166->aw_pa->dev, "request [%s] failed!\n", fw_name);
->  		return ret;
->  	}
->  
->  	dev_dbg(aw88166->aw_pa->dev, "loaded %s - size: %zu\n",
-> -			AW88166_ACF_FILE, cont ? cont->size : 0);
-> +			fw_name, cont ? cont->size : 0);
->  
->  	aw88166->aw_cfg = devm_kzalloc(aw88166->aw_pa->dev,
->  			struct_size(aw88166->aw_cfg, data, cont->size), GFP_KERNEL);
-> @@ -1599,7 +1603,7 @@ static int aw88166_request_firmware_file(struct aw88166 *aw88166)
->  
->  	ret = aw88395_dev_load_acf_check(aw88166->aw_pa, aw88166->aw_cfg);
->  	if (ret) {
-> -		dev_err(aw88166->aw_pa->dev, "load [%s] failed!\n", AW88166_ACF_FILE);
-> +		dev_err(aw88166->aw_pa->dev, "load [%s] failed!\n", fw_name);
->  		return ret;
->  	}
->  
-> @@ -1802,9 +1806,16 @@ static const struct i2c_device_id aw88166_i2c_id[] = {
->  };
->  MODULE_DEVICE_TABLE(i2c, aw88166_i2c_id);
->  
-> +static const struct of_device_id aw88166_of_match[] = {
-> +	{ .compatible = "awinic,aw88166" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, aw88166_of_match);
+> +  firmware-name:
+> +    maxItems: 1
 
-This looks like an unrelated change.
+Duplicated patch. Please work on next or maintainer's tree.
 
 Best regards,
 Krzysztof
