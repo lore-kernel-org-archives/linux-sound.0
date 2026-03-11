@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D635333F587;
-	Wed, 11 Mar 2026 16:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61EA3E121E;
+	Wed, 11 Mar 2026 16:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773245355; cv=none; b=ij5sgSIeoVCx1MbgkTpfACbH8vsccEY4Cyb6lC1IoSmTqbPALyCz7AA5jzD3i96JGnzKvK/LhEAzcjBCvmqNk86ASpgNV1I7fRpf9TBLthvh13t/RCMqsOac8cnz8jSb1kF6ovRTKGerW+6CCBsIWvRhDaND9DuGYsB5TTMuDmQ=
+	t=1773245725; cv=none; b=RoG7kCVPn2DRIGNMZxsainqKAmdO74Ys8wlibWhXqHKxVH/dUzpfJMwkIc1J8v/MDKTBlOWvaJ985IYwZ3jpLeW5aQsUdIo/gMngxv2GfjZzAARpJnoDDAMPLgIic4xsDFh8TGDJm0i50pzGWe5sQSgLsJxz+5l0FWpfaxbEb5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773245355; c=relaxed/simple;
-	bh=SzTkUH1raesE10Ra9omumVtue6JTzR1kD7xlZbxtVz8=;
+	s=arc-20240116; t=1773245725; c=relaxed/simple;
+	bh=peLGTHMQedas99d563bn3rT8GdsZdOfBPrz9+9nCb6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lBN+f89d/dtfM5q4InsrjyN5w8k0ztWJiOU1OH/EbBrHvY8bCBpXvQJqngueqfYCUJvb34bNdANGIqtl2MSED3sfz9MK+p1Grq4ssgZl63BjPQPXogcNnRVNJ2eJujafWBLGYS4M/eBW1jbcrrpxXct+cihLdd5ObAYUkgxXlDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sB7hfVIn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=k+L40L2umZbv+aLgUwRe10VH48FXsyMbWR4zxKLcnufCK3PmUns8BQWpgXat1nkaa4ZB7eDrmEFfTPU94jeWBev/jfR7JcspcpfdWKT3PH9DqS+eLKHDG7rWmmotKBsqCYvfLJiIMFiZKoR+vWKuJxiBcSOxApv6TWemyKvBlbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLslAale; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sB7hfVIn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D9EC4CEF7;
-	Wed, 11 Mar 2026 16:09:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLslAale"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3FFEC4CEF7;
+	Wed, 11 Mar 2026 16:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773245354;
-	bh=SzTkUH1raesE10Ra9omumVtue6JTzR1kD7xlZbxtVz8=;
+	s=k20201202; t=1773245724;
+	bh=peLGTHMQedas99d563bn3rT8GdsZdOfBPrz9+9nCb6s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sB7hfVInC8EvNKqMsDxVyVNvUuuhflvYq67Z8g4zUWXVInKrXtUjvvKmYEJX0PQ9q
-	 hpDj5U/gkpgo0YDpA9atTy2CZviKeK2i2mCFGoOcim4hEUj2XfD93zfKqaFjRgMiJm
-	 k7x/JAazCCLSQ+K1WeYoJy2HOxnki6EdcgG/IQlRNgZ3D0oYz5KXgLEvXyv5oQcryP
-	 S+gCtjAtpjLXdbgeki4RFGH7CzB4lTfFkinNpKsIqFeBNs8fyToQuYBzDKwwo4vB8O
-	 KuzzHK1xXAj+JFaEwK/+U5Fb7t0bdac3dCBQ0I4os4hk5Cd/ur72+r6BxaGVNVxW5r
-	 tYYiIHNqnLw+g==
-Date: Wed, 11 Mar 2026 16:09:10 +0000
+	b=gLslAale4vLmG470jQxB1+dfPXaBtKKNOG+Zme6vowFkywCr0u+t/r2G2diuqJdq9
+	 XMOIU2R+7Xt1g7KGaKmbzaOVyGYyKn/G6kl1Q5s306lRYNZLbX0o43In64Ne31m9cI
+	 vTOAeHZ2DZip8xUPhud9S2siJM5KHh/Er0qrevzANaPWRknSM/6qNdeuAcIK5EFE1Q
+	 MAkAgZmzF0ihghmS48ZcmfTfIMJbZ0sqsquHQHSRIIMmvDeshbBoMlAVfa0kqaLrHp
+	 obkRUBiQTmXNE8T38CfzYNnYtUHKhA3IvKp0nXet1WjCHWHymuuuCPeVqq058NquIX
+	 6wec8qWJzax2g==
+Date: Wed, 11 Mar 2026 16:15:19 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs35l56: Support clock stop mode 1 if enabled in
- ACPI
-Message-ID: <6a3aad9b-c6cd-4c2e-951f-1f62d7997ba1@sirena.org.uk>
-References: <20260311142153.2201761-1-rf@opensource.cirrus.com>
- <80ba7c33-7949-4940-a72c-582ba749b2e7@sirena.org.uk>
- <efbbabe3-b42e-4f54-bef4-d27744f4309f@opensource.cirrus.com>
- <4976ec0c-f4d9-456e-81a9-55fcafa30b9d@sirena.org.uk>
- <7afba327-89b6-49c0-ba56-83da00e0d51e@opensource.cirrus.com>
- <5e12ba28-de41-466c-ae58-aaa32c72955b@sirena.org.uk>
- <c6b8c5e8-fdb6-45a9-aaab-d028e87a90ea@opensource.cirrus.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 6/6] ASoC: loongson: Add Loongson-2k0300 I2S controller
+ support
+Message-ID: <dea0bc84-c039-449c-8a6b-652062df75aa@sirena.org.uk>
+References: <cover.1773107475.git.zhoubinbin@loongson.cn>
+ <cb7062433863aea0d66959fc0f4aee791cab6402.1773107475.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,54 +50,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gaxmdjjv09Vms5WE"
+	protocol="application/pgp-signature"; boundary="s2U7mnTw8PGiDvVS"
 Content-Disposition: inline
-In-Reply-To: <c6b8c5e8-fdb6-45a9-aaab-d028e87a90ea@opensource.cirrus.com>
+In-Reply-To: <cb7062433863aea0d66959fc0f4aee791cab6402.1773107475.git.zhoubinbin@loongson.cn>
 X-Cookie: When all else fails, EAT!!!
 
 
---Gaxmdjjv09Vms5WE
+--s2U7mnTw8PGiDvVS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Mar 11, 2026 at 03:58:35PM +0000, Richard Fitzgerald wrote:
-> On 11/03/2026 3:50 pm, Mark Brown wrote:
-> > On Wed, Mar 11, 2026 at 03:34:54PM +0000, Richard Fitzgerald wrote:
+On Wed, Mar 11, 2026 at 02:37:48PM +0800, Binbin Zhou wrote:
 
-> > > mipi-sdw-clock-stop-mode1-supported
-> > > This optional Boolean Property shall indicate whether or not Clock-stop
-> > > is supported on this Device.
-> > > Integer (Boolean)
-> > > Values:
-> > > False (zero): Clock-stop mode1 is not supported on this Device.
-> > > True (nonzero): Clock-stop mode1 is supported on this Device.
+> Due to a hardware design flaw, PCM_START requires an explicit reset.
+> It has been tested and does not affect other machines.
 
-> > Oh dear, cute enterprise nonsense hacks :(
+Are you sure?  It just does a reset whenever we start a stream which
+means if one direction is already running the controller will get reset
+underneath it and disrupt things if the other is started.  If this IP
+requires it I guess that's just unfortunate but presumably existing
+devices don't require the reset and will be regressed.
 
-> The ACPI spec says that each property must be a {key,value} pair.
+> +++ b/sound/soc/loongson/loongson_card.c
+> @@ -61,7 +61,7 @@ static struct snd_soc_dai_link loongson_dai_links[] = {
+>  	{
+>  		.name = "Loongson Audio Port",
+>  		.stream_name = "Loongson Audio",
+> -		.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_IB_NF
+> +		.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
+>  			| SND_SOC_DAIFMT_CBC_CFC,
+>  		SND_SOC_DAILINK_REG(analog),
+>  		.ops = &loongson_ops,
 
-> If you always need a value there's the possibility that someone will
-> create it with value 0 and expect that to mean false. So relying on its
-> presence to indicate true is dodgy, safer to define that the value
-> has meaning.
+This changes the clock inversion for everything - should this be
+parameterised as that seems to be a fairly generic card?
 
-But of course we have the default bool operation doing the just check
-for presence thing, and probably people looking at that for a good way
-to do these things.
-
---Gaxmdjjv09Vms5WE
+--s2U7mnTw8PGiDvVS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmxk6YACgkQJNaLcl1U
-h9D+Kgf/aeVw3jPnhyHC5r+Ko7/Y/cf89E8C2o+JNxLVdJo4a/8d+blGMhUp0dGA
-vs7IAT9JAzlTg3aI3yMembc0NU53PRkoWVXBvLFkQajhnsaBtqpTWgx03Vd0672I
-iCskrUZRw6kCyuf+Zu90GgZdnIrpCt8xtmRBZRWDf29cfsv7zMkU4ln2DHorPI1z
-8Qm66y1M65H2eSst9KZ6uaPvTHpqRJn+ek/0kl7VSbje4qif56lWOEvT9m1/lIWA
-SfQVFLjgqg3Vx5vNvc8z1rPcnaYB3u4rD+UNgriy7ls7bAGlijpQzW7IBmsO5gPm
-rJWClLRxgJ8imgezYpM+pgGXewbEbQ==
-=+KyD
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmxlRYACgkQJNaLcl1U
+h9CbzQf8Cg25VuvcG1peyTjrx3lXqm0InC7MMkeb6Cktsz9SzZlDZnkZr4o908CL
+XJh4iRSmkqwHnFWbS6Gld+RaoSCZlUfpTU5VspzlhDn1cCsQ+RKaXieq+ZARUnk6
+Byyqu2bPNMVbdgxW9SdI/hQ9wg1yE1GJovLTmEQV62T00MZBTo32oyrQt/Q07nS5
+kbIWTIR+aHMB4D+RiES0tgiOmfFGHym1FjpiFtu1oMc7WAoSqav052O218W3KaKB
+Gqixk+000vMekmEGtHfrfveAZgym7lYNCR87T1ATe8IS3vQeo6cuchzHCAvMxz/H
+kH2nbX63f+2WmBq84hWnPO+MJ8tY3g==
+=zKND
 -----END PGP SIGNATURE-----
 
---Gaxmdjjv09Vms5WE--
+--s2U7mnTw8PGiDvVS--
