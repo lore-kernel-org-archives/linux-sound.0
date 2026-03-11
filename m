@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDFD2DA76C;
-	Wed, 11 Mar 2026 04:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEC22DC321;
+	Wed, 11 Mar 2026 04:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773204192; cv=none; b=TxTho9MOEbEvsFivlaVZOU51dRm7STgCPWf8Zfouo/7UQ1f60WBz0jX7x6hhmGVEpRGM7CR1niTHzevk2Fx9QKoBXF9IXBzOkRshje/O3kHz/6gT99p851vaOhWHf0xs7bEUfh2g7MyNCNtv5GvzHGfdqIjRWodLFleJX4lGqZU=
+	t=1773204192; cv=none; b=qzb+MPWGRG+yLf5/EZn3ouaiplJZ8Cw9tU5G4xEQh5+HdsaX6NDR9c1QStKSBc3gcM0tTIBtEshTccAzaluX1N2n2sqwRYiVaNX+ZGWFPjf4X3zpJ2bU2llucOfTvzyGDHbm3SD8bjgRfLsOw8eCvOe+jDHArwl6gqD2P2k7gH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773204192; c=relaxed/simple;
-	bh=93EXcXnifcaF7HDHeWtRgdbuE1QFQY7flspMSI1wep8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FuRkjuTjw/JaNx0CX96t9iGHX77bdCmkzO6utnmruSThUYs9wRFeYrOb8oBSzs0eaCernsogi0LuoiArr/Ku1czaauesBezHXd9oiv4DpIVNQeDCg4ANO9aQwkvWz6e3ZTdF9FpmXOYU2BRF3SW+Ah4a6iCgAx8+eN1+IeHSrKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HXLitwE4; arc=none smtp.client-ip=10.30.226.201
+	bh=66W1pmkks2I4ITe9DRIevRnJ2zaQ2m9va/55lmzkK3A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NpWI6874qBul2MoxRGDmHUvbLM3g2oCmJVJFd8k45buhYHJrGKWX+qOPpE2CGqKxRd+3f9FI/Cz28RKNlDehUds3xUK54eP8Q07xohWnmP5FW0Cl8Onugn8DYRCt9z285ltgY8pQxm7PR6pSIWpDXA+kRrA3vZeyRbWjbHCn5NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKa0NFrC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HXLitwE4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BEFB6C2BCAF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKa0NFrC"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A4D22C4CEF7;
 	Wed, 11 Mar 2026 04:43:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773204191;
-	bh=93EXcXnifcaF7HDHeWtRgdbuE1QFQY7flspMSI1wep8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=HXLitwE4myOuwJ/jzxsF+wCdy1/PH4Pq12VR8S664K67U0SXFInmKtzkGP+dIcvpg
-	 YpjehWDyxciS6P48X0OC1+31YWXf7rqmppubU5r+DiGDo2pUnqKahKImTt1LB9v9Ne
-	 wRpYnhM4ACfeZLmH9FE1riECgD1zsEFgwIDgT8F2Uv5z73NfEBhVZ+PURv6u30N9Gl
-	 2dUaoHxj8+IhYxJitIqOdqun7u05O8LYkd7dW79jTKQy1TRYCbeHDRx8H6XiYnk0Ur
-	 t9emrlEHaZL2gv3dustIx9kJwPdYAHjOEEk3Pyu7MpUg+cpsIXYS+H7kohnvzL4l18
-	 wr188FBUObufA==
+	bh=66W1pmkks2I4ITe9DRIevRnJ2zaQ2m9va/55lmzkK3A=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=HKa0NFrCiKP5Z7bnhBhX1hgGthEM5VKasMLgIzvW39+Arkcu3nWHTW7I2nQ1Iz3Qw
+	 9jt/f39ho6jMTLnLBYwW3PuUQnqawcicC21+PteDw6nLPAy9zqoEE5ZyHT+BHEnvvO
+	 FSjhtNOmqr2fAt/pdZeG40odUID1nW1vyelLJVMvOE0rJN2sTL2TrenyWJjirROI8A
+	 KzHCXuyMaqQssHoVsvJ774UMJuzRRwb8c7K6GGvG5Ffb76rBUezJZDMnV+OPduTof/
+	 JQS6B08uR5F//nyaJT6fmzirAUObqM5lblKYmPM/EwKEZ/kX1AP4IsRa/nryoZLUqB
+	 sWhX0J5CdHN+A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BD2FD88F9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9278CFD88F7;
 	Wed, 11 Mar 2026 04:43:11 +0000 (UTC)
 From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Tue, 10 Mar 2026 23:43:05 -0500
-Subject: [PATCH 2/2] ASoC: codecs: aw88166: Support device specific
+Subject: [PATCH 0/2] ASoC: codecs: aw88166: Support device specific
  firmware
+Date: Tue, 10 Mar 2026 23:43:03 -0500
+Message-Id: <20260310-aw88166-fw-v1-0-2777563bb673@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,9 +41,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-aw88166-fw-v1-2-2777563bb673@gmail.com>
-References: <20260310-aw88166-fw-v1-0-2777563bb673@gmail.com>
-In-Reply-To: <20260310-aw88166-fw-v1-0-2777563bb673@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY0MD3cRyCwtDMzPdtHJdSwPjpDQz81QDMyNDJaCGgqLUtMwKsGHRsbW
+ 1AO0TzHxcAAAA
+X-Change-ID: 20260310-aw88166-fw-903bf67e0621
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Weidong Wang <wangweidong.a@awinic.com>, 
@@ -52,11 +53,11 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>, 
  Teguh Sobirin <teguh@sobir.in>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773204187; l=2476;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773204187; l=960;
  i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=IUiKI3G7Quxrzr7+sMW/p+gunEW5XcQpZpT+LkFebXw=;
- b=Z3cLzOXp21cqtHEcGNTpuYnI7j7kXoHBjGXO1JnYqHrt3Rms60lwb6XDeHbVMK0a7+IwB4nKx
- X4Ba5qqv7bQCkbeMkv8rRz9+7yFCQdRV2oZ1ukvfAf1P9YZyE5mHbcH
+ bh=66W1pmkks2I4ITe9DRIevRnJ2zaQ2m9va/55lmzkK3A=;
+ b=Q3RAq01dTOkd5P5WbTiga073JhNgG8Jv/3E4ceB/FwiBZKCMwFDA/qdVqU6+plRirM8MzidU7
+ v+p71E+Ajz/AhcJzlHZYMLwyLBRXSayT5JZRhoS8s1ECglFvgIrb2EL
 X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
  pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
 X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
@@ -64,75 +65,31 @@ X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
 X-Original-From: Aaron Kling <webgeek1234@gmail.com>
 Reply-To: webgeek1234@gmail.com
 
-From: Teguh Sobirin <teguh@sobir.in>
+The driver currently loads a hardcoded firmware path. This adds support
+for reading a device specific path from the kernel device tree.
 
-This driver currently loads firmware from a hardcoded path. Support
-loading device specific firmware when provided by the boot firmware.
+Patch 2 was originally part of a larger change [0] by Teguh Sobirin and
+was cut down to only the device specific firmware part.
 
-Signed-off-by: Teguh Sobirin <teguh@sobir.in>
-Co-authored-by: Aaron Kling <webgeek1234@gmail.com>
+[0] https://github.com/AYNTechnologies/linux/commit/9dbdd074423d970a9dec9a60f8bb99f8cfafd6a1
+
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
- sound/soc/codecs/aw88166.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+Aaron Kling (1):
+      ASoC: dt-bindings: Document firmware-name for awinic,aw88166
 
-diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
-index daee4de9e3b01fb335975a65456cc79575533d7e..52d33a2f7cb12877138ea5083ad42e2777f8d323 100644
---- a/sound/soc/codecs/aw88166.c
-+++ b/sound/soc/codecs/aw88166.c
-@@ -1574,18 +1574,22 @@ static int aw88166_dev_init(struct aw88166 *aw88166, struct aw_container *aw_cfg
- static int aw88166_request_firmware_file(struct aw88166 *aw88166)
- {
- 	const struct firmware *cont = NULL;
-+	const char *fw_name;
- 	int ret;
- 
- 	aw88166->aw_pa->fw_status = AW88166_DEV_FW_FAILED;
- 
--	ret = request_firmware(&cont, AW88166_ACF_FILE, aw88166->aw_pa->dev);
-+	if (device_property_read_string(aw88166->aw_pa->dev, "firmware-name", &fw_name) < 0)
-+		fw_name = AW88166_ACF_FILE;
-+
-+	ret = request_firmware(&cont, fw_name, aw88166->aw_pa->dev);
- 	if (ret) {
--		dev_err(aw88166->aw_pa->dev, "request [%s] failed!\n", AW88166_ACF_FILE);
-+		dev_err(aw88166->aw_pa->dev, "request [%s] failed!\n", fw_name);
- 		return ret;
- 	}
- 
- 	dev_dbg(aw88166->aw_pa->dev, "loaded %s - size: %zu\n",
--			AW88166_ACF_FILE, cont ? cont->size : 0);
-+			fw_name, cont ? cont->size : 0);
- 
- 	aw88166->aw_cfg = devm_kzalloc(aw88166->aw_pa->dev,
- 			struct_size(aw88166->aw_cfg, data, cont->size), GFP_KERNEL);
-@@ -1599,7 +1603,7 @@ static int aw88166_request_firmware_file(struct aw88166 *aw88166)
- 
- 	ret = aw88395_dev_load_acf_check(aw88166->aw_pa, aw88166->aw_cfg);
- 	if (ret) {
--		dev_err(aw88166->aw_pa->dev, "load [%s] failed!\n", AW88166_ACF_FILE);
-+		dev_err(aw88166->aw_pa->dev, "load [%s] failed!\n", fw_name);
- 		return ret;
- 	}
- 
-@@ -1802,9 +1806,16 @@ static const struct i2c_device_id aw88166_i2c_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, aw88166_i2c_id);
- 
-+static const struct of_device_id aw88166_of_match[] = {
-+	{ .compatible = "awinic,aw88166" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, aw88166_of_match);
-+
- static struct i2c_driver aw88166_i2c_driver = {
- 	.driver = {
- 		.name = AW88166_I2C_NAME,
-+		.of_match_table = aw88166_of_match,
- 	},
- 	.probe = aw88166_i2c_probe,
- 	.id_table = aw88166_i2c_id,
+Teguh Sobirin (1):
+      ASoC: codecs: aw88166: Support device specific firmware
 
+ .../devicetree/bindings/sound/awinic,aw88395.yaml     |  3 +++
+ sound/soc/codecs/aw88166.c                            | 19 +++++++++++++++----
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+---
+base-commit: fe9e3edb6a215515d1148d32a5c445c5bdd7916f
+change-id: 20260310-aw88166-fw-903bf67e0621
+
+Best regards,
 -- 
-2.53.0
+Aaron Kling <webgeek1234@gmail.com>
 
 
