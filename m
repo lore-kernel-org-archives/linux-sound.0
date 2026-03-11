@@ -1,127 +1,146 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F201E7660
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 20:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773259234; cv=none; b=akbeKF4lHIRHqHSMHz9ZLs9wDRPwT3tjW12nM1jqzztU0C1reK4E1drrKnRuWdpo2qo+GMfJvwh/9iCkxZGAUt8OJx8cU9SFck3+f+2/KEwjcCdL/4RyrRfgOe/bGcr61B9UOSbst3qEeVbPuDvnaRLitoIQEeSgzMlnOcRRLII=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773259234; c=relaxed/simple;
-	bh=ACv21EToIQ3NVCRczaI+PEDm1EcsdyjZXJrYowQrVzM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dM9801NBiF+lqVQnCrW34KbYtJlHIefgphI8fzH/GVcFHeKqMlMce9PjiZkLJO2sqRPQd/WjGdAKb55HeWzYXfuljoAR5WfGqxnl6mHkXF5TVOoNs/NOHFEkyX9wchqsWXRPszS3aSQnRZoX1L8AiT6qmOcGUIiL0QXFfIhh4Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jdc+2kVc; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B672038D008
+	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 20:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773260124; cv=pass; b=Qf+1PRAQXCEka7Lt02CCi5g7i/XfKbpdJGGrRRRnR4xkdrmYA2kdUV77w3LYZxKfg6oDjYodcEoTBEdZTxHxAtatayeuZiMkjJTBQDJ4Aohri9sDy6fCJOhAWEIMVLtL9EhlRbyPc7m/OrSoK87PMZMv4eRvlSJGwtQ6BPu2sYg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773260124; c=relaxed/simple;
+	bh=qCUYBGAUOheU0nTCcMZyCl5y4dtCdasyHwmyMVbOBCc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A6VCVD+SBKp3w3B0MYHeKuk3qzQYC/pP403690IkRO/h61XQCXQ245F+PXtx+BnmxIg1l3X2jHDqT14CuoeTiNRnSZXz9R0HYmfMjbCgVoDBPIQzJUJ9TvYbFisbbGQKqIG2H3zbjbLKDhMTSIW4mouS1yPFB1XsuPujFThYE9Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nWe/prAY; arc=pass smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jdc+2kVc"
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-56a857578a8so139665e0c.3
-        for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 13:00:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nWe/prAY"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b886fc047d5so33405066b.3
+        for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 13:15:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773260121; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fqO0F+woJD53UEjYKtIGy7ChY7HGRvBeswI6AAp1GZyhpvxo0voD4YGs8v+AB4af9b
+         E/bkOPcrfP7SvNYPT6nFEJUN0ABCKP1jkLFe6/CsT/FNiz8B2aVbldgCpITVSBjHG8pX
+         ZcrcwcwDqim5aM0SsxUFe5RV9oS+jItq+5T3uBD+SMlTVJ+rEXaMu/av3EQVWcFsXxgY
+         HgOahjOKCJEcyuWuqP8RjEbEIBEIP7RIyUi67dsD+557yqBlDB0yJM6043qaR9ld2jsM
+         ECxVrjyTX8pc8iXtarQmusrhnvmz3GWDsBMkWsNnhrNept9l04HhxnrTQ9uwGw4KzzPS
+         1f6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=i6F+UW8vpaPOSbe+aow4A6qQsDdfkrJCugB1bxi2H3M=;
+        fh=WXd4yPSFUmch7g3VwTRZ4Hi7CzVBbAUQJgMhiVnjbNE=;
+        b=jV+aI+mcUejAbBxvrvqS9FERiSsWt2f+HiGidfQJmV2jdh+JO8ExvNCjkjEhd+Y9UR
+         ha+DUe+cU2NQ1rwlkYagVzDrwEORZ75QXcdFHcFJjPYFEuNPqum3mSsVIOpbXBhCDq4D
+         9IMhP4twr6QQL8ueNCIShQNPeAUeuUNRWFieevQ0FnS27B7+MNxlAS/Grwy93rQGyF/y
+         Bp9rabwL6AcbTOnQIjRK3pHMzYMlpkaaReefKng+7G2J4fU1rk8rD7KOgABzJhwxugIk
+         K8EXmbZGc8oGCiyCsMiT406gwXvt5NzVwTsFiBHzA6L9Rugz8NCVLRzP6V+Jz+h97XAU
+         HB8w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773259232; x=1773864032; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i1r3InFvaXQHSB4+wPzQax9N8XbBVVdha9jMwVwxtnQ=;
-        b=Jdc+2kVc2FcxAof7lfdF5EEVWX7CzYGyvQFH/tXsXKLgGWq9GZjA9/V5Nq94vLipXe
-         doD5yqF9wFJz0oJKSL/oOAcRljLNlu5wf4gGNdJZPabXHHx+8pyqJ8i5iutu7VVgOAXN
-         J9BjnzmmEgc8efDG7ziG0Ohq+d3/ZRQHDBIWMlYLgI3z2l2nWHY5IHRPxDD26PxXKp0t
-         OpcDeicEAVp+zHBPbPtnJ0dbqRAPFOXOmbak4Nj8nvpwlA24tWOdwRFxlgdiGlttwD1p
-         O4TTjYzjnNBmAXB7XsC4HNvHcZrb596FTv87rUtaW+FbPZbd19ipZC2XgDqFVm4XBU8x
-         7Pwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773259232; x=1773864032;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773260121; x=1773864921; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i1r3InFvaXQHSB4+wPzQax9N8XbBVVdha9jMwVwxtnQ=;
-        b=mPEBd+thUcWIdwKs0vjrOTJ7sZm+S5yydWJz5pUd1XRqy3oXQZS6FJS2HrxEFon2cK
-         BRKb9TrUXqq7Bh87cA95DnJxloVBV7tiUCVgy0+sPSIvZKW4px6FJIbLMCecQO3D5anM
-         55ms4QDyATAzGT2cxD98oXTuP+J2DYGlIwbZvINan0y2t2/03tlpAVM2YjAdDDVGOt8L
-         jlOCqjzYnoykYjXTrNaS6L92walNSQ0ELKGVSc00xzRp0zKCdWREtxvi/wxT1fTd/Z03
-         N9Kw8R6Tj/W7Mj9TiU2G1xkSBFkUuhpsao6IkLrS/lz9lvQMY9COG6LosA32c5J00Gdf
-         wZ2A==
-X-Gm-Message-State: AOJu0Yz3Q7zM1dPSmKpXYCUqd13AVbMcS4pV9IANCN8JG9mGMZfn7Ity
-	BrHwsd+nt7orQFfBQu3CMFynDPGDCHtwdXEfujabvtvG28F4sfB7bv71
-X-Gm-Gg: ATEYQzziYxLz3EsyLk+5DZoBdmGretAp0RgktFjWeqYbqJQ4qvgjCNIG10jEvuScjIo
-	qfJPt7N9ZVd3Mrr5eX1IzrBPjPE6CB24XHTpXzlyY/Muwf2tcE4q+iLEs8DX7Nhtbde2KgG+VcL
-	NjUMyYZZU+7eeruy1cF0/zn0eAaZUM8C4nJoQ0Si6KdWkS7BXwevaSk/oycio5B2ukaaxVsyi8A
-	6qtPCfa3aq/iXqQVgw8BTdmqgngSn8VppnGfYhH4wgqoHJPziizBBezr99vmz+SjtTrk2uv73vS
-	80Y8bhCysd8Bp98tnTRg4AY6ZTxJUnI/z8L5ZH345Ec9yGVSDOF62p9VJnTfNxV14zc1l+NVK2m
-	7EBVM9Y0AVxiMSNUR1x0V7rQby/k//mr7Hrj9GibcXNP9HCt5ebcPjudGKUkuMOWPWQ/obw7QwD
-	oDblgJ8xQSAEme344ysq909XPnX4QDxNZwW+UGdXNSr16J75atIvCYozev1V+B6nFJ6+3onEpUt
-	8DxMRg=
-X-Received: by 2002:a05:6122:508:b0:55b:9c3f:55f with SMTP id 71dfb90a1353d-56b476778eamr1273567e0c.18.1773259231967;
-        Wed, 11 Mar 2026 13:00:31 -0700 (PDT)
-Received: from ortodist (177-4-162-212.user3p.v-tal.net.br. [177.4.162.212])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56b4634177esm1534327e0c.6.2026.03.11.13.00.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 13:00:31 -0700 (PDT)
-From: =?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>
-To: tiwai@suse.com,
-	perex@perex.cz,
-	broonie@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: map UAC3 front wide channels in convert_chmap_v3()
-Date: Wed, 11 Mar 2026 17:00:10 -0300
-Message-ID: <20260311200010.103710-1-cassiogabrielcontato@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=i6F+UW8vpaPOSbe+aow4A6qQsDdfkrJCugB1bxi2H3M=;
+        b=nWe/prAYzvBDiutVXiO6S+1K2vIf87NlcJjxfML+QuWQ2JitCchpJ0EET506sfrXvv
+         yTqYq99l9QF3PfHVikdeebx8GwUPquPD9q449ZlwFS+Gmq4WtrvtfFwT3NRZxQL5R5Vd
+         LmxYUDee4Gq/dzzYlZixAwza8lw7PWwWTa0XW8fQ13XWdwmB4OjH3rBvrsIz0DPh8/Vt
+         opkVQQY1LGDxOUs5vestd7+UHQ24SjLdOTWKX1ix7I+rEA+8wEqUpk2vVsZ4FZCgoY7R
+         k1FrYcNQAn/VR0SG2J+xoY64k5Hkt2owRDbGWJ29GCC34FAy65MIdVnhQhXTBbMWjhCg
+         QFoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773260121; x=1773864921;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i6F+UW8vpaPOSbe+aow4A6qQsDdfkrJCugB1bxi2H3M=;
+        b=nEssyWw8mgDdXQ5teqfjZ9LFXQ7d+coNQ50yOel4bbdiLA2mKGPSvlSRjxuYTwNcqj
+         KFUNPDMZchI+64lhXj/ZKwgF99qwdszeBOblliJeVtmt6KUCea1pQ3KVa8DL3HJ2r8ap
+         a4OPrHOK18Ygi9xmp9GjjsQyB5VjNlgqpZQxzrC/D0HIcZddlsLp/WWzJQtk4Wg0Wl1v
+         X1HjQcQF4MTtFd8CcZAgHMxEwBJzIfn8cwQAWuk4jsjdCSmSOS5CJlTLzta4zT5oF/Bx
+         C7AymdwiTl5yaZqDcmV5C9W5b7XLXDk83s07smYYyG29wU+a6X60BqhKMlObprqcKaU4
+         fsXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1hFxHNoYl//nhCthWXzB+iN4ZXgAwJIjUaL0vzdyyskYnntJzeecp1lJ9WdHlbcRE8E/aIAhr9nwbbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzde4vIE9wOyz/vbOXTOPjI/TchVoRvHgZx/KiWdj2gPKoCbL0z
+	H3ijJ2jJtaCm3cg4nhN3gqu9Wo0I3ak3j1ttwbmuNz0FGM1MZXjwblg93E70zqHEgTwwAgmryzW
+	qikW/DhV/ysGqw8jxUg15Zdbc2lusKSY=
+X-Gm-Gg: ATEYQzwk4WfLTBD93LW8gz/9FSR5oTe/kIf8shG5RJLC4EEKy1eCKX2BaVOoXOLT/cB
+	JghdeCHaSY1m0LhcYFy/ZUdTWhVVaMRbHs9SxUpqd2k5B7XgpXsLdoTyT71Ih2G2QZtL7f2L2uJ
+	b5DYAhFbLceRxt5ema1wy0JnrhPrafC5rSF1NCzKh6556xCer7zD6n5SY0besJbMkHdaes3NVvb
+	/bpd4dj8VhtVex+XizAokus2ImGprUWceLz/jRr5VaRDiVTaGd6uZO3Qv5PkssySAsVrsVob6Mp
+	9lRyN1jALNBQgX3FiuJPv/Byu1yGfqFB0/9CFsNU5PMFEaGRFuoS8zzKbZuXsXt7RvGs7YoIfym
+	4Pj4owqCMP5EmvCziOw==
+X-Received: by 2002:a17:907:fd17:b0:b94:1df4:3525 with SMTP id
+ a640c23a62f3a-b972e20f6c9mr213172366b.1.1773260120699; Wed, 11 Mar 2026
+ 13:15:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
+ <20251112-gpio-shared-v4-3-b51f97b1abd8@linaro.org> <921ba8ce-b18e-4a99-966d-c763d22081e2@nvidia.com>
+In-Reply-To: <921ba8ce-b18e-4a99-966d-c763d22081e2@nvidia.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 11 Mar 2026 22:14:43 +0200
+X-Gm-Features: AaiRm50gZlAiM-5_F_zUlx0D2HjCtugUtf3WuAOsTMIp9Wv8sMtNxrZngwvWk-o
+Message-ID: <CAHp75VevThmDMm6VoVB9P0YbUGGGsmgnzr2gn9=1xtJZt-kuQw@mail.gmail.com>
+Subject: Re: [PATCH v4 03/10] gpiolib: implement low-level, shared GPIO support
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>, Mika Westerberg <westeri@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-convert_chmap_v3() translates UAC3 channel relationship values into
-ALSA channel-map positions.
+On Wed, Mar 11, 2026 at 8:38=E2=80=AFPM Jon Hunter <jonathanh@nvidia.com> w=
+rote:
+> On 12/11/2025 13:55, Bartosz Golaszewski wrote:
 
-UAC3_CH_FRONT_WIDE_LEFT and UAC3_CH_FRONT_WIDE_RIGHT currently fall
-back to SNDRV_CHMAP_UNKNOWN, although ALSA already provides matching
-channel-map positions via SNDRV_CHMAP_FLW and SNDRV_CHMAP_FRW.
+...
 
-Map these two UAC3 positions to their ALSA equivalents and update the
-comment to clarify that unsupported UAC3 channel relationships remain
-reported as SNDRV_CHMAP_UNKNOWN.
+> On Tegra234, the main gpio controller has a total of 164 GPIOs (see
+> the tegra234_main_ports in drivers/gpio/gpio-tegra186.c). The GPIOs
+> are assigned a index by the kernel from 0-163, but these GPIOs are
+> not contiguous with respect to the device-tree specifier.
 
-No functional change for other channel relationships.
+If I may ask...
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/usb/stream.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Why? Is it sparse because there are pads that can't be used as GPIOs?
 
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index d38c39e28f38..2532bf97e05e 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -366,6 +366,8 @@ snd_pcm_chmap_elem *convert_chmap_v3(struct uac3_cluster_header_descriptor
- 			/*
- 			 * TODO: this conversion is not complete, update it
- 			 * after adding UAC3 values to asound.h
-+			 * NOTE: not all UAC3 channel relationship have a
-+			 * direct ALSA chmap equivalent.
- 			 */
- 			switch (is->bChRelationship) {
- 			case UAC3_CH_MONO:
-@@ -390,6 +392,12 @@ snd_pcm_chmap_elem *convert_chmap_v3(struct uac3_cluster_header_descriptor
- 			case UAC3_CH_FRONT_RIGHT_OF_CENTER:
- 				map = SNDRV_CHMAP_FRC;
- 				break;
-+			case UAC3_CH_FRONT_WIDE_LEFT:
-+				map = SNDRV_CHMAP_FLW;
-+				break;
-+			case UAC3_CH_FRONT_WIDE_RIGHT:
-+				map = SNDRV_CHMAP_FRW;
-+				break;
- 			case UAC3_CH_SIDE_LEFT:
- 				map = SNDRV_CHMAP_SL;
- 				break;
--- 
-2.53.0
+> For example, in device-tree, if I have a shared-gpio with the
+> following specifier ...
+>
+>   gpios =3D <&gpio TEGRA234_MAIN_GPIO(AF, 1) GPIO_ACTIVE_LOW>;
+>
+> The macro TEGRA234_MAIN_GPIO(AF, 1) evaluates to (23 * 8) + 1 =3D 185.
 
+To me it sounds like a bad design of the driver for this SoC/platform.
+
+> This is greater than 164 and this is causing the above crash because
+> 'entry->offset' in gpio_device_setup_shared() is greater than
+> 'gdev->ngpio' and this causes us to access invalid memory.
+>
+> This is what I have been able to determine so far and wanted to get
+> your inputs.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
