@@ -1,81 +1,93 @@
-Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478912E88BD;
-	Wed, 11 Mar 2026 17:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CD5304972;
+	Wed, 11 Mar 2026 17:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773249456; cv=none; b=aAWa1QPdeatcE5DGtiOKejK+1cLXeYsyysINfWNrFvra7K9XqnfEhr87cL79HU8C9/dFl5V+q2qrS46h87rhyklm1S0cgsimiCqPQqUFLd+1zCdYWv0zzaSg8w+N93OOb+sHq0cwl53g0d8p1/kUtb96z1o9Yhns6t/I47B8r28=
+	t=1773249724; cv=none; b=Npx6R74Kt0AlzaPfVCJ7ZC9OyNVMnycY1159kcgisgIfWPW3TTNoISB3oCjnj7KvlXALcRCBSX0wYkjd0YTfSc4eeSy5ylAP/rhBF2LzOUs/QZXuQfMhzx+j/fZyc4zrGAhYVQYsWtkXZfGA4ZVVC9d3phPgBgtgbF172VervHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773249456; c=relaxed/simple;
-	bh=UUvN63OPETW9aV4zr7RY4tL7gyi91Vbrx++9YS5OYQ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uPr9JFRzYbwidqQYctCRdQAgeIz0jJYVBj81X5T9qt0Wo0h4UzUnJ2y5fd53FhkQFfbVThRq81Ga+P/tc3zlQC+AGWUKaFNLV7nIEcHxMq8AL81Ay7EYtORDLgpc/bfr5Lpr/tRQBxysdKvHHourWxQdVUOW2neMNFpTLhvQpQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=SllD61Kj; arc=none smtp.client-ip=188.40.203.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
+	s=arc-20240116; t=1773249724; c=relaxed/simple;
+	bh=JqReOx1SYkH/jwZzq3sXyac+u5e6oqPSw092vS2028Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nsbj/b26H3n7KDe+qsPgsF5ZCEUNA/znyDPAokgCX6IdMbLQ3w1CS6dQc8DaONctUZGqGrLyG5V+WqEDWIkPLJkFEfx7eFv4Zl2OT22FEvWx2t/ArZdl/Wsn2R9O4gfpsxc1hj1FdbsL90ln1jfig/YGQvahvDhmSfPnGH4D090=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vs4tKpbM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="SllD61Kj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Reply-To; bh=Sg1JB08N987WmyH5xVrVXJzjj7rjWsv6sN1Lmszl1rA=; b=SllD61KjcA/ZZ49I
-	v5+uqRExZjnXzmMX94EodT4sxauiRlh5MwSqDrl6Vt3h9XtqBa+kDtBS+tchLg8ZoZKB5mpKn233E
-	5vKNTGcn56zbDhmVxd8UlLjQHd8bRlO3bmF5DE0T9ZcAg97F2y++Ev1XLeakf6STWTTozR6e2yn89
-	MwePU2Kqhj+v6smAH+bgu6r7KpqPIhSz3O/bxFaPe4d0O6chz426dmR6XnfsFtpe/ljOgwNCcqsvh
-	Ve7HNM0pkiFE0K5xRiXrYrtgFilQrDPtaXDxFz9jUQIrGdWaR/VvrGI3hSrKo8gBwhMnDVnyZvzSD
-	Nn0EIttWgbGCu2urRw==;
-Received: from [63.135.74.212] (helo=[192.168.1.241])
-	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1w0NBb-008WOi-7M; Wed, 11 Mar 2026 17:17:31 +0000
-Message-ID: <661af6a3-f5aa-42cf-bd20-6881ace426d1@codethink.co.uk>
-Date: Wed, 11 Mar 2026 17:17:29 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vs4tKpbM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03081C4CEF7;
+	Wed, 11 Mar 2026 17:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773249724;
+	bh=JqReOx1SYkH/jwZzq3sXyac+u5e6oqPSw092vS2028Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vs4tKpbMppSFq+gi758OO6Y6JijNu7pgrn9HaEPBL9lQ3OmDms8EnPZqNpcVNDfNQ
+	 wf8lMVBr4/QO63uGI7mAwCbqobzSPE0/ZsMuDHeCYN7ngntgmZbsg4DpnPEBZyxmHf
+	 WDnPj1IjtGslLKL5ScepJMjHrMZIIXp0zA578QDJBvygaVpjYegjgA0LIPvNZNFgGc
+	 5H+OH2DoVVXwfTw8MjfEq42civonxARdd4AGEmnm7CXq6HFnYnxq1Wbs+BWMrmQBor
+	 kzXnS3JHIPwCHhY1XzVmuUvSWgtFBRnAKhePb5ANSqJYhR/1fNl8zMIVv9GzaHlWOu
+	 ESUklmG8D/V9g==
+Date: Wed, 11 Mar 2026 17:21:59 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+Cc: hasunpark@gmail.com, linux-sound@vger.kernel.org,
+	venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-kernel@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"Gong, Richard" <Richard.Gong@amd.com>,
+	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
+Subject: Re: [PATCH 3/3] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy
+ SDW machine
+Message-ID: <b7c72feb-189f-47d9-aa1d-88e2a223b4af@sirena.org.uk>
+References: <20260308151654.29059-1-hasunpark@gmail.com>
+ <20260308151654.29059-4-hasunpark@gmail.com>
+ <53a03615-7a5c-4f1d-88f7-1e6554092946@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: soc-topology: fix __le32 conversion in printed
- values
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com,
- linux-kernel@vger.kernel.org, perex@perex.cz, iwai@suse.com
-References: <20260310094948.62023-1-ben.dooks@codethink.co.uk>
- <e535797b-2a15-4996-90e4-33d13bf5d689@sirena.org.uk>
-Content-Language: en-GB
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <e535797b-2a15-4996-90e4-33d13bf5d689@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Sender: ben.dooks@codethink.co.uk
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VqX37/58iwZlf/so"
+Content-Disposition: inline
+In-Reply-To: <53a03615-7a5c-4f1d-88f7-1e6554092946@amd.com>
+X-Cookie: When all else fails, EAT!!!
 
-On 11/03/2026 17:11, Mark Brown wrote:
-> On Tue, Mar 10, 2026 at 09:49:48AM +0000, Ben Dooks wrote:
-> 
->> @@ -225,7 +225,10 @@ static inline void soc_control_err(struct soc_tplg *tplg,
->>   {
->>   	dev_err(tplg->dev,
->>   		"ASoC: no complete control IO handler for %s type (g,p,i) %d:%d:%d at 0x%lx\n",
->> -		name, hdr->ops.get, hdr->ops.put, hdr->ops.info,
->> +		name,
->> +		le32_to_cpu(hdr->ops.get),
->> +		le32_to_cpu(hdr->ops.put),
->> +		le32_to_cpu(hdr->ops.info),
-> 
-> Shouldn't we also change the prints to %u given that le32_to_cpu() works
-> with unsigned data (IIRC)?
 
-Possibly. But given the data was already marked __le32 it was already
-unsigned.
+--VqX37/58iwZlf/so
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Do we want to go through changing these before committing this or
-delay it to another patch?
+On Mon, Mar 09, 2026 at 11:07:30AM +0530, Mukunda,Vijendar wrote:
+> On 08/03/26 20:46, hasunpark@gmail.com wrote:
+> > From: Hasun Park <hasunpark@gmail.com>
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+> > Add a DMI quirk entry for ASUS HN7306EA in the ACP SoundWire legacy
+> > machine driver.
 
-https://www.codethink.co.uk/privacy.html
+> > Set driver_data to RT711_JD1 | ASOC_SDW_ACP_DMIC for this board so the
+> > platform-specific jack/DMIC quirk path is selected.
+
+> As RT721 comes up with UAJ + DMIC, then why we need ACP PDM DMIC in this case?
+> If you are using RT721 (UAJ + DMIC combination) below quirk is not required.
+
+Presumably nothing stops the system integrator wiring a DMIC directly to
+the SoC even if the CODEC can also use it?  It doesn't seem an obviously
+silly configuration.
+
+--VqX37/58iwZlf/so
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmxpLYACgkQJNaLcl1U
+h9Aerwf+OTro9htbnedwYyGIopl+vWDsdkPkZFnwS+K3ddKW66TTYJQYOD7+MDRw
+yAD5MoRCm/Xt8O5rQHYuLu/o9M4ht/zHKORaH9GTlaTSnXC81LCNG0zjvuc4CnXU
+lrnwBxisKaOCB3uBYVzGZ+n37F1W83bDPPQzc3JY/9Dsngu6mMrTMnwbZxX47kiI
+WEc6aEkM+UGxRCTdUrpjW1mqhDeYQXO04fpl/yj7DkE4G8BEb1bsVPPkfzfdSvLJ
+EUR0/95OVpSYfO72D/huNsC50xcUlaHw+oYBhd/957yLpjMiyo7zhppPh4g/fRRO
+9TMIsFZu0AVsHfDTTfnA/4B2ONoSpA==
+=IIMn
+-----END PGP SIGNATURE-----
+
+--VqX37/58iwZlf/so--
