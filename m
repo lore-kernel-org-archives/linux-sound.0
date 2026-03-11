@@ -1,132 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2776C3B775E
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 07:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA02A21FF2E
+	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 08:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773215863; cv=none; b=hxIV2luISDlZ1aCdnKg64VdBNiQEoFefrLnsm8z4ck1HUoyn6I9nz0HU086LKp4AflFIv1A4wmicja1U8S9eW3dKLIEO3BB+RxukeH1kE8i6yeuKd9zlsNCplf0vZMEhVACR1+a3vdZ/OKBEDvqXD1o1jZv8HAKCquWCIuez4kc=
+	t=1773216451; cv=none; b=eperrZsIB08EP1ygSOFIuep2eeDDflAg6f0MwJ2uU0Zr8Fv25zcy+uTUOO+kXetbTjIv2tb5QEzQxAewfV6Lr0Uu/6FMp8eD9ZpXYtDPLTAjtXbZW4cDzc6ZBNJKT6buzZ7oRPCV3o16vMNNdkyJC4LLJF69pMtITtIsVuCYGeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773215863; c=relaxed/simple;
-	bh=Fv/Mv96x4VfaLNFjK0iDGDjK2tmhwZtpyg2X/60q0XY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jMjkkgrIxV65YfZWaU4r0dMEBHZdFK199/o/lZ3j7H4LlkQvUc9uBfbXABYqAUliR/ii87P5HRnFDpveLmMDiN0DY+DDqgtJbVnviEX5XQsUXtvpaG6mG0zGdHHMZJOkVfNYFPs9WKpWZ5dMqPlivqKxbKS2eBVIbU821Ixggco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CzszALCU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773216451; c=relaxed/simple;
+	bh=xUJhKqiJ7CXUIBdFz3zU9vzeaIgArcP0t+vlG+CWhBM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WoqdHPvZq4niZrBPz/QvXyO0ms10vWrfJm81NOYm8ewiXOpOA1u393i2bV6yHPf0Qc83mDsmaRtoJ5tXYobhWG4p1C01kYea/THi9GpWcPXj4RE/pROuMcNKuxCwl1Fpk1yCGlgQYRtCpYXZxVnYJjJKzLYCSRoqWdfm8ggrXtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z3NdA0kS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/Xxhgsml; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h0mYQdbM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cdQ6+o1P; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CzszALCU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A59C2BCB1
-	for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 07:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773215862;
-	bh=Fv/Mv96x4VfaLNFjK0iDGDjK2tmhwZtpyg2X/60q0XY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CzszALCUMvuCn0c9AIZE6P62q1amlrBu8xDZzmVRu3lfLKBLBudIKfKI5ByiTHf0U
-	 Sp/1tPu/y9dNvLfs5ns23tPvyeHPpCp+3asz7mhS4MONcvr7tkJCieKoB/Fp+WOwjY
-	 F9JHfB+S8ukj+/aRJZu4/f2F7W6c1AwdqLzH8o8sMcFX92S/ULFn2a58GrHCKu1jJ2
-	 F/RYPhyHWdncDLVOFcORwt+9RorZDA4uBHj/QjT53UF+Re53ZpktS7eVJNFsmKECPP
-	 fR7u4wZDwwB2HcicgZ9t7DjgZfM79z4Hc+5d+gTHQ9G3cr9gV2KEpamKCy/7764GHj
-	 +f2n1qxckMU1A==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6611f41eebcso9026615a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 11 Mar 2026 00:57:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWprYhHS1RNtF65PJDqsAtOilUGyX8Vg6Dyc+VOD+/nrEqJBlx7JE8Jc4FgAoo+fpAjAqbeiwxkqNLJtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGQi7saKYNcyAWmitAN5GZ/Wdy1kqhTGnoUX+KWDBNPgp29smC
-	ONfC7SlJySJYkB0t2tTuNcIjbBLcoK7s17L5DqgJzhy9ZX0L2BswtEtlz/Y4EbLLt3b9+5DfWqd
-	WVoWUuUrA8THJl9GpptMW4HCSMUcmiP0=
-X-Received: by 2002:a05:6402:40d6:b0:662:ac7e:aabe with SMTP id
- 4fb4d7f45d1cf-66319ddf5aemr730767a12.15.1773215861291; Wed, 11 Mar 2026
- 00:57:41 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z3NdA0kS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/Xxhgsml";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h0mYQdbM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cdQ6+o1P"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E2DC95BD66;
+	Wed, 11 Mar 2026 08:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773216447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AofbZcMfpL6IEhDDdL4S64zeOSrhqrPopNEJjNnkIWo=;
+	b=Z3NdA0kSa0xXs9eFjdSvotlEuudNZrCrPqJIvMfJB9903q5fhH0oGfValqoyHGtGp0TXcp
+	Ws3fdfZvlXStN/f+ZihtCO2qNXYBkUWyqZsOwZnz6tutnS9yc7qPMJ6VzP6XS8BXtYZ2Cn
+	/Af2JWgkV1ke+ItNLaF+sL1S2tyjNFI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773216447;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AofbZcMfpL6IEhDDdL4S64zeOSrhqrPopNEJjNnkIWo=;
+	b=/Xxhgsmlck3mSwd1mP1mvvRJJYnFFsdEGsFmHjsbI8On5hhvXPtAUZicsh/eErwzLXFumx
+	XuhNKhOWKQzwf0DA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773216446; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AofbZcMfpL6IEhDDdL4S64zeOSrhqrPopNEJjNnkIWo=;
+	b=h0mYQdbMJ1bqzCkg/++eKlO8U6eF6x7OW53TQWZyV1e/0ZH50gyZ2lyxjGi/N9tr2lbXZF
+	UWHjiEsThkh9sI+LHlpApQBbWe4Q2k1LINb6ly6t3IaDf3Vv1bD/5WOV0iP20jkJ9GfukC
+	LDJ4/H6iMwEbA+UJwOBYac+8BrCtvo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773216446;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AofbZcMfpL6IEhDDdL4S64zeOSrhqrPopNEJjNnkIWo=;
+	b=cdQ6+o1PUt86uEhyTbbsX/Pub8a2Iokv/Zt54pOuP6NEU2d++Dl77hF0gCspdKrM8UYdlG
+	QETXktzHADI6fACw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A55CD3F8F6;
+	Wed, 11 Mar 2026 08:07:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id M7MZJ74isWmFfQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 11 Mar 2026 08:07:26 +0000
+Date: Wed, 11 Mar 2026 09:07:26 +0100
+Message-ID: <87fr664wn5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	"pav@iki.fi" <pav@iki.fi>,
+	"jussi@sonarnerd.net" <jussi@sonarnerd.net>,
+	"roy.vegard.ovesen@gmail.com"
+	<roy.vegard.ovesen@gmail.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add iface reset and delay quirk for SPACETOUCH USB Audio
+In-Reply-To: <TYUPR06MB6217ACC80B70BE25D87456B0D247A@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <TYUPR06MB6217ACC80B70BE25D87456B0D247A@TYUPR06MB6217.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <cover.1773107475.git.zhoubinbin@loongson.cn> <600bfea91c1f14f089b2f7677578cd8690412fac.1773107475.git.zhoubinbin@loongson.cn>
-In-Reply-To: <600bfea91c1f14f089b2f7677578cd8690412fac.1773107475.git.zhoubinbin@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 11 Mar 2026 15:57:32 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6zg2MfO2HC1+Q-FE4CJJLh2+Boo=ZP57XYPfufvCBhkw@mail.gmail.com>
-X-Gm-Features: AaiRm53g3U7uWAiLhv_K4TOrTstSQGfkvDlqk0BcK2SaYUxV4-EVvkbNF5uEZaU
-Message-ID: <CAAhV-H6zg2MfO2HC1+Q-FE4CJJLh2+Boo=ZP57XYPfufvCBhkw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] ASoC: dt-bindings: loongson,ls2k1000-i2s: Document
- Loongson-2K0300 compatible
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Xuerui Wang <kernel@xen0n.name>, 
-	loongarch@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,uniontech.com,iki.fi,sonarnerd.net,gmail.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,vivo.com:email,suse.de:mid]
+X-Spam-Flag: NO
 
-Hi, Binbin,
+On Wed, 11 Mar 2026 08:22:38 +0100,
+ºúÁ¬ÇÚ wrote:
+> 
+> Setting up the interface when suspended/resumeing fail on this card.
+> Adding a reset and delay quirk will eliminate this problem.
+> 
+> usb 1-1: New USB device found, idVendor=0666, idProduct=0880
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> usb 1-1: Product: USB Audio
+> usb 1-1: Manufacturer: SPACETOUCH
+> usb 1-1: SerialNumber: 000000000
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
-On Wed, Mar 11, 2026 at 2:38=E2=80=AFPM Binbin Zhou <zhoubinbin@loongson.cn=
-> wrote:
->
-> Add "loongson,ls2k0300-i2s" dedicated compatible to represent the I2S
-> interface of the Loongson-2K0300 chip.
->
-> The hardware integration of the Loongson-2K0300 I2S interface differs
-> significantly from that of the Loongson-2K1000. Specifically, while both
-> utilize external DMA controllers, the Loongson-2K0300 configures DMA
-> channel routing via the `dmas` property, whereas the Loongson-2K1000
-> requires additional register.
-Can this patch be the second one?
+Applied now.  Thanks.
 
-Huacai
 
->
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> ---
->  .../bindings/sound/loongson,ls2k1000-i2s.yaml | 22 ++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2=
-s.yaml b/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
-> index da79510bb2d9..51e23c189f7a 100644
-> --- a/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
-> +++ b/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
-> @@ -14,9 +14,12 @@ allOf:
->
->  properties:
->    compatible:
-> -    const: loongson,ls2k1000-i2s
-> +    enum:
-> +      - loongson,ls2k0300-i2s
-> +      - loongson,ls2k1000-i2s
->
->    reg:
-> +    minItems: 1
->      items:
->        - description: Loongson I2S controller Registers.
->        - description: APB DMA config register for Loongson I2S controller=
-.
-> @@ -49,6 +52,23 @@ required:
->
->  unevaluatedProperties: false
->
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - loongson,ls2k1000-i2s
-> +
-> +then:
-> +  properties:
-> +    reg:
-> +      minItems: 2
-> +
-> +else:
-> +  properties:
-> +    reg:
-> +      maxItems: 1
-> +
->  examples:
->    - |
->      #include <dt-bindings/clock/loongson,ls2k-clk.h>
-> --
-> 2.52.0
->
+Takashi
