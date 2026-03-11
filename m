@@ -1,97 +1,152 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C153A9D96;
-	Tue, 10 Mar 2026 18:51:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AA027707;
+	Wed, 11 Mar 2026 00:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773168691; cv=none; b=ACAmk6kxl931q3e3sYbgc78lrsQm2zrjD/h9QZ4u8dDClc+jZaUElFuLAOSy95ZoEg3fawZDAXqP/Z04P3+TpQzcHzqf8JN7CfAdjEE4A4qHiGZRf6RhSZRdBl5szU6HR3+cci+ziTDx3JuLwTK2T4JoKwxfKJ4NG4MeNyyVPf8=
+	t=1773187612; cv=none; b=kgzDpreD3obkCjFeZtXzVC0AhiqvRIdn9+rxgOB0dRVBa/2k5bIQAbpR63cMPte29/EGfCGMvNoSU1vtBRNK3MlVeCNZO/njRrzMS3tSlVZmev9gYmcE4KWhqVVRwDzRvgiOjl6a6J8frxLczrKQIRhVofmV5RhjqR9plp6sdsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773168691; c=relaxed/simple;
-	bh=KGaKMLvkoliMaZXpI7HDmUW+54rBNU1JmrNzpvNKq9g=;
+	s=arc-20240116; t=1773187612; c=relaxed/simple;
+	bh=k2t3wK18V1Lsefy+SCxBOABnjgV/cYpE68vp3HXwutw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dk5KfU7bjG8KDsdMticmNApmRb1oCs+/QlAQEZtz/cxgk3LaJ6whCpkFVMpxEcMEWYEzs1+qGAX98qQtG9Y5jTkvWALQ0OXM63AjSehGFFYwivUKLeMMycrNUibv/+ElvLpurlzf1YbXJTMmRbWnZDf780lBseOcSpyDdYv1NB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrNowWCg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5X2edbss3MCIIve0r4kpCJJ9QogoSPQIKvJByv8CCyqS2StiTxW8WI6VJNsfWHcXc+usjJlRCQwmH7EBFu0ITlVq6FAreGVYBO+iJByJQOs06Iwb87neWrv7l0YqIgBIdpwp8C8DWATM3QUTk+7nxZ7LSJgFNEqnzpG7uWL/Hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=boWh54e+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrNowWCg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47FADC19423;
-	Tue, 10 Mar 2026 18:51:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="boWh54e+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3FFBC19423;
+	Wed, 11 Mar 2026 00:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773168690;
-	bh=KGaKMLvkoliMaZXpI7HDmUW+54rBNU1JmrNzpvNKq9g=;
+	s=k20201202; t=1773187611;
+	bh=k2t3wK18V1Lsefy+SCxBOABnjgV/cYpE68vp3HXwutw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZrNowWCg5m9v/Sv/arAbden8FLpOA1NXgfvnh8tQ6ExCBcnk2Z8tuTf2fpxEkQoKr
-	 h/s6cYaBHKuXdmx55AKQU3QqMN1Phw1nsuXuHd2NCqW4OnuSZH6r5mnzfE2PVPy3U+
-	 X8QG6UgCP/Z0Vie2HDP7lfWFxmtQ/pOibByQa3ghwDfufMsVYzDWCBfGWT7zOwSrAd
-	 cZTVJCr/H+HUKisJU1uVgxpw1ujuacM1TmOxK1X0ywv6Cc+awO+utkbkDQ8PJCEOUh
-	 Qkjxh8DFCWhGFdtJmw32YMM/4ccIN6+rhm7OVRQR11RZ3H8Qh5jf1lVoS0JHk6jFh8
-	 ppnfDQF2Gp9dw==
-Date: Tue, 10 Mar 2026 18:51:25 +0000
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: cs42l84: set up PLL for more sample rates
-Message-ID: <ac417b14-dcdd-4e67-b1c0-b41ff1e22fc3@sirena.org.uk>
-References: <20260307-cs42l84-rates-v1-1-1c55a5673031@gmail.com>
+	b=boWh54e+tVHswXuPet6d9EKDP3Ggxp60UaOAxKJvRlXXx/7d5MsrIP7MzroF4/4Yb
+	 PjnEiJSbkpwDG7Q06lvmuMIX9vhJKoYsm9lh/qKhqsYi5eaT6MRYfg2TnkWgxcWIs4
+	 HZYTu0mafyKCmse4enJ7QB7ZzKhA0Dw+yknuO7OFzRC5Qj7NY7gzm6FmvEo9WHCpol
+	 PVmfJFGykW1FNTRNp2wfQw0JPE/JrlsTtYPTmm7AyRi/KK0S5Cg9Fn7/C1XHwa9aoR
+	 X3RKmM4RQqZifnHC8mh0WPF8jXF1Lc9uf4Tv9fZtZrCLaPeOaxFfXA9EARQkGc+iQ9
+	 KX9Gd6pAXnm0g==
+Date: Tue, 10 Mar 2026 19:06:47 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 7/7] slimbus: qcom-ngd-ctrl: Avoid ABBA on
+ tx_lock/ctrl->lock
+Message-ID: <abCuRcbukIBx4iBL@baldur>
+References: <20260309-slim-ngd-dev-v1-0-5843e3ed62a3@oss.qualcomm.com>
+ <20260309-slim-ngd-dev-v1-7-5843e3ed62a3@oss.qualcomm.com>
+ <20260310100319.fzucrw7do4bxvghv@hu-mojha-hyd.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RBIsO4+GHPvv843W"
-Content-Disposition: inline
-In-Reply-To: <20260307-cs42l84-rates-v1-1-1c55a5673031@gmail.com>
-X-Cookie: A fool and his honey are soon parted.
-
-
---RBIsO4+GHPvv843W
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260310100319.fzucrw7do4bxvghv@hu-mojha-hyd.qualcomm.com>
 
-On Sat, Mar 07, 2026 at 10:44:18AM +1000, James Calligeros wrote:
+On Tue, Mar 10, 2026 at 03:33:19PM +0530, Mukesh Ojha wrote:
+> On Mon, Mar 09, 2026 at 11:09:08PM -0500, Bjorn Andersson wrote:
+> > During the SSR/PDR down notification the tx_lock is taken with the
+> > intent to provide synchronization with active DMA transfers.
+> > 
+> > But during this period qcom_slim_ngd_down() is invoked, which ends up in
+> > slim_report_absent(), which takes the slim_controller lock. In multiple
+> > other codepaths these two locks are taken in the opposite order (i.e.
+> > slim_controller then tx_lock).
+> > 
+> > The result is a lockdep splat, and a possible deadlock:
+> > 
+> >   rprocctl/449 is trying to acquire lock:
+> >   ffff00009793e620 (&ctrl->lock){+.+.}-{4:4}, at: slim_report_absent (drivers/slimbus/core.c:322) slimbus
+> > 
+> >   but task is already holding lock:
+> >   ffff00009793fb50 (&ctrl->tx_lock){+.+.}-{4:4}, at: qcom_slim_ngd_ssr_pdr_notify (drivers/slimbus/qcom-ngd-ctrl.c:1475) slim_qcom_ngd_ctrl
+> > 
+> >   which lock already depends on the new lock.
+> > 
+> >   Possible unsafe locking scenario:
+> > 
+> >         CPU0                    CPU1
+> >         ----                    ----
+> >    lock(&ctrl->tx_lock);
+> >                                 lock(&ctrl->lock);
+> >                                 lock(&ctrl->tx_lock);
+> >    lock(&ctrl->lock);
+> > 
+> > The assumption is that the comment refers to the desire to not call
+> > qcom_slim_ngd_exit_dma() while we have an ongoing DMA TX transaction.
+> > But any such transaction is initiated and completed within a single
+> > qcom_slim_ngd_xfer_msg().
+> > 
+> > Prior to calling qcom_slim_ngd_exit_dma() the slim_controller is torn
+> > down, all child devices are notified that the slimbus is gone and the
+> > child devices are removed.
+> > 
+> > Stop taking the tx_lock in qcom_slim_ngd_ssr_pdr_notify() to avoid the
+> > deadlock.
+> > 
+> > Fixes: a899d324863a ("slimbus: qcom-ngd-ctrl: add Sub System Restart support")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+> > ---
+> >  drivers/slimbus/qcom-ngd-ctrl.c | 3 ---
+> >  1 file changed, 3 deletions(-)
+> > 
+> > diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
+> > index 54a4c6ee1e71fe55794f09575979826d9aa5be9f..75d70de0909a8d17e2410d30f7811f32d5eebea3 100644
+> > --- a/drivers/slimbus/qcom-ngd-ctrl.c
+> > +++ b/drivers/slimbus/qcom-ngd-ctrl.c
+> > @@ -1471,15 +1471,12 @@ static int qcom_slim_ngd_ssr_pdr_notify(struct qcom_slim_ngd_ctrl *ctrl,
+> >  	switch (action) {
+> >  	case QCOM_SSR_BEFORE_SHUTDOWN:
+> >  	case SERVREG_SERVICE_STATE_DOWN:
+> > -		/* Make sure the last dma xfer is finished */
+> > -		mutex_lock(&ctrl->tx_lock);
+> >  		if (ctrl->state != QCOM_SLIM_NGD_CTRL_DOWN) {
+> >  			pm_runtime_get_noresume(ctrl->ctrl.dev);
+> >  			ctrl->state = QCOM_SLIM_NGD_CTRL_DOWN;
+> >  			qcom_slim_ngd_down(ctrl);
+> >  			qcom_slim_ngd_exit_dma(ctrl);
+> >  		}
+> > -		mutex_unlock(&ctrl->tx_lock);
+> 
+> 
+> is it not much more safer, to put this tx_lock around qcom_slim_ngd_exit_dma() ?
+> 
 
-> Fill out more PLL config parameters in the PLL config lookup
-> table, and advertise the corresponding sample rates to userspace.
-> This enables 44.1, 88.2, 176.4 and 192 kHz output and input.
+It would avoid the deadlock in question, so that's good.
 
->  static const struct cs42l84_pll_params pll_ratio_table[] = {
-> +	{  2822400, 1, 0, 0x40, 0x000000, 0x03, 0x10, 11289600},
->  	{  3072000, 1, 0, 0x40, 0x000000, 0x03, 0x10, 12288000},
-> +	{  5644800, 1, 0, 0x40, 0x000000, 0x03, 0x10, 11289600},
->  	{  6144000, 1, 1, 0x40, 0x000000, 0x03, 0x10, 12288000},
-> +	{ 11289600, 0, 0, 0, 0, 0, 0,                 11289600},
->  	{ 12288000, 0, 0, 0, 0, 0, 0,                 12288000},
->  	{ 24576000, 1, 3, 0x40, 0x000000, 0x03, 0x10, 12288000},
->  };
+But I don't think it's reasonable to guard against the case where
+qcom_slim_ngd_xfer_msg() is running beyond qcom_slim_ngd_down().
 
-These are adding 44.1kHz based rates with a new value for MCLK (the
-final value in each entry).  Those values are read with a switch
-statement in cs42l84_pll_config but that only has an entry for 24.576MHz
-for some reason, that won't match 112.896MHz and will just leave the
-pll_mclk_f with whatever value it had before.  Don't we need a new case
-statement there for the new MCLK?
+qcom_slim_ngd_down() will tear down the world around the caller
+of qcom_slim_ngd_xfer_msg(), so it's unlikely we're in a good place if
+this happens.
 
---RBIsO4+GHPvv843W
-Content-Type: application/pgp-signature; name="signature.asc"
+One concrete example of this is that the wcd934x "ddata" will be
+released by devres as qcom_slim_ngd_down() is cleaning up the children.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmwaCwACgkQJNaLcl1U
-h9CvuAf7B7cdBFgbJWHBXq/4B1y6YOhvxovqXAvsuiCsq+b4Lkn4i/NZqfQfELGT
-v2L5EDpNKgiljIRUP4qyQNBhlt99EdNDNfOakkhfA1gBSw/yejR5nrvk1gOU/5TZ
-Wqs6olncic935gVUCKUfPcMN5PIR9nSaUBi45/uQP2DwlSPYgn9+3+QnQmpROEer
-Hm8P27CyOxDV55HNDWo0fTAC3srJJSY3j6jLCyUwm74dHsicNaifooBJtj5tSoUK
-//IxK1F7kPozgZ3a4GcwuMzYf7csMLrE4+0u2rSnJ9/Vbo/LdAFrwZCWQZVEUrbp
-DCZv5Waf1+ZNHH0tCUiUJ6YUCnsKeQ==
-=hjOh
------END PGP SIGNATURE-----
+But to clarify, this is not something that is handled properly today -
+more work is needed in this area.
 
---RBIsO4+GHPvv843W--
+Regards,
+Bjorn
+
+> 
+> >  		break;
+> >  	case QCOM_SSR_AFTER_POWERUP:
+> >  	case SERVREG_SERVICE_STATE_UP:
+> > 
+> > -- 
+> > 2.51.0
+> > 
+> 
+> -- 
+> -Mukesh Ojha
