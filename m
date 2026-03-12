@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B4E3F99DB;
-	Thu, 12 Mar 2026 17:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC7A3FD15B;
+	Thu, 12 Mar 2026 17:34:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773336887; cv=none; b=ozRkq0VmRIcHvUcdeFbpgStkU9s88sQ41+tIlS7GGyzifiXmBAlDBLlkozSEcig3P/6ROibCyWfwbm3f8a9fVZY5BNJ5QHwUryvBJEKWfzriDtUkNZ7IqCBcw4zntmxtfc8vEdEGD7wQzRznX1WDMqGjH+2PduSWMQMSC3jjE7w=
+	t=1773336888; cv=none; b=JDy1aBK5hJWPw5QKfks4ZLcumdnOnWIzryAMJsKIyemAcPtOwB5oamk81tzroicWP4+I5dwg8XQhlmEP54+9kmH7whlzS5t4CjM2pppzfO425nvQMVUzaBirvEP4a4JrptQAzRhucyM99rRrOFZW9CXeiBM947dTNYdU6bK8hqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773336887; c=relaxed/simple;
-	bh=+sDX0nZTz7G3iewP7byXnUpGAi/xcHABbYOl+PvDl7w=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=feuyxdlGCP+EyB36R4RZyM4dElBkHylf3W4fUV+oAldqpBrIfyG7Wc7k3+D09av7OLWcRKtfvHb154It4Q8KvS4et7COiV8+DWSxG8wDTiB6G+zieWTDG3gIVH6h5910CLz0myFhMuWTCMnY0lGeiXdbabpRYRnQTHsrJi/A8AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKb+WTyh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773336888; c=relaxed/simple;
+	bh=aI+JWcHqYR2uX9/9wwP7ZkqD9mZ1AGOUvXrTkkqGfqg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sig+4DTCcsVEkwtCmejiwKyFEBqnnlrKbcxRuKooMcp57XpW7UL71DmSDgYCltqLfT74MuBrlQyg0Fn+DWOVV0dEwRoyXdKQBS2/FvtJSRp+NoyiIHXgwm1Ih652TIighwnvNwURIj2QIE+mU/WqqgLMHPrEXJ+lMjwePxvs73Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hLj1jlk0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKb+WTyh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54BCDC4CEF7;
-	Thu, 12 Mar 2026 17:34:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hLj1jlk0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9DBAC116C6;
+	Thu, 12 Mar 2026 17:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773336887;
-	bh=+sDX0nZTz7G3iewP7byXnUpGAi/xcHABbYOl+PvDl7w=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=WKb+WTyhLLO226hEa7IxsGIegwpL6r5ihWpMvvgkVAzW5WEHXo/TZn5EDmvOJNHjp
-	 TQ3IuMXMwWZ+jKzPTNhKB90YJ7yKK8pRFnIj5rlLISZT9aG+gjSIgx6kArfugmX7qX
-	 yjVPVF1BqoUntZVDhrlgkEKJbyvg5mHKyL70fCHnsWgk/OXiZLY3ld3HnSE8ASr/89
-	 uqy7OCwcDHQS1/buno8xP0DCUhRbTrvCn239+Q0DzUiE9zWo8yKDwQV6CT4F3UBCNW
-	 kWBrFM6FsIS/tuFrgygguYgO8SSUAGa/B2+0IpSXrBnRR1zKY92ZlM3w9vtMIsEkhz
-	 +nxEda8vB2ACQ==
+	s=k20201202; t=1773336888;
+	bh=aI+JWcHqYR2uX9/9wwP7ZkqD9mZ1AGOUvXrTkkqGfqg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hLj1jlk0GU9bmRtjKV30AA24nFfkOhYbrcZ5Ontykw0FjiqCyj3hriV5NYkIGsv4r
+	 CkbvcLpuKsIabT3J8KlOOUNZPoiEpGUrzCXuw9lBncGt3pAI1Y3AsTkUgDK+UqDy59
+	 IqSN/jKbwIDyD7K1bAbJZqSLrYy7zRgTrefjcEpIIJznDN/+K1JPxJrY/2QT1bsOPI
+	 Op+SKTHL2sv+Q+O/nLojwMCL/6rT4vrdG1kUjCjPYPHXdHt/3wprh1lswNoLt3xshH
+	 FHOXnSmJrLAii/2AClWOopBkJgzbiWpQ4LKGnGD7tyncvjJqfnt4bDAQ00kF+j2VBM
+	 Y+JqiuHU9Pfgg==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20260310104235.1234569-1-shengjiu.wang@nxp.com>
-References: <20260310104235.1234569-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v6 0/3] ASoC: fsl: add bitcount and timestamp controls
-Message-Id: <177333688509.302961.7348877736206320073.b4-ty@kernel.org>
-Date: Thu, 12 Mar 2026 17:34:45 +0000
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260310141817.1871794-1-rf@opensource.cirrus.com>
+References: <20260310141817.1871794-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 00/10] ASoC: wm_adsp: Some improvements to firmware
+ file search
+Message-Id: <177333688750.302961.12309937197252849142.b4-ty@kernel.org>
+Date: Thu, 12 Mar 2026 17:34:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,17 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-68380
 
-On Tue, 10 Mar 2026 18:42:32 +0800, Shengjiu Wang wrote:
-> The SAI and XCVR have the timestamp counters and bit counters, which can
-> be used by software to track the progress of the transmitter and receiver.
-> They can also be used to calculate the relative frequency of the bit clock
-> against the bus interface clock.
+On Tue, 10 Mar 2026 14:18:07 +0000, Richard Fitzgerald wrote:
+> This series makes some improvements to the code that searches for firmware
+> files.
 > 
-> changes in v6:
-> - define FSL_ASOC_SINGLE_EXT and FSL_ASOC_ENUM_EXT, which are
->   SNDRV_CTL_ELEM_ACCESS_VOLATILE.
-> - return 0 in fsl_asoc_put_volsw, fsl_asoc_put_enum_double and
->   fsl_asoc_put_xr_sx to avoid control event notification.
+> Patch 1 is a trivial patch to remove an unused function argument, before
+>    adding any new code that uses this API.
+> 
+> Patches 2..4 add KUnit testing to prove that the subsequent changes don't
+>    break anything.
 > 
 > [...]
 
@@ -66,12 +64,26 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: fsl_utils: Add snd_kcontrol functions for specific cases
-      commit: 819cf1dc01ce66b6906d403a6925c4bd754a7a1d
-[2/3] ASoC: fsl_sai: add bitcount and timestamp controls
-      commit: 8e27987a208029c39da7a787bd9f1217d42011a5
-[3/3] ASoC: fsl_xcvr: add bitcount and timestamp controls
-      commit: 7b3f8db159f710d432c4edc024fcefa9e62e8b4b
+[01/10] ASoC: wm_adsp: Remove unused argument to wm_adsp_release_firmware_files()
+        commit: 1eadb7791ee5699ca58920ef705ce0934c814ece
+[02/10] ASoC: wm_adsp: Add KUnit redirection stubs for firmware file search
+        commit: 70057cfe492d600c2b83598e8b8b64780b2ca147
+[03/10] ASoC: wm_adsp: Export function for KUnit test to get firmware filenames
+        commit: b4e6b01191afb9516570437a7aff61019134fd59
+[04/10] ASoC: wm_adsp: Add kunit test for firmware file search
+        commit: bf2d44d07de726b0393439cb4d4defc5cf89a4fc
+[05/10] ASoC: wm_adsp: Remove duplicated code to find firmware file
+        commit: 2c7c27025374abbdeda201ad103ddf27e8079aec
+[06/10] ASoC: wm_adsp: Use consistent error checks in wm_adsp_request_firmware_files()
+        commit: f8f0c68c75214e326c0d4cbcab8ecab882201f48
+[07/10] ASoC: wm_adsp: Convert '/' to '-' when normalizing firmware filenames
+        commit: 66170cc7ed59fb7e1e192e53f1d690bd04e8c720
+[08/10] ASoC: wm_adsp: Add KUnit test cases for '/' in firmware filenames
+        commit: d8a4c96082e6f5c7aaf6f3e101effe7ff0ea4d6e
+[09/10] ASoC: wm_adsp: Use a struct to pass around firmware struct and filename
+        commit: 7bca3ca55ef53ca66fdf6e663290d0596a8f520d
+[10/10] ASoC: wm_adsp: Combine some similar code in firmware file search
+        commit: 8fc5c7895185d1119ae76b509892a1d14e0bd483
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
