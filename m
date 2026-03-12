@@ -1,98 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C2638422D;
-	Thu, 12 Mar 2026 17:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6383DA5BB;
+	Thu, 12 Mar 2026 17:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773336778; cv=none; b=VIHP7GWb3zaaJ2GaRA6Ryp+MNh5XZTTHjq1ghxVgFJyaRiphdxNjcx0fvgir0xK7fXlUIhEMbPWAcTuqyZcSZPJ0OeiuCpX8RLmZESga/y58op5L3QPrx7tpi8ShadVitdYq8G4V2PcAtMkEJJDKyMhgnHa2hmLB8tIXPna8j9Q=
+	t=1773336880; cv=none; b=dwV3DX30OywCRBNeWsOY+GAIeWfiQz26Gcl4U13Wg8sxrKhjXu2W7wf0W/SVYAZdyBASzn0Vtad0uzz/EzXKFheC9NWm1/KIUzYzYxWyE+MKIGIOAf7xklAT/srJNo/6HKfBsjhXoyOYLFurkw3C1T6xyE4exAHPUTPVytDzybM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773336778; c=relaxed/simple;
-	bh=6OZupW+8nCENOIwIlE2yxZg29RsbpuXi1ug0crETM6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s5Gad1/YvQx2VWMEdWleLUS3jP8eWNBJvu8ja/VOalDiVviyomwYpKIJ3HJUmWwzpbkvZ7GR+A/BSspK2L9R7JxtXFNKulO2+Oby9ywno/H7S0SlAOG69884d/j4iFlufbmAPModKl8tIwNEGeXpQtneiLXQFlxK4bEnhWsI/UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=if1dvv2I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773336880; c=relaxed/simple;
+	bh=z6Fq0etMM8i2YpRnzMdU0704l0z3mVS1tUc4Te05Uug=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GgX4QZm81dK+iL+B3cPlI4zKS9AZ9XmRtYHfKScjJiFlzruX7b5fb3mRUR4ZXo237Ippy61pYMgozDlGJayMG/gZxWsu+IZiRJTyMu30b5hJAjaOPS42ubkR5tjHQpSf5wFAWugPlbDuwImKvAxcRj+hG47t1XIIJlOk7NFFLQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oNVL1ATb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="if1dvv2I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FF47C4CEF7;
-	Thu, 12 Mar 2026 17:32:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oNVL1ATb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A52C116C6;
+	Thu, 12 Mar 2026 17:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773336777;
-	bh=6OZupW+8nCENOIwIlE2yxZg29RsbpuXi1ug0crETM6M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=if1dvv2IVdmGYizlvi2zGkJ6M4QxH28nxsTzCwb4ugwEeOYw5pkkfHcBhrGIl3CFk
-	 nsSv7rTmTbtt8ylDPmq3DgdfLl4Zvq38rCmV/fUfV+oNj6x31dqxRvGvRH+SI4BOPH
-	 Byhr+oW2cMCGYNia9KIqcvHwnh2Ji2NcufUXJuyf5txaV8sIj92njqyUb/t50Kf++T
-	 XgyH9GB6XP2+oUxciBV7FPM9Ozwbkc8qLlGl98J9OqV+D5xD3nRaZPezI2GBDP9hLB
-	 C5HBLXk/Kfha6o/vsgwnA/MvGgy79tmVuuL+kI8ZxvdEUV6wCEXKBtEWwJJeF3RnTB
-	 Lt3nwZ2mMtmkA==
-Date: Thu, 12 Mar 2026 17:32:53 +0000
+	s=k20201202; t=1773336879;
+	bh=z6Fq0etMM8i2YpRnzMdU0704l0z3mVS1tUc4Te05Uug=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=oNVL1ATbmTIdlOOGC0UgD1s6/IC+H09jQHpw/gsAInCpnp/fVVlo2LFrxAEKaIGha
+	 cjPO58Vcqe3ke5xaarbpsvlKQsto3MS3Xilbnr7+jd8/x2PCAlmfe+P/FwQFFRstLJ
+	 cEw22itZRzTJyXSXA76N/CYYvT/zJWO17f13nRqJj2gfHW0LTTdOObdG1fjqMzc15T
+	 qvq8lAeH8Vzp1oGGgtoyJvJVmvDegcS4bR/bRsUP7tARNvptOTRYNvPCTRv+0zAZ5C
+	 csJK5q2YTNlqRtYY7XAIB+IZfk7P5iWRVKDFoJV/KQaCpoQJxqJzX+9DYCouNsBtmd
+	 V/VHjFBdJvS6Q==
 From: Mark Brown <broonie@kernel.org>
-To: gaggery.tsai@intel.com
-Cc: linux-sound@vger.kernel.org, ckeepax@opensource.cirrus.com,
-	mstrozek@opensource.cirrus.com, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: SDCA: Fix NULL pointer dereference in
- sdca_jack_process()
-Message-ID: <ef001910-611a-40b4-b7b6-c5dc7d784701@sirena.org.uk>
-References: <20260310183829.2907805-1-gaggery.tsai@intel.com>
- <20260312143218.2008222-1-gaggery.tsai@intel.com>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20260212072229.3247604-1-shengjiu.wang@nxp.com>
+References: <20260212072229.3247604-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v2 0/2] ASoC: fsl: add bitcount and timestamp controls
+Message-Id: <177333687761.302961.14700206340087655757.b4-ty@kernel.org>
+Date: Thu, 12 Mar 2026 17:34:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0Vas4UN21RkwjNkw"
-Content-Disposition: inline
-In-Reply-To: <20260312143218.2008222-1-gaggery.tsai@intel.com>
-X-Cookie: He who hesitates is last.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-68380
 
+On Thu, 12 Feb 2026 15:22:27 +0800, Shengjiu Wang wrote:
+> The SAI and XCVR have the timestamp counters and bit counters, which can
+> be used by software to track the progress of the transmitter and receiver.
+> They can also be used to calculate the relative frequency of the bit clock
+> against the bus interface clock.
+> 
+> Changes in v2:
+> - remove arrays of enums, define transmit_tstmp_enum and receive_tstmp_enum
+>   separately.
+> - remove __bf_shf(), define the XXX_SHIFT macros.
+> 
+> [...]
 
---0Vas4UN21RkwjNkw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Mar 12, 2026 at 07:32:18AM -0700, gaggery.tsai@intel.com wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> sdca_jack_process() unconditionally dereferences component->card and
-> card->snd_card at the top of the function. This causes a NULL pointer
-> dereference when the SDCA IRQ handler fires after the ASoC card has
-> been torn down.
+Thanks!
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+[1/2] ASoC: fsl_sai: add bitcount and timestamp controls
+      commit: 8e27987a208029c39da7a787bd9f1217d42011a5
+[2/2] ASoC: fsl_xcvr: add bitcount and timestamp controls
+      commit: 7b3f8db159f710d432c4edc024fcefa9e62e8b4b
 
-> +static void class_function_component_remove(struct snd_soc_component *component)
-> +{
-> +	struct class_function_drv *drv = snd_soc_component_get_drvdata(component);
-> +	struct sdca_class_drv *core = drv->core;
-> +
-> +	sdca_irq_disable(drv->function, core->irq_info);
-> +}
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-This is an ASoC level remove so the driver itself is never unbound but
-I'm not seeing anything that undoes this disable so an ASoC level rebind
-will leave the interrupt disabled.  Do we need to start off with the
-interrupt disabled and only enable it during bind so we can have the
-bind/unbind be symmetric?
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---0Vas4UN21RkwjNkw
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmy+MQACgkQJNaLcl1U
-h9DCAwf+ONMW8/5VxjsKw7Nl6Bha6fc8e+m1Ewb+sp0QFFs50sZ0tochtu7uuFA7
-Vg4Kp0Cz1vzniruRLyOcmuo+JhXLV4Q4BhAfYvdCS6LACYsT17/s6wHBr2oW/Cgl
-SIsxJkLvZ3vc3Rfhwrbed15hKj8mFyyrUjJ9tez0/hH6w7yb5MvNf1TTRPrW98OM
-oNFaZZSG7PAjuHtX+Haf7o7L+W0uNxxFW0W5qwUULIhh8hjamTzyjcAFcHjWAooc
-XEvm+Dlq+Jk5t1tCRBDktnLhkNpTMUfZyOAVWFgd/eqv2sL5ljsT4z4ZWjtIw11r
-b6lwOzB+bguQ78dQXYBKDn+xBDKlPQ==
-=3z5r
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---0Vas4UN21RkwjNkw--
