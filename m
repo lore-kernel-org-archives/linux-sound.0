@@ -1,106 +1,143 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179C1324B33;
-	Thu, 12 Mar 2026 19:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0F2DDCD;
+	Thu, 12 Mar 2026 19:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773344034; cv=none; b=j33607n42e689OLFpqcE53xFh+mXzT0DHyFuURweRJDCnHcwW3FtYJuTwAwE7ZtTqn92an8BownNrtmHLhnnlR6hLvKAuI+SoVXShgoz/FNRyMB49rWOhUxMnrt0E5LHZZe0uYfRusDdVxUM+4AJvAJQujoLYUQ8fY7Cwp76ZKA=
+	t=1773345393; cv=none; b=rTc+YS/2Sp0pSlkmuLa1V1hdBzUpkovMdVOD1jCh20sIuGKeweqANsK1hA9NDeN77vLfHm9PMrvEoNM7PSeOI+NZr4H76tirwRMxq7OU7dseqm5XKDh0Ui23DNG+KABel8d/lga+vFxp+YmXHFDVzX2EjedWXL1rGqd93silk68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773344034; c=relaxed/simple;
-	bh=VQ4I1//oujMg/wMbvtHZ1fNg62i5rEhIWcPKRohhj4U=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ddy2a7nze40y2XOq6AzX5P+yK/YAMZEsZCu4is1ZBhMnJKS9vFgMZWqpirXNxVgz6pZsokw/214XhfsoPaQlvyfIqpgQ2GBgjj20XFkl4eJeH0Ugf3RmPz5wDBJf3rAKd+aMd7liJ/M4aSZTOFN9EXdHYYjti5z0jySqd1deAiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 2C14C2C14A6;
-	Thu, 12 Mar 2026 20:33:44 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id mRiNiroB9jYU; Thu, 12 Mar 2026 20:33:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 4E6A02C14A8;
-	Thu, 12 Mar 2026 20:33:43 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ZwSNZkVP8UOU; Thu, 12 Mar 2026 20:33:43 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id ABF4A2C14A6;
-	Thu, 12 Mar 2026 20:33:42 +0100 (CET)
-Date: Thu, 12 Mar 2026 20:33:42 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx <amd-gfx@lists.freedesktop.org>, 
-	apparmor <apparmor@lists.ubuntu.com>, bpf <bpf@vger.kernel.org>, 
-	ceph-devel <ceph-devel@vger.kernel.org>, cocci <cocci@inria.fr>, 
-	dm-devel@lists.linux.dev, 
-	DRI mailing list <dri-devel@lists.freedesktop.org>, 
-	gfs2 <gfs2@lists.linux.dev>, 
-	intel-gfx <intel-gfx@lists.freedesktop.org>, 
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
-	kvm@vger.kernel.org, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>, 
-	linux-bluetooth@vger.kernel.org, 
-	linux-btrfs <linux-btrfs@vger.kernel.org>, 
-	linux-cifs <linux-cifs@vger.kernel.org>, linux-clk@vger.kernel.org, 
-	linux-erofs <linux-erofs@lists.ozlabs.org>, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-gpio@vger.kernel.org, 
-	linux-hyperv <linux-hyperv@vger.kernel.org>, 
-	linux-input@vger.kernel.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-leds@vger.kernel.org, 
-	linux-media <linux-media@vger.kernel.org>, 
-	linux-mips <linux-mips@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, linux-modules@vger.kernel.org, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	linux-nfs <linux-nfs@vger.kernel.org>, 
-	linux-omap <linux-omap@vger.kernel.org>, 
-	linux-phy@lists.infradead.org, linux-pm <linux-pm@vger.kernel.org>, 
-	linux-rockchip <linux-rockchip@lists.infradead.org>, 
-	linux-s390 <linux-s390@vger.kernel.org>, 
-	linux-scsi <linux-scsi@vger.kernel.org>, linux-sctp@vger.kernel.org, 
-	LSM <linux-security-module@vger.kernel.org>, 
-	linux-sh <linux-sh@vger.kernel.org>, 
-	linux-sound <linux-sound@vger.kernel.org>, 
-	linux-stm32 <linux-stm32@st-md-mailman.stormreply.com>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
-	linux-usb@vger.kernel.org, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	netdev <netdev@vger.kernel.org>, ntfs3 <ntfs3@lists.linux.dev>, 
-	samba-technical <samba-technical@lists.samba.org>, 
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
-	tipc-discussion@lists.sourceforge.net, v9fs <v9fs@lists.linux.dev>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Vignesh Raghavendra <vigneshr@ti.com>
-Message-ID: <1584421372.26258.1773344022512.JavaMail.zimbra@nod.at>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-48-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-48-bd63b656022d@avm.de>
-Subject: Re: [PATCH 48/61] mtd: Prefer IS_ERR_OR_NULL over manual NULL check
+	s=arc-20240116; t=1773345393; c=relaxed/simple;
+	bh=NjMdNKX+/UxCnp6e7j2/bWlIiNwme1uhQHNWdLdMGHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCEf57eTbmSo1JirnAZlutDKVwQoov32HBJqZDP0aY9v6xpxsGcHA8gvqW7ZQYlyIe6F8rbyIthtwAejAiajz/uHsQ/IQ4ROT1DEtMRCGWYfinZRAK0tZ77BROYrYXExLbINT4fEorwyCF+KZ23TanDAtDzocRApq8LyvCuOy4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdvyO2d2; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdvyO2d2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBACCC4CEF7;
+	Thu, 12 Mar 2026 19:56:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773345393;
+	bh=NjMdNKX+/UxCnp6e7j2/bWlIiNwme1uhQHNWdLdMGHM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NdvyO2d2s9QKkc7zTkMLibjVOoIYJtCKSZ83dnNUdA1CrZ5NvtMXO/NuD3Z6nUAFz
+	 p47JxUKmFdvYjXFsizhE08OWzj1bm7gYGOJWSJWHA7ICqf98ZiGeG37kkbn40Jj3gb
+	 8kIOMIDMLi0CwKBeXUXshYVfUBEunfHsV5VlRm4Wy4xliKxwDpshx5a9Te29k+D50o
+	 OtYEmUUtEYkF1sG55kNFyW/hpZWen8E0mtiOMW01TrkbxxF2qhpmVLXzklLb3ey65q
+	 ea8byQMIC1plQcvxuuKOUVrhieyGahOf4hbo6+u/7gx/dsIzup4qGOJO+Q04MOumU9
+	 aaRLNmr44vG+w==
+Date: Thu, 12 Mar 2026 19:56:26 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Niranjan H Y <niranjan.hy@ti.com>
+Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	lee@kernel.org, linusw@kernel.org, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, nb@tipi-net.de, navada@ti.com,
+	v-hampiholi@ti.com, sandeepk@ti.com, baojun.xu@ti.com,
+	shenghao-ding@ti.com
+Subject: Re: [PATCH v1 7/8] ASoC: tac5x1x: Add TI TAC5x1x codec driver
+Message-ID: <a13f104d-f8b0-4e23-baac-ecf5d6d0fc13@sirena.org.uk>
+References: <20260312184833.263-1-niranjan.hy@ti.com>
+ <20260312184833.263-8-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF148 (Linux)/8.8.12_GA_3809)
-Thread-Topic: Prefer IS_ERR_OR_NULL over manual NULL check
-Thread-Index: 0l8CyewQmrWlgaG6N3QgQFfukutRbA==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LjM/NfYqjLgygBG1"
+Content-Disposition: inline
+In-Reply-To: <20260312184833.263-8-niranjan.hy@ti.com>
+X-Cookie: I feel better about world problems now!
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Philipp Hahn" <phahn-oss@avm.de>
-> -=09if (gpiomtd->nwp && !IS_ERR(gpiomtd->nwp))
-> +=09if (!IS_ERR_OR_NULL(gpiomtd->nwp))
 
-No, please don't.
+--LjM/NfYqjLgygBG1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This makes reading the code not easier.
+On Fri, Mar 13, 2026 at 12:18:32AM +0530, Niranjan H Y wrote:
 
-Thanks,
-//richard
+> +/* ADC Analog source Selection */
+> +static const char *const tac5x1x_input_analog_sel_text[] = {
+> +	"Differential",
+> +	"Single-ended",
+> +	"Single-ended mux INxP",
+> +	"Single-ended mux INxM",
+> +};
+> +
+> +static const char *const tac5x1x_input_analog2_sel_text[] = {
+> +	"Differential",
+> +	"Single-ended",
+> +};
+
+Should these be configurd from DT given that they'll likely depend on
+wiring (I know a lot of drivers, especially old ones) make them runtime
+configurable)?
+
+> +static s32 tac5x1x_add_ip_diag_controls(struct snd_soc_component *component)
+> +{
+> +	struct tac5x1x_priv *tac5x1x_priv =
+> +	    snd_soc_component_get_drvdata(component);
+> +	struct tac5x1x *tac5x1x = tac5x1x_priv->tac5x1x;
+> +	struct tac5x1x_input_diag_config *input_diag_config =
+> +	    &tac5x1x_priv->tac5x1x->input_diag_config;
+> +	s32 ret = 0;
+> +
+> +	switch (tac5x1x->codec_type) {
+> +	case TAA5212:
+> +		break;
+> +	case TAA5412:
+> +	case TAC5301:
+> +	case TAC5311:
+> +	case TAC5312:
+> +	case TAC5411:
+> +	case TAC5412:
+> +		if (input_diag_config->in_ch_en) {
+> +			ret = snd_soc_add_component_controls(component,
+> +							     taa_ip_controls,
+> +							     ARRAY_SIZE(taa_ip_controls));
+
+These...
+
+> +static s32 tac5x1x_add_controls(struct snd_soc_component *component)
+> +{
+
+> +	case TAA5412:
+> +		ret =
+> +		    snd_soc_add_component_controls(component, tolerance_ctrls,
+> +						   ARRAY_SIZE(tolerance_ctrls));
+> +		if (ret)
+> +			return ret;
+> +		ret =
+> +		    snd_soc_add_component_controls(component,
+> +						   taa_ip_controls,
+> +						   ARRAY_SIZE(taa_ip_controls));
+
+..are also added unconditionally here which will fail due to duplciate
+registration?
+
+> +static int tac5x1x_soc_resume(struct snd_soc_component *component)
+> +{
+> +	return 0;
+> +}
+
+Just delete the function if there's nothig to do.
+
+--LjM/NfYqjLgygBG1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmzGmkACgkQJNaLcl1U
+h9AWuwf+O2I1VNKLNMp5FX2IxevKnTF1iTGdgzWNXtHQGsOzC0Z44+H+UmHj9Y7L
+uVwyZGSzeQptrApPRux7LTV8+NWdrH5gwRVnK8eRn/3De1jmaOGDT/SZgXfm3Bxh
+CV4lDziszjZa7qWgIhfme/H+pVLurja4eBbOhx5O9nyLnEJYaHFu3G8/o+I0SByY
+UytItHTikJ77REQklov3gt0CwMmCqSrdoX+tSUadsciwsXCTvuQJdrAnvU9AW4AH
+yDzndpELdUkKk1Xj3ebs95syZg1OSeYsNDgQ5mPQUjMgq3Z7ygT0//nsuff96MAH
+DOttvzmM70nJTlTDGlFmizKlBi1Z+g==
+=Xpge
+-----END PGP SIGNATURE-----
+
+--LjM/NfYqjLgygBG1--
