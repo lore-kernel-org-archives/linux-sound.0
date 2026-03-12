@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A373F9F20;
-	Thu, 12 Mar 2026 17:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B4E3F99DB;
+	Thu, 12 Mar 2026 17:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773336885; cv=none; b=QRcrpL5jkhKPTjFavhPKWSvkDMrLA9YCy0q0y+jdKcBSplc+eXJzJeb5tgVhN/MnymSynKBU7wjrI2pbL7cCNuhX7twuUh6p32AXZ/jieqK755wOeCOOz5XAY73wEDmDZ5UgFlFjVQ+b1ZUj70U2qM7DE/tAhqgAozgW3Q6vqUU=
+	t=1773336887; cv=none; b=ozRkq0VmRIcHvUcdeFbpgStkU9s88sQ41+tIlS7GGyzifiXmBAlDBLlkozSEcig3P/6ROibCyWfwbm3f8a9fVZY5BNJ5QHwUryvBJEKWfzriDtUkNZ7IqCBcw4zntmxtfc8vEdEGD7wQzRznX1WDMqGjH+2PduSWMQMSC3jjE7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773336885; c=relaxed/simple;
-	bh=MUa7DRBVFoO81wEfsHpcvITgOYtf8fWifxP9N3J/Fz8=;
+	s=arc-20240116; t=1773336887; c=relaxed/simple;
+	bh=+sDX0nZTz7G3iewP7byXnUpGAi/xcHABbYOl+PvDl7w=;
 	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hM3IZXdCTNEJoYbZnDg5pARkfT87mqq9tiOMo/S0/Icc4hr8dFTFuMuutmfO8AlXgFBUqkmpCJWb2LWL73luNGbJOqQipS2+qfZiTo1d1SF7aFSUlNpXXwkl57Bs8+8ktNjb3n8McavUSp1qhC2R9WcfE2AgozP/fjxtB9uwDKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ObhSNXY8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=feuyxdlGCP+EyB36R4RZyM4dElBkHylf3W4fUV+oAldqpBrIfyG7Wc7k3+D09av7OLWcRKtfvHb154It4Q8KvS4et7COiV8+DWSxG8wDTiB6G+zieWTDG3gIVH6h5910CLz0myFhMuWTCMnY0lGeiXdbabpRYRnQTHsrJi/A8AI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKb+WTyh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObhSNXY8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22EAC116C6;
-	Thu, 12 Mar 2026 17:34:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKb+WTyh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54BCDC4CEF7;
+	Thu, 12 Mar 2026 17:34:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773336884;
-	bh=MUa7DRBVFoO81wEfsHpcvITgOYtf8fWifxP9N3J/Fz8=;
+	s=k20201202; t=1773336887;
+	bh=+sDX0nZTz7G3iewP7byXnUpGAi/xcHABbYOl+PvDl7w=;
 	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=ObhSNXY8ZVDNmsPYN0pGf8KKgIgZPobeEzg5JVcu0+cUhAeCiDtHv9RhUfktm0MRK
-	 zETgf42oZUi/dB7EDm7wavQr1rxs0kw0mNjzd0Qy+K0IezrhNQV4pyXmBpfgYFym1b
-	 N6TB5M4xx+fOYXocsr+/n59LYfyqkwhYvsyglXfPWFVpKH5E2Z81gtX85sCylbtSK9
-	 9S2U0XkLkL+Y0356qx+JUC/mRm102YiikBJbkmFYWpEs+bevexkP/wI8PMVzvLwvYu
-	 HzXLvjwNKGy5HfNcXCGwan5gU9Q/XkGgqxRFX9MKPBIti3P5iwMN0yZKn12QyNQd/q
-	 OOO/Hb/UBiHIg==
+	b=WKb+WTyhLLO226hEa7IxsGIegwpL6r5ihWpMvvgkVAzW5WEHXo/TZn5EDmvOJNHjp
+	 TQ3IuMXMwWZ+jKzPTNhKB90YJ7yKK8pRFnIj5rlLISZT9aG+gjSIgx6kArfugmX7qX
+	 yjVPVF1BqoUntZVDhrlgkEKJbyvg5mHKyL70fCHnsWgk/OXiZLY3ld3HnSE8ASr/89
+	 uqy7OCwcDHQS1/buno8xP0DCUhRbTrvCn239+Q0DzUiE9zWo8yKDwQV6CT4F3UBCNW
+	 kWBrFM6FsIS/tuFrgygguYgO8SSUAGa/B2+0IpSXrBnRR1zKY92ZlM3w9vtMIsEkhz
+	 +nxEda8vB2ACQ==
 From: Mark Brown <broonie@kernel.org>
 To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
  nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
  linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
  linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20260309083530.2977163-1-shengjiu.wang@nxp.com>
-References: <20260309083530.2977163-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v5 0/3] ASoC: fsl: add bitcount and timestamp controls
-Message-Id: <177333688260.302961.12179311060278151580.b4-ty@kernel.org>
-Date: Thu, 12 Mar 2026 17:34:42 +0000
+In-Reply-To: <20260310104235.1234569-1-shengjiu.wang@nxp.com>
+References: <20260310104235.1234569-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v6 0/3] ASoC: fsl: add bitcount and timestamp controls
+Message-Id: <177333688509.302961.7348877736206320073.b4-ty@kernel.org>
+Date: Thu, 12 Mar 2026 17:34:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,14 +46,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-68380
 
-On Mon, 09 Mar 2026 16:35:27 +0800, Shengjiu Wang wrote:
+On Tue, 10 Mar 2026 18:42:32 +0800, Shengjiu Wang wrote:
 > The SAI and XCVR have the timestamp counters and bit counters, which can
 > be used by software to track the progress of the transmitter and receiver.
 > They can also be used to calculate the relative frequency of the bit clock
 > against the bus interface clock.
 > 
-> changes in v5:
-> - use EXPORT_SYMBOL_GPL to replace EXPORT_SYMBOL in patch 1/3
+> changes in v6:
+> - define FSL_ASOC_SINGLE_EXT and FSL_ASOC_ENUM_EXT, which are
+>   SNDRV_CTL_ELEM_ACCESS_VOLATILE.
+> - return 0 in fsl_asoc_put_volsw, fsl_asoc_put_enum_double and
+>   fsl_asoc_put_xr_sx to avoid control event notification.
 > 
 > [...]
 
