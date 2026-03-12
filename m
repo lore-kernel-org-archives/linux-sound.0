@@ -1,147 +1,250 @@
 Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A584E3FBEA7
-	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 16:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773334495; cv=none; b=coFyar9Qij3bUl9W13NRjyKmCpYAl5nzJUjCNUUp5nriSZdPngLUtXNGU4aBogmdOItBQCOIHEqnywG8uMR6gPU2O4sI2L90iwt+Ldmqywf7EPkAsHuOnQh4vKa7KQF1NnC6nxH+EV3QHecsvAZOknaqVYpygmBaAi8Tqj+a2bo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773334495; c=relaxed/simple;
-	bh=ENv0+4bH9YdpFLGeURNwJ3+rEUsnNn74RNCtOl26SEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aw7xzWmzbU4e1BSqAP3f9KPmVNpZlSjt0nAvxcMf7cJmaH/c+8JjXmwGf16KZplDnRV7dRpn/IaJYC8yOrvNboR8xjhnun++VEjot5TpwXfHxhIpGIvBDwihcC3gC+Rrp6KxpjpF40MvZDyuOGcCWff8uydXVR59LTDm9GDhNZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=TCUycPJz; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778231C8634
+	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 17:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773336243; cv=pass; b=aqGF8aEBNgO7F0edRgX9OpufKYLbZbG5HNHZ7NU0VjCIsj5HsmxzLKUXH+jd8OeQxq41mj6/Y3WSiakOuBYD5Tjsq/hRbmM9uFSwoPIfgbJcftNwJ4+Z0W9Fnou16nPs5SHNO9UjUGrE+46vtRy1x/CF76RBJszvdUtiFi088Ok=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773336243; c=relaxed/simple;
+	bh=cs9NydnZlUj2ytjzvPGe3kpN6J9plhpBN0pmEXhJkR0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eoDU+tsoNSIZojzkK0Fy15vqIYoXFKOFunpYSWqQPtfO6MWTzKXSpXU9Q8g9rwfjrDtJq3rAJ2V4ry8qHtrp9wFyRhu3Yg60hx2YE2dU2REds8EgoKaJQBqNRDBjRoSoFq4tDBmXMD9sKrVIQ2SYtbiwuxe+vK5GWPTp18jyps8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FH2nfdSy; arc=pass smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="TCUycPJz"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-509006c070eso10771411cf.0
-        for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 09:54:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FH2nfdSy"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50906a98ffeso35261cf.0
+        for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 10:24:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773336241; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VWhpXktGyaqBJ/5jv+JOLuDnY8jMcNQQR3RV8cfyMWP1cxOyL3a/J9/8XSdpl/QXkf
+         UoJ6RXqu5hPj6mfB55k8zBWvPpll2PNJZ//Je/StpzGkY75Puyhdoh3aVbBjkplkrafy
+         kIPfRHDE/M7o6Bhj8WW/jYez4JFlXFkQo1FOzXtiSn0lGsZRK+i9MTFRk3fcu5fhbN2S
+         MrYnLxesJ0icnsSoKTJ6TS9qFzR6WXBglgwF1HFQjRmgSERmumbR46LEVJv3noLUUXSC
+         vM38z+r/gHpOPc5dDirFpY1TK7NLWT+QiEiOTW7/AqlpKZSlBEpUJFP5CxEKp63XQM0L
+         fO/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=drMga890hBoz1tXxKNjKqbtUxogSlXx8qnX/9lqYuDg=;
+        fh=KAL1JtOGip956YA0X7uP7mBqPiZozrn133lUui8tj7U=;
+        b=Da6siC7vNQ7TF43EUeWupgh9UXB5C5KzyGz/TGjFN0GKpZIr/KEFJiaVd8Q/3Ft0E0
+         E2IkJo9kNjzQ/yDKvbGFXeOl9+D9aiVHg1hfOdX+cD17GBGFIsVRW+/xrdJ3sXoYhl9g
+         lRShyayIwZcQYbirV9QDebUlDjjb3sdU4nzWvzw6EQScNJ8OWOw95KSME4ccnDle+qRd
+         5k5DCqrIwkFY8P0VaPWFJeFr0KKsDrbEKujQvVJple4RzPmts0dEbUsBlyOqnJ2wbCgo
+         OfrkxzPH/h5dAYQmyoWStvlj/p35C+WXtxDmBc87jiymwOOUuyYJz9s6EVdmsVjBbk3j
+         Xl4Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1773334491; x=1773939291; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VQXCfPVu6b6dIVECzm0C8AUD7IL7VvpSkD5+M4S95sw=;
-        b=TCUycPJzE2fI+UEqk7FktReSuNB+qmtoLxCPQIhObf2GoM3FGGUoUzmOL4EcJ8nqrV
-         31wLWw0iuRrm5q/A3vl9oGJab4nkcB5GgE9L87TaBE5zWVhGKUEWMOYZrC4hQkz7+K+y
-         MdSN9PZxg9+VlLOffdwRmQphGTW7UoGABbBRu3CtgROAhKqAusDMmmrNFgCXGsGgS+um
-         4b3n9KF8H9mgZuxtPx/c84lVtPd3kX8R2XT1vLZ+RjANCZT5FGS44RpBGA5cN1JRJXTn
-         oCOtB2FnqO56y3+c6Fos0prISIneHSMHrQ7vAs2p/teTVBOn2DfneDCxuRpkTU9D9cja
-         6IGg==
+        d=google.com; s=20230601; t=1773336241; x=1773941041; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=drMga890hBoz1tXxKNjKqbtUxogSlXx8qnX/9lqYuDg=;
+        b=FH2nfdSyarhBgZpBIcrAgIjZPxkpFYnowuFIBR2Vo/ZXdwrtgktBIYSOvOPdgfyXPM
+         4zk+RWK0I/4s/m4hCtD5K+s4XSzM0ZYKGOfrLSj30JYlgQhUuYI+szwNZymUXpRLgS3i
+         oPsspWJuSMdF2186ypaj/kzEbabt9Rva7iyV+9m9ZwdUEIH7ecZyOkXP0a1LYU8E19HH
+         YxzzuQJJ+ma3fRIOJCHWcXi/hD+IC/jvSw8OUB6iQULlr7PfRHKhNqFRA7ft7K8VF/4t
+         rxeHd98Bi3H0IuZncj3EVYx4zzG+XSmGTRpZrbJLUiR6IWncGymTFkvdJMsN31oz+KxN
+         dr6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773334491; x=1773939291;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VQXCfPVu6b6dIVECzm0C8AUD7IL7VvpSkD5+M4S95sw=;
-        b=RtOaCaOGbrxN4W5kwA8wMF4OXdT9TzRfzi5PGNvPR4pG7rQwzAGhPwgxOEtxel6TQI
-         CkQxlXHOCPNNoyQIzRHnLb2dbxZjh90zc7fvjcpQots2OrkA+KXa+E+1PjCcnZ2JMyQM
-         Kv96sJTCSEU9cZUe4zUH0UJ6jeKwGugzrnkHJCV5z9de1HhyoqFN3jS4F5FdFAHdd9Pt
-         B+JtBS4yvvS5QKgF2O6wZB7Hype/35ugqFMSdMTT3/DnPC/+8SeCpRiZg+I845N8dzmq
-         sjdcD844VCXBUcOiojekvmJNvYTTlvOUTBy5UUivzgLKbv6n0EfO90RhRc86TgC4u3L7
-         Y7/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXzHYBcQJs6VhX0ib/s1wdDQMzTZM/XCQUF0nup/rXEtRaQ4i1KtIrnBJHrnJAZFz9XMgYnRDqD9lVHqA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/pVLAEOGynt6GvYOZ6w6Sdtbx77Ssoeitx7kDG7snu50ak/5h
-	SmKk3e4pxSn3oVFmVQQDhjzYYdr4pGw9gNT0w8FzshSdbQD7XYbIhdeM9ZGUIu6Um2Q=
-X-Gm-Gg: ATEYQzxCilGoCL8gEoNqwIwm2Kj7j+5VOU25+g97uwC/8rB5QTXoWmKLViqjV93Kd8m
-	5bM0YEfTYUeSoU/PKIhn1mdDIm6F+RryjxSzOse1ki8nvWzc6Oi4gdH3g1QDAUCiNyWIDGirTGX
-	ue5LhfYBkFazMfffnG2xc6okc8eZJ/UPHc3C8naSS8658z3IZF847be9ET8IMn36956QigUaRg7
-	JU0FKCXdfKYz34YWd03QqcaB28QDbwwcdxIoDRKwVUgaKDzL4lWbj6SigcgHTVFkwSNfkiKN2ax
-	o1g02++7OxYyY79HJAMB/I8KWeaS4ELZvVCvze553b1heJQgwzPp2APUxCAMdBdam3GNtK4GHzz
-	MRM6RHi2hDOk6+ziR3rlE2RPcQRt3coO/P8Hai0h8EwsKSLm/Qi7B7mr5ufDIptJmEKAgbPEXUq
-	GZBCCzdCZWwLkIzNx4BjuL2vWRNGM9Xn26BLbWz6qfO1GwZeBeXCfk5J8X0baR3ETc4baU7rzoS
-	AXeIYiz6KcISh0qDzw=
-X-Received: by 2002:a05:622a:289:b0:509:44c3:5ffa with SMTP id d75a77b69052e-50957e10673mr1403911cf.52.1773334490530;
-        Thu, 12 Mar 2026 09:54:50 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5093a119602sm36658181cf.28.2026.03.12.09.54.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 09:54:49 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w0jJA-00000006i8N-40X9;
-	Thu, 12 Mar 2026 13:54:48 -0300
-Date: Thu, 12 Mar 2026 13:54:48 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, Philipp Hahn <phahn-oss@avm.de>,
-	amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
- check - refactor
-Message-ID: <20260312165448.GN1469476@ziepe.ca>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <abBlpGKO842B3yl9@google.com>
- <20260312125730.GI1469476@ziepe.ca>
- <f5688b895eaebabae6545a0d9baf8f1404e8454e.camel@HansenPartnership.com>
+        d=1e100.net; s=20230601; t=1773336241; x=1773941041;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=drMga890hBoz1tXxKNjKqbtUxogSlXx8qnX/9lqYuDg=;
+        b=d4EQI7qtt8P6WIGGF4HQ6huZMayHmqmUIhTWK01GuwybJWE2kdk2qPG2Pzx/0RqyMO
+         1Fh8BzP0IYTRRRCL83b2GdVaBpMd8MvF8DdzFEZwbxiNadbKdnAMZHbjsPLqyfA9h4hh
+         hLzhWOgGuMPtdXzN0nyG3uG+uwdI+JwrSt0r9IR1StqGmelRhI41ZO3I7ZMR+UeYnj1s
+         bqyT2AC1BWbxP1hlkAgTarOWsHoud8Nchj/FJWen9cKAkIwzcBi9RuK5zMwvwnlRFN63
+         7hNwQ1Ng0wokaNzS5w/KMt/wv+zRwHMfA04kmDGH6RgofgRk5pLcsQ82J3rHugWk3eEf
+         V2pA==
+X-Forwarded-Encrypted: i=1; AJvYcCWvshNHS4f4RyS279mwHCPIiArN5T7TMzdrlf2kv8MjYCbM/OrYy/KCITRIL7/EkXq1bF5J1rkAy2OtTQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIOVsrJrZ5+SaK8PvS8C2Xz/FyvY+sZwvFkSj776OL7XZGzdZ3
+	KppKYtmRpkcbc2fR0dpMrKeOqMWl0yU3xbTf8//p9HfLigkUdFKnHMs0isJ12dfKXA9XBdAWbEj
+	/ovTFj/FFyoQZhr1HbNeh+2xInx6jyY+Svx5nhn+j
+X-Gm-Gg: ATEYQzzBLFo+D+UW2wwFuKCBnhZNkZb13hstCGyUyF3Xik4o9fe8/0GvKO3WPFA8ErL
+	iefKkIJ3+m7hvE/+xZ7TFBXzGauYOE1F5Eqy7q875CkeTTXsECt5rU+HGlLq7K5K7qLFLo4afhR
+	ze7WdUtMuVPR8/LNO4I8gUwpuCox0Xxaute8r6GVvlbYpomO39ICPSovYJcv73+3md6mGjFiR9T
+	8BbE4ube9hd27EtngnByZGmhEXewE0LgtfAHYlLX4sq36rzZ3G3XEAvuXxns5LgsM5nplMl34m1
+	PlsF5ink
+X-Received: by 2002:a05:622a:354:b0:4f3:54eb:f26e with SMTP id
+ d75a77b69052e-509585b04d0mr230561cf.1.1773336240812; Thu, 12 Mar 2026
+ 10:24:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5688b895eaebabae6545a0d9baf8f1404e8454e.camel@HansenPartnership.com>
+References: <20260309022205.28136-1-guanyulin@google.com> <20260309022205.28136-2-guanyulin@google.com>
+ <2026031134-uncover-siamese-cdf9@gregkh>
+In-Reply-To: <2026031134-uncover-siamese-cdf9@gregkh>
+From: Guan-Yu Lin <guanyulin@google.com>
+Date: Thu, 12 Mar 2026 10:23:48 -0700
+X-Gm-Features: AaiRm506FY_oJhi6wIWrihwWospchNxvGjcFGure-VJM-x4nJE6EzoeYpJH_Y7A
+Message-ID: <CAOuDEK2jBncFtBFmn0h6fg519ErDC1tvLjpsUua2iWean9h4RA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] usb: offload: move device locking to callers in offload.c
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com, 
+	quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
+	christophe.jaillet@wanadoo.fr, xiaopei01@kylinos.cn, 
+	wesley.cheng@oss.qualcomm.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	stable@vger.kernel.org, Hailong Liu <hailong.liu@oppo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 12, 2026 at 11:32:37AM -0400, James Bottomley wrote:
-> On Thu, 2026-03-12 at 09:57 -0300, Jason Gunthorpe wrote:
-> > On Wed, Mar 11, 2026 at 02:40:36AM +0800, Kuan-Wei Chiu wrote:
-> > 
-> > > IMHO, the necessity of IS_ERR_OR_NULL() often highlights a
-> > > confusing or flawed API design. It usually implies that the caller
-> > > is unsure whether a failure results in an error pointer or a NULL
-> > > pointer. 
-> > 
-> > +1
-> > 
-> > IS_ERR_OR_NULL() should always be looked on with suspicion. Very
-> > little should be returning some tri-state 'ERR' 'NULL' 'SUCCESS'
-> > pointer. What does the middle condition even mean? IS_ERR_OR_NULL()
-> > implies ERR and NULL are semanticly the same, so fix the things to
-> > always use ERR.
-> 
-> Not in any way supporting the original patch.  However, the pattern
-> ERR, NULL, PTR is used extensively in the dentry code of filesystems. 
-> See the try_lookup..() set of functions in fs/namei.c
-> 
-> The meaning is
-> 
-> PTR - I found it
-> NULL - It definitely doesn't exist
-> ERR - something went wrong during the lookup.
-> 
-> So I don't think you can blanket say this pattern is wrong.
+On Wed, Mar 11, 2026 at 5:26=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Mon, Mar 09, 2026 at 02:22:04AM +0000, Guan-Yu Lin wrote:
+> > Update usb_offload_get() and usb_offload_put() to require that the
+> > caller holds the USB device lock. Remove the internal call to
+> > usb_lock_device() and add device_lock_assert() to ensure synchronizatio=
+n
+> > is handled by the caller. These functions continue to manage the
+> > device's power state via autoresume/autosuspend and update the
+> > offload_usage counter.
+> >
+> > Additionally, decouple the xHCI sideband interrupter lifecycle from the
+> > offload usage counter by removing the calls to usb_offload_get() and
+> > usb_offload_put() from the interrupter creation and removal paths. This
+> > allows interrupters to be managed independently of the device's offload
+> > activity status.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
+> > Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
+> > Tested-by: Hailong Liu <hailong.liu@oppo.com>
+> > ---
+> >  drivers/usb/core/offload.c       | 34 +++++++++++---------------------
+> >  drivers/usb/host/xhci-sideband.c | 14 +------------
+> >  2 files changed, 13 insertions(+), 35 deletions(-)
+> >
+> > diff --git a/drivers/usb/core/offload.c b/drivers/usb/core/offload.c
+> > index 7c699f1b8d2b..e13a4c21d61b 100644
+> > --- a/drivers/usb/core/offload.c
+> > +++ b/drivers/usb/core/offload.c
+> > @@ -20,6 +20,7 @@
+> >   * enabled on this usb_device; that is, another entity is actively han=
+dling USB
+> >   * transfers. This information allows the USB driver to adjust its pow=
+er
+> >   * management policy based on offload activity.
+> > + * The caller must hold @udev's device lock.
+>
+> Ok, but:
+>
+> >   *
+> >   * Return: 0 on success. A negative error code otherwise.
+> >   */
+> > @@ -27,31 +28,25 @@ int usb_offload_get(struct usb_device *udev)
+>
+> Why are you not using the __must_hold() definition here?
+>
 
-Lots of places also would return ENOENT, I'd argue that is easier to
-use..
+Thanks for the suggestion, __must_hold() will be added in the next version.
 
-But yes, I did use the word "suspicion" not blanket wrong :)
+> >  {
+> >       int ret;
+> >
+> > -     usb_lock_device(udev);
+> > -     if (udev->state =3D=3D USB_STATE_NOTATTACHED) {
+> > -             usb_unlock_device(udev);
+> > +     device_lock_assert(&udev->dev);
+>
+> That's going to splat at runtime, not compile time, which is when you
+> really want to check for this, right?
+>
+> And I thought all of the locking was messy before, and you cleaned it up
+> to be nicer here, why go back to the "old" way?  Having a caller be
+> forced to have a lock held is ripe for problems...
+>
 
-Jason
+The challenge is that the USB stack automatically holds the lock
+during the hardware/software USB connection change. But USB locks are
+not held when we create/remove xhci sideband interrupters. Hence, we
+need to manipulate the locks by ourselves to distinguish between these
+2 usecases. What's your suggestion on this sceneario? Do you have
+other options in mind?
+
+> You also are not changing any callers to usb_offload_get() in this
+> patch, so does this leave the kernel tree in a broken state?  If not,
+> why not?  If so, that's not ok :(
+>
+
+The current upstream implementation triggers deadlocks in some cases.
+This patch simply disassociates the offload counter manipulation from
+sideband interrupt creation to address the deadlock. After applying
+the patch, the offload counter won't update until the next patch in
+this series is applied. Is this considered a broken state? Should I
+squash the two commits into one, or keep them as they were?
+
+>
+> > +
+> > +     if (udev->state =3D=3D USB_STATE_NOTATTACHED)
+> >               return -ENODEV;
+> > -     }
+> >
+> >       if (udev->state =3D=3D USB_STATE_SUSPENDED ||
+> > -                udev->offload_at_suspend) {
+> > -             usb_unlock_device(udev);
+> > +         udev->offload_at_suspend)
+>
+> Can't that really all be on one line?
+>
+
+Sure, Let me change it to one line.
+
+> >               return -EBUSY;
+> > -     }
+> >
+> >       /*
+> >        * offload_usage could only be modified when the device is active=
+, since
+> >        * it will alter the suspend flow of the device.
+> >        */
+> >       ret =3D usb_autoresume_device(udev);
+> > -     if (ret < 0) {
+> > -             usb_unlock_device(udev);
+> > +     if (ret < 0)
+> >               return ret;
+> > -     }
+> >
+> >       udev->offload_usage++;
+> >       usb_autosuspend_device(udev);
+> > -     usb_unlock_device(udev);
+> >
+> >       return ret;
+> >  }
+> > @@ -64,6 +59,7 @@ EXPORT_SYMBOL_GPL(usb_offload_get);
+> >   * The inverse operation of usb_offload_get, which drops the offload_u=
+sage of
+> >   * a USB device. This information allows the USB driver to adjust its =
+power
+> >   * management policy based on offload activity.
+> > + * The caller must hold @udev's device lock.
+> >   *
+> >   * Return: 0 on success. A negative error code otherwise.
+> >   */
+> > @@ -71,33 +67,27 @@ int usb_offload_put(struct usb_device *udev)
+>
+> Again, use __must_hold() here, to catch build time issues.
+>
+> And again, I don't see any code changes to reflect this new requirement
+> :(
+>
+> thanks,
+>
+> greg k-h
+
+Thanks for the suggestion, The __must_hold() macro will be adaped in
+the next version.
+
+Regards,
+Guan-Yu
