@@ -1,130 +1,213 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5F9398900
-	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 04:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE41131E82D
+	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 06:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773290660; cv=none; b=IBAKFltqfqrlFwiVPS868RlNqRUuG+mcJCpmClDelg+7VPNhQWq4vPrY0qp0dNB6lOujVnFfrgMTBuIJEnWrV3Jp87s2HjY8rlSrKoUHbxknw57MLwHbwEhKkvM+HGuvpbAwHZIKhuKUlMrGyAOcng14nsaEQYDcjnWj1IGakv4=
+	t=1773297275; cv=none; b=lELt1e/X+uTY1zjkle1Fw9+qrTE/yPm7f3fko7urWIaAavtn7jQmhSo1QmiJh9U+65UJ57JofTBjbS6Dno6A5uHqw43+NQHmTQ34PKVzXyKkg1xGAJgbYVVYmr5R11cZAZsmyCiM+fZbgzNst/YYuFbOxyOcM4Pzr3lnGkwaB4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773290660; c=relaxed/simple;
-	bh=2O77vFYxe4s139LG3le5/bTujuAyznMsAswt0RlaFLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k4vxax4l2CHSuN+hZ5LfRffGz61QHiT41upL8OW/M3Q+YI6jxjhQ3e4hl79OTTnoZL4W0e6i6idj6j7RZdB+hGLd0PfMWoHuu3cKp86UeWJlKcj/D429kYKxNAjubH680++zWkAV+8FCt7egtMwCS2YZgNRE4kN59iNxNcl279g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Fq3GvbNQ; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1773297275; c=relaxed/simple;
+	bh=b0Vo82+eZuGNjRdpJ0iBdgl1anMj+Q4iPpK3/MvMcco=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oZurlFi3LwPLuzOFK3Zhb4GIO2E/1/56nu6MOrZeSxFhUiS9GtUrIiA5+cyijU+8019JjLG/33CaHfD1e4XmCEUtwWnEk1U2DRU0Cwvapbo6bRwrOrrllmZ0kYuc02BQ4I4k7MHbgzmYMbM7hOs9vkLdlsUp2inTGFEv01NQP/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=09mL68zV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Wb1eKXJP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=09mL68zV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Wb1eKXJP; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Fq3GvbNQ"
-Message-ID: <5e488437-68eb-43e9-a774-babea5879e4a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1773290657;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="09mL68zV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Wb1eKXJP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="09mL68zV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Wb1eKXJP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3EB6F4D336;
+	Thu, 12 Mar 2026 06:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773297271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J7qIC1KY9FFhtX93qUfzvqKXNfPgZFHBgtjBMwn299Y=;
-	b=Fq3GvbNQtO+qm+FlZQnykfJDdiv8/JsnLy/MvO+RFaO4AQgkAgJgtfKF1OrCf3+1XPhs8q
-	ZBP7IvcKjSxirdm6YPCLkuSaZpha1G12VAceEycyOM6u+Ia3Ohll1ns0513YH0RBDj1T/Y
-	9SfZv/TZg3n2/KdVUNUxV47axK6JKzs=
-Date: Wed, 11 Mar 2026 21:34:43 -0700
+	bh=ccKlMi6j5KQTfuov03oFwcV3Us2aGFdAxgl9b6Uv/2E=;
+	b=09mL68zVZ95EwNMJRHJQctH+qYXwfCi2SEtnf1jIU945YDQPm6DxutfKe+s1j4N10w6e9K
+	NRiaF0PHbQ9YzVL+qY/gSINDDJhJ2AWrx29UxNcARf718NetsVoguNCDi3PXQUCo2CMDRF
+	Xz9hbQC414DiILa98NRrjhcr3PBdqyI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773297271;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccKlMi6j5KQTfuov03oFwcV3Us2aGFdAxgl9b6Uv/2E=;
+	b=Wb1eKXJP+NpGLS8L5tAabQos4Erd9GMl3arx/Uf66EaIKz5FastdKIQB1BbPnV3fCrK1En
+	TAmZWlim3V1T1NDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773297271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccKlMi6j5KQTfuov03oFwcV3Us2aGFdAxgl9b6Uv/2E=;
+	b=09mL68zVZ95EwNMJRHJQctH+qYXwfCi2SEtnf1jIU945YDQPm6DxutfKe+s1j4N10w6e9K
+	NRiaF0PHbQ9YzVL+qY/gSINDDJhJ2AWrx29UxNcARf718NetsVoguNCDi3PXQUCo2CMDRF
+	Xz9hbQC414DiILa98NRrjhcr3PBdqyI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773297271;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccKlMi6j5KQTfuov03oFwcV3Us2aGFdAxgl9b6Uv/2E=;
+	b=Wb1eKXJP+NpGLS8L5tAabQos4Erd9GMl3arx/Uf66EaIKz5FastdKIQB1BbPnV3fCrK1En
+	TAmZWlim3V1T1NDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15DD43FE26;
+	Thu, 12 Mar 2026 06:34:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ap8zBHdesmnMcAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 12 Mar 2026 06:34:31 +0000
+Date: Thu, 12 Mar 2026 07:34:30 +0100
+Message-ID: <87tsuld095.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH] ALSA: usb-audio: use kzalloc_flex
+In-Reply-To: <20260311232748.18697-1-rosenp@gmail.com>
+References: <20260311232748.18697-1-rosenp@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH] soundwire: cadence: Clear message complete before
- signaling waiting thread
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260310113133.1707288-1-rf@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260310113133.1707288-1-rf@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
 
-On 3/10/26 04:31, Richard Fitzgerald wrote:
-> Clear the CDNS_MCP_INT_RX_WL interrupt before signaling completion.
+On Thu, 12 Mar 2026 00:27:48 +0100,
+Rosen Penev wrote:
 > 
-> This is to prevent the potential race where:
-> - The main thread is scheduled immediately the completion is signaled,
->    and starts a new message
-> - The RX_WL IRQ for this new message happens before sdw_cdns_irq() has
->   been re-scheduled.
-> - When sdw_cdns_irq() is re-scheduled it clears the new RX_WL interrupt.
-> 
-> MAIN THREAD                        |  IRQ THREAD
->                                    |
->   _cdns_xfer_msg()                 |
->   {                                |
->      write data to FIFO            |
->      wait_for_completion_timeout() |
->      <BLOCKED>                     |                       <---- RX_WL IRQ
->                                    | sdw_cdns_irq()
->                                    | {
->                                    |    signal completion
->                           <== RESCHEDULE <==
->   Handle message completion        |
->   }                                |
->                                    |
-> Start new message                  |
->   _cdns_xfer_msg()                 |
->   {                                |
->      write data to FIFO            |
->      wait_for_completion_timeout() |
->      <BLOCKED>                     |                       <---- RX_WL IRQ
->                           ==> RESCHEDULE ==>
->                                    |    // New RX_WL IRQ is cleared before
->                                    |    // it has been handled.
->                                    |    clear CDNS_MCP_INTSTAT
-> 
->                                    |    return IRQ_HANDLED;
->                                    | }
-> 
-> Before this change, this error message was sometimes seen on kernels
-> that have large amounts of debugging enabled:
-> 
->    SCP Msg trf timed out
-> 
-> This error indicates that the completion has not been signalled after
-> 500ms.
-> 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Fixes: 956baa1992f9 ("soundwire: cdns: Add sdw_master_ops and IO transfer support")
-> Reported-by: Norman Bintang <normanbt@google.com>
-> Closes: https://issuetracker.google.com/issues/477099834
+> Saves one allocation by using a flexible array member.
 
-Makes sense to me, nice fix!
+As it's a fixed size array, it doesn't have to be a flex array at all,
+so it can be even simpler.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
+thanks,
+
+Takashi
+
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
 > ---
->  drivers/soundwire/cadence_master.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  sound/usb/mixer.c | 22 +++++++---------------
+>  sound/usb/mixer.h |  5 +++--
+>  2 files changed, 10 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
-> index f245c3ffb9e9..b8b62735c893 100644
-> --- a/drivers/soundwire/cadence_master.c
-> +++ b/drivers/soundwire/cadence_master.c
-> @@ -933,6 +933,14 @@ irqreturn_t sdw_cdns_irq(int irq, void *dev_id)
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index 7007e0c9489b..337815b9e72c 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
+> @@ -1393,7 +1393,7 @@ static int mixer_ctl_feature_info(struct snd_kcontrol *kcontrol,
+>  		if (!cval->initialized) {
+>  			get_min_max_with_quirks(cval, 0, kcontrol);
+>  			if (cval->initialized && cval->dBmin >= cval->dBmax) {
+> -				kcontrol->vd[0].access &= 
+> +				kcontrol->vd[0].access &=
+>  					~(SNDRV_CTL_ELEM_ACCESS_TLV_READ |
+>  					  SNDRV_CTL_ELEM_ACCESS_TLV_CALLBACK);
+>  				snd_ctl_notify(cval->head.mixer->chip->card,
+> @@ -3006,15 +3006,12 @@ static void snd_usb_mixer_free(struct usb_mixer_interface *mixer)
+>  	snd_usb_mixer_disconnect(mixer);
 >  
->  		cdns_read_response(cdns);
+>  	/* Unregister controls first, snd_ctl_remove() frees the element */
+> -	if (mixer->id_elems) {
+> -		for (id = 0; id < MAX_ID_ELEMS; id++) {
+> -			for (list = mixer->id_elems[id]; list; list = next) {
+> -				next = list->next_id_elem;
+> -				if (list->kctl)
+> -					snd_ctl_remove(mixer->chip->card, list->kctl);
+> -			}
+> +	for (id = 0; id < MAX_ID_ELEMS; id++) {
+> +		for (list = mixer->id_elems[id]; list; list = next) {
+> +			next = list->next_id_elem;
+> +			if (list->kctl)
+> +				snd_ctl_remove(mixer->chip->card, list->kctl);
+>  		}
+> -		kfree(mixer->id_elems);
+>  	}
+>  	if (mixer->urb) {
+>  		kfree(mixer->urb->transfer_buffer);
+> @@ -3652,16 +3649,11 @@ int snd_usb_create_mixer(struct snd_usb_audio *chip, int ctrlif)
 >  
-> +		/*
-> +		 * Clear interrupt before signalling the completion to avoid
-> +		 * a race between this thread and the main thread starting
-> +		 * another TX.
-> +		 */
-> +		cdns_writel(cdns, CDNS_MCP_INTSTAT, CDNS_MCP_INT_RX_WL);
-> +		int_status &= ~CDNS_MCP_INT_RX_WL;
+>  	strscpy(chip->card->mixername, "USB Mixer");
+>  
+> -	mixer = kzalloc_obj(*mixer);
+> +	mixer = kzalloc_flex(*mixer, id_elems, MAX_ID_ELEMS);
+>  	if (!mixer)
+>  		return -ENOMEM;
+>  	mixer->chip = chip;
+>  	mixer->ignore_ctl_error = !!(chip->quirk_flags & QUIRK_FLAG_IGNORE_CTL_ERROR);
+> -	mixer->id_elems = kzalloc_objs(*mixer->id_elems, MAX_ID_ELEMS);
+> -	if (!mixer->id_elems) {
+> -		kfree(mixer);
+> -		return -ENOMEM;
+> -	}
+>  
+>  	mixer->hostif = &usb_ifnum_to_if(chip->dev, ctrlif)->altsetting[0];
+>  	switch (get_iface_desc(mixer->hostif)->bInterfaceProtocol) {
+> diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
+> index 167fbfcf01ac..30dd30b925fc 100644
+> --- a/sound/usb/mixer.h
+> +++ b/sound/usb/mixer.h
+> @@ -19,8 +19,6 @@ struct usb_mixer_interface {
+>  	struct list_head list;
+>  	unsigned int ignore_ctl_error;
+>  	struct urb *urb;
+> -	/* array[MAX_ID_ELEMS], indexed by unit id */
+> -	struct usb_mixer_elem_list **id_elems;
+>  
+>  	/* the usb audio specification version this interface complies to */
+>  	int protocol;
+> @@ -42,6 +40,9 @@ struct usb_mixer_interface {
+>  	void *private_data;
+>  	void (*private_free)(struct usb_mixer_interface *mixer);
+>  	void (*private_suspend)(struct usb_mixer_interface *mixer);
 > +
->  		if (defer && defer->msg) {
->  			cdns_fill_msg_resp(cdns, defer->msg,
->  					   defer->length, 0);
-
+> +	/* array[MAX_ID_ELEMS], indexed by unit id */
+> +	struct usb_mixer_elem_list *id_elems[];
+>  };
+>  
+>  #define MAX_CHANNELS	16	/* max logical channels */
+> -- 
+> 2.53.0
+> 
