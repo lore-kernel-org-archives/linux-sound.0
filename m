@@ -1,143 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0F2DDCD;
-	Thu, 12 Mar 2026 19:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAF0145FE0;
+	Thu, 12 Mar 2026 20:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773345393; cv=none; b=rTc+YS/2Sp0pSlkmuLa1V1hdBzUpkovMdVOD1jCh20sIuGKeweqANsK1hA9NDeN77vLfHm9PMrvEoNM7PSeOI+NZr4H76tirwRMxq7OU7dseqm5XKDh0Ui23DNG+KABel8d/lga+vFxp+YmXHFDVzX2EjedWXL1rGqd93silk68=
+	t=1773346539; cv=none; b=YL/l7/SpRgSv4y7R7hQYf+TKR5RYiGjNXDRbByPTMoBSzobNgCwHZaM+Ksel0lvSi3Xdx0qU3VrXHe/4EdZWdx87heDq9QaCaC2DdnY2ijsCkhrhdVm9Ek2QJSLjfk+mKFVXHhfZHeScQkEy8HxA77iUlsOEQ3X6HG2ObeLhDEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773345393; c=relaxed/simple;
-	bh=NjMdNKX+/UxCnp6e7j2/bWlIiNwme1uhQHNWdLdMGHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CCEf57eTbmSo1JirnAZlutDKVwQoov32HBJqZDP0aY9v6xpxsGcHA8gvqW7ZQYlyIe6F8rbyIthtwAejAiajz/uHsQ/IQ4ROT1DEtMRCGWYfinZRAK0tZ77BROYrYXExLbINT4fEorwyCF+KZ23TanDAtDzocRApq8LyvCuOy4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdvyO2d2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773346539; c=relaxed/simple;
+	bh=HrOFyT1mkelJqN8jGvgQvPsCgvOzSZJphOurWCaFA2o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=vEVei2s0Id46mpEhYuoS4gIyF+m/VWu07Oj24r1+miVuLRjj7lD1rc6qN7TmSphx66d0ay4SSuA+/m944eU7oEJHIhRuP5b1JnjLerKGVWFWclON3RQpwwCaSUe3y953rkLH6ksTFw+ghCi3eGyBT323tbVlUuIopveFBf4vq5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkjDkjoo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdvyO2d2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBACCC4CEF7;
-	Thu, 12 Mar 2026 19:56:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkjDkjoo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AAAC19425;
+	Thu, 12 Mar 2026 20:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773345393;
-	bh=NjMdNKX+/UxCnp6e7j2/bWlIiNwme1uhQHNWdLdMGHM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NdvyO2d2s9QKkc7zTkMLibjVOoIYJtCKSZ83dnNUdA1CrZ5NvtMXO/NuD3Z6nUAFz
-	 p47JxUKmFdvYjXFsizhE08OWzj1bm7gYGOJWSJWHA7ICqf98ZiGeG37kkbn40Jj3gb
-	 8kIOMIDMLi0CwKBeXUXshYVfUBEunfHsV5VlRm4Wy4xliKxwDpshx5a9Te29k+D50o
-	 OtYEmUUtEYkF1sG55kNFyW/hpZWen8E0mtiOMW01TrkbxxF2qhpmVLXzklLb3ey65q
-	 ea8byQMIC1plQcvxuuKOUVrhieyGahOf4hbo6+u/7gx/dsIzup4qGOJO+Q04MOumU9
-	 aaRLNmr44vG+w==
-Date: Thu, 12 Mar 2026 19:56:26 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	lee@kernel.org, linusw@kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, nb@tipi-net.de, navada@ti.com,
-	v-hampiholi@ti.com, sandeepk@ti.com, baojun.xu@ti.com,
-	shenghao-ding@ti.com
-Subject: Re: [PATCH v1 7/8] ASoC: tac5x1x: Add TI TAC5x1x codec driver
-Message-ID: <a13f104d-f8b0-4e23-baac-ecf5d6d0fc13@sirena.org.uk>
-References: <20260312184833.263-1-niranjan.hy@ti.com>
- <20260312184833.263-8-niranjan.hy@ti.com>
+	s=k20201202; t=1773346538;
+	bh=HrOFyT1mkelJqN8jGvgQvPsCgvOzSZJphOurWCaFA2o=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=IkjDkjooZTZgrCrA+Rda8txmysbqsyTTsb22w0OBa6A4vLjJGA1eGLV+5TuznbMzl
+	 gv9LET4Xnz71scBmubiUF/NtK68fae706v+4vHRWHTnMHqhu6va/0PyrfakKphirB1
+	 dgvf/ZN+9t+D7/mTRUgJVlxTAcMB2B/tzoa0Y1+IdmId2ylYs2p1/TGwA8XZ+msYMs
+	 lpp06P/OEbe8n/Kr1KiMFxG3/Eu7cLlIIL+GoM8u2A15PXJsCJRdDD6uurY2RUWAqy
+	 OoLRdJPZC+o7846fqXlmR0LxAr0/GV5xditIuaAWYwkRakrk+mnL0+xzCCbbDiIhXr
+	 7vZYz66R8vozQ==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LjM/NfYqjLgygBG1"
-Content-Disposition: inline
-In-Reply-To: <20260312184833.263-8-niranjan.hy@ti.com>
-X-Cookie: I feel better about world problems now!
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Mar 2026 21:15:33 +0100
+Message-Id: <DH12VR46PG5L.HJHWKJL8TXBO@kernel.org>
+To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
+ <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
+ <s.nawrocki@samsung.com>, <nuno.sa@analog.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 4/4] driver core: platform: use generic
+ driver_override infrastructure
+Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-sh@vger.kernel.org>
+References: <20260303115720.48783-1-dakr@kernel.org>
+ <20260303115720.48783-5-dakr@kernel.org>
+ <DGUUVEFWIFCF.RX8CSJ96ZHMC@kernel.org>
+In-Reply-To: <DGUUVEFWIFCF.RX8CSJ96ZHMC@kernel.org>
 
+On Thu Mar 5, 2026 at 1:42 PM CET, Danilo Krummrich wrote:
+> On Tue Mar 3, 2026 at 12:53 PM CET, Danilo Krummrich wrote:
+>>  arch/sh/drivers/platform_early.c |  6 ++++--
+>>  drivers/clk/imx/clk-scu.c        |  3 +--
+>>  drivers/slimbus/qcom-ngd-ctrl.c  |  6 ++----
+>>  sound/soc/samsung/i2s.c          |  6 +++---
+>
+> Some ACKs would be appreciated. :)
 
---LjM/NfYqjLgygBG1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Looking forward to pick this up soon, please let me know if there are any
+concerns.
 
-On Fri, Mar 13, 2026 at 12:18:32AM +0530, Niranjan H Y wrote:
-
-> +/* ADC Analog source Selection */
-> +static const char *const tac5x1x_input_analog_sel_text[] = {
-> +	"Differential",
-> +	"Single-ended",
-> +	"Single-ended mux INxP",
-> +	"Single-ended mux INxM",
-> +};
-> +
-> +static const char *const tac5x1x_input_analog2_sel_text[] = {
-> +	"Differential",
-> +	"Single-ended",
-> +};
-
-Should these be configurd from DT given that they'll likely depend on
-wiring (I know a lot of drivers, especially old ones) make them runtime
-configurable)?
-
-> +static s32 tac5x1x_add_ip_diag_controls(struct snd_soc_component *component)
-> +{
-> +	struct tac5x1x_priv *tac5x1x_priv =
-> +	    snd_soc_component_get_drvdata(component);
-> +	struct tac5x1x *tac5x1x = tac5x1x_priv->tac5x1x;
-> +	struct tac5x1x_input_diag_config *input_diag_config =
-> +	    &tac5x1x_priv->tac5x1x->input_diag_config;
-> +	s32 ret = 0;
-> +
-> +	switch (tac5x1x->codec_type) {
-> +	case TAA5212:
-> +		break;
-> +	case TAA5412:
-> +	case TAC5301:
-> +	case TAC5311:
-> +	case TAC5312:
-> +	case TAC5411:
-> +	case TAC5412:
-> +		if (input_diag_config->in_ch_en) {
-> +			ret = snd_soc_add_component_controls(component,
-> +							     taa_ip_controls,
-> +							     ARRAY_SIZE(taa_ip_controls));
-
-These...
-
-> +static s32 tac5x1x_add_controls(struct snd_soc_component *component)
-> +{
-
-> +	case TAA5412:
-> +		ret =
-> +		    snd_soc_add_component_controls(component, tolerance_ctrls,
-> +						   ARRAY_SIZE(tolerance_ctrls));
-> +		if (ret)
-> +			return ret;
-> +		ret =
-> +		    snd_soc_add_component_controls(component,
-> +						   taa_ip_controls,
-> +						   ARRAY_SIZE(taa_ip_controls));
-
-..are also added unconditionally here which will fail due to duplciate
-registration?
-
-> +static int tac5x1x_soc_resume(struct snd_soc_component *component)
-> +{
-> +	return 0;
-> +}
-
-Just delete the function if there's nothig to do.
-
---LjM/NfYqjLgygBG1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmzGmkACgkQJNaLcl1U
-h9AWuwf+O2I1VNKLNMp5FX2IxevKnTF1iTGdgzWNXtHQGsOzC0Z44+H+UmHj9Y7L
-uVwyZGSzeQptrApPRux7LTV8+NWdrH5gwRVnK8eRn/3De1jmaOGDT/SZgXfm3Bxh
-CV4lDziszjZa7qWgIhfme/H+pVLurja4eBbOhx5O9nyLnEJYaHFu3G8/o+I0SByY
-UytItHTikJ77REQklov3gt0CwMmCqSrdoX+tSUadsciwsXCTvuQJdrAnvU9AW4AH
-yDzndpELdUkKk1Xj3ebs95syZg1OSeYsNDgQ5mPQUjMgq3Z7ygT0//nsuff96MAH
-DOttvzmM70nJTlTDGlFmizKlBi1Z+g==
-=Xpge
------END PGP SIGNATURE-----
-
---LjM/NfYqjLgygBG1--
+Thanks,
+Danilo
