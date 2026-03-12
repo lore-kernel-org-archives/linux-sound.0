@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5A32D8793;
-	Thu, 12 Mar 2026 11:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1AA2D8793;
+	Thu, 12 Mar 2026 11:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773313961; cv=none; b=PdQY9IGjO94RdRg7C0NAxCMDZ4dEcMj0Re1ybzO1HQRaI21idfc1RBL42BQCWPJoxfeuOLku8wY5htb10s7Xi8iZXY46w1+YSn/pYtURHNA4uOUnZw1KmkufIONscSlDhavePy3XdZWPrRpq30cPV+wqlHwv6tiE0yF3ys8i4Wo=
+	t=1773313964; cv=none; b=Xoi3zsCS5Gy51f5DBTR3rTl/ecM+unT80q7miOsSGbjigEGtw7msiS2CUQ9eg57fHgEAknOR3/GPBgU0oEGuVeJQzlaeL8DDDx2cjWCeM13RrtV5f5gsuj4u5iEYqqH5qeUw8/ujEgkS+NQTxfwgym/76N7MyH8TtiLJUyRyqyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773313961; c=relaxed/simple;
-	bh=X1u131Xq5qDAFif+vFIUb4IB8CNgTNsE5YLXnWJWl18=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GUZVxMOq7OlQlUSj2fZUQ9y7twd2XFLL/gmTuVEj4uuqV7YFPXdQUvagTzulG9PQIcyv8JRsbHQ7VwTAzLXDM2Qr6/wbrJUZ4yHCmH++v1dh8vmgRwKGMz8odE2aB3Ed1QFE76Szxn43gmyCVvMQKUDoyG4rycrxh6rx699JQek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ogc3iq8n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773313964; c=relaxed/simple;
+	bh=gO49vUt7RxyJAj+yNJ6NoGLoyBMrqludEpRniqTT35Q=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mF6A9I2PdCh+ce9wlq9nD1mdXjMXr3SqzvT5KAz9JzBfE2ulMihGHt8msNJkft80gCEQo5gYhCaPT4eii/3F7vkAhJD4Z7QB1ehXBhuzyD3XOQQOyF/QIqoK9ne8rKcEyFtnrZ562zf9xnEeAUrxWVcJAvKtHgwoqOl/LJeCwAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VFOe83pc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ogc3iq8n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10426C116C6;
-	Thu, 12 Mar 2026 11:12:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFOe83pc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B84A7C19424;
+	Thu, 12 Mar 2026 11:12:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773313961;
-	bh=X1u131Xq5qDAFif+vFIUb4IB8CNgTNsE5YLXnWJWl18=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ogc3iq8npWnNzqndW72iq+hyWrG7GVqW+N7Sbm5bSlQhUEsJHGZcntiZa6mWLIWHT
-	 TyCrXgKe3RURd9+DRz60Ddiw4EN/xeAiwxQ5DnQ32SEFA1xCl/CiIR9Dz+dwR1nx29
-	 AHeNvNvaRZ6OTIrsjPMezVX14u21QiUuifRnzaFcQIFh0k/rcPJqj0yONwioLeufPC
-	 bHF1PpdlsclzhdnSP6aWN8osONstHmw3vLUrz4I2ngMIJleK/V2P7Zn7ZFvsD8SUHY
-	 zzfeymfnoqRo+etAjBFo4bxjTg9pjXO7ZbZPr6DvAVLmqH+9dR9r/hNhF4IMDDZJmQ
-	 M278EQs27xx3A==
+	s=k20201202; t=1773313964;
+	bh=gO49vUt7RxyJAj+yNJ6NoGLoyBMrqludEpRniqTT35Q=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=VFOe83pcxpVUE5kI1Kdm+JtRH5jYV/qjj52z6TcIdlG0dwNruM7RO8GHSeye0f1xw
+	 RdxX3VfrYaWoKKCayMKCd2uMlkUhmn6xzTgiqImKMRvrxd6+Tp+8UF7A7z9wL5N+U9
+	 qL9L+wXU2F0UgzUdmRe9vRi65GST+hpetWKaYCO24l9NLeoAC4R37BK+uytyGwcXtr
+	 gL2zLAeKunuV5D16ox4F/wu1/5sSC+9LGTvxZlTHU2qvfa+gMt7x51utjBHiJfqsq6
+	 swb0r/BzxiPQOoe4ezXWn468ZNvHArLuP704PxXuSZ92pYATa2zhjsQI99PAHJriKP
+	 lVGUwhwiErVuA==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
- Chen Ni <nichen@iscas.ac.cn>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- kuninori.morimoto.gx@renesas.com, ckeepax@opensource.cirrus.com, 
- AjitKumar.Pandey@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260310044327.2582018-1-nichen@iscas.ac.cn>
-References: <20260310044327.2582018-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: amd: acp-mach-common: Add missing error check
- for clock acquisition
-Message-Id: <177331395876.9483.3131913731067058483.b4-ty@kernel.org>
-Date: Thu, 12 Mar 2026 11:12:38 +0000
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260311153548.94265-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260311153548.94265-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: ti,tas2770: Switch to undeprecated
+ reset-gpios
+Message-Id: <177331396147.9483.11109855374275797178.b4-ty@kernel.org>
+Date: Thu, 12 Mar 2026 11:12:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,17 +50,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-68380
 
-On Tue, 10 Mar 2026 12:43:27 +0800, Chen Ni wrote:
-> The acp_card_rt5682_init() and acp_card_rt5682s_init() functions did not
-> check the return values of clk_get(). This could lead to a kernel crash
-> when the invalid pointers are later dereferenced by clock core
-> functions.
-> 
-> Fix this by:
-> 1. Changing clk_get() to the device-managed devm_clk_get().
-> 2. Adding IS_ERR() checks immediately after each clock acquisition.
-> 
-> [...]
+On Wed, 11 Mar 2026 16:35:49 +0100, Krzysztof Kozlowski wrote:
+> GPIOs with "gpio" suffix were long time ago deprecated, thus
+> "reset-gpios" should be used.  Linux kernel supports both, thus this
+> only documents desired choice of ABI.
 
 Applied to
 
@@ -67,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: acp-mach-common: Add missing error check for clock acquisition
-      commit: 30c64fb9839949f085c8eb55b979cbd8a4c51f00
+[1/1] ASoC: dt-bindings: ti,tas2770: Switch to undeprecated reset-gpios
+      commit: 46b87c37ca4f54a630d988cb24a1aa9a2e5ba1dc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
