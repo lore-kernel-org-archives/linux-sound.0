@@ -1,114 +1,140 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502F738AC86
-	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 08:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394B63B3883;
+	Thu, 12 Mar 2026 09:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773305282; cv=none; b=s6OsiJQDpE8eer2Mo474nRzqQk+Es6g19zuwC97f7UaiWyVvuoQOW96vd5VGcXU8BV8FFz42+QQaxYTEaV8q/LWvVRYEZBx3mZ4z/A3FEbD72xr5N4isZwURXJMzRcMAdJm3/QdqYPQYUv2NjlZq/aXBf2cCjfal8UbGNLbnQL8=
+	t=1773307746; cv=none; b=bcxn0TKq7rnH7r4MSfMh13U8ploF5ySCb2PqKl0HxVrJSoT6jXOaknimNstMcLhiR9wPdU2qauv7UIm5cUNFZwYpCkR6VTGuJzbRf3u4z4t69NJWpF+/cTfm8UNgBF6DJADEWP57Iz1xzjzitEfw0N9hM0tOaSQW9mguAOvW9DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773305282; c=relaxed/simple;
-	bh=jshvpbbqyCJXJFnCiNXC8f1p7ofXuAPUjoLyT+Hay3w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RosmgPxACfid2fiFb4N3Unry3EQQpVO4XCV8Vy8Rs4IcTDnE3n8sd+bgbm8txQDS81uw1OdAgy8pHjuqrKA4Z/JDc7CZ8UT+5NAMiyuFvRD1OYF6stHUW0+QWhqaHYqNRbPfCeT1+67TFuUKfFT94CGJxrQce/vDHDhvryzrRmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzNG5t3f; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773307746; c=relaxed/simple;
+	bh=lEOtM4zhrzldYTBWFHJI+Dhum9TqJxp4kJWyKgJHjgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c4XkqIBVc0HuLQ2LKFWeSIKN9E6JTRKgfgUw/RY52NS9tmLNITPUC/mxwhr9SsVJ+W5PTWQyl2v++0tkAsM5lDbvexUFSzKsrPc0wZNyZkDx92MQL3OXynhwNrWM7h+vDm09sbld4NqGlY/3Xo9Z+IPQ7ZUFTQNtbdQPcrZn1Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9g10wqZ; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzNG5t3f"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2aea41d4fbcso3820765ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 01:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773305281; x=1773910081; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L+iYefIZxKcaeucX4XcH147M85Qnaa9Ph+8tLAQwycQ=;
-        b=XzNG5t3f34igxRlf/2lzTPx3qRXAuvGRjDTGnjzRUO/xZ41CV6cccJlB2csMSHF/tZ
-         8+9qqkGzFoxeF+dnDpURB8Lu4uj8/hUpDZ11STBy4wSEvIuMMHvCODFdGfk6jTeKX751
-         XOmOJeTbTP9UIiSRhTsaYvnJ9wyQoqHTA17LbOCMFTzW7CQrtZSNRwyq3Zjeua84YQAP
-         jkLyb0qacYF83Jz1R4S4k0plxaNKDF6NNGwXDibqLB+7X1u6M3MXzciRaDzvGTQJaWHP
-         nMB6xOa28TFZt/ki8J5EdhGA3Ttc55Aq4GsH5qi4M+R1XngMo5iVcoG4ud//Im9KWNC+
-         jbFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773305281; x=1773910081;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L+iYefIZxKcaeucX4XcH147M85Qnaa9Ph+8tLAQwycQ=;
-        b=KXIlTtVEvBOtGr+7xMbEJvX/rCdTsUPWr6z/PGJLuEGT8OLVOVcHIfYA9wL66nsiu7
-         SI/IurDDiWRpuKMwBK0GJLhNk0LgrVjvSEbYvmEkQkoeNssh35UPrcSX59cbalVGFGHm
-         OaEyGm9FVMcD0PUyxOydViPTwja2zHt/bknWUpzPhTC5ak6evLQa7yHaDCzU6qxHf6l7
-         fpG3gWFmfe4cl0UxAwsx7ODzzsOKnGJtR+NPnHOnIk5JBVHEpMujqBjR6icRZQghUUVg
-         dSN/H8PywpmL7q5XTVVSsScdxjaSLjfAYVERv0oa+ELLUxo5dW3963E5Im0b78XOYzCf
-         bMEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzBIDqrCMJquzZHkwCaoSBEyBRQQWypAwjykPuVJRndDriLyALAxgJGUong4mddGmimQlfjBP0elDIbA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeXnEOFnEF2ui+3dFOLFNiOW+io/iHsycwSAIMGIZNfnHPBbXF
-	8LKNRK80gHrNtAeIY9ObYuJKeCkymregxdW8vU6zy2RlAm+QVU/gzJ3kdXq3ykkGAN4=
-X-Gm-Gg: ATEYQzwAY+xjJ9DRD1V+RQC1QaXu8FUjqmG4h0Oj90Sbz4I2S5SRbGK7URxapeKzbKN
-	WJBuX1XM5x3h+m1bZLOXWcQd4mP1VizXgaYnvK3CFX9MOvNAS7CQW+Kshx7c1s3hQmuNdwbRye4
-	CzjHaXHKmeoKLihOZAcodhv4OWGW4saez349m3mOY5YbclaFHv6Du5rNT4gJehB8AO4F5p5zsHp
-	NipoRovKbjibCVYM+U+x+BzXfJ0dWV3yIJ3nio6Qpy9cPjEXS+I23+AMvStTzwTWbggrz+jh/+9
-	sXa+KX9Kz11+k/eTtCBQoAxBubEkU51XFqJ1jGQGWp65IOfhBkszHSLlKb8yDc1/HJxCts6wfcw
-	D8/CnZE1L9MD8AeAaThBnU57MHN2HjgdGHJSEIhJbwKATP+DgXGJRn23fJp+KZIBoFsu7wvd8c/
-	S8P9NVVcXaeiOSSw==
-X-Received: by 2002:a17:902:d506:b0:2ae:aa16:acfb with SMTP id d9443c01a7336-2aeae80cc3fmr54507325ad.22.1773305280599;
-        Thu, 12 Mar 2026 01:48:00 -0700 (PDT)
-Received: from lgs.. ([36.255.193.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae2228easm48508975ad.3.2026.03.12.01.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 01:48:00 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Kiseok Jo <kiseok.jo@irondevice.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9g10wqZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773307746; x=1804843746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lEOtM4zhrzldYTBWFHJI+Dhum9TqJxp4kJWyKgJHjgI=;
+  b=X9g10wqZqAmEM5vSWCPr/Ruzf4QTcZsEbYueqsf1/AgN9LfUMS74UduT
+   CG7lKo0scf1n04LSeqZw4xi5FAQ2P/TFA+G0fuxVnks9AUlesiioEF5A2
+   8BbEXyg/XRQpbU+KACVpOA7OOcvGmzYbzOg5Abhx8iRTU93NU7rnchDnX
+   IBNQYikfBwIqceM+jCw4Fn01JQOwWE0sxyWYisQ/C+LG9x55qSMd44ZOU
+   Bk2XMY//pqEcEQAqPozNXOdzW6/s3fULeichpTYXcQcCs5ZaU+p7ZiYIo
+   9HU+enNRuTYue4l/PU0URuuBs30kE4QUa9DODKRlytrlYf8+c2p3kn5NI
+   Q==;
+X-CSE-ConnectionGUID: n+YsjcfVSfWPpvi5GAl82A==
+X-CSE-MsgGUID: SB4bSls8QCGf7JD+GE8sIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74285414"
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="74285414"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:29:05 -0700
+X-CSE-ConnectionGUID: Bmp7J73lQ2KkDt15aqIghA==
+X-CSE-MsgGUID: VGjzDg/3SbWUY6CwzC6H8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="225466070"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.112])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:28:57 -0700
+Date: Thu, 12 Mar 2026 11:28:55 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: wens@kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Kees Cook <kees@kernel.org>,
+	Mika Westerberg <westeri@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Chenyuan Yang <chenyuan0y@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: sma1307: fix double free of devm_kzalloc() memory
-Date: Thu, 12 Mar 2026 16:47:49 +0800
-Message-ID: <20260312084749.365325-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH v4 03/10] gpiolib: implement low-level, shared GPIO
+ support
+Message-ID: <abKHV7RSJWI0U-sK@ashevche-desk.local>
+References: <20251112-gpio-shared-v4-0-b51f97b1abd8@linaro.org>
+ <20251112-gpio-shared-v4-3-b51f97b1abd8@linaro.org>
+ <921ba8ce-b18e-4a99-966d-c763d22081e2@nvidia.com>
+ <CAHp75VevThmDMm6VoVB9P0YbUGGGsmgnzr2gn9=1xtJZt-kuQw@mail.gmail.com>
+ <64f6e02d-c7cb-40cb-b1fb-2d3523433c66@nvidia.com>
+ <CAGb2v67mmt=X8rbsUo+Gwe6uHXTNpBFGzBbrXZYEGsftHL4Ejg@mail.gmail.com>
+ <2d4e69cb-a43c-4d13-9f7b-20b95cee43a7@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2d4e69cb-a43c-4d13-9f7b-20b95cee43a7@nvidia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-A previous change added NULL checks and cleanup for allocation
-failures in sma1307_setting_loaded().
+On Thu, Mar 12, 2026 at 08:41:03AM +0000, Jon Hunter wrote:
+> On 12/03/2026 07:49, Chen-Yu Tsai wrote:
 
-However, the cleanup for mode_set entries is wrong. Those entries are
-allocated with devm_kzalloc(), so they are device-managed resources and
-must not be freed with kfree(). Manually freeing them in the error path
-can lead to a double free when devres later releases the same memory.
+...
 
-Drop the manual kfree() loop and let devres handle the cleanup.
+> > > > To me it sounds like a bad design of the driver for this SoC/platform.
+> > > 
+> > > I am not sure why you think that. Assuming a 1:1 mapping of the kernel's
+> > > GPIO index to the GPIO controller + h/w port + 1 GPIO number seems fragile.
 
-Fixes: 0ec6bd16705fe ("ASoC: sma1307: Add NULL check in sma1307_setting_loaded()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
- sound/soc/codecs/sma1307.c | 2 --
- 1 file changed, 2 deletions(-)
+You may use valid mask (which is also available via GPIO device properties) or
+as said below. In any case this thread just convinces me even more that driver
+has a design flaw.
 
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index 4bb59e5c0891..3a01aca17e75 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -1759,8 +1759,6 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 				   sma1307->set.mode_size * 2 * sizeof(int),
- 				   GFP_KERNEL);
- 		if (!sma1307->set.mode_set[i]) {
--			for (int j = 0; j < i; j++)
--				kfree(sma1307->set.mode_set[j]);
- 			sma1307->set.status = false;
- 			return;
- 		}
+> > If the hardware has uneven number of actual pins for each bank, either
+> > you end up using the deprecated static GPIO number allocation and
+> > have holes in the GPIO range (sunxi currently does this), or you use
+> > dynamic allocation, which gives you no holes in the GPIO range, but
+> > not directly calculable mapping between DT and GPIO numbers.
+> > 
+> > The driver handles the mapping by providing an .xlate callback. A
+> > consumer shouldn't assume anything. The shared GPIO library probably
+> > shouldn't be try parsing the property itself and use the result to
+> > grab the GPIO descriptor, but just rely on the gpiochip's .xlate
+> > callback in some way.
+> 
+> Right. I was thinking that isn't this why we have the xlate callbacks in the
+> first place to handle such things and not make these assumptions?
+> 
+> I am curious if other platforms could have the same issue? I did not see
+> this immediately with v6.19 because it is only one specific platform  we
+> have that showed this. So very much a corner case that will only be seen if
+> a platform uses shared GPIOs and the shared GPIO happens to be high enough
+> to overflow the descriptor array. Even if we don't crash, at least for
+> Tegra, we could be using the wrong descriptor too for shared GPIOs.
+
+None of Intel platforms has this issue, for the rest I have no clue.
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
