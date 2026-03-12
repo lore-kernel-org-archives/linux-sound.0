@@ -1,48 +1,48 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011028.outbound.protection.outlook.com [40.107.74.28])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011050.outbound.protection.outlook.com [40.107.74.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CBA322DAF
-	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 00:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9EE3264EF
+	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 00:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773274523; cv=fail; b=cC9aM1CJPIRuwDRvgTh04DB25b/6iEa/0FE56hKg9F61D4zU4og6MygHIk5yulX0tYcMf0ER+Tv3QvSuJ3D19w35r+RMHGLTULT7bn2RbGnbDsB1MaZxd0Q9X7CACnEijOVRQaMTTgg9sqJg2XpN6lpO5GeESKGGr0orgAuMh+o=
+	t=1773274526; cv=fail; b=Yb81S4VmuevGXad6V5cD09uuvbaZQKb8zssauguZUm78c9NrBE+lw1ADUEG7K/FAvEOl89LX8szDUaazhZFs2IMMjL/LkrTC0hC7AH+Upu5dwdMFymKM2JRI23SDHhCxOcXJKi3EaQTdFDIDgWtKD4HmRIg292j8XvOw5W/ngAE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773274523; c=relaxed/simple;
-	bh=ldH4vNpC7B3t+K6X9KKoYWzmcKnPOv9w9h845Pg7yaE=;
+	s=arc-20240116; t=1773274526; c=relaxed/simple;
+	bh=fQXdasFXwtYFIfcgYGjRy6yoGUsuVV8T2jYiBi1egoo=;
 	h=Message-ID:From:To:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=h/ByaW0dJVeb+wbahPs0fmZ6S7utkCu+4IqmpA90dhMVo5iM60KJRbNJHhUDa7Indw0ZwZBDp+SqT9W0MRqAHENbSOavdIQdD18nlyIw/sCSkcTCR/qOKSYwAHePH5g0qKh7uyO0THO3oLK062ncvrqjNDIjs/pp6/mwb/h196k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=P0LjXqvL; arc=fail smtp.client-ip=40.107.74.28
+	 Date:MIME-Version; b=I25AOjYksA4U5rYmY1UhGK5XbqkW3svmZeFVe/H1/ZT3IcCVeCRlkhh84OTEHdfBgrT5zEUcbA/TA5fPW6L6sqrZHMy5qSCtshf2vYHkj1O+xPT9O6f2xTlO16f6ugD2c8EwIx+uyftruYK7Ogu3Hs/Y1kxLCIQdAPQ60ag/2H0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PEYfE2vO; arc=fail smtp.client-ip=40.107.74.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="P0LjXqvL"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PEYfE2vO"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j835uI7b3evdFluLroFYqDTarl2u4CaOHfCohTT4liWCMDOllThuJELx4Pf8E6pu0VbCFAeQlkt0eOCF/mB3aIVHaFAcANHgNKbYmLdwh8Pgx7kq1n7CUyKKicxYDaxXiWXyjC5hF8Xlb//lHsX/pWYpMke/Wn57pzdf6yPssZN29DxSjHj+iekrys/RjZL/yaCXgeywScGhwkO3BbphZiO865WSwks9qCe2d0viyrY9YyXSlj22/fgYkb1w+ouYar3WYCgW0sq3T9sV1jtnAbH35Kn6wztEgeJMKwOjdKEkeblKYehtz70gKc01GlRAhhkijn8cjPMo8YkVoTXgjQ==
+ b=E28op9YOwZX7wuVrR2Q50qvi1fl7oBRAS/JqligOKylvngWy9NDbNS/NcWKoYyGfXfP+0NJpFGAcRRmLFWV0DvyBjEOGmBjzHAjqCKENWF9uouiTJc9cJXfLtLv7L3pbCkvWyST8/7xfdkyaYDjUiSajUR7q/Kf5l8obJgv/oYFJkX8Eac88ureNvzxdCgBGCqhppQu7/NsSN/CfpBTHryNTs8KfCiudIMmu/M6XHd2nUY+OQ0qrBaFynmdpbBFh18/bm9wcnNG1o9Dr9NNVBDTUrJHIDAV9UGrelQmIDwOb9W5681VkIBW9aBw6hoHHfPUP4h5x94cIR2VmhrDnHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gyhuu/JiYL7voXwUa3ABGX2ohP/j+54fuftiOCE2JhI=;
- b=p83Yds2ecYoSjfIPsxP6XAYMi9NoytkpyOHkrhDSHsQapy15weqTuoDlJ97wptPVGESpjdlcPlWRo+oXt7NgM6rcxcn7doihby5+EvXs9Nfbq9lr6bPbzhB4QUFJd6/ZX3Ks5aPmE/1riNxwyDiGkXpc23IdHXbmcR73JHhmpDkZDszHd64TAAousZ6m6c00jhRWlJh4Fn9T4j42QAR/OJIlAx3dulmFnIYPoUagT2rxfJPpRGcVyrypT/2aoAL31GyUh5Q9fD0QghLtIMKFKVEI6RfBuEvJ8rRkQPsxlUup/e9tsxDfKbI3MNXUvcpL71nytMgNRyDQV8RNf7ciFg==
+ bh=FtDw3cjtOhOqnCMLyZo3A4J1Fy1H8TI6gtCEVpndRtI=;
+ b=l+cvkWork2KJHFWIMw/Fqz5Y0e5MVsgrseDNt1MIywK0S1xf/tnSQjKhs39uTUJ9BO31v54t/L1E6bbR/lQXUEPXMoQzpmcjSl3WF3H/jK8cRSZETu6HACTWIaS3u83FXhG1dCQRRdzGEkrn8nnH96rwGOSOnuWFBss4njRPFoZVV4uFXODCbZppxEdXVZ4ow2nSLAnXTeumXrQspQ689RGVbVxFa55IyLQgmSbCAFFIUAojNCxIN6BkcY0MnQkaR4Qy2KDH/ovPwb3VGyA4mwHIBYh1T3lEOCnZKxxQZ8RClFVVftH3/MNFOygn2+PipoPSzCVQdQi0hdZsy83N1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gyhuu/JiYL7voXwUa3ABGX2ohP/j+54fuftiOCE2JhI=;
- b=P0LjXqvLWOSvXQePdW8SpDZSa+ax/wvR5dRWr3GvTQsq0qKBIwm26kB4BskdMYPz7LTK5xnvwdIYzntC1yPFC0c+1e7L0QdmOUzEEMtYZxf6/XRIU9RNyyN9OPUwCDamdCnGonVNTySSmFflOwgPLOqe0O7fqV++V27a2IfNgHg=
+ bh=FtDw3cjtOhOqnCMLyZo3A4J1Fy1H8TI6gtCEVpndRtI=;
+ b=PEYfE2vON0PFdo/+EZXK+RK5CYzAa7Gjr5JSdV1UnkvPnc8jDA8LtjQxkaEj01U6P3fNsuyRwx8bhVxMS0GTWQuqayNm1PSFqKRHBS9ysRCVGd6FF2sOvQ7ifz7htOwL4zjmsEEAmXQ+OFYzz4CyuVUE8xG4wI9BrIVujsLm8dU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
  by TYWPR01MB8282.jpnprd01.prod.outlook.com (2603:1096:400:165::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.15; Thu, 12 Mar
- 2026 00:15:14 +0000
+ 2026 00:15:22 +0000
 Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
  ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
  ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9700.010; Thu, 12 Mar 2026
- 00:15:14 +0000
-Message-ID: <877brhzywd.wl-kuninori.morimoto.gx@renesas.com>
+ 00:15:21 +0000
+Message-ID: <875x71zyw5.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 To: Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter <jonathanh@nvidia.com>,
 	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sheetal
@@ -52,14 +52,14 @@ To: Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter <jonathanh@nvidia.com>,
 	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sheetal
 	<sheetal@nvidia.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
 	<thierry.reding@gmail.com>, <linux-sound@vger.kernel.org>
-Subject: [PATCH 2/4] ASoC: tegra: use snd_soc_component_regmap_val_bytes()
+Subject: [PATCH 3/4] ASoC: soc-ops: use snd_soc_component_regmap_val_bytes()
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 In-Reply-To: <87a4wdzyxf.wl-kuninori.morimoto.gx@renesas.com>
 References: <87a4wdzyxf.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 12 Mar 2026 00:15:13 +0000
-X-ClientProxiedBy: TYCP286CA0318.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3b7::6) To TYYPR01MB7976.jpnprd01.prod.outlook.com
+Date: Thu, 12 Mar 2026 00:15:21 +0000
+X-ClientProxiedBy: TYCP286CA0304.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38b::12) To TYYPR01MB7976.jpnprd01.prod.outlook.com
  (2603:1096:400:ff::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -69,57 +69,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|TYWPR01MB8282:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d0c1d72-880d-4cc8-86b0-08de7fcc6ea0
+X-MS-Office365-Filtering-Correlation-Id: a2bd3349-ac92-46a4-c31c-08de7fcc7327
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014|921020|22082099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	hLcEkj96/1Q2WFv4catmvrVonxP8UhAr01nh8NGt228k81Bap9LmFx0wlQmWZmN47YOYTFBI1k8LS6UxzLs1mdkAAYUN6P/fOVMBWklmxncUI0+Pum2fKo72GSjYe/7FD38FtLF+V2OufE2d9acV/W76r0H9TFI4+79yheZvkQS5ctIXDpjMmDznfc5SuByQg71OD9cOI9m/Mb0efgExzWYa2tRD+IZ2slP11kpYzQc0v/qCTU8Tsr5TJoQ/bMlsBNFLABr7ufhL3zykpnmhuaIeroAp249lHmN76XyPOeLEpqVKrf2FAht0IrpsEKZaRT2zYlJbZw/WcTKP9hNmhl1zl8ymkFA+u4eG8FIT5rX1bV6e1M8YNYIp7NtHRxiEJ3SiS1jt2/jUEse3RiQZnSgbzaOAYiLoJa04cgRFLoLE8UMajJRLOK3+txpGsny/MLD8YeAfA500RF4Io1V601l4l7Tf7M68QqF1ykpsae4H2QD9ioaxEViPLotmANhXv+ykJhZelGCcBr5JHw3dxw9lUNcOWzrvoL7hCGZkCn6aML/aeXVo1m/ybMFOaWWxjKYnQd2nT2FPNIVrOOjsnAdqaWhv/anS1DQy2CwSNFhLoPGcuyyMfjQ+Zhe+k+qclD6DF/oe6Jnk6T2h6Pa3mubtv3QHa7X7W2tDD1SXDwwH5Ta+yhS/fDm5EG8QuOvCdpdOE98oWjRsXnNVU8LQWOXtuWsgqXvTOWXoJ3qjhyU0eruJRo8uB7QjvobFmNa2IT5yEajNnSIlZW2Jjo47UFVbyDp4fd4np7LKoCtEuv+VmD+u+A/YX4h0X5Kdj/GS
+	Z/yD83XJ2ChfZiXTlG805H94nfftd2r4XhAetlbfqDhPM+YPMeLA9d42exAWGuDCAxaczmw9E43OPZWJy7NM4T9Pn1Z1JjD0mB+Q85HOw6my1py5TviaaNbT7L7PorGUaKIXZwv5wf0vd5wy0KaL4RZRLc9Pu8N+0G379yvFKhHsIcitBR9m8HututlA5GldVTkMunO+5nqOn+eJywPoqLfywFO7WYousm6xFi5JhpE9t4mQeDtpGzoHkCsJdfygHo1kLX67fFhAxLzEdianuLhfhtQe00OZju+bdZUQ9tok6DB5b8WVLEFrmahWQKUavHFpZ81ecudC3XYt9wHhC1iYrzhIE/vZirr3MryA3oG8IrNXbIyYawRHr+VVmn7GkuxtvGoFFoTY6YDbtNmfZP1WmNY27q0JmVsC/W2C4TDuWfqBCIDVg239o1sdtj5IFEXzLvBhQ+gMXQzBnzzQ48p5nVvNghLxv70xZ183wqtz3jXYLKHKsrCX5dcl/nyP+KbdzJkcHAYo1TJe29Go71ogjw98MnJZTSCP4pbFlAZk2Vxnp4yZpbAqMotQ5gvcRVWeOBrm+ClvbtaECs4FSn8j2tL4z23uw208SImZqEws187RdUMBYtSLO3Clw9/1Br+QVDQM8mYFziz9D7KQMv0Rr5J4BU0SR9oZOxgXmdga6S6D/ygyVUo7wvEe/mMjmSGxRmlGFo8vNNPYsk0pAH4Oz8Y4T0+RxbHSTboHyyTzLT6WiMJzcFpBZswhL0nYrxETF7uWZ1CzuK24/JxMl8cGYo3zAGM02RUeWpIf8qXIKoho611NQRX7ZIdgarKu
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014)(921020)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HNE0mlqW1Fn4bTeDE6zC7JtjTw09OJUh30weEH8e+4sMgu243ORXHNo34BZi?=
- =?us-ascii?Q?WKncm1AKisChdzXPLIAr3s3ycUMMd1YycDxFU7XbHXZWhhjQgLqEo96lb3nQ?=
- =?us-ascii?Q?GABccOFX7ocT2wMY4j5D6dgiY5fd5l5lPg8er2dKPDdhffjSauQY62gW58Lt?=
- =?us-ascii?Q?L+mQ7SZqW5tYVnYNBiSpzDR57J7MaBspdzBEsq2WAZJTHg1l/F0fgBQcxu6J?=
- =?us-ascii?Q?WVZN+aUcnWX0hFa6kz/bmfZbzq3uPzxrKqT1iVCD8MMjUMm3kmWau/IShg89?=
- =?us-ascii?Q?JaaV3gOzu457iZr7Uqe+zlmT/bGBgp2Hej8Hlr1jKmrAGszNR/W8WQxTHzkc?=
- =?us-ascii?Q?LbTiiS4ZpEXRwC+Uo0WrzAkhJusllcsLXFF5o6GsbbxdrFhKsgFZF14j0x04?=
- =?us-ascii?Q?pkqGa2l9om7XOny+Q6Iw+DPk5IFLsNoJtmHXqGY/RckIUvB9Ev+bQauKy0GA?=
- =?us-ascii?Q?X+y26mQoiTeA80kdOIHfgfwuxlEVw7w6l43eDzpI9Kx58JsAf/tOfagnI+3U?=
- =?us-ascii?Q?p+5ovx6DiiSK9gHwMKD+4JbQ0aXSEHizoKx/LLpgGSTmpzaOiBCNi0QeNlqk?=
- =?us-ascii?Q?3vucRk/Ls4/SM71+RD/IWa1AmWZGBIZ6DxGoFk3mxVL5I2Ub3DD7CGGXGTJh?=
- =?us-ascii?Q?pW8IqJXe7fE75+vZqgcPfyuCHEPwKaR94w3r9owCpA6iBBjG2vrMRJJlcCYc?=
- =?us-ascii?Q?sLWd2ubB/ECOh3OU4N5UAoBtk6Fg9ATaO5ldWB0lmGEZrQxpjsrvhn1lLdji?=
- =?us-ascii?Q?mUbC1+hYmXXffYaXmVq4YGD4d1Q7YaLGk2OTDM7+6gSG5MD+IrdNsukcCnRq?=
- =?us-ascii?Q?8fmsA41Nw5MAtf8KG7UEiXNkx9DfaPYKEdd9LucdNh3849zWxI3m1rdmtAbh?=
- =?us-ascii?Q?V6AJnqoysRc82DtAn1NC6WQtVbbaWcSfW57QgF5kf8JZocrZe6kJPgtnlWsV?=
- =?us-ascii?Q?StWvJUdkDQissOEVCEW+ee999Ge816SroVWQBblwsXwlYL14YMj1a45pCIs5?=
- =?us-ascii?Q?gXQjwPr56BUWvNr1ggzHWqf4Q+c1UuWDUsTczg0o4F8uYAoHymMODseje4xa?=
- =?us-ascii?Q?YoCW3fVEwfcGmssOk+IXTI+A4FtgoIwY0C6uCV4My4doCoWBRoY2ETWoMK3K?=
- =?us-ascii?Q?FiylGFQW4o2IKrw4UEv2enxc92aDprOxeHJQhmOSZCf29nriHbscw7czqPJO?=
- =?us-ascii?Q?O0DRMmSxk3w9pYuxOwhpJ6P0FqzbaynO12KWNk9L+OhBxHsGW46iChVGcrCS?=
- =?us-ascii?Q?P2Wkw4H1/2xgf6cjvCZbMKWiOWV55OIzK++qn7Urtrf53JvWngpdxB9afM5w?=
- =?us-ascii?Q?+XZy3r8NkaHEZk16QC8eAARNeNx6Yb+WzrKlGAJNcq0F//ANritorLVl9Meq?=
- =?us-ascii?Q?d3qs8qGfavZO+ItEXY506zXUnEiZbDpLdBUoawCx+HLDFXQyQgwLXDkynFGX?=
- =?us-ascii?Q?TRNlMPQw2OfD41UwX7Hr1AhGPyh24fbDcl1L8qd00woAP4fY4NDmKoFGIz11?=
- =?us-ascii?Q?BS37o+jf/er5aMD0PvFPyGlouNV2pHX+m4uM8vD0gkkQ7y0ZZSyWRIMJFYib?=
- =?us-ascii?Q?KXVeiWyDy66eDUni7fuwL2Y3w/ubUigPz8blQW5jx3bp/J/elwKCTvvyoe4o?=
- =?us-ascii?Q?72vWw1XPkVKDb0YcuKr4eojWyXLZEWfPlUld7wV7nB5aLhHLqo9vOHUAdK/m?=
- =?us-ascii?Q?gGTftf/neXRCHtm6K9OQQpv7xNribTgpGBMCmgUmH3ZtriFFYN9PekhyY1Es?=
- =?us-ascii?Q?9+Mxl9rc3Xii2kNWPojx72hAecy23Ln7Z8ChOun0GtgTmThUNgrR?=
+	=?us-ascii?Q?b6Lv8x8tRQiQwW3sLbBoxJ2hRRq4vNLBGzLsmAyu9C7iaPkniEaT9sMwLPsY?=
+ =?us-ascii?Q?FJruMhuJpPJIN4HCUmhxoaZkx60NzE4SgGwcABAg9LeaxrJeJKR6eKKdkSdg?=
+ =?us-ascii?Q?DGKrCHfQ30gyPT8tlEvzsbun9xptyASCNLbuvoW8NDhy3BKICLObThm0O2RW?=
+ =?us-ascii?Q?CmjSuJgUsc+JLdrhoCVBsrw2aDuhc+kfTm06tn6URRBspFppcp2HYSksk9Bo?=
+ =?us-ascii?Q?zi+e4Koq1aFHgQIn/ysNSk/Sqf1yLuLl+ydxxYfi4yH4OGIaUfA6QMJGyZRC?=
+ =?us-ascii?Q?UL1lBdTOyQ/hVNBi5mgpitO1AdMpCbKCOJgYSZmR8st5YueMup4/wp/dHyo2?=
+ =?us-ascii?Q?qhDPLjG8d1XMk8160LFi8eLFUkewtO7b+AYJ1B7K1tU82I3D2py3QP6cucu1?=
+ =?us-ascii?Q?SZ6NBoNLAgcB8dcL/d/iaUGQrO06Zfqp2U9IR520KTH2GAMgtlgDpZ95Y/IP?=
+ =?us-ascii?Q?nd04m8R7xPm5W9W/r5FAkmyNGek37FeIvuNP7DkXEa6nzxAYV40nqsMROkf0?=
+ =?us-ascii?Q?K3nv1sCLF/Zk8iZPjgQWMdthc7n1rTQt4rUkD4Yzeo6F5gak7fxyiga4FthS?=
+ =?us-ascii?Q?J3mHxyXI6vrAumOywNFjOr3YsiY5udPBViYMp46hpLSteK5KBL8jHBnyQWNT?=
+ =?us-ascii?Q?vqQCzCNzOYjbJGzMJ0ScVjrqpFIwk9ss2agoY1KTOpcpqTe0EZOK/Z0vkc7T?=
+ =?us-ascii?Q?uiPDmOdQI9L7iFUJ45QJkADs/RrhIv9eyC84n4c2zyHxCZm45SmeibthyUq8?=
+ =?us-ascii?Q?50hkKyoFF5adht3C7rhW/8gk2F8hClVe6O6pwuIC1eHKT/HEa4I858gDDu1s?=
+ =?us-ascii?Q?Bh9QyCPxTt/e3k6gnRS37aIwqG8Jmhzmwa5SbQ6/vHb11jzKZbDIZC0jwuJm?=
+ =?us-ascii?Q?O1MSxdGeRm8VXeeRZwmI7nT4wisuHqYMStRwWcXNu2o6IDsbHIoOQ/k1NSQh?=
+ =?us-ascii?Q?XefQc30XBpl/kKJApqMoSeuuVIE3wosUG6H7zrul7C4WF/OrlPVxnfY/iXKw?=
+ =?us-ascii?Q?+yQ0ndm5xDj1lEdRNMjXC9fnbpHj+EVQxbo9cRD0NS2A67e2TZ49BT0+cNqf?=
+ =?us-ascii?Q?DmZeBpAMBonbtk47F7KEZyHKWFu47HU9zXLDp/iN0Inj25RinhSjPPDmg7CC?=
+ =?us-ascii?Q?YDIZFogXqiWDHX6/uZZe6kR7QYUwn4DyWW5Xc4tjfhUPCrDywXO6G3uSdazC?=
+ =?us-ascii?Q?40JNn7ZmNXf8bTCALaoo+ZAKe1bWTuKj9nmlI8Nm/QcIN2F4+ZKpZxP7jpQj?=
+ =?us-ascii?Q?BwBu+D5vZQhh3APC3BB0swfgLZrG3KlB9qltOLZ6aoklZ/FNU+Gvv9Dz69IQ?=
+ =?us-ascii?Q?vlTRpUD+B3BJMGVyhWAQrx3kQlog3f0/aRojrZGq0xy3WGWWdWDuIeIl4//m?=
+ =?us-ascii?Q?WstXIxhDYBtE39quaXqY5fsAdrEUk2gBRzakt1JVxYhHS0ffp9G4NGE0vcvs?=
+ =?us-ascii?Q?cSfpluRZnnlQjv1/oN/x9J3NMz0FEzpawC2QztbQNaE3a917kfBbuo80KxUd?=
+ =?us-ascii?Q?UGoPWfPE92RqySeaDjGVFgos/HhrWZWS3NtaSiCoqvIRh/ekqSlgEqj5304E?=
+ =?us-ascii?Q?Z/XyzVAHguDjqKjUYUuenIX2ptAouKj/W6xeCRnHCtz6RMGUxDVLLe5+zOHP?=
+ =?us-ascii?Q?cnkKrC5Tmn6c+/6arqdDSOxN2DsSCITv33E4yAmPPIWrI4eMKREEg43rwzYB?=
+ =?us-ascii?Q?+luR1xACs3v0BAaci3Uh4VpR3x4S/GQ6TkcbYcJthBHI+X7R+I/VkytRMwYU?=
+ =?us-ascii?Q?QePh50N6uceBT3kzOldoy/2dSMVdyiZAR8pnpGxH2BlFptO8d4In?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d0c1d72-880d-4cc8-86b0-08de7fcc6ea0
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2bd3349-ac92-46a4-c31c-08de7fcc7327
 X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 00:15:14.0997
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 00:15:21.6262
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yb0ukKsS/O0g6evPgY+LvT9Va6yocNckYL7JUnmJrSvg//HoUWkwCC2Vov9rXHEmZWm0d3Wl7MjdXCbRcf1WyaAaBNmHy+Xfav0ANDiLJAm+HGn0cHQECej8fzCWLZwY
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5FlObYnJGLhVsfumk+nk1fuIJeLGD0GRoaQ/cQi236ggdmKgFHOJuwRj0TDoy0+VOYnR4A8CDufu2gQBG2kJ9aYj2V5ICtqfWyhLNhvCSBA51XVtRSDYWFVTjYQpSMZi
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8282
 
 component has component->val_bytes which is set via
@@ -130,169 +130,96 @@ Use snd_soc_component_regmap_val_bytes().
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/tegra/tegra210_ahub.c  |  8 +++++---
- sound/soc/tegra/tegra210_mbdrc.c | 18 ++++++++++++------
- sound/soc/tegra/tegra210_peq.c   |  6 ++++--
- 3 files changed, 21 insertions(+), 11 deletions(-)
+ sound/soc/soc-ops.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/tegra/tegra210_ahub.c b/sound/soc/tegra/tegra210_ahub.c
-index 43a45f785d5bd..a4ed02617472f 100644
---- a/sound/soc/tegra/tegra210_ahub.c
-+++ b/sound/soc/tegra/tegra210_ahub.c
-@@ -20,6 +20,7 @@ static int tegra_ahub_get_value_enum(struct snd_kcontrol *kctl,
- 	struct snd_soc_component *cmpnt = snd_soc_dapm_kcontrol_to_component(kctl);
- 	struct tegra_ahub *ahub = snd_soc_component_get_drvdata(cmpnt);
- 	struct soc_enum *e = (struct soc_enum *)kctl->private_value;
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	unsigned int reg, i, bit_pos = 0;
- 
- 	/*
-@@ -35,7 +36,7 @@ static int tegra_ahub_get_value_enum(struct snd_kcontrol *kctl,
- 
- 		if (reg_val) {
- 			bit_pos = ffs(reg_val) +
--				  (8 * cmpnt->val_bytes * i);
-+				  (8 * val_bytes * i);
- 			break;
- 		}
- 	}
-@@ -59,6 +60,7 @@ static int tegra_ahub_put_value_enum(struct snd_kcontrol *kctl,
- 	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kctl);
- 	struct soc_enum *e = (struct soc_enum *)kctl->private_value;
- 	struct snd_soc_dapm_update update[TEGRA_XBAR_UPDATE_MAX_REG] = { };
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	unsigned int *item = uctl->value.enumerated.item;
- 	unsigned int value = e->values[item[0]];
- 	unsigned int i, bit_pos, reg_idx = 0, reg_val = 0;
-@@ -69,8 +71,8 @@ static int tegra_ahub_put_value_enum(struct snd_kcontrol *kctl,
- 
- 	if (value) {
- 		/* Get the register index and value to set */
--		reg_idx = (value - 1) / (8 * cmpnt->val_bytes);
--		bit_pos = (value - 1) % (8 * cmpnt->val_bytes);
-+		reg_idx = (value - 1) / (8 * val_bytes);
-+		bit_pos = (value - 1) % (8 * val_bytes);
- 		reg_val = BIT(bit_pos);
- 	}
- 
-diff --git a/sound/soc/tegra/tegra210_mbdrc.c b/sound/soc/tegra/tegra210_mbdrc.c
-index 6a268dbb71978..64f1c91646ce5 100644
---- a/sound/soc/tegra/tegra210_mbdrc.c
-+++ b/sound/soc/tegra/tegra210_mbdrc.c
-@@ -307,13 +307,14 @@ static int tegra210_mbdrc_band_params_get(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 *data = (u32 *)ucontrol->value.bytes.data;
- 	u32 regs = params->soc.base;
- 	u32 mask = params->soc.mask;
- 	u32 shift = params->shift;
- 	unsigned int i;
- 
--	for (i = 0; i < params->soc.num_regs; i++, regs += cmpnt->val_bytes) {
-+	for (i = 0; i < params->soc.num_regs; i++, regs += val_bytes) {
- 		regmap_read(ope->mbdrc_regmap, regs, &data[i]);
- 
- 		data[i] = ((data[i] & mask) >> shift);
-@@ -328,6 +329,7 @@ static int tegra210_mbdrc_band_params_put(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 *data = (u32 *)ucontrol->value.bytes.data;
- 	u32 regs = params->soc.base;
- 	u32 mask = params->soc.mask;
-@@ -335,7 +337,7 @@ static int tegra210_mbdrc_band_params_put(struct snd_kcontrol *kcontrol,
- 	bool change = false;
- 	unsigned int i;
- 
--	for (i = 0; i < params->soc.num_regs; i++, regs += cmpnt->val_bytes) {
-+	for (i = 0; i < params->soc.num_regs; i++, regs += val_bytes) {
- 		bool update = false;
- 
- 		regmap_update_bits_check(ope->mbdrc_regmap, regs, mask,
-@@ -353,13 +355,14 @@ static int tegra210_mbdrc_threshold_get(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 *data = (u32 *)ucontrol->value.bytes.data;
- 	u32 regs = params->soc.base;
- 	u32 num_regs = params->soc.num_regs;
- 	u32 val;
- 	unsigned int i;
- 
--	for (i = 0; i < num_regs; i += 4, regs += cmpnt->val_bytes) {
-+	for (i = 0; i < num_regs; i += 4, regs += val_bytes) {
- 		regmap_read(ope->mbdrc_regmap, regs, &val);
- 
- 		data[i] = (val & TEGRA210_MBDRC_THRESH_1ST_MASK) >>
-@@ -381,13 +384,14 @@ static int tegra210_mbdrc_threshold_put(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 *data = (u32 *)ucontrol->value.bytes.data;
- 	u32 regs = params->soc.base;
- 	u32 num_regs = params->soc.num_regs;
- 	bool change = false;
- 	unsigned int i;
- 
--	for (i = 0; i < num_regs; i += 4, regs += cmpnt->val_bytes) {
-+	for (i = 0; i < num_regs; i += 4, regs += val_bytes) {
- 		bool update = false;
- 
- 		data[i] = (((data[i] >> TEGRA210_MBDRC_THRESH_1ST_SHIFT) &
-@@ -413,9 +417,10 @@ static int tegra210_mbdrc_biquad_coeffs_get(struct snd_kcontrol *kcontrol,
+diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+index 0d633f38cfdca..bbf277670718e 100644
+--- a/sound/soc/soc-ops.c
++++ b/sound/soc/soc-ops.c
+@@ -472,9 +472,10 @@ int snd_soc_bytes_info(struct snd_kcontrol *kcontrol,
  {
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 *data = (u32 *)ucontrol->value.bytes.data;
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct soc_bytes *params = (void *)kcontrol->private_value;
++	int val_bytes = snd_soc_component_regmap_val_bytes(component);
  
--	memset(data, 0, params->soc.num_regs * cmpnt->val_bytes);
-+	memset(data, 0, params->soc.num_regs * val_bytes);
+ 	uinfo->type = SNDRV_CTL_ELEM_TYPE_BYTES;
+-	uinfo->count = params->num_regs * component->val_bytes;
++	uinfo->count = params->num_regs * val_bytes;
  
  	return 0;
  }
-@@ -426,8 +431,9 @@ static int tegra210_mbdrc_biquad_coeffs_put(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 reg_ctrl = params->soc.base;
--	u32 reg_data = reg_ctrl + cmpnt->val_bytes;
-+	u32 reg_data = reg_ctrl + val_bytes;
- 	u32 *data = (u32 *)ucontrol->value.bytes.data;
+@@ -485,18 +486,19 @@ int snd_soc_bytes_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct soc_bytes *params = (void *)kcontrol->private_value;
++	int val_bytes = snd_soc_component_regmap_val_bytes(component);
+ 	int ret;
  
- 	tegra210_mbdrc_write_ram(ope->mbdrc_regmap, reg_ctrl, reg_data,
-diff --git a/sound/soc/tegra/tegra210_peq.c b/sound/soc/tegra/tegra210_peq.c
-index 2f72e9d541dca..022a20f1ef7d2 100644
---- a/sound/soc/tegra/tegra210_peq.c
-+++ b/sound/soc/tegra/tegra210_peq.c
-@@ -148,8 +148,9 @@ static int tegra210_peq_ram_get(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 i, reg_ctrl = params->soc.base;
--	u32 reg_data = reg_ctrl + cmpnt->val_bytes;
-+	u32 reg_data = reg_ctrl + val_bytes;
- 	s32 *data = (s32 *)biquad_coeff_buffer;
+ 	if (component->regmap)
+ 		ret = regmap_raw_read(component->regmap, params->base,
+ 				      ucontrol->value.bytes.data,
+-				      params->num_regs * component->val_bytes);
++				      params->num_regs * val_bytes);
+ 	else
+ 		ret = -EINVAL;
  
- 	pm_runtime_get_sync(cmpnt->dev);
-@@ -171,8 +172,9 @@ static int tegra210_peq_ram_put(struct snd_kcontrol *kcontrol,
- 	struct tegra_soc_bytes *params = (void *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_ope *ope = snd_soc_component_get_drvdata(cmpnt);
-+	int val_bytes = snd_soc_component_regmap_val_bytes(cmpnt);
- 	u32 i, reg_ctrl = params->soc.base;
--	u32 reg_data = reg_ctrl + cmpnt->val_bytes;
-+	u32 reg_data = reg_ctrl + val_bytes;
- 	s32 *data = (s32 *)biquad_coeff_buffer;
+ 	/* Hide any masked bytes to ensure consistent data reporting */
+ 	if (ret == 0 && params->mask) {
+-		switch (component->val_bytes) {
++		switch (val_bytes) {
+ 		case 1:
+ 			ucontrol->value.bytes.data[0] &= ~params->mask;
+ 			break;
+@@ -522,13 +524,14 @@ int snd_soc_bytes_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct soc_bytes *params = (void *)kcontrol->private_value;
++	int val_bytes = snd_soc_component_regmap_val_bytes(component);
+ 	unsigned int val, mask;
+ 	int ret, len;
  
- 	for (i = 0; i < params->soc.num_regs; i++)
+ 	if (!component->regmap || !params->num_regs)
+ 		return -EINVAL;
+ 
+-	len = params->num_regs * component->val_bytes;
++	len = params->num_regs * val_bytes;
+ 
+ 	void *data __free(kfree) = kmemdup(ucontrol->value.bytes.data, len,
+ 					   GFP_KERNEL | GFP_DMA);
+@@ -547,7 +550,7 @@ int snd_soc_bytes_put(struct snd_kcontrol *kcontrol,
+ 
+ 		val &= params->mask;
+ 
+-		switch (component->val_bytes) {
++		switch (val_bytes) {
+ 		case 1:
+ 			((u8 *)data)[0] &= ~params->mask;
+ 			((u8 *)data)[0] |= val;
+@@ -670,9 +673,10 @@ int snd_soc_get_xr_sx(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct soc_mreg_control *mc =
+ 		(struct soc_mreg_control *)kcontrol->private_value;
++	int val_bytes = snd_soc_component_regmap_val_bytes(component);
+ 	unsigned int regbase = mc->regbase;
+ 	unsigned int regcount = mc->regcount;
+-	unsigned int regwshift = component->val_bytes * BITS_PER_BYTE;
++	unsigned int regwshift = val_bytes * BITS_PER_BYTE;
+ 	unsigned int regwmask = GENMASK(regwshift - 1, 0);
+ 	unsigned long mask = GENMASK(mc->nbits - 1, 0);
+ 	long val = 0;
+@@ -714,9 +718,10 @@ int snd_soc_put_xr_sx(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct soc_mreg_control *mc =
+ 		(struct soc_mreg_control *)kcontrol->private_value;
++	int val_bytes = snd_soc_component_regmap_val_bytes(component);
+ 	unsigned int regbase = mc->regbase;
+ 	unsigned int regcount = mc->regcount;
+-	unsigned int regwshift = component->val_bytes * BITS_PER_BYTE;
++	unsigned int regwshift = val_bytes * BITS_PER_BYTE;
+ 	unsigned int regwmask = GENMASK(regwshift - 1, 0);
+ 	unsigned long mask = GENMASK(mc->nbits - 1, 0);
+ 	long val = ucontrol->value.integer.value[0];
 -- 
 2.43.0
 
