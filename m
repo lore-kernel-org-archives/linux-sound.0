@@ -1,191 +1,149 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73F134251B
-	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 13:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773322577; cv=pass; b=PCi28GEWTqWwRP4T7lIC4xyWLNlWPaxTXk8c1Ag7zcBkwuBYAZupf/9aEGzNTYe21YR6OQY176RRYciqCu/p0fjRt3zKe7y5eY5KK4LcCM+8FI1XsGmF1jCddCTL8pmNI+XidwAsEy8God/aOPXhbAhOMPnJMbK0rjF6krNFeyc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773322577; c=relaxed/simple;
-	bh=ZC1Agrejx07YScpBBr5bIbAkgOw32aKKzS+oIWVkVjM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZocTb2HFx0iqaVskx7FrSCiX0JbWTwR+W21zR+Nd/to+pfjcsYBXiHR4wQcmt828xKcFjZz0BFZplItZOvzE8o06SMVpuGRwprYDVPCTybB89vqtTyw0QvgaZ+jTF+AFBO9jPEYmzpsDk8aZO5GglipcO6L5fIsDz9HIfdurDm8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QsmHm5HI; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B2A40DFD5
+	for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 13:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773323725; cv=none; b=fwSKu7lNEg6IJI9kia3hzg5bJbkIQgrCOfANMkKJwjWSDGoajai2k30/jZXefnNOcmiHxOfXqKrr8ypV+taM6EpQ9QohxrY3W90y79BBUNcTEnWRdKzasdfaSNmZABTD9Xae1BrNlKhV0Jk3uhPACWea8nDKwnD/Q598QSayzTs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773323725; c=relaxed/simple;
+	bh=X0hulSLDBK/Z8MqdxjpGmmKdK13rSme4U6aRgv4Qgz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmVtBZd+c6sN/F++XQ5n4Tv0Fo9s+Vcy8XG+qztixB2+bUuMaMxzx2OAfZPw0sroOus9F/aRW3tbuMNAlHnmGW4UKTmRJGcS7PJfKJNvvQT0y7p/CxG7d+UgNhQHZ5KnAu8cxv75fGj/pX439cIIvocqJ5anCrQzpHe6EbngGsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vBr9DUTn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QsmHm5HI"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439afc58ac7so1297857f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 12 Mar 2026 06:36:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773322574; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BsG/Sh+NQXPzEmKsfXTZLGhjvgp2nyRPBW5uN/8OaCVbdnVnWWsRDkkbQ2bgS6dzue
-         cCmQEH4HewSaH1xOOttvLFxRmSiFfvLCv5qkKpsudzCwwFGDBWavotYbxPdJmqrsmR4k
-         Ez3t1oPcH++zxyLi9wZq9MiTTl6TbBRfW15m9cmH3Vr7YMY48Hl8jAMsyhv/TZW910Sh
-         /CvZLOPt8RG4jplV4T8XNXiPX2oKTC08+LHPUmnRPya4RJNWR7rxnLnif/v32OXmmOMa
-         Wgm685orUsMfo0eEVkqWYXH+z1OQ5V8WK/eAxHEVrpXiWo/4aLR7CPpPwFBzGnc4fkV3
-         l59w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5LiNYEcPmVnhkTpDFLg9wRo5LV1cuPc+EdJpz7uAFmI=;
-        fh=7I/ZLmDt9Om+3AO9hjVEfDKt6c/Gn3i61lLOyAN9Iv0=;
-        b=J7dbnQbucsKaLdsh4xYrRxn9wAy8LlQ5LDhCtMa3xFkmNQaHcsamwQWJf9ugmtTSg1
-         PSeo69RRclZrSKZ8+k5CtgiGZnay78oJKgO3Ma8Ndw2B7/G9TsuB5rP9vGDIyamqxXrG
-         IAZGTsOko+bTZtzVUXjKRIEHZQymhD1+mDo3OfcKaXK88pHCTNyE5sSI/UdVnu9NrJum
-         zUUAlkV0MynAuK7nnMfeMGveuBp8u3aOYlHEIniSoGGuVnSs4kk5g3De1mC+TYsWskj4
-         kzTru5ODsl113YMt/IAyLrcM7OD3nTYzdmcAHdW376ScpyKQxrZnZfPXQIkLxasiQ5w9
-         JBQA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773322574; x=1773927374; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5LiNYEcPmVnhkTpDFLg9wRo5LV1cuPc+EdJpz7uAFmI=;
-        b=QsmHm5HIZn3nK3rqfztfrGG4F44xDx4HiYp3IhUI6xUAxaZmh3P0Z3b8sIyGrqNJfE
-         ZfoY6e5kBBgl31gmLJD7PQZ21jwKeWoycWCUMes7i6y9KD4NlWshZnH8NWBhX34IfEoM
-         Pu5aCaqC4AacqVHdyOtEhVwWVVC9eJnAxiVAAwL7a1vQ2IFjjWbioBRC0EK6phcYsaMh
-         qYSKe6CZGVQSjw2Lruiq/6LM4gPKQbtyYoR2rKG5++dKken0T/3gE9e2TptElP++wmjt
-         m9IqlL7jx4uQHpACRls1HcXBl93LO6OrkD7rxGNw6lhQ3oOKR2dN6Z10/PzydJKa+z1H
-         87GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773322574; x=1773927374;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5LiNYEcPmVnhkTpDFLg9wRo5LV1cuPc+EdJpz7uAFmI=;
-        b=oROoZ1pYWHcfXLu0rstVCuOeLWp/1w4pnXOHg6ukJosUgaZ36nxC7jA8ZzdDco4KJ6
-         wVNZSnbKDciTQ6ZuYf2H1u1F6LT476Ab6Of6s66apas+WbGQvFXVZhxg3p4YRPCt2iow
-         q1LdDdfM8DE3hXulQnr8nnd/zYm1Ey3Bb6iT2X26nOola/9Xk8giEhzcAo5gWQa7SfYr
-         5vTaehqR2WVtJwajn8jch1FPFQ1x/+jmMzW05qsVZwgylyNJ+HA5Qcpod7/cNe1lpCWM
-         LDHHLGoOumAPFW9JLKLo9Cpzyp3NttzzAyMozLrfrQ/QULo1RFobhmfqGnifLD4M5H0H
-         GwCw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWf+OTh1j0R8TeqZLaGtjeQy0oJ73ixcRSzOzdF04YZFQ3jC3F67Zudl1rGnNSwABpyEUkQib592puCQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAn6rBBCPYtZDmMoTh/Clwj54SGWZFEPStFWNu3tzhzZPLHE0t
-	DkVirYnaoUyw4lzWlm4zV+L3+auXMSdVtR/trQBOxn6MufCNQsuH8rEcXiRkFlzr/ROSdM/pF84
-	KB5xUrkaPLvdZjDWBCoUckxZl8G2ntOc=
-X-Gm-Gg: ATEYQzwPw7lz7RBgXggyFKswvBS8vXkfRK3dQvyzewjSDcKfOQMJyhgn5YUqEbV+z2j
-	XpN/acxYdns/C1y6Q65sFAc4Wx6Z9LUWAlOQluQpOzBQHisUHHqlL/DZTDHuz9QNNrUVjuVDD8N
-	WiavYzw+aRA6rTFhyyO5uCeBEzkmXojSkKQeppCkHbaUErDPuWGZTFP+S7cQWyPjlZ8NSrZIiNV
-	16XFDEE8zBdqkI/ZEQtg4iqcd29GL5tvNn3tnGf6eIxAUV1g7Tgg1LGo4YiK12rw1oLwF0klMdV
-	wr7hXonRQwCf5p2HQsF3PYInvYr63dYDbPmHh3bw
-X-Received: by 2002:a05:6000:1acc:b0:439:ba4d:bf40 with SMTP id
- ffacd0b85a97d-439f821fb27mr12938287f8f.43.1773322573935; Thu, 12 Mar 2026
- 06:36:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vBr9DUTn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A182C4CEF7;
+	Thu, 12 Mar 2026 13:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773323724;
+	bh=X0hulSLDBK/Z8MqdxjpGmmKdK13rSme4U6aRgv4Qgz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vBr9DUTnR6vCkR4fzXQxXAYfluBxqi1mB7ROt+wxGRs2x6OTED4mNGOqohRw7fkd7
+	 enF+9j74MmwPsOlKKGkfUEH2uSZfqzSaZPasmhia1khim7DNZWATI3c70cZDVw+Amn
+	 jQWfV/5hvZh/ZUUDSkKpljpQR9Tp9PEwfXwIeW9aoOZF29EBNGm+thxLr0t29CuBF3
+	 sEDqNZh4ABJUwwiO8XYy9OJEAW4gTHc7IPbebFGSQ7mQnfj7Ebw4Ix78q9b1qghzm1
+	 NZhsoGvzpVYaegjRZA/Qg7XkhkM/G/XOPeaTGFZtr6fc8bdbvU514RG47Kxd7zerTE
+	 eJr9/w6CIY2Ww==
+Date: Thu, 12 Mar 2026 13:55:20 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Zhang Yi <zhangyi@everest-semi.com>
+Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
+	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
+Subject: Re: [PATCH v2 4/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
+Message-ID: <73f1acf1-d628-44cf-8487-df3ae73ed147@sirena.org.uk>
+References: <20260226073534.3347-1-zhangyi@everest-semi.com>
+ <20260226073534.3347-5-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOKSTBs1VNBdjRZe3M2v-nC+pLZZ0-KQtRUZUj6ACqb4Xe7LDg@mail.gmail.com>
- <87ldgakvsc.wl-tiwai@suse.de> <CAOKSTBvbopXOuOfstmasijZgUnT9_qW_dsaeMcHUXhyjj3iRmw@mail.gmail.com>
- <CAOKSTBsWiwwwrmBt3dshrYYo3fQN9eF-gi2Z7BoX6c-Nb3ZoHg@mail.gmail.com>
- <CAOKSTBvND=d4Fq7mt=36p2Y+hKr6aDUbJ6zA4wDOWASwcWjmNQ@mail.gmail.com>
- <87h5qxl8tj.wl-tiwai@suse.de> <CAOKSTBtQi6ZmLmy6u5mP9_gLKZTZHmbb9S36hO99xSsk_EEbcA@mail.gmail.com>
- <87ecm1jii6.wl-tiwai@suse.de> <CAOKSTBtdt=enKSv4ZF7VxDD4QF8+ntyFM5CPJ1Y1QQ7M6TsiKg@mail.gmail.com>
- <CAOKSTBuOV0=1Y62sqf3QALgR+_He=tKLPQ7LZN+xFC6oGWEKVw@mail.gmail.com>
- <87y0k6whm8.wl-tiwai@suse.de> <CAOKSTBuUnS=stepHySGVYH4GbQytEQL45cLj4eV8u0KAsquF5w@mail.gmail.com>
- <87jyvlm6w0.wl-tiwai@suse.de> <CAOKSTBv102MCFnnm9JPp9Zaz_MQNBxu5OnWOCGw29MN7xLbXHA@mail.gmail.com>
- <87h5qpm67n.wl-tiwai@suse.de> <CAOKSTBv3meaMDrJ2tn-dX6agFbTwiEmUeDYu2NTVzc559zd2OQ@mail.gmail.com>
- <CAOKSTBv4GHxQGOhK2NR6QsJERsWSoh6RMp+yv-cV7QBsSgx9iw@mail.gmail.com> <f701e9c6-51d2-4388-9162-f02393d6e8b2@leemhuis.info>
-In-Reply-To: <f701e9c6-51d2-4388-9162-f02393d6e8b2@leemhuis.info>
-From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
-Date: Thu, 12 Mar 2026 10:35:37 -0300
-X-Gm-Features: AaiRm51s_oFy66ESvTdjN2WKqy3d5UeJXzbU3KDSFxjaUudrSkvEvBMlQStow5c
-Message-ID: <CAOKSTBtF9LPtFktAF-357RT_w2bWW9Xg7NimQsizn0VwmR1DJw@mail.gmail.com>
-Subject: Re: No HDMI audio with Linux Kernel 7 rc1 or rc2...
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
-	Linux kernel regressions list <regressions@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Thorsten
-
-I think this is exactly the same issue.
-
-Thank you...
-
----
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="J/2odiUieNnUk1Rk"
+Content-Disposition: inline
+In-Reply-To: <20260226073534.3347-5-zhangyi@everest-semi.com>
+X-Cookie: I feel better about world problems now!
 
 
-Gilberto Nunes Ferreira
+--J/2odiUieNnUk1Rk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Thu, Feb 26, 2026 at 03:35:32PM +0800, Zhang Yi wrote:
 
+> +static int es9356_sdca_set_gain_get(struct snd_kcontrol *kcontrol,
+> +		struct snd_ctl_elem_value *ucontrol)
+> +{
 
----
+> +	ret = pm_runtime_get_sync(&es9356->slave->dev);
+> +	if (ret < 0 && ret != -EACCES) {
+> +		dev_info(&es9356->slave->dev, "%s:Failed to enable clock : %d\n", __func__, ret);
+> +		return ret;
+> +	}
 
+pm_runtime_get_sync() very helpfully leaves the usage count for the
+device incremented even on error so this leaks :/
 
-Gilberto Nunes Ferreira
-+55 (47) 99676-7530 - Whatsapp / Telegram
+> +static int es9356_sdca_set_volume_put(struct snd_kcontrol *kcontrol,
+> +		struct snd_ctl_elem_value *ucontrol)
+> +{
 
+> +	SOC_SINGLE_EXT_TLV("FU11 Capture Gain",
+> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU11,
+> +			ES9356_SDCA_CTL_FU_CH_GAIN, 0), 0, 0x03, 0,
+> +		es9356_sdca_set_gain_get, es9356_sdca_set_gain_put, dmic_gain_tlv),
 
+This should be a Volume control too.
 
+> +static void es9356_button_detect_handler(struct work_struct *work)
+> +{
+> +	struct es9356_sdw_priv *es9356 =
+> +		container_of(work, struct es9356_sdw_priv, button_detect_work.work);
+> +	unsigned int reg, offset;
+> +	int ret, idx, btn_type = 0;
+> +	unsigned int button[3];
+> +
+> +	regmap_read(es9356->regmap,
+> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0), &reg);
+> +
+> +	if (ret < 0)
+> +		goto io_error;
 
+ret is an uninitialised value here, you need to assign the return value
+of regmap_read().
 
+> +	snd_soc_jack_report(es9356->hs_jack, btn_type,
+> +			SND_JACK_HEADSET |
+> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
+> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
+> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
 
-Em qui., 12 de mar. de 2026 =C3=A0s 10:24, Thorsten Leemhuis
-<regressions@leemhuis.info> escreveu:
->
-> On 3/10/26 13:32, Gilberto Ferreira wrote:
-> > I am sorry to reach you again, guys, but now I noticed that dmesg shows=
- me this:
-> >
-> > amdgpu 0000:04:00.0: [drm] Failed to setup vendor infoframe on
-> > connector HDMI-A-1: -22
-> >
-> > This never appears in the 6.19 kernel series.
->
-> FWIW, there is another report about broken HDMI auto with amdgpu here:
-> https://gitlab.freedesktop.org/drm/amd/-/issues/5052
->
-> Might or might not be the same issue.
->
-> In the end the problem remains the same afaics: you likely need to
-> bisect this (or hope that someone else that has the same problem does).
->
-> Ciao, Thorsten
->
-> > Em seg., 9 de mar. de 2026 =C3=A0s 11:25, Gilberto Ferreira
-> > <gilberto.nunes32@gmail.com> escreveu:
-> >>
-> >> Oh! I see. Sorry about that.
-> >>
-> >> ---
-> >>
-> >> Gilberto Nunes Ferreira
-> >>
-> >>
-> >>
-> >>
-> >>
-> >> Em seg., 9 de mar. de 2026 =C3=A0s 11:24, Takashi Iwai <tiwai@suse.de>=
- escreveu:
-> >>>
-> >>> On Mon, 09 Mar 2026 15:14:47 +0100,
-> >>> Gilberto Ferreira wrote:
-> >>>>
-> >>>>>> At best, please try git bisect.
-> >>>> Sorry! I am complete without any acknowledgment on how to proceed in=
- this.
-> >>>>
-> >>>>>> Or if it can't work for you, ask your distro people who can help.
-> >>>> I have tried 3 different distros! I don't think this is some distro
-> >>>> related problem.
-> >>>
-> >>> No, no, I meant you can ask distro people to build a test kernel, etc=
-,
-> >>> instead of you.  And, it'd better to ask distros whether you are the
-> >>> only one in the world who hits the problem.  If it can be reproduced
-> >>> by others, they can help debugging or bisection, too.  Pinging
-> >>> repeatedly here on the list doesn't help much, as you can't build and
-> >>> test a patch, unfortunately.
-> >>>
-> >>>
-> >>> Takashi
-> >
->
+This reports SND_JACK_HEADSET but we didn't actually look at the headset
+state in this function AFAICT, only the btn_type (and that'll be 0
+when reporting a button release), so we'll misreport the headset state.
+
+> +static const struct regmap_config es9356_sdca_regmap = {
+> +	.reg_bits = 32,
+> +	.val_bits = 8,
+> +	.volatile_reg = es9356_sdca_volatile_register,
+> +	.max_register = 0x45ffffff,
+> +	.cache_type = REGCACHE_RBTREE,
+> +	.use_single_read = true,
+> +	.use_single_write = true,
+> +};
+
+You should use REGCACHE_MAPLE unless you've got a specific reason to use
+something else.
+
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL_MBQ(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L), 0x00);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L), 0x00);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL_MBQ(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R), 0x00);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R), 0x00);
+
+You should generally leave user visible controls like volumes at the
+chip default.
+
+--J/2odiUieNnUk1Rk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmyxccACgkQJNaLcl1U
+h9DwVwf8COZuga9LaSlApJ4NcNzDK9e6c9wKstNt1l6H18pOd2u141PgbfeKyAbt
+QG6Haz6WiePCMLkh24kiAxDrvvIFuLatvhXn4bqz4nvPzGYRj1RAar17VAzNkDlQ
+D18wTxsfZiteGv8K1gNadyVT1XcaZOc+Zr+2ULYBarTi/O+IgJMobNK4VgC5RkE3
+YsQQwg2Tm3vHptSp1LS79u+ZMI6YWVi3W8gHlCcgHvAeCDTCpn72PwGF4Uooh3bG
+5dGEPD4P+zAaDWalX/O9qopKQRgR8oSC0JTe5tMETJTBGlQ43F/z4WUPEhiAleMC
+pi2XSshMcKqXcOlg5LiRV34L+j4wow==
+=sBi6
+-----END PGP SIGNATURE-----
+
+--J/2odiUieNnUk1Rk--
