@@ -1,217 +1,675 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603853AA4E6
-	for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 14:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3688F2628D;
+	Fri, 13 Mar 2026 14:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773413757; cv=none; b=KDdjo/pH/gqkVsj4N8seY4jLaqWeqPENlzwe1IxFcotSS3MANx1C2NvfEAEFeBT99PskpSdt3vthFPUB6Ib/xlllMhYdZeBxZV7GVrQg/E4bD/UVKEYVcDgY+Ez33ezfouSwkN7NCGIksgH88QXAjDDanMbdgqVig/6Uws3+sIM=
+	t=1773413894; cv=none; b=CvHXE3Z9DWNhfuZHtS1xLUBYqPa/uHcOhusuTv0rqnv8AiugDH+xS7Y1TNJg8rB9bGL2CF1pRu+Iuxq908qlKO1X1NOn6uWNlBUPMlRl/p0+QHb6ILS0Gb44yodiVhcfz7dfaJb9AnXJ/Krf0Hfc63Z6hVN/UMuz4XbyCjbje2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773413757; c=relaxed/simple;
-	bh=L00RY02PSrV0S+XSzB4RF2tLpb4q4RgYwDnKNeIIz80=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=dzNtcr2O6bv+QGeAa3HaJyaAAiNUiu8mtk6ltIAyr/cYdsmMFn9S2wt2ZOEFMWXYiZ9a1nWN1sftL45yuEhMYFu9g4lhR2gldACIhWeTwrzjpRwuIUsjS1ZQEWYP2UqHHF2DEFiC/o5DcbkxXRqL7Sw4+HQ59PF6wEXp/gzAnAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EJDTCw8Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=32E9/FnX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EJDTCw8Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=32E9/FnX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773413894; c=relaxed/simple;
+	bh=FQ8AwGj/JudX8X+yD5F8vvJ8YToyk7hIzS8d0H5D2t0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gS/brB1BysaLh/jd5GsqqPlznthvVH9S/Xqtpb9/VrbOX4RMeXAGAE3uVTWlGkN2cQgdp7UifP9HIqaM39rjvPyGwD+/LI1RAYy0em329ocknp4JiSvCsLeeukHYbMvcLUi6lqkvLFdrFI+LVEYFh+I0Q7BYqRHjuHqG+9GRoak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HtBh8INH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EJDTCw8Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="32E9/FnX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EJDTCw8Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="32E9/FnX"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E6785BCEF;
-	Fri, 13 Mar 2026 14:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773413753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gp4EiERhf29hJlvG1iVKK/q3OhBj8ilJLFdKX9dcVlQ=;
-	b=EJDTCw8QOkG6l0juJiagoxggProce/gfCmSKGri9NwycrU+4cs6OILkzxVMGcRqsCM1xJk
-	o7m//kTTbwGGViUaazInw0PgLEhA9bqgWvmIGZtAm9ueccdxprNdKZw7RsPi1vTzZ68dmn
-	j9PaXDa8B8V7TFRI9/2LPQRNk+GVZ2A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773413753;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gp4EiERhf29hJlvG1iVKK/q3OhBj8ilJLFdKX9dcVlQ=;
-	b=32E9/FnX++U0tK9DQooSFB9cUhaNmGeo3LlhRF2+xTouEOsI3SV1GymJTLcpwbqqjiudpv
-	pJyxZ4pcx4E/6GDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EJDTCw8Q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="32E9/FnX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773413753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gp4EiERhf29hJlvG1iVKK/q3OhBj8ilJLFdKX9dcVlQ=;
-	b=EJDTCw8QOkG6l0juJiagoxggProce/gfCmSKGri9NwycrU+4cs6OILkzxVMGcRqsCM1xJk
-	o7m//kTTbwGGViUaazInw0PgLEhA9bqgWvmIGZtAm9ueccdxprNdKZw7RsPi1vTzZ68dmn
-	j9PaXDa8B8V7TFRI9/2LPQRNk+GVZ2A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773413753;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gp4EiERhf29hJlvG1iVKK/q3OhBj8ilJLFdKX9dcVlQ=;
-	b=32E9/FnX++U0tK9DQooSFB9cUhaNmGeo3LlhRF2+xTouEOsI3SV1GymJTLcpwbqqjiudpv
-	pJyxZ4pcx4E/6GDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53F76405A2;
-	Fri, 13 Mar 2026 14:55:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id z9weE3kltGnSXwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 13 Mar 2026 14:55:53 +0000
-Date: Fri, 13 Mar 2026 15:55:52 +0100
-Message-ID: <87cy17bwxz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.0-rc4
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HtBh8INH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CD9FC19421;
+	Fri, 13 Mar 2026 14:58:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773413893;
+	bh=FQ8AwGj/JudX8X+yD5F8vvJ8YToyk7hIzS8d0H5D2t0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HtBh8INH7KL0FZGqfHL/DmxDkyz7gr2P4IOQlyOP4nmUenMMzSinOLWEOlRb5jf+F
+	 Y6IqLqMHSsWmGqPZLpUNUshQTn15eGlkJTkbhQK0zSj9We07zzpquaCFGVemwE5bc+
+	 R7MQ+gBzRK8ytqMqUrxxFDzCDbiSOOWItscnfyJrJpSz9T8RH9y+mERAivYtvI2ivX
+	 gf/k756gVHTfKTHYL+f6Z9BHSdPYKyazWMC2t2tM6GRXusktbEGjzWpZd4NAYyVrjo
+	 gC9Wjh+laUuzc6C9elSN89dSdb8Dn16maodq8+Bwr3N1CgOv1Lgm29+lX3g7Tg4SDD
+	 0UB8ktfxgjtKg==
+Date: Fri, 13 Mar 2026 14:58:09 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 00/10] ASoC: wm_adsp: Some improvements to firmware file
+ search
+Message-ID: <70c45f75-7ccb-476b-8646-3896181a2569@sirena.org.uk>
+References: <20260310141817.1871794-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 8E6785BCEF
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6DwJL4VGSELluOJI"
+Content-Disposition: inline
+In-Reply-To: <20260310141817.1871794-1-rf@opensource.cirrus.com>
+X-Cookie: Monitor not included.
 
-Linus,
 
-please pull sound fixes for v7.0-rc4 from:
+--6DwJL4VGSELluOJI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc4
+On Tue, Mar 10, 2026 at 02:18:07PM +0000, Richard Fitzgerald wrote:
+> This series makes some improvements to the code that searches for firmware
+> files.
+>=20
+> Patch 1 is a trivial patch to remove an unused function argument, before
+>    adding any new code that uses this API.
+>=20
+> Patches 2..4 add KUnit testing to prove that the subsequent changes don't
+>    break anything.
+>=20
+> The remaining patches remove duplicated code and clean up some of the
+> implementation.
 
-The topmost commit is 9250673cf23572b08c51bcdbb2919e9982bfc36b
+Actually I'm seeing failures with this running on arm64, they were
+missed by my testing due to issues with KUnit in -rc1, looking at this
+clearly a lot of the problems are knock on results of an initial failure:
 
-----------------------------------------------------------------
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_search=
+_order  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:( )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:( )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:( )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:( )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name: system: alsa_name:amp1  expects:(=
+ )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name: system: alsa_name:amp1 wmfw_optio=
+nal expects:( )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name:ao system:ABC123 alsa_name:amp1  e=
+xpects:( )
+[14:52:36] [PASSED] cs1234 dsp1 fwf_name:ao system:ABC123 alsa_name:amp1 wm=
+fw_optional expects:( )
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D [PASSED] wm_adsp_fw_find_test_search_or=
+der =3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_search=
+_order  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss-abc123-amp1.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123-amp1.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss-abc123-amp1.wmfw cirrus/cs1234-dsp1-mbc
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123-amp1.wmfw cirrus/cs
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw cirrus/cs1234-dsp1-mbc-vss-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw cirrus/cs1234-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw cirrus/cs1234-dsp1-mbc-vss-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw cirrus/cs1234-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:( cirrus/cs1234-dsp1-mbc-vss-abc123-amp1.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:( cirrus/cs1234-dsp1-mbc-vss-abc123.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1  exp=
+ects:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mb
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:amp1 wmfw=
+_optional expects:( cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Unable to handle kernel paging request at virtual address ffffff=
+ffc202b0c8
+[14:52:36] Mem abort info:
+[14:52:36]   ESR =3D 0x0000000096000006
+[14:52:36]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+[14:52:36]   SET =3D 0, FnV =3D 0
+[14:52:36]   EA =3D 0, S1PTW =3D 0
+[14:52:36]   FSC =3D 0x06: level 2 translation fault
+[14:52:36] Data abort info:
+[14:52:36]   ISV =3D 0, ISS =3D 0x00000006, ISS2 =3D 0x00000000
+[14:52:36]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
+[14:52:36]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+[14:52:36] swapper pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000040e95000
+[14:52:36] [ffffffffc202b0c8] pgd=3D0000000000000000, p4d=3D000000004110340=
+3, pud=3D0000000041104403, pmd=3D0000000000000000
+[14:52:36] Internal error: Oops: 0000000096000006 [#2]  SMP
+[14:52:36] CPU: 0 UID: 0 PID: 11523 Comm: kunit_try_catch Tainted: G      D=
+ W        N  7.0.0-rc3-ga7ea17ac86d4 #11 PREEMPTLAZY
+[14:52:36] Tainted: [D]=3DDIE, [W]=3DWARN, [N]=3DTEST
+[14:52:36] Hardware name: linux,dummy-virt (DT)
+[14:52:36] pstate: a3400005 (NzCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=3D--)
+[14:52:36] pc : kfree+0x38/0x2a0
+[14:52:36] lr : release_firmware+0x28/0x6c
+[14:52:36] sp : ffff80008348bda0
+[14:52:36] x29: ffff80008348bda0 x28: 0000000000000000 x27: 0000000000000000
+[14:52:36] x26: 0000000000000000 x25: 0000000000000000 x24: ffff800080fbb850
+[14:52:36] x23: ffff8000803e9e80 x22: ffff800080fbb680 x21: ffff000006923b40
+[14:52:36] x20: ffff800080ac3010 x19: ffffffffc202b0c0 x18: 0000000000000014
+[14:52:36] x17: 00000000f7d33fac x16: 00000000fda59ba1 x15: 00000000e1f102aa
+[14:52:36] x14: 000000000000026d x13: 0000000000000000 x12: ffff00003fddaf40
+[14:52:36] x11: 00000000000000c0 x10: ffff0000045a26e8 x9 : 0000000000000000
+[14:52:36] x8 : ffff00000a1e4cc0 x7 : 0000000000000000 x6 : 0000000000000001
+[14:52:36] x5 : 000000000000003c x4 : ffff800080fbb898 x3 : ffff8000803e8820
+[14:52:36] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffffffc202b0c0
+[14:52:36] Call trace:
+[14:52:36]  kfree+0x38/0x2a0 (P)
+[14:52:36]  release_firmware+0x28/0x6c
+[14:52:36]  wm_adsp_release_firmware_files+0x20/0x80
+[14:52:36]  wm_adsp_fw_find_test_case_exit+0x18/0x24
+[14:52:36]  kunit_try_run_case_cleanup+0x2c/0x44
+[14:52:36]  kunit_generic_run_threadfn_adapter+0x28/0x4c
+[14:52:36]  kthread+0x108/0x120
+[14:52:36]  ret_from_fork+0x10/0x20
+[14:52:36] Code: d34cfe73 f2d83fe0 8b131813 aa1303e0 (f9400661)
+[14:52:36] ---[ end trace 0000000000000000 ]---
+[14:52:36]     # wm_adsp_fw_find_test_search_order: try faulted: last line =
+seen sound/soc/codecs/wm_adsp_fw_find_test.c:193
+[14:52:36]     # wm_adsp_fw_find_test_search_order: internal error occurred=
+ during test case cleanup: -4
+[14:52:36]     # wm_adsp_fw_find_test_search_order: pass:0 fail:21 skip:0 t=
+otal:21
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm_adsp_fw_find_test_search_or=
+der =3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_search=
+_order  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw cirrus/cs1234-dsp1-mbc-vss-abc1
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:(cirrus/cs1234-dsp1-mbc-vss-abc123.wmfw cirrus/cs1234-dsp1
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:( cirrus/cs1234-dsp1-mbc-vss-abc123.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:(cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:(cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:(cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:(cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:(cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name:  expects=
+:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vs
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:ABC123 alsa_name: wmfw_opt=
+ional expects:( cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36]     # wm_adsp_fw_find_test_search_order: pass:0 fail:14 skip:0 t=
+otal:14
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm_adsp_fw_find_test_search_or=
+der =3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_search=
+_order  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1  expects:(=
+cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1 wmfw_optio=
+nal expects:(cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1  expects:(=
+cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1 wmfw_optio=
+nal expects:(cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1  expects:(=
+cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1 wmfw_optio=
+nal expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1  expects:(=
+cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1 wmfw_optio=
+nal expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:amp1 wmfw_optio=
+nal expects:( cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36]     # wm_adsp_fw_find_test_search_order: pass:0 fail:9 skip:0 to=
+tal:9
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm_adsp_fw_find_test_search_or=
+der =3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_search=
+_order  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:  expects:(cs12=
+34-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name: wmfw_optional =
+expects:(cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:  expects:(cs12=
+34-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name: wmfw_optional =
+expects:(cs1234-dsp1-mbc-vss.wmfw cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:  expects:(cirr=
+us/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name: wmfw_optional =
+expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:  expects:(cirr=
+us/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name: wmfw_optional =
+expects:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name: wmfw_optional =
+expects:( cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36]     # wm_adsp_fw_find_test_search_order: pass:0 fail:9 skip:0 to=
+tal:9
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm_adsp_fw_find_test_search_or=
+der =3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_search=
+_order  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:Vendor alsa_name:  expects=
+:(cirrus/cs1234-dsp1-mbc-vss-vendor.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:Vendor Device alsa_name:  =
+expects:(cirrus/cs1234-dsp1-mbc-vss-vendor-device.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:Vendor_Device alsa_name:  =
+expects:(cirrus/cs1234-dsp1-mbc-vss-vendor-device.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:Vendor/Device alsa_name:  =
+expects:(cirrus/cs1234-dsp1-mbc-vss-vendor-device.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:1234:56AB alsa_name:  expe=
+cts:(cirrus/cs1234-dsp1-mbc-vss-1234-56ab.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:abc alsa_name:LEFT  expect=
+s:(cirrus/cs1234-dsp1-mbc-vss-abc-left.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:abc alsa_name:LEFT AMP  ex=
+pects:(cirrus/cs1234-dsp1-mbc-vss-abc-left-amp.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:abc alsa_name:Left Amp  ex=
+pects:(cirrus/cs1234-dsp1-mbc-vss-abc-left-amp.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:abc alsa_name:Amp_1  expec=
+ts:(cirrus/cs1234-dsp1-mbc-vss-abc-amp-1.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:abc alsa_name:cs1234.1  ex=
+pects:(cirrus/cs1234-dsp1-mbc-vss-abc-cs1234.1.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:abc alsa_name:Spk/Jack  ex=
+pects:(cirrus/cs1234-dsp1-mbc-vss-abc-spk-jack.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_search_order: failed to initialize: -=
+16
+[14:52:36]     # wm_adsp_fw_find_test_search_order: pass:0 fail:11 skip:0 t=
+otal:11
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm_adsp_fw_find_test_search_or=
+der =3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D wm_adsp_fw_find_test_pic=
+k_file  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WFBF1111 alsa_name:amp1  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wfbf1111-amp1.wmfw cirrus/cs1234-dsp1
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WFBF1111 alsa_name:l1u2  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wfbf1111-l1u2.wmfw cirrus/cs1234-dsp1
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WSBF1111 alsa_name:amp1  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wsbf1111.wmfw cirrus/cs1234-dsp1-mbc-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WSBF1111 alsa_name:l1u2  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wsbf1111.wmfw cirrus/cs1234-dsp1-mbc-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WFBF1111 alsa_name:amp1 wm=
+fw_optional expects:(cirrus/cs1234-dsp1-mbc-vss-wfbf1111-amp1.wmfw cirru
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WSBS1111 alsa_name:amp1  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wsbs1111.wmfw cirrus/cs1234-dsp1-mbc-
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WSBF1111 alsa_name:amp1 wm=
+fw_optional expects:(cirrus/cs1234-dsp1-mbc-vss-wsbf1111.wmfw cirrus/cs1
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:XXBF1111 alsa_name:amp1 wm=
+fw_optional expects:( cirrus/cs1234-dsp1-mbc-vss-xxbf1111-amp1.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WFBF1111 alsa_name:amp1  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wfbf1111-amp1.wmfw cirrus/cs1234-dsp1
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WFXX1111 alsa_name:amp1  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss-wfxx1111.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:WFXX1111 alsa_name:amp1 wm=
+fw_optional expects:(cirrus/cs1234-dsp1-mbc-vss-wfxx1111.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system:XXXX1111 alsa_name:amp1  e=
+xpects:(cirrus/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234nobin dsp1 fwf_name: system:XXXX1111 alsa_name:am=
+p1  expects:(cirrus/cs1234nobin-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] wm1234nobin dsp1 fwf_name: system: alsa_name:  expects:=
+(wm1234nobin-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] wm1234 dsp1 fwf_name: system: alsa_name:  expects:(wm12=
+34-dsp1-mbc-vss.wmfw wm1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234nobin dsp1 fwf_name: system: alsa_name:  expects:=
+(cirrus/cs1234nobin-dsp1-mbc-vss.wmfw )
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36] [FAILED] cs1234 dsp1 fwf_name: system: alsa_name:  expects:(cirr=
+us/cs1234-dsp1-mbc-vss.wmfw cirrus/cs1234-dsp1-mbc-vss.bin)
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: failed to initialize: -16
+[14:52:36]     # wm_adsp_fw_find_test_pick_file: pass:0 fail:17 skip:0 tota=
+l:17
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm_adsp_fw_find_test_pick_f=
+ile =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[14:52:36] Error: Driver 'wm_adsp_test_drv' is already registered, aborting=
+=2E..
+[14:52:36]     # wm_adsp_fw_find_test_find_firmware_byindex: failed to init=
+ialize: -16
+[14:52:36] [FAILED] wm_adsp_fw_find_test_find_firmware_byindex
+[14:52:36]     # module: snd_soc_wm_adsp_test
+[14:52:36] # wm-adsp-fw-find: pass:1 fail:7 skip:0 total:8
+[14:52:36] # Totals: pass:8 fail:82 skip:0 total:90
+[14:52:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [FAILED] wm-=
+adsp-fw-find =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-sound fixes for 7.0-rc4
+Failures: wm-adsp-fw-find.wm_adsp_fw_find_test_search_order, wm-adsp-fw-fin=
+d.wm_adsp_fw_find_test_search_order, wm-adsp-fw-find.wm_adsp_fw_find_test_s=
+earch_order, wm-adsp-fw-find.wm_adsp_fw_find_test_search_order, wm-adsp-fw-=
+find.wm_adsp_fw_find_test_search_order, wm-adsp-fw-find.wm_adsp_fw_find_tes=
+t_pick_file, wm-adsp-fw-find.wm_adsp_fw_find_test_find_firmware_byindex
 
-There have been continuous flux but most of them are device-specific
-small fixes, while we see a few core fixes at this time (minor PCM fix
-for linked streams and a few ASoC core fixes for delayed work, etc).
+--6DwJL4VGSELluOJI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Core:
-- PCM: Fix use-after-free in linked stream drain
+-----BEGIN PGP SIGNATURE-----
 
-* ASoC:
-- core: Fixes for delayed works, empty DMI string handling and DT overlay
-- qcom: qdsp6: Fix ADSP stop/start crash via component removal ordering
-- tegra: Add support for Tegra238 audio graph card
-- amd: Fix missing error checks for clock acquisition
-- rt1011: Fix incorrect DAPM context retrieval helper
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm0JgAACgkQJNaLcl1U
+h9D0yAf/eFSLCETFVmPBwiHfrmXpIaR7CIypR3BJlc4gdCz70rr4YmWeAPNaEeZA
+VsDmvTZAgf6s/eC+rdouXuyitHyv6gIRsI1A+qvQW7FnlHopTFo2xJHsNA6XX4U1
+1KTqO25IaqWZEb+iLzMmOwg8GCQPmOQ76sdkwab2u/61FzLv3CJE7NGlRLFQaniu
+cEqZTZ7IXdzG36VqDBQEmLY9Pr+u2D97xkH+Dm8Kiyh/QOSEv+ef6Yje25KUUc9B
+dhCfAY1yxwH+djXDuG0sl05uUrSZHz57w+fagEQA8cZECZX7d3/nyDdk7k3oc48V
+WlRijGE4C2NIeNuxzlHyyzxivI1QKA==
+=xgEf
+-----END PGP SIGNATURE-----
 
-HD-audio:
-- Add quirk for Gigabyte H610M, ASUS UM6702RC, HP 14s-dr5xxx, and
-  ThinkPad X390
-
-USB-audio:
-- Scarlett2: Fix NULL dereference for malformed endpoint descriptors
-- Add quirk for SPACETOUCH
-
-----------------------------------------------------------------
-
-Casey Connolly (1):
-      ASoC: detect empty DMI strings
-
-Chen Ni (2):
-      ASoC: amd: acp3x-rt5682-max9836: Add missing error check for clock acquisition
-      ASoC: amd: acp-mach-common: Add missing error check for clock acquisition
-
-Lianqin Hu (1):
-      ALSA: usb-audio: Add iface reset and delay quirk for SPACETOUCH USB Audio
-
-Liucheng Lu (1):
-      ALSA: hda/realtek: add HP Laptop 14s-dr5xxx mute LED quirk
-
-Mehul Rao (1):
-      ALSA: pcm: fix use-after-free on linked stream runtime in snd_pcm_drain()
-
-Peter Ujfalusi (1):
-      ASoC: codecs: rt1011: Use component to get the dapm context in spk_mode_put
-
-Ravi Hothi (1):
-      ASoC: qcom: qdsp6: Fix q6apm remove ordering during ADSP stop and start
-
-Richard Fitzgerald (1):
-      firmware: cs_dsp: Fix fragmentation regression in firmware download
-
-Sen Wang (1):
-      ASoC: simple-card-utils: fix graph_util_is_ports0() for DT overlays
-
-Sheetal (1):
-      ASoC: tegra: Add support for Tegra238 soundcard
-
-Takashi Iwai (1):
-      ALSA: usb-audio: Check endpoint numbers at parsing Scarlett2 mixer interfaces
-
-Uzair Mughal (1):
-      ALSA: hda/realtek: Add headset jack quirk for Thinkpad X390
-
-Zhang Heng (2):
-      ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix headphone
-      ALSA: hda/realtek: add quirk for ASUS UM6702RC
-
-matteo.cotifava (2):
-      ASoC: soc-core: drop delayed_work_pending() check before flush
-      ASoC: soc-core: flush delayed work before removing DAIs and widgets
-
----
- drivers/firmware/cirrus/cs_dsp.c         | 24 ++++++++++++++++++------
- sound/core/pcm_native.c                  | 19 ++++++++++++++++---
- sound/hda/codecs/realtek/alc269.c        |  3 +++
- sound/hda/codecs/realtek/alc662.c        |  9 +++++++++
- sound/soc/amd/acp/acp-mach-common.c      | 18 ++++++++++++++----
- sound/soc/amd/acp3x-rt5682-max9836.c     |  9 +++++++--
- sound/soc/codecs/rt1011.c                |  2 +-
- sound/soc/generic/simple-card-utils.c    | 12 ++++++++----
- sound/soc/qcom/qdsp6/q6apm-dai.c         |  1 +
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c  |  1 +
- sound/soc/qcom/qdsp6/q6apm.c             |  1 +
- sound/soc/soc-core.c                     | 11 ++++++++---
- sound/soc/tegra/tegra_audio_graph_card.c | 11 +++++++++++
- sound/usb/mixer_scarlett2.c              |  2 ++
- sound/usb/quirks.c                       |  2 ++
- 15 files changed, 102 insertions(+), 23 deletions(-)
-
+--6DwJL4VGSELluOJI--
