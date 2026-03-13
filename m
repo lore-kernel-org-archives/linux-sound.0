@@ -1,354 +1,224 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF2E3264E0;
-	Fri, 13 Mar 2026 20:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773434636; cv=none; b=OuaN5rcA2aKU12JsBL6h6LEJPbWq+2P8uInF73FxBewMa/aG1MBR83G5MeHjY3PCXn5RsQbc9nZi7MgClEl9o8zRQpex6cw9+YLV5EONG+rEIl5ePR+6Dv0tTt2EE867q0IlhdkK6VhBxucbr2jeqtzp3TFTV1o5oBrS6ccwcuA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773434636; c=relaxed/simple;
-	bh=qV+/X1vxRX8bZ7PVxv7/i4VhftfQzcPWpSMmHmU3UzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lpAErO3Ye4RzumzdXpbR9V4Q3rzOShmZQaLS+SLBorAWAGONTrqcDCqSXReBwcjgwlc0o1qwVFfdQqBq/+BezILNPNmf3hxAbOiulc3xdhiD3lIrxlvVnkjBTVOB+/C1xw87gmNxJDcHGuWdek/qfejwCH/uTm5cNC/dBxGL6mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H8HGVUof; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514B930EF8B
+	for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 22:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773439343; cv=pass; b=BF1Sj2uQExVY4vhGVaygiH2yVjJQ5IHYlkeZIMTfnPiaXoRaCVxQdCl/xpqPWTwt0Plp0h5PFcQMlstE5uGU03FiWBo8dt55mVTbPo8rVLRhDm/38GuGVqzYkqmVeI3sdUbJXVnJ21PLZZtYL9bM0DWFbFrQaRT4FYxX5DJMkb8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773439343; c=relaxed/simple;
+	bh=xV/fAH4IXKpO9+YmtJmSlZqUk8Z75AH9Vw9hX4VCKYw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KNcUTqITUXSmf1gTuJKUxg1nXxyVw4v7TLMA8TFrPeYiHOSBpWxt68qANH1lu7jE991fobfRzjHUvxWcZ4WoTeK7jPNrCB+880MNvqnqRN8RqHu9opWFIe5ERKGAzsT+HaSM7MuynjklPIySSF8WRYAsIxzQyXtb5Q/kwRXP0Iw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UP+2FnpL; arc=pass smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H8HGVUof"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE13C19421;
-	Fri, 13 Mar 2026 20:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773434636;
-	bh=qV+/X1vxRX8bZ7PVxv7/i4VhftfQzcPWpSMmHmU3UzY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H8HGVUofQv6WUl/tCGU+LFZV38URnRQQGrK9WiJdkW+Yru0j7+gTpWA1QnQyqO2xf
-	 aRRznDBl23YtRAUHRgwXcAdgCDwFA45Q4p5FHeaY4ejwuUBXfr8L4XxDabVMTR0QKQ
-	 cp14bS+hcqUBdSOqM9R2l1ZF599SQ7JQY4LM/fi4uEp7BFsceG66ti8SEm3oD8XJR5
-	 POeyTPWkqItYNWL/UwKjg9J+0KODLGfkk61iG/uTkadOz8vUkqS+iGhrxgzrs2l/2K
-	 rtlsGRR0Pm6nzQlz2R3ff2KNvgPjgH3fKuHElH7NM2RoI+/itL/xQ0kSvJiwCQYlXw
-	 AhxE11AJqawCQ==
-Date: Fri, 13 Mar 2026 15:43:54 -0500
-From: Rob Herring <robh@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	lee@kernel.org, linusw@kernel.org, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	krzk+dt@kernel.org, conor+dt@kernel.org, nb@tipi-net.de,
-	navada@ti.com, v-hampiholi@ti.com, sandeepk@ti.com,
-	baojun.xu@ti.com, shenghao-ding@ti.com
-Subject: Re: [PATCH v1 1/8] dt-bindings: mfd: Add bindings for TI TAC5x1x MFD
- core
-Message-ID: <20260313204354.GA3262647-robh@kernel.org>
-References: <20260312184833.263-1-niranjan.hy@ti.com>
- <20260312184833.263-2-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UP+2FnpL"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-661d929219bso3096840a12.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 15:02:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773439340; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dBrqqioYv4eL+D04B1WbIG89ginl39aL862Anex5AKd1nAPg5eVatwdnWD+068XWqf
+         WauUIr7p7NABN37tft3INXI2LFXw5BproAhlqgKlQasTrMha9Mkje8eTNN8Z6PljUQKV
+         2+n1zOpmgrUNceMy7ewxLHNVOEnkUdvy1bPJC3H8qRf/PjI+PJu0X8M37si8sWjKoB4v
+         kwxIfXAeMGNOTiKZwaKWTkCuPyfbdV3mIBAsL5X2MQQBApsOHzM9e2mIQhptOvrR3B5P
+         +FuOlMI+BwbzDmtXx/07h1e32EeFDNA+6TQWdAbOtuE2UGHL0KUYFbkYUjppsxZfUet/
+         6Uwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Xg7Heb2zG5YHZ6myFxfSMvZtPPQX3Yvv0U1QhckaWq4=;
+        fh=uGmyVIAUa1R9uez6nLCsUAg1aYYdsK4Nvo9roIKMZ00=;
+        b=LyWg/Y3V0ncsflofW3oQGAEeMpDWjTmfRU29F/QkT4hamwTTEKvH2ltyXQ4PvjRrnS
+         HtRFIIkSvTU3Nb3nDd8PjG2dkNYZy8NA1ctg8dJIJRXaVZiwuZjDDMPAkrve8LLhiX1D
+         GrvNaLdHVl4Z9b9G9kgYck2ErckAbNY0i2k38pc6DEbaZC0mgPkWwuJ00u7Vt2Svl+2C
+         EqWlzyrcMi59Ck7DGVu1o5CixvhWp3BWp1JqKcNHdUo4gDvT2QmcQQNXB4+Fby9I5vQQ
+         kVtiOKDe+SgmR9hSyOA6xeQuAet+TcJQ1iPMBscTB+aVijTidYRAF+Y952mSUpdMV7W4
+         UHKA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773439340; x=1774044140; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xg7Heb2zG5YHZ6myFxfSMvZtPPQX3Yvv0U1QhckaWq4=;
+        b=UP+2FnpLuc8AzjQOkF6hf+CHYwvdUPmfAWgBBF1l6l1M37ypks3dUhCWz6hnB4Attp
+         SCLGsvRhRqVnQ93rMp6wUAzytaZNMUZVwf0CuQfyfsCSnP1kqO1hhV9ZDqm3TED8ShdB
+         ftJeAaAujs1GJIOc7NqQFmyRtot4wIgVYvtvXU7BsErmZB3oQzu43uuSJDR7tBettz/i
+         pvf05oxPWL9T7rihvCKWMa864tXtHXBf8fY8zdFTHZUX082dGvfPwffHvBwY4jd3nC8/
+         i9/btqWCxCzAQ+fDxDchqtiBjeAvmpvyJEwj5Pk4hwItHOUWmiew7FMt8EIPiT6P8/AQ
+         34kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773439340; x=1774044140;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Xg7Heb2zG5YHZ6myFxfSMvZtPPQX3Yvv0U1QhckaWq4=;
+        b=PxUGPf+H5wSabC4pyrxUaq1uoyrzIVzryhVmRVBj0mWY9EFqAo4XpX6tt7w0h5UGQK
+         39QaHuO2HMfd65Q1t8BUF4XdY/t1b27gIDeoNyHs3xlwmB8RfI3KBG8TLhFSTtopZ+kN
+         2p12yq//qj1QX3kD3pTZ0wP5ZQen11fJecSNIFwnVcKzQ6jMX2D86zGvCYQsofDvI44K
+         E0ZiL2NEZDO/870EPN7Tn990uSJ/eKQ+nw0mUiLeu40tpPrEwM8gTUjTSIRPO8b9bHBb
+         QZMQZ8logGJ5ZwtRTuP/k+XmqzKgVtorneXwsI3UbHIljklYwJe4SOiWwdN5CmOeV3FL
+         u5JA==
+X-Gm-Message-State: AOJu0Yy8pufm+NtQQ8W/Hr9MZUYEtKvZwP//G/c25uHgry2VgPQvkqiR
+	bHcHOEw2Wwb5ipnMOWXog5drO6euQxugtqUKfLhz6rmZoFQT/PesDbIgr01X3KTIJTz10ZrEBiC
+	LWQTAb0NR8Xf/udy0nYOKK27YAzbPh/E=
+X-Gm-Gg: ATEYQzyXh+9qwyvHY++mT1eXsh3Y/QoW5VY/uHS9ByWyt88P9L0biP2zDPnv4iENAvt
+	c6c2rZTWrx1bHDuY/vgEe5yCTCr4g+nIZEiRlGwIJUvG/FdbkYy5/3uZo+fRd3vCJJkelqLa0/X
+	CKZpe9RLEIcLeTSqVcwnZSEtttV7xnuAmNR74IdEu0Ru6Mkw/i7mtNm8yQJY6Uqhnz7DhTtsWHW
+	Yb/G0+jIgHPZ3P37791Ix9sLGudGJGoj051AR5ICcClvsC058wcpLavD77/Xx590bpMxAOT1s/d
+	/QPBLhZNY6+5+FKKSpzRxFkwUClun51zDW2pmYUNVyiFNxBlCXIEwQmsvOcHpFEnSmFAmYS0H5P
+	vclu8qQ==
+X-Received: by 2002:a05:6402:5409:b0:663:ea77:3031 with SMTP id
+ 4fb4d7f45d1cf-663ea773194mr2225159a12.22.1773439340333; Fri, 13 Mar 2026
+ 15:02:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260312184833.263-2-niranjan.hy@ti.com>
+References: <20260311232748.18697-1-rosenp@gmail.com> <87tsuld095.wl-tiwai@suse.de>
+ <CAKxU2N8m1-4cP9J1A2Vmz+ZaZ7NGhcjEDm4YYjjzkmPAmGbUwg@mail.gmail.com>
+In-Reply-To: <CAKxU2N8m1-4cP9J1A2Vmz+ZaZ7NGhcjEDm4YYjjzkmPAmGbUwg@mail.gmail.com>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Fri, 13 Mar 2026 15:02:08 -0700
+X-Gm-Features: AaiRm51Jgp0OoXiOo5CVC8yojRYJmG-wLzo1IInyV3aOtWbOKhfqQAkKrDX8AfI
+Message-ID: <CAKxU2N_YN+0k+EjLFvm+vHEwduGB2jn0A+t-4C-GH_MXmWHcKQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: use kzalloc_flex
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 13, 2026 at 12:18:26AM +0530, Niranjan H Y wrote:
-> Add device tree bindings for the Texas Instruments TAC5x1x family of
-> audio codecs with integrated GPIO controller, describing the MFD core
-> device interface, power supplies, and clock configuration.
-> 
-> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-> ---
->  .../devicetree/bindings/mfd/ti,tac5x1x.yaml   | 247 ++++++++++++++++++
->  1 file changed, 247 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml
+On Wed, Mar 11, 2026 at 11:45=E2=80=AFPM Rosen Penev <rosenp@gmail.com> wro=
+te:
+>
+> On Wed, Mar 11, 2026 at 11:34=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wro=
+te:
+> >
+> > On Thu, 12 Mar 2026 00:27:48 +0100,
+> > Rosen Penev wrote:
+> > >
+> > > Saves one allocation by using a flexible array member.
+> >
+> > As it's a fixed size array, it doesn't have to be a flex array at all,
+> > so it can be even simpler.
+> That's true. The comment even admits as such. Wonder why it was ever a
+> pointer allocated with calloc...
+Oh no I see the issue:
 
-This fails testing (not sure what happened to the email about it):
+sound/usb/mixer.c:#define MAX_ID_ELEMS  256
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Warning: Duplicate compatible "ti,tad5212" found in schemas matching "$id":
-	http://devicetree.org/schemas/mfd/ti,tac5x1x.yaml
-	http://devicetree.org/schemas/sound/ti,pcm6240.yaml#
-Warning: Duplicate compatible "ti,taa5412" found in schemas matching "$id":
-	http://devicetree.org/schemas/mfd/ti,tac5x1x.yaml
-	http://devicetree.org/schemas/sound/ti,pcm6240.yaml#
-Warning: Duplicate compatible "ti,taa5212" found in schemas matching "$id":
-	http://devicetree.org/schemas/mfd/ti,tac5x1x.yaml
-	http://devicetree.org/schemas/sound/ti,pcm6240.yaml#
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/ti,tac5x1x-pinctrl.yaml
-Warning: Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml references a file that doesn't exist: Documentation/devicetree/bindings/sound/ti,tac5x1x.yaml
-Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml: Documentation/devicetree/bindings/pinctrl/ti,tac5x1x-pinctrl.yaml
-Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml: Documentation/devicetree/bindings/sound/ti,tac5x1x.yaml
-
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml b/Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml
-> new file mode 100644
-> index 000000000000..3d7943c0411f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ti,tac5x1x.yaml
-> @@ -0,0 +1,247 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/ti,tac5x1x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments TAC5x1x Multi-Function Audio Device
-> +
-> +maintainers:
-> +  - Niranjan H Y <niranjan.hy@ti.com>
-> +
-> +description: |
-> +  TAC5x1x family of low-power, high-performance audio codecs with integrated
-> +  GPIO controller and diagnostic capabilities.
-> +
-> +  This is the parent binding. Child nodes are bound by these bindings:
-> +  - Pin controller: Documentation/devicetree/bindings/pinctrl/ti,tac5x1x-pinctrl.yaml
-> +  - Audio codec: Documentation/devicetree/bindings/sound/ti,tac5x1x.yaml
-> +
-> +  Hardware features:
-> +  - Audio ADC/DAC with configurable impedance and voltage references
-> +  - 4-pin GPIO controller with alternate functions (PDM, IRQ)
-> +  - Analog voltage and current monitoring circuits
-> +  - Diagnostic fault detection with interrupt generation
-> +
-> +  Device datasheets can be found at:
-> +    TAA5212:    https://www.ti.com/lit/ds/symlink/taa5212.pdf
-> +    TAA5412-Q1: https://www.ti.com/lit/ds/symlink/taa5412-q1.pdf
-> +    TAC5111:    https://www.ti.com/lit/ds/symlink/tac5111.pdf
-> +    TAC5112:    https://www.ti.com/lit/ds/symlink/tac5112.pdf
-> +    TAC5211:    https://www.ti.com/lit/ds/symlink/tac5211.pdf
-> +    TAC5212:    https://www.ti.com/lit/ds/symlink/tac5212.pdf
-> +    TAC5301:    https://www.ti.com/lit/ds/symlink/tac5301-q1.pdf
-> +    TAC5311-Q1: https://www.ti.com/lit/ds/symlink/tac5311-q1.pdf
-> +    TAC5312-Q1: https://www.ti.com/lit/ds/symlink/tac5312-q1.pdf
-> +    TAC5411-Q1: https://www.ti.com/lit/ds/symlink/tac5411-q1.pdf
-> +    TAC5412-Q1: https://www.ti.com/lit/ds/symlink/tac5412-q1.pdf
-> +    TAD5112:    https://www.ti.com/lit/ds/symlink/tad5112.pdf
-> +    TAD5212:    https://www.ti.com/lit/ds/symlink/tad5212.pdf
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,taa5212
-> +      - ti,taa5412
-> +      - ti,tac5111
-> +      - ti,tac5112
-> +      - ti,tac5211
-> +      - ti,tac5212
-> +      - ti,tac5301
-> +      - ti,tac5311
-> +      - ti,tac5312
-> +      - ti,tac5411
-> +      - ti,tac5412
-> +      - ti,tad5112
-> +      - ti,tad5212
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: I2C slave address
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Hardware reset control pin (active low)
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: |
-> +      Interrupt from device diagnostic circuits to host processor.
-> +      Generated on voltage/current fault conditions and other diagnostic events.
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: Master clock input (MCLK)
-> +
-> +  clock-names:
-> +    items:
-> +      - const: mclk
-> +
-> +  avdd-supply:
-> +    description: |
-> +      Analog supply voltage input (AVDD pin).
-> +      Typical voltages: 1.8V, 3.0V, 3.3V, 5.0V
-> +
-> +  iovdd-supply:
-> +    description: |
-> +      Digital I/O supply voltage input (IOVDD pin).
-> +      Typical voltages: 1.8V, 3.3V
-> +
-> +  ti,vref-voltage:
-
-Use unit suffixes for things with units.
-
-> +    description: |
-> +      Internal voltage reference setting in microvolts.
-> +
-> +      Supported values:
-> +      - 1375000: VREF = 1.375V
-> +      - 2500000: VREF = 2.5V
-> +      - 2750000: VREF = 2.75V
-> +
-> +      Constraint: Selected VREF must be lower than AVDD supply voltage.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [1375000, 2500000, 2750000]
-> +    default: 2500000
-> +
-> +  ti,micbias-voltage:
-> +    description: |
-> +      Microphone bias output voltage in microvolts.
-> +
-> +      Configuration options:
-> +      - VREF voltage: Set to same value as ti,vref-voltage
-> +      - 0.5 × VREF: Set to half of ti,vref-voltage value
-> +      - AVDD voltage: Set to AVDD supply voltage value
-> +
-> +      Note: When set to AVDD voltage, hardware automatically overrides
-> +      VREF setting to 2.75V regardless of ti,vref-voltage property.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 687500
-> +    maximum: 3300000
-> +
-> +  ti,adc1-impedance:
-
-Same here.
-
-Though maybe existing bindings are using these same properties. That's 
-fine then, but please state that at least. Really we should have a 
-single, common definition for them.
-
-
-> +    description: |
-> +      ADC Channel 1 input impedance in Ohms.
-> +      Supported impedance values:
-> +      - 5000: 5k input impedance
-> +      - 10000: 10k input impedance
-> +      - 40000: 40k input impedance
-> +      Available only for TAC5111, TAC5211, TAC5212, and TAA5212 variants.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [5000, 10000, 40000]
-> +    default: 10000
-> +
-> +  ti,adc2-impedance:
-> +    description: |
-> +      ADC Channel 2 input impedance in Ohms.
-> +      Supported impedance values:
-> +      - 5000: 5k input impedance
-> +      - 10000: 10k input impedance
-> +      - 40000: 40k input impedance
-> +      Available on stereo variants only (TAA5212, TAC5212).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [5000, 10000, 40000]
-> +    default: 10000
-> +
-> +  ti,out2x-vcom-cfg:
-> +    description: |
-> +      Channel OUT2x VCOM reference voltage selection.
-> +
-> +      Configuration options:
-> +      - 0: VCOM = 0.6 × VREF
-> +      - 1: VCOM = AVDD / 2
-> +
-> +      Available on devices with stereo DAC output.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    default: 0
-> +
-> +  ti,gpa-threshold:
-> +    description: |
-> +      General Purpose Analog voltage monitoring thresholds in millivolts.
-> +      Format: [low_threshold_mv, high_threshold_mv]
-> +
-> +      Monitoring range: 0mV to 6000mV, Resolution: ~24mV per step
-> +      Default thresholds: 200mV (low), 2600mV (high)
-> +
-> +      Generates interrupt on voltage fault conditions.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    maxItems: 2
-> +    items:
-> +      minimum: 200
-> +      maximum: 6000
-> +    default: [200, 2600]
-> +
-> +  ti,in-ch-en:
-> +    description: |
-> +      Enable input channel diagnostic monitoring circuits.
-> +
-> +      When enabled (1), activates hardware monitoring for:
-> +      - Input channel fault detection
-> +      - Micbias current monitoring (if ti,micbias-threshold configured)
-> +      - Input overvoltage detection
-> +
-> +      Available on: TAC5301, TAC5311, TAC5312, TAC5411, TAC5412, TAA5412
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    default: 0
-> +
-> +  ti,out-ch-en:
-> +    description: |
-> +      Enable output channel diagnostic monitoring circuits.
-> +
-> +      When enabled (1), activates hardware monitoring for:
-> +      - Output channel fault detection
-> +      - Driver fault monitoring
-> +      - Short circuit detection
-> +
-> +      Available on: TAC5301, TAC5311, TAC5312, TAC5411, TAC5412, TAA5412
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    default: 0
-> +
-> +  ti,incl-se-inm:
-> +    description: |
-> +      Include INxM pins in single-ended input diagnostic scan.
-> +
-> +      When enabled (1), includes negative input pins (INxM) in diagnostic
-> +      monitoring for single-ended input configurations.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    default: 0
-> +
-> +  ti,incl-ac-coup:
-> +    description: |
-> +      Include AC-coupled input channels in diagnostic scan.
-> +
-> +      When enabled (1), includes AC-coupled input channels in the
-> +      diagnostic monitoring system.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    default: 0
-> +
-> +  ti,micbias-threshold:
-> +    description: |
-> +      Microphone bias current monitoring thresholds in microamps.
-> +      Format: [low_threshold_ua, high_threshold_ua]
-> +
-> +      Current monitoring range: 100uA to 33000uA, Resolution: ~132uA per step
-> +      Default thresholds: 2600uA (low), 18000uA (high)
-> +
-> +      Hardware monitors actual current flow through MICBIAS pin.
-> +      Generates interrupts on fault conditions when ti,in-ch-en = <1>.
-> +
-> +      Available on: TAC5301, TAC5311, TAC5312, TAC5411, TAC5412, TAA5412
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    maxItems: 2
-> +    items:
-> +      minimum: 100
-> +      maximum: 33000
-> +    default: [2600, 18000]
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - avdd-supply
-> +  - iovdd-supply
-> +
-> +unevaluatedProperties: false
-> -- 
-> 2.34.1
-> 
+I don't think this is supposed to be in the header.
+> >
+> >
+> > thanks,
+> >
+> > Takashi
+> >
+> > >
+> > > Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> > > ---
+> > >  sound/usb/mixer.c | 22 +++++++---------------
+> > >  sound/usb/mixer.h |  5 +++--
+> > >  2 files changed, 10 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> > > index 7007e0c9489b..337815b9e72c 100644
+> > > --- a/sound/usb/mixer.c
+> > > +++ b/sound/usb/mixer.c
+> > > @@ -1393,7 +1393,7 @@ static int mixer_ctl_feature_info(struct snd_kc=
+ontrol *kcontrol,
+> > >               if (!cval->initialized) {
+> > >                       get_min_max_with_quirks(cval, 0, kcontrol);
+> > >                       if (cval->initialized && cval->dBmin >=3D cval-=
+>dBmax) {
+> > > -                             kcontrol->vd[0].access &=3D
+> > > +                             kcontrol->vd[0].access &=3D
+> > >                                       ~(SNDRV_CTL_ELEM_ACCESS_TLV_REA=
+D |
+> > >                                         SNDRV_CTL_ELEM_ACCESS_TLV_CAL=
+LBACK);
+> > >                               snd_ctl_notify(cval->head.mixer->chip->=
+card,
+> > > @@ -3006,15 +3006,12 @@ static void snd_usb_mixer_free(struct usb_mix=
+er_interface *mixer)
+> > >       snd_usb_mixer_disconnect(mixer);
+> > >
+> > >       /* Unregister controls first, snd_ctl_remove() frees the elemen=
+t */
+> > > -     if (mixer->id_elems) {
+> > > -             for (id =3D 0; id < MAX_ID_ELEMS; id++) {
+> > > -                     for (list =3D mixer->id_elems[id]; list; list =
+=3D next) {
+> > > -                             next =3D list->next_id_elem;
+> > > -                             if (list->kctl)
+> > > -                                     snd_ctl_remove(mixer->chip->car=
+d, list->kctl);
+> > > -                     }
+> > > +     for (id =3D 0; id < MAX_ID_ELEMS; id++) {
+> > > +             for (list =3D mixer->id_elems[id]; list; list =3D next)=
+ {
+> > > +                     next =3D list->next_id_elem;
+> > > +                     if (list->kctl)
+> > > +                             snd_ctl_remove(mixer->chip->card, list-=
+>kctl);
+> > >               }
+> > > -             kfree(mixer->id_elems);
+> > >       }
+> > >       if (mixer->urb) {
+> > >               kfree(mixer->urb->transfer_buffer);
+> > > @@ -3652,16 +3649,11 @@ int snd_usb_create_mixer(struct snd_usb_audio=
+ *chip, int ctrlif)
+> > >
+> > >       strscpy(chip->card->mixername, "USB Mixer");
+> > >
+> > > -     mixer =3D kzalloc_obj(*mixer);
+> > > +     mixer =3D kzalloc_flex(*mixer, id_elems, MAX_ID_ELEMS);
+> > >       if (!mixer)
+> > >               return -ENOMEM;
+> > >       mixer->chip =3D chip;
+> > >       mixer->ignore_ctl_error =3D !!(chip->quirk_flags & QUIRK_FLAG_I=
+GNORE_CTL_ERROR);
+> > > -     mixer->id_elems =3D kzalloc_objs(*mixer->id_elems, MAX_ID_ELEMS=
+);
+> > > -     if (!mixer->id_elems) {
+> > > -             kfree(mixer);
+> > > -             return -ENOMEM;
+> > > -     }
+> > >
+> > >       mixer->hostif =3D &usb_ifnum_to_if(chip->dev, ctrlif)->altsetti=
+ng[0];
+> > >       switch (get_iface_desc(mixer->hostif)->bInterfaceProtocol) {
+> > > diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
+> > > index 167fbfcf01ac..30dd30b925fc 100644
+> > > --- a/sound/usb/mixer.h
+> > > +++ b/sound/usb/mixer.h
+> > > @@ -19,8 +19,6 @@ struct usb_mixer_interface {
+> > >       struct list_head list;
+> > >       unsigned int ignore_ctl_error;
+> > >       struct urb *urb;
+> > > -     /* array[MAX_ID_ELEMS], indexed by unit id */
+> > > -     struct usb_mixer_elem_list **id_elems;
+> > >
+> > >       /* the usb audio specification version this interface complies =
+to */
+> > >       int protocol;
+> > > @@ -42,6 +40,9 @@ struct usb_mixer_interface {
+> > >       void *private_data;
+> > >       void (*private_free)(struct usb_mixer_interface *mixer);
+> > >       void (*private_suspend)(struct usb_mixer_interface *mixer);
+> > > +
+> > > +     /* array[MAX_ID_ELEMS], indexed by unit id */
+> > > +     struct usb_mixer_elem_list *id_elems[];
+> > >  };
+> > >
+> > >  #define MAX_CHANNELS 16      /* max logical channels */
+> > > --
+> > > 2.53.0
+> > >
