@@ -1,251 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6299368941
-	for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 09:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E023603C1
+	for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 09:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773394135; cv=fail; b=lMGlh3qMZhEylE20+eRoFNGcPZsV0Mv/b33bbiy82eiGKVLzx7irjPUen/gefIv9gdtCLaGFlsHO/kIZ8uDOBpDgQOgr1R/7VclWG5EXQ3W6eTUiobEtijf9f8sAbX7aL2X9XC4iw3bJPTFtnjd5OfUYC7WbIGEu0kccvkv0UkI=
+	t=1773395055; cv=pass; b=ShzcePV3w5nmfsQ0sBIX07EKreQrbxL+KtmWydsSSHi9olcetJYVo3w9n5V1IGnwteKswgzshNIl7BIRp0FUmg7MXvUK1XmmTkryl9cUK0AkpS7VcOkTCcuS7/fP22g8IsztdlQyd6w4RPmKP7wQTjANJymCyCDZ7a3V24yQuRY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773394135; c=relaxed/simple;
-	bh=FpH7eSWmyVLB4y53kD7PovYwnLH4VLbw7Ne0P4egDbo=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=b15Iw/Am+44yPxY6oxeBvbrM4SFEQ9Qj16EzoaUqW+afzt8mWXvVqR6/RgfgK2W9i1vCjykSRqu7s1tNAiZ/Oeb/4exSyCh5j6VyQL+rM4Vdfw0i8NVmzLL1XyZnbS/sxcciz9BtOykORv7DLPeGMUwcxcK7BHa7E7OW3aH6nOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfDSfrRE; arc=fail smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773395055; c=relaxed/simple;
+	bh=a4PkyDJIX7KyCPscZwhkhXLXTwGONJMI97/AnswuOLU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uNhCfYu0te5rT3smnSILya2p9pwPy3GU5pH4Ig+dcchzUVoe3+9YFF0n5bnpzrX9fdLLTbhhZwUCxU3LowfDL4288M9pgNkk/E7BsS1yptsPn8gqra6kmYKFKvqtFiGdqrLLXc8wBOQzqvBkb10ETtKPAl2wl+BeLe2xNH/xEFA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CVJB0EpM; arc=pass smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfDSfrRE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773394133; x=1804930133;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=FpH7eSWmyVLB4y53kD7PovYwnLH4VLbw7Ne0P4egDbo=;
-  b=QfDSfrRE0s/VeAr4WmACl/QtWhg1ax07e3Nq+xWVkvIOyfn5kpgM7A0H
-   HcCrh3s6S5pqT/Yu/+QcqCaMd/uutYe/r1dbwm9bTAKMvDO5HRRx0f5lW
-   lVpNPdZout6D0zkSO8vns55QAu+wHfvRxqwhcSyESTpRfylTrU31u448z
-   9N5i3lNqFNXGkIApoo53OdrP1Fr9Dy+ax90gaH0TO4VR0+4gdHMHHADMO
-   xFEasaeXR9LCv7vu0xbtZ1kQYmOt0I/rbAYBiEIZQQrQ/aJD7Ghz4vMAN
-   K+4Ey7h2mvkupF4dWp+YmbWQ+ix0yyR13ojdhBZI7THQ9IBDVOHOfoWYM
-   Q==;
-X-CSE-ConnectionGUID: byU4VRBFQsysL6izoLW9/w==
-X-CSE-MsgGUID: W7SBgF8USLSHChHXZlnFmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74537822"
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="74537822"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 02:28:53 -0700
-X-CSE-ConnectionGUID: 21qVeeYBQVWVcGbJQdV44w==
-X-CSE-MsgGUID: ovLJf2g9TZOxEspSk3l8Gw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
-   d="scan'208";a="246318705"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 02:28:53 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 13 Mar 2026 02:28:52 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Fri, 13 Mar 2026 02:28:52 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.56) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 13 Mar 2026 02:28:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RWC8S4wNTO6tX64XL3Ntp5F6zSqnqvm1UFW+lcRUoXP0bygerUrXiIh8dLIn2ftJfTXlhDd5rVlR0ookq6AU7E/QOZIMxxk+zrmzUJcEXb3JWSIrlK2s/hCfD+xTSDUdt0+DXpvX+zSeT1ZSOd0LnrmD53aIefPXr83aqn0gkPcnOUuXQZe39gHp7vJom1yGU6XOogsdbuQgzAch8thHcNzyNcQKaCrcAijeFVIBLd7+1uje8boBLPjaDCgZkbmS3neCMr1ytcF2KQOPctYGh7IGl0tuaJQwvfFxC4FMc3hN01pnU6Rswo6LW75Khue/9A6uthoJldzaAXoPeH2awQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pZFLltCpEP+ZFjZLYRc6EPH3U+LxsAs8sxQ+Jzx7xJg=;
- b=hECdZEJFiiL4O5/mmT7s0YRoNrQuv+3DdjqEMm7xNv+rl5Y4mylUUkTMNxHoqfiOqa/yEhrG6SxSY3cKXMJ/iph2Q/lRyRo7kfCtWOAgHzScv6tU11K1rym9h2VeRynPK192ROSeLPaketqBpCerCusVLh39gVNq//6MQGB5DA9uGSHmwww0+D4sW7ynJaoJxiFyIbtNWBwz6PB/9BvVksK9UoakDHJZ/KBfzkGdHdUSXSdht5aiFSWKGCz0v8WJ5XKvwkz+IAyxRYZPQEdpmnLQWE1SKW+GbaM1u+S1uo404auKmct3KTV7kr5cYKXjDcDv+4PwA8Iz2X+1LBud+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by SJ5PPF64191BB3C.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::82f) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Fri, 13 Mar
- 2026 09:28:44 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::d18f:6b38:584a:214%6]) with mapi id 15.20.9723.004; Fri, 13 Mar 2026
- 09:28:44 +0000
-Message-ID: <bfc1db52-2549-4216-8834-e3a68f084900@intel.com>
-Date: Fri, 13 Mar 2026 10:28:39 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2][need test] ASoC: core: cleanup card rebinding
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: <linux-sound@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
-	=?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-References: <87y0k8p6ds.wl-kuninori.morimoto.gx@renesas.com>
- <3582df07-8d1d-488e-b76b-b8c288d35ea4@intel.com>
- <87qzprywbh.wl-kuninori.morimoto.gx@renesas.com>
- <87ms0cy37u.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <87ms0cy37u.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0102CA0064.eurprd01.prod.exchangelabs.com
- (2603:10a6:803::41) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CVJB0EpM"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a12fbbd9d2so2670117e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 02:44:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773395051; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZFJwEPbOR7iwLyHxDzGIoeOBUGNUUNfoHTEmOVAafQ4RS+gdSdPpseYdi8JrIoSVFn
+         IF/7LAXUd3U0+/pI0PdoGADKlw3oUjtE7TkMxzubDElXXMyO7kCL0d9joqzf8tCY6MmQ
+         s6vUfkoUdU1OiuHV51MtVt5icsrAtwK06bHpy5yRJsoZ1kr5hRUHhSZIi/WRJtlckEpg
+         8lL1FMCli/0hPJWJ7+28ICS5+JFTINgBM6p3NOH2RIdGxa98yD+9gXsj73HTZKpZOl+O
+         leYmKOEPt8ykNtZ7gknPs9WaorcvdDyTgY/lZ55OHUBKJlKQFw6R5SJpBX+kj4jAKhwA
+         bMKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zhNoTkJIeGg7k6SX7++UNulbkoe8PKd3t4WsYSulIm0=;
+        fh=r1WMHuv4NP+8tPsf3Zo7BK2oJ5iqve3tG8bFeVjkcAA=;
+        b=J53PXfKv2V97dBDYll6H4jjWAnGbx3E2NhHaV5aAAymKFXvYHyZ3U9ptdtxLqIb3tq
+         KuCSOXZobDh3+tt6QbSM+4S4QyeMHJx1y9Ygbti2czM0qawwtV91zGmwAEPgtCJJmkQI
+         qnPjBkMN5lMtsmTl8bsjSs1/0UNioSxWfFr3yZXJUsOKkiYeOHnW/D+S0E2nU1PPPoK+
+         cnhvSIUKjfrSyvlfD8o6BmPK8Eia6abj5YaLtG6lYhXyhrlbUf7Unvfaq0TJ1UBqD5Dg
+         XaBXTDYbU+DFQ4rZDtE1uqOFGGyeU9O+CjpFS8+pB2HWwAszfalXqkX2VE6dTCD3M8FK
+         WQQg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773395051; x=1773999851; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zhNoTkJIeGg7k6SX7++UNulbkoe8PKd3t4WsYSulIm0=;
+        b=CVJB0EpMEVa6sLzbpbpZgC6oxzg2jOtTdosOr5xZNtsl8bsqrxagaYbJB1fdwaFsDi
+         MU38WYuy9AWHvdgCpCuHaIpr0k74xYGQOeELdWDSwcfyzs8cqYkIXiRIRrqyxiibpEVP
+         wMrz3HxyzbyPSSjmSzWbKbBJgizyZo+BgjwH4r+2CXA44MTS6E41EE0YnfUJRp2yUitr
+         rl9LQ9jslbZWwEoeHXtCnBIpFBQl7bMUoyyvJJ1DVrzW8G12l73vTupZQjGfuJkAAf20
+         jQIIgy05OQGFnn5ib4SoM+EKD7qPNjwSuIvoucoWtcAxJOQaShYcNfKbcoRIEG60ZMKr
+         agpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773395051; x=1773999851;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zhNoTkJIeGg7k6SX7++UNulbkoe8PKd3t4WsYSulIm0=;
+        b=jA+Jem4vEYFITGz/s+/JoydcVYVgEcoVcmoBQUjELz6MrI7Qafg/Tke5PS4xem8YGj
+         oKIgopCfUzgm7uEdLQBwegMQ7qZnw8tdGrMDsCDl0ouAHwUYXLaqIEoLdq4QBtjI5PU+
+         qUxjrJgxBt+cv30mU5aEZAKe2CzswBgALWBRvJa4n4s6wTeY2nItjCHylVj6vkInW0po
+         daRUxLqrKtGUzOlxnBp/eEe0ZUhx1H2j/2sgsXyr72t0Uy+TqR1rdCVy4i/HBQbI+x02
+         Bfv+C+EC77UOY30EbxiC3GylVyDo6NAXRXl6ALk/hcwAMZzaOq4NuD9eMivcQoB0/1iz
+         7g7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXh+P53hLN/2oeO1nRiGEMDzNiWBhZ5iWtN1EyKFeApGy1CdmqnwdPC+HbANl6tbHE18x9+gxDWtNWJTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgJNuX0DXqvDIIWvFVglSsafZNCDQiGqs47JjyZ2BYLDDq4x+w
+	Cj9rC/s6hDvuNEJuzZCxmoSpN3hK4eojAahWK56qV0l88SaGSRZLykgTXSuBQaUL+kAJTjFmEEu
+	NSSr3AYJWNUJRxvS+JxSAnMiKDqLZ5Uj7JaaP7dUa1w==
+X-Gm-Gg: ATEYQzw3I6po1pNpgUiAQKSg4S1c3UWk2bccf9KBKqtGElCNdTHdopwKHnOnWlhcCdK
+	yHsdAJRGvFjPD6MhPsDc6lXvcFhji4FD0iaKKctmPbVOV24cdhLczwmkgWoxFQism9aVWYyJy7a
+	J+SKnm0rICLPTIzpWZIfwA8cea9Dt/9yPrYEO679/hu61/RyoLZfkZwkWu23tDbgHZENkw0COEl
+	xjjNX2EZxyqptHW4xUB1IWI2COc6i/dwYZIHwJCchCxHjW7SV6QTRN4Ur83ofPBtMDk0LZeB9Yo
+	Guq2vPLJ
+X-Received: by 2002:a05:6512:1589:b0:5a1:381b:fae2 with SMTP id
+ 2adb3069b0e04-5a162b0d32fmr863539e87.33.1773395050576; Fri, 13 Mar 2026
+ 02:44:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|SJ5PPF64191BB3C:EE_
-X-MS-Office365-Filtering-Correlation-Id: 794a3d5b-acda-48a3-e32d-08de80e2eb91
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: gBShwsQoPSMYhPij73RjSqF92T9wp5RmoiqIl86LGajegBgQPkVreEZIjgi65g4UGsdH44af59uSdf4uL4gbQDnW7sO4fA7XGs8ylBblSA/1rYbjtrSBAxRmqiDBxiH+p3IuZhuIHM0ne0SrwKte1BwJh2yeAzNO8vXN4zHi7oXHUNmxrl52cQAjVznX7cDIJrPXw+/7jtdvRLnCwvjCQTORRa5VtUqgpbyvKxW9YOPW1VH4+EMJtHHCh1YMIodoQ4i9safxTgxWSyVZU9BO2q5YTfYCF8mwK7d/M5y6uFga+sFuQJh6Pa84RHJ4nQG676LELerN06wXtkqpaLwH+NGl9l3Eh+FhSHmkYf9YTcOfMjzmuK4f7riBB/mFGd6DghP+jfW94LTE0tzdoPUfFCpgXE40y8EaUEtDtSlYQ0tCA71oEDAuwD9Dhy/To9OxcIdObbZAKaz67r4g3RmdKMEwn/xbsY7Gju4W32Q8kngFnbxjptgXR1Uv5jdA2aoP8nsQZ5nA2T4TaNhQ15ojngNVNV6HpIpqNfIhstu+qEGgQsnH9uFTwLcb/A31xa+R3Sazd8tF3LMw9Zzy6LW35PwFuVooAinmCrMduPa/Y2k1oRRTgdL8zrGTkeJFEh+U0wRyJLZ7ZViuIDuBsT15Nn2uw4/vo6QmjzilFJEHq2s/KE4GGG6sUZRgr0awloEYcPSyFlriGujL62MqMykISKkCiQrQsNlOL0/2n/+gb6w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YU1KcUNFb0FwV1VVT1JJalFDUUV4ci9pMTVzS3NmMTU3ZUJmdmpJV1paN1ZH?=
- =?utf-8?B?aGlxN0kvT21hZDkzY3QzZjFxVXhpVlpXSHhPRzJ4VU9QU2FEcjJ0RW1BUmh5?=
- =?utf-8?B?K2NGNVkxclFKQUx3YzZWNXJPYUJ6cnkrV1ZacnV1eEk4U0kvZEVEYmsvbnZu?=
- =?utf-8?B?KzE5WTFhVGhoYkUzWXBaaEhiQ0M2V3AzRGRuZ2pPZEFjR1lyMWI5MUNiRVlJ?=
- =?utf-8?B?cnVIV0VFUjU3djhvcTU1T2pWa3MycTJmcEUzNmczOFBOb0QxL3VVbU9WSHNC?=
- =?utf-8?B?ZW9OVjdpaEZlU1BkcmRoaVZabUVVc1RCSlMvMDF0UXB0WjhLQ2Y4eEh5dE92?=
- =?utf-8?B?WjZvWWlrWFVBZE5HdjlYRzZSS0hmbkZIUHBhd0h0bWIzZnRUMmhmZ1Y2UzBl?=
- =?utf-8?B?NGEwTHduekZ4d3lhUnA1YytBNHBXbmZDS2NnY3dEbUxMbitOVWVuc1hFNjJy?=
- =?utf-8?B?ajdma29qUXhIZEdxS091cGR3NkVHZEpzbTg0OW1udXFuR0hnNk5ZZkZWS1pS?=
- =?utf-8?B?SDlRZFFtVUt1RUpjaGhiMGw5S010Rmo2bVBucWJHdlR6VlNGZWU4cFdSSXo3?=
- =?utf-8?B?aTFVSnlzMmkvMkxtODk3OVlneU0zMEhkUjZDV0dPUGhPVzgxNUlYajRISGRT?=
- =?utf-8?B?SGZBcWh6eVEzSjVFZVE3MEdKdUtGSnp5NHZCNGtNQzdXVnMrRXdNdXJybHFO?=
- =?utf-8?B?aWQxY2RrOTNOZDFjRnlLRE0zQmYxSDlzbEtyUmxQM3F0ZmU1UXhlT2NJYzRL?=
- =?utf-8?B?VEdSUXh3UTlBSEVIN2cwQ3k4MElMeVRvWmcxdys1VVJUc1o2N09nTTVrSGlr?=
- =?utf-8?B?b2dDa1UwQnhpbk5iaCs4NVo5UFhidHJTWnBHc04yV2t5aE1xVkNtdkVHdE0y?=
- =?utf-8?B?bGpKZ0daTlY3cmV0dXUrcEhTemNWZXUxQ0l1dHhpZGY4NHJZSG9oSkZROTBY?=
- =?utf-8?B?VURqVFMrekdOVUQzSC9McnAvdkFXL0tpYlFHWm5tM3ZRNUdGQXRHQ3dQWlZQ?=
- =?utf-8?B?R01wcG5GbXlXQ0lQeDFNK1V0TjNNMkx3MlZCenNzb1ZBeUt6ZnBCaUR4bncz?=
- =?utf-8?B?bVFPcnVOc0c5Tm1sVkdEUTk2QThtZ0NLb0lxanlPRDVmSWJWZVdTdVp0U0Y5?=
- =?utf-8?B?WS9PSVEwOWxla1hxbC9ML3hWTElZbzdBN1JkVzdOYmljQlZIeFh4aXVWVHIy?=
- =?utf-8?B?TkhtNzRiTWxySkhCMlgvRFcvWjNVQThJYldTUFh3cEhPcmdqcm5yaDBoRDV3?=
- =?utf-8?B?Z1VLbFRZa1hBWHg1ZUZ6UXpnTmN2Vk43bGlWTVI2RnZDVk5FUVkvd1hya0hi?=
- =?utf-8?B?VW9nU2FnWHVCN2plNHd0UDc5YTlESE5DcDMvU1RJODdTTjN1cFV3TDgrUlN0?=
- =?utf-8?B?NmYxS0RxU3JDNzgrZ2sxVGZka0M3SGJIbjhoNTMzL3RRMnBuc1JTSXpsWjd2?=
- =?utf-8?B?YXVUUTJYcVpRQVc4MFBhUC93S01RYU9lRU9Ma0d6U29Yd0tlK3pKZ3NhS2Jm?=
- =?utf-8?B?UkgyUFFuQkNKMzNlNzd3UHJ2dmVpQzlmdlN1YktCRWtTZ291cUR2OXR0UGF6?=
- =?utf-8?B?YlpUNVFqVmlKa1pQVGpVKzhqNDFRWjVPY0VqbnhlY3IzcDUvemdVZ08wVmxM?=
- =?utf-8?B?NkdRWThFb1RFaUtsVjFwN2Q4RlQzN2hVZDJiNk52TEhkaHVnL3l5MmhMTW01?=
- =?utf-8?B?SlNlNUQ2ZXJjSVlyaklKcDRoVkh1b1ZXNFE3UUs4WGJtOVFETmNQZ20ycHRZ?=
- =?utf-8?B?UENTMHRWRVNOaG9QR0tkU0NVekNTemw1SW4ybUlkdG1ud1pUd2VFSFo5c1VX?=
- =?utf-8?B?U1JZZDZocHFyR2hhNXM3WDlzc3gzMDgyOGNzYlBOS1lhdHpUUmMvWXhNbDJF?=
- =?utf-8?B?U0dpVGhNd1dBRVlyejc4VUJVcUZpT21UcHY2dmFBUGtaWnREUkdvaHYvdGZ4?=
- =?utf-8?B?RUh1bk5YZmVnYzlqdkhiNnFCWGJucFRFWGRNY29rSE95Si8zWFE3ejA5YUp0?=
- =?utf-8?B?VXMyZHNmS3pmYjFHS0Mrd1Z1UTE0L1RZVThiRWxZelZjWWxhdUlPVVJyeG1W?=
- =?utf-8?B?TUc1NjRvOUFzYTdJeCttbHFPK1NOQ1lJTnE2UzZJU3dlTFUzWldTelhsKyta?=
- =?utf-8?B?MkdRTHU5QTJWS0NzeUgyazFuQVM0b0pwVlhUTStxWFZObUV3dWZ1OEUramsr?=
- =?utf-8?B?YzNFN3FBVkNyd3lzNUh4cTExZFJwNm5WdzlzZ3hydSswVENncHRSM0VqTWZl?=
- =?utf-8?B?TjBlaXN1ajR6NG5ubEVjTVNaNm5XSDU0TGU4OVNCL1NXVnUrZkN0UGtMSXF2?=
- =?utf-8?B?MEpkeVd4c0gwU1E4UjlTWE5kTjZpeTVNNlJkU050MWQzZjVCWHRjUGx4L0pt?=
- =?utf-8?Q?9bteObZ5YjAXxwKo=3D?=
-X-Exchange-RoutingPolicyChecked: asuLQ6I7rGKwkmUX4IyIrnutjynaEOM4chIJE7MG1MhuPU9J7hTQ6ocLPqVx8DjfYdKH2BWQpkyXXeYWYZ9t2n5PFLSu3JyboUsz0BPtUrVrC3xTEC+FUSphg3jbcxaFlH0vcOLKaL0FNJjJWsBnsiZLTwoqHKtois/8UlQGrcNOFxHY+Pl36RKqYBSeR/MtwjrO1JxABOzRKbsWR0bX20/BsoxrZPRVdCgah3lRGwoFXgFHUE2v1p1JvmyxOwWO/UkNyBaeiQOrFaxwBBSVfzhmrpQTLv8Og9NvRo5+O6PWehjJuhPd2YlsSanGbI/C4A4BURoVD/V5YAwYzuZ7Ag==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 794a3d5b-acda-48a3-e32d-08de80e2eb91
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 09:28:44.1385
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vo6cpWHZVUUrQy3QZwWkeQENqqCH3vkoNEEJlREf9sq0FEAk0DE1jlLJTq9uGYlZZ7JYwuISutoFe4xaXQCTeHu/gVe+yj9x+3U09pCksM4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF64191BB3C
-X-OriginatorOrg: intel.com
+References: <20260227135428.783983-1-herve.codina@bootlin.com>
+ <20260227135428.783983-3-herve.codina@bootlin.com> <CAMuHMdVVsEB-xb8Jz4ujBam2NxtxAOb7byYa3VR_eHsbTD5rXw@mail.gmail.com>
+ <2026031242-debug-aviation-19b8@gregkh>
+In-Reply-To: <2026031242-debug-aviation-19b8@gregkh>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 13 Mar 2026 10:43:33 +0100
+X-Gm-Features: AaiRm535RzzFrlMRqNsLHd1XM8yzn674dd-38MKB2CsmserIvJfHsK0fUYGtRYw
+Message-ID: <CAPDyKFpX3A3r4s72PNjBz5QaZUsq1xaGhn5vXwegue7Tyh_Zew@mail.gmail.com>
+Subject: Re: [PATCH v5 02/28] driver core: Rename get_dev_from_fwnode()
+ wrapper to get_device_from_fwnode()
+To: Herve Codina <herve.codina@bootlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kalle Niemi <kaleposti@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
+	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linusw@kernel.org>, Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Saravana Kannan <saravanak@google.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-03-13 1:37 AM, Kuninori Morimoto wrote:
-> 
-> Hi Cezary
-> 
->>> I'm against modifying the list unconditionally here.  If the bind fails,
->>> let the order of nodes on the list remain at status quo.
->>> Right now it acts as a "protection" against possible follow ups.  Either
->>> there is a need to modify the list or there is none and don't touch it.
->>
->> Is the list order so important ?
->> The code will be redundant, see blow pseudo code.
-> 
-> Still need feedback
-> 
->> 	snd_soc_register_card() {
->> 		...
->> 		ret = bind_card(...);
->> 		if (ret == 0)
->> 			unbind_list_disconnect();
->> 		else if (reuse && card_is_not_connected_to_unbind_list())
->> 			unbind_list_connect();
->> 	}
+On Thu, 12 Mar 2026 at 16:27, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Mar 10, 2026 at 04:03:42PM +0100, Geert Uytterhoeven wrote:
+> > Hi Herv=C3=A9,
+> >
+> > On Fri, 27 Feb 2026 at 14:55, Herve Codina <herve.codina@bootlin.com> w=
+rote:
+> > > get_dev_from_fwnode() calls get_device() and so it acquires a referen=
+ce
+> > > on the device returned.
+> > >
+> > > In order to be more obvious that this wrapper is a get_device() varia=
+nt,
+> > > rename it to get_device_from_fwnode().
+> > >
+> > > Suggested-by: Mark Brown <broonie@kernel.org>
+> > > Link: https://lore.kernel.org/lkml/CAGETcx97QjnjVR8Z5g0ndLHpK96hLd4aY=
+SV=3DiEkKPNbNOccYmA@mail.gmail.com/
+> > > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > Reviewed-by: Saravana Kannan <saravanak@google.com>
+> > > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+> >
+> > FTR, one more user of get_dev_from_fwnode() appeared in commit
+> > 9035073d0ef1de81 ("reset: convert reset core to using firmware nodes")
+> > in reset/next.
+>
+> Ick, that's going to make this hard to land anywhere.  This is a rough
+> series, perhaps it should be split up to make it easier somehow?
+>
+> thanks,
+>
+> greg k-h
 
-I agree, the above does not look good.  Comments below.
+I fully agree with the above. Renaming the function isn't necessary
+for the $subject series.
 
->>
->> 	snd_soc_unregister_card() {
->> 		...
->> 		unbind_card(...);
->> 		unbind_list_disconnect();
->> 	}
->>
->> 	snd_soc_component_del() {
->> 		...
->> 		ret = unbind_card(...);
->> 		if (ret == 0) || reuse)
->> 			unbind_list_connect();
->> 	}
-> 
-> If my above understanding was correct, I have one concern.
-> 
-> [un]bind_card() and unbind_list_[dis]connect() should be called
-> in the same time. This is rule. But we can't force it.
-> 
-> This means, someone might use [un]bind_card() without using
-> unbind_list_[dis]connect() for some reasons, someday, because
-> he don't know the rule. It creates a hole of rebinding.
-> Actually I found such code many times before during cleanupping.
-> But difficult to notice it, because there is no way to warn it.
-> 
-> My suggestion here is, include unbind_list_[dis]connect() feature
-> inside [un]bind_card() for now, because it should be called in the
-> same time, and it is the rule. We can separate them when such a
-> situation occurs.
+I suggest we simply drop this patch from the series - and if the
+renaming really makes sense in the end, we can deal with that
+separately later on.
 
+So withdrawing my ack from this one.
 
-Hi Kuninori,
-
-All functions manipulating the unbind_card_list are responsible for 
-holding ->client_mutex.  The (re)binding procedure is system-wide 
-operation, not card-wide.  Now, the same ->client_mutex ensures many 
-other procedures performing when (re)binding cards are done 
-synchronously.  I don't think there is a need in listing all benefits of 
-keeping ->client_mutex held.
-
-I'd argue utilizing word "rebind" explicitly makes the things easier to 
-understand.  Current word of choice i.e.: "reuse" is misleading in my 
-opinion.
-
-By the way, I did not see any response in regard to my "squelching 
-EPROBE_DEFER" comment. I'd advice against setting 'ret' to '0'.  Let the 
-caller decide.
-
-Another by the way - perhaps we could start with listing the functions 
-you would like to see AFTER the refactor? e.g.:
-
-snd_soc_card_bind()
-snd_soc_card_rebind()
-snd_soc_card_unbind()
-(...)
-
-Having this in front of us could make painting the detailed picture easier.
-
-
-Kind regards,
-Czarek
+Kind regards
+Uffe
