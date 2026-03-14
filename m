@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3D2346E5D
-	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 20:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFFD346E5D
+	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 20:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773518784; cv=none; b=ffxTE3T4ChrQkIsXeginS6moD27Q3uAIHvgdH3XpnljUBX4N2XVg3vuHgaOEt7dtYGiWYi3+YHwnsVUo3qYYmlScfaQDIHclAFXaqyhZEqYio3R6qxk4PcLPxhnyRZju3RtFdHEtII8Zbu0sTh8D/6bv4ivFcPXd8cGTlH+i9AQ=
+	t=1773518786; cv=none; b=TF8N1rRfpTMulAR6VydkVqtPCrj151P9svypAvC/QaoTbPQjAiShKaX6onyTqPFvLCbdc2ck5a2J+r4ii/qZ6aeId9dHUM90kDGl+Ypp+tPmMeD9tbj4dpNKJ34FQYvssUTSIxyrcZvCb1UPPRm4s72xIsFXrWwAJTzpOkOy/LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773518784; c=relaxed/simple;
-	bh=gga96APA4d4vPBtqeY2+hg8KE2T9YHQssrzwiUu+u1E=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sPCbWqC0kNN8BqHdx96/NEmx1iyvddTZB97mEccCnZvXkedkVvKCAPvGzj8M81owLNiEWvTlIo305cGw5Mu/HrZBI14ZH8ey+D9X0jszxeQ88obwB4wEoX8VImTwmsFoOwg5PTFqEbcdjwSVgBDFE1Thcl+mMv9J0PmVII8IYCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TkRB2r4m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773518786; c=relaxed/simple;
+	bh=CRpVvHo5NMAWjnFPS+Xk6WuqTX911LAf9577oh6RjkA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CmbdLWejP/RdmQpFgBnzBf5283nyTG2ptcbZfTCVaxKr9yHeOeT2+xKdbcWiPFZ0p5j+ZbIoSTmakAxr3lVavrnBVIfQWf11QY6OkwI4Iy4WXzqAl0ghG6E1rqhUwG8A/zOj9UeEoZvAwPWTlfL/KpgvMbjltRaqyRFpIxwXp5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Or9a1UGc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TkRB2r4m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409DAC116C6;
-	Sat, 14 Mar 2026 20:06:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Or9a1UGc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25DC7C2BC86;
+	Sat, 14 Mar 2026 20:06:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773518783;
-	bh=gga96APA4d4vPBtqeY2+hg8KE2T9YHQssrzwiUu+u1E=;
-	h=From:Subject:Date:To:Cc:From;
-	b=TkRB2r4mk1hV3obZJE/RtuM2PFqD6dsQBIPlpLLs5Aivw7/RpoI+1mvbN1HmTtJZ9
-	 29wnToDLh1M9TxA8tXQKBVSae+26eFXaSrMBOb31qVyzyO0FIYAmy7imungm+8okKa
-	 vWRZ36oSKHbN4BxydM1B5pVKfMdSDmnSAMl44fWlZKUwGFDGXWtwjxyGDEfz5pW//j
-	 Gm0uU/kFjraFto0Zk3p99ND5EAARtRr2YcdtxTd/VilLKVv/s5NzqEMuYzisNrDE7p
-	 AiBg5M7SuzJXfTRHYZ6yvb9TNQjxiEbawI9PrYAsPWCujQMMRRxPJ2uotsRgtebeDc
-	 rdvh/iwmDhGiA==
+	s=k20201202; t=1773518785;
+	bh=CRpVvHo5NMAWjnFPS+Xk6WuqTX911LAf9577oh6RjkA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Or9a1UGcUEgYYtcwGOgGK8o0PexDylJuhhPEIJ4Yg7h5bo1gx42/DCPdzFOp/b3OR
+	 b6HJuIwFvK7yXyClBQnOzV4s1ZVq3fdRyL6IYhwYS8OUxVMsFBpVbmfNTeqWM8fGDz
+	 oCQkF/lzQCyopslPH9+hRDPXAqrKvz6RFzuZgCX72DBNHYcWb1L5p8szRu2cFuu+52
+	 u+1m9eQsAZk3ZA60JzHO8VQ/yb9FP0T7+cVIfRS6yg5nXnIexCr9CsukgEWYz2K64f
+	 cvYf+Xw01HJbLcPuzkhhbsZKWAjcW7ZOPyYTwiombnpGDwuUCLW5JscHs+XACgfcSa
+	 uF/8CVkKD7pCQ==
 From: Linus Walleij <linusw@kernel.org>
-Subject: [PATCH 0/5] ASoC: amd: Move to GPIO descriptors
-Date: Sat, 14 Mar 2026 21:06:19 +0100
-Message-Id: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
+Date: Sat, 14 Mar 2026 21:06:20 +0100
+Subject: [PATCH 1/5] ASoC: amd: acp-da7291-max98357a: Drop unused include
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,10 +37,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDY0MT3cTi/GTdxNwUXTPDJEtDgyQTM0NDAyWg8oKi1LTMCrBR0bG1tQB
- zMVgtWgAAAA==
-X-Change-ID: 20260314-asoc-amd-61b910b46110
+Message-Id: <20260314-asoc-amd-v1-1-31afed06e022@kernel.org>
+References: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
+In-Reply-To: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
  Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -48,30 +47,27 @@ To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-After a quick look and test-compile I can determine that
-all of these drivers include <linux/gpio.h> for no reason
-whatsoever, so fixing it is low hanging fruit.
+This driver includes the legacy header <linux/gpio.h> but does
+not use any symbols from it. Drop the inclusion.
 
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
-Linus Walleij (5):
-      ASoC: amd: acp-da7291-max98357a: Drop unused include
-      ASoC: amd: acp-es8336: Drop unused include
-      ASoC: amd: acp-rt5645: Drop unused include
-      ASoC: amd: acp3x-es83x: Drop unused include
-      ASoC: amd: acp3x-rt5682-max9836: Drop unused include
+ sound/soc/amd/acp-da7219-max98357a.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- sound/soc/amd/acp-da7219-max98357a.c          | 1 -
- sound/soc/amd/acp-es8336.c                    | 1 -
- sound/soc/amd/acp-rt5645.c                    | 1 -
- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c | 1 -
- sound/soc/amd/acp3x-rt5682-max9836.c          | 1 -
- 5 files changed, 5 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260314-asoc-amd-61b910b46110
+diff --git a/sound/soc/amd/acp-da7219-max98357a.c b/sound/soc/amd/acp-da7219-max98357a.c
+index 42aa009c4e13..3c08e6e17e41 100644
+--- a/sound/soc/amd/acp-da7219-max98357a.c
++++ b/sound/soc/amd/acp-da7219-max98357a.c
+@@ -11,7 +11,6 @@
+ #include <sound/soc-dapm.h>
+ #include <sound/jack.h>
+ #include <linux/clk.h>
+-#include <linux/gpio.h>
+ #include <linux/module.h>
+ #include <linux/regulator/machine.h>
+ #include <linux/regulator/driver.h>
 
-Best regards,
 -- 
-Linus Walleij <linusw@kernel.org>
+2.53.0
 
