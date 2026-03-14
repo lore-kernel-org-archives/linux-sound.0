@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F81B23EA80;
-	Mon, 16 Mar 2026 01:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250F223D297;
+	Mon, 16 Mar 2026 01:39:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773625139; cv=none; b=EfgKi0QInpzAw4xGuSoXNaGS1DzusqfzX7GMmcbx3cWCkeAf4l+jhGYoq59A3Q5Zb/ucNlxwZCK9GOyUUyorn8adKV0sLW0lxtTRP63iz9IWDKnXUTwT70FSS6Skas5isOcTMFbNGZmLcdMQn258mQg5tA09cxeKTEhozVHUFz4=
+	t=1773625144; cv=none; b=VQf+7OCf93qaQ5VxVDhttKlST+J+WB+Gm+P3VFLofA7C7c/nfxO0+8y2gany7uaynlbbZCvfAyCbLzbkg2PZhxqjE/yT977uE8ny0MVyjJNYUIVAIqi/hyrQcHTWIXBbeAVQ7hm3B2K1K+wXQTqJBRcFBU4QZo6jbCTjnCyiPpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773625139; c=relaxed/simple;
-	bh=MD7PYojK0kdrI2wvTKCzdYny9c0QA8HlfzgZcojibUg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TRiC25vpPvajAfnJKT+BPdeQGvnWcQV1mu4EOA0xMM8OQB32eZtM1Fw3OHCh+Kj7YXdxw7rzMYKJU2KyjxxahXXkCJd3fXS8O1NsSqtMkUt3e5DQJanldE0AgCR5vDcoLhanols4GChmifgZAMr5c6tVPkpvDhjGtiKSlo7GADY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GgYREm/I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773625144; c=relaxed/simple;
+	bh=J78Y2XTwRSWCurMpHf05e+0UMYrY0Drf0+8NhI+OVFk=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qEjs/txCsGyTS+UGnS3S1ZS/lp7JCzWGhgDPaUkrpE77An2bcvmdaXl/NibIn/9Yv/DYtSiDfeXfWtsOykNS88WaxzczYMeSWX72blJUAZkUephUG/W58LrJvabGf2+Df/UgEeY8yH2HcnYy8U3Gi+7xTmRYRemMNzSWkMCqHQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aF5lb7za; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GgYREm/I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 476D0C2BC9E;
-	Mon, 16 Mar 2026 01:38:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aF5lb7za"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122DFC2BC9E;
+	Mon, 16 Mar 2026 01:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773625139;
-	bh=MD7PYojK0kdrI2wvTKCzdYny9c0QA8HlfzgZcojibUg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GgYREm/IvhN1zsen7mIgPTQGCa8VH61yv75VUsrJmPDYtI6MAYIntDH5ePS6+Xkd6
-	 TzyCo25V6vS/0aWDJNA/LqrgAX5JvtAHAk7CtPwRqa3FJpyxpAUt0U0JQgk1G4t9k+
-	 lwHrsKpSBaWB6yNrMvXWyvQwWtL303UXAkQshXAg1D2wqPt6/KwKow313xKrniIrSM
-	 peVjYmOQcia1D74pdnuhWlOQWtKE0KWxWfE8Isj/yLBfuUEc895jjQSTlu1lKEkGKP
-	 n7G7IU1VR8391hzPez9j8Gq3zeLfCwaN6dZqyASpA7aHKs8ELIuTKiNeBdHQx9F9kC
-	 NDPLlfHp5M09w==
+	s=k20201202; t=1773625144;
+	bh=J78Y2XTwRSWCurMpHf05e+0UMYrY0Drf0+8NhI+OVFk=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=aF5lb7zaptbiTAS+bB+5DM/BiI9tZ/884hpTbbW4eyRtlyKfgiR3hmkRiuxf7TYvB
+	 McUOZyGs/8//OMKbdCt/miPtW1v86N57K0mm+qvF3APypzT7CHLXjVYxjLxKuEu7QD
+	 ZxYZkddjtXZpcUwCkJqnZ5WpBAhyAAVioqFnhcmo99n/rbGmGmnAw3v9KjKk6zB1B4
+	 3gCdpb5jZTwzZX0c17Ud3h91LyM7oxQCIReFK/a0jqgiot86foss3delnsNWQly1GM
+	 b74Dgv8A6KbszD1x3ZghdPbveY7YVrsWspf2UjQQ3ssIggnaP6X9KfHeX1xBmWGVHk
+	 qShA1Qkif96+A==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20260311142153.2201761-1-rf@opensource.cirrus.com>
-References: <20260311142153.2201761-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Support clock stop mode 1 if enabled in
- ACPI
-Message-Id: <177352551542.149922.18380269151089936245.b4-ty@kernel.org>
-Date: Sat, 14 Mar 2026 21:58:35 +0000
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260311153548.94265-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260311153548.94265-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: ti,tas2770: Switch to undeprecated
+ reset-gpios
+Message-Id: <177352551157.149922.7226649900109761545.b4-ty@kernel.org>
+Date: Sat, 14 Mar 2026 21:58:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +49,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-5154a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
- h=from:subject:message-id; bh=MD7PYojK0kdrI2wvTKCzdYny9c0QA8HlfzgZcojibUg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt18xrlzT050Q4u85wNMRLpw6gH4buIDq/ehj6
- Ta5md3+TDmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabdfMQAKCRAk1otyXVSH
- 0Ml9B/9pXWRVwNvvsR8kWofGz9/c7WA0L6SfQN7iY/JDvvnK95u1Gn/7U5vA1CdfPuQUfM4Bn3t
- /WuzGcM0kLAtqYnhJvSzeeZ2LbytCml9EGFnsXBJ3NajKCsTmJ0XwDzs752yelG9sq0HtmoX8wR
- +53b4LurjPpwsmq5zweTCA/DNUVbUfOp7MyPYvEFAJljXntMRypx7PSHGaCCpxJYs44RPsVCsi2
- kvc4rmRtN3nlAGbxNZKLKQ0yzsWk7ncpemt2CiWebb73teMAt1OHxiosUid7BEO/mqCa344EUmH
- YKBXkrIz/t9yDvQYtBNSwXMPol/AEMRF7Q9XtmGp9X2KidVY
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=J78Y2XTwRSWCurMpHf05e+0UMYrY0Drf0+8NhI+OVFk=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt181wMaVAaQQp0ZCAUADcMANbG49NjGU706eg
+ 15hdfiomAeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabdfNQAKCRAk1otyXVSH
+ 0IbLB/9mP+bqOXE3nPN9IQuzHkmS2xtJIpPMOyUGP+nmEEC4Ty/8ANmh0UVxWrh47NSDIS8LgLK
+ KaslEZNDstC2TPwBO2Nl6yH1Pvu8Sg8zpSggwgTEipysgZQhjDhIla/OY1nV7ht61iufKDEfVFd
+ qT2+ZggL1XVBr00ZcPyo/c7bCivroHDwCAsy3sqX4fA31PELJ6NYE8asFdhXmMzL1B0q2nJB212
+ 8ocziR07soNEIF15K9cGo3Mcd4qB+RQUwxBTe8d54nDw4++PZYAqjRz2d8ZFLdgaM0dp3OHqBBE
+ ocmi/XWH0N/zY4RTVtz+aG356iRUDxrWUQbZt8TtubJN2kj9
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 11 Mar 2026 14:21:53 +0000, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Support clock stop mode 1 if enabled in ACPI
+On Wed, 11 Mar 2026 16:35:49 +0100, Krzysztof Kozlowski wrote:
+> ASoC: dt-bindings: ti,tas2770: Switch to undeprecated reset-gpios
 
 Applied to
 
@@ -66,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs35l56: Support clock stop mode 1 if enabled in ACPI
-      https://git.kernel.org/broonie/misc/c/48863104d2e1
+[1/1] ASoC: dt-bindings: ti,tas2770: Switch to undeprecated reset-gpios
+      https://git.kernel.org/broonie/misc/c/46b87c37ca4f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
