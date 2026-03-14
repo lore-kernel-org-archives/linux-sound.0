@@ -1,141 +1,163 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E659B1A680B
-	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 02:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A6717B43F
+	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 03:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773455564; cv=none; b=Lhreqy5yuVMyRBTDsbmYBru7MSwNlQN4go4EPFLkgP2zRHi6XupccHE1N+HRnTtfa24Ip8QPySxU0yMfmlKGwzm1HbftTVjh7Sof9T5VKbMAJyIqwunCgmChUwJybi42mgXL5vhuTqfkDwI7nVy6UAX5+i9P+IPLD6Zh3mwg3qE=
+	t=1773459308; cv=none; b=tx7+6VTs1VMwLo0BDrMHRUif4+mSk7tTy6zLdrtOYFSZhJuayJA15Qn5Uhb2yR759qzn2Cprh/R/5UAnh5kQJ3L2s0BWcPeWrtOh4Hftz00A1SDQphD+aTOrarhidL3hOsRVatXHaO2FSHdNw/iaKaPclzK5fjD5+mE9kgDmTNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773455564; c=relaxed/simple;
-	bh=VoXeC9IHasi/UAtluQskzXJbdOFysDaXJJx65ggrMMg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IceeQ/PKyHnkeq+4S5fcFMLnmVzVyNOO4v1eogYzIimrbDyDBYxUdjjOldCR3AcADdgRA1XNiw2blEd09rU63t5Sa8I9ZRvvAcvDjMaiq3dxxsAUVn7rg7JxIKspE4wOVCs2Kid9B0qmZdlNOm4La8TmlB9N9UmKcmw3d+yBV2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TaPh32x2; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1773459308; c=relaxed/simple;
+	bh=bCPDrfSIHgTotXmiaMzTBzeP1LSsPbI6BJ3CRFCDXwU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WnI+OgOKA1BjAsvbLD1QTrb9qyw1qbM/M3xKfcFVWITtBFn1HpunUMWYhTz5skbA3NSVHgS/86QgfR7TS3YMjVxraMVGnXvMQxGprvrFSNqLz4/1z37NBgzGRE12YhVsEBNC8yEUmrkhUim5Ro6AQU4SAWueuhtc0/JHd02N4VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RYUlaAV0; arc=none smtp.client-ip=74.125.82.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TaPh32x2"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ab232cc803so13610915ad.3
-        for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 19:32:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RYUlaAV0"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2beb0246931so1696359eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 20:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773455562; x=1774060362; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QXws6LkfRc01I28IbH0KBFSnQLO6Cva5ehRLzaS0ijo=;
-        b=TaPh32x2C2PPjVi51SR3q9oEfIiZcUM4QOe0xvRNY79z804WsNw5fXXl65BmZ5lwmM
-         4HLkHHFB/Qrqko3BihJf6w0dFbKh10rqO4wLJIw5Crf5QgGoRIatHrbmm6GH3MNiDfrk
-         TJARaEqXHk6Pyb7AUlSBdjN1ljsYvnkq6xdgCo+Dt9sBgx8yGVJDfWeBLd9350HQe4vI
-         O5c5/BrRxghEis/l+C5SJN5eIPpRWCuz2z64cNPkv06JMAqo9AyvrskGickRVZxMFaXR
-         58tOFbEbf5c5a0G/fEWzxDl2jnHNqjcaWqa+DRYCN3mzIlL32i22ILJjLz8QshRZff6s
-         yeLQ==
+        d=gmail.com; s=20230601; t=1773459305; x=1774064105; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JqNMCmmqJDcsaA0VdbH9eNtu9b3dBl63iWS6KS2e2D0=;
+        b=RYUlaAV0bMpoTf486ZptLYTUHpWlSDRqTGG7OYYARYGBOt18DM/swXDxssmRPA/oww
+         6NdAI99kMM3iRFbh3jMRG23HqMA7MhT6LaDpDnTD5iC8+w8vlZTTphgd2f/IT6fgXadc
+         YGnTiPwVWr/3pJ4ovVan67CErLM+ZUq7iR4KexdmEy04VQq+VWJ6Dg+fK94Dow3FHfhc
+         5Weug4HkLu14AHEu5dRtsnCTH9muUhkiMUzQJf5+HSg03LkIog9VRh2IlTz3bcS4+DA1
+         rNsCv/NUTZMBpBpsY/DC5NbxiN2muKR1EOKBMWaBjd6dxGltzN60X7zXrQ+NlfaMtgit
+         /Qdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773455562; x=1774060362;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QXws6LkfRc01I28IbH0KBFSnQLO6Cva5ehRLzaS0ijo=;
-        b=DWDHDUJmorbAtAVqEbfCquTzeHg3ZmpdtnUQqcU+CLcj4LFpv/iuJKRfkl0g4U1gwJ
-         AJvY5fxqiGwVv3HcnOtLESFhbufqxZJ5QZ9Rfp709lKndrSMviAfeL96VUG+7c/nxeBY
-         7qkpeJjAgPbMt3biPCTvFvDfAw1PHrjvC/qr0TBkirglNif3icl3zFH0Cl3CjJQwpWsY
-         hb/jTXnSMs3IxUgnZL+X8z3JawZVmUwBo0lmtb6Lim4X3lbFlSPL1QTZodGChhq9GCSm
-         /iln9WbktuGd6gcLxuet/StbDkeM4I8/gUfRziaCWjbIv664hGgqinuSYPorKYaaQ0l2
-         +YXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPNMVrPyk8prThlAZHCp8M6UMYAKH/bK9YFyqm5UT0LPVw+AYNNtwrhuKNoXMjJNqbI21UEpJawfiYYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1XhveU7KNB9hhv00s+IgqV/Ecqx1p9qJbU9bRLjoMsge0+vh/
-	TQNHC6sJoxq6Z8QeqafbXTTNMHwY+/vR+Sr2qaATE/f7c3gRebKHYuX4
-X-Gm-Gg: ATEYQzyF0jHIbHrkTSznA6Kfj2/FXCEvpGMu617WPuVU3xTZrypZ254djcY69ssY/U1
-	YizMWXosK/unygfvpedsW7GAF1Q+lGn8Bgmpq3IHOh1QZUCjKKDsmKl7L0qljTftMjEWtzjkGJQ
-	jsYi03hu3rVp5nt4zvUJKAGuEiFy0nvmWRblG2wzHNa22YCy6C7yUNxJuT36zcxjyGtbPMfCRbh
-	rYtClrmBubDQy4ktMeN36wsnkxyjR82/i8fuBuh0KlhFDvS9cMyXaABr7nevgyP0gFU8bcKkqMH
-	f5dddU5wCuar2h2NbNIMy+dGnekEmJ7loXUU+cFpwGHNA0M9VQJl6gr92k+CkDYmiWMp9AoGilU
-	+1P/XrVigY2GUxbGZfXgwXUN8RN3vqHafOmww7tyLTvKqBwuiFZ6hPiGdqcBeppcT3B3apqFuCM
-	K21KzrCVnCAkK8Ytl9PsjKlZsW0Bw+NOx/bo0m5+TcfEO8/MISrx1OG0w6oKr04iMObg3vUTjXm
-	8DkT/CQ210i74/uWHSQPdggwBgF3wGg5zo3c0nKPuGKvBc0N1g+60FHbA+N6/i76zv+pl4BIEtF
-	RGKmvVkgSz6c0A==
-X-Received: by 2002:a17:903:28f:b0:2ad:edc4:1796 with SMTP id d9443c01a7336-2aecaa4d681mr54393645ad.39.1773455562268;
-        Fri, 13 Mar 2026 19:32:42 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece8093casm35373165ad.61.2026.03.13.19.32.30
+        d=1e100.net; s=20251104; t=1773459305; x=1774064105;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JqNMCmmqJDcsaA0VdbH9eNtu9b3dBl63iWS6KS2e2D0=;
+        b=GoL+LA0YgqE9Pa8w2OzbIDX020kCZ0uHOh96EMMtz1BhAlrtCoQjbTM4AewW5Hyu7D
+         X1BJ9CDaExCkxZOZwbHLYETHz4z0pCQcl00dP7f3U83YWnoQ5G0xL2GdJnHcCcA8Yk2B
+         G9I7dqHLvJh3SQoZA2Ugi9GvB4GV3Y3Zf2STleeteK6Q93MoIsOSTzX54Mj1pQmoofiq
+         6f7GsHhQCFVRwiDGLNf8LunGRh+6JuJYugxUVuSwUcPJLwCGw7+bp5OWYGFirst2Or/L
+         nfgHHgRw0rqzwPiwUDmnRdocCkFq5/sHUgYXhXY4Vw46CA+aYO0wPpR5PcMhX7NxENH6
+         up2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV1EQbfH7mguB4Qbvi4w9D6K8TPl0dZZUoSjnW8/LJccfMGTzMnq3UgkC6ndbQj6hOlQ3llPHkPKgK/1Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi2tXNT/+fnToYHY64pFuyRggkcX6Wf6wbqW8nJhrAtI3T7YFa
+	jZI02bd4nKHZh5HXD1+rk2TFGheiD+MeL/rOaqJgkUs+1+kZpN8vOL3j
+X-Gm-Gg: ATEYQzylmjvrBYL5DPNF42BbuCsPWmHGLZOeNcgSPAFsyQh12Zw8i1AKI18GKc2sUjY
+	iE//5ZxIlV5htjhBmqXatAOx+/2Frxyz1oc6FFVpKmE76k6vchz96/hMsofHP7qZzGy3ff3QTWK
+	9cnyh+e80mRciuNG/il2yyU7ORP6Ou5k5sCe3CRllwIUCGjqz1t8aWoH1jDR/6mPn1FAtRPT57w
+	yIcltsGCxt7Z5tBR5Q/pwiSDJEm176JGFoLgowZl0wFsQWutqJxWstC7roVW/ciYLCWC5NbmwOX
+	koTZ4jP55ninWETx2emXh79hz50zAmtXnVoO8bgNDaiDbBDDV6BZVJuEPLX9zP/aQiE70QE/Ivz
+	tU/M+asWx/NOQfnP5vahouWiWKQ9/Fq1Vpn9kfQvAHMyLnuMt+3fAIy4paEOhcpehnNIxVH4t2q
+	EtFLMQJbhhv2WhxwKCtMlI/IIWo85J0ANtcyDkuhqHtC3JoylkLZiUZE/TpoMvGUa7JAt23uZAm
+	zaNxiNbAFJ3+Cc=
+X-Received: by 2002:a05:693c:3618:b0:2b6:aeb8:3d8c with SMTP id 5a478bee46e88-2bea55b2a69mr2536272eec.32.1773459304431;
+        Fri, 13 Mar 2026 20:35:04 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-109.user3p.v-tal.net.br. [177.4.161.109])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab5702e5sm5917833eec.29.2026.03.13.20.35.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2026 19:32:41 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
- Frank Li <Frank.Li@nxp.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-Subject:
- Re: [PATCH v3 7/7] ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle
-Date: Sat, 14 Mar 2026 12:32:26 +1000
-Message-ID: <5796105.LvFx2qVVIh@setsuna>
-In-Reply-To: <6a3cc78a-77bc-473e-bfbf-caffbe8f25bb@sirena.org.uk>
-References:
- <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
- <20260301-tdm-idle-slots-v3-7-c6ac5351489a@gmail.com>
- <6a3cc78a-77bc-473e-bfbf-caffbe8f25bb@sirena.org.uk>
+        Fri, 13 Mar 2026 20:35:03 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Sat, 14 Mar 2026 00:34:46 -0300
+Subject: [PATCH] ALSA: usb-audio: validate full match when resolving quirk
+ aliases
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260314-alsa-usb-fix-quirk-alias-v1-1-3269998f7ada@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2M3QpAQBBGX0VzbWrZEl5FLgaDifzstFLy7iaX5
+ +t85wHlIKxQJw8EvkRl3wyyNIF+pm1ilMEYcpcXzmceaVXCqB2OcuMZJSw2CSly1ZfeuY5KX4D
+ dj8Cm/Ommfd8PW9tq8GoAAAA=
+X-Change-ID: 20260313-alsa-usb-fix-quirk-alias-e9c8300ba836
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2575;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=bCPDrfSIHgTotXmiaMzTBzeP1LSsPbI6BJ3CRFCDXwU=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlbrqdu/3TEWDb21XOHnc5MfF2fPGX9V3vZNt1RzJ3Vn
+ fLv93HjjlIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZjIVU+Gv2KRrqb5Mhzfrl9x
+ OiLTfmbFH4VNz7+deTk7qGrR/zDL9omMDEvVb5QoJvoFJUu6rew57WEq55OQrLZH1DhC5NxC++5
+ bHAA=
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On Friday, 13 March 2026 12:33:05=E2=80=AFam Australian Eastern Standard Ti=
-me Mark Brown wrote:
-> On Sun, Mar 01, 2026 at 06:05:26PM +1000, James Calligeros wrote:
-> > +static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
-> > +				    unsigned int tx_mask,
-> > +				    unsigned int rx_mask,
-> > +				    int tx_mode, int rx_mode)
-> > +{
-> >=20
-> > +	switch (tx_mode) {
-> > +	case SND_SOC_DAI_TDM_IDLE_PULLDOWN:
-> > +		ret =3D snd_soc_component_update_bits(component, TAS2770_DIN_PD,
-> > +						    TAS2770_DIN_PD_SDOUT,
-> > +						    TAS2770_DIN_PD_SDOUT);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		break;
->=20
-> This and all the other cases only updates the bits it's specifically
-> setting for the mode, so _ZERO and _HIZ don't update the pull and this
-> doesn't update the _KEEP/_FILL settings.  Not sure how often anyone is
-> going to change this at runtime though.
+get_alias_quirk() resolves a quirk for an aliased USB ID by scanning
+usb_audio_ids[], but it currently checks only the vendor/product pair.
 
-I didn't notice any side effects caused by not explicitly turning off
-the weak pulldown, but it makes sense to do if the consumer has asked
-for a mode that is not pulldown.
+This can make an aliased ID pick the first entry with a matching
+vid:pid even when that entry also depends on interface descriptor
+fields that do not match the actual device or interface.
 
-> > +	case SND_SOC_DAI_TDM_IDLE_OFF:
-> > +		ret =3D snd_soc_component_update_bits(component, TAS2770_DIN_PD,
-> > +						    TAS2770_DIN_PD_SDOUT, 0);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		ret =3D snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG=
-4,
-> > +						    TAS2770_TDM_CFG_REG4_TX_KEEPER, 0);
->=20
-> Actually this does _KEEP but not _FILL.
+Fix it by re-checking each aliased candidate with usb_match_one_id()
+against the real interface before returning the quirk.
 
-_KEEPER is the important one. _FILL just controls the behaviour
-of the bus keeper (zero or Hi-Z) when _KEEPER is set. If _KEEPER is
-cleared, the bus keeper is turned off and the value of _FILL doesn't
-matter.
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/usb/card.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 270dad84d825..ff4418017763 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -870,17 +870,28 @@ static void find_last_interface(struct snd_usb_audio *chip)
+ 
+ /* look for the corresponding quirk */
+ static const struct snd_usb_audio_quirk *
+-get_alias_quirk(struct usb_device *dev, unsigned int id)
++get_alias_quirk(struct usb_interface *intf, unsigned int id)
+ {
+ 	const struct usb_device_id *p;
++	struct usb_device_id id_alias;
+ 
+ 	for (p = usb_audio_ids; p->match_flags; p++) {
+-		/* FIXME: this checks only vendor:product pair in the list */
+ 		if ((p->match_flags & USB_DEVICE_ID_MATCH_DEVICE) ==
+ 		    USB_DEVICE_ID_MATCH_DEVICE &&
+ 		    p->idVendor == USB_ID_VENDOR(id) &&
+-		    p->idProduct == USB_ID_PRODUCT(id))
+-			return (const struct snd_usb_audio_quirk *)p->driver_info;
++		    p->idProduct == USB_ID_PRODUCT(id)) {
++			/*
++			 * Re-check the aliased entry against the actual
++			 * interface descriptors instead of matching only
++			 * the vendor/product pair.
++			 */
++			id_alias = *p;
++			id_alias.idVendor = USB_ID_VENDOR(id);
++			id_alias.idProduct = USB_ID_PRODUCT(id);
++
++			if (usb_match_one_id(intf, &id_alias))
++				return (const struct snd_usb_audio_quirk *)p->driver_info;
++		}
+ 	}
+ 
+ 	return NULL;
+@@ -931,7 +942,7 @@ static int usb_audio_probe(struct usb_interface *intf,
+ 	id = USB_ID(le16_to_cpu(dev->descriptor.idVendor),
+ 		    le16_to_cpu(dev->descriptor.idProduct));
+ 	if (get_alias_id(dev, &id))
+-		quirk = get_alias_quirk(dev, id);
++		quirk = get_alias_quirk(intf, id);
+ 	if (quirk && quirk->ifnum >= 0 && ifnum != quirk->ifnum)
+ 		return -ENXIO;
+ 	if (quirk && quirk->ifnum == QUIRK_NODEV_INTERFACE)
+
+---
+base-commit: 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
+change-id: 20260313-alsa-usb-fix-quirk-alias-e9c8300ba836
+
+Best regards,
+-- 
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
