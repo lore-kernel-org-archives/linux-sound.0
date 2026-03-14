@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91394383C60
-	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 20:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB5226E711
+	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 20:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773518791; cv=none; b=GnvLxbXBDw9sg2YmrqEHBTJUZpB9Byid3h/PSHnNazhevhviTerUm1iw5MNcerE1vaK6hCptPpMOQ0+7BxAY+3Klt/DlPSapP2bclqot/u9ptBsGkBsMocWgKa+1jrtihlttTL8uYC3v76RH2yhUPcua2ApRy0VHMAH8Gp4Q5X8=
+	t=1773518793; cv=none; b=sa2a/dDsUwdmF463v3/ZLsHTN8RPEqZ58ZfOYRyUMO+VU9hPYUPgPz6K/5JmcG3ndked/sOU5HDIt1iDvv/IMpwHx1EubJsBjyuIE0fhrzTtzTZCBTMRfs0cdv1Sd1Ch9MdXW84FopLaxzWsW3BMFwyY+j1TX748L/DBqRrzPmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773518791; c=relaxed/simple;
-	bh=ochsV4fpYTScVuvYcFWhfGIvcOLYT123ueGh5r1UqpQ=;
+	s=arc-20240116; t=1773518793; c=relaxed/simple;
+	bh=pKTbBNm6M9yjEKbvryVHNC+FzXbWUf7dbfkGsgux1Ng=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bqnpidjJGLcBfRPWHvurAP5tmosajKWQucyxdBdJsPdbpevbylKBJdwP9jF6WkpDtSoay6HGL2nukbOsm/O5BcoVZKoSFAGqhQg600AiG7LDZUVdo3qQRkuxDC69Hm+W+TXrm19Z2e2YTaOhpJpJMuZvSCdl5GBhVqKEBHvVDwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pd9Y3y5q; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=LEuA0AQX1IJCZT7ai3lZrAzOLQi0QMhDfn6t/tK798zCK4RaFJWiFO240vJ347tEui3GYH5CGdk0bqYCPtdUs1YJK0I04GhLSc05Aje4kWSo45Y5n7QINoLX00bac2zBphyGLsphpfPKVTSpai/557ydvRjalEdCqmlLyboA6do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iH8VqRcy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pd9Y3y5q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97ECC2BC86;
-	Sat, 14 Mar 2026 20:06:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iH8VqRcy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF832C19425;
+	Sat, 14 Mar 2026 20:06:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773518791;
-	bh=ochsV4fpYTScVuvYcFWhfGIvcOLYT123ueGh5r1UqpQ=;
+	s=k20201202; t=1773518793;
+	bh=pKTbBNm6M9yjEKbvryVHNC+FzXbWUf7dbfkGsgux1Ng=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Pd9Y3y5qWq9wlF679A3o6q91QmLnY54TYnZLU0hErAnpxIY2iHKrt3cPK+wmmpczz
-	 0Da2p08OkRCeeUi0URBEi6GMbMkLGzNQ86KQnS2hOOroWMTt3yZNb5/9DElMsBhSpK
-	 teO9u8lCO4KWkF9SSNN97AFoL3YIDCueaGBfwWDN1AfK8Zw4M2iYagSKFQTrGOszZL
-	 7mpmm9x7t9+sWlTD6AhMlLeQm3PJmLF3okkZP8szKjZ42LYohWV7mMOfLsclxA8Gr8
-	 zpzR6sHd8FAQ88/0cJJuhtWiIBFr/rM62GIBBIgsullMI2CBf33qz8bUdeCJ0RExgh
-	 d2FuaztZ4PANQ==
+	b=iH8VqRcymy8EAx8+O6HkKR7r5IpW9X9/g/3hfelgml6PMIuC26ZeMw4wbHU6lYwLR
+	 Z2XEiIcgHA4Hj4O4K81FE0BjxyNZFNVzFVJ8SRKqfNdvSx9cRn/G1nYNKikhJqX55R
+	 Qz9WlMtocIjmwUtNwBxUh9Jo4brZkjBxoqk/+M/SpAJvCeBU90F7mVtEPXCEPjb1NI
+	 a4UszVCNw6SlERe8CMBPtJG7ztn9OYeWS/3obNnKRemPhvklsGV616vZqpvCu49xpI
+	 0461BQiZER9g0KGqXMxF45FWNNek9yY6qGwIsPJLVmjAf3AE42pjXlOUyPkdDrJhsa
+	 O+VoVZZXcYwnA==
 From: Linus Walleij <linusw@kernel.org>
-Date: Sat, 14 Mar 2026 21:06:23 +0100
-Subject: [PATCH 4/5] ASoC: amd: acp3x-es83x: Drop unused include
+Date: Sat, 14 Mar 2026 21:06:24 +0100
+Subject: [PATCH 5/5] ASoC: amd: acp3x-rt5682-max9836: Drop unused include
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260314-asoc-amd-v1-4-31afed06e022@kernel.org>
+Message-Id: <20260314-asoc-amd-v1-5-31afed06e022@kernel.org>
 References: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
 In-Reply-To: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
@@ -52,16 +52,16 @@ not use any symbols from it. Drop the inclusion.
 
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c | 1 -
+ sound/soc/amd/acp3x-rt5682-max9836.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
-index 141ea4787d99..46fff565d732 100644
---- a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
-+++ b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
+diff --git a/sound/soc/amd/acp3x-rt5682-max9836.c b/sound/soc/amd/acp3x-rt5682-max9836.c
+index 4ca1978020a9..39e1a355e157 100644
+--- a/sound/soc/amd/acp3x-rt5682-max9836.c
++++ b/sound/soc/amd/acp3x-rt5682-max9836.c
 @@ -11,7 +11,6 @@
+ #include <sound/soc-dapm.h>
  #include <sound/jack.h>
- #include <sound/soc-acpi.h>
  #include <linux/clk.h>
 -#include <linux/gpio.h>
  #include <linux/gpio/consumer.h>
