@@ -1,183 +1,141 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E2927466A
-	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 00:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E659B1A680B
+	for <linux-sound@vger.kernel.org>; Sat, 14 Mar 2026 02:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773448043; cv=none; b=LncmBtKYlZsM+To4+R63VN61LKjex+Zchchvfv4XJwg1iI0Gz2amMgp0V19WO6VfzCz7ORGUT6oVoD+ZowdaW6CkStKM9kX3SpsqK5DBK3OTtsMFHT9T296/0nBhZQpNWiQIhqevyO0ncMxOGH1708XMyzv/gZF+s0e+AnN6/f8=
+	t=1773455564; cv=none; b=Lhreqy5yuVMyRBTDsbmYBru7MSwNlQN4go4EPFLkgP2zRHi6XupccHE1N+HRnTtfa24Ip8QPySxU0yMfmlKGwzm1HbftTVjh7Sof9T5VKbMAJyIqwunCgmChUwJybi42mgXL5vhuTqfkDwI7nVy6UAX5+i9P+IPLD6Zh3mwg3qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773448043; c=relaxed/simple;
-	bh=Sqx3SXPJXXnhV+A3P+IhV85mWKhQbsDPRWBYpEMIubE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PiKLuplPTVYc4vUAwrfCuPs2oJ2e2arQlo6YZY963ZiUBet2Bb2lp7pOsa8oX2M1TRqqsWzQ8rjedTt7Njh4oMeEK6NBLbjL+iz14AiSK+zBIgOZ4Q8oNzZ91SvV9K7HsQeY/RNBtm1nXeD+SlCUIiFL76kEKeFIywEPIsSgxoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlKrXrEf; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1773455564; c=relaxed/simple;
+	bh=VoXeC9IHasi/UAtluQskzXJbdOFysDaXJJx65ggrMMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IceeQ/PKyHnkeq+4S5fcFMLnmVzVyNOO4v1eogYzIimrbDyDBYxUdjjOldCR3AcADdgRA1XNiw2blEd09rU63t5Sa8I9ZRvvAcvDjMaiq3dxxsAUVn7rg7JxIKspE4wOVCs2Kid9B0qmZdlNOm4La8TmlB9N9UmKcmw3d+yBV2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TaPh32x2; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlKrXrEf"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c70fb6aa323so1143099a12.3
-        for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 17:27:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TaPh32x2"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ab232cc803so13610915ad.3
+        for <linux-sound@vger.kernel.org>; Fri, 13 Mar 2026 19:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773448041; x=1774052841; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MEcjecI/5dgQBjsSrAQH+cGhELB2YBKO6wW+gUuNwdI=;
-        b=HlKrXrEf9Flh9bmr24k89wwJRc98vvVeEChu7UDUn2hpHJur47ipVj9yLrWutv5UDC
-         lAju5CUBxMkyQbCabCOP4yaFsLgBk3xbbdzw9M9yHqataKQqWZOXZNnhSpcAfXxJFoLT
-         9u5kfX9IdSAI+es6FuFC9becwkNNEumYcP53jBTA1+cNZvOSuQlD1UDEY1i9qgY3hiFn
-         DbV0ci/yVhZqXzp/Zzmnl6+wZxxXIozL2P1Hrlad7yoPlt1s/NBvnw6gugf2DcW/P+23
-         L+JELVc7rIt+P3E3T36Ck2V42hNTaqa98hKzgFxFX9arxkkrjRoc7VDd7G8pxkpnLFXq
-         xPJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773448041; x=1774052841;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773455562; x=1774060362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MEcjecI/5dgQBjsSrAQH+cGhELB2YBKO6wW+gUuNwdI=;
-        b=jfxUSOJP5K6/9fqt9uQTyvPP8lnxQAHx10cBrkSB4UNfmAJs1CZUlwwX6tMzruhzlR
-         Pp1bofsgrJ3/USPhmlqNSJWmXcNFXYRpBQyvpvVxTOZrC7JUgOWlqrm8sNf7hhFVPBG+
-         pxJfXzurZh5Ss+58fE4QskF01k8JN66hrWgq2GHSXAW6qCGKp2U2V3guFK229iRSKDt0
-         sBEzbZPW/nWXsz+Y28iuCBp5EeggOMR4oBu/bips5pfgRKO9aGk/hzpcrZqjVdbzva3a
-         RsfINMEw6Wr3kxnBgmmE//vfSrLqOd63c/gucJfUET+Kvdpz8WJr+OinJQvIAGoeDDiO
-         rkOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVsPxsgaMmaoxiCGfu/xuIskkvGvMuCvORXeP2CqeJWvp9ELEVReRe3kF47K5Os/57mI34YDgGGO28ZwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBvs6Hug4Da7m6m2oaBF4oQeb33lYaF9IT59N55xzk2pIgyUqt
-	cjKuXWo1M44a15p126A1GTdGo0MsN7jEYEsS6ZF35yrYmdrweeQShQzLyyuPJg==
-X-Gm-Gg: ATEYQzx9d5HORfIRCWMyhIrCQjtY10S13UMedgJtVjpAsWw1x/+riaa/4lfNqin/aPD
-	XG5bL4hrOw7xwBbMfNoYGcQQWS2WWubn2EqRsh72QYPRXUORHzVT5gzzkIYBwrdxCAUqTg7+8xM
-	sfRUzEvELEYF+egun2t4yTT6vwu6Y94pLb1EdTWB7INe5BKpEgph2Emi6ecn8xz1YK91dQ1foFs
-	F22yB7V3MBIodUa3X+lAjFwD3IHCwYWS6c1wes01Y/a6GHz+MBSorKMr0H7MxJVXikJk5J5Gt++
-	cT7JVwRqbHkKDVILRw0pL0OK6K92hli9AQtmkiRP+CbfujANTcLZp1wwpQ6vQq0rND6uPl5yb8B
-	PGrD7cl0pGp4Kh6bNABtVEvxTjrc3wQtBsvBt2pNECDNtwE6N+nYSXRDNIQoPBJrm+QOA9RzXfD
-	+INE9FvFza2Q5AqhuTjoCfppPsKy/dQQ2Up1P+y/wmbwC8+E31UmddGgQ1Ha4opSZ5N6WJ7ZbuF
-	79jkXFHjWRXQHNuC9hTe2wK/iJPEkpxktZLmQvw3gJkewbkCPkZ1IjfNQLbHByi9Cre9Lr+1IMy
-X-Received: by 2002:a17:90b:574f:b0:356:24f0:aef5 with SMTP id 98e67ed59e1d1-35a21fd71f2mr4196895a91.22.1773448041331;
-        Fri, 13 Mar 2026 17:27:21 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35a02ba23adsm9409521a91.0.2026.03.13.17.27.16
+        bh=QXws6LkfRc01I28IbH0KBFSnQLO6Cva5ehRLzaS0ijo=;
+        b=TaPh32x2C2PPjVi51SR3q9oEfIiZcUM4QOe0xvRNY79z804WsNw5fXXl65BmZ5lwmM
+         4HLkHHFB/Qrqko3BihJf6w0dFbKh10rqO4wLJIw5Crf5QgGoRIatHrbmm6GH3MNiDfrk
+         TJARaEqXHk6Pyb7AUlSBdjN1ljsYvnkq6xdgCo+Dt9sBgx8yGVJDfWeBLd9350HQe4vI
+         O5c5/BrRxghEis/l+C5SJN5eIPpRWCuz2z64cNPkv06JMAqo9AyvrskGickRVZxMFaXR
+         58tOFbEbf5c5a0G/fEWzxDl2jnHNqjcaWqa+DRYCN3mzIlL32i22ILJjLz8QshRZff6s
+         yeLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773455562; x=1774060362;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QXws6LkfRc01I28IbH0KBFSnQLO6Cva5ehRLzaS0ijo=;
+        b=DWDHDUJmorbAtAVqEbfCquTzeHg3ZmpdtnUQqcU+CLcj4LFpv/iuJKRfkl0g4U1gwJ
+         AJvY5fxqiGwVv3HcnOtLESFhbufqxZJ5QZ9Rfp709lKndrSMviAfeL96VUG+7c/nxeBY
+         7qkpeJjAgPbMt3biPCTvFvDfAw1PHrjvC/qr0TBkirglNif3icl3zFH0Cl3CjJQwpWsY
+         hb/jTXnSMs3IxUgnZL+X8z3JawZVmUwBo0lmtb6Lim4X3lbFlSPL1QTZodGChhq9GCSm
+         /iln9WbktuGd6gcLxuet/StbDkeM4I8/gUfRziaCWjbIv664hGgqinuSYPorKYaaQ0l2
+         +YXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPNMVrPyk8prThlAZHCp8M6UMYAKH/bK9YFyqm5UT0LPVw+AYNNtwrhuKNoXMjJNqbI21UEpJawfiYYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1XhveU7KNB9hhv00s+IgqV/Ecqx1p9qJbU9bRLjoMsge0+vh/
+	TQNHC6sJoxq6Z8QeqafbXTTNMHwY+/vR+Sr2qaATE/f7c3gRebKHYuX4
+X-Gm-Gg: ATEYQzyF0jHIbHrkTSznA6Kfj2/FXCEvpGMu617WPuVU3xTZrypZ254djcY69ssY/U1
+	YizMWXosK/unygfvpedsW7GAF1Q+lGn8Bgmpq3IHOh1QZUCjKKDsmKl7L0qljTftMjEWtzjkGJQ
+	jsYi03hu3rVp5nt4zvUJKAGuEiFy0nvmWRblG2wzHNa22YCy6C7yUNxJuT36zcxjyGtbPMfCRbh
+	rYtClrmBubDQy4ktMeN36wsnkxyjR82/i8fuBuh0KlhFDvS9cMyXaABr7nevgyP0gFU8bcKkqMH
+	f5dddU5wCuar2h2NbNIMy+dGnekEmJ7loXUU+cFpwGHNA0M9VQJl6gr92k+CkDYmiWMp9AoGilU
+	+1P/XrVigY2GUxbGZfXgwXUN8RN3vqHafOmww7tyLTvKqBwuiFZ6hPiGdqcBeppcT3B3apqFuCM
+	K21KzrCVnCAkK8Ytl9PsjKlZsW0Bw+NOx/bo0m5+TcfEO8/MISrx1OG0w6oKr04iMObg3vUTjXm
+	8DkT/CQ210i74/uWHSQPdggwBgF3wGg5zo3c0nKPuGKvBc0N1g+60FHbA+N6/i76zv+pl4BIEtF
+	RGKmvVkgSz6c0A==
+X-Received: by 2002:a17:903:28f:b0:2ad:edc4:1796 with SMTP id d9443c01a7336-2aecaa4d681mr54393645ad.39.1773455562268;
+        Fri, 13 Mar 2026 19:32:42 -0700 (PDT)
+Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece8093casm35373165ad.61.2026.03.13.19.32.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2026 17:27:20 -0700 (PDT)
+        Fri, 13 Mar 2026 19:32:41 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 14 Mar 2026 10:27:11 +1000
-Subject: [PATCH v2] ASoC: codecs: cs42l84: set up PLL for more sample rates
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+ Frank Li <Frank.Li@nxp.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject:
+ Re: [PATCH v3 7/7] ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle
+Date: Sat, 14 Mar 2026 12:32:26 +1000
+Message-ID: <5796105.LvFx2qVVIh@setsuna>
+In-Reply-To: <6a3cc78a-77bc-473e-bfbf-caffbe8f25bb@sirena.org.uk>
+References:
+ <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+ <20260301-tdm-idle-slots-v3-7-c6ac5351489a@gmail.com>
+ <6a3cc78a-77bc-473e-bfbf-caffbe8f25bb@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260314-cs42l84-rates-v2-1-ea8a5af52542@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAF6rtGkC/3WMzQqDMBCEX0X23JT8GK099T2KhxC3uqBGshJaJ
- O/e1HuZ0zfDfAcwRkKGe3VAxERMYS2gLxX4ya0jChoKg5a6kUa2wnOt51stotuRhe9QGyyj7AY
- ony3ii96n79kXnoj3ED+nPqlf+8+UlCjx1jrbtEYa9RgXR/PVhwX6nPMXCa2Ft6oAAAA=
-X-Change-ID: 20260307-cs42l84-rates-c9e23e20209d
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3538;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=Sqx3SXPJXXnhV+A3P+IhV85mWKhQbsDPRWBYpEMIubE=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJlbVqdMfPT4rqoTr8vCmf9uujN5Kt3/+VLs3ey88zq+N
- 8I3Hm2I7pjIwiDGxWAppsiyoUnIY7YR281+kcq9MHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
- oZGOsY4RAxenAEy11wlGhme8M1OfVjmtmWp3daeHWcCy3fMlSjVreK5WCqZV5t86bMXIsGVOsg4
- T79rdTfefr9ynzCnwlmW2x12G9525rPVLO97tZgAA
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Previously, this driver only advertised support for 48 kHz and
-96 kHz sample rates, as there was no PLL configuration data
-specified for any other sample rate/BCLK.
+On Friday, 13 March 2026 12:33:05=E2=80=AFam Australian Eastern Standard Ti=
+me Mark Brown wrote:
+> On Sun, Mar 01, 2026 at 06:05:26PM +1000, James Calligeros wrote:
+> > +static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+> > +				    unsigned int tx_mask,
+> > +				    unsigned int rx_mask,
+> > +				    int tx_mode, int rx_mode)
+> > +{
+> >=20
+> > +	switch (tx_mode) {
+> > +	case SND_SOC_DAI_TDM_IDLE_PULLDOWN:
+> > +		ret =3D snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+> > +						    TAS2770_DIN_PD_SDOUT,
+> > +						    TAS2770_DIN_PD_SDOUT);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		break;
+>=20
+> This and all the other cases only updates the bits it's specifically
+> setting for the mode, so _ZERO and _HIZ don't update the pull and this
+> doesn't update the _KEEP/_FILL settings.  Not sure how often anyone is
+> going to change this at runtime though.
 
-The CS42L84 is an Apple-specific variant of CS42L42. The PLL
-configuration parameters for a variety of common BCLKs are
-available in the latter's datasheet. What happens if we just
-use those? As it turns out, they work just fine.
+I didn't notice any side effects caused by not explicitly turning off
+the weak pulldown, but it makes sense to do if the consumer has asked
+for a mode that is not pulldown.
 
-Fill out more PLL config parameters in the PLL config lookup
-table, and advertise the corresponding sample rates to userspace.
-This enables 44.1, 88.2, 176.4 and 192 kHz output and input.
+> > +	case SND_SOC_DAI_TDM_IDLE_OFF:
+> > +		ret =3D snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+> > +						    TAS2770_DIN_PD_SDOUT, 0);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		ret =3D snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG=
+4,
+> > +						    TAS2770_TDM_CFG_REG4_TX_KEEPER, 0);
+>=20
+> Actually this does _KEEP but not _FILL.
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
-Changes in v2:
-- Added explicit handling of new MCLK values to MCLK_F config
-- Added comment explaining the MCLK_F config process
-- Link to v1: https://lore.kernel.org/r/20260307-cs42l84-rates-v1-1-1c55a5673031@gmail.com
----
- sound/soc/codecs/cs42l84.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+_KEEPER is the important one. _FILL just controls the behaviour
+of the bus keeper (zero or Hi-Z) when _KEEPER is set. If _KEEPER is
+cleared, the bus keeper is turned off and the value of _FILL doesn't
+matter.
 
-diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
-index 1e1307a16f81..e590a43559e4 100644
---- a/sound/soc/codecs/cs42l84.c
-+++ b/sound/soc/codecs/cs42l84.c
-@@ -357,8 +357,11 @@ struct cs42l84_pll_params {
-  * Common PLL Settings for given BCLK
-  */
- static const struct cs42l84_pll_params pll_ratio_table[] = {
-+	{  2822400, 1, 0, 0x40, 0x000000, 0x03, 0x10, 11289600},
- 	{  3072000, 1, 0, 0x40, 0x000000, 0x03, 0x10, 12288000},
-+	{  5644800, 1, 0, 0x40, 0x000000, 0x03, 0x10, 11289600},
- 	{  6144000, 1, 1, 0x40, 0x000000, 0x03, 0x10, 12288000},
-+	{ 11289600, 0, 0, 0, 0, 0, 0,                 11289600},
- 	{ 12288000, 0, 0, 0, 0, 0, 0,                 12288000},
- 	{ 24576000, 1, 3, 0x40, 0x000000, 0x03, 0x10, 12288000},
- };
-@@ -408,11 +411,18 @@ static int cs42l84_pll_config(struct snd_soc_component *component)
- 		CS42L84_ASP_FSYNC_CTL3_BCLK_PERIOD_HI,
- 		FIELD_PREP(CS42L84_ASP_FSYNC_CTL3_BCLK_PERIOD_HI, fsync >> 7));
- 
--	/* Save what the MCLK will be */
-+	/*
-+	 * MCLK values are binned into 12 or 24 MHz regions. If MCLK is exactly
-+	 * 12 or 24 MHz, the high bit of CCM_CTL1_MCLK_F is set. If MCLK
-+	 * is in the region of 24 MHz, the low bit is set. This seemingly
-+	 * corresponds to CS42L42's documented INTERNAL_FS and MCLKDIV
-+	 * behaviour respectively.
-+	 */
- 	switch (pll_ratio_table[i].mclk_int) {
- 	case 12000000:
- 		cs42l84->pll_mclk_f = CS42L84_CCM_CTL1_MCLK_F_12MHZ;
- 		break;
-+	case 11289600:
- 	case 12288000:
- 		cs42l84->pll_mclk_f = CS42L84_CCM_CTL1_MCLK_F_12_288KHZ;
- 		break;
-@@ -670,14 +680,18 @@ static struct snd_soc_dai_driver cs42l84_dai = {
- 			.stream_name = "Playback",
- 			.channels_min = 1,
- 			.channels_max = 2,
--			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000,
-+			.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
-+				SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000 |
-+				SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_192000,
- 			.formats = CS42L84_FORMATS,
- 		},
- 		.capture = {
- 			.stream_name = "Capture",
- 			.channels_min = 1,
- 			.channels_max = 1,
--			.rates = SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000,
-+			.rates = SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 |
-+				SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000 |
-+				SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_192000,
- 			.formats = CS42L84_FORMATS,
- 		},
- 		.symmetric_rate = 1,
-
----
-base-commit: c40816209b5768d45aabb81f9c6ff8296ec58c32
-change-id: 20260307-cs42l84-rates-c9e23e20209d
-
-Best regards,
--- 
-James Calligeros <jcalligeros99@gmail.com>
 
