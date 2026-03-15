@@ -1,76 +1,123 @@
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E1F37AA7D;
-	Sun, 15 Mar 2026 20:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEAF18DB26
+	for <linux-sound@vger.kernel.org>; Sun, 15 Mar 2026 20:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773606041; cv=none; b=lVNOD1OhRf19GjN1j7V2wRDKTTyrlkJtoKnrnRiuoElj7WaNrzjR2cxw7QVdKY6aWmy+5qIm+7Knk+JNi1lbkJMrnDUYHyIfGgB0j9QlMQz9J+GrinADjAYnCt5TOzoI9uDmQqqsE4SryR20/QQqKiP4LXmFkMwvbQVNbf7Gw9c=
+	t=1773606089; cv=none; b=etVhQDjU2b7N33tyMQZGhGefgUG7DrQWTt8HV7gtCj8MP50PciQn5m2P5GJpzm9YZfouUGxMCJik5gBRYV8HOxV0xJubiq2eYfoAoLKLbFEI9OWjPWAzWRJrdzSBtLZ07ZfiSlY6qexL3YJ3TWXbm8EdpejGfcHvYWILGIX6cpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773606041; c=relaxed/simple;
-	bh=8oBjD1my2oSRQYAz2pTBXFGPvvDaY74jbcL5KbYWWq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cfzDS32dXdLSNCwjYDfstQMnagjfF3EeKEDiV5USI+IycFSuHlhp6dhEQkdzHEZUJcKv3J5Bj+o6rf3S8eGJbA3cZqD/eXKtY9BIlqlASeekWW2OdbDCQ9MBiwsUyTWXwMK4m2gBU+oSJV64NLTL9XGcb8NhXhEo5ijE2XfmRms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=P/mmP+F1; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
+	s=arc-20240116; t=1773606089; c=relaxed/simple;
+	bh=fGUqqEPlPRkHyfhJc4wI4aDGbLOl/Z45C+DwOJyvO9s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IXkdg7N5EV+vdPCkaVBhYKFGXpdSQ17xnm3u1g+oZe3GQFNL7Hx88C5zmR7rl4qfMLbMfJ1pwli5/3BznltEXwX7Cvs9ITChrZ0Hj71iMNxrVzpYxpEOWr7uufwzSym7z0o9olqML7t+MNTGqHN440RlFnDuAmrnw/RirQ02FYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/j9VrpD; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="P/mmP+F1"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 54136285F7D;
-	Sun, 15 Mar 2026 21:20:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1773606038; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=jizx7hmuCMvbSEtEzRzJGy/IhSd82wJw6JKzmWM3Xaw=;
-	b=P/mmP+F15KGYfuxJ5Po+FivErO9LuQw72E0Dn7DpmOOzKVyR7OhDb5o8pjZWO1RIyHGJk+
-	zRPV6LjTS3xMXZKoxL5owD/pAvFEDaSolSZHCUScRTCIikqZ2NGtk2hN96gJioQNgF5pqS
-	K4nA0aIqcduFffY14sRuiLmffffGTdyE0EP0mWDYdTnS95X8BTMWkU4jV2KgnEye6XqWhK
-	Io6kzuaesMvv86QrS2owlIc+jKd039dhjMipwJ6/Ynk4TVEtw07gX0moGd+D6/iU5E/Tki
-	E4rj4F5emqt8ZW3SU/X+vt36yl28K3AJTkbVmjWg7Ya63lHZPiej3p6pVNmbMw==
-Message-ID: <0b451f26-fea6-4a4c-b986-228de98e566b@cachyos.org>
-Date: Sun, 15 Mar 2026 20:20:00 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/j9VrpD"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c73c990a96dso1395155a12.0
+        for <linux-sound@vger.kernel.org>; Sun, 15 Mar 2026 13:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773606088; x=1774210888; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bcMtyOuNxiQeDRBaoHbV4sOpSs/qWZfLEvrgpznC6B8=;
+        b=k/j9VrpDqtQmR3unPPX4P59zAc2Fi+1XV8bSVGH2Fppe+f3R48W8G8IX6UwK6GAfPS
+         P4j4OI8QDcGfmcwNafKrauydbHPEOH1eZaB2JK+yDanV2PxLkPj5l1AKW01WSo9M8UZ+
+         xp6Y7xadHfTuMhsPHCu25a/xvHikSgaBL0v4Wy+ZS/pyogHxH8/wqaH5QKOZdfxP2xR/
+         aou06fK27ek5MIWEtlVziV7qa1TXW1CxWuqo0nfNgRQQJYMjZ9LDjKP63cd9D42j3hiq
+         OSm6osxSF+odqr3ajEU14aN9taGVJTei5QksTDIWqwXPOeueSdyAdPyOMZ845JkN7iTr
+         KXsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773606088; x=1774210888;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bcMtyOuNxiQeDRBaoHbV4sOpSs/qWZfLEvrgpznC6B8=;
+        b=I0QxodSMKXOmmK9d/nG9d+lnTJCTRWc6+S3/nhtdsweiCJG7wzasqqqS157AdSVpRP
+         ecPvdPrwEj3c9zVLERByJIyKMYoWEsdovFpmZ6PjWNFlv0Mnc7v3CVreTO5M8WuRkmDR
+         LKTjWO5BDjO/afOZbB5eV5nMsuEjiGRT4CbTPqKQlWljm4KqLCzB36nRP3v2CwndGOrP
+         1tc42bxK0Cn3ohsRfVDsnYjhOuIuv4dt+kBsKQ4sNMhNdpJM6F28QIwNKkFC4svGvGMo
+         VJhRVaPGlXoYnQtz0B9aUFESBCzi9RdRtiPJTwomcx+fQXPYijtb1lZIlfbE7e7dk/Qe
+         yctA==
+X-Forwarded-Encrypted: i=1; AJvYcCUrirKB6VDEpMESvu2UU6ilxyhf5c5GJissrs0qJHbCPgd0nFNMnilaqv/2QfFOT5L5Lx8kphOxlUo4pQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuaRVQvW6prPr45zliRakmUUy/TRIrTYE/Y5BH7//oRGAUsPQ5
+	+DpjN68x7gwdRmu/7tGdVEOmB2P6ejua1QM2b9nodmtLio3hepKpYaxy
+X-Gm-Gg: ATEYQzzQbPpzWyVM9EpMiVTqFk9NSWX/D9BZCi1G+Xqq5krHBQxeMw8GjjDzmsT2J58
+	WPe76GfpfFeqeksKREzqeiQtRbQk6TIFt7i0/FjWrJaJPGEE8E20luxBVPtP2+cxEGCgO38BBVx
+	kh5R+b/kLP5Al+fLRO5G8dak7+c3F4iPn/FbAfHsKkB8b2/HkYYexrQfVDji9H3UnZLtm2mU6VA
+	v2jOOKlcejSOh4kxA49jugPiN8Zj02AtLDnOsRq+Zo3v4OyW4BgYmSBBxQ9J/PMfHABy2Y19kCU
+	YAbCUdwyWck1wsIrijBryfaC3yW7SPoUpu0M7D1foxFWEu8c7WErPDB1xpFPp3CFSS3Ms45sZ+w
+	hjFsaf8nRRT708PU/NO6D4N5tLMaMoPQeeNPwLxjlY9JO66CSo23B4WkwnFqWaShOFi/EjUrRa1
+	WymO2x1Mn4CHD+02rfix0/AMxFhl1ggKyBGJwvxyjN6Vz30DNjnVUKnOx7jnVyzXjFPg6h0TQJJ
+	128z8aaJISZXx7EEfUt6B4dwJdMGLiHTpHedko4aRKsc/E=
+X-Received: by 2002:a17:902:ea0f:b0:2ae:6887:5c2c with SMTP id d9443c01a7336-2aecac9c940mr108432515ad.50.1773606087263;
+        Sun, 15 Mar 2026 13:21:27 -0700 (PDT)
+Received: from lorddaniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.. ([14.139.108.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece5f8dafsm85600225ad.26.2026.03.15.13.21.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 13:21:26 -0700 (PDT)
+From: Piyush Patle <piyushpatle228@gmail.com>
+To: lee@kernel.org,
+	broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-mfd@vger.kernel.org
+Subject: [PATCH] mfd/ASoC: WM8400: select SND_SOC_WM8400 from MFD_WM8400
+Date: Mon, 16 Mar 2026 01:51:17 +0530
+Message-Id: <20260315202117.200641-1-piyushpatle228@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy
- SDW machine
-To: Mark Brown <broonie@kernel.org>,
- "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-Cc: hasunpark@gmail.com, linux-sound@vger.kernel.org,
- venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-kernel@vger.kernel.org,
- Mario Limonciello <mario.limonciello@amd.com>,
- "Gong, Richard" <Richard.Gong@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
-References: <20260308151654.29059-1-hasunpark@gmail.com>
- <20260308151654.29059-4-hasunpark@gmail.com>
- <53a03615-7a5c-4f1d-88f7-1e6554092946@amd.com>
- <b7c72feb-189f-47d9-aa1d-88e2a223b4af@sirena.org.uk>
- <26a37f81-9c09-4691-9765-66da29dec3b5@amd.com>
- <a7e7e79d-c839-4a76-8a2a-f3422d2cc089@amd.com>
- <7790d1b9-5152-495e-85f2-3b1068435d13@sirena.org.uk>
-From: Eric Naim <dnaim@cachyos.org>
-In-Reply-To: <7790d1b9-5152-495e-85f2-3b1068435d13@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-On 3/12/26 9:06 PM, Mark Brown wrote:
-> On Thu, Mar 12, 2026 at 12:19:48PM +0530, Mukunda,Vijendar wrote:
-> 
->> We have cross-checked hw configuration. This platform uses DMIC connected
->> to Soundwire codec(ALC721). This patch should be dropped.
-> 
-> Thanks for duble checking.  I already sent my PR for this -rc, I'll take
-> the other two patches once -rc4 is out all being well.
+The MFD driver wm8400-core.c unconditionally registers a platform
+device named 'wm8400-codec' via wm8400_register_codec(). The codec
+driver in sound/soc/codecs/wm8400.c binds to this device by name,
+but SND_SOC_WM8400 is a hidden symbol with no prompt and nothing
+was selecting it in normal configurations, so the driver never built.
 
-Hi Mark,
+Fix this by adding 'select SND_SOC_WM8400' to MFD_WM8400, which
+encodes the implicit dependency that already existed at runtime.
+Also remove the FIXME comment that noted this gap.
 
-should these patches be cc-ed to stable? As it stands, I don't think stable kernels will pick this up.
+Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
+---
+ drivers/mfd/Kconfig      | 1 +
+ sound/soc/codecs/Kconfig | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 7192c9d1d268..d931612e0468 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -2127,6 +2127,7 @@ config MFD_WM8400
+ 	select MFD_CORE
+ 	depends on I2C=y
+ 	select REGMAP_I2C
++	select SND_SOC_WM8400
+ 	help
+ 	  Support for the Wolfson Microelecronics WM8400 PMIC and audio
+ 	  CODEC.  This driver provides common support for accessing
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index adb3fb923be3..0e912f6ec89c 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -2496,7 +2496,6 @@ config SND_SOC_WM8350
+ 
+ config SND_SOC_WM8400
+ 	tristate
+-	# FIXME nothing selects SND_SOC_WM8400??
+ 	depends on MFD_WM8400
+ 
+ config SND_SOC_WM8510
 -- 
-Regards,
-  Eric
+2.34.1
+
