@@ -1,153 +1,177 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81F31D5CE0
-	for <linux-sound@vger.kernel.org>; Sun, 15 Mar 2026 09:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6BC13DBA0;
+	Sun, 15 Mar 2026 10:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773567084; cv=none; b=mdLrd30ZYOQSch9YmNP5+NMUYhlT7NC/3rF7Q+RwLJhHv5dy+r0jN75BMqFO9CbWIz5k62mTBO1nd6sdr9S+X/jHsZfG6VpIin1ViHNeGf4Db4Y80A+o9Boy8vFY2Yp1umZY1X85YH6yUU+jPp7UOHeTrSuJ42cYYrZAKJ/ofms=
+	t=1773570010; cv=none; b=UyCP7Dta7/+/UbGl9/xfPaxVwZHK8heFwxjOvf81eYYhR0wL9MkAD8ZDmK12gLGizlbvKyL4298/YkZUHAhF3wdzxYXg3wgPEZoF6ijNzyYcEIdpVq4NAHSxdZ5ogwcUIQaf9QgxPWNKDRKN8Sxz04mhcCKoWzSmPqnhHKK6nZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773567084; c=relaxed/simple;
-	bh=sx71mQQ8uvswhsDBkVb2sm0xwgN9fX3Obm63xagbibU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kb4YJtxHVg+2KBYW7JdyQFwMB0kAdWEwGMr32lOcwrMk6sfG6UTGSf8sQH3xNkcgXwAf+mbcrgY5LUiX4UqHPDb46vhroHjx+DGkwMVr1ohYsTWOorqHG/z/6lhxJ+x9tvwl/QN0fuoWBqk2F8mDr6AicpJ5bmJ+1Gfs3YgSXn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=APwpyDSc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zzsFsSHW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=APwpyDSc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zzsFsSHW; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773570010; c=relaxed/simple;
+	bh=XjLwXxc5WEaImPpGK2Wx0lC6UiXCApXmlQW7xJZ+C1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LFndc0ORUJjADTJtgMntG2i4yNjrcN5j9Rvhsg4zwfQUZi6PDPIQu46s0LfeVKMtJy240ci8d3QA0MgNpJ+E9M35OzjHvv0n4gYX4Yo2aal2BSZLqsZE51cFuUzi2k9/sgZ9EJWAZdy1d0P8yioZ2jPH6j0+s6JxzZjBuavt/N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaytek.org; spf=pass smtp.mailfrom=jaytek.org; dkim=pass (2048-bit key) header.d=jaytek.org header.i=@jaytek.org header.b=41j2+RYe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GcgW+FGN; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaytek.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaytek.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="APwpyDSc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zzsFsSHW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="APwpyDSc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zzsFsSHW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 24A8C5BDCE;
-	Sun, 15 Mar 2026 09:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773567081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YoYqQ9Iat6UMAwvUjnT4WGk3eJciImKyvGd7pPFRfxs=;
-	b=APwpyDScJ8fyCuak9rcZtkKNb67RsIT7Wu46OlyIhGZDEKDXHQYZanlWBL/uz2uTjJmFL8
-	x9NTup9KdNrJJWcujvB73DGz2KbQSilTStyBcmyMXBsODQle0QHqcCUxwR7dfAclA3zRyi
-	YCjf9mbs62RV1zQb5toGm6Yzkja2KuY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773567081;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YoYqQ9Iat6UMAwvUjnT4WGk3eJciImKyvGd7pPFRfxs=;
-	b=zzsFsSHW39+OOOCoP9nPUl+UnkpnwfNqcDpmLFVYHjqDzUtiW2CpSD1ppJy+fo+DocsUTq
-	rWO3VxoYNEH2AYCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=APwpyDSc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zzsFsSHW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773567081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YoYqQ9Iat6UMAwvUjnT4WGk3eJciImKyvGd7pPFRfxs=;
-	b=APwpyDScJ8fyCuak9rcZtkKNb67RsIT7Wu46OlyIhGZDEKDXHQYZanlWBL/uz2uTjJmFL8
-	x9NTup9KdNrJJWcujvB73DGz2KbQSilTStyBcmyMXBsODQle0QHqcCUxwR7dfAclA3zRyi
-	YCjf9mbs62RV1zQb5toGm6Yzkja2KuY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773567081;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YoYqQ9Iat6UMAwvUjnT4WGk3eJciImKyvGd7pPFRfxs=;
-	b=zzsFsSHW39+OOOCoP9nPUl+UnkpnwfNqcDpmLFVYHjqDzUtiW2CpSD1ppJy+fo+DocsUTq
-	rWO3VxoYNEH2AYCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE90B4273B;
-	Sun, 15 Mar 2026 09:31:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DKr6OGh8tmkDGQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 15 Mar 2026 09:31:20 +0000
-Date: Sun, 15 Mar 2026 10:31:20 +0100
-Message-ID: <87ldfta17b.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: ~rosset-nocpes <coderpy4@proton.me>
-Cc: "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add HP ENVY Laptop 13-ba0xxx quirk
-In-Reply-To: <u0s-uRVegF9BN0t-4JnOUwsIAR-mVc4U4FJfJHdEHX7ro_laErHD9y35NebWybcN16gVaVHPJo1ap3AoJ1a2gqJImPvThgeNt_SYVY1KaDw=@proton.me>
-References: <u0s-uRVegF9BN0t-4JnOUwsIAR-mVc4U4FJfJHdEHX7ro_laErHD9y35NebWybcN16gVaVHPJo1ap3AoJ1a2gqJImPvThgeNt_SYVY1KaDw=@proton.me>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=jaytek.org header.i=@jaytek.org header.b="41j2+RYe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GcgW+FGN"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9B9D87A00B6;
+	Sun, 15 Mar 2026 06:20:07 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 15 Mar 2026 06:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaytek.org; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1773570007; x=1773656407; bh=b2QXvXAl/bqYQMLMJ/Sak
+	h9qTpYvjN9nJK2zydGWfJM=; b=41j2+RYexRPKnYU83pQt9VSpn7ElTDg1pbkLc
+	SeKjxM3XL1Nh74LPwux1KQpluwzOoSh0+QCLs3bhifkTvYUO/bTJUY+tUDg2BhPm
+	g+MqyAtjesqmbzKP99/94JP4fKsWvWfSB0YqPXjLUniGigbTRZPgRzi90p7WnSyQ
+	72//Yc5DtvxyPriUxJ5taGN5uysBPnjev3p4nHXosSfhCY1s14N0vxn9Di2sb8vq
+	92CZFu0N5//UNJL+4Up7GqIZhB2ghrOto59fUFrkS/sMaZu5/7j4jiPbgyLhbDow
+	tfGi1pmpdgvr8bAKuaJmX5/h2rNx8VO5kG+5vdulF0aHeAiog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1773570007; x=1773656407; bh=b2QXvXAl/bqYQMLMJ/Sakh9qTpYvjN9nJK2
+	zydGWfJM=; b=GcgW+FGNS1BBuGCOHjgYi0arJ0mFrj7hrt8SrKuUoIQINY3kd+n
+	5sAx9Dq2DmlVgdhA+piVAY+HF8ej37dICGp2JFMDIpEu57oA5EhIxL2GL5dA/7CG
+	6AByxSsvD7gXskgWzodJ8p+bRE3FDrKGgjk8jVlZAnuwFHO4V+aU2SoADavjt7mA
+	ojGg8lporWw1bfz07X7v1/kkuc2s4dK4e4ALHBbkFmBBJl+mXhU8WEAVxf38AdhX
+	Ic0HNrg0BTkA09lqOmoRXJ5myGoaWLEZpV/gp3lP6tdEFbEMeF7xDnQEakQdRtNV
+	3fJP80rzASxrgZRdmKIYqfNB27kJ3CCRsBQ==
+X-ME-Sender: <xms:1oe2abdt03PxfGhe0pW4SlU3lwbC4ViUOTscFbh7jo5WM3zGzqRk9A>
+    <xme:1oe2aStL7aGWImTUr_ehxygSi63OmPLpI2an0_pPg102edHaRFOxOQLUWFdesIQ_q
+    sC9KBjH7-WTzBsPQJk1Japvo8i9uaqlU3f3onhXUGYw8fWiiI1HNsA0>
+X-ME-Received: <xmr:1oe2aUlgS-5bZa1V-kLHam05VwRY2_GbNVL9FaDVGOSDZm5tU3Kbyt2lfAo9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleehvddvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeflrghmvghsucghrghstghhsghishgthhcuoehjrghmvghssehjrgih
+    thgvkhdrohhrgheqnecuggftrfgrthhtvghrnhepveejjeetkeelgefffeekveefvdethf
+    ehfedvheehfeehteeuieffgfeutdduffehnecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepjhgrmhgvshesjhgrhihtvghkrdhorhhgpdhnsggprh
+    gtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehpvghrvgigsehp
+    vghrvgigrdgtiidprhgtphhtthhopehtihifrghisehsuhhsvgdrtghomhdprhgtphhtth
+    hopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepjhgrmhgvshesjhgrhihtvghkrdhorhhg
+X-ME-Proxy: <xmx:1oe2aczu4UNb6gl-8prjyD6n_TY1HkwZ6Y2S2fXbEPZt41B0ek6eig>
+    <xmx:1oe2aeM8B0YuTCdb5wEwzcjAOQXG5PiZOa9tx3PtGDlS4st6kpvQzQ>
+    <xmx:1oe2aQogfkSklnanY3Aoui7qSHKyGnfDdWVNAYupbVnrhFjFGNyvWw>
+    <xmx:1oe2afH6d_jKvXvHT3NNgeO4Q3nRAayCbbEPK5rv6E12EvY_ZCIbbQ>
+    <xmx:14e2abqCr2nVEZly-5O24-1FUOk_voMtEFUh7TmOI7TSEnQz0MJvaEoE>
+Feedback-ID: i7b2e480f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 15 Mar 2026 06:20:05 -0400 (EDT)
+From: James Waschbisch <james@jaytek.org>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	james@jaytek.org
+Subject: [PATCH] ALSA: hda/realtek: Enable rear line-out pins on MSI EC79 (ALCS1200A)
+Date: Sun, 15 Mar 2026 05:19:50 -0500
+Message-ID: <20260315101950.130380-1-james@jaytek.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 24A8C5BDCE
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 15 Mar 2026 02:08:51 +0100,
-~rosset-nocpes wrote:
-> 
-> From d051c71ce849cc8504bb8e00784a830d718c3f00 Mon Sep 17 00:00:00 2001
-> From: Andrii Kovalchuk <coderpy4@proton.me>
-> Date: Sun, 15 Mar 2026 02:53:09 +0200
-> Subject: [PATCH] ALSA: hda/realtek: Add HP ENVY Laptop 13-ba0xxx quirk
+On MSI systems with subsystem ID 1462:ec79 using the Realtek ALCS1200A
+codec, the rear line-out pins (0x14, 0x15, 0x16) are parsed as line
+outputs but do not come up with active pin widget control after boot.
+This leaves analog output on the rear jacks unavailable until userspace
+manually reprograms the codec.
 
-Those lines shouldn't be in the patch description (except for the
-From: line if you need a different author name than the one used for
-posting).  Otherwise the git-am would take those lines as is.
+Add a board-specific fixup that disables line-out/speaker automute and
+forces pins 0x14, 0x15, and 0x16 to PIN_OUT during HDA_FIXUP_ACT_INIT,
+while also clearing the output amp mute on those nodes.
 
-> Add a PCI quirk for HP ENVY Laptop 13-ba0xxx (PCI device ID 0x8756)
-> to enable proper mute LED and mic mute behavior using the
-> ALC245_FIXUP_HP_X360_MUTE_LEDS fixup.
-> 
-> Signed-off-by: Andrii Kovalchuk <coderpy4@proton.me>
+Tested-on: MSI X570 Gaming Pro WiFi (1462:ec79, ALCS1200A)
 
-I applied the patch now by manual corrections.
-But at the next time, please check whether it's a right submission
-process beforehand.  You can test to post to yourself and try to apply
-via git-am, then verify whether everything is OK.
+Signed-off-by: James Waschbisch <james@jaytek.org>
+---
+ sound/hda/codecs/realtek/alc882.c | 38 +++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
+diff --git a/sound/hda/codecs/realtek/alc882.c b/sound/hda/codecs/realtek/alc882.c
+index 529fecd5b..2bf266a25 100644
+--- a/sound/hda/codecs/realtek/alc882.c
++++ b/sound/hda/codecs/realtek/alc882.c
+@@ -60,6 +60,7 @@ enum {
+ 	ALC887_FIXUP_ASUS_AUDIO,
+ 	ALC887_FIXUP_ASUS_HMIC,
+ 	ALCS1200A_FIXUP_MIC_VREF,
++	ALCS1200A_FIXUP_MSI_EC79,
+ 	ALC888VD_FIXUP_MIC_100VREF,
+ };
+ 
+@@ -261,6 +262,36 @@ static void alc887_fixup_asus_jack(struct hda_codec *codec,
+ 	spec->gen.hp_automute_hook = alc887_asus_hp_automute_hook;
+ }
+ 
++static void alcs1200a_fixup_msi_ec79(struct hda_codec *codec,
++				     const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		spec->gen.automute_lo = 0;
++		spec->gen.automute_speaker = 0;
++		return;
++	}
++
++	if (action != HDA_FIXUP_ACT_INIT)
++		return;
++
++	/* Front / Surround / CLFE line-out pins */
++	snd_hda_set_pin_ctl(codec, 0x14, PIN_OUT);
++	snd_hda_set_pin_ctl(codec, 0x15, PIN_OUT);
++	snd_hda_set_pin_ctl(codec, 0x16, PIN_OUT);
++
++	/* Unmute both output amp channels on all three pins */
++	snd_hda_codec_amp_update(codec, 0x14, 0, HDA_OUTPUT, 0, 0x80, 0);
++	snd_hda_codec_amp_update(codec, 0x14, 1, HDA_OUTPUT, 0, 0x80, 0);
++
++	snd_hda_codec_amp_update(codec, 0x15, 0, HDA_OUTPUT, 0, 0x80, 0);
++	snd_hda_codec_amp_update(codec, 0x15, 1, HDA_OUTPUT, 0, 0x80, 0);
++
++	snd_hda_codec_amp_update(codec, 0x16, 0, HDA_OUTPUT, 0, 0x80, 0);
++	snd_hda_codec_amp_update(codec, 0x16, 1, HDA_OUTPUT, 0, 0x80, 0);
++}
++
+ static const struct hda_fixup alc882_fixups[] = {
+ 	[ALC882_FIXUP_ABIT_AW9D_MAX] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -553,6 +584,12 @@ static const struct hda_fixup alc882_fixups[] = {
+ 			{}
+ 		}
+ 	},
++	[ALCS1200A_FIXUP_MSI_EC79] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alcs1200a_fixup_msi_ec79,
++		.chained = true,
++		.chain_id = ALCS1200A_FIXUP_MIC_VREF,
++	},
+ 	[ALC888VD_FIXUP_MIC_100VREF] = {
+ 		.type = HDA_FIXUP_PINCTLS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -636,6 +673,7 @@ static const struct hda_quirk alc882_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1458, 0xa0cd, "Gigabyte X570 Aorus Master", ALC1220_FIXUP_GB_X570),
+ 	SND_PCI_QUIRK(0x1458, 0xa0ce, "Gigabyte X570 Aorus Xtreme", ALC1220_FIXUP_GB_X570),
+ 	SND_PCI_QUIRK(0x1458, 0xa0d5, "Gigabyte X570S Aorus Master", ALC1220_FIXUP_GB_X570),
++	SND_PCI_QUIRK(0x1462, 0xec79, "MSI ALCS1200A", ALCS1200A_FIXUP_MSI_EC79),
+ 	SND_PCI_QUIRK(0x1462, 0x11f7, "MSI-GE63", ALC1220_FIXUP_CLEVO_P950),
+ 	SND_PCI_QUIRK(0x1462, 0x1228, "MSI-GP63", ALC1220_FIXUP_CLEVO_P950),
+ 	SND_PCI_QUIRK(0x1462, 0x1229, "MSI-GP73", ALC1220_FIXUP_CLEVO_P950),
+-- 
+2.53.0
 
-thanks,
-
-Takashi
