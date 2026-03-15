@@ -1,107 +1,125 @@
-Received: from mail-m9351.xmail.ntesmail.com (mail-m9351.xmail.ntesmail.com [103.126.93.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AB740DFAF;
-	Sun, 15 Mar 2026 06:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.126.93.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE8F40DFD6;
+	Sun, 15 Mar 2026 08:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773555823; cv=none; b=OqwM135w4ANWMJMhvvFKSBRyIi7UL9eLATnynbKt84LfSDKbQ3lEQSdS/1FYtlfCGbh2B/3/ZZnS8dHFhF0z5lhzIbfajQLkrEKxJwf/4KxnqXzZL7hQ2b5ANLwYl2ptE48O/X9U4piwVoBMaiCiGNQyJSvyitSsPFejT5Z6WJw=
+	t=1773563754; cv=none; b=KMnoPv1rjuhUIzkbbd/j9ZZnaa055+vWeKHqyxCBRMNVH6sYzosh1rJOuGL8/PLE5H5PZmA0uPiF0RH2BxfgWtesbV8ZNdqDn7bMr6M97LwmrOeAV3bOv+NZ++J79Im+5azxhQjtMOZCQlMo97qhYB2d4v3DhhweZr3x8PhTfSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773555823; c=relaxed/simple;
-	bh=lv1BZ1fF3KRzKq0KmMZAne3HwKae6+zEI9pXH9CtPOY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=azQZQ55i8JXAZQYuOnrl3brqO2lNMJ1J7Z8CiPJH0B2WjdclwrJkMMrcA8odp2Q/X6WRKQ3fAnrL5lSHTP/dfPygaLSWmECTnMDZ1nt7ajNOKl4gVoSzaKnlJQJY3lzpezSb3PPBM5tNlyQH1V5yyUH4JIM7jik/oTq+ifiWhDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=E2NQiTaP; arc=none smtp.client-ip=103.126.93.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	s=arc-20240116; t=1773563754; c=relaxed/simple;
+	bh=rASGD/IG59PWpEwpkp0F5276h1uqLe8dRNT7iXMUvbA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LdKyYUftGC9JDp37wzFA7M5XMFPr8IpIWfq3uxap3SSRcfAmr5ZAqzOItTWs9nGX650G0R5Z7rZr5DqHIRnXYxp5sYi4OtA8l2tsoFKdkEPrtMqp9YozygN5RdU4028qRieCbaSzfI4/fevYoIYaNljGktvUs+ClQVjKf++n8/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzg930Pc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="E2NQiTaP"
-Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 36f9a2afd;
-	Sun, 15 Mar 2026 13:07:50 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-To: broonie@debian.org
-Cc: andersson@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	drake@endlessm.com,
-	hongyang.zhao@thundersoft.com,
-	katsuhiro@katsuster.net,
-	konradybcio@kernel.org,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	matteomartelli3@gmail.com,
-	perex@perex.cz,
-	robh@kernel.org,
-	rosh@debian.org,
-	srini@kernel.org,
-	tiwai@suse.com,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH 2/6] ASoC: es8316: Get sysclk rate from MCLK clock when not explicitly set
-Date: Sun, 15 Mar 2026 13:07:36 +0800
-Message-ID: <20260315050736.472233-1-hongyang.zhao@thundersoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <11e84371-57b2-4ea3-b3a4-0119d182229a@sirena.org.uk>
-References: <11e84371-57b2-4ea3-b3a4-0119d182229a@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzg930Pc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B52C4CEF7;
+	Sun, 15 Mar 2026 08:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773563754;
+	bh=rASGD/IG59PWpEwpkp0F5276h1uqLe8dRNT7iXMUvbA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jzg930PcIWhnj9Hsq3jOcZC/L2BaJJhiTPxRPsbxkZLsK5khA5kXouuBayW2XqXx1
+	 MUvjIBM3yrFk5LnZJ9h7FKsgtvQzIbMIsH9sh58Jny7KVH0gI5wm8GvnMbIUEY7zxa
+	 5WseFAR9+fC9oxeTGACtnBTKu2rVUrr3rb8O8MpG5bFSpGvsVc1VZs0mIr4sNyNORK
+	 HM7/LrCYNYuFCgyqCS403ZpMiiyomCnhCRCxfMF0VvG67/EEff+gGNPUpwyTc2sEsm
+	 Udcikv7kw9lhlIg/8UvJt98fHKX5cYGddlWb0oV3FIWN2f1ZMHZkmnvjUgScLLV1yC
+	 dG+xAwCowz/tg==
+Message-ID: <219d11df-4d30-4f90-b410-024d1cc20c90@kernel.org>
+Date: Sun, 15 Mar 2026 09:35:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cefe4ba8a09d5kunme5db3a35239c66
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQh0YVk1MSUxJGEgdT0ofHlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=E2NQiTaPn/WMhVQH9kXX1NTuYXb56GF9AhDU+eaARGuuZGLuAzZPcysDDvVcnVdIuGxWvzn0M7Sbn31Naypr3xvkzeml6/qaJxCn0N0kxDH8fl72v5ykEXp1kbVtVR4creNnuEc25fgCXRyJmGQ/ovr6pPhmZOBPMS1OskPtkQ4=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=O2eqvpKafGnKxNWw9MkHGrYpLnJFGyGVG3+11y2x6Jg=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: codec: arizona: Convert to use GPIO descriptors
+To: Linus Walleij <linusw@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Russell King <linux@armlinux.org.uk>, Lee Jones <lee@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <20260314-asoc-arizona-v1-1-ecc9a165307c@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260314-asoc-arizona-v1-1-ecc9a165307c@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thanks for the review!
-
-> On Thu, Mar 05, 2026 at 01:47:43PM +0800, Hongyang Zhao wrote:
+On 14/03/2026 23:56, Linus Walleij wrote:
+> This converts the Arizona driver to use GPIO descriptors
+> exclusively, deletes the legacy code path an updates the
+> in-tree user of legacy GPIO.
 > 
-> > @@ -477,9 +477,20 @@ static int es8316_pcm_hw_params(struct snd_pcm_substream *substream,
-> >  	u8 bclk_divider;
-> >  	u16 lrck_divider;
-> >  	int i;
-> > -	unsigned int clk = es8316->sysclk / 2;
-> > +	unsigned int clk;
-> >  	bool clk_valid = false;
-> >  
-> > +	if (es8316->sysclk == 0 && es8316->mclk) {
-> > +		/* If the sysclk has not been set, try to get it from the MCLK */
-> > +		es8316->sysclk = clk_get_rate(es8316->mclk);
-> > +		if (es8316->sysclk == 0) {
-> > +			dev_err(component->dev, "unable to get mclk rate\n");
-> > +			return -EINVAL;
-> > +		}
+> The GPIO lines for mic detect polarity and headphone ID
+> detection are made exclusively descriptor-oriented. The
+> headphone ID detection could actually only be used by
+> the legacy GPIO code, but I converted it to use a
+> descriptor if someone would actually need it so we don't
+> just drop useful code.
 > 
-> It would be better to do this by bootstrapping es8316->sysclk when we
-> get the clock, we do a clk_set_rate() when we set the sysclk so the two
-> should be in sync for robust operation.
+> The compatible "wlf,hpdet-id-gpio" is not in the device
+> tree bindings and only intended to be used by software
+> nodes if any. If someone insists I can try to add a
+> binding for it, but I doubt there is any real user so
+> it seems pointless.
+> 
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
+> ---
+> This patch hits all over the place, but I think merging it to
+> the ASoC tree would be the best.
+> ---
+>  arch/arm/mach-s3c/mach-crag6410-module.c |  6 +-
 
-I'll move the clk_get_rate() call to es8316_probe(), right after
-clk_prepare_enable() succeeds, and drop the fallback logic from hw_params().
-Will send a v2.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> # s3c
 
-@@ -774,6 +774,9 @@ static int es8316_probe(struct snd_soc_component *component)
-                return ret;
-        }
-
-+       if (es8316->mclk)
-+               es8316->sysclk = clk_get_rate(es8316->mclk);
-+
-        /* Reset codec and enable current state machine */
-        snd_soc_component_write(component, ES8316_RESET, 0x3f);
-        usleep_range(5000, 5500);
-
-Thanks,
-Hongyang
+Best regards,
+Krzysztof
