@@ -1,82 +1,107 @@
-Received: from mail-43167.protonmail.ch (mail-43167.protonmail.ch [185.70.43.167])
+Received: from mail-m9351.xmail.ntesmail.com (mail-m9351.xmail.ntesmail.com [103.126.93.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814F0157487
-	for <linux-sound@vger.kernel.org>; Sun, 15 Mar 2026 01:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AB740DFAF;
+	Sun, 15 Mar 2026 06:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.126.93.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773536949; cv=none; b=CwStNZcyMP+GAc2jCvEfO5r87OuIcFU/JZqSIGZOfL1bIxg3gU0+HQ8LEjZvaPR8lf67+kFXlCvlGhFUPvbBPixCholVJhVm+MSXMW6LkfB9fQL990qjhj3R6JCPD8L6VBXK6V2xvsbj8pBEjWntyCdQwTb0fSHpNF/Nk8m1sPI=
+	t=1773555823; cv=none; b=OqwM135w4ANWMJMhvvFKSBRyIi7UL9eLATnynbKt84LfSDKbQ3lEQSdS/1FYtlfCGbh2B/3/ZZnS8dHFhF0z5lhzIbfajQLkrEKxJwf/4KxnqXzZL7hQ2b5ANLwYl2ptE48O/X9U4piwVoBMaiCiGNQyJSvyitSsPFejT5Z6WJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773536949; c=relaxed/simple;
-	bh=yNHf5Bqy0jBRJHUqOSnWhVnNdKtgOpetRKigJMBYGzc=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fv9PAB3It0jTVZ13sZQdbTXcPwOHvTR9KyzmrEt842crxqkEutjcZHutdorxEeNfYqF66bZKSv9Ez/2y1KZkfYsi8UoAuEeiehHKuCtvWGKeh4VUWf+D9DG01K7y2es0H/ODIs1TjpZ5p5hbrWgkEs1kZQwiNMIEqFV+aexEUuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=kw4KTikP; arc=none smtp.client-ip=185.70.43.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1773555823; c=relaxed/simple;
+	bh=lv1BZ1fF3KRzKq0KmMZAne3HwKae6+zEI9pXH9CtPOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=azQZQ55i8JXAZQYuOnrl3brqO2lNMJ1J7Z8CiPJH0B2WjdclwrJkMMrcA8odp2Q/X6WRKQ3fAnrL5lSHTP/dfPygaLSWmECTnMDZ1nt7ajNOKl4gVoSzaKnlJQJY3lzpezSb3PPBM5tNlyQH1V5yyUH4JIM7jik/oTq+ifiWhDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=E2NQiTaP; arc=none smtp.client-ip=103.126.93.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="kw4KTikP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1773536934; x=1773796134;
-	bh=yNHf5Bqy0jBRJHUqOSnWhVnNdKtgOpetRKigJMBYGzc=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=kw4KTikPi8Z3wU+m1iujHw7B9u/5iGwMHIu0fRoJLsy56OXARBZBz6XZJ8psaPGhV
-	 PXBqJGcROGUaqsX8RDg+dlL5Og7CJdOLgmXUebFPka96IkWtydbKsmliVyp3bGp09j
-	 oHuaghZzaxEChWTbRF8hxnjFmSZpKlLfnjLEzB6zLg6SALKeAqhWz+Hgzk0od4l4Zg
-	 bK3CQJiqq9lEYJuOGbRghf3Sp8K7Zna1d6/bkSNm0G07r8ypr1aFD9o/AT6PjJUEex
-	 Queq2oV99KHfhrlUwIYzTgdZ5nU+d8gbmkAb43fKOAvpKwNZwgzQzeNCRz9rBLmHEk
-	 nqWoNC6Bx60kg==
-Date: Sun, 15 Mar 2026 01:08:51 +0000
-To: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-From: ~rosset-nocpes <coderpy4@proton.me>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "coderpy4@proton.me" <coderpy4@proton.me>
-Subject: [PATCH] ALSA: hda/realtek: Add HP ENVY Laptop 13-ba0xxx quirk
-Message-ID: <u0s-uRVegF9BN0t-4JnOUwsIAR-mVc4U4FJfJHdEHX7ro_laErHD9y35NebWybcN16gVaVHPJo1ap3AoJ1a2gqJImPvThgeNt_SYVY1KaDw=@proton.me>
-Feedback-ID: 45834777:user:proton
-X-Pm-Message-ID: 6c98e1f53ecc4a6faeca1d3f0eac006442194964
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="E2NQiTaP"
+Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 36f9a2afd;
+	Sun, 15 Mar 2026 13:07:50 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+To: broonie@debian.org
+Cc: andersson@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	drake@endlessm.com,
+	hongyang.zhao@thundersoft.com,
+	katsuhiro@katsuster.net,
+	konradybcio@kernel.org,
+	krzk+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	matteomartelli3@gmail.com,
+	perex@perex.cz,
+	robh@kernel.org,
+	rosh@debian.org,
+	srini@kernel.org,
+	tiwai@suse.com,
+	zhoubinbin@loongson.cn
+Subject: Re: [PATCH 2/6] ASoC: es8316: Get sysclk rate from MCLK clock when not explicitly set
+Date: Sun, 15 Mar 2026 13:07:36 +0800
+Message-ID: <20260315050736.472233-1-hongyang.zhao@thundersoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <11e84371-57b2-4ea3-b3a4-0119d182229a@sirena.org.uk>
+References: <11e84371-57b2-4ea3-b3a4-0119d182229a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9cefe4ba8a09d5kunme5db3a35239c66
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQh0YVk1MSUxJGEgdT0ofHlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=E2NQiTaPn/WMhVQH9kXX1NTuYXb56GF9AhDU+eaARGuuZGLuAzZPcysDDvVcnVdIuGxWvzn0M7Sbn31Naypr3xvkzeml6/qaJxCn0N0kxDH8fl72v5ykEXp1kbVtVR4creNnuEc25fgCXRyJmGQ/ovr6pPhmZOBPMS1OskPtkQ4=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=O2eqvpKafGnKxNWw9MkHGrYpLnJFGyGVG3+11y2x6Jg=;
+	h=date:mime-version:subject:message-id:from;
 
-From d051c71ce849cc8504bb8e00784a830d718c3f00 Mon Sep 17 00:00:00 2001
-From: Andrii Kovalchuk <coderpy4@proton.me>
-Date: Sun, 15 Mar 2026 02:53:09 +0200
-Subject: [PATCH] ALSA: hda/realtek: Add HP ENVY Laptop 13-ba0xxx quirk
+Thanks for the review!
 
-Add a PCI quirk for HP ENVY Laptop 13-ba0xxx (PCI device ID 0x8756)
-to enable proper mute LED and mic mute behavior using the
-ALC245_FIXUP_HP_X360_MUTE_LEDS fixup.
+> On Thu, Mar 05, 2026 at 01:47:43PM +0800, Hongyang Zhao wrote:
+> 
+> > @@ -477,9 +477,20 @@ static int es8316_pcm_hw_params(struct snd_pcm_substream *substream,
+> >  	u8 bclk_divider;
+> >  	u16 lrck_divider;
+> >  	int i;
+> > -	unsigned int clk = es8316->sysclk / 2;
+> > +	unsigned int clk;
+> >  	bool clk_valid = false;
+> >  
+> > +	if (es8316->sysclk == 0 && es8316->mclk) {
+> > +		/* If the sysclk has not been set, try to get it from the MCLK */
+> > +		es8316->sysclk = clk_get_rate(es8316->mclk);
+> > +		if (es8316->sysclk == 0) {
+> > +			dev_err(component->dev, "unable to get mclk rate\n");
+> > +			return -EINVAL;
+> > +		}
+> 
+> It would be better to do this by bootstrapping es8316->sysclk when we
+> get the clock, we do a clk_set_rate() when we set the sysclk so the two
+> should be in sync for robust operation.
 
-Signed-off-by: Andrii Kovalchuk <coderpy4@proton.me>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+I'll move the clk_get_rate() call to es8316_probe(), right after
+clk_prepare_enable() succeeds, and drop the fallback logic from hw_params().
+Will send a v2.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/a=
-lc269.c
-index ab4b22fcb72e..a1c9a508bef3 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6854,6 +6854,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =3D =
-{
- =09SND_PCI_QUIRK(0x103c, 0x8730, "HP ProBook 445 G7", ALC236_FIXUP_HP_MUTE=
-_LED_MICMUTE_VREF),
- =09SND_PCI_QUIRK(0x103c, 0x8735, "HP ProBook 435 G7", ALC236_FIXUP_HP_MUTE=
-_LED_MICMUTE_VREF),
- =09SND_PCI_QUIRK(0x103c, 0x8736, "HP", ALC285_FIXUP_HP_GPIO_AMP_INIT),
-+=09SND_PCI_QUIRK(0x103c, 0x8756, "HP ENVY Laptop 13-ba0xxx", ALC245_FIXUP_=
-HP_X360_MUTE_LEDS),
- =09SND_PCI_QUIRK(0x103c, 0x8760, "HP EliteBook 8{4,5}5 G7", ALC285_FIXUP_H=
-P_BEEP_MICMUTE_LED),
- =09SND_PCI_QUIRK(0x103c, 0x876e, "HP ENVY x360 Convertible 13-ay0xxx", ALC=
-245_FIXUP_HP_X360_MUTE_LEDS),
- =09SND_PCI_QUIRK(0x103c, 0x877a, "HP", ALC285_FIXUP_HP_MUTE_LED),
---=20
-2.53.0
+@@ -774,6 +774,9 @@ static int es8316_probe(struct snd_soc_component *component)
+                return ret;
+        }
 
++       if (es8316->mclk)
++               es8316->sysclk = clk_get_rate(es8316->mclk);
++
+        /* Reset codec and enable current state machine */
+        snd_soc_component_write(component, ES8316_RESET, 0x3f);
+        usleep_range(5000, 5500);
 
+Thanks,
+Hongyang
