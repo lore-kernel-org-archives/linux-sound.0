@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A1236075D
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 21:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2308B2264AB;
+	Mon, 16 Mar 2026 21:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773697962; cv=none; b=Dhgd7OkrVrRVNpd4pTsTNNLJbMUqGNmh50GRyW74ndq833MsrvZcBVRN9VeO3j66IWbUMSRUwigAOPePbpKJElj0SV305dCIv3EHYe+9C8grnfIK9rqFwrSfv5rHi9AdT2DScAtPE2nzbGoHtmqw+XjttnyRMSZ8I7dZ/szL8y4=
+	t=1773697965; cv=none; b=PrUsFj+aHrvrC5I4UfIawuCI8vxZnyUh4O23s+QZWDLWwimXC895aHvy2HZP46PYmPbdBb+UEWC79PHnX6O1BrNRXQtbE26JMhFnS62nhJQatM/NXNh6yS7z+cNF/i6hy2EBP2kB2htGpXLz2QnkL6kA+KxAg5XysXPa83x/jNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773697962; c=relaxed/simple;
-	bh=S3q1Da3sOysjQ4kUqsqskDJyK4x4V3tJsLzWru+BtFY=;
+	s=arc-20240116; t=1773697965; c=relaxed/simple;
+	bh=Hf3ptVHHm6wjAGUPr/MchsVO9sY2kg6t6o9OKhcopA0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GOEBnV4d6+Xqh5g9PltbGWHC+FhdxVxDSXoAYHA4S0xduT9I23s8UEjlUnZ6uEOGQ0gs4Cm6UHHrIkKe1rcquO2KeoR8Q+8hLY6fPvHI66FjtF/MMuqwD1MlFJmNZujUUTzkkWThybqr3WS3fNRRAeEHrKL/Ar/OO7PRuPUS8Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDt8hXm+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=qUN+cScSkEUXwdGRzJDlo6MSAjqatSxQV0nN0WxqpgqRiiB7QlLGO1u/m0iFjVESudVzAgFwNldHr1rgITUSWz4J+bCE1Tr0j83xiKvmxqZjAOML48LxKQW8HwPiehuWnus2OKBHj5H9S8iS44CAbLg3YJr6YsMKlhIrWrmBztg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5xteh2K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDt8hXm+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0624AC19421;
-	Mon, 16 Mar 2026 21:52:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5xteh2K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0951C2BC9E;
+	Mon, 16 Mar 2026 21:52:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773697962;
-	bh=S3q1Da3sOysjQ4kUqsqskDJyK4x4V3tJsLzWru+BtFY=;
+	s=k20201202; t=1773697964;
+	bh=Hf3ptVHHm6wjAGUPr/MchsVO9sY2kg6t6o9OKhcopA0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PDt8hXm+RAwaQ4Ee6RbysX8bTd9JmWfLHI7lAriOWS08KUjHwdqRQfgZzVOjXLHJ3
-	 D/yXxNZ3tLVIvmIehr9FweTk1CAZ0/KnfTwDmvrR2YssqRQOutD5GSWwWVBwDsvJ64
-	 PRZltpHjHcAXhglTYklGvZyJRdgZDzXAgOb/vtmozJJG2dGJum+f4dtQaFledELkw7
-	 tH2f7S+T5f05wflrvUBUgrMD0eBndYErFY0acUWRgu3ok8zZFFzm6VeP3YDpoFci98
-	 BjF8/xfN4Q/xwg71YmZqlBUihmDG86KEi6ehbNCnqrQyvqK099FtbxhUyy/k72noGk
-	 80GZRFOh4bYWQ==
+	b=P5xteh2KfFnfpDcZfj3kgNrmoW9Ve8Oc6bzdVqC0v/fx5E9qSGs0g0gnNYnYsj8ti
+	 OePtFlFJGA+d/1hMBOCO4sXs8BTy3LIIPpeavpNwjd0ciilE1Ui5nUTSowKmBa3TMY
+	 JhHgiKX8/Iju7HEORujpuCTjQnD/uVM80qH07uCroIGGxNVVsqV+805vHzyRavYM4C
+	 pHOQT9d0x/Ds2A3t8pGpmqC0smcUcYS3LDK5yXyNqwkU8SIMAeT5NghdI2qj1Y+xRT
+	 Vh66JAo+8bLyhJrd6AtCwhmFXXFQBR9FK55PTjCBTZ9vDMIdjZECYf4gOrsWW7LQTn
+	 YRvbd5C2jbJDw==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
- yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260303155308.138989-1-ckeepax@opensource.cirrus.com>
-References: <20260303155308.138989-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] Handle edge case on SDCA jack control naming
-Message-Id: <177369796074.303411.12865038960790486605.b4-ty@kernel.org>
-Date: Mon, 16 Mar 2026 21:52:40 +0000
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Joseph Salisbury <joseph.salisbury@oracle.com>
+Cc: Fabio Estevam <festevam@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, linux-sound@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260316180545.144032-1-joseph.salisbury@oracle.com>
+References: <20260316180545.144032-1-joseph.salisbury@oracle.com>
+Subject: Re: [PATCH] ASoC: fsl_easrc: fix comment typo
+Message-Id: <177369796246.303411.7440078882832498896.b4-ty@kernel.org>
+Date: Mon, 16 Mar 2026 21:52:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,15 +49,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-f420f
 
-On Tue, 03 Mar 2026 15:53:06 +0000, Charles Keepax wrote:
-> Normally the SDCA jack detection controls will be named after the GE
-> widget that represents the grouping of everything in the topology
-> controlled by the jack selection. However, in the case that the jack
-> selection only controls a single widget the control will be named after
-> the SU widget that implements that. It is rather confusing to have the
-> jack detection controls change naming scheme between devices. Add a new
-> widget type, similar to mixer widgets, to force use of the control name
-> rather than falling back to the widget names.
+On Mon, 16 Mar 2026 14:05:45 -0400, Joseph Salisbury wrote:
+> The file contains a spelling error in a source comment (funciton).
+> 
+> Typos in comments reduce readability and make text searches less reliable
+> for developers and maintainers.
+> 
+> Replace 'funciton' with 'function' in the affected comment. This is a
+> comment-only cleanup and does not change behavior.
 > 
 > [...]
 
@@ -64,10 +66,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: dapm: Add a named controls variant of a mux widget
-      https://git.kernel.org/broonie/misc/c/e29d097ead33
-[2/2] ASoC: SDCA: Use named control mux for GE/SU controls
-      https://git.kernel.org/broonie/misc/c/b6a6cd3f6b5b
+[1/1] ASoC: fsl_easrc: fix comment typo
+      https://git.kernel.org/broonie/misc/c/804dce6c73fd
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
