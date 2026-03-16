@@ -1,113 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B6F21C173;
-	Mon, 16 Mar 2026 12:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2DB280A21;
+	Mon, 16 Mar 2026 13:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773665352; cv=none; b=W/XiiTFrWAxy7cG1hmvjxrFxS6Yfc/SOf9CgMUeOoW1O9pAiwAU5tPuut0GGNL7Mg+lCZoYUPvdN3RPI1iT6qPCUGUFKqAP7067ToYO0eOQHmOV/hPCZdMFmvBpQSkYrT8Upu2RgXsmNlBpqnyI4Cc35sROM/0QVj5fC5R2QdYc=
+	t=1773667834; cv=none; b=K5gvf5XQbTBizT3WuXzexYkhDA1Nh5Bo9hbtZvuNydNefoU1jmo6zu/B277aM/k6HOOpCKsQac5Hy8PyKQHviCXuhAbzc4f1bA+LTrUbNOI+yd7duOWRZ9picaOnzTsYrBeHK+jP4XgbJDVfp7Gpji2P/VtesDyGGYeJXtyA5ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773665352; c=relaxed/simple;
-	bh=+fKnMOAy4txozyuTQa186zP47LQj68e8yWqSt0ZdZiE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hwd1+x9/Rop5zdzrMSruPLiQ2Jr2JuQpPOMehIfEUrqV4du+emChLkmjG1b4kbJlZ6gFgN9mDVO5uGm/uGybOdbZziOrDAkXGy6JV6TlSLRAP4xIh4yRXktrQNhqPR8jtPPdPcSwLD7GB8sCHsXFnADZLiUrTT0/cgeGUDUDO7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHq1ZzZ3; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHq1ZzZ3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773665351; x=1805201351;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+fKnMOAy4txozyuTQa186zP47LQj68e8yWqSt0ZdZiE=;
-  b=nHq1ZzZ3urO+lek5hQrppKmsOE84kJvwKvxKB/Pt2ZpBxXqZRLBHYGM1
-   jBElZzIYRIbnEKXKlTbU5AHDbPF+R+gnGaN7n5V8Nofd+Uni/ul4Q4z3Y
-   ofQ0fb0UYAZ8beJi+opR5/a31eJGEHql+rLB6J/xI1RnZON231NAjUld0
-   I5SOH80gcsFfzTULSRc0p+VYcMzD+bnoYNUBB6WVJM9HTYcCXkFmhHbSi
-   bTI29nbQhclDN4oIDNPWRXjpnLNv48T3i55lLrOfGtbUd9DOUC805myeF
-   3SuelA8KndQXEs1fSjtMRoJKR/tXrYnY0aBNL7FTCk05T7aXrDgDj2IgN
-   g==;
-X-CSE-ConnectionGUID: nYA0v7IuSaqbL0waDjmCaA==
-X-CSE-MsgGUID: Cqa5yglgRe+qETmwApbP4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74382108"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74382108"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 05:49:10 -0700
-X-CSE-ConnectionGUID: EjlCi3DxRQatj9fKZHTReg==
-X-CSE-MsgGUID: K9Hc76poRwCC4Cy9XMcoEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221146562"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.184])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 05:49:08 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	ckeepax@opensource.cirrus.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: cs42l43-jack: Remove manual pm_runtime get/put from tip_sense_work
-Date: Mon, 16 Mar 2026 14:49:24 +0200
-Message-ID: <20260316124924.31047-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1773667834; c=relaxed/simple;
+	bh=12QmHVFW6kvGAsAEHlRgc6k9FaOX+eCOvB+1XSjB85g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kTAIgrBHQLrgcO4IFIEbx3nTnmQSE0phOOz114/pc+rrT/bu6Sus3DbJ3f6KNZ/ivlu8tuYKx6DbFSlX+pJNpoh14rw5qLxKcpQEZ8J9fVri7fDrcDkZbHB7ID4BOpjvr0rL26JS5jA3WasQh7RkKZ7WAMT5gvSuisutlTRLPsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 369FC14BF;
+	Mon, 16 Mar 2026 06:30:25 -0700 (PDT)
+Received: from [10.57.61.116] (unknown [10.57.61.116])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D4953F778;
+	Mon, 16 Mar 2026 06:30:22 -0700 (PDT)
+Message-ID: <2c7466f5-d952-4356-9b55-9d2ebb3471f2@arm.com>
+Date: Mon, 16 Mar 2026 13:30:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 50/61] iommu: Prefer IS_ERR_OR_NULL over manual NULL check
+To: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
+ apparmor@lists.ubuntu.com, bpf@vger.kernel.org, ceph-devel@vger.kernel.org,
+ cocci@inria.fr, dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+ kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+ sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-50-bd63b656022d@avm.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260310-b4-is_err_or_null-v1-50-bd63b656022d@avm.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When a jack is inserted the forced pm_runtime_get() will keep the codec,
-soundwire bus and it's parent active as long as the jack is connected.
-This makes for example the DSP and firmware booted up on Intel platforms.
+On 2026-03-10 11:49 am, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
 
-If the module is removed while the jack is connected we will also have
-unbalanced runtime PM state.
+AFAICS it doesn't look possible for the argument to be anything other 
+than valid at both callsites, so *both* conditions here seem in fact to 
+be entirely redundant.
 
-Without the manual get/put, the button detection still works correctly and
-the system can reach lower power state while the jack is connected like
-in the case when there is no jack connected.
+> Change generated with coccinelle.
 
-Fixes: fc918cbe874e ("ASoC: cs42l43: Add support for the cs42l43")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/codecs/cs42l43-jack.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Please use coccinelle responsibly. Mechanical changes are great for 
+scripted API updates, but for cleanup, whilst it's ideal for *finding* 
+areas of code that are worth looking at, the code then wants actually 
+looking at, in its whole context, because meaningful cleanup often goes 
+deeper than trivial replacement.
 
-diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
-index 3e04e6897b14..d90a13a55845 100644
---- a/sound/soc/codecs/cs42l43-jack.c
-+++ b/sound/soc/codecs/cs42l43-jack.c
-@@ -756,10 +756,8 @@ void cs42l43_tip_sense_work(struct work_struct *work)
- 	ring = (sts >> CS42L43_RINGSENSE_PLUG_DB_STS_SHIFT) & CS42L43_JACK_PRESENT;
- 
- 	if (tip == CS42L43_JACK_PRESENT) {
--		if (cs42l43->sdw && !priv->jack_present) {
-+		if (cs42l43->sdw && !priv->jack_present)
- 			priv->jack_present = true;
--			pm_runtime_get(priv->dev);
--		}
- 
- 		if (priv->use_ring_sense && ring == CS42L43_JACK_ABSENT) {
- 			report = CS42L43_JACK_OPTICAL;
-@@ -779,10 +777,8 @@ void cs42l43_tip_sense_work(struct work_struct *work)
- 
- 		snd_soc_jack_report(priv->jack_hp, 0, 0xFFFF);
- 
--		if (cs42l43->sdw && priv->jack_present) {
--			pm_runtime_put(priv->dev);
-+		if (cs42l43->sdw && priv->jack_present)
- 			priv->jack_present = false;
--		}
- 	}
- 
- error:
--- 
-2.53.0
+In particular, anywhere IS_ERR_OR_NULL() is genuinely relevant is 
+usually a sign of bad interface design, so if you're looking at this 
+then you really should be looking first and foremost to remove any 
+checks that are already unnecessary, and for the remainder, to see if 
+the thing being checked can be improved to not mix the two different 
+styles. That would be constructive and (usually) welcome cleanup. Simply 
+churning a bunch of code with this ugly macro that's arguably less 
+readable than what it replaces, not so much.
+
+Thanks,
+Robin.
+
+> To: Joerg Roedel <joro@8bytes.org>
+> To: Will Deacon <will@kernel.org>
+> To: Robin Murphy <robin.murphy@arm.com>
+> Cc: iommu@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+> ---
+>   drivers/iommu/omap-iommu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
+> index 8231d7d6bb6a9202025643639a6b28e6faa84659..500a42b57a997696ff37c76f028a717ab71d01f9 100644
+> --- a/drivers/iommu/omap-iommu.c
+> +++ b/drivers/iommu/omap-iommu.c
+> @@ -881,7 +881,7 @@ static int omap_iommu_attach(struct omap_iommu *obj, u32 *iopgd)
+>    **/
+>   static void omap_iommu_detach(struct omap_iommu *obj)
+>   {
+> -	if (!obj || IS_ERR(obj))
+> +	if (IS_ERR_OR_NULL(obj))
+>   		return;
+>   
+>   	spin_lock(&obj->iommu_lock);
+> 
 
