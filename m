@@ -1,203 +1,123 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB33243376
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 01:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773624609; cv=pass; b=ZFmRD1TQisnCJgKuzo51B66KMkK+jbwEjSPItmX8gl7aV2K4cjDXvvqLrtSTFI+dT05gHuKAdf9XX8iA4oLozcLd5N5uveYnyf2xsP3HU2JZf4tj8QRhpgCHFyKc282fFSzmiA4KCbHG5S0EYcH7SKbjwi8U7OMcj43t3G7ifY4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773624609; c=relaxed/simple;
-	bh=+pv0u3nookkdCLSxn7NnexhxP2hxHvlcHUU21Q0AV8c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iR4jSF/BDfSHpsp9R+WPUQa/wCpo8iHlcQ1PLkw5EvocB5AuNFLlrgFm3fxo0abZr2aO8tHtET8aVv7sC165U3P8kVNhr//RgTzsqOeW2wp4T4vVxHLm6yfnf+EtdeQS47tOc5p05XkJg1Fj3lFQIEqSFV/QJzDbqCurISSkGRA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BRdlKVeK; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840D4231A41;
+	Mon, 16 Mar 2026 01:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773625057; cv=none; b=HAT142LXPFiGYCreRLdwkxQNJ0wfZqysbkjU7KaWTnEvAynsZ/DertuxCB0SoL7an+rj70HMsV41WRc1NkDZRUnsPzXX/SUekQR3ZsjRRqtzcQjC4QX7jGjP1mC2VXsGuauFELvdLh9RBQIVTKsozrGa/BGlOmllPTZiJjS762o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773625057; c=relaxed/simple;
+	bh=A9rEb2IEckfnXsbwv5XiP675av+TQ/D0j01/OowheSQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sgcl0GDZAsuRmyXxDlZC2Xq7NKtZWDwx+EthaoIrfIKwst4X/ixtLrEcERzB7SKcyDlmDgH/f9AEi5tJdxGmYK+Y8GkUx2EskkuHxs00Z4V5uSUWLCa5uEltwZMJ9WiiNsYcFqCNT5uU+35K4Z5DMhJvhm03iGNlVp2fUXiO5jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5oWAq/e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BRdlKVeK"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43b3cfc38edso1293042f8f.3
-        for <linux-sound@vger.kernel.org>; Sun, 15 Mar 2026 18:30:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773624607; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gV61UM3U/IqD4Z9U/9lHg92MgYUfcJDn6fil0/mryzTEdeiUaVnxZq/3wIkBU4tIyr
-         vFiZwu0Klt2CiTmlO/Jsgrti94bCUOE9dOPgcqynSWqhcZ9UdintAZlJQvrGBVmiNruS
-         DUysggtO0IyLe2bnxNDZ88trTmOb61hasO45eApNh+kX3iLeqOx2y/dCuNLSA1WSPz6e
-         jLSi2x9m88d+5kVwicOwiRcQksIsFR9bDY9sgVmQcEeQGzUZxz3cjVmaYNN4M5n0yCVu
-         D/UN3O9touyQju50SUZlxfqOhI0uV1HotvJ642cKtwvO6jZQdXcKBtX4Xj9dKIHunP5T
-         qbdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RxvFtiJdeYABAFuLQ63HjhfZJQouwlO0TMFKV+DLaJg=;
-        fh=ojQC6Dyv/yFpl3J/ouotalrHAAaS/OJWM1rJKyLBvHM=;
-        b=dT6W17rWfVEmhRyyzuj4zbWp2N34AYde9RuOVzhUrJV8BBk1R7pDDJjlXB+J9ZJWhy
-         YXFSdGOup89DRl1QnCNSk1hLMc+ceAWLXMM3whS3/DfJBUMaoesKBlP2e9NhDf6xsdWI
-         TR8T0eQxMvBNZswV/tEGFN3rsy4xwjsx19uJhk8B2KdQhjS4a/cpS8edLW9sRgnx6wyA
-         mV5JKuNjSXxHDlG7M1k6IwEU3ZqaEUChbHpmbEnZ2Ltog5C7ffBfQeJcbOcRUFCEXt4K
-         kIenrL9Z7f/PgL+N7tr2IG6n17Lnl5akZDCprXZPi2t24qIEf6USMxzwvxuzT/4yPxVw
-         TcUA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773624607; x=1774229407; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RxvFtiJdeYABAFuLQ63HjhfZJQouwlO0TMFKV+DLaJg=;
-        b=BRdlKVeKxC+ytt2fLyuccDW67/IAsA8dT18ssKzKh4ioM1ya1cpgnHWxZbUp1/C6s3
-         M4UW8ZIdt4D6MFWjJ2TfkCeB3ZJSoDFON/d+Yd7iGf5/G0XJBgzgle4uHwAIjr9YrHF+
-         rn3C0e9PT35+YfsLG8afUmFZDTOurcN4ugire70bSGRc0KsIE+k8h4fOz2sRAc/BxXgu
-         X6ZRdaLyhhm1BTzxQRgynQnqgxPhYD6X52fzaJcvn83stvKclyGmWpa3nE2PA0yqjPbo
-         gR9SLf4NXMcqd5n5i0aD4rORBVBa7mg5ZLLzk/35rKDRh0gdNClMovcfwU77lG9+oOcd
-         NGEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773624607; x=1774229407;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RxvFtiJdeYABAFuLQ63HjhfZJQouwlO0TMFKV+DLaJg=;
-        b=jmDwJ0naC/R0YIYL7+1IAqDgeIYzztX0knTzPh68CZcfjawKiZwj3SLfghHVR90mVB
-         KREf5WAjpUPxXHPgNrPwQVSvtwOtQc2USR3wdljXlyNkuYr+M18hKyu3QWAGrhS1QmjV
-         w7xSGYWRwtQ7iKv2m9MI+vSIl7Z2fsE4gGmBs7hardfIee3fu0lk9D7gIYyLQ68iwE28
-         S21UYftZ8CJRAT/GMkFd+7VjsOeD6BGaUrtNrXsmcKtDUwkU5vQTyWXqk0Lv8QU1nn8m
-         sqkHAQksW6aZkovvhTDnILvTDGZU8by4A5+5E95FSYBR4/DPH9DBJFKrRNlSOpv00q7k
-         Qg2w==
-X-Forwarded-Encrypted: i=1; AJvYcCX4KRg0J4w17f6YSoAWfOZ7B3R6MPOs+769eemf2d3c5Ae+FfPIN4cU4vq1AcFAA8zuauqaiKg6DN/tuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0naXi16EZGPsxseqa3CUXQPMJMnRg/NzGbKssHSw9L4qqfSM+
-	TVO6w9e+NmzIJOBjwMN3Vx/bJbFDnV27Um9wOfFMUQI0jsegAbErD0JEjgZCPKPHgjqf/pMT6w8
-	/Zsd4Z/9vNAPxHbLAg1oaf4Xk3MjGD1M=
-X-Gm-Gg: ATEYQzz30oUaASiKLfwTLF7Dy6boKlwVtEvotGEuYD1o4+M6mfTkJNy7WVR8AtBrxJt
-	fuU6nx1glkX8qcK7ZblFVjTVAOQ92DMkfB9xac+Sj+PxIpKex1+5tmM400chAKCRaYOUoCXweE5
-	+YPxhut2Z9ixY8SQNHv6GNJwB5YR5yuhurUB2w3dZu21wFUHgK6tCnQS/bcMEQQZ/rjLHixcGZ7
-	q9Lp7strq13ySyb65psiDMUqGscZCvZmTVTBX0WVe0QBWR9o6O8FJKyXZ0UkABHVTSQsz2q0L8D
-	aoIsDLtSLOtZl5BT69XAswPuBPoPdb/7SHv0mJNxaVcMJ4r/VA==
-X-Received: by 2002:a05:6000:1849:b0:439:beb9:5a96 with SMTP id
- ffacd0b85a97d-43a04db6013mr18746193f8f.31.1773624606482; Sun, 15 Mar 2026
- 18:30:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5oWAq/e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20231C4CEF7;
+	Mon, 16 Mar 2026 01:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773625057;
+	bh=A9rEb2IEckfnXsbwv5XiP675av+TQ/D0j01/OowheSQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=J5oWAq/eq51bLsJwCaUGB5kxWFoau54Zi7X0awrFGrF4WZsSTXfybBfFMLrHdmdZQ
+	 JeuYYAEfX4/s833ZsJVAhRuN1oUwTShbU7Q3GeK45+U9R9oG87xRQxtnW2+1oVOmnx
+	 ykAQ6ATv2lcVmmAhDvOf7hk5yuMKCxR2P3Zcf7gom9SA+ZHSQARntL8axWg3dvxUGi
+	 SyTWtxuxonXYFdLT5uEM7Te5xGSapdRE1JQhk8x/Ae3ozNWV+bqTvMBs5TBHv9ieZl
+	 V1EG8f75bgk4HF/ER85F/TexxHDyJ5uybByH5X6cTo0WZZpmloUobFKAbcf2glNbdD
+	 0bRY/ZiYzSgvw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Frank Li <Frank.Li@nxp.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+In-Reply-To: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+Subject: Re: [PATCH v3 0/7] ASoC: basic support for configuring bus keepers
+Message-Id: <177362359868.208027.1594556804102192049.b4-ty@kernel.org>
+Date: Mon, 16 Mar 2026 01:13:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87cy17bwxz.wl-tiwai@suse.de> <177342322339.1438840.10045618627804918846.pr-tracker-bot@kernel.org>
- <CAOKSTBuRwm=d+rU-0=gax03t2=x8F7LE3xkTr5v28+DrpbvWZA@mail.gmail.com> <abdbJW1YANlTtiFs@sirena.co.uk>
-In-Reply-To: <abdbJW1YANlTtiFs@sirena.co.uk>
-From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
-Date: Sun, 15 Mar 2026 22:29:29 -0300
-X-Gm-Features: AaiRm51wSTvaDLJ2oEIArATDX8JrBfuf_Pk9f21q7rDjy_OjdYbfW8qhaEwCUGc
-Message-ID: <CAOKSTBuSXpDtSk6kct4ASdNiKiT3fqZRoAZ0jUdw6s5CqcotFA@mail.gmail.com>
-Subject: Re: [GIT PULL] sound fixes for 7.0-rc4
-To: Mark Brown <broonie@kernel.org>
-Cc: pr-tracker-bot@kernel.org, Takashi Iwai <tiwai@suse.de>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Linux Sound Mailing List <linux-sound@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-5154a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2277; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=A9rEb2IEckfnXsbwv5XiP675av+TQ/D0j01/OowheSQ=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhsztcbebHU5VSx8Kde3Sz1fWymh/t6vr9PqEyxm6DxReN
+ SU53+3oZDRmYWDkYpAVU2RZ+yxjVXq4xNb5j+a/ghnEygQyhYGLUwAmsuUSB0PjQ0OpHTydm7rm
+ m/AuemRdkN322N3r65F9Db61fW4NG5anng9z/7fd5X7YRdZTJWoS0i2+rmmrbmaIT+Nh3xP/UHe
+ 2xjv+iU8+xxp4LDPoX2wV3LjkU5Tent0qe5vv/Wd4fTjkdure1DYR/9kGsuGPeAXfsjSXvGbedc
+ tUxrmk5/i0p2kTHPhvWQgbl8f5Hrf2e9fCYKNx9qfuntRn38L/hYRvZr+e8OhxfnXgRKfkQ81s7
+ B/eXOOKUnl3Y4bJMf981qPauRO9U6albTTY9PJFsYsUT73Tda0XufOLW1Wmnt7Y43fJU+HYr09i
+ iZ3V/UlOkRMyyzgfXN+7LciGfaWKO6/aYY7o8vnO+iEdAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-As a supplement, there are other people who have been affected by this prob=
-lem.
+On Sun, 01 Mar 2026 18:05:19 +1000, James Calligeros wrote:
+> ASoC: basic support for configuring bus keepers
+> 
+> Hi all,
+> 
+> This series introduces some infrastructure to allow platform drivers
+> to specify what a DAI should be doing when it is not active on the
+> bus. The primary use case for this is configuring bus keepers which
+> may be integrated into various codecs. The instigating use case for
+> this functionality is an interesting bus topology on Apple Silicon
+> laptops with multiple codecs.
+> 
+> [...]
 
+Applied to
 
-https://gitlab.freedesktop.org/drm/amd/-/issues/5052
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
----
+Thanks!
 
+[1/7] ASoC: dt-bindings: convert tdm-slot to YAML
+      https://git.kernel.org/broonie/sound/c/5273cb8197d8
+[2/7] ASoC: dt-bindings: update tdm-slot.txt references to tdm-slot.yaml
+      https://git.kernel.org/broonie/sound/c/cc74890fb484
+[3/7] ASoC: dt-bindings: add TDM slot idle mode properties
+      https://git.kernel.org/broonie/sound/c/938c1ed56ab8
+[4/7] ASoC: soc-dai: define possible idle TDM slot modes
+      https://git.kernel.org/broonie/sound/c/7d8632f1ef6c
+[5/7] ASoC: soc-dai: add common operation to set TDM idle mode
+      https://git.kernel.org/broonie/sound/c/b758d3574e88
+[6/7] ASoC: tas2764: expose SDOUT bus keeper via set_tdm_idle operation
+      https://git.kernel.org/broonie/sound/c/45573ee1f2ba
+[7/7] ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle
+      https://git.kernel.org/broonie/sound/c/af176d0787d2
 
-Gilberto Nunes Ferreira
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
+Thanks,
+Mark
 
-Gilberto Nunes Ferreira
-+55 (47) 99676-7530 - Whatsapp / Telegram
-
-
-
-
-
-
-Em dom., 15 de mar. de 2026 =C3=A0s 22:21, Mark Brown <broonie@kernel.org> =
-escreveu:
->
-> On Sun, Mar 15, 2026 at 10:11:02PM -0300, Gilberto Ferreira wrote:
-> > I'm truly sorry to respond to this email, but unfortunately Linux
-> > 7-rc4 is not working for me yet.
-> > Still no sound output in the AMD Renoir/Cezanne HDMI adapter.
-> > I notice the renoir soc driver are loaded but no Cezzane included:
->
-> Copying in the AMD driver maintainers, not deleting any context for
-> their benefit.
->
-> > lsmod | grep renoir
-> > snd_sof_amd_renoir     12288  0
-> > snd_sof_amd_acp        69632  5
-> > snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd=
-_acp63,snd_sof_amd_renoir
-> > snd_sof_pci            24576  5
-> > snd_sof_amd_acp70,snd_sof_amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd=
-_acp63,snd_sof_amd_renoir
-> > snd_acp_config         24576  10
-> > snd_rn_pci_acp3x,snd_sof_amd_acp70,snd_pci_acp6x,snd_pci_acp5x,snd_sof_=
-amd_rembrandt,snd_sof_amd_vangogh,snd_sof_amd_acp63,snd_acp_pci,snd_pci_ps,=
-snd_sof_am
-> > d_renoir
-> >
-> > That's the audio devices in my system:
-> >
-> > lspci -vv | grep Audio
-> > 04:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI]
-> > Renoir/Cezanne HDMI/DP Audio Controller (prog-if 00 [HDA compatible])
-> >        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI]
-> > Renoir/Cezanne HDMI/DP Audio Controller
-> > 04:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
-> > Audio Coprocessor (rev 01)
-> > 04:00.6 Audio device: Advanced Micro Devices, Inc. [AMD] Ryzen HD
-> > Audio Controller (prog-if 00 [HDA compatible])
-> >        DeviceName: HD Audio Controller
-> >
-> >
-> > Best regards.
-> >
-> >
-> >
-> > ---
-> >
-> >
-> > Gilberto Nunes Ferreira
-> >
-> >
-> > ---
-> >
-> >
-> > Gilberto Nunes Ferreira
-> > +55 (47) 99676-7530 - Whatsapp / Telegram
-> >
-> >
-> >
-> >
-> >
-> >
-> > Em sex., 13 de mar. de 2026 =C3=A0s 14:34, <pr-tracker-bot@kernel.org> =
-escreveu:
-> > >
-> > > The pull request you sent on Fri, 13 Mar 2026 15:55:52 +0100:
-> > >
-> > > > git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/=
-sound-7.0-rc4
-> > >
-> > > has been merged into torvalds/linux.git:
-> > > https://git.kernel.org/torvalds/c/56cf10db2ae0bb90c69b644d639b559106d=
-52a8d
-> > >
-> > > Thank you!
-> > >
-> > > --
-> > > Deet-doot-dot, I am a bot.
-> > > https://korg.docs.kernel.org/prtracker.html
-> > >
