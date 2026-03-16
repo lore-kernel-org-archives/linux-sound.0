@@ -1,206 +1,304 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A98F396595
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 13:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EF839B95F
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 14:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773668407; cv=none; b=aXElY+hU4mvYtPWpdqAz0bWdpIDrFH3zQlIxtrEfEEVqva6q1b5pIlHalPI4tLOFyxUR4PjybAb8VkliNscs5Kw0/ktE50n30OpZRDDukani/4gsS4GyVYQhr+MUbgq6pjCVQI8Eg+0Y/2KnVEW9ZErVzdum3pgb05SHfCVTnnY=
+	t=1773669732; cv=none; b=R5YiAi5dNumXVaptFQdUb+FRn2nx0OvWQ9IYOVu5VvDpt/DgMT+zePMYmWevEZiOWfvlbUmK+RMuDroMRcGFw5J3S7qKnFFLZJI8oaFWKoRQX/iHteTrWGhy1MQaF7mJywU3Nunp+vIWbkj0Pd9hBy5Z7xTbaNPU/+EI0y6hMWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773668407; c=relaxed/simple;
-	bh=sKyQH35ghxIj5e5o1dSdTuIDLY+HV1BGPGzDv+i/p8s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CVcGYIvHPP/74H9UBpxBeF5710jp/VOvJe4w7gfbzeEQFtpUcR0qOZ37jDVAyd0UUnmyO4JHZbQ+w1hN72GAOn+C3NZJOVMqHN6ZbUJlBrRsyZw5wFNDPP5fJX/TSXvS72DSexmDCAU5EPf8RLmk8dKOYhmb4PFWamyzQSpdzZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3dpIPnf; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773669732; c=relaxed/simple;
+	bh=PZ0J6PzQQlFB79MggTtpj7KejTL/7iuZbV9ZGwEnoFc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CnQGqLchcpYqanomPKF1BUrwoYop/pG3+WrMbOylD31U2FaHbqQP9epGcuRAINFgOZtlD5rpttcNy7UVknbZ5SuUDs1KtBJbwC0z2faPhWPoob5PRFPpwzLK7cO3glxCStngRz1wcO9Lycdpm5W24qV4XTfDKhHkB82ZeuAuxMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=VkOx88Ng; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3dpIPnf"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2b4520f6b32so6416363eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 06:40:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="VkOx88Ng"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so4551056f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 07:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773668405; x=1774273205; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UAkxgZR7Mfx6piu37ajKAIMdT55O/YxifamFQJCQ4oc=;
-        b=V3dpIPnfZFdCaPvs8RPqCsiwjdvz+ylCixv13RnHTVsj5jElWhl++5JpFa4ritFY8j
-         ipgrJ1mL66TuqyuIX45dij3I1ccthyn+2j2BWf3s6LHHiAJvq7C6z2LzXVH7yqs4y8ho
-         n71jFIMucZbJGeSDUFMwNTfi3b3wOYSJFPyHJJ2MMYU/voN2DDcoIjuQp1U4wJg23052
-         m2R8qq/XEbi9PK6POdfYVTxK8JgvsK4IjLfZdMgk6MlOOi7b0LaoX5uVIUDNbSgwmzcT
-         4esw7GGhQvT1xHVCrii46pz1Ooj/+TnhJrwxh29uSI+zlHCea5K9bCM+HJh8l/VGNY43
-         GzKg==
+        d=tuxon.dev; s=google; t=1773669729; x=1774274529; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dmbI3WtmHgbU8oxdywIQFrT/S/wwrbUfPeX2aJLJT48=;
+        b=VkOx88NgHPAER2EPI/XAlr5y+MMm9qzE5BNH4zQ3LD5Lp36jPQIAC20cYXflLFp7S+
+         NZdwvU0Pq6AdB7GgjgDkCE/hXyPV4U7ZcNfpXMD4/RX5tCVwjlEKExd8mqzU6+lVsFKg
+         1JZfx49oBBdY9/nBh2bApxsc/RB8diAZlJxCal1jUD6eEV9Z5gCcgpT6SK1Uo+BzmqbX
+         jxldTDIDBDS4XoXBWgpN8C7hb4OXbmdLP6aOVJWe483d/y4hBSydiyV6aljyqJqanXMF
+         aXTzPIJbgxsfHEKB+wotUVOYn4AFFQDOp/47+r6mHUe97mMh8qi7A8SkOvTmihhIHdlg
+         nSuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773668405; x=1774273205;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UAkxgZR7Mfx6piu37ajKAIMdT55O/YxifamFQJCQ4oc=;
-        b=gGMOPd8HcRdW3athYQ4tIVURaQCt1IZgLQN05I+DTthJ2TrD/0huo5WH5V2cALySbf
-         TQdRWXv9Ip+QrkVhen9JKogk852KuOT9hpeC++sleTcaT+T9PKZZVwQOxQu/iY/3QFHY
-         BJAm+X6EvbJipX3l7Vzs9gnIkwrVkU1f4e3H9Ky1Xrj2wER2q9/RLGrI1ElkBkK/6R7L
-         cdm4Y6urpZK2YtkA0hhxzx00nIwGZzYldLsDIdZwJB+P2XV1pzPIhrh5v6Ait2IjNO1V
-         w8gdGJB9Xu/TZ9hP4V/DoCDKrLuQhvSGokKhkzNQcpcjdTPT5AJ9xviP4qXwDSzArkMr
-         VXgA==
-X-Gm-Message-State: AOJu0YzR0IutnNR39+MtYo+ozvkZij7+cI361D1Mf7gF36oI+tWYQLn4
-	3IXOhkAbZ8boW8q+1MiD4hAVSwiACWFvKQtVxTS+tZFUyuX9FlkonaWyVfyv3/ht
-X-Gm-Gg: ATEYQzzvGpm//dcpd0ycGj+y42cZhHCvW9oCjLxXQ3roLrUs0WKUwUyrLAMs5nR1qCN
-	QyfzKh56jgsEyNTe4jeC4NFIGPdF5/EXTzRfJJIaye27vr07P1OJ624xrcZTnSHTyUOOhe5lJN2
-	if5qiVvzTja1eTzW++5rruMEl/7T3sWyTEzNit7eEKl+KOOLqX3yoaKvD9tyI2faBnXvWLH3DiD
-	3O0oVf9Sv/vStf61XL6T4V2ypi8LZRy290PNs+KIuVm0Gf2Bfe64q33wEJIkxjRLK65ADGuGXIO
-	u0YPVhZ4lWq/BGghW+YPIIZgggs7hggXafRRcl/x6WxfE67Y9hNoF4wLudeMicMHRat9mfAR+aJ
-	KK9W2BjKBd2z51q7xCV6VmXVVeMxpxN9r1ZQ0eolx0RzLuTO1zIkdmKTFrWRWk8ahYabnvDlccD
-	2O86IyfV4LWzRjGqLwPaErdcYAHxrxilGF9slrSF4AIl2TR9l80Dexhk1ARJFzBLjVAFqLawJ0q
-	jM=
-X-Received: by 2002:a05:693c:3113:b0:2b7:fdb6:ccf6 with SMTP id 5a478bee46e88-2bea547ecd8mr5393919eec.14.1773668404850;
-        Mon, 16 Mar 2026 06:40:04 -0700 (PDT)
-Received: from [192.168.1.8] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3a1117sm17403792eec.3.2026.03.16.06.40.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 06:40:04 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 16 Mar 2026 10:39:38 -0300
-Subject: [PATCH] ALSA: timer: keep a list of open masters for slave lookup
+        d=1e100.net; s=20251104; t=1773669729; x=1774274529;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dmbI3WtmHgbU8oxdywIQFrT/S/wwrbUfPeX2aJLJT48=;
+        b=TcBH+fLCWH3OaXWp3VuOY2SLcWJkb4yMoasfYWKf8MkiOabangh+uXJ6EcFJW996ld
+         bOj4ZMvpi3hh6zD86p0yEVs9POQutBadLdnrOdQSfjG+vh+EMVjweqc2HUN6sag7uWZi
+         SzeTnNd26HZmoWXxjAu1kPHsJwLc7e+QrDoQeKIglirFYeAYL4NErEaFDDuSr5sIpTjy
+         1jmv6T6EAKiTveVMQkb+Qsmsw6SSZDEWRd93l0bR0Evfr9l9vSJVPcalXAoH1UBhOJQv
+         MHaAF3lUOChPZMIXsSFKPabZ39POEC7gjTU800smzydkL4jpaqBlVu9exF8y6CSi+Vwn
+         Ne3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUyoSc/kvfbSIiiZ66WVosx+rbG5fGY3TjmPgnkPh9w4yL5h0AeDihkJitOj0i7CVL5Y7AcqQ58kTM0PQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy34Nb2/pbLER0/W95p93VFU8g945DlnMivh+uxXm0MIDKEn/+
+	f7bpVOQDaIo9snpU5TScCDrmqxcDbQ8x2BqxqoKwFOGXAArRSRzuxa3nWO9gM7lSt7HR3aBvxJF
+	QMoBb
+X-Gm-Gg: ATEYQzzbvjgKRdT2KZufLZXqsw+vUtwhl6fYvjKG7b7InFiqTY7SbeXunAdBfEwkPUZ
+	deDmlyRtoukjdJ4bed9b6UcnKrPSWY9DEHjy4jmFd1VI8/aSTvFIt5uM5iO7Cf0miJwCWINZ+lV
+	4O0blF45OaxpYXvfl8GLdXoxk3nVoyGSHiecodTTIsIf16JF/dDETvBMeAyQ/Bpa8dG9nmx14s1
+	12YG8D9dX10B/UAyQC344YDUmm423IFPeX4Ag4TReZk9gCQb/htqO3v1jNRsczqU+228oUwyGmq
+	BzYhhlK5h5QdIz7bLVSZNZCl9FSHw8SVavoueDaL9WvJdgpQxjG8S/RyUolQSXMvJvHwCSoqyMA
+	7acfLYOPzlv9xCiJlyyX3b128MPwUlaZstAHgL2OZWkHjNS6t4fFWu/wEigBzqYTmxt411rWdXy
+	GNir89l/2woxllXiU+PVgFVFAd3RhnCJUTSwpEkoRqFaLFCH4CXP1KY9K0+76UKb6rvnbV
+X-Received: by 2002:a05:6000:2c08:b0:439:cd10:aaf1 with SMTP id ffacd0b85a97d-43a04dcbbb0mr24617391f8f.53.1773669728802;
+        Mon, 16 Mar 2026 07:02:08 -0700 (PDT)
+Received: from ?IPV6:2a02:2f04:6208:0:c5e3:3624:ad1c:6b4? ([2a02:2f04:6208:0:c5e3:3624:ad1c:6b4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe22529csm42738759f8f.31.2026.03.16.07.02.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 07:02:08 -0700 (PDT)
+Message-ID: <513dec51-b417-41f2-bcbe-015ad99d6034@tuxon.dev>
+Date: Mon, 16 Mar 2026 16:02:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260316-alsa-timer-master-list-v1-1-fb95e547110a@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MSQqAMAwAvyI5G6hVi/oV8VBtqgE3miKC+HeLp
- 2EOMw8IBSaBLnsg0MXCx56kyDOYFrvPhOySg1baqLIwaFexGHmjgJuVmLCyRPSaKjfWTd0aByk
- +A3m+/3E/vO8HAepOjGgAAAA=
-X-Change-ID: 20260316-alsa-timer-master-list-f2e4db58596d
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4136;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=sKyQH35ghxIj5e5o1dSdTuIDLY+HV1BGPGzDv+i/p8s=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJk7OHQlKp7s65wSoWrPH2DOdbTPYYHK/OdVbFIReikXt
- s46wVTaUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABORu83IMHnWBaYLV9857ns3
- //fC3tY+ySdPjP9nrtLS+xy27cgbi8MM/8ymHfe/O7XfctOZQ5V32h0MtKtC866+47II6VVkuVf
- 4gRsA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] dmaengine: sh: rz-dmac: Add suspend to RAM support
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: vkoul@kernel.org, biju.das.jz@bp.renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
+ geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
+ dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260126103155.2644586-6-claudiu.beznea.uj@bp.renesas.com>
+ <abKw8GKjaWHR5RtU@tom-desktop>
+Content-Language: en-US
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <abKw8GKjaWHR5RtU@tom-desktop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-snd_timer_check_slave() still walks all registered timers and all open
-timer instances to find a matching master for a newly opened slave.
+Hi, Tommaso,
 
-Maintain a global list of open master instances that can accept slave
-links and use it for the slave lookup path instead. This keeps the
-existing matching semantics while avoiding the nested walk over
-snd_timer_list and each timer open_list_head.
+On 3/12/26 14:26, Tommaso Merciai wrote:
+> Hi Claudiu,
+> Thanks for your patch.
+> 
+> On Mon, Jan 26, 2026 at 12:31:53PM +0200, Claudiu wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The Renesas RZ/G3S SoC supports a power saving mode in which power to most
+>> SoC components is turned off, including the DMA IP. Add suspend to RAM
+>> support to save and restore the DMA IP registers.
+>>
+>> Cyclic DMA channels require special handling. Since they can be paused and
+>> resumed during system suspend and resume, the driver restores additional
+>> registers for these channels during the resume phase. If a channel was not
+>> explicitly paused during suspend, the driver ensures that it is paused and
+>> resumed as part of the system suspend/resume flow. This might be the
+>> case of a serial device being used with no_console_suspend.
+>>
+>> For non-cyclic channels, the dev_pm_ops::prepare callback waits for all
+>> ongoing transfers to complete before allowing suspend-to-RAM to proceed.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
 
-The reverse path in snd_timer_check_master() already scans only the
-pending slave list, so this makes both lookup paths closer in shape
-without changing the master/slave linking logic.
+[ ... ]
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- include/sound/timer.h |  1 +
- sound/core/timer.c    | 29 ++++++++++++++++++++---------
- 2 files changed, 21 insertions(+), 9 deletions(-)
+>> +static int rz_dmac_suspend(struct device *dev)
+>> +{
+>> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
+>> +	int ret;
+>> +
+>> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
+>> +		struct rz_dmac_chan *channel = &dmac->channels[i];
+>> +
+>> +		guard(spinlock_irqsave)(&channel->vc.lock);
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
+>> +			continue;
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED))) {
+>> +			ret = rz_dmac_device_pause_internal(channel);
+>> +			if (ret) {
+>> +				dev_err(dev, "Failed to suspend channel %s\n",
+>> +					dma_chan_name(&channel->vc.chan));
+>> +				continue;
+>> +			}
+>> +		}
+>> +
+>> +		channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
+>> +		channel->status |= BIT(RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED);
+>> +	}
+>> +
+>> +	pm_runtime_put_sync(dmac->dev);
+>> +
+>> +	ret = reset_control_assert(dmac->rstc);
+>> +	if (ret) {
+>> +		pm_runtime_resume_and_get(dmac->dev);
+>> +		rz_dmac_suspend_recover(dmac);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+> 
+> Testing suspend/resume support on RZ/G3E (DMAC + RSPI) I'm seeing the
+> following when suspending:
+> 
+> rz_dmac_suspend()
+> 
+>      [   50.657802] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.667577] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.675984] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.684394] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.692804] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.701221] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.709642] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.718062] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.726480] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+>      [   50.734900] rz-dmac 11400000.dma-controller: PM: device_prepare(): genpd_prepare returns -11
+> 
+> I found out that this issue can be solved by:
+> 
+> When the IRQ handler thread completes a non-cyclic transfer and there
+> are no more descriptors queued (ld_queue is empty), invalidate all
+> link-mode descriptor headers and clear the RZ_DMAC_CHAN_STATUS_ENABLED
+> bit into the rz_dmac_irq_handler_thread():
+> 
+> static irqreturn_t rz_dmac_irq_handler_thread(int irq, void *dev_id)
+> {
+> 	struct rz_dmac_chan *channel = dev_id;
+> 	struct rz_dmac_desc *desc = NULL;
+> 	unsigned long flags;
+> 
+> 	spin_lock_irqsave(&channel->vc.lock, flags);
+> 
+> 	if (list_empty(&channel->ld_active)) {
+> 		/* Someone might have called terminate all */
+> 		goto out;
+> 	}
+> 
+> 	desc = list_first_entry(&channel->ld_active, struct rz_dmac_desc, node);
+> 
+> 	if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)) {
+> 		desc = channel->desc;
+> 		vchan_cyclic_callback(&desc->vd);
+> 		goto out;
+> 	} else {
+> 		vchan_cookie_complete(&desc->vd);
+> 	}
+> 
+> 	list_move_tail(channel->ld_active.next, &channel->ld_free);
+> 	if (!list_empty(&channel->ld_queue)) {
+> 		desc = list_first_entry(&channel->ld_queue, struct rz_dmac_desc,
+> 					node);
+> 		channel->desc = desc;
+> 		if (rz_dmac_xfer_desc(channel) == 0)
+> 			list_move_tail(channel->ld_queue.next, &channel->ld_active);
+> +	} else {
+> +		rz_dmac_invalidate_lmdesc(channel);
+> +		channel->status &= ~BIT(RZ_DMAC_CHAN_STATUS_ENABLED);
+> 	}
+> out:
+> 	spin_unlock_irqrestore(&channel->vc.lock, flags);
+> 
+> 	return IRQ_HANDLED;
+> }
+> 
+> 
+> 
+>> +
+>> +static int rz_dmac_resume(struct device *dev)
+>> +{
+>> +	struct rz_dmac *dmac = dev_get_drvdata(dev);
+>> +	int ret;
+>> +
+>> +	ret = reset_control_deassert(dmac->rstc);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = pm_runtime_resume_and_get(dmac->dev);
+>> +	if (ret) {
+>> +		reset_control_assert(dmac->rstc);
+>> +		return ret;
+>> +	}
+>> +
+>> +	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_0_7_COMMON_BASE + DCTRL);
+>> +	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_8_15_COMMON_BASE + DCTRL);
+>> +
+>> +	for (unsigned int i = 0; i < dmac->n_channels; i++) {
+>> +		struct rz_dmac_chan *channel = &dmac->channels[i];
+>> +
+>> +		guard(spinlock_irqsave)(&channel->vc.lock);
+>> +
+>> +		rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
+>> +
+>> +		if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))) {
+>> +			rz_dmac_ch_writel(&dmac->channels[i], CHCTRL_DEFAULT, CHCTRL, 1);
+>> +			continue;
+>> +		}
+>> +
+>> +		rz_dmac_ch_writel(channel, channel->pm_state.nxla, NXLA, 1);
+>> +		rz_dmac_ch_writel(channel, channel->chcfg, CHCFG, 1);
+>> +		rz_dmac_ch_writel(channel, CHCTRL_SWRST, CHCTRL, 1);
+>> +		rz_dmac_ch_writel(channel, channel->chctrl, CHCTRL, 1);
+>> +
+>> +		if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL)) {
+>> +			ret = rz_dmac_device_resume_internal(channel);
+>> +			if (ret) {
+>> +				dev_err(dev, "Failed to resume channel %s\n",
+>> +					dma_chan_name(&channel->vc.chan));
+>> +				continue;
+>> +			}
+>> +		}
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+> 
+> Then on resume I'm seeing the following when testing DMAC + RSPI:
+> 
+> [   52.831840] spi-nor spi0.0: SPI transfer failed: -110
+> [   52.836950] spi_master spi0: failed to transfer one message from queue
+> [   52.843474] spi_master spi0: noqueue transfer failed
+> 
+> Which I found out that can be solved by moving:
+> 
+> 	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
+> 
+> after the cyclic check:
+> 
+> 	if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))) {
+> 		rz_dmac_ch_writel(&dmac->channels[i], CHCTRL_DEFAULT, CHCTRL, 1);
+> 		continue;
+> 	}
+> 
+> +	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
+> 	rz_dmac_ch_writel(channel, channel->pm_state.nxla, NXLA, 1);
+> 	rz_dmac_ch_writel(channel, channel->chcfg, CHCFG, 1);
+> 	rz_dmac_ch_writel(channel, CHCTRL_SWRST, CHCTRL, 1);
+> 
+> In this way
+> 	
+> 	rz_dmac_set_dma_req_no()
+> 
+> Is only called for cyclic channels
+> 
+> What do you think?
 
-diff --git a/include/sound/timer.h b/include/sound/timer.h
-index 760e132cc0cd..83bafe70cf33 100644
---- a/include/sound/timer.h
-+++ b/include/sound/timer.h
-@@ -102,6 +102,7 @@ struct snd_timer_instance {
- 	unsigned int slave_id;
- 	struct list_head open_list;
- 	struct list_head active_list;
-+	struct list_head master_list;
- 	struct list_head ack_list;
- 	struct list_head slave_list_head;
- 	struct list_head slave_active_head;
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 6a70df7ae019..820901d503af 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -129,6 +129,9 @@ static LIST_HEAD(snd_timer_list);
- /* list of slave instances */
- static LIST_HEAD(snd_timer_slave_list);
- 
-+/* list of open master instances that can accept slave links */
-+static LIST_HEAD(snd_timer_master_list);
-+
- /* lock for slave active lists */
- static DEFINE_SPINLOCK(slave_active_lock);
- 
-@@ -161,6 +164,7 @@ struct snd_timer_instance *snd_timer_instance_new(const char *owner)
- 	}
- 	INIT_LIST_HEAD(&timeri->open_list);
- 	INIT_LIST_HEAD(&timeri->active_list);
-+	INIT_LIST_HEAD(&timeri->master_list);
- 	INIT_LIST_HEAD(&timeri->ack_list);
- 	INIT_LIST_HEAD(&timeri->slave_list_head);
- 	INIT_LIST_HEAD(&timeri->slave_active_head);
-@@ -245,6 +249,12 @@ static int check_matching_master_slave(struct snd_timer_instance *master,
- 	return 1;
- }
- 
-+static bool snd_timer_has_slave_key(const struct snd_timer_instance *timeri)
-+{
-+	return !(timeri->flags & SNDRV_TIMER_IFLG_SLAVE) &&
-+		timeri->slave_class > SNDRV_TIMER_SCLASS_NONE;
-+}
-+
- /*
-  * look for a master instance matching with the slave id of the given slave.
-  * when found, relink the open_link of the slave.
-@@ -253,19 +263,15 @@ static int check_matching_master_slave(struct snd_timer_instance *master,
-  */
- static int snd_timer_check_slave(struct snd_timer_instance *slave)
- {
--	struct snd_timer *timer;
- 	struct snd_timer_instance *master;
- 	int err = 0;
- 
--	/* FIXME: it's really dumb to look up all entries.. */
--	list_for_each_entry(timer, &snd_timer_list, device_list) {
--		list_for_each_entry(master, &timer->open_list_head, open_list) {
--			err = check_matching_master_slave(master, slave);
--			if (err != 0) /* match found or error */
--				goto out;
--		}
-+	list_for_each_entry(master, &snd_timer_master_list, master_list) {
-+		err = check_matching_master_slave(master, slave);
-+		if (err != 0) /* match found or error */
-+			goto out;
- 	}
-- out:
-+out:
- 	return err < 0 ? err : 0;
- }
- 
-@@ -377,6 +383,8 @@ int snd_timer_open(struct snd_timer_instance *timeri,
- 	timeri->slave_id = slave_id;
- 
- 	list_add_tail(&timeri->open_list, &timer->open_list_head);
-+	if (snd_timer_has_slave_key(timeri))
-+		list_add_tail(&timeri->master_list, &snd_timer_master_list);
- 	timer->num_instances++;
- 	err = snd_timer_check_master(timeri);
- list_added:
-@@ -431,6 +439,9 @@ static void snd_timer_close_locked(struct snd_timer_instance *timeri,
- 			num_slaves--;
- 	}
- 
-+	if (!list_empty(&timeri->master_list))
-+		list_del_init(&timeri->master_list);
-+
- 	/* force to stop the timer */
- 	snd_timer_stop(timeri);
- 
+Thank you for trying this series and looking to provide fixes. Unfortunatelly, I 
+currently don't have at hand a platform with SPI enabled to check it. I'm going 
+to investigate the fixes you provided and integrate them in the next version.
 
----
-base-commit: 6447e32cb0a0b05b75d7a591501660ac3cfe5c31
-change-id: 20260316-alsa-timer-master-list-f2e4db58596d
-
-Best regards,
--- 
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
-
+Thank you,
+Claudiu
