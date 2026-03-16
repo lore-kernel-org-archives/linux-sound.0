@@ -1,118 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B1221576E
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 01:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8B4469D
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 01:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773623002; cv=none; b=mDkpkzmbHgRK0nsuvUsSVmNuPW36GA64s1qN0VYK4IEuH7xfHKv1WpkLYOcM+FVP8sUCZNXr20zuuysEdYrVeMUmIFkgZzonDr5eI5xTsNk6A7hkxGXKFFx/R2s7+nm0QntiXxBryO6awkfmyiB3S51f0ocUlpICLm/1HwcQDu4=
+	t=1773623294; cv=none; b=QG7iPZ32ykTTJI7UDL1qZfZLb2Gq/7/E2PWbo4NQ3JpwQz8sBQ1fYULIFhCdD6aVgWhfjwAvAKLPzIdaoDwFQtuB7BZPzH0Fw4xvYqtaeB6Epiym50xoh8OLyZGqDZ7jA20Zj5E8PH1N8nXMbZBg4mBT2IbF0HjZHsOkOG6/1Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773623002; c=relaxed/simple;
-	bh=ati1CF4tDZQhJzqSYaWPeoP5+DrYTvk6QlhTmSUyxhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MRzOWYMdQa9oOXV0h7WkIHTzL/BcVOFe3IpxQWTqQAqLV75v6xZTrgtJJ+pR5FTNPfhMfftGZLJm8RTJo/HphMH5dsue0QZVHmn5TqXSWj0XoYmAhUaMAJoRw/v0D0Bb2jMdLWLG2wnilDssv6IErUfRbmX9+1UQa3X39Of7zAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXBqvfnk; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773623294; c=relaxed/simple;
+	bh=c7ScVXyuqXiE2ePaLXunyINVvCKvDDukZnlDyauyvUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ox1RQLVL3ddDXkpACZAF2a2c5IXm2bbCOuGP2H54X493H2LNyNTF+KTSYp8j86WX8kiSed/0O+TXcjV6qYo4+BRWd6YX58UswBgwPT9Wae6miKCK+LClG6p+/3tTQ3vQ0mtWd/yw12fCxnVsujgm17MGMF3c4CTrEnW+rpaO6Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjfT9acI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXBqvfnk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773623002; x=1805159002;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ati1CF4tDZQhJzqSYaWPeoP5+DrYTvk6QlhTmSUyxhs=;
-  b=KXBqvfnkLUy+q8sgY1Gwz8TFCs8GfydxLzLixs//SYMRvx6bt3XPWB42
-   9+/K1Gft53jDZM+3Hj7BPeXUCDVEfRYYff5hQjqibU7wFc0b7A/BwMIBV
-   GRvFdkoSEsYZH74ZySeNoX/UTB6QTIrCN4qMfFRbuTHaI/dQ2xVSdmPNN
-   uObIOl8vTNVnWWZBYhUOmsYAmlYnDx7qILYzpWPzNGyE88s/gV/ccTFfl
-   c773ZEJtntU79KCiIiJfDx3LRntRmKVShe4EoSpm7yE9OxowknApVHUZ4
-   GHKIWEtCXM/3LJFdxvS7ozyZ0hiAqFzmnAmfdmiKf+C7wcQrPG5J3vX7C
-   g==;
-X-CSE-ConnectionGUID: E9djic5uQb60Rjhi6jk1GQ==
-X-CSE-MsgGUID: HGyhzBbGSPqtM8pLBHvj1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="78486098"
-X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="78486098"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 18:03:22 -0700
-X-CSE-ConnectionGUID: iM1bAjsYQp+5aZtAKhv8jA==
-X-CSE-MsgGUID: psO3HJI/RemNRz0goniwRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,123,1770624000"; 
-   d="scan'208";a="244794708"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 18:03:20 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 2/2] ASoC: soc_sdw_utils: remove codec name index of snd_soc_sdca codecs
-Date: Mon, 16 Mar 2026 09:03:08 +0800
-Message-ID: <20260316010308.285622-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260316010308.285622-1-yung-chuan.liao@linux.intel.com>
-References: <20260316010308.285622-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjfT9acI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378EEC4CEF7;
+	Mon, 16 Mar 2026 01:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773623293;
+	bh=c7ScVXyuqXiE2ePaLXunyINVvCKvDDukZnlDyauyvUA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qjfT9acIaFBYITUioMCltr1vRPvrj9uxlI+2bQOOKNY31kVrHYj+j0hgI4cMe+iOG
+	 DGBnaqlHYRJBsuT7Q1opLktCsO19kFiPN83IFoTijqW+hQmchxN86ii6qZPUjGDlg4
+	 YBJCJryvlQshZj7MaZxBk+S2bJWS2kc0PGvz28pQnXx5EorFojl8iSCEuWi/zlOf7Q
+	 JYuyNzj3aHXT5xMtx19VR+HYsh4V+L0vViYHJCWtww/n9mLA763xLYViOFv28UWu0p
+	 pgovoMbLAC+1WsTrK4AgMLCZj0luQZ0ZHDyzdksv7OwUtuINlIWGj8U8o2Qtp8jjea
+	 hEL4r9DuUhnDg==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 993671AC567F; Mon, 16 Mar 2026 01:08:10 +0000 (GMT)
+Date: Mon, 16 Mar 2026 01:08:10 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH 22/29] ASoC: sof: name back to pcm_new()/pcm_free()
+Message-ID: <abdX-nFZbDInZxXH@sirena.co.uk>
+References: <87v7fcp10x.wl-kuninori.morimoto.gx@renesas.com>
+ <87zf4onmdi.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="66Lj/vmqsYnomhjF"
+Content-Disposition: inline
+In-Reply-To: <87zf4onmdi.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Identify your visitor.
 
-The index could change if any endpoint is not present. Remove the index
-and let the machine driver get the right codec name from the registered
-components.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- sound/soc/sdw_utils/soc_sdw_utils.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--66Lj/vmqsYnomhjF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index ab197edeb75a..18f46e3afd60 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -819,7 +819,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		.dais = {
- 			{
- 				.direction = {true, false},
--				.codec_name = "snd_soc_sdca.UAJ.1",
-+				.codec_name = "snd_soc_sdca.UAJ",
- 				.dai_name = "IT 41",
- 				.dai_type = SOC_SDW_DAI_TYPE_JACK,
- 				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-@@ -827,7 +827,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 			},
- 			{
- 				.direction = {false, true},
--				.codec_name = "snd_soc_sdca.SmartMic.0",
-+				.codec_name = "snd_soc_sdca.SmartMic",
- 				.dai_name = "OT 113",
- 				.dai_type = SOC_SDW_DAI_TYPE_MIC,
- 				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-@@ -835,7 +835,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 			},
- 			{
- 				.direction = {false, true},
--				.codec_name = "snd_soc_sdca.UAJ.1",
-+				.codec_name = "snd_soc_sdca.UAJ",
- 				.dai_name = "OT 36",
- 				.dai_type = SOC_SDW_DAI_TYPE_JACK,
- 				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-@@ -844,7 +844,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		.dai_num = 3,
- 		.auxs = {
- 			{
--				.codec_name = "snd_soc_sdca.HID.2",
-+				.codec_name = "snd_soc_sdca.HID",
- 			},
- 		},
- 		.aux_num = 1,
--- 
-2.43.0
+On Wed, Mar 04, 2026 at 06:23:53AM +0000, Kuninori Morimoto wrote:
+> We have been used pcm_new()/pcm_free(), but switched to
+> pcm_construct()/pcm_destruct() to use extra parameters [1].
+>=20
+> pcm_new()/free() had been removed [2], but each drivers are still
+> using such function naming. Let's name back to pcm_new()/pcm_free()
+> again.
 
+This needs a rebase onto current for-7.1.
+
+--66Lj/vmqsYnomhjF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm3V/kACgkQJNaLcl1U
+h9CrIwf+OFGH/JmXvC6r2VLAwixj1pfZeFBBA7L1NeN1Cfhm19iAF1wmnLfP0vz+
+CxxG2PiXL+d0Cs0P2JNCmwkjYTG97TkZ1HocOK5x8OAdwChF3hyWOoD9Ry8O89r2
+QyL9YUvZV5ZfCJvyuiWWYgYsRptJoN0W3VK667CUgd8tEvKpCQpE11ft+/XHCW68
+3Z5L/JHDUVYUEXbS6/8gf0FhDlzRoP2z1thRRCvQfwccT9BZ91RQWnBdNGMxy8CU
+5QG7FtU5D2AC9bbqy37KF6oZw8PrqfyKK7FV7TQcXp9bl5zvS+p+H2GV40yGKE5c
+cctq8V23TttOFdp/t4pFXm7h2OH7/A==
+=mboj
+-----END PGP SIGNATURE-----
+
+--66Lj/vmqsYnomhjF--
