@@ -1,106 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8362D23EA89
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 01:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5496C2DE702;
+	Mon, 16 Mar 2026 02:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773625159; cv=none; b=BnSZjzFfea+efuFMynb+fcI0/tBMNi17kVNRIRzHaQXQMhxezzhxXmLKccfzmZRH77jMKUbPA6fvLnmvMSF/83lQbyld+8PltPddEHsxHE06kLMdUEjB5/tBiSRnuqnjgwqpt2MNe6ALUVP0lgA/3E4Fkde6nUyzEe2Lcb6KEAU=
+	t=1773626546; cv=none; b=bda71OqaRw/56iijCXvOSdf8TBl4gpGB7SiAOHBZUBXphXMpQyrmBxcVbOSVx9DA4nNnjmXSMKsfjMKfHGRvFp1mOvYFvAfnPQwpcDARbZLa1d++DY922tbtGCDPU9IeXZvR8yFrEqtVJjanOqYpI2Oo+QvcH0SPoF/ujlBKAII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773625159; c=relaxed/simple;
-	bh=yG5UJ3ZtQkD23AG+xjDR/pYZK/46vg6UZI4DXDhAvOE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YEqefe1Zlbvxki6UDp+I8E2G9T4qYDsNzbBcoR+p2zg5bpX2HZmtSZKEiBEzUhPQlyAJxAgAhrsFgN7krjiMuFxe2CDo7Ouz9oFOgqTnMh11WpwAqzH3RRHyOt0XPnq3JeFeZ7STWbfLNtHbuGgdupakmh7EEX93F4frtWD0U+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2g8DyEh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773626546; c=relaxed/simple;
+	bh=kkXUNwiD69Xpf87E5BcMyOtlNTMPeQ7/lEHjHLgRL+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W/JhU8K7rphWRiYlmYtHhijyCL0H46MHWJoAJJBJAWlZvb0T02gnWshqtbfiiKcxOPkK0OKzpdI1zN5f8VZ5E1XdzOpCbQfyYEVOkCCZcJov6GbIxLIJHSYqYmN56fmKrTWLSulDLGezxM9liThq8omAlerZmI9ahe1ry7RoOpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PaY9HkVE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2g8DyEh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3443DC4CEF7;
-	Mon, 16 Mar 2026 01:39:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PaY9HkVE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24C2DC2BC9E;
+	Mon, 16 Mar 2026 02:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773625159;
-	bh=yG5UJ3ZtQkD23AG+xjDR/pYZK/46vg6UZI4DXDhAvOE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=S2g8DyEh3LuXnhbc8JHZ6S2rp0f85tenPjBE11HVK2pw+I7FhydztJH3W7e+0y9rZ
-	 aE5fAzQCbWWpICEsVtv0rKzZRGVPUqNNsEL3df/906cW6d8ty8h3Swv5r/jhyPKL4A
-	 c3LAPPHms7ytuA7d0NlcCc2UxHZToX2FeyxB6aODp+qMP5FsqEJcXqT+MJ4xQTWEjm
-	 KTDJDzsILmMRpS8Q68muzeW7ns0LD78zq7i+Fi5wz4C1zc766YHW4w9lzzeBBX4tfW
-	 aoKUOepGOpjza9CODgxUAN1tlEygGer8DQgSbFCTVFLUHFAXY3/MmZ1ZiaVMDsLBRg
-	 dZ3GkGb41Hwyg==
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
-References: <20260314-asoc-amd-v1-0-31afed06e022@kernel.org>
-Subject: Re: [PATCH 0/5] ASoC: amd: Move to GPIO descriptors
-Message-Id: <177362349334.208027.10753270249924598182.b4-ty@kernel.org>
-Date: Mon, 16 Mar 2026 01:11:33 +0000
+	s=k20201202; t=1773626545;
+	bh=kkXUNwiD69Xpf87E5BcMyOtlNTMPeQ7/lEHjHLgRL+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PaY9HkVEV6krRsQgLxwkiO7yZMgrlVrPpLXeYQAR7IAx5MDR7TUwQaFz5V5qBSv+A
+	 3YoimJldxSYQPdNcTuf1q8DiCAdq3vsH/5xg42nBbHksinhtYNfrYPZega6m4y/sYo
+	 dSVfROBNQjnwOQiwv2Iv9yfHYtnCcqA+93lxvlHWuuM58XLuXbmq+J2EL7r6iTqBTr
+	 Zn8z8tWJ2xCvEIfT8gIb/4uorPM0rZ/envKWWfSJ/4LQJZFfI5sEgx7a5FPCeNQBPE
+	 96u6lp0SEhMsftM3FyXouu+2DSxMYqsHHr06OStUhqnzmBbQFyHf9bdRGjM036xEQk
+	 f7OGCBrm7fLPg==
+Date: Sun, 15 Mar 2026 21:02:19 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: Jeff Johnson <jeff.johnson@oss.qualcomm.com>, konradybcio@kernel.org, 
+	linux-kernel@vger.kernel.org, Alex Elder <elder@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Jeff Johnson <jjohnson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kees Cook <kees@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>, 
+	Wesley Cheng <quic_wcheng@quicinc.com>, netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	ath10k@lists.infradead.org, ath11k@lists.infradead.org, ath12k@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v1 0/8] Group QMI service IDs into the QMI header
+Message-ID: <abdkE2qWX5Amf5Jo@baldur>
+References: <20260309230346.3584252-1-daniel.lezcano@oss.qualcomm.com>
+ <9cc7638f-1232-4cb7-b4d7-cdac66a2f4ba@oss.qualcomm.com>
+ <3283cbae-4100-484c-9b00-1d7111c62456@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-5154a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1745; i=broonie@kernel.org;
- h=from:subject:message-id; bh=yG5UJ3ZtQkD23AG+xjDR/pYZK/46vg6UZI4DXDhAvOE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt19FHDukevGJQm4Ddmi09Qz2QOHndorZRjhQg
- VGrjfiDDQ+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabdfRQAKCRAk1otyXVSH
- 0GSzB/9vHwUg+8YDKFi5ZJyN3Ff+r9N27Rkpb8AYi5gTlSjChCOedw/V+zDn9xfxawSzf9kqhNh
- 88O/UfVSCbwlnBtxXCdAGHyGYViDPjs5UtBTCaZApUIjt1Ma2vgyAieHw+wXSq40sMsFW84tl1p
- 7PxzAD17Wm8d17T/gOq6TG39I4d4y416zcS9a/F8Ka/oOZyKdmifNVlGvi4zz5flSgSLiKPAJtl
- /FqmEwCRRjWY5A7W7bzhi+gXyerekplV93UfvzNVe3oWjHNCu2Ri9cOBYf/CLnUW3z6sjQzstkk
- kr9E+ZE2vp56TPw36MmO8gx9lYfMxPXOYOYbPpA0EdzJxUDv
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3283cbae-4100-484c-9b00-1d7111c62456@oss.qualcomm.com>
 
-On Sat, 14 Mar 2026 21:06:19 +0100, Linus Walleij wrote:
-> ASoC: amd: Move to GPIO descriptors
+On Tue, Mar 10, 2026 at 01:09:08AM +0100, Daniel Lezcano wrote:
+> On 3/10/26 00:50, Jeff Johnson wrote:
+> > On 3/9/2026 4:03 PM, Daniel Lezcano wrote:
+> > > The different subsystems implementing the QMI service protocol are
+> > > using their own definition of the service id. It is not a problem but
+> > > it results on having those duplicated with different names but the
+> > > same value and without consistency in their name.
+> > > 
+> > > It makes more sense to unify their names and move the definitions in
 > 
-> After a quick look and test-compile I can determine that
-> all of these drivers include <linux/gpio.h> for no reason
-> whatsoever, so fixing it is low hanging fruit.
+> [ ... ]
 > 
+> > prefix for wireless drivers is simply wifi: <driver>:
+> > so s/net: drivers: wireless:/wifi:/
 > 
-> [...]
+> Noted, thanks
+> 
+> > >    remoteproc: qcom: Use the unified QMI service ID instead of defining
+> > >      it locally
+> > >    slimbus: qcom-ngd-ctrl: Use the unified QMI service ID instead of
+> > >      defining it locally
+> > >    soc: qcom: pdr: Use the unified QMI service ID instead of defining it
+> > >      locally
+> > >    ALSA: usb-audio: qcom: Use the unified QMI service ID instead of
+> > >      defining it locally
+> > >    samples: qmi: Use the unified QMI service ID instead of defining it
+> > >      locally
+> > > 
+> > >   drivers/net/ipa/ipa_qmi.c                      |  6 ++----
+> > >   drivers/net/wireless/ath/ath10k/qmi.c          |  2 +-
+> > >   drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.h |  1 -
+> > >   drivers/net/wireless/ath/ath11k/qmi.c          |  2 +-
+> > >   drivers/net/wireless/ath/ath11k/qmi.h          |  1 -
+> > >   drivers/net/wireless/ath/ath12k/qmi.c          |  2 +-
+> > >   drivers/net/wireless/ath/ath12k/qmi.h          |  1 -
+> > >   drivers/remoteproc/qcom_sysmon.c               |  2 +-
+> > >   drivers/slimbus/qcom-ngd-ctrl.c                |  5 ++---
+> > >   drivers/soc/qcom/pdr_interface.c               |  4 ++--
+> > >   drivers/soc/qcom/pdr_internal.h                |  3 ---
+> > >   drivers/soc/qcom/qcom_pd_mapper.c              |  2 +-
+> > >   include/linux/soc/qcom/qmi.h                   | 12 ++++++++++++
+> > >   samples/qmi/qmi_sample_client.c                |  2 +-
+> > >   sound/usb/qcom/qc_audio_offload.c              |  2 +-
+> > >   sound/usb/qcom/usb_audio_qmi_v01.h             |  1 -
+> > 
+> > You are touching a lot of subsystems with a single series.
+> > How do you plan on having these land?
+> > Do you have a maintainer who will take all of these through their tree?
+> 
+> Yes I thought Bjorn or Konrad would take them with the acked-by from the
+> different subsystems
 
-Applied to
+As we haven't received any such acks, I pulled patch 1 into an immutable
+branch and pushed it here:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+  https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git 20260309230346.3584252-2-daniel.lezcano@oss.qualcomm.com
 
-Thanks!
+Other maintainers can use this to pull respective changes, or you can
+repost the individual patches with this (or follow up once it's in
+-rc1).
 
-[1/5] ASoC: amd: acp-da7291-max98357a: Drop unused include
-      https://git.kernel.org/broonie/sound/c/6d841b46ec05
-[2/5] ASoC: amd: acp-es8336: Drop unused include
-      https://git.kernel.org/broonie/sound/c/0a80eff3f53c
-[3/5] ASoC: amd: acp-rt5645: Drop unused include
-      https://git.kernel.org/broonie/sound/c/d63b722361b8
-[4/5] ASoC: amd: acp3x-es83x: Drop unused include
-      https://git.kernel.org/broonie/sound/c/70f0a90e718d
-[5/5] ASoC: amd: acp3x-rt5682-max9836: Drop unused include
-      https://git.kernel.org/broonie/sound/c/c43988dfe25b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Regards,
+Bjorn
