@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420E6284B2F;
-	Mon, 16 Mar 2026 01:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C1D188735
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 01:39:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773625152; cv=none; b=e23mMQpEp9smuzDPV0etar/4we8zA4lBtK7Y4ozxzJTy3zd2e5p2Iw+oXDhHmC4B8jv/fRhWbmOZyzodepwLqsS/cXSXHaR4nEYZxYxJde5yxUSH0HFSxRqvtWC9x0m4qxycVcvYMw+Co4eEewgp/Uq1/DxxdmOlq5fFnH7pB74=
+	t=1773625155; cv=none; b=FBWvrqeH65xRyGfQu93xGwT/olRkOCE0tM6tvOuYaRi+E3e6a7v0FoIYykx6kUiIYpd91ewGSOAvKM0yd2VBPTqlF9JNvxSy/K/0yp6FnqIB1wUYpqt83iw/ic6NWQR56Z0fZ1aYRvPnWqNDLo7hGYAzBy6ULAjrp8ca3vdjrxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773625152; c=relaxed/simple;
-	bh=PFSU3Xb1/50n45xqbb0QFtjlW6qW32WODAGYKVRlLvQ=;
+	s=arc-20240116; t=1773625155; c=relaxed/simple;
+	bh=YkUzuMQ1An4eMIrDcnZpIA1MjoRSeqklZzcvFcu13rM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SNwjP6QfA3qOhoZE9PRG5N308jb/Fh5gPnqNh+bOlxbO8Wfc5QBYRuPHJXCf2YkYtcuIMOuryNIu3xxOW2NPAdaN+FXGZxCkDo1/OMIlHzDOu5pXNQ6ghdVlE4AuTyvjxfYDJLiL9fHpbAzPCMNZI1aaEXP4/arYOiM5nPl+XJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ozFbXdPk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=iX8SPkuMKh6HzQwHqw+OS97y2paay64hI3F4rjQPiD1/ssvBi+cx6vz+LXZE3eYyoy18rCfNP6ABC3rfqa3eHqhaT6wsiUv1NBCWhiXC6vI0NxXwkFDIDVwQKIV6S7UHPCIWL1eeMXBXi9Xgh0gRTEdzxCiI5aeqXJ4KkChAliA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0Tqh1Xd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ozFbXdPk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC80C2BC9E;
-	Mon, 16 Mar 2026 01:39:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0Tqh1Xd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1A6C4CEF7;
+	Mon, 16 Mar 2026 01:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773625151;
-	bh=PFSU3Xb1/50n45xqbb0QFtjlW6qW32WODAGYKVRlLvQ=;
+	s=k20201202; t=1773625155;
+	bh=YkUzuMQ1An4eMIrDcnZpIA1MjoRSeqklZzcvFcu13rM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ozFbXdPkkb7J8CSNVEzRgVwXsYAy5KjdD/SBGsA8IDRVf+AzThZdq2YdhOencZq8n
-	 Ha+kg1NBYxJA0eOUvzPNrghENmrDrQAZhVt63P9ayTXh/8iGl4rW9J4909setTmw+T
-	 E/VE32qndZzVBmiUB31unNbzTgk+fze0DGz3Rbu6Hy3w4cI5oDhywM5PSztazMB7lO
-	 adzEHxUDEzSHyn7atrRXcKZLpqnl+K/uK+YXuTZWb2hAw1Zi9PMtCCdS4ke0C0KRSN
-	 7g3lSWN86YV1R/dI0m7E5slg7eV08w4gafzIKWtiTcrL9dzNDsk/8F3g3Yf4eYJ3YM
-	 kGcjKRMZ4KrPA==
+	b=U0Tqh1Xd14rnz74MI+nVCF+U8CNEPSv7y39joW9zlwqhFZUrAAGgkP2vpghMfw/KY
+	 WCDkNrChl+Uakxd5dT+0BnDEKec2PN5E+F7otVHc61vheb91RRyWesOmOA0auVb4rN
+	 x7z+pT6fvs3S+sCaeRaYu/MXGqydg2sCD/uIVPazwQhmO7fTvu63JKSs+UGYDFDRMq
+	 7bWHdrPBMnd0F2cBbw2NHxQxa2w21uS+HyPapfInKLW8ycNxFtg0MjnaJsAvL9gWDA
+	 LrT0+pvKH1rvCAJVLDhVhEabgU8EyP4uNLplxrEej7Zto1C4K49R3zBnYTuyMrastH
+	 8fv9OVGEFUKtQ==
 From: Mark Brown <broonie@kernel.org>
-To: Kiseok Jo <kiseok.jo@irondevice.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chenyuan Yang <chenyuan0y@gmail.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Guangshuo Li <lgs201920130244@gmail.com>
-Cc: stable@vger.kernel.org
-In-Reply-To: <20260313040611.391479-1-lgs201920130244@gmail.com>
-References: <20260313040611.391479-1-lgs201920130244@gmail.com>
-Subject: Re: [PATCH v2] ASoC: sma1307: fix double free of devm_kzalloc()
- memory
-Message-Id: <177362394690.208027.11744888499003194847.b4-ty@kernel.org>
-Date: Mon, 16 Mar 2026 01:19:06 +0000
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
+ yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260313160858.2022849-1-ckeepax@opensource.cirrus.com>
+References: <20260313160858.2022849-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 0/2] Add SDCA support for the cs42l49
+Message-Id: <177362335561.208027.11791872683904732325.b4-ty@kernel.org>
+Date: Mon, 16 Mar 2026 01:09:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,29 +45,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-5154a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=broonie@kernel.org;
- h=from:subject:message-id; bh=PFSU3Xb1/50n45xqbb0QFtjlW6qW32WODAGYKVRlLvQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt189tgmL2t2VzOsaxuBld64SCYUu3c+zHE5iF
- w4oYX2fnTqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabdfPQAKCRAk1otyXVSH
- 0IndB/0fD2e3gUpgRsTuRhf9Gg7FhqnCRHBA4xs5wXPcffnh6o3cYED+JKY2e6K7Y8iIe3Keb2B
- RPDDC3gRGAQVzqa+RI79LdWdOzQreN42FJ0OpTTnLid/UptWM7OjQMl7IPhnvdGrR5wVmJWGa2h
- G8dyoGIwp8hf+blDuhbeVtXnVMB156XIZF4yx4+TW95XM3soGDt9Z+Y9pbmWjV46LPfh6pK6ZSd
- L/S1da4qIgEXSTeWy5oe7ZUpkJjdPY7f+lVaNb6ntROwmqvPft8M9Js3y2VtM4gC6LmuMjpGvjw
- T/UtGfxy9zfzWQM5aZ2iOS9YHq33x/s+74favDhl4aEDUxDx
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1497; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=YkUzuMQ1An4eMIrDcnZpIA1MjoRSeqklZzcvFcu13rM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt19BKzWSjcQ3oV+kfWWdzgIE1A71h8Y/WbVz0
+ ZjBn4xuNgCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabdfQQAKCRAk1otyXVSH
+ 0IZPB/9OytuyJL/bMRN8rgOp4fPaUZedFfvModY+LDYt2ejJoZEAo3KvoqlkaT9NLgLlhfY03nR
+ pa3rr0BVBAZzGe4l73ylrnz1H8tMdnoz6lqXsapYtEYmocjNZPVGRTVUJLrotuPKXIoDJnkhJA/
+ F8sur3q0QO7/4v/a28vmMjl2IvZaAwNX5BEzlAVwbZJ3PKiLItuXPioFLv7vyd+cV24xyucER9D
+ rLlvW/JXd0Rplk4VCIDM+niRnquHygqmfFWBDswBukLFIl+wg7RQkPpgV94gi4vsYtu4impiupP
+ RXlQJozMCxV7bDMnr/JBgM5yfW1wAWXooOHQnemgy1Nqppon
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 13 Mar 2026 12:06:11 +0800, Guangshuo Li wrote:
-> ASoC: sma1307: fix double free of devm_kzalloc() memory
+On Fri, 13 Mar 2026 16:08:56 +0000, Charles Keepax wrote:
+> Add SDCA support for the cs42l49
+> 
+> Add support to the class driver (just adding the driver match) and to
+> the Intel machine driver for cs42l49. This part is very similar to
+> cs42l45 so for now it will just be supported using the same UCM, hence
+> reuses the name prefix in the machine driver.
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: sma1307: fix double free of devm_kzalloc() memory
-      https://git.kernel.org/broonie/sound/c/fe757092d232
+[1/2] ASoC: SDCA: Add support for the Cirrus Logic cs42l49
+      https://git.kernel.org/broonie/sound/c/7699b12a32b9
+[2/2] ASoC: sdw_utils: Add codec_info for cs42l49
+      https://git.kernel.org/broonie/sound/c/5e2f19ce90d5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
