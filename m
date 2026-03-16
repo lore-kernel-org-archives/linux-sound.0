@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82072D94B4
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 01:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404DE241139;
+	Mon, 16 Mar 2026 01:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773625078; cv=none; b=sjYin3wYr6JCqvC6ZKt3wxHH7ekAj60h5BJGsl8GFOwb3Q5dUoa0PhyCWKbCkFM00MIVj6zGxCLXAG1GBHbMsgZvBXyLMc8CuTjtT9yd61q+GuXhpwt0+cgxfXFMIclCzpS6gPFSnPTEjqDFP0Fo3itqPadkylRNPtCUFtStVmc=
+	t=1773625109; cv=none; b=h59QlEqRMiLFgv7vyaqP6wHeI3LaA66hCR+oeJMngR5vUZoNfhZmd6JEdxKoPIWyCMQF5Ws/cUmhIKS97mrR/uXUjLLlKGvOToUyg3YvhV3DQKG4kWhXpntRuvrgqdlD9n39Epf3SoJgiVpaHeMc7EbQuE2J3rjO50eSlx9s+uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773625078; c=relaxed/simple;
-	bh=NanFKkiAIvOb4TFwXsZZtlDAaIsmGeozkOmuxjpEevE=;
+	s=arc-20240116; t=1773625109; c=relaxed/simple;
+	bh=E3UZvUtsN8AuKQEBgiGE2vZgsKy6sMSpgQiRPkVmWvA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d10n1xMrQtlyizUKJSJI5sOfOwsWd/88ZjSB7gQW6DiVDPk3eogQtqD/OynLTluNIvWZGWnC7iVBvxY5yKTezP+iqfZ4e0CBKhtR08Ee2THkLmPUMT41O+h7SqMEHHSIAorr2G7kozRB33sbVaJoG9hlIePFYE+QeKirB6lwfdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6EYk4Yg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=udDDF5Sl6RWndyN3XYGXW7l2HSLB2PcxkJWXTzIawCD3rGw4ZNtQ3DIrBKstpRzLqEEcHynkI7yWF/SCQHXNzqQvHKzpBm9GEeTwjpgQ9JQ+O/LqVEGFGIvQCEk+5SbVLRYqxa+hhv/I2hynMTumPZUX1XjmYrjTHtp5Oo14c/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=artJmjC2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6EYk4Yg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3F15C4CEF7;
-	Mon, 16 Mar 2026 01:37:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="artJmjC2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A37DC19425;
+	Mon, 16 Mar 2026 01:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773625078;
-	bh=NanFKkiAIvOb4TFwXsZZtlDAaIsmGeozkOmuxjpEevE=;
+	s=k20201202; t=1773625108;
+	bh=E3UZvUtsN8AuKQEBgiGE2vZgsKy6sMSpgQiRPkVmWvA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=N6EYk4YgZcVp/Zazv2F54iBx1A9WSkfLFrVRSEixkMiGHVW2Mg5kwxzqc2VY8shqD
-	 P+gttbHNSbhNKmpkXCtTEFd2Y6QJCGdkebAQWrzf7Islbb8RzeIrA1bik4OSJGdbIB
-	 gLU3PWUk/wnrMenBd7O+UkR7FTluEDqSXFYIEuZBDhzAuSz2SjvlOSyFmopk9K3zKV
-	 0OT6vIuYsRqup5O+ORZqGwGDKPngIHbDJNRgr8jdiAx471VL+/W549XZX8bfEhmOnw
-	 4JvBjNaQIphOkXU6LYoqpLpvumV3nHfOw0Z0sHs8ZnAzdLEKn3fwRa8/7N+Kyh1JFG
-	 DaBsbRiW2Za7w==
+	b=artJmjC2ZToyTkOTaxToZnwbmk5+jP6Ybmtl+E2NAGEJKoTSFlJMQNsn3W1OvUoEF
+	 EKeFVeCVhp2aAnzzv9XS1yd3seyI2H2+b64nQ1QG87+/k88CPvpjWWzcR+Q0Vt2fhU
+	 9LB3E4XDPVGW+NzmguwgYjNLxsj9GlwiBF3LVEootWmar1jlkwPRSeOFyC8wULRBMw
+	 ycCuaI4RlVS1WRzZmMJzGjR2Nv6Syo6v0aASGbk3egxzslklzHZMUDMXo4KwcF1PZ1
+	 a2WOhdo7iYi5oKtNJkdY6Sr56uNvVqThIzokkg1tYJU9FoJfZjjA2SRMcC1QsB01uP
+	 43ZwxdeuTwBrg==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Takashi Iwai <tiwai@suse.com>, Casey Connolly <casey.connolly@linaro.org>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20260306174707.283071-2-casey.connolly@linaro.org>
-References: <20260306174707.283071-2-casey.connolly@linaro.org>
-Subject: Re: [PATCH] ASoC: detect empty DMI strings
-Message-Id: <177352554283.149922.15557067667103028581.b4-ty@kernel.org>
-Date: Sat, 14 Mar 2026 21:59:02 +0000
+To: linux-sound@vger.kernel.org, hasunpark@gmail.com
+Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260308151654.29059-1-hasunpark@gmail.com>
+References: <20260308151654.29059-1-hasunpark@gmail.com>
+Subject: Re: (subset) [PATCH 0/3] ASoC: amd: acp: PX13 ACP70 config and
+ machine quirks
+Message-Id: <177362009337.162791.6622780298534018366.b4-ty@kernel.org>
+Date: Mon, 16 Mar 2026 00:14:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-5154a
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1079; i=broonie@kernel.org;
- h=from:subject:message-id; bh=NanFKkiAIvOb4TFwXsZZtlDAaIsmGeozkOmuxjpEevE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpt17z/ypyFBpqIToGrDqDOr8Gra0HseN0zoDse
- 8pU8th/4qKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabde8wAKCRAk1otyXVSH
- 0PmiB/45rY/QWhebJlJx+XGq5987QhQ8n7x1WOuL9mLGtSmt1v9uu7MRpzu4uj7LkSnXp9v/o5W
- nxkHHUVgE4qTYPFKKFFqxYBVHCiywSQHShcCh7ncOLyBeitr4mRd8Hu+PIxdoIICCZrTyJHSTNN
- gh5TAs8O3sgmF0MIuc8Gt3ZgcR/b93p24TWuXf0zFlMe/Aafs1gHHEtXYiEHPPnZ0ZW0G8Cbc0s
- /VAQnlrij6M78Ny+gGsLmpIutS/HGOUc2NOqlfM7Wa3Jbp1KsLHYpnjP2rncn+7NAFAWYQ5c4Jh
- pNzpMhN6sMzfpIVysfM7FeUO2snxgJGn/MWNhbhLm5M0hmZq
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1420; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=E3UZvUtsN8AuKQEBgiGE2vZgsKy6sMSpgQiRPkVmWvA=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhszt8UKB0x7mO6qZd9XaVcl1ca0r2e/eYWPv+LGlV69G+
+ 2i0q2QnozELAyMXg6yYIsvaZxmr0sMlts5/NP8VzCBWJpApDFycAjARJnv2n4x99/WnO/rP29Ow
+ cw7Dwpqenk1bA+RZ4lu+W88r6H3bfM973vYzPyW8tLIvqsVOibgnUOH8VuXWUTY7+1vatT3Hn2a
+ wLauZW1xbIHtQmimlSEqo+2OdpHLR0tiLelq5zJksl6Q5eq/c3r+GYXPu3OJHPDVrVWJU3So4D2
+ S6mds9frThcpXLQ9n6FTGcXbUanR8XqFU4r5GaIcr0UKfNKE5te8yK7vZFl3MuPq8OkQhxbZk+N
+ 91ilsa0w6p3W2Z9KRD69d/+lklukV4O65a1YdkHQyZyGdwz5d/cdEHl7GOra+/Omwg6Tj27WEBV
+ d/bP7IWPrYN6Lbc9urDfPrtmneiljYtyZF/8ULR59DMaAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 06 Mar 2026 18:47:07 +0100, Casey Connolly wrote:
-> ASoC: detect empty DMI strings
+On Mon, 09 Mar 2026 00:16:51 +0900, hasunpark@gmail.com wrote:
+> ASoC: amd: acp: PX13 ACP70 config and machine quirks
+> 
+> From: Hasun Park <hasunpark@gmail.com>
+> 
+> Hi,
+> 
+> This series adds ACP70 platform quirks for ASUS ProArt PX13
+> (HN7306EA/HN7306EAC).
+> 
+> [...]
 
 Applied to
 
@@ -66,8 +76,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: detect empty DMI strings
-      https://git.kernel.org/broonie/misc/c/a9683730e8b1
+[1/3] ASoC: amd: acp: add DMI override for ACP70 flag
+      https://git.kernel.org/broonie/sound/c/d0426510a9e1
+[2/3] ASoC: amd: acp: add PX13 SoundWire machine link for rt721+tas2783x2
+      https://git.kernel.org/broonie/sound/c/399b6fd37a10
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
