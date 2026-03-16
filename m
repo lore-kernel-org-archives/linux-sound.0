@@ -1,295 +1,117 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4462384231
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 09:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773652032; cv=none; b=tz/c9Bk0pk0GiCQKjrg77d4EoDtMwS0VL+AvdWn85KYKQYlCVPHpNaLZEleZ4j9OJBK8zFgz/3KwLwx58bluO1JFgnRbxJiRiab8QCC5FMXm1pPY11npcyuZNOy630ArOeY8PekIPzT+r/e7zYL7MzSc9WvIBSe6rgeA2BZXJFA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773652032; c=relaxed/simple;
-	bh=8NYax7rMXGw6UklnwmlW6QXAHYcjnC8hCmc2/pZQrgY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f18I4vm3as2urh/hRXDMsrpngrm1pLXxIdln+mTj+N8QY0HfMWrlGb3hLidrPpGM2t0hwsei4FOCIeB0VBjn2aD71/JxJxr84bAQincRkFCZ0rd3fqMxp9yobGaJu7r9UUMYA2IbT+XrE0VMR8JU7ks/FkbAKFziilP7gk1QbcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdLkudCx; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5234638238C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 09:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773652074; cv=pass; b=uXgTEPK1Jwd5T0KwkFBpCE6eBPLVW0KV9VHkeSVdPY/l72K6+WfuCIdIosnFhp/xBmFNlw6bXt13WnisBCL6oSdJZZG51dbuP/shOo45Fy8DCMjHtGEtNnrrPRyvlqVITiV4sTc5IY8NWa4XlS+yMO2yE02zZSaLhYiFVrg58zs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773652074; c=relaxed/simple;
+	bh=s+KHY9gmRrHkbb2KUiblv6oxHo/utI75eXgoQMFDGOM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jkdqIPRa0VviquX6LaRiQf0TKa/nC36KM/w6NQpQ+rn5f8E+ro3S0p2uZwxREqe3WKaEnuCh9qhw/WaIsuvHIgcA/vu41U1pzJ1aOPtmLPa5CGjdDf9jm8peSqa9AZDawPwMwl1VtCzw2Axc006KJzS1fvhpKFcYezotZn7ntBU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHODw2Oa; arc=pass smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdLkudCx"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-829b8b6c4d0so3506323b3a.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 02:07:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHODw2Oa"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79495b1aaa7so38722467b3.1
+        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 02:07:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773652072; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Tuklt9vqHHAHr/yEan2xeqiijzHcO5JyxKzPLhElpDubKvpScOTPQniZTS4Qbu7VPs
+         jwRBIHTH2eLolnzcBi8xxeOcjTG8BUr5LVKpAQ7gXNefhnj9CmpBwx9W2cmUHGsVm8C6
+         SfOYBgNEWgd44N5djsd1T2TYJyvq9m2PcpOMsQoWaZDO04T8t0DPeggHc93Bd+5/SUDT
+         AmA/rlN+t7YB66XmvkmEjh4OfJSis6c7PRR1unLTLCWKngsf1v+Pk4TFSSyXBTmtgw+N
+         qlcAXW+8KGxYR4YWiZ6eVJnNAKzzssOYt6EaH38uXEPxyHgH6DvurXSlo//Oj2XxcN7B
+         qdXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s+KHY9gmRrHkbb2KUiblv6oxHo/utI75eXgoQMFDGOM=;
+        fh=mU3rLR9RL/pqbHY646jNn+i+cnkYZMksWOJLbcAxNok=;
+        b=DGtc3hOtP/H+yBq4p7guPdWCqZgN/8Tinq3ccG8AcLNPBzSsIrwUApUReH/dRJB01Q
+         LkzLEra90nGXOyCcVfiOkzEP8IdkBxv+oHQCvVq9F1UKUsOslQyxqGs114fCxixkjoSA
+         TvRni3OGLK1Wv7mFT+p5pr4Y4joPVmEET142J4YmpyE7z//U1HzR0laBqXy+2pFVMxqa
+         ZhaVM5hkRv0yOrh7lBmK60l7vH5dyPkVoWttlBT2mCl4OIBWxHobgVeC1phe8t8Vebcc
+         bRfEr8Ari2Y7R4ooMFSEpKChilbvHWVrS70fYfLEwadAGhnvWLei0zsdWrcPiiwTnECS
+         2KJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773652030; x=1774256830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mgojYXpmBrvzhdHNlEYoOPMdv6sXqH93TcVi/jNcSt0=;
-        b=EdLkudCxDLA0VTIjfk3ySZbWCvSDKlRhK0p2OmWK/EtKxKNdMtsRtJGy9KanzPEYuK
-         b5VSZQ3k+B/DHQyrAeTZigfTJE2ENSADh9bcdDFk27sqXIWmcr6BibsbF/HCw9fHyDib
-         4cH0x3sPp4CXCWLKKgPgZA5F2RYt9RPRAoArzAaKZLmd+zPDcdzh7Swt9pFWSfNSltTd
-         iC/xZB9L7ItR6bNKXN8xxFUlMGu4tHeLx5tXdldhgxCZNYAzM07Pbzh6XJ/nZusvoik2
-         MsnWl9XeV0fvg6RJX2afyL2guDHCx/PN8d6c5ABQhJuF+L263lEOUtw3s6sjj0tfVNE3
-         KA+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773652030; x=1774256830;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773652072; x=1774256872; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mgojYXpmBrvzhdHNlEYoOPMdv6sXqH93TcVi/jNcSt0=;
-        b=qACCs+tcO+fodaCNBq07GeaGIRTzc5SXtsdJ1HXk/R3Zf43d8cy9AT/cENUNbwZzaL
-         Nw7LljyXkd7MQSdtwaw/LASDVLY73mN1LV5s5oOYKZYwNAoY1KtYRdiAkiSLUjXTd8Un
-         O3slDRQm37Av38xjtXiVhJWQtqUY4EmFmP0sKQRFKZq9s/66FKMqeTsw5vvl4Yif9W6s
-         0+KUfwyiDnOoDtztVm4hBKWF379kSEAo9cq7cJxeE+QiBy2BYdIkiodIu8JXrVWKn4Ui
-         o1IMNXrpelhY1XAIqeeW4bcmQSoGdq/ztRTib2f1qalfp+vosORkHCUVy8m4lNDghjtJ
-         8UdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWg8gtBpbQkCMQOuRtsSVTe2joAleZJn2vKSaSpahDtCy9D/++WCseDsLvKUVf/t/EyO5eVryTRXpD9lQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yznj4Jj34LTQLdIbushXLpVPLF3z44ldT6lHJy06WceTVKhz50e
-	99vgBVhtKSez0FouniiL+Q7gvppyt0M2DS4IdUrZED+cvGDV7NxGpaDl
-X-Gm-Gg: ATEYQzz+wEZ11g5JL4rjjW94RJd6A1PkQAa41auO2c1SPnCUfOpwNImZatY0NPiZ9Ub
-	8g0VU3xknKmu/E/M0IEcwObiIOoWe4KG14n91W8DF4gVTahvmpjHO3rw16q8vM7to22ONcKdqnB
-	AGrx/qwghQWZzx3Y9jzdNVPvU0LpOHDHQanI4ryRlRT+u6a5/BYsd+U3wcCrtBbhEfO1K/mLoR5
-	FjZ3XXklJR04/ojRylwCK+ZGuwv7jlDlARHsgECcuxRnh+SJgw9EC4q1gUIKh8GlOychB1HLsln
-	hT3lb62CyCa8KCXbHeUy47ikZ2JNWuPqmVns0CpDFnnAwBESTtj3/4n6Qeo6i7trHBMfyx2+cp/
-	TTzWAQXdMnNYZaEsm0i6jbDe9xKxLKba1+2hyVyvW74hl3UTi4wWyXXZ9hUJAzxpE6S3J+GrcS9
-	aagWWjnHHTNS9m5jfoY7hLDWGC4l5z
-X-Received: by 2002:a05:6a00:3d9b:b0:82a:122e:539c with SMTP id d2e1a72fcca58-82a198456f0mr9358093b3a.20.1773652029941;
-        Mon, 16 Mar 2026 02:07:09 -0700 (PDT)
-Received: from lavm-prs74opxn5.. ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07340439sm12789768b3a.31.2026.03.16.02.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 02:07:09 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	chleroy@kernel.org
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	r33s3n6@gmail.com,
-	gality369@gmail.com,
-	zhenghaoran154@gmail.com,
-	hanguidong02@gmail.com,
-	ziyuzhang201@gmail.com,
-	Cen Zhang <zzzccc427@gmail.com>
-Subject: [PATCH v2] ALSA: pcm: oss: use proper stream lock for runtime->state access
-Date: Mon, 16 Mar 2026 16:50:47 +0800
-Message-Id: <20260316085047.2876451-1-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=s+KHY9gmRrHkbb2KUiblv6oxHo/utI75eXgoQMFDGOM=;
+        b=RHODw2Oa6eYGLHRNppgdAlsQ4WoKI+vhXahSlutXCb+WpuXNp90Af25s9QZpUFyEnh
+         kzM39wdvvzTsvKnfC7ONg0lcOj94GyA423Hdq19RZKIFwLDnps9zNjayCGoRWVZEYIyd
+         6rFWPH2qPUGOm8IYRdrrL8ruv8lW7HWrj6YpzqY6IMh0m7ZzDS/wPsTLIBaZmccW5DJ+
+         pwGBFPTPiKfSrqtClfGf8EfJrcs5bcxv20DMGzoO9o4yPZiBDVGRVaiYcQNfvm4/pEMf
+         vBmzR09kVaSaTCK0sJdjd/7z4oXWNCWN3y7sHZKa2LENYRVo5RZnqQlzITBGwniSg/TS
+         yorA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773652072; x=1774256872;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=s+KHY9gmRrHkbb2KUiblv6oxHo/utI75eXgoQMFDGOM=;
+        b=iiq1wlAcVgP9TFvkQVfvsp6YZ/MtRnJm74Oe9s89oJO/arUvSrKibCiksK8aObvOCW
+         u01cOnIW6inOChJ4VpD/Yv6pgshRMXU2LvLpMVmwT+v7ZOYWS5ajb0WO0YiCdLoRZT1U
+         VyJ8KqmhbKm2W0BoSXu4zCpyYb4RaOUtnn2JDXRsbSDBJcfYcR7qJudlbpvu4tVdN9g+
+         nF2jYRovTkqWLMb9g3eWhIEBchW9cKSBJE44r0qUu3Chi4pR9WRUndv9VylI0VYR4n0/
+         2XTsPqMaoCZ+hFQ2vRqQQLBF3bWbdqU95liwNEoJnezKa41ZFoFoG0eNwDGIFJJoiGoI
+         mqbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVt60ujvnaPkiWCEYLICBcJTn2c9E5QyYVPDKUB+4ayK+YCUizkInm0tIfp+dWXBxue0YrP2cCWfdixLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRZ9k+mPfC4Ry8oXGKYSHhiswLrQ3KOfSy1ywPBCeGzEHo5OmJ
+	YY0r4oz8+gFDhi4dPBlif6lniRhdekwFDptRxuDbaJ5+Ic9wwh8TC+gWvP/fq3J6G3Z4GV9AlUu
+	8TK4NErgzUCOmEQY8PGXwgoEEHpwmbC8=
+X-Gm-Gg: ATEYQzzdMMOoznVn4WJ+q43G7Jyj38eayuIZB6aQnMLsXxVjvp0y+OETYUa34nrCRVX
+	p2zbDDTBNeVg3OMO6GQkUDnS8z6xPiyUZUmB02ijSkxYtyr8axYx1d6HEocUubQ62v4uucooGJt
+	bq0iCpm/2A6szshh/VA55Gc0J0OD/6e0h+evB1F5wV4ffuNhhK4kZ+0gEvorPTV17StgsSXVs54
+	DzG0Aa1cFoj0DfhCQZyEVRLWd9h9vcFoD1Y7L9QWzQP6n5DDxnBn4PiP5+6ZVKDtxmmwWrCYnEa
+	PUHGg/Uh
+X-Received: by 2002:a05:690c:1e:b0:79a:5164:bb1a with SMTP id
+ 00721157ae682-79a5165165cmr20847187b3.15.1773652072207; Mon, 16 Mar 2026
+ 02:07:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260316030550.2848349-1-zzzccc427@gmail.com> <87fr609nha.wl-tiwai@suse.de>
+In-Reply-To: <87fr609nha.wl-tiwai@suse.de>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Mon, 16 Mar 2026 17:07:40 +0800
+X-Gm-Features: AaiRm527Fxpi9V52An6EYd4S7In0iPq5fR2lf_d7yF3PEpwQI6Gy37cB8h0PEdc
+Message-ID: <CAFRLqsUDJU1587xqjs7EPKf47nGxPGdNg3H34gcZV3Lmb+TKQA@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: pcm: oss: annotate data-races around runtime->state
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, chleroy@kernel.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	baijiaju1990@gmail.com, r33s3n6@gmail.com, gality369@gmail.com, 
+	zhenghaoran154@gmail.com, hanguidong02@gmail.com, ziyuzhang201@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-__snd_pcm_set_state() writes runtime->state under the PCM stream lock.
-However, the OSS I/O functions snd_pcm_oss_write3(), snd_pcm_oss_read3(),
-snd_pcm_oss_writev3() and snd_pcm_oss_readv3() read runtime->state
-without holding the stream lock, only holding oss.params_lock (a
-different mutex that does not synchronize with the stream lock).
+> I believe it's better not to go with barriers but rather taking the
+> proper spinlock, as it's only for this OSS layer, and other places are
+> already doing so.
+>
+> That said,
+>
+> - Export snd_pcm_set_state() in pcm_native.c
+> - Introduce snd_pcm_get_state() helper just to call like
+> ...
+> Care to revise the patch and resubmit?
 
-Since __snd_pcm_set_state() is called from IRQ context (e.g.,
-snd_pcm_period_elapsed -> snd_pcm_update_state -> __snd_pcm_xrun ->
-snd_pcm_stop -> snd_pcm_post_stop) while the OSS read/write paths
-run in process context, these are concurrent accesses that constitute
-a data race.
+Thank you for the review. That makes sense =E2=80=94 using the proper strea=
+m
+lock is indeed cleaner than barriers for this layer.
 
-Rather than using READ_ONCE()/WRITE_ONCE() barriers, introduce a
-snd_pcm_get_state() helper that reads runtime->state under the stream
-lock, matching the locking discipline used elsewhere in the PCM layer.
-Also export snd_pcm_set_state() for completeness.
+I've sent the v2 following your suggestions. Please take a look.
 
-Use snd_pcm_get_state() in all four OSS I/O functions, caching the
-result in a local variable where the same snapshot is used for
-multiple comparisons to avoid taking the lock repeatedly.
-
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
- include/sound/pcm.h      |  4 ++++
- sound/core/oss/pcm_oss.c | 44 +++++++++++++++++++++++-----------------
- sound/core/pcm_native.c  | 23 +++++++++++++++++++--
- 3 files changed, 50 insertions(+), 21 deletions(-)
-
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index a7860c047503..76fc33dce537 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -729,6 +729,10 @@ static inline void __snd_pcm_set_state(struct snd_pcm_runtime *runtime,
- 	runtime->status->state = state; /* copy for mmap */
- }
- 
-+void snd_pcm_set_state(struct snd_pcm_substream *substream,
-+		       snd_pcm_state_t state);
-+snd_pcm_state_t snd_pcm_get_state(struct snd_pcm_substream *substream);
-+
- /**
-  * bytes_to_samples - Unit conversion of the size from bytes to samples
-  * @runtime: PCM runtime instance
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index d4fd4dfc7fc3..a140a0d9abb8 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -1227,14 +1227,16 @@ static int snd_pcm_oss_capture_position_fixup(struct snd_pcm_substream *substrea
- snd_pcm_sframes_t snd_pcm_oss_write3(struct snd_pcm_substream *substream, const char *ptr, snd_pcm_uframes_t frames, int in_kernel)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
-+	snd_pcm_state_t state;
- 	int ret;
- 	while (1) {
--		if (runtime->state == SNDRV_PCM_STATE_XRUN ||
--		    runtime->state == SNDRV_PCM_STATE_SUSPENDED) {
-+		state = snd_pcm_get_state(substream);
-+		if (state == SNDRV_PCM_STATE_XRUN ||
-+		    state == SNDRV_PCM_STATE_SUSPENDED) {
- #ifdef OSS_DEBUG
- 			pcm_dbg(substream->pcm,
- 				"pcm_oss: write: recovering from %s\n",
--				runtime->state == SNDRV_PCM_STATE_XRUN ?
-+				state == SNDRV_PCM_STATE_XRUN ?
- 				"XRUN" : "SUSPEND");
- #endif
- 			ret = snd_pcm_oss_prepare(substream);
-@@ -1249,7 +1251,7 @@ snd_pcm_sframes_t snd_pcm_oss_write3(struct snd_pcm_substream *substream, const
- 			break;
- 		/* test, if we can't store new data, because the stream */
- 		/* has not been started */
--		if (runtime->state == SNDRV_PCM_STATE_PREPARED)
-+		if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_PREPARED)
- 			return -EAGAIN;
- 	}
- 	return ret;
-@@ -1259,20 +1261,22 @@ snd_pcm_sframes_t snd_pcm_oss_read3(struct snd_pcm_substream *substream, char *p
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	snd_pcm_sframes_t delay;
-+	snd_pcm_state_t state;
- 	int ret;
- 	while (1) {
--		if (runtime->state == SNDRV_PCM_STATE_XRUN ||
--		    runtime->state == SNDRV_PCM_STATE_SUSPENDED) {
-+		state = snd_pcm_get_state(substream);
-+		if (state == SNDRV_PCM_STATE_XRUN ||
-+		    state == SNDRV_PCM_STATE_SUSPENDED) {
- #ifdef OSS_DEBUG
- 			pcm_dbg(substream->pcm,
- 				"pcm_oss: read: recovering from %s\n",
--				runtime->state == SNDRV_PCM_STATE_XRUN ?
-+				state == SNDRV_PCM_STATE_XRUN ?
- 				"XRUN" : "SUSPEND");
- #endif
- 			ret = snd_pcm_kernel_ioctl(substream, SNDRV_PCM_IOCTL_DRAIN, NULL);
- 			if (ret < 0)
- 				break;
--		} else if (runtime->state == SNDRV_PCM_STATE_SETUP) {
-+		} else if (state == SNDRV_PCM_STATE_SETUP) {
- 			ret = snd_pcm_oss_prepare(substream);
- 			if (ret < 0)
- 				break;
-@@ -1285,7 +1289,7 @@ snd_pcm_sframes_t snd_pcm_oss_read3(struct snd_pcm_substream *substream, char *p
- 					 frames, in_kernel);
- 		mutex_lock(&runtime->oss.params_lock);
- 		if (ret == -EPIPE) {
--			if (runtime->state == SNDRV_PCM_STATE_DRAINING) {
-+			if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_DRAINING) {
- 				ret = snd_pcm_kernel_ioctl(substream, SNDRV_PCM_IOCTL_DROP, NULL);
- 				if (ret < 0)
- 					break;
-@@ -1301,15 +1305,16 @@ snd_pcm_sframes_t snd_pcm_oss_read3(struct snd_pcm_substream *substream, char *p
- #ifdef CONFIG_SND_PCM_OSS_PLUGINS
- snd_pcm_sframes_t snd_pcm_oss_writev3(struct snd_pcm_substream *substream, void **bufs, snd_pcm_uframes_t frames)
- {
--	struct snd_pcm_runtime *runtime = substream->runtime;
-+	snd_pcm_state_t state;
- 	int ret;
- 	while (1) {
--		if (runtime->state == SNDRV_PCM_STATE_XRUN ||
--		    runtime->state == SNDRV_PCM_STATE_SUSPENDED) {
-+		state = snd_pcm_get_state(substream);
-+		if (state == SNDRV_PCM_STATE_XRUN ||
-+		    state == SNDRV_PCM_STATE_SUSPENDED) {
- #ifdef OSS_DEBUG
- 			pcm_dbg(substream->pcm,
- 				"pcm_oss: writev: recovering from %s\n",
--				runtime->state == SNDRV_PCM_STATE_XRUN ?
-+				state == SNDRV_PCM_STATE_XRUN ?
- 				"XRUN" : "SUSPEND");
- #endif
- 			ret = snd_pcm_oss_prepare(substream);
-@@ -1322,7 +1327,7 @@ snd_pcm_sframes_t snd_pcm_oss_writev3(struct snd_pcm_substream *substream, void
- 
- 		/* test, if we can't store new data, because the stream */
- 		/* has not been started */
--		if (runtime->state == SNDRV_PCM_STATE_PREPARED)
-+		if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_PREPARED)
- 			return -EAGAIN;
- 	}
- 	return ret;
-@@ -1330,21 +1335,22 @@ snd_pcm_sframes_t snd_pcm_oss_writev3(struct snd_pcm_substream *substream, void
- 	
- snd_pcm_sframes_t snd_pcm_oss_readv3(struct snd_pcm_substream *substream, void **bufs, snd_pcm_uframes_t frames)
- {
--	struct snd_pcm_runtime *runtime = substream->runtime;
-+	snd_pcm_state_t state;
- 	int ret;
- 	while (1) {
--		if (runtime->state == SNDRV_PCM_STATE_XRUN ||
--		    runtime->state == SNDRV_PCM_STATE_SUSPENDED) {
-+		state = snd_pcm_get_state(substream);
-+		if (state == SNDRV_PCM_STATE_XRUN ||
-+		    state == SNDRV_PCM_STATE_SUSPENDED) {
- #ifdef OSS_DEBUG
- 			pcm_dbg(substream->pcm,
- 				"pcm_oss: readv: recovering from %s\n",
--				runtime->state == SNDRV_PCM_STATE_XRUN ?
-+				state == SNDRV_PCM_STATE_XRUN ?
- 				"XRUN" : "SUSPEND");
- #endif
- 			ret = snd_pcm_kernel_ioctl(substream, SNDRV_PCM_IOCTL_DRAIN, NULL);
- 			if (ret < 0)
- 				break;
--		} else if (runtime->state == SNDRV_PCM_STATE_SETUP) {
-+		} else if (state == SNDRV_PCM_STATE_SETUP) {
- 			ret = snd_pcm_oss_prepare(substream);
- 			if (ret < 0)
- 				break;
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 5a64453da728..674b50c7c5f6 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -618,13 +618,32 @@ static int period_to_usecs(struct snd_pcm_runtime *runtime)
- 	return usecs;
- }
- 
--static void snd_pcm_set_state(struct snd_pcm_substream *substream,
--			      snd_pcm_state_t state)
-+/**
-+ * snd_pcm_set_state - Set the PCM runtime state with stream lock
-+ * @substream: PCM substream
-+ * @state: state to set
-+ */
-+void snd_pcm_set_state(struct snd_pcm_substream *substream,
-+		       snd_pcm_state_t state)
- {
- 	guard(pcm_stream_lock_irq)(substream);
- 	if (substream->runtime->state != SNDRV_PCM_STATE_DISCONNECTED)
- 		__snd_pcm_set_state(substream->runtime, state);
- }
-+EXPORT_SYMBOL_GPL(snd_pcm_set_state);
-+
-+/**
-+ * snd_pcm_get_state - Read the PCM runtime state with stream lock
-+ * @substream: PCM substream
-+ *
-+ * Return: the current PCM state
-+ */
-+snd_pcm_state_t snd_pcm_get_state(struct snd_pcm_substream *substream)
-+{
-+	guard(pcm_stream_lock_irqsave)(substream);
-+	return substream->runtime->state;
-+}
-+EXPORT_SYMBOL_GPL(snd_pcm_get_state);
- 
- static inline void snd_pcm_timer_notify(struct snd_pcm_substream *substream,
- 					int event)
--- 
-2.34.1
-
+Best regards,
+Cen Zhang
