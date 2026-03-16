@@ -1,94 +1,87 @@
-Received: from mail.nppct.ru (mail.nppct.ru [195.133.245.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AF133A03A
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 19:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.133.245.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9689E3E9F7E;
+	Mon, 16 Mar 2026 19:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773688719; cv=none; b=DERcl9BE1jQC/HgJoILzWMbnXYJG4vJhI8YtAxn14tM3LOES+MnSyEOo0vAZ1ZKZKcCu3Q4on4KxnB9sqS/8XNi0aXd5izkwcyHyXtfExOmp3PcWBczv/pYduj7UCZB0ryl04I/4ehzbg7/H77bW+s4vUB+0gbMgCVNG0P9F1LI=
+	t=1773690291; cv=none; b=flkJuBIY9fyQh0fZZNSX8y5+++pstrb1dOzS4sV1EfCuHWmh2u5heLlbcDJ+n0kD9U/3sT3PxdGJhN40BtyrZ8Mzx2ABJbGcO5dCKc+7US6MPEfltiUUJLlYm20xTIaNfINZsZg0sKBqD//YcaLYAach1NKprbUTUispl3MlMAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773688719; c=relaxed/simple;
-	bh=jBFaxbPcLumDJmvk7B4IVWigww+k8VYarEk03GTGXsQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=llJXwIxa2H+PTZlDcNBGDDubu8D9f032U3P0WpC94k5KqdDPP9FiAr8uoI9LLi6zL40+WLE8ihmSJyJUdEALK4OcFTMEzgNIL7rdHP+3U9PxbeP3qZ31Cm4vZU3xTzd+gqn1L8qW0S7DaC4gUrbPHvwtuNl1OmJwZY6pLjN2GcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nppct.ru; spf=pass smtp.mailfrom=nppct.ru; dkim=pass (1024-bit key) header.d=nppct.ru header.i=@nppct.ru header.b=VB46iteS; arc=none smtp.client-ip=195.133.245.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nppct.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nppct.ru
+	s=arc-20240116; t=1773690291; c=relaxed/simple;
+	bh=Do6IcanWjgZ9OwhL8LUBwscJwGSw7kaZ1QHoKmjb8ZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F/zGRq5stFafH91xwlF8rtsm1t3xTkRYm2T6Pll9uXadrCmejCOA2SHNfoYOfeuXYj3FDCQYBzWOITMLRyZ3J1DyOyiNrfdrLpWZZuqzFGxNiNZiclyuZ0/K+pe5wB8b4LxxCZJm4bSORAZCMgft3wzwDhaiDfgyKil5duPr2VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7gI2fPF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nppct.ru header.i=@nppct.ru header.b="VB46iteS"
-Received: from mail.nppct.ru (localhost [127.0.0.1])
-	by mail.nppct.ru (Postfix) with ESMTP id 7F2B41C0F8D
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 22:18:30 +0300 (MSK)
-Authentication-Results: mail.nppct.ru (amavisd-new); dkim=pass (1024-bit key)
-	reason="pass (just generated, assumed good)" header.d=nppct.ru
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nppct.ru; h=
-	content-transfer-encoding:mime-version:x-mailer:message-id:date
-	:date:subject:subject:to:from:from; s=dkim; t=1773688709; x=
-	1774552710; bh=jBFaxbPcLumDJmvk7B4IVWigww+k8VYarEk03GTGXsQ=; b=V
-	B46iteS6WkxLnDzVO6g6NXj/cLrNrhNYClGqSp9GmNST3w2DAfsCdlMxd6ABz/mY
-	6jQmtPLDNenLT5cZAugPEyoGd9AzOYdpgJNWbOCfigP80pmQULuMCxS+w/CBNZYb
-	GPPa6wZIMIEsLfhM58yQNOVit4v4V3iaNOoIjoMVkI=
-X-Virus-Scanned: Debian amavisd-new at mail.nppct.ru
-Received: from mail.nppct.ru ([127.0.0.1])
-	by mail.nppct.ru (mail.nppct.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hBFC6jwEp7ig for <linux-sound@vger.kernel.org>;
-	Mon, 16 Mar 2026 22:18:29 +0300 (MSK)
-Received: from localhost.localdomain (unknown [87.249.24.51])
-	by mail.nppct.ru (Postfix) with ESMTPSA id BACD21C0EE6;
-	Mon, 16 Mar 2026 22:18:28 +0300 (MSK)
-From: Alexey Nepomnyashih <sdl@nppct.ru>
-To: Clemens Ladisch <clemens@ladisch.de>
-Cc: Alexey Nepomnyashih <sdl@nppct.ru>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: firewire-lib: fix uninitialized local variable
-Date: Mon, 16 Mar 2026 19:18:22 +0000
-Message-ID: <20260316191824.83249-1-sdl@nppct.ru>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7gI2fPF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B9EC19421;
+	Mon, 16 Mar 2026 19:44:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773690291;
+	bh=Do6IcanWjgZ9OwhL8LUBwscJwGSw7kaZ1QHoKmjb8ZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u7gI2fPFbiW6sipF9+cN7soA2eq6SYcXIjjvromaLQUBc+/nu/92wZMP/0DSyEBFN
+	 /ELA0k8qzvxjOmkPfYj66/5tLtmsx0xtIDWoV0wusQAC2wx2v0tW7cb5pC2Zf448FU
+	 4GNCUsZ9jkZChKDvoxNz0ElVBj4lDPzVm/DYA9vACjW4+GqPlAoGAsLOOviOp2Q7jv
+	 oBgdDomqt0/j94NZcxg/8mLkBlcaqI6Z97FanJHhNFclQWLeXb+XZy1dhNhnkuSdP2
+	 8l5ScV0y5CM3RYRp0PArfRVfqLy33okm0vz+Unzo+eeTObcKyG67nTM8YFz6CvzVom
+	 HRF64sVDa8B3w==
+Date: Mon, 16 Mar 2026 19:44:45 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Alexey Charkov <alchark@gmail.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 1/2] dt-bindings: ASoC: rockchip: Add compatible for
+ RK3576 SPDIF
+Message-ID: <50e2f262-6fc8-429d-af0d-5f9d1a0d6ab0@sirena.org.uk>
+References: <20260316-rk3576-spdif-v1-0-acb75088b560@collabora.com>
+ <20260316-rk3576-spdif-v1-1-acb75088b560@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GWHp22SbdXNzVybv"
+Content-Disposition: inline
+In-Reply-To: <20260316-rk3576-spdif-v1-1-acb75088b560@collabora.com>
+X-Cookie: Not a flying toy.
 
-Similar to commit d8dc8720468a ("ALSA: firewire-lib: fix uninitialized
-local variable"), the local variable `curr_cycle_time` in
-process_rx_packets() is declared without initialization.
 
-When the tracepoint event is not probed, the variable may appear to be
-used without being initialized. In practice the value is only relevant
-when the tracepoint is enabled, however initializing it avoids potential
-use of an uninitialized value and improves code safety.
+--GWHp22SbdXNzVybv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Initialize `curr_cycle_time` to zero.
+On Mon, Mar 16, 2026 at 07:23:00PM +0100, Sebastian Reichel wrote:
+> Add a compatible string for SPDIF on RK3576, which is similar to the
+> one on RK3568.
 
-Fixes: fef4e61b0b76 ("ALSA: firewire-lib: extend tracepoints event including CYCLE_TIME of 1394 OHCI")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexey Nepomnyashih <sdl@nppct.ru>
----
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
- sound/firewire/amdtp-stream.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--GWHp22SbdXNzVybv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/sound/firewire/amdtp-stream.c b/sound/firewire/amdtp-stream.c
-index e97721f80f65..8e70da850fac 100644
---- a/sound/firewire/amdtp-stream.c
-+++ b/sound/firewire/amdtp-stream.c
-@@ -1164,7 +1164,7 @@ static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_
- 	struct pkt_desc *desc = s->packet_descs_cursor;
- 	unsigned int pkt_header_length;
- 	unsigned int packets;
--	u32 curr_cycle_time;
-+	u32 curr_cycle_time = 0;
- 	bool need_hw_irq;
- 	int i;
- 
--- 
-2.43.0
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm4Xa0ACgkQJNaLcl1U
+h9AoQwf8ClliJCIkVoEL1x2kxqi//Z/TMn0wPThl1F77C1XdHAIj0eqrI7EJpMGN
+h2iM30XhW4bhMwjLajXvWgUCOAJZoBN9xYL4XEJJBUV77wVOwrMSqnzl5UDTkkJb
+0RjA+RNdiHgMeWEZZszliZoB1Oa4yRKiKOCBtT8QXbdb7YtKEhe5vHlmI1tQ/KXQ
+fdyzjASvN2QNP+qpFTkdzjyC0Yol6hWK278VY2e6a1mbikwOAlRrTnpCqz0D3bko
+63mhZSLtqbXub51FvDH94L7z/qclhOaIR+KwgcXgqxQdhBFlCvCH6RVk2I40R8Ka
+HI5Z9NFYnYBcknjfUZmwzqiDpYYAxw==
+=R0Ga
+-----END PGP SIGNATURE-----
+
+--GWHp22SbdXNzVybv--
