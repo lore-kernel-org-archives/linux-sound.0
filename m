@@ -1,120 +1,126 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559A53ED10D
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 19:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773690936; cv=pass; b=XqUZwpMWPj8IzItPKMaFxQYuvkkkzDOgvVpuRkDYJq7OPBPFDR8CAGMrKzlwz/3eQdAbLUkZOtjsxMz1H/0FpiSMaNmFJqk2p/bJHfI+rT2C1fye7wDlurYRsHPOjDTipVAMv8Q1Bt5B0RDyoEGO9IJ3wsWokO+ka/3i+7VAa+o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773690936; c=relaxed/simple;
-	bh=exR6/S1P6dU/MDkurSY6eHAE8/Y0Wvpc5icWr9EjFSA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vENqEZqazfHKSYAt3e940BOjMp7UebABbGK9cn0OKQpp7VyalTwPtG3VTY/H1SFPf7pIj1xOz7huVmTpJausjhVGhhBRP5G044/E+RwrXzP5gbej/ph98OSRaljQ7s+bkHhrfIgnI+AF116jvxpDTjKqWlfatF8KmcdYx8ql6yY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m9PevT2p; arc=pass smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9D18460;
+	Mon, 16 Mar 2026 20:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773691587; cv=none; b=MFa+JxAnHgk769XQtdel0l/UBEDXpay9//q/yyQAhbOjVPs0uiFNfWCI3sx6c/LDsT/g/BZXd3jGL8cFKscXaNNJJ95gp5dvrT3iBor4AwFNKP30siLJYtqYiFKdD0EggS6egaGRhuJowzN/1Rs5GuaclicPve7IPqyxqevHxbU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773691587; c=relaxed/simple;
+	bh=w/C3ahcmc5vteeGrT4e5o2oY/gnnv0qSKl/D7UxeyUU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OTNRpFoor678lOXYTvPKXZmGrmJNYH8EttDwUrxnfE2ztCyRoztD9uZdM3LbKuOMhjnxKNwG9vUIUeZ9UCtByUkw9oEzvkg0GIvtLNwN5NMRb2zU5aA3W3/vlUGKOmZqFwy2BShvNPmSHiRnGGI8JdXVyB33VMO8mxkvNgNSxMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZvizGIy4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9PevT2p"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a12f88d839so5074492e87.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 12:55:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773690933; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OVd2VeTk90oA4CZSCbWpEViqX2q517EdA6lBcrmfKLZEXLMHLIoKrXXfXgqulLwp7q
-         SkuX1Y9Ew7PBk/1ZYbT4mz+AtOyYe6kcpWYWnvtyUEzT0m/+3pS/zaow/geqP615EE6i
-         oxUuh5AZZZV9b/zdEBPrIiav/jtzUvo4Im7lvT+d+DRpqzpFCZ3aEJ4evlCyxNz3d0FH
-         DzzD0RTKUapQZnK6WVC43q06N3zRhFvL8JEUB3aQKNlUL+ngKJ7NIJsIch1Vqv57xoJv
-         mer0JyTnC+i5Xl7GbZTNLZ+Beshly/QVBbnmyp+9ePXgpir3Bb0paIpd1h48Fl8VF7OK
-         5PeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+GT6znZXieN+WJyWcGR1ayq9ux9lzHv14SdC47d9GmY=;
-        fh=W4Y8JgPWgU5N9LmKdUAqqeJBcupbxrjikCj9frfdC9Q=;
-        b=SVrd8Zn8UgJ0B9e3FP0a06gSezPz7D/voYXMM6XUb1cWKHVwJb2QLNNOqdoKQmjPXZ
-         Q47vbURB7ksWvwV/Cj+ar84Y7VfB7W4adz14oMFwm77P/hQ/NXY9P7nuxekA8cKBu8rI
-         11rpU2C74MfGNDzjhcEEb2xg4O+K3ynRGAyhfTfuVq95G2wi114PlkMF1FZQdZ+mqCA6
-         yTUuQV6VNVO2SSAWZH6oIT/pA3YoKHPn2SplR0tMy16eqp04ZxfLlSMUF/AQ+4cCmHQp
-         2XaWdF++CcwfFgKQUf7TtQLknCAC0D3/qp0wkKKcS8Bm2vOiISJ8YpWiIDhqGXa8b621
-         jetQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773690933; x=1774295733; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GT6znZXieN+WJyWcGR1ayq9ux9lzHv14SdC47d9GmY=;
-        b=m9PevT2ps8K9uep0DRP66Fe0e5a3LPMdy9m2rrlDR89HHO0v3rA8ZRNTqVHcixiZ8p
-         bTbVX9Cf0ezMW3fd2EF6jXOD9HeTwCP2//jaikV6Z1d31+KheVZLIqydqEIOiZRh5C+g
-         qK/wPV+9tmvhdoW1sFT+/TP+ht/rfts31WZnBJ0DSZ97d3aQwBOZkIHJqHect6WV6Baz
-         d3S92KJBW9EQsLwG0Suw5njkJP0JYz79imR4T0JTlYZgziXX0Vl6fZPJbiwBPFPkirLn
-         H4zQuwvBctMOj88iG/tUqSHMr7M8js3c0b+O5MFENQaonnAR2xNUVyckH80D6Ms7GoE4
-         L6Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773690933; x=1774295733;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+GT6znZXieN+WJyWcGR1ayq9ux9lzHv14SdC47d9GmY=;
-        b=qTQFrk9i3hifVKb3i/BxgTdDAmRMffNTgEVRaUgu5ywA5F00HlO7xdIY96wr/SXeiM
-         pX9AcD3Y7ZYAveY/o7iUD1L/A0ZNAj3+rqWJFVzODuvrllrkMeCEwZFvaVRZ38dipRy0
-         0gB1qIa6o2aijAZbbVai8vLKggv8UnK+LPUGWa0yqY6rqWYgEFyFQag8FIp/u3ME8o+U
-         K98d8933yWiwMQLfUq0Tv9dl73QMwWovREfLgIacW/Q/vBjLHNMtfuviWnzUMOPghOmr
-         Xz5Eqq6g4NV3mwO832+vNRRevREqngMOEN01RjUdNBq+qywS4+KqmoPPNuseLrKN/7Fi
-         hKew==
-X-Forwarded-Encrypted: i=1; AJvYcCWeFZnwdR4QdG1+94bKdOvHU6Y2I9RkLtVV3JSQugdfZV1+PuQHpCj7O0aWVuQ4RTVmKIvWl0nPUU5cmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUMdqVmliN/zjwHkORMXCwgrcBpPyJOyJoipaZ5hzppJla1CbK
-	ezIjsTOeMXcaurNYsYDdaIEW8DzjGTYMmPlcrYq4jtrFO/eCQ236h+OU35dG0rCTZwTTV1X33gk
-	+g1Kd2+f35PMhZDRgAY19opszVSptTk4=
-X-Gm-Gg: ATEYQzx5wyvgOFC5pVLQmrpTxkMC3d9DbmGiI/1HUj0ZJEiQzJwdxcE08O9ppARRQzl
-	8rhEL9IiSt6wOHvv2uof9333RG7966aWdUUwWUxGKNIO4XQotaGqfUsc/HI5RDbRxN82CQTW0eO
-	lZ8eC7sxVUSu94l/Wnk1+BgHQmX9EGOOBo24GsPTQIer/AZeLEoE0oLvBd/FOpA7iDmiCbSGF3m
-	FYMiOhMH1gN0S8UawnqNvnaKepmAdJcMWVWv6NGEzrnlQUOe43SbGk2QaRs/89UpRid8UESBqvQ
-	YGWcTqCkPRvSol0hpAH6KENoiJEbv1LaMiWBvdHM6MT9XklaF2DMti0Btl/4a6Xj4yMJ+9FHvA=
-	=
-X-Received: by 2002:a05:6512:63d6:10b0:5a0:4344:a519 with SMTP id
- 2adb3069b0e04-5a162705a67mr3198343e87.4.1773690933118; Mon, 16 Mar 2026
- 12:55:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvizGIy4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA9EC19421;
+	Mon, 16 Mar 2026 20:06:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773691587;
+	bh=w/C3ahcmc5vteeGrT4e5o2oY/gnnv0qSKl/D7UxeyUU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZvizGIy4S4RG2Bfejpf6unBEf5SMKCIGUkqXHkaQUK47hVt4dgnpZp5KYaWmdPdUP
+	 sxq9mY8NxENXZKQk9F6YhMZMBL+TV4Pd6b1d7vpPqN1Og7pLUSIalYv9D2Wv2XSuYU
+	 keeLwH7qzk2GbBHCpoCovdnb1yaq37r6Eupy/etFMe6m9UAZ3w38nQCX18c/sNRDmq
+	 /X015rDx7CTvLjNGWsOrp+owWsiQd2AtxZkOjy3ea0fguouwc2lDvCzUTl4rZN/ZE9
+	 Z+X8Gp0+KIxtqMpHC7v/XcTSEdFWH/dzf5GHWUuZuaXNuYVgwbqxXqRoU8xZ9WpVm4
+	 YXiMiPm7HLJdw==
+Message-ID: <bb5d2d81-6967-46d4-bafc-0eb567a05b5d@kernel.org>
+Date: Mon, 16 Mar 2026 21:06:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260315215447.276886-1-piyushpatle228@gmail.com> <20260316-macho-vole-of-security-e549d9@quoll>
-In-Reply-To: <20260316-macho-vole-of-security-e549d9@quoll>
-From: Piyush Patle <piyushpatle228@gmail.com>
-Date: Tue, 17 Mar 2026 01:24:55 +0530
-X-Gm-Features: AaiRm52pgTqXpxNrSqYy20MhbWj6W5L2QOpsljgPgd5ge4Ij9NOJat0naNkkygk
-Message-ID: <CAMB+xkbevtKHrg=93Wttp1-OQ-qh3UGpW8rxhNoQqQ65tvtBWw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] dt-bindings: sound: adi,ssm2305: Convert to DT schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Piyush Patle <piyushpatle228@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260315215447.276886-1-piyushpatle228@gmail.com>
+ <20260316-macho-vole-of-security-e549d9@quoll>
+ <CAMB+xkbevtKHrg=93Wttp1-OQ-qh3UGpW8rxhNoQqQ65tvtBWw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAMB+xkbevtKHrg=93Wttp1-OQ-qh3UGpW8rxhNoQqQ65tvtBWw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Please use subject prefixes matching the subsystem. You can get them for
-> example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
-> your patch is touching. For bindings, the preferred subjects are
-> explained here:
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
->
-> With these fixed:
->
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+On 16/03/2026 20:54, Piyush Patle wrote:
+>> Please use subject prefixes matching the subsystem. You can get them for
+>> example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
+>> your patch is touching. For bindings, the preferred subjects are
+>> explained here:
+>> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+>>
+>> With these fixed:
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Thank you for the review!
+> 
+> I checked the subject prefix using 'git log --oneline --
+> Documentation/devicetree/bindings/sound/' and found that the correct
+> prefix should be:
+> 
+>     ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
 
-Thank you for the review!
+Yes
 
-I checked the subject prefix using 'git log --oneline --
-Documentation/devicetree/bindings/sound/' and found that the correct
-prefix should be:
+> 
+> Should I send a v2 with this fix, or can the maintainer apply v1 with
+> the subject corrected?
 
-    ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
-
-Should I send a v2 with this fix, or can the maintainer apply v1 with
-the subject corrected?
+Please send v2, unless you got message that it was already applied.
 
 Best regards,
-Piyush
+Krzysztof
