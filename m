@@ -1,126 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9D18460;
-	Mon, 16 Mar 2026 20:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F15D371D07
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 21:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773691587; cv=none; b=MFa+JxAnHgk769XQtdel0l/UBEDXpay9//q/yyQAhbOjVPs0uiFNfWCI3sx6c/LDsT/g/BZXd3jGL8cFKscXaNNJJ95gp5dvrT3iBor4AwFNKP30siLJYtqYiFKdD0EggS6egaGRhuJowzN/1Rs5GuaclicPve7IPqyxqevHxbU=
+	t=1773695641; cv=none; b=TSBH8dbR1BEDw6AoOvtLvG7aibTlGv3yE61L6u/5rqz/9b2A8CbQyu5R/VpbHLu9B8AB6DHZl5rtm1eKGCa21MXz18IMrX7NjzRdQcgBsOrRkHo6SjwOTVX1k6x4uFZj3jdAmbPZkl7N2UZlI7E6xDO9JnCAqcrkbiiJcvPmCF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773691587; c=relaxed/simple;
-	bh=w/C3ahcmc5vteeGrT4e5o2oY/gnnv0qSKl/D7UxeyUU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OTNRpFoor678lOXYTvPKXZmGrmJNYH8EttDwUrxnfE2ztCyRoztD9uZdM3LbKuOMhjnxKNwG9vUIUeZ9UCtByUkw9oEzvkg0GIvtLNwN5NMRb2zU5aA3W3/vlUGKOmZqFwy2BShvNPmSHiRnGGI8JdXVyB33VMO8mxkvNgNSxMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZvizGIy4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773695641; c=relaxed/simple;
+	bh=XfTiVWBGSK18qTIcb1YyI0kDcpzqXok3T8TKqXUhaF4=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=rmoQI3Rn++HA5E2dXO9GohLDI3O3IqCBbTT9UJrrbnPlB3VbyaZ6QiX/ZJCyxWwLkPhF54hK+t9R7wQXTtCAsecwyARNuoOzQ+ghkrm7SDDSqNThi+GP6Re/st5sGvfpRjAt5W6pNq/QzHmIPkxPLsLrWr4PDUdf2kMYSYN18TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZMx0RpFN; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvizGIy4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA9EC19421;
-	Mon, 16 Mar 2026 20:06:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773691587;
-	bh=w/C3ahcmc5vteeGrT4e5o2oY/gnnv0qSKl/D7UxeyUU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZvizGIy4S4RG2Bfejpf6unBEf5SMKCIGUkqXHkaQUK47hVt4dgnpZp5KYaWmdPdUP
-	 sxq9mY8NxENXZKQk9F6YhMZMBL+TV4Pd6b1d7vpPqN1Og7pLUSIalYv9D2Wv2XSuYU
-	 keeLwH7qzk2GbBHCpoCovdnb1yaq37r6Eupy/etFMe6m9UAZ3w38nQCX18c/sNRDmq
-	 /X015rDx7CTvLjNGWsOrp+owWsiQd2AtxZkOjy3ea0fguouwc2lDvCzUTl4rZN/ZE9
-	 Z+X8Gp0+KIxtqMpHC7v/XcTSEdFWH/dzf5GHWUuZuaXNuYVgwbqxXqRoU8xZ9WpVm4
-	 YXiMiPm7HLJdw==
-Message-ID: <bb5d2d81-6967-46d4-bafc-0eb567a05b5d@kernel.org>
-Date: Mon, 16 Mar 2026 21:06:22 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZMx0RpFN"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c6e2355739dso1872411a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 14:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773695639; x=1774300439; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rF4t7hmWxUp9tFqC+NU8ZguLNueXfL7Mf7zA4/7gZzw=;
+        b=ZMx0RpFNHrrYei6yhQ+Dr4bJIyDSmLZ1o/yyraKlm7jO56w+8JHuPjU7WkhIE//ICL
+         MkxmjcxPdTPtlfwJySf8jHxeUb75pue7ZobxV0O22fhkmrxEPyJt58yC0HtHbc+sgElt
+         0dKXuoc2wd2sAvLrvm+e2KR5JGE46hI7eTYfvvf74z9GxaCAsH4JxSidRkjPhoRjuuvO
+         MaExLSctnhYQHm0KrkY8iLvZK6Jz+VumkVZYeKK39rzMNaQ8b6GN+wJA3BnD2i7q8k2x
+         pz4EMrX1hTa9zoLre3wgD/4+SESkvUhvMbwjSycNMjOx89GHZ00hTesQho4/unZgbkyL
+         /XOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773695639; x=1774300439;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rF4t7hmWxUp9tFqC+NU8ZguLNueXfL7Mf7zA4/7gZzw=;
+        b=ZjeFBj21URZw2IOosbfTu/edvo1qyvmPcTWFIEE9V4q8cq3LKSm89Szb6UNDEH0vDU
+         on0uv1YQcI/GsDkZpO42Aeh6qaONbDAz6scJXMTeU4ufibXmOofMGI38NK3rB2Iic5EI
+         TOzw8eUGh4BOBaHEvdAdaf4qn/IvCYYj3HEqBRY/77uYUfXKAYdcGfgjvBuCc+gL9NXf
+         8bTg9Zi3ny25OTwlR+btKnzRWtmX2ZSz/ZKHC9ilzN/1BQnXuUQfzOctzsGBe6JC0We4
+         Hdn2wEjerCdZqN5hgkvO0dq4HEk/SvFWbXDLU2zG0tUKbS/V6m7DT2ZCCTHnbW05b4dW
+         Y/2w==
+X-Forwarded-Encrypted: i=1; AJvYcCW9GL3xH8C4zqzlMOZ7Gg40YNrtAjwdWZm2Y5tks1aI23xfOB4gB7auYdJ+EexHgzHERORc0gTGESiiQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8lQXn+QAdOlwTbtDzz8O7DySVKAiT50xQE+xv52DsrUQ5Xuyz
+	1oCqpr87z1J7Ouh1b8/t1dCDZuiwo5FFTob1bNugoi0lE7EDlHg1mhNv
+X-Gm-Gg: ATEYQzwkP7mRljLds2aU7eW/lVGjMniuRckDvTlQN/CFhjgIIazne/am+hcPTl6OKo+
+	GvwKs9QscYy8azxZG+O+8+F+8fk2i3gtaSe+MTbOy8AfgilSN+6JxBf8ueI774Gg1eFNP3VspaR
+	oketWLW45lho2k2F8m7cXDNjl4w1iFm9SFiByEh/8protvqpgYOT+jtfuA10v7ZnoJJxzBK+t2w
+	46f2eNwbekmzmBmSyEMWCW09vlScWSXNUDiZLIIiOAZ9vyZ+fnbe+AgnHL/pX3WbwDg14dZcvRe
+	+mLf4YPyIhMnt1yBTt4eVIDd+bF2eFJr35hB7jKofA3ZndrnOOhHHT+yJtEH47Fh1jd5ZnpFW+I
+	3GD7qPiOpLs3kB3CNuvVZgc1im2Ju9zaUGmB81SwtLIdTN110N0GLxj5T0ITv1rSnokvP/LMTAw
+	aIXSojj3gUcERkTCnn3DoO3iKORevNIiUXWXPvunarh5yclur40VsbHYulUjtIZXdwko1HM0f1e
+	DgRRIhu3bd2onUfZs/4eB6HStXw8uQwxGNeWk+3H9Uxg5YaOXfV+Q==
+X-Received: by 2002:a05:6a20:12d1:b0:398:a027:4707 with SMTP id adf61e73a8af0-398ecd4e0demr13898288637.50.1773695638557;
+        Mon, 16 Mar 2026 14:13:58 -0700 (PDT)
+Received: from lorddaniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.domain.name ([2401:4900:889e:d501:6872:1e15:77cf:339b])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7401588ecesm5948475a12.32.2026.03.16.14.13.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 14:13:58 -0700 (PDT)
+From: Piyush Patle <piyushpatle228@gmail.com>
+To: lars@metafoo.de,
+	nuno.sa@analog.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
+Date: Tue, 17 Mar 2026 02:43:48 +0530
+Message-Id: <20260316211348.230923-1-piyushpatle228@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: sound: adi,ssm2305: Convert to DT schema
-To: Piyush Patle <piyushpatle228@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260315215447.276886-1-piyushpatle228@gmail.com>
- <20260316-macho-vole-of-security-e549d9@quoll>
- <CAMB+xkbevtKHrg=93Wttp1-OQ-qh3UGpW8rxhNoQqQ65tvtBWw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAMB+xkbevtKHrg=93Wttp1-OQ-qh3UGpW8rxhNoQqQ65tvtBWw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 16/03/2026 20:54, Piyush Patle wrote:
->> Please use subject prefixes matching the subsystem. You can get them for
->> example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
->> your patch is touching. For bindings, the preferred subjects are
->> explained here:
->> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
->>
->> With these fixed:
->>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> Thank you for the review!
-> 
-> I checked the subject prefix using 'git log --oneline --
-> Documentation/devicetree/bindings/sound/' and found that the correct
-> prefix should be:
-> 
->     ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
+Convert the SSM2305 speaker amplifier binding from text format to
+YAML schema to enable dtbs_check validation.
 
-Yes
+---
 
-> 
-> Should I send a v2 with this fix, or can the maintainer apply v1 with
-> the subject corrected?
+Changes in v2:
+- Fix subject prefix to ASoC: dt-bindings:
 
-Please send v2, unless you got message that it was already applied.
+Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
+---
+ .../devicetree/bindings/sound/adi,ssm2305.txt | 14 ------
+ .../bindings/sound/adi,ssm2305.yaml           | 46 +++++++++++++++++++
+ 2 files changed, 46 insertions(+), 14 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2305.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/sound/adi,ssm2305.txt b/Documentation/devicetree/bindings/sound/adi,ssm2305.txt
+deleted file mode 100644
+index a9c9d83c8a30..000000000000
+--- a/Documentation/devicetree/bindings/sound/adi,ssm2305.txt
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Analog Devices SSM2305 Speaker Amplifier
+-========================================
+-
+-Required properties:
+-  - compatible : "adi,ssm2305"
+-  - shutdown-gpios : The gpio connected to the shutdown pin.
+-                     The gpio signal is ACTIVE_LOW.
+-
+-Example:
+-
+-ssm2305: analog-amplifier {
+-	compatible = "adi,ssm2305";
+-	shutdown-gpios = <&gpio3 20 GPIO_ACTIVE_LOW>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/adi,ssm2305.yaml b/Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
+new file mode 100644
+index 000000000000..b841da2dc284
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
+@@ -0,0 +1,46 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/adi,ssm2305.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices SSM2305 Class-D Speaker Amplifier
++
++maintainers:
++  - Lars-Peter Clausen <lars@metafoo.de>
++
++description:
++  The SSM2305 is a filterless, high efficiency, mono 2.8 W Class-D
++  audio amplifier with a micropower shutdown mode controlled via a
++  dedicated active-low GPIO pin.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: adi,ssm2305
++
++  shutdown-gpios:
++    maxItems: 1
++    description:
++      GPIO connected to the shutdown pin (SD) of the SSM2305.
++      The pin is active-low; asserting it puts the device into
++      micropower shutdown mode.
++
++required:
++  - compatible
++  - shutdown-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    analog-amplifier {
++        compatible = "adi,ssm2305";
++        shutdown-gpios = <&gpio3 20 GPIO_ACTIVE_LOW>;
++    };
++
++...
+-- 
+2.34.1
+
