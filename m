@@ -1,39 +1,39 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F388E3B95ED;
-	Mon, 16 Mar 2026 15:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB15F3264D6
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 16:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773676775; cv=none; b=jkMBC/Mudh1B3FhENjT8+BxNLFuRrxrj31xoggEat8dI1H8xSgNbBd/Q9xGyzNwwwbM/jBYqI1FiSvgXohkXEEEKnL6V2YnerxZzSCFhc5YvvXitLFvmeqM6H1C+SKgAA4uDShRzWSI6SaeeXg8ew+rZ5FUVoBR01gs1R59rUWc=
+	t=1773676984; cv=none; b=aQ+d0eobsUTrHZ6ys0EpsdDYGajK2v4McrkbN7xjVIXKCNllgDNA8lV+fNyAcbCMdb20hELhSVC9zSMxJULWUjHnYhHIwLTn7cV9Ve4Z6UtGfTL+JUQ9/MfNa8GgXn3ZaF0xiH/+S7Nr0oNCBX1s8mtT5ESP7Pk4tbNo4U99Cg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773676775; c=relaxed/simple;
-	bh=W3/aqEHr4f+dl3R/F2nCBCei9LbuG+ABw2wNyR7NSU4=;
+	s=arc-20240116; t=1773676984; c=relaxed/simple;
+	bh=JWFlxi2LHIDQFtuhUGbzlyFQ9+QEhBC7dSDu76hq14o=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=badoiTHxteJ05CgMUyxLfhgH0HkB5j19gNzc8YEypYITiufiC3KT2+XhqYiNDmO+NJmACpN4DtwXi0bIAhkawGUmEXle40XCR8cjEyYpn1bMu1GkpSJr1Ul9GUYy3/UxsMVrsKnBJnb/ZSgOlSuJD5mNBl50JT3SO9zSGW1Mdrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PnTea7iO; arc=none smtp.client-ip=185.171.202.116
+	 MIME-Version:Content-Type; b=b3u20D4c0xbd7MrMy5FuZZzuYmyOTPsrXs8fYa8wnIBwndbbtbewR6ka8cap3fq6eRR6gfd6+b6QfUky1zX9riucUlY8iSaNCwiX1zGvr2goLYJexvmosEsUd4sUwIVsGiaHUDEhxeF1B3BhkBsa0BO1Kz5/rv0RyJb9lEyXrYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hRov49+R; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PnTea7iO"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hRov49+R"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id B808FC55044;
-	Mon, 16 Mar 2026 15:59:55 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 51A9F1A2E70;
+	Mon, 16 Mar 2026 16:03:00 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 15DF85FC9A;
-	Mon, 16 Mar 2026 15:59:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 820EE103721D8;
-	Mon, 16 Mar 2026 16:59:09 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 13B955FC9A;
+	Mon, 16 Mar 2026 16:03:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id ED4941037217D;
+	Mon, 16 Mar 2026 17:02:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773676768; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1773676976; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=FZY21WVCh7c8tZeHp10QX3BK4g8IIBPl4iC5dqseA4U=;
-	b=PnTea7iOGokpmAn1gpLIkkS6Nd0yGlc32SP/zNZvtylTZgU/Z1Ybnij3ZXYHCeC0U4d09o
-	BRZE1yUVjD6Qmz+8IbH5O78mpzRxZFVRAOgUrCMag55DutlsW94ck10nmmgpEW8m17kUFB
-	VkFeXkZ/kIUAIGK0CYRdfaJUttWVEJCY0yeTVJBm3ckYagrbCPSqUej+/DdEwMHpQyOzOo
-	8MiEFF5MN/OJ/MlEHmatCqK6k/97aTMH2f9dIHKPkhmoT252RKvR8n9bPQsmgBgalSXrhs
-	sfgPzez5nSsPBiDxgAwqxCX0rAYf6cWo5wKbaXugCpuXG2yIuwNhrzWMpUZZKQ==
-Date: Mon, 16 Mar 2026 16:59:08 +0100
+	bh=JRFhZA6RpNl4twhrOS1z1aXcDqh2qmtqkiRwKT2JAi0=;
+	b=hRov49+RaCqqtbZzX+h/bHw6O8UCuWrYcgIVi8QjLacZ24aXZkMsT1C9bCtKpvWKnAK+fq
+	R9iVPicLOOm0VKSiMWSxH7K7h840kqg8bk0W0NVUlp5k1roLJwGkRm8D6kntOlPPwHdozv
+	aAU8mPSHy3flSYQ7wYk8rusdEDP9gNdoxKqTtjWiWfSdUTVntiRKOFn8VV3S/AcDI8H1dE
+	QokAokBMBuu+aXko55AKaiAo/yO73lOVAkWgJQbo1H7/EC3dAcoS+iaPKIfoNxa7ihptzd
+	Zg2BlqQFqpkipOa/url3HS1Si3uWLMrvTxnSEflCC4WyJGRDV93+tSTdl0ycpw==
+Date: Mon, 16 Mar 2026 17:02:33 +0100
 From: Herve Codina <herve.codina@bootlin.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: "Martin =?UTF-8?B?UG92acOFwqFlcg==?=" <povik+lin@cutebit.org>, Alexandre
@@ -79,11 +79,12 @@ Cc: "Martin =?UTF-8?B?UG92acOFwqFlcg==?=" <povik+lin@cutebit.org>, Alexandre
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 10/29] ASoC: fsl: name back to pcm_new()/pcm_free()
-Message-ID: <20260316165908.6a272e81@bootlin.com>
-In-Reply-To: <87wlzcjyrn.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 29/29] ASoC: soc-component: remove
+ pcm_construct()/pcm_destruct()
+Message-ID: <20260316170233.22060df9@bootlin.com>
+In-Reply-To: <875x6wjyoa.wl-kuninori.morimoto.gx@renesas.com>
 References: <87bjgoldf9.wl-kuninori.morimoto.gx@renesas.com>
-	<87wlzcjyrn.wl-kuninori.morimoto.gx@renesas.com>
+	<875x6wjyoa.wl-kuninori.morimoto.gx@renesas.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
@@ -98,28 +99,18 @@ X-Last-TLS-Session-Version: TLSv1.3
 
 Hi Kuninori,
 
-On Mon, 16 Mar 2026 02:25:56 +0000
+On Mon, 16 Mar 2026 02:27:57 +0000
 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-> We have been used pcm_new()/pcm_free(), but switched to
-> pcm_construct()/pcm_destruct() to use extra parameters [1].
-> 
-> pcm_new()/free() had been removed [2], but each drivers are still
-> using such function naming. Let's name back to pcm_new()/pcm_free()
-> again.
-> 
-> [1] commit c64bfc906600 ("ASoC: soc-core: add new pcm_construct/pcmdestruct")
-> [2] commit e9067bb50278 ("ASoC: soc-component: remove snd_pcm_ops from component driver")
+> All driver have switched to use pcm_new()/pcm_free(), let's remove
+> pcm_construct()/pcm_destruct().
 > 
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->  sound/soc/fsl/fsl_asrc_dma.c  | 2 +-
->  sound/soc/fsl/fsl_dma.c       | 2 +-
->  sound/soc/fsl/fsl_qmc_audio.c | 6 +++---
->  sound/soc/fsl/imx-pcm-fiq.c   | 4 ++--
->  sound/soc/fsl/imx-pcm-rpmsg.c | 2 +-
->  sound/soc/fsl/mpc5200_dma.c   | 2 +-
->  6 files changed, 9 insertions(+), 9 deletions(-)
+>  include/sound/soc-component.h        |  4 ----
+>  sound/soc/generic/audio-graph-card.c |  3 +--
+>  sound/soc/soc-component.c            | 10 +---------
+>  3 files changed, 2 insertions(+), 15 deletions(-)
 > 
 
 Reviewed-by: Herve Codina <herve.codina@bootlin.com>
