@@ -1,82 +1,82 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B20E3CF690
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 17:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304CE1F8AC5
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 17:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773681285; cv=none; b=DVr5KJx92mJz2V4lxneTWnUAwEjXbFomKFutv6G+b8QWIIElI3iFdzZJaq1WP5mXUOLGXxH1lQVvDmaReQz83WoJXf7NyO4wgN1cDVRIgRwrJafU1UaVRt74R2mmQqTG+hOVqbx7WU/B2LH8ADtjsgUKnN4pLpGUPl1I4jwWTHM=
+	t=1773681286; cv=none; b=sWMw3U+bV9/gtcS+V97eSfv1rOLOZCABYCO/I8pv4eeG1oD+9DSdF5k/W7G2KChaYAdS1a3crWT4cJLeWlVjWsL/oQrD49Q5Cf/dBlPKZQdD+OlE4tyee5ttko/e0XjwjsksVh7k94RVDzF7ggkk2Jcu+xh+NvfprJmi6eTuS5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773681285; c=relaxed/simple;
-	bh=RitF4X0ydyAtTX/CCYADqtg2SWdZZo+quUkjHBSz16s=;
+	s=arc-20240116; t=1773681286; c=relaxed/simple;
+	bh=UocqjRyfFzM84DjFYioQo6kEjdPifFN5KCFxnX+Mtbk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hGZdDq8pqabU1B926WpSWqEhjwQq4Q987Ual1cpWaIPfi02RB3P2Pp9Ct13df3/PFmOYWqOlkavaMtyghmhUgfd2I2ktHl602piSEBZ4ra2ynqUh02BnSM+Eg9SWdXHt90UO0CYtBzrLCDffeF+JX7mA5BJ1PINgvH0QV39M2/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fJ6kkfYD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KFJqYXWm; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=Zu0KrSet16gHXlBsg4b+u32cZbsVrdWrt4TSirLfyG1HxUMvBeMVV4lxS382ziacnYcXnq9z9C0Hil7bxszYTUpWj4G6O3WNR9Ju1GkNkjIuO2fuAfi7qxber1/QxYkxdmWVKmf2NJaQdRwANsjZcWIsmlW6ZKwgvyYdykMsGPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P3DU6dl3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NrqvfI+8; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fJ6kkfYD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KFJqYXWm"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GGMxJu3101993
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 17:14:43 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P3DU6dl3";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NrqvfI+8"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GF4M12795413
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 17:14:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=sttkd7eb2H2
-	60gtaHPbEBYrM3UtDNGNgOFfj96PH8fA=; b=fJ6kkfYDn3KQ6shXEvD5Q3uqQR4
-	8GNTg+aD9oSpshc1SUYkQ1DdIXsR0N/fcaeGfyoHV4xKEVFI7iiZXrR4hAPMskMz
-	7tHgnRvZ9XXREaK5hpUww3cvqQYCIHWXt1CwDZ9F49eR7RMMwg9rYH2lvcW97zcL
-	8HLQOmz75+EwnlkddogWCLGESPZIg8LjcTytuh8Wx0G1rQXbfdw8GAlCP7ZMCGjc
-	1huqPLODNZdQdl4PMl8XW1afJqXFOVxIaFnaWoVN/4CJTqLXEQJS0ZYSYX6nBx5a
-	6gqVa41jBh2roHre2gqdPlwNyqjeSYWQGddaUwADGLQfVlL2GccNKfDqzCw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxnb786jn-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=WFXy8rqV6ZJ
+	yXTmDCC1XrXB5vrLD+ozr+xme7NcdKiQ=; b=P3DU6dl3c9C+mKOoFj8fLnflTRc
+	E4S7OufGIBneH7YqP+NWIVKQr0JamAB0ccP/h1Fu1YGnyp4csg0npjgoFeixW8JR
+	Vxl/OXVJfgmTwzF4Vn7J2fQ1stksLuZyNanswJjCeX+tEvcw4wn+3J9ef+QTeG1n
+	nsaaszMiZ/kCXgERsFktG+NFb0XemxxH757PA/JfVm3NnNUUQzrGnDx49KGDygK7
+	pFlzs5B2WwtrEU11sYGr3Wy7XXdUOW1/NAVcRbrPi0lKxckc1uUQdMkQ34QJ+ljV
+	4HrjH64gyE1cItzRHI72edpT4EBGjx60xlN9Izp4/hJP4ItIfIEv51VQ86g==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxm6d0g7s-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 17:14:42 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cd76ff19d5so139503585a.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 10:14:42 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 17:14:44 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89c4ec516e5so206178116d6.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 10:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773681281; x=1774286081; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1773681283; x=1774286083; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sttkd7eb2H260gtaHPbEBYrM3UtDNGNgOFfj96PH8fA=;
-        b=KFJqYXWmT7GClAyqEnN1E2+zu7F/rC+Wi7R45zJvxkNTuTZ1rcQWfLcNkn5JJ8xhX+
-         R/d8fKupRStwKcEehEMct4d9Gp3PFoh9ly9Rl9Yfr8e6q76xqXYvGvrRyNUS/tnpudSg
-         rI6yLmdN1w0pJ2NNAhUtGKpOPtrtzo86K3EBeYJABrRF+IvboPz6KIBj5Fwl8TrQ3bfa
-         Q3FzFaJtDFP6Kq841s0JZetTM9vJkQZ2VeVv+pIv3YIjXwMiHhQivUdmUFS9+/PQGeVT
-         9D73mza6OoLYllRPK4H4pK+TwdTCAp62vaAJGOLWk1lYe3i3e7lBv4RpIQgCmO5NeErb
-         kt4Q==
+        bh=WFXy8rqV6ZJyXTmDCC1XrXB5vrLD+ozr+xme7NcdKiQ=;
+        b=NrqvfI+8EHRd+MVD032RWKR2d12VgpuKL0Oqd8RkWQ1N3C9JTANmVroK70M8+0/5Oj
+         UdT6yk8N+cfZUkfq6S6R63zOLGOe+1THxBqMTKkmmHhx8Vt9jpMOR7KrW6Zy8mj28nNj
+         Qffy16hAr4shMxnIXDgrvmOU1QXptyiaCfAZPP+GsXMc7CN4OfufezD+8WrkeYNLBesK
+         oLv7RxmZLhX1y2B+9whenBjnhkoS7n8WQlTsq/3KlN0likuiOvykEDn4sWBRIpzcebsf
+         E+XXGp3hKBfavX5GT7pPjfe2iRXfrFTuSLnzaaKLiMqIoD3k1Xk1B5PuExL2W47Bap6j
+         +/qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773681281; x=1774286081;
+        d=1e100.net; s=20251104; t=1773681283; x=1774286083;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sttkd7eb2H260gtaHPbEBYrM3UtDNGNgOFfj96PH8fA=;
-        b=VHbkiI/itdwrEOIWz8xndKzxsVXE0z3umUipiJdazahURthslb2RXRcmsHb3Lq521+
-         qtE6B0GhMECjWpkM++UfGRe+Pthn+HWk8wFBv1b+EkOFqJGuafdovbVa/6YV8UqMX2Gz
-         D2eiJU2byvIkxrYrGh02pBwMittTkGtNJBWYISA+qDn6GKcrs+uXWOtxMytVMxW137mk
-         KjK42wsbKz1Qq9TI8UcntouNa3awQ5Ut93ehVYBTD01IhGcaQGOYXYrHMkQM0mPCQrme
-         vfIW+rnWJKpvzAj6VQ5J42L6CFGEGYO8N4GY3k7Hil295KX68yOCotay87vs/zO4OVva
-         dgjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWB55e+C+2F3OsJKFWPFan/n9Q33u1RRDNXpYslnoVZSLR7JPv0zlRUjFXcAriYeMJsWNIWj7jO+4tosA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHCeszUazNMK8NI79PpqHR/ST3eCXnBZYA7+vMvwc31xnsdNwj
-	VejXo88TdJf5oSlndc4lJViL5G0QDfuEn1cpyfMHWbhh+4MP5AyxIf7DmG6L24IDfuQLunl8hr8
-	QFTqShvgW3YYl/qkxURe2Kl2i6bju115lP0HZXwVQyNkh/TxIDzH1ZUPwexesxIBCNg==
-X-Gm-Gg: ATEYQzwDPMQFT1kr/w/+DSIT2Jbt6zqWzpRZZee/b1z4D4mYLXiiEW4ffzcbzjFGDWN
-	QM9ZJ+q6rOGkjuF9IlbZGSgEu8J97o8PuHwXCtusjI02S5i0Un6+S2q/8FKDrVRtqK6+zePyM0W
-	KavIvaSD6Xwp+ZdmSqgl+Jv1s6ThUod1zA5zl7VtoXngAq+5XJQi6jlhDoPn188WhNfCVbLRJzk
-	Ym5WjGOXiH04cLFCPLgOjJbRBiTj/ArwKf4BZ1LNrPnYKZKRQHOLxEk5mCGQjOhhaotAJ8BFJOQ
-	dWLxkhDqVWAyj5NWeXJhri/VVT0yFbl+LCLfbLKggR26yMwTEnK6+2yI/pJVkLmNrgx6sBD8+Ce
-	ftuB0fEg7A41ILvAAzQmw2jJPwE7a+AfPJX016TSRZlKWBZzOlQ==
-X-Received: by 2002:a05:620a:1707:b0:8cd:b2e9:b964 with SMTP id af79cd13be357-8cdb5a0c51bmr1603121785a.10.1773681281507;
-        Mon, 16 Mar 2026 10:14:41 -0700 (PDT)
-X-Received: by 2002:a05:620a:1707:b0:8cd:b2e9:b964 with SMTP id af79cd13be357-8cdb5a0c51bmr1603116085a.10.1773681280946;
-        Mon, 16 Mar 2026 10:14:40 -0700 (PDT)
+        bh=WFXy8rqV6ZJyXTmDCC1XrXB5vrLD+ozr+xme7NcdKiQ=;
+        b=nNrLfpDNkudh700pZcsN5j5z/cMbytIIflqaPDu1j/Fw/8sm8J6Zgp1519/AXLswND
+         goa3OnQVI2zZSjndcdoc8c6zwirErGixNakY3+e7FsbepBvc3ud5/+P57m3xqh2lvo5D
+         LOmVyMw07iCpwKlMnnBHkDae+/O6ZIboFNQC8cgeejTrNmO6HV1dNCLSvOlfSNKH3WU3
+         vbVrEtIOtFouvBHrf3u+CFIPZkLqFHRiFmrRZValmE8DZ0JWzZRPNGdh/DgDtw1MPyhW
+         GLSfPb5V/jhNQ5UZ+PxPfT9LTFM8I9HUeB83/ZKd7mMr2sLc6hMXQJgGmV3NB418PKUZ
+         wrbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX787zN+Vx5ydVy2y60K0lP1R+N+yumfL60bX1K+zo5602Fmr4/oPxqIdUepTde6zSoaRjRnCRsmRhD2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDd8UVEMuxT+OHLc94eCA1TcWV4kOn8MhWtTTWDWvWF7p1tz08
+	CIMPP2CCBHAS9ltIBwHf3Dt9pWoKUQGRgyNs/tDmDPjHyXDyefiBnIkvr0jLD9Z4y5291UdNJfI
+	em/XQ+gGbAGbwWfrf/q3RGoH2BSU0FmxO8T7MJM6eckH+qwUbDw3WKZLIA7QExjSmKA==
+X-Gm-Gg: ATEYQzzEEmgeYZVx5bGwD06RN2sLI0uHVlg4h+CU5dheoAgPZa1iCIyLOQsmCpgUoHZ
+	H9SIJqHojLCiMWDBandKqkBLuVoLR6Zix4CIxUnH+0r6SW5JHXVOC3WL8TCOgf3X6rBrgkbZsml
+	rVAHy0bZ8o6kYB8R1wET6vP+H/R1WwAQWksyxCBwfu8bJcvSkkD+4oMdhVz86xBLQH5BpUEzUyn
+	ex4E0Vx5q9MSrNOQrO+gIFe7grZaVaRYGqTogxUReddXcbo9evqMW8VJP7VlCZfbV1H8e17SbIE
+	zzTDJZGkHvXvjyDQvD1xHLYJ0lVw+Q7lVVknuTKY9RRD7f9CWC1p/oR2tqjg4yOhHYIMoqb0PAy
+	q7ANR7LG6cZ7OSmbdUC6QHYYOxlrGcx/jmvkq1AiKyw9Bme13Bg==
+X-Received: by 2002:a05:620a:711a:b0:8cd:b3da:5b5b with SMTP id af79cd13be357-8cdb5a4b098mr1839478785a.10.1773681283374;
+        Mon, 16 Mar 2026 10:14:43 -0700 (PDT)
+X-Received: by 2002:a05:620a:711a:b0:8cd:b3da:5b5b with SMTP id af79cd13be357-8cdb5a4b098mr1839472185a.10.1773681282736;
+        Mon, 16 Mar 2026 10:14:42 -0700 (PDT)
 Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:5dfc:3995:22ce:d286])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b544sm43860993f8f.20.2026.03.16.10.14.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20b544sm43860993f8f.20.2026.03.16.10.14.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 10:14:40 -0700 (PDT)
+        Mon, 16 Mar 2026 10:14:41 -0700 (PDT)
 From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 To: konradybcio@kernel.org, andersson@kernel.org
 Cc: linux-kernel@vger.kernel.org, Alex Elder <elder@kernel.org>,
@@ -96,9 +96,9 @@ Cc: linux-kernel@vger.kernel.org, Alex Elder <elder@kernel.org>,
         linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
         linux-sound@vger.kernel.org,
         Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2 2/4] wifi: ath: Use the unified QMI service ID instead of defining it locally
-Date: Mon, 16 Mar 2026 18:14:12 +0100
-Message-ID: <20260316171419.2619620-3-daniel.lezcano@oss.qualcomm.com>
+Subject: [PATCH v2 3/4] slimbus: qcom-ngd-ctrl: Use the unified QMI service ID instead of defining it locally
+Date: Mon, 16 Mar 2026 18:14:13 +0100
+Message-ID: <20260316171419.2619620-4-daniel.lezcano@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260316171419.2619620-1-daniel.lezcano@oss.qualcomm.com>
 References: <20260316171419.2619620-1-daniel.lezcano@oss.qualcomm.com>
@@ -109,27 +109,27 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDEzMyBTYWx0ZWRfXxQ4DBYYxNoCo
- vlLET6xJgtqneqdIIIqxd5+UWVSEFjxkdY8ynayfL1R24qU1WF/2Yk427DP0PQmYwPZX+zAJ7yw
- p6eZjVsOY3ytEcWnEBDh+t4s1+Dam+lDotC3Ygfm8njvQtcGGw7Y9AbN5SG7AxXyTjFjk5dK/X3
- 3xOLiJsRINDm55ClFrjj1ZwwT7HUE6NqbeJcxOU4m54mc2fu9ver9sCZPQjGgw5+v+2Q2H2LM7v
- 8kk14xzUnDu8vO7ZHCjmOiSpB37mr9QlByQVgWElHMNwfdaBTxoymz+J3nctnNF3abfDEhtyBRg
- wNDnXWTqY5xi+L7U9SZz0GsOglieZ3yt+qpPM/1UKkS2JAuPBmldDjPwG3eiMEHq53dyx/iOJ7i
- H40jj3X63O5VUgrFAMSMcLYdN+0AKXEzIYuXxz1uUkWMaT5r/tTHWK28NBe5QFbQkVdoh0urQet
- 6qR3IwJfG/+AToLwfKg==
-X-Authority-Analysis: v=2.4 cv=D7pK6/Rj c=1 sm=1 tr=0 ts=69b83a82 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
+X-Authority-Analysis: v=2.4 cv=c7+mgB9l c=1 sm=1 tr=0 ts=69b83a84 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=DFXFU3FfpSgEbJi8yTMA:9
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: ZScy1-K9POi35R8Z89VCLkGHtERh_ZTf
-X-Proofpoint-GUID: ZScy1-K9POi35R8Z89VCLkGHtERh_ZTf
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=PhtMypRRY1SmXJO8NnMA:9
+ a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-ORIG-GUID: 0l0n0okquXwofT8Zq1Ief-icvO6wDI6F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDEzMyBTYWx0ZWRfX9s52MNCvf8nd
+ vxIOgdci8FEyXw6HwNmYEcdouNoBdy7pvOtF1ZUhdIJhpeorfkLQRw1zzpYjC0q88fG/bimkJxC
+ HSYuym6KjezSuJHM98tOfwwAoTzzRlLhdDmSio08c+8ToSSyqB5ykXVEZseLIYsEMqtq2YjiRh+
+ NFtK1a+w/I9uyKEzV3mefmtczHNhyI9h9h6lw9Po90RWaaoArUIm82rId8XnlQAOTzpNu9Wzx9G
+ 7VdY6RCCIFrt3d9wPQDRxEkS0G5HOwJo4mlTtQN92TtInSuhSc2UUmxk6sAqrAppDD8BurB9JDm
+ BY1MhbKBDCwdl+PVm+H4v1tUWaQdTXhFsVZqCwGwz43tHGOWtY0LW+OsB4TQ3ZHwavN0likiwZ+
+ rYJV2yX2mhkfE9T/e8wnF4i9KoM3Ln7H4sW6TjZEO457X50zicq/eLmjlEKhMzVovJ7FohlsRUh
+ pZvPLgu6awx/10Xu9ug==
+X-Proofpoint-GUID: 0l0n0okquXwofT8Zq1Ief-icvO6wDI6F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-16_04,2026-03-16_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0 spamscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 bulkscore=0 impostorscore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160133
 
@@ -140,89 +140,32 @@ locally defined macro.
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 ---
- drivers/net/wireless/ath/ath10k/qmi.c          | 2 +-
- drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.h | 1 -
- drivers/net/wireless/ath/ath11k/qmi.c          | 2 +-
- drivers/net/wireless/ath/ath11k/qmi.h          | 1 -
- drivers/net/wireless/ath/ath12k/qmi.c          | 2 +-
- drivers/net/wireless/ath/ath12k/qmi.h          | 1 -
- 6 files changed, 3 insertions(+), 6 deletions(-)
+ drivers/slimbus/qcom-ngd-ctrl.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/ath/ath10k/qmi.c b/drivers/net/wireless/ath/ath10k/qmi.c
-index eebd78e7ff6b..4fdd0af415d5 100644
---- a/drivers/net/wireless/ath/ath10k/qmi.c
-+++ b/drivers/net/wireless/ath/ath10k/qmi.c
-@@ -1105,7 +1105,7 @@ int ath10k_qmi_init(struct ath10k *ar, u32 msa_size)
- 	spin_lock_init(&qmi->event_lock);
- 	INIT_WORK(&qmi->event_work, ath10k_qmi_driver_event_work);
+diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
+index 9aa7218b4e8d..0b88b8577bdb 100644
+--- a/drivers/slimbus/qcom-ngd-ctrl.c
++++ b/drivers/slimbus/qcom-ngd-ctrl.c
+@@ -48,7 +48,6 @@
+ 				NGD_INT_RX_MSG_RCVD)
  
--	ret = qmi_add_lookup(&qmi->qmi_hdl, WLFW_SERVICE_ID_V01,
-+	ret = qmi_add_lookup(&qmi->qmi_hdl, QMI_SERVICE_ID_WLFW,
- 			     WLFW_SERVICE_VERS_V01, 0);
- 	if (ret)
- 		goto err_qmi_lookup;
-diff --git a/drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.h b/drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.h
-index 9f311f3bc9e7..88d58f78989d 100644
---- a/drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.h
-+++ b/drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.h
-@@ -7,7 +7,6 @@
- #ifndef WCN3990_QMI_SVC_V01_H
- #define WCN3990_QMI_SVC_V01_H
+ /* Slimbus QMI service */
+-#define SLIMBUS_QMI_SVC_ID	0x0301
+ #define SLIMBUS_QMI_SVC_V1	1
+ #define SLIMBUS_QMI_INS_ID	0
+ #define SLIMBUS_QMI_SELECT_INSTANCE_REQ_V01	0x0020
+@@ -1408,8 +1407,8 @@ static int qcom_slim_ngd_qmi_svc_event_init(struct qcom_slim_ngd_ctrl *ctrl)
+ 		return ret;
+ 	}
  
--#define WLFW_SERVICE_ID_V01 0x45
- #define WLFW_SERVICE_VERS_V01 0x01
- 
- #define QMI_WLFW_BDF_DOWNLOAD_REQ_V01 0x0025
-diff --git a/drivers/net/wireless/ath/ath11k/qmi.c b/drivers/net/wireless/ath/ath11k/qmi.c
-index feebbc30f3df..1397756d6251 100644
---- a/drivers/net/wireless/ath/ath11k/qmi.c
-+++ b/drivers/net/wireless/ath/ath11k/qmi.c
-@@ -3337,7 +3337,7 @@ int ath11k_qmi_init_service(struct ath11k_base *ab)
- 	spin_lock_init(&ab->qmi.event_lock);
- 	INIT_WORK(&ab->qmi.event_work, ath11k_qmi_driver_event_work);
- 
--	ret = qmi_add_lookup(&ab->qmi.handle, ATH11K_QMI_WLFW_SERVICE_ID_V01,
-+	ret = qmi_add_lookup(&ab->qmi.handle, QMI_SERVICE_ID_WLFW,
- 			     ATH11K_QMI_WLFW_SERVICE_VERS_V01,
- 			     ab->qmi.service_ins_id);
+-	ret = qmi_add_lookup(&qmi->svc_event_hdl, SLIMBUS_QMI_SVC_ID,
+-			SLIMBUS_QMI_SVC_V1, SLIMBUS_QMI_INS_ID);
++	ret = qmi_add_lookup(&qmi->svc_event_hdl, QMI_SERVICE_ID_SLIMBUS,
++			     SLIMBUS_QMI_SVC_V1, SLIMBUS_QMI_INS_ID);
  	if (ret < 0) {
-diff --git a/drivers/net/wireless/ath/ath11k/qmi.h b/drivers/net/wireless/ath/ath11k/qmi.h
-index 7968ab122b65..eae416db8b52 100644
---- a/drivers/net/wireless/ath/ath11k/qmi.h
-+++ b/drivers/net/wireless/ath/ath11k/qmi.h
-@@ -15,7 +15,6 @@
- #define ATH11K_QMI_MAX_BDF_FILE_NAME_SIZE	64
- #define ATH11K_QMI_CALDB_ADDRESS		0x4BA00000
- #define ATH11K_QMI_WLANFW_MAX_BUILD_ID_LEN_V01	128
--#define ATH11K_QMI_WLFW_SERVICE_ID_V01		0x45
- #define ATH11K_QMI_WLFW_SERVICE_VERS_V01	0x01
- #define ATH11K_QMI_WLFW_SERVICE_INS_ID_V01	0x02
- #define ATH11K_QMI_WLFW_SERVICE_INS_ID_V01_QCA6390	0x01
-diff --git a/drivers/net/wireless/ath/ath12k/qmi.c b/drivers/net/wireless/ath/ath12k/qmi.c
-index c11b84b56f8f..f31cba7af722 100644
---- a/drivers/net/wireless/ath/ath12k/qmi.c
-+++ b/drivers/net/wireless/ath/ath12k/qmi.c
-@@ -4061,7 +4061,7 @@ int ath12k_qmi_init_service(struct ath12k_base *ab)
- 	spin_lock_init(&ab->qmi.event_lock);
- 	INIT_WORK(&ab->qmi.event_work, ath12k_qmi_driver_event_work);
- 
--	ret = qmi_add_lookup(&ab->qmi.handle, ATH12K_QMI_WLFW_SERVICE_ID_V01,
-+	ret = qmi_add_lookup(&ab->qmi.handle, QMI_SERVICE_ID_WLFW,
- 			     ATH12K_QMI_WLFW_SERVICE_VERS_V01,
- 			     ab->qmi.service_ins_id);
- 	if (ret < 0) {
-diff --git a/drivers/net/wireless/ath/ath12k/qmi.h b/drivers/net/wireless/ath/ath12k/qmi.h
-index b5a4a01391cb..2a63e214eb42 100644
---- a/drivers/net/wireless/ath/ath12k/qmi.h
-+++ b/drivers/net/wireless/ath/ath12k/qmi.h
-@@ -15,7 +15,6 @@
- #define ATH12K_QMI_MAX_BDF_FILE_NAME_SIZE	64
- #define ATH12K_QMI_CALDB_ADDRESS		0x4BA00000
- #define ATH12K_QMI_WLANFW_MAX_BUILD_ID_LEN_V01	128
--#define ATH12K_QMI_WLFW_SERVICE_ID_V01		0x45
- #define ATH12K_QMI_WLFW_SERVICE_VERS_V01	0x01
- #define ATH12K_QMI_WLFW_SERVICE_INS_ID_V01	0x02
- #define ATH12K_QMI_WLFW_SERVICE_INS_ID_V01_WCN7850 0x1
+ 		dev_err(ctrl->dev, "qmi_add_lookup failed: %d\n", ret);
+ 		qmi_handle_release(&qmi->svc_event_hdl);
 -- 
 2.43.0
 
