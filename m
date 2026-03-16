@@ -1,228 +1,194 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E55328B58
-	for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 16:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773679060; cv=none; b=DXvsrWQmVhb9B4lTg+inGJuxBfO/3p8JKvSQIHHt6rSNO0PSZF8iTgZmeZb9dUAWXlQt4MdrsKCNZ7gENEsveyTBxqRb6BLL2mz6FViKlZbiY9O9Za9Ci7haV9Vzcj0BeBsy8MpIKCqMfEWNikwPigPPSfjNomXWl9SIJ+D3110=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773679060; c=relaxed/simple;
-	bh=KA2V+BstHbG9WNyUP+FThEkm7s5yl9yAWX/ntY4WIh8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MoDFyYdwmoMy3ZcDMNDb8AoPO3h22HNmpGSHCJwmvqf1cAP1L5NcQIH/Sv6hd9NavVZ7z9jEEzJyke4kJosevrjgWFHENALE8pS+SmAlDBQ5n8021oSWAbkrxE1QMol+nENnmNCSANzeLNj6qSLYNGAWqnvwKgcK5DbdKE726qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ggoLq8Nr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=InBJvDKP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vkExBbcg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PbBBDpB8; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7242332EC5;
+	Mon, 16 Mar 2026 16:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773679227; cv=fail; b=Rej/431nwqRvRRAO8bBTwJu+eStZpmILdq5ST1Y9dIIJh08F9Fu68RbSeIWY6CWxZDLjJfqgHwntM3pAqSx//ZGXRMUoPsXYVexDgzAhrAfm7atHHbtxcc1+njG3xrf1XWKGwq1YyhfRRhhv2+k0Rp5BM0JuJtBVeCDyRYILe/w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773679227; c=relaxed/simple;
+	bh=2scJUWMvECytdaoV0oxLXc+kqzEyR/ZUJYY9x8Jkjhs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YfHLOFHFNN90GhgVSelZT5K7hrTG2U/3MiWUReoXiKa/RPJJlk1jpvYKLi/gHbnfNcDG45REvVDgRHz0hnYyEkKJ6Mx8MDL5xBJhztaPG0CcsxGcvKlBFWSvz4xlIF+NeWZ3T3cK8/3640xbnrs/8113q14nbKauFEneEgukGL4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=RFHUrgNa; dkim=fail (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=J0Fs3JkX reason="signature verification failed"; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ggoLq8Nr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="InBJvDKP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vkExBbcg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PbBBDpB8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E74A55BE42;
-	Mon, 16 Mar 2026 16:37:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773679056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tk5CZoVQ4UXq2yGrVWuQBI10zyAbPW5r65rMRoE9rdY=;
-	b=ggoLq8NrM7HSO7SZamfFcUbcr18wMY0fEz0dtl08y6OJkXKATiuMf5lY0Eb2RJieEEgD34
-	pAeiIk1uwv2ODxSxPLCbxUUicQcipF0lWHWNDT6sDXHSpgshoLrrKGuMPoIlgjhkHlYzaO
-	89VMPQlK5j+CPCUGrTAJmc5fanuKZ6U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773679056;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tk5CZoVQ4UXq2yGrVWuQBI10zyAbPW5r65rMRoE9rdY=;
-	b=InBJvDKPm94vmiaoZXzkh07HfuZJzH2yfDsZ4+ioF6xRo80BoDQfA1CGq/zKvl8fqEedt/
-	RW1RvH9P+lZkAYDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vkExBbcg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PbBBDpB8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773679055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tk5CZoVQ4UXq2yGrVWuQBI10zyAbPW5r65rMRoE9rdY=;
-	b=vkExBbcgQX8RXn0OeaerbF941FZYlC+Ri0tbhOUXiSUgjDywWr78FqOBsXTvbuvhjYnJc5
-	Z92+YiTBsZjjqTOhitIzTJRiaB23aYPdwtYyY5GV1rcv4O9Kx2AjLkeQNONPXzgZdosR6l
-	+T7i3P/dt//qjbI22C58oTowZunkjtk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773679055;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tk5CZoVQ4UXq2yGrVWuQBI10zyAbPW5r65rMRoE9rdY=;
-	b=PbBBDpB80Sd2haCtU1HnU0Yaik13xzGylHKZZkENQFWfxqGQ8il1DWlK17RPNZP9+KI86v
-	tlQxnP9ZczWrOFDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A749C4273B;
-	Mon, 16 Mar 2026 16:37:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Wil2J88xuGnSJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 16 Mar 2026 16:37:35 +0000
-Date: Mon, 16 Mar 2026 17:37:35 +0100
-Message-ID: <87se9z7msw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: validate full match when resolving quirk aliases
-In-Reply-To: <abWms_JJJrU8ThwV@ortodist>
-References: <20260314-alsa-usb-fix-quirk-alias-v1-1-3269998f7ada@gmail.com>
-	<87sea2a5hz.wl-tiwai@suse.de>
-	<abWms_JJJrU8ThwV@ortodist>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="RFHUrgNa";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="J0Fs3JkX"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GDf43x3504543;
+	Mon, 16 Mar 2026 11:40:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=at1lwnZuChq2Tgf9E1u9uoU6eChouGDeXEOCKfv+3Xk=; b=
+	RFHUrgNalk6e0wnhINZYK/SH5wrno0jLG5IIT3UfOI9XoVsb3kviDcQtN3RWBbbe
+	QVzcaUtmlG7PgUp6mS67Q+FYZSR43ypQSgF7fwMLwJB27WEJ3rWvQt8T1Go5Mah+
+	XEcZ2pFJjKRFx0FHwSg0BW2qG/dq1L2/ApsUd409mrUBWhW111EtsZxId5+u2Cvr
+	JCxyDoqrOCVGQF7dtWnd732IkEqmjAwKerlQ0NoyHGP/Vu2qw5QkghpfmWgnQJoi
+	0JXF4EVzVdx9pfL4QkGMRgRHO3rK4uqpMEZ/it2fzoxrPHNIPTQDr900yB2QQ0Md
+	veQ+y6CKfUfYt582jIXhpw==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021136.outbound.protection.outlook.com [52.101.52.136])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4cw43f2ar0-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 16 Mar 2026 11:40:21 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oUHD4vP9jeN1BkA3EgSmGQ7KjxzCXOaX5+d+2xt+7kbwpF4RA1Zx7E8gmD1F6bjHUhot/7e/u9FzPXQKmI31+zpfNBKqPI9QLP342F22Zl8RO/qCraPAaTVxyYQ77xM+D1gTVQXshZXSgpIQ+Tz09ou227EiB4WhowMhaZMmkVQHXxZuMugJt65wqD4MU6Tnz9nZ/48p/IBSYwnlSGR8Y08lIYy+1lRAgSwFQCbnrkgX8qCepwkLhImKN7p/imaeiqVqv6IhfmsEWpSKhHnFFs6VGCmG1c12F73Zk2MxamHRlQ5cG4I/nokl3zQC5zSEnB/WgvJBWb0TV1rq1/9inQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hsBrd++RS/RxvEHX6wAWiy5R4XlRREmYIa3F4pea+ds=;
+ b=KSAgiSkws7EiSpHyokK0EtR/A2mS0ev+UnyziOUoAjca24wZs18E9aHEbKKGhWN8JpAas4sJNPRDiG4SfhfMCJtCI/2dgiuZ0OvnRywkZBlcvzpESzYlLftmWWlDsranHVux1TLJGHfYCrAK6d5qIi9v5zDo1qag27KGYFVnxO+ArEguoq0TfaZKwivrTwxnHyB/itEHsWD45QH+DrcHiuV3N4xTXE4ydkwyNytHENhtACfWstqx1R3qqZwF26EWtIONKKexzCaVJZZ2z++8yqB81SuL94Ib4VlO0Q7l8JpLaeAQnqgyDctn5yJ5xxT2m5cNIorQdjYCmWJKg4qFow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hsBrd++RS/RxvEHX6wAWiy5R4XlRREmYIa3F4pea+ds=;
+ b=J0Fs3JkXgk7DN7VjGrPB/AWHSoaJNRbi/yoE9d1UEXfc8YmpvUlsogkdVQBPi1tKDOWEpHGZfMQSKSCYuIWZi6nsbrwum/7mgo8zqUcYGzq6oHgxLbok7dboNFr4hS4ggM8DdB0oQKOg1vj2uTrURI33xP2G39tIB26LpTHmduU=
+Received: from BYAPR04CA0023.namprd04.prod.outlook.com (2603:10b6:a03:40::36)
+ by DS2PR19MB9650.namprd19.prod.outlook.com (2603:10b6:8:2d4::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.25; Mon, 16 Mar
+ 2026 16:40:18 +0000
+Received: from SJ5PEPF000001D0.namprd05.prod.outlook.com
+ (2603:10b6:a03:40:cafe::38) by BYAPR04CA0023.outlook.office365.com
+ (2603:10b6:a03:40::36) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.24 via Frontend Transport; Mon,
+ 16 Mar 2026 16:40:19 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ5PEPF000001D0.mail.protection.outlook.com (10.167.242.52) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.17
+ via Frontend Transport; Mon, 16 Mar 2026 16:40:17 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id EAAD8406540;
+	Mon, 16 Mar 2026 16:40:15 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id D6770820247;
+	Mon, 16 Mar 2026 16:40:15 +0000 (UTC)
+Date: Mon, 16 Mar 2026 16:40:14 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, david.rhodes@cirrus.com,
+        rf@opensource.cirrus.com, linux-sound@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] ASoC: cs42l43-jack: Remove manual pm_runtime get/put
+ from tip_sense_work
+Message-ID: <abgyboHV1jaWDUul@opensource.cirrus.com>
+References: <20260316124924.31047-1-peter.ujfalusi@linux.intel.com>
+ <abgTWxI1Q9M1o+ka@opensource.cirrus.com>
+ <d5353ee4-1a3f-43a6-93ed-5127d666ad0b@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: E74A55BE42
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+In-Reply-To: <d5353ee4-1a3f-43a6-93ed-5127d666ad0b@linux.intel.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D0:EE_|DS2PR19MB9650:EE_
+X-MS-Office365-Filtering-Correlation-Id: d086e5ef-4abe-4c61-fc5d-08de837ab4e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|36860700016|376014|16102099003|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	43RNOyqVr0aQz25kWSSGE9z07IUufUPOOuPgpr6Z7VW2NuMGqnNIK/ebbVMwigtk2Bj7dZ0tct19TTQAe/4fQH2a1Cjfgss+UnbdmHuSDb0kVnE8ipVb1Ie/9uXx4NgoZy6tiJ7cRhGHL3xcc3wOKk1gRN/fewbfi1sR6IXp+u9fH+7BFGFgU7u99HcE0g+RAdTnUZT0sIePd6qS4wKeDFHDK0eghsB0QVx67H2qucjTz7/Kdy+uiOK77r2rE2ff+89cZjdcJY+LwiZJxbdTY+HTvih3nA6XCngTB6anSO+ne1u2fmFG4+QTzTtEnM14jVlF7gwl9ZayesNVzVh5zJd3QQp7AacLSz7xPq5ntGCYD2hCbfOHeSk7E3i7lyUG17BZ/oqIj+TkrQnGK9/wytQIEfNjzaRva2nq64OR6CTZL4SsKpdzQgUpUE/GV63GUUa2k4VKjP637pLqluOSixqoeIgqdLC52MT6frjjIqEyRePDEyCyKae1PLTTZbXgD0RaaB5GglXZadfGhNiX7SXFTczWbA2yUyhrgS2xGiGFPgCleUay558o7f4Qr/XBdba9h+TrMDhjc37k8ZzRXBlRDwh9Rl7eNeA5geq3QeUyNKaFflD+YEjecPuENwa1mLhmsDWwBe02ZYmQmBlIRztKa36Squ95/+sOuT6igfx7ZvIF0HDSiFVvCjnAJHAioSOzF1kMlHJw2iYSyZ7NbZBqnPLhBDMS+NAexBWgYOF8VcOqJrOy/jwWjBrlkUfxpBOl8NXUZmbtNenIyU53fw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700016)(376014)(16102099003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ggKkTySzoE21dTfF16Bhv1LBBIbtMhY1ry07gtkj5u2zzPVLrYg90zIrYNI22g+DmK2MUCNp2jEKiwaQ6OZouXNr+L96U6WOpLtPa5DLV00oOMpfWWUlC4x6Acai9uhFDrk1kin4iQwvIvUKfwrQBBuWTPcmil7gz3GfrBFgByeD5BXhxptjwfm9k17QM8NMHHOCOale8v8EX9ihyeYWnDxErGiaNsVStwzTtnlBtvXgP95i5JrWzzsSroBYdOTf2KAT/tKDGyCBg6zW31BS/qSMcb3XhfBjyIB8ntfDMdUKNUMRBHKh3bKHZxUDuyaiR9XB/mInGduLLh325AHjVpVSGj+O3vHMap7t7s20FaTjpAI0dVW4nk7/gITnfxtE2SH7fSGFr4SfVVK4jFPBIjEMcifpkwDCVWudOYZ/3ZAXd8y28gNAb15zHcd96aUl
+X-Exchange-RoutingPolicyChecked:
+	r5/sY/g9EFk5q7sW6oiNRSMEoVa7YEfdHKLaceyp7hSlQnYKeJxoZto/MRtpJgV0CHJWgC+8XHix+s/OPJXfS66SPFmLgo9rWtU5j8e+/VN40YLvmTbMREMg5IQTv8Df7Tgw5F13BajIyh6YNAVNcJQKcqpgUSv1SZxhdh02dPWjzxteZzHjCGpCz/bDlIbChd2VLFOeLrNTnwABsWaFm/xcyPltOohJl7392Q+EZNSuY6DRNK0XOPlgjzthzm0gf9Vjhb3WVvu3gUx0gP88OgwHNdLaDXHzy29uGpUkp/4L5HwMhpyJEpYzbwLsnGvIysSLjZVKM7Tjy7jmDSUizw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 16:40:17.3849
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d086e5ef-4abe-4c61-fc5d-08de837ab4e1
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF000001D0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9650
+X-Authority-Analysis: v=2.4 cv=YqQChoYX c=1 sm=1 tr=0 ts=69b83275 cx=c_pps
+ a=IN/ktsHfyviFoRwGlsjPrQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=8nJEP1OIZ-IA:10 a=Yq5XynenixoA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=-yha0pfgBuFMqiPLLLUA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDEyOCBTYWx0ZWRfX5ofzorXQtVgj
+ uM2FjleUPwKpCAR5cpCnBqJkD2hVgMKGfMB0mhYb3rRkHEfdxJTLCGf7c0mXMl5ao4f5dSUIcqD
+ eWBi2kik+FbyOzZVQ9DN+yHwghuEyodlqgvax6u5a2Rc1Pxu4lmekrKjrBKb1KuTu5CMyZoRQ7U
+ DTHO8uEG/6JWwlkFOPqYFrKbVqijCA416CwAU4DCoQUNkh0IWTO8PUMzU5viZB4Nzsn3Yl1CHdw
+ 7r2FshI1lDwwn40oSactUT7bnc/wf7kLcEvPR8YDNgUgxz+2Zn4kfHDDcZUOdQkqJ8UENgiUQq4
+ yqKlWoRmMaJRJ8hjFRQr59giPfmwr/R4BgdT1wb/CbcybSbwx3/Xs82etCV01/8JktDdpDcWBQS
+ Ve4lqiVJ7gUY7VBipETqz7LvtxbYzeWBE3OZ2eXrwDrrsxslND2HqYggJD2ZdCvVgysCQTFrwQ2
+ 6hOBmY2mGYogYZMYlsA==
+X-Proofpoint-ORIG-GUID: ZulbnB5wlY1hOL7NwzOCD7hrkdqSEkwg
+X-Proofpoint-GUID: ZulbnB5wlY1hOL7NwzOCD7hrkdqSEkwg
+X-Proofpoint-Spam-Reason: safe
 
-On Sat, 14 Mar 2026 19:22:41 +0100,
-Cássio Gabriel wrote:
+On Mon, Mar 16, 2026 at 04:37:28PM +0200, Péter Ujfalusi wrote:
+> On 16/03/2026 16:27, Charles Keepax wrote:
+> > On Mon, Mar 16, 2026 at 02:49:24PM +0200, Peter Ujfalusi wrote:
+> > Hmm... yes, I have this feeling this was in here for a reason I
+> > should probably have left a comment here. I somewhat agree it
+> > looks a bit mad with fresh eyes. The variable is also only used
+> > for tracking this pm_runtime_get so you can drop the jack_present
+> > variable from the struct as well, if we take the patch forward.
 > 
-> On Sat, Mar 14, 2026 at 02:46:16PM +0100, Takashi Iwai wrote:
-> > On Sat, 14 Mar 2026 04:34:46 +0100,
-> > Cássio Gabriel wrote:
-> > > 
-> > > get_alias_quirk() resolves a quirk for an aliased USB ID by scanning
-> > > usb_audio_ids[], but it currently checks only the vendor/product pair.
-> > > 
-> > > This can make an aliased ID pick the first entry with a matching
-> > > vid:pid even when that entry also depends on interface descriptor
-> > > fields that do not match the actual device or interface.
-> > > 
-> > > Fix it by re-checking each aliased candidate with usb_match_one_id()
-> > > against the real interface before returning the quirk.
-> > > 
-> > > Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> > > ---
-> > >  sound/usb/card.c | 21 ++++++++++++++++-----
-> > >  1 file changed, 16 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/sound/usb/card.c b/sound/usb/card.c
-> > > index 270dad84d825..ff4418017763 100644
-> > > --- a/sound/usb/card.c
-> > > +++ b/sound/usb/card.c
-> > > @@ -870,17 +870,28 @@ static void find_last_interface(struct snd_usb_audio *chip)
-> > >  
-> > >  /* look for the corresponding quirk */
-> > >  static const struct snd_usb_audio_quirk *
-> > > -get_alias_quirk(struct usb_device *dev, unsigned int id)
-> > > +get_alias_quirk(struct usb_interface *intf, unsigned int id)
-> > >  {
-> > >  	const struct usb_device_id *p;
-> > > +	struct usb_device_id id_alias;
-> > >  
-> > >  	for (p = usb_audio_ids; p->match_flags; p++) {
-> > > -		/* FIXME: this checks only vendor:product pair in the list */
-> > >  		if ((p->match_flags & USB_DEVICE_ID_MATCH_DEVICE) ==
-> > >  		    USB_DEVICE_ID_MATCH_DEVICE &&
-> > >  		    p->idVendor == USB_ID_VENDOR(id) &&
-> > > -		    p->idProduct == USB_ID_PRODUCT(id))
-> > > -			return (const struct snd_usb_audio_quirk *)p->driver_info;
-> > > +		    p->idProduct == USB_ID_PRODUCT(id)) {
-> > > +			/*
-> > > +			 * Re-check the aliased entry against the actual
-> > > +			 * interface descriptors instead of matching only
-> > > +			 * the vendor/product pair.
-> > > +			 */
-> > > +			id_alias = *p;
-> > > +			id_alias.idVendor = USB_ID_VENDOR(id);
-> > > +			id_alias.idProduct = USB_ID_PRODUCT(id);
-> > > +
-> > > +			if (usb_match_one_id(intf, &id_alias))
-> > 
-> > Hmm, is this really a correct logic?
-> > 
-> > In this case, USB_ID_VENDOR(id) and USB_ID_PRODUCT(id) are very same
-> > as p->idVendor and p->idProduct, hence id_alias and *p are identical,
-> > i.e. you're basically comparing against *p.
-> > 
-> > I suppose you wanted to substitute the original device vendor/product
-> > IDs there instead?
-> 
-> Hi,
-> 
-> Yes, what I actually wanted was to keep the alias lookup by vid:pid, but
-> validate the additional match fields from the candidate entry against
-> the real device and interface descriptors.
-> 
-> I was thinking of keeping the initial lookup by the aliased vid:pid and
-> then explicitly checking only the remaining match bits, such as DEV_CLASS,
-> DEV_SUBCLASS, DEV_PROTOCOL, INT_CLASS, INT_SUBCLASS, INT_PROTOCOL, INT_NUMBER,
-> and bcdDevice_lo/hi. Another option would be to build the match object
-> from the original device ID instead of the aliased one.
-> 
-> I think the first option would be simpler and more direct here, since
-> the problem is that the current code resolves the alias only by
-> vendor/product, even though some quirk table entries also depend
-> on extra descriptor fields. The quirk table already has such entries,
-> for example USB_DEVICE_VENDOR_SPEC() and USB_AUDIO_DEVICE(), so explicitly
-> checking those extra fields in get_alias_quirk() seems to fit
-> the intended logic better.
+> That was my thinking as well, but then when the headset buttons did
+> worked after the patch on an idle system (ARL laptop) then I thought
+> that this might no longer be needed?
 
-I don't have much opinion, you can compare both code and choose a
-simpler one :)  In anyway, I'm waiting for your v2 patch.
+Hmm... are you sure that was working? Tried removing it (on
+MTL here) and I see quite a few issues.
 
+> Fwiw, I have been banging my head on why the DSP is not suspending ever
+> on the laptop and the system is not hitting lower C state because of
+> this when I had some spare time and studied the code and then removed
+> the jack and boom, the DSP suspended right away :o
 
-thanks,
+Apologies for that :-)
 
-Takashi
+> Sure, but draining battery when the jack is connected is not a great
+> added feature of a codec driver.
+> The type-Cs are on the other side of the laptop, so taping the jack and
+> power together is not a workable solution - to disconnect jack if power
+> is removed ;)
+
+I am not sure there are many other solutions. I will burn a few
+cycles investigating here, but I suspect its going to come down
+to a choice of two solutions:
+
+ 1) The one already in the code.
+ 2) Stop the host from reseting the codec.
+
+Fundamentally reseting a device right before checking what state
+it was in is always going to be hard, so would be awesome if you
+could have a look at how much of a problem removing that bus
+reset would be.
+
+> Even then there is the issue of unbalance in runtime get on module
+> removal when the jack is connected...
+
+Yeah that is a good spot, if we stick with the current code I
+will get that fixed up.
+
+Thanks,
+Charles
