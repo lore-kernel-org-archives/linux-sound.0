@@ -1,42 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EAF33CEBB;
-	Mon, 16 Mar 2026 17:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220FB33B95A;
+	Mon, 16 Mar 2026 17:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773683552; cv=none; b=SJZ4956qyoH3vt2oN+2ih85BEwIZ08Zc2cMFmR0J4VhhNKgc4m3cAtMlKdaHOeQfc8PJhKiGJVp4ywj+eIcyEIbE6HbnEBEzuPVwvc4Wdx3wqibue+kIYaQ+GHYjk7Hq91f6Cesd27SNyJHFS3HjZK44Ytox4Dn24wz7MyoopI4=
+	t=1773683557; cv=none; b=H9hfBRK0fyqdNwTioeePi1cyxLZZ3GTeK7Ron3bg4G6ijB57PdLsj0/Mq6nh+dlwcJENb94ijLoXXxgR6JzO+yuhJRDrbKNcoif464ERA9qXwRTIMAqzMgpxH8K3ql2K6y1kJ9SrTJbxYJch3AgC+Yz4Zw9C741B+DJwrHX/TT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773683552; c=relaxed/simple;
-	bh=eHOT+tFj396RJk8G216Gyy0Ah6CVsgIlGUX9qfn3DMU=;
+	s=arc-20240116; t=1773683557; c=relaxed/simple;
+	bh=1pb1aqms/tuAEyqtaZxNHK+BnZRWUIA63kS7sxzCYdM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=X8KyqdZn3B9LeoTLmiQygjeFc5ackUX3AV+6UZnBCfvAbqXZQJ4OwmQ5sSFTe2yhiZYs9ffXvA6VKJR68Ina/QhaBOCcCHKdlha7ASB6Lt2bN6mOMb+AYKo/mWUbJhrB4Elpx4f6GF7cbHMnPzkWgtR6XJkMVaQxCRDZPNjF4nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pVZUamA0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=uMf48ixcnQZz/PKFu0d+Jhuw29x8JdIHaCDcl6mdf/uWt05FcVM+aulUzPZrhT7JeyXKht7soCkmrZDj2CJBC6lZjk90nv9Wvwg7hWlY6Rnvo8JyipWMnXXimZ7nBY+7WAf15t8s+mAEQs2Fc+8138eT9YOV8BenkfJIt9JRn8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euzR0jWn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pVZUamA0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F21EC2BC87;
-	Mon, 16 Mar 2026 17:52:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euzR0jWn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3315C19425;
+	Mon, 16 Mar 2026 17:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773683552;
-	bh=eHOT+tFj396RJk8G216Gyy0Ah6CVsgIlGUX9qfn3DMU=;
+	s=k20201202; t=1773683556;
+	bh=1pb1aqms/tuAEyqtaZxNHK+BnZRWUIA63kS7sxzCYdM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pVZUamA0RySwu4qemCbD+QTj/tudSMGtJyNoOplrKsZ8o3AsMC3Pyegemt0mMHzI4
-	 mWaqi39w6cYtEEGFffRg92BkVoPTTw8z9slRg4918ygTYYShZM2yCPlRpjtvQTLJxp
-	 dZYo8KNz0OZS8RCHcksNsCjDGsu3dkTokispNc5Cy5IiWUA4SATrp037+DWM6I+7Xf
-	 CFnABF6hJNNh8irgiaQTanaIYvYDRVwlo2qHSa8iiMExqCXD65XLx13qpl+XuGsC2f
-	 63bsFdCZMUOgYga6ZOK8gOx/BYgt7g4lXlMORL9pXdRwAb1Al9vmZYzIc0G1oW9EEj
-	 e30qA5TIO0+Yw==
+	b=euzR0jWn68jPTGaqoZ1uLi6HDtCmQpCqd1SknY0547474UQR5dAIDOaEQv6In5cM1
+	 8/QT8JrXVyf/IZ8cqE6AuW5eEJB+GGcbhiotXovgoi4nvk7jIGeitlCy9KmyipZltP
+	 TNN6ZczPf8PKKGakm3QTN+fzlCqPeyawMingXLgcML7Vlja9AfqXTC0t+peiWmJJmz
+	 1B6fplGKDB8aiaeUfDzFVl6NUJpmRRmKDp9EVlLk/f30ZcgIxi1tpaV6pqQlhF5CiX
+	 XooQGmqDJ+ZHMYl9R4T1MtL1bhSWq23yxZiY0npEEzmmzZP/RrVePipVUkXdgnPajx
+	 UoSpLEEbxNTOQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, hasunpark@gmail.com
-Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260308151654.29059-1-hasunpark@gmail.com>
-References: <20260308151654.29059-1-hasunpark@gmail.com>
-Subject: Re: (subset) [PATCH 0/3] ASoC: amd: acp: PX13 ACP70 config and
- machine quirks
-Message-Id: <177368355032.146755.16042252981851453258.b4-ty@kernel.org>
-Date: Mon, 16 Mar 2026 17:52:30 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Frank Li <Frank.Li@nxp.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+In-Reply-To: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+Subject: Re: [PATCH v3 0/7] ASoC: basic support for configuring bus keepers
+Message-Id: <177368355239.146755.11297173748459835851.b4-ty@kernel.org>
+Date: Mon, 16 Mar 2026 17:52:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,19 +56,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c239c
 
-On Mon, 09 Mar 2026 00:16:51 +0900, hasunpark@gmail.com wrote:
-> This series adds ACP70 platform quirks for ASUS ProArt PX13
-> (HN7306EA/HN7306EAC).
-> 
-> The goal is to keep platform selection on the expected SoundWire path and
-> add the required ACP70 machine/quirk entries for this board family.
-> 
-> Baseline (without this series):
->   $ cat /proc/asound/cards
->    0 [Generic        ]: HDA-Intel - HD-Audio Generic
->                         HD-Audio Generic at 0xa0440000 irq 160
->    1 [acppdmmach     ]: acp-pdm-mach - acp-pdm-mach
->                         ASUSTeKCOMPUTERINC.-ProArtPX13HN7306EAC-1.0-HN7306EAC
+On Sun, 01 Mar 2026 18:05:19 +1000, James Calligeros wrote:
+> This series introduces some infrastructure to allow platform drivers
+> to specify what a DAI should be doing when it is not active on the
+> bus. The primary use case for this is configuring bus keepers which
+> may be integrated into various codecs. The instigating use case for
+> this functionality is an interesting bus topology on Apple Silicon
+> laptops with multiple codecs.
 > 
 > [...]
 
@@ -69,10 +72,20 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: amd: acp: add DMI override for ACP70 flag
-      https://git.kernel.org/broonie/misc/c/d0426510a9e1
-[2/3] ASoC: amd: acp: add PX13 SoundWire machine link for rt721+tas2783x2
-      https://git.kernel.org/broonie/misc/c/399b6fd37a10
+[1/7] ASoC: dt-bindings: convert tdm-slot to YAML
+      https://git.kernel.org/broonie/misc/c/5273cb8197d8
+[2/7] ASoC: dt-bindings: update tdm-slot.txt references to tdm-slot.yaml
+      https://git.kernel.org/broonie/misc/c/cc74890fb484
+[3/7] ASoC: dt-bindings: add TDM slot idle mode properties
+      https://git.kernel.org/broonie/misc/c/938c1ed56ab8
+[4/7] ASoC: soc-dai: define possible idle TDM slot modes
+      https://git.kernel.org/broonie/misc/c/7d8632f1ef6c
+[5/7] ASoC: soc-dai: add common operation to set TDM idle mode
+      https://git.kernel.org/broonie/misc/c/b758d3574e88
+[6/7] ASoC: tas2764: expose SDOUT bus keeper via set_tdm_idle operation
+      https://git.kernel.org/broonie/misc/c/45573ee1f2ba
+[7/7] ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle
+      https://git.kernel.org/broonie/misc/c/af176d0787d2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
