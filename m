@@ -1,70 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83137354AC7;
-	Mon, 16 Mar 2026 07:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22AA1232395;
+	Mon, 16 Mar 2026 08:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773647901; cv=none; b=j6vLFDJp1eF6S0gb+7wnHV1DBjTb9wznI06FhLA+mypoqMWzu3AcuDPqP+tG0Sm2WLE0PSZiFlzGmFIpuBMjZQJ7NWkHN+AveQHA3O46xl1UOEQUdW0hr8RxAgOkfoVUFpdJ5z6jMlun2PzCPAAGmxyl6WiqIan8NBgcNDX948c=
+	t=1773648153; cv=none; b=Xo0eLHslo/k/L81GMUqdL16P8otzYX0vaolj1QoqoXECj7vjLRYAzDEsoekFvVb2CO0MkDLPj7rOYTqa0qauQqKOFPFibnOllTB3cNdd55VbQ92UpgyBfbY4sSFUm04+FvB65ojU51bCCMqyOEZ0C28l1Ph33P1kUKeEzHiY6IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773647901; c=relaxed/simple;
-	bh=W5qypavaJSjGBqasdncSy4lCP1C/9qcnoNGubiK7ais=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bxm8zegwbgxPnpkc4dWiJWal99JzE2l9zFky5Bf22ZnceHG7YUsacMHTrOod6jw0DLmYiaDoLMunkWfJF08HsUiELNVdqN+vKrTvY381lw8NywBgFhLl+dKpXsJ4ubcFPg7amlGFwRlYe+EL21a4/BZfjDQzYnqxrFZ3eXgf170=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdybh4Hq; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdybh4Hq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E1FC19421;
-	Mon, 16 Mar 2026 07:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773647901;
-	bh=W5qypavaJSjGBqasdncSy4lCP1C/9qcnoNGubiK7ais=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kdybh4Hqa+K1KqcE7sP8tYhMRB1ZTbMp/91JZzSNZhl5dPn5rFGFCE8gFO3Bbe3tx
-	 b9aejC6KGJCOuIzaYxYQP5YyPVKTVL60N7+u7pMZ7bfzdH9/AtudZFOA4ylRcHVtHo
-	 441RuJi4r3VSYWkSL9e0aXcDitn9MQDhAXRfEv9IR8Z0c3N1l/057OSnTseCm/vj+P
-	 E0DkdI8axZ/cVNwrpPOkpUoJYdLVKn5GihwYBD6wqBBFDBpqLsfZUx3Y4vyUVAXuES
-	 ojgggoHqRKsHEw6got79h3gJiOQIla94PoRSVks016A4v3DoGSUKHG9/pSVjSclCX1
-	 5x2YHaZGHtC5w==
-Date: Mon, 16 Mar 2026 08:58:18 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Piyush Patle <piyushpatle228@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: sound: adi,ssm2305: Convert to DT schema
-Message-ID: <20260316-macho-vole-of-security-e549d9@quoll>
-References: <20260315215447.276886-1-piyushpatle228@gmail.com>
+	s=arc-20240116; t=1773648153; c=relaxed/simple;
+	bh=m/H1z3hjb+OvFjkCkoHwmC3Viw5xrSq9bGqRZLXnR9I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VPCf8C0u4UKDDSfxOpT364a9y+IqsaTRqHTLq/USAWMMHTv44VkuOZCe2N8pHlIJsujgDijetdzDhtjjvEnI7bxhTUhDNhr4AOLObw1JbVMAq2T9y8GH+E8GqHOBBgGO3xlJGeYMrKnJXsFLsoolBnDm6XbHyjuKoBTHQHbIgm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 76c83ef6210e11f1a21c59e7364eecb8-20260316
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, UD_TRUSTED
+	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_C_CI
+	GTI_FG_IT, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.11,REQID:26cac922-550c-4db9-9108-1c7b42b47c1e,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-20
+X-CID-INFO: VERSION:1.3.11,REQID:26cac922-550c-4db9-9108-1c7b42b47c1e,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-20
+X-CID-META: VersionHash:89c9d04,CLOUDID:8412b2a970ca7d05bce8e8111dd02e3d,BulkI
+	D:260316160223Z3WF38RQ,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|898
+	,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:
+	nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,AR
+	C:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 76c83ef6210e11f1a21c59e7364eecb8-20260316
+X-User: zhangheng@kylinos.cn
+Received: from thinksys.. [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1836535267; Mon, 16 Mar 2026 16:02:23 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: talhah.peerbhai@gmail.com,
+	guspatagonico@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for Thin A15 B7VF
+Date: Mon, 16 Mar 2026 16:02:18 +0800
+Message-Id: <20260316080218.2931304-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260315215447.276886-1-piyushpatle228@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 16, 2026 at 03:24:47AM +0530, Piyush Patle wrote:
-> Convert the SSM2305 speaker amplifier binding from text format to
-> YAML schema to enable dtbs_check validation.
-> 
-> Remove the legacy text binding.
+Add a DMI quirk for the Thin A15 B7VF fixing the issue where
+the internal microphone was not detected.
 
-Drop, irrelevant. "Convert" means that already.
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220833
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
-
-With these fixed:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 1c73d2123b5a..fdc9586bd020 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -724,6 +724,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "PM1503CDA"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Thin A15 B7VE"),
++		}
++	},
+ 	{}
+ };
+ 
+-- 
+2.34.1
 
