@@ -1,91 +1,120 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC4C346797
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 17:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773768138; cv=none; b=GU+t91ez1+JC0yu/EaCyLEPfMqYbHH3yB2aCxS6mz26tN7fCtDXxtrctYEkZh1KLVdR7qTMYZ0wNlnz9TKdnO4ViUFfx7EBEaOFsZbTLmDVOnMwwqlhsQPjVsduPWgf1Jd7gDQU2fAA420F+RF/eFfsEjcrci1T8ymMFnViuF9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773768138; c=relaxed/simple;
-	bh=iY/ms5fgpsXkVpoSgZDHvYfJ7W0iaIau/itMj6PGUSI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sCxQw/tmyGpFBH5wy+GOmht+W0hBSQR1MQhQxGyeQ2weBehWH1J1pJeG6C+1bkuUyxZ1ssUobWGLF69DNWoBzD4/UeerjezoFoKLVSZXXdGSpIsVNlestlaUQBfn+YYRMZd8PXAC3YxPJjGATWgUiFAPbgOIujNEswFT6W4HNhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMRccKeM; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CD62DF132;
+	Tue, 17 Mar 2026 17:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773768163; cv=pass; b=K/kP9eDRAOv9K9zUy5E/30Dxrfy/z0HP3g5oZPEOogooZT8vqhEasEiIoU+6zQsiZvPMbqzt8kPwagVlKbzK86+6W5sB0Ju26xj7WTBktWzF8STrTlJyEksTu3RwqNP6TQHroxzfNN98TeJFW+KeY4NQy6c7UHgWdK4OPI570mY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773768163; c=relaxed/simple;
+	bh=csSww+WIybtBNldf33djiUaktagQrObOaKalU3CZA8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XV/ElODoK/5sXYv7KJzIzlmVjNi823jVaGje56f+Jc9N4WLW4J8d/pQQPavfMGGNnoG9B3WN92kGMj9HzGwauC9k0rTWuWIPNLU10GhTtH5PUktTLw958q4f2OhGYXYbq+dJs+8IKLOvMpg+nwpePsA1a2ck3Nm5ehAWKKg6xeA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=RcVe2aKd; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMRccKeM"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82a646c96bdso470545b3a.2
-        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 10:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773768136; x=1774372936; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iY/ms5fgpsXkVpoSgZDHvYfJ7W0iaIau/itMj6PGUSI=;
-        b=PMRccKeMP6SHpO8bK2lI8GEbp5s/95Ept50Od1ulLF+Ot8Y5M7l/KES2yA1/PfhyMb
-         Hd5hukL+lI5NEjE370QCSvwKtut15cDDSZ8iRA4xmnIoFbx/Vg1t0426lvKWaNOAPv1C
-         KitGxeVrRpW5olbRUj5f1CZ34jQxhALWK+M8JViUsdxoMEifQPI1IZ/eM+fBI403UzhE
-         gZ4pWcD6F8t7+OY7RdbqAt0tiXILUgOiJVDFimd6tAL1O2uq2cH5CTU8DxrmLMQ5Xu4/
-         hjlExcPy5AHqis6xaGH/5yoVwXxASugE4yIJnsVzbJhmECYFBc4JzPvsroYB2TA9592T
-         FbAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773768136; x=1774372936;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iY/ms5fgpsXkVpoSgZDHvYfJ7W0iaIau/itMj6PGUSI=;
-        b=MLW+wdK4lt7ULgsXRS/2qFlNEV1fSRrOwoQW69QwD0Z5BgOvTaAdGqQdCMsy7kHE4E
-         DfahFVxTVQ+YNdtL2dJck7KIDEZGl1PXWbvv+zYz5GH8PsTyBVJsWM8ry9u23szB3RsW
-         f8VDrwY6A66bHQc96/iyWfC2xtgIl/qUG8oLI966eaeEGAOjTLOS3hUqkArHq437+bg7
-         zI6ZLQWSv/cRXj6rwIDOhPH2oSpkkoc2H2cGSaTdNwsFcHwwLGd53NCksHBIhGDnzz/h
-         M8cDEkQ2vN6wTvUDwm9E83haaeTMMwdFNks78dsDpPpyBLmH1MEqvZ++kmqZZbX8nBWG
-         3KUw==
-X-Forwarded-Encrypted: i=1; AJvYcCUooitd1cVJYcbINAq3MZ9NuHhgepX0zhvBIbJyKrnnoP4n8j1Frpy5Um+C5TNvh1Sp3vCByhv/cfYpvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRnX7wQss1w+ObgwYAeW6t1HIFljUY+Z4PBa0Vp/XCX+N9N2c9
-	RL1MGloX7ANfFOm5AKbBCtsgvAJLoWvnHq0lpyYMh+WgXio5cSPej5wE
-X-Gm-Gg: ATEYQzxFStw+sy4vnAZcRcHJMeMtMHXWEQoCetDbpShklfOIjx1h79W2vmumvLkiuf/
-	goW4tXEXFfjuha72Px2XyJE1xTpPn0X1ZQkDY7xmlKadM1RTyDkX3hWNlWbWGkbGCYkAFExtyWJ
-	xf+Vs9BQPPygTLYeSWyqcHp0HzhMFowTonpfQQ5Fu24QvIMk48ThHGhd8KYOSlSQX1gAka3g8Ml
-	IMRIO57CX+hRcmW33JAM2allugx6YQejuMbIRMunzEhb2IDQPBa6J8js9Xpil7E4fNy0KgeqSO/
-	Kj5o3HF1vYxaZNuJfUtVMEK4mpWdxNUgQdLvNuMJB9/B0gsap7L88jzY2u2QzHLgX3mdIr9RjzT
-	2g3juutJ/N5Wvz7qlQxK+6S0RVfm4ehjq4SOkQAdOZTbSiOk4xebmUEqq8c3mUJ37TdPMlau3RY
-	vlowg1B0gaG19ZQA==
-X-Received: by 2002:a05:6a00:9099:b0:829:9527:e16d with SMTP id d2e1a72fcca58-82a6ac7ae9amr153182b3a.8.1773768136431;
-        Tue, 17 Mar 2026 10:22:16 -0700 (PDT)
-Received: from px13 ([218.155.71.249])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6b532155sm43805b3a.7.2026.03.17.10.22.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 10:22:16 -0700 (PDT)
-From: Hasun Park <hasunpark@gmail.com>
-To: vijendar.mukunda@amd.com
-Cc: Richard.Gong@amd.com,
-	Sunil-kumar.Dommati@amd.com,
-	broonie@kernel.org,
-	hasunpark@gmail.com,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	mario.limonciello@amd.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	venkataprasad.potturu@amd.com
-Subject: Re: [PATCH 3/3] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy SDW machine
-Date: Wed, 18 Mar 2026 02:22:09 +0900
-Message-ID: <20260317172209.16128-1-hasunpark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <7850d480-a1c2-4b18-8d40-883064d75ad9@amd.com>
-References: <7850d480-a1c2-4b18-8d40-883064d75ad9@amd.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="RcVe2aKd"
+ARC-Seal: i=1; a=rsa-sha256; t=1773768141; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=HPFcjpjFhaIdcBNwj7gmuEk50vuOsqPaTQ6rCVKuI/RROM22Ng1P2I2Ep8YXaK4AvamqMxOpV+P8btcO2pfbqV6jD00WoSIL1Y+GdIFWY9NvHn2YUoImWNvtafuV3ukDMZBhVLuCwWSonuKAEhVHqEXsqDW/ZjnhSN8UY5Hz0JU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773768141; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=csSww+WIybtBNldf33djiUaktagQrObOaKalU3CZA8k=; 
+	b=BUCLmoZwQ2+LSfBX2hkBAYr887/eWL7DPoc5VEqkvbxA2NldzH9MWgNw2rSeHwn49uY0H0ZqoY/hKCCI1weGferJ6eHhNZa3UCrqXd6HTVNkefeLdEYVCzA6jRP4gK3+ogkmwrIzyT1v6e5lnP+M43WwSNze/mWgVg2PkSQx+Eg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773768141;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=csSww+WIybtBNldf33djiUaktagQrObOaKalU3CZA8k=;
+	b=RcVe2aKdIYXcdGrxc3GQ/hFLkfmPl0xwq29Qj1m+xoVDJ1f0kezE0ZVAV/MxKYar
+	2t9piYXgQOPrHnk7EyOMkGGya0Ct/wDKjUdmlRgTIU3rz0ZhUPy2sqzFFMDoNN//f5W
+	C2yw4vyPhOIC2zrrLvbdO5fHXcxi57Bsb3n+vJeM=
+Received: by mx.zohomail.com with SMTPS id 1773768138648743.3558401817487;
+	Tue, 17 Mar 2026 10:22:18 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id C4470180085; Tue, 17 Mar 2026 18:22:14 +0100 (CET)
+Date: Tue, 17 Mar 2026 18:22:14 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Alexey Charkov <alchark@gmail.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH 1/2] dt-bindings: ASoC: rockchip: Add compatible for
+ RK3576 SPDIF
+Message-ID: <abmNLwjx4FJ5N_Px@venus>
+References: <20260316-rk3576-spdif-v1-0-acb75088b560@collabora.com>
+ <20260316-rk3576-spdif-v1-1-acb75088b560@collabora.com>
+ <50e2f262-6fc8-429d-af0d-5f9d1a0d6ab0@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gu3fveioy3pqqyrr"
+Content-Disposition: inline
+In-Reply-To: <50e2f262-6fc8-429d-af0d-5f9d1a0d6ab0@sirena.org.uk>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.1.1.4.3/273.758.55
+X-ZohoMailClient: External
 
-Sorry I'm late. I was just about to start working on your request.
-Is there anything else you need me to check? Let me know if there's anything else.
 
-Best Regards.
+--gu3fveioy3pqqyrr
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/2] dt-bindings: ASoC: rockchip: Add compatible for
+ RK3576 SPDIF
+MIME-Version: 1.0
+
+Hello Mark,
+
+On Mon, Mar 16, 2026 at 07:44:45PM +0000, Mark Brown wrote:
+> On Mon, Mar 16, 2026 at 07:23:00PM +0100, Sebastian Reichel wrote:
+> > Add a compatible string for SPDIF on RK3576, which is similar to the
+> > one on RK3568.
+>=20
+> Please submit patches using subject lines reflecting the style for the
+> subsystem, this makes it easier for people to identify relevant patches.
+> Look at what existing commits in the area you're changing are doing and
+> make sure your subject lines visually resemble what they're doing.
+> There's no need to resubmit to fix this alone.
+
+Sorry, my fault. I used the same prefix as the one adding RK3588
+support to the binding and forgot about the different preference for
+sound DT bindings. I would have prepared a v2, but I see you already
+picked it up.
+
+Greetings,
+
+-- Sebastian
+
+--gu3fveioy3pqqyrr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmm5jcYACgkQ2O7X88g7
++ppwyQ/8CCHnmOnwX5ap5MlSA3+bsCIwDhlkCQ4FXecT6EJQRYR9HlcBeaBOM73b
+AgVqwYCRnHJlLgpGFiExZAstwSiUIAUT7adyut/MmouWOBU8uUq1l7csVSC5oT9m
+24nPCEVL1Oj8iGsrp6mmQCVkqBqjOf+RNskYwq2pPfP2+5mYIX0CxzubyK77zECS
+RYaLASXlMWpoGUj2ITo2PQZJYcndtv3rTnOv9SjnGSG+hkB1wBeet/EQmq8ulE7G
+dYvibi1c5YHhxkNM3LcWjIKcUU1b3AAbGf9htlDZpjQq3pOKWglSyeuECHm+7z+P
+4dLCVC94hV8FptcNU9Iq/r0qCRuPBu1nW+6IyIIe11xYPR6Iyk6tbWGwG42FBLvK
+amEXxHw9gGn6tBSfzDVa7nenglg/jBrVqOKo7npN1110X16PzRcTsO0/471ClYFN
+9ZSg0vbU1fbI/OdGkpYsBGRsXVE42vASfz/rEI61syr9sC8o+4muWtHXuonkVrFS
+l1+svdDjUcdnu4dknyWkXhUWSh/vBp1Mtjtiotp6B4ZhjC/ds8CmKdCaf8NqX3j4
+DzEkYmM04XagLXR/TuPcieDxJ9HwsA5pZV5901DD8kT7rmLg5jiNc6xcODILO4lL
+Uqc9W4Fue3D4LMq/aH0qxJYriLxJBKrss3N/+bH+e21GmoiEvtQ=
+=Eg5n
+-----END PGP SIGNATURE-----
+
+--gu3fveioy3pqqyrr--
