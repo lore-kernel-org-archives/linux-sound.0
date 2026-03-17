@@ -1,189 +1,142 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011048.outbound.protection.outlook.com [52.101.70.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8511B29D273
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 03:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C53F28314E;
+	Tue, 17 Mar 2026 03:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773717080; cv=pass; b=Vkl1r6YukoFx6P3g4LPApWBihNmV9UQmKrPJKT2iHLXsGS8ccyJoXUOQ4QelmD5BLHsP7XHiBB20HggZ3u7JBbE7VGcImvBono1InyQFJ7vptlVtF9wR1V5WkPF3CEL1KPBMk0CTP8nYXug9x/tBQPExXv6we9C+8nIRYU/DV9c=
+	t=1773718721; cv=fail; b=NdPBUnUIRNXSZFyc1bi5YQmddeQzCwFvHC0WLBpPTGjZnlG+TtJj2wCjXSaMdz67hFhQ6yfyJObpIBY9GMOZbwsK0LSzLKzNKm8GRldBggNjQMotOEY1Km5wmrmjF3PBk1SpS+o5Y5gv3HYlHheOQJ3pC9h2sPJS4+e3PgRzv7U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773717080; c=relaxed/simple;
-	bh=IXtJjcMCUGsxTdsTtNEMOGtM8szV5Eyo8OBXr2FmvLA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JA16ZERQ8KT3VYM3lgmp/GNwhWJxUjetRs305SKRTQUm2rrPaVmA6fsKUEnaS5WGod7ZyGJygz0NagBfpOfDt+K8zfzoSGnxfIX/PC9N0EEQ3b3DJNSGHvz59Gx6mH8qTT0RCUcRCer7S0/TqmQk+mGDJVFNd7iAcfdoGJ1o3hA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gnlcRUbM; arc=pass smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773718721; c=relaxed/simple;
+	bh=gRMbR8u4bBoJuhcKg3LTi3RB/A4TEQMiuTTRwMyfaWQ=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=gXKXL2OvOxJxqXebwXxenET8lg9vyBRSdZY9zRu5eEg1x3dSiivbtUtHXbN0tnKNsBYCjyEGfTtFxpGjo9+4DikGUoYVnpOMErDyfE+LkNCa9ZTJw5gAoqEIsNu7s7ou4D6Ilc23CG09Zwo6WJi2pF4YJ/Wv1UI0tX06PRFRHOs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=PWBO6L75; arc=fail smtp.client-ip=52.101.70.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gnlcRUbM"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3590042fa8eso3508547a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 20:11:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773717078; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WCGvtwRx+++2IsfmPwzIA/gXjMpaArRSkVFLJVWt6BKg/FX1BSL30KJg4wJUauCgvm
-         WwawCbkyOuLrdHM/elYBuGHzEx6dNncBaVA3CnFG2zyfzN8emN/5+gm5FOGdoJ5cvujD
-         KuCfIi8SHE2Rnb+FlPLCjfNLqmPqvSiHzhYCuFOTiVGjpfeTymlas9DEOujPyEe5oEc0
-         TXA6+AA3DT7DsVj6/6uHemWPGwR8zy25AGDvGvZoIFgRP89T+d7zFR2wcH3iWdEYlG3E
-         q1GKntu0OUOKwcTBOBt/oigOuoGNejSMWb7cXpU596u8g9sPeGVlbdzziRteylJycXZm
-         vzpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iTVEet7T/oPc2R0m6I6laVS1eIs6Exre9TNHfgqxOZ4=;
-        fh=SKYYWZ2bnHlRPKasS26aFHH0/FuPRnzZqrEMwbNw5hc=;
-        b=aWS8k8vZy1kzOJISOwPo9ytjlp5xzMx9GbuLWMIiEy+RmpLOq1HyMTKfVkfqBMkyCd
-         Ndw5IhsP588j7KX8vXliROCOFoG+ZsDSgtxAUKOVCkRYtGmj00z8s8d3e5+0oO52w+OF
-         1lTK7gk2s1L/0A6mhGT+zP1sFex1BB82chwEQrWyN5PRaaC65AzQvMo9psBqNe9w/Bok
-         JPS/0HKRwKRI9K4loxAY1hwXhrjSMjiq///T23WNcGVEHSuWZBLGrV6Ye35Wy+XH/dyk
-         9fsUB+TODpIZ8LCn6gRc/D58gOOKyPer5f9ecbo1OLwRpL7DnP2xkHR+eqON4YP0QA61
-         RGcA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773717078; x=1774321878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iTVEet7T/oPc2R0m6I6laVS1eIs6Exre9TNHfgqxOZ4=;
-        b=gnlcRUbMwcqgG6nTT+23qef0Pd4z7Y1JGLprRynXhru5tK3YaovHZDAt6jLBGpaJU1
-         UpRhCMf7fEJtc+pXvAJReY6CFQtAi0abNt6S0910QkfVsWxMU5aSPZpvhI04INFMP7ma
-         P/LLTQOgruHtawTHlZgNUTw/efz4PrumbRIraRfKQrQ7EXFRizIOzmuvK+hAXlpjUK5j
-         yKrs/+YWMchl9XTB+yRVRboQECfy0XXO13iaxNj0oq4vK0ETYY3rePXvBaW/x+HnFCsS
-         cOEgrqyZRtzjvcEmSivOiVbor8oyvT7lfDOMoHr+cMMugzTRBs8gzO1W5Kxoh/WdXXqA
-         DwNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773717078; x=1774321878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iTVEet7T/oPc2R0m6I6laVS1eIs6Exre9TNHfgqxOZ4=;
-        b=QdX+pBMwpzq+bA3oJRx+z3mKPHoQyPnmsq9QTUmXVIfM4tLKsNbVteHO7HIJCUmiA0
-         8ZwsWnEEZjgAk/dieEutkuPalif4RZujfDwCxQw7a6+jf4CrCXCecQsNdx6QtY4i0S7p
-         pHicSiwMNk8BEaJctIkEwJa5cZGfueeUhIPA+n6jGcI34OMYrrzKozbyTJI6Q9FOwPzY
-         iw+dnQGlO0eMcbE/CKZHRJe6hJS0KuJfk3jJTZwf/ujyNlhZzPKtFyth/tqoSjOTbYrM
-         m8KQGG7kIj06xlgKZsLx3RP6LZmU5wdfgTcmj7TpysuYJR/DlIH7WIAJScqINhtRz2aN
-         DOHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXVqSmvJXcou2UXkQ7hdKFXqR3ZR1GYYJ1cmsBb8tAJfydN6qqgYs3aLmMigavpvR8Cypw4O4DzTCv2AQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzkynm+vMeGcV81w/eqkrSKs0Dl2BIqEBmfMLHJNut003HiV5On
-	58OU1y/7m6GS7E0kO2XqMzaV7cGRDw8JBF1AfW0w0OhnyHKbU4GsGigdDEsCz2gTy53idqMWad1
-	HSg3ppuhCiOpYs5qMPbeDBpEC3c33Go8=
-X-Gm-Gg: ATEYQzya2ZExORM9tqlcJCkZz98KfyWgz0DCJu57X5bv8/0GitCmlOx6yqFtgFNHPvk
-	FqUz9RyszojkoCA2BPk4hb7DW8x+rQjfPtcc4nelBDSQjqowVy0GYrfgQkzcg90vBjF5/r77akT
-	XdB+PsbwF+iMNTqn+QThU3O/9m14NG3I8sB31IpBkWiIlEhPFOBBrg5DnYh3sBFMahM1YcKaoab
-	ZpiZbLdEXb2eXgK4wZ4SNm8Uvmljz6EJjCl1svevfSPUioq9d/fJfukXcMJCYbSNtQCTXdwLoi3
-	gfrdDIVCpWvaD30f1Q==
-X-Received: by 2002:a17:90a:da90:b0:35b:91e1:e110 with SMTP id
- 98e67ed59e1d1-35b91e1e214mr7794198a91.20.1773717077797; Mon, 16 Mar 2026
- 20:11:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="PWBO6L75"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z2X0FQ7BwtGtl1F/1EWW6W+m85XSaMLNjrrKxddgneeInVvwxXiSMqgAilZk1QhuD6Hhp7ppNg3HLLj7hO8LHWU3qDv++eVdJiQmNk24HBVcXpF95eVU3SEEMRZVvrlEeN9Tu5TTtC+fhc871mTLT5B1YNrQt1Edttd0Pqbliapox7b5DcSYjnITe0YaY8D4r0MNDUjm0YZ0szzRn2HVsu20Qj1uV/Q6wZdYcoMzmjpn6vq7uFBc1CN2zNkQJN+rNCe7SCFijq1mPChN6hLny6awFRKOetOscLzuMQgCX463JXPRHo2S2dtxPl3SE5cdIRc3BBtVEl4GGyt97j90+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8DSHpGHAIW1xC6LocMQSAcpQZ1OUOG8Jp4RzSP/nH/M=;
+ b=eqIsD/i6wIxzL/eXvAxdk+EoO/oA72yoIYPBgCXeODkX6oXuVN2IZbsn8TChMI8e9qBJOzY/Sv/1UhTdY0m3PtgzOg1ux4YeCLPT/rfNrtOQMyhVbEP4rthj387gnJa6XQaXadSrdacRnmrXBA1dLu2dkLYiKa9lSCaTttXrM8EMrtgctH/Qzq0DeZJ/IsgbkjeqS/pkG0m2+u1rXCPTXk99ce5FYd0ksiFnNXOm3Q0oHEt3UMWILpdCbT8oTRZsY2JS7isnZMS+/TVwOcoNCeIO6ax+e4j0ZFyKD+Ua2Hk8QD8XkBcG4i6/W/3tJFB4RhlofxI9U/f4MuSna0ALfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8DSHpGHAIW1xC6LocMQSAcpQZ1OUOG8Jp4RzSP/nH/M=;
+ b=PWBO6L75ZRxUV28/4DcoZ2/8tbMPdVL3yTMNgD/b/fcylvsIO+oOWNUNWmIUOX2dm/OlJ20P68moc23F5NkbhVcSTx5UsrW5rVxNpj/UBoFYzNSQqJGDh/qLdaM+GRsZM1fToQU17PkOSPFlP0E8xo7/Bsu9Z+gs7njFjuh/aVy0j/ABd3HJxPaAQ4/0seI/kQjLBaWnP4eL3E2OVK/slvzx52hoSZ59CcXPFZj231cFoUepowgV47Wu7v8IzlikdRUSbbAB2Gd9eUkKWQgBg5DV/6HPreiMlTuDqH9b7t1yKK4u0QS5NER7KNFFEXiW0pr5cgIbjNrygXhMELtGqQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by PA4PR04MB9565.eurprd04.prod.outlook.com (2603:10a6:102:26b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.24; Tue, 17 Mar
+ 2026 03:38:29 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%4]) with mapi id 15.20.9700.025; Tue, 17 Mar 2026
+ 03:38:36 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: broonie@kernel.org,
+	kuninori.morimoto.gx@renesas.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shengjiu.wang@nxp.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alexander.stein@ew.tq-group.com
+Subject: [PATCH v2 0/2] ASoC: fix usage of playback_only and capture_only
+Date: Tue, 17 Mar 2026 11:39:50 +0800
+Message-Id: <20260317033952.462209-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0016.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::20) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316095156.3913910-1-shengjiu.wang@nxp.com> <87tsuficas.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87tsuficas.wl-kuninori.morimoto.gx@renesas.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 17 Mar 2026 11:11:03 +0800
-X-Gm-Features: AaiRm52kaDxY8sxQLIjJACCCjLihZdX1dCELj276x5k2nrf5_8wfd5cDAtWhbkU
-Message-ID: <CAA+D8AMkEGHR-EY1zpEpwgsMFpxT2fAXFWbLE4u-6H4sYN3cJA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: simple-card-utils: Check playback-only and
- capture-only input value
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, broonie@kernel.org, lgirdwood@gmail.com, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PA4PR04MB9565:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60d4bd36-b911-425b-3d83-08de83d6ab8d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|366016|19092799006|1800799024|56012099003|18002099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	4kJyPzrCkIXSR/kbmwAxS0iry8zyEujiQ0fMQZ9AkQDWSw037N4eaTSRxED9DUrLJwEOwhPYNal6keFnpX035puWxIeIEEThim0OEMFRa++6QTJNxlYgoTRoh59XAOsvD1iZoUKce6eptTnJbaTqkRT5Efe2+1dQLVnc6LGucQPky9XmU8VKXJfWyc4x6yVg6/V9OyzCDQsTVAK5mU+0doFge3R1bzfC4Y41vWg50UnlJX3IGlgT4PNfWsfWc0mlXjwWyIOuPJkGb0yeJso5ppveTFqf6vhFnwUEzIFucxltLbHmGrgp96fIm9DMiVTYYIbsFfRaI2cX+uWIZ4scSbWpR9nh39+jVHga0FQNPSFxh/iYBT0kSuEcchQNmbRayYNXeDZqfatcS4aI+0lMJH3ossTVjwv933is61SueAiI4YqDozHeWgmDfplRTTJzrR83D9ka9QK9+vo5WG0frrGBorBARATIVW4dLlOnPGLkSmsgJkxfBjUL9rKCXbnzC+Tuqc4/FOpwSmc6myMwA2K3rkvnPJo64LVxtVgX7uBABSTcG2sh9X+oUWqJWMUMYfz+1qNxGwOWw05DiHGG+RwXa/3yHd4FzL+scx3z2iIxbrgIDH2lhiJNKlMwkmXDFW0ShJ7J64gVdtczcRVUyCdpESheh1IQUFzh4m98VUUdZ7glSHKT7oiLdJx6ufSLvn+vLq0rOOI9TwvxB71VEWCyQAetJlBBujl9HdFJ75qYHTt1N5j3ODkuPRmpbdKjxYm3VgwpTUj29I0HZiKwZAPRQePLMltjKjRMTQeZCcs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(19092799006)(1800799024)(56012099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pMEZCgaQX97fXU35s0xf65tpQLdodCpCEA66ep16nn+aBswLCgqCVv2zAyq9?=
+ =?us-ascii?Q?t40c/QUM629CVeJJkm48wsj3+CvO2SMqxAjzZqtYdox5xeckaQobjMOHluWQ?=
+ =?us-ascii?Q?RqhSI80g31WadQiycz5W3O0im4jZNCHHDupTBepx/ZKyFaF4Ye0Dw9Qe0YEt?=
+ =?us-ascii?Q?WXqrXmXPMq7hLIe34DKhOnsl5+zq30+566avL3fGUAMPZdiocEF/+RBfcd0N?=
+ =?us-ascii?Q?R+A2xeRiVdgO2J/pwYbTqyqHfT7WlU1aDqIsR9FaIbJKlgipPHF2cmEAZXq6?=
+ =?us-ascii?Q?yG3aOZrWdaI+NCD2T/15qNSG+FJzOrCyydPhAZR3O+UYtQJBKJydmXKwZ7ac?=
+ =?us-ascii?Q?er0EL2wc+eZ92WsarH26j/Rz3a63ccCL6b9tCex4lu8zOc9QcgoZ6WR3Zls2?=
+ =?us-ascii?Q?x0ZOq4tA0C7a5qsdjm7lTjyO9auXMtqk7L+1FuSndN1QPN7YpBguZOKRN3Fr?=
+ =?us-ascii?Q?kEW+++kl7cHjYHLGLrtak/F7fc6EyuJrLGcmb/ZgDwcyyy73PWuO2Ae1xEWC?=
+ =?us-ascii?Q?SPNAVJATIXvnfWIszVdOJ2AzIMv+RsoOAVK6FrRuaCi3uozdlM06+1AGXYsl?=
+ =?us-ascii?Q?85HZxj5ReGYdg5hKUwrOts75W0DZZ9U+tmEKp+8G00mgAGpbZx5vEWbs+bW+?=
+ =?us-ascii?Q?lJhMEkFSwqC9IfXj0zSy6ItL4FofIZDVaEjFjTCGCCS9nAhi6xY92Ya0WQrA?=
+ =?us-ascii?Q?e8EkQmoZYOGPuobTiOOSscQ2zSY5YHfr1J/9gL/IKJE+zaIi5Op+KQtQQMYG?=
+ =?us-ascii?Q?LxaBBT5HGH9xoPw608i5kG/TPgzKoG5mfHtzd/5RQNIcLS4EBZnDLEMoYfz4?=
+ =?us-ascii?Q?qAK/5J9+4dpA+TF7Nhj4XX/0z2lJTBRxwpYbogDNpn6+m1WhAmWRg1RKLm2+?=
+ =?us-ascii?Q?uSdgCIT8iuGUTPjCmNtrbx2gYZBR3+v4HvguIJ+LilgI5GF2EPYNjq27Fdky?=
+ =?us-ascii?Q?/lMrDVQwWF5YKKMbkuHOdLK1dDcPAX0Da8bI7GkoFhfCPoDV4V8IedSEA3LF?=
+ =?us-ascii?Q?yjK8TzySMVfUos2ElXXNdYsXKemOhUbIw+/Dbs7LYD59ZyBDU9buNd0tGL7N?=
+ =?us-ascii?Q?T5U3mjZfMyIytd/CCC89WWTA8KUrq+kLt7AdvSGK4JED4N7erTbz3Y8vGG0k?=
+ =?us-ascii?Q?bffroROP8p9Wl3jzjNrx3DKAbtlDmhRwmziSj45A8f7Bwm7La1apXVEX7Em2?=
+ =?us-ascii?Q?N3N8Fm0l3aH0xQyMRg6xH5gJmJV60/KDxgsA28SZ3O+D0Q5tKQytnasomp0X?=
+ =?us-ascii?Q?0bgs58YXi4CnXnhfhB8cfX2ZeklAVNXH0glUZ/J/5JRWJonk57OseXFpskuc?=
+ =?us-ascii?Q?dLY5DGiwaHLiqrJu6hy8MPzUunKTHotTIvNgI3j0kO11Qj1AyO1NA4B9uuZS?=
+ =?us-ascii?Q?Bi6vjmP5B7KNYrOnMa5dTqJy/qgAjyjz0ywxBq0JPerkRA2RUBHEqPfAN8YK?=
+ =?us-ascii?Q?joUHceClPBMBnLUGaVBaqkj+K5YdfCD5ADQzQIPKvmRf2kbErRWBXn622/4/?=
+ =?us-ascii?Q?oZaQtGI+f1PexblbUtAYuEF14vbDjtGNDesrVtpik+MI/8mM7FiAo+D8ijya?=
+ =?us-ascii?Q?2kHtKczY70GQT3A0gPyENiQ+wHKDwx3BYli+PQc1ArivQ6odwwSTxdJFqtCz?=
+ =?us-ascii?Q?HgXe/6IAgNJZj+qERRg3ug5gjOQlx5Qzj0OykW1MQeiEnP72kggpoWi0qdyk?=
+ =?us-ascii?Q?Tkv1yugeHG3pmmlGnD6zmY7/bIAGX7yt+oud9BVBCcBh89xi2GeKyoTp2a94?=
+ =?us-ascii?Q?qSew4DyWKQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60d4bd36-b911-425b-3d83-08de83d6ab8d
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 03:38:36.1811
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lh9a4SlSZLdZpTRvCXndmYktDFrkm+iy5qQEq3VoHIVswiZT5qPYDWf6D+1jICiurXFiDS0cl7C2y2SzudLDBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9565
 
-On Tue, Mar 17, 2026 at 7:29=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
->
-> Hi Shengjiu
->
-> > The audio-graph-card2 gets the value of 'playback-only' and
-> > 'capture_only' property in below sequence, if there is 'playback_only' =
-or
-> > 'capture_only' property in port_cpu and port_codec nodes, but no these
-> > properties in ep_cpu and ep_codec nodes, the value of playback_only and
-> > capture_only will be flushed to zero in the end.
-> >
-> > graph_util_parse_link_direction(lnk,            &playback_only, &captur=
-e_only);
-> > graph_util_parse_link_direction(ports_cpu,      &playback_only, &captur=
-e_only);
-> > graph_util_parse_link_direction(ports_codec,    &playback_only, &captur=
-e_only);
-> > graph_util_parse_link_direction(port_cpu,       &playback_only, &captur=
-e_only);
-> > graph_util_parse_link_direction(port_codec,     &playback_only, &captur=
-e_only);
-> > graph_util_parse_link_direction(ep_cpu,         &playback_only, &captur=
-e_only);
-> > graph_util_parse_link_direction(ep_codec,       &playback_only, &captur=
-e_only);
-> >
-> > So check the input value of playback_only and capture_only in
-> > graph_util_parse_link_direction() function, if they are true, then won'=
-t
-> > rewrite the values.
-> >
-> > Fixes: 22a507d7680f ("ASoC: simple-card-utils: Check device node before=
- overwrite direction")
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  sound/soc/generic/simple-card-utils.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/=
-simple-card-utils.c
-> > index 3115e1f37c0c..e1564c1f7d8d 100644
-> > --- a/sound/soc/generic/simple-card-utils.c
-> > +++ b/sound/soc/generic/simple-card-utils.c
-> > @@ -1202,9 +1202,9 @@ void graph_util_parse_link_direction(struct devic=
-e_node *np,
-> >       bool is_playback_only =3D of_property_read_bool(np, "playback-onl=
-y");
-> >       bool is_capture_only  =3D of_property_read_bool(np, "capture-only=
-");
-> >
-> > -     if (np && playback_only)
-> > +     if (np && playback_only && !(*playback_only))
-> >               *playback_only =3D is_playback_only;
-> > -     if (np && capture_only)
-> > +     if (np && capture_only && !(*capture_only))
-> >               *capture_only =3D is_capture_only;
-> >  }
->
-> Hmm... It become complex more and more...
->
-> I think it should check "is_playback_only" instead of "playback_only" ?
-> Oops, this patch changed the behavior, and it is the reason why you
-> got issue many times.
->
->         3cc393d2232ec770b5f79bf0673d67702a3536c3
->         ("ASoC: simple-card-utils: Fix pointer check in graph_util_parse
->          _link_direction")
->
-> *playback_only pointer check is indeed needed, but *np pointer check is
-> not needed because of_property_read_bool() will ignore if it was NULL.
-> So maybe we want to have is
->
->         if (playback_only && is_playback_only)
->             (A)              (B)
->
->         (A) pointer check
->         (B) value   check
+Check value of is_playback_only and is_capture_only in
+graph_util_parse_link_direction() and initialize playback_only and
+capture_only in imx-card.c
 
-Thanks, I will update according to your suggestion.
+changes in v2:
+- check value of is_playback_only and is_capture_only
+- add patch 2/2 to initialize playback_only and capture_only
 
-best regards
-shengjiu wang
->
-> Thank you for your help !!
->
-> Best regards
-> ---
-> Kuninori Morimoto
->
+Shengjiu Wang (2):
+  ASoC: simple-card-utils: Check value of is_playback_only and
+    is_capture_only
+  ASoC: fsl: imx-card: initialize playback_only and capture_only
+
+ sound/soc/fsl/imx-card.c              | 2 +-
+ sound/soc/generic/simple-card-utils.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+2.34.1
+
