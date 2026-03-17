@@ -1,157 +1,154 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D9A39023D
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 08:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF18628A1E6
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 08:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773736926; cv=none; b=oJqNRmEio59EEI3O7vobHMsBrRNVtOFoC52sc5a/spcd2hnOCs+B3b//4oi8+FUOOmc5VD0wnRnKRRus/KuXS6s/Q7KdIU/wJCTu37NiD8FlAzlg0OES6xUpy02GhU5yAsNnUzLUoadbWne0ZYa8U4Sr2aF6KzmfmCHNHT1iZL4=
+	t=1773737498; cv=none; b=bCv56pLYR0VAWf42fKLJW1I6cEuOnAWQ10WmG/z6G3sAcYe4kJGbWiJHbJu6verh+cedA15XjjfQZaL+w4PDVdp6Zj7F5VrN3crjuVZ1dRjr8HKLStdpBhYK6pYQdUHv4xCjFIqzAws5GmXjG+wdEWg+yjBs0cA9pHNi2JRRugE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773736926; c=relaxed/simple;
-	bh=1IbAI1LF70M+Kjw+h3BaLZwBsh7cf418N6PFDl+oOnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=La3I1yat6m+xIiZBlZ+24o4GkyQBp3mr3ULmyc7ysvx8Op0PWBfROQX6r9Gn2mHj22erGS4tePdKJKLlqFpBA/n0RYyOobzcN/4zHcH30AsnmYN0kTm38VqUmTnqNK5mENjIihcoMgWLBi9BP6Gef64NedQgmPuaCHkZ/fzzaH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8cb5c9ba82bso773340985a.2
-        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 01:42:04 -0700 (PDT)
+	s=arc-20240116; t=1773737498; c=relaxed/simple;
+	bh=4QgBtB8A9KYHumYiqPxwg3Mhj07QBFZK+AfRokd9Gas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QKxsiwIIW0sXVs39N34hweZaYEncNnGx31YvnktsJu4rdYDLAZ0IkBEMYvPBaPab/gdCtFOwybSKnFITSuabe//jKhErh3scbhWTq/U1EUT3M6oWVFiYgALMRwOYOJsG37+FL70OqpJFbz7HAOxKr5zdEX0TXEtWFcnEOATS8EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ASZ/MVVe; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iCClEhJU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ASZ/MVVe";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iCClEhJU"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H8JMst1534027
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 08:51:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IxITSj4z8OO1NrLzEXCXkSrkOXhqxZm0zTAv5L09paM=; b=ASZ/MVVeGtJMu1Fc
+	XLhAANnTMxH1a/V03vG/LTkSxc0F4h1bFIMtAPhjCNfhnr3REamoVzaRvJ/Ifm5q
+	DWpnOtIKVZ2lztx3+oTq0s6N3eKWOBuea9uI0iDZ/3DENDJ2W4IrKaTj0qitnYsP
+	PTKVUSzhCM3E4DrZZcryCru4YuPS/gsXqVf5pYvK1u5TnwI4y6JlvXMSeP2McicD
+	+oZUlt7pYG43FnWbT6wLNcih1Qj/3DZZC3c8zJFvrpMgtwdfF/FtCG5S9fRhbnGF
+	JD5kglBhyIBwiy5g50f9b51gKOOlJnxwyhF91X4sV0+pn+xbASdGOs+h0EFSpdzf
+	YmkcHA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxm5k38d8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 08:51:35 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cd767c51efso654293585a.2
+        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 01:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773737495; x=1774342295; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IxITSj4z8OO1NrLzEXCXkSrkOXhqxZm0zTAv5L09paM=;
+        b=iCClEhJUF5Dcxya/Kwlwq5RgaYQDlrMdRhjSM+zbkfkNUe8Q2NQjwIb2whshr4RLRz
+         i6uA5HNBYbSMy10DqSa+MIdei7aW41WMeE5kz6tuahZO8PY6AqxAkGURslGhd/5EeOty
+         8wGZyJ01oDHlEn11oD3IYkpIaWH6PMlUJT4OypKjFfkOtGbhZSWYr0dV7NXE793GOa7c
+         MQgjqV3WcrGq3fWPplXE9TwZHfbD9EUvL5inAKAaI2bCdyPoEpqVqrgmpz/lEfF7V02J
+         qo81rN324pLXtKJRRPN1oUggUuSlI1CDATPlxnc+khQ4xSK4a6iR1vMd5wjHk0iTTZSY
+         6p8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773736924; x=1774341724;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=idH2bB7nbOzzZw2WFTC74GwVow5g1kiitlzGsuFZK5o=;
-        b=NIyYhne5PN6ZSM2LTm55hyygyX7cdpWwaZmcs1wFHiLsTDyly98Mq4qVv7XMz/61Nv
-         HixwDSor/uKNNFjrWW0FfWEmVEOxyKFJrBGMBBG/O37sSUFlyoRHa7EUHZyVib4epZXW
-         CDOIi9jdn8GU1ErUF8A2VweZRu45DVlw/I5f0el/2ZHn8Cx0UeGBCV9wdCOd1ly29CMX
-         gb68zu5XONRgT/CV35gSjlLcTfEZTdETw0LyUR6RE+kLTGnw2OkG/ka4nVGa18BmPDYc
-         YKBQ1q9x8Z9Zv8rl0CnfEPOfuDbzVTrDjKBCPMNyQnTwV99EiDdRY7hVJlue9qmVg1qB
-         fj2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXpRCEBml9VzbHujYs1mly+1DjztgLLkwWVh+YMdlruONmhHrqpdCBlWFhAWWnQgL1eGsUwvOHOje10aA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFgQyH5TU2CxoPVX3d4jyL4aCx6DfqGTl8bB8wgbuHTE2eKv7p
-	LBkH6QhtcwPn5aqDxBiCQ7x0pYSGO+OBet5Zyp6n8oqB3m9iqWv8l7nw+JfPCnHZ
-X-Gm-Gg: ATEYQzxIlevkU8SBwpZaVk1T27iWGSemkr5gqPmD2FRohjDDtkPu6FOu9/fkXIzBNS+
-	bR77gc+q3+VUw/6j3FV0gC0wZr52l93EVd09yghz6oWUQvlWhp3grmwR3NQ7VcUYKckmDNCyIDL
-	LyGb1hLnSI8gNDFXj+fVSp3wK6SpdeuDrXPHiR30Z9kpXY++VfsxR5HKoiTEX+xyCfAdtVNxOpv
-	cFn7E2RzY+iCoJCcS19w4v4tL+nek69y0d4/jriu/ffASVBJrHbOPsm6+hOAy6Z6ZRYkZfppQvC
-	YLYXjX23H1TJ60UNNPlEksT/Poh/Zga30tpX5S9ckDHdtmhznY206uCr0d3O5laRv9d76AaaUGp
-	u8K5EWKoy4CV9szO9w8GxB9/eGi+547rodlLLsCqK8C6y3gIi44XT3tM9nArabBlNMMRS2wRtfG
-	B5zVrVroYKnm6l/KzRbAY/l3gpF7vo48LD7ajs9BTdrSoGLvkQ8/zyp3NN1WOLPydD
-X-Received: by 2002:a05:620a:6919:b0:8c8:8126:7770 with SMTP id af79cd13be357-8cdb5bafcb9mr2339057485a.67.1773736923924;
-        Tue, 17 Mar 2026 01:42:03 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda1fbcd23sm1608996785a.1.2026.03.17.01.42.03
-        for <linux-sound@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1773737495; x=1774342295;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IxITSj4z8OO1NrLzEXCXkSrkOXhqxZm0zTAv5L09paM=;
+        b=mbLNtVc0/YrEjA6PsdLiFGKxKDvZKKCTVwvZnr0FV69ONulH+wB5zNsDI2F/j8Q4SS
+         hrQRFKA6d6fFDMnwHIcfq5dPy0QNofRjOA+0iB74kyGesE5wKqHmDVChUb+d0nyT5IYL
+         JqN5spsT7/vhgT7WOsa9WnxmZcah4wC/JuLbpPVhUXQiJgT+E/M+RhSbYDCurYTKPTRg
+         l9Z0WJpziDnU2hM0n3PVU8bMwjyvbdRsthl62GQOOHSzFZ3tTTIAEe+W6cUkyOJK/s9B
+         mzvOcDQJdx8mJ2P7+Nsu8GqoTxSFZYHcGDcQGAe+VAw/PgAkJSEr1MtkjDrNCcEQwP96
+         R4hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUji9wcdKv/6AadpN9RsBvmmoNgF/BC5qCFKLOgeUgVWuVkYatT2znDCxJ0p2KfO1CPFBCEL7s/z+QdNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4wJ8o/d064yZnwAXuoqSj8uExo41cQlRgBaCtmXk4gIOk8na3
+	vFap7ebvToCt10AB4uTFq/wfGEQhz1fbloSSfPFkOazm7j7fhUUNxesUo1kyKUKL8t63F2IDw3Q
+	UcSrLO1eUmA0Xb2ZYkhEauoygxOMKQ+JfnvrCW4ViB/cX2S4/msx+XVQwMw4SJ7NDcA==
+X-Gm-Gg: ATEYQzyfq9vUCxH4b86jadweLzUa/euD3bPQFwRyEagTTslI7BNBc00qAMQFoD4K+uf
+	4915Sak8KIo21SpeHt+37F/V4YAkkHrKuIJv/4TptQPO7NkE9Ay7tL4qeOYQVBHEftwiRlJ8kIu
+	DWN5pdFCpz4UUXZco3gWzqZ9wS6XddMxHk5Ot96lxwUWUzQ7/E4TzVFnFow0JS/TXc7Jha1r78V
+	B9xh0TdvcAu/HFhcoRQB/w1pq8I53r0I5/1ZRtybo7u2ZA1WA4W9QnTtFjGsVBYSDCsW9UzQLXv
+	qdh0MqHXiPNNIqFijUAmg5rkZo7OU/zxMxnIsuYZNq7pQjEWt3eRbaq6DtHVcyXVP4MzEgHWpcy
+	kF6u3OMyYiEbn9vB179ZNb4lSTaP01h4abiC2vs9U1afi6T2JVwc504QdjZCGZYTJZNhkz6/gTn
+	uIzJPOKGuI
+X-Received: by 2002:a05:620a:2915:b0:8c6:e224:d55b with SMTP id af79cd13be357-8cdb5b0a024mr1966586085a.41.1773737495225;
+        Tue, 17 Mar 2026 01:51:35 -0700 (PDT)
+X-Received: by 2002:a05:620a:2915:b0:8c6:e224:d55b with SMTP id af79cd13be357-8cdb5b0a024mr1966583785a.41.1773737494732;
+        Tue, 17 Mar 2026 01:51:34 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:67fb:53f6:20ba:ff45? ([2a05:6e02:1041:c10:67fb:53f6:20ba:ff45])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eae3322sm46732245e9.10.2026.03.17.01.51.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Mar 2026 01:42:03 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50919fc3a14so64324441cf.2
-        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 01:42:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXurhDOvpz1zahdIxMB5e3dIHNIRr5bwpZ0l7GD02yyXEioZTHSDb5RsUuRe0cgFwNCQcWvM0CPpqmbZA==@vger.kernel.org
-X-Received: by 2002:a05:6102:5127:b0:5ff:2569:cfe7 with SMTP id
- ada2fe7eead31-6020e2129e6mr6024902137.10.1773736584585; Tue, 17 Mar 2026
- 01:36:24 -0700 (PDT)
+        Tue, 17 Mar 2026 01:51:34 -0700 (PDT)
+Message-ID: <8757aec7-8c36-446a-9a34-f0717f64202a@oss.qualcomm.com>
+Date: Tue, 17 Mar 2026 09:51:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260303115720.48783-1-dakr@kernel.org> <20260303115720.48783-5-dakr@kernel.org>
- <DH4M3DJ4P58T.1BGVAVXN71Z09@kernel.org>
-In-Reply-To: <DH4M3DJ4P58T.1BGVAVXN71Z09@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Mar 2026 09:36:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW=hfK82_QKXL=n-nMos-HjScKuw9jNTy4xsxJ2qnPYyA@mail.gmail.com>
-X-Gm-Features: AaiRm50LJFP1R3ITAUSRjqb1napf13plX5N5KjefHP89RPorlF5H9VKuGn2urAs
-Message-ID: <CAMuHMdW=hfK82_QKXL=n-nMos-HjScKuw9jNTy4xsxJ2qnPYyA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] driver core: platform: use generic driver_override infrastructure
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, hanguidong02@gmail.com, 
-	ysato@users.sourceforge.jp, dalias@libc.org, glaubitz@physik.fu-berlin.de, 
-	abelvesa@kernel.org, srini@kernel.org, s.nawrocki@samsung.com, 
-	nuno.sa@analog.com, brgl@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-hwmon@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Use the QMI service IDs from the QMI header
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: konradybcio@kernel.org, andersson@kernel.org, linux-kernel@vger.kernel.org,
+        Alex Elder <elder@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Kees Cook <kees@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
+        ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260316171419.2619620-1-daniel.lezcano@oss.qualcomm.com>
+ <20260316172251.2d57d0aa@kernel.org>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20260316172251.2d57d0aa@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=fJ00HJae c=1 sm=1 tr=0 ts=69b91617 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=rySjVtX6Rl8zv02YFYoA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA3NyBTYWx0ZWRfX4msPL3iS8x5W
+ mT3R+1I6M6LMjfG9trfEBWTOlYTz2wLH+Q3aV/0rBAcT/Ej+bnhlD2Cm1Sk2orKdB6Gv8GGXAJT
+ oX6wDYD+vqqVcpGIT9rBpZWGJxbZccfP5t3O/6uTSOWndoXYInf4rpXRR44NDB6O+1K+V88EdXh
+ RtPVUTGKpXLGzc5ydcdnuxHSD5aa8m7xGHvWhFYK6KG9FXWTgZjUgI64PiZ678A1bFIYOkXRXud
+ S0ZLDaa9uoHxRPJG6c/PReZAcX0xO5sIr/KR6Mlmq/YR4oIPgQ2dIEBOkSb27dAAiLPnKd3UGGt
+ Gl+FbNfmQFS3oOYh1HuwIT4CdEKq0TWDrulN4MoCQNZmok7J2bhkI39oMquLZLLj0MEEkA4uQBb
+ XUEG9oSXAp6++0+GaqwX8Kwy4V3/bFZ/G7M/BpjgHS0tlE3Shlysb4vykIRkgg6nFNhqA2gg9SY
+ 2WIgwLwPHQWMHYEGkuQ==
+X-Proofpoint-GUID: XsA25mNcbwxi0M0xAY5OoToUkMkQRnBv
+X-Proofpoint-ORIG-GUID: XsA25mNcbwxi0M0xAY5OoToUkMkQRnBv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-17_01,2026-03-16_06,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 malwarescore=0 suspectscore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 adultscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603170077
 
-Hi Danilo,
+On 3/17/26 01:22, Jakub Kicinski wrote:
+> On Mon, 16 Mar 2026 18:14:10 +0100 Daniel Lezcano wrote:
+>> This series is based on the immutable branch [1] containing the QMI
+>> service id definitions along with some drivers using them.
+>>
+>> How a patch can be merged ?
+> 
+> Wait for the dependency to appear in respective trees after the merge
+> window then repost the patches individually. I'm starting to get
+> annoyed with all this cross-tree QMI/MHI noise.
 
-On Tue, 17 Mar 2026 at 00:57, Danilo Krummrich <dakr@kernel.org> wrote:
-> On Tue Mar 3, 2026 at 12:53 PM CET, Danilo Krummrich wrote:
-> > diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_early.c
-> > index 143747c45206..3cd17bb0be67 100644
-> > --- a/arch/sh/drivers/platform_early.c
-> > +++ b/arch/sh/drivers/platform_early.c
-> > @@ -25,10 +25,12 @@ static int platform_match(struct device *dev, struct device_driver *drv)
-> >  {
-> >       struct platform_device *pdev = to_platform_device(dev);
-> >       struct platform_driver *pdrv = to_platform_driver(drv);
-> > +     int ret;
-> >
-> >       /* When driver_override is set, only bind to the matching driver */
-> > -     if (pdev->driver_override)
-> > -             return !strcmp(pdev->driver_override, drv->name);
-> > +     ret = device_match_driver_override(dev, drv);
-> > +     if (ret >= 0)
-> > +             return ret;
-> >
-> >       /* Then try to match against the id table */
-> >       if (pdrv->id_table)
->
-> I was just about to pick up this series, but then noticed that checking for
-> driver_override in the platform_early case doesn't make sense in the first place
-> and was accidentally added when the platform_match() callback was copied over in
-> commit 507fd01d5333 ("drivers: move the early platform device support to
-> arch/sh").
->
-> Thus, I'm going to drop this hunk and add in the following patch; please let me
-> know if there are any concerns.
->
-> commit 39cae4095efda4b00b436c0fc46f21de84128969
-> Author: Danilo Krummrich <dakr@kernel.org>
-> Date:   Tue Mar 17 00:37:15 2026 +0100
->
->     sh: platform_early: remove pdev->driver_override check
->
->     In commit 507fd01d5333 ("drivers: move the early platform device support to
->     arch/sh") platform_match() was copied over to the sh platform_early
->     code, accidentally including the driver_override check.
->
->     This check does not make sense for platform_early, as sysfs is not even
->     available in first place at this point in the boot process, hence remove
->     the check.
->
->     Fixes: 507fd01d5333 ("drivers: move the early platform device support to arch/sh")
->     Signed-off-by: Danilo Krummrich <dakr@kernel.org>
->
-> diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_early.c
-> index 143747c45206..48ddbc547bd9 100644
-> --- a/arch/sh/drivers/platform_early.c
-> +++ b/arch/sh/drivers/platform_early.c
-> @@ -26,10 +26,6 @@ static int platform_match(struct device *dev, struct device_driver *drv)
->         struct platform_device *pdev = to_platform_device(dev);
->         struct platform_driver *pdrv = to_platform_driver(drv);
->
-> -       /* When driver_override is set, only bind to the matching driver */
-> -       if (pdev->driver_override)
-> -               return !strcmp(pdev->driver_override, drv->name);
-> -
->         /* Then try to match against the id table */
->         if (pdrv->id_table)
->                 return platform_match_id(pdrv->id_table, pdev) != NULL;
-
-Nice catch!
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+An ack is simpler for everyone, especially when they are trivial
