@@ -1,121 +1,94 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98B03F7896
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 19:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2C733EB1A;
+	Tue, 17 Mar 2026 19:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773774048; cv=none; b=M/XwMYyKAYcXsu08E22uiThgQQnI+y/93dyh8DmGuL7/2UqP/Xs/i1+mxxEsAH8pzz2w9wyaqbIvsae8EHlfNftkTnafDEfEX2w1gK+ySRBYRu625GzdgsFxIzoFQvH5z3qpQ0UBn4fARNBk9do5BMbnxuJ3iPt7KK4YITQxUPg=
+	t=1773774067; cv=none; b=Ps1bcfBxNjz7RRizpydTlMuyCWvigmZnPAIdvd0BbjeiBdEEPX4E1Nez+ClLPmDQe8tROlZk+0DF5NURD9aGU1QYje9TVW15tbfwKbQEG1MEVCCCl+f5UKdQcH46vgFv4o3Rkw57Q/NB3nOavJrVKQtS7Oz9IxCKRsv3sWQCN9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773774048; c=relaxed/simple;
-	bh=u7g7PqC1ksiTGawd2FT2mK39JtKLQRmCXd42/gsT/iA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gy9nqNcH2CxJ/jigPOpiEQDc4GdVNNSd9Ao/fz04JgsMRNiFK+/jAPEkSMsJwQL9JOjOqtsqDN9u6G0L904/bUn5BDM/M4KUT9YWywo9j/Q8Izvv9PpkgpgRAHenjCMuehWFJFBCCfOhbnaaxrd5vg1/KE9ofcaUp4iSUZc0NzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/aJC8oo; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773774067; c=relaxed/simple;
+	bh=yttuqG/ROh6hqyPcZscidz1SzkXIBSQKIkWpYPfOtpY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JJg+oz68mM4YiNeZ4F6gY+OC9fsdE5gH/rLEWsBE1pMByGKoM9GJJBT22RBZtA64398/9B0NxpKHOzLjVi78ir76hySmvmiSv2t5U5zFifrxo4qIIhaC9fHd9qPEVOTXQKmEuewc3Dfdjuh0V5bjtY+sbf7IdLEjmTgq3MHQ210=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bC0vmF4D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/aJC8oo"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35a1d4a095bso127801a91.0
-        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 12:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773774047; x=1774378847; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G5pUoPYvzvdY/i+3VyCKmXdQJFa9RgqmeQepWrHmR+w=;
-        b=S/aJC8oo2uH1NpB2KCo4H148SjNq/uPyfeOTEggqy8ayYRSp+NBvnhxn1KUUZvFQva
-         aQkDxm/iJ+UB+qsQmNsOvZubapgkjvpPKLgkWkPxqBi/KAkrx3tA9HxAxwu5WmREp82M
-         3AEvZRuOT2Aj6gI2P5KoyfA+Qn1LHWuVm4rNQ/l4GIt1T66sJI+dYXSJpf9Vvcpy+yVU
-         ZYNMZ8W8mmq3TEFmnRaECnM0+H/EyNkW5W7cn2LX7PU787tXrORaXe9Pz1HzVpcOO3qY
-         16ol3ZTZi735NfT7jWbE2X+wVofqxbxgaVm3Z9YzDimxgVUuPoH8zZvZAFckDtjaVOd1
-         53KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773774047; x=1774378847;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=G5pUoPYvzvdY/i+3VyCKmXdQJFa9RgqmeQepWrHmR+w=;
-        b=itgMNU02qzNhAuC4YBm8wZ4z3MfG7IqtJtEfbCzcxQ1vBMsTDx62RhUE/vXrKrNzt7
-         52QLMEZayjFT2Ylk1s7QFTTdjf687tfp+ejuLhDC7hb6zV6sGcc+Ig8e/bYc8E7euhfo
-         7Q0InU87UCnWd6QCESTEkMsfEcWzWbTO7ZExg8c3G8Yrv+IAg8fDGqNJ07RF8AXpow8L
-         IkuuBvj/hDrOP+q5lixANDAY9EkZ868lsmO7KI+ETP+RzlkSM4APZHLrw4uDvQW6itTA
-         Emt83jPEFi76jSCf2XGxLmIHPw6hs4zvuUUmf1VTLj0cnOR9/KrhUSAfMrhAgwz/9wh/
-         gD9A==
-X-Forwarded-Encrypted: i=1; AJvYcCW9qLKgwa9eu8l55+CnE6D+BFW2pCJ4Pu45EITTxRk7eYwRIk2sSFLT5uk2fufNFBfK5jWGcamVdCOFXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjitT+W6j9Ce8n7tsrJ6TQWfvj58oWT6DqD1c6OKyJq5EVNvgh
-	PLjdiicNisGfzXLeWJMgU6ym1GNFUZbppN5aTW7VK1cjrZs5B9eh2KxL
-X-Gm-Gg: ATEYQzwr4kR4YNZTGG+LMg9ZKYlk0uCs7KdgFY+6ZR0Gb5lbOpNWgkcaXIP0kgLGJyc
-	QW9cpKbVEL1+D94oZBR/Cx+AIWaYOtOh4gvMsfqnTWiMGVLoRNAxBBcNIIpVZ20x+aumaivK1Q5
-	Jah20FeKJYxQbtHZnOOkinhDB2QKNiRkamQSRtZxn/vE/WMtKKIjm4POSR5+NNi8rR63SvCNpDH
-	iiNOicm6JhQRk2O4lmJ7CiCRhtc38adbjrTGrrtDBLBHzQnQDTU1h0bBEhh/Mh7GtstiVSPMGW4
-	43yFr59tyeIzqsSvenUOlw+pfzQBsqFPU6NzOMO2l0Xb7Z4wPRhq2/vluGWYvqNwtLToulbTSbY
-	KdY5HXz7u057SAow0YyA2DjtQSPbJUSF3ipMuZFRdoZzBbGSqdIvZ5qbu8S4HkCHUoQFi8fg9vl
-	dSBCdXNU8WQWzChkRyMW98hszXZn1Q7Wdy+X0KvaxFCQ8e8Pb343t02NuN1KKkqzwd+Q3Mj9Kti
-	VEB8uvaxNuMBBZ+KHlpKEsNGf+6TgF3bwQ0iXXZPvgWT6RMQmdyUS/1ZvEV/BWZQ4yOTw==
-X-Received: by 2002:a17:90b:3a47:b0:35b:9f51:a755 with SMTP id 98e67ed59e1d1-35badc14391mr3481930a91.18.1773774047144;
-        Tue, 17 Mar 2026 12:00:47 -0700 (PDT)
-Received: from 2045D.localdomain (76.sub-72-110-123.myvzw.com. [72.110.123.76])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bba5a2c60sm196240a91.9.2026.03.17.12.00.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 12:00:46 -0700 (PDT)
-From: Gui-Dong Han <hanguidong02@gmail.com>
-To: gregkh@linuxfoundation.org,
-	dakr@kernel.org,
-	rafael@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-sound@vger.kernel.org,
-	akaieurus@gmail.com,
-	me@ziyao.cc,
-	Gui-Dong Han <hanguidong02@gmail.com>
-Subject: [PATCH 2/4] debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
-Date: Wed, 18 Mar 2026 02:59:11 +0800
-Message-ID: <20260317185920.43387-3-hanguidong02@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260317185920.43387-1-hanguidong02@gmail.com>
-References: <20260317185920.43387-1-hanguidong02@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bC0vmF4D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFFEC4CEF7;
+	Tue, 17 Mar 2026 19:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773774067;
+	bh=yttuqG/ROh6hqyPcZscidz1SzkXIBSQKIkWpYPfOtpY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=bC0vmF4Dgb8OUfhh0W7n5dgGJuK7HFMUDems52SrCiAN0PiM5p2BmmgjRvtE4TeNc
+	 Bt0BkSD6crgrqEPyFUi4jGSDwZ9Zshf9bKtjJBEKgKDD6d6FwjCd3vy4S2gaH3m+/m
+	 Nd7Wh4TkojDm5VT1spqUe2cuzjsBuvnky/w99P49vYpHrCfNLzGBdFHOtkUNxnZzwV
+	 eyri4GaDg1+9xPagXgFUu+5XDNCTD+GZcF+AVuzYKkxpG3wyzLim4ZdLABzg55pwEq
+	 fMXDynA9D7BdqifjbEWkAuo3+9dXSosXjNZALkPmMc+/m0d6oygHmh19//bxi+fA8n
+	 idAOQ5uI6wD0A==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20260314-cs42l84-rates-v2-1-ea8a5af52542@gmail.com>
+References: <20260314-cs42l84-rates-v2-1-ea8a5af52542@gmail.com>
+Subject: Re: [PATCH v2] ASoC: codecs: cs42l84: set up PLL for more sample
+ rates
+Message-Id: <177377137228.409229.5026865754870577864.b4-ty@b4>
+Date: Tue, 17 Mar 2026 18:16:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-e1b5b
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=yttuqG/ROh6hqyPcZscidz1SzkXIBSQKIkWpYPfOtpY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpuaTwQhyBUJqQArA3JzLxP7Lp9eG/QP3VxRDXa
+ GlhHIsBRNyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabmk8AAKCRAk1otyXVSH
+ 0AzRB/9OkxFCUiIxy0qKpAjg2q8TxzNFIPwxYOK65LlVYDG/MTvsSUJLnU1hjauVIoqFhalgbcL
+ Slh1s9+GbUI36BTLsP9zKhT/10ug43uNsRLUAYvXuDr9UzEErfNqiLRVhdmM1CWak+2k+Ji7pBD
+ 96FPPBrCl3ra61mVa+hFWA4NacsO6rl4z+te7dc266BEV47QPhZ31SRIHshTBhF5FGhDP/yUhCl
+ js4m0ezuT8NEejYqtKMV8dV0EaCrwnxNTHRe3q7L3GHZsmfLr7/EJctEcEZRlWr7dzOWnVjAlt8
+ ucUw9WIFJ8Z46UVmry33wmzUoBhgkGmQy2xtbAmxfB70yiEj
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The EXPORT_SYMBOL_GPL() for debugfs_create_str was placed incorrectly
-away from the function definition. Move it immediately below the
-debugfs_create_str() function where it belongs.
+On Sat, 14 Mar 2026 10:27:11 +1000, James Calligeros wrote:
+> ASoC: codecs: cs42l84: set up PLL for more sample rates
 
-Fixes: d60b59b96795 ("debugfs: Export debugfs_create_str symbol")
-Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
----
- fs/debugfs/file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index a941d73251b0..edd6aafbfbaa 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -1047,7 +1047,6 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(debugfs_create_str);
- 
- static ssize_t debugfs_write_file_str(struct file *file, const char __user *user_buf,
- 				      size_t count, loff_t *ppos)
-@@ -1142,6 +1141,7 @@ void debugfs_create_str(const char *name, umode_t mode,
- 	debugfs_create_mode_unsafe(name, mode, parent, value, &fops_str,
- 				   &fops_str_ro, &fops_str_wo);
- }
-+EXPORT_SYMBOL_GPL(debugfs_create_str);
- 
- static ssize_t read_file_blob(struct file *file, char __user *user_buf,
- 			      size_t count, loff_t *ppos)
--- 
-2.43.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+
+Thanks!
+
+[1/1] ASoC: codecs: cs42l84: set up PLL for more sample rates
+      https://git.kernel.org/broonie/sound/c/4ebaf9d99932
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
