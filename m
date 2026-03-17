@@ -1,86 +1,87 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2351FF7B3
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 05:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6B937E2F9
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 05:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773725277; cv=none; b=Xi4dqsgwM42nP6+y+6lHqbLiP82GKD9+iLEQJsn6RrQHW2G7BpTrf4NWNOLDhQKCBqWCxXoGUn+9dg6UbN1o4nv0HLqtelV/8RPWqjHi5ViTHmVXDmq98yUJYiYgxkYWdo73OombiY46pfj4xYAbyyfE8csV/Mf5d0Z9rYTReuw=
+	t=1773725721; cv=none; b=BsFgXoz1Sl4sMH+a7ONReivy5UmHiGsntbdDp+L7aGnIEDeVtXQ8insmY8HXbVAfgFeRUW6JJdhI55f4XtQO6f39k8dZl7UNV2PfLaYzXUkdhYLOEppD4mPaA+snM5iLzNEx/b0mD6wz94nRjjLfggKwbC4xDOWHgLg1a5m/PV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773725277; c=relaxed/simple;
-	bh=oLN/kVlfSxwbOWn5YqOBUNzBd5KMlbrmgR65un0P0C8=;
+	s=arc-20240116; t=1773725721; c=relaxed/simple;
+	bh=gi7XzDxv7UZfVxYk5DmCxVha/HdTTWnjFnCNOXDqgR0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jt7pyOtc8SrGlmlpc1L0Y8jvmSc536eV8GfJtQ0N7Nwm0GwpcxHUYCXc0rOu7cp2OCSvNhjZyGRbDlj5eGKTvX6t43e/SUL4CmUJV5O1U18HA3WDPXRxhVCLv/a12hbNOqhqWywh4GznC/PdNBvK6iejticHOPVpuLUSgTn9I9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VBZGQ7MD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=E1qOjw8h; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=A81+pPLt077QZFhzgHZCmhUsqEt+dAaQY4klNibb3+y5CjL15P8WXVHW89wV1xFslCjVJ55PEvqk48ogEpv1Mircy2lcXj2JEOc+mvlMCaY8KM/QY/sAvhIflaplnFRxAR769WRt9gxWCSGU+v8+ASD+1dqO2+5AmRdyyUgGncg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lpircLTZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GOQeM/b/; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VBZGQ7MD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="E1qOjw8h"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GJCLoC1622547
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 05:27:55 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lpircLTZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GOQeM/b/"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H0uKOW795536
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 05:35:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NJ4Dm26PgUHHxAqegK0ORGtS5RM3siTPO7DahKF9/4I=; b=VBZGQ7MDa3G4SSvJ
-	D+r5o0YIaq4XhjiRnAjjcJ0XxwslLcUTScNLs9ERd7sTWf/YiFKpjNB8xWp4g5ZB
-	YGRHTL11bfhFHmE5I/99ziG9OuG3flinhHu2J8ocrv+rT8RHKm+yfX5tmC7D7/te
-	i7QQDwY3gRTj1Q7XEyXCdiYnpkDpkCgwXWgwF5dOJ2Ie2KWq6TlOG3BVxs6WWCUe
-	qQrzTbSToWG3OQ7KxUZUNP/O0jxFzFEhRO+LxdaIalsJXbrzEkiRtYv0KIrxQBOO
-	r4mt1qigwC59LqsUSMvQ/3fNaU+GEUS83KHMTHaLkPjOCdxPCB2C60k4uY4UgrYw
-	5aXUbA==
+	hmKjta0vmJszpX0qBzA+PcllN4eARnCID1N+IXOq3t8=; b=lpircLTZ1zqB3u5W
+	8IYmNhcJ7XFK7NhS4ig2Gy4A7AMZqoePjKcLjH8SEmE5dgM6w0DXsposi9SgKjeH
+	9Qea0OMJ09qoSAWi7y1LnH54ISkD85OZjWYRcqUf4v3zc5F1OtZOXNAOlzovF9cP
+	bW/tJznXbm4NFZjtTjr21fNul7nLBKbHPg0CTJvZjrhG5xa+Pwog5j7llRO381zS
+	5bMVscPmLuSbRlFpLbMgxyQvau8pMjEnHpcvTssHfjPirv7DroZ6gYRrweCkN3Yw
+	TKh957PlOI41vXTsPqMslcn9NmMgpIb9IoRkLihr0lwEN/I9NJKvjDand70Ljc6z
+	Fg7J1A==
 Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxhyek2k0-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxm6d2hpq-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 05:27:55 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-35a0998a441so34043911a91.2
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 22:27:55 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 05:35:19 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-35b8da51b3eso2954815a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 22:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773725274; x=1774330074; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1773725718; x=1774330518; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NJ4Dm26PgUHHxAqegK0ORGtS5RM3siTPO7DahKF9/4I=;
-        b=E1qOjw8hux1T1iepEBJ8kArzNOPhzehqP9eIb7IS1drdbVV6M/wXnSZWgilML96mi2
-         cPZk3HSnIKjvYDKVRWUq3XudA741iAEN2kP8blYMHyyhJ42YTHjr09/HOmCbUxC4IHX6
-         brMN8LIozKTOqYdxAL+mL0VhOkbOAkgW9yPE2uwq2B8ffY3JumzWLK2/RfW6QNAGn4dx
-         sfpjXdTXmm8wIEe4q15ExTQSju4EeCFd51kLXyqi46jNvATPZpg+nQONM14qsszD8hEu
-         yvSiFos9iXFyXbL8BEF/aMYuLJ5v5xt+maj8MaKSjHAsP3qDlQb8DhIRPmiS31xkwmxf
-         xcjw==
+        bh=hmKjta0vmJszpX0qBzA+PcllN4eARnCID1N+IXOq3t8=;
+        b=GOQeM/b/ll0pB4TtyReAvU6dj+OZYTWazyrhBLO9Bo37K9fh7nggsrN+ueeQtM72IK
+         fJjT3C18kHMcIOsF1QhoUrQFMbb/VNM1nMrJirEOgW7eEGFgJjjToMLuzW3+Wu4D1uzp
+         xTzOrrzZlkYlHu3eCFKwsP7nzd3ab4VKnyzhSpapDMelWjjmtMy8sks8OiPbQrjK4cJS
+         2fP4g3ueGc65CoHjnx+ReM0EmSNHfQjCSFYx7Atjas/OVo2J7ytzq8IiGCa0yVqY4Et5
+         3253PFXlhy6FNEyjRJZ3HXGi9xKRCRnLISJysw11tethpQz0A5k50upRDYfjPyuv22ph
+         Sxyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773725274; x=1774330074;
+        d=1e100.net; s=20251104; t=1773725718; x=1774330518;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NJ4Dm26PgUHHxAqegK0ORGtS5RM3siTPO7DahKF9/4I=;
-        b=qo/xIKn7HYxErfC3HiMDdu84vTT4bDGN66um3/ktUztAgRZN2iyoUOjVUUPZEFlJpe
-         oRKAjyDyNuPVubrb7r3SJ2I4WqRS025+JV5IBcQBY7VjAypxFb9m4XtJk2aO7A/AJIUe
-         CL0CSBt0yIRfskxtmbzmAHAQRxBS16nNBtDU0y+La/lyPCBSdIpwdEv7ms2VICjc2vB7
-         WMP93umt+32n26kRTGJ2r0ZFzNWAe7bMOZipPVud89gQvTvZvo8gok+fiu6ozjGUVBhY
-         um8hrHcd/63+DWNc2mqAnPlETZCwUyQndg66FhfDW37gnNNMeedLhcNYINgSDxpqQ9+F
-         kZBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUlNb9XhPWG64OgA+zuOgArPtJiRLQGH3PiiPzcD1TMClEWUs5JH5ZzJJxMsULOY+T72ksdf0KgcU6n9w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9cSF72v8aRYtyv2bkR0q/s7qGppWsasgbVCrL7WWTI+annC38
-	6qcixIB7jovF6JPgqsZSYwQPbVRjazVUeusWlALy8vE2IriDjRrHmi4CE6zpdvfCCUHlcSAWEov
-	xxZJs9UVxvdZKb/g271R5OfrMMJBmVtOciN1Tqp59rc/Jgp0WrCXNNVawdhUpL4PbSA==
-X-Gm-Gg: ATEYQzzEMm4sdW20B9NMD9RlvvwtIbh5lymuJ+wC6LoICuihFargqKSWE9oZCo1bCwF
-	HPrDwo+5tsw9rS0lG22O2zbNu++FiVzyKARPhfh3ojSMdj6TEmaCAxOn66LCYmuscUy8byLiazT
-	WWpflE9c32XhEWL8STqPL/JAkbfB5lRDQIzugALnFxPsMFmz+2cIGVx1qNhzFNJqlFm/3wnsLEi
-	T9TW1FCKCs7I+tCjhItLmBmvQ2otsGopahw49wI85B9HJVc80+lc/ECfLYlvb1mMRvNgCTK5nnb
-	htgDO/W4dy4z6X0VDDCuBLySzw4rjb69OzexjiJNccZTlN5Jr6TBxnuCNQkCs1dUz6IyaY+hMCt
-	ZcVqTqEtgJYwVNrX7ikWVNzWhcu5yjxwu9MWhYxat3Jln2fwaBDT6ZXiEGuO+
-X-Received: by 2002:a17:90b:1d49:b0:356:24f0:af0c with SMTP id 98e67ed59e1d1-35a22003a84mr13527381a91.17.1773725274178;
-        Mon, 16 Mar 2026 22:27:54 -0700 (PDT)
-X-Received: by 2002:a17:90b:1d49:b0:356:24f0:af0c with SMTP id 98e67ed59e1d1-35a22003a84mr13527341a91.17.1773725273695;
-        Mon, 16 Mar 2026 22:27:53 -0700 (PDT)
+        bh=hmKjta0vmJszpX0qBzA+PcllN4eARnCID1N+IXOq3t8=;
+        b=iD7m0XP78k+CidZoixzdMiitdlXb9j6dysU6Ek59zth/ozt6f9iO2EumwB0rnYO0DP
+         dhmhH9anhnWVJxMLA49vAHl1vBHEZMiLjpf4MJMhgtc5zxZtVGgrUIHQ0LNJ7V1LlYb1
+         rphFMmhjRmZLGy2NQRRFFVeEWaysc2PemEax9hRVrw3Q+2XVWDeMXm6COqmGypaxkYTJ
+         KXH/TZn7b5CFPoKyQ4dRx4pQ8So3wFFcJdcW3qhDzDnckCxUAHWioO26LmCmGv+6LL/B
+         tSjNOFr6U6kQ4Y++7bPm9/jUg2SEpkuXVea4JDMdqDBAFh+dJSkIwHY81RwuCREkCeG3
+         YKWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUsdTShN4smzcS3PoUL5ufFtdMPOoihUCwM0XjQOpCeAd8J99F9BMpul+5/4yI/z9S+2Mscf4AVpc4Xig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGuH13Z1bpD12nFa58ij/NB2Nje93McpVIgFvqjXQPTVI14Tuk
+	HG0dAMqXtFpzE4wkOv6H/pPoYkqljN6aP2QwoIw3PCmL3UJPCloWON7bRXvp9eFv4bgba23Kp4Y
+	Hzb6ZE7tir/n1Hba64Bs2tRJ6v+e89My6F0xmBsfYKNNQLeyEW47k5Q0MPbPLB8rPuBzYZr/Bqg
+	==
+X-Gm-Gg: ATEYQzwQmV2x3eCgK4xGc9sTrRiK5vpQhcbp8aAcCSVHqR7v+3CMg7XtNLD9X+io1F5
+	dmAyxmYTRa8b+tmXm7askFElE+UMKJtIimuDivsJgM1o0cEjSC+yDFmGIOS2oHN8wGlcpBU4yQG
+	7EY9yvouHbFFiIF2efA8JmFc92xz79IJ1miGKwzDkRgS54hvPExWIxIKK2sV5dFT/oO60iQo8f1
+	pCIUoIooL4lu3NJpLjFRaIwKjrNS3fDshD6aavkPFsPEEirDyZrBSjV+O1aUn4KWfzhSDxL4pLp
+	MFjPYNPTCIeeQ6v6dEJOS8RBzMze0oblqBPBG3RzEJnuJOplmIrD6yZZWA92i6DU1xU5PinlMIp
+	UldNYBqWEZPJtt/zUiRnoKdwziuf8n8AkBoazy2HjDfKONi++exqaaJtEOu32
+X-Received: by 2002:a17:90b:2496:b0:35b:952c:43b9 with SMTP id 98e67ed59e1d1-35b952c450amr4599149a91.10.1773725717852;
+        Mon, 16 Mar 2026 22:35:17 -0700 (PDT)
+X-Received: by 2002:a17:90b:2496:b0:35b:952c:43b9 with SMTP id 98e67ed59e1d1-35b952c450amr4599131a91.10.1773725717343;
+        Mon, 16 Mar 2026 22:35:17 -0700 (PDT)
 Received: from [10.83.99.36] ([106.192.46.228])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bada470d2sm1845295a91.7.2026.03.16.22.27.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bada47123sm1607596a91.8.2026.03.16.22.35.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 22:27:53 -0700 (PDT)
-Message-ID: <a7e7f32e-e365-4504-8ce9-1aada01bc52c@oss.qualcomm.com>
-Date: Tue, 17 Mar 2026 10:57:44 +0530
+        Mon, 16 Mar 2026 22:35:16 -0700 (PDT)
+Message-ID: <8c34f329-143e-489f-9185-04694eccaa32@oss.qualcomm.com>
+Date: Tue, 17 Mar 2026 11:05:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,191 +89,366 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/4] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document
- DAI subnode
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
+Subject: Re: [PATCH v1 4/4] ASoC: qcom: sc8280xp: ASoC: qcom: sc8280xp:
+ enhance machine driver for board-specific config
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
         Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-sound@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+        linux-kernel@vger.kernel.org
 References: <20260309111300.2484262-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260309111300.2484262-2-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260310-crazy-screeching-angelfish-297bab@quoll>
+ <20260309111300.2484262-5-mohammad.rafi.shaik@oss.qualcomm.com>
+ <c3f4a9cc-303f-4652-8a27-71645e8337d7@linaro.org>
 Content-Language: en-US
 From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <20260310-crazy-screeching-angelfish-297bab@quoll>
+In-Reply-To: <c3f4a9cc-303f-4652-8a27-71645e8337d7@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 0yEplCxfhUVFYuRJSXxgnJjGFy2mmPuW
-X-Proofpoint-ORIG-GUID: 0yEplCxfhUVFYuRJSXxgnJjGFy2mmPuW
-X-Authority-Analysis: v=2.4 cv=KLxXzVFo c=1 sm=1 tr=0 ts=69b8e65b cx=c_pps
+X-Authority-Analysis: v=2.4 cv=c7+mgB9l c=1 sm=1 tr=0 ts=69b8e817 cx=c_pps
  a=vVfyC5vLCtgYJKYeQD43oA==:117 a=dEIGAuP7kbcW1LL0Y9bFPw==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=l86ZLHr8ISoCRvqyY7AA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=MeqbiXL43mTMlFCfJagA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
  a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA0NCBTYWx0ZWRfX8FmJ9XLZ0CkL
- ecSPqn0i9Y29AfcXBenHrZ2XFiSyMIvNS5uu86BCD+xmEUBb50HeaWxvAT3KlaBKD4v3TPjvXoh
- ekFU/LwURLeQYvg4JfbIxnevSuWQWuqZYQu3Vqv5UVmwkAAqrYfHhW4v9V9fk9dkhxh/IATnPyt
- o0oOlyWGEI3XznJbsfBhBixz8fD/7h4urL1I9KQycJORCsUxnJobF1igeQxVTfImb7l3uXzVtRa
- L0SO6fNr9j+Vb+4DbOd9aC0AOa0Mo/yhUvevIrQUDViTWnZfC0Qj9AV6bnoh8AZ5QpbHvWjpRs6
- wXmgLcgBIZ4yWT9aMIRSF4u+hCVoSwmfqedjnaAZ6o5OWW7/Lqg57pY9PdLulNshAJKk/k2Pwir
- 6m3inW1blB3OLaiNcVX+yM4nC060iHTpVBvpkw8sY22vC89HyY66V76oQHEY8tViQS0wkxwnTJX
- U/0xVuGEd2md0FNQDNA==
+X-Proofpoint-ORIG-GUID: t4i2Zo3w9nsKCFjyGniQlXzYvemhYqF4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA0NSBTYWx0ZWRfX6iM/Si/0g1Yd
+ gLsFIPNM2lqfimQSmFU96KK+OsQcNJ7WZteDJPSHJnu5nnMkxvUy54xv8nUtuisFID2liF2BJPq
+ LE72TkogKVPJalvCZJPJwWZG1riIZ9Sef11UqTiNIJn/ul6y2aMKB/hTP9ujq3JDKlJgINxH1uK
+ bCwFZQenHWUm0xzfrgq8lfcBt8BuWMAvVAss6OMryVJtMS2xxMZjZJoFFuYSJMA65xpNt8LzxKX
+ Yj+CtysiCSrOSXB3GbGCNJDN+0IV8Bh4OetRO0PZwsAJYqc2nZX+09ZQeHi4lL9YHEfT8y93ixB
+ ORMtkgzGFS2Vwktc+3a/JYFsU2LxyGf6gUsPYXPllwC9IGRtVOm0NwhZxuuTS4uA7qCo3eEBLnc
+ 84isB9Vs7wpRTSyUD1YhsN/fETFPqUkOR7HR/BrCMqh5YJjCnL380WGvQOck+CWaO9fO+CgIV3W
+ ZzCQsImor5k0nZq0XgQ==
+X-Proofpoint-GUID: t4i2Zo3w9nsKCFjyGniQlXzYvemhYqF4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-17_01,2026-03-16_06,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 spamscore=0 clxscore=1015 bulkscore=0 impostorscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603170044
+ impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603170045
 
 
 
-On 3/10/2026 3:25 PM, Krzysztof Kozlowski wrote:
-> On Mon, Mar 09, 2026 at 04:42:57PM +0530, Mohammad Rafi Shaik wrote:
->> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
->> describe Digital Audio Interface (DAI) child nodes.
+On 3/10/2026 5:14 PM, Neil Armstrong wrote:
+> Hi,
+> 
+> On 3/9/26 12:13, Mohammad Rafi Shaik wrote:
+>> The sc8280xp machine driver is currently written with a largely
+>> SoC-centric view and assumes a uniform audio topology across all boards.
+>> In practice, multiple products based on the same SoC use different board
+>> designs and external audio components, which require board-specific
+>> configuration to function correctly.
 >>
->> Add #address-cells and #size-cells to allow representation of multiple
->> DAI instances as child nodes, and define a dai@<id> pattern to document
->> per-DAI properties such as the interface ID and associated clocks.
+>> Several Qualcomm platforms like talos integrate third-party audio codecs
+>> or use different external audio paths. These designs often require
+>> additional configuration such as explicit MI2S MCLK settings for audio
+>> to work.
 >>
->> Qualcomm platforms like talos integrate third-party audio codecs or use
->> different external audio paths. These designs often require additional
->> configuration such as explicit MI2S MCLK settings for audio to work.
+>> This change enhances the sc8280xp machine driver to support board- 
+>> specific
+>> configuration such as allowing each board variant to provide its own DAPM
+>> widgets and routes, reflecting the actual audio components and connectors
+>> present and enabling MI2S MCLK programming for boards that use external
+>> codecs requiring a stable master clock.
 >>
->> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 >> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 >> ---
->>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 41 ++++++++++++++++++-
->>   1 file changed, 40 insertions(+), 1 deletion(-)
+>>   sound/soc/qcom/sc8280xp.c | 180 ++++++++++++++++++++++++++++++++++----
+>>   1 file changed, 162 insertions(+), 18 deletions(-)
 >>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
->> index 2fb95544d..1d770cbcb 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
->> @@ -21,6 +21,34 @@ properties:
->>     '#sound-dai-cells':
->>       const: 1
->>   
->> +  '#address-cells':
->> +    const: 1
->> +
->> +  '#size-cells':
->> +    const: 0
->> +
->> +# Digital Audio Interfaces
->> +patternProperties:
->> +  '^dai@[0-9]+$':
->> +    type: object
->> +    description:
->> +      Q6DSP Digital Audio Interfaces.
->> +
->> +    properties:
->> +      reg:
->> +        description:
->> +          Digital Audio Interface ID
->> +
->> +      clocks:
->> +        minItems: 1
->> +        maxItems: 3
->> +
->> +      clock-names:
->> +        minItems: 1
->> +        maxItems: 3
+>> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+>> index 7925aa3f6..c2e9323df 100644
+>> --- a/sound/soc/qcom/sc8280xp.c
+>> +++ b/sound/soc/qcom/sc8280xp.c
+>> @@ -12,17 +12,62 @@
+>>   #include <sound/jack.h>
+>>   #include <linux/input-event-codes.h>
+>>   #include "qdsp6/q6afe.h"
+>> +#include "qdsp6/q6apm.h"
+>> +#include "qdsp6/q6prm.h"
+>>   #include "common.h"
+>>   #include "sdw.h"
+>> +#define MCLK_FREQ        12288000
+>> +#define MCLK_NATIVE_FREQ    11289600
 > 
-> No, this is just way too generic. There is no such syntax in the kernel
-> and this should stop you right there. You are not allowed to add your
-> own style.
-> 
-> I don't think DAI is here a separate device needing its own resources
-> expressed in DT. This is still part of ADSP so you just described in DT
-> internal routing between two services on ADSP.
+> Where does thos values come from ?
 > 
 
-Thanks for reviewing.
+Thanks for the review,
 
-I’d like to clarify that this is not intended to model the DAI as a 
-separate physical device or to describe internal ADSP routing.
+These MCLK rates are default settings in Qualcomm platforms.
+so hard codec thes rates
 
-Requirement is to allow the kernel to send clock‑voting requests to the 
-ADSP. LPASS MCLK routing is not enabled by default on the ADSP, so the 
-kernel must explicitly request the ADSP to enable the relevant LPASS 
-MCLKs, which is a real hardware control requirement.
-
-These clocks are LPASS‑owned, and driving them via a third‑party codec 
-is not appropriate. The intent of adding clock capabilities at the DAI 
-level is to allow the kernel to associate LPASS clock votes with a 
-specific DAI instance during stream activity.
-
-While the DAI itself is not a physical device, some DT representation is 
-required to describe per‑DAI LPASS clock requirements.
-
-I’m open to considering alternative representations, but removing this 
-entirely would leave no generic way for the kernel to handle correct 
-LPASS MCLK voting.
-
->> +
->> +    additionalProperties: false
->> +
->>   required:
->>     - compatible
->>     - '#sound-dai-cells'
->> @@ -29,7 +57,18 @@ unevaluatedProperties: false
->>   
->>   examples:
->>     - |
->> -    dais {
+> MCLK_FREQ        12288000 == 48000 * 256
+> MCLK_NATIVE_FREQ    11289600 == 44100 * 256
 > 
-> Why?
+> This is highly specific to a board, the sdm845.c uses:
+> 
+> #define DEFAULT_MCLK_RATE    24576000 == 48000 * 2 * 256
+> #define MI2S_BCLK_RATE        1536000 == 48000 * 2 * 16
+> 
+> And those are the values we use to output sound on HDMI on all HDK and 
+> Dragonboards.
+> 
+> I guess this should be configurable somewhere !
 > 
 
-I renamed the example node to bedais to mirror the node naming used in 
-Actual DT (q6apmbedai: bedais { ... }).
-
-However, I understand the binding does not require any specific node 
-name; only the compatible and required properties/child nodes matter.
-
-The rename was done purely to align the actual DT node naming used in 
-practice and improve cross-referencing clarity.
-
->> +    #include <dt-bindings/sound/qcom,q6afe.h>
->> +
->> +    bedais {
->>           compatible = "qcom,q6apm-lpass-dais";
->>           #sound-dai-cells = <1>;
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        dai@16 {
->> +           reg = <PRIMARY_MI2S_RX>;
->> +           clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1
->> +                              LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-> 
-> So one entry, not three.
-> 
-
-ACK,
-
-I will add three clock entries for better clarity.
-
+Thanks for the detailed rate calculations. I’ll consider the suggestions 
+above and work toward a more generic and flexible approach for 
+configuring clock rates.
 
 Best Regards,
-Rafi.
+Rafi
 
->> +           clock-names = "mclk";
->> +        };
->>       };
->> -- 
->> 2.34.1
->>
+>> +
+>> +static struct snd_soc_dapm_widget sc8280xp_dapm_widgets[] = {
+>> +    SND_SOC_DAPM_HP("Headphone Jack", NULL),
+>> +    SND_SOC_DAPM_MIC("Mic Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP0 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP1 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP2 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP3 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP4 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP5 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP6 Jack", NULL),
+>> +    SND_SOC_DAPM_SPK("DP7 Jack", NULL),
+>> +};
+>> +
+>> +struct snd_soc_common {
+>> +    char *driver_name;
+>> +    const struct snd_soc_dapm_widget *dapm_widgets;
+>> +    int num_dapm_widgets;
+>> +    const struct snd_soc_dapm_route *dapm_routes;
+>> +    int num_dapm_routes;
+>> +    bool mi2s_mclk_enable;
+>> +};
+>> +
+>>   struct sc8280xp_snd_data {
+>>       bool stream_prepared[AFE_PORT_MAX];
+>>       struct snd_soc_card *card;
+>>       struct snd_soc_jack jack;
+>>       struct snd_soc_jack dp_jack[8];
+>> +    struct snd_soc_common *snd_soc_common_priv;
+>>       bool jack_setup;
+>>   };
+>> +static inline int sc8280xp_get_mclk_feq(unsigned int rate)
+> 
+>                  _freq
+> 
+>> +{
+>> +    int freq = MCLK_FREQ;
+>> +
+>> +    switch (rate) {
+>> +    case SNDRV_PCM_RATE_11025:
+>> +    case SNDRV_PCM_RATE_44100:
+>> +    case SNDRV_PCM_RATE_88200:
+>> +        freq = MCLK_NATIVE_FREQ;
+>> +        break;
+>> +    default:
+>> +        break;
+>> +    }
+>> +
+>> +    return freq;
+>> +}
+>> +
+>>   static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+>>   {
+>>       struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd- 
+>> >card);
+>> @@ -32,10 +77,6 @@ static int sc8280xp_snd_init(struct 
+>> snd_soc_pcm_runtime *rtd)
+>>       int dp_pcm_id = 0;
+>>       switch (cpu_dai->id) {
+>> -    case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
+>> -    case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
+>> -        snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
+>> -        break;
+>>       case WSA_CODEC_DMA_RX_0:
+>>       case WSA_CODEC_DMA_RX_1:
+>>           /*
+>> @@ -96,6 +137,31 @@ static int sc8280xp_be_hw_params_fixup(struct 
+>> snd_soc_pcm_runtime *rtd,
+>>       return 0;
+>>   }
+>> +static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+>> +                  struct snd_pcm_hw_params *params)
+>> +{
+>> +    struct snd_soc_pcm_runtime *rtd = 
+>> snd_soc_substream_to_rtd(substream);
+>> +    struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>> +    struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd- 
+>> >card);
+>> +    int mclk_freq = sc8280xp_get_mclk_feq(params_rate(params));
+>> +
+>> +    switch (cpu_dai->id) {
+>> +    case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
+>> +    case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
+>> +        snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
+>> +
+>> +        if (data->snd_soc_common_priv->mi2s_mclk_enable)
+>> +            snd_soc_dai_set_sysclk(cpu_dai,
+>> +                           LPAIF_MI2S_MCLK, mclk_freq,
+>> +                           SND_SOC_CLOCK_IN);
+>> +        break;
+>> +    default:
+>> +        break;
+>> +    };
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static int sc8280xp_snd_prepare(struct snd_pcm_substream *substream)
+>>   {
+>>       struct snd_soc_pcm_runtime *rtd = 
+>> snd_soc_substream_to_rtd(substream);
+>> @@ -117,6 +183,7 @@ static int sc8280xp_snd_hw_free(struct 
+>> snd_pcm_substream *substream)
+>>   static const struct snd_soc_ops sc8280xp_be_ops = {
+>>       .startup = qcom_snd_sdw_startup,
+>>       .shutdown = qcom_snd_sdw_shutdown,
+>> +    .hw_params = sc8280xp_snd_hw_params,
+>>       .hw_free = sc8280xp_snd_hw_free,
+>>       .prepare = sc8280xp_snd_prepare,
+>>   };
+>> @@ -145,37 +212,114 @@ static int sc8280xp_platform_probe(struct 
+>> platform_device *pdev)
+>>       card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
+>>       if (!card)
+>>           return -ENOMEM;
+>> -    card->owner = THIS_MODULE;
+>> +
+>>       /* Allocate the private data */
+>>       data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+>>       if (!data)
+>>           return -ENOMEM;
+>> +    data->snd_soc_common_priv = (struct snd_soc_common 
+>> *)of_device_get_match_data(dev);
+>> +    if (!data->snd_soc_common_priv)
+>> +        return -ENOMEM;
+>> +
+>> +    card->owner = THIS_MODULE;
+>>       card->dev = dev;
+>>       dev_set_drvdata(dev, card);
+>>       snd_soc_card_set_drvdata(card, data);
+>> +    card->dapm_widgets = data->snd_soc_common_priv->dapm_widgets;
+>> +    card->num_dapm_widgets = data->snd_soc_common_priv- 
+>> >num_dapm_widgets;
+>> +    card->dapm_routes = data->snd_soc_common_priv->dapm_routes;
+>> +    card->num_dapm_routes = data->snd_soc_common_priv->num_dapm_routes;
+>> +
+>>       ret = qcom_snd_parse_of(card);
+>>       if (ret)
+>>           return ret;
+>> -    card->driver_name = of_device_get_match_data(dev);
+>> +    card->driver_name = data->snd_soc_common_priv->driver_name;
+>>       sc8280xp_add_be_ops(card);
+>>       return devm_snd_soc_register_card(dev, card);
+>>   }
+>> +static struct snd_soc_common kaanapali_priv_data = {
+>> +    .driver_name = "kaanapali",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common qcs9100_priv_data = {
+>> +    .driver_name = "sa8775p",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common qcs615_priv_data = {
+>> +    .driver_name = "qcs615",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +    .mi2s_mclk_enable = true,
+>> +};
+>> +
+>> +static struct snd_soc_common qcm6490_priv_data = {
+>> +    .driver_name = "qcm6490",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common qcs6490_priv_data = {
+>> +    .driver_name = "qcs6490",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common qcs8275_priv_data = {
+>> +    .driver_name = "qcs8300",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common sc8280xp_priv_data = {
+>> +    .driver_name = "sc8280xp",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common sm8450_priv_data = {
+>> +    .driver_name = "sm8450",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common sm8550_priv_data = {
+>> +    .driver_name = "sm8550",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common sm8650_priv_data = {
+>> +    .driver_name = "sm8650",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>> +static struct snd_soc_common sm8750_priv_data = {
+>> +    .driver_name = "sm8750",
+>> +    .dapm_widgets = sc8280xp_dapm_widgets,
+>> +    .num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>> +};
+>> +
+>>   static const struct of_device_id snd_sc8280xp_dt_match[] = {
+>> -    {.compatible = "qcom,kaanapali-sndcard", "kaanapali"},
+>> -    {.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
+>> -    {.compatible = "qcom,qcs615-sndcard", "qcs615"},
+>> -    {.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
+>> -    {.compatible = "qcom,qcs8275-sndcard", "qcs8300"},
+>> -    {.compatible = "qcom,qcs9075-sndcard", "sa8775p"},
+>> -    {.compatible = "qcom,qcs9100-sndcard", "sa8775p"},
+>> -    {.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
+>> -    {.compatible = "qcom,sm8450-sndcard", "sm8450"},
+>> -    {.compatible = "qcom,sm8550-sndcard", "sm8550"},
+>> -    {.compatible = "qcom,sm8650-sndcard", "sm8650"},
+>> -    {.compatible = "qcom,sm8750-sndcard", "sm8750"},
+>> +    {.compatible = "qcom,kaanapali-sndcard", .data = 
+>> &kaanapali_priv_data},
+>> +    {.compatible = "qcom,qcm6490-idp-sndcard", .data = 
+>> &qcm6490_priv_data},
+>> +    {.compatible = "qcom,qcs615-sndcard", .data = &qcs615_priv_data},
+>> +    {.compatible = "qcom,qcs6490-rb3gen2-sndcard", .data = 
+>> &qcs6490_priv_data},
+>> +    {.compatible = "qcom,qcs8275-sndcard", .data = &qcs8275_priv_data},
+>> +    {.compatible = "qcom,qcs9075-sndcard", .data = &qcs9100_priv_data},
+>> +    {.compatible = "qcom,qcs9100-sndcard", .data = &qcs9100_priv_data},
+>> +    {.compatible = "qcom,sc8280xp-sndcard", .data = 
+>> &sc8280xp_priv_data},
+>> +    {.compatible = "qcom,sm8450-sndcard", .data = &sm8450_priv_data},
+>> +    {.compatible = "qcom,sm8550-sndcard", .data = &sm8550_priv_data},
+>> +    {.compatible = "qcom,sm8650-sndcard", .data = &sm8650_priv_data},
+>> +    {.compatible = "qcom,sm8750-sndcard", .data = &sm8750_priv_data},
+>>       {}
+>>   };
+> 
 
