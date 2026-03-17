@@ -1,79 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA193346763;
-	Tue, 17 Mar 2026 09:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA6A358394;
+	Tue, 17 Mar 2026 09:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773738466; cv=none; b=iQ+400AvAsxW2kD10K/mwpFvKmfqRrKFfbk3URfkaVU7j08apA6moxB3ZnEf6c9RpVO3M3VFvaleCnxEAbzn1eL9c+SaNQChR909b7P41jGlzuFV8yv9yNmMP3DG0wupZirgUKe2WtK2T1VZWzeEJjom7Cr9IsP3jqHHrUgQlvc=
+	t=1773738704; cv=none; b=OXQOVzhWEdLG9U5mKOJTF28LmSdzX5SA/oviHwz8mYWcrwIf910EiHTUO5EZ2BI4StHUlb+3FvJa0yet8TwpBQVNLOUIRy01kJi8DdP3dEVZ+9cQiv4BMzH52w6N6JWIdtyszoEF0KBA10kGirGK+tQbhdri68DlfFpcCvnQLWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773738466; c=relaxed/simple;
-	bh=ZrKKE8ny7s5IpYiTG6uvqZyrDNosiYUjWstBwT2fgd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTylScv++DcFLynCltMZFPR4xJvLN1+4niBnCpGDHuFEDuYCI1gfCDPhj6VPMPPApSZVEAj+ACOaRlF1wbkNXQpx8faydmEM2OMluTgyy7oNHAVgCeYnqyFazevPxn7H6zB8yoVBgVpoKaujgsDd+KG5OgohNuLnkBkckJXuPdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ndPpBm00; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773738704; c=relaxed/simple;
+	bh=9zNCeRL4GHsn8w3mMwSC4KppE3LMlMGCnO3EZnFdpJA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FFehwM6xWHlTkMg+LJmJywu1zFkfUOGfWPAHWC4glfZAI0NrEOsBEUk5X1OmkzGfRFgh5B2vJe8IjCay0InidXUPs+pS6EagnNlL5suSDhNUUqfyF2vhJOce+OlG1ni0lP9WIhA8Tr3raRuaf9NZQr8++rLVV+26hnOENZslkrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etWGX5ji; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ndPpBm00"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4788EC4CEF7;
-	Tue, 17 Mar 2026 09:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773738466;
-	bh=ZrKKE8ny7s5IpYiTG6uvqZyrDNosiYUjWstBwT2fgd4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ndPpBm00/1/NTma8rKwc9SM+YUkIDM0gVjUwn4PhvzD64ijd6S+3FlDMvccFEaGsd
-	 wPVJkOxEaZGVGAslWLDul+t387VwYV4TMxw1IUnTv9wN2LdTNrt9df+llf0Sm14dSD
-	 7heb3H/0QH3ZjEdlPFaIPKHnoEdkhZgT31fVlZoc=
-Date: Tue, 17 Mar 2026 10:07:41 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, konradybcio@kernel.org,
-	andersson@kernel.org, linux-kernel@vger.kernel.org,
-	Alex Elder <elder@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Mark Brown <broonie@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] Use the QMI service IDs from the QMI header
-Message-ID: <2026031717-ethanol-zoning-80b5@gregkh>
-References: <20260316171419.2619620-1-daniel.lezcano@oss.qualcomm.com>
- <20260316172251.2d57d0aa@kernel.org>
- <8757aec7-8c36-446a-9a34-f0717f64202a@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etWGX5ji"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773738703; x=1805274703;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=9zNCeRL4GHsn8w3mMwSC4KppE3LMlMGCnO3EZnFdpJA=;
+  b=etWGX5jiqeyDznvgB0hZ7GpBa7fBNqBD6sJWONLlIMJGSgsD9FahlH5n
+   M/Rmx+XnQfc3ViS80xQg9yNMvXGbtt17vwovR18cKboai5QixR+sdq3ST
+   WatspBHlikl+Ce8AbsAD1d6tgCgIJomOL+GYEbsUeGiDoiFdLG+P1DWsQ
+   OkoPpIxH7eigYeMOE3p+4KI6gnBlRLMvU00D1+9vh6tWj1sCR9K7oMZBW
+   vvXrYC10CSYRQtLejNL8hRd/XoM2jmeSUPvxJeILutYkkqz4RZKXp+0IN
+   GTcSn7B6BMO0ueq4N+GRlE974gD6f1AQIa/01mFRQUwn/3mk3R+YTMW5p
+   g==;
+X-CSE-ConnectionGUID: aelSSArtTRGPzRccYlVHdQ==
+X-CSE-MsgGUID: Jqy08LbaQkGEc4ta/0G4yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="77375058"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="77375058"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:11:42 -0700
+X-CSE-ConnectionGUID: MbmakDKiS7ahMLDOA3G1Ew==
+X-CSE-MsgGUID: PdcyZTnyQ2OAOcRNOH1h6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="252696645"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.84]) ([10.245.245.84])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:11:40 -0700
+Message-ID: <52c48bf9-7fee-4c87-bf06-a9a7ebc8536f@linux.intel.com>
+Date: Tue, 17 Mar 2026 11:11:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8757aec7-8c36-446a-9a34-f0717f64202a@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: cs42l43-jack: Remove manual pm_runtime get/put from
+ tip_sense_work
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, david.rhodes@cirrus.com,
+ rf@opensource.cirrus.com, linux-sound@vger.kernel.org, stable@vger.kernel.org
+References: <20260316124924.31047-1-peter.ujfalusi@linux.intel.com>
+ <abgTWxI1Q9M1o+ka@opensource.cirrus.com>
+ <d5353ee4-1a3f-43a6-93ed-5127d666ad0b@linux.intel.com>
+ <abgyboHV1jaWDUul@opensource.cirrus.com>
+ <f461ba8a-4208-4dfa-aa70-e2c85ec2050a@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <f461ba8a-4208-4dfa-aa70-e2c85ec2050a@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 17, 2026 at 09:51:32AM +0100, Daniel Lezcano wrote:
-> On 3/17/26 01:22, Jakub Kicinski wrote:
-> > On Mon, 16 Mar 2026 18:14:10 +0100 Daniel Lezcano wrote:
-> > > This series is based on the immutable branch [1] containing the QMI
-> > > service id definitions along with some drivers using them.
-> > > 
-> > > How a patch can be merged ?
-> > 
-> > Wait for the dependency to appear in respective trees after the merge
-> > window then repost the patches individually. I'm starting to get
-> > annoyed with all this cross-tree QMI/MHI noise.
+
+
+On 17/03/2026 08:21, Péter Ujfalusi wrote:
+>> Fundamentally reseting a device right before checking what state
+>> it was in is always going to be hard, so would be awesome if you
+>> could have a look at how much of a problem removing that bus
+>> reset would be.
 > 
-> An ack is simpler for everyone, especially when they are trivial
+> I'm still not sure if I get the whole picture, but by the hints it looks
+> like that on systems with cs42l43 we cannot suspend the DSP since the
+> codec cannot be suspended?
+> What is the difference between detecting the jack insert compared to
+> detecting the jack removal and/or the HS button detection?
+> Under the hood it is the same soundwire wake event then do what needs to
+> be done to read the cause of the event, right?
+> So, why it is OK to suspend the DSP when the jack is not inserted and it
+> is not OK if it is inserted?
 
-Why isn't this 4 different patches, all for different branches/trees as
-there does not seem to be any dependencies here?
+Using UI shows what you might be referring to.
+with the codec powered on and pressing the button:
+snd_soc_cs42l43:cs42l43_button_press: cs42l43-codec cs42l43-codec:
+Detected button 0 at 8 Ohms
+...
+snd_soc_cs42l43:cs42l43_button_release: cs42l43-codec cs42l43-codec:
+Button release IRQ
 
-confused,
+when the codec and DSP suspends when audio is idle:
+snd_soc_cs42l43:cs42l43_stop_button_detect: cs42l43-codec cs42l43-codec:
+Stop button detect
+...
+snd_soc_cs42l43:cs42l43_start_button_detect: cs42l43-codec
+cs42l43-codec: Start button detect
+...
+snd_soc_cs42l43:cs42l43_button_press: cs42l43-codec cs42l43-codec:
+Button ignored due to bias sense
+...
+snd_soc_cs42l43:cs42l43_button_release: cs42l43-codec cs42l43-codec:
+Button release IRQ
 
-greg k-h
+and the first button press is ignored  - which wakes the DSP, soundwire
+and codec up
+
+So yes, there seams to be an issue with the headset button handling here.
+
+> 
+>>> Even then there is the issue of unbalance in runtime get on module
+>>> removal when the jack is connected...
+>>
+>> Yeah that is a good spot, if we stick with the current code I
+>> will get that fixed up.
+>>
+>> Thanks,
+>> Charles
+> 
+
+-- 
+Péter
+
