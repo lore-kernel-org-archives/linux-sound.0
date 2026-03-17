@@ -1,101 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEF33F788D;
-	Tue, 17 Mar 2026 17:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC4C346797
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 17:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767316; cv=none; b=Y9t8YrURhbH3Akge8lkFhtRuGYw8zAPpHhB8+izTMCdYuhL7sL9+SdlOAiKMhvwF3javkkQy4rn74YolbIpP4BHMim4FuHr2+gDHtF6+dLKi7hgrM1HGPOwxu2KjxN1PwmW7Knj0PqXDSW/9aeaI1HQsp3+5j0oUI55zxwLF3bk=
+	t=1773768138; cv=none; b=GU+t91ez1+JC0yu/EaCyLEPfMqYbHH3yB2aCxS6mz26tN7fCtDXxtrctYEkZh1KLVdR7qTMYZ0wNlnz9TKdnO4ViUFfx7EBEaOFsZbTLmDVOnMwwqlhsQPjVsduPWgf1Jd7gDQU2fAA420F+RF/eFfsEjcrci1T8ymMFnViuF9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767316; c=relaxed/simple;
-	bh=OYKACKHn9r18VVAQQYO3XCrcZvWsa6eEUXZQRmgI5C0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Uq2Ajne27mpZJTgOdiNP9W692kQJS9B5ygXhMb+dKshmYyMG72KyKZeGMEHH0QI/c4uDGeZQAVU3QvZZrHLPsWl/aNVZ5FEtGuY96XmN67fIKj35LvbcRHFwqpJR8ZnpMExBks6FfSU0fSsbr/i5IVeX24DUZJL/BjIShbPhxL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rhvZZBY2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773768138; c=relaxed/simple;
+	bh=iY/ms5fgpsXkVpoSgZDHvYfJ7W0iaIau/itMj6PGUSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sCxQw/tmyGpFBH5wy+GOmht+W0hBSQR1MQhQxGyeQ2weBehWH1J1pJeG6C+1bkuUyxZ1ssUobWGLF69DNWoBzD4/UeerjezoFoKLVSZXXdGSpIsVNlestlaUQBfn+YYRMZd8PXAC3YxPJjGATWgUiFAPbgOIujNEswFT6W4HNhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMRccKeM; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rhvZZBY2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FE03C2BCAF;
-	Tue, 17 Mar 2026 17:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773767316;
-	bh=OYKACKHn9r18VVAQQYO3XCrcZvWsa6eEUXZQRmgI5C0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rhvZZBY2U1mkFiKJSa826Kc7/gzYFZ5jEiwCXQnVS1v18/CpcQgiD8yLe10ccgZw6
-	 rJlFDbVK80uWDDmJujHFEyNr8h5sdpMmPsbx4bou7op6cEftrXfe2aI14MyVyefzlt
-	 hFlf0rFejR8e6OWjf1GEuAHpNP9Vkt9oxLGV3CWZ4Ox1fhf6QZpHKjY2lkwXFSDtlG
-	 t4ibFiC8FcvggvF2ld1UFYcQravWyOc2zuLlTAL29stP+rNb1HGzHLtW2Kl3u6YzVX
-	 jAaeF21hSn+OaQVE9dlnA3dfV1u0xT7/sLjg3EVyKaue5fLzuKpTEw9BbZZ4iRLGI8
-	 SEbfKRPG6l8Xw==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Alexey Charkov <alchark@gmail.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- kernel@collabora.com
-In-Reply-To: <20260316-rk3576-spdif-v1-0-acb75088b560@collabora.com>
-References: <20260316-rk3576-spdif-v1-0-acb75088b560@collabora.com>
-Subject: Re: (subset) [PATCH 0/2] Add SPDIF support to RK3576
-Message-Id: <177375071091.66172.9619091096870411031.b4-ty@kernel.org>
-Date: Tue, 17 Mar 2026 12:31:50 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMRccKeM"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82a646c96bdso470545b3a.2
+        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 10:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773768136; x=1774372936; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iY/ms5fgpsXkVpoSgZDHvYfJ7W0iaIau/itMj6PGUSI=;
+        b=PMRccKeMP6SHpO8bK2lI8GEbp5s/95Ept50Od1ulLF+Ot8Y5M7l/KES2yA1/PfhyMb
+         Hd5hukL+lI5NEjE370QCSvwKtut15cDDSZ8iRA4xmnIoFbx/Vg1t0426lvKWaNOAPv1C
+         KitGxeVrRpW5olbRUj5f1CZ34jQxhALWK+M8JViUsdxoMEifQPI1IZ/eM+fBI403UzhE
+         gZ4pWcD6F8t7+OY7RdbqAt0tiXILUgOiJVDFimd6tAL1O2uq2cH5CTU8DxrmLMQ5Xu4/
+         hjlExcPy5AHqis6xaGH/5yoVwXxASugE4yIJnsVzbJhmECYFBc4JzPvsroYB2TA9592T
+         FbAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773768136; x=1774372936;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iY/ms5fgpsXkVpoSgZDHvYfJ7W0iaIau/itMj6PGUSI=;
+        b=MLW+wdK4lt7ULgsXRS/2qFlNEV1fSRrOwoQW69QwD0Z5BgOvTaAdGqQdCMsy7kHE4E
+         DfahFVxTVQ+YNdtL2dJck7KIDEZGl1PXWbvv+zYz5GH8PsTyBVJsWM8ry9u23szB3RsW
+         f8VDrwY6A66bHQc96/iyWfC2xtgIl/qUG8oLI966eaeEGAOjTLOS3hUqkArHq437+bg7
+         zI6ZLQWSv/cRXj6rwIDOhPH2oSpkkoc2H2cGSaTdNwsFcHwwLGd53NCksHBIhGDnzz/h
+         M8cDEkQ2vN6wTvUDwm9E83haaeTMMwdFNks78dsDpPpyBLmH1MEqvZ++kmqZZbX8nBWG
+         3KUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUooitd1cVJYcbINAq3MZ9NuHhgepX0zhvBIbJyKrnnoP4n8j1Frpy5Um+C5TNvh1Sp3vCByhv/cfYpvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRnX7wQss1w+ObgwYAeW6t1HIFljUY+Z4PBa0Vp/XCX+N9N2c9
+	RL1MGloX7ANfFOm5AKbBCtsgvAJLoWvnHq0lpyYMh+WgXio5cSPej5wE
+X-Gm-Gg: ATEYQzxFStw+sy4vnAZcRcHJMeMtMHXWEQoCetDbpShklfOIjx1h79W2vmumvLkiuf/
+	goW4tXEXFfjuha72Px2XyJE1xTpPn0X1ZQkDY7xmlKadM1RTyDkX3hWNlWbWGkbGCYkAFExtyWJ
+	xf+Vs9BQPPygTLYeSWyqcHp0HzhMFowTonpfQQ5Fu24QvIMk48ThHGhd8KYOSlSQX1gAka3g8Ml
+	IMRIO57CX+hRcmW33JAM2allugx6YQejuMbIRMunzEhb2IDQPBa6J8js9Xpil7E4fNy0KgeqSO/
+	Kj5o3HF1vYxaZNuJfUtVMEK4mpWdxNUgQdLvNuMJB9/B0gsap7L88jzY2u2QzHLgX3mdIr9RjzT
+	2g3juutJ/N5Wvz7qlQxK+6S0RVfm4ehjq4SOkQAdOZTbSiOk4xebmUEqq8c3mUJ37TdPMlau3RY
+	vlowg1B0gaG19ZQA==
+X-Received: by 2002:a05:6a00:9099:b0:829:9527:e16d with SMTP id d2e1a72fcca58-82a6ac7ae9amr153182b3a.8.1773768136431;
+        Tue, 17 Mar 2026 10:22:16 -0700 (PDT)
+Received: from px13 ([218.155.71.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6b532155sm43805b3a.7.2026.03.17.10.22.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 10:22:16 -0700 (PDT)
+From: Hasun Park <hasunpark@gmail.com>
+To: vijendar.mukunda@amd.com
+Cc: Richard.Gong@amd.com,
+	Sunil-kumar.Dommati@amd.com,
+	broonie@kernel.org,
+	hasunpark@gmail.com,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	mario.limonciello@amd.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	venkataprasad.potturu@amd.com
+Subject: Re: [PATCH 3/3] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy SDW machine
+Date: Wed, 18 Mar 2026 02:22:09 +0900
+Message-ID: <20260317172209.16128-1-hasunpark@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <7850d480-a1c2-4b18-8d40-883064d75ad9@amd.com>
+References: <7850d480-a1c2-4b18-8d40-883064d75ad9@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-e1b5b
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1335; i=broonie@kernel.org;
- h=from:subject:message-id; bh=OYKACKHn9r18VVAQQYO3XCrcZvWsa6eEUXZQRmgI5C0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpuYqQC0mSRbvylEYD8XOwmbfCGbStTFm5gcpB+
- WMc5ukRc5qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabmKkAAKCRAk1otyXVSH
- 0HgGB/0VtBFyeChYr02uBJH0w2HPP0KbeANerijwZkJYYAa7H7iiNfnxSOqKy32XDMYLLMFSmSh
- 9ANd6QWMUNAiM7awG7MWSMr7aUaKM0PFWlO5Guw0Z+m36wqmLuwC+f1/shA71QEKh7FDbSyXzQp
- pQGlcivQjzR0cVYGA5L0HU4fhmgMRj59s1NtA3ja6USpSwAot4tO3GKBHwIQWTz+lq2TJYwsCve
- jtLg+2dVCHiEN5CE5XaqrL5eTjNoWggtsg/z/Nf66rK2mCtFO01gBPtiAMbJpZ6Y/wiJk9j2zYl
- C3Ig1w9XCfUVoeQXyVHXKRtCjgSJvaVaJ/DUZ4PseKCiZuXw
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Mon, 16 Mar 2026 19:22:59 +0100, Sebastian Reichel wrote:
-> Add SPDIF support to RK3576
-> 
-> Add SPDIF support on RK3576 in preparation for Displayport audio
-> support. My expectation is that Mark picks up the DT binding via
-> his audio tree and Heiko picks up the DTS via the Rockchip tree.
-> 
-> 
-> [...]
+Sorry I'm late. I was just about to start working on your request.
+Is there anything else you need me to check? Let me know if there's anything else.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
-
-Thanks!
-
-[1/2] dt-bindings: ASoC: rockchip: Add compatible for RK3576 SPDIF
-      https://git.kernel.org/broonie/sound/c/4eae391a8e4c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best Regards.
