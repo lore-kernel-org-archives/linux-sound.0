@@ -1,48 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9201AB6F1;
-	Tue, 17 Mar 2026 06:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6AC36212C;
+	Tue, 17 Mar 2026 07:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773728459; cv=none; b=EsPXCxyYmeZ+IIhwYXSuoVzOcA59LGR+Jf7jTv94TPenjJPPzsqp5IiRfA1sFbsOD7HaAJKVI1iu+sZsgj59kURdVgPrXaYCN3PSlT2CbPwgXATMmgpY5czOg57JQ4FQB0AfYFeZBts/hjrgelYcvpkwEXcL1GXD6IKcrIiexSU=
+	t=1773731217; cv=none; b=OT6xE/m3n4RCav59XWMKQwD7exoHBRIleiFacXwOeAgH+mJg2shX90dFg6yIPJca8fWlrfhwFKYy/B5NNokdATA+ytIQflAECSjnxxMD4veSaSKN/Ovi4DFGTz4Es5cnzj1z+18Vh9MPoF7BvS1fT6F44Vqs7MI5cCBH0iFO7S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773728459; c=relaxed/simple;
-	bh=q+j0EbMadPH45t5+VTGG6ns6hRrs1mCvuIV3+4vfP9g=;
+	s=arc-20240116; t=1773731217; c=relaxed/simple;
+	bh=ncD+ciZETahyIEvstNidIoTH3GDfOd1p/Fa1wNYVrrM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PJnjEpXvCIL77j0KFv+4TPYGy7/KbmWRoMFoUca1BT+NwFJ+wnjVibKiD4d8utpljYrG5fTZ0BI04q78Bt9HL2V2oi53dFioFcKtvhG0L7oG1/drOsEYoxGY5aFLCJL6NAcdyxTOtpiYkW0PV6WsI0k716JYpWEd22Gt1ISSHDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kK2ApgL/; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=sDqNwsCTl+UIIv/vPcoW9ALaBEXUHzKl5yJ5C6TVuwkFzg262SjsV1WaIB3TcfOzb5nzLpAMgEq4slYUvOFM/17umLliMQdYajZ/qifvAPJ5LjayBisPWUcTN1MIRvlb4q8Xp1SwC2rFEpY6uxPuwBEV2PCh5i+ce7Me2hjxjXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+Oafkfb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kK2ApgL/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773728457; x=1805264457;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=q+j0EbMadPH45t5+VTGG6ns6hRrs1mCvuIV3+4vfP9g=;
-  b=kK2ApgL/SqYInNyglq4BCFr7pOlzWLGBUv9InV3TAAxRR5xzcCCaCM6F
-   gcYbs/EkPNxDUMOHRrKoQ02pkCwt317QzviY6PfcmKDI2qb1vua8zl4tj
-   bQAphAgzzgjCFPR9O3kb8l53ixDxQl7EWwxK7VweN0r80ztcDu0qZkGGA
-   HHEkCA0ly7wsRP5TLD/qkbbVzck3tlZPe2J+doCUBJz3iWQNiJjwLA7Sc
-   JIiUuRO5hEtx5U6ycmczlOGMN0U27GBX3OS+tgBuCD3wvgnaO8fSZ6fm5
-   cYSZhDW4zmhcBzgRCcOwTUX+Iqr/EFnjppRqcKclEMMqeoxMehg9XNrVe
-   Q==;
-X-CSE-ConnectionGUID: sSZAT0a3Q3ySVIJrUpRBUQ==
-X-CSE-MsgGUID: QQwOi3JxSBOznvxUb9GqKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="85380028"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85380028"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 23:20:57 -0700
-X-CSE-ConnectionGUID: aY/zPPtoQfKmFesAMh1zxw==
-X-CSE-MsgGUID: BknHtRLKTNmDlyj2fdWMmw==
-X-ExtLoop1: 1
-Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.84]) ([10.245.245.84])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 23:20:55 -0700
-Message-ID: <f461ba8a-4208-4dfa-aa70-e2c85ec2050a@linux.intel.com>
-Date: Tue, 17 Mar 2026 08:21:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+Oafkfb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D04DC4CEF7;
+	Tue, 17 Mar 2026 07:06:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773731216;
+	bh=ncD+ciZETahyIEvstNidIoTH3GDfOd1p/Fa1wNYVrrM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=p+Oafkfb7/JP1Vt+VF/mYvn1NXXBuI5NiBp8wZ9+9Ce+hU4dejqr/WQD7SeAmtSA+
+	 7TSIQQSH6yC3AEbmBs9cDRanhPl4o1XBYeU9fks/9jl9nReMJ245jCw1Pj2oRPaWJH
+	 DWYwCJ5OMofANHzjXrxAbzQHDHeD4pw23X+wL1KrQtlsd6x+DdiWe2swyWeMgtpj7L
+	 mzWb9/JDQcaI9NAhvYuI6B1yoHTMDbmQfbk4H/cWvFJWpLfBMGGsOpID+3dO2PuNUt
+	 sAUeVDLHqlwkOj/OoBCi0q0Qey2p9rALnmmPDr4MhTdXx9QmPhovMuK4GGECKw/vHt
+	 yY/qZZ0Zei9Zw==
+Message-ID: <53379548-dcac-4724-8ec8-50ce07807cc4@kernel.org>
+Date: Tue, 17 Mar 2026 08:06:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,105 +35,156 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs42l43-jack: Remove manual pm_runtime get/put from
- tip_sense_work
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, david.rhodes@cirrus.com,
- rf@opensource.cirrus.com, linux-sound@vger.kernel.org, stable@vger.kernel.org
-References: <20260316124924.31047-1-peter.ujfalusi@linux.intel.com>
- <abgTWxI1Q9M1o+ka@opensource.cirrus.com>
- <d5353ee4-1a3f-43a6-93ed-5127d666ad0b@linux.intel.com>
- <abgyboHV1jaWDUul@opensource.cirrus.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: tas2781: Add tas5832 support
+To: "Ding, Shenghao" <shenghao-ding@ti.com>
+Cc: "Xu, Baojun" <baojun.xu@ti.com>, "broonie@kernel.org"
+ <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+References: <20260226075737.405-1-baojun.xu@ti.com>
+ <20260226075737.405-2-baojun.xu@ti.com>
+ <20260227-ubiquitous-dashing-copperhead-b2c6a0@quoll>
+ <9f861c7df09c4434a98a203ecff913bc@ti.com>
+ <63b0f42e-56e8-474f-8805-4e01bb2f189e@kernel.org>
+ <a7316acf9ba248f9ad1fab0313a95654@ti.com>
+ <3cfa4036-e7a7-4cde-9dab-a171a63bdee3@kernel.org>
+ <4865c7f626a340d7847354512367577e@ti.com>
+ <596f90d0-8dbd-4afe-a722-bf2ba65e1776@kernel.org>
+ <aaVcDvYvi28wFR2S@ashevche-desk.local>
+ <c46a8bf5-7a6a-41a9-b18f-9a7ad7a60bb9@kernel.org>
+ <3af19ebaf32d482ab5cf575b831b2d9d@ti.com>
+ <f16d2a7f-04e2-4d99-9239-caca9fd1f7b5@kernel.org>
+ <d8303fc67ae84232b4b6ff0ef8cad6f1@ti.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <abgyboHV1jaWDUul@opensource.cirrus.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <d8303fc67ae84232b4b6ff0ef8cad6f1@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-On 16/03/2026 18:40, Charles Keepax wrote:
-> On Mon, Mar 16, 2026 at 04:37:28PM +0200, Péter Ujfalusi wrote:
->> On 16/03/2026 16:27, Charles Keepax wrote:
->>> On Mon, Mar 16, 2026 at 02:49:24PM +0200, Peter Ujfalusi wrote:
->>> Hmm... yes, I have this feeling this was in here for a reason I
->>> should probably have left a comment here. I somewhat agree it
->>> looks a bit mad with fresh eyes. The variable is also only used
->>> for tracking this pm_runtime_get so you can drop the jack_present
->>> variable from the struct as well, if we take the patch forward.
+On 17/03/2026 07:05, Ding, Shenghao wrote:
+>>>>>
+>>>>>>>>>>>>> static const struct of_device_id tasdevice_of_match[] = {
+>>>>>
+>>>>>>>>>>>>>       { .compatible = "ti,tas5827" },
+>>>>>>>>>>>>>       { .compatible = "ti,tas5828" },
+>>>>>>>>>>>>>       { .compatible = "ti,tas5830" },
+>>>>>>>>>>>>> +     { .compatible = "ti,tas5832" },
+>>>>>>>>>>>>
+>>> ...
+>>>>>
+>>>>> I don't know what you are trying to get from them, but I²C
+>>>>> enumeration on DT platforms works in a way that it takes two tables
+>>>>> into account, hence, if there is no compatible (with given part
+>>>>> number) there will be no matching name.
+>>>>>
+>>>>> AFAIK it has to have a compatible to make it work in such a case.
+>>>>> What did I miss?
+>>>>
+>>>> Show me please then how the OF table is used here at all to get the name.
+>>>
+>>> This code will also be used for ACPI devices. To ensure consistent bin
+>>> file naming between ACPI and DTS devices, the mapping table
+>>> tasdevice_id[] has been introduced.
 >>
->> That was my thinking as well, but then when the headset buttons did
->> worked after the patch on an idle system (ARL laptop) then I thought
->> that this might no longer be needed?
+>> We need to stop discussing with irrelevant arguments, really.
+>>
+>> I asked to show me how this is going to be used in DT. No answer to this part.
+>>
+>> Now you claim this OF ID will be used for ACPI devices, but YOU HAVE already
+>> ACPI table there, so that's clearly invalid argument. Do you understand how
+>> patch/email review works? Where the comments appear and what is being
+>> discussed?
+>>
+>>> The code retrieves the corresponding name of the chip from
+>>> tasdevice_id[] based on its order in tasdevice_of_match[] or
+>> tasdevice_acpi_match[].
+>>
+>> Based on the order in table? No, that's crazy buggy solution to tie order of
+>> entries in both tables. And it makes no sense... and I am sure code does not
+>> do it, so again irrelevant argument.
 > 
-> Hmm... are you sure that was working? Tried removing it (on
-> MTL here) and I see quite a few issues.
+> It should be noted that the current implementation relies on id_table 
 
-Yes, it is working on ARL (which is MTL in this regards).
-There are several
-soundwire_intel soundwire_intel.link.0: Slave status change: 0x2000000
-soundwire_intel soundwire_intel.link.0: Slave status change: 0x4000000
+OF ID table is the ID table which we talk here about. Please read again
+where do the comments appear, which part is being discussed.
 
-back and forth, but the button press got handled fine.
-
-Note 1: the same status change sequence happens when I plug the headset.
-Note 2: the same status change sequence happens if I play audio to the
-headset and then press the buttons
-Note 3: without this patch I see the same status change churn when the
-headset is plugged and button is pressed.
-
->> Fwiw, I have been banging my head on why the DSP is not suspending ever
->> on the laptop and the system is not hitting lower C state because of
->> this when I had some spare time and studied the code and then removed
->> the jack and boom, the DSP suspended right away :o
+> (rather than OF_ID) to obtain the chip name and chip ID. The chip ID i
+> s specifically reserved for handling exceptional cases, for example, 
+> the workaround for the TAS2781’s lower speaker impedance issue.
 > 
-> Apologies for that :-)
-
-None of the other laptops that I have did similar thing, only this with
-cs42l43, all others allows the DSP to suspend while headset is connected.
-
->> Sure, but draining battery when the jack is connected is not a great
->> added feature of a codec driver.
->> The type-Cs are on the other side of the laptop, so taping the jack and
->> power together is not a workable solution - to disconnect jack if power
->> is removed ;)
+> Since the 58xx family lacks a dedicated register to query the chip ID, 
+> both the supported chip ID and name are stored in id_table.
+>  This approach allows compatibility with both DT-based (Device Tree) 
+> and ACPI-based (Advanced Configuration and Power Interface) device.
 > 
-> I am not sure there are many other solutions. I will burn a few
-> cycles investigating here, but I suspect its going to come down
-> to a choice of two solutions:
-> 
->  1) The one already in the code.
->  2) Stop the host from reseting the codec.
+> 	if (ACPI_HANDLE(&i2c->dev)) {
+> 		acpi_id = acpi_match_device(i2c->dev.driver->acpi_match_table,
+> 				&i2c->dev);
+> 		if (!acpi_id) {
+> 			dev_err(&i2c->dev, "No driver data\n");
+> 			ret = -EINVAL;
+> 			goto err;
+> 		}
+> 		tas_priv->chip_id = acpi_id->driver_data;
+> 		tas_priv->isacpi = true;
+> 	} else {
+> 		tas_priv->chip_id = (uintptr_t)i2c_get_match_data(i2c);
+> 		tas_priv->isacpi = false;
+> 	}
 
-The issue with 1 (how it is atm) is that it is done in a completely
-wrong place. I think the cs42l43 can be used with other than Intel MTL,
-let's say Qualcomm or AMD?
-If there is a workaround needed for something on the platform, it has to
-be done in the platform code.
+I do not see the point you are making. All last replies felt off topic
+to me, so just to be sure - do you understand how i2c_get_match_data()
+works? That it calls device_get_match_data() which will return what?
+What exactly?
 
-> Fundamentally reseting a device right before checking what state
-> it was in is always going to be hard, so would be awesome if you
-> could have a look at how much of a problem removing that bus
-> reset would be.
-
-I'm still not sure if I get the whole picture, but by the hints it looks
-like that on systems with cs42l43 we cannot suspend the DSP since the
-codec cannot be suspended?
-What is the difference between detecting the jack insert compared to
-detecting the jack removal and/or the HS button detection?
-Under the hood it is the same soundwire wake event then do what needs to
-be done to read the cause of the event, right?
-So, why it is OK to suspend the DSP when the jack is not inserted and it
-is not OK if it is inserted?
-
->> Even then there is the issue of unbalance in runtime get on module
->> removal when the jack is connected...
-> 
-> Yeah that is a good spot, if we stick with the current code I
-> will get that fixed up.
-> 
-> Thanks,
-> Charles
-
--- 
-Péter
-
+Best regards,
+Krzysztof
