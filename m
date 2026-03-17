@@ -1,66 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A16F1922FD;
-	Tue, 17 Mar 2026 09:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740C61D6187
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 10:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773741186; cv=none; b=F9CAJbDRXcTjbk0ZqxHmpWuLcM/JQwLf4LoIiIBD/T1YGJ3+lYn2dE4UF0GhthwRTB12rRSo5zOJXyyZlx52we5cAEwMbvQENK12yLKM0LTXIRxLzSjlko/1avxfT6xdFiB5HpGBEM4K00fNvcE6XfRkuIVlxZDPZPtbFyd/Cn4=
+	t=1773743155; cv=none; b=qnMqv7LQpFYVir6ztgrsn71zfb85Oq/VL+GvXv/GRcVxDJhyMtYF6RIQfE43qXWSDFwlgg58ct8uLQuWq3TbrMjQD3HC6DHE8HVXDV62+Cr/PY3suHJAUwVm8QVMpxXk1kOXR36OOhwDjd5cQMCRFmZltGD0lh7UJq0MV50zW5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773741186; c=relaxed/simple;
-	bh=2czdBKjIJyi28ugBx5Na2+A83jEmhuFXJL+2ttSQXtw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Zl0/eqde3E5uKUfxCAprLo3WkHklp50LkLIBEk6wn04A7TL3H5x3Zfqt7v+7Aqmo1wh1D/lyimmx1qNVqtRbN7rdZsQtTacLvt/01B/PK2vgEkbSBaW1vicnSItagpyIpOdIjNCNaQf4BqY7ZwykAvHTOB3ncNxndleOaEEr2nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ll8DbCvd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773743155; c=relaxed/simple;
+	bh=bGnSfFwHOMHNSrwLnLMNIAOUgz0jSocJcxLJ/Hsmq6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SJGRQylsbN8QRexEN7PJq73JjtBywrGUns4BHrQn6mgsB2HNcJ2G8LXSR2DYcc/EEUnOaiymOv46MNvlmLsHcMVClfipObJ3lNgHlH+j1uZa/ZY1m4u2C9+s2pTj6zuLjtVgyVECFAMZ0f+fZNJpud56PzZcrfhwBAGKbzkHWNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjXS26KO; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ll8DbCvd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C9AEC2BC9E;
-	Tue, 17 Mar 2026 09:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773741185;
-	bh=2czdBKjIJyi28ugBx5Na2+A83jEmhuFXJL+2ttSQXtw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ll8DbCvdax0Pmc3kXKqUWG4W18/9AMqJeqqH5Etb69unY2pMZQRYkjSvgsBFVaPHs
-	 Fu5ny6sv0vzUav0BVr7Ohn+YO4x6TctF7STtZw/ITpN18J0CQINMaQUnTckUPbaw1O
-	 LPlpQu2WdNzHN2l0VACC8a8h/qSWEEiIbLPsjBAYX6hfKPDqVGKx8k7ro870Dnvmrj
-	 T+AvViMUOL38AvS44eEFSdSQdijFOyy8xKJlxrXGp5H1La9os+2k54ZM6/2xAnwARc
-	 my81tiYt5/SsSUlyJ022MR0rpQ6xPImYjjYQRDL2gB/FSPaJqHi0AlydttfJWaWAqh
-	 NIizrEyr4tekQ==
-From: Vinod Koul <vkoul@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260313155428.1934196-1-ckeepax@opensource.cirrus.com>
-References: <20260313155428.1934196-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] soundwire: intel_auxdevice: Add cs42l49 to
- wake_capable_list
-Message-Id: <177374118369.310489.7824528775515725825.b4-ty@kernel.org>
-Date: Tue, 17 Mar 2026 15:23:03 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjXS26KO"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c632ca0c317so298427a12.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 03:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773743154; x=1774347954; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GuAkLdHchhPU/fWxytmoEh03yHFUZiM13LcnXQExKB0=;
+        b=cjXS26KORNP+HlfqGijpPWf3ExxJ3VOHPCYSW1SLJCBMzXplYIs7LFaebK5QyzC0hg
+         T8NOO5eaNJFHXPjF+b7LriYfeBiGMDt96gGflykEqTYizFGgaN1PT8nmdi408QcbbNfV
+         TShSypQyve+Erd3wwfM6R59j0jMccYSl7Mhkc2Y0WOKkadWCxDzKQSNLLpGxmqkpJIoY
+         C7P6OcCWnSuuooZciWpJF4RUy6xnuH/aBsQ6uspONf6sA6Mp2/ESLGdtVEpSn/rHwczF
+         leLV/3IohlmwsMvG46oQl1YHsyW4IY3fEhgwIglFOj8J3F2gqJUFbdhw2NilB+Qh+gwC
+         EjdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773743154; x=1774347954;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GuAkLdHchhPU/fWxytmoEh03yHFUZiM13LcnXQExKB0=;
+        b=mkLe2nlq+OQykiMVQZcj1lvR47czb0dw5PoIuEjCcPHg33cwxOGyQnhSbq1YavLRUL
+         rfAeSao0vA2eztiywJal7aRH/5esLzDecXR+k8p09PeWl1FwrgAa154U891b3cpPBjm/
+         uTokF3nlj31jT/OzKX1mf+xbbDf9OhfvDsMae5ZMd8kDAMbqbYM4WOXfYbfhASE21iC6
+         UqZByEzSQ6HET9G6gYT39KISPatODNc1GWcO3RE+swtpm40SwLb3lPY0NPQzOJPL3bWP
+         Gq2TINiiSdjAqDYT1vlfXP+JwjuAeF93kBEcQ6ox21UCjCbsVgAayuxfYRkO079jWx+A
+         x/lA==
+X-Forwarded-Encrypted: i=1; AJvYcCWzs68xyVFgtpvYlDa7tEJdH8cIIoN1toNdSuFC3R9uJrHIiJHqK7ZG5IYaq3iEDgKym5BPGyb9YG/1mQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywo5jtPqBT9TYkH4NiHUnRVjft3N1/1hyHoKYazllQIsTylycoS
+	2vjfwSfCvazNeMmts01odfqgyzJb28eApwf7D6UZx7kmN627vcihtOZy
+X-Gm-Gg: ATEYQzwa9ewmOr29JgKeFdGniu5KiyDEfdehbmmHbnsED7TU3hTNi3uMbrOHI5cZW87
+	rwK8+xqm1bHJCh8NH6aZcc15mfMPqAjcZAQ3f+JGKbIHBibje0ljhoAJ8mZ0Tigk2aqJ8MD9082
+	I261srDv0ywxtGFVpMOeBzeFTa/+wYUVmlP0xHNESHNuMnwV4Lq+vXTrXya5h0SF7j+M9/TRP3z
+	eE4pqMyiRMknXMmAGDiG+nFOgPar5Kw8C4F17c7mTDNFDXykrFWbQLmgfwSwAO18Qo1pB6nJ/Be
+	PhzoQxzTcvIeM9nytCsv0LehfH43HmDyqd0eXzITxrGs6s4GLGZbP6oNwgOBHScho6fc+EuuYUH
+	an6Gk3/yl/zYZmDgiAplq1E+2ISHhvo5bIZCPBfydrMpRX0OAIq6mknkMPcUxaxYaZYl39cz59m
+	nqS74uBgPPiNjctO/dBSWTmWWHFI7f/rmSKWYZgQUsmPWVuarX0wg=
+X-Received: by 2002:a05:6a20:a109:b0:343:3000:ff13 with SMTP id adf61e73a8af0-398ecc8b614mr11606823637.3.1773743153625;
+        Tue, 17 Mar 2026 03:25:53 -0700 (PDT)
+Received: from fedora.izzigo.tv (45.62.127.193.16clouds.com. [45.62.127.193])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c73ebb7f270sm11592930a12.28.2026.03.17.03.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 03:25:52 -0700 (PDT)
+From: Frank Zhang <rmxpzlb@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: quic_wcheng@quicinc.com,
+	arnd@arndb.de,
+	linux-sound@vger.kernel.org,
+	Frank Zhang <rmxpzlb@gmail.com>
+Subject: [PATCH] ALSA:usb:qcom: add AUXILIARY_BUS to Kconfig dependencies
+Date: Tue, 17 Mar 2026 18:25:27 +0800
+Message-ID: <20260317102527.556248-1-rmxpzlb@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
+The build can fail with:
 
-On Fri, 13 Mar 2026 15:54:28 +0000, Charles Keepax wrote:
-> The Cirrus Logic cs42l49 codec can generate Jack events so add it to
-> the wake-capable list.
-> 
-> 
+ERROR: modpost: "__auxiliary_driver_register"
+[sound/usb/qcom/snd-usb-audio-qmi.ko] undefined!
+ERROR: modpost: "auxiliary_driver_unregister"
+[sound/usb/qcom/snd-usb-audio-qmi.ko] undefined!
 
-Applied, thanks!
+Select AUXILIARY_BUS when SND_USB_AUDIO_QMI is enabled.
 
-[1/1] soundwire: intel_auxdevice: Add cs42l49 to wake_capable_list
-      commit: b8f2d65fec19f3866905ac6ae3deb5c0c9faf162
+Signed-off-by: Frank Zhang <rmxpzlb@gmail.com>
+---
+ sound/usb/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards,
+diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
+index 9b890abd96d3..b4588915efa1 100644
+--- a/sound/usb/Kconfig
++++ b/sound/usb/Kconfig
+@@ -192,6 +192,7 @@ config SND_USB_AUDIO_QMI
+ 	tristate "Qualcomm Audio Offload driver"
+ 	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && SND_SOC_USB
+ 	depends on USB_XHCI_HCD && USB_XHCI_SIDEBAND
++	select AUXILIARY_BUS
+ 	help
+ 	  Say Y here to enable the Qualcomm USB audio offloading feature.
+ 
 -- 
-~Vinod
-
+2.53.0
 
