@@ -1,90 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F08D3E1210;
-	Tue, 17 Mar 2026 18:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A1437FF5B
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 19:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773771087; cv=none; b=KaxbhdCOV+xJq6kwW8hWScLSCVpzFF9kT4n/WJYZ3lxpIHNlkonqrEIwe7NvVDC5feVBQgDp0pXOP2OUY5MO4OA3CbPWro7SMx7o+2xNj7tbfb3MNSQdtpU4ya5VCx7lP+sXcm+Vr9hzEcbC65PYr3FG41fkqjCDSTjYQYiuOdE=
+	t=1773774004; cv=none; b=rC2xeENK3insS/ETBTuSE66C6/cROCypDW4qX3QkKYSJ3BPFAzIwt320v1iRkL53rjefLQcNUySkvDVs9plsRIRJd12afWMcRA5wQ9unhpYIOdjIJPVkrFBMJqui+HMG2MUIOQtYLBvR7cE/TSEFD7GUPSfiUNPq3S3BczKw5zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773771087; c=relaxed/simple;
-	bh=g8pnUTWpupQo61ecLsQ4GWguI8yImBdciL5cgxEmhQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oIVnGZwlfN6TDMJ6vpKsMMttr8qQIk4Rsrp0BYHF3mcVJ1fFLbvMsoRjeFkdqxTzVbPEq5XeY8jr6MjVPNKHU7kZGRoMWDFtu7o7kmjC7YaR2evT+/kxudyOji8aYWAPR5KNHFWU9XvcwSQMe+rigiUpJufH+0qc1locNKx2+r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7ueOtS7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773774004; c=relaxed/simple;
+	bh=7toBs7ZZhUyluOq0svKcjp6u10Tro12z91fbmv9V774=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TjYDTizANVrDh90rlNacad/nnHaDU/G1/UuiZgi1gmBYqi5g3LStp2mywr4/fTBSl81KNsF4zrL7bPpZ48FbzpxIf5d94CMHImVCz+8KzuZdPhIfTVpQn18RzUYaBsYwcK3u1T2p5nzoRxypFTvUCx+Scdt0f+B6FIM+Dz1OHs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnwgLi/B; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7ueOtS7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7A4C4CEF7;
-	Tue, 17 Mar 2026 18:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773771087;
-	bh=g8pnUTWpupQo61ecLsQ4GWguI8yImBdciL5cgxEmhQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O7ueOtS77Xn7fV8g3otImvmVLaWT+c+HSKFbR9VplFDWcAieDEuzbWG+FLNRRWx2X
-	 gCsxhcf0zHYK+WRF2rT7qHS/Yp/7EUfbVJ20wnm09b8WbLy58TZXxaiSPseVIroXlb
-	 42cR34wXSY3d/OgPPBO6Gtz/VeeNloP5xc/Y6sORByv0J4yXi5TjRZIqggVw8lub1x
-	 oeCgZGO1fbuuiPlQgTUMGE2I4YV0r/L4mdJvi6D3k1EPBgsa8XO55/vOoydTudVx0l
-	 pY9Hukge2zZqIKehneE+5u7FEVBFai+VqVd/7vrjGpBbNAAp3SkhPbacbRKPDSbtz1
-	 //mBNRHW3p55Q==
-Date: Tue, 17 Mar 2026 18:11:23 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 00/10] ASoC: wm_adsp: Some improvements to firmware file
- search
-Message-ID: <b6c7d439-7c46-4c99-9213-30369f1dd443@sirena.org.uk>
-References: <20260310141817.1871794-1-rf@opensource.cirrus.com>
- <70c45f75-7ccb-476b-8646-3896181a2569@sirena.org.uk>
- <e9fc894a-4183-4d22-a9d7-6ad05167abe0@sirena.org.uk>
- <abl4wZyYTJf1C4ml@opensource.cirrus.com>
- <abmTp0NcfyCjfdpv@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnwgLi/B"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-35a1f3f07ebso2528981a91.3
+        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 12:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773774001; x=1774378801; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1PcwMDnihsdnmKVOsfDRGKcGqZ39RTcsdWpVCxqwOIE=;
+        b=JnwgLi/B7PR6QTTpALGIGGvsYdQe+j2j1HFQ2ktbZlbIPHWRPiQtzaco1IqdtDXCrC
+         lSTjjsAtkMBmxvTDduAJTEyu/KlFUjcK3JfJ5dd8+lVad+5IDl6zOC7qb91xqCF4TgJP
+         PoNFTrok3z9kL4n0uS6Wu70ofR65MogRYgeqSljKglx8mjeUOQy0dnIS4VVxCtW0h2uJ
+         /wiXVwcddTTgOu83lMcFj//5IeMk+D/pE+pKOIdAJCPOBfA0eAqPS23nckHGi8xg5ubL
+         fXFJZXoXmczb0B/NEPM7LSRWnT/i/ImqRRwMrKcC+vfIWDn2aNhu5mWhUwcL+LoK5ed7
+         9/6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773774001; x=1774378801;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1PcwMDnihsdnmKVOsfDRGKcGqZ39RTcsdWpVCxqwOIE=;
+        b=HnCKaQsbkRSW5Bef/S6Dhh3pGtN4xb6Y1/NT6vdieZa6cIO2PdC3gf4z6kA/AgUBTc
+         JxDogvlyViHbplpKcXY2mjXFH+5vXEvQRSwYFAB+KmZupaQeyjh5c2/VejyNuzn6tgCu
+         CexX0+MmE0twjT52oww/O/1d8oCVUBkpxu0ctmd5pG9bTweakP5Fu71A06xhONXbDdbQ
+         e8h2qJoYDJ21NwYLKJjeACY8JLdzO+3PWkz7SMv2rLg387384RBapwII7wrL3dwRbvRs
+         m1hOPj2UvqmS6H3Bbi1udFBEDaYG3qImOasCvNs7n3PKSqUxjagzeHfDTvkgY9yRGBSC
+         CNaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUU31YvnjdnGBrM4g1P8aQC9tWROYyKWaMy8fSpP+a+yAnBoz3idaFoRQK5gCFjNgopkh5EBCrcsd8Cow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXUhF0bGF8x+CQMmx/ji51KHS4BiS1ko3qbVmksHKNNhxdy6tA
+	P0xrQM5Iocd+EHp4byPJ9RMqtX7YsnlNgXQ7EtMlkCZqR73pStrde47Z
+X-Gm-Gg: ATEYQzxlOaL4WJa57fJa0yuvgidcZOMezNrdH+OdPuROtYuu3K2+1gKNb0I9hVF5EKT
+	AA7f9jOohpJJGzJ4XZVMh/6CXI4yE3Qj62OQaxxgJVKcwiNCNayCgxLvZMAUFNV6nkyZkpBxcGK
+	CzykvRv9iRop5y99smaoyCWXhlxqueWMGQIxNsfb+ez6lGC4odAnnhIRLEVVKTUs9a9y8tmH1r4
+	Kzj7kzBbCZGemCYBqibfGnsjG7RbO4yOyb2lbyOcSTzvlgXE2pbwE3TKgc9RSsZnIKlNfqMq+ls
+	dVNIMbSYb9zikTWjdzssW351b0tzZJCDonU6EfVaZlrHkELTHf0Q28r3YzaiS1mVi+xDjeZr25J
+	8/ghJIlqBsasoF1+Ql5mwC0KCWmDaUxfJtKe5n8H78kVXnEwAbtV3W3Uj7p/u7ADrM48BtlvRmU
+	6hXF+KBjV3OXerv90cvWtEMYWNw4Ml4ojsPWnHYPw/CbPHUdyAbznI/5GkRyJA8s3X7emq92bGz
+	E6bGq6IuQm/FiuklBRPkKpy/zidlfooHPE1VWICem7aDTc3qY8Lf/KVmNsQT5RrJUmAxA==
+X-Received: by 2002:a17:90b:1dcd:b0:34c:35ce:3c5f with SMTP id 98e67ed59e1d1-35bb9e45688mr490920a91.5.1773774001443;
+        Tue, 17 Mar 2026 12:00:01 -0700 (PDT)
+Received: from 2045D.localdomain (76.sub-72-110-123.myvzw.com. [72.110.123.76])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bba5a2c60sm196240a91.9.2026.03.17.11.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 12:00:01 -0700 (PDT)
+From: Gui-Dong Han <hanguidong02@gmail.com>
+To: gregkh@linuxfoundation.org,
+	dakr@kernel.org,
+	rafael@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-sound@vger.kernel.org,
+	akaieurus@gmail.com,
+	me@ziyao.cc,
+	Gui-Dong Han <hanguidong02@gmail.com>
+Subject: [PATCH 0/4] debugfs: disallow NULL string creation and fix callers
+Date: Wed, 18 Mar 2026 02:59:09 +0800
+Message-ID: <20260317185920.43387-1-hanguidong02@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LSeYRvp9/leVFvy2"
-Content-Disposition: inline
-In-Reply-To: <abmTp0NcfyCjfdpv@opensource.cirrus.com>
-X-Cookie: Must be over 18.
+Content-Transfer-Encoding: 8bit
 
+A recent bug report [1] highlighted a NULL pointer dereference when
+reading a debugfs string file created with a NULL pointer. The community
+discussed the issue and agreed that creating string nodes with NULL is
+invalid and should be forbidden at creation time [2]. Since no fix was
+submitted following the discussion, I have implemented the agreed
+solution.
 
---LSeYRvp9/leVFvy2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Patch 1 modifies debugfs_create_str() to reject NULL pointers, returning
+early and triggering a WARN_ON to expose offending callers.
 
-On Tue, Mar 17, 2026 at 05:47:19PM +0000, Charles Keepax wrote:
+Patch 2 is a code hygiene fix. While modifying the file, I noticed the
+EXPORT_SYMBOL_GPL for debugfs_create_str() was misplaced far away from
+the function body. This patch moves it to the correct location.
 
-> The rabbit whole looks pretty deep on this one. As far as I can
-> see it fails adding the device because the device already exists
-> on the bus but this is the first time it added the device and also
-> I can find no evidence it even created a bus in the first place.
-> Feels like there is a large piece of my understanding of how
-> this is supposed to work that is missing. I think we might have
-> to wait for Richard to return on Monday, how much of a problem
-> is that from your end?
+I carefully audited existing callers across the kernel tree. Some
+drivers passing NULL have already been independently identified and
+fixed [3]. The remaining two subsystems (soundwire and drm/i915) are
+addressed in patches 3 and 4 by initializing their respective string
+parameters to empty strings (""). The existing logic in both subsystems
+correctly and safely handles empty strings.
 
-This is holding inclusion of any new ASoC code since last Thursday out
-of -next, that's pretty disruptive really.  It might be easiest to just
-drop the changes and let Richard resubmit when he gets back.
+[1] https://lore.kernel.org/lkml/17647e4c.d461.19b46144a4e.Coremail.yangshiguang1011@163.com/
+[2] https://lore.kernel.org/lkml/2025122221-gag-malt-75ba@gregkh/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8cc27f5c6dd1
 
---LSeYRvp9/leVFvy2
-Content-Type: application/pgp-signature; name="signature.asc"
+Gui-Dong Han (4):
+  debugfs: check for NULL pointer in debugfs_create_str()
+  debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
+  soundwire: debugfs: initialize firmware_file to empty string
+  drm/i915/display: initialize string params to empty strings
 
------BEGIN PGP SIGNATURE-----
+ drivers/gpu/drm/i915/display/intel_display_params.h | 4 ++--
+ drivers/soundwire/debugfs.c                         | 5 +++--
+ fs/debugfs/file.c                                   | 7 +++++--
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm5mUoACgkQJNaLcl1U
-h9BMRgf+LSvFzd5T1wrAwp7zuhLfEYCxut8WmCxx2429zfyfdIyY1xj8cyItXMAe
-so0yL1TGCVgg3/hcEQaUJRvJTE0qUqQgSBK6w/wKFbe8gDsqxXbFyJoHVlhbx6H6
-kuezeqRNAZCviJ8h5msbDCKdlePWmURwQWqRJ4O+sMy2qACV+0x2R12ZFpdQRV9J
-PHjzifRdA2TLFwwjbIxYFx+9l0lEuCdWjRVvUHnwZ5EAa3uD+I7RTVtsoPpkBskp
-S4jJK23znEDZYTDseYz4JR9vaNV1ImRxOGPYLdhi+SVIhKTMJz78becgrDHIIwFO
-YK9tEa5582w16PQ97tkUnzQk/CjBKA==
-=H4wv
------END PGP SIGNATURE-----
+-- 
+2.43.0
 
---LSeYRvp9/leVFvy2--
