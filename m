@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD9634F486;
-	Tue, 17 Mar 2026 11:32:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E559D3AD529;
+	Tue, 17 Mar 2026 11:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773747171; cv=none; b=BuQTb6Ky3iQxRUDBdB9e5FKaTMGv+wcpwh1RZ9xqv/55x8r85tGY9JFtv11pqD7dSqm0j5aFpe8KYN1A70QiQ1ixxpDcMCOFaBQLtuysye2YxLcD5T524NEIqF4tuAnhHK1HDHXeDnGMfxPvf5XREfKnjgN6bhGnOsi9sDChAqo=
+	t=1773747181; cv=none; b=WwNlh1fjnSIa+G6/HA7GxmF82rIP3kj0jPshOigubd8PnkQOfbQvnx7RzCE2BYHpZZnPlM+UpspaEa0oQVsz284c7/UX/8mEShzJICta0zI88OYmIiJBDEcxbCBKT1/d+TWEYbjvlnpS3ojRJdOOaRblLysnEqZoV8hHFY8GnFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773747171; c=relaxed/simple;
-	bh=j8G42BMIwkJi1ZWkspY+1Bbp3gHjsqAQ1779Dfn5r6s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jWE4nrSfPvhUAcDAhKBnyzHofjGXjYo3Ps1CmmFZ2kgmE+a+e0nIRuKVelIigs+7yFUwJWLNxp0IvkwCxkhT3Oyjc0l2UZiYsQGe7jwAlTt+YTtyHeAKUPN3DFSeizQA//pfzpdHU2+zdoyfDZhSiwNNST9sV26xomUZgRHvGvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pBtgs+PF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773747181; c=relaxed/simple;
+	bh=CzgQrQGavzr07umH5YZpLcH8Rt8BobUHo2uBy57QL6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T11PYxzcXSgcV4L8W+A5LEhlGs7WhZpbawwG1/21agpmTTYWMP7PPupTvhzSvJe/yAv1HeAl2cOmXlbH8a9XkJY47XrEtO7aQ1GTIpqIKwlTtCvdq3nOCwPM9H1Qi3uVR/QD4k/tdaGL22AWE7NK81DgUJ0dZajKL/QDBxqoU2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rxo52Wpd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pBtgs+PF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A370C4CEF7;
-	Tue, 17 Mar 2026 11:32:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rxo52Wpd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C758EC2BC9E;
+	Tue, 17 Mar 2026 11:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773747171;
-	bh=j8G42BMIwkJi1ZWkspY+1Bbp3gHjsqAQ1779Dfn5r6s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pBtgs+PF+oovxpeJf8d7GuIZhYXd2qICl8+vMByTgfcaML8P/tAFL/ela0+6XzETH
-	 3E0Mqof4RRV2UwtyFop5yCyWm67xI/7yR8jNL+MFhOT+pG3PcAllTgEMFJ/usdfMd4
-	 w5UzDpwPSkVfF7JBRlX+HxcvwWRYed8Qi7wnWKitEjPms+kA4TuT0i/6X5HuV1h9O/
-	 2zz5EzQ2J85EHT/yTPotLkkCRANezGJ81ghLOIzfQmiwx6tkxWKNAWn0iTE1ONlBKp
-	 h0sFu9lMDJ3Ot8Z2ZQYVDvaSd9m5c0QrR3ydCZel0VAZqTTTmH6DVjJf8ELBbtE5vB
-	 g7/VaW1YOx7Zg==
+	s=k20201202; t=1773747180;
+	bh=CzgQrQGavzr07umH5YZpLcH8Rt8BobUHo2uBy57QL6c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Rxo52Wpd0EjkCeNsXHg5Gln387o8OOlgU13VV++Zh4BTx2TOgxYwAmo2DGgEyhyyA
+	 O8+VQhyn7HleO0HX0x8ioHCAggh5RLS0TV9Bg48WsDJkBbxuGCvlKvZxn+c3jJjUY4
+	 v6iLQRlX0BlIUsM1Z4M8gpDhttQb9pf2yKat/qigKF7DSU4FsSM3Q5JpUkasdT/8+M
+	 /XZK9RrJBuYFig3e2q9YS/ztbDQvLfFl3AOCBlefo8V3ieild0LKZNlnt0cuPY0jvT
+	 VBftShIPizPst9HUoXgAkubxQ6Wh5Xj9Trh5ENor6xoJqFlg+zk6+vaqrt7M6eP7bw
+	 gVbFSxgcUrZCQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Liucheng Lu <luliucheng100@outlook.com>,
+Cc: Lianqin Hu <hulianqin@vivo.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.1] ALSA: hda/realtek: add HP Laptop 14s-dr5xxx mute LED quirk
-Date: Tue, 17 Mar 2026 07:32:32 -0400
-Message-ID: <20260317113249.117771-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19] ALSA: usb-audio: Add iface reset and delay quirk for SPACETOUCH USB Audio
+Date: Tue, 17 Mar 2026 07:32:39 -0400
+Message-ID: <20260317113249.117771-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260317113249.117771-1-sashal@kernel.org>
+References: <20260317113249.117771-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,19 +54,22 @@ X-stable-base: Linux 6.19.8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Liucheng Lu <luliucheng100@outlook.com>
+From: Lianqin Hu <hulianqin@vivo.com>
 
-[ Upstream commit 178dd118c0f07fd63a9ed74cfbd8c31ae50e33af ]
+[ Upstream commit 5182e5ec4355dd690307f5d5c28cbfc5b2c06a97 ]
 
-HP Laptop 14s-dr5xxx with ALC236 codec does not handle the toggling of
-the mute LED.
-This patch adds a quirk entry for subsystem ID 0x8a1f using
-ALC236_FIXUP_HP_MUTE_LED_COEFBIT2 fixup, enabling correct mute LED
-behavior.
+Setting up the interface when suspended/resumeing fail on this card.
+Adding a reset and delay quirk will eliminate this problem.
 
-Signed-off-by: Liucheng Lu <luliucheng100@outlook.com>
-Link: https://patch.msgid.link/PAVPR03MB9774F3FCE9CCD181C585281AE37BA@PAVPR03MB9774.eurprd03.prod.outlook.com
+usb 1-1: New USB device found, idVendor=0666, idProduct=0880
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: USB Audio
+usb 1-1: Manufacturer: SPACETOUCH
+usb 1-1: SerialNumber: 000000000
+
+Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/TYUPR06MB6217ACC80B70BE25D87456B0D247A@TYUPR06MB6217.apcprd06.prod.outlook.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -71,58 +77,87 @@ LLM Generated explanations, may be completely bogus:
 
 ## Analysis
 
-This is a textbook audio codec quirk addition — a single `SND_PCI_QUIRK`
-line added to the HDA Realtek quirk table for HP Laptop 14s-dr5xxx
-(subsystem ID `0x103c:0x8a1f`), using the existing
-`ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` fixup.
+### Commit Summary
+This commit adds a USB audio quirk entry for the SPACETOUCH USB Audio
+device (vendor `0x0666`, product `0x0880`), applying
+`QUIRK_FLAG_FORCE_IFACE_RESET` and `QUIRK_FLAG_IFACE_DELAY` flags. The
+commit message states this fixes suspend/resume failures on this device.
 
-**What it fixes:** The mute LED on HP Laptop 14s-dr5xxx doesn't toggle
-correctly without this quirk. This is a real hardware issue affecting
-users of this specific laptop model.
+### Code Change Analysis
+The change is a **two-line addition** inserting a `DEVICE_FLG()` entry
+into the sorted `quirk_flags_table[]` array. It uses existing quirk
+flags (`QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY`) that are
+already used by many other devices in the same table (e.g., TEAC UD-701,
+Esoteric D-05X, etc.).
 
-**Scope and risk:** One line added to a quirk table. The fixup
-`ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` is already used by multiple other HP
-laptops in the same table (e.g., `0x89a0` "HP Laptop 15-dw4xxx",
-`0x8a20` "HP Laptop 15s-fq5xxx"). Zero risk of regression — it only
-matches the specific subsystem ID and applies an already-proven fixup
-chain.
+### Classification: Hardware Quirk
+This is a textbook **hardware quirk addition** — one of the explicitly
+listed exception categories that ARE appropriate for stable backporting
+despite being "additions." The quirk:
+- Uses an existing driver and existing quirk infrastructure
+- Only targets a specific USB device by vendor/product ID
+- Applies well-understood flags already used by other devices
+- Fixes a real user-facing problem (suspend/resume failure)
 
-**Stable criteria:**
-- Obviously correct: Yes, trivial one-line quirk entry
-- Fixes a real bug: Yes, broken mute LED on specific hardware
-- Small and contained: Yes, single line
-- No new features: Correct, uses existing fixup
-- No new APIs: Correct
+### Bug Being Fixed
+The commit fixes a **suspend/resume failure** on the SPACETOUCH USB
+Audio device. Without the interface reset and delay quirk, the USB audio
+interface fails to set up properly when resuming from suspend. This is a
+real hardware issue that affects users of this specific device.
 
-This falls squarely into the "AUDIO CODEC QUIRKS" exception category
-explicitly listed as YES for stable.
+### Risk Assessment
+- **Scope**: Minimal — only affects this specific USB device
+  (0x0666:0x0880)
+- **Risk of regression**: Near zero — the flags only apply to this one
+  device, and the same flags work correctly on many other devices
+- **Dependencies**: None — the quirk infrastructure and flags already
+  exist in all stable trees
+- **Lines changed**: 2 lines added, no lines removed or modified
 
-Verification:
-- Confirmed from the diff that `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` is
-  already used by adjacent entries (lines for 0x89a0 and 0x8a20) in the
-  same quirk table
-- Confirmed the change is a single line addition with no other code
-  modifications
-- The commit was accepted by the HDA maintainer (Takashi Iwai) via the
-  standard patch process
+### Stable Kernel Rules Check
+1. **Obviously correct and tested**: Yes — simple table entry, same
+   pattern as dozens of others, signed off by the ALSA maintainer
+   (Takashi Iwai)
+2. **Fixes a real bug**: Yes — suspend/resume failure
+3. **Important issue**: Yes — device unusable after suspend/resume cycle
+4. **Small and contained**: Yes — 2-line addition to a quirk table
+5. **No new features**: Correct — uses existing quirk mechanism
+6. **Applies cleanly**: Should apply cleanly to any tree containing the
+   quirk flags table
+
+### Verification
+- Reviewed the diff: confirmed it's a simple 2-line `DEVICE_FLG()`
+  addition, inserted in sorted vendor ID order
+- Confirmed `QUIRK_FLAG_FORCE_IFACE_RESET` and `QUIRK_FLAG_IFACE_DELAY`
+  are used by multiple existing entries in the same table (visible in
+  the diff context)
+- Commit is signed off by Takashi Iwai (ALSA subsystem maintainer),
+  indicating proper review
+- The commit message includes USB device identification strings showing
+  the exact hardware affected
+
+This is a zero-risk, high-benefit hardware quirk that fixes
+suspend/resume for a specific USB audio device. It meets all stable
+kernel criteria.
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index f5719e630d28a..13d14c86569f9 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6917,6 +6917,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
- 	SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8a26, "HP Victus 16-d1xxx (MB 8A26)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index a89ea2233180a..ce6f479353b22 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2239,6 +2239,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
+ 	DEVICE_FLG(0x0661, 0x0883, /* iBasso DC04 Ultra */
+ 		   QUIRK_FLAG_DSD_RAW),
++	DEVICE_FLG(0x0666, 0x0880, /* SPACETOUCH USB Audio */
++		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+ 	DEVICE_FLG(0x06f8, 0xb000, /* Hercules DJ Console (Windows Edition) */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x06f8, 0xd002, /* Hercules DJ Console (Macintosh Edition) */
 -- 
 2.51.0
 
