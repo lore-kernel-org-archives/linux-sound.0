@@ -1,124 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF81E3AE1A4;
-	Tue, 17 Mar 2026 12:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8997F3BF681;
+	Tue, 17 Mar 2026 12:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773749236; cv=none; b=YJUyBX+THGq31dyKZ3cdY9t9PyS3emw2GFQusUDEoBTWoMlPYP7TrN1f86wnk/hMN1toktaRNbJRg9RfT3K9K7rxKRpVaMf4WmTzCLTvjQJsKoQZGv51lpJXrAcuV8s1FCxIyf7EUmZc5d0UId/iD07FwSDBWgXZ11fGvniCGz0=
+	t=1773749999; cv=none; b=E1Z5Yv3BDj778F1fkBkBNZsErdahR3q1U74Kb/Fcy5elxdoE9fMGHwH2fXoXQrNJ+yBwRZqbv0OMJov5Bq1WDAaxb/AG0CgPoNW/lN3mGypSAoTBbMVNL2w4p6CLFokZb45ba6Af23ws0FzHMtgzlkpyMMszbQJ0i28d/qIcAFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773749236; c=relaxed/simple;
-	bh=MofP6O6IVw3gCnduOReXuNUX8X20SYq/F3OC7gCCtfs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JclU82cShDwxwpSxlZxXGVhly3i7R0Qgj0OaDh1ael1BjK5Uu/2nOAHaq3zGhcT59ELqGNrAph9v94JoYpg9pxIJdGE4v41FcvTyme2N+CThxkL3yrx5Cl6yXPP8h+hf8Cieet7Fu9EOhAvd7QuJfPZ8QzPAxNGtNnTBw4rrNz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6r/fEY4; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773749999; c=relaxed/simple;
+	bh=LkVtMzQ8iwPMCCFFu6AX2GHaJLGRANe1jKQRznyYI6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KPY1cJEnano6meHJBGe2Gld/HnZJ5VhwaGZKjhuMJkUdnjxCH9QgdpwswzPNbxZFYBt/kVfHx9U8EUW7bjdxYeF66E53h/NfQ2nC9HRpL8cKRL36pki2xqrzsnmLxrJlcUUZk35EzQdxF183+r9exnryKTGpcVmjh2gaXkParaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbxaE3Hx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6r/fEY4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773749235; x=1805285235;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=MofP6O6IVw3gCnduOReXuNUX8X20SYq/F3OC7gCCtfs=;
-  b=I6r/fEY4KG5AvqS8Xo8nO88oUTNOxZFCqVo7zIoDIAuXRKYOjI5jZ9Re
-   lqmtq6mAd0DuEn2Z1qQ/dM7SGGDMa0wSdhfoPa6hNq4XUBWtm/4vjHqiP
-   3hlOWCkUXG+EsJFRWWirsABuW16ENQd7s0S7+UN6Pp+4th15yG4JfBj2W
-   2aVhaZcCqP3NwynO16sQS2X2g5oB0HMCPHmqEw7kXVTn9/gZS0ySt1clW
-   SahU83Ka3D+PWd7ccfGp/zee7aH70OUM7VqocUwIguU2YVW0++ua2wPUb
-   +jVqeudYgkC/gj4U4nKDZ3ZfnCOvBN2S3kEpDa3w5cPzUBivF8euokzM0
-   g==;
-X-CSE-ConnectionGUID: CkavdfKFQ32PKIVEZo/dGw==
-X-CSE-MsgGUID: iB9xW9wHRjOUj2VRB/N9Ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="86251929"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="86251929"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 05:07:14 -0700
-X-CSE-ConnectionGUID: FNHVAggETXeT8xThxKsejw==
-X-CSE-MsgGUID: u9UEoAGzTYmGig4VGHhnWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="260154414"
-Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.84]) ([10.245.245.84])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 05:07:12 -0700
-Message-ID: <f6a22c54-1b91-4013-a774-b56d921cdb67@linux.intel.com>
-Date: Tue, 17 Mar 2026 14:07:29 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbxaE3Hx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C2BAC4CEF7;
+	Tue, 17 Mar 2026 12:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773749999;
+	bh=LkVtMzQ8iwPMCCFFu6AX2GHaJLGRANe1jKQRznyYI6Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VbxaE3HxAtENyW3Yfmxs7SV4PM6sQ/iodDqLj139Us8RUXa0fBtRxmZo1ZEHopsaE
+	 AFOU3h6DU9uen8+KhpS5Sqd8jOlLISSwemqyXDXYsmMQ4fSFXQtMXoup9CAiJkR1IC
+	 SdHfu/6f+d6skDH1pdUVME2iocvL8/XZ9KcJ/s8YiV6kjIyji3eEQVfSDoSNozkRrQ
+	 W2bP1X0pHSW2XRzOI/eLIGYAPcl0vELCBIzrWyH3BA0qI+lxHMblMF2pECbxcjnqlB
+	 iLPtRL8zJSXXzou6LLb6OVO2Y0N0yKRia/tKBqacOOuAR5sZO3TkPflaxUc1gAoNZF
+	 xkXYmFasbVXYg==
+Date: Tue, 17 Mar 2026 12:19:50 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Joseph Salisbury <joseph.salisbury@oracle.com>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [External] : [PATCH] ASoC: fsl_easrc: fix comment typo
+Message-ID: <a05120a1-650f-481a-a1dd-4dced984f2f1@sirena.org.uk>
+References: <20260316180545.144032-1-joseph.salisbury@oracle.com>
+ <a61b8ef0-32c1-4d1a-9ab4-ceb6d5f004bd@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs42l43-jack: Remove manual pm_runtime get/put from
- tip_sense_work
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, david.rhodes@cirrus.com,
- rf@opensource.cirrus.com, linux-sound@vger.kernel.org, stable@vger.kernel.org
-References: <20260316124924.31047-1-peter.ujfalusi@linux.intel.com>
- <abgTWxI1Q9M1o+ka@opensource.cirrus.com>
- <d5353ee4-1a3f-43a6-93ed-5127d666ad0b@linux.intel.com>
- <abgyboHV1jaWDUul@opensource.cirrus.com>
- <f461ba8a-4208-4dfa-aa70-e2c85ec2050a@linux.intel.com>
- <abk+o6ZpLRt86K+M@opensource.cirrus.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <abk+o6ZpLRt86K+M@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xkNM2tTQgD+DOtei"
+Content-Disposition: inline
+In-Reply-To: <a61b8ef0-32c1-4d1a-9ab4-ceb6d5f004bd@oracle.com>
+X-Cookie: Must be over 18.
 
 
+--xkNM2tTQgD+DOtei
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 17/03/2026 13:44, Charles Keepax wrote:
-> On Tue, Mar 17, 2026 at 08:21:12AM +0200, Péter Ujfalusi wrote:
->> On 16/03/2026 18:40, Charles Keepax wrote:
->>> On Mon, Mar 16, 2026 at 04:37:28PM +0200, Péter Ujfalusi wrote:
->>>> On 16/03/2026 16:27, Charles Keepax wrote:
->>>>> On Mon, Mar 16, 2026 at 02:49:24PM +0200, Peter Ujfalusi wrote:
->>>  1) The one already in the code.
->>>  2) Stop the host from reseting the codec.
->>
->> The issue with 1 (how it is atm) is that it is done in a completely
->> wrong place. I think the cs42l43 can be used with other than Intel MTL,
->> let's say Qualcomm or AMD?
->> If there is a workaround needed for something on the platform, it has to
->> be done in the platform code.
-> 
-> There is probably a discussion to be had here, its far from clear
-> to me this is the wrong place to do this. Generally the codec
-> controls when the codec wants to mark itself as runtime active.
-> For example on our phone devices where far more of the chip
-> powered down in runtime suspend having a jack in would always
-> keep the device powered up so the button detect could run,
-> as the lowest power states disabled that.
+On Mon, Mar 16, 2026 at 07:50:57PM -0400, Joseph Salisbury wrote:
+> On 3/16/26 2:05 PM, Joseph Salisbury wrote:
 
-I see, what about this:
-if the inserted accessory is CS42L43_JACK_HEADSET (SND_JACK_HEADSET)
-then do one more pm_runtime_get() to allow the button presses to be handled?
-This would allow the laptop to hit lower power state if a headphone is
-connected, headphones do not have buttons as they don't have mic ring.
+> > Fixes: 955ac624058f ("ASoC: fsl_easrc: Add EASRC ASoC CPU DAI drivers")
+> > Cc: stable@vger.kernel.org
 
-The jack_plugged would be renamed as jack_is_headset or something and
-drop the rpm on jack removal for headset ( and on module remove).
+> I inadvertently added Fixes: and Cc: stable tags.=A0 If possible, please
+> remove them as they are not appropriate for fixes to misspellings in code
+> comments.=A0 If it's not possible to remove them, I can send a v2.
 
-> It is also appears the specification doesn't prohibit issuing
-> a bus reset when coming out of a mode 0 clock stop (which seems
-> bonkers to me, given literally the only difference between that
-> and a mode 1 clock stop is that the mode 1 clock stop resets the
-> device). But without the specification prohibiting this then
-> the device can't rely on the host not to do it, so doing this
-> could be required on any platform.
-> 
-> I can however see the argument that it would be nice to only
-> force the codec out of runtime suspend on platforms where this is
-> necessary but its not obvious to me what the sensible mechanism
-> would be.
-> 
-> Thanks,
-> Charles
+Oops, yes.  Sorry, but I already applied this and there's a merge on top
+of it.  It'll not do too much harm, worst case the patch gets
+backported and does no harm.
 
--- 
-Péter
+--xkNM2tTQgD+DOtei
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm5RuUACgkQJNaLcl1U
+h9AfQgf/VAaRj6I5VjU+iAt5wOu/imM4dGay/S99ALt8Ewn35FjMynEZj9SKWZNs
+kIcAw34uZtovKJv7ZavcyDhDKrqAgfVc3qxlN9oy7avAoXg7scYIJfH9AQ8B2VF3
+aoPQSnYh1uM6+nfFqETH1ZdnGk+RTbGT0J3F8yLpEVt1asVUR4JYYr+T5GT67aOV
+C4EYB6HQC76pQMoNzLl2OaMcE69pSfbxar1w7KbUac1F3q2eoHk7F/X/bWgoxgMx
+fHesfDmZd+FjpVBmmsosuuoliT3Q9UgE6jDNGDByALRY3iL4WKEg15fG5xo8Hbzg
+SWxCEa9Zj+6jHLYpsqh2hAU0Q9hz0w==
+=GG/p
+-----END PGP SIGNATURE-----
+
+--xkNM2tTQgD+DOtei--
