@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADA53D6476;
-	Tue, 17 Mar 2026 13:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4772C2FFDE3;
+	Tue, 17 Mar 2026 15:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773755761; cv=none; b=NeNE0gcxt2FgN1Brs/VTO3taKRFHwhFQKkaPOz0BOUyGepwS4evvAggAX9m2rbAIgabApfwtWa4yaaG20gf/qJiYw55+msOVY5pPrZtfe9ZXv3//VTzf5dvZiaNa0MQVS/7Zk+JPjGlqkBrWneErF80aazdk61Fy6dYWxqOaegc=
+	t=1773761877; cv=none; b=uGR74dEtqxSiNeqjh56MWrOcYdyUnz3vy8AKTReXWAghMNbgLvR1QZqH4HvWoW02VOiUq+3xJlkiILfDQHQOrtvnkMN5nGRO/t9eDzoglxYXMBjL2uR/Lrj3r5jKfL1eIRl5aY5NXktNk2c2inmQCLoRIntbHW32T5WdeIhl2To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773755761; c=relaxed/simple;
-	bh=jVmkV6ljx6YWWMHlduO2hDsiKm3JPJhnhgt1x+g8DYI=;
+	s=arc-20240116; t=1773761877; c=relaxed/simple;
+	bh=DcWDoPOQi8OWycAsnbaXUva+OhLKC9WXzF54eDNcDtM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CaOe1FrxKScKOKwapzhgM4y/OfqgnlH8phWcprRIL0NC6fZtOv643nEjVkNZxPSNk3cm+7/byCFV/e2zSngzC2N3KgfBXzmZgDmuquEclv4mBldG8WKVV6Sp7ExiCXI0sSPZHldrowry+fNe1NAQTHY+QjJGcXNx9c+ZZt8A33M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qGqnPlpG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tijVTIDP5CgLxLaXkMdBHufjPy7clqyEExRXUiNw7vrm9CfzSkvx9m2R0kaMkl65xcbhOehYxBhCkGuaj496et+AEOqR/tjwwhJgFFb0oIWZbRsUrOifFKX95r11vUfugJqZKQW2vdj0pxcYUWEv494NHjw98m7Hq7YGJEKBZE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EBRsMi4S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qGqnPlpG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7392C4CEF7;
-	Tue, 17 Mar 2026 13:55:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EBRsMi4S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 312E5C4CEF7;
+	Tue, 17 Mar 2026 15:37:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773755761;
-	bh=jVmkV6ljx6YWWMHlduO2hDsiKm3JPJhnhgt1x+g8DYI=;
+	s=k20201202; t=1773761877;
+	bh=DcWDoPOQi8OWycAsnbaXUva+OhLKC9WXzF54eDNcDtM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qGqnPlpG5H8xJ3obYVIzMAeEhsAOrkh5B0OBE5qhsTf0VUZbsaWDNTGJMwEd+3Y+A
-	 PN1RymLaO6ZsXF0uN5q5s2iAN2wtE9y9zWC58udIePowO0YyYero3B9IXge0rEfsDa
-	 KIzaHj3YU5oFnUGMRkHUt9hkguEWXdbjLpNf6Vy6XV2sHn5zojdPNTk1AIaaOnCJxe
-	 vu/d/s/tyZENyDH0RJ1QhWgcLx3fGKhWHZQvqAOk91IM0k7UcNwAHBD78C4h65/lEc
-	 koM7pRV0bnvF+ytcEaj1rJIgJIe8BchJwl2ICrdmibeYHXOOFFoCaapUL6V6N3S/fe
-	 q8z9WdMWr57tQ==
-Date: Tue, 17 Mar 2026 13:55:57 +0000
+	b=EBRsMi4SUpUIVymolaQ7bAUTc58oEIWATPG3W8IDnunWYD2p/O4mmZLarUC1gORun
+	 hUjrM8garSrRxUvPdhnpE35VxwC7UAs0kLDzoNbt5h5REhUMlXSN0wWMHmj/fTWNXh
+	 aRtwlsgdp+312YCC0xbTIjyw4Ue5VfL48V6qzCvMZAJQRdkgz9SaWN3oQIbmJ9zmye
+	 shERz/LRLPNmtaEtMJmVyOgSIJNE29KKllYpXlYmrSvp1aJoYtpL5v57u4aAs2m+QQ
+	 xEseqTgQl6r9MkMZJue+g2KQzCpWFeNvqAOlalmXToGpdqNexfe5oWlP9xjigiCnFr
+	 jvKmU/Nuet+GA==
+Date: Tue, 17 Mar 2026 15:37:53 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, alexander.stein@ew.tq-group.com
-Subject: Re: [PATCH v2 2/2] ASoC: fsl: imx-card: initialize playback_only and
- capture_only
-Message-ID: <af97f536-be17-4173-83d4-3f3f052514ee@sirena.org.uk>
-References: <20260317033952.462209-1-shengjiu.wang@nxp.com>
- <20260317033952.462209-3-shengjiu.wang@nxp.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 00/10] ASoC: wm_adsp: Some improvements to firmware file
+ search
+Message-ID: <e9fc894a-4183-4d22-a9d7-6ad05167abe0@sirena.org.uk>
+References: <20260310141817.1871794-1-rf@opensource.cirrus.com>
+ <70c45f75-7ccb-476b-8646-3896181a2569@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,44 +43,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u5B8Xh/bOBcTqSb1"
+	protocol="application/pgp-signature"; boundary="sa945wqYn6aK3Hx1"
 Content-Disposition: inline
-In-Reply-To: <20260317033952.462209-3-shengjiu.wang@nxp.com>
-X-Cookie: Must be over 18.
+In-Reply-To: <70c45f75-7ccb-476b-8646-3896181a2569@sirena.org.uk>
+X-Cookie: 98% lean.
 
 
---u5B8Xh/bOBcTqSb1
+--sa945wqYn6aK3Hx1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Mar 17, 2026 at 11:39:52AM +0800, Shengjiu Wang wrote:
-> Fix uninitialized variable playback_only and capture_only because
-> graph_util_parse_link_direction() may not write them.
+On Fri, Mar 13, 2026 at 02:58:13PM +0000, Mark Brown wrote:
+> On Tue, Mar 10, 2026 at 02:18:07PM +0000, Richard Fitzgerald wrote:
 
-> @@ -544,7 +544,7 @@ static int imx_card_parse_of(struct imx_card_data *data)
->  	struct snd_soc_dai_link *link;
->  	struct dai_link_data *link_data;
->  	struct of_phandle_args args;
-> -	bool playback_only, capture_only;
-> +	bool playback_only = false, capture_only = false;
+> > This series makes some improvements to the code that searches for firmware
+> > files.
 
-Don't we need to initalise these once per link rather than once for the
-whole function, otherwise if they are initialised one time then any
-subsequent links will inherit the new value?
+> > Patch 1 is a trivial patch to remove an unused function argument, before
+> >    adding any new code that uses this API.
 
---u5B8Xh/bOBcTqSb1
+> > Patches 2..4 add KUnit testing to prove that the subsequent changes don't
+> >    break anything.
+
+> > The remaining patches remove duplicated code and clean up some of the
+> > implementation.
+
+> Actually I'm seeing failures with this running on arm64, they were
+> missed by my testing due to issues with KUnit in -rc1, looking at this
+> clearly a lot of the problems are knock on results of an initial failure:
+
+Any updates on getting this fixed?
+
+--sa945wqYn6aK3Hx1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm5XWwACgkQJNaLcl1U
-h9D9IQf7B64bLLxGqqBBgoHxureWnohpxFSN8tT0TamhcY5YbsdpuxlWjSLEFmci
-s24pQ05WJQ84SZsqpojgT8lrcpUIA6APDcV8ftrX2aRpSdFQZyhuuJescToxo41F
-CpMdRuRgk6yxBB0X5ROHdPnQarKoi9u1rMvljpr9e7cWZo7UJnTpNliuln02Vtok
-IRsyA9VCOfmmue0fK5sHpB6otRbxXrbIeE9VM6XodQP7uT+u8PBuhYD5YzucGSr2
-vGG+GT1Y8D9F+QvbAgQBF9noM+zf95pjpPE7+6XfICyj1UhUavXoobQAqUhYbvC8
-Er/CVaDRd4QlvJJh5PuBHwf4rO+8eA==
-=Y6vf
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm5dVAACgkQJNaLcl1U
+h9D+rAf/eJtQdR4ksbkEhNm3Mmj3Cr10Zo5uT/3gXH9vxOjQvq61AxSlWIQgnDTX
+y+pyQeOzD4R3q8IBC/aRAfmG9BV1wmwjph8aI1a3pRX3ogFwWBfHV8Zp9WhKMBb6
+cyUd4FvdI9RnJbkUPscMH4QtxWd0pAHphW0pLDAdHMkB5LtbD8XEoJocYvtNyaOG
+RWWgSLz6A+Z9rAHBc906FTZ5BfqxCNPLpuVNSxSfjRGGP35YEFIYBtBGobxFoso7
+5nRUbkyPXnbIerv3tTBk0D68QK+l+jdQ0STbA0rYdtqOu0kV8q46VuNlmE03L04l
+q5Ch9GscnDIqINuaO7Ea64m/hgKhXw==
+=7SVC
 -----END PGP SIGNATURE-----
 
---u5B8Xh/bOBcTqSb1--
+--sa945wqYn6aK3Hx1--
