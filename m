@@ -1,79 +1,119 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8316FC5
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 19:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5243937C11E;
+	Tue, 17 Mar 2026 20:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773775961; cv=none; b=blgY+RwpwyjSmj497SHJ2ggm8ofcw8gFcUDbNx9OoRWI772gjufF8sdPS7TTAYHv2C2evo4ODJquSq/xcIFXF+FdUtdlY/7o/y9rk97qlEAGG41e+1aGgtEmiL6lf7JtVwzFRAvhXX8Jvp5e93ECaewTks9y4FzSPP6potnGXNQ=
+	t=1773778346; cv=none; b=AVBGjG96N2YdNc3qBaFqVB8BcQ1MDZrUzwzkcoIEU180jZKpGq5mpr51whpVKM2xwKHiUxwwmhtbQbVvc4c1cJc1q8e6Uy+QETqA4MqxDWdbQ6HmOB6ftEODRJn0AO5EBdpKVd2ClewomdqcgDj4METq+pFV2wMT13m2do3Hp1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773775961; c=relaxed/simple;
-	bh=8clZLyoAbTgTzPuHrcgaMmpvyIV+9WdGByUMkw5fAkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f+SyYQF0nlUXl2FXJknh7cYTW7tpFeUgPhuYofbOqx1xJiza5GNyXifOga9C67H+5q80yuzMU9yRHbhx0sXp8cpm2x6bDlf+q3Hhr5X+2CuTuafgJ5t2MJqn/rWnTmqttCJX1xHYBNZzywFmk6yyn5Fe44sU1aoPXukA3q6wLYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=LI/uXYkz; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1773778346; c=relaxed/simple;
+	bh=mNwI6kXdR7VYsy+ecKSqi20yTNSIaZRyQCCA0fH8/B4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SMePCAntsCcSb+SUJ7HnZl69+5gnnps2hcYdM3E+gdDHyK/rUuZQOt0FKJRNf+QREwd7hrbhuzuUCmfw/zJkuUT5SogZM4f8wcdthXoZ+aWVrGc5YFjbMhG/N2HwjzjQEuj8he+9+KAg7aiJbCDQi+MiaofGI8mBTKo+99yXOqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OnraWriD; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="LI/uXYkz"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id BC5F3678F6BF; Wed, 18 Mar 2026 06:02:30 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu BC5F3678F6BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1773775950; bh=KXSsEhmu8TeS8ODdP2whohSDvlB+fhiBLFvdtFvZ/p8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=LI/uXYkz4SflAwRZYo+OizFUNnoTpWmUP35e6p9XOQq0fT8FKCqrmridG277R0PX0
-	 sfI1xqrz+WY6cwKRbeuShVHLQGx6DDosYN5CbJv4Md4r0F3I1wc0zpOujp7utcORIN
-	 B+gZrsR09IJP3K1UpzY4BIBYFvDH/OWlLEdxh0EI/2UUjmkYAJ1g/UZwbu8/8cjWaU
-	 C0a1H5v6WISgm8lvaJL0wJJNWvChSVcH4aUym+6XxNWz3NA3q+lgF9BMLZONvB0btl
-	 5gD6PVUlUJFwyRbYJu4ZK4JZCvvrG4r84L56DK607cvjf+qbft316RdoeC2jTzX4xF
-	 C1GmTVa9omCWA==
-Date: Wed, 18 Mar 2026 06:02:30 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Exclude Scarlett 2i2 1st Gen from
- SKIP_IFACE_SETUP
-Message-ID: <abmsTjKmQMKbhYtK@m.b4.vu>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OnraWriD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773778344; x=1805314344;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=mNwI6kXdR7VYsy+ecKSqi20yTNSIaZRyQCCA0fH8/B4=;
+  b=OnraWriDyIJplpc+lNjuXGrgqNffkFPenhff26+8TYywQ36OOPcQa9Yr
+   N+s3ZCAwGbUcNh57qYEpc63FZxpuCi47VAAPSo/gyPS+f25Dx0GroweJw
+   O+gNIRxxwDBDvdL4EruNB45/F6raQaCNFJE8rLSXD5oJkk9UC4/ivaVNh
+   4pLpzD+YRABUmBCIKTz3ZtlpQG+LrYQsrMNP99qrmF7WQBWxTIRKQMPXm
+   b2h1JZn8HO0dxoo+so2nkusxOVDEXkeWi5lS1/Pq17Jxow+3zycrZ/GlS
+   luZlWftJaZKHlvabRK+2bCp6js1KmF4QExMYxHfNqCMxGDHIDeFZbwsNy
+   g==;
+X-CSE-ConnectionGUID: BUnWJZMcRp2JBwQTbyiAuA==
+X-CSE-MsgGUID: n14QOxmLTd2vFiaXhivUcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74523474"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="74523474"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 13:12:24 -0700
+X-CSE-ConnectionGUID: ue86XasPSUmNTCDa3/yZ8A==
+X-CSE-MsgGUID: 8sH83R47R2WRhYiJuQjxZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="222352497"
+Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.32])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 13:12:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Gui-Dong Han <hanguidong02@gmail.com>, gregkh@linuxfoundation.org,
+ dakr@kernel.org, rafael@kernel.org, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: gustavo.sousa@intel.com, demarchi@kernel.org, jouni.hogander@intel.com,
+ luciano.coelho@intel.com, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-sound@vger.kernel.org, akaieurus@gmail.com, me@ziyao.cc, Gui-Dong
+ Han <hanguidong02@gmail.com>
+Subject: Re: [PATCH 4/4] drm/i915/display: initialize string params to empty
+ strings
+In-Reply-To: <20260317191538.43535-1-hanguidong02@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260317185920.43387-1-hanguidong02@gmail.com>
+ <20260317191538.43535-1-hanguidong02@gmail.com>
+Date: Tue, 17 Mar 2026 22:12:13 +0200
+Message-ID: <c14b399c9c6bf96f8c7d33615561b0d787ff175b@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-The Focusrite Scarlett 2i2 1st Gen (1235:8006) produces
-distorted/silent audio when QUIRK_FLAG_SKIP_IFACE_SETUP is active, as
-that flag causes the feedback format to be detected as 17.15 instead
-of 16.16.
+On Wed, 18 Mar 2026, Gui-Dong Han <hanguidong02@gmail.com> wrote:
+> Passing NULL to debugfs_create_str() causes a NULL pointer dereference
+> upon reading, and is no longer permitted. Change the default values of
+> dmc_firmware_path and vbt_firmware to empty strings ("").
+>
+> Existing code that consumes these parameters already verifies both
+> pointer validity and string length, so empty strings are handled
+> correctly. Furthermore, heap allocation is not required here: these
+> debugfs parameters are created with strictly read-only permissions
+> (0400). As a result, the debugfs write operation is never invoked,
+> meaning the static empty string will not be erroneously freed by
+> kfree().
+>
+> Fixes: e9913f0bd2e1 ("drm/i915/display: move dmc_firmware_path to display params")
+> Fixes: 29292bc6cc37 ("drm/i915/display: Move vbt_firmware module parameter under display")
+> Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display_params.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_params.h b/drivers/gpu/drm/i915/display/intel_display_params.h
+> index b95ecf728daa..0a8cad98d480 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_params.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_params.h
+> @@ -23,8 +23,8 @@ struct drm_printer;
+>   *       debugfs file
+>   */
+>  #define INTEL_DISPLAY_PARAMS_FOR_EACH(param) \
+> -	param(char *, dmc_firmware_path, NULL, 0400) \
+> -	param(char *, vbt_firmware, NULL, 0400) \
+> +	param(char *, dmc_firmware_path, "", 0400) \
+> +	param(char *, vbt_firmware, "", 0400) \
 
-Add a DEVICE_FLG entry for this device before the Focusrite VENDOR_FLG
-entry so that it gets no quirk flags, overriding the vendor-wide
-SKIP_IFACE_SETUP. This device doesn't have the internal mixer, Air, or
-Safe modes that the quirk was designed to protect.
+Admittedly this is all very convoluted, but these NULL pointers (or
+pointers to them) are never passed to debugfs_create_str().
 
-Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
-Reported-by: pairomaniac [https://github.com/geoffreybennett/linux-fcp/issues/54]
-Tested-by: pairomaniac [https://github.com/geoffreybennett/linux-fcp/issues/54]
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
- sound/usb/quirks.c | 1 +
- 1 file changed, 1 insertion(+)
+BR,
+Jani.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index ffc08ee869ae..a28be9115440 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2423,6 +2423,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_CTL_MSG_DELAY | QUIRK_FLAG_IFACE_DELAY),
- 	VENDOR_FLG(0x07fd, /* MOTU */
- 		   QUIRK_FLAG_VALIDATE_RATES),
-+	DEVICE_FLG(0x1235, 0x8006, 0), /* Focusrite Scarlett 2i2 1st Gen */
- 	VENDOR_FLG(0x1235, /* Focusrite Novation */
- 		   QUIRK_FLAG_SKIP_CLOCK_SELECTOR |
- 		   QUIRK_FLAG_SKIP_IFACE_SETUP),
+
+>  	param(int, lvds_channel_mode, 0, 0400) \
+>  	param(int, panel_use_ssc, -1, 0600) \
+>  	param(int, vbt_sdvo_panel_type, -1, 0400) \
+
 -- 
-2.53.0
-
+Jani Nikula, Intel
