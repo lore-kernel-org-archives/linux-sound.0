@@ -1,62 +1,64 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A1437FF5B
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 19:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A589E3F87F8
+	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 19:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773774004; cv=none; b=rC2xeENK3insS/ETBTuSE66C6/cROCypDW4qX3QkKYSJ3BPFAzIwt320v1iRkL53rjefLQcNUySkvDVs9plsRIRJd12afWMcRA5wQ9unhpYIOdjIJPVkrFBMJqui+HMG2MUIOQtYLBvR7cE/TSEFD7GUPSfiUNPq3S3BczKw5zU=
+	t=1773774029; cv=none; b=dYq5MNKMgVgP3twDkW0wQ7D9M/3OjpUxoE7aizjnfWEEzRktumTYFOe10+68PX2eOR18Wr5ra7i6FSbK32mpYkO7KxSjSICobzLBEb8vzRAbsV/87kH6N2qFK85W8+SzDw+w6rFkdzHnl9hXQw4WINrtsjfJLg+LRT4GkTFleEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773774004; c=relaxed/simple;
-	bh=7toBs7ZZhUyluOq0svKcjp6u10Tro12z91fbmv9V774=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TjYDTizANVrDh90rlNacad/nnHaDU/G1/UuiZgi1gmBYqi5g3LStp2mywr4/fTBSl81KNsF4zrL7bPpZ48FbzpxIf5d94CMHImVCz+8KzuZdPhIfTVpQn18RzUYaBsYwcK3u1T2p5nzoRxypFTvUCx+Scdt0f+B6FIM+Dz1OHs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnwgLi/B; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1773774029; c=relaxed/simple;
+	bh=IMmJ1Uxode6XtjAurdNk51CWF8bJbOqEiTkikuLK0kA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZA3lMlVFlASysKG056I6qi+z5bs4bht0y7ZKz9LPR7hxtHk+Q/tLFUeOmisWeg+KB20tz/lthIj7ksWNZdiaPZ8B0SGNTCwbEQmm332fIJSR+aQfz6ylKBxyK76qZKmUFLJtMrEOM6ro5LB6b3KXt3T8ksHf8jgBQc28mM0eWTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OyqRYDRt; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnwgLi/B"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-35a1f3f07ebso2528981a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 12:00:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyqRYDRt"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3585ec417f6so88644a91.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 12:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773774001; x=1774378801; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1PcwMDnihsdnmKVOsfDRGKcGqZ39RTcsdWpVCxqwOIE=;
-        b=JnwgLi/B7PR6QTTpALGIGGvsYdQe+j2j1HFQ2ktbZlbIPHWRPiQtzaco1IqdtDXCrC
-         lSTjjsAtkMBmxvTDduAJTEyu/KlFUjcK3JfJ5dd8+lVad+5IDl6zOC7qb91xqCF4TgJP
-         PoNFTrok3z9kL4n0uS6Wu70ofR65MogRYgeqSljKglx8mjeUOQy0dnIS4VVxCtW0h2uJ
-         /wiXVwcddTTgOu83lMcFj//5IeMk+D/pE+pKOIdAJCPOBfA0eAqPS23nckHGi8xg5ubL
-         fXFJZXoXmczb0B/NEPM7LSRWnT/i/ImqRRwMrKcC+vfIWDn2aNhu5mWhUwcL+LoK5ed7
-         9/6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773774001; x=1774378801;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773774028; x=1774378828; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1PcwMDnihsdnmKVOsfDRGKcGqZ39RTcsdWpVCxqwOIE=;
-        b=HnCKaQsbkRSW5Bef/S6Dhh3pGtN4xb6Y1/NT6vdieZa6cIO2PdC3gf4z6kA/AgUBTc
-         JxDogvlyViHbplpKcXY2mjXFH+5vXEvQRSwYFAB+KmZupaQeyjh5c2/VejyNuzn6tgCu
-         CexX0+MmE0twjT52oww/O/1d8oCVUBkpxu0ctmd5pG9bTweakP5Fu71A06xhONXbDdbQ
-         e8h2qJoYDJ21NwYLKJjeACY8JLdzO+3PWkz7SMv2rLg387384RBapwII7wrL3dwRbvRs
-         m1hOPj2UvqmS6H3Bbi1udFBEDaYG3qImOasCvNs7n3PKSqUxjagzeHfDTvkgY9yRGBSC
-         CNaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUU31YvnjdnGBrM4g1P8aQC9tWROYyKWaMy8fSpP+a+yAnBoz3idaFoRQK5gCFjNgopkh5EBCrcsd8Cow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXUhF0bGF8x+CQMmx/ji51KHS4BiS1ko3qbVmksHKNNhxdy6tA
-	P0xrQM5Iocd+EHp4byPJ9RMqtX7YsnlNgXQ7EtMlkCZqR73pStrde47Z
-X-Gm-Gg: ATEYQzxlOaL4WJa57fJa0yuvgidcZOMezNrdH+OdPuROtYuu3K2+1gKNb0I9hVF5EKT
-	AA7f9jOohpJJGzJ4XZVMh/6CXI4yE3Qj62OQaxxgJVKcwiNCNayCgxLvZMAUFNV6nkyZkpBxcGK
-	CzykvRv9iRop5y99smaoyCWXhlxqueWMGQIxNsfb+ez6lGC4odAnnhIRLEVVKTUs9a9y8tmH1r4
-	Kzj7kzBbCZGemCYBqibfGnsjG7RbO4yOyb2lbyOcSTzvlgXE2pbwE3TKgc9RSsZnIKlNfqMq+ls
-	dVNIMbSYb9zikTWjdzssW351b0tzZJCDonU6EfVaZlrHkELTHf0Q28r3YzaiS1mVi+xDjeZr25J
-	8/ghJIlqBsasoF1+Ql5mwC0KCWmDaUxfJtKe5n8H78kVXnEwAbtV3W3Uj7p/u7ADrM48BtlvRmU
-	6hXF+KBjV3OXerv90cvWtEMYWNw4Ml4ojsPWnHYPw/CbPHUdyAbznI/5GkRyJA8s3X7emq92bGz
-	E6bGq6IuQm/FiuklBRPkKpy/zidlfooHPE1VWICem7aDTc3qY8Lf/KVmNsQT5RrJUmAxA==
-X-Received: by 2002:a17:90b:1dcd:b0:34c:35ce:3c5f with SMTP id 98e67ed59e1d1-35bb9e45688mr490920a91.5.1773774001443;
-        Tue, 17 Mar 2026 12:00:01 -0700 (PDT)
+        bh=N2RhT/UW1C987y6pJfFZ8RN5SYowSBt72Kbbj9XR2UU=;
+        b=OyqRYDRtonn4blxvkOO0RDAMk6TP7ykxtPAbYAEm0lQYMiUo3j5byudPtp/Mg/5XQx
+         Ga1+uqUNRflDa5XZznCqdhygMoWoN6y7OeVJiehZhr7Nfm/Ab9u8lzZYmdVbaLGVS8m/
+         FeQMQghWlAhSEpfwvpU3bTBPivhihdR2K5BdGLeztuyMPofOhZ4JIwDzB+SDkur3EWrG
+         EdZtOZJ59l2IsDLf+uRxMVkZKM5PlHT9ybDwjyTUIlXFjsEmnv9nEhzr6Ra99LvsSnSs
+         R9pnh3rJYw/PTRo8lUvwWqbkHzPBGkmyAKOGuc0ALIO6dIYyphbAafnhdxqSD8vtwZFa
+         swog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773774028; x=1774378828;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N2RhT/UW1C987y6pJfFZ8RN5SYowSBt72Kbbj9XR2UU=;
+        b=hsRAMaxVAHlFobQVvR94f9LR89szY+N2Yp3KrT35E475uhqbSrZaMEL9Qc0uFC+/P4
+         7mO67/p1EjkaUuaDmZhZarHBwQFLLvQVYHgeJJCeZej9EWOhZPqPIcVsCSU+1TM+sqFL
+         jAUqC/3yEAK0lkJRnymI6/nv0hfFnRitlSziCWhJcrHkYzMjdng3lVtgMCBxqnkKmklK
+         8LTX1V0cr5xpGbSqoZ/Kz8ixyFNDCh/OjASyLv9mJ7irJi0DEOPpBb9ELUzGxJW4f5SJ
+         FHgGiyAS8FwZmdPvgTS5a6o68rtdHp/UoBSNVfWPTv16Z5m3pBZPFqrxAxNb205VaqrR
+         3uSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCIET88uUOGt8WvFVfFAvw1hPNBBTBUBUIWJS2MF7kWHrLlcGJ+Nl+EQmSbNBSdpKzUbxg9Z0QYwtTBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+36sjWkAGyuEdDce7gKYBJM5d1sRA6pIeWiteC+XHv52PBrOK
+	/LxlalwTtGqihz64O2X6IZLJRWuYsDW3oTeBMq++pDOxfOVQWTzJ5kRB
+X-Gm-Gg: ATEYQzwW+EMPQjxAp0Qtw4qYbV1EIu894eacaIytCKVR1s1yR6AMeKn/M67oHesTv9Z
+	jjQDAK1zpbw2fHm9Zqd69JyzDf7ukzLgOJE1fX+cVYtOtn0dTPNKq02GKzOwjm2Azzw4rwmRjFU
+	DSuYnbxjLbjhnrpLC/R7O6/AyS95yAZM4AULOv+4DtIz8T7/nja316CVdxJbwsbNXEZ6mcD+61F
+	32gasVZr+78uwCI09JDLCS3isl68zJeWmCR5n1N2TtfsCUqjvVBWYLkA9RSp8Mu8fKQulhU9t1D
+	+MzR2bBIiTIAIl0TFVsgbUK7lMszzmzEV6eJqFZpTOS/XjCC4AivzboorRKVkq2b/B2G4HrAozK
+	OfmOKRoI8xy5fakam6+LeHusWihOiKTvwA0efBtJbwBplpQVjwWO1WYXCl5VtFO460ECc6+tIFT
+	cd7y20m3yXC9gdTGdqWfZ94V+SE6/8tgLN8aUlBfHZhoe93syA+vrhQLQzMG7mBFxgXNGVdAbtj
+	hWsPxxAez5eAxDyTPBsjCYmkRN5A5GIuMGDDZL8nAAelFq0fIFGWb6qz30bjNratzJ8vQ==
+X-Received: by 2002:a17:90b:35cb:b0:35b:92ba:66e4 with SMTP id 98e67ed59e1d1-35bb99b2ce2mr555490a91.7.1773774027874;
+        Tue, 17 Mar 2026 12:00:27 -0700 (PDT)
 Received: from 2045D.localdomain (76.sub-72-110-123.myvzw.com. [72.110.123.76])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bba5a2c60sm196240a91.9.2026.03.17.11.59.54
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bba5a2c60sm196240a91.9.2026.03.17.12.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 12:00:01 -0700 (PDT)
+        Tue, 17 Mar 2026 12:00:27 -0700 (PDT)
 From: Gui-Dong Han <hanguidong02@gmail.com>
 To: gregkh@linuxfoundation.org,
 	dakr@kernel.org,
@@ -69,11 +71,14 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	akaieurus@gmail.com,
 	me@ziyao.cc,
-	Gui-Dong Han <hanguidong02@gmail.com>
-Subject: [PATCH 0/4] debugfs: disallow NULL string creation and fix callers
-Date: Wed, 18 Mar 2026 02:59:09 +0800
-Message-ID: <20260317185920.43387-1-hanguidong02@gmail.com>
+	Gui-Dong Han <hanguidong02@gmail.com>,
+	yangshiguang <yangshiguang@xiaomi.com>
+Subject: [PATCH 1/4] debugfs: check for NULL pointer in debugfs_create_str()
+Date: Wed, 18 Mar 2026 02:59:10 +0800
+Message-ID: <20260317185920.43387-2-hanguidong02@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260317185920.43387-1-hanguidong02@gmail.com>
+References: <20260317185920.43387-1-hanguidong02@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,42 +87,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A recent bug report [1] highlighted a NULL pointer dereference when
-reading a debugfs string file created with a NULL pointer. The community
-discussed the issue and agreed that creating string nodes with NULL is
-invalid and should be forbidden at creation time [2]. Since no fix was
-submitted following the discussion, I have implemented the agreed
-solution.
+Passing a NULL pointer to debugfs_create_str() leads to a NULL pointer
+dereference when the debugfs file is read. Following upstream
+discussions, forbid the creation of debugfs string files with NULL
+pointers. Add a WARN_ON() to expose offending callers and return early.
 
-Patch 1 modifies debugfs_create_str() to reject NULL pointers, returning
-early and triggering a WARN_ON to expose offending callers.
+Fixes: 9af0440ec86e ("debugfs: Implement debugfs_create_str()")
+Reported-by: yangshiguang <yangshiguang@xiaomi.com>
+Closes: https://lore.kernel.org/lkml/2025122221-gag-malt-75ba@gregkh/
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+---
+ fs/debugfs/file.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Patch 2 is a code hygiene fix. While modifying the file, I noticed the
-EXPORT_SYMBOL_GPL for debugfs_create_str() was misplaced far away from
-the function body. This patch moves it to the correct location.
-
-I carefully audited existing callers across the kernel tree. Some
-drivers passing NULL have already been independently identified and
-fixed [3]. The remaining two subsystems (soundwire and drm/i915) are
-addressed in patches 3 and 4 by initializing their respective string
-parameters to empty strings (""). The existing logic in both subsystems
-correctly and safely handles empty strings.
-
-[1] https://lore.kernel.org/lkml/17647e4c.d461.19b46144a4e.Coremail.yangshiguang1011@163.com/
-[2] https://lore.kernel.org/lkml/2025122221-gag-malt-75ba@gregkh/
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8cc27f5c6dd1
-
-Gui-Dong Han (4):
-  debugfs: check for NULL pointer in debugfs_create_str()
-  debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
-  soundwire: debugfs: initialize firmware_file to empty string
-  drm/i915/display: initialize string params to empty strings
-
- drivers/gpu/drm/i915/display/intel_display_params.h | 4 ++--
- drivers/soundwire/debugfs.c                         | 5 +++--
- fs/debugfs/file.c                                   | 7 +++++--
- 3 files changed, 10 insertions(+), 6 deletions(-)
-
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index 3376ab6a519d..a941d73251b0 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -1127,7 +1127,7 @@ static const struct file_operations fops_str_wo = {
+  *          directory dentry if set.  If this parameter is %NULL, then the
+  *          file will be created in the root of the debugfs filesystem.
+  * @value: a pointer to the variable that the file should read to and write
+- *         from.
++ *         from. This pointer and the string it points to must not be %NULL.
+  *
+  * This function creates a file in debugfs with the given name that
+  * contains the value of the variable @value.  If the @mode variable is so
+@@ -1136,6 +1136,9 @@ static const struct file_operations fops_str_wo = {
+ void debugfs_create_str(const char *name, umode_t mode,
+ 			struct dentry *parent, char **value)
+ {
++	if (WARN_ON(!value || !*value))
++		return;
++
+ 	debugfs_create_mode_unsafe(name, mode, parent, value, &fops_str,
+ 				   &fops_str_ro, &fops_str_wo);
+ }
 -- 
 2.43.0
 
