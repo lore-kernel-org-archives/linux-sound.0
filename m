@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9CD3B6C1A;
-	Tue, 17 Mar 2026 11:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A6D3B8938;
+	Tue, 17 Mar 2026 11:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773747189; cv=none; b=s1//mCWdivvc4+y9+C6fw/G7ELQTVoO7g7Hw2143OqMFF5rpDOvj0vfEjhZ5jtWLPoJrQDedNck/r9dMmmN/EIkAXbZpJmI8jpgF8tP/DL6rwLG6WiawpbnctOG76VujViYZwvMTXOs2Pdc4CDbP7LImxVhn6NF3guMTTCRpb6o=
+	t=1773747191; cv=none; b=c9cVF75widBOfTp+R1oPbrVRHyb1sW9huTl58zfOo/YeZ7oKu8dD0+qN4R16Tts6IMxOdJ0sMytPpkor5z8dhV+fzS3tNJE1HPGZU3qCxtxIqRnTn1ySWvCYTFW5+hvToqD2i+0UmhrxHb06/G+X68bGey2Hbw923zikMypvMsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773747189; c=relaxed/simple;
-	bh=amNUuOBsbetaC/ly/Csdex/YH7npj0Iq2bSyaCheg/o=;
+	s=arc-20240116; t=1773747191; c=relaxed/simple;
+	bh=JEJzMC7JKr5FmW+9VFixyXgn97ExOON2VornUdb+rH8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rVCkxCaa3JbWjBbxt/F1Q9uVaeSdgy8xsOx3Kr4p6/0SFQMGUntXMEzgE6gW/0qQaVj5KBZ+A0ZsKpXykfTLW7pWnYz/sOlLk7QMAV2VX2rNqOc++nrGsTXUolouM5BIiiaplmFGjlI/KAsdv2egou7lNFnEkvU2a1KwYjR5oaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Khz+tEw9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=St3pvdQD2Kf0cbQIEHCbFgvkkvlTgkvmxQ4z3oTM+VrRPz7B1fuLDHzYCSfs/vPSrO+PxK7IlCwgQ5+2/vK46lsl8ebl8MwX3WDjfOtlnugjo0rnmceAuv04MdzQ4w1906slQe/6ADhEtFNx0hWjquh59txxZBErDgYiVuoDHZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWZ6SAyx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Khz+tEw9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFC9EC4CEF7;
-	Tue, 17 Mar 2026 11:33:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWZ6SAyx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77846C2BCAF;
+	Tue, 17 Mar 2026 11:33:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773747188;
-	bh=amNUuOBsbetaC/ly/Csdex/YH7npj0Iq2bSyaCheg/o=;
+	s=k20201202; t=1773747191;
+	bh=JEJzMC7JKr5FmW+9VFixyXgn97ExOON2VornUdb+rH8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Khz+tEw9jaII72Mj6esqd6ibyYKKorcJdUMPgf8keXi7deoSTu7xOaCVXL6IsoRfP
-	 cXiZyRPxThChryx2exYyJVFZKzzUCDtk2yRmFd5lJKM/2fqWQuBY8u21fzNv+L7lSQ
-	 vTvN0vGlplojIpV0nVXsAy9vWBdgWc+uV0+uzRuZQy23atvaIWEfdLjFKTRwTgjFZ5
-	 /IuTfdEhpOaQM+ACCPeDrRRQmqXioPAUvHykptwGVVwOiGdko5OFd9ZGJdPZZ3UMu0
-	 bA4KtYLJAzR5zL9/ZHAQBHwPT7VoSGXUYWyaner/qEpv9WOMbjYovYZwYzakVlej41
-	 +2CVpmzq0zh8A==
+	b=cWZ6SAyxtlzmMVWmSawBqX4D8cCGzZiBDLcuzII2okY1H0aa9czXZrsO3nWQ748df
+	 1pZcu3f0k9f6v3bm0QGR0gLwA+/yE+3+lDGC41Z4gM59QpHrrvnyepb5UKjv3no65O
+	 80cVdDr58EjoRnPtuoSfrIgbx8GTZwUcJA/MU0L17eyN4eX2rGCHY0dEZkHIJH0TEl
+	 4xCANIVAq/PcvxNjcg2HDR3LhRHhM9eT16sqg2la+vmxOlmu/soDBhjqIBDhq2tFuw
+	 g/MwFGIEuH2taP46RWJg8l+cbWaHhr9KIWLgNmPrjx2ymymUH4t6444oPM2/IULN9O
+	 5amUl7DnRtZ/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Zhang Heng <zhangheng@kylinos.cn>,
+Cc: Uzair Mughal <contact@uzair.is-a.dev>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix headphone
-Date: Tue, 17 Mar 2026 07:32:45 -0400
-Message-ID: <20260317113249.117771-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.10] ALSA: hda/realtek: Add headset jack quirk for Thinkpad X390
+Date: Tue, 17 Mar 2026 07:32:47 -0400
+Message-ID: <20260317113249.117771-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260317113249.117771-1-sashal@kernel.org>
 References: <20260317113249.117771-1-sashal@kernel.org>
@@ -54,149 +54,100 @@ X-stable-base: Linux 6.19.8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Heng <zhangheng@kylinos.cn>
+From: Uzair Mughal <contact@uzair.is-a.dev>
 
-[ Upstream commit 56fbbe096a89ff4b52af78a21a4afd9d94bdcc80 ]
+[ Upstream commit 542127f6528ca7cc3cf61e1651d6ccb58495f953 ]
 
-The BIOS of this machine has set 0x19 to mic, which needs to be set
-to headphone pin in order to work properly.
+The Lenovo ThinkPad X390 (ALC257 codec, subsystem ID 0x17aa2288)
+does not report headset button press events. Headphone insertion is
+detected (SW_HEADPHONE_INSERT), but pressing the inline microphone
+button on a headset produces no input events.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=220814
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
-Link: https://patch.msgid.link/b55f6ebe-7449-49f7-ae85-00d2ba1e7af0@kylinos.cn
+Add a SND_PCI_QUIRK entry that maps this subsystem ID to
+ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK, which enables
+headset jack button detection through alc_fixup_headset_jack()
+and ThinkPad ACPI integration. This is the same fixup used by
+similar ThinkPad models (P1 Gen 3, X1 Extreme Gen 3).
+
+Signed-off-by: Uzair Mughal <contact@uzair.is-a.dev>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20260307012906.20093-1-contact@uzair.is-a.dev
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis: ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix
-headphone
+## Analysis
 
-### Commit Summary
+### What the commit does
 
-This commit adds a new HDA audio quirk (`ALC897_FIXUP_H610M_HP_PIN`) for
-the Gigabyte H610M H V2 DDR4 motherboard (PCI SSID `0x1458:0xa194`). The
-BIOS incorrectly configures pin `0x19` as a microphone input, but it
-needs to be configured as a headphone output (`0x0321403f`) for the
-hardware to work properly.
+This is a single-line addition of a `SND_PCI_QUIRK` entry for the Lenovo
+ThinkPad X390 (subsystem ID `0x17aa:0x2288`) using the ALC257 codec. It
+maps this device to the existing fixup
+`ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK`, which enables headset
+jack button detection.
 
-### Classification: Hardware Quirk
+### Bug being fixed
 
-This falls squarely into the **QUIRKS and WORKAROUNDS** exception
-category for stable backports. It:
-- Adds a new `SND_PCI_QUIRK()` entry to an existing quirk table
-- Adds a corresponding `HDA_FIXUP_PINS` definition
-- Targets a specific device identified by PCI subsystem vendor/device ID
+Headset button press events are not reported on this laptop. While
+headphone insertion is detected, pressing the inline microphone button
+on a headset produces no input events — a functional defect for users.
 
-### Code Change Analysis
+### Stable kernel criteria
 
-The change is minimal and entirely self-contained:
+- **Obviously correct**: Yes — it's a one-line quirk table entry using
+  the same fixup already applied to similar ThinkPads (P1 Gen 3 at
+  `0x22c1`, X1 Extreme Gen 3 at `0x22c2`).
+- **Fixes a real bug**: Yes — headset buttons don't work without this
+  quirk.
+- **Small and contained**: Yes — one line added to a quirk table. Zero
+  risk of regression on other hardware.
+- **No new features**: Correct — it uses an existing fixup on existing
+  driver infrastructure.
+- **Hardware quirk exception**: This falls squarely into the "audio
+  codec quirks" category explicitly listed as appropriate for stable
+  backporting.
 
-1. **New enum value**: `ALC897_FIXUP_H610M_HP_PIN` added at the end of
-   the existing enum
-2. **New fixup definition**: A simple `HDA_FIXUP_PINS` entry that sets
-   pin `0x19` to `0x0321403f` (headphone out)
-3. **New quirk table entry**: `SND_PCI_QUIRK(0x1458, 0xa194, "H610M H V2
-   DDR4", ALC897_FIXUP_H610M_HP_PIN)` matching the specific Gigabyte
-   board
+### Risk assessment
 
-The pattern is identical to dozens of other quirks in this file. The
-fixup type (`HDA_FIXUP_PINS`) is the simplest kind — it just overrides a
-pin configuration value. No chaining, no custom functions.
-
-### Bug and Impact
-
-- **Real bug**: Headphone jack doesn't work on this Gigabyte motherboard
-  because the BIOS misconfigures pin 0x19
-- **User report**: Linked to bugzilla.kernel.org bug #220814, confirming
-  a real user hit this
-- **Impact**: Without this quirk, headphone output is completely non-
-  functional on this board
-- **Scope**: Only affects the specific Gigabyte H610M H V2 DDR4 board
-  (PCI SSID match)
-
-### Risk Assessment
-
-- **Risk**: Essentially zero. The quirk only activates on the specific
-  matching hardware. It cannot affect any other system.
-- **Complexity**: Trivial — just a pin override table entry
-- **Dependencies**: None. The ALC897 codec support and the
-  HDA_FIXUP_PINS mechanism already exist in all stable trees that have
-  ALC897 support.
-
-### Stable Kernel Rules Compliance
-
-1. **Obviously correct and tested**: Yes — standard pattern, user-
-   reported and tested, accepted by Takashi Iwai (HDA maintainer)
-2. **Fixes a real bug**: Yes — headphone doesn't work
-3. **Important issue**: Yes — audio output broken on specific hardware
-4. **Small and contained**: Yes — ~15 lines, single file, no behavioral
-   changes to other hardware
-5. **No new features/APIs**: Correct — just a device-specific workaround
-6. **Applies cleanly**: Should apply cleanly as it's an addition to
-   tables
+**Minimal risk.** The change only affects the specific subsystem ID
+`0x17aa:0x2288`. It cannot affect any other hardware. The fixup chain it
+invokes (`ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK`) is already
+proven on multiple ThinkPad models in the same quirk table.
 
 ### Verification
 
-- The commit message explicitly states the bug: pin 0x19 set to mic by
-  BIOS, needs to be headphone
-- Link to bugzilla.kernel.org bug #220814 confirms user-reported issue
-- The change follows the exact same pattern as hundreds of other HDA
-  quirks in this file (e.g., `ALC897_FIXUP_HEADSET_MIC_PIN3` just above
-  it)
-- Signed-off by Takashi Iwai (tiwai@suse.de), the HDA subsystem
-  maintainer
-- PCI vendor ID 0x1458 is Gigabyte Technology (verified by convention in
-  neighboring quirk entries)
-- The fixup value `0x0321403f` decodes to a headphone output pin
-  configuration (consistent with the commit message)
-- No dependencies on other patches — the enum, fixup array, and quirk
-  table additions are all self-contained
+- The diff shows exactly one line added in sorted order within the
+  existing `alc269_fixup_tbl[]` quirk table in
+  `sound/hda/codecs/realtek/alc269.c`.
+- The same fixup `ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK` is
+  used by entries at `0x22c1` (P1 Gen 3) and `0x22c2` (X1 Extreme Gen
+  3), both visible in the diff context — confirmed directly from the
+  patch.
+- The commit is signed off by Takashi Iwai (ALSA/HDA subsystem
+  maintainer), confirming maintainer review and acceptance.
+- The vendor ID `0x17aa` is Lenovo, consistent with ThinkPad X390.
 
-This is a textbook example of a hardware quirk that should be backported
-to stable. It fixes broken audio hardware for real users, has zero risk
-to other systems, and follows an established pattern.
+This is a textbook stable-worthy hardware quirk addition: one line, zero
+regression risk, fixes a real hardware defect for ThinkPad X390 users.
 
 **YES**
 
- sound/hda/codecs/realtek/alc662.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
-index 5073165d1f3cf..3a943adf90876 100644
---- a/sound/hda/codecs/realtek/alc662.c
-+++ b/sound/hda/codecs/realtek/alc662.c
-@@ -313,6 +313,7 @@ enum {
- 	ALC897_FIXUP_HEADSET_MIC_PIN2,
- 	ALC897_FIXUP_UNIS_H3C_X500S,
- 	ALC897_FIXUP_HEADSET_MIC_PIN3,
-+	ALC897_FIXUP_H610M_HP_PIN,
- };
- 
- static const struct hda_fixup alc662_fixups[] = {
-@@ -766,6 +767,13 @@ static const struct hda_fixup alc662_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[ALC897_FIXUP_H610M_HP_PIN] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x0321403f }, /* HP out */
-+			{ }
-+		},
-+	},
- };
- 
- static const struct hda_quirk alc662_fixup_tbl[] = {
-@@ -815,6 +823,7 @@ static const struct hda_quirk alc662_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x8469, "ASUS mobo", ALC662_FIXUP_NO_JACK_DETECT),
- 	SND_PCI_QUIRK(0x105b, 0x0cd6, "Foxconn", ALC662_FIXUP_ASUS_MODE2),
- 	SND_PCI_QUIRK(0x144d, 0xc051, "Samsung R720", ALC662_FIXUP_IDEAPAD),
-+	SND_PCI_QUIRK(0x1458, 0xa194, "H610M H V2 DDR4", ALC897_FIXUP_H610M_HP_PIN),
- 	SND_PCI_QUIRK(0x14cd, 0x5003, "USI", ALC662_FIXUP_USI_HEADSET_MODE),
- 	SND_PCI_QUIRK(0x17aa, 0x1036, "Lenovo P520", ALC662_FIXUP_LENOVO_MULTI_CODECS),
- 	SND_PCI_QUIRK(0x17aa, 0x1057, "Lenovo P360", ALC897_FIXUP_HEADSET_MIC_PIN),
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 13d14c86569f9..f213f8792b01f 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7471,6 +7471,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x224c, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x17aa, 0x2288, "Thinkpad X390", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x22be, "Thinkpad X1 Carbon 8th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x22c1, "Thinkpad P1 Gen 3", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
 -- 
 2.51.0
 
