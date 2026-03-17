@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6AC36212C;
-	Tue, 17 Mar 2026 07:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241C938758C;
+	Tue, 17 Mar 2026 07:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773731217; cv=none; b=OT6xE/m3n4RCav59XWMKQwD7exoHBRIleiFacXwOeAgH+mJg2shX90dFg6yIPJca8fWlrfhwFKYy/B5NNokdATA+ytIQflAECSjnxxMD4veSaSKN/Ovi4DFGTz4Es5cnzj1z+18Vh9MPoF7BvS1fT6F44Vqs7MI5cCBH0iFO7S8=
+	t=1773731519; cv=none; b=U5Io/jadvOJ0zwC0assIicJWaCydOCTqzj5XgEZ+YEwIzFOU88xFUkbOJmpFHzVl8gKTMQ/masBhEQbOkfHG+bToGly2q/xw8aPUQ9e5OLuFEjnTuw6oThVrj9VThdihqGfULiPwb4mwK17YD02nHaxZUbfpfYGvvAaSWmwmfXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773731217; c=relaxed/simple;
-	bh=ncD+ciZETahyIEvstNidIoTH3GDfOd1p/Fa1wNYVrrM=;
+	s=arc-20240116; t=1773731519; c=relaxed/simple;
+	bh=jAcqWt+SpM5liiuFmHxyW7tMUA9OTuQwreUJliRF64c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sDqNwsCTl+UIIv/vPcoW9ALaBEXUHzKl5yJ5C6TVuwkFzg262SjsV1WaIB3TcfOzb5nzLpAMgEq4slYUvOFM/17umLliMQdYajZ/qifvAPJ5LjayBisPWUcTN1MIRvlb4q8Xp1SwC2rFEpY6uxPuwBEV2PCh5i+ce7Me2hjxjXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+Oafkfb; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=EAv+/9YxPZ43nRRnbgy9sFMoyzzDJpDtYyYWflaoButQJqUM7r/Lv2K6B8mvM8VjH+MtVO9+l+y1VobxPBqRyoZg1IUvbswt6M6O/40MEJdOqbSKHdi0mnBUgvMQF672vpka2DencjqKR+PkM6WwWeUIac7pFDvEF9z+QvgN4Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okPmgfUa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+Oafkfb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D04DC4CEF7;
-	Tue, 17 Mar 2026 07:06:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okPmgfUa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E429C4CEF7;
+	Tue, 17 Mar 2026 07:11:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773731216;
-	bh=ncD+ciZETahyIEvstNidIoTH3GDfOd1p/Fa1wNYVrrM=;
+	s=k20201202; t=1773731518;
+	bh=jAcqWt+SpM5liiuFmHxyW7tMUA9OTuQwreUJliRF64c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p+Oafkfb7/JP1Vt+VF/mYvn1NXXBuI5NiBp8wZ9+9Ce+hU4dejqr/WQD7SeAmtSA+
-	 7TSIQQSH6yC3AEbmBs9cDRanhPl4o1XBYeU9fks/9jl9nReMJ245jCw1Pj2oRPaWJH
-	 DWYwCJ5OMofANHzjXrxAbzQHDHeD4pw23X+wL1KrQtlsd6x+DdiWe2swyWeMgtpj7L
-	 mzWb9/JDQcaI9NAhvYuI6B1yoHTMDbmQfbk4H/cWvFJWpLfBMGGsOpID+3dO2PuNUt
-	 sAUeVDLHqlwkOj/OoBCi0q0Qey2p9rALnmmPDr4MhTdXx9QmPhovMuK4GGECKw/vHt
-	 yY/qZZ0Zei9Zw==
-Message-ID: <53379548-dcac-4724-8ec8-50ce07807cc4@kernel.org>
-Date: Tue, 17 Mar 2026 08:06:51 +0100
+	b=okPmgfUabxWWihvXGh5ZNUaZfe7e/rPpKET2arwmbm7tTr5n4yhbAvNAZ0nemGxMo
+	 5PN+HXd7vQJzLkIaYsgl/uh6pHjee2YmaZT07lF0oqxSNZ4nhIlb7w8BcVWB6fBJm+
+	 Y6wr3x/7lLAIPi+9Vs0fWtd/HYVcEhnWT8pDQeiSJZJTLL7AHWyM6TRKoPm/x+I5Gw
+	 lSabQJB12lD0A1lRJVcfiOparjG/IsZ70/wg/r5aGPUCI40ugi9v6vL8cpx8cip4T2
+	 bGHIASiRsWvwYT8N3Mi4tPx/KFw0mwx7oQM4aPTUgB5GamqFGeROKi5OR/CErRzq/a
+	 8qktyMCC0z6TQ==
+Message-ID: <fc9e0399-dc24-48c4-99db-f9e39a79cda7@kernel.org>
+Date: Tue, 17 Mar 2026 08:11:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,32 +35,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH v1 2/2] ASoC: tas2781: Add tas5832 support
-To: "Ding, Shenghao" <shenghao-ding@ti.com>
-Cc: "Xu, Baojun" <baojun.xu@ti.com>, "broonie@kernel.org"
- <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>,
- "13916275206@139.com" <13916275206@139.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-References: <20260226075737.405-1-baojun.xu@ti.com>
- <20260226075737.405-2-baojun.xu@ti.com>
- <20260227-ubiquitous-dashing-copperhead-b2c6a0@quoll>
- <9f861c7df09c4434a98a203ecff913bc@ti.com>
- <63b0f42e-56e8-474f-8805-4e01bb2f189e@kernel.org>
- <a7316acf9ba248f9ad1fab0313a95654@ti.com>
- <3cfa4036-e7a7-4cde-9dab-a171a63bdee3@kernel.org>
- <4865c7f626a340d7847354512367577e@ti.com>
- <596f90d0-8dbd-4afe-a722-bf2ba65e1776@kernel.org>
- <aaVcDvYvi28wFR2S@ashevche-desk.local>
- <c46a8bf5-7a6a-41a9-b18f-9a7ad7a60bb9@kernel.org>
- <3af19ebaf32d482ab5cf575b831b2d9d@ti.com>
- <f16d2a7f-04e2-4d99-9239-caca9fd1f7b5@kernel.org>
- <d8303fc67ae84232b4b6ff0ef8cad6f1@ti.com>
+Subject: Re: [PATCH v1 1/4] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document
+ DAI subnode
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+References: <20260309111300.2484262-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260309111300.2484262-2-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260310-crazy-screeching-angelfish-297bab@quoll>
+ <a7e7f32e-e365-4504-8ce9-1aada01bc52c@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,85 +95,112 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <d8303fc67ae84232b4b6ff0ef8cad6f1@ti.com>
+In-Reply-To: <a7e7f32e-e365-4504-8ce9-1aada01bc52c@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 17/03/2026 07:05, Ding, Shenghao wrote:
->>>>>
->>>>>>>>>>>>> static const struct of_device_id tasdevice_of_match[] = {
->>>>>
->>>>>>>>>>>>>       { .compatible = "ti,tas5827" },
->>>>>>>>>>>>>       { .compatible = "ti,tas5828" },
->>>>>>>>>>>>>       { .compatible = "ti,tas5830" },
->>>>>>>>>>>>> +     { .compatible = "ti,tas5832" },
->>>>>>>>>>>>
->>> ...
->>>>>
->>>>> I don't know what you are trying to get from them, but I²C
->>>>> enumeration on DT platforms works in a way that it takes two tables
->>>>> into account, hence, if there is no compatible (with given part
->>>>> number) there will be no matching name.
->>>>>
->>>>> AFAIK it has to have a compatible to make it work in such a case.
->>>>> What did I miss?
->>>>
->>>> Show me please then how the OF table is used here at all to get the name.
+On 17/03/2026 06:27, Mohammad Rafi Shaik wrote:
+> 
+> 
+> On 3/10/2026 3:25 PM, Krzysztof Kozlowski wrote:
+>> On Mon, Mar 09, 2026 at 04:42:57PM +0530, Mohammad Rafi Shaik wrote:
+>>> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
+>>> describe Digital Audio Interface (DAI) child nodes.
 >>>
->>> This code will also be used for ACPI devices. To ensure consistent bin
->>> file naming between ACPI and DTS devices, the mapping table
->>> tasdevice_id[] has been introduced.
+>>> Add #address-cells and #size-cells to allow representation of multiple
+>>> DAI instances as child nodes, and define a dai@<id> pattern to document
+>>> per-DAI properties such as the interface ID and associated clocks.
+>>>
+>>> Qualcomm platforms like talos integrate third-party audio codecs or use
+>>> different external audio paths. These designs often require additional
+>>> configuration such as explicit MI2S MCLK settings for audio to work.
+>>>
+>>> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>>> ---
+>>>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 41 ++++++++++++++++++-
+>>>   1 file changed, 40 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> index 2fb95544d..1d770cbcb 100644
+>>> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> @@ -21,6 +21,34 @@ properties:
+>>>     '#sound-dai-cells':
+>>>       const: 1
+>>>   
+>>> +  '#address-cells':
+>>> +    const: 1
+>>> +
+>>> +  '#size-cells':
+>>> +    const: 0
+>>> +
+>>> +# Digital Audio Interfaces
+>>> +patternProperties:
+>>> +  '^dai@[0-9]+$':
+>>> +    type: object
+>>> +    description:
+>>> +      Q6DSP Digital Audio Interfaces.
+>>> +
+>>> +    properties:
+>>> +      reg:
+>>> +        description:
+>>> +          Digital Audio Interface ID
+>>> +
+>>> +      clocks:
+>>> +        minItems: 1
+>>> +        maxItems: 3
+>>> +
+>>> +      clock-names:
+>>> +        minItems: 1
+>>> +        maxItems: 3
 >>
->> We need to stop discussing with irrelevant arguments, really.
+>> No, this is just way too generic. There is no such syntax in the kernel
+>> and this should stop you right there. You are not allowed to add your
+>> own style.
 >>
->> I asked to show me how this is going to be used in DT. No answer to this part.
+>> I don't think DAI is here a separate device needing its own resources
+>> expressed in DT. This is still part of ADSP so you just described in DT
+>> internal routing between two services on ADSP.
 >>
->> Now you claim this OF ID will be used for ACPI devices, but YOU HAVE already
->> ACPI table there, so that's clearly invalid argument. Do you understand how
->> patch/email review works? Where the comments appear and what is being
->> discussed?
->>
->>> The code retrieves the corresponding name of the chip from
->>> tasdevice_id[] based on its order in tasdevice_of_match[] or
->> tasdevice_acpi_match[].
->>
->> Based on the order in table? No, that's crazy buggy solution to tie order of
->> entries in both tables. And it makes no sense... and I am sure code does not
->> do it, so again irrelevant argument.
 > 
-> It should be noted that the current implementation relies on id_table 
-
-OF ID table is the ID table which we talk here about. Please read again
-where do the comments appear, which part is being discussed.
-
-> (rather than OF_ID) to obtain the chip name and chip ID. The chip ID i
-> s specifically reserved for handling exceptional cases, for example, 
-> the workaround for the TAS2781’s lower speaker impedance issue.
+> Thanks for reviewing.
 > 
-> Since the 58xx family lacks a dedicated register to query the chip ID, 
-> both the supported chip ID and name are stored in id_table.
->  This approach allows compatibility with both DT-based (Device Tree) 
-> and ACPI-based (Advanced Configuration and Power Interface) device.
-> 
-> 	if (ACPI_HANDLE(&i2c->dev)) {
-> 		acpi_id = acpi_match_device(i2c->dev.driver->acpi_match_table,
-> 				&i2c->dev);
-> 		if (!acpi_id) {
-> 			dev_err(&i2c->dev, "No driver data\n");
-> 			ret = -EINVAL;
-> 			goto err;
-> 		}
-> 		tas_priv->chip_id = acpi_id->driver_data;
-> 		tas_priv->isacpi = true;
-> 	} else {
-> 		tas_priv->chip_id = (uintptr_t)i2c_get_match_data(i2c);
-> 		tas_priv->isacpi = false;
-> 	}
+> I’d like to clarify that this is not intended to model the DAI as a 
+> separate physical device or to describe internal ADSP routing.
 
-I do not see the point you are making. All last replies felt off topic
-to me, so just to be sure - do you understand how i2c_get_match_data()
-works? That it calls device_get_match_data() which will return what?
-What exactly?
+If you do not want to represent the physical device, then I don't think
+it should be represented at all.
+
+> 
+> Requirement is to allow the kernel to send clock‑voting requests to the 
+> ADSP. LPASS MCLK routing is not enabled by default on the ADSP, so the 
+> kernel must explicitly request the ADSP to enable the relevant LPASS 
+> MCLKs, which is a real hardware control requirement.
+> 
+> These clocks are LPASS‑owned, and driving them via a third‑party codec 
+> is not appropriate. The intent of adding clock capabilities at the DAI 
+> level is to allow the kernel to associate LPASS clock votes with a 
+> specific DAI instance during stream activity.
+> 
+> While the DAI itself is not a physical device, some DT representation is 
+> required to describe per‑DAI LPASS clock requirements.
+
+DT's purpose is not to describe software constructs, thus DT is not the
+answer to your requirement of mapping clocks to specific DAI needs.
+Every person adding software properties made "some DT representation is
+required" claim.
+
+> 
+> I’m open to considering alternative representations, but removing this 
+> entirely would leave no generic way for the kernel to handle correct 
+> LPASS MCLK voting.
+
+I imagine that, since this is software construct, the software knows
+which DAI needs which clock. Clocks are strictly defined, thus driver
+should handle all this.
+
 
 Best regards,
 Krzysztof
