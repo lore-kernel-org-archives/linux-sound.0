@@ -1,224 +1,140 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010061.outbound.protection.outlook.com [52.101.228.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73112364925
-	for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 04:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773721357; cv=none; b=UY7wdW3MvE5lN3TpE/q3lw+Nk5fdEr27ziyju7KCz8Y/QnvpuKq3G70a/N2rw0Zp8QugQsWXi7ORA6AYj5hSGzOdGoijhaPVMA4piVkCBoohzlka+7Z7f02E92U77N0DscC9b5XlyJeJObpaG7vWdpk3eoobRLLHWIiXLWHYvjQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773721357; c=relaxed/simple;
-	bh=6DzbO4Ml1aHb3e7Sda0Z2wIyPUN3e5Y8nB2T9Ja5BYI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=clPhtTjnyek1DCNrdbyG71SjuFlyekh/YIyDBWVgbBmQJbt/cTH00FkVxkdF6Ywwfeo0L+5qNzoLN9HkuITmH/JAwht+W2YgU6WhIniN0YcmSxYlxVSn87i4y7J9PkT77FGg/vIaWRjqAux2s4TdJ2Agkizuna64lhE30f5/Ryo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XiHX7FOk; arc=none smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F0D33CEA5;
+	Tue, 17 Mar 2026 04:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773721547; cv=fail; b=NrN7RDQYtJ0mAUuJMclmixMBxhUfcu8vX1Rk35Dw9Tk/ajJJMGxdCL2b6Wmdd++zVxfVyW2NJRPmQvQqIAAa/SYgfeREULZPpRYwER9SpLwx2K1VyH4YeJVcdyv3f5GXWe7qCeMsBZHjHTS48zAQ1stVfpruw9Cs4hKxFon4zik=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773721547; c=relaxed/simple;
+	bh=F8HaRu6OSuadJsGNEWGl6cL/Z2o0j1gPoPI2Wm0DqAE=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=WvalMPhHOT0ryIjNZXLvVockUOeajKDSAWFbYkY6LtrL1MYsAV2wZHr95qsascJWK2zIUoEJxabN+4vjvQjN86m8KhM+o+swJ8lys/R/0n9V7E3Ydmvc7DoQn6e9tf5OUMC/xqE4IF8N/Jnd7ZtwsD6mTKp8M9whiTEf6EujZ7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=lVJQmvCQ; arc=fail smtp.client-ip=52.101.228.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiHX7FOk"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-128ebee22caso3210197c88.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Mar 2026 21:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773721353; x=1774326153; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NbNGfKsBjjjuyphN4yp+QwSP8eo9AaRUsQZLKwzJdEM=;
-        b=XiHX7FOk1TpEtw5BBENjN5R5OVa6XYyUQSXB6QrzFn71XWClOoKBqQjPZkO6JGMAPj
-         +4SGnRb3Xs5XIDDl9frE00M+MPtd8BMesunVXntsReaXaVlVEz68nyAP2B5+aSzPAsmX
-         YDSgG0badPp4lNgKHCZFVVCdEhQURKnYhokparstxPF3tpxl7BdbA8oO2pPFXA2JN50h
-         pnrTSjlf+OTiqIDbEL47s0eRHgws7XFBdADqrE3Fdn5dg3lvQ2CqokkJhCNosOZXe7zY
-         3f/ZfUqziuxz9elv87bj2XAu2R8nWxN7q7q7f50cDixuToLlMP52hsZFZYdhUcl1hTra
-         rPCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773721353; x=1774326153;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NbNGfKsBjjjuyphN4yp+QwSP8eo9AaRUsQZLKwzJdEM=;
-        b=AoI2GkJ3vKbdw91ejpSD3pL+NGmA/UL03+hrWTiF8il+tt+ae2VRchRTfjlwuC21tj
-         eZY+wBkRnovGTJa6m042RnqMDZsZXeWWkqVcQnJF8jlmVClqcqDF0oweq9QYErnVWj7Y
-         YPxzExFZuCUTIfd2WJkjPIrOsQdcp7ODH2PEpHfZcTBnEwQ0dm9VAaOd46CDHavZBa4Z
-         IoljiTNYrwK12dSt9ckR3NTODADaqLZhDDiWYpSFA6vQPHcY46Ln7T0nmP6S5znk+dVN
-         0FfbmrxnTM+FIizBodfAypK3NLC4MZpg8Tz33JQzoT5GfdIbYuaC/8WFzag1sYf4201Y
-         vyUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgmzMm5Ah36Ym2CRXkxkfqo8hbeHnKwa5QSOLThuQJcMIlkWPhWGny3TQ1ynNqwIPkgK0ZSsC3X0SFwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy04RQc2db49OruEXvShXLUJdK5P/OVQmN+JPiygRJWUEDnydHH
-	Q9ngquChPVYquLPXivxeq9PHH/zjvC7xOwPX0Yehd6njLjSzRYiESCJc
-X-Gm-Gg: ATEYQzxni351+a+TBq3bWoc9IYg6KM3aRfpt7WB1GAJtelZrSlHVrlikFkdMJh/bSFQ
-	4e25wDfz0VueL0B9BZjre79u62yDhMIj9opOtVJi0PRexVFq1f6jKPF3YahOTYjLFv6Gebe8VM9
-	DpWx1miyzFuv2dfMHeCimPYRfFqpDBIqW87dDqIFck7Wx+Eit5n0jreTywWO33EdcROex2cNE+/
-	cLw3vaTbg+0Nl7RKM4Ik9b3Mb1dGk7HZGLAF4uH/eZQwThfnK4txlBj1Ft4K5cPUv4HmprkoRvA
-	QTPf4I+VBF0Tq+8+lbvam7LcKcYgjWFKe80pIbRB/Rd+6wJ5gtrL7UMOU2BpaMtaAsw/ohGshgn
-	dyhgHQXhkosNo6xe19UijShrggt4ycNNSwVTfStLrfeVWWWw35SHU+M/sZRJuJ3Y3odI4eFyD5/
-	C4gXvFKkP2rGJWiD4Kuazv696SOaICS4cUV0viUv9sdpXI0x0mG1CEDNzQ9bZAgu98wXm46RlP2
-	8JU
-X-Received: by 2002:a05:7022:301:b0:127:33e0:ea44 with SMTP id a92af1059eb24-128f3e1a5b1mr7993213c88.29.1773721353075;
-        Mon, 16 Mar 2026 21:22:33 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f6295ebfsm14583318c88.4.2026.03.16.21.22.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 21:22:32 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 17 Mar 2026 01:22:04 -0300
-Subject: [PATCH v2] ALSA: usb-audio: validate full match when resolving
- quirk aliases
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="lVJQmvCQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Kj88iK69ZSOrpUpfmoNHllfSKjo5ga4Bn4VIXtlnUOMXfDBfDeIrkJCR1H5xuidddxj70FEwB3O9ysSMJPV26eXCWSdG0aKgcIDEqrxsUcTI113IsaS3wPi8YdwhrE1pkI3p/LSyKZBwFwSOhMlH4gqE6HmL9U2FmzEBClVWi005kGUEwYiSra473UCgKU3rc8ot2UNmUVfQahsRNMopfbqv8e44RcFK+bPEpIvc5MsiAC0b9j61GnxqCXGROtSpORf1QnNZMTLycB2RC/TXV9fRGOpGjdikH3AaU+Pu9y1HcbworF8rKq6ZNPugsPVIeet9lEjyx09QrH09Q7O+kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F8HaRu6OSuadJsGNEWGl6cL/Z2o0j1gPoPI2Wm0DqAE=;
+ b=s8LcsBefi2ktr9cgPrwgRCOFF0YVYTu/FUTjzUUSwKlAx/hHmrYUxL+j8iO6ZEUgFTxCnw9msOf4d9RsKjK+j05rt5WL4I/M0UIqoBLQQiE/LPaiOy5cg93vd0KESk19Nx5wi94lc9c2SDh6CE8NllqsX3USw4IL38gEAmx6EhqF61Y75oQUmkZiqWPkwfNj3q5rHo1sR1ISouwX0yIAL8x1AJSW6lDwg9t68eVUIUclHtWU6Fk2douVi1Uq18WzFs7WS8GVmQxe/plThsYR1w6agSAr4VYkKNNM0bEVSfN4Y7KLqCl1F7VMKqdNT4g84dmLCXr2wJsgkc48/fIOQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F8HaRu6OSuadJsGNEWGl6cL/Z2o0j1gPoPI2Wm0DqAE=;
+ b=lVJQmvCQ4ZAKTc1U4PvIwnmcA3y0wKbl+yd+x7KS+vH1AH5UQ/E7KOJRagfs5KPSV1CQNX0exO3Eqj7uLmCrwETOg3H54kQUskp9Kvx9SxnXHLmr0DPWta916aGyEedcpK8yh3nMSZ+Lj8UnK+difiRFGkWPbrmuB2AF1uv2szI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OSCPR01MB16033.jpnprd01.prod.outlook.com (2603:1096:604:3e5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.27; Tue, 17 Mar
+ 2026 04:25:18 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%4]) with mapi id 15.20.9700.024; Tue, 17 Mar 2026
+ 04:25:25 +0000
+Message-ID: <87jyvbhykb.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alexander.stein@ew.tq-group.com
+Subject: Re: [PATCH v2 0/2] ASoC: fix usage of playback_only and capture_only
+In-Reply-To: <20260317033952.462209-1-shengjiu.wang@nxp.com>
+References: <20260317033952.462209-1-shengjiu.wang@nxp.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 17 Mar 2026 04:25:24 +0000
+X-ClientProxiedBy: OS7PR01CA0129.jpnprd01.prod.outlook.com
+ (2603:1096:604:24e::9) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260317-alsa-usb-fix-quirk-alias-v2-1-6e531c67f0c8@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNSw6CQBBEr0J6bZv5GGRceQ/DooEBOvJzWoiGc
- HdHEpcuX6Xq1QriA3uBS7JC8AsLj0MEc0igbGloPHIVGYwyqbLaInVCOEuBNb/wMXO4x4hJ0Ls
- ys0oVlNkU4nwKPlZ29S2P3LI8x/Denxb9TX/S03/polGjNalzLqvPVNG16Ym7Yzn2kG/b9gHVn
- m6kwAAAAA==
-X-Change-ID: 20260313-alsa-usb-fix-quirk-alias-e9c8300ba836
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5086;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=6DzbO4Ml1aHb3e7Sda0Z2wIyPUN3e5Y8nB2T9Ja5BYI=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJk7rrN9v1Jj+COX62ziN5NbNxa+0fsucCb0o2Dg/VN+k
- 3W/O6SmdpSyMIhxMciKKbKsTlpkuafrwdX6uBUeMHNYmUCGMHBxCsBEgn8yMpy0u93Atk1oQYpV
- 5FaNOa0KNiF3JRZEqi959/ag5TlV8/WMDAvOuBRWSvYfdj8bt1QyaoXRissnJkfPnC/+ZW6l/fG
- IywwA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSCPR01MB16033:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f78d209-7114-4fc3-1926-08de83dd35fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|18002099003|56012099003|22082099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	IRHYITONGSa8B9qnVVP/x5oL4Y3AVieBTPEXgUeiQ1KuZprbI99NnExdBXxPEjAeU7QBqcDEeDFFj7yWQtX87GRrA2VSq2zy7IiNkHgJSbWEatRK6dBdKGuf5O1XlNpc9aGDzAmiEcM+RFMf96rfwZa/5JbVngk1vC5RLUZrDT1hNdZt9gwurYeJQRaJdfXK+4z/l9ZDN+/HuVzzP4m3GSAJcZRhHO6q7WvVqCmuBkhz9Te4a9PoN0FmI480GnYBJucVvO/2MXbPkF7ShzIKuLdJiChix0WboQ1J6TnaxOr/9QdbxRUktKpto2BDArNiAqNrOAdcAkZo7KaA/6K1xPDO5sF/sKmwsAAwBHwYRUPtaCAZA9L71tGB3wUkaoqjvLpzRmZm+I9wNDr/3w0+49DdLYTMtTZHl+UVGFMKd2/H3aRPloHYCmkK/aTD5CIoEK6tl/fFeVxPSmhqU8w6svYVtaWjTtRpXysSeJX5MOV+ezipCnwyNztF0u2Jpq5KNbcispTZFaQNSXfdcA4BYQe/E68xaZWh41wLPhT8XTsB3zJw7MAPQf6bPuv7pbM31B4qoSbIG5oFZMGs61Jq4z9RB3S0ZmcriPJRf0OlIZc2gKI/I2TCgKfdA1HT859mJVqYV+MuEdjkaR6aLHTEQqfLFILcyyeei7R3MrOLUoggIapRKHXG7MZikkELYGv4UCJRwi8PNzx46jPx9j4pqjP1sIxJ1qPyNitObZyr9DMBIbLvG39TgTePtkS8z7uHuRzmz9pjOusWQKFRfFgMIpvF1ETQFPjsfHvKjClo6bQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(18002099003)(56012099003)(22082099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?h5PtTgafHy35Yahnd49x0C6+zmIsBuj7uY6Jf03nm+MgvpVGSWwc+xGK1lgO?=
+ =?us-ascii?Q?98A6kkxlYZhE1STlOZiUavP3sqhV2B27p2rhl0iLvxK6Z2vig/AIjQFSg9ht?=
+ =?us-ascii?Q?AfPb4ySk0JOG3iH0sfNWJluOiM+EynPb9BzqmirdXAyZ90p/qArV/EK1bZNk?=
+ =?us-ascii?Q?LUSrVMb1dAXt1LJcb4xoXXlrtIMKierlLNA3K/5GMIsOzD7n1GsPhzh283xU?=
+ =?us-ascii?Q?mpNR6ihsMrdBg2Usb0fT+URWSnrxGPy1JwtMd+LFF3e38sYcwKCke0YC1Mpz?=
+ =?us-ascii?Q?ufuyKWDATypFYSwTGl/TIdhTggpLGhzJR7ui9fXySGfJMEMNxgfao7t5k3EY?=
+ =?us-ascii?Q?NWbr+GvM8uBbs3fm+2wAUK+HftjF+LrtUh3DkoQnF0z24Gv+xQuhNH/sKvRj?=
+ =?us-ascii?Q?spbclDr81wr7Tvy7tjS+qfrmaXGB7yBpmOsGky/jxg1/dWab5SpCaZC0VrzQ?=
+ =?us-ascii?Q?CCsXOsSx8OT5kKO7dX8tvQv63zdutqYDfRSL9hIxYA+2U2T4AiD3HbLQUqqL?=
+ =?us-ascii?Q?2qtVX15PKwKhJR9+UE0sfvMTvhC49xDLMk8M8sJmfmqB0VTlICTF0Rv4lZqv?=
+ =?us-ascii?Q?RJZPjk6ijIG6QQXrIPUrk8aAmlA45tkKsnkX7NyVBaGA3AsniAljGyU2H9Ru?=
+ =?us-ascii?Q?1O3iufpXScTMrZLAil/pfg0YZSfYb1Qxx7Z9C2T3QNd9pkkdBEVDNF/3NyLB?=
+ =?us-ascii?Q?/WWyR5xAbC9kiJMtyuyWFYqyH1iGRWVcylJJXNCUocm8+0TBXfKuLzYZm+iA?=
+ =?us-ascii?Q?x48YPBu60IqHa5Ws0q0RGwWnYx8DglkUfQtOLuq4D667J6UPh6A+7e5PNa+P?=
+ =?us-ascii?Q?tqAyydWuWdU/4ccUVJbck1Q5hpx2DIlfS7XFp0vDxcVKN8fVt0WsAHMg5yVS?=
+ =?us-ascii?Q?+PROkVk3fj9Q4ct0PhQA0+vVyJUq6WfHWdB4SremF/3jIHgc3G/bfTLqXp4F?=
+ =?us-ascii?Q?GkxPye6G/sXWI9R7p+xH2iof97RNWMl569dedEeLsG8YgKz9HwYGhjtK2d7y?=
+ =?us-ascii?Q?b21Aai3W6ToJzoCNktk38rMR8xeVuO3Xnc1hFpqIZa0hdlNq4Y4tU1fIN9Cn?=
+ =?us-ascii?Q?nnojaP45gXPpZdw/yZHQ3Mg9+iGKOkQGLWG4r/EXcizYw0hvfThPysnC6oGi?=
+ =?us-ascii?Q?uvHeL014hBKVfyEXtb8Y6RfIpGS0qp9Lw8QgEiOf8+CDfMYuLSL32Eb1pLx2?=
+ =?us-ascii?Q?JVV5TOJQoGjyAWYZndI17z63G4TKerqVhLYolduHXA0qfAUDd4lz423DtoYX?=
+ =?us-ascii?Q?E0HKYZ4E5ucRot33KrIuWhjRezkkgNonTctvsgwwaTcXl4Ca/18p35XFdfzh?=
+ =?us-ascii?Q?Z5o9gYrnaFWkW/ZcZ8Ao6Ys1FyRDcNuS6GfkNSKr2f9Aa5tDxCXfY9BSGcfi?=
+ =?us-ascii?Q?+/wEU154CHj1xNlvXFDbT0INUr7sVIKmO7JCn0J6cw4SULywxzWfyvgAxoaD?=
+ =?us-ascii?Q?emxTE7RzgGvnm9+ZCOkTOMW+9c8mWQh9AaqMSxi73BEWuikDlxUFGJGO0b9f?=
+ =?us-ascii?Q?+xbx+OHeFlqfYqIe+UGp1jcTyJPqHRlomgXe8qVZQl0FswHOcYg/3umYk5xz?=
+ =?us-ascii?Q?vdO3QPoLhVvNOe6o6uXJ90AVQ9yjOu3zytZ8G3VKCOkeZ7Lg23s1GqZblJ5Q?=
+ =?us-ascii?Q?Olaov9YvM5kD32qZQDmieOwHuDru4ulPGbM6aG8WFZQjOZ1A4sWGgg7gasuU?=
+ =?us-ascii?Q?7RY8FGYgV2+KlvwXf0q4sjSLmNnV5rjYcs9bZfl8gZ0MWumy5fo1WdWaT2a5?=
+ =?us-ascii?Q?fWDrWuYuTQNWMgNxww4NsL4ie1vxZQMS6q3hW//WNPAoLaVqVAWr?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f78d209-7114-4fc3-1926-08de83dd35fc
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 04:25:25.1351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0g2fWTf2+xzlNQ3fjtpylBg0YUOu2Z+SOxXVDb/SznUwnWzdZfhQ4MftP3JZ2Gvk8ZgB1XEreM8vGd6QziES8sSuKewQMpFBdbQospJdKqeo98kSewVEfXOLG5chAaWL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB16033
 
-get_alias_quirk() resolves a quirk for an aliased USB ID by scanning
-usb_audio_ids[], but it currently checks only the vendor/product pair.
 
-This is weak for quirk table entries that also depend on additional
-USB_DEVICE_ID match fields, such as device or interface class,
-subclass, protocol, interface number, or bcdDevice range.
+Hi
 
-Rework the alias lookup so that it still uses the aliased vid:pid as
-the initial lookup key, but validates the remaining match_flags
-constraints of each candidate entry against the real device and
-interface descriptors before returning the quirk.
+> Check value of is_playback_only and is_capture_only in
+> graph_util_parse_link_direction() and initialize playback_only and
+> capture_only in imx-card.c
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+For both
+
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+Thank you for your help !!
+
+Best regards
 ---
-Changes in v2:
-- drop the temporary usb_device_id reconstruction approach
-- validate only the remaining match_flags explicitly
-- pass struct usb_interface * to get_alias_quirk()
-- Link to v1: https://lore.kernel.org/r/20260314-alsa-usb-fix-quirk-alias-v1-1-3269998f7ada@gmail.com
----
- sound/usb/card.c | 72 +++++++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 64 insertions(+), 8 deletions(-)
-
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index fd81f32a66fb..153085a77d43 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -864,21 +864,77 @@ static void find_last_interface(struct snd_usb_audio *chip)
- 	usb_audio_dbg(chip, "Found last interface = %d\n", chip->last_iface);
- }
- 
-+/*
-+ * Match aliased vid:pid first, then validate remaining fields against
-+ * the real device and interface descriptors.
-+ */
-+static bool snd_usb_match_alias_entry(struct usb_interface *intf,
-+				      const struct usb_device_id *id,
-+				      u32 alias_id)
-+{
-+	struct usb_device *dev = interface_to_usbdev(intf);
-+	const struct usb_host_interface *alt = intf->cur_altsetting;
-+	const struct usb_interface_descriptor *intfd = &alt->desc;
-+	const struct usb_device_descriptor *devd = &dev->descriptor;
-+	u16 bcd = le16_to_cpu(devd->bcdDevice);
-+
-+	/* Match aliased vendor/product */
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_VENDOR) &&
-+	    id->idVendor != USB_ID_VENDOR(alias_id))
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_PRODUCT) &&
-+	    id->idProduct != USB_ID_PRODUCT(alias_id))
-+		return false;
-+	/* Match real device descriptor constraints */
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_DEV_LO) &&
-+	    bcd < id->bcdDevice_lo)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_DEV_HI) &&
-+	    bcd > id->bcdDevice_hi)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_DEV_CLASS) &&
-+	    devd->bDeviceClass != id->bDeviceClass)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_DEV_SUBCLASS) &&
-+	    devd->bDeviceSubClass != id->bDeviceSubClass)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_DEV_PROTOCOL) &&
-+	    devd->bDeviceProtocol != id->bDeviceProtocol)
-+		return false;
-+	/* Match real interface descriptor constraints */
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_INT_CLASS) &&
-+	    intfd->bInterfaceClass != id->bInterfaceClass)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_INT_SUBCLASS) &&
-+	    intfd->bInterfaceSubClass != id->bInterfaceSubClass)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_INT_PROTOCOL) &&
-+	    intfd->bInterfaceProtocol != id->bInterfaceProtocol)
-+		return false;
-+	if ((id->match_flags & USB_DEVICE_ID_MATCH_INT_NUMBER) &&
-+	    intfd->bInterfaceNumber != id->bInterfaceNumber)
-+		return false;
-+
-+	return true;
-+}
-+
- /* look for the corresponding quirk */
- static const struct snd_usb_audio_quirk *
--get_alias_quirk(struct usb_device *dev, unsigned int id)
-+get_alias_quirk(struct usb_interface *intf, unsigned int id)
- {
- 	const struct usb_device_id *p;
- 
- 	for (p = usb_audio_ids; p->match_flags; p++) {
--		/* FIXME: this checks only vendor:product pair in the list */
--		if ((p->match_flags & USB_DEVICE_ID_MATCH_DEVICE) ==
--		    USB_DEVICE_ID_MATCH_DEVICE &&
--		    p->idVendor == USB_ID_VENDOR(id) &&
--		    p->idProduct == USB_ID_PRODUCT(id))
-+		/*
-+		 * Alias lookup only considers entries anchored on vid:pid.
-+		 * Additional device/interface constraints are validated separately.
-+		 */
-+		if ((p->match_flags & USB_DEVICE_ID_MATCH_DEVICE) !=
-+		    USB_DEVICE_ID_MATCH_DEVICE)
-+			continue;
-+		if (snd_usb_match_alias_entry(intf, p, id))
- 			return (const struct snd_usb_audio_quirk *)p->driver_info;
- 	}
--
- 	return NULL;
- }
- 
-@@ -927,7 +983,7 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	id = USB_ID(le16_to_cpu(dev->descriptor.idVendor),
- 		    le16_to_cpu(dev->descriptor.idProduct));
- 	if (get_alias_id(dev, &id))
--		quirk = get_alias_quirk(dev, id);
-+		quirk = get_alias_quirk(intf, id);
- 	if (quirk && quirk->ifnum >= 0 && ifnum != quirk->ifnum)
- 		return -ENXIO;
- 	if (quirk && quirk->ifnum == QUIRK_NODEV_INTERFACE)
-
----
-base-commit: dcf16b3bb87632a80ef344433980539c2785dfd4
-change-id: 20260313-alsa-usb-fix-quirk-alias-e9c8300ba836
-
-Best regards,
--- 
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
-
+Kuninori Morimoto
