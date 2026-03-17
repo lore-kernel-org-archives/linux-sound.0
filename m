@@ -1,128 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AA732B989;
-	Mon, 16 Mar 2026 23:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F2613959D;
+	Tue, 17 Mar 2026 00:22:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773705417; cv=none; b=TwvNaMESOJ3fEBkucMEyCrGmyN3oRciZAdh2+e55mAhPT7SH9yoNjNfXTZc1G484GvLTuBlyaAdxA8WFJCUYxP2x67uI70Uf8At9EftPFVbG+atULfulEqeiMsigK5VLlW6GCCaH59FIgODgNcSj0xISs6gb7W+zt7Pb1vkWtTo=
+	t=1773706973; cv=none; b=gHBGA3VAQTRi1RDA7H4Bcab5YDwiLEJfgFXtCSkfTKgJhnV7Vv8tTzBAQUVvIaDjzf4YCC/XwCOUyr8c3asGVimJqsOugWsY/3wb29+yLYdwnqZhi5XURhOXL03ZgFlPOyh2fXdg38PmstBkXCoq/iSOueRim7lPlkJQmganxS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773705417; c=relaxed/simple;
-	bh=aBVSLPCBbP60rhVv5ksFK1Kh9ObDpoNnsj1rgiOLFWs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=m/SdG6J1KaQIeAWap9sIA5S5I33s7ob1F9b6EYffpC8TpR0fzcxEww0iFlOgSkS67S+lm6ODEvSXctJiSKsW1PoQynYsDxWSLk+90856+SfVL+80Ik1AYYixRUn8lgmL89qkD2twfqi1cLQVPrcc/l17z/Ofqh64mN5eF/WaWSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bulxpirw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773706973; c=relaxed/simple;
+	bh=CMU0rXMHkg7Kxz8EUxJAiLNslnr9+tAGsBMf/5Uzwgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EGvlCFClCMk7ik/Z0X9kMZCpZuhO/+X8YyHtJICbizXenizOxWi4Na4nfnsiZSpo7k6zO+K/awosMlOWz3A14VhIgp182JjpPOjXXyIbpC2uIOtYIMrFbgtOA6Hg2i2LlwU+0VZswR6Cc5VRUWjy/hu9OSl6UIF9ShmLIck6F10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NEwjg4u7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bulxpirw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D6C9C19421;
-	Mon, 16 Mar 2026 23:56:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NEwjg4u7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 306E3C19421;
+	Tue, 17 Mar 2026 00:22:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773705417;
-	bh=aBVSLPCBbP60rhVv5ksFK1Kh9ObDpoNnsj1rgiOLFWs=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=bulxpirw9VyaOzQWWwrJxzZ3IWjFxgNtERN05KF3F6lULec4Wd0PrM+oRAJK4y85b
-	 i4WpYh3nRd0fnlbjWGoTrdSXg3pcJsLlLBtxj39/YohKPGvXREMZpEQvYo1eeh8hyl
-	 VRDxJxBXnL+qU7lBLe+FGreRxemuoHjm/1qQQvSqAjEXgaigZRFjqWS0oolb3M8n86
-	 aaYWwOqkLKoMbg4nm6q/pF3tRX4gs4gmfbIte71xWfSeJUqAaBauxQF3ucnmpzP7nx
-	 Jjb1U5kqrz4+hj3XfKACoE+KHuD/iFi8N8GLJMeeeiXSuIHXrYelelV+ZPuYN8nBq7
-	 pATFfxjOfNpCg==
+	s=k20201202; t=1773706973;
+	bh=CMU0rXMHkg7Kxz8EUxJAiLNslnr9+tAGsBMf/5Uzwgg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NEwjg4u7enwkX5/tJVpV1sCJowHXevufzg/wpiqivQYHvlPfWhwV9MAP9VJ1o5oy9
+	 TZ2/BCnT8T/6UmejZz7sqvm5pguvIPTdIRgudemMoHRs/cgh/edkt76ZpwucNxSRgR
+	 X1wKb6i9gFMYrwf1RYPKD4jJyNPfgJzkjVg5pzVEf8kKmywet4kVGOtNTMHtTb9jpm
+	 jpwaL87DlLkvWOBnIv1w2O1iVkIcTLi6Cs+Y9VxMJZicevHuU1Ibo2U6+uEKBIubcb
+	 O2Puc6suuyZXZ87nmcHaNUJ7gspDgHzlAuw3LI8uOLT7STQWxFZOrhTAbrQJQEY+oy
+	 gxT9go35MvrhA==
+Date: Mon, 16 Mar 2026 17:22:51 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: konradybcio@kernel.org, andersson@kernel.org,
+ linux-kernel@vger.kernel.org, Alex Elder <elder@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jeff
+ Johnson <jjohnson@kernel.org>, Mathieu Poirier
+ <mathieu.poirier@linaro.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kees Cook
+ <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd
+ Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>, Wesley Cheng
+ <quic_wcheng@quicinc.com>, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] Use the QMI service IDs from the QMI header
+Message-ID: <20260316172251.2d57d0aa@kernel.org>
+In-Reply-To: <20260316171419.2619620-1-daniel.lezcano@oss.qualcomm.com>
+References: <20260316171419.2619620-1-daniel.lezcano@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 17 Mar 2026 00:56:52 +0100
-Message-Id: <DH4M3DJ4P58T.1BGVAVXN71Z09@kernel.org>
-Subject: Re: [PATCH v2 4/4] driver core: platform: use generic
- driver_override infrastructure
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-sh@vger.kernel.org>
-To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
- <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
- <s.nawrocki@samsung.com>, <nuno.sa@analog.com>, <brgl@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260303115720.48783-1-dakr@kernel.org>
- <20260303115720.48783-5-dakr@kernel.org>
-In-Reply-To: <20260303115720.48783-5-dakr@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-(Cc: Bartosz)
+On Mon, 16 Mar 2026 18:14:10 +0100 Daniel Lezcano wrote:
+> This series is based on the immutable branch [1] containing the QMI
+> service id definitions along with some drivers using them.
+> 
+> How a patch can be merged ?
 
-On Tue Mar 3, 2026 at 12:53 PM CET, Danilo Krummrich wrote:
-> diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_=
-early.c
-> index 143747c45206..3cd17bb0be67 100644
-> --- a/arch/sh/drivers/platform_early.c
-> +++ b/arch/sh/drivers/platform_early.c
-> @@ -25,10 +25,12 @@ static int platform_match(struct device *dev, struct =
-device_driver *drv)
->  {
->  	struct platform_device *pdev =3D to_platform_device(dev);
->  	struct platform_driver *pdrv =3D to_platform_driver(drv);
-> +	int ret;
-> =20
->  	/* When driver_override is set, only bind to the matching driver */
-> -	if (pdev->driver_override)
-> -		return !strcmp(pdev->driver_override, drv->name);
-> +	ret =3D device_match_driver_override(dev, drv);
-> +	if (ret >=3D 0)
-> +		return ret;
-> =20
->  	/* Then try to match against the id table */
->  	if (pdrv->id_table)
-
-I was just about to pick up this series, but then noticed that checking for
-driver_override in the platform_early case doesn't make sense in the first =
-place
-and was accidentally added when the platform_match() callback was copied ov=
-er in
-commit 507fd01d5333 ("drivers: move the early platform device support to
-arch/sh").
-
-Thus, I'm going to drop this hunk and add in the following patch; please le=
-t me
-know if there are any concerns.
-
-commit 39cae4095efda4b00b436c0fc46f21de84128969
-Author: Danilo Krummrich <dakr@kernel.org>
-Date:   Tue Mar 17 00:37:15 2026 +0100
-
-    sh: platform_early: remove pdev->driver_override check
-
-    In commit 507fd01d5333 ("drivers: move the early platform device suppor=
-t to
-    arch/sh") platform_match() was copied over to the sh platform_early
-    code, accidentally including the driver_override check.
-
-    This check does not make sense for platform_early, as sysfs is not even
-    available in first place at this point in the boot process, hence remov=
-e
-    the check.
-
-    Fixes: 507fd01d5333 ("drivers: move the early platform device support t=
-o arch/sh")
-    Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-
-diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_ea=
-rly.c
-index 143747c45206..48ddbc547bd9 100644
---- a/arch/sh/drivers/platform_early.c
-+++ b/arch/sh/drivers/platform_early.c
-@@ -26,10 +26,6 @@ static int platform_match(struct device *dev, struct dev=
-ice_driver *drv)
-        struct platform_device *pdev =3D to_platform_device(dev);
-        struct platform_driver *pdrv =3D to_platform_driver(drv);
-
--       /* When driver_override is set, only bind to the matching driver */
--       if (pdev->driver_override)
--               return !strcmp(pdev->driver_override, drv->name);
--
-        /* Then try to match against the id table */
-        if (pdrv->id_table)
-                return platform_match_id(pdrv->id_table, pdev) !=3D NULL;
-
+Wait for the dependency to appear in respective trees after the merge
+window then repost the patches individually. I'm starting to get
+annoyed with all this cross-tree QMI/MHI noise.
