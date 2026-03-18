@@ -1,181 +1,118 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862A03DA5D5
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 14:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3A3376494;
+	Wed, 18 Mar 2026 14:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773842948; cv=none; b=Tj41zD0UkSt8mgzJBSdB0UFwjU9P0pT7Zl3j0uLTJZnf6CLRJP0bYI60TADS2S8bwBS6mktPENm94PGI6bNremUB7LenvslkOZ3/+iYWjdCGitOLfDsHDw49l533FColvQZ6ZPYG2Iqy2ZOvVYCy/btgoYrd9FRIIL9w7FVNCx4=
+	t=1773843382; cv=none; b=BsfPQwm9YN+q+Ox2Y4wGKiQ5eQIthvUjLm/+pGlHZpA6dUPlqyNtrEtM/TRRcL7LybtBG4pkFWuy3XpEBOCD4ekP1n6AISqh+bMVbygsPyF4nkJmFKWw4ndKTenHfcedzLk+cHcPN7KkYzqOhidcoNHrAFJWalZC6dVwTCTKwFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773842948; c=relaxed/simple;
-	bh=wr7LrT6fALB4lVXF73Hai9QLyEetrJK3WCbgjM24ot8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ETCHh8e6kK5G1YqsP87sSpyXdy2YCHHxNOjeAEircfLWZ6D9zfT5euD+ESUh10j4kxDeowj6qEbNRDvFHVS/NzlpuagqxzEWHVOkbjEn+kwUddqRkby1DIC1usRqg3r5JGDiCt2yvJ1GbSlJ0GZ8O4JlCdZxwzEeSuVMm0ZxYP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyCaYtSs; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773843382; c=relaxed/simple;
+	bh=U+geDLQctOzjU6lpYMPmK82jS4J8nkFiv2wgeZj38Ek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jfbr/bQzq/kcUUKDgYlc+MXlRCKWM9FgIUoSY1i/dV6B4lGQSFagt/Yxz6SYcIHTW9XfBNW65uHcQSi8u7ahB9F2Y3sdVguKx94ToUs5k1hl70D9VeSsRwOGwMxpTwOQUh6V0Y7kps5CenC4U/kB8LwrfI6+BOjyuhsvEh6jvS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BQWzXqzf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyCaYtSs"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2b4520f6b32so9916748eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 07:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773842945; x=1774447745; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HiGU7ACiFofzigZYkO+A1ibMgdUGeFsuYvqwX0/Mjy0=;
-        b=AyCaYtSs2ciNpP8k8K1eFH2RfnNMmKFHYh/eor1VoVamg5N1vazD4v+lelFrSQD9+C
-         n2i4ohEusTg9Aa2AytM5soGzVULAjo90+oFcyronKKoAaf0oXaqpID9RAvBBv/Q5AJtT
-         P3yrBHCNuzJmrkqG8rUMRX3h7e890Sy1+lm1j3UhLC2gxlkhhjfIghfrLCGPHjv29OmV
-         3cQwKXAVLQEWZSwiELEoMQ8Q+VcaH4x/Z9UQXzxVGiPX0R1Sq9VQ18THsUr0AkCekeCX
-         OyZForEtF32zesLRaBzRyI/yiNpLo69I/BgAOWEz8yzUMVIJjYSo94cVeWkS1noM4Ahe
-         O0Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773842945; x=1774447745;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HiGU7ACiFofzigZYkO+A1ibMgdUGeFsuYvqwX0/Mjy0=;
-        b=bJ2jVTMNmFkaG6xQE2mYh+nJxE0xeItSL48yg73Pdm/17mjIr4/jUQ+eAs6N365NmR
-         Wm164m7yE/oXKZc3v0al42w263iVaNvpSXohefirnQqgxje9FVSCqakb9XQRO24vLrAF
-         OGPuIcEi6zMWoJcZ0T4scPuYSmpN+tEA83TheRwKrPAQJ/r0Ry22hOCx3j9NcMTXWvh+
-         f4Ki6S/Hh0EgwnWzaBOhN/PCFFt1UYZEbtf0s1MKaWjhs2gbzv2U/CNKYl4WWp2QkMI0
-         r/Doa9OyOjxt+RJzsZTO7NISCOAMo2ez/9UTbvwtQpUyUGamIMRGS/GOABMSS7BKQrtq
-         J+eg==
-X-Forwarded-Encrypted: i=1; AJvYcCXU1uHbK5roRyz251w5LrKw3r3098wIYb5mBweygAUzzAKmVoyDuJSecq59iDw0GeXqFGEGU0gTqGMzaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEnAD+5iqt+YARrV6zZW0nE+rNy0M/1rwFKr/djd2fBDjwdOkj
-	Sr0RHvG2XQzaC+9rHG9bg5DICBD84cS0fqsiQljipclL+/kv6rUBQDhD+gvn4s85
-X-Gm-Gg: ATEYQzwtSVfElMYjQtQYSGy8i3SRBHkSdc7FJTFdLn8s3eep0s8I38DkEqH+aJgi04N
-	kYVaOIcJIXr76yiMJHXcYA/t5ztQ3vOWhkYLqS88CJKoegcY8B9VDaYk7ogYdyoZHGA/1PqwnLl
-	Xr3Iilob+dvX1jwXoahpYY9/kUmWpGhfij/AocWkjtSwefXo0GM5WcgcQc3XxdAorxoR5CmQWRa
-	EbZz4/4lNso+q5igoJ5/Du8zX+iZ3VtRYhMTHk75r9k+YZ5gPjIhSLc/JMoul0yVeVu8s+vpdJo
-	hhTXMmxpVo1SEg1sc5ILA9mfazHDw1DbXCPIDXNBXtntzLNC9dZXdxUQbpSaWqz9Jt3kvcjDp6r
-	1hc0+uBE/EnzTj8d1gd9gEt+/Cd7BYuh/LmI9GK4WoIKoH6YQ52FT9ITjdVwnHLNVuITL7R51k8
-	solj0hHVLf0oef2Nv1+ZXorEwdIv7lpsGnahYOA2I6qDX3xlGGq7FmAUjpVzbBAN6DEfUwiwvsc
-	1Q=
-X-Received: by 2002:a05:7300:dc91:b0:2b7:fdb6:ccf6 with SMTP id 5a478bee46e88-2c0e4fb8e1dmr1782178eec.14.1773842945067;
-        Wed, 18 Mar 2026 07:09:05 -0700 (PDT)
-Received: from [192.168.1.8] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e55cd9cfsm3822404eec.26.2026.03.18.07.09.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 07:09:04 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Wed, 18 Mar 2026 11:08:46 -0300
-Subject: [PATCH v3] ALSA: usb-audio: validate full match when resolving
- quirk aliases
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BQWzXqzf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2DECC19421;
+	Wed, 18 Mar 2026 14:16:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773843382;
+	bh=U+geDLQctOzjU6lpYMPmK82jS4J8nkFiv2wgeZj38Ek=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BQWzXqzfHbPJtflPDM7mtNdEmDMy6FXO9ifJZrK+7KoyOczb/euvMyik/yngFsA3H
+	 POyiLnn5BRCtTpwat1gSTWYbJsIzd+8dPeMWKHqYoEnOIY7B6jzNqcfq55y3wch0ue
+	 Cdf+iNoX4wqKmkjqOsWJdiPDDDUvID4lse5/53BId11/QdtwVg1662gxvrYiW6mHBq
+	 deQR887EVev1FfyCTN2usy6SpZATevMxOUPEPlZpZAg+ubP+iNtvbo/TCgVeR9TuxR
+	 JQxS6JOqFymNu/YQudXC2EZ2TRxak41Mre87y2JShHBGYMhRoFZIaQqWjYnn68tvKP
+	 lWGAS1mcQbnPA==
+Date: Wed, 18 Mar 2026 14:16:17 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/4] ASoC: loongson: Combined regmap definitions
+Message-ID: <f68854fb-bb50-4975-b6b1-708aac149993@sirena.org.uk>
+References: <cover.1773821115.git.zhoubinbin@loongson.cn>
+ <f6768a2027f788697ed9f7bb161c8564261f02bb.1773821115.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260318-alsa-usb-fix-quirk-alias-v3-1-bd3b17a32939@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33Nyw6CMBAF0F8hXTumDy2tK//DuCilwEQe2kqjI
- fy7hcSEjS7vzdwzEwnOowvklE3Eu4gBhz4FscuIbUxfO8AyZcIpl1QwAaYNBsZQQIUveIzob6l
- CE8BpqwSlhVFCkjS/e5dOVvpyTbnB8Bz8e/0U2dJ+0cNvNDJgILjUWqsqN6U5153Bdm+Hjixo5
- Fso/wPxBEl3FMzKvKJWbaF5nj95kxoNCQEAAA==
-X-Change-ID: 20260313-alsa-usb-fix-quirk-alias-e9c8300ba836
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3378;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=wr7LrT6fALB4lVXF73Hai9QLyEetrJK3WCbgjM24ot8=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJm7Nv51Xfvxi97dNVFyq33f2T0IVzkrvtTN3eHPUnEtV
- scrDxwbOkpZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAiPl2MDAvk30zKEVlafnKr
- P1+3MZPzm07zg8vCl+0SL7mWKtf3/DTD/wJJHQNLKbuvzKce8KzwPpg+2XJ1oHJCSstv+cWcQYU
- MPAA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="alM+PLk1P/8XtCCf"
+Content-Disposition: inline
+In-Reply-To: <f6768a2027f788697ed9f7bb161c8564261f02bb.1773821115.git.zhoubinbin@loongson.cn>
+X-Cookie: The coast was clear.
 
-get_alias_quirk() resolves a quirk for an aliased USB ID by scanning
-usb_audio_ids[], but it currently checks only the vendor/product pair.
 
-This is weak for quirk table entries that also depend on additional
-USB_DEVICE_ID match fields, such as device or interface class,
-subclass, protocol, interface number, or bcdDevice range.
+--alM+PLk1P/8XtCCf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Keep the aliased vid:pid as the lookup key, then validate only the
-remaining match criteria of each candidate entry against the real
-device/interface descriptors by clearing USB_DEVICE_ID_MATCH_DEVICE
-from a temporary copy and passing it to usb_match_one_id().
+On Wed, Mar 18, 2026 at 05:16:36PM +0800, Binbin Zhou wrote:
 
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
-Changes in v3:
-- rework alias quirk matching as suggested by Takashi Iwai
-- drop the explicit per-field helper
-- keep the aliased vid:pid check first
-- clear USB_DEVICE_ID_MATCH_DEVICE from a temporary id copy
-- Link to v2: https://lore.kernel.org/r/20260317-alsa-usb-fix-quirk-alias-v2-1-6e531c67f0c8@gmail.com
+> +static bool loongson_i2s_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case LS_I2S_CFG:
+> +	case LS_I2S_CTRL:
+> +	case LS_I2S_RX_DATA:
+> +	case LS_I2S_TX_DATA:
+> +	case LS_I2S_CFG1:
+> +		return true;
+> +	default:
+> +		return false;
+> +	};
+> +}
 
-Changes in v2:
-- drop the temporary usb_device_id reconstruction approach
-- validate only the remaining match_flags explicitly
-- pass struct usb_interface * to get_alias_quirk()
-- Link to v1: https://lore.kernel.org/r/20260314-alsa-usb-fix-quirk-alias-v1-1-3269998f7ada@gmail.com
----
- sound/usb/card.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+This is the same as what was in the PCI driver but...
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index fd81f32a66fb..f42d72cd0378 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -866,19 +866,25 @@ static void find_last_interface(struct snd_usb_audio *chip)
- 
- /* look for the corresponding quirk */
- static const struct snd_usb_audio_quirk *
--get_alias_quirk(struct usb_device *dev, unsigned int id)
-+get_alias_quirk(struct usb_interface *intf, unsigned int id)
- {
- 	const struct usb_device_id *p;
-+	struct usb_device_id match_id;
- 
- 	for (p = usb_audio_ids; p->match_flags; p++) {
--		/* FIXME: this checks only vendor:product pair in the list */
--		if ((p->match_flags & USB_DEVICE_ID_MATCH_DEVICE) ==
--		    USB_DEVICE_ID_MATCH_DEVICE &&
--		    p->idVendor == USB_ID_VENDOR(id) &&
--		    p->idProduct == USB_ID_PRODUCT(id))
--			return (const struct snd_usb_audio_quirk *)p->driver_info;
--	}
-+		if ((p->match_flags & USB_DEVICE_ID_MATCH_DEVICE) !=
-+		     USB_DEVICE_ID_MATCH_DEVICE)
-+			continue;
-+		if (p->idVendor != USB_ID_VENDOR(id) ||
-+		    p->idProduct != USB_ID_PRODUCT(id))
-+			continue;
- 
-+		match_id = *p;
-+		match_id.match_flags &= ~USB_DEVICE_ID_MATCH_DEVICE;
-+		if (!match_id.match_flags || usb_match_one_id(intf, &match_id))
-+			return (const struct snd_usb_audio_quirk *)
-+				p->driver_info;
-+	}
- 	return NULL;
- }
- 
-@@ -927,7 +933,7 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	id = USB_ID(le16_to_cpu(dev->descriptor.idVendor),
- 		    le16_to_cpu(dev->descriptor.idProduct));
- 	if (get_alias_id(dev, &id))
--		quirk = get_alias_quirk(dev, id);
-+		quirk = get_alias_quirk(intf, id);
- 	if (quirk && quirk->ifnum >= 0 && ifnum != quirk->ifnum)
- 		return -ENXIO;
- 	if (quirk && quirk->ifnum == QUIRK_NODEV_INTERFACE)
+> --- a/sound/soc/loongson/loongson_i2s_plat.c
+> +++ b/sound/soc/loongson/loongson_i2s_plat.c
 
----
-base-commit: f803b7bb17dd19fbd84fe783683321f38834a1df
-change-id: 20260313-alsa-usb-fix-quirk-alias-e9c8300ba836
+> -static const struct regmap_config loongson_i2s_regmap_config = {
+> -	.reg_bits = 32,
+> -	.reg_stride = 4,
+> -	.val_bits = 32,
+> -	.max_register = 0x14,
+> -	.cache_type = REGCACHE_FLAT,
+> -};
 
-Best regards,
--- 
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+...the platform driver marked all the registers as cacheable.  With
+registers like LS_I2S_CTRL marked as volatile this means we'll stop
+caching the configuration done by set_fmt(), and currently the driver
+uses a regcache sync to restore from suspend so things might get
+confused.
 
+If you're just marking things volatile to stop the warnings and the zero
+defaults are actually fine you can also supply explicit zero defaults
+for all the registers, or switch to a sparse cache type if the
+performance and allocation requirements you have are OK with that.
+
+I think this means there was an issue that got missed in the PCI
+driver..
+
+--alM+PLk1P/8XtCCf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm6s7AACgkQJNaLcl1U
+h9AfiAf+IZUNY2T/y43Qsi2c49Q/84v3I4kxZuHSn2j4UCiDIh6lTsZHeBTBxj1y
+JQ6c46kyq77LOLbY856WW03u3D0IYkWU5f1geU91obKLHCOBmWGvafCkRNDY6ViQ
+SdjTAh2PIVfpCfUticlzsqP20ANHVtfPT3vzO6IEkJ0JLRL9NsIwMPXlQ2XjWL6/
+4ViYUPBjoHN8rA9FHbQGP/LLP/xM2Wxt0stduLAd7NrZkY+Tg9AQAx9lnltu0q0F
+O8o8tUU21XMSqkVb6s9F66mI014ovrSBNq0WSnFjiqv6cm/gu3ChyMwCmEkgAZOZ
+xVbj1JEMQICJaqICTGmkHjQbnyR7JQ==
+=Fgu1
+-----END PGP SIGNATURE-----
+
+--alM+PLk1P/8XtCCf--
