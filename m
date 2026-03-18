@@ -1,96 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5703B3D648F;
-	Wed, 18 Mar 2026 12:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826753D523B;
+	Wed, 18 Mar 2026 12:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773836742; cv=none; b=JyZvQChygNBvQa2TLDIMD0VJOHbbSDPGEq2tmdj7rPR7Q/cyULtc1X40SsNls7jzijYrPOIESWFvTFIAXrbjH1yrm7g80Z9T+GZaCz3cvjZVQ/Z0FaVnw1ve9dfbTpEewovsgrIbHc2oI+Crqqsc3fuT6mEp5wnJ6VJq2pXtWxA=
+	t=1773837621; cv=none; b=CUPG4DPsJ3cJY2KVOFqfZhn4s/djL7mrI0XKx4kUOXxblojgKdsLJzEkBcCR59kkQfV8O1wFi4za6zt7sRxlYX6VDd5T2lvhD2YUBCyEsSVUWa1uDyGrJf6jbY8/04XTXXqohLRSzizeUJX4sH3OFVHAUz74vQETH0eG2rRxkYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773836742; c=relaxed/simple;
-	bh=KWlesM47MC5Ft953VQj7csAx3OZjlyVCoImi6UB0NkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kkydlnhTQM5e1YVXCBS9lRpzprw7lbjT/eb8oI54oZTD544jRen9gCcm1IUoBFX7du2B/8TpMTDTdETKjiJJWQ53oSwKRXgLa/CyKAxWmfpIDHAsUusOabcwdBDz8RsmEY+LDReRCuk3g9rQSJsnW38cytMRKBF/TZeQLAAlokQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvnL8ryB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773837621; c=relaxed/simple;
+	bh=8MKub+7Cy+KMSF/PUM44fqLCqP2yziT4FVEouazdk4U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tuM0j7j1XjzH+6iOgjD1c7jQ1YaF1v2UO6A0FEqUHhcDqaStXKfnUr5mMjv+4f9a3/RQh+SZPzNFcmPTGfYB3Q3e/5CCI8cgeIRD6taj5KRUL3WPqcgyBtEJSpCRoAufc5xg16APMOtTMMxkE1AgoDza92cuX7EgkxUi1DVOTXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9T0AzEz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvnL8ryB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D169C19421;
-	Wed, 18 Mar 2026 12:25:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9T0AzEz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECF4C19421;
+	Wed, 18 Mar 2026 12:40:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773836741;
-	bh=KWlesM47MC5Ft953VQj7csAx3OZjlyVCoImi6UB0NkU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hvnL8ryBXIxmDaDwksF1w7inflF2ksLtkn4RwDV6NTqUv/vC0lja1SCXzzCFzynfR
-	 eq2GuyLZcPnHFQI21YkeIBjK7uAPbV27sLHaS5+YQ9W3AJ/5sZ2xFsFVR5bVm4wXVP
-	 Bs1BjDaT/yaSm1krrMW/vSwN6fLvLelv1pATtPfdnHTUQjdoV34AVWYPRSeHuwUd4m
-	 OLCx1e5f+uBBMozMvsGfhCbwLdE5kXtTOGHN21BT63JXcdi7VkePbe1JE5kEIJUDhn
-	 oELgUkF17QEOA1bSAqomrWPSMLCryG0L7SPTHgJL/4ORiwE2OUnedXs+muRubCKEtp
-	 sDJTSQWkzL0jg==
-Date: Wed, 18 Mar 2026 12:25:36 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sheetal <sheetal@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Mohan Kumar <mkumard@nvidia.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tegra: Add error logging for probe and callback
- failures
-Message-ID: <e42d9bcd-1f7b-410a-907c-89bbdc38bc45@sirena.org.uk>
-References: <20260318094631.1769708-1-sheetal@nvidia.com>
+	s=k20201202; t=1773837621;
+	bh=8MKub+7Cy+KMSF/PUM44fqLCqP2yziT4FVEouazdk4U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A9T0AzEzFV63iWXzlP2nno0uzHHKuFKHctf4NqxDkLc/rtzTZgf9mMUFcvtMpbw0I
+	 NOrwYEqGhRrO9236CjQ5lsDO7cxIi7WxKu4mZk5xsCq/HZSjRIQXLGVJnuB9bK82nx
+	 5Oix9GpJWhDUP7bbXhkgGnVg9SuLhvk20YgG1b1stGzwyJD9LRp0usomRFic5r6+tZ
+	 1weWozcKJNDq63YGcXCl93qccOt9GC+DgCMHECwcC/+j36JSJTRkBgHkqmQR4w847s
+	 X9krxswIZ4+W/lBNBxXXnlMGOybiMMzHAwn9PGNmBQFMkEQo7HdQbSVu+j1Ql0Zome
+	 vfu7eK9B1iCiw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] [v2] ALSA: asihpi: avoid write overflow check warning
+Date: Wed, 18 Mar 2026 13:40:07 +0100
+Message-Id: <20260318124016.3488566-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UYYEptKV6HpHqjN5"
-Content-Disposition: inline
-In-Reply-To: <20260318094631.1769708-1-sheetal@nvidia.com>
-X-Cookie: All celebrity voices impersonated.
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---UYYEptKV6HpHqjN5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+clang-22 rightfully warns that the memcpy() in adapter_prepare() copies
+between different structures, crossing the boundary of nested
+structures inside it:
 
-On Wed, Mar 18, 2026 at 09:46:31AM +0000, Sheetal wrote:
-> Add dev_err_probe() and dev_err() logging across probe and runtime
-> error paths in Tegra audio drivers to improve debuggability.
-> Use dev_err_probe() only where -EPROBE_DEFER can be returned.
+In file included from sound/pci/asihpi/hpimsgx.c:13:
+In file included from include/linux/string.h:386:
+include/linux/fortify-string.h:569:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
+  569 |                         __write_overflow_field(p_size_field, size);
 
-It's probably better to just use it as a defensive measure in case the
-APIs change for the ones that are in the probe path.  It's easier than
-figuring out if the API that's being called could defer.
+The two structures seem to refer to the same layout, despite the
+separate definitions, so the code is in fact correct.
 
->  	regs = devm_platform_ioremap_resource(pdev, 0);
-> -	if (IS_ERR(regs))
-> +	if (IS_ERR(regs)) {
-> +		dev_err(dev, "failed to map registers\n");
->  		return PTR_ERR(regs);
-> +	}
+Avoid the warning by copying the two inner structures separately.
+I see the same pattern happens in other functions in the same file,
+so there is a chance that this may come back in the future, but
+this instance is the only one that I saw in practice, hitting it
+multiple times per day in randconfig build.
 
-If you're going to log the error message it's helpful to include the
-error code, though IIRC in this case errors are already logged by the
-API so there's no need to log anything at all.
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
 
---UYYEptKV6HpHqjN5
-Content-Type: application/pgp-signature; name="signature.asc"
+v2: use correct union member
+---
+ sound/pci/asihpi/hpimsgx.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/sound/pci/asihpi/hpimsgx.c b/sound/pci/asihpi/hpimsgx.c
+index b68e6bfbbfba..ed1c7b774436 100644
+--- a/sound/pci/asihpi/hpimsgx.c
++++ b/sound/pci/asihpi/hpimsgx.c
+@@ -581,8 +581,10 @@ static u16 adapter_prepare(u16 adapter)
+ 		HPI_ADAPTER_OPEN);
+ 	hm.adapter_index = adapter;
+ 	hw_entry_point(&hm, &hr);
+-	memcpy(&rESP_HPI_ADAPTER_OPEN[adapter], &hr,
+-		sizeof(rESP_HPI_ADAPTER_OPEN[0]));
++	memcpy(&rESP_HPI_ADAPTER_OPEN[adapter].h, &hr,
++		sizeof(rESP_HPI_ADAPTER_OPEN[adapter].h));
++	memcpy(&rESP_HPI_ADAPTER_OPEN[adapter].a, &hr.u.ax.info,
++		sizeof(rESP_HPI_ADAPTER_OPEN[adapter].a));
+ 	if (hr.error)
+ 		return hr.error;
+ 
+-- 
+2.39.5
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm6mcAACgkQJNaLcl1U
-h9Dv0AgAhJVFaPFxPxdYh23aYsWHGjnjDU7XFAWu6AHAJhl5rk8NYJsa4jIawClz
-QdCtH1MBcGYLwa6O1awx3NUP50JR37okU+MeQ7w5JcLcg8LRg+Y6V1EjJ9ly7rer
-hDPLW4/up5SfHVFwUFsX8OIF5/VeAaKkPN6bg/K1UixCXmFS8+3kq00Z9m0VOv8E
-/63bbQ0J14sz3BH+d8pWyP4ZIDKAvqpGT1yZyhEbLae02TGSmIutY9pgTwF/X8b8
-WVAe+hVYLdn7NmNyi2wq8XBEQM5CYpeUhf9tr5Qk+vwMgEaBjYGb5vCiyu8enQS7
-wJMWd9zTRyZaNYLxo+I2tw0cJKnuvA==
-=fFP1
------END PGP SIGNATURE-----
-
---UYYEptKV6HpHqjN5--
