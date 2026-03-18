@@ -1,170 +1,158 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010057.outbound.protection.outlook.com [52.101.229.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD72367F28;
-	Tue, 17 Mar 2026 23:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE9123EAB3
+	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 01:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773789215; cv=fail; b=Ghrpc0OS8OhPxrnR7NE1+UYhu77e8DuhIDVxwsD2l9QqxayBUngbFWEkjOL8R8p8a1asXUowFdFNNrLA5VMIUwUxNmFbC+4tkBi2pD5DAJluY0y9yr/QCol45/B6qR2tnUPGJKLvd5GG4TiDUOZAxqHUBTzd36J3CG2auQYVssc=
+	t=1773798829; cv=pass; b=Y9EL8bbD19wgeV7LSca854Ft3EUOONQy2DbFixtcWkpFxUZWeFSPQOwF+C9UU8KWwebIAUhdTDNkhAAakNuWQaDtfc787ViVK+Mxgq9k5EcZWXRAU/+YyUehXww7V1xYl+2aUVre0yPm92TVfSIADW3A36FwiyJNzDjrbOEQbbc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773789215; c=relaxed/simple;
-	bh=uvXNJZDxPQWAmJfkqHa46f/quiUHGovCIfUE+z0scYw=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=bB6+2OB+2cUCra7e1/jh5+qcPD2MKNGDcu5xlRbWjNTgSXtcTrz5/SVTFy5nYrQdKEmV+mpT/sM4pNtguW7Fisdge+8SxvuBo67cckh0L2dWSmWz5nHqp3ViYjWr4RlcmD8foGMX7VlG3JZwlWEg+ss0srAYFFQz9cyG0+mxRhQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Scd7bCq7; arc=fail smtp.client-ip=52.101.229.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1773798829; c=relaxed/simple;
+	bh=j/fbdLvsIeGkHXFDu5LJ9gF8XN9qrxlIYMkb21y2Ut4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QULoj0x//YrtnzvbnQFra+OkrLjewaH2E/82IuEtIbdWzu2I1BMCtX1ijkceHiek3nayuSJ9rVo+DtRiIVwRGk8AfYogXWb2WNTSEBcoINvKDG3OSJGjJbETLnEVnK81U2ZsaNqm/yFrHraE4zIoZDyHA4E7sBFy94o/11sS5ow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxLwiHB6; arc=pass smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Scd7bCq7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jf7ajVqaaydLtnBupU4GStyxyNioHzLZWvCPEQfzc4uuYEzkEu99HjcLq0ixjFr+atfSK9d/4stjHsqJq7ak3MUWobcY01lXoV52l0vVPej9PtRkSQdayONO43C1jNbya1qnZdNHR31elFQGyFDOQswnBVHQ8Von+fx+X4T0XaTAZs98wbnO+sCncgE10PQOfcitnyghI0WDryvoaVmllUS/piFCUisE8/SSufB+afUDV7KOY+QcjtS/lo5osXIzZ+8FwXBtHVi1vPNJ1Qnb/ZsLRFTw6YEjlCaQog2nKDNYa0h19Cdax5Ady1SmL5CS7UOV59WgBV+KEkGIj8sj6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k+pQkx7kN3uhEPc8pdTvbCn2wkyYbqOxn4qtgjy0t7s=;
- b=isJhq9WLvZlhVrU/veGqci+VAHVCd1PK89TBYxR0O/M1S8mXgbUdYss9XzIWWM3NffMOJdyNLaVufr+WWVdGQEbyZa2CtuvQLdZ3DfR68zqi5I7q6w84e45rUGDBD12oq7BQCfkhxLSw5V+gsmkHIW+LIlGjy9BfvMdQtW50sxJLmUO2XHJtJuQDwogyb3W13zA56WqfXRNsXdIgYM4AJRdvbxdq+HS+aqrMokug2kbTJRvO6wnZ8D0rvcMqrjxwxRnOUVUcfrD2srZU6XUPSEVNLw+oc4xYl+DK3SBCqoQqmAhInUKJ6GAlsDwJvKaEAzuNYLkVsnenLCRHp52COw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+pQkx7kN3uhEPc8pdTvbCn2wkyYbqOxn4qtgjy0t7s=;
- b=Scd7bCq7wExR8doSU5zt/np9fmYnqQGDiTuYHvZUVyzdOYFvNT0qt4hea9rM9t0VqVh986cZbK9KB4E6hY6j3YBw/x2Zwuc9JQuEpRqPaYkRZD/wjxYm4Cmq6kpgU0nAPpLYkOBmkib4zEX1auiX62eVyqNW14XwcRDcr3aXjII=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYCPR01MB10859.jpnprd01.prod.outlook.com (2603:1096:400:26f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Tue, 17 Mar
- 2026 23:13:30 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%4]) with mapi id 15.20.9700.024; Tue, 17 Mar 2026
- 23:13:12 +0000
-Message-ID: <87bjgmhwx2.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alexander.stein@ew.tq-group.com
-Subject: Re: [PATCH v2 2/2] ASoC: fsl: imx-card: initialize playback_only and capture_only
-In-Reply-To: <af97f536-be17-4173-83d4-3f3f052514ee@sirena.org.uk>
-References: <20260317033952.462209-1-shengjiu.wang@nxp.com>
-	<20260317033952.462209-3-shengjiu.wang@nxp.com>
-	<af97f536-be17-4173-83d4-3f3f052514ee@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 17 Mar 2026 23:13:11 +0000
-X-ClientProxiedBy: OS0PR01CA0007.jpnprd01.prod.outlook.com
- (2603:1096:604:24::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxLwiHB6"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-4043b909ed4so4106206fac.3
+        for <linux-sound@vger.kernel.org>; Tue, 17 Mar 2026 18:53:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773798827; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FsFiSKJjd4SIJukyEKVwH9yAJwb/kEPMvFhCJiL/tJNiGQO+/mu65S/q0GuaARWf+L
+         18IFdtZA0WUsoyZKVYZC8GcVbjWlDO2Ew9nRUhn+LN7VX4afAozrrkQ9/qpESKKpBwo+
+         sFMBI/tixKTGVKEgyyQ7hDubJNeQgA97j6x/5XPZVUYFvCHMQHwv2XR0smNruxAzIAF1
+         UqYqIZaAhHjg6k/rq+t9esquS/YcVaG8KmbBhLq/jw8vN/Lcp5t0nwfk4hTNNQEvfLnD
+         /g48WuXifAv3xinnAx6A9FKGVJZaZ9pcDTr+AtvQNXYvveGNi2QKPqsX2IWdTEtl6VZm
+         MrHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cp9Ep/hNNUKT/Q107TyB692cBkvdQAk6sieLmz8xQmg=;
+        fh=7X/7ySfMpXqPyKqJDcv0s7mhO2BQolKo/8h28g3rMWM=;
+        b=Uf3zMpUd+x1IOtnjHbrCflALGhygcmQFtPCgmTqkJKUmNseP99ObPEwXMkfiBz33cT
+         oxqRwUb+6SKySPMJWeDfHZMviy9r0sGDucEJWgCXf6Er1lawEq2RqjblLU8y8t6FcT5r
+         Dxuj+slt+CjQEFwuzY6IQgLslBRrJdCZs4hooNYazq2UJE1WWtA+13iTMn72BoF4oQE3
+         mcqWSWLlNnQYF7IbmeWWM9DOFqgHavff8S5LVeWaBTuC3kcP/ZVQvNwP3elXCwsocQPU
+         LojZqosTsZfZ6PgkKhCNAOT4sYMna9nGWhxcMWDi6gUO11uYN8wZj2G8Dsjzx/sA1wNd
+         5oQA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773798827; x=1774403627; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cp9Ep/hNNUKT/Q107TyB692cBkvdQAk6sieLmz8xQmg=;
+        b=DxLwiHB6s0B1UPECM4D5kZdxeCkOlzzd7GbPmP9ipJ/GaqycCvACw2PhYXDglbuztZ
+         C5KmDxd7FBgjkUZlfYHtRUlUjUUvNFEF+uD5x68Dsm0Ndv2tIfE69UZSusU24JI3sK9Z
+         tqJ+hwdAfBRWBtlkTk149iV1tK835l54Skwul9YHOeedBqpSHByeaNYta1sQlyrRFOP/
+         wobZ0Om35v9oAxeTaxX+hpBsb5o2Nna25n/xSfTvOSbZ/Sa5ssKAjNcAsVo3Wquppm6R
+         gHvFuczWX7iuz7G4+8uorEj/s7/4HhX46D0b5iqt5Fl5M947UknjL7zndEAU444CIFNj
+         sINA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773798827; x=1774403627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cp9Ep/hNNUKT/Q107TyB692cBkvdQAk6sieLmz8xQmg=;
+        b=tF195CkRC3J/P9S4sRArVgYGxXJParQVVelg44VoXNGX3nWIsIBcQeGeZ9/tZ9YhOy
+         zUf2zlNBO2G7ukIHUZry7ZbqKxH2uwdkkzJm89Av/a6DoZtLeELIEohGn5RA88TYLK+l
+         3y0CukUxzWiAcX4e9Z6sUBN9eBw/oHr/v+dVmKdJGKrszbsP4lwkTMnJur3uy0fEjDU5
+         8snmVccOe/KedZ21/AevilTVSNyp2cXqVO6qB+rcvOhsfD0btm5+h4+7VsZkEhwKguTy
+         u6MVoOO5DoB0NCAigwfhH18U23A3X8ofpeZfQiuCyEAzpwfHRUySYvQMMYcD7gxB/dyI
+         e5yw==
+X-Forwarded-Encrypted: i=1; AJvYcCXrnLvEcNAQhwyEnlkHS1Vv5MZidlrdQCPoRYOa6Qr1Oc9CFKMWXStUHATgaWiQpfGyOdcELiWZw+vD9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5kNllaWCKVueGz90ZKiR/3QjEm1Ks783tr83NMV6tmM4chs3A
+	DtR0fqf1cxZdRuj7cjLRBMVHgwHGFFRzBwktipKSEx1//y3eFuE9nhNXhV8aveHI2/KUYLLwDOV
+	jZPg9VErVN1lEkjW6MITfQ43pRJDde9w=
+X-Gm-Gg: ATEYQzyAh2+Nf+T6tEatdWiDDP/t3xvlyuj4GS9HgVEwdqj5wy8kFrZ8PtLmA+YszNW
+	/kgp3L/fQMPSGJ79PNgYP+wOp8rzSLlsVLai9UWaxoz+7vLL4QYvn1kun8XFcYknciR+GaeOLTX
+	Wnx9bnlGkQh9LZdKzX5n/dapz+b8v3TEBOdJDPlnxWN0lqXh66z5e4KoFUK9+q6gb0EV57ZGboK
+	GTdZyF+4Np4LHMSuk1Qz7PM+Ftzpb22z++o13PW9vOlf1vSka34tXGWhQ0LVGOaZcnenl0amez3
+	/UTJI9hXTsoNtIzYXKmiIO4gQtR4s27M7DxLpQW6CynsDGtPUAhGyjMTeIk8l7c/pD/vLnal3Tb
+	+yxk7GAHYmQ==
+X-Received: by 2002:a05:6870:ebcb:b0:417:1ba0:7320 with SMTP id
+ 586e51a60fabf-41bd41cda0bmr1126217fac.33.1773798826608; Tue, 17 Mar 2026
+ 18:53:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB10859:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22322854-60c7-44a1-bd3f-08de847ac2ab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	FEOPtAjGjfkHBE80N5hEMzsgu3+NB8Kaq5lAQ+UzjXVm5tLfNp9xckCSkhcUC+YcFa09s7zPZU+guoCh4aH/RCSlkha5Xd9mm2pXOh8IphD7kovaofmYa5Ck/skiWqqeJpEGr3yuxtRrlwBPQRwtlQ/bqUKh4TOgHutbEIkIDfxTPgLtSgfkQP1OqMsOQWPDch0goAL0jcwumKs/1MlqGeoxs/q/WPh4brYliayAXHvE+SOZurNwoDvokl8v2KQfGC0fa2dir2TCdVxU2EG8pK8IX4LeiYaS2z1uHXRIgxo8IJ8fwhS4ETX5CYPjTsQ5CGzWugTVQKdYCWYjp9FhX3h+WWdfYcXYNuJIjDE/UfdpliN9SllIpwCQJSrPNimKzVqdDj6ZyU0F4ByLMZcx7tIjamn6OOeHPtITAlfvi382Wmq3z96ltlE8+/sJOrn6LcU/jWsWVt4kc5fRpQt19JO4b48JvTcOp3a/7MQ+t91q1ulil3hZHyPGS8kThaRj2l6kKzXqv1+nBFMzWyThRodUWtz/eCpY2JEVcNldNxLI0zav8EeNk8k0LZ6Sv82N/nX6a42i6hWKSKsbJdeKfTQM7bJc8ck/puispFR4wSl9Z/dtoGCgcKnO3XqLZaM4dJh4Oo2K49G/fKSwVqY9FdJfbNX02pwZ7GfP3xPz4yZdQqwFDfiyPHqckm1uZpQMAhxAmCUl7L9Trp0O4UX5nmO3v06pYYETguPmcSYlHCl8bxxgfF6+HAqcJ6hP23OSrDV8rFXLVk1xHGnSnoP6WeecMPorZJJFQ/rJEBl6Mm4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ud/L3sDUmFUaVBl/7DAHbuIPDT3J+wvK2jlbWBvnKyX6/kL465yB9ec6Gwkn?=
- =?us-ascii?Q?4pDTgXMy6ZQiiklttBiDOwNpVINUncKc4OO9hxipxtWfYZaYko9rvqmlbQt7?=
- =?us-ascii?Q?KbALskYsdbuzfsKR1xnHMxglXQxxb/T6tMkPGHo7HjBmLSej8fNenh5e+z5a?=
- =?us-ascii?Q?RSbgf7WZMMjsA/7PSVEYSqJXAUuo7jxoJ/Z9YCZPl5p2uXE5aGzTPCH8uDn8?=
- =?us-ascii?Q?BD1kDvsF6oBF5QUDYtCrZvHHDEyjn69iIJsX6eZrpfBCO//IZmb8bUiwMghq?=
- =?us-ascii?Q?Ls1JQymtDe/N0E1JbJ0ZqvVqKZbC6mnx4WC7d+nrHivjut9f41tNbONEQ4tH?=
- =?us-ascii?Q?TH4z5uzruyJ1q9kcXT7Tswyn6BWy8Doiea/089Ruva4y1dzP+Htx3zIh+40k?=
- =?us-ascii?Q?WVQsZQhK1syqXLLNWqgLaoAOP1rAXmg8v/sGxce+1t7KLynZ115VSBIRszwh?=
- =?us-ascii?Q?9YKAfFcQNekUIlQj532oxXJ2qVmbZk6xZXCBZKB/cPpCbXzKczhpsa9tdlnA?=
- =?us-ascii?Q?RV4bS9GZoRaZTboXjRUfhc9/6ahfD1oBoI+fnFwvawZY0xhElTxec9SHiDJZ?=
- =?us-ascii?Q?e6eZHoBCQdZgc5KXkIDJbulS4QuZ8dflyoNJfGUkjLRKg9v/sGN4guTRt3RK?=
- =?us-ascii?Q?xdvrQDYt7VpLYzjIDxNb4A0+xjRyZplL6aEgsPwzpcDnSYKmdjNg2ee0Hjrk?=
- =?us-ascii?Q?Z/q2XS3pgg4cnKSsRRbA1E6zbuRDHl94+JLGPJ3dcpatXDQgDCdGygR1vjjt?=
- =?us-ascii?Q?H6zkad+q9xkZ/9cg2bSIal8WFaNsIPW9HvXwOsj8nA+8fOM8THmN1kfo4TAh?=
- =?us-ascii?Q?RYbondHFDEAh+5rnR+fHPaliK4u/3G8GwqwCnIvyCTGctfvQ9R1HTqZmbDha?=
- =?us-ascii?Q?eK+i+SZ43H8veruHmeVAMsoeZqRbbtOcFxy1M8NMqbKg/9qR+gWH9WGL9Hua?=
- =?us-ascii?Q?1E6emsatnGUUy3XlcAKMjdCs/C2666CbNpKb7tkGbpZVvUo3n/+lnxMeFhSX?=
- =?us-ascii?Q?6govh6GpmesFy1A/XoIXpiYVXZyNCmH8IQ1+etW+FLDo3i7DFYiAuQZA1IYs?=
- =?us-ascii?Q?uhnSqv8yEUUSpa+V7dbGYFLr9RM7aqnvZ9v4ijHGn8Azf0OMkeLSvxAnwywq?=
- =?us-ascii?Q?OVUxbypBPItHiBHF6kHrAENso5Ga1Oq/EXyPXtPkyU/dqT/cf0ZsfRVV1c5B?=
- =?us-ascii?Q?dI7wOrpZEeVOcpXxWRsd++d8KkaImB+YK+Gg3d8AkghZDq7dqlYBr4zVzOTk?=
- =?us-ascii?Q?1zj2ikfDtT65f5snSCi6qiI/LfRzkvQ9FAbbaIzmDwZz2zqtELZl4gd4U2BN?=
- =?us-ascii?Q?NDW7oIt2HCT24YrY2vY9UtrJmKUktiAo+ToruD+oUAnY8AwBgSdxtvLOwdag?=
- =?us-ascii?Q?sVFB+Jrjh7b8Q2+EhILDgOimOZbYiWGbtxXp96kv3Pex5VRtVlHHldaAw76a?=
- =?us-ascii?Q?NagYPbB9CtPbI7S3X8nV9+c6f12h0yIGMe5mwj8pTZIp53CufEhfTAbkz9+M?=
- =?us-ascii?Q?367W/UaN0b9RzyUQFGkwTN5y3SWTZsyWE30MIk3s+VDd1YUmlgHvRGPMk+AK?=
- =?us-ascii?Q?e5rLZSVDpuLpKDmDXtwHXCo0aiFrsO3XZNvgTQJnBKXJR1DuH1rA3m+r7phs?=
- =?us-ascii?Q?VFdMk6r6I2CQy7m7MwYX4GWC1YPiyJ+kAmPXIzkkZSEee1eby45FqblH3DjV?=
- =?us-ascii?Q?zywG/8XYQynSlhhcVBjaDrNs2MVIzx5IJz198kDECnKeW5bsD74+SEwGKP4W?=
- =?us-ascii?Q?5Q59YVrRUvsUmj+Ci0+eXpX0pcQh1fMPf/CkJLLHbzMXgFhG9dcV?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22322854-60c7-44a1-bd3f-08de847ac2ab
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 23:13:12.1075
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EHCDTl256sql/faeOp9IEzzPABVsOtj0ysN3XeR6+IXkEjLFKd9q9CEgD+CrjzdI3qHoPjrGkmYhPRxY2ddI8mtOLiPccUDYWClY4kcycULiTQnWBJlgLFEK64uAaV0o
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10859
+References: <20260317185920.43387-1-hanguidong02@gmail.com>
+ <20260317191538.43535-1-hanguidong02@gmail.com> <c14b399c9c6bf96f8c7d33615561b0d787ff175b@intel.com>
+In-Reply-To: <c14b399c9c6bf96f8c7d33615561b0d787ff175b@intel.com>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Wed, 18 Mar 2026 09:53:36 +0800
+X-Gm-Features: AaiRm52nR_v9OD3YNBiYZ0KMPL0_wApDenMFnYnmDk762NDAGBxD5i0lDEEX0xA
+Message-ID: <CALbr=LadoX8g--rtU==HQfNQ9f1=KP=7AS-PGfooKaSbnYPz+Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/i915/display: initialize string params to empty strings
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: gregkh@linuxfoundation.org, dakr@kernel.org, rafael@kernel.org, 
+	rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, 
+	airlied@gmail.com, simona@ffwll.ch, gustavo.sousa@intel.com, 
+	demarchi@kernel.org, jouni.hogander@intel.com, luciano.coelho@intel.com, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, 
+	akaieurus@gmail.com, me@ziyao.cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 18, 2026 at 4:12=E2=80=AFAM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> On Wed, 18 Mar 2026, Gui-Dong Han <hanguidong02@gmail.com> wrote:
+> > Passing NULL to debugfs_create_str() causes a NULL pointer dereference
+> > upon reading, and is no longer permitted. Change the default values of
+> > dmc_firmware_path and vbt_firmware to empty strings ("").
+> >
+> > Existing code that consumes these parameters already verifies both
+> > pointer validity and string length, so empty strings are handled
+> > correctly. Furthermore, heap allocation is not required here: these
+> > debugfs parameters are created with strictly read-only permissions
+> > (0400). As a result, the debugfs write operation is never invoked,
+> > meaning the static empty string will not be erroneously freed by
+> > kfree().
+> >
+> > Fixes: e9913f0bd2e1 ("drm/i915/display: move dmc_firmware_path to displ=
+ay params")
+> > Fixes: 29292bc6cc37 ("drm/i915/display: Move vbt_firmware module parame=
+ter under display")
+> > Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_display_params.h | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display_params.h b/driv=
+ers/gpu/drm/i915/display/intel_display_params.h
+> > index b95ecf728daa..0a8cad98d480 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display_params.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_display_params.h
+> > @@ -23,8 +23,8 @@ struct drm_printer;
+> >   *       debugfs file
+> >   */
+> >  #define INTEL_DISPLAY_PARAMS_FOR_EACH(param) \
+> > -     param(char *, dmc_firmware_path, NULL, 0400) \
+> > -     param(char *, vbt_firmware, NULL, 0400) \
+> > +     param(char *, dmc_firmware_path, "", 0400) \
+> > +     param(char *, vbt_firmware, "", 0400) \
+>
+> Admittedly this is all very convoluted, but these NULL pointers (or
+> pointers to them) are never passed to debugfs_create_str().
 
-Hi
+Hi Jani,
 
-> > Fix uninitialized variable playback_only and capture_only because
-> > graph_util_parse_link_direction() may not write them.
-> 
-> > @@ -544,7 +544,7 @@ static int imx_card_parse_of(struct imx_card_data *data)
-> >  	struct snd_soc_dai_link *link;
-> >  	struct dai_link_data *link_data;
-> >  	struct of_phandle_args args;
-> > -	bool playback_only, capture_only;
-> > +	bool playback_only = false, capture_only = false;
-> 
-> Don't we need to initalise these once per link rather than once for the
-> whole function, otherwise if they are initialised one time then any
-> subsequent links will inherit the new value?
+Thanks for your review.
 
-Ah, yes indeed. It is called under for_each loop.
-So we need is...
+Could you elaborate on why they are never passed? Looking at
+intel_display_debugfs_params.c, the intel_display_debugfs_params()
+function iterates over INTEL_DISPLAY_PARAMS_FOR_EACH using the
+REGISTER macro. This eventually calls
+_intel_display_param_create_file(), which uses _Generic to dispatch
+char ** types to debugfs_create_str().
 
-------- 8< ------- 8< ------- 8< ------- 8< ------- 8< ------- 8< -------
-diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-index 05b4e971a3661..a4518fefad690 100644
---- a/sound/soc/fsl/imx-card.c
-+++ b/sound/soc/fsl/imx-card.c
-@@ -710,6 +710,8 @@ static int imx_card_parse_of(struct imx_card_data *data)
- 			link->ops = &imx_aif_ops;
- 		}
- 
-+		playback_only = false;
-+		capture_only  = false;
- 		graph_util_parse_link_direction(np, &playback_only, &capture_only);
- 		link->playback_only = playback_only;
- 		link->capture_only = capture_only;
-
-
-
-
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+Thanks.
