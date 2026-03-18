@@ -1,265 +1,123 @@
-Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395B52701CF;
-	Wed, 18 Mar 2026 16:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773852501; cv=none; b=iL3HzUDdhz0WvFLeBxJ7Xp4boYOsbr9yQQu9IIPNWiSQRZlSw1xrtLX+Hued7PeQ38cfzL5jDddeALJidArv6ios8gTKh/5mWwQYfU11H1kyQGtsyFgEYz6c52rFd4nS7/D3SzFS6XNUDlMTzu4Ivdby8eHvE3/TQFsn670+GEQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773852501; c=relaxed/simple;
-	bh=gqKg1TqY0t/5bw8+uyhyFiPwhOgXMAj7MoK3sfU67pQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P4pLUgNPb1hSKcQjJBSeDHegS0G2rf80Nr9VCRzY4yn2Apqd9hSSJuvY6h+jJb1K8Ul6cTZelj4J4qmgMEQkMOm5acas0fSFnG0QpMb6xaDyf5/beyBbmZIDOn2wGAP4FQbYU6jjanxysJHGTWZmVrzB2NZ7Syv22JXmaV8HjXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=FLZ/Fbr2; arc=none smtp.client-ip=78.40.148.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15AC2D0C92
+	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773852750; cv=pass; b=MUL2E6ugGc1gRT6yQWfBFI4iB7fKQRYSBcSsq5FM4BqHZRuCS0/9Qiw8S8F3ZzTnxbgEyRhmdNWGqzZyBH3XJ0nfVheOR1vmHCvpjxyodzpS4GsnuQM7rejCDUheph3SgLuw/60pPmPtIZjq97zgOCTTK6PFjjXyKQER+OJMRwc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773852750; c=relaxed/simple;
+	bh=jGowpM+0EvpqYpl5UHEdMeQ1VB2eHq1JlfVrJ/Var+g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YSA9v2SYLYboQp05gBgFvIHjv6y1CEGPIeUqIr4pfygPUTkA1kZgwc788oltZB+5wBvpok4tvsp4lD0LtdFDBnRvIkR6WbpX+hwuwgiL39pmDXCAS3cO7Rv/xa1DgVdS3qHdAsiliCHP8D1/qbIT3YtimJzTOpjvqo5/Bpn8vag=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=C6juc63A; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="FLZ/Fbr2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=pOKqgyHabOa6CwHeK5qlDoUyrXbH7kziKPjb/X6B+dM=; b=FLZ/Fbr2D5bk/Q
-	37BWOZKBSs8kx1NukGOcmlq5Kb2y7DP9ezlFcIvpRz/5G7KtRziE5NSd7JdHV3GXi9zIvEPNmAemI
-	FPYL0t6pgWl0tVgEy+T63P8A3lkJfcyoXymSChe1pJqHXkYMaC4ywmbuAmn67n6cyj9f3qLbGkRio
-	m27eVSZIihpQSiB03AQoTmLfJBnolzlETnElG+R+OdhiI1iUFJIJwywsYS//pK7bGiC633doc/PCm
-	oqU9KFnPUWfnMu/klDjNxCXFkVHyiXYpTwfWqJ0m8LmT0eIrsF2EYbPek6js18QCg7rTeehdWri05
-	+laWzbIMorNxJzesQYQQ==;
-Received: from [63.135.74.212] (helo=rainbowdash)
-	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1w2u3x-00CoP9-CK; Wed, 18 Mar 2026 16:48:05 +0000
-Received: from ben by rainbowdash with local (Exim 4.99.1)
-	(envelope-from <ben@rainbowdash>)
-	id 1w2u3w-00000004YfU-3xdg;
-	Wed, 18 Mar 2026 16:48:04 +0000
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linux-sound@vger.kernel.org
-Cc: kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [PATCH v4] ASoC: SOF: sof-audio: pcm_id is __le32
-Date: Wed, 18 Mar 2026 16:48:00 +0000
-Message-Id: <20260318164800.1086567-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="C6juc63A"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b97b30fa5e5so2568266b.3
+        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 09:52:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773852747; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EpiqV7LVT3qjlssPmqnd169RqTyeViqvwAfXGbyQUcQ35vViPGVso7rNgNcLHSiRX0
+         6pJUs+BGdJZX8NE4foL7cCkHFshy6iiDnds7sgduYT2k1GTM8QpFPE4jhVyMkgoQmEMY
+         oljazrqkugYT8WqrMCEfTRzX8u3ibVzt/e6QqKsRHQrvogveEududis9KuMUgWov+LFi
+         prap3P2bzj0EZqJ7DJWiWGnvoeonpWXIAX9Gx+lxT9qrMuXGmAuwb6UTW9LsvluNJbq8
+         K0N/4h04BC2kFUG70UmcH/u8Nv81iKsk5lVkhuQ+LrAVRfbb+tLwMf+xD5yU2WhlvR+D
+         lDlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=n8s0iyx5Up+axNLd5N4vYWUUxP+7s5+5idq+mXMf/gI=;
+        fh=emBPTwLZ1ALVmTFdovwm5YNN0/kg3N98fF0C7NUj22w=;
+        b=kz9jy7KzCdlCb3xx2E1Uyr/4ZzO6D/o80CVN5g1nFQiyHZg1550CYulaB+21EVgmVj
+         ZUeVsgFxJpFKq/vXcNTSAnyVVqGFYf466Jkxxq114R46VqrkjMJymym5MXamC/v4R0uu
+         RAFB/bdgl7BXXEcp4YzssKZpMw8cGEtkMxGG2Ju56ZMEPmnU0SVw913I3DJlrACgp8q2
+         vOgel8ZFYG1OC99MHhTQMqBFbeSnhY9Pmjq3QXfe0GhVZHaqWpWy8TOmeQUNe2zLgr0B
+         bKjL79Zo3Zuiihi0VtCb+s7P2HD9L+fqZNBDHtCGUBBcX6HJBRW+qaEafRVtKS3jU2hK
+         jm5w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flipper.net; s=google; t=1773852747; x=1774457547; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n8s0iyx5Up+axNLd5N4vYWUUxP+7s5+5idq+mXMf/gI=;
+        b=C6juc63ARTReATuT6G1kJ3mD7qR9kgQB0xE/i/sidGITsV/FoP6iGtYq33ZUrDiQYo
+         GFL0urc2gst3J3vLvoQb4ns1eqeuHuhyw7r1+ZL6txeGItONt8dAtm1fP3zKMBBbR4b+
+         WRvvaTHF1J/RKZziKy33lAnWKL+4AZgEUuhMUaOfDCPZFvlsqJuSl+A9o4xPSWNMf5ya
+         H+D8Wd2hu50j4C3sJXmZ29j2ZnksbVTiF5N7nsjELgitHpenAM/goHuMlj4LQpl+SHYT
+         JwZoKE2Db5S+P3JEVRFViKe9Pf5ubwllePXS2qe933FCswnBHFqXxMXpG77w/HV1V657
+         eyOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773852747; x=1774457547;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=n8s0iyx5Up+axNLd5N4vYWUUxP+7s5+5idq+mXMf/gI=;
+        b=sLurTmizztMd83CC3VSTepXUe2DAExXdGCVRgyC3dRxlxNLv6ZN2Qx76A8A8k9nDG5
+         k0ic050umeLyBbhELm6S605m6jeHDslpDdsPkXO1OYx74Gc8QKVdpSl6I70SC1l/KP87
+         oaYA6ZcM8+K0R5jh8HJ7Uk7JiGj8yssrbnPE9Z/JrJaSdR7r0SfWzLOcznnpi0vIzsaw
+         qrxlR3WX5YrTModmxeJZ2oKvr4MprTAeOjeSSskCl/bqDc+4/VvGabwhosAT9tK0UCGs
+         9krfyv9XGRZ5OQ5x0Vsor299j8bKr6AIby8stSZMlrgLLH6QlSKwopV/mrUcrgTnxD+H
+         Bvyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxYIMtC8K8rd5CvMMKLE9n6ZK1G3oYsKDiHhZzwwA8XNG3zW0u0OULcnNMMntZ5DKbgn+VD8qFJ8GcxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6RuFKrW0uQqp4JMNLI8VwjFEX8d9h5InCHiXdofAfEPXLPa6K
+	DvmPScHvTmVP9+kz+48sFyn3hvncHtvzAlEpBrrPi1O/pbkaeV1oAioSHbnfK08WVwkHEEyywv1
+	nK5VwiHZtIPtsfe84jxWcApNpRh4fK1+QiGhdwLh3pA==
+X-Gm-Gg: ATEYQzxcMa+n3GiNSj8Uxi7EeoIJ3YmqfcOuFtOASe7zmLZxCEsMCqMl7zG+2FZeytU
+	xpxS530RDLP/r0OOvYZb3yaBfE6MGOJ+FjcYiGT2tIynU+a7B187H86q0t2PfmUj3b/2HSomoqI
+	HIJXfT7i9bAJutSeplqDLnpNUbWtLFEF4Rn5veulBZuMqBIKZ3r9o+jAbqBnKYD9PaMUfct7EtT
+	TB81jyzF3dmG8BghZiJOjAF3HMf7Uz6+NhswyM4dDSgXE+rPieEuhoFxR1BxaCLkN/g69g/Rj05
+	DDK/lYw=
+X-Received: by 2002:a17:907:268c:b0:b87:7485:b4a8 with SMTP id
+ a640c23a62f3a-b97f437c5e0mr269129266b.0.1773852747057; Wed, 18 Mar 2026
+ 09:52:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: srv_ts003@codethink.com
+References: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net> <339ebaa9-9642-4716-bca7-6a32a135124a@sirena.org.uk>
+In-Reply-To: <339ebaa9-9642-4716-bca7-6a32a135124a@sirena.org.uk>
+From: Alexey Charkov <alchark@flipper.net>
+Date: Wed, 18 Mar 2026 20:52:16 +0400
+X-Gm-Features: AaiRm53s1de568Rl6WcWFL_NmD36Tc9G63SkTCGabmNWoWncrHCvYMTyZ7Db36c
+Message-ID: <CAKTNdwF9JRW7PjqnZwmvp_X5UjjJ023tBzFY7yCSnCJH5W6q-w@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Set slot width for non-TDM mode
+To: Mark Brown <broonie@kernel.org>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Sugar Zhang <sugar.zhang@rock-chips.com>, linux-rockchip@lists.infradead.org, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pcm_id value is __le32 so convert it before passing to the dev_dbg
-function to be printed. Also fixup some other uses of __le32 data and
-a couple of places where %u should have been used instead of %d
+On Wed, Mar 18, 2026 at 8:17=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Wed, Mar 18, 2026 at 06:50:25PM +0400, Alexey Charkov wrote:
+>
+> >       regmap_update_bits(sai->regmap, reg, SAI_XCR_VDW_MASK | SAI_XCR_C=
+SR_MASK, val);
+> >
+> > +     if (!sai->is_tdm)
+> > +             regmap_update_bits(sai->regmap, reg, SAI_XCR_SBW_MASK,
+> > +                                SAI_XCR_SBW(params_physical_width(para=
+ms)));
+> > +
+>
+> What happens if playback and capture have different widths?  I wonder if
+> forcing a TDM configuration with the affected CODECs would be easier.
 
-Picked up by sparse prototype for variadic and printf
-function checking. Fixes a large number of sparse warnings, such as:
+Playback and capture go to different "reg" each, and each has a slot
+width field. The correct "reg" for the stream is selected 50 lines up
+in the same function. So they shouldn't really get in each other's
+way, from what I can tell.
 
-sound/soc/sof/pcm.c:84:25: warning: incorrect type in argument 4 (different base types)
-sound/soc/sof/pcm.c:84:25:    expected unsigned int
-sound/soc/sof/pcm.c:84:25:    got restricted __le32 [usertype] pcm_id
-
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-
----
-v2: fix missing __le32 conversions
-v3: further __le32 fixes for other header values
-v4: fix signed-ness of printf formatting
----
- sound/soc/sof/compress.c      |  4 ++--
- sound/soc/sof/ipc4-topology.c | 13 +++++++------
- sound/soc/sof/pcm.c           |  6 +++---
- sound/soc/sof/sof-audio.h     | 11 +++++++----
- sound/soc/sof/topology.c      | 22 ++++++++++++----------
- 5 files changed, 31 insertions(+), 25 deletions(-)
-
-diff --git a/sound/soc/sof/compress.c b/sound/soc/sof/compress.c
-index 96570121aae0..3dbc05bf3b79 100644
---- a/sound/soc/sof/compress.c
-+++ b/sound/soc/sof/compress.c
-@@ -247,8 +247,8 @@ static int sof_compr_set_params(struct snd_soc_component *component,
- 	ret = snd_sof_set_stream_data_offset(sdev, &spcm->stream[cstream->direction],
- 					     ipc_params_reply.posn_offset);
- 	if (ret < 0) {
--		dev_err(component->dev, "Invalid stream data offset for Compr %d\n",
--			spcm->pcm.pcm_id);
-+		dev_err(component->dev, "Invalid stream data offset for Compr %u\n",
-+			le32_to_cpu(spcm->pcm.pcm_id));
- 		goto out;
- 	}
- 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index db077e9d5644..82f1e44a145e 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -581,6 +581,7 @@ sof_ipc4_update_card_components_string(struct snd_sof_widget *swidget,
- 	struct snd_soc_component *scomp = spcm->scomp;
- 	struct snd_soc_card *card = scomp->card;
- 	const char *pt_marker = "iec61937-pcm";
-+	unsigned pcm_id = le32_to_cpu(spcm->pcm.pcm_id);
- 
- 	/*
- 	 * Update the card's components list with iec61937-pcm and a list of PCM
-@@ -595,21 +596,21 @@ sof_ipc4_update_card_components_string(struct snd_sof_widget *swidget,
- 
- 		if (strstr(card->components, pt_marker))
- 			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
--							  "%s,%d",
-+							  "%s,%u",
- 							  card->components,
--							  spcm->pcm.pcm_id);
-+							  pcm_id);
- 		else
- 			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
--							  "%s %s:%d",
-+							  "%s %s:%u",
- 							  card->components,
- 							  pt_marker,
--							  spcm->pcm.pcm_id);
-+							  pcm_id);
- 
- 		devm_kfree(card->dev, tmp);
- 	} else {
- 		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
--						  "%s:%d", pt_marker,
--						  spcm->pcm.pcm_id);
-+						  "%s:%u", pt_marker,
-+						  pcm_id);
- 	}
- 
- 	if (!card->components)
-diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index 5b598d0940eb..fcb002b3e611 100644
---- a/sound/soc/sof/pcm.c
-+++ b/sound/soc/sof/pcm.c
-@@ -360,8 +360,8 @@ static int sof_pcm_prepare(struct snd_soc_component *component,
- 	platform_params = &spcm->platform_params[substream->stream];
- 	ret = sof_widget_list_setup(sdev, spcm, params, platform_params, dir);
- 	if (ret < 0) {
--		dev_err(sdev->dev, "failed widget list set up for pcm %d dir %d\n",
--			spcm->pcm.pcm_id, dir);
-+		dev_err(sdev->dev, "failed widget list set up for pcm %u dir %d\n",
-+			le32_to_cpu(spcm->pcm.pcm_id), dir);
- 		spcm->stream[dir].list = NULL;
- 		snd_soc_dapm_dai_free_widgets(&list);
- 		return ret;
-@@ -652,7 +652,7 @@ static int sof_pcm_new(struct snd_soc_component *component,
- 	}
- 
- 	dev_dbg(spcm->scomp->dev, "pcm%u (%s): Entry: pcm_construct\n",
--		spcm->pcm.pcm_id, spcm->pcm.pcm_name);
-+		le32_to_cpu(spcm->pcm.pcm_id), spcm->pcm.pcm_name);
- 
- 	/* do we need to pre-allocate playback audio buffer pages */
- 	if (!spcm->pcm.playback)
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 36082e764bf9..80b11625915d 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -641,17 +641,20 @@ void snd_sof_pcm_init_elapsed_work(struct work_struct *work);
-  */
- #define spcm_dbg(__spcm, __dir, __fmt, ...)					\
- 	dev_dbg((__spcm)->scomp->dev, "pcm%u (%s), dir %d: " __fmt,		\
--		(__spcm)->pcm.pcm_id, (__spcm)->pcm.pcm_name, __dir,		\
-+		le32_to_cpu((__spcm)->pcm.pcm_id),				\
-+		(__spcm)->pcm.pcm_name, __dir,					\
- 		##__VA_ARGS__)
- 
- #define spcm_dbg_ratelimited(__spcm, __dir, __fmt, ...)				\
- 	dev_dbg_ratelimited((__spcm)->scomp->dev, "pcm%u (%s), dir %d: " __fmt,	\
--		(__spcm)->pcm.pcm_id, (__spcm)->pcm.pcm_name, __dir,		\
--		##__VA_ARGS__)
-+			    le32_to_cpu((__spcm)->pcm.pcm_id),			\
-+			    (__spcm)->pcm.pcm_name, __dir,			\
-+			    ##__VA_ARGS__)
- 
- #define spcm_err(__spcm, __dir, __fmt, ...)					\
- 	dev_err((__spcm)->scomp->dev, "%s: pcm%u (%s), dir %d: " __fmt,		\
--		__func__, (__spcm)->pcm.pcm_id, (__spcm)->pcm.pcm_name, __dir,	\
-+		__func__, le32_to_cpu((__spcm)->pcm.pcm_id),			\
-+		(__spcm)->pcm.pcm_name, __dir,					\
- 		##__VA_ARGS__)
- 
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_COMPRESS)
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 18e2401152c8..73532fad2cb9 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -775,8 +775,8 @@ static int sof_parse_token_sets(struct snd_soc_component *scomp,
- 						       array);
- 			break;
- 		default:
--			dev_err(scomp->dev, "error: unknown token type %d\n",
--				array->type);
-+			dev_err(scomp->dev, "error: unknown token type %u\n",
-+				le32_to_cpu(array->type));
- 			return -EINVAL;
- 		}
- 
-@@ -880,7 +880,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 			       ARRAY_SIZE(led_tokens), mc->priv.array,
- 			       le32_to_cpu(mc->priv.size));
- 	if (ret != 0) {
--		dev_err(scomp->dev, "error: parse led tokens failed %d\n",
-+		dev_err(scomp->dev, "error: parse led tokens failed %u\n",
- 			le32_to_cpu(mc->priv.size));
- 		goto err;
- 	}
-@@ -970,8 +970,8 @@ static int sof_control_load(struct snd_soc_component *scomp, int index,
- 	struct snd_sof_control *scontrol;
- 	int ret;
- 
--	dev_dbg(scomp->dev, "tplg: load control type %d name : %s\n",
--		hdr->type, hdr->name);
-+	dev_dbg(scomp->dev, "tplg: load control type %u name : %s\n",
-+		le32_to_cpu(hdr->type), hdr->name);
- 
- 	scontrol = kzalloc_obj(*scontrol);
- 	if (!scontrol)
-@@ -1015,8 +1015,10 @@ static int sof_control_load(struct snd_soc_component *scomp, int index,
- 	case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
- 	case SND_SOC_TPLG_DAPM_CTL_PIN:
- 	default:
--		dev_warn(scomp->dev, "control type not supported %d:%d:%d\n",
--			 hdr->ops.get, hdr->ops.put, hdr->ops.info);
-+		dev_warn(scomp->dev, "control type not supported %u:%u:%u\n",
-+			 le32_to_cpu(hdr->ops.get),
-+			 le32_to_cpu(hdr->ops.put),
-+			 le32_to_cpu(hdr->ops.info));
- 		kfree(scontrol->name);
- 		kfree(scontrol);
- 		return 0;
-@@ -1523,8 +1525,8 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
- 		break;
- 	case snd_soc_dapm_pga:
- 		if (!le32_to_cpu(tw->num_kcontrols)) {
--			dev_err(scomp->dev, "invalid kcontrol count %d for volume\n",
--				tw->num_kcontrols);
-+			dev_err(scomp->dev, "invalid kcontrol count %u for volume\n",
-+				le32_to_cpu(tw->num_kcontrols));
- 			ret = -EINVAL;
- 			break;
- 		}
-@@ -1772,7 +1774,7 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- 			       ARRAY_SIZE(stream_tokens), private->array,
- 			       le32_to_cpu(private->size));
- 	if (ret) {
--		dev_err(scomp->dev, "error: parse stream tokens failed %d\n",
-+		dev_err(scomp->dev, "error: parse stream tokens failed %u\n",
- 			le32_to_cpu(private->size));
- 		return ret;
- 	}
--- 
-2.37.2.352.g3c44437643
-
+Best regards,
+Alexey
