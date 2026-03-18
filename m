@@ -1,262 +1,167 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E844538F250
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 09:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773825443; cv=none; b=KQD4hNC1aC+BTJ0y8o3p5dl0BZZ8+CfLtBftYrBIC9RfahiW2vCoYYKcJHtgLF2wG/kzZXbIJex/hdPErmDfW0Qrgue4Zl6514FFQBQY0j5wVditH4OyIi3/awbbon/GMOgA08xI2FRlWF1UjTipGPxEZ5d710Y8OxpsHlu+rVs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773825443; c=relaxed/simple;
-	bh=a127cNarIBWFsT8KP0W5TqMhwnbOVEkkb8qnQrekfqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i8g0pl70CEEnjTea9hfbiAyeCYnADKiqU2hpRNqar3vKAKhv/CClGIpqoXIHo0SxTCXs/2ph/Rf5M/5OpWwDcySmjCR77BR+c2A/7dhRXjCw7IrXyYoVNmIT69W5ruFOFQ/b1YB23UzjV2rLHPmG1mu5ZSWrFUPCnRmGADb6We0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.17])
-	by gateway (Coremail) with SMTP id _____8AxDMOgbbppE0UcAA--.16604S3;
-	Wed, 18 Mar 2026 17:17:20 +0800 (CST)
-Received: from kernelserver (unknown [223.64.68.17])
-	by front1 (Coremail) with SMTP id qMiowJDxquCcbbpp36lXAA--.36227S2;
-	Wed, 18 Mar 2026 17:17:16 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH 4/4] ASoC: loongson: Separate external shared DMA from the platform interface
-Date: Wed, 18 Mar 2026 17:17:10 +0800
-Message-ID: <933394df825338842e49ff3724e1b92934d27fab.1773821115.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1773821115.git.zhoubinbin@loongson.cn>
-References: <cover.1773821115.git.zhoubinbin@loongson.cn>
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F123A962E;
+	Wed, 18 Mar 2026 09:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773826316; cv=fail; b=PSdXMH03dl2zg/zaWo4mz0Fp83V3wNydmLNBDDGAuXFQjBVL+TwWTHY9/ESN6fb5xPwTVEKhV4kVuxaSIJdlQAcmMDEK0RUK4a691T7AixTJDF9SVQ36eUFJXqQAYQwlOhQLyJD3L71K+PZ55Ar4BEZqLu1Qr3EG7J/Ew+RGoK4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773826316; c=relaxed/simple;
+	bh=sIKr0/TfzCP04UFbRmloRD1pf3pJdMRFAR+njjeRZtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nCya5QqW69Vr4Ms+hehouFlBW8+KyGO4AOxdtYEqXkX/LKg0dfThEYVGJKkJyhMz81iWZfVIstPAdbCzhOgyTe5R7bnP0D/RNSjn29GdaN3cITdaUt357Dn3mgKWVBh95vqa8yTERdJyN69vA0Ljko1N8TBj5xrcpuI7BEnb/cM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=S4eYS3Vz; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=bKSo086F; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="S4eYS3Vz";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="bKSo086F"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62I6moTD1587983;
+	Wed, 18 Mar 2026 04:31:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=elAhQEmg2TqPkVeQES
+	MWmBaLjPLiiyC3RU1zKNDxrpg=; b=S4eYS3Vz0PkCrI+TnoparLNVyi1GybZW6G
+	KHjNlRKqLfxugfzd3Y5hHCLiOjbx39x2D9DOyo6E7muLIgd0McaqHe8y7yo+Djj2
+	Z2QkhtlDUSuLIRfD8m74O7xglf2CT4Y4VvQWpcvA29SsXClK7Vj+mOGv0DHDnAv1
+	ALUFnfzo8lz8+ldv4AbMZjpHoqafQAEuD3bUBIQM9c0t3sM8j+GC01xN3rJVN+OJ
+	7I3UKq1s3IVaujOVrNYek/8reARe3P9GoRjOrkW68zJmScwmA+cGw7nb9HUg0ZkU
+	eqfjioRFVUhao7RISk2zVK4HIUKLfrsnv1mSrFpZmx6QTvN0gGZA==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023100.outbound.protection.outlook.com [40.107.201.100])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4cw52v504w-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Mar 2026 04:31:48 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WB6IlQpUFdUAoD7wHq2mprEE4uA7TT/rWFpV3a/6GR3/DS9nrQbcmp4ZsSTNGv0LwVLyACdD2TOXEZEbwrUExcBz1IKrN0+EQLmYKYuki+16TgF8pVtiKS4sPYpC0YmDCFagSQNZK/KSUjNOct7FXZNWRwxyxZU2Vy2ncxjpU9SVul2RjwjhKCELgpDW5quV9J9mmtxL1nvgd6RUCqrjTJhMSZI8JeL3ZMBkSiFXNdI8M8wAt32dnsVTFgTBrG1g8XrHwvyzFCUYuxbTnugM6rJRmGHBpVk6EcGrSYlqrZqmREPpGR20ZLOLTJ6Z8bE9d+5gwBJstmdLFvJRsZGjKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=elAhQEmg2TqPkVeQESMWmBaLjPLiiyC3RU1zKNDxrpg=;
+ b=QmsilxZhOwFcu9zbsaac4BzVTsooJeobFmUV/0HwkZu9HohB6ypnknnkSgYC1CawduVqwOrCaiWlldD9mmo2w0SzqC2TPG9zZf9GiEbkkp9rGNGzpAovVOPOCqBjFH2mx2PFBJ/IskWZNnSgY+bbeO3+hP/Vhooa0piL+QrG1SgTEp2EdFFQcPb3tYboV03hPkOHMvzkeBQ3DJopINmAzBhVOxy+ODPA0dJAkqztfdqTg0K+L4yatv5K7Yfpk8+HIUalG9CFBTDVV6MKZpkS7G+w6A9nKwY66H/P1F3Tv/+9f2RZxbNLqLMkCGTq7nGhT+SuTNFJVzvn7Kr59CSj2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=elAhQEmg2TqPkVeQESMWmBaLjPLiiyC3RU1zKNDxrpg=;
+ b=bKSo086FzvvQu+9TG+tbYbtxXXRE+bAMGDR2qY1KVDLhJxLcye4f83+7APzS3QWduElP7zoeQsCt8g2hNV+AkPCeuEWks/8qZm/1jSec0nroDr0lbbRrv7zV2W5UAi1pwem6QJ0fRyR+GXN80DFmk85l1wcDmaCwx0l1f93sQFQ=
+Received: from MN0PR03CA0026.namprd03.prod.outlook.com (2603:10b6:208:52f::23)
+ by CO1PR19MB5160.namprd19.prod.outlook.com (2603:10b6:303:d4::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
+ 2026 09:31:44 +0000
+Received: from BN2PEPF000044A5.namprd04.prod.outlook.com
+ (2603:10b6:208:52f:cafe::6c) by MN0PR03CA0026.outlook.office365.com
+ (2603:10b6:208:52f::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.27 via Frontend Transport; Wed,
+ 18 Mar 2026 09:31:37 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN2PEPF000044A5.mail.protection.outlook.com (10.167.243.104) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.17
+ via Frontend Transport; Wed, 18 Mar 2026 09:31:43 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 10A9940654A;
+	Wed, 18 Mar 2026 09:31:43 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id ED9BE820247;
+	Wed, 18 Mar 2026 09:31:42 +0000 (UTC)
+Date: Wed, 18 Mar 2026 09:31:41 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 00/10] ASoC: wm_adsp: Some improvements to firmware file
+ search
+Message-ID: <abpw/f/3OPnjFW36@opensource.cirrus.com>
+References: <20260310141817.1871794-1-rf@opensource.cirrus.com>
+ <70c45f75-7ccb-476b-8646-3896181a2569@sirena.org.uk>
+ <e9fc894a-4183-4d22-a9d7-6ad05167abe0@sirena.org.uk>
+ <abl4wZyYTJf1C4ml@opensource.cirrus.com>
+ <abmTp0NcfyCjfdpv@opensource.cirrus.com>
+ <b6c7d439-7c46-4c99-9213-30369f1dd443@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJDxquCcbbpp36lXAA--.36227S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEKCGm6PsMDnQAAsy
-X-Coremail-Antispam: 1Uk129KBj93XoW3JF45Xr4fGFWrXF43Xw4xAFc_yoW3JrWkpF
-	s3A3yxWrW5AF4avr98JryrXr1fArySkFZrWay7G348Ar9rAw15u34DtF1qvFW7CayUWryk
-	XFWkC3yrGFn8GFbCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-	6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0epB3UUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6c7d439-7c46-4c99-9213-30369f1dd443@sirena.org.uk>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A5:EE_|CO1PR19MB5160:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58b56fdb-5967-452b-72f1-08de84d12b37
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700016|18002099003|56012099003|16102099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	0xh1nUEGeaqJe/mAC2tTc/f+5lYT1G4IXJ1SS+Ryu/eeyTxCt4+9DySqFEFfVYj3cflnxsBOd4uPmk7eVULR+ROtifx2cYu5gCg++2w/4gtE8cCsQXinBKNrdSWY4BAiqE1Gr23qbMcdRyegFbhUN64vzWOfpDCtJ/WucnoWLjPiQE782Qpgrb7rOIovP38DfBozWc6G3DwXGWh/47/tLXz/dyC4U7pfzYDzGSvHLOj9XfTUTLJx7gUeobbzaHH9DffYEjlhGjthntHhTCXCo2Y5lL04FX7VaBXW6i+RQOWSLFxynZ9ZyMOEGnPQbB9RhnUs6NHM6EyPvQcBZ6DWEhw3ThRqQo9z2+f61cFNH7jl3DhZ4kX5bJmA+25aXa7jcXqqyvF8vg1hWeBCcfuFwL5/DBey27GlP/gtOPZfdFLti8OJ+HEvBVHgJA2JzYb5UL6fczVo94ZRQ+huG2crZtrrJgvpnpf9r33GQD6fr8dm6ZGBXlWA5Z1BRk+sOVeg/jYOwFn299hiQfUdVG41ieoJBLKy4sjDlv6vg3Kf8dcuDT3GHkm8pusDolNwfbHRLSVXqcrFUQJ5Uh/a7mLfqoS/lmJUw5muMomvcG7IhqDCBJAgdTy6JNA1rN8LmvWm72cv7lgwCm9NWfG+7OLySXWzM3G092knDfr8V6fz169TdtF5fekzmc2hK0NBvCSf0iyZmlISrRutod6F2YTYh1XLaCAhn2wks56NgdVgi3auIq4RAh5A5JV4AEEEwpLiHFZIK6a96mwAYbPXWAmDpQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700016)(18002099003)(56012099003)(16102099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	wiKS2U57oACwIOGzS9bEUtWXz3liNKGoPYtiCE85oZdA/wohGCrBCLmIMQkVOQtSMH4V0qSqo1y2j+5S68DhN8NyJ4eRNeSvEDtV5E/n8Ro1Sb9LWQ2yO16iTDwAou4b2+mIH+BITNIOoGHvcYdqfVHtwXqwLS8z8sbi0v4R4Imu5vAYsz6aJO6SiOuF1LT8tHos/LhpWREoOEioxHK4nSX2mYFn4IbWBpw3RZ6w2UaZeTwh3QAJhe/jncxVmIZYQBI8gi3B3g4RPFku/BIU59lNmavg1B6FH8N811nyZ7rxMMN1ChhbQzvUZqVbkmWis6oHgJJu0Ebb8cqHvOolppGS05pXxrdERPkJs8rOqXWv317lu2R4WcMQQXhq3ZYOl/1eoRVfjdrVLCQLK3yTZW0Z0y2rcGRJqo61Sef19fPJjleiGpNuhp78a0PSjDYG
+X-Exchange-RoutingPolicyChecked:
+	be9jJp7JNUlk/bR/QgF4BpWtz8uO5ZjwF3c82Zicy1SzIF74S6rvmjsgQy1hffDmBRB3XkoDnpWyxC4djo0joD6aDK05j3TqV+cd9dqGZU4sWHUzyE5PoVYe65gK8jqanty+RQ7HFoDYfXzoSAu2MkU+E5LAt1HRVE2ALUK75u7Q2XoucdNkZCzfdJkiqRZ8/l9G7eWY+A+MC7ZjxZ44DQEVFNCMne4DB76B3ZJASUGRF6bpdLQuTEX9KbCZ3GjiOhQotkF5rZ1DS47dk1wLxzvUqOr2ROfvfeHJ0i4JUxw+0wcnZ6GxhL3GZMDi8eOlQi7xQ2BHrRFkMUQQEkJ0pA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 09:31:43.9144
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58b56fdb-5967-452b-72f1-08de84d12b37
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN2PEPF000044A5.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR19MB5160
+X-Proofpoint-GUID: MpCpcN5C0Um8XxraSF89_nk_WyusLu-Z
+X-Authority-Analysis: v=2.4 cv=MpZfKmae c=1 sm=1 tr=0 ts=69ba7104 cx=c_pps
+ a=8qNi12VDA0sjaHsBEHPY9A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=Y5fBYdVWvqd5RRpoibMA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: MpCpcN5C0Um8XxraSF89_nk_WyusLu-Z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE4MDA4MCBTYWx0ZWRfX+iSIXaPGuf8I
+ 7qrD7QnI6SIQ8GB3hOkkCdnKHaczBr3gS7N0zYoyGr9inJmPsKOT2OYxkL5dWEl49t29TyI4m/T
+ bwTFdexP/R8hbdlD7Ld8rrnjJywldWu7b094WUKGzxcsRIIXjsQ4cagxsCOdfx/7md+eKNmaRRN
+ kKaJoguTlDkm3hnGPVYIZWqVj33dVLuf3mLIACTLHx1NSLO0pgSZECbSwCiau4IlVFB7//LDZAG
+ BAZ2Pmc7x/Yxjk4FgxcZMJjzJ+wgigH+s3MxKiyJRTouMR3fPPABqcyF06hafqG2i9kWEvdrUAV
+ pVOH8AShp8kfPYfO5sCTxWdElSe1Rpn94zO6eKlt1Dp3qKUAykDaPiM1imEL1dknHM1zgim2ZQm
+ mHOhEMwu3xyXqWjxktm/N4WFmn6GpxttBGGmwUqUraucGS2BUiwS0S4/JPSATRQeqztmdgmIsiK
+ ibJe02E6o5OQnX/hzEg==
+X-Proofpoint-Spam-Reason: safe
 
-External shared DMA has no binding relationship with the platform
-interface. Separating external shared DMA-related definitions enhances
-the clarity of the overall structural hierarchy.
+On Tue, Mar 17, 2026 at 06:11:23PM +0000, Mark Brown wrote:
+> On Tue, Mar 17, 2026 at 05:47:19PM +0000, Charles Keepax wrote:
+> 
+> > The rabbit whole looks pretty deep on this one. As far as I can
+> > see it fails adding the device because the device already exists
+> > on the bus but this is the first time it added the device and also
+> > I can find no evidence it even created a bus in the first place.
+> > Feels like there is a large piece of my understanding of how
+> > this is supposed to work that is missing. I think we might have
+> > to wait for Richard to return on Monday, how much of a problem
+> > is that from your end?
+> 
+> This is holding inclusion of any new ASoC code since last Thursday out
+> of -next, that's pretty disruptive really.  It might be easiest to just
+> drop the changes and let Richard resubmit when he gets back.
 
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- sound/soc/loongson/Makefile            |  4 +-
- sound/soc/loongson/loongson_dma.c      | 59 ++++++++++++++++++++++++++
- sound/soc/loongson/loongson_dma.h      |  2 +
- sound/soc/loongson/loongson_i2s_plat.c | 59 +-------------------------
- 4 files changed, 65 insertions(+), 59 deletions(-)
+Ok I will have a bit more of a gander today and chat to the boss
+here, but I suspect you are right we may have to revert the
+change. I will report back by end of today if not sooner.
 
-diff --git a/sound/soc/loongson/Makefile b/sound/soc/loongson/Makefile
-index 4c6d3130bcee..6e43672071fc 100644
---- a/sound/soc/loongson/Makefile
-+++ b/sound/soc/loongson/Makefile
-@@ -1,12 +1,12 @@
- # SPDX-License-Identifier: GPL-2.0
- #Platform Support
--snd-soc-loongson-i2s-pci-y := loongson_i2s_pci.o loongson_dma.o
-+snd-soc-loongson-i2s-pci-y := loongson_i2s_pci.o
- obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PCI) += snd-soc-loongson-i2s-pci.o snd-soc-loongson-i2s.o
- 
- snd-soc-loongson-i2s-plat-y := loongson_i2s_plat.o
- obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM) += snd-soc-loongson-i2s-plat.o snd-soc-loongson-i2s.o
- 
--snd-soc-loongson-i2s-y := loongson_i2s.o
-+snd-soc-loongson-i2s-y := loongson_i2s.o loongson_dma.o
- 
- obj-$(CONFIG_SND_LOONGSON1_AC97) += loongson1_ac97.o
- 
-diff --git a/sound/soc/loongson/loongson_dma.c b/sound/soc/loongson/loongson_dma.c
-index 3ebf59d60a71..06cb78f97609 100644
---- a/sound/soc/loongson/loongson_dma.c
-+++ b/sound/soc/loongson/loongson_dma.c
-@@ -344,3 +344,62 @@ const struct snd_soc_component_driver loongson_i2s_idma_component = {
- 	.mmap		= loongson_idma_pcm_mmap,
- 	.pcm_new	= loongson_idma_pcm_new,
- };
-+EXPORT_SYMBOL_GPL(loongson_i2s_idma_component);
-+
-+static const struct snd_pcm_hardware loongson_edma_hardware = {
-+	.info = SNDRV_PCM_INFO_MMAP |
-+		SNDRV_PCM_INFO_INTERLEAVED |
-+		SNDRV_PCM_INFO_MMAP_VALID |
-+		SNDRV_PCM_INFO_RESUME |
-+		SNDRV_PCM_INFO_PAUSE,
-+	.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+		   SNDRV_PCM_FMTBIT_S20_3LE |
-+		   SNDRV_PCM_FMTBIT_S24_LE,
-+	.period_bytes_min = 128,
-+	.period_bytes_max = 128 * 1024,
-+	.periods_min = 1,
-+	.periods_max = 64,
-+	.buffer_bytes_max = 1024 * 1024,
-+};
-+
-+const struct snd_dmaengine_pcm_config loongson_dmaengine_pcm_config = {
-+	.pcm_hardware = &loongson_edma_hardware,
-+	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
-+	.prealloc_buffer_size = 128 * 1024,
-+};
-+EXPORT_SYMBOL_GPL(loongson_dmaengine_pcm_config);
-+
-+/* External DMA component */
-+static int loongson_edma_pcm_open(struct snd_soc_component *component,
-+				  struct snd_pcm_substream *substream)
-+{
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+
-+	if (substream->pcm->device & 1) {
-+		runtime->hw.info &= ~SNDRV_PCM_INFO_INTERLEAVED;
-+		runtime->hw.info |= SNDRV_PCM_INFO_NONINTERLEAVED;
-+	}
-+
-+	if (substream->pcm->device & 2)
-+		runtime->hw.info &= ~(SNDRV_PCM_INFO_MMAP |
-+				      SNDRV_PCM_INFO_MMAP_VALID);
-+	/*
-+	 * For mysterious reasons (and despite what the manual says)
-+	 * playback samples are lost if the DMA count is not a multiple
-+	 * of the DMA burst size.  Let's add a rule to enforce that.
-+	 */
-+	snd_pcm_hw_constraint_step(runtime, 0,
-+				   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 128);
-+	snd_pcm_hw_constraint_step(runtime, 0,
-+				   SNDRV_PCM_HW_PARAM_BUFFER_BYTES, 128);
-+	snd_pcm_hw_constraint_integer(substream->runtime,
-+				      SNDRV_PCM_HW_PARAM_PERIODS);
-+
-+	return 0;
-+}
-+
-+const struct snd_soc_component_driver loongson_i2s_edma_component = {
-+	.name   = LS_I2S_DRVNAME,
-+	.open	= loongson_edma_pcm_open,
-+};
-+EXPORT_SYMBOL_GPL(loongson_i2s_edma_component);
-diff --git a/sound/soc/loongson/loongson_dma.h b/sound/soc/loongson/loongson_dma.h
-index 8a8fa8abd85a..a040681d2693 100644
---- a/sound/soc/loongson/loongson_dma.h
-+++ b/sound/soc/loongson/loongson_dma.h
-@@ -10,5 +10,7 @@
- #define _LOONGSON_DMA_H
- 
- extern const struct snd_soc_component_driver loongson_i2s_idma_component;
-+extern const struct snd_soc_component_driver loongson_i2s_edma_component;
-+extern const struct snd_dmaengine_pcm_config loongson_dmaengine_pcm_config;
- 
- #endif
-diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/loongson_i2s_plat.c
-index f8d7aca8b903..ac054b6ce632 100644
---- a/sound/soc/loongson/loongson_i2s_plat.c
-+++ b/sound/soc/loongson/loongson_i2s_plat.c
-@@ -19,6 +19,7 @@
- #include <sound/soc.h>
- 
- #include "loongson_i2s.h"
-+#include "loongson_dma.h"
- 
- #define LOONGSON_I2S_RX_DMA_OFFSET	21
- #define LOONGSON_I2S_TX_DMA_OFFSET	18
-@@ -29,62 +30,6 @@
- #define LOONGSON_DMA3_CONF	0x3
- #define LOONGSON_DMA4_CONF	0x4
- 
--/* periods_max = PAGE_SIZE / sizeof(struct ls_dma_chan_reg) */
--static const struct snd_pcm_hardware loongson_pcm_hardware = {
--	.info = SNDRV_PCM_INFO_MMAP |
--		SNDRV_PCM_INFO_INTERLEAVED |
--		SNDRV_PCM_INFO_MMAP_VALID |
--		SNDRV_PCM_INFO_RESUME |
--		SNDRV_PCM_INFO_PAUSE,
--	.formats = SNDRV_PCM_FMTBIT_S16_LE |
--		   SNDRV_PCM_FMTBIT_S20_3LE |
--		   SNDRV_PCM_FMTBIT_S24_LE,
--	.period_bytes_min = 128,
--	.period_bytes_max = 128 * 1024,
--	.periods_min = 1,
--	.periods_max = 64,
--	.buffer_bytes_max = 1024 * 1024,
--};
--
--static const struct snd_dmaengine_pcm_config loongson_dmaengine_pcm_config = {
--	.pcm_hardware = &loongson_pcm_hardware,
--	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
--	.prealloc_buffer_size = 128 * 1024,
--};
--
--static int loongson_pcm_open(struct snd_soc_component *component,
--			     struct snd_pcm_substream *substream)
--{
--	struct snd_pcm_runtime *runtime = substream->runtime;
--
--	if (substream->pcm->device & 1) {
--		runtime->hw.info &= ~SNDRV_PCM_INFO_INTERLEAVED;
--		runtime->hw.info |= SNDRV_PCM_INFO_NONINTERLEAVED;
--	}
--
--	if (substream->pcm->device & 2)
--		runtime->hw.info &= ~(SNDRV_PCM_INFO_MMAP |
--				      SNDRV_PCM_INFO_MMAP_VALID);
--	/*
--	 * For mysterious reasons (and despite what the manual says)
--	 * playback samples are lost if the DMA count is not a multiple
--	 * of the DMA burst size.  Let's add a rule to enforce that.
--	 */
--	snd_pcm_hw_constraint_step(runtime, 0,
--				   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 128);
--	snd_pcm_hw_constraint_step(runtime, 0,
--				   SNDRV_PCM_HW_PARAM_BUFFER_BYTES, 128);
--	snd_pcm_hw_constraint_integer(substream->runtime,
--				      SNDRV_PCM_HW_PARAM_PERIODS);
--
--	return 0;
--}
--
--static const struct snd_soc_component_driver loongson_i2s_component_driver = {
--	.name   = LS_I2S_DRVNAME,
--	.open	= loongson_pcm_open,
--};
--
- static int loongson_i2s_apbdma_config(struct platform_device *pdev)
- {
- 	int val;
-@@ -147,7 +92,7 @@ static int loongson_i2s_plat_probe(struct platform_device *pdev)
- 	dev_set_name(dev, LS_I2S_DRVNAME);
- 	dev_set_drvdata(dev, i2s);
- 
--	ret = devm_snd_soc_register_component(dev, &loongson_i2s_component_driver,
-+	ret = devm_snd_soc_register_component(dev, &loongson_i2s_edma_component,
- 					      &loongson_i2s_dai, 1);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "failed to register DAI\n");
--- 
-2.52.0
-
+Thanks,
+Charles
