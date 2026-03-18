@@ -1,158 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570C2D640D
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3643101D8;
+	Wed, 18 Mar 2026 16:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773849794; cv=none; b=ZRBTBiciprl7aTP4yC/dqlcu4Ek1xDLjvVjYEF6VQkXmyN/GB0Cbs2ZjbWVDpt1G9p12CA/PDx1oZI0RMkyNF/uJYN+FfbXlnR+ix2si1Z/ESDQPka0wfQi4DAEUUeCcLDdHDWq9nWg+UUpJ2I7YOxK+fe9qX8p78owGmjMObgM=
+	t=1773850659; cv=none; b=dHIB45joTzfxVMICKyRo4YXNqlGEGrNWE9hOdMCX2F4yAE1TbscyjZduVjdbqKVOqHgpHZEXjF1zcs6t4+/30QPeCjG6l3sG+xFZslHeGW+6SslIbszghhXHleef4oqYX3Kmsif4USpZG0ouWRvtWZ0iEH4S68LBZBlUhVbc05k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773849794; c=relaxed/simple;
-	bh=wN5cUZ0zdT/TEHWDN+VcdHqBYQAS/OXnrrsWGfJoBvI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CUU021rrdu602pLCA8QZZKPKMt8ELo0WKSWnjMrNQEVLA9ofDMBgqzV8TBTCYlQ6aliJPxWALKO6VtriPPaYzk0rc75FvsNSBhgacmm2ui2IBUImGEd8OPil0esvbwbJxZUPwt8IR+8jpesW0nJuuUisT1Jv4nqutlq8/syhnM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mxWUf6Ds; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3WgXJH+i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MN4ZyP3D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hcbgHJ6s; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773850659; c=relaxed/simple;
+	bh=04y6croxeOmqjnbcWmSl67kEZY37J97+g2n9aRbWKxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=biaGY2McnM5wGmbrMPl6QlWpwgiiTXGOXeOBN83vIKb+UHeY+N03+3bZA69otUxYFAVj5juI9ACSH2wZVCJvwzt1SUauUjq7tstEsPwtqub2dyB+0IGIZ66+9nREbGghdCAzQZKBpzqWEwYkq/rtRnw67nHZPhOmQfkZlTb1RD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMyFt0sl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mxWUf6Ds";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3WgXJH+i";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MN4ZyP3D";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hcbgHJ6s"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 06D994D3ED;
-	Wed, 18 Mar 2026 16:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773849787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
-	b=mxWUf6DsIJx8JGLXtStpAvkupaCUrccGeP0yLQNCDkV4qUABh0+g/68xHwMl8H9fZIlZ4X
-	L0hrfDspQ4SpJEkSChvwpeZf7GzCibji7C/ohFxEXSaHqMrmH4570sBezAku46b8UrmONm
-	+rE30ohvX+WoMbcdxgX/KnKb+2JD05E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773849787;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
-	b=3WgXJH+i/W2VhI/OoEqstpeBhNlQBCfhbuaejfmnZhW8WSCSUKIzzekbobgY2vItM6rfdE
-	vK44Na7AE+8zwqCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773849785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
-	b=MN4ZyP3Djl9z16weZaFKFs6UKMQ/gJ7eEwCxwSTxJPwKz2XW/a8NVtlFIC+o540P0cRRrd
-	+AwrLqfZqCHFPly1zuCLvDBwfOvYIraz8jNz9A/10nYp3kCgkglEajmTq6TivU1THDmMbf
-	jYCvDuTOGS78AdsOxfxfRLqFBP25tos=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773849785;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
-	b=hcbgHJ6s/LwKCT41IE7KEnBS4ecphnDTF0FRpq9zpCD3eIQ8LOBPkLeJf+J4dh30LZBWcK
-	xaXzT9m2rACSzXCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD1094273B;
-	Wed, 18 Mar 2026 16:03:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iJv4LLjMummiRwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 18 Mar 2026 16:03:04 +0000
-Date: Wed, 18 Mar 2026 17:03:04 +0100
-Message-ID: <871phhceh3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v3] ALSA: usb-audio: validate full match when resolving quirk aliases
-In-Reply-To: <20260318-alsa-usb-fix-quirk-alias-v3-1-bd3b17a32939@gmail.com>
-References: <20260318-alsa-usb-fix-quirk-alias-v3-1-bd3b17a32939@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMyFt0sl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A64BBC19421;
+	Wed, 18 Mar 2026 16:17:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773850658;
+	bh=04y6croxeOmqjnbcWmSl67kEZY37J97+g2n9aRbWKxg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HMyFt0sls9ZMvB259JQK5xEKcwEU6tWQCb7EZVPtB19bPLNOuPh5DGBjKXLHDad5X
+	 z4UoXfYnrB/j2H9Rdn13E3nXLIXOprLaEnc91zJjr4Qu+G2Xb/v33NIuxYR1qaBOxc
+	 LqjIXQTs0tFQa76Xqsh39hHSnVsEc6R8BDQP9iCTUhNBZ2EjEBnYjCLwvgZfvU2DYi
+	 aDGwm13JxDp+0vLUXP4W/pWCo530Ug9MgLRb8EypHKYuIr5aEQ8P3DRB+cm+6GA7sF
+	 iL3Zn8hc8eYBS7GqTOG1xR9J62Fp8s5CX9PwCDIJtVTOtdWYzE5Y/zz9s5Vd5WFy2o
+	 9t7QlYpbbm3zA==
+Date: Wed, 18 Mar 2026 16:17:32 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Alexey Charkov <alchark@flipper.net>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sugar Zhang <sugar.zhang@rock-chips.com>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Set slot width for non-TDM
+ mode
+Message-ID: <339ebaa9-9642-4716-bca7-6a32a135124a@sirena.org.uk>
+References: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-
-On Wed, 18 Mar 2026 15:08:46 +0100,
-Cássio Gabriel wrote:
-> 
-> get_alias_quirk() resolves a quirk for an aliased USB ID by scanning
-> usb_audio_ids[], but it currently checks only the vendor/product pair.
-> 
-> This is weak for quirk table entries that also depend on additional
-> USB_DEVICE_ID match fields, such as device or interface class,
-> subclass, protocol, interface number, or bcdDevice range.
-> 
-> Keep the aliased vid:pid as the lookup key, then validate only the
-> remaining match criteria of each candidate entry against the real
-> device/interface descriptors by clearing USB_DEVICE_ID_MATCH_DEVICE
-> from a temporary copy and passing it to usb_match_one_id().
-> 
-> Suggested-by: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
-> Changes in v3:
-> - rework alias quirk matching as suggested by Takashi Iwai
-> - drop the explicit per-field helper
-> - keep the aliased vid:pid check first
-> - clear USB_DEVICE_ID_MATCH_DEVICE from a temporary id copy
-> - Link to v2: https://lore.kernel.org/r/20260317-alsa-usb-fix-quirk-alias-v2-1-6e531c67f0c8@gmail.com
-> 
-> Changes in v2:
-> - drop the temporary usb_device_id reconstruction approach
-> - validate only the remaining match_flags explicitly
-> - pass struct usb_interface * to get_alias_quirk()
-> - Link to v1: https://lore.kernel.org/r/20260314-alsa-usb-fix-quirk-alias-v1-1-3269998f7ada@gmail.com
-
-Applied to for-next branch now.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zb/SnunaRrrnfbVQ"
+Content-Disposition: inline
+In-Reply-To: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net>
+X-Cookie: All celebrity voices impersonated.
 
 
-Takashi
+--zb/SnunaRrrnfbVQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 18, 2026 at 06:50:25PM +0400, Alexey Charkov wrote:
+
+>  	regmap_update_bits(sai->regmap, reg, SAI_XCR_VDW_MASK | SAI_XCR_CSR_MAS=
+K, val);
+> =20
+> +	if (!sai->is_tdm)
+> +		regmap_update_bits(sai->regmap, reg, SAI_XCR_SBW_MASK,
+> +				   SAI_XCR_SBW(params_physical_width(params)));
+> +
+
+What happens if playback and capture have different widths?  I wonder if
+forcing a TDM configuration with the affected CODECs would be easier.
+
+--zb/SnunaRrrnfbVQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm60BsACgkQJNaLcl1U
+h9B0mQf/WnluiIQfcuWPQwkJP+jdH4bqZ9WjRB6WWfMMfGP2Q+Q9lOEN0deP061G
+alqHGYpFhgQYNqP3lYb+pY3hCxWPhnCeDtuSlWL9i6Ir3MY4rievxqOHpG8O3gXK
+A4eQzHNfAdp6szh9HMWfd5bUR2hkaH8UNhzQrvwSVOMWd0ks2x3DBX3uH/iFS00M
+nAU47rUzn/jL6wfOTHKflWvgBdXWw25nbfCHKpRb1rNjBqSleUR5sxwIG3QpOlkr
+aT0R36ilXkp0J+JnKXxbEcilgVfCcC8Jyz+UVSN17oMgUq3oj8+TaYRhovkBmtKI
+4dsbyvbA/pgZ8TPiVzLIr8+mCmO7dw==
+=vI0e
+-----END PGP SIGNATURE-----
+
+--zb/SnunaRrrnfbVQ--
