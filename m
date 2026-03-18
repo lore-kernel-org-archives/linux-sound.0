@@ -1,46 +1,46 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011035.outbound.protection.outlook.com [52.101.70.35])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013063.outbound.protection.outlook.com [52.101.72.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CC836C0A1;
-	Wed, 18 Mar 2026 10:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150FD3A7845;
+	Wed, 18 Mar 2026 10:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773829664; cv=fail; b=jt7Q2ZR+eXmX4CJXwACxD0uhBH0UN+1kXgcF6lN6AGsOYLuz5uyF7B1uKI37xqqwxl8pRLRgwNlXf0t6+55MnkHYc3LOP0opl/YVtrA+RqCSyfFrjtkvnZUfJipiDWzw32sPGJh12PmpZiHD4tu1s9KoJYm243QqawAIxFysee8=
+	t=1773829668; cv=fail; b=BKaDkxK/8lb5Kdbr2fWxY1BDBX32hjbq8PwGb68mRqlPEx5l3kcFDGSdJuv2MpKINtEnMiX+8Kv9U4YMtqY4PoeW3vGYjphBbUc4tY70Kyfj2NRcSCBVz1OjfjoFHwZvT/u5RoWZRTI/1TE2nYHUU6OzjHnlx1Ss4eMZUWJd940=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773829664; c=relaxed/simple;
-	bh=K+rg8keGV3cfyOP9jZQ20TF7k3B2e0GlALZPY+i30SY=;
+	s=arc-20240116; t=1773829668; c=relaxed/simple;
+	bh=0j4RWfi/vZOWPIi2q5qTu/0s/ZeDfbpPXr70AJFHGFs=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=o9cFAu5im8mVt6X/reJW9KuyBZCrFYOHb4QVSogONP0or4jw4JcPYDWmlAYwCAd+q2meu2GFt6Wt283GLgI5SRGPGwbUXORhKMBEk5Pfx+qV4jpQruIC8kmwB29nP3yLQ1WK29WGUbE4ya2QEnryrBxYXNdRIdIdcPe+glv2y/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Z7cxSAC0; arc=fail smtp.client-ip=52.101.70.35
+	 Content-Type:MIME-Version; b=JCq5hhpfgpO0BhXwsn6MmDgRC14IEzKYpcq+EXvY3+92QWSrDquZQg9xgctmiA1u2nPR75vT+TDgEQ+r0YM2j2n48EC2pf6HFiT3XliY3sgKoIKQDpehLSQ89yBkktiTfPDTM6WR++ctBNnzXj66LiqdqOw+XuQ13DhMwYSMEhc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=CsFCHA9m; arc=fail smtp.client-ip=52.101.72.63
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Z7cxSAC0"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="CsFCHA9m"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gMq6YXeE7yQk/svGmW6OCiEooCQYSrQpC7fMQ6AMlFOD5L/bckEZjLVs6Bowccqh81AH2Ybdexzst7MFXojb5a0GTLwed97CQ9ywUQ/NPt6su5uU8pvwChdfPXlkGyHxdQDpMK4VDlCkGwq1d/4er7mUpxEMqO+mHwz//QgzpYl4yrrmeUU8zyfEZgk3xqZwS2xfEYI1KHoNiNe2C34BI+JzaPNJiSqxx1lLQ/sB7HoJ7BtSFD0a9c24431mn71p9qlttP/4hjYJF8RI05Nk6/ca7xmQFrvx37JaSW7nbp4IsmPJvPHWEXyJW8vNQGtepIEEi1gTNZVw7kn1QhVWXg==
+ b=mIzMZyT4zYzOJkTjQn6vFeXOIC5p5NRPWKAAeS4R3x/nwKQ7wY2u/STOETeiK4R0UQv5JjvSc13D7qIQYM4WPiU992mq+So1XTPeKAwu967h/MDQHn4LZH0799b2O+ye3sMVhtxkTOC6hRxgHHMhh8BP2M5qQgCMIoXkSyYn7b1hwNmHjTSj0ojjaLSgX3kW6dfIEwrxp3+FfpwnGDnQasepZ9vdf3/mdU9PPZo87dVvIBuN7sKgrirzdNAysO7n3p7vGti50INjskEZzGqzCRtw2mXo5/5wvajBjterINFcedD50NoXY0FOkbmnoK/jeoH1T/LDBcwLOckRuD3kPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A0rqH22CmijDcS8wWc2C0EeeJ11+ngq4oAY0rQaST4A=;
- b=GaEDRw7prcIqQl97fuktNn9eyanFEaF9AWcyLEAJjxgIpwgwHfe3y1+Vqp/whneoTlyjgybWdcAsWAvG4ltRWuucPBck8eO4O03w5Z9w20gyMwo1l1l1mkp+etUidd5tOMbejkUC7M3M9Sg9hPE3sQFx4bX9Exq8ZdOP3yl/GEzfvxtP7jCflOgyuKSzc7B/WwiaBRqZJJ95+zZURDK+L6VOcNbyh8Z/k9wdXtX02G4rXulbaADboKUhETu5ynnKjncM/pNpsJ4sRytgz9At3BHprid/8MlW5LK9b/13IM04ikcVabHjLhEYh/yE4PjPjsFnYE18Sf0k2DkyTkZVHw==
+ bh=UMOoT9ESJfBRduJPMVNTLixhD1Gyhlyc+ssdBJ3Zq9o=;
+ b=lm8JorPfEMUsZpyLGbbR8FYTdYOUPMeNR57aEAaT/bXzu8dwx0hjOPuOTu7k6ZpHMnPzd1VAM+lrewzOwJ9+lx9H2f4cDcy4UNCbEVoRDQrgsGtiYlYpqF+9JEnGLZOo57SrwvCCh3z92bmlehdqtHISRWhtpbv73D7iC4QfXtRPNNVdWn+JCWMEomiaGKswLJkvZ7TxKUhNIDmtZ8C5+FNY5PtboBEJWgQJ3PgLWmpL7GFQjW2IRjhE8DCWUvdnegvfE8xDpJoJ6e8HLS4gD6A/eCb9cmkaFyUgCslFFucMkC+DdzexuGhX1feSj88Ieh0N83KJCrDBjaYVpOKngQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A0rqH22CmijDcS8wWc2C0EeeJ11+ngq4oAY0rQaST4A=;
- b=Z7cxSAC0sJpmBlV8gMo6iK0AWV2IjNBJt/51vwV60+MlG5JZduvrcpkLO9airfUMA3NhLiGsSu3pzvl30FOJeP2JxxqJrXyRHhUArCDVhV3S5wR6da7Av/Fp6dlCe9aHvCwh5+qh6gnqnBDKMXz68gGUQaZb9zJuLwbhWNEYE+o1KPlb3Y9OKJ61TPCEUkIFW75QG9Ct4W3Jk722zqRd75LWTK5zLsnFoPEtZNTRkENwPR3N/qX7Pi49HzJUUpPY2xi/D3xFVEywbbfEXoMzlEdpLd7VfHUpN4bXhbbGqq19dAQk/87uSopXIkgf0VUGCsdoBc1DIf2xoZ82d9aSiQ==
+ bh=UMOoT9ESJfBRduJPMVNTLixhD1Gyhlyc+ssdBJ3Zq9o=;
+ b=CsFCHA9ms2l9tBtLBvRlcVSd9zveoOn7Ft/qOJX95RWjEycL9SS+uS6hC8W1xxU6QVgugWdCP4D4/pQnhelZ2raICk+KvKWyzMAc5EU0lBxzX2tFgAbviGfoDgY8koPXYtfww3MxrAkFDGqxtGD9PO6k0pvkFdEkR7KURINfJ8j1wX2XVHOxXQIVCjMqAL7A/3sAHH7Sr+UF2meyNZBm4rnnTXhZqEc5hkRGMpkWU6WKbxZm/8UOmKX+Eh70bbVpCsxwfAzXGaNpQaGXXBXIOpx7Sw2C2+fdHUs+FH9zMkLzQHWQ48r0871tUgem2gYIhXfoIUfyBWNiWm3BFxjw1A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
  by GV1PR04MB9514.eurprd04.prod.outlook.com (2603:10a6:150:20::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.21; Wed, 18 Mar
- 2026 10:27:40 +0000
+ 2026 10:27:43 +0000
 Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
  ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
  ([fe80::bab2:d15c:fcf8:ef2b%4]) with mapi id 15.20.9723.018; Wed, 18 Mar 2026
- 10:27:39 +0000
+ 10:27:43 +0000
 From: Shengjiu Wang <shengjiu.wang@nxp.com>
 To: broonie@kernel.org,
 	kuninori.morimoto.gx@renesas.com,
@@ -51,9 +51,9 @@ To: broonie@kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	alexander.stein@ew.tq-group.com
-Subject: [PATCH v3 1/2] ASoC: simple-card-utils: Check value of is_playback_only and is_capture_only
-Date: Wed, 18 Mar 2026 18:28:49 +0800
-Message-Id: <20260318102850.2794029-2-shengjiu.wang@nxp.com>
+Subject: [PATCH v3 2/2] ASoC: fsl: imx-card: initialize playback_only and capture_only
+Date: Wed, 18 Mar 2026 18:28:50 +0800
+Message-Id: <20260318102850.2794029-3-shengjiu.wang@nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20260318102850.2794029-1-shengjiu.wang@nxp.com>
 References: <20260318102850.2794029-1-shengjiu.wang@nxp.com>
@@ -70,103 +70,83 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|GV1PR04MB9514:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccf0bab0-5522-4f78-aa55-08de84d8fb45
+X-MS-Office365-Filtering-Correlation-Id: 428dbb03-8443-4810-7981-08de84d8fd3e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|19092799006|18002099003|56012099003|22082099003|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	A3dYmzoMN1+3WTuaXQ9D415BWBz03BpUwWQmMd0sUS8LtlzsY/T+iG2w8EhSXN1c0Yh2Nu4q4MJRFWmEWm9Lkg5uemBvx+XMaG77gYqJQ4pfN9snpx0rs0nLtnrdz51+mmCksasnR+37580TBbxTtwBDVHhvGl1NdX3zflWQfASSUeyl9oTSQFa0lVKE61Q8+CyBJE1YmccdFbOxXPs3blHd2gTXw+EIi6/cAMBj746tVCbqk8VuaPRtX/uOgWLIwCoJ88Xjx0dPGzUCrXYVXzX64WKQbZMhp1cNkrGfzaa59y+IhhywejCD68RYIRJDYf4PmqBnNSD1Co/P/VQ0FcojSvKl3+fqt/VsH0tDxh6/6OTYY1B24/dy6I7YbpJX8IpKNNalSYCZYMPEIdn7CTxt9nYL7jwAST5JYmWUpMJREgRwVA8VUHkKFPyqrztyMcyV9AuGdAN4tD97i/gfygdJTLI2EA3SzkfpSAZBoyIBlqaWRwKxzmjUtBkEw8w7AYyxLlKZg7tj9/IOauRccfI5VVc5sNq1Cg8P5pndOC+ZHsPjr9iaXI9275RDYiFDRLbSBOxkRGlnkKoHICrvF/+wcBvg7PuuyFTo+GlHduOSIH3cux75WP9BhOYTXmcsj7HIO5/ss6oXdTluBys2YoJvuMlK9bI9gDLsaW4zTr7yezAIxiyRF1B0UKjnxWVUhF6jsyU7XuANCKvRKO9ZYxmJLfvFWW6aJhqUsDWAL31/Mxt1jVP8pJuLkZrz7nMaFvl1mWrn2Y0OHlRL7+jmk+/RXlkC0Fr5i/bPqZGRjNM=
+	QCJASLvE/7dm2C83oDI7imjYmbnr0XlsMc7SrLjPDPpY3MpQaCUwve37rDjqqQ7cVuR835Om46Ki2sc2YowShZicDKBkZtJiuSrTR9UbA85OXnCtDUD7+GRoFjMTc6+c5CYxuBBhdGzUnz5wTejQM5ZSTs+F/66bRRLDnaDn0tRN1yfb0jqYnnEHi9AaBInWgjqPl9KsU/lWxkG8wEk4PSI9sS1LeoomUxS8trJyIdImEGlV6JCrmBHkcYihWPZBBxgL/C77sCq9XfHv5w3Ap93ejwzX81zTL3/m5jaQ+s7OHIlVelPr9PYsMaBuko2FxPW5yjKrjm6Bdle0LEUFDoJ4MaTlgTzNevbYu6E1ikDdI/POYaYArAonPd7v4xJ020OYcrc1pVt1ol8TKoNOVk0EVJ7eYvmAdhEEmPE29DSkt6EtaHgh76GCkQftIdIsFHV4Av59MCPghdIJbGL7wzjBxgf6OPTEKk8lJcrMLzKw0C4K2efHE+37c70AXIFPZ2B4PfLTiuTv23BZaLT8E6mGZhV1F0kjHins29AA/B+tun3iN+RA7UsHCJU4WW5pMFmVIah+pjHxx4M1IBDfg4Lpf6SPGUTdz9GwcJCwx7h0nEAmOBXdwyFhMqnKHwGuH0BpL8u3geJn8peyrxKf9VrdwW4pYoRLdSjlENg+EjEFE3b7j3VUcZwyBobFJG7HjEH7ywT4Dfyuc707S6bbE+WN+hGeeg0gkhLjGxdtcGecLi47I7NQptUQCGwWXfWZ9dlfVI39JLtuOV7daZY9kGHflYx5URVs/A4CPLPUQDQ=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(19092799006)(18002099003)(56012099003)(22082099003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VJ+x4DiTT3SJHiKehivBv5T8tvGmhti1ScEWZdrCpdjwPi0TWUogmohMZCtI?=
- =?us-ascii?Q?vSL9ftOl65fpMJTt/sOKdsq+Igqr9mZp33uaV8xliLZ2+TYMjnPsI0t/WXTy?=
- =?us-ascii?Q?MZZFeFkNRzTrtVTU5VMpK4e+UVMFyD8ETnXBAMMGyyqM+4jF4edrBltCjh+w?=
- =?us-ascii?Q?Pn9Ir6WLcp6OcFfV2yW+odJfIgayxXVeTbxweNKjfblRqN9VKHZq18T/MywD?=
- =?us-ascii?Q?JVqOJcXAw98NOcegUGcB5kiZNQMmvtPhPTk+9dIP035w7m14oYQq/VlWDtIw?=
- =?us-ascii?Q?ZEh0K9fEb9010mLXiF6gDPySlWCogfEmjFl3gvLGejSjL0J0mWyNCc1VScBi?=
- =?us-ascii?Q?3W9fGce3Gk8xZvq5mUgkmZZjnw267VoW71Lv+cH5crA60vgO4Dd0xaemTE7v?=
- =?us-ascii?Q?YzcacBNk4NKPxAvl1HHOa31gW3crbzdME0B5Qb8N0aeXNTNSjZ978T/xWjtG?=
- =?us-ascii?Q?8cl+Dinvi7Lhd6u9Qi5QqcSv4MUq/nsa7EXB8myUzFyV48RPXi7yz+L19n0F?=
- =?us-ascii?Q?e4sLzwg5JuQAQaE3/YPdFo8QZwMGouSiauRdisI9o9pv4xyzgfKvtvSqxvEj?=
- =?us-ascii?Q?Q1SvSkMnChpHT77DKUebyViHlrVLxp9w4cH7m3eamm7NgTkdwkO1DCUywjfB?=
- =?us-ascii?Q?0aBwaBpyqWtcN62UWQlOEML6mFlJ2tcLFiOqxOlYEB6TyPxWegQXTsvHHkX0?=
- =?us-ascii?Q?YgRf7CL5B/KC00hZtOHEz7Qh2RVNvaRj2ZCRKLBimZgDAIsxVuuE/sJvJ8Al?=
- =?us-ascii?Q?cgcytpPcZIaqwrAtecIR/lWe/gq9oD3JeKngOxrshfLy1q4VAy52HNm/C4p1?=
- =?us-ascii?Q?nk/+u7h+NpCFc879WUGPmXWPxfQXWHXeMV2Dpifaja0kO+8nZo7nbN/ngUlv?=
- =?us-ascii?Q?S0362h9neJxeSQVVw8c7abnq9DlNUBEBzu3k/m3G4k7p3c/T3bOFZePl9tI2?=
- =?us-ascii?Q?WTqEcsWvSh7SQHi1NAO/EY/rF2iZAuPJCR21n71uuYx8U2gx8W45pUncvw/L?=
- =?us-ascii?Q?ld+l6Jd1Qk6m5d5u0PqN9pa+X/efog8QMqj8k2rdGQWiTW2ZdpRrzeQ5zCEU?=
- =?us-ascii?Q?RG5WRbb+1XbybL9YzJrxq/QaEcY9P1ufjguZLWExv/+phPuCc/SyE3hKYy8Y?=
- =?us-ascii?Q?gDYYtECcli3rVubLKwk32KfmPZiLV7ENdlfyaaxWDCZQotZe4oObGPs8aU+F?=
- =?us-ascii?Q?423W/1OnxKksvXdQ0Ch1R1+IgKef8zzIA8lyaiTXfWunO2gwS9kprqSqtg+O?=
- =?us-ascii?Q?S8g4uZ22Yrfnj4jp/xmpvnIv28YXlgfT0iYXytkoOUI6o8JmiWSMSlyia9v5?=
- =?us-ascii?Q?t274TzXxhKcj8oVUTRaVP6BoXniNDcXvMG/WmoYMlMAg2WjPR435Bh9keymt?=
- =?us-ascii?Q?o1hyyOvIr9Z45TD7M7EM112g6AvVv3QTBylH3PseM4snOSBvfHaBo9cg/qRl?=
- =?us-ascii?Q?R9BzT+QoJ0rGUfhWaYOQig+mbALuOa/PoUMLFthMdcUGo++xG2pc6wDuOwNX?=
- =?us-ascii?Q?FEp6xgDy2xS41Jt7uHNteEqKPd+2lQUeRRnx9FooHL9iV38X8fFW4CtOmN/P?=
- =?us-ascii?Q?oIRF51QCf0oeTfdA387xm5eyaVS0y2yoUqEER0gusHnYEeHYS0R0rw15tS9U?=
- =?us-ascii?Q?sai+6IjYjYhfKbg3lO+5hWA1mlEWr9qDT8jn8peohrZxxvpoSQnAWOE8RAZ3?=
- =?us-ascii?Q?vMXOG3YmZugF/55JXA8hFLTExyXWB2GBoMjJzqe+Dtiv/87NAlkTVli548ck?=
- =?us-ascii?Q?lKSJeoMt0w=3D=3D?=
+	=?us-ascii?Q?qYn0aaND06UQunyg36P3+cJybn779vNpebaykxXpbZW8hGurR2tCbarQzfP/?=
+ =?us-ascii?Q?nY23metjNYdiOJvUd2rgI8Wf/IYdytgJyF8Rfv0YY96SWI6FAs0V167Z/br+?=
+ =?us-ascii?Q?uT6h3K+V9HyAi5p4w8XZRuKpU77s0XcODHxEZ1OzsJC2/alVwZNgBc08AjwH?=
+ =?us-ascii?Q?ll7erjTJyDKZ+XYC4JFrPQ5wctYW+9gXwNcfimJbliRM/3QFh4TjAjdlAzDO?=
+ =?us-ascii?Q?V3XTrptllf6m8n72TAusKivG8PJOnDz4glGHREvOvNNHwuFnCc8tYZydee/g?=
+ =?us-ascii?Q?bMj3fBxROV7kqeICJEX7BfZsKakaX6iJUjy6N02tF6LRJLSIheqTQ41etJdD?=
+ =?us-ascii?Q?gDYE+Bh4rPDHdnNrKZcXGNZ1YytSY1PDKRpET5rmIow3SWySSr3dJp0LqjoU?=
+ =?us-ascii?Q?toiWSUaWctqEd9Ahq7xWESwvtxWVti1GoXQk+WHdTaLZzDsbbOV9jZ82HfGS?=
+ =?us-ascii?Q?QuRIQNKJqWtB6gAtHf4qd42xAVNelBXFN37NZBpB1WZfakCOa0qEjnwC/Y3R?=
+ =?us-ascii?Q?acdKDmI4H5p0lNqxgeV0HLjCb4QklcMtEzTVFSrfIDFiCFSJjqKmD7s2laRt?=
+ =?us-ascii?Q?MF6wx5LVcG0f9TE4Ke+pjN2hIIZ7S568uh8yTO7GjCzAeiecyY2OAqEkAitK?=
+ =?us-ascii?Q?WH4eK04AumqeAhNRAH2aXWPJlFUX6oPFbBbrOrQPHB6PNLLmXkAp+RzSnGN3?=
+ =?us-ascii?Q?46YOgffbeZGht1ck1iPM6z14mkWBr8PsiH4lUf8BORVdUMg2z/WUti5HHRWa?=
+ =?us-ascii?Q?kN6bQbjAiaVNJ6b1nMpV2XQRLEYaRm5MrTgrkTWTAGX6dcnImnBIOLDhmEy3?=
+ =?us-ascii?Q?al1tn2uM5jEIoITI6cq3jMhGgrfHyGvgfbBlT+pzNAJgzIGcOfY0hgB9j1vT?=
+ =?us-ascii?Q?aWEpNtxedysFQRoPLQaiK6vuZq1ijB1jJNQy9HDdEJq66Fn52wbeoXP7+iMd?=
+ =?us-ascii?Q?8PFiTPQ12RG3WOYg8lZpldQOV4BrLeIbow7XsypwWQnZ6XABWH8WtFxd/PAo?=
+ =?us-ascii?Q?FNX+GY/0w1xf+6Ejwx4msY3pGGI+PigHx0lOyT4VbYjoMxhBAEPFog++UZQm?=
+ =?us-ascii?Q?zRhW0GymzDizcfc4dwPcc0MILvgzNx3+1tnXnT8Xv80kSora2ZoTAd1LqL0P?=
+ =?us-ascii?Q?t2cYfrqC5tUk39qwa8aghHi+4G7BGYMumaPFcMJUNjrvbIoo+o7yo69Xo0cR?=
+ =?us-ascii?Q?ASKiHM+jrgsxhF1Ct5aqye3kHZa1t/NqXzt9tyjZjNeoDhBCA0H+9nlw5cJH?=
+ =?us-ascii?Q?8w3ZZ4GABCdTJtVpTBM+x6UqDXc2O41v1Y4BSD0U0M31hItPw/9iuRFpFj2f?=
+ =?us-ascii?Q?ta1aCmfpxW9e7cLB7/sup3QV8Cb/iKrmEx0tT+VZDDHisqpiu+wuh+p/ChqX?=
+ =?us-ascii?Q?Q3UbaROI+pWrDy6R2TRKQf32GW8uHE8DhgpPIh34wq5lquXDtQA8EpWJHGL0?=
+ =?us-ascii?Q?RpuODrMqjfDQ28WfrMG/uV7i54dqyZyqk0tEUUZPHFcYmRQP/eN5tLVNDk2P?=
+ =?us-ascii?Q?WejytLcvM8CQzKGSesLRJ9GD/GvMQkC2eBzj+zl96C8MokWbTFRqdO31rWhB?=
+ =?us-ascii?Q?734ull3WQs3qWuwtaUuH8P5nwvtCyZTHnf9dZJ2lfKrjIx0PvmQa5eqF91z3?=
+ =?us-ascii?Q?/QzOodQdbK6nNkOnaohshef02M9XEbU5fVD/y5E6E1yvpxsPXbwqt6gTkwW1?=
+ =?us-ascii?Q?PvCF8jfLUw3d4UfM+W+9sf5D3xOE1f957MJQLAlRassMrYsJdK5l+KoUtfk/?=
+ =?us-ascii?Q?a3N8j9AR8w=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccf0bab0-5522-4f78-aa55-08de84d8fb45
+X-MS-Exchange-CrossTenant-Network-Message-Id: 428dbb03-8443-4810-7981-08de84d8fd3e
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 10:27:39.8213
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 10:27:43.2982
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2r0auyO8CTLQSWACter+dug2f7StCxEWPdUeQaYT6QrX0NkeTEoA6OHmqhrn8ESl+zikSQ06lPCfsxvqHJTvRA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: bo6dJA62g06B7GVaItoJ/mSAzzwTpobyKVOQbTEJM9yEVaRthljf/CEba4Ayw/nKoe9t9MGF3LELDgNqxVSdtQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9514
 
-The audio-graph-card2 gets the value of 'playback-only' and
-'capture_only' property in below sequence, if there is 'playback_only' or
-'capture_only' property in port_cpu and port_codec nodes, but no these
-properties in ep_cpu and ep_codec nodes, the value of playback_only and
-capture_only will be flushed to zero in the end.
+Fix uninitialized variable playback_only and capture_only because
+graph_util_parse_link_direction() may not write them.
 
-graph_util_parse_link_direction(lnk,            &playback_only, &capture_only);
-graph_util_parse_link_direction(ports_cpu,      &playback_only, &capture_only);
-graph_util_parse_link_direction(ports_codec,    &playback_only, &capture_only);
-graph_util_parse_link_direction(port_cpu,       &playback_only, &capture_only);
-graph_util_parse_link_direction(port_codec,     &playback_only, &capture_only);
-graph_util_parse_link_direction(ep_cpu,         &playback_only, &capture_only);
-graph_util_parse_link_direction(ep_codec,       &playback_only, &capture_only);
-
-So check the value of is_playback_only and is_capture_only in
-graph_util_parse_link_direction() function, if they are true, then rewrite
-the values, and no need to check the np variable as
-of_property_read_bool() will ignore if it was NULL.
-
-Fixes: 3cc393d2232e ("ASoC: simple-card-utils: Fix pointer check in graph_util_parse_link_direction")
-Fixes: 22a507d7680f ("ASoC: simple-card-utils: Check device node before overwrite direction")
+Fixes: 1877c3e7937f ("ASoC: imx-card: Add playback_only or capture_only support")
 Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 ---
- sound/soc/generic/simple-card-utils.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/fsl/imx-card.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index 3115e1f37c0c..4cf3a5395763 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -1202,9 +1202,9 @@ void graph_util_parse_link_direction(struct device_node *np,
- 	bool is_playback_only = of_property_read_bool(np, "playback-only");
- 	bool is_capture_only  = of_property_read_bool(np, "capture-only");
+diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
+index 05b4e971a366..a4518fefad69 100644
+--- a/sound/soc/fsl/imx-card.c
++++ b/sound/soc/fsl/imx-card.c
+@@ -710,6 +710,8 @@ static int imx_card_parse_of(struct imx_card_data *data)
+ 			link->ops = &imx_aif_ops;
+ 		}
  
--	if (np && playback_only)
-+	if (playback_only && is_playback_only)
- 		*playback_only = is_playback_only;
--	if (np && capture_only)
-+	if (capture_only && is_capture_only)
- 		*capture_only = is_capture_only;
- }
- EXPORT_SYMBOL_GPL(graph_util_parse_link_direction);
++		playback_only = false;
++		capture_only  = false;
+ 		graph_util_parse_link_direction(np, &playback_only, &capture_only);
+ 		link->playback_only = playback_only;
+ 		link->capture_only = capture_only;
 -- 
 2.34.1
 
