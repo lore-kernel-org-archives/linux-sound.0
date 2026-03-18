@@ -1,239 +1,187 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736F32E541F
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 23:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B18B33066D
+	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 23:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773876113; cv=pass; b=Q/b0VwpPtumM9aJGoYWXn2B73Ehd+9r351ebkfBDsojUyWQuxHc0LoiR397Ziyhb4P9DAcLTEJIZoBX0wS8gND+4s1IpgAWmVwjCitHeh9XhOWKlUTgtbUR4O1JzGukqAbMhIW9fPgRHSapttKRpkPD3RREAC4b0mijrDGh2xZs=
+	t=1773876607; cv=pass; b=Uh/tdvGlobVwZGvF2jRa3iBp4//zNnIV+M7KVVy5Dg/2c1TVI1sqxKLKi7TI3q3NG/5yVgzp6hsceGU8290q7Zj0Y0Y+jYkSDRrBO8ccBBliRlegd/0PCAL1rfa8Bbyn+3Wj4qLNoXDuBqRzgKS8FKGRRiG1wRSghAaMsT8+TiQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773876113; c=relaxed/simple;
-	bh=sWPkuLJXrcBX9S3aX4yM+gQyI9/bx+U9y1A0D2W1Bz4=;
+	s=arc-20240116; t=1773876607; c=relaxed/simple;
+	bh=Ikbgl4NYJZhrpipjl4UKxG9763awCdXVVRI9/qm5ENs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CuDJDBucqzcjG4FBfk6sDGrSGgPaU7X9YgFtdqotSGKcC9Vr9rBQLcouzltGpAPBO/hDMJYKu2ipEGXhJktOSh/uFl27txOb6iZ5ExMB8nc12wBvvLUtIgW2/Uwv2Htn9QVemsJ3E6MsGnNVj6oPVlVAcjPtzNVo7Luw3VNP1dY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H2DHbpJg; arc=pass smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=sLObqf53XZSQeT/0cXSZ4L06arFkyCtexYVDhWwpXG6p68u8bZeTefNU6Oooj3Jfd6VonaqszItPzaC1cBCC1REFnSTovnuDI/T4VfvsGHRmrP9HSjpgN2/ObXTppgF9/dlevnTvvZ+Q5kZi3/pBSaGvwN9Kyher2sf1E56Ob+o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cTXbWiyi; arc=pass smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H2DHbpJg"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50906a98ffeso197311cf.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:21:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773876111; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cTXbWiyi"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-509062d829dso124571cf.1
+        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:30:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773876605; cv=none;
         d=google.com; s=arc-20240605;
-        b=lPVSZRrYG16141/ssm7bI0kt0uUXD/iUXPIBNwyo8++KtaVLMHVLUI93iDbLxcPhiN
-         9Or4qo3wdAXdu7XT7x2HWrJz1ufhgO4mFbap8AlH+DlXuF23dIMFcpO/Yxy9JCaJn9rg
-         1gHSjdXGb/BJtLPy1g4th7HNDVS1vYplomCdeJBQy8uZKHSIkG0LZK9l1uff44tp2fxD
-         zq0fZ+XI9uNkyL/VLHMOi5GEa+s79CZCHeTJuqTGVAkVcd/XJ5/nvkTcQbFJKkWHPCPv
-         5SX+Urky55TamTged3FyLCG77Ul1YwgqBumTUO3sG1RzGe31XsDX1zR1Oa9eP0yh7kKI
-         YvfA==
+        b=Iuxh2PBdJpA1qRy+MtUz+01WOnb3GT5gJMQAXWH0n6ivZGeU+Y9L+wNCCLF/eU0Or1
+         9Gc+4eNKOXhtBTZoI5QSTSJdfKBsVRKAJGUyErSEvBHR76zvj4X31iMABx+hRuKrO9EZ
+         i8nl8kCXDoXdv9yjvRGUPNwI2dCEM/a3M8WZMbl0DZVO3mNRNoCyMWAb1ol/Bo6dXZef
+         EKmO+DzACKm2bP43ZJwFYBenFUeAdQFZwQuql0NwFOM3QtYzbgwjkei3WSfPXXBg7Bzo
+         6A7w0GMYgnXtfIZyFisMNppIW9WmRKrK/dRy4nF8vQLH5qSog6q9TVP8rIqp7sYXW9j2
+         OreQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=m9rV6JpeFuPhu2T+JRvifOR+f3O83Iw8gXacOywKROQ=;
-        fh=JIFpQQt1lgfNSCUgkOGlYBmpIlal3GxDPBHl9TcVy4s=;
-        b=gnGXYVSwNMCKqhyLcUb5TvAHFwNlfS1tCU5YewPiTRC9Kg8FTn0bKEYsR4YGIBLNU8
-         Gk8La//N1fvJc1PKRsCbSfCxFSGK/BQNhTh+VwAf5H4ZZcDc4Nv79VJPsr8/CUab95/P
-         oNIM5WadO/bHuQVq22RADSSBz3pGJfK/v8lmzN7fzHhT9zlQPS/W05vciFwUGO9J8wfR
-         IGyZ+/yi9ll2vG5i2RIITSFvc2XTI9EKgiSl9dr2q/v/SyXYJm3PBvr1rLme4YpMhGqf
-         f75zvhjYTnrq4h1aGY4rCnWguV1xuMLZ4i2KQgaq50c42WfWj28yKliZ5lAs9U1FcYGl
-         HKCw==;
+        bh=n4VIi7EhCf6D8/1yLa+X0XyxMVZpW5bilaY68sBFKcU=;
+        fh=QP9AQYMnAXqZCPt+6LvmVvOmbUWIFdIr8ZyQO2WfqZU=;
+        b=V93pJiCeGb15Xja0Ln6LAcIcOHlDiu0wtaOlqxS/JSz6Cmt84FOLQjQy5BNevGayo8
+         2CdJHIzTo6m1bw02TiVrHXDYJXrQq0J1UrhhMY71SzxuEz96W9knC47l1bzs84+nQNpU
+         aIcYzSiuKzLMuTXjuVxUEwrYWk20EK1Gidk4UG3lPWEaU20mPjPIlfew4pcERuALVEzw
+         gtUKpY0o454rMcM/LlWZ6miUnL3ziubXMXqA99t30ZkN2eZl5Knif2q2b2cLLC2iphS5
+         jiK9/a0SHksmgnt6SnePoL9lPvBAb47nczRL5Vc+kVOsucRGzemdJx8foAmkjbdHC5+M
+         nTgw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773876111; x=1774480911; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1773876605; x=1774481405; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m9rV6JpeFuPhu2T+JRvifOR+f3O83Iw8gXacOywKROQ=;
-        b=H2DHbpJguw8NvIiLyeFMFnAd8A9NJl4xFdl7DohesIVytl9S61tLC/Ee1OvtUa//OV
-         7d+7iaX26PR4bl/G/I9P6eVamYnoeStGJjlaCyyJaQ3hXl08BKpmG7UvDMsM82V5vNVu
-         Ygeu0wFdZnhixWUrrsHKKlq3EApgNj6eQv/GS0FaHybmS9MHegGMJB9xTo0f+Wr6z6/7
-         j+aD1DYTrzC6C3KgLDG1B9aZCmFBSWRMVerYj5SsXmy0CLN5aV8CUppXrVmq605TgHIc
-         BtJ0x5GcwDiz9+C14QYEI2Opj/lE/LrtA5T41pgiS2tCSob4AE8BYTiBB7JfYobMrjQE
-         2X+Q==
+        bh=n4VIi7EhCf6D8/1yLa+X0XyxMVZpW5bilaY68sBFKcU=;
+        b=cTXbWiyijSJ0t3T95crRcKf1/YVSOclwuZaMoNJ/I4gAg6EGrQ30XihUiavHpYdXYh
+         UohCN55CxiIfmX2+VfI5SOv7lcX47RZcHn8uf13vn10GJhpbuTGBVPv+E9s2NAYipmO8
+         i2Mnw/81A08kctLkL/IMpata2ApOjlzBzNKkn2ocDHRClky2eYj/fB2wR3vRk0XJgDGO
+         fQiEE2RGLlf0CcI+5QI+wlrrPO4t/qoAUBnaZih2aIt68tMIWx//JmB2wKwTiyPnMsQa
+         ezAmNZQsaj/0jk9+/0nLL5UonCPuUFLnWK9GPAERnmDoYhWu9eNIpQ2HJFwUXe4A+uM0
+         ee1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773876111; x=1774480911;
+        d=1e100.net; s=20251104; t=1773876605; x=1774481405;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=m9rV6JpeFuPhu2T+JRvifOR+f3O83Iw8gXacOywKROQ=;
-        b=P/Vr3D1fI8PIzckTWY7g1chEA2tp2y8UUJdtsPDhMWGHO1iIwYX7b4nZonFifJGLPf
-         XE1Rby8AT9DaXIJ2OLxNAB+pEWcdmP4k1bolOdxO08NROHbrM+52biJRMHuqxwLo2nR6
-         mOhubAjJG1bJQh56i2XfRWS5yxv4gECZ3NPcMgi30pk2XSrri1IQfff6NChrXq/bXtdA
-         BKEuHGcUXmc/970Gcyp3GoWyg0F0lsZOQ1zH0EVullnrB0jsvzuMbSSYp/wUaTMy3zU3
-         ygGjhCZwvnnRP+zEamhFng3f9uNoWmO0/OfeETbwLgNQUQkdzN3afi/5xRoA7OiTv8LQ
-         2+Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSaMPJyQWfOsb+OQGXmlZ51qwiPEEcG63Gr07GXp8mm0LBZ/Vm2738CMYxXG37JJ0xr1qLAaHF8ifhrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwePwsqzBg8qtavGAWo89v3GH8xY9526kQfzEmin0yECACT1A2e
-	q6jEclGIUpnatjpS7c9nsnbBklJjlKz/XLBj/49HME7zdS++BDBVScb+Mkh8E8mCwF9tY79Ct9u
-	T+AOsVteUGgUW9SqEMAyAzU+weLNYdwMWJrRD8t/C
-X-Gm-Gg: ATEYQzzYrkXCpEsUlg/lgiQhUQNslAD9FJ/CVjSOl9Q/3MGXoVdBLms7j8uJ7azL2Vg
-	4Bh/zzh45AUE9cBfKTgNBUM2oa+J8WHN5ZFeu+ojMtmJq8i8uTsjAyV7XbWzDY9ZpQE+vJ9GUex
-	TxFdRz3PfWBgl9yb3jqxHDKDhvlbfB+Vte7BOoEgF25jpVP2aTDeH7GeQOj8/Jz0QCtBenrj4Am
-	l5zEnmUPLowU+jgRyrvOPGH59+IhOh/P5yESreML++xcnSI6oFvZ7GuBPvyRFi+awg/vIpbBoD4
-	p7RirMDB/DZy
-X-Received: by 2002:a05:622a:58c:b0:509:45f:fdd2 with SMTP id
- d75a77b69052e-50b2747cab0mr3002981cf.15.1773876111071; Wed, 18 Mar 2026
- 16:21:51 -0700 (PDT)
+        bh=n4VIi7EhCf6D8/1yLa+X0XyxMVZpW5bilaY68sBFKcU=;
+        b=VSA9+qRWfDso+Tw1af9JA97upkVx8QuM/7Us0MdHuSTcz96HhPqk5f/qyclZ6RxZEA
+         I4h4ikn1eD/owvC+u88oDbJLxAPw8PuFIHnWkgITq23pMEXkBDfaXaF2vownNfbIjEuC
+         nTKrKgZIVG0KSXc/quAFKPGqtlPUl0GEXp0rpUAlh/C0xNfTBg2cwPW8ev+9Ifezb/t8
+         aARXPHSAXwYepeyOZZIG6XhWaZwJiLabPzy2WRzd0BUhNnrQAQ5QyIJGYOdBn00/enQF
+         Hay1upo/Bzr3WMJ+IG1AsjlY3IaI2VXKMUlii1bFWdM4hpvthRhe8GI0FNspb6O9H0kY
+         VVHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBie193WN+fsIUhYAXX1wyweU/JiDxmtCdl1VnBgo3pnF/4GHp5sD5or1cp6zL86p9N+7Xd9rcd8IfBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRS8rieI3SWgPJI13TmVGKYJHA22PAWVoiQaDwAdmh3qnr51yM
+	IHOi49x1CQZ1usKeCAcRPI7e7QKE92XcEWCwgLXAK1oUb0iisZ4S2IYddWyC0+62FKRtCoWeXFG
+	Rf8/3rj/ChSUna1sSEr9wikq3Kr4Qj+tzVVmn1CP5
+X-Gm-Gg: ATEYQzzd4aEAkNsk0Qs0D+84tmUIWihKVybyOTgJ44do8ggwhsqVMbAk5mygMYsS5Hn
+	uIct3+yqk31aeeOAtyPuyXdrEXnSN2jRwHQDThkkn30TmDl5SNcoHjcYwtQWdHD9uLQdWCXjGGn
+	mLSjbIrIQ1MMYrtZSg7i0LM0dWpb/rbssJ9lyrUa5EQjpd+4cS6ckmLUVI+m0HPyv75dfyi0V5o
+	pwQw/Bckksan2RgTxa7yJTJ+d29wDrPV2dxv2u29p4YuEuuyjtfEhiiF8IPNxGSANl7LTm4irEe
+	svCcIw==
+X-Received: by 2002:ac8:7c55:0:b0:507:35b2:6b9 with SMTP id
+ d75a77b69052e-50b27456fe4mr3082721cf.7.1773876604768; Wed, 18 Mar 2026
+ 16:30:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309022205.28136-1-guanyulin@google.com> <20260309022205.28136-2-guanyulin@google.com>
- <505ab422-f933-4674-8f93-8744d0e67c6d@oss.qualcomm.com>
-In-Reply-To: <505ab422-f933-4674-8f93-8744d0e67c6d@oss.qualcomm.com>
+References: <20260309022205.28136-1-guanyulin@google.com> <20260309022205.28136-3-guanyulin@google.com>
+ <2026031115-unboxed-spouse-1dcd@gregkh> <CAOuDEK3k6nyiHxhcL1kv=QNQaZMF6ms=sLerSZ5JBc5WBd7nAw@mail.gmail.com>
+ <CAOuDEK2pyt4nKWxXXwtzgRuP6u9kvi_Joe8Ec8qDDHVzSue1rg@mail.gmail.com> <2026031815-heroism-devotedly-e730@gregkh>
+In-Reply-To: <2026031815-heroism-devotedly-e730@gregkh>
 From: Guan-Yu Lin <guanyulin@google.com>
-Date: Wed, 18 Mar 2026 19:21:00 -0400
-X-Gm-Features: AaiRm539Hmpj3e5uW-24en7eVbe4K9Ue0STys9HF6sxG6gvj_pbB9iJ_D2yzCoI
-Message-ID: <CAOuDEK3b4BtHVYhLH_NkE1fP1-9ncqvAq6VedBzWLm=D_YDHQg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] usb: offload: move device locking to callers in offload.c
-To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
-	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
+Date: Wed, 18 Mar 2026 19:29:00 -0400
+X-Gm-Features: AaiRm52YRSd54syzn1f4cmqFSKVxw7wlvtVlZkoP-XOuSr5tL6CUvSpQpQh1gbY
+Message-ID: <CAOuDEK1YjqPeiPde3Sn34RSsMu9i+KYF7BJGca=n8j_f4RM55g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com, 
+	quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
 	christophe.jaillet@wanadoo.fr, xiaopei01@kylinos.cn, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, stable@vger.kernel.org, 
-	Hailong Liu <hailong.liu@oppo.com>
+	wesley.cheng@oss.qualcomm.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 17, 2026 at 4:17=E2=80=AFPM Wesley Cheng
-<wesley.cheng@oss.qualcomm.com> wrote:
+On Wed, Mar 18, 2026 at 12:59=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
+g> wrote:
 >
-> On 3/8/2026 7:22 PM, Guan-Yu Lin wrote:
+> On Tue, Mar 17, 2026 at 04:45:00PM -0400, Guan-Yu Lin wrote:
 > >
-> > @@ -27,31 +28,25 @@ int usb_offload_get(struct usb_device *udev)
-> >   {
-> >       int ret;
+> > Hi Greg,
 > >
-> > -     usb_lock_device(udev);
-> > -     if (udev->state =3D=3D USB_STATE_NOTATTACHED) {
-> > -             usb_unlock_device(udev);
-> > +     device_lock_assert(&udev->dev);
-> > +
-> > +     if (udev->state =3D=3D USB_STATE_NOTATTACHED)
-> >               return -ENODEV;
-> > -     }
-
-Could be removed. Since the udev is in USB_STATE_NOTATTACHED. I expect
-the data structure being cleaned afterwards, so actually counter value
-might not be important at this moment.
-
+> > Thank you for the feedback. I understand the concern regarding locking
+> > complexity and the reviewer burden. The usb_offload_get/put functions
+> > track sideband activity that runtime PM cannot reflect. This is
+> > necessary to prevent the USB stack from suspending the device while a
+> > sideband stream is active. Ensuring atomicity requires orchestrating
+> > three asynchronous subsystems: System PM, Runtime PM, and USB Core.
 > >
-> >       if (udev->state =3D=3D USB_STATE_SUSPENDED ||
-> > -                udev->offload_at_suspend) {
-> > -             usb_unlock_device(udev);
-> > +         udev->offload_at_suspend)
-> >               return -EBUSY;
-> > -     }
-> >
-
-This check is still required. Because the suspend/resume process
-depends on the counter value, we can't modify the counter value while
-the device is suspended. If we do so, we will have an unbalanced
-suspend resume operation.
-
-However, we might only need to check for udev->offload_at_suspend (if
-we ensure the device is active when we want to incremant the counter):
-1. If the offload_usage_count is 0, we won't decrement counts at this momen=
-t.
-2. If the offload_usage_count is not 0, the offload_at_suspend flag
-will be true anyway.
-
+> > To address the concerns effectively in the next iteration, I would
+> > appreciate clarification on your primary concern:
+> > 1. Preference for fine-grained locking:
+> > Using USB device lock ensures atomicity across these subsystems, which
+> > is inherently a device-wide requirement. A fine-grained approach risks
+> > races during concurrent software events, such as a reset occurring
+> > during a runtime suspend transition.
+> > 2. Preference for improved transparency:
+> > If the coarse lock is acceptable but the implementation is too opaque,
+> > I will refactor the next version to be more explicit. I plan to
+> > include device_lock_assert() calls, __must_hold() macros, and add a
+> > "Locking Hierarchy" comment block documenting the vendor-mutex and
+> > USB-core lock interactions.
 >
-> Do we really need to be explicitly checking for the usb device state befo=
-re
-> we touch the offload_usage count?  In the end, its a reference count that
-> determines how many consumers are active for a specific interrupter, so m=
-y
-> question revolves around if we need to have such strict checks.
+> At the very least, this is going to have to be required so that we can
+> catch any future changes and ensure that changes do not create locking
+> inversions and the like.  I guess we are stuck with this for now, due to
+> this being "outside" of the normal runtime PM, which still feels wrong
+> to me as runtime PM _should_ be able to handle this (if not, why is this
+> case somehow unique from all other hardware types?)
 >
 
-Please find the explanation for each check above.
+The runtime pm doesn't apply here because when a sideband instance
+accesses the controller, the main system could suspend. The runtime pm
+only reflects whether the "main system" is using the controller,
+whereas a sideband instance might still be using the controller when
+the main system has suspended. Runtime pm couldn't reflect the
+sideband's status. If runtime pm reflects sidebands activity on the
+controller, it will mark the controller as active, which prevents the
+entire "main system" from suspending. Does that sound right to you, or
+is there anything I can clarify?
 
-> >       /*
-> >        * offload_usage could only be modified when the device is active=
-, since
-> >        * it will alter the suspend flow of the device.
-> >        */
-> >       ret =3D usb_autoresume_device(udev);
-> > -     if (ret < 0) {
-> > -             usb_unlock_device(udev);
-> > +     if (ret < 0)
-> >               return ret;
-> > -     }
-> >
+> > To clarify the "broken hardware" point: this isn't a hardware bug.
 >
-> IMO this should be handled already by the class driver, and if not, what =
-is
-> the harm?
+> It was described as triggering when a shock happened to the system to
+> cause the system to reset in places, which is a hardware issue :)
 >
+> > These races are triggered by standard software events, such as a reset
+> > occurring while a sideband stream is active. Please let me know which
+> > direction you think is more appropriate for the kernel, and I will
+> > refactor the next version accordingly.
+>
+> And how exactly can a "reset while active" happen as just a normal
+> software driven event?
+>
+> thanks,
+>
+> greg k-h
 
-We can only increment the usage count when the device is active. For
-counter decrement, the device could be in any state.
+I'm not sure what the OPPO team has encountered. In our experiments,
+we saw the following call stack:
+[  721.889147][  T228]  qc_usb_audio_offload_disconnect
+[  721.889284][  T228]  usb_audio_disconnect+0x7c/0x268
+[  721.889302][  T228]  usb_unbind_interface+0xc4/0x2f8
+[  721.889313][  T228]  device_release_driver_internal+0x1c4/0x2bc
+[  721.889333][  T228]  device_release_driver+0x18/0x28
+[  721.889347][  T228]  usb_forced_unbind_intf+0x60/0x80
+[  721.889358][  T228]  usb_reset_device+0xbc/0x23c
+[  721.889375][  T228]  __usb_queue_reset_device+0x3c/0x64
+[  721.889386][  T228]  process_scheduled_works+0x1b8/0x8ec
+[  721.889405][  T228]  worker_thread+0x1b0/0x470
+[  721.889418][  T228]  kthread+0x11c/0x158
+[  721.889429][  T228]  ret_from_fork+0x10/0x20
 
-My initial design is to resume the device and then modify the usage
-count. Another option is to check only whether the USB device is
-active via pm_runtime_get_if_active, and leave the device-resuming
-effort to the class driver. Do you think this is the better approach?
-
-> >       udev->offload_usage++;
-> >       usb_autosuspend_device(udev);
-> > -     usb_unlock_device(udev);
-> >
-> >       return ret;
-> >   }
-> > @@ -64,6 +59,7 @@ EXPORT_SYMBOL_GPL(usb_offload_get);
-> >    * The inverse operation of usb_offload_get, which drops the offload_=
-usage of
-> >    * a USB device. This information allows the USB driver to adjust its=
- power
-> >    * management policy based on offload activity.
-> > + * The caller must hold @udev's device lock.
-> >    *
-> >    * Return: 0 on success. A negative error code otherwise.
-> >    */
-> > @@ -71,33 +67,27 @@ int usb_offload_put(struct usb_device *udev)
-> >   {
-> >       int ret;
-> >
-> > -     usb_lock_device(udev);
-> > -     if (udev->state =3D=3D USB_STATE_NOTATTACHED) {
-> > -             usb_unlock_device(udev);
-> > +     device_lock_assert(&udev->dev);
-> > +
-> > +     if (udev->state =3D=3D USB_STATE_NOTATTACHED)
-> >               return -ENODEV;
-> > -     }
-> >
-> >       if (udev->state =3D=3D USB_STATE_SUSPENDED ||
-> > -                udev->offload_at_suspend) {
-> > -             usb_unlock_device(udev);
-> > +         udev->offload_at_suspend)
-> >               return -EBUSY;
-> > -     }
-> >
->
-> During your testing, did you ever run into any unbalanced counter issues
-> due to the above early exit conditions?
->
-> I guess these are all just questions to see if we can remove the need to
-> lock the udev mutex, and move to a local mutex for the offload framework.
-> That would address the locking concerns being brought up by Greg, etc...
->
-> Thanks
-> Wesley Cheng
->
-
-While developing the initial patch set, I did encounter the counter imbalan=
-ce.
-
-Following the discussion, we could move the device resume effort to
-the class driver. This way we only need to check if the device is
-active before manipulating the offload usage counter, which doesn't
-require a device lock. Is there any concern with this approach?
+In addition, if a process interacts with the kernel using
+`usbdev_do_ioctl` and then `usbdev_do_ioctl ` calls
+`usb_driver_release_interface`, we could also encounter a deadlock
+issue.
 
 Regards,
 Guan-Yu
