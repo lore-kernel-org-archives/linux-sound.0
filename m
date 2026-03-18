@@ -1,123 +1,83 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15AC2D0C92
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773852750; cv=pass; b=MUL2E6ugGc1gRT6yQWfBFI4iB7fKQRYSBcSsq5FM4BqHZRuCS0/9Qiw8S8F3ZzTnxbgEyRhmdNWGqzZyBH3XJ0nfVheOR1vmHCvpjxyodzpS4GsnuQM7rejCDUheph3SgLuw/60pPmPtIZjq97zgOCTTK6PFjjXyKQER+OJMRwc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773852750; c=relaxed/simple;
-	bh=jGowpM+0EvpqYpl5UHEdMeQ1VB2eHq1JlfVrJ/Var+g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YSA9v2SYLYboQp05gBgFvIHjv6y1CEGPIeUqIr4pfygPUTkA1kZgwc788oltZB+5wBvpok4tvsp4lD0LtdFDBnRvIkR6WbpX+hwuwgiL39pmDXCAS3cO7Rv/xa1DgVdS3qHdAsiliCHP8D1/qbIT3YtimJzTOpjvqo5/Bpn8vag=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=C6juc63A; arc=pass smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BD230CDB6;
+	Wed, 18 Mar 2026 17:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773855526; cv=none; b=iG72b9yQcfQ3oB78uVqy0utgLjnteOB6qgVgLHSG9L1Z4gkm/kH1f1IvRDLqB8UL+APKVrDfu3Hh+Y3sZrWrviYjnfMGtK5WweE4jBMh+sG0W4wI2bXxVyL2aTfkqIZvq1zGDhc6zh/1bnIKnERzIYpKFfRq3G741S/pnkltYcA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773855526; c=relaxed/simple;
+	bh=n1Z25atg8AI9ohZCPBLUAHR1CoSL7EHzfwCieaAiFe0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=taHlk/gxw41kmXzBvVqjDUxEh8fVpNZcxxSmFIrOmxJTa68GBJ5u2Za4ex+XBAmnkYKbBeQUSzYgwPmPIZeGIG/Lwo7+VcVtEnttP+0onhouR/aNtDCXakgyUviesuVw/se0UAHITf4B05pHl+x7vwFKDjvE6J/2+yyqbqIQPw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFaC8XN0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="C6juc63A"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b97b30fa5e5so2568266b.3
-        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 09:52:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773852747; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EpiqV7LVT3qjlssPmqnd169RqTyeViqvwAfXGbyQUcQ35vViPGVso7rNgNcLHSiRX0
-         6pJUs+BGdJZX8NE4foL7cCkHFshy6iiDnds7sgduYT2k1GTM8QpFPE4jhVyMkgoQmEMY
-         oljazrqkugYT8WqrMCEfTRzX8u3ibVzt/e6QqKsRHQrvogveEududis9KuMUgWov+LFi
-         prap3P2bzj0EZqJ7DJWiWGnvoeonpWXIAX9Gx+lxT9qrMuXGmAuwb6UTW9LsvluNJbq8
-         K0N/4h04BC2kFUG70UmcH/u8Nv81iKsk5lVkhuQ+LrAVRfbb+tLwMf+xD5yU2WhlvR+D
-         lDlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=n8s0iyx5Up+axNLd5N4vYWUUxP+7s5+5idq+mXMf/gI=;
-        fh=emBPTwLZ1ALVmTFdovwm5YNN0/kg3N98fF0C7NUj22w=;
-        b=kz9jy7KzCdlCb3xx2E1Uyr/4ZzO6D/o80CVN5g1nFQiyHZg1550CYulaB+21EVgmVj
-         ZUeVsgFxJpFKq/vXcNTSAnyVVqGFYf466Jkxxq114R46VqrkjMJymym5MXamC/v4R0uu
-         RAFB/bdgl7BXXEcp4YzssKZpMw8cGEtkMxGG2Ju56ZMEPmnU0SVw913I3DJlrACgp8q2
-         vOgel8ZFYG1OC99MHhTQMqBFbeSnhY9Pmjq3QXfe0GhVZHaqWpWy8TOmeQUNe2zLgr0B
-         bKjL79Zo3Zuiihi0VtCb+s7P2HD9L+fqZNBDHtCGUBBcX6HJBRW+qaEafRVtKS3jU2hK
-         jm5w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1773852747; x=1774457547; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n8s0iyx5Up+axNLd5N4vYWUUxP+7s5+5idq+mXMf/gI=;
-        b=C6juc63ARTReATuT6G1kJ3mD7qR9kgQB0xE/i/sidGITsV/FoP6iGtYq33ZUrDiQYo
-         GFL0urc2gst3J3vLvoQb4ns1eqeuHuhyw7r1+ZL6txeGItONt8dAtm1fP3zKMBBbR4b+
-         WRvvaTHF1J/RKZziKy33lAnWKL+4AZgEUuhMUaOfDCPZFvlsqJuSl+A9o4xPSWNMf5ya
-         H+D8Wd2hu50j4C3sJXmZ29j2ZnksbVTiF5N7nsjELgitHpenAM/goHuMlj4LQpl+SHYT
-         JwZoKE2Db5S+P3JEVRFViKe9Pf5ubwllePXS2qe933FCswnBHFqXxMXpG77w/HV1V657
-         eyOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773852747; x=1774457547;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=n8s0iyx5Up+axNLd5N4vYWUUxP+7s5+5idq+mXMf/gI=;
-        b=sLurTmizztMd83CC3VSTepXUe2DAExXdGCVRgyC3dRxlxNLv6ZN2Qx76A8A8k9nDG5
-         k0ic050umeLyBbhELm6S605m6jeHDslpDdsPkXO1OYx74Gc8QKVdpSl6I70SC1l/KP87
-         oaYA6ZcM8+K0R5jh8HJ7Uk7JiGj8yssrbnPE9Z/JrJaSdR7r0SfWzLOcznnpi0vIzsaw
-         qrxlR3WX5YrTModmxeJZ2oKvr4MprTAeOjeSSskCl/bqDc+4/VvGabwhosAT9tK0UCGs
-         9krfyv9XGRZ5OQ5x0Vsor299j8bKr6AIby8stSZMlrgLLH6QlSKwopV/mrUcrgTnxD+H
-         Bvyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXxYIMtC8K8rd5CvMMKLE9n6ZK1G3oYsKDiHhZzwwA8XNG3zW0u0OULcnNMMntZ5DKbgn+VD8qFJ8GcxA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6RuFKrW0uQqp4JMNLI8VwjFEX8d9h5InCHiXdofAfEPXLPa6K
-	DvmPScHvTmVP9+kz+48sFyn3hvncHtvzAlEpBrrPi1O/pbkaeV1oAioSHbnfK08WVwkHEEyywv1
-	nK5VwiHZtIPtsfe84jxWcApNpRh4fK1+QiGhdwLh3pA==
-X-Gm-Gg: ATEYQzxcMa+n3GiNSj8Uxi7EeoIJ3YmqfcOuFtOASe7zmLZxCEsMCqMl7zG+2FZeytU
-	xpxS530RDLP/r0OOvYZb3yaBfE6MGOJ+FjcYiGT2tIynU+a7B187H86q0t2PfmUj3b/2HSomoqI
-	HIJXfT7i9bAJutSeplqDLnpNUbWtLFEF4Rn5veulBZuMqBIKZ3r9o+jAbqBnKYD9PaMUfct7EtT
-	TB81jyzF3dmG8BghZiJOjAF3HMf7Uz6+NhswyM4dDSgXE+rPieEuhoFxR1BxaCLkN/g69g/Rj05
-	DDK/lYw=
-X-Received: by 2002:a17:907:268c:b0:b87:7485:b4a8 with SMTP id
- a640c23a62f3a-b97f437c5e0mr269129266b.0.1773852747057; Wed, 18 Mar 2026
- 09:52:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFaC8XN0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7BFC19421;
+	Wed, 18 Mar 2026 17:38:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773855525;
+	bh=n1Z25atg8AI9ohZCPBLUAHR1CoSL7EHzfwCieaAiFe0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FFaC8XN0wRyT9W8TA4HimEQ0NEWx3NwPGGGX1BB8IyKRUiH1xnOsA5yuej5cGfMjK
+	 s6ugMruvUSd/Z06tkDImvCwzj+ljY02lH+RFOqC/vPgXBT4uEjg2rqaNhWJ+iuh1Ci
+	 HdjudwxlhEeGh3fOZS0pIWVihXT7MHaAYcWu69OlHMub97ctOC5D7GtZOEsEcBs7eI
+	 dROtcuptECD2Uv+png40nMfouedmHn9uVb0MObU8gVCeMdkzgLaNfr47+ZhF7lMCI6
+	 czePls60vsEiZRBhc+YXRB673ZJDJwma0Epghns1qzjLI8tMVDjj7QOHtaRkFVDXxx
+	 N0WRgiyth+FwA==
+Date: Wed, 18 Mar 2026 17:38:40 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Ben Dooks <ben.dooks@codethink.co.uk>
+Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com,
+	lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev,
+	perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] ASoC: SOF: sof-audio: pcm_id is __le32
+Message-ID: <3a2272ae-97d2-4f62-bb06-900a8831e544@sirena.org.uk>
+References: <20260318164800.1086567-1-ben.dooks@codethink.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net> <339ebaa9-9642-4716-bca7-6a32a135124a@sirena.org.uk>
-In-Reply-To: <339ebaa9-9642-4716-bca7-6a32a135124a@sirena.org.uk>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Wed, 18 Mar 2026 20:52:16 +0400
-X-Gm-Features: AaiRm53s1de568Rl6WcWFL_NmD36Tc9G63SkTCGabmNWoWncrHCvYMTyZ7Db36c
-Message-ID: <CAKTNdwF9JRW7PjqnZwmvp_X5UjjJ023tBzFY7yCSnCJH5W6q-w@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Set slot width for non-TDM mode
-To: Mark Brown <broonie@kernel.org>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Sugar Zhang <sugar.zhang@rock-chips.com>, linux-rockchip@lists.infradead.org, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="edMBw8NX9CoL2eHF"
+Content-Disposition: inline
+In-Reply-To: <20260318164800.1086567-1-ben.dooks@codethink.co.uk>
+X-Cookie: The coast was clear.
+
+
+--edMBw8NX9CoL2eHF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 18, 2026 at 8:17=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Wed, Mar 18, 2026 at 06:50:25PM +0400, Alexey Charkov wrote:
->
-> >       regmap_update_bits(sai->regmap, reg, SAI_XCR_VDW_MASK | SAI_XCR_C=
-SR_MASK, val);
-> >
-> > +     if (!sai->is_tdm)
-> > +             regmap_update_bits(sai->regmap, reg, SAI_XCR_SBW_MASK,
-> > +                                SAI_XCR_SBW(params_physical_width(para=
-ms)));
-> > +
->
-> What happens if playback and capture have different widths?  I wonder if
-> forcing a TDM configuration with the affected CODECs would be easier.
+On Wed, Mar 18, 2026 at 04:48:00PM +0000, Ben Dooks wrote:
+> The pcm_id value is __le32 so convert it before passing to the dev_dbg
+> function to be printed. Also fixup some other uses of __le32 data and
+> a couple of places where %u should have been used instead of %d
+>=20
+> Picked up by sparse prototype for variadic and printf
+> function checking. Fixes a large number of sparse warnings, such as:
 
-Playback and capture go to different "reg" each, and each has a slot
-width field. The correct "reg" for the stream is selected 50 lines up
-in the same function. So they shouldn't really get in each other's
-way, from what I can tell.
+It looks like this needs a rebase against -next.
 
-Best regards,
-Alexey
+--edMBw8NX9CoL2eHF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm64x8ACgkQJNaLcl1U
+h9Dztgf/RWtsxB87+CGYZheaxFGyyJSm9BgUfvU4o7HsFJRjxFMx3BDKX3dz9I90
+E4PvZIsc+QCVjqd5HJoClvUISc4KpFm1R1cGFKRqr/RYKjcajKwlU8K8Apaf6icU
+qtTk1OOZcNP5X7JzxYKAtNnwE/jUBoLAjp3cPOJ2VFkA6sGyBsF6P9P7VeY+n/zH
+iM8n/4dHruAl0MAd+dbGR+x3UOz3NuRmP6JA5/ENo1SEP2PxUt/Up6jtczD/NGAf
+GiwYpveuT+oGEvQreAeqGq8xOzwAkUlPJ0YHLtfg8M3unbS4bK9x4VQqOirsbZfu
+RSi9pyu20aPbEabEgIhchGGpJBabng==
+=1LZB
+-----END PGP SIGNATURE-----
+
+--edMBw8NX9CoL2eHF--
