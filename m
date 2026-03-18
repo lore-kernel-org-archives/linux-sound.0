@@ -1,92 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16723B8BAD
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570C2D640D
+	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773849744; cv=none; b=ZM/4dlOyIxP0f6CgSUbJGS5HoCQd2YoWzer3Qg04K376qJgkhTQekNoHQ1MLmbEK9sifkETLsjpJmFiMApzxE3yTlwgj73cWrv371Eu9goQTV6jl6DhvuBL7b9cHogb/L7AmLfoLSWRcMw3arnMmClPT9Dh0eQyMDZ3RDTIb67Y=
+	t=1773849794; cv=none; b=ZRBTBiciprl7aTP4yC/dqlcu4Ek1xDLjvVjYEF6VQkXmyN/GB0Cbs2ZjbWVDpt1G9p12CA/PDx1oZI0RMkyNF/uJYN+FfbXlnR+ix2si1Z/ESDQPka0wfQi4DAEUUeCcLDdHDWq9nWg+UUpJ2I7YOxK+fe9qX8p78owGmjMObgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773849744; c=relaxed/simple;
-	bh=jlbFnWqkJTnl/zzkZhCyWdDgvyh0j1BKiZNim9nq6d4=;
+	s=arc-20240116; t=1773849794; c=relaxed/simple;
+	bh=wN5cUZ0zdT/TEHWDN+VcdHqBYQAS/OXnrrsWGfJoBvI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RXkaOhXVUetRowYqfaEh/PQpzy4LjdhsUn8Y75zKcey3B73xz6Z/8pwMAuybCSGClwA6ZBbLU7SN5KYP+bysChfDTgA4LKjEgkuY3LLRXtTedbEiW4V+p8xWXsfM/dgypZEw9frEw0OcZQIxFcuP6IraG0nAj8LCbyBitCGOND0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OUB41oPt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q1aXJt36; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kMODMvSG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qxOMW19b; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=CUU021rrdu602pLCA8QZZKPKMt8ELo0WKSWnjMrNQEVLA9ofDMBgqzV8TBTCYlQ6aliJPxWALKO6VtriPPaYzk0rc75FvsNSBhgacmm2ui2IBUImGEd8OPil0esvbwbJxZUPwt8IR+8jpesW0nJuuUisT1Jv4nqutlq8/syhnM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mxWUf6Ds; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3WgXJH+i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MN4ZyP3D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hcbgHJ6s; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OUB41oPt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q1aXJt36";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kMODMvSG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qxOMW19b"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mxWUf6Ds";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3WgXJH+i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MN4ZyP3D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hcbgHJ6s"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B4D915BEC8;
-	Wed, 18 Mar 2026 16:02:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 06D994D3ED;
+	Wed, 18 Mar 2026 16:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773849731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773849787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mSf19b1jhenmvaLomGbxX0Yg6uNP1NpERxPlC4iLUjo=;
-	b=OUB41oPt9v9QXb9hwyPO7pkjdLHaYhQBzQ8Me03uXGDaebGJv5lD/lxW1fsDbpt3AE8P/m
-	OaxwXr1TTyJ9Yp2s5IMClZG6nRAqMdETHVKb+n12Lbtu89bMX3tSjXxuNUR5hR9pvRMfq9
-	8zXomZtOi0WQzxxCaw2aHpGAxRitiwE=
+	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
+	b=mxWUf6DsIJx8JGLXtStpAvkupaCUrccGeP0yLQNCDkV4qUABh0+g/68xHwMl8H9fZIlZ4X
+	L0hrfDspQ4SpJEkSChvwpeZf7GzCibji7C/ohFxEXSaHqMrmH4570sBezAku46b8UrmONm
+	+rE30ohvX+WoMbcdxgX/KnKb+2JD05E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773849731;
+	s=susede2_ed25519; t=1773849787;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mSf19b1jhenmvaLomGbxX0Yg6uNP1NpERxPlC4iLUjo=;
-	b=Q1aXJt360Mo3/bJKuq1RmYeqR8ksAUjyLTnMf6nCuMsDeX2BDUTZ+nYEBJ8jE5W8vH+Xw0
-	BIhHoyWu8z75E9Bw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kMODMvSG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qxOMW19b
+	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
+	b=3WgXJH+i/W2VhI/OoEqstpeBhNlQBCfhbuaejfmnZhW8WSCSUKIzzekbobgY2vItM6rfdE
+	vK44Na7AE+8zwqCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773849724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773849785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mSf19b1jhenmvaLomGbxX0Yg6uNP1NpERxPlC4iLUjo=;
-	b=kMODMvSGzMtO3DOdpH/RJyJepbi96b40ikUDON8i1cYB9bi+vFnT9vlRUSLKSBwoIm/koQ
-	oiW0C4/v8uwZSTkLTzBvRHjnvzcdYA2k6pJJSL5MLOv+XU2DWVBCNCOcIsEXvwsI8tH5B/
-	UfI6YxCye8BxpGzy1fcjtcVm/FTYA3U=
+	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
+	b=MN4ZyP3Djl9z16weZaFKFs6UKMQ/gJ7eEwCxwSTxJPwKz2XW/a8NVtlFIC+o540P0cRRrd
+	+AwrLqfZqCHFPly1zuCLvDBwfOvYIraz8jNz9A/10nYp3kCgkglEajmTq6TivU1THDmMbf
+	jYCvDuTOGS78AdsOxfxfRLqFBP25tos=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773849724;
+	s=susede2_ed25519; t=1773849785;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mSf19b1jhenmvaLomGbxX0Yg6uNP1NpERxPlC4iLUjo=;
-	b=qxOMW19bHl+SxvmMgSVB2A5vSwpOwxlzuv4ENH/J/Ru6R37I4uSncWvIl7P0P+yeNRrI0h
-	SpnT3idgRgOcYIAw==
+	bh=lr/iSpFEtsFlvM7WU2EXJDEzTpLLAxsMUDdX2+LISb4=;
+	b=hcbgHJ6s/LwKCT41IE7KEnBS4ecphnDTF0FRpq9zpCD3eIQ8LOBPkLeJf+J4dh30LZBWcK
+	xaXzT9m2rACSzXCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6287B4273C;
-	Wed, 18 Mar 2026 16:02:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD1094273B;
+	Wed, 18 Mar 2026 16:03:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wWqVFnvMumm1RgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 18 Mar 2026 16:02:03 +0000
-Date: Wed, 18 Mar 2026 17:02:03 +0100
-Message-ID: <87341xceis.wl-tiwai@suse.de>
+	id iJv4LLjMummiRwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 18 Mar 2026 16:03:04 +0000
+Date: Wed, 18 Mar 2026 17:03:04 +0100
+Message-ID: <871phhceh3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH] [v2] ALSA: asihpi: avoid write overflow check warning
-In-Reply-To: <20260318124016.3488566-1-arnd@kernel.org>
-References: <20260318124016.3488566-1-arnd@kernel.org>
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH v3] ALSA: usb-audio: validate full match when resolving quirk aliases
+In-Reply-To: <20260318-alsa-usb-fix-quirk-alias-v3-1-bd3b17a32939@gmail.com>
+References: <20260318-alsa-usb-fix-quirk-alias-v3-1-bd3b17a32939@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,72 +94,65 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,arndb.de,gmail.com,google.com,vger.kernel.org,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[lkml];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
+	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: B4D915BEC8
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
 
-On Wed, 18 Mar 2026 13:40:07 +0100,
-Arnd Bergmann wrote:
+On Wed, 18 Mar 2026 15:08:46 +0100,
+Cássio Gabriel wrote:
 > 
-> From: Arnd Bergmann <arnd@arndb.de>
+> get_alias_quirk() resolves a quirk for an aliased USB ID by scanning
+> usb_audio_ids[], but it currently checks only the vendor/product pair.
 > 
-> clang-22 rightfully warns that the memcpy() in adapter_prepare() copies
-> between different structures, crossing the boundary of nested
-> structures inside it:
+> This is weak for quirk table entries that also depend on additional
+> USB_DEVICE_ID match fields, such as device or interface class,
+> subclass, protocol, interface number, or bcdDevice range.
 > 
-> In file included from sound/pci/asihpi/hpimsgx.c:13:
-> In file included from include/linux/string.h:386:
-> include/linux/fortify-string.h:569:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
->   569 |                         __write_overflow_field(p_size_field, size);
+> Keep the aliased vid:pid as the lookup key, then validate only the
+> remaining match criteria of each candidate entry against the real
+> device/interface descriptors by clearing USB_DEVICE_ID_MATCH_DEVICE
+> from a temporary copy and passing it to usb_match_one_id().
 > 
-> The two structures seem to refer to the same layout, despite the
-> separate definitions, so the code is in fact correct.
-> 
-> Avoid the warning by copying the two inner structures separately.
-> I see the same pattern happens in other functions in the same file,
-> so there is a chance that this may come back in the future, but
-> this instance is the only one that I saw in practice, hitting it
-> multiple times per day in randconfig build.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Suggested-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 > ---
+> Changes in v3:
+> - rework alias quirk matching as suggested by Takashi Iwai
+> - drop the explicit per-field helper
+> - keep the aliased vid:pid check first
+> - clear USB_DEVICE_ID_MATCH_DEVICE from a temporary id copy
+> - Link to v2: https://lore.kernel.org/r/20260317-alsa-usb-fix-quirk-alias-v2-1-6e531c67f0c8@gmail.com
 > 
-> v2: use correct union member
+> Changes in v2:
+> - drop the temporary usb_device_id reconstruction approach
+> - validate only the remaining match_flags explicitly
+> - pass struct usb_interface * to get_alias_quirk()
+> - Link to v1: https://lore.kernel.org/r/20260314-alsa-usb-fix-quirk-alias-v1-1-3269998f7ada@gmail.com
 
-Applied now.  Thanks.
+Applied to for-next branch now.  Thanks.
 
 
 Takashi
