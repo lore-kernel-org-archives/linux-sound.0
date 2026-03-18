@@ -1,184 +1,185 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013043.outbound.protection.outlook.com [40.93.196.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D323F38F231
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 08:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE4C3806D9;
+	Wed, 18 Mar 2026 09:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773823635; cv=pass; b=TgJXzH5oAk5zdn0CfB45xGB/QMD7Y2FTE8sAs5+cTUZvrj/plXLnfcXWjRzMhHrTAE1aCTB083F21nAYH1wsdNrleLMr/WS7eFISzz6ndTmniVFZzF0M3nzQPq7DEaCmFhICJ7JOcPXwe13OQwOk17pPXG6kre4JC60oGzee6O8=
+	t=1773824819; cv=fail; b=R8Sz73UBEGw0nZQ+sTh3RtyI2szsCFy4tEAsn35p9MgLBWxLYhNkOHNS4Z/Dq2ubcM+uZqh4AzJftjX1wi57RcxPq3B9GvddDVvjUnfsH12/5D52bAaIEECjww64amKdkmNQAO+vrvdyTrnLVsYsFsbMLJ3pfUmzZil/2E2a9OM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773823635; c=relaxed/simple;
-	bh=/df7Bk5n0RRFbF0Mk7wFm4tbv9pefyTHrec0whGPKKc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OVhc4VyzsZOxXCF8v77yaftmcvRfq39c53Y+NfQ5FdCJHlG0bqYh6S3fA3yzc1+Iel57SpLNxetZBDSbXNoakv2swBCtQt//kRMMyNdSPZ3oqXe+ZygIF5wmszOr/u3lU8BBJ33Ft8hRJZhT4avKqXreaWlN9oK7jlqVxYE8sB4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tk1JBHRJ; arc=pass smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773824819; c=relaxed/simple;
+	bh=9eAhuvpsQxoMRf3jugVHzcTguQnzJPQoHCWBI7wWq98=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=B3p2l2wgqbETOFx/KKHfwsqbyYRN0c/D6oCDuhJ3cZa1Hff3fuHhfu0uBB+UhDVbspBNnQ1VCj0omBWOPr8/Clzd693XJ2VLZErzgvulAhPiK0CHEod6tYSgqR0LctETEchVpc/AIn+TgdnGVTn/xJgJSISnETRaALOdI0a2wN4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JD2v43LL; arc=fail smtp.client-ip=40.93.196.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tk1JBHRJ"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-40ea611d1a4so2660012fac.2
-        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 01:47:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773823633; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gC5Nxq2usNYFuvcWxRCrYl99cLsPMrAxrp303gAiDMguX5x+MrpqdT5AwUia/gqzBz
-         2vHtz0o6rvA5qRRMHnYdsoJtDA4x9SrGRuLfkF1w40PCHma/X2KrT9XA7xlwHqllzK1x
-         vu3d35K8ywevXWFP/Po26kuEIJ70RcfzvKC0ONntN7qHFYbyfT4lhaE4X24/0PTgBHzo
-         eewE3O4FU/anjD3ygFvQL/vUSbK2HKTxvbve6+KiMb2wHYgwFVueVBSmAg4GB0kDVGG7
-         k+1K2k7paMg80QMSM+Ebd0x7QV8k8VwpD/dxQXADBqJHFQg0aR8ibaFWhYaPOdDMhZYT
-         A6dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=83jPdky0qKJSRYzsoaPc+e5EHJzCiyWfR0yebjpaYT4=;
-        fh=GYMD4ECm5jh7OzipjBpogqSiaWAfAQiqFwwzZtKqfhQ=;
-        b=dQdGBlfsJQsAr2BvqJeXBMqgOV4GBRmDldByJXT+KDwKZv8kDm9F9LU3fwWh07no4K
-         tW7nOJPf2fcig9DaFhvulS5tulA5Vbvi0QrPz3ZN0TGDb/EdlqoDGvksgn7ePsebHwnU
-         o5PKP45nzOS9mVQaWKRuI776ZpRUeyJYRV+7bRoN9l08j0kCJqx1bc2tp5N5TVoUggvy
-         svabqsR73g0iUJtGsu0QoZqlaYbQ4lrahsqyUMrRDuA0Pzpo8POAFt+SpTsg5Rbn/rYJ
-         2iFslXbMLvfRjK0aLUAMf6FKZL/207Fq7P6vJ/qDjnRCqHbzfOV9i5fcba9DGgfZgfZd
-         Ajfw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773823633; x=1774428433; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=83jPdky0qKJSRYzsoaPc+e5EHJzCiyWfR0yebjpaYT4=;
-        b=Tk1JBHRJmqkngoZZFORRZnndXJqvw60seoR7Gzi1w8gpo7xK7fKczp7g5tACJ70VCj
-         QV/FqLPZ5NvfJqncWVKsYmD0ZBQrluQ4gFWpd6coDODxmLzxklVJADGJGrJkMW4KUUoT
-         ZeltCIZMwNT/+nJZGejM8iIiu/UV27skGIVMIXWJnCpFe3UyNaF/CBwxSgJ4pEerNGwq
-         9Dc3peezNCrdfjbOgH3UqlS0hQ2he5fCGnH1RFVFq9j3AipwVtpryi6piCPRfzepGJb3
-         unYbc62Ak6ym0zirMArE3Wql+M0e+lbyLkaMDEQP82j9f23gKdzBv+rU9jsf/oOGtwtb
-         vZ/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773823633; x=1774428433;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=83jPdky0qKJSRYzsoaPc+e5EHJzCiyWfR0yebjpaYT4=;
-        b=n43fZBC6Fy+R1Uo/d0dBwuCZBB6gJZXmOU97jfwWlEwz6efxxf2GmYBoO5NxQZ+a95
-         SnfW3JR8EJzTl9uC0RR19LKjAcWoTrjgMsPyQMCEWq7NnqxvWk5m6WRlvDfNOx2mFi/x
-         Cd++/MjE/zFCFX7H+/+G12I6KvcUmq8EkWgu8+in0HYe+Et+xKGdo2rEeipIFED0O5XY
-         Ghu1st8wxPt/TPlOtHWDdv+wzxpFvpmEjLCyREq/Sa/JxfG4thm70gKJ1UPAJFWogf7u
-         gPBnmQ++gexNHp0iQXFaOmAOxEHSIwjtg6NhSHTbtX7qMqeibLRjm6j4ruufsDzzv8V+
-         FKag==
-X-Forwarded-Encrypted: i=1; AJvYcCX4+SkN+kK/8tF7jjhLdQnK4/FYFSAjJ7r+E/w7STpNuQZmKyGMbVf0BXnJUpCJJSwbqjitTVKj1inTHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJmYNl4je0lEHuTwvDIKsb5zhXuU8k7oFuplH2P67XqoFryYUM
-	JTFcpOn0WY6z9agFvsSjCaVV9fgMBmTY4hS+Y6i4Ctst7Ll4OUHpwXWMKxWn6aOku1P2ZZrhxwB
-	0hUA7YVT07teMtHAuzxklpK/0PQCutOM=
-X-Gm-Gg: ATEYQzzMB3R05ZXRTQf4yzwCC7UsJiDR+9Pe1vonm6ZAIYazQ8BUGoNmQDvbWpnQ6b6
-	ut9G7pIuVshu/lgz0Xlj9twYtk8PCQsn1AzFkz7usuwqhjqNmuJbgQzmzsuckxfwtiMBMUSgaT2
-	VnidlaGOahBeinst87D93ibfiNnlKLLO2CRlYKJYbGaRfsn9dptZlqKE7AKS7vpImZjudwjxXID
-	uVNuNsjnE6bMgPQgHBce2hM1ZKR3P9W9Amgq/nuPlFdmml0Y6HDWSIVN+Omal801cqPljCdUv1J
-	h+yEUH15RZpKIZY4KBfP+xozmP0CK2+syvR7H72fUghWBv21FwN4hhj7HrTXe/Ikd86AQTrEGq0
-	=
-X-Received: by 2002:a05:6871:286:b0:417:64ba:82cc with SMTP id
- 586e51a60fabf-41bd421a82cmr1862712fac.43.1773823632659; Wed, 18 Mar 2026
- 01:47:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JD2v43LL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YrbhUfUHrv49w3cPMSO/QGcOKEklwAoG7fpXhGKiBo678DHAaiHqeZgmAMj6v3HnIUxXV033qSspv3brUo/HO73aBF7dHWUKhzjqXpMobENVjs8AQ/wdYwrJDvAJx5fwn1XTlHvZKEZKwGtolCHlM2JSN8FqfJgbtsmtQ/WbUc9qP6mC6yVlAKDrsgUJCoCuZuU8UyNo8SjnJmxDe3r452XDrngkXSC5fhD7WtxmZoXTy8NUs4zIQJFTWzsSZ1fgmr4rCQZoOpA4tlONuiSZU80gVZUQDY8cl8sFhuYYlhGxXsABziBFbOCOpvShmeeFU1Iq4KmdHO2OCsnNJ0pIfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IJVdLgN8LEPRbo1bFyWSH0vpa5wDOdPtO++HZWJtdek=;
+ b=ADdB+5PNM+DUKWmBDgNDCfFtPuCZIw6d60p9dI8BdQZlCNdC6gNKXek+djwH9xGndf0dipoKEkVT9iLm9scVGINggMqg5khbsLJaGu3VG0YYNix1eKuyhwHBQmoa96mkI2+Lbf8CJn1IVnIdDQAQwvXm5LTZJUtBoRMBXkYsdBco3XbbOVbiFvKzlHSb4Flhzx9KvA0VtnGfLo8lul3gUuQ80sRQG+jTEFOO0veiD73zsB6BQonW3Gm9CNWzXQ7TE/LYG/HQQFKFAht78bMwQnG0qTyxtm+fQw32VithD2fLieYRMaX0hLgwvaL9XPP+BG0bvrQwSc9fB21y+NGxeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IJVdLgN8LEPRbo1bFyWSH0vpa5wDOdPtO++HZWJtdek=;
+ b=JD2v43LLbJfAHupud0+49jOuQeRwdvGCgg0x8sy+z8k43H0Uw77jMFEdjliMZcYP6MRKYcASUVfm3e75pf4UKVPqogU6D3X+rFCRV+X5clpqy7JiZWudMz/ADIm65HKBZ6q4Ia1GNClRHfhw/sDncJdjGn+hO3BsS1B/Nv1+gC5sonB2+bE1G/RklbBjN2ujq4zPHSrRxYq5aDqJifvVI8CbGwyFTR5NeYoGjQ4DnqIOWB+8TjZ26VTVkKXruta+m+0R1pG55icR+a0Njz68x2t2tX99RJA1ag3FvWZx4mNdwbfCNJUgc3iJavFPvkt5dTIBp8cQk/aVQPliJ/k6Lg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB7697.namprd12.prod.outlook.com (2603:10b6:208:433::19)
+ by DS0PR12MB7745.namprd12.prod.outlook.com (2603:10b6:8:13c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
+ 2026 09:06:53 +0000
+Received: from IA0PR12MB7697.namprd12.prod.outlook.com
+ ([fe80::1c95:36b:ded6:1f3f]) by IA0PR12MB7697.namprd12.prod.outlook.com
+ ([fe80::1c95:36b:ded6:1f3f%4]) with mapi id 15.20.9723.008; Wed, 18 Mar 2026
+ 09:06:53 +0000
+Message-ID: <9246afe1-4ad2-4224-9b1a-cff07ecfa8d4@nvidia.com>
+Date: Wed, 18 Mar 2026 14:36:42 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: simple-card-utils: add ignore_zero_sysclk flag
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>, katsuhiro@katsuster.net
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+References: <20260317094910.1582011-1-sheetal@nvidia.com>
+ <20260317094910.1582011-2-sheetal@nvidia.com>
+ <ac95d92e-7304-49e7-9582-666eac386102@sirena.org.uk>
+ <87cy12hxeu.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: "Sheetal ." <sheetal@nvidia.com>
+In-Reply-To: <87cy12hxeu.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0167.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1cf::8) To IA0PR12MB7697.namprd12.prod.outlook.com
+ (2603:10b6:208:433::19)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317185920.43387-1-hanguidong02@gmail.com>
- <20260317191538.43535-1-hanguidong02@gmail.com> <c14b399c9c6bf96f8c7d33615561b0d787ff175b@intel.com>
- <CALbr=LadoX8g--rtU==HQfNQ9f1=KP=7AS-PGfooKaSbnYPz+Q@mail.gmail.com> <8ac4b6ef2dfbc1dce0047dee55f2df609287a3ec@intel.com>
-In-Reply-To: <8ac4b6ef2dfbc1dce0047dee55f2df609287a3ec@intel.com>
-From: Gui-Dong Han <hanguidong02@gmail.com>
-Date: Wed, 18 Mar 2026 16:47:00 +0800
-X-Gm-Features: AaiRm51Yf9dm9cacIuRM_2DJNr3deiXg0cux6KcppyZN1nJwEpt6FR9vmcrqdC8
-Message-ID: <CALbr=LboxkVoFrRmZoq7LN=LTL+-ZgoUiTi6utSDEw7M_qX8bA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/i915/display: initialize string params to empty strings
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: gregkh@linuxfoundation.org, dakr@kernel.org, rafael@kernel.org, 
-	rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, 
-	airlied@gmail.com, simona@ffwll.ch, gustavo.sousa@intel.com, 
-	demarchi@kernel.org, jouni.hogander@intel.com, luciano.coelho@intel.com, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, 
-	akaieurus@gmail.com, me@ziyao.cc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB7697:EE_|DS0PR12MB7745:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76dd53b1-f1ab-4179-1f6b-08de84cdb23d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	meLjo3a7r9zfSCRFrlMCyDig25ok8Vh9Vdf1MY9EWKooHLfsBjrdmPo1/l8k4V86N2lFGe/YxEcE20LjZpfg4XUjvgaHFg3fbuIUOh5PlfxQJ+2E9xt61muusVrl6Mr/ZGsXIarmo6YSpdl5Bj+Tr8DIXUAJPGZMcHOAbfH86OSl0EnIEBqlewNaF+5Ootogh+1IINGrvk0dq2JTj3nH+8jnHcrSIioTLbsN72mi1tPdJgnEwtVceYtkjdZCKACwj0sPupH7QcMPO46yiwSzZqJFT9uH5bvuBJI5+o1YAp6eY5HdA77hu46MvmWVzC3/lATE2oF/D/IvVALc5NC26dqTiBC0Y4yr9mrGw7rs+xKEIsOdqrP1Qqx4luwK1cnMUGYU57Fez/LSK/mUT1IxrtY+dEV9tD+5wq8DQMfqIj/sbwSfU4wEh80VpUh3M8HRYT6fn3J8SECXBUMXURrkcx2HaJBLSvIvoQhKmUbHguLvAfjcNN89EZlP+iRMu8y6YbLUWfDtGLI4JphGSnzxX1OiOaWEhxUoavRVMlZ2YOnXA4lcIvIv/Py/obHpzib4Dlj0MQHy2MyiDprsDhgl8L/qA5/iNlSQdyhSgHJXYoypegj9PMoAwuwYMFAb6qnxzvRZZVAUFL4TcaAqZ+d+JK2MXdmCBtA/VjVHjqbXM2jlW7R6GEyy7EYLEnPLb7sOphrq/zu2vMJ8FFt4WHvnBT0CCzaoj8442mKNyuF6+OM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB7697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YnJWVVYvVFRZL1MrU1ZBQlRaSDBtelROWWtFTVZEeWZsRkFleXZBN1JmQ3ZS?=
+ =?utf-8?B?bEJoZzNRbER4SCtCTFB6eHEzd2NXaUdteXpTT2tRWmVYVHJIbUZGdjZKUjRr?=
+ =?utf-8?B?a2MydVVFUm1OcjFUWVVXOEQwUDFTQVlxV3dDdzFLdjBBZXdPUjFoSGF3K0N4?=
+ =?utf-8?B?Sk9wbmxsb25SSzBoNmswdnZ2UWl1WWdIYVI2RENnWVNyWDgzV1RIUTUzKytk?=
+ =?utf-8?B?MThqdkhhQTYvUjEyL2ZrTUpLL0VQOHJHVWpQcnZyRzUvdk55TStCU0lqUW93?=
+ =?utf-8?B?cVM3cXU3VFdIMGE0Z2UxK0sxZ0RlTTc0MGYxNCsrRHIzS3ZDbUZiNC9yZm92?=
+ =?utf-8?B?RnhUZzhoMXR1a241Ly9PUlY2Q29aUnB6NzJhWHlMeW9oc3BkMWFLVTJGdXAr?=
+ =?utf-8?B?Y2pnUm9yMDZsQVVNNzhaNlovMGRBS0M2Wks4V0IrMFk4N0V0MG9zdEF0MU55?=
+ =?utf-8?B?bWpPRytUZVpaRHhuSFI1cGVNcEllZlNSdDJaVHJ6QWVaK2RLR3IzL3BPTXo0?=
+ =?utf-8?B?Y2t4ckxLNCtaZDNMc2NsRFBOQlZGK3pRWWdSeFdxa2ZwN3NkRllaSlFLb1BJ?=
+ =?utf-8?B?blRpc1dHZy9rN3U5ZWhqWUlpeG8wNHFOb0NsMHE4RmlINkFFdVJ2ZXpUb1JB?=
+ =?utf-8?B?dEovd1UwNXBXMElyZWsyUDd5NUllS2JNRFdJSGpIL0FxVW1mN29namo2cDYr?=
+ =?utf-8?B?UUtsUVhac1FMaHFpQk1Ud3ROSlBheFhaK3U2U0c5aW8zcXRyS0hkcVE4M1Aw?=
+ =?utf-8?B?RXhrTXdac2VzZm5KdDBiM3dWRndGcGlzeXhWaW1wY0tuM1hkT0lSb2lNTmpU?=
+ =?utf-8?B?Sjc2ODBLQU0rY2pqdWpubEZscUM1eUdMTCtXTTVpZDlubkNhcXN2MndqaEtj?=
+ =?utf-8?B?UHpYUzN0WWtWVmZVeUVaREVSTmhzN0FhUHp0djVjTEtuSWxzVUlnYmNKK1My?=
+ =?utf-8?B?cnN4M21IQVpXSnhCOW1ZbjJ4YTVHRlBMaXNLRVR1ellFU3JNdEZhUkpaRWhX?=
+ =?utf-8?B?cDlFakhuaDVTMHlpV2taNmFrUTIrdkdpZlorNnpzclQzTlppU3V5UWdxcTc0?=
+ =?utf-8?B?eXRZbDhCMVVwTHk2VW1OaFVkdXA3QStqZjRVZzIxRXFFTktjVG9jT1h5SnhB?=
+ =?utf-8?B?aFczUzd4eWRFQnJTbFFZeW5WNWtMVHBvWlY5eUpCZVo1ODFMWlBudTdEZ0h1?=
+ =?utf-8?B?TDVkZGU0QkRydENoaUdZblpDc0ZNRjFzb2UxeklQVWxWR2ZjVCtDWUxuZmdq?=
+ =?utf-8?B?Sndobm00WHZOMUtTN0ZhdlBlODUwdHpPdnkwWCttSGJobmREUDJGanRMbFZK?=
+ =?utf-8?B?UXhCVW43R2RJY3ExSk14aFVNbTNnTm1WV1RCc1lBZDhUQnB4aTdBOVVzU0NH?=
+ =?utf-8?B?U2NmdUZpanRScGxRc3FGOWZHNHF6cEE4M1NDNFhhOGZWWFRxWGR1dHdDb1lw?=
+ =?utf-8?B?ZFJMNWdDVk8xajNQVDJBMFNDNGtiV2d5UVNjbWVYV0MzVU5KUDl4YlQreFZj?=
+ =?utf-8?B?WEtvQ0JpYzk1dGlnSGh0NW9Xc2lTYWJ1YXU2dVIwTlI3OUZNR3lXMG1YV0p3?=
+ =?utf-8?B?NlhIV3NZWURxNXlJMllXTk1yMUtoRGlBdFYvaWl6eDhURU1LTElVR1dic05C?=
+ =?utf-8?B?NVMrSGpVWUJ1a2RpWTFUek5MU3BHblgvamZCVzFVVjNNWVpmSjRiVVV3ODZK?=
+ =?utf-8?B?eG9Rb29Odmkzd2FSNDhWK3VhdzNBRmV2VldTYVpWY1p0d1pkbmlVYW5DU1Js?=
+ =?utf-8?B?NTR0ZFd0UkFoSTM2Tk1hQmtlWEsxUHBHSkNqMWZnY2pVTXdSZ3R0RkhRRE5K?=
+ =?utf-8?B?VWtWSmhnREYza1hzWEtUb1AveURXM1NjeHdNTWNMbGVncW9uaHdxaFhmK21B?=
+ =?utf-8?B?RGJDVlpESllaRzhqRVN3REltSldPQktyazVrNlJLb1oxN2M3QUxGMDREb0Ex?=
+ =?utf-8?B?QXJkU0wyRy9zUklHU3NxQUlOZUNLUmFCeERHNzVTN2JURWpDUlVXSEcyb2Jp?=
+ =?utf-8?B?Ri9aeHJnYlBtL0pKOUY1R0tGSTJGRWtIRVFWODJKeGFIQzUwTXJMbHhMcnM2?=
+ =?utf-8?B?ODR6ZXRHNDJMTU55dFJrZVQxOWdGVmV0ZlNJL2grZEoxZEt6YndWV1JYRk1J?=
+ =?utf-8?B?RjZuWWRmem04dlBMVVh6UDE5TEFnWWRSWHVkVlRoeUdsMTQrRWNHSzRjUEpX?=
+ =?utf-8?B?c2YyK2cydU9QVHpLMHNTczhDZDJaMERnTS9zM0d4SXFieWNkMWQzNlZKY3hH?=
+ =?utf-8?B?NTZ0MWJXM1lZZDIxdWVzTFU5c05rMGhCcXJ6OUxVL0wwZmlSMXZsWGt2MU1M?=
+ =?utf-8?B?djU5MjY0Ym4wU1JqdFhINzhiVytwM2lJNnVMWnZOb2lVcTRxZHRWUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76dd53b1-f1ab-4179-1f6b-08de84cdb23d
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB7697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 09:06:53.0404
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fH+icvf05xOu287q3AgY2VUWyWM6kSc0P5Gl7y4sTCDJDuS2LbqQ0gQHa2MT2dK1CPVsxG1IuBImUx5BLRf+bQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7745
 
-On Wed, Mar 18, 2026 at 4:32=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
->
-> On Wed, 18 Mar 2026, Gui-Dong Han <hanguidong02@gmail.com> wrote:
-> > On Wed, Mar 18, 2026 at 4:12=E2=80=AFAM Jani Nikula <jani.nikula@linux.=
-intel.com> wrote:
-> >>
-> >> On Wed, 18 Mar 2026, Gui-Dong Han <hanguidong02@gmail.com> wrote:
-> >> > Passing NULL to debugfs_create_str() causes a NULL pointer dereferen=
-ce
-> >> > upon reading, and is no longer permitted. Change the default values =
-of
-> >> > dmc_firmware_path and vbt_firmware to empty strings ("").
-> >> >
-> >> > Existing code that consumes these parameters already verifies both
-> >> > pointer validity and string length, so empty strings are handled
-> >> > correctly. Furthermore, heap allocation is not required here: these
-> >> > debugfs parameters are created with strictly read-only permissions
-> >> > (0400). As a result, the debugfs write operation is never invoked,
-> >> > meaning the static empty string will not be erroneously freed by
-> >> > kfree().
-> >> >
-> >> > Fixes: e9913f0bd2e1 ("drm/i915/display: move dmc_firmware_path to di=
-splay params")
-> >> > Fixes: 29292bc6cc37 ("drm/i915/display: Move vbt_firmware module par=
-ameter under display")
-> >> > Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
-> >> > ---
-> >> >  drivers/gpu/drm/i915/display/intel_display_params.h | 4 ++--
-> >> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >> >
-> >> > diff --git a/drivers/gpu/drm/i915/display/intel_display_params.h b/d=
-rivers/gpu/drm/i915/display/intel_display_params.h
-> >> > index b95ecf728daa..0a8cad98d480 100644
-> >> > --- a/drivers/gpu/drm/i915/display/intel_display_params.h
-> >> > +++ b/drivers/gpu/drm/i915/display/intel_display_params.h
-> >> > @@ -23,8 +23,8 @@ struct drm_printer;
-> >> >   *       debugfs file
-> >> >   */
-> >> >  #define INTEL_DISPLAY_PARAMS_FOR_EACH(param) \
-> >> > -     param(char *, dmc_firmware_path, NULL, 0400) \
-> >> > -     param(char *, vbt_firmware, NULL, 0400) \
-> >> > +     param(char *, dmc_firmware_path, "", 0400) \
-> >> > +     param(char *, vbt_firmware, "", 0400) \
-> >>
-> >> Admittedly this is all very convoluted, but these NULL pointers (or
-> >> pointers to them) are never passed to debugfs_create_str().
-> >
-> > Hi Jani,
-> >
-> > Thanks for your review.
-> >
-> > Could you elaborate on why they are never passed? Looking at
-> > intel_display_debugfs_params.c, the intel_display_debugfs_params()
-> > function iterates over INTEL_DISPLAY_PARAMS_FOR_EACH using the
-> > REGISTER macro. This eventually calls
-> > _intel_display_param_create_file(), which uses _Generic to dispatch
-> > char ** types to debugfs_create_str().
->
-> In _intel_display_param_create_file(), valp is &display->params.x, where
-> x is dmc_firmware_path or vbt_firmware.
->
-> display->params gets initialized using intel_display_params_copy() when
-> struct intel_display is allocated in intel_display_device_probe(). In
-> intel_display_params_copy(), _param_dup_charp() handles the NULL
-> initializer.
->
-> Granted, if the kstrdup() fails, you could end up having NULL there, but
-> at that point it's fine if your debugfs_create_str() change barfs and
-> bails out.
->
-> Like I said, it's convoluted. ;)
 
-Ah, that makes perfect sense.
 
-Thanks for taking the time to explain this in detail! Then we could
-drop this patch from the series.
+On 18-03-2026 04:32, Kuninori Morimoto wrote:
+> External email: Use caution opening links or attachments
+> 
+> 
+> Hi
+> 
+>>> Commit 2458adb8f92a ("SoC: simple-card-utils: set 0Hz to
+>>> sysclk when shutdown") updated the simple-card-util driver to
+>>> send 0Hz frequency requests during stream shutdown, which can
+>>> request frequencies lower than a platform may support.
+>>
+>>> Add ignore_zero_sysclk flag to struct simple_util_priv to allow drivers
+>>> to ignore these 0Hz sysclk requests when they would result in a clock
+>>> frequency below the hardware's minimum allowed rate.
+>>
+>> If the driver simply can't tolerate disabling the sysclk it seems like
+>> it would be easier to just have the driver directly ignore attempts to
+>> do so rather than adding this flag which the driver has to set only to
+>> get it passed in?
+> 
+> Agree.
+> I think this commit can help you ?
+> 
+>          1e1a2ef95b571825ca9c0113f6bef51e9cec98b0
+>          ("ASoC: da7213: Avoid setting PLL when closing audio stream")
+> 
+> Thank you for your help !!
 
-Thanks.
+
+Thank you for the feedback and the da7213 reference.
+
+The concern with the per-codec approach is that this affects any codec 
+with a set_dai_sysclk that forwards the frequency to clk_set_rate(). 
+Since any codec can be connected to Tegra platforms, and MCLK is 
+provided by the SoC to external codecs, when clk_set_rate(..., 0) 
+reaches the BPMP firmware, it raises a fault for rates below the 
+hardware minimum. Fixing this per-codec would require individual patches 
+for each.
+
+
+> 
+> Best regards
+> ---
+> Kuninori Morimoto
+
