@@ -1,93 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81583A7F74;
-	Wed, 18 Mar 2026 11:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0652E37998A
+	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 11:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773832513; cv=none; b=k3RVCUQ7YNfW6ez5O4ElfzDjfezpwy8dObEofMnuL/H24WuXxiX8b5xL2ZiCRyUPauKcTc0g/HY8voQElHSLnMWkx02AsyRfaBN+s244X8NlmPgpLQI2vLCa0aTddM+nwI4AN8N3tBo8QlEm7wX3BUtSE+J67WyIxWg7NLN0W0E=
+	t=1773833818; cv=none; b=FZWIH8PeroeojaEemrR9GZgNnVd78zBN6PXo3CrBp1cjDyjKjACo5aeMuF4wIwA09hEAyDzlFCrpzqnrUEw2256ogq+9+yj3LBX8BsnyGXVsdwnrPmnZ4cAd1dhXKPUatNe4Q1dHptHQgxczy0dLSIsHury0+L7sSP/FYb8Tdro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773832513; c=relaxed/simple;
-	bh=8MzFfdFt3gazrcv3zOVP0LpxfuoONuLBZta5tbzPIfM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tm2nErfJKS8RS9ckKPy5fOaTUJjELI4ep+RiygEiOj0gPD82SUqQ/Uj4n9dqXssdbcB9RMqmZNf+GYl7MUFq7P1OoEyD50a27Op68SjCJ7cp/xQpVVFIU1WcO7UkGcMbNMp2giiuf8X+bSTXRLOr7PnIc/VyJ47hDYqappvfpbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BntR3h/0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773833818; c=relaxed/simple;
+	bh=xFdHR/XpXSbArAjFbBcJE5O5tqxE+oS9NVqrBmnD3wo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UCvNyi2vcAZpG9ENPNpB70pvB+g7fsEL4Wavy1sP41kkKmYZsSBQAbZgcHlKoelGef0TFxa18dqopESHySeE9O6qh+Kqv3/U6eAqA7jpN3ng1H2CcXCzLQTimClaYPQCFGNb+lTUDK6EHA6gIB1A++vJSu+ywufdrpWX0ZUZVGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xBXXqv3Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2N3qRCJt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xBXXqv3Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2N3qRCJt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BntR3h/0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39950C2BC87;
-	Wed, 18 Mar 2026 11:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773832513;
-	bh=8MzFfdFt3gazrcv3zOVP0LpxfuoONuLBZta5tbzPIfM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BntR3h/0dHq94tGCGwlPKIdu3k1vWHylCsYcGeSQ+FreSyhvzxP1bDZqSNjiChcSM
-	 Cd00O1WMIzQUg1WBBZnMxLW3yl4BFfIe2A0PAUdo3phjglNUOiipWVshuOypptvAYC
-	 tZnYrQz/ivREOUrs/wtdw9hgjHcRExRUFEjz8p4JS69ay+fhv4rpNJtCz7jBkXsIV4
-	 isAoxmyF9TLHlmEM2UV+m+7FGCx7j0EV0/0mQu6tNbMms8LZSVtcexiiD/3FtGddTc
-	 59tzYRVvRNtlzzVk7lzCVOAuXNgs1pvbm7e7Vq0MuFWInzValKTzs0hCZa3Pewu4tH
-	 hc13A+5UrgEww==
-Date: Wed, 18 Mar 2026 11:15:09 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 00/10] ASoC: wm_adsp: Some improvements to firmware file
- search
-Message-ID: <afc08c6e-8852-45a5-a078-a28265a1ebf5@sirena.org.uk>
-References: <20260310141817.1871794-1-rf@opensource.cirrus.com>
- <70c45f75-7ccb-476b-8646-3896181a2569@sirena.org.uk>
- <e9fc894a-4183-4d22-a9d7-6ad05167abe0@sirena.org.uk>
- <abl4wZyYTJf1C4ml@opensource.cirrus.com>
- <abmTp0NcfyCjfdpv@opensource.cirrus.com>
- <b6c7d439-7c46-4c99-9213-30369f1dd443@sirena.org.uk>
- <abpw/f/3OPnjFW36@opensource.cirrus.com>
- <abp+A18W3n720HQy@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xBXXqv3Y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2N3qRCJt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xBXXqv3Y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2N3qRCJt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 55E2C4D330;
+	Wed, 18 Mar 2026 11:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773833815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tpXCPqSoRHXl2a/JFAfw+jg+apVvqSAXnqEqfAjgN0o=;
+	b=xBXXqv3YrELpTTlyFKXm8lPfj7J/55P72gORpDqmjiTzsnebOc+hc3GmlfP+e67U24wvi5
+	63ZLFkSgoiFzSV/PwYx3v9mj5vp/RH/nUcsXJccogb1qUTnyt71baxMkl8/4Z3D45695uP
+	p+MqbtxEKSc5wyT5zZrbxFhTd2sc65c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773833815;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tpXCPqSoRHXl2a/JFAfw+jg+apVvqSAXnqEqfAjgN0o=;
+	b=2N3qRCJt5gmKz8yQlLdMBNH191h3i6nd5t1mg7xkffpJBWSeovF6CFNEBf+bb33dm6G65G
+	miCwwg0dm7jnwKAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773833815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tpXCPqSoRHXl2a/JFAfw+jg+apVvqSAXnqEqfAjgN0o=;
+	b=xBXXqv3YrELpTTlyFKXm8lPfj7J/55P72gORpDqmjiTzsnebOc+hc3GmlfP+e67U24wvi5
+	63ZLFkSgoiFzSV/PwYx3v9mj5vp/RH/nUcsXJccogb1qUTnyt71baxMkl8/4Z3D45695uP
+	p+MqbtxEKSc5wyT5zZrbxFhTd2sc65c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773833815;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tpXCPqSoRHXl2a/JFAfw+jg+apVvqSAXnqEqfAjgN0o=;
+	b=2N3qRCJt5gmKz8yQlLdMBNH191h3i6nd5t1mg7xkffpJBWSeovF6CFNEBf+bb33dm6G65G
+	miCwwg0dm7jnwKAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 25F484273B;
+	Wed, 18 Mar 2026 11:36:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6HoECFeOummALQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 18 Mar 2026 11:36:55 +0000
+Date: Wed, 18 Mar 2026 12:36:54 +0100
+Message-ID: <87h5qdcqsp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Frank Zhang <rmxpzlb@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	quic_wcheng@quicinc.com,
+	arnd@arndb.de,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA:usb:qcom: add AUXILIARY_BUS to Kconfig dependencies
+In-Reply-To: <20260317102527.556248-1-rmxpzlb@gmail.com>
+References: <20260317102527.556248-1-rmxpzlb@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eSD2fd+7sR8A/47b"
-Content-Disposition: inline
-In-Reply-To: <abp+A18W3n720HQy@opensource.cirrus.com>
-X-Cookie: All celebrity voices impersonated.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+
+On Tue, 17 Mar 2026 11:25:27 +0100,
+Frank Zhang wrote:
+> 
+> The build can fail with:
+> 
+> ERROR: modpost: "__auxiliary_driver_register"
+> [sound/usb/qcom/snd-usb-audio-qmi.ko] undefined!
+> ERROR: modpost: "auxiliary_driver_unregister"
+> [sound/usb/qcom/snd-usb-audio-qmi.ko] undefined!
+> 
+> Select AUXILIARY_BUS when SND_USB_AUDIO_QMI is enabled.
+> 
+> Signed-off-by: Frank Zhang <rmxpzlb@gmail.com>
+
+Applied now.  Thanks.
 
 
---eSD2fd+7sR8A/47b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Mar 18, 2026 at 10:27:15AM +0000, Charles Keepax wrote:
-> On Wed, Mar 18, 2026 at 09:31:41AM +0000, Charles Keepax wrote:
-
-> > Ok I will have a bit more of a gander today and chat to the boss
-> > here, but I suspect you are right we may have to revert the
-> > change. I will report back by end of today if not sooner.
-
-> Ok looking again with fresh eyes I think I have it. Turns out
-> most of my problems yesterday were just finding the right
-> incantations to get kunit to show me all the debug.
-
-> Patch incoming shortly.
-
-Awesome, thanks so much!
-
---eSD2fd+7sR8A/47b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm6iTwACgkQJNaLcl1U
-h9Dc/Qf+Ou86mIFHuMwfzOfrKeyIOT3yAIRHR7mty11PqJShZHneYJBZVvya3GY/
-op99mMs7GcTHcIIRp6NtTXxqqmOB/Szp5hQo+THYZRig+5yf+C2q3XdJ6QMmTYCm
-m+ng9oSF8NfWoMDgJ/sEHj9QaEHAWk0FqKAWsEC7IgsCNKI0egwyhoWCjgajFRZa
-jJmh1U5umu6L+iV4VzovfMyZZ4YO1o/8xDRZEUj9Reys0LffinRxpXpl8DcK3ktj
-KTjOAOcsPsOxnDmyNUvRmcomK+fnM733rgXzY082ZXt1cL7037ogHgVaT8AfK6Lv
-eFNkZnkY3gIWGx/nvWdhvzDOm+PY9w==
-=YF3K
------END PGP SIGNATURE-----
-
---eSD2fd+7sR8A/47b--
+Takashi
