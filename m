@@ -1,89 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3643101D8;
-	Wed, 18 Mar 2026 16:17:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319D73E5ECA;
+	Wed, 18 Mar 2026 16:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773850659; cv=none; b=dHIB45joTzfxVMICKyRo4YXNqlGEGrNWE9hOdMCX2F4yAE1TbscyjZduVjdbqKVOqHgpHZEXjF1zcs6t4+/30QPeCjG6l3sG+xFZslHeGW+6SslIbszghhXHleef4oqYX3Kmsif4USpZG0ouWRvtWZ0iEH4S68LBZBlUhVbc05k=
+	t=1773850883; cv=none; b=EHI6HpI+inVf2+Po2QusYinrng9QRRndzb5AtbhGS8AGAyHEyNuu4IuVH0SpKBPj9gClcJ400L074686nAj3hU4N1WdSeBv95H/YopXFBM4IxkQS7AmwTsp15pQYVRk7kIhPIr+klu9SyqDoIQ8lCIBki5nLUsNmptCIzqXAN4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773850659; c=relaxed/simple;
-	bh=04y6croxeOmqjnbcWmSl67kEZY37J97+g2n9aRbWKxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=biaGY2McnM5wGmbrMPl6QlWpwgiiTXGOXeOBN83vIKb+UHeY+N03+3bZA69otUxYFAVj5juI9ACSH2wZVCJvwzt1SUauUjq7tstEsPwtqub2dyB+0IGIZ66+9nREbGghdCAzQZKBpzqWEwYkq/rtRnw67nHZPhOmQfkZlTb1RD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMyFt0sl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773850883; c=relaxed/simple;
+	bh=qHa96/Bl0J8gFR6VJ4JxNjHmjJqqYO9KtON6efnlxRc=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Aw4RvRnu29bRdQl+tN+R7RwceoEvmpo8R+Iv7BeyWrSF7th6N0fWPNBtZBaaO1DMUVluVv/cZNmSbfkUFVZ+rgVd8T5uRHZBzHaB47lUYhUsiItJA1gNBXPNuIKaupmMDXDDNj+fqjhtCfDXfWEWW0rd1fPobgkyPMI+w00sju0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0XLCT6X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMyFt0sl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A64BBC19421;
-	Wed, 18 Mar 2026 16:17:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0XLCT6X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90565C19421;
+	Wed, 18 Mar 2026 16:21:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773850658;
-	bh=04y6croxeOmqjnbcWmSl67kEZY37J97+g2n9aRbWKxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HMyFt0sls9ZMvB259JQK5xEKcwEU6tWQCb7EZVPtB19bPLNOuPh5DGBjKXLHDad5X
-	 z4UoXfYnrB/j2H9Rdn13E3nXLIXOprLaEnc91zJjr4Qu+G2Xb/v33NIuxYR1qaBOxc
-	 LqjIXQTs0tFQa76Xqsh39hHSnVsEc6R8BDQP9iCTUhNBZ2EjEBnYjCLwvgZfvU2DYi
-	 aDGwm13JxDp+0vLUXP4W/pWCo530Ug9MgLRb8EypHKYuIr5aEQ8P3DRB+cm+6GA7sF
-	 iL3Zn8hc8eYBS7GqTOG1xR9J62Fp8s5CX9PwCDIJtVTOtdWYzE5Y/zz9s5Vd5WFy2o
-	 9t7QlYpbbm3zA==
-Date: Wed, 18 Mar 2026 16:17:32 +0000
+	s=k20201202; t=1773850882;
+	bh=qHa96/Bl0J8gFR6VJ4JxNjHmjJqqYO9KtON6efnlxRc=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=k0XLCT6XeqRNpNajxIOAdBiIi5JNdFj3VRtdS9n4B2XtxBlWzU9r50sqvZJFD+BoQ
+	 5C375nhw/lnlfFex1pK8fHplW/gpTzBtOcfIi/kZfM9SS4aOhaLlLe3veEG+BxZTyz
+	 QVt8EeHTdkqzmPLthAnIlZ4ifKbB7Udo1qWQ85K/VKqI7XE+crK2FZ8z5l4QCLygFY
+	 Cu36bQKqMDzCBlQ3t2Eh4+ttU0yCa2WhuTtbW3wTQsLBI+jgAFf1xzNpfwHUqGdSOQ
+	 6YUYWSM56otUR3L8Rim5eGGqw0lXTyaW4JnclyrFdV8BwceQSN4e7FEYu5qUzVm7yx
+	 6JUaYnp6qfYUA==
 From: Mark Brown <broonie@kernel.org>
-To: Alexey Charkov <alchark@flipper.net>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sugar Zhang <sugar.zhang@rock-chips.com>,
-	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Set slot width for non-TDM
- mode
-Message-ID: <339ebaa9-9642-4716-bca7-6a32a135124a@sirena.org.uk>
-References: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net>
+To: lars@metafoo.de, nuno.sa@analog.com, lgirdwood@gmail.com, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Piyush Patle <piyushpatle228@gmail.com>
+In-Reply-To: <20260318130733.52477-1-piyushpatle228@gmail.com>
+References: <20260318130733.52477-1-piyushpatle228@gmail.com>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: adi,ssm2305: Convert to DT
+ schema
+Message-Id: <177384008813.5804.17077926107736820124.b4-ty@b4>
+Date: Wed, 18 Mar 2026 13:21:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zb/SnunaRrrnfbVQ"
-Content-Disposition: inline
-In-Reply-To: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net>
-X-Cookie: All celebrity voices impersonated.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a9787
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=qHa96/Bl0J8gFR6VJ4JxNjHmjJqqYO9KtON6efnlxRc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBputD/xwy4nM1Ekp47is2zyU49W6UI4ahxJBPNq
+ Xn0GDcK+LyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabrQ/wAKCRAk1otyXVSH
+ 0IKoB/0WBwFpWd+8cen7JlISRTBXtM4Iholuw2uMRWtleEngf4gCw9K3pNLCZrnCrau+7We6YNL
+ l5BFImmJE/q8U5EfwF6kMpU7aX4At2F4syhHo+gRgmGv3RBkOUrI9h1UE0zaoRonb6QeXW67du1
+ GXJd5C739KgDSxB4Jf5Rk2BzJziCzNBRYp+nEVlDB0HGUkyqlUTxZYGgqPv/56zznc9TABOG8E8
+ Szp7wSmKpSK5rZj+Hr97eVaCiIg8XWc4I8+MBBbBL8kEjYmyjzerkRxJmQ0yw1NTo9mErW4eGVS
+ DmpQshBCd8JbVVTr7KzYY51cCEkE1zLSBV/QhlzgOi18Sl8/
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Wed, 18 Mar 2026 18:37:33 +0530, Piyush Patle wrote:
+> ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
 
---zb/SnunaRrrnfbVQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Wed, Mar 18, 2026 at 06:50:25PM +0400, Alexey Charkov wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
->  	regmap_update_bits(sai->regmap, reg, SAI_XCR_VDW_MASK | SAI_XCR_CSR_MAS=
-K, val);
-> =20
-> +	if (!sai->is_tdm)
-> +		regmap_update_bits(sai->regmap, reg, SAI_XCR_SBW_MASK,
-> +				   SAI_XCR_SBW(params_physical_width(params)));
-> +
+Thanks!
 
-What happens if playback and capture have different widths?  I wonder if
-forcing a TDM configuration with the affected CODECs would be easier.
+[1/1] ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
+      https://git.kernel.org/broonie/sound/c/a809ff6469c5
 
---zb/SnunaRrrnfbVQ
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm60BsACgkQJNaLcl1U
-h9B0mQf/WnluiIQfcuWPQwkJP+jdH4bqZ9WjRB6WWfMMfGP2Q+Q9lOEN0deP061G
-alqHGYpFhgQYNqP3lYb+pY3hCxWPhnCeDtuSlWL9i6Ir3MY4rievxqOHpG8O3gXK
-A4eQzHNfAdp6szh9HMWfd5bUR2hkaH8UNhzQrvwSVOMWd0ks2x3DBX3uH/iFS00M
-nAU47rUzn/jL6wfOTHKflWvgBdXWw25nbfCHKpRb1rNjBqSleUR5sxwIG3QpOlkr
-aT0R36ilXkp0J+JnKXxbEcilgVfCcC8Jyz+UVSN17oMgUq3oj8+TaYRhovkBmtKI
-4dsbyvbA/pgZ8TPiVzLIr8+mCmO7dw==
-=vI0e
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---zb/SnunaRrrnfbVQ--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
