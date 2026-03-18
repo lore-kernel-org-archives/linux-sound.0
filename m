@@ -1,138 +1,160 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D7926B2D2
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 14:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976C627603A
+	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 14:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845443; cv=none; b=ZSQFtaPS1CBdvgrxWFWveT7dCYmpo5Hnk5mzHv1ZPnLuwU72nDwESYPs0zKFXOCElBjdu+ToI9yXyhWCy7ADK+O6C572kaQr2/TfvObt9f8KqMh486Eyt2jtFOOZMkgqV415D8J6OA4cLEAdZP6Ve/+f5X1XBt9W7+AhV/JsYfg=
+	t=1773845671; cv=none; b=rnDdM1WGdpvVdf+OMUQ0HTgNNWSjmWyX8ii/hejCPOSOPpb4ryUTbDMktnwITA7E73S57hdI7bPn5R34RGesOHq0bNT5q8JW16wDjuE2AQa4Cb9yJ464ZDhJMEHpmjFd1c7v2UNLEXpoMMY+hyf1uWMlqtu1xFqwhQRm876kkBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845443; c=relaxed/simple;
-	bh=NLuWlcb8pDVc/jx4hn9f+1Y4XpERqSPMPejDpC3HkM8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fY+JX4hbfXQ0XvEASw4E/6HalNaNRIBx47xgMWO1rDo3d6w0D3cIAuCPbE6IrmkGjFVd05tiENYxlSat5Wbt7niHlwT213Ohd3/gA5unknENxK1QfMTFl/dSGhFqTBQ2SwXkY8tvcy1A6+ld079x0uEgzZ2X8PMRgRmxOjvtrZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=ks1QBwoK; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	s=arc-20240116; t=1773845671; c=relaxed/simple;
+	bh=qkLFsKsc0W6y3O90aHDb8/Z2ZFjsfmewSnmGfm/Xj1I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p2diOlha80OZhleW53eYKrBVdCMFIGkK0AWe1ux/55RxbFKNsCZLVjmYTd3J6BHQxPh9Ysm6Idsmtkn5xAekzeQNbMzTB/9jLFRo2h+1HwnPAyHgKr551VNe7ugZDZnH56TEEwWhXbyeHVXCY81EV3qxZZgJ9clkXOIVXZd/nWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fSgbPFMj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RZ/EuynX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fSgbPFMj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RZ/EuynX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="ks1QBwoK"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486507134e4so23428945e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 07:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1773845437; x=1774450237; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v4jx9be2ixpeez8G3+677w21LKJvNvIiDEiSr10SzEQ=;
-        b=ks1QBwoKU3XSB9oaHbxpsCtyvCaVhgW/Js3cEUr/snbzBUVlfk1RvoVnXFN8Eg1T0K
-         I+HZD+GpqZ/inZykKDEfK7vHeDhIDs2n3FMeN2g+OwpS1HCx0c/1mLbleFCxMV4pyBCZ
-         pxJWREQy4k9zdetybrOTW5jtw+PfCPDR0eNGuHDaxrcQrDsoMeoh5qaNa/WRXN+XDjtl
-         mP2yGc6CdE/KMeCWPjIcY2cXPMo8DziX+NuiezspsBJB6GLHLE+8S6B6cVy6JDbBFAhn
-         ViLTKuiLLhIYF1Fk1tncVwvq9qrcG343SfrE5wTluYZxjBcg4L5WlEXxmXDhtDCSbwj2
-         JfNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773845437; x=1774450237;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v4jx9be2ixpeez8G3+677w21LKJvNvIiDEiSr10SzEQ=;
-        b=KrwqhL9TkvnTDH8ZHlxTnlLL788oXKANwfQgqd7UpeRpQQOhQ2pd37F+BTTI+3XNcI
-         Mj8VUEUxWWUS02fTD8LOuMeZC+piIFi/84YZGne34qYwGGEIrYhi8mpY0j+DvUBMJE0x
-         RsQ1recRLW04n4UKFBuOTI+m/8QsbE0udCOjBr41IQGxKNAye+sf/mIdSKWZVap1s8Jm
-         1BHYVFqxAI6xrSJEtejJ25YPR7E71PEXIH9TSjCmodMkd0jdwNGcYCf/Y3rFmamxqtX5
-         hLSn37AhRbza/dUyZ5fwRqM6inUU1qInFr7Fqd/Qqqg7fYsXNNFNK3TmdCUDw6N2HzGI
-         pnsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFH0GEdTuxjm9St5+tY2Wm41m/FM1GQPcJEg5HK0G2Snl0o1xF6eC3SpdXwE8DtkmOqfeeWH/E44+SNg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOcFVFv6/0OoAVu0GFHrcmFZ1sLl7mLxJjDylOTuonNVYEDfiz
-	ZoaCTWMctzfkw/BUOoLAIX6BqWr9qVd1BRMPh61bRUxQh3wf2OjIJbyklZ7mUOa7jXg=
-X-Gm-Gg: ATEYQzyKh6FGAtt765Dge1MJlCA/M3wGjGm6rMpCmxDROcFbkZ4CS2o78GbPvBfjnpG
-	Olp+kdJfM4liAF8XBWSZJQf1ezUj9bPE5yIllNxxZyJh8Y+snIHgFq8K6N3yaSVrcDTMcaqHnl4
-	zi21pnyDRFA0A2ohifJTkg6gNEZ5cK57GrP6NcFuNzSWcaf0qruzGUHAgqB4wZSdf2jzlgB8qDp
-	UpK3F06REiL5NpWIjhEmiXngNZme/XvJkFI/vmjXdhEoANeLIJP/iWQV6rl8MSAOxDyzNS7reTp
-	3ISkwfxNEweOQF4mrrBekFv1HV74n1Aj84VYyoAArH2Wvn/WecsLFlRWVDYCe8wtnbQwBe33iQX
-	9mfjPCdKVHr003DHPbxIO5Oks/KONwEuZGdKL6zNiKwcG3m/ATIn+63s+EE2ycpG6v2sbqXa7WL
-	/ViqvxgJzN1fw4M/CQ1o/8prr5CphUEMxKNVPgrIohBLV0qnJgnJ5vZ29y7swLb97oVLjzfbSNS
-	lutbQ==
-X-Received: by 2002:a05:600c:1f13:b0:485:3c05:24dc with SMTP id 5b1f17b1804b1-486f4465ec5mr61165625e9.33.1773845437260;
-        Wed, 18 Mar 2026 07:50:37 -0700 (PDT)
-Received: from alchark-surface.localdomain (bba-86-98-192-109.alshamil.net.ae. [86.98.192.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f421a6f2sm64455665e9.8.2026.03.18.07.50.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 07:50:36 -0700 (PDT)
-From: Alexey Charkov <alchark@flipper.net>
-Date: Wed, 18 Mar 2026 18:50:25 +0400
-Subject: [PATCH] ASoC: rockchip: rockchip_sai: Set slot width for non-TDM
- mode
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fSgbPFMj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RZ/EuynX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fSgbPFMj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RZ/EuynX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF94B5BEC8;
+	Wed, 18 Mar 2026 14:54:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773845668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8E25LSXPTLO6tJcAcIVjurslfd98Fke7mjgvciMaTyk=;
+	b=fSgbPFMjmWzbgpyEhyewMIMwE/hQJSiU3XypUyySYcd/xPABFySrZ/43Sw5Z0DX5pKhiQY
+	SrVv94yecmtrUP1YxT1hPTAxMDkuvKDZR+3OtoOs1O8WtbSW0U3tltPeE7NyaxesBSfwo4
+	guyoCr+/04E4wY79TPGY4SK6jzHuQaM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773845668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8E25LSXPTLO6tJcAcIVjurslfd98Fke7mjgvciMaTyk=;
+	b=RZ/EuynXF0j8gnkDImL+wsk8znjbXqyPeVEcYoFLycpAuRHyny3ooz5/hLRQ1EMDrlmBIm
+	TDnxYEdlxQmwHtCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fSgbPFMj;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="RZ/EuynX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773845668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8E25LSXPTLO6tJcAcIVjurslfd98Fke7mjgvciMaTyk=;
+	b=fSgbPFMjmWzbgpyEhyewMIMwE/hQJSiU3XypUyySYcd/xPABFySrZ/43Sw5Z0DX5pKhiQY
+	SrVv94yecmtrUP1YxT1hPTAxMDkuvKDZR+3OtoOs1O8WtbSW0U3tltPeE7NyaxesBSfwo4
+	guyoCr+/04E4wY79TPGY4SK6jzHuQaM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773845668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8E25LSXPTLO6tJcAcIVjurslfd98Fke7mjgvciMaTyk=;
+	b=RZ/EuynXF0j8gnkDImL+wsk8znjbXqyPeVEcYoFLycpAuRHyny3ooz5/hLRQ1EMDrlmBIm
+	TDnxYEdlxQmwHtCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76D1B4273B;
+	Wed, 18 Mar 2026 14:54:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1yvLG6S8umm5fQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 18 Mar 2026 14:54:28 +0000
+Date: Wed, 18 Mar 2026 15:54:28 +0100
+Message-ID: <877br9chnf.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	perex@perex.cz,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	"open list:SOUND" <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: qcom: Fix the license marking
+In-Reply-To: <805c7ea8-521f-4f62-b6b1-c5f02c6b84b0@oss.qualcomm.com>
+References: <20260317180943.3062085-1-daniel.lezcano@oss.qualcomm.com>
+	<87fr5xcqrw.wl-tiwai@suse.de>
+	<805c7ea8-521f-4f62-b6b1-c5f02c6b84b0@oss.qualcomm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net>
-X-B4-Tracking: v=1; b=H4sIALC7umkC/x3MQQqAIBBA0avErBswo5KuEi1EpxwICycqkO6et
- HyL/zMIJSaBscqQ6GLhPRY0dQUu2LgSsi8GrXSv2sagWEbZ9hNv9mfAdjBEvnNaOw8lOhIt/Pz
- DaX7fD/krs4pgAAAA
-X-Change-ID: 20260318-sai-slot-width-378eed5c22cd
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Heiko Stuebner <heiko@sntech.de>, Sugar Zhang <sugar.zhang@rock-chips.com>
-Cc: linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Alexey Charkov <alchark@flipper.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1654; i=alchark@flipper.net;
- h=from:subject:message-id; bh=NLuWlcb8pDVc/jx4hn9f+1Y4XpERqSPMPejDpC3HkM8=;
- b=owGbwMvMwCW2adGNfoHIK0sZT6slMWTu2r2LQXabQmNxUOTmuWuVZk1xYDH7F7xj3tm5YhsuT
- d5751SZX8dEFgYxLgZLMUWWud+W2E414pu1y8PjK8wcViaQIdIiDQxAwMLAl5uYV2qkY6Rnqm2o
- Z2ioY6xjxMDFKQBTff4ZI8P3KSv/KzEcnL3vu/K+l+pbFh3xStZe+UPM8PKzyZlhs3YwMzLskdU
- R9W1wm3mARX752pKM9Qv8kr5alHXePbncc8pXtio2AA==
-X-Developer-Key: i=alchark@flipper.net; a=openpgp;
- fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,qualcomm.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: BF94B5BEC8
 
-Currently the slot width in non-TDM mode is always kept at the POR value
-of 32 bits, regardless of the sample width, which doesn't work well for
-some codecs such as NAU8822.
+On Wed, 18 Mar 2026 15:30:51 +0100,
+Daniel Lezcano wrote:
+> 
+> On 3/18/26 12:37, Takashi Iwai wrote:
+> > On Tue, 17 Mar 2026 19:09:38 +0100,
+> > Daniel Lezcano wrote:
+> >> 
+> >> The Copyright for Qualcomm changed its format and replaces the old
+> >> Qualcomm Innovative Center by Qualcomm Technology Inc.
+> >> 
+> >> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+> > 
+> > Applied now.  Thanks.
+> 
+> 
+> Thanks Takashi
+> 
+> In case you missed it there is this trivial patch [1] to be acked-by
+> or merged with Bjorn immutable branch [2]
+> 
+> [1]
+> https://lore.kernel.org/all/20260316171419.2619620-5-daniel.lezcano@oss.qualcomm.com/
+> 
+> [2] https://lore.kernel.org/all/abdkE2qWX5Amf5Jo@baldur/
 
-Set the slot width according to the sample width in non-TDM mode, which
-is what other CPU DAI drivers do.
+Well, I already gave my ack about this so that it can be applied in
+other trees.  As a really trivial change, I don't mind who to take.
 
-Tested on the following RK3576 configurations:
-- SAI2 + NAU8822 (codec as the clock master), custom board
-- SAI1 + ES8388 (codec as the clock master), RK3576 EVB1
-- SAI2 + RT5616 (SAI as the clock master), FriendlyElec NanoPi M5
 
-NAU8822 didn't work prior to this patch but works after the patch. Other
-two configurations work both before and after the patch.
+thanks,
 
-Fixes: cc78d1eaabad ("ASoC: rockchip: add Serial Audio Interface (SAI) driver")
-Signed-off-by: Alexey Charkov <alchark@flipper.net>
----
- sound/soc/rockchip/rockchip_sai.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/rockchip_sai.c
-index 1bf614dbdf4d..ed393e5034a4 100644
---- a/sound/soc/rockchip/rockchip_sai.c
-+++ b/sound/soc/rockchip/rockchip_sai.c
-@@ -628,6 +628,10 @@ static int rockchip_sai_hw_params(struct snd_pcm_substream *substream,
- 
- 	regmap_update_bits(sai->regmap, reg, SAI_XCR_VDW_MASK | SAI_XCR_CSR_MASK, val);
- 
-+	if (!sai->is_tdm)
-+		regmap_update_bits(sai->regmap, reg, SAI_XCR_SBW_MASK,
-+				   SAI_XCR_SBW(params_physical_width(params)));
-+
- 	regmap_read(sai->regmap, reg, &val);
- 
- 	slot_width = SAI_XCR_SBW_V(val);
-
----
-base-commit: 8e5a478b6d6a5bb0a3d52147862b15e4d826af19
-change-id: 20260318-sai-slot-width-378eed5c22cd
-
-Best regards,
--- 
-Alexey Charkov <alchark@flipper.net>
-
+Takashi
