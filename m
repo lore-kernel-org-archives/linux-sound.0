@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319D73E5ECA;
-	Wed, 18 Mar 2026 16:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBB03B4EBB;
+	Wed, 18 Mar 2026 16:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773850883; cv=none; b=EHI6HpI+inVf2+Po2QusYinrng9QRRndzb5AtbhGS8AGAyHEyNuu4IuVH0SpKBPj9gClcJ400L074686nAj3hU4N1WdSeBv95H/YopXFBM4IxkQS7AmwTsp15pQYVRk7kIhPIr+klu9SyqDoIQ8lCIBki5nLUsNmptCIzqXAN4g=
+	t=1773850887; cv=none; b=BfC13aOrfJYSqInTj95KkJREq66q6Tv3j7bTgFbQorzqiCUjB8Z4ZwjuIWKCkUqzk1qVvKbe3e5VPSut5PG+qmR/22uepq0F1izBJIHiszIbul6aU94AzSTKUHC5Vde86DY+VAyJYQtQnd/QpOSX+340pIwZkOIUZVUP5zIOsog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773850883; c=relaxed/simple;
-	bh=qHa96/Bl0J8gFR6VJ4JxNjHmjJqqYO9KtON6efnlxRc=;
+	s=arc-20240116; t=1773850887; c=relaxed/simple;
+	bh=/EB/uHdixnUIsbGBPolGTHHeUAvQLqea0DxfJsTkML0=;
 	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Aw4RvRnu29bRdQl+tN+R7RwceoEvmpo8R+Iv7BeyWrSF7th6N0fWPNBtZBaaO1DMUVluVv/cZNmSbfkUFVZ+rgVd8T5uRHZBzHaB47lUYhUsiItJA1gNBXPNuIKaupmMDXDDNj+fqjhtCfDXfWEWW0rd1fPobgkyPMI+w00sju0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0XLCT6X; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=pnCSebLUNoD+BtXi7221eZi13p9wfuazndykqptylMObkT5pYjRGh2AhK9T1tsPvdyHNYUqe6XSQsLWJUqblKej6VBf0vFVysodFb4wX805dspulpy5nVF3y4k6u9PDL/v+as3EO7pip4TMl5tjqjYWXq7L0tp2bJCztwyBiw7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq4AfMJg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0XLCT6X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90565C19421;
-	Wed, 18 Mar 2026 16:21:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq4AfMJg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E0DC2BC87;
+	Wed, 18 Mar 2026 16:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773850882;
-	bh=qHa96/Bl0J8gFR6VJ4JxNjHmjJqqYO9KtON6efnlxRc=;
+	s=k20201202; t=1773850886;
+	bh=/EB/uHdixnUIsbGBPolGTHHeUAvQLqea0DxfJsTkML0=;
 	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=k0XLCT6XeqRNpNajxIOAdBiIi5JNdFj3VRtdS9n4B2XtxBlWzU9r50sqvZJFD+BoQ
-	 5C375nhw/lnlfFex1pK8fHplW/gpTzBtOcfIi/kZfM9SS4aOhaLlLe3veEG+BxZTyz
-	 QVt8EeHTdkqzmPLthAnIlZ4ifKbB7Udo1qWQ85K/VKqI7XE+crK2FZ8z5l4QCLygFY
-	 Cu36bQKqMDzCBlQ3t2Eh4+ttU0yCa2WhuTtbW3wTQsLBI+jgAFf1xzNpfwHUqGdSOQ
-	 6YUYWSM56otUR3L8Rim5eGGqw0lXTyaW4JnclyrFdV8BwceQSN4e7FEYu5qUzVm7yx
-	 6JUaYnp6qfYUA==
+	b=Aq4AfMJg+0FMNGdRUJ+sj2nEmAi7F3W16j9H0mYxmMKEwRwHwHsImBE/CGyOb0bsW
+	 n/FlcsCOQYL4bpCaVAJqkr2IDP6QAC41l/TtuXlyAK767K/reaTCjfSQrVST2414gd
+	 qKfoYZ/YsnFYtJPj58oeubCvLB0zXCQUkQxQnfncJJYRpmk97CYEeeAS2DHxVEzgWJ
+	 mS8E5tN5n6RUU5+rGRK/myPw9uaQ8P0G5bLsMFJA/MtepakIDbD9aFD9/VaL5B9RaT
+	 fN0wi3tr5TFQ1WoqDMoqqT5w5bMHeanZQTuL5vx8v/qTOX2AKzvjgWwPZag6VufMZl
+	 fy2BcwhQkx9Yw==
 From: Mark Brown <broonie@kernel.org>
-To: lars@metafoo.de, nuno.sa@analog.com, lgirdwood@gmail.com, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Piyush Patle <piyushpatle228@gmail.com>
-In-Reply-To: <20260318130733.52477-1-piyushpatle228@gmail.com>
-References: <20260318130733.52477-1-piyushpatle228@gmail.com>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: adi,ssm2305: Convert to DT
- schema
-Message-Id: <177384008813.5804.17077926107736820124.b4-ty@b4>
-Date: Wed, 18 Mar 2026 13:21:28 +0000
+To: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ alexander.stein@ew.tq-group.com, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20260318102850.2794029-1-shengjiu.wang@nxp.com>
+References: <20260318102850.2794029-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v3 0/2] ASoC: fix usage of playback_only and
+ capture_only
+Message-Id: <177384043777.5804.1690204717989500617.b4-ty@b4>
+Date: Wed, 18 Mar 2026 13:27:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +45,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a9787
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
- h=from:subject:message-id; bh=qHa96/Bl0J8gFR6VJ4JxNjHmjJqqYO9KtON6efnlxRc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBputD/xwy4nM1Ekp47is2zyU49W6UI4ahxJBPNq
- Xn0GDcK+LyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabrQ/wAKCRAk1otyXVSH
- 0IKoB/0WBwFpWd+8cen7JlISRTBXtM4Iholuw2uMRWtleEngf4gCw9K3pNLCZrnCrau+7We6YNL
- l5BFImmJE/q8U5EfwF6kMpU7aX4At2F4syhHo+gRgmGv3RBkOUrI9h1UE0zaoRonb6QeXW67du1
- GXJd5C739KgDSxB4Jf5Rk2BzJziCzNBRYp+nEVlDB0HGUkyqlUTxZYGgqPv/56zznc9TABOG8E8
- Szp7wSmKpSK5rZj+Hr97eVaCiIg8XWc4I8+MBBbBL8kEjYmyjzerkRxJmQ0yw1NTo9mErW4eGVS
- DmpQshBCd8JbVVTr7KzYY51cCEkE1zLSBV/QhlzgOi18Sl8/
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1544; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/EB/uHdixnUIsbGBPolGTHHeUAvQLqea0DxfJsTkML0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBputEEwXf6dvdDoJUf/BLD8MMTBDbSrUgKixREu
+ v3BM8ltImiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabrRBAAKCRAk1otyXVSH
+ 0OtfCACCaPAu49sfMKF3u8+ljhs6G85Hp3KlOQmwDVjUuIMfl8Un5Yy3qOWCW618MjTnTf84oUH
+ ug8iUQQIbaytNH5dtoYS0k2J7TV7ww014UumGMMJrNtD0Z+pmVT8DeGQfnGpU4aO9ni0cOPSC2T
+ JNftKddg3flyIIlBbaKR2JCqdQvspw8ZcyhRMM7IGd0hOvW9LlppfoPWSYqmgnN9fyvIk/MymEy
+ c/4UrtvSCu8TvAIIWiHfR9xLaXymayI6jPsTlvR6AzpZetgjYirAsRleSC7zoA8pL8+3FxWsupV
+ xrvhoKoPMqTAFtxZsLylYX5wTS6ONLR1prU17ec9/e6PbGo2
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 18 Mar 2026 18:37:33 +0530, Piyush Patle wrote:
-> ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
+On Wed, 18 Mar 2026 18:28:48 +0800, Shengjiu Wang wrote:
+> ASoC: fix usage of playback_only and capture_only
+> 
+> Check value of is_playback_only and is_capture_only in
+> graph_util_parse_link_direction() and initialize playback_only and
+> capture_only in imx-card.c
+> 
+> changes in v3:
+> - initialize playback_only and capture_only for each loop in patch 2/2
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: adi,ssm2305: Convert to DT schema
-      https://git.kernel.org/broonie/sound/c/a809ff6469c5
+[1/2] ASoC: simple-card-utils: Check value of is_playback_only and is_capture_only
+      https://git.kernel.org/broonie/sound/c/0e9fc79132ce
+[2/2] ASoC: fsl: imx-card: initialize playback_only and capture_only
+      https://git.kernel.org/broonie/sound/c/ca67bd564e94
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
