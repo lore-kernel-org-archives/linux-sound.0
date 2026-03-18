@@ -1,89 +1,320 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15A23FF8AB
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3155347BC9;
+	Wed, 18 Mar 2026 16:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773850890; cv=none; b=jca9Rz8ngh0s448W+lLjgY4/MwBkUGxIfUT+JqWmQyzJ2LsnwG5OsYgtSYblIaRQdgrFc+aDBaut/08MDxQZVm8NsqkkgqITjdrmu9xjD9NAXgSLB+jbDFT4Nm5IvkMhAytc/am9ZGhhqjhNxt17QL1GcbQkR3XHyGcDuhMs+jY=
+	t=1773851693; cv=none; b=PX8ulHU6GxGvlYTN12VWeZPRPLNDwUab6tiGAcvKYuzuciq1c/GjUYhjdxLNlg4b3pbV2ra1/BRMVOh8G37jccqZb8m6dH0REEVsaizohPAvkicdcZ7hUOqtY5hTfGEz1C4aeL0JGaGk1WB0dtncGRc9AZmQEI85JV+mif9YTuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773850890; c=relaxed/simple;
-	bh=7KQPegOrVVaIXGOzb8LG1xqgqTNxq+6IECTr7xzDkLY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZTStC+eUoBcmjYT+XS7670hzOOXQwPriGv/lhPY5WXNfQ5B6js1XpQHHutXLJlVmBiuhIwhXwsjnCvoHakUsVExNAHXE9oNlmUz3yBWeLdhnbF5IXJXs4MKJDs28nBtKD66HRNTsQdfDWZjaooJkUMp4p/JT+3JgoLbyVeXxDgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvcJ/Hlt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773851693; c=relaxed/simple;
+	bh=yJkiYrJ2WHMIaq+n3QESm+cVr2UKf8ViNnIL+acc3as=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B9nT4e9wJFQf+A3OOMM1GTi/n2ieXxf0urVuvY6oQGQVAjemP7AuPHLyk6UEc48GLPxA2LpbjzyZhf8ZC5J08R6UJUwmlDrBOK/uu9eYtNvJ+WIRFDwM/D0VUAnAl7ecYMwNYWGRdF4YnUrO+14ZQi5jImOqcKJcZIAphktryzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=Ml73KiYV; arc=none smtp.client-ip=78.40.148.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvcJ/Hlt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EDDCC19421;
-	Wed, 18 Mar 2026 16:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773850890;
-	bh=7KQPegOrVVaIXGOzb8LG1xqgqTNxq+6IECTr7xzDkLY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mvcJ/HltU7VhS8hy8Bmrr0sMuadaCVtBPFRzqN0z1zqEMsg0V2ep3tYmZr/9P49Xn
-	 NVly8FUADL+epPvc9Ztj5f5iRF22TyIpKDtawAnYPTtf1T36jEk/6Lvs+tTvRaqyDC
-	 oVkiZelrPVScu4IhFD8LiuaHYhm2Y9V+LM8bYW1+FpGYhw0lh+lN+49fyal0DmNc5o
-	 JD6HkmediRyKTq0Vr8j/53RCfebO00bVSNpSkhC6FiDOnCkDuQeIbq2U30+3rPz7or
-	 UQUneFpI1IaHBrlJYZalUDvnBXyc486xRSiLsuZEska/Zs4CCGww7qBaTRapmEQfaH
-	 6Cf2Qu+rQXG7A==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260318103813.249190-1-ckeepax@opensource.cirrus.com>
-References: <20260318103813.249190-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: wm_adsp: Fix crash in kunit tests on arm64
-Message-Id: <177383377212.5804.18090146697992582491.b4-ty@b4>
-Date: Wed, 18 Mar 2026 11:36:12 +0000
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="Ml73KiYV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
+	References; bh=qMiYNTouAb1Zl+Bwts3b3QQY6TdUbGRvein8PKYXDwc=; b=Ml73KiYV3NordK
+	O1/6TL18cSUqKNzRiG+1P/bsp78LvijJnPUVvoX+vDvBWJ17/Spz1xEizeWbFgbgD5NlNWIza0qus
+	lgzdD8o0RCutXXNreCTp4fXhlFImCQd5Py6Skt84Qqg+0zUopMVZ0u22ShIQnV5G6PFbt6lwus3Wu
+	soHWXJHUddiEuCxiq7T+o0BZsJElz5e7eh2Ayii4EHxM9A/YJ6OecKkqVFWBcAwpFrTTSIXkt7U5g
+	HX3R8bnphtYAQjUAeEHLsAGJZkEzHRcoBGODb5W7jgI7Ktp7cdyZDAO3z67+wQduRrSnjf4KtjwQX
+	jIuJaKAl1mqvKQVOVPEQ==;
+Received: from [63.135.74.212] (helo=rainbowdash)
+	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1w2tqp-00CmIQ-G3; Wed, 18 Mar 2026 16:34:31 +0000
+Received: from ben by rainbowdash with local (Exim 4.99.1)
+	(envelope-from <ben@rainbowdash>)
+	id 1w2tqo-00000004XrX-3sLP;
+	Wed, 18 Mar 2026 16:34:30 +0000
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	linux-sound@vger.kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: [PATCH v2] ASoC: soc-topology: fix __le32 conversion in printed values
+Date: Wed, 18 Mar 2026 16:34:27 +0000
+Message-Id: <20260318163427.1083470-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a9787
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1116; i=broonie@kernel.org;
- h=from:subject:message-id; bh=7KQPegOrVVaIXGOzb8LG1xqgqTNxq+6IECTr7xzDkLY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBputEI4adercXELM2ptzTH13SCwdgqerFeuzVO7
- 0tQSwFd3QaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCabrRCAAKCRAk1otyXVSH
- 0FxHB/0Wc9PQu7cPT56ZZX8P0j/NPQg32wxPiQc6G1IubaQKpPG5L+PkWu3PwTt0f/NCionWKaZ
- Zm5pDsZft66+282I2R//+3tpzVSTqPiGeLs4JX9vAkdQ1pU+gEt6qDQufwwmypnjZn+MLf7Knyv
- 7rPqDwP/7qVcmgBHI88bzek1XXxIjNwlPRv/TT1Wct4jcKX4e/SuqdqSEOqZZt8hV/q4eRccmv9
- SNtPoxW5lVtToucpaOdwIPEx1NZbkfYN2NNj8d/CfZjjWCMpjwjZFzvp+Rca9N3G4Ge5GvAyK7J
- SwTuLfHXPzHm3DWSBhV2jN2bQMaU+IzSbAbi6OCEBwo6KCrt
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+Sender: srv_ts003@codethink.com
 
-On Wed, 18 Mar 2026 10:38:13 +0000, Charles Keepax wrote:
-> ASoC: wm_adsp: Fix crash in kunit tests on arm64
+A number of dev_dbg() and dev_err() calls get passed values that are
+of __le32 type which does not get noticed by sparse until my variadic
+checking patches.
 
-Applied to
+There are a number of these, and we should probably fix these up.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+The sparse warnings are numerous so the first few are listed here that
+this patch fixes:
 
-Thanks!
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 4 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] get
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 5 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] put
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 6 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] info
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 4 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] get
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 5 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] put
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 6 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] info
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 4 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] get
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 5 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] put
+sound/soc/soc-topology.c:226:9: warning: incorrect type in argument 6 (different base types)
+sound/soc/soc-topology.c:226:9:    expected int
+sound/soc/soc-topology.c:226:9:    got restricted __le32 [usertype] info
 
-[1/1] ASoC: wm_adsp: Fix crash in kunit tests on arm64
-      https://git.kernel.org/broonie/sound/c/6017671da9d0
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+---
+V2:
+  - updated to make format %u as __le32 is unsigned type
+---
+ sound/soc/soc-topology.c | 73 ++++++++++++++++++++++------------------
+ 1 file changed, 40 insertions(+), 33 deletions(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+index 064b8d76b955..29c678d69e83 100644
+--- a/sound/soc/soc-topology.c
++++ b/sound/soc/soc-topology.c
+@@ -224,8 +224,11 @@ static inline void soc_control_err(struct soc_tplg *tplg,
+ 	struct snd_soc_tplg_ctl_hdr *hdr, const char *name)
+ {
+ 	dev_err(tplg->dev,
+-		"ASoC: no complete control IO handler for %s type (g,p,i) %d:%d:%d at 0x%lx\n",
+-		name, hdr->ops.get, hdr->ops.put, hdr->ops.info,
++		"ASoC: no complete control IO handler for %s type (g,p,i) %u:%u:%u at 0x%lx\n",
++		name,
++		le32_to_cpu(hdr->ops.get),
++		le32_to_cpu(hdr->ops.put),
++		le32_to_cpu(hdr->ops.info),
+ 		soc_tplg_get_offset(tplg));
+ }
+ 
+@@ -238,17 +241,18 @@ static int soc_tplg_vendor_load(struct soc_tplg *tplg,
+ 	if (tplg->ops && tplg->ops->vendor_load)
+ 		ret = tplg->ops->vendor_load(tplg->comp, tplg->index, hdr);
+ 	else {
+-		dev_err(tplg->dev, "ASoC: no vendor load callback for ID %d\n",
+-			hdr->vendor_type);
++		dev_err(tplg->dev, "ASoC: no vendor load callback for ID %u\n",
++			le32_to_cpu(hdr->vendor_type));
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (ret < 0)
+ 		dev_err(tplg->dev,
+-			"ASoC: vendor load failed at hdr offset %ld/0x%lx for type %d:%d\n",
++			"ASoC: vendor load failed at hdr offset %ld/0x%lx for type %u:%u\n",
+ 			soc_tplg_get_hdr_offset(tplg),
+ 			soc_tplg_get_hdr_offset(tplg),
+-			hdr->type, hdr->vendor_type);
++			le32_to_cpu(hdr->type),
++			le32_to_cpu(hdr->vendor_type));
+ 	return ret;
+ }
+ 
+@@ -625,8 +629,8 @@ static int soc_tplg_create_tlv(struct soc_tplg *tplg,
+ 
+ 		/* TODO: add support for other TLV types */
+ 		default:
+-			dev_dbg(tplg->dev, "Unsupported TLV type %d\n",
+-					tplg_tlv->type);
++			dev_dbg(tplg->dev, "Unsupported TLV type %u\n",
++				le32_to_cpu(tplg_tlv->type));
+ 			return -EINVAL;
+ 		}
+ 	}
+@@ -653,7 +657,7 @@ static int soc_tplg_control_dmixer_create(struct soc_tplg *tplg, struct snd_kcon
+ 	tplg->pos += sizeof(struct snd_soc_tplg_mixer_control) + le32_to_cpu(mc->priv.size);
+ 
+ 	dev_dbg(tplg->dev, "ASoC: adding mixer kcontrol %s with access 0x%x\n",
+-		mc->hdr.name, mc->hdr.access);
++		mc->hdr.name, le32_to_cpu(mc->hdr.access));
+ 
+ 	kc->name = devm_kstrdup(tplg->dev, mc->hdr.name, GFP_KERNEL);
+ 	if (!kc->name)
+@@ -776,7 +780,7 @@ static int soc_tplg_control_denum_create(struct soc_tplg *tplg, struct snd_kcont
+ 
+ 	tplg->pos += (sizeof(struct snd_soc_tplg_enum_control) + le32_to_cpu(ec->priv.size));
+ 
+-	dev_dbg(tplg->dev, "ASoC: adding enum kcontrol %s size %d\n", ec->hdr.name, ec->items);
++	dev_dbg(tplg->dev, "ASoC: adding enum kcontrol %s size %u\n", ec->hdr.name, le32_to_cpu(ec->items));
+ 
+ 	kc->name = devm_kstrdup(tplg->dev, ec->hdr.name, GFP_KERNEL);
+ 	if (!kc->name)
+@@ -811,8 +815,8 @@ static int soc_tplg_control_denum_create(struct soc_tplg *tplg, struct snd_kcont
+ 		}
+ 		break;
+ 	default:
+-		dev_err(tplg->dev, "ASoC: invalid enum control type %d for %s\n",
+-			ec->hdr.ops.info, ec->hdr.name);
++		dev_err(tplg->dev, "ASoC: invalid enum control type %u for %s\n",
++			le32_to_cpu(ec->hdr.ops.info), ec->hdr.name);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -846,7 +850,7 @@ static int soc_tplg_control_dbytes_create(struct soc_tplg *tplg, struct snd_kcon
+ 	tplg->pos += (sizeof(struct snd_soc_tplg_bytes_control) + le32_to_cpu(be->priv.size));
+ 
+ 	dev_dbg(tplg->dev, "ASoC: adding bytes kcontrol %s with access 0x%x\n",
+-		be->hdr.name, be->hdr.access);
++		be->hdr.name, le32_to_cpu(be->hdr.access));
+ 
+ 	kc->name = devm_kstrdup(tplg->dev, be->hdr.name, GFP_KERNEL);
+ 	if (!kc->name)
+@@ -976,7 +980,7 @@ static int soc_tplg_kcontrol_elems_load(struct soc_tplg *tplg,
+ 	int ret;
+ 	int i;
+ 
+-	dev_dbg(tplg->dev, "ASoC: adding %d kcontrols at 0x%lx\n", hdr->count,
++	dev_dbg(tplg->dev, "ASoC: adding %u kcontrols at 0x%lx\n", le32_to_cpu(hdr->count),
+ 		soc_tplg_get_offset(tplg));
+ 
+ 	for (i = 0; i < le32_to_cpu(hdr->count); i++) {
+@@ -1003,8 +1007,8 @@ static int soc_tplg_kcontrol_elems_load(struct soc_tplg *tplg,
+ 		}
+ 
+ 		if (ret < 0) {
+-			dev_err(tplg->dev, "ASoC: invalid control type: %d, index: %d at 0x%lx\n",
+-				control_hdr->type, i, soc_tplg_get_offset(tplg));
++			dev_err(tplg->dev, "ASoC: invalid control type: %u, index: %d at 0x%lx\n",
++				le32_to_cpu(control_hdr->type), i, soc_tplg_get_offset(tplg));
+ 			return ret;
+ 		}
+ 	}
+@@ -1040,8 +1044,8 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+ 				      count, le32_to_cpu(hdr->payload_size), "graph"))
+ 		return -EINVAL;
+ 
+-	dev_dbg(tplg->dev, "ASoC: adding %d DAPM routes for index %d\n", count,
+-		hdr->index);
++	dev_dbg(tplg->dev, "ASoC: adding %d DAPM routes for index %u\n", count,
++		le32_to_cpu(hdr->index));
+ 
+ 	for (i = 0; i < count; i++) {
+ 		route = devm_kzalloc(tplg->dev, sizeof(*route), GFP_KERNEL);
+@@ -1116,8 +1120,8 @@ static int soc_tplg_dapm_widget_create(struct soc_tplg *tplg,
+ 		SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+ 		return -EINVAL;
+ 
+-	dev_dbg(tplg->dev, "ASoC: creating DAPM widget %s id %d\n",
+-		w->name, w->id);
++	dev_dbg(tplg->dev, "ASoC: creating DAPM widget %s id %u\n",
++		w->name, le32_to_cpu(w->id));
+ 
+ 	memset(&template, 0, sizeof(template));
+ 
+@@ -1200,8 +1204,9 @@ static int soc_tplg_dapm_widget_create(struct soc_tplg *tplg,
+ 				goto hdr_err;
+ 			break;
+ 		default:
+-			dev_err(tplg->dev, "ASoC: invalid widget control type %d:%d:%d\n",
+-				control_hdr->ops.get, control_hdr->ops.put,
++			dev_err(tplg->dev, "ASoC: invalid widget control type %u:%u:%u\n",
++				le32_to_cpu(control_hdr->ops.get),
++				le32_to_cpu(control_hdr->ops.put),
+ 				le32_to_cpu(control_hdr->ops.info));
+ 			ret = -EINVAL;
+ 			goto hdr_err;
+@@ -1745,8 +1750,8 @@ static int soc_tplg_link_config(struct soc_tplg *tplg,
+ 	link = snd_soc_find_dai_link(tplg->comp->card, le32_to_cpu(cfg->id),
+ 				     name, stream_name);
+ 	if (!link) {
+-		dev_err(tplg->dev, "ASoC: physical link %s (id %d) not exist\n",
+-			name, cfg->id);
++		dev_err(tplg->dev, "ASoC: physical link %s (id %u) not exist\n",
++			name, le32_to_cpu(cfg->id));
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1949,7 +1954,7 @@ static int soc_tplg_valid_header(struct soc_tplg *tplg,
+ {
+ 	if (le32_to_cpu(hdr->size) != sizeof(*hdr)) {
+ 		dev_err(tplg->dev,
+-			"ASoC: invalid header size for type %d at offset 0x%lx size 0x%zx.\n",
++			"ASoC: invalid header size for type %u at offset 0x%lx size 0x%zx.\n",
+ 			le32_to_cpu(hdr->type), soc_tplg_get_hdr_offset(tplg),
+ 			tplg->fw->size);
+ 		return -EINVAL;
+@@ -1957,9 +1962,9 @@ static int soc_tplg_valid_header(struct soc_tplg *tplg,
+ 
+ 	if (soc_tplg_get_hdr_offset(tplg) + le32_to_cpu(hdr->payload_size) >= tplg->fw->size) {
+ 		dev_err(tplg->dev,
+-			"ASoC: invalid header of type %d at offset %ld payload_size %d\n",
++			"ASoC: invalid header of type %u at offset %ld payload_size %d\n",
+ 			le32_to_cpu(hdr->type), soc_tplg_get_hdr_offset(tplg),
+-			hdr->payload_size);
++			le32_to_cpu(hdr->payload_size));
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1967,7 +1972,7 @@ static int soc_tplg_valid_header(struct soc_tplg *tplg,
+ 	if (le32_to_cpu(hdr->magic) == SOC_TPLG_MAGIC_BIG_ENDIAN) {
+ 		dev_err(tplg->dev,
+ 			"ASoC: pass %d big endian not supported header got %x at offset 0x%lx size 0x%zx.\n",
+-			tplg->pass, hdr->magic,
++			tplg->pass, le32_to_cpu(hdr->magic),
+ 			soc_tplg_get_hdr_offset(tplg), tplg->fw->size);
+ 		return -EINVAL;
+ 	}
+@@ -1975,7 +1980,7 @@ static int soc_tplg_valid_header(struct soc_tplg *tplg,
+ 	if (le32_to_cpu(hdr->magic) != SND_SOC_TPLG_MAGIC) {
+ 		dev_err(tplg->dev,
+ 			"ASoC: pass %d does not have a valid header got %x at offset 0x%lx size 0x%zx.\n",
+-			tplg->pass, hdr->magic,
++			tplg->pass, le32_to_cpu(hdr->magic),
+ 			soc_tplg_get_hdr_offset(tplg), tplg->fw->size);
+ 		return -EINVAL;
+ 	}
+@@ -1985,7 +1990,7 @@ static int soc_tplg_valid_header(struct soc_tplg *tplg,
+ 	    le32_to_cpu(hdr->abi) < SND_SOC_TPLG_ABI_VERSION_MIN) {
+ 		dev_err(tplg->dev,
+ 			"ASoC: pass %d invalid ABI version got 0x%x need 0x%x at offset 0x%lx size 0x%zx.\n",
+-			tplg->pass, hdr->abi,
++			tplg->pass, le32_to_cpu(hdr->abi),
+ 			SND_SOC_TPLG_ABI_VERSION, soc_tplg_get_hdr_offset(tplg),
+ 			tplg->fw->size);
+ 		return -EINVAL;
+@@ -2054,9 +2059,11 @@ static int soc_tplg_load_header(struct soc_tplg *tplg,
+ 
+ 	if (tplg->pass == hdr_pass) {
+ 		dev_dbg(tplg->dev,
+-			"ASoC: Got 0x%x bytes of type %d version %d vendor %d at pass %d\n",
+-			hdr->payload_size, hdr->type, hdr->version,
+-			hdr->vendor_type, tplg->pass);
++			"ASoC: Got 0x%x bytes of type %u version %u vendor %u at pass %d\n",
++			le32_to_cpu(hdr->payload_size),
++			le32_to_cpu(hdr->type),
++			le32_to_cpu(hdr->version),
++			le32_to_cpu(hdr->vendor_type), tplg->pass);
+ 		return elem_load(tplg, hdr);
+ 	}
+ 
+-- 
+2.37.2.352.g3c44437643
 
