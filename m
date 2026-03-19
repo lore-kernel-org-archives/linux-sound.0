@@ -1,75 +1,75 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71ED73C196F
-	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 10:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9008224AE0
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 11:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773915669; cv=pass; b=qpXntdN2bwF+B0JNe1Z5dKZ3wqy9ZZf95bpI3F6M8zhPzR9XKBQiv9ah5Xotyfw0GtQ2pJEUFN2q63Nagvu9Cae7FVojjMybgZVHWBtfuj/5faLuOcH9tzrerD9bsnQJllZZzR5nws5e3lw4mGOh1aouy7ph5AciLRjsYLJWo/o=
+	t=1773918203; cv=pass; b=Y6spCUKhyZkpPWocuQwgbMfOL4O6cO2Rix/G1W+zXeURjM2gCB828Wzb04Ry7QyiAXuFi0/3AiSu6zVjm2au2VmH91Dmo0q3ljKXIkOuN7ip//V/KMMsyaAN+AMDs9uDz4OIlayvBo/qvrJj7h7AZ2ewaXAVC8aaw+33AX16lrY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773915669; c=relaxed/simple;
-	bh=EOBg1E8bSC7/K/EM2Et+DCchEoY8FzoKvXB9qNQLcZo=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=YrKcmai4PTW4hyxO4KWBAC5lBqRV+ubG/jaACp5Svtod7sdR4fouPsiBwRVRjqIwX/0Zr4y0zCTSgOixVOa6sn0ic/jLYn9MSIGcTHXGR5L/j/z9MRyujGU/sUxR3AQK0IskXR4JlCbi5L6aUcE+CpwD5MtZJNw7lKp6EHDjJaQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VuxUwvUK; arc=pass smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1773918203; c=relaxed/simple;
+	bh=iwuUC3ZdNskENtzF/oOTbZ5CAjumTbdCZhPSZbHLpPc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=sdSED9atPuqfBe909W+YVqEPD1EBrmLzkfJrNETuunieYjxPnCwXjaHDOYybKOWUhC0AgN+UlTDTgZOjhXLl0VcUd1842+slLixyyF8BuATMT9w/OtdCyp9Cn1ns+Sm4+K3BFkGF+a+E6Lbiax9+gTqhXxjlbhujoBEkoVbmOMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PTsOshNQ; arc=pass smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VuxUwvUK"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b527ac5d0so343228f8f.2
-        for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 03:21:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773915663; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PTsOshNQ"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439c56e822eso815799f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 04:03:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773918200; cv=none;
         d=google.com; s=arc-20240605;
-        b=bKYhDXXBIU+Q45zlVLlToD491sXY8bflprR9eAFkC0V07wZlO3UVqc4qo3gikvjkSt
-         oU/Q5p+sl+XMhLo8OwRoOwINIOcic+/gc3PuC4lE1hggVRxmeXUp/Egj3tJH+707YleQ
-         f1JB+E2tiRsGG10qfQfMJayTs3Z5zmuRM3TGo9lRs3jEbPCuPDtJiEdMLAFr3VQaSmqG
-         dF8ngIDQEWvt23c3cx+yb86ZmqyLtMaFySIMKALwEaSAy3QG6RhviK3HNNyvdv9z4zwM
-         gsTZznFDAWnSBG9Er5zDUrJHR1Muh4L4pvDiDmWIzsC9cK7x49Fv3RoGsrJtGZcAPXTq
-         xDZA==
+        b=MOmiDzhUFyE8Ff3zR+EssYjrwg9W5N/JNQ9ZP7dSdd0OdNHsDvashzEaIXDO4uOcbh
+         jfDOHG3ePnMuCi0bLzSNpwNCezSzEcbgw/qvhPsKdzHHJAR/IiDvftRvvfxRz97AMQJM
+         BX5278B9pa0xuJ8yNjeuYO2wOqPysme8fpLtJU1j8WJEpWMFceSOYob+aoHF7nLfBqYg
+         STBRyPLD7D30u/vJTA0VnrQLM0vzEfp6hxrh6VU6OMAIcMoQhLEJBi5PdfN97ynYYVCj
+         dJib+/WUXnF6FvKklf70jxITMDIzXPCiuA4r7lidQTy2pcKPjSowQkQWZz6CfRstjLjb
+         ja9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=bz37tf2R8JmtMOJjrsbGiqXUPmbzjbhjYJ0T8dKfsU0=;
+        bh=OEt3Eehp+//Zh+MKtSaeYP5MxSgT1obszkRpWocZi6g=;
         fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
-        b=fzYigw0mt3SSMaI5VPuzHVRIU4roA3dKNhwZDQO9WX2NK/7mKyolzbN5REtTdjwKTt
-         sOyz7M3tXGwkz7vIqBROSW7ONAvW6gBVugTSzmI9L6aL5Guekv0nfrYQXQ14XM95aIFr
-         oqKYqHHtbfrEa6S7bNAIrxHK7eUUdOEwKUIoQzInN8rBVJZFG2lyUkNvMgEtJFu/hieI
-         2ayqDTMEPaNoTKHzXzk9z9Gjw9cd+wLxjBjdseudloxgpkKaCyZ7ST/AMW3wk0aZ0dVX
-         xb1+94ef0uMMwRfnWsVmLKUJaoYL2Rxms9uOlGy4hm3q+lXVXVgxjsq0w5/QXmuXtZ2n
-         4yAQ==;
+        b=gw7pnvL59PjxA9J3DP9wFLXT0Q3cfNa3H+i8o+r8LJLoFSmdaJ6D8TF8jsjVpfXehC
+         xEvMDOlBlhKXnqgFyu4bu6x9M/Z5ic5sSR1OVC8ZPs55DnIs+hOJbkJPqyCAckPpMCpv
+         H+L3rGTQZR/A3abIxgrT7YhiLxckbVqiHiqp59eQTK3fwmm4t1E9w2RrAkxMRFxmrbIZ
+         fTMwPR5eOyt8KqOxXPBD+xNA4vuxfjnX/t+RQTvoj8juLFRr7KkYLbTh34RHG8bWCaVO
+         MwhMJrsy/ZkiiIyehckio4EmoT684lo+iwE3H/byiAzYXlt4FMHKpvghS68l7pPlh7aD
+         m/IQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773915663; x=1774520463; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773918200; x=1774523000; darn=vger.kernel.org;
         h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=bz37tf2R8JmtMOJjrsbGiqXUPmbzjbhjYJ0T8dKfsU0=;
-        b=VuxUwvUKj/7XAmBIbqHxvPTFG3jAKsDpQiX/0IPmpjmPCt+InRatihSH73Z6dZgOrF
-         D7c8cGF3kkoZSFZ8o2JFJxQSAt8+NO8Y5f6A8qNTVt/5m9ueYLTrFmkmgK88eZxktKQy
-         e9xCO0drwaxgWUs8D5yP/eRmz5xDmzdMk1KDLfTBsuuRf81DDp/bBoTUSisLQO9MOLpQ
-         k9RsYhY55oOlgsdAeybqP1rjjBqUh2G7vJO9OwNMI//XjhpkkYh8LQ6lbX0uIVlZOOjN
-         jCLXowLJ/5JdHnnCnqDhlvADeRLfqVzbZ5Vy/O53dHPcO03s44KsMtdTyHcqKg4di2nX
-         oSoA==
+        bh=OEt3Eehp+//Zh+MKtSaeYP5MxSgT1obszkRpWocZi6g=;
+        b=PTsOshNQwt6i3ttSxB7SZbPQy4O+gFVqZEqS1s2JfDpg5f7KDF2TS1AsvCwxcn4KNu
+         UeFv0BukWBLrAOfFW2Czm4NiBfQx3KVwoiEgM2p5NVLMHbVqZn4JmO0OvmSNB1S9qHyF
+         FKMiGWxkf8gbzWAZbvMXV6Hiyf8ld30g/l/gPrqcr6iOfw4ganJpXRbZgY1GCyXq7c6k
+         yCJ+pO1hVnnDYa4HqVVi1Gq96nqp9Jnf+LBlEPyieIaBaTMtdl+vi+/+PSZiDj4PhDpY
+         X/fxPs5kb3/Wflhz+vJ1XdvSqjhIG5BY2k1MmzbqwaJxCOKWIotOSQIeLzpnurtvBz2t
+         Q9UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773915663; x=1774520463;
+        d=1e100.net; s=20251104; t=1773918200; x=1774523000;
         h=to:subject:message-id:date:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bz37tf2R8JmtMOJjrsbGiqXUPmbzjbhjYJ0T8dKfsU0=;
-        b=TMmQTmxrYtfnEdfHKbpakHK3aMF0g0QYSQHUDrCDYH8loHLF063HT+OLzHO8h3Fv2Q
-         dqaGUFK/B37F8SUEofguaoOyn5vY3lxPOuSUg528hG2ofvZ8wwIBcKvCkSktcNJggObV
-         zjwJ++wwSTyGMXbSNVw4u05N/rUUQSfRGtdpbo28kF6dpBztLUpTT9ntXPt+y82vJi30
-         jJsVv6rpbc3VHWpXL37BD+iSf3Ku6zLM2aCn5Iydp9XGU49TTd0R7M1Mvq93hV9laoXS
-         CsAvNhKliepAZPyEPu+2XdAxo9CnQnA1te2eh+Om9lqvpC2z1ypgnDnpsiUGsfj1tYQn
-         Mz0A==
-X-Gm-Message-State: AOJu0YxJ39+WAqNt3Rrp6PvAdMlgpEJ/tDUAUk0WaXVMajN94BVe/yiF
-	ZIYfg8NrAMQGl2ZSY8QtLnpxZ/hutIbupuzIVRtxltI5uSvBGsoPMtYPgVD0GVpJsVvaA/KFM+o
-	qjU/TOVZDIl+BLi2AO3iWVZmui0NC0YUygUfabQI=
-X-Gm-Gg: ATEYQzxS4nf/qxsTpKzwkdLSjJ9L4URwpbvgmRjQZBK3iSHxQtXssLYzS7MhgJUuhCd
-	LbQmWsIa4oudCLOZQ8hxYOABgZGTCndyZ1ItheSWhM0rUpCGCW6tGmaAfeNALAyLFOYIR5knTzb
-	+X/CA0A/+St+gigm8iL8mUG0FHnNan9vly44jE5v4wsPFkSD1afLPJzkeJaRlDGchO5OLH57quU
-	q+JLEES5SWfrUC1C5LXKojoEGTck+AZcBjqC+0bbBCmwJFu+G7rNTCZatQ2miZG1WsSYt9s3lVy
-	AE3Y
-X-Received: by 2002:a05:6000:401e:b0:43b:5188:f59f with SMTP id
- ffacd0b85a97d-43b527cce7emr11227677f8f.45.1773915663221; Thu, 19 Mar 2026
- 03:21:03 -0700 (PDT)
+        bh=OEt3Eehp+//Zh+MKtSaeYP5MxSgT1obszkRpWocZi6g=;
+        b=gNKLOL1g5ncVBQnNu33avmX0Q5iAz+OQXUAiM+dq8WUHccH4bGmjI8cci+5BC8wA/i
+         SJ84z3C35edShhqhK7kHktSts5Jx5pgJZEykaEcvd3Ivu+P1p4dUue45z9jq5sPGZuBj
+         OwsYqOoUeS4UKrvFC7ZpiXs4h/sGruZsMAkcCMHFAB2W87Ci+pUzI5iIBFchFPfjm9JA
+         nvaWfeapkq/vMXIOxBq/uJk3jrnsy1TjusgEdhPSN1Fw2RcGbxUWFytOyy3z9qT825VI
+         vgmoJ2xFD7inPA+En1+4VBLNb5fWX0ZgjXWT9tMWLnccxJOabtApn0Y5F67A0I0OlVnn
+         gYSg==
+X-Gm-Message-State: AOJu0YwnHz6RIht7cktHpZ+9ejwSMhjgFFaFdHchZo/mH/oOGv2zZCB0
+	4PJfaAgHevgKoE/WpDgi90PTxFqDdXuq1PeYYQSrcZ80utiXD6LHbhh0FJf56B8IhEZ1dvAn0wG
+	LYzM15ESDj6HWITLak5xZu6ixHq6bZ+kjXTj+dnA=
+X-Gm-Gg: ATEYQzwf7DYDYlWUdOjWFcLxTWbsj3DtSjxVFBnZ1q7w0XjAR+dk2gzn3jN0CvH6ONF
+	47WHK3IVbbXT/EQhjuigjfdAwdwBTt5zdBdXKTKVpV58/NHOBDc2L0nI7zOHY4Q+Skxnc5jphBC
+	UFDEOGOzedQOWOVCroGvcEE5qGN96XIaUTNdniARJAvYWMNAjYzJEzsUI+wYT572+kqx1rL+VoS
+	gj5XOBy2eifIGKdTtoEQn4pCaT0vPEtWiHGwutM7Elglpno66dvvBAISZ2QwC5ohHL9oVB0t2vG
+	z4ne3TjhdENK0l0=
+X-Received: by 2002:a05:6000:22c8:b0:439:abcd:b314 with SMTP id
+ ffacd0b85a97d-43b527aa5c7mr12115039f8f.18.1773918199575; Thu, 19 Mar 2026
+ 04:03:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,80 +77,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Philip Willoughby <willerz@gmail.com>
-Date: Thu, 19 Mar 2026 10:20:51 +0000
-X-Gm-Features: AaiRm50HY2_mExjCoD7pO8jKcfxAQWcBosvyYTGYZiYZBaIHlafMmF1UvcKaTos
-Message-ID: <CAKSkzptzJOhbzNZXhnJVuSfS247eQAKV2MnPnzBqhzf_uWQWUg@mail.gmail.com>
-Subject: [PATCH] ALSA: usb/line6: support the Pod HD Pro
+Date: Thu, 19 Mar 2026 11:03:08 +0000
+X-Gm-Features: AaiRm504Fin-ZPOrZGQOFgt_QXD97yLfXwh6ETt-UT3NSBDSdKXIRqTXX73Wcpk
+Message-ID: <CAKSkzpui0HAx3LSvxOJFi7opb0sR-3oy5Oxw7uYjMep5ZHVJJw@mail.gmail.com>
+Subject: [PATCH 1/1 ] Support POD HD PRO
 To: linux-sound@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000f7db0c064d5dec28"
-
---000000000000f7db0c064d5dec28
 Content-Type: text/plain; charset="UTF-8"
 
-This patch adds support for the Line6 Pod HD Pro rackmount effects unit.
+I apologize for the previous badly-formatted patch.
 
-The Pod HD Pro and the Pod HD 500 are basically the same internals
-packaged 2 different ways. From the attached computer's point of view
-they are the same, other than they have different USB product IDs.
+The POD HD PRO is a POD 500 in a different box.
 
-I have tested with my Pod HD Pro that this works.
+The USB PID changes but everything else is the same.
 
-$  cat /proc/asound/cards
-0 [BRIO           ]: USB-Audio - Logitech BRIO
-                     Logitech BRIO at usb-0000:03:00.3-2, super speed
-1 [NVidia         ]: HDA-Intel - HDA NVidia
-                     HDA NVidia at 0xe7080000 irq 173
-2 [MIDI           ]: USB-Audio - AF16Rig MIDI
-                     Arturia AF16Rig MIDI at usb-0000:49:00.1-1.4, full speed
-3 [Cortex         ]: USB-Audio - Quad Cortex
-                     Neural DSP Quad Cortex at usb-0000:49:00.3-3.2, high speed
-4 [Audio          ]: USB-Audio - Zenith II Main Audio
-                     Zenith-II-Main-Audio
-5 [Headphone      ]: USB-Audio - Zenith II Front Headphone
-                     Zenith-II-Front-Headphone
-6 [Audio_1        ]: USB-Audio - AF16Rig Audio
-                     ARTURIA AF16Rig Audio at usb-0000:49:00.1-1.1, high speed
-7 [GM800          ]: USB-Audio - GM-800
-                     BOSS GM-800 at usb-0000:03:00.3-1.4.3, high speed
-8 [KATANA         ]: USB-Audio - KATANA
-                     BOSS KATANA at usb-0000:03:00.3-1.3.3, high speed
-9 [TD50X          ]: USB-Audio - TD-50X
-                     Roland TD-50X at usb-0000:03:00.3-1.4.2, high speed
-10 [GP10           ]: USB-Audio - GP-10
-                     BOSS GP-10 at usb-0000:03:00.3-1.3.2, high speed
-11 [PODHDPRO       ]: Line6-PODHD - POD HD PRO
-                     Line 6 POD HD PRO at USB 1-1.4.1:1.0
+Phil Willoughby (1):
+ Add Line6 POD HD PRO support
 
---000000000000f7db0c064d5dec28
-Content-Type: text/x-patch; charset="US-ASCII"; name="patch-willerz-l6.patch"
-Content-Disposition: attachment; filename="patch-willerz-l6.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mmxb6ovl0>
-X-Attachment-Id: f_mmxb6ovl0
+sound/usb/line6/podhd.c | 15 +++++++++++++++
+1 file changed, 15 insertions(+)
 
-ZGlmZiAtcnVwTiBsaW51eC02LjE4LjE0L3NvdW5kL3VzYi9saW5lNi9wb2RoZC5jIGxpbnV4LTYu
-MTguMTQtd2lsbGVyei9zb3VuZC91c2IvbGluZTYvcG9kaGQuYwotLS0gbGludXgtNi4xOC4xNC9z
-b3VuZC91c2IvbGluZTYvcG9kaGQuYwkyMDI2LTAyLTI2IDIyOjU5OjQ3LjAwMDAwMDAwMCArMDAw
-MAorKysgbGludXgtNi4xOC4xNC13aWxsZXJ6L3NvdW5kL3VzYi9saW5lNi9wb2RoZC5jCTIwMjYt
-MDMtMTkgMDk6MDA6MzAuMTAwNjE5OTQyICswMDAwCkBAIC0yNiw3ICsyNiw5IEBAIGVudW0gewog
-CUxJTkU2X1BPRFgzLAogCUxJTkU2X1BPRFgzTElWRSwKIAlMSU5FNl9QT0RIRDUwMFgsCi0JTElO
-RTZfUE9ESERERVNLVE9QCisJTElORTZfUE9ESERERVNLVE9QLAorCS8qIFRoZSBQT0QgSEQgUHJv
-IGlzIHRoZSByYWNrbW91bnQgdmVyc2lvbiBvZiB0aGUgUE9EIEhEIDUwMCAqLworCUxJTkU2X1BP
-REhEUFJPLAogfTsKIAogc3RydWN0IHVzYl9saW5lNl9wb2RoZCB7CkBAIC00MzYsNiArNDM4LDcg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lkIHBvZGhkXwogCXsgTElORTZfREVW
-SUNFKDB4NTA1NyksICAgIC5kcml2ZXJfaW5mbyA9IExJTkU2X1BPREhEMzAwIH0sCiAJeyBMSU5F
-Nl9ERVZJQ0UoMHg1MDU4KSwgICAgLmRyaXZlcl9pbmZvID0gTElORTZfUE9ESEQ0MDAgfSwKIAl7
-IExJTkU2X0lGX05VTSgweDQxNEQsIDApLCAuZHJpdmVyX2luZm8gPSBMSU5FNl9QT0RIRDUwMCB9
-LAorCXsgTElORTZfSUZfTlVNKDB4NDE1NywgMCksIC5kcml2ZXJfaW5mbyA9IExJTkU2X1BPREhE
-UFJPIH0sCiAJeyBMSU5FNl9JRl9OVU0oMHg0MTRBLCAwKSwgLmRyaXZlcl9pbmZvID0gTElORTZf
-UE9EWDMgfSwKIAl7IExJTkU2X0lGX05VTSgweDQxNEIsIDApLCAuZHJpdmVyX2luZm8gPSBMSU5F
-Nl9QT0RYM0xJVkUgfSwKIAl7IExJTkU2X0lGX05VTSgweDQxNTksIDApLCAuZHJpdmVyX2luZm8g
-PSBMSU5FNl9QT0RIRDUwMFggfSwKQEAgLTUyOCw2ICs1MzEsMTkgQEAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBsaW5lNl9wcm9wZXJ0aWVzIHBvZAogCQkuZXBfYXVkaW9fciA9IDB4ODYsCiAJCS5lcF9h
-dWRpb193ID0gMHgwMiwKIAl9LAorCVtMSU5FNl9QT0RIRFBST10gPSB7CisJCS5pZCA9ICJQT0RI
-RFBSTyIsCisJCS5uYW1lID0gIlBPRCBIRCBQUk8iLAorCQkuY2FwYWJpbGl0aWVzCT0gTElORTZf
-Q0FQX1BDTSB8IExJTkU2X0NBUF9DT05UUk9MCisJCQkJfCBMSU5FNl9DQVBfSFdNT04gfCBMSU5F
-Nl9DQVBfSFdNT05fQ1RMLAorCQkuYWx0c2V0dGluZyA9IDEsCisJCS5jdHJsX2lmID0gMSwKKwkJ
-LmVwX2N0cmxfciA9IDB4ODEsCisJCS5lcF9jdHJsX3cgPSAweDAxLAorCQkuZXBfYXVkaW9fciA9
-IDB4ODYsCisJCS5lcF9hdWRpb193ID0gMHgwMiwKKwl9LAorCiB9OwogCiAvKgo=
---000000000000f7db0c064d5dec28--
+
+base-commit: b3c48fa1fb397b490101785ddd87caf2e5513a66
+--
+2.53.0
+
+From 6f3211504f7091fb5ecab36daea4628b3fa4f0db Mon Sep 17 00:00:00 2001
+From: Phil Willoughby <willerz@gmail.com>
+Date: Thu, 19 Mar 2026 10:54:40 +0000
+Subject: [PATCH 1/1] Add Line6 POD HD PRO support
+
+---
+sound/usb/line6/podhd.c | 15 +++++++++++++++
+1 file changed, 15 insertions(+)
+
+diff --git a/sound/usb/line6/podhd.c b/sound/usb/line6/podhd.c
+index ea1324c22f46..f32712286642 100644
+--- a/sound/usb/line6/podhd.c
++++ b/sound/usb/line6/podhd.c
+@@ -28,6 +28,7 @@ enum {
+       LINE6_PODHD500X,
+       LINE6_PODHDDESKTOP,
+       LINE6_PODHDPROX,
++       LINE6_PODHDPRO,
+};
+
+struct usb_line6_podhd {
+@@ -442,6 +443,7 @@ static const struct usb_device_id podhd_id_table[] = {
+       { LINE6_IF_NUM(0x4159, 0), .driver_info = LINE6_PODHD500X },
+       { LINE6_IF_NUM(0x4156, 0), .driver_info = LINE6_PODHDDESKTOP },
+       { LINE6_IF_NUM(0x415A, 0), .driver_info = LINE6_PODHDPROX },
++       { LINE6_IF_NUM(0x4157, 0), .driver_info = LINE6_PODHDPRO },
+       {}
+};
+
+@@ -542,6 +544,19 @@ static const struct line6_properties
+podhd_properties_table[] = {
+               .ep_audio_r = 0x86,
+               .ep_audio_w = 0x02,
+       },
++       [LINE6_PODHDPRO] = {
++               .id = "PODHDPRO",
++               .name = "POD HD PRO",
++               .capabilities   = LINE6_CAP_PCM | LINE6_CAP_CONTROL
++                               | LINE6_CAP_HWMON | LINE6_CAP_HWMON_CTL,
++               .altsetting = 1,
++               .ctrl_if = 1,
++               .ep_ctrl_r = 0x81,
++               .ep_ctrl_w = 0x01,
++               .ep_audio_r = 0x86,
++               .ep_audio_w = 0x02,
++       },
++
+};
+
+/*
+--
+2.53.0
