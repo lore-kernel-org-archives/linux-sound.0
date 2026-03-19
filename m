@@ -1,127 +1,114 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047003A9616
-	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 08:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1DA3ACEE1
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 08:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773908413; cv=none; b=AaQGl5RmMo2ZgY9tZ2ihvavZGLAnKmxgVpjKVfWvwZX9TEOABNonSr2w4Z7Y3hHdNRCntr9vAvq0r6brTZKUtZlnuesvWXxpZWVcFA91AwO6LErbE17aTAK0Xov0bSvyLB0/D2h5Fi6Rnz6SBLPV+gieyP5wuuVlwS6jRrW24Zk=
+	t=1773909902; cv=none; b=AvbMY370mCF300bdgSFT0g08ghms6KVa/kJcZoeDqEO8D3YL200vYtEIjY/SX75BFRiBFcpCKE/FsSYeRxlewjokfQMlvZEJWZK0K7gKLqXI/Kyvd+qrWil87CccxlqLy8GAa5ixJWE/qRXX2PlAf8kp9jgkGJ+YNxQQ0+6sK1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773908413; c=relaxed/simple;
-	bh=DLUD7pcn99NHYMMjNd5R8QZlNyOd1KCacY8BaU8u4uY=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=qo48zBLSebT+E1EQBpYHNBwgGIcsblnOCl8JCcwhkGbbJjLfn6I5f1JZShW/+n4J1xm8PsArzjtx6j1sI0w48zqGtUnodUPC2IE3QCSpQYU/mr0iuwsHXNp+oln2S4wctUgBehzjH+z7Rh6g7yTCRChap+K4Pz0JB5AtSoY4Ixo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=bmbYDwa1; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1773909902; c=relaxed/simple;
+	bh=gxLBEZqdXaKc856agQwhtmyN5sTi6Yx6xfnEKXHzg5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G7m/+RSoErPQje7z6OZnkSgoAA4RxRdPiFulPZmYvimbgSVcefx05WXu8ojm6jmbjYpT2JrIuIO4sWvHtQW0D1aMolSSBljLCe6VMReTDZqIzinKATC5tDLcL9r3CKuG1d1xxwlNfQAYjXBnLj223/Ks6MIhZK21D8s5AsXnlMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w2FOyMnD; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="bmbYDwa1"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62J8Jo4mA3374378, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1773908390; bh=mJt7nViUIXfdIj2NwlDjCiQH1cgNzvQsimaNZpI+4d0=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=bmbYDwa1oamqq6C2VC7TbiMwt0CTNCdlUhFYJ4EdTlg8Ptmw4DTsSu/d4Oyf7wFu7
-	 AnS9MNh6JjVvAvcGDFVpFUVH9TjqS4s9cTfy7M3XCXaR4P4AG/2ldYbrB3KMDcWpbH
-	 0e1Ug2gUqm4uo+KcZuMT0+KC1neEfjzzP1alkyVFlGPaic6w6iCcCm23POipFjRAMX
-	 2g4CvfOrMNdbg9zjo/wY9aYHYLybwcp1hjO4eW+8jAjgxwSHI3xNxXL4Vz3EC5V2VZ
-	 bs92xbBJF0jGtqeaa74pLD24jZ7MXqnh2bPezgomlQWyMLTiHF1U+iXFw6BsujacY+
-	 O+UV9au5NsBhQ==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.21/5.94) with ESMTPS id 62J8Jo4mA3374378
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 Mar 2026 16:19:50 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 19 Mar 2026 16:19:49 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::4cbd:6c6c:b92b:3913%10]) with mapi id
- 15.02.1748.010; Thu, 19 Mar 2026 16:19:49 +0800
-From: Kailang <kailang@realtek.com>
-To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        Chris Chiu
-	<chris.chiu@canonical.com>
-Subject: Fix speaker mute LED for HP EliteBoard G1a
-Thread-Topic: Fix speaker mute LED for HP EliteBoard G1a
-Thread-Index: Ady3eK5w59bdlfMNTFqK9E9hUhRblQ==
-Date: Thu, 19 Mar 2026 08:19:49 +0000
-Message-ID: <279e929e884849df84687dbd67f20037@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-Content-Type: multipart/mixed;
-	boundary="_002_279e929e884849df84687dbd67f20037realtekcom_"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w2FOyMnD"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48628ce9ab5so8896445e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 01:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773909897; x=1774514697; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CSYKzBrwIsqKKLO2G7NMhCI1+z9REObNSxdVlwMMyGA=;
+        b=w2FOyMnDG3jt0mHYKcsIGpcWDzwqIk8cCyDCGfF2jW22hKmUmQi5H43iJSRlCLG/Kq
+         bdZH+h6pXlQ+h8o4RGgzR4jYiEP2utIxreuyoF1ZwbxA8CuEL/h+Xo5MA0lT1miqn1qu
+         iw9ck1ifE78vwCE4wE5FYSyQEXcwwYXXi3FrBzq9gtPGk6ZkqaHHuqPVKKKB8Yhjaykk
+         T9EpN3ZjZWWk9hfoe+LR9UIhiDQOgWmotsndYAXdruiH8yvpgQfZLQ6WFbZx4F+hekCc
+         B6DYQCy+pwJyjRmtZ16nvTCZxjhX6Akt5yb4dfnmKAmB8Aw7oceIhJYImh12spHzlxS1
+         nZlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773909897; x=1774514697;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CSYKzBrwIsqKKLO2G7NMhCI1+z9REObNSxdVlwMMyGA=;
+        b=FSidGAG2V68ESKGru8L1IyaZkNXwB1hI++a5UDKRZtJ3T3DkSR4sIUDBFmpaq+NqwM
+         CfEuWa0Wp8xMd3BTJet4quNJmaVderCrVZfVj9sLv7e8QclteS8uhjODl3LRtcLFTEJm
+         EPjTZSrTQV2xyDqEE2xq2cENt67xiHkXvrEiq7gHgU7hsmBIlK0mVXGJyWGxdEKrIGbY
+         wUZwloLxVpuipWlDFb8Wgvq67ckLe5UCsz4B0+h4HtSzT1K15VBqKCgD7GlKU/uuwFnq
+         lxUgYpcc/AY+Co2H0IAFW2997SxW8HOfnAycIlN5hZZXpqY2eYnfwtK/+023uaKG83cS
+         GmJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWJQSUvT5Zign+6UOhbnIz7agb7LSWwb1VtBZCvHLSd7bkMug8tDyEVk/YVhyNUTac08SpQSBtJZ1V0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMP84yvLPId6sNVYYG8t+tepIVvB4OXok17mY03GoEJRTquBHh
+	4f/D0oZDHQzZBecgXMoWfA3myDkzAmVt58U4koT0Exp95t7Gvg82Dcgs8995k9bEDw==
+X-Gm-Gg: ATEYQzwyFT7o4J8k4a8tJqV52tUphZxss/AW0IP+/yPCHQKDLpRSyoWj+MEq5BjAWiq
+	rPVdADsu+O0YmpU2XWEJMOMKr4kjsVL/DXpKng002csgeMrA/GUdp72NZmbCZ349tdKUxXAlLJH
+	/BP9i3siCz9MRdWFRMPpOxeqH0UOiPfq9RVvik4Yg7Hekaj09INbdvXWyZgGKqI4bMYR4UTPyh9
+	iUc0zCvKNsDZoPuqbgUAB59eFfGJ1FqMtUv6RVrCMzE4V91uvFOq98UWmRg3EGY61hBcuYcbCLj
+	EweBs9K2aF7QU3O321yziTzrwSjbnIrboTkKEEIbXc39l/zViirVaysyOswFGhD1BoJjPy0QYxk
+	+rJ5s/5jhzl4U2t7NAJ39oyJ285sYsRUQBJcdSyepf1LLNOzMk8uXLw+XIbqXCBUnZtKtnLex8+
+	Wi85gQRf/rhM43nwzPOtYCEJ91kLyHgPz3/lf+3nGRNiluVSTaITOydlA5MqOQCsV7N5XyewYjH
+	HBnaT0a2iNJSp6zcBzRByQ=
+X-Received: by 2002:a05:600c:630f:b0:477:b734:8c53 with SMTP id 5b1f17b1804b1-486f44384c9mr112835575e9.12.1773909897008;
+        Thu, 19 Mar 2026 01:44:57 -0700 (PDT)
+Received: from pickles.copeland.me.uk ([149.40.2.133])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fc61dd4asm12899015e9.14.2026.03.19.01.44.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 01:44:56 -0700 (PDT)
+From: Ben Copeland <ben.copeland@linaro.org>
+To: Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ben Copeland <ben.copeland@linaro.org>
+Subject: [PATCH] selftests: alsa: add config for required kernel options
+Date: Thu, 19 Mar 2026 08:43:47 +0000
+Message-ID: <20260319084347.134744-1-ben.copeland@linaro.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---_002_279e929e884849df84687dbd67f20037realtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+The alsa kselftests are missing a config file to declare their required
+kernel configuration options. This causes the utimer-test (timer_f.utimer)
+to fail on kernels without CONFIG_SND_UTIMER enabled, as the
+SNDRV_TIMER_IOCTL_CREATE ioctl returns -1.
 
-Hi Takashi,
+Add the config file with the necessary sound configs so that
+'make kselftest-merge' can enable them automatically.
 
-HP EliteBoard G1a platform, the speaker mute LED failed to function.
-Attach patch will fix it.
+Link: https://lore.kernel.org/linux-kselftest/0e9c25d3-efbd-433b-9fb1-0923010101b9@stanley.mountain/
+Signed-off-by: Ben Copeland <ben.copeland@linaro.org>
+---
+ tools/testing/selftests/alsa/config | 7 +++++++
+ 1 file changed, 7 insertions(+)
+ create mode 100644 tools/testing/selftests/alsa/config
 
-Thanks.
+diff --git a/tools/testing/selftests/alsa/config b/tools/testing/selftests/alsa/config
+new file mode 100644
+index 000000000000..810cc31f09b3
+--- /dev/null
++++ b/tools/testing/selftests/alsa/config
+@@ -0,0 +1,7 @@
++CONFIG_SND=y
++CONFIG_SND_TIMER=y
++CONFIG_SND_PCM=y
++CONFIG_SND_PCM_TIMER=y
++CONFIG_SND_PCMTEST=m
++CONFIG_SND_UTIMER=y
++CONFIG_DEBUG_FS=y
+-- 
+2.53.0
 
-BR,
-Kailang
-
---_002_279e929e884849df84687dbd67f20037realtekcom_
-Content-Type: application/octet-stream;
-	name="0000-hp-nexusx-mute-led-v001-2-1.patch"
-Content-Description: 0000-hp-nexusx-mute-led-v001-2-1.patch
-Content-Disposition: attachment;
-	filename="0000-hp-nexusx-mute-led-v001-2-1.patch"; size=2265;
-	creation-date="Thu, 19 Mar 2026 07:48:48 GMT";
-	modification-date="Thu, 19 Mar 2026 08:14:41 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSBhYjllYmY1ZGZmNGYzMDljMWUwMjFiZDZmZjc2MzA5MWRlY2FiMjAzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IFRodSwgMTkgTWFyIDIwMjYgMTU6NDk6NDYgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
-OiBoZGEvcmVhbHRlayAtIEZpeGVkIFNwZWFrZXIgTXV0ZSBMRUQgZm9yIEhQIEVsaXRlQm9hcmQg
-RzFhIHBsYXRmb3JtCgpPbiB0aGUgSFAgRWxpdGVCb2FyZCBHMWEgcGxhdGZvcm0gKG1vZGVscyB3
-aXRob3V0IGEgaGVhZHBob25lIGphY2spLgp0aGUgc3BlYWtlciBtdXRlIExFRCBmYWlsZWQgdG8g
-ZnVuY3Rpb24uIFRoZSBTeXNmcyBjdGwtbGVkIGluZm8gc2hvd2VkIAplbXB0eSB2YWx1ZXMgYmVj
-YXVzZSB0aGUgc3RhbmRhcmQgTEVEIHJlZ2lzdHJhdGlvbiBjb3VsZG4ndCBjb3JyZWN0bHkgCmJp
-bmQgdG8gdGhlIG1hc3RlciBzd2l0Y2guCkFkZGluZyB0aGlzIHBhdGNoIHdpbGwgZml4IGFuZCBl
-bmFibGUgdGhlIHNwZWFrZXIgbXV0ZSBMRUQgZmVhdHVyZS4KClRlc3RlZC1ieTogQ2hyaXMgQ2hp
-dSA8Y2hyaXMuY2hpdUBjYW5vbmljYWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcg
-PGthaWxhbmdAcmVhbHRlay5jb20+CgpkaWZmIC0tZ2l0IGEvc291bmQvaGRhL2NvZGVjcy9yZWFs
-dGVrL2FsYzI2OS5jIGIvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCmluZGV4IDMy
-N2Y0ZGMxYjA5Zi4uOTEwNjQ5OGViMTlmIDEwMDY0NAotLS0gYS9zb3VuZC9oZGEvY29kZWNzL3Jl
-YWx0ZWsvYWxjMjY5LmMKKysrIGIvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCkBA
-IC0zNzI1LDIyICszNzI1LDQyIEBAIHN0YXRpYyB2b2lkIGFsYzI0NV90YXMyNzgxX3NwaV9ocF9m
-aXh1cF9tdXRlbGVkKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAogCWFsY19maXh1cF9ocF9ncGlv
-X2xlZChjb2RlYywgYWN0aW9uLCAweDA0LCAweDApOwogCWFsYzI4NV9maXh1cF9ocF9jb2VmX21p
-Y211dGVfbGVkKGNvZGVjLCBmaXgsIGFjdGlvbik7CiB9CisKK3N0YXRpYyB2b2lkIGFsYzI0NV9o
-cF9zcGtfbXV0ZV9sZWRfdXBkYXRlKHZvaWQgKnByaXZhdGVfZGF0YSwgaW50IGVuYWJsZWQpCit7
-CisJc3RydWN0IGhkYV9jb2RlYyAqY29kZWMgPSBwcml2YXRlX2RhdGE7CisJdW5zaWduZWQgaW50
-IHZhbDsKKworCXZhbCA9IGVuYWJsZWQgPyAweDA4IDogMHgwNDsgLyogMHgwOCBsZWQgb24sIDB4
-MDQgbGVkIG9mZiAqLworCWFsY191cGRhdGVfY29lZl9pZHgoY29kZWMsIDB4MGIsIDB4MGMsIHZh
-bCk7Cit9CisKIC8qIEpEMjogbXV0ZSBsZWQgR1BJTzM6IG1pY211dGUgbGVkICovCiBzdGF0aWMg
-dm9pZCBhbGMyNDVfdGFzMjc4MV9pMmNfaHBfZml4dXBfbXV0ZWxlZChzdHJ1Y3QgaGRhX2NvZGVj
-ICpjb2RlYywKIAkJCQkJICBjb25zdCBzdHJ1Y3QgaGRhX2ZpeHVwICpmaXgsIGludCBhY3Rpb24p
-CiB7CiAJc3RydWN0IGFsY19zcGVjICpzcGVjID0gY29kZWMtPnNwZWM7CisJaGRhX25pZF90IGhw
-X3BpbiA9IGFsY19nZXRfaHBfcGluKHNwZWMpOwogCXN0YXRpYyBjb25zdCBoZGFfbmlkX3QgY29u
-bltdID0geyAweDAyIH07CiAKIAlzd2l0Y2ggKGFjdGlvbikgewogCWNhc2UgSERBX0ZJWFVQX0FD
-VF9QUkVfUFJPQkU6CisJCWlmICghaHBfcGluKSB7CisJCQlzcGVjLT5nZW4udm1hc3Rlcl9tdXRl
-Lmhvb2sgPSBhbGMyNDVfaHBfc3BrX211dGVfbGVkX3VwZGF0ZTsKKwkJCXNwZWMtPmdlbi52bWFz
-dGVyX211dGVfbGVkID0gMTsKKwkJfQogCQlzcGVjLT5nZW4uYXV0b19tdXRlX3ZpYV9hbXAgPSAx
-OwogCQlzbmRfaGRhX292ZXJyaWRlX2Nvbm5fbGlzdChjb2RlYywgMHgxNywgQVJSQVlfU0laRShj
-b25uKSwgY29ubik7CiAJCWJyZWFrOworCWNhc2UgSERBX0ZJWFVQX0FDVF9JTklUOgorCQlpZiAo
-IWhwX3BpbikKKwkJCWFsYzI0NV9ocF9zcGtfbXV0ZV9sZWRfdXBkYXRlKGNvZGVjLCAhc3BlYy0+
-Z2VuLm1hc3Rlcl9tdXRlKTsKKwkJYnJlYWs7CiAJfQogCiAJdGFzMjc4MV9maXh1cF90eG53X2ky
-Yyhjb2RlYywgZml4LCBhY3Rpb24pOwotCWFsYzI0NV9maXh1cF9ocF9tdXRlX2xlZF9jb2VmYml0
-KGNvZGVjLCBmaXgsIGFjdGlvbik7CisJaWYgKGhwX3BpbikKKwkJYWxjMjQ1X2ZpeHVwX2hwX211
-dGVfbGVkX2NvZWZiaXQoY29kZWMsIGZpeCwgYWN0aW9uKTsKIAlhbGMyODVfZml4dXBfaHBfY29l
-Zl9taWNtdXRlX2xlZChjb2RlYywgZml4LCBhY3Rpb24pOwogfQogLyoK
-
---_002_279e929e884849df84687dbd67f20037realtekcom_--
