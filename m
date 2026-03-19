@@ -1,45 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4E73E9589;
-	Thu, 19 Mar 2026 16:05:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750F61C3BF7;
+	Thu, 19 Mar 2026 16:22:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773936312; cv=none; b=FxYZIcBj79dkRXQW2HUzx30ZxLGAe6JrHlfwahHIsW4DAbTu85M/wciMGB/hV427/VVFqQgdJnfA5tGR87g4eyQK36Wacb022YVUZP1RGRV3QQ3bleX+iczAYmBt1atAFsZ+8xdF3z/xet8A71se3TwvEvFfcun/iQW7QahdHX0=
+	t=1773937332; cv=none; b=DQs8PwADcyKSs9Nq8csC6dd9zOgS82dUrrJyV7nL1LhDKgdWdC5cwD+Cq3eRt9hHV48ydt4mqQxfJqhyHxiTwsEFJvjCuoXYzCLgf+LDslKUrANEvvg7QhzWxjdhL/NKWkqXnH15qCTTQ2vPuTtJAOon7synJkXkHQe1Ukbz03c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773936312; c=relaxed/simple;
-	bh=bulJuIHOPkmsY4vZeEUt2EEEHlRPsQREHa6rH8/GZlI=;
+	s=arc-20240116; t=1773937332; c=relaxed/simple;
+	bh=iy3MeSA1uG9awnTTpbd86p02bVpAzL1FkXvQsaijl4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lO8g+BN/KiAQo26fKExqfZ7ar5gQCD8EWifc2G9+uOE6+WJMTOm5qYfeWrCtnuZ2cOSRJNMZZniD4HydYzDKR8FBv0Mgdf6F/Z68ZXbAGJVQhL6hOjcvJds3a0239ZYWn5EXH63YUbSAALz2Y23/DOEoQUltvdK/2HghaTVGyXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAqmYDFq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cn3lhRTwrEnrlkhwSdW8dJIuqAN4/Vd6zDDj78z0oQL9N8Rlgj1ie66EkpKs30ZOEJyLUUzKRdG66bQu91S1JFzXCA8Yc/nLIJkjeY+ytulfhdKuvMsOx2oYE3KO7oEHlHP4+BT5pWcVffm6qb24foVF8oU5pCxqmjiKTKWsjhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQf3kgBC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAqmYDFq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68CB6C19424;
-	Thu, 19 Mar 2026 16:05:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQf3kgBC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74006C19424;
+	Thu, 19 Mar 2026 16:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773936311;
-	bh=bulJuIHOPkmsY4vZeEUt2EEEHlRPsQREHa6rH8/GZlI=;
+	s=k20201202; t=1773937332;
+	bh=iy3MeSA1uG9awnTTpbd86p02bVpAzL1FkXvQsaijl4c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iAqmYDFq9seKuV/CQmq7BClLSWULxWgUhsW6zq21yz3YLktacM2cgOnvd++q8RMlM
-	 tKTmgzSrBxIVvKXB7njhRdV5Np4Funk7GVzOzGRquSaL/oQcfyqp45UnXPu6sM7Wfb
-	 uUI1vCZZWPr86Tr+eVZWtHqscxPR0ny1GzJ2FRe4MwHpRMxPT82Frlvwviv0qc4sIi
-	 e9nPQf1B/AlQncOoRgMI2wvCTjmVCwC0rU43lp2j1G4HxeoJCG2ylDu4cNMz19P3AZ
-	 MprcW0MldGiDHn/hdhKI7FZ3m/hBTBy4m1S1XnIHBiJDu5B8fylmV5rL+8h2f0Pd8+
-	 OF5hr8iXMzKpQ==
-Date: Thu, 19 Mar 2026 16:05:06 +0000
+	b=WQf3kgBCnof/ZaYwMhoDO6G4keSnpbBFIUoefTUXMF1FRPriUNksDVh6ZLYdNBVXE
+	 9eTymtpa8cFlrC46bUhG1xCW2YnGgSxCT5EPLVJA2pdmOJWu1rZe5PSkVaatYm8ivU
+	 FqUlhf7WKiLqzYCFwXBqp+hsSIhf9wJOTLfhkq09NwkhdZITP/LBb5LjCWFSBUZaw8
+	 bpzdkL5HSYuba/3URhFJQq8x7W3eS68QOp5V9SveFzoMzbPgdYNifin1EsPzBOmTJH
+	 fk9VWOpLdCFx+wH7s8WIDtOuh4nugdPkhBnusO6u6nJkjusJJ3n/1vMMzlaR0e4uMx
+	 5ILF66Isu27yQ==
+Date: Thu, 19 Mar 2026 16:21:55 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Ben Copeland <ben.copeland@linaro.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Anders Roxell <anders.roxell@linaro.org>,
-	linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selftests: ALSA: Skip utimer test when CONFIG_SND_UTIMER
- is not enabled
-Message-ID: <778a9f3a-c479-4629-89ff-7a189b730b2e@sirena.org.uk>
-References: <20260319124521.191491-1-ben.copeland@linaro.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	John Madieu <john.madieu@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/22] ASoC: rsnd: Add audio support for the Renesas
+ RZ/G3E SoC
+Message-ID: <b2347c14-7f29-4453-938b-8287f45aa5fd@sirena.org.uk>
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,37 +59,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qPToLBSzfzXvWBWQ"
+	protocol="application/pgp-signature"; boundary="M0S6hMqfqBLF2RTC"
 Content-Disposition: inline
-In-Reply-To: <20260319124521.191491-1-ben.copeland@linaro.org>
+In-Reply-To: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
 X-Cookie: Given my druthers, I'd druther not.
 
 
---qPToLBSzfzXvWBWQ
+--M0S6hMqfqBLF2RTC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Mar 19, 2026 at 12:45:21PM +0000, Ben Copeland wrote:
-> The timer_f.utimer test hard-fails with ASSERT_EQ when
-> SNDRV_TIMER_IOCTL_CREATE returns -1 on kernels without
-> CONFIG_SND_UTIMER. This causes the entire alsa kselftest suite to
-> report a failure rather than skipping the unsupported test.
+On Thu, Mar 19, 2026 at 04:53:12PM +0100, John Madieu wrote:
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
+> This series includes:
+>   - Clock driver support for audio clocks and resets
+>   - DT bindings update for DMA ACK signal field
+>   - IRQ chip extension for DMA ACK signal routing
+>   - RZ-DMAC driver updates for ACK signal support
+>   - R-Car Sound driver updates for RZ/G3E support
+>   - System suspend/resume support
+>   - Device tree nodes for RZ/G3E SMARC EVK
 
---qPToLBSzfzXvWBWQ
+Are there any non-runtime dependencies between the various patches here?
+It's a fairly large series touching multiple subsystems, we'll need to
+work out how it gets merged.  It looks to be mainly ASoC but perhaps the
+other subsystem changes are independent and can just go via their tree?
+
+--M0S6hMqfqBLF2RTC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm8HrEACgkQJNaLcl1U
-h9Cipwf+JeqOlKUa9Ke2INwMHr9caNFA/ZZYQshaiIm4DjBFNiVtu+6vGHJ7Hwlw
-+h5Oj1XoXBGxXW07W3Gvz8SanmX4iXZz66MiPrKPHjqEUHrvDZGFN43HEvA1IBho
-yg9QoYHJP4xO+VZ38xVgW9OoOMS+kUwmWZYvNTzFTk1lUThhkoGTZy1MHcFHaW2r
-agi7i6NAB0lIVYNDw/zbsuq85TuNn/A2sC907YRiK+sFcJnNGo17ubZgQSTrw4xT
-e8HZWXOWCGrfC68AeNkQ849x3TcfUW77+40JByfCYlTS6Hl+Bz/51Ae0ug3dj/qm
-gEPdoNzOT2HRUsIb1OVlvNU2s03hSw==
-=m2EO
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm8IqMACgkQJNaLcl1U
+h9BHmAf+PMcOwgB9Gct8b6c7m1InEsr2pIiF/SbmLSRFXBzS58ook4aVD+JEvFm8
+tKmogJ2YDakAc/hOjP05KONmSns3bClBoV2BL3GPQHHvOH0Dw0LJQZwuyp3tH9zQ
+LZsnisVHORxfPABK2tUcbD31y+ZY2fqFF9goE3FxPLR4itZx7HjT2xSq2SFvlRxF
+FA1VMRYasUfV6TaJKcTJS3jxv/hpjgQADhFhT739qU4RvwAuZcfnMj0XzTOcHite
+Rl1Pj6kKEzO9KrHeu4Bx07Tg7VbiDNOQPy8dXeM7E/Cfr7G8lZPFh2V2edly312V
+nhRXGGvo8aAh6qR1ZNILCsdFMRzVsA==
+=PFGf
 -----END PGP SIGNATURE-----
 
---qPToLBSzfzXvWBWQ--
+--M0S6hMqfqBLF2RTC--
