@@ -1,228 +1,83 @@
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5073EC2C2;
-	Thu, 19 Mar 2026 15:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4E73E9589;
+	Thu, 19 Mar 2026 16:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773935896; cv=none; b=WpAR+IG0kBgAO5OZh3ozLHZgTRDcBGzoIYVoLDL3Iaq6WwsdBWrKqdDSICQcg2zNVPhWdzIWwf3iNAe9Ih8xjaZLpRqKFRKOUEaDSbEzM6JQtQ4O4YqPjAgm3PTRw6r9bhKn+Lyucs0Eb68okNf2FybtMGwy8fw1EQbk7010Okk=
+	t=1773936312; cv=none; b=FxYZIcBj79dkRXQW2HUzx30ZxLGAe6JrHlfwahHIsW4DAbTu85M/wciMGB/hV427/VVFqQgdJnfA5tGR87g4eyQK36Wacb022YVUZP1RGRV3QQ3bleX+iczAYmBt1atAFsZ+8xdF3z/xet8A71se3TwvEvFfcun/iQW7QahdHX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773935896; c=relaxed/simple;
-	bh=uduAbXx87Jb0f2ifVp148BdHVKrVEd7tXV03EPjNuAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZgCqV6yIWCSjLCuTLwKPmX5imbvjFQL9N5wjyW5EDSoG6NheeMf60lT+enLcqMwNKW3ogsOWkVIrYCLzVYUVHACrhpfdt24PFkg4+OnN2xUXVtYhj/1ioGoIz2gsxQD/aF12lgEsDOw3+NKh+lxUpCujFfWk2e0hLQwq6pOxVsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: zPZ+kk9pS+a8dOmMTwAFPA==
-X-CSE-MsgGUID: pRnLTKOCToKUWKyKadyiXQ==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Mar 2026 00:58:13 +0900
-Received: from ubuntu.adwin.renesas.com (unknown [10.226.93.35])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id ABB26401BC51;
-	Fri, 20 Mar 2026 00:58:04 +0900 (JST)
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	John Madieu <john.madieu@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH 22/22] arm64: dts: renesas: r9a09g047e57-smarc: add DA7212 audio codec support
-Date: Thu, 19 Mar 2026 16:53:34 +0100
-Message-ID: <20260319155334.51278-23-john.madieu.xa@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1773936312; c=relaxed/simple;
+	bh=bulJuIHOPkmsY4vZeEUt2EEEHlRPsQREHa6rH8/GZlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lO8g+BN/KiAQo26fKExqfZ7ar5gQCD8EWifc2G9+uOE6+WJMTOm5qYfeWrCtnuZ2cOSRJNMZZniD4HydYzDKR8FBv0Mgdf6F/Z68ZXbAGJVQhL6hOjcvJds3a0239ZYWn5EXH63YUbSAALz2Y23/DOEoQUltvdK/2HghaTVGyXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAqmYDFq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAqmYDFq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68CB6C19424;
+	Thu, 19 Mar 2026 16:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773936311;
+	bh=bulJuIHOPkmsY4vZeEUt2EEEHlRPsQREHa6rH8/GZlI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iAqmYDFq9seKuV/CQmq7BClLSWULxWgUhsW6zq21yz3YLktacM2cgOnvd++q8RMlM
+	 tKTmgzSrBxIVvKXB7njhRdV5Np4Funk7GVzOzGRquSaL/oQcfyqp45UnXPu6sM7Wfb
+	 uUI1vCZZWPr86Tr+eVZWtHqscxPR0ny1GzJ2FRe4MwHpRMxPT82Frlvwviv0qc4sIi
+	 e9nPQf1B/AlQncOoRgMI2wvCTjmVCwC0rU43lp2j1G4HxeoJCG2ylDu4cNMz19P3AZ
+	 MprcW0MldGiDHn/hdhKI7FZ3m/hBTBy4m1S1XnIHBiJDu5B8fylmV5rL+8h2f0Pd8+
+	 OF5hr8iXMzKpQ==
+Date: Thu, 19 Mar 2026 16:05:06 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Ben Copeland <ben.copeland@linaro.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftests: ALSA: Skip utimer test when CONFIG_SND_UTIMER
+ is not enabled
+Message-ID: <778a9f3a-c479-4629-89ff-7a189b730b2e@sirena.org.uk>
+References: <20260319124521.191491-1-ben.copeland@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qPToLBSzfzXvWBWQ"
+Content-Disposition: inline
+In-Reply-To: <20260319124521.191491-1-ben.copeland@linaro.org>
+X-Cookie: Given my druthers, I'd druther not.
 
-RZ/G3E SMARC board has a DA7212 audio codec connected via I2C1 for
-sound input/output using SSI3/SSI4 where:
 
- - The codec receives its master clock from the Versa3 clock
-   generator present on the SoM
- - SSI4 shares clock pins with SSI3 to provide a separate data
-   line for full-duplex audio capture.
+--qPToLBSzfzXvWBWQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Enable audio support on RZ/G3E SMARC2 EVK boards with a DA7212 audio codec.
+On Thu, Mar 19, 2026 at 12:45:21PM +0000, Ben Copeland wrote:
+> The timer_f.utimer test hard-fails with ASSERT_EQ when
+> SNDRV_TIMER_IOCTL_CREATE returns -1 on kernels without
+> CONFIG_SND_UTIMER. This causes the entire alsa kselftest suite to
+> report a failure rather than skipping the unsupported test.
 
-Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
----
- .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 114 ++++++++++++++++++
- 1 file changed, 114 insertions(+)
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-index 696903dc7a63..62bc8e2a178a 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dts
-@@ -32,6 +32,37 @@
- #include "rzg3e-smarc-som.dtsi"
- #include "renesas-smarc2.dtsi"
- 
-+/*
-+ * SSI-DA7212
-+ *
-+ * These commands are required when Playback/Capture
-+ *
-+ *	amixer -q cset name='Aux Switch' on
-+ *	amixer -q cset name='Mixin Left Aux Left Switch' on
-+ *	amixer -q cset name='Mixin Right Aux Right Switch' on
-+ *	amixer -q cset name='ADC Switch' on
-+ *	amixer -q cset name='Mixout Right Mixin Right Switch' off
-+ *	amixer -q cset name='Mixout Left Mixin Left Switch' off
-+ *	amixer -q cset name='Headphone Volume' 70%
-+ *	amixer -q cset name='Headphone Switch' on
-+ *	amixer -q cset name='Mixout Left DAC Left Switch' on
-+ *	amixer -q cset name='Mixout Right DAC Right Switch' on
-+ *	amixer -q cset name='DAC Left Source MUX' 'DAI Input Left'
-+ *	amixer -q cset name='DAC Right Source MUX' 'DAI Input Right'
-+ *	amixer -q sset 'Mic 1 Amp Source MUX' 'MIC_P'
-+ *	amixer -q sset 'Mic 2 Amp Source MUX' 'MIC_P'
-+ *	amixer -q sset 'Mixin Left Mic 1' on
-+ *	amixer -q sset 'Mixin Right Mic 2' on
-+ *	amixer -q sset 'Mic 1' 90% on
-+ *	amixer -q sset 'Mic 2' 90% on
-+ *	amixer -q sset 'Lineout' 80% on
-+ *	amixer -q set "Headphone" 100% on
-+ *
-+ * When Capture chained with DVC, use this command to amplify sound
-+ *	amixer set 'DVC In',0 80%
-+ * For playback, use: amixer set 'DVC Out',0 80%
-+ */
-+
- / {
- 	model = "Renesas SMARC EVK version 2 based on r9a09g047e57";
- 	compatible = "renesas,smarc2-evk", "renesas,rzg3e-smarcm",
-@@ -55,6 +86,22 @@ vqmmc_sd1_pvdd: regulator-vqmmc-sd1-pvdd {
- 		gpios-states = <0>;
- 		states = <3300000 0>, <1800000 1>;
- 	};
-+
-+	sound_card: sound {
-+		compatible = "audio-graph-card";
-+
-+		label = "snd-rzg3e";
-+
-+		dais = <&rsnd_port0>;	/* DA7212 */
-+	};
-+};
-+
-+&audio_clkb {
-+	clock-frequency = <11289600>;
-+};
-+
-+&audio_clkc {
-+	clock-frequency = <12288000>;
- };
- 
- &canfd {
-@@ -99,6 +146,37 @@ &i2c0 {
- 	pinctrl-names = "default";
- };
- 
-+&i2c1 {
-+	da7212: codec@1a {
-+		compatible = "dlg,da7212";
-+		#sound-dai-cells = <0>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <0x1a>;
-+
-+		clocks = <&versa3 1>;
-+		clock-names = "mclk";
-+
-+		dlg,micbias1-lvl = <2500>;
-+		dlg,micbias2-lvl = <2500>;
-+		dlg,dmic-data-sel = "lrise_rfall";
-+		dlg,dmic-samplephase = "between_clkedge";
-+		dlg,dmic-clkrate = <3000000>;
-+
-+		VDDA-supply = <&reg_1p8v>;
-+		VDDSP-supply = <&reg_3p3v>;
-+		VDDMIC-supply = <&reg_3p3v>;
-+		VDDIO-supply = <&reg_1p8v>;
-+
-+		port {
-+			da7212_endpoint: endpoint {
-+				remote-endpoint = <&rsnd_endpoint0>;
-+				mclk-fs = <256>;
-+			};
-+		};
-+	};
-+};
-+
- &keys {
- 	pinctrl-0 = <&nmi_pins>;
- 	pinctrl-names = "default";
-@@ -248,6 +326,42 @@ &sdhi1 {
- 	vqmmc-supply = <&vqmmc_sd1_pvdd>;
- };
- 
-+&snd_rzg3e {
-+	pinctrl-0 = <&sound_clk_pins &sound_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+
-+	/* audio_clkout */
-+	#clock-cells = <0>;
-+	clock-frequency = <11289600>;
-+
-+	/* Multi DAI */
-+	#sound-dai-cells = <1>;
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		rsnd_port0: port@0 {
-+			reg = <0>;
-+			rsnd_endpoint0: endpoint {
-+				remote-endpoint = <&da7212_endpoint>;
-+
-+				dai-format = "i2s";
-+				bitclock-master = <&rsnd_endpoint0>;
-+				frame-master = <&rsnd_endpoint0>;
-+
-+				playback = <&ssi3>, <&src1>, <&dvc1>;
-+				capture = <&ssi4>, <&src0>, <&dvc0>;
-+			};
-+		};
-+	};
-+};
-+
-+&ssi4 {
-+	shared-pin;
-+};
-+
- &xhci {
- 	pinctrl-0 = <&usb3_pins>;
- 	pinctrl-names = "default";
--- 
-2.25.1
+--qPToLBSzfzXvWBWQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm8HrEACgkQJNaLcl1U
+h9Cipwf+JeqOlKUa9Ke2INwMHr9caNFA/ZZYQshaiIm4DjBFNiVtu+6vGHJ7Hwlw
++h5Oj1XoXBGxXW07W3Gvz8SanmX4iXZz66MiPrKPHjqEUHrvDZGFN43HEvA1IBho
+yg9QoYHJP4xO+VZ38xVgW9OoOMS+kUwmWZYvNTzFTk1lUThhkoGTZy1MHcFHaW2r
+agi7i6NAB0lIVYNDw/zbsuq85TuNn/A2sC907YRiK+sFcJnNGo17ubZgQSTrw4xT
+e8HZWXOWCGrfC68AeNkQ849x3TcfUW77+40JByfCYlTS6Hl+Bz/51Ae0ug3dj/qm
+gEPdoNzOT2HRUsIb1OVlvNU2s03hSw==
+=m2EO
+-----END PGP SIGNATURE-----
+
+--qPToLBSzfzXvWBWQ--
