@@ -1,110 +1,89 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from r3-78.sinamail.sina.com.cn (r3-78.sinamail.sina.com.cn [202.108.3.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B76386C32
-	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 05:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2F7279DB4
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 05:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773897452; cv=none; b=RMEIhAm8oTJa6xmckYw1RhlxGP//ZjtVrf3Co3i76CC8YlxJE46OSzGgjta0/9NfgfC/dIbX0qV0LN4dD7SfcsGDTS3UZVq7ajdvdZF8wpk6XaS497mvEOQAiVDGlHD1Haj64Q2NiTxC9oN1XMV4QYOdQA6ff8Q2mEacumC/+Ik=
+	t=1773898846; cv=none; b=LyanuMh5i1sl1SCMbAHMYJnWZLmG179WrSLIPRjDoe5xhpWWCrKLqoGMBi1mrwuJX3xZTfJC9pjXq8vqIIt/s+GLg1VSfWUyys02cCqre2jeWZLCjnalfRUw3bVCkvHk8ul9el5zsb1WZaHXFxu/mPGcduoSlCLzRZh0889vpWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773897452; c=relaxed/simple;
-	bh=8iSqG3x2o6WvyVuCa0n3oqyrmMUTpcn9qdWP474vCcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lM6zj2+Mrb9qYZjEwK97iI8ZREKxhc1+5LKbEq+zbgx9kKFLrTHwgXDi5hBDbDPfBjgwCVzWyYbHwmicUFG3tMP3q1Z4IwQ8ycuocu0dPKJroCyQtsMqtbYSN6ej0IXLyT34XvRIqWwOPsIMgOZek64/y8NvFgyu4ghL8PTuPgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=TL3mCY30; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="TL3mCY30"
-Message-ID: <a7058f7d-b9c9-4f4b-87af-7775a2e756dd@packett.cool>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1773897437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LGU76WHTiNP96NxusRYJzGZVbv7nm2kMIO9LDJdid6Y=;
-	b=TL3mCY30jsexb8LxKKS7BdXmuiUi4JKVRpIa0JB8v5UeeQXy9lBUKHWpQbDLkm+PKFQ/eX
-	vfF1U3wVd66GmG8Ixi0YfgUCMjZDPw/KTCLtgEyJsYKdb2F4DqUnutyx9vQey0M1R/dcwf
-	tl8iPIUedkPMl7jmjxjmBKghUH3hEFVPQOPwgZTMK/uW9eQWs18RyEWntcCrywduP+6uDv
-	wxKQV3enFkFltIWhky+hV5JOa2KavHIZJJQAkNqeTo8t63Od07LfsyvDion6eItJSQkqqd
-	u5Sm6WrB+i4AxD0XCcqVD6LpgRzJp7VHRFbXDGXeFiiktioWwKoofSsLsWJqsQ==
-Date: Thu, 19 Mar 2026 02:17:03 -0300
+	s=arc-20240116; t=1773898846; c=relaxed/simple;
+	bh=wwHztt0ghbiV2DS08yWVudouRu5JqJTJ4R5wOTcQ9uo=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=VTqiluI8mFUsN0Uu2cqDvmtaHKG7Ui4xtYzEtHwBM8oo64OfVTfPPZuX0enx2SyFaLfRUNppWTxbEG5msQ/F3KktvhSb4bPWQBkbbKxYHWTCEVy6g+zpu45YyQOJv9o7sWyUbgci2ZB3y+Br1l+yv62+xVtry7AwMaAmDQLe904=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
+	by sina.net (10.54.253.37) with ESMTP
+	id 69BB8C3100002EA9; Thu, 19 Mar 2026 13:40:02 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 65E50457B39545DB89F53F2B45339A16
+X-SMAIL-UIID: 65E50457B39545DB89F53F2B45339A16-20260319-134002
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v3 0/6] Add es9356 focused SoundWire CODEC
+Date: Thu, 19 Mar 2026 13:39:53 +0800
+Message-Id: <20260319053959.9151-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v5 08/13] ASoC: qcom: q6dsp: Add Senary MI2S audio
- interface support
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
- dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, mailingradian@gmail.com
-References: <20260309065137.949053-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260309065137.949053-9-srinivas.kandagatla@oss.qualcomm.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Val Packett <val@packett.cool>
-In-Reply-To: <20260309065137.949053-9-srinivas.kandagatla@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Hi,
+This patch chain adds support for the ES9356 PC focused
+SoundWire CODEC.
 
-On 3/9/26 3:51 AM, Srinivas Kandagatla wrote:
-> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->
-> Introduces support for the Senary MI2S audio interface in the Qualcomm
-> q6dsp. Add new AFE port IDs for Senary MI2S RX and TX and include the
-> necessary mappings in the port configuration  to allow audio routing
-> over the Senary MI2S interface.
->
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->   sound/soc/qcom/qdsp6/q6afe-dai.c         |  6 +++++
->   sound/soc/qcom/qdsp6/q6afe.c             |  6 +++++
->   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 29 ++++++++++++++++++++++++
->   3 files changed, 41 insertions(+)
-> [..]
-> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-> index 43d877322bae..7bd40e32f758 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe.c
-> [..]
+v3 -> v2:
+	-Removed unnecessary section in soc_sdw_es9356.c
+	-Add `pm_runtime_put_noidle` to `es9356.c` to
+	 reduce device incremented count
+	-Updated some KControl names
+	-Fix the error related to jack_report in the codec driver
 
+v2 -> v1:
+	-Adjusted mutexes in the ES9356 driver
+	-Use macros to replace certain values
+	-Adjusted some ordering issues in Kconfig.
 
-One chunk is missing for this file, adding it to the big switch in 
-q6afe_port_get_from_id:
+v1 -> v0:
+	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
 
-diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-index 7bd40e32f7..40237267fd 100644
---- a/sound/soc/qcom/qdsp6/q6afe.c
-+++ b/sound/soc/qcom/qdsp6/q6afe.c
-@@ -1783,6 +1783,8 @@
-      case AFE_PORT_ID_QUATERNARY_MI2S_TX:
-      case AFE_PORT_ID_QUINARY_MI2S_RX:
-      case AFE_PORT_ID_QUINARY_MI2S_TX:
-+    case AFE_PORT_ID_SENARY_MI2S_RX:
-+    case AFE_PORT_ID_SENARY_MI2S_TX:
-          cfg_type = AFE_PARAM_ID_I2S_CONFIG;
-          break;
-      case AFE_PORT_ID_PRIMARY_TDM_RX ... AFE_PORT_ID_QUINARY_TDM_TX_7:
+Zhang Yi (6):
+  ASoC: sdw_utils: Add ES9356 support functions
+  ASoC: sdw_utils: add ES9356 in codec_info_list
+  ASoC: sdw_utils: add soc_sdw_es9356
+  ASoC: es9356-sdca: Add ES9356 SDCA driver
+  ASoC: Intel: soc-acpi: arl: Add es9356 support
+  ASoC: Intel: sof_sdw: add es9356 support
 
+ include/sound/soc_sdw_utils.h                 |   14 +
+ sound/soc/codecs/Kconfig                      |    6 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/es9356.c                     | 1485 +++++++++++++++++
+ sound/soc/codecs/es9356.h                     |  229 +++
+ sound/soc/intel/boards/Kconfig                |    1 +
+ .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
+ sound/soc/sdw_utils/Makefile                  |    1 +
+ sound/soc/sdw_utils/soc_sdw_es9356.c          |  231 +++
+ sound/soc/sdw_utils/soc_sdw_utils.c           |   49 +
+ 10 files changed, 2070 insertions(+)
+ create mode 100644 sound/soc/codecs/es9356.c
+ create mode 100644 sound/soc/codecs/es9356.h
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
 
-With that + adding senary to q6routing and to SoC specific sndcard,
-
-Tested-by: Val Packett <val@packett.cool> # sm7325-motorola-dubai
-
-(WIP device, patches coming Soon™)
-
-
-Thanks,
-~val
+-- 
+2.17.1
 
