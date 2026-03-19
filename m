@@ -1,91 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F3E2D3727;
-	Thu, 19 Mar 2026 15:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C39E3E8C60;
+	Thu, 19 Mar 2026 15:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773933675; cv=none; b=Cp6RGXc/gbTE5kE9ewK/TH1yFp0cocanu/TE7XYKxRtdKxDIbxHf3gQpvrInMalI6BGIRzVqcv1VKwRkARHwQEKdQ4agvnNvfpRgWYR6W//tNGsRdEx713rjad/ZzwgQzjOhqYYwKO/Hb0QW6Lze+GN0/yTR3AFCJaAVkmN7lIM=
+	t=1773935695; cv=none; b=YkdNs/ihJyNDkN+YKx/mGnhAl7UJNWGo015jZzFFlhfyQTJRCwBzg/bWrWJYTqYGZDg6eKURZ9/SV7EB725L1hd/saXaIrxv+JgTCuybP5kpVgZ2+9j4UWAckiF8mClzUDc0ngXrteFyOx+Nh9+IZPmbeDbirkecwTd+3CQFQd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773933675; c=relaxed/simple;
-	bh=he34+0wizSFfqRiO9194UtqQsSk6XC+EjEbGeqPyUg8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MaGyTDwxuw72wYmBgsdvHBZfQ0kG6yH44cJ0hsRAt2NXAONNeikWyKLph69docBzzwCjKr195U2KQOlsn7xjIdHCOjFUPrRWJtvod9p69jZ3MbA6IyKbETbsX/h4n9uM4XllU9JVmSzlhdUPLrG/3foNcCBOKaN90hIQgxrhpzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FV286Fqw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FV286Fqw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46378C19424;
-	Thu, 19 Mar 2026 15:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773933675;
-	bh=he34+0wizSFfqRiO9194UtqQsSk6XC+EjEbGeqPyUg8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FV286FqwTmAbInFmmGb5ZsTqLhk2z2nPeit3LuwW4Kz8fZ8q25blEnd4mfE3aAZ/+
-	 uSlMTZcZzpsqRpGX8m61obtXVuk06BMvWYlCk4hWQIrRwKZiAdhsMLIezJnMVXBO/b
-	 Txl7vP4qRKBA2UpvgU2gg2gMnCISqD0KNLh03qc8o/f6ItqEJ8DVJLqmaAGtilC0lV
-	 Q05pV+UK8qADp3J56E8nY1ofEDmn+qDRxnqdltNPrNMsCTX4zoRICMKvV6UIGC+ukY
-	 +xncu4Jnm1aiZnhL7BS4Oe4YOUkCipXs+mHuaWLGdAUmODbCqvXFYzgu6cEuKNOGU+
-	 BBk57diBEIWDA==
-From: Mark Brown <broonie@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
- alsa-devel@alsa-project.org, shenghao-ding@ti.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- webmaster@raspii.tech
-In-Reply-To: <20260319090747.2090-1-baojun.xu@ti.com>
-References: <20260319090747.2090-1-baojun.xu@ti.com>
-Subject: Re: [PATCH v1] ASoC: tas2781: Add null check for calibration data
-Message-Id: <177392478513.62583.10628320822573233875.b4-ty@b4>
-Date: Thu, 19 Mar 2026 12:53:05 +0000
+	s=arc-20240116; t=1773935695; c=relaxed/simple;
+	bh=TvoFaZnDkHljuedn8mMgsQnpQsCc4CsQRQvlqeGSZK0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ik52AHFxilHQpw/Z/xZIKScSjjc4r+ZwWDnP0/UpYS8Aqodcu9ov5BRjIxAGGjteqrCks2c0eofiKHFXLyQYQHP+XaVoFTkUJvDL4M6QetOUFBSl6ATAYCcM3rQS2gIZtKLArDb4XuzT83/qqAZ3s5y4RVBeG0LRsgS/CItNXDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-CSE-ConnectionGUID: q8RlAQb8QsmTHSjO3z1ysA==
+X-CSE-MsgGUID: pYohW8xKSuiQFh6fyMKcsQ==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 20 Mar 2026 00:54:45 +0900
+Received: from ubuntu.adwin.renesas.com (unknown [10.226.93.35])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1381B40189E4;
+	Fri, 20 Mar 2026 00:54:36 +0900 (JST)
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	John Madieu <john.madieu@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: [PATCH 00/22] ASoC: rsnd: Add audio support for the Renesas RZ/G3E SoC
+Date: Thu, 19 Mar 2026 16:53:12 +0100
+Message-ID: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a9787
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
- h=from:subject:message-id; bh=he34+0wizSFfqRiO9194UtqQsSk6XC+EjEbGeqPyUg8=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhsw9IhmZy28c6yoLeqLId7GseLZ94yv9rnfsF1de03T59
- WjtmzbbTkZjFgZGLgZZMUWWtc8yVqWHS2yd/2j+K5hBrEwgUxi4OAVgIjeb2P+nXTO73acXVnpR
- fu0liSLuhZsP3Xzv/njp94t3MhdPPLLVnPn41mNrpkdMi/Z7nZD+lvF6bNaGTfxfu8QqimYmr28
- tsPPPPWters82+dI/tabG+/qGUjeWGHuZlh2wzPadL+6X1tLDHerIXv2kSDZQuCH2ufKkDsfyQB
- FebddvnyWK9uZ2nbxVdZOz3TLq78I5mdFP6n3EVC7sFM+WKf/pYXpfN3+1xK29rMrpl4NWZTpqs
- 3Sm69vJa0fnMDbfLD+vWeeYkZYjtLLw0Geh21x75wk1uz9VFqsvyE344riU4/TpSVVPnkwozzvG
- y3163mGFHVZeCitYdT7l5D14mL8poKW5LKRtr9L5T065AA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Thu, 19 Mar 2026 17:07:47 +0800, Baojun Xu wrote:
-> ASoC: tas2781: Add null check for calibration data
+This series adds audio support for the Renesas RZ/G3E SoC and enables
+it on the SMARC EVK board with the Dialog DA7212 codec.
 
-Applied to
+The RZ/G3E audio subsystem is based on R-Car Sound IP but has several
+differences requiring dedicated handling:
+  - SSI operates exclusively in BUSIF mode (no PIO)
+  - 2 BUSIF channels per SSI instead of 4/8 on R-Car
+  - Different register offsets for SCU, ADG, SSIU, and SSI
+  - Per-SSI ADG and SSIF supply clocks
+  - DMA ACK signal routing through ICU
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+This series includes:
+  - Clock driver support for audio clocks and resets
+  - DT bindings update for DMA ACK signal field
+  - IRQ chip extension for DMA ACK signal routing
+  - RZ-DMAC driver updates for ACK signal support
+  - R-Car Sound driver updates for RZ/G3E support
+  - System suspend/resume support
+  - Device tree nodes for RZ/G3E SMARC EVK
 
-Thanks!
+Note: patch 06/22 depends on [1]. As this patch will propably be routed
+through the DMA tree independently, the rest of the series can be reviewed
+and the remaining patches applied without this dependency being resolved
+first.
 
-[1/1] ASoC: tas2781: Add null check for calibration data
-      https://git.kernel.org/broonie/sound/c/a437601a0a13
+Audio configuration on SMARC EVK:
+  - Codec: Dialog DA7212 on I2C1
+  - Playback: SSI3 -> SRC1 -> DVC1
+  - Capture: SSI4 -> SRC0 -> DVC0
+  - MCLK: 12.288MHz from Versa3 clock generator
+  - Format: I2S, RZ/G3E Sound as clock master
+  - SSI4 shares clock pins with SSI3 (shared-pin)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Tested on RZ/G3E SMARC EVK with:
+  - Playback to headphone output
+  - Capture from line-in (AUX) input and/or Mic
+  - Full duplex operation
+  - System suspend/resume
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+[1] https://lore.kernel.org/all/20260126103155.2644586-1-claudiu.beznea.uj@bp.renesas.com/
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+John Madieu (22):
+  dt-bindings: clock: renesas: Add audio clock inputs for RZ/V2H family
+  arm64: dts: renesas: rzv2h: Add audio clock inputs
+  clk: renesas: r9a09g047: Add audio clock and reset support
+  dt-bindings: dma: renesas,rz-dmac: Document optional DMA ACK cell
+  irqchip/renesas-rzv2h: Add DMA ACK signal routing support
+  dma: sh: rz-dmac: Add DMA ACK signal routing support
+  ASoC: dt-bindings: renesas,rsnd: Add RZ/G3E support
+  ASoC: rsnd: Add reset controller support to rsnd_mod
+  ASoC: rsnd: Add RZ/G3E SoC probing and register map
+  ASoC: rsnd: Add DMA support infrastructure for RZ/G3E
+  ASoC: rsnd: ssui: Add RZ/G3E SSIU BUSIF support
+  ASoC: rsnd: Update SSI for RZ/G3E support
+  ASoC: rsnd: Add ADG reset support for RZ/G3E
+  ASoC: rsnd: adg: Add per-SSI ADG and SSIF supply clock management
+  ASoC: rsnd: src: Add SRC reset and clock support for RZ/G3E
+  ASoC: rsnd: Export module getters for PM support
+  ASoC: rsnd: Add system suspend/resume support
+  arm64: dts: renesas: r9a09g047: Add R-Car Sound support
+  arm64: dts: renesas: rzg3e-smarc-som: Add Versa3 clock generator
+  arm64: dts: renesas: rzg3e-smarc-som: Add I2C1 support
+  arm64: dts: renesas: rzg3e-smarc-som: add audio pinmux definitions
+  arm64: dts: renesas: r9a09g047e57-smarc: add DA7212 audio codec
+    support
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+ .../bindings/clock/renesas,rzv2h-cpg.yaml     |  10 +
+ .../bindings/dma/renesas,rz-dmac.yaml         |  28 +-
+ .../bindings/sound/renesas,rsnd.yaml          | 169 +++++-
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 543 +++++++++++++++++-
+ .../boot/dts/renesas/r9a09g047e57-smarc.dts   | 114 ++++
+ arch/arm64/boot/dts/renesas/r9a09g056.dtsi    |  27 +-
+ arch/arm64/boot/dts/renesas/r9a09g057.dtsi    |  27 +-
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     |  44 ++
+ drivers/clk/renesas/r9a09g047-cpg.c           | 130 ++++-
+ drivers/dma/sh/rz-dmac.c                      |  40 +-
+ drivers/irqchip/irq-renesas-rzv2h.c           |  36 ++
+ include/linux/irqchip/irq-renesas-rzv2h.h     |   5 +
+ sound/soc/renesas/rcar/adg.c                  | 117 +++-
+ sound/soc/renesas/rcar/cmd.c                  |   2 +-
+ sound/soc/renesas/rcar/core.c                 | 128 ++++-
+ sound/soc/renesas/rcar/ctu.c                  |   2 +-
+ sound/soc/renesas/rcar/dma.c                  | 173 ++++--
+ sound/soc/renesas/rcar/dvc.c                  |   2 +-
+ sound/soc/renesas/rcar/gen.c                  | 184 ++++++
+ sound/soc/renesas/rcar/mix.c                  |   2 +-
+ sound/soc/renesas/rcar/rsnd.h                 |  39 ++
+ sound/soc/renesas/rcar/src.c                  |  45 +-
+ sound/soc/renesas/rcar/ssi.c                  |  40 +-
+ sound/soc/renesas/rcar/ssiu.c                 |  49 +-
+ 24 files changed, 1855 insertions(+), 101 deletions(-)
 
-Thanks,
-Mark
+-- 
+2.25.1
 
