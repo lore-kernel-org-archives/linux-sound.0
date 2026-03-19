@@ -1,187 +1,277 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B18B33066D
-	for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 23:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773876607; cv=pass; b=Uh/tdvGlobVwZGvF2jRa3iBp4//zNnIV+M7KVVy5Dg/2c1TVI1sqxKLKi7TI3q3NG/5yVgzp6hsceGU8290q7Zj0Y0Y+jYkSDRrBO8ccBBliRlegd/0PCAL1rfa8Bbyn+3Wj4qLNoXDuBqRzgKS8FKGRRiG1wRSghAaMsT8+TiQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773876607; c=relaxed/simple;
-	bh=Ikbgl4NYJZhrpipjl4UKxG9763awCdXVVRI9/qm5ENs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sLObqf53XZSQeT/0cXSZ4L06arFkyCtexYVDhWwpXG6p68u8bZeTefNU6Oooj3Jfd6VonaqszItPzaC1cBCC1REFnSTovnuDI/T4VfvsGHRmrP9HSjpgN2/ObXTppgF9/dlevnTvvZ+Q5kZi3/pBSaGvwN9Kyher2sf1E56Ob+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cTXbWiyi; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863E81F03D9
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 00:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773879861; cv=none; b=p9m/DMxcEbRCI7pwJQHpFGlCQYF42CaM/wTGXh+ZT4GkMBvGYb1MXXdCEPFEL33atJdftvklCLOYP76cpgyXKLhxPY+v2MKaCYK1OCoUFRnAhYxVzf/2kRxbRiWcIrdCo04vRBf/zgKYUM8ffcLSlNUS36hpc+zJ5BJgPeeyxpE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773879861; c=relaxed/simple;
+	bh=w2kN1Wt6YzXXSYzOAE1y0ntW2hKC/n3AiWKluzdu+Pc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZTM6rQ+Rppi/rEXe7+gekgY7BLpQrCb1mjJSWPYR2XQmYgxkl0ZwnB9PMww3WgOxi4n/evf9ZS/lgJobc0m6OkzEVNUe8QMNqq8gRpx0Irgj6fAU1r/0mCDGMsjAj2izuVdJN8umMkWhnNpp8V/j4CKXnXDjTcnR0W9ZHRqGEI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Gpqrthyw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aO6dZthf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cTXbWiyi"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-509062d829dso124571cf.1
-        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 16:30:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773876605; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Iuxh2PBdJpA1qRy+MtUz+01WOnb3GT5gJMQAXWH0n6ivZGeU+Y9L+wNCCLF/eU0Or1
-         9Gc+4eNKOXhtBTZoI5QSTSJdfKBsVRKAJGUyErSEvBHR76zvj4X31iMABx+hRuKrO9EZ
-         i8nl8kCXDoXdv9yjvRGUPNwI2dCEM/a3M8WZMbl0DZVO3mNRNoCyMWAb1ol/Bo6dXZef
-         EKmO+DzACKm2bP43ZJwFYBenFUeAdQFZwQuql0NwFOM3QtYzbgwjkei3WSfPXXBg7Bzo
-         6A7w0GMYgnXtfIZyFisMNppIW9WmRKrK/dRy4nF8vQLH5qSog6q9TVP8rIqp7sYXW9j2
-         OreQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=n4VIi7EhCf6D8/1yLa+X0XyxMVZpW5bilaY68sBFKcU=;
-        fh=QP9AQYMnAXqZCPt+6LvmVvOmbUWIFdIr8ZyQO2WfqZU=;
-        b=V93pJiCeGb15Xja0Ln6LAcIcOHlDiu0wtaOlqxS/JSz6Cmt84FOLQjQy5BNevGayo8
-         2CdJHIzTo6m1bw02TiVrHXDYJXrQq0J1UrhhMY71SzxuEz96W9knC47l1bzs84+nQNpU
-         aIcYzSiuKzLMuTXjuVxUEwrYWk20EK1Gidk4UG3lPWEaU20mPjPIlfew4pcERuALVEzw
-         gtUKpY0o454rMcM/LlWZ6miUnL3ziubXMXqA99t30ZkN2eZl5Knif2q2b2cLLC2iphS5
-         jiK9/a0SHksmgnt6SnePoL9lPvBAb47nczRL5Vc+kVOsucRGzemdJx8foAmkjbdHC5+M
-         nTgw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Gpqrthyw";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aO6dZthf"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62IFgbZX003846
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 00:24:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	P0B6sjvs+Y6RCd+g54byUmvgds2mIajhD9yE0iKWSpE=; b=Gpqrthyw1q6ZVv4s
+	LnZf8vr+0+50n/jcrYlR0zBvIcdwLhJcTHyTQ+UIRDLTXQWfeQOpSxkyxUX3sojW
+	oBffv5oC0ZpSTOxbXIy071y7t9ibWXASiESohlFm+G5/yiRgO2JesI/Ba35nLZT8
+	m1UwCojuliUlfRZjiy1DW5I2PODiNNVLw3To00xoiACqp4CbkB/LPiAfwNkjQOIQ
+	bHK61Uws6gqoTwVY+GCxS+ftEDgS/8ri8j3HG2reme83kO4PBMnISjSbELzwGej5
+	C2Awy6Y/s3RcOr+0LRwyrekGYkm6Jv9dheLudDr0t8IhlSQwfT8g5Ysi8jZdTYlg
+	aZOAKw==
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cyscb2yhf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 00:24:16 +0000 (GMT)
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1276e71652fso461073c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 18 Mar 2026 17:24:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773876605; x=1774481405; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n4VIi7EhCf6D8/1yLa+X0XyxMVZpW5bilaY68sBFKcU=;
-        b=cTXbWiyijSJ0t3T95crRcKf1/YVSOclwuZaMoNJ/I4gAg6EGrQ30XihUiavHpYdXYh
-         UohCN55CxiIfmX2+VfI5SOv7lcX47RZcHn8uf13vn10GJhpbuTGBVPv+E9s2NAYipmO8
-         i2Mnw/81A08kctLkL/IMpata2ApOjlzBzNKkn2ocDHRClky2eYj/fB2wR3vRk0XJgDGO
-         fQiEE2RGLlf0CcI+5QI+wlrrPO4t/qoAUBnaZih2aIt68tMIWx//JmB2wKwTiyPnMsQa
-         ezAmNZQsaj/0jk9+/0nLL5UonCPuUFLnWK9GPAERnmDoYhWu9eNIpQ2HJFwUXe4A+uM0
-         ee1g==
+        d=oss.qualcomm.com; s=google; t=1773879855; x=1774484655; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P0B6sjvs+Y6RCd+g54byUmvgds2mIajhD9yE0iKWSpE=;
+        b=aO6dZthfAQtaqyfiymFIcqz11yP/82iM4LOCnE7q/gcirJ6srLvUDSoIzx0sNexpI1
+         B1Y2TI9U5LF+mStIhOQV1DtORqtjUYp1hebNXLgXxVWuDMITneHitdCVEOON/SxNABUD
+         p1BMV8J0QnO9scIEk0b1CT2P289W/lzfzKdQIf3BKxMVw9XhB4sCHENPbqpDl9vCZUbA
+         dqOQAoDK5XDIzwEjMOzFO5fZuwLa/G35ORd5mZaF+fgvURz0nqEF+MrBOFBcmCTAcbS2
+         qUdGX3c/chZxZH8D2XI60zahCc4FJy/ZnLqMDzKgMdqHEUhcnJu6pYtPG5Lw5jDkuXyq
+         +owQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773876605; x=1774481405;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=n4VIi7EhCf6D8/1yLa+X0XyxMVZpW5bilaY68sBFKcU=;
-        b=VSA9+qRWfDso+Tw1af9JA97upkVx8QuM/7Us0MdHuSTcz96HhPqk5f/qyclZ6RxZEA
-         I4h4ikn1eD/owvC+u88oDbJLxAPw8PuFIHnWkgITq23pMEXkBDfaXaF2vownNfbIjEuC
-         nTKrKgZIVG0KSXc/quAFKPGqtlPUl0GEXp0rpUAlh/C0xNfTBg2cwPW8ev+9Ifezb/t8
-         aARXPHSAXwYepeyOZZIG6XhWaZwJiLabPzy2WRzd0BUhNnrQAQ5QyIJGYOdBn00/enQF
-         Hay1upo/Bzr3WMJ+IG1AsjlY3IaI2VXKMUlii1bFWdM4hpvthRhe8GI0FNspb6O9H0kY
-         VVHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBie193WN+fsIUhYAXX1wyweU/JiDxmtCdl1VnBgo3pnF/4GHp5sD5or1cp6zL86p9N+7Xd9rcd8IfBw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRS8rieI3SWgPJI13TmVGKYJHA22PAWVoiQaDwAdmh3qnr51yM
-	IHOi49x1CQZ1usKeCAcRPI7e7QKE92XcEWCwgLXAK1oUb0iisZ4S2IYddWyC0+62FKRtCoWeXFG
-	Rf8/3rj/ChSUna1sSEr9wikq3Kr4Qj+tzVVmn1CP5
-X-Gm-Gg: ATEYQzzd4aEAkNsk0Qs0D+84tmUIWihKVybyOTgJ44do8ggwhsqVMbAk5mygMYsS5Hn
-	uIct3+yqk31aeeOAtyPuyXdrEXnSN2jRwHQDThkkn30TmDl5SNcoHjcYwtQWdHD9uLQdWCXjGGn
-	mLSjbIrIQ1MMYrtZSg7i0LM0dWpb/rbssJ9lyrUa5EQjpd+4cS6ckmLUVI+m0HPyv75dfyi0V5o
-	pwQw/Bckksan2RgTxa7yJTJ+d29wDrPV2dxv2u29p4YuEuuyjtfEhiiF8IPNxGSANl7LTm4irEe
-	svCcIw==
-X-Received: by 2002:ac8:7c55:0:b0:507:35b2:6b9 with SMTP id
- d75a77b69052e-50b27456fe4mr3082721cf.7.1773876604768; Wed, 18 Mar 2026
- 16:30:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773879855; x=1774484655;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P0B6sjvs+Y6RCd+g54byUmvgds2mIajhD9yE0iKWSpE=;
+        b=Lv8T7MoY3YfpZR0mQj1bM8/UVGDbfSso0AKKXQN4e8iHdyyd4bUYcrYWqOiimcd0rf
+         I0fUdskUTYDEQ5o00ThLfXHJh5pl6p2g4DoMZOLG5N4A9TNbsoh7cV/YJ6FURp0TOTQo
+         zul81kP3MQo+AXJTYwgW+dX2hBkij5BiiijUq1cuBkBDEcJENf0iE3CFt7d7GLSVjeSe
+         0+NXGxiHH+sdG04TG6AJo6l2UD55LcXaEQ8lCEfthdl5liYtSb1pL6+JMtJrewqA3Ryu
+         PxhC695Qc5jcrnZCEeiIw8OTGmj5kWqxF0tuO4SWWBhGMxx/M7vSsU7mjV4mvkIWOOq/
+         pptA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIvIaLcn8d18is7OmBrmLMeJpQE6LuY5LZtlDObggyLW01d4Ov9xa8pjEmmrwN9kLvbFylqlWNK52cvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcCZLfWzDX3wxYLrRYLI01kqMhjXcy8HvvrSiXN7rfZAIHMXWY
+	Y/Ah2GjiugugDkM1odh0SpZgxgMNfGbOF/8V6fSNTKjdWPhz/X+7xqe1BGh6nBeL7fzKvkg/djI
+	vXckwZeiCU04rlfu64lYxfDz44rROCDp3U15rcU/ravfC1+C0DXpq3M4utdZHyGyHNT7Bnzl+XA
+	==
+X-Gm-Gg: ATEYQzzyVpNFqrqqVOUq0m2kSm8grLJPdA1a72hwYAnrLIo5dLlBxeZrIvW8298oxcg
+	ZCYL9hhdt9DLHQmoyEiRRqwS3O6pzK7ykx58210ijr8jYTA3p2vRiPjPNUQzCxJxoyOUbW6J8yC
+	nzkfj/IZzNtETNRl8iAWlpVZkA8ASsJjNEk3xzjGuORSlr/vHLlNqv1zx70VKbgZYfCidvH4U/m
+	KI4TeYI0qYGNfjt8UO0Ce0+BydEOMHsb3LlS2TanG5YHn1A/4I2QI0MfCmcNCgF+aiskM3lEVVk
+	wyIlaYsaaYnnWf9Q0mxwGbFbNC6CHOZedDS7kSYtt0A2eQLxARTjrdXp6DIqOHuBQgoL/ETWC0n
+	NLK6Z7o8CnK+G99n/uGay9/+FScWTj4sRGvwbiE65IK7ojb1B3Y1l6H3U8KCXpGfvWVCZ
+X-Received: by 2002:a05:7022:6b97:b0:127:3b16:bf4f with SMTP id a92af1059eb24-129a710116fmr2822222c88.40.1773879854780;
+        Wed, 18 Mar 2026 17:24:14 -0700 (PDT)
+X-Received: by 2002:a05:7022:6b97:b0:127:3b16:bf4f with SMTP id a92af1059eb24-129a710116fmr2822212c88.40.1773879854105;
+        Wed, 18 Mar 2026 17:24:14 -0700 (PDT)
+Received: from [10.73.193.53] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-129a7153051sm5052505c88.0.2026.03.18.17.24.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Mar 2026 17:24:13 -0700 (PDT)
+Message-ID: <4e551ffa-1952-42a9-8f92-d77445134cb9@oss.qualcomm.com>
+Date: Wed, 18 Mar 2026 17:24:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309022205.28136-1-guanyulin@google.com> <20260309022205.28136-3-guanyulin@google.com>
- <2026031115-unboxed-spouse-1dcd@gregkh> <CAOuDEK3k6nyiHxhcL1kv=QNQaZMF6ms=sLerSZ5JBc5WBd7nAw@mail.gmail.com>
- <CAOuDEK2pyt4nKWxXXwtzgRuP6u9kvi_Joe8Ec8qDDHVzSue1rg@mail.gmail.com> <2026031815-heroism-devotedly-e730@gregkh>
-In-Reply-To: <2026031815-heroism-devotedly-e730@gregkh>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Wed, 18 Mar 2026 19:29:00 -0400
-X-Gm-Features: AaiRm52YRSd54syzn1f4cmqFSKVxw7wlvtVlZkoP-XOuSr5tL6CUvSpQpQh1gbY
-Message-ID: <CAOuDEK1YjqPeiPde3Sn34RSsMu9i+KYF7BJGca=n8j_f4RM55g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ALSA: usb: qcom: manage offload device usage
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com, 
-	quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
-	christophe.jaillet@wanadoo.fr, xiaopei01@kylinos.cn, 
-	wesley.cheng@oss.qualcomm.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] usb: offload: move device locking to callers in
+ offload.c
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz,
+        tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org,
+        arnd@arndb.de, christophe.jaillet@wanadoo.fr, xiaopei01@kylinos.cn,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org, stable@vger.kernel.org,
+        Hailong Liu <hailong.liu@oppo.com>
+References: <20260309022205.28136-1-guanyulin@google.com>
+ <20260309022205.28136-2-guanyulin@google.com>
+ <505ab422-f933-4674-8f93-8744d0e67c6d@oss.qualcomm.com>
+ <CAOuDEK3b4BtHVYhLH_NkE1fP1-9ncqvAq6VedBzWLm=D_YDHQg@mail.gmail.com>
+Content-Language: en-US
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+In-Reply-To: <CAOuDEK3b4BtHVYhLH_NkE1fP1-9ncqvAq6VedBzWLm=D_YDHQg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 6w1jRDLMtGTIiHWE-0aKsA_W0qWBl2WU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDAwMCBTYWx0ZWRfXxskPcU73bj8M
+ Iqz8728Jc72NuKF1rdUCLsg/Y/9ciPWXTGx2f+rPxAsHgJuXFr9KykuLDcW67BdTUWikD7vcoSC
+ pPkXAKlbd+n1CsylnSscophxULhiqHt3qVR6BtMXK3/QIlZDSw4K7dbCoCEDplmZIUnAgKyVytL
+ AU3XNfA4CY8/nVp9EHjZDZu20shY+nKLR+1wmoQh9VQX6lZamXwT4kfTWrrdx3bSOErEMhQGu8s
+ K8QD6LVLGA3Q7w160lB7MsbWcaYeZsTHOHyB1DX8SQPHFYz+6ogW79MFAXwuAayi/LnJis8K+k5
+ C31TevphUKoaVARZxa+RNcHBYtIq9W/kU8kezntk0ScYpsr2yL2E9gbIt3nLmEzXvjmwjw7yj9C
+ C01R7XwaMzTB1FX/lx8xxghEDl4bPXxpqR/qc9jYEgeucH4SWan4M1FyUu0mNHXW9IL/n4SE4E4
+ rdpAs+Qlvx0gEYwNteQ==
+X-Proofpoint-GUID: 6w1jRDLMtGTIiHWE-0aKsA_W0qWBl2WU
+X-Authority-Analysis: v=2.4 cv=PtCergM3 c=1 sm=1 tr=0 ts=69bb4230 cx=c_pps
+ a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=noPRdpk5V4PNhb5v0mIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=vBUdepa8ALXHeOFLBtFW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-18_02,2026-03-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ malwarescore=0 spamscore=0 adultscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603190000
 
-On Wed, Mar 18, 2026 at 12:59=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
->
-> On Tue, Mar 17, 2026 at 04:45:00PM -0400, Guan-Yu Lin wrote:
-> >
-> > Hi Greg,
-> >
-> > Thank you for the feedback. I understand the concern regarding locking
-> > complexity and the reviewer burden. The usb_offload_get/put functions
-> > track sideband activity that runtime PM cannot reflect. This is
-> > necessary to prevent the USB stack from suspending the device while a
-> > sideband stream is active. Ensuring atomicity requires orchestrating
-> > three asynchronous subsystems: System PM, Runtime PM, and USB Core.
-> >
-> > To address the concerns effectively in the next iteration, I would
-> > appreciate clarification on your primary concern:
-> > 1. Preference for fine-grained locking:
-> > Using USB device lock ensures atomicity across these subsystems, which
-> > is inherently a device-wide requirement. A fine-grained approach risks
-> > races during concurrent software events, such as a reset occurring
-> > during a runtime suspend transition.
-> > 2. Preference for improved transparency:
-> > If the coarse lock is acceptable but the implementation is too opaque,
-> > I will refactor the next version to be more explicit. I plan to
-> > include device_lock_assert() calls, __must_hold() macros, and add a
-> > "Locking Hierarchy" comment block documenting the vendor-mutex and
-> > USB-core lock interactions.
->
-> At the very least, this is going to have to be required so that we can
-> catch any future changes and ensure that changes do not create locking
-> inversions and the like.  I guess we are stuck with this for now, due to
-> this being "outside" of the normal runtime PM, which still feels wrong
-> to me as runtime PM _should_ be able to handle this (if not, why is this
-> case somehow unique from all other hardware types?)
->
 
-The runtime pm doesn't apply here because when a sideband instance
-accesses the controller, the main system could suspend. The runtime pm
-only reflects whether the "main system" is using the controller,
-whereas a sideband instance might still be using the controller when
-the main system has suspended. Runtime pm couldn't reflect the
-sideband's status. If runtime pm reflects sidebands activity on the
-controller, it will mark the controller as active, which prevents the
-entire "main system" from suspending. Does that sound right to you, or
-is there anything I can clarify?
 
-> > To clarify the "broken hardware" point: this isn't a hardware bug.
->
-> It was described as triggering when a shock happened to the system to
-> cause the system to reset in places, which is a hardware issue :)
->
-> > These races are triggered by standard software events, such as a reset
-> > occurring while a sideband stream is active. Please let me know which
-> > direction you think is more appropriate for the kernel, and I will
-> > refactor the next version accordingly.
->
-> And how exactly can a "reset while active" happen as just a normal
-> software driven event?
->
-> thanks,
->
-> greg k-h
+On 3/18/2026 4:21 PM, Guan-Yu Lin wrote:
+> On Tue, Mar 17, 2026 at 4:17 PM Wesley Cheng
+> <wesley.cheng@oss.qualcomm.com> wrote:
+>>
+>> On 3/8/2026 7:22 PM, Guan-Yu Lin wrote:
+>>>
+>>> @@ -27,31 +28,25 @@ int usb_offload_get(struct usb_device *udev)
+>>>    {
+>>>        int ret;
+>>>
+>>> -     usb_lock_device(udev);
+>>> -     if (udev->state == USB_STATE_NOTATTACHED) {
+>>> -             usb_unlock_device(udev);
+>>> +     device_lock_assert(&udev->dev);
+>>> +
+>>> +     if (udev->state == USB_STATE_NOTATTACHED)
+>>>                return -ENODEV;
+>>> -     }
+> 
+> Could be removed. Since the udev is in USB_STATE_NOTATTACHED. I expect
+> the data structure being cleaned afterwards, so actually counter value
+> might not be important at this moment.
+> 
+>>>
+>>>        if (udev->state == USB_STATE_SUSPENDED ||
+>>> -                udev->offload_at_suspend) {
+>>> -             usb_unlock_device(udev);
+>>> +         udev->offload_at_suspend)
+>>>                return -EBUSY;
+>>> -     }
+>>>
+> 
+> This check is still required. Because the suspend/resume process
+> depends on the counter value, we can't modify the counter value while
+> the device is suspended. If we do so, we will have an unbalanced
+> suspend resume operation.
+> 
+> However, we might only need to check for udev->offload_at_suspend (if
+> we ensure the device is active when we want to incremant the counter):
+> 1. If the offload_usage_count is 0, we won't decrement counts at this moment.
+> 2. If the offload_usage_count is not 0, the offload_at_suspend flag
+> will be true anyway.
+> 
+>>
+>> Do we really need to be explicitly checking for the usb device state before
+>> we touch the offload_usage count?  In the end, its a reference count that
+>> determines how many consumers are active for a specific interrupter, so my
+>> question revolves around if we need to have such strict checks.
+>>
+> 
+> Please find the explanation for each check above.
+> 
+>>>        /*
+>>>         * offload_usage could only be modified when the device is active, since
+>>>         * it will alter the suspend flow of the device.
+>>>         */
+>>>        ret = usb_autoresume_device(udev);
+>>> -     if (ret < 0) {
+>>> -             usb_unlock_device(udev);
+>>> +     if (ret < 0)
+>>>                return ret;
+>>> -     }
+>>>
+>>
+>> IMO this should be handled already by the class driver, and if not, what is
+>> the harm?
+>>
+> 
+> We can only increment the usage count when the device is active. For
+> counter decrement, the device could be in any state.
+> 
+> My initial design is to resume the device and then modify the usage
+> count. Another option is to check only whether the USB device is
+> active via pm_runtime_get_if_active, and leave the device-resuming
+> effort to the class driver. Do you think this is the better approach?
+> 
 
-I'm not sure what the OPPO team has encountered. In our experiments,
-we saw the following call stack:
-[  721.889147][  T228]  qc_usb_audio_offload_disconnect
-[  721.889284][  T228]  usb_audio_disconnect+0x7c/0x268
-[  721.889302][  T228]  usb_unbind_interface+0xc4/0x2f8
-[  721.889313][  T228]  device_release_driver_internal+0x1c4/0x2bc
-[  721.889333][  T228]  device_release_driver+0x18/0x28
-[  721.889347][  T228]  usb_forced_unbind_intf+0x60/0x80
-[  721.889358][  T228]  usb_reset_device+0xbc/0x23c
-[  721.889375][  T228]  __usb_queue_reset_device+0x3c/0x64
-[  721.889386][  T228]  process_scheduled_works+0x1b8/0x8ec
-[  721.889405][  T228]  worker_thread+0x1b0/0x470
-[  721.889418][  T228]  kthread+0x11c/0x158
-[  721.889429][  T228]  ret_from_fork+0x10/0x20
+I think I prefer the active check over RPM versus forcing a device resume.
 
-In addition, if a process interacts with the kernel using
-`usbdev_do_ioctl` and then `usbdev_do_ioctl ` calls
-`usb_driver_release_interface`, we could also encounter a deadlock
-issue.
+>>>        udev->offload_usage++;
+>>>        usb_autosuspend_device(udev);
+>>> -     usb_unlock_device(udev);
+>>>
+>>>        return ret;
+>>>    }
+>>> @@ -64,6 +59,7 @@ EXPORT_SYMBOL_GPL(usb_offload_get);
+>>>     * The inverse operation of usb_offload_get, which drops the offload_usage of
+>>>     * a USB device. This information allows the USB driver to adjust its power
+>>>     * management policy based on offload activity.
+>>> + * The caller must hold @udev's device lock.
+>>>     *
+>>>     * Return: 0 on success. A negative error code otherwise.
+>>>     */
+>>> @@ -71,33 +67,27 @@ int usb_offload_put(struct usb_device *udev)
+>>>    {
+>>>        int ret;
+>>>
+>>> -     usb_lock_device(udev);
+>>> -     if (udev->state == USB_STATE_NOTATTACHED) {
+>>> -             usb_unlock_device(udev);
+>>> +     device_lock_assert(&udev->dev);
+>>> +
+>>> +     if (udev->state == USB_STATE_NOTATTACHED)
+>>>                return -ENODEV;
+>>> -     }
+>>>
+>>>        if (udev->state == USB_STATE_SUSPENDED ||
+>>> -                udev->offload_at_suspend) {
+>>> -             usb_unlock_device(udev);
+>>> +         udev->offload_at_suspend)
+>>>                return -EBUSY;
+>>> -     }
+>>>
+>>
+>> During your testing, did you ever run into any unbalanced counter issues
+>> due to the above early exit conditions?
+>>
+>> I guess these are all just questions to see if we can remove the need to
+>> lock the udev mutex, and move to a local mutex for the offload framework.
+>> That would address the locking concerns being brought up by Greg, etc...
+>>
+>> Thanks
+>> Wesley Cheng
+>>
+> 
+> While developing the initial patch set, I did encounter the counter imbalance.
+> 
+> Following the discussion, we could move the device resume effort to
+> the class driver. This way we only need to check if the device is
+> active before manipulating the offload usage counter, which doesn't
+> require a device lock. Is there any concern with this approach?
+> 
 
-Regards,
-Guan-Yu
+I think that is what I was getting to.  Now, instead of having to rely on 
+the udev lock, you can protect the counter using a local mutex, which 
+should avoid the deadlock mentioned by Oppo.  You can avoid also having the 
+class driver worry about locking requirements, etc..
+
+Thanks
+Wesley Cheng
+
