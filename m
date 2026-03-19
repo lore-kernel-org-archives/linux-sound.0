@@ -1,92 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46773ECBDD;
-	Thu, 19 Mar 2026 16:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3360391E4E;
+	Thu, 19 Mar 2026 17:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773938157; cv=none; b=gbKMQVQ5bhyxfMCv5qGYgMEdLtsIo6+49IDqra9fiVkPDT0Lix63d2O0Tv2tJK1FwsRftRMbMxom12e0xLDLTRhcWT4tB3BPZjtJEt3drB54OKHTuDq9tAMi1uq+OhUjhYTYNdZqUQ9LCSINg5f311ibSm2kEaqDUiahf0joowU=
+	t=1773941879; cv=none; b=QpxnrkjG68V9hd+c8Dapt0w8kUWyGiBGx6267T1f1zrKkjrLVvjG1Ber7u6fhNi0V2e5HyH53BgojGjsi9ktylWD1nO9X7z7S/PCF8hehwpVgyr8zkLOQrTqlTJ6qbAllazUgss/cjMxBZbwfElCF+MfIAqiA+e2Wh3A9vn4FhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773938157; c=relaxed/simple;
-	bh=xuLyGSbyOwgdVlUCcy0q/NoLEegkx56l9Nh2++9UJ3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OQEZ4+ioZ2TYIg3Q4F3y7IP2CMCXat+xgSIHt+DO2VrWK4T/NEd9ZnX+tFnBfFtBXZc0SYTG+q5PYRlbug5+cWmGedwGrkWq0BkHsDJEidi1hJFYsjw4Ctr5NTmsEplNwK8OLwr+oXAaR9bsICcKNHNmAKvMEhQKIup+PBX01O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cENiJrgT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773941879; c=relaxed/simple;
+	bh=UUWot43aWRLnUev4xtyp/4LzVdlfOnkeR4C3S3s58IM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=Zsp8DWNwBxE4+ZZMUGyHhdV1JH5nMN6iWmlfxohKpYTLWBNRTHMVrB5HPm1lbcXSBLQSL09QFmkiNv855pTLgWuET8tdspGjtg2c/EvDVJzyP70VpjdiVQwjqO9MwXfjgVudrfYPnApjXvY6NGY5daLd8ZkZnu3pjJUcb458Igk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mNDQyT9c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cENiJrgT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BD5C19424;
-	Thu, 19 Mar 2026 16:35:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mNDQyT9c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C09C19424;
+	Thu, 19 Mar 2026 17:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773938157;
-	bh=xuLyGSbyOwgdVlUCcy0q/NoLEegkx56l9Nh2++9UJ3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cENiJrgTFqvG/r+SZ9UjYUCN+ptcQ86gcPv3BAza99qNl9iFgp3h0lAtMSRf5J/sv
-	 59ZslUc0Q5P0VRJ793g03g6qR1Xt/XjiWCkjbZBSjE0/P8q9lI94t30bQ4qbeVWPkX
-	 ckFeCT5C0ybFw2+IFcsI+lqTiDzkatiEpk+Y9N3Ob0bOOYeVl/H4Skwg51cru2F48r
-	 +idJ4Rz4et7YhSvkg+aC4kwNMYiynXeHV416AkEl3QOLxBI3P6+DiBD/KHZdj5K7K7
-	 tnAC/8ivh+i7Flym2nyGcJWVgwqgouJqxQCrNBpVbD0jvXXnBC6EJVfYv1IsMOyNk+
-	 VBT7tAQg1DYSw==
-Date: Thu, 19 Mar 2026 16:35:52 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Hasun Park <hasunpark@gmail.com>
-Cc: linux-sound@vger.kernel.org, vijendar.mukunda@amd.com,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.de,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy
- SDW machine
-Message-ID: <e7de2df4-66c1-4144-8bb4-31e6bdb1491e@sirena.org.uk>
-References: <20260308151654.29059-4-hasunpark@gmail.com>
- <20260319163321.30326-1-hasunpark@gmail.com>
+	s=k20201202; t=1773941878;
+	bh=UUWot43aWRLnUev4xtyp/4LzVdlfOnkeR4C3S3s58IM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=mNDQyT9c4y48XRSi2QtA8QkcDHLa/S0NIYX6zK0UwpVWo+0DHSaQ74dQcyVCymhse
+	 5pxHmBIUukDCcFoOV+WvddBeXJrd6h848hjdccL3q8Cv8xQce9Uh1lxE8ntTGvcvwR
+	 SoDDOPme0vBsxWCfXeI7Q04KBPoku6bQsiR2zESJyf1F0EZJXjTK2UwHFv6B8YpEy3
+	 ZtulK7yBoEQrTEMf0DkEvVI3MThkLBsXOUGVGEPEgE26dWfNao+DsuPLMQqqy/k7zZ
+	 emoYCU+Z8Fidcr+jCDFp26Q1ybW/GE3GIpgijGc3Xp9j+unAMAxO2AggEs+WRzGXIO
+	 usXN0SUjLkmcw==
+Date: Thu, 19 Mar 2026 12:37:57 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6jemAv3Nz3oMlycq"
-Content-Disposition: inline
-In-Reply-To: <20260319163321.30326-1-hasunpark@gmail.com>
-X-Cookie: Given my druthers, I'd druther not.
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Magnus Damm <magnus.damm@gmail.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ linux-sound@vger.kernel.org, Frank Li <Frank.Li@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ John Madieu <john.madieu@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Thomas Gleixner <tglx@kernel.org>, linux-kernel@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-clk@vger.kernel.org
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260319155334.51278-2-john.madieu.xa@bp.renesas.com>
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+ <20260319155334.51278-2-john.madieu.xa@bp.renesas.com>
+Message-Id: <177394187724.2938936.10407132258338013690.robh@kernel.org>
+Subject: Re: [PATCH 01/22] dt-bindings: clock: renesas: Add audio clock
+ inputs for RZ/V2H family
 
 
---6jemAv3Nz3oMlycq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Mar 20, 2026 at 01:33:21AM +0900, Hasun Park wrote:
-> Add a DMI quirk entry for ASUS HN7306EA in the ACP SoundWire legacy
-> machine driver.
->=20
-> Set driver_data to ASOC_SDW_ACP_DMIC for this board so the
-> platform-specific DMIC quirk path is selected.
->=20
-> Changes in v2:
-> - drop RT711_JD1 since only DMIC needs quirk
-
-Changelogs like this should go...
-
-> Signed-off-by: Hasun Park <hasunpark@gmail.com>
+On Thu, 19 Mar 2026 16:53:13 +0100, John Madieu wrote:
+> RZ/V2H, RZ/V2N, and RZ/G3E support external audio clock inputs
+> (AUDIO_CLKA, AUDIO_CLKB, AUDIO_CLKC) that can be used by the Audio Clock
+> Generator (ADG) to derive internal audio clocks. These clocks are optional
+> and their frequencies are set by the board.
+> 
+> Update the bindings to allow these optional clocks for all RZ/V2H family
+> SoCs.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 > ---
+>  .../devicetree/bindings/clock/renesas,rzv2h-cpg.yaml   | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
 
-=2E..after the --- here so that they can be automatically removed by
-tools.  Don't worry about it here, just something to be aware of for
-future submissions.
+My bot found errors running 'make dt_binding_check' on your patch:
 
---6jemAv3Nz3oMlycq
-Content-Type: application/pgp-signature; name="signature.asc"
+yamllint warnings/errors:
 
------BEGIN PGP SIGNATURE-----
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml: properties:clocks: {'minItems': 3, 'maxItems': 6, 'items': [{'description': 'AUDIO_EXTAL clock input'}, {'description': 'RTXIN clock input'}, {'description': 'QEXTAL clock input'}, {'description': 'AUDIO_CLKA clock input'}, {'description': 'AUDIO_CLKB clock input'}, {'description': 'AUDIO_CLKC clock input'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/renesas,rzv2h-cpg.yaml: properties:clock-names: {'minItems': 3, 'maxItems': 6, 'items': [{'const': 'audio_extal'}, {'const': 'rtxin'}, {'const': 'qextal'}, {'const': 'audio_clka'}, {'const': 'audio_clkb'}, {'const': 'audio_clkc'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm8JecACgkQJNaLcl1U
-h9A5ZQf9Gn380qM4DtF9SWhSUgBNoqa6nA8/98NgiDecXE6125pLM8mnfMDSgJc4
-CV6iyeI9nmSzg1g4ZpbklldETfMDepYWTtkpDSicAQ2fryvnDVCO7LoIF3XPvMHQ
-yMCwM4RzahYNx7LasnDfj3+o7aVGNW4QqGCmu4vAYoVKmzskTZWhdh+sCDuUuKGk
-HHDrcW92UeP79OSQPHV95A/TbFUbJ0qGuA4lCC89YpUgDF8ryVS2+Le5XMlpxWnI
-1G5cawp04eaqGFcC3wuvskKi85+O3ufJujxp12gKYwObLwEu9o2sSMvE/MubTfBH
-SkQulC/3dO094g/Cm1cl/BIxm6374Q==
-=vmG3
------END PGP SIGNATURE-----
+doc reference errors (make refcheckdocs):
 
---6jemAv3Nz3oMlycq--
+See https://patchwork.kernel.org/project/devicetree/patch/20260319155334.51278-2-john.madieu.xa@bp.renesas.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
