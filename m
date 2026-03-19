@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525F53009FA;
-	Thu, 19 Mar 2026 11:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BCE1C549F;
+	Thu, 19 Mar 2026 12:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773920182; cv=none; b=Sy/fRKcbjaqT/nUfEQWSHQQpG54Iva8RYFARVM04yMJaQAy4nEsHjhe24Ho0+dpH5dfhoaQT0A7n2CuF6MLcPpVtEkzOqY+bcyeX6iOGDcgozL6QNoTb74tT+RzoQxvm5EPn2BcRLbtfyTtdN5Bjyg7ZC+1hz0ZXZk3iS4mIHKg=
+	t=1773922890; cv=none; b=gA2p+47nt+Qosc0lD+YO1fvGMApt+tQUdL0KDlnNSm7lHnfZERbS9aLZHXtYNeJ+EU9eTJmEy9wtnVDS4gpH77jG7kIVxdg4Qav3XBg8r1kdzO46CgIsRVD0JLLKwDxttTOUccVkXE9Wwc4tQqxg+2M5fj0YpL7qgoi8hvSE4JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773920182; c=relaxed/simple;
-	bh=mI5Niued13lWroralkbRCKzUCQf0t2KVY0BX5P2HIXI=;
+	s=arc-20240116; t=1773922890; c=relaxed/simple;
+	bh=jzzUN1wB2138g870Xzov6H/rzkxcPNsM6cYROCtwUig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iTTMjbVycavxLnV++K549EpTjv8Q2vCE2nxp4qRszpY20VFNgJkA2/fHZRj72e+7Gy6KXjpjvGy0nIz7c3N5REQzu78MloK1mT5Z22IQvyWFn8CDnkXfwt0GKg6glgthYqCiEMbDlgPGy01c8kE/ej84922HZggxM659vE4YQk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XHpexXCk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KadF3MQGXNKJQr2cIzvbO7t9uIe8OExa9YzWj90Q/o9K2wDeVXC8Qqk+qNl9K571PaDswqMsVO5WDPIPxDNm5LCjX20b5R1BaxRjOupWmFEZBFN84uBdYKsPcUIChPgAJW+J394QDXXuJtylFGz3z743IaZIYodMy+Q+2pBR+ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4qL0hqg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XHpexXCk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F33C5C19424;
-	Thu, 19 Mar 2026 11:36:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4qL0hqg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AAE9C19424;
+	Thu, 19 Mar 2026 12:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773920181;
-	bh=mI5Niued13lWroralkbRCKzUCQf0t2KVY0BX5P2HIXI=;
+	s=k20201202; t=1773922890;
+	bh=jzzUN1wB2138g870Xzov6H/rzkxcPNsM6cYROCtwUig=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XHpexXCkQZc2a0WGs+u/3+2VTNF+KRD14kC2QA6c7zMjyOUx5myQJvh+vbaFWZZYI
-	 PkDz/dVqJSKLgdrb+NN70uG25yNaA9M44vKj/kQ5GuwdfYH255ziQiAmi1NzOzyZiJ
-	 /8WTsu6NNVkJqRCNl9+PcKKKxtLW4uvNoGVSw6pNX0LAejWDXq5WzhGN672Azj4NhE
-	 b+jV5GgVqsJigImfZfeZ3GkF+E+7TBdg8GVwGOPg3Q1cCGDeRIsR3OB/kk5mv3/J0c
-	 u9tFsLou+jwl1UTMJ808IGY/4gI2T5SnbmogIj90tKX6dcA8qE0JfSUoZ3pwacu1ZE
-	 rhZOdG1Z82C7Q==
-Date: Thu, 19 Mar 2026 11:36:14 +0000
+	b=N4qL0hqgakYu2iMykEfsGFRcPpOJrl4k3I7vYVBaJ12OgYUP4l06RWcj/TaRcFYcp
+	 iGeAJeAfPMMhYuSDAm/yw5YMmNDQ01jsJueM1i7NYq6I0gIW1ug3N68YUWnIHkVp45
+	 qCH/zPE0nTVjxw7ymZON+A7HiqCCMzHjqA1ZHO7ogEL5vl+Ei3UtJofZzzvs5KkEA8
+	 YE8YhaXuOvDKnlvNL6K1ihAiEM27BhCWsUoGgJcAHerC0LNMChnEEkC41XvQqLn4Ym
+	 P6kQ4v0A7X2huI05PdK8dvqsOz0q4HLvO7Z0Q7Bfd/PmXLemd4cg6G8xOTQdcQyY26
+	 G1tiz66sjOUfQ==
+Date: Thu, 19 Mar 2026 12:21:25 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Ben Copeland <ben.copeland@linaro.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Anders Roxell <anders.roxell@linaro.org>,
-	linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selftests: alsa: add config for required kernel options
-Message-ID: <0abf3675-886e-44f9-a9f7-d9198b66086e@sirena.org.uk>
-References: <20260319084347.134744-1-ben.copeland@linaro.org>
+To: Wenyuan Li <2063309626@qq.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>, gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn, 25125283@bjtu.edu.cn, 23120469@bjtu.edu.cn,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: uda1380: add error handling for I2C operations in
+ write function In uda1380_write(), multiple I2C operations are performed
+ without proper error handling: 1. The return value of the second
+ i2c_master_send() (sending register    address) is not checked 2. The return
+ value of i2c_master_recv() (reading back data) is not    checked 3. Error
+ logging uses pr_debug() which may not capture critical failures
+Message-ID: <168e131e-cd22-48fd-bd3b-8bca4a04d1a9@sirena.org.uk>
+References: <tencent_C6FA39C682B462AE88A77B1D916115E8C205@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,58 +50,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Kx5iu//9ocq2fYx+"
+	protocol="application/pgp-signature"; boundary="K9w/mGjmbtI2Bz9X"
 Content-Disposition: inline
-In-Reply-To: <20260319084347.134744-1-ben.copeland@linaro.org>
+In-Reply-To: <tencent_C6FA39C682B462AE88A77B1D916115E8C205@qq.com>
 X-Cookie: Given my druthers, I'd druther not.
 
 
---Kx5iu//9ocq2fYx+
+--K9w/mGjmbtI2Bz9X
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 19, 2026 at 08:43:47AM +0000, Ben Copeland wrote:
-> The alsa kselftests are missing a config file to declare their required
-> kernel configuration options. This causes the utimer-test (timer_f.utimer)
-> to fail on kernels without CONFIG_SND_UTIMER enabled, as the
-> SNDRV_TIMER_IOCTL_CREATE ioctl returns -1.
+On Thu, Mar 19, 2026 at 02:26:33PM +0800, Wenyuan Li wrote:
+> If any of these I2C operations fail, the driver may continue execution
+> with invalid data, leading to incorrect device state or silent failures.
 >=20
-> Add the config file with the necessary sound configs so that
-> 'make kselftest-merge' can enable them automatically.
+> Fix this by:
+> - Adding proper return value checks for all I2C operations
+> - Converting pr_debug() to dev_err() with %pe format for human-readable
+>   error codes
+> - Moving variable declaration to function beginning (C90 style)
+> - Providing detailed error messages including register address and
+>   expected values
 
-These tests fit awkwardly into the config fragment stuff, since pcm-test
-and mixer-test are mostly testing drivers we should in theory have every
-single audio driver enabled as part of the fragment, but that is
-annoying to maintain and bloaty.  Fortunately people usually put these
-in their defconfigs so we actually do the right thing in practice most
-of the time without the need to build a custom kernel.  On the other
-hand the test-pcmtest-driver test requires a test module which *does*
-need a config option so it requires a cutom config.
+This is multiple different changes, as covered in submitting-patches.rst
+it should really be a patch series with one change per patch.
 
-Separately to what we're doing here utimer-test ought to skip rather
-than fail if the driver it needs isn't present just as a general
-kselftest style thing, I see it's not doing that now.
+> +	ret =3D i2c_master_send(uda1380->i2c, data, 3);
+> +	if (ret !=3D 3) {
+> +		dev_err(component->dev, "write failed: %pe\n", ERR_PTR(ret));
+> +		return ret < 0 ? ret : -EIO;
+> +	}
+
+i2c_master_send() doesn't return a pointer, it returns an errno or the
+transfer length. =20
 
 Please submit patches using subject lines reflecting the style for the
 subsystem, this makes it easier for people to identify relevant patches.
 Look at what existing commits in the area you're changing are doing and
 make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
 
---Kx5iu//9ocq2fYx+
+--K9w/mGjmbtI2Bz9X
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm7360ACgkQJNaLcl1U
-h9CVzQf/Q7nlYX1wL0lRpQve3LLU1B1wDKVuqUi3J0Qm6abmoWQmskN6oqpt6iBJ
-WMF2nL6i9Q+ClABE094gmKdtqgICw9Pl51+66+hLlwHf8xoChYbaAK+qA2lgw81G
-pldSA2lPiFEk+8DlNFiTR6cLLd6C01H+mtGFAbwqlGdAqlY7ZOnSqKyJOv8DBKnc
-GYSGI4a0ui0ZXNQn8SY0Xsj/JR9N9vMZcLQ7JnUK5x2ENPnwLWSOQBqN5sQxLxYo
-UxgdNHwCWxZMVmNkILvQ7lBe0KQ/lXjVHogKfhhbQ9cgSFtT5zU+/w75DNd8bIHG
-rWfX/W/XjGA5Zr9G+XrZAVRJGiowBQ==
-=wpOt
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm76kQACgkQJNaLcl1U
+h9AFywf7B8DJ6uA5r1xggbv6MRFt5QGMu0AN4DXJ9ct8V3PC244Jcfqonn3NeUgX
+8LlSeg4tfhwZk3vJ8qshqbQRq1lgQMqLxfKWWOjDKfis36ej2uQtO7TYf7e1B4eQ
+o9NBfNOVpE9e3HImQymzu65TqoYBnA1xc6ZMxK8g/NXOOcHQtsn0H4XHQL3VpKD7
+qR4BpmIyq4jFQwQNttVBJxmuaE0HFFJ9RZ/am2hTL9RQF7WMLV7Ed+G60YnM5O5w
+0R2+J2sr0EXGcSP+00Jwt5RFd5Y82zIw+mJG+mOGs3HpMhU6Ao7S6Vt79etT/nab
+rNmjU5AHB1GGE84AlAJdTyLUFopmBQ==
+=Fz47
 -----END PGP SIGNATURE-----
 
---Kx5iu//9ocq2fYx+--
+--K9w/mGjmbtI2Bz9X--
