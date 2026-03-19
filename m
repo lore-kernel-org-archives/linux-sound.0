@@ -1,138 +1,132 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D91B364EA1
-	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 12:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773924246; cv=pass; b=dwSffuDaXCM7RZauCXSM5KtObvUskuF54JBeUYv0Df9mNZR7FkVxzO15T7JNULqOwEYIj/M4pFth92tVixtUJS0Hka/e09nNapZrPDuS7bTZZtDojZkfCW6MDQrtreO9/A85nw1KdLQh+XFfby/bpY30xKOmQZffimM4rdaOoYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773924246; c=relaxed/simple;
-	bh=QFvN1zhy7bpLhmK5D0/NfLFH7PAkqmZZAZ0hZeSoKUI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TXq9L7awUesdaDOrvTEhEJNiC3XQFMdAd0VTvVWCM+kc+aQe28fEdCRfoKjfFF02ZhhT/15G/DaZi5aR4Pskccmq6lE516g9yNrqoPW1DfdphduvYDlIsFBfSzmvahf6UKuKvY7ypcZuzHXceOBWcWZbnXeqpJ8e2bYBtiuBm/s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=INZiwwAx; arc=pass smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1A4125B2
+	for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 12:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773924344; cv=none; b=ORrOWlmmu0ik0Qfitx8Be6oE4tsvGNm7TVhdH/fJLUBdBKOEv1empHnJamHqrUvXioeAj/9GOEgBFUpr5Tx/tpL8lzfNYogoSf0TIkqbsUTXCMC3r2KDiGB0JqarBom5ldEyKNFDnbPkpXZB3DOxeLjz4n+X4yXLtF6RhiBxMWc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773924344; c=relaxed/simple;
+	bh=npgzio354QTzjj1JltRq6t13HnCw5LVC4NF6FChWmgk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WTd2oRR7OeMmvTLT52Ik3f1w4eK0BIMHG5TuEIoQR/4Ah/x8/PZoCkWhIdWgm5GU29wkGuu1t99NzaQycoihaoSZ5CqPiJZoafE4oxejYIs7+clT1pxrDHt0I4ckb5mH6vS7slt0jnyQ64kV5QM6+pI6Ne87hfm6L+z97E/Yg+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z5PlNb08; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="INZiwwAx"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50b3488fb31so696601cf.1
-        for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 05:44:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773924244; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hcQ3piBza2COmxRmTKAg5MDIJbGaqcGBUWTUKPgU4p/bQhilCWGEV1riGMhilP7w8V
-         x44f9aHjctmkx6i6y9c3znQmmhGBWng4yKmc73dKcJUTgzxIhEoxDrS2zSuROAWTxLV6
-         Xq88IQ6PtDqA/MOE/QmqACzVUXOGK+4RGJaSOJujx+hb6DZ0BXmUrZs4AtJ3vjYF7/zQ
-         CyEAwKJFacAhFEmwYqkZP7UHP0ydLCV+n3SnKlin89SEwjpVD7FOt4twxGNbtpQreR2+
-         Wfvy0UDR2hoANk4x5UH3MBcteAOC+nkf5ULp4wxQ/ZNvLduPYBF8RlZpl+onykqZmiyJ
-         wSmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mt+dE12LnYJMRrLwh3oqUH4MbsvAbhInAHwP12r7KCc=;
-        fh=00B/7DSAo32FrDVGEUwtGMk6MRIawBUNeNy2RX8Rvs4=;
-        b=avvDsaMLNes7EfCtbP6XyaoluCh+vXEDB198ghtDks4bgBR4Gsn5IkjO3K0Sf35FfH
-         8DW7YK+y3t6L5FqV53oikBim+2RplILUPMaCNOZRU421JYHlNS1Hc8AJ0kakbb63HVU8
-         Kjqi+kHcy3tyu5ojHClvBCBI6i2i1DWEA+ive0IQhjDYAMCnhOLxEKFzXCqa0yk2AQrO
-         sqlvoHGcjYwoFsnUcomT/Vz5ZKJq6g2IkiskOYYwoSVr6XDIOjB/RcGdH6nGZEvTCgzf
-         XIgTdJO27159/i5FTuZ5E7LFL9H0A+vPSr1YHVzGOiZVdYxzAxKYifv5ldYAZJ4tYFam
-         heHg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z5PlNb08"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so2731045e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 19 Mar 2026 05:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773924244; x=1774529044; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mt+dE12LnYJMRrLwh3oqUH4MbsvAbhInAHwP12r7KCc=;
-        b=INZiwwAx4GtUiX50W5yQWq33wa4+1yGB62DzNcuFsn+d+a7KNT3pCHE290eojGF60/
-         8y5BmHJlLnzcpavZK4PqGsx7IhTKwW2hsAir14WJIb8bMZYRzV5KGmtz/wmaXgRyj7WI
-         hPvzZSR5n66LqnNLEvSHNxXrSSG7w28KoOSt9zuABG6ReyteyXKoavXtO0pWW4PYeBuo
-         MPkTOC8yDrD3oc7oPwVrSkmcyGgxFlmNfONBfFEJbRPTPMoWyGdgGJrklzkEnrmsvUSa
-         JokcLHMzXVGWyim3ZtVtGtvvt+gT5DDu4ZOOJdhLXnAPm0X6lt7lYnjHPLf9/DZcx6U3
-         Svbw==
+        d=linaro.org; s=google; t=1773924341; x=1774529141; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e0BGsXiMwsYOAMmQzfEaNUBl8dGwTDCeUrjR1vlk/xE=;
+        b=z5PlNb08YsG19/jtTSqxE5iljvMf/S1HiSncxmQz7aJ3yLF8/ljTtCRbizSy24uHa/
+         Y37SC5FbsrqY+VPW0EzP9veTvyfhrR4I6cuvbZo5MNx1bTff/TZT0tXI8VVaWwQ7M6h8
+         kGkrTTdGOnaaJVAXK7HA54kpbUnTCoNRTorJKHRj2xYh2tllxrM1EbZlzHXKwI+7eJ7L
+         PJ6ednjYsWr4MOHu/rxphp/56ptA3yOAa6Hkd/As6/nwxA09IRsvNBowxrVgypl7qkr7
+         irGPmm7YFUZWM+SlL/qd3LdmzTRbsOalrAYFcSs4Jd1c683QLW16nQRbYW77BVrvxt90
+         5dAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773924244; x=1774529044;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1773924341; x=1774529141;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mt+dE12LnYJMRrLwh3oqUH4MbsvAbhInAHwP12r7KCc=;
-        b=MuGbJhENjkU1cBPYDDSMnt0aWLCrrOsXGAWQueFLmQ9HmwtLvS4QNk7cjlG/f0nvWZ
-         oPjLrjxhDJOIfV6N+C+RPCg1yt229RtUqXyv1r5N6jI7iHrQM1Su8C5Md/sjAQiwv4gH
-         Q5gss8RF05wQNDVGyGJQKrKKX3Hs4mR2HFT7TVJj4OMVX8C8B0xrGCcJl0B+jDquCTlY
-         YZMIETP0HNlO+VexyVOijwdAqk4+ArD02evi0vShWQC8XI3N7qNkWNOHoN2eqC/SUoeq
-         wqz7IvURcdrVG67ttCby5uVUay7XwwhPvD1g6DsjaNUWBnUJvKAmcgoCoTVyC4djRXUY
-         VuoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXXbd03Gd0Fnzhv2stb2fNThv3vfxbW4TJk2mSClmfeSN/fRZ1JaSnUBy8QM+t4y8APWCBkekbLrDkMzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxHUiDzi/6beag9+utyupz+Idik0aYQSh+eI+wZw7bHi1UVw1i
-	YWng0v7HbQbxjJj1Q495n7rqv6O/1XkVW7r5/pKRs65bHlr3nUmH81rd1pFemLYWdmpgsOuF4YU
-	Oi6yBzxfKB172AoJoN6VJJKwV0WxXYmuwOGCA+JLX
-X-Gm-Gg: ATEYQzwj5ZRJwzmfmc9OPeAmX+aQDWgBzLL9ThDhqcr65ZCMJ8dbYwvAc8pdadr/xZQ
-	z0Au/fWJuJCIdMqp9q3x/RCbeUxxCnsIScb80x9+oENyY6bP1tW6x9Bifz1f0tGGZ7E/VLF70Uu
-	WaWyfgtgeictpshs0F9Nic7EEvwmZFxUGTjQ2GNsph0bTLCS/VVrKL+goWn89tI1AhPrZwMdBAZ
-	ZgbspcD0QlW5mV7kVCHcC0GJLDf6gwlVGvf732rZAB6oGfwgR808+pIkSY/L44N3wppNNKZwtjT
-	c6zMbND/2Dky/IPy426Zgy6X3epMCJEm74D9pzIP5uXXDXPluHtleu5UoEeKNEJNxwWXQjE=
-X-Received: by 2002:a05:6214:8118:b0:89c:4ce5:cc8b with SMTP id
- 6a1803df08f44-89c7745da13mr39022736d6.26.1773924244308; Thu, 19 Mar 2026
- 05:44:04 -0700 (PDT)
+        bh=e0BGsXiMwsYOAMmQzfEaNUBl8dGwTDCeUrjR1vlk/xE=;
+        b=JtMaqFZWkMEUtnmSrjr5wCiLz1Om4PAPVVSdydP0KkTWjcBzxsk0zFTwTPeucvK8rG
+         WVD7Vryw8eONLDJHS204rDkhZp1qHKpO2f7T2CoJ+KCrv/qO72nCQFtVUjo1sEPPgPnb
+         mlK7Y1jDpOXw8g/UEPXpkqfQrwGJT0I2F6hzzGpAe4M1CYwSm0/nEu/WSg83+/cFIz9o
+         XQ4At9gYkdK92YPX91iu+hGO6B8uOv8BuMenZc1lu7Q753peINegZELeuq7OyMRX4DyH
+         3uEDDwYreJCHRRSlJXHvhExD2uw5zvzHtGx2snSy88mSnte9djH1DWizMfQ2gNYkMLYQ
+         Npjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXD1nyLSJeNucBX7amNyvQkNK09v8SjaKgiyT08CPlfpf6ASHV7fJrlnDb0VVzs1Goa7dntQ9BDacBhhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx5hhkEEcRS+eRuMKrgqLP+Ov3LhlPrcGeJdl50nRZOh5mKqS3
+	IXNlAsipGn03JGWrVvbgXmp9PULQh0fd8+GtCasuInkUwU1CFM87dv+WoT2FdhRYHZA5XunbkaG
+	eTu8=
+X-Gm-Gg: ATEYQzwCbV9dpgC1dPcmvDJMswn9Z7iQYjFoI7NnWhFLSoOtyICylS2yhGTdbL4W9Uc
+	Ze8lAHm6HqNtGOeFkkFxNQSozsC56vqyoAtFzTmT4TSYx7nbL2a/r19ttoAluQkXTIDruNvupKk
+	A7Z6AoJH9kgBLKiEjWZpCN1wpPIPjqyRaylGykUvLzo7LN/AGpAnc2Jg6oE7iL7Ij6pJnGNEsRm
+	i1IkAWxLNEdhxOjL1Oo6SAb6TCwDtclC0s56b+0WuLepJ/N5cKWr4fVDFROkg55UuG14zQ/RUF7
+	tprtf3PfksMwJJOujxDr3hTlOuVRDuKowE8hU9iKYDFeYo3ilunMZ3sfv0lKWDsWo7S3x620Tu8
+	zGwphxUL0kRLajWsS+Kvl40l/d5ThgMRxyBph+DG8DqE9YaHptf75Dd3hQyBu273dJxJ7K9Cd4i
+	mLpnkkfDM7yd7O78OP1dU0Uw+Kv0Rdkj8srmIU+kb9geRIlfU4NcQdvy6eFhtU1EBNNM1fTIoL8
+	1Y9T1fFfswJZh1tEE6w+40=
+X-Received: by 2002:a05:600c:3e0e:b0:485:4eaf:eb14 with SMTP id 5b1f17b1804b1-486f4475054mr111302185e9.21.1773924341468;
+        Thu, 19 Mar 2026 05:45:41 -0700 (PDT)
+Received: from pickles.copeland.me.uk ([149.40.2.133])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fd9845a2sm19249455e9.6.2026.03.19.05.45.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 05:45:41 -0700 (PDT)
+From: Ben Copeland <ben.copeland@linaro.org>
+To: Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ben Copeland <ben.copeland@linaro.org>
+Subject: [PATCH] selftests: ALSA: Skip utimer test when CONFIG_SND_UTIMER is not enabled
+Date: Thu, 19 Mar 2026 12:45:21 +0000
+Message-ID: <20260319124521.191491-1-ben.copeland@linaro.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319084347.134744-1-ben.copeland@linaro.org> <0abf3675-886e-44f9-a9f7-d9198b66086e@sirena.org.uk>
-In-Reply-To: <0abf3675-886e-44f9-a9f7-d9198b66086e@sirena.org.uk>
-From: Ben Copeland <ben.copeland@linaro.org>
-Date: Thu, 19 Mar 2026 12:43:52 +0000
-X-Gm-Features: AaiRm52V4vyDSwCyt-sJoovR3NCZFDFql26Vy3ZgOOAZMOI-O5HJSCFk-flmp0w
-Message-ID: <CAL0q8a5A9Mj4O4DKu1BRbo+JjvprZWO=XHmi71qk1n5GMvvyBg@mail.gmail.com>
-Subject: Re: [PATCH] selftests: alsa: add config for required kernel options
-To: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	Ivan Orlov <ivan.orlov0322@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Anders Roxell <anders.roxell@linaro.org>, linux-sound@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello Mark,
+The timer_f.utimer test hard-fails with ASSERT_EQ when
+SNDRV_TIMER_IOCTL_CREATE returns -1 on kernels without
+CONFIG_SND_UTIMER. This causes the entire alsa kselftest suite to
+report a failure rather than skipping the unsupported test.
 
-On Thu, 19 Mar 2026 at 11:36, Mark Brown <broonie@kernel.org> wrote:
->
-> On Thu, Mar 19, 2026 at 08:43:47AM +0000, Ben Copeland wrote:
-> > The alsa kselftests are missing a config file to declare their required
-> > kernel configuration options. This causes the utimer-test (timer_f.utimer)
-> > to fail on kernels without CONFIG_SND_UTIMER enabled, as the
-> > SNDRV_TIMER_IOCTL_CREATE ioctl returns -1.
-> >
-> > Add the config file with the necessary sound configs so that
-> > 'make kselftest-merge' can enable them automatically.
->
-> These tests fit awkwardly into the config fragment stuff, since pcm-test
-> and mixer-test are mostly testing drivers we should in theory have every
-> single audio driver enabled as part of the fragment, but that is
-> annoying to maintain and bloaty.  Fortunately people usually put these
-> in their defconfigs so we actually do the right thing in practice most
-> of the time without the need to build a custom kernel.  On the other
-> hand the test-pcmtest-driver test requires a test module which *does*
-> need a config option so it requires a cutom config.
->
-> Separately to what we're doing here utimer-test ought to skip rather
-> than fail if the driver it needs isn't present just as a general
-> kselftest style thing, I see it's not doing that now.
+When CONFIG_SND_UTIMER is not enabled, the ioctl is not recognised and
+the kernel returns -ENOTTY. If the timer device or subdevice does not
+exist, -ENXIO is returned. Skip the test in both cases, but still fail
+on any other unexpected error.
 
-Good point. I'll create a patch for this, as it should be handled
-better, rather than failing.
+Suggested-by: Mark Brown <broonie@kernel.org>
+Link: https://lore.kernel.org/linux-kselftest/0e9c25d3-efbd-433b-9fb1-0923010101b9@stanley.mountain/
+Signed-off-by: Ben Copeland <ben.copeland@linaro.org>
+---
+ tools/testing/selftests/alsa/utimer-test.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
->
-> Please submit patches using subject lines reflecting the style for the
-> subsystem, this makes it easier for people to identify relevant patches.
-> Look at what existing commits in the area you're changing are doing and
-> make sure your subject lines visually resemble what they're doing.
-> There's no need to resubmit to fix this alone.
+diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
+index d221972cd8fb..1a9ff010cb11 100644
+--- a/tools/testing/selftests/alsa/utimer-test.c
++++ b/tools/testing/selftests/alsa/utimer-test.c
+@@ -15,6 +15,7 @@
+ #include <stdlib.h>
+ #include <pthread.h>
+ #include <string.h>
++#include <errno.h>
+ 
+ #define FRAME_RATE 8000
+ #define PERIOD_SIZE 4410
+@@ -52,7 +53,14 @@ FIXTURE_SETUP(timer_f) {
+ 	timer_dev_fd = open("/dev/snd/timer", O_RDONLY);
+ 	ASSERT_GE(timer_dev_fd, 0);
+ 
+-	ASSERT_EQ(ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, self->utimer_info), 0);
++	if (ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, self->utimer_info) < 0) {
++		int err = errno;
++
++		close(timer_dev_fd);
++		if (err == ENOTTY || err == ENXIO)
++			SKIP(return, "CONFIG_SND_UTIMER not enabled");
++		ASSERT_EQ(err, 0);
++	}
+ 	ASSERT_GE(self->utimer_info->fd, 0);
+ 
+ 	close(timer_dev_fd);
+-- 
+2.53.0
 
-Thank you for fixing that up. I have noted that for next time.
-
-Regards
-
-
-Ben
