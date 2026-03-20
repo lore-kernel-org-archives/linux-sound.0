@@ -1,87 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04B73630A2;
-	Mon, 23 Mar 2026 21:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9872137C10F
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 21:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774302215; cv=none; b=M1UkW+VZpuRzJWB4I68KE9/mvUjPDrIjCZz5+WD7JVgEAiYQji+UH4uxy3IN1C6SuLc24aC7UC64asZKAX2KwwZOUZKTnXEVWtkb3tK16dXMP/JuK3MbuJH2FAWDg5kGFKe/uL/WAF/N/1UCoNiwaf69TrGH+ioOoeAi/YXJZqI=
+	t=1774302641; cv=none; b=dMQ9uKAbd+FB6A+46s+DdCan7KovQP3qwnDFqvpmfgtZkMlz/RzlZ9C7tS5SESr5x5OtIwoo1W1sHEWzTCDc3JmmBSXzRnGOcaMMfmOajUGwtYJcQiCMniR82ypi/5tFUqW1xFfvGvPNYTBbuSB9cUwPEhi8wRkE/HEGsfaLwvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774302215; c=relaxed/simple;
-	bh=//uAUSA5u8KTZ4EtjpPk3W8X1OMtu/OmjpPbLC38CYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VYIDCHyq2eQSK7dmoPxW2pxY8HLsRo8yTA4JkKIA9sYii0N4fj1BhpQ2mffAPRVcSKOsLM3nDckKb2tDYd0Z9eR2GdBraUX11/6NKLbMShpA5eIypcwiXkFXDI+cEjIMT/hKFHdpWU7baArgNQWqSgI+zCks+NaUwvn7xkAF3jM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nmeMKc2Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774302641; c=relaxed/simple;
+	bh=rg2zu/ClY64TinDg/8t5sbm5OrYa9Npelya+412VZG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G7HfpAqAGAgFeDQcnsGrScrIdbUAqpnFBF91EfWL1x4vkO5TYDIBChM4VS9jPcuwnTeETsptDF6JkHPzjnTA5auBq+eptxyj+VFXOfqPlrdTfz/MGEqzXYbPcFcm2QgsLhzRAxVDHk9TfehHd3deO2poxRI/wcQ//ahi8r6/TZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GhsglGQR; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nmeMKc2Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 562D0C4CEF7;
-	Mon, 23 Mar 2026 21:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774302214;
-	bh=//uAUSA5u8KTZ4EtjpPk3W8X1OMtu/OmjpPbLC38CYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nmeMKc2ZQ++WnFF1I46NHtq1/hdFKcWPmmXkfk+WEtOMamvA2jaXLjfwLg7TSIRlB
-	 diuD3E3+DPiRZj87CkWIKlmaRqlY4hoHeJ+Pe9M1o5d26zAwZrDkVaH+cX666d7sMj
-	 Q9HUUAc2s8uVhAZlwFjBiqWZBXE9rnogTw+KPWJNykr+HhqJiGvomhnBtBjaOg9KIU
-	 YzCSL80SQYLJaVbdFdLOV68/cng6sNvmGxbrLkK9C0Fkq1a0t7QxvSr9jToXS85jBG
-	 pIb8PyA51CEpDI87qbD15fABHpSpprT3E2n/XB0XYX3X9E7mjeNKgk/g1J3QrD39SD
-	 SqG6sBO2mMOCQ==
-Date: Mon, 23 Mar 2026 21:43:29 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sheetal <sheetal@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Mohan Kumar <mkumard@nvidia.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: tegra: Add error logging for probe and callback
- failures
-Message-ID: <bac4efed-0603-46a2-9b95-91281729b0f0@sirena.org.uk>
-References: <20260323101242.3100108-1-sheetal@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GhsglGQR"
+Message-ID: <c63050a3-4a1f-4d0f-868b-89847dd240d5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774302637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mRwSWyxz1LIWfxIxUspIJ//trjG9jyVrsynTRp56Zak=;
+	b=GhsglGQRDpdP3xFyycaxwS6zHrCEdaLK71YwZR8uSbiEXSk6gbRVy2ptjta/Lnd7Edk4yi
+	MFHHxvefpVEE6I7fyl0nFIKVU5PoQ4x6C2LME1dz/q1X6c5rslzehgpmiUBvxVJuF4iDcz
+	uBd/Q+blcb2qOv1ARq+6dTu9gPhDMj0=
+Date: Fri, 20 Mar 2026 16:49:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QlcpgGI6Y6KfLhXJ"
-Content-Disposition: inline
-In-Reply-To: <20260323101242.3100108-1-sheetal@nvidia.com>
-X-Cookie: This is a good time to punt work.
+Subject: Re: [PATCH v3 1/6] ASoC: sdw_utils: Add ES9356 support functions
+To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
+References: <20260319053959.9151-1-zhangyi@everest-semi.com>
+ <20260319053959.9151-2-zhangyi@everest-semi.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260319053959.9151-2-zhangyi@everest-semi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+
+On 3/18/26 22:39, Zhang Yi wrote:
+> Add the functions into the machine driver for the es9356
+> 
+> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+> ---
+>  include/sound/soc_sdw_utils.h | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+> index 98531e500..2109bf477 100644
+> --- a/include/sound/soc_sdw_utils.h
+> +++ b/include/sound/soc_sdw_utils.h
+> @@ -220,6 +220,17 @@ int asoc_sdw_cs42l43_spk_init(struct snd_soc_card *card,
+>  			      struct asoc_sdw_codec_info *info,
+>  			      bool playback);
+>  
+> +/*es9356 codec support*/
+
+nit-pick: best to keep spaces before/after /* and */
+same for other files in this patchset.
 
 
---QlcpgGI6Y6KfLhXJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Mar 23, 2026 at 10:12:42AM +0000, Sheetal wrote:
-> Add error logging across probe and runtime error paths in Tegra audio
-> drivers to improve debuggability. Use dev_err_probe() in all probe
-> error paths as a defensive measure against future API changes that
-> may return -EPROBE_DEFER. Use dev_err() for runtime callback paths.
-> Skip redundant logging where the underlying API already reports errors.
-
-BTW, can I suggest splitting this up per driver or something - the
-change is 99% good, if it were split up then most of it could get merged
-even if there's one or two odd bits need some work.
-
---QlcpgGI6Y6KfLhXJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnBtAAACgkQJNaLcl1U
-h9AxbQf/aLzSbClqimW3VUGOp78umZJoN65wRqxOnOi3sq/EE7hAvBOBYpz+n/Ic
-e5AQ2ni0btycFRypVF+pOOteScKzCO2yrZLdZj7ew8va+ngXCHq+Yba3D51pkytD
-hlCnJaVw6jHHrvP/+P1cQAVz3CCu7bKauc8FBy8/ylcxDul7j9oAVtAtVXentUAU
-PbMBa3YwhJiCfaYZt7HOfg1JBUN5l1ZTdkDFFbxUd9zgofDEbtscEdxZ4sVV+3Zr
-G/R0+s8ezmjDEDA9JWHnyYWU9Fv67/mu0VZf7gMeVp1aCwgaDqZej1Ot3tUqcfi7
-NeYSgdUuZIcMdB3/HujpmmgVm2HMZA==
-=JYSH
------END PGP SIGNATURE-----
-
---QlcpgGI6Y6KfLhXJ--
