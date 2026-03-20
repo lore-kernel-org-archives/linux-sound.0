@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8AC2EFD9B;
-	Fri, 20 Mar 2026 05:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EAF2FFDFC;
+	Fri, 20 Mar 2026 05:41:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773985312; cv=none; b=ABVsWi9TyyYcuIYOb34wrns21leVyuO6ihKn70Ad4P6TDKslHfiJMQb8kHWqe4uRueAxDmNlHits1SMvrpwd62GMPSL32KznnhSFiMBJ967gsIGWcaIER0viRlLjHQeTTNTvyxQdB8H34Ti41OBLWsvpLhJehc6TPzfJKj92ZS0=
+	t=1773985316; cv=none; b=rqXkNCBk8wHKg9bdEdwqI7GZh4/dWPsGMG6vnvwzLInleiPJHrmrzAtrCGhjcm0a/NDdNRRKmROj1mjnCKlatM/h6eRyf49Y8vpEXcEZQ0b2DmLI8UZbnPyk/99zU2vaS8/s2ShcVb92+fYWOaz6ijNavuTk9W3W4/JSyqmMgRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773985312; c=relaxed/simple;
-	bh=3IAZC9RjujDWWizlWlb5fytLxzNcU5RznP5JQz9VVQU=;
+	s=arc-20240116; t=1773985316; c=relaxed/simple;
+	bh=XFhp6S1cAiqrXnJzQlhjP9WkWfNi2K0bhuJI93iqy4M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PXLxKIMiTMQxDMndjHEmAfxa2A43kzvssISR2MymADq5xfBqP9VNLxyKVKw2JueN+C5o9JDxeP2ur2hZAtD4VX/m7t0qEk+8YaNRMG7ni54WLKdN+rtKCOhPgK079WDtyBFuoqtjNpN/tIOxPlsyrfzEmfV8jKF28qdaxaRQ0Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ktkU0LYT; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=WUi2YvOoCQEKaY/GP5RZjlCkV0l4VxPNZDcFXAN85YaRD7n7r6ernX++WD1RcXAx748+aCEhcAo+bNnz07THNh0+6nOzMQa3HNDELBKasv/BaaCozQT0dwfQ9qkemINH8BM8FhTKjZNeZbdLzwLwEPvsUFV7iiPlPMZyR0YNmLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBi/zmtF; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ktkU0LYT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBi/zmtF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773985311; x=1805521311;
+  t=1773985315; x=1805521315;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3IAZC9RjujDWWizlWlb5fytLxzNcU5RznP5JQz9VVQU=;
-  b=ktkU0LYTFox+jpGCojK2ggk8MzcYHFvONzxCIEkrq5Rsy2x+JsUpTrv4
-   i9k48EATURpyGVblZp9B05nQTMb1/2IAKvdfIOTCNYNstDBGAIUxKyMx9
-   ptMXdYIi5IbIjdVF0CtYXS1uZG6JPdxvFlmvmomG05obscEHKcutD5+oG
-   ptJHcDC4ytiwYCErxe7VvYYrSewo7BNfTZHUn/CG3SLmMWYjwUrLdd3cz
-   Cuk5Z/nfysauu7pPSvo2lM8WbctihOujHYYQQXrWkM+xPmS+MasP3zUQT
-   cm+ZCsDOvU739FCfnibnDPY6nk0zxvsErUuw+jX/AW/bQuyUjed7qm/Lb
-   g==;
-X-CSE-ConnectionGUID: v2JR1RFxTM2OMaqIXSVmRA==
-X-CSE-MsgGUID: Qv2P+jA0RWSkVAX5JP7qZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="62629458"
+  bh=XFhp6S1cAiqrXnJzQlhjP9WkWfNi2K0bhuJI93iqy4M=;
+  b=lBi/zmtFt62aW2CcfVQuONruH21ySKPyHe+5EJe+urZ+lVFiADPE3KUS
+   CYrQpZtrtXJZPl0q3f9Y8lEzSB74lG5eJy0IshfxIO2KEx540DWML5oV3
+   JJytyMmcoTU7d70b4ofDX0DGiy2QOUze4QPAxy9mgQq/7JzR5XHY2E3P3
+   Um0TlbD5JS2Xwi52OGUZtB5Xc56YNu/ReOPOc36LODIcS2fKrgo8SqkWc
+   GbH6Aor14uiDxuCkAXS0Ej7pak0+8DWB5CHmmrW5zvlqzLSjqIk+oTA29
+   itS64pv84JO9kTUaGKbXtjyQqLFYkiwkhPybGTzf5IXgDZIfmUuVd/jKS
+   Q==;
+X-CSE-ConnectionGUID: E8itpISJTNqv9LUpcdD9Vw==
+X-CSE-MsgGUID: dg/C7LNbSRKXK29PL5whgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="62629463"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="62629458"
+   d="scan'208";a="62629463"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 22:41:51 -0700
-X-CSE-ConnectionGUID: nkVdoFzmQIC/w5XpA7oOAg==
-X-CSE-MsgGUID: I8yN47diR8+nGKpaYeoO2g==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 22:41:54 -0700
+X-CSE-ConnectionGUID: Fl1NrjuWRfywsEKwcns+DQ==
+X-CSE-MsgGUID: AtPykEvdTTqCVSp2ILPdtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="223404412"
+   d="scan'208";a="223404415"
 Received: from emr-371.sh.intel.com ([10.67.116.154])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 22:41:48 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 22:41:52 -0700
 From: "Baoli.Zhang" <baoli.zhang@linux.intel.com>
 To: vkoul@kernel.org,
 	yung-chuan.liao@linux.intel.com,
@@ -52,9 +52,9 @@ To: vkoul@kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: "Baoli.Zhang" <baoli.zhang@linux.intel.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/3] soundwire: fix bug in sdw_add_element_group_count found by syzkaller
-Date: Fri, 20 Mar 2026 13:33:22 +0800
-Message-ID: <20260320053324.738100-2-baoli.zhang@linux.intel.com>
+Subject: [PATCH v1 2/3] soundwire: increase group->max_size after allocation
+Date: Fri, 20 Mar 2026 13:33:23 +0800
+Message-ID: <20260320053324.738100-3-baoli.zhang@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260320053324.738100-1-baoli.zhang@linux.intel.com>
 References: <20260320053324.738100-1-baoli.zhang@linux.intel.com>
@@ -66,93 +66,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original implementation caused an out-of-bounds memory access
-in the sdw_add_element_group_count for-loop when i == num.
+Only update `group->max_size` after both allocations succeed to avoid
+leaving the group's state inconsistent if one allocation fails.
 
-for (i = 0; i <= num; i++) {
-    if (rate == group->rates[i] && lane == group->lanes[i])
-        ...
-
-To fix this error, the function now checks for existing rate/lane
-entries in the group(a function parameter) using a for-loop before
-adding them.
-
-No functional changes apart from this fix.
-
-Fixes: 9026118f20e2 ("soundwire: Add generic bandwidth allocation algorithm")
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Baoli.Zhang <baoli.zhang@linux.intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- .../soundwire/generic_bandwidth_allocation.c  | 47 +++++++++----------
- 1 file changed, 22 insertions(+), 25 deletions(-)
+ drivers/soundwire/generic_bandwidth_allocation.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index fb3970e12dac9..f016ad088a1db 100644
+index f016ad088a1db..cd9ccbaf0e46f 100644
 --- a/drivers/soundwire/generic_bandwidth_allocation.c
 +++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -299,39 +299,36 @@ static int sdw_add_element_group_count(struct sdw_group *group,
- 	int num = group->count;
- 	int i;
+@@ -308,9 +308,8 @@ static int sdw_add_element_group_count(struct sdw_group *group,
+ 		unsigned int *rates;
+ 		unsigned int *lanes;
  
--	for (i = 0; i <= num; i++) {
-+	for (i = 0; i < num; i++) {
- 		if (rate == group->rates[i] && lane == group->lanes[i])
--			break;
--
--		if (i != num)
--			continue;
--
--		if (group->count >= group->max_size) {
--			unsigned int *rates;
--			unsigned int *lanes;
-+			return 0;
-+	}
+-		group->max_size += 1;
+ 		rates = krealloc(group->rates,
+-				 (sizeof(int) * group->max_size),
++				 sizeof(int) * (group->max_size + 1),
+ 				 GFP_KERNEL);
+ 		if (!rates)
+ 			return -ENOMEM;
+@@ -318,12 +317,14 @@ static int sdw_add_element_group_count(struct sdw_group *group,
+ 		group->rates = rates;
  
--			group->max_size += 1;
--			rates = krealloc(group->rates,
--					 (sizeof(int) * group->max_size),
--					 GFP_KERNEL);
--			if (!rates)
--				return -ENOMEM;
-+	if (group->count >= group->max_size) {
-+		unsigned int *rates;
-+		unsigned int *lanes;
+ 		lanes = krealloc(group->lanes,
+-				 (sizeof(int) * group->max_size),
++				 sizeof(int) * (group->max_size + 1),
+ 				 GFP_KERNEL);
+ 		if (!lanes)
+ 			return -ENOMEM;
  
--			group->rates = rates;
+ 		group->lanes = lanes;
++
 +		group->max_size += 1;
-+		rates = krealloc(group->rates,
-+				 (sizeof(int) * group->max_size),
-+				 GFP_KERNEL);
-+		if (!rates)
-+			return -ENOMEM;
- 
--			lanes = krealloc(group->lanes,
--					 (sizeof(int) * group->max_size),
--					 GFP_KERNEL);
--			if (!lanes)
--				return -ENOMEM;
-+		group->rates = rates;
- 
--			group->lanes = lanes;
--		}
-+		lanes = krealloc(group->lanes,
-+				 (sizeof(int) * group->max_size),
-+				 GFP_KERNEL);
-+		if (!lanes)
-+			return -ENOMEM;
- 
--		group->rates[group->count] = rate;
--		group->lanes[group->count++] = lane;
-+		group->lanes = lanes;
  	}
  
-+	group->rates[group->count] = rate;
-+	group->lanes[group->count++] = lane;
-+
- 	return 0;
- }
- 
+ 	group->rates[group->count] = rate;
 -- 
 2.43.0
 
