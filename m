@@ -1,178 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A56382379;
-	Fri, 20 Mar 2026 15:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076EB3C3BE2;
+	Fri, 20 Mar 2026 15:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774019878; cv=none; b=NRSJgucjm7rlij6gMyaTsMMY62qA4tI5+v3ajzixIOFQmq+9IEQsBA/ytm7TE4KR5XqQsAg4UqoGhGGNp9ohgH9/thD9VjrNnBqYY5v3vD8xJZ3w4ij9T+5y08VSg1qd0B2w7Rob0nBfSZKr2jsCoMSSeE2uLEsMVURVBaxTgJg=
+	t=1774021479; cv=none; b=Zg6fDyOkGqbVUpUk5anF2ORNqa5ziPmPoQrNpNpzxJZd5sokNS7jIgAiySiABS7yq2oLRFnyqxwXQpQVgzwJld+CnC0AaS9fJodEDBK118uCrgkAdnYyjHQrJNjN3t4FNhRrJI2tgMEE+kDDMkpv6voXycaTaoOxyYXfSPo0U0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774019878; c=relaxed/simple;
-	bh=1fR1J78HLi9UXbMD1e7AK7T7FW6YhDUvIGugUBZ8Ac0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s1VYonauWg2FoS2205o74i7LDRQ7zKgC5UVUWeiCKDkcOYxY+3zjClfYZSwz95UAx9SV5dphmjnVi3csxvQmS3A0dSiA2YKtweSyIoL9TJVPkryW/4xy7Qucy/ceR4A/72xHPCXqrZKYW5DECf/DGSo4prPfWhMk5K0fsQULIxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbPAclXE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774021479; c=relaxed/simple;
+	bh=qGDOFtoRam0qDZqkUxUgUbUMjgX1zpiSVnttcBOP+GI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Us8NGrpL5mO+Yi54pKw1HsmfCF3CaWeiH9bo+Kvj8yROoi3nb+sALDs++Rdi7KzhmeSJy5L9K4YsDIE78pdsdHgUCZAvxnFZRqovMn5UbpFUfU1D3rajREUjfbvNXrBV4CJUNyioc4z0FnfhbanHz3L/QLVaIwWM4ilOY2mQ8vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8+vfiuG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbPAclXE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ACE1C4CEF7;
-	Fri, 20 Mar 2026 15:17:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8+vfiuG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC31DC4CEF7;
+	Fri, 20 Mar 2026 15:44:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774019877;
-	bh=1fR1J78HLi9UXbMD1e7AK7T7FW6YhDUvIGugUBZ8Ac0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VbPAclXEwMW483ayD3nsZmjS5piMP2SP7pNPAYnBP/KYwbPULt1EltFAsdNblKWhB
-	 9y1DRojiO9NU0UHqeuDS7Sv4lNsJr9FqdCDtn9kHgMGGsOJ6Nwe/YanxChyffBbR7V
-	 VnzpAtZKn4FwL5X1c2g9Mhlf4Y1iDqgQydZpd6sJCND4PQ7MEe3iA0uAueAE/JNbO+
-	 vYeKhk+w8FHOC75Ey1vcYQHhNc4jd/6vii5ENmsYMSB+zDARN4sDMKL7mBstQg8iht
-	 04n73u05P4BkPRiv+o0TcRCC3uBgT7MC02JKuh7XfeIYCQMnbGCZNLjZMF+6Keh3hW
-	 57eZNijv7NLnw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	ChiYuan Huang <cy_huang@richtek.com>,
-	Zhang Yi <zhangyi@everest-semi.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: wm_adsp: select CONFIG_SND_SOC_WM_ADSP from all users
-Date: Fri, 20 Mar 2026 16:17:31 +0100
-Message-Id: <20260320151752.3439218-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=k20201202; t=1774021478;
+	bh=qGDOFtoRam0qDZqkUxUgUbUMjgX1zpiSVnttcBOP+GI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L8+vfiuGpwiujAefzRju0KvqJMemMGSD1aNLG3sR3GcrPAuqvkLJIPpr2HV3qzrtv
+	 yulHYZeDhcjLerKL1nucKSo8Gf+zPvVG3B7C9rs1XIb3bJ3XgJvJvIg0OMDOKNgH5/
+	 4rCQ3UWm2KC/64a5y/TsDQoqgmA1XK9tJzvrxPlaCnX98fma+/sRdwOLvS5v4ppnP+
+	 Oe/Cm92e2AMmFCXFMbS4/JfbN9snAR4WWmbfJ34oLZxb2tGv9YtIZ5IsYnRirOWQvc
+	 JQPt65rNpEoLyESlGDV9jfeMpfUSrFl5RAsg4+q8XJ4mX54fo15EnMXJIcFXHy/aUK
+	 aZuiyRjYgIKMg==
+Date: Fri, 20 Mar 2026 15:44:32 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	srini@kernel.org, val@packett.cool, mailingradian@gmail.com
+Subject: Re: [PATCH v6 13/13] ASoC: qcom: q6apm: Add support for early buffer
+ mapping on DSP
+Message-ID: <73bbc9b3-d71e-4161-8d21-496433c24300@sirena.org.uk>
+References: <20260320144918.1685838-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260320144918.1685838-14-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/X3HQbfPQWzV2Jl4"
+Content-Disposition: inline
+In-Reply-To: <20260320144918.1685838-14-srinivas.kandagatla@oss.qualcomm.com>
+X-Cookie: Who's on first?
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-The addition of the kunit test made it possible to enable the WM_ADSP
-driver even when there are no users. However, an unintended side-effect
-was that it is also possible to turn it off when it is actually required,
-leading to build failures:
+--/X3HQbfPQWzV2Jl4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-ERROR: modpost: "wm_halo_init" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
-ERROR: modpost: "wm_adsp2_remove" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
-ERROR: modpost: "wm_adsp_hibernate" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
-ERROR: modpost: "wm_adsp2_component_probe" [sound/soc/codecs/snd-soc-cs35l45.ko] undefined!
+On Fri, Mar 20, 2026 at 02:49:18PM +0000, Srinivas Kandagatla wrote:
 
-Reverse the logic to replace the ununual list of 'default y if ....' with
-the regular 'select' that do the same thing but prevent it from being
-disabled if that would break the build.
+>  static int q6apm_dai_pcm_new(struct snd_soc_component *component, struct snd_soc_pcm_runtime *rtd)
+>  {
 
-Fixes: bf2d44d07de7 ("ASoC: wm_adsp: Add kunit test for firmware file search")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/codecs/Kconfig | 31 +++++++++----------------------
- 1 file changed, 9 insertions(+), 22 deletions(-)
+> +	if (pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream) {
+> +		substream = pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream;
+> +		q6apm_dai_memory_map(component, substream, graph_id);
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index f9e6a83e55c6..d6104796db4f 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -401,28 +401,6 @@ config SND_SOC_WM_ADSP
- 	tristate "Cirrus Logic wm_adsp driver" if KUNIT
- 	select FW_CS_DSP
- 	select SND_SOC_COMPRESS
--	default y if SND_SOC_MADERA=y
--	default y if SND_SOC_CS47L24=y
--	default y if SND_SOC_WM5102=y
--	default y if SND_SOC_WM5110=y
--	default y if SND_SOC_WM2200=y
--	default y if SND_SOC_CS35L41_SPI=y
--	default y if SND_SOC_CS35L41_I2C=y
--	default y if SND_SOC_CS35L45_SPI=y
--	default y if SND_SOC_CS35L45_I2C=y
--	default y if SND_SOC_CS35L56=y
--	default y if SND_SOC_CS48L32=y
--	default m if SND_SOC_MADERA=m
--	default m if SND_SOC_CS47L24=m
--	default m if SND_SOC_WM5102=m
--	default m if SND_SOC_WM5110=m
--	default m if SND_SOC_WM2200=m
--	default m if SND_SOC_CS35L41_SPI=m
--	default m if SND_SOC_CS35L41_I2C=m
--	default m if SND_SOC_CS35L45_SPI=m
--	default m if SND_SOC_CS35L45_I2C=m
--	default m if SND_SOC_CS35L56=m
--	default m if SND_SOC_CS48L32=m
- 
- config SND_SOC_WM_ADSP_TEST
- 	tristate "KUnit tests for Cirrus Logic wm_adsp" if !KUNIT_ALL_TESTS
-@@ -834,6 +812,7 @@ config SND_SOC_CS35L41_LIB
- 
- config SND_SOC_CS35L41
- 	tristate
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_CS35L41_SPI
- 	tristate "Cirrus Logic CS35L41 CODEC (SPI)"
-@@ -852,6 +831,7 @@ config SND_SOC_CS35L41_I2C
- config SND_SOC_CS35L45
- 	tristate
- 	select REGMAP_IRQ
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_CS35L45_SPI
- 	tristate "Cirrus Logic CS35L45 CODEC (SPI)"
-@@ -875,6 +855,7 @@ config SND_SOC_CS35L45_I2C
- 
- config SND_SOC_CS35L56
- 	tristate
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_CS35L56_SHARED
- 	select SND_SOC_CS_AMP_LIB
-@@ -1112,6 +1093,7 @@ config SND_SOC_CS47L15
- config SND_SOC_CS47L24
- 	tristate
- 	depends on MFD_CS47L24 && MFD_ARIZONA
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_CS47L35
- 	tristate
-@@ -1133,6 +1115,7 @@ config SND_SOC_CS48L32
- 	tristate "Cirrus Logic CS48L32 audio DSP"
- 	depends on SPI_MASTER
- 	select REGMAP_SPI
-+	select SND_SOC_WM_ADSP
- 	help
- 	  Build the codec driver for the Cirrus Logic CS48L32 audio DSP.
- 
-@@ -1391,6 +1374,7 @@ config SND_SOC_LOCHNAGAR_SC
- 
- config SND_SOC_MADERA
- 	tristate
-+	select SND_SOC_WM_ADSP
- 	default y if SND_SOC_CS47L15=y
- 	default y if SND_SOC_CS47L35=y
- 	default y if SND_SOC_CS47L85=y
-@@ -2489,6 +2473,7 @@ config SND_SOC_WM2000
- config SND_SOC_WM2200
- 	tristate
- 	depends on I2C
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_WM5100
- 	tristate
-@@ -2497,10 +2482,12 @@ config SND_SOC_WM5100
- config SND_SOC_WM5102
- 	tristate
- 	depends on MFD_WM5102 && MFD_ARIZONA
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_WM5110
- 	tristate
- 	depends on MFD_WM5110 && MFD_ARIZONA
-+	select SND_SOC_WM_ADSP
- 
- config SND_SOC_WM8350
- 	tristate
--- 
-2.39.5
+This doesn't assign ret...
 
+> +		if (ret)
+> +			return ret;
+
+...which means this isn't doing the right thing.
+
+--/X3HQbfPQWzV2Jl4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmm9a18ACgkQJNaLcl1U
+h9BLmgf/cc5ZzP5gkrnbCTXnp7sLtMtNbNsIrmLfW7nn4i1rhYbYTl7lAOiNTK6+
+OnPJ22p60KMhyQWGmlmfUAGFoYuS0wObmi77A7oQSmuLzUKwsOsNJTSkTtq7qb8K
+Vm9RTKA4L1uaHte6hdCSNFPzghp48f5txDqEd23NhMpjdC4dtFSToL8mduu7TBSH
+Avic6vkK2FJdlVJjy06ze0zfEGuyxq7yWsMZvMN0kA3YBPUsuGoJFF4iCpYhXzBL
+qnpX3RJw7DQ4hv0W7APEU8aMtmugxUu9nfvBW4UbqYXCoyuFpqEPW4alV3Wo9rz5
+VpRSVtRWb/bh1X9iF9C59/PAQvVImQ==
+=hc8p
+-----END PGP SIGNATURE-----
+
+--/X3HQbfPQWzV2Jl4--
