@@ -1,791 +1,191 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90F138BF8B
-	for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 11:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8253AEF3D
+	for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 12:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774006140; cv=none; b=I9wYaAazc8bM0xBhesB44Pu0GqkGMjth8RjniFJ/fMtn0Sb1GzvwFdnL4rjeHddn12VpIS7r1M6ZnQaULQzOLG7QDv9LyHoYsnXMihlJfUnPgxgLUeCwxDfo1hOMbK8MDgH0StePB0qqpDmgIZ+lIceDSqy7zGyA6bHIsKTFeqI=
+	t=1774010062; cv=none; b=UYMRH1f3xZxqTwuDw2M+LKPL+M0jHap6AoHm6G/rvZlw3XdR1FgHVRaxsyAHo178j6kCIkeHk7KOmQmS04zfulMsHMDt2d+QYK5vYGNZKrl5Rty4Iw0XOWtJDNkM0wX9RYDckAFxTVvf+u1kcku9JZVLV9+VyQumGoo2TiadAec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774006140; c=relaxed/simple;
-	bh=NnzKXwnWGQQQ3whvjWmvFZigOw+O/03c7ufBbfgWUgc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lSs+Gn4kz0Q8ra/zrq9ACWAnTn0R35G0jyP+EEHw+k7EDgZzx/FjohjO8Pk2xAxYJpN/AMUumkKqrrXfqBygsZBEzA5PZ+dOfRS4ofR7BqZ1zSqES8zWI3EbVpYHTw/F/SoBkTs59PrMtjpFut4VzhUWgDEEuuROTpWVVSgJfGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=lFWwnqTu; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1774010062; c=relaxed/simple;
+	bh=lEocWDistd+a/+7r13EdA2zND6HPENPTQxBSlwMvoQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uXtEJA/UG6zD+u4K09N4McSnneBdnF+wpfgECX7SicKdJ5r5QWRWqa8dvAYHXYdUNp1LMM00Psi+PR1yTXn/Oln/wu5+YUnmFnewIF/vPhezYd5EIDH18sAYZBM+M7iDgl3dDa86y/ulyvKPovNR2Scpo0SE+P4BrHqD9QwIpbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mLY4G3xb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YAUPe+NM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="lFWwnqTu"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso16883765e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 04:28:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mLY4G3xb";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YAUPe+NM"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62K2XhuI1191276
+	for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 12:34:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	VPR4PG726A+qE/vUZXZhajFmf3xyRoeSJ2nfcoJVvGY=; b=mLY4G3xbvmJkNoxA
+	PAueJbXjlseO/EDkSMr6FR1cF+DPc/5Qphkndy8gatV7tsyKHH1MbZPJrIFo/Iq0
+	lChnXM1YEyeppUenZR65D/kdfKedA7eh0eCzABjsaP2Bjs+rKM8U5R7lXwB2+M54
+	fAixw4bJ89uvyLfi9lG68vspUSaD01Eew0prKQGLT0QrRuxyJAflUhP5SMsLJfly
+	EretMRoYn7Kmv2zONKnrYF+SiuV2PAPsgWzu52PdEGpdsKEP4HBG8cDGGAi3YAjQ
+	vO/Ko1D8CSu5YfvKTP2FIVJoO+A+xz0BrVNBJbVU6FEm9VjcTIcRmMbbvThopYii
+	Hqluig==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d0pvhtcsd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 12:34:18 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5091327215dso80365691cf.1
+        for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 05:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1774006133; x=1774610933; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k0xpkz8kW8qz6GQ6c9rVCkQ35YtTL3mTNminOSXRTKU=;
-        b=lFWwnqTuK55MhJGnwr619Ckf6tcmx1NzzWvNKcYnXWpDJ/zkUIfhGm3rwGzDv0Fsho
-         AALI/PQi3vGxAI0jhxz1u6WtdnianA2B48lzGbL1aedchvKwjgkhYWzmWJOo8/gYYLwN
-         gEmiDU9QAxMl8nQH9gy2xV2LnTO1ZENV3ItIPYp18ctIzkcQ7OFGk9gHpusfqQ/ov/sT
-         THZD77hX3rGxpFqm7GmHHySJo+5YVrsqSuqHM5XgvuzDB4QiQ6u7ALefsl0ByNp5TINw
-         TMOWUqR30GjSoCBU435N4LNT8z5hP9cqwKqciOXTx6YrbBib5jzZQNqIl8TQNMV98bSK
-         Ui7w==
+        d=oss.qualcomm.com; s=google; t=1774010058; x=1774614858; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VPR4PG726A+qE/vUZXZhajFmf3xyRoeSJ2nfcoJVvGY=;
+        b=YAUPe+NMmPSjbOTT+cCZSmyS5tcWcQ3hOlTnL5m6M6hcB48lsdnLKc+LUD9l4//iL5
+         mf0Apwd/ZukjhSYalJtcfHFP714e81+tE7UOQ3tYn8NogwxAqGuTH1RhdLpNxHUYq84C
+         IDsxD2wjW2BOeINK20tux7fkRYb89KhLdtu8+a25XlyXdRPVp3gHrswK5eDD4I3Gbdss
+         v10Hea5Khmm3USE+yupBXMQalCnJfTZ2/tWHahIh+a3fE4bb+YRqkVXy6dSRh9UFOXeI
+         lpH0qFOwEejTJeBGbmKnJT4+9mwJJ9/pEx6U/pmMlZFwYpIM73Z7QrLqaFA076FiOwU5
+         0V9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774006133; x=1774610933;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=k0xpkz8kW8qz6GQ6c9rVCkQ35YtTL3mTNminOSXRTKU=;
-        b=djjeifgREeYaonVP+4ichguG+fQfAgi5iueRKAvOuYFRzioiLpDtF4PQ3cAPZfjVRr
-         t8MkhcG6VVmsGp+PlnjhtVReZZM6KePQRI+ANKNZ7TkYOIRvkGPCNhck8QlgAK9TMT3S
-         RpzZdzwjY51jG9jdTGSpw677W32A3B8SO5n9h2i1Ox3wANubzszATuTcOs39JWjyLAHp
-         R4hPPmQMMdn6VH5apMDOsX7TZQaMAn4C9LI17nyCSnTWcJHEguOQjeet+XsCS75SUPcF
-         iMLpaWU2BGgVbHBfgWH+/BAjhUimMYAeY0u7oKjshWPcyYAp9CdgKUsBk9PzZa0Xca+q
-         xqgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUwAL+kOaFvLHmIRcLPfk47HDrse+bpHrVgVTdyCGkb1w7e/ZAm9O4kivTPLOMdBkSJpFBk22HvHgdCog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHzeTLTK7SD/hNeElmoMYAeXXe2NXN0rqQTS532MfdGtMroiL+
-	H1edWJicXsJ8tGExC/xqhSfoCyb2cIGo0bBKJAnrh72C8U9Kzs2g2kx5hLa+UK1SomY=
-X-Gm-Gg: ATEYQzxXRNP8U3gbtoEtP17j8x91muZw1LP5Bay8x2fqSGwPf2CqNI8pXpdT1NW6zxV
-	QaF9TRyfMYihffCQ6XIthO1srTgOxTY189nA9J3C/5cr8+xmGZBDZpYthHqQBia1SN+busHHBrE
-	ko39SdarvEtHULAjWk9PiYKZUrmJGLkSu/pfXM/44W+Yh7PkejIaRzM49GgQE7+kP3hCMOgb7pA
-	DxgfzQKSWMWF8kndV1y/xVwFpDdwAolMQk0hyhHJRNIYiRzWXKRZ+UFefhQqQMJmWW33PYoVAgb
-	YV3FOjdzRS/YpII7YnMfVXHQ3ChYav2M7GU++S1MsrgUdrciT2qxzyd37em8rJ8IN+8X6v7EIOr
-	ftcLVsHzIMew4XH+L5kE1dXwevPwsaD+KYnEgiBbuQL4BpMODiD7y7t6s2MUu9Nm96SZVCK8yUr
-	vSnRxk2omB1tVZEofvot8/vdbxEs6mD73jN7EcSMuC/NdkHPmjl7Uc
-X-Received: by 2002:a05:600c:3b8c:b0:483:b505:9db7 with SMTP id 5b1f17b1804b1-486ff03f4d3mr42910705e9.32.1774006132920;
-        Fri, 20 Mar 2026 04:28:52 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.216])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe836784sm49869935e9.13.2026.03.20.04.28.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 04:28:52 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: vkoul@kernel.org,
-	Frank.Li@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	p.zabel@pengutronix.de,
-	geert+renesas@glider.be,
-	fabrizio.castro.jz@renesas.com,
-	john.madieu.xa@bp.renesas.com,
-	kuninori.morimoto.gx@renesas.com,
-	tommaso.merciai.xr@bp.renesas.com
-Cc: claudiu.beznea@tuxon.dev,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 6/7] ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
-Date: Fri, 20 Mar 2026 13:28:37 +0200
-Message-ID: <20260320112838.2200198-7-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260320112838.2200198-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20260320112838.2200198-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20251104; t=1774010058; x=1774614858;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VPR4PG726A+qE/vUZXZhajFmf3xyRoeSJ2nfcoJVvGY=;
+        b=lQKKKjyVdLMBpjDgKmwF+Q8Bre5qX12T4BBK5b6uhoD0/17HqQsqtshjtzxTlZtQab
+         1ZWXolbwvcgRbMl21JW6BFg4LDuRrC5LQXjLbDWKTtViFkoF29heN7SKzQT8sJRjZ2mb
+         Wbe3TKz+KhwAqHa7wmZ6AeegczuBuYvvfEL+0a/59DdsfyigqpqPFBAiv1ZsdXZShE6l
+         XtX7MhvQZvetq7mvwRmwJJlym2xAE9GaX++tbs0vifjVuXMJOWjbRfwnXwxDf1anOshR
+         U+GMC1F8heKCRlVKUI31N2r1Cu1zH3bnCA4WRZLaGEu/eFiw6IzfexYVRtiAYC4D41Wd
+         h9vw==
+X-Forwarded-Encrypted: i=1; AJvYcCXz2Hv7+r2NKLGI9+pdmp5Z1oJ7PLT9YHTFj7FCuiPsMMTokiJPZiOxX447wSvS13A1Qg/3mDJ0PiDMsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR9mQKnpAy+tKvcBlzBa9gxR21YsL0Hf2y4qRTrAalW9UcpsnX
+	qAwjAkWxOA5D/vPcP0T2Rmt+GpiJXz7cW+fGZx0D/D+ZeAxSDWZSypfzQVEU8J6CZ6Tkum/diM6
+	rG+8tHwRsEl9l6tbRf0/2JtJGPzFo8Ki5BwWEKFbsBITIb8Sgg1/XHHhF0D/N7Zs8SQ==
+X-Gm-Gg: ATEYQzw93fY94a4eEh2gjJprmIOuWp8+9kZFHtAuaOx4M2pc8Y8dofnUxU7Mg4ZZ51i
+	gUb90y37Phm84LNXQoeGhzA7KwGBk4Mlu2aHdQEwBsWdH7exbxCDqNtJ/vw/OqkZmp5g9QafFCR
+	dI7yuxJUG63wnJX4qR0MWJrOufcxbjuO8yclDkC3cpTHT57Ah2U1p2Q7rPOPMF6i0Qm6jaV4+aO
+	DCPY/MTcIZHt4tv7g7vWq/au9F+FgEJ8fnnVnHTHR425S+cilWaz5IJCaWvBgSDJmZEOai4INlK
+	013j42gktpQWrn7EDpQ+fonycgEVM4IfOWOVx2+nbPqMU4pljLxo9gJY3Y5vwtX+yqTc4u/IfoV
+	VPmVENfCmQQwZb3fiGit1wDVHEj7vPF3EpuGVNqp0viGuvtbM
+X-Received: by 2002:a05:622a:354:b0:509:1dc8:e9e5 with SMTP id d75a77b69052e-50b375252d6mr37859621cf.34.1774010057597;
+        Fri, 20 Mar 2026 05:34:17 -0700 (PDT)
+X-Received: by 2002:a05:622a:354:b0:509:1dc8:e9e5 with SMTP id d75a77b69052e-50b375252d6mr37859371cf.34.1774010057200;
+        Fri, 20 Mar 2026 05:34:17 -0700 (PDT)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43b644ae619sm6863826f8f.5.2026.03.20.05.34.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Mar 2026 05:34:15 -0700 (PDT)
+Message-ID: <94641371-ad9e-40f3-bf5e-c97e38891eca@oss.qualcomm.com>
+Date: Fri, 20 Mar 2026 12:34:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/13] ASoC: qcom: q6dsp: Add Senary MI2S audio
+ interface support
+To: Val Packett <val@packett.cool>, broonie@kernel.org, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
+        dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mailingradian@gmail.com
+References: <20260309065137.949053-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260309065137.949053-9-srinivas.kandagatla@oss.qualcomm.com>
+ <a7058f7d-b9c9-4f4b-87af-7775a2e756dd@packett.cool>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <a7058f7d-b9c9-4f4b-87af-7775a2e756dd@packett.cool>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=F95at6hN c=1 sm=1 tr=0 ts=69bd3eca cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=R13D1CNnDosyH6-BdusA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: xJgwxcUjK9aSBZ_w060l-uSqeSMM_niB
+X-Proofpoint-ORIG-GUID: xJgwxcUjK9aSBZ_w060l-uSqeSMM_niB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIwMDA5OSBTYWx0ZWRfX3cM7vwEEJAdD
+ KMXAk1Vm21sTPnp8CZGaKkOBK6Mc72lqZXTLJ32txspZPlB0coyU7u9IZ1gCN1iDeXQbvRiNhKc
+ zgdAhrl+3VAiGpt6lk8qejv0TpEMWHxDm/Xrm4AQshtWNXIUcXXY8S+NRJlsSGrQ+gQXPDvoKbB
+ litJ+b7WbiExjZ1SEdUF+8DkbKi0+FCwiwqpcR57Of5i1Ug6unSYOAIj8kkAsEHtjF9zjEZf3CK
+ 3dxlyDhkP/gDfInF+X7TwDV+uUg0Hy6oXaxDMiIYsSdf9u8duTv7W85GDfWh0WmrSzvvUsdHK1S
+ u+qX4XBGco/PfklviCFW9mQGU/Nw2NqOrQqnLukQq4DH3ofVUTT1w63SafaDQyJqwjLh9VBXuwj
+ 3LxIzNRSzjy+tZey1nBqVjhN+Sz/G+FSyEmHRz5Vbo1SJjXntvBiPFKc0K6AQOJ27L8skT4z0kT
+ fRFMV8NBwHE3/Q/gsqw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-20_02,2026-03-19_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 adultscore=0 malwarescore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603200099
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On 3/19/26 5:17 AM, Val Packett wrote:
+> Hi,
+> 
+> On 3/9/26 3:51 AM, Srinivas Kandagatla wrote:
+>> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>>
+>> Introduces support for the Senary MI2S audio interface in the Qualcomm
+>> q6dsp. Add new AFE port IDs for Senary MI2S RX and TX and include the
+>> necessary mappings in the port configuration  to allow audio routing
+>> over the Senary MI2S interface.
+>>
+>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> ---
+>>   sound/soc/qcom/qdsp6/q6afe-dai.c         |  6 +++++
+>>   sound/soc/qcom/qdsp6/q6afe.c             |  6 +++++
+>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 29 ++++++++++++++++++++++++
+>>   3 files changed, 41 insertions(+)
+>> [..]
+>> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+>> index 43d877322bae..7bd40e32f758 100644
+>> --- a/sound/soc/qcom/qdsp6/q6afe.c
+>> +++ b/sound/soc/qcom/qdsp6/q6afe.c
+>> [..]
+> 
+> 
+> One chunk is missing for this file, adding it to the big switch in
+> q6afe_port_get_from_id:
 
-On Renesas RZ/G2L and RZ/G3S SoCs (where this was tested), captured audio
-files occasionally contained random spikes when viewed with a tool such
-as Audacity. These spikes were also audible as popping noises.
+Thanks Val, I will fold this into this patch.
 
-Using cyclic DMA resolves this issue. The driver was reworked to use the
-existing support provided by the generic PCM dmaengine APIs. In addition
-to eliminating the random spikes, the following issues were addressed:
-- blank periods at the beginning of recorded files, which occurred
-  intermittently, are no longer present
-- no overruns or underruns were observed when continuously recording
-  short audio files (e.g. 5 seconds long) in a loop
-- concurrency issues in the SSI driver when enqueuing DMA requests were
-  eliminated; previously, DMA requests could be prepared and submitted
-  both from the DMA completion callback and the interrupt handler, which
-  led to crashes after several hours of testing
-- the SSI driver logic is simplified
-- the number of generated interrupts is reduced by approximately 250%
-
-In the SSI platform driver probe function, the following changes were
-made:
-- the driver-specific DMA configuration was removed in favor of the
-  generic PCM dmaengine APIs. As a result, explicit cleanup goto labels
-  are no longer required and the driver remove callback was dropped,
-  since resource management is now handled via devres helpers
-- special handling was added for IP variants operating in half-duplex
-  mode, where the DMA channel name in the device tree is "rt"; this DMA
-  channel name is taken into account and passed to the generic PCM
-  dmaengine configuration data
-
-All code previously responsible for preparing and completing DMA
-transfers was removed, as this functionality is now handled entirely by
-the generic PCM dmaengine APIs.
-
-Since DMA channels must be paused and resumed during recovery paths
-(overruns and underruns), the DMA channel references are stored in
-rz_ssi_hw_params().
-
-The logic in rz_ssi_is_dma_enabled() was updated to reflect that the
-driver no longer manages DMA transfers directly.
-
-Finally, rz_ssi_stream_is_play() was removed, as it had only a single
-remaining user after this rework, and its logic was inlined at the call
-site.
-
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
-
-Changes in v2:
-- fixed typos in patch description
-- select CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM for rz-ssi driver
-- in rz_ssi_dai_hw_params() check if DMA is enabled before calling
-  snd_dmaengine_pcm_get_chan() to avoid failures for PIO mode
-- do not drop rz_ssi_pcm_pointer() and rz_ssi_pcm_new() as these
-  are necessary for PIO mode
-- added 2 struct snd_soc_component_driver, one for PIO mode, one for
-  DMA and updated probe() to register the proper
-  snd_soc_component_driver based on the working mode
-
- sound/soc/renesas/Kconfig  |   1 +
- sound/soc/renesas/rz-ssi.c | 348 ++++++++++---------------------------
- 2 files changed, 93 insertions(+), 256 deletions(-)
-
-diff --git a/sound/soc/renesas/Kconfig b/sound/soc/renesas/Kconfig
-index 11c2027c88a7..558f9d890165 100644
---- a/sound/soc/renesas/Kconfig
-+++ b/sound/soc/renesas/Kconfig
-@@ -56,6 +56,7 @@ config SND_SOC_MSIOF
- config SND_SOC_RZ
- 	tristate "RZ/G2L series SSIF-2 support"
- 	depends on ARCH_RZG2L || COMPILE_TEST
-+	select CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM
- 	help
- 	  This option enables RZ/G2L SSIF-2 sound support.
- 
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 71e434cfe07b..d833ff83caf6 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -13,6 +13,8 @@
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
-+#include <sound/dmaengine_pcm.h>
-+#include <sound/pcm.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
- 
-@@ -87,8 +89,6 @@ struct rz_ssi_stream {
- 	struct rz_ssi_priv *priv;
- 	struct snd_pcm_substream *substream;
- 	int fifo_sample_size;	/* sample capacity of SSI FIFO */
--	int dma_buffer_pos;	/* The address for the next DMA descriptor */
--	int completed_dma_buf_pos; /* The address of the last completed DMA descriptor. */
- 	int period_counter;	/* for keeping track of periods transferred */
- 	int buffer_pos;		/* current frame position in the buffer */
- 	int running;		/* 0=stopped, 1=running */
-@@ -96,8 +96,6 @@ struct rz_ssi_stream {
- 	int uerr_num;
- 	int oerr_num;
- 
--	struct dma_chan *dma_ch;
--
- 	int (*transfer)(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm);
- };
- 
-@@ -108,7 +106,6 @@ struct rz_ssi_priv {
- 	struct clk *sfr_clk;
- 	struct clk *clk;
- 
--	phys_addr_t phys;
- 	int irq_int;
- 	int irq_tx;
- 	int irq_rx;
-@@ -148,9 +145,10 @@ struct rz_ssi_priv {
- 		unsigned int sample_width;
- 		unsigned int sample_bits;
- 	} hw_params_cache;
--};
- 
--static void rz_ssi_dma_complete(void *data);
-+	struct snd_dmaengine_dai_dma_data dma_dais[SNDRV_PCM_STREAM_LAST + 1];
-+	struct dma_chan *dmas[SNDRV_PCM_STREAM_LAST + 1];
-+};
- 
- static void rz_ssi_reg_writel(struct rz_ssi_priv *priv, uint reg, u32 data)
- {
-@@ -172,11 +170,6 @@ static void rz_ssi_reg_mask_setl(struct rz_ssi_priv *priv, uint reg,
- 	writel(val, (priv->base + reg));
- }
- 
--static inline bool rz_ssi_stream_is_play(struct snd_pcm_substream *substream)
--{
--	return substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
--}
--
- static inline struct rz_ssi_stream *
- rz_ssi_stream_get(struct rz_ssi_priv *ssi, struct snd_pcm_substream *substream)
- {
-@@ -185,7 +178,7 @@ rz_ssi_stream_get(struct rz_ssi_priv *ssi, struct snd_pcm_substream *substream)
- 
- static inline bool rz_ssi_is_dma_enabled(struct rz_ssi_priv *ssi)
- {
--	return (ssi->playback.dma_ch && (ssi->dma_rt || ssi->capture.dma_ch));
-+	return !ssi->playback.transfer && !ssi->capture.transfer;
- }
- 
- static void rz_ssi_set_substream(struct rz_ssi_stream *strm,
-@@ -215,8 +208,6 @@ static void rz_ssi_stream_init(struct rz_ssi_stream *strm,
- 			       struct snd_pcm_substream *substream)
- {
- 	rz_ssi_set_substream(strm, substream);
--	strm->dma_buffer_pos = 0;
--	strm->completed_dma_buf_pos = 0;
- 	strm->period_counter = 0;
- 	strm->buffer_pos = 0;
- 
-@@ -242,12 +233,13 @@ static void rz_ssi_stream_quit(struct rz_ssi_priv *ssi,
- 		dev_info(dev, "underrun = %d\n", strm->uerr_num);
- }
- 
--static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
--			    unsigned int channels)
-+static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, struct snd_pcm_substream *substream,
-+			    unsigned int rate, unsigned int channels)
- {
- 	static u8 ckdv[] = { 1,  2,  4,  8, 16, 32, 64, 128, 6, 12, 24, 48, 96 };
- 	unsigned int channel_bits = 32;	/* System Word Length */
- 	unsigned long bclk_rate = rate * channels * channel_bits;
-+	struct snd_dmaengine_dai_dma_data *dma_dai;
- 	unsigned int div;
- 	unsigned int i;
- 	u32 ssicr = 0;
-@@ -290,6 +282,8 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
- 		return -EINVAL;
- 	}
- 
-+	dma_dai = &ssi->dma_dais[substream->stream];
-+
- 	/*
- 	 * DWL: Data Word Length = {16, 24, 32} bits
- 	 * SWL: System Word Length = 32 bits
-@@ -298,12 +292,18 @@ static int rz_ssi_clk_setup(struct rz_ssi_priv *ssi, unsigned int rate,
- 	switch (ssi->hw_params_cache.sample_width) {
- 	case 16:
- 		ssicr |= SSICR_DWL(1);
-+		dma_dai->maxburst = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		dma_dai->addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
- 		break;
- 	case 24:
- 		ssicr |= SSICR_DWL(5) | SSICR_PDTA;
-+		dma_dai->maxburst = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		dma_dai->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 		break;
- 	case 32:
- 		ssicr |= SSICR_DWL(6);
-+		dma_dai->maxburst = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		dma_dai->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 		break;
- 	default:
- 		dev_err(ssi->dev, "Not support %u data width",
-@@ -344,7 +344,7 @@ static void rz_ssi_set_idle(struct rz_ssi_priv *ssi)
- 
- static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
--	bool is_play = rz_ssi_stream_is_play(strm->substream);
-+	bool is_play = strm->substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
- 	bool is_full_duplex;
- 	u32 ssicr, ssifcr;
- 
-@@ -423,14 +423,6 @@ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 	/* Disable TX/RX */
- 	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
- 
--	/* Cancel all remaining DMA transactions */
--	if (rz_ssi_is_dma_enabled(ssi)) {
--		if (ssi->playback.dma_ch)
--			dmaengine_terminate_async(ssi->playback.dma_ch);
--		if (ssi->capture.dma_ch)
--			dmaengine_terminate_async(ssi->capture.dma_ch);
--	}
--
- 	rz_ssi_set_idle(ssi);
- 
- 	return 0;
-@@ -458,10 +450,6 @@ static void rz_ssi_pointer_update(struct rz_ssi_stream *strm, int frames)
- 		snd_pcm_period_elapsed(strm->substream);
- 		strm->period_counter = current_period;
- 	}
--
--	strm->completed_dma_buf_pos += runtime->period_size;
--	if (strm->completed_dma_buf_pos >= runtime->buffer_size)
--		strm->completed_dma_buf_pos = 0;
- }
- 
- static int rz_ssi_pio_recv(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
-@@ -606,12 +594,6 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 	if (irq == ssi->irq_int) { /* error or idle */
- 		bool is_stopped = !!(ssisr & (SSISR_RUIRQ | SSISR_ROIRQ |
- 					      SSISR_TUIRQ | SSISR_TOIRQ));
--		int i, count;
--
--		if (rz_ssi_is_dma_enabled(ssi))
--			count = 4;
--		else
--			count = 1;
- 
- 		if (ssi->capture.substream && is_stopped) {
- 			if (ssisr & SSISR_RUIRQ)
-@@ -619,7 +601,8 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 			if (ssisr & SSISR_ROIRQ)
- 				strm_capture->oerr_num++;
- 
--			rz_ssi_stop(ssi, strm_capture);
-+			if (rz_ssi_is_dma_enabled(ssi))
-+				dmaengine_pause(ssi->dmas[SNDRV_PCM_STREAM_CAPTURE]);
- 		}
- 
- 		if (ssi->playback.substream && is_stopped) {
-@@ -628,7 +611,8 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 			if (ssisr & SSISR_TOIRQ)
- 				strm_playback->oerr_num++;
- 
--			rz_ssi_stop(ssi, strm_playback);
-+			if (rz_ssi_is_dma_enabled(ssi))
-+				dmaengine_pause(ssi->dmas[SNDRV_PCM_STREAM_PLAYBACK]);
- 		}
- 
- 		/* Clear all flags */
-@@ -637,12 +621,16 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 
- 		/* Add/remove more data */
- 		if (ssi->capture.substream && is_stopped) {
--			for (i = 0; i < count; i++)
-+			if (rz_ssi_is_dma_enabled(ssi))
-+				dmaengine_resume(ssi->dmas[SNDRV_PCM_STREAM_CAPTURE]);
-+			else
- 				strm_capture->transfer(ssi, strm_capture);
- 		}
- 
- 		if (ssi->playback.substream && is_stopped) {
--			for (i = 0; i < count; i++)
-+			if (rz_ssi_is_dma_enabled(ssi))
-+				dmaengine_resume(ssi->dmas[SNDRV_PCM_STREAM_PLAYBACK]);
-+			else
- 				strm_playback->transfer(ssi, strm_playback);
- 		}
- 
-@@ -679,153 +667,11 @@ static irqreturn_t rz_ssi_interrupt(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static int rz_ssi_dma_slave_config(struct rz_ssi_priv *ssi,
--				   struct dma_chan *dma_ch, bool is_play)
--{
--	struct dma_slave_config cfg;
--
--	memset(&cfg, 0, sizeof(cfg));
--
--	cfg.direction = is_play ? DMA_MEM_TO_DEV : DMA_DEV_TO_MEM;
--	cfg.dst_addr = ssi->phys + SSIFTDR;
--	cfg.src_addr = ssi->phys + SSIFRDR;
--	if (ssi->hw_params_cache.sample_width == 16) {
--		cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
--		cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
--	} else {
--		cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--		cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
--	}
--
--	return dmaengine_slave_config(dma_ch, &cfg);
--}
--
--static int rz_ssi_dma_transfer(struct rz_ssi_priv *ssi,
--			       struct rz_ssi_stream *strm)
--{
--	struct snd_pcm_substream *substream = strm->substream;
--	struct dma_async_tx_descriptor *desc;
--	struct snd_pcm_runtime *runtime;
--	enum dma_transfer_direction dir;
--	u32 dma_paddr, dma_size;
--	int amount;
--
--	if (!rz_ssi_stream_is_valid(ssi, strm))
--		return -EINVAL;
--
--	runtime = substream->runtime;
--	if (runtime->state == SNDRV_PCM_STATE_DRAINING)
--		/*
--		 * Stream is ending, so do not queue up any more DMA
--		 * transfers otherwise we play partial sound clips
--		 * because we can't shut off the DMA quick enough.
--		 */
--		return 0;
--
--	dir = rz_ssi_stream_is_play(substream) ? DMA_MEM_TO_DEV : DMA_DEV_TO_MEM;
--
--	/* Always transfer 1 period */
--	amount = runtime->period_size;
--
--	/* DMA physical address and size */
--	dma_paddr = runtime->dma_addr + frames_to_bytes(runtime,
--							strm->dma_buffer_pos);
--	dma_size = frames_to_bytes(runtime, amount);
--	desc = dmaengine_prep_slave_single(strm->dma_ch, dma_paddr, dma_size,
--					   dir,
--					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
--	if (!desc) {
--		dev_err(ssi->dev, "dmaengine_prep_slave_single() fail\n");
--		return -ENOMEM;
--	}
--
--	desc->callback = rz_ssi_dma_complete;
--	desc->callback_param = strm;
--
--	if (dmaengine_submit(desc) < 0) {
--		dev_err(ssi->dev, "dmaengine_submit() fail\n");
--		return -EIO;
--	}
--
--	/* Update DMA pointer */
--	strm->dma_buffer_pos += amount;
--	if (strm->dma_buffer_pos >= runtime->buffer_size)
--		strm->dma_buffer_pos = 0;
--
--	/* Start DMA */
--	dma_async_issue_pending(strm->dma_ch);
--
--	return 0;
--}
--
--static void rz_ssi_dma_complete(void *data)
--{
--	struct rz_ssi_stream *strm = (struct rz_ssi_stream *)data;
--
--	if (!strm->running || !strm->substream || !strm->substream->runtime)
--		return;
--
--	/* Note that next DMA transaction has probably already started */
--	rz_ssi_pointer_update(strm, strm->substream->runtime->period_size);
--
--	/* Queue up another DMA transaction */
--	rz_ssi_dma_transfer(strm->priv, strm);
--}
--
--static void rz_ssi_release_dma_channels(struct rz_ssi_priv *ssi)
--{
--	if (ssi->playback.dma_ch) {
--		dma_release_channel(ssi->playback.dma_ch);
--		ssi->playback.dma_ch = NULL;
--		if (ssi->dma_rt)
--			ssi->dma_rt = false;
--	}
--
--	if (ssi->capture.dma_ch) {
--		dma_release_channel(ssi->capture.dma_ch);
--		ssi->capture.dma_ch = NULL;
--	}
--}
--
--static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
--{
--	ssi->playback.dma_ch = dma_request_chan(dev, "tx");
--	if (IS_ERR(ssi->playback.dma_ch))
--		ssi->playback.dma_ch = NULL;
--
--	ssi->capture.dma_ch = dma_request_chan(dev, "rx");
--	if (IS_ERR(ssi->capture.dma_ch))
--		ssi->capture.dma_ch = NULL;
--
--	if (!ssi->playback.dma_ch && !ssi->capture.dma_ch) {
--		ssi->playback.dma_ch = dma_request_chan(dev, "rt");
--		if (IS_ERR(ssi->playback.dma_ch)) {
--			ssi->playback.dma_ch = NULL;
--			goto no_dma;
--		}
--
--		ssi->dma_rt = true;
--	}
--
--	if (!rz_ssi_is_dma_enabled(ssi))
--		goto no_dma;
--
--	return 0;
--
--no_dma:
--	rz_ssi_release_dma_channels(ssi);
--
--	return -ENODEV;
--}
--
- static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
- 	struct snd_pcm_substream *substream = strm->substream;
--	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int ret;
- 
--	strm->dma_buffer_pos = strm->completed_dma_buf_pos + runtime->period_size;
--
- 	if (rz_ssi_is_stream_running(&ssi->playback) ||
- 	    rz_ssi_is_stream_running(&ssi->capture))
- 		return 0;
-@@ -834,7 +680,7 @@ static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi, struct rz_ssi_stream *
- 	if (ret)
- 		return ret;
- 
--	return rz_ssi_clk_setup(ssi, ssi->hw_params_cache.rate,
-+	return rz_ssi_clk_setup(ssi, substream, ssi->hw_params_cache.rate,
- 				ssi->hw_params_cache.channels);
- }
- 
-@@ -843,7 +689,7 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- {
- 	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
- 	struct rz_ssi_stream *strm = rz_ssi_stream_get(ssi, substream);
--	int ret = 0, i, num_transfer = 1;
-+	int ret = 0;
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_RESUME:
-@@ -857,28 +703,7 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 		if (cmd == SNDRV_PCM_TRIGGER_START)
- 			rz_ssi_stream_init(strm, substream);
- 
--		if (rz_ssi_is_dma_enabled(ssi)) {
--			bool is_playback = rz_ssi_stream_is_play(substream);
--
--			if (ssi->dma_rt)
--				ret = rz_ssi_dma_slave_config(ssi, ssi->playback.dma_ch,
--							      is_playback);
--			else
--				ret = rz_ssi_dma_slave_config(ssi, strm->dma_ch,
--							      is_playback);
--
--			/* Fallback to pio */
--			if (ret < 0) {
--				ssi->playback.transfer = rz_ssi_pio_send;
--				ssi->capture.transfer = rz_ssi_pio_recv;
--				rz_ssi_release_dma_channels(ssi);
--			} else {
--				/* For DMA, queue up multiple DMA descriptors */
--				num_transfer = 4;
--			}
--		}
--
--		for (i = 0; i < num_transfer; i++) {
-+		if (!rz_ssi_is_dma_enabled(ssi)) {
- 			ret = strm->transfer(ssi, strm);
- 			if (ret)
- 				return ret;
-@@ -1024,6 +849,10 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
- 
-+	/* Save the DMA channels for recovery. */
-+	if (rz_ssi_is_dma_enabled(ssi))
-+		ssi->dmas[substream->stream] = snd_dmaengine_pcm_get_chan(substream);
-+
- 	if (rz_ssi_is_stream_running(&ssi->playback) ||
- 	    rz_ssi_is_stream_running(&ssi->capture)) {
- 		if (rz_ssi_is_valid_hw_params(ssi, rate, channels, sample_width, sample_bits))
-@@ -1039,10 +868,21 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 	if (ret)
- 		return ret;
- 
--	return rz_ssi_clk_setup(ssi, rate, channels);
-+	return rz_ssi_clk_setup(ssi, substream, rate, channels);
-+}
-+
-+static int rz_ssi_dai_probe(struct snd_soc_dai *dai)
-+{
-+	struct rz_ssi_priv *ssi = snd_soc_dai_get_drvdata(dai);
-+
-+	snd_soc_dai_init_dma_data(dai, &ssi->dma_dais[SNDRV_PCM_STREAM_PLAYBACK],
-+				  &ssi->dma_dais[SNDRV_PCM_STREAM_CAPTURE]);
-+
-+	return 0;
- }
- 
- static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
-+	.probe		= rz_ssi_dai_probe,
- 	.startup	= rz_ssi_startup,
- 	.shutdown	= rz_ssi_shutdown,
- 	.trigger	= rz_ssi_dai_trigger,
-@@ -1054,7 +894,8 @@ static const struct snd_pcm_hardware rz_ssi_pcm_hardware = {
- 	.info			= SNDRV_PCM_INFO_INTERLEAVED	|
- 				  SNDRV_PCM_INFO_MMAP		|
- 				  SNDRV_PCM_INFO_MMAP_VALID	|
--				  SNDRV_PCM_INFO_RESUME,
-+				  SNDRV_PCM_INFO_RESUME		|
-+				  SNDRV_PCM_INFO_PAUSE,
- 	.buffer_bytes_max	= PREALLOC_BUFFER,
- 	.period_bytes_min	= 32,
- 	.period_bytes_max	= 8192,
-@@ -1113,7 +954,7 @@ static struct snd_soc_dai_driver rz_ssi_soc_dai[] = {
- 	},
- };
- 
--static const struct snd_soc_component_driver rz_ssi_soc_component = {
-+static const struct snd_soc_component_driver rz_ssi_soc_component_pio = {
- 	.name			= "rz-ssi",
- 	.open			= rz_ssi_pcm_open,
- 	.pointer		= rz_ssi_pcm_pointer,
-@@ -1121,10 +962,23 @@ static const struct snd_soc_component_driver rz_ssi_soc_component = {
- 	.legacy_dai_naming	= 1,
- };
- 
-+static const struct snd_soc_component_driver rz_ssi_soc_component_dma = {
-+	.name			= "rz-ssi",
-+	.open			= rz_ssi_pcm_open,
-+	.legacy_dai_naming	= 1,
-+};
-+
-+static struct snd_dmaengine_pcm_config rz_ssi_dmaegine_pcm_conf = {
-+	.prepare_slave_config	= snd_dmaengine_pcm_prepare_slave_config,
-+};
-+
- static int rz_ssi_probe(struct platform_device *pdev)
- {
-+	const struct snd_soc_component_driver *component_driver;
-+	struct device_node *np = pdev->dev.of_node;
- 	struct device *dev = &pdev->dev;
- 	struct rz_ssi_priv *ssi;
-+	unsigned int flags = 0;
- 	struct clk *audio_clk;
- 	struct resource *res;
- 	int ret;
-@@ -1138,7 +992,6 @@ static int rz_ssi_probe(struct platform_device *pdev)
- 	if (IS_ERR(ssi->base))
- 		return PTR_ERR(ssi->base);
- 
--	ssi->phys = res->start;
- 	ssi->clk = devm_clk_get(dev, "ssi");
- 	if (IS_ERR(ssi->clk))
- 		return PTR_ERR(ssi->clk);
-@@ -1162,16 +1015,28 @@ static int rz_ssi_probe(struct platform_device *pdev)
- 
- 	ssi->audio_mck = ssi->audio_clk_1 ? ssi->audio_clk_1 : ssi->audio_clk_2;
- 
--	/* Detect DMA support */
--	ret = rz_ssi_dma_request(ssi, dev);
--	if (ret < 0) {
-+	ssi->dma_dais[SNDRV_PCM_STREAM_PLAYBACK].addr = (dma_addr_t)res->start + SSIFTDR;
-+	ssi->dma_dais[SNDRV_PCM_STREAM_CAPTURE].addr =  (dma_addr_t)res->start + SSIFRDR;
-+
-+	if (of_property_present(np, "dma-names")) {
-+		if (of_property_match_string(np, "dma-names", "rt") == 0) {
-+			flags = SND_DMAENGINE_PCM_FLAG_HALF_DUPLEX;
-+			rz_ssi_dmaegine_pcm_conf.chan_names[SNDRV_PCM_STREAM_PLAYBACK] = "rt";
-+		}
-+		ret = devm_snd_dmaengine_pcm_register(&pdev->dev, &rz_ssi_dmaegine_pcm_conf,
-+						      flags);
-+	} else {
-+		ret = -ENODEV;
-+	}
-+
-+	if (ret) {
- 		dev_warn(dev, "DMA not available, using PIO\n");
- 		ssi->playback.transfer = rz_ssi_pio_send;
- 		ssi->capture.transfer = rz_ssi_pio_recv;
-+		component_driver = &rz_ssi_soc_component_pio;
- 	} else {
--		dev_info(dev, "DMA enabled");
--		ssi->playback.transfer = rz_ssi_dma_transfer;
--		ssi->capture.transfer = rz_ssi_dma_transfer;
-+		dev_info(dev, "DMA enabled\n");
-+		component_driver = &rz_ssi_soc_component_dma;
- 	}
- 
- 	ssi->playback.priv = ssi;
-@@ -1182,17 +1047,13 @@ static int rz_ssi_probe(struct platform_device *pdev)
- 
- 	/* Error Interrupt */
- 	ssi->irq_int = platform_get_irq_byname(pdev, "int_req");
--	if (ssi->irq_int < 0) {
--		ret = ssi->irq_int;
--		goto err_release_dma_chs;
--	}
-+	if (ssi->irq_int < 0)
-+		return ssi->irq_int;
- 
- 	ret = devm_request_irq(dev, ssi->irq_int, rz_ssi_interrupt,
- 			       0, dev_name(dev), ssi);
--	if (ret < 0) {
--		dev_err_probe(dev, ret, "irq request error (int_req)\n");
--		goto err_release_dma_chs;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "irq request error (int_req)\n");
- 
- 	if (!rz_ssi_is_dma_enabled(ssi)) {
- 		/* Tx and Rx interrupts (pio only) */
-@@ -1233,43 +1094,19 @@ static int rz_ssi_probe(struct platform_device *pdev)
- 	}
- 
- 	ssi->rstc = devm_reset_control_get_exclusive(dev, NULL);
--	if (IS_ERR(ssi->rstc)) {
--		ret = PTR_ERR(ssi->rstc);
--		goto err_release_dma_chs;
--	}
-+	if (IS_ERR(ssi->rstc))
-+		return dev_err_probe(dev, PTR_ERR(ssi->rstc), "Failed to get reset\n");
- 
- 	/* Default 0 for power saving. Can be overridden via sysfs. */
- 	pm_runtime_set_autosuspend_delay(dev, 0);
- 	pm_runtime_use_autosuspend(dev);
- 	ret = devm_pm_runtime_enable(dev);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable runtime PM!\n");
--		goto err_release_dma_chs;
--	}
--
--	ret = devm_snd_soc_register_component(dev, &rz_ssi_soc_component,
--					      rz_ssi_soc_dai,
--					      ARRAY_SIZE(rz_ssi_soc_dai));
--	if (ret < 0) {
--		dev_err(dev, "failed to register snd component\n");
--		goto err_release_dma_chs;
--	}
--
--	return 0;
--
--err_release_dma_chs:
--	rz_ssi_release_dma_channels(ssi);
--
--	return ret;
--}
--
--static void rz_ssi_remove(struct platform_device *pdev)
--{
--	struct rz_ssi_priv *ssi = dev_get_drvdata(&pdev->dev);
--
--	rz_ssi_release_dma_channels(ssi);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to enable runtime PM!\n");
- 
--	reset_control_assert(ssi->rstc);
-+	return devm_snd_soc_register_component(dev, component_driver,
-+					       rz_ssi_soc_dai,
-+					       ARRAY_SIZE(rz_ssi_soc_dai));
- }
- 
- static const struct of_device_id rz_ssi_of_match[] = {
-@@ -1304,7 +1141,6 @@ static struct platform_driver rz_ssi_driver = {
- 		.pm = pm_ptr(&rz_ssi_pm_ops),
- 	},
- 	.probe		= rz_ssi_probe,
--	.remove		= rz_ssi_remove,
- };
- 
- module_platform_driver(rz_ssi_driver);
--- 
-2.43.0
+--srini
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+> index 7bd40e32f7..40237267fd 100644
+> --- a/sound/soc/qcom/qdsp6/q6afe.c
+> +++ b/sound/soc/qcom/qdsp6/q6afe.c
+> @@ -1783,6 +1783,8 @@
+>      case AFE_PORT_ID_QUATERNARY_MI2S_TX:
+>      case AFE_PORT_ID_QUINARY_MI2S_RX:
+>      case AFE_PORT_ID_QUINARY_MI2S_TX:
+> +    case AFE_PORT_ID_SENARY_MI2S_RX:
+> +    case AFE_PORT_ID_SENARY_MI2S_TX:
+>          cfg_type = AFE_PARAM_ID_I2S_CONFIG;
+>          break;
+>      case AFE_PORT_ID_PRIMARY_TDM_RX ... AFE_PORT_ID_QUINARY_TDM_TX_7:
+> 
+> 
+> With that + adding senary to q6routing and to SoC specific sndcard,
+> 
+> Tested-by: Val Packett <val@packett.cool> # sm7325-motorola-dubai
+> 
+> (WIP device, patches coming Soon™)
+> 
+> 
+> Thanks,
+> ~val
+> 
 
