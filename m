@@ -1,191 +1,106 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D309C3B38A7;
-	Fri, 20 Mar 2026 12:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471B928000B
+	for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 14:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774010433; cv=none; b=KfI/KQ5kUlnB5vKUTivemx4Pp41gKSqnWXAZJcsmHbOvmZTNcPvvvFWg/k/okftz7wB5tffW0LnUtfMBV2t4jQVfVAgZSlM5zgzMmPqGteymAL0ZQXzByVhjCV1i+fwTO0t6jaDcl6FvbS2RZaEkid6Zy08USPXbnozwm5RfAi8=
+	t=1774017446; cv=none; b=lyHP4pu0/8LH7a7CB8qTOr00MM8SL17Sl22N4k6SFbS9ATRZM7f4qukg8UhXA9PnD5BHpAOtQnuwMWF6B7Kxz4NE10yqjQGlcXXhTzajkE9OAHd3XiOY9mCbsspdgBUMh3bc2JYF22kb2dyGuZd1CnvggT8CNueO9AjfLUrDcK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774010433; c=relaxed/simple;
-	bh=ZTGEIsVM3/8r1G8RoNn1FFNiDNsYhKxHk5r7z0K69T4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjvTe18oAzIFXuSH4P6iQw9HuDwuRwRlAEGX35mujGU9FrWHUhlA0Vh3abPsTuo8TmSJQ4W/5MD4pRk5xiubKYoD0NgnHKZVaY/ySEAGvNUNOn20hfoA6HlgEAfqEG39TwlaMA/617ecyi8Bn41C/z72dLRWIKnPB6cjBJJQh90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=QlB9yfWg; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1774017446; c=relaxed/simple;
+	bh=X18Mi+UvesjWAZ5wZShOJWqHaxtenTTEAREQA4/Mqqg=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=k2C4TRt0SWvR9n2sOBSEq2nQl76b7ruxTbcDxv9r+S8/mChsP81AugII7qHYjDO91pzkStPJziVXzHgRO995ckQ/P/LkLeKydgzcS/cTa2a8nojOv3e9YOhCx4SEw+Rbr6it7JBVk482JW4mz6qYaoTi06bIAS6lQuZb2Sh1Ipg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/suKtl4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="QlB9yfWg"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7AF7540E024F;
-	Fri, 20 Mar 2026 12:40:22 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id a9ILveiLVzmY; Fri, 20 Mar 2026 12:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774010417; bh=e9BcErOyq0fJ6YF6iDjKE/Yd8dCYuME6JbqZGMe8AJs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QlB9yfWgCShTnAmMPAQVD6njD68r72+HUks3GzgYP3cy+/kvwxBHExtFhE6uxUmvt
-	 1VC0aABu3NI+6VchrBKpgYYCMQ2g6Z/Xm+OQ7dxVOyr/Sd9NlI5rVmZRPCXZP/FiRI
-	 hFKAwxX6rcc86H8lXWrf70jdSDhuX/JMrO/dHherGmJydXgDWYIImtBFD2P+yZfWAm
-	 FVlMEYgzldSaYgUpM3KSeRXa572yhfoLYcBKz3y/ukyg8LzYmjClHEsqAi1fdK+3TF
-	 DLHUiH7NDVZhKKna3umqV7qee3lBdIjtaQa4R2fXkQi2DloN/myuZFF7OsBEDWpMyd
-	 sIzHIAjGsOc85256HP68hb6FPQY77DdRNqAaTIqTtT3rdJ/4tSzc0Vcl5j8FdCEwZi
-	 30JcuVg4VzQ3Jg4ApbM88Qai0mLDxduCfIoY7nh0LQ5YVZztKY89FMa+o83gY4C2NF
-	 z7iP/AGFqEPmp/2Dcu/FnQ5D5JDbrmjlV8N+/2eSsaxSgsfxUrCX0A0LiYi9vXh5hl
-	 R3aBvoaCzt4SwLhEvuYjJDFC/dftl7GvmqVKh+dS0+9BPizICZ4sBI194HOdsY9RoK
-	 3IsMdTK40qLVlicC7SIkVy4hv2ghhkgARrFwN8ksOcMg630OexCZila13AP6+8Ifav
-	 JiU1gDYY4kJFteA+lDoDxfvg=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 42A4440E01A9;
-	Fri, 20 Mar 2026 12:40:01 +0000 (UTC)
-Date: Fri, 20 Mar 2026 13:39:54 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Sean Christopherson <seanjc@google.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
-	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v5 01/35] ASoC: Intel: avs: Include CPUID header at file
- scope
-Message-ID: <20260320123954.GXab1AGpBUv2Arxenv@fat_crate.local>
-References: <20250905121515.192792-1-darwi@linutronix.de>
- <20250905121515.192792-2-darwi@linutronix.de>
- <20251016105514.GCaPDPEu016XyDocfY@fat_crate.local>
- <aPFFtvFwgkPCdw-_@lx-t490>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/suKtl4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F69C19425;
+	Fri, 20 Mar 2026 14:37:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774017445;
+	bh=X18Mi+UvesjWAZ5wZShOJWqHaxtenTTEAREQA4/Mqqg=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=A/suKtl45QHTig/rx/P53lTfRtaffoUbXEx3uO9vtscQ8/iNrsIv0GtLbhyZ1KVOY
+	 /3vL3294a/1jH7EEoKt5sLa1KK1whHtpIdVCIuf+NSLU6rCY55giMVp+hWyhGR34eS
+	 IF4L9bP9LRyDRpHQ/5vgvEBj4vYxpYfZG7joyLQLia16AnpbKwpiBz1jzletLysVPB
+	 RSIw5sm5+7HhqtdxlebR/y3kEqcwq8cFeUdZJq0pd+l2ApFNVWddYyDKq+FYtWTyWk
+	 W+i09UQeKzK2JY0dBeO8dxD7C/i4wtzXGWQXUPL3ZqXeq6AlosvCrhuu7Rofol1ZtE
+	 zJgiJlD14x5nQ==
+From: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Sheetal <sheetal@nvidia.com>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87a4wdzyxf.wl-kuninori.morimoto.gx@renesas.com>
+References: <87a4wdzyxf.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/4] ASoC: soc-component: add
+ snd_soc_component_regmap_val_bytes()
+Message-Id: <177401136687.58356.56247969260120993.b4-ty@b4>
+Date: Fri, 20 Mar 2026 12:56:06 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aPFFtvFwgkPCdw-_@lx-t490>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-db13a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1721; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=X18Mi+UvesjWAZ5wZShOJWqHaxtenTTEAREQA4/Mqqg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpvVujVTeCPIGwqbUxkQn5WUlb5Gf99F36FMDzb
+ Ngb60ry39OJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCab1bowAKCRAk1otyXVSH
+ 0PRrCACBaCeHEGU9pkry5UuPxNG9Kaw7GwWIaWZAx2abuyW59Too4lx/o+czPSLRl9E/lXH0Mup
+ gywookR70GPkz3reufy7nXZ8DwAMilcL21tYunQAqBMjJkRG/h6WWuv+eysw/nsJJk63TCJ5Sx6
+ a3VZ9HB8qbMQG23gUqzQELR7/efIyCn0DdVErrSNX0KcZqEAgpRNrc/nM4wA0WvGkfDq1xgrOU8
+ ambms3RKTCafMD9wf3hEK8lG/PzAuMQR33kmQgB4RhZnKNuYjm97v8niZBWVdJ0UVslE8/QbWPn
+ EtpyxfW9VgG9h9A/zM2e6VVI+4uOe9pMK1+xdC4MB6Dml05W
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, Oct 16, 2025 at 09:21:26PM +0200, Ahmed S. Darwish wrote:
-> On Thu, 16 Oct 2025, Borislav Petkov wrote:
-> >
-> > Why are we even bothering with !CONFIG_X86?
-> >
-> > Because this thing has || COMPILE_TEST in Kconfig.
-> >
-> > But this thing gets enough compile testing on x86 already so why not
-> > simply drop the whole unnecessary gunk?
-> >
+On Thu, 12 Mar 2026 00:14:35 +0000, Kuninori Morimoto wrote:
+> ASoC: soc-component: add snd_soc_component_regmap_val_bytes()
 > 
-> Makes sense; will do.
+> Hi Mark
+> 
+> component has component->val_bytes which is set via
+> snd_soc_component_setup_regmap(). But it can be calculated via
+> component->regmap. No need to keep it as component->val_bytes.
+> 
+> [...]
 
-I'll queue the below soon, if no one complains:
+Applied to
 
----
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-From 65453ddafe5d7cf715266f7d32356c42965f2f86 Mon Sep 17 00:00:00 2001
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-Date: Fri, 5 Sep 2025 14:14:41 +0200
-Subject: [PATCH] ASoC: Intel: avs: Include CPUID header at file scope
+Thanks!
 
-Commit
+[1/4] ASoC: soc-component: add snd_soc_component_regmap_val_bytes()
+      https://git.kernel.org/broonie/sound/c/c2da4813882b
+[2/4] ASoC: tegra: use snd_soc_component_regmap_val_bytes()
+      https://git.kernel.org/broonie/sound/c/72660d1ac9f1
+[3/4] ASoC: soc-ops: use snd_soc_component_regmap_val_bytes()
+      https://git.kernel.org/broonie/sound/c/7a478db6980f
+[4/4] ASoC: soc-component: remove component->val_bytes
+      https://git.kernel.org/broonie/sound/c/b84d27531744
 
-    cbe37a4d2b3c ("ASoC: Intel: avs: Configure basefw on TGL-based platforms")
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-includes the main CPUID header from within a C function.  This works by
-sheer luck and forbids further refactoring inside the CPUID header.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Include the CPUID header at file scope instead.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Note, for the CPUID(0x15) leaf number, use CPUID_LEAF_TSC instead of
-defining a custom local macro for it.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-  [ bp: Massage, zap the CONFIG_X86 ifdeffery and dependency on
-    COMPILE_TEST because this driver gets enough compile testing on x86
-    alone already. ]
+Thanks,
+Mark
 
-Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://patch.msgid.link/20250905121515.192792-2-darwi@linutronix.de
----
- sound/soc/intel/Kconfig   |  2 +-
- sound/soc/intel/avs/tgl.c | 18 ++++++------------
- 2 files changed, 7 insertions(+), 13 deletions(-)
-
-diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
-index 412555e626b8..63367364916a 100644
---- a/sound/soc/intel/Kconfig
-+++ b/sound/soc/intel/Kconfig
-@@ -95,7 +95,7 @@ config SND_SOC_INTEL_KEEMBAY
- 
- config SND_SOC_INTEL_AVS
- 	tristate "Intel AVS driver"
--	depends on X86 || COMPILE_TEST
-+	depends on X86
- 	depends on PCI
- 	depends on COMMON_CLK
- 	select ACPI_NHLT if ACPI
-diff --git a/sound/soc/intel/avs/tgl.c b/sound/soc/intel/avs/tgl.c
-index afb066516101..ba4831f4de5a 100644
---- a/sound/soc/intel/avs/tgl.c
-+++ b/sound/soc/intel/avs/tgl.c
-@@ -7,12 +7,12 @@
- //
- 
- #include <linux/pci.h>
-+#include <asm/cpuid/api.h>
-+
- #include "avs.h"
- #include "debug.h"
- #include "messages.h"
- 
--#define CPUID_TSC_LEAF 0x15
--
- static int avs_tgl_dsp_core_power(struct avs_dev *adev, u32 core_mask, bool power)
- {
- 	core_mask &= AVS_MAIN_CORE_MASK;
-@@ -42,20 +42,14 @@ static int avs_tgl_dsp_core_stall(struct avs_dev *adev, u32 core_mask, bool stal
- 
- static int avs_tgl_config_basefw(struct avs_dev *adev)
- {
-+	unsigned int freq = cpuid_ecx(CPUID_LEAF_TSC);
- 	struct pci_dev *pci = adev->base.pci;
- 	struct avs_bus_hwid hwid;
- 	int ret;
--#ifdef CONFIG_X86
--	unsigned int ecx;
- 
--#include <asm/cpuid/api.h>
--	ecx = cpuid_ecx(CPUID_TSC_LEAF);
--	if (ecx) {
--		ret = avs_ipc_set_fw_config(adev, 1, AVS_FW_CFG_XTAL_FREQ_HZ, sizeof(ecx), &ecx);
--		if (ret)
--			return AVS_IPC_RET(ret);
--	}
--#endif
-+	ret = avs_ipc_set_fw_config(adev, 1, AVS_FW_CFG_XTAL_FREQ_HZ, sizeof(freq), &freq);
-+	if (ret)
-+		return AVS_IPC_RET(ret);
- 
- 	hwid.device = pci->device;
- 	hwid.subsystem = pci->subsystem_vendor | (pci->subsystem_device << 16);
--- 
-2.51.0
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
