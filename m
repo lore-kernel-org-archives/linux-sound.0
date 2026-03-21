@@ -1,56 +1,52 @@
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AEB40DFAA;
-	Sat, 21 Mar 2026 11:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6FA38B140
+	for <linux-sound@vger.kernel.org>; Sat, 21 Mar 2026 11:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774093298; cv=none; b=pZoW367+9sGYPtayvI9yuh+VZPX8b9nuU5IMTS2Vd8X03x65PI7XwDyzzPQonlXpNYKD68W1cULfcGUqxZlta8rH4te1bXGcGCvjCt/B3aT9lwaZJSuw1IIG2GRQdn3yVtJbWUf0jMye9ZsbzpqsB5PHxg3tUhrKunb3zuyVSXY=
+	t=1774093843; cv=none; b=YMhZOXi3drZQJlugC7hEIe5f0vtUdXF+jMvkILP5V9L3QtPTOOus81d/MnkHYyrypHwcrKCfJqzIQjTC9SlmvESWUrspcm1idL6K1Qr/afBp2Lc1NWtKpNed38ltBZWXufEajXi7PchPs9zM86UaAyiF+vdXkodG/EnYjFhUIx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774093298; c=relaxed/simple;
-	bh=kOHfg/yke5Dnw0LGsHgG0uDscpxmEJM4NxlqE5s127c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jHLFkALeqB4CtWQp7mdXliiUyKnhKM1TL+e4jwXxKrDD+2xUNcneZ80AMDSKfW7pxYUcKL9JrvSbSmaOWtdt3CeqY08Vzi1qu9IrqIvQwOAop7Ae4+4I7T5M+sQNKbMr4/VMSuZY/sDIrNUTOJbELXaq30klQWIF7Nu8qaGnBaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=0pfvCRtX; arc=none smtp.client-ip=18.194.254.142
+	s=arc-20240116; t=1774093843; c=relaxed/simple;
+	bh=Vtu2DNfitLFzivTINpsik5ybslFgCDsiv7/5NxjLZI4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lZ5ACqXOaS68jkQPcJJlot8RKkisPlXq+3ZSYNUyxSoBpU8NuLBkDgVZSVlH/SUFZMta5jCQqlE5MDsMplstbjpCe6+QULZzSqR9WVTC6JLTRmCw84Fsm6julqYUFFjQmn1JYgg858DIM7ILiZfsOX/U5oq8R79JifL6wgD6yvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=e+41e8fa; arc=none smtp.client-ip=54.204.34.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="0pfvCRtX"
+	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="e+41e8fa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smail.nju.edu.cn;
-	s=iohv2404; t=1774093279;
-	bh=MpRbcYRDdY2DD4XTZv5ptcgOH3A3CX6WIWM+E+X7HKo=;
+	s=iohv2404; t=1774093832;
+	bh=0aqsDGzmuA+tXHRFK+FeoXIY/hlXJXRbIFc2fdsLbIU=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=0pfvCRtXcWvrfeGQd0FLdIgaz/dPvr87LKKhy1NKa47TzNeJ97JJ8m1BGuqG4sllq
-	 GSrSCFy5cizS9oosW4IoqeYbhqAL/t89ezbRdNuDdQMnJMBBMF7jcI1GfXwfdW8VrW
-	 xHHfer90XU3no51mwQ1YyEeN1izdT4Jp+CiYmNzE=
-X-QQ-mid: esmtpsz16t1774093276t12b87290
-X-QQ-Originating-IP: ymC8t1IzwDI1Nkc8CKB2K+5dPkYBlabU7RGxjqi6S04=
+	b=e+41e8faueQjitqOLgnMDHFLeomlzXRqJSsceLZ0qKoaBG+RsiPj1Dj5v43V2/WOO
+	 mt+bzxEJ20krFRs7hWb0VAOYvvymakNWxSsvWu4axzFp69bLESiR+BZjVcaAa6Wbae
+	 j/D29tf6NygRcttnZwAqZ5WX4ENiA3EQqjTY+xg0=
+X-QQ-mid: esmtpsz11t1774093821t2c67d0ef
+X-QQ-Originating-IP: sbvdrixWWNU6AkV0XK5pYe39XO+I5X1a6B6Mlc5rY9k=
 Received: from localhost.localdomain ( [116.172.93.199])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 21 Mar 2026 19:41:13 +0800 (CST)
+	id ; Sat, 21 Mar 2026 19:50:18 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10421773967410276307
-EX-QQ-RecipientCnt: 16
+X-BIZMAIL-ID: 16335402017420971560
+EX-QQ-RecipientCnt: 12
 From: Kexin Sun <kexinsun@smail.nju.edu.cn>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
+To: broonie@kernel.org,
+	kuninori.morimoto.gx@renesas.com,
 	lgirdwood@gmail.com,
-	broonie@kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
 Cc: julia.lawall@inria.fr,
 	xutong.ma@inria.fr,
 	kexinsun@smail.nju.edu.cn,
 	yunbolyu@smu.edu.sg,
 	ratnadiraw@smu.edu.sg
-Subject: [PATCH v2] ASoC: update outdated comments for removed snd_soc_new_pcms()
-Date: Sat, 21 Mar 2026 19:41:13 +0800
-Message-Id: <20260321114113.9244-1-kexinsun@smail.nju.edu.cn>
+Subject: [PATCH v2] ASoC: generic: update outdated comment for removed soc_bind_dai_link()
+Date: Sat, 21 Mar 2026 19:50:18 +0800
+Message-Id: <20260321115018.9481-1-kexinsun@smail.nju.edu.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,83 +57,84 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpsz:smail.nju.edu.cn:qybglogicsvrgz:qybglogicsvrgz5b-0
-X-QQ-XMAILINFO: MBREESna/OUi5nETwaYIThVynI+hddl2aIRXBl42pqAljaJzd9vdnb1n
-	qyfGgDC6OIZ84hy+o5VaNQONvDc87ML5txsWLn5Pq9Dr68N0Ur5EfG5JRX0rCnMcmkq1bee
-	JVvo8rJMsTfhXf+X34ahonZiW/wc+lwBJzb8CIx/DYX/+OLD6o19iuJty7kCzGU3kt1p3mS
-	uuPtBG2EyFggZzI5gSVMkQNLnInU9Rdax3hkC0l1fhqsuDM3G8k5+yvrUZMXVUZvLeyCv9Q
-	OXZXGK0o2gaGefz9fUABJ8a7xLTRnh/BnK0zwkkGnsRLZgfNSLGO/mcubTwNcjZ5/ivTZqY
-	fyGywRJCm5J7lXd9AXwY2JCTjkamsV5nWsxURuTm4lItv/nPnA0TbF8uSULk4TDcb7Cf21R
-	EmSZ9O4HuJf7aR0/q7y71+cbyLNJmAZ+t2/kAr9TzKDQkrLfGvpYaKJOFklwg4n5ts2ewxd
-	uK34f+G+aMx1yOVvZlJ1yz5u7lYIF+fhJENlhkyOqOqg2oa+KkFUHnLXqTNQgJc8WNCoFUf
-	orzxvWMXT1/2HcXGdmT3jAuyEHz0kpKNH9zO98jG+BxZ7aeaDbOBoRJn4nboCHleEnD/dfa
-	dcvejAp05FbV6mZkWRwyBMet+wYsYfmeCZngliVl8v+Mh5hIyEXFIAbwHbi9dLN+/H1oXTv
-	M3d2tkyE7lau9rB8SzARCfYqML5poFL8NvJ8Y5KsaOF7zVuN4y847L1tpFY6OXXt72cw5Mx
-	6Hr3ty0xiqWOjJ7DdeADS4Ts+olaPfmMa8ToVTeKRioc611+FDGneZTDgeDsLQ/yOl68azr
-	iy9bA/nlZqi6oyM/o2bb9kFKgzrgmrSdRNNmFw3OG2stUnQb0Sa5dujNY0Ma7YD7LaXFYeh
-	B+SiKTIwHDWZqvQEE0tSsbYqODjgytZfDQnKhJ2oeVnsGZ3mmC6BqSI42Y1GuKW98fFQhFj
-	QOMw9icLwf85sbTDxUFL8g0ptEuW6OErYl6V4vNbdxNX5hNqmk8zw2bCHyiE9Hv6owdVAHz
-	lD41N6KsstbhbYErqOxcYgNY8i/wfhKAjghPOGceP6x72G7W4GCMVodwyVnRo0wNP05DP2x
-	+U4Cf6UIk3ISUtHT1Uxr/c=
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-XMAILINFO: NfJkUnPhMXV93yYQOIFhEGq8jCe0f46Sf4mHQR5K0b7vE7+jobhBvrFR
+	Vi7S2KYbaYdqZXRaaPuCB1GWOmJV+7ueAKohzJ2v8PDyO0OLXbKhleYN0I4UIARu4z1Nnr5
+	kWLVwl9iZF2PvbUcJhsqaocMV/t/dcQRgqhX7Vlx00/sQLqyuutQbqlG+7jy+zTuXxYQ66g
+	0qElK43F3VlI4F+tArSIu9QsJ+bj2yWAE4PuMFfuJLcV6pQKbGqppHsON4oJWrLY75aXLAR
+	kxqelpMDPANCzbEVNRia211ra29u6AmYaTf90FUt89DNuxjkMJZyi7FhloZzXLRICTnBEW0
+	qUtudqMGAJukU3DE5vxDSchlmvuZ9V3mJvrOfvYuzGFuNEO58XdSbC2jP6qD6FzNVDm9MI4
+	MwnQX+eQMM7R7Id1hOEp2ZihpjgZ+E/32pHaPJZ0Qc6vp3Oauc82G6CKduHlZ/0uvjeOqE9
+	Q2C0yEqt7T1WACzeN0VWfxvil7A+4anxX2+9DtyeVO3k4ZNVS+PSxCfi9jH9Wh+om4QEJwp
+	ZWOBT4PcqPXLOZWLli8h8GigTiTQZn10PEDOuo90fZfdhvMa7TrEySpFHgtFwOv1FllODtG
+	x1rt4NNbXlBQkCq3/mpHePrMyW+PUS2BG8mJ6ATlGbt3iBLtPptNBCxP077KANRJYBPZgq6
+	au52zTIkz0APyuoMMJGZ3urxCbEotyXgh7ONdL+MGbcKwNvS/sVCmOmhboIVZq79Z2VTtLA
+	CROY48Yg6P4FZB48/9/pacYA7JaycclQREX/K9jngyhFnMt5NtfM8ypPs3HwqB511XM1f6i
+	nwqSh0WwG9popGQU4INT5AVSUTEoABNRCJEIQRUk/9YRDW/XlkMfp4/EwPE6W1kzESoT5zw
+	CWIrbOXD4dQrETp/uwypPTpnwiv3a9rqiBCBD9ACvcIqEjcgtns3Ww9Cb1UHwAdlk3OBQow
+	P36ekSoKthuq9G8L8unzv8ejpZiBIR51WupmEfccj3y8ffXpik4n4zapnBqShF7cqJlenqx
+	RAU21YKrTO5BV6XIfqsPcWPOO57SKYQ1RfWv2u4PcGj8wLdB7cHAq7vWx+ELUNYnuTmmsnx
+	GTaehwqKT+tQy/TdaiZD4V4IOzL6kAiAUkCTD0DyhND9P2z+cfh7VOdyusukZ8DMA==
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 X-QQ-RECHKSPAM: 0
 
-The function snd_soc_new_pcms() was removed during the
-multi-component refactoring in commit f0fba2ad1b6b ("ASoC:
-multi-component - ASoC Multi-Component Support").  Its PCM creation
-role is now handled by soc_new_pcm(), which was later moved to
-sound/soc/soc-pcm.c by commit ddee627cf6bb ("ASoC: core - Separate
-out PCM operations into new file.").
+The function soc_bind_dai_link() was first merged into
+snd_soc_add_dai_link() by commit 63dc47da1f39 ("ASoC: soc-core: merge
+snd_soc_add_dai_link() and soc_bind_dai_link()"), and later renamed to
+snd_soc_add_pcm_runtime() by commit 0c04800424c4 ("ASoC: soc-core:
+rename snd_soc_add_dai_link() to snd_soc_add_pcm_runtime()").
 
-In fsl_dma.c, update the comment to reference soc_new_pcm() and the
-pcm_construct callback.  Also remove the stale paragraph about
-snd_dma_alloc_pages() always allocating in lowmem, since commit
-e159704f7920 ("ASoC: fsl_dma: Use managed buffer allocation")
-replaced that call with snd_pcm_set_fixed_buffer_all().
+In simple-card.c, also adjust the wording since snd_soc_add_pcm_runtime()
+no longer uses "xxx_of_node" fields but matches components by of_node
+through snd_soc_find_dai() and snd_soc_is_matching_component().
 
-In siu_pcm.c, remove the stale comment referencing
-snd_soc_new_pcms() and the no-longer-existing socdev structure.
+In simple-card-utils.c, simply update the function name to its
+successor snd_soc_add_pcm_runtime().
 
 Assisted-by: unnamed:deepseek-v3.2 coccinelle
 Signed-off-by: Kexin Sun <kexinsun@smail.nju.edu.cn>
 ---
- sound/soc/fsl/fsl_dma.c     | 9 ++-------
- sound/soc/renesas/siu_pcm.c | 1 -
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ sound/soc/generic/simple-card-utils.c | 2 +-
+ sound/soc/generic/simple-card.c       | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_dma.c b/sound/soc/fsl/fsl_dma.c
-index 26ddbe867b58..ec378e32ea71 100644
---- a/sound/soc/fsl/fsl_dma.c
-+++ b/sound/soc/fsl/fsl_dma.c
-@@ -267,15 +267,10 @@ static irqreturn_t fsl_dma_isr(int irq, void *dev_id)
- /**
-  * fsl_dma_new: initialize this PCM driver.
-  *
-- * This function is called when the codec driver calls snd_soc_new_pcms(),
-- * once for each .dai_link in the machine driver's snd_soc_card
-+ * This function is called by soc_new_pcm() via the pcm_construct
-+ * callback, once for each DAI link in the machine driver's snd_soc_card
-  * structure.
-  *
-- * snd_dma_alloc_pages() is just a front-end to dma_alloc_coherent(), which
-- * (currently) always allocates the DMA buffer in lowmem, even if GFP_HIGHMEM
-- * is specified. Therefore, any DMA buffers we allocate will always be in low
-- * memory, but we support for 36-bit physical addresses anyway.
-- *
-  * Regardless of where the memory is actually allocated, since the device can
-  * technically DMA to any 36-bit address, we do need to set the DMA mask to 36.
-  */
-diff --git a/sound/soc/renesas/siu_pcm.c b/sound/soc/renesas/siu_pcm.c
-index f15ff36e7934..189d7e6f9750 100644
---- a/sound/soc/renesas/siu_pcm.c
-+++ b/sound/soc/renesas/siu_pcm.c
-@@ -483,7 +483,6 @@ siu_pcm_pointer_dma(struct snd_soc_component *component,
- static int siu_pcm_new(struct snd_soc_component *component,
- 		       struct snd_soc_pcm_runtime *rtd)
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index bdc02e85b089..4e0c6d207a4e 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -699,7 +699,7 @@ void simple_util_canonicalize_cpu(struct snd_soc_dai_link_component *cpus,
+ 				  int is_single_links)
  {
--	/* card->dev == socdev->dev, see snd_soc_new_pcms() */
- 	struct snd_card *card = rtd->card->snd_card;
- 	struct snd_pcm *pcm = rtd->pcm;
- 	struct siu_info *info = siu_i2s_data;
+ 	/*
+-	 * In soc_bind_dai_link() will check cpu name after
++	 * In snd_soc_add_pcm_runtime() will check cpu name after
+ 	 * of_node matching if dai_link has cpu_dai_name.
+ 	 * but, it will never match if name was created by
+ 	 * fmt_single_name() remove cpu_dai_name if cpu_args
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index 06638f9a74b8..9937a991846e 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -48,7 +48,8 @@ static int simple_parse_platform(struct simple_util_priv *priv,
+ 
+ 	/*
+ 	 * Get node via "sound-dai = <&phandle port>"
+-	 * it will be used as xxx_of_node on soc_bind_dai_link()
++	 * It will be used as the of_node for component matching during
++	 * snd_soc_add_pcm_runtime().
+ 	 */
+ 	ret = of_parse_phandle_with_args(node, DAI, CELL, 0, &args);
+ 	if (ret)
+@@ -76,7 +77,8 @@ static int simple_parse_dai(struct simple_util_priv *priv,
+ 
+ 	/*
+ 	 * Get node via "sound-dai = <&phandle port>"
+-	 * it will be used as xxx_of_node on soc_bind_dai_link()
++	 * It will be used as the of_node for component matching during
++	 * snd_soc_add_pcm_runtime().
+ 	 */
+ 	ret = of_parse_phandle_with_args(node, DAI, CELL, 0, &args);
+ 	if (ret)
 -- 
 2.25.1
+
 
