@@ -1,122 +1,140 @@
-Received: from www36.your-server.de (www36.your-server.de [213.133.104.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FAB33344A;
-	Sat, 21 Mar 2026 19:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998E378F4F
+	for <linux-sound@vger.kernel.org>; Sat, 21 Mar 2026 23:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774122996; cv=none; b=T4nuFgg/yjQtd/7Rns2eLrGoNQQnwwxdRCCo44SIV3AC8P3vKVG6HKxhUQ/s0ExKR5jsuFN9fiSR1EaO7uqybGZhqGyiBXk32NpHL8JWqsUAP6HCD0CohgCd+4G5uv6wm6HUEnC53j++yNUQ1Zz8K/kEPJZSef+LfdVtmb5eids=
+	t=1774134150; cv=none; b=iLBgsu9d6fvwEkfYWrvigThyLAb3HT6g6773guapDpF7c1YolaJU0mplX7yhFFqEmo2WvorSL9U4ItecOSYS2BYkVsLbgq8old5MM5BtEneiqvAg5voKuttFkx6kRfTC/TFej/cLmYoMFDiURQ+0OFsbkCPVpwR4HCYwIin3Ii4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774122996; c=relaxed/simple;
-	bh=pNY/UkZSQhwfQiCGHJLvcyY5xgWAF6f0px0TZv+/OqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CskbhdBOdG2TATCJBDGsNDNE+2yrVGcCv1d93zedsHF10utsFrWTkBjiflG3FUx3+Sh1YTIlmNoRi47/E5n6voUwGy6YIm97TODrsxXXI5OVlgL1GyJHd78m//MpX2fkS/JQ612gzPjJkt4b5s4C8y1femLTHCYWOh6LJrjhgzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hohmatik.de; spf=pass smtp.mailfrom=hohmatik.de; dkim=pass (2048-bit key) header.d=hohmatik.de header.i=@hohmatik.de header.b=RSORRt43; arc=none smtp.client-ip=213.133.104.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hohmatik.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hohmatik.de
+	s=arc-20240116; t=1774134150; c=relaxed/simple;
+	bh=asCbfiwHcURsQql6KGIGtCkicOMZ3bUpn7t+3APd7w0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JTUG+0Cw0gUIIncpFq5aNOIrx975V59k86tlSQDzPnAyZmHELmqu3Ym3FkfcXQjc+93+wFXeErYRoE3Lczc+2QbSWr1oJOJwshSIs70nyAexPBBxRzWQ3ekfU0ZK23PJVbarWdcuMUorvlVSSQdumkGe/jReq9QyjzenEY9eus8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H6SfDOD7; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hohmatik.de header.i=@hohmatik.de header.b="RSORRt43"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hohmatik.de
-	; s=default2501; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=kysJpMCuTW4EjnapMQ2B7twisyIQeMMqYZp1udBy5qM=; b=RSORRt431iy6ATTOq1R/5MDoiW
-	SuZXdTZmn91+AqgjZkNtnK5YclsJ+HEoKE0mEqR7/AO5cVPOuyeCoknj/fmY6XT2mNHev6HpOfHWe
-	VfT5DS0kVgUp8gawqLgCBagrxH8InlVb/u4EhTDu2m6gyXrgEtgbHzj3mvsnWVTYDGKvS+JLYrFmC
-	XJm7EnFkTh4T+4vNAAtOWmRk45JdlkyM/0Hkb7GmWttbPlvPxgoFsa3YkP0P36uMF2spFigg07mWO
-	FbEQGpBTL3vm1YOUk3EPwjH8v92BinmhMXg67rMYX/iaNYW73YReZeOGeAgscxoSajADEA1bhuAiu
-	Jx58TYFA==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www36.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <linux@hohmatik.de>)
-	id 1w42Qp-000344-0A;
-	Sat, 21 Mar 2026 20:56:23 +0100
-Received: from localhost ([127.0.0.1])
-	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@hohmatik.de>)
-	id 1w42Qo-000EtS-1K;
-	Sat, 21 Mar 2026 20:56:22 +0100
-From: Karsten Hohmeier <linux@hohmatik.de>
-To: tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux@hohmatik.de
-Subject: Re: UBSAN: shift-out-of-bounds in sound/pci/ctxfi/cthw20k2.c:956:31
-Date: Sat, 21 Mar 2026 20:56:21 +0100
-Message-ID: <20260321195621.16139-1-linux@hohmatik.de>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <87cy149n6k.wl-tiwai@suse.de>
-References: <87cy149n6k.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H6SfDOD7"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-56a9c5cb48bso935556e0c.0
+        for <linux-sound@vger.kernel.org>; Sat, 21 Mar 2026 16:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774134148; x=1774738948; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6rA9j2SRuXsEO8QjqC2/UcbuMYb8N8ZP0G/6hW+sEcY=;
+        b=H6SfDOD72JSOdxGyV/EPQnZh2d9Fln7EsYENwOQpHxxX9un7mYC0xloDzLhCiDYeUv
+         8nsOrob0BccL5pM7oTMnQcim6XMG/k0E63+qIx+ZFgR7K+o+nrDEFT1MsrQB0yH08icg
+         cdLGeBJUye/LIuygQu7vQ8/fN7gTCMei1JnuN9wpA9IVmmgxSqu02pmNqV78AHgfwrBb
+         UnbWMSv4RIfwpP6+/YnJABVKc3wuiiKAm/EqX5XDPrn3M5GEQ8vTHYSCPajByO/eW61x
+         yT3LIDVRW42OiwWJcEawYmjf5G9GFh9+jqYtDhxuE5J3HlpwtgY0L/kd7HJ0+PTQRJu4
+         xZNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774134148; x=1774738948;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6rA9j2SRuXsEO8QjqC2/UcbuMYb8N8ZP0G/6hW+sEcY=;
+        b=tDAAcrNA4uGKFjjvoqux5wuEyYoYbmtLFvbSV22uN9liI6oZkkev8N+0e6v70t9hCn
+         XGmI3NUNY7eZyyCmbxSosRfznBBYmBuCvsYiWkUkX24tI2fdl4LAghnVSIjP2u1YXMlr
+         pGKSB+psh6zr0Y2BI43qEvQF8AhEwbq4xRXM+sHHUX4GPF22z79twM5DjoePyFitpMM6
+         469LN+OnYucKhSBSThof65tVkKFOMpsWObtKR9sEsGvYJLfRHpfciD4AN+Lz3mFaNmDg
+         vCPymHRwI3WwtXHe32CkHcEdAUEli0vJ0eE+X9ZV5KNj1zzIOfHFZQxvBxZQgeMMH39t
+         8U3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVJoCUeYrM/mbSblvFpUeEJDrgvw84IvwYoy/qfJpm0ZPSt0UckZcKZzyrM3dUW/sv2amQHWmbHegejIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1YZIyOBuvFhHVSb4j9AaB3XblwJZqpyNRccGfm67zjEcoLrjQ
+	k1KoomuD78omdFNZEEmCz05DJkOg5SV6xLaO0xPMplvAxnZ4j2uReoJxDuY6Vjag
+X-Gm-Gg: ATEYQzxXSMV24mDxwYJbbiPzyOVm9Cu2IWOpEJqUCDPC572BiCWRLzDCR76hNjxItzy
+	XSGSKGtks82sPBv5mS0lMBtqTm6T/4AhyYkC4Bu5KlNVBddpuyB2XLXxOvnavU50yreqfHtF3W0
+	ED/uDPulOussdWQKhnP9Eywb3ZuQi5h2qcz2Rt/Ma6T0Gau2W6SgFKpuGbBx1U9poFlnDiFysKt
+	bZzgpUP14Yo3Ab+Nu1P1l/dJ8SqFN2F9GuaMG6eWIHDb0t/pfY8gkP15JBt7WEUGJj447CFidYV
+	oh0N4Rj8XeE4tw7s8KGQ2PH3F1D9qd6FLMNqiwzgJybJVFVEjh1UtBVtXQxcwdmkZgqPMtfAynz
+	RXwScswf942WjEqHrf23wne/v5m0Nbur0Cj/T4q9Apl9WlEl8I7JoyZ6XSGPvYDxxMmbr9Pd7E4
+	HP99JFPxhXMMhtFtOxKpz5czKkL5lplYXZsWt/OWtidA==
+X-Received: by 2002:a05:6102:508b:b0:602:ab63:b0ca with SMTP id ada2fe7eead31-602aea8f560mr3132648137.1.1774134148505;
+        Sat, 21 Mar 2026 16:02:28 -0700 (PDT)
+Received: from [192.168.2.36] ([2804:984:80c:b000:ea0d:627b:10e6:d9a6])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95136e48debsm4336905241.13.2026.03.21.16.02.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Mar 2026 16:02:28 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Sat, 21 Mar 2026 20:02:21 -0300
+Subject: [PATCH] ALSA: pcm: Use pcm_lib_apply_appl_ptr() in x32 sync_ptr
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: Clear (ClamAV 1.4.3/27947/Sat Mar 21 07:24:23 2026)
+Message-Id: <20260321-alsa-pcm-x32-sync-ptr-v1-1-02ce655657c6@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqEMAxA0atI1hPQqEW8isyi1qgBraUZhop4d
+ 4vLt/j/AuUorNAXF0T+i8rhM6pPAW61fmGUKRuoJFPWVKHd1GJwO6aaUE/vMPwiGtN2ozPUNh1
+ BbkPkWdL7Hb73/QBL9l1sZwAAAA==
+X-Change-ID: 20260321-alsa-pcm-x32-sync-ptr-6658bc625482
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1967;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=asCbfiwHcURsQql6KGIGtCkicOMZ3bUpn7t+3APd7w0=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJn7lRtlN8xT81Z/H6y3WNm2/5C7GwOj/OYeu8QLO6KmT
+ NmsVjq5o5SFQYyLQVZMkWV10iLLPV0PrtbHrfCAmcPKBDKEgYtTACayzJORYZHCmd7s6k0sN242
+ dcy4ZsHVVXSZM32Hm2Ngolzgtflu8Qz//X8c/V0hfas8pk9d9c6R1XZ7f3qFXZ7A/uY+0yJxh+f
+ 3OQA=
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Hello Takashi,
+snd_pcm_ioctl_sync_ptr_x32() still handles incoming appl_ptr updates
+differently from the other SYNC_PTR paths. The native handler and the
+32-bit compat handler both pass appl_ptr through pcm_lib_apply_appl_ptr(),
+but the x32 handler still writes control->appl_ptr directly.
 
-I applied your patch and uncommented the stack dumps.
-Here is what I get.
+That direct assignment skips the common appl_ptr validation against
+runtime->boundary and also bypasses the substream ack() callback.
+This makes the x32 ioctl path behave differently from the native and
+compat32 cases, and it can miss the driver notification that explicit
+appl_ptr synchronization relies on.
 
-Mar 21 20:41:34 dtest kernel: XXX invalid type 9 for hw20k2
-Mar 21 20:41:34 dtest kernel: CPU: 8 UID: 0 PID: 535 Comm: (udev-worker) Tainted: G           OE       6.19.8 #2 PREEMPT(lazy) 
-Mar 21 20:41:34 dtest kernel: Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
-Mar 21 20:41:34 dtest kernel: Hardware name: To Be Filled By O.E.M. A320M-DVS R4.0/A320M-DVS R4.0, BIOS P10.44 02/23/2026
-Mar 21 20:41:34 dtest kernel: Call Trace:
-Mar 21 20:41:34 dtest kernel:  <TASK>
-Mar 21 20:41:34 dtest kernel:  dump_stack_lvl+0x5d/0x80
-Mar 21 20:41:34 dtest kernel:  daio_device_index.isra.0.cold+0x13/0x45 [snd_ctxfi]
-Mar 21 20:41:34 dtest kernel:  get_daio_rsc+0x1d1/0x2c0 [snd_ctxfi]
-Mar 21 20:41:34 dtest kernel:  atc_get_resources+0x161/0x380 [snd_ctxfi]
-Mar 21 20:41:34 dtest kernel:  ct_atc_create+0x3ec/0x540 [snd_ctxfi]
-Mar 21 20:41:34 dtest kernel:  ct_card_probe+0x104/0x2c0 [snd_ctxfi]
-Mar 21 20:41:34 dtest kernel:  local_pci_probe+0x42/0x90
-Mar 21 20:41:34 dtest kernel:  pci_device_probe+0xda/0x2b0
-Mar 21 20:41:34 dtest kernel:  ? sysfs_do_create_link_sd+0x6d/0xd0
-Mar 21 20:41:34 dtest kernel:  really_probe+0xde/0x380
-Mar 21 20:41:34 dtest kernel:  __driver_probe_device+0x78/0x150
-Mar 21 20:41:34 dtest kernel:  driver_probe_device+0x1f/0xa0
-Mar 21 20:41:34 dtest kernel:  ? __pfx___driver_attach+0x10/0x10
-Mar 21 20:41:34 dtest kernel:  __driver_attach+0xcb/0x200
-Mar 21 20:41:34 dtest kernel:  bus_for_each_dev+0x85/0xd0
-Mar 21 20:41:34 dtest kernel:  bus_add_driver+0x118/0x200
-Mar 21 20:41:34 dtest kernel:  ? __pfx_ct_driver_init+0x10/0x10 [snd_ctxfi]
-Mar 21 20:41:34 dtest kernel:  driver_register+0x75/0xe0
-Mar 21 20:41:34 dtest kernel:  do_one_initcall+0x5b/0x300
-Mar 21 20:41:34 dtest kernel:  do_init_module+0x62/0x250
-Mar 21 20:41:34 dtest kernel:  init_module_from_file+0xd8/0x140
-Mar 21 20:41:34 dtest kernel:  idempotent_init_module+0x114/0x310
-Mar 21 20:41:34 dtest kernel:  __x64_sys_finit_module+0x71/0xe0
-Mar 21 20:41:34 dtest kernel:  ? syscall_trace_enter+0x8d/0x1d0
-Mar 21 20:41:34 dtest kernel:  do_syscall_64+0x81/0x600
-Mar 21 20:41:34 dtest kernel:  ? vfs_read+0x165/0x390
-Mar 21 20:41:34 dtest kernel:  ? vfs_read+0x165/0x390
-Mar 21 20:41:34 dtest kernel:  ? restore_fpregs_from_fpstate+0x46/0xa0
-Mar 21 20:41:34 dtest kernel:  ? switch_fpu_return+0x5b/0xe0
-Mar 21 20:41:34 dtest kernel:  ? do_syscall_64+0x245/0x600
-Mar 21 20:41:34 dtest kernel:  ? exc_page_fault+0x7e/0x1a0
-Mar 21 20:41:34 dtest kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Mar 21 20:41:34 dtest kernel: RIP: 0033:0x7ff26a11bc29
-Mar 21 20:41:34 dtest kernel: Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d b7 51 0d 0>
-Mar 21 20:41:34 dtest kernel: RSP: 002b:00007ffcf4bdf7c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-Mar 21 20:41:34 dtest kernel: RAX: ffffffffffffffda RBX: 000055a12d9ec2b0 RCX: 00007ff26a11bc29
-Mar 21 20:41:34 dtest kernel: RDX: 0000000000000004 RSI: 00007ff2696e844d RDI: 000000000000004d
-Mar 21 20:41:34 dtest kernel: RBP: 0000000000000004 R08: 0000000000000000 R09: 000055a12d5e1670
-Mar 21 20:41:34 dtest kernel: R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000020000
-Mar 21 20:41:34 dtest kernel: R13: 00007ff2696e844d R14: 000055a12d9e7720 R15: 0000000000000000
-Mar 21 20:41:34 dtest kernel:  </TASK>
-Mar 21 20:41:34 dtest kernel: snd_ctxfi 0000:05:00.0: Failed to get DAIO resource 9!!!
-Mar 21 20:41:34 dtest kernel: snd_ctxfi 0000:05:00.0: Something wrong!!!
-Mar 21 20:41:34 dtest kernel: snd_ctxfi 0000:05:00.0: probe with driver snd_ctxfi failed with error -22
+Use pcm_lib_apply_appl_ptr() for x32 too, so appl_ptr updates are
+validated consistently and drivers relying on ack() notifications
+see the same behavior.
 
-Sorry, that it takes a while for me to test, but I only have access to this machine on weekends.
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/core/pcm_compat.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Regards
+diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
+index e71f393d3b01..5313f50f17da 100644
+--- a/sound/core/pcm_compat.c
++++ b/sound/core/pcm_compat.c
+@@ -430,11 +430,13 @@ static int snd_pcm_ioctl_sync_ptr_x32(struct snd_pcm_substream *substream,
+ 	if (!boundary)
+ 		boundary = 0x7fffffff;
+ 	scoped_guard(pcm_stream_lock_irq, substream) {
+-		/* FIXME: we should consider the boundary for the sync from app */
+-		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
+-			control->appl_ptr = scontrol.appl_ptr;
+-		else
++		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL)) {
++			err = pcm_lib_apply_appl_ptr(substream, scontrol.appl_ptr);
++			if (err < 0)
++				return err;
++		} else {
+ 			scontrol.appl_ptr = control->appl_ptr % boundary;
++		}
+ 		if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
+ 			control->avail_min = scontrol.avail_min;
+ 		else
 
-Karsten
+---
+base-commit: b3c48fa1fb397b490101785ddd87caf2e5513a66
+change-id: 20260321-alsa-pcm-x32-sync-ptr-6658bc625482
+
+Best regards,
+-- 
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
