@@ -1,35 +1,35 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E52344D8B;
-	Sat, 21 Mar 2026 10:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AEB40DFAA;
+	Sat, 21 Mar 2026 11:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774090649; cv=none; b=Q6dMn1BYLkmOpNO2/YFP1p2pwFG8cC62fIvek7uoYcYpNzLFMVItffF6lKzvzLqQXRsbARyZ4QK2POwQakf5f5HsCd1B6aBd9LjBFyH/Dkn644264zC+pJqDdKRIkDVwoNX/6z4i0K86QdPGNLs/YqKSQ+o43045J19P9ppbZXA=
+	t=1774093298; cv=none; b=pZoW367+9sGYPtayvI9yuh+VZPX8b9nuU5IMTS2Vd8X03x65PI7XwDyzzPQonlXpNYKD68W1cULfcGUqxZlta8rH4te1bXGcGCvjCt/B3aT9lwaZJSuw1IIG2GRQdn3yVtJbWUf0jMye9ZsbzpqsB5PHxg3tUhrKunb3zuyVSXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774090649; c=relaxed/simple;
-	bh=kkgtABF+rr/5RAG5KzG+XlPcnYLbcejn4ScRjp7APc0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NP9k0TAM2mo/+iHZpNhisAdDid5dJmD8zfy+tX/+oSwk1GF6E8lTz2iujpgKrftaNETfYobK7q7BNKCil2RNBxkY0Aad0gGEGKpBHgm4bGx5PVLmq0/11aWPAfsguQAaY+1/KYsozJ6PgUWkfIWn3jU6KmoBkosG+o87FrA2CFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=vgTo/c1C; arc=none smtp.client-ip=54.207.22.56
+	s=arc-20240116; t=1774093298; c=relaxed/simple;
+	bh=kOHfg/yke5Dnw0LGsHgG0uDscpxmEJM4NxlqE5s127c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jHLFkALeqB4CtWQp7mdXliiUyKnhKM1TL+e4jwXxKrDD+2xUNcneZ80AMDSKfW7pxYUcKL9JrvSbSmaOWtdt3CeqY08Vzi1qu9IrqIvQwOAop7Ae4+4I7T5M+sQNKbMr4/VMSuZY/sDIrNUTOJbELXaq30klQWIF7Nu8qaGnBaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=0pfvCRtX; arc=none smtp.client-ip=18.194.254.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="vgTo/c1C"
+	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="0pfvCRtX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smail.nju.edu.cn;
-	s=iohv2404; t=1774090618;
-	bh=HIHEzaF/nPqHffBHVVWRyOkZRwX0b63WHjLr9Uc+nEM=;
+	s=iohv2404; t=1774093279;
+	bh=MpRbcYRDdY2DD4XTZv5ptcgOH3A3CX6WIWM+E+X7HKo=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=vgTo/c1CfG/n5NabPfFbvcUd1VynakjTU2C70sMLAjf6NJsTzJ/awRK6byh6xbbf4
-	 OQ5FKyhIFMb1+m7x0V/y06sDAxymTc3N/DpPM92fFCfKvYfUpzZ6vRJbsCLyww8wbu
-	 NR46UP+24/I8UsoAri/r8sOINkhrlejEG3TXWEpI=
-X-QQ-mid: esmtpgz10t1774090615t736d5583
-X-QQ-Originating-IP: lnfkjvlq7iaGG7WgKVTtD6UhUhtO2uG/Q9+eCbsmz9Y=
+	b=0pfvCRtXcWvrfeGQd0FLdIgaz/dPvr87LKKhy1NKa47TzNeJ97JJ8m1BGuqG4sllq
+	 GSrSCFy5cizS9oosW4IoqeYbhqAL/t89ezbRdNuDdQMnJMBBMF7jcI1GfXwfdW8VrW
+	 xHHfer90XU3no51mwQ1YyEeN1izdT4Jp+CiYmNzE=
+X-QQ-mid: esmtpsz16t1774093276t12b87290
+X-QQ-Originating-IP: ymC8t1IzwDI1Nkc8CKB2K+5dPkYBlabU7RGxjqi6S04=
 Received: from localhost.localdomain ( [116.172.93.199])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 21 Mar 2026 18:56:53 +0800 (CST)
+	id ; Sat, 21 Mar 2026 19:41:13 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17690428264591340367
+X-BIZMAIL-ID: 10421773967410276307
 EX-QQ-RecipientCnt: 16
 From: Kexin Sun <kexinsun@smail.nju.edu.cn>
 To: shengjiu.wang@gmail.com,
@@ -48,9 +48,9 @@ Cc: julia.lawall@inria.fr,
 	kexinsun@smail.nju.edu.cn,
 	yunbolyu@smu.edu.sg,
 	ratnadiraw@smu.edu.sg
-Subject: [PATCH] ASoC: update outdated comments for removed snd_soc_new_pcms()
-Date: Sat, 21 Mar 2026 18:56:52 +0800
-Message-Id: <20260321105652.5904-1-kexinsun@smail.nju.edu.cn>
+Subject: [PATCH v2] ASoC: update outdated comments for removed snd_soc_new_pcms()
+Date: Sat, 21 Mar 2026 19:41:13 +0800
+Message-Id: <20260321114113.9244-1-kexinsun@smail.nju.edu.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -60,24 +60,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:smail.nju.edu.cn:qybglogicsvrgz:qybglogicsvrgz5b-0
-X-QQ-XMAILINFO: ORU3Pd/i+gCn890JOBMvtlCwlwEtiXkWhKUqL4O2UFtDiMRccfLgB2Jh
-	ME1V4GycHLFu/y9/lM+dG4EYmYqi+NJjetJybl06ZO9QIhY4664Z5sm8E2WcoJW6YAH4d8M
-	4AQ6G6ZLziqAQKa0MtGTMPMJjJIkvVJJJxLnYQFkuXHlH4MQporzLf6myS1O9KC9M85fhPJ
-	B0klTBtimy450Gg6il6Kmrj/8s8MexX3rYO2tMzkWFNwUqDG+flFY1qaH6qfGEYf5vB+Yd3
-	Jf+urzJy4uGXnHM+EksHhru5SuWD3tD0bVH5BvIFoUQkJhhsB4fcB5/or9sLrdQUS28rJp9
-	911f2uOwpqHESTX/D+02SVmXqSnFV0+kAFRHrBkgD+cCwPK92zLl3C5w4gAITqHoKOhEKEL
-	wwlxeJjnjsBRqRsYG2VKYbIJRXw58jCQusHSq6m0MYIf7Rwbig2IOmc0XtFQBdvoUpuzFFi
-	vRWJBP6j73tnP+qPXaH8fT4ZOZhN2I+MoEge17N38wCEMqfOXy/ax2x3bT2X7ZZcemasa+X
-	bBqpTilcrNCdNolhhD5ATvn1qTyUce6D46JKLmggEFAqOfjOZhIyi+tirN2zxL3o363LePo
-	MTSzdtgDdiuLgv8JL+QiB0riLw5Ca2U2U/Apx11cQqqMfJ2XXbGtjSPH2zmAsIueR9O3/V9
-	xcVqw144LCn0rC6IpwOm0xoJXD3zUy2FFt0bfqhiCBGWqfOXD3t5pSNBnqo4K2HqSHoX/Zg
-	fhEiz7PBke4EY2rlaRu7/COUZktbdkWQm2yGlpGnMgXf/h8zBzPPak1vslNBcIQ8x2MOK16
-	gwISQPECtERvgxciZ+h0Cddq5r/otg/2fyWf3WCles+sMus5LbVRAK6NIPdhri3rhdM2rS3
-	Mtjfm/u809yqOll0EEfjA5NxXQ8XItbOYo+BUr04ZBchQtpKpPQzqQEUcthLOzV2w8Xrq4G
-	FsTEUTw1gOx7m+dgloJNa90bjcwXShLSEj9nH1dRIPiW+sP40/zt0s89ldRSlpIdrpAP2Oz
-	T0TabrPnTGt9otCdw3LO3Jihpa88lkDtALNGtpqoX5WmIa2/EX
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+Feedback-ID: esmtpsz:smail.nju.edu.cn:qybglogicsvrgz:qybglogicsvrgz5b-0
+X-QQ-XMAILINFO: MBREESna/OUi5nETwaYIThVynI+hddl2aIRXBl42pqAljaJzd9vdnb1n
+	qyfGgDC6OIZ84hy+o5VaNQONvDc87ML5txsWLn5Pq9Dr68N0Ur5EfG5JRX0rCnMcmkq1bee
+	JVvo8rJMsTfhXf+X34ahonZiW/wc+lwBJzb8CIx/DYX/+OLD6o19iuJty7kCzGU3kt1p3mS
+	uuPtBG2EyFggZzI5gSVMkQNLnInU9Rdax3hkC0l1fhqsuDM3G8k5+yvrUZMXVUZvLeyCv9Q
+	OXZXGK0o2gaGefz9fUABJ8a7xLTRnh/BnK0zwkkGnsRLZgfNSLGO/mcubTwNcjZ5/ivTZqY
+	fyGywRJCm5J7lXd9AXwY2JCTjkamsV5nWsxURuTm4lItv/nPnA0TbF8uSULk4TDcb7Cf21R
+	EmSZ9O4HuJf7aR0/q7y71+cbyLNJmAZ+t2/kAr9TzKDQkrLfGvpYaKJOFklwg4n5ts2ewxd
+	uK34f+G+aMx1yOVvZlJ1yz5u7lYIF+fhJENlhkyOqOqg2oa+KkFUHnLXqTNQgJc8WNCoFUf
+	orzxvWMXT1/2HcXGdmT3jAuyEHz0kpKNH9zO98jG+BxZ7aeaDbOBoRJn4nboCHleEnD/dfa
+	dcvejAp05FbV6mZkWRwyBMet+wYsYfmeCZngliVl8v+Mh5hIyEXFIAbwHbi9dLN+/H1oXTv
+	M3d2tkyE7lau9rB8SzARCfYqML5poFL8NvJ8Y5KsaOF7zVuN4y847L1tpFY6OXXt72cw5Mx
+	6Hr3ty0xiqWOjJ7DdeADS4Ts+olaPfmMa8ToVTeKRioc611+FDGneZTDgeDsLQ/yOl68azr
+	iy9bA/nlZqi6oyM/o2bb9kFKgzrgmrSdRNNmFw3OG2stUnQb0Sa5dujNY0Ma7YD7LaXFYeh
+	B+SiKTIwHDWZqvQEE0tSsbYqODjgytZfDQnKhJ2oeVnsGZ3mmC6BqSI42Y1GuKW98fFQhFj
+	QOMw9icLwf85sbTDxUFL8g0ptEuW6OErYl6V4vNbdxNX5hNqmk8zw2bCHyiE9Hv6owdVAHz
+	lD41N6KsstbhbYErqOxcYgNY8i/wfhKAjghPOGceP6x72G7W4GCMVodwyVnRo0wNP05DP2x
+	+U4Cf6UIk3ISUtHT1Uxr/c=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
 The function snd_soc_new_pcms() was removed during the
@@ -99,8 +100,9 @@ snd_soc_new_pcms() and the no-longer-existing socdev structure.
 Assisted-by: unnamed:deepseek-v3.2 coccinelle
 Signed-off-by: Kexin Sun <kexinsun@smail.nju.edu.cn>
 ---
- sound/soc/fsl/fsl_dma.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ sound/soc/fsl/fsl_dma.c     | 9 ++-------
+ sound/soc/renesas/siu_pcm.c | 1 -
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_dma.c b/sound/soc/fsl/fsl_dma.c
 index 26ddbe867b58..ec378e32ea71 100644
@@ -124,6 +126,18 @@ index 26ddbe867b58..ec378e32ea71 100644
   * Regardless of where the memory is actually allocated, since the device can
   * technically DMA to any 36-bit address, we do need to set the DMA mask to 36.
   */
+diff --git a/sound/soc/renesas/siu_pcm.c b/sound/soc/renesas/siu_pcm.c
+index f15ff36e7934..189d7e6f9750 100644
+--- a/sound/soc/renesas/siu_pcm.c
++++ b/sound/soc/renesas/siu_pcm.c
+@@ -483,7 +483,6 @@ siu_pcm_pointer_dma(struct snd_soc_component *component,
+ static int siu_pcm_new(struct snd_soc_component *component,
+ 		       struct snd_soc_pcm_runtime *rtd)
+ {
+-	/* card->dev == socdev->dev, see snd_soc_new_pcms() */
+ 	struct snd_card *card = rtd->card->snd_card;
+ 	struct snd_pcm *pcm = rtd->pcm;
+ 	struct siu_info *info = siu_i2s_data;
 -- 
 2.25.1
 
