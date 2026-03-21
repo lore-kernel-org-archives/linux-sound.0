@@ -1,113 +1,197 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E76175A80
-	for <linux-sound@vger.kernel.org>; Sat, 21 Mar 2026 01:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A1A286415
+	for <linux-sound@vger.kernel.org>; Sat, 21 Mar 2026 05:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774056039; cv=none; b=TalSlVZGhoRiBhr2y94IZhi1FJs4lrP/Fk028kL3eMwTL9qk3UCsnoxtnzmGJKzcS/JVFzz4mJjVO3tjNulR+qZcAhWpC+rOmLufGPlTvWHT6amXZKA9H8Z4YQRWjEnYLaQ6g81CSPqFQgxCec8IqPt3nG7CI/arbKuY4IIIldQ=
+	t=1774070392; cv=none; b=c5PIDHCmVcZZv/dhhS/SFtNoFQ31ahvD2wUVEZimgIBWhhPGQ7cVBeZFhHFtZm2qj2uoWO1L+wdJxHZ4jk60c+edtBO48lstozI/n05JhEHduG+Lh0U+Z/21Qp4IP9+ZP/EG6RjQDuwWUnoylAFvj3gP4/9KfF/UELKUOTzkrrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774056039; c=relaxed/simple;
-	bh=7GrLjUidNUXQd+M+rjH7w+U5i+fbFzoPONRrEBEyly4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tHzSgeFwjZHBZfMyf78VtTQtkJQVq+Bvd+LbGniVPHdtMGJcqRvMD++OX28o1gyo84G8SfmPIXiPuyVVzK6V/f/ps2pBufFvf6RyxdrFK8pL5SwPj9Bfb7brnWOYVyYOmUBrywxXrjwqmRFK4vnNX9gqDZBCAZ9ghgYkfg/X9Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiFNXBSf; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1774070392; c=relaxed/simple;
+	bh=m2z7Z52vEtkmXpDXSDrHJQBpSL7yZOVxmPOqmW4ddH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=agHnmHQG5kheominV/TpkZkj4ubIRi0TE0lqCAuruQpZy92oJ7Vx3o585TbjT2I0WZCOpdoJR4s1EdPZFiKTKJaYX/d7M0q0OgTDT7u44VMq9APaA8AuuMevES/9l02LYFgBD9dF+PofNLOFv4O3n9Gn1+ghDQqSx8Dsm/+Vw50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AGlR7fH9; arc=none smtp.client-ip=209.85.222.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiFNXBSf"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439b7c2788dso704486f8f.1
-        for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 18:20:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AGlR7fH9"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-94abd52b274so623318241.3
+        for <linux-sound@vger.kernel.org>; Fri, 20 Mar 2026 22:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774056035; x=1774660835; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t13zBT/T6/lDXSt7yrtbcb88tX0zdjCe4g/9CVLLbBg=;
-        b=DiFNXBSfdeJRuu1hxeB9Hpu4/1fZwjNN9CfvW5mVkd0BlQBKB3UsJNoe552ss9jKD/
-         hM6pyq3LQD7NwT5SvCUNXxfoTcJ8xT827+xhPzEdMy1TcSiJySy+2+/jaB8WFxH+zT+U
-         ISogz0pnPtiV7bCuQd4soQXdVEbBIug7UByhiO1krZGNMJqISVdLBgNCEAjwy5II9qvj
-         YphV7brtTVDdJZnLP2u77O8z15NNVP4VtNFNohSjxopkanf6pmPUrbbkhw8LlPldGe0+
-         dodXxgbd1955GinPTxZRLJZ8lZiRlPyNBV6RJ3+J2h6on92UBv4h5jc+21hnjS6xbOQl
-         BLCA==
+        d=gmail.com; s=20230601; t=1774070390; x=1774675190; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SzhWVO+ZYP8rYycg/NZNrY/PYPY5m4ICbKQOoOjSETU=;
+        b=AGlR7fH9HAHtS0jE7X6pZoqYOPzuspU2DoRZI8MseJ1jNkv44LSv3aDHb7wC1sIoM8
+         Dz7YZeWv4wwSlTgmVgd3QUqAnJiYjnt6c4m+biGdgQW4turT1sKa+EXPgHRc5Mi4bruw
+         frklEsjyEHMlvc7jkqO2iEEp13o1DMg1rmcuKb4bd8Y+ShGwywI2ClwhD8xTwjr4GHwV
+         067czPyk8GuF1CWxP1a24Y6V0QprwtJjp188y2BXAKhJy/ntySodfy388t+JYj8KEKRd
+         nop1HBOdCSmYjHvOOiJDHpIKYRHqCHdtIkNHkUT/gPljd2kxL9ewqMommGeHBlMa8HQp
+         ZvSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774056035; x=1774660835;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t13zBT/T6/lDXSt7yrtbcb88tX0zdjCe4g/9CVLLbBg=;
-        b=KbiQS4FfFhWvELQjCbc9XmwE1NpABJRrCOnplSVYDh22p1Lnb765Jw1bODUPiY+l2p
-         l31tGSZZ5Z7Tu7GMp2VWOZuTWmYl35hI/+eUsRkfGRvXCJsN0uIzKL3TCSDDZkJUCuzf
-         dyyBeDREUs3CNY6kSdxUobz81x8TNZL4n8DkAh2s8AwjC1xS5zzI6Crdy41TXj1+c99j
-         IEnoX134/R2fMKXU/5wQLKRZsLE8zyDEbyH4sFTEaNXKo1UwW2IwbW44NFNo7fPDKjSd
-         8ZZt5Ywx3OV9Tr2whL3fuTJkZEnngaX0GHGUA7OFMZW/xvRzecj7SCxEorIeIavUhGgi
-         ydpw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdHZXwt4yobWuq46yZb5AAIryEqvQIi5vNNesnFch6JhQfPQMfNbKFM6RE3yEZPzL/CnYIGmGuFPJmWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3POzZ3IgWxq9LaTwmCYzb3q3cePeHZanfTsPiEu4cbZ7VI/bv
-	okBz6WjphCH2cQSKoXBNBqwyDtEBP0gTvmjQFjxMJL9Buoz82wFusJc=
-X-Gm-Gg: ATEYQzzmy6HZo6VB84XtLb11vP5VL0mUOWZCh6BsTpoFY9K29pPZut+7ReSToIF31di
-	7UyD7p6AEdmfQzF6urHz/f3Wuh3ePI2/9wA31k7ud30rcDZkjkD93vqZTl9F82dxPlVvH6YJN/c
-	dJROhh3JHmdeiGt/4Op8EsHfM6y24Wa5LejMMVyA3udBGjtq4h/EKHf/HU6M2SnSl40Y1Jja0oC
-	rMvTcC9XCSlSMAE7uOcjJZLBsstOF/3zAUmFb4gNEcEi7AyU6LG1md9HJngjJVzXlBCP4obko7E
-	P+1KGnrbk46q5kz7wvftMZr6Gwj9dFoElC4CW9PNJYxushJGqd7Dzi28AmXVtsKgecuy9p63Cg8
-	opHqDhoLWtffTgyybJNzI2kmh812rm1gFA9MA5tdgrW004gYQzeZdfEhIWFyFI5z80RYEapQ3Q8
-	JTexDZiwxyRyYhEz0SZm79wBhrXIqpE7OBolTGmfIB
-X-Received: by 2002:a05:6000:2dc2:b0:43b:6352:a262 with SMTP id ffacd0b85a97d-43b64286a5amr8476539f8f.41.1774056035153;
-        Fri, 20 Mar 2026 18:20:35 -0700 (PDT)
-Received: from localhost.localdomain ([37.166.81.63])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b647036e0sm11091605f8f.21.2026.03.20.18.20.31
+        d=1e100.net; s=20251104; t=1774070390; x=1774675190;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SzhWVO+ZYP8rYycg/NZNrY/PYPY5m4ICbKQOoOjSETU=;
+        b=FwIxE5MqR1VyD0w1kd7W2x6nXhVIsebwHHymLTJXNxjYIiMt1SXXhHG8joI/iP3qwt
+         u4AUkhMfIIFftk5hmSYbjgRBeXt0DpWZvrvKI9YFxdFw6e/RgOELVxZqxC3n5H37zOjX
+         qv4DEOUah9+rON7SjfGdCLM3meLz/o2tOx8rKXqqppOvoU/1FwNruvPjZ6RNR5WpX89q
+         u3FaPiHWBJURcTKHQEoasbWJGzEMCwfFL5x+A9ffqztJYZfUB3JyrTg8Hk2Gs8P1KubK
+         qC4VIfwH738gjCRgMPR1CqKwN00pQtlCXbkbEI9x88SZUeSwox1z3rc1ooZ/XAgukgfc
+         3oug==
+X-Forwarded-Encrypted: i=1; AJvYcCWCCjefS0rQHCM7MBVFc0aqrZ0ueG6rr52OQe4dt4EazeUg2CTGANtSm2iV3sBSba4eVexn7wrqtggK9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5hWerx7D4zNlyAJFu87mrlUIlgh0DimsYf4hCH6YstS5Cq4yh
+	oKtw0VMlAqJ5aEoYViIpXFleVJZdMQh4iFiSAsV6CqBafRPAen7WOuqVCsB1VMYy
+X-Gm-Gg: ATEYQzy7Vjg9MFR0xzP8wp7bsj3u2so643HqwDk6kfSc2qLN7fA5RNhGoWtjCtvgqPl
+	+8Va9Uj4YuPniPu1+XMY/drqLCcsF5ZNzT3fQdWXxc7l6FiYZx3qrkEwN9Bf8pLO3dc0caNlN9F
+	rI7D64Xa9rkvXHpSsQ71RfjqvToBT+wdTsKhb4tBnVGFdqGXd8qtsGQFoLsra42pB/NQA6rQhUj
+	D5DoXweI1BOhfEJ2Ybx1YmrPFTnyvFovkVunTXeNBFeLffBYZRqzOPWEh5YcGz1SVwsdG87iguo
+	73TawlV9mpRWpVg9+gyQ5avu2lfyZKda9lUO/wf/TfcY1vh/5+5/EyFyTFVihTYVTaF76X11ahz
+	Cle+b86usaewe7JY3XUHPA+hUHVsG6DsBIJpRrGPWHZYzQVQS0Ek434G/P22l9lgKl+k17qMZWK
+	fcNRaQLvwIZdGZgqT6OpsVwXV0agAoPtiZMJk=
+X-Received: by 2002:a67:e703:0:b0:602:91f2:6b07 with SMTP id ada2fe7eead31-602aeca3620mr2490483137.23.1774070390301;
+        Fri, 20 Mar 2026 22:19:50 -0700 (PDT)
+Received: from localhost ([2804:984:80c:b000:ea0d:627b:10e6:d9a6])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af8ae780sm2423397137.4.2026.03.20.22.19.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 18:20:32 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-To: olivier.moysan@foss.st.com,
-	arnaud.pouliquen@foss.st.com,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH] ASoC: dt-bindings: stm32: Fix incorrect compatible string in stm32h7-sai match
-Date: Sat, 21 Mar 2026 02:20:11 +0100
-Message-ID: <20260321012011.125791-1-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Fri, 20 Mar 2026 22:19:49 -0700 (PDT)
+Date: Sat, 21 Mar 2026 02:19:46 -0300
+From: =?utf-8?Q?C=C3=A1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: pcm: reconstruct compat appl_ptr in SYNC_PTR ioctl
+Message-ID: <ab4qBUW2lnc1_PyX@ortodist>
+References: <20260319-alsa-pcm-compat-syncptr-boundary-v1-1-ce2b2a61f167@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260319-alsa-pcm-compat-syncptr-boundary-v1-1-ce2b2a61f167@gmail.com>
 
-The conditional block that defines clock constraints for the stm32h7-sai
-variant references "st,stm32mph7-sai", which does not match any compatible
-string in the enum. As a result, clock validation for the h7 variant is
-silently skipped. Correct the compatible string to "st,stm32h7-sai".
+On Thu, Mar 19, 2026 at 01:23:40AM -0300, Cássio Gabriel wrote:
+> The compat SYNC_PTR ioctl exposes appl_ptr and hw_ptr in a reduced
+> 32-bit boundary domain. However, when compat user space passes appl_ptr
+> back to the kernel, the value is currently fed to pcm_lib_apply_appl_ptr()
+> as if it were already in the native runtime->boundary domain.
+> 
+> This leaves the compat SYNC_PTR path asymmetric: appl_ptr is exported to
+> compat user space modulo the compat boundary, but the value written back
+> is not reconstructed in the native boundary domain before being applied.
+> 
+> The mismatch becomes visible after appl_ptr wraps in the compat
+> boundary. At that point, compat user space sends a small appl_ptr value
+> again, but the kernel may interpret it as a different native appl_ptr
+> position instead of the nearest congruent position around the current
+> control->appl_ptr.
+> 
+> Fix this by reconstructing the compat appl_ptr in the native runtime
+> boundary before passing it to pcm_lib_apply_appl_ptr().
+> 
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+>  sound/core/pcm_native.c | 50 +++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 46 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index 674b50c7c5f6..f2e2854847ae 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -3228,6 +3228,45 @@ static snd_pcm_uframes_t recalculate_boundary(struct snd_pcm_runtime *runtime)
+>  		return boundary / 2;
+>  }
+>  
+> +/*
+> + * Reconstruct the nearest native appl_ptr for a compat appl_ptr
+> + * value modulo compat_boundary.
+> + */
+> +static snd_pcm_uframes_t
+> +snd_pcm_compat_reconstruct_appl_ptr(struct snd_pcm_runtime *runtime,
+> +				    snd_pcm_uframes_t compat_boundary,
+> +				    u32 appl_ptr)
+> +{
+> +	snd_pcm_uframes_t cur = runtime->control->appl_ptr;
+> +	snd_pcm_sframes_t rel; /* relative offset */
+> +	snd_pcm_sframes_t new_appl_ptr;
+> +
+> +	if (!compat_boundary || compat_boundary >= runtime->boundary)
+> +		return appl_ptr;
+> +
+> +	appl_ptr %= compat_boundary;
+> +	rel = (snd_pcm_sframes_t)appl_ptr -
+> +	      (snd_pcm_sframes_t)(cur % compat_boundary);
+> +
+> +	/*
+> +	 * Pick the shortest relative distance in the compat ring so the
+> +	 * reconstructed native appl_ptr stays nearest to the current
+> +	 * position.
+> +	 */
+> +	if (rel > (snd_pcm_sframes_t)(compat_boundary / 2))
+> +		rel -= compat_boundary;
+> +	else if (rel < -(snd_pcm_sframes_t)(compat_boundary / 2))
+> +		rel += compat_boundary;
+> +
+> +	new_appl_ptr = (snd_pcm_sframes_t)cur + rel;
+> +	if (new_appl_ptr < 0)
+> +		new_appl_ptr += runtime->boundary;
+> +	else if ((snd_pcm_uframes_t)new_appl_ptr >= runtime->boundary)
+> +		new_appl_ptr -= runtime->boundary;
+> +
+> +	return (snd_pcm_uframes_t)new_appl_ptr;
+> +}
+> +
+>  static int snd_pcm_ioctl_sync_ptr_compat(struct snd_pcm_substream *substream,
+>  					 struct snd_pcm_sync_ptr32 __user *src)
+>  {
+> @@ -3253,13 +3292,16 @@ static int snd_pcm_ioctl_sync_ptr_compat(struct snd_pcm_substream *substream,
+>  	status = runtime->status;
+>  	control = runtime->control;
+>  	boundary = recalculate_boundary(runtime);
+> -	if (! boundary)
+> +	if (!boundary)
+>  		boundary = 0x7fffffff;
+>  	scoped_guard(pcm_stream_lock_irq, substream) {
+> -		/* FIXME: we should consider the boundary for the sync from app */
+>  		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL)) {
+> -			err = pcm_lib_apply_appl_ptr(substream,
+> -						     scontrol.appl_ptr);
+> +			err = pcm_lib_apply_appl_ptr
+> +				(substream,
+> +				 snd_pcm_compat_reconstruct_appl_ptr
+> +					(runtime,
+> +					 boundary,
+> +					 scontrol.appl_ptr));
+>  			if (err < 0)
+>  				return err;
+>  		} else
+> 
+> ---
+> base-commit: b3c48fa1fb397b490101785ddd87caf2e5513a66
+> change-id: 20260318-alsa-pcm-compat-syncptr-boundary-0d52d2f8dc7e
+> 
+> Best regards,
+> -- 
+> Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> 
 
-Fixes: 8509bb1f11a1f ("ASoC: dt-bindings: add stm32mp25 support for sai")
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
----
- Documentation/devicetree/bindings/sound/st,stm32-sai.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please disregard this patch.
 
-diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-index 4a7129d0b157..551edf39e766 100644
---- a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-+++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
-@@ -164,7 +164,7 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: st,stm32mph7-sai
-+            const: st,stm32h7-sai
-     then:
-       properties:
-         clocks:
--- 
-2.47.3
+After further analysis, I concluded that the supported 32-bit
+compat flow already handles the boundary correctly.
 
+Although native PCM setup creates a large runtime->boundary on
+64-bit kernels, the HW_PARAMS32 compat path reduces it to a
+compat-safe value, and the SYNC_PTR32 path passes appl_ptr
+through pcm_lib_apply_appl_ptr(), which already rejects values
+greater than or equal to runtime->boundary.
+
+So, in practice, the compat sync-from-user path already accounts
+for the reduced boundary correctly.
