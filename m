@@ -1,52 +1,56 @@
 Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1544F63B9
-	for <linux-sound@vger.kernel.org>; Sat, 21 Mar 2026 08:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E52344D8B;
+	Sat, 21 Mar 2026 10:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774082503; cv=none; b=f3FJNj9SbsAt2345xIQRNS52fVhY2RVTWvL9LPsuKE7itwY4enAw2ZAfObpxCRJdKrzUNkdGsLf/FZ1y4NDmDp0fDYDUeWhiMr427Snb8pieQuBK7A9bqBwiL0JGbRGxucEEYIrmhwZgYtzEM0Rv2F2GytuwYAbXCW+Rsze0blc=
+	t=1774090649; cv=none; b=Q6dMn1BYLkmOpNO2/YFP1p2pwFG8cC62fIvek7uoYcYpNzLFMVItffF6lKzvzLqQXRsbARyZ4QK2POwQakf5f5HsCd1B6aBd9LjBFyH/Dkn644264zC+pJqDdKRIkDVwoNX/6z4i0K86QdPGNLs/YqKSQ+o43045J19P9ppbZXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774082503; c=relaxed/simple;
-	bh=3oDBpxBTzWS4os6KZc55laIKcakNcUkjMzC4qCxsXb0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eBEjl4xvcl+iHLIfjqT97EbIrm7FAZqc4qbG5AqtAJepy6ZVZEP/pwf+J9uHrheTmA2GGwdiasQ2odJkMMbkk4Rgb1fYY2caDUIlPpCqRqu6TsSYXysBzXAP3nXLuTJGEjX0mwH6EtUnHiU/v9hHAlgyIKBiYyulTRABYg8b9mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=R6OFoN6L; arc=none smtp.client-ip=54.207.22.56
+	s=arc-20240116; t=1774090649; c=relaxed/simple;
+	bh=kkgtABF+rr/5RAG5KzG+XlPcnYLbcejn4ScRjp7APc0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NP9k0TAM2mo/+iHZpNhisAdDid5dJmD8zfy+tX/+oSwk1GF6E8lTz2iujpgKrftaNETfYobK7q7BNKCil2RNBxkY0Aad0gGEGKpBHgm4bGx5PVLmq0/11aWPAfsguQAaY+1/KYsozJ6PgUWkfIWn3jU6KmoBkosG+o87FrA2CFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=vgTo/c1C; arc=none smtp.client-ip=54.207.22.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="R6OFoN6L"
+	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="vgTo/c1C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smail.nju.edu.cn;
-	s=iohv2404; t=1774082492;
-	bh=e+/UdVtyi6xXuqf1kuosXZl7soxokZrFJ1+EPVvuyP0=;
+	s=iohv2404; t=1774090618;
+	bh=HIHEzaF/nPqHffBHVVWRyOkZRwX0b63WHjLr9Uc+nEM=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=R6OFoN6LZl/37O/DsAlEAxmxLcoRYgDg172owK3GxKx8A4kIZg49KqEjE5dcqezT/
-	 Tgby45hnBKp0TFnV9hCSOf78+u8gsScksxxxvoedD83aFr/eqsp/05j+LKyqB3V1tt
-	 szU2hocWvYw6XZVcpLsQPkPlIM0Ig/Dm+DuY92KA=
-X-QQ-mid: esmtpgz16t1774082480tb2d89821
-X-QQ-Originating-IP: h6oK3bPYrHtIWhtmRPSICfZhpJUZFYuiHIPv8HGqalo=
+	b=vgTo/c1CfG/n5NabPfFbvcUd1VynakjTU2C70sMLAjf6NJsTzJ/awRK6byh6xbbf4
+	 OQ5FKyhIFMb1+m7x0V/y06sDAxymTc3N/DpPM92fFCfKvYfUpzZ6vRJbsCLyww8wbu
+	 NR46UP+24/I8UsoAri/r8sOINkhrlejEG3TXWEpI=
+X-QQ-mid: esmtpgz10t1774090615t736d5583
+X-QQ-Originating-IP: lnfkjvlq7iaGG7WgKVTtD6UhUhtO2uG/Q9+eCbsmz9Y=
 Received: from localhost.localdomain ( [116.172.93.199])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 21 Mar 2026 16:41:18 +0800 (CST)
+	id ; Sat, 21 Mar 2026 18:56:53 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 15817444756943154924
-EX-QQ-RecipientCnt: 12
+X-BIZMAIL-ID: 17690428264591340367
+EX-QQ-RecipientCnt: 16
 From: Kexin Sun <kexinsun@smail.nju.edu.cn>
-To: broonie@kernel.org,
-	kuninori.morimoto.gx@renesas.com,
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
 	lgirdwood@gmail.com,
+	broonie@kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
 Cc: julia.lawall@inria.fr,
 	xutong.ma@inria.fr,
 	kexinsun@smail.nju.edu.cn,
 	yunbolyu@smu.edu.sg,
 	ratnadiraw@smu.edu.sg
-Subject: [PATCH] ASoC: generic: update outdated comment for removed soc_bind_dai_link()
-Date: Sat, 21 Mar 2026 16:41:18 +0800
-Message-Id: <20260321084118.2431-1-kexinsun@smail.nju.edu.cn>
+Subject: [PATCH] ASoC: update outdated comments for removed snd_soc_new_pcms()
+Date: Sat, 21 Mar 2026 18:56:52 +0800
+Message-Id: <20260321105652.5904-1-kexinsun@smail.nju.edu.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -57,68 +61,69 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:smail.nju.edu.cn:qybglogicsvrgz:qybglogicsvrgz5b-0
-X-QQ-XMAILINFO: MIYVF5Pddf3w4lyP2liglDgoG/M+CDRUacc2rfjTdP8mglBkM7bipS4g
-	l6sIlZbWWR34oxv8BzCwaC58iIXgtQIT9FddzJR/FCkoz+PE5Oym776sSI3TzB7WQzB1vL9
-	DCAlYsBCb1CTe0t5fPR7j081VjuRmYgMvDhHzN2shyzQInR/0Y6CUPxvGnvkP+MufYMcdon
-	2Z3uQCHhxgjRpUqffOp/hX566i0C0M0Wi7waJHrF3M3pClj2piQR3sYz1Q4i/Nba7icjqyP
-	Dv4+5mEC98CFPxcjOtqd3YqC1jYI4hhv1ZAxfREFqaWa2UX+i026ky3hXIVvXrrOW8AVtAl
-	0DHFY56k2JLT/WqUIoXnxaS4uWleb2H5gHSINtneKJ7im+E0yJRNR1YSy8h2SJj5HozWgwP
-	x/OvEAkrpFcZtfd7jQUwHdQLVmsmLIYTi6wWWcT/3oqBRcwql59iCgXGG90y24C3If4kdkD
-	LAmYqietl1vMNvyaaQkUz89Jtwtt61BuTbas0slxkWETXcMgFqbF2qExqnexDYO0c7MPwuN
-	T3ZaJc/JGU42j/Fd+xOrzOf6l6GgZDKXk/JO+SRzqZx5A5QUsrf1LC9YGnlzcO2DOkd2pnz
-	+K0iMKuh93MrLXTQuBs/VpJ8vCJPH/jJ1tJ/vneNr6pLMLyEXVCvtLr9Yf0aldCCIhA06w8
-	oKEAT9H5ro/J003HCwbBu5qmz6HciKWCi4yGyr4m8BCDvNb5BlMrocOz4Bg64vSgRwEsT8l
-	HpXym3OKkNSZsUwEIE6BDbcYifsNj3Riip9bRyR0EWRPRmjw35YmAb6SX33uY8B1RSSXAsu
-	xMqntMYasgj3c/5rV/7KctTvpeF6P3X3cATxkc22SMuIlcIXh8WT6EedJUshBhevPhyx8QW
-	6iNWlqajpFBadfmCB1NUXpZXMnH8lVWpCrX9L3Htptr85kiqbHVNiFEy2D9Iwl9XagToNiY
-	30N8tolXhQ7+Jka/KPyVkrnxtiBXwkMgfmcb5O5ILxJU7tdkmh/r+7KXNo+7i86nNCy7Q3c
-	ePmqvtBfQ4uYGmaVWi1k5ipBOqz7u85N5Aec4m3DrGQobnnu+U
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-XMAILINFO: ORU3Pd/i+gCn890JOBMvtlCwlwEtiXkWhKUqL4O2UFtDiMRccfLgB2Jh
+	ME1V4GycHLFu/y9/lM+dG4EYmYqi+NJjetJybl06ZO9QIhY4664Z5sm8E2WcoJW6YAH4d8M
+	4AQ6G6ZLziqAQKa0MtGTMPMJjJIkvVJJJxLnYQFkuXHlH4MQporzLf6myS1O9KC9M85fhPJ
+	B0klTBtimy450Gg6il6Kmrj/8s8MexX3rYO2tMzkWFNwUqDG+flFY1qaH6qfGEYf5vB+Yd3
+	Jf+urzJy4uGXnHM+EksHhru5SuWD3tD0bVH5BvIFoUQkJhhsB4fcB5/or9sLrdQUS28rJp9
+	911f2uOwpqHESTX/D+02SVmXqSnFV0+kAFRHrBkgD+cCwPK92zLl3C5w4gAITqHoKOhEKEL
+	wwlxeJjnjsBRqRsYG2VKYbIJRXw58jCQusHSq6m0MYIf7Rwbig2IOmc0XtFQBdvoUpuzFFi
+	vRWJBP6j73tnP+qPXaH8fT4ZOZhN2I+MoEge17N38wCEMqfOXy/ax2x3bT2X7ZZcemasa+X
+	bBqpTilcrNCdNolhhD5ATvn1qTyUce6D46JKLmggEFAqOfjOZhIyi+tirN2zxL3o363LePo
+	MTSzdtgDdiuLgv8JL+QiB0riLw5Ca2U2U/Apx11cQqqMfJ2XXbGtjSPH2zmAsIueR9O3/V9
+	xcVqw144LCn0rC6IpwOm0xoJXD3zUy2FFt0bfqhiCBGWqfOXD3t5pSNBnqo4K2HqSHoX/Zg
+	fhEiz7PBke4EY2rlaRu7/COUZktbdkWQm2yGlpGnMgXf/h8zBzPPak1vslNBcIQ8x2MOK16
+	gwISQPECtERvgxciZ+h0Cddq5r/otg/2fyWf3WCles+sMus5LbVRAK6NIPdhri3rhdM2rS3
+	Mtjfm/u809yqOll0EEfjA5NxXQ8XItbOYo+BUr04ZBchQtpKpPQzqQEUcthLOzV2w8Xrq4G
+	FsTEUTw1gOx7m+dgloJNa90bjcwXShLSEj9nH1dRIPiW+sP40/zt0s89ldRSlpIdrpAP2Oz
+	T0TabrPnTGt9otCdw3LO3Jihpa88lkDtALNGtpqoX5WmIa2/EX
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
 X-QQ-RECHKSPAM: 0
 
-The function soc_bind_dai_link() was first merged into
-snd_soc_add_dai_link() by commit 63dc47da1f39 ("ASoC: soc-core: merge
-snd_soc_add_dai_link() and soc_bind_dai_link()"), and later renamed to
-snd_soc_add_pcm_runtime() by commit 0c04800424c4 ("ASoC: soc-core:
-rename snd_soc_add_dai_link() to snd_soc_add_pcm_runtime()").
+The function snd_soc_new_pcms() was removed during the
+multi-component refactoring in commit f0fba2ad1b6b ("ASoC:
+multi-component - ASoC Multi-Component Support").  Its PCM creation
+role is now handled by soc_new_pcm(), which was later moved to
+sound/soc/soc-pcm.c by commit ddee627cf6bb ("ASoC: core - Separate
+out PCM operations into new file.").
 
-In simple-card.c, also adjust the wording since snd_soc_add_pcm_runtime()
-no longer uses "xxx_of_node" fields but matches components by of_node
-through snd_soc_find_dai() and snd_soc_is_matching_component().
+In fsl_dma.c, update the comment to reference soc_new_pcm() and the
+pcm_construct callback.  Also remove the stale paragraph about
+snd_dma_alloc_pages() always allocating in lowmem, since commit
+e159704f7920 ("ASoC: fsl_dma: Use managed buffer allocation")
+replaced that call with snd_pcm_set_fixed_buffer_all().
 
-In simple-card-utils.c, simply update the function name to its
-successor snd_soc_add_pcm_runtime().
+In siu_pcm.c, remove the stale comment referencing
+snd_soc_new_pcms() and the no-longer-existing socdev structure.
 
 Assisted-by: unnamed:deepseek-v3.2 coccinelle
 Signed-off-by: Kexin Sun <kexinsun@smail.nju.edu.cn>
 ---
- sound/soc/generic/simple-card.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ sound/soc/fsl/fsl_dma.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index 06638f9a74b8..9937a991846e 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -48,7 +48,8 @@ static int simple_parse_platform(struct simple_util_priv *priv,
- 
- 	/*
- 	 * Get node via "sound-dai = <&phandle port>"
--	 * it will be used as xxx_of_node on soc_bind_dai_link()
-+	 * It will be used as the of_node for component matching during
-+	 * snd_soc_add_pcm_runtime().
- 	 */
- 	ret = of_parse_phandle_with_args(node, DAI, CELL, 0, &args);
- 	if (ret)
-@@ -76,7 +77,8 @@ static int simple_parse_dai(struct simple_util_priv *priv,
- 
- 	/*
- 	 * Get node via "sound-dai = <&phandle port>"
--	 * it will be used as xxx_of_node on soc_bind_dai_link()
-+	 * It will be used as the of_node for component matching during
-+	 * snd_soc_add_pcm_runtime().
- 	 */
- 	ret = of_parse_phandle_with_args(node, DAI, CELL, 0, &args);
- 	if (ret)
+diff --git a/sound/soc/fsl/fsl_dma.c b/sound/soc/fsl/fsl_dma.c
+index 26ddbe867b58..ec378e32ea71 100644
+--- a/sound/soc/fsl/fsl_dma.c
++++ b/sound/soc/fsl/fsl_dma.c
+@@ -267,15 +267,10 @@ static irqreturn_t fsl_dma_isr(int irq, void *dev_id)
+ /**
+  * fsl_dma_new: initialize this PCM driver.
+  *
+- * This function is called when the codec driver calls snd_soc_new_pcms(),
+- * once for each .dai_link in the machine driver's snd_soc_card
++ * This function is called by soc_new_pcm() via the pcm_construct
++ * callback, once for each DAI link in the machine driver's snd_soc_card
+  * structure.
+  *
+- * snd_dma_alloc_pages() is just a front-end to dma_alloc_coherent(), which
+- * (currently) always allocates the DMA buffer in lowmem, even if GFP_HIGHMEM
+- * is specified. Therefore, any DMA buffers we allocate will always be in low
+- * memory, but we support for 36-bit physical addresses anyway.
+- *
+  * Regardless of where the memory is actually allocated, since the device can
+  * technically DMA to any 36-bit address, we do need to set the DMA mask to 36.
+  */
 -- 
 2.25.1
 
