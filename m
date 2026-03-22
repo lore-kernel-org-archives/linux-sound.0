@@ -1,120 +1,138 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3130937CD33
-	for <linux-sound@vger.kernel.org>; Sun, 22 Mar 2026 19:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBAB79CD;
+	Sun, 22 Mar 2026 21:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774208943; cv=none; b=aQgxqauTHBLSGJRePXAKSa1OjPtNC+rVE+x9SjVaJYylu442kXwVovfJm1TX15m/5r+PVkgXHkcHr2VEcGcMUApK79xnTVkYjm3f+K1cPmS7+a6QTvvVAiEW08O0AOwoTrRb/ttZKEsDH5beLD2yFCuECXdLMUB0QTKJoZVJ09g=
+	t=1774213691; cv=none; b=gK7zAf4wKc2iLhkeL5ZxxSNc1AM0leB6yRRszXqVtvYJEwsr5+1g1XGYldJJijEc3hCXRaIiwuTeInGsJYfntvPLjLhM4a4Bn5FGUS5OdhSj9q8IeSD4+wn5RpcsIkRzQA6F6HKiIipJalRTBJRS+jDihi31BEbC7Awuz+H1B1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774208943; c=relaxed/simple;
-	bh=0kt/TjFxgMJf+8xmQqNeqyEh5qJ+88h2wzuOgqCfM+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kI9whk7EVRyL5YXVzFH508tOayR8kzkSC/T2bMx6Ji5TrBZav8WjD5lBZaT5Er3wZf8ummIAD9FBIgLLsV1bVp6XSIW+Hppfq51l2DIhnoeGj+/bhlZxQojjhMw11rK982HVs++Mx451hwOeGdAZk+IG645tb8aPfCXpNn0Mw+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SX6zRJL6; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774213691; c=relaxed/simple;
+	bh=X71ZAaOLJah4j67dGynlijRFCUKGq/VdKSlm2okDdHg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZEFiNsQkenKAZIFQ2caaeZuYG+tfbWzoXgkt1S1X4IUp0r/Y989dlBaSckPvIS7T1GgF5v4hqKgBVbzg/VT5VY62QXR+OHuJ9ModV6fq2FGGF+2CKnEYa3aPaS+tWjgtcBcEsYWpbbYhydXFErn+F0fwiWiCFTj9OkD3bCa+TY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=UYv2W4TY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ow+q4kdc; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SX6zRJL6"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso32571035e9.2
-        for <linux-sound@vger.kernel.org>; Sun, 22 Mar 2026 12:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774208939; x=1774813739; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kPmBbR/3kGmdb5cb4yJBRnAWV/p6TWyODVjcQ7VXceU=;
-        b=SX6zRJL6OecTmrJc1i3LFj/KIOYbWSFRdG3LdUuNmjM85RbBL8isidRbywFyIxHcCw
-         5dwbVtbmAoOhW86YVl7ntsxxt6rz2AOqzXbSV/8+x+KSJVZ6FvGidAdPEFiZbl9/SQ1x
-         Eu+piFzDAsacctyNgKXq2y81Xcvg7M9We+V2CRC/LRtE3tJQTEzh2ZGmQPflJwxd/5ZI
-         v4pwlVQAYZfLZyIGGdl7f7U1x5a+9ChYD7NyXrYfmaUTFOKaDmTKFmxuN5tksEc5MxWu
-         2QdJmQiYeb5+bh+t5QH5wPjlwABQrmTvbj6Z5BHFaTGybQgv+zIDLnfp33luuDpFXlFr
-         6XCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774208939; x=1774813739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kPmBbR/3kGmdb5cb4yJBRnAWV/p6TWyODVjcQ7VXceU=;
-        b=D8HR+3in8Z89HlZOP+TTjRcAo4+JrBOFfJXkTpEBqgweJScZ4d68H69C5VEJ/E/qUb
-         pnUgAs4DAT3c93tQFka7+sTiquT1jf/gFfMgkMKyQb3LmFgtFJTEfpLGROlvhoYdLUTd
-         phD/CiJ6PbIrhkWY8cQSFoSSjdTrPxs4GlK3OXx/rVwAwky4yAnL+YidEdJu8ZjC6dqz
-         tSwPyUqNs0ttmifFrla5xIZdvJumeUEJ8cTgqMMmmC618svCqrStHvBHR6aXKXGN+ODa
-         ma3HAG7mtZlMcz+zpFtNVzli5bx/SVTsjBjVy2ol9JmvWw4htZ+0aoj+1rDiTrlMpHwx
-         hLqg==
-X-Gm-Message-State: AOJu0YybuyXGWGHDTQLqmNEUMSzY1saMZIHC13ZxpMf7Ojc5smEB7Obz
-	wY42XuFD/KAZR+Lb1Snd8ACX5/8YHdG5F/AOzP5Kn7+SHTtsY3AZyTiX
-X-Gm-Gg: ATEYQzyiRGeUv/m0njMHSQLER2KKgVV+evOQp5AfBBrCgaNBpsYrLfWdR8s6uixeF28
-	cEBFM28LRnRHDBseuMxWeT0kZSrfAWNIwCURKF18mF4h2N3REQhJS9TCIHympgsfuigiAzVLu1B
-	xJ0jyDrLrShJ/+LpN6VXaRaPQAyFWN+w7gWVaia0qDrQEC2Lr8S3ylZtPf1vmzfR2de+fgt1GSb
-	y7igoPJTgZiSgOt9ggKJoacw6cU5C+cLQyeJtZg28siDQNM0Li8N1F89KPI89lu6+RFWEpOTieW
-	W75ZoSFZ1X4uP49M7faPuBv/7LJEoH2z2GvzZUF+p42jBo33wsrDYUdZN+e5prPKcznkv79ueF3
-	CrN8hncMe1goQqNNyv1BmYxisgJRbxRzZT9/JZrfSfZfzaJk9peFODMcyMHwmvNkF8umWaStUlm
-	AnGwFzKxrLVDy/+iBNwMqoBY7GAuD0xN4BjwYHPoP4JeVdQpRUx9WXe30=
-X-Received: by 2002:a05:600c:6749:b0:487:716:2fa9 with SMTP id 5b1f17b1804b1-48707163156mr37438965e9.13.1774208939235;
-        Sun, 22 Mar 2026 12:48:59 -0700 (PDT)
-Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe68ec05sm341153015e9.0.2026.03.22.12.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 12:48:57 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-From: Julian Braha <julianbraha@gmail.com>
-To: cezary.rojewski@intel.com,
-	peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	liam.r.girdwood@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	perex@perex.cz,
-	david.lin@intel.com,
-	arnd@arndb.de,
-	linux-kernel@vger.kernel.org,
-	Julian Braha <julianbraha@gmail.com>
-Subject: [PATCH] ASoC: Intel: boards: fix unmet dependency on PINCTRL
-Date: Sun, 22 Mar 2026 19:48:47 +0000
-Message-ID: <20260322194847.1126372-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.51.2
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UYv2W4TY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ow+q4kdc"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2A7A9140015A;
+	Sun, 22 Mar 2026 17:08:08 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Sun, 22 Mar 2026 17:08:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1774213688;
+	 x=1774300088; bh=vO7Y6iSXnAy+gxWNCRtvgvRvOom6r+7W5Bv94/P7SWk=; b=
+	UYv2W4TYGLS3gZYCYZS5bqjFCIJLBF4BC7s2a219HAX0wj5+NGDrEExHodpWk6HO
+	yRc2d9qAa+wUxXW0WzK8F5rZwSLUoiUASaZwc8J8lmBOLRpK/IWZLRtUjNTkqd8/
+	isktapryzjoncJkNAZcI7udY0BSX6ZEfYpBuaOv60FEhAerFcY8rqJZ5TX7uMfeT
+	ja6Jl9c+QQjZg1ZSAaDgwSo5anvTh+Z241FR7f6y66WaLTW5XhRsrZttn3AkLUZD
+	rUYo9BHcKq14H//4rOZKE8dwhxR8jYanAnudf9h9jrPaBv/q/IPOtsCSLfErPdQE
+	kGEChZ9cPNRknz35AGRbpQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774213688; x=
+	1774300088; bh=vO7Y6iSXnAy+gxWNCRtvgvRvOom6r+7W5Bv94/P7SWk=; b=o
+	w+q4kdcGGpY+AsYQUv1I5yge58n5oJ7eFQo3L8Gyz1xYiKiNnOwsAGSjuyVknSI6
+	+oWdZ32mX31GTUaqGUOJvm9ZGolzBX6aJIr2bqSJDmpeQuxMfxIS5EXQ8LGqpKcu
+	NLZUFTYqd1P6eiyo+XgrObmMBn08se4CmgHljxHIma5L6UOIAg03VlAtNJaweiT4
+	0DIyJOIDBR7PxuLL0bA9VMpxWMw49ylciyvHJPk7sVec6ESMQgOulqCUFGFqjP7L
+	4F9mePJ7n6jiS1qFn002UJFxIDSLZWiqUWqPYNwouCK/uklY7OQc/nnAd8GZroDC
+	8KgG31Ka0PP+Yh1TR1O5Q==
+X-ME-Sender: <xms:N1rAaWc614BX24hYc_NhLDnSfp8TChBgYJiHHvo0E-JLi-cztxMseQ>
+    <xme:N1rAabA7nz77eAe7dS0BJ3d-7Y_0_UfTjz_nxRoZxVEF05VsbahkLKhihBfMa-8GV
+    StU74HfAe8ciFqljoZFOQru7eVFuPpynVWQETpimUu-ED0ZuxLKkooP>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudeikeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehjuhhlihgrnhgsrhgrhhgrsehgmhgrihhlrdgtohhmpdhrtghpth
+    htoheptggviigrrhihrdhrohhjvgifshhkihesihhnthgvlhdrtghomhdprhgtphhtthho
+    pegurghvihgurdhlihhnsehinhhtvghlrdgtohhmpdhrtghpthhtohepsghrohhonhhivg
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphhivghrrhgvqdhlohhuihhsrdgsohhs
+    shgrrhhtsehlihhnuhigrdguvghvpdhrtghpthhtohepkhgrihdrvhgvhhhmrghnvghnse
+    hlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhhirghmrdhrrdhgihhrugif
+    ohhougeslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehpvghtvghrrdhujh
+    hfrghluhhsiheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehrrghnjhgr
+    nhhirdhsrhhiughhrghrrghnsehlihhnuhigrdhinhhtvghlrdgtohhm
+X-ME-Proxy: <xmx:N1rAaSW-wHE3h0zY4Ss_ctZT8vtNwWsWeHgWYqt8VN5gQ5Qh-J6DPw>
+    <xmx:N1rAaabTyKYvErmdGhs5NIH0BYijy-mBNDg1inGxVXJgsy5HiNTWtg>
+    <xmx:N1rAac1lGJ53oggGszNUlKRRNYXnsk7X5ecmTKQX47CuZdo07coSdw>
+    <xmx:N1rAaWCLAG8296Ktzd3dSrPYqENHAwBkKGHfZxDjkKCZR69A-m7rBw>
+    <xmx:OFrAaSdKViDKFCwhpc_TSxkJ3OPmtj4PMyOX4XKqgsXGBzRxu-OjljMp>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id F17A670006D; Sun, 22 Mar 2026 17:08:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Awp9NS_73_XR
+Date: Sun, 22 Mar 2026 22:06:50 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Julian Braha" <julianbraha@gmail.com>,
+ "Cezary Rojewski" <cezary.rojewski@intel.com>,
+ "Peter Ujfalusi" <peter.ujfalusi@linux.intel.com>,
+ "Ranjani Sridharan" <ranjani.sridharan@linux.intel.com>,
+ "Mark Brown" <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, liam.r.girdwood@linux.intel.com,
+ "Bard Liao" <yung-chuan.liao@linux.intel.com>,
+ "Kai Vehmanen" <kai.vehmanen@linux.intel.com>,
+ "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>,
+ "Jaroslav Kysela" <perex@perex.cz>, david.lin@intel.com,
+ linux-kernel@vger.kernel.org
+Message-Id: <b8aecc71-1fed-4f52-9f6c-263fbe56d493@app.fastmail.com>
+In-Reply-To: <20260322194847.1126372-1-julianbraha@gmail.com>
+References: <20260322194847.1126372-1-julianbraha@gmail.com>
+Subject: Re: [PATCH] ASoC: Intel: boards: fix unmet dependency on PINCTRL
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Currently, SND_SOC_INTEL_SOUNDWIRE_SOF_MACH selects PINCTRL_CS42L43
-without also selecting or depending on PINCTRL, despite PINCTRL_CS42L43
-depending on PINCTRL.
+On Sun, Mar 22, 2026, at 20:48, Julian Braha wrote:
+> Currently, SND_SOC_INTEL_SOUNDWIRE_SOF_MACH selects PINCTRL_CS42L43
+> without also selecting or depending on PINCTRL, despite PINCTRL_CS42L43
+> depending on PINCTRL.
+>
+> See the following Kbuild warning:
+>
+> WARNING: unmet direct dependencies detected for PINCTRL_CS42L43
+>   Depends on [n]: PINCTRL [=n] && MFD_CS42L43 [=m]
+>   Selected by [m]:
+>   - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=m] && SOUND [=y] && SND [=m] && 
+> SND_SOC [=m] && SND_SOC_INTEL_MACH [=y] && (SND_SOC_SOF_INTEL_COMMON 
+> [=m] || !SND_SOC_SOF_INTEL_COMMON [=m]) && SND_SOC_SOF_INTEL_SOUNDWIRE 
+> [=m] && I2C [=y] && SPI_MASTER [=y] && ACPI [=y] && (MFD_INTEL_LPSS 
+> [=n] || COMPILE_TEST [=y]) && (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES 
+> [=n] || COMPILE_TEST [=y]) && SOUNDWIRE [=m]
+>
+> This unmet dependency was detected by kconfirm, a static analysis
+> tool for Kconfig.
+>
+> Fixes: c073f0757663 ("ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and 
+> SPI_CS42L43")
+> Signed-off-by: Julian Braha <julianbraha@gmail.com>
 
-See the following Kbuild warning:
+I don't see any compile-time dependency between sof_sdw and
+the PINCTRL_CS42L43 driver and I wonder if it would be better
+to instead revert that patch.
 
-WARNING: unmet direct dependencies detected for PINCTRL_CS42L43
-  Depends on [n]: PINCTRL [=n] && MFD_CS42L43 [=m]
-  Selected by [m]:
-  - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=m] && SOUND [=y] && SND [=m] && SND_SOC [=m] && SND_SOC_INTEL_MACH [=y] && (SND_SOC_SOF_INTEL_COMMON [=m] || !SND_SOC_SOF_INTEL_COMMON [=m]) && SND_SOC_SOF_INTEL_SOUNDWIRE [=m] && I2C [=y] && SPI_MASTER [=y] && ACPI [=y] && (MFD_INTEL_LPSS [=n] || COMPILE_TEST [=y]) && (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES [=n] || COMPILE_TEST [=y]) && SOUNDWIRE [=m]
+It is generally a bad idea for an individual device driver
+to force-enable another subsystem or a driver from another
+subsystem, as that increases the risk for dependency loops
+and makes it harder to turn subsystems off entirely.
 
-This unmet dependency was detected by kconfirm, a static analysis
-tool for Kconfig.
-
-Fixes: c073f0757663 ("ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and SPI_CS42L43")
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
----
- sound/soc/intel/boards/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
-index c5942b5655d3..aa20020eb436 100644
---- a/sound/soc/intel/boards/Kconfig
-+++ b/sound/soc/intel/boards/Kconfig
-@@ -530,6 +530,7 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
- 	select SND_SOC_CS42L43_SDW
- 	select MFD_CS42L43
- 	select MFD_CS42L43_SDW
-+	select PINCTRL
- 	select PINCTRL_CS42L43
- 	select SPI_CS42L43
- 	select SND_SOC_CS35L56_SPI
--- 
-2.51.2
-
+       Arnd
