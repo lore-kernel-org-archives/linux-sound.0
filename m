@@ -1,84 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8F7345CB0;
-	Mon, 23 Mar 2026 19:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48703E0C5F
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 20:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774293313; cv=none; b=qK0jRKBgdxptL6JxmQ2cQNuiiX5rWpDqxAoijzNRjqr9pC0+Dk0J7RF9HYbGNaF0wIbCzjb6zCAGxatvZcMTB+zixeV1cLRuRrUHUNKlH3AskBNyPUzBW8JTMu7hpcmKkJovonauQa3JhEmHn8cQc6ONxq4VATholrKiRoKF14Q=
+	t=1774298991; cv=none; b=QaP+x+uzFltGgLrQ4n7TO6Ih9gX9ssrI1p2WT0dFrI7l+DXy/Kb3igrJUhqzbyu5a7FkdLKOnB99srq8IFmB4m04wgEr4I0c7JRhtmFtziTkzc/TkGN6e/XC/wqhC0ta3tnkyYpl0UXt/XvjWqvy+tz52s2uiOmaMiOp6tWq1PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774293313; c=relaxed/simple;
-	bh=KW5oMS/dMaLgzmq1TIjs9q0gaJlywaGKGhQIBPyUtvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImbAQ11bE6jBQVOTUtpC9pD389UAIB9wdLshg2Yg6AxbA1N+ngYVaN5uIPEtR4rrWocbfy9e1Pa9VEDr1ObOmVoJVROvza703h4pgIm/eJjrAZkthxZ+k1TyKAOAv5wooSLvjfoXb1uxZqr+B13p+pAxI+eFn2ln4xnowTqxxXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+YsQ2+q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774298991; c=relaxed/simple;
+	bh=3vI6rf/svV3U6XCNx4chxIHGVRMOUu99UZ90arwseCw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r8sKFWVcON0rYT5mSkG6oHPCHP9wHdIA+PLa7lHJS+J2cITe25m/QOlyl/bM1BqRWunv9lje0wVtNOOC7uxGjmmxoTz+NQBcdbudU4PS2FPydsy6h0nGml44vuNDKq1Og7OvgTZgZUwXam/nNtciTpHgZWqn+abYs8Ct86cQ/pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=gFxU7fmA; arc=none smtp.client-ip=185.70.43.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+YsQ2+q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96948C4CEF7;
-	Mon, 23 Mar 2026 19:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774293313;
-	bh=KW5oMS/dMaLgzmq1TIjs9q0gaJlywaGKGhQIBPyUtvE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G+YsQ2+q5CUsGWepvrtLqZxCgUIIHzcU0ARVOd9u4cetr9Po565yLMvXMaUpyyszj
-	 Pr713zEwDiwEV9P/B4VtahHaclI4AU0ytm/xMCpANQKfiKSfbFqPZGNIwATuomQw7o
-	 epwuxxwX434SxWDpWI7066qjRtS4/pXknvr8citwvMzB5z5ZkrtbewdBl5fqGR2wLh
-	 OZP+ubB65+pbUkGYXcqWBFezmpaaWamWghIqS4xABnRccb8qXGRwzAURHe26tnl1G2
-	 4CAsJmMQX6AXtrAqp/tEo4mltvrtq9N+LTv2Bx0zWlCI8E90w25rzKlMxIc8/pdXl2
-	 VAOQ6ubqm3p0Q==
-Date: Mon, 23 Mar 2026 19:15:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Kexin Sun <kexinsun@smail.nju.edu.cn>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	julia.lawall@inria.fr, xutong.ma@inria.fr, yunbolyu@smu.edu.sg,
-	ratnadiraw@smu.edu.sg
-Subject: Re: [PATCH v2] ASoC: update outdated comments for removed
- snd_soc_new_pcms()
-Message-ID: <8c20f43f-be8e-4a03-af80-9c91a4a233c6@sirena.org.uk>
-References: <20260321114113.9244-1-kexinsun@smail.nju.edu.cn>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="gFxU7fmA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1774298980; x=1774558180;
+	bh=3vI6rf/svV3U6XCNx4chxIHGVRMOUu99UZ90arwseCw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=gFxU7fmAr8gPxWU4qlDInoOaCClJJlv6P2ce7xYLMJgiy5CVrzORbJ7ND/OKKfMuX
+	 zaz9kIzr3H746JJzOPlWEF5sjKF6bYkFzBbGhfqrCjnM0pykqBwhxBfEMeYlL4Tv3O
+	 nMnANxcN1s06rQCyoSOTGovogy9DN2TZHD0Fi6NeM+aBfi3yq602w7UlBj/qjs5t4L
+	 W/cQeO2VeuxGyZzq1SeMdIKc228bHykGorx1Zj45x+8rTR0dNobqV3UpNNGiuNntiT
+	 SAunmvUaw3H2Br2mZNJdvRx+a8bLHwzHBj1sKyaL9BFFnvzzyCnt560/Yis6ElAL7J
+	 jL+A9TrIXiXZw==
+Date: Mon, 23 Mar 2026 20:49:38 +0000
+To: zhangheng <zhangheng@kylinos.cn>
+From: =?utf-8?Q?Kamil_Go=C5=82da?= <kamil.golda@protonmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kailang Yang <kailang@realtek.com>, Stefan Binding <sbinding@opensource.cirrus.com>, Chris Chiu <chris.chiu@canonical.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: Sound quirk for Legion Slim 7 16IRH8 breaks volume control on Yoga 7 2-in-1 16AKP10
+Message-ID: <o-G6zwiKXBnWimUZ-qvEPzimcxQIy7EBwkWwnIicjHc5ojKqzJHLFS0PXdIRt6wlRbK6tPW22BBP1UIMt-k0FW5U4vbs4XEuPx-BSuupUPc=@protonmail.com>
+In-Reply-To: <7fa11848-2497-40f4-b61f-a609cd77c67c@kylinos.cn>
+References: <i_S7iS6mWHUQexU6eMS8mOTAzBhZjnV3XUZlbfNkXVtGJN-tnGpBVMC_mTit5moylkFcCtpQpjospNM-S7X4a05cl-gdL1sQSk0BKuqYbhQ=@protonmail.com> <7fa11848-2497-40f4-b61f-a609cd77c67c@kylinos.cn>
+Feedback-ID: 121526638:user:proton
+X-Pm-Message-ID: c1cd96e3ce2ea5c7ad93a33361fb63e06ce35d14
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zHmbKEI0dDmFWAsz"
-Content-Disposition: inline
-In-Reply-To: <20260321114113.9244-1-kexinsun@smail.nju.edu.cn>
-X-Cookie: If you suspect a man, don't employ him.
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+I recompiled my kernel with the patch applied, and it works as intended.
+Thank you.
 
---zHmbKEI0dDmFWAsz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Best regards
+Kamil Go=C5=82da
 
-On Sat, Mar 21, 2026 at 07:41:13PM +0800, Kexin Sun wrote:
+On Monday, March 23rd, 2026 at 3:16 AM, zhangheng <zhangheng@kylinos.cn> wr=
+ote:
 
-> - * This function is called when the codec driver calls snd_soc_new_pcms(),
-> - * once for each .dai_link in the machine driver's snd_soc_card
-> + * This function is called by soc_new_pcm() via the pcm_construct
-> + * callback, once for each DAI link in the machine driver's snd_soc_card
->   * structure.
-
-We don't have a pcm_construct() callback...
-
---zHmbKEI0dDmFWAsz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnBkTsACgkQJNaLcl1U
-h9D6lggAhqjWSWwPqUyQCGYgKhGeY2tNy91ZyUlw2waCRt8pt+QipIbVJCG9yPYJ
-eemFpW7rW8rMGf4c2IXhVhOycI+pHqfOuTC0QGlLbWaDR8+9uPZFgcYJbcf0hC2X
-z9IBN2pFLQKcvP20uTNZc57mxUj5RNXxQ/SS+8VbpoEO+R69HfH7USK9zssFcPtr
-6Ot6PHzGUwCeCohYdiZY0y5qm39SJ1XCU0wZQLoOOYiNVSXnu/C7FveJmsRNQut6
-Ls8eyFwcLFVp814O+8zi0AXHNBvK6g0cLsxvwUiWUiMRDcudoy/MLuE821Jc3M+t
-TdKdadD3M2K0bCpz+dI9GqGDwEhijQ==
-=xHfZ
------END PGP SIGNATURE-----
-
---zHmbKEI0dDmFWAsz--
+> This issue has been resolved and a new quirk
+> ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN for 17aa:391d has been added to
+> the code. If you have the latest code on your end, you can download
+> patch 7bae956cac04.
