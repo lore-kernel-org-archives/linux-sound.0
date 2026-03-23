@@ -1,131 +1,105 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BDF1A00F0
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 15:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A228C3BED3B
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 16:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278039; cv=none; b=hPwhOaOHmfUhmW++ZPMmzVWxd4fRh/YDrmMyYWfMUFAIH7AQXZOha/hnE0CCaCQW0HWFKFDvws8omb5t4ipLu5rRLbrbUWf1vCa0DF6oPfA7Ct37/XAxyjfiamB70+yBllOTxnAOxbIw/WmPG7Zhd3gAWJn3oReqZVCVkrk4Zs0=
+	t=1774282594; cv=none; b=QxD76FC55i0tkS+JjLlRqp8pQAZu+e2BkXjyyPbgi9CLNSeqPOz/c3oHo8z68qclICs++sbVdbNnHoC/OImuHVpZw6Br0GQlQZzeEVf1pnOabctBwom8nqffcJr0U5JupPY/7KrgUFWfSpQUOXnY5G8EqrEdSFByCRjiviVnwXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774278039; c=relaxed/simple;
-	bh=2mqee9r2l5hx8T5NOZsi4eeArFsyiUBION7SIFEYw6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SiRXJ2bo1MYVDvXJYGkjG0o4Nnrx2z37Y4NvyPpp0lHkIODTEnaJKRf5B5GdEfpKaa6O2IJndBFc1ZKhq+ySpZQkUICa1CIaTYN+tjlkbkB5Gql1dnd5c9Vz6D6SsXxDj5pTQMEXm259L7WXZsW+aFlgCvar8P7SHMNLIN5YQo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=IiYjDcae; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1774282594; c=relaxed/simple;
+	bh=9ZoDEUNK1UMn71bdmlD7rF6vYQmryeC4ixDQvdpmolI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nbmLhRFXK91sW1hiXXVLA0GMclk4CnqMMEKvBwmTqhrq7FWN/PPBSMapQsxGt51d4eXjpczjFxx+nSIO5RHn3v2Uz5AfW8rv2qCrgCMx6lqu5Dc15sVl/mfBp/6bkf1EjsYxdER8pR7JeJWVeoT4qoKKBeth2hHl5UVWzl2UYpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P72cE4aS; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="IiYjDcae"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DE0D66B92;
-	Mon, 23 Mar 2026 15:54:54 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DE0D66B92
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1774277694; bh=FPQfVYlbVqPhuhHCPT9V5SLzrDjx/wluW7amg96t2hE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IiYjDcaedHmfew8AlJyAOPmgnoOnuls8YPaO0YO+g3IQHB12t+ja+zJOX4yNWPTRt
-	 U35j/nlSlkvaJU+yH+c0LLh89J6fX3qtty92KbeEfZq4qd2EAfKEvsq8ZeU7r8+D6t
-	 6TI45AZAoM5z8AAmEkZIuk9EheMgDtGch6fY6nGg=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 23 Mar 2026 15:54:45 +0100 (CET)
-Message-ID: <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
-Date: Mon, 23 Mar 2026 15:54:44 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P72cE4aS"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so37042745e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 09:16:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774282589; x=1774887389; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CMcT6iTJXR0JLgXJbiUjGGM3dMly/KE9uQn9rqHqjyY=;
+        b=P72cE4aSWHGIBwlgITo3Jv4QS2TDCZ+uM8LLDTYCLlCvsnmETOKnkpjkFOzOPqZFeJ
+         lirhg+zk0pfvmVndDsK1wowIqato946eOzv/C/nCXL2L8i2XcwqG42PmKrAhu2ozy5Du
+         p2mkmfld2Pe3WbbXanfb3qQVCxebV0T7ZpZahO6yA175FmYYYy6vghStfbV69LYnK0oi
+         KWWCY/oo+y0DOYPmLRJAlXt6S6mOQF2y/G90Hg0lUQvs4LzpGX7cxcrcGB3q3pscF3Bk
+         BJAqFDQ8Gez+w0qex0T7oyVjkvQChkEh3bGbNW5G62TDTWa7eH3AXuiCnoCVChn7tpuK
+         5gGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774282589; x=1774887389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CMcT6iTJXR0JLgXJbiUjGGM3dMly/KE9uQn9rqHqjyY=;
+        b=hMga8U6A1zD3t9Q6dNX4Ve6jaWdd/DafvfqPGzPnWWzyT62cl+nvMPth9jQqzJ5HRU
+         C/TiHDmmdmH2hexbLstijnBRFMbQ2klvxJ2HPAU5X/5L8BMX6PyJLFD/FnbR65FNCrq6
+         4LKPV4YH+DIhrq6zIEdDSzv889BxH8giazgs4OGVHK+//u5kaKKv5DNsAY5sk4RpKjtJ
+         +uqhW+52Q+0pciNBYCaudngjUcIvlKa/+qPoMWUWa7mS/ivxWwSAt3ot+0JYs6Xdbkvj
+         lEaUtukp1ZJjQrHr/AMvcMBX3aG39XLRJ7K7O/wh9yACxQFZWTDaeybIP93Q/7wi1kfw
+         4LBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZYJT6K12gRLBDKbYXRX/AXYaBl8Uqh384/AgapAXiYbIWwyhK+QpSG1tgfTuI5FP5U5H0rVufz4oOlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZ9aVfCpuI3GISy/DG7IVla22NMj2P8Bnmc4voxumpDxQ5rdyl
+	5Mh/SihUN5HRNXSLwjEu0/lfN/mzTT/7mU460c/gjdqzVR/sxyq3iWs=
+X-Gm-Gg: ATEYQzxdvAY3gTrHfrlDLPub+2rlj792fhep1WHPRBX49e/U6g3ApoBWn11t3Swn+HR
+	lGb5L/gtFdzThK2StTyDYh7sWwNX3kpOFdTWzPmUNY1iOxnMMLeMe63MgeqJZT21Bp4n/y8Fd6d
+	AAmQI8panElDSj9wraq4nxvF2aBele/Z74fvu7iMGgbtrVwayaSIxr2KnDLg+51E3x91nVZtdtv
+	GUMx3fly5LE1SBpMCKJ83yu+2yt9nKZJtHr/MWzWOaXc40tRXd6OXS/SYUwMU7HtBE5Kgh1PjDT
+	+ps5RflkhR+7bAvot7HO7XcLGHvdgdqkOpOEGH12tFiHMxXZULN4+g9xy14PPsBjPBdigzrlCHT
+	TdPVTeAcc0eGUNVyLKDfAQdRdNjapHI4ojD/CxvgufJUSLNGKOKO4aRC4Qyr8yUuU982N6SgJRy
+	SzvyB6LqEw+coYhD+M3dJsYNAi3ocOsVyoQdgRFo4Q5w==
+X-Received: by 2002:a05:600c:4349:b0:486:fe83:861c with SMTP id 5b1f17b1804b1-4870f1fc613mr1615995e9.7.1774282588752;
+        Mon, 23 Mar 2026 09:16:28 -0700 (PDT)
+Received: from localhost.localdomain ([78.240.51.139])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8aacc73sm331863395e9.0.2026.03.23.09.16.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 09:16:26 -0700 (PDT)
+From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+To: paul@crapouillou.net,
+	linux-mips@vger.kernel.org
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jihed.chaibi.dev@gmail.com
+Subject: [PATCH 0/3] ASoC: jz47xx: Convert to devm_clk_get_enabled()
+Date: Mon, 23 Mar 2026 17:15:48 +0100
+Message-ID: <20260323161551.47181-1-jihed.chaibi.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
- 'jumpy DMA'
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
- wim.taymans@gmail.com
-References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 3/23/26 14:34, Péter Ujfalusi wrote:
-> Hi,
-> 
-> for years the discussion around jumpy, bursty DMA have been popping up
-> and we always concluded that we are missing a good definition and agreed
-> way between kernel and user space to handle this.
+The jz4725b, jz4760 and jz4770 Ingenic codec drivers all share the same
+clock management pattern: the clock is obtained with devm_clk_get() in
+the platform probe, then manually enabled in the component probe and
+disabled in the component remove. The clk_prepare_enable() call in the
+component probe is unchecked, meaning clock enable failures are silently
+ignored and can lead to register access on unpowered hardware.
 
-Hi,
+This series converts all three drivers to devm_clk_get_enabled(), which
+combines the get, prepare and enable steps and ties the clock lifetime to
+the device via devres. The now-redundant component remove callbacks and
+the struct clk pointers in the private structs are removed.
 
-thank you for taking care of this issue.
+Jihed Chaibi (3):
+  ASoC: jz4725b: Convert to devm_clk_get_enabled()
+  ASoC: jz4760: Convert to devm_clk_get_enabled()
+  ASoC: jz4770: Convert to devm_clk_get_enabled()
 
-> Or should we add a new member (carved out from the reserved section of
-> hw_params struct) specifically for this purpose, like dma_burst_size,
-> which likely going to be equal to fifo_size if both is filled by the driver.
-
-I would not change the fifo_size definition at this moment. It's not directly 
-related to the sample transfers. This value just describes the additional 
-latency for streaming.
-
-The new member seems like a good way to go with more universal name like 
-'chunk_size' (in frames) defining the transfer granularity information for the 
-PCM buffer I/O.
-
-					Jaroslav
+ sound/soc/codecs/jz4725b.c | 18 ++++--------------
+ sound/soc/codecs/jz4760.c  | 20 ++++----------------
+ sound/soc/codecs/jz4770.c  | 20 ++++----------------
+ 3 files changed, 12 insertions(+), 46 deletions(-)
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.47.3
+
