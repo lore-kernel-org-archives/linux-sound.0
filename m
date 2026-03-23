@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A9878F3A;
-	Tue, 24 Mar 2026 00:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764DA221F1C;
+	Tue, 24 Mar 2026 00:12:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774311116; cv=none; b=Ulgo3NIABlyw80mVp+rjlNEmcBca1TtHf5fr6NlzeDkO5KeP3UUtBACd7Iq0Ahj2PmVhHQgmaH6IFSQb25ZnybyNFRUKMaA/4MSXasIhQ2Per6rwNQNC8c2ZVHoxI8/sGwduEatig33dKUhLxoByCBfQR6L9oMALFWorSSb7wsA=
+	t=1774311127; cv=none; b=ratSn4oRQ73vfIZieeeIpWvxpL9Sgia+vlx9jVwKvOqD4/hkz83TkEkl04GT1Vbv+BjZWi2vlb+9IuLwXnZpbe9R9ttdMOcv918wsgKjYYISKQRrOdW10dI+ejRZLlokBZUr+Zf7jxlI1L4O6Uy/qyQKBFb6r6dTXMdbycwRCo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774311116; c=relaxed/simple;
-	bh=6vLX4LJ+VmgHgj9pBZu3srwBCXdI1SDcPLVVTIr/JGo=;
+	s=arc-20240116; t=1774311127; c=relaxed/simple;
+	bh=byOxf/68ozuHzLPRP/nbFU9C+E+VeHXGOa0F7OXgP7M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VaBpSmkiXTll/DUEimrJEPC2D+aC4JlgPThFkJmZJPMZx1mXv8aHGWA2HqIUTw8GMLdtRc+alZCecllu6UvL2x3VSXSNvsRvlsbdOb8RU5Nsfj9lzcBxSjMTfUhGxNR4fSW8FvhrMh8u+lN3vanckbcveaALOFzGF6zfUt9KMLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XumKEne3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=B4/SWi66NLIosqqcXpSXh6yPbF5iM1nITQNJ/8oTNPqWZX2CrczIMWPWinzOZ+QXu1eZzjewCbM/SFN8hG8jsdXk4isbIG/bih6a2fisP7Ph51mi89HGDKHeQBJnsUgRyn2QC6Q/UKTq0EmDt/W7HtrHZMRPy1dFzWLRPHY2oWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bbZl1PJC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XumKEne3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC75C2BCB0;
-	Tue, 24 Mar 2026 00:11:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbZl1PJC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2E5DC2BC9E;
+	Tue, 24 Mar 2026 00:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774311116;
-	bh=6vLX4LJ+VmgHgj9pBZu3srwBCXdI1SDcPLVVTIr/JGo=;
+	s=k20201202; t=1774311127;
+	bh=byOxf/68ozuHzLPRP/nbFU9C+E+VeHXGOa0F7OXgP7M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XumKEne3En0oWE6YbkXguuYujfMRnvNdW1IcE/S5kacUUg4A3y1YiJv1K1FKpUUDT
-	 mgjRugNXztiDASVIwlT5E1E2CHhC5DgUCnfYZ1i57XpLsnwDDUPLmoDaVg2wkca4lk
-	 Gufo/IyNl2e4344ffOGSZeum92gehgT6eaGRuE+nevjAIr0iV4o4F2OdAVg9DAGS0N
-	 FLzuIG8BtcDtVbFbntv3W+SM8DXv/uBej6bPRRphgx74u3pVx/zKjDMzGCcEV+IusE
-	 lt0XpiFMJeJ+5EoBUbl2vgeyrmM5d3gaPoYgZRuP8bzfCyflNwb2aT0H1EAfg3pUP6
-	 lYrawsI1qt96A==
+	b=bbZl1PJCD4vY14bMirpFwBCSs3HanRmR/wBlo63l/0Id+Xs7eEQJwE394hwuUwSfO
+	 V9lPgaUWyf4fCF3LZ/3nGBDMsOCrtXZ2qRvUnNjo6Is5ZJYGrH6Tk/YRiUk8gkiGzP
+	 weHlSSCvKHyTprfSNEr8vBY1kNcAEMSpdAfSqj69PsmfjtcFuf/m8VuR8H+mI2dxMh
+	 W7y3T89Y3SdM4bOwux7s6nvRTrSNTJ46+MQ9dQwwmLtgAnafw0RW+JQNtqzYT9zQOs
+	 patdUbWvnRvOqgzcPIYnH2mBexldYYKhfimKpjjWAPtNLwl4lth6Ga+XxBLb3WJnd+
+	 IRU5Gk4EZdx8Q==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- ChiYuan Huang <cy_huang@richtek.com>, Zhang Yi <zhangyi@everest-semi.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260320151752.3439218-1-arnd@kernel.org>
-References: <20260320151752.3439218-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: wm_adsp: select CONFIG_SND_SOC_WM_ADSP from all
- users
-Message-Id: <177427663217.71519.11780846451347962857.b4-ty@b4>
-Date: Mon, 23 Mar 2026 14:37:12 +0000
+To: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kexin Sun <kexinsun@smail.nju.edu.cn>
+Cc: julia.lawall@inria.fr, xutong.ma@inria.fr, yunbolyu@smu.edu.sg, 
+ ratnadiraw@smu.edu.sg
+In-Reply-To: <20260321115018.9481-1-kexinsun@smail.nju.edu.cn>
+References: <20260321115018.9481-1-kexinsun@smail.nju.edu.cn>
+Subject: Re: [PATCH v2] ASoC: generic: update outdated comment for removed
+ soc_bind_dai_link()
+Message-Id: <177428889107.468511.13192604775382028549.b4-ty@b4>
+Date: Mon, 23 Mar 2026 18:01:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,20 +47,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-17187
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6vLX4LJ+VmgHgj9pBZu3srwBCXdI1SDcPLVVTIr/JGo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwdbJ2dlKoTJI7Gmu9EW9hj/21OnUQMxJuY9E3
- K1GPjK4CF2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacHWyQAKCRAk1otyXVSH
- 0HABB/9ZxNomhOGED4A/wHzilK1OgxzUwWymzTVrGxIQqad4XoExA2HgN2t0fpYG/t8QI2Tw8SD
- uJNT7SWM+Qe7LGp1iXgM0HqE2d/T7s3WraWZgg/EFLupwPoHq/gmgwt2wKk597R8VvO3NqyZ78e
- 6ewJhoqd3Wo9aXVeYKeJkfvc2qNj1Pz+FjIB9rqLT42IWZPDudP2KUiEH5CRKbAHd3fa2SHTp4H
- tuGsjBmsx0Kd9aeJm2j5iKOEhwx69XGzXmRbCFKyubgB4Btjn1Ukbj5bPiwE1NH4EkG2Nj4zNeI
- WUedwUMrwXtGUKCWIqnvhNMRBPhV909vV4BUcHIJdKzVrNI9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=byOxf/68ozuHzLPRP/nbFU9C+E+VeHXGOa0F7OXgP7M=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwdbTTJAG0g96Y6OEtfpGEjXQWVLCEStcZRE9S
+ MZC9NFOsI+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacHW0wAKCRAk1otyXVSH
+ 0GemB/0Si96JuFCIgo55NWJ8Y5EoVhzbI9adKwTDMkHZwq7tCUsKr9mz93Pk7aChQktHhxlGeBH
+ EEEB7WuYlXzZXjSF6GT9B1t/tHykoUu+hLcRXevPa2Nw2W5uvF+QinZ1iVs3aLdieSbBX46xTvo
+ /XM5wjK0HoZ28G3C7HvR+g+dgg6+juS5Mk4uK2f0jF7Idv1Cm9eI3PDr1hWjqjAN0xoLIY+eRvF
+ jSJz4T6J87JrOAt2FJ8mhNtwC5UnxJEqzLbRJK0n1Q0cKFm3NSDbC+D5G/8EbLNkGkCb/2gclBF
+ JrCrIXao7vGfviaggX7ULtqd66xOdwUm59W16lb4aB6D0OxD
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 20 Mar 2026 16:17:31 +0100, Arnd Bergmann wrote:
-> ASoC: wm_adsp: select CONFIG_SND_SOC_WM_ADSP from all users
+On Sat, 21 Mar 2026 19:50:18 +0800, Kexin Sun wrote:
+> ASoC: generic: update outdated comment for removed soc_bind_dai_link()
 
 Applied to
 
@@ -71,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: wm_adsp: select CONFIG_SND_SOC_WM_ADSP from all users
-      https://git.kernel.org/broonie/sound/c/e3f1ce073a0d
+[1/1] ASoC: generic: update outdated comment for removed soc_bind_dai_link()
+      https://git.kernel.org/broonie/sound/c/d57fe7b02072
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
