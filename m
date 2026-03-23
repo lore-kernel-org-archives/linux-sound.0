@@ -1,98 +1,92 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966433845BE
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D977F361667
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 23:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774305563; cv=none; b=SXFPgVP6XxjUK0djDYZj5B49fXGAcUObhfp7OQRiCkM5KkGpoFYF9piK0x3LqyHWRNxArLmSrjvZ/vjq2CpHvDkZj3kvSFvCxkkIoXop4B0JK7XKHb3faktrIT5CxsAe/qBvUU47n0jzLJPTZgT/q1y8yM3eEnwTwEazF0hPPqc=
+	t=1774307883; cv=none; b=XHuhvRMZBu2JacRCI9zjXAjJXjhACA5RD69FYfWZ6Pcxj5hUkbitN76T96uUnlh7jGbM9nCA1QJp3K5lAaGiRU/ZZEo5nX3ngSL1GbjrQI5np/JY2stZsZvxoSsCKWmb7JFe2D2zMRJ5klJHmb5qL1XDoIXIErgAchSJaA86URo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774305563; c=relaxed/simple;
-	bh=i7xC8QwgKa/e7Tbxlrmvz+rJTCfxQ9AsYbFRZN9K44c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C5pfFIYxqabt+OLpu2YgGMtsgfIi8SO51UaKtcFxNRMHefrn4mGauoPie0h+ljiMkld1IRe1m2kgI3LpZ5zCCifyLsS8z+cVgbulzWS9FUBhucYm9QNrjBz0+kCWCGj6bZzJCZXPW8y1ZMleE0oHbujIIFmnGmUq0YW7xwGLR+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GZ8uCA0O; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZnFhIvQD; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1774307883; c=relaxed/simple;
+	bh=AyY2hIjDZSFWCXLUqukGSX8OjxFTqekOyePOX3n/en0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iqva7Us8eSXD2WFquaYGkxp0jZySm25UR2Xrh3e5nIGu+h1Z3Q9CN7RTIbcalaNSoUb/hSYpkG2VKVGgQj+dE23KKN77/KilLMkKwbertFORwdO00wIa71+8yaYLbG0J9jeN4rC0zRZ5ghAJvLHNYvE+yCzRsLQVrgaiiOI+3lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZbIcTg2w; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SmjG4ucl; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GZ8uCA0O";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZnFhIvQD"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62NHqXlJ3817467
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:19 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZbIcTg2w";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SmjG4ucl"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62NHqjgc3934869
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 23:18:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=b4BDjNCVk8p
-	9irzHcBYf7+HuKzr5jBjQdwW7M52p7pY=; b=GZ8uCA0OxmSR3rFjyNRcXd6MXnl
-	UaQJ+EFw16CVC0raVsnVoE+Ag+K4DZQConhYvqKbuAj4f1p3BS3Fsuner9my23/p
-	uDEBxY4x9aNZAt9v+xySuwqKStoVzkpD3s+LVyjhf9C04EHDtnGk8KubQacApkoX
-	Sb9p5x/oJC0SzYbPJpwDIDr4YMttZNFp90kInWZe1nVdqfRTbfzosl9h9AKbkKN6
-	T5k60A24omcZqUX7Cfjg8RQno0PP0TkhFSlI0WLn3W+WSue5WauHi376O4FG7sU9
-	jdswmxbvxYhbtkldabysDzqK5uxZyvfSBgJ2kTKSqQ8ozn6UmBPzAY0bJ3w==
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=L5JF/OFCjycRKwxHlQnaKEqRuOkw7e8QXGy
+	WvKIOmXw=; b=ZbIcTg2wC8gfT3Njs7Rx+upxE3sqFI3qCeE+W972ysdOTQOPwUV
+	h4tlmpqopNjRcuPG58unf6gtv5IiOfIIPKNoVsKfSufzh/3Sl0d6Wdl1z3KncGn9
+	kpuq2mtVVL+T7aGS2DgVmqMlGx6z2oKOIQsb0ak3HzCVqKBKZMRWiR1SXIEoGP0h
+	fZkfLKtGlM2jC3DsLPh1orQvS/WaT8Vvlh6tFzbJktC71FVsX/L4kxzYlEEvk2b6
+	qoFfJkc6PkPaGdtyA6AvMR/iFf7yyF7tec7DM0mihWgGNo3RxC5Q0VHw+LjTzu7D
+	zfkq8k0CNWlSUCaeKdhuu0kJL9Lj8C2XIdQ==
 Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d355w236f-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d37a0hpt5-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:19 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b4661881eso9662301cf.0
-        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 15:39:19 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 23:18:01 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b44f7b7bbso241175361cf.3
+        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 16:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774305559; x=1774910359; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b4BDjNCVk8p9irzHcBYf7+HuKzr5jBjQdwW7M52p7pY=;
-        b=ZnFhIvQD/p24UOghlcTI+ihl9p3y2sHeidW+M/mDa21eHtQYodk3dkqPr3O9Dcyr+v
-         8XUKbeMEWDQsno9RqtZV3ZHi2EGdHFClVT3ZmKtYeKqza0pjPWiH6KxqrDsbrVrmC+oE
-         HBzUeD5sjiFRkhCm0OYlltrDjt5G+Ner6JNMmYaqnEuEuJFM9sGzELZwcssLOwzkoyvr
-         AGBE7J1SDJuYKVZEUixyUCx6x4waOORp8SkQEjnWTHEBZC1chcCqgfLENBwg9Te9lTVG
-         waBkWFqcEKLt19RFmvG9LxEPJAw1RFs2ilma+45mdtooc2g3QoEDpl4r9HX5CsVWKXGT
-         ckgA==
+        d=oss.qualcomm.com; s=google; t=1774307880; x=1774912680; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L5JF/OFCjycRKwxHlQnaKEqRuOkw7e8QXGyWvKIOmXw=;
+        b=SmjG4uclCXOruv0aweW3zkUNV4fOfmuLLcu8U2C8Mh4vNZ0WYYFLY0oTOR698BDYqA
+         xHNyY1izdvF0nkNOXZ88/usu3xmh3i72qRQ8mppVP4mmUqDisLye1qHkgcU55xh+j+B4
+         ERd9u+W5KnqnyvxfIznR8GNTtju8ueL813Z6hUZCEs23Obj/E5rZsgU6M08v01OohRwD
+         7a+RDfCZecrGccnqJsYxXYm+1pWCmoLCOkZwu9MusFWiiIBTSkwnoI2zm6vKgq97go9T
+         lTAoXNR8T3h/7BDXjihFvYIy5gr/a9ITvHvDcGetLxjdO9Uzy/z0S3QtF5j6CmzYDW9I
+         x/xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774305559; x=1774910359;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=b4BDjNCVk8p9irzHcBYf7+HuKzr5jBjQdwW7M52p7pY=;
-        b=f0Jlt7dD99LlNLmOjaeEvNqATTLm0TMJGNb4hlfwfIm7U2yiriX+I657m+KsDuEM+/
-         yCbcw4cwpN05kOnBNWnP4ViVF3rGQ2Q+p/+xcJSgq9VP3ZT5jcPgoORgIwH+krP0Nnwf
-         vP96enQAIXGYNSwQ0jn3udbSWDPyZM+dxvsW6brGmuXP58fhKq57op2jqilCZLwYcdg0
-         Et4YNLRDS445eEu4jJ2BzSzcQoPlPmt16G7Hj7K4CBliSaEny2w2QT1BMhkHve72mXGw
-         8w7mnQ0KIjQFjfqpt2mRL+aMnfXDPeVqc1G2JsTBQrDu1wtHYWkI92PIOcGnMoyzaN/o
-         tNQg==
-X-Forwarded-Encrypted: i=1; AJvYcCVN7S1zRWACQ1hmhyvYPqnsD0vXo8PFNr/jZ2HONUPb8jSC4H8njoa6NTQ6yDrHJArSwwv5fNQbH3+r/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyurihMTTQcBCUjP9NG9DNohXRbVJjbbRw1s9RQ4rlKLQTbe7MP
-	d/XDAqUmmxzoL4hQVQqM6rzL0+rigrmzi4xlrzqX7Lj3TWBvmJgv/DFr7lf21ES6vEqj9B5VCd2
-	vqw16XQhya6SewqZlEPo5/YbDFeoJoi+LMPn0l3D8nrsOToYBtvHnu5Dyvf9xA0EaEQ==
-X-Gm-Gg: ATEYQzxs9FYEZnLzR3I2gSzOxTEaxvpJzmLpy95d48i0w2bhvOl3Tm/1ecXEf6jm7G4
-	CVsH7jDhNUoiNA9/jPvEYVqISANOY0+HXe4Ucx5ql8ksGYoCIoIhpZJGZfel3IIrrH73W8bJsJ4
-	AA2sky6h4rFF0HAb/7q65vpxY/k4bVYQ/6RbVOqra5onNiBIrxHFzttmDNl1h2cjZJl98UHxkrK
-	Q1oFtVu48KbtBkhetVGybr/u5C02r489amHYfHOfZN4suWeca2BsyU7NlQswsa0UFdMbYBSJydx
-	F5Tp1dtdgKxPR37dQoKRkpxPKuQjgyCGjoKQMzu2zqjtIISBox+Mnvj6L3bZ3xue6mx/ycWsykX
-	iZ7WO3/YqTVALJ6mzjoEU1tOcydk45VkVwLT99wUhSNb6uB6pTpBPb/8=
-X-Received: by 2002:a05:622a:14ca:b0:509:320:2de6 with SMTP id d75a77b69052e-50b374414c9mr208120501cf.25.1774305558808;
-        Mon, 23 Mar 2026 15:39:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:14ca:b0:509:320:2de6 with SMTP id d75a77b69052e-50b374414c9mr208120171cf.25.1774305558253;
-        Mon, 23 Mar 2026 15:39:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774307880; x=1774912680;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L5JF/OFCjycRKwxHlQnaKEqRuOkw7e8QXGyWvKIOmXw=;
+        b=Y1/54T1Dt8Sq8gkrxQ2U42YptikMeeBpwkwaji8+yDp+DLIokoFwLx/RyXUY4dByUP
+         MweilSD3GcNiWTeFRHICiyfBmdPZ1G1w2cx19acACUKUlbTe0QT31V8MhRQyKK1RzlbC
+         QcXAglfjyk3/Sf/T9a7fb0rLxeF/UBTBD10wbNOVJ3KlHqS9rmu+TI1U7SGL3/GxS+ri
+         66qcw+uQhLGUSJ+6R1FExMIZMJ4f4fJnDLKFD6N2queIcwnV8s9ITmm/m7J5FPyfy3Yq
+         0A4/OfHw9pNMxUqp0Yjy/EgJ3v6yVrCm5G/SI6NQTBEwZ9uaGMurUHonmHD6HC0PQmc/
+         eCFw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2pELKIUOtY7abNKUKZw/LFoDfngEepYvjqpRr+9uKpuivcGXzOVjThu/0/9s8jgzqCBkILyDqn91dOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaARWr22zIs3faSVPaxJwKqnx71RHPgMKxYqfvJL0g+Yf70Igf
+	gg6S+ORUo+x/BdInxUcm7ngQeCdYJddI0DRu666Mya/bjrIWmmjbdofVIpqF11L8U/2tKx04UcH
+	x+SRpCKiwT3mnoIzpwfYEeMvdC7WA3PjlKWAtuIrWJVWzh1f6sB2P3z/Ag0p1pnDpjw==
+X-Gm-Gg: ATEYQzxARD29Y2yJZr1VLmXLkJgDENBSmVebm3mD7b/eCKptao45vRVRWSvV4ea9FK2
+	kme4gbrxVeM9eFOMS21QvwyGxSHmndqgFr2ByG1BvMtNWD9pjwZTBNV2QcbPd6bJa+7AwiAAKA1
+	PlafW14J3NpviDTWduQ2C8UEObnIP2ijqCNkHqzqMnQzPZ1eMvZhVLZcaN+IYY+mPV6delYMh3u
+	tG2DjovIGfjwrvKQawbH/FmjDej3O1ajRwRkW3P0wiGE5BQvDgF7u6fYVoEgqrN4VVaoQ3IQews
+	KggmNZNamaq+grf0yMohpvudIDMdL9flq1/Ad2W/7PlLH+GcnluukXKBMokii9f3sXhUxSIQnkC
+	xaAM7d8o7g8Nj+ZK/SDk5UZ4kpuCgMRGQpAbYni3O6N2qH8+yVenJz6A=
+X-Received: by 2002:ac8:5f84:0:b0:50b:4b3c:7554 with SMTP id d75a77b69052e-50b4b3c7e79mr148900521cf.10.1774307880117;
+        Mon, 23 Mar 2026 16:18:00 -0700 (PDT)
+X-Received: by 2002:ac8:5f84:0:b0:50b:4b3c:7554 with SMTP id d75a77b69052e-50b4b3c7e79mr148900221cf.10.1774307879648;
+        Mon, 23 Mar 2026 16:17:59 -0700 (PDT)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64715539sm33320351f8f.33.2026.03.23.15.39.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871105d35fsm4131515e9.19.2026.03.23.16.17.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 15:39:17 -0700 (PDT)
+        Mon, 23 Mar 2026 16:17:58 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org
-Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
-        dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, srini@kernel.org, val@packett.cool,
-        mailingradian@gmail.com,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer mapping on DSP
-Date: Mon, 23 Mar 2026 22:38:45 +0000
-Message-ID: <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        david@ixit.cz,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Stable@vger.kernel.org, Joel Selvaraj <foss@joelselvaraj.com>
+Subject: [PATCH] ASoC: codecs: wcd934x: fix typo in dt parsing
+Date: Mon, 23 Mar 2026 23:17:48 +0000
+Message-ID: <20260323231748.2217967-1-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260323223845.2126142-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20260323223845.2126142-1-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -100,597 +94,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=fq7RpV4f c=1 sm=1 tr=0 ts=69c1c117 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=GIIF0+NK c=1 sm=1 tr=0 ts=69c1ca29 cx=c_pps
  a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
- a=KqBSpy-4UWhbKApt0wUA:9 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: pz5L3uNSO4UWnWYWBLEiLJOYLXzo8p4Y
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDE2NyBTYWx0ZWRfX6IvlVoVBDz0M
- aUQ/BOlcdAJxKyrg8fIixnVjCeFPwa5LlRpUqk7is/i6Z/cFL0jtDMKq6oTJ1XUgRY4og2PUqgN
- eZpRrW/0KgCdpsvB0ocxyQvXMI8cCPx/h+TepJgzAehG9fmbnprwGnGTB9mYfiAJMRT0KFgGk7+
- CXhRjFqVeq9bohqcuW9asnNnDCXzwDGl3XAfQ5BD0efnyqrE/rYrFh9Yc2ib5GXD7Io1b4lsKEq
- CYqgoW23xQkPOS6myo7EXO/UeA4K/B6gTLhxfLox0rkL8eazzqOBu+GdCALvtvzV2hl56OstLWo
- fL75Gnuvlk8GwH9dJW/zx8y6ItTU5yNcSFKid0uAmb5eyhS4wuNGKcc2PQ6s7PJ7wVjTQA2dK0w
- zn7Yeyyg2rlsdRNGspwjABK00I35h/dGovDIgu8/Z1tkRD0cYpM7w/V88W+NYclUBsCfB4l0fzn
- nKPRARC83IkbrUCoVaw==
-X-Proofpoint-GUID: pz5L3uNSO4UWnWYWBLEiLJOYLXzo8p4Y
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=VwQbUJbxAAAA:8
+ a=WFa1dZBpAAAA:8 a=EUspDBNiAAAA:8 a=Gyz1a0GbE71Lk9qgVO0A:9
+ a=a_PwQJl-kcHnX1M80qC6:22 a=MZguhEFr_PtxzKXayD1K:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDE3MiBTYWx0ZWRfX4Q/qOAZm5obM
+ B8aE+3PAMrjos/vvkJcpsZKoA6QBU8v8uuNsyEebxRJx+qt4jRfT7dIMiEEbtQCyPBgJyFJTk5k
+ FS23baoQiOb0G1EH7sWmnsljdNpDo7k/kvv9DmWONlX/WdFEPuqnd9Rbif26xNoUZmKMTkpnBZ2
+ auJKIFFPco4/vdsSqKCNsmWzGDcbPdJZMDhLpBubISl0wv3qRxXLhhUls2JFl0vi6aiP5K+Bs0a
+ 5Oj7jyrqjDMzzGpkfJsszM5PSKQcwXZk36lAgnaZyTjcZSHCxjZmYHugSt/gYHSlrLOwT9TfU5b
+ B+KMhuJW8JcMmCrBQfSK4VCm/IERzNKf8lHHsY/SSRkKJchZ3xplQIgBoktUDjDaYmdzug5Hbes
+ agG78xbstqUy242K/P7MuH9fF8kk9FXX1I50v4+0y2J/TkF7yZiV7Xpg4QXIuKsRnxGP4nMDHkx
+ d3rYHjBA4F/Q/Pa2IVA==
+X-Proofpoint-GUID: WXVQxM0UPLZphz58MHJ2fyAdYEXwcGTH
+X-Proofpoint-ORIG-GUID: WXVQxM0UPLZphz58MHJ2fyAdYEXwcGTH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-23_06,2026-03-23_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 adultscore=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230167
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230172
 
-Buffers are allocated on pcm_new and mapped in the dsp on every
-prepare call, which is inefficient and unnecessary.
+Looks like we ended up with a typo during device tree data parsing
+as part of 4f16b6351bbff ("ASoC: codecs: wcd: add common helper for wcd
+codecs") patch.
+ This will result in not parsing the device tree data and results in
+zero mic bias values.
 
-Add new functions q6apm_[un]map_memory_fixed_region to map it on
-to dsp only once after allocation.
+Fix this by calling wcd_dt_parse_micbias_info instead of
+wcd_dt_parse_mbhc_data.
 
+Fixes: 4f16b6351bbff ("ASoC: codecs: wcd: add common helper for wcd codecs")
+Cc: <Stable@vger.kernel.org>
+Reported-by: Joel Selvaraj <foss@joelselvaraj.com>
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/audioreach.c |  60 ------------
- sound/soc/qcom/qdsp6/audioreach.h |   5 +-
- sound/soc/qcom/qdsp6/q6apm-dai.c  | 110 ++++++++++++++++++---
- sound/soc/qcom/qdsp6/q6apm.c      | 158 ++++++++++++++++++++----------
- sound/soc/qcom/qdsp6/q6apm.h      |  14 +--
- 5 files changed, 212 insertions(+), 135 deletions(-)
+ sound/soc/codecs/wcd934x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index 241c3b4479c6..b2975eebab71 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -1396,66 +1396,6 @@ void audioreach_graph_free_buf(struct q6apm_graph *graph)
- }
- EXPORT_SYMBOL_GPL(audioreach_graph_free_buf);
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index c8db33f78a1b..bc41a1466c70 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -2172,7 +2172,7 @@ static int wcd934x_init_dmic(struct snd_soc_component *comp)
+ 	u32 def_dmic_rate, dmic_clk_drv;
+ 	int ret;
  
--int audioreach_map_memory_regions(struct q6apm_graph *graph, unsigned int dir, size_t period_sz,
--				  unsigned int periods, bool is_contiguous)
--{
--	struct apm_shared_map_region_payload *mregions;
--	struct apm_cmd_shared_mem_map_regions *cmd;
--	uint32_t num_regions, buf_sz, payload_size;
--	struct audioreach_graph_data *data;
--	struct gpr_pkt *pkt __free(kfree) = NULL;
--	void *p;
--	int i;
--
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
--		data = &graph->rx_data;
--	else
--		data = &graph->tx_data;
--
--	if (is_contiguous) {
--		num_regions = 1;
--		buf_sz = period_sz * periods;
--	} else {
--		buf_sz = period_sz;
--		num_regions = periods;
--	}
--
--	/* DSP expects size should be aligned to 4K */
--	buf_sz = ALIGN(buf_sz, 4096);
--
--	payload_size = sizeof(*cmd) + (sizeof(*mregions) * num_regions);
--
--	pkt = audioreach_alloc_apm_pkt(payload_size, APM_CMD_SHARED_MEM_MAP_REGIONS, dir,
--				     graph->port->id);
--	if (IS_ERR(pkt))
--		return PTR_ERR(pkt);
--
--	p = (void *)pkt + GPR_HDR_SIZE;
--	cmd = p;
--	cmd->mem_pool_id = APM_MEMORY_MAP_SHMEM8_4K_POOL;
--	cmd->num_regions = num_regions;
--
--	cmd->property_flag = 0x0;
--
--	mregions = p + sizeof(*cmd);
--
--	mutex_lock(&graph->lock);
--
--	for (i = 0; i < num_regions; i++) {
--		struct audio_buffer *ab;
--
--		ab = &data->buf[i];
--		mregions->shm_addr_lsw = lower_32_bits(ab->phys);
--		mregions->shm_addr_msw = upper_32_bits(ab->phys);
--		mregions->mem_size_bytes = buf_sz;
--		++mregions;
--	}
--	mutex_unlock(&graph->lock);
--
--	return audioreach_graph_send_cmd_sync(graph, pkt, APM_CMD_RSP_SHARED_MEM_MAP_REGIONS);
--}
--EXPORT_SYMBOL_GPL(audioreach_map_memory_regions);
--
- int audioreach_shared_memory_send_eos(struct q6apm_graph *graph)
- {
- 	struct data_cmd_wr_sh_mem_ep_eos *eos;
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 89f172aab8c0..6ddc287f0fb4 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -722,6 +722,7 @@ struct audioreach_connection {
+-	ret = wcd_dt_parse_mbhc_data(comp->dev, &wcd->mbhc_cfg);
++	ret = wcd_dt_parse_micbias_info(&wcd->common);
+ 	if (ret)
+ 		return ret;
  
- struct audioreach_graph_info {
- 	int id;
-+	uint32_t mem_map_handle;
- 	uint32_t num_sub_graphs;
- 	struct list_head sg_list;
- 	/* DPCM connection from FE Graph to BE graph */
-@@ -838,10 +839,6 @@ int audioreach_tplg_init(struct snd_soc_component *component);
- 
- /* Module specific */
- void audioreach_graph_free_buf(struct q6apm_graph *graph);
--int audioreach_map_memory_regions(struct q6apm_graph *graph,
--				  unsigned int dir, size_t period_sz,
--				  unsigned int periods,
--				  bool is_contiguous);
- int audioreach_send_cmd_sync(struct device *dev, gpr_device_t *gdev, struct gpr_ibasic_rsp_result_t *result,
- 			     struct mutex *cmd_lock, gpr_port_t *port, wait_queue_head_t *cmd_wait,
- 			     struct gpr_pkt *pkt, uint32_t rsp_opcode);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 86d6438bd9fd..ae5318e0aa3b 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -228,11 +228,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
- 	cfg.bit_width = prtd->bits_per_sample;
- 	cfg.fmt = SND_AUDIOCODEC_PCM;
- 	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
--
- 	if (prtd->state) {
- 		/* clear the previous setup if any  */
- 		q6apm_graph_stop(prtd->graph);
--		q6apm_unmap_memory_regions(prtd->graph, substream->stream);
-+		q6apm_free_fragments(prtd->graph, substream->stream);
- 	}
- 
- 	prtd->pcm_count = snd_pcm_lib_period_bytes(substream);
-@@ -247,8 +246,8 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
- 	if (ret < 0)
- 		dev_err(dev, "%s: CMD Format block failed\n", __func__);
- 
--	ret = q6apm_map_memory_regions(prtd->graph, substream->stream, prtd->phys,
--				       (prtd->pcm_size / prtd->periods), prtd->periods);
-+	ret = q6apm_alloc_fragments(prtd->graph, substream->stream, prtd->phys,
-+				(prtd->pcm_size / prtd->periods), prtd->periods);
- 
- 	if (ret < 0) {
- 		dev_err(dev, "Audio Start: Buffer Allocation failed rc = %d\n",	ret);
-@@ -416,9 +415,10 @@ static int q6apm_dai_close(struct snd_soc_component *component,
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct q6apm_dai_rtd *prtd = runtime->private_data;
- 
--	if (prtd->state) { /* only stop graph that is started */
-+	if (prtd->state) {
-+		/* only stop graph that is started */
- 		q6apm_graph_stop(prtd->graph);
--		q6apm_unmap_memory_regions(prtd->graph, substream->stream);
-+		q6apm_free_fragments(prtd->graph, substream->stream);
- 	}
- 
- 	q6apm_graph_close(prtd->graph);
-@@ -467,11 +467,97 @@ static int q6apm_dai_hw_params(struct snd_soc_component *component,
- 	return 0;
- }
- 
-+static int q6apm_dai_memory_map(struct snd_soc_component *component,
-+				struct snd_pcm_substream *substream, int graph_id)
-+{
-+	struct q6apm_dai_data *pdata;
-+	struct device *dev = component->dev;
-+	phys_addr_t phys;
-+	int ret;
-+
-+	pdata = snd_soc_component_get_drvdata(component);
-+	if (!pdata) {
-+		dev_err(component->dev, "Drv data not found ..\n");
-+		return -EINVAL;
-+	}
-+
-+	if (pdata->sid < 0)
-+		phys = substream->dma_buffer.addr;
-+	else
-+		phys = substream->dma_buffer.addr | (pdata->sid << 32);
-+
-+	ret = q6apm_map_memory_fixed_region(dev, graph_id, phys, BUFFER_BYTES_MAX);
-+	if (ret < 0)
-+		dev_err(dev, "Audio Start: Buffer Allocation failed rc = %d\n",	ret);
-+
-+	return ret;
-+}
-+
- static int q6apm_dai_pcm_new(struct snd_soc_component *component, struct snd_soc_pcm_runtime *rtd)
- {
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_pcm *pcm = rtd->pcm;
- 	int size = BUFFER_BYTES_MAX;
-+	int graph_id, ret;
-+	struct snd_pcm_substream *substream;
-+
-+	graph_id = cpu_dai->driver->id;
-+
-+	ret = snd_pcm_set_fixed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV, component->dev, size);
-+	if (ret)
-+		return ret;
-+
-+	if (pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream) {
-+		substream = pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream;
-+		ret = q6apm_dai_memory_map(component, substream, graph_id);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream) {
-+		substream = pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream;
-+		ret = q6apm_dai_memory_map(component, substream, graph_id);
-+		if (ret) {
-+			if (pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream)
-+				q6apm_unmap_memory_fixed_region(component->dev, graph_id);
-+
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void q6apm_dai_memory_unmap(struct snd_soc_component *component,
-+				   struct snd_pcm_substream *substream)
-+{
-+	struct snd_soc_pcm_runtime *soc_prtd;
-+	struct snd_soc_dai *cpu_dai;
-+	int graph_id;
-+
-+	soc_prtd = snd_soc_substream_to_rtd(substream);
-+	if (!soc_prtd)
-+		return;
-+
-+	cpu_dai = snd_soc_rtd_to_cpu(soc_prtd, 0);
-+	if (!cpu_dai)
-+		return;
-+
-+	graph_id = cpu_dai->driver->id;
-+	q6apm_unmap_memory_fixed_region(component->dev, graph_id);
-+}
-+
-+static void q6apm_dai_pcm_free(struct snd_soc_component *component, struct snd_pcm *pcm)
-+{
-+	struct snd_pcm_substream *substream;
-+
-+	substream = pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream;
-+	if (substream)
-+		q6apm_dai_memory_unmap(component, substream);
- 
--	return snd_pcm_set_fixed_buffer_all(rtd->pcm, SNDRV_DMA_TYPE_DEV, component->dev, size);
-+	substream = pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream;
-+	if (substream)
-+		q6apm_dai_memory_unmap(component, substream);
- }
- 
- static int q6apm_dai_compr_open(struct snd_soc_component *component,
-@@ -530,7 +616,8 @@ static int q6apm_dai_compr_free(struct snd_soc_component *component,
- 	struct q6apm_dai_rtd *prtd = runtime->private_data;
- 
- 	q6apm_graph_stop(prtd->graph);
--	q6apm_unmap_memory_regions(prtd->graph, SNDRV_PCM_STREAM_PLAYBACK);
-+	q6apm_free_fragments(prtd->graph, SNDRV_PCM_STREAM_PLAYBACK);
-+	q6apm_unmap_memory_fixed_region(component->dev, prtd->graph->id);
- 	q6apm_graph_close(prtd->graph);
- 	snd_dma_free_pages(&prtd->dma_buffer);
- 	prtd->graph = NULL;
-@@ -679,9 +766,9 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
- 		if (ret)
- 			return ret;
- 
--		ret = q6apm_map_memory_regions(prtd->graph, SNDRV_PCM_STREAM_PLAYBACK,
--					       prtd->phys, (prtd->pcm_size / prtd->periods),
--					       prtd->periods);
-+		ret = q6apm_alloc_fragments(prtd->graph, SNDRV_PCM_STREAM_PLAYBACK,
-+					prtd->phys, (prtd->pcm_size / prtd->periods),
-+					prtd->periods);
- 		if (ret < 0)
- 			return -ENOMEM;
- 
-@@ -834,6 +921,7 @@ static const struct snd_soc_component_driver q6apm_fe_dai_component = {
- 	.close		= q6apm_dai_close,
- 	.prepare	= q6apm_dai_prepare,
- 	.pcm_new	= q6apm_dai_pcm_new,
-+	.pcm_free	= q6apm_dai_pcm_free,
- 	.hw_params	= q6apm_dai_hw_params,
- 	.pointer	= q6apm_dai_pointer,
- 	.trigger	= q6apm_dai_trigger,
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index c874dae53163..1889d50df862 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -200,13 +200,53 @@ int q6apm_graph_media_format_shmem(struct q6apm_graph *graph,
- }
- EXPORT_SYMBOL_GPL(q6apm_graph_media_format_shmem);
- 
--int q6apm_map_memory_regions(struct q6apm_graph *graph, unsigned int dir, phys_addr_t phys,
--			     size_t period_sz, unsigned int periods)
-+int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id, phys_addr_t phys,
-+				  size_t sz)
-+{
-+	struct audioreach_graph_info *info;
-+	struct q6apm *apm = dev_get_drvdata(dev->parent);
-+	struct apm_shared_map_region_payload *mregions;
-+	struct apm_cmd_shared_mem_map_regions *cmd;
-+	int payload_size = sizeof(*cmd) + (sizeof(*mregions));
-+	uint32_t buf_sz;
-+	void *p;
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(payload_size,
-+						APM_CMD_SHARED_MEM_MAP_REGIONS, graph_id);
-+	if (IS_ERR(pkt))
-+		return PTR_ERR(pkt);
-+
-+	info = idr_find(&apm->graph_info_idr, graph_id);
-+	if (!info)
-+		return -ENODEV;
-+
-+	if (info->mem_map_handle)
-+		return 0;
-+
-+	/* DSP expects size should be aligned to 4K */
-+	buf_sz = ALIGN(sz, 4096);
-+
-+	p = (void *)pkt + GPR_HDR_SIZE;
-+	cmd = p;
-+	cmd->mem_pool_id = APM_MEMORY_MAP_SHMEM8_4K_POOL;
-+	cmd->num_regions = 1;
-+	cmd->property_flag = 0x0;
-+
-+	mregions = p + sizeof(*cmd);
-+
-+	mregions->shm_addr_lsw = lower_32_bits(phys);
-+	mregions->shm_addr_msw = upper_32_bits(phys);
-+	mregions->mem_size_bytes = buf_sz;
-+
-+	return q6apm_send_cmd_sync(apm, pkt, APM_CMD_RSP_SHARED_MEM_MAP_REGIONS);
-+}
-+EXPORT_SYMBOL_GPL(q6apm_map_memory_fixed_region);
-+
-+int q6apm_alloc_fragments(struct q6apm_graph *graph, unsigned int dir, phys_addr_t phys,
-+				size_t period_sz, unsigned int periods)
- {
- 	struct audioreach_graph_data *data;
- 	struct audio_buffer *buf;
- 	int cnt;
--	int rc;
- 
- 	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
- 		data = &graph->rx_data;
-@@ -248,46 +288,48 @@ int q6apm_map_memory_regions(struct q6apm_graph *graph, unsigned int dir, phys_a
- 
- 	mutex_unlock(&graph->lock);
- 
--	rc = audioreach_map_memory_regions(graph, dir, period_sz, periods, 1);
--	if (rc < 0) {
--		dev_err(graph->dev, "Memory_map_regions failed\n");
--		audioreach_graph_free_buf(graph);
--	}
--
--	return rc;
-+	return 0;
- }
--EXPORT_SYMBOL_GPL(q6apm_map_memory_regions);
-+EXPORT_SYMBOL_GPL(q6apm_alloc_fragments);
- 
--int q6apm_unmap_memory_regions(struct q6apm_graph *graph, unsigned int dir)
-+int q6apm_unmap_memory_fixed_region(struct device *dev, unsigned int graph_id)
- {
- 	struct apm_cmd_shared_mem_unmap_regions *cmd;
--	struct audioreach_graph_data *data;
--	int rc;
-+	struct q6apm *apm = dev_get_drvdata(dev->parent);
-+	struct audioreach_graph_info *info;
-+	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(sizeof(*cmd),
-+						APM_CMD_SHARED_MEM_UNMAP_REGIONS, graph_id);
-+	if (IS_ERR(pkt))
-+		return PTR_ERR(pkt);
- 
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
--		data = &graph->rx_data;
--	else
--		data = &graph->tx_data;
-+	info = idr_find(&apm->graph_info_idr, graph_id);
-+	if (!info)
-+		return -ENODEV;
- 
--	if (!data->mem_map_handle)
-+	if (!info->mem_map_handle)
- 		return 0;
- 
--	struct gpr_pkt *pkt __free(kfree) =
--		audioreach_alloc_apm_pkt(sizeof(*cmd), APM_CMD_SHARED_MEM_UNMAP_REGIONS,
--					 dir, graph->port->id);
--	if (IS_ERR(pkt))
--		return PTR_ERR(pkt);
--
- 	cmd = (void *)pkt + GPR_HDR_SIZE;
--	cmd->mem_map_handle = data->mem_map_handle;
-+	cmd->mem_map_handle = info->mem_map_handle;
-+
-+	return q6apm_send_cmd_sync(apm, pkt, APM_CMD_SHARED_MEM_UNMAP_REGIONS);
-+}
-+EXPORT_SYMBOL_GPL(q6apm_unmap_memory_fixed_region);
- 
--	rc = audioreach_graph_send_cmd_sync(graph, pkt, APM_CMD_SHARED_MEM_UNMAP_REGIONS);
-+int q6apm_free_fragments(struct q6apm_graph *graph, unsigned int dir)
-+{
-+	struct audioreach_graph_data *data;
-+
-+	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
-+		data = &graph->rx_data;
-+	else
-+		data = &graph->tx_data;
- 
- 	audioreach_graph_free_buf(graph);
- 
--	return rc;
-+	return 0;
- }
--EXPORT_SYMBOL_GPL(q6apm_unmap_memory_regions);
-+EXPORT_SYMBOL_GPL(q6apm_free_fragments);
- 
- int q6apm_remove_initial_silence(struct device *dev, struct q6apm_graph *graph, uint32_t samples)
- {
-@@ -429,7 +471,7 @@ int q6apm_write_async(struct q6apm_graph *graph, uint32_t len, uint32_t msw_ts,
- 	write_buffer->buf_size = len;
- 	write_buffer->timestamp_lsw = lsw_ts;
- 	write_buffer->timestamp_msw = msw_ts;
--	write_buffer->mem_map_handle = graph->rx_data.mem_map_handle;
-+	write_buffer->mem_map_handle = graph->info->mem_map_handle;
- 	write_buffer->flags = wflags;
- 
- 	graph->rx_data.dsp_buf++;
-@@ -463,7 +505,7 @@ int q6apm_read(struct q6apm_graph *graph)
- 
- 	read_buffer->buf_addr_lsw = lower_32_bits(ab->phys);
- 	read_buffer->buf_addr_msw = upper_32_bits(ab->phys);
--	read_buffer->mem_map_handle = port->mem_map_handle;
-+	read_buffer->mem_map_handle = graph->info->mem_map_handle;
- 	read_buffer->buf_size = ab->size;
- 
- 	port->dsp_buf++;
-@@ -494,7 +536,6 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- {
- 	struct data_cmd_rsp_rd_sh_mem_ep_data_buffer_done_v2 *rd_done;
- 	struct data_cmd_rsp_wr_sh_mem_ep_data_buffer_done_v2 *done;
--	struct apm_cmd_rsp_shared_mem_map_regions *rsp;
- 	const struct gpr_ibasic_rsp_result_t *result;
- 	struct q6apm_graph *graph = priv;
- 	const struct gpr_hdr *hdr = &data->hdr;
-@@ -529,18 +570,6 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 				done->buf_addr_msw);
- 		}
- 
--		break;
--	case APM_CMD_RSP_SHARED_MEM_MAP_REGIONS:
--		graph->result.opcode = hdr->opcode;
--		graph->result.status = 0;
--		rsp = data->payload;
--
--		if (hdr->token == SNDRV_PCM_STREAM_PLAYBACK)
--			graph->rx_data.mem_map_handle = rsp->mem_map_handle;
--		else
--			graph->tx_data.mem_map_handle = rsp->mem_map_handle;
--
--		wake_up(&graph->cmd_wait);
- 		break;
- 	case DATA_CMD_RSP_RD_SH_MEM_EP_DATA_BUFFER_V2:
- 		if (!graph->ar_graph)
-@@ -571,16 +600,6 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 		break;
- 	case GPR_BASIC_RSP_RESULT:
- 		switch (result->opcode) {
--		case APM_CMD_SHARED_MEM_UNMAP_REGIONS:
--			graph->result.opcode = result->opcode;
--			graph->result.status = 0;
--			if (hdr->token == SNDRV_PCM_STREAM_PLAYBACK)
--				graph->rx_data.mem_map_handle = 0;
--			else
--				graph->tx_data.mem_map_handle = 0;
--
--			wake_up(&graph->cmd_wait);
--			break;
- 		case APM_CMD_SHARED_MEM_MAP_REGIONS:
- 		case DATA_CMD_WR_SH_MEM_EP_MEDIA_FORMAT:
- 		case APM_CMD_SET_CFG:
-@@ -779,7 +798,9 @@ struct audioreach_module *q6apm_find_module_by_mid(struct q6apm_graph *graph, ui
- static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- {
- 	gpr_device_t *gdev = priv;
-+	struct audioreach_graph_info *info;
- 	struct q6apm *apm = dev_get_drvdata(&gdev->dev);
-+	struct apm_cmd_rsp_shared_mem_map_regions *rsp;
- 	struct device *dev = &gdev->dev;
- 	struct gpr_ibasic_rsp_result_t *result;
- 	const struct gpr_hdr *hdr = &data->hdr;
-@@ -796,6 +817,7 @@ static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 		break;
- 	case GPR_BASIC_RSP_RESULT:
- 		switch (result->opcode) {
-+		case APM_CMD_SHARED_MEM_MAP_REGIONS:
- 		case APM_CMD_GRAPH_START:
- 		case APM_CMD_GRAPH_OPEN:
- 		case APM_CMD_GRAPH_PREPARE:
-@@ -810,10 +832,38 @@ static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 					result->opcode);
- 			wake_up(&apm->wait);
- 			break;
-+		case APM_CMD_SHARED_MEM_UNMAP_REGIONS:
-+			apm->result.opcode = hdr->opcode;
-+			apm->result.status = 0;
-+			rsp = data->payload;
-+
-+			info = idr_find(&apm->graph_info_idr, hdr->token);
-+			if (info)
-+				info->mem_map_handle = 0;
-+			else
-+				dev_err(dev, "Error (%d) Processing 0x%08x cmd\n", result->status,
-+					result->opcode);
-+
-+			wake_up(&apm->wait);
-+			break;
- 		default:
- 			break;
- 		}
- 		break;
-+	case APM_CMD_RSP_SHARED_MEM_MAP_REGIONS:
-+		apm->result.opcode = hdr->opcode;
-+		apm->result.status = 0;
-+		rsp = data->payload;
-+
-+		info = idr_find(&apm->graph_info_idr, hdr->token);
-+		if (info)
-+			info->mem_map_handle = rsp->mem_map_handle;
-+		else
-+			dev_err(dev, "Error (%d) Processing 0x%08x cmd\n", result->status,
-+				result->opcode);
-+
-+		wake_up(&apm->wait);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
-index 7c646ffcf956..909fc337fd28 100644
---- a/sound/soc/qcom/qdsp6/q6apm.h
-+++ b/sound/soc/qcom/qdsp6/q6apm.h
-@@ -78,7 +78,6 @@ struct audioreach_graph_data {
- 	struct audio_buffer *buf;
- 	uint32_t num_periods;
- 	uint32_t dsp_buf;
--	uint32_t mem_map_handle;
- 	atomic_t hw_ptr;
- };
- 
-@@ -134,11 +133,14 @@ int q6apm_write_async(struct q6apm_graph *graph, uint32_t len, uint32_t msw_ts,
- 		      uint32_t lsw_ts, uint32_t wflags);
- 
- /* Memory Map related */
--int q6apm_map_memory_regions(struct q6apm_graph *graph,
--			     unsigned int dir, phys_addr_t phys,
--			     size_t period_sz, unsigned int periods);
--int q6apm_unmap_memory_regions(struct q6apm_graph *graph,
--			       unsigned int dir);
-+int q6apm_map_memory_fixed_region(struct device *dev,
-+			     unsigned int graph_id, phys_addr_t phys,
-+			     size_t sz);
-+int q6apm_alloc_fragments(struct q6apm_graph *graph,
-+			unsigned int dir, phys_addr_t phys,
-+			size_t period_sz, unsigned int periods);
-+int q6apm_free_fragments(struct q6apm_graph *graph, unsigned int dir);
-+int q6apm_unmap_memory_fixed_region(struct device *dev, unsigned int graph_id);
- /* Helpers */
- int q6apm_send_cmd_sync(struct q6apm *apm, struct gpr_pkt *pkt,
- 			uint32_t rsp_opcode);
 -- 
 2.47.3
 
