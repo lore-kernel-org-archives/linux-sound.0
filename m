@@ -1,65 +1,64 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38E1378D9C
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 09:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EF9371873
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 09:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774256541; cv=none; b=SqoM8QCchb8sv5K8/BQ5RMcRx9mStdu9QgGs754kAh0nVu6ODaIf2u02/CEqHhW1lkOGeP/nyHQJIoMQzl2Gpe1f8M1uuoaS+I6Vf5fgaqUpdlzKPVMRVqknsyjDLrbrbNGIFWBz8eRXiRpZYpADRrvFwovPEuAzK++7hE1uyZU=
+	t=1774256551; cv=none; b=Vk/6kpHu9j0crOTSgDmNVTtL+LlajeZhj6VH/nGx7xfk8zBaG/0WEXSARW4U9hzdMz106BBKDrRkrIzPSlJEHUSh0w37CUHMrfX4eeZ4Z8yIbder05u+ph9VrYCkkK+ynvZT77zkeApFjVuyW+2x/L+u2kjazUfTfcvL0ZT+e6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774256541; c=relaxed/simple;
-	bh=gq1YDhINbE7C0TGxm6aIJ7yhmIyt+boZmjgdjZwN9lc=;
+	s=arc-20240116; t=1774256551; c=relaxed/simple;
+	bh=cDfCpC2k5COsvd3GHRWIpuxPdl/asKWV7zeOf4SM5dg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G0W808/5I5ccmr7yW64pQrCDCiVXfhjzbbTm60c5XDKQd8xuhpYb/a8I6pFAQrzLgdTGFpfbVO5cseolI8+incNGpNE0AsmuFYQeb9AL4N40aB5D1YXARmteAvXu3v3WvEA3DCo9JqnUTwp/2oYKcQbw8qyGW/zagBpOz8CNWaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O1KxNi6N; arc=none smtp.client-ip=74.125.82.43
+	 MIME-Version; b=O7RybmXwYuEj5hhU4xQfHHVoyAFgGwRd2R73ARNemDb+4Ttyc2PAX6YmPeDxDllOxJBmmRRGGdIDqq7ti8hI3R9t/4upl4nEtZQtABaXjGrg6U36OHy/kKDXOz7WdlOKL2GBeG4X44CSiWwNR+BsxP0DXQeW6l2qOu2pu43jvOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uyk7JJTm; arc=none smtp.client-ip=74.125.82.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O1KxNi6N"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12732e6a123so5216662c88.1
-        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 02:02:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uyk7JJTm"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12a80c36350so1032373c88.1
+        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 02:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774256540; x=1774861340; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1774256550; x=1774861350; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+xrYmE2Pi3T7YtcUDRXPeAvmyynPywp5N49YDr8P630=;
-        b=O1KxNi6NcDWwXyuuC+K00379yFd7596tsyRp96TcHOHuBORw63dMbKyfJEveAp9vY5
-         vHJOY5vVi9LVq/dYyd09VDDniJhOECMk3tY0vLmPmrkVAJucoXa/42JuRmN/I+WilplA
-         vhMNIvzjPF0uRdCGTWLxA1TBrHocCuosrhXnnxiD2G83rLwf1kFTj9S4pGHQHYBa/3p8
-         jQvBRSV6McGQtkDIIQdyBspfzcLrmNCvAkxROyovCeG7/DGezoDUXXWokVKej9KQbeGO
-         6TG95xw9aQ2XWMCLSSdshbzXRtyZMMvKmLC5gK1I3omf44r6YzGYtQQrlz76cbD9aaZK
-         lEqw==
+        bh=tg0E61uEdPAy3sHgDaZndNka+4Nyveqsr6678EIZbOY=;
+        b=Uyk7JJTmXtrOOi9pV42OguJldt83APHKG0w/Up3IdwACALVp66ir3E6eYKEkpHYnij
+         BPTpajZ2efyBtH5VnFUNyhvnuIRhDPqQBIUnUXE1182a7TIfzyD67kZcEOvVgTboOOUk
+         jD6Yn7dFB5pdBgFGYfeVI4319nA4s8yCNSayHg5v1GuCtwCs/d2yp3FyJU5uQwiYOeXv
+         goLXjrGadaZEt0th3WgitbgTYsnD+r/E3++JC2Xug9Hu3nVr+fuEdG1rgkxlmZOj9zqw
+         8B3yVxlAikY+2bzC6m4Q8uGYVhWMz+qxh019FIFQSoGtm2r7WGM1vFUFmUx2cmuhZOHf
+         kPAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774256540; x=1774861340;
+        d=1e100.net; s=20251104; t=1774256550; x=1774861350;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+xrYmE2Pi3T7YtcUDRXPeAvmyynPywp5N49YDr8P630=;
-        b=kBBNtCDq/2UBSGl45uFLoT/0hk+MN1VoMRo+Sjy4CqLycKYlixdbrWphDwb1KFgoaJ
-         l+m29qMIYR59d1mGJdwpcnvnd21b9zFF4JURnCntoSuwq84xAV1d0apcrc3C5cOsUvek
-         s2evnBnlv7Wqf+0KnPiWPdsLYpvim8U0CBu3HubKEjSDeIGmc0TrWfIYvoFOSYUVeSDV
-         KuDm5hXO2JllqT+6zvD7g+ANbmqHRAVVjXzNknjPfsEuL6kQAERdiQIbgZgl9+rHT9AX
-         zJZkyIaMkVzRszUYQjQmVZKunkr6uFelh3Yg5okT6K8zeB403q+VzF6BgjNfWWrkHF2b
-         oi2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUFiGvHJaJXS7p2HYPC6NkuhqiHpsrNPSqG/shA8adgiV4M7H59/i12FhaV7XKccuygjgpx1JM0Zt14nA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6oV1CuZfd5NMJ2xeATpolwM3gkK5oXdlxQCWvowTx887Atrme
-	SjkT1OuiRXAEPS+rXBciSw5Lj6laF9SLWrrey3sx8P0qIdG7kQ5rNAym
-X-Gm-Gg: ATEYQzxcfDCBFXsqORo/4FLnFhFeT75PEEf9f0ZhHOMj126zSBgURDgXtRJVCxVxyAb
-	gJllL3ETXQ3YMYtkyDL8Gc2R+zO6UWaFhjn7jY8hhO1nj4/LAgwlgY+9CJIC21aqZq+RAXVtAkZ
-	cii5WdIjNOHfPxre9AbnlR6CIWNFjoe+lDJFUE85BXILrFZCvCB56QxbZA1VrjviV6aDkupBBLE
-	vEW1qCBxui37IqIWkKrrTdmnPTxIBvHLdmSp+DAAmIDo/mYKXrkdReeayFBQuhIva/3GmBYvQN2
-	buGDz28leu/U8aRqOkE3PEcqKtOi3oiY4h947f4x4uDgn26kgpq/wS/nU4dtTkBCZXn4SKbIjU8
-	gatq+/U/27BrwZpwE6hIkHlGS9kluYcHd8hROc2Cv1n0+LuIxviUoSgAcTTOyklxAxjsrWvGejK
-	8rUyF9hzouCZom7Xv/2eqDyRalZZ7U+BIjR+NsQAfK9+Xtxl1UuK0IEQNE7X8ppr+fEHUn+vFOR
-	eOQ984wWkxwhY9wyeBXp7G7cR+Mi35h6cmFHWwOdB0lWY9mc+TahZ1waPE1sqFSlkQ7if1YVvdb
-	sA==
-X-Received: by 2002:a05:7022:68a4:b0:124:9e46:82d6 with SMTP id a92af1059eb24-12a726d995bmr5281257c88.25.1774256539707;
-        Mon, 23 Mar 2026 02:02:19 -0700 (PDT)
+        bh=tg0E61uEdPAy3sHgDaZndNka+4Nyveqsr6678EIZbOY=;
+        b=cUbWoRm4KXBcGvbT1zsj65HluZmXTeCx9xtaQ0i9FutdOp2HsrbdI0TnZAB1j5ijx1
+         CU7Te4xX98h6AAekr7mZt5iODfz9U+e+CiVHivCWVQSLiStcGtStpZgBEQ4mwkzzc7cX
+         s0vTYwSOQUUX0s6ihUtwWCq+9aovYhYv0M0FIapRGKLfndfBXoveGBVkgQ8rIqEHCOPB
+         t4QIrJbPTaZiXsXr8kzC1XMq8dvQkgNjdp/fqY0Kzga/44WQR+LEnbvI/er1y9MlcORG
+         UBkeA0FSp+U7tPVry0xXibGhAxR8TbdruR44Gc5vHfvIY2vYGv3sJZbVqaoynbpF2BK4
+         fFiw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1OtAgCyd7LD4vJ+4Q9Ya3iYuI8O7iwiMF8K2X2X/U6yMJF9ZuVv0ZTy3OmxMLG+wDVyIrn2riTMnWjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4n8O97tOAYvTKgQdQbxWxudp7rr13chwl9pQv8YE1h0fa2pY2
+	63TpZgeDs/lhSdsqO57gCnPFmA3dcNsmdAjiUR4iWu+mhQ4yRmWcNlGmTx6Plg==
+X-Gm-Gg: ATEYQzy0mY37vYDwZZyvAECTWDwBHicd5ieLKO/mKqENb0ZdAwI4+diJZL/ktvDYRRZ
+	A2gOLu3jR1mWtG7qi21YuWGl1t5OMWf33LKibMwu7nSdKCcpZ6L4j8HWRmtLN7iWm1WjVfO0akS
+	BHlcxfyqawHbbdbntjVGoxS55/251GVgQbznPN6VN8pR10qiiyJQEQvO38PEXF1Zo5vNa0Tixwp
+	jl445A1903LtNncf6T4TbfakSgKjzblyrHBNjIXUMZnS2F8K5n4k6YJU9UFo3+fD/GE14XySx+0
+	KRS44SxZw6Db8qC3/9cY5y85ljgY9Z18Zp0YR5KBGzok51sBYsiPnrAntELFzObF0IuzFzqZnTp
+	ur2fs4V0DAMB0xaccPiK9ZYsuYZm/8xqGr8tMpD25VXDcaJr9IrZDrDvhgC6yH8JZW/dZR9DX7z
+	3AWPf+NJAoQWCieiROqIJtQjxelyfmtpFNO9Jwy/FRMzwHWD+U5ozIhjbdq2HZ9TH7IhRuOaAJD
+	qBrIEMyr+CedxH1WYdZ1khBxdbNO3IkkPekDcV8PbpvqFbhj+o83ZQPQL6DEP51jr4=
+X-Received: by 2002:a05:7022:f68b:b0:128:d4db:447a with SMTP id a92af1059eb24-12a726cd01bmr4665776c88.29.1774256549584;
+        Mon, 23 Mar 2026 02:02:29 -0700 (PDT)
 Received: from 2045L.localdomain (90.sub-75-221-98.myvzw.com. [75.221.98.90])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a734bb33fsm8620227c88.9.2026.03.23.02.02.13
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a734bb33fsm8620227c88.9.2026.03.23.02.02.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 02:02:19 -0700 (PDT)
+        Mon, 23 Mar 2026 02:02:29 -0700 (PDT)
 From: Gui-Dong Han <hanguidong02@gmail.com>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -75,10 +74,11 @@ Cc: peterz@infradead.org,
 	linux-kernel@vger.kernel.org,
 	akaieurus@gmail.com,
 	me@ziyao.cc,
-	Gui-Dong Han <hanguidong02@gmail.com>
-Subject: [PATCH v2 2/3] debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
-Date: Mon, 23 Mar 2026 16:58:45 +0800
-Message-ID: <20260323085930.88894-3-hanguidong02@gmail.com>
+	Gui-Dong Han <hanguidong02@gmail.com>,
+	yangshiguang <yangshiguang@xiaomi.com>
+Subject: [PATCH v2 3/3] soundwire: debugfs: initialize firmware_file to empty string
+Date: Mon, 23 Mar 2026 16:58:46 +0800
+Message-ID: <20260323085930.88894-4-hanguidong02@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260323085930.88894-1-hanguidong02@gmail.com>
 References: <20260323085930.88894-1-hanguidong02@gmail.com>
@@ -90,39 +90,71 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The EXPORT_SYMBOL_GPL() for debugfs_create_str was placed incorrectly
-away from the function definition. Move it immediately below the
-debugfs_create_str() function where it belongs.
+Passing NULL to debugfs_create_str() causes a NULL pointer dereference,
+and creating debugfs nodes with NULL string pointers is no longer
+permitted.
 
-Fixes: d60b59b96795 ("debugfs: Export debugfs_create_str symbol")
+Additionally, firmware_file is a global pointer. Previously, adding every
+new slave blindly overwrote it with NULL.
+
+Fix these issues by initializing firmware_file to an allocated empty
+string once in the subsystem init path (sdw_debugfs_init), and freeing
+it in the exit path. Existing driver code handles empty strings
+correctly.
+
+Fixes: fe46d2a4301d ("soundwire: debugfs: add interface to read/write commands")
+Reported-by: yangshiguang <yangshiguang@xiaomi.com>
+Closes: https://lore.kernel.org/lkml/17647e4c.d461.19b46144a4e.Coremail.yangshiguang1011@163.com/
 Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
 ---
-v2:
-* No changes.
----
- fs/debugfs/file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+@SoundWire maintainers: Reviewed-by and Acked-by tags are welcome. Based
+on my testing, reading a string node created with a NULL pointer causes
+a crash, and writing to it returns -EINVAL. This completely breaks the
+interface, making me highly suspect this code has never actually been
+used. Additionally, sharing the global firmware_file pointer is
+inherently racy. I will investigate fixing or removing it entirely in a
+follow-up patch, as it falls outside the scope of this series.
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index a941d73251b0..edd6aafbfbaa 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -1047,7 +1047,6 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
+v2:
+* Replace devm_kstrdup() with kstrdup() to fix allocation/free mismatch
+with debugfs.
+* Move initialization to sdw_debugfs_init() to correctly handle the global
+pointer and avoid overwriting during slave probe.
+---
+ drivers/soundwire/debugfs.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
+index ccc9670ef77c..2905ec19b838 100644
+--- a/drivers/soundwire/debugfs.c
++++ b/drivers/soundwire/debugfs.c
+@@ -358,8 +358,8 @@ void sdw_slave_debugfs_init(struct sdw_slave *slave)
+ 	debugfs_create_file("go", 0200, d, slave, &cmd_go_fops);
  
- 	return ret;
+ 	debugfs_create_file("read_buffer", 0400, d, slave, &read_buffer_fops);
+-	firmware_file = NULL;
+-	debugfs_create_str("firmware_file", 0200, d, &firmware_file);
++	if (firmware_file)
++		debugfs_create_str("firmware_file", 0200, d, &firmware_file);
+ 
+ 	slave->debugfs = d;
  }
--EXPORT_SYMBOL_GPL(debugfs_create_str);
+@@ -371,10 +371,15 @@ void sdw_slave_debugfs_exit(struct sdw_slave *slave)
  
- static ssize_t debugfs_write_file_str(struct file *file, const char __user *user_buf,
- 				      size_t count, loff_t *ppos)
-@@ -1142,6 +1141,7 @@ void debugfs_create_str(const char *name, umode_t mode,
- 	debugfs_create_mode_unsafe(name, mode, parent, value, &fops_str,
- 				   &fops_str_ro, &fops_str_wo);
+ void sdw_debugfs_init(void)
+ {
++	if (!firmware_file)
++		firmware_file = kstrdup("", GFP_KERNEL);
++
+ 	sdw_debugfs_root = debugfs_create_dir("soundwire", NULL);
  }
-+EXPORT_SYMBOL_GPL(debugfs_create_str);
  
- static ssize_t read_file_blob(struct file *file, char __user *user_buf,
- 			      size_t count, loff_t *ppos)
+ void sdw_debugfs_exit(void)
+ {
+ 	debugfs_remove_recursive(sdw_debugfs_root);
++	kfree(firmware_file);
++	firmware_file = NULL;
+ }
 -- 
 2.43.0
 
