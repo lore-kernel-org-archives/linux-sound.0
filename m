@@ -1,164 +1,164 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369F83BF664
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 16:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F2B3BE62B
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 16:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774282599; cv=none; b=gmVi2Mx3F0c/44GNtFfK5cHv4e7KtSFUhZ3URPRtPeryOzaqj7wsZTNLVi7s8srx/FblOmPly1Suj0HXDQcz2AUMIAzbMmSt2bmXR0ENzDjB82Roi/2gZE9vX2Mi9V8QJAjP2aNByQ8/ZcYbQq+vM2zNOHeWjIwVtNgM7kS1iPc=
+	t=1774282602; cv=none; b=C1DRqVtbSHaOAEwDPZbDO6Ax6ql92O2LKP0cmcGa/k0RRGBNjRRuseqjzmej4HxihIV9koV/Y7tGwNAaBus/HuO+s7Dx7I4t7hoO7OvZVZ6eCsO9Q99n6A93WcXHMnc/ZT1mkhP0dARG37lV7S/qbF2UrLdoXWIRVoYAinJ0LqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774282599; c=relaxed/simple;
-	bh=g8+Hj0Vb1Y/88a17yOow0ZjQc6l0noTQuUGZxhIscS0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e8+k4MixeAfGvRfsVr05tqA+jzj+SIm+BxeudHuk9dYeoWU7sIqoSYEaVk78DMTM0M4eyCdLD+dC4Q1ki3/LXfRdXCiQcq+fXlK/v8BBLRmDDloHVA5vf5im14UfjndGGrBAT2yitddybhYfxPSIKN7CAJsPL0nW4XP2rJLm8LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DfL7ZP4L; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774282602; c=relaxed/simple;
+	bh=3hwIS+zPCLF5vniCygeT0FvF1Fbn5HwfJaoUULVHv8w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eXi1wFm/E+rZThNttnMqH4j1QlygIK8VCI6NOHl77MoC5Ph9UkEXvjaOGJI+bfy7UDWIu8/MyC0ZmqsUKg9w4HJmJQfLqy8WpMqFnF7qrS0qMxEIzO7U6LjX2b2aC8St3Z3Zau7dG6ePiZtpy420dv/SBk4qVJjWb3s2AqIf7cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MtRjbgXq; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfL7ZP4L"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-483487335c2so34589585e9.2
-        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 09:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774282594; x=1774887394; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8e14EFbUgBOZGsLZ9xhCm0kYrey9UscJoVzYYnSs0h4=;
-        b=DfL7ZP4Llr92HekVW2kyP2b4s9Qyu1vsgQfyaskD9FbZ4dPGD3IdrcpP8MRCRMo8a7
-         +SmkE5IcF9Kdn06p/ka3nvaVpTn/Gn3E7vMR007RubPNkbHB9BHEiCLL1mBBmqdOHQe4
-         d9K8k+2jQykdskGS3n7+IIh6en0YoP1Ga932SCTkuwiMBwxvssLNxB9wK5qmpn7wfTf7
-         gkdv1nlOvMxZDXi69+SPOv6nEQdJE5LVYvvpgtNh7752gDNBR6jerpk7y/mIdgjUzrE0
-         pIKwOYxI1wimzzfOPyTY6ybPyOySpxcZVKcH0r+NI+Sn/f4sy4bJtgwFU+WTB4e50x1Z
-         vjbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774282594; x=1774887394;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8e14EFbUgBOZGsLZ9xhCm0kYrey9UscJoVzYYnSs0h4=;
-        b=shTxTqa4S6zwTs6mIDmvIl6UIxn2ovQLNjBI1dp8eVZKmXVzA1X1gsEb3d9Xal9rrI
-         6fF2ivN8rNxsehBtB/RKpxt2mO6Re4ZvW7y1NZmzXPIUIAxka+n5hg8gFwXYeUqmWg9m
-         TRhzefzXeHi1BSiVce3ZjVCIy2o/TdXE6fTyRliz7S5GiLH8AofH3McvJruP4CNF+DQ2
-         uerq9WTaRoLbySx1EQ7dluUyYHyfbL3bLblk6oWfpXpG8idc1yMEnnGL3i+wj7ETn1cO
-         1Sep8yBJis/u72UPOYGIpTl7PdkPTilY5PUB15e6Z2hPQ+c0OBeQDGE7n/kaVoTLHCTL
-         PCVg==
-X-Forwarded-Encrypted: i=1; AJvYcCW27TpqyOiX5fd6An2/xYCEFBf53qbFjDzd9EJQ9m3oi7lABFY7yaa/yhmvq1T6KVDIZoKuRvhmOzrYtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5w78qaWJk0LCW7dRHpn+V6a+SSXXBHZ5TtGkh7pZY2ZXptPxv
-	WuBMR4FDm3SBuwj2Wz1kUMuHmdfWMom+7X5kGpzHiu+gBtY9gmB+FnNRNwBW
-X-Gm-Gg: ATEYQzwQeBnuvAbqjppRq5xMM6L+uUrKGxG+R0Wgx+Epdg9j/8K2nX5daZwe0lbNNFK
-	A+e0Fjz9slY1EZ3VnaePB36jLTRxj54Jq9Q8yGJ3/DMvmGZth4mdIGBdROLGSzLd8xt4z9+GqYQ
-	Azn2ZFar+LBBBFfeSPIEOpJ6gLjQQ8/av5yKTFfMA5l9K8jB3yuAS2rGHW3na8llD4LjjA7lSxI
-	stDGjUt71vL8mJDyHqLbd2kHxg8ndwxMi+Sj0WfZ4rJG3/84uJ1gUYRR05agGItK6R0T5qtlyDV
-	atFHUs3HQfNXZlLK5W7yt/PKs0Y76zyhQjAWnMiPPfN9GIzjYNTE5MsAJK+wJNHNWZPg0V9s27/
-	S1CIkyx2fcCs0nHe1v0rOjYgd7AdgiY0aBiCK3EnRSw7LTddTTKPywR4X5hKDVFGMLYKi9YjU0H
-	MXE7B18YVc1HaFU7BXsBnyrJLz0B54YzFG/FfB1rseVZJLY/oMuWdg
-X-Received: by 2002:a05:600c:a59b:b0:486:ffa3:593 with SMTP id 5b1f17b1804b1-486ffa30b26mr96817745e9.28.1774282594063;
-        Mon, 23 Mar 2026 09:16:34 -0700 (PDT)
-Received: from localhost.localdomain ([78.240.51.139])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8aacc73sm331863395e9.0.2026.03.23.09.16.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 09:16:29 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-To: paul@crapouillou.net,
-	linux-mips@vger.kernel.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH 1/3] ASoC: jz4725b: Convert to devm_clk_get_enabled()
-Date: Mon, 23 Mar 2026 17:15:49 +0100
-Message-ID: <20260323161551.47181-2-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260323161551.47181-1-jihed.chaibi.dev@gmail.com>
-References: <20260323161551.47181-1-jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtRjbgXq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774282598; x=1805818598;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=3hwIS+zPCLF5vniCygeT0FvF1Fbn5HwfJaoUULVHv8w=;
+  b=MtRjbgXqImuylp5KEEWo/Bz4E7efhr9CVzDp2rGQJvQ+2Izw5mhwtnSZ
+   qVZcaxm3MCy/XPgml06bQr4uycQzHSCT7lWag3MObSG7iR4AVzu8o5a4k
+   bZSNdvspb7w40NSf34edyPBgIjHmt7vRH3qy4CYyNygefKFC8juXkwdkq
+   0jpAAh1CMu3axkRJIOYcUpoO3DiS3AROUV7IW4sRfMRAF+/o2y5+4/pPI
+   xSnqKKqQUgJ4lpGS8IVvG9Ddp0MKmDQlYQfFhFfFm40hPlK0j4YjCN94I
+   ap0yEZGOBpLY0dmzRA95EZlwcug6VSR7ZL8HzL8Zb2CsUAA1u9ER8+OgA
+   w==;
+X-CSE-ConnectionGUID: EyLnydZvSneUC+f3De1hHA==
+X-CSE-MsgGUID: 2LTjJBhlQ8KG2ShccvXkFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="78881714"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="78881714"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 09:16:37 -0700
+X-CSE-ConnectionGUID: g/nGMyQVSX6hNJiwE2B0zQ==
+X-CSE-MsgGUID: PiHb+PFGQyu+4CeuaRI2JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="219228521"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.244.12]) ([10.245.244.12])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 09:16:35 -0700
+Message-ID: <8fe7f61b-dae4-4ae6-aa96-7e604a37e624@linux.intel.com>
+Date: Mon, 23 Mar 2026 18:16:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The clock is obtained with devm_clk_get() in the platform probe, then
-manually enabled in the component probe and disabled in the component
-remove without checking the return value of clk_prepare_enable().
 
-Use devm_clk_get_enabled() instead, which combines the get, prepare and
-enable operations into one call whose lifetime is tied to the device.
-This removes the need for explicit enable/disable in the component
-probe/remove callbacks, and ensures that clock enable failures are
-propagated as errors rather than silently ignored.
 
-Remove the now-unused struct clk pointer from struct jz_icdc and drop
-the empty component remove callback.
+On 23/03/2026 16:54, Jaroslav Kysela wrote:
+>> Or should we add a new member (carved out from the reserved section of
+>> hw_params struct) specifically for this purpose, like dma_burst_size,
+>> which likely going to be equal to fifo_size if both is filled by the
+>> driver.
+> 
+> I would not change the fifo_size definition at this moment. It's not
+> directly related to the sample transfers. This value just describes the
+> additional latency for streaming.
 
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
----
- sound/soc/codecs/jz4725b.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+Aren't we have the delay reported for this reason, which is actually in
+use by user space?
 
-diff --git a/sound/soc/codecs/jz4725b.c b/sound/soc/codecs/jz4725b.c
-index 39cebaa167be..8a7d26a08c03 100644
---- a/sound/soc/codecs/jz4725b.c
-+++ b/sound/soc/codecs/jz4725b.c
-@@ -160,7 +160,6 @@ enum {
- struct jz_icdc {
- 	struct regmap *regmap;
- 	void __iomem *base;
--	struct clk *clk;
- };
- 
- static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(jz4725b_adc_tlv,     0, 150, 0);
-@@ -405,8 +404,6 @@ static int jz4725b_codec_dev_probe(struct snd_soc_component *component)
- 	struct jz_icdc *icdc = snd_soc_component_get_drvdata(component);
- 	struct regmap *map = icdc->regmap;
- 
--	clk_prepare_enable(icdc->clk);
--
- 	/* Write CONFIGn (n=1 to 8) bits.
- 	 * The value 0x0f is specified in the datasheet as a requirement.
- 	 */
-@@ -418,16 +415,8 @@ static int jz4725b_codec_dev_probe(struct snd_soc_component *component)
- 	return 0;
- }
- 
--static void jz4725b_codec_dev_remove(struct snd_soc_component *component)
--{
--	struct jz_icdc *icdc = snd_soc_component_get_drvdata(component);
--
--	clk_disable_unprepare(icdc->clk);
--}
--
- static const struct snd_soc_component_driver jz4725b_codec = {
- 	.probe			= jz4725b_codec_dev_probe,
--	.remove			= jz4725b_codec_dev_remove,
- 	.set_bias_level		= jz4725b_codec_set_bias_level,
- 	.controls		= jz4725b_codec_controls,
- 	.num_controls		= ARRAY_SIZE(jz4725b_codec_controls),
-@@ -618,6 +607,7 @@ static int jz4725b_codec_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct jz_icdc *icdc;
-+	struct clk *clk;
- 	int ret;
- 
- 	icdc = devm_kzalloc(dev, sizeof(*icdc), GFP_KERNEL);
-@@ -633,9 +623,9 @@ static int jz4725b_codec_probe(struct platform_device *pdev)
- 	if (IS_ERR(icdc->regmap))
- 		return PTR_ERR(icdc->regmap);
- 
--	icdc->clk = devm_clk_get(&pdev->dev, "aic");
--	if (IS_ERR(icdc->clk))
--		return PTR_ERR(icdc->clk);
-+	clk = devm_clk_get_enabled(dev, "aic");
-+	if (IS_ERR(clk))
-+		return PTR_ERR(clk);
- 
- 	platform_set_drvdata(pdev, icdc);
- 
+> The new member seems like a good way to go with more universal name like
+> 'chunk_size' (in frames) defining the transfer granularity information
+> for the PCM buffer I/O.
+
+right, but (I think these are the main issues that blocked any progress
+on this) this is not really about the chunk_size, it is telling user
+space what is the safe distance from hw_ptr to modify samples without
+the DMA jumping over the area.
+
+I know how SOF and tlv320dac33 does this, they have one overlapping and
+one-one different modes
+
+A. nSample mode (SOF with bigger than 8ms host buffer or dac33 MODE1)
+initially fill the FIFO, then when only threshold amount of data remain
+in FIFO, read N number of samples then wait for the threshold to be reached.
+
+B. keep full (SOF with less than 8ms host buffer)
+initially fill the FIFO, then whenever 1ms is free, read 1ms
+
+C. two threshold mode (dac33 MODE7)
+initially fill the FIFO up to upper threshold, then if the low threshold
+is reached start reading data until the high threshold is hit, then wait
+again for the low threshold to burst again.
+
+The initial burst for A and B is equal, it is the size of the FIFO, in
+case of C it is somewhere above the upper threshold as while filling the
+FIFO there are samples played out, so it is a moving target, sort of.
+
+But consequent DMA activity is different:
+A: it is nSample, which is smaller than the fifo size
+B: it is 1ms
+C: something about the diff between the two thresholds
+
+There could be different FIFO and burst setups out there, but in all
+cases the fifo_size is something which is a hard safety limit that
+applications must be aware of.
+
+Fwiw, ASoC collects the delay from CPU driver, codec driver and also
+from platform (DMA) driver, while the fifo_size never been configured,
+afaik.
+
+And the fun comes when we give numbers to these! Let's say the FIFO is
+100ms long and we have the low threshold at 4ms (start DMA when only 4ms
+left in FIFO).
+A
+start: read 100ms, wait
+after 96ms read 96ms, wait
+after 96ms, read 96ms, wait
+The hw_ptr after 20ms after the start will be at 100ms
+The hw_ptr after 70ms after the start will be at 100ms
+The hw_ptr after 100ms after the start will be at 196ms
+
+B (theoretical as SOF only uses this in 'small' FIFO case)
+start: read 100ms, wait
+after 1m, read 1ms, wait
+after 1m, read 1ms, wait
+The hw_ptr after 20ms after the start will be at 120ms
+The hw_ptr after 70ms after the start will be at 170ms
+The hw_ptr after 100ms after the start will be at 200ms
+
+C
+More like A, with reduced fifo_size, but that is a variable size.
+
+Application must keep 2x fifo_size distance initially, if you plan to
+check back in fifo_size time, B will be at one fifo_size ahead already
+for examplem, but with A if you check at fifo_size time again, you risk
+to race with the coming bursts, so you should not poke too close either..
+
+My idea is to tell user space to keep fifo_size of data as minimum, but
+initially this should be 2x fifo_size. How to document and do this is
+still not clear, but the only thing the driver can tell: this is my
+fifo_size, I burst based on this number.
+
+And I'm really bad at naming things ;)
+
 -- 
-2.47.3
+Péter
 
