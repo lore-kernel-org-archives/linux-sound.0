@@ -1,82 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7226A08F;
-	Mon, 23 Mar 2026 14:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BDF1A00F0
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 15:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277548; cv=none; b=RdFmkK2sf1oDpuzjUqpO4PHLSG9Yrg7Y7qYsqwERLczFqG2h3qGXEar+1wtqqUWcfreJAa/No6Oe+uCYemVGIya7UKjL+DAs+dcLEn8TFHx77N6H0nbVS+Jh+jH9dmHioOnpGQiGbl7Td2pHnNgAOhi4LcH4Z8c4FMu6KNiT0Io=
+	t=1774278039; cv=none; b=hPwhOaOHmfUhmW++ZPMmzVWxd4fRh/YDrmMyYWfMUFAIH7AQXZOha/hnE0CCaCQW0HWFKFDvws8omb5t4ipLu5rRLbrbUWf1vCa0DF6oPfA7Ct37/XAxyjfiamB70+yBllOTxnAOxbIw/WmPG7Zhd3gAWJn3oReqZVCVkrk4Zs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277548; c=relaxed/simple;
-	bh=NL4Y6qth4SD7yHlMhNBI27PbrOF2zuL+Rk5f2Ub44Ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=okXXUNKlijDfgiBDh1SLkL6V3lB4nM3UDDze0hExrka0C86A8CZiDOd5bZYdT67fdXFcDluGmb/aNNzqz4KsEV0xa3SIVM/9IbptUEXoN1CRErqiuBrA7vd2DVFoiqJTsBuygmKfCdEjE6xR8a4NPxJphjDXFabiJDMpU2W64zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eV8Uxsqy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774278039; c=relaxed/simple;
+	bh=2mqee9r2l5hx8T5NOZsi4eeArFsyiUBION7SIFEYw6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SiRXJ2bo1MYVDvXJYGkjG0o4Nnrx2z37Y4NvyPpp0lHkIODTEnaJKRf5B5GdEfpKaa6O2IJndBFc1ZKhq+ySpZQkUICa1CIaTYN+tjlkbkB5Gql1dnd5c9Vz6D6SsXxDj5pTQMEXm259L7WXZsW+aFlgCvar8P7SHMNLIN5YQo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=IiYjDcae; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eV8Uxsqy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94959C4CEF7;
-	Mon, 23 Mar 2026 14:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774277547;
-	bh=NL4Y6qth4SD7yHlMhNBI27PbrOF2zuL+Rk5f2Ub44Ts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eV8UxsqyFUhPkmWN5wIesM31N4EUIEKaL1pOIn/kvUDgyx9oUTFo5En8o80iVOg1I
-	 E7DLG2W/VYgTNIrwMgZbyAwNa74NPJXISqFzAtVYRihvsNnttTIT66XgzEjQRo74Xd
-	 a/LdmCJRMfGnuBkPstsze3IsQTzXXKOe7uGl9sMaK53NIMIi2SPKpxjkb8CZjDAT1M
-	 xu91j/sEXUGQj30IXpJJPGK3qAQX3szr2OYXj6dSm3m/K4PKggiJJactUHFLGEMM2B
-	 V5uL2pMSTs0jukIXVvqSMLO/yP3C2Gkmkc/u/138ZzkjVxWfwgWXEVb2Yg3G+oAnry
-	 ntWf33lUAhS8A==
-Date: Mon, 23 Mar 2026 14:52:23 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, perex@perex.cz,
-	tiwai@suse.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: soc-topology: fix __le32 conversion in printed
- values
-Message-ID: <2167f1c3-3577-4e76-98f2-81fa829f5164@sirena.org.uk>
-References: <20260318163427.1083470-1-ben.dooks@codethink.co.uk>
- <6c2114d1-cccc-4857-b3a4-3fdcb9932c76@sirena.org.uk>
- <bf59d766-d081-4548-b347-d2b40e1b2ba1@codethink.co.uk>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="IiYjDcae"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id DE0D66B92;
+	Mon, 23 Mar 2026 15:54:54 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz DE0D66B92
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1774277694; bh=FPQfVYlbVqPhuhHCPT9V5SLzrDjx/wluW7amg96t2hE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IiYjDcaedHmfew8AlJyAOPmgnoOnuls8YPaO0YO+g3IQHB12t+ja+zJOX4yNWPTRt
+	 U35j/nlSlkvaJU+yH+c0LLh89J6fX3qtty92KbeEfZq4qd2EAfKEvsq8ZeU7r8+D6t
+	 6TI45AZAoM5z8AAmEkZIuk9EheMgDtGch6fY6nGg=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon, 23 Mar 2026 15:54:45 +0100 (CET)
+Message-ID: <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
+Date: Mon, 23 Mar 2026 15:54:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SUAgFDnPqTFDm3kF"
-Content-Disposition: inline
-In-Reply-To: <bf59d766-d081-4548-b347-d2b40e1b2ba1@codethink.co.uk>
-X-Cookie: Avoid gunfire in the bathroom tonight.
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 3/23/26 14:34, Péter Ujfalusi wrote:
+> Hi,
+> 
+> for years the discussion around jumpy, bursty DMA have been popping up
+> and we always concluded that we are missing a good definition and agreed
+> way between kernel and user space to handle this.
 
---SUAgFDnPqTFDm3kF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi,
 
-On Mon, Mar 23, 2026 at 12:31:31PM +0000, Ben Dooks wrote:
-> On 19/03/2026 13:58, Mark Brown wrote:
+thank you for taking care of this issue.
 
-> > The format string for the type got converted but not that for the
-> > payload size, both of which got le32_to_cpu() conversions.
+> Or should we add a new member (carved out from the reserved section of
+> hw_params struct) specifically for this purpose, like dma_burst_size,
+> which likely going to be equal to fifo_size if both is filled by the driver.
 
-> Thanks, since there's been no-other reviews shall I fix and re-send v3?
+I would not change the fifo_size definition at this moment. It's not directly 
+related to the sample transfers. This value just describes the additional 
+latency for streaming.
 
-Yes.
+The new member seems like a good way to go with more universal name like 
+'chunk_size' (in frames) defining the transfer granularity information for the 
+PCM buffer I/O.
 
---SUAgFDnPqTFDm3kF
-Content-Type: application/pgp-signature; name="signature.asc"
+					Jaroslav
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnBU6cACgkQJNaLcl1U
-h9DNeAf/S3pjXUE2rwYVQGg67zDe9q65znJJ90x3A30dqvJgpHm65Z2wQrvl+7N5
-Bx9haYiafgwtbNi2gAn6s87FSjjFmMGrQZsJxyYMFAIGB9a5guj6ZOcJDy/RpTdy
-tjMa2pbsveOk+NVfir/wnpbfZfLJV1RU4APuhgy0fvtV5iM7aJ+S/aA69IYJdEIq
-DASDYNOm9YGKu6Hm+kC/wppx7zdAqZM/OkFW3TlLH1lXtMk9v3af82ZuJ3eV4Vab
-q+C1gvyhlNdevbKd/wfbyWpnxyi2e+7kWlDCcqaXiUnEKFMxLhes6XjI5Z+4fOj0
-lMthUzyZR8VtPMf/QKLaUWF+pN1Ngw==
-=jE2l
------END PGP SIGNATURE-----
-
---SUAgFDnPqTFDm3kF--
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
