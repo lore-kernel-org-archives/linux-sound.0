@@ -1,150 +1,255 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011020.outbound.protection.outlook.com [40.107.74.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093413314D0
-	for <linux-sound@vger.kernel.org>; Sun, 22 Mar 2026 22:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774218369; cv=none; b=V7DJXGL6Fl3s9N1ou1v1x7gUWTRcfDIl5fBrro1w4+mg56adbm8/OdN8SB/rwPSM3483dzFbxiN3daE5G9wSn7PEHtNFdSet+8r3J2vgG0ZYv0tdbUN03APiaAjIgaxgvTqLlNUUepT3/il+LptjZwZkiOwS5wWlvlYqwGa7LH4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774218369; c=relaxed/simple;
-	bh=ELcx204Cby/dJnsY8H4NrZVX+UUsPAla3X1U1xwxuPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V7K6Fgw9INwCyY7oQPQ7cl8oEPZ7riZ4OSDKHqhaDZ2PnxfQ2PeDhlRGcGtudO7NvpUbXmTTsF61u/aH9+NdQXngo147CRpWwtPqbOOE8l4r2ebDZcaVz54RV6AjlnGFPAE8SZwDNUgrC8D/6BBBaPdDHQ5eMMikm/D6uPmvRco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h6+E9+uL; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA06286A4;
+	Mon, 23 Mar 2026 00:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774226849; cv=fail; b=samRdlAhwDU/+3h8Y+mBVejm18dBtNDB2Q4Sl3rv+vDLV4Oq+PctvnKL2DCZX9tJgZlAAZVfvxAr8pOeRpG26ltswhI+sYSVbEB2LOkk93YTHy5pcYh8a5EA7ZkyE5kGhOwUtlEfRg67hvwSG3X6lUg3kZ2WtlPkkitU/xjKTYA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774226849; c=relaxed/simple;
+	bh=/x+YXy04o5xhxKToWscAd2fQ2UnIV3Vgvdm630q9N4I=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=H9nEXxB3yqsuejpUCENCYcAkRrh68WqjuPG/R+tFQ0xHuzcOq+tGoSq+3P57VPVCV/wVu53s3UuWcwxl5qVcGyxv3S5KxE6CievlafeZmLHJD+tKFRowIaYaXxvf31n4TLvcc5wvLQgAG9NPgiy2CK9qM/S98uzHYPKIDU3zt64=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=k+qvMZ3M; arc=fail smtp.client-ip=40.107.74.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h6+E9+uL"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c0f754e756so3426018eec.1
-        for <linux-sound@vger.kernel.org>; Sun, 22 Mar 2026 15:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774218367; x=1774823167; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+mst3cEdRUvZvV8FPAK+ab6xPtMgdVjX2HSYh8y/2ug=;
-        b=h6+E9+uLA8xRXNgJferHczQafyyNfWNDUBvAT4x0tADovM1UnNssK7ZVWrjyvYG82n
-         Am2bw6wx3hSf2XkDhk8z93gIdfdRT5bMOzuapMmK2n3Xp+aSv8B3jQf5lliuOAeM6BaO
-         YaUtkUyAay0I8wYaSqZPGvsoQ7M5JmNqQkcfNrIwVbwfIzAGeW3o8GGYwyvDCr+RK3TW
-         wus0I234JZvMLDHBR7LSi/4r//62KExFUSPOXXndjXv3DfrX04UBwt4PAs+sMNQ0yJ3c
-         +5uTEUOkVhomhMkKraS7iP5Iz84IhS0t6NqKzSJBOs16ht0izRnh8okWM4aR/76An0ch
-         Hvhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774218367; x=1774823167;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+mst3cEdRUvZvV8FPAK+ab6xPtMgdVjX2HSYh8y/2ug=;
-        b=HUGymA1KtmUc75DZARqAQbWqa9mYvAfFzBU/i/BCgK2VOgyduJSic58F5ocwLZMp0i
-         jTk9Yo1rODjInc8fHIfKBeaDE9Bu/S2LvqmOMm4kex+XDT+gjlmw/vdyOw15qtJdhZJT
-         MaJtQEPdeGSs4GigJxboKmRVyhVHPgp30Zq+2m8Z9UNweOSKeAPPqz5D9tvLBFxHl9fQ
-         AcqMNX4e3R/XrfieA2IXfQav4snzKuUNnw8lh2bie2WqQyQ7mTUPE6b2SbpUEclbWlfz
-         4iNPAoCeb7KSjHmpIpXTkWncEpaBNTMJHRdn70T44248SkEK5EVDPlwRuGIoDjtb1dXQ
-         VO+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXzJBHf1ghv8mGJ8VfBslA7OzWNlBPXqz+htGJLLWX7IpALj6QRltq2xqVhHhgU2k9NEFtws2GWyfsUgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWihWGTpq+jKtNUNU4jiRprdyrQc69UfIwvVE0IDdm7aizFihm
-	NC43h6FqSZCzlYOGZn0gEGF2oZypvOdcfBljkKGH6XO0oTgwyc9AY7I0
-X-Gm-Gg: ATEYQzyf0ExKifpCbybaEvloslWccRMZBI/t4jXr8ooKGAMH0ApWXRg8nvKBGiKxqPk
-	TCfRY9gdzncm7ZJWETl69yLKhzCvtnHLzmzE7tYsvG4HKG1tMH5UJEor64fNeKId5OrpkBJeUjV
-	AuWLAO2lZTgMMu+2mDjp8IUj7YmtXyLdFJgzhVH+Qfdr0bLFQTPBRCF6Zb7huqwh4Lsfj5VZ9cY
-	KAaC1xDJoYfDeUCBszVaf2NTZgRVcS8ZI3RfXpP+5ha/fWO3Ocl51tRTEWWB32s4Uo+Aje6YIZo
-	BH+mVK9p26MK/t6EVCxN1lMl8zY8RLvgd2c9zZxOZvTdCO+jO+U/drxD2oAQn/baJNV8cYkozB9
-	voMcDQk4WMw5kqZsdB/Rn291xtDzqomGo74lAT69WZjOMzXcjrgVfjqXnZq/CM4EtQSih6hEkWJ
-	y2tqh5+1O7pfJ9ZIw1yPZ7wok9t2L7y4OUVB2ypSdxAJGjAfQ5OYsBqhC/vaKBNBj9
-X-Received: by 2002:a05:7300:aca2:b0:2c0:be45:6815 with SMTP id 5a478bee46e88-2c10981e483mr3694786eec.32.1774218367042;
-        Sun, 22 Mar 2026 15:26:07 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:b768:22ed:3eba:aeb3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b31bef1sm13678234eec.26.2026.03.22.15.26.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 15:26:06 -0700 (PDT)
-Date: Sun, 22 Mar 2026 15:26:01 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Romain Gantois <romain.gantois@bootlin.com>, 
-	MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Peter Rosin <peda@axentia.se>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Mariel Tinaco <Mariel.Tinaco@analog.com>, 
-	Kevin Tsai <ktsai@capellamicro.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Eugen Hristev <eugen.hristev@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Sebastian Reichel <sre@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Hans de Goede <hansg@kernel.org>, Support Opensource <support.opensource@diasemi.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Iskren Chernev <me@iskren.info>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Matheus Castello <matheus@castello.eng.br>, Saravanan Sekar <sravanhome@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Casey Connolly <casey.connolly@linaro.org>, 
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Amit Kucheria <amitk@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v2 2/2] iio: inkern: Use namespaced exports
-Message-ID: <acBsI0PxvxDGymCa@google.com>
-References: <20251209-iio-inkern-use-namespaced-exports-v2-0-9799a33c4b7f@bootlin.com>
- <20251209-iio-inkern-use-namespaced-exports-v2-2-9799a33c4b7f@bootlin.com>
- <20260111170222.43aee69a@jic23-huawei>
- <20260322122529.62093f12@jic23-huawei>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="k+qvMZ3M"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RwRLDJeVUNMnlzKCL7zdGT4FU63wU2fgXeB6IObygQFG4qZo82Cox8pUVZDHbrCvm2l0qIE9CP2oP6UESGbvNb24rMVTlVQKqd1K9xM/trvukz2qhQAAqtWi7UFZ/YrIkf//N0md7Tt3AYpZS19Rg+VfBWNggkN89nqdN0xvL8zNJFGwmW4iip9+3utAb+M9vvM7yh3P2yE01G1aIgT0qKolJLPo8s7ctwzmfBewL34tkCE1x2YrxoGdqkxz8k1xYwH7oQYIYhbjv3l5/50bOoB3AVsxF/7VmReeUuOVTI28a6XqGIZf1gUP0NuooWgXNlyC0yv85QcC+KIFCINqtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Orj5RXPCHMOXEOx1CvYsWLqdAKT6D3IbBy8xiZVPgD0=;
+ b=Wj9xHQzIePX2eJySyjSVYDgGK0ZL7iIOrpOJeDQYLw85KtYmQVbxiGP6M5W4chMYVSHNXmD4b0F3xuPFgv7o2UW9MASEAjuXwGXY66OgqinajLBWPyfcpLuzfjOSFeBxn7bhfDQ0w9JtG5RGZrISlbSpHwxsPI+pJTv7YZLuVNXL18j+4ps1TsJFpz3FSyi7W+xGLFV2tNDCjlHoBqVoBLx5P0iTNn8BPuq98YNWks75glP8YX2rzGBY8reC9k0meivZYV8YdLyw/PYVoL8/0X62L+Jq9JbxiWK2NyfLzgeiZ3zQbYr/qSpn9uZiQHWXDaTQaFP80DxJqa0++unDuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Orj5RXPCHMOXEOx1CvYsWLqdAKT6D3IbBy8xiZVPgD0=;
+ b=k+qvMZ3MC6qqaq3rAdmFiB/Uy6tRtBV0VUXKhcQ/tFzDsol67LqefM+E2ooazLkEJzeSRv0m6LTx6eBfCn6O2kN6K6PR1p4DE+RPT7X7IRwXdMMRRkbZwPKcoxvuU6ANUAdhJSPcF3OW5NoJK14VoN3y0Dmu1v+dYKhG7Bn5KqU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYRPR01MB13759.jpnprd01.prod.outlook.com (2603:1096:405:219::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
+ 2026 00:47:07 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
+ 00:47:12 +0000
+Message-ID: <87ldfj9xt3.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Vinod Koul <vkoul@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	John Madieu <john.madieu@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 09/22] ASoC: rsnd: Add RZ/G3E SoC probing and register map
+In-Reply-To: <20260319155334.51278-10-john.madieu.xa@bp.renesas.com>
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+	<20260319155334.51278-10-john.madieu.xa@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 23 Mar 2026 00:47:11 +0000
+X-ClientProxiedBy: OS3P301CA0030.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:604:21f::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260322122529.62093f12@jic23-huawei>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB13759:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8acd109a-eee7-41e6-8b73-08de8875b8b8
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	R9e/nFz9pD9UGGnbDcjJn31n/X9BRsFc6bPKPZUGx3h9XEuuQEMbfVqmOCgyV4mC6Fjof11DTnGDrHDPdEpc2O28VUCXMy+ZB2z+QY9F2SB0y/n3J6C0UittbqLpUot13edeSn9Vr9rJ5Q+v38L5kgeiaM5RBw8ua6n9S1VH+v2y3EtmPll2i5N3nFr1Bbx5tpauZZoRZjp+3KMtASCZWSiNKPhhsd2gJm+j7g3XBeDFi0nCkTJDxwx0N1pKSdq0WvnuxQxf/0iHKSeCtLSU7TuPy341Gv8c0Y8yuEI03uvPw3LmMtA5uxKwWn2Mq6obrODA7QhKhMH91p6n/3yxvBw49jxTeXCr7aK+2+Ch7ZWD28OGmwgnzunajtukGjvrxhuWUKUzz0NMZw/qacHkOX9mLa/K0u7EfkLFvDTopZUDDdc/fq8iEX1VtzAvO1sys9BGfLGzHMfG6BkNxcOvunqMEwfuwsl8OPpgfCutrvzRW1dRVPo8cNyC6yghiB+p90N4OphsxHjc5aQIZ8337jY9Duf/LGQnp0zXUJxcqE4N73cQ2DzHD1ksCUxmZlY93OQPnqLoYV3akSgniNnHCn/ffY1VY8+MnFHEN0hKsIU8IXPIL5uhxRm2q+BD4tCS+yj5m6XrKF9SgPMDbtCbKmmDBllYjsgzsLZAfgP6d21Lw93mdxQYbebrkXqu9j3khFA6kMvfdfYsCwVt2s2Ud1yDW8QOaqCU3vvOSRCMdd9diplHieE2ozps83ufwAKVyLDjg6mRWUFRnMhfQPknP+6YQXR6K2RNe2c4iaOnH8o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?iqoZSUDGlUjQlx3i1fmBa4YwUDKIoWRN8seuuedv9FLta7cVSOQkCJ2BEc97?=
+ =?us-ascii?Q?X3pl0mctDf/uLQ1MzwXiyzG9Yt691vsMt1ZJy9mWNdcVRIvYkkfjgtCTEAnC?=
+ =?us-ascii?Q?taFrN4i2KNwL64kz7kDV7aQ/eUfKmTU4AFXc90oFea2AylobJ6M9Ijs8oljv?=
+ =?us-ascii?Q?YYnb0EG8RGKkAFHw6dYFckgJ8SGkLv5wT9mkcmSoCUlMuJGWv0M3X3PLz9Ls?=
+ =?us-ascii?Q?G2+BURh/qHiA5Vfd8trZJaEEN2mUDJF8jB0WjH3c3lcgzs2ifZBT3zB9aapf?=
+ =?us-ascii?Q?FIz7SgQPe6Nm4YHaSR7BkBtMvsCtZsbCcD6dDh9T6RPX5LlwSp+yXfhwfj7A?=
+ =?us-ascii?Q?BLEktFAiqemp0xYjffq3dDCXUS7q7VElZvA7rruy5lDFqW0/gbtDhop5V2sI?=
+ =?us-ascii?Q?2f9k3s5BDSCWGuAETFtixrWu60qLZZyv+WrP8G1cDOS5xSTkERHcHZrXIUYH?=
+ =?us-ascii?Q?uDnl1JRVBNNo7tr9B78/U/uCEPPKkRTk0I82TqVRRrtJelmcOaXARTs7rOCH?=
+ =?us-ascii?Q?mxobI6Lf9lAR8tJ6S6nr+Bpjf3foCfC/iZNu7/YcMM9p/rUKLxKpJ9t0nuJj?=
+ =?us-ascii?Q?4QwsCNvfnLFMvzolfMSLwC6f8vvbLg6/HJIVxDtLVBYPur7xgKtz/Dav5Cy3?=
+ =?us-ascii?Q?6wPUrFxROQwXslf2NS3nfsFmBwkKnJjCBYoM3A8Dd25pSx/HyDwPR8Nrcdbm?=
+ =?us-ascii?Q?hQgjIZN9emeWjxnebmCilbF2oOJayRdohj6ahlGaD6d1s7m2puis6X+A/Anf?=
+ =?us-ascii?Q?hU18KrKXjV5WqrSFTC6WiPQD0fBfdq0W5B7RvY9cOGnGHR1P9jlWgQekpE3/?=
+ =?us-ascii?Q?6Hl8vMP6NgMj6Zu1BzEFpz16hIAEZoGMcgboHxiCbxqHubLeBFJ0gEsC8jYU?=
+ =?us-ascii?Q?laiVm5pd37KjI6GZJyw026oStVWqmGwInTrCVE/TKjPoKd5CFziv3kwjcEuq?=
+ =?us-ascii?Q?xmIWzTSHpbO4zbcLI6ieJc1U65BLImBxghRFkMK7a2IqVe01or75PcD7iQ8R?=
+ =?us-ascii?Q?I45lW9nHAJcm3gqWdGh2M8E25Gqg75di8MmDjHp70uXC5Y7ebHRwOjTt3TjP?=
+ =?us-ascii?Q?sC42zziEFIGE9o+yNHQIGXP5pZSzpfVzyrKmA8D+6ExXXNZ93DjLhkd9fvaM?=
+ =?us-ascii?Q?0CP1TOqHp/O7tqpDl1i8rg0SPvJUeeaFGUq9L4cj5xXsQAprpuwvTBmbrHHX?=
+ =?us-ascii?Q?CyPVXUCg3rYSiuwzyFVqlHu+uzS/37TvV/L6bVbPqir/AbViK8r54aO9tTik?=
+ =?us-ascii?Q?iArOOAgWSnM3znmvImT+QbH7bJhBhOwwVbAzIK1iaKg7rqJeV3EgKZ2Hh28y?=
+ =?us-ascii?Q?3PFvzRS9eC1mOnZ0WqB0kNil/hApQCFZ4EExwuxiSgprBsbB2Gkl+RPPV7zv?=
+ =?us-ascii?Q?GqV1a/fQZ45Am94PbR5eAH5S8OsTrDCIXNO/FpDonQqWfz3m4MdNCHwvIe+5?=
+ =?us-ascii?Q?FQn7sHdGH/Et72zz72Rplqo+IYbVwDNdLwpjP56gfHWM1MrWa7e+C3afhpBL?=
+ =?us-ascii?Q?kFO/ewakZ3mKb1XHa+cou2ydf7VCf66eQL5iV5mEoK6C6nasRITkDJ+sx0tV?=
+ =?us-ascii?Q?QErePvYKkZcvVwV/3w0DS8QJoXFSkQ44N1NbVjOiyQqXmNjMAoww9aeiXZH6?=
+ =?us-ascii?Q?XlcKw89e+FdnFy0GN/0KC5UNwQvh0TC+tFoGCxJBf7c7F0quvkLlMTsdnpIp?=
+ =?us-ascii?Q?jfrwygoRSYBprDzSo9EU7Ki510Jccdkg6jv1bZpP5HT5A3lqm2nWNR1nDOm3?=
+ =?us-ascii?Q?Kl1XLQVYefbKAtPCfvhG6hHdTdSGE7CDCWqHwxTjc7OsMENdq/cl?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8acd109a-eee7-41e6-8b73-08de8875b8b8
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 00:47:12.6610
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BGiWULuU2JUVenapjHLh6umxLuh0fi7u2t7HAo6VOowKuG/kFux/UPJ88reJ1HMX6yYZ5simreOIdDnvr1A662WOvueaOAUxjVOaesoUDcIv4TBf7XW3qw4L7pUkBS2x
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB13759
 
-On Sun, Mar 22, 2026 at 12:25:29PM +0000, Jonathan Cameron wrote:
-> On Sun, 11 Jan 2026 17:02:22 +0000
-> Jonathan Cameron <jic23@kernel.org> wrote:
+
+Hi John
+
+Thank you for the patch
+
+> RZ/G3E audio subsystem has a different register layout compared to
+> R-Car Gen2/Gen3/Gen4, as described below:
 > 
-> > On Tue, 09 Dec 2025 09:25:56 +0100
-> > Romain Gantois <romain.gantois@bootlin.com> wrote:
-> > 
-> > > Use namespaced exports for IIO consumer API functions.
-> > > 
-> > > This will make it easier to manage the IIO export surface. Consumer drivers
-> > > will only be provided access to a specific set of functions, thereby
-> > > restricting usage of internal IIO functions by other parts of the kernel.
-> > > 
-> > > This change cannot be split into several parts without breaking
-> > > bisectability, thus all of the affected drivers are modified at once.
-> > > 
-> > > Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> # for power-supply
-> > > Acked-by: Guenter Roeck <linux@roeck-us.net>
-> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> > > Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>  
-> > Ideally looking for a couple more Acks.
-> > 
-> > If any of the maintainers of other trees who haven't already replied
-> > have time for a quick glance that would be great.  I'll spin an
-> > immutable branch but I'm not really expecting any non trivial
-> > conflicts unless there is a new user in flight that I've forgotten
-> > about.
+> - Different base address organization (SCU, ADG, SSIU, SSI as
+>   separate regions accessed by name)
+> - Additional registers: AUDIO_CLK_SEL3, SSI_MODE3, SSI_CONTROL2
+> - Different register offsets within each region
 > 
-> At this stage, given I'm still waiting on replies from a couple of
-> subsystem maintainers, I'm thinking we'll do this next cycle and I'll
-> provide an immutable branch based on rc1 for anyone to grab if they
-> run into merge conflicts in linux-next.
+> Add RZ/G3E SoC's audio subsystem register layouts and probe support.
+> 
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+(snip)
+> +	static const struct rsnd_regmap_field_conf conf_adg[] = {
+> +		RSND_GEN_S_REG(BRRA,			0x00),
+> +		RSND_GEN_S_REG(BRRB,			0x04),
+> +		RSND_GEN_S_REG(BRGCKR,			0x08),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL0,		0x0c),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL1,		0x10),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL2,		0x14),
+> +		RSND_GEN_S_REG(AUDIO_CLK_SEL3,		0x18),
+> +		RSND_GEN_S_REG(DIV_EN,			0x30),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL0,		0x34),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL1,		0x38),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL2,		0x3c),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL3,		0x40),
+> +		RSND_GEN_S_REG(SRCIN_TIMSEL4,		0x44),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL0,		0x48),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL1,		0x4c),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL2,		0x50),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL3,		0x54),
+> +		RSND_GEN_S_REG(SRCOUT_TIMSEL4,		0x58),
+> +		RSND_GEN_S_REG(CMDOUT_TIMSEL,		0x5c),
+(snip)
+> +	ret = rsnd_gen_regmap_init(priv, 10, RSND_RZG3E_ADG,
+> +				   "adg", conf_adg);
 
-Sorry, I just acked the input bits in the patch, but in general I feel
-these kind of mechanical changes in consumers do not require an ack and
-you can just go an apply such changes.
+I don't think you need 10 ADG.
 
-Thanks.
+And it can be 1 line here.
 
--- 
-Dmitry
+> --- a/sound/soc/renesas/rcar/rsnd.h
+> +++ b/sound/soc/renesas/rcar/rsnd.h
+> @@ -26,6 +26,11 @@
+>  #define RSND_BASE_SSIU	2
+>  #define RSND_BASE_SCU	3	// for Gen2/Gen3
+>  #define RSND_BASE_SDMC	3	// for Gen4	reuse
+> +
+> +#define RSND_RZG3E_SCU		0
+> +#define RSND_RZG3E_ADG		1
+> +#define RSND_RZG3E_SSIU		2
+> +#define RSND_RZG3E_SSI		3
+>  #define RSND_BASE_MAX	4
+
+You can reuse existing RSND_BASE_xxx
+
+>  	AUDIO_CLK_SEL2,
+> +	AUDIO_CLK_SEL3,
+>  
+>  	/* SSIU */
+>  	SSI_MODE,
+>  	SSI_MODE0,
+>  	SSI_MODE1,
+>  	SSI_MODE2,
+> +	SSI_MODE3,
+>  	SSI_CONTROL,
+> +	SSI_CONTROL2,
+>  	SSI_CTRL,
+>  	SSI_BUSIF0_MODE,
+>  	SSI_BUSIF1_MODE,
+
+Do you really use these reg ?
+
+> @@ -627,6 +635,7 @@ struct rsnd_priv {
+>  #define RSND_GEN2	(2 << 0)
+>  #define RSND_GEN3	(3 << 0)
+>  #define RSND_GEN4	(4 << 0)
+> +#define RSND_RZG3E	(5 << 0)
+>  #define RSND_SOC_MASK	(0xFF << 4)
+>  #define RSND_SOC_E	(1 << 4) /* E1/E2/E3 */
+(snip)
+> +#define rsnd_is_rzg3e(priv)	(((priv)->flags & RSND_GEN_MASK) == RSND_RZG3E)
+
+(5 << 0) will be used for Gen5.
+There is not detail rule yet, but I think we want to keep (x << 0) and
+(x << 4) for R-Car.
+
+Maybe you can use (xx << 8) and (xx << 12) for RZ ?
+Something like this
+
+	#define RSND_RZ_MASK	(0xFF << 8)
+	#define RSND_RZ1	(1 << 8)
+	#define RSND_RZ2	(2 << 8)
+	#define RSND_RZ3	(3 << 8)
+
+	#define RSND_RZG3E	(1 << 12)
+
+	#define rsnd_is_rzg3e(priv)	(((priv)->flags & RSND_RZ_MASK) == (RSND_RZ3 | RSND_RZG3E))
+
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
