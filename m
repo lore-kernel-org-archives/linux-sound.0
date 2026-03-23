@@ -1,31 +1,82 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33C435BDB8;
-	Mon, 23 Mar 2026 07:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55564385535
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 09:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774249478; cv=none; b=fMdn+XrDmN8wWaxnuUDyD/PzxrhE1OCADxnB8bsuduKcx8kYfr7KrdwY5noKQMR6rArmDvCuO+t66LIBzmGuKZRqkHTbBpCa0zpLsj2z2RiyTPomgj+tgONIz7JRITmqFjshRhKiG34y1ll4tk1k4a6pz+SBCWB7X5IjbmNSSn0=
+	t=1774256433; cv=none; b=Jk4ktvQ9aaoh7v5wtl+5ZOPI6YvQnScaybxSHQHaBDgsk6j/PwrljSDiKD+lOQ8b2nD1eERlAFjymvIn9XZDTxYdICLoRhIpbI2q8doiO3ToCpnYOL/e5u5dNRji6lHYMxclFva35WofCG2tPp5mDN2thPboUa8+MzHg0Tfic6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774249478; c=relaxed/simple;
-	bh=/PtdrSsaCQLiRQ8hnSlr2lVKwAaAbWGu1JeUFa9H2No=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OdtHyP9aXE5Kc+PmsTl4SkPFXmAk04PIqbB7RbkoixnmG7JJS4EO/7Jggh4PAdpJHhtY95IIgPhBijn0Xjmt6okcSiPh2PxdRJiwebv4D8a2yVyy6RN8Bgot8gaDk/PmU+NZIG3WLPx/NiMV/s8OM0PZilADyrZKDFU7Zmv1bfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.197])
-	by APP-03 (Coremail) with SMTP id rQCowABXZ86u5cBpMQWGCw--.33207S2;
-	Mon, 23 Mar 2026 15:03:11 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
+	s=arc-20240116; t=1774256433; c=relaxed/simple;
+	bh=qQrOSHf0WJEFpQioIq+31gpjWdkGTgezHWFp2FWOmTA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YLKBMeYD5Jhhh7YlYsUJ3+/ileAyKRj+fYU72Ejop5troUeuf3kllKhVz5y2ci6gzPnPIer9bSeHXxeIVGzNb9gTu1bRVRInDxu6XWu4b6RP81cvTX6CfcO/psHt7Otr4TDjznPyyZESAdkP7wu+EDLOz8LyiWgKipc/E2HKHcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AO1bs9pK; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AO1bs9pK"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12732165d1eso5006404c88.1
+        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 02:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774256431; x=1774861231; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=273aLwz/em1jqAyb3LReQqEgJUsg7bfCsBCihZh13oI=;
+        b=AO1bs9pK3lKokmz4hxc8K7CXqoDs3iky16tgRBRzIABUtd4TZhHtgWEVchYcLHpb9C
+         sHeLMGIL99+mxv58Ay7t67KqfP2XepXca5I4VruRsxVEVicRaKpAdwcNE5n9qxG7opnS
+         OHx9CcRmqI2aKL3RSwVPvvryrYMwGpN8p3EUhCkU2IYRyeIA0J6tk5ajfTLA5XwldF77
+         DnmyEuJ41rfXe1hfIu6hCEKGsRbGZfaM/NhtoBen6jW+8XXhS8PHs7hXMZJV/fafmwAJ
+         lUU5G248W9LLwKdN4Prd/CCoVp12HiHkGpTmvbx10OwoDi5HYm+lW7ntlSeYa9gP7y0R
+         3SRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774256431; x=1774861231;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=273aLwz/em1jqAyb3LReQqEgJUsg7bfCsBCihZh13oI=;
+        b=EPcB1iLVZwm8qmGK9+oh4TdGHq6ZpthuNDHhFfkYVJySW2MMhfkBJe+FZCMzDouAIZ
+         jSutwqmFAtmbe408wTYVATXfvzXUDpOMxSaFOtbRUxH5p59GwczgiREjIO5U7JuigA7a
+         FwMNm1PBNfYPQl37tIAsq3AhL6E4w21mrsBmI9GfyVF0b9J9KKaaVot5kX7dCUSm8seC
+         R0FPynv9UlKz156V4Oo3sOuYTaYTuFv3JYPACqIYqoiZBbmNRc0gji/DCRSHSF446iqs
+         6yTCj8f1+XmA/Xdigw8udDJisPhxKjwjkUAsu7hVnU1V4tnDjlGC0eClNhqAC7tXPldu
+         qDRg==
+X-Forwarded-Encrypted: i=1; AJvYcCUSSu8lTGRhv+P/PnZqpg9JHc1H6iUWEe9AtIykSoOy+1QKdp+VTywcK7fn4CvV7zMvm6vUTocD4fDRzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDYSJLVDm0PRlecW3Dn9/ymZOW5nTvIq6cWQO4I1SyCZUXrYrF
+	avTz07sP/XpFzAD5SI52tN+Ocfxvx/4V5o2iKxG/a6pqFW98hTTzbxy7
+X-Gm-Gg: ATEYQzzEVtiA4GjDxPE9b/UOiOffOlA/2s85RPRAVHJA3KUwl9A/mwnlBZSu+esbJ57
+	naF6fPcj7YMLg1m4qyF4WhLLDKiQcUaFSn2tzcZR/p/BAWaRJCQpLKoGFV7RnfJ6Ysu6Nh5ut0B
+	BclBQbh0CN6ZCaDx/XFwEPG31Uw/YG87x3g4SxSHAgs43ptm5a4xUVFcNxTkLqK7EcBuu9KoTPH
+	JPVy9A/HknxUtKdBlypZ45PxpmI86i9kEdx5U1lWAoIC9UvckU/G6IhWQITUPXw1BEUSnK3jDF9
+	l4h6SIu1Z1eeErSJ6Fp7kmphHa04lxsOJoLWpdKX//Mo1MSbxY7pmSk1Vjo4RmT6SACfldBTIHy
+	zjdvrruYM3BSjz2wbAnn4oytOOrUbky3cNImaLRpzVNxQxVNUaYAmoYC7SPmG34y82ryWlK03mt
+	YzukpLF9lHQTXxLxDdZt1nX8Nd82aMXQSpCz/8SsWj+7WYOIle8ETiJAEdrZSr50r9gG+WbkDNH
+	qmawT0DJCelOkq0zbrwCRlad36K0EU13ybZ7gAvF4GU7W0CjKPMo6AMH2E/Ij3GDnw=
+X-Received: by 2002:a05:7022:252c:b0:128:c1be:152b with SMTP id a92af1059eb24-12a7263d77fmr4636197c88.4.1774256430993;
+        Mon, 23 Mar 2026 02:00:30 -0700 (PDT)
+Received: from 2045L.localdomain (90.sub-75-221-98.myvzw.com. [75.221.98.90])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a734bb33fsm8620227c88.9.2026.03.23.02.00.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 02:00:30 -0700 (PDT)
+From: Gui-Dong Han <hanguidong02@gmail.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	vkoul@kernel.org,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev
+Cc: peterz@infradead.org,
+	cristian.marussi@arm.com,
+	sudeep.holla@kernel.org,
 	linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	pengpeng@iscas.ac.cn
-Subject: [PATCH 1/7] ALSA: asihpi: bound control name formatting
-Date: Mon, 23 Mar 2026 15:03:10 +0800
-Message-ID: <20260323070310.42827-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	akaieurus@gmail.com,
+	me@ziyao.cc,
+	Gui-Dong Han <hanguidong02@gmail.com>
+Subject: [PATCH v2 0/3] debugfs: disallow NULL string creation and fix callers
+Date: Mon, 23 Mar 2026 16:58:43 +0800
+Message-ID: <20260323085930.88894-1-hanguidong02@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -33,83 +84,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowABXZ86u5cBpMQWGCw--.33207S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AryrWw17JrykKFW7uw13CFg_yoW8uF18pF
-	y7GrW2krsxA3s0kayrtryq9r93Aa92kr47Gw1rWF1xJFn0vw12y3W8Zw1UZFn8ur4v9r15
-	uFs0kr15K3W3Zr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjuHq7UUUU
-	U==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-asihpi_ctl_init() builds mixer control names in the fixed 44-byte
-hpi_ctl->name buffer, but it currently does so with sprintf(). Some
-source/destination node names are already long enough that combining both
-endpoints, their indices, the direction prefix, and the control name can
-run past the end of the buffer.
+A recent bug report [1] highlighted a NULL pointer dereference when
+reading a debugfs string file created with a NULL pointer. The community
+discussed the issue and agreed that creating string nodes with NULL is
+invalid and should be forbidden at creation time [2]. Since no fix was
+submitted following the discussion, I have implemented the agreed
+solution.
 
-Switch the formatting to snprintf() so the driver never writes past the
-ALSA control name storage.
+Patch 1 modifies debugfs_create_str() to reject NULL pointers, returning
+early and triggering a WARN_ON to expose offending callers.
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- sound/pci/asihpi/asihpi.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+Patch 2 is a code hygiene fix. While modifying the file, I noticed the
+EXPORT_SYMBOL_GPL for debugfs_create_str() was misplaced far away from
+the function body. This patch moves it to the correct location.
 
-diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
-index 3a64d0562803..f8bcc05c8742 100644
---- a/sound/pci/asihpi/asihpi.c
-+++ b/sound/pci/asihpi/asihpi.c
-@@ -1384,22 +1384,25 @@ static void asihpi_ctl_init(struct snd_kcontrol_new *snd_control,
- 		dir = "Playback "; /* PCM Playback source, or  output node */
- 
- 	if (hpi_ctl->src_node_type && hpi_ctl->dst_node_type)
--		sprintf(hpi_ctl->name, "%s %d %s %d %s%s",
-+		snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-+			 "%s %d %s %d %s%s",
- 			asihpi_src_names[hpi_ctl->src_node_type],
- 			hpi_ctl->src_node_index,
- 			asihpi_dst_names[hpi_ctl->dst_node_type],
- 			hpi_ctl->dst_node_index,
- 			dir, name);
- 	else if (hpi_ctl->dst_node_type) {
--		sprintf(hpi_ctl->name, "%s %d %s%s",
--		asihpi_dst_names[hpi_ctl->dst_node_type],
--		hpi_ctl->dst_node_index,
--		dir, name);
-+		snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-+			 "%s %d %s%s",
-+			 asihpi_dst_names[hpi_ctl->dst_node_type],
-+			 hpi_ctl->dst_node_index,
-+			 dir, name);
- 	} else {
--		sprintf(hpi_ctl->name, "%s %d %s%s",
--		asihpi_src_names[hpi_ctl->src_node_type],
--		hpi_ctl->src_node_index,
--		dir, name);
-+		snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-+			 "%s %d %s%s",
-+			 asihpi_src_names[hpi_ctl->src_node_type],
-+			 hpi_ctl->src_node_index,
-+			 dir, name);
- 	}
- }
- 
-@@ -2957,4 +2960,3 @@ static void __exit snd_asihpi_exit(void)
- 
- module_init(snd_asihpi_init)
- module_exit(snd_asihpi_exit)
--
+I carefully audited existing callers across the kernel tree. Some
+drivers passing NULL have already been independently identified and
+fixed [3]. The remaining subsystem (soundwire) is addressed in patch 3
+by initializing its string parameter to an empty string (""). The
+existing code correctly and safely handles empty strings.
+
+While auditing, I also noticed a devm_kstrdup/kfree mismatch in the 
+interconnect subsystem which has been addressed in a separate patch [4].
+
+Changes in v2:
+- Link to v1: https://lore.kernel.org/driver-core/20260317185920.43387-1-hanguidong02@gmail.com/
+- Patch 1 & 2: No changes.
+- Patch 3: Rewritten to use kstrdup() instead of devm_kstrdup() to match
+  debugfs's kfree() behavior. Moved initialization to sdw_debugfs_init()
+  to correctly handle the global pointer and avoid overwriting during
+  slave probe.
+- Patch 4 (drm/i915): Dropped. Further analysis confirmed those specific
+  pointers are not passed to debugfs_create_str() [5].
+
+[1] https://lore.kernel.org/lkml/17647e4c.d461.19b46144a4e.Coremail.yangshiguang1011@163.com/
+[2] https://lore.kernel.org/lkml/2025122221-gag-malt-75ba@gregkh/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8cc27f5c6dd1
+[4] https://lore.kernel.org/linux-pm/20260318024815.7655-1-hanguidong02@gmail.com/
+[5] https://lore.kernel.org/driver-core/8ac4b6ef2dfbc1dce0047dee55f2df609287a3ec@intel.com/
+
+Gui-Dong Han (3):
+  debugfs: check for NULL pointer in debugfs_create_str()
+  debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
+  soundwire: debugfs: initialize firmware_file to empty string
+
+ drivers/soundwire/debugfs.c | 9 +++++++--
+ fs/debugfs/file.c           | 7 +++++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+
 -- 
-2.50.1 (Apple Git-155)
+2.43.0
 
