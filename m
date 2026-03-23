@@ -1,82 +1,82 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3ED383C76
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70815383C78
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774305556; cv=none; b=KKdor0BQUEHNmsozC0NIAnN1kTyzIgDHjGIu3NY76C3OXAsy7FjQmfA9F2DkOTCoSWuAfRjEZQxh+iXV2T7/nhyZihNg8TCRN6cPbBbnmN3+7/I7G0do0lZYDg/z8NPpaEQelKQy99Ii8ThKokz7JAsxL/Uc9z3XDPX2FoHJ7OU=
+	t=1774305557; cv=none; b=UJBNf8yzxFWWRp0Hjd43m+Y1E7G/IUMmdno246w+9JFqaueP2/uROpXwxsmVBCsX0Wq+inSzUwIqdGPbjfx74yuGTTwQ1hMwDfQ3yCob3IV8n9EM2M1V1BUn8Gm6DpIX2TlY63o5+pmpnSxQxGcmqENwl5+VKSNhgUPdEpFsEs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774305556; c=relaxed/simple;
-	bh=Fl/z/x1vRgiwJd1pRAYk5uDKCPsjPZHEyO/+LZ3AuNE=;
+	s=arc-20240116; t=1774305557; c=relaxed/simple;
+	bh=CrLGv5edH+UZPIk9+prSCn/qT8iVjWiDSBnsGzRqcxE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RxVmLxq+Ug88MQQYJkX5joJU3Dvgccj4wBVBkJLIrmX3eaivIADWahdFrKi4BFYunrZt+zpB8yVWoL70BfNITGCKf0g5sGbVziwx2vYpV0MJCORxzVdQc2RK98BaRFny4T/IsBQtqXSwQ8CcKrbe4c4xXiZ4JXeVwOo1e4bLPFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=l9ZXlE/k; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ND4auYep; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=VnNPyTyXQVp4W5T34fye/KcSfAVODWVcYilvgvjs5/4c0mAlnqWBc8EBGfq1b+1rj5+2vRCr1iWPinvcvLzoy9eonTRkCWYIpFDdFHPPzxINNgD99OcNP6VoO3zW9dtShLxIDn8DKDrumJXnxayT3q8q9gBFkkAfy0+9lPSGna0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QJ2kD7eZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=e1/1+YHI; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="l9ZXlE/k";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ND4auYep"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QJ2kD7eZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e1/1+YHI"
 Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62NHqvxM618719
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:14 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62NHrhMv620409
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=ngH86D4QhHS
-	BBEnIjfBcEjvZR9eSdOdxegad2SenX0M=; b=l9ZXlE/ktkebioi4FzAUZ02ej34
-	pgAeldTbg2NoSIWwvGTH5otD3KdRozbqoZYzulw6KTsX2GlWc/ef4DkOMW+gHqgk
-	RLPZDEib9+8twMergcK/ESCfG3iOs2HIuPNCJDTKI9sug0Z1uEq3U0NUrXsM7sO/
-	hVgxxVDMH1TVFt3FvRgttsvPgd+2JDRBplnezT7w+JaHOol3ALsb8zw/SVJxKRW3
-	mqRHdkMO2JkJe6mw4GpaapCL6kYGUbriosAcuxf/0JazNNSO1GuX/ErbXcrbaTyz
-	dIfeKZN7cdeiB1MVgrBC61tzagHCKvMQCyUc3Q7VjwAHs4LLtq+xpuq14zg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d31jgjyt3-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=aiejSc4X5A/
+	gorkmczOj6dnKqerAsQHN9lH+LChbOlI=; b=QJ2kD7eZ+YvhmGGDHuQEChlMndd
+	qZF3loald53N2NcXT6vW9/EIvM7p/kO+WVi7L7bbIlBje0U/MvBy51rvZM5Bselm
+	FIxmGe7iJhc4GXI8TO2KhtCNVtDrDyGWZO6eEfnsyEF1eUiZRUUPu9W4OgL9OAVZ
+	4cfSPa1+isqeLKsNTavLPjXt4lPWpE8yn/s66vUJQadXAIhFIXHdfOwahAchGEnK
+	ZDulcbFK/SRhEHyMIlaefS0IwlbUg5r4VriDvXoZl3Zaep/W1Ntnjie0FjNWjc9w
+	EdP6/iDYsz8kK8Tp6CYEgSh1ISU3gl6OYcUFR2K36ezP5zoSGDkCBbtlAWw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d31jgjyt1-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:13 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5093787e2fdso156654691cf.2
-        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 15:39:13 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 22:39:12 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-509070bda13so355112381cf.1
+        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 15:39:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1774305553; x=1774910353; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1774305551; x=1774910351; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ngH86D4QhHSBBEnIjfBcEjvZR9eSdOdxegad2SenX0M=;
-        b=ND4auYepQkmMZJbjA3zjL75Ogk0hcZyeqXmyyQ7oGABy4vEmfmF9K9lKkp0vFnFgLD
-         gmc2l0ySavG7nNC2xtos4gTO2jbxeO9BWfLTxtfEYUbYdfoaGgn1mmlthDts4DaBg+0p
-         z3HEYwVNqL1SShRzhbCjeZ201Mx1NVIFk+bY0MU/c/VIMdQRrBuTXU5IMhDXkA9eijPg
-         FYqIm3pRLCATJeCmCAvy7vNt8QzgRCdMNa5GmJesn5F5bP1JOiTHvnXhpBeez7+qhdCb
-         K9gKh7QG6xPbxUNX98kKpq4jLQnvDRqsSbEbT6iAK5slx7608XtvIDIGKXBZ+sCazg+P
-         vstA==
+        bh=aiejSc4X5A/gorkmczOj6dnKqerAsQHN9lH+LChbOlI=;
+        b=e1/1+YHItIeN0aQZU4D+BMxMGmcEdlfIVO8++/21OhE3VslO0B0IxzYF/UiBdaY9c3
+         taY2rH9sVlanD0OcoG3JV9wNkUIPQzVMr81RFzYLTIMU0jmqvSqIbSRU16fK9qnvL1Qs
+         C/sWcVG3LkxoWSwAbT9xHtd2GH6BwdkH7eNcjNAKcTFziTT5emBsc/w8BlWgcq89r/RW
+         aUZBJ9WhjEzWTBi1DEvlSXp9cPacDZYBV6bb5GI9iWMQuVqs/iCldhfgInRi8UnPp+01
+         WsWdpGijmSSLq/QlBx5oJbTQh9adpfzZyYZdJzyeaZF/YIfMJoBl5YspFp2Zcp/wrKk4
+         ZR2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774305553; x=1774910353;
+        d=1e100.net; s=20251104; t=1774305551; x=1774910351;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ngH86D4QhHSBBEnIjfBcEjvZR9eSdOdxegad2SenX0M=;
-        b=aHhCf2NfVHLOF5j/fSRjAnkCSPUPczAyYZ4F1PzsFZJee3ex8cUef8pSPjIjjtP61Q
-         uSawuN/5vqdySxxhdOyfRpWzqEgDTZkqPgsZ/gL3nPQOXVfkPRrCS6XSCAdamHdvfnQd
-         uNWE5LJ2Ea2wp6z5aS0Newrph0uTQMqf5Z8sP/wqOv2Hj68btYK/F/rLqKq72lctgnwk
-         T1YGKSpTk4R/o3nMah5OGD3gU3Y9g6Mwd7ihzPFC+CQk8HzoVnenb/1kk9nxeTRmLi4w
-         MtLX/P2q4VNPB0I8LOnSLM1tRYSajU9GsHCbUI0fEXZF8rnMMeDGzdms2VqNuh/V+JO8
-         BupA==
-X-Forwarded-Encrypted: i=1; AJvYcCVL4XpCuasa0XeeErysyNtnXZ7JatV6q3nhJ1Y/+CJsaOl6cIbhbUvwIvzMy628vjoDt9Tp0/ycrZzmIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoKwD9W9bRpFPaZ9Ql9B7EdC8zhqQ5OjT5gojHqfgNIX6cJ2z5
-	SF482secDGJOzjOgsJNluxo5uqvsajVDWMs6JmnxJX7meSSIk++JCCRU1J/JqlHCDrMxmWRs2Wy
-	uVgEj2sq/FPET89cAaB7mwik74qXF3a2LyvnymRLI9sKt1XqS3yDvjX9bMd6UMyI7Dg==
-X-Gm-Gg: ATEYQzyG/meUCpsxG6/sOLShUUw/HyB/XEiqfyWfbIjEh9Hh84TYOgH2Gz8DDciiDgs
-	5MLNZ8vQTUhaQ+8zw+5AbzGtH/mQh3e2VZhQ7ivWCPEpmdZD8lv0SCpRhTJqQYoycJWTL9Wll+T
-	kohc19SaIcmHLvOPHYU+XJxnRmVxc9mmwYiBdzdywINf7Z3RjO3sBN4BjocApz0tN6M20pKyDUz
-	8CPiEvrzCq9j2zQGMTqPseGeDgYWeR7EVzbRarLwpM360w2gHWL/VLqJCA0GPtdyyKYQe3J83zO
-	6EGcX48QNFo55N1VMGYRMe8UAffu/PTl7KuYQD9WqZCjPxp/jkwlGmFbYBg2dj7iXMWXqIHoRqc
-	CtA+4RHqeL4mHxFs1+J2elFCCCyLmKSjrftWj5r1u7nftOq0vCGXS4uA=
-X-Received: by 2002:a05:622a:1f08:b0:50b:496c:baba with SMTP id d75a77b69052e-50b496cc8c4mr150377481cf.57.1774305552898;
-        Mon, 23 Mar 2026 15:39:12 -0700 (PDT)
-X-Received: by 2002:a05:622a:1f08:b0:50b:496c:baba with SMTP id d75a77b69052e-50b496cc8c4mr150377131cf.57.1774305552516;
-        Mon, 23 Mar 2026 15:39:12 -0700 (PDT)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64715539sm33320351f8f.33.2026.03.23.15.39.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=aiejSc4X5A/gorkmczOj6dnKqerAsQHN9lH+LChbOlI=;
+        b=KmAmHUBNTZHsZ2atL/9DesSMZhrsTUbPRgqYtx3lfzoDSTHXddsqGEXVUhnLqxW9fw
+         UO1rcucE/3VN1Htg+2V1k0kJMDMSmBDlk2zK/Wj4aeTqxxf5pOpv0NyOYraX6bkwp/FJ
+         G51uQHRFwft+qARa0JsNc5S1HXyccSxEZBrg+h7MATyI1bxv8R9gp6skeN7u/hoshNSo
+         o3ca9DpSQLjvvyefGJunQe+UC0qxQ83ecT105kMBSpg7yWYhH/01VMI9XkGPta6pveIx
+         MrNPZrZv0Pr6DjsPgjvT/UoJ7K+NDvDwwOsWkx35rkCFkNkapJoyqcB4g72tCJzAhgJ0
+         X4/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXOoa2Ierw99FuPsz9EOgS2OeabBgLpSPmGEsDctxRh9NSPyyUzquYxiukh46mxOUdwLyToXDCXTn/FFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnzFB2YvkLVlscc6puby2iadZZWVlwZZN2CINTelufkjMKFSnC
+	S6P0y3hM1kV2do9e+rfakdHm3uaoGq+tpliMBaIvg2sWJytR7SHJGep+UQy6ktiEwBifN3eYBbq
+	4biypwBNMjwpB1wRMDVv/nQd7HEREeZuaSS1bQhQe134PvFAeotJzZMeDDYcxuNNNXQ==
+X-Gm-Gg: ATEYQzzp4SBw6wy/sRbVtYrS9F1D0ERF+yCWiIqpBuecDQvhyLjOMl4dVCs65ggS475
+	+vjiyIrmaCZuI13aH8DfrqapGUsju0GUHPMJy6Fj3LnCx9VpKX5bOiItrTqWNFgcA+dSTYF9tXR
+	NGLVVBw5ODFwnsz56wPLhwnnbQ40oMFWOs+hVzIdcy8c6ZdOEzkNbtZGQ6tsYIhMKNNRtORxg6h
+	Jd7mY8RYRe/74tHq9V8YlTbUQkDVMu/bS0oufHquv+3LBqerM3+AWXurnZVmzhFETXMq7n/oyAv
+	EKsu4y+Co3DwsH7pebplcq34x/pg6VN/jonEWln2NpS6Efnd6VDEN8dE/h7kfRIN2LjUzMy4huW
+	FM0LkobsbaWx9TJIOVzl0ZgbR68IWgT/csEwpF0mqQqSMqNc2JeAlCNc=
+X-Received: by 2002:ac8:714b:0:b0:509:1b5c:fe25 with SMTP id d75a77b69052e-50b6ee5ccc1mr16161611cf.23.1774305551422;
         Mon, 23 Mar 2026 15:39:11 -0700 (PDT)
+X-Received: by 2002:ac8:714b:0:b0:509:1b5c:fe25 with SMTP id d75a77b69052e-50b6ee5ccc1mr16161301cf.23.1774305550963;
+        Mon, 23 Mar 2026 15:39:10 -0700 (PDT)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64715539sm33320351f8f.33.2026.03.23.15.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 15:39:10 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
         conor+dt@kernel.org
@@ -87,9 +87,9 @@ Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
         linux-kernel@vger.kernel.org, srini@kernel.org, val@packett.cool,
         mailingradian@gmail.com,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v7 10/13] ASoC: qcom: qdapm-lpass-dai: correct the error message
-Date: Mon, 23 Mar 2026 22:38:42 +0000
-Message-ID: <20260323223845.2126142-11-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v7 09/13] ASoC: qcom: common: validate cpu dai id during parsing
+Date: Mon, 23 Mar 2026 22:38:41 +0000
+Message-ID: <20260323223845.2126142-10-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260323223845.2126142-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20260323223845.2126142-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -100,21 +100,21 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Yy1BSeid1aeAU1iqEqJBzKMgl94m2nRL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDE2NyBTYWx0ZWRfX/XxyhVXdSBBl
- 24ov/u707gG8cNkhqKk7MY3WpCcxvbZGMSxJZILqxpPWt1yPXkaziXxAZW6T8Kie+leFA2n4WRp
- 3bexn1nhzmPRoCSQ+Ur3pwC08g749KfaQDr046JmMx8eXby9+Ivay53eT0ZrbpKatxX6eQEdrhc
- dt07BDVzjHukzUqqByKKxyRzc8waWTeRwFDLUp9vxNCmBVcx5ElXMBdPxk3sR6jKtTdTUOmO0VA
- e7RAaEyiQXh4xd80/IQ5fQgf15EghKA5JPK0AFbMzzJRbf/uhtLMA3nmxzlCL+HhJfHYj9dWjn4
- 142so38hYvlcDPAr3C2iNC3XoFZe2zdCk4a09y6fHn1zF2rSSwIDV2fRBE8iigahIUx09ir1vYb
- axOFgYe0RY62GvwP2gpVJ+Bzm3Yn3eu0zff9cu5TL1v/fUTbnmB27vdm6WNF1HTEnAKUK6k4hy0
- ooi6/s+gar67/tXUXAA==
-X-Authority-Analysis: v=2.4 cv=CMInnBrD c=1 sm=1 tr=0 ts=69c1c111 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-GUID: sSKmDcaHVCHXh6P3R9VNnZPAeCEFeUlJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDE2NyBTYWx0ZWRfX03kvqmyED4C4
+ MaiCMvcbtLrv/kI6Y8FuGPxj5i8pKN0ybrQwBaiRk1CTqcr0r9dkH87r9dpKD2D2oMw3YnE3zhN
+ Sjo9614dURcMnfcsKLoXLzLx338NCKoHa+FAtoj0vC+EM7Ugb6uGYLlNU3Ew3xuQ/KZRH+wX2zq
+ xl716+ms8tfNWUnRoJ22DvxPeFP9HP5ctJ7sG/X2jHlCeM3uwQU9nE4se28a4hWbssKeglStBSv
+ GEkEblO21XJip9gm9R1Ph/7Q2JrZfoOSJ9MFCiOUQ40Py8T4cXbjo0dkATDq4GTvzxldE12JeFb
+ zDgAixBl+Mrji4Ha9gZdXOdnEFhQw1U2ZHtT4EOfNFb4w4VnqTtMy7zaYB0o/Gna3hvgO8U2mRp
+ f6pjuivk+5oNRO4tABrQjd+LT38/RBcmxmOSmS0Y87A6RkKP6agsuzKLwYaLbFEhDOZgRPLYjnz
+ TfR8zwqOAQFkaRR+u0A==
+X-Authority-Analysis: v=2.4 cv=CMInnBrD c=1 sm=1 tr=0 ts=69c1c110 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
- a=QkacBUY9L2qTTJrEq-kA:9 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: Yy1BSeid1aeAU1iqEqJBzKMgl94m2nRL
+ a=FTFSxu1yF2iZ1NjiFwcA:9 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: sSKmDcaHVCHXh6P3R9VNnZPAeCEFeUlJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-23_06,2026-03-23_02,2025-10-01_01
@@ -124,27 +124,109 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230167
 
-Fix the error message to reflect the actual graph stop error
-instead of graph close error.
+lpass ports numbers have been added but the afe/apm driver never got
+updated with new max port value that it uses to store dai specific data.
+There are more than one places these values are cached and always become
+out of sync.
+
+This will result in array out of bounds and weird driver behaviour.
+
+To catch such issues, first add a single place where we can define max
+port and second add a check in common parsing code which can error
+out before corrupting the memory with out of bounds array access.
+
+This should help both avoid and catch these type of mistakes in future.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/qcom/common.c      | 6 ++++++
+ sound/soc/qcom/common.h      | 3 +++
+ sound/soc/qcom/lpass.h       | 3 ++-
+ sound/soc/qcom/qdsp6/q6afe.h | 3 ++-
+ sound/soc/qcom/qdsp6/q6apm.h | 3 ++-
+ 5 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-index ba64117b8cfe..87f6db12003e 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -150,7 +150,7 @@ static void q6apm_lpass_dai_shutdown(struct snd_pcm_substream *substream, struct
- 		rc = q6apm_graph_stop(dai_data->graph[dai->id]);
- 		dai_data->is_port_started[dai->id] = false;
- 		if (rc < 0)
--			dev_err(dai->dev, "fail to close APM port (%d)\n", rc);
-+			dev_err(dai->dev, "failed to stop APM port (%d)\n", rc);
- 	}
+diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
+index 7ee60a58a336..cf1f3a767cee 100644
+--- a/sound/soc/qcom/common.c
++++ b/sound/soc/qcom/common.c
+@@ -120,6 +120,12 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
  
- 	if (dai_data->graph[dai->id]) {
+ 		link->id = args.args[0];
+ 
++		if (link->id >= LPASS_MAX_PORT) {
++			dev_err(dev, "%s: Invalid cpu dai id %d\n", link->name, link->id);
++			ret = -EINVAL;
++			goto err;
++		}
++
+ 		if (platform) {
+ 			link->platforms->of_node = of_parse_phandle(platform,
+ 					"sound-dai",
+diff --git a/sound/soc/qcom/common.h b/sound/soc/qcom/common.h
+index 1b8d3f90bffa..ee6662885593 100644
+--- a/sound/soc/qcom/common.h
++++ b/sound/soc/qcom/common.h
+@@ -4,8 +4,11 @@
+ #ifndef __QCOM_SND_COMMON_H__
+ #define __QCOM_SND_COMMON_H__
+ 
++#include <dt-bindings/sound/qcom,q6afe.h>
+ #include <sound/soc.h>
+ 
++#define LPASS_MAX_PORT			(SENARY_MI2S_TX + 1)
++
+ int qcom_snd_parse_of(struct snd_soc_card *card);
+ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
+ 			    struct snd_soc_jack *jack, bool *jack_setup);
+diff --git a/sound/soc/qcom/lpass.h b/sound/soc/qcom/lpass.h
+index de3ec6f594c1..68b71039b981 100644
+--- a/sound/soc/qcom/lpass.h
++++ b/sound/soc/qcom/lpass.h
+@@ -14,10 +14,11 @@
+ #include <linux/regmap.h>
+ #include <dt-bindings/sound/qcom,lpass.h>
+ #include <dt-bindings/sound/qcom,q6afe.h>
++#include "common.h"
+ #include "lpass-hdmi.h"
+ 
+ #define LPASS_AHBIX_CLOCK_FREQUENCY		131072000
+-#define LPASS_MAX_PORTS			(DISPLAY_PORT_RX_7 + 1)
++#define LPASS_MAX_PORTS			(LPASS_MAX_PORT)
+ #define LPASS_MAX_MI2S_PORTS			(8)
+ #define LPASS_MAX_DMA_CHANNELS			(8)
+ #define LPASS_MAX_HDMI_DMA_CHANNELS		(4)
+diff --git a/sound/soc/qcom/qdsp6/q6afe.h b/sound/soc/qcom/qdsp6/q6afe.h
+index a29abe4ce436..0b8c3ec1315c 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.h
++++ b/sound/soc/qcom/qdsp6/q6afe.h
+@@ -2,8 +2,9 @@
+ 
+ #ifndef __Q6AFE_H__
+ #define __Q6AFE_H__
++#include "../common.h"
+ 
+-#define AFE_PORT_MAX		137
++#define AFE_PORT_MAX		(LPASS_MAX_PORT)
+ 
+ #define MSM_AFE_PORT_TYPE_RX 0
+ #define MSM_AFE_PORT_TYPE_TX 1
+diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
+index 7ce08b401e31..5cf538397841 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.h
++++ b/sound/soc/qcom/qdsp6/q6apm.h
+@@ -14,9 +14,10 @@
+ #include <linux/of_platform.h>
+ #include <linux/jiffies.h>
+ #include <linux/soc/qcom/apr.h>
++#include "../common.h"
+ #include "audioreach.h"
+ 
+-#define APM_PORT_MAX		127
++#define APM_PORT_MAX		LPASS_MAX_PORT
+ #define APM_PORT_MAX_AUDIO_CHAN_CNT 8
+ #define PCM_CHANNEL_NULL 0
+ #define PCM_CHANNEL_FL    1	/* Front left channel. */
 -- 
 2.47.3
 
