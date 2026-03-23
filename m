@@ -1,68 +1,86 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12742175A61;
-	Mon, 23 Mar 2026 03:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C9514A8B;
+	Mon, 23 Mar 2026 03:27:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774235591; cv=none; b=QSbrSCP0X9FLVVCyb3SeH0IAHtpLMmXwuJ5dreFiYp4Buk7r+YUFxIxGwZBN0U9vFLH+wYAMpri67rx9UKG+eW0s+1vOWMcY6hKGG4/+rNSStT3PP8cysDxVjBaSsdfJscruG2MM99ZH3R4RjHv4gLYpsnOzRGILdtHmpB+xcbY=
+	t=1774236481; cv=none; b=fCLHjwNkdMjuNKWzgHsgZOw2gwkp9K5ptHE8frECEijPbkodcGawwPaSlFoyPRHBsFzHi6iDWFElaCuP0BkYtTFuSd7/L9CNccCbLG10sqHnXa0L/Wg6ZLSquljzhQVqMyBCzve+15GX5VFsliVPyTkrbkrlxk8f9OzcvTccuRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774235591; c=relaxed/simple;
-	bh=SFLooepHlXM+V1On6X3xEFTFbJk6I3Dpm3d2te8NJto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZyCMAMLh1P0rJ0Yj4oFvGXIRbNrtOI/QygT6Zga1jFF48Be3QeCrmJ/gi4PS6diIzlJmKFs7G/bRcbHlionbAJl5B+mgz4m52BUuI0cV40s2Yyj/gs5KYsNH9i+vQqMPa5uZ7nRV4ahQQnDSKkSTqabY9a/RRnRLNwrvF99sbgU=
+	s=arc-20240116; t=1774236481; c=relaxed/simple;
+	bh=4BaAXSRRchBfzroBbWapmUMfVoKCv0CH6ZDhFddUPCE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oJoi2MELHxWsgOONImiIjFUZaN8L7Ki4vyuVp6oGuh07HgEyX2YqbvWoVjOlNzbvcbZTCA0k9Fm6qxsMXAoD5EwUkqU/Ngx+Eap8/uxTrmfJ4sIx7jivQeej13f6Jv2DuOGCBxr02PfRVwglxbMQrijs2PnDI/+xl77l1TEPF28=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 34ef5c82266611f1a21c59e7364eecb8-20260323
+X-UUID: 44c11086266811f1a21c59e7364eecb8-20260323
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.11,REQID:9592423b-8bfe-452c-b0e3-fdc846773104,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:89c9d04,CLOUDID:455f0259728736c0511c39bce01185ba,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|898,TC:nil,Content:0|15|50,
-	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+X-CID-O-INFO: VERSION:1.3.11,REQID:974453a2-5847-450a-bc4f-9fa1525dc78d,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:89c9d04,CLOUDID:b69cfebe2a0ff5f69a4300964970b208,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|898,TC:nil,Content:0|15|16|50,ED
+	M:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
 	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 34ef5c82266611f1a21c59e7364eecb8-20260323
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 160417631; Mon, 23 Mar 2026 11:13:04 +0800
-Message-ID: <e2ae2b1f-b058-47d0-9bb6-889044f2af16@kylinos.cn>
-Date: Mon, 23 Mar 2026 11:13:01 +0800
+X-UUID: 44c11086266811f1a21c59e7364eecb8-20260323
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1311836319; Mon, 23 Mar 2026 11:27:49 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ASOC: avs: Fix a sparse warnings for incorrect type in argument
+Date: Mon, 23 Mar 2026 11:27:45 +0800
+Message-Id: <20260323032745.281611-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: add new quirk for HP OmniBook 7 Laptop
- 16-bh0xxx
-To: tiwai@suse.com, perex@perex.cz, chris.chiu@canonical.com,
- kailang@realtek.com, sbinding@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, "Artem S . Tashkinov" <aros@gmx.com>
-References: <20260323030503.3988941-1-zhangheng@kylinos.cn>
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <20260323030503.3988941-1-zhangheng@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Please help me check whether it is more appropriate to add a new quirk
-or replace the existing one:
+The input parameter requirement for snd_pcm_format_physical_with is
+snd_pcm_format_t,but params->codec.format is __u32, resulting in a
+mismatch error:
 
-SND_PCI_QUIRK(0x103c, 0x8e60, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2)
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/intel/avs/probes.c:147:58: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted snd_pcm_format_t [usertype] format @@     got unsigned int [usertype] format @@
+   sound/soc/intel/avs/probes.c:147:58: sparse:     expected restricted snd_pcm_format_t [usertype] format
+   sound/soc/intel/avs/probes.c:147:58: sparse:     got unsigned int [usertype] format
 
-with
+So here, the format is cast to snd_pcm_format_t.
 
-SND_PCI_QUIRK(0x103c, 0x8e60, "HP OmniBook 7 Laptop 16-bh0xxx",
-ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED)
+Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512190032.hnwn9mCV-lkp@intel.com/
+---
+ sound/soc/intel/avs/probes.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Both the PCI subsystem ID and the HDA subsystem ID are 0x103c8e60.
+diff --git a/sound/soc/intel/avs/probes.c b/sound/soc/intel/avs/probes.c
+index 74096236984a..099119ad28b3 100644
+--- a/sound/soc/intel/avs/probes.c
++++ b/sound/soc/intel/avs/probes.c
+@@ -144,7 +144,7 @@ static int avs_probe_compr_set_params(struct snd_compr_stream *cstream,
+ 	ret = snd_compr_malloc_pages(cstream, rtd->buffer_size);
+ 	if (ret < 0)
+ 		return ret;
+-	bps = snd_pcm_format_physical_width(params->codec.format);
++	bps = snd_pcm_format_physical_width((__force snd_pcm_format_t)params->codec.format);
+ 	if (bps < 0)
+ 		return bps;
+ 	format_val = snd_hdac_stream_format(params->codec.ch_out, bps, params->codec.sample_rate);
+-- 
+2.25.1
 
