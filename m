@@ -1,156 +1,141 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012039.outbound.protection.outlook.com [40.107.209.39])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83303976A1;
-	Tue, 24 Mar 2026 15:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774366865; cv=fail; b=EtiGDw6HeIwUIwoQ/W9DbZKxlu+16iQa6Eqxq55ElbuthRZtyPENafsQEjmKB7iQecED1IzkrOeMz/n41ZpRbaqcBWFx9i9MvhCuYFzs7NTLojhZS31TDPfETi1uZMZbTixTEer8gQlOed36kb3qJ4ai9EICfokUVYpRiERG6c0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774366865; c=relaxed/simple;
-	bh=ckXkvUaiFohGmcI5xTk69K8lxpp7cqWN89l1MoBa+Vo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jhrvWWG72guaO2hZX+ASHbiNRDO7OBclxK1Oz/xQsbboZDatMCSvDqyBnYScV12pV8FLbTDGHC+1k6uTbnn8TauPuZzUhwcURQVTtYXHq9DpUSDRGcqUAexNh5CPcssYInNRbfCz8qQTzDB+AtepDBqrf9+8oVb8CvIRHfi70z0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=QoW0dhLK; arc=fail smtp.client-ip=40.107.209.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A56429BDB1
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 15:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774367306; cv=none; b=iOuk54W6Z8wYk5aJhg0yDViWSQoGdYmba4Pq5dMbEjFy4ZHse5pJIzbpVvb7VTCYC34upsN4zwynggr4U5+Ba91n2T7rhUid900TvEDnJ3vs5c5owXV6LZhiskLUrUiPIE4twiPvMcuW8VSXcQWa9tRU//e4AcSjtuO/VzAQCH4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774367306; c=relaxed/simple;
+	bh=1ooK0SF8d2YsiJ8+92ieaA5DetZptrCqwjohvyyhecE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YseCfC5J/IqbRk+4HuCMYObgwjgC52DU94SJceDoDlIk6YxNy2hm5CZRiCL8yJtDayGoz9440iMvB/wB7Ag0RqfU6esf0UVp1T18kCSObHUzQkKWaEKrICe0u4cNNJ3vPO1KfvfYp9e686z5GkBId18QPm0sl+OG21+vNu2zetA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=sgg/EQjv; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="QoW0dhLK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y1fg/E5BPdLwG0XglCL3NWv63/hkscpc7C5wfDNnfBHJowMS02RlVw8d1s+C5wnLUqFEQ3O/wp6TuLcXFyZooFu9rZ+vMDmXvSuYwEwGFwva1HsS5CL3N0Ao/X30CkU7fsRvglOYi7zpoBSqEd7RBBApG+VWPHTWReZIglbHzO7BFyznQe87q3e/wRPShApb+c0ydpoz6o9ho750b+qqIXQ58NMrtp3QLcVjZpawoacE2A1DtPqwdsnUDjcsDqKKXjoGLHcSHkco2SedEhlnNNsvMNQgpJX0GN3gzpt+67Q14vidjdD586Rnb1AJ20/9n+BqYO3wjFCXyhPw7j1KCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ckXkvUaiFohGmcI5xTk69K8lxpp7cqWN89l1MoBa+Vo=;
- b=gexrOV8MsoCOOSljOYVlggBFNdjvemLv/N7cVG+F7u/1VAju9Ir9heKztHu2Pr7tAX0TDUoKamrBq27sMPiTlwsLuZe+1n/Q7FcLXP3q4y+sVpeSXopGzy0O/Z3NYjykqdywmk4o9MeJ1BtJS2Lk2WNhIZbWmFaf3Zoj3RBrFh8de83pCIMQi7TdrLMs+w2Y5R6iIF+50KoIauXEOJQF1+PAhfzmnqxLKMhwChYcZevIkOC/q1Lc9SwhpSLfIoLLlNM8mVOYmlGSjuAZb5m0L5hGAzt7Ix2+or4PiTXSj2soJc8gYh/utNzalmvWVY9gG70Uo2dhcvBg3XBKCjBuUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=opensource.cirrus.com smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ckXkvUaiFohGmcI5xTk69K8lxpp7cqWN89l1MoBa+Vo=;
- b=QoW0dhLK1F50EgpqjtU0v9MnauvURcAVRRQsBBxvSPScw62DrVh8UUXJBH4gDf1gIK0egMUsMvnrYZjFLqsoXoFseM/tVwoc60QokwjntZoRHYUZV3dnzvml1xYkGYkmeYgxwcRKWv4CkmC74PgjuiYPB9u0G1MUgZCVJZKzz3o=
-Received: from BL1PR13CA0133.namprd13.prod.outlook.com (2603:10b6:208:2bb::18)
- by CO1PR10MB4801.namprd10.prod.outlook.com (2603:10b6:303:96::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Tue, 24 Mar
- 2026 15:40:56 +0000
-Received: from BN1PEPF00006002.namprd05.prod.outlook.com
- (2603:10b6:208:2bb:cafe::32) by BL1PR13CA0133.outlook.office365.com
- (2603:10b6:208:2bb::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9723.31 via Frontend Transport; Tue,
- 24 Mar 2026 15:41:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BN1PEPF00006002.mail.protection.outlook.com (10.167.243.234) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.19 via Frontend Transport; Tue, 24 Mar 2026 15:40:56 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Mar
- 2026 10:40:50 -0500
-Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Mar
- 2026 10:40:50 -0500
-Received: from DLEE204.ent.ti.com ([fe80::81dc:e6c6:4c37:9bc6]) by
- DLEE204.ent.ti.com ([fe80::81dc:e6c6:4c37:9bc6%14]) with mapi id
- 15.02.2562.020; Tue, 24 Mar 2026 10:40:50 -0500
-From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"broonie@kernel.org" <broonie@kernel.org>, "lgirdwood@gmail.com"
-	<lgirdwood@gmail.com>, "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com"
-	<tiwai@suse.com>, "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
-	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
-	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
-	"ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
-	"kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
-	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>, "Xu,
- Baojun" <baojun.xu@ti.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
-	"Kasargod, Sandeep" <sandeepk@ti.com>, "Hampiholi, Vallabha"
-	<v-hampiholi@ti.com>
-Subject: RE: [EXTERNAL] Re: [PATCH v1 2/4] ASoC: tac5xx2-sdw: add soundwire
- based codec driver
-Thread-Topic: [EXTERNAL] Re: [PATCH v1 2/4] ASoC: tac5xx2-sdw: add soundwire
- based codec driver
-Thread-Index: AQHcunu9/jnUBySI0E6tRb9u0/HXgbW916yA///m0oA=
-Date: Tue, 24 Mar 2026 15:40:50 +0000
-Message-ID: <9864e705c75a4156be957df8d1aba449@ti.com>
-References: <20260323041545.2101-1-niranjan.hy@ti.com>
- <acJtGVN5nOTvFnxg@opensource.cirrus.com>
-In-Reply-To: <acJtGVN5nOTvFnxg@opensource.cirrus.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="sgg/EQjv"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 31EDCBAD;
+	Tue, 24 Mar 2026 16:48:14 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 31EDCBAD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1774367294; bh=5VQEo609kVLLjbaGl4ijBGmY8MV/hSDGuCsEEYkpJ+o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sgg/EQjv342/sJkUbqPfPoLQ01qaRTFi35xj2OMrai+OO8eO/6UIwXLQ5VedBOtYQ
+	 kdIcgVeWe9dvzAQBcpWWo+tyH7r7uSKDgGvSsPdG+twjvJxaTTLUIFq4ffCI0CiUsg
+	 vHpnJ3mzqnsFKpd2NC16RlAokSFGXHsK/f9F7HbA=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 24 Mar 2026 16:48:04 +0100 (CET)
+Message-ID: <a3eaedae-f23b-46ac-9e8f-a6167df7ef41@perex.cz>
+Date: Tue, 24 Mar 2026 16:48:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006002:EE_|CO1PR10MB4801:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2512cfb-62bf-4990-106e-08de89bbbd82
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700016|82310400026|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	TXX1FDxQqrAsdnaEN+YiFxJ2VROmDc1Qc8rosWZfm2AJ8x6OlWU1CCNZBuFf3Y8HOxqd4NmTvFoFWddizycVwWMLdONq4ad9V+AijNVlYgiJHQrFEBafb0RiJ5peOORgZH2NJ8cVqRsTE+yZ6ZTtg958YgRhvqAjTAtznn7+upRB6RqT22P6KViqW9217A83YWzVsqKdEUDizyzqJth3dHUstBOECwcQL4sJKa4faL5moQNIxj0hOlTI850+xK9/++FSsZuPe39n9+3Cx3es7FiCcqCjuKQqxNJ//YwNCyQdxgP2ZiXu48akZHUGLXdneW0oR5Kb/oNgieS5+ozhI0wd0Wz6LjrXiNjtFrOiLrKIxdJNJwRqibdVFFqXzfJ6ur8yMOyE1ADpFT6E2BzNYdXTfIYJzyUOq9oLEQJV5Ou1KfIKG6kTICasqfsZO2K+4qxe3oQSgCQMBsO2Jpw6HtCjgfV9htRyiZixlhA89FEFL1tQc5Fo+3RZjFUe8LtcJoJVSS8Qu4ZZXYGhNK2D3gnXcWVU+q12o6bsa0q1TyC29OQLvPBCUvBWYwib9qwy7MTnSPvwDGV7zWdR+tdfMu8mld2r1mwMyc8qLbDcNmDeCZdsFDZiKU2+j8uL1kzIXOdfkiR71BDKKo2JXvNWYH28WfgYgu+q9eQ3yvvHgkeh44zgd108elGH+qMRV0MBd04Ri5bvSDfu1qXrO5shckjwXfZ0gWNOtbSYqKG74uVyK1fgNYKX63Ww2Hcmf19ppH6uy7cFIuLePYxOeGjPaA==
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(82310400026)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	89LG95xVSm4OWXbdaTaXnaefSUqteWA4vh1ciF4J4dXuz3DjFkEui9njW4j+7Cn+A0a3qzev+++6SZ+ULBQ+xBnzTnQVxI7nyzv2iWgD13Uu0ef3jLzneJH1S9+puYZxye8ex+qpPaIjgvJu41XxPXy7R0vitKFutQfS4BGVNqDr96DP4gNalKsOk3/QYrv+IlYJ+erI9fN69wEeDZjIJh2kpKfup/JwejDvvmj2vKiectdPOYMuSRrHkFExsqQMUldtVMHNr1RSOsmvSKG2Ntfep3JF+lQBWC1b+ue+EG4Hav6ES378uLUo7nijraI1BI1zHulfPIpCthfC5XvEVuqz5Spy3fwsX+Du0WR52ZIIXTBYsGkTnLPNyj0HlEsA0czNhgbPE+rv20HTdOXHkitAevdf4cX5pCZrB6RblceqMj5kBzfawXC44SD3g3uh
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2026 15:40:56.3364
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2512cfb-62bf-4990-106e-08de89bbbd82
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00006002.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4801
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
+ <8fe7f61b-dae4-4ae6-aa96-7e604a37e624@linux.intel.com>
+ <813612ea-f942-432f-9bf1-7b1ccfe59046@perex.cz>
+ <6b129498-f130-44a0-a679-6fa1c639046e@linux.intel.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <6b129498-f130-44a0-a679-6fa1c639046e@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-PiBPbiAxNjoyMy0yMDI2MDMyNCwgQ2hhcmxlcyBLZWVwYXggd3JvdGU6DQo+IFN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjEgMi80XSBBU29DOiB0YWM1eHgyLXNkdzogYWRkIHNvdW5kd2lyZSBiYXNlZCBj
-b2RlYyBkcml2ZXINCj4gT24gTW9uLCBNYXIgMjMsIDIwMjYgYXQgMDk6NDU6NDVBTSArMDUzMCwg
-TmlyYW5qYW4gSCBZIHdyb3RlOg0KDQo+ID4gKwlyZXR1cm4gcmVnbWFwX3dyaXRlKHRhY19kZXYt
-PnJlZ21hcCwNCj4gPiArCQkJICAgICAgIFNEV19TRENBX0NUTChmdW5jdGlvbl9udW1iZXIsIGZ1
-X2VudGl0eSwNCj4gPiArCQkJCQkgICAgVEFDX1NEQ0FfQ0hBTk5FTF9NVVRFLA0KPiBjaGFubmVs
-KSwNCj4gPiArCQkJICAgICAgIG11dGUpOw0KPiANCj4gSWYgYWxsIHRoaXMgZG9lcyBpcyB3cml0
-ZSB0aGUgcmVnaXN0ZXIgd2h5IG5vdCBqdXN0IHBhc3MgdGhlDQo+IHJlZ2lzdGVyIHRvIHRoZSBE
-QVBNIHdpZGdldCBhbmQgbm90IGJvdGggaGF2aW5nIGEgY2FsbGJhY2sgYXQNCj4gYWxsPw0KPiAN
-Cj4gU2FtZSBmb3IgbWFueSBvZiB0aGUgb3RoZXIgcG93ZXIgY2FsbGJhY2tzLg0KV2lsbCBmaXgg
-aXQgaW4gbmV4dCB2ZXJzaW9uIGZvciB0aG9zZSB3aGljaCBkb2Vzbid0IG5lZWQgZXhwbGljaXQg
-aGFuZGxpbmcuDQoNCj4gPiArCQlkZXZfZXJyKHRhY19kZXYtPmRldiwNCj4gPiArCQkJImVycm9y
-OiBvcGVyYXRpb24gd2l0aG91dCBodyBpbml0aWFsaXphdGlvbiIpOw0KPiA+ICsJCXJldHVybiAt
-RUlOVkFMOw0KPiA+ICsJfQ0KPiANCj4gVGhpcyBpcyBhIGJpdCB3ZWlyZCBzaG91bGQgdGhlc2Ug
-bm90IGJlIGhhbmRsZWQgYnkgcnVudGltZQ0KPiByZXN1bWU/IFRoaXMgaGFwcGVucyBpbiBhIGNv
-dXBsZSBvdGhlciBvZGQgcGxhY2VzIHRvby4NCkkgYW0gb2JzZXJ2aW5nIHRoZSBmb2xsb3dpbmcg
-c2VxdWVuY2UgZHVyaW5nIHRoZSBwbGF5YmFjayByZXN1bWUgZnJvbSBsb3cgcG93ZXIgbW9kZSAo
-IHdpdGggLmlkbGVfYmlhc19vbiA9IDAgKSANCkRldmljZSBnZXRzIGRldGFjaGVkIGZpcnN0LiBU
-aGVuIHRyaWVzIHRvIHJlc3VtZS4gVGhlbiBod19wYXJhbXMgaXMgY2FsbGVkLiBUaGVuIGdldHMg
-ImF0dGFjaGVkIi4NClNvIHdhaXRpbmcgZm9yIGF0dGFjaGVkIHRvIGdldCBjb21wbGV0ZWQgYmVm
-b3JlIHByb2NlZWRpbmcgd2l0aCAuaHdfcGFyYW1zLg0KDQo+ID4gKw0KPiA+ICsJcmV0ID0gcmVn
-bWFwX3dyaXRlKHRhY19kZXYtPnJlZ21hcCwgU0RXX1NEQ0FfQ1RMKGZ1bmN0aW9uX2lkLA0KPiBw
-ZGVfZW50aXR5LA0KPiA+ICsNCj4gVEFDX1NEQ0FfUkVRVUVTVEVEX1BTLCAwKSwNCj4gPiArCQkJ
-ICAgMHgwMyk7DQo+IA0KPiBBZ3JlZSB3aXRoIFBpZXJyZSBpdHMgYSBiaXQgd2VpcmQgdG8gYmUg
-aGFuZGxpbmcgUERFcyBvdXRzaWRlIG9mDQo+IERBUE0sIGF0IGxlYXN0IGEgY29tbWVudCB0byBl
-eHBsYWluIHdoeSB3b3VsZCBtYWtlIHNlbnNlLg0KSSB3aWxsIGZpeCB0aGlzIGluIG5leHQgcGF0
-Y2guDQoNClJlZ2FyZHMNCk5pcmFuamFuDQo=
+On 3/24/26 11:51, Péter Ujfalusi wrote:
+
+>> But if we agree on other name like 'burst_size' or 'batch_size', I'll be
+>> fine with it, too.
+> 
+> I think neither of these are right, unless we substitute them with a
+> variable which tells the size of the FIFO in hardware that is going to
+> be filled.
+> max_hw_ptr_burst_size or max_dma_burst_size or max_burst_size - in frames?
+
+I missed the 100ms + 1ms case (it was a bit hidden in the examples). Looking 
+to this again, I think that the terminology should be more abstracted. The DMA 
+word is not appropriate in this contents. Even the burst word is not so good. 
+Also, applications do not work with hw_ptr, but with the avail / delay values 
+(calculated from the head [hw_ptr] /tail [appl_ptr] - playback).
+
+I think that we both mean similar thing, but the question is how to define the 
+right API for it.
+
+Basically, for playback this value should be the "minimal fill" recommendation 
+to avoid underruns. So for your examples, it should be 101ms or 196ms (but in 
+samples) right ?
+
+If we look to other direction (capture), it may describe the "maximal sample 
+block" which will be put to the audio buffer (hw_ptr change).
+
+So, perhaps, the xfer_latency name may be used (value should be in samples)? 
+Applications should not go bellow this value.
+
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
