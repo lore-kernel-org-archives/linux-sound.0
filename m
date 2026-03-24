@@ -1,85 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED543FBED2;
-	Tue, 24 Mar 2026 13:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F751E1A3D;
+	Tue, 24 Mar 2026 13:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359203; cv=none; b=NZe1BZo+vidKgwJofReII/a6fhkkg3YN9Mh2IIQi3f2gJ3A95X6XGC61GHg2j4FvPTDel07JY0L6Q9szTYB6eSvDCBDxYYVcMgRHLfGphRFYpuv3nnfGKvAlqS4ou1883TUeODPid7yGNXIhI+bfs9w0Wh63Mf5sLR60lGkHycw=
+	t=1774359269; cv=none; b=jhDtQaa3Ny+r6r0ww3HO2G2F0iDw/buArgtof2c/dZ6xbRmgkcVmc61zp1GNXXfIy02kY/+CRLcuCQO4OR2PzJlSdLFXmxfd3HVxW+IOPhuNIDI4fQJym4aivhQhT+piCi8yYyqWwdmaGgmq8QjZGMP0S3d8Bko1poEu92a/JKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359203; c=relaxed/simple;
-	bh=b4Fwdvdyts85PAc+vUA9SPWws4818WTQttH3SzgtbAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T0VxzwhWfjZWGlTu1vN0+D5Jjw0+6Jbhhw34YZQvwpqKvbT1pO7i3qYgYA9JpZemAvoueXAuOKWO9CjaZozc6ncm4ltWG55oDMK01NWaXqhORqHE3LjGt2fAzGjx1Mv3OGmCu1IsWEJcBD7RrDCOIQPhX0fjoJJC8sVKiggwEH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPu9qOKG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774359269; c=relaxed/simple;
+	bh=VPEEfvfhbbibvyfUZerlyIS7h6fTTCMSZissG/29gxY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gTqGYsJk1htqGcAK1Jg1Bq8DTdT3YVF1god48jh7L5GXqadDd2eI4vGMEsmMLXeooNYctasnOQpMu3Q/8selv77SqhXeVKpKyRJLxL7n5ghn5nGzbpQ2fCKTDp0PDKi5rxkENbTjQhgMG5B6ap5Y+pP8wi0+i/vCHwVR+1ZuK4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=DIsB6sKQ; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPu9qOKG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E356C19424;
-	Tue, 24 Mar 2026 13:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774359202;
-	bh=b4Fwdvdyts85PAc+vUA9SPWws4818WTQttH3SzgtbAw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KPu9qOKGIZ/8O4xL298ETx47Zc1hDZSWW5T67rMvl31lolKX7yFBWWyBZvQbi/lMg
-	 VZ7pvuiSs+p4A4d2xBLJKGbJrjoI/FEHDoBKzc+pKlsQePSlPC0twO1GVsVbZ+x0+e
-	 1sDjkxcisty/zGfMIRUhLvDQI3nTZTVq6i0+iUR+CiWoPeK/IDOULp7c306Ht/1Xtu
-	 po3/sG/EdFMmEH0hJXXaFOjXpxfwHqRm8DNs7zDUPekciVTzMYSPZgXoglHE8+BwQA
-	 Q49tl1CoVboT5nLJfCrJZSITnfSjSGbXEV6QfRq+tOnc+d07O26hb9mdXIrR9+3LOv
-	 psJswYE7n0+jQ==
-Date: Tue, 24 Mar 2026 13:33:17 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="DIsB6sKQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
+	References; bh=48Pi96z23t2gYmpMmdR01/+vfDXhEQD8xG6PINj+Vq4=; b=DIsB6sKQlAOnrA
+	8nKNcCPv6pPcFfRQtOOpj/HPK8iGUjWfht3BetJIz5FGcmmNSCQwAJFHRPMo8OnYw9zlfEHTvAVil
+	HcU46JCUF39m+NFvVWEjDDlVKcbUSMqeRNU4Ua0Ajt+9TsbmiD+C37THFiMAJJKnQfnM5n/9wtD95
+	FGrbdXPN6kNPopbW4qL/8AlKADDAEJX4mds4bV4U/1AwHvqU9MvfzDh/cICPO5Ome790H3asuCAlS
+	Jqe01iRJUkZxHwyhKdIloHd+GO+MXsdR71BGG5w8spKeWF0M9U9migYxC36X9ZFNk6oLVQqz/H27d
+	Xt34NSOqtmXzgvYYZKaQ==;
+Received: from [63.135.74.212] (helo=rainbowdash)
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1w51tV-007IqW-QF; Tue, 24 Mar 2026 13:34:05 +0000
+Received: from ben by rainbowdash with local (Exim 4.99.1)
+	(envelope-from <ben@rainbowdash>)
+	id 1w51tU-00000000S1R-3RLK;
+	Tue, 24 Mar 2026 13:34:04 +0000
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: Liam Girdwood <lgirdwood@gmail.com>,
 	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
 	Daniel Baluta <daniel.baluta@nxp.com>,
 	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [RESEND v4] ASoC: SOF: sof-audio: pcm_id is __le32
-Message-ID: <9ac16808-4036-487e-9152-8dd40ab6e5a1@sirena.org.uk>
-References: <20260324105027.99586-1-ben.dooks@codethink.co.uk>
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: [PATCH v5] ASoC: SOF: sof-audio: pcm_id is __le32
+Date: Tue, 24 Mar 2026 13:34:03 +0000
+Message-Id: <20260324133403.107708-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4NCq+nFW4UoZERBP"
-Content-Disposition: inline
-In-Reply-To: <20260324105027.99586-1-ben.dooks@codethink.co.uk>
-X-Cookie: Forest fires cause Smokey Bears.
+Content-Transfer-Encoding: 8bit
+Sender: srv_ts003@codethink.com
 
+The pcm_id value is __le32 so convert it before passing to the dev_dbg
+function to be printed. Also fixup some other uses of __le32 data and
+a couple of places where %u should have been used instead of %d
 
---4NCq+nFW4UoZERBP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Picked up by sparse prototype for variadic and printf
+function checking. Fixes a large number of sparse warnings, such as:
 
-On Tue, Mar 24, 2026 at 10:50:27AM +0000, Ben Dooks wrote:
-> The pcm_id value is __le32 so convert it before passing to the dev_dbg
-> function to be printed. Also fixup some other uses of __le32 data and
-> a couple of places where %u should have been used instead of %d
+sound/soc/sof/pcm.c:84:25: warning: incorrect type in argument 4 (different base types)
+sound/soc/sof/pcm.c:84:25:    expected unsigned int
+sound/soc/sof/pcm.c:84:25:    got restricted __le32 [usertype] pcm_id
 
-Please rebase rather than resending this (if this is actually a rebase
-please send it as a v5 so the tooling doesn't get confused).
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
---4NCq+nFW4UoZERBP
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+v2: fix missing __le32 conversions
+v3: further __le32 fixes for other header values
+v4: fix signed-ness of printf formatting
+---
+ sound/soc/sof/compress.c |  2 +-
+ sound/soc/sof/pcm.c      |  2 +-
+ sound/soc/sof/topology.c | 12 ++++++------
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/sound/soc/sof/compress.c b/sound/soc/sof/compress.c
+index c6c19df29035..3dbc05bf3b79 100644
+--- a/sound/soc/sof/compress.c
++++ b/sound/soc/sof/compress.c
+@@ -247,7 +247,7 @@ static int sof_compr_set_params(struct snd_soc_component *component,
+ 	ret = snd_sof_set_stream_data_offset(sdev, &spcm->stream[cstream->direction],
+ 					     ipc_params_reply.posn_offset);
+ 	if (ret < 0) {
+-		dev_err(component->dev, "Invalid stream data offset for Compr %d\n",
++		dev_err(component->dev, "Invalid stream data offset for Compr %u\n",
+ 			le32_to_cpu(spcm->pcm.pcm_id));
+ 		goto out;
+ 	}
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index d3af30398305..b2071edeaea6 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -360,7 +360,7 @@ static int sof_pcm_prepare(struct snd_soc_component *component,
+ 	platform_params = &spcm->platform_params[substream->stream];
+ 	ret = sof_widget_list_setup(sdev, spcm, params, platform_params, dir);
+ 	if (ret < 0) {
+-		dev_err(sdev->dev, "failed widget list set up for pcm %d dir %d\n",
++		dev_err(sdev->dev, "failed widget list set up for pcm %d dir %u\n",
+ 			le32_to_cpu(spcm->pcm.pcm_id), dir);
+ 		spcm->stream[dir].list = NULL;
+ 		snd_soc_dapm_dai_free_widgets(&list);
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 63d637db7053..907f9b1e9d1b 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -775,7 +775,7 @@ static int sof_parse_token_sets(struct snd_soc_component *scomp,
+ 						       array);
+ 			break;
+ 		default:
+-			dev_err(scomp->dev, "error: unknown token type %d\n",
++			dev_err(scomp->dev, "error: unknown token type %u\n",
+ 				le32_to_cpu(array->type));
+ 			return -EINVAL;
+ 		}
+@@ -880,7 +880,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
+ 			       ARRAY_SIZE(led_tokens), mc->priv.array,
+ 			       le32_to_cpu(mc->priv.size));
+ 	if (ret != 0) {
+-		dev_err(scomp->dev, "error: parse led tokens failed %d\n",
++		dev_err(scomp->dev, "error: parse led tokens failed %u\n",
+ 			le32_to_cpu(mc->priv.size));
+ 		goto err;
+ 	}
+@@ -970,7 +970,7 @@ static int sof_control_load(struct snd_soc_component *scomp, int index,
+ 	struct snd_sof_control *scontrol;
+ 	int ret;
+ 
+-	dev_dbg(scomp->dev, "tplg: load control type %d name : %s\n",
++	dev_dbg(scomp->dev, "tplg: load control type %u name : %s\n",
+ 		le32_to_cpu(hdr->type), hdr->name);
+ 
+ 	scontrol = kzalloc_obj(*scontrol);
+@@ -1015,7 +1015,7 @@ static int sof_control_load(struct snd_soc_component *scomp, int index,
+ 	case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
+ 	case SND_SOC_TPLG_DAPM_CTL_PIN:
+ 	default:
+-		dev_warn(scomp->dev, "control type not supported %d:%d:%d\n",
++		dev_warn(scomp->dev, "control type not supported %u:%u:%u\n",
+ 			 le32_to_cpu(hdr->ops.get),
+ 			 le32_to_cpu(hdr->ops.put),
+ 			 le32_to_cpu(hdr->ops.info));
+@@ -1525,7 +1525,7 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
+ 		break;
+ 	case snd_soc_dapm_pga:
+ 		if (!le32_to_cpu(tw->num_kcontrols)) {
+-			dev_err(scomp->dev, "invalid kcontrol count %d for volume\n",
++			dev_err(scomp->dev, "invalid kcontrol count %u for volume\n",
+ 				le32_to_cpu(tw->num_kcontrols));
+ 			ret = -EINVAL;
+ 			break;
+@@ -1774,7 +1774,7 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
+ 			       ARRAY_SIZE(stream_tokens), private->array,
+ 			       le32_to_cpu(private->size));
+ 	if (ret) {
+-		dev_err(scomp->dev, "error: parse stream tokens failed %d\n",
++		dev_err(scomp->dev, "error: parse stream tokens failed %u\n",
+ 			le32_to_cpu(private->size));
+ 		return ret;
+ 	}
+-- 
+2.37.2.352.g3c44437643
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnCkpwACgkQJNaLcl1U
-h9C0lgf/bglWpMrABleb5KJyYlqukdMY7GqMRpZ8WusxbBFMitp1bT4ARYxDv23R
-JKWc/J+GeHmvHVl9v6gmqjsH2MGfoLjYkUSEAN/LjlOszOLf+trVfC1nZfTG0yaj
-HnMAmzUyYDZM41+mavsNNuZAcuyFvAZ+8V5tpzUHzfktHkdnlSHF+U1dTSzQzXab
-pJlqL42Sy+BhRJcDic1WJxbApEf3H28cJmRS31pcmIwLGbk/zTJtiK9DhYU5HD/k
-6BaxFntx+TVx7hZrSLkPhKXQweekYRdm4nmSrbRFDec5Yeg3oaexGinjEWzq9NnA
-16AqEr6xYQdhskN51QFkig9CkIJxEg==
-=l/NL
------END PGP SIGNATURE-----
-
---4NCq+nFW4UoZERBP--
