@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD7C3101A2;
-	Tue, 24 Mar 2026 19:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C28317170;
+	Tue, 24 Mar 2026 19:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774381444; cv=none; b=I0J0t2i+IrciQ6wp41sUu+kPGc99+FInbdxIPXUNkRyS9pK11FI48LmbMryiAbTjpjwu0iBCTLeUz53N3/jKT2tqYzv7E35jclGfKqc1jD+rBGeahAM0Pq0GWNUP6EetkcIrxlys/UnS+brvPbkEmIiu2aWFtB45B10OcTafxzY=
+	t=1774381448; cv=none; b=G/WovscjoL4JAWpoDJf6qB4kgSBuYy5vlgNLNcB37mkcLF3yEYheKDTgtz9MdMfL1gVyk3auJQIRe69UcrOVXrCM78fFBN6WmP2ZztlgFZejxj9YNfjgy6VyOl/MyG+thPm0Z5IYYg4KQbbwrJcvxwAC5q47TIQG+Ao53rSfcqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774381444; c=relaxed/simple;
-	bh=q0PllgsFQyJSFI4pOaw7qm/0+R8fwatPwIoMWEk53AM=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=k4kfIwD2w1CMHqrFL+fNX91UjFx6P28Itg4SrvISMztOXeewN2in/dhesI3LuIlSsGv3oCKJCZg4/pHCUzpL7CFoiS+IQZ/qu9PhH+9o3s0nl5kGJ40sWRzS9lMHRamCsuo0UAn480cAQ7RMPBC1QjF9r/51xdsvVBX3QzxdNic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxnxlUgP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774381448; c=relaxed/simple;
+	bh=3t24e6Nr9RxnulaeTfeNt4MpOZwLzLsTJ5Dya2xVw9M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BCjhth+06ZiFNnnzsRoH4M1nCeZq/rbIA5t4JMoy3jwWruzTWljpTzYlLeBhItx63R8Vuo3EgTBJsrgN3s5gk8Lf+aOLLJakrkhHtzLoH7G5iUUwkzxxKRzcgw+Z/wCAInhMIYulFKBl6Tul5jJgEiFMBnjR80/Do91UhULV/uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHwHAT9S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxnxlUgP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0359C2BC9E;
-	Tue, 24 Mar 2026 19:44:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHwHAT9S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22FC7C2BC9E;
+	Tue, 24 Mar 2026 19:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774381444;
-	bh=q0PllgsFQyJSFI4pOaw7qm/0+R8fwatPwIoMWEk53AM=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=cxnxlUgP7w0Dz8ydBgClfrj7NQdHaztO7Bvdr/DZhLnaSTYldgi4UVhS5DRuQ/Og4
-	 bpO8auYyoAVYypo3IbxmVQ9xOmemU8FINFkThxesZnWnZgLozo2dl69W2XX3KHjXEF
-	 DAJo27k7yomY9eOkMXyIfdMJ2HIxdSE/YNWEr/j7Q2C/N134umfghh3hVbcCgs6Pbg
-	 1wpDQxgAAtrMrUlgpKCVi/80ziZajuIUbC1YFX1Y5HyGwuDTVm7Q2t0SJ4g9C5nZLX
-	 rFxD1+HDTwU2QWxQC2gG1SES0X5HLKTqgArH/mTIKnebvO3o6Q1ZEzh5jdWvpgeAZu
-	 m+IRvGhRK15NQ==
+	s=k20201202; t=1774381448;
+	bh=3t24e6Nr9RxnulaeTfeNt4MpOZwLzLsTJ5Dya2xVw9M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MHwHAT9SKUl0vG1xB43oml2kGSWrJ3X136+PtlKjIemSB4MGDEAxd1mt9dJlG7JsX
+	 4skcJMTWrNyQghP2xcECA/EsbeygVgAr6/snH/DY1s8+4Qpv4mUEWSRr0f7pVSLOVg
+	 4Fu3e5DO1jDMgKGA9tzC1HKnLqznXRy1oO7TV7UnYSXIRB0iAbKy1H4yDQLynqIo3k
+	 quOF91frhZFH8efqcz4miEBD85rK0rmjJJYk2v3qF8ILvDjODUoRbcXZxkJT7AsZNW
+	 oEuIttStxuc3NI84VXvZ78uJeVz/xQpustG6oGi7dzOQinHqgSKnOURla+/mlTsx9Y
+	 50TT3UiPr125Q==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Ben Dooks <ben.dooks@codethink.co.uk>
-In-Reply-To: <20260324133403.107708-1-ben.dooks@codethink.co.uk>
-References: <20260324133403.107708-1-ben.dooks@codethink.co.uk>
-Subject: Re: [PATCH v5] ASoC: SOF: sof-audio: pcm_id is __le32
-Message-Id: <177436042872.98682.1923486931321084534.b4-ty@b4>
-Date: Tue, 24 Mar 2026 13:53:48 +0000
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+ DanielePioGenovese <delitedaniele@gmail.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260320155842.55304-1-delitedaniele@gmail.com>
+References: <20260320155842.55304-1-delitedaniele@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add MSI Thin A15 B7VF to quirk table
+Message-Id: <177435896402.86944.7340385155971642362.b4-ty@b4>
+Date: Tue, 24 Mar 2026 13:29:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,20 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-6cc06
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1091; i=broonie@kernel.org;
- h=from:subject:message-id; bh=q0PllgsFQyJSFI4pOaw7qm/0+R8fwatPwIoMWEk53AM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwumAzMc0D+/+7goSckRnnZMd0KfZmQn7yOe7l
- 4YYESBrDHiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacLpgAAKCRAk1otyXVSH
- 0N2vB/4mWzC+Dd924XQ0aNc7DY5olGyWRBM2q03exLxD3O/SYTTb5LTfX9mS4AAx2tbvYkeN1Ls
- 6I0WInAOcLTm0ongWrkR3xTM716NhqqT3LpfYY7CtohGnE5CkoyqlBOkD5WS3mLdP0asc+ivVc2
- f+iGjVLpWsqGTzpmLWLglIdasnWNYCxIKTH7G06zch623H1JyLJvCsa738MbWXO4BenQa0ga+mW
- 63ZxxF35f5aIxwEOrikM6qOhkHW9lUjAh5D2SHSBN5ieDV4/XXpH4ZwIeGQO7qvIXdM9osiY09B
- yox6Uo6oI9g83pFfEkW2ZWX3KUfVu9XmnqcIGg6ubof/RPHx
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1126; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=3t24e6Nr9RxnulaeTfeNt4MpOZwLzLsTJ5Dya2xVw9M=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwumG6Bx5Br8WwHwrwddPGgvf4H/0Shy+8NZbE
+ FSNYORQBlKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacLphgAKCRAk1otyXVSH
+ 0MWIB/4+sjB2zzpLsSEDhrHzaMYJ/jAYpb7jKQPMVM4TEoIHTLzP7tCBhmi8s6mjMdcpghX5oCE
+ ECGsBCBqklv/FSdZwZZM3CgYHa8PWO69I+uQiZP0uySyd6sYti+7SikjFzbYVYJHXwc7elP6THD
+ 9xJkqMCqnviEn/qeGOi8HNEQhIzUusf7n8yb06RzG4S5115i8NXGTGTyDasPghv0hOHzyG4r9sD
+ h4MohgArqr3binmmWkZLsl66H6BwgfjEP5wzD6fHinw+xNkrXoC5dCCpTozdh/xhUDLyPiKIv5u
+ vxdMR/SlB9A7XoCdPuCE5aDhoNRRQWhpnYfo12GlyxIWZtxh
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 24 Mar 2026 13:34:03 +0000, Ben Dooks wrote:
-> ASoC: SOF: sof-audio: pcm_id is __le32
+On Fri, 20 Mar 2026 16:58:42 +0100, DanielePioGenovese wrote:
+> ASoC: amd: yc: Add MSI Thin A15 B7VF to quirk table
 
 Applied to
 
@@ -72,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: sof-audio: pcm_id is __le32
-      https://git.kernel.org/broonie/sound/c/4478886310e5
+[1/1] ASoC: amd: yc: Add MSI Thin A15 B7VF to quirk table
+      https://git.kernel.org/broonie/sound/c/141efa53b987
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
