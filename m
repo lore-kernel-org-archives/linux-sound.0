@@ -1,60 +1,60 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4D534C989
-	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 20:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ABA2DB7B7
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 21:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774385786; cv=none; b=hnbW96G3wTjQcu3jlOTR7C3x9soq+Dw2lhCgLvwewUyroYHRkJAsy924zdzxtjErCvmBZM1pLYsuLQXY+RqfIrNAIvhkg/oHoeksZRRZ5qL5uythY5X/tDnhrCJj7FjzEHyyicBx6an/+E+J6Ly5TUu9fomvIzdpxgi4lQsePrQ=
+	t=1774386590; cv=none; b=KuvcdyJQh+y1IU0Md2i7Zk2DJqb3JHORsBaDjrKTalTdAJg4LWDlDUxze8ljUHbx1mbCuiWVv55WfygRBIpceeWCxNPnRa+lE61os4FvjcuqsugmR1qQ4bfJFPtWzdekHu9YeIrHbL/3c4rvsnggnSSC/g0IebCn8g5WjRdgn+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774385786; c=relaxed/simple;
-	bh=XzjQ60/SSjQz1xsqxJT3tG/VXfobGKlnyRsg6JL3WmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A50sgDVckJuxOtailv20ST03kOhnRj/6zilyZ+ZnNd/wHb9Ghc00NS4hkvTZ4+mlBvLsV00o3vUn1hOXN9QML4fCs9SmPs9kIgU6qUFWO1LROhW7MVS45ayZbWmc07DK8hJn0Lu6fue27isrAG+zEjucXp8ljkEN+VmIXwEhCm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ezCGOkpY; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1774386590; c=relaxed/simple;
+	bh=8M5WFJCcXeDlacDr05dtrHKKMO61hFHM2Oh3NCHfwQI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ttS2F+uYA36HT05hW/P8Hc8sFWtriLnzGMJFpqmq1Ob/nUIUyHUX+g9TV/cEgVEzqXyc6NDVI/yi4XfusH/r69JdHe2Bv1Cq8C+vfdZX1WuyuujCnrrghfD8Ua1k3ZcWVVfg2ecVvk1S+L7nkDA3jrHfhpD7vdcNApU5HM07oIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cETDtIc9; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezCGOkpY"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-487035181a7so24794675e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 13:56:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cETDtIc9"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-486fe2024a9so34080785e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 14:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774385783; x=1774990583; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774386587; x=1774991387; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HYEM6pX7Y2U3EjDnmZx5hwFofI5ez2sNfPIMH8LA/QA=;
-        b=ezCGOkpYPbSAZGCbyKw8ougX4UHWAQy32u/ucgUoIKOiKuMJmTUV6tjKOdXHUDvxRI
-         sygNvbAYbkoAowbI3dKzcaERlSVGDPMjxsDDuM2/FVQ2FhnOtD4z3Tnzu00I2C/HzPfW
-         29ZAI1jTcMNFft5FuHAjv2tLgoofYTqed7XwjlAJ7QzF2Xp+T5jMWkvOrF/Iwc47m9XG
-         LU8iViCWFJYRWfru8oeGwtVjDab7uA0tXYPm7K7ncn1rw4qYSlJDiUtZ7lggDHPZj6AF
-         XmqFEr0GnHzUQwcnJDQ9uT7GZbIHxSfPaDYLyLkZcB0o7g+XS/+8o2GV6x/hHXAytQFL
-         oi4A==
+        bh=wRDaZyqcbav64G9Vh7kntZLUx/YAbHuNaqwbGHWK6ek=;
+        b=cETDtIc9kZMxINpz6EKlYN3BaipsQVnfBzce8LwvQXroM0h6Jx8oVgix/o5bA3KFb9
+         LWYNU8/EnA+P+TQB3c2h2d0juCwbO0aB2gwZtB5Ry2755Fu6ka2LGC+xCVVXWT18OJCm
+         XXRQdWGIrITkULFg036JnUH9VJhDgcUEr7UG73uR0GG5uS1qClsITzn3hGfCPGs5Rg5t
+         ZcbX1bQI6GKpxupEKrmxezfvpxfEjzlOk5vl+dSovU7eBpSaueUnW5Nj8ULEP2MUzL0r
+         j63T4EuAPr+8zcB8FaSR8NNzcxVfHJuITIzsNuxRBKTYAMBsLP34T149bfmJCIM62v68
+         7n5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774385783; x=1774990583;
+        d=1e100.net; s=20251104; t=1774386587; x=1774991387;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HYEM6pX7Y2U3EjDnmZx5hwFofI5ez2sNfPIMH8LA/QA=;
-        b=SEkkBD9nddn+0M6JkbHR02vRPYvG93E8A0i1izkmDazIN4yhlQmNQJWpC97LXtUD1D
-         SLOy/c5cSaxds5aLIDdTDGzd91wc1qilkAMd9i1IuEhGuS0FuHEcizE8jSv/i9jf8Nws
-         ASC8mZxZU2/LvyUkdQvzXbV0txxMAjbvLKTxsM+WO4Nh8bOmN53ZYTkyPpm/gnvw2iNC
-         uxe9+cJvA7yuvd3NwOkiP/RuGP7OX7BxpsqkSnEpg5d5p60eCqED/s9cykt89Thr0ER7
-         rOmO0xCIX1WxLCx4hzGQJSwwRaciVquemKA/UJ7Ccvs8MS56F6xP6Nvm4WE/E38stVdy
-         oi1w==
-X-Gm-Message-State: AOJu0Yy9HBLwCxX7uwXeS0Wx5jpVLJjW+vok8KCLkUMMZWJ6FwNub/K+
-	yf0EsLf5uKJBwfw/Jz2CoDwhROUIQpfYkZq3625r4k0hAmGJJvj7/InGKjPG
-X-Gm-Gg: ATEYQzzBV39h6ENYC6xLWCXlFeSICaKHpez4N2xndCNKHaYDjN9aAUpxClbp2e7LRcT
-	7LNTVizl3s94i+Qrxd13CT23wvLqmj7+rizYqVi+wJH3ZGsXtzq2ZttmDxNsa8pu4Q1YeN+ruM1
-	9LiFV/wIdlT2x+IHmAYcyeBOn3JqWN+7QdIVTs4GhvKn6KVaf8UjvcUpGi7NuicfAsUP6iJivFm
-	jgnpzPVJrzpcCszAZxX7ZWKqErETfGuHFKZJu7FNoY83JhQV2slsk+mISEeeNjfw7yW5HY0L8q2
-	ohyqgQuSOjyWTgFH8pPYVcKTGX9Cgj9NEkEjg5UyNvVdLRS9W6qaHXoapeqxXMo1GlvOYkVlBJd
-	MvMENy7I5RSTAnVuNEObL6+iQP5XLzCUgRQePq1XfHqfzvW5/6oGFXScVwwg9xruhVFqttMyxD3
-	Cs8G5YRwrfvkoH3zpNM8xH3i0aiElLeSMKD60aiEh8Yw==
-X-Received: by 2002:a05:600c:3b16:b0:485:3f1c:d8a1 with SMTP id 5b1f17b1804b1-48715fcc0cemr18074605e9.9.1774385782469;
-        Tue, 24 Mar 2026 13:56:22 -0700 (PDT)
+        bh=wRDaZyqcbav64G9Vh7kntZLUx/YAbHuNaqwbGHWK6ek=;
+        b=r69eCxhB4CSFrgWAySpQYFpMrH5jB5m5aM2Gh1fq90Vma05frfxDb/UHalpQZsXxwx
+         PHozPBd2jkJL4bpsSbP0rp8TxlwbWvG3N2TxnQlL0xKSyuZQ/SaP6U3QxQAhL36e/kcV
+         LT/Mw1luGJCxhTMlOKHKJnevoI4AMXXUdoEHlfH36Hixy7KKAMhuv15i5jWAQB4lNoQQ
+         3XGBpyYPkwHU6MJn+Mg/aFI2GsvqnjBeumIvWa1UcvFh+0qVLboVn0ntnwcE4KtKQD2J
+         jbOyFWstV3DJM9xzF9tn6r8SzGZJWHvSKOGkh68wlSZsoWVBOlnyYqVvw/WS4ZVQA7hU
+         MIZQ==
+X-Gm-Message-State: AOJu0Ywqvs13u7ve53uQDQUzbnEVM/NfGR1ijiVyVEqRlkYntkmr3bmI
+	Xu7sfZ5lc0OY1PdrI9Epb30e5jtUt9otfHjwt3B2IUJRmP1ckx6a7UqmdqZK
+X-Gm-Gg: ATEYQzw2kXZs4BBv1QUKnmUQOtMXB+ByhIHzRisn3OaO9vXSFH9ThE5bCeOT8wk587E
+	IVpbN8efPZpuqsAb9JwDdRGywJYhttONjfbqLsSXlWxFHaxcwEFzd95DAT+hgzoQ7hys/9GIMtN
+	DMz9AQNXZJ+Zoqzjye0g4eCKRasxuRBod3Q5ZtdQdh4DfVTm8N6Ywo+XaD1EA+DAPWyvRmQ50jN
+	JRrBjXObpdmAswvsWZ0E/LiU0SrClSI3izelevOF0hagCHzX0jhWasgCJ8YIq4Fisn9O7cRthtw
+	B0TH8JKDjB+Y3PYslqXWSP6WarlM3HArnPnzebquePx5ylDMMdMJrN8pIYClZN9Tv/x/WIvDZEL
+	iTnRpetU7P8mCxfrbhlp9B4j3SJE6nDAgxshF14FurEvFTSuod8xSyIQyHQ4rhN6PiWxq6+QqQ0
+	4wNguFzQpUDh7mlHlDzaKHeJdTTSgIo9XBXTdCjxSstw==
+X-Received: by 2002:a05:600c:83c6:b0:485:9a50:3370 with SMTP id 5b1f17b1804b1-48715fcc5acmr16849565e9.8.1774386586922;
+        Tue, 24 Mar 2026 14:09:46 -0700 (PDT)
 Received: from localhost.localdomain ([78.240.217.74])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711709e95sm73907785e9.8.2026.03.24.13.56.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711693a08sm94709465e9.2.2026.03.24.14.09.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 13:56:21 -0700 (PDT)
+        Tue, 24 Mar 2026 14:09:46 -0700 (PDT)
 From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: lgirdwood@gmail.com,
@@ -63,9 +63,9 @@ Cc: lgirdwood@gmail.com,
 	tiwai@suse.com,
 	linux-kernel@vger.kernel.org,
 	jihed.chaibi.dev@gmail.com
-Subject: [PATCH] ASoC: kirkwood: Fix clock error handling in probe
-Date: Tue, 24 Mar 2026 21:55:51 +0100
-Message-ID: <20260324205551.38786-1-jihed.chaibi.dev@gmail.com>
+Subject: [PATCH] ASoC: ep93xx: Fix unchecked clk_prepare_enable() and add rollback on failure
+Date: Tue, 24 Mar 2026 22:09:09 +0100
+Message-ID: <20260324210909.45494-1-jihed.chaibi.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,61 +76,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Two problems in the same clock setup block:
+ep93xx_i2s_enable() calls clk_prepare_enable() on three clocks in
+sequence (mclk, sclk, lrclk) without checking the return value of any
+of them. If an intermediate enable fails, the clocks that were already
+enabled are never rolled back, leaking them until the next disable cycle
+— which may never come if the stream never started cleanly.
 
-1. clk_prepare_enable(priv->extclk) had its return value discarded,
-   while the immediately following clk_prepare_enable(priv->clk) was
-   correctly checked. A failure to enable the external clock was
-   silently ignored.
-
-2. If clk_prepare_enable(priv->clk) failed, priv->extclk was already
-   enabled but never disabled — the error path returned directly
-   without cleanup.
-
-Fix both by checking extclk enable and restructuring the error labels
-to chain: err_component disables priv->clk then falls through to
-err_extclk which disables priv->extclk if present.
+Change ep93xx_i2s_enable() from void to int. Add error checking after
+each clk_prepare_enable() call and unwind already-enabled clocks on
+failure. Propagate the error through ep93xx_i2s_startup() and
+ep93xx_i2s_resume(), both of which already return int.
 
 Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
 ---
- sound/soc/kirkwood/kirkwood-i2s.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ sound/soc/cirrus/ep93xx-i2s.c | 34 ++++++++++++++++++++++++----------
+ 1 file changed, 24 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/kirkwood/kirkwood-i2s.c b/sound/soc/kirkwood/kirkwood-i2s.c
-index 99bd066c7309..ea734bc33dc3 100644
---- a/sound/soc/kirkwood/kirkwood-i2s.c
-+++ b/sound/soc/kirkwood/kirkwood-i2s.c
-@@ -695,14 +695,16 @@ static int kirkwood_i2s_dev_probe(struct platform_device *pdev)
- 			priv->extclk = ERR_PTR(-EINVAL);
- 		} else {
- 			dev_info(&pdev->dev, "found external clock\n");
--			clk_prepare_enable(priv->extclk);
-+			err = clk_prepare_enable(priv->extclk);
-+			if (err < 0)
-+				return err;
- 			soc_dai = kirkwood_i2s_dai_extclk;
- 		}
- 	}
- 
- 	err = clk_prepare_enable(priv->clk);
- 	if (err < 0)
--		return err;
-+		goto err_extclk;
- 
- 	/* Some sensible defaults - this reflects the powerup values */
- 	priv->ctl_play = KIRKWOOD_PLAYCTL_SIZE_24;
-@@ -729,9 +731,10 @@ static int kirkwood_i2s_dev_probe(struct platform_device *pdev)
- 	return 0;
- 
-  err_component:
-+	clk_disable_unprepare(priv->clk);
-+ err_extclk:
- 	if (!IS_ERR(priv->extclk))
- 		clk_disable_unprepare(priv->extclk);
--	clk_disable_unprepare(priv->clk);
- 
- 	return err;
+diff --git a/sound/soc/cirrus/ep93xx-i2s.c b/sound/soc/cirrus/ep93xx-i2s.c
+index cca01c03f048..5dba741594fa 100644
+--- a/sound/soc/cirrus/ep93xx-i2s.c
++++ b/sound/soc/cirrus/ep93xx-i2s.c
+@@ -91,16 +91,28 @@ static inline unsigned ep93xx_i2s_read_reg(struct ep93xx_i2s_info *info,
+ 	return __raw_readl(info->regs + reg);
  }
+ 
+-static void ep93xx_i2s_enable(struct ep93xx_i2s_info *info, int stream)
++static int ep93xx_i2s_enable(struct ep93xx_i2s_info *info, int stream)
+ {
+ 	unsigned base_reg;
++	int err;
+ 
+ 	if ((ep93xx_i2s_read_reg(info, EP93XX_I2S_TX0EN) & 0x1) == 0 &&
+ 	    (ep93xx_i2s_read_reg(info, EP93XX_I2S_RX0EN) & 0x1) == 0) {
+ 		/* Enable clocks */
+-		clk_prepare_enable(info->mclk);
+-		clk_prepare_enable(info->sclk);
+-		clk_prepare_enable(info->lrclk);
++		err = clk_prepare_enable(info->mclk);
++		if (err)
++			return err;
++		err = clk_prepare_enable(info->sclk);
++		if (err) {
++			clk_disable_unprepare(info->mclk);
++			return err;
++		}
++		err = clk_prepare_enable(info->lrclk);
++		if (err) {
++			clk_disable_unprepare(info->sclk);
++			clk_disable_unprepare(info->mclk);
++			return err;
++		}
+ 
+ 		/* Enable i2s */
+ 		ep93xx_i2s_write_reg(info, EP93XX_I2S_GLCTRL, 1);
+@@ -119,6 +131,8 @@ static void ep93xx_i2s_enable(struct ep93xx_i2s_info *info, int stream)
+ 		ep93xx_i2s_write_reg(info, EP93XX_I2S_TXCTRL,
+ 				     EP93XX_I2S_TXCTRL_TXEMPTY_LVL |
+ 				     EP93XX_I2S_TXCTRL_TXUFIE);
++
++	return 0;
+ }
+ 
+ static void ep93xx_i2s_disable(struct ep93xx_i2s_info *info, int stream)
+@@ -195,9 +209,7 @@ static int ep93xx_i2s_startup(struct snd_pcm_substream *substream,
+ {
+ 	struct ep93xx_i2s_info *info = snd_soc_dai_get_drvdata(dai);
+ 
+-	ep93xx_i2s_enable(info, substream->stream);
+-
+-	return 0;
++	return ep93xx_i2s_enable(info, substream->stream);
+ }
+ 
+ static void ep93xx_i2s_shutdown(struct snd_pcm_substream *substream,
+@@ -373,14 +385,16 @@ static int ep93xx_i2s_suspend(struct snd_soc_component *component)
+ static int ep93xx_i2s_resume(struct snd_soc_component *component)
+ {
+ 	struct ep93xx_i2s_info *info = snd_soc_component_get_drvdata(component);
++	int err;
+ 
+ 	if (!snd_soc_component_active(component))
+ 		return 0;
+ 
+-	ep93xx_i2s_enable(info, SNDRV_PCM_STREAM_PLAYBACK);
+-	ep93xx_i2s_enable(info, SNDRV_PCM_STREAM_CAPTURE);
++	err = ep93xx_i2s_enable(info, SNDRV_PCM_STREAM_PLAYBACK);
++	if (err)
++		return err;
+ 
+-	return 0;
++	return ep93xx_i2s_enable(info, SNDRV_PCM_STREAM_CAPTURE);
+ }
+ #else
+ #define ep93xx_i2s_suspend	NULL
 -- 
 2.47.3
 
