@@ -1,129 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5077721D3F3;
-	Tue, 24 Mar 2026 20:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F88A34A77D
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 20:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774383977; cv=none; b=jiJwY68kocCLZv7f5Fvpz1mbWV5bK/eu0i4kXPBozOpzFCq+7Ej9eUP5i5g7t/95l2SKwmxGZoeTCuybFDyxlNS1sp+Rkm5DcWjfM7IxjPzxwoTYSgg7nXgcc0pJ51vUNngBGyB4xSIjZ9z5WTCpr979Sj9W7ug+K5fxgTf6Bx0=
+	t=1774384740; cv=none; b=G+vTtz+poP3gnJ5gUjBrUC2/NSnk45Na3jh4bh0iZPkYbdEZD+Nd3ljZzFYD7KFFcs+y4if54C9jIfAWbQt0ELGfdPFwSYnb0OgXMHb9oSLmhheXn9Xdyln5UkDlOXecB+XpLgG0zlOSPDnRxIQYN9qU/xnzUh6+0NZE8N/EkeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774383977; c=relaxed/simple;
-	bh=GwJgGUd50LjbjPknsKsF1WEzAdeUxCLh3W5ACrHeFKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=db4VWpJcbSbjztbTEmCfSZRGB+QXfkGxE/8DnNtRFPPKJ5Eg4kdqOz2YTUj9xsSEzVFSUIeGu1kipZlUr6dXW3f8lHZFyc6q8fE9IDJMS/4DQc31sfMRRxgF5GUaZruKcI0imfmZ3ThPi96AzY0rxmxSVv4+eJYMSnchGFhbhGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYIVk2bR; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774384740; c=relaxed/simple;
+	bh=MQbazrkmdRYT99sVdqIvGG5jY4ZqY7LLsRLiPijFSDs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cElyHktSxghEQb/xgUECN6H99SA3qUw2NemUaUR0+SamTDQAuBItRghxd/VO9xS2fdVP2ASn8/0/45bLQXtQcr4t6Z3qGN4Pplyrmt7wpInTysP0DzwpyG0/VRmtxdyNTpcc0vOjPTWswT8WRVpTE5oWE6/CsxnN4t49wZd1rpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s9lcD/a/; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYIVk2bR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774383975; x=1805919975;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GwJgGUd50LjbjPknsKsF1WEzAdeUxCLh3W5ACrHeFKQ=;
-  b=jYIVk2bROSvj1zaORpeaNQpMmhJ070wtXSKWWJmZEFKatuFufLUgyPAO
-   qSjKuYvLJinpVS+zFpPHOmJWyYGe0w/OK5h+zR7gAwHkhT/Oxieuh6Gbl
-   Dz9ORXJpS10ptXSgUbGVocj5WKqZn1ExVIvd43i8EKZzLCq05eRnuRgce
-   7IweJ9cDJUAdL7P24P80j3Fw1Y9N0TiaTiPYlulqHznrinn3vHiZaz83y
-   9kHZT8ClOItg0WnKA5rpHFsL3AG837u2xiyVzo+B/0T3KboVD+5ycHcKh
-   MZDQCfyWBIOj8GRvrUyBx0fYhOp2kwNxHgWFt4ydCRBF2PaGP/FLJzubh
-   g==;
-X-CSE-ConnectionGUID: 5FaInDbvQQa1m4US0FrL6Q==
-X-CSE-MsgGUID: N1EM9hrLRduir0fk5/9KLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86789301"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="86789301"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 13:26:15 -0700
-X-CSE-ConnectionGUID: P70ArQhkQRK5fyxDI0RJGA==
-X-CSE-MsgGUID: RppNMgQJT5SX+EIO2JapUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="221119744"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Mar 2026 13:26:10 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w58KF-000000005PB-3bAi;
-	Tue, 24 Mar 2026 20:26:07 +0000
-Date: Wed, 25 Mar 2026 04:25:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mohammad.rafi.shaik@oss.qualcomm.com,
-	linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	srini@kernel.org, val@packett.cool, mailingradian@gmail.com,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer
- mapping on DSP
-Message-ID: <202603250417.fEMbsde2-lkp@intel.com>
-References: <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s9lcD/a/"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2b060c14ccbso162188705ad.0
+        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 13:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774384738; x=1774989538; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Kzhp1Qk8a0PdlJT7jxayKm1GkrTY1c3ya2dGHroCMvU=;
+        b=s9lcD/a/Wp/g8AeorwaDfgehvbAJL8esc4tJuUUF3Glgy8+zytcGUVhb/oEvdgN2mK
+         dv8SFGMW516pI75f+IkLEm3gTXnsTMdJpaCzc7jSR1hgVwK9Ce0gB8k/6OnzArFQvjph
+         uOz0sera4KjjOUxsCyfl5PjNXlK0W9LvYc8LLlWeHzJtX9w9puiKNeOItpPAi6G1o0s4
+         /y6MABxqTzOsu2ZHymBFE81+SWrODwaxBE6bZe/4vsuh5V/rGk9G+1UfGKG5O62MTkdX
+         8wTA0CUWc8pAP3stYq+8SbnVU1o16x3yBg5bjnLZgVMkDfnnf+uzdhHuH6NSj4FmwUuS
+         gWow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774384738; x=1774989538;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kzhp1Qk8a0PdlJT7jxayKm1GkrTY1c3ya2dGHroCMvU=;
+        b=rfhqdFV6eKTkA3OkyGs3lsqmOwM/QGacnpvhKVxFwgZdpsnRcmPSPc7Nyzy726wzZ+
+         43isOQuzLt0kjqtzrnaPTzcs+XpSFMhLynS50y4Yd+twejHXFSCAF+ouP2F44L1ey15c
+         sEwWyNOfdjyuaV8kywklndR7EVgtQmrOluKdyV/7yqppxpfC8Ao/txwV7UGSa90V1bYT
+         Y+CiKpTbUKPBNCVOHUq3Jxjz40X8gwz1nrlCur+Bts3ESn/xnDiXQOrXqMIJG8coaH5U
+         gsQ1B2UzrLyvHsBDy/51KGJym17YELDPyPdDRoOgugrYnLZ1cDESkTBhGMedeOPtnZ9M
+         33Bg==
+X-Forwarded-Encrypted: i=1; AJvYcCUalx9lEXuXIDEp/2WsoBE1JQ+sunawgG5mvcUkXW8cB+XW9nA+yPxN3T53tP/+35ji6wVtpVN6j+jeug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxOW2YMvAugPAMLQy6sOa5tRjfeeoFQ3ROSg9uojnWusUyuIGt
+	gYTUVoe2xTF5Nti1VQJfs6KmEDVrteNxFEz1keAOfM3awoGrFpnsQbpJoYehHqYplqiJFayZMgE
+	LemU6a0R2Fkhyw0ZSGw==
+X-Received: from plaq20.prod.google.com ([2002:a17:903:2054:b0:2b0:52e8:578])
+ (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:e951:b0:2b0:665b:c7de with SMTP id d9443c01a7336-2b0b0aef15cmr10314125ad.40.1774384737642;
+ Tue, 24 Mar 2026 13:38:57 -0700 (PDT)
+Date: Tue, 24 Mar 2026 20:38:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
+Message-ID: <20260324203851.4091193-1-guanyulin@google.com>
+Subject: [PATCH v3 0/2] usb: offload: Decouple interrupter lifecycle and
+ refactor usage tracking
+From: Guan-Yu Lin <guanyulin@google.com>
+To: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
+	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
+	xiaopei01@kylinos.cn, wesley.cheng@oss.qualcomm.com, hannelotta@gmail.com, 
+	sakari.ailus@linux.intel.com, eadavis@qq.com, stern@rowland.harvard.edu, 
+	amardeep.rai@intel.com, xu.yang_2@nxp.com, andriy.shevchenko@linux.intel.com, 
+	nkapron@google.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Srinivas,
+The current USB offload implementation couples the allocation of xHCI
+sideband interrupters with the device's offload usage counter. This
+coupling is conceptually incorrect, as hardware resource availability
+and power management state serve distinct purposes.
 
-kernel test robot noticed the following build warnings:
+Furthermore, the reliance on the coarse USB device lock for offload
+state updates has led to potential recursive locking issues,
+especially during device disconnect when the lock is already held
+by the USB core.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on next-20260324]
-[cannot apply to robh/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v7.0-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This series refactors the offload synchronization by introducing a
+dedicated spinlock for offload state, allowing for more granular
+concurrency control and avoiding deadlocks. It also optimizes power
+management by ensuring that offload state is only modified when the
+device is already active, avoiding unnecessary auto-resumes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-qcom-q6apm-move-component-registration-to-unmanaged-version/20260324-160527
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260323223845.2126142-14-srinivas.kandagatla%40oss.qualcomm.com
-patch subject: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer mapping on DSP
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603250417.fEMbsde2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250417.fEMbsde2-lkp@intel.com/reproduce)
+Patch 1 introduces the `offload_lock` spinlock and `offload_pm_locked`
+synchronization, replacing the coarse `udev->lock` and the legacy
+`offload_at_suspend` flag. It also updates `usb_offload_get/put` to use
+`pm_runtime_get_if_active()`.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603250417.fEMbsde2-lkp@intel.com/
+Patch 2 removes the implicit usage tracking from the xHCI sideband layer
+and delegates the responsibility to class drivers, who have the
+correct context for managing offload data stream activity.
 
-All warnings (new ones prefixed by >>):
+---
+Changes in v3:
+- Replace the coarse USB device lock with a dedicated `offload_lock`
+  spinlock to reduce contention and prevent recursive locking.
+- Introduce `offload_pm_locked` to synchronize with PM transitions and
+  replace the legacy `offload_at_suspend` flag.
+- Optimize `usb_offload_get/put` by switching from auto-resume/suspend
+  to `pm_runtime_get_if_active()`, avoiding unnecessary power transitions.
+- Explicitly delegate `offload_usage` tracking to USB class drivers
+  (e.g., the Qualcomm USB audio offload driver).
+- Link to v2: https://lore.kernel.org/all/20260309022205.28136-1-guanyulin@google.com/
 
-   sound/soc/qcom/qdsp6/q6apm.c: In function 'q6apm_free_fragments':
->> sound/soc/qcom/qdsp6/q6apm.c:321:39: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-     321 |         struct audioreach_graph_data *data;
-         |                                       ^~~~
+Changes in v2:
+- Collect the <Tested-by> tag from the OPPO team
+- Link to v1: https://lore.kernel.org/all/20260225064601.270301-1-guanyulin@google.com/
 
+Changes in v1:
+- Fix build error when building sound/usb/qcom/qc_audio_offload.o
+- Link to RFC v2: https://lore.kernel.org/all/20260213100736.2914690-1-guanyulin@google.com/
 
-vim +/data +321 sound/soc/qcom/qdsp6/q6apm.c
+Changes in RFC v2:
+- Move device locking to callers 
+- Decouple sideband from offload counting.
+- Link to RFC v1: https://lore.kernel.org/all/20260130074746.287750-1-guanyulin@google.com/
+---
+Guan-Yu Lin (2):
+  usb: core: use dedicated spinlock for offload state
+  usb: host: xhci-sideband: delegate offload_usage tracking to class
+    drivers
 
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  318  
-ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  319  int q6apm_free_fragments(struct q6apm_graph *graph, unsigned int dir)
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  320  {
-25ab80db6b133c Srinivas Kandagatla 2021-10-26 @321  	struct audioreach_graph_data *data;
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  322  
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  323  	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  324  		data = &graph->rx_data;
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  325  	else
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  326  		data = &graph->tx_data;
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  327  
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  328  	audioreach_graph_free_buf(graph);
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  329  
-ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  330  	return 0;
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  331  }
-ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  332  EXPORT_SYMBOL_GPL(q6apm_free_fragments);
-25ab80db6b133c Srinivas Kandagatla 2021-10-26  333  
+ drivers/usb/core/driver.c         |  23 ++++---
+ drivers/usb/core/offload.c        | 107 ++++++++++++++++++------------
+ drivers/usb/core/usb.c            |   1 +
+ drivers/usb/host/xhci-sideband.c  |  18 +----
+ include/linux/usb.h               |  10 ++-
+ sound/usb/qcom/qc_audio_offload.c |  10 ++-
+ 6 files changed, 99 insertions(+), 70 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0.1018.g2bb0e51243-goog
+
