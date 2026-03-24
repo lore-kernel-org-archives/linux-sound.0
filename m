@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2348F1E5B88;
-	Tue, 24 Mar 2026 18:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3238C39526F;
+	Tue, 24 Mar 2026 19:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774378067; cv=none; b=qku4klu5wOAb4tJiW+PH2fMMbM8ymbiBT1te0nLopo6oQj/GuKNM37CPXSHwyYZTCWQ28dIeU2PuuS9woHlj580xXrws06iuMT4EKol2T03s+LJYpjqRaQE2pL1s/hD1QonaIUHdThj/OczSsBfpy9PQNKyDmPHYo+XqB76z2nU=
+	t=1774379362; cv=none; b=WBWbjuLXyhZ7gBOJKOHKOL7RVoY032e4YgGqo54qrad0EdLA5vZ/MlIhpaJ9kOpwoP055MrE+JBhvjnynF2tRRl5EAFU3WR9M74JzXoG1zGsxhCtSP8SlFdpiKdfEt7dXtKw0AC2tF3avoghH9Vxleu5SVJhY6VvrX0bifDHfPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774378067; c=relaxed/simple;
-	bh=nBHnkmFzslI9wlUUgqvcQSBheOytEYO5CJcEzEIMG04=;
+	s=arc-20240116; t=1774379362; c=relaxed/simple;
+	bh=ZCDhYx5R6V88uDInHJ7z9Wb/NONMpwVazpJIW63916c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W5N4nk/RaDMv9NBYhhwcTCMnn0jVwtf2sDVJWxYXrwbnGqbxjpAxs6CrLS2TCQ0OPblyRVBqvumeL3/HP+QKWhBbIwMZsM1HmEkEfYQnTItzLNqdzvARqlbG9B8ZhaXpGj0lw9LMBhPCGzerBtjPVkjSCADwymg7/JpduKKD8PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgN722UI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mV7ezlqJkGQQUR+uSBG/i+94PilGwlIqmNQ9XDisjJT3ZMwmTuvysx+ULY4gfGzm6h+8hUv8isXWVlK1DeA6acDiiXJV7EfxdL4TmnUv5jVKDCYS2QAsMT/6BAhh4bn1oU4KOlCz1hZ26Wb8/nkFYMMrQG7ESUHFJBDKxEQx/KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UjVqBpRL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgN722UI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B780C19424;
-	Tue, 24 Mar 2026 18:47:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UjVqBpRL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77742C19424;
+	Tue, 24 Mar 2026 19:09:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774378066;
-	bh=nBHnkmFzslI9wlUUgqvcQSBheOytEYO5CJcEzEIMG04=;
+	s=k20201202; t=1774379361;
+	bh=ZCDhYx5R6V88uDInHJ7z9Wb/NONMpwVazpJIW63916c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FgN722UIWoYJYApMW9idF588h5G/41eqywc1XUB/41iIGijTHop6sxccN19hTr2FF
-	 q2WxqdAOxUd/AnpWY8RZsJoyxcOBbngCBLCJPKUlo1lgvIcA4EGay0m+gtmrtEc4rt
-	 OghViVv9+2Meqgzm9JfpOpl3gKa/puyIpesBJsyBRJKvWScrp48VUcn0PgWw0NzbRe
-	 h99sQwdUvKykE49s95rqEd8YHKwusnRijhNWpsBUciRCy2UU87Otf5QWnYc6cqlcdP
-	 5ogkQGUL4VjBPVjgvLyi6X7ZGTlMz/R/T9XhBxmPSsvOyRgHPLndvJEdim9g3yGlMY
-	 l5K9+SUDCebzQ==
-Date: Tue, 24 Mar 2026 18:47:40 +0000
+	b=UjVqBpRLRKyhJXkkzI85SA+hfyav9lxwy1RATkDwPRaaDXhScCubizISfIgxyVREQ
+	 Tqsr99adlSSIlqX/OFhhuo8wHp24PetiJDnfiC01B26fsKlWFXZ2eUPM3QZ/frt5iN
+	 K0Vq9vtwwBXqgs4kI9usiNuMXlXxkk37DN1I/akPnmKujSRDdkxr3gvY9FEukzc9gl
+	 udgFdu+fcqEUvYGrYyw77xrLtjQUYeCCJI/Vvu9/Pkj6OQtXJOYfGG8Rl33Thi/u45
+	 5t3yS4Kpv3dirEOCDcQ0n+CKFMC1VI8xCqC7qGWmtLPSTk3+/CKEviD6hNcu963w0f
+	 QmBaenIgsK2YA==
+Date: Tue, 24 Mar 2026 19:09:15 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -35,14 +35,12 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
 	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
 	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	srini@kernel.org, val@packett.cool, mailingradian@gmail.com,
-	Stable@vger.kernel.org
-Subject: Re: [PATCH v7 04/13] ASoC: qcom: q6apm-lpass-dai: Fix multiple graph
- opens
-Message-ID: <0c9ccf4f-ac3d-4727-8e9c-d3e2acd94dd1@sirena.org.uk>
+	srini@kernel.org, val@packett.cool, mailingradian@gmail.com
+Subject: Re: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer
+ mapping on DSP
+Message-ID: <9a9ea82d-e299-4a9c-bb68-f430761387f7@sirena.org.uk>
 References: <20260323223845.2126142-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260323223845.2126142-5-srinivas.kandagatla@oss.qualcomm.com>
- <61596b66-4fef-4bdc-93f2-a8639da79d32@sirena.org.uk>
+ <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,46 +48,68 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TyyyX09h6sTYz6DP"
+	protocol="application/pgp-signature"; boundary="E9ofXc3HHLzq/+og"
 Content-Disposition: inline
-In-Reply-To: <61596b66-4fef-4bdc-93f2-a8639da79d32@sirena.org.uk>
-X-Cookie: The only perfect science is hind-sight.
+In-Reply-To: <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
+X-Cookie: Forest fires cause Smokey Bears.
 
 
---TyyyX09h6sTYz6DP
+--E9ofXc3HHLzq/+og
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 24, 2026 at 06:25:42PM +0000, Mark Brown wrote:
-> On Mon, Mar 23, 2026 at 10:38:36PM +0000, Srinivas Kandagatla wrote:
-> > As prepare can be called mulitple times, this can result in multiple
-> > graph opens for playback path.
+On Mon, Mar 23, 2026 at 10:38:45PM +0000, Srinivas Kandagatla wrote:
+> Buffers are allocated on pcm_new and mapped in the dsp on every
+> prepare call, which is inefficient and unnecessary.
+>=20
+> Add new functions q6apm_[un]map_memory_fixed_region to map it on
+> to dsp only once after allocation.
 
-> >  	 */
-> > -	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> > +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK && dai_data->graph[dai->id] == NULL) {
+>  static int q6apm_dai_pcm_new(struct snd_soc_component *component, struct=
+ snd_soc_pcm_runtime *rtd)
 
-> This is an array of APM_PORT_MAX elements but we have DAI IDs in the DT
-> bindings over that and now we're using the DAI ID to index into the
-> array (I didn't check for existing instances...).  This might be
-> impossible due to system design though.
+> +       if (pcm->streams[SNDRV_PCM_STREAM_CAPTURE].substream) {
+> +               substream =3D pcm->streams[SNDRV_PCM_STREAM_CAPTURE].subs=
+tream;
+> +               ret =3D q6apm_dai_memory_map(component, substream, graph_=
+id);
+> +               if (ret) {
+> +                       if (pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].subst=
+ream)
+> +                               q6apm_unmap_memory_fixed_region(component=
+->dev, graph_id);
 
-Ah, found an update later in the series so it's OK in the end.  A
-potential bisection issue but hopefully not the end of the world.
+This looks like it's handling bidirectional DAIs but...
 
---TyyyX09h6sTYz6DP
+> +int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph=
+_id, phys_addr_t phys,
+> +				  size_t sz)
+> +{
+
+> +	info =3D idr_find(&apm->graph_info_idr, graph_id);
+> +	if (!info)
+> +		return -ENODEV;
+> +
+> +	if (info->mem_map_handle)
+> +		return 0;
+
+=2E..we have one memory map handle per graph ID, silently ignoring
+attempts to add a second one?
+
+--E9ofXc3HHLzq/+og
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnC3EsACgkQJNaLcl1U
-h9BHQAgAhH1pHZvw2ghavA2Fh1jddKT+BOjYfY8w8ofUhkVRDi6K3QiQOwUJ8hzK
-3cOVehBKnMnMFv4Bysc5pEGG14Bw1RGKpIciDIgRrY0DB4yI3U6iF3E+s2Xg9or+
-jL8VNZ+f2rL+7WJhaffVXRa6I0CfkyFhU6oFm2kvq3N94s3nPk8IbgL337kOB7D5
-oBXSUNfi8IRWnvmgGzbykQ2kgisWF6hJxR7zbqk2oRXojII4u9kxFALtnjWsVAQd
-T57gj6qk6ANWQ0rtQFTXMCvCwJKom06AO9DkuJ7pSOJtmoNfhODLDhddmyFc+7Vk
-Y7xlwwdq7Zw/GaZUIvqxWBfAY3rb3g==
-=RjhL
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnC4VoACgkQJNaLcl1U
+h9DKegf8C6a4lxkNh2amiCHIFHpH+Bc6c85Sk+i1t7ja1qzwdfw+POHUU4TbiPuP
+JQY7qEZbOicYan8/hXfDxkVGVfz23bIZEETTvxDQUpq8tn2UQoumrGi2oBJMrl5L
+urR+TlXFR9qQ+rCCKSleQ3b3HMHgffY2zNrNDuZf2oyoOVSW1W2fHuWuGUprYRlX
+/RyqFkwN6TTY1fqhiXkeODBm2qFfX2IyBdMoxc8gaN4rjCG+7TbO6RYGcxIDpaZh
+A5bTbvKnhmfkhHoBMyndpe3jL3M4dcuQ/4X8ZON8VS/iw871GykQLsg4LEp81vGy
+JYzERTFkAUILw8lGvDBx7yUp9XPaEQ==
+=8n1N
 -----END PGP SIGNATURE-----
 
---TyyyX09h6sTYz6DP--
+--E9ofXc3HHLzq/+og--
