@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6BA3451CF;
-	Tue, 24 Mar 2026 19:44:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C4F313550;
+	Tue, 24 Mar 2026 19:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774381453; cv=none; b=QHd86smJs+kV3o9pz7ssPQp3HpR9pBCHEY9yox5n6xkkuv89o3th4grfOasWX0gBBUoUYDrfmxAppmhtRm3oiSHKspx+vIuThp/iPlk6UPTyLAStg02DHJoYTLfqSQzTHGn0Fdk30u+BtLqKSSU5bABi9yBSmz80nptNiyCDzEE=
+	t=1774381459; cv=none; b=gc2cLPWRDK5aNroTmHi37D5ZbNhafnacmUrXM5eRXFhjpLPVrBrYdRoW2NOX68oajwcfAkuAaQD8uSPAU66C/9AMo1EcNjQ+VnPzHSclBI9hQQ8PAuhjpfBwu7I51pTPKw6ryiyKDBEqeHyE+CTQSY6MXubidQqSTLJDKQZAXTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774381453; c=relaxed/simple;
-	bh=plo2BsN6TPry+7IqvpvQqRQxEQf/o9qNSVJWv21qtAA=;
+	s=arc-20240116; t=1774381459; c=relaxed/simple;
+	bh=6YVkiN0dwk+uOHaHRu7tcR/42szjVRQGmSZKx1kvIJI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uESouTD0V2ftmfQQYc5D8Vna/adFLAwSLLyKs+5ajitGDrN76r8tf1U9HTUPV6RjMLHsFCd6W86z0tcs9DFo+FmZ1v2Jn+4cBPyc102MzDUkDgt/Nsw6WdfmJDQtWy7MFoFW5pO6bkUY8qL4EAzZZIM2RUpA2I6IerAizqfMuqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arziCHdE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Fc7AHd68sDyVwLSIlK8zq0FIO2S+OutP13NBuRUyPT6VvfWC2GHdbMSMPMw9LWiip2rld7WfiPj93OAZ2bN99X3EWlbqco/MreFH9/lTWrbEvmP8GArb3tkaqZP8hr64r//6IJw4O7gpU97Um0nKbxyUOEgfNm7+TlznPybK+co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q1Dz7oky; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arziCHdE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26723C2BCB1;
-	Tue, 24 Mar 2026 19:44:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q1Dz7oky"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F84C2BC9E;
+	Tue, 24 Mar 2026 19:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774381453;
-	bh=plo2BsN6TPry+7IqvpvQqRQxEQf/o9qNSVJWv21qtAA=;
+	s=k20201202; t=1774381458;
+	bh=6YVkiN0dwk+uOHaHRu7tcR/42szjVRQGmSZKx1kvIJI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=arziCHdE1NM/Gy9crGNG7EEgv2FMpcFZIO4abbT+YWJj+HU1tqEHcrSTx+WSmC1UC
-	 VJJrPh72PUwadrlL6ZagpMVKh6avIAXhgSuLazTlf0zw6eT5XXca547HsEvCwO5yLs
-	 GxJBu9BnDp2lOll/Dtb8tcwb+EVb8lowGO4L76ldkInJTGRpE4CZ/SLo12UBQTrpWh
-	 oRIVWBWT6udtulx2JvyAiSqfQDdLsT8sF38BjT186AX5r95aoNH52vZcgzAggQ5wNY
-	 SyBjuPebkNnlsJYgjRSmCtqDSxDoSfIpqDpORNrtrc61A/txyIzcQCCgj5TDpspwUc
-	 IqmHP6TQdWjag==
+	b=Q1Dz7oky8MIc6W7guYe9ks0cRXopE+qOd5gl5e3jgTATmtxZ3hnOYknKqhlQGtEMl
+	 epRH6TsfOq2igVEIoVSqP9iv67UV5PWn6fy9X9sCHJpKOkqDJUZEYoQPbSTKGfHEzI
+	 i2zhVmyhbaFpj58tAyg0t61v4hAX7mKkosk+ihYEXsacxGvk6zciGgGqCzcBegUpqV
+	 M2yXkRLIA2750wxDifU+b38tKSEvO2wQNDKdUsAaNo0grPpghh3i6u8megGQtoTnbK
+	 3w4k0NFPO3trd77IEdv8uI059SsFxQr4EyZQK+sK50JQn6MH13V1SNK821mHBxLHMw
+	 U23QrYatPG8Lg==
 From: Mark Brown <broonie@kernel.org>
-To: olivier.moysan@foss.st.com, arnaud.pouliquen@foss.st.com, 
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, 
- Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: lgirdwood@gmail.com, krzk+dt@kernel.org, robh@kernel.org, 
- conor+dt@kernel.org, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20260321012011.125791-1-jihed.chaibi.dev@gmail.com>
-References: <20260321012011.125791-1-jihed.chaibi.dev@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: stm32: Fix incorrect compatible
- string in stm32h7-sai match
-Message-Id: <177435712084.80116.5302380668283249517.b4-ty@b4>
-Date: Tue, 24 Mar 2026 12:58:40 +0000
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, david@ixit.cz, 
+ Stable@vger.kernel.org, Joel Selvaraj <foss@joelselvaraj.com>
+In-Reply-To: <20260323231748.2217967-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20260323231748.2217967-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH] ASoC: codecs: wcd934x: fix typo in dt parsing
+Message-Id: <177435775708.81121.1764309542515337919.b4-ty@b4>
+Date: Tue, 24 Mar 2026 13:09:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +46,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-6cc06
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1174; i=broonie@kernel.org;
- h=from:subject:message-id; bh=plo2BsN6TPry+7IqvpvQqRQxEQf/o9qNSVJWv21qtAA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwumKdqUnr28hTL5soqDMs+G6Rv0vwemjk3MdZ
- 6pYqlb7Wu6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacLpigAKCRAk1otyXVSH
- 0IvqB/9D5tShr/o1I2myc+UJ63dP7OyphYGaE1zN3aptMeKDcvAVsBE/xXuVYn4kb7jZyn7i/YK
- 6z4wA3la+lr/ye1loftr0T85d0CGjZJFjz3vRGcLmNk4N5LMeyOm0F74kGn++skaK46qOJustqK
- utK4ZQU+Jk/qhH463CQA58v188a8ZYJueoJ9/7Ui5orpLejlZR8jGNxIJt0lCVTrw7YHT0pN9On
- eu9+3kIHPT9nL4gJtvWjOmuAw049QYDVYz/BH5LpWZZ0BaMjm3sTAQxFFqmwPPQnnR0UfF0qw3B
- 64aRhp0qVp5vWYYfA6jmr9IX19juUTvnWpM29cRLdQybJR08
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6YVkiN0dwk+uOHaHRu7tcR/42szjVRQGmSZKx1kvIJI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwumPY8dSfBrDKNqs0g+pGJri3WWDi3Iudb35G
+ KRTW5giAhqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacLpjwAKCRAk1otyXVSH
+ 0Dp/B/9h4MujSMn4OPjnMYbcYqdM62j5vzyGXt4nRV7Uq01jr9AIcrOgdZKQ3Z02n6syvnS0+s9
+ Oid+Jk8vF8+8jPZSA0sghZ0356QHc1LBCPTAT+NvzRn1YgOemjsiUtO4JwCTwmO6STyxIW5Xq/G
+ In2xxZdMCUfSoLPPYjLTouuzGf/gsUAaWFtsQo090jnaMy3CUL2+Gg0ow5pow7B+sG0IUp3MIyU
+ GQFAGGTorkkBZBWnSspbqQnE3IHzY+sMXDl8CHWwiDr/iyoeVZHkFccJ966nEWiO4f4eisFWGJW
+ U3huRXuwT+uVjJF4Mqtn0cVnZDiYwconZEO9UoJh1Jmt/Zrq
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 21 Mar 2026 02:20:11 +0100, Jihed Chaibi wrote:
-> ASoC: dt-bindings: stm32: Fix incorrect compatible string in stm32h7-sai match
+On Mon, 23 Mar 2026 23:17:48 +0000, Srinivas Kandagatla wrote:
+> ASoC: codecs: wcd934x: fix typo in dt parsing
 
 Applied to
 
@@ -70,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: stm32: Fix incorrect compatible string in stm32h7-sai match
-      https://git.kernel.org/broonie/sound/c/91049ec2e183
+[1/1] ASoC: codecs: wcd934x: fix typo in dt parsing
+      https://git.kernel.org/broonie/sound/c/cfb385a8dc88
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
