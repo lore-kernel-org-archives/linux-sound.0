@@ -1,136 +1,99 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574333FE37C
-	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 17:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF70A3264F2;
+	Tue, 24 Mar 2026 18:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774373915; cv=none; b=bIHLi/9y7sb7NSa9eCGTfL/1Oa7+79CxUx8dB1DSu72sbILuORk9E8/qoTCxzXFrN49VN5ajJ/EaW96mp4xqAsU8PQD/4gRwH0K2HQUgqFIbAH9PVlnqbbSALMzEXoOk1D+7XKyXTIs3xpKmrFpdGWXB/V0UZWZfYyUazvil/44=
+	t=1774375472; cv=none; b=pPW6qpyYnt/dI8mebYcFCD9VzjhI/N5x+QHo0dToDBMInqjdEvj4D8iCPWbsGez3I4slX+cP3pcVzHTpaNjADwc2SQZ/ydGIJBh0V0VyovhxQGvla0cAUNgFwc/nNCqiGQ0LrVh+BwUBNNor1SqcUBtL24INVilO6h+RFnIkiXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774373915; c=relaxed/simple;
-	bh=VbYIDIazuAKliHd4gaVoOEnfMt94rZKAwng2qMST6KY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hpb/xBbIm6QnB9Lrrs3LiSlJoqy68B6IU7uS0zLUsqldwanNHDMRTyJPRXX1DA0DT7j21Q8LHtl9gc8GPcWP9TiW5kVzrNIqi6ROQJekB2RT1KgG9VVSIsYYqOaCqDPj2fwpeuC8/rc+WpNzeMyQkW76wBWNIXBouJjGUp0t/2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oSxO9AoB; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774375472; c=relaxed/simple;
+	bh=OYZsLgQDlG26AVq4Gf0fccKiiV8nU+VV+OROLS0nlJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mHlEl18z2MaAZWJ/ybt49CNdRu1jaILF8P81Dz07VoDUr3R+PHGvzMNS93NV5R7rXZJ4b0Mj7hM2tvKlFY5yTiz5wJunqURfaBnHGOfLKLtYI0zckGEOthrs9X+Mnc56AT7OLbgjgbPm6UAk0OLZShJDuoywXmi1wbG4l0FUBmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3W+Iuw3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oSxO9AoB"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79ac94fc3ffso9167737b3.2
-        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 10:38:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774373913; x=1774978713; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zhk7eb8OjjvNFySWuiOYIrFwWI2N+A/k+Z8JkVgJz4g=;
-        b=oSxO9AoBNU+CUrWJR37HeNz9pJsuG3erxVGYuN0vuMxhtxq+nH16YJsjZ86twS4NJO
-         c8c2f3o0JOFc19rSeNt9lJj+1JLHAD1coucfoj/nTClFlD5xQ2VrigcHno2H6iX1xYeP
-         0Rso8rsRxdhQhXBo8tb/t1TfS3tgguCdYhLP203FmsjZYmRi24wCyNp/fxYxOo9ovYvl
-         iIMzwKSexHUIGaGEh3MJEHHHDClhONQcHgMHMUFN8pjKcDpMKHnYksxC2+GYYcJBu2Td
-         irrGYThf6vUeJKp5CP34Act/KEzBJDXWzm1Vezw+Cbk+USdu7hupjCC9es3o6ycmfP5I
-         lqIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774373913; x=1774978713;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zhk7eb8OjjvNFySWuiOYIrFwWI2N+A/k+Z8JkVgJz4g=;
-        b=reIQEfzTFl4UlKZ9+OV1/1l7UN+NnhNQ8BlKMe50q8UPSfIrVKMK7ZyRZ73SsCNgj6
-         2vLttdvwlDqP6ht1g/3APCFJgyQecwSDhqC34AXN+OUEjs57TtCwhXGP8OxUfWq+Qli5
-         gF6KyA0ZjAeTCznyE/NkvNaXjWcyf9/tmNiFUuFgAoC4BIfna92D/WucjARR2eqxTKX5
-         uo7hbe9uqnOou+J/zxPUnoAJiaezoA1GNOPJ0QkuP9LiTRRZygJ8K1y9onRrr32v6Eoy
-         btXhreqblTxoQKyJ+D4LONtrbIm65FGvC2tOu0XCqjdhnmucsUXeknpyA3HBghNw9cxu
-         5nXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ7NnkUFiQOrdTP8NSfUVIF1XuLxpCp6a8lyVA0/My2ERifU7r440b33fYtW8ZdjXW4+sFXrixcyocFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytjzZilbH1tR1lA2jqh4MqqAUFSg53ud3SjzadW1ikV8E6KGAg
-	o45gpUCv8IUrmRgYlmcWzfsynROw96DbidoVMqgOHzDjCFvC9A0IPga0
-X-Gm-Gg: ATEYQzx9amjpfvNH0aX+mCvPsDjFbHWr5OPl/sGhRB5BRw3cxlExRA/NLXQhn6YYYE5
-	dx1zyscGbyoqYBQWnqVBlQCBGXER30WyskGIyHSU0dQPMGXdbHmD6oglDAVPZxRC5fCtiu6KIgz
-	6LOklOR8Q2j8d4ZuM0qM123VqbYherd3xhlNwDYMEriP/MCW3bRkTmeFoCijnWm0+stRBeE2jS3
-	rfHdsrJ0CUc/KSjyyFGTZ8VNL+h1fyvE0xTlDJXqs/I8QY8WcBkmIQI5bLKjibrYxfWuYyAXVUJ
-	Wk5MOp4NwX8/XyRxTH0DmrM+shxyjc+czu9v0tzzVNFWVL1xOMBzF5AYlx9C+DnEO+DLQSJJBIX
-	3RsgTkQSgkW6JZafobBkPf3qCOaMRUbcd94fju5+lRlPMVK+vSvttRZdecV7mlMrmDecTL805FJ
-	BWjXsrXB/sjzc2mmXjTUd286+8kWAVHfFxfVjRDw7kMiVygJwg5tAJM6CFIlG8eD5K777Wy4uPa
-	ynKlu3Z8aNfyjxCWlbn/hbRxwKeBRn+ie0=
-X-Received: by 2002:a05:690c:9988:b0:79a:c7f8:d98c with SMTP id 00721157ae682-79acf614bccmr6487657b3.38.1774373913333;
-        Tue, 24 Mar 2026 10:38:33 -0700 (PDT)
-Received: from tux ([2601:7c0:c37e:2360::17e2])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a903a6e9asm74563487b3.10.2026.03.24.10.38.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 10:38:32 -0700 (PDT)
-From: Ethan Tidmore <ethantidmore06@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ethan Tidmore <ethantidmore06@gmail.com>
-Subject: [PATCH] ASoC: SOF: Intel: hda: Place check before dereference
-Date: Tue, 24 Mar 2026 12:38:30 -0500
-Message-ID: <20260324173830.17563-1-ethantidmore06@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3W+Iuw3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D4CBC2BC87;
+	Tue, 24 Mar 2026 18:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774375471;
+	bh=OYZsLgQDlG26AVq4Gf0fccKiiV8nU+VV+OROLS0nlJo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e3W+Iuw3rwIQrBIzzAb3EZCFdVxED+q8mDSK7V+yfLHPdRO/M5LuX1xxTduQEtrWx
+	 PGiZgh/t/1JMqxwZWkEzOO48xWHFDIUVH941aIH1WrReS698jhzj8Nj99+LU8MOLnq
+	 Zf1F1lpOsWw70LafzMB1LmBxwsuMQfJYDAQ5zGD7a6i3J+UkL7keWdGECzMsZTXOjw
+	 u7wWrTQbl8UB33l8rHxk998qGYQ5tfcZEkfyf0gmiA39kZACyajSHrEfm/fxam+FIx
+	 7L8WBB3ILlIwEUsmBE1IQBFoCmtKTY2FwtpaZVXi48Ph1PaUtf7MtBYSNy/bXUbY+z
+	 uad4o7C+QkUsg==
+Date: Tue, 24 Mar 2026 18:04:25 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	srini@kernel.org, val@packett.cool, mailingradian@gmail.com
+Subject: Re: [PATCH v7 01/13] ASoC: qcom: q6apm: move component registration
+ to unmanaged version
+Message-ID: <981a6253-5005-4281-88fb-3ef6361dfb76@sirena.org.uk>
+References: <20260323223845.2126142-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260323223845.2126142-2-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6dh4h213CunPYLhE"
+Content-Disposition: inline
+In-Reply-To: <20260323223845.2126142-2-srinivas.kandagatla@oss.qualcomm.com>
+X-Cookie: Forest fires cause Smokey Bears.
 
-The struct hext_stream is dereferenced before it is checked for NULL.
-Although it can never be NULL due to a check prior to
-hda_dsp_iccmax_stream_hw_params() being called, this change clears any
-confusion regarding hext_stream possibly being NULL.
 
-Check hext_stream for NULL and then assign its members.
+--6dh4h213CunPYLhE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Detected by Smatch:
-sound/soc/sof/intel/hda-stream.c:488 hda_dsp_iccmax_stream_hw_params() warn:
-variable dereferenced before check 'hext_stream' (see line 486)
+On Mon, Mar 23, 2026 at 10:38:33PM +0000, Srinivas Kandagatla wrote:
 
-Fixes: aca961f196e5d ("ASoC: SOF: Intel: hda: Add helper function to program ICCMAX stream")
-Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
----
- sound/soc/sof/intel/hda-stream.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+> --- a/sound/soc/qcom/qdsp6/q6apm.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm.c
+> @@ -747,7 +747,7 @@ static int apm_probe(gpr_device_t *gdev)
+> =20
+>  	q6apm_get_apm_state(apm);
+> =20
+> -	ret =3D devm_snd_soc_register_component(dev, &q6apm_audio_component, NU=
+LL, 0);
+> +	ret =3D snd_soc_register_component(dev, &q6apm_audio_component, NULL, 0=
+);
+>  	if (ret < 0) {
+>  		dev_err(dev, "failed to register q6apm: %d\n", ret);
+>  		return ret;
+> @@ -756,6 +756,11 @@ static int apm_probe(gpr_device_t *gdev)
+>  	return of_platform_populate(dev->of_node, NULL, NULL, dev);
+>  }
 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index 1c04b5d9c0d8..5c1f3b427cdb 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -480,16 +480,20 @@ int hda_dsp_iccmax_stream_hw_params(struct snd_sof_dev *sdev, struct hdac_ext_st
- 				    struct snd_dma_buffer *dmab,
- 				    struct snd_pcm_hw_params *params)
- {
--	struct hdac_stream *hstream = &hext_stream->hstream;
--	int sd_offset = SOF_STREAM_SD_OFFSET(hstream);
-+	struct hdac_stream *hstream;
-+	int sd_offset;
- 	int ret;
--	u32 mask = 0x1 << hstream->index;
-+	u32 mask;
- 
- 	if (!hext_stream) {
- 		dev_err(sdev->dev, "error: no stream available\n");
- 		return -ENODEV;
- 	}
- 
-+	hstream = &hext_stream->hstream;
-+	sd_offset = SOF_STREAM_SD_OFFSET(hstream);
-+	mask = 0x1 << hstream->index;
-+
- 	if (!dmab) {
- 		dev_err(sdev->dev, "error: no dma buffer allocated!\n");
- 		return -ENODEV;
--- 
-2.53.0
+Given that of_platform_populate() can fail we now need unwinding for the
+component registration here with the removal of devm_
 
+--6dh4h213CunPYLhE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnC0igACgkQJNaLcl1U
+h9DibQf+ICzY1rSvmqjBO7MgjC//+FtF2xc5zFAiMN3e4FXppzqGg4Jz8A5a0ADO
+ORd5uLabn7rdAwYxku4pUNYA0crSnBYbk903Ei1YGVh5oNbUTiYo8bfGcub/lix7
+ClHczUIsaA/8eMEhZyRV5HvOTz8YmwbtRw4dz7qpNMGkit0kgLU4MNiD/vDepSr8
+CSWWNGLvBUD5cyJDDGUPYCTxW9dKp/52Vc3+QVn2mtlcXsBOPcdCx+dQ5+82WlAf
+2jWNlZxjti0iHbvJVHPbdl9OD1hstkb+yZaVzplr3UOjlWDTw/ds8s4lW7zwj5q/
+vQi614/QAKn1ZsMGegXRc8pXYmbwnA==
+=84GS
+-----END PGP SIGNATURE-----
+
+--6dh4h213CunPYLhE--
