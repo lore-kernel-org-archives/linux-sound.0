@@ -1,151 +1,194 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A5617A303;
-	Tue, 24 Mar 2026 04:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF7519D8AC;
+	Tue, 24 Mar 2026 04:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774325729; cv=none; b=tgTZnkJ8CGyWN0OFCyWwDRdSIOxH1EjNAgnYk/RdnD4R3lU6/8O+TyRnxmnuRt01Yw3Pats+G9a2g8g4Lls0KeCwQWAjTI+7oOmUm7XvODVqeddScGtS7znc1QMQsRra65GW0plQi8cp0V2lMyGYtJnZixABECLkFd2lWzQ7ep4=
+	t=1774326056; cv=none; b=oUuaIOj+/cv9I9/G+oe1aq1Cq3NFPKPWcHiI9Vcp6/HjvtZUSKPQzzxCXDgWsvmTXgWwPoeRdt+GHjB2rxyjTaC9FN8k5ckto4gsxzeAOh+UyzMnY5VFAZQL3nkAWmxgZuDYgNgjsRC1fbVUppc4LtJj0wqMikVTPDs4AjHL0SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774325729; c=relaxed/simple;
-	bh=o1kPp+YmrzLnvBjVsQjymhTVDPQnXLejafpownlnGuw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gUrNKa57UndtNeo6qjleI7iFqHrd0xhDfHJ+5K9KbrJKar8NS6c+OK1+ckEdVtpW4bwzf4Rh03oV37gMyICqzaKYCs0X1doR5PEPw3BI1gz+Zny4PlftJxzUXjKOBDV7WlGn6pQHmDFS8hynabnNLWPflhO3sn4a1UzQkqELLWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b=ZaWX8PNi; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
+	s=arc-20240116; t=1774326056; c=relaxed/simple;
+	bh=OqHoKJWvvmhgynw9NqNETcNSrVpJiY3jiGOP7/yHmHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QDIzb6ipSKo87W+5VMUJST4sH+uK7OGF7pvXXaX7LH8b2XWfPOJT7mM5oLH2Jud7/g85MXdhehvMy+by8BOvUSyZh+FjsYUUJfC5Yd/bf4OKMav7OVMpiql4nAF+LA6ojk8nUP6hNwhr+5LZ7vEqcLIXyyqtXFITPJQSxeQkUMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQz+jxEj; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=smail.nju.edu.cn header.i=@smail.nju.edu.cn header.b="ZaWX8PNi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smail.nju.edu.cn;
-	s=iohv2404; t=1774325697;
-	bh=aWjpVefODVGfVXeL4Actfzq6NNc7ecramkA8bo/aSVM=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=ZaWX8PNi4EKjy9RdA7G57RsL3sNY/srjIAXN5SX1HR2hx7zAzAtFI9YKM6XLvV0pb
-	 bqH2mGqw9CtFPjoF5PWdxp/TmJMrHXyCuSV2Bt5wooJjWZYsdWzj1aTHF5f/K10VtQ
-	 /cqxxLE/hllt//srjDIKQkSYtVbZyVwScSv7YjaM=
-X-QQ-mid: esmtpgz12t1774325682t71fc2e62
-X-QQ-Originating-IP: y39DWRFR+KvMsH7cahujPSS/bVwFdVvQK2xZT0ODzzY=
-Received: from localhost.localdomain ( [116.172.93.199])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 24 Mar 2026 12:14:39 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 5138743655956083736
-EX-QQ-RecipientCnt: 17
-From: Kexin Sun <kexinsun@smail.nju.edu.cn>
-To: broonie@kernel.org,
-	lgirdwood@gmail.com
-Cc: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	kuninori.morimoto.gx@renesas.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	julia.lawall@inria.fr,
-	xutong.ma@inria.fr,
-	yunbolyu@smu.edu.sg,
-	ratnadiraw@smu.edu.sg,
-	Kexin Sun <kexinsun@smail.nju.edu.cn>
-Subject: [PATCH v3] ASoC: update outdated comments for removed snd_soc_new_pcms()
-Date: Tue, 24 Mar 2026 12:14:00 +0800
-Message-Id: <20260324041400.16217-1-kexinsun@smail.nju.edu.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <8c20f43f-be8e-4a03-af80-9c91a4a233c6@sirena.org.uk>
-References: <8c20f43f-be8e-4a03-af80-9c91a4a233c6@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQz+jxEj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774326055; x=1805862055;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OqHoKJWvvmhgynw9NqNETcNSrVpJiY3jiGOP7/yHmHA=;
+  b=LQz+jxEjForzET41En+cYs9spbYMA2uGAj/Gk3IfeREHLNnhTDYk/ibc
+   nDUlVZYq3tep4LfCG0PebSZ2UMD+l1J8XdkuaM8nU/qazxZKXGWSf74SW
+   LgreEZz6/1cCEIpVacWe8wGV1h0dRkdAWH32jqj0jo9EtSef2K7sjxjJg
+   6R1G5aWVbVFUAgtRIiwj7llbBb4IJ4mdpm4OGjREFz5oyoi8lXhrFbyEx
+   yTgVm88VvctfxNR73OqWkCQIlBK3WNiTZVP+CEM38IsRH7D3v8kmywVh7
+   qAg0a7kL1wio9/8k4JWF8LRwlz7EligAzc5Aa8f/jJZpDwTbNpthNZm+k
+   g==;
+X-CSE-ConnectionGUID: 40aFeuzaQ/SeMWxyw1HjEA==
+X-CSE-MsgGUID: 5NPMal7ORjuyYwkY9wrNrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75359535"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75359535"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 21:20:55 -0700
+X-CSE-ConnectionGUID: LAP6mxm/SrGJeXeSAnuoBg==
+X-CSE-MsgGUID: 77j8BtE7QLKvHvvTDE1c7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="223309159"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 21:20:52 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4tG5-000000003mP-1gTE;
+	Tue, 24 Mar 2026 04:20:49 +0000
+Date: Tue, 24 Mar 2026 12:20:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: songxiebing <songxiebing@kylinos.cn>, tiwai@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] ALSA: core/seq: Optimize the return logic in
+ cc_ev_to_ump_midi2
+Message-ID: <202603241242.5Kms3LqO-lkp@intel.com>
+References: <20260323024742.220707-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:smail.nju.edu.cn:qybglogicsvrgz:qybglogicsvrgz5b-0
-X-QQ-XMAILINFO: NFNrK8KlcSCR92bIJ3lJdOKcZwuh2EJNgHiRNEPMulr+YTY50YC9sMFe
-	0thcEHSYS9jBaNez1ymgjiTZs6O9IMXlMYeNcI9+KuxX3Y6bD6lI5XZETxquwdY7tpOVJdI
-	FQd3kFzy5MftuVQwgP7szokS4mhfurEtL0aNRb6qJ8VAdUXPN5dRvKxKtx6WvQpE4i0+Vq9
-	qWwuoHqzjlgDSJNAN0iKbNVxcmqMA12OwkF0lLFarQ08B3d9/temv1S1QYv3f+LUlXscoS0
-	+dPEthUD4oJU2uhy8JQ5bwCVvTbi9/lyZbRxCeNrzrkJkjBzXPvtI29r5yFBeqKYVu9jQGs
-	VsMkwptd5ZpwZQT0IXfWVwtpumxpFn5V0O9ub6oF76I/TEc3FvZcaJSazmrXuSdc6QKUcRD
-	y6qOWRtSpq+F/+UgBdm8P6VW4j+TBENAtADwuYXbBIo5gTGpervSU+qvmlAbbCzgMphXAeF
-	t7+9j2SZ51xL+dt6edLgGys4ovKPIB5XivpV1hkkJV+Z+ZIiFkaGDWmCLvRH6m8WCFopBFo
-	avAcOgQgBSpT3/k2tyMevSExPla/jNFiPpUGp8MrbrS5xsK+qwWWGK2miNWF25nkeqaH8ed
-	zBDn8gbVRIkoHN5eNT04DZBW3NcOm1aIaSpfhPhZFCfrNleezAKxtEEbyPmV4Zokko4Ki1g
-	lMt9hpMLLBi5/l5y006Hvqu9EdWVcOnpecqUX9XRbuQQgD07F9WYPIpeAyMBp6Vh5JFVhmU
-	7YJl8MwW0fSZkRojbYiI2RH5/FqchTDLy96LphvOnzYdyJr68iUnjP9wuDYjxjz3nl3C6qa
-	f7jMDWjNFxxdCU4aknNcDvpsCufrQccstFuXNiLHnvrstUz2P2hUGozGGkW94XWcLbPcBkE
-	Gx+E9GuBEFz5zKDIZIsE/sUeRHnglFj2DaEm/2mkVJ40A/FzjJgJt/JKdgdECsADvCPErDM
-	WbQayN3ZlgbnVPRkX1lmcnm5D0RaO4SE2MbrRMROyhaDJzMJylUW2vNTKz0lWM2EPHtD/wO
-	rtKbm2AKqabOw0stU4MTLZLO2e4Bd/uOA7xxe0yuAzoplgKKjJ
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323024742.220707-1-songxiebing@kylinos.cn>
 
-The function snd_soc_new_pcms() was removed during the
-multi-component refactoring in commit f0fba2ad1b6b ("ASoC:
-multi-component - ASoC Multi-Component Support").  Its PCM creation
-role is now handled by soc_new_pcm(), which was later moved to
-sound/soc/soc-pcm.c by commit ddee627cf6bb ("ASoC: core - Separate
-out PCM operations into new file.").
+Hi songxiebing,
 
-In fsl_dma.c, update the comment to reference soc_new_pcm().  Also
-remove the stale paragraph about snd_dma_alloc_pages() always
-allocating in lowmem, since commit e159704f7920 ("ASoC: fsl_dma:
-Use managed buffer allocation") replaced that call with
-snd_pcm_set_fixed_buffer_all().
+kernel test robot noticed the following build warnings:
 
-In siu_pcm.c, remove the stale comment referencing
-snd_soc_new_pcms() and the no-longer-existing socdev structure.
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v7.0-rc5 next-20260323]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Assisted-by: unnamed:deepseek-v3.2 coccinelle
-Signed-off-by: Kexin Sun <kexinsun@smail.nju.edu.cn>
----
-v3:
- - Drop "via the pcm_construct callback" from fsl_dma.c comment (Mark Brown)
+url:    https://github.com/intel-lab-lkp/linux/commits/songxiebing/ALSA-core-seq-Optimize-the-return-logic-in-cc_ev_to_ump_midi2/20260324-013342
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260323024742.220707-1-songxiebing%40kylinos.cn
+patch subject: [PATCH] ALSA: core/seq: Optimize the return logic in cc_ev_to_ump_midi2
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260324/202603241242.5Kms3LqO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241242.5Kms3LqO-lkp@intel.com/reproduce)
 
-v2:
- - Also fix the stale comment in siu_pcm.c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603241242.5Kms3LqO-lkp@intel.com/
 
- sound/soc/fsl/fsl_dma.c     | 10 ++--------
- sound/soc/renesas/siu_pcm.c |  1 -
- 2 files changed, 2 insertions(+), 9 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/sound/soc/fsl/fsl_dma.c b/sound/soc/fsl/fsl_dma.c
-index 26ddbe867b58..1facb7bf0b77 100644
---- a/sound/soc/fsl/fsl_dma.c
-+++ b/sound/soc/fsl/fsl_dma.c
-@@ -267,14 +267,8 @@ static irqreturn_t fsl_dma_isr(int irq, void *dev_id)
- /**
-  * fsl_dma_new: initialize this PCM driver.
-  *
-- * This function is called when the codec driver calls snd_soc_new_pcms(),
-- * once for each .dai_link in the machine driver's snd_soc_card
-- * structure.
-- *
-- * snd_dma_alloc_pages() is just a front-end to dma_alloc_coherent(), which
-- * (currently) always allocates the DMA buffer in lowmem, even if GFP_HIGHMEM
-- * is specified. Therefore, any DMA buffers we allocate will always be in low
-- * memory, but we support for 36-bit physical addresses anyway.
-+ * This function is called by soc_new_pcm(), once for each DAI link
-+ * in the machine driver's snd_soc_card structure.
-  *
-  * Regardless of where the memory is actually allocated, since the device can
-  * technically DMA to any 36-bit address, we do need to set the DMA mask to 36.
-diff --git a/sound/soc/renesas/siu_pcm.c b/sound/soc/renesas/siu_pcm.c
-index f15ff36e7934..189d7e6f9750 100644
---- a/sound/soc/renesas/siu_pcm.c
-+++ b/sound/soc/renesas/siu_pcm.c
-@@ -483,7 +483,6 @@ siu_pcm_pointer_dma(struct snd_soc_component *component,
- static int siu_pcm_new(struct snd_soc_component *component,
- 		       struct snd_soc_pcm_runtime *rtd)
- {
--	/* card->dev == socdev->dev, see snd_soc_new_pcms() */
- 	struct snd_card *card = rtd->card->snd_card;
- 	struct snd_pcm *pcm = rtd->pcm;
- 	struct siu_info *info = siu_i2s_data;
+>> sound/core/seq/seq_ump_convert.c:881:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     881 |         case UMP_CC_BANK_SELECT_LSB:
+         |         ^
+   sound/core/seq/seq_ump_convert.c:881:2: note: insert '__attribute__((fallthrough));' to silence this warning
+     881 |         case UMP_CC_BANK_SELECT_LSB:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   sound/core/seq/seq_ump_convert.c:881:2: note: insert 'break;' to avoid fall-through
+     881 |         case UMP_CC_BANK_SELECT_LSB:
+         |         ^
+         |         break; 
+   sound/core/seq/seq_ump_convert.c:885:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     885 |         case UMP_CC_DATA_LSB:
+         |         ^
+   sound/core/seq/seq_ump_convert.c:885:2: note: insert '__attribute__((fallthrough));' to silence this warning
+     885 |         case UMP_CC_DATA_LSB:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   sound/core/seq/seq_ump_convert.c:885:2: note: insert 'break;' to avoid fall-through
+     885 |         case UMP_CC_DATA_LSB:
+         |         ^
+         |         break; 
+   2 warnings generated.
+
+
+vim +881 sound/core/seq/seq_ump_convert.c
+
+e9e02819a98a50 Takashi Iwai 2023-05-23  833  
+e9e02819a98a50 Takashi Iwai 2023-05-23  834  /* convert CC event to MIDI 2.0 UMP */
+e9e02819a98a50 Takashi Iwai 2023-05-23  835  static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
+e9e02819a98a50 Takashi Iwai 2023-05-23  836  			      struct snd_seq_client_port *dest_port,
+e9e02819a98a50 Takashi Iwai 2023-05-23  837  			      union snd_ump_midi2_msg *data,
+e9e02819a98a50 Takashi Iwai 2023-05-23  838  			      unsigned char status)
+e9e02819a98a50 Takashi Iwai 2023-05-23  839  {
+e9e02819a98a50 Takashi Iwai 2023-05-23  840  	unsigned char channel = event->data.control.channel & 0x0f;
+e9e02819a98a50 Takashi Iwai 2023-05-23  841  	unsigned char index = event->data.control.param & 0x7f;
+e9e02819a98a50 Takashi Iwai 2023-05-23  842  	unsigned char val = event->data.control.value & 0x7f;
+a683030606fa5f Takashi Iwai 2024-07-31  843  	struct ump_cvt_to_ump_bank *cc = &dest_port->midi2_bank[channel];
+521be8ec43cb74 songxiebing  2026-03-23  844  	int ret = 0;
+e9e02819a98a50 Takashi Iwai 2023-05-23  845  
+e9e02819a98a50 Takashi Iwai 2023-05-23  846  	/* process special CC's (bank/rpn/nrpn) */
+e9e02819a98a50 Takashi Iwai 2023-05-23  847  	switch (index) {
+e9e02819a98a50 Takashi Iwai 2023-05-23  848  	case UMP_CC_RPN_MSB:
+a4ff92ff0bdd73 Takashi Iwai 2024-07-31  849  		ret = fill_rpn(cc, data, channel, true);
+e9e02819a98a50 Takashi Iwai 2023-05-23  850  		cc->rpn_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  851  		cc->cc_rpn_msb = val;
+98ea612dd1150a Takashi Iwai 2024-07-31  852  		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
+98ea612dd1150a Takashi Iwai 2024-07-31  853  			reset_rpn(cc);
+521be8ec43cb74 songxiebing  2026-03-23  854  		break;
+e9e02819a98a50 Takashi Iwai 2023-05-23  855  	case UMP_CC_RPN_LSB:
+a4ff92ff0bdd73 Takashi Iwai 2024-07-31  856  		ret = fill_rpn(cc, data, channel, true);
+e9e02819a98a50 Takashi Iwai 2023-05-23  857  		cc->rpn_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  858  		cc->cc_rpn_lsb = val;
+98ea612dd1150a Takashi Iwai 2024-07-31  859  		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
+98ea612dd1150a Takashi Iwai 2024-07-31  860  			reset_rpn(cc);
+521be8ec43cb74 songxiebing  2026-03-23  861  		break;
+e9e02819a98a50 Takashi Iwai 2023-05-23  862  	case UMP_CC_NRPN_MSB:
+a4ff92ff0bdd73 Takashi Iwai 2024-07-31  863  		ret = fill_rpn(cc, data, channel, true);
+e9e02819a98a50 Takashi Iwai 2023-05-23  864  		cc->nrpn_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  865  		cc->cc_nrpn_msb = val;
+521be8ec43cb74 songxiebing  2026-03-23  866  		break;
+e9e02819a98a50 Takashi Iwai 2023-05-23  867  	case UMP_CC_NRPN_LSB:
+a4ff92ff0bdd73 Takashi Iwai 2024-07-31  868  		ret = fill_rpn(cc, data, channel, true);
+e9e02819a98a50 Takashi Iwai 2023-05-23  869  		cc->nrpn_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  870  		cc->cc_nrpn_lsb = val;
+521be8ec43cb74 songxiebing  2026-03-23  871  		break;
+e9e02819a98a50 Takashi Iwai 2023-05-23  872  	case UMP_CC_DATA:
+a4ff92ff0bdd73 Takashi Iwai 2024-07-31  873  		cc->cc_data_msb_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  874  		cc->cc_data_msb = val;
+521be8ec43cb74 songxiebing  2026-03-23  875  		ret = fill_rpn(cc, data, channel, false);
+521be8ec43cb74 songxiebing  2026-03-23  876  		break;
+e9e02819a98a50 Takashi Iwai 2023-05-23  877  	case UMP_CC_BANK_SELECT:
+e9e02819a98a50 Takashi Iwai 2023-05-23  878  		cc->bank_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  879  		cc->cc_bank_msb = val;
+521be8ec43cb74 songxiebing  2026-03-23  880  		ret = 0; // skip
+e9e02819a98a50 Takashi Iwai 2023-05-23 @881  	case UMP_CC_BANK_SELECT_LSB:
+e9e02819a98a50 Takashi Iwai 2023-05-23  882  		cc->bank_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  883  		cc->cc_bank_lsb = val;
+521be8ec43cb74 songxiebing  2026-03-23  884  		ret = 0; // skip
+e9e02819a98a50 Takashi Iwai 2023-05-23  885  	case UMP_CC_DATA_LSB:
+a4ff92ff0bdd73 Takashi Iwai 2024-07-31  886  		cc->cc_data_lsb_set = 1;
+e9e02819a98a50 Takashi Iwai 2023-05-23  887  		cc->cc_data_lsb = val;
+521be8ec43cb74 songxiebing  2026-03-23  888  		ret = fill_rpn(cc, data, channel, false);
+521be8ec43cb74 songxiebing  2026-03-23  889  		break;
+521be8ec43cb74 songxiebing  2026-03-23  890  	default:
+e9e02819a98a50 Takashi Iwai 2023-05-23  891  		data->cc.status = status;
+e9e02819a98a50 Takashi Iwai 2023-05-23  892  		data->cc.channel = channel;
+e9e02819a98a50 Takashi Iwai 2023-05-23  893  		data->cc.index = index;
+e9e02819a98a50 Takashi Iwai 2023-05-23  894  		data->cc.data = upscale_7_to_32bit(event->data.control.value & 0x7f);
+521be8ec43cb74 songxiebing  2026-03-23  895  		ret = 1;
+521be8ec43cb74 songxiebing  2026-03-23  896  		break;
+521be8ec43cb74 songxiebing  2026-03-23  897  	}
+521be8ec43cb74 songxiebing  2026-03-23  898  
+521be8ec43cb74 songxiebing  2026-03-23  899  	return ret;
+e9e02819a98a50 Takashi Iwai 2023-05-23  900  }
+e9e02819a98a50 Takashi Iwai 2023-05-23  901  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
