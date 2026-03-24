@@ -1,200 +1,77 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513183FBEC9
-	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 13:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8F02E040D;
+	Tue, 24 Mar 2026 13:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359810; cv=none; b=f1NNxf18zylZPJJYG4Y/T/DafZNtmq8StmOZ+hFAXJqzrfn4iO/bcU6nPGVALFq2sBI1OHFr2L9h+UoXndwulwNLZFpOZrOwCSpWFYPw33U6r9MUH3uU9MvnS4rINUBaxPbu/ToyvKdGUvQf1jGSveOvEJTcbyK22C7MOlZm16g=
+	t=1774360221; cv=none; b=e6++Iyuu4UNKJsEjahXluUitIlbBBAHFlLGUMoQDb0qFXBeeIkYdBq+I1SCInnCYWkdvzn6CrYr7m92/sAYm29Oj5S5iho9946xGm45VRVPAINsvnUAtrv28L6XDZSMpbNEPpuqCbTdIoZGdXCLyYCFCiTQgDiiiAMLs9C3aTkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359810; c=relaxed/simple;
-	bh=jxD2923ET52CY8fhMQtErtaWu+053QLtVBSwzxbDk0o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f3cNRgJQg4SAHPiOqEJbNw4n/yywkYsXo8OS0Eicxj9xZAhnUW4yKlus/RX5UR2lI7Z+pGF10z7eR5uNh63PWhX3a3eVEINCA6OIDx4hBt95tJJ97Y5EEVsCsbAVWFE7M8r1vuT7BBGgQtE7Z3OxxkmwQB9QlIlaIZW72OdmJo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7d7eb85fb81so1401194a34.0
-        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 06:43:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774359808; x=1774964608;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UFHE6SbqkfrINgqOev1LeMJP9y3Lb6YlEweE9fpbW9I=;
-        b=KZ6oraaddfc2hgOcBmuUIm6Ioi8Z/lD2UEh64NuD90WtK2CPJzrF/Oo9jpT2TUbkbd
-         14aIzw9G+1HRHS8kxnAuU23btel8U+dZd38hd2T2nD/ZIhAYkSLQNstHFvo5IpwOIAKS
-         095aIH9GT9Q5cMV9b/VzSba40GQu+BIUcN/6dQbsxjIWgUt8DwFfcR0hxRBlFUuFGpkU
-         yIA1WEznjUjRwYYZUXaHndhHZOnxoyipPrU7UcUdBY/KNsolYjc6g4EBZmZAnQGDyPaK
-         u6sruyLwvurJJGdmy0FKI81hh95yC5aPKW5cRfoVe7Ki15Dos3tgEhJ43vHO+nddy10+
-         JNow==
-X-Forwarded-Encrypted: i=1; AJvYcCUN7eO/4Dhj1rtp2TlnbWegYv4ZOPCNy4WK4MXDyCOTtmPZXPWMuF6+GCgvyj9orYE0vDinLpHJiJbwkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2gsBnb9oufv5BEFRR0ux1sj7+ScTLeXOuua5Y8ImuN5ANbmJr
-	G7z4STIeatlkIlalK8YupaeIUChoMWSABZfJGu/9B6hyuat6XAzPpB7RrsDHU0oZoSo=
-X-Gm-Gg: ATEYQzxpb7Hu+2rV8dlFf6aB+msmyMZQJv3U4DKJkKrZDPsJKVLO0doE0GZplqRTIqU
-	d8pHJL35sRCwJzcvlaHWIoldXh9ey29wgcApk0fWqjtfsIFwpyY6Cn4gM5i2dh11TFBoZzV3iF4
-	r5d3BZ0eFTsJP19y4N/T0KRbva+O0tZCUddmRCj1LUvgKp7bIgQdLrEK2us2G8qY2hxpJhbs02C
-	zcmyF16/g/MfKhpase36VgC2AkO343Zhlk1pWJstTjHWmnb1G3iXy3NIbVRGhA2J8FexUGmxYHA
-	uMgos/fRm+O8yLCG5A8cyyxAaIZrOMPrzTgwkIp0GKL6Umm0SZH8wFvG4/haGPjxq/rveGw6K/E
-	mbdblEtrh4qlJqrWIN4FntBgHulfO/AniMYwdgtIU/uxVgZsuA42RNDrO239KqrsoO0dMPKVF+O
-	CJkrdGnyGNc4IQfSGDotWDnV8Jxfit2OwmuJfIspPaB0o+Wtwah0aAgpUtx1eDuENM
-X-Received: by 2002:a9d:5785:0:b0:7d7:ed69:81b2 with SMTP id 46e09a7af769-7d7ed6989ecmr7714959a34.5.1774359808101;
-        Tue, 24 Mar 2026 06:43:28 -0700 (PDT)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d7eac56278sm13763268a34.12.2026.03.24.06.43.27
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 06:43:27 -0700 (PDT)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-467161c4b7aso554110b6e.1
-        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 06:43:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXnTbbbZwtDVbgcHElejNEnsqgTGXNLfWfhsiYxqkJpVy3e/wHJ9qs86KuT4N2Nh+VN/JeHIp4AuJArsQ==@vger.kernel.org
-X-Received: by 2002:a05:6122:7d2:b0:56b:5893:d042 with SMTP id
- 71dfb90a1353d-56cde498b94mr8236000e0c.12.1774359455206; Tue, 24 Mar 2026
- 06:37:35 -0700 (PDT)
+	s=arc-20240116; t=1774360221; c=relaxed/simple;
+	bh=Dr7YiLyvtwebuZWmjVgVBMpJHWuYlJv22V2u52FjtBg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MhL8lDVNsNAzUHDa4G28XWPbLbKV4kvdfUMVQY4P8JRziRAJG/q4Yx/BdxRrYt9/3dBT/YVGKpMU4F6hgUA9jkS/m29FHAD0lLoborptWdtZdVcF7wkCsoCBclBGyLw05Ew8PQDaxuA1PKl9GeytHhX7MhLjYDVA5M6LTD9xV8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=vHvSP2Zk; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="vHvSP2Zk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Reply-To; bh=XUgNollCyJaG17YByTrY3F6ssXWir+vY5rxkil2fV1U=; b=vHvSP2Zk8i2iprZ5
+	TdZp+Nu391BRqTV7Ts1BG+ZduAwfHTg9yk4nq+nN6/LFn/PgQfdIptTpsSnzrlr+3V2tggiQlVAem
+	0tMii4TeZ3rzkSgkoNqaJ7OLDjfxLj2gLr17qp3Wu1u+qqt/lCl8rLtb4JVrNYk5e4s+dqmffAigU
+	iWGe/RPvxlkei2exQt3KULKX3Nq8c5ygEAXdUGAVJbUY2rB6ukELQONmdd9vvXxmgJL93Vnil3Ugx
+	8o6K4VWN11vz7iR9B8hPGoXOfzIfIrohzoo0p1GWZ2iZ1VEp9ZVISfPgJdki0BHzZjnOX1fIgQHBQ
+	cKd27N8gygpmOMI9ew==;
+Received: from [63.135.74.212] (helo=[192.168.1.241])
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1w528w-007Juj-Lc; Tue, 24 Mar 2026 13:50:02 +0000
+Message-ID: <ba5274d3-896a-4467-bef8-a1987983a5c4@codethink.co.uk>
+Date: Tue, 24 Mar 2026 13:49:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com> <20260319155334.51278-13-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260319155334.51278-13-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Mar 2026 14:37:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9uvkcU789W+K38qxVTVQbFHGOaBgqNkj7SbTR8WShoA@mail.gmail.com>
-X-Gm-Features: AQROBzBcCn1BnwXSbjTDtD6HtzQVV_AICC4S_yzN7SsVw9iP4uwy2_3tUoSu3Ao
-Message-ID: <CAMuHMdW9uvkcU789W+K38qxVTVQbFHGOaBgqNkj7SbTR8WShoA@mail.gmail.com>
-Subject: Re: [PATCH 12/22] ASoC: rsnd: Update SSI for RZ/G3E support
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	John Madieu <john.madieu@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND v4] ASoC: SOF: sof-audio: pcm_id is __le32
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260324105027.99586-1-ben.dooks@codethink.co.uk>
+ <9ac16808-4036-487e-9152-8dd40ab6e5a1@sirena.org.uk>
+Content-Language: en-GB
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <9ac16808-4036-487e-9152-8dd40ab6e5a1@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Sender: ben.dooks@codethink.co.uk
 
-Hi John,
+On 24/03/2026 13:33, Mark Brown wrote:
+> On Tue, Mar 24, 2026 at 10:50:27AM +0000, Ben Dooks wrote:
+>> The pcm_id value is __le32 so convert it before passing to the dev_dbg
+>> function to be printed. Also fixup some other uses of __le32 data and
+>> a couple of places where %u should have been used instead of %d
+> 
+> Please rebase rather than resending this (if this is actually a rebase
+> please send it as a v5 so the tooling doesn't get confused).
 
-On Thu, 19 Mar 2026 at 16:56, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> Add SSI support for the Renesas RZ/G3E SoC, which differs from earlier
-> generations in several ways:
->
->  - The SSI block always operates in BUSIF mode; RZ/G3E does not implement
->    the SSITDR/SSIRDR registers used by R-Car Gen2/Gen3/Gen4 for direct SSI
->    DMA.
->    Consequently, all audio data must pass through BUSIF.
->  - Each SSI instance has its own reset line, exposed using per-SSI names
->    such as "ssi0", "ssi1", etc., rather than a single shared reset.
->
-> To support these differences, update rsnd_ssi_use_busif() to always
-> return 1 on RZ/G3E, ensuring that the driver consistently selects the
-> BUSIF DMA path. Also update the reset acquisition logic to request the
-> appropriate per-SSI reset controller based on the SSI instance name.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/sound/soc/renesas/rcar/ssi.c
-> +++ b/sound/soc/renesas/rcar/ssi.c
-> @@ -123,8 +123,15 @@ int rsnd_ssi_use_busif(struct rsnd_dai_stream *io)
->  {
->         struct rsnd_mod *mod = rsnd_io_to_mod_ssi(io);
->         struct rsnd_ssi *ssi = rsnd_mod_to_ssi(mod);
-> +       struct rsnd_priv *priv = rsnd_mod_to_priv(mod);
->         int use_busif = 0;
->
-> +       /*
-> +        * RZ/G3E does not support PIO mode. Always use BUSIF.
-> +        */
-> +       if (rsnd_flags_has(priv, RSND_SSI_ALWAYS_BUSIF))
-> +               return 1;
-> +
->         if (!rsnd_ssi_is_dma_mode(mod))
->                 return 0;
->
-> @@ -865,6 +872,8 @@ static int rsnd_ssi_common_remove(struct rsnd_mod *mod,
->                 rsnd_flags_del(ssi, RSND_SSI_PROBED);
->         }
->
-> +       rsnd_dma_detach(io, mod, &io->dma);
-
-This goes BOOM on R-Car Gen3 and Gen4:
-
-    Unable to handle kernel NULL pointer dereference at virtual
-address 0000000000000004
-    Mem abort info:
-      ESR = 0x0000000096000004
-      EC = 0x25: DABT (current EL), IL = 32 bits
-      SET = 0, FnV = 0
-      EA = 0, S1PTW = 0
-      FSC = 0x04: level 0 translation fault
-    Data abort info:
-      ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-      CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-      GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-    [0000000000000004] user address but active_mm is swapper
-    Internal error: Oops: 0000000096000004 [#1]  SMP
-    CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted
-7.0.0-rc5-arm64-renesas-07233-g377893124b8a #3530 PREEMPT
-    Hardware name: Renesas Gray Hawk Single board based on r8a779h0 (DT)
-    pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-    pc : rsnd_dma_detach+0x10/0x20
-    lr : rsnd_ssi_common_remove+0x48/0x74
-    sp : ffff8000818ebac0
-    x29: ffff8000818ebac0 x28: ffff000441c02938 x27: ffff0004408a8410
-    x26: 000000000000000d x25: 0000000000000000 x24: ffff8000817b9970
-    x23: 0000000000000000 x22: 000000000000000c x21: 00000000fffffdfb
-    x20: ffff000441c02938 x19: ffff0004402bc080 x18: 00000000ffffffff
-    x17: ffff000440ba6600 x16: ffff000440ba6a00 x15: ffff8000818eb700
-    x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000030
-    x11: 0101010101010101 x10: ffff800080fa7670 x9 : 1fffe00088052d21
-    x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : feff636d746e722d
-    x5 : 000000000000003c x4 : ffff800080a9dcc4 x3 : ffff0004402be800
-    x2 : ffff000441c029b8 x1 : ffff000441c02938 x0 : 0000000000000000
-    Call trace:
-     rsnd_dma_detach+0x10/0x20 (P)
-     rsnd_ssi_common_remove+0x48/0x74
-     rsnd_probe+0x2d0/0x448
-     platform_probe+0x58/0x90
-     really_probe+0xb8/0x294
-     __driver_probe_device+0x74/0x124
-     driver_probe_device+0x3c/0x158
-     __driver_attach+0xe0/0x1b4
-     bus_for_each_dev+0x78/0xd4
-     driver_attach+0x20/0x28
-     bus_add_driver+0xe0/0x1e0
-     driver_register+0x58/0x114
-     __platform_driver_register+0x20/0x28
-     rsnd_driver_init+0x18/0x20
-     do_one_initcall+0x7c/0x184
-     kernel_init_freeable+0x200/0x2e0
-     kernel_init+0x20/0x1cc
-     ret_from_fork+0x10/0x20
-    Code: a9bf7bfd aa0003e1 910003fd f9400040 (b9400402)
-    ---[ end trace 0000000000000000 ]---
-
-> +
->         return 0;
->  }
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Sorry, fixed that with v5.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+https://www.codethink.co.uk/privacy.html
