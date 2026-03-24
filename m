@@ -1,208 +1,92 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80C73EF0D4
-	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 13:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8F0344DA8;
+	Tue, 24 Mar 2026 14:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774360527; cv=none; b=Rq9gDRQJRGfOBAbcQijmOX1AzHw7RrjtmsLMTD0SD/gtPi5L0YYCn5tsh2exr/vnGTqvMDV1LRXk2N1Wz+iNP+qbKTq9BgVf45rsnsSWPoMMGkHaNAcsO5YbmT3lHkUA9X1YnDbHvnNWmIjM/scYZZCHjHxeJo4IMIe6K5HVozU=
+	t=1774360971; cv=none; b=VnrxYsZFDdLnZ8y6BWFqGiIQmbWPVQnS9Sjqgf3WHbGwgdlh+TjAOmrmzmQ5kKP6P2JDErGPQ7N/wAWZwJw3RDIE0OviH+zjlbAj7j/sKjGyUxjq3B6Yj60u0M2r4EfFZpZH7qeZQSVp0000QCTGlA42FLHNbZMtoNnMLU9mnf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774360527; c=relaxed/simple;
-	bh=JF+hD7uCs0un0E/9brqmLAixz5oU4oCoZbqipq3PBp8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NNXZ6nF16OmsH5zYNDc2ji02Z8b/pD98EAL5I9LvsJv0ZUwgZi7pG6RFjMEO6s5vEvnwgxpWqBXjijfC9c9rPBNcxkYZyBVHTpUma/kmETKfN6FdNXcDs+vKXqQwNuQv7WlAbfiq6QyYelbrHEwMSGTDDxA3V7TOEZ1nvtb9Ams=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwpmAy4l; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774360971; c=relaxed/simple;
+	bh=rY8A2PI8lYGZ9GxBlFDyF7IdimzOGD8/BJMm+x+Y8z0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b1uyBGIcxu03kMIG22r5Ud87GatNydAG0KaD+QcvvKpQY5CjAm33Rxv7D1DpgH2/S0wX59nbWboVF7Hm7tV6BQ6CFODN/J16dumteHwl07B0eN6qgllbV+YG0XT533vbrQnFdgbin8ngP9ptjhUkL2AuJKXFktsrpfi3GKACKe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwO5HDLq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwpmAy4l"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56cd71a7630so1710570e0c.2
-        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 06:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774360525; x=1774965325; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5nh37Pt3GbzjBTjgr+edrZlsjGKmow/H+jwHdw9iYPc=;
-        b=HwpmAy4lhlxxi5tsNZSHSxMAgG7S6w2bkrci8tErrzeDmyks7UEHdr1Q3ggKMhC565
-         JvGwDPYyDjk/gwj3ZpO4eZEZY+vNJngRfCQ1Y8hJy94jXxUVlwGhV1F9y2jQ/aGwgm5s
-         LVCnN5umKU+90N8KsQCzl7VWWXmiWUJYwrynd5upN91ArVSYAzUZ8xnrGiLMhWOQqGsm
-         sLnK3B4h54iGiDjob/jX49GZcfPnrRPgx2nCPRe2KAmwYZ41xpLBwZdHf/y1dtqEmlpo
-         elyb5VPSo3dx3464pmN+u8xBlkZD2xI279UMSOVuR+DREt50iu37kBgSYLpGhvYRU1ab
-         vnoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774360525; x=1774965325;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5nh37Pt3GbzjBTjgr+edrZlsjGKmow/H+jwHdw9iYPc=;
-        b=U2DwxcbZDH8qIRrOpd8bIP6hzt0o9knFKDevw3wjBBzexviZ49HyscqWmFPaXNaosI
-         736mvKhxyfd6ODGU1u76es+d1MTbkPO5evNGbxSXAxOrvXk6WPjBzd+JqfAL8TI02D/k
-         QKhWZEuT6eA5kI454KXaZfdaiOUs9NtQpcsmPzoIhqyjQYLOw4znBe2X2aSCmbcOUoyP
-         FtbdghR0hv9tm9sjipOzYXX9n07LLC4D59t2oaKpuFSspLIf8TkSHEwQdQczMSjqXYOb
-         tKueZU+NIidSZ7PfZ0ZYZh2UkVg/gR5RM//1jI8JYwVEPQvsztbezbQh5tJQ21rSIaCE
-         IIFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7fgsnAXc0LsX+Pl0+D11eBzX1QmVv64NS148wB7soCj5saEvzDyXJs6raG+H4NDj8NjQNqzQwzYqaJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw50HtZuOBfCAi0RHDl8VXsdKPpv7gS4SXQq7ncGuwqrg8jK/bv
-	cMUkas9Y6MlAaeDMf/yiv6G/uNX/g9zvf1ZZC3K/xRDc/tWRRVkfq7X3
-X-Gm-Gg: ATEYQzzgXGB0vPUyQMyoZMcZ2YxV6OwBBj9vilSg67gQGzeGndy/ncTRAqEFoanFf6y
-	Wk69sosOshP4A++JlzNXTG5FULudm8PAeYYCYaQlSnKzOS5qCXNI2Uc+QLr4sBf5Thj4HOlicuf
-	wJZN/TCIS/UySkN8LAPRRfuUZygNgtiATLFJNF5A4ursMU+qb7C1BTM1xoazr9brxZthIBCDT76
-	dwZ2lzjZrd0DpNFRT8kd+t0AuOxoZgmX/RCIsOe9iXaC2lIHEMA7hpNoFSWlB0ahO7rkk3v/D18
-	NSVlMPMaqhCTjVXHITtuchavt08JToaqLndR+0GBIHklWAFPXkXZXpMq2t2GE9zb7iF26bq6yks
-	fM09QdHhkPiF0oPrBaMPscUjnrfgLHqYx9eHfDWM/IzVeaVvd9wenVacpvTAbIUu88atdf94kv1
-	7AdsWZR4xgtKpHxw8id8x42LsGiOI9aCqcJL+5ai/X1OZ3HFNIy3qN2bU1WhwVmhdjTGvmHg==
-X-Received: by 2002:a05:6122:3a0e:b0:56c:da22:6921 with SMTP id 71dfb90a1353d-56cde35a597mr7936243e0c.5.1774360524552;
-        Tue, 24 Mar 2026 06:55:24 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:1b3:a803:91c4:cdb6:8a02:47ca:2dca])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56cddc7f882sm15529418e0c.9.2026.03.24.06.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 06:55:23 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: broonie@kernel.org
-Cc: heiko@sntech.de,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] ASoC: dt-bindings: rockchip: Convert rockchip-max98090.txt to yaml
-Date: Tue, 24 Mar 2026 10:55:08 -0300
-Message-ID: <20260324135508.839142-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwO5HDLq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A508C2BC87;
+	Tue, 24 Mar 2026 14:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774360971;
+	bh=rY8A2PI8lYGZ9GxBlFDyF7IdimzOGD8/BJMm+x+Y8z0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IwO5HDLqX6KqlUUw+Wyq1OErrhbVkyslimnCJaxNLuz8Y9s0yPHxdGHtOcXwHg+Oc
+	 oWS9dnhYt0z7mIwPo0H6iefUEUsRyK8J95TklPjovIIiXrYVOe8bl5OO8uIqK768+M
+	 eFwAr2IqgKgNF62Z7tTUdAndveh22LOu70rn0+c8easXgZLfUEvaU6k2ceHcg3gNJ0
+	 mjfdGFhGtKqAz6p4+lmcIII16626HoYVKqD1uJXiaHBAcKvJOymIYSpCTeEPdTvy3F
+	 6jiXbDlp5oobr2OLRRKvmQCSuWXkpN9+CEsnB2Mle91MtOfNUHZ8Gz/hsOXxVCQxGx
+	 QrtovgQWg52iA==
+Date: Tue, 24 Mar 2026 14:02:47 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: cs35l56: Allow factory calibration through ALSA
+ controls
+Message-ID: <626b66fa-3f7a-4777-b510-18d0c0df3bf5@sirena.org.uk>
+References: <20260324110302.273983-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fFUmXSv8DKPKPAIH"
+Content-Disposition: inline
+In-Reply-To: <20260324110302.273983-1-rf@opensource.cirrus.com>
+X-Cookie: Forest fires cause Smokey Bears.
 
-Convert rockchip-max98090.txt to yaml to allow dt-schema validation.
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- .../rockchip,rockchip-audio-max98090.yaml     | 59 +++++++++++++++++++
- .../bindings/sound/rockchip-max98090.txt      | 42 -------------
- 2 files changed, 59 insertions(+), 42 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/rockchip,rockchip-audio-max98090.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rockchip-max98090.txt
+--fFUmXSv8DKPKPAIH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/Documentation/devicetree/bindings/sound/rockchip,rockchip-audio-max98090.yaml b/Documentation/devicetree/bindings/sound/rockchip,rockchip-audio-max98090.yaml
-new file mode 100644
-index 000000000000..5630652aa4c2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/rockchip,rockchip-audio-max98090.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/rockchip,rockchip-audio-max98090.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip audio complex with MAX98090 codec
-+
-+maintainers:
-+  - Fabio Estevam <festevam@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: rockchip,rockchip-audio-max98090
-+
-+  rockchip,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex.
-+
-+  rockchip,i2s-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the Rockchip I2S controller.
-+
-+  rockchip,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the MAX98090 audio codec.
-+
-+  rockchip,headset-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the external chip for jack detection.
-+
-+  rockchip,hdmi-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the HDMI device for HDMI codec.
-+
-+required:
-+  - compatible
-+  - rockchip,model
-+  - rockchip,i2s-controller
-+
-+allOf:
-+  - if:
-+      required:
-+        - rockchip,audio-codec
-+    then:
-+      required:
-+        - rockchip,headset-codec
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "rockchip,rockchip-audio-max98090";
-+        rockchip,model = "ROCKCHIP-I2S";
-+        rockchip,i2s-controller = <&i2s>;
-+        rockchip,audio-codec = <&max98090>;
-+        rockchip,headset-codec = <&headsetcodec>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rockchip-max98090.txt b/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
-deleted file mode 100644
-index e9c58b204399..000000000000
---- a/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
-+++ /dev/null
-@@ -1,42 +0,0 @@
--ROCKCHIP with MAX98090 CODEC
--
--Required properties:
--- compatible: "rockchip,rockchip-audio-max98090"
--- rockchip,model: The user-visible name of this sound complex
--- rockchip,i2s-controller: The phandle of the Rockchip I2S controller that's
--  connected to the CODEC
--
--Optional properties:
--- rockchip,audio-codec: The phandle of the MAX98090 audio codec.
--- rockchip,headset-codec: The phandle of Ext chip for jack detection. This is
--                          required if there is rockchip,audio-codec.
--- rockchip,hdmi-codec: The phandle of HDMI device for HDMI codec.
--
--Example:
--
--/* For max98090-only board. */
--sound {
--	compatible = "rockchip,rockchip-audio-max98090";
--	rockchip,model = "ROCKCHIP-I2S";
--	rockchip,i2s-controller = <&i2s>;
--	rockchip,audio-codec = <&max98090>;
--	rockchip,headset-codec = <&headsetcodec>;
--};
--
--/* For HDMI-only board. */
--sound {
--	compatible = "rockchip,rockchip-audio-max98090";
--	rockchip,model = "ROCKCHIP-I2S";
--	rockchip,i2s-controller = <&i2s>;
--	rockchip,hdmi-codec = <&hdmi>;
--};
--
--/* For max98090 plus HDMI board. */
--sound {
--	compatible = "rockchip,rockchip-audio-max98090";
--	rockchip,model = "ROCKCHIP-I2S";
--	rockchip,i2s-controller = <&i2s>;
--	rockchip,audio-codec = <&max98090>;
--	rockchip,headset-codec = <&headsetcodec>;
--	rockchip,hdmi-codec = <&hdmi>;
--};
--- 
-2.43.0
+On Tue, Mar 24, 2026 at 11:03:02AM +0000, Richard Fitzgerald wrote:
 
+> +static int cs35l56_cal_ambient_ctl_set(struct snd_kcontrol *kcontrol,
+> +				       struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +	struct cs35l56_private *cs35l56 = snd_soc_component_get_drvdata(component);
+> +	struct snd_soc_dapm_context *dapm;
+> +	int ret;
+> +
+> +	if (!in_range(ucontrol->value.integer.value[0], 5, 35))
+> +		return -EINVAL;
+
+The values range from 5..35...
+
+> +static const struct snd_kcontrol_new cs35l56_cal_perform_controls[] = {
+> +	SOC_SINGLE_EXT("CAL_AMBIENT", SND_SOC_NOPM, 0, 40, 0,
+> +		       cs35l56_cal_ambient_ctl_get, cs35l56_cal_ambient_ctl_set),
+
+...but the range is from 0..40?  I'd expect mixer-test to complain about
+both these controls too, they're not flagged as volatile.
+
+--fFUmXSv8DKPKPAIH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnCmYYACgkQJNaLcl1U
+h9AITwf/b0Ot/GnuQzuyGftzL9q9BOkON9oTTGQqNwqY7tgFAbRaY/aNdXgEJbGX
+lVS4QdeMnyHUjAzipKPTnzrgWvSTf+9hJJli31JFV5/r+ZAT4yYGeoWcmHTMQQHP
+kSHGjbkYNpGnSdfxp7zHpT3qgK2aXb8UkgbWI52WouGN41jqy7lmtAs13oqLcmVJ
+1cAf9qdQeg+ra1r0Gp+XkqyAFPJEmdHS3LHGIBtTtjA43kPU5wtUsf2ouy5pPdQm
+9pqBzp6SCnz8LOColyFgQZJjmX2nldqgN/CgHapeQQGJNK/XFvFAJD5xGtlM34a/
+1wJADo6z/Xf61UIZjjT/AWeuCC1lMg==
+=OCtT
+-----END PGP SIGNATURE-----
+
+--fFUmXSv8DKPKPAIH--
