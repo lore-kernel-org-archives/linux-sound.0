@@ -1,172 +1,160 @@
-Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17833E3C74;
-	Tue, 24 Mar 2026 10:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3CA3E5EF0
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 10:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774349459; cv=none; b=T8rv+IDHcG+k8ciKLCVetsbwiWmH/0FGH/7UEJVxcm83SmTi49cNGEF6K3+X7HRajOxL/TPXqyU3dBmHXipaSGdlSNQRox1ZCuWJkO2Mj0/poYGygi+lqqcqbDcfv+sb+OjwKLelu98qhsXXaj8VE789G8Vfe7M3QBQKUYAV6sk=
+	t=1774349489; cv=none; b=eKuJYLbg5/QoB+riIPaTeFm3plrY/PaXxqiJMrRzrsLqzXTK3oXJu3c0tROfCemJlMPUZB1hMvGfPpRe48RkfYae/81PhMsOSdoB+/Mqw8dfDLK1kfHkHVk8O3fydbCW2L0fzKKno7eFJiZzo8Af//9iRDaFUk/lfErPGukBWcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774349459; c=relaxed/simple;
-	bh=VPEEfvfhbbibvyfUZerlyIS7h6fTTCMSZissG/29gxY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cb78qFLBWSe2FtLvZ7wU8XdM55oNhdv4hWrJP0yGIR/1V5sMimoVpGJFTfQzbtIL7Cbu6aO3tFGfdguOXdMk1+qeoPwrZoUyIHKz5VJOSI7flVcWXcRbrRD8XbTOk9c3TSxoclwNyucUFBxZU415KsP6qE6Bxj7rXWnTL/x0+B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=Z/x0RxOr; arc=none smtp.client-ip=188.40.203.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
+	s=arc-20240116; t=1774349489; c=relaxed/simple;
+	bh=s4Ip/9OTPODrxWag+XEmbwUwFOQZouTajrRzZEiPINg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SWARvSIYhiPK/HbInVgHpSKlGYKvAeFdJsZ278OxRYO88EjVw8mgGMRZsfW2JoyohQh3DN7CSNJ4nuP1WSu20riu4PgMi8slK2k7krayyuNxVq7TP95FOU+/HhgpbnA6XTzNQPYL3NskADEMhyiQ0jWTDQq7oVXNhoS9s8vW8gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4R6eno1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="Z/x0RxOr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=48Pi96z23t2gYmpMmdR01/+vfDXhEQD8xG6PINj+Vq4=; b=Z/x0RxOrd6Xk/S
-	oKdLXcduIFRXa7n3qquKASUa5VB2QmUoSUGB8IyReHgCVuhHJ1Ptue+JzYPjgt7otmGRhguTlm/TX
-	uiRkLsT1s/1JFRekx3pEDY9EPneY1wGboeDI1IVDgNui7hvrXxOr72eWh9iHc6XYoXgpg2IGwt3Qn
-	o9MYdCEekXMGfDeBEylylLJtTbTA2a099UDXEYHxU3SUISSgTQiMxsXlzflDvabktk3bQ5r2IWraI
-	Gk+ky0C+Th9XD2HAR8QHRfT3GtezanmehgDGlDFBlElAKXM7e8nejPIhbNkM6Dzd3b3+iQRBUZk8a
-	fHXtTgy3oXwESQQrsAlw==;
-Received: from [63.135.74.212] (helo=rainbowdash)
-	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1w4zLG-0077XE-Mp; Tue, 24 Mar 2026 10:50:34 +0000
-Received: from ben by rainbowdash with local (Exim 4.99.1)
-	(envelope-from <ben@rainbowdash>)
-	id 1w4zLF-00000000Puy-2xR4;
-	Tue, 24 Mar 2026 10:50:33 +0000
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [RESEND v4] ASoC: SOF: sof-audio: pcm_id is __le32
-Date: Tue, 24 Mar 2026 10:50:27 +0000
-Message-Id: <20260324105027.99586-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4R6eno1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774349485; x=1805885485;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=s4Ip/9OTPODrxWag+XEmbwUwFOQZouTajrRzZEiPINg=;
+  b=M4R6eno1dHH/T4+/La2lLAoakC+7fPpd14M+djthxSoiD44DggDxuKgg
+   449v2L9De1b9DNnuPQlIbHXHQphVNPFJaN2kQdjz7PbInxTvvs8mewoFn
+   WhtQAtWpDFIWOfeqk6/2Jxeh/a6iPDFi9uziiPP7gEknRbJilZLS2bSMC
+   kq9zNq0YxMVyarSJ1A2BITAZhLlHfgxJr3GNuBdq12OT0XDvm1G4BUacq
+   q+jw/GnoejAZXOeSm0V1WRYoRlUiU3WHCenlUrJu2GH7jQTsjS9hZrI63
+   51vsQr0d2EtD9MZ4ZlbzS8qZqWGpL60Qb1g2mhdcjU0Wk5M+klDoeHyA+
+   g==;
+X-CSE-ConnectionGUID: sjOMQMr7SrOmvrWlg8f01g==
+X-CSE-MsgGUID: nQSmMOgjSq6hldyYRIWv3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="78957041"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="78957041"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 03:51:24 -0700
+X-CSE-ConnectionGUID: v81aUKcXTPezeU6Nj2tqIw==
+X-CSE-MsgGUID: SKskgW8CRWqCJyqAoRrbjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="219428179"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.138]) ([10.245.244.138])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 03:51:21 -0700
+Message-ID: <6b129498-f130-44a0-a679-6fa1c639046e@linux.intel.com>
+Date: Tue, 24 Mar 2026 12:51:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
+ <8fe7f61b-dae4-4ae6-aa96-7e604a37e624@linux.intel.com>
+ <813612ea-f942-432f-9bf1-7b1ccfe59046@perex.cz>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <813612ea-f942-432f-9bf1-7b1ccfe59046@perex.cz>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Sender: srv_ts003@codethink.com
 
-The pcm_id value is __le32 so convert it before passing to the dev_dbg
-function to be printed. Also fixup some other uses of __le32 data and
-a couple of places where %u should have been used instead of %d
 
-Picked up by sparse prototype for variadic and printf
-function checking. Fixes a large number of sparse warnings, such as:
+On 24/03/2026 10:58, Jaroslav Kysela wrote:
+> On 3/23/26 17:16, Péter Ujfalusi wrote:
+>>> I would not change the fifo_size definition at this moment. It's not
+>>> directly related to the sample transfers. This value just describes the
+>>> additional latency for streaming.
+>>
+>> Aren't we have the delay reported for this reason, which is actually in
+>> use by user space?
+> 
+> Yes, this field was defined before the final delay reporting. It
+> describes the static FIFOs in hardware. But it was not defined to be
+> related to the hw_ptr granularity (transfers). SOF may set this value to
+> indicate fixed latencies caused by double buffering, too.
 
-sound/soc/sof/pcm.c:84:25: warning: incorrect type in argument 4 (different base types)
-sound/soc/sof/pcm.c:84:25:    expected unsigned int
-sound/soc/sof/pcm.c:84:25:    got restricted __le32 [usertype] pcm_id
+In SOF we use delay to report the delay that the DSP processing might add.
+I have noticed the fifo_size only when started to look around again to
+give another try to the DMA burst issue.
+I did also looked at user space and saw no evidence of anything using
+it, that's why I thought that it can be re-purposed - no users, no
+regression ;)
+But you are right, the original definition of fifo_size is detached from
+hw_ptr.
 
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> 
+>>> The new member seems like a good way to go with more universal name like
+>>> 'chunk_size' (in frames) defining the transfer granularity information
+>>> for the PCM buffer I/O.
+>>
+>> right, but (I think these are the main issues that blocked any progress
+>> on this) this is not really about the chunk_size, it is telling user
+>> space what is the safe distance from hw_ptr to modify samples without
+>> the DMA jumping over the area.
+> 
+> It depends on the view and definition. From the hardware view, the
+> 'chunk_size' may be defined as the maximal block transfer from (or to)
+> the audio buffer (describing the hw_ptr granularity). So applications
+> will be notified, that filling buffer lower than 'chunk_size' may
+> introduce underruns. It covers also the initial transfer (when hw_ptr
+> moves immediately to 'chunk_size').
 
----
-v2: fix missing __le32 conversions
-v3: further __le32 fixes for other header values
-v4: fix signed-ness of printf formatting
----
- sound/soc/sof/compress.c |  2 +-
- sound/soc/sof/pcm.c      |  2 +-
- sound/soc/sof/topology.c | 12 ++++++------
- 3 files changed, 8 insertions(+), 8 deletions(-)
+I'm trying to wrap my head around this, I think this is the generalized
+view of this:
+We have a FIFO in hardware which will be filled on start: dma_fifo_size
+After the initial burst, the DMA keeps the FIFO full with sample, 1ms,
+2ms, etc steps: dma_runtime_size
+A DMA burst happens every dma_runtime_size time after the initial FIFO
+fill burst.
+Something like this:
+dma_fifo_size = 100ms
+dma_runtime_size = 1ms
+Initial burst is 100ms, then after every 1ms DMA moves 1ms ahead
 
-diff --git a/sound/soc/sof/compress.c b/sound/soc/sof/compress.c
-index c6c19df29035..3dbc05bf3b79 100644
---- a/sound/soc/sof/compress.c
-+++ b/sound/soc/sof/compress.c
-@@ -247,7 +247,7 @@ static int sof_compr_set_params(struct snd_soc_component *component,
- 	ret = snd_sof_set_stream_data_offset(sdev, &spcm->stream[cstream->direction],
- 					     ipc_params_reply.posn_offset);
- 	if (ret < 0) {
--		dev_err(component->dev, "Invalid stream data offset for Compr %d\n",
-+		dev_err(component->dev, "Invalid stream data offset for Compr %u\n",
- 			le32_to_cpu(spcm->pcm.pcm_id));
- 		goto out;
- 	}
-diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index d3af30398305..b2071edeaea6 100644
---- a/sound/soc/sof/pcm.c
-+++ b/sound/soc/sof/pcm.c
-@@ -360,7 +360,7 @@ static int sof_pcm_prepare(struct snd_soc_component *component,
- 	platform_params = &spcm->platform_params[substream->stream];
- 	ret = sof_widget_list_setup(sdev, spcm, params, platform_params, dir);
- 	if (ret < 0) {
--		dev_err(sdev->dev, "failed widget list set up for pcm %d dir %d\n",
-+		dev_err(sdev->dev, "failed widget list set up for pcm %d dir %u\n",
- 			le32_to_cpu(spcm->pcm.pcm_id), dir);
- 		spcm->stream[dir].list = NULL;
- 		snd_soc_dapm_dai_free_widgets(&list);
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 63d637db7053..907f9b1e9d1b 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -775,7 +775,7 @@ static int sof_parse_token_sets(struct snd_soc_component *scomp,
- 						       array);
- 			break;
- 		default:
--			dev_err(scomp->dev, "error: unknown token type %d\n",
-+			dev_err(scomp->dev, "error: unknown token type %u\n",
- 				le32_to_cpu(array->type));
- 			return -EINVAL;
- 		}
-@@ -880,7 +880,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 			       ARRAY_SIZE(led_tokens), mc->priv.array,
- 			       le32_to_cpu(mc->priv.size));
- 	if (ret != 0) {
--		dev_err(scomp->dev, "error: parse led tokens failed %d\n",
-+		dev_err(scomp->dev, "error: parse led tokens failed %u\n",
- 			le32_to_cpu(mc->priv.size));
- 		goto err;
- 	}
-@@ -970,7 +970,7 @@ static int sof_control_load(struct snd_soc_component *scomp, int index,
- 	struct snd_sof_control *scontrol;
- 	int ret;
- 
--	dev_dbg(scomp->dev, "tplg: load control type %d name : %s\n",
-+	dev_dbg(scomp->dev, "tplg: load control type %u name : %s\n",
- 		le32_to_cpu(hdr->type), hdr->name);
- 
- 	scontrol = kzalloc_obj(*scontrol);
-@@ -1015,7 +1015,7 @@ static int sof_control_load(struct snd_soc_component *scomp, int index,
- 	case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
- 	case SND_SOC_TPLG_DAPM_CTL_PIN:
- 	default:
--		dev_warn(scomp->dev, "control type not supported %d:%d:%d\n",
-+		dev_warn(scomp->dev, "control type not supported %u:%u:%u\n",
- 			 le32_to_cpu(hdr->ops.get),
- 			 le32_to_cpu(hdr->ops.put),
- 			 le32_to_cpu(hdr->ops.info));
-@@ -1525,7 +1525,7 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
- 		break;
- 	case snd_soc_dapm_pga:
- 		if (!le32_to_cpu(tw->num_kcontrols)) {
--			dev_err(scomp->dev, "invalid kcontrol count %d for volume\n",
-+			dev_err(scomp->dev, "invalid kcontrol count %u for volume\n",
- 				le32_to_cpu(tw->num_kcontrols));
- 			ret = -EINVAL;
- 			break;
-@@ -1774,7 +1774,7 @@ static int sof_dai_load(struct snd_soc_component *scomp, int index,
- 			       ARRAY_SIZE(stream_tokens), private->array,
- 			       le32_to_cpu(private->size));
- 	if (ret) {
--		dev_err(scomp->dev, "error: parse stream tokens failed %d\n",
-+		dev_err(scomp->dev, "error: parse stream tokens failed %u\n",
- 			le32_to_cpu(private->size));
- 		return ret;
- 	}
+dma_fifo_size = 100ms
+dma_runtime_size = 96ms
+Initial burst is 100ms, then after every 96ms DMA moves 96ms ahead
+
+On start thus it is going to cause immediate xrun if application only
+provides dma_fifo_size data if the dma_runtime_size is 1ms. Well, it
+will cause xrun right at 1ms playback time, if dma_runtime_size is 10ms,
+then after 10ms, given if application is not quick to fill data right
+away it started, which might not be the case.
+
+During runtime however it is safe for application to have sort of
+untouchable data of dma_runtime_size ahead of hw_ptr, but dma_fifo_size
+is definitely a safe distance with some headroom.
+
+The question is: is it enough to only have single value exposed or do we
+need/want add all small variations of this to be exposed?
+I would think that a single dma_fifo_size should be OK and apps should
+prepare for the crawling DMA case.
+
+> But if we agree on other name like 'burst_size' or 'batch_size', I'll be
+> fine with it, too.
+
+I think neither of these are right, unless we substitute them with a
+variable which tells the size of the FIFO in hardware that is going to
+be filled.
+max_hw_ptr_burst_size or max_dma_burst_size or max_burst_size - in frames?
+
+> 
+>                     Jaroslav
+> 
+
 -- 
-2.37.2.352.g3c44437643
+Péter
 
