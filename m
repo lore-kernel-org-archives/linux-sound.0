@@ -1,62 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF7519D8AC;
-	Tue, 24 Mar 2026 04:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7DA3B3C1B
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 06:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774326056; cv=none; b=oUuaIOj+/cv9I9/G+oe1aq1Cq3NFPKPWcHiI9Vcp6/HjvtZUSKPQzzxCXDgWsvmTXgWwPoeRdt+GHjB2rxyjTaC9FN8k5ckto4gsxzeAOh+UyzMnY5VFAZQL3nkAWmxgZuDYgNgjsRC1fbVUppc4LtJj0wqMikVTPDs4AjHL0SQ=
+	t=1774333958; cv=none; b=Epnk7fwqeQnYI0IjBaXCANeb1hvANRSiOrBTHMSf+FDf/vtLDu6agZYPBeOePOAK1fE/KPnfyYQ4cL5IdxYmz/0O20U+m9U8zy0n6g1DupkQu2zcxzAEwtBgd53+sDA1l9DDYRNYzgUKzvV87zJZ0+nvt9BsN5o+HyjXPI9VpIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774326056; c=relaxed/simple;
-	bh=OqHoKJWvvmhgynw9NqNETcNSrVpJiY3jiGOP7/yHmHA=;
+	s=arc-20240116; t=1774333958; c=relaxed/simple;
+	bh=FdsB9MamT0cI9bJ3AXnYJQBw0SqUp3sP4jRNqpAHku8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QDIzb6ipSKo87W+5VMUJST4sH+uK7OGF7pvXXaX7LH8b2XWfPOJT7mM5oLH2Jud7/g85MXdhehvMy+by8BOvUSyZh+FjsYUUJfC5Yd/bf4OKMav7OVMpiql4nAF+LA6ojk8nUP6hNwhr+5LZ7vEqcLIXyyqtXFITPJQSxeQkUMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQz+jxEj; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7BU+AQjuw92Nv20HkUyB2Ej1pFD5HB3gSYfAi08hTxftUyii0LLonW6BDOfHEn1mVKQ54XY5WIsQwj9sg+Y/K+Qwnrj8Bcny+NsDYIZJ5i6CYqB/C16+3Bg3jB3zKdY0hj5wcyIOCm8PKGMm2CrDkyi6QcP7dZeNO0l8YJoa/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WUVwpc7x; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TynZuZCq; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQz+jxEj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774326055; x=1805862055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OqHoKJWvvmhgynw9NqNETcNSrVpJiY3jiGOP7/yHmHA=;
-  b=LQz+jxEjForzET41En+cYs9spbYMA2uGAj/Gk3IfeREHLNnhTDYk/ibc
-   nDUlVZYq3tep4LfCG0PebSZ2UMD+l1J8XdkuaM8nU/qazxZKXGWSf74SW
-   LgreEZz6/1cCEIpVacWe8wGV1h0dRkdAWH32jqj0jo9EtSef2K7sjxjJg
-   6R1G5aWVbVFUAgtRIiwj7llbBb4IJ4mdpm4OGjREFz5oyoi8lXhrFbyEx
-   yTgVm88VvctfxNR73OqWkCQIlBK3WNiTZVP+CEM38IsRH7D3v8kmywVh7
-   qAg0a7kL1wio9/8k4JWF8LRwlz7EligAzc5Aa8f/jJZpDwTbNpthNZm+k
-   g==;
-X-CSE-ConnectionGUID: 40aFeuzaQ/SeMWxyw1HjEA==
-X-CSE-MsgGUID: 5NPMal7ORjuyYwkY9wrNrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75359535"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="75359535"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 21:20:55 -0700
-X-CSE-ConnectionGUID: LAP6mxm/SrGJeXeSAnuoBg==
-X-CSE-MsgGUID: 77j8BtE7QLKvHvvTDE1c7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="223309159"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2026 21:20:52 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4tG5-000000003mP-1gTE;
-	Tue, 24 Mar 2026 04:20:49 +0000
-Date: Tue, 24 Mar 2026 12:20:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: songxiebing <songxiebing@kylinos.cn>, tiwai@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: core/seq: Optimize the return logic in
- cc_ev_to_ump_midi2
-Message-ID: <202603241242.5Kms3LqO-lkp@intel.com>
-References: <20260323024742.220707-1-songxiebing@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WUVwpc7x";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TynZuZCq"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62O3ocZe3170682
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 06:32:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=9Bk9DQPrM1MAWu7rdtJ3crEI
+	UaG9QOGukEfNOCxHMM0=; b=WUVwpc7xrIUGh6rmxM1FHJl77MhFkWXm6OHGCrLA
+	x6NaC+AsKhXLmKVRliHU6ZS1pJxHWr5T+4olFoOHiaPrCBEsJ2RuwaCsY54bRlrZ
+	UlfXnvnRQGtyuSxaM6y7Y5V0RuV9yfyNji30LsIb1ErDtebFbK5X0mmS+oN4Dake
+	vuDc1QouWLNtKp5XesqFdKjJtTR+EZxuQwh350IDA9LG1vcc3seAaEevJC/RuN5F
+	eIR/ccwLnM3Z59aqeBKoq0/H9Wy12R300JMVgKJqYMueLZejBH8SKEoCxHE2f05U
+	6VTeIQB6+VzyK9tEScmCJ0L7Jy35o0k2Wxwbk2cnfGaEMg==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d35r23cqg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 06:32:35 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-82a855dc82aso3456372b3a.2
+        for <linux-sound@vger.kernel.org>; Mon, 23 Mar 2026 23:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774333954; x=1774938754; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Bk9DQPrM1MAWu7rdtJ3crEIUaG9QOGukEfNOCxHMM0=;
+        b=TynZuZCq51iFe8uOQ0bsZF4rLuSx6IdkRREs+9m1+ntdIIb1YIVHcI6tH/gIxfOqnk
+         zMws2U5tV90xhTpWtvwz75h7SFDHH6HcL8EhyTEdLxentJCu95dBqMDx33tmGz58lv4E
+         MP9By2RTqAmfjT7veDhVE5UWwckmkK6vfnnLg07evyatG7sD0sX22rqCajiKakOrTmKG
+         kQODprLUeqE3WIL/HzkIOxkbAw4J6sCJIDghNIuIWVOZH/gyhM82bEiVeHXR7w+43PP2
+         VuAGwbfYSQC/W8eJPQRXUfoA0bdeOQxh7Tq14u8eC6hSX18Pd5RVuk6CwYMAsQ8ToEPk
+         1RoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774333954; x=1774938754;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9Bk9DQPrM1MAWu7rdtJ3crEIUaG9QOGukEfNOCxHMM0=;
+        b=O+ecnRS3BDUU+CqdNCZk9YyxcuuX932E67B9Z8ZO/LC6wAe3pZBuX0uFjQEij81tEe
+         aU4HyAlRxe7k54wW0+J2c1NtPgINeUZuYqwoyfNA4Dbihnfm/pdNmdLkAcdUhZaFfAi4
+         h5e1Hy5sN/Rk9TEBslgzGO47oJKGt3IV3peXAPCdlQKgPPWNxdzEw/GL6CePf3pU7nB6
+         XeOmPu1ZJXNC+ZDI2AUGhuwaN83F3tTitS8WGkFSXAqGstNq4q+UOfyUkmd5xv46VdHz
+         nAQ2XwZtbTDPvMotzolTIrfHye8cTa7x3FkV4vzaf8S7uPV+gg9+hakPpSSvB300UjGr
+         N6Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdgk8mV6RAtYlXFmc2ppxgTqeQW6dxOvpzNZfUg+U5U3XpKho6bVvK5qftP7MBfvpf3leQCy4tpYd/Tw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yynf+VTnhFGL1dC+edTOTfCFaxhoP3mxzXtwBkrgDylX5GaUXlm
+	Hn3DYbpVUuWkvCvzU14kDLk2oEfcnoaLG+9pcOR2rkdwBnnBNEQhgGzRv9jP5KMq3JBcO3boull
+	8mRI7fywPQT/hjrIDJeCS1m2wLmZ2smxqYHOG7B98rlt6GenDhT5SwiJR0A/G4XTVqw==
+X-Gm-Gg: ATEYQzxwqYexHLEqHJisLDxocb793PEuNBIwrC5wjhr6rzTs0qjYLCpyTs57Wmi4Lb0
+	pgMY5CMRNcMk8YnDHeh9Nej6oxzjPrWBz2HrBZ01cJoTumDX2JRnWFQx89lpb8CCma+jbC3dR1Z
+	a/DrCHvbuQYFKuNSCCa4yr7+yJqS8uEbw2abhBvN3VuQII8hzWuv8biL5JHMBUqpS+dfprcPXCP
+	AK62JQN3ndX/XGE4K1NjqoXIgNKcutzqBzWjCXvgXg9KCVHAz+Ez2LAe+7jXjIegUy/N7pvZKrO
+	8kTuZ/uVZWuG+OO/cnVOAwoEbenDWiq+s9xYguCYvoeWC9AdgodsRnGd7IqCMHcuaC91UmAahnG
+	QRGEI5qveUVFYiV3VRwSNh3ubYsMtUimdZTLGpjHiFS1hnC4d
+X-Received: by 2002:a05:6a00:1742:b0:829:800b:9fe with SMTP id d2e1a72fcca58-82a8c35d212mr13189034b3a.39.1774333954406;
+        Mon, 23 Mar 2026 23:32:34 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1742:b0:829:800b:9fe with SMTP id d2e1a72fcca58-82a8c35d212mr13188989b3a.39.1774333953665;
+        Mon, 23 Mar 2026 23:32:33 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03bc6881sm13116945b3a.22.2026.03.23.23.32.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 23:32:33 -0700 (PDT)
+Date: Tue, 24 Mar 2026 12:02:27 +0530
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 3/7] slimbus: qcom-ngd-ctrl: Correct PDR and SSR cleanup
+ ownership
+Message-ID: <20260324063227.vlafq7ukmm5fo73z@hu-mojha-hyd.qualcomm.com>
+References: <20260309-slim-ngd-dev-v1-0-5843e3ed62a3@oss.qualcomm.com>
+ <20260309-slim-ngd-dev-v1-3-5843e3ed62a3@oss.qualcomm.com>
+ <20260310073933.ttble7algoiy7rwq@hu-mojha-hyd.qualcomm.com>
+ <acH4WGLAfJnyzK9H@baldur>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,130 +100,108 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323024742.220707-1-songxiebing@kylinos.cn>
+In-Reply-To: <acH4WGLAfJnyzK9H@baldur>
+X-Authority-Analysis: v=2.4 cv=VvUuwu2n c=1 sm=1 tr=0 ts=69c23003 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=24C9S6smnu-WsuHNAWcA:9 a=CjuIK1q_8ugA:10
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-GUID: 7eB2g_gRV_-9CNjT-4pvgQlYonImlBd8
+X-Proofpoint-ORIG-GUID: 7eB2g_gRV_-9CNjT-4pvgQlYonImlBd8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI0MDA1MSBTYWx0ZWRfX25cBdTv9mdd2
+ qNSCa/usi0Z8T/V6mJsJAR7IpJU2LygPNsSQNR+opubA3P4uXptHoorKBwTuBhB01tadB2EK3ff
+ UeSQIw4cI9mMWXZ2nhQpNhHu8+j/EsYF3hoQkcoEMf7G8cKYNYNNkPd1DiZLJB4AggKLqRrtV5t
+ ayotylvcl4+Qru11xHYNc/G0R1+k68WG8s2QjCpPmd6CoVma+YoYxRlABEE2tjvFAabNJav29A9
+ XsoZqI7t+YBpDeBRVInU878UzfcvaDjtkCtyogs9onMZJ9tmLKvixgCpw8/fBwYCZLn6w6KCgKV
+ BqcHIzdW3eQ7Sm4uQuG0vrRTa/6PVXqo7Oj+ZqwwNir8ir/beHswPku1uz7Nxn1Y/EE9fcFcxf7
+ CEn/wqhqjYEo18aN3ti9cElxUe/Kkir2sU76NQB1JEzUHAjzuDQ3MxIe38QaCtqaZZ8lygjxwJb
+ a32klmQpgd9FjAvEA0w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-24_02,2026-03-23_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603240051
 
-Hi songxiebing,
+On Mon, Mar 23, 2026 at 09:36:49PM -0500, Bjorn Andersson wrote:
+> On Tue, Mar 10, 2026 at 01:09:33PM +0530, Mukesh Ojha wrote:
+> > On Mon, Mar 09, 2026 at 11:09:04PM -0500, Bjorn Andersson wrote:
+> > > PDR and SSR callbacks are registred from the controller probe function,
+> > > but currently released from the child device's remove function.
+> > > 
+> > > In the next commit the controller probe function will be modified such
+> > > that the error path will unregister the child device, resulting in a
+> > > double free of these resources.
+> > 
+> > Change is fine, Could this not be accommodated in the next commit?
+> > 
+> 
+> The problem solved by patch 4 relates to the oreder that we're acquiring
+> the resources in probe and how the error handling of that works.
+> 
+> If I squash the two patches, it seems that I would have a lengthy commit
+> message talking about that part and then a "also, while at it move the
+> unregister from X to Y because...".
+> 
+> I.e. it doesn't feel like the same logical change to me.
+> 
+> Please let me know if you disagree.
 
-kernel test robot noticed the following build warnings:
+Agree..
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v7.0-rc5 next-20260323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/songxiebing/ALSA-core-seq-Optimize-the-return-logic-in-cc_ev_to_ump_midi2/20260324-013342
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260323024742.220707-1-songxiebing%40kylinos.cn
-patch subject: [PATCH] ALSA: core/seq: Optimize the return logic in cc_ev_to_ump_midi2
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260324/202603241242.5Kms3LqO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260324/202603241242.5Kms3LqO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603241242.5Kms3LqO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> sound/core/seq/seq_ump_convert.c:881:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     881 |         case UMP_CC_BANK_SELECT_LSB:
-         |         ^
-   sound/core/seq/seq_ump_convert.c:881:2: note: insert '__attribute__((fallthrough));' to silence this warning
-     881 |         case UMP_CC_BANK_SELECT_LSB:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   sound/core/seq/seq_ump_convert.c:881:2: note: insert 'break;' to avoid fall-through
-     881 |         case UMP_CC_BANK_SELECT_LSB:
-         |         ^
-         |         break; 
-   sound/core/seq/seq_ump_convert.c:885:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     885 |         case UMP_CC_DATA_LSB:
-         |         ^
-   sound/core/seq/seq_ump_convert.c:885:2: note: insert '__attribute__((fallthrough));' to silence this warning
-     885 |         case UMP_CC_DATA_LSB:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   sound/core/seq/seq_ump_convert.c:885:2: note: insert 'break;' to avoid fall-through
-     885 |         case UMP_CC_DATA_LSB:
-         |         ^
-         |         break; 
-   2 warnings generated.
+I was not sure about these text usage "next commit" and "will be modified",
+Hence, was asking if we can accomodate it in one commit as both are Cced to
+stable
 
 
-vim +881 sound/core/seq/seq_ump_convert.c
-
-e9e02819a98a50 Takashi Iwai 2023-05-23  833  
-e9e02819a98a50 Takashi Iwai 2023-05-23  834  /* convert CC event to MIDI 2.0 UMP */
-e9e02819a98a50 Takashi Iwai 2023-05-23  835  static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
-e9e02819a98a50 Takashi Iwai 2023-05-23  836  			      struct snd_seq_client_port *dest_port,
-e9e02819a98a50 Takashi Iwai 2023-05-23  837  			      union snd_ump_midi2_msg *data,
-e9e02819a98a50 Takashi Iwai 2023-05-23  838  			      unsigned char status)
-e9e02819a98a50 Takashi Iwai 2023-05-23  839  {
-e9e02819a98a50 Takashi Iwai 2023-05-23  840  	unsigned char channel = event->data.control.channel & 0x0f;
-e9e02819a98a50 Takashi Iwai 2023-05-23  841  	unsigned char index = event->data.control.param & 0x7f;
-e9e02819a98a50 Takashi Iwai 2023-05-23  842  	unsigned char val = event->data.control.value & 0x7f;
-a683030606fa5f Takashi Iwai 2024-07-31  843  	struct ump_cvt_to_ump_bank *cc = &dest_port->midi2_bank[channel];
-521be8ec43cb74 songxiebing  2026-03-23  844  	int ret = 0;
-e9e02819a98a50 Takashi Iwai 2023-05-23  845  
-e9e02819a98a50 Takashi Iwai 2023-05-23  846  	/* process special CC's (bank/rpn/nrpn) */
-e9e02819a98a50 Takashi Iwai 2023-05-23  847  	switch (index) {
-e9e02819a98a50 Takashi Iwai 2023-05-23  848  	case UMP_CC_RPN_MSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  849  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  850  		cc->rpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  851  		cc->cc_rpn_msb = val;
-98ea612dd1150a Takashi Iwai 2024-07-31  852  		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-98ea612dd1150a Takashi Iwai 2024-07-31  853  			reset_rpn(cc);
-521be8ec43cb74 songxiebing  2026-03-23  854  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  855  	case UMP_CC_RPN_LSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  856  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  857  		cc->rpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  858  		cc->cc_rpn_lsb = val;
-98ea612dd1150a Takashi Iwai 2024-07-31  859  		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-98ea612dd1150a Takashi Iwai 2024-07-31  860  			reset_rpn(cc);
-521be8ec43cb74 songxiebing  2026-03-23  861  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  862  	case UMP_CC_NRPN_MSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  863  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  864  		cc->nrpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  865  		cc->cc_nrpn_msb = val;
-521be8ec43cb74 songxiebing  2026-03-23  866  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  867  	case UMP_CC_NRPN_LSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  868  		ret = fill_rpn(cc, data, channel, true);
-e9e02819a98a50 Takashi Iwai 2023-05-23  869  		cc->nrpn_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  870  		cc->cc_nrpn_lsb = val;
-521be8ec43cb74 songxiebing  2026-03-23  871  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  872  	case UMP_CC_DATA:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  873  		cc->cc_data_msb_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  874  		cc->cc_data_msb = val;
-521be8ec43cb74 songxiebing  2026-03-23  875  		ret = fill_rpn(cc, data, channel, false);
-521be8ec43cb74 songxiebing  2026-03-23  876  		break;
-e9e02819a98a50 Takashi Iwai 2023-05-23  877  	case UMP_CC_BANK_SELECT:
-e9e02819a98a50 Takashi Iwai 2023-05-23  878  		cc->bank_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  879  		cc->cc_bank_msb = val;
-521be8ec43cb74 songxiebing  2026-03-23  880  		ret = 0; // skip
-e9e02819a98a50 Takashi Iwai 2023-05-23 @881  	case UMP_CC_BANK_SELECT_LSB:
-e9e02819a98a50 Takashi Iwai 2023-05-23  882  		cc->bank_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  883  		cc->cc_bank_lsb = val;
-521be8ec43cb74 songxiebing  2026-03-23  884  		ret = 0; // skip
-e9e02819a98a50 Takashi Iwai 2023-05-23  885  	case UMP_CC_DATA_LSB:
-a4ff92ff0bdd73 Takashi Iwai 2024-07-31  886  		cc->cc_data_lsb_set = 1;
-e9e02819a98a50 Takashi Iwai 2023-05-23  887  		cc->cc_data_lsb = val;
-521be8ec43cb74 songxiebing  2026-03-23  888  		ret = fill_rpn(cc, data, channel, false);
-521be8ec43cb74 songxiebing  2026-03-23  889  		break;
-521be8ec43cb74 songxiebing  2026-03-23  890  	default:
-e9e02819a98a50 Takashi Iwai 2023-05-23  891  		data->cc.status = status;
-e9e02819a98a50 Takashi Iwai 2023-05-23  892  		data->cc.channel = channel;
-e9e02819a98a50 Takashi Iwai 2023-05-23  893  		data->cc.index = index;
-e9e02819a98a50 Takashi Iwai 2023-05-23  894  		data->cc.data = upscale_7_to_32bit(event->data.control.value & 0x7f);
-521be8ec43cb74 songxiebing  2026-03-23  895  		ret = 1;
-521be8ec43cb74 songxiebing  2026-03-23  896  		break;
-521be8ec43cb74 songxiebing  2026-03-23  897  	}
-521be8ec43cb74 songxiebing  2026-03-23  898  
-521be8ec43cb74 songxiebing  2026-03-23  899  	return ret;
-e9e02819a98a50 Takashi Iwai 2023-05-23  900  }
-e9e02819a98a50 Takashi Iwai 2023-05-23  901  
+> 
+> Regards,
+> Bjorn
+> 
+> > > 
+> > > Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+> > 
+> > Reviewed-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> > 
+> > > ---
+> > >  drivers/slimbus/qcom-ngd-ctrl.c | 5 +++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
+> > > index b34e727bab086c95dc7e760bf1141baac9ccf6a7..09ce3299e15c25b1b9cf6b1559850adf4aa20737 100644
+> > > --- a/drivers/slimbus/qcom-ngd-ctrl.c
+> > > +++ b/drivers/slimbus/qcom-ngd-ctrl.c
+> > > @@ -1685,6 +1685,9 @@ static void qcom_slim_ngd_ctrl_remove(struct platform_device *pdev)
+> > >  {
+> > >  	struct qcom_slim_ngd_ctrl *ctrl = platform_get_drvdata(pdev);
+> > >  
+> > > +	pdr_handle_release(ctrl->pdr);
+> > > +	qcom_unregister_ssr_notifier(ctrl->notifier, &ctrl->nb);
+> > > +
+> > >  	qcom_slim_ngd_unregister(ctrl);
+> > >  }
+> > >  
+> > > @@ -1693,8 +1696,6 @@ static void qcom_slim_ngd_remove(struct platform_device *pdev)
+> > >  	struct qcom_slim_ngd_ctrl *ctrl = platform_get_drvdata(pdev);
+> > >  
+> > >  	pm_runtime_disable(&pdev->dev);
+> > > -	pdr_handle_release(ctrl->pdr);
+> > > -	qcom_unregister_ssr_notifier(ctrl->notifier, &ctrl->nb);
+> > >  	qcom_slim_ngd_enable(ctrl, false);
+> > >  	qcom_slim_ngd_exit_dma(ctrl);
+> > >  	qcom_slim_ngd_qmi_svc_event_deinit(&ctrl->qmi);
+> > > 
+> > > -- 
+> > > 2.51.0
+> > > 
+> > 
+> > -- 
+> > -Mukesh Ojha
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-Mukesh Ojha
