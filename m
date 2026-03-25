@@ -1,151 +1,351 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C3B330666
-	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 21:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7644A2773DE;
+	Wed, 25 Mar 2026 21:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774473033; cv=none; b=Fc7TASsV/vxLjFwTNb5LvnlFmGkTvLDpUr/QcZq+OzeIS8ElMfy0rW2x2TEuM7c8yztrk8xeWRqdjBW4CqZC9qmJhDhWlv7wlmhfWrEozfe0AZ3Qnyy9w8WJbXhMuw6NoTKKEMDG+9BEoIZGELFK3kSXwXcynBGecRdtHI2K+bk=
+	t=1774475201; cv=none; b=ZpEVy+Aea3rozCJ9iWu58HxVDp9RetvgfNIZwybZ/PoKOZHa1Yqp3RGdfaXxG5J+Xrp1sbM4jVfdWsUSBAnD+VQNzbwCSj+QhPAbIfhRdAO/jIXqyYG3PJHiSI6+mrgpL3DVSJC6cxo19K37sXFvk355GYWncsoiExqlC7acUWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774473033; c=relaxed/simple;
-	bh=tUzIUb7k3J6cOpfCCMDZdP6M9eodSIZ13LiGR9eH2hU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nxUzK2PhoS02TzBwXYwv+2LDb7z1ECG9TT3mvIZ4OnhsKqdgsqrkfEON96AcCbb2opEIJOi4Goj6UTtzTyOrB2y2tIWVLTYSfmSWF5mT0x8YU6pdOt9OcnCT6OsWBZ2RQAi74w+i9g1v3ZpUPuoDl8b235G3Qf4NodG90fjToOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pVgbQ528; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774475201; c=relaxed/simple;
+	bh=+ylu7bl+NpdgEU9QdSwkI5coZAZII7MT6smUgsFVfkE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fqMl6wrW79oxfyzoyYPmOZvgeh/upyt187L+wC0p4sZP55oF3Tmda1uf4rWfe5VuBwH4qRKuYExq1muccMxa0cmdjfjusGV0s1oimWJZNJDQXFTrqtYd08Yjv0QYtObnP08fkCfsr1OTi5iY0RFFJVYqk2113+f9wJ8irI2RPFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WtbI2QDA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pVgbQ528"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fb439299so2987355e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 14:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774473030; x=1775077830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZ5QxoSZaUzmehajJJUJGfXXBnnvkvRAu9eZCPtocyQ=;
-        b=pVgbQ528hdXCN8bKjJOsph2rfkOhWkl+EAz9XGWKKscPBfbQaSRuiIhIIR07Ejgt/B
-         mwLZ5zQ0b/Nu6AR4nXoY8bvG2d9wZ6lrjiB72tShm1d/2zSLz4EX2gobHyod9xHvb+w2
-         guiHp0T++5L/J3Umotmb52nhz4F0jpTUblxRlFG7L8em7U+ggfdgiPrzHfY5/O640Ez/
-         7El9hMvKs8RZWrO0/3SggnFPcpJg7I3C4iMZgEGXmKoTXR91NTVH4zBztf6N7kh1FuX/
-         vRdp6ZnFrdjJv9jPgRFf2bwXWiXISd9xQnbag7GgIGBA8M7jcxrKZwIlRxqT9twf9Aot
-         x7ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774473030; x=1775077830;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZZ5QxoSZaUzmehajJJUJGfXXBnnvkvRAu9eZCPtocyQ=;
-        b=ew4aF9P44allB17tGs1E8zOHBf4v0GiaN09qeVHszGjee40r4Q32uvybvTcr7mimTl
-         F4qruM7JzmWNPh6h7/ro/P5dzeLL6o//Dtk9lz2GlGu+Wf6ogUiPG3690efdendmQvqf
-         ycnxjDPdq0pewx0iMOLGAk6jLUdKv0zw9wDjqbF3xC9uh41TDlJpeFy6OU1d9RXEIQaO
-         ZooW8zFiddoqCMO6Nm515ykLkmJeYmsbuitX9BS+zbFV7ESxJvsC+0QnDNF/n5Bnu05j
-         BaWT0NUoJnBrrJguBB0SrJ/4A3d+dKLXjbK0767a9W0TBBwtgyWGjTTVLfUq50bSAhtI
-         o+dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXK2JEiLff81gf9GqmiH76x24/5AOUi7iqujSfT+EauHESD13mudsMQMyw7bp9hKL+iOUEG4imjTqiwwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJRV6sxPiZve+QB5qAvU4ZvvGngfWWVt0Co0IT7jPhnHLLVdT2
-	63P/0GUOEWhQsGUNftDkM1uZX8oW+3Zt+PRoR/6y6q8PmJYA1TCSDkg=
-X-Gm-Gg: ATEYQzzygGSN5SDsmH+kmh7plUCmdrlXV8whGA6mUbTmzI6aCqWPOQJgZ0+eoAAZFer
-	AeKMIO89/WVgrZY1U5dkjuclrxl94dnnYOxguRN8rPL0WY6iROTQtwploueytYzn2oh95Z1LexV
-	srhtJ6AbiqT8+4U8Abtt6Au8ZtITF4xrTvP8HlxNOUBqDj1ijwZeXznZ7MjY13fyZTCS1D21BVP
-	QUqAUuseLIz0KZe0+aFfyKqZRWBiJcy1gixlky1Hwt78M1C893o+m40K8dSR3Lkaz2drFNLoPt7
-	ajzzC1cReTxhqrBdKRWaFOyIw8007jfYlUak845248CE34XvwtAZyVJRCnIBr1C+IyuAfTuzWmY
-	kVjbjy7CQ/uX3+6eVQKXWu34liLID3Z9pc2OVxEtHGRXb/hq4rE+sL/v0cLZu7ZSi/gUQqcfZYa
-	Z7Ljrff8wnfBV5YFB+xCzdyqJcK6ReGI2eKiq1d3KpLA==
-X-Received: by 2002:a05:600c:154a:b0:485:3d3e:1675 with SMTP id 5b1f17b1804b1-48715fd6119mr78561645e9.8.1774473030145;
-        Wed, 25 Mar 2026 14:10:30 -0700 (PDT)
-Received: from localhost.localdomain ([78.241.70.142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871fb336c3sm11673765e9.2.2026.03.25.14.10.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 14:10:29 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-To: lars@metafoo.de,
-	nuno.sa@analog.com
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH v2 2/2] ASoC: adau1372: Fix clock leak on PLL lock failure
-Date: Wed, 25 Mar 2026 22:07:04 +0100
-Message-ID: <20260325210704.76847-3-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260325210704.76847-1-jihed.chaibi.dev@gmail.com>
-References: <20260325210704.76847-1-jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WtbI2QDA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD43C19423;
+	Wed, 25 Mar 2026 21:46:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774475201;
+	bh=+ylu7bl+NpdgEU9QdSwkI5coZAZII7MT6smUgsFVfkE=;
+	h=From:Date:Subject:To:Cc:From;
+	b=WtbI2QDAHRGy7hBuTjIP69MfxHOXAyGzvoMrNsp5XBNMRZ0XQDqzpD4vUBAxrCyga
+	 nlN6Pr3ryI8AZyTxfkNzMcJlhfL4rI0rE0drpazFPfDbXqBXKcAcxAkCKGkxIPr9+n
+	 6L0SzBNgPMMWcJgsxIBRVgJiY1zNmtatn67QSRW6oCwtyMVuO2+3oF2je1hw3jIQwP
+	 NPGxGgaLR8cw6BkIIgyJUxbKOTmTTIyGbTvl15XuLsa6h8NoXay/TkactMoDeMnztm
+	 iRq3NB/u0fvu0v0FecAPfRgx2NkA5UQYWVTHYTLhUdsFakvQi+PDE52AvtI9+kuXzY
+	 pJ0aeyb1ow4cw==
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 25 Mar 2026 22:46:36 +0100
+Subject: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY0NL3cTi/GTd/JyCZN20NEPT5DRDSxMjgyQloPqCotS0zAqwWdGxtbU
+ A1yljK1sAAAA=
+X-Change-ID: 20260319-asoc-olpc-ff15cf19420b
+To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Jaya Kumar <jayakumar.alsa@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Linus Walleij <linusw@kernel.org>
+X-Mailer: b4 0.14.3
 
-adau1372_enable_pll() was a void function that logged a dev_err() on
-PLL lock timeout but did not propagate the error. As a result,
-adau1372_set_power() would continue with adau1372->enabled set to true
-despite the PLL being unlocked, and the mclk left enabled with no
-corresponding disable on the error path.
+This needs real hardware to continue.
 
-Convert adau1372_enable_pll() to return int, using -ETIMEDOUT on lock
-timeout and propagating regmap errors directly. In adau1372_set_power(),
-check the return value and unwind in reverse order: restore regcache to
-cache-only mode, reassert GPIO power-down, and disable the clock before
-returning the error.
+At the TODO spot, we need the name of the actual
+PCI device providing the cs5535 device.
 
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+If we can get this working, we can move over the rest
+of the hogs etc to software nodes and get rid of all
+the custom cs5535_gpio_set(), cs5535_gpio_clear()
+etc.
+
+If it turns out that no-one is willing to actually
+test OLPC XO-1 patches, I will follow up with a patch
+to just delete the XO-1 support altogether.
+
+Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
-Changes in v2:
-- Also unwind regcache and GPIO power-down state on PLL lock failure,
-  as noted by Mark Brown.
+ arch/x86/platform/olpc/olpc.c            | 33 ++++++++++++++++++++++++++++++++
+ sound/pci/cs5535audio/cs5535audio.c      |  3 +--
+ sound/pci/cs5535audio/cs5535audio.h      | 26 +++++++++++++------------
+ sound/pci/cs5535audio/cs5535audio_olpc.c | 32 +++++++++++++++----------------
+ sound/pci/cs5535audio/cs5535audio_pcm.c  |  4 ++--
+ 5 files changed, 66 insertions(+), 32 deletions(-)
 
- sound/soc/codecs/adau1372.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/adau1372.c b/sound/soc/codecs/adau1372.c
-index 6345342218d6..e3eba241bdf7 100644
---- a/sound/soc/codecs/adau1372.c
-+++ b/sound/soc/codecs/adau1372.c
-@@ -762,7 +762,7 @@ static int adau1372_startup(struct snd_pcm_substream *substream, struct snd_soc_
+diff --git a/arch/x86/platform/olpc/olpc.c b/arch/x86/platform/olpc/olpc.c
+index 1d4a00e767ec..95df7f691825 100644
+--- a/arch/x86/platform/olpc/olpc.c
++++ b/arch/x86/platform/olpc/olpc.c
+@@ -10,6 +10,8 @@
+ #include <linux/init.h>
+ #include <linux/export.h>
+ #include <linux/delay.h>
++#include <linux/gpio/machine.h>
++#include <linux/gpio/property.h>
+ #include <linux/io.h>
+ #include <linux/string.h>
+ #include <linux/platform_device.h>
+@@ -17,6 +19,7 @@
+ #include <linux/syscore_ops.h>
+ #include <linux/mutex.h>
+ #include <linux/olpc-ec.h>
++#include <linux/property.h>
+ 
+ #include <asm/geode.h>
+ #include <asm/setup.h>
+@@ -283,6 +286,32 @@ static struct olpc_ec_driver ec_xo1_5_driver = {
+ #endif
+ };
+ 
++/*
++ * Create software nodes for GPIO look-ups so we can keep the
++ * CS5535 GPIO driver abstract without peeking under the hood.
++ */
++static const struct software_node cs5535_gpiochip_node = {
++	.name = "cs5535-gpio",
++};
++
++static const struct property_entry olpc_snd_props[] = {
++	PROPERTY_ENTRY_GPIO("mic-ac-gpios", &cs5535_gpiochip_node,
++			    OLPC_GPIO_MIC_AC, GPIO_ACTIVE_HIGH),
++	{}
++};
++
++static const struct software_node olpc_snd_node = {
++	/* TODO: dev_name(&pci->dev) for the OLPC CS5535 PCI device */
++	.name = "",
++	.properties = olpc_snd_props,
++};
++
++static const struct software_node *olpc_sw_nodes[] = {
++	&cs5535_gpiochip_node,
++	&olpc_snd_node,
++	NULL
++};
++
+ static int __init olpc_init(void)
+ {
+ 	int r = 0;
+@@ -315,6 +344,10 @@ static int __init olpc_init(void)
+ 			return r;
+ 	}
+ 
++	r = software_node_register_node_group(olpc_sw_nodes);
++	if (r)
++		return r;
++
  	return 0;
  }
-
--static void adau1372_enable_pll(struct adau1372 *adau1372)
-+static int adau1372_enable_pll(struct adau1372 *adau1372)
+ 
+diff --git a/sound/pci/cs5535audio/cs5535audio.c b/sound/pci/cs5535audio/cs5535audio.c
+index 0ebf6c02b1ef..676c540d03eb 100644
+--- a/sound/pci/cs5535audio/cs5535audio.c
++++ b/sound/pci/cs5535audio/cs5535audio.c
+@@ -164,7 +164,7 @@ static int snd_cs5535audio_mixer(struct cs5535audio *cs5535au)
+ 
+ 	snd_ac97_tune_hardware(cs5535au->ac97, ac97_quirks, ac97_quirk);
+ 
+-	err = olpc_quirks(card, cs5535au->ac97);
++	err = olpc_quirks(card, cs5535au);
+ 	if (err < 0) {
+ 		dev_err(card->dev, "olpc quirks failed\n");
+ 		return err;
+@@ -241,7 +241,6 @@ static irqreturn_t snd_cs5535audio_interrupt(int irq, void *dev_id)
+ 
+ static void snd_cs5535audio_free(struct snd_card *card)
  {
- 	unsigned int val, timeout = 0;
- 	int ret;
-@@ -778,8 +778,12 @@ static void adau1372_enable_pll(struct adau1372 *adau1372)
- 		timeout++;
- 	} while (!(val & 1) && timeout < 3);
-
--	if (ret < 0 || !(val & 1))
-+	if (ret < 0 || !(val & 1)) {
- 		dev_err(adau1372->dev, "Failed to lock PLL\n");
-+		return ret < 0 ? ret : -ETIMEDOUT;
-+	}
-+
-+	return 0;
+-	olpc_quirks_cleanup();
  }
+ 
+ static int snd_cs5535audio_create(struct snd_card *card,
+diff --git a/sound/pci/cs5535audio/cs5535audio.h b/sound/pci/cs5535audio/cs5535audio.h
+index d84620a0c26c..f917fc21533a 100644
+--- a/sound/pci/cs5535audio/cs5535audio.h
++++ b/sound/pci/cs5535audio/cs5535audio.h
+@@ -2,6 +2,8 @@
+ #ifndef __SOUND_CS5535AUDIO_H
+ #define __SOUND_CS5535AUDIO_H
+ 
++#include <linux/gpio/consumer.h>
++
+ #define cs_writel(cs5535au, reg, val)	outl(val, (cs5535au)->port + reg)
+ #define cs_writeb(cs5535au, reg, val)	outb(val, (cs5535au)->port + reg)
+ #define cs_readl(cs5535au, reg)		inl((cs5535au)->port + reg)
+@@ -93,6 +95,7 @@ struct cs5535audio {
+ 	struct snd_pcm_substream *playback_substream;
+ 	struct snd_pcm_substream *capture_substream;
+ 	struct cs5535audio_dma dmas[NUM_CS5535AUDIO_DMAS];
++	struct gpio_desc *mic_ac;
+ };
+ 
+ extern const struct dev_pm_ops snd_cs5535audio_pm;
+@@ -100,25 +103,24 @@ extern const struct dev_pm_ops snd_cs5535audio_pm;
+ #ifdef CONFIG_OLPC
+ void olpc_prequirks(struct snd_card *card,
+ 		    struct snd_ac97_template *ac97);
+-int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97);
+-void olpc_quirks_cleanup(void);
+-void olpc_analog_input(struct snd_ac97 *ac97, int on);
++int olpc_quirks(struct snd_card *card, struct cs5535audio *cs5535au);
++void olpc_analog_input(struct cs5535audio *cs5535au, int on);
+ void olpc_mic_bias(struct snd_ac97 *ac97, int on);
+ 
+-static inline void olpc_capture_open(struct snd_ac97 *ac97)
++static inline void olpc_capture_open(struct cs5535audio *cs5535au)
+ {
+ 	/* default to Analog Input off */
+-	olpc_analog_input(ac97, 0);
++	olpc_analog_input(cs5535au, 0);
+ 	/* enable MIC Bias for recording */
+-	olpc_mic_bias(ac97, 1);
++	olpc_mic_bias(cs5535au->ac97, 1);
+ }
+ 
+-static inline void olpc_capture_close(struct snd_ac97 *ac97)
++static inline void olpc_capture_close(struct cs5535audio *cs5535au)
+ {
+ 	/* disable Analog Input */
+-	olpc_analog_input(ac97, 0);
++	olpc_analog_input(cs5535au, 0);
+ 	/* disable the MIC Bias (so the recording LED turns off) */
+-	olpc_mic_bias(ac97, 0);
++	olpc_mic_bias(cs5535au->ac97, 0);
+ }
+ #else
+ static inline void olpc_prequirks(struct snd_card *card,
+@@ -128,10 +130,10 @@ static inline int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97)
+ 	return 0;
+ }
+ static inline void olpc_quirks_cleanup(void) { }
+-static inline void olpc_analog_input(struct snd_ac97 *ac97, int on) { }
++static inline void olpc_analog_input(struct cs5535audio *cs5535au, int on) { }
+ static inline void olpc_mic_bias(struct snd_ac97 *ac97, int on) { }
+-static inline void olpc_capture_open(struct snd_ac97 *ac97) { }
+-static inline void olpc_capture_close(struct snd_ac97 *ac97) { }
++static inline void olpc_capture_open(struct cs5535audio *cs5535au) { }
++static inline void olpc_capture_close(struct cs5535audio *cs5535au) { }
+ #endif
+ 
+ int snd_cs5535audio_pcm(struct cs5535audio *cs5535audio);
+diff --git a/sound/pci/cs5535audio/cs5535audio_olpc.c b/sound/pci/cs5535audio/cs5535audio_olpc.c
+index 122170a410d9..19eed3c9c48b 100644
+--- a/sound/pci/cs5535audio/cs5535audio_olpc.c
++++ b/sound/pci/cs5535audio/cs5535audio_olpc.c
+@@ -9,7 +9,7 @@
+ #include <sound/info.h>
+ #include <sound/control.h>
+ #include <sound/ac97_codec.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ 
+ #include <asm/olpc.h>
+ #include "cs5535audio.h"
+@@ -21,8 +21,9 @@
+  * It has an Analog Input mode that is switched into (after disabling the
+  * High Pass Filter) via GPIO.  It is supported on B2 and later models.
+  */
+-void olpc_analog_input(struct snd_ac97 *ac97, int on)
++void olpc_analog_input(struct cs5535audio *cs5535au, int on)
+ {
++	struct snd_ac97 *ac97 = cs5535au->ac97;
+ 	int err;
+ 
+ 	if (!machine_is_olpc())
+@@ -38,7 +39,7 @@ void olpc_analog_input(struct snd_ac97 *ac97, int on)
+ 	}
+ 
+ 	/* set Analog Input through GPIO */
+-	gpio_set_value(OLPC_GPIO_MIC_AC, on);
++	gpiod_set_value(cs5535au->mic_ac, on);
+ }
+ 
+ /*
+@@ -70,7 +71,9 @@ static int olpc_dc_info(struct snd_kcontrol *kctl,
+ 
+ static int olpc_dc_get(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
+ {
+-	v->value.integer.value[0] = gpio_get_value(OLPC_GPIO_MIC_AC);
++	struct cs5535audio *cs5535au = snd_kcontrol_chip(kctl);
++
++	v->value.integer.value[0] = gpiod_get_value(cs5535au->mic_ac);
+ 	return 0;
+ }
+ 
+@@ -78,7 +81,7 @@ static int olpc_dc_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
+ {
+ 	struct cs5535audio *cs5535au = snd_kcontrol_chip(kctl);
+ 
+-	olpc_analog_input(cs5535au->ac97, v->value.integer.value[0]);
++	olpc_analog_input(cs5535au, v->value.integer.value[0]);
+ 	return 1;
+ }
+ 
+@@ -141,19 +144,22 @@ void olpc_prequirks(struct snd_card *card,
+ 		ac97->scaps |= AC97_SCAP_INV_EAPD;
+ }
+ 
+-int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97)
++int olpc_quirks(struct snd_card *card, struct cs5535audio *cs5535au)
+ {
++	struct snd_ac97 *ac97 = cs5535au->ac97;
+ 	struct snd_ctl_elem_id elem;
+ 	int i, err;
+ 
+ 	if (!machine_is_olpc())
+ 		return 0;
+ 
+-	if (gpio_request(OLPC_GPIO_MIC_AC, DRV_NAME)) {
+-		dev_err(card->dev, "unable to allocate MIC GPIO\n");
+-		return -EIO;
++	cs5535au->mic_ac = devm_gpiod_get_optional(card->dev, "mic-ac",
++						   GPIOD_OUT_LOW);
++	if (IS_ERR(cs5535au->mic_ac)) {
++		dev_err(card->dev, "unable to allocate MIC AC GPIO\n");
++		return PTR_ERR(cs5535au->mic_ac);
+ 	}
+-	gpio_direction_output(OLPC_GPIO_MIC_AC, 0);
++	gpiod_set_consumer_name(cs5535au->mic_ac, DRV_NAME);
+ 
+ 	/* drop the original AD1888 HPF control */
+ 	memset(&elem, 0, sizeof(elem));
+@@ -179,9 +185,3 @@ int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97)
+ 	olpc_mic_bias(ac97, 0);
+ 	return 0;
+ }
+-
+-void olpc_quirks_cleanup(void)
+-{
+-	if (machine_is_olpc())
+-		gpio_free(OLPC_GPIO_MIC_AC);
+-}
+diff --git a/sound/pci/cs5535audio/cs5535audio_pcm.c b/sound/pci/cs5535audio/cs5535audio_pcm.c
+index 48b99a07e3bc..49b1efb93dd9 100644
+--- a/sound/pci/cs5535audio/cs5535audio_pcm.c
++++ b/sound/pci/cs5535audio/cs5535audio_pcm.c
+@@ -341,14 +341,14 @@ static int snd_cs5535audio_capture_open(struct snd_pcm_substream *substream)
+ 					    SNDRV_PCM_HW_PARAM_PERIODS);
+ 	if (err < 0)
+ 		return err;
+-	olpc_capture_open(cs5535au->ac97);
++	olpc_capture_open(cs5535au);
+ 	return 0;
+ }
+ 
+ static int snd_cs5535audio_capture_close(struct snd_pcm_substream *substream)
+ {
+ 	struct cs5535audio *cs5535au = snd_pcm_substream_chip(substream);
+-	olpc_capture_close(cs5535au->ac97);
++	olpc_capture_close(cs5535au);
+ 	return 0;
+ }
+ 
 
- static int adau1372_set_power(struct adau1372 *adau1372, bool enable)
-@@ -807,7 +811,14 @@ static int adau1372_set_power(struct adau1372 *adau1372, bool enable)
- 		 * accessed.
- 		 */
- 		if (adau1372->use_pll) {
--			adau1372_enable_pll(adau1372);
-+			ret = adau1372_enable_pll(adau1372);
-+			if (ret) {
-+				regcache_cache_only(adau1372->regmap, true);
-+				if (adau1372->pd_gpio)
-+					gpiod_set_value(adau1372->pd_gpio, 1);
-+				clk_disable_unprepare(adau1372->mclk);
-+				return ret;
-+			}
- 			clk_ctrl |= ADAU1372_CLK_CTRL_CLKSRC;
- 		}
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260319-asoc-olpc-ff15cf19420b
 
---
-2.47.3
+Best regards,
+-- 
+Linus Walleij <linusw@kernel.org>
 
