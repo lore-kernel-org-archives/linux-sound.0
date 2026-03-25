@@ -1,122 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F71F3290DE;
-	Wed, 25 Mar 2026 09:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1442FFFBE
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 09:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774429624; cv=none; b=AhPFyVTNWCSRgu0zwNbc6R/rrL29Vjnn4uuTaFdVFr8ujaaOVbaK2vjq0BRZ97qUQYq4laDaQPtLDV+JleDdYY5rrwYYYeDzrJAxU8a2abuk99uJ6FxhlMqLBdhX7ksM9SRJFbqI+2hQGiUTIFSdkgS7mJZ8IgWsvm3SMrJHcGQ=
+	t=1774430453; cv=none; b=rg9NCrPlhSrvKK9MKc9uRxkQ8Z3g9t+w5wUPvsHUmIMTGh0BKfUNJo3bQViBGjNhdmjB8agP7z7Q6UiGk/z+bEcbmu1iAFK10SlGEHLosw2fLAXvoEFfbGN8xr/GVTgRGYEawvXUvAYDHNfobEh0EJujvHRplT+/laARGaBJJww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774429624; c=relaxed/simple;
-	bh=mEZNeTkS5coBoC+v6GfNNQfQ72VosjQVPAuPz8C/Glo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=axWlj7Cuptvi6zdxvNxhNrJFtBlspMQYdKqJXc0LVtsh7DakBw8jjZ7aLmDOwPPFK6E1iZR1zOBY6cYUgCgwVQaxBed9WZFuN6fs40uChG5KejKl694MtCndOSFZerIopjaIpy15kE7/tkMflfJaXaZnTcbWxkQQvuq9KeskyeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpV+TO2d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774430453; c=relaxed/simple;
+	bh=CV1de0vYaDR0aFIZM6nfabN3QwBuSTC3uoNYmxT7hQI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZCltrgYTLJAOM+sng2OC54dDmytAZHsLA1KT2xevatrrzRZEaT31NuanQGI0cZGSzu1PPUBVHrC+mTpRgw3i7BoYxbOVnWst43gsYQjNwnfD9eYni6n1RmxI0KId1B7bxamys82nMMXxpM8weIf+YUVjs87z1zabWFsUrMFZwHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=FW3MWLHB; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpV+TO2d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31EC6C4CEF7;
-	Wed, 25 Mar 2026 09:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774429623;
-	bh=mEZNeTkS5coBoC+v6GfNNQfQ72VosjQVPAuPz8C/Glo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OpV+TO2d25ZYM3k3+wNaEYuEeVM/lc1Bn4k+HfKZc5Y3m7h57s6vqeKMypO0MP/rm
-	 8ktw3KfIhhVCCW1UciIpzPAAoQb/oVPrGpFSmjJ/ZZfCQsRHWajx7kpr93FEnjrfpp
-	 9PLGiaaa6yXKLVm/wwY/iIEU3/5NKB1dB02iBcMpzDbL44IFqGNvpYfmSXj5McSFxc
-	 VV8tOwvGXPGE3RWw44HtoyIuDv51FHGMT3IucJ3aeqixn4eY71ac5stlKJunTDFB63
-	 GLVF5O1I6RP7oVkfHWcXRphGc+KBHf/vB07gMr3ORwIl+NbsbZ5cUkanMKvoddqbI7
-	 GwqKwpkpKQD/g==
-Date: Wed, 25 Mar 2026 10:07:01 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Khushal Chitturi <khushalchitturi@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, koro.chen@mediatek.com, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: sound: mediatek,mt8173-rt5650-rt5514:
- convert to DT schema
-Message-ID: <20260325-fluorescent-rebel-moth-dedf07@quoll>
-References: <20260324074618.145567-1-khushalchitturi@gmail.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="FW3MWLHB"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62P9KT8303100028, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1774430429; bh=mWmHz+XuA5nqpvPsf97jj1hJSznXkyE47aAYfOKTldw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=FW3MWLHBx9JjdQ+49GY/SBziB5szY77awdZhJ+2er5FliYM0aTyZVe7ExI+Cuq4GK
+	 QQdjy2Rx+6NKdG1wTId/+4LzegRous/POGdrqQ9j9HoMcEYVFcsKcuJl0qYedaVkes
+	 jtYswC3/yGvv5Gv14M1ZrtEZ7kvtKfR4HrYWQF4qtGLRF4zcvjTgSFRvVvyi+UCg8P
+	 5Rno4I3GjBNDWh/PLb329VwH4Mzc2PM5Lh0Y/uks2QHoWVOoB6AVJAPqdS2qj9SrAL
+	 d0r6y9kSXybuJHSDOcmRArOkdcqGY4pUjsXT2zdKZ2ngtEXLrfXqUnXTa6Xn5ELPjr
+	 Cyz5xJUl/SYgQ==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62P9KT8303100028
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Mar 2026 17:20:29 +0800
+Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Wed, 25 Mar 2026 17:20:30 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
+ 15.2.1748.10 via Frontend Transport; Wed, 25 Mar 2026 17:20:29 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, <ckeepax@opensource.cirrus.com>,
+        Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH 2/2] ASoC: SDCA: fix finding wrong entity
+Date: Wed, 25 Mar 2026 17:20:28 +0800
+Message-ID: <20260325092028.3221671-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260324074618.145567-1-khushalchitturi@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Mar 24, 2026 at 01:16:18PM +0530, Khushal Chitturi wrote:
-> Convert the Mediatek MT8173 with RT5650 and RT5514 sound card
-> bindings to YAML schema.
+From: Shuming Fan <shumingf@realtek.com>
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+This patch fixes an issue like:
+where searching for the entity 'FU 11' could incorrectly match 'FU 113' first.
+The driver should first perform an exact match on the full string name.
+If no exact match is found, it can then fall back to a partial match.
 
-> 
-> Signed-off-by: Khushal Chitturi <khushalchitturi@gmail.com>
-> ---
->  .../sound/mediatek,mt8173-rt5650-rt5514.yaml  | 41 +++++++++++++++++++
->  .../bindings/sound/mt8173-rt5650-rt5514.txt   | 15 -------
->  2 files changed, 41 insertions(+), 15 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650-rt5514.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
-> new file mode 100644
-> index 000000000000..05bb18006e08
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
-> @@ -0,0 +1,41 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/mediatek,mt8173-rt5650-rt5514.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT8173 with RT5650 and RT5514 audio codecs
-> +
-> +maintainers:
-> +  - Koro Chen <koro.chen@mediatek.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8173-rt5650-rt5514
-> +
-> +  mediatek,audio-codec:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: Phandles of rt5650 and rt5514 codecs
-> +    items:
-> +      - description: phandle of rt5650 codec
-> +      - description: phandle of rt5514 codec
-> +
-> +  mediatek,platform:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of MT8173 ASoC platform.
-> +
-> +additionalProperties: false
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/sdca/sdca_functions.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-This goes after "required:" block.
-
-> +
-> +required:
-> +  - compatible
-> +  - mediatek,audio-codec
-> +  - mediatek,platform
-> +
-> +examples:
-> +  - |
-> +    sound {
-> +        compatible = "mediatek,mt8173-rt5650-rt5514";
-> +        mediatek,audio-codec = <&rt5650 &rt5514>;
-
-Two phandles, so two <> (<>, <>).
-
-Best regards,
-Krzysztof
+diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+index 0b7d97dcb236..0787bf024d21 100644
+--- a/sound/soc/sdca/sdca_functions.c
++++ b/sound/soc/sdca/sdca_functions.c
+@@ -1602,9 +1602,18 @@ static struct sdca_entity *find_sdca_entity_by_label(struct sdca_function_data *
+ 						     const char *entity_label)
+ {
+ 	int i;
++	struct sdca_entity *entity = NULL;
+ 
+ 	for (i = 0; i < function->num_entities; i++) {
+-		struct sdca_entity *entity = &function->entities[i];
++		entity = &function->entities[i];
++
++		/* check whole string first*/
++		if (!strcmp(entity->label, entity_label))
++			return entity;
++	}
++
++	for (i = 0; i < function->num_entities; i++) {
++		entity = &function->entities[i];
+ 
+ 		if (!strncmp(entity->label, entity_label, strlen(entity_label)))
+ 			return entity;
+-- 
+2.53.0
 
