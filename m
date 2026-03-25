@@ -1,123 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6316338E13E;
-	Wed, 25 Mar 2026 08:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990A522652D;
+	Wed, 25 Mar 2026 08:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774426003; cv=none; b=JR2r+6Vzr4YsnAb96e3W6MUiat9tQfCtsSFyCoGqckmLdadtjck820V+HLJp8+M4a9/SJJwWNEnwqPtXkKJ+XsEK3NT+B82tcxA3YKePl/V8AGmUbvmgFtQnyTcuG/ZZ3V48jx9PEgSqR3N2jx/8HIgkfZfgkK99WO0dOaQ0azE=
+	t=1774426319; cv=none; b=ThzUGCCNleLvrQ1FSdAxwXn7X/QovSMFEW16eaEWJCgJyLUSVLB/FjRlVKEpI7ZmirCZYBtDdZ8GKm67tJXohAFAJj0LL0iHQnC8tuh6uRnzQwpCEv4AcaREfP1yS+IKqlighvI6y1L4qSkLE3LUR0nZVe9hRTyFybpleghHxcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774426003; c=relaxed/simple;
-	bh=L9Lcvg67aB3qX5H8IvbWdCsstgXK9TNJtpNl2A00B6I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K5teTBLsYZ8zGYzQLLVo+vNlyxf58g4bruV4vbmVIqpkKSoma7c/Ax42CvYGAAINO/6Q7DuD+oe4tj3X0PWD25gII/vtf6QqImqGNlLqj+B7bVGDD+xFhQyykhCxIOcdVgUyX7r6lgtbKQBMtN41xDY31ZRFQ+z/ik74Zw0ZN/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t2LUb3MD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774426319; c=relaxed/simple;
+	bh=HghfEfsdTRBgNLvcULXfB8a6gZZQUecoA2SDWd2lVt8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=AlQezXyJAzwMSrbyMqWOszGKsHb1BZZmhGuxIHPyqKV891zc+J7twSRk2i18D+cMncY7/0rogPQq+e3+SjyCyChCuMAwGgON2sEWXRYAnd9xhkHl0l9mcDarEpbX2DwbUN65GFprJz5vpD4xjGCGFBXGrNT0RAPTY0XovYfF2J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=EUm7f6UI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZxA7dg39; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t2LUb3MD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 873C2C4CEF7;
-	Wed, 25 Mar 2026 08:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774426003;
-	bh=L9Lcvg67aB3qX5H8IvbWdCsstgXK9TNJtpNl2A00B6I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t2LUb3MDhCki+0CFMqDSvfNy0OV8fysODkPWs3LbZF7DQZOOu5U4yHqbt3ocnPJvN
-	 OZ9TjV1x63rnde6LIL86TyTkD1v9+6LAiNGvRzMG7/a8tVyeYxVFsuZuofOz6h+EAe
-	 8ua9/3z2XG+J/Ug0jMhzPKvji/tq3TwM4BjgCDUrShdU4A/f/bX56eqOpnAOUZ7b6i
-	 q+9iyBJ/1vt7U/kDTZLZlWjxbTG+q3+Ctsd8RH4G++XM3TdCqPJoH0XPDIwgz1dlyJ
-	 QdG4xs9zUyk2RU44hslNYaxdnXhhsOfP3b24Kq9TWtafhnF9Un9uj7dfxXlBwrmxAl
-	 U/zaV32Eqy7eA==
-Message-ID: <83024a54-74dd-43b0-8c8c-0c23820bb5e0@kernel.org>
-Date: Wed, 25 Mar 2026 09:06:37 +0100
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="EUm7f6UI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZxA7dg39"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id D29D81400217;
+	Wed, 25 Mar 2026 04:11:56 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Wed, 25 Mar 2026 04:11:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1774426316;
+	 x=1774512716; bh=NGYVs7u5MinSU02M0lbObm0GOc9vyMNHe3UPTGRT4Tw=; b=
+	EUm7f6UIBW/PdDuRVKhz3S1lUG9sP04/eCDUlW8nRQIXCh2dFhrb8/gRPJ0bV6G+
+	uUXyMCOM7CtFDfRWiVHeVxwlUHS3pgciIewSQikBKBvWpDyvlZJqt8dp7O7OKpn6
+	h6LO4by4BWUgmpa4iFy1U01NzvFzxNVaDI7WRC9Vn2xDRkhUMN+EDLVDZridighw
+	dymsWPeOVBJ+WJs1LN+GagBwS6AC9aP7bfdjir3gRHnbZiV8UrO5GkK9jbEtWEQK
+	Hf6qsNAQHGBi67AUpwuDBRw7LZ3nJMtCKiSyt6xCyQtKOWtFyeWC22DicJBf1/+H
+	Wfj9mjRBGNnQ/rtgBsTEHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774426316; x=
+	1774512716; bh=NGYVs7u5MinSU02M0lbObm0GOc9vyMNHe3UPTGRT4Tw=; b=Z
+	xA7dg39nWEvsZ9cuPRxqaXLWOMrMMc5eYPl2VQasd6D5DJ/E4GhFVB915vKJhkMP
+	6cIKbP2wh9aXN0QHoccAxx4NFdPqSTb3ictzHr6I2wn8qnP/tuHIko23+bwZ726p
+	grUG541V0uUjguV60044EOD4cwOM9mK8PVfr7oUZLtvp3FNQR+RrBSwQP4y5d+0M
+	JkL6q7B6lF7T766Xt/fgc4f1oHhYPHHswyo+cAOKI3ImJaQIoT1UXqkELC0iAESA
+	E08+MbkejoHigy9E8GwNRV6OR7ogvdr/PXva5ND5vyXclqUPlVgNVKCmUqlBqSmQ
+	Xffjd6EYIr71TgU1ymZRw==
+X-ME-Sender: <xms:zJjDabfCWql_PS6WO2kl7wYi7wY4TNpSR6hgvsry5NdFUQPB9SBPVA>
+    <xme:zJjDacAl2LTpR2KJAR4-D3Do1JPEXOqPg2Qdk1sa7foWMTubuBVsrJlurnOT5qGoc
+    AqgA6bAdB5SXj_3IqJhyoeBYcepOksjT6XVjQoPxGkcvtlCMhzyNA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdefleehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepfefhheetffduvdfgieeghfejtedvkeetkeejfeekkeelffejteevvdeghffhiefh
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgt
+    phhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhulhhirghnsg
+    hrrghhrgesghhmrghilhdrtghomhdprhgtphhtthhopegtvgiirghrhidrrhhojhgvfihs
+    khhisehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrvhhiugdrlhhinhesihhnthgvlh
+    drtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehpihgvrhhrvgdqlhhouhhishdrsghoshhsrghrtheslhhinhhugidruggvvhdprh
+    gtphhtthhopehkrghirdhvvghhmhgrnhgvnheslhhinhhugidrihhnthgvlhdrtghomhdp
+    rhgtphhtthhopehlihgrmhdrrhdrghhirhgufihoohgusehlihhnuhigrdhinhhtvghlrd
+    gtohhmpdhrtghpthhtohepphgvthgvrhdruhhjfhgrlhhushhisehlihhnuhigrdhinhht
+    vghlrdgtohhmpdhrtghpthhtoheprhgrnhhjrghnihdrshhrihguhhgrrhgrnheslhhinh
+    hugidrihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:zJjDaSPYtPQAgR2GOXKPOMSNYLNJnQUvdfWft_tmhDvXDqeYkthcrQ>
+    <xmx:zJjDabWNqMy5foP2wAnZHPv_PhyN9eN7vFFFBvBAgq8YL_mjmfJ_Kw>
+    <xmx:zJjDafaTt9gCA3wRfuOkDy488sH5QkKmCfPWpdqS42TZiuqdiQT8YQ>
+    <xmx:zJjDad0nSAt1iUeiyxOuQUcU6G64bp-uxgLfcOggvkWKVOqDCALydQ>
+    <xmx:zJjDaX3VGx6yC3hGMpHzFy9tbK8VpPLvvCDMJTZvTbN3FxcBmd2RQclt>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 50A9A700065; Wed, 25 Mar 2026 04:11:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>,
- "shengjiu.wang@gmail.com" <shengjiu.wang@gmail.com>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260310063522.362545-1-chancel.liu@nxp.com>
- <20260311-brave-acoustic-mongrel-b3978d@quoll>
- <AM9PR04MB83531E00C21A5A2314A38F9AE349A@AM9PR04MB8353.eurprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <AM9PR04MB83531E00C21A5A2314A38F9AE349A@AM9PR04MB8353.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AhJ5_Lz0o3rZ
+Date: Wed, 25 Mar 2026 09:11:36 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Julian Braha" <julianbraha@gmail.com>,
+ "Cezary Rojewski" <cezary.rojewski@intel.com>,
+ "Peter Ujfalusi" <peter.ujfalusi@linux.intel.com>,
+ "Ranjani Sridharan" <ranjani.sridharan@linux.intel.com>,
+ "Mark Brown" <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, liam.r.girdwood@linux.intel.com,
+ "Bard Liao" <yung-chuan.liao@linux.intel.com>,
+ "Kai Vehmanen" <kai.vehmanen@linux.intel.com>,
+ "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>,
+ "Jaroslav Kysela" <perex@perex.cz>, david.lin@intel.com,
+ linux-kernel@vger.kernel.org
+Message-Id: <60bab035-6af7-41ac-8584-ba01a4a80df2@app.fastmail.com>
+In-Reply-To: <20260325001522.1727678-1-julianbraha@gmail.com>
+References: <20260325001522.1727678-1-julianbraha@gmail.com>
+Subject: Re: [PATCH v2] ASoC: Intel: boards: fix unmet dependency on PINCTRL
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 25/03/2026 08:54, Chancel Liu wrote:
->>> The imx-card machine driver originally supported only codecs operating
->>> in i2s or dsp_b formats. This machine driver can support CS42448 codec
->>> and this codec typically uses dsp_a for its TDM interface. Therefore,
->>
->> And what about other formats, which was asked last time?
->>
-> 
-> The imx-card machine driver currently implements support only for
-> codecs with i2s and dsp_b format. The newly added CS42448 codec
-> requires dsp_a and that is why this patch adds dsp_a only. No other
-> formats are used or supported by the existing hardware covered by this
+On Wed, Mar 25, 2026, at 01:15, Julian Braha wrote:
+> This reverts commit c073f0757663 ("ASoC: Intel: sof_sdw: select 
+> PINCTRL_CS42L43 and SPI_CS42L43")
+>
+> Currently, SND_SOC_INTEL_SOUNDWIRE_SOF_MACH selects PINCTRL_CS42L43
+> without also selecting or depending on PINCTRL, despite PINCTRL_CS42L43
+> depending on PINCTRL.
+>
+> See the following Kbuild warning:
+>
+> WARNING: unmet direct dependencies detected for PINCTRL_CS42L43
+>   Depends on [n]: PINCTRL [=n] && MFD_CS42L43 [=m]
+>   Selected by [m]:
+>   - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=m] && SOUND [=y] && SND [=m] && 
+> SND_SOC [=m] && SND_SOC_INTEL_MACH [=y] && (SND_SOC_SOF_INTEL_COMMON 
+> [=m] || !SND_SOC_SOF_INTEL_COMMON [=m]) && SND_SOC_SOF_INTEL_SOUNDWIRE 
+> [=m] && I2C [=y] && SPI_MASTER [=y] && ACPI [=y] && (MFD_INTEL_LPSS 
+> [=n] || COMPILE_TEST [=y]) && (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES 
+> [=n] || COMPILE_TEST [=y]) && SOUNDWIRE [=m]
+>
+> In response to v1 of this patch [1], Arnd pointed out that there is
+> no compile-time dependency sof_sdw and the PINCTRL_CS42L43 driver.
+> After testing, I can confirm that the kernel compiled with
+> SND_SOC_INTEL_SOUNDWIRE_SOF_MACH enabled and PINCTRL_CS42L43 disabled.
+>
+> This unmet dependency was detected by kconfirm, a static analysis
+> tool for Kconfig.
+>
+> Link: 
+> https://lore.kernel.org/all/b8aecc71-1fed-4f52-9f6c-263fbe56d493@app.fastmail.com/ 
+> [1]
+> Fixes: c073f0757663 ("ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and 
+> SPI_CS42L43")
+> Signed-off-by: Julian Braha <julianbraha@gmail.com>
 
-First sentence says about driver, here you speak about hardware, so
-feels like you are mixing these.
-
-Best regards,
-Krzysztof
+Acked-by: Arnd Bergmann <arnd@arndb.de>
