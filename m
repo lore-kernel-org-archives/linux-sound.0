@@ -1,88 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08617330D22
-	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 11:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7DF3CF68F
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 11:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439038; cv=none; b=cf+KGsyKhap3AfP9vTIaX57rGgMVgcO9Hr9skiDaJor434XaNQc0eO8nDqSEEQe18zIVKOPzUoSYbs8hlxFiqVZVqMletFOSdODiLZJzPVzS8WLO7PtVjGRte63LQFhznLZ5uNOIIrDLlEoSU2JzYRDplLGKg3Ffgb1/OFkjYTY=
+	t=1774439122; cv=none; b=vDgYhWQjrTe64kPYaVTBXhTqmAprqE0w+3H8XysKDJGoGIlBXo2aQ8P8rou2rAIHElzw6YHPJlyAs5BzAWG4BoeaflB53Q+0sME1i9sDAIBmTyRz74fwlfHXwRd63VBSLA4bfxNSM8pjTdno5U+ddv0K638WS8bVgkzD9ALZ4V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439038; c=relaxed/simple;
-	bh=TR8Q5NX565+QgdVxq8POCbFa0uHwjTvthLu8w8doDBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FlUTzX+5XFb6sAqlH98acQCV80AtLyn30c1M90LLSHP4X1gwpU4GjtvO7f+QEWuv7NpGXof49z2BWrNKyfog2mpnRM9kvcxJ02yxMkV7v2fErYXeO7L3dKBZc5QrqkqCUPW4nsJ7Z+KsIKf4nYz0PMTVxGZAimflroajy6yh28M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HyyFhUTd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774439122; c=relaxed/simple;
+	bh=VeDpg5H3Mu1ymhqFJARxM/ReOhJ8aSS48B4t1KpwAfQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gNXP//dCUAjUPPOAtJnsnQBU5sqHlHDtkckfD71uqf5V00j9jDDLi6PZ+q/ss3DK9xV+iN8M+tOhNmb6PVLXgYmddtnFzP8tVT3K6SggPaKZuROjfIPFLblkrMNwDUTBIawKYonnRRLfGpyLTESzqFzA1qnocJyp7L2OCctoPHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LqDb8+pg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Py2mZPrT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HyyFhUTd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCEF4C4CEF7;
-	Wed, 25 Mar 2026 11:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774439037;
-	bh=TR8Q5NX565+QgdVxq8POCbFa0uHwjTvthLu8w8doDBE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HyyFhUTdiu93p8k+hCEzhrpq+kvK1P2oXyUwuj21goborlVyJ7SdxPKHCZtiYPUis
-	 VSfu74qXaUfi3uFBQEqlL2BpiABLmjpojpW50aE3CV8NMaCl5zzFZo1aQzd9WRkZCF
-	 3hLwCsvV7iEG8dsWBa7E6jfMgve4vlTXeq/OwdmZ3+cJZleWHFfMMV6lNF8GEl+OIx
-	 nzHgFCSm5tz8Oz1V0q93Z8bQWOyvUvwKDxXzs9Q6+tbNKID57YRXCGOuL2A0lXtl6x
-	 UITq99AC+GTlRt45WJ+uoz/RAQkaqOmGz18wSP4fFUgwVWVZKDbG74xKGuTXXNild7
-	 lbEg2psL76eDA==
-Date: Wed, 25 Mar 2026 11:43:53 +0000
-From: Mark Brown <broonie@kernel.org>
-To: shumingf@realtek.com
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
-	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
-	derek.fang@realtek.com, ckeepax@opensource.cirrus.com
-Subject: Re: [PATCH v2 2/2] ASoC: SDCA: fix finding wrong entity
-Message-ID: <72a50eae-18ce-4ed0-8431-02475c953be6@sirena.org.uk>
-References: <20260325110406.3232420-1-shumingf@realtek.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LqDb8+pg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Py2mZPrT"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62PBGJ4P721528
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 11:45:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	iNU90VtVCZvNVrVMZ9CCy3RANpzV2GHcpjLzCXdmjpQ=; b=LqDb8+pgRIqCCE4N
+	DmDsucvK/TYExS/xoduEj8FVcv5XkNAj8IfdmqbLZ4SquUd007a3IGYl0HtEuv89
+	6r5YUJ5r3JjWZ0H9fv3TwTa0qbeIwUlfDmzms26b+8gq8NMkc2cz1NG/ZkAofiQu
+	WP+9lzQsOJohWqFBlyTmHFQ8ppjNuRUx5FM0NnXaRRBjP3crHOAZZnCwUwEzWk3b
+	B13hSt7E1X9jHQGg0Gp9vAJtSh+4zHWm0gyiZyY6oiPVzW8JkVetdZAk+Xpy/Q9w
+	GOEBBlzOkPf0PBhsSgfh4oJoTL+jX9gcUSuiHc/yRHZnXozO8CoYtaubKVdkKy56
+	i8ZK/g==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d4dm2rbpb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 11:45:19 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b34223670so31616761cf.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 04:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774439118; x=1775043918; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iNU90VtVCZvNVrVMZ9CCy3RANpzV2GHcpjLzCXdmjpQ=;
+        b=Py2mZPrTEakojYJbBHrIzsnQvsf3+vaDGPnsBGVTFDlQvL4xxGZH2QSEMQ2DruGi+v
+         PyUiTa4/+y5KcFQhZK7YlsWeDi05zlK+sbnPHGLg58Wg4N+qqHGlNHge09YGcqDhJROv
+         pmyxf18XucGCi5CyMnwwOCS6UttwAwBOcG6U8k8es5+br1dqYM/tj5Kg+HECKS7dWTuN
+         inCDuyyTp0SD5nxi96PLV7xYKn6sD2Ozn8Yf40GEuaTTc/lpuctVaFbZCLRs9uaa84kJ
+         evYA9WbjYGPnIX1GwIDwOc1JqNGBnQkyTZPxkAs9hOX5gxHoFkDcktzW1cqjGUyXAbJz
+         V3dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774439118; x=1775043918;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iNU90VtVCZvNVrVMZ9CCy3RANpzV2GHcpjLzCXdmjpQ=;
+        b=IAD1gOUIBuG5nJJrw+psNJvnwMYfxcP9SR/LWbqH87TSwysen+IchjVHGpwuzvUdO0
+         1mzH7QMz5VirQv4xx+Otyu3CXJKLPBuzMmj8Nj8SHRr7bNdwILusq2JFC4B590+5tvd0
+         pLO/Af2gFtqF5sR54uuRXBHqq42wIDYSebhXteYVqsyPEGekeVkMlx/NfZGcsnG9NqLo
+         INAUrPAWdv3z87nMAmnumLXypQkCi3qngD2t93go1ga9lnHQT5yo0FDcItnivTpyafkb
+         suJPeLbR6iHhr/dsuCDMrxZJcqWH5XKMNakiowRsA8CoDVWzTImZfDS8sBJWvIJVwhxq
+         Kt9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXfsfJTR3YqhSh/KeCfFd1FjN9H6nZp6zwYJBov8W3n7emXfx7TKgBUQK4cOQFOpD1qLuRbuRz1qJXMcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEq3APSizj2IPsEc5h03+vnTHYi14VBKEIZaBpWOy0Sqjj0f9o
+	vftV9e9D8R7dGH7f2GHAnFfRgrLZuNc9eCbtqit4EVxphe1i0e1fGyNPwNVy7oQ6RHikcGBtfH/
+	9chQdKHWgBuJ6PuC6ZbVwNPTK1jOntAjt/TNoSTF8nBuVP2FDcO1rF8P1XvShZ1p/xA==
+X-Gm-Gg: ATEYQzxCIG/Mtz8JPA9bnl+77hqrcIOtZN50bBeUI+kf2/B67tHCFzGSGcS63d0QlrT
+	LSy5K6EUkAPtUDiqH0WUPI7sqtk63AhFYDg+iNRVuX4A36fWqzKWjdcC50KJmWv/E7AvADQsBQA
+	EvE8B0VP60Icywja0ZTOc9fngnaOwobGgC9yh86ull46MjysmS5BFwu0eJ31nq0GtAh4TLkacTR
+	fkCFQj+CUuzVCkiebY3kEYN2k2R+IDxmvph21QuJuVST1ILn9WHLMGfuJIHPlA2DQUvvdea5h/J
+	eW0Nf//FdhON+bTYA3xJVHYfKlZNL7I2txFw5H8v7wDn4BR+8OabpxL9AQQKGdtYoygqL5g8bxt
+	axVMHKuKlxE1j6dpa97/YSRWxt0+KjCBYpClKuXn8N9Ni/Xgp
+X-Received: by 2002:a05:622a:a6c2:b0:50b:3e05:5ed1 with SMTP id d75a77b69052e-50b80e445e5mr37759381cf.53.1774439118210;
+        Wed, 25 Mar 2026 04:45:18 -0700 (PDT)
+X-Received: by 2002:a05:622a:a6c2:b0:50b:3e05:5ed1 with SMTP id d75a77b69052e-50b80e445e5mr37758651cf.53.1774439117600;
+        Wed, 25 Mar 2026 04:45:17 -0700 (PDT)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4871a937bdfsm78325945e9.9.2026.03.25.04.45.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Mar 2026 04:45:16 -0700 (PDT)
+Message-ID: <0f5de4aa-ea9a-4e5a-bbf0-58a18e644b55@oss.qualcomm.com>
+Date: Wed, 25 Mar 2026 11:45:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jzmakDz6gy+Jahnk"
-Content-Disposition: inline
-In-Reply-To: <20260325110406.3232420-1-shumingf@realtek.com>
-X-Cookie: -- I have seen the FUN --
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer
+ mapping on DSP
+To: kernel test robot <lkp@intel.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mohammad.rafi.shaik@oss.qualcomm.com,
+        linux-sound@vger.kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+        tiwai@suse.com, johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+        konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        srini@kernel.org, val@packett.cool, mailingradian@gmail.com
+References: <20260323223845.2126142-14-srinivas.kandagatla@oss.qualcomm.com>
+ <202603250417.fEMbsde2-lkp@intel.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <202603250417.fEMbsde2-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDA4NCBTYWx0ZWRfX6OxmvzfzEjqM
+ mHt3sLM3rvMBQesd/AwlMEWzBp9qv8J2/q1gxIiYouucwoNcP+fRxA/6uo3BN/rN689AcvcksLe
+ 5dAd+gXj5UZTkoWrzOxRGLx2ak8GLk6rwIJ2Zl4Fdea5FCRzeIcy2rZIS2XccvNarsqHD4mJPMW
+ WI/NK1SBUS8F2XB7l2uolhFqvtgenKlBNm5zJgTBE10MRp95Enrh3LAWSVeokS/zxQPh6kRSdOw
+ GZ5ZNNUGGi8YPdXGisivWFVhv6fZFhLQ8a7lsvm/lW5lbW84XHv04Kkhc3MHIJtHM6tcAFr3I+c
+ eHbVn/fDT9Zgy+b8/yU3tcyIOucCZoGVPWw7LadqVKCmHR/7A8ej/b3qc6X65HmZU6BiSyZxafa
+ QhA33BeZZPbV8j85SImzDE+nSzpSMxbQEA7rr3uP/QNktMyb8vhFlO9hm2qctCM2CvjSbiVQgyO
+ 1hbdfR/ts5KkMyHtOlA==
+X-Proofpoint-GUID: VzEOYAPQ0gxW0kM1Va1HleoGbbDvraIV
+X-Authority-Analysis: v=2.4 cv=Fo0IPmrq c=1 sm=1 tr=0 ts=69c3cacf cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=5X_j558OWs3QqKC_3BEA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-ORIG-GUID: VzEOYAPQ0gxW0kM1Va1HleoGbbDvraIV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-25_04,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 clxscore=1015 spamscore=0
+ bulkscore=0 phishscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603250084
 
 
---jzmakDz6gy+Jahnk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 25, 2026 at 07:04:06PM +0800, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
->=20
-> This patch fixes an issue like:
-> where searching for the entity 'FU 11' could incorrectly match 'FU 113' f=
-irst.
-> The driver should first perform an exact match on the full string name.
-> If no exact match is found, it can then fall back to a partial match.
+On 3/24/26 8:25 PM, kernel test robot wrote:
+> Hi Srinivas,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on broonie-sound/for-next]
+> [also build test WARNING on next-20260324]
+> [cannot apply to robh/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v7.0-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-qcom-q6apm-move-component-registration-to-unmanaged-version/20260324-160527
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> patch link:    https://lore.kernel.org/r/20260323223845.2126142-14-srinivas.kandagatla%40oss.qualcomm.com
+> patch subject: [PATCH v7 13/13] ASoC: qcom: q6apm: Add support for early buffer mapping on DSP
+> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260325/202603250417.fEMbsde2-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603250417.fEMbsde2-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603250417.fEMbsde2-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    sound/soc/qcom/qdsp6/q6apm.c: In function 'q6apm_free_fragments':
+>>> sound/soc/qcom/qdsp6/q6apm.c:321:39: warning: variable 'data' set but not used [-Wunused-but-set-variable]
 
-Please don't send individual patches with series numbering that are not
-part of a series, the numbering only makes sense within a series to
-order things.  Individual patches shouldn't be numbered, and the numbers
-should reflect that series itself.
+Looks like some last minute cleanup added this warning, will fix this in
+next spin, thanks for reporting this.
 
-Your threading is also broken on the seriese that you do send, they just
-appear as separate sends without any threaded.
+--srini
+>      321 |         struct audioreach_graph_data *data;
+>          |                                       ^~~~
+> 
+> 
+> vim +/data +321 sound/soc/qcom/qdsp6/q6apm.c
+> 
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  318  
+> ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  319  int q6apm_free_fragments(struct q6apm_graph *graph, unsigned int dir)
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  320  {
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26 @321  	struct audioreach_graph_data *data;
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  322  
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  323  	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  324  		data = &graph->rx_data;
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  325  	else
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  326  		data = &graph->tx_data;
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  327  
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  328  	audioreach_graph_free_buf(graph);
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  329  
+> ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  330  	return 0;
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  331  }
+> ab4c5c6ed2ed1e Srinivas Kandagatla 2026-03-23  332  EXPORT_SYMBOL_GPL(q6apm_free_fragments);
+> 25ab80db6b133c Srinivas Kandagatla 2021-10-26  333  
+> 
 
---jzmakDz6gy+Jahnk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnDyngACgkQJNaLcl1U
-h9CZCAf/Qj3iRZU7RCRSSp9/9luA0INvtpeZ8RzcOX4Sfd5lh8tgXPBMbDxo15Sx
-UVU1jqHjMlrejCF7mjiIMWQQQ/caKnxibv/C5R6hDLBEpNBBwfHM89QBJrSFCKSZ
-sqqBXzVp84PMzoHF5lVb0ceOXxrJ8Qxqri08/S5hPyUB7AhfM+beNsmguGoFV3Ja
-/8Z+f3xWHp3qRaCX6K66PMr1tTDpx9InbiOu0SOOZLdPZn6Rctre6rbkWECoQX+b
-adP04U/sv5BOUobQY1aV0NyQZi3LH7An3vRTY+Lqgr6bsUSFVwvxpuFchX6ViNu8
-AEV+/SK6rGcrcESshnRbDpy6dp5ufQ==
-=tMai
------END PGP SIGNATURE-----
-
---jzmakDz6gy+Jahnk--
