@@ -1,150 +1,157 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3B03D6CC8
-	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 14:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774447703; cv=none; b=SghEMApQnarG90EgUcuYNyl6AD7up+alVTqbI0+KaFwruRjKFznVABWjXuoR9TZCzqrDh/0rKIwL7To/+NbxxlAO8GuzxgTqx5TpQmiL5IDcdo2oofA8LDdQCpk4I3OJcySdcTUdl5ZMS65TZeke1PvjxZHFwB2NFi3YzQi5CpQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774447703; c=relaxed/simple;
-	bh=1sKqCM79cz1iKeg8j4dfngKtnoMtClMACbeoHm+2zvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gH4BD8fm2pGtJ+76uDZB6aXBZ7pIb5KANJEg3eVfx6lMm9i/+qwqmaMqPaS+qMBaz7sdywiVF7YV+Vj6fQpRWld4XROSO9xUXcgee+WGqNJyzQLkXnj9Ag8ph3wASuRuQNjg7U0ZiF173EPqzxplafeSDzvYvFcUUBRMpnRyPOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=W4oxMrR8; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2012E3D16E1
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 14:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774448621; cv=fail; b=kgPQcoGEmj2RjPFzF0MQodsZ6Xq1VhMxu5zzKR4sifSI/TI3viGmYypSaXOqphefeSqdVHyapbVKusljeMIVQi7OMiBJcafvdNFccWbzERHOJ3i7hHhEDh8i9ukBwzpO+0IYl4E3A8huImoVSLmQE9oQE4BKYiVjb0laHDm28M0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774448621; c=relaxed/simple;
+	bh=CE7alAOXM8+ia2C7PW5GQIfiT7hALNC+hQztpizSru4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZDYn9XTMvBshuajqcTnQ2bdXSuSzV4udwjpRFzPNl9rn6fidz813xP7dNfCC7c8wr7jHJki0Vl0V8WAoIV4iUP7SHGJQGCfF4a/8kDepfeC3ImSGJrOAg60UriqeSrmKWwaOh//pepuI/vG6B9lgV8L8l3V7jIayPjiLoysXJE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EmSgFgub; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=oEkn8WPt; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="W4oxMrR8"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id EB76F38C09;
-	Wed, 25 Mar 2026 15:08:14 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz EB76F38C09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1774447695; bh=5dWNzCaG8ExWasIUeeQxVzJoss4agTkkLCP+MB8cJV8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W4oxMrR8GImVMf/KP5u+DWFA4OJHxFjhBTl89Ws/UWu4qjL3gB/AVUovRLMp7oAl2
-	 4Ka77CmvrDY8z15sy6VttmIkwn+BVYbB0ZyXZjmvCysFAcsPuBZh4ecYj2zGYCLiW5
-	 CFQQAXVKL20m281/P/xtcVtIS3Sa7FIiJQK5IEK8=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 25 Mar 2026 15:08:05 +0100 (CET)
-Message-ID: <1ca0acb2-18fb-449e-9a52-e73d9eebfb62@perex.cz>
-Date: Wed, 25 Mar 2026 15:08:04 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EmSgFgub";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="oEkn8WPt"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62P6aB8V1310760;
+	Wed, 25 Mar 2026 09:23:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=zOmuPPFzHWNEPWiD5A
+	h46UbXltC64Krc9ParxMOV4pE=; b=EmSgFgubjg5jvSVZHo6y1scX2auclRPMw/
+	O/V7/1d9wHRmX0KsvRban0evMv2L5yeQ8YQ3ml/+NQ7bYiQdmU6/6TDdjUvA24Qs
+	+Ucf/MXnYmq3EA8e9eumJaU0q4MZP/O0V79sJk1I3FhXVOMJjdokxYgDzd30qs6R
+	JZgLVr3u1BBIzXRTZZh0ME21fIlTEO0IGi8+WDMO/iuPqQpYYe+YNbMzJoALH+Ye
+	Aklh5y/9mi6NSBbxqRpzegNEPMu9uc4ZslBWM1eyNWsjIMd6uLoqQzFWeUS70hGx
+	RVgQieNsyurkME8DEww+4yYxwNyBMLJe0houO+0JwTjT5/NUuWUw==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022111.outbound.protection.outlook.com [52.101.43.111])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4d1rqxvu8b-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 25 Mar 2026 09:23:15 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VQBnXVthz5kDnt5QrjFUaRf/tP4u+QcNxoTZ4j9NJPxVAEpOoIiDL9aesDp8rsz38hCF3RDLjaiRQ56l9dyoaDKeg6oufdwIiu5aGNEb2M28pRd3Tf/t6thDbA+h3bDRw62FsF+SyygzD/nDwg00rdkT3dUeIfkx0YhaKNWnu5F8gN97XFgcYhZhPw5jtcXrLJzvQYhzcZ2oebvVUxJCm9w3dIU0DojGlLy7frz/BxDu1wnEsYo/hh06oZiC6xFRqCzOnhmjlEHoCcw1etpfPhVAcrR7GEqOajCM0YZ+7De5jGs23ZU8XYoXdP8g3VqEti38XnX2haXOGXLgxx4/Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zOmuPPFzHWNEPWiD5Ah46UbXltC64Krc9ParxMOV4pE=;
+ b=qgOTZjhVspVqwxM7fd1A1KHOy58uZHOLAZpU6BeHwPlGTJeXR1r1SQYKu3I6YsGEnzwSpiwB6dI0h7Y3t/yIbyk4iWsheoXaQ3IczootJXmAzj8ge1wFnhjmSxP3Kds3MagwUzM2xv9HdkuIeppVg2lvqvbv48bKcNKhGOlDCtvK70DfVBF2G1gfcWALBVJzF75C000BHMXdSisCAbtKVRHHyrtYrY6PySu3gZoATAFkXe/EFM8xZ6mY2IhLnLFxe4mWKxs+wg6H27y/VjXKDt1A8Gq7aO4gAdPnieRjvkdLU/XgNYGBdvL0gYACJXBXUp9yYR8EHO1c49gngI7uFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=gmail.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zOmuPPFzHWNEPWiD5Ah46UbXltC64Krc9ParxMOV4pE=;
+ b=oEkn8WPt7uizXLe6TOPQlW91ei6GTKBRcGJDue6hL8b6ZuI994qCT9orb7O1Cyo4lsAy3siB1TVfwW6jbauhxkJqE/9wORmTQGg+N6ZQC+5xEi2MyaB0e+21ewS4aZzlz8c4g4eMgxGhbIEpesnduCMVEEOJhH9WUpXRKZvmb0E=
+Received: from BYAPR05CA0102.namprd05.prod.outlook.com (2603:10b6:a03:e0::43)
+ by MN0PR19MB5754.namprd19.prod.outlook.com (2603:10b6:208:375::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 14:23:09 +0000
+Received: from MWH0EPF000C618E.namprd02.prod.outlook.com
+ (2603:10b6:a03:e0:cafe::55) by BYAPR05CA0102.outlook.office365.com
+ (2603:10b6:a03:e0::43) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.20 via Frontend Transport; Wed,
+ 25 Mar 2026 14:23:09 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MWH0EPF000C618E.mail.protection.outlook.com (10.167.249.100) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.21
+ via Frontend Transport; Wed, 25 Mar 2026 14:23:08 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id DE757406550;
+	Wed, 25 Mar 2026 14:23:06 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C9865820247;
+	Wed, 25 Mar 2026 14:23:06 +0000 (UTC)
+Date: Wed, 25 Mar 2026 14:23:05 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: shumingf@realtek.com
+Cc: broonie@kernel.org, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+        lars@metafoo.de, flove@realtek.com, oder_chiou@realtek.com,
+        jack.yu@realtek.com, derek.fang@realtek.com
+Subject: Re: [PATCH v2 2/2] ASoC: SDCA: fix finding wrong entity
+Message-ID: <acPvyZiPnOiTayPH@opensource.cirrus.com>
+References: <20260325110406.3232420-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
- 'jumpy DMA'
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
- wim.taymans@gmail.com
-References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
- <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
- <8fe7f61b-dae4-4ae6-aa96-7e604a37e624@linux.intel.com>
- <813612ea-f942-432f-9bf1-7b1ccfe59046@perex.cz>
- <6b129498-f130-44a0-a679-6fa1c639046e@linux.intel.com>
- <a3eaedae-f23b-46ac-9e8f-a6167df7ef41@perex.cz>
- <420a8205-6a95-4e8a-852e-f3094200e5b1@linux.intel.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <420a8205-6a95-4e8a-852e-f3094200e5b1@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325110406.3232420-1-shumingf@realtek.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C618E:EE_|MN0PR19MB5754:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a894468-b344-4519-37c5-08de8a7a09b0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|61400799027|376014|82310400026|18002099003|16102099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	A6tO/tsjuuWD9a6K6h+m2gOaf/oo8iR62Lascsy+0rOFq6EOR/ZPI6zwEgfrnC77ov8xagQuq5DtPdm0x0n0l3AsfspnvZS1Yuw40Jcvzcw2Cog0L+E6LRA/Vjh9c9/uKtuh08IFUCpanSFkBUMoh8Aw1oCorTuE8Kz11ladRMZSaZ1fHrYpYAkhIEiGYrriXwZlvrNy9pjeIhvSSLzQ5fH/oRanVgv+6dyiRybT/Xtp2S9poJ1MeRZM881cb6F3EnGKvQOKMXUOAClwVWEjG+QHxHX6lhyrzCYHXUwXvunsbEMTZQ/l3VeSWPtvZ2JPwzLIlpFygku5ruxcI1G4nUguPNqVjiTIBD2V5iz4F1bYrItp5JwJ9C4XGKDeWA3xYvDVzzCPoisZDUqPDMIB8mmUXPj2CX3cIvCEaIrLyNVeoBlGtu7c7WDXqaJALz/uwy2UkxuDvdvUShAA+9Vm4wup6spVAIwEpIUTJrVbLJCKh+wMXUHV8exGnr23tFH086IrJVZy8mt88fErROO6fJHnsYIHVByFhe56zcvH1uofx7oK05TBznf5OJDI1qX5CH+v3N2nhQDD/DkopEWVBSULAHp4UNdDBpQd/G9zucQEwJJ23WE6mf4lQTrOwl8o2V86KM8TIGW+Jmeo0RfFv+cUpZQGuxhedBD1QWtOTMIAzscGSI9gaZI4puwrv2xRA/miGOHvKIkhJesn+6asWHu2pCSKIgolSpVWZ1/O+RwZInkACBuLXH1o9bPBC4dV47cDfgkBeW3FTM+7TjlvuQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(376014)(82310400026)(18002099003)(16102099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Brm98tK8+se1exK3gttmHE/+Z5zV5Zi+QlCUrXREifER8ksb8NWl8mdSraEaMXQnWZEl0xpcAGi0iyKNYibPqecWw5bVfsENt8NPWC5Z5HWeysRpmvL4Ln4+6S1n1bQArXlpf9LKYK4xP2gDf6d27q7lTcm2PlWTznLwIxtESoHQcKNFkOonQ0PbufHGFOKUcanHTri9rnSN0qqiZ5FKGEw75wiGFgWhTx8C3od4ihBwaqOJ+ujGVI//FeHMBQeCBMPNBgXqM2P4AU++nqsId9SU2bLUAny4TZw5ayIi2F0VHSS85NVLjmF1ulJrzY3XraEW8PepxmmA82ALHcY6NAS2J7VdpPPoQZE1ugUhQ18ciLlxfoqZl6b1Y8ws8jJJm4pjpyRI37JPuBCEm+kjQIvJekbqOOYESd5B6oN5znDCxe4bd6G3Za5byTaFILiU
+X-Exchange-RoutingPolicyChecked:
+	VyfON+Mw7e6lbMMicvpk3twB+cm6yPUXLwOGHEO1KVRcnGQTVODF06rib1wFt//VvICyIhFJQ9k/gyRgFuHZSBjfmiyHj6LowIbbe6GTFaV1vRQydvhHE3SvWrRhiRrRwOAZ5sGSaJrkB3DHa7txioypaaOzu30bhL1VBVak0kzcAtIvTC+zHPINgjHBqrLMzQ8m2GBRuFt9HCYz9XDaGrfiCzFjYHHoqbgnU1a6Lg8m077ztzXLndFU+rsVVVDGg7GhzTepnUzPpz/gUhoQrcdIyvOOGm7FCLvqe9nAAHysgYEcRDh4foKsnJ7WRwQIiZ+v2bNb63VL4xlb7pLA+A==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 14:23:08.1814
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a894468-b344-4519-37c5-08de8a7a09b0
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000C618E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR19MB5754
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI1MDEwMyBTYWx0ZWRfX54zdFqrosOQu
+ BG0ei5F4lJYYkhceqSaYojLycZ/n4Fh/FPhLF1GiD9/Rf4PprDOV/e9i931m4KAWhoOB9tSsA3X
+ jL0kFRFLsWeY1+ngLToMIm/swwc5L5iXFU4JmHRdFYub7SXckXV3nPVHvq8Z9YPVEFOXptfijk7
+ eC4W3Bu3s19C38uLSrGPyExlKjys24dXXAJ1eWWj2M8p5sQyhHoFGIMt0L0oIWHSodD6H8pAlyz
+ fINtY2bWBeH1rDNyvzJ0ft7OFbaTXU+XwpbHW3hW9PYEgG1bXCc/yT5fzDSjs9LTY1Cr/zZXLev
+ v0zcif7LSn7ptuzA9Odew5mH9Wi0qi3aSY8Ov1mGS5Vui1eiKZpNfNm5wyMNHVrTdXp9fZqFmWN
+ biV3tBJ242iJolleQhaO793EDSfz1KGjqbqYs/t+Ub5jlrem9+pHZbPQhFFjEiR8UyuGCy24gUv
+ jVU1nuKldkzPXtVmxhA==
+X-Authority-Analysis: v=2.4 cv=DKiCIiNb c=1 sm=1 tr=0 ts=69c3efd3 cx=c_pps
+ a=Gg7HfhqIPUY1o8E1DfVvqA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=n9Sqmae0AAAA:8 a=w1d2syhTAAAA:8 a=_jcflPutsmBtAD2ua_QA:9 a=CjuIK1q_8ugA:10
+ a=UmAUUZEt6-oIqEbegvw9:22
+X-Proofpoint-ORIG-GUID: jT9iQUuXifEC4sVvyptNVICx7lVZA3AF
+X-Proofpoint-GUID: jT9iQUuXifEC4sVvyptNVICx7lVZA3AF
+X-Proofpoint-Spam-Reason: safe
 
-On 3/25/26 14:28, Péter Ujfalusi wrote:
-
-> Looking at the PW code (spa/plugins/alsa/alsa-pcm.c) and I sort of
-> started to appreciate the 'headroom' term.
+On Wed, Mar 25, 2026 at 07:04:06PM +0800, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
 > 
-> I disagree that this is not about DMA or about burst since it is
-> precisely about that. It can be viewed as 'latency' but the latency is
-> reported via the delay and the delay fluctuates over time based on how
-> the DSP FIFO drains and fills.
+> This patch fixes an issue like:
+> where searching for the entity 'FU 11' could incorrectly match 'FU 113' first.
+> The driver should first perform an exact match on the full string name.
+> If no exact match is found, it can then fall back to a partial match.
+> 
+> Fixes: 48fa77af2f4a ("ASoC: SDCA: Add terminal type into input/output widget name")
+> Signed-off-by: Shuming Fan <shumingf@realtek.com>
+> ---
 
-My point was that we should not use those terms for the structure members, 
-because it's standard prefill / data fetch (put) granularity issue. DMA is 
-just the concrete use. Describing both parameters seem like the best idea.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-> PW then probably can use these:
-> state->start_delay = hw_buffer_size;
-> state->headroom = hw_buffer_refill_step_size
-
-We don't use head/tail in the buffer variables for ALSA API. The headroom can 
-be named just 'update_granularity' or 'update_step' or so. Also, start delay 
-is not correct, too. Maybe 'prefill' or 'init_fill' says all. Or we can 
-eventually try to be more consistent and use 'init_chunk' and 'step_chunk' to 
-notify applications about the data transfer characteristics from the other 
-(hw) side of the audio buffer. The chunk word is not used actually in the ALSA 
-API, so developers should not mix that with other things like fifo or period.
-
-> and on start/xrun it might need to provide
-> state->start_delay + max(state->start_delay, state->headroom)
-> or to the distance that it is planning to wake up.
-
-It will end with 2 * prefill for your examples, because start_delay > 
-headroom. It should be just prefill + step.
-
-Also, it seems that in SOF case, the queued "prefill" sample block is 
-mandatory for internal processing, otherwise xrun will happen, or no ?
-
-				Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Thanks,
+Charles
