@@ -1,51 +1,55 @@
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1442FFFBE
-	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 09:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD156347529
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 09:20:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774430453; cv=none; b=rg9NCrPlhSrvKK9MKc9uRxkQ8Z3g9t+w5wUPvsHUmIMTGh0BKfUNJo3bQViBGjNhdmjB8agP7z7Q6UiGk/z+bEcbmu1iAFK10SlGEHLosw2fLAXvoEFfbGN8xr/GVTgRGYEawvXUvAYDHNfobEh0EJujvHRplT+/laARGaBJJww=
+	t=1774430454; cv=none; b=hmR+a3vX4RICDs+N8YXoBVQ8p+IvLkNplpVkaVZqCLp5NV/OtiZlR0KDvSzOm7zBGF9Q4Vxwg+JV+Ok/9RtaYPr5Iqt5n0Vkr7YkZifmTRLimgN/hSQe1/7qvHsH1oM7GB/i+JRdTc5F/pMf8VoeRaW/hzx+ojcr/NX2x6qgSFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774430453; c=relaxed/simple;
-	bh=CV1de0vYaDR0aFIZM6nfabN3QwBuSTC3uoNYmxT7hQI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZCltrgYTLJAOM+sng2OC54dDmytAZHsLA1KT2xevatrrzRZEaT31NuanQGI0cZGSzu1PPUBVHrC+mTpRgw3i7BoYxbOVnWst43gsYQjNwnfD9eYni6n1RmxI0KId1B7bxamys82nMMXxpM8weIf+YUVjs87z1zabWFsUrMFZwHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=FW3MWLHB; arc=none smtp.client-ip=211.75.126.72
+	s=arc-20240116; t=1774430454; c=relaxed/simple;
+	bh=U5lPNEYDJtCvtEBN0jIqHBrO9qI6djsZBu1zZpHzY54=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UqzwFc+xVRvW89BPwrB18pc8bvYZJhfaW+qtyl7oGRokUBbcNXGwr1a4mBZWuFsxNqZ35tfdwi60ab9QACydKvseorjh8BTy3fnkd2P9KETqalzqzKklLsGvArxq0CXFqdTbtKwsOwz9kTGAKlwmwBHgnV2iYveNK1Zjz1t2vrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=nWqnIGSX; arc=none smtp.client-ip=211.75.126.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="FW3MWLHB"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62P9KT8303100028, This message is accepted by code: ctloc85258
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="nWqnIGSX"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62P9KKPV03100006, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1774430429; bh=mWmHz+XuA5nqpvPsf97jj1hJSznXkyE47aAYfOKTldw=;
+	t=1774430420; bh=0PLvuhGC0E2XxuwlDpzHBrJ7eSlKiw9WTZZXhpm1oRU=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type;
-	b=FW3MWLHBx9JjdQ+49GY/SBziB5szY77awdZhJ+2er5FliYM0aTyZVe7ExI+Cuq4GK
-	 QQdjy2Rx+6NKdG1wTId/+4LzegRous/POGdrqQ9j9HoMcEYVFcsKcuJl0qYedaVkes
-	 jtYswC3/yGvv5Gv14M1ZrtEZ7kvtKfR4HrYWQF4qtGLRF4zcvjTgSFRvVvyi+UCg8P
-	 5Rno4I3GjBNDWh/PLb329VwH4Mzc2PM5Lh0Y/uks2QHoWVOoB6AVJAPqdS2qj9SrAL
-	 d0r6y9kSXybuJHSDOcmRArOkdcqGY4pUjsXT2zdKZ2ngtEXLrfXqUnXTa6Xn5ELPjr
-	 Cyz5xJUl/SYgQ==
+	b=nWqnIGSXD27p9W1wGPw8xZaTkz9geo4G0TkWyeZCM7UyOuwyPbW7WBtQU4BN+KKpX
+	 6z0WPadlc9Md4swpaVDN4FZ7U9cGpZMahaG5L3dOlGx2ioF2sAo3lrpAAnsyZgeruX
+	 Gt3DFc93NTHQqswt/bu8imzn7aikBNZmcyZzJZ626mFQ4/nJ3ZZK8Suf1p3rFZTxHE
+	 4WXnhR2byRPR93vXpoKsHULF/lnoqPYnMLT93YTzroPlISPkUepx9v7JEAkXpQ2L2z
+	 WJWTgW2DGo3wcerets/BtzgMx/GEcZ3Epm3bqfS7eiBVkzEn5fzOZNF+B+411n8Eg4
+	 507g8xBsZQ1hA==
 Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62P9KT8303100028
+	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62P9KKPV03100006
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Mar 2026 17:20:29 +0800
-Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+	Wed, 25 Mar 2026 17:20:20 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
  RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Wed, 25 Mar 2026 17:20:30 +0800
+ 15.2.1748.10; Wed, 25 Mar 2026 17:20:21 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Wed, 25 Mar 2026 17:20:20 +0800
 Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
- 15.2.1748.10 via Frontend Transport; Wed, 25 Mar 2026 17:20:29 +0800
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
+ 15.2.1748.10 via Frontend Transport; Wed, 25 Mar 2026 17:20:20 +0800
 From: <shumingf@realtek.com>
 To: <broonie@kernel.org>, <lgirdwood@gmail.com>
 CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
         <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
         <derek.fang@realtek.com>, <ckeepax@opensource.cirrus.com>,
         Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH 2/2] ASoC: SDCA: fix finding wrong entity
-Date: Wed, 25 Mar 2026 17:20:28 +0800
-Message-ID: <20260325092028.3221671-1-shumingf@realtek.com>
+Subject: [PATCH 1/2] ASoC: SDCA: remove the max count of initialization table
+Date: Wed, 25 Mar 2026 17:20:17 +0800
+Message-ID: <20260325092017.3221640-1-shumingf@realtek.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -58,40 +62,46 @@ Content-Type: text/plain
 
 From: Shuming Fan <shumingf@realtek.com>
 
-This patch fixes an issue like:
-where searching for the entity 'FU 11' could incorrectly match 'FU 113' first.
-The driver should first perform an exact match on the full string name.
-If no exact match is found, it can then fall back to a partial match.
+The number of the initialization table may exceed 2048.
+Therefore, this patch removes the limitation and allows the driver to
+allocate memory dynamically based on the size of the initialization table.
 
 Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- sound/soc/sdca/sdca_functions.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ include/sound/sdca_function.h   | 5 -----
+ sound/soc/sdca/sdca_functions.c | 3 ---
+ 2 files changed, 8 deletions(-)
 
+diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
+index 79bd5a7a0f88..0e871c786513 100644
+--- a/include/sound/sdca_function.h
++++ b/include/sound/sdca_function.h
+@@ -26,11 +26,6 @@ struct sdca_function_desc;
+  */
+ #define SDCA_MAX_ENTITY_COUNT 128
+ 
+-/*
+- * Sanity check on number of initialization writes, can be expanded if needed.
+- */
+-#define SDCA_MAX_INIT_COUNT 2048
+-
+ /*
+  * The Cluster IDs are 16-bit, so a maximum of 65535 Clusters per
+  * function can be represented, however limit this to a slightly
 diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 0b7d97dcb236..0787bf024d21 100644
+index 257158bc67ea..0b7d97dcb236 100644
 --- a/sound/soc/sdca/sdca_functions.c
 +++ b/sound/soc/sdca/sdca_functions.c
-@@ -1602,9 +1602,18 @@ static struct sdca_entity *find_sdca_entity_by_label(struct sdca_function_data *
- 						     const char *entity_label)
- {
- 	int i;
-+	struct sdca_entity *entity = NULL;
+@@ -216,9 +216,6 @@ static int find_sdca_init_table(struct device *dev,
+ 	} else if (num_init_writes % sizeof(*raw) != 0) {
+ 		dev_err(dev, "%pfwP: init table size invalid\n", function_node);
+ 		return -EINVAL;
+-	} else if ((num_init_writes / sizeof(*raw)) > SDCA_MAX_INIT_COUNT) {
+-		dev_err(dev, "%pfwP: maximum init table size exceeded\n", function_node);
+-		return -EINVAL;
+ 	}
  
- 	for (i = 0; i < function->num_entities; i++) {
--		struct sdca_entity *entity = &function->entities[i];
-+		entity = &function->entities[i];
-+
-+		/* check whole string first*/
-+		if (!strcmp(entity->label, entity_label))
-+			return entity;
-+	}
-+
-+	for (i = 0; i < function->num_entities; i++) {
-+		entity = &function->entities[i];
- 
- 		if (!strncmp(entity->label, entity_label, strlen(entity_label)))
- 			return entity;
+ 	raw = kzalloc(num_init_writes, GFP_KERNEL);
 -- 
 2.53.0
 
