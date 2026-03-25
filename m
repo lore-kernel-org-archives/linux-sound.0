@@ -1,73 +1,80 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7464445BE3
-	for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 22:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43D819ADB0
+	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 00:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774392378; cv=none; b=n+V7zNBuPQuijcn/6PAiOMBbXjaQHtTLX/Us11Das/PJIf6w7Boyt5QYVpjWNxlUJbkP9ZJ8fj+R5Hhp0KUlyEAGnt23k/y1Gpc9+YyAFgUFP3xg7B8af+IcfRpmxOFOFiwGKRa7RdPy1ZSfG123V7VH7ziAUb45DCPNglNS1x0=
+	t=1774397737; cv=none; b=Ls5DsnmMZu30ek0s5Xj8GpO57tjQpBhjpFmpntfj3hkVu57P037xnVDu8lpyZY44o7OcCrnPF0gqOvWUejUpe5Rs2PfJiE06f3Yy99/m38AAfg4fQ78URsyzOA3AShALZSctMm5cKPcOMS5Nw8RzdSt2ZavOg34RqAjdzdm6yWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774392378; c=relaxed/simple;
-	bh=8fo0+sx/RX/2eA42Iq/hClJviz6+8NuBW/GxniwSMG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oBSJluY+EAPiv4N4/v1kYkVMn/lJMRqMC805LseN7A8iOZlKzPquJ6D59737YDnmRwe7n9nUdqBBpeq1uv4Ao1yiVlmz5kHM0gJZz9sXNEG5M5C3JUfwFmsVF5jwLhJxmf36F/5rAA6B9WesHS/pVCIqR6TvSh9LhV0EM0yMfCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKFQ0I2b; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1774397737; c=relaxed/simple;
+	bh=jqh/TnAjq6SCyDhLkI/bK2/6GP4CVAOPQPS3Q/mVx2Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aqpAcx33v5xNHwPq+rTNQSthWzIWCla//UkFajpLiPz9nCljLD2MbdQtTmB3aFWHT9N/b8AwARcFpikyaGBEzgWuWqtYGB/4k9cHCZGkxP0OKZmC5yQohgcYIPHS4me9/X+RZN6+n7Z7R2xnjjwv2Lya+PrmihHbiHBtcNjomiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pdV2wT47; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKFQ0I2b"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48704db565eso35863705e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 15:46:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pdV2wT47"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486b96760easo16684005e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 24 Mar 2026 17:15:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774392375; x=1774997175; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774397734; x=1775002534; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9uelcnIfXMb824aADRNX9XAQjtbetebQ3hUW5he2ALw=;
-        b=dKFQ0I2byBSL9kKkvbBCDsAqtDdhGG5+5ITs9UOX9qzz2C+R1G0pHYf+wFalogWJjR
-         VqoOxLcER5seuDlGDUatMQ0dORH8vKZyoTtSz/h5qpwm9e6OC2xFud6W0xCzhQ4Bp6a8
-         zwEcMW00/yY14nOnPtElLfBkD3zlAMqbuJXagCZEELVqcCOA+PzELKxzo8aPmcRVxATI
-         jA2L6nPHknxL1vxDWwnIgnUXb5Qb65INUXqTzlwfsLAM9Hzdao1Cw696K4s6fBC7eMKr
-         Jor1ppRUM9jcE+UxKUYwv6E5opYSNDCbk5HnoxWpHVgeAsR8bW9pZZwMJwLvKcafTS7x
-         wtew==
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=evIkBxIoJp3ii6ssPtPsrLZkaTHMapWbMqzLO9r5ThI=;
+        b=pdV2wT47NGzjuoOEsurDT89UOn+EQZQtKk/b3b+MZxTCoEI3i2452bvmNRcRzTJwOO
+         Mz+zghPEIQTKErsIoTBpX+EWr4f3zCxyUK+BKHs+6bvGG0lYaXX0rIKLR6iA1kjNOSed
+         R+kDU6+8RITVYjYxjxahk+mOu1LFJ9EBgCvNClAEhseXdZVgrDERWRn7O45S+UXV9HUX
+         EiyP+YNildpVWbQwsX4WnENVLNRRUpBqAmRgUFqHkU+Lrmtp2Oo91xtFUbbMyYQN+s3m
+         YJsgODIylPpPtGPVOsxw9SpPoNp9Tbpod4BVCQc/hlnmdilnuImaWF/WUV9tJwIn+AdU
+         BDHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774392375; x=1774997175;
+        d=1e100.net; s=20251104; t=1774397734; x=1775002534;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9uelcnIfXMb824aADRNX9XAQjtbetebQ3hUW5he2ALw=;
-        b=Ni1cStaQVsW1pJGHY9NFoMSfrUpLIg72OByjROD5TpaOpnazG5yA64vCbYHclGohlX
-         R4B4XxCOVMS6rkeGroGlMSKiZce0Y29dLyafhOYEsAkKu1WSOeCrgYKGFEKoe0TD9gbO
-         jr/fmdx76qbVOLuP+y71DfxZ8V1TYgiUrwufMl1BkyBD0L85Ja7L2n796faadv4EuOZz
-         fdSKx1O32O7tq+6s1bhEt1KJqhYAmjsSQa7qfyAgR0o+v1EUpziEJGN5I/+XpG+adNUV
-         67u7GYEneA5Kw0xin2XEfYnuMLjj75biEI3Hm0qqs2wCiLXMu7ujuot5x6HXzOEZl2JI
-         zocw==
-X-Gm-Message-State: AOJu0Yx1GjwT+Zo4oBcfw4j6nayGjK0T1voMepLhKf4HtlNJWxfCP3uD
-	S/A15Hk2VU2ZTk0UNpt9gAlIdpjgah8U3nTMyujmA1Z6GjLQH4YdRTxvWKt4
-X-Gm-Gg: ATEYQzyhLD3lBS3wz05CuhzznZHpuEtLY9VlYd4QAiAefIBBkq7i1Rx0yp3O/69OjDn
-	L79DoXi/7qs8reFEybuf2ICRBoI77UGVSXsxGVnI8A41k0nHRfgQO3uIWnRoL60GSXK6RZr4EFZ
-	5EjBBywTlJMzCMleExflQZPzdsY3Jh4LyXMo0bAIopRIxOkmViS9cc5X0dQYrVo7AtwS4q1lU6i
-	kZPlkVyaPX+Gaj0iiD5D/vasPPezrp/l+ZMOppOEpG0ucl/mcxcLPJbCTkdcX/5Y//wFzVaemLt
-	YO99l0pL78HXXy7NdygUY5i6HkA2RHoXDN2pKYr4+td+0qqRG7DcRxaC7iyG4t105iDT0HIrdjL
-	jbeJxoVbKN9XdbvMYb95iKwjAop75zl4YFgS+2Vf0P5doBN4EXiFp4sRez/MlrX0s2KwwXpjJ3y
-	DtnRoDgHvQhCxDmchz8ge3TvmFRvgvVFmhEZPER1XWMw==
-X-Received: by 2002:a5d:64e5:0:b0:43b:883b:9548 with SMTP id ffacd0b85a97d-43b889e3553mr1653243f8f.33.1774392375049;
-        Tue, 24 Mar 2026 15:46:15 -0700 (PDT)
-Received: from localhost.localdomain ([78.240.217.74])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6cdfdfa9sm32355707f8f.9.2026.03.24.15.46.13
+        bh=evIkBxIoJp3ii6ssPtPsrLZkaTHMapWbMqzLO9r5ThI=;
+        b=fYyXe+wvrrkPR7oDuCKoDvmhMkREUphLDDRSRsHObTYe1tbEvBymnFQWs3L4YtTIFS
+         qJPL2mKEydeNlw3sUYoHh4tG5M1TZuizgXI/icD1dYqW9U+I0l45lcLdqGcQLSPI+7xv
+         kzF/pUQcaVmZNINjP5OlWYjog8F7VVEDWXqFIhK+iC5fSTS1FR5pUsj2sbCbxiq1IF9a
+         O1DHseeh7NZ10TJGFAfahm70eRfganugOa2xlp5+JgEwPoW/zsY37zJbnzJpZ45Hmgsp
+         DlNVWAl1+3l/i/GSB/xRGXYYcPhhM2+1FApa58isgMFfOlzWlXfD25ew88Q+dsXB3h7A
+         msCQ==
+X-Gm-Message-State: AOJu0YwpBVM+jsSnPOu74uvqIWWjUZx36IxEJKxOrtQFVoGIttMb56Gn
+	jd7SpOfmpuXWpVKJoV6A3ylbc44OI7roMEYNsTYvnetqpyvNw2Whv4p4qMqY1EfnI4c=
+X-Gm-Gg: ATEYQzx1AHI+gdBN/MaKdS3kI8phtzZ9f6RYDu1P09wXOYNWGcv4LYAZx7wSixqIoE7
+	cnmXe41ICOaS5WP+OH6NGlHSeP8YEW+O1Mt45tj/R/D3BjNxBIhhl/LqwOQrVCUq/6zgQ1B0zLF
+	xh1bmbNSlU0OmvTlv2NdWYND6krBb8MTfVivHFlF7+BbuPiah9zCUBJZsZ0lQpLpdFTG+Wbmy61
+	xJCqqc7yw84rfWdP3fSMm75kjKGGwcvN9HQjR2vl0Tn5u/UWE5MjYTF2meXH3U7sxgDpXKOTfoO
+	i0GHsRtQx3Nk7m/CU1AE4EyGdp6UMnibhcsL8Pgmvqim1SNCwqMZdaAfmewaj79Dr8HP3aOFJA2
+	4oTv14VBzvnlBWMD+DEhz+rP5qyZe9jePeH4dJruj9sNkY9QWCw+enpgi72JCtEvaBsR3Efbzut
+	RLONk8PfvlTlq4otpORCAU4qXJLXQM
+X-Received: by 2002:a05:600c:3b12:b0:485:3f1c:d887 with SMTP id 5b1f17b1804b1-4871606dc4fmr23619905e9.26.1774397734040;
+        Tue, 24 Mar 2026 17:15:34 -0700 (PDT)
+Received: from nixos-office ([2001:8a0:e95c:5e00:30a:e2b6:4f44:efa4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6cdfdfa9sm32893962f8f.9.2026.03.24.17.15.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 15:46:14 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: kees@kernel.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
+        Tue, 24 Mar 2026 17:15:33 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: cezary.rojewski@intel.com,
+	peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	liam.r.girdwood@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
 	perex@perex.cz,
-	tiwai@suse.com,
+	david.lin@intel.com,
+	arnd@arndb.de,
 	linux-kernel@vger.kernel.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH] ASoC: fsl: mpc5200_dma: Convert to devm_ioremap()
-Date: Tue, 24 Mar 2026 23:45:30 +0100
-Message-ID: <20260324224530.102164-1-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH v2] ASoC: Intel: boards: fix unmet dependency on PINCTRL
+Date: Wed, 25 Mar 2026 00:15:21 +0000
+Message-ID: <20260325001522.1727678-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,64 +83,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace ioremap() with devm_ioremap() so the mapping is released
-automatically when the device is unbound. Remove the corresponding
-iounmap() calls from the error path in mpc5200_audio_dma_create() and
-from mpc5200_audio_dma_destroy().
+This reverts commit c073f0757663 ("ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and SPI_CS42L43")
 
-Since devm_ioremap() failure already returns directly and no other
-cleanup is needed at that point, simplify the kzalloc error path to
-return -ENOMEM directly instead of jumping to the now-removed out_unmap
-label.
+Currently, SND_SOC_INTEL_SOUNDWIRE_SOF_MACH selects PINCTRL_CS42L43
+without also selecting or depending on PINCTRL, despite PINCTRL_CS42L43
+depending on PINCTRL.
 
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+See the following Kbuild warning:
+
+WARNING: unmet direct dependencies detected for PINCTRL_CS42L43
+  Depends on [n]: PINCTRL [=n] && MFD_CS42L43 [=m]
+  Selected by [m]:
+  - SND_SOC_INTEL_SOUNDWIRE_SOF_MACH [=m] && SOUND [=y] && SND [=m] && SND_SOC [=m] && SND_SOC_INTEL_MACH [=y] && (SND_SOC_SOF_INTEL_COMMON [=m] || !SND_SOC_SOF_INTEL_COMMON [=m]) && SND_SOC_SOF_INTEL_SOUNDWIRE [=m] && I2C [=y] && SPI_MASTER [=y] && ACPI [=y] && (MFD_INTEL_LPSS [=n] || COMPILE_TEST [=y]) && (SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES [=n] || COMPILE_TEST [=y]) && SOUNDWIRE [=m]
+
+In response to v1 of this patch [1], Arnd pointed out that there is
+no compile-time dependency sof_sdw and the PINCTRL_CS42L43 driver.
+After testing, I can confirm that the kernel compiled with
+SND_SOC_INTEL_SOUNDWIRE_SOF_MACH enabled and PINCTRL_CS42L43 disabled.
+
+This unmet dependency was detected by kconfirm, a static analysis
+tool for Kconfig.
+
+Link: https://lore.kernel.org/all/b8aecc71-1fed-4f52-9f6c-263fbe56d493@app.fastmail.com/ [1]
+Fixes: c073f0757663 ("ASoC: Intel: sof_sdw: select PINCTRL_CS42L43 and SPI_CS42L43")
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
 ---
- sound/soc/fsl/mpc5200_dma.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+v2: revert commit instead of adding 'select'
+---
+ sound/soc/intel/boards/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/sound/soc/fsl/mpc5200_dma.c b/sound/soc/fsl/mpc5200_dma.c
-index a593a95aa532..a0d95473bec0 100644
---- a/sound/soc/fsl/mpc5200_dma.c
-+++ b/sound/soc/fsl/mpc5200_dma.c
-@@ -326,7 +326,7 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 		dev_err(&op->dev, "Missing reg property\n");
- 		return -ENODEV;
- 	}
--	regs = ioremap(res.start, resource_size(&res));
-+	regs = devm_ioremap(&op->dev, res.start, resource_size(&res));
- 	if (!regs) {
- 		dev_err(&op->dev, "Could not map registers\n");
- 		return -ENODEV;
-@@ -334,10 +334,8 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 
- 	/* Allocate and initialize the driver private data */
- 	psc_dma = kzalloc_obj(*psc_dma);
--	if (!psc_dma) {
--		ret = -ENOMEM;
--		goto out_unmap;
--	}
-+	if (!psc_dma)
-+		return -ENOMEM;
- 
- 	/* Get the PSC ID */
- 	prop = of_get_property(op->dev.of_node, "cell-index", &size);
-@@ -424,8 +422,6 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 	free_irq(psc_dma->playback.irq, &psc_dma->playback);
- out_free:
- 	kfree(psc_dma);
--out_unmap:
--	iounmap(regs);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(mpc5200_audio_dma_create);
-@@ -444,7 +440,6 @@ int mpc5200_audio_dma_destroy(struct platform_device *op)
- 	free_irq(psc_dma->capture.irq, &psc_dma->capture);
- 	free_irq(psc_dma->playback.irq, &psc_dma->playback);
- 
--	iounmap(psc_dma->psc_regs);
- 	kfree(psc_dma);
- 	dev_set_drvdata(&op->dev, NULL);
- 
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index c5942b5655d3..d53af8f7e55b 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -530,8 +530,6 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	select SND_SOC_CS42L43_SDW
+ 	select MFD_CS42L43
+ 	select MFD_CS42L43_SDW
+-	select PINCTRL_CS42L43
+-	select SPI_CS42L43
+ 	select SND_SOC_CS35L56_SPI
+ 	select SND_SOC_CS35L56_SDW
+ 	select SND_SOC_DMIC
 -- 
-2.47.3
+2.51.2
 
