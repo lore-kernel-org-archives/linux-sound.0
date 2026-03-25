@@ -1,176 +1,281 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951BA26A0A7
-	for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 13:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314AB3D16E2;
+	Wed, 25 Mar 2026 13:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774445323; cv=none; b=QArCUIMdjErq+yf3jEhRj81t+/+N7bmSXM6cTmxj/1neW5xUV8tQljUaM8FhDi42GNANE/ozclQQq5W2rot8zPWXZgehzAl+6iCY7T1JgPRh9wtggR+ChMF1izC54ucXnG0FpkNooWaBl428bx8cNQYTmgnlax5A/JRsMRiyxYI=
+	t=1774446380; cv=none; b=Lpa9bcueMevP3rhGbBV4NRYMR83gUUIl+J80lBDqbxBNKqqQFEiohfH+Uhtsdr6Pxn/DT959YzEgZbG431cQTN9Rgeo4JqZoDkHFq2bjiW0KZjpDosTkOXHjBO5yweJ3uaOtt44/mRtDa5dfOUkPzHcxNY3q3LvBcQUsL6qRizU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774445323; c=relaxed/simple;
-	bh=u0gZwCfVRmefDYuuoATLsTXZtIcX0eamEercteCiYCw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rpWW+x1mdvlJrjRD1zasLeX1k90gKYqFyex/VuxjE6rxoAKoPvlEbuyw6qNiIza9ku5gfeQ4OP5GmdaI2A1OB8xk1vxagysWBdfQBJyKQnvWxZcKhwfcIwtv2QMAy7oztiJ7RhrlynE+fHvHThfc6zRIX6mkykLtrpN55ZpWBfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eIKZYikD; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774446380; c=relaxed/simple;
+	bh=K6An0K3Pofgp/hV5KO1Ax0ARKFYixoIb3EdwxkIM0d8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uz2aAVaqbjORzLdAH2JSESMHB2W5KXAVK+eP8utBZtknTOf27s/UW8fw0UGz9bZ3QaXGUIcxgvAupsXXIPdaCHl3qnEPzwMcU3YBxRgTZ/a1s55dS3qf/Mk2fZoHKtBcFVbA+KcuFRijUHjxBvs7i2+zIpxvyBChOzUqUHiEPeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Um5pgr+s; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eIKZYikD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Um5pgr+s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774445322; x=1805981322;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=u0gZwCfVRmefDYuuoATLsTXZtIcX0eamEercteCiYCw=;
-  b=eIKZYikDIdb3p7m0Jzk/G6If03GrmoGtK1BSx2DvfIhr7xtLEaMVGY36
-   WSZhaOFToN95mNKFP2wPiAWaoY8LBGSaTIBtlEuMuH1DVo3sN1x13YoaS
-   kG91u7pTfli2QPJA0ISgqdfQ8hwju5SqIA5r6eEWJP3rv98vmpGXrz0iA
-   /ieD+6+Pju1M24ogM7o5MZwVUqA9OCx5PzvkXyhNykVSWLMIRjKjbsGYw
-   CP2WgbgPJISEX/7QlwEh3UrC5wZx3aoryt8eHExLVrMygoBOY93FCp+oz
-   IqqGRVvDqRjbfilXaDWaRJjKixeMNf2NIY7RHCT64nJ71wC7GgloLMjw4
+  t=1774446377; x=1805982377;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=K6An0K3Pofgp/hV5KO1Ax0ARKFYixoIb3EdwxkIM0d8=;
+  b=Um5pgr+sB4yGj4Y1N9kYSeBdQe45eHI189bhLKpzezFTs2++EbVnCs6A
+   cBFVz3g+/ohaVcB6v8kviL5g4Ap+Wo5Q/IxIeGtyVSeL30jkQHC2ZifaO
+   gKSFtMDEgcklEaRd5cPvrh9uI9IC6NzqrC80V6JS/W/Avu6NmqJP1mCR6
+   b33FX+xwR2+1kiO3m2x5mxNwAtf/DxDkauHBKfhJn93u0vHnJ1l/bQuu5
+   wJSKs2oNRWggS5QTv0NEbVtd74UN5U4CQap0G8q9Jdgq/FIcwG03Zbw9K
+   QtFqE8XNoHG8APAxqJWxa7CqZZ5odRxMlAfl8XnuwWCgS4hGQgY1YJFdQ
    A==;
-X-CSE-ConnectionGUID: 0QI4tpjvQduYnn2QiwRetg==
-X-CSE-MsgGUID: XKhWXehFS/O3g5gI/gmeNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79074336"
+X-CSE-ConnectionGUID: u/r2Yd3KSHWOMF19p++L8g==
+X-CSE-MsgGUID: W1+qafkDRIOeRhqF9hh1tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79082126"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="79074336"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 06:28:42 -0700
-X-CSE-ConnectionGUID: XfD2luXiRqKkkPcIbo3Ckw==
-X-CSE-MsgGUID: 5xP3FTH6TZObRO5YxyK/AQ==
+   d="scan'208";a="79082126"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 06:36:52 -0700
+X-CSE-ConnectionGUID: 4FJWrfOnRb6lB7EFcc4zLQ==
+X-CSE-MsgGUID: SCtanwrKTzWi5iKApOEg+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="221796224"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.36]) ([10.245.245.36])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 06:28:40 -0700
-Message-ID: <420a8205-6a95-4e8a-852e-f3094200e5b1@linux.intel.com>
-Date: Wed, 25 Mar 2026 15:28:55 +0200
+   d="scan'208";a="228749150"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 25 Mar 2026 06:36:48 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5OPd-00000000705-2sLi;
+	Wed, 25 Mar 2026 13:36:45 +0000
+Date: Wed, 25 Mar 2026 21:35:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Subject: Re: [PATCH] ASoC: SDCA: Write init table on function status IRQ
+Message-ID: <202603252109.uP5pmwdI-lkp@intel.com>
+References: <20260324-sdca-function-status-init-irq-v1-1-bba49417a4e0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
- 'jumpy DMA'
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Mark Brown <broonie@kernel.org>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
- wim.taymans@gmail.com
-References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
- <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
- <8fe7f61b-dae4-4ae6-aa96-7e604a37e624@linux.intel.com>
- <813612ea-f942-432f-9bf1-7b1ccfe59046@perex.cz>
- <6b129498-f130-44a0-a679-6fa1c639046e@linux.intel.com>
- <a3eaedae-f23b-46ac-9e8f-a6167df7ef41@perex.cz>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <a3eaedae-f23b-46ac-9e8f-a6167df7ef41@perex.cz>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260324-sdca-function-status-init-irq-v1-1-bba49417a4e0@gmail.com>
+
+Hi Cássio,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 834f16f74d88054df215eebef09ad864c7e5977c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/C-ssio-Gabriel/ASoC-SDCA-Write-init-table-on-function-status-IRQ/20260325-094213
+base:   834f16f74d88054df215eebef09ad864c7e5977c
+patch link:    https://lore.kernel.org/r/20260324-sdca-function-status-init-irq-v1-1-bba49417a4e0%40gmail.com
+patch subject: [PATCH] ASoC: SDCA: Write init table on function status IRQ
+config: x86_64-randconfig-003-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252109.uP5pmwdI-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252109.uP5pmwdI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252109.uP5pmwdI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/soc/sdca/sdca_interrupts.c:148:3: error: cannot jump from switch statement to this case label
+     148 |                 case SDCA_CTL_ENTITY_0_FUNCTION_HAS_BEEN_RESET:
+         |                 ^
+   sound/soc/sdca/sdca_interrupts.c:127:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     127 |                         guard(mutex)(interrupt->init_lock);
+         |                         ^
+   include/linux/cleanup.h:419:2: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:300:3: note: expanded from macro 'CLASS'
+     300 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:65:1: note: expanded from here
+      65 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:71:1: note: expanded from here
+      71 | __UNIQUE_ID_unlock_454
+         | ^
+   sound/soc/sdca/sdca_interrupts.c:127:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:419:15: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:59:1: note: expanded from here
+      59 | __UNIQUE_ID_guard_453
+         | ^
+   sound/soc/sdca/sdca_interrupts.c:147:3: error: cannot jump from switch statement to this case label
+     147 |                 case SDCA_CTL_ENTITY_0_STREAMING_STOPPED_ABNORMALLY:
+         |                 ^
+   sound/soc/sdca/sdca_interrupts.c:127:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     127 |                         guard(mutex)(interrupt->init_lock);
+         |                         ^
+   include/linux/cleanup.h:419:2: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:300:3: note: expanded from macro 'CLASS'
+     300 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:65:1: note: expanded from here
+      65 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:71:1: note: expanded from here
+      71 | __UNIQUE_ID_unlock_454
+         | ^
+   sound/soc/sdca/sdca_interrupts.c:127:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:419:15: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
+     168 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:59:1: note: expanded from here
+      59 | __UNIQUE_ID_guard_453
+         | ^
+   sound/soc/sdca/sdca_interrupts.c:146:3: error: cannot jump from switch statement to this case label
+     146 |                 case SDCA_CTL_ENTITY_0_INTS_DISABLED_ABNORMALLY:
+         |                 ^
+   sound/soc/sdca/sdca_interrupts.c:127:4: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     127 |                         guard(mutex)(interrupt->init_lock);
+         |                         ^
+   include/linux/cleanup.h:419:2: note: expanded from macro 'guard'
+     419 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:300:3: note: expanded from macro 'CLASS'
+     300 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:65:1: note: expanded from here
+      65 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
 
 
+vim +148 sound/soc/sdca/sdca_interrupts.c
 
-On 24/03/2026 17:48, Jaroslav Kysela wrote:
-> On 3/24/26 11:51, PÃ©ter Ujfalusi wrote:
-> 
->>> But if we agree on other name like 'burst_size' or 'batch_size', I'll be
->>> fine with it, too.
->>
->> I think neither of these are right, unless we substitute them with a
->> variable which tells the size of the FIFO in hardware that is going to
->> be filled.
->> max_hw_ptr_burst_size or max_dma_burst_size or max_burst_size - in
->> frames?
-> 
-> I missed the 100ms + 1ms case (it was a bit hidden in the examples).
-
-Sorry about that, too much sometimes result less ;)
-
-> Looking to this again, I think that the terminology should be more
-> abstracted. The DMA word is not appropriate in this contents. Even the
-> burst word is not so good. Also, applications do not work with hw_ptr,
-> but with the avail / delay values (calculated from the head [hw_ptr] /
-> tail [appl_ptr] - playback).
-> 
-> I think that we both mean similar thing, but the question is how to
-> define the right API for it.
-
-Yes, I agree.
-
-> Basically, for playback this value should be the "minimal fill"
-> recommendation to avoid underruns. So for your examples, it should be
-> 101ms or 196ms (but in samples) right ?
-> 
-> If we look to other direction (capture), it may describe the "maximal
-> sample block" which will be put to the audio buffer (hw_ptr change).
-> 
-> So, perhaps, the xfer_latency name may be used (value should be in
-> samples)? Applications should not go bellow this value.
-
-Looking at the PW code (spa/plugins/alsa/alsa-pcm.c) and I sort of
-started to appreciate the 'headroom' term.
-
-I disagree that this is not about DMA or about burst since it is
-precisely about that. It can be viewed as 'latency' but the latency is
-reported via the delay and the delay fluctuates over time based on how
-the DSP FIFO drains and fills.
-
-What we want to tell applications is to be careful as the hw_ptr is not
-running in steady pace, but it is jumping, bursting, uses bigger steps.
-If we really want to be precise, we would want to expose two numbers:
-A: the size of the FIFO will will be filled initially
-B: the size of the steps which the hw_ptr will move after the initial
-burst. This is also the 'distance' of these steps
-
-So, again the 100ms FIFO:
-A=100ms
-B=96ms
-
-start: hw_ptr moves to 100ms and will stay there for 96ms
-50ms: hw_ptr is still at 100ms
-96ms: hw_ptr jumps to 196ms and will stay there for 96ms
-...
-if you want to predict where the hw_ptr will be at any given time of
-Xms hw_ptr: 100 + roundown(X - 100, 96) // if I'm right
-
-A=100ms
-B=1ms
-
-start: hw_ptr moves to 100ms and will stay there for 1ms
-50ms: hw_ptr is at 150ms
-96ms: hw_ptr is at 196ms
-...
-if you want to predict where the hw_ptr will be at any given time of
-Xms hw_ptr: 100 + roundown(X - 100, 1) // if I'm right
-
-The kernel cannot predict how application is planning to manage the
-buffer, but if it knows when it will wake up then it can pre-calculate
-the amount of data it must provide to avoid xrun.
-
-If B is not provided they can use B=A a rughstimate ;)
-
-On capture side the hw_ptr will jump by B, A have no relevance.
-
-A: hw_buffer_size
-B: hw_buffer_refill_step_size
-
-s/hw_buffer/offload ?
-
-PW then probably can use these:
-state->start_delay = hw_buffer_size;
-state->headroom = hw_buffer_refill_step_size
-
-and on start/xrun it might need to provide
-state->start_delay + max(state->start_delay, state->headroom)
-or to the distance that it is planning to wake up.
-
-Likely applications can work this out even with A to keep things simple.
+b126394d9ec6f9 Maciej Strozek 2025-06-24   91  
+b9ab3b61824190 Charles Keepax 2025-06-24   92  static irqreturn_t function_status_handler(int irq, void *data)
+b9ab3b61824190 Charles Keepax 2025-06-24   93  {
+b9ab3b61824190 Charles Keepax 2025-06-24   94  	struct sdca_interrupt *interrupt = data;
+dfe7c3401ed3d3 Charles Keepax 2025-10-20   95  	struct device *dev = interrupt->dev;
+907364ea3db475 Charles Keepax 2025-10-20   96  	irqreturn_t irqret = IRQ_NONE;
+b9ab3b61824190 Charles Keepax 2025-06-24   97  	unsigned int reg, val;
+b9ab3b61824190 Charles Keepax 2025-06-24   98  	unsigned long status;
+b9ab3b61824190 Charles Keepax 2025-06-24   99  	unsigned int mask;
+b9ab3b61824190 Charles Keepax 2025-06-24  100  	int ret;
+b9ab3b61824190 Charles Keepax 2025-06-24  101  
+907364ea3db475 Charles Keepax 2025-10-20  102  	ret = pm_runtime_get_sync(dev);
+907364ea3db475 Charles Keepax 2025-10-20  103  	if (ret < 0) {
+907364ea3db475 Charles Keepax 2025-10-20  104  		dev_err(dev, "failed to resume for function status: %d\n", ret);
+907364ea3db475 Charles Keepax 2025-10-20  105  		goto error;
+907364ea3db475 Charles Keepax 2025-10-20  106  	}
+907364ea3db475 Charles Keepax 2025-10-20  107  
+b9ab3b61824190 Charles Keepax 2025-06-24  108  	reg = SDW_SDCA_CTL(interrupt->function->desc->adr, interrupt->entity->id,
+b9ab3b61824190 Charles Keepax 2025-06-24  109  			   interrupt->control->sel, 0);
+b9ab3b61824190 Charles Keepax 2025-06-24  110  
+dfe7c3401ed3d3 Charles Keepax 2025-10-20  111  	ret = regmap_read(interrupt->function_regmap, reg, &val);
+b9ab3b61824190 Charles Keepax 2025-06-24  112  	if (ret < 0) {
+b9ab3b61824190 Charles Keepax 2025-06-24  113  		dev_err(dev, "failed to read function status: %d\n", ret);
+907364ea3db475 Charles Keepax 2025-10-20  114  		goto error;
+b9ab3b61824190 Charles Keepax 2025-06-24  115  	}
+b9ab3b61824190 Charles Keepax 2025-06-24  116  
+b9ab3b61824190 Charles Keepax 2025-06-24  117  	dev_dbg(dev, "function status: %#x\n", val);
+b9ab3b61824190 Charles Keepax 2025-06-24  118  
+b9ab3b61824190 Charles Keepax 2025-06-24  119  	status = val;
+b9ab3b61824190 Charles Keepax 2025-06-24  120  	for_each_set_bit(mask, &status, BITS_PER_BYTE) {
+b9ab3b61824190 Charles Keepax 2025-06-24  121  		mask = 1 << mask;
+b9ab3b61824190 Charles Keepax 2025-06-24  122  
+b9ab3b61824190 Charles Keepax 2025-06-24  123  		switch (mask) {
+b9ab3b61824190 Charles Keepax 2025-06-24  124  		case SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION:
+d5a290177c76b9 Cássio Gabriel 2026-03-24  125  			dev_dbg(dev, "write initialization\n");
+d5a290177c76b9 Cássio Gabriel 2026-03-24  126  
+d5a290177c76b9 Cássio Gabriel 2026-03-24  127  			guard(mutex)(interrupt->init_lock);
+d5a290177c76b9 Cássio Gabriel 2026-03-24  128  
+d5a290177c76b9 Cássio Gabriel 2026-03-24  129  			ret = sdca_regmap_write_init(dev, interrupt->device_regmap,
+d5a290177c76b9 Cássio Gabriel 2026-03-24  130  						     interrupt->function);
+d5a290177c76b9 Cássio Gabriel 2026-03-24  131  			if (ret) {
+d5a290177c76b9 Cássio Gabriel 2026-03-24  132  				dev_err(dev, "failed to write initialization: %d\n", ret);
+d5a290177c76b9 Cássio Gabriel 2026-03-24  133  				goto error;
+d5a290177c76b9 Cássio Gabriel 2026-03-24  134  			}
+b9ab3b61824190 Charles Keepax 2025-06-24  135  			break;
+b9ab3b61824190 Charles Keepax 2025-06-24  136  		case SDCA_CTL_ENTITY_0_FUNCTION_FAULT:
+b9ab3b61824190 Charles Keepax 2025-06-24  137  			dev_err(dev, "function fault\n");
+b9ab3b61824190 Charles Keepax 2025-06-24  138  			break;
+b9ab3b61824190 Charles Keepax 2025-06-24  139  		case SDCA_CTL_ENTITY_0_UMP_SEQUENCE_FAULT:
+b9ab3b61824190 Charles Keepax 2025-06-24  140  			dev_err(dev, "ump sequence fault\n");
+b9ab3b61824190 Charles Keepax 2025-06-24  141  			break;
+b9ab3b61824190 Charles Keepax 2025-06-24  142  		case SDCA_CTL_ENTITY_0_FUNCTION_BUSY:
+b9ab3b61824190 Charles Keepax 2025-06-24  143  			dev_info(dev, "unexpected function busy\n");
+b9ab3b61824190 Charles Keepax 2025-06-24  144  			break;
+b9ab3b61824190 Charles Keepax 2025-06-24  145  		case SDCA_CTL_ENTITY_0_DEVICE_NEWLY_ATTACHED:
+b9ab3b61824190 Charles Keepax 2025-06-24  146  		case SDCA_CTL_ENTITY_0_INTS_DISABLED_ABNORMALLY:
+b9ab3b61824190 Charles Keepax 2025-06-24  147  		case SDCA_CTL_ENTITY_0_STREAMING_STOPPED_ABNORMALLY:
+b9ab3b61824190 Charles Keepax 2025-06-24 @148  		case SDCA_CTL_ENTITY_0_FUNCTION_HAS_BEEN_RESET:
+b9ab3b61824190 Charles Keepax 2025-06-24  149  			break;
+b9ab3b61824190 Charles Keepax 2025-06-24  150  		}
+b9ab3b61824190 Charles Keepax 2025-06-24  151  	}
+b9ab3b61824190 Charles Keepax 2025-06-24  152  
+dfe7c3401ed3d3 Charles Keepax 2025-10-20  153  	ret = regmap_write(interrupt->function_regmap, reg, val);
+b9ab3b61824190 Charles Keepax 2025-06-24  154  	if (ret < 0) {
+b9ab3b61824190 Charles Keepax 2025-06-24  155  		dev_err(dev, "failed to clear function status: %d\n", ret);
+907364ea3db475 Charles Keepax 2025-10-20  156  		goto error;
+b9ab3b61824190 Charles Keepax 2025-06-24  157  	}
+b9ab3b61824190 Charles Keepax 2025-06-24  158  
+907364ea3db475 Charles Keepax 2025-10-20  159  	irqret = IRQ_HANDLED;
+907364ea3db475 Charles Keepax 2025-10-20  160  error:
+907364ea3db475 Charles Keepax 2025-10-20  161  	pm_runtime_put(dev);
+907364ea3db475 Charles Keepax 2025-10-20  162  	return irqret;
+b9ab3b61824190 Charles Keepax 2025-06-24  163  }
+b9ab3b61824190 Charles Keepax 2025-06-24  164  
 
 -- 
-PÃ©ter
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
