@@ -1,152 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4332134D91C;
-	Thu, 26 Mar 2026 10:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AA138654F;
+	Thu, 26 Mar 2026 10:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774519762; cv=none; b=nlSFA2yTQ5TZYEwhPAg75JRnTkEht9HDKgLXu8+U7nUZbAWzZ6D4ozgXeW25UQXO2p8UZ4mI30HgZuomA980PdrkmBZNgSX1pgKqsqWuV56V6JxniVW8dMksmVa10Dr3qBBHKhUg24bvFjx2/ARCnuc7h5wzCeveKzGEFxUmeaY=
+	t=1774519854; cv=none; b=Zv60GVcmPYrnHGR4m54S0CWhsyxUzvwbkRySxL1bc8c0p8LKR9717xacS3SkhUuGS2tkgyEqQZFRmhwYpF0MqfU1DbCS//6OnCMZjNgfP3RorxYuLhEwsoIZX95t9r9DbbcW39KUuBXMvWa54N1yYadxRzvf6neT5D6IIOkv28I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774519762; c=relaxed/simple;
-	bh=s+D4558G3oU8R0YvDMEI/gfGDw/0rkU3Qj/wYtVwG2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LOsrag7ujoLzYKS0rDn6CWYW63HcJ4CcA3PUtiooBagKIqr4xgN0OesUIccxacJGg4YFx661i80NHAIy+jQqDBTmFkTTNevgFyk8nRBHW8jLlmBEF7M0S1rb05q0qtXzRqMge2GVxlM6Qb9mIkGtVG3m8quGEd6WB3q+C0PYDoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYuJCsiP; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774519854; c=relaxed/simple;
+	bh=X9jWGad29xfQfcjNIkkri4KPRYGLbh9EGVdw9yXVi8w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y2+PD4FTe/NgRTk2gjAjw/WqLTP7xNi+JOLxrVICH3FSeSJau/l75+KnD39BN3BfcPZ5EPp8AQaYdWrXKYhlHvqgGpiOll88AaFoyfdLXOZ4Dm3bL+nHOYH7uXXIGjAqYDOpAKbpNzksA39SUafxSOKXFOkNpMkHul8X54vBmeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3nTle62; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYuJCsiP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774519761; x=1806055761;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=s+D4558G3oU8R0YvDMEI/gfGDw/0rkU3Qj/wYtVwG2o=;
-  b=lYuJCsiPry+Pjj4EJClsmXfxcR8FHHM/g7p42LLX+7Pq94FJ+6ajEpad
-   7hE+HmNpAELzane0MuXG2VZerhKd5RrWyzTWDsTMfZM6bEtGt5qe/nphS
-   aLNyxIp7aFRgwR3rceC9MRv5UbsFR6JVLqhWHY632JMwNqTL8ytFOMovS
-   SuBEn5nLVNidaXySm8aSEMpcF5+KlDhHKqYdvV87v8pqI/FgnL5oOBECJ
-   xl43I2dfAzCzpOT2eveX5Uq5pGbQkspcAJclVgI7feQLrUEwtqrsJ5Aaz
-   ZHr5jrT9+dLpfIk32isqB7XynNI8XD1Kc1UJwGOz7nNZ35wuyAzj47S58
-   w==;
-X-CSE-ConnectionGUID: Fazig4wmQISX5HaCVl09vg==
-X-CSE-MsgGUID: ADoksTXtT/GIJ8b1U8HY5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="63124611"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="63124611"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 03:09:20 -0700
-X-CSE-ConnectionGUID: fKBdK13SSMe1TNDTxNivJw==
-X-CSE-MsgGUID: Tqpkcb8CStiia4SibxGC/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="262875048"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Mar 2026 03:09:17 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5heM-000000008kX-0sHk;
-	Thu, 26 Mar 2026 10:09:14 +0000
-Date: Thu, 26 Mar 2026 18:08:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jaya Kumar <jayakumar.alsa@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
-Message-ID: <202603261710.M57Gdhep-lkp@intel.com>
-References: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3nTle62"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9953CC2BC87;
+	Thu, 26 Mar 2026 10:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774519853;
+	bh=X9jWGad29xfQfcjNIkkri4KPRYGLbh9EGVdw9yXVi8w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O3nTle62dQ2zWrqvr+Ahw1jzQmuC7iFRxxmyEjbm9ZwLC1mr5kBJvxfGwezi7BRhh
+	 oRG+3lffFyntNtG6McZF4Bqhvd34+TdpOK+YIXzPctTXKRnVIFZccMm6IeLKGs5DIp
+	 PJ+IB4CRLwdUIJJE/2Anf6OPwADcmrslAptKJHpt7MAtQfImG5IWzMnSaXrExyDXz+
+	 UM1M+DIjhkRa83t9E54JxoDxE68kgpV14DNV0I15n58haK2tOKrK8CxCqpd3UWfZiE
+	 jujnDPVURHCZKt2ieAYwdnrsNozOyxVwEWel/oLuwxPvBKhF1N87PmBWUqwwzlgy+S
+	 wffovY+GByqGA==
+Message-ID: <376ad62e-e6b5-438b-a23a-0988b6489e5c@kernel.org>
+Date: Thu, 26 Mar 2026 11:10:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/4] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document
+ DAI subnode
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+References: <20260309111300.2484262-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260309111300.2484262-2-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260310-crazy-screeching-angelfish-297bab@quoll>
+ <a7e7f32e-e365-4504-8ce9-1aada01bc52c@oss.qualcomm.com>
+ <fc9e0399-dc24-48c4-99db-f9e39a79cda7@kernel.org>
+ <138dee9e-56e7-43a0-bcbd-0e4db4d5b5af@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <138dee9e-56e7-43a0-bcbd-0e4db4d5b5af@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+On 26/03/2026 10:57, Mohammad Rafi Shaik wrote:
+> 
+> 
+> On 3/17/2026 12:41 PM, Krzysztof Kozlowski wrote:
+>> On 17/03/2026 06:27, Mohammad Rafi Shaik wrote:
+>>>
+>>>
+>>> On 3/10/2026 3:25 PM, Krzysztof Kozlowski wrote:
+>>>> On Mon, Mar 09, 2026 at 04:42:57PM +0530, Mohammad Rafi Shaik wrote:
+>>>>> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
+>>>>> describe Digital Audio Interface (DAI) child nodes.
+>>>>>
+>>>>> Add #address-cells and #size-cells to allow representation of multiple
+>>>>> DAI instances as child nodes, and define a dai@<id> pattern to document
+>>>>> per-DAI properties such as the interface ID and associated clocks.
+>>>>>
+>>>>> Qualcomm platforms like talos integrate third-party audio codecs or use
+>>>>> different external audio paths. These designs often require additional
+>>>>> configuration such as explicit MI2S MCLK settings for audio to work.
+>>>>>
+>>>>> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>>>>> ---
+>>>>>    .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 41 ++++++++++++++++++-
+>>>>>    1 file changed, 40 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>>>> index 2fb95544d..1d770cbcb 100644
+>>>>> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>>>> @@ -21,6 +21,34 @@ properties:
+>>>>>      '#sound-dai-cells':
+>>>>>        const: 1
+>>>>>    
+>>>>> +  '#address-cells':
+>>>>> +    const: 1
+>>>>> +
+>>>>> +  '#size-cells':
+>>>>> +    const: 0
+>>>>> +
+>>>>> +# Digital Audio Interfaces
+>>>>> +patternProperties:
+>>>>> +  '^dai@[0-9]+$':
+>>>>> +    type: object
+>>>>> +    description:
+>>>>> +      Q6DSP Digital Audio Interfaces.
+>>>>> +
+>>>>> +    properties:
+>>>>> +      reg:
+>>>>> +        description:
+>>>>> +          Digital Audio Interface ID
+>>>>> +
+>>>>> +      clocks:
+>>>>> +        minItems: 1
+>>>>> +        maxItems: 3
+>>>>> +
+>>>>> +      clock-names:
+>>>>> +        minItems: 1
+>>>>> +        maxItems: 3
+>>>>
+>>>> No, this is just way too generic. There is no such syntax in the kernel
+>>>> and this should stop you right there. You are not allowed to add your
+>>>> own style.
+>>>>
+>>>> I don't think DAI is here a separate device needing its own resources
+>>>> expressed in DT. This is still part of ADSP so you just described in DT
+>>>> internal routing between two services on ADSP.
+>>>>
+>>>
+>>> Thanks for reviewing.
+>>>
+>>> I’d like to clarify that this is not intended to model the DAI as a
+>>> separate physical device or to describe internal ADSP routing.
+>>
+>> If you do not want to represent the physical device, then I don't think
+>> it should be represented at all.
+>>
+>>>
+>>> Requirement is to allow the kernel to send clock‑voting requests to the
+>>> ADSP. LPASS MCLK routing is not enabled by default on the ADSP, so the
+>>> kernel must explicitly request the ADSP to enable the relevant LPASS
+>>> MCLKs, which is a real hardware control requirement.
+>>>
+>>> These clocks are LPASS‑owned, and driving them via a third‑party codec
+>>> is not appropriate. The intent of adding clock capabilities at the DAI
+>>> level is to allow the kernel to associate LPASS clock votes with a
+>>> specific DAI instance during stream activity.
+>>>
+>>> While the DAI itself is not a physical device, some DT representation is
+>>> required to describe per‑DAI LPASS clock requirements.
+>>
+>> DT's purpose is not to describe software constructs, thus DT is not the
+>> answer to your requirement of mapping clocks to specific DAI needs.
+>> Every person adding software properties made "some DT representation is
+>> required" claim.
+>>
+>>>
+>>> I’m open to considering alternative representations, but removing this
+>>> entirely would leave no generic way for the kernel to handle correct
+>>> LPASS MCLK voting.
+>>
+>> I imagine that, since this is software construct, the software knows
+>> which DAI needs which clock. Clocks are strictly defined, thus driver
+>> should handle all this.
+>>
+> 
+> No, the MCLK connection is not fixed to a specific DAI.
+> 
+> The LPASS MCLKs
+> LPASS_CLK_ID_MCLK_1 … LPASS_CLK_ID_MCLK_5
+> 
+> are hard‑wired connection, each physically routed to an external codec 
+> on the board.
+> 
+> Because of this, the clock that must be voted depends purely on the 
+> hardware wiring, not on which DAI (Primary/Secondary/Tertiary/Quaternary 
+> MI2S) is used.
 
-kernel test robot noticed the following build errors:
+If they are routed to external codecs, then they are already present in
+these nodes and duplicating them here is not necessary.
 
-[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+> 
+> In other words, DAI ↔ MCLK is not a fixed mapping.
+> 
+> Examples:
+> On Talos‑EVK, the speaker is connected via Primary MI2S, but the 
+> corresponding MCLK line wired to the codec is LPASS_CLK_ID_MCLK_2.
+> 
+> On Kodiak, the customer connected an SGTL5000 codec via Quaternary MI2S, 
+> yet the required MCLK is still LPASS_CLK_ID_MCLK_2.
+> 
+> Instead, the kernel must vote for the MCLK that is physically connected 
+> to the external codec on that specific board.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/RFT-x86_32-Move-OLPC-XO-1-audio-GPIO-to-software-nodes/20260326-073823
-base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-patch link:    https://lore.kernel.org/r/20260325-asoc-olpc-v1-1-ebe6de05c7e2%40kernel.org
-patch subject: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603261710.M57Gdhep-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261710.M57Gdhep-lkp@intel.com/reproduce)
+No, the external codec driver must vote for that MCLK.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261710.M57Gdhep-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> sound/pci/cs5535audio/cs5535audio.c:167:26: error: incompatible pointer types passing 'struct cs5535audio *' to parameter of type 'struct snd_ac97 *' [-Wincompatible-pointer-types]
-     167 |         err = olpc_quirks(card, cs5535au);
-         |                                 ^~~~~~~~
-   sound/pci/cs5535audio/cs5535audio.h:128:71: note: passing argument to parameter 'ac97' here
-     128 | static inline int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97)
-         |                                                                       ^
-   1 error generated.
-
-
-vim +167 sound/pci/cs5535audio/cs5535audio.c
-
-   134	
-   135	static int snd_cs5535audio_mixer(struct cs5535audio *cs5535au)
-   136	{
-   137		struct snd_card *card = cs5535au->card;
-   138		struct snd_ac97_bus *pbus;
-   139		struct snd_ac97_template ac97;
-   140		int err;
-   141		static const struct snd_ac97_bus_ops ops = {
-   142			.write = snd_cs5535audio_ac97_codec_write,
-   143			.read = snd_cs5535audio_ac97_codec_read,
-   144		};
-   145	
-   146		err = snd_ac97_bus(card, 0, &ops, NULL, &pbus);
-   147		if (err < 0)
-   148			return err;
-   149	
-   150		memset(&ac97, 0, sizeof(ac97));
-   151		ac97.scaps = AC97_SCAP_AUDIO | AC97_SCAP_SKIP_MODEM
-   152				| AC97_SCAP_POWER_SAVE;
-   153		ac97.private_data = cs5535au;
-   154		ac97.pci = cs5535au->pci;
-   155	
-   156		/* set any OLPC-specific scaps */
-   157		olpc_prequirks(card, &ac97);
-   158	
-   159		err = snd_ac97_mixer(pbus, &ac97, &cs5535au->ac97);
-   160		if (err < 0) {
-   161			dev_err(card->dev, "mixer failed\n");
-   162			return err;
-   163		}
-   164	
-   165		snd_ac97_tune_hardware(cs5535au->ac97, ac97_quirks, ac97_quirk);
-   166	
- > 167		err = olpc_quirks(card, cs5535au);
-   168		if (err < 0) {
-   169			dev_err(card->dev, "olpc quirks failed\n");
-   170			return err;
-   171		}
-   172	
-   173		return 0;
-   174	}
-   175	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
