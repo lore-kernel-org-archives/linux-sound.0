@@ -1,173 +1,160 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012014.outbound.protection.outlook.com [52.101.66.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5520334B192
-	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 02:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774492274; cv=none; b=jAc+CyPXWfv2EyNnvA1SrRiwZ8Bv/croB+/NDbWqIUvGdFdXiyCbzSaI6mKXGsKBTwpLGsSeuHNYIXlXDkTMlA7TtqjbV3P3zHu6elyWGjIy73p8BEOmXw12eIY3oR4MrhiOsFnPR/v2fyirpC+fR006lqdjzhUDlc7vQ45l6u0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774492274; c=relaxed/simple;
-	bh=jQfNAZzZ4dda+HzpCv0yCuQI7I25AxD4tAt/W/mftOY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKqnKkterbReTIRJntDepvECHSujVI+1Y/FAt/dFitnNt+0kcJMvEp1Wndrw7pREFXt61ef36u2btBLOtg3EO9SbL1pFQQkTj+soLnXJys9vraMxtq7DVZTRoDJ7YXfEgXSCmeQWVBYv6bXW+zzUH57mPl1D3oAJOtE3u8pjY5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cLlVGEJQ; arc=none smtp.client-ip=74.125.82.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E097177F39;
+	Thu, 26 Mar 2026 02:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774493658; cv=fail; b=gzAr78pTvUz234K6dDKKHcdkDqf40/oAnG8l3Y7Ejb7XSgUGtHyhkld4p5MLvOaFjnEhrE0IqAuf3quwRsS1tkL7FNbo26vUATje9ZEZPLwbvm5NSIeYIhFF+mzRyFtf7BbrRZLm+f1yGCLGWlAJ0Xsc/IotF90iSN2ivj0wrDo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774493658; c=relaxed/simple;
+	bh=AMlEhtWq3IBO8QmqXM9rszXXpQ+UcLWAO//mc0WOoEM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RRuiNy9s3v31JU+72ZF2CVZz5YBCDLhjOPLdUhYshkXqAIFV7hRiL5Wfe+cJZL5qv2tFrBO1Ar/dB7XhWF8jDBQIpJGQoX7nNd9zzyjba1RIaSs0RiQIsLvi+Q30FsS0EwHGLQKLbPZLoJ7q1fVuqsyLBdlGbiZzAXygID37JQU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=M/rnnKbx; arc=fail smtp.client-ip=52.101.66.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cLlVGEJQ"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12776bebe9fso971882c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 25 Mar 2026 19:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774492272; x=1775097072; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pBcJSzFuctU+GfEBiYZvWLtMmVeo006YejPME9qEv9c=;
-        b=cLlVGEJQaDqEna6V66S6gjHvuerZfPes7FPEfzX+hWVG1SUD2/ixCFxXR2cZHxBcNG
-         9kxUM9pw2lDBaSIbXNWJrQZkywe3OkXNBYlzx1puDpks+xTreldg7mBP0iLYFbpzyCsF
-         kiXhJqjzBsYVxPEfPA+qf3/VJTaTKgqCB0hR+2fzCxXL8vJIGoW/HMuygFbyJucVlnxy
-         Y2OZG+EyMHS+knvJ8DdN0ooAvcBdJ88QaVp656VFAdvV7OZWGKSfziZ5bBu7w9e16BDE
-         t5/ZKg//zdBf9koa0w7aoYVch5LMHh7hBRSKO9FrwQBsePkg72+dlqZQbfFbFkbyTQVC
-         bUdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774492272; x=1775097072;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pBcJSzFuctU+GfEBiYZvWLtMmVeo006YejPME9qEv9c=;
-        b=Dze8u8LPgTVbY3avW/JD3XC5MovKnILpCtRVXkXDqrCaIRJvUgDjCNPLLBWBF/A5nQ
-         KHEhWeSGJc7p5xkC1AJLpD98HE1CgopzRyb+BOL9cHdLjE0hLkxCLJhmKe+nSMhvk0qi
-         16ddni6gsVDXC0oNwRNQiUwuhpAZb5XTeadNXBRyBfEXrtcZQN9IWXNt2dNyPg341zCK
-         CAuHdN2cVWXtlxEggjxKwWYyU/14bMHXKojzgSWlo7EafM5FSpwfArC4g373NpitLlK6
-         VJ+dIawNUR6f4Mks3+7M7Z6HuMqDeumNQtot3rnZgQA3G+HKLOIdVFoxhotG65wSR6M4
-         T3zw==
-X-Gm-Message-State: AOJu0Yw9FhxW7g/NLhmvxY2s4ol+j2IyCyjqu15NZwnqW++5B6s+pt1J
-	YiJCH9A98Ve9jzv2R5sm1myYNbJhTscnXqpFIeKEyozcNtmj9qfvwrSjN8uTAKkE
-X-Gm-Gg: ATEYQzz6qM+0gQFL+tK5VFHszFznEolJmoaaergCg2PJnQAF9DPCyIEA5ky/TA2YI4M
-	Led6+Va4yE30Fo5eaZJOejRyAHUkDGu6c3IAcfTKU0b4lgGOiLyjNaDM9y1hvnCdeU1h554pQn1
-	z0lp/o+k6rkwXO8ws9pVwNUJUqzBB/z9fqHx3Z69btW6B13JWlSOHT5ODi1YbjLKt6tyHgP9odE
-	3KeXWUNT4PPWlGmPPabZDKlbO6h8bU+IEC8v+egRBq6B9Zu8ifF/8Uf8ZlbwYLEB7O1waSD6ryr
-	KbYSzBITo0G0cE1UPiO0gmE4T+oz6NASiNd2E7VGlfw+eb5GNNaXvgxVvkm5a5U4ZkN/bUfQXDu
-	tbSPx4TZKXFehYNkfEwM3qtlcey0TULlD+ilhbFSx0TAyFa4rtDqRTXOBwJv68jZBzf3SHnTzuM
-	adRdyJaAS7mYPnC+hzbX85v2+okuBxdLDNo+gzNOlff88ufzS6axXSpag=
-X-Received: by 2002:a05:7022:ec86:b0:119:e569:f277 with SMTP id a92af1059eb24-12a96eeafbfmr3092480c88.32.1774492271674;
-        Wed, 25 Mar 2026 19:31:11 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d::8bd])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12aa6e5beb2sm2181796c88.1.2026.03.25.19.31.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 19:31:11 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	sound-open-firmware@alsa-project.org (moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS),
-	linux-kernel@vger.kernel.org (open list),
-	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
-Subject: [PATCH] ASoC: SOF: topology: use kzalloc_flex
-Date: Wed, 25 Mar 2026 19:30:53 -0700
-Message-ID: <20260326023053.53493-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="M/rnnKbx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I3cBJ6zEEs4n9jyzTHVfHjFTPPnj0oE7TDfkh6h2iOMVFCcjwePFllZUZArPusN6qLpKIM9mVYe6ZSglUtZS+NeOKG9sTmRi7MrFPydCQh1+tQ0IKLI4YLYMwkoRcCYh0SW/5WijrCkueQbxCPl93THdWe0M+m++FWDsleCDPNmhfIiRGfXM5aKDz9eAvB7LrGsfJqjq7/E86KmmEG8pqen2JB5Iv5HC9frkV6Hp1UatkXh0qLkf81m4CbikKf//lQyxGkJRZ/WvDnsq01YNeIpECq7hyjaDiWc1P/gJxmHtXduoryOOddOpcha3ExQIyKBvfAaKElB2zXKR8R7n2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AMlEhtWq3IBO8QmqXM9rszXXpQ+UcLWAO//mc0WOoEM=;
+ b=A+pZL28AXNV6hc/PZKrJoosrxKocpI2BpJtvbNrXkIWmBr6EgNOc8XxwKRrStBKqToTSJBR9ofcEUtJ7i3YLqx34MLeZrPPE2ncnen7lXrRAIsE6IKH6hsDbKku0fmp3Fmqhx8tH2JBYQoyNScjaOlPZxaIMa0RwLeq5yHkp3CAzLJzhaPY1WU9XikFcFF98vVPzkPxW47EaBFFuiPfjOPpXT2mzULr9orVOnQ0BA/rMStRtq63p0TLBrybOmoHaQocw2p7UXG6LlieZ7dZqcI2Uu/qQFL1QBz0HNl6UG8AEPJcHxCRkIGMyaAs/r6DUjxEMM68bPGiK1nGVKYeM7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AMlEhtWq3IBO8QmqXM9rszXXpQ+UcLWAO//mc0WOoEM=;
+ b=M/rnnKbxFQOA9klGmI1wCOXAQaSamR0SBnnJtSPenyjh71Sp8p6WYq1NIJYGp6xv20sEKYkFjsFf+UkV5XV5V+8C++5M0HM58dGzR3tOSOAaHragJWWeMXn3sDysFl7wh0Vku95qiT5MSLn3L/M3aHGSMlVEDBBmLzeoeS/i2xvZdgcSK/n18bJwMYafPtd/JEJKYg3PmAK3zgCNIQZJf0C+buI+Xu7p9p8Hx8RaMXLsYx+EH89DXUyoOBQeTbcEPI/YLDRiWuppGHkeCnaWUepnXg60L70fq2Zh6vn+hMA/crsHVjJYf12vJzjSdnKVU5Q0g3Ip8qbM3MHgyBWE5Q==
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by AMBPR04MB12614.eurprd04.prod.outlook.com (2603:10a6:20b:778::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
+ 2026 02:54:14 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9723.030; Thu, 26 Mar 2026
+ 02:54:14 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "broonie@kernel.org"
+	<broonie@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, "shengjiu.wang@gmail.com"
+	<shengjiu.wang@gmail.com>, "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+	"kernel@pengutronix.de" <kernel@pengutronix.de>, "festevam@gmail.com"
+	<festevam@gmail.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: Re: [PATCH v2] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
+Thread-Topic: Re: [PATCH v2] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
+Thread-Index: AQHcvMvU27HyemfnC0iHqCSNhDkt8g==
+Date: Thu, 26 Mar 2026 02:54:14 +0000
+Message-ID:
+ <AM9PR04MB8353E922E93AFA9F513BEA6FE356A@AM9PR04MB8353.eurprd04.prod.outlook.com>
+References: <20260310063522.362545-1-chancel.liu@nxp.com>
+ <20260311-brave-acoustic-mongrel-b3978d@quoll>
+ <AM9PR04MB83531E00C21A5A2314A38F9AE349A@AM9PR04MB8353.eurprd04.prod.outlook.com>
+ <83024a54-74dd-43b0-8c8c-0c23820bb5e0@kernel.org>
+In-Reply-To: <83024a54-74dd-43b0-8c8c-0c23820bb5e0@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR04MB8353:EE_|AMBPR04MB12614:EE_
+x-ms-office365-filtering-correlation-id: 1d4482b3-9964-4a30-860b-08de8ae2f6d5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|7416014|19092799006|366016|38070700021|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info:
+ VHtbZ7KlYHvuAWAsvA4BmIqS9z5js+yk6GAwrGKwEauLAvN1tUMYnzTdMQ86I2Bj9Rda+mJjsnbpKwVnFkk6sJuuRxFxnCAI7DnLi+uRM2rafIrpnGuuh+QN5wwGiLiH6PEW1Pz3VP9SKkhM05Qx8vX31SXtvfuH2K0Dg9XKEwf4f1K68wzBXj7+Tj/atwjs7IHc5Kp5uKNfxn5MHgkqnpnjfE9VMP2nhX4Q9UdkVBPSg8naNzkiUj+2edPWue/SH+WXMJsQRCZ5uQ6lYALnK5HSd4ro8EceYqtuw1LpqPHcQMxySGXJUcRKTZ6+mdZjrUWDc16/CEGMkdDh8kP/guEEwooJwJeXemTXvdb/VjpCdWa+MjBkygXMnhNfapLLwWZEb1ZcR5ZkcWccwKIrAyPkrT4wqG4erBR8edo+tBArI9w3PFuCZGK2yCPWkd5tYlmwuC9+unofPGvKWIU8BgJQ0eFmHZoY7wxinbWpIFerC8ZwGV3PEPj0Ox5WClT2qcDHa5cQYOglro5OmqLRnilC5LT7chVEJP72Z2Fn4+9mmxEB/P+u/ycHPN9NrGgXx7OcdYMtAEwZdCG3cxKoX5dPvKVIYc2g7xi+09MfjLhgTTebaZQrYNIRRelZnI/bpwzodlUKf6BZ3UxpF7+X6H/Tb583bKMeBnlmsEO3dn1b7UzhnZ11GkSiss8NbxWvdNF4EcclH5ShMNjXSLrtAlDS4PgtB1NDZhXhCwTXKTHDE0kRyGAYraM15yI7V+WZURYOXkTuyw2qCcLTQEP2AIgXLzYSY8QNC161c1MPclM=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(19092799006)(366016)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?TBq2gVHSlL8pzMlvk5oPLMvrFZxCVQ87uPwLUJ6q043fw1/LHuzZymNNPWV3?=
+ =?us-ascii?Q?i0u4i8Vp3VN2PPskRT1L1FW8hHQygjwimWcUzlkm+bLPGQvO3IePVxFuYQra?=
+ =?us-ascii?Q?bBaIfqhZOJ+sorCG7Ba373bNWbifksTVu/EmndCW78L4vSy1/0sAFiL40FsM?=
+ =?us-ascii?Q?ZHAdbS2MHCTGxQiGlX6WbqlgomOERTSDr25M1Zp2Ifs920lFnabfK4ifhWo6?=
+ =?us-ascii?Q?u3qZTUq+dQKRhWQdVdILC+4FIkt8rwW5JaPGbYlblB7u/N7Nz9AsR+iOmMCn?=
+ =?us-ascii?Q?R1TIMn6XsrrwKnBUbOU7RV6tf82Wba9Nd1N5TTt4EPaHH/LKIsMtJQRpASJw?=
+ =?us-ascii?Q?UuvRQikqwn3jtvqNSuahd3Yq9HXjrBfSU/tNg4WsIVGARbDXsw51AYRqGmHO?=
+ =?us-ascii?Q?IvsfJTwWcJWsmvjmBNDmKw+LXiz4gA0wKQX9RrrhXAJn4XYoM2eYGA8099YS?=
+ =?us-ascii?Q?xsBpgF5YTfzcVleKTtZ1TNqch9bUAYAJ7+VnGnVWqgt+03FnerHU37+kS+oK?=
+ =?us-ascii?Q?DDKlBUgbZR7NSNcZvgDS7/uBIeHopGgl2hK+G02P5bGbdKMHGBNFL86sEAbr?=
+ =?us-ascii?Q?0pzK260b6/irB23yU65tbDikdMm7PwexHaLm/vLBuGVexYu4Qbqllc5czPCB?=
+ =?us-ascii?Q?glNxaRWhRa+1YPZ5YHTB4s/kCDKhggzBuQMK7eNwxEWH8g3tnvUzskAarzt9?=
+ =?us-ascii?Q?z44V8s953TONE9wZC8+mJRzYXxdIMBb03xpWYtWxOz6n6WYdhSyen2VYGGcj?=
+ =?us-ascii?Q?rQuQDYa+9naK2Aj3EE2wCtb4cAOinHliGLtPKPnFStz7aderBt1AZyRToE9O?=
+ =?us-ascii?Q?uPsbQJwnS9bKAYvRXDMLpE2hjKbJ/Pfj+hlKH+HbPLOPv8WkuqajwnAkoTz0?=
+ =?us-ascii?Q?TadgbOFTcOyMGJ2HlFMTc/S5JCSuVNQ5um7OKKWH5JVE1YY2jT8jE6Uns3nK?=
+ =?us-ascii?Q?BcOhTKQMfgOaFsYEcz8g+AzoDAYBH/mPzCqP6t4Tk9goN2EGxvgoP1tqXRcZ?=
+ =?us-ascii?Q?E4SJ1wwBgAkLLqKCCIqpQtspZ4jMe/JslpSqwBoH1LflGxfQPxvTwI15f4g7?=
+ =?us-ascii?Q?5fp80CYekhiIXsGoLV06lt6KeD5XLcpbKlpHs6jUV8tBCb2FaHDFBqvebs7z?=
+ =?us-ascii?Q?Q7ZwchWHdRwzhDtKj1OTEYS/W1mLKZxjZ6bZpn+T7em82G/kjBWoKXbxfVnn?=
+ =?us-ascii?Q?P61uWnBQKeiwMeSmlANcVy+xQo8qVoPcaCwReqjSlS9zcnuf5jKTwbIwcGVF?=
+ =?us-ascii?Q?7rIE9wTKuwMIWSL4d8hrqXtIG9ZccSj8qIv98KaMtlzAMQgaOo+7HbxN3Gqd?=
+ =?us-ascii?Q?9VeNIoiVdQv4i1LyQgiAdExosqxgG/ohIQLr4rObXCu9FG6y499eYUMD40iV?=
+ =?us-ascii?Q?hymJGeY4H7KxfeJ14EBrS1HyT9HWMLxwdYoZFHzLOXwFAKgvx/iEz5q1bnY5?=
+ =?us-ascii?Q?6BeZ/1qgkySVFjqEOtSXF/h8mTJEdHEuJVRAaSX2C0EzjokOjEcKAX5lWMhm?=
+ =?us-ascii?Q?5/JyGJ4dCzFXriwvXPv4joy7y8dBsO6gwB8JeWU6G51z7qYBXlU9Eqq5GrJn?=
+ =?us-ascii?Q?eHDa2df6eiX0CBLyL7VDOJzkHMVvqQVtKORPQmt/bQsDJlEqvrrlNLDFrucD?=
+ =?us-ascii?Q?tv4mCq5dWMYi9LFZPtzLAODZnP4vecZ0K62c/pLFK1tQbRgXubrFbWPndZ5q?=
+ =?us-ascii?Q?3rDYywAUFXN0/LYxBmPcr/hjmSiBrNaUspBsY6v5zy9yDK19?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d4482b3-9964-4a30-860b-08de8ae2f6d5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2026 02:54:14.1355
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EZDlQEnEWc1R0GHDAH3Kaqs+x/5JgxLGIw70/OzFUmH/q7fqzcYYDppHxEssVx0MUbi0gG1x50XGDTq2uip/LA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB12614
 
-Simplify allocation by using a flexible array member.
+> >>> The imx-card machine driver originally supported only codecs
+> >>> operating in i2s or dsp_b formats. This machine driver can support
+> >>> CS42448 codec and this codec typically uses dsp_a for its TDM
+> >>> interface. Therefore,
+> >>
+> >> And what about other formats, which was asked last time?
+> >>
+> >
+> > The imx-card machine driver currently implements support only for
+> > codecs with i2s and dsp_b format. The newly added CS42448 codec
+> > requires dsp_a and that is why this patch adds dsp_a only. No other
+> > formats are used or supported by the existing hardware covered by this
+>=20
+> First sentence says about driver, here you speak about hardware, so feels=
+ like
+> you are mixing these.
+>=20
+> Best regards,
+> Krzysztof
 
-Add __counted_by for extra runtime analysis.
+You're right, I should not mention the driver. What I meant is that the
+existing i.MX audio sound card described by this binding use codecs
+that operate in i2s or dsp_b formats.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- sound/soc/sof/sof-audio.h |  2 +-
- sound/soc/sof/topology.c  | 14 ++------------
- 2 files changed, 3 insertions(+), 13 deletions(-)
-
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 80b11625915d..138e5fcc2dd0 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -411,11 +411,11 @@ struct snd_sof_dai_link {
- 	struct snd_sof_tuple *tuples;
- 	int num_tuples;
- 	struct snd_soc_dai_link *link;
--	struct snd_soc_tplg_hw_config *hw_configs;
- 	int num_hw_configs;
- 	int default_hw_cfg_id;
- 	int type;
- 	struct list_head list;
-+	struct snd_soc_tplg_hw_config hw_configs[] __counted_by(num_hw_configs);
- };
- 
- /* ASoC SOF DAPM widget */
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 63d637db7053..413003e86f6c 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -1908,18 +1908,12 @@ static int sof_link_load(struct snd_soc_component *scomp, int index, struct snd_
- 		return -EINVAL;
- 	}
- 
--	slink = kzalloc_obj(*slink);
-+	slink = kzalloc_flex(*slink, hw_configs, le32_to_cpu(cfg->num_hw_configs));
- 	if (!slink)
- 		return -ENOMEM;
- 
- 	slink->num_hw_configs = le32_to_cpu(cfg->num_hw_configs);
--	slink->hw_configs = kmemdup_array(cfg->hw_config,
--					  slink->num_hw_configs, sizeof(*slink->hw_configs),
--					  GFP_KERNEL);
--	if (!slink->hw_configs) {
--		kfree(slink);
--		return -ENOMEM;
--	}
-+	memcpy(slink->hw_configs, cfg->hw_config, le32_to_cpu(cfg->num_hw_configs) * sizeof(*slink->hw_configs));
- 
- 	slink->default_hw_cfg_id = le32_to_cpu(cfg->default_hw_config_id);
- 	slink->link = link;
-@@ -1932,7 +1926,6 @@ static int sof_link_load(struct snd_soc_component *scomp, int index, struct snd_
- 			       private->array, le32_to_cpu(private->size));
- 	if (ret < 0) {
- 		dev_err(scomp->dev, "Failed tp parse common DAI link tokens\n");
--		kfree(slink->hw_configs);
- 		kfree(slink);
- 		return ret;
- 	}
-@@ -2003,7 +1996,6 @@ static int sof_link_load(struct snd_soc_component *scomp, int index, struct snd_
- 	/* allocate memory for tuples array */
- 	slink->tuples = kzalloc_objs(*slink->tuples, num_tuples);
- 	if (!slink->tuples) {
--		kfree(slink->hw_configs);
- 		kfree(slink);
- 		return -ENOMEM;
- 	}
-@@ -2061,7 +2053,6 @@ static int sof_link_load(struct snd_soc_component *scomp, int index, struct snd_
- 
- err:
- 	kfree(slink->tuples);
--	kfree(slink->hw_configs);
- 	kfree(slink);
- 
- 	return ret;
-@@ -2078,7 +2069,6 @@ static int sof_link_unload(struct snd_soc_component *scomp, struct snd_soc_dobj
- 
- 	kfree(slink->tuples);
- 	list_del(&slink->list);
--	kfree(slink->hw_configs);
- 	kfree(slink);
- 	dobj->private = NULL;
- 
--- 
-2.53.0
-
+Regards,=20
+Chancel Liu
