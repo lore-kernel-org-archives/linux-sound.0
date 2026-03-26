@@ -1,153 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C60B347534;
-	Thu, 26 Mar 2026 09:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DCE31ED7D
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 09:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774517180; cv=none; b=bDcSPI+Z1l55k3zGQhu8937+15iArrCxTvn4M0EtDDDQf0prmxZ8fUW4Xk1IoqXJnHwiHDKbVhdXkcED6HZb3gO+b1hye0GsxUgqA2seGykyMeObj9xjcQJ9QjLRm+/ueCZei0fXNEj5bdYWNRZ6na0cxZNqAPU3ehbJjZidN/A=
+	t=1774517209; cv=none; b=o/aJdU8gmF+JRZBYqo/pHZIa17ADoO7wgpZaencVLHbjTYjTffJl+g5YmPlC283pSmAno06Tmfb74mQE+U07ZX2S+FzbgxCst/IUMb0jYnU6hpoZ96SutvD46S9uyf0dKYm3hFRXQd+rbgdlGHu2bGYQtht0Ui/k4duWvXXVk5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774517180; c=relaxed/simple;
-	bh=XafrxAte6tbTgT1l7MwqogYylofhNsOE8vVj21EiJ04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rlf/zW29+aWDzV2MJVznzGgCx2s8poyYMg3jImK4J5cPhCNW5kRBfOf+h2id1a0GBuZICRzLoJyX2TCarIYMtc0W4gfUGIQxSDvT0iWZXYbZ20o3iqRsRMW+1SSqcNYVM4iearsCPz/pGrRcJrbclWsAVhIjMARYVzTz8UXcVu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv5P5Hvr; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774517209; c=relaxed/simple;
+	bh=OUzLmFzLdtqn6toY9gE/vHJuOBtPUAMy7RuzEYncojY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aAKmWv/Lew1PmTgZrgCr4wwPRlzM7r6sL4fJ4fkVhIUkWU89C7gIqpTA8UAsSOJVjChzIE94vVyChMKKHvmYyeN46KZ3OKgkEkINpwF/FgiUp1LMqr5WPYPG+ZAee/1QnlMhjzQopO/olvc0i1sOy2ApjCPaZn8dnWqzUVsk30U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWRD2va7; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv5P5Hvr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774517177; x=1806053177;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XafrxAte6tbTgT1l7MwqogYylofhNsOE8vVj21EiJ04=;
-  b=Fv5P5Hvr3wQvkybjeo2MuG5sGEdREe0Z1Zw/6T2phoFuOPCefl7TU5K+
-   4hM08edugnGWZnc3RzU1Z+wqDeC+xIbYvoacCfF7qqfkL405FQbjX37QO
-   f/BFaZiNCP62gle9oMVGf6zTNPVnfFIK7wec4yg8FPibhGrifq4HTOjyp
-   ovYEp2L9osA2ZuDcBF44bT6tM7LPGcx9Y10nhSpvxOQcMiy0+Qqg1nrlx
-   nApYpeReHr4ms2slaBs2gCz73gQSC8HU+W+U1TzoM0tslWKLBLXZLfC3I
-   Af2A9e6xhfr9v4JA/IHcLpuR2IfiZS6epd0bKb9otEzIU7ZW5QTG6AqjB
-   A==;
-X-CSE-ConnectionGUID: YzPhCIloSaa0svXFPKTwrw==
-X-CSE-MsgGUID: 56Fn8dR7TH22yia7Z5MMag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75591870"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="75591870"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 02:26:16 -0700
-X-CSE-ConnectionGUID: nTi7nr8XRjSedR+PizMFUA==
-X-CSE-MsgGUID: tX1gQux9TlytFAEAsjhFtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="221644480"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Mar 2026 02:26:12 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5gyf-000000008if-31df;
-	Thu, 26 Mar 2026 09:26:09 +0000
-Date: Thu, 26 Mar 2026 17:25:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jaya Kumar <jayakumar.alsa@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
-Message-ID: <202603261701.n5u236ZK-lkp@intel.com>
-References: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWRD2va7"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48538c5956bso6144115e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 02:26:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774517206; x=1775122006; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5VZQLyr2Zs/DHt8a/lxVm8geb6FXpQc4akpYKRz2DvM=;
+        b=ZWRD2va7EdCn36B0mfVuy5E6nP367SgWRemb2FElJxXxEonXWWEPPXjGSKIjnhW5S9
+         HkGGXbAbHvp0lNQkAX7UUBBvCvE1BFh0wRk6tZDyRbdoGrFql3NP4o4KEyFEnuGFZ1mi
+         YA8YKrLluE2uiNA+cPrLShH+Y/pzmBvI9dDTkdZiy/yKEFqnjgtLE3W8rbilgnKkg+fj
+         4ywr77B/A09Um6MlmPAgOhJq7EfCVOJmNcBJ5cA6a/kbEyI2FqDm7ld0nc6ggsyfbGcK
+         dDVsGD1ieTcnygDFyxmx/lrJZBqnWQ+dY7SkAwOMpIetqYb5ZKuWVWqFuffq+Tm4YVku
+         4+Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774517206; x=1775122006;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5VZQLyr2Zs/DHt8a/lxVm8geb6FXpQc4akpYKRz2DvM=;
+        b=tLgXzWlsnSkMYvhcGAX0alOuObTUhyu/bgBpA3u2tjqzWkbPuIZpBWVAOelxraN/lW
+         /Ds+qDuQFYM5FXDt5ombR8l46EstYRZJwTmHs+tUQ6lHxGPI9WkoOsdtUKTMuNwREy4U
+         FF8/bHkDR5ubl/Mh2en4xNZwxdXbNLB9TsgcYlE0sBE6YL+fv/CpdgcwR4QlKinRVU0E
+         os3a2TWhI+zvtuzR3e4XVBqA8EqqdzJTOXrznJLThNWd8cSaon/Wxaa0n3/qWqSqAPPW
+         FiFP+OkQTy7qj0qwxc/HbFpWQeeP+BczcNSDu1135CGgMMDgAQpZ+J2B57Q+qI2eShG2
+         HrJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvgij+rS8/IipfUo8EMVWWMZCdyzHorg/p312aUZXJPljIE2gNE8SJO8YgxyadRjZdM27il8Rw9u+oRg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIfD9x41F0UK7nT4hEm/XMJbnxCJmI25CCZyPvQXB3k7ZS9R8M
+	QCL0u5cnf8LZIJvPiMGsheNYDXWXv/e22YmA7/6JdnNgebb5eTgx9O9E
+X-Gm-Gg: ATEYQzxRUPli9/eLN6/l5dzgQmlrgb1eobzzWUrcTV5ob3+efCZve/3eglhT45P/8k3
+	QNCf5ixW5lCn/s2ZF5HiYsvEHz3tuy6GZpM5J84N33D4FG2FePvSCUCnG1xW40mA3EavUPaqTSA
+	KgueNF1ugHr6QDe0KBnWq4cwP69T6y2uR43mIQ51bvMgWrlcGYseabvUd6A7ahWIGlVrLJocxId
+	Om9+Ca2Ed6Xzu9jkkI7trODsZQ9RKlrphS07eyTWBwwb1BvL+9G5A2V+G9OPHZZarR6zAttotza
+	ePbGXuiQ6w4H88jMgnVoBg/TpBe3+Z7Pw4poa59trptJqBbBrxeKT5cqvJB9t7wP/sgZCMspTJA
+	RUxPl9a3r4Io2JBkNg1x6XMsKxkKjE/BPlD27tt1vxc1TpnWXTttQRuM9hPefL3QWEziCdfHn4s
+	khZg/dA+RPEqZq+ydrZ9lP+goFIgFrRlQ=
+X-Received: by 2002:a05:600c:2d82:b0:487:467:49e9 with SMTP id 5b1f17b1804b1-48722b92fcfmr8738135e9.7.1774517206222;
+        Thu, 26 Mar 2026 02:26:46 -0700 (PDT)
+Received: from [192.168.1.187] ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919e722dsm6033900f8f.35.2026.03.26.02.26.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 02:26:46 -0700 (PDT)
+Message-ID: <67b84d7381662363a300fc108d8111d777489a50.camel@gmail.com>
+Subject: Re: [PATCH v2 1/2] ASoC: adau1372: Fix unchecked
+ clk_prepare_enable() return value
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>, lars@metafoo.de, 
+	nuno.sa@analog.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 26 Mar 2026 09:27:32 +0000
+In-Reply-To: <20260325210704.76847-2-jihed.chaibi.dev@gmail.com>
+References: <20260325210704.76847-1-jihed.chaibi.dev@gmail.com>
+	 <20260325210704.76847-2-jihed.chaibi.dev@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
 
-Hi Linus,
+On Wed, 2026-03-25 at 22:07 +0100, Jihed Chaibi wrote:
+> adau1372_set_power() calls clk_prepare_enable() but discards the return
+> value. If the clock enable fails, the driver proceeds to access registers
+> on unpowered hardware, potentially causing silent corruption.
+>=20
+> Make adau1372_set_power() return int and propagate the error from
+> clk_prepare_enable(). Update adau1372_set_bias_level() to return the
+> error directly for the STANDBY and OFF cases.
+>=20
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> ---
 
-kernel test robot noticed the following build errors:
+No Fixes tag?
 
-[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+- Nuno S=C3=A1
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/RFT-x86_32-Move-OLPC-XO-1-audio-GPIO-to-software-nodes/20260326-073823
-base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-patch link:    https://lore.kernel.org/r/20260325-asoc-olpc-v1-1-ebe6de05c7e2%40kernel.org
-patch subject: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
-config: sparc-randconfig-001-20260326 (https://download.01.org/0day-ci/archive/20260326/202603261701.n5u236ZK-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261701.n5u236ZK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261701.n5u236ZK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sound/pci/cs5535audio/cs5535audio.c: In function 'snd_cs5535audio_mixer':
->> sound/pci/cs5535audio/cs5535audio.c:167:26: error: passing argument 2 of 'olpc_quirks' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     err = olpc_quirks(card, cs5535au);
-                             ^~~~~~~~
-   In file included from sound/pci/cs5535audio/cs5535audio.c:24:
-   sound/pci/cs5535audio/cs5535audio.h:128:71: note: expected 'struct snd_ac97 *' but argument is of type 'struct cs5535audio *'
-    static inline int olpc_quirks(struct snd_card *card, struct snd_ac97 *ac97)
-                                                         ~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/olpc_quirks +167 sound/pci/cs5535audio/cs5535audio.c
-
-   134	
-   135	static int snd_cs5535audio_mixer(struct cs5535audio *cs5535au)
-   136	{
-   137		struct snd_card *card = cs5535au->card;
-   138		struct snd_ac97_bus *pbus;
-   139		struct snd_ac97_template ac97;
-   140		int err;
-   141		static const struct snd_ac97_bus_ops ops = {
-   142			.write = snd_cs5535audio_ac97_codec_write,
-   143			.read = snd_cs5535audio_ac97_codec_read,
-   144		};
-   145	
-   146		err = snd_ac97_bus(card, 0, &ops, NULL, &pbus);
-   147		if (err < 0)
-   148			return err;
-   149	
-   150		memset(&ac97, 0, sizeof(ac97));
-   151		ac97.scaps = AC97_SCAP_AUDIO | AC97_SCAP_SKIP_MODEM
-   152				| AC97_SCAP_POWER_SAVE;
-   153		ac97.private_data = cs5535au;
-   154		ac97.pci = cs5535au->pci;
-   155	
-   156		/* set any OLPC-specific scaps */
-   157		olpc_prequirks(card, &ac97);
-   158	
-   159		err = snd_ac97_mixer(pbus, &ac97, &cs5535au->ac97);
-   160		if (err < 0) {
-   161			dev_err(card->dev, "mixer failed\n");
-   162			return err;
-   163		}
-   164	
-   165		snd_ac97_tune_hardware(cs5535au->ac97, ac97_quirks, ac97_quirk);
-   166	
- > 167		err = olpc_quirks(card, cs5535au);
-   168		if (err < 0) {
-   169			dev_err(card->dev, "olpc quirks failed\n");
-   170			return err;
-   171		}
-   172	
-   173		return 0;
-   174	}
-   175	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Changes in v2:
+> - No changes.
+>=20
+> =C2=A0sound/soc/codecs/adau1372.c | 17 ++++++++++-------
+> =C2=A01 file changed, 10 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/sound/soc/codecs/adau1372.c b/sound/soc/codecs/adau1372.c
+> index fdee689cae53..6345342218d6 100644
+> --- a/sound/soc/codecs/adau1372.c
+> +++ b/sound/soc/codecs/adau1372.c
+> @@ -782,15 +782,18 @@ static void adau1372_enable_pll(struct adau1372 *ad=
+au1372)
+> =C2=A0		dev_err(adau1372->dev, "Failed to lock PLL\n");
+> =C2=A0}
+>=20
+> -static void adau1372_set_power(struct adau1372 *adau1372, bool enable)
+> +static int adau1372_set_power(struct adau1372 *adau1372, bool enable)
+> =C2=A0{
+> =C2=A0	if (adau1372->enabled =3D=3D enable)
+> -		return;
+> +		return 0;
+>=20
+> =C2=A0	if (enable) {
+> =C2=A0		unsigned int clk_ctrl =3D ADAU1372_CLK_CTRL_MCLK_EN;
+> +		int ret;
+>=20
+> -		clk_prepare_enable(adau1372->mclk);
+> +		ret =3D clk_prepare_enable(adau1372->mclk);
+> +		if (ret)
+> +			return ret;
+> =C2=A0		if (adau1372->pd_gpio)
+> =C2=A0			gpiod_set_value(adau1372->pd_gpio, 0);
+>=20
+> @@ -829,6 +832,8 @@ static void adau1372_set_power(struct adau1372 *adau1=
+372, bool enable)
+> =C2=A0	}
+>=20
+> =C2=A0	adau1372->enabled =3D enable;
+> +
+> +	return 0;
+> =C2=A0}
+>=20
+> =C2=A0static int adau1372_set_bias_level(struct snd_soc_component *compon=
+ent,
+> @@ -842,11 +847,9 @@ static int adau1372_set_bias_level(struct snd_soc_co=
+mponent *component,
+> =C2=A0	case SND_SOC_BIAS_PREPARE:
+> =C2=A0		break;
+> =C2=A0	case SND_SOC_BIAS_STANDBY:
+> -		adau1372_set_power(adau1372, true);
+> -		break;
+> +		return adau1372_set_power(adau1372, true);
+> =C2=A0	case SND_SOC_BIAS_OFF:
+> -		adau1372_set_power(adau1372, false);
+> -		break;
+> +		return adau1372_set_power(adau1372, false);
+> =C2=A0	}
+>=20
+> =C2=A0	return 0;
+> --
+> 2.47.3
