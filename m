@@ -1,50 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B075138656A
-	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 12:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7B9386C0A
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 13:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774526656; cv=none; b=e2SmNXz7Enh2L8jRmRw32LRBU1oQxbbRnBx9yLWCVOJVj03QmMxCRPDFohvr94mJORhulhtlmqEiyg4RB5jQ0eEMTtj4Xbhkb++djIYUPrhFrmRb269PqacihWxX4z1mZj7AunVSjSW6ghOlbjyPIV78LQYL7dQGudzKiHEY12I=
+	t=1774531093; cv=none; b=djAw43pLy3j2ZiBcCg8aPqTbAq3KeCvJ1z79Ol3yWCNuKjHhteYJyqvsqPplQFs0UUs3eGtR7hdfsBEMQZS0loaeIFykNPMP9F3Mo0rXLggh3DczFr3XY+U0iGdVhRBjMUKR60NJp8EkOpxcFFVnmIkotShXFUvfc2ZCUnOV21Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774526656; c=relaxed/simple;
-	bh=zdihGUYNRTvbma15RRqLshkNpQmW75lqN32ZKFC3I54=;
+	s=arc-20240116; t=1774531093; c=relaxed/simple;
+	bh=GVrAs+mbWwhG4Yrs5Y37N0As20DHfpTYfrsSSzI6gEY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BX2eOJHZpZ3Dfkavr5yaaRXtvZ8iPzAiP7vbLlrbDD2vokAxYuUFyk1/h+MbRQ1CzRmUzaSWkXv6XiE0oQtCHJ8olINrgxTFhEfldramT3bbKsi2k2NbUf9rz+m1xtvG2Cup/VtjYqmT09bH2+17VCiT5DLfeEBz1APFyGDEjs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXqQAjrA; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=EJx3jBkDW+PsIAmMVTtFwWacJEjKLB/jfzPHRTYh91fgwauc6BYDYygBNMKm0Dd+w/Dm2fphhPkF47jAmv29gfzwmfojg+rb2NF30Y6/gOGADDSmztORyZh8mn/t1ShuwcVOpGylWfZmQUo4hYfZq68OdaDKQZgRZ3QDhStG4Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IL6WnSxm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FxDwy5wq; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXqQAjrA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774526654; x=1806062654;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=zdihGUYNRTvbma15RRqLshkNpQmW75lqN32ZKFC3I54=;
-  b=QXqQAjrADNe/2p0cwuooVQ0HrzuIcFjFp0bAzpPVBpVCXcQr1fovoYP4
-   Y46NeCtFe0fsEzInJhVNqrrXo4oh8FycHESF6Qn61OZi5ruqWQW4insW9
-   Je79QXVnRWYyqhLV4tFWmLwtYW7zb6TiDDPafuhGT6+gQAjBpqfckG+3u
-   rhNC+kz8aocBdIf3xtH4zOpm8HoPdi9tTIk6fxFgwJDXZ4MtS/qxxUZ4L
-   b8psDTIEXhF8HYRBMxquzWF4OJtPzoRQP5ayU9h5I4RWMmW4fCRFKZx5q
-   BizdHlI31LYJ/ahyzQgXxNCKUKb/rK3BUWZNKLoBVAM4ZCBbZTNt0qXyG
-   Q==;
-X-CSE-ConnectionGUID: F1QMcxtzSq+j8wQ2xMSCyw==
-X-CSE-MsgGUID: rcyZ2O0pSWOQlAj3AnIO+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86960550"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="86960550"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 05:04:14 -0700
-X-CSE-ConnectionGUID: 1B2gqNaeTuigq8FKx3lrTg==
-X-CSE-MsgGUID: sGMvx/1NQAywJTFu9ydE+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="224915430"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.219]) ([10.245.245.219])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 05:04:11 -0700
-Message-ID: <41aa963d-876c-4ee1-b91c-7026e72a16ec@linux.intel.com>
-Date: Thu, 26 Mar 2026 14:04:27 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IL6WnSxm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FxDwy5wq"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62Q8Uoc93958026
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 13:18:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JtXH9taf87WO8xzgXDDb3Zjy+pCG7JpfvAodNb6v2H8=; b=IL6WnSxmED1MJgzW
+	FQdMf4e4RFz+MLIT5qffNSmweyniSM119ealASPQveXSxxrybWuzhHqQH75rWiPE
+	caP0QVufVW2HuV02FFHZUkqzZQXU419yuqZC2OvkUF7V7D6LVbpSjKI31Y+WSemy
+	d/5Zutv9AJ4GI5gSEofpZPq2W+A4HzH6hog6OuJlDVuDuUb6FHd/azNb1EVxWBbl
+	m/Hscc3w1Vj4t8at3kGkLh15lrbhojLdWVoSPeOx6AE8P9UJrm1X0xmjk/IJ6kQV
+	ElprTywd98aD3Ing/iCdMvtXvAKzXIkwKn7pL973AV1CTeZaiIeoq5Bj5arESaut
+	nwQfTQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d4tjaj9yf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 13:18:11 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5090e08dcfcso25365361cf.0
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 06:18:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774531091; x=1775135891; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JtXH9taf87WO8xzgXDDb3Zjy+pCG7JpfvAodNb6v2H8=;
+        b=FxDwy5wqJrjju6HRLxvH82RwrCZIC4KcTYDa009t6nbXSPHTrEdNSibWY5MZL3m2mj
+         X4gtX2xxeTTFiSAMaInPyldPD+HiB8EBz52JReMUuG6ImcjHEs6nPSfZxXs2HflG7JRO
+         uFkMI+BUXJ4jvle1o41i0Hdx5xVmTozCXxVugb5OllskTaG+qWVh4YUzYwns8fKL37gq
+         qCtrIqYrJObfqyiDlrlun/46ycWDNv6oe/A5AGCc3kmmCWaGnAj0PNWtyuRpGUhJxWjA
+         S7mcEhhXDI6EpBzV6UbHWRcQeDsbSqgfF4CJ2ygPAkbhfotIzUq+tfZXC3DaSMBMkqJO
+         0zOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774531091; x=1775135891;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JtXH9taf87WO8xzgXDDb3Zjy+pCG7JpfvAodNb6v2H8=;
+        b=NYvcVS+/ZRKzACVbN96m7vCXzC3QCLY5DyfP2NV2FCSqJ2WLywO+lAPw0bMMjXhrz7
+         K6f1lv8mjmykXurTonX6Br93uyNLvnyy7ARkAnegEFcQM8HiddmV3k8piIYQ1JYhxtNV
+         RKzX7rFkortfiQRHNlgWHQlAfVEavSar+nbXGTHjedH/QEV7w1tJPHAW5IViePhSAYLS
+         YP9Ss+iqu/AEF3jRentwdYSibXib32N/XiLrbcS2/VxDOoSaRTkLd12xPyOHX4WJKBh/
+         3H7uW5dfwAPSgJFEI7MKWVmhYuedEmdAVxwnfrcKru+G1YZPBecoWmzhz4BcmlmyFN8u
+         l2Cg==
+X-Gm-Message-State: AOJu0YwUr2MZP+yLUBhELWEuBM+M/yWJauaolFFXt6KoZ9W9QMxY//Dp
+	3BPTs8x4IfU85RNSw1jJqbG5Oc9hgSldzEtKGfy6DmuE7xk+tWxKLPlrd+yyZgtqm9XbJI90tzT
+	xAHwSgBOnhn75bvZGPkINbOrg4tCQBkHhO5r4m/3nD2aYaFfSyaWJbn+wul2SzoWFqg==
+X-Gm-Gg: ATEYQzyfnlRCRoDbbUrgNKpJnJbFNbw0l3036szBCy8SsDIfP004UfjKHNaizZJQ4dk
+	JlYIgTNgzAhNIYcjcpE61pUSKJmrfYDac03jl9exbwKfFS1Swg9urBd46lwoMre2nUhB3GmbKYS
+	eiVlN4NNxH5TEGAi2uyePud09IKbdin8oyvlCh0/YCgZP7yM6N3IsE9WchLG7y0oYEK1r0vfbrZ
+	W+YG8SKQLGM7wGMWSQLL7hyJxOPwVDeoTw40TZ7MuqWrHVTJd0gJwFwEwmLr7/TVMxt24ld8o2D
+	g7CvtypBgEgpEZZ20yJe969Ah+TCdPEO4s9fymHp0KaK+ZK0P9A+dbwEM/VYdGC6odpdB5bwDnf
+	NwbimKQ8BsaHawreCrddqFEW/vKWvY885EF6TedQAJdVkx2Zq
+X-Received: by 2002:ac8:754e:0:b0:50b:69c2:b86 with SMTP id d75a77b69052e-50b80d73a8bmr73580131cf.27.1774531090860;
+        Thu, 26 Mar 2026 06:18:10 -0700 (PDT)
+X-Received: by 2002:ac8:754e:0:b0:50b:69c2:b86 with SMTP id d75a77b69052e-50b80d73a8bmr73579871cf.27.1774531090274;
+        Thu, 26 Mar 2026 06:18:10 -0700 (PDT)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43b919e7372sm9397537f8f.34.2026.03.26.06.18.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2026 06:18:09 -0700 (PDT)
+Message-ID: <6f70ee7e-78bf-4f45-8fb7-00db13c5e9f7@oss.qualcomm.com>
+Date: Thu, 26 Mar 2026 13:18:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,111 +87,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
- 'jumpy DMA'
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Mark Brown <broonie@kernel.org>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
- wim.taymans@gmail.com
-References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
- <c521e0d9-4d69-4fd4-9c29-bb9b62c93310@perex.cz>
- <8fe7f61b-dae4-4ae6-aa96-7e604a37e624@linux.intel.com>
- <813612ea-f942-432f-9bf1-7b1ccfe59046@perex.cz>
- <6b129498-f130-44a0-a679-6fa1c639046e@linux.intel.com>
- <a3eaedae-f23b-46ac-9e8f-a6167df7ef41@perex.cz>
- <420a8205-6a95-4e8a-852e-f3094200e5b1@linux.intel.com>
- <1ca0acb2-18fb-449e-9a52-e73d9eebfb62@perex.cz>
+Subject: Re: [PATCH v2] ASoC: qcom: audioreach: explicitly enable speaker
+ protection modules
+To: Ravi Hothi <ravi.hothi@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com,
+        ajay.nandam@oss.qualcomm.com
+References: <20260326113531.3144998-1-ravi.hothi@oss.qualcomm.com>
 Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <1ca0acb2-18fb-449e-9a52-e73d9eebfb62@perex.cz>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260326113531.3144998-1-ravi.hothi@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: yBkWquQhuy3oZpikFNZkKlpz0YxkAL2y
+X-Authority-Analysis: v=2.4 cv=Nr3cssdJ c=1 sm=1 tr=0 ts=69c53213 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ynJt5whLjcjaSQVNdSsA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: yBkWquQhuy3oZpikFNZkKlpz0YxkAL2y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDA5MyBTYWx0ZWRfXyKjhdAIui5u+
+ Ssv9EZVnQ9dXmVfs/A+PvuKsmf13XGPYyO5NWk3KR5eCO8j7syt1f0KuaLuBsAem3UvNbevl7E4
+ DTtBvQtk6brQ/pJhQXuhsHIeHbXl5e4Hy3dBnCDnWjy7gZdrkFKybnquZinYrvfnQKlwUnAL2b2
+ uwXyAk6lqYr/ixXUGss+sAOXla0Gy1xY5QfdH1LabiwzTTAG4iTM/xvt3pdA7xk4jeQ2voQmm9R
+ 0uueE9aPc7/rrL4yZWSSWcUoI0DmvKKzJUZ75uirVNmPB2PMrz7QhF5qMQGMrhMLQZgEakW3fst
+ rxV2nZeFb493VfXMTB3lr19dUUKEOUUVkfnTraViEtJX+CgKYYtcYvZppSRO4EOVGfmqteCv6hp
+ LdYr070F240YsDH0r5RpiSKux2hOxP2NkGV7BuzKHbom5BQUegdDeaNt/HxxD8kuf+w34idGpt7
+ bnNSGsDUaaB/txjIEzA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_02,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 impostorscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603260093
 
-
-
-On 25/03/2026 16:08, Jaroslav Kysela wrote:
-> On 3/25/26 14:28, Péter Ujfalusi wrote:
+On 3/26/26 11:35 AM, Ravi Hothi wrote:
+> Speaker protection and VI feedback modules are disabled by default.
+> Explicitly enable them when configuring speaker protection.
 > 
->> Looking at the PW code (spa/plugins/alsa/alsa-pcm.c) and I sort of
->> started to appreciate the 'headroom' term.
->>
->> I disagree that this is not about DMA or about burst since it is
->> precisely about that. It can be viewed as 'latency' but the latency is
->> reported via the delay and the delay fluctuates over time based on how
->> the DSP FIFO drains and fills.
+> Fixes: 3e43a8c033c3 ("ASoC: qcom: audioreach: Add support for VI Sense module")
+> Fixes: 0db76f5b2235 ("ASoC: qcom: audioreach: Add support for Speaker Protection module")
+> Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
+> ---
+
+lgtm,
+
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+
+
+> Changes in v2:
+>         - Added fixes tag suggested by Dmitry.
+>         - Link to v1: https://lore.kernel.org/all/20260325054408.1994556-1-ravi.hothi@oss.qualcomm.com/
+> ---
+>  sound/soc/qcom/qdsp6/audioreach.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> My point was that we should not use those terms for the structure
-> members, because it's standard prefill / data fetch (put) granularity
-> issue. DMA is just the concrete use. Describing both parameters seem
-> like the best idea.
-
-OK.
-
->> PW then probably can use these:
->> state->start_delay = hw_buffer_size;
->> state->headroom = hw_buffer_refill_step_size
-> 
-> We don't use head/tail in the buffer variables for ALSA API. The
-> headroom can be named just 'update_granularity' or 'update_step' or so.
-> Also, start delay is not correct, too. Maybe 'prefill' or 'init_fill'
-> says all. Or we can eventually try to be more consistent and use
-> 'init_chunk' and 'step_chunk' to notify applications about the data
-> transfer characteristics from the other (hw) side of the audio buffer.
-> The chunk word is not used actually in the ALSA API, so developers
-> should not mix that with other things like fifo or period.
-
-The headroom and start_delay are pipewire internal variables.
-
-Right, let's go with init_chunk and step_chunk it is.
-I needed to move these around in mouth to get the taste of it, but I
-think it will do it.
-
-It is better to have them in frames, right?
-
->> and on start/xrun it might need to provide
->> state->start_delay + max(state->start_delay, state->headroom)
->> or to the distance that it is planning to wake up.
-> 
-> It will end with 2 * prefill for your examples, because start_delay >
-> headroom.
-
-true
-
-> It should be just prefill + step.
-
-Not quite right, this works when the DSP buffer is 'large enough' - yes,
-the definition for now is 'large enough', see:
-We have only experience with this with SOF so far... The default PCMs
-are using 4ms buffer in DSP and what we see is that if the PW headroom
-is less than 8ms then it can xrun right away at start.
-In this case the firmware steps the DMA in 1ms steps, so after just 1ms
-into the playback (and this is counted when the kernel flipped the start
-bit!) the DMA already pointing at the 6th ms data, if there is any
-scheduling latency spike around this then it is pretty much guarantied
-that and xrun will happen.
-With larger DSP buffers this is less likely as the DMA is more stationary.
-
-But, this is up to the application to interpret the values the kernel
-gives, I would personally do the headroom 2x init_chunk at minimum for
-the start/xrun case then use the step_chunk runtime.
-
-> Also, it seems that in SOF case, the queued "prefill" sample block is
-> mandatory for internal processing, otherwise xrun will happen, or no ?
-
-Yes, the firmware fills the host buffer initially, but with
-https://github.com/thesofproject/linux/pull/5673 this buffer is not
-static, it changes based on period size. Can be limited by topology.
-
-The prefill block is sort of not mandatory, we need ~4ms minimum
-internally on host side to be able to compensate DSP internal scheduling
-(clock scaling, power transitions, rate changes, etc), this is the default.
-With 'DeepBuffer' on PCM we can put the system to lower PC state while
-playing audio as we only need the DSP and the IP to run and it has audio
-data to chew through.
-
--- 
-Péter
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+> index 241c3b4479c6..ff8cd55b0d89 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.c
+> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+> @@ -1365,9 +1365,14 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
+>  	case MODULE_ID_SPEAKER_PROTECTION:
+>  		rc = audioreach_speaker_protection(graph, module,
+>  						   PARAM_ID_SP_OP_MODE_NORMAL);
+> +		if (!rc)
+> +			rc = audioreach_module_enable(graph, module, true);
+> +
+>  		break;
+>  	case MODULE_ID_SPEAKER_PROTECTION_VI:
+>  		rc = audioreach_speaker_protection_vi(graph, module, cfg);
+> +		if (!rc)
+> +			rc = audioreach_module_enable(graph, module, true);
+>  		break;
+>  
+>  	default:
 
