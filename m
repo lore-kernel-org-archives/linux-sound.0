@@ -1,111 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B622A49659;
-	Thu, 26 Mar 2026 07:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84A238736E
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 09:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774511767; cv=none; b=I+8BHbyRKJbir1iy/3Q35YeI8LqdZ4Td/wIiFKE3y1I3tdkwk3NWS2TwBW7reudnz4V/KH4+38pul4Oq+0bbRUWjP3nobaO0QuvWuuQZKklEksEf3EQVz9OhpARf5gX4gVU7Rhv7zutHTG0bHqxyq+5IVlFGxv9AvrmHiwU2Dis=
+	t=1774516092; cv=none; b=gfP+FOJ7I+qhbXc0pHxztkAWFUg38usruoOtK7FvBAfm2dD4JWPIeifdE0Gor3xtrYJeFgwyGwWPUpP42HmjN9lskkggG8ls8Mo1tnXZfD9KD+Hw2S0plLepV9x9vRAIMeA7tHFonjhXossqBRuox/yI1z8VdUUpq201OSxwxVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774511767; c=relaxed/simple;
-	bh=Vsfgvb9N+AKlcN7M0p4Ewk9qLtWkkUUF83yrMJWhjaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ty7dOM+PaScsCrTL8XJYHM3xmoLt0+79eimc7OKwcqWeb+im6mfSpNFCQyRWp/dKpzLC/4r7ySV0gGbo70ebY8TUmHjbnONkzWYlx+0V/4c2vXRBKxSQGOXBgkHE886fSp0gZTykLK5fRxfU0/HWIKH6twqa47+Fj9SBvMeLIHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkocM0MA; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774516092; c=relaxed/simple;
+	bh=41uuzIuVnUHcF12QWw7iJwN7+7yOUfnMCa7WCul51hI=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MAX52cIwChSLxD4J6sL2q5zi4PKA8xMN+yo0eNF68DY9Y5LFKWKLEgGPCgXgvcDxrY6IdwRNvo++FvAcrifBGa+iJERXWf+6NBEl8eEtvI1RJtdnFxDl/FEdUek2ran7Mbdb9CgKP860yhz8K29Df7e+0AeVct05PHEDiBUTAD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/oSSJDv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkocM0MA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774511767; x=1806047767;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Vsfgvb9N+AKlcN7M0p4Ewk9qLtWkkUUF83yrMJWhjaw=;
-  b=NkocM0MAXET/6Ep99jE/rEq5eHQXNV9goovmHV2G6y0fHU0CbRenlReM
-   QMkpm34rIgX2XosLl8iPkY6IgRiuSkOtpDpb5y6mDdYLzILD5AAqg3FdA
-   F7RV+NC3ILHxb03feuuzb3H2svBZny61SGlJDdCbigs2pzyYYEvEtHl2u
-   oz8DHX0Ls9gaZTkSXCs/LG72Of0YAk/Db+Yasmtf4nU4jF1SkKUNKJiQE
-   w+HpiOyHp/0UAn48HUrQTQXLKyaQciOEoDFq2JkoHvem94qU8p2mhYglS
-   jfd2j59PsQCQsE0kqmj1mlBe7cnEv1jSpYBEnWWRJHkmeOPxAUp8SVmVP
-   Q==;
-X-CSE-ConnectionGUID: GAvZMFDQQn2hKdfazdTYVg==
-X-CSE-MsgGUID: 4WENHPUKRx+q6MCLiug10Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75629156"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="75629156"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 00:56:06 -0700
-X-CSE-ConnectionGUID: Wd9q71NhREm9LZTDGigEOA==
-X-CSE-MsgGUID: fb5j3yT7QYyPaxD8pcpXVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="225187419"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.219])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 00:56:02 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	seppo.ingalsuo@linux.intel.com,
-	liam.r.girdwood@intel.com,
-	stable@vger.kernel.org
-Subject: [PATCH for 7.0] ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload
-Date: Thu, 26 Mar 2026 09:56:18 +0200
-Message-ID: <20260326075618.1603-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/oSSJDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C330C116C6
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 09:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774516092;
+	bh=41uuzIuVnUHcF12QWw7iJwN7+7yOUfnMCa7WCul51hI=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=I/oSSJDvc6Y/pMJkMyMX2le1ZAlj+oS1o1nD6mLCVQiZk+rRIr7UrqPb3V59LP9+p
+	 i1IOpFvGyeHGd8XivQyKyIjduAefcVznDzwcUxQImJhpo+exRp4sxzJk1UxZC1sm0o
+	 81QYZ0YioYwBhWP3U39cyeBRd4mccHLxhse1i4352/kiBqppBqaBtBLj60lGNCxAVP
+	 Am6rOzX00abaY297RXRo0kStB142tWPg/Jv+fk9ftu+KgwJ+zPt6cRXbo4sD1b2gBv
+	 nLdi19VWzPOVeit8pMY2eqKV0yA9IcTOk8Wt0DPRn7T9e6gAHYyS3k9r19T8ugv32F
+	 BT/PA12MoFavw==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59e4989dacdso926751e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 02:08:12 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyFjHJrsmLrkGUT8yWhrZQylBFreH/ipozJlxi9lOvCwVV/EJb3
+	lajmvrZhd5z8+HomV6GK1BM6BdoJuj+H2gkJjF51mw8GDUBEbZtZ1Hko+3Qr9jtqY45owcuy07z
+	mGmoA3WZvin6g0VxLmfqriA2agY0FR7PL83nO3WydmA==
+X-Received: by 2002:a05:6512:3c9b:b0:5a1:1da2:24b with SMTP id
+ 2adb3069b0e04-5a29b977ef6mr3111477e87.13.1774516091147; Thu, 26 Mar 2026
+ 02:08:11 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 26 Mar 2026 02:08:09 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 26 Mar 2026 02:08:09 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260325-asoc-olpc-v1-1-ebe6de05c7e2@kernel.org>
+Date: Thu, 26 Mar 2026 02:08:09 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MdDbm89ST7B4NQ-oAnbvrUAOEmOJNs3iv9V893sWQUrAw@mail.gmail.com>
+X-Gm-Features: AQROBzAKakoBErNyz8-Mq8bG92I6QIXY_OeFQgjUDKdMevit95g-8W1xuRNOig8
+Message-ID: <CAMRc=MdDbm89ST7B4NQ-oAnbvrUAOEmOJNs3iv9V893sWQUrAw@mail.gmail.com>
+Subject: Re: [PATCH] RFT: x86_32: Move OLPC XO-1 audio GPIO to software nodes
+To: Linus Walleij <linusw@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jaya Kumar <jayakumar.alsa@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-It is unexpected, but allowed to have no initial payload for a bytes
-control and the code is prepared to handle this case, but the size check
-missed this corner case.
+On Wed, 25 Mar 2026 22:46:36 +0100, Linus Walleij <linusw@kernel.org> said:
+> This needs real hardware to continue.
+>
+> At the TODO spot, we need the name of the actual
+> PCI device providing the cs5535 device.
+>
+> If we can get this working, we can move over the rest
+> of the hogs etc to software nodes and get rid of all
+> the custom cs5535_gpio_set(), cs5535_gpio_clear()
+> etc.
+>
+> If it turns out that no-one is willing to actually
+> test OLPC XO-1 patches, I will follow up with a patch
+> to just delete the XO-1 support altogether.
+>
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
+> ---
+>  arch/x86/platform/olpc/olpc.c            | 33 ++++++++++++++++++++++++++++++++
+>  sound/pci/cs5535audio/cs5535audio.c      |  3 +--
+>  sound/pci/cs5535audio/cs5535audio.h      | 26 +++++++++++++------------
+>  sound/pci/cs5535audio/cs5535audio_olpc.c | 32 +++++++++++++++----------------
+>  sound/pci/cs5535audio/cs5535audio_pcm.c  |  4 ++--
+>  5 files changed, 66 insertions(+), 32 deletions(-)
+>
+> diff --git a/arch/x86/platform/olpc/olpc.c b/arch/x86/platform/olpc/olpc.c
+> index 1d4a00e767ec..95df7f691825 100644
+> --- a/arch/x86/platform/olpc/olpc.c
+> +++ b/arch/x86/platform/olpc/olpc.c
+> @@ -10,6 +10,8 @@
+>  #include <linux/init.h>
+>  #include <linux/export.h>
+>  #include <linux/delay.h>
+> +#include <linux/gpio/machine.h>
+> +#include <linux/gpio/property.h>
+>  #include <linux/io.h>
+>  #include <linux/string.h>
+>  #include <linux/platform_device.h>
+> @@ -17,6 +19,7 @@
+>  #include <linux/syscore_ops.h>
+>  #include <linux/mutex.h>
+>  #include <linux/olpc-ec.h>
+> +#include <linux/property.h>
+>
+>  #include <asm/geode.h>
+>  #include <asm/setup.h>
+> @@ -283,6 +286,32 @@ static struct olpc_ec_driver ec_xo1_5_driver = {
+>  #endif
+>  };
+>
+> +/*
+> + * Create software nodes for GPIO look-ups so we can keep the
+> + * CS5535 GPIO driver abstract without peeking under the hood.
+> + */
+> +static const struct software_node cs5535_gpiochip_node = {
+> +	.name = "cs5535-gpio",
+> +};
 
-Update the check for minimal size to allow the initial size to be 0.
+Ugh, I'm actively trying to move away from the "dangling software node"
+approach. :( I've been sending patches attaching software nodes to their
+target controller devices and I'm trying to come up with a way of automated
+assignment of secondary firmware nodes for this particular use-case.
 
-Cc: stable@vger.kernel.org
-Fixes: a653820700b8 ("ASoC: SOF: ipc4-topology: Correct the allocation size for bytes controls")
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
----
-Hi Mark,
+I should have NAKed this idea when it was first introduced in GPIO swnode
+code but I just didn't really understand what was going on here.
 
-The patch that this is fixing is in 7.0-rc which is marked to be
-backported [1], so I guess this patch will follow it in this way or need
-to point to the older patch to be carried back?
+Could we instead define the software node in cs5535-mfd.c and assign it to the
+GPIO cell, then expose it in linux/cs5535.h as a symbol visible to this file?
 
-[1] a382082ff74b ("ASoC: SOF: ipc4-topology: Add support for TPLG_CTL_BYTES")
-
-Regards,
-Peter
-
- sound/soc/sof/ipc4-topology.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 82f1e44a145e..76812d8fb567 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -2951,7 +2951,7 @@ static int sof_ipc4_control_load_bytes(struct snd_sof_dev *sdev, struct snd_sof_
- 		return -EINVAL;
- 	}
- 
--	if (scontrol->priv_size < sizeof(struct sof_abi_hdr)) {
-+	if (scontrol->priv_size && scontrol->priv_size < sizeof(struct sof_abi_hdr)) {
- 		dev_err(sdev->dev,
- 			"bytes control %s initial data size %zu is insufficient.\n",
- 			scontrol->name, scontrol->priv_size);
--- 
-2.53.0
-
+Bart
