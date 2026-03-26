@@ -1,75 +1,74 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9252DEA62
-	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 09:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB77331205
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 09:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774517427; cv=none; b=u/8v7199f+FPUwb8hyYpVDmwzup9HG2JbCejLsAsPIpV/H/ln7GgLwML01TszQ3JTJGOq9ddU9QK5+M8ZTY1bi3QGwGY6Io39DDUNUJVCne1czhl+leheTdj7WlOhbeFpDMUP9tehVBY3XbETdjLRbXAXkAffO7m8VNL1Lv6SwE=
+	t=1774517471; cv=none; b=FHS+mk++BuRVqV4vkyOk0GDu9HQbZoB4mXf5a+9NIsjjkmGVQG7sOs8P55RvsnFws5zBD2SAkA6PyNiKNcdtlTjVleyyjJ4SUVZD9oHn0UijYvXcC81K8WoMoIqH1ZE5FKu42U0eCoWwch5ZKk7khvQC/vL4ZGIE1U30uoKmnpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774517427; c=relaxed/simple;
-	bh=uTuWHU0/mS7QCa009M7sJ2U1fwtgolGh28oWCe96Pzc=;
+	s=arc-20240116; t=1774517471; c=relaxed/simple;
+	bh=pwN5FRRxqmIQfiRU5lLTXT3FDrbmu23OTSn70Ln03V8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hrAmSrHjr24PmqxC0C1c8qCr7PgIvQYVCklVSivczPz3Ao6Nzfkf9+73pG1Z93AZ21Rjn7J7oSDv5fzyef7Q1F8aJClBl8ZHEVjxNvTIZsxUS0+o9Y8eMln9QhCnPI/MCT5p0yL906ef5/CdIbZs+2AI8IDgdBySGg+/eiVgXMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+KZHCAg; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:MIME-Version; b=N/Ve16CjWioJzBRB0HuECCRge71INIXHf2p2sw2i2e9qWmOIDk7+fwZxHmXxdh3jp2PxUZ2lY7lvVFzjQwzDtqn/wP+4B79BOhwyQgBKqn9yrTmaT8kA6tNEg6tZ4S03D7DhcrAbjP1gVyuSDYmTSAz7I93xdWjh7jjwRE5nKJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qyJqC1Dk; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+KZHCAg"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso5939585e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 02:30:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qyJqC1Dk"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439bcec8613so482693f8f.3
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 02:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774517424; x=1775122224; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774517467; x=1775122267; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Lgpy0rMDQXSEL58zWKZy7vdPmCgC5U02uB1vUpHGOh8=;
-        b=F+KZHCAgnxFODoffcYPSlQkYWbWJKkomXf8sPeqJPQ+1d0OJNsGE3RER9hhusL0eNA
-         DsAHjp2G8YYeX6xuylS8A9OjEtub/SVJyg0fTnmmGt4ldLEBmsuoYRJBCpdYH+WKaC63
-         SlFrTbTT+hpVQVjswaiFCSzhJA2a4tEXqRjrT4BDtNUKywN6BOp/z/3OqxdFJk/EBi8y
-         K47KLqI4yt03CPN0Q72IbOypl+6QNoFLJAuGCqTUXxJiWXHfq1hHfLUpgVzAYlgSNe85
-         UeARXnpmBIGxfyGUjzuJfr0CKuMnuXs40nfBxk5rak14HH8BGUIZx6fkRtv4VaedTGCW
-         HREA==
+        bh=pwN5FRRxqmIQfiRU5lLTXT3FDrbmu23OTSn70Ln03V8=;
+        b=qyJqC1DkNP2jB4kt/uE0j/v01TVqMT6qlv0bkSz7tbTy9K0x1S7hpgfTPRmSbdXNZ4
+         sPC3Qm+4ISkZt978k4KD76GvZiDLPHqlIRsYw6rjeoBK2IbbJuuweiVvgI0IB/ILQuaF
+         MO5IHT6HTzgjO6ZkIpQ5Y1WrM/6u5BXfKjjzYXKnVssVAUAxxonoHV5+J1fTWR9811eh
+         0YjZqD4t9QXXW1nWu8H5SnCQjOVDgP5Ap4foWbJzAAUSFKfuIBY9isHGwCYVe7fF+77E
+         SPQEay9EN9ENIQQnOk40FAFg+DAV0EcqdPlc+V2oz1NaYuSy2jv3G0qqdNskWRyuf7UP
+         vv5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774517424; x=1775122224;
+        d=1e100.net; s=20251104; t=1774517467; x=1775122267;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lgpy0rMDQXSEL58zWKZy7vdPmCgC5U02uB1vUpHGOh8=;
-        b=bFrKk7QZUpoVRqmqwHYh3iCMByEe5PQ5ddc3/8CurJQ+l2gBt1zdlDmus31Sp1tQZU
-         nc3TfwC0q0axvWhBOgTzpUXFXKqSG2yCdb5C/hL28bgwtzlohufSXOhiUDEciWQd46mr
-         ISPJKNtZBDQrbuhIaXWwFuJhLQU1gm9h5w/L6lralNQoH6BPQuNQkUPvLhrUlNHVwoq1
-         uWqst4i3T/Pc7kNVMkpbwsTNS1Oob8amZ9kk9VgTZjt+Rpc96ji/lsrX5nvfDmu4qpDu
-         1jJkiuX+3fbVjeamjwRwlKqhQWNHEbwToVgGP7wjywT0HwU0CBxgwOYzp3FJKdjB1ztk
-         GxGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5DamyoVYUo4oIVHCbbc6MQsE1ZhArc0+ZfPJPIV6i1HUA7z/JPpGX1mw980yyKV9OIgzPsryh1jHNUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQJF1oU5Z7D1x8VnPtx1EuPSsu8IPi5D2g7NndTRvBXhe88iNt
-	Wihbg98RaYdeACuoEgix6BQuc2NeD9g2ZN/MXixkd6ixfXH6BCyIkrQU
-X-Gm-Gg: ATEYQzzqHo0VTtMkSHjXbUgLPPhNeVx/YBcx7f+vDKjTSPgqeOR+EYClBb+VASGhjSG
-	h/+91Rmh31PEekhcR2SwWcTTmcgv/5jAqt+PoGAJA453e+OJqXd0sVFazRNse9uHJDQZmeh5Eod
-	N2giirupRT+JEBcynw7WS66ecLcFl4ivFxMXTpP5UYqwjzxFUEOU3BQPH2VW3T6ipqKsoem/YG2
-	0gi5k8LyR1fWOqCKXFlMo5LmrEcr8xHPbxKgvJ1LiE1NaSwGN7scxjKAWJxhD0XBaG9N5oCY9v7
-	eATcBsn3eYhBgkVgP/Zbu3LEJ6Pl/ObB7ivhllDNrPmdOAJlqgtToA1QhfMzuUQZvWgPNJuYM17
-	MkuTbfDIQnAzUToIr0WodmH48GzzFmvxBLFp2V/TfC3tAq7emM3ewyXxdM+0SIVMCGT/aACUtrg
-	JLPXCtl71I+kt1V+MZ1bflr+M3OuK8hYY=
-X-Received: by 2002:a05:600c:1f12:b0:486:fdca:ea8d with SMTP id 5b1f17b1804b1-48716050758mr95520865e9.25.1774517423981;
-        Thu, 26 Mar 2026 02:30:23 -0700 (PDT)
+        bh=pwN5FRRxqmIQfiRU5lLTXT3FDrbmu23OTSn70Ln03V8=;
+        b=Sw6u8OQjJbroxDxzI8Q/WdFjff8Oc3MpfNo4aI7nZ99K49ffsiZoZDsNBsaMn7gwa8
+         FPUhTbVRj7kq8xdfPl5DuVc+v9xs5EHQMZuRN1rRZVTZs8vrEscCvQkpFkrDuG+9FDmT
+         jKfOysr3RhzdU0nHkBTunP3N73I+qK97bAF1zH8DOaPfqu5o96JpGRa4YluvqM16UVlF
+         VPOTC35fTzpWnB+vJmpfj4VlOvm/Cqld8ya60gFLbFWMzQZ3aMknVQmNvnGTL5SqCX9o
+         zi11PC/7rGgNKaH3pZZ/NPVYPARY5SXE9VI5q1VCDzml37g97jHEwqFsFWb6cNuZzmaT
+         vSFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVty7LJHdYR0a/gEFSsP9ghkuM+XlLb5z+QUBWV+7xObPPfBzPpkatzf00tO0ppMSDnLB3JP0617rLWaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeqnjOd/apl915rH9EKID7eMo1n81yi4S+92wPg5m2CwwA+5dW
+	rpjG4NgGC3NfeSLObkwWck+LRbesSiLYkX8vvelz9PVAYUNmb1UB8tqn
+X-Gm-Gg: ATEYQzxhmNX6ADC4ObVqAMQLyvKzzKuc7aJ4TwQ34geCV4csIsZ8+p3ebp73uKSsKu4
+	vdXCBk8NXQXVGHljfcgXQZvjuMVHA7gIpufaeAvZC61PaD9fqY5ZH8spDE4Sh73wDCjgbLVRwlX
+	LhOdFPFtuGQUTFHk/pRvBneUcq0NGgNLi+ZmJc0YpcmWCI+K5Ko+u2bCBDDNZotUX8xocyJyux3
+	W4HIqiPBCK99miEltLvX4MBVkQbdPbAr9UXflnbUS9lDTMXGgvdBq06CvXXS3u1XRdZ1uogPJfS
+	7hb3TFSVytQ0SilYbx+MM6zM6n2hQiXp/HEPC4jOHSTiGwTpv7gTiB3BUkoWowG7iZwbD27R8Aq
+	Cabdyb1AA6Yz7Yyz+xfP/MkNy3Xa8PaEfnX4gPYGyWSzgDl/x+hNkZaI7kWlz1rdNA6mwt6Pp0P
+	5gJ5kUafk7j9L3+WARcR5iCLg36+1dt1c=
+X-Received: by 2002:a05:6000:2481:b0:439:b791:f914 with SMTP id ffacd0b85a97d-43b889a4a5fmr9755313f8f.18.1774517467372;
+        Thu, 26 Mar 2026 02:31:07 -0700 (PDT)
 Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722fa8dc6sm33939045e9.1.2026.03.26.02.30.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b91942f24sm7173306f8f.11.2026.03.26.02.31.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 02:30:23 -0700 (PDT)
-Message-ID: <0e89c8c2b5851211b2c1f2dc413e6775ab46364b.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] ASoC: adau1372: Fix clock leak on PLL lock
- failure
+        Thu, 26 Mar 2026 02:31:07 -0700 (PDT)
+Message-ID: <f60602d74e1e4fb5a7458ea7ff52d16933950e69.camel@gmail.com>
+Subject: Re: [PATCH v2 0/2] ASoC: adau1372: Fix error handling in
+ adau1372_set_power()
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
 To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>, lars@metafoo.de, 
 	nuno.sa@analog.com
 Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
  	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 26 Mar 2026 09:31:10 +0000
-In-Reply-To: <20260325210704.76847-3-jihed.chaibi.dev@gmail.com>
+Date: Thu, 26 Mar 2026 09:31:53 +0000
+In-Reply-To: <20260325210704.76847-1-jihed.chaibi.dev@gmail.com>
 References: <20260325210704.76847-1-jihed.chaibi.dev@gmail.com>
-	 <20260325210704.76847-3-jihed.chaibi.dev@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.3 
@@ -81,77 +80,34 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Wed, 2026-03-25 at 22:07 +0100, Jihed Chaibi wrote:
-> adau1372_enable_pll() was a void function that logged a dev_err() on
-> PLL lock timeout but did not propagate the error. As a result,
-> adau1372_set_power() would continue with adau1372->enabled set to true
-> despite the PLL being unlocked, and the mclk left enabled with no
-> corresponding disable on the error path.
+> adau1372_set_power() had two related error handling issues in its enable
+> path: clk_prepare_enable() was called but its return value discarded, and
+> adau1372_enable_pll() was a void function that silently swallowed lock
+> failures, leaving mclk enabled and adau1372->enabled set to true despite
+> the device being in a broken state.
 >=20
-> Convert adau1372_enable_pll() to return int, using -ETIMEDOUT on lock
-> timeout and propagating regmap errors directly. In adau1372_set_power(),
-> check the return value and unwind in reverse order: restore regcache to
-> cache-only mode, reassert GPIO power-down, and disable the clock before
-> returning the error.
+> Patch 1 fixes the unchecked clk_prepare_enable() by making
+> adau1372_set_power() return int and propagating the error.
 >=20
-> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> ---
-
-Also deserves a Fixes tag IMO.
-
+> Patch 2 converts adau1372_enable_pll() to return int and adds a full
+> unwind in adau1372_set_power() if PLL lock fails, reversing the regcache,
+> GPIO power-down, and clock state.
+>=20
 > Changes in v2:
-> - Also unwind regcache and GPIO power-down state on PLL lock failure,
-> =C2=A0 as noted by Mark Brown.
+> - [1/2]: No changes.
+> - [2/2]: Also unwind regcache and GPIO power-down state on PLL lock
+> =C2=A0 failure, as noted by Mark Brown.
 >=20
-> =C2=A0sound/soc/codecs/adau1372.c | 17 ++++++++++++++---
-> =C2=A01 file changed, 14 insertions(+), 3 deletions(-)
+> Jihed Chaibi (2):
+> =C2=A0 ASoC: adau1372: Fix unchecked clk_prepare_enable() return value
+> =C2=A0 ASoC: adau1372: Fix clock leak on PLL lock failure
 >=20
-> diff --git a/sound/soc/codecs/adau1372.c b/sound/soc/codecs/adau1372.c
-> index 6345342218d6..e3eba241bdf7 100644
-> --- a/sound/soc/codecs/adau1372.c
-> +++ b/sound/soc/codecs/adau1372.c
-> @@ -762,7 +762,7 @@ static int adau1372_startup(struct snd_pcm_substream =
-*substream, struct
-> snd_soc_
-> =C2=A0	return 0;
-> =C2=A0}
->=20
-> -static void adau1372_enable_pll(struct adau1372 *adau1372)
-> +static int adau1372_enable_pll(struct adau1372 *adau1372)
-> =C2=A0{
-> =C2=A0	unsigned int val, timeout =3D 0;
-> =C2=A0	int ret;
-> @@ -778,8 +778,12 @@ static void adau1372_enable_pll(struct adau1372 *ada=
-u1372)
-> =C2=A0		timeout++;
-> =C2=A0	} while (!(val & 1) && timeout < 3);
->=20
-> -	if (ret < 0 || !(val & 1))
-> +	if (ret < 0 || !(val & 1)) {
-> =C2=A0		dev_err(adau1372->dev, "Failed to lock PLL\n");
-> +		return ret < 0 ? ret : -ETIMEDOUT;
-> +	}
-> +
-> +	return 0;
-> =C2=A0}
->=20
-> =C2=A0static int adau1372_set_power(struct adau1372 *adau1372, bool enabl=
-e)
-> @@ -807,7 +811,14 @@ static int adau1372_set_power(struct adau1372 *adau1=
-372, bool enable)
-> =C2=A0		 * accessed.
-> =C2=A0		 */
-> =C2=A0		if (adau1372->use_pll) {
-> -			adau1372_enable_pll(adau1372);
-> +			ret =3D adau1372_enable_pll(adau1372);
-> +			if (ret) {
-> +				regcache_cache_only(adau1372->regmap, true);
-> +				if (adau1372->pd_gpio)
-> +					gpiod_set_value(adau1372->pd_gpio, 1);
-> +				clk_disable_unprepare(adau1372->mclk);
-> +				return ret;
-> +			}
-> =C2=A0			clk_ctrl |=3D ADAU1372_CLK_CTRL_CLKSRC;
-> =C2=A0		}
+> =C2=A0sound/soc/codecs/adau1372.c | 34 ++++++++++++++++++++++-----------
+> =C2=A01 file changed, 24 insertions(+), 10 deletions(-)
 >=20
 > --
 > 2.47.3
+
+With proper tags:
+
+Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
