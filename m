@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32ED3E51C1;
-	Thu, 26 Mar 2026 16:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E073F7864;
+	Thu, 26 Mar 2026 16:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774542078; cv=none; b=kkQSF0ppzZ0lox6N2bU/sHfNljlBSSHCHIgsezKQAzIq6W+tRCiSvhXdeKw+tos1gHBBLFWkR2WCIyFgp2k9KQQFusPOA2wDMoxkkqqlh8SxJY+YLnmQTOwYUK8OuH33njrVmnzW4zEPzxSizcP9Yu+R3hzxgX91f2/x9QiM4j0=
+	t=1774542086; cv=none; b=dYW/W43hwPd1PsVHcjrr/xBixDkU+AYAbUaclp0Y+gyR2ERPG+ojMIDGn2sDZgWKdsE1D6cfFBLTwmzh1vpNMPFjtOmkcItlSmDRplq1Wx7SoJQ/eYtJrb7771DDrIWSS6JWeXfClPEesZZU+vBVPgfRxoxprb1sLPCPAQVAKW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774542078; c=relaxed/simple;
-	bh=VEbZKzqlaJMHj8SEPEVTR5w94BMW8G8i7JC5xDq8lz8=;
+	s=arc-20240116; t=1774542086; c=relaxed/simple;
+	bh=5Ky7siOIsPucYIVHIfrNrhQ7h5qedFWDCm+Rygw3nB8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iLXrRIynBoZrGKgEFnD+BFvvcGFJcM59l2WsA9toRMNXSKB2wAQP3HRP/RVw8AFZRs/At7ibP20BUewI/xZimQrMn60367tXDyC/jemsNmFC2Ain/in+V6Yw6Fyvem4F2yoghVZs0+lq5wi/5pk6Qrt/M3KMLoi8Ye7RZVii68k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b5MkLH8B; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=FYSvswkx1+v3L19WbTEsUnUewxHG6Q0VkArHu7zx10tgfOgt5Z/Xsh7WVvc+Q26A10N1I1trR7U5m/WLp71xNIhPCoSS0ZFBZ7gEjlaSRUTftxj0r1Npi6EApScShu5/v9+e6SbMEDxdJQ2/bKb2Kp+5iSqIM1iBD22sVo/9N+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rHm+uqrG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b5MkLH8B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45191C19423;
-	Thu, 26 Mar 2026 16:21:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rHm+uqrG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89334C19423;
+	Thu, 26 Mar 2026 16:21:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774542078;
-	bh=VEbZKzqlaJMHj8SEPEVTR5w94BMW8G8i7JC5xDq8lz8=;
+	s=k20201202; t=1774542086;
+	bh=5Ky7siOIsPucYIVHIfrNrhQ7h5qedFWDCm+Rygw3nB8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=b5MkLH8Bi7rr+/JnLb4XZuzvbLQNXC0HNpYD32HNk5o/aaihmCLcv8juSLjhJnBmj
-	 pa7IN9/roTX2od6hR/LitfgXBlAj7r3YR92M1HQWrS5ntOLazip92mvqMliYJTYzGJ
-	 Vk+E2mQIZQmQaDDWtcOt38Hh/iO5QSP0V446NkRl4NXtsemH+3tCwH26CptLpYs5cn
-	 J4xXKKcVlzFdCcA1sZLPWTiTOhrTrvXaB6Lb4pBFKBxwdm6T+bak6YvN9wjO8qxA/f
-	 E4l/uqimIgfEsbhHITIv3V2ZJr0f3uHMXvEvHFDOLd4tsW3JN9L1jdqcHeJWPGFJpJ
-	 WFboSiR6TQeiQ==
+	b=rHm+uqrGCg3xr6POSm1wJ/4ax3xLJL4VVTsViSA1kbUR/kdKV7GV6VQtU1+BnJOtM
+	 yHC9TyviMaGQrncS3N3SyvOBs40w8bkADfLFpcVEvvZEbEINPT7x7zgpWg+IpGI6aF
+	 hiqW+D7UGa+s6HbHyxTOdvRJxJr6Sbgzzur6pslXXB/DEpjc/y22iSN02tG1G54AMN
+	 W4qvoyPdbKRMTcsmfPru59CgUuUM7OzPhf1oa7Mos4kCRZGdgFdq9ovPBtsXUcK+bT
+	 vWIMkOkHgw5IkFkdeA/dYp1jaKPrGfVPEFn1sAmRPbJ4wpFw9/OoSXgJb8uIj64rNW
+	 Wx+wmQnxphTlg==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, perex@perex.cz, songxiebing <songxiebing@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20260325022804.253353-1-songxiebing@kylinos.cn>
-References: <20260325022804.253353-1-songxiebing@kylinos.cn>
-Subject: Re: [PATCH v2] ASoC: renesas: Fix non-static global variable
-Message-Id: <177453037196.151520.14537679598756498435.b4-ty@b4>
-Date: Thu, 26 Mar 2026 13:06:11 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, seppo.ingalsuo@linux.intel.com, 
+ liam.r.girdwood@intel.com, stable@vger.kernel.org
+In-Reply-To: <20260326075618.1603-1-peter.ujfalusi@linux.intel.com>
+References: <20260326075618.1603-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH for 7.0] ASoC: SOF: ipc4-topology: Allow bytes controls
+ without initial payload
+Message-Id: <177452378239.64163.6551845130950255246.b4-ty@b4>
+Date: Thu, 26 Mar 2026 11:16:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,29 +47,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-ad80c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=broonie@kernel.org;
- h=from:subject:message-id; bh=VEbZKzqlaJMHj8SEPEVTR5w94BMW8G8i7JC5xDq8lz8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpxVz8Wq+m68Z10MyUqxvXgmbor4Vn+8oq01HlU
- BBur62DAVmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacVc/AAKCRAk1otyXVSH
- 0NDOB/981dbNkcdW80hvx3ccnC7sAsjGN994FJZvB0SsNKzfr/EzrPK7plx4Oi+M7CS0HafwTft
- vlbEmaDRIEbwugzjRed9Zu6MnTrvGYJXxemJOBY5NUYnvvfAsZVEMNMQFvGFpr/lhK2+zpsApwg
- 1ja3dZH6O/N48hUWt042Rzq33r8JiRPiU0DMTN2jD6Zo/njW6WRAJ0Neg1CmI1n5ESQmv45PJeT
- gJBePi73HqOT6ms8X8viFmK6K343/kXXzI3BHl3eaqvgl1WVdonXhAWuPfVlntdtId4KylXmys+
- A5gFIuCja6kgsHAmPQRl9fWWBWE1lT2WaqO52tv5mkGuzQyO
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5Ky7siOIsPucYIVHIfrNrhQ7h5qedFWDCm+Rygw3nB8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpxV0DvZ5K7WZowAEsmJ2RX3FH7J1sAryB3bVE6
+ dQRni9tpmCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacVdAwAKCRAk1otyXVSH
+ 0L8fB/9DOwnMyP61BBVn4QW5DD6qk6OPhp+5MXR35b/yorbnlt8P6Kkkntaia+jUPhKl6dpmyDy
+ 2eC4Vs9pfyeDkAj6RbsFhndKupgE9PRPHeJbWU4K4erq3LrAG0vsWsBYNrecIKYHiVMS3s6IUQb
+ KGY03eZrHqL+8buM+iCPi6yboYdC7Mg/SQcVn8KCjMPbk7diZsm9XzGuplG2ueF/tDpRhDeS2vl
+ mcdOeR7A2nRMuNTdlaroiQzzZg8TL9DkmVIXpNlda8ryWp58i4CxetaNyiix7V/SBhiL9fgtnZy
+ NcB6cWJ3uTktmq3Rt/dyjdM9EmWHDPebK8SlnzIZmdgguiGX
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 25 Mar 2026 10:28:04 +0800, songxiebing wrote:
-> ASoC: renesas: Fix non-static global variable
+On Thu, 26 Mar 2026 09:56:18 +0200, Peter Ujfalusi wrote:
+> ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
 
 Thanks!
 
-[1/1] ASoC: renesas: Fix non-static global variable
-      https://git.kernel.org/broonie/sound/c/e113ed3e73b9
+[1/1] ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload
+      https://git.kernel.org/broonie/sound/c/d40a198e2b78
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
