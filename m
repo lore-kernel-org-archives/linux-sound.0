@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D3338E5CE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234553B2FE7
 	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 07:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774511598; cv=none; b=ZFZibzmwZjsJ4NurnjjBC/ww/NZPgpsr+ga/82tPnv/StRGf56Iar2aiiZ8QhT6Xejl1cJc58hNvWSv3PnbT9akF34d/E3+RuZRzWIfjTZEePLn19PX9ppCpS1fRK3dwNjrIWCk6QG2/rTV1SZzCdNZuHY+y6TaYqEMBrF5awhc=
+	t=1774511599; cv=none; b=PZMqaJoAoylPOq+t0DMMmiCkpiSZxvEaObDOyItZ9JWkarhXye1Qd51n3jc8njb6uvvc48Q4oQqlXkEnvvMpQg508n336lHI/zDkPWifsNiSel1DQJtXcn74/Yo1ywbyKuhzmma5Yud0v0ehgqw5gvRBTYZ1lAkJsIjzMfhyJhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774511598; c=relaxed/simple;
-	bh=g+jvkdf3LLsJ9KPMQZmoU6u4fDgqT0pq8qFsfecN7ag=;
+	s=arc-20240116; t=1774511599; c=relaxed/simple;
+	bh=5VwND5tjEWyt5+f3iHa8LVmVythbGagLvu0PxKhk4W0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dqWsIdULm/t81CC2mcvUbfH4fQB+99h8N27SAVE04XCTQF5RftAwuUmAT4v5sRM0/6Cg2DnUFvDfRjCCj8xch6AJYccoeeiwPZ/66t2UQMSLRHF0Bp3NfkeCG2wG0yDmiJ+nge/2LNcDYa7pij5jHPt23WxreKGe01hS1n5sa7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VzMvgd0b; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=eMZ21X7bFgKzmRvcY6bp4F+AbW/nxnZUzJgVwiEFKlS0D/xJCzeMy6vtl87Wr2jROTkeWjkCSQUa/uIY+K9O9M9jXoLI6hoZSmeRJBMvUUi+NxVRPG3NI6hpSu/YYT7GibXtzqSr/RaKlUw4JlTlGtQLG+vP8bmyUBnuh+4D7hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jzzpWKiI; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VzMvgd0b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzzpWKiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1774511598; x=1806047598;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=g+jvkdf3LLsJ9KPMQZmoU6u4fDgqT0pq8qFsfecN7ag=;
-  b=VzMvgd0bQYA7io9FeVfMO/XIfX6e5jLjk51SKdiP0lZ6YG8t7xkHKfDQ
-   2PyNafEPf0ZzRfMiK9TtyvZW1cWxMZxSR+Q2tzTz4Xt0WzG46Zi9Irmjr
-   j+wagc1lE7eHG1YUDn3nzAz/3Lp5bp0Q1DS0EEdcRABkkS/NDMu2p1wwv
-   oISGcsRtOQry3fcLlXqK3jzqzuA7aDWqVg5dbzCQywXzK1Rq8PBRZoCd9
-   dnfcz39TF5HEtweGkXfuKSjVs9vg6yUT8Ihzbew9jjBxu2sYtlmyaL6ut
-   X/KDn+eM0w84CnDcKL0jGpEiSKa0iY7ZBNLPse223vk7VY+R6RrHpyOaW
-   g==;
-X-CSE-ConnectionGUID: Rv5BKXn8SB2vxgjY9N8ovA==
-X-CSE-MsgGUID: 8ElSwfCVS4ahu7V11JLyag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="78157949"
+  bh=5VwND5tjEWyt5+f3iHa8LVmVythbGagLvu0PxKhk4W0=;
+  b=jzzpWKiIlDkkahN506Ot6EszO/OW/tAENsGk5KCKrN7DT7RadDZbUR0g
+   w1COnn5X/n1ANX9Hn3qGvfoSzmyffZZ3Prl/j6rL9YtOHTQWvroypnaSK
+   vLaFi1CYJoX46BzW23t4lCKuo4HKMcCby+tCgsyVN4himdy2LdRJZLglN
+   tju+1oEp8HWXa7Lx93xByKpZVhbZgYCCxAxPOYi169hv8h8848VCQqjEj
+   z/NgPkZm/ZiOjfrUp7BlcaWNc1uL3SEkEz8j//kocwS+1kt/YaDhZVqi8
+   +3RxDvE3Nt0OcL7h9bG0+ZbI3SR/swR4OmWLyB88QOglw3wS8xcH0Bo6H
+   Q==;
+X-CSE-ConnectionGUID: +U0hGuwATDu+h9NBv2Ux6A==
+X-CSE-MsgGUID: CTu4/mrXSe2sNbsu3szyyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="78157961"
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="78157949"
+   d="scan'208";a="78157961"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 00:53:16 -0700
-X-CSE-ConnectionGUID: Qfx50fXMT32sZ+75IAmBEw==
-X-CSE-MsgGUID: GxrOcKq6SgCXMxo+5QewOA==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 00:53:18 -0700
+X-CSE-ConnectionGUID: 5ZIPS4/qT6aBSwhtfYal8w==
+X-CSE-MsgGUID: qVBP/yVvTPeMRfchXJ/k2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="220084920"
+   d="scan'208";a="220084923"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 00:53:14 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 00:53:16 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -52,9 +52,9 @@ Cc: linux-sound@vger.kernel.org,
 	peter.ujfalusi@linux.intel.com,
 	flove@realtek.com,
 	derek.fang@realtek.com
-Subject: [PATCH 2/3] ASoC: SOF: Intel: Add a is_amp flag to fix the wrong name prefix
-Date: Thu, 26 Mar 2026 15:53:01 +0800
-Message-ID: <20260326075303.1083567-3-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 3/3] ASoC: sdw_utils: add rt1320 and rt1321 dmic dai in codec_info_list
+Date: Thu, 26 Mar 2026 15:53:02 +0800
+Message-ID: <20260326075303.1083567-4-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260326075303.1083567-1-yung-chuan.liao@linux.intel.com>
 References: <20260326075303.1083567-1-yung-chuan.liao@linux.intel.com>
@@ -68,56 +68,146 @@ Content-Transfer-Encoding: 8bit
 
 From: Derek Fang <derek.fang@realtek.com>
 
-According to the Intel sof design, it will create the name prefix
-appended with amp index for the amp codec only, such as:
-rt1318-1, rt1318-2, etc...
-
-But the rt1320 is a codec with amp and mic codec functions, it doesn't
-have the amp index in its name prefix as above.
-And then it will be hard to identify the codec if in multi-rt1320 case.
-So we add a flag to force the amp index to be appended.
+Add 'rt1320-aif2' dai infos for rt1320 and rt1321 dmic function.
 
 Signed-off-by: Derek Fang <derek.fang@realtek.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- include/sound/soc_sdw_utils.h |  2 ++
- sound/soc/sof/intel/hda.c     | 10 ++++++++++
- 2 files changed, 12 insertions(+)
+ sound/soc/sdw_utils/soc_sdw_rt_dmic.c | 46 +++++++++++++++++++++++++--
+ sound/soc/sdw_utils/soc_sdw_utils.c   | 26 +++++++++++++--
+ 2 files changed, 67 insertions(+), 5 deletions(-)
 
-diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
-index 48f516ba682f..489083183673 100644
---- a/include/sound/soc_sdw_utils.h
-+++ b/include/sound/soc_sdw_utils.h
-@@ -83,6 +83,8 @@ struct asoc_sdw_codec_info {
- 	const int dai_num;
- 	struct asoc_sdw_aux_info auxs[SOC_SDW_MAX_AUX_NUM];
- 	const int aux_num;
-+	/* Force AMP-style name_prefix handling (append AMP index) even if MIC/Jack DAIs exist */
-+	const bool is_amp;
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt_dmic.c b/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
+index 97be110a59b6..fed85bad9e88 100644
+--- a/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
++++ b/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
+@@ -9,15 +9,20 @@
  
- 	int (*codec_card_late_probe)(struct snd_soc_card *card);
+ #include <linux/device.h>
+ #include <linux/errno.h>
++#include <linux/soundwire/sdw.h>
++#include <linux/soundwire/sdw_type.h>
+ #include <sound/soc.h>
+ #include <sound/soc-acpi.h>
+ #include <sound/soc_sdw_utils.h>
++#include <sound/sdca_function.h>
  
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 9ec33147d9af..edb80c2fa770 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1232,6 +1232,16 @@ static struct snd_soc_acpi_adr_device *find_acpi_adr_device(struct device *dev,
- 		return NULL;
- 	}
+ int asoc_sdw_rt_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+ {
+ 	struct snd_soc_card *card = rtd->card;
+ 	struct snd_soc_component *component;
++	struct sdw_slave *sdw_peripheral = NULL;
+ 	char *mic_name;
++	int rt1320_dmic_num = 0, part_id, i;
  
+ 	component = dai->component;
+ 
+@@ -32,9 +37,44 @@ int asoc_sdw_rt_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_da
+ 	if (!mic_name)
+ 		return -ENOMEM;
+ 
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s mic:%s", card->components,
+-					  mic_name);
 +	/*
-+	 * codec_info_list[].is_amp is a codec-level override: for multi-function
-+	 * codecs we must treat the whole codec as an AMP when it is described as
-+	 * such in the codec info table, even if some endpoints were detected as
-+	 * non-AMP above. Callers/UCM rely on this to keep name_prefix and AMP
-+	 * indexing stable and backwards compatible.
++	 * If there is any rt1320/rt1321 DMIC belonging to this card, try to count the `cfg-mics`
++	 * to be used in card->components.
++	 * Note: The rt1320 drivers register the peripheral dev to component->dev, so get the
++	 * sdw_peripheral from component->dev.
 +	 */
-+	if (codec_info_list[i].is_amp)
-+		is_amp = true;
++	if (is_sdw_slave(component->dev))
++		sdw_peripheral = dev_to_sdw_dev(component->dev);
++	if (sdw_peripheral &&
++	    (sdw_peripheral->id.part_id == 0x1320 || sdw_peripheral->id.part_id == 0x1321)) {
++		part_id = sdw_peripheral->id.part_id;
++		/*
++		 * This rtd init callback is called once, so count the rt1320/rt1321 with SDCA
++		 * function SmartMic type in this card.
++		 */
++		for_each_card_components(card, component) {
++			if (!is_sdw_slave(component->dev))
++				continue;
++			sdw_peripheral = dev_to_sdw_dev(component->dev);
++			if (sdw_peripheral->id.part_id != part_id)
++				continue;
++			for (i = 0; i < sdw_peripheral->sdca_data.num_functions; i++) {
++				if (sdw_peripheral->sdca_data.function[i].type ==
++				    SDCA_FUNCTION_TYPE_SMART_MIC) {
++					rt1320_dmic_num++;
++					break;
++				}
++			}
++		}
++		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++						  "%s mic:%s cfg-mics:%d", card->components,
++						  mic_name, rt1320_dmic_num);
++	} else {
++		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++						  "%s mic:%s", card->components,
++						  mic_name);
++	}
 +
- 	adr_dev[index].adr = ((u64)sdw_device->id.class_id & 0xFF) |
- 			((u64)sdw_device->id.part_id & 0xFFFF) << 8 |
- 			((u64)sdw_device->id.mfg_id & 0xFFFF) << 24 |
+ 	if (!card->components)
+ 		return -ENOMEM;
+ 
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 637c640001d6..2807f536eef0 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -331,6 +331,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 		.vendor_id = 0x025d,
+ 		.part_id = 0x1320,
+ 		.name_prefix = "rt1320",
++		.is_amp = true,
+ 		.dais = {
+ 			{
+ 				.direction = {true, false},
+@@ -346,13 +347,24 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.widgets = generic_spk_widgets,
+ 				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+ 			},
++			{
++				.direction = {false, true},
++				.dai_name = "rt1320-aif2",
++				.component_name = "rt1320",
++				.dai_type = SOC_SDW_DAI_TYPE_MIC,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
++				.rtd_init = asoc_sdw_rt_dmic_rtd_init,
++				.widgets = generic_dmic_widgets,
++				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
++			},
+ 		},
+-		.dai_num = 1,
++		.dai_num = 2,
+ 	},
+ 	{
+ 		.vendor_id = 0x025d,
+ 		.part_id = 0x1321,
+ 		.name_prefix = "rt1320",
++		.is_amp = true,
+ 		.dais = {
+ 			{
+ 				.direction = {true, false},
+@@ -368,8 +380,18 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.widgets = generic_spk_widgets,
+ 				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+ 			},
++			{
++				.direction = {false, true},
++				.dai_name = "rt1320-aif2",
++				.component_name = "rt1320",
++				.dai_type = SOC_SDW_DAI_TYPE_MIC,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
++				.rtd_init = asoc_sdw_rt_dmic_rtd_init,
++				.widgets = generic_dmic_widgets,
++				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
++			},
+ 		},
+-		.dai_num = 1,
++		.dai_num = 2,
+ 	},
+ 	{
+ 		.vendor_id = 0x025d,
 -- 
 2.43.0
 
