@@ -1,176 +1,181 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EBB402BB3
-	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 15:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE43FD126
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 15:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774539079; cv=none; b=gfVcDGZqfgZ7GkACI+uaNujW83Qasysa8I8Qtjtawfe5pKZpuH5Wpx3om4UDdSHV+SAJn9VBh7lLRyhjbhSipMvjJdAbOA3kJKPQ4TPQAcNYPjvu9x/Nl1xPgm8dbQUqp/ljLqcNYpZZLJ6u4NCQsxEIh7mWmC/LI95XS8UJabc=
+	t=1774539276; cv=none; b=MezOzijkN4Km0m2tLmdTO7p+jEcJdm7QwzLvbQYPXLuC8p+rPwrrZVdvo8peJ2oRpSzRi/NuaflHv2PJh4WVlhfrQm07s7C4DbWoXBCLOMHtcGsyaNpExEhOT9cAfl4Wd5h1m3zLh9uMkqJ185DqfC5hC+ihl5y67voQ2Lz+DFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774539079; c=relaxed/simple;
-	bh=UL4qhY1GW6q837tlvmze48qQ8k9CAYqbOo9E/+wgRyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MhBG7Km5ewmINZ6xmOEfuU3MIxJd/W+zRmo97dhyqhrBZ1zGfilndniZltNNQB5l4RVVX1uOXr/mpNyyzNMXe6B7qhLjh/Qi5WMzgunJOOb4/turFBBT/ikL3TprL86evmdebvR8WmYhiuP70jVkecBK2qNfFjKa46YF5gahYHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UlipWtYZ; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1774539276; c=relaxed/simple;
+	bh=peWwslY60X5deNxQgqJv7OYyoSx6v0JNvTUpeeVZ1q4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q1qG6eyINCnOqmjrbV3hx3dp6aQ7P8GWZ14RL/oazW3dxLA5nvDscX/5CHMwB07XxTSd2KPgiqoukmclYAakkW0C1FkEDCNN2QQZNr0uSLUhHNXmgXWKTZZThb2gPxHNvW96bTytOieIRDVjH1dQGWV3sgyi6iQXki+vyORz5Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UlipWtYZ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b0603ee486so7353215ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 08:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774539076; x=1775143876; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GMDen7TgZzaqdsouNW3DcdKw+MMrqwjkqsk86h7I8tE=;
-        b=UlipWtYZX0UGtXGL8QiXXsHQJr8+1pmyVRSLz0TaHiBF6EJbYlHtb6HICs74l8IeXv
-         q4uDyMQJgB4hfDL6UfLScTS7/UHMISlzHAxlmb6zb7Y7jsg0wa0GXkcnlvXTwqXV7oxS
-         uq7zks5El3bt1ZVLwyjBij/ErYZZ3AVRA6qK5/G5AL+gWfboW3bHXdX20mRyIgIYkyXW
-         LZciEjjZyurKm+jbwNOEmKUIwjaIQlF4HkYMdXuiohwmszPdEzhSoIpTAN4jQIe+Xjgq
-         oBl+RhQw4n2o8YT4guPXWXvzZ08viXrv0zPZqBmPVCI+XQIR39F/tumH9O/Ujbk9jY/u
-         9vNA==
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-56ce44a204dso843390e0c.1
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 08:34:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774539076; x=1775143876;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1774539274; x=1775144074;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GMDen7TgZzaqdsouNW3DcdKw+MMrqwjkqsk86h7I8tE=;
-        b=rC9LJXzvy7oKcTx49VMHZIr1dZVXsrgQJokuFNfodp9gIM0EX1vBhUBzNYSsQWlGb8
-         7BHtx+pJ7zvY09j2a1MiItCylqnGNvG/cOzx+66V0nz8mlTFAUz7svZfA9V21SZNFY8v
-         onqmm1YaXfAq95TvaLubcvV93/doXWOREU+NASiO1x7aHJzM0QpAsrTnESCYPB2P4Dud
-         IL/o+UCHnVfSjcsYi3dht3dr3JnVuapMfophkhTU89mHp1zJaZ9qDStlO+zmf1k5pooU
-         JYuHLhnzlpEhwAf0QdF326r8DH0Qt2Emgje3xkwWdrNfcBismZh8cBI8Em8GDHp7muOK
-         MScA==
-X-Forwarded-Encrypted: i=1; AJvYcCUeRCXo1hnckvNEg06i7klkOzzarF3Vs068aE1CzXWwLUK6Kjppqf91XAdYLsKvwm+Cl8pppWM+VIN0FQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWoskRTaYwGAJqfsMEh/mlGvLs4BpQwDRQml2RjkwYn/tHAEIp
-	NF21X/PdfJTIo0p7wuFj0bll+VTefnbDQ4gY1cquCGqFNKEaN0zeLO7J
-X-Gm-Gg: ATEYQzx28G0QYx8iC1vhY2ODqIVqvJuUIL60vkYqeBR0YU5fKB0nqLOaHKEtxqL0wOd
-	96uklFxcziMEt7vqPEscURKlcKevWLpoImHT1kp66iqs2y5SSRzw1ScAc8JkN/hlB0HNXuJLjHQ
-	3RNZL9UjbEnH4fm1phUb5XsKhaNXvkKGxfZC64NeYifEEjY1+nKzSNBLU0vYXGjfvieeiP5tww0
-	2H2W89gv2ccsgX+TpwBC/OjNIxvqJqFSvFQLFHurD82VTRGFwdOuHj9ply340DivbS9c4E8mBCG
-	3Z1qQp8AUxk5hr1+6bVuScaRn3nILcvCqSjuNAL/XNsC0yNjQJRZ+6kMYMvX4rfZBsOrAnQx1hP
-	Hl80LLsoLkOejsh6B1uNfVjCxKoK8J7kKXvaOOW8F9pQPkdpByFzHDQgcHdZihF4zPzzpe5ZobA
-	2JxZF2FzalJZWp17zb4hL8mTSq+2BCKZLIgJArxSDLKmVzBlH0
-X-Received: by 2002:a17:902:d501:b0:2b0:b1e2:583 with SMTP id d9443c01a7336-2b0b1e22151mr88076775ad.2.1774539075760;
-        Thu, 26 Mar 2026 08:31:15 -0700 (PDT)
-Received: from padmashree.. ([2401:4900:94ef:3410:d6b4:902f:d713:b1b1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc7bbe57sm45130925ad.34.2026.03.26.08.31.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 08:31:15 -0700 (PDT)
-From: Padmashree S S <padmashreess2006@gmail.com>
-To: k.marinushkin@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: robh@kernel.org,
-	conor+dt@kernel.org,
-	krzk+dt@kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Padmashree S S <padmashreess2006@gmail.com>
-Subject: [PATCH] dt-bindings: sound: Convert pcm3060 to DT schema
-Date: Thu, 26 Mar 2026 21:00:40 +0530
-Message-ID: <20260326153041.496811-1-padmashreess2006@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=ICY5En3i4NzNQi5qrag5c9s0SZbURVLCotK2DvpExx4=;
+        b=Wcw3Cuk9/cuUx5rboSW+tQTGsIMA4dqrDL43oJ0Y855Dr5SfIRWG24bMFB8SKTFDx4
+         zpzRFzATEZ0K3nTMmZ5a8xsDGFFIVZATOyfrK9yuaOKa2Odjc8lmVFRB7gNOXvLvYN3B
+         Hxap2O8Rfr8XSbcwSbb3OvS5daTC0aOJ3dm6a95CwtywVL0BOFoamwjt8lHE+drKc22O
+         Q2ho/Ibnyqvb6XuUZ5kpkvRPyhs8cFdnOEZPdh0xgJCSV0yy/zDY711jO+7DQEjk6cFJ
+         owq/elgUysfbTVILwy4cb5sT2T9D7vt8fUAArMTEI3gBIbwbD6DpPpBvdiYsmCSZkyva
+         Y3Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCXv1p875c508To2NPYLRWKKTlgjD2JuDtTG91IqmKolURhagzpDX2qdHErji5e/xQl1tXHZAyZgt5p2oA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhWI4okefeRDE9hi66WCNy2dxWlfb9yoP3nB4vgVInbOQamtYg
+	cEFpz8BWc63yWZGRCI6tht5Tz4/GjGraiFZl73UrTISh39H8ADZGrYg0wNrmUySONdI=
+X-Gm-Gg: ATEYQzw2va+ihjlds9nFF0VnNe/1QC+lte0lVWw1+LxrSjue65MXwkzvjUWbQ8IDWXJ
+	WDUvmNA/op/Toe38wJu7TwkfI9Y8Q/tXb9QiJ1tLs1pveu4t6l9Au7IZ9En3sTz58XHiWTjLQTm
+	Zx1J4A2Je77VaISqyQGeOzK53jzlE4bM9WT+202HiyqdezA75o49f+JcYJYRnMWp7rg9VgJGz6e
+	DasJMZ5x7yoIevYuje5I3Zc7HAlYNMY0k9xinyewOYz8t/BIxEx/4hvcIqrXgKHT+T2+WKCt+Pp
+	Pi14+udNI3GUhI063HRdf/i6yHFzgRJAusRfo/QlmdBub7UoItpLNiu84CdP5Od49SZTFZFeZdz
+	RXdO+D0cxt76B0Ly7/ktktnUlo633yunlAJWkGGmoMFYJV9MYtY9uhFc4Q5s3ODCBjHWxQR5vbw
+	vCFwmToHXOSJs4U0C0TnEFvL8ej1oi8KTqTOT1tmsS1rnSmjG1ylh6gCT+kPifXW0M
+X-Received: by 2002:a05:6122:6c02:b0:56b:7f53:9ab2 with SMTP id 71dfb90a1353d-56d22066f25mr3881204e0c.10.1774539274241;
+        Thu, 26 Mar 2026 08:34:34 -0700 (PDT)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d31d71725sm4982551e0c.13.2026.03.26.08.34.33
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2026 08:34:34 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-56cc67e01deso1067572e0c.3
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 08:34:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXXKYDUYdjLIinQ074+bx7TOTbNKpL4bu/wL1djflGHXGNBDkbJAPFGP1e/2dSHZ14Er7xsmK5kMv+LXA==@vger.kernel.org
+X-Received: by 2002:a05:6102:5801:b0:5f5:2539:9b11 with SMTP id
+ ada2fe7eead31-603870ce0f5mr4152226137.14.1774538871002; Thu, 26 Mar 2026
+ 08:27:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com> <20260319155334.51278-5-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260319155334.51278-5-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Mar 2026 16:27:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVbP5Bbr9KuxoEb48zUvubT3CN7sC9oVat2NcNWaBwOtQ@mail.gmail.com>
+X-Gm-Features: AQROBzCXM6uPDs6UcVr58TTtg0-_14CRbEgbIPerOfaOzDyxBM9HF9kuEp2hlRY
+Message-ID: <CAMuHMdVbP5Bbr9KuxoEb48zUvubT3CN7sC9oVat2NcNWaBwOtQ@mail.gmail.com>
+Subject: Re: [PATCH 04/22] dt-bindings: dma: renesas,rz-dmac: Document
+ optional DMA ACK cell
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	John Madieu <john.madieu@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Note:
-* This patch is part of the GSoC2026 application process for device tree bindings conversions
-* https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
+Hi John,
 
-Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
----
- .../devicetree/bindings/sound/pcm3060.txt     | 23 ----------
- .../devicetree/bindings/sound/pcm3060.yaml    | 45 +++++++++++++++++++
- 2 files changed, 45 insertions(+), 23 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/pcm3060.txt
- create mode 100644 Documentation/devicetree/bindings/sound/pcm3060.yaml
+On Thu, 19 Mar 2026 at 16:55, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> Some peripherals on RZ/V2H, RZ/V2N, and RZ/G3E SoCs require explicit
+> ACK signal routing through the ICU. Document the optional second cell
+> in the DMA specifier for specifying the ACK signal number.
+>
+> The first cell remains unchanged and specifies the encoded MID/RID and
+> channel configuration. The optional second cell specifies the DMA ACK
+> signal number for peripherals requiring level-based handshaking.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-diff --git a/Documentation/devicetree/bindings/sound/pcm3060.txt b/Documentation/devicetree/bindings/sound/pcm3060.txt
-deleted file mode 100644
-index 97de66932d44..000000000000
---- a/Documentation/devicetree/bindings/sound/pcm3060.txt
-+++ /dev/null
-@@ -1,23 +0,0 @@
--PCM3060 audio CODEC
--
--This driver supports both I2C and SPI.
--
--Required properties:
--
--- compatible: "ti,pcm3060"
--
--- reg : the I2C address of the device for I2C, the chip select
--        number for SPI.
--
--Optional properties:
--
--- ti,out-single-ended: "true" if output is single-ended;
--                       "false" or not specified if output is differential.
--
--Examples:
--
--	pcm3060: pcm3060@46 {
--		 compatible = "ti,pcm3060";
--		 reg = <0x46>;
--		 ti,out-single-ended = "true";
--	};
-diff --git a/Documentation/devicetree/bindings/sound/pcm3060.yaml b/Documentation/devicetree/bindings/sound/pcm3060.yaml
-new file mode 100644
-index 000000000000..a0455c9dad73
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/pcm3060.yaml
-@@ -0,0 +1,45 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/pcm3060.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: PCM3060 audio CODEC
-+
-+maintainers:
-+  - Kirill Marinushkin <k.marinushkin@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: ti,pcm3060
-+
-+  reg:
-+    maxItems: 1
-+    description: |
-+      The I2C address of the device
-+      or SPI chip select number.
-+
-+  ti,out-single-ended:
-+    type: boolean
-+    description: |
-+      If present, the output is single-ended.
-+      If absent, the output is differential.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      pcm3060: audio-codec@46 {
-+        compatible = "ti,pcm3060";
-+        reg = <0x46>;
-+        ti,out-single-ended;
-+      };
-+    };
-\ No newline at end of file
-2.43.0
+Thanks for your patch!
 
+Just a quick head-up, as I haven't read the actual secion in the
+documentation yet.
+
+> --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> @@ -63,17 +63,27 @@ properties:
+>        - const: register
+>
+>    '#dma-cells':
+> -    const: 1
+> -    description:
+> +    description: |
+>        The cell specifies the encoded MID/RID or the REQ No values of
+>        the DMAC port connected to the DMA client and the slave channel
+>        configuration parameters.
+> +      Use 1 cell for basic DMA configuration.
+> +      Use 2 cells when DMA ACK signal routing through ICU is required
+> +      (RZ/V2H, RZ/V2N, RZ/G3E audio peripherals such as SSIU, SPDIF, SRC, DVC).
+> +
+> +      First cell:
+>        bits[0:9] - Specifies the MID/RID or the REQ No value
+>        bit[10] - Specifies DMA request high enable (HIEN)
+>        bit[11] - Specifies DMA request detection type (LVL)
+>        bits[12:14] - Specifies DMAACK output mode (AM)
+>        bit[15] - Specifies Transfer Mode (TM)
+>
+> +      Second cell (optional, when #dma-cells = <2>):
+> +      bits[6:0] - DMA acknowledge signal number (from ICU ACK table),
+> +                  where 0 is a valid signal number.
+> +                  Required for peripherals using level-based DMA
+> +                  handshaking (SSIU, SPDIF, RSPI, SCU, ADC, PDM).
+
+How do you expect this to work? #dma-cells applies to all DMA consumers
+of this provider, and these SoCs already have DMA users relying on
+#dma-cells being one.
+In addition, you cannot have optional cells: if #dma-cells is two,
+then all consumers must supply two cells (of course we could switch
+all of them to two cells at once).  However, as zero is a valid signal
+number, we cannot use that as a dummy when no DMA acknowledge signal
+number is needed (we could use e.g. 0xffffffff instead).
+
+Is there any other way to provide this information?
+E.g. could we have a table in the driver that contains this info for
+the (presumably few) MID/RID values that need it?
+
+> +
+>    dma-channels:
+>      const: 16
+>
+> @@ -212,6 +222,20 @@ allOf:
+>          - renesas,icu
+>          - resets
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a09g057-dmac
+> +    then:
+> +      properties:
+> +        '#dma-cells':
+> +          enum: [1, 2]
+> +    else:
+> +      properties:
+> +        '#dma-cells':
+> +          const: 1
+> +
+>    - if:
+>        properties:
+>          compatible:
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
