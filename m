@@ -1,194 +1,176 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435453F7A8C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 14:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774537101; cv=pass; b=ApNSXd6E8UWQ7l87jDA4xtzrAgiGLF42IrvEN0xnuzAYxlx8S3RF1QjsI7WrrUO3XpQ6QaE0PGWu4vc5/c3L29XzrckKlW0K0FaLmrwSfZiS16Zu6wbbs0EVsL5qVIlKrIGW8GSvSq9u4lMy14mUEQZNhVRyKvaera09DjbrZfI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774537101; c=relaxed/simple;
-	bh=qen78l6/y6sJoCnzxW/EuqNTnsOUTtEg/3QQyPLNxXI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rcm8bzXKgTm1Dw4Kv55lLpaKqfw3sYbXeIhgjz8BiXLCcz2krcaaPEQIxkfcKBQxXQeNqQbez2VccAeW8yFuhtsx2pIvGSu2TVSSMbalVgzDYgoAO4I1JE7cRa6dDDsN8YLGsAFxDyUPz0zFiqglD/KJ2K8G0m+tYKmA0e6cVfo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=AsojTbTU; arc=pass smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EBB402BB3
+	for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 15:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774539079; cv=none; b=gfVcDGZqfgZ7GkACI+uaNujW83Qasysa8I8Qtjtawfe5pKZpuH5Wpx3om4UDdSHV+SAJn9VBh7lLRyhjbhSipMvjJdAbOA3kJKPQ4TPQAcNYPjvu9x/Nl1xPgm8dbQUqp/ljLqcNYpZZLJ6u4NCQsxEIh7mWmC/LI95XS8UJabc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774539079; c=relaxed/simple;
+	bh=UL4qhY1GW6q837tlvmze48qQ8k9CAYqbOo9E/+wgRyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MhBG7Km5ewmINZ6xmOEfuU3MIxJd/W+zRmo97dhyqhrBZ1zGfilndniZltNNQB5l4RVVX1uOXr/mpNyyzNMXe6B7qhLjh/Qi5WMzgunJOOb4/turFBBT/ikL3TprL86evmdebvR8WmYhiuP70jVkecBK2qNfFjKa46YF5gahYHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UlipWtYZ; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="AsojTbTU"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9a0762ed5fso138531066b.1
-        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 07:58:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774537098; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HEr6enVz0yqG34zM9DxDGWxM0rgf//ZMaI/Dh5bu1/2gdnBNdDf0NDh0HLrsCsXqhe
-         otUCY6hwFABFK5jZqpX8nmKIMtej3LNfoQ15lnBvoC2kKkx/dfPQj8TElbDS6Yxf1ZMV
-         M1jsoGExaSbU+KqeqF/r7uREI4qvqKandqp45oe/DpZu0qt6YVrYG9C1iQIH0h13EywB
-         5FBNZ02zU+baRb1UTtVKjWTrHrQih7Ri49t9MDGjGgPObFJpkGiYYWsseAIZweaI22ks
-         rqt36FifwJmfQSkED3a7gfbnSOuqZ9tb5jCqop3hfWrgdlLa+C6Ok2lJUtVYM2E//TCp
-         komQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Knt8t9hYBVcc+Ey+bKLKvDpLtFkLS2enHg6EzCCsukw=;
-        fh=HREUUm+cCXiID4xfJAtxXxEt5EPyzCNFFBB33C9IO8o=;
-        b=ErKopq79NBqwGztQqTP4God/u39xHgP9nPaU+KHvkD1iqrn7xg5chUjlgSrmvo/B4j
-         ASkljuQVJyzFqJyrNexmNrBOpSK7Sp23cM+7AfO+eJhg0u0/FiJK/6PTWXPTrsgPT9Jc
-         HyZFtEEgGtRyQWX8vtvGIDGxjQbg0a+TwTOyaYpuyIbKmaCQ3wTNd8RVDCbDsxB2JJX3
-         1syf8vpc+wRQZpsY5UAYy4aZpZyxjRM3S++9Olv25aCagGnPC2QZ69bxx3UAatpNQPjA
-         EuzCBTT3Cr51y0WX/3P2CG9ZJLsgPBKpNvHmBBmDKLP7a+F6mSed2DK/PvIeMGj6ehaL
-         WYUw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UlipWtYZ"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b0603ee486so7353215ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 08:31:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1774537098; x=1775141898; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Knt8t9hYBVcc+Ey+bKLKvDpLtFkLS2enHg6EzCCsukw=;
-        b=AsojTbTUHpstdFQI7NDgrqcjf1RFU6/oSnk3CXs/8LGACqEtgAJ2MW3qnsKluZ/8+S
-         0ucZNy23+6OyoToFo2KQfIrwq0SUrEQVZbCmb0YI4kN+AHuYZ4b22SdH6F8v1rZfwSpx
-         KISreh+sC8DpfUfd4rxNqkYh6ds9Un6G4mTTXZyblshSyR9I0eQHED+bB2TnKyUjhKsa
-         KbDKFipImrqQrYzH0ArGKuh0Tz1B76T4TKE3/kxaTHuVC5VYWLvBrZChJv9ByNS0RX4b
-         QS+XPBAVpSD/v1o/YhA3jTZjrYkk7m2uLaE7Op5WG9KhHwmj8exb4PzBsKaQDfHkMAIS
-         EoSQ==
+        d=gmail.com; s=20251104; t=1774539076; x=1775143876; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GMDen7TgZzaqdsouNW3DcdKw+MMrqwjkqsk86h7I8tE=;
+        b=UlipWtYZX0UGtXGL8QiXXsHQJr8+1pmyVRSLz0TaHiBF6EJbYlHtb6HICs74l8IeXv
+         q4uDyMQJgB4hfDL6UfLScTS7/UHMISlzHAxlmb6zb7Y7jsg0wa0GXkcnlvXTwqXV7oxS
+         uq7zks5El3bt1ZVLwyjBij/ErYZZ3AVRA6qK5/G5AL+gWfboW3bHXdX20mRyIgIYkyXW
+         LZciEjjZyurKm+jbwNOEmKUIwjaIQlF4HkYMdXuiohwmszPdEzhSoIpTAN4jQIe+Xjgq
+         oBl+RhQw4n2o8YT4guPXWXvzZ08viXrv0zPZqBmPVCI+XQIR39F/tumH9O/Ujbk9jY/u
+         9vNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774537098; x=1775141898;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Knt8t9hYBVcc+Ey+bKLKvDpLtFkLS2enHg6EzCCsukw=;
-        b=P17qt8VGgnYW5mX6o8y4z0E8OE6qszD8rQGjt29YWWXlzjocnNMPN45gHrVkC2NIHr
-         obZNPpUZSCXsq+tugFZK/Yi+tMCIG47NNn/T1PAVvLp63GDurpgkudDaOBCcLap/6Y3F
-         S+YKpeY18ZTPUE+hJgAcoGcMleIouZ4wT7P9IYZ+VcsjOa6hPUZvVAMTEs+OqNKJMiTm
-         bLuk1DRY4hBJwihny4PlYfWPxWODdehiQ0BM28BhwmMkY5OAfBEitmyo2fXKl+XrXr66
-         u60BKZdC9/Pe5uSDHWWlttHS1XdlW2fbaAQ/R0xlV6qKWvSk9kaOn2g3EhWlvBvLsPLV
-         WAXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuTepsIpcwoJh2sKQJ5Yzoc1bTcqoEigb3X1AHFBcKLvLZ++EwGpFgijzWq4ooKmMfyHeWFoSLTWsEOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxgwz9h0yylvcPCTS54UvKShlcayUjacsNE8oiEyX+DZaQb+2YJ
-	/eZ4d7sBjMpax9MtOqBCfthfTaI0M79vK7okyyfgim5O8b8QrGgA8Rqp/dzq8XLBLa7WCczNLc3
-	Iz2BZX4btIuVbapn1k16JINaEJtbn0ejh3ZliEW5jcg==
-X-Gm-Gg: ATEYQzyouX8GbE+56d+WusUz106ekUlw2hlHtd+RPfxMjGzMNG18yodHdL5pyRTIT4J
-	SxDwgPjZ9u+TvyegOmMqqoJSNvVTSuCOtujV6oWDY6P3m1EtZ1SzKA+/QTJbO9bNnyB6B36VJqb
-	ZR7TtpmudbBtBwofevqKZ6DLe/+myyuildYXyo5hhMKdYuGoGDECEr2Erxp3BSdVv4Ap7ik0lQh
-	lJRsHu5ezFOI5sQ+1JsBEhPAm21wJwlc1cXlp4NQeoUZjtm1QHOMYQsIFlUqoX1aklvLxthRdW5
-	CfuNalo=
-X-Received: by 2002:a17:907:1ddf:b0:b98:4104:1f83 with SMTP id
- a640c23a62f3a-b9b34713aa7mr71321766b.19.1774537098508; Thu, 26 Mar 2026
- 07:58:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774539076; x=1775143876;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GMDen7TgZzaqdsouNW3DcdKw+MMrqwjkqsk86h7I8tE=;
+        b=rC9LJXzvy7oKcTx49VMHZIr1dZVXsrgQJokuFNfodp9gIM0EX1vBhUBzNYSsQWlGb8
+         7BHtx+pJ7zvY09j2a1MiItCylqnGNvG/cOzx+66V0nz8mlTFAUz7svZfA9V21SZNFY8v
+         onqmm1YaXfAq95TvaLubcvV93/doXWOREU+NASiO1x7aHJzM0QpAsrTnESCYPB2P4Dud
+         IL/o+UCHnVfSjcsYi3dht3dr3JnVuapMfophkhTU89mHp1zJaZ9qDStlO+zmf1k5pooU
+         JYuHLhnzlpEhwAf0QdF326r8DH0Qt2Emgje3xkwWdrNfcBismZh8cBI8Em8GDHp7muOK
+         MScA==
+X-Forwarded-Encrypted: i=1; AJvYcCUeRCXo1hnckvNEg06i7klkOzzarF3Vs068aE1CzXWwLUK6Kjppqf91XAdYLsKvwm+Cl8pppWM+VIN0FQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWoskRTaYwGAJqfsMEh/mlGvLs4BpQwDRQml2RjkwYn/tHAEIp
+	NF21X/PdfJTIo0p7wuFj0bll+VTefnbDQ4gY1cquCGqFNKEaN0zeLO7J
+X-Gm-Gg: ATEYQzx28G0QYx8iC1vhY2ODqIVqvJuUIL60vkYqeBR0YU5fKB0nqLOaHKEtxqL0wOd
+	96uklFxcziMEt7vqPEscURKlcKevWLpoImHT1kp66iqs2y5SSRzw1ScAc8JkN/hlB0HNXuJLjHQ
+	3RNZL9UjbEnH4fm1phUb5XsKhaNXvkKGxfZC64NeYifEEjY1+nKzSNBLU0vYXGjfvieeiP5tww0
+	2H2W89gv2ccsgX+TpwBC/OjNIxvqJqFSvFQLFHurD82VTRGFwdOuHj9ply340DivbS9c4E8mBCG
+	3Z1qQp8AUxk5hr1+6bVuScaRn3nILcvCqSjuNAL/XNsC0yNjQJRZ+6kMYMvX4rfZBsOrAnQx1hP
+	Hl80LLsoLkOejsh6B1uNfVjCxKoK8J7kKXvaOOW8F9pQPkdpByFzHDQgcHdZihF4zPzzpe5ZobA
+	2JxZF2FzalJZWp17zb4hL8mTSq+2BCKZLIgJArxSDLKmVzBlH0
+X-Received: by 2002:a17:902:d501:b0:2b0:b1e2:583 with SMTP id d9443c01a7336-2b0b1e22151mr88076775ad.2.1774539075760;
+        Thu, 26 Mar 2026 08:31:15 -0700 (PDT)
+Received: from padmashree.. ([2401:4900:94ef:3410:d6b4:902f:d713:b1b1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc7bbe57sm45130925ad.34.2026.03.26.08.31.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 08:31:15 -0700 (PDT)
+From: Padmashree S S <padmashreess2006@gmail.com>
+To: k.marinushkin@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: robh@kernel.org,
+	conor+dt@kernel.org,
+	krzk+dt@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Padmashree S S <padmashreess2006@gmail.com>
+Subject: [PATCH] dt-bindings: sound: Convert pcm3060 to DT schema
+Date: Thu, 26 Mar 2026 21:00:40 +0530
+Message-ID: <20260326153041.496811-1-padmashreess2006@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318-sai-slot-width-v1-1-1f68186f71e3@flipper.net> <14828456.uLZWGnKmhe@workhorse>
-In-Reply-To: <14828456.uLZWGnKmhe@workhorse>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Thu, 26 Mar 2026 18:58:07 +0400
-X-Gm-Features: AQROBzADiNamIvMkTjLneuBvCLIAqiBkToo-n1En-MLhpXfCGuUuqWIWcusA_qc
-Message-ID: <CAKTNdwEpQssNuuvHG7v-wXcwhVSUcg+o5B2jM88JQAuChcWWxw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Set slot width for non-TDM mode
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Sugar Zhang <sugar.zhang@rock-chips.com>, linux-rockchip@lists.infradead.org, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 11:56=E2=80=AFPM Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> On Wednesday, 18 March 2026 15:50:25 Central European Standard Time Alexe=
-y Charkov wrote:
-> > Currently the slot width in non-TDM mode is always kept at the POR valu=
-e
-> > of 32 bits, regardless of the sample width, which doesn't work well for
-> > some codecs such as NAU8822.
-> >
-> > Set the slot width according to the sample width in non-TDM mode, which
-> > is what other CPU DAI drivers do.
-> >
-> > Tested on the following RK3576 configurations:
-> > - SAI2 + NAU8822 (codec as the clock master), custom board
-> > - SAI1 + ES8388 (codec as the clock master), RK3576 EVB1
-> > - SAI2 + RT5616 (SAI as the clock master), FriendlyElec NanoPi M5
-> >
-> > NAU8822 didn't work prior to this patch but works after the patch. Othe=
-r
-> > two configurations work both before and after the patch.
-> >
-> > Fixes: cc78d1eaabad ("ASoC: rockchip: add Serial Audio Interface (SAI) =
-driver")
-> > Signed-off-by: Alexey Charkov <alchark@flipper.net>
-> > ---
-> >  sound/soc/rockchip/rockchip_sai.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/roc=
-kchip_sai.c
-> > index 1bf614dbdf4d..ed393e5034a4 100644
-> > --- a/sound/soc/rockchip/rockchip_sai.c
-> > +++ b/sound/soc/rockchip/rockchip_sai.c
-> > @@ -628,6 +628,10 @@ static int rockchip_sai_hw_params(struct snd_pcm_s=
-ubstream *substream,
-> >
-> >       regmap_update_bits(sai->regmap, reg, SAI_XCR_VDW_MASK | SAI_XCR_C=
-SR_MASK, val);
-> >
-> > +     if (!sai->is_tdm)
-> > +             regmap_update_bits(sai->regmap, reg, SAI_XCR_SBW_MASK,
-> > +                                SAI_XCR_SBW(params_physical_width(para=
-ms)));
-> > +
-> >       regmap_read(sai->regmap, reg, &val);
-> >
-> >       slot_width =3D SAI_XCR_SBW_V(val);
-> >
-> > ---
-> > base-commit: 8e5a478b6d6a5bb0a3d52147862b15e4d826af19
-> > change-id: 20260318-sai-slot-width-378eed5c22cd
-> >
-> > Best regards,
-> >
->
-> Thanks for the patch! Looking at where else this reg mask is used, I
-> got curious about `rockchip_sai_set_tdm_slot`. It seems to reset
-> SAI_XCR_SBW back to 32 when something calls it with 0 slots. Do we
-> have to adjust this as well there?
+Note:
+* This patch is part of the GSoC2026 application process for device tree bindings conversions
+* https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
 
-Hmm, from what I'm understanding set_tdm_slot is called before
-hw_params - e.g. the Freescale SAI driver doesn't even program the
-slot width to the hardware from set_tdm_slot and only updates the
-requested value in its internal data structure - to be then written
-out when hw_params runs. So I believe it should work as-is, although I
-haven't seen any TDM users of the Rockchip SAI in the wild to verify
-:)
+Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
+---
+ .../devicetree/bindings/sound/pcm3060.txt     | 23 ----------
+ .../devicetree/bindings/sound/pcm3060.yaml    | 45 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 23 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/pcm3060.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/pcm3060.yaml
 
-> I think what we're running into here is the difference between I2S
-> normal mode, and I2S justified mode. In justified modes, it'd be
-> normal to have a slot bit width of 32 but a valid data width of, say,
-> 16. In that case, VDJ would specify whether something is left or right
-> justified as far as I can tell.
->
-> So basically I'm wondering if we've accidentally been sending
-> I2S left-justified data all along when using SND_SOC_DAIFMT_I2S,
-> and whether we should only be setting this in SND_SOC_DAIFMT_I2S.
+diff --git a/Documentation/devicetree/bindings/sound/pcm3060.txt b/Documentation/devicetree/bindings/sound/pcm3060.txt
+deleted file mode 100644
+index 97de66932d44..000000000000
+--- a/Documentation/devicetree/bindings/sound/pcm3060.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-PCM3060 audio CODEC
+-
+-This driver supports both I2C and SPI.
+-
+-Required properties:
+-
+-- compatible: "ti,pcm3060"
+-
+-- reg : the I2C address of the device for I2C, the chip select
+-        number for SPI.
+-
+-Optional properties:
+-
+-- ti,out-single-ended: "true" if output is single-ended;
+-                       "false" or not specified if output is differential.
+-
+-Examples:
+-
+-	pcm3060: pcm3060@46 {
+-		 compatible = "ti,pcm3060";
+-		 reg = <0x46>;
+-		 ti,out-single-ended = "true";
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/pcm3060.yaml b/Documentation/devicetree/bindings/sound/pcm3060.yaml
+new file mode 100644
+index 000000000000..a0455c9dad73
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/pcm3060.yaml
+@@ -0,0 +1,45 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/pcm3060.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: PCM3060 audio CODEC
++
++maintainers:
++  - Kirill Marinushkin <k.marinushkin@gmail.com>
++
++properties:
++  compatible:
++    const: ti,pcm3060
++
++  reg:
++    maxItems: 1
++    description: |
++      The I2C address of the device
++      or SPI chip select number.
++
++  ti,out-single-ended:
++    type: boolean
++    description: |
++      If present, the output is single-ended.
++      If absent, the output is differential.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      pcm3060: audio-codec@46 {
++        compatible = "ti,pcm3060";
++        reg = <0x46>;
++        ti,out-single-ended;
++      };
++    };
+\ No newline at end of file
+2.43.0
 
-Isn't the difference between SND_SOC_DAIFMT_I2S vs.
-SND_SOC_DAIFMT_LEFT_J just about clock timings / edges? I thought both
-can have slot width >=3D sample width, but I could be wrong (not an
-audio guru here).
-
-> Either way, I can give this a
->
-> Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->
-> for ES8388 on my ROCK 4D (with my enablement patches for it there
-> on top that I need to get back around to).
-
-Thanks a lot!
-
-Best regards,
-Alexey
