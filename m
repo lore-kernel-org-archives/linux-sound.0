@@ -1,276 +1,154 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CA52C08A1
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 05:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774588957; cv=none; b=oNA+/FeBXYgyItQMAA1mmAELMQ9aVQMa7MwHp9tFmul6R3pc30I8Z2hYFGK4z73cRXiyKkRjDCBABOuM4f7hXDRQ+YY3klkTtawdYN11Hid8TzgzJt9XKgrEeT/FkzC8gQweaUUfCoVe1MmHYhBHoloo7BunluR+kS5lMZfLoqw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774588957; c=relaxed/simple;
-	bh=nF5TqH1TAdnJhHK4SWQNSU1qJHPIDEt89K2dGclnAOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cYk8Ngc9BVxS5bswfBAkhkLq/fNLLEdZQBSUDIP7V449DPMb/JkFcbtGmXan5NmVvX/iMRIu4S4dum8eMBs4LyfWV+Af60ic5qUwvkZr5pez52F4hZre4dksL2zKYaLXVTAF2aPdc9+DWzuQCqq65pg090jUi9Qq5uBEYEDJ6YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJUvzv6b; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4664A332914
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 06:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774591614; cv=pass; b=mzWJM/laLSf0QFBsq79KbS5HLvu/nqqJfFrTJfXajVfyB6wi4YmjLo6HUtS2/3SN0q9TwguSMEwrQcMSSYBgVO/AT9hLchW00mkgztAJeKqI/5gCXRA98TJJrRx87abJB5albtnuq6sa+Vn4XB2UY0QvS730w9iRVwiJpbrQZDc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774591614; c=relaxed/simple;
+	bh=1eCOhhP3pGCR0WGMrPsdTJQh0dsICP3YKEsNbw/PTPY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zr3n2eqKbRB9fcoFVq7aws8FPX9LnhVYVAYmTA2hiVfAJu8iyUsRT4drRsGJ4PVY3wpVr+FtUON4knUdj8v1ScykfLG8nxB2WNm5DW+n8qGpUW0lWgWHK34BXwz226gTWjqS1BAmEAP/54ZiqSnaOmAByxvS64vvI0evKKKYito=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cUMlb+ns; arc=pass smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJUvzv6b"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1279eced0b9so2468056c88.0
-        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 22:22:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cUMlb+ns"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35c06831dd3so1719316a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 26 Mar 2026 23:06:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774591613; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Hozg7AHjaggSPxODp8n/5aHnn2SAXWnbU2ZPEmKVvx3VmiJv/eK6Dkl7kdP+sUnR/S
+         uI15neBSXwxtNR0W/7xAwEbrt1DEAkkAZT4IC9jnPZganwX3atx80fUMmgysoJXbO1vz
+         RX4l9k+xde54tHu+eQzHmVX/0EqHMXdPccr+Hym+PnTC5qUG3XS91DvJ5t3sFHAa2i30
+         6bNWgpGMc/fINkUt/jFt5U3fz/1FT5cAttWV4qgNhDcgKd04eW+Q2ef5ZgACxRziPW81
+         j2Xgjii6I8R1x2PGZrlKTu2/GiSQqJUdkgdh6n6Z1Zpey8t+9BL/OPbvFewITqCZ+q9t
+         M1wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bZor0r7uOoAf8oDJrrV5/yzEdBboUWXz0lgUtCeRdok=;
+        fh=N/BUTuDreerZKdpeqCv1qcUasnhhqg2fCZMOOaqsYj0=;
+        b=b8/5ASTmfEupCzwlsgrBMdaiMQ9rDPHGePSA4F/10+DhYKfY214YBTlJHxdrgmESQT
+         V+TJPPCAisqeDvdLKoGQgpex3nsopvzDOmbPZG7Sb/JzC/NMgXSQdjnMaLCH41gHb98j
+         41035qqHGhuHePLmhAUyyolInwcj9+9xBemDG6TsQUrXLPbVy7D+/G/b0VujWhXA9Xhv
+         46vWhrA4/zyh2i8NoV63KCayN/BRmQecmABGNsEKpxO9eW6rRc2N0wdqwy+OrDZfZXrW
+         lny2iyPuz6LEVe7cdi4qdHpoL143cLjWo4gzoEOV182+sGWZVbcID04x9ijzJoofb3Dk
+         tBLQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774588955; x=1775193755; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ojupnG9q589PUOSu9e9cWlMU3CkrsoS61jVmGGsXX5k=;
-        b=QJUvzv6bI9zaZ0P644JLsrp6RJl1KFNJujTVs/VVs8LCSgiA9lsWdiFd4G7hQa7+SD
-         jOAdyYDrjegIBoiil5f0uz9F2FAxfHltlsCE87zRpIsaKmcqTiyYA75rL3Ben+A70hZS
-         JLLFGpczIscX+f2hcGTc+0AoJVg3FmeD1O+E7tOXisA6nK39tOHZicVLhBc8/qS+2YmS
-         1tRoe2zaGPBIh4ESQo+gdSm0SU7YAq/h23mO8ZZm3AY7e/7QHaEp5e/XebxMl8rORhu7
-         OYBY1G9I6QmATsCor3z7Dr1nAk5z/wIhEibd9MnuaOhuONe4tgVffzYEc3m1nX8AjAbG
-         YzfA==
+        d=gmail.com; s=20251104; t=1774591613; x=1775196413; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bZor0r7uOoAf8oDJrrV5/yzEdBboUWXz0lgUtCeRdok=;
+        b=cUMlb+nsVqjrLMaFF344xl/Vz2YfmkeeCJOxtYAaNKC1OFj9pIr4x/P4wp2JP/FrZ5
+         4i6b0LWMzoPOsJlS3RLsvlW1WxvFG/p4NZ52n3xGwzQr5UohTL7j2AL5jiUkDJHVbSkz
+         y+ZPgYJArL1a00CNyfXQiBbYqfigKzuPmipxxuQ70IuX7tTWcX+FTnxW8wStOfbtEXzq
+         DDMVvhKpt4urQjChq4/lB7JxgqFq9n4Tt9bLTKA0bXtwdGjd5j+Ch7tHDUI0AGgTq0q8
+         vz0GqtyJ4Dh8AaLlqmqaVdjSq5VTmsaKQbUF0Ip1fwxteQf65zT5JM++vXJ7sjdQa7s7
+         lwyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774588955; x=1775193755;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ojupnG9q589PUOSu9e9cWlMU3CkrsoS61jVmGGsXX5k=;
-        b=VUISQwAzV7R6DKT+X6SVzjQrrQ3FC31hqaegmaQ0QBuQ/ntNTTymfZMNfvunWTjrCL
-         iE1PFl1CjuGwFGQpL3s0ll+Qdldg8+vQkL8z+KZ3a3YWlxiKo0C6mVJYXM1JRnxpySmy
-         mbokNF8UyFqciIv0AT2SrtCAyJnlhdxvzn+2zn8EY2dV6Rtq63pnXUTEwjTlzIfbw3lC
-         e5lTEi87CImPm+LnviXHMQNgvus8QzOwlxxWOl8pfY8C1630BjWnBKE6YHRRCfsPMefQ
-         R0VQOCuKPiGWSs3/tY9RKpIVPBekCMHkwmJS/dp//PWDhr8SjwQjZyPT71qUbcr/w4Et
-         7Kdg==
-X-Gm-Message-State: AOJu0YyX/Cxk8wAzAj2Xu0hrCnE14mXpxtOR6y3mCROG+wILkB3o63n2
-	e1iH8LQAKtu4jF9Q4rto349E1+AMmpD00UhuQdZkN9/Nl+5rxL/zUGS1
-X-Gm-Gg: ATEYQzxIeEvBRjLpRGzhh9Y3H/SaGU3A+zudAbxQxZB5mGwfnGQbrU/VPU78MJ/D+Am
-	EonAuiv8xjuC5vxvctD/jlLK0TSGsfWzVxy7Kiw90A+V1zcStOdHFW5fCpHFJK7q++ptoU8x4ux
-	ybrmlkUNI/o0pAOzRzhP1WNYUjeVMKzmmvskYm/91p9SoKymenuyfcgeEGklJstJcFCM/n+Nxdj
-	8xLfhHS3al2bFKZ69Kkn8rhZf08yihMHyh2l97wlpC2XwXKG8oV5hKvSWiNHRJ/mNxdMi787ZqO
-	p2oI41YXoJPkbBwEl+TuY16zx6qWq0IxyYoU25gAu7MelN1VEo28VGxM4tWEnlVQWeTIQfpquAh
-	VJS4yPxVtV7EdwIYme5779RQQ6IqUtSEgjOg3559J20LELB06NqP8twmJijYlE7fvp10pulR3RG
-	tcDHqRUfNxFKBTlhIrdK/XaEtlyFe4XbIpsssld27pEx7ZVmdHZsxvdBWyqaCDEByb5mKzLDOvg
-	o9rMI8E8OI=
-X-Received: by 2002:a05:7022:6281:b0:128:d352:bf8a with SMTP id a92af1059eb24-12ab28e607fmr563594c88.33.1774588954541;
-        Thu, 26 Mar 2026 22:22:34 -0700 (PDT)
-Received: from [192.168.1.8] (177-4-161-78.user3p.v-tal.net.br. [177.4.161.78])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c16ec7f9c9sm5890932eec.12.2026.03.26.22.22.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 22:22:34 -0700 (PDT)
-Message-ID: <1cac7d61-94e2-427c-ab7a-1b114df62870@gmail.com>
-Date: Fri, 27 Mar 2026 02:22:30 -0300
+        d=1e100.net; s=20251104; t=1774591613; x=1775196413;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bZor0r7uOoAf8oDJrrV5/yzEdBboUWXz0lgUtCeRdok=;
+        b=qW/o0RrG5Q7SGDcJpHlxHJq4igKsb3pY1ZJGiCkRxkfRO3gOfTpFe6ACVNgMK9+/Pz
+         dpDLYwusDBzRr1AzAEwLUby3nwoEbq3+1YIjEGkfOaZKldtx5josxYZGLI3rLuQsOVem
+         Ad3nMhunftwAYNLMXChPCrTld8EfbazrH6+xpMRdRLEJssLac8PgaW3PfSj+3vsYqIbR
+         FqfJ2zAy9I1RbOTAZfXAPK1yng3YCSZz0bO/rpW2mdX/dV/5ybKu3t0ckfcyJ82ri3e+
+         OTKOCVRCMUjm0gWc9sC4tcb9uy42L/Fxhv5K1DOX7Wti68ozJLZ3Y5v7fbz+D082xTWV
+         zHNA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyPaDQL7Z56qqDLu2PeJYofmaUa8g0i8HqAO/yoqvPSQDf7W2Jx1ea16m+m7pzDOL6VFR0dkqI9ZfqDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzK5ek68uFwZ+vuAGpLm9eAF7efnPPspzdf3QlclX0InGweqN2T
+	LJIDArfeWnNPCqHelp9PhoxNk2xiZ0qhf6yy+H7o84svjRp2w3X/Y79VMlrqKJo0jW6uKeWgnXF
+	nPXC8ohCSf+VE8/llEkh3eQsEpPhXxoI=
+X-Gm-Gg: ATEYQzzO27eSbcHvKvsBJ8/fwVeF5P1fBxPf7ii4fc7G8BIHmgjt2Gq3g5RpFN0wS1q
+	3mhfkojHzMvk/X77JnzFZNwyghb7cgTErq8crYciUhuicfoXgDkGeZLITWpud8SAnKdbehMaMkK
+	I//DPY/GXCwHsjTLc7o23ueubOAcjHihIiHnzp6SjjW2Sj+Y0CY7y32L8IG8U9NjQoAzKidC3rx
+	A02MABglAvIP60bw9n2frKVIgjmR1Mmke7tiUGkOz6r59aXZXl5EZ7kDXTSCRZPNIyNXJijMVYU
+	dRojfkw=
+X-Received: by 2002:a17:90a:e7ca:b0:35c:f82:fef2 with SMTP id
+ 98e67ed59e1d1-35c3002fc51mr1380306a91.14.1774591612670; Thu, 26 Mar 2026
+ 23:06:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: generic: keep fallback dai_name stable across
- rebind
-To: Mark Brown <broonie@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260327-asoc-generic-fallback-dai-name-rebind-v2-1-1368c57c4a0d@gmail.com>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20260327-asoc-generic-fallback-dai-name-rebind-v2-1-1368c57c4a0d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260327031504.497650-1-chancel.liu@nxp.com>
+In-Reply-To: <20260327031504.497650-1-chancel.liu@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Fri, 27 Mar 2026 14:06:25 +0800
+X-Gm-Features: AQROBzCzbEGPPttZKspsGG1E13nIFzodJ2Pa5Qt8YvIkcRF-KWLW83wNwQFeTOI
+Message-ID: <CAA+D8ANNmKX1oULZH=N8YE0hp24pP1JSvS9srugq+XMo+sQFnA@mail.gmail.com>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: imx-card: Add dsp_a DAI format
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/27/26 01:11, Cássio Gabriel wrote:
-> simple_parse_dai() and graph_util_parse_dai() first try to identify a
-> DAI via dai_args. When that works the card can rebind without relying on
-> dlc->dai_name.
-> 
-> The fallback path still calls snd_soc_get_dlc(), which returns a
-> borrowed dai_name pointer. If the CPU or codec component is unbound
-> while the sound card stays registered, the generic card keeps that
-> pointer and the next rebind may compare stale memory while matching the
-> DAI.
-> 
-> Stage the fallback result in a temporary dai_link_component and move
-> only a card-owned copy of dai_name into the live link component. Use
-> devm_kstrdup_const() so static names are reused and dynamic ones remain
-> valid for the lifetime of the card device.
-> 
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Fri, Mar 27, 2026 at 11:15=E2=80=AFAM Chancel Liu <chancel.liu@nxp.com> =
+wrote:
+>
+> Existing i.MX audio sound card described by this binding use codecs
+> that operate in i2s or dsp_b formats. The newly added CS42448 codec
+> requires dsp_a for its TDM interface. To properly describe such
+> hardware in DT, the binding needs to allow dsp_a DAI format.
+>
+> Only i2s, dsp_b and dsp_a are included because these are the formats
+> actually used by the hardware supported by this binding. Other formats
+> such as left_j, right_j, ac97 are not used or required by the hardware
+
+"pdm", "left_j", "right_j" are supported by SAI, so I think they should be =
+added
+from the hardware point of view.
+
+Best regards
+Shengjiu Wang
+
+
+Shengjiu Wang
+
+> currently covered by this binding, so they are intentionally not added.
+>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 > ---
+> Changes in v3:
+> - Rewrote commit message completely to describe hardware requirements.
+> Explicitly documented why only dsp_a is added and why other formats
+> are not included.
+> - Rebased on latest code base. No functional changes.
+>
 > Changes in v2:
-> - Rework simple_parse_dai() and graph_util_parse_dai() to use if/else
->   instead of a non-error goto.
-> - Move the fallback snd_soc_get_dlc() handling into the else branch.
-> - Link to v1: https://patch.msgid.link/20260326-asoc-generic-fallback-dai-name-rebind-v1-1-ac9da3cbd606@gmail.com
-> ---
->  sound/soc/generic/simple-card-utils.c | 52 ++++++++++++++++-------------------
->  sound/soc/generic/simple-card.c       | 46 ++++++++++++++-----------------
->  2 files changed, 44 insertions(+), 54 deletions(-)
-> 
-> diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-> index da6353594d61..e5cb602fd248 100644
-> --- a/sound/soc/generic/simple-card-utils.c
-> +++ b/sound/soc/generic/simple-card-utils.c
-> @@ -1128,7 +1128,9 @@ int graph_util_parse_dai(struct simple_util_priv *priv, struct device_node *ep,
->  	struct device *dev = simple_priv_to_dev(priv);
->  	struct device_node *node;
->  	struct of_phandle_args args = {};
-> +	struct snd_soc_dai_link_component resolved_dlc = {};
->  	struct snd_soc_dai *dai;
-> +	const char *fallback_dai_name;
->  	int ret;
->  
->  	if (!ep)
-> @@ -1152,39 +1154,31 @@ int graph_util_parse_dai(struct simple_util_priv *priv, struct device_node *ep,
->  		dlc->of_node  = node;
->  		dlc->dai_name = dai_name;
->  		dlc->dai_args = dai_args;
-> +	} else {
-> +		/* Get dai->name */
-> +		args.np		= node;
-> +		args.args[0]	= graph_get_dai_id(ep);
-> +		args.args_count	= (of_graph_get_endpoint_count(node) > 1);
->  
-> -		goto parse_dai_end;
-> -	}
-> +		ret = snd_soc_get_dlc(&args, &resolved_dlc);
-> +		if (ret < 0)
-> +			goto err;
->  
-> -	/* Get dai->name */
-> -	args.np		= node;
-> -	args.args[0]	= graph_get_dai_id(ep);
-> -	args.args_count	= (of_graph_get_endpoint_count(node) > 1);
-> +		/* Keep fallback dai_name valid across component rebind */
-> +		fallback_dai_name = resolved_dlc.dai_name;
-> +		if (fallback_dai_name) {
-> +			fallback_dai_name = devm_kstrdup_const(dev, fallback_dai_name,
-> +							       GFP_KERNEL);
-> +			ret = -ENOMEM;
-> +			if (!fallback_dai_name)
-> +				goto err;
-> +		}
->  
-> -	/*
-> -	 * FIXME
-> -	 *
-> -	 * Here, dlc->dai_name is pointer to CPU/Codec DAI name.
-> -	 * If user unbinded CPU or Codec driver, but not for Sound Card,
-> -	 * dlc->dai_name is keeping unbinded CPU or Codec
-> -	 * driver's pointer.
-> -	 *
-> -	 * If user re-bind CPU or Codec driver again, ALSA SoC will try
-> -	 * to rebind Card via snd_soc_try_rebind_card(), but because of
-> -	 * above reason, it might can't bind Sound Card.
-> -	 * Because Sound Card is pointing to released dai_name pointer.
-> -	 *
-> -	 * To avoid this rebind Card issue,
-> -	 * 1) It needs to alloc memory to keep dai_name eventhough
-> -	 *    CPU or Codec driver was unbinded, or
-> -	 * 2) user need to rebind Sound Card everytime
-> -	 *    if he unbinded CPU or Codec.
-> -	 */
-> -	ret = snd_soc_get_dlc(&args, dlc);
-> -	if (ret < 0)
-> -		goto err;
-> +		dlc->of_node = resolved_dlc.of_node;
-> +		dlc->dai_name = fallback_dai_name;
-> +		dlc->dai_args = resolved_dlc.dai_args;
-> +	}
->  
-> -parse_dai_end:
->  	if (is_single_link)
->  		*is_single_link = of_graph_get_endpoint_count(node) == 1;
->  	ret = 0;
-> diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-> index 9937a991846e..b24ba1330896 100644
-> --- a/sound/soc/generic/simple-card.c
-> +++ b/sound/soc/generic/simple-card.c
-> @@ -69,7 +69,9 @@ static int simple_parse_dai(struct simple_util_priv *priv,
->  {
->  	struct device *dev = simple_priv_to_dev(priv);
->  	struct of_phandle_args args;
-> +	struct snd_soc_dai_link_component resolved_dlc = {};
->  	struct snd_soc_dai *dai;
-> +	const char *fallback_dai_name;
->  	int ret;
->  
->  	if (!node)
-> @@ -94,34 +96,28 @@ static int simple_parse_dai(struct simple_util_priv *priv,
->  		dlc->dai_args = snd_soc_copy_dai_args(dev, &args);
->  		if (!dlc->dai_args)
->  			goto end;
-> +	} else {
-> +		ret = snd_soc_get_dlc(&args, &resolved_dlc);
-> +		if (ret < 0)
-> +			goto end;
->  
-> -		goto parse_dai_end;
-> -	}
-> +		/* Keep fallback dai_name valid across component rebind */
-> +		fallback_dai_name = resolved_dlc.dai_name;
-> +		if (fallback_dai_name) {
-> +			fallback_dai_name = devm_kstrdup_const(dev, fallback_dai_name,
-> +							       GFP_KERNEL);
-> +			ret = -ENOMEM;
-> +			if (!fallback_dai_name) {
-> +				of_node_put(resolved_dlc.of_node);
-> +				goto end;
-> +			}
-> +		}
->  
-> -	/*
-> -	 * FIXME
-> -	 *
-> -	 * Here, dlc->dai_name is pointer to CPU/Codec DAI name.
-> -	 * If user unbinded CPU or Codec driver, but not for Sound Card,
-> -	 * dlc->dai_name is keeping unbinded CPU or Codec
-> -	 * driver's pointer.
-> -	 *
-> -	 * If user re-bind CPU or Codec driver again, ALSA SoC will try
-> -	 * to rebind Card via snd_soc_try_rebind_card(), but because of
-> -	 * above reason, it might can't bind Sound Card.
-> -	 * Because Sound Card is pointing to released dai_name pointer.
-> -	 *
-> -	 * To avoid this rebind Card issue,
-> -	 * 1) It needs to alloc memory to keep dai_name eventhough
-> -	 *    CPU or Codec driver was unbinded, or
-> -	 * 2) user need to rebind Sound Card everytime
-> -	 *    if he unbinded CPU or Codec.
-> -	 */
-> -	ret = snd_soc_get_dlc(&args, dlc);
-> -	if (ret < 0)
-> -		goto end;
-> +		dlc->of_node = resolved_dlc.of_node;
-> +		dlc->dai_name = fallback_dai_name;
-> +		dlc->dai_args = resolved_dlc.dai_args;
-> +	}
->  
-> -parse_dai_end:
->  	if (is_single_link)
->  		*is_single_link = !args.args_count;
->  	ret = 0;
-> 
-> ---
-> base-commit: d084fd53a2fd5748d4317635b1c1a7dba7edf583
-> change-id: 20260326-asoc-generic-fallback-dai-name-rebind-6381a1c807fd
-> 
-> Best regards,
-> --  
-> Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> 
-
-I forgot to add the 'Suggested-by' tag attributing
-the suggestion made by Kuninori. I apologize.
-
-Should I send a v3 patch adding the tag?
-
--- 
-Thanks,
-Cássio
-
+> - Updated commit message to explain current support for i2s and dsp_b
+> formats and new support for dsp_a. No code changes.
+>
+>  Documentation/devicetree/bindings/sound/imx-audio-card.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml =
+b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
+> index 5424d4f16f52..75757fbccd89 100644
+> --- a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
+> +++ b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
+> @@ -37,6 +37,7 @@ patternProperties:
+>          items:
+>            enum:
+>              - i2s
+> +            - dsp_a
+>              - dsp_b
+>
+>        dai-tdm-slot-num: true
+> --
+> 2.50.1
+>
