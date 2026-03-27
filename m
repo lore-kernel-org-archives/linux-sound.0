@@ -1,170 +1,171 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223F623D2AB
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 12:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CDD3914EF
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 12:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774613948; cv=none; b=IM/uJdO6Mvtn+omwXZWDbCpFCK1Ed2kcYjv+rTnxB7YlogGBd5WIDPbZB2m5xG2xF7P/co80LkZKOF+OtD0PHLYGbRDxQPxEQZ7/4d3ZaKkCeZOGGeYBcWWA1lS0kRo7GgQOPebdzUDr68VDH7hY0VG2SnykXF3zQpTSmuXprz4=
+	t=1774614035; cv=none; b=uFFkjWyyj7Vw6roIGaOEZ6izQTLsXoxLSfjeX/aGoTVqlWO0L+z975KEWomK8XqUeqVuYWl607Cu/Ty57ByQ+mRmaIayv5a2BynYHl+xgdmmxTqoeEmNzVJWHrbDaZmPNkh8o6JQCBZWtaw6uD5/Xzb2JWqBSJSlx5uoqT7IcSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774613948; c=relaxed/simple;
-	bh=hu/qMIyGVEPKtSGF0D7LwAY3eePHUo4OuGMCS+V4ACE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=khb0WjQwag0+CsGiq8mYyjWRLbjAJ7mgUb1GNm1OALZo9lLB337I+moFAZ7mnwx45fw6x9VeBouJjiZguWMwqXDDqRQwf3tvlQLcIdd6mHmVO6vQooKOBG41aJ6sNbMXn4Cgm9C8mQEYUUxDVFO5Hsln4vuZe/jEgtKMkDd76hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nZP9AhAA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bheKQNUg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nZP9AhAA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bheKQNUg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774614035; c=relaxed/simple;
+	bh=s5NOF5eMOnJyYCSE4Z/REtqAiJgd4OvH9dfIy16bDv0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sbado6SbsNnMsUtt7BTJbSh0GUVY2j0DMmhbysUr2Sjy9yESxHJyueSM2dmE688UB3I1vEdJroFlUSdW95kamDQXCdpEIAuRU+ST8b/5cGuV7anNPIMfd4+hSkRpvHuEyjxy9sPpYsQpkhUTic0X8XNXSQsy6iYCQ0APJ0xqzeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S8yiShL3; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nZP9AhAA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bheKQNUg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nZP9AhAA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bheKQNUg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3FF295BDD3;
-	Fri, 27 Mar 2026 12:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774613944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L6P1WrMmKD9rChWvzRFC1qwoDoYMeSRxESUxtcxIOWo=;
-	b=nZP9AhAAFggmLQrUOf29DwLS/d12JajetJc2rwUgR9Yp9JMKBeBYjgbfbZu+08utmV6VJl
-	FB6dnuemWNSj0sQXjhVnc1rLAeZAxK+XSWmzKcIBu6y1jVTcozeXG4Ltz5VhCEegzVKUpw
-	T/kKi7CPCh/8jzuKDYHKkE4fN85KdXc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774613944;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L6P1WrMmKD9rChWvzRFC1qwoDoYMeSRxESUxtcxIOWo=;
-	b=bheKQNUgnuAQGtbsx/ZlsLHE/Fu6s4ylrWp6R054cbwt/HG3TVzoImVIKoUe9YY6STVpk0
-	IPjzM4bPrt2CAjAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nZP9AhAA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bheKQNUg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774613944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L6P1WrMmKD9rChWvzRFC1qwoDoYMeSRxESUxtcxIOWo=;
-	b=nZP9AhAAFggmLQrUOf29DwLS/d12JajetJc2rwUgR9Yp9JMKBeBYjgbfbZu+08utmV6VJl
-	FB6dnuemWNSj0sQXjhVnc1rLAeZAxK+XSWmzKcIBu6y1jVTcozeXG4Ltz5VhCEegzVKUpw
-	T/kKi7CPCh/8jzuKDYHKkE4fN85KdXc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774613944;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L6P1WrMmKD9rChWvzRFC1qwoDoYMeSRxESUxtcxIOWo=;
-	b=bheKQNUgnuAQGtbsx/ZlsLHE/Fu6s4ylrWp6R054cbwt/HG3TVzoImVIKoUe9YY6STVpk0
-	IPjzM4bPrt2CAjAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 264844A0A2;
-	Fri, 27 Mar 2026 12:19:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8lcSCLh1xmljTAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 12:19:04 +0000
-Date: Fri, 27 Mar 2026 13:19:03 +0100
-Message-ID: <87h5q1qxc8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Philip Willoughby <willerz@gmail.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/1 ] Support POD HD PRO
-In-Reply-To: <CAKSkzpui0HAx3LSvxOJFi7opb0sR-3oy5Oxw7uYjMep5ZHVJJw@mail.gmail.com>
-References: <CAKSkzpui0HAx3LSvxOJFi7opb0sR-3oy5Oxw7uYjMep5ZHVJJw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S8yiShL3"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a8fba3f769so8668265ad.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 05:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774614031; x=1775218831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q0xqJLu4fqarUjM0mYZbn2i25aKKF+eB1PFrbYNA0Ak=;
+        b=S8yiShL33nUprTaTkDVG17QTj9nnzBdqKZCzR5PHsqNGHL7x4dBR+E0A3VZPECdZo9
+         JUsRO+TMELJ534ceWph+fIU9GjsxgDRPF8PVrKQCCDfDdoK6vUfiImcbA4ae9I8Sx4Gm
+         AJxnzZsRrrlgpUNryjKl7OQG2omTjyPBWZ8cSia8trn3ilVln62jp09M42rfz80HsY8D
+         y9yInSnVl9CmjT5eX/KuzQ4/a6W6R9COTEcO6J6WvEw4gTF+Ib0+r6BcYhUHBPs9o1Lw
+         gxgyQP2imU6ocA/mij7NdzSUdyr+DJDyApLTNmgFhb0ufNP/OcARcsrZOqGG+en+ROFU
+         7Nkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774614031; x=1775218831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q0xqJLu4fqarUjM0mYZbn2i25aKKF+eB1PFrbYNA0Ak=;
+        b=iB4yEHdc0IBlIMKcZGgPEOelntKC6dccbAhwHMRl5Inu4JQ6+535a3ueHZCfBH2xqr
+         F5vHIQsBNUAwymFae/F0xh4NicdYp7YSSd6UU31FOCCaiCI646UE8gEi95N/kE4gkGc5
+         VgPNxLTIqV/cCuyCkKTdhXTIRVniUeFKPdMpDmCBwKUCfXQr6VB41O3Pu/olpwGM2bjs
+         5jVWTeOP4yWftbNscKXb8LvhKvePO4cbufURVmBP7BxbH6awzOWFhvS5DYz5K4HlR8Lk
+         cma5iXSUdwn5VzHrKv0eqNInNn5rEd+FAYnjR+ZX6xHKJzecB0WXvoQ2LZL5WhHtCHUF
+         kBQA==
+X-Forwarded-Encrypted: i=1; AJvYcCXl3t7ptj3ZdFpIlRlcH7a1mI9txG01ku3oZt6Pzi4fpUPUT8whW01nPmYFer3P0m4f6oskZfMMrUhIKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyU4xtcd0buyb/mng19v4yLwMzt0cR2cAwapXhn/zVJZQB6p47c
+	VFJplOxTJXzBSrvGdwan+bgxEbXh9Bg8VGzmOhO4vJtli9aXjyn1+Arf
+X-Gm-Gg: ATEYQzzzoDSWUtxkf+HgiyAePIms1NLGuaYhOBC5JfiAO2515qutrWk4pQ8PDk6bkJ/
+	8yVwshmKWw0Ly6uC6zwI6pA3q4i0svorMfaTSEuEMq1SHe29dwiYQ98DwknrPsWXwIMZTDtxKPY
+	4N/lB15NBe7+n8jwZB0HAG+gLJGyeSf8HmGXOk7bLcoa9Vq8VJ9SWFOSumesnpB+yKjhTXUru8y
+	d0mpXgPwX9elEERWfvQXF19agEH1DIJDO9mC9le2eBrLRyNcCNqmaTA/GwCDQzZRFBMq3FF5CJ6
+	Y5w1sDyqLXZyDCXmJejAvjQavYDZu5boBMwBk+8APG8kEfijloTXN5sbiiLtiP7SW+ILZaJq4ti
+	Ya6leSKimOA8no1JWue/mfQguE0rfHFBt8310p11eqJI25jmMVAY1k98XSiSUopPsXhks8US6T4
+	YY1L0Dg6plnQlC4TAtuO/XVKl18OELdk+oFpp4
+X-Received: by 2002:a17:903:285:b0:2b0:51f6:d468 with SMTP id d9443c01a7336-2b0cdc22e12mr29126895ad.17.1774614031351;
+        Fri, 27 Mar 2026 05:20:31 -0700 (PDT)
+Received: from padmashree.. ([2401:4900:62fa:f2a3:309a:44f:430e:edf0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc7a9deesm57230505ad.28.2026.03.27.05.20.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 05:20:30 -0700 (PDT)
+From: Padmashree S S <padmashreess2006@gmail.com>
+To: k.marinushkin@gmail.com,
+	lgirdwood@gmail.com
+Cc: broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Padmashree S S <padmashreess2006@gmail.com>
+Subject: [PATCH v3] dt-bindings: sound: Convert pcm3060 to DT Schema
+Date: Fri, 27 Mar 2026 17:49:18 +0530
+Message-ID: <20260327121919.603768-1-padmashreess2006@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 3FF295BDD3
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 19 Mar 2026 12:03:08 +0100,
-Philip Willoughby wrote:
-> 
-> I apologize for the previous badly-formatted patch.
-> 
-> The POD HD PRO is a POD 500 in a different box.
-> 
-> The USB PID changes but everything else is the same.
-> 
-> Phil Willoughby (1):
->  Add Line6 POD HD PRO support
-> 
-> sound/usb/line6/podhd.c | 15 +++++++++++++++
-> 1 file changed, 15 insertions(+)
-> 
-> 
-> base-commit: b3c48fa1fb397b490101785ddd87caf2e5513a66
-> --
-> 2.53.0
-> 
-> From 6f3211504f7091fb5ecab36daea4628b3fa4f0db Mon Sep 17 00:00:00 2001
-> From: Phil Willoughby <willerz@gmail.com>
-> Date: Thu, 19 Mar 2026 10:54:40 +0000
-> Subject: [PATCH 1/1] Add Line6 POD HD PRO support
-> 
-> ---
+Convert pcm3060 to DT Schema
 
-Hmm, the patch misses the description completely and even no sign-off
-is given.
+Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
+---
+ .../devicetree/bindings/sound/pcm3060.txt     | 23 ----------
+ .../devicetree/bindings/sound/pcm3060.yaml    | 42 +++++++++++++++++++
+ 2 files changed, 42 insertions(+), 23 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/pcm3060.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/pcm3060.yaml
 
-> sound/usb/line6/podhd.c | 15 +++++++++++++++
-> 1 file changed, 15 insertions(+)
-> 
-> diff --git a/sound/usb/line6/podhd.c b/sound/usb/line6/podhd.c
-> index ea1324c22f46..f32712286642 100644
-> --- a/sound/usb/line6/podhd.c
-> +++ b/sound/usb/line6/podhd.c
-> @@ -28,6 +28,7 @@ enum {
->        LINE6_PODHD500X,
->        LINE6_PODHDDESKTOP,
->        LINE6_PODHDPROX,
-> +       LINE6_PODHDPRO,
+diff --git a/Documentation/devicetree/bindings/sound/pcm3060.txt b/Documentation/devicetree/bindings/sound/pcm3060.txt
+deleted file mode 100644
+index 97de66932d44..000000000000
+--- a/Documentation/devicetree/bindings/sound/pcm3060.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-PCM3060 audio CODEC
+-
+-This driver supports both I2C and SPI.
+-
+-Required properties:
+-
+-- compatible: "ti,pcm3060"
+-
+-- reg : the I2C address of the device for I2C, the chip select
+-        number for SPI.
+-
+-Optional properties:
+-
+-- ti,out-single-ended: "true" if output is single-ended;
+-                       "false" or not specified if output is differential.
+-
+-Examples:
+-
+-	pcm3060: pcm3060@46 {
+-		 compatible = "ti,pcm3060";
+-		 reg = <0x46>;
+-		 ti,out-single-ended = "true";
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/pcm3060.yaml b/Documentation/devicetree/bindings/sound/pcm3060.yaml
+new file mode 100644
+index 000000000000..2d920a70bced
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/pcm3060.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/pcm3060.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: PCM3060 audio CODEC
++
++maintainers:
++  - Kirill Marinushkin <k.marinushkin@gmail.com>
++
++properties:
++  compatible:
++    const: ti,pcm3060
++
++  reg:
++    maxItems: 1
++
++  ti,out-single-ended:
++    type: boolean
++    description: |
++      If present, the output is single-ended.
++      If absent, the output is differential.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      pcm3060: audio-codec@46 {
++        compatible = "ti,pcm3060";
++        reg = <0x46>;
++        ti,out-single-ended;
++      };
++    };
+-- 
+2.43.0
 
-... and the patch itself looks malformed, partly due to your mailer.
-Please fix it at first, and prepare a properly formatted patch, then
-try to submit.
-
-
-thanks,
-
-Takashi
