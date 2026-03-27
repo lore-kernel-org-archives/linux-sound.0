@@ -1,140 +1,233 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971CD3B95F6
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 09:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF493DBD4D
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 09:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774603316; cv=none; b=Blb22mp8hxhPlrybHmqFr8JS99aGftolAhqX6wzeRWLSxg8Qc++m6+BNisgfWNahcHWJcBTvDlq6kw4jcKC3BpeyXW3kh2a/Q2ZVCRAVc4wkRcHZca8Mpb9a5J9Y2ci2iBPTZtyhxuaEzwUciOfYLuwel0LnX2MXSqhlxKyittc=
+	t=1774603349; cv=none; b=nsaDtuAWZtvbE1twfwmk0s3YC22VC5PN5pVnMQkj1lsw4xFcF2poetr9bXqXSxcuwVEu4p2sXrfiv0kRBXnIgG474vGDgJVra9DBZ7VrLEXQa2aGQ8BIkKreDldzOj0zFd4UP97gvImtyE39RuFsvzUGYPgMUo+ppi+6NvMTLAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774603316; c=relaxed/simple;
-	bh=s9XQ5kv5e+sY/W/Bdqv4K4Bni03vY8UbEJl/6hWk5wA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jkxh4KMJsLzluu3y1Dw94hAlHZ6ln6sMwC2aIeU5J97rHRUxo1kjE0x0uje3XczialvO7tXjCcSoqmbaCNp5vwMIh6WPt2H8yaybUDrN/lprjOlR/h4i4VJDTllTufS5Xaf4kmHmrl09SD7HdyqWASlEhEiwC7s5Tv+xGd+SrZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nh3uuOo5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0UPQr57A; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nh3uuOo5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0UPQr57A; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774603349; c=relaxed/simple;
+	bh=77ziGXDJHCVtyxYDOLAAtXsexr+EvNb/qjtKrFRyQuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrvKH+ue0m4SKMvhm4FeiAaC8y/OEwVkzQfQfEN3bC1THTlF916PwCmLwXB6RwmdyU6Vleh1Ae9tmURuP6n1PFrgeGeO8O5fryfCm/JnwuANnckWOWRADvkKCrpddvkbVdXT0WTnTjJw5j1aoiC3MsJ1WFjV1YLDeagqeNcNwlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=esYyOkWZ; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nh3uuOo5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0UPQr57A";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nh3uuOo5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0UPQr57A"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 21F5C4D1C7;
-	Fri, 27 Mar 2026 09:21:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774603307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ym+YAyRZYoHgguaVtrmW7eqlKvCM7BAFuE0LZ0RcAL4=;
-	b=Nh3uuOo5OBcIRefTgOycM5IKz7+xHuu3TGPrwiQqpV8deIUjmng7SmxY2QxNMeerS3vK0J
-	F9891UserV6lIr8xx1PrzoVDxITXh4Q1E9rg9Gz7oxXDx5OTvt4r8cUgBOCTUejaOPRosq
-	4e2m9qE/JJqH/Ay7V54n1Sm9RKGu5EM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774603307;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ym+YAyRZYoHgguaVtrmW7eqlKvCM7BAFuE0LZ0RcAL4=;
-	b=0UPQr57A1aLm7x+G+W9XxXDB97JrO10xqSrDlZpkP/L2tbvFMjRhUfJLFzDOueNwrHRBu6
-	CulJe2XY5OJ03iBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774603307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ym+YAyRZYoHgguaVtrmW7eqlKvCM7BAFuE0LZ0RcAL4=;
-	b=Nh3uuOo5OBcIRefTgOycM5IKz7+xHuu3TGPrwiQqpV8deIUjmng7SmxY2QxNMeerS3vK0J
-	F9891UserV6lIr8xx1PrzoVDxITXh4Q1E9rg9Gz7oxXDx5OTvt4r8cUgBOCTUejaOPRosq
-	4e2m9qE/JJqH/Ay7V54n1Sm9RKGu5EM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774603307;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ym+YAyRZYoHgguaVtrmW7eqlKvCM7BAFuE0LZ0RcAL4=;
-	b=0UPQr57A1aLm7x+G+W9XxXDB97JrO10xqSrDlZpkP/L2tbvFMjRhUfJLFzDOueNwrHRBu6
-	CulJe2XY5OJ03iBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0F4C4A0A2;
-	Fri, 27 Mar 2026 09:21:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fYi4NypMxmkuGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 09:21:46 +0000
-Date: Fri, 27 Mar 2026 10:21:46 +0100
-Message-ID: <87se9lsk45.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esYyOkWZ"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ab39b111b9so8531885ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 02:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774603343; x=1775208143; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TKrsFAgsd9tGqXibhrnXaG9cuXcQbnK4a4OD2FtF8S0=;
+        b=esYyOkWZdofvtU/E2Lx2kqBe4weEKdMt0bIzzUvgsbyjXFR6zEwBBd6ewBXf7C33/c
+         Ie+biSvTlXzsXZ9E6t+6R29A18aZTiqX2k2D2ebf+eStG2CiGkNzJIAP7nBinKrLp8Ya
+         iNVZi93Y0HT3VmwcA8KDhoANzFGN009D90LRCkz+jb2O1ZZJ2YFRbO5uli2Q84dw37dA
+         9n+rqYpUqEubJBG2e9FCrqnsTxMAzI9GsiUpDmXaq+gujE7kaw5IjOaWhHRQKwDiz2x6
+         nzpAMbMcOGuuY+Bj5SbsWpLO0kKtMKYQ6A2M6vK/FKptOrTMEtvk1QWsfBikguLEQEdz
+         u+FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774603343; x=1775208143;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TKrsFAgsd9tGqXibhrnXaG9cuXcQbnK4a4OD2FtF8S0=;
+        b=DJDdvaDRnFHebDOtBO3IlWFWcQ0MpYw1KhfFskDehgaT0vip2uSbClla2dvpTG4IYy
+         F1T4RpPz7njY5bR2IZlljEy8XUS16NP1+Q8PlNAq0SkHZdWO2AEHZRJ7Hf3RF8GbiRGJ
+         fZhjWNu9NkEOalu+GbhlpY/Mtw+2W5TCjifcCnJeBfXeLbrU8kf4Tp5ItbJBcUrcWCec
+         +oYW4iFBGvO4yXL0hmAM4EP1r2mZXmerrF2P+VPxu51QtWB314P4QiyP/SEbKsvKlgP1
+         LJYc2zuzF+eCn6shXZkVgqxBjycUJGDaGKfpRjES+YZ/0e4oUmns8u0B8hp3Uti/hW4S
+         1KcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX9OBl+DRF1NkWIjBDniQSqbIkAxlxZvaWj+FToaPHPSTEcPR84RHeGUgrYnH0/JkgdD0Q1XljxGye+Eg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKuq+iB+sm5/YT4pNbrne6kW0GGVmeC12/dofP4kjLFgsPZS5/
+	5l2CjlLOb2c2DysSZMYKEFjKFVBESpWiZcghVJZ6gUUwOlYqU233QVM/
+X-Gm-Gg: ATEYQzxxn2FDBoSr19RgmmxtyqWCeL28kbc+UnSRjPQS0nQKl+1BVvoxLGPbcCgcjiw
+	ewxgypHqiItbKHA1TZemMuwQlV+xCzXWBsjsnbz6I2fLI118cWmpozdniwl0KKUDIPlcOkFfNNq
+	mpDdK0vVmMidjVvpxDnpG+1DpOkPmQBmQSwbxp+ypVEwsmM6HKWekRN4uZfso60pebdlt/mlQiO
+	kW4zjaqsiPQJRy/oSmgWtUxwW5HNgYS5rfeShDPJVk0jQNDWKlsTaH6mpOxFrGy8ld+vJh9r8O3
+	13ym501xJ5YPBZn514nyB4eyNU9V0bFOoJ/bywT60rzH8O1iOhhMa8HEUeHLC/9QgLH+NQMeXn0
+	aWf5/9vMjY+y1URN043B5inOHCJwdDXqwYYinJGxz+L3KijY74iSHYV3UxeKDf6hkAnRDLdwBsy
+	VZwn/DIrMZppi7OLnddRcgOHGS7/vjbkMu52p3iFpTkE81q8C/TK3fHclonL4VoWIcgmabZYfV
+X-Received: by 2002:a17:902:ecd0:b0:2b0:606b:6fd3 with SMTP id d9443c01a7336-2b0cdc1026fmr20438765ad.5.1774603343419;
+        Fri, 27 Mar 2026 02:22:23 -0700 (PDT)
+Received: from chaitanya-virtualbox.. ([103.249.241.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc68914bsm57749095ad.0.2026.03.27.02.22.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 02:22:22 -0700 (PDT)
+From: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: john.stultz@linaro.org,
 	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v7.0-rc5
-In-Reply-To: <35eee6c4ded9dcae303afc38a82c36a1@kernel.org>
-References: <35eee6c4ded9dcae303afc38a82c36a1@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+Subject: [PATCH v3] ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to dt-schema
+Date: Fri, 27 Mar 2026 14:51:06 +0530
+Message-ID: <20260327092106.4233-1-chaitanya.msabnis@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 26 Mar 2026 14:32:46 +0100,
-Mark Brown wrote:
-> 
-> The following changes since commit c369299895a591d96745d6492d4888259b004a9e:
-> 
->   Linux 7.0-rc5 (2026-03-22 14:42:17 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.0-rc5
-> 
-> for you to fetch changes up to d40a198e2b7821197c5c77b89d0130cc90f400f5:
-> 
->   ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload (2026-03-26 11:16:03 +0000)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v7.0
-> 
-> This is two week's worth of fixes and quirks so it's a bit larger than
-> you might expect, there's nothing too exciting individually and nothing
-> in core code.
+Convert the Hisilicon hi6210 I2S controller hardware binding from
+legacy plain text to modern YAML dt-schema format.
 
-Pulled now.  Thanks.
+During the conversion, the order of the dma-names properties in the
+example was corrected to "tx", "rx" to match the official property
+description, resolving a contradiction in the original text binding.
 
+Signed-off-by: Chaitanya Sabnis  <chaitanya.msabnis@gmail.com>
+---
+ .../bindings/sound/hisilicon,hi6210-i2s.txt   | 42 ----------
+ .../bindings/sound/hisilicon,hi6210-i2s.yaml  | 80 +++++++++++++++++++
+ 2 files changed, 80 insertions(+), 42 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.yaml
 
-Takashi
+diff --git a/Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.txt b/Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.txt
+deleted file mode 100644
+index 7a296784eb37..000000000000
+--- a/Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.txt
++++ /dev/null
+@@ -1,42 +0,0 @@
+-* Hisilicon 6210 i2s controller
+-
+-Required properties:
+-
+-- compatible: should be one of the following:
+-   - "hisilicon,hi6210-i2s"
+-- reg: physical base address of the i2s controller unit and length of
+-   memory mapped region.
+-- interrupts: should contain the i2s interrupt.
+-- clocks: a list of phandle + clock-specifier pairs, one for each entry
+-  in clock-names.
+-- clock-names: should contain following:
+-   - "dacodec"
+-   - "i2s-base"
+-- dmas: DMA specifiers for tx dma. See the DMA client binding,
+-  Documentation/devicetree/bindings/dma/dma.txt
+-- dma-names: should be "tx" and "rx"
+-- hisilicon,sysctrl-syscon: phandle to sysctrl syscon
+-- #sound-dai-cells: Should be set to 1 (for multi-dai)
+-   - The dai cell indexes reference the following interfaces:
+-       0: S2 interface
+-       (Currently that is the only one available, but more may be
+-        supported in the future)
+-
+-Example for the hi6210 i2s controller:
+-
+-i2s0: i2s@f7118000{
+-	compatible = "hisilicon,hi6210-i2s";
+-	reg = <0x0 0xf7118000 0x0 0x8000>; /* i2s unit */
+-	interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>; /* 155 "DigACodec_intr"-32 */
+-	clocks = <&sys_ctrl HI6220_DACODEC_PCLK>,
+-		 <&sys_ctrl HI6220_BBPPLL0_DIV>;
+-	clock-names = "dacodec", "i2s-base";
+-	dmas = <&dma0 15 &dma0 14>;
+-	dma-names = "rx", "tx";
+-	hisilicon,sysctrl-syscon = <&sys_ctrl>;
+-	#sound-dai-cells = <1>;
+-};
+-
+-Then when referencing the i2s controller:
+-	sound-dai = <&i2s0 0>; /* index 0 => S2 interface */
+-
+diff --git a/Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.yaml b/Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.yaml
+new file mode 100644
+index 000000000000..5171f984630b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/hisilicon,hi6210-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: HiSilicon hi6210 I2S controller
++
++maintainers:
++  - John Stultz <john.stultz@linaro.org>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: hisilicon,hi6210-i2s
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: dacodec
++      - const: i2s-base
++
++  dmas:
++    maxItems: 2
++
++  dma-names:
++    items:
++      - const: tx
++      - const: rx
++
++  hisilicon,sysctrl-syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: phandle to sysctrl syscon
++
++  "#sound-dai-cells":
++    const: 1
++    description: |
++      The dai cell indexes reference the following interfaces:
++        0: S2 interface
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - dmas
++  - dma-names
++  - hisilicon,sysctrl-syscon
++  - "#sound-dai-cells"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/hi6220-clock.h>
++
++    i2s@f7118000 {
++        compatible = "hisilicon,hi6210-i2s";
++        reg = <0xf7118000 0x8000>;
++        interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&sys_ctrl HI6220_DACODEC_PCLK>,
++                 <&sys_ctrl HI6220_BBPPLL0_DIV>;
++        clock-names = "dacodec", "i2s-base";
++        dmas = <&dma0 14>, <&dma0 15>;
++        dma-names = "tx", "rx";
++        hisilicon,sysctrl-syscon = <&sys_ctrl>;
++        #sound-dai-cells = <1>;
++    };
+-- 
+2.43.0
+
