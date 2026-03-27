@@ -1,125 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DF236AB46;
-	Fri, 27 Mar 2026 09:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7566939F168
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 09:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774604970; cv=none; b=ipRe9ZY+DvoAKweCimgG7glTaZo6p8OQWLgObbv5195dtrkM5xUWBRmQJeH+fBskYHTijI3hFASa6UJbyiQ3SRjlRw9jjIg9iwlYfdnTYqga6JcQSteoj7Qij5weHLBvLaK7642+Md8mB0mvFm+kDQALbOJnz1lXON2hN+Mqnic=
+	t=1774605079; cv=none; b=gId43YEpiq2i7+Vvxu68/WhE/72poC2FpI1zKULfBVqjF9SFcT4hccAgmqfIpLiJcqxN/otdhi8je35+x8+rhjXUf5RatsMCZ1n/V3Yv3oGFtgWdwJ+RiF+RsWwfsUa9SruCAyO4CV/TH+maX0PBpywt5RkElwQ2cCDWAhp2QpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774604970; c=relaxed/simple;
-	bh=d8LeTn2owfYK7hLjrXzgR9iinlSReoBrCWpWK2GTg/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tQjo0pc0rKRcUE3yeM6RUvccwuziIIDO7HHwq3CWE8LzGoQ13R1Rf5GYtpUdssx7qNwGO5YxHg72zS3F946czd4TVD3krshW87u9+WqPpjUH+yblrnda8YSoPik6y4jl5+clh8ddPos9oWOmH741Riwav4dDUP6uhrpzYogfECE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOcomEd2; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774605079; c=relaxed/simple;
+	bh=7RlnZdhA7uamiXHsycR7O/nWFTkw9qzssD9u+koSR3U=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OI/hVfgfD7TFAe1si3HpmdrS9Epi7QyBFamF9et5taXjTbVk6TKFpVCBs3xiP9y3RRGp/KAwNDCOWZr+yRXuIHgYsGFGlVrCqTHG8bK+VDVTfki55lKrCkD6FeG3bhu7feaW4BKJkA2d4/H1X0gqvUhXQ/wIdxoVbwCwc3qgz6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KTwRcpxW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OWTpjBik; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KTwRcpxW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OWTpjBik; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOcomEd2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774604968; x=1806140968;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=d8LeTn2owfYK7hLjrXzgR9iinlSReoBrCWpWK2GTg/s=;
-  b=FOcomEd2ZaSF0fODVpAh/1tZWOGabO0dN4otrNCDCnWHexKky66fJKUK
-   /3Mr3U4R5Me4eOFdvi2ana33YioD8Wb248g4aYqWPHsrzCTUSSnR2r9Dp
-   cwda6EGz+sly06Mawbn0QjrFh2vSZH9CKmnxksdSfBIFyMix4EKncZYw6
-   p5q0OQJoLdBvulfLFejuKbCh6EsT9qEpo33Qtzsbjrnsn+8PF07lB6d1z
-   zSEOoyBzyzHmZFwDoEZHguGrlEa3c5RA1K0OS5NaCZU5QKLAYu4625YtF
-   TdJKaC71D4L59i1d9+0AO+5zHOY6FuWVhhngN+cY37DAQ+a9D4e6bWjOq
-   w==;
-X-CSE-ConnectionGUID: YXL1arDwS4Ox6ePfvzcVXQ==
-X-CSE-MsgGUID: 5D/fSWxqTPOL6HYzheer8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="101135347"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="101135347"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:49:28 -0700
-X-CSE-ConnectionGUID: DBt+iOidTTq6zsK64aLb5A==
-X-CSE-MsgGUID: f++7qdMmQrawAslXvg0Dag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="222394731"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.182]) ([10.245.244.182])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:49:24 -0700
-Message-ID: <3cd96fe7-4575-40f9-a1f2-610fb1fac5c1@linux.intel.com>
-Date: Fri, 27 Mar 2026 11:49:41 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KTwRcpxW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OWTpjBik";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KTwRcpxW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OWTpjBik"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B37875BCF9;
+	Fri, 27 Mar 2026 09:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774605075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uQ5ZHIJgkmzhH34zhbu/mQUJCE8Eudb5jNAyR9JJpzk=;
+	b=KTwRcpxWvZ8cCtXgMpTmo3zVQY5TBpQS8uhf/1h+Ei17pEkfrXwc8PAsuNypTr6cNAa4t8
+	SNQTRXi2Q8XdbTPwI1PBdgs5EveGrJO+KAuo5Dh4wC3jBmYDBrIYy4dd9KConWbN78AN8c
+	jW1p3u9hjrXCvsHVRla+vWvYxiLPwDo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774605075;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uQ5ZHIJgkmzhH34zhbu/mQUJCE8Eudb5jNAyR9JJpzk=;
+	b=OWTpjBikYS6ntXXMuR7vWd8Cl4EFP1KWw1+6/85VTC3+fVMT/+WnYWexPtjFI5BE5JYngm
+	QQCfzqaEUW3EsmBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KTwRcpxW;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OWTpjBik
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774605075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uQ5ZHIJgkmzhH34zhbu/mQUJCE8Eudb5jNAyR9JJpzk=;
+	b=KTwRcpxWvZ8cCtXgMpTmo3zVQY5TBpQS8uhf/1h+Ei17pEkfrXwc8PAsuNypTr6cNAa4t8
+	SNQTRXi2Q8XdbTPwI1PBdgs5EveGrJO+KAuo5Dh4wC3jBmYDBrIYy4dd9KConWbN78AN8c
+	jW1p3u9hjrXCvsHVRla+vWvYxiLPwDo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774605075;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uQ5ZHIJgkmzhH34zhbu/mQUJCE8Eudb5jNAyR9JJpzk=;
+	b=OWTpjBikYS6ntXXMuR7vWd8Cl4EFP1KWw1+6/85VTC3+fVMT/+WnYWexPtjFI5BE5JYngm
+	QQCfzqaEUW3EsmBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6111E4A0A2;
+	Fri, 27 Mar 2026 09:51:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YMZsFhNTxmmcNQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 09:51:15 +0000
+Date: Fri, 27 Mar 2026 10:51:14 +0100
+Message-ID: <87a4vtsir1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	"pav@iki.fi" <pav@iki.fi>,
+	"jussi@sonarnerd.net" <jussi@sonarnerd.net>,
+	"roy.vegard.ovesen@gmail.com"
+	<roy.vegard.ovesen@gmail.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for AB17X USB Audio
+In-Reply-To: <PUZPR06MB6224CA59AD2B26054120B276D249A@PUZPR06MB6224.apcprd06.prod.outlook.com>
+References: <PUZPR06MB6224CA59AD2B26054120B276D249A@PUZPR06MB6224.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: Don't allow pointer operations on unconfigured
- streams
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Paul Olaru <paul.olaru@oss.nxp.com>,
- Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,uniontech.com,iki.fi,sonarnerd.net,gmail.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: B37875BCF9
 
-
-
-On 26/03/2026 16:52, Mark Brown wrote:
-> When reporting the pointer for a compressed stream we report the current
-> I/O frame position by dividing the position by the number of channels
-> multiplied by the number of container bytes. These values default to 0 and
-> are only configured as part of setting the stream parameters so this allows
-> a divide by zero to be configured. Validate that they are non zero,
-> returning an error if not
+On Wed, 25 Mar 2026 07:26:48 +0100,
+ºúÁ¬ÇÚ wrote:
 > 
-> Fixes: c1a731c71359 ("ASoC: SOF: compress: Add support for computing timestamps")
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Cc: stable@vger.kernel.org
-> ---
->  sound/soc/sof/compress.c | 3 +++
->  1 file changed, 3 insertions(+)
+> Setting up the interface when suspended/resumeing fail on this card.
+> Adding a reset and delay quirk will eliminate this problem.
 > 
-> diff --git a/sound/soc/sof/compress.c b/sound/soc/sof/compress.c
-> index 96570121aae0..90f056eae1c3 100644
-> --- a/sound/soc/sof/compress.c
-> +++ b/sound/soc/sof/compress.c
-> @@ -379,6 +379,9 @@ static int sof_compr_pointer(struct snd_soc_component *component,
->  	if (!spcm)
->  		return -EINVAL;
->  
-> +	if (!sstream->channels || !sstream->sample_container_bytes)
-> +		return -EBUSY;
-> +
+> usb 1-1: new full-speed USB device number 2 using xhci-hcd
+> usb 1-1: New USB device found, idVendor=001f, idProduct=0b23
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> usb 1-1: Product: AB17X USB Audio
+> usb 1-1: Manufacturer: Generic
+> usb 1-1: SerialNumber: 20241228172028
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
-Is this a theoretical fix?
-I don't think this can happen in real world as set_params would need to
-fail and if that failed then applications would not ask for a pointer as
-the compress stream cannot be even started.
+Applied now.  Thanks.
 
->  	tstamp->sampling_rate = sstream->sampling_rate;
->  	tstamp->copied_total = sstream->copied_total;
->  	tstamp->pcm_io_frames = div_u64(spcm->stream[cstream->direction].posn.dai_posn,
-> 
-> ---
-> base-commit: c369299895a591d96745d6492d4888259b004a9e
-> change-id: 20260326-asoc-compress-tstamp-params-296f38f15217
-> 
-> Best regards,
-> --  
-> Mark Brown <broonie@kernel.org>
-> 
-> 
 
--- 
-PÃ©ter
-
+Takashi
