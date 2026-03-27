@@ -1,113 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034393F0746
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0C521FF4D
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774617506; cv=none; b=n80yPVAtGDpS+4lLqUzkWWAPAEsyRmql7xN8obRSzg14pPsk1UWPt3XTmQUyhwHJLiDcb6IKq6jgnypkyGVEME1ln45sQb82ATEI5DBzZ/d3TAY3M27o/NCPjkKFAKy5rzkMJPcqZ2x5JRzHhogLXJvAjpZOKBHcckJkhf73UHA=
+	t=1774617725; cv=none; b=bubKpyA/7bW8UQEiVeCwCVCwPA54PgCD/YLyjyEC7bYj8XU3X2iFs6lavvst7eg5MFkiC4Dd8wiaCGOyMUeR11z/HMLO5JaTgelmLyZVt7ugazHgAEVxR3PdHaTIkjcaWB2LtwYx8YZEj0ZxYHceJyvrvQnaiZrbfUO3Hwoj8ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774617506; c=relaxed/simple;
-	bh=lIcEeJUAxHlLV+3EoJu2rdgzUpTAIhxvKJOwKa/Fqvg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hcAr0LpQsYfRQxNVw3Ozj1HZ+cdNjeCZijaZN7AGJ0R3SNktWyaWsRscuIYfZbACV1tVg0H4WI5uOAgetaDVR653+Zwr+lv4AhGlEn6EHrzI5j+JRs4fOhTrTS1XycoIybBI2fvEENdNZDHIT9RG4F2eK+h71wMj25GUlQtqd+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUXUGKxu; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774617725; c=relaxed/simple;
+	bh=qhU661/wzeRCVyJnpV0oxL6yo2BCSdYSVG9yuepBkeI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sFjB3igMmtktrPhAcg7v/kBXJ63exmjDvF3++BdM4UR1R9qPmz0+HpuxiqnB5H+nnn3NKLofciKU9Gu+rVn9BGZInNnx913zbv9UxAEdcUaEVI1tJJiGaK11ClWrcsf4B1w0bE+9eH1taZpZ1rEeszyzrY8USyjwNun835xdxZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RTsYiWU2; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUXUGKxu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774617505; x=1806153505;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lIcEeJUAxHlLV+3EoJu2rdgzUpTAIhxvKJOwKa/Fqvg=;
-  b=AUXUGKxu2bcb0lK+Cd42sKvBNP2uIg/E0PtjgHq23jnDfwGPznwdwsEz
-   l3sz/PwcbH6YmS6KFzzqj4NrL9f72BMt4JciBex/Fy1SuGmRjTqb67fce
-   VtW2MW2C4rIr1lujvfbn6ewZO1UsUMkLEgFebU/32cd7uuUp+zEzd82WO
-   +uz+ky1ryEVzwFZkHjdZiYCz/P0XWNELucIfBxxJrq1Uag4QvIZgWlbiU
-   62KXSqp/HnYz4hO2AulkGoawwhNTw7qjjq+uwSzvvqGVhwnalufR6RR51
-   f2bJaOPLKRuXsYNz7Ln1gTMThpXPYW+knJS5HNc7zB4EUG91oFUjGBxmC
-   w==;
-X-CSE-ConnectionGUID: BzGXAXrcSlaqOxLiCHWAEw==
-X-CSE-MsgGUID: Va5ZZyQvQCiMp90L5jgWaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75571280"
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="75571280"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 06:18:25 -0700
-X-CSE-ConnectionGUID: DVjpZ390Rn2/FpCszCsiXQ==
-X-CSE-MsgGUID: /2HYjI6gTIyOGNylFRiIZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
-   d="scan'208";a="248354538"
-Received: from jpp-desktop.igk.intel.com ([10.91.221.24])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Mar 2026 06:18:23 -0700
-From: Sachin Mokashi <sachin.mokashi@intel.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	cezary.rojewski@intel.com,
-	Sachin Mokashi <sachin.mokashi@intel.com>
-Subject: [PATCH] ASoC: Intel: ehl_rt5660: Use the correct rtd->dev device in hw_params
-Date: Fri, 27 Mar 2026 09:14:39 -0400
-Message-Id: <20260327131439.1330373-1-sachin.mokashi@intel.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RTsYiWU2"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9795ca4e6dso325985466b.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 06:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774617723; x=1775222523; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yVXxpx97e4D7ri61A8B6ZuELHHvFW02wBp882dzy1Lw=;
+        b=RTsYiWU22N6eWQJuol0KG7Llr00JjmYEIqaAwHrzqGFyzoHjqVI+EbnWV3G+8MPBDf
+         MhZ3h3NFV56+G0TkNy7rxkk6PHPM1TyUm5ie1ghKIRlVnr3opwnTVZ6ibU3mBe/9pu87
+         09ngU8tZLw7VPS8pvORKf76YZ3SvwMKtgGHBGMxx6TI+bEmNAAjaNwb0LeDVIJo2lnKs
+         M6xgR6O/rud2scUxNZQsbxK4NK/cSfzMUKWEh2z5HVnQbLT04NS2JF5380iJcRlU+SE1
+         BzdS0P0W2ipDJ7HjVbCRWwzyDcPykcJ0ngHnAq9IObDpAvw8VXH/buqclvC19WKNIrkF
+         qaXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774617723; x=1775222523;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yVXxpx97e4D7ri61A8B6ZuELHHvFW02wBp882dzy1Lw=;
+        b=JeCIPIQCwKRjGWZPzaDigs0SL1RO3ekrnc4aQRMWhoUpEgqgP8EpDxKQuvaLcPn8rH
+         kJxoDR0Uc1N/bwO+/Nioc46WqAz4V+a4eM9cEdo+MwZAmvYk7cJH8l0hvuJLxmvppDtM
+         C4WxgSfgXtd3D0BPgLwA1wpUmP1KEUPfNCzd73F2Ecx9gl66fthREHBEsXGRPTOkgmRP
+         2v4lfrQbRy+2ncgnIELkCj8v2pIpTxGnRWsGFLR8crb/WJjOW4v6lZuJgYJzOeNybm3U
+         RFbcp8PcWRsbLqGffVPePhldYraqHAeTTSoas2OTLROTZDVmrMkJUQcZblKnshvrV//d
+         sURA==
+X-Gm-Message-State: AOJu0YybmijNHF0PNmXgbv1POT9+tin5Ha+Wk9EV+ymXMxE8nlduweUW
+	6DdnxZ8uFtF/Wo/Kt9wFGr6U2x2Ys8uVWw/hAH6lXG6hjft6NvsbM7rntPwW6u0m
+X-Gm-Gg: ATEYQzy/S6mcanjzK4RcJ5xeOb0IbTkntvaoxfjOUzscUimO4yRc6CPPPqz7Zsd9qU9
+	4/ekKH+El9hYOS+1DAK0YjpMvoUmC76AZkQec+MSN8ApGiGBfbDUxyPA4DYtVdCaD3hin/AIrDr
+	U1T2s7ocLkSIoCIF/ld7MOTMQUQPq0l7b17F6YLurjAlahiDjes2nFaZH6aVxoZb85vn88pMQEp
+	eD6+jnO1q049qHc5io5eo6GKPZjpPnljwEC6NpnqB45LvN0MfKNiP5V9ZC/qpXyffzApL0EHduc
+	wJ4UDnBMjALycbframmIn/Cn5QR6x+S3tgDRknMqR3gtcORGAYGI4kJcr2z7Sixhfh6SIaf8Q4S
+	TLUL7ojkAdiw7spb/JGionpQyAVHedVHdZ0TpRsaQeJyZBiAkHx7Pst1IzO6fqt6KPhXnTEhfik
+	V3gTxyFWIjR7+rYHAXS4TbOjOKHv6tCIgkDKfi
+X-Received: by 2002:a17:907:86a1:b0:b97:bd6a:470e with SMTP id a640c23a62f3a-b9b50169c49mr166618166b.10.1774617722457;
+        Fri, 27 Mar 2026 06:22:02 -0700 (PDT)
+Received: from linux-workstation.localnet ([5.133.45.75])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e305sm15832257f8f.8.2026.03.27.06.22.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 06:22:01 -0700 (PDT)
+From: Phil Willoughby <willerz@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/1] ALSA:usb-audio: Disable Arturia Audiofuse 16Rig
+Date: Fri, 27 Mar 2026 13:22:01 +0000
+Message-ID: <3610608.LZWGnKmheA@linux-workstation>
+In-Reply-To: <87fr5lqx90.wl-tiwai@suse.de>
+References:
+ <20260319143212.149090-1-willerz@gmail.com>
+ <20260319143212.149090-2-willerz@gmail.com> <87fr5lqx90.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-In rt5660_hw_params(), the error path for snd_soc_dai_set_sysclk()
-correctly uses rtd->dev as the logging device, but the error path for
-snd_soc_dai_set_pll() uses codec_dai->dev instead.
+On Friday, 27 March 2026 12:20:59 Greenwich Mean Time you wrote:
+> On Thu, 19 Mar 2026 15:32:12 +0100,
+> Phil Willoughby wrote:
+> > 
+> > There's an out of tree driver which works for some use-cases here:
+> > 
+> > Link: https://github.com/WillerZ/arturia-af16rig-driver
+> > 
+> > Signed-off-by: Phil Willoughby <willerz@gmail.com>
+> > Tested-by: Phil Willoughby <willerz@gmail.com>
+> 
+> In general, we don't care much about the out-of-tree driver.
+> If it's upstreamed, of course we'd love to help.  But this kind of
+> change is no-go.
 
-These two devices are distinct:
-- rtd->dev is the platform device of the PCM runtime (the Intel HDA/SSP
-  controller, e.g. 0000:00:1f.3), which owns the machine driver callback.
-- codec_dai->dev is the I2C device of the rt5660 codec itself
-  (i2c-10EC5660:00).
+I'm happy to work on patches for an in-tree driver.
 
-Since hw_params is a machine driver operation and both calls are made
-within the same function from the machine driver's context, all error
-messages should be attributed to rtd->dev. Using codec_dai->dev for one
-of them would suggest the error originates inside the codec driver,
-which is misleading.
+It would need the patch chain you sent me that replaces the
+hardcoded channel max with MAX_CHANNELS and makes the channel mask
+64-bits, because it has 34 channels.
 
-Align the PLL error log with the sysclk one to use rtd->dev, matching
-the convention used by all other Intel board drivers in this directory.
+I'd also need to add one or two new quirk flags or device-id matching
+branches: which approach is preferred?
 
-Signed-off-by: Sachin Mokashi <sachin.mokashi@intel.com>
----
- sound/soc/intel/boards/ehl_rt5660.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Phil
 
-diff --git a/sound/soc/intel/boards/ehl_rt5660.c b/sound/soc/intel/boards/ehl_rt5660.c
-index 5c7b218f22b7..c40cd9fb1a26 100644
---- a/sound/soc/intel/boards/ehl_rt5660.c
-+++ b/sound/soc/intel/boards/ehl_rt5660.c
-@@ -127,7 +127,7 @@ static int rt5660_hw_params(struct snd_pcm_substream *substream,
- 				  params_rate(params) * 50,
- 				  params_rate(params) * 512);
- 	if (ret < 0)
--		dev_err(codec_dai->dev, "can't set codec pll: %d\n", ret);
-+		dev_err(rtd->dev, "can't set codec pll: %d\n", ret);
- 
- 	return ret;
- }
--- 
-2.34.1
-
-Intel Deutschland GmbH
-Registered Address: Dornacher Strasse 1, 85622 Feldkirchen, Germany
-Tel: +49 89 991 430, www.intel.de
-Managing Directors: Harry Demas, Jeffrey Schneiderman, Yin Chong Sorrell
-Chairperson of the Supervisory Board: Nicole Lau
-Registered Seat: Munich
-Commercial Register: Amtsgericht Muenchen HRB 186928
 
