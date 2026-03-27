@@ -1,98 +1,95 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from out28-111.mail.aliyun.com (out28-111.mail.aliyun.com [115.124.28.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD1B2D978B;
-	Fri, 27 Mar 2026 12:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68ADC3E5ED3;
+	Fri, 27 Mar 2026 13:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774615574; cv=none; b=ZyHQDq5Gaf/95CJF0k2+QPsrrnYa/mtBDl2B80kwSk+PJ5omPu3coNz31O6su0oZeScjvN6TIjTaG1PNgR0Znru019M7XF4ce1JYO+NFO/uKpt4j1jp/zzYH1JYwe9jRtuPtNt7fULvqCOl5Fo/wR/SDOjGS0QUrgJ5eLMSUfDM=
+	t=1774616458; cv=none; b=Mv9KHvTdslHJEvYi1DE32n3ETLW//f1ubo14svpzY8m5xgsCG+tIKyK+MnRJIUWB0m46A4onFntSsaRNYPyw7pkrCfqOkI+lvVvKHllboR8N77ttsFqi/8YfQi451pZwqpRCW8b99Z6KyYn2FcUo/jRj99rNVp6z1MObk8b37J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774615574; c=relaxed/simple;
-	bh=LV/CegolQ2DUUGI210WS5MfvRar0ZCHgiBr76XhCbNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pmd/XVrShypWkl2H/PUXUXVf0+Hz1H8yVsSsS8TKxiakNuDHFn1jhkgD2Eg4YB2EmGxN0QGTI+sb/XKUHMUz36ur8lilwoPOkPMVDGSotrulsCNntQb27hJht3zOMTRZBmZXqgqbIUo1qYntYkVjmeiIp2V8LyKBtKqgskgXXf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=gKdutiZV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cDc2QD/A; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="gKdutiZV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cDc2QD/A"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id F19AC7A01B2;
-	Fri, 27 Mar 2026 08:46:11 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 27 Mar 2026 08:46:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1774615571; x=1774701971; bh=LV/CegolQ2
-	DUUGI210WS5MfvRar0ZCHgiBr76XhCbNo=; b=gKdutiZVn72RBFBBol2twYxbtx
-	mL45DkBv050Kd9MpqfmUjeIkNOO+1xKDJCz+CctOdneEoKO5tuR8VGVPfSVMZNMq
-	72UW0Yn7n29K7pAl2DKXcM090Gy5S6x/jGy/E3dKIEP8jlySemU5JOCuzW+AvPiP
-	cVvMk17IjsUSM9+gMqc6+V2rW2soWJhNpKCwnJr8Xdk4HhI5Jg4ochqiNQqW7Csi
-	Z/2mrPr5+4kmf7NhbQi2ipSeF0OihaM1yiiRy8WdjawcAKDOZR8D/lZqSBfhO6hS
-	VxDTwy8WuTzFYxGLgGAh+YVNBNT5+3yli3B4JoqSTIK5Y/wooTiQrFknLAgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774615571; x=1774701971; bh=LV/CegolQ2DUUGI210WS5MfvRar0ZCHgiBr
-	76XhCbNo=; b=cDc2QD/A4u2yLRP1stoO9IAGTHVcZ29CiCKAwtUNo5+txsGWiv5
-	zlorcjMPZHNvXBLxF2JNI5lAS06qVGof/3G1sqqrN3JqdE4sQZO7QZgMR0Qo8i6r
-	LekNLjxqEn2Xg4AFqGpD17436ss+tJHyXnP3bKcOQSZkhTYf8AxT6zJvfbrw+c/2
-	n/9YpTLXWtH5gOblo7Bb4eEJPiSl4PHucAr1PnZ0lfp6/Q8u7sC/+x1m7Bz0GvSO
-	8Rg0ZW3UsmGfj8XpEOm+AgibeTfKeL6j2bE/8xQuKL6LpkECRiGDP2SsWm8kJ1mE
-	MDDMS2nSqM8w/wO/b+YgLjYKkurczPUYKOQ==
-X-ME-Sender: <xms:E3zGaRDXeuilQvxj0AqG4r3CQHTDYu74ikhJ3VVAF6FdqZOToGF3Ww>
-    <xme:E3zGaXsCuD7zTKzaEZU4qhcU-VyT1IfHhoBWftpS6V8kfHD61ZKDFWX5X5e0jgesl
-    ez5ckJbE8EKpOqQq306bOlVS4tsO3sSrhh6E6iJkc82ilkAaA>
-X-ME-Received: <xmr:E3zGaYJScoOH3Ea5d_6jJQkdBejts-46tW8VZt2Hxlhx8UiEN_849ft1khna>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffedtfedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
-    ucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhf
-    dtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhdpnhgspghrtghpthhtohepuddtpdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopehnohhnrghmvggslhgrnhhktddtjeesghhm
-    rghilhdrtghomhdprhgtphhtthhopehtihifrghisehsuhhsvgdruggvpdhrtghpthhtoh
-    eplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtihifrg
-    hisehsuhhsvgdrtghomh
-X-ME-Proxy: <xmx:E3zGaWZzHtx46-3OjJ74jUjsUhblj-wKEXVbzG5-rbxXV8p7z1vm3g>
-    <xmx:E3zGaSAK--EGLB3mURwd86paFk--B6k6epBLr_3L6-PzlNUvLxHutA>
-    <xmx:E3zGaYbiYM8ER1efc9VnhE-3NssWHgM9PPQ5EWdiD-VB4ew_72n2kA>
-    <xmx:E3zGaSnyFy_HmOvCCatGkfkHETYUGF-nsKOCYrC7_w1VwiiV5RHHPw>
-    <xmx:E3zGaTsuitEtSsNMeemK4mK_rlc4VjGKQYWQ-v2GVqmQCAWc3jNU_QcY>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Mar 2026 08:46:10 -0400 (EDT)
-Date: Fri, 27 Mar 2026 13:45:45 +0100
-From: Greg KH <greg@kroah.com>
-To: Sourav Nayak <nonameblank007@gmail.com>
-Cc: tiwai@suse.de, linux-sound@vger.kernel.org, stable@vger.kernel.org,
-	tiwai@suse.com
-Subject: Re: [PATCH 1/1] ALSA: hda/realtek: add quirk for HP Victus 15-fb0xxx
-Message-ID: <2026032724-reveal-oblivion-e2db@gregkh>
-References: <877bqxsin3.wl-tiwai@suse.de>
- <20260327120149.18076-1-nonameblank007@gmail.com>
+	s=arc-20240116; t=1774616458; c=relaxed/simple;
+	bh=BZez2Jr41Bj4x/Urc86qOo5bnx5ib0OSkXFCduHVZ9E=;
+	h=From:Subject:To:Cc:References:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=bMIillK+HBInT1bNrGcUitjKajOqAD5IPhQSLc40QRymudqM1eMD//RMTb9aFmWnah1FdJoSfOF6g78EniPgzNjzzREw2WdiCuwkcEW5EDHlFbYnXr9W+scywrK8DnI0VlGbpy4IjEK6avjXrOYPF/W1XF6E0ZqqlINeQYHNm6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07637633|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_regular_dialog|0.0982931-0.000253955-0.901453;FP=17201444164198264218|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037028158;MF=fuhao@open-hieco.net;NM=1;PH=DS;RN=5;RT=5;SR=0;TI=SMTPD_---.h.Xj83v_1774616122;
+Received: from 172.25.21.240(mailfrom:fuhao@open-hieco.net fp:SMTPD_---.h.Xj83v_1774616122 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 27 Mar 2026 20:55:23 +0800
+From: Fu Hao <fuhao@open-hieco.net>
+Subject: Re: [PATCH 7/8] ALSA: hda: Fix single byte writing issue for Hygon
+ family 18h model 5h
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <cover.1774595153.git.fuhao@open-hieco.net>
+ <b978ca224f7c9a3c30efd69abdac5df395da63fa.1774595153.git.fuhao@open-hieco.net>
+ <87ikahqxou.wl-tiwai@suse.de>
+Message-ID: <2dc24ca9-6899-e7ac-65cd-f6b36ed4b4c2@open-hieco.net>
+Date: Fri, 27 Mar 2026 20:55:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327120149.18076-1-nonameblank007@gmail.com>
+In-Reply-To: <87ikahqxou.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 27, 2026 at 05:31:49PM +0530, Sourav Nayak wrote:
-> From: NonameBlank007 <nonameblank007@gmail.com>
+On 2026/3/27 20:11, Takashi Iwai wrote:
+> On Fri, 27 Mar 2026 09:11:13 +0100,
+> Fu Hao wrote:
+>>
+>> On Hygon family 18h model 5h controller, some registers such as
+>> GCTL, SD_CTL and SD_CTL_3B should be accessed in dword, or the
+>> writing will fail.
+>>
+>> Signed-off-by: Fu Hao <fuhao@open-hieco.net>
+>> ---
+>>   include/sound/hdaudio.h       |  1 +
+>>   sound/hda/controllers/intel.c |  4 ++++
+>>   sound/hda/core/controller.c   | 10 +++++++--
+>>   sound/hda/core/stream.c       | 42 ++++++++++++++++++++++++++---------
+>>   4 files changed, 45 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+>> index f11bfc6b9..57a144fec 100644
+>> --- a/include/sound/hdaudio.h
+>> +++ b/include/sound/hdaudio.h
+>> @@ -352,6 +352,7 @@ struct hdac_bus {
+>>   	bool not_use_interrupts:1;	/* prohibiting the RIRB IRQ */
+>>   	bool access_sdnctl_in_dword:1;	/* accessing the sdnctl register by dword */
+>>   	bool use_pio_for_commands:1;	/* Use PIO instead of CORB for commands */
+>> +	bool hygon_dword_access:1;
+>>   
+>>   	int poll_count;
+>>   
+> 
+> I hesitate to add another flag just for this platform.
+> And looking at the changes, all appear to be about the dword access
+> for sdnctl writes.  So I believe we can simply extend
+> access_sdnctl_in_dword to do the dword access in each write access,
+> instead?  The performance shouldn't matter as it's no hot path.
+> 
+> Alternatively, you can enable bus->aligned_mmio flag, but this needs
+> to enable CONFIG_SND_HDA_ALIGNED_MMIO.  That's a visible cost for
+> other platforms, though.
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
 
-This doesn't seem to match:
+OK, thanks!I will try to use access_sdnctl_in_dword in
+next patch series.
 
-> Signed-off-by: Sourav Nayak <nonameblank007@gmail.com>
-
-^that :(
-
+-- 
+Regards,
+Fu Hao
