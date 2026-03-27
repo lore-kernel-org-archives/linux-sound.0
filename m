@@ -1,63 +1,63 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1FA3314D2
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 21:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5C5393DE2
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 21:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774645463; cv=none; b=ob8zit1sW4u5OC0PFL+HnalRCVoSjJnUVtzouOQ9J+cIkzp6RBBBYy8N7AQBYe+UTmZ4u69C3x4FvNiKbA2PnYBzw9dc9NYR4n9BCTiymETAh/esx5YsERAVAD4uO6h+vbFLOtmn++UlG+6Sz95JojOpOJvp2THufnSsiAtIPis=
+	t=1774645468; cv=none; b=jubACy73DjepUTFRSp77X4EhSfms2B27sR4fEJcM7imnJeSIPDEUg5r9zY7q/WtRyfTijsrfD6Had6EwfLohln+NDquD0BCeUoQ9aN0hsIRgzzI9RBqYmc5HXAY5R9fYJ6o3WM8bETR8trTQQRTyTBfMHRa7cqMclaGmPJp9JEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774645463; c=relaxed/simple;
-	bh=aSjYUFj9M6lwUgJXiT62heEojJOHFWj0uLGT527L3XI=;
+	s=arc-20240116; t=1774645468; c=relaxed/simple;
+	bh=hV0PSRnR/bl4CdLuH0CGuwoqFy9Ab3KJAJrnQZux0Is=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m/Wa8Kg+wksik/+UNRrRn1mP1HRqUJdgOCNRAJQpq5SI9Kt5ywRq4G9Y8elAzyWHnn/2P5kB9vyFMeZmM3DSFgdoYoh0Pj3AGDjUpS6rQgLQ5k9xSEWLizEQLlqTxpq4ZyUO1hcUCBt9TMvUeURTLZNWotwnt5lpXDBftcmziug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZlCWFGzj; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=lbswyPkp75oqBEk5KuPl7+v88rHRYStjjnU5VkzAl3T5i7okpRr/ea1ssjXcMUij2mNxiqZVgrxFAjfahBtb+DyuTnbiSY43o3ORFzwm53aDcM1pjIoQTfpaUSu+YG77xDReh0RfVs6yYVZifHEHvqX8rsxZVJn+ufwz71Rt5fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EMj8RxVB; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZlCWFGzj"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2adff872068so10936915ad.1
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 14:04:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EMj8RxVB"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2b2429f98d0so501615ad.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 14:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774645461; x=1775250261; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774645467; x=1775250267; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AX7iaJPKCeMvl6HxeWWpfYEWXz+yV+MPEoNkKjeVFMI=;
-        b=ZlCWFGzjgqhhPjoL2BJdyUPjBw2HRRQnL5hEbIEH9JVhVH0ddLuthCkMEqKUS6aSU/
-         jCjjLY/l4rbu9p00wlAt93HOo13apOLpF1Ce/vcpWbhH/kvaKUf5QgI16TmzdBKooAne
-         ng+u/WKd3G72AvIz1pO3uHLIPubQLwYZWcLt15ujt2+P3eYg+CmKM0ZvO6MJPq9sKu72
-         koE3xg+vJKnryC02eKnHL+p6W8qoIDuQuzzaK3Ff3fjs4doiHthiEol10u+G1Wb6chhT
-         /N22dkr1OEJU0h4xA+ER4Y6WLecuvN6nSIFdKs8pEvFHSvUyrLQRmlYyCo0EHDzrab8n
-         qhRg==
+        bh=N06TUEQJrWZFxO33UjJmD1NIhQS6pZplfv0sDwxN4UU=;
+        b=EMj8RxVBqf/Go1u6blGshU+oF3b5xF+G5b6S3aZG6wegapRmGRDXF68RgbXnj3lrVQ
+         OCvHllZENXBQpi6+OfDfOBw/ZiFWaaAO/jS7ZINy757h8uud4APPtp7+EcZ31U/kZe8j
+         /ZdyrQXe+pfHwoZoveg+fUPRuEgGS8ETSTH3gaKM7oxVS8RetEzRzjnFErDx2wQ4d/Cc
+         wjH1NMj1eBdDU3irT+Wa/mdl1fs5siNrBz1omJluFeiJ2s5Pkyp72DQggiOqqPF87L/E
+         NaGx2+rbey+SMM5bsuUUGl1R4IbzqdKnCl0gXt9ZIpMMm5RxVhZvhdw892ShdiRhHNt+
+         4AJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774645461; x=1775250261;
+        d=1e100.net; s=20251104; t=1774645467; x=1775250267;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AX7iaJPKCeMvl6HxeWWpfYEWXz+yV+MPEoNkKjeVFMI=;
-        b=OJgpE7ZWok0wMvxd91jqR6C9vq93hRcREdpqD+NLILhOwjokeI29h+q9kI4VF53Z7K
-         bb7v4SiAofgtG84J6XwjHy4CNegDrsJ2mldn1B3Oi39jlpO9rPH6LhYVN/xAXNWIXsVR
-         ZB4eh+IDlqF+821GJKbDRnwn3C/BltBMBnYwAf48j/pyLK/zO24/V00jZzY7Zneo53+n
-         /tE5Gp6IjIZbmCZKHje5A7AmrclkBX9MJFfH02BUCspseZuGjhVlBZESRNsRRqVWcdS8
-         jD2vMJuwMGMWyCR+wafcn3GkAQFpBKokoqTyIyhePN/m7ceNDGwEhW2GKiMLc0K6BPl8
-         ikIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXhAIWgKASGZcXMTcGxD6LG85zjW227kNBtmZUQNkvb4Cp6yJtP3SsHoICBsiNazWdtegMpVLhh+iIdGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjGid8IFQqPCGI4e0TG2crsQJ6G2keNOVDhD0m6xna1M5jbQPM
-	BmU/EgXBBea6pv6oNJIH5NDFS9qvM8GJp4s2phabix8Nf206mH9Ubp8OngvrWdFsalc=
-X-Gm-Gg: ATEYQzzxYZS9JRhPCQeZzpyM+1uN8bjkavLZF/uj6ZXiAzIVN7DohkBBvCpvN3x1Mr1
-	7iU+IxOMt1qn/dWZjqpln7LAtzejvGzbZo7E9p6boLmomOVpW4HnobOf6h9sxowHNV7x7Q1KVPh
-	RsIvCP49DNaXVdM89wZaupoq86c3XS6lrE2DY8veGp3zyuYEta9TEeHizuA5JDk1zbsc/XJ6Lfi
-	YsZUk+PYL2JHvEHR+xJwGXRYSS8qBQ/MNIqbRMye+qa4kC5NzlBrC8RrLS0sdtcgJ2BmzofClxl
-	3O8RwfVjW6BJoxrYFKQPSrKH0iLgn/y8n6L2cWjAMoTRzDRUo+8u+plj2d47swLEmh8XjwM1FGS
-	DbdpUN4tuXmQl85fvSkEpThMx4+y1XXE4Gk/HMcDkUBI+XkmtCKyx8CI1g+gPgRIMdGurzF1x6s
-	TLj+CEF+Uq/+ZH5cjeyoOYUqfgA+LdKN/8QnKPi01Xe8XYkgSlmMMv
-X-Received: by 2002:a17:902:cf03:b0:2ae:59a9:639d with SMTP id d9443c01a7336-2b0cdbf7d69mr41662825ad.4.1774645461211;
-        Fri, 27 Mar 2026 14:04:21 -0700 (PDT)
+        bh=N06TUEQJrWZFxO33UjJmD1NIhQS6pZplfv0sDwxN4UU=;
+        b=elSCYYA/vGj9bCRdbGbUdnbOVJpr6QiNXiBSybzWRnNZklI6j7LIuC89ApWvU6Yruq
+         /TYrGMqa9qhaPNBEDKYb5QmC2vnrjgefeUXtuwhOUksfOEVGJNm0PbpkYnFj7zP4x12R
+         tsReVMEB/YMo6AuojfNXdU8GqYfjgSqnCCMu/cHATXAmQQRjZFWx0bWrVF+OZdMTcPXo
+         MOl1swgNAz2PPw8Y3RZ3BKp0pMGF3aH626M0J9tQtVX5ZbF17Gke71RMlUBb3W6cSB9N
+         +YDcvaIuRgMpSrJhLmUKp+4iw8xtwgMFOkqWi4DAwiRAdfSRsKcU3aHeeNA0HyzrkUzJ
+         GG6g==
+X-Forwarded-Encrypted: i=1; AJvYcCX1N0PAq4OzistAqveY7ZQBo70oVMrgpFf+zFfonzfrUTy+7oc2Kbht81gdmBs6OZ4AKWNAbt5Vc0EPyg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3oLzoGPrbV9eQsyoz3OURipnJLwMCRfSRvv1hniABbzX7YA7b
+	lIQzr+DGpHSsL7Xx8U4aej6Mj85quhz5f/5WUfuL3w+w+rgS/pO5Rkb3
+X-Gm-Gg: ATEYQzzhrpilHLNjL7y6AhkIRQRG5+6gSJrgElvBG/6qDK5HVkvNVEqBamd+SL4GQ6S
+	Nq3kHZ04i5rK4pitL1arn6F9ixESU/td8oxnBXfptblsKBrHHqpCpJWMfdwELWss94qxWilfLRm
+	BFTa9pN7zS5SCOIBAaBtnT6ZYYibGIEcPrHKNL7o99cGerrDetbYjlT+ztSFF+hgHNyt9Cif0Lg
+	kl0uTIgNdmGzKZc1aJXGEf4Vwsf87OxibAPdtXTtf3dkvF2vZ3Cm+8o57Ab/znpHHI89jPqiVD4
+	i0Kaxjn6bhW1VcKib7X2PM/92jcCYftggXBTzXdz55LsKfbqSxMZU1LQcgf8FfZThWMU3wOSd5L
+	qdAj6GD+/S4nj7PxPq1QUwBFTgvYXM8BM9BlC+XTLA5CQ7j1ZGuEakRByKj4LFDtTF/AFXObqhk
+	w4+2sWKA4LrnL6h4KUpAOzzeO+NoLYZuxn7n8c54LtZg==
+X-Received: by 2002:a17:902:e889:b0:2b0:7d6f:4627 with SMTP id d9443c01a7336-2b0cdcd224dmr43059925ad.37.1774645466690;
+        Fri, 27 Mar 2026 14:04:26 -0700 (PDT)
 Received: from debian.killsync.com ([103.85.207.6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24250b15bsm2358125ad.0.2026.03.27.14.04.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24250b15bsm2358125ad.0.2026.03.27.14.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 14:04:20 -0700 (PDT)
+        Fri, 27 Mar 2026 14:04:26 -0700 (PDT)
 From: aravindanilraj0702@gmail.com
 To: broonie@kernel.org,
 	linux-sound@vger.kernel.org
@@ -72,12 +72,13 @@ Cc: cezary.rojewski@intel.com,
 	tiwai@suse.com,
 	linux-kernel@vger.kernel.org,
 	Aravind Anilraj <aravindanilraj0702@gmail.com>
-Subject: [PATCH v3 0/3] ASoC: Intel: Fix MCLK leaks in platform_clock_control
-Date: Fri, 27 Mar 2026 17:04:05 -0400
-Message-ID: <20260327210408.430908-1-aravindanilraj0702@gmail.com>
+Subject: [PATCH v3 1/3] ASoC: Intel: bytcr_rt5640: Fix MCLK leak on platform_clock_control error
+Date: Fri, 27 Mar 2026 17:04:06 -0400
+Message-ID: <20260327210408.430908-2-aravindanilraj0702@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260327193002.423897-1-aravindanilraj0702@gmail.com>
+In-Reply-To: <20260327210408.430908-1-aravindanilraj0702@gmail.com>
 References: <20260327193002.423897-1-aravindanilraj0702@gmail.com>
+ <20260327210408.430908-1-aravindanilraj0702@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,32 +89,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Aravind Anilraj <aravindanilraj0702@gmail.com>
 
-In three Intel ASoC board drivers, the EVENT_ON path in
-platform_clock_control() enables MCLK using clk_prepare_enable(), but
-error paths fail to call clk_disable_unprepare(), leaking a clock
-reference.
+If byt_rt5640_prepare_and_enable_pll1() fails, the function returns
+without calling clk_disable_unprepare() on priv->mclk, which was
+already enabled earlier in the same code path. Add the missing
+clk_disable_unprepare() call before returning the error.
 
-Fix this by calling a clk_disable_unprepare() on error paths after MCLK
-has been enabled.
+Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
+---
+ sound/soc/intel/boards/bytcr_rt5640.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v2: Guard clk_disable_unprepare() with SND_SOC_DAPM_EVENT_ON() to avoid
-callling it in the EVENT_OFF error path where MCLK was never enabled.
-
-v3: Restored missing clk_disable_unprepare() guard in patch 2 that 
-was accidentally dropped during v2 rebase.
-
-Aravind Anilraj (3):
-  ASoC: Intel: bytcr_rt5640: Fix MCLK leak on platform_clock_control
-    error
-  ASoC: Intel: bytcr_rt5651: Fix MCLK leak on platform_clock_control
-    error
-  ASoC: Intel: cht_bsw_rt5672: Fix MCLK leak in platform_clock_control
-
- sound/soc/intel/boards/bytcr_rt5640.c   | 2 ++
- sound/soc/intel/boards/bytcr_rt5651.c   | 4 +++-
- sound/soc/intel/boards/cht_bsw_rt5672.c | 4 +++-
- 3 files changed, 8 insertions(+), 2 deletions(-)
-
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 103e0b445603..fce726a9c8c0 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -304,6 +304,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
+ 
+ 	if (ret < 0) {
+ 		dev_err(card->dev, "can't set codec sysclk: %d\n", ret);
++		if (SND_SOC_DAPM_EVENT_ON(event))
++			clk_disable_unprepare(priv->mclk);
+ 		return ret;
+ 	}
+ 
 -- 
 2.47.3
 
