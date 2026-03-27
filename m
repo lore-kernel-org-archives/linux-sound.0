@@ -1,167 +1,125 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE01C36AB46
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 09:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DF236AB46;
+	Fri, 27 Mar 2026 09:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774604837; cv=none; b=uBnSTX2j25JsXFWifI/y93YXjDLDe7erNR9PLGQ2El7FyxGgcCS9IrgbFpHqzzGRYnKBumIOg62/0/kwClPEQybLRzc6g5jkVAT2J525zpVxTQz59kntiWmFh1qw9IzAzmGVQPUicnFdFWgoyYU2T282D+FEHoyXDLk29FjVh74=
+	t=1774604970; cv=none; b=ipRe9ZY+DvoAKweCimgG7glTaZo6p8OQWLgObbv5195dtrkM5xUWBRmQJeH+fBskYHTijI3hFASa6UJbyiQ3SRjlRw9jjIg9iwlYfdnTYqga6JcQSteoj7Qij5weHLBvLaK7642+Md8mB0mvFm+kDQALbOJnz1lXON2hN+Mqnic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774604837; c=relaxed/simple;
-	bh=jKGxyMfPgTpe8Z56ygKN5Ku9yDpKfGJJRgZv3f3sAm4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n3/T1YDG1bBy4+A/uP+AlyP0mopyavhzVCSZ0JHwWm3ucZtjBVpjtW9if/lci+2xg/0UooJ19s5IH8/tIFvcTUcRzm9Mje1qFPOJKFa9n7qfZ0icGHWXE2y8RPDwRcZiXirgS2lb/mgpJeczIuyn7ugZ1Q2tZYy/Hd9F5YelwcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A1nGP0b3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HNYlsXlz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A1nGP0b3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HNYlsXlz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774604970; c=relaxed/simple;
+	bh=d8LeTn2owfYK7hLjrXzgR9iinlSReoBrCWpWK2GTg/s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tQjo0pc0rKRcUE3yeM6RUvccwuziIIDO7HHwq3CWE8LzGoQ13R1Rf5GYtpUdssx7qNwGO5YxHg72zS3F946czd4TVD3krshW87u9+WqPpjUH+yblrnda8YSoPik6y4jl5+clh8ddPos9oWOmH741Riwav4dDUP6uhrpzYogfECE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOcomEd2; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A1nGP0b3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HNYlsXlz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A1nGP0b3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HNYlsXlz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 06F485BCF9;
-	Fri, 27 Mar 2026 09:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774604835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T74hnurPTb6YOKXOUIRLRUi4z9sIxIR6yJhOjEGs7qY=;
-	b=A1nGP0b3LwVRDd+AAlng3eJ/bn8Z/2JuByZltk/DXeWAVUdtHMjvSOpFHP1Usm8q9/AqkH
-	Vo7PINrBccwjwj35C46zSet/6nUcTY0hUT9qjD1QtzgGjrqyZ0PpsyXovhEpJVKOc6WjEI
-	oog5CfIpQG5Yk0AicQSZklgLD7mFU6Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774604835;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T74hnurPTb6YOKXOUIRLRUi4z9sIxIR6yJhOjEGs7qY=;
-	b=HNYlsXlz7WRd42c2eH4v0pY+juSfbMAdMKtos8KNdiFH8qwyRKujSL5EKBmPNtyw7OycVB
-	27D4FdIqMvfuREDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774604835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T74hnurPTb6YOKXOUIRLRUi4z9sIxIR6yJhOjEGs7qY=;
-	b=A1nGP0b3LwVRDd+AAlng3eJ/bn8Z/2JuByZltk/DXeWAVUdtHMjvSOpFHP1Usm8q9/AqkH
-	Vo7PINrBccwjwj35C46zSet/6nUcTY0hUT9qjD1QtzgGjrqyZ0PpsyXovhEpJVKOc6WjEI
-	oog5CfIpQG5Yk0AicQSZklgLD7mFU6Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774604835;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T74hnurPTb6YOKXOUIRLRUi4z9sIxIR6yJhOjEGs7qY=;
-	b=HNYlsXlz7WRd42c2eH4v0pY+juSfbMAdMKtos8KNdiFH8qwyRKujSL5EKBmPNtyw7OycVB
-	27D4FdIqMvfuREDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4C2A4A0A2;
-	Fri, 27 Mar 2026 09:47:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5NSuMiJSxmm6MQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 09:47:14 +0000
-Date: Fri, 27 Mar 2026 10:47:14 +0100
-Message-ID: <87cy0psixp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Odin Brodersen <Odin_B@yahoo.com>
-Cc: alsa-devel@alsa-project.org,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga 7 2-in-1 16AKP10 (17aa:391d)
-In-Reply-To: <976868857.398937.1774391091126@yahoo.com>
-References: <976868857.398937.1774391091126@yahoo.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOcomEd2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774604968; x=1806140968;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=d8LeTn2owfYK7hLjrXzgR9iinlSReoBrCWpWK2GTg/s=;
+  b=FOcomEd2ZaSF0fODVpAh/1tZWOGabO0dN4otrNCDCnWHexKky66fJKUK
+   /3Mr3U4R5Me4eOFdvi2ana33YioD8Wb248g4aYqWPHsrzCTUSSnR2r9Dp
+   cwda6EGz+sly06Mawbn0QjrFh2vSZH9CKmnxksdSfBIFyMix4EKncZYw6
+   p5q0OQJoLdBvulfLFejuKbCh6EsT9qEpo33Qtzsbjrnsn+8PF07lB6d1z
+   zSEOoyBzyzHmZFwDoEZHguGrlEa3c5RA1K0OS5NaCZU5QKLAYu4625YtF
+   TdJKaC71D4L59i1d9+0AO+5zHOY6FuWVhhngN+cY37DAQ+a9D4e6bWjOq
+   w==;
+X-CSE-ConnectionGUID: YXL1arDwS4Ox6ePfvzcVXQ==
+X-CSE-MsgGUID: 5D/fSWxqTPOL6HYzheer8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="101135347"
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="101135347"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:49:28 -0700
+X-CSE-ConnectionGUID: DBt+iOidTTq6zsK64aLb5A==
+X-CSE-MsgGUID: f++7qdMmQrawAslXvg0Dag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="222394731"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.182]) ([10.245.244.182])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:49:24 -0700
+Message-ID: <3cd96fe7-4575-40f9-a1f2-610fb1fac5c1@linux.intel.com>
+Date: Fri, 27 Mar 2026 11:49:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[yahoo.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SOF: Don't allow pointer operations on unconfigured
+ streams
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Paul Olaru <paul.olaru@oss.nxp.com>,
+ Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 24 Mar 2026 23:24:45 +0100,
-Odin Brodersen wrote:
-> 
-> Hi Takashi,
-> 
-> I'm submitting this patch directly as my alsa-devel submission is awaiting
-> moderator approval (first post from a Yahoo address).
 
-You don't need to submit to alsa-devel ML but only to linux-sound ML
-for kernel patches.  Bu
 
-> The Lenovo Yoga 7 2-in-1 16AKP10 (subsystem ID 17aa:391d) shares the
-> same ALC287 codec and bass speaker pin layout as the Yoga 7 2-in-1
-> 14AKP10 (17aa:391c), which already has a quirk entry. Without this
-> fixup the kernel picks up the PCI SSID 17aa:38b5 (PCIe bridge) instead
-> of the codec SSID, leaving the bass speaker pin (Node 0x17) inactive
-> and the master volume uncontrollable.
+On 26/03/2026 16:52, Mark Brown wrote:
+> When reporting the pointer for a compressed stream we report the current
+> I/O frame position by dividing the position by the number of channels
+> multiplied by the number of container bytes. These values default to 0 and
+> are only configured as part of setting the stream parameters so this allows
+> a divide by zero to be configured. Validate that they are non zero,
+> returning an error if not
 > 
-> Apply the existing ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN fixup to
-> 17aa:391d to match the behaviour of the 14-inch sibling.
-> 
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=221210
-> Tested-by: Odin Brodersen <Odin_B@yahoo.com>
-> 
-> Signed-off-by: Odin Brodersen <Odin_B@yahoo.com>
+> Fixes: c1a731c71359 ("ASoC: SOF: compress: Add support for computing timestamps")
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Cc: stable@vger.kernel.org
 > ---
->  sound/pci/hda/patch_realtek.c | 1 +
->  1 file changed, 1 insertion(+)
+>  sound/soc/sof/compress.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -7576,6 +7576,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
-> 	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
-> 	HDA_CODEC_QUIRK(0x17aa, 0x391c, "Lenovo Yoga 7 2-in-1 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-> +	HDA_CODEC_QUIRK(0x17aa, 0x391d, "Lenovo Yoga 7 2-in-1 16AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-> 	SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
-> 	SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
-> 	SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
-> --
-> 2.43.0
+> diff --git a/sound/soc/sof/compress.c b/sound/soc/sof/compress.c
+> index 96570121aae0..90f056eae1c3 100644
+> --- a/sound/soc/sof/compress.c
+> +++ b/sound/soc/sof/compress.c
+> @@ -379,6 +379,9 @@ static int sof_compr_pointer(struct snd_soc_component *component,
+>  	if (!spcm)
+>  		return -EINVAL;
+>  
+> +	if (!sstream->channels || !sstream->sample_container_bytes)
+> +		return -EBUSY;
+> +
 
-Hmm, have you created a patch properly by git-format-patch or such?
-It looks malformed and doesn't apply cleanly.  Try to apply this post
-on your side via git-am.
+Is this a theoretical fix?
+I don't think this can happen in real world as set_params would need to
+fail and if that failed then applications would not ask for a pointer as
+the compress stream cannot be even started.
 
-At best, test posting patches locally at first, and once after you
-confirmed that everything works, try to resubmit.
+>  	tstamp->sampling_rate = sstream->sampling_rate;
+>  	tstamp->copied_total = sstream->copied_total;
+>  	tstamp->pcm_io_frames = div_u64(spcm->stream[cstream->direction].posn.dai_posn,
+> 
+> ---
+> base-commit: c369299895a591d96745d6492d4888259b004a9e
+> change-id: 20260326-asoc-compress-tstamp-params-296f38f15217
+> 
+> Best regards,
+> --  
+> Mark Brown <broonie@kernel.org>
+> 
+> 
 
+-- 
+Péter
 
-thanks,
-
-Takashi
