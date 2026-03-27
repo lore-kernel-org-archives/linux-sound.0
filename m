@@ -1,63 +1,63 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0BD38F920
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 20:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7167330DD1E
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 20:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774642435; cv=none; b=evuRKho5sVwgN4p6UnttgrGFAW1aO2u6MtqA/N3PH1MyE6zZ1Ha8XIh+x+V8RIIWuTYWEDFyJvIc0hfbEE27uthGrhnvIyLwsMZAE5Flbdxn3XYqTT8GM6v68Utz4Q+BqC8IqbpqH4x+6/KWL+/QnEEKGMPTF9QFKBUZy2EEYGU=
+	t=1774642440; cv=none; b=NLL2OVzNm0lLqrKiXs2T5jtYmLhLa9+GtVHqRtbclZZK5ZNMWJzV8/YH3JCHmYvo0MRH4jhxKyOk3EcExSCZajINYJI1G+QoMId1IShuqctxg8zD3EUyqJm6iPoeofM/XjCJU7ISqq/I0Lcnz+Qx0n5k5vltwJxfteK+UOVyC7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774642435; c=relaxed/simple;
-	bh=hV0PSRnR/bl4CdLuH0CGuwoqFy9Ab3KJAJrnQZux0Is=;
+	s=arc-20240116; t=1774642440; c=relaxed/simple;
+	bh=7j8Moa59DkosVsxWFDavZ6weYRK8cTYFube+TQ8IPC0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hjFDsOqW5N1PPLF+b2+dRwaPnBfv6YnQEN6dXUV0QT3Ek5/r3Hhgr3S4gQXneSWgbbLgEXjdKE4E/6xVQ1pGQJMj9mLgTUGJ+M75kvmyArnmcfsrF3sesqpgw6m2dkmpB0pOK1QFIx/exoICoa1n8XHXnctPMV9NCqtTgRZ3/rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lc3u8Oh5; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=JQ3Oz9Fni9G/8W14ScMdE5rSLg7J8NEv3OdIOFicgKOTJHeK+ka6PuKMtjcTbSJIf2P+9byQdJvue0dkw2mkn4pbQW6X+3uHDgcp1U9WTZfN4ZPUheJtlIrrZpWBKQqw+dWKgsxXVVGunoqg+dwlbUtFsD6BoCS7NnclTYR5ByU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CfINtM3e; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lc3u8Oh5"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3585ec417f6so1586319a91.1
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:13:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CfINtM3e"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35c124d2613so1758510a91.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:13:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774642433; x=1775247233; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774642439; x=1775247239; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N06TUEQJrWZFxO33UjJmD1NIhQS6pZplfv0sDwxN4UU=;
-        b=Lc3u8Oh5LBw5DVc9oqg4neJ1FgBMvM91Za9PgYkmP5ggrhObj0hWMdJ2kfcnigcx1W
-         vClJTbK+fmFz+52M+bLDvPveCERBWceo0vuOJcuU8gwstZSka5QVdo3w4lP4b22k7g2O
-         96a6Wmc/5hfR4l4BPm/GNgitj84p5rDuH/KCviLcconGp2fnwj9RbhIQsyz0ursOLjIl
-         8vjQO3qQsFEKgeduXSB+E2od5f6g2ShAjOocyZgEH3zMpwceadcYq2kHn+iHke/KMbT5
-         IKDUNulxBsfrKgnvtrRC1extSYYBnuo4Ij6UYMecwDBTLMOZ37dfTI0WAH0o1QrjcZUE
-         weVg==
+        bh=/nuT9mfHoO1n2zOd/gsACVfEg2tIvD3nQVS0gGGSabM=;
+        b=CfINtM3ex+Wpt3jR8wLNWHcm6lye8D+410cdkwhPjBv4FiR5R9PGuNeWKf5qWUSxeJ
+         NzD+nLZw8t4/OWiL9M1C5R065HdfQxfsJqOqVMnGU6kj+dLmQ3pNSKjeUBAAGjQSN1wD
+         FzNUHTr23wpY9hd8ytjXYDTpqqOnkPTnQG72hao5Uakak6kNbsdtVAiV1xetouJ7X30p
+         4gEucvHz+xoB7GgX4s/JF16qX1+m5eliJT2x/OHC9nEgc7BVeZxV1ZICerogyH/Q8QZy
+         Cz2TGDWVwtunyb5zcHl3NU24xBMrEEP59Kbi2oWjbrmjd43S6Shd+7SJF9FYguVEzZjF
+         4oSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774642433; x=1775247233;
+        d=1e100.net; s=20251104; t=1774642439; x=1775247239;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=N06TUEQJrWZFxO33UjJmD1NIhQS6pZplfv0sDwxN4UU=;
-        b=RWoQDglo9geOVR4Q/xtJFYlBK6mx7Svm/YFYR9Y7nUBWvPVlNXFvFCT2ffSPzyWXU7
-         5JUYRe2NCDq/jr3PO8YE9wZJkwuI09OYRQv0GDyuB/FLK2uHyrPK9Tn2malpSqYrY7oH
-         nWh+cFX8Gfjak4FzoZOPNBrjidiw+bAYCsXIFJK8zEpnztLTnShhrI9rdPlKMZgDFShK
-         KtWjsPDSn+BC1Kt3PBHHS4kdWsudUcVEVkwbmYrb5ouhAOds8+P/r8GiadJ6d6KpprCT
-         a1G9PExLXr4cmmGOsE8qr+mvFKhcpDzwllNgF6hnvXExI8LOEEqxmZ2EZ4o023/u7NVC
-         HzeA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNDNNTUDpMaqa0B8WEklLhkpOyeBAhB8giRJ9jSIxTBfNrBJOdlgsNi/3eIC9wgTVTwzIFxH+RatOIEQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0eFpo3FlVDje/2YV+WmwnUGcgIN/1b7IsYVNJ3uvZgQCerD2l
-	DWYcT71bMjxW1+aK2plgAMYopZ2d9NssM3Ibf0Pq7+8pe4c00tKOOUdN
-X-Gm-Gg: ATEYQzze8D4zHD2EYAjS4rIV9zzZkqFOdZezIE36zPDDAqTBmY1o6k1BLvHNJtahQFs
-	qcsYnj53t9lBVlfqK/9V3Qo0gkD6pUtAViJWf4fR2y2vyKIzfrVyR03uXORY8JUfWB069/9KmuR
-	zYGfJA+FCd6m0E5tJnkp4VwDdjwFMShEEBWh7qzvFiuHYH4OhE1cxihYpeI1ZCBbByZRBICe5kN
-	3ofiCN3h2vZefu51o1GxbH5qTPwGpMXYDiL5XQl7ZwRLJwmNuiSHKFnfxgpIY8UYl412i9PiVpa
-	EGnYVjiuEnsRMyKswkkCQbPeNibVZhE+9hRSLcXomvQjuZWhO8bkvIpX0+8yAedLHZx++9US4Yt
-	9RaDW2jltTgPXql9iq7N9iD0wuyHVKXPP0ONwK2k7iwqGk1S85SiFwVbMwsUe4/XY5fRHN4LZ0j
-	lkSQorseCp8awd8FTtsXObhjnnGykFfxP2/ELSNcTMQQ==
-X-Received: by 2002:a17:90a:d44d:b0:35b:d795:cf5d with SMTP id 98e67ed59e1d1-35c30bc9833mr2769103a91.5.1774642433076;
-        Fri, 27 Mar 2026 13:13:53 -0700 (PDT)
+        bh=/nuT9mfHoO1n2zOd/gsACVfEg2tIvD3nQVS0gGGSabM=;
+        b=SinJqqjVPrxfHeec8FvVyjZAM38wgtoClAyrw7pWGaR/gHZKKDlWGJhoEX2GEFYLJ/
+         AsOfRLZF4i6K/rrYgQWW5KpbZP89j5I1KKW2HiRDkJGY7yiFWlqrafhSQtAtarwso2o6
+         YVTNrwPVthcywLFh+EbL/hQDyZXqX+vigB1y5jvZY7a86mRy7jQN1VC8WOEK33DZERHO
+         AgOskWE6FonJAsbq6o4nWHLrTsZW/LF7UZnxgWgfLaFVdfWott8nVvtlGF1x+vOHKcG1
+         ZtlCRD1LTToGvis+z+SlXGciZ89y18iHCk3ET/av8mIe6REZr5Tp2cdF4xDqyCLNMFnS
+         s8XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0W+QeaccI5xopLKKuu3KAGzl6ftfR0MQazr66FPYL30srrCcj5vb7FaXGXo86sZUmNSquw4C53YHqYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxohHWf+pPpZLxtHQ9a9yBBkx6nhUy56PcEbSk9EapjaOIDIVuM
+	IvOm4oHRwMw8kFTBuxZIqXeGehOxaFSZTnaeWbPHGb9nZmfCReW6Ufnz
+X-Gm-Gg: ATEYQzxSwDUVRhC/LINXNQCfF9A3SUCtiAK/oomvrlrKRoLhxQgEVqzPebkc6ntkUjr
+	+vESixhASFS1ojAgxIbVe1mrG0dcrC3M0AeYRQk/ETLrvkWBmIP/QuEB4d7zCt5tckZ0gTfBw19
+	c5DM1TWXw/1LdhZskcjddkTRQWoYE9Igqf4SBli6SFMqxuirkgTQFmOVHUdxB1ahe4EaMmvEA4M
+	ZdHp9lhIE2Tcu8u/Kic+D1th7ssKmxWtw1HZM2jHrdzY/IyJu6fPzSsrpd7ZOvqygh3+/qvBmdt
+	oUcjE58xt/cAk+rgxex5btM9+Mqj8ECLB7IAegHDCNRVd3Slw8QmaqMzrYloMaiHEMqDWUl+QZb
+	nsQqSR3dkf/74bbhI5Neht+76rj2zWbk09Ae53rG7t5zooGMDs5Oi1WaQjzXCdm6ZJ68Q1t6JSs
+	jGLp3f9KQ7Ap1Tu3Rzf5AuOhSugRmPNc7BeRvrREHjUxYL+iLnKhRG
+X-Received: by 2002:a17:90b:2d81:b0:35b:94db:fd97 with SMTP id 98e67ed59e1d1-35c300bd43bmr3243233a91.21.1774642438910;
+        Fri, 27 Mar 2026 13:13:58 -0700 (PDT)
 Received: from debian.killsync.com ([103.85.207.6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c2d8f96e9sm1534085a91.1.2026.03.27.13.13.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c2d8f96e9sm1534085a91.1.2026.03.27.13.13.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 13:13:52 -0700 (PDT)
+        Fri, 27 Mar 2026 13:13:58 -0700 (PDT)
 From: aravindanilraj0702@gmail.com
 To: broonie@kernel.org,
 	linux-sound@vger.kernel.org
@@ -72,9 +72,9 @@ Cc: cezary.rojewski@intel.com,
 	tiwai@suse.com,
 	linux-kernel@vger.kernel.org,
 	Aravind Anilraj <aravindanilraj0702@gmail.com>
-Subject: [PATCH v2 1/3] ASoC: Intel: bytcr_rt5640: Fix MCLK leak on platform_clock_control error
-Date: Fri, 27 Mar 2026 16:13:14 -0400
-Message-ID: <20260327201316.427607-2-aravindanilraj0702@gmail.com>
+Subject: [PATCH v2 2/3] ASoC: Intel: bytcr_rt5651: Fix MCLK leak on platform_clock_control error
+Date: Fri, 27 Mar 2026 16:13:15 -0400
+Message-ID: <20260327201316.427607-3-aravindanilraj0702@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260327201316.427607-1-aravindanilraj0702@gmail.com>
 References: <20260327193002.423897-1-aravindanilraj0702@gmail.com>
@@ -89,29 +89,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Aravind Anilraj <aravindanilraj0702@gmail.com>
 
-If byt_rt5640_prepare_and_enable_pll1() fails, the function returns
+If byt_rt5651_prepare_and_enable_pll1() fails, the function returns
 without calling clk_disable_unprepare() on priv->mclk, which was
 already enabled earlier in the same code path. Add the missing
 clk_disable_unprepare() call before returning the error.
 
 Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
 ---
- sound/soc/intel/boards/bytcr_rt5640.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/intel/boards/bytcr_rt5651.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index 103e0b445603..fce726a9c8c0 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -304,6 +304,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 
- 	if (ret < 0) {
- 		dev_err(card->dev, "can't set codec sysclk: %d\n", ret);
-+		if (SND_SOC_DAPM_EVENT_ON(event))
-+			clk_disable_unprepare(priv->mclk);
- 		return ret;
- 	}
- 
+diff --git a/sound/soc/intel/boards/bytcr_rt5651.c b/sound/soc/intel/boards/bytcr_rt5651.c
+index 68cf463f1d50..9f19eb483c69 100644
+--- a/sound/soc/intel/boards/bytcr_rt5651.c
++++ b/sound/soc/intel/boards/bytcr_rt5651.c
+@@ -205,7 +205,7 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
+ 	if (SND_SOC_DAPM_EVENT_ON(event)) {
+ 		ret = clk_prepare_enable(priv->mclk);
+ 		if (ret < 0) {
+-			dev_err(card->dev, "could not configure MCLK state");
++			dev_err(card->dev, "could not configure MCLK state\n");
+ 			return ret;
+ 		}
+ 		ret = byt_rt5651_prepare_and_enable_pll1(codec_dai, 48000, 50);
 -- 
 2.47.3
 
