@@ -1,134 +1,119 @@
-Received: from r3-55.sinamail.sina.com.cn (r3-55.sinamail.sina.com.cn [202.108.3.55])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44270361DD1
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 10:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3233A9DAB;
+	Fri, 27 Mar 2026 10:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774605933; cv=none; b=Mq8MTwdUMvlkTxFWlJoegw02UoP3CN3GVBxSFtcD0bxmHqE9QWOwxO0Zy24aamBTb7s4uhL6Aouiw9yEELFys6lKKfL4A9aYWothl1ZcDgmNqkIC5UTxta3S3rF7xIpnSYGFnxSMth+QolOOWNZSAq43K+EbGsiDxrDQ8IsaOpY=
+	t=1774606351; cv=none; b=LfUNWPUz1UqvTv3wfW80gPmhsDDOZIjQNqiNRGMAZ8WBPF0KRgIic6w3/ywuZ22uwSvtF/T6NJHOxKbbzv8ymiHIclGAbSpqOaoY08ku4kyZxvcLA5bOzcxX8Ikqp+4bDHRdqij9Q+PJhnzF4Auetf0Nzc/EwE5+pWjeCWWeaQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774605933; c=relaxed/simple;
-	bh=j6Vn/g6uqEPpXX8fFTItQfPe4WbNmEoLH4IEFsVlErU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=TdYAgVdMMW7cbG5WJavMN/mDSbpombuR1TvJQ5PHs8t9guqqdJiEpdkMBdkNmGbGlo7b0ijZKL8WyaB1F0TEuM0FPRKHcj/+ggwpSsjSYRpVkEHtJaip7RJE8YbDE1I2OpbWMAOzzJu0U6fcqNLkxDzsVd4TsLXyN79KLdCKegE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
-	by sina.net (10.54.253.38) with ESMTP
-	id 69C6551D000030E9; Fri, 27 Mar 2026 18:00:03 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 551FD9CC98F24B76BBEAD714A1EF8EFD
-X-SMAIL-UIID: 551FD9CC98F24B76BBEAD714A1EF8EFD-20260327-180003
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Cc: peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v4 5/6] ASoC: Intel: soc-acpi: arl: Add es9356 support
-Date: Fri, 27 Mar 2026 17:59:53 +0800
-Message-Id: <20260327095954.3465-6-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260327095954.3465-1-zhangyi@everest-semi.com>
-References: <20260327095954.3465-1-zhangyi@everest-semi.com>
+	s=arc-20240116; t=1774606351; c=relaxed/simple;
+	bh=P5gv6ffXPh56TDq1hjs484CYMUT16f40aTrz2lgibS4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GK/EJ6KGcvzSDG8y4gHcVazsCZ0OmjPCG7Cu9kvOfxPf4p1MWTIWIgYk/RpJJW8RfDSaHo31jHyx9SPWAvwKNRSIzYSDR+eUbLMIW2jgTfiO+yKlOL8Jlqnl3KffhEWfsJSIMXBy7pn+STuQU5zdua/IyXdd4zscdQYHuleWtc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 70ade03829c511f1a21c59e7364eecb8-20260327
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, UD_TRUSTED, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF
+	GTI_FG_BS, GTI_C_CI, GTI_FG_IT, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.11,REQID:09e43b4c-2810-4be2-b380-5af3eb90bbdf,IP:10,
+	URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,AC
+	TION:release,TS:0
+X-CID-INFO: VERSION:1.3.11,REQID:09e43b4c-2810-4be2-b380-5af3eb90bbdf,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:0
+X-CID-META: VersionHash:89c9d04,CLOUDID:d7b685bf7469621e8a2beb7e6ad9b0a7,BulkI
+	D:260327181221Z376PBZ7,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|898
+	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:n
+	il,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC
+	:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 70ade03829c511f1a21c59e7364eecb8-20260327
+X-User: zhangheng@kylinos.cn
+Received: from thinksys.. [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 148420416; Fri, 27 Mar 2026 18:12:20 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz,
+	chris.chiu@canonical.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	stable@vger.kernel.org,
+	"Artem S . Tashkinov" <aros@gmx.com>
+Subject: [PATCH] ALSA: hda/realtek: change quirk for HP OmniBook 7 Laptop 16-bh0xxx
+Date: Fri, 27 Mar 2026 18:12:15 +0800
+Message-Id: <20260327101215.481108-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Add support for the es9356 codec in the ARL board configuration.
+HP OmniBook 7 Laptop 16-bh0xxx has the same PCI subsystem ID 0x103c8e60,
+and the ALC245 on it needs this quirk to control the mute LED.
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221214
+Cc: <stable@vger.kernel.org>
+Tested-by: Artem S. Tashkinov <aros@gmx.com>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- .../intel/common/soc-acpi-intel-arl-match.c   | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index c952f7d2b..e03bf072b 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -192,6 +192,42 @@ static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
- 	},
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 327f4dc1b09f..ffd4295aab53 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4102,6 +4102,7 @@ enum {
+ 	ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY,
+ 	ALC245_FIXUP_BASS_HP_DAC,
+ 	ALC245_FIXUP_ACER_MICMUTE_LED,
++	ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED,
  };
  
-+static const struct snd_soc_acpi_endpoint es9356_endpoints[] = {
-+	{ /* Jack Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -6631,6 +6632,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.v.func = alc285_fixup_hp_coef_micmute_led,
+ 		.chained = true,
+ 		.chain_id = ALC2XX_FIXUP_HEADSET_MIC,
 +	},
-+	{ /* DMIC Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Jack Capture Endpoint */
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Speaker Playback Endpoint */
-+		.num = 3,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device es9356_adr[] = {
-+	{
-+		.adr = 0x00013004b3935601ull,
-+		.num_endpoints = ARRAY_SIZE(es9356_endpoints),
-+		.endpoints = es9356_endpoints,
-+		.name_prefix = "es9356"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device cs42l43_0_adr[] = {
- 	{
- 		.adr = 0x00003001FA424301ull,
-@@ -255,6 +291,15 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
++	[ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc245_fixup_hp_mute_led_coefbit,
++		.chained = true,
++		.chain_id = ALC287_FIXUP_CS35L41_I2C_2,
  	}
  };
  
-+static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link0[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(es9356_adr),
-+		.adr_d = es9356_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
- 	{
- 		.mask = BIT(0),
-@@ -528,6 +573,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(1),
-+		.links = arl_n_mrd_es9356_link0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-arl-es9356.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
+@@ -7155,7 +7162,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8e37, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e3a, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x103c, 0x8e60, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8e60, "HP OmniBook 7 Laptop 16-bh0xxx", ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8e61, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e62, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e8a, "HP NexusX", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
 -- 
-2.17.1
+2.34.1
 
