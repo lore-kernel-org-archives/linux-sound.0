@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60CC37D13B
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 20:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF7332F742;
+	Fri, 27 Mar 2026 20:40:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774644048; cv=none; b=E8VLzeaGjXUrXo8+WwtlYqhX5xUQDYgrqMaM1RHh5we4SpIqpEv5U9enaSTz+6u3WRwS4qPXUx+e0Jna0+7XonCDK/6dXf69JUTyfiB1g8S6R9XzZszsep8Lx/7srf+yH9oCUwD3BD6l3d7Q2Cbc4Bd0TyX0oygS+O3ipmQOx7g=
+	t=1774644054; cv=none; b=iq4ctCx38USpxOc6HCaGcQGtqowncfmJFExWTbWOuKftxtBIQHbMFs3Qb15+Jp8MDLpYGVasnTPZN7UTL8BuztD3vVrYQVlfciFOZmKZriNZM0BCLMYE2wpprnejktzkvZczJcoRs654MAqiwunZMnrp4O/C/CH1HWUaRe+XT7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774644048; c=relaxed/simple;
-	bh=20FKg2jN5AOEKZDjLShJANH9cTTEOSbofFssfjZdmio=;
+	s=arc-20240116; t=1774644054; c=relaxed/simple;
+	bh=/ezLVy3GZhWlSKa9nvaADKtZcRVrgEC0HxqJGqIEYPI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=B7WiPXLY30vUsXWbKemeK0ep5hzeOujG2WrortJZ6INJ+fOVjBRwkbU0H0uqrmZ0FmxG8oMfbfxXDW7DTLx35mYMK3iMzdCspR0BDMInfdzxaMDTt1jqIKzIHATi5luJJ3hWNC0xJ7uXEYLRHfGh3c8GE1DCSfsvHQ4Au5Al7kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DATdsHbN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=jBhuo2FYfqkKm/vsuvZT7547noLbkdmIJX4Y5O3aQGPOJzwyKlO2GRluT6vAaIaWUWInaznX/oOZuI6U77k77U7RXbDDqFYrf4qf+5XjN57oYxq/3zWiYeKXudpYUeRc/BcNECY0MjqqP/VFLF9BGxLkkDJdXTr5n3Tu9Xy2ltY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AH/aPUBo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DATdsHbN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E37C19423;
-	Fri, 27 Mar 2026 20:40:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AH/aPUBo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D77BC19423;
+	Fri, 27 Mar 2026 20:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774644048;
-	bh=20FKg2jN5AOEKZDjLShJANH9cTTEOSbofFssfjZdmio=;
+	s=k20201202; t=1774644054;
+	bh=/ezLVy3GZhWlSKa9nvaADKtZcRVrgEC0HxqJGqIEYPI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DATdsHbN+gs0R98kZIYEaN1sLOH+l+KcK6Whsu/6Gy00N1Dg3ZxkPMWvOkkCJ00+y
-	 5bGUxmdXdCSSNg557VvZkgrTWaGRrGs9cHNASFNTEs+9g6e9EHehziWEe1bfvHjgZK
-	 0azXtr3P/cnmqSiGq4RWIaoWV5XkhRkknQ7aPA/fmDVWLzABKN+ibEglgoe51XS/8r
-	 bLnQzkTEsepLi8qAUTsqCC0XS8I5hC0mvf1ZDz26XPXVLases9gDfO0V1jbHV47lLZ
-	 AYDAlu/wzx+GjE26tnfu34CBO6AB/8eqkuJ9LabIiVHlzo/8gA1h430l/RieVLbaBR
-	 GEw+ipqx46cQQ==
+	b=AH/aPUBoSJkiBjQqZR1M6QyALe0uK7mtVJbkfe5WbAc8tLRZeZszZGkw5GyORtBu/
+	 aCp3LTusO3OWa6o+DuMd0x8Ho/5QEP8HtcytdEyXWAHIdkcQcZb8W0o6AHkBHA8z/l
+	 8QhNFi+2AXcsL+Qy+HRXq/aWh8+OgG1vCaDSE6cXFDpSC2mDKKJv2l4QVg9Nr1jgtM
+	 NELrstPWDB+mNeAW3d0ors/S1PVCF2d6P/XkUTs2Z9uIZyrTjWgI47GQ+fQpz/U84O
+	 1TyUWOafJ1jj4ZSURVgQJsaZwa7o3pTAkAdY0+uW6KFzjMr/442jGvewl0mp5qwjx8
+	 OJG/yIwqS8CNQ==
 From: Mark Brown <broonie@kernel.org>
-To: Sachin Mokashi <sachin.mokashi@intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- tiwai@suse.com, pierre-louis.bossart@linux.dev
-In-Reply-To: <20260324163400.1276247-1-sachin.mokashi@intel.com>
-References: <20260324163400.1276247-1-sachin.mokashi@intel.com>
-Subject: Re: [PATCH] ASoC: Intel: ehl_rt5660: remove unused macro
- definitions
-Message-Id: <177463884254.777262.10318442447476766465.b4-ty@b4>
-Date: Fri, 27 Mar 2026 19:14:02 +0000
+To: lgirdwood@gmail.com, Khushal Chitturi <khushalchitturi@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ koro.chen@mediatek.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20260327134649.31376-1-khushalchitturi@gmail.com>
+References: <20260327134649.31376-1-khushalchitturi@gmail.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514:
+ convert to DT schema
+Message-Id: <177463208948.777262.1614314585663974285.b4-ty@b4>
+Date: Fri, 27 Mar 2026 17:21:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-ad80c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
- h=from:subject:message-id; bh=20FKg2jN5AOEKZDjLShJANH9cTTEOSbofFssfjZdmio=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpxutOVn+k1MLTReJTcijj3282dhCIQj7VWqUQV
- OMCgLFEpa6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacbrTgAKCRAk1otyXVSH
- 0MzOB/9VxpAnWkgR1umkP29REQABPYZvge/15LwISZvRDut4uDcxqTqSgx/+gsjt2qTQKOcFnDC
- H3+3o6VZlbZo4E1in6JKEbargBUaDsINIOfrk8sEqv5bs3b21dQSfUPw1HyyUzrig7JJMoeUy0p
- S2gCv58Q8/fRgy2MZ8HFYaqiKHDwALnXonGMQqLcTeVPNcbhceea5OUYdHs/qpU8oSab5mDHG3h
- PdyCjwvCdSjoD9hAYOlrW+cANfG+get49W/kjACaEqtjSnHRAAWRvuQhuq8nkCeU4B0nLfRdCoP
- Ruy5aXXGcE5Jycf/jb8IvZN+RxWVdiCLLI/JnRD5+cbSbgf3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/ezLVy3GZhWlSKa9nvaADKtZcRVrgEC0HxqJGqIEYPI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpxutS/ovJb6SR3kEuiSgzP/pmOBz6pkYdq+zg9
+ iprs81yeHyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacbrUgAKCRAk1otyXVSH
+ 0GfPB/4noaJ7sEbVurq/yn/pmLXMIIFv71dC4eCXNY0lKVQ4/RrySFl9c5SlyzNWkXnFhwJS78n
+ 9YSaNciI+oAulSjz3X4l+xphTRs5Z8C3KZX4YYVtuAKF3Y5zz3VaD0iFLRQ6PuLG/CH2HFU37EE
+ keIL+HHQhapJQiPZbP+5DRLuMgSFc6nrUvf8HXPFteCG12wGQX4Az9e1OWj1wS7JeK0wrrrVIp5
+ FQ+e5TsNXP5ZMR2qe7SviG2gyy7OTH7YYI5khdn2qk9X2ZkojV8I1LTVqB9TWG7FPsrgy/wJ1a1
+ zxS/56xv3po9EB4VD4PASwcqiNypZIdjrEyEpR8CC+wsVumr
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 24 Mar 2026 12:34:00 -0400, Sachin Mokashi wrote:
-> ASoC: Intel: ehl_rt5660: remove unused macro definitions
+On Fri, 27 Mar 2026 19:16:49 +0530, Khushal Chitturi wrote:
+> ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514: convert to DT schema
 
 Applied to
 
@@ -66,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: ehl_rt5660: remove unused macro definitions
-      https://git.kernel.org/broonie/sound/c/ebbe5d957efa
+[1/1] ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514: convert to DT schema
+      https://git.kernel.org/broonie/sound/c/472d77bdc511
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
