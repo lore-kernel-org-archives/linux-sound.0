@@ -1,89 +1,140 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CC63D646E
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 08:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55A53CF697
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 09:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774599849; cv=none; b=SeFwyKKfR59BswS58mHDYDwbvEnvfyx3y9Su8GT6f3pvTETqRKwSomOQYWPM8kz4bxfh/VumsOCkWDaPT/18c/hMRz6gaNr0Ehi9QHkFaEp4row+Gcy6S4TVlMu9W5xkfbvn0nWsgLCkNnUKgolPPi9LEClBXuYoUoo6KPd5CRM=
+	t=1774602546; cv=none; b=LxlhOPopnsz8A+CsMmDNUgtQTCB5ItWrWMjJUgdkWTSJP7oHhC5QOkSOBCUgdCNchPbpo2Kxaodib6nA8iILLYkt/ZoaazSIuhgjXCMJAeUuFakQ+yEsXHtt/YnoamlyROSshDtBFSFtnmOPdaFiNkT73kkbC2YZpV0PcTiRw10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774599849; c=relaxed/simple;
-	bh=M75B9F1l6Uu1XU52pHHevevCW8x/LGh3JMBsSO3t6iU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uyMsjUa1Cb8XBIBVmjDcpOzHGy/X7Ew4Dz+uo8FygnOgqYwUJiAIHs8OShx5m4dQYfuxWbH4kcoZBN1tOXrwBl4xv0vjuC0N1g05fgDY9ecVdsK5pvsnc6jHwlgVIZUfsZIKkf2h8jadeH1ptV7NLzaFlY0FQBaXIsy0OSx12tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Luaa+1Cp; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1774602546; c=relaxed/simple;
+	bh=KcVIhl+/794I82jfyegthdB+WyhmbHjoDhRvJaTPpuc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q32LL1ot0PsETZHtBcxufjcihGCCcW2KXWXeZEJugZcckK7p/LO5ivSKez8gsAUuGEDojH7PPFMKcI8tOwy+Zp2fb/4FfT8SN5Yc7WVue7LAj60EKRhCFnMDbFpgv/eKG/s6WIovOG/U44EXFWSlh9emlBAbiq8/He0rF7JYKnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0/Ha+Rd4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=M0HEnsoy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0/Ha+Rd4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=M0HEnsoy; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Luaa+1Cp"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 62R8NduH63374171, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1774599819; bh=4spXSRBCV665GbxiJYjsJPiJx8uC9HBfCwQv0/11/ZU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=Luaa+1CpxwH9IGt3jVlhsfBhvx7eb3GsF1Oj+BeLhoq812HFUiXW2PqcUfLWMgzzW
-	 LpP7vHnz53qBA1el19sbmJ8CTZHZyDNGYAcpv/LNU1nZ74epAobcsKe0DvIKjGRuZ+
-	 Z6Pi3wHgsvlCTRrV/q34a+O2pMjVX4mjKBWdUE7MHPEDaALgpHq2fZFvuLxyg9l5Q/
-	 wICkzikDNzXo/Q7dawZNd5x2Knxh2cpFEDAoCBbfbYV6P07z9n8kIxyrkE3MiMcbpJ
-	 ndaCQuRH6VzUP7HHB5hT6OFl3Z2MS+FglsCPY2gMIDv8QSqaIn2XB5tjFpEWiDiqF5
-	 UAR8V0UFe6EgQ==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 62R8NduH63374171
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Mar 2026 16:23:39 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Fri, 27 Mar 2026 16:23:37 +0800
-Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Fri, 27 Mar 2026 16:23:34 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
- 15.2.1748.10 via Frontend Transport; Fri, 27 Mar 2026 16:23:34 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, <ckeepax@opensource.cirrus.com>,
-        Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: SDCA: fix the register to ctl value conversion for Q7.8 format
-Date: Fri, 27 Mar 2026 16:23:31 +0800
-Message-ID: <20260327082331.2277498-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0/Ha+Rd4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M0HEnsoy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0/Ha+Rd4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M0HEnsoy"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DC0924D1C7;
+	Fri, 27 Mar 2026 09:08:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774602537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7D+fgS2FGlpnlJ/ItsQ3N/NwkMpqTtZ8hX5uUdNjNPc=;
+	b=0/Ha+Rd4LeRcZaDhXBT0YVb07y1qR5Tdw/3naVx4Xv0qzPmWFZWgA+effYChjIz4lUlRw8
+	AZFh8vkpsMT5OM3/Wm1S8B6I+6dyobjJ7d4yN0LB2X7KwvZSKag+rY/4x6qKMQ62ASZ8HL
+	Co/Qxkf2gEz3MpSy/F7VS5vhAuSb+As=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774602537;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7D+fgS2FGlpnlJ/ItsQ3N/NwkMpqTtZ8hX5uUdNjNPc=;
+	b=M0HEnsoyiV8cwNnnUjllMP/z+QrUFUe+3OVtnojQhNDNiJOhyd5Oman4E5sol17xsV40EV
+	uShBfzDGKFMMWmDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774602537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7D+fgS2FGlpnlJ/ItsQ3N/NwkMpqTtZ8hX5uUdNjNPc=;
+	b=0/Ha+Rd4LeRcZaDhXBT0YVb07y1qR5Tdw/3naVx4Xv0qzPmWFZWgA+effYChjIz4lUlRw8
+	AZFh8vkpsMT5OM3/Wm1S8B6I+6dyobjJ7d4yN0LB2X7KwvZSKag+rY/4x6qKMQ62ASZ8HL
+	Co/Qxkf2gEz3MpSy/F7VS5vhAuSb+As=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774602537;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7D+fgS2FGlpnlJ/ItsQ3N/NwkMpqTtZ8hX5uUdNjNPc=;
+	b=M0HEnsoyiV8cwNnnUjllMP/z+QrUFUe+3OVtnojQhNDNiJOhyd5Oman4E5sol17xsV40EV
+	uShBfzDGKFMMWmDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B65734A0A2;
+	Fri, 27 Mar 2026 09:08:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H1BDKylJxmnBCgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 09:08:57 +0000
+Date: Fri, 27 Mar 2026 10:08:57 +0100
+Message-ID: <87tsu1skpi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Karsten Hohmeier <linux@hohmatik.de>
+Cc: tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: UBSAN: shift-out-of-bounds in sound/pci/ctxfi/cthw20k2.c:956:31
+In-Reply-To: <20260321195621.16139-1-linux@hohmatik.de>
+References: <87cy149n6k.wl-tiwai@suse.de>
+	<20260321195621.16139-1-linux@hohmatik.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-From: Shuming Fan <shumingf@realtek.com>
+On Sat, 21 Mar 2026 20:56:21 +0100,
+Karsten Hohmeier wrote:
+> 
+> Hello Takashi,
+> 
+> I applied your patch and uncommented the stack dumps.
+> Here is what I get.
+> 
+> Mar 21 20:41:34 dtest kernel: XXX invalid type 9 for hw20k2
 
-The division calculation should be implemented using signed integer format.
-This patch changes mc->shift from an unsigned type to a signed integer during the calculation.
+Thanks, this looks like the cause.
+Could you try the following one-liner?
 
-Fixes: 501efdcb3b3a ("ASoC: SDCA: Pull the Q7.8 volume helpers out of soc-ops")
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/sdca/sdca_asoc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
-index 733c9808891a..7709a4ce26e0 100644
---- a/sound/soc/sdca/sdca_asoc.c
-+++ b/sound/soc/sdca/sdca_asoc.c
-@@ -850,7 +850,7 @@ static int q78_read(struct snd_soc_component *component,
- 
- 	reg_val = snd_soc_component_read(component, reg);
- 
--	val = (sign_extend32(reg_val, mc->sign_bit) / mc->shift) - mc->min;
-+	val = (sign_extend32(reg_val, mc->sign_bit) / (int)mc->shift) - mc->min;
- 
- 	return val & GENMASK(mc->sign_bit, 0);
- }
--- 
-2.53.0
+thanks,
 
+Takashi
+
+--- a/sound/pci/ctxfi/ctdaio.c
++++ b/sound/pci/ctxfi/ctdaio.c
+@@ -118,6 +118,7 @@ static unsigned int daio_device_index(enum DAIOTYP type, struct hw *hw)
+ 		switch (type) {
+ 		case SPDIFOO:	return 0;
+ 		case SPDIFIO:	return 0;
++		case SPDIFI1:	return 1;
+ 		case LINEO1:	return 4;
+ 		case LINEO2:	return 7;
+ 		case LINEO3:	return 5;
