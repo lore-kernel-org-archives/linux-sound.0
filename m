@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF7332F742;
-	Fri, 27 Mar 2026 20:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAB237F743
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 20:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774644054; cv=none; b=iq4ctCx38USpxOc6HCaGcQGtqowncfmJFExWTbWOuKftxtBIQHbMFs3Qb15+Jp8MDLpYGVasnTPZN7UTL8BuztD3vVrYQVlfciFOZmKZriNZM0BCLMYE2wpprnejktzkvZczJcoRs654MAqiwunZMnrp4O/C/CH1HWUaRe+XT7Y=
+	t=1774644059; cv=none; b=eqGHXLJV58LXrkR1x+j7N3aGVajI+n4p1zlzc3QKjkx+ANxf+WdXkxUdVmhZtgKHyc2JkFIqz/68kGU4273I+iDfusMHM0x+BuH0AZeRvl4tBRcU9gU7UccubBwcWUmmZtDoY29PDwVA31BoItfUPTsPSV2QKJh5xLzqLeOr94U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774644054; c=relaxed/simple;
-	bh=/ezLVy3GZhWlSKa9nvaADKtZcRVrgEC0HxqJGqIEYPI=;
+	s=arc-20240116; t=1774644059; c=relaxed/simple;
+	bh=BEJUPtrDMJJyNA+rRaOUgmzhaFuTGlDRlyCoEl5SEnk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jBhuo2FYfqkKm/vsuvZT7547noLbkdmIJX4Y5O3aQGPOJzwyKlO2GRluT6vAaIaWUWInaznX/oOZuI6U77k77U7RXbDDqFYrf4qf+5XjN57oYxq/3zWiYeKXudpYUeRc/BcNECY0MjqqP/VFLF9BGxLkkDJdXTr5n3Tu9Xy2ltY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AH/aPUBo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VZ5E39AL2xnryjgu2WdBmEjgQKlAYH9B0FCGwMwK85lRxjL+0LZRiew+wKM9YneUvLlTbAU0rTgXwwaY/drbsyxzi3tC+UgkOD7LliUVjGCDiuo/tC4itqn/sU1es3CVWkQESq9xWe4YexJDu48bbeeXLQDJysacrlLVtsOEn7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWRiNoWW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AH/aPUBo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D77BC19423;
-	Fri, 27 Mar 2026 20:40:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWRiNoWW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C050EC19423;
+	Fri, 27 Mar 2026 20:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774644054;
-	bh=/ezLVy3GZhWlSKa9nvaADKtZcRVrgEC0HxqJGqIEYPI=;
+	s=k20201202; t=1774644059;
+	bh=BEJUPtrDMJJyNA+rRaOUgmzhaFuTGlDRlyCoEl5SEnk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=AH/aPUBoSJkiBjQqZR1M6QyALe0uK7mtVJbkfe5WbAc8tLRZeZszZGkw5GyORtBu/
-	 aCp3LTusO3OWa6o+DuMd0x8Ho/5QEP8HtcytdEyXWAHIdkcQcZb8W0o6AHkBHA8z/l
-	 8QhNFi+2AXcsL+Qy+HRXq/aWh8+OgG1vCaDSE6cXFDpSC2mDKKJv2l4QVg9Nr1jgtM
-	 NELrstPWDB+mNeAW3d0ors/S1PVCF2d6P/XkUTs2Z9uIZyrTjWgI47GQ+fQpz/U84O
-	 1TyUWOafJ1jj4ZSURVgQJsaZwa7o3pTAkAdY0+uW6KFzjMr/442jGvewl0mp5qwjx8
-	 OJG/yIwqS8CNQ==
+	b=FWRiNoWWRrFlcdwvrGmi2H/aNvKhvJiK1fank1lY78QJQK7Kbj30JtJzmNOwXwSob
+	 AFBGu972+YT9HrC0MY+RHJygMJPQ9Ab15YeOEofp4UC/oCpGB7fgwdJZPGrbZ49wIq
+	 oNPMmyXMchxaDgBsc0jX5QTHCvTpp8xFmS4zUh/8ADtbCQaawVnQsVpbbF+xl9D/oJ
+	 9OkunG2/C9dK+5ER+slSxSx1IjMVnB5K7JvLRG5PnQnUjXoB2BzwL+SIJSA7MzXEby
+	 BeKTMC0Fwd9JH+Dzw/XdLEiSDcfOVRh6REzQ5LHlFAW54D3L4j/lDj3iii5S6s6pGR
+	 93/KExpmWNJ4g==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Khushal Chitturi <khushalchitturi@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
- koro.chen@mediatek.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <20260327134649.31376-1-khushalchitturi@gmail.com>
-References: <20260327134649.31376-1-khushalchitturi@gmail.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514:
- convert to DT schema
-Message-Id: <177463208948.777262.1614314585663974285.b4-ty@b4>
-Date: Fri, 27 Mar 2026 17:21:29 +0000
+To: Oder Chiou <oder_chiou@realtek.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20260327-asoc-rt1318-v1-0-9fcecf868fda@kernel.org>
+References: <20260327-asoc-rt1318-v1-0-9fcecf868fda@kernel.org>
+Subject: Re: [PATCH 0/3] ASoC: Drop some unused GPIO includes
+Message-Id: <177463669410.777262.10906805338638867441.b4-ty@b4>
+Date: Fri, 27 Mar 2026 18:38:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +45,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-ad80c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/ezLVy3GZhWlSKa9nvaADKtZcRVrgEC0HxqJGqIEYPI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpxutS/ovJb6SR3kEuiSgzP/pmOBz6pkYdq+zg9
- iprs81yeHyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacbrUgAKCRAk1otyXVSH
- 0GfPB/4noaJ7sEbVurq/yn/pmLXMIIFv71dC4eCXNY0lKVQ4/RrySFl9c5SlyzNWkXnFhwJS78n
- 9YSaNciI+oAulSjz3X4l+xphTRs5Z8C3KZX4YYVtuAKF3Y5zz3VaD0iFLRQ6PuLG/CH2HFU37EE
- keIL+HHQhapJQiPZbP+5DRLuMgSFc6nrUvf8HXPFteCG12wGQX4Az9e1OWj1wS7JeK0wrrrVIp5
- FQ+e5TsNXP5ZMR2qe7SviG2gyy7OTH7YYI5khdn2qk9X2ZkojV8I1LTVqB9TWG7FPsrgy/wJ1a1
- zxS/56xv3po9EB4VD4PASwcqiNypZIdjrEyEpR8CC+wsVumr
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1368; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=BEJUPtrDMJJyNA+rRaOUgmzhaFuTGlDRlyCoEl5SEnk=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpxutYdppYsxt4UPBcA9zmWi1AgpjHD812jrSa/
+ 8AMyHU8+eaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacbrWAAKCRAk1otyXVSH
+ 0LqwB/wKTuCuOXboAea+NSOiSeAUNd+zecPiDQBHhLnYFyld6F8hcTX2h4NnfAIY9CQ3ADAqpck
+ WFSdXboAAR89Wkg7Rzds17s5283v23UI5jfd3WFZ2TqxSZeJq4kgEc4THx4/MLu8r5ds8Zi87VC
+ 3XN4KukEKatLIr4A3KeOhB3eD0CoFdaQQapI8at5MhcVbFEMdE+rJMmoRWAXW90EfrrskBfGyC7
+ wCSEMLqeRZ/Z4PKPKX31Sko6aeRiYcAz8pflpcY6N568k9YwNvlahog11cB7V6YNXuPzUr6BTQL
+ HUdk8nQcb73uYCiiSvkQe0xAm8nP1Phk7Nsf+6/EbhcQ+Ps+
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 27 Mar 2026 19:16:49 +0530, Khushal Chitturi wrote:
-> ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514: convert to DT schema
+On Fri, 27 Mar 2026 00:26:37 +0100, Linus Walleij wrote:
+> ASoC: Drop some unused GPIO includes
+> 
+> This drops the unnecessary legacy includes from three
+> more codecs.
 
 Applied to
 
@@ -69,8 +69,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514: convert to DT schema
-      https://git.kernel.org/broonie/sound/c/472d77bdc511
+[1/3] ASoC: rt1318: Drop unused include
+      https://git.kernel.org/broonie/sound/c/486c06451590
+[2/3] ASoC: nau8315: Drop unused include
+      https://git.kernel.org/broonie/sound/c/175b2d025874
+[3/3] ASoC: ts3a227e: Drop unused include
+      https://git.kernel.org/broonie/sound/c/00e981c7c0a1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
