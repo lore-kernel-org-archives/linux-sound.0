@@ -1,273 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CE13CD8DE;
-	Fri, 27 Mar 2026 08:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909F334DCD6
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 08:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774598752; cv=none; b=cLB9z+0Yd5CRlH0aroMUkQ6aOkbqhXFqjLTq98AHznrjSlOlNGdnVODtb9TZ0frcNWwgKSHL2yDhcu1fMrj8zT+71k/94p1cUS96cGPYgjEu3eIFyHRIG/pC09srf7dNFEDGaNTPFGFwCr8n2pb4H4xbAOHVmMO730vajfhzb5Y=
+	t=1774598820; cv=none; b=XZ+fGAgu0qqonsGN3ct88dZc7BOzIy2aYHvULOCznMNDSERcJT7kCtacwTAcYXOkehz+uvi/QNUJ2l1ikJi0Ht/osBW0iWiwuS634doHtPKsPzN+YGNeW0HzwPORxe+WwgdauXx+WfRRU3OusHVGN2nJ7axZJjJbAd8huMDuSIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774598752; c=relaxed/simple;
-	bh=Bv4/Y8lJ6NAbAEPN6r/5Z3DUXsK0z/ia4RMACrqi9ZU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dsN88Gov6RFkKcDSOdrDHov3Pf0WQmWLqGEXBcb3a4f2WZWcAdh6Lj1E1PjCPa8cjgaV8V5MqFe6ig3rgimArxtwcqLHMF1s+vXgTKc1U83ivJFfJRslE1y2tI3oQvhN1wJ+3fQmHgdnrHywAXqOm2xIRzkcLZGAnZj6JPXDPJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eTpDLsLO; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eTpDLsLO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 839B8C19423;
-	Fri, 27 Mar 2026 08:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774598751;
-	bh=Bv4/Y8lJ6NAbAEPN6r/5Z3DUXsK0z/ia4RMACrqi9ZU=;
-	h=From:Date:Subject:To:Cc:From;
-	b=eTpDLsLO6Cd65yxoP3gzCMOhkjhmxEGSkuoop5OPlbLZO9y9H+CTeHiPB8oVHlyjE
-	 FuDO0yzqhcC/lamg86m45VpoyWxdrZnHgjlWbnwc/kfUMiDPfJw9eJzy7dMC8GtnZf
-	 rxfbwUhML5Wxl1bKKtm8Sx7hBbY5g2+W8a01VZ2joWLMviKdWK4jY5Dp9OOHseRqgD
-	 yEdm4og4laxBs3Qa7GRoDepx1H+71XuVIxUM3EB7ZEie6nx+1jWpZcYNzjrarY4M3R
-	 qwcDB1YHR4I0hWtY2Wz+49QPAU2I8EH6nNrBrYh1rT2z/bmTEr+NNc3Qf/2JkSnf30
-	 8+gNLj6kgqLBA==
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 27 Mar 2026 09:05:47 +0100
-Subject: [PATCH] ASoC: uda1380: Modernize the driver
+	s=arc-20240116; t=1774598820; c=relaxed/simple;
+	bh=LsuoM6vSS2icn4IcCYbHnTFkI9szULOyzJ6/FpfPSuI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mTHHV5uudZ8CGSN/u08RVwpOWW/Yp3Z/jhZEwdNxv70BJhiiAaZY5OLzG3LEnot8piRW9yqOMgnj7PHg1HDAQkd8wdJALL8wbRxwyr/wCG9uwfG146JZGv9uOpc87E0suUC58x3+ySxk1uG/zl4VP+0OrESARq/F4LO16WhQqVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-40f1a1f77a6so1309523fac.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 01:06:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774598811; x=1775203611;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qHzybmIOhEZ6f1NrVP3jgghQyfbqKSz0qw+kQmDQIR0=;
+        b=GAfxoxbX82uq/6TnL3UnY044HXLRy579ZscxVxk0T0DhUZa8PVaseoByoQMuUX3SEo
+         zpPsEGCiDt13cvVPSfMnQKB3/fr/xcmp8TmNahgxCkF4CHeWGPe59t01kMiF4Pw6aWdn
+         PG7xUrHo6dV9v4MQOdwJ4si6iqPcjE+3oQrA7CwE2tryH37a5BYgFecYEex9jV1/50Dc
+         021kjlaEpOOUNxQEZ3sjdL66BuywWljML1pZjV4QCEJSCcZhcvm1UHjsK5TmjhEPaEIl
+         wdzILGozm3L1CK50+WTtaJyubLET7lPWgV6U6lYQlqRUnqACE5nuuiiD7WEdcMz49iCh
+         PuyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSAArYKeWy9qgm9jy+IH3oQN1LbXI7Xd8npaxPA1/t5bVWZN/jQYyDPfrUBUNY5YnSaKyjovArs5S8TQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuZ/i+ZmNyUGsDsWUaDtXWX9Pvukrq+JYvL+sjC+nLBGpNs2Nb
+	dh1aCoMyoktuT4UXek419y7/AbbrcHZhQSs48RHSOHY0RORb/ErJc19Pc0eN04g9WfM=
+X-Gm-Gg: ATEYQzz0VAWZr6UROvgE2Pyb1OieVLGAmDDqnSYhZkvHYfnsQSPsTybEZE+cWHuGKoz
+	wgEOoSJraB4k2TK4guQjAWCRQLtY87wyOwKbNmQ0dYECYaiwywReMelcpo1fjoTOl6fOz47okMH
+	6Sr2eVWL9vd31AA3n3yxwnXfx+ksARfaz8P6uW1D1iGY8YANNmJ00Ymz0ILNco0OK7MWRPBkTe6
+	ZAuleHc6XlF7HZW+lgFivly3JbyLWJ071BgfYkkvroIR+Ga43fuMlJUst3XFYTpmq4HwOny65pE
+	5VSpkSv9mOLGAerHhzluELfBmj9C5zM2bNIlM14aMuDYMRlLJ5AVUGKkCBt/Vdm7UQJqQrjOVyO
+	fuV3LQ9lyxM3taIiAN4t5zChhCZqepy/PMbgg1YRHKAePExlUr2CXSPRfF4LnW6RNDRC+PbNSNl
+	DJsFGeqonHjY9IxUCLxJUghBfVJemCKXqa1Ay9CzU+6LpBfpQ6ZtWE8ROx5EIy
+X-Received: by 2002:a05:6871:3323:b0:417:2b13:f2cd with SMTP id 586e51a60fabf-41cec0e2c18mr676250fac.10.1774598811281;
+        Fri, 27 Mar 2026 01:06:51 -0700 (PDT)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41cc7ad6b94sm4564096fac.9.2026.03.27.01.06.50
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2026 01:06:50 -0700 (PDT)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d9b1c57a4cso1470537a34.3
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 01:06:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXe9XUyA/Xw9rWmsIA2Xo6OBF29V7PnH92UFNHnF3RvWEtXZOOcHau/Rpf46KvJxbCEax9PIZtIohnBJg==@vger.kernel.org
+X-Received: by 2002:a05:6102:560b:b0:5ff:d1c8:a85e with SMTP id
+ ada2fe7eead31-604f930a02dmr530378137.32.1774598416378; Fri, 27 Mar 2026
+ 01:00:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260327-asoc-uda1380-v1-1-f6f91be9b7f8@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDYyNz3cTi/GTd0pREQ2MLA13jtGQzc3NzYyMTy0QloJaCotS0zAqwcdG
- xtbUA38MAml4AAAA=
-X-Change-ID: 20260327-asoc-uda1380-3fc67773249a
-To: Philipp Zabel <p.zabel@pengutronix.de>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Bartosz Golaszewski <brgl@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Linus Walleij <linusw@kernel.org>
-X-Mailer: b4 0.14.3
+References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
+ <20260319155334.51278-5-john.madieu.xa@bp.renesas.com> <CAMuHMdVbP5Bbr9KuxoEb48zUvubT3CN7sC9oVat2NcNWaBwOtQ@mail.gmail.com>
+ <TY6PR01MB1737720136E84FAF590F637C4FF56A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY6PR01MB1737720136E84FAF590F637C4FF56A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Mar 2026 09:00:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW5W7bWa7CBYNoQqOKQVogmmnCbt1u8RREc_7p+0fNGmg@mail.gmail.com>
+X-Gm-Features: AQROBzBkJOmSHv5z_VHomTtftX1LPSPJAufke2TB95A8lqe7V-8DI3QQuxsJ7o4
+Message-ID: <CAMuHMdW5W7bWa7CBYNoQqOKQVogmmnCbt1u8RREc_7p+0fNGmg@mail.gmail.com>
+Subject: Re: [PATCH 04/22] dt-bindings: dma: renesas,rz-dmac: Document
+ optional DMA ACK cell
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, "magnus.damm" <magnus.damm@gmail.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	John Madieu <john.madieu@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, 
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This codec driver depended on the legacy GPIO API, and nothing
-in the kernel is defining the platform data.
+Hi John,
 
-Since there may be out of tree users, migrate to GPIO descriptors,
-drop the platform data that is unused, and assign the dac_clk the
-value that was used in all platforms found in a historical dig.
+On Thu, 26 Mar 2026 at 23:42, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > On Thu, 19 Mar 2026 at 16:55, John Madieu <john.madieu.xa@bp.renesas.com>
+> > wrote:
+> > > Some peripherals on RZ/V2H, RZ/V2N, and RZ/G3E SoCs require explicit
+> > > ACK signal routing through the ICU. Document the optional second cell
+> > > in the DMA specifier for specifying the ACK signal number.
+> > >
+> > > The first cell remains unchanged and specifies the encoded MID/RID and
+> > > channel configuration. The optional second cell specifies the DMA ACK
+> > > signal number for peripherals requiring level-based handshaking.
+> > >
+> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > Just a quick head-up, as I haven't read the actual secion in the
+> > documentation yet.
+> >
+> > > --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
+> > > @@ -63,17 +63,27 @@ properties:
+> > >        - const: register
+> > >
+> > >    '#dma-cells':
+> > > -    const: 1
+> > > -    description:
+> > > +    description: |
+> > >        The cell specifies the encoded MID/RID or the REQ No values of
+> > >        the DMAC port connected to the DMA client and the slave channel
+> > >        configuration parameters.
+> > > +      Use 1 cell for basic DMA configuration.
+> > > +      Use 2 cells when DMA ACK signal routing through ICU is required
+> > > +      (RZ/V2H, RZ/V2N, RZ/G3E audio peripherals such as SSIU, SPDIF,
+> > SRC, DVC).
+> > > +
+> > > +      First cell:
+> > >        bits[0:9] - Specifies the MID/RID or the REQ No value
+> > >        bit[10] - Specifies DMA request high enable (HIEN)
+> > >        bit[11] - Specifies DMA request detection type (LVL)
+> > >        bits[12:14] - Specifies DMAACK output mode (AM)
+> > >        bit[15] - Specifies Transfer Mode (TM)
+> > >
+> > > +      Second cell (optional, when #dma-cells = <2>):
+> > > +      bits[6:0] - DMA acknowledge signal number (from ICU ACK table),
+> > > +                  where 0 is a valid signal number.
+> > > +                  Required for peripherals using level-based DMA
+> > > +                  handshaking (SSIU, SPDIF, RSPI, SCU, ADC, PDM).
+> >
+> > How do you expect this to work? #dma-cells applies to all DMA consumers of
+> > this provider, and these SoCs already have DMA users relying on #dma-cells
+> > being one.
+>
+> Indeed.
+>
+> > In addition, you cannot have optional cells: if #dma-cells is two, then
+> > all consumers must supply two cells (of course we could switch all of them
+> > to two cells at once).  However, as zero is a valid signal number, we
+> > cannot use that as a dummy when no DMA acknowledge signal number is needed
+> > (we could use e.g. 0xffffffff instead).
+> >
+> > Is there any other way to provide this information?
+> > E.g. could we have a table in the driver that contains this info for the
+> > (presumably few) MID/RID values that need it?
+>
+> There are actually 89 entries, and I could identify 3 peripheral
+> group with linear ACK assignments. Thus instead of static array
+> we would get a simple function handling 3 req_no ranges.
+>
+> Something like:
+>
+> /*
+>  * Map MID/RID request number (bits[0:9] of DMA specifier) to the ICU
+>  * DMA ACK signal number, per RZ/G3E hardware manual Table 4.6-28.
+>  *
+>  * Three peripheral groups with linear ACK assignment:
+>  *
+>  *   PFC external DMA pins (DREQ0..DREQ4):
+>  *     req_no 0x000-0x004 -> ACK No. 84-88  (ack = req_no + 84)
+>  *
+>  *   SSIU BUSIFs (ssip00..ssip93):
+>  *     req_no 0x161-0x198 -> ACK No. 28-83  (ack = req_no - 0x145)
+>  *
+>  *   SPDIF (CH0..CH2) + SCU SRC (sr0..sr9) + DVC (cmd0..cmd1):
+>  *     req_no 0x199-0x1b4 -> ACK No. 0-27   (ack = req_no - 0x199)
+>  */
+> static int rz_dmac_get_ack_no(const struct rz_dmac_info *info, u16 req_no)
+> {
+>         if (!info->icu_register_dma_ack)
+>                 return -EINVAL;
+>
+>         /* PFC external DMA pins: ACK No. 84-88 */
+>         if (req_no <= 0x004)
+>                 return req_no + 84;
+>
+>         /* SSIU BUSIFs: ACK No. 28-83 */
+>         if (req_no >= 0x161 && req_no <= 0x198)
+>                 return req_no - 0x145;
+>
+>         /* SPDIF + SCU SRC + DVC: ACK No. 0-27 */
+>         if (req_no >= 0x199 && req_no <= 0x1b4)
+>                 return req_no - 0x199;
+>
+>         return -EINVAL;
+> }
 
-Add some menuconfig so the codec can be selected and tested.
+Nice!
 
-Signed-off-by: Linus Walleij <linusw@kernel.org>
----
-Maybe this driver should rather be deleted if there are no
-real users left, but that can be done after this patch if
-so desired. This makes the driver usable on contemporary Linux.
----
- include/sound/uda1380.h    | 19 ----------------
- sound/soc/codecs/Kconfig   |  6 +++--
- sound/soc/codecs/uda1380.c | 56 +++++++++++++++++++++++++---------------------
- 3 files changed, 34 insertions(+), 47 deletions(-)
+Note that you can use ranges in case statements:
 
-diff --git a/include/sound/uda1380.h b/include/sound/uda1380.h
-deleted file mode 100644
-index 2e42ea2d0cfd..000000000000
---- a/include/sound/uda1380.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * UDA1380 ALSA SoC Codec driver
-- *
-- * Copyright 2009 Philipp Zabel
-- */
--
--#ifndef __UDA1380_H
--#define __UDA1380_H
--
--struct uda1380_platform_data {
--	int gpio_power;
--	int gpio_reset;
--	int dac_clk;
--#define UDA1380_DAC_CLK_SYSCLK 0
--#define UDA1380_DAC_CLK_WSPLL  1
--};
--
--#endif /* __UDA1380_H */
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index adb3fb923be3..c374a50fb6e0 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -2364,9 +2364,11 @@ config SND_SOC_UDA1342
- 	  mic inputs), stereo audio DAC, with basic audio processing.
- 
- config SND_SOC_UDA1380
--	tristate
-+	tristate "Philips UDA1380 CODEC"
- 	depends on I2C
--	depends on GPIOLIB_LEGACY
-+	help
-+	  The UDA1380 codec is used in the HTC Magician and on a number of
-+	  Samsung reference boards.
- 
- config SND_SOC_WCD_CLASSH
- 	tristate
-diff --git a/sound/soc/codecs/uda1380.c b/sound/soc/codecs/uda1380.c
-index 9e9c540a45ca..421ae6cb7d8d 100644
---- a/sound/soc/codecs/uda1380.c
-+++ b/sound/soc/codecs/uda1380.c
-@@ -16,7 +16,7 @@
- #include <linux/types.h>
- #include <linux/slab.h>
- #include <linux/errno.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/delay.h>
- #include <linux/i2c.h>
- #include <linux/workqueue.h>
-@@ -25,7 +25,9 @@
- #include <sound/initval.h>
- #include <sound/soc.h>
- #include <sound/tlv.h>
--#include <sound/uda1380.h>
-+
-+#define UDA1380_DAC_CLK_SYSCLK 0
-+#define UDA1380_DAC_CLK_WSPLL  1
- 
- #include "uda1380.h"
- 
-@@ -36,6 +38,8 @@ struct uda1380_priv {
- 	struct work_struct work;
- 	struct i2c_client *i2c;
- 	u16 *reg_cache;
-+	struct gpio_desc *power;
-+	struct gpio_desc *reset;
- };
- 
- /*
-@@ -150,13 +154,12 @@ static void uda1380_sync_cache(struct snd_soc_component *component)
- 
- static int uda1380_reset(struct snd_soc_component *component)
- {
--	struct uda1380_platform_data *pdata = component->dev->platform_data;
- 	struct uda1380_priv *uda1380 = snd_soc_component_get_drvdata(component);
- 
--	if (gpio_is_valid(pdata->gpio_reset)) {
--		gpio_set_value(pdata->gpio_reset, 1);
-+	if (uda1380->reset) {
-+		gpiod_set_value(uda1380->reset, 1);
- 		mdelay(1);
--		gpio_set_value(pdata->gpio_reset, 0);
-+		gpiod_set_value(uda1380->reset, 0);
- 	} else {
- 		u8 data[3];
- 
-@@ -589,9 +592,9 @@ static int uda1380_set_bias_level(struct snd_soc_component *component,
- 	enum snd_soc_bias_level level)
- {
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
-+	struct uda1380_priv *uda1380 = snd_soc_component_get_drvdata(component);
- 	int pm = uda1380_read_reg_cache(component, UDA1380_PM);
- 	int reg;
--	struct uda1380_platform_data *pdata = component->dev->platform_data;
- 
- 	switch (level) {
- 	case SND_SOC_BIAS_ON:
-@@ -601,8 +604,8 @@ static int uda1380_set_bias_level(struct snd_soc_component *component,
- 		break;
- 	case SND_SOC_BIAS_STANDBY:
- 		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_OFF) {
--			if (gpio_is_valid(pdata->gpio_power)) {
--				gpio_set_value(pdata->gpio_power, 1);
-+			if (uda1380->power) {
-+				gpiod_set_value(uda1380->power, 1);
- 				mdelay(1);
- 				uda1380_reset(component);
- 			}
-@@ -612,10 +615,10 @@ static int uda1380_set_bias_level(struct snd_soc_component *component,
- 		uda1380_write(component, UDA1380_PM, 0x0);
- 		break;
- 	case SND_SOC_BIAS_OFF:
--		if (!gpio_is_valid(pdata->gpio_power))
-+		if (!uda1380->power)
- 			break;
- 
--		gpio_set_value(pdata->gpio_power, 0);
-+		gpiod_set_value(uda1380->power, 0);
- 
- 		/* Mark mixer regs cache dirty to sync them with
- 		 * codec regs on power on.
-@@ -694,13 +697,12 @@ static struct snd_soc_dai_driver uda1380_dai[] = {
- 
- static int uda1380_probe(struct snd_soc_component *component)
- {
--	struct uda1380_platform_data *pdata =component->dev->platform_data;
- 	struct uda1380_priv *uda1380 = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
- 	uda1380->component = component;
- 
--	if (!gpio_is_valid(pdata->gpio_power)) {
-+	if (!uda1380->power) {
- 		ret = uda1380_reset(component);
- 		if (ret)
- 			return ret;
-@@ -709,7 +711,7 @@ static int uda1380_probe(struct snd_soc_component *component)
- 	INIT_WORK(&uda1380->work, uda1380_flush_work);
- 
- 	/* set clock input */
--	switch (pdata->dac_clk) {
-+	switch (uda1380->dac_clk) {
- 	case UDA1380_DAC_CLK_SYSCLK:
- 		uda1380_write_reg_cache(component, UDA1380_CLK, 0);
- 		break;
-@@ -742,6 +744,7 @@ static const struct snd_soc_component_driver soc_component_dev_uda1380 = {
- static int uda1380_i2c_probe(struct i2c_client *i2c)
- {
- 	struct uda1380_platform_data *pdata = i2c->dev.platform_data;
-+	struct device *dev = &i2c->dev;
- 	struct uda1380_priv *uda1380;
- 	int ret;
- 
-@@ -753,19 +756,20 @@ static int uda1380_i2c_probe(struct i2c_client *i2c)
- 	if (uda1380 == NULL)
- 		return -ENOMEM;
- 
--	if (gpio_is_valid(pdata->gpio_reset)) {
--		ret = devm_gpio_request_one(&i2c->dev, pdata->gpio_reset,
--			GPIOF_OUT_INIT_LOW, "uda1380 reset");
--		if (ret)
--			return ret;
--	}
-+	uda1380->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(uda1380->reset))
-+		return dev_err_probe(dev, PTR_ERR(uda1380->reset),
-+				     "error obtaining reset GPIO\n");
-+	gpiod_set_consumer_name(uda1380->reset, "uda1380 reset");
- 
--	if (gpio_is_valid(pdata->gpio_power)) {
--		ret = devm_gpio_request_one(&i2c->dev, pdata->gpio_power,
--			GPIOF_OUT_INIT_LOW, "uda1380 power");
--		if (ret)
--			return ret;
--	}
-+	uda1380->power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
-+	if (IS_ERR(uda1380->power))
-+		return dev_err_probe(dev, PTR_ERR(uda1380->power),
-+				     "error obtaining power GPIO\n");
-+	gpiod_set_consumer_name(uda1380->power, "uda1380 power");
-+
-+	/* TODO: add device properties to make WPLL selectable here */
-+	uda1380->dac_clk = UDA1380_DAC_CLK_SYSCLK;
- 
- 	uda1380->reg_cache = devm_kmemdup_array(&i2c->dev, uda1380_reg, ARRAY_SIZE(uda1380_reg),
- 						sizeof(uda1380_reg[0]), GFP_KERNEL);
+    git grep "case.*\.\.\."
 
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260327-asoc-uda1380-3fc67773249a
+Gr{oetje,eeting}s,
 
-Best regards,
+                        Geert
+
 -- 
-Linus Walleij <linusw@kernel.org>
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
