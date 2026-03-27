@@ -1,214 +1,96 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out198-41.us.a.mail.aliyun.com (out198-41.us.a.mail.aliyun.com [47.90.198.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909F334DCD6
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 08:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3885A3D1701;
+	Fri, 27 Mar 2026 08:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774598820; cv=none; b=XZ+fGAgu0qqonsGN3ct88dZc7BOzIy2aYHvULOCznMNDSERcJT7kCtacwTAcYXOkehz+uvi/QNUJ2l1ikJi0Ht/osBW0iWiwuS634doHtPKsPzN+YGNeW0HzwPORxe+WwgdauXx+WfRRU3OusHVGN2nJ7axZJjJbAd8huMDuSIA=
+	t=1774599074; cv=none; b=nGXyXS5OgNLJLcaPK6OzuEo3AKOkMci+oyW9Pk+ZLI8tvTuDrmB2AykIval4DIjFUbM2pbLtj2sof65H6Sm/Xu1lXZAcbPjtBe29Sozk7qGt94GgYJG0cqukoD7zrBpNiwPZGKoLiS//ao/FjfHJ3lSK+iYhemlWAdSvr0gC/WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774598820; c=relaxed/simple;
-	bh=LsuoM6vSS2icn4IcCYbHnTFkI9szULOyzJ6/FpfPSuI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mTHHV5uudZ8CGSN/u08RVwpOWW/Yp3Z/jhZEwdNxv70BJhiiAaZY5OLzG3LEnot8piRW9yqOMgnj7PHg1HDAQkd8wdJALL8wbRxwyr/wCG9uwfG146JZGv9uOpc87E0suUC58x3+ySxk1uG/zl4VP+0OrESARq/F4LO16WhQqVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-40f1a1f77a6so1309523fac.2
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 01:06:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774598811; x=1775203611;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qHzybmIOhEZ6f1NrVP3jgghQyfbqKSz0qw+kQmDQIR0=;
-        b=GAfxoxbX82uq/6TnL3UnY044HXLRy579ZscxVxk0T0DhUZa8PVaseoByoQMuUX3SEo
-         zpPsEGCiDt13cvVPSfMnQKB3/fr/xcmp8TmNahgxCkF4CHeWGPe59t01kMiF4Pw6aWdn
-         PG7xUrHo6dV9v4MQOdwJ4si6iqPcjE+3oQrA7CwE2tryH37a5BYgFecYEex9jV1/50Dc
-         021kjlaEpOOUNxQEZ3sjdL66BuywWljML1pZjV4QCEJSCcZhcvm1UHjsK5TmjhEPaEIl
-         wdzILGozm3L1CK50+WTtaJyubLET7lPWgV6U6lYQlqRUnqACE5nuuiiD7WEdcMz49iCh
-         PuyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSAArYKeWy9qgm9jy+IH3oQN1LbXI7Xd8npaxPA1/t5bVWZN/jQYyDPfrUBUNY5YnSaKyjovArs5S8TQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuZ/i+ZmNyUGsDsWUaDtXWX9Pvukrq+JYvL+sjC+nLBGpNs2Nb
-	dh1aCoMyoktuT4UXek419y7/AbbrcHZhQSs48RHSOHY0RORb/ErJc19Pc0eN04g9WfM=
-X-Gm-Gg: ATEYQzz0VAWZr6UROvgE2Pyb1OieVLGAmDDqnSYhZkvHYfnsQSPsTybEZE+cWHuGKoz
-	wgEOoSJraB4k2TK4guQjAWCRQLtY87wyOwKbNmQ0dYECYaiwywReMelcpo1fjoTOl6fOz47okMH
-	6Sr2eVWL9vd31AA3n3yxwnXfx+ksARfaz8P6uW1D1iGY8YANNmJ00Ymz0ILNco0OK7MWRPBkTe6
-	ZAuleHc6XlF7HZW+lgFivly3JbyLWJ071BgfYkkvroIR+Ga43fuMlJUst3XFYTpmq4HwOny65pE
-	5VSpkSv9mOLGAerHhzluELfBmj9C5zM2bNIlM14aMuDYMRlLJ5AVUGKkCBt/Vdm7UQJqQrjOVyO
-	fuV3LQ9lyxM3taIiAN4t5zChhCZqepy/PMbgg1YRHKAePExlUr2CXSPRfF4LnW6RNDRC+PbNSNl
-	DJsFGeqonHjY9IxUCLxJUghBfVJemCKXqa1Ay9CzU+6LpBfpQ6ZtWE8ROx5EIy
-X-Received: by 2002:a05:6871:3323:b0:417:2b13:f2cd with SMTP id 586e51a60fabf-41cec0e2c18mr676250fac.10.1774598811281;
-        Fri, 27 Mar 2026 01:06:51 -0700 (PDT)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com. [209.85.210.49])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41cc7ad6b94sm4564096fac.9.2026.03.27.01.06.50
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2026 01:06:50 -0700 (PDT)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d9b1c57a4cso1470537a34.3
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 01:06:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXe9XUyA/Xw9rWmsIA2Xo6OBF29V7PnH92UFNHnF3RvWEtXZOOcHau/Rpf46KvJxbCEax9PIZtIohnBJg==@vger.kernel.org
-X-Received: by 2002:a05:6102:560b:b0:5ff:d1c8:a85e with SMTP id
- ada2fe7eead31-604f930a02dmr530378137.32.1774598416378; Fri, 27 Mar 2026
- 01:00:16 -0700 (PDT)
+	s=arc-20240116; t=1774599074; c=relaxed/simple;
+	bh=tKOmSJCKRzDDvI3cVgRc3Qh9AjlKtYmswmCIrXnn5Ck=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Tb4oal/5nOnjKb41bbCKJteGLGVzOcizgOVO7bA7CdmXkQ20L6Ut3sVsbYQ75E2j6OUN3xBNsXHnLie3GT9TtLshaABojBV9aN2DRf0Hu45+33ptJtTQdIfo5+ymDoVRNFT9M9zMdYCm+jLgzPUDt1IiKx3pVTwDAIlb3DiD94U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=47.90.198.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1010416|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_system_inform|0.0125103-0.000100357-0.987389;FP=12517315085411565475|4|1|1|0|-1|-1|-1;HT=maildocker-contentspam033040074035;MF=fuhao@open-hieco.net;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.h.BcTHF_1774599043;
+Received: from higon..(mailfrom:fuhao@open-hieco.net fp:SMTPD_---.h.BcTHF_1774599043 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 27 Mar 2026 16:10:50 +0800
+From: Fu Hao <fuhao@open-hieco.net>
+To: bhelgaas@google.com,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	Fu Hao <fuhao@open-hieco.net>
+Subject: [PATCH 6/8] ALSA: hda: Add support for Hygon family 18h model 5h HD-Audio
+Date: Fri, 27 Mar 2026 16:10:37 +0800
+Message-Id: <341858ca30667a240853a0beccd4009a6348926c.1774595153.git.fuhao@open-hieco.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1774595153.git.fuhao@open-hieco.net>
+References: <cover.1774595153.git.fuhao@open-hieco.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
- <20260319155334.51278-5-john.madieu.xa@bp.renesas.com> <CAMuHMdVbP5Bbr9KuxoEb48zUvubT3CN7sC9oVat2NcNWaBwOtQ@mail.gmail.com>
- <TY6PR01MB1737720136E84FAF590F637C4FF56A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY6PR01MB1737720136E84FAF590F637C4FF56A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 27 Mar 2026 09:00:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW5W7bWa7CBYNoQqOKQVogmmnCbt1u8RREc_7p+0fNGmg@mail.gmail.com>
-X-Gm-Features: AQROBzBkJOmSHv5z_VHomTtftX1LPSPJAufke2TB95A8lqe7V-8DI3QQuxsJ7o4
-Message-ID: <CAMuHMdW5W7bWa7CBYNoQqOKQVogmmnCbt1u8RREc_7p+0fNGmg@mail.gmail.com>
-Subject: Re: [PATCH 04/22] dt-bindings: dma: renesas,rz-dmac: Document
- optional DMA ACK cell
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Vinod Koul <vkoul@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, "magnus.damm" <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	John Madieu <john.madieu@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi John,
+Add the new PCI ID 0x1d94 0x14a9 for Hygon family 18h model 5h
+HDA controller.
 
-On Thu, 26 Mar 2026 at 23:42, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Thu, 19 Mar 2026 at 16:55, John Madieu <john.madieu.xa@bp.renesas.com>
-> > wrote:
-> > > Some peripherals on RZ/V2H, RZ/V2N, and RZ/G3E SoCs require explicit
-> > > ACK signal routing through the ICU. Document the optional second cell
-> > > in the DMA specifier for specifying the ACK signal number.
-> > >
-> > > The first cell remains unchanged and specifies the encoded MID/RID and
-> > > channel configuration. The optional second cell specifies the DMA ACK
-> > > signal number for peripherals requiring level-based handshaking.
-> > >
-> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > Just a quick head-up, as I haven't read the actual secion in the
-> > documentation yet.
-> >
-> > > --- a/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> > > +++ b/Documentation/devicetree/bindings/dma/renesas,rz-dmac.yaml
-> > > @@ -63,17 +63,27 @@ properties:
-> > >        - const: register
-> > >
-> > >    '#dma-cells':
-> > > -    const: 1
-> > > -    description:
-> > > +    description: |
-> > >        The cell specifies the encoded MID/RID or the REQ No values of
-> > >        the DMAC port connected to the DMA client and the slave channel
-> > >        configuration parameters.
-> > > +      Use 1 cell for basic DMA configuration.
-> > > +      Use 2 cells when DMA ACK signal routing through ICU is required
-> > > +      (RZ/V2H, RZ/V2N, RZ/G3E audio peripherals such as SSIU, SPDIF,
-> > SRC, DVC).
-> > > +
-> > > +      First cell:
-> > >        bits[0:9] - Specifies the MID/RID or the REQ No value
-> > >        bit[10] - Specifies DMA request high enable (HIEN)
-> > >        bit[11] - Specifies DMA request detection type (LVL)
-> > >        bits[12:14] - Specifies DMAACK output mode (AM)
-> > >        bit[15] - Specifies Transfer Mode (TM)
-> > >
-> > > +      Second cell (optional, when #dma-cells = <2>):
-> > > +      bits[6:0] - DMA acknowledge signal number (from ICU ACK table),
-> > > +                  where 0 is a valid signal number.
-> > > +                  Required for peripherals using level-based DMA
-> > > +                  handshaking (SSIU, SPDIF, RSPI, SCU, ADC, PDM).
-> >
-> > How do you expect this to work? #dma-cells applies to all DMA consumers of
-> > this provider, and these SoCs already have DMA users relying on #dma-cells
-> > being one.
->
-> Indeed.
->
-> > In addition, you cannot have optional cells: if #dma-cells is two, then
-> > all consumers must supply two cells (of course we could switch all of them
-> > to two cells at once).  However, as zero is a valid signal number, we
-> > cannot use that as a dummy when no DMA acknowledge signal number is needed
-> > (we could use e.g. 0xffffffff instead).
-> >
-> > Is there any other way to provide this information?
-> > E.g. could we have a table in the driver that contains this info for the
-> > (presumably few) MID/RID values that need it?
->
-> There are actually 89 entries, and I could identify 3 peripheral
-> group with linear ACK assignments. Thus instead of static array
-> we would get a simple function handling 3 req_no ranges.
->
-> Something like:
->
-> /*
->  * Map MID/RID request number (bits[0:9] of DMA specifier) to the ICU
->  * DMA ACK signal number, per RZ/G3E hardware manual Table 4.6-28.
->  *
->  * Three peripheral groups with linear ACK assignment:
->  *
->  *   PFC external DMA pins (DREQ0..DREQ4):
->  *     req_no 0x000-0x004 -> ACK No. 84-88  (ack = req_no + 84)
->  *
->  *   SSIU BUSIFs (ssip00..ssip93):
->  *     req_no 0x161-0x198 -> ACK No. 28-83  (ack = req_no - 0x145)
->  *
->  *   SPDIF (CH0..CH2) + SCU SRC (sr0..sr9) + DVC (cmd0..cmd1):
->  *     req_no 0x199-0x1b4 -> ACK No. 0-27   (ack = req_no - 0x199)
->  */
-> static int rz_dmac_get_ack_no(const struct rz_dmac_info *info, u16 req_no)
-> {
->         if (!info->icu_register_dma_ack)
->                 return -EINVAL;
->
->         /* PFC external DMA pins: ACK No. 84-88 */
->         if (req_no <= 0x004)
->                 return req_no + 84;
->
->         /* SSIU BUSIFs: ACK No. 28-83 */
->         if (req_no >= 0x161 && req_no <= 0x198)
->                 return req_no - 0x145;
->
->         /* SPDIF + SCU SRC + DVC: ACK No. 0-27 */
->         if (req_no >= 0x199 && req_no <= 0x1b4)
->                 return req_no - 0x199;
->
->         return -EINVAL;
-> }
+Signed-off-by: Fu Hao <fuhao@open-hieco.net>
+---
+ include/linux/pci_ids.h       | 1 +
+ sound/hda/controllers/intel.c | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-Nice!
-
-Note that you can use ranges in case statements:
-
-    git grep "case.*\.\.\."
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index 406abf629..19d968017 100644
+--- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -2613,6 +2613,7 @@
+ #define PCI_VENDOR_ID_ROCKCHIP		0x1d87
+ 
+ #define PCI_VENDOR_ID_HYGON		0x1d94
++#define PCI_DEVICE_ID_HYGON_18H_M05H_HDA	0x14a9
+ 
+ #define PCI_VENDOR_ID_META		0x1d9b
+ 
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 3f434994c..eb5d48d90 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -241,6 +241,7 @@ enum {
+ 	AZX_DRIVER_ZHAOXIN,
+ 	AZX_DRIVER_ZHAOXINHDMI,
+ 	AZX_DRIVER_LOONGSON,
++	AZX_DRIVER_HYGON,
+ 	AZX_DRIVER_GENERIC,
+ 	AZX_NUM_DRIVERS, /* keep this as last entry */
+ };
+@@ -357,6 +358,7 @@ static const char * const driver_short_names[] = {
+ 	[AZX_DRIVER_ZHAOXIN] = "HDA Zhaoxin",
+ 	[AZX_DRIVER_ZHAOXINHDMI] = "HDA Zhaoxin HDMI",
+ 	[AZX_DRIVER_LOONGSON] = "HDA Loongson",
++	[AZX_DRIVER_HYGON] = "HDA Hygon",
+ 	[AZX_DRIVER_GENERIC] = "HD-Audio Generic",
+ };
+ 
+@@ -2818,6 +2820,9 @@ static const struct pci_device_id azx_ids[] = {
+ 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
+ 	{ PCI_VDEVICE(LOONGSON, PCI_DEVICE_ID_LOONGSON_HDMI),
+ 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
++	/* Hygon HDAudio */
++	{ PCI_VDEVICE(HYGON, PCI_DEVICE_ID_HYGON_18H_M05H_HDA),
++	  .driver_data = AZX_DRIVER_HYGON | AZX_DCAPS_POSFIX_LPIB | AZX_DCAPS_NO_MSI },
+ 	{ 0, }
+ };
+ MODULE_DEVICE_TABLE(pci, azx_ids);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
