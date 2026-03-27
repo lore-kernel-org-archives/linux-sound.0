@@ -1,98 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BB825A2DD;
-	Fri, 27 Mar 2026 21:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702D929DB88
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 21:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774645603; cv=none; b=C0HqWDAGBshaM5DO6KwO4wM0LtnDSHOpss9fDh6v0+6HigKW9LUJSrZbDuZXsdXeaQg9z6Y/L3EeGQcXAK7Qf16D1k6QbuTd9Mjou6g7ZRT1pOitTTJDRrWXaGUjIYeDhLFPqolY7xYHpAGuh43yDtw5SzTp1zqXoYZuEpuFXNk=
+	t=1774647208; cv=none; b=SooD4Wnysg/QwLvw/f2DiUvQJfWbf1QdzevfKMVFp+LiBj/OGhSL8UibnuaNcd5j3qpXp+v5HXpWH5oduryOJktLaa19mQbTafcRrBEg9Z5HlGj0azqim0DeQAnH5CJQujNRfgVYa09CSseYrV739YMrqz9tSv9dVo7wKmThpmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774645603; c=relaxed/simple;
-	bh=p6D3FOIVmDhVaKrf3LFAwQZNZKyDeaGYtUn4mhSiqGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HeJ67wu7WUL5JtdMO+yPIjIwdTRMgcvyiPJF0jIF12tfkxc97jAX9SP2dDlJ1RkOd3TeI67AZvdXlBMzA5JGLo3E8VH9zrgDYbnkcDlZM5JH7SHp0ZcdhG/8K+hF0pITeTCysahxJJP90cdxToSFsR087FHGPyj6gCA+2JoUTSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WfSw147S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774647208; c=relaxed/simple;
+	bh=arVYC6dVPpEhap0+eoUD24vL3wCtAwOKfn8O2nk0kbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SUk2iUzYN8NhrlnVo5jjRZTRrv1fwLf79ofbd8bZS7WYS3T6qCcMD+aElt2B5B1mRtxdjcx7k1FE2KOsM67KgztjjrIANo7rIAy7U04eYtgRlbTk71VloRLRAyA6ZAwu3kdgI9NQB3Kh5ijAcDKthp46pI+PvPGwmgrMaTpcTpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qMje8q7v; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WfSw147S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E3AC19423;
-	Fri, 27 Mar 2026 21:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774645602;
-	bh=p6D3FOIVmDhVaKrf3LFAwQZNZKyDeaGYtUn4mhSiqGs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WfSw147S8nkyP2kz3Wnm9wvvZ4bYhtEzzJnsjV1pl9wH1s34AutFhOObca5S1720y
-	 HmcKkoXZDvI5j5rO0N1/DSoFUQckDMT/LCaPmnlyjpevYVmPgOXVcoNj8V2GNhTYtZ
-	 2CQ7JyDAN+VMspA+MXV0YVxymPDiyAXYYi+gRPMqrhCjUsDwOV3092g7l+Bw/XdW/I
-	 P7CJ3fyqZZ8Juv7is+9wRu7bF8pJRUh7JEhb0W4QqcvZ87FhxaLAm+rrTa3AP6NaVg
-	 usMRDrQirS17xpUvGSQRbAyzNoUAlvuzIcGwFaX26QBwSZjeqGLjCjRQvRcJLqrtFc
-	 +hPgBOilno7XQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 081781AC589B; Fri, 27 Mar 2026 21:06:39 +0000 (GMT)
-Date: Fri, 27 Mar 2026 21:06:39 +0000
-From: Mark Brown <broonie@kernel.org>
-To: aravindanilraj0702@gmail.com
-Cc: linux-sound@vger.kernel.org, cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev,
-	perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] ASoC: Intel: Fix MCLK leaks in
- platform_clock_control
-Message-ID: <acbxX-8PPcXg5y1C@sirena.co.uk>
-References: <20260327193002.423897-1-aravindanilraj0702@gmail.com>
- <20260327210408.430908-1-aravindanilraj0702@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qMje8q7v"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-439cd6b09f8so1725618f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 14:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774647205; x=1775252005; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IqKwH+YSoezT2ho+s3YhXUcPh8ZajeRHMGKYmAZuD0E=;
+        b=qMje8q7v+5f+T/66AlbOY/4Fd3PARcreecGgeKrjB0CfwpbF74uGX2SnXnST99NpES
+         3V/+Z6oYVNA9GNDdjhp4Nl/pCpAU1d/JcAnKTlWQWeNjy7qN5SivEI+C7dgRFqhdJDbF
+         aSRZhEfpDRNcMFOjxyLe1M41UCcUlauSQ6SB+K3rm6LugJ0X/QSFua/MOeaHNyIJiYk1
+         i35X40SodFxlu/1XQf0iiU82O7DrLXFu/r07RuaPMNkYvMWPqxaIcYALs7yjpP7PFert
+         yRS/Q2AXeBTnQd2BHi7aREQfyeEbDGeQ9LbSS2dRR3aYoj9EO+JRm/E0A53Zj4Nh1JrI
+         c7WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774647205; x=1775252005;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IqKwH+YSoezT2ho+s3YhXUcPh8ZajeRHMGKYmAZuD0E=;
+        b=DhViwF0SS4rZdcQOF/SxKINiJNrpTHGZLOTl8QnB3aglAVEXJIgH4XEVQS1l3mq5Oa
+         Wlk9DHty/8KvrN9oCYf7pu2fgU/gHvQ1i9Rf8MRzvAklUv+CbVhP5rGTl6+AIBQpEGix
+         M5qmhrimZqpc5BggJXAJkrZ0SxQ3UFr3ArfwmkSnSLmRIfOZWHaq/aMMBPbWiLBJLpQ+
+         XrGwVnShcWhd0yiE0/Bk6v7KAQeXU2pZS+tbVjSXV4TKgnzyVLvaP0+hWaoJzZn4WZNw
+         CCobrMgaGZuJJ099rvv1zC1MzHrSa4BVpiwt6DvtCQmF3XwkAXRCVidrHqxYjPzj6EiS
+         ocUg==
+X-Gm-Message-State: AOJu0YwA00ZlCvZ/URVgVeTMCiDclkvpFXRh2cPRftWszDYHrdJZUUkM
+	W0e1UWKAdbN/0W8sfbo7i3fi/Xxp0+ZLNmI8KGTVtElIZ6prMrLr3WJ8IzyHJRwMk5U=
+X-Gm-Gg: ATEYQzw1PANErjcuTrGLre/9dhhpylRDKUvLSfY7I1nCoyx27X+VR5KUE+bVARY2RL1
+	HstWauTjgm9NB2VcbduexURJMkSbHYcfdgmDsVV3WU5ijYBzP3EsCRsOZIzL0xztWAl+sfY5c2/
+	skECTHLE9VOF52iKRBHdLIlzmjd3uNxA1N94uuOYDIZxPT+tYB/Q3EWikaAdrhkO5jx8fbNcxrM
+	b9lkarEDPT6Fo3oKxnhycUj0i/wLjlhajiFt1jx7CvOGow6WfyWtWcrtMIyuJwaPJjGZS3IH4dR
+	+8vNPC0mBrMKlKOYaB7v/0rC0tpJKQGyvdHW+O2jWW9r81TH/VeHL8b8cDUg8aZZ9R9gb0Bv0zZ
+	Yn9dClnNNQO1AripZ8znG1UXe82GADekV5nOj794ISMgP1IFYEwghKzo2v6A98W6KNNatdEKA8x
+	FjGp36ThQC5c+V8nEWSq/MzSBSXBqJig==
+X-Received: by 2002:a5d:584b:0:b0:439:c040:cc8a with SMTP id ffacd0b85a97d-43b9ea4660bmr6472604f8f.32.1774647205400;
+        Fri, 27 Mar 2026 14:33:25 -0700 (PDT)
+Received: from linux-workstation.lan ([5.133.45.75])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf257b72dsm815579f8f.34.2026.03.27.14.33.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 14:33:25 -0700 (PDT)
+From: Phil Willoughby <willerz@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Phil Willoughby <willerz@gmail.com>,
+	Yue Wang <yuleopen@gmail.com>
+Subject: [PATCH 0/1] Mark NeuralDSP Quad Cortex as not supporting DSD playback
+Date: Fri, 27 Mar 2026 21:21:00 +0000
+Message-ID: <20260327213318.5338-1-willerz@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7ZxRMNiFebQkkcJJ"
-Content-Disposition: inline
-In-Reply-To: <20260327210408.430908-1-aravindanilraj0702@gmail.com>
-X-Cookie: Identify your visitor.
+Content-Transfer-Encoding: 8bit
 
+USB Vendor ID 0x152a is owned by a company which produces firmware for other
+company's devices. Some of those devices support DSD playback and some do not.
 
---7ZxRMNiFebQkkcJJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm not totally comfortable adding the first ever zero-quirks device entry to
+the quirk flags table, but it does appear to have worked.
 
-On Fri, Mar 27, 2026 at 05:04:05PM -0400, aravindanilraj0702@gmail.com wrot=
-e:
-> From: Aravind Anilraj <aravindanilraj0702@gmail.com>
->=20
-> In three Intel ASoC board drivers, the EVENT_ON path in
-> platform_clock_control() enables MCLK using clk_prepare_enable(), but
-> error paths fail to call clk_disable_unprepare(), leaking a clock
-> reference.
+This patch preserves the current assumption that all of this vendor's devices
+will support DSD unless explicitly disabled in this way. I will ask them if
+that is a good assumption and if they can give me a list of existing USB pids
+and whether they are DSD devices.
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+Cc: Yue Wang <yuleopen@gmail.com>
 
-Please don't ignore review comments, people are generally making them
-for a reason and are likely to have the same concerns if issues remain
-unaddressed.  Having to repeat the same comments can get repetitive and
-make people question the value of time spent reviewing.  If you disagree
-with the review comments that's fine but you need to reply and discuss
-your concerns so that the reviewer can understand your decisions.
+Phil Willoughby (1):
+  NeuralDSP Quad Cortex isn't a DSD Device
 
---7ZxRMNiFebQkkcJJ
-Content-Type: application/pgp-signature; name="signature.asc"
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.53.0
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnG8V8ACgkQJNaLcl1U
-h9BD6Af9FZSlo+mNfukjttGMmb2kQdub3mJ1Xz1FnuTUXC1IrK0TJlPqIi2dN45X
-tL/tN9nyeTzSwuVKjxU/uzavbmnMRX3zGzFYmmbCJERbKnTDRBJepBJ0qnm5V7JU
-jrk5CiP9IN9L0AivMsWVpKHDHyPLn8Nj/RqnM8iwv3yGvxKISetoUjqAUkOcap0R
-qteQ+6XYaJoCsLgFIwJADVYMzZG9WPmbyXgWkvfCtRA0t6d00UgE5xoY2RG1Ykln
-epqS7jsXs+5gmdLkTvFs9ZnJBy4Swit1fL9iHQ+CFAe4fKDvzaBAJoF92txjW2wE
-meSF2o/sYr6wNeXRFMRzjUEkldAMzQ==
-=GQXX
------END PGP SIGNATURE-----
-
---7ZxRMNiFebQkkcJJ--
