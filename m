@@ -1,151 +1,88 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from r3-175.sinamail.sina.com.cn (r3-175.sinamail.sina.com.cn [202.108.3.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C3824DCF9
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 09:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7014361DD1
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 10:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774605269; cv=none; b=OcHTPtjni2HU09W0GKKO3KCQIMzyHNIJK5Zd8b7QgzaYDxdrJHCfzVD/OyZ2xr77rYVmCJdPay7weAl70rVlAEWw1ih5fDRJcDTa1GFXI8/KoPIxM7y2QCHfqYLU7qDAFZki57G28L9kt3iat8LqBNmSi5YPilsMf9eYAbsXpBc=
+	t=1774605642; cv=none; b=aLb4fICrXIamNC3mgE2M+ZDHHkEDplYOhwtCC7WirpY5X61CBUoggzn1yPYHds71efpn2BMGS+CNBMZUS7N4kYhwLA9CmtGl1ZkRzJWCDa7C83M5xxPkdTp26kqVTZfYJseOH2Z+VR853mL7CcTb0i+vHJ7TPBMP0TtU4OK9/iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774605269; c=relaxed/simple;
-	bh=TgfZnoitjho8aDERPJbU5GW3vwd6G6mhsC3EGIyx9p8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pko2a+tu1dI/vtRFTMKsA6hP3a0gGMKvOhn2v4ivF0PYN/V7kVSey/dT9a6+hlXFN1K/m45EOJpkSXu7HLqt5Qkxxg8zpw8EyyDW5tWeN0alyqHNhwNmghxUgfT7tL5Znfbs7/T7J/biyU/SZTZiZq/1oFHI2Cnn7udBlFtKVHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xyL3gSxH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2ODQyZkC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xyL3gSxH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2ODQyZkC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xyL3gSxH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ODQyZkC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xyL3gSxH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ODQyZkC"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 20D715BCF9;
-	Fri, 27 Mar 2026 09:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774605266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUDrpAumMhfY4bttJg5k6rcJayzQhKZPoQvqKNPBwyQ=;
-	b=xyL3gSxHNwhSQIlMD+P3oUjy5D+l/6ULHPcJPeY87kphscCboAyvs5w5aulpxlcWDSGk52
-	tNBfGaXO9HXdGu4gMppZcsnzvfAi7LaZh1slflSPZDB4C7ss6A6okFqzc5tasCU7ObY6XJ
-	EuerNyaJsNi6Cu4mbifiz/WAlHvDeLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774605266;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUDrpAumMhfY4bttJg5k6rcJayzQhKZPoQvqKNPBwyQ=;
-	b=2ODQyZkC8K7kLPkYBo+EZWlUIV428klr0+2gfsHWqyESQcWRREF1ipLbZzASzSY7y/y2mE
-	ncYP79K8QuPn97Cg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xyL3gSxH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2ODQyZkC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774605266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUDrpAumMhfY4bttJg5k6rcJayzQhKZPoQvqKNPBwyQ=;
-	b=xyL3gSxHNwhSQIlMD+P3oUjy5D+l/6ULHPcJPeY87kphscCboAyvs5w5aulpxlcWDSGk52
-	tNBfGaXO9HXdGu4gMppZcsnzvfAi7LaZh1slflSPZDB4C7ss6A6okFqzc5tasCU7ObY6XJ
-	EuerNyaJsNi6Cu4mbifiz/WAlHvDeLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774605266;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUDrpAumMhfY4bttJg5k6rcJayzQhKZPoQvqKNPBwyQ=;
-	b=2ODQyZkC8K7kLPkYBo+EZWlUIV428klr0+2gfsHWqyESQcWRREF1ipLbZzASzSY7y/y2mE
-	ncYP79K8QuPn97Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E2E094A0A2;
-	Fri, 27 Mar 2026 09:54:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XlEhNtFTxmmROAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 09:54:25 +0000
-Date: Fri, 27 Mar 2026 10:54:25 +0100
-Message-ID: <875x6hsilq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: <perex@perex.cz>,
-	<tiwai@suse.com>,
-	<stable@vger.kernel.org>,
-	Juhyun Song <juju6985@outlook.kr>,
-	"Stuart Hayhurst" <stuart.a.hayhurst@gmail.com>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH] Revert "ALSA: hda/intel: Add MSI X870E Tomahawk to denylist"
-In-Reply-To: <20260326190542.524515-1-mario.limonciello@amd.com>
-References: <20260326190542.524515-1-mario.limonciello@amd.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1774605642; c=relaxed/simple;
+	bh=f5p7Z5dOufwr5bF6H9LTV4S40FYcv+Ntsmv5qOlhYEI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=jMvq8zY6gXgRzA6Fnr3yjOrxlm0CfP8yNkFWSzjQ9ZnuccIpRXbixgW+AThXKoMnUDRQSFBoRgoTDRPyhu+ISAoSCcUymSzidMQPl9/IKePvQiote0My4trSnYvZCC3gbx7k+8TJ+SeouRGFZBag+UCTjBzJTqx5wTEPduln1wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
+	by sina.net (10.54.253.38) with ESMTP
+	id 69C6551D000030E9; Fri, 27 Mar 2026 17:59:59 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 1ADAAB7BC57E43CCBD97650C5F7D9930
+X-SMAIL-UIID: 1ADAAB7BC57E43CCBD97650C5F7D9930-20260327-175959
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v4 1/6] ASoC: sdw_utils: Add ES9356 support functions
+Date: Fri, 27 Mar 2026 17:59:49 +0800
+Message-Id: <20260327095954.3465-2-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260327095954.3465-1-zhangyi@everest-semi.com>
+References: <20260327095954.3465-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.kr];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,outlook.kr,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 20D715BCF9
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
 
-On Thu, 26 Mar 2026 20:05:38 +0100,
-Mario Limonciello wrote:
-> 
-> commit 30b3211aa2416 ("ALSA: hda/intel: Add MSI X870E Tomahawk
-> to denylist") was added to silence a warning, but this effectively
-> reintroduced commit df42ee7e22f03 ("ALSA: hda: Add ASRock
-> X670E Taichi to denylist") which was already reported to cause
-> problems and reverted in commit ee8f1613596ad ("Revert "ALSA: hda:
-> Add ASRock X670E Taichi to denylist"")
-> 
-> Revert it yet again.
-> 
-> Cc: stable@vger.kernel.org
-> Reported-by: Juhyun Song <juju6985@outlook.kr>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221274
-> Cc: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Add the functions into the machine driver for the es9356
 
-Applied now.  Thanks.
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ include/sound/soc_sdw_utils.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 98531e500..c18f5016d 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -220,6 +220,17 @@ int asoc_sdw_cs42l43_spk_init(struct snd_soc_card *card,
+ 			      struct asoc_sdw_codec_info *info,
+ 			      bool playback);
+ 
++/* es9356 codec support */
++int asoc_sdw_es9356_init(struct snd_soc_card *card,
++			       struct snd_soc_dai_link *dai_links,
++			       struct asoc_sdw_codec_info *info,
++			       bool playback);
++int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
++			       struct snd_soc_dai_link *dai_links,
++			       struct asoc_sdw_codec_info *info,
++			       bool playback);
++int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
++
+ /* CS AMP support */
+ int asoc_sdw_bridge_cs35l56_count_sidecar(struct snd_soc_card *card,
+ 					  int *num_dais, int *num_devs);
+@@ -271,5 +282,8 @@ int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
+ int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
+ 				     const char *name_prefix);
++int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ 
+ #endif
+-- 
+2.17.1
 
-Takashi
