@@ -1,278 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011013.outbound.protection.outlook.com [40.107.74.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC2E34D396;
-	Thu, 26 Mar 2026 23:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774569523; cv=none; b=auAD1aJA2A2AA2uzqP3v4OugV30p2qb7ji6o+8zB43URTb7iNS3krQO8CH2zIRnbjKI8jC3vICRk4syBr7cNxTAj+ENwTK7oViSduGyH+WiHUIG7RZR3ZoYPFFzan7hNvvdzvUNjPHkRYcXPPsKCzZ3+wqjOCgqkfGLoCgxKpOo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774569523; c=relaxed/simple;
-	bh=LTIx9ZvJ/AobNb/0Bn2IkvwWtBKN8rsMIGA0zemHHJ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ULdduVLVNBaTClbq8KAemGxv5ITdg3qHdPwm0MAPAdNw/0P4vCKyF3KZkMbOoF+QVMaiHTQNEc1tXNs53LDqWOZchWiD9iJE8Zmfyge+UtSvTi9MLr5hRCkhhLvHLDYo15eCz61xymkh1U17xNBUw7i7hV1D3jCy8UrbtY0YySk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzXTorCY; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8B024503B;
+	Fri, 27 Mar 2026 01:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774573881; cv=fail; b=T1juqod9fRBu2GXoBHKnOEz0vBUEVSZekYY7HYa4JkQF5pCNjnySkMt6+zXMxTI43dVpteFTrA9MUexkPj0/HXzkA/Ki6pPh50X4QcHEkCnK5Pj5dYsJLD+s7HtuyjNf/D22AUuXBq85iSP3hoad5nS11ziVWcaW7w6NjTT0dzw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774573881; c=relaxed/simple;
+	bh=C+vrRCuEKPczSLeBaClaVBxRAjn2iPl7qzmFVSgFjDg=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=NspZpR0ypapqgvnNlFJ3JnD7rJDMgTOKmem+q65b9jEovqKeHSnMP1K4SNtO5b9Az+X+e9T9vdFn08Vr5Dz8bnPhGvRnZiw8Zug2gVI105eXOFlOdxK+aGdCR79jVBw8lw73XNPnG7dmoygLCs3QPAxbIp/RkKOuwdo4tE5R18M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=jw2ncZP4; arc=fail smtp.client-ip=40.107.74.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzXTorCY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774569522; x=1806105522;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=LTIx9ZvJ/AobNb/0Bn2IkvwWtBKN8rsMIGA0zemHHJ4=;
-  b=DzXTorCYMvXs7E//CtYy0r2KzmQsJ0kgoJoOaHlVGfNP6HsFItROQrso
-   x05Hs3dDUBrPdvQRA8Eufnz8L+alIAVfCiylTnFesV0ZqINLxR4Baq1JK
-   VbtJEedkVKQc8ATf9SPtNV31BmwGaU6jHlqYZwmmL0FgCbLvwkqvpspHk
-   MstotMWsZNDVUDmy/YtbOykkoqd3dPdkjsexWGF/FsAMwGSYrbqmo1/rl
-   jvP2jljN3AyWlPlkcyjXEjKX0xjmI5ejSylDpM2sOR8b0/ZJye138xIWT
-   Gs1jsHg36Fv2N2//u76boR83Hnz8bLbN9xtp10ak5aA8ImXxNMSQ05Qiu
-   Q==;
-X-CSE-ConnectionGUID: M6YIMUBjT6eOevfzYhbFXQ==
-X-CSE-MsgGUID: 1gihSfFCT1WWDVWWE8Q4zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="74824242"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="74824242"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 16:58:41 -0700
-X-CSE-ConnectionGUID: 64SO2FiITcee6YyuwYuXYQ==
-X-CSE-MsgGUID: DBqaYHV2SNmepwqmWpEZCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="222248947"
-Received: from amilburn-desk.amilburn-desk (HELO [10.245.244.106]) ([10.245.244.106])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 16:58:36 -0700
-Message-ID: <bed5a8c0-2611-464a-bfd3-b00a8648727b@linux.intel.com>
-Date: Fri, 27 Mar 2026 01:58:34 +0200
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="jw2ncZP4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=roJAfdIh4nB5t3RPdELlD9o+HuEAJ/XozyysjnTzrPzgdrwiwlGZ/+NuWyUqomr7IF+UsIEkXP9Ru5zCN4eE3+lH/zKbGb7YTTB6tJnu8FU6bpEgA6oxloCDbXv/dWxBOYimDMwCh2Y0owNUteSDv+huGfvqv6yLjaSBcBuwGWkzaAdeiPZFxclWiRztfBDBE/jjZ2fuLnA20S6afDPumTkyejwzDfJrUjlxau9MVsvNp8nUgr/XY3GlCO2VhPRkhgObfGznRCuVqkPwJRTwbxlctrSeT8QxUrtGmKerua+n/LTU2z6eUhBe2WHGuYvkmT37WGdoXM4aNvBowLXJCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iEucSSGzOw1Go3LDd4K+zZb5Lbl+PerlDxKBFrt578M=;
+ b=WLrL7g0Lc4KQKnqY8ub8BsGt8GTMK0np5mQj91ggSP0UTNs83dI1dB67gvyrD/K/Dn+wiKxHJncahUR1ITSEUidshTd1YXqumgjwUr8Vxu9ncIPi5G/BBS8/SsBqqPdHzoZ6+V+nPt0BgRvM3q169avFVv/rda9Y1qRU1YmBoy2bWXj8weJlHQNJETzHv7ONtr2bKzTMjmEhsPaWpNBY25KcK0Z2HGD675vGPlbuzj6VSrwBUjDoIzMz3COjqBFuAx8pE3JetShb4anHgZzcFYXZwByZ0jg3KPwmlYQOX61M5jVbn36dqGiqVqV43mCpPbTuDoLGOkXyuyItu5u6VA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iEucSSGzOw1Go3LDd4K+zZb5Lbl+PerlDxKBFrt578M=;
+ b=jw2ncZP4pQzrmxHTiPQHoFJogTEX53nYpUcJ2YJrPPaQ0ussAp5lHBcZ3BMk1hCSGfwEiKMQ02q9nCyOOasr9T0zmnKlixPJwnC6b171OHWduHIDhbsYkZl9Fzahi0A25PoigtQ79+8hXtvrE+uqXgEpQy1yiAOglvtkhfrAkFY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OS3PR01MB9819.jpnprd01.prod.outlook.com (2603:1096:604:1ed::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.23; Fri, 27 Mar
+ 2026 01:11:14 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9745.023; Fri, 27 Mar 2026
+ 01:11:14 +0000
+Message-ID: <877bqyxej1.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: generic: keep fallback dai_name stable across rebind
+In-Reply-To: <20260326-asoc-generic-fallback-dai-name-rebind-v1-1-ac9da3cbd606@gmail.com>
+References: <20260326-asoc-generic-fallback-dai-name-rebind-v1-1-ac9da3cbd606@gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Mar 2026 01:11:14 +0000
+X-ClientProxiedBy: TYCP286CA0288.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c8::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] usb: core: use dedicated spinlock for offload
- state
-To: Guan-Yu Lin <guanyulin@google.com>, gregkh@linuxfoundation.org,
- mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com,
- quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de,
- xiaopei01@kylinos.cn, wesley.cheng@oss.qualcomm.com, hannelotta@gmail.com,
- sakari.ailus@linux.intel.com, eadavis@qq.com, stern@rowland.harvard.edu,
- amardeep.rai@intel.com, xu.yang_2@nxp.com,
- andriy.shevchenko@linux.intel.com, nkapron@google.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, stable@vger.kernel.org
-References: <20260324203851.4091193-1-guanyulin@google.com>
- <20260324203851.4091193-2-guanyulin@google.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260324203851.4091193-2-guanyulin@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS3PR01MB9819:EE_
+X-MS-Office365-Filtering-Correlation-Id: df2449a9-8ffb-4feb-cff3-08de8b9dbddf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	vYWJBIQo0AioX2dEm+11ZgVDegrYKCRIwFPwTb0IPYS0IITKM4gsojb52hGPw/eCKJgot7iGH94boi78vLW8T5zQ/iuQrtO9Q+WPtPe4eSM3f2/FsHjCbnMIzvEAZqwDM9G3TcLh+6DNUZRvawhi7wBwAROfGUeCpP9TzUtxH2kTRml2vJ1O+EMJvY/bptC8mqGlKNM3KMwYrcSycqdRLYPpiVIQ1cwoFg1M9hEx0KB31azZ43iz5jTaOOa8cd2c9PKe3n+AgAV34KJ6xPNn5cLlrauRIaQA2L6b5opiSU5D57qdWXDFk4IZ0WTsLPNIGWpt/8fFONmr5NKVbbqOvuYMoBoP+ya6FMJX5jgRmHnk0lhzmxgLuyj/Aes8KSHNH2bt4ZAb053HqS5eTqWIbfAGAxxo9BmqzGncqvbEdSCCEy3nM8sYehoxrrhND13ef82wUy0M6hx4yVUABovT8UwdRhZMhUOlZWdLwR1yAbZgE3dXNVO/4OaSBypXEXERes89pkW+foXlrKwLknRBU8wKDWoTpHUf/4IBKV2CoX7OFoXYpZLFjRTS+qUTNJy9Ks7gZ6nBEYdsnjTZjQ/zvO7peau9I4i6Fkxx7di4sHKUSPMDSXNrDq+Gvg5/cwqAjBPMUM0lvfoGJgycfwaSwfwkCg/TTjHwoJU33V9oCBNlbDvPKWqACuW85k+5zvTbs+hF8HCi6EzyBigjF+/WTUESsjHN2OyllrgQ2aMLMHDKt7vhZl6ybscsXvYEK0phhLohoNQezCznID6fo7Ib4FsakcTaAa6mac+psij65nM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?2R9djoeZOAHykmMfp9HW9JMJvKT0U8EoNyoHY3ETZ9EdE+KYk+Gafrz0Gj?=
+ =?iso-8859-1?Q?nFFtZn4um+uEeBZOQ1bVUBM/OoZub06hvMzOvNGMdPsHHWJcNX8/23QXiQ?=
+ =?iso-8859-1?Q?KChOB+RxyRAWE3KwFyQO3Bf9ep8g/DDAY17LPjW3rPHVJPID6IRB2sGPUC?=
+ =?iso-8859-1?Q?UzCEH1VvfSPYgVSLHly07O1UWD5ZBAxmQBh2iu01m0fy1GQfX5cQzdL0f4?=
+ =?iso-8859-1?Q?vAku7ERXBRIl9gSqwiZ0XedGW4c5tKJoPIpjL7X6ed7ul1yd/62JC66Si/?=
+ =?iso-8859-1?Q?s9JmHzSvqGUabDNn6NCr3VAoDrKedYLeAgfdMBzyc5qCYzr5YY2GHJLvpi?=
+ =?iso-8859-1?Q?lrlwpe9ZPGlgZlCu6/VT/sxYRTjPb2fzGR1H2aqq/kdHM+wSFasoEm+JeF?=
+ =?iso-8859-1?Q?LJ/SvTqdYd1Gnxmj4wvrFzKJ9/fN5bVhKdErlJAr6MWvv+wsfzirkXNddc?=
+ =?iso-8859-1?Q?BJzFPOdjuxMF07sqWnVrEvdTgLf4JOplLJt0ucXYZglgBmEsYQBnGRBKpt?=
+ =?iso-8859-1?Q?ruyKRnBOrBdSlFjtjr3cvCytMqOcbzN0ZLq2KJ8rE93fL4ZPva9WFiMOy2?=
+ =?iso-8859-1?Q?8E1qOgnFgQSADKcbYXY1vxIlpgnILc2VKOV2VYogNbJZpdbKCIusqzIDjs?=
+ =?iso-8859-1?Q?/ae03Fkng3A8s6UynSC26Pfs7yyK3BybstwsLcCkxkhKtnfx8JwUlXubZZ?=
+ =?iso-8859-1?Q?fPlYRtbVP1g2RddGlElfDs51+IDu42CNMXMlHpUMRQKVq2ZwLxakmDvNpM?=
+ =?iso-8859-1?Q?kjRC1w4i6ZjGzBtU8gwYvPy0DOfLVV6MNkCVu+iyXqj9XAPVoJjJpQjF/K?=
+ =?iso-8859-1?Q?459ZTwEMeOYw0TY9ht1+nvEBN3AQx2tZGK/IGkWfr4fOOtP5wxm7sb2jaT?=
+ =?iso-8859-1?Q?A91hzE72g/oKgxXAWclNNNyIB+mlW4mHCK0xC9RIdCgMvBTVT1neI0pEJn?=
+ =?iso-8859-1?Q?Fk7ymdsTtw/ZRLEQyXqas84rTohy60nGW1KO/ZhzthIE9FhYFKjJH5vEdF?=
+ =?iso-8859-1?Q?lelX+NPYc2NU0UkfU/z7JTz8PF5SRfKfYQuAop4AtFebuv1DgOVhcbfVzd?=
+ =?iso-8859-1?Q?W27fxc3sQaJxuKP9G2LOrZkhqbcp781mLLBqLhKVEbwXcZEY1KiJlYe9Q8?=
+ =?iso-8859-1?Q?NByileWHnKZIjxrowyYo49tHdUZ822HnmZogR7ElGum/2QxvptJ0My6SPG?=
+ =?iso-8859-1?Q?Aakbj/4ulKxiQqvGizkacZs6H989CjJtqeLLWuLaUfJL8aJd8NMu6wKmR9?=
+ =?iso-8859-1?Q?p9WUD3PdlBzW6jW8J8v10Yaiz4BOLeVADWI89z6Q/SJ1izrtiovck9izXO?=
+ =?iso-8859-1?Q?U3m7AGNgJGi2KoP/YZT2J/WH8y35ktTKdrkuyKhmAqVWuRD317USMy5Qy7?=
+ =?iso-8859-1?Q?PHy0U/5ZQyIMLFGBERnbae4anxsJBQ/FvvplLFmYFj3iCQ8aqbwlyJl0KO?=
+ =?iso-8859-1?Q?AUs92kcPzGz6lYbVYwDraERFa7nDxbxV9T0FE2IE1Jul+X4x2qcKCtjElE?=
+ =?iso-8859-1?Q?HA0Bywv18JFWDXB2n9otumIUAt2Sk3KY8UktxCRPGBpLIiwN0f20Y4QDpW?=
+ =?iso-8859-1?Q?On6rFYs9EzGh1hmhzcCo5N/cvhbDC/ski5zg4FfyWlKTLuz6HUr4VlcgoR?=
+ =?iso-8859-1?Q?0x6Iqul2bVVzCcCGv3JuIyATnaSWk02mr7wVNzB37ouQotuzCrL+elvqvP?=
+ =?iso-8859-1?Q?ajAxpKGjxtg07Vhts9pMr8yyeljcHAqxS4PoqYsuow/sCsk2Yv4cQ2RIrL?=
+ =?iso-8859-1?Q?3toqIaQ1zLTlFWJb+Ov8d8SuOaD1HWgLLAcKBCXf3RpFtK5Oa21mfU3okU?=
+ =?iso-8859-1?Q?dX1sEQnCyrx5Rgssd9G8O8b/5iSuF9eeokAavkN57VK+7Bi/kmm/?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df2449a9-8ffb-4feb-cff3-08de8b9dbddf
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 01:11:14.5755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X6X1jdxpM/DW9A8StWyeb2aFrliUm6IjjtEDm5H50inIm34ZQ9nAJc2bBzr4v46Qky/llwsop09dCazN0gGWk+uM11ERZRN9zPNFNljisY173QJe2BoXh++OdJMwNU++
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9819
 
-Hi
 
-On 3/24/26 22:38, Guan-Yu Lin wrote:
-> Replace the coarse USB device lock with a dedicated offload_lock
-> spinlock to reduce contention during offload operations. Use
-> offload_pm_locked to synchronize with PM transitions and replace
-> the legacy offload_at_suspend flag.
-> 
-> Optimize usb_offload_get/put by switching from auto-resume/suspend
-> to pm_runtime_get_if_active(). This ensures offload state is only
-> modified when the device is already active, avoiding unnecessary
-> power transitions.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: ef82a4803aab ("xhci: sideband: add api to trace sideband usage")
-> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
+Hi C=E1ssio
+
+Thank you for your patch
+
+> simple_parse_dai() and graph_util_parse_dai() first try to identify a
+> DAI via dai_args. When that works the card can rebind without relying on
+> dlc->dai_name.
+>=20
+> The fallback path still calls snd_soc_get_dlc(), which returns a
+> borrowed dai_name pointer. If the CPU or codec component is unbound
+> while the sound card stays registered, the generic card keeps that
+> pointer and the next rebind may compare stale memory while matching the
+> DAI.
+>=20
+> Stage the fallback result in a temporary dai_link_component and move
+> only a card-owned copy of dai_name into the live link component. Use
+> devm_kstrdup_const() so static names are reused and dynamic ones remain
+> valid for the lifetime of the card device.
+>=20
+> Signed-off-by: C=E1ssio Gabriel <cassiogabrielcontato@gmail.com>
 > ---
 
-> diff --git a/drivers/usb/core/offload.c b/drivers/usb/core/offload.c
-> index 7c699f1b8d2b..c24945294d7e 100644
-> --- a/drivers/usb/core/offload.c
-> +++ b/drivers/usb/core/offload.c
-> @@ -25,33 +25,30 @@
->    */
->   int usb_offload_get(struct usb_device *udev)
->   {
-> -	int ret;
-> +	int ret = 0;
->   
-> -	usb_lock_device(udev);
-> -	if (udev->state == USB_STATE_NOTATTACHED) {
-> -		usb_unlock_device(udev);
-> +	if (!usb_get_dev(udev))
->   		return -ENODEV;
-> -	}
->   
-> -	if (udev->state == USB_STATE_SUSPENDED ||
-> -		   udev->offload_at_suspend) {
-> -		usb_unlock_device(udev);
-> -		return -EBUSY;
-> +	if (pm_runtime_get_if_active(&udev->dev) != 1) {
-> +		ret = -EBUSY;
-> +		goto err_rpm;
->   	}
->   
-> -	/*
-> -	 * offload_usage could only be modified when the device is active, since
-> -	 * it will alter the suspend flow of the device.
-> -	 */
-> -	ret = usb_autoresume_device(udev);
-> -	if (ret < 0) {
-> -		usb_unlock_device(udev);
-> -		return ret;
-> +	spin_lock(&udev->offload_lock);
-> +
-> +	if (udev->offload_pm_locked) {
+It looks good to me.
 
-Could we get rid of 'udev->offload_pm_locked' and 'usb_offload_set_pm_locked()'
-by calling a synchronous pm_runtime_get_sync() or pm_runtime_resume_and_get()?
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This way we can ensure udev->offload_usage isn't modified mid runtime suspend or
-resume as resume is guaranteed to have finished and suspend won't be called,
-at least not for the runtime case.
+1 concern is that this function is using goto, ad your code is fixing
+(A) part.
 
-> +		ret = -EAGAIN;
-> +		goto err;
->   	}
->   
->   	udev->offload_usage++;
-> -	usb_autosuspend_device(udev);
-> -	usb_unlock_device(udev);
-> +
-> +err:
-> +	spin_unlock(&udev->offload_lock);
-> +	pm_runtime_put_autosuspend(&udev->dev);
-> +err_rpm:
-> +	usb_put_dev(udev);
->   
->   	return ret;
->   }
-> @@ -69,35 +66,32 @@ EXPORT_SYMBOL_GPL(usb_offload_get);
->    */
->   int usb_offload_put(struct usb_device *udev)
->   {
-> -	int ret;
-> +	int ret = 0;
->   
-> -	usb_lock_device(udev);
-> -	if (udev->state == USB_STATE_NOTATTACHED) {
-> -		usb_unlock_device(udev);
-> +	if (!usb_get_dev(udev))
->   		return -ENODEV;
-> -	}
->   
-> -	if (udev->state == USB_STATE_SUSPENDED ||
-> -		   udev->offload_at_suspend) {
-> -		usb_unlock_device(udev);
-> -		return -EBUSY;
-> +	if (pm_runtime_get_if_active(&udev->dev) != 1) {
-> +		ret = -EBUSY;
-> +		goto err_rpm;
->   	}
->   
-> -	/*
-> -	 * offload_usage could only be modified when the device is active, since
-> -	 * it will alter the suspend flow of the device.
-> -	 */
-> -	ret = usb_autoresume_device(udev);
-> -	if (ret < 0) {
-> -		usb_unlock_device(udev);
-> -		return ret;
-> +	spin_lock(&udev->offload_lock);
-> +
-> +	if (udev->offload_pm_locked) {
-> +		ret = -EAGAIN;
-> +		goto err;
+	int graph_util_parse_dai(...)
+	{
+		...
+		dai =3D snd_soc_get_dai_via_args(...);
+		if (dai) {
+			...
+=3D>			goto parse_dai_end;
+		}
+
+(A)		...
+
+	parse_dai_end:
+		...
+	}
 
 
-Ending up here is about unlucky timing, i.e. usb_offload_put() is called while
-device is pretending to suspend/resume. Result here is that udev->offload_usage is
-not decremented, and usb device won't properly suspend anymore even if device is
-no longer offloaded.
+I think it is good timing to use if-else here ?
+
+	int graph_util_parse_dai(...)
+	{
+		...
+		dai =3D snd_soc_get_dai_via_args(...);
+		if (dai) {
+			...
++		} else {
++ (A)			...
++		}
+		...
+	}
 
 
->   	}
->   
->   	/* Drop the count when it wasn't 0, ignore the operation otherwise. */
->   	if (udev->offload_usage)
->   		udev->offload_usage--;
-> -	usb_autosuspend_device(udev);
-> -	usb_unlock_device(udev);
-> +
-> +err:
-> +	spin_unlock(&udev->offload_lock);
-> +	pm_runtime_put_autosuspend(&udev->dev);
-> +err_rpm:
-> +	usb_put_dev(udev);
->   
->   	return ret;
->   }
-> @@ -112,25 +106,52 @@ EXPORT_SYMBOL_GPL(usb_offload_put);
->    * management.
->    *
->    * The caller must hold @udev's device lock. In addition, the caller should
-> - * ensure downstream usb devices are all either suspended or marked as
-> - * "offload_at_suspend" to ensure the correctness of the return value.
-> + * ensure downstream usb devices are all marked as "offload_pm_locked" to
-> + * ensure the correctness of the return value.
->    *
->    * Returns true on any offload activity, false otherwise.
->    */
->   bool usb_offload_check(struct usb_device *udev) __must_hold(&udev->dev->mutex)
->   {
->   	struct usb_device *child;
-> -	bool active;
-> +	bool active = false;
->   	int port1;
->   
-> +	spin_lock(&udev->offload_lock);
-> +	if (udev->offload_usage)
-> +		active = true;
-> +	spin_unlock(&udev->offload_lock);
-> +> +	if (active)
-> +		return true;
 
-Not sure what the purpose of the spinlock is above
+Thank you for your help !!
 
-> +
->   	usb_hub_for_each_child(udev, port1, child) {
->   		usb_lock_device(child);
->   		active = usb_offload_check(child);
->   		usb_unlock_device(child);
-> +
->   		if (active)
-> -			return true;
-> +			break;
->   	}
->   
-> -	return !!udev->offload_usage;
-> +	return active;
->   }
->   EXPORT_SYMBOL_GPL(usb_offload_check);
-> +
-> +/**
-> + * usb_offload_set_pm_locked - set the PM lock state of a USB device
-> + * @udev: the USB device to modify
-> + * @locked: the new lock state
-> + *
-> + * Setting @locked to true prevents offload_usage from being modified. This
-> + * ensures that offload activities cannot be started or stopped during critical
-> + * power management transitions, maintaining a stable state for the duration
-> + * of the transition.
-> + */
-> +void usb_offload_set_pm_locked(struct usb_device *udev, bool locked)
-> +{
-> +	spin_lock(&udev->offload_lock);
-> +	udev->offload_pm_locked = locked;
-> +	spin_unlock(&udev->offload_lock);
-> 
-
-spinlock usage unclear here as well
-
-Thanks
-Mathias
-
+Best regards
+---
+Kuninori Morimoto
