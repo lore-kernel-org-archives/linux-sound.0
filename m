@@ -1,271 +1,129 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875EC2D3733
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 18:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211E137EFED
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 18:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774635663; cv=none; b=c5BiVVSAi/HR3bLOYMoXuvcGSOFCkdr3qcofFXmB94YfMQELOKEMNkwXlXJl7Bi/csyWVpz0FZv7y89KO0RgmsvR199mAdPfNSW9Fweni1S6CGseL+0/dM3rjHuh+kgsS7/J/HT9YZrb3Ej7tjJe8X81XOBq8qcq5uxDmpxb+2c=
+	t=1774637397; cv=none; b=DGT6NxvpF7+5qDNEDTekL7S86X7JbZxnAhj+hMH6mLtKEitdblub/olh9Ub3Cs1pXkd0Er3LO8PGTccPwWPBQx23x2rppNPPBtqQM7cfaoN4xG4H2W2kJo5jyk5cll/zPgGF/7cAt6l8gTb7BqQCLa6Cv2UWIo7LCJ7Emopnd1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774635663; c=relaxed/simple;
-	bh=a8g760ykbirRsSRWuBjx9v9gazgiOz3e3VvkL/zbTWE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ob2KZicD8EqpQfm95cRHt/Q6ZS2qADgR/gQp/fTMzJWzhFUvZ0gLZQKu/pWSxVxrbU5ln9eKktqBwRVd+5TH4B/kJbZd818U2LPQN3o8fFWY1iGN45YEq+/qYuc0RdqiGpwdOvAp47ua+0HKqkBT2pylutOgN6Iw7V95e/o6KZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cszO7v5Y; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774637397; c=relaxed/simple;
+	bh=K3Pd2wZkhD65L8VyfD4iqOk4NHmtEZ5e2hdzs3gqMyU=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=VlcaQbKUuG0n/UY9+5Lv+yc2b1Lu9hkrRVqc0YGea/uDdhbPhDHMzyDrGOE6glUqBCQE2NVN7ELVoo7cMVp0LeO/ggOqppIdiXcg+5+mmxXeadyznnwcn2o25IyyxeCZMAN6ZegSmbLwYEjrXNYrPRxjcMHbyC0k89JbAmnB5Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCzJt3E6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cszO7v5Y"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48374014a77so29270105e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 11:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774635658; x=1775240458; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ucRwtGLQbkik36aIDDNBAOldr7FJ56+ywnT/X/giBc4=;
-        b=cszO7v5Yn2MDJLcFfwpML84CV65URbmqmBv4QaV0npFeMzdGPEO11zueqJn2mn47D9
-         ZNF9+NGde9YrziXJjeujwO0wtl0r3B0jz7eLWs7djFtk1C5pNwBDb9l01YSntukEX79Y
-         VOWnDyJS/VvTJYph7Vy+3WzMSukHzQ3W3AaYPDgsvQEJ6yvDFKBSw+1trU9VTl2EYaHj
-         yFDf/6gtuZgEp3s1B5ifptp54BctJpgAgr3oWYqToBTD0EIIXpkwih+8G3FRN9kQ7NE/
-         2F+sWgkdSHE0VpstGIKZKpyv9RypKqPiFgQ7ZNEP5UsFrSPcnBO4ZDtkWhp8MPKDv4aB
-         ezLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774635658; x=1775240458;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ucRwtGLQbkik36aIDDNBAOldr7FJ56+ywnT/X/giBc4=;
-        b=nxqnO6AIB6Mbzgx3HnKaofbguQ5T+TwEMNTjlep4P7fNeX7J/Xazv5dBMkY7vt1g2b
-         CzucLqGtLHY5ljjMXgNxGKaJKX1c5Z/NpyO6FiWMeKYZVxPJg5Lh+jBhgOGP7GsF8AkY
-         pgXtDr+/J0XFNgRmSv9fyuph7CZCTUjmG2tbU9AiOSRryJ2kHYpdgsOk+lWwzsdv4Yr0
-         hPDCKrrsm4+94CTUQ/UDG4a+djGmYeG8p9Z3VcyafYH8OgfB0M12ZH7knmdZmtTFzqeG
-         WVEo49ZJ81DGj4RxymBmofzHn+2ju9YtNb/RMrNxp80gBhFnGgcZMSY3PuU/u3X77JD7
-         LE7A==
-X-Gm-Message-State: AOJu0YzVY7ojPqktmQquIlgxVeEiRDlCzlV+DFpXUfIOoKAUw0sU2AKj
-	J+Wlu047ZMT2uMiCfLJgcG51NxknwmfqB23Ss8kBoHB2MjiEjG6X4i6E8whGXCnH
-X-Gm-Gg: ATEYQzxqvYJc43X8JF7752IXHmaDK4UXdJXDzg4umyHtNolb3nudm8Y3eZPKyAYPk7G
-	xi6wPkketK1blURMaHq8pK/k7wGPRQg7gXe3NWaXQ+qGdxK4LRgqruGRuS4uhZm7SSJCw4aco5Y
-	7+Ht/W9VZ9WcLXvS3alM0dnA9oCXoFkjv3fOLsAbnPqUILRt/6ds6zwW29+8w6Lyq+SfcxJBky8
-	rWFqxogdj2yWvxtSquOQCroKpujeSx3+Rqa60LiVbyGy03JoPvxXB7ovTZPvjXrJTLrdAdl+73/
-	SZv+3hnXTA806DcWrvvd/yvYAfW5Z8dDgWq9OvgO1fB8SDNLBIWMIgTAOKyO4zBiGZSUOhJMTeL
-	xaWtiwLVEw+Jf/ErzbIwUXyOj9QT13E3GKjrwysYxlqjR1A85v7+CMAKCiLjJrxOFhAFJrMK63S
-	im0pxBpXjk/AFZ8BhpqIzjUNKYE5Y7AA==
-X-Received: by 2002:a05:600c:1d1f:b0:486:d76c:fa57 with SMTP id 5b1f17b1804b1-48727eb81bbmr65978665e9.17.1774635657550;
-        Fri, 27 Mar 2026 11:20:57 -0700 (PDT)
-Received: from linux-workstation.lan ([5.133.45.75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722d4d884sm146327375e9.15.2026.03.27.11.20.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 11:20:57 -0700 (PDT)
-From: Phil Willoughby <willerz@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Phil Willoughby <willerz@gmail.com>
-Subject: [PATCH] Add support for Arturia AF16Rig
-Date: Fri, 27 Mar 2026 18:19:24 +0000
-Message-ID: <20260327182052.13364-1-willerz@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCzJt3E6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81C9EC19424;
+	Fri, 27 Mar 2026 18:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774637396;
+	bh=K3Pd2wZkhD65L8VyfD4iqOk4NHmtEZ5e2hdzs3gqMyU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fCzJt3E6rjya+XivMYZbfikDQX2dy2fMvdIITxzpvIfE17riXfUfyaeKEZVy/oqmm
+	 CiEO2IckyGtD7xKZzM/9DVWtZndyGExY5lRj15hyGCmfFBi91PZyWiJ1cEn5dF/lRp
+	 kRUFOC8Im2PgLPU6qq/xByqR1GJqknMJtFeCbQtzVR1wocw5MuB7iWXlKeCn6IrG0t
+	 X4hnxFPKEiw8IjYToF7Dj629Hhcrv14jRD50/+ddgQ4kTYdOGXfWOS52CQr380dw86
+	 jjtSUmGLzkssAzaWw9ragig1/71weVSDv3ysQuQh3zw1q8/cuxb0x8kHn+L/7nexE+
+	 ZJJwEdtqe8KAg==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 2E1221AC5847; Fri, 27 Mar 2026 18:49:54 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.0-rc5
+Date: Fri, 27 Mar 2026 18:49:53 +0000
+Message-Id: <20260327184954.2E1221AC5847@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Phil Willoughby <willerz@gmail.com>
----
- sound/usb/clock.c        |   4 +
- sound/usb/quirks-table.h | 165 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 169 insertions(+)
+The following changes since commit c369299895a591d96745d6492d4888259b004a9e:
 
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 842ba5b801ea..3e597976ae9d 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -266,6 +266,10 @@ static bool uac_clock_source_is_valid(struct snd_usb_audio *chip,
- 				      UAC2_CS_CONTROL_CLOCK_VALID))
- 		return true;
- 
-+	/* The Arturia AF16Rig reports that its clock is readable when it isn't */
-+	if (chip->usb_id == USB_ID(0x1c75, 0xaf20))
-+		return true;
-+
- 	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0), UAC2_CS_CUR,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_IN,
- 			      UAC2_CS_CONTROL_CLOCK_VALID << 8,
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index eafc0d73cca1..8f79a15055a6 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -3900,5 +3900,170 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- QUIRK_RME_DIGIFACE(0x3f8c),
- QUIRK_RME_DIGIFACE(0x3fa0),
- 
-+/* Arturia AudioFuse 16Rig Audio */
-+/* AF16Rig MIDI has USB PID 0xaf21 and appears to work OK without quirks */
-+{
-+	USB_DEVICE(0x1c75, 0xaf20),
-+	QUIRK_DRIVER_INFO {
-+		.vendor_name = "Arturia",
-+		.product_name = "AF16Rig",
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_STANDARD_MIXER(0) },
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(1) { /* Playback */
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 34,
-+					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
-+					.fmt_bits = 24,
-+					.fmt_sz = 4,
-+					.iface = 1,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x01,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.datainterval = 1,
-+					.protocol = UAC_VERSION_2,
-+					.maxpacksize = 0x03b8,
-+					.rates = SNDRV_PCM_RATE_44100|
-+						 SNDRV_PCM_RATE_48000,
-+					.rate_min = 44100,
-+					.rate_max = 48000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) { 44100, 48000 },
-+					.clock = 41,
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(1) { /* Playback */
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 18,
-+					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
-+					.fmt_bits = 24,
-+					.fmt_sz = 4,
-+					.iface = 1,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x01,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.datainterval = 1,
-+					.protocol = UAC_VERSION_2,
-+					.maxpacksize = 0x03a8,
-+					.rates = SNDRV_PCM_RATE_88200|
-+						 SNDRV_PCM_RATE_96000,
-+					.rate_min = 88200,
-+					.rate_max = 96000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) { 88200, 96000 },
-+					.clock = 41,
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(1) { /* Playback */
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 10,
-+					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
-+					.fmt_bits = 24,
-+					.fmt_sz = 4,
-+					.iface = 1,
-+					.altsetting = 3,
-+					.altset_idx = 3,
-+					.endpoint = 0x01,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.datainterval = 1,
-+					.protocol = UAC_VERSION_2,
-+					.maxpacksize = 0x03e8,
-+					.rates = SNDRV_PCM_RATE_176400|
-+						 SNDRV_PCM_RATE_192000,
-+					.rate_min = 176400,
-+					.rate_max = 192000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) { 176400, 192000 },
-+					.clock = 41,
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(2) { /* Capture */
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 34,
-+					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
-+					.fmt_bits = 24,
-+					.fmt_sz = 4,
-+					.iface = 2,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x81,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.datainterval = 1,
-+					.protocol = UAC_VERSION_2,
-+					.maxpacksize = 0x03b8,
-+					.rates = SNDRV_PCM_RATE_44100|
-+						 SNDRV_PCM_RATE_48000,
-+					.rate_min = 44100,
-+					.rate_max = 48000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) { 44100, 48000 },
-+					.clock = 41,
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(2) { /* Capture */
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 18,
-+					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
-+					.fmt_bits = 24,
-+					.fmt_sz = 4,
-+					.iface = 2,
-+					.altsetting = 2,
-+					.altset_idx = 2,
-+					.endpoint = 0x81,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.datainterval = 1,
-+					.protocol = UAC_VERSION_2,
-+					.maxpacksize = 0x03a8,
-+					.rates = SNDRV_PCM_RATE_88200|
-+						 SNDRV_PCM_RATE_96000,
-+					.rate_min = 88200,
-+					.rate_max = 96000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) { 88200, 96000 },
-+					.clock = 41,
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(2) { /* Capture */
-+					.formats = SNDRV_PCM_FMTBIT_S32_LE,
-+					.channels = 10,
-+					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
-+					.fmt_bits = 24,
-+					.fmt_sz = 4,
-+					.iface = 2,
-+					.altsetting = 3,
-+					.altset_idx = 3,
-+					.endpoint = 0x81,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC|
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.datainterval = 1,
-+					.protocol = UAC_VERSION_2,
-+					.maxpacksize = 0x03e8,
-+					.rates = SNDRV_PCM_RATE_176400|
-+						 SNDRV_PCM_RATE_192000,
-+					.rate_min = 176400,
-+					.rate_max = 192000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) { 176400, 192000 },
-+					.clock = 41,
-+				}
-+			},
-+			{ QUIRK_DATA_IGNORE(3) }, /* Firmware update */
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
-+
- #undef USB_DEVICE_VENDOR_SPEC
- #undef USB_AUDIO_DEVICE
--- 
-2.53.0
+  Linux 7.0-rc5 (2026-03-22 14:42:17 -0700)
 
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.0-rc5
+
+for you to fetch changes up to d40a198e2b7821197c5c77b89d0130cc90f400f5:
+
+  ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload (2026-03-26 11:16:03 +0000)
+
+----------------------------------------------------------------
+ASoC: Fixes for v7.0
+
+This is two week's worth of fixes and quirks so it's a bit larger than
+you might expect, there's nothing too exciting individually and nothing
+in core code.
+
+----------------------------------------------------------------
+Baojun Xu (1):
+      ASoC: tas2781: Add null check for calibration data
+
+Cezary Rojewski (1):
+      ASoC: Intel: catpt: Fix the device initialization
+
+Cássio Gabriel (1):
+      ASoC: SOF: topology: reject invalid vendor array size in token parser
+
+Guangshuo Li (1):
+      ASoC: sma1307: fix double free of devm_kzalloc() memory
+
+Hasun Park (3):
+      ASoC: amd: acp: add DMI override for ACP70 flag
+      ASoC: amd: acp: add PX13 SoundWire machine link for rt721+tas2783x2
+      ASoC: amd: acp: add ASUS HN7306EA quirk for legacy SDW machine
+
+Jihed Chaibi (3):
+      ASoC: dt-bindings: stm32: Fix incorrect compatible string in stm32h7-sai match
+      ASoC: adau1372: Fix unchecked clk_prepare_enable() return value
+      ASoC: adau1372: Fix clock leak on PLL lock failure
+
+Mark Brown (2):
+      ASoC: fix usage of playback_only and capture_only
+      ASoC: adau1372: Fix error handling in adau1372_set_power()
+
+Peter Ujfalusi (1):
+      ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload
+
+Sebastian Reichel (1):
+      ASoC: dt-bindings: rockchip: Add compatible for RK3576 SPDIF
+
+Shengjiu Wang (2):
+      ASoC: simple-card-utils: Check value of is_playback_only and is_capture_only
+      ASoC: fsl: imx-card: initialize playback_only and capture_only
+
+Shuming Fan (2):
+      ASoC: SDCA: remove the max count of initialization table
+      ASoC: SDCA: fix finding wrong entity
+
+Srinivas Kandagatla (1):
+      ASoC: codecs: wcd934x: fix typo in dt parsing
+
+Vee Satayamas (1):
+      ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK BM1403CDA
+
+Zhang Heng (1):
+      ASoC: amd: yc: Add DMI quirk for Thin A15 B7VF
+
+ .../devicetree/bindings/sound/rockchip-spdif.yaml  |  1 +
+ .../devicetree/bindings/sound/st,stm32-sai.yaml    |  2 +-
+ include/sound/sdca_function.h                      |  5 --
+ sound/soc/amd/acp-config.c                         | 15 +++++-
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c            |  8 +++
+ sound/soc/amd/acp/amd-acp70-acpi-match.c           | 61 ++++++++++++++++++++++
+ sound/soc/amd/yc/acp6x-mach.c                      | 14 +++++
+ sound/soc/codecs/adau1372.c                        | 34 ++++++++----
+ sound/soc/codecs/sma1307.c                         |  6 ++-
+ sound/soc/codecs/tas2781-fmwlib.c                  |  3 ++
+ sound/soc/codecs/wcd934x.c                         |  2 +-
+ sound/soc/fsl/imx-card.c                           |  2 +
+ sound/soc/generic/simple-card-utils.c              |  4 +-
+ sound/soc/intel/catpt/device.c                     | 10 +++-
+ sound/soc/intel/catpt/dsp.c                        |  3 --
+ sound/soc/sdca/sdca_functions.c                    | 14 +++--
+ sound/soc/sof/ipc4-topology.c                      |  2 +-
+ sound/soc/sof/topology.c                           |  2 +-
+ 18 files changed, 156 insertions(+), 32 deletions(-)
