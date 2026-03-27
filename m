@@ -1,151 +1,177 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B903E6DF1
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C131E3E3C47
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774618995; cv=none; b=NFRtbT2CNnotl2rJ6DFGfvaQJPoY2cCrPP1hm5jLwiNuY7TyCXIA/QxbOOQeTVuGwJI+ii5Rn3eqV5K5mzAvAk2LukwHGAdftBggSoKEQlGYLdkDY7ZY3aQW59vBGeQeoucAZipW4Sxh3xTeWnA1Me07UuRGaa3w10ioq8a2VuA=
+	t=1774619261; cv=none; b=DraG0er5APqSclkyDosTge/Wr/h8EgvVk6Mh1wXoLlE0J3WK0XCZGa6Qc1MF+A1ISCpsPfK+QNFhubrQe/+KeKlRVYI/88h8zQFnPyDLn7pTkjF5tFidpr24aB5M4VxbDaK2Fa7s06cqBORf+R4sIl/E6oEkduAL2lynCxi8Bkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774618995; c=relaxed/simple;
-	bh=0CpV3JysPUFuBc+zHkfQPkqXbRvr5kdMO99dL9l2Bcc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZAobvJSnR4pKCDrw5ZvU8peGKMJR0o7t62+gw68X6YRAxhHRJ1ttGv7q5eLe1XLNWbQJRLACIzE1t/WnpKMKRqY6N86dl6SuwwKN8lQDeWIUcBvjC3oubN7utaBBkN4E/vx21ohUZ7CfNcjaCRN6/VxCxUceaNKB8JihfbOlr90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OeXYd5u/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vXUsDjFq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OeXYd5u/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vXUsDjFq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774619261; c=relaxed/simple;
+	bh=ETu1mxBwykyQb7lRYZO43uSaHPXnM7oaVSiLyiX3Y2Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UX5ev0w94UCVmmdjkT+wZ0G4GqAvyiYrlwnrruMawOc8iGf3rUIDXddQsF7hxApntXTO0qCg1LQAQwJVpHtmh1CVROAlaMcS1H9GSsvni0hUHja39HT8M/3ytU3kF344sPEB3+6ceeFg4GHHY6zqEYEe6MNm0CrM1LM23/vaazs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E9Fqpupp; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OeXYd5u/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vXUsDjFq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OeXYd5u/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vXUsDjFq"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9892E5BE12;
-	Fri, 27 Mar 2026 13:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774618991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ClFCgBd5f2f047jCPD6zJpSGFLfNlMz6by/f/vMf6vI=;
-	b=OeXYd5u/VRT/qj7lYMO3CJsnkbh5VLWWkeTEJKXPWjJshrFWhDRVRYtLTW0KWdIHZAVT9J
-	Bh60glIXog1li/Qk0fKmtY+pIZPzxLvWI6YNoiYFdzeOcHmvNTQJqjhJpHaLkO89Au07UQ
-	QdnHHMY78q4XH+lCN5Tz1vgOWVJ2pOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774618991;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ClFCgBd5f2f047jCPD6zJpSGFLfNlMz6by/f/vMf6vI=;
-	b=vXUsDjFqdysJeUeSW/2HlBqupByCHPXMwdJeuAMFQ4aeGNNp22KEP62QYidl45goRle2d3
-	xNVayzb/ogXcWkAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774618991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ClFCgBd5f2f047jCPD6zJpSGFLfNlMz6by/f/vMf6vI=;
-	b=OeXYd5u/VRT/qj7lYMO3CJsnkbh5VLWWkeTEJKXPWjJshrFWhDRVRYtLTW0KWdIHZAVT9J
-	Bh60glIXog1li/Qk0fKmtY+pIZPzxLvWI6YNoiYFdzeOcHmvNTQJqjhJpHaLkO89Au07UQ
-	QdnHHMY78q4XH+lCN5Tz1vgOWVJ2pOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774618991;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ClFCgBd5f2f047jCPD6zJpSGFLfNlMz6by/f/vMf6vI=;
-	b=vXUsDjFqdysJeUeSW/2HlBqupByCHPXMwdJeuAMFQ4aeGNNp22KEP62QYidl45goRle2d3
-	xNVayzb/ogXcWkAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B9A94A0B1;
-	Fri, 27 Mar 2026 13:43:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZGXvFG+JxmksIwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Mar 2026 13:43:11 +0000
-Date: Fri, 27 Mar 2026 14:43:10 +0100
-Message-ID: <87a4vtqtg1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Phil Willoughby <willerz@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/1] ALSA:usb-audio: Disable Arturia Audiofuse 16Rig
-In-Reply-To: <3610608.LZWGnKmheA@linux-workstation>
-References: <20260319143212.149090-1-willerz@gmail.com>
-	<20260319143212.149090-2-willerz@gmail.com>
-	<87fr5lqx90.wl-tiwai@suse.de>
-	<3610608.LZWGnKmheA@linux-workstation>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E9Fqpupp"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2addb31945aso17091675ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 06:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774619258; x=1775224058; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=no0uujIoaeBaN0lzDrFX2OOJtop28oGgvskS3mBh/+k=;
+        b=E9FqpuppDELxNj/zMCzvlADh1wvR3xYIA64/67FvjS3NO+c7tfsqbqijznQIV+4ReJ
+         IoAQ3QTQOm+LXr1S8au/U+IkjNFm+f4u2uxSC9KDHD2MeU590SU8oDD9JvtBJy9etXgi
+         +bZkU/E1wP90VFpmf4gQ9IgEmfLhvdonwaFRDjm4UmACazNbExWwDtHbAv6H0mPuioSM
+         jqxXKRhfMlGUkmmYuRbh6VNq4162uebVdtmKtPMvlKV0eK/Vld7ySFA9XaZaSTxeYfsH
+         XrJrdgr9rH5ZQN+YDdyLgSifJYZ0PIBlYv5C6IG1mSVcuJhWvFM6XNsUtSv1UEOE/EWy
+         F2Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774619258; x=1775224058;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=no0uujIoaeBaN0lzDrFX2OOJtop28oGgvskS3mBh/+k=;
+        b=jANU0I0R00AF6dlNac09Cs82lvyN787ODFalt9OcWhgILeAHDDMNiBHNAg0c19K6IA
+         r0nf7OMhCwcg6m1CLrG7DU5+ipz7k5pAnbS1NL1oUYaMK1cB7fYiYbdN5rBqbUeO0BiS
+         PDy0mohF7rxS1Qh8nuhTp7YoSaFJKJ4kXmkR3/Ra8A64ZThMrTpaVFMRNm8ZRBHBAbfk
+         49R3IlwQpi98cyGaS98kT8IyAesA/lfXSdAqufGW/Al/vLAb3JSLiXeZIoArOb8+kQro
+         0QsjICoviqtopTDfWl+f0U6/w1q/ttKuoWFLxtzDI+a2eeempWZ/DzpzEvt/1u023Kqk
+         s2wA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjYj23CtPj9XG6fBC0T3wSrOLxaKNOfOxVC7RBy/mKk1ElrRURZitjqSm83JLNRo35039P7EvbSUmQXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGOYqFIsc/WXeSQtE7UWSAxgHj4rKVbxxlq74KtBD8W0o2pHYb
+	sVoD0zMp2Bo8FQ1B5FGjdVJd09f9TUyVcKSqwHnP32xy5s7/YzAzj25O
+X-Gm-Gg: ATEYQzy5RP0pL0vJD5rHx4TMGQ6n6bXiPxSWMa7fBJqMS8FmHLcqD8DRVxd9c0YBw75
+	i3lqPRLLj23Pjywa+aSJ3r2/BJHueUc/ItynxW5heq2o8kTuSC6NtcjAhKOlLAXvu5fkLrOphK5
+	8i87W+0icrCchmjfmf90WCDml4Rr9QkhvBfxqKHf1mdzzKme5lO/jgc7rGEPp+Ra8ZYwuhrmp0R
+	uHayUJt21o73cCfvvdAJLwbgto2mGf5Yj6WiPsgBcLdEBMySZRoLLTgPNr1j8RxbzjFSXZ/cQ0L
+	ayduyEpA46rvGoerWdRkFMdX8+lzzi0Ucv/z6PTvrl8qfuX7D2KZnVvG9DnlKdnDToh2RyTVpkf
+	9WkzbwHd8dxMhLqhpJCcwXyn8fhV5cU7vFwgAIhGPgIxOp8b8iBMUNti+Trm/goaJ5TMF5eR5F/
+	ahdwNcaOPt+ToWD9Kny24Hz2oo5F6U
+X-Received: by 2002:a17:903:8cb:b0:2ab:3cba:42fa with SMTP id d9443c01a7336-2b0cdd0555emr28331695ad.46.1774619257719;
+        Fri, 27 Mar 2026 06:47:37 -0700 (PDT)
+Received: from snowman ([2401:4900:614d:8cb4:a69f:d838:ad5c:7358])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0bc76b6casm62403545ad.16.2026.03.27.06.47.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 06:47:37 -0700 (PDT)
+From: Khushal Chitturi <khushalchitturi@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	koro.chen@mediatek.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Khushal Chitturi <khushalchitturi@gmail.com>
+Subject: [PATCH v2] ASoC: dt-bindings: mediatek,mt8173-rt5650-rt5514: convert to DT schema
+Date: Fri, 27 Mar 2026 19:16:49 +0530
+Message-ID: <20260327134649.31376-1-khushalchitturi@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 27 Mar 2026 14:22:01 +0100,
-Phil Willoughby wrote:
-> 
-> On Friday, 27 March 2026 12:20:59 Greenwich Mean Time you wrote:
-> > On Thu, 19 Mar 2026 15:32:12 +0100,
-> > Phil Willoughby wrote:
-> > > 
-> > > There's an out of tree driver which works for some use-cases here:
-> > > 
-> > > Link: https://github.com/WillerZ/arturia-af16rig-driver
-> > > 
-> > > Signed-off-by: Phil Willoughby <willerz@gmail.com>
-> > > Tested-by: Phil Willoughby <willerz@gmail.com>
-> > 
-> > In general, we don't care much about the out-of-tree driver.
-> > If it's upstreamed, of course we'd love to help.  But this kind of
-> > change is no-go.
-> 
-> I'm happy to work on patches for an in-tree driver.
-> 
-> It would need the patch chain you sent me that replaces the
-> hardcoded channel max with MAX_CHANNELS and makes the channel mask
-> 64-bits, because it has 34 channels.
+Convert the Mediatek MT8173 with RT5650 and RT5514 sound card
+bindings to DT schema.
 
-If it's confirmed to work, I can submit and merge this beforehand.
+Signed-off-by: Khushal Chitturi <khushalchitturi@gmail.com>
+---
+Changelog:
+v1 -> v2:
+- Used two separate entries for two phandles.
+- corrected positioning of additionalProperties.
+- Fixed commit message to match subsystem.
 
-> I'd also need to add one or two new quirk flags or device-id matching
-> branches: which approach is preferred?
+Note:
+* This patch is part of the GSoC2026 application process for device tree bindings conversions
+* https://github.com/LinuxFoundationGSoC/ProjectIdeas/wiki/GSoC-2026-Device-Tree-Bindings
 
-Well, it's hard to tell without comparing both changes...
+ .../sound/mediatek,mt8173-rt5650-rt5514.yaml  | 41 +++++++++++++++++++
+ .../bindings/sound/mt8173-rt5650-rt5514.txt   | 15 -------
+ 2 files changed, 41 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650-rt5514.txt
 
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
+new file mode 100644
+index 000000000000..ed698c9ff42b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mt8173-rt5650-rt5514.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek MT8173 with RT5650 and RT5514 audio codecs
++
++maintainers:
++  - Koro Chen <koro.chen@mediatek.com>
++
++properties:
++  compatible:
++    const: mediatek,mt8173-rt5650-rt5514
++
++  mediatek,audio-codec:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: Phandles of rt5650 and rt5514 codecs
++    items:
++      - description: phandle of rt5650 codec
++      - description: phandle of rt5514 codec
++
++  mediatek,platform:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of MT8173 ASoC platform.
++
++required:
++  - compatible
++  - mediatek,audio-codec
++  - mediatek,platform
++
++additionalProperties: false
++
++examples:
++  - |
++    sound {
++        compatible = "mediatek,mt8173-rt5650-rt5514";
++        mediatek,audio-codec = <&rt5650>, <&rt5514>;
++        mediatek,platform = <&afe>;
++    };
++...
+diff --git a/Documentation/devicetree/bindings/sound/mt8173-rt5650-rt5514.txt b/Documentation/devicetree/bindings/sound/mt8173-rt5650-rt5514.txt
+deleted file mode 100644
+index e8b3c80c6fff..000000000000
+--- a/Documentation/devicetree/bindings/sound/mt8173-rt5650-rt5514.txt
++++ /dev/null
+@@ -1,15 +0,0 @@
+-MT8173 with RT5650 RT5514 CODECS
+-
+-Required properties:
+-- compatible : "mediatek,mt8173-rt5650-rt5514"
+-- mediatek,audio-codec: the phandles of rt5650 and rt5514 codecs
+-- mediatek,platform: the phandle of MT8173 ASoC platform
+-
+-Example:
+-
+-	sound {
+-		compatible = "mediatek,mt8173-rt5650-rt5514";
+-		mediatek,audio-codec = <&rt5650 &rt5514>;
+-		mediatek,platform = <&afe>;
+-	};
+-
+-- 
+2.53.0
 
-thanks,
-
-Takashi
