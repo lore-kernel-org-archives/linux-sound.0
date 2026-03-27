@@ -1,119 +1,90 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3874022097
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E7B3EB809
+	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 13:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774618574; cv=none; b=jm8lAItTPK4e2megt0EAzVeXM5bGv938DgG28TiCv3c3q4i5XvS+9J+ULXet5MbIX30yDhoZHh4VhqUmncaPiaol8glc09JpinI0S+aj9ZNP+8mp2M7e5f9LexNmN/qQBi/Dho0vQYpFHorYyy2O/iRtgzn7l962JOwsnQovyxo=
+	t=1774618927; cv=none; b=k0CU6Ogx/ThSrU1T6/szyaIz0LwZ15zkIQOpPrtJjgPN36My0Ype2/EoPNwDduH8BGRMrMKgvkM2ulLM9oLQ69dEZcEEnCt+tnQGYuuMRReiv5R5xRU+RE4iVlmcACXFGJ8zZZHmsqjJSqH4p+L8cN/0yNPCJVoXf9uHASlDppw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774618574; c=relaxed/simple;
-	bh=caDXwRT4IdAubwGVIsaYbrlEQg1KHeWZOprnqhUU8uc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lwA+onxeDApyCIUiiW1iZUgh6LCwU1DIKZY09Syn1hZDe6jw20pq+FTzmg20uc61CeWjDwUSSWc5u8Qv44YK5v1IbVbWOxZ1SXyVxe6E7TwVW8ibeVdniIizRR22XjYwTbUp7Tyl/GpyUqLuMrGkExIZGE3ZOErJIeer1Cu2UBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjsACPst; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1774618927; c=relaxed/simple;
+	bh=Ox+qrB5YDGUO/XPQDjXf8/8oRKmaK1JQE7MGbQk10Oo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qIglt33dRkVwRMAIXfE9hzqml6ZUEm3iDNr/0q474RPS/L4XhkLvX2dFI2y2rQ+qT+CujQRl4m0lk79RH9Kf/+BcabnHS/cGygNdjmYvZUlWMOA2zwXtKzCl+TrydEooTN6qDzVZviUvszoFD88EKxlH+tXJ5Q4fCDJEtzOxDeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=As05xZkP; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjsACPst"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b9b190easo1489598f8f.2
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 06:36:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="As05xZkP"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-486ff3a0fc1so20951895e9.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 06:42:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774618571; x=1775223371; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gXFoVdYRjEqv+NaSvAeeFGV4EJzAS53wkG99S/k++zA=;
-        b=LjsACPst9LQqp2xQ5MQgbsXr//tQq/CJLz8mdz3lyjlfWCzhYb5nccUt3m5HVW661U
-         hQJyRF8vfUTaAb+sxpVTmSDtjdvwoQv34XOSyciKPzTZx+wzAopOQvrvue/MficKlMw6
-         BF4HZtn0UAF5hjQII2Qfn/NANyOC/cKjFHAsCbhNey0EwGtZN4WNzKZ4vGimotfWOTfN
-         GbTAsOwc5DnNkvkOZ3ZYOQ6SEzxbi43tFDQfLdQYkQkUocoxO/iJ6QCXkeW0xXXzL6GA
-         oJLUOBzthBo3BxhCaBD11VNDKp9ScV2KvKm0T+Q5van6taQFgJqFv74E7R6zTDgU8smn
-         A63w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774618571; x=1775223371;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774618924; x=1775223724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gXFoVdYRjEqv+NaSvAeeFGV4EJzAS53wkG99S/k++zA=;
-        b=eBLKhwYpRrnImewHF0cKz+tE02twvf9Ox4w4PnOkLVA5g+vNnyYBnPKpTvmcGQTpU3
-         V/BMpNtaRj3U7y84UMixWQTYOIT2xrkLcy5dvOfw4c9SFhSUz5fjPJG2JHK9Nvh/r9Dx
-         ZKQhPDr/QvA5+cqH3FHhRldbejeOoH3usEdVHhtZpjTLGN5C2npbCQzOmXbb5K5gjsMk
-         F+Yf4EEbit0LPojLakUrzr0XgA4Ss/fBVY6erMbxVxMuaBgHAOfH8C1YsUfMW9d373eP
-         ZLe2E8oAswYukvPBU2LyhR7kMRPmT0DN3ECgvqfM4G9fxG9nKLs9c1SvHLhpA5CoMYTl
-         MmsQ==
-X-Gm-Message-State: AOJu0YwR92tbzIC+HDyRjQ62fZ8sC5aXwqMMT2mMBM+Zh+fJ020fuK6Z
-	K1d/1AtaCYc6Xtex5SHG8h3wazXg/LoCUleXygqO9Nly7oZ18iQ5YAhOt+YsPtDp
-X-Gm-Gg: ATEYQzwpfn/piOuKxsuaqOz9xr/1dZUjHwSduPUGxgs4gI1jdeFcoc12Ivww1x2arWE
-	8jOwW4C8WP4F2mx9Gia0pV4jOJv9Cw00o5FPeJ4CLlULuoUhaiTolRYF012RrVEdAvyZnJ+noaV
-	fmMSq6E5lCmKY1bc2Uyzorbi7xUGwW5+hJvXjX6dsDUhRUhYKj5UqE6DLkMO8SG5vmtPfxjtKYu
-	c2XnLjawMngoJHiID7Zib5xHGX5e5H2ENNtTKy0oHfAbMYzYNk0BwPKrGFJRtHPskf1NODeREpI
-	SVkuPesmnI3PcUpzShMK8lmVzseKV0IIfyqIQ5XxuH+KWe1lve1+6vqQqnj/L3Sycjrf/0JUyn9
-	7ihRM/Zm8BgW9KSCD2p4vZseRdP4Y2YpfCEHiIbzC+kodSGT4/XDWEKbV5R/vLv8SPc0kDVCBbl
-	1i1M+rr7ydwIBWVxdKTuegSAHpaRl5YhZLK/vcZnLo
-X-Received: by 2002:a05:6000:2681:b0:43b:3e40:222c with SMTP id ffacd0b85a97d-43b9e9e87bdmr3998810f8f.26.1774618571223;
-        Fri, 27 Mar 2026 06:36:11 -0700 (PDT)
-Received: from linux-workstation.lan ([5.133.45.75])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b919cf1c4sm15153101f8f.23.2026.03.27.06.36.10
+        bh=on6G/EASuxN7jWALPPtJ63hmpgur/wp36mOVxcX27EY=;
+        b=As05xZkPRHkYVAjtEzgSw5/y/cYquPAKNvPnYGat6fHZEU+vbfCdMdnc897fAcmYvI
+         Wkoo+ntwAiJTrAsK3vSqMQrs67kazxijqrqWbORo5u6/7rCVHl7T1xJgBuZUgikMu/qs
+         CfQ0vUv8CSKp/ha0liNJTar1CKodCkxm5d8XAf0C7GIn7mqYuMbw5b1DYl+HbMuZUZYV
+         Q5XWaIt1X1FZjADaoiOG6j8+/8rz9iLNsGJ0/JES2HbrOg8lk4JpDACaTIRbUvZjHJIQ
+         K8iNnl1uymrkS8T25QmXmeJ0H15kgksr4u3S8stWR+brgjPKJXXNJdVJz+gPwPp4HLNI
+         2Suw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774618924; x=1775223724;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=on6G/EASuxN7jWALPPtJ63hmpgur/wp36mOVxcX27EY=;
+        b=e/VqogtcVoF7CzscuDkb/UmXaInnSOuRG4b0mPqLqnhsZwznQ0heVvIlw8cxF7yFSe
+         yEd0VHVu+zC0TYmdLYVK7q5ZdkxMc/xXyYhLDzYn+nP3BISxNtgM1D32OmqTlF+hne0t
+         IGD4R3jUf19jtILH1SDFBIi3rWEE+Ij5Au0cBOy0ujnkO3wo83pHX5kDWZRCsdmai1FF
+         Bo+1E2bZWh4wGrDqQfi1F6LvURiy9+HFOWUcLZ4PuXlRD2Tcz92stKYOeK4IEADkComz
+         eWoYMLAYUdue2n/+q5DuncwyLVGiPUd+NrKp2iE/7SiDHfCG1plfr7cZBR1RVAFM+tGR
+         hNWw==
+X-Gm-Message-State: AOJu0YzD+XQ8ydxU6o8DQeHW4FUNG1T7D6zVqfrtDIiT8bq04Y5VO50W
+	k/aQoSBOh8vPl522ieduJXUnXJo03D665Z2w2r2RhYZnlgMPpWb6SJa/9Vf6YnCN
+X-Gm-Gg: ATEYQzywgDRnrPj4UNFJorcW/il4sObqUNMDa8lHW8NlEPGdfphs1i2jxlRod1IdAiO
+	AP+XBigWPy5AVvQRKZ5jZ/iyxh6sc+cRyLBQPvmH3zQ8rXSQ2xkWAbDmXAloO/sGumHEc1Q2Zx1
+	xrOyOpg9bzLnusORv8ie0wE3YxjUF73tHM5E97zpPmqotQR+0zTroj5J5TiT8W0xvx6QFn+QO0r
+	ru5ut+DIrD6MlWuTg25B9iXlHHlp/wDpcj0KGH3FWGTHiauT/oFbR9st25F1kTHmkMwfa2fR7ud
+	j3rM4GXK32CgcsEWVpbAe6P6O0LU6O72Pd76gjEJJkKlRQRkDsp3M5oj7MVDNS/o2O1bI/3go2m
+	dYqXXRx7VuumVeDSkxp7i8ZtTXxgEHlsfCw8wFvldshx1K9LibdTT+6U/IRQdvu26Gy91fRao9U
+	u2/jUaeJiAe3r11+1b4m6A2a2wra/wcZAt7s0p
+X-Received: by 2002:a05:600c:a31b:b0:487:716:2fa2 with SMTP id 5b1f17b1804b1-48727ec3c1dmr35473225e9.16.1774618924289;
+        Fri, 27 Mar 2026 06:42:04 -0700 (PDT)
+Received: from linux-workstation.localnet ([5.133.45.75])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c9f0afsm170597795e9.10.2026.03.27.06.42.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 06:36:10 -0700 (PDT)
+        Fri, 27 Mar 2026 06:42:03 -0700 (PDT)
 From: Phil Willoughby <willerz@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Phil Willoughby <willerz@gmail.com>
-Subject: [PATCH] Add Line6 POD HD PRO support
-Date: Fri, 27 Mar 2026 13:35:57 +0000
-Message-ID: <20260327133605.36834-1-willerz@gmail.com>
-X-Mailer: git-send-email 2.53.0
+To: Takashi Iwai <tiwai@suse.de>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: USB device with more than 32 channels
+Date: Fri, 27 Mar 2026 13:42:03 +0000
+Message-ID: <2026703.7Z3S40VBb9@linux-workstation>
+In-Reply-To: <87v7fjbsxm.wl-tiwai@suse.de>
+References:
+ <F1B104A5-CD6A-4A26-AB46-14BF233C0579@getmailspring.com>
+ <87v7fjbsxm.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Signed-off-by: Phil Willoughby <willerz@gmail.com>
----
- sound/usb/line6/podhd.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+On Thursday, 26 February 2026 12:17:09 Greenwich Mean Time Takashi Iwai wrote:
+> The current code has even a lower MAX_CHANNELS (= 16), and I guess
+> more than 16 channels don't work perfectly for now.  The 32 limitation
+> above was merely for fixing UBSAN warning.
+> 
+> Below are ad hoc fixes.  let me know if this works.
 
-diff --git a/sound/usb/line6/podhd.c b/sound/usb/line6/podhd.c
-index ea1324c22f46..841b64479252 100644
---- a/sound/usb/line6/podhd.c
-+++ b/sound/usb/line6/podhd.c
-@@ -28,6 +28,7 @@ enum {
- 	LINE6_PODHD500X,
- 	LINE6_PODHDDESKTOP,
- 	LINE6_PODHDPROX,
-+	LINE6_PODHDPRO,
- };
- 
- struct usb_line6_podhd {
-@@ -442,6 +443,7 @@ static const struct usb_device_id podhd_id_table[] = {
- 	{ LINE6_IF_NUM(0x4159, 0), .driver_info = LINE6_PODHD500X },
- 	{ LINE6_IF_NUM(0x4156, 0), .driver_info = LINE6_PODHDDESKTOP },
- 	{ LINE6_IF_NUM(0x415A, 0), .driver_info = LINE6_PODHDPROX },
-+	{ LINE6_IF_NUM(0x4157, 0), .driver_info = LINE6_PODHDPRO },
- 	{}
- };
- 
-@@ -542,6 +544,18 @@ static const struct line6_properties podhd_properties_table[] = {
- 		.ep_audio_r = 0x86,
- 		.ep_audio_w = 0x02,
- 	},
-+	[LINE6_PODHDPRO] = {
-+		.id = "PODHDPRO",
-+		.name = "POD HD PRO",
-+		.capabilities	= LINE6_CAP_PCM | LINE6_CAP_CONTROL
-+				| LINE6_CAP_HWMON | LINE6_CAP_HWMON_CTL | LINE6_CAP_IN_NEEDS_OUT,
-+		.altsetting = 1,
-+		.ctrl_if = 1,
-+		.ep_ctrl_r = 0x81,
-+		.ep_ctrl_w = 0x01,
-+		.ep_audio_r = 0x86,
-+		.ep_audio_w = 0x02,
-+	},
- };
- 
- /*
--- 
-2.53.0
+This works, tested on my 34-channel device.
+
+Tested-by: Phil Willoughby <willerz@gmail.com>
+
 
