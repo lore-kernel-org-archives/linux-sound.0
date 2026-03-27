@@ -1,104 +1,94 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D98B3F7AA3
-	for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 17:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774632937; cv=pass; b=nb20ULZOj1ueYKdsB3hPDi5EpiV5xNxvtoGLiCmZ+N02SNbtt7PhvGPhVi9pqAAvuvhPPNEBjRwLaW/jUBta10miYbOsTaNFzI62o8MAskWHgmJwekyKZiKi0NxcsO8JulCiCwClCN7jwJK+z8eZvz3mIL4N/w1qAnPv2kTJ8Zo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774632937; c=relaxed/simple;
-	bh=c/X8plu8x3JfXTP0K2c2B84PgHiiBxWUTLQqOZLIK3s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KThh66qxYO36b0ltBmEX8SdeTYFWM4xIFPRvaDWPTK6ZLRl/URJuE4XMOVaTthcLGWV/ceq57tV1Yv8Gn4Qc3MP8sHzJGaYMoHp8YxW4m+I6g2GhFYXEFi+GUrKL57rTbN+6Ai8VqKpYZUr74AK+OL8IuVHl01im1DrdBSPXjO0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RTyp30d1; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6412B1F1518;
+	Fri, 27 Mar 2026 18:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774634506; cv=none; b=qHV3UfLMqoAjsZ1bY73DZtfiB9Pv7mkicuT4FGTazR2IpHW6mjUqunYmrdATd6Gj6bLJ4aaSaiKAJ6fDpVU2hTiW4P1lAzm8WVsAMtOQIyX5g6r3kaBQAUYTkj7LYlhlGfGpv6JyRxYST/ybzcCwxM2DVRJo1DsYykDhiMmVD4w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774634506; c=relaxed/simple;
+	bh=uNRa8D0J+EJOvxqa0yJuMIxQEE2oDod7RVPwmY1lXBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnfwwzdBCvNFSFz8FXpIyZJxGejSqy2Ru2XpXDxoLEyBVqrAzyoFvWrvMJiFBYVNt9BrEsSeT6vNJpbXnLzumjuWLkglm13CA5Ilnzmjjbp+i8yfm5qMNSCZo7YAsVjyM0cCCAfK/8sPhEO2bfAhlVvnPkMBosg+j7bzb1Tb+6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJJjaQZG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RTyp30d1"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439b94a19fdso2235440f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 27 Mar 2026 10:35:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774632934; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ihx+EASc85fzKtxoCoGMAQsIw6FemoQApJurOGEqjQCsHGmydPyyJStZZEbSJM8+ZB
-         xwJM7M/EirLCdUVv/0iJcLNM2xxWP+TJk/CbYesF/NXXaOgl5HLr10Sjfb0c/rTJDCi0
-         y9vpqli+awq0UgHfj6IVGdLpFIcaibwAw/NYOjKubwUYgmlnfa5icNPz0gyUl2yaChcW
-         BmlT3ead1PsZkSBmFA+F+yr1WMT3xDZNBzvfMTPDquk4LzJl52ApEhmZnzURKC6Sef14
-         baFbeov8JXYhIF2+b18pX8e3tIhJxqLmvA/OFqWTKmileKZCcdDUypKvHjKPxMkcdUcW
-         Jh8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=c/X8plu8x3JfXTP0K2c2B84PgHiiBxWUTLQqOZLIK3s=;
-        fh=u7H4xdaXC24/sxL2yaGRGyf9vjlMVp4HnIwNtBDvJsw=;
-        b=gLLZpJqEeuetnl4Xvsg9tXRL9Q7tL6W5ragIKuyr3T/mhvKLmne94QrtIQ21USsq/L
-         1GlyjKRBeQbeTSpHfUn4OOtKH6yEHN1fkctF7xk4sDd9cfOwupU6LwcaCC/tY9tKb+aW
-         0WO4HkjHYGeiYSah7IC5g4nKVVxAD6DT57AQv5rNxmOIhyliDO279HOkHuxpSFVqRxFS
-         nS4wm2FHj7kZGUl5tyC5uy3OgGeiZkPxpMfy75wdTXt4XUdnqLjJWbMi0hRDdgu1w3De
-         aqkubsR76Ra6fsXXYJ4v6Pg8/NREq9lnWZPRE4g1BUarz0lb03ePkpGAJowued/+aEld
-         TV0A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774632934; x=1775237734; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/X8plu8x3JfXTP0K2c2B84PgHiiBxWUTLQqOZLIK3s=;
-        b=RTyp30d1oQsMeM9jCgFRNzJCPZAMQBb6yV8W5MOskjkUmf/5h2j05GRMTNsJTTp5KR
-         eIWsQ3rHUcGSwr20XzqGate976EyoY8bIQ06MNkqVXbCvLwqXnV1EDiN9Mz5/GMv7Zez
-         dNuq0XSvtugGWNepCo0VwG1r1mHe6V1IVvdmvLNI7ggwhBpw6p7eQC8p9YBgLaNkZ/Z0
-         AsQDGAGk7zrK6fmEnHI4/QnmciVwFOZRceN+qkoATSwwLjCh715CDgfOLKmiFwOo4Men
-         xRn3H8ebbpYLTEM+cbuEGGwQAnBQp9Gbr8hUvUqMXyBnSvqvZCjT/k3Oy/7CCP4ysykb
-         nrcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774632934; x=1775237734;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c/X8plu8x3JfXTP0K2c2B84PgHiiBxWUTLQqOZLIK3s=;
-        b=afLMSIO5kZnoTfR/24AnhHhdfW1jGtDYaE4XFVkthSGcWjfE9zVG0SphKKD2o3h7V/
-         vrrja1u6n/jKKDcjnOIcLSF1elHSlVifXc5z6UtlAS6f5j/bD7Byk02j97fg3ziTt6Eh
-         68ReNgyFOARkzkPqEEplpI0GEu09u0utDrFMpFPVv8ltCuSBqLr1czlSn8fFvPcfdhPH
-         mjwy92R/nJwrWoUGUBIlXoaz5cmwm0bV7gg5/7SRS7waSviVIWYLtKpZ26bbj9ZxsyXu
-         VrLFoM0xa+rO8Wir/P8Drt6IAgbGookx/vZXII40uJMGlN04hlLJWWBuYTg9sF/rVzDB
-         sUTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXqRX03WUtH2Fwj1l3jXV03Fdw9gMFUWPbv+0n/jIUIOunffKTyGZiSfn8tEfaqzhgR/VQM4oNdgX1+nw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSqKpZgpSMw2vmvXXW77dkswY4ZPetOAeaPzmWQrvfUdqrRUdV
-	d5XZIj8RQe/SpP4SBQ5CZB/WG+gx4X2do4pydoWoloTPeK0/C0oiveMwATjRrUZHR5sof1RV3Yv
-	dIPhJhb9VUNQhq11MYHcJ1W7L+Fiv1d8=
-X-Gm-Gg: ATEYQzwRanENW5WSUVV8r8UEEfojAeWdaxtY1lt4EHbRGxOZJ+VeN2bkKeT92TD2DQx
-	n8u/qUbLG1aMzF05JH2BFs3cx0CvievdIUSEbWdWTCZrfUytlpDBa8BfCZbNShAQVn8qgXfMQ4E
-	1g/Ae4R6F5g7c9DXM8ENYC44YZxae5GmiG4qxTw26+VkREQB+UMOd6uc1zYemkUWY1PR0boig5V
-	iOwhVVqwGu9Xw/uSniBhxwO0n8JfTDjMYyuuMjc+uyT3+jyQduuAvsCKiugcildkF7RfSwwRW3Z
-	CmzvFDIQMQQ5mtXQDAaxkW1zzfbduMRp+FQ7q2330v+7MHXdtozeMoJsPIfdkau4e5D/uQ==
-X-Received: by 2002:a05:6000:4313:b0:43b:42af:75e with SMTP id
- ffacd0b85a97d-43b9ea62daemr5657789f8f.44.1774632933732; Fri, 27 Mar 2026
- 10:35:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJJjaQZG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D771CC19423;
+	Fri, 27 Mar 2026 18:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774634506;
+	bh=uNRa8D0J+EJOvxqa0yJuMIxQEE2oDod7RVPwmY1lXBc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KJJjaQZGWMhT1b1EXk9nhtw0fopECU8hxMgKNJeoGfvIHzuOVlBpWV5b/kEORrLwO
+	 hxu5SgH1U5dY8p4Z8zCPXAmoej+hKguENRrSy+aycbgFAn/vdUq2/kCOoOaz4B0yCk
+	 b7cdn8FRwx6jb8YZffnHwZSFNltI3Eoz3/Ta46BLJIESseColcu1jwjdLAh2dQ/XIT
+	 +/RajgUFH6CQF/gc3GMkVkDatKA3zGszmRQGpEzg5AzSuI5tVXMSdf2uwyQCvX736W
+	 CEVzr7PMFr5+9T0RkCbRJIJqUWbRnqbWlRKRG8FOCMR/NtnPkEfwLHsbvAN/I5KlYz
+	 1eIn8aWCCeEIw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id D32A91AC5847; Fri, 27 Mar 2026 18:01:42 +0000 (GMT)
+Date: Fri, 27 Mar 2026 18:01:42 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-gpio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] ASoC: wsa881x: Move custom workaround to gpiolib-of
+Message-ID: <acbGBtY0zsPntsoE@sirena.co.uk>
+References: <20260327-asoc-wsa881x-v1-1-53dc05867e6b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327155737.21818-2-stuart.a.hayhurst@gmail.com>
- <05e1cb0a-18f0-412f-87c6-99319b18af52@amd.com> <87zf3tp6p4.wl-tiwai@suse.de> <8cd14428-24a9-45fd-9286-9d9f142b32b1@amd.com>
-In-Reply-To: <8cd14428-24a9-45fd-9286-9d9f142b32b1@amd.com>
-From: Stuart <stuart.a.hayhurst@gmail.com>
-Date: Fri, 27 Mar 2026 17:35:22 +0000
-X-Gm-Features: AQROBzDDwC7Gv9FiBUN2O0wKA63LTpqI7EaF6AnmPned2dUbb3tKdLEPnO0H6SQ
-Message-ID: <CALTg27=bxnP40aP+AjexxUMF2=hvbXnR4uurceLsJ5h839L9eQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda/intel: Add MSI X870E Tomahawk to denylist by
- DMI ID
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
-	Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org, 
-	Jaroslav Kysela <perex@perex.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rmzEYgXACgjFERUr"
+Content-Disposition: inline
+In-Reply-To: <20260327-asoc-wsa881x-v1-1-53dc05867e6b@kernel.org>
+X-Cookie: Identify your visitor.
 
-> If you end up having a good experience that could be the way we approach
-> this problem in the future.
 
-I can certainly try, but I've already got a pile of issues stacking up that
-they don't seem to be interested in fixing.
+--rmzEYgXACgjFERUr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hopefully this will be a simpler fix for them than the other issues...
+On Fri, Mar 27, 2026 at 12:10:46AM +0100, Linus Walleij wrote:
+> +++ b/drivers/gpio/gpiolib-of.c
+> @@ -240,6 +240,14 @@ static void of_gpio_try_fixup_polarity(const struct device_node *np,
+>  		 * treats it as "active low".
+>  		 */
+>  		{ "ti,tsc2005",		"reset-gpios",	false },
+> +#endif
+> +#if IS_ENABLED(CONFIG_SND_SOC_WSA881X)
+> +		/*
+> +		 * WSA881 powerdown is always active low, but some device trees
+> +		 * missed this when first contributed. It also has a very strange
+> +		 * compatible.
+> +		 */
+> +		{ "sdw10217201000",	"powerdown",	false },
+>  #endif
+
+The quirk in the hunk immediately above (and from a quick glance all the
+others) has the -gpios suffix but this one doesn't - should it?
+
+--rmzEYgXACgjFERUr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnGxgUACgkQJNaLcl1U
+h9D/GQf9Huw5s2BIFgJSnpQLtcjmsqe8Gfzyggvd7kJMRhVrT91B/4lmO94mJFqp
+6iPxlJv+AdiJ5YZvIP+iXyimy6IXLfLVOrZiaf+E2GPzOr871PHyH6CR6qd9lZNt
+ep2l4eYx52Ym/kIU2cBXZUujwK2qSNI12C8OXVtHurhvdfprwVi59Y1GBUz19Ctr
+FG8jvkTo5DQYnxZFtPamKFRg+IP57IIpN0I0KxaFMVgg5PITGW0TJZSvNu6jQ+5K
+IIcuuz6tTdBgvdGd9DeERutHVPY5FYEwy40/rgKND/bDR7iw0o6oMyo8Bkn21BPi
+b086nlQ0nm8Mlnl2ewIe0zIC1vY7xg==
+=6Cpt
+-----END PGP SIGNATURE-----
+
+--rmzEYgXACgjFERUr--
