@@ -1,228 +1,294 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A59E30F815
-	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 15:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774710442; cv=pass; b=T0YV1yEH+DkC54qf1yJ833/wVrgbveZBTrbQDWL6ygzGUgEtUfyh7c+F2g9XRzDkOdNnR6ezokonafcsaWLxPRfZKVUYxlmu7GGQiLpxmDNkwfqKlD2ucmeDM1hO4CI38d4rDkteiDQCTzwQ8Gv9jeqI1PBmpMFj0gMKSwaqP84=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774710442; c=relaxed/simple;
-	bh=+25HSy4Nh9sW/+Ht25CiiDC24+4BuXR+UDHKdcNctQM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GS3zfQFsRdbOQHlYDUQyVLDIiI5xgAtU0KCweYdcMyIfv6bniSHRGNP0FrlFokmxQhaXH8aN/aV6XybWQdXa/N/fpUr6q2k/tFUxbzEM4Pq3osBby7EuAKd089WRYat9WtoOIjg/Sw7VLG37qRT8t9ZmiDT+dhviFP8rCFvHOG0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AufogAnt; arc=pass smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344E22882CD
+	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 15:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774710824; cv=none; b=QcB/bcNT04jV5R0MClR6xcEXrSxTES3gQXGfifR+3WUzKfEmKG7PvQnvpNxgXdHBIoZk1x+/j03J2ktOa7xvle17yqblJlr9gghAy9Kiu0pLELLNhCwIDpz25t4ds90TwkAejF9ogMZCV1NywEXdHI9vkVxph3Gk7h5r7KRYEGw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774710824; c=relaxed/simple;
+	bh=KQN+Q+0XEcT3YfnJq+Bf1s4VsYz+7Jxdknmd8rC89Oc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ReAwjpSbQ6kblhfDdk1T34JKNmhoLLauPRLfEl2hSS7k+nNBhx9VdfDpLPqi7w9NRUslym2WJaKw+EsM5vMy/9jt1VzS1at/5X1nXqUFzjNy/dSLhivkBowJ+XQkzg8XDnWQDtFWht3knCFxRn+yYyFhOarrAcayQcYvz1XUYqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MdSJ2bh0; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AufogAnt"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-509062d829dso368941cf.1
-        for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 08:07:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774710440; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TlvqzBizTrydRbGcgCwyRwYLcQVjRKXrvLZe5ZgQarH/3omLFSQeUva8s/CwxwBUcp
-         45lNUibyrTrR8sFYFGAHQg93J8skpK/iBgChxXC9Sg8vttVOBBpV5Z5lNWQXutq1uzTZ
-         Q8cTf7Ts2KF25bs87sNhYISuaad1M4kBsv5zPtbFJRjov5TEo2kTuw+gakDTdjDw7ah+
-         z40HYnvEer/IGJqUrA9FoJxlMXqJMR5oL+0qLc1tKWlbqcoHT6eVfv/Rx78MVwGKTIxU
-         QOkzkp64nsDMr/YDAPQOsbF/d3c3vRSspVqsHCkiszU/nhhIlO9X8bp/Imnk/VlpRuSH
-         Wrew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MYSq0ecok7/Nk88ydJ03AyrQ9n3U+lTc9bL9MpdtneI=;
-        fh=xworoLjOFa3XTxiG33OGJg1HmhAY77YVLNELgHNI1uE=;
-        b=j6Giabuc4CV8OSDigGhiuLHURY5swoTc1j187412DEw5/nRHFIK3+Uu0f91KLUkgSp
-         E7tTi5bKft4aFjTSTLb91S3iecaj13k/h4w4/h3KqQYq80yG7bEuEHQHDs0Bwtz/6ufJ
-         L3IBDIM3kyq7927onfnfhr8Kni85p2N/5lYGHiqynqF1j3R4PkWrbU9dMfXny/GpC28m
-         G6qwmpxBcblKE5c2EaELyCpJQs6tUSf7jBVU0FSiLTIRA8gBaoE4D+TbeiPOF+neNHbg
-         3rkxWJ6OALGqQbFKn/BEa2sRqd3SNgUap7NGteRlyOAFkhEBvNEeBeVDTbE5Y7pDnk/K
-         jPmg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MdSJ2bh0"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59dea72099eso3800210e87.0
+        for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 08:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774710440; x=1775315240; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MYSq0ecok7/Nk88ydJ03AyrQ9n3U+lTc9bL9MpdtneI=;
-        b=AufogAntoJsn4YGPdKXcvWacFH7pU4PcAXa+MoYfkCIaguhP3vqKCh/sPHy3td38WD
-         byH3Xiz2vzG1wRKvZJ63aM6Jo2/nhgi5Pl+2OmKVaKzSx3vhCoPXOPdIRBqA1VfXxXPP
-         HBuD64GIDBVmN2k//fTrYMiEbASBJN4WVcNSxPxdmJt60xPiimW0Sj6lUuJwZSv7d6Wb
-         +a7u5TU1DU7QCsw2X44zzmCHi14fKD8vyVZnld63ib7PT+KgIigrA4657VRGb99NVQ1Z
-         QZfjt0nwi+/dfDLH9euqKJ8dMxHl9I/zS5yA7rrDQWRmOYf6IgbnF8/kU5LCSysSutmX
-         KjDw==
+        d=gmail.com; s=20251104; t=1774710821; x=1775315621; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G3zjdgb2UOyz+S1hvF40mn6SDMvZ4eb11HryCIsJckk=;
+        b=MdSJ2bh0PwKZ1IifDGY4Py8zMCimsXQr0vdJnnw55XXtmBHRQ8dH/3w958CdUCtTVi
+         h6OjYjRNXW9VzldHPwucl35UvqLPiYUY4pMlCDJA14q5YriZxMmE8njUc1PqbgToK3eJ
+         NNDtoG8LQPm4AgfB/oHPivo1J4fCIILvcrx7eW595xyslEUEPriVtXnJtYd/0GsqaVXy
+         E9NB/wl3T/jKFclvzcS5MYHdiqEEIjIAw9CYi/c+6KROxsVD7skYtT8owXFaM4ESg9KE
+         07CNsfCWCXPZt500XV4D/OYKSVUq+qbC5f7ao/ltk7XQV173zI8/Hw8cLCsqJeA89HmR
+         uWzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774710440; x=1775315240;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MYSq0ecok7/Nk88ydJ03AyrQ9n3U+lTc9bL9MpdtneI=;
-        b=SpTXs3pLi1/7tVybWQT3mDccU2X1QGYLSmh+NCFi2U8Imtt0U1AkW6AwxPwKPsCLuX
-         w0BsZBh7kG2LzP8rcbIsxpK2nxwKMb7V6RCIDtZ9XiZWl1urgk4ltXC+nHpplb5btlVd
-         jitHR6dkOtM88iLI0Zxpdn4MR20aFezRkDOPjxmOkMWacltN6wNSZTpe5qX7rguKYEHF
-         CisvheE3C7qU+iPE6fjGZhbcIEEDW/aDId+rGZ3X1wQty0Cb01H3E3EhVpeGupgHyo+C
-         DSG+ZRDxftD1RL1epTWCOyIoGJHfHveGBx7KxQZvKmmC+82cGyQTEZjDJGUVOmovLeR4
-         2okA==
-X-Forwarded-Encrypted: i=1; AJvYcCUi2PHjGsEb4sXN95lebUCM+HOPEvJVqupBhTF/PIBdVAxxRPZSflj8AXR/uLgHOxd8SjTK1YCFoDtfPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/n2lb3e/FLgFe4rvUm0vWTAdNw1guCQsyCPZBNNbluAcBp4NU
-	h7Sd6ISWY74f3mfPH7yxF3ba0vikSLjxV5HpE4U+cPS4AsYu+1FrP67hSsiFUJ9tYVw1Nsbg0rY
-	IXdg6rZt9GELY5KIaNuvw1IFqcobuiBeIMLp56nIC
-X-Gm-Gg: ATEYQzyGN5v5qMyzTr2+Zsoiip7tiHl8MFaNJtmZtt+/VMBMFl/Tr43rJ21S6+DjoHl
-	HLlvRdieyhv6Gi97fQBy7vh/wcw5U4A4leWqpJNwce15fo4OySyKcIqrzG2mVwzhu1Q02kBpTvG
-	cOg/sd522Y4E8mmhozKdQm3e3ZT2e2rjeUUQSE7HtEeABrtD42FP7t3R/3PkAHJ27kXSg3N2MRX
-	toMAQoqT6/AXzv1Vf46B55O4k1kXrMAf05lIqveq/ptujx4g2nwbGtHIoEIQV3QO6xWojMc7iTF
-	Gggk3AJaXxWauJl+6ac=
-X-Received: by 2002:a05:622a:1209:b0:4ff:cb72:7c03 with SMTP id
- d75a77b69052e-50bb3d40dd3mr8303251cf.3.1774710439333; Sat, 28 Mar 2026
- 08:07:19 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774710821; x=1775315621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G3zjdgb2UOyz+S1hvF40mn6SDMvZ4eb11HryCIsJckk=;
+        b=VqNQ3IsokjSBtLwp08+LrtY6JGAXZl6en50JXM/Fu33KfxhP8pNSKaGBD59yfTkhH0
+         IYDlES8gj3aqcJxWtTIEPCqh6X3rnsQ+tFN/5NcpmhCiXYrTYmxHsSUQI0X8yV8ltvPW
+         +O0sVZTQB9q2Z3DXuqo1jQlBz/23pFKVunB/cDdnczJ3Fp7yU9yPhrxA4YZh41OBJlwg
+         RqBFec4oeIDc7HXbOapiO5kUmYd1T+Wfx4yoNpT54ISGjK0aw/AW/v4nQjonYDJG/Zjx
+         /G7+W2XDUHifkQHR7zW/AvanzEGNCN/mNOKGJr2IlItkxC9tZlFz7cKS/5kzkOg+0EHp
+         qsdg==
+X-Gm-Message-State: AOJu0YxOhdwdqYtFjaDBZyAL0lkJUvvDvGQ9cpgqGc10g7GyLr5SmkmE
+	oI+fH0Jac5786GqlVgonfc5RBQrUfZv0/yBROJnt19EbiqPTZCnXqr1ZxIJf9jLoofM=
+X-Gm-Gg: ATEYQzwBv2WdO+V8QZQwqd5KdiKYDENVTiz81mBYFFfjy8d+hGtyd0bh9wexkl9cxWx
+	h3GTV8TGtjP37KlC9USN4wwsShdYbsEuGQlI9Rl7/btULZebyF7Rm84MkUelnWJUL6WKEc0Ufx3
+	aFMCEaudhq+SyLEsTduR+G9tsE5bWdczX5zXztt90kxR2BciQ2Gduyti/6ebtTv/08AXFC011bV
+	4h1DnnBUHDArsNb4RBNT+hx6eY3L4fRJS7YZs8LIy3nIhj3P0jqmOih6sPtHWaP7Wvb2i7tKmCX
+	QfyvlTOcxYMPezdcN4USeqBW9J9vdjY/fw06p/R6dx9YGzx6WA288+SHQ/vJlUlApPK1U6++vcD
+	9T6aiwiVHins0GpPZmgNFjcS2p+15fzUTcXLjkUzNHGsSdupuFa8Nd+ENeZsYJFkv93v9ZJs0OC
+	u2B2b1NCJvlpcNgWBVVZQ07VkLYTYYEA==
+X-Received: by 2002:a05:6000:2003:b0:43b:495a:a760 with SMTP id ffacd0b85a97d-43b9e9d8c74mr9608411f8f.5.1774697070452;
+        Sat, 28 Mar 2026 04:24:30 -0700 (PDT)
+Received: from linux-workstation.lan ([5.133.45.75])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21eb95fsm4828075f8f.12.2026.03.28.04.24.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 04:24:29 -0700 (PDT)
+From: Phil Willoughby <willerz@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Phil Willoughby <willerz@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v4] ALSA: usb-audio: Add quirks for Arturia AF16Rig
+Date: Sat, 28 Mar 2026 11:08:41 +0000
+Message-ID: <20260328112426.14816-1-willerz@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324203851.4091193-1-guanyulin@google.com>
- <20260324203851.4091193-2-guanyulin@google.com> <bed5a8c0-2611-464a-bfd3-b00a8648727b@linux.intel.com>
-In-Reply-To: <bed5a8c0-2611-464a-bfd3-b00a8648727b@linux.intel.com>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Sat, 28 Mar 2026 10:06:00 -0500
-X-Gm-Features: AQROBzCwP314OdG765RsMY_jZphlo5IIejJb1-BR4VDw1M_2VFoPa4yRhQk-JsU
-Message-ID: <CAOuDEK3dHL3mwjem__tqOCHOaNLa9joymncZNZBRh6py-HzUhg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] usb: core: use dedicated spinlock for offload state
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: gregkh@linuxfoundation.org, mathias.nyman@intel.com, perex@perex.cz, 
-	tiwai@suse.com, quic_wcheng@quicinc.com, broonie@kernel.org, arnd@arndb.de, 
-	xiaopei01@kylinos.cn, wesley.cheng@oss.qualcomm.com, hannelotta@gmail.com, 
-	sakari.ailus@linux.intel.com, eadavis@qq.com, stern@rowland.harvard.edu, 
-	amardeep.rai@intel.com, xu.yang_2@nxp.com, andriy.shevchenko@linux.intel.com, 
-	nkapron@google.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2026 at 6:58=E2=80=AFPM Mathias Nyman
-<mathias.nyman@linux.intel.com> wrote:
->
-> Hi
->
-> On 3/24/26 22:38, Guan-Yu Lin wrote:
-> > -     /*
-> > -      * offload_usage could only be modified when the device is active=
-, since
-> > -      * it will alter the suspend flow of the device.
-> > -      */
-> > -     ret =3D usb_autoresume_device(udev);
-> > -     if (ret < 0) {
-> > -             usb_unlock_device(udev);
-> > -             return ret;
-> > +     spin_lock(&udev->offload_lock);
-> > +
-> > +     if (udev->offload_pm_locked) {
->
-> Could we get rid of 'udev->offload_pm_locked' and 'usb_offload_set_pm_loc=
-ked()'
-> by calling a synchronous pm_runtime_get_sync() or pm_runtime_resume_and_g=
-et()?
->
-> This way we can ensure udev->offload_usage isn't modified mid runtime sus=
-pend or
-> resume as resume is guaranteed to have finished and suspend won't be call=
-ed,
-> at least not for the runtime case.
->
+The AF16Rig supports 34 channels at 44.1k/48k, 18 channels at 88.2k/96k
+and 10 channels at 176.4k/192k.
 
-We previously considered manipulating runtime PM directly, but the
-USB-specific runtime API (usb_autoresume_device()) necessitates
-holding the device lock. Since holding this lock causes a deadlock
-issue as reported, we implemented a check-and-return-error approach to
-remain deadlock-free while staying consistent with USB locking
-requirements.
+This quirks is necessary because the automatic probing process we would
+otherwise use fails. The root cause of that is that the AF16Rig clock is
+not readable (its descriptor says that it is but the reads fail).
 
-The `offload_pm_locked` flag ensures that `offload_usage` remains
-static throughout the system suspend/resume cycle. Because
-modifications to usage counts directly impact the USB power management
-flow, all updates must occur only when the device is fully active.
+Except as described below, the values in the audio format quirks were
+copied from the USB descriptors of the device. The rate information is
+from the datasheet of the device. The clock is the internal clock of the
+AF16Rig.
 
-> > -     /*
-> > -      * offload_usage could only be modified when the device is active=
-, since
-> > -      * it will alter the suspend flow of the device.
-> > -      */
-> > -     ret =3D usb_autoresume_device(udev);
-> > -     if (ret < 0) {
-> > -             usb_unlock_device(udev);
-> > -             return ret;
-> > +     spin_lock(&udev->offload_lock);
-> > +
-> > +     if (udev->offload_pm_locked) {
-> > +             ret =3D -EAGAIN;
-> > +             goto err;
->
->
-> Ending up here is about unlucky timing, i.e. usb_offload_put() is called =
-while
-> device is pretending to suspend/resume. Result here is that udev->offload=
-_usage is
-> not decremented, and usb device won't properly suspend anymore even if de=
-vice is
-> no longer offloaded.
->
+Tested-By: Phil Willoughby <willerz@gmail.com>
+I have tested all the configurations enabled by this patch.
 
-The current implementation requires the class driver to either handle
-the error code properly or ensure the system is fully resumed from
-system suspend before calling `usb_offload_get()/put()`.
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Signed-off-by: Phil Willoughby <willerz@gmail.com>
+---
+Thank you all for your time and considered feedback.
 
-If we use the idea from pm_runtime_put_sync(): "decremented usage
-count in all cases, even if it returns an error code", this will lead
-to usage_count changes during system suspend. The system might use
-suspend logic with active USB offloaded devices system to suspend, but
-uses logic without active offloaded devices since the usage count has
-been changed during the suspend period. To avoid this, a
-check-and-return-error approach is adapted here.
+There are two other clock sources the AF16Rig can use: an ADAT clock and
+a BNC word clock. In theory the correct support for those would be
+copies of these audioformat quirks with the clock changed to 43 (ADAT)
+or 44 (BNC). The reason that I did not include those quirks in this
+patch is that I cannot test them (because I do not have any other device
+that can act as an ADAT or BNC clock source).
 
-> >   bool usb_offload_check(struct usb_device *udev) __must_hold(&udev->de=
-v->mutex)
-> >   {
-> >       struct usb_device *child;
-> > -     bool active;
-> > +     bool active =3D false;
-> >       int port1;
-> >
-> > +     spin_lock(&udev->offload_lock);
-> > +     if (udev->offload_usage)
-> > +             active =3D true;
-> > +     spin_unlock(&udev->offload_lock);
-> > +> +  if (active)
-> > +             return true;
->
-> Not sure what the purpose of the spinlock is above
->
+I think that what I want to do is:
+1. Macro-ise these quirks so the common stuff isn't repeated as much.
+This will be v5 of this patch.
 
-The spinlock was originally intended to prevent a race condition
-between `usb_offload_get()/put()` and `usb_offload_check()`. However,
-because `usb_offload_check()` is only invoked while
-`offload_pm_locked` is set, the race is already resolved. I=E2=80=99m remov=
-ing
-the spinlock and updating the function description accordingly. Thanks
-for identifying this.
+Then a separate patch where I:
+2. Add the external clock quirks and locally test that it doesn't break
+anything for people who don't have the external clocks
+3. Wrap the external clock quirks in #if 0 and a comment that they are
+disabled because they haven't been tested.
+4. This will be marked signed-off but not tested-by me.
 
-> > +void usb_offload_set_pm_locked(struct usb_device *udev, bool locked)
-> > +{
-> > +     spin_lock(&udev->offload_lock);
-> > +     udev->offload_pm_locked =3D locked;
-> > +     spin_unlock(&udev->offload_lock);
-> >
->
-> spinlock usage unclear here as well
->
-> Thanks
-> Mathias
->
+ sound/usb/quirks-table.h | 165 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 165 insertions(+)
 
-The spinlock ensures that `offload_usage` is modified only while
-`offload_pm_locked` remains false. Without this synchronization,
-`offload_pm_locked` could change during the execution of
-`usb_offload_get()/put()`, leading to a race condition.
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index eafc0d73cca1..8f79a15055a6 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -3900,5 +3900,170 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ QUIRK_RME_DIGIFACE(0x3f8c),
+ QUIRK_RME_DIGIFACE(0x3fa0),
+ 
++/* Arturia AudioFuse 16Rig Audio */
++/* AF16Rig MIDI has USB PID 0xaf21 and appears to work OK without quirks */
++{
++	USB_DEVICE(0x1c75, 0xaf20),
++	QUIRK_DRIVER_INFO {
++		.vendor_name = "Arturia",
++		.product_name = "AF16Rig",
++		QUIRK_DATA_COMPOSITE {
++			{ QUIRK_DATA_STANDARD_MIXER(0) },
++			{
++				QUIRK_DATA_AUDIOFORMAT(1) { /* Playback */
++					.formats = SNDRV_PCM_FMTBIT_S32_LE,
++					.channels = 34,
++					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
++					.fmt_bits = 24,
++					.fmt_sz = 4,
++					.iface = 1,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.endpoint = 0x01,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC|
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.datainterval = 1,
++					.protocol = UAC_VERSION_2,
++					.maxpacksize = 0x03b8,
++					.rates = SNDRV_PCM_RATE_44100|
++						 SNDRV_PCM_RATE_48000,
++					.rate_min = 44100,
++					.rate_max = 48000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) { 44100, 48000 },
++					.clock = 41,
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(1) { /* Playback */
++					.formats = SNDRV_PCM_FMTBIT_S32_LE,
++					.channels = 18,
++					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
++					.fmt_bits = 24,
++					.fmt_sz = 4,
++					.iface = 1,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.endpoint = 0x01,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC|
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.datainterval = 1,
++					.protocol = UAC_VERSION_2,
++					.maxpacksize = 0x03a8,
++					.rates = SNDRV_PCM_RATE_88200|
++						 SNDRV_PCM_RATE_96000,
++					.rate_min = 88200,
++					.rate_max = 96000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) { 88200, 96000 },
++					.clock = 41,
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(1) { /* Playback */
++					.formats = SNDRV_PCM_FMTBIT_S32_LE,
++					.channels = 10,
++					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
++					.fmt_bits = 24,
++					.fmt_sz = 4,
++					.iface = 1,
++					.altsetting = 3,
++					.altset_idx = 3,
++					.endpoint = 0x01,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC|
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.datainterval = 1,
++					.protocol = UAC_VERSION_2,
++					.maxpacksize = 0x03e8,
++					.rates = SNDRV_PCM_RATE_176400|
++						 SNDRV_PCM_RATE_192000,
++					.rate_min = 176400,
++					.rate_max = 192000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) { 176400, 192000 },
++					.clock = 41,
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(2) { /* Capture */
++					.formats = SNDRV_PCM_FMTBIT_S32_LE,
++					.channels = 34,
++					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
++					.fmt_bits = 24,
++					.fmt_sz = 4,
++					.iface = 2,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.endpoint = 0x81,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC|
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.datainterval = 1,
++					.protocol = UAC_VERSION_2,
++					.maxpacksize = 0x03b8,
++					.rates = SNDRV_PCM_RATE_44100|
++						 SNDRV_PCM_RATE_48000,
++					.rate_min = 44100,
++					.rate_max = 48000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) { 44100, 48000 },
++					.clock = 41,
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(2) { /* Capture */
++					.formats = SNDRV_PCM_FMTBIT_S32_LE,
++					.channels = 18,
++					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
++					.fmt_bits = 24,
++					.fmt_sz = 4,
++					.iface = 2,
++					.altsetting = 2,
++					.altset_idx = 2,
++					.endpoint = 0x81,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC|
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.datainterval = 1,
++					.protocol = UAC_VERSION_2,
++					.maxpacksize = 0x03a8,
++					.rates = SNDRV_PCM_RATE_88200|
++						 SNDRV_PCM_RATE_96000,
++					.rate_min = 88200,
++					.rate_max = 96000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) { 88200, 96000 },
++					.clock = 41,
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(2) { /* Capture */
++					.formats = SNDRV_PCM_FMTBIT_S32_LE,
++					.channels = 10,
++					.fmt_type = UAC_FORMAT_TYPE_I_PCM,
++					.fmt_bits = 24,
++					.fmt_sz = 4,
++					.iface = 2,
++					.altsetting = 3,
++					.altset_idx = 3,
++					.endpoint = 0x81,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC|
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.datainterval = 1,
++					.protocol = UAC_VERSION_2,
++					.maxpacksize = 0x03e8,
++					.rates = SNDRV_PCM_RATE_176400|
++						 SNDRV_PCM_RATE_192000,
++					.rate_min = 176400,
++					.rate_max = 192000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) { 176400, 192000 },
++					.clock = 41,
++				}
++			},
++			{ QUIRK_DATA_IGNORE(3) }, /* Firmware update */
++			QUIRK_COMPOSITE_END
++		}
++	}
++},
++
+ #undef USB_DEVICE_VENDOR_SPEC
+ #undef USB_AUDIO_DEVICE
+-- 
+2.53.0
 
-Regards,
-Guan-Yu
