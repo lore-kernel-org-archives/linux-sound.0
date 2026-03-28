@@ -1,87 +1,87 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B43262BD
-	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 09:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DA932FA14
+	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 09:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774691563; cv=none; b=qwZkj8Tju1Cne2EVuOEEJ9wpy8mzGFwVtpkeQ7h6Jscjv74hRbfXWK4r20/i5g9vUfX4nDuJPnErU3TwqLk/PPrREAfAo5Ji2LZpozKGho7DOfs9hT5vxBc6rP2CtkMMS//iRl/zl+g5CC5LqgGQ6JfjRi5UmSQKu0QU+6zbg0o=
+	t=1774691690; cv=none; b=HliY78zVcrQeckPjd/VudPjHf+cUpXnj1cDsghQ75oivCamKP0gfdIKnc70bb9Gb4Yn7Iw9F1meqPGhYnT547LB5k8D82AuLNGjz9sALgj1EJ1IFdkgJQ45lGy6hMt2CjUybzl9VikQynk+iq6fkkykWITphO8BwiQ16LkAFSPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774691563; c=relaxed/simple;
-	bh=lNeOAqX3kbRwPNn8qFR22BYEp5Fx0hJo91+nZbE2z5Q=;
+	s=arc-20240116; t=1774691690; c=relaxed/simple;
+	bh=A+vW8vC3f4I0+WDHZHcKWZ6Q6Ye1EYYmewmv+3SoDt8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a/PhUhqYewSjr8azJe+y4wfh08b2t2pYbVSIKTPtlRrGd9UO5QLnng8baO1CAXVcmJD2Saeywf+DblH0YuPHeKZTcTvNY9pBwBbzT8QS5eDaPDINKMSG+peqElBQqWqsKYkPMR4R13tUeID6Vizr7XPdHkAcerLAetB+7DC1/GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qlH3RVgV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gDPSJgo5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qlH3RVgV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gDPSJgo5; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=WzUx3qeWTNt9kF3WglTbAcvYYVazczy9S71EB4dO/fRoAZFlSIxfnp4LG5Og4mg+JvhV0kwuvRNYDPfRSEDRZVpr4JaEMCMMzimhQTOLG1qMwljviUwEXrUdtPzMKnBhzyC0QZisLPIXAVljCY4MKbnl4BAYxssSeQtp95kPttA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sx/3OJX6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XRsZoxKl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sx/3OJX6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XRsZoxKl; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qlH3RVgV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gDPSJgo5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qlH3RVgV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gDPSJgo5"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sx/3OJX6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XRsZoxKl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sx/3OJX6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XRsZoxKl"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C4B824D37F;
-	Sat, 28 Mar 2026 09:52:39 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6562D4D37F;
+	Sat, 28 Mar 2026 09:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774691559; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774691687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/f05WWLSNQGzhym2U+hK0/L20YOZkn2BeeyzYn0fpBA=;
-	b=qlH3RVgV1ljym5GVthnsksapm8ly+m1ig/hlmySWmSbHgP9+QdGCvTcTAJEOeVweQfXEsK
-	2D6WgxBx1yX+VPHzB+eu4w/WmbAL2mJ2uau9ZrtVnvDUzfIKZmM5Rib2HfnMwZViXobg6k
-	hQK55kFIsMy/U2pEmh7tA5qrMvYAWuA=
+	bh=Si2dMQGnj6/espnNqzMGpDCimKTUH4MNPyOS49a/1JM=;
+	b=sx/3OJX6m9l+bGywAi/nUM1qlxxyrI5yFWme2JucLvzh91j1geQ9P2TSn7r+4WDHtiXtmN
+	lx5/a20U3Be6OuUhO7kys5NCkPT031zxLUooTnE6J/ouZ5nLYXMHdMb1GRjKATPTSJ5TP+
+	1gl4cyZKMYvy+3cNuq00Mzd0WYyHDp0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774691559;
+	s=susede2_ed25519; t=1774691687;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/f05WWLSNQGzhym2U+hK0/L20YOZkn2BeeyzYn0fpBA=;
-	b=gDPSJgo5fuAmBUr3M/Wp1xFLbuxqC8m5JIDAqkuJvN/4dlaWBUdF0gbRgGP2ptk+Ja3tCu
-	rzSE11IXEO9fgyBw==
+	bh=Si2dMQGnj6/espnNqzMGpDCimKTUH4MNPyOS49a/1JM=;
+	b=XRsZoxKlRbYZRdnAPfgdQpHPJduCORgRzJXaDbA91R6553kau2b0IYJerl9Q2cQmpl1zRx
+	HREluEEANvPPbDBQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qlH3RVgV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gDPSJgo5
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774691559; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774691687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/f05WWLSNQGzhym2U+hK0/L20YOZkn2BeeyzYn0fpBA=;
-	b=qlH3RVgV1ljym5GVthnsksapm8ly+m1ig/hlmySWmSbHgP9+QdGCvTcTAJEOeVweQfXEsK
-	2D6WgxBx1yX+VPHzB+eu4w/WmbAL2mJ2uau9ZrtVnvDUzfIKZmM5Rib2HfnMwZViXobg6k
-	hQK55kFIsMy/U2pEmh7tA5qrMvYAWuA=
+	bh=Si2dMQGnj6/espnNqzMGpDCimKTUH4MNPyOS49a/1JM=;
+	b=sx/3OJX6m9l+bGywAi/nUM1qlxxyrI5yFWme2JucLvzh91j1geQ9P2TSn7r+4WDHtiXtmN
+	lx5/a20U3Be6OuUhO7kys5NCkPT031zxLUooTnE6J/ouZ5nLYXMHdMb1GRjKATPTSJ5TP+
+	1gl4cyZKMYvy+3cNuq00Mzd0WYyHDp0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774691559;
+	s=susede2_ed25519; t=1774691687;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/f05WWLSNQGzhym2U+hK0/L20YOZkn2BeeyzYn0fpBA=;
-	b=gDPSJgo5fuAmBUr3M/Wp1xFLbuxqC8m5JIDAqkuJvN/4dlaWBUdF0gbRgGP2ptk+Ja3tCu
-	rzSE11IXEO9fgyBw==
+	bh=Si2dMQGnj6/espnNqzMGpDCimKTUH4MNPyOS49a/1JM=;
+	b=XRsZoxKlRbYZRdnAPfgdQpHPJduCORgRzJXaDbA91R6553kau2b0IYJerl9Q2cQmpl1zRx
+	HREluEEANvPPbDBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91AE04A0A3;
-	Sat, 28 Mar 2026 09:52:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FD454A0A3;
+	Sat, 28 Mar 2026 09:54:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OYSgIeekx2m2RAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 28 Mar 2026 09:52:39 +0000
-Date: Sat, 28 Mar 2026 10:52:39 +0100
-Message-ID: <877bqwwaag.wl-tiwai@suse.de>
+	id WPKVCWelx2k8RwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 28 Mar 2026 09:54:47 +0000
+Date: Sat, 28 Mar 2026 10:54:46 +0100
+Message-ID: <875x6gwa6x.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+To: Sourav Nayak <nonameblank007@gmail.com>
+Cc: greg@kroah.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: asihpi: use scnprintf() for control name formatting
-In-Reply-To: <20260327234848.64134-1-pengpeng@iscas.ac.cn>
-References: <20260323070310.55878-1-pengpeng@iscas.ac.cn>
-	<20260327234848.64134-1-pengpeng@iscas.ac.cn>
+	stable@vger.kernel.org,
+	tiwai@suse.com,
+	tiwai@suse.de
+Subject: Re: [PATCH 1/1] ALSA: hda/realtek: add quirk for HP Victus 15-fb0xxx
+In-Reply-To: <20260327142805.17139-1-nonameblank007@gmail.com>
+References: <CAJ9UwXAYD2PwdBnt=hFKkbKUTm9kY8zXacAgE6zXDKOLhBKmKQ@mail.gmail.com>
+	<20260327142805.17139-1-nonameblank007@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,126 +90,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: C4B824D37F
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
 
-On Sat, 28 Mar 2026 00:48:48 +0100,
-Pengpeng Hou wrote:
+On Fri, 27 Mar 2026 15:28:05 +0100,
+Sourav Nayak wrote:
 > 
-> asihpi_ctl_init() builds mixer control names in the fixed 44-byte
-> hpi_ctl->name buffer with sprintf().
+> This adds a mute led quirck for HP Victus 15-fb0xxx (103c:8a3d) model
 > 
-> This is not only a defensive cleanup. The current in-tree name tables and
-> format strings can already exceed 44 bytes. For example,
+> - As it used 0x8(full bright)/0x7f(little dim) for mute led on and other values as 0ff (0x0, 0x4, ...)
 > 
->   "Bitstream 0 Internal 0 Monitor Playback Volume"
+> - So, use ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT insted for safer approach
 > 
-> is 46 characters before the trailing NUL, so the current sprintf() call
-> writes past the end of hpi_ctl->name.
-> 
-> Switch the formatting to scnprintf() so the driver truncates control
-> names instead of overflowing the fixed ALSA control name storage.
-> 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Sourav Nayak <nonameblank007@gmail.com>
 
-Thanks, now it's clearer.  But if the string overflow can happen
-really, it's rather a bigger problem; then we can't blindly truncate
-the string as it's used as the control API element key.
+Applied now.  Thanks.
 
-I guess this didn't happen in reality because the choice of source and
-destination depends on the firmware and the selection like the above
-didn't exist so far in the provided firmware data.  But, we still
-should address the problem, of course.
-
-Anyways, if the truncation happens, we'd rather need to notify users
-that it's basically an error.  That is, we should use snprintf() in
-this case and have a return value check.  If it's truncated, the
-driver spews the error, showing the truncated string.
-
-Could you revise the patch in that way and resubmit v3?
-
-
-thanks,
 
 Takashi
-
-
-> ---
->  sound/pci/asihpi/asihpi.c | 31 +++++++++++++++++--------------
->  1 file changed, 17 insertions(+), 14 deletions(-)
-> 
-> diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
-> index 3a64d0562803..de2859eb3e9f 100644
-> --- a/sound/pci/asihpi/asihpi.c
-> +++ b/sound/pci/asihpi/asihpi.c
-> @@ -1384,22 +1384,25 @@ static void asihpi_ctl_init(struct snd_kcontrol_new *snd_control,
->  		dir = "Playback "; /* PCM Playback source, or  output node */
->  
->  	if (hpi_ctl->src_node_type && hpi_ctl->dst_node_type)
-> -		sprintf(hpi_ctl->name, "%s %d %s %d %s%s",
-> -			asihpi_src_names[hpi_ctl->src_node_type],
-> -			hpi_ctl->src_node_index,
-> -			asihpi_dst_names[hpi_ctl->dst_node_type],
-> -			hpi_ctl->dst_node_index,
-> -			dir, name);
-> +		scnprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-> +			  "%s %d %s %d %s%s",
-> +			  asihpi_src_names[hpi_ctl->src_node_type],
-> +			  hpi_ctl->src_node_index,
-> +			  asihpi_dst_names[hpi_ctl->dst_node_type],
-> +			  hpi_ctl->dst_node_index,
-> +			  dir, name);
->  	else if (hpi_ctl->dst_node_type) {
-> -		sprintf(hpi_ctl->name, "%s %d %s%s",
-> -		asihpi_dst_names[hpi_ctl->dst_node_type],
-> -		hpi_ctl->dst_node_index,
-> -		dir, name);
-> +		scnprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-> +			  "%s %d %s%s",
-> +			  asihpi_dst_names[hpi_ctl->dst_node_type],
-> +			  hpi_ctl->dst_node_index,
-> +			  dir, name);
->  	} else {
-> -		sprintf(hpi_ctl->name, "%s %d %s%s",
-> -		asihpi_src_names[hpi_ctl->src_node_type],
-> -		hpi_ctl->src_node_index,
-> -		dir, name);
-> +		scnprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-> +			  "%s %d %s%s",
-> +			  asihpi_src_names[hpi_ctl->src_node_type],
-> +			  hpi_ctl->src_node_index,
-> +			  dir, name);
->  	}
->  }
->  
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
