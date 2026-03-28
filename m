@@ -1,86 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563C738E13E
-	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 13:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3270926D4CA
+	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 13:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774703652; cv=none; b=eR1xCkBwGnP/rROXTio47FUNnomSA1wNULXpx+GTGbT+UJ44LuKJX/jPDTZEN4P16TIzodrTXW0u3OZk63OsRXzrn7ICIRNDZU+rBq0Z0/2Zwkd1zA3VOOU/TiZ+hVqWpO9vAjSay0kmuvv8tadxWY9L0YrdaZwL06ZAXidl4eQ=
+	t=1774703854; cv=none; b=BwlAvJMnMQqUnNZKcuWiaqPkqbQZ/d1ngUP/5eVhaeClE+y4IYtTMhG5OmoX6P7jE+JtsRQmz6zw8/4yhSYWkArUgIwFTyJCZ8lWmRCJVhpLWz9Jyy2/JS+nPfthCayuA64HL9TTVZThsNeEcItufi/6xAGw686/SRFEONIn4oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774703652; c=relaxed/simple;
-	bh=IFTRdAfwTKP+rUqVd7+XNkaeJSz42dKkIdZAkB2I8yo=;
+	s=arc-20240116; t=1774703854; c=relaxed/simple;
+	bh=VNIPFXB7ZgnF6ZORHZy7y5Z/tXyl0dxDBd7J/DzgMMY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ubM/88T/le+Cwae8zvU4mai37XzypxlflHNi+nDhj51kMmjrtTZleHhF/IF2cGwdFI8NBKuHV4iQ+NKuj9kGbLErOen+s0WrIjtfaxbW2UjoYdj5PWqmrS6T+Ns2GeoNpEYjqaxq+KiVCZH5pSgOfaR9lEpusFE1k4PTx60dhrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RXIMkxL2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pEeQasHt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RXIMkxL2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pEeQasHt; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=LXhlOGEOEMeWRAOuS5bEsu9iTxm8I69hpEwKMfi08MQKTg+5qCrpVFyAZOUiP4EmnqkjkuO8Et0e25N6GyUspC16AoPJ6g6exDE4tkZJvfLDbqXrlN8pcGVmVRwSAA4ssBUJ0i0bV3+DClaSGg2N4SQW2kM39DelenYMETYuG0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NUE0Rexf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jdvtn2BB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NUE0Rexf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jdvtn2BB; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RXIMkxL2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pEeQasHt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RXIMkxL2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pEeQasHt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NUE0Rexf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jdvtn2BB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NUE0Rexf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jdvtn2BB"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A30A25BD3E;
-	Sat, 28 Mar 2026 13:14:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6EBEA4D33C;
+	Sat, 28 Mar 2026 13:17:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774703643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774703842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
-	b=RXIMkxL2U9rVnM35pAsEj1rg4kbhR/6AVhIIVSmfG1dJ2V8YmqRAVlQaV3iobbakEjKVtA
-	9nTELrHVABIrLqtF7kCDFpigw9KbT+zvuywS+rm+oDh7P7MafaDibBsoB5E2hsQAsQZPAv
-	K8VYUaWGCTKrUQabnOUs0X6E6/pYe5g=
+	bh=3Aol3AUaMjtVXHggvZ9RDP7y+5okF3XbI56zXCGXwck=;
+	b=NUE0RexfabZa4jRnmvL1tB6e2kbJSGZWZJJJyqPllwm9yHYm0cfDRNQ0dS4Yo5N9FrpdKl
+	BxNd7yJU0WRESG0DdqF2S/DiMTGdTxPH5BcFY237+BwVL6SuirzB3NPp73jIF9waa3dPDx
+	+/Bwb4dfYNq/eIADLJSzXsdFgoROOyg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774703643;
+	s=susede2_ed25519; t=1774703842;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
-	b=pEeQasHtlBHvG+gyX5V+cNqq3uIljdF20tUbiVNGP2FMFwhcq6n8MHO3Zo7w0WQM+dP3Xx
-	A62iumSP69GDIJCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=3Aol3AUaMjtVXHggvZ9RDP7y+5okF3XbI56zXCGXwck=;
+	b=Jdvtn2BBXFQgcmfE7wLs9BTS/MiZ9Vi0OFO4WnTJer9ezBzZh5AFqQhkXfmVtAUfg5IBKQ
+	m3Pzs1doUeKgPMBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NUE0Rexf;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jdvtn2BB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774703643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774703842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
-	b=RXIMkxL2U9rVnM35pAsEj1rg4kbhR/6AVhIIVSmfG1dJ2V8YmqRAVlQaV3iobbakEjKVtA
-	9nTELrHVABIrLqtF7kCDFpigw9KbT+zvuywS+rm+oDh7P7MafaDibBsoB5E2hsQAsQZPAv
-	K8VYUaWGCTKrUQabnOUs0X6E6/pYe5g=
+	bh=3Aol3AUaMjtVXHggvZ9RDP7y+5okF3XbI56zXCGXwck=;
+	b=NUE0RexfabZa4jRnmvL1tB6e2kbJSGZWZJJJyqPllwm9yHYm0cfDRNQ0dS4Yo5N9FrpdKl
+	BxNd7yJU0WRESG0DdqF2S/DiMTGdTxPH5BcFY237+BwVL6SuirzB3NPp73jIF9waa3dPDx
+	+/Bwb4dfYNq/eIADLJSzXsdFgoROOyg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774703643;
+	s=susede2_ed25519; t=1774703842;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
-	b=pEeQasHtlBHvG+gyX5V+cNqq3uIljdF20tUbiVNGP2FMFwhcq6n8MHO3Zo7w0WQM+dP3Xx
-	A62iumSP69GDIJCw==
+	bh=3Aol3AUaMjtVXHggvZ9RDP7y+5okF3XbI56zXCGXwck=;
+	b=Jdvtn2BBXFQgcmfE7wLs9BTS/MiZ9Vi0OFO4WnTJer9ezBzZh5AFqQhkXfmVtAUfg5IBKQ
+	m3Pzs1doUeKgPMBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74A404A0A3;
-	Sat, 28 Mar 2026 13:14:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 43E654A0A3;
+	Sat, 28 Mar 2026 13:17:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EDVdGhvUx2lmCQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 28 Mar 2026 13:14:03 +0000
-Date: Sat, 28 Mar 2026 14:14:03 +0100
-Message-ID: <87y0jcumec.wl-tiwai@suse.de>
+	id zXMeDuLUx2l5DAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 28 Mar 2026 13:17:22 +0000
+Date: Sat, 28 Mar 2026 14:17:21 +0100
+Message-ID: <87wlywum8u.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ALSA: asihpi: detect truncated control names
-In-Reply-To: <20260328102808.33969-1-pengpeng@iscas.ac.cn>
-References: <20260323070310.55878-1-pengpeng@iscas.ac.cn>
-	<20260328102808.33969-1-pengpeng@iscas.ac.cn>
+To: Phil Willoughby <willerz@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v4] ALSA: usb-audio: Add quirks for Arturia AF16Rig
+In-Reply-To: <20260328112426.14816-1-willerz@gmail.com>
+References: <20260328112426.14816-1-willerz@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,51 +88,91 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,perex.cz:email,suse.com:email];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 6EBEA4D33C
 
-On Sat, 28 Mar 2026 11:28:08 +0100,
-Pengpeng Hou wrote:
+On Sat, 28 Mar 2026 12:08:41 +0100,
+Phil Willoughby wrote:
 > 
-> asihpi_ctl_init() builds mixer control names in the fixed 44-byte
-> hpi_ctl->name buffer with sprintf().
+> The AF16Rig supports 34 channels at 44.1k/48k, 18 channels at 88.2k/96k
+> and 10 channels at 176.4k/192k.
 > 
-> This is not only a defensive cleanup. The current in-tree name tables and
-> format strings can already exceed 44 bytes. For example,
+> This quirks is necessary because the automatic probing process we would
+> otherwise use fails. The root cause of that is that the AF16Rig clock is
+> not readable (its descriptor says that it is but the reads fail).
 > 
->   "Bitstream 0 Internal 0 Monitor Playback Volume"
+> Except as described below, the values in the audio format quirks were
+> copied from the USB descriptors of the device. The rate information is
+> from the datasheet of the device. The clock is the internal clock of the
+> AF16Rig.
 > 
-> is 46 characters before the trailing NUL, so the current sprintf() call
-> writes past the end of hpi_ctl->name.
+> Tested-By: Phil Willoughby <willerz@gmail.com>
+> I have tested all the configurations enabled by this patch.
 > 
-> The generated control name is used as the ALSA control element key, so
-> blindly truncating it is not sufficient. Switch the formatting to
-> snprintf() and emit an error if truncation happens, showing the
-> truncated name while still keeping the write bounded to hpi_ctl->name.
-> 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Signed-off-by: Phil Willoughby <willerz@gmail.com>
 
-Applied to for-next branch now.   Thanks.
+Thanks, applied to for-next branch now.
 
+> ---
+> Thank you all for your time and considered feedback.
+> 
+> There are two other clock sources the AF16Rig can use: an ADAT clock and
+> a BNC word clock. In theory the correct support for those would be
+> copies of these audioformat quirks with the clock changed to 43 (ADAT)
+> or 44 (BNC). The reason that I did not include those quirks in this
+> patch is that I cannot test them (because I do not have any other device
+> that can act as an ADAT or BNC clock source).
+> 
+> I think that what I want to do is:
+> 1. Macro-ise these quirks so the common stuff isn't repeated as much.
+> This will be v5 of this patch.
+
+This could be a good cleanup, yes.  You can submit as an incremental
+cleanup.
+
+> Then a separate patch where I:
+> 2. Add the external clock quirks and locally test that it doesn't break
+> anything for people who don't have the external clocks
+> 3. Wrap the external clock quirks in #if 0 and a comment that they are
+> disabled because they haven't been tested.
+> 4. This will be marked signed-off but not tested-by me.
+
+Hm, a better approach would be rather a creation of a mixer element to
+switch the clock source, I suppose.  But it'll be more complex, of
+course.
+
+
+thanks,
 
 Takashi
