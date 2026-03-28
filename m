@@ -1,147 +1,139 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8F27261C;
-	Sat, 28 Mar 2026 10:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563C738E13E
+	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 13:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774693702; cv=none; b=nCbICh9tk22oEZ1RdLzcTjDDLmPC1zUpsW9xYtQQXdwt9ePb/6KZNdKi8odP0yWXJg0RiB6QfGGwH4KAtrc4TlTV803bh8fbX/lm9A+aY93G4gAD9nRAI2FvF57HbmH8GsmFbQobuqGyJFC3HML0XYqZXup+19xGuGKKFn0lo6A=
+	t=1774703652; cv=none; b=eR1xCkBwGnP/rROXTio47FUNnomSA1wNULXpx+GTGbT+UJ44LuKJX/jPDTZEN4P16TIzodrTXW0u3OZk63OsRXzrn7ICIRNDZU+rBq0Z0/2Zwkd1zA3VOOU/TiZ+hVqWpO9vAjSay0kmuvv8tadxWY9L0YrdaZwL06ZAXidl4eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774693702; c=relaxed/simple;
-	bh=XO2lVGOvKUuNdpn3633xk6HNwVV+ybTW1oRD2R/sShU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fwRtJlJjAhQg4xrNRylBKjtfTfsER47FL5VATkbQtxd4bFFawKjND6sV5g/i8Bt5ve1AUxu2+fatDPUE25SQLqEdmQMYQqMQNoK40uztbpVGY8zyXZbYcbFmzq33ZlAnmkTHf1Pvh0GcrntpLpTErFcWhQSbBSaUYE3BQgcYECw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.197])
-	by APP-05 (Coremail) with SMTP id zQCowAAHlwo5rcdpHhu_Cw--.35011S2;
-	Sat, 28 Mar 2026 18:28:10 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
+	s=arc-20240116; t=1774703652; c=relaxed/simple;
+	bh=IFTRdAfwTKP+rUqVd7+XNkaeJSz42dKkIdZAkB2I8yo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ubM/88T/le+Cwae8zvU4mai37XzypxlflHNi+nDhj51kMmjrtTZleHhF/IF2cGwdFI8NBKuHV4iQ+NKuj9kGbLErOen+s0WrIjtfaxbW2UjoYdj5PWqmrS6T+Ns2GeoNpEYjqaxq+KiVCZH5pSgOfaR9lEpusFE1k4PTx60dhrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RXIMkxL2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pEeQasHt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RXIMkxL2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pEeQasHt; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RXIMkxL2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pEeQasHt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RXIMkxL2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pEeQasHt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A30A25BD3E;
+	Sat, 28 Mar 2026 13:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774703643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
+	b=RXIMkxL2U9rVnM35pAsEj1rg4kbhR/6AVhIIVSmfG1dJ2V8YmqRAVlQaV3iobbakEjKVtA
+	9nTELrHVABIrLqtF7kCDFpigw9KbT+zvuywS+rm+oDh7P7MafaDibBsoB5E2hsQAsQZPAv
+	K8VYUaWGCTKrUQabnOUs0X6E6/pYe5g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774703643;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
+	b=pEeQasHtlBHvG+gyX5V+cNqq3uIljdF20tUbiVNGP2FMFwhcq6n8MHO3Zo7w0WQM+dP3Xx
+	A62iumSP69GDIJCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774703643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
+	b=RXIMkxL2U9rVnM35pAsEj1rg4kbhR/6AVhIIVSmfG1dJ2V8YmqRAVlQaV3iobbakEjKVtA
+	9nTELrHVABIrLqtF7kCDFpigw9KbT+zvuywS+rm+oDh7P7MafaDibBsoB5E2hsQAsQZPAv
+	K8VYUaWGCTKrUQabnOUs0X6E6/pYe5g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774703643;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h4/h70CIEBoUcSPi1za1N5fHr/YRV7VAdw7MxOhN/Aw=;
+	b=pEeQasHtlBHvG+gyX5V+cNqq3uIljdF20tUbiVNGP2FMFwhcq6n8MHO3Zo7w0WQM+dP3Xx
+	A62iumSP69GDIJCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74A404A0A3;
+	Sat, 28 Mar 2026 13:14:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EDVdGhvUx2lmCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 28 Mar 2026 13:14:03 +0000
+Date: Sat, 28 Mar 2026 14:14:03 +0100
+Message-ID: <87y0jcumec.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	pengpeng@iscas.ac.cn
-Subject: [PATCH v3] ALSA: asihpi: detect truncated control names
-Date: Sat, 28 Mar 2026 18:28:08 +0800
-Message-ID: <20260328102808.33969-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260323070310.55878-1-pengpeng@iscas.ac.cn>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: asihpi: detect truncated control names
+In-Reply-To: <20260328102808.33969-1-pengpeng@iscas.ac.cn>
 References: <20260323070310.55878-1-pengpeng@iscas.ac.cn>
+	<20260328102808.33969-1-pengpeng@iscas.ac.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAHlwo5rcdpHhu_Cw--.35011S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCry7XF1kCrW3JFWfCFyxAFb_yoW5Cw4UpF
-	W3KrW2krsxA3s8Kayftryq9r93Aa92kF4UG3WrWF1xJFnIvw17A3W8Zw18ZFy5urWkZrn8
-	XF4Yk345K3W5Ar7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjuHq7UUUU
-	U==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-asihpi_ctl_init() builds mixer control names in the fixed 44-byte
-hpi_ctl->name buffer with sprintf().
+On Sat, 28 Mar 2026 11:28:08 +0100,
+Pengpeng Hou wrote:
+> 
+> asihpi_ctl_init() builds mixer control names in the fixed 44-byte
+> hpi_ctl->name buffer with sprintf().
+> 
+> This is not only a defensive cleanup. The current in-tree name tables and
+> format strings can already exceed 44 bytes. For example,
+> 
+>   "Bitstream 0 Internal 0 Monitor Playback Volume"
+> 
+> is 46 characters before the trailing NUL, so the current sprintf() call
+> writes past the end of hpi_ctl->name.
+> 
+> The generated control name is used as the ALSA control element key, so
+> blindly truncating it is not sufficient. Switch the formatting to
+> snprintf() and emit an error if truncation happens, showing the
+> truncated name while still keeping the write bounded to hpi_ctl->name.
+> 
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-This is not only a defensive cleanup. The current in-tree name tables and
-format strings can already exceed 44 bytes. For example,
+Applied to for-next branch now.   Thanks.
 
-  "Bitstream 0 Internal 0 Monitor Playback Volume"
 
-is 46 characters before the trailing NUL, so the current sprintf() call
-writes past the end of hpi_ctl->name.
-
-The generated control name is used as the ALSA control element key, so
-blindly truncating it is not sufficient. Switch the formatting to
-snprintf() and emit an error if truncation happens, showing the
-truncated name while still keeping the write bounded to hpi_ctl->name.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
-v3:
-- use snprintf() instead of scnprintf()
-- check the return value and report truncated control names
-
-v2:
-- clarify that the current in-tree strings can already overflow the buffer
-- use scnprintf() instead of sprintf()
-- drop the unrelated trailing whitespace change
-
- sound/pci/asihpi/asihpi.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
-
-diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
-index 3a64d0562803..b7010d83e89c 100644
---- a/sound/pci/asihpi/asihpi.c
-+++ b/sound/pci/asihpi/asihpi.c
-@@ -1362,6 +1362,7 @@ static void asihpi_ctl_init(struct snd_kcontrol_new *snd_control,
- 				struct hpi_control *hpi_ctl,
- 				char *name)
- {
-+	int len;
- 	char *dir;
- 	memset(snd_control, 0, sizeof(*snd_control));
- 	snd_control->name = hpi_ctl->name;
-@@ -1384,23 +1385,30 @@ static void asihpi_ctl_init(struct snd_kcontrol_new *snd_control,
- 		dir = "Playback "; /* PCM Playback source, or  output node */
- 
- 	if (hpi_ctl->src_node_type && hpi_ctl->dst_node_type)
--		sprintf(hpi_ctl->name, "%s %d %s %d %s%s",
--			asihpi_src_names[hpi_ctl->src_node_type],
--			hpi_ctl->src_node_index,
--			asihpi_dst_names[hpi_ctl->dst_node_type],
--			hpi_ctl->dst_node_index,
--			dir, name);
-+		len = snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-+			       "%s %d %s %d %s%s",
-+			       asihpi_src_names[hpi_ctl->src_node_type],
-+			       hpi_ctl->src_node_index,
-+			       asihpi_dst_names[hpi_ctl->dst_node_type],
-+			       hpi_ctl->dst_node_index,
-+			       dir, name);
- 	else if (hpi_ctl->dst_node_type) {
--		sprintf(hpi_ctl->name, "%s %d %s%s",
--		asihpi_dst_names[hpi_ctl->dst_node_type],
--		hpi_ctl->dst_node_index,
--		dir, name);
-+		len = snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-+			       "%s %d %s%s",
-+			       asihpi_dst_names[hpi_ctl->dst_node_type],
-+			       hpi_ctl->dst_node_index,
-+			       dir, name);
- 	} else {
--		sprintf(hpi_ctl->name, "%s %d %s%s",
--		asihpi_src_names[hpi_ctl->src_node_type],
--		hpi_ctl->src_node_index,
--		dir, name);
-+		len = snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
-+			       "%s %d %s%s",
-+			       asihpi_src_names[hpi_ctl->src_node_type],
-+			       hpi_ctl->src_node_index,
-+			       dir, name);
- 	}
-+
-+	if (len >= sizeof(hpi_ctl->name))
-+		pr_err("asihpi: truncated control name: %s\n",
-+		       hpi_ctl->name);
- }
- 
- /*------------------------------------------------------------
--- 
-2.50.1 (Apple Git-155)
-
+Takashi
