@@ -1,151 +1,147 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3FF175A60
-	for <linux-sound@vger.kernel.org>; Sat, 28 Mar 2026 09:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8F27261C;
+	Sat, 28 Mar 2026 10:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774691964; cv=none; b=WzKC7cJCzDS3IkoXKr7PW5TkBN2H179dOwI4RlEQscXuPbFkgrMNfvUcYEbeF8ZkGR8BSh13d855iai3NMQRWsfQUDQcH2eeBnNx5QRgEjR0a9boN2ANclmFJaSXahyRE+wDfMXOO1KKi/jgbpRJz1pP6oSWsMeeGhLkWYjK5gk=
+	t=1774693702; cv=none; b=nCbICh9tk22oEZ1RdLzcTjDDLmPC1zUpsW9xYtQQXdwt9ePb/6KZNdKi8odP0yWXJg0RiB6QfGGwH4KAtrc4TlTV803bh8fbX/lm9A+aY93G4gAD9nRAI2FvF57HbmH8GsmFbQobuqGyJFC3HML0XYqZXup+19xGuGKKFn0lo6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774691964; c=relaxed/simple;
-	bh=3C3vOE/tPqQdLPl63NuoPkNxsPIiIr4aFR5hcjqF0Zs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DCx96Tzqhov/S7e4zifBKW1N70MaOJJLlphBakw9lcMDKZLE433a/kbYMdihOUC/wuKTH7QbW/k12/03b9lcex8HIW8zCcch/HECJfaam+05/MdZDYBIyE1iJ5jLSFaQxx5cBqcQp5uhiwGFlnj41csTr3d97OtUTTWhZ8xbPPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G9DybMo2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bbj5Soaw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G9DybMo2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bbj5Soaw; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G9DybMo2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bbj5Soaw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G9DybMo2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bbj5Soaw"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AB0A94D38E;
-	Sat, 28 Mar 2026 09:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774691960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psPgWy0m6US1igrbZNWgajDb20gaXCM3nAHUCHbRRek=;
-	b=G9DybMo2pmGNof4hc9Q7ntCIxjFQmsp4xmftwy5MSAvxbGuqzTeiLhjtUgLDTSaLBgRrdS
-	vxV3AwfuttBa72/RY66ECPIOR+hg8ZF+DGAgNVbBJy5K58+Sc5PZGUiaGduONe5VkN5huh
-	m/M7yh/c3p2G+8QXSfTy5KNekd6If/k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774691960;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psPgWy0m6US1igrbZNWgajDb20gaXCM3nAHUCHbRRek=;
-	b=bbj5Soawl1Z3OTot+dhgjC7LG5ngTh57p//9hveCuE/PDg60YLni8XlStgs23TWbzz94ZO
-	NZ7yMlVBsV1vMbDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774691960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psPgWy0m6US1igrbZNWgajDb20gaXCM3nAHUCHbRRek=;
-	b=G9DybMo2pmGNof4hc9Q7ntCIxjFQmsp4xmftwy5MSAvxbGuqzTeiLhjtUgLDTSaLBgRrdS
-	vxV3AwfuttBa72/RY66ECPIOR+hg8ZF+DGAgNVbBJy5K58+Sc5PZGUiaGduONe5VkN5huh
-	m/M7yh/c3p2G+8QXSfTy5KNekd6If/k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774691960;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psPgWy0m6US1igrbZNWgajDb20gaXCM3nAHUCHbRRek=;
-	b=bbj5Soawl1Z3OTot+dhgjC7LG5ngTh57p//9hveCuE/PDg60YLni8XlStgs23TWbzz94ZO
-	NZ7yMlVBsV1vMbDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E7534A0A3;
-	Sat, 28 Mar 2026 09:59:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RLGSFHimx2kMSwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 28 Mar 2026 09:59:20 +0000
-Date: Sat, 28 Mar 2026 10:59:19 +0100
-Message-ID: <87341kw9zc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Omair Mohammed Abdullah <omair.m.abdullah@intel.com>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	s=arc-20240116; t=1774693702; c=relaxed/simple;
+	bh=XO2lVGOvKUuNdpn3633xk6HNwVV+ybTW1oRD2R/sShU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fwRtJlJjAhQg4xrNRylBKjtfTfsER47FL5VATkbQtxd4bFFawKjND6sV5g/i8Bt5ve1AUxu2+fatDPUE25SQLqEdmQMYQqMQNoK40uztbpVGY8zyXZbYcbFmzq33ZlAnmkTHf1Pvh0GcrntpLpTErFcWhQSbBSaUYE3BQgcYECw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.197])
+	by APP-05 (Coremail) with SMTP id zQCowAAHlwo5rcdpHhu_Cw--.35011S2;
+	Sat, 28 Mar 2026 18:28:10 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: perex@perex.cz
+Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: core: Validate compress device numbers without dynamic minors
-In-Reply-To: <20260325-alsa-compress-static-minors-v1-1-0628573bee1c@gmail.com>
-References: <20260325-alsa-compress-static-minors-v1-1-0628573bee1c@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-kernel@vger.kernel.org,
+	pengpeng@iscas.ac.cn
+Subject: [PATCH v3] ALSA: asihpi: detect truncated control names
+Date: Sat, 28 Mar 2026 18:28:08 +0800
+Message-ID: <20260328102808.33969-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260323070310.55878-1-pengpeng@iscas.ac.cn>
+References: <20260323070310.55878-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+X-CM-TRANSID:zQCowAAHlwo5rcdpHhu_Cw--.35011S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCry7XF1kCrW3JFWfCFyxAFb_yoW5Cw4UpF
+	W3KrW2krsxA3s8Kayftryq9r93Aa92kF4UG3WrWF1xJFnIvw17A3W8Zw18ZFy5urWkZrn8
+	XF4Yk345K3W5Ar7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjuHq7UUUU
+	U==
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-On Wed, 25 Mar 2026 06:24:04 +0100,
-Cássio Gabriel wrote:
-> 
-> Without CONFIG_SND_DYNAMIC_MINORS, ALSA reserves only two fixed minors
-> for compress devices on each card: comprD0 and comprD1.
-> 
-> snd_find_free_minor() currently computes the compress minor as
-> type + dev without validating dev first, so device numbers greater than
-> 1 spill into the HWDEP minor range instead of failing registration.
-> 
-> ASoC passes rtd->id to snd_compress_new(), so this can happen on real
-> non-dynamic-minor builds.
-> 
-> Add a dedicated fixed-minor check for SNDRV_DEVICE_TYPE_COMPRESS in
-> snd_find_free_minor() and reject out-of-range device numbers with
-> -EINVAL before constructing the minor.
-> 
-> Also remove the stale TODO in compress_offload.c that still claims
-> multiple compress nodes are missing.
-> 
-> Fixes: 3eafc959b32f ("ALSA: core: add support for compressed devices")
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+asihpi_ctl_init() builds mixer control names in the fixed 44-byte
+hpi_ctl->name buffer with sprintf().
 
-Applied to for-next branch now.  Thanks.
+This is not only a defensive cleanup. The current in-tree name tables and
+format strings can already exceed 44 bytes. For example,
 
+  "Bitstream 0 Internal 0 Monitor Playback Volume"
 
-Takashi
+is 46 characters before the trailing NUL, so the current sprintf() call
+writes past the end of hpi_ctl->name.
+
+The generated control name is used as the ALSA control element key, so
+blindly truncating it is not sufficient. Switch the formatting to
+snprintf() and emit an error if truncation happens, showing the
+truncated name while still keeping the write bounded to hpi_ctl->name.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+v3:
+- use snprintf() instead of scnprintf()
+- check the return value and report truncated control names
+
+v2:
+- clarify that the current in-tree strings can already overflow the buffer
+- use scnprintf() instead of sprintf()
+- drop the unrelated trailing whitespace change
+
+ sound/pci/asihpi/asihpi.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
+index 3a64d0562803..b7010d83e89c 100644
+--- a/sound/pci/asihpi/asihpi.c
++++ b/sound/pci/asihpi/asihpi.c
+@@ -1362,6 +1362,7 @@ static void asihpi_ctl_init(struct snd_kcontrol_new *snd_control,
+ 				struct hpi_control *hpi_ctl,
+ 				char *name)
+ {
++	int len;
+ 	char *dir;
+ 	memset(snd_control, 0, sizeof(*snd_control));
+ 	snd_control->name = hpi_ctl->name;
+@@ -1384,23 +1385,30 @@ static void asihpi_ctl_init(struct snd_kcontrol_new *snd_control,
+ 		dir = "Playback "; /* PCM Playback source, or  output node */
+ 
+ 	if (hpi_ctl->src_node_type && hpi_ctl->dst_node_type)
+-		sprintf(hpi_ctl->name, "%s %d %s %d %s%s",
+-			asihpi_src_names[hpi_ctl->src_node_type],
+-			hpi_ctl->src_node_index,
+-			asihpi_dst_names[hpi_ctl->dst_node_type],
+-			hpi_ctl->dst_node_index,
+-			dir, name);
++		len = snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
++			       "%s %d %s %d %s%s",
++			       asihpi_src_names[hpi_ctl->src_node_type],
++			       hpi_ctl->src_node_index,
++			       asihpi_dst_names[hpi_ctl->dst_node_type],
++			       hpi_ctl->dst_node_index,
++			       dir, name);
+ 	else if (hpi_ctl->dst_node_type) {
+-		sprintf(hpi_ctl->name, "%s %d %s%s",
+-		asihpi_dst_names[hpi_ctl->dst_node_type],
+-		hpi_ctl->dst_node_index,
+-		dir, name);
++		len = snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
++			       "%s %d %s%s",
++			       asihpi_dst_names[hpi_ctl->dst_node_type],
++			       hpi_ctl->dst_node_index,
++			       dir, name);
+ 	} else {
+-		sprintf(hpi_ctl->name, "%s %d %s%s",
+-		asihpi_src_names[hpi_ctl->src_node_type],
+-		hpi_ctl->src_node_index,
+-		dir, name);
++		len = snprintf(hpi_ctl->name, sizeof(hpi_ctl->name),
++			       "%s %d %s%s",
++			       asihpi_src_names[hpi_ctl->src_node_type],
++			       hpi_ctl->src_node_index,
++			       dir, name);
+ 	}
++
++	if (len >= sizeof(hpi_ctl->name))
++		pr_err("asihpi: truncated control name: %s\n",
++		       hpi_ctl->name);
+ }
+ 
+ /*------------------------------------------------------------
+-- 
+2.50.1 (Apple Git-155)
+
