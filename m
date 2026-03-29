@@ -1,87 +1,71 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4C4259CA9
-	for <linux-sound@vger.kernel.org>; Sun, 29 Mar 2026 09:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61072F4A15
+	for <linux-sound@vger.kernel.org>; Sun, 29 Mar 2026 13:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774775567; cv=none; b=MaQRG05r8V5MROBsB1OS04WWUqujrp9VTdFR3kK7HjEPzp4k0jV1xc/hPsedRlKZMZsj8z7J3BOnPuaHyNRlq7luD3CTHBTAjbFrKORNMIkXiE9YnSzqIK0fPU2DYcUkD4xCYulNaYASiXa3UZDy46UTkmAs8pfua9pTPkPaMLo=
+	t=1774791535; cv=none; b=fkp/jpNRhZ3tqHQva4Q63pyucS3K9qu9HX6P8MddLzReSlUgYksHVPGtJ641zSwK7fd4LEdMJZtVSXzIqXKAZONLpUChN167+cyeLGQcMt1UL/g97qHyC/o7cUzex5L8i58mwUObyerwP3j8wfXDCgbZOkSQ2DEpnu4Ukdu43Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774775567; c=relaxed/simple;
-	bh=/UbqsR4pT0ZRUVxOl+1oEVdBVmVxJj6kjumen8H3970=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UMx+cF2QJztZqzD/1rZW2jbXO7XeeAPToaGXByw8+1E/axdMlpHZPNJzRaYo5RB1bCR2SrZ9bMyTBteEsykm1p7DJ50TWGKrUsPaegMklZHMiTyXZaGqznXbfluCcExDWHHb8P/w3Lk0yMzFB43vylEN1+7E1t6uOVL40gfJW3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oex3111C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w15vRLna; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VwaAFFwQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cya+LTPK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774791535; c=relaxed/simple;
+	bh=qWafS+rX9nxvXtbqHDoLW3WMpBkkmgZSJg+hRG7NBZg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jqZLGK8L/9U0E89vgx1mTdRIyUhW6i8FwbBWSL1jqQ5DQ4dpFFUG+sQL3BdiTSdJL+pnXh3SsY7NsJnmKxhnnyO9F7vgjxv1h8Cv+WIAOA5lszw9KRkw7O3FJxKungc5Z9EhOsJkg1zNrbA97j3yfM5n0LSb41/DBygMCvjVScY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qCRCbxKY; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oex3111C";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w15vRLna";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VwaAFFwQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cya+LTPK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F3A824D4ED;
-	Sun, 29 Mar 2026 09:12:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774775564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BiOaa6z44r4wXHvzgwlHpgcZ84EjxPXYfHwfC5v78QI=;
-	b=oex3111CtrX2Fc8k9ueGSD6SHfZnCetUjIQtvhx+/PI5ONxEoYtf5/fSKWYAJkw9ROaIgZ
-	j1JTlVHVlY4l9WBQurR1lleN1BdBEHum0O7OqEUd4np+/LDdmUfphUZbqoATDftrmzQPaW
-	mPi7A4DIv39gpnqM20jNQDV1obLnCKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774775564;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BiOaa6z44r4wXHvzgwlHpgcZ84EjxPXYfHwfC5v78QI=;
-	b=w15vRLnaMdEsCZ6ubF7zqhOX/V/NOQbcF3WNubn8p7M6/jFWNaCjSJH249lQLbfk88My2y
-	f2n9vWcXCAEB9PAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774775563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BiOaa6z44r4wXHvzgwlHpgcZ84EjxPXYfHwfC5v78QI=;
-	b=VwaAFFwQPnQrld9Wl3Am2fkQdUbmTcuY+nNU0IDNGcs1vGFIoOYjblsol51ROdGSnd+PsT
-	zlVGlmkTPfn0/CrmoofkXQUUwzRfHFyoW7y/d+DjQ6pQ3swKYgeVcuA2o8+5gu6VWjLILV
-	5F3OfswLlLWoCQjGkAx08/h/57NtBb0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774775563;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BiOaa6z44r4wXHvzgwlHpgcZ84EjxPXYfHwfC5v78QI=;
-	b=cya+LTPKh6v7mum/cZ5bbYEDIePtUGR6N4B+Dd1sRHqUlNrlo7q76FQAzntY93AT3+ytkg
-	Jrz3LWeSbuEmNvBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE3604A0B0;
-	Sun, 29 Mar 2026 09:12:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oOXaMAvtyGkHEwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 29 Mar 2026 09:12:43 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Karsten Hohmeier <linux@hohmatik.de>
-Subject: [PATCH 2/2] ALSA: ctxfi: Check the error for index mapping
-Date: Sun, 29 Mar 2026 11:12:38 +0200
-Message-ID: <20260329091240.420194-2-tiwai@suse.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260329091240.420194-1-tiwai@suse.de>
-References: <20260329091240.420194-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qCRCbxKY"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso42249605e9.0
+        for <linux-sound@vger.kernel.org>; Sun, 29 Mar 2026 06:38:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774791532; x=1775396332; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=is6bs1NfbxZsQnjfbKTIDgjeronxzv4F25oTco18Foc=;
+        b=qCRCbxKYtplEyoJ/CQJN7Kk2cwxGtfOJYTBjEpeDLUR/o+2aQzGamihefQMBRT4ySb
+         2V4AuTfsfiLcFvUEVM70KivFFEzcPj0SqpXm4JwoD+93xR+4AdcB15zXjjRsxokRL7F2
+         A2AbADeZUfvS+L4/INM2mcYwClX6wi7sUzKi9aN1t/M8LEjEzllYGk8KVqfQUIE5+nz5
+         Et61cb5/1oS1Q9np6GUSw2lAd47ixCN5Ll2xpDY/PmylUKgCEaw5ChDDiDGzbf3H/bj6
+         Rug3GDGFyAvVhGcxK0tj1TIEvB9QfV8S3yjsP296TPGLxv0si5yAkBOFBGURLoaGGj5w
+         X0jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774791532; x=1775396332;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=is6bs1NfbxZsQnjfbKTIDgjeronxzv4F25oTco18Foc=;
+        b=HjkB8pW6+YGyauJfppE3csyG06XdRVECwHoDP29WWdeFmnMupb7NGnTi00Y18dhuTZ
+         tjuLfXGyvC1QQig2baDuVaN78l5zRT6K8DVtONdIs+mrAIjYba8By8HCWcCqZFLFiCeD
+         kFP4b+Qoe0CURweUiGAHnsVdjqmQgXUo5OXFK3dJpYX071YkUT67nQvTL/DVQkW8Zv9o
+         NeXpfCwPrrtKdf5j+Dg86ovZ2iAi7X6184AOKMOy0gQczImeiX9YmzRMBiVFyuvD9ahp
+         GolePqRT26IHhzM3RRVfOIIfbVdBPrNx3AIyWnXpWVMMKWnPjn3QOAZ96qc6v6+o8rHU
+         Q7Zg==
+X-Gm-Message-State: AOJu0YxsTTsgMM2zH1avGN2rbC16zFjvTlrDQJcnBDRP8OvqtdSbzZkf
+	z5y2r7WyhEZDOMgYkVKdFi9S8NQijv3O1F1mmXmbSgnRWOAl4UzkEuLo
+X-Gm-Gg: ATEYQzwto5H2Se9ZIZb3x+3MQXNb09a/FkkHmMz1AxhRMrGjb1h8bkdPGs/dqOdpSkq
+	6tEAUdObt3q0nOxFTnuAuBnHhNm4UHd5X+8g/GJRvm949fDoQ+CAkIl4NIkkofQtiACF2k4tOfd
+	bXGe27YGeUalmKO1mj9cyIrv03MkH4sZQn/u5QRGuGwLiJOw0AYwE+UZ/5UdoQv6n1DhJqDpeMy
+	179sKJ9ij/kwkO24wPfeDyvwWqjfGpe5AS3X2oA3hL+dyJxRwYBNrkQwaEKLgww4dCF0MuZ1Xl5
+	/3jTzyc5bcGWTr5e1YVSqt5S9KdCCclGFt6X7MWjB+BQc1TPF0TOeJnQVSvPblEBr7kuN0e8an/
+	gLrkJ+MFwdR7BIybRh3BcPnyG7axVp/ol++NfjiQO/wJ/BC1z70gaJyBhC17XgmBUOMtTXvCRCa
+	8ZRsI+eqKKKQMBiPdiT6re3fYDwMu4TKHM0NuY2aBGnBfUOx9zLLZDlXLLl1fgQiKdWlAawQ==
+X-Received: by 2002:a05:600c:3f16:b0:486:fdba:f5db with SMTP id 5b1f17b1804b1-48727c86862mr156203735e9.0.1774791531900;
+        Sun, 29 Mar 2026 06:38:51 -0700 (PDT)
+Received: from localhost.localdomain ([176.40.241.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4873062ee36sm106872935e9.8.2026.03.29.06.38.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 06:38:51 -0700 (PDT)
+From: Berk Cem Goksel <berkcgoksel@gmail.com>
+To: zonque@gmail.com,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	stable@vger.kernel.org,
+	andreyknvl@gmail.com,
+	Berk Cem Goksel <berkcgoksel@gmail.com>
+Subject: [PATCH] ALSA: caiaq: fix stack out-of-bounds read in init_card
+Date: Sun, 29 Mar 2026 16:38:25 +0300
+Message-Id: <20260329133825.581585-1-berkcgoksel@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,216 +73,70 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
 
-The ctxfi driver blindly assumed a proper value returned from
-daio_device_index(), but it's not always true.  Add a proper error
-check to deal with the error from the function.
+The loop creates a whitespace-stripped copy of the card shortname
+where `len < sizeof(card->id)` is used for the bounds check. Since
+sizeof(card->id) is 16 and the local id buffer is also 16 bytes,
+writing 16 non-space characters fills the entire buffer,
+overwriting the terminating nullbyte.
 
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/87cy149n6k.wl-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+When this non-null-terminated string is later passed to
+snd_card_set_id() -> copy_valid_id_string(), the function scans
+forward with `while (*nid && ...)` and reads past the end of the
+stack buffer, reading the contents of the stack.
+
+A USB device with a product name containing many non-ASCII, non-space
+characters (e.g. multibyte UTF-8) will reliably trigger this as follows:
+
+  BUG: KASAN: stack-out-of-bounds in copy_valid_id_string
+       sound/core/init.c:696 [inline]
+  BUG: KASAN: stack-out-of-bounds in snd_card_set_id_no_lock+0x698/0x74c
+       sound/core/init.c:718
+
+The off-by-one has been present since commit bafeee5b1f8d ("ALSA:
+snd_usb_caiaq: give better shortname") from June 2009 (v2.6.31-rc1),
+which first introduced this whitespace-stripping loop. The original
+code never accounted for the null terminator when bounding the copy.
+
+Fix this by changing the loop bound to `sizeof(card->id) - 1`,
+ensuring at least one byte remains as the null terminator.
+
+Fixes: bafeee5b1f8d ("ALSA: snd_usb_caiaq: give better shortname")
+Cc: stable@vger.kernel.org
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Reported-by: Berk Cem Goksel <berkcgoksel@gmail.com>
+Signed-off-by: Berk Cem Goksel <berkcgoksel@gmail.com>
 ---
- sound/pci/ctxfi/ctdaio.c | 81 +++++++++++++++++++++++++---------------
- 1 file changed, 50 insertions(+), 31 deletions(-)
+Tested on 6.19.0 and 7.0.0-rc5 with KASAN enabled (arm64, dummy_hcd):
 
-diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
-index 19faa81d5400..4dbb1dd7af32 100644
---- a/sound/pci/ctxfi/ctdaio.c
-+++ b/sound/pci/ctxfi/ctdaio.c
-@@ -99,7 +99,7 @@ static const struct rsc_ops daio_in_rsc_ops_20k2 = {
- 	.output_slot	= daio_index,
- };
- 
--static unsigned int daio_device_index(enum DAIOTYP type, struct hw *hw)
-+static int daio_device_index(enum DAIOTYP type, struct hw *hw)
- {
- 	switch (hw->chip_type) {
- 	case ATC20K1:
-@@ -112,7 +112,9 @@ static unsigned int daio_device_index(enum DAIOTYP type, struct hw *hw)
- 		case LINEO3:	return 5;
- 		case LINEO4:	return 6;
- 		case LINEIM:	return 7;
--		default:	return -EINVAL;
-+		default:
-+			pr_err("ctxfi: Invalid type %d for hw20k1\n", type);
-+			return -EINVAL;
- 		}
- 	case ATC20K2:
- 		switch (type) {
-@@ -126,9 +128,12 @@ static unsigned int daio_device_index(enum DAIOTYP type, struct hw *hw)
- 		case LINEIM:	return 4;
- 		case MIC:	return 5;
- 		case RCA:	return 3;
--		default:	return -EINVAL;
-+		default:
-+			pr_err("ctxfi: Invalid type %d for hw20k2\n", type);
-+			return -EINVAL;
- 		}
- 	default:
-+		pr_err("ctxfi: Invalid chip type %d\n", hw->chip_type);
- 		return -EINVAL;
- 	}
- }
-@@ -149,8 +154,11 @@ static int dao_spdif_set_spos(struct dao *dao, unsigned int spos)
- 
- static int dao_commit_write(struct dao *dao)
- {
--	dao->hw->dao_commit_write(dao->hw,
--		daio_device_index(dao->daio.type, dao->hw), dao->ctrl_blk);
-+	int idx = daio_device_index(dao->daio.type, dao->hw);
-+
-+	if (idx < 0)
-+		return idx;
-+	dao->hw->dao_commit_write(dao->hw, idx, dao->ctrl_blk);
- 	return 0;
- }
- 
-@@ -288,8 +296,11 @@ static int dai_set_enb_srt(struct dai *dai, unsigned int enb)
- 
- static int dai_commit_write(struct dai *dai)
- {
--	dai->hw->dai_commit_write(dai->hw,
--		daio_device_index(dai->daio.type, dai->hw), dai->ctrl_blk);
-+	int idx = daio_device_index(dai->daio.type, dai->hw);
-+
-+	if (idx < 0)
-+		return idx;
-+	dai->hw->dai_commit_write(dai->hw, idx, dai->ctrl_blk);
- 	return 0;
- }
- 
-@@ -368,7 +379,7 @@ static int dao_rsc_init(struct dao *dao,
- {
- 	struct hw *hw = mgr->mgr.hw;
- 	unsigned int conf;
--	int err;
-+	int idx, err;
- 
- 	err = daio_rsc_init(&dao->daio, desc, mgr->mgr.hw);
- 	if (err)
-@@ -387,15 +398,18 @@ static int dao_rsc_init(struct dao *dao,
- 	if (err)
- 		goto error2;
- 
--	hw->daio_mgr_dsb_dao(mgr->mgr.ctrl_blk,
--			daio_device_index(dao->daio.type, hw));
-+	idx = daio_device_index(dao->daio.type, hw);
-+	if (idx < 0) {
-+		err = idx;
-+		goto error2;
-+	}
-+
-+	hw->daio_mgr_dsb_dao(mgr->mgr.ctrl_blk, idx);
- 	hw->daio_mgr_commit_write(hw, mgr->mgr.ctrl_blk);
- 
- 	conf = (desc->msr & 0x7) | (desc->passthru << 3);
--	hw->daio_mgr_dao_init(hw, mgr->mgr.ctrl_blk,
--			daio_device_index(dao->daio.type, hw), conf);
--	hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk,
--			daio_device_index(dao->daio.type, hw));
-+	hw->daio_mgr_dao_init(hw, mgr->mgr.ctrl_blk, idx, conf);
-+	hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk, idx);
- 	hw->daio_mgr_commit_write(hw, mgr->mgr.ctrl_blk);
- 
- 	return 0;
-@@ -444,7 +458,7 @@ static int dai_rsc_init(struct dai *dai,
- 			const struct daio_desc *desc,
- 			struct daio_mgr *mgr)
- {
--	int err;
-+	int idx, err;
- 	struct hw *hw = mgr->mgr.hw;
- 	unsigned int rsr, msr;
- 
-@@ -458,6 +472,12 @@ static int dai_rsc_init(struct dai *dai,
- 	if (err)
- 		goto error1;
- 
-+	idx = daio_device_index(dai->daio.type, dai->hw);
-+	if (idx < 0) {
-+		err = idx;
-+		goto error1;
-+	}
-+
- 	for (rsr = 0, msr = desc->msr; msr > 1; msr >>= 1)
- 		rsr++;
- 
-@@ -466,8 +486,7 @@ static int dai_rsc_init(struct dai *dai,
- 	/* default to disabling control of a SRC */
- 	hw->dai_srt_set_ec(dai->ctrl_blk, 0);
- 	hw->dai_srt_set_et(dai->ctrl_blk, 0); /* default to disabling SRT */
--	hw->dai_commit_write(hw,
--		daio_device_index(dai->daio.type, dai->hw), dai->ctrl_blk);
-+	hw->dai_commit_write(hw, idx, dai->ctrl_blk);
- 
- 	return 0;
- 
-@@ -582,28 +601,28 @@ static int put_daio_rsc(struct daio_mgr *mgr, struct daio *daio)
- static int daio_mgr_enb_daio(struct daio_mgr *mgr, struct daio *daio)
- {
- 	struct hw *hw = mgr->mgr.hw;
-+	int idx = daio_device_index(daio->type, hw);
- 
--	if (daio->output) {
--		hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk,
--				daio_device_index(daio->type, hw));
--	} else {
--		hw->daio_mgr_enb_dai(mgr->mgr.ctrl_blk,
--				daio_device_index(daio->type, hw));
--	}
-+	if (idx < 0)
-+		return idx;
-+	if (daio->output)
-+		hw->daio_mgr_enb_dao(mgr->mgr.ctrl_blk, idx);
-+	else
-+		hw->daio_mgr_enb_dai(mgr->mgr.ctrl_blk, idx);
- 	return 0;
- }
- 
- static int daio_mgr_dsb_daio(struct daio_mgr *mgr, struct daio *daio)
- {
- 	struct hw *hw = mgr->mgr.hw;
-+	int idx = daio_device_index(daio->type, hw);
- 
--	if (daio->output) {
--		hw->daio_mgr_dsb_dao(mgr->mgr.ctrl_blk,
--				daio_device_index(daio->type, hw));
--	} else {
--		hw->daio_mgr_dsb_dai(mgr->mgr.ctrl_blk,
--				daio_device_index(daio->type, hw));
--	}
-+	if (idx < 0)
-+		return idx;
-+	if (daio->output)
-+		hw->daio_mgr_dsb_dao(mgr->mgr.ctrl_blk, idx);
-+	else
-+		hw->daio_mgr_dsb_dai(mgr->mgr.ctrl_blk, idx);
- 	return 0;
- }
- 
--- 
-2.53.0
+[  302.559633] BUG: KASAN: stack-out-of-bounds in snd_card_set_id_no_lock+0x698/0x74c
+[  302.559663] Read of size 1 at addr ffff8000a3ff6b10 by task kworker/1:4/2208
+[  302.559701] Hardware name: linux,dummy-virt (DT)
+[  302.559709] Workqueue: usb_hub_wq hub_event
+[  302.559727] Call trace:
+[  302.559751]  dump_stack_lvl+0x138/0x1c8
+[  302.559793]  kasan_report+0xc0/0x100
+[  302.559833]  __asan_report_load1_noabort+0x20/0x2c
+[  302.559853]  snd_card_set_id_no_lock+0x698/0x74c
+[  302.559873]  snd_card_set_id+0xa0/0xe4
+[  302.559891]  snd_probe+0xc34/0xf04
+[  302.559906]  usb_probe_interface+0x2c4/0x998
 
+ sound/usb/caiaq/device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
+index dfd820483..3a71bab8a 100644
+--- a/sound/usb/caiaq/device.c
++++ b/sound/usb/caiaq/device.c
+@@ -488,7 +488,7 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
+ 		memset(id, 0, sizeof(id));
+
+ 		for (c = card->shortname, len = 0;
+-			*c && len < sizeof(card->id); c++)
++			*c && len < sizeof(card->id) - 1; c++)
+ 			if (*c != ' ')
+ 				id[len++] = *c;
+
+--
+2.34.1
