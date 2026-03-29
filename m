@@ -1,147 +1,81 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from mailout12.inleed.net (mailout12.inleed.net [185.189.50.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF39C37F73D
-	for <linux-sound@vger.kernel.org>; Sun, 29 Mar 2026 16:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301CB386576;
+	Sun, 29 Mar 2026 18:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.189.50.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774801964; cv=none; b=N1JXFE9CyQ7GaQ73JUki3J7wdStuWLrBdHqP22WTkFNRy5TeJPA/H4A76tHAVZm7picN0d/cVGPF0frCTc4jf+wkrwuFiS77EMKUZN1m9M93/w907fjEpFXBUoLqzgua8L7KUDBTK/lqK7YhrhZ5WyBIlQ2o5o309M8ljHSHLhk=
+	t=1774807964; cv=none; b=BUpJIKPEwx15qiFJBR7La90mMxWhJxRR6Qad/C6I115NxV0T9HbboM4x6q0SF/KzacNUedBYmE9kf/QSLcWiprTIJKU7Ey9nj+0JiDHBTNtOcFg2Zg8uKiukKX6LQ4L+CkNxR/64l4NWELM60VAkupxOJViHL3aQm5izbRUrgPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774801964; c=relaxed/simple;
-	bh=OsH+XaU/LdG1MgJog3EKxeHIfWRW4v8IQt4TToAq+Zw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZvEb6p5GmVfBxWvwgHlk7/tgrDWLyTW1MvNM7R3bnA2VF/uchC4OvJO+9amWfaz4JfFafMqOoV0/CX41sXL5CzWQ+QJkqBgzaSk5n1+oefjUq/LFEQl98TE7Ay/XOey5vKYbmSWWaCZzitX+0vkBBd0Jid8OJZtsx6Jn7vFpv8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AqG0hTn6; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774807964; c=relaxed/simple;
+	bh=Mg/ND+twwuQC1v2Pn3gA5t8iunJdJIDnkylOLuLkBl8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jPVZpMVdLNZDxbhcrGbRMpiM16i/y7vCiZaAs68llns7FUsC6fjHpbzxv5mtKT2GWGgsJHou+Yxez08VBWNLIi6Wyk80Ho6DuyiyusRWCI9UiEO2sFOwG6/2DsikO96XAAT4Zi6gGuDVFUMKbhK2e/sZvsgc7W1hfjZboKw5I0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dsmedberg.se; spf=fail smtp.mailfrom=dsmedberg.se; dkim=pass (2048-bit key) header.d=dsmedberg.se header.i=@dsmedberg.se header.b=CrW82bf/; arc=none smtp.client-ip=185.189.50.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dsmedberg.se
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=dsmedberg.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AqG0hTn6"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774801959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+uWaFI1B5um5iR8rXjg5h5IEWXydoejLkEYSf/v/l50=;
-	b=AqG0hTn6ZiJ9nsJnODLi1h38MUuY0POMQJMSWiQV+44K71ciFwxsfMHOAA9AZkFbOsvcDZ
-	gXHzpL5FeJGrt9hBI53X4ufzZuDNSU8JSywt0t4tUZkdb2eD/cKBNpwm4uQ+CcjlIiDLKm
-	uZKd6Ny33A50wSJUXClO2idBuGSSsVY=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	Alexandre Ferrieux <alexandre.ferrieux@orange.com>,
-	Bharadwaj Raju <bharadwaj.raju@machinesoul.in>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: inline i2c_check_functionality checks
-Date: Sun, 29 Mar 2026 18:31:46 +0200
-Message-ID: <20260329163152.366356-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=dsmedberg.se header.i=@dsmedberg.se header.b="CrW82bf/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=dsmedberg.se; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date
+	:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=yQ4F9qzdcxJrezgHDJ+X93dkyPOJ2Qy8aHboOym6pw8=; b=CrW82bf/YAu/xv84upHQIlZFOd
+	vO/0weIVSFYKlGEm0rA6314BS1sbUnGDJxjr/mUHQsUnflmI8S7Gcf87/lIVVYL044fljSFqdmP7Z
+	gef0h8KhKwIwebwjECokD/3UQ1+CTOv464dygPejpqffBdj5x+TyA+9STU1AceZbJc19EB9cUxzRa
+	rTQcpCzBoRQJe6ZVN9tJIrAECY1WgqeqxpIKx3ZwBQE2Lzy5HXTVQVtB6CUdgSzrst+822ZIdybjR
+	Td7/CgaVsWun4eUYs83F8nnmvJB+HDqn3lGQ4WYvrENZ7tDAki+upmhyplEHeoNzS1yW83GI1ahaf
+	1+N+3vnw==;
+Received: from mail.inleed.com ([86.107.103.84])
+	by ns12.inleed.net with esmtpa (Exim 4.99.1)
+	(envelope-from <dag@dsmedberg.se>)
+	id 1w6tZZ-0000000AJdK-0HWg;
+	Sun, 29 Mar 2026 19:05:13 +0200
+From: Dag Smedberg <dag@dsmedberg.se>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	g@b4.vu,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dag Smedberg <dag@dsmedberg.se>
+Subject: [PATCH] ALSA: usb-audio: Exclude Scarlett Solo 1st Gen from SKIP_IFACE_SETUP
+Date: Sun, 29 Mar 2026 19:04:20 +0200
+Message-ID: <20260329170420.4122-1-dag@dsmedberg.se>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3489; i=thorsten.blum@linux.dev; h=from:subject; bh=OsH+XaU/LdG1MgJog3EKxeHIfWRW4v8IQt4TToAq+Zw=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJkng39IHL9h0l938trh5au01yhoxGZ++fLwVuUjR8Esc XuOqgelHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCR6ARGhjV71622Wple3HPs 1sTko8dlrgTpXf4xbeOkg0GuOdnsr9YxMuzQzV767mnM7tVHNhqVWqk+frmlaY+U+6P7x8uMN3L xRTEDAA==
-X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Authenticated-Id: dag@dsmedberg.se
 
-Inline i2c_check_functionality() checks, since the function returns a
-boolean status rather than an error code.
+Same issue that the Scarlett 2i2 1st Gen had:
+QUIRK_FLAG_SKIP_IFACE_SETUP causes distorted audio on the
+Scarlett Solo 1st Gen (1235:801c).
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
+Reported-by: Dag Smedberg <dag@dsmedberg.se>
+Tested-by: Dag Smedberg <dag@dsmedberg.se>
+Signed-off-by: Dag Smedberg <dag@dsmedberg.se>
 ---
- sound/soc/codecs/aw87390.c  | 3 +--
- sound/soc/codecs/aw88081.c  | 3 +--
- sound/soc/codecs/aw88261.c  | 3 +--
- sound/soc/codecs/max98390.c | 6 ++----
- sound/soc/codecs/max98520.c | 4 ++--
- 5 files changed, 7 insertions(+), 12 deletions(-)
+ sound/usb/quirks.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/codecs/aw87390.c b/sound/soc/codecs/aw87390.c
-index 613daccca3af..37ca42a25889 100644
---- a/sound/soc/codecs/aw87390.c
-+++ b/sound/soc/codecs/aw87390.c
-@@ -544,8 +544,7 @@ static int aw87390_i2c_probe(struct i2c_client *i2c)
- 	const struct snd_soc_component_driver *priv;
- 	int ret;
- 
--	ret = i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C);
--	if (!ret)
-+	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
- 		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed\n");
- 
- 	aw87390 = devm_kzalloc(&i2c->dev, sizeof(*aw87390), GFP_KERNEL);
-diff --git a/sound/soc/codecs/aw88081.c b/sound/soc/codecs/aw88081.c
-index fbd1fd12381a..8c5bb3ea0227 100644
---- a/sound/soc/codecs/aw88081.c
-+++ b/sound/soc/codecs/aw88081.c
-@@ -1253,8 +1253,7 @@ static int aw88081_i2c_probe(struct i2c_client *i2c)
- 	struct aw88081 *aw88081;
- 	int ret;
- 
--	ret = i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C);
--	if (!ret)
-+	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
- 		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed");
- 
- 	aw88081 = devm_kzalloc(&i2c->dev, sizeof(*aw88081), GFP_KERNEL);
-diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
-index 43c03d3cb252..45f70fc78f87 100644
---- a/sound/soc/codecs/aw88261.c
-+++ b/sound/soc/codecs/aw88261.c
-@@ -1237,8 +1237,7 @@ static int aw88261_i2c_probe(struct i2c_client *i2c)
- 	struct aw88261 *aw88261;
- 	int ret;
- 
--	ret = i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C);
--	if (!ret)
-+	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
- 		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed");
- 
- 	aw88261 = devm_kzalloc(&i2c->dev, sizeof(*aw88261), GFP_KERNEL);
-diff --git a/sound/soc/codecs/max98390.c b/sound/soc/codecs/max98390.c
-index ff58805e97d1..65f095c47191 100644
---- a/sound/soc/codecs/max98390.c
-+++ b/sound/soc/codecs/max98390.c
-@@ -1015,10 +1015,8 @@ static int max98390_i2c_probe(struct i2c_client *i2c)
- 	struct i2c_adapter *adapter = i2c->adapter;
- 	struct gpio_desc *reset_gpio;
- 
--	ret = i2c_check_functionality(adapter,
--		I2C_FUNC_SMBUS_BYTE
--		| I2C_FUNC_SMBUS_BYTE_DATA);
--	if (!ret) {
-+	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE |
-+					      I2C_FUNC_SMBUS_BYTE_DATA)) {
- 		dev_err(&i2c->dev, "I2C check functionality failed\n");
- 		return -ENXIO;
- 	}
-diff --git a/sound/soc/codecs/max98520.c b/sound/soc/codecs/max98520.c
-index 2bf8976c1828..5bc3d95ade5a 100644
---- a/sound/soc/codecs/max98520.c
-+++ b/sound/soc/codecs/max98520.c
-@@ -681,8 +681,8 @@ static int max98520_i2c_probe(struct i2c_client *i2c)
- 	struct max98520_priv *max98520;
- 	struct i2c_adapter *adapter = to_i2c_adapter(i2c->dev.parent);
- 
--	ret = i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE | I2C_FUNC_SMBUS_BYTE_DATA);
--	if (!ret) {
-+	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE |
-+					      I2C_FUNC_SMBUS_BYTE_DATA)) {
- 		dev_err(&i2c->dev, "I2C check functionality failed\n");
- 		return -ENXIO;
- 	}
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 1f82e9e02d4b..df9c18dd6c30 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2433,6 +2433,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_VALIDATE_RATES),
+ 	DEVICE_FLG(0x1235, 0x8006, 0), /* Focusrite Scarlett 2i2 1st Gen */
+ 	DEVICE_FLG(0x1235, 0x800a, 0), /* Focusrite Scarlett 2i4 1st Gen */
++	DEVICE_FLG(0x1235, 0x801c, 0), /* Focusrite Scarlett Solo 1st Gen */
+ 	VENDOR_FLG(0x1235, /* Focusrite Novation */
+ 		   QUIRK_FLAG_SKIP_CLOCK_SELECTOR |
+ 		   QUIRK_FLAG_SKIP_IFACE_SETUP),
+-- 
+2.53.0
+
