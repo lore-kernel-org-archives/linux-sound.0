@@ -1,44 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CD33D3314;
-	Mon, 30 Mar 2026 12:39:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0D63D47BC;
+	Mon, 30 Mar 2026 12:39:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774874348; cv=none; b=N7PfWgznCoszbz1U1bfyyeXk8HASV+yOdON7AtUtxJ0YWwpaIj51G5jyvnYq9UVXlt8TwrfagvT3C9ehIXIeHzKaf3AICQSYQfXoybfoHnWdZs9f6N0PMx/Ayeb5htMhBTbkmJpaCHZMcQAxaLk6kGfZZQSQRhKy+ZY6MQr2asU=
+	t=1774874352; cv=none; b=ZQ96ou1St7nWOZsSujQlXQeUp2W2WQ5qhMS0k8y2EWJuIDuuwmVYk/BOyU/QI9yKfKU5LciahHQaSvALJ4QPprz01tSgyR4+oUjGbGfa/VD+pkIPT5VWbgOlNaK6fQIsMrfPEpYefY0BV/X/flb8Qcx3ydLqRynB9KjXrpxkcIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774874348; c=relaxed/simple;
-	bh=5wSSKEMIzIul31wUqPnRKJrbRSOh/Pgt2eb8JsZVyxo=;
+	s=arc-20240116; t=1774874352; c=relaxed/simple;
+	bh=QIr2MPysgN6oXjXrbTTEUp1sNpZxedb6kRsTKaf1NtU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gbfOoHq9w/3iFLby8WRY8cdOZu9ZUs0P53EGX4IRroxPmYYRzQdEEUuqR4ru8XIcGXDCQ7Iu+IHroHv2WlBbDeyFKNN+jszo6wjiJ3ghZnWMpH+Zua72ly8mqtysHS3akDygQyXH+cxU+imzQ+djQtSSpNPiesZXUTm724W5jmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ma14zB0s; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=o5hJYbLi1sOfqolO4ymLAYqAY4g+I6hJlOlkUIsJhyoCJOrZdw+MBtCRS0J7QJJKhI3twY89Pi+n8Qk/h1eKXwKQpV1IUOAFG76j6MNFd7celmvD4XhohPGyjUzU0PedvEbJl1hbWEZ9BElM9ECFM++8QkXUAU3Jmvj6GX9eKMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+f95Fkl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ma14zB0s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA66FC2BCB0;
-	Mon, 30 Mar 2026 12:39:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+f95Fkl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8025C2BCB2;
+	Mon, 30 Mar 2026 12:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774874348;
-	bh=5wSSKEMIzIul31wUqPnRKJrbRSOh/Pgt2eb8JsZVyxo=;
+	s=k20201202; t=1774874352;
+	bh=QIr2MPysgN6oXjXrbTTEUp1sNpZxedb6kRsTKaf1NtU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ma14zB0s7+jkqnU5ccykj/BIbsauhPl0s00HGHBA9M7tvVepS8ncgKdYIkUI4jj7Y
-	 vlutPU5v26YwFZEMOaDxStgXehcsfr5Qveu8qZZkAYimH3AV67oHDC9MdLI3cnSIKY
-	 NnhhjtriuImDhyaZ1R/aTXZ2XJ+ESlrwxDElcJ9p2mcpXuwwpzkOsDGXSzdBKEK4d2
-	 mdiWlC4dUxe3zgLlmeA5V7FIoZLcW8ytdcBxXLkpvFeiNBwLnorhgzfXjMJ2d5p0xT
-	 sXt0wUChRfNoFXXy79dThjg0h9mQPd5t1BOmfBUpmhPWai7ho8UIWZVlbA6LtvmkVV
-	 QDlvOaMxZNE2Q==
+	b=D+f95FklNi/1MzvAXHcy+AFf+L+M8YNw28ElNETkrccD4N10cPuHead3xeTLO6bPd
+	 xZDiJo5c6YeISH6EymjTzMgbLSQ3jFhGoGLCLniKe8O5mY8WAhdSpQzSeGnjMWEWbc
+	 VekFpl7kb34GZnaT23QCKyYT2Hryr9Y5UfTTBW5X4jGdwIXekfqgkvziu+m4JvkzLD
+	 9DJU3/DqafrdqclcKYWoFDeaHDd/fwfXbiVtkxmyw9HNl4snkMt+xxTFs39svlKHcf
+	 imDMeDmu9y5g6UjR7LrkqRhnAXfC9VRJIjoo47P6b+VM19wDkc0LpT4p2QjtysB95X
+	 PqFUizVEH6zXg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?C=C3=A9sar=20Montoya?= <sprit152009@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: =?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.10] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion 15-eg0xxx
-Date: Mon, 30 Mar 2026 08:38:31 -0400
-Message-ID: <20260330123842.756154-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.10] ASoC: SOF: topology: reject invalid vendor array size in token parser
+Date: Mon, 30 Mar 2026 08:38:33 -0400
+Message-ID: <20260330123842.756154-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260330123842.756154-1-sashal@kernel.org>
 References: <20260330123842.756154-1-sashal@kernel.org>
@@ -54,363 +60,305 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.10
 Content-Transfer-Encoding: 8bit
 
-From: César Montoya <sprit152009@gmail.com>
+From: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-[ Upstream commit 2f388b4e8fdd6b0f27cafd281658daacfd85807e ]
+[ Upstream commit 215e5fe75881a7e2425df04aeeed47a903d5cd5d ]
 
-The HP Pavilion 15-eg0xxx with subsystem ID 0x103c87cb uses a Realtek
-ALC287 codec with a mute LED wired to GPIO pin 4 (mask 0x10). The
-existing ALC287_FIXUP_HP_GPIO_LED fixup already handles this correctly,
-but the subsystem ID was missing from the quirk table.
+sof_parse_token_sets() accepts array->size values that can be invalid
+for a vendor tuple array header. In particular, a zero size does not
+advance the parser state and can lead to non-progress parsing on
+malformed topology data.
 
-GPIO pin confirmed via manual hda-verb testing:
-  hda-verb SET_GPIO_MASK 0x10
-  hda-verb SET_GPIO_DIRECTION 0x10
-  hda-verb SET_GPIO_DATA 0x10
+Validate array->size against the minimum header size and reject values
+smaller than sizeof(*array) before parsing. This preserves behavior for
+valid topologies and hardens malformed-input handling.
 
-Signed-off-by: César Montoya <sprit152009@gmail.com>
-Link: https://patch.msgid.link/20260321153603.12771-1-sprit152009@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Link: https://patch.msgid.link/20260319-sof-topology-array-size-fix-v1-1-f9191b16b1b7@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-All verification is complete. Here is the full analysis.
-
----
+Now I have all the information needed for a comprehensive analysis.
 
 ===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
+## PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: [ALSA: hda/realtek] [Add] [mute LED quirk for HP Pavilion
-15-eg0xxx — adds missing PCI subsystem ID to the Realtek ALC287 quirk
-table]
+**Step 1.1:** Record: [ASoC: SOF: topology] [reject] [reject invalid
+vendor array size in token parser to prevent non-progress parsing]
 
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- Signed-off-by: César Montoya `<sprit152009@gmail.com>` — patch author
-  / hardware owner
-- Link: `https://patch.msgid.link/20260321153603.12771-1-
-  sprit152009@gmail.com` — submission link
-- Signed-off-by: Takashi Iwai `<tiwai@suse.de>` — ALSA/HDA subsystem
-  maintainer (applied the patch)
-- No Fixes: tag (expected — quirk additions rarely have one)
-- No Reported-by: (author IS the affected user)
-- No Cc: stable (absence expected for commits under review)
+**Step 1.2:** Record: Tags present:
+- Signed-off-by: Cássio Gabriel (author)
+- Acked-by: Peter Ujfalusi (confirmed listed SOF maintainer in
+  MAINTAINERS)
+- Link: patch.msgid.link URL
+- Signed-off-by: Mark Brown (ASoC maintainer, merged the patch)
+- No Fixes:, Reported-by:, Tested-by:, Cc: stable tags (expected for
+  manual review candidates)
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-Record: Bug: HP Pavilion 15-eg0xxx with subsystem ID 0x103c:0x87cb uses
-ALC287 codec with mute LED wired to GPIO pin 4 (mask 0x10). The existing
-`ALC287_FIXUP_HP_GPIO_LED` fixup already handles this correctly, but the
-subsystem ID was missing from the quirk table. Symptom: mute LED does
-not function at all. Root cause: missing SSID→fixup mapping. Evidence:
-author confirms GPIO pin via manual `hda-verb` testing (SET_GPIO_MASK,
-SET_GPIO_DIRECTION, SET_GPIO_DATA with 0x10).
+**Step 1.3:** Record: Bug: `sof_parse_token_sets()` accepts
+`array->size` values that are invalid — specifically, a zero size does
+not advance parser state. Symptom: non-progress parsing (infinite loop)
+on malformed topology data. Root cause: the validation only checked
+`asize < 0`, which cannot catch zero or small positive values.
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not a hidden bug fix — this is an explicit hardware quirk
-addition (a well-known stable exception category). The "bug" is that
-hardware doesn't work without the quirk table entry.
+**Step 1.4:** Record: Yes, this is a real bug fix despite "hardens"
+language. The commit fixes a concrete infinite loop scenario where
+`asize == 0` causes the parser while-loop to never terminate.
 
 ===============================================================
-PHASE 2: DIFF ANALYSIS — LINE BY LINE
+## PHASE 2: DIFF ANALYSIS
 ===============================================================
 
-**Step 2.1: INVENTORY THE CHANGES**
-Record: 1 file changed: `sound/hda/codecs/realtek/alc269.c`. +1 line, -0
-lines. Function modified: none (data table `alc269_fixup_tbl[]` only).
-Scope: single-file, single table row — maximally surgical.
+**Step 2.1:** Record: 1 file changed (`sound/soc/sof/topology.c`), 1
+line modified. Function modified: `sof_parse_token_sets()`.
+Classification: single-file, single-line surgical fix.
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record: Before: subsystem ID 0x103c:0x87cb is not in
-`alc269_fixup_tbl[]`, so the HDA core finds no fixup match during codec
-probe, and the mute LED is never configured. After: the new
-`SND_PCI_QUIRK(0x103c, 0x87cb, "HP Pavilion 15-eg0xxx",
-ALC287_FIXUP_HP_GPIO_LED)` entry causes `snd_hda_pick_fixup()` to match
-and apply the GPIO LED fixup during probe.
+**Step 2.2:** Record: Before: `if (asize < 0)` — only rejects negative
+values. After: `if (asize < sizeof(*array))` — rejects any value smaller
+than the vendor array header size. The FIXME comment ("A zero-size array
+makes no sense") was already documenting this known deficiency.
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: Category (h) — hardware workaround / quirk table entry. The
-added line is inserted in sorted order between 0x87c8 and 0x87cc (the
-latter is the same laptop model name using the same fixup). The fixup
-`ALC287_FIXUP_HP_GPIO_LED` is defined at line 5921 and calls
-`alc287_fixup_hp_gpio_led()`, which invokes
-`alc_fixup_hp_gpio_led(codec, action, 0x10, 0)` — GPIO mask 0x10 exactly
-matches the commit message's hda-verb testing.
+**Step 2.3:** Record: Bug category: logic/infinite loop. The while loop
+at line 735 uses `array_size -= asize` (line 746) and advances the
+pointer via `array = (u8*)array + asize` (line 784). When `asize == 0`:
+1. `array_size -= 0` — no change, stays positive
+2. `array = array + 0` — pointer doesn't advance
+3. The while condition `array_size > 0 && total < count *
+   token_instance_num` remains true
+4. Result: **infinite loop / soft lockup**
 
-**Step 2.4: ASSESS THE FIX QUALITY**
-Record: Obviously correct — identical pattern to the neighboring 0x87cc
-entry for the same laptop model. Regression risk: effectively zero — the
-quirk only activates on machines with PCI subsystem ID 0x103c:0x87cb. No
-logic, no API, no code flow changes. No red flags.
-
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
-
-**Step 3.1: BLAME THE CHANGED LINES**
-Record: `git blame -L6868,6872` shows:
-- Line 6869 (0x87c8): from `aeeb85f26c3bbe` (Takashi Iwai, 2025-07-09) —
-  the mass file relocation commit
-- Line 6870 (0x87cc): from `7cd3c8cafbc050` (Takashi Iwai, 2025-07-21) —
-  merge of `9744ede7099e8` which added the 0x87cc entry
-- The 0x87cb line does not exist in this tree (this is the candidate
-  commit adding it)
-
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: N/A — no Fixes: tag. Expected for quirk additions.
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: The related commit `9744ede7099e8` ("ALSA: hda/realtek - Add
-mute LED support for HP Pavilion 15-eg0xxx") added the 0x87cc entry for
-the same laptop model, was written by a different author (Dawid Rezler),
-explicitly carried `Cc: <stable@vger.kernel.org>`, and went into
-`sound/pci/hda/patch_realtek.c` (pre-move path). It was tagged
-`v6.16~13^2~3`, meaning it entered in v6.16. The current commit adds a
-sibling SSID (0x87cb) for the same model. Standalone — no other patches
-needed.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: César Montoya appears to be an end-user / first-time contributor
-fixing their own hardware. Patch was accepted and signed off by Takashi
-Iwai (ALSA maintainer), lending strong confidence.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: The only prerequisite is `ALC287_FIXUP_HP_GPIO_LED` and its
-implementation `alc287_fixup_hp_gpio_led()`. These were introduced long
-ago and exist in all active stable trees. No other dependencies. Fully
-standalone.
+**Step 2.4:** Record: The fix is obviously correct. `struct
+snd_soc_tplg_vendor_array` has three `__le32` header fields (`size`,
+`type`, `num_elems`) = 12 bytes minimum, plus a flex array union. Any
+valid array must be at least `sizeof(*array)` bytes. Note on type
+promotion: `asize` is `int`, `sizeof(*)` is `size_t`. A negative `asize`
+promotes to a very large unsigned value, so `asize < sizeof(*)` would be
+false — but negative `asize` is still caught by the subsequent
+`array_size -= asize; if (array_size < 0)` check at line 747, so no
+regression.
 
 ===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
-**Step 4.1: SEARCH LORE.KERNEL.ORG**
-Record: The commit includes a Link to
-`patch.msgid.link/20260321153603.12771-1-sprit152009@gmail.com`. The
-patch was a single standalone submission (not a series — "12771-1" with
-no further parts). Takashi Iwai's Signed-off-by indicates direct
-application by the maintainer. No NAKs or objections are evident from
-the acceptance.
+**Step 3.1:** Record: `git blame` confirms the buggy `if (asize < 0)`
+check was introduced in commit `311ce4fe7637d9` ("ASoC: SOF: Add support
+for loading topologies") by Liam Girdwood, 2019-04-12. `git describe
+--contains` shows this is `v5.2-rc1`. The bug has been present since
+**v5.2** — all active stable trees contain it.
 
-**Step 4.2: SEARCH FOR BUG REPORT**
-Record: No separate bug report — the author is the affected user who
-submitted the fix directly, confirmed via hda-verb hardware testing.
+**Step 3.2:** Record: No Fixes: tag present. The buggy commit is
+`311ce4fe7637d9`.
 
-**Step 4.3: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone single patch. The sibling 0x87cc entry (commit
-`9744ede7099e8`) was a separate patch from a different author and
-already carried `Cc: stable`.
+**Step 3.3:** Record: `git log --oneline -20` shows active development
+but no related prerequisite or duplicate fix for this specific issue.
 
-**Step 4.4: CHECK STABLE MAILING LIST HISTORY**
-Record: The sibling commit `9744ede7099e8` for 0x87cc already has `Cc:
-stable@vger.kernel.org`, confirming the subsystem maintainer considers
-this class of quirk appropriate for stable backporting.
+**Step 3.4:** Record: Peter Ujfalusi (Acked-by) is a listed maintainer
+for SOF in MAINTAINERS. Mark Brown signed off as ASoC subsystem
+maintainer. Strong maintainer endorsement.
+
+**Step 3.5:** Record: No dependencies. The fix changes one condition in
+an existing function with no new types, helpers, or APIs needed.
 
 ===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
+## PHASE 4: MAILING LIST RESEARCH
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: No functions modified. Only a data table entry added to
-`alc269_fixup_tbl[]`.
-
-**Step 5.2: TRACE CALLERS**
-Record: The table is consumed by `snd_hda_pick_fixup()` during Realtek
-ALC269-family codec probe. This is a standard, well-tested code path run
-once per codec initialization.
-
-**Step 5.3: TRACE CALLEES**
-Record: When matched, the fixup definition at line 5921 invokes
-`alc287_fixup_hp_gpio_led()` (line 1360), which calls
-`alc_fixup_hp_gpio_led(codec, action, 0x10, 0)`. This configures GPIO
-pin 4 for the mute LED — a well-tested helper used by many HP models.
-
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Codec probe → `snd_hda_pick_fixup()` → table lookup →
-`ALC287_FIXUP_HP_GPIO_LED` → `alc287_fixup_hp_gpio_led()` →
-`alc_fixup_hp_gpio_led()`. The path is reachable on every boot for users
-with this hardware.
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: `ALC287_FIXUP_HP_GPIO_LED` appears 11 times in the file. At
-least 10 other HP models use the identical fixup. This is a massively
-replicated, well-tested pattern.
+Record: The patch.msgid.link and lore.kernel.org URLs are blocked by
+Anubis bot protection in this environment. However, the patch was Acked
+by a listed SOF maintainer (Peter Ujfalusi) and merged by the ASoC
+maintainer (Mark Brown), providing strong review signal.
 
 ===============================================================
-PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
+## PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE TREES?**
-Record: The `ALC287_FIXUP_HP_GPIO_LED` fixup and its implementation have
-been in the tree since at least v5.10-era kernels. All active stable
-trees (6.1.y, 6.6.y, 6.12.y, etc.) contain the fixup infrastructure. The
-only thing missing is this specific SSID table entry.
+**Step 5.1:** Record: Modified function: `sof_parse_token_sets()`
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: The file was moved from `sound/pci/hda/patch_realtek.c` to
-`sound/hda/codecs/realtek/alc269.c` in commit `6014e9021b28e`
-(v6.17-rc1). Stable trees older than 6.17 need the patch applied to the
-old path. The table format is identical in both locations. The fix is a
-single line addition at a predictable sorted location — trivial to
-adjust for either path.
+**Step 5.2:** Record: `sof_parse_token_sets()` is called from:
+1. `sof_parse_tokens()` — a wrapper called from ~9 locations throughout
+   topology.c (control load, widget parsing, DAI load, link load,
+   DSPless widget paths)
+2. `sof_parse_pin_binding()` — direct call for pin binding token parsing
 
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY IN STABLE**
-Record: The 0x87cb SSID does not appear in the current tree (confirmed
-by grep), so no related fix for this specific SSID is already present.
+This is a heavily-used core parsing function in the SOF topology loader.
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+**Step 5.3-5.4:** Record: The call chain is: `sof_pcm_probe()` →
+`snd_sof_load_topology()` → `snd_soc_tplg_component_load()` → SOF
+callbacks (widget_ready, dai_load, link_load, control_load) →
+`sof_parse_tokens()` → `sof_parse_token_sets()`. This is triggered
+during SOF audio component probe when topology firmware blobs are
+loaded.
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: Subsystem: sound/hda (HD-Audio, Realtek codec). Criticality:
-IMPORTANT — audio is critical for laptop users. This specific driver
-covers a very large number of consumer laptops.
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Extremely active — `git log` shows continuous stream of quirk
-additions. Takashi Iwai actively maintains and applies these patches.
-Quirk additions for HP laptops are the most common type of commit in
-this file.
+**Step 5.5:** Record: The **same weak check** (`if (asize < 0)`) exists
+in `sof_copy_tuples()` at line 544, with identical loop structure and
+pointer advancement at line 610. This sibling function has the same
+vulnerability but is NOT fixed by this commit. This means the patch is
+not a complete fix across all SOF topology parsing paths, but it does
+fix the specific path through `sof_parse_token_sets()`.
 
 ===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
+## PHASE 6: STABLE TREE ANALYSIS
 ===============================================================
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Users of HP Pavilion 15-eg0xxx laptops with PCI subsystem ID
-0x103c:0x87cb and ALC287 codec. Platform-specific / driver-specific.
+**Step 6.1:** Record: The buggy code was introduced in v5.2. All active
+stable trees (5.4.y, 5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y) contain this
+vulnerable code.
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Every boot on affected hardware. The mute LED never works
-without this quirk — it's not intermittent, it's permanent broken
-behavior for these users.
+**Step 6.2:** Record: Expected clean or trivial backport — the `if
+(asize < 0)` line with the FIXME comment hasn't changed since
+introduction.
 
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: Without the fix, the mute LED does not respond. Severity: LOW
-for system stability (no crash/corruption), but this is a real hardware
-defect that makes the laptop's audio indicator non-functional. This is
-exactly the class of hardware enablement quirk that stable trees
-routinely accept.
-
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record: Benefit: enables mute LED for a specific HP laptop variant —
-real hardware fix for real users. Risk: essentially zero — the
-`SND_PCI_QUIRK` entry only matches on the exact subsystem ID
-0x103c:0x87cb, and the underlying fixup is well-tested across 10+ other
-HP models. Risk-benefit ratio: very favorable.
+**Step 6.3:** Record: No duplicate or alternative fix found for this
+exact issue in git history.
 
 ===============================================================
-PHASE 9: FINAL SYNTHESIS
+## PHASE 7: SUBSYSTEM CONTEXT
 ===============================================================
 
-**Step 9.1: COMPILE THE EVIDENCE**
+**Step 7.1:** Record: Subsystem: sound/soc/sof (Sound Open Firmware).
+Criticality: IMPORTANT — SOF is used on most modern Intel laptops for
+audio hardware.
 
-Evidence FOR backporting:
-- Single-line `SND_PCI_QUIRK` table entry addition — textbook stable
-  material
-- Uses existing, well-tested fixup (`ALC287_FIXUP_HP_GPIO_LED`)
-  confirmed in 10+ other entries
-- GPIO mask 0x10 in the fixup matches the author's hda-verb hardware
-  verification
-- Neighboring entry 0x87cc for the same laptop model uses the identical
-  fixup
-- The sibling 0x87cc commit (`9744ede7099e8`) explicitly carries `Cc:
-  stable@vger.kernel.org`
-- Accepted by ALSA maintainer Takashi Iwai
-- Fixup infrastructure exists in all active stable trees (since
-  v5.10-era)
-- Zero regression risk (SSID-gated, affects only this specific hardware)
-- Matches the "AUDIO CODEC QUIRKS" exception category explicitly listed
-  in stable guidelines
+**Step 7.2:** Record: Active subsystem with regular commits.
 
-Evidence AGAINST backporting:
-- None
+===============================================================
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
-Unresolved:
-- Full mailing list thread content not fetched (but maintainer
-  acceptance is confirmed via SOB)
+**Step 8.1:** Record: Affected users: SOF audio hardware users (very
+common on Intel-based laptops/desktops).
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **YES** — identical pattern to dozens
-   of entries; hardware-verified by author via hda-verb; accepted by
-   subsystem maintainer
-2. Fixes a real bug that affects users? **YES** — mute LED non-
-   functional on specific HP laptop
-3. Important issue? **YES under exception** — hardware quirk for audio
-   codec; same class as the explicitly allowed "SND_PCI_QUIRK entries
-   for specific laptop models"
-4. Small and contained? **YES** — 1 line, single table entry
-5. No new features or APIs? **YES** — maps an existing fixup to a new
-   SSID
-6. Can apply to stable trees? **YES** — trivially, with path adjustment
-   for trees < v6.17 (`sound/pci/hda/patch_realtek.c` instead of
-   `sound/hda/codecs/realtek/alc269.c`)
+**Step 8.2:** Record: Trigger: malformed/corrupt SOF topology blob with
+`array->size == 0` (or < header size). Topology files are loaded from
+firmware path during driver probe. Trigger requires corrupt or
+maliciously crafted topology data — uncommon in normal operation but
+possible from disk corruption or adversarial input.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Hardware quirk / audio codec quirk — explicitly listed as
-automatic YES in stable guidelines. `SND_PCI_QUIRK` entries for specific
-laptop models are called out by name.
+**Step 8.3:** Record: Failure mode: infinite loop in kernel context →
+soft lockup → system hang during audio driver probe. Severity: HIGH
+(system hang, unavailability).
 
-**Step 9.4: MAKE YOUR DECISION**
-This is a textbook hardware quirk addition — a single-line
-`SND_PCI_QUIRK` entry mapping a missing PCI subsystem ID to an existing,
-well-tested fixup function. It enables the mute LED on a specific HP
-laptop variant. Zero regression risk, accepted by the subsystem
-maintainer, underlying fixup exists in all active stable trees.
+**Step 8.4:** Record:
+- **Benefit:** Prevents a real infinite loop / system hang. The FIXME
+  comment proves the developer knew this was broken. Low-medium benefit
+  (real hang, but only on malformed input).
+- **Risk:** Very low. Single condition change; valid topologies always
+  have `asize >= sizeof(*array)`. No regression for valid data. Acked by
+  subsystem maintainer.
+- **Ratio:** Favorable — high confidence in correctness, near-zero
+  regression risk, fixes real hang.
 
----
+===============================================================
+## PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+**Step 9.1: Evidence compilation**
+
+FOR backporting:
+- Fixes a concrete infinite loop (system hang) — the FIXME comment
+  proves this was a known deficiency
+- Single-line, obviously correct fix
+- Acked by listed SOF subsystem maintainer (Peter Ujfalusi)
+- Merged by ASoC maintainer (Mark Brown)
+- Bug present since v5.2 — exists in all active stable trees
+- Near-zero regression risk for valid topologies
+- `sof_parse_token_sets()` is called from ~10 locations — well-used code
+  path
+
+AGAINST backporting:
+- Trigger requires malformed topology data (not normal operation)
+- No user/syzbot crash report — found by code inspection
+- The parallel `sof_copy_tuples()` function retains the same weak check
+  (incomplete coverage)
+- SOF is important but not core kernel — affects hardware-specific users
+
+**Step 9.2: Stable rules checklist**
+1. Obviously correct and tested? **YES** — maintainer acked, trivially
+   verifiable from code
+2. Fixes a real bug? **YES** — infinite loop on malformed input
+   (acknowledged by FIXME comment)
+3. Important issue? **YES** — system hang (soft lockup), HIGH severity
+4. Small and contained? **YES** — 1 line changed, 1 function, 1 file
+5. No new features or APIs? **YES**
+6. Can apply to stable trees? **YES** — identical code in all stable
+   trees
+
+**Step 9.3:** Record: No exception category — standard bug fix.
+
+**Step 9.4: Decision**
+
+This commit fixes a real, documented infinite loop bug (the original
+code even had a FIXME acknowledging the problem). The fix is a single-
+line minimum-size validation, acked by the subsystem maintainer, with
+near-zero regression risk. While the trigger requires malformed topology
+data, a system hang is a serious failure mode — stable kernels should
+handle invalid input gracefully without hanging. The incomplete coverage
+of the sibling function `sof_copy_tuples()` does not diminish the value
+of fixing this specific path. The fix meets all stable kernel criteria.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Signed-off-by from author (César Montoya) and
-  maintainer (Takashi Iwai); Link to patch submission; no
-  Fixes:/Reported-by: (expected for quirk)
-- [Phase 2] Diff: exactly +1 line `SND_PCI_QUIRK(0x103c, 0x87cb, "HP
-  Pavilion 15-eg0xxx", ALC287_FIXUP_HP_GPIO_LED)` in
-  `alc269_fixup_tbl[]`
-- [Phase 3] git blame -L6868,6872: confirmed 0x87cc at line 6870 from
-  `7cd3c8cafbc050`, surrounding lines from `aeeb85f26c3bbe` (file move);
-  0x87cb not present in current tree (grep returns no matches)
-- [Phase 3] git show `9744ede7099e8`: confirmed this is the sibling
-  0x87cc commit for the same laptop model, with `Cc:
-  <stable@vger.kernel.org>`, tagged `v6.16~13^2~3`
-- [Phase 3] git show `6014e9021b28e`: confirmed file moved from
-  `sound/pci/hda/patch_realtek.c` to `sound/hda/codecs/realtek/alc269.c`
-  in v6.17-rc1
-- [Phase 5] Read lines 1360-1364: `alc287_fixup_hp_gpio_led()` calls
-  `alc_fixup_hp_gpio_led(codec, action, 0x10, 0)` — GPIO mask 0x10
-  matches commit message
-- [Phase 5] Read lines 5921-5924: `ALC287_FIXUP_HP_GPIO_LED` fixup
-  definition confirmed, type `HDA_FIXUP_FUNC`
-- [Phase 5] Grep: `ALC287_FIXUP_HP_GPIO_LED` appears 11 times in
-  alc269.c (10+ other HP models)
-- [Phase 6] File path differs between mainline and stable < 6.17; table
-  format is identical — trivial backport adjustment
-- [Phase 8] Risk: zero (SSID-gated single table entry, well-tested
-  existing fixup path)
+- [Phase 1] Parsed all tags from supplied commit message: Acked-by Peter
+  Ujfalusi, Signed-off-by Mark Brown, Link to patch.msgid.link
+- [Phase 1] Verified Peter Ujfalusi is listed as maintainer in
+  MAINTAINERS under "SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
+- [Phase 2] Read `sof_parse_token_sets()` (lines 724-793): confirmed
+  while loop at line 735, `array_size -= asize` at line 746, pointer
+  advance `(u8*)array + asize` at line 784 — `asize == 0` causes
+  infinite loop
+- [Phase 2] Verified `struct snd_soc_tplg_vendor_array` in
+  `include/uapi/sound/asoc.h` (line 220): three `__le32` fields (`size`,
+  `type`, `num_elems`) + flex array union — `sizeof(*array)` is the
+  correct minimum header size
+- [Phase 2] Verified type safety: `int asize` compared against `size_t
+  sizeof(*)` — negative values promote to large unsigned (caught by
+  subsequent `array_size < 0` check at line 747)
+- [Phase 3] git blame: buggy `if (asize < 0)` line attributed to commit
+  `311ce4fe7637d9` (Liam Girdwood, 2019-04-12)
+- [Phase 3] git describe: `311ce4fe7637d9` first appeared in `v5.2-rc1`
+  — bug present in all active stable trees
+- [Phase 3] git log -20: no prerequisites or duplicate fixes found
+- [Phase 5] grep callers: `sof_parse_token_sets()` called from
+  `sof_parse_tokens()` (~9 call sites) and `sof_parse_pin_binding()` (1
+  call site)
+- [Phase 5] grep: found same weak `if (asize < 0)` check in sibling
+  `sof_copy_tuples()` at line 544, with identical loop/advance pattern
+  at line 610 — NOT fixed by this commit
+- [Phase 6] Buggy code unchanged since v5.2 — clean backport expected to
+  all active stable trees
+- [Phase 8] Failure mode: infinite loop in kernel context → soft
+  lockup/system hang during topology load. Severity: HIGH
+- UNVERIFIED: Lore discussion content (blocked by Anubis protection)
+- UNVERIFIED: Whether unprivileged users can trigger topology loading on
+  specific distributions
+- UNVERIFIED: Exact runtime `sizeof(struct snd_soc_tplg_vendor_array)`
+  (struct is `__packed` with flex array — compile-time verification not
+  performed)
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/sof/topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 75f880efdeaf1..5adc5db6fd52b 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6868,6 +6868,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x87cb, "HP Pavilion 15-eg0xxx", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87cc, "HP Pavilion 15-eg0xxx", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x87df, "HP ProBook 430 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 9bf8ab610a7ea..8880ac5d8d6ff 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -736,7 +736,7 @@ static int sof_parse_token_sets(struct snd_soc_component *scomp,
+ 		asize = le32_to_cpu(array->size);
+ 
+ 		/* validate asize */
+-		if (asize < 0) { /* FIXME: A zero-size array makes no sense */
++		if (asize < sizeof(*array)) {
+ 			dev_err(scomp->dev, "error: invalid array size 0x%x\n",
+ 				asize);
+ 			return -EINVAL;
 -- 
 2.53.0
 
