@@ -1,101 +1,249 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C287828507E
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 21:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4F43A3E78
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 22:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774904866; cv=none; b=PUgy8EduJbqgdeDGWH0Hjl6I332dNsqr7P263lO3a832VcsZfW6ftpBqV6BTk/8AhGw5IvgatpANLef9kv6uHlfJ0Pj1ZNB5p/qUvmpekzYLIj15S3G+Pv5Zh09Z/QONWnSxQIn0gB9fWcDZz9yh7gq8Aix7SBi5SnPtxiLWV/4=
+	t=1774909679; cv=none; b=IoO83wHjTJR1bU6XYSGykedu/RdqEGNpjelU4Gwh0nOB/7DuS9cdd9gjwpzXFf9GlOtMMBOnbyYxb8J3rxGOqPoW8ZM7K8I84RDQIcP6DWp+k+vzVyQ7sOYkT8T9UVj6rkUsShU5gJowRXxii9cmfT+djQnW+tmkSZl33zqouk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774904866; c=relaxed/simple;
-	bh=PqYXDAXz5s6eZadqvaGRV6GjrKo0tBKjf1tJeApLlAA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oy6Tfl00Tf0TDAVlIZgl9kTt7Sh5l3fnfnTTfGieOWP0eXRQfNTksGZoIl/Tf9wzzq0CTpSr5YUXJmU9s8QWn9FmF8XyXlUPAPjfgwOkuqYONeqGTLtk3fx0uIqu9fACigCKhC1o5RzLRGP5RrgmngUYBJTjNCsWC9ro7io2HDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=cTjpLXIN; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1774909679; c=relaxed/simple;
+	bh=b41s+FN6uiztHgjfDAeztxkSjquTUWhRy3iOENgs/Tg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=P9sOkA5y35gIQ0bDYte0trHgtf37Z/Q95eX+Q4PZcyMJU0FkuNZaiVqQEqweaTOnX5tyCHQFHEReXp9N8DGOKxjBD3HDWBGMev1nqpXO614cp4wVnRMNXcIW7bjkyhCKFpixfgA+YoJuZqJp2jw+g3Z0kngZSTSkVUa6RAtaV0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TbTH3+rj; arc=none smtp.client-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="cTjpLXIN"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 638911127BB;
-	Mon, 30 Mar 2026 23:07:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1774904854;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=l0x3Vp5Udzy0OaNa9XbhWD/P1p/8h4OhzsTy6rE1Yzo=;
-	b=cTjpLXINJLp6p8kiX8Tzd1Ux49eOAI4lPdHRpD3XQ6kvGCazhLXd3wJjusCJ/WityuJFnj
-	nc2wcsN+7DdHYQiFWtuG+48uH1Kjo4u2xcxtAA1BbQlWGqvFM0l/iFvMLtDkmoOv+0kt8H
-	2agOdMfWuAKmJYXUjxyjZmWx4iUObvyQGB9xg9YqIY5q7WjYIV1csNkInyV5K4vW1FS1ck
-	E8ZkaAihMLj6Y4JEAFVyezu9IP+vQv/88Q2trkE8iYfzR4hfKXTlM3Pud1npEnQGnrljwU
-	01lH2rAkYNwSd2DQC8Io+i3Z636bDLVPcgsrlYQjscQNfl5+knXXLOJWQ0jHlA==
-Message-ID: <327db909-e3b6-4f28-9846-b06ae0db793f@nabladev.com>
-Date: Mon, 30 Mar 2026 18:47:57 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbTH3+rj"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-126ea4e9694so1281558c88.1
+        for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 15:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774909667; x=1775514467; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lzyAsYuDiypzhr0nJOs3r8SDJ+17St3td4xXEfgjRxY=;
+        b=TbTH3+rjx5y+kih/whZUfjoL6g+BfQGjVlgzZt+Apb4Qdr/XJee7ZDFMaXhoeX0uZK
+         aIavg8gPXmCtOsIAASXJgpXUIYGCFraTcODu79tgdC4NvulN4McdRh/4oqRb6HxlvMi+
+         91zxgd1D3rQEJPuW1+kxWbNNFI9/wieNE5yPp4l7QaDqXVFXr6eky6cfdXGtfNTBLjTo
+         NTTqEOGN/h8CIBuJblLQ4f+QflH45rBYQoGHLXcPuDQrqSbcqR+jXSymTubp2z5SmRhQ
+         zid5lHOraAwUW41/l3ErzRvcE+9MpOcB8LG43IosgDwa/U+TopiG+9WeMeIwtLLzWStq
+         HXAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774909667; x=1775514467;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lzyAsYuDiypzhr0nJOs3r8SDJ+17St3td4xXEfgjRxY=;
+        b=fatVxpOUxQ5q/YmA2rIskvF5R0OdaEWBH+eByT+i27U7bJEZYGrp88nCjiDDZAluzt
+         I3reDKrienljQBUI/KpTI9W7vspVMEoSpOEQzQy1XkXzyxSG6wyJIj4c0aFR3QfUkEx4
+         dLNqy4qTj+s+nnsmwX+lYhEqKirijw9gDftIxeqCf4Eae5pLsYia0ASJwPhpuk78U/Uy
+         vSK3O9m7aDoNi7K82Bc0nN86WTMZ/7zb89AGeE5zq7+LpxNADe5vXCR4aUtrCd7jHuxB
+         h86uS3U7A65RezIBojtu08NsM+7DA1ISR5t1baXr+BCQs+gGoOIPO2yFX3BFQi8RoTtI
+         9sSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgS3m/RKzVHZ475Ew7Dw2ykygqoWvO18eN1d5MiHEAHJScAF2VeMNb4YmYm1nSqtk3225RYX4Tzki3bw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySgUGbmVVs8c8F9kFgT9AUGLWxdgcnpkrgYcEgKbNno/o0rZYr
+	M9kxEUZH6EfhgDuo5kBi3RtkNCbRuQcQPbybgcHejImEMycpX5xNP3pY
+X-Gm-Gg: ATEYQzwsL3HT4boyAPMKr5HcGFrLS77+LTny0//bmxyFmiATlNX1wmISDMOtI8VSWmP
+	29tTs5aIqzkMigEnYruDyMoMADcFKkWLu8YlSj4V51S9CKmgz/TDD6SFfAZ1YabHAb/F92jcO4V
+	48F+NgBjQOoeQpVf44gx6eg5ii2pJbEZ/CPenDvuMEVeloLb9IIidH3q/PfawdRw0C5f7W2dkWT
+	N1PWFeSvByXW2hmOl4SlARd66M2DPKXZiBy4lC6S2kSOYhS9Tsso0QMIgIt490Roo2eYR2bcqzk
+	n8T+hW40chsswgIHRuacVKwO/ElxzztLzilqHeHerdNUnTB5043UaV6H+lC+FtrnmTBKdTgsJew
+	sbiWRzBvEvVNS8Sjcf40NUvKu+34XC54Od37NoCsoSGkmDWSainf3KRR0/vFvuHQRCpZUOxufUd
+	iE7mTGU+5ICbQksxQCfNF7KO+2O4OPnY6AsIlu2AozM9J1QWOj9DjplXjCJFW7vdYXSmUwxBSsS
+	xN3pAjmFHPu808=
+X-Received: by 2002:a05:7022:b98:b0:127:33e0:ea33 with SMTP id a92af1059eb24-12ab28e4da2mr8360408c88.22.1774909666880;
+        Mon, 30 Mar 2026 15:27:46 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-254.user3p.v-tal.net.br. [177.4.161.254])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ac09e3872sm10025298c88.13.2026.03.30.15.27.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 15:27:46 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Mon, 30 Mar 2026 19:27:28 -0300
+Subject: [PATCH] ALSA: aoa: i2sbus: clear stale prepared state
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH] ALSA: pcm_dmaengine: Use more shorter periods for
- SEGMENT granularity PCM DMA
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
- Lars-Peter Clausen <lars@metafoo.de>, Mark Brown <broonie@kernel.org>,
- Michal Simek <monstr@monstr.eu>, Takashi Iwai <tiwai@suse.com>
-References: <20260327143014.54867-1-marex@nabladev.com>
- <87mrzpu5lo.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <87mrzpu5lo.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260330-aoa-i2sbus-clear-stale-active-v1-1-47a6c0a3ac9e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQqCQBAG4FeROTewrWHUq0SH2fG3JkRjR0UQ3
+ 72tjt/l28iRDU7XaqOMxdzGoeB4qEifMjzA1hZTDLEJdbywjMIWPc3O2kMy+yQ9WHSyBXxq63Q
+ OjWpAR+V4Z3S2/v7b/W+f0ws6fVPa9w/IFGDhgQAAAA==
+X-Change-ID: 20260329-aoa-i2sbus-clear-stale-active-4d3b706cc0ef
+To: Johannes Berg <johannes@sipsolutions.net>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5868;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=b41s+FN6uiztHgjfDAeztxkSjquTUWhRy3iOENgs/Tg=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmnftzW7coz2LdKSCMkoOHoyiO9dRvY1pz01FLj4lq+/
+ Lb5kRbmjlIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZhIegXDX/kpFfZ6GZadE9fv
+ 8FNZzT3n9Orsnx3/pK4eVmTpqVHbmcjIsNhoe9XiF2ffhTXUZn0Uf+J2ynvS9r3/y6sauGxuS0z
+ W4gQA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On 3/30/26 9:41 AM, Takashi Iwai wrote:
-> On Fri, 27 Mar 2026 15:29:43 +0100,
-> Marek Vasut wrote:
->>
->> The segment granularity PCM DMA updates PCM pointer at the end of every
->> segment. In case the segments are too long, which happens with pipewire,
->> it may happen that pcm_lib wait_for_avail() will time out while waiting
->> for PCM pointer update and playback will fail with IO error.
->>
->> In case of SEGMENT granularity, use 8 shorter segments over the default
->> 2 long segments set in dmaengine_pcm_set_runtime_hwparams(). That gives
->> the DMA engine some chance to update the PCM pointer every once in a
->> while and prevent the timeout.
->>
->> Signed-off-by: Marek Vasut <marex@nabladev.com>
->> ---
->> Cc: Jaroslav Kysela <perex@perex.cz>
->> Cc: Lars-Peter Clausen <lars@metafoo.de>
->> Cc: Mark Brown <broonie@kernel.org>
->> Cc: Michal Simek <monstr@monstr.eu>
->> Cc: Takashi Iwai <tiwai@suse.com>
->> Cc: linux-sound@vger.kernel.org
->> ---
->>   sound/core/pcm_dmaengine.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
->> index 1306b04be171a..092ce958e1aee 100644
->> --- a/sound/core/pcm_dmaengine.c
->> +++ b/sound/core/pcm_dmaengine.c
->> @@ -424,6 +424,10 @@ int snd_dmaengine_pcm_refine_runtime_hwparams(
->>   			hw->info |= SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME;
->>   		if (dma_caps.residue_granularity <= DMA_RESIDUE_GRANULARITY_SEGMENT)
->>   			hw->info |= SNDRV_PCM_INFO_BATCH;
->> +		if (dma_caps.residue_granularity == DMA_RESIDUE_GRANULARITY_SEGMENT) {
->> +			hw->periods_min = 8;
->> +			hw->period_bytes_max /= 8;
->> +		}
-> 
-> Overriding with the hard-coded values at hw_params refine doesn't look
-> like a right way.  Those values are set and dealt by the drivers in
-> general, as they are pretty hardware-specific.  You can't guarantee
-> this magic number 8 working on all available hardware.
-This is very much why I sent this patch as an RFC .
+The i2sbus PCM code uses pi->active to constrain the sibling stream to
+an already prepared duplex format and rate in i2sbus_pcm_open().
 
-If these limits should be set per DMA driver, do you happen to have a 
-suggestion where to plumb it in ?
+That state is set from i2sbus_pcm_prepare(), but the current code only
+clears it on close. As a result, the sibling stream can inherit stale
+constraints after the prepared state has been torn down, or after a new
+prepare attempt fails before completing.
+
+Clear pi->active when hw_params() or hw_free() drops the prepared state,
+clear it before starting a new prepare attempt, and set it again only
+after prepare succeeds.
+
+Replace the stale FIXME in the duplex constraint comment with
+a description of the current driver behavior: i2sbus still programs a
+single shared transport configuration for both directions, so mixed
+formats are not supported in duplex mode.
+
+Fixes: f3d9478b2ce4 ("[ALSA] snd-aoa: add snd-aoa")
+Cc: stable@vger.kernel.org
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/aoa/soundbus/i2sbus/pcm.c | 53 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 42 insertions(+), 11 deletions(-)
+
+diff --git a/sound/aoa/soundbus/i2sbus/pcm.c b/sound/aoa/soundbus/i2sbus/pcm.c
+index 97c807e67d56..47a89da43cff 100644
+--- a/sound/aoa/soundbus/i2sbus/pcm.c
++++ b/sound/aoa/soundbus/i2sbus/pcm.c
+@@ -165,17 +165,16 @@ static int i2sbus_pcm_open(struct i2sbus_dev *i2sdev, int in)
+ 	 * currently in use (if any). */
+ 	hw->rate_min = 5512;
+ 	hw->rate_max = 192000;
+-	/* if the other stream is active, then we can only
+-	 * support what it is currently using.
+-	 * FIXME: I lied. This comment is wrong. We can support
+-	 * anything that works with the same serial format, ie.
+-	 * when recording 24 bit sound we can well play 16 bit
+-	 * sound at the same time iff using the same transfer mode.
++	/* If the other stream is already prepared, keep this stream
++	 * on the same duplex format and rate.
++	 *
++	 * i2sbus_pcm_prepare() still programs one shared transport
++	 * configuration for both directions, so mixed duplex formats
++	 * are not supported here.
+ 	 */
+ 	if (other->active) {
+-		/* FIXME: is this guaranteed by the alsa api? */
+ 		hw->formats &= pcm_format_to_bits(i2sdev->format);
+-		/* see above, restrict rates to the one we already have */
++		/* Restrict rates to the one already in use. */
+ 		hw->rate_min = i2sdev->rate;
+ 		hw->rate_max = i2sdev->rate;
+ 	}
+@@ -283,6 +282,22 @@ void i2sbus_wait_for_stop_both(struct i2sbus_dev *i2sdev)
+ }
+ #endif
+ 
++static void i2sbus_pcm_clear_active(struct i2sbus_dev *i2sdev, int in)
++{
++	struct pcm_info *pi;
++
++	guard(mutex)(&i2sdev->lock);
++
++	get_pcm_info(i2sdev, in, &pi, NULL);
++	pi->active = 0;
++}
++
++static inline int i2sbus_hw_params(struct snd_pcm_substream *substream, int in)
++{
++	i2sbus_pcm_clear_active(snd_pcm_substream_chip(substream), in);
++	return 0;
++}
++
+ static inline int i2sbus_hw_free(struct snd_pcm_substream *substream, int in)
+ {
+ 	struct i2sbus_dev *i2sdev = snd_pcm_substream_chip(substream);
+@@ -291,14 +306,25 @@ static inline int i2sbus_hw_free(struct snd_pcm_substream *substream, int in)
+ 	get_pcm_info(i2sdev, in, &pi, NULL);
+ 	if (pi->dbdma_ring.stopping)
+ 		i2sbus_wait_for_stop(i2sdev, pi);
++	i2sbus_pcm_clear_active(i2sdev, in);
+ 	return 0;
+ }
+ 
++static int i2sbus_playback_hw_params(struct snd_pcm_substream *substream)
++{
++	return i2sbus_hw_params(substream, 0);
++}
++
+ static int i2sbus_playback_hw_free(struct snd_pcm_substream *substream)
+ {
+ 	return i2sbus_hw_free(substream, 0);
+ }
+ 
++static int i2sbus_record_hw_params(struct snd_pcm_substream *substream)
++{
++	return i2sbus_hw_params(substream, 1);
++}
++
+ static int i2sbus_record_hw_free(struct snd_pcm_substream *substream)
+ {
+ 	return i2sbus_hw_free(substream, 1);
+@@ -335,7 +361,7 @@ static int i2sbus_pcm_prepare(struct i2sbus_dev *i2sdev, int in)
+ 		return -EINVAL;
+ 
+ 	runtime = pi->substream->runtime;
+-	pi->active = 1;
++	pi->active = 0;
+ 	if (other->active &&
+ 	    ((i2sdev->format != runtime->format)
+ 	     || (i2sdev->rate != runtime->rate)))
+@@ -444,9 +470,11 @@ static int i2sbus_pcm_prepare(struct i2sbus_dev *i2sdev, int in)
+ 
+ 	/* early exit if already programmed correctly */
+ 	/* not locking these is fine since we touch them only in this function */
+-	if (in_le32(&i2sdev->intfregs->serial_format) == sfr
+-	 && in_le32(&i2sdev->intfregs->data_word_sizes) == dws)
++	if (in_le32(&i2sdev->intfregs->serial_format) == sfr &&
++	    in_le32(&i2sdev->intfregs->data_word_sizes) == dws) {
++		pi->active = 1;
+ 		return 0;
++	}
+ 
+ 	/* let's notify the codecs about clocks going away.
+ 	 * For now we only do mastering on the i2s cell... */
+@@ -484,6 +512,7 @@ static int i2sbus_pcm_prepare(struct i2sbus_dev *i2sdev, int in)
+ 		if (cii->codec->switch_clock)
+ 			cii->codec->switch_clock(cii, CLOCK_SWITCH_SLAVE);
+ 
++	pi->active = 1;
+ 	return 0;
+ }
+ 
+@@ -728,6 +757,7 @@ static snd_pcm_uframes_t i2sbus_playback_pointer(struct snd_pcm_substream
+ static const struct snd_pcm_ops i2sbus_playback_ops = {
+ 	.open =		i2sbus_playback_open,
+ 	.close =	i2sbus_playback_close,
++	.hw_params =	i2sbus_playback_hw_params,
+ 	.hw_free =	i2sbus_playback_hw_free,
+ 	.prepare =	i2sbus_playback_prepare,
+ 	.trigger =	i2sbus_playback_trigger,
+@@ -796,6 +826,7 @@ static snd_pcm_uframes_t i2sbus_record_pointer(struct snd_pcm_substream
+ static const struct snd_pcm_ops i2sbus_record_ops = {
+ 	.open =		i2sbus_record_open,
+ 	.close =	i2sbus_record_close,
++	.hw_params =	i2sbus_record_hw_params,
+ 	.hw_free =	i2sbus_record_hw_free,
+ 	.prepare =	i2sbus_record_prepare,
+ 	.trigger =	i2sbus_record_trigger,
+
+---
+base-commit: 46a6512f4a74dd7b18d9a455669c226843fc49ce
+change-id: 20260329-aoa-i2sbus-clear-stale-active-4d3b706cc0ef
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
