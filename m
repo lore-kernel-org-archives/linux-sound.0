@@ -1,79 +1,65 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012029.outbound.protection.outlook.com [52.101.53.29])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1597E3ACA7A;
-	Mon, 30 Mar 2026 09:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774864016; cv=fail; b=Pr/oN3OpAFAOlYqXwBtGtjwdlUXBXux6mYYlrq28tJU6UGGuUvS9gpW3VGgPnpx8O5JlpdMF/NmJhNmode6d/Z088jsSmpSBIf7dtk/fC1ikd/GiYThJvIWLfXcUIOD/jLJ2ilI5GGPKVZvy8daS0SmTIxGDpkciUT9AR7zwRdE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774864016; c=relaxed/simple;
-	bh=ToKFkjvJBnKIcbFLUMUai1X7jaLxGlPnWPdBdTKGxxU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lMi/4IXsl/K9OhdCZbiCbAbsPVEXqSsMJOnFzOErTzb9lq/j0rr5HYEuCP0owgvKU8TWATpD/WP2BEuOhoCRUvJi7JCgB8+wjAONlSf1VNMGicqjjIz8z2rAkXD3SDXlTRPaCa1HVXa1vtWAn8PNLIJ1XAs1tpfpb9IBFM1FHmA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vayxJhQt; arc=fail smtp.client-ip=52.101.53.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vayxJhQt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RGdsHwqyKRvsDMEyLSbn9a0n/GAb7NWZfIXooQjkFQuPxUfwuX7SOgq72zvMKIoLS8XzDRiYm8nCQRgQcJJqb/EFL41viVOTtuRZCXBk7LKPhO02HKtrLagw3dEPbD92x9kxLWHcoRlHYmupur+CkPk9eUHJ/0KfQikpddQTTJuDGorkDC0lgzfb0mK4UkCmbMC41lX20aXZSuxm0AyWGDbHs9HK2kfeVAPemHGxWqfm6F0DCq4q58niU8uyLsjlr4r/acEXKF2SL6dHi1bv7WJlJtK3rAZVioT2ACAKABmoD9svm542vkq9edSjeOWi1LRhT1N7rzaigZO1nHHWcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gZju8pLmNg3j5wbD9JEWuZeQzFlezyas4fEeYTM92zs=;
- b=OWfwva/EJ8uTlBqaqgL8AjWVN1Z/4WZ7Il9glbpKbHSJ9LFVIezppCdM0h5ugNYuM3tmmTD1mf9MDdIsfIEGofzya5rOwtPeJH+QpajX7Ex0mTsOoHqdkSYlyMvgpT2TKh7dTRYuOyUu74mxB/fDmXs3PbF2PDTxkbNplJCcQ+Fbf6BbEPONXqaxlZwsqOlszJOQ4ZbbkTjv+uOsJYEV0TqmrsKAEAd5JHk0nNW4Gcaybo/8SBb0zvDvn9cER2miOIhPwSwCdrcmMj0gfCMxBFKQcxkI+Yl7R5RvbXasBdQP4ldeQfQ5UKd284U+G5VBph96fQeFCc1U7U8oxxXwDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gZju8pLmNg3j5wbD9JEWuZeQzFlezyas4fEeYTM92zs=;
- b=vayxJhQtb8MeBhuqChLaBOMQEfU0kvE9D20uitjRp45Ae5LhMjkbvtiysyyQKxgLIhW3D5blyiwiShEpNP8tOdV0V8b0pS/tWnGtb7Do9hsgGPNG4LyRCO/rNN/dSxQ9UdakDpZZz/ceIovvBZ4XM9bnW9LF3TO4x7y8nsyLZwo=
-Received: from DM5PR07CA0071.namprd07.prod.outlook.com (2603:10b6:4:ad::36) by
- SA0PR12MB4365.namprd12.prod.outlook.com (2603:10b6:806:96::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.15; Mon, 30 Mar 2026 09:46:47 +0000
-Received: from DM2PEPF00003FC3.namprd04.prod.outlook.com
- (2603:10b6:4:ad:cafe::61) by DM5PR07CA0071.outlook.office365.com
- (2603:10b6:4:ad::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.28 via Frontend Transport; Mon,
- 30 Mar 2026 09:46:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DM2PEPF00003FC3.mail.protection.outlook.com (10.167.23.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Mon, 30 Mar 2026 09:46:47 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 30 Mar
- 2026 04:46:47 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 30 Mar
- 2026 04:46:46 -0500
-Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 30 Mar 2026 04:46:43 -0500
-From: Syed Saba Kareem <syed.sabakareem@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <mario.limonciello@amd.com>, Syed Saba Kareem
-	<syed.sabakareem@amd.com>, Venkata Prasad Potturu
-	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kees Cook
-	<kees@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: ps: fix the pcm device numbering for acp pdm dmic
-Date: Mon, 30 Mar 2026 15:16:25 +0530
-Message-ID: <20260330094642.3088923-1-syed.sabakareem@amd.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7262E8B71;
+	Mon, 30 Mar 2026 09:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774864309; cv=none; b=NyJEiObWri8p4APoliuR1u/DZ8qRE8bwaCkAxXEK5AHVCUWJgvrsX1dpq/zxoarwjCk1Be1svfLg89AoQKr54YsbZP2HOinE7iE0qL1BhoD472atlLqvItxyBznnuFA2Fstrh8MctBdehGo1Q4Ooa0wOzG2Zf8n6aapDD6lFRpM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774864309; c=relaxed/simple;
+	bh=iIliA15MShhewm2/AUKDwsyKYs00ZuVT8m2/CSC9Mss=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LwRmU0Q5HzYB01MmmoVa8YAvYVEGSBZYQq7c8Vk1yM92ytqBKxyfuN8+cX7yPbtHkBEUbL4hSdVbsblratDHZT54XRNKfoAFL1vQP+Jj1eqI3Qx0qextKePYM6qdCbbnPFJs62QWd7E4wIs2plulrAw1gcIdEKIOEqtjon1taQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 0c86779a2c1e11f1aa26b74ffac11d73-20260330
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, UD_TRUSTED, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF
+	GTI_FG_BS, GTI_C_CI, GTI_FG_IT, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:8e62aff7-e49a-4865-bea0-9051f3c6d598,IP:10,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:5
+X-CID-INFO: VERSION:1.3.12,REQID:8e62aff7-e49a-4865-bea0-9051f3c6d598,IP:10,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:66b1ef55e6d4ee7a03bae13cf4543b86,BulkI
+	D:260330175139DZQARIAQ,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
+	|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:nil,
+	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+	,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 0c86779a2c1e11f1aa26b74ffac11d73-20260330
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1464621584; Mon, 30 Mar 2026 17:51:39 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: perex@perex.cz,
+	Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 16X OLED M7601RM
+Date: Mon, 30 Mar 2026 17:51:33 +0800
+Message-Id: <20260330095133.81786-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,56 +67,34 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC3:EE_|SA0PR12MB4365:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7cfb52a9-024b-4f6f-fa7c-08de8e4142c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	UJj6BdmVSsBZrOXs4oPRIiJUQnhRBpjxuNW4f6GH2OP38GA4FSl9YV7ss4DlnhGW5b6KGiaIOFpmnvksUasA58cns869noiqEHkzzRP4TqxOHo1kLbOIrfMzlqu3InUXRDW0R5FLlsqiCg8uGCwVjjZmq9RlYa6BgkVhAdwyxICj1MS9Zv/lrncDEBLHY77oBgrCeSbqRzSG7L/dyw8AdPxpxBqMBqp9nYr/WPfFNQh9lV1TX2nGl2Z+RLuQbH7U0Py3ysd+tSFvzbJ+GiQVEEQgUnVMyHh2pIDwrRxrcVKL+g/yPakdYjVlpdaYqmpMMDDmrEAzO2vVtlJrdROyboT/nECWHCgcxkEsDQKQqy5XDqTUHtGamxti37ZZ91pOFkdw70PQIgcSM5FzNUngjsMC7iyEQ0Iw6UZEOoQrS+T19e3WFXodVtFfTIB6O90idsKuCQAWO2NXgicci/N70f5oKV2CAQgMJ/jm2noo6wzzM5DRXIeYApykLWShdVif1pBEGob2KszRo8pc3KeSXsWITdT30wDWxESp0SP+gTkaZNgzxcwgVPhnc7imj8uGmrXbC9z919f0CzJ8o46nLjzom4/M70guRempk4thofIgXGepv0nAkGAbVc4iC7H/fziH/S2mwFSgFMrE8UIqnVCr6jziAveGV30Wy0uak54jwx1B0OD4Z5RXm7eKUcKUsTycrQbLOQUUKCdwNefmfyKNSsiQsFZVFQYZgRD1+35v16dEmThDHLJzpQFtBxAHMjlNimnqQfydm8n1waKVew==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	CtTec7znip1PQfvBD0i6WiIt4M7jZe6E9NFyHECfhUTzAzKOfInrfIyG8RcvelxtGYUSBs9y/go0C2M/wHAyv3w3J9m6Qm1gXsoUa/oea4n1sTLWBtBbck0NEwzRq2w52riFUBekwa2tBeW1lmvX9PrRUv1pUzpDdO+UrrhebOUof3GBPsXYIq5OQKd+ZSJGfdc7Bul/+lvAe5tFRMXPNdMwDeJjC3w3PM3vjpQzzkfR5Pj7YKaVwrkrN0dN/uAXW4bOcsar6gImoBa6KFroAiKgiOy2retyK/tO/I9e2ZtEfvgqEaRwuR4AMfDlZ/tYYDDez3R5Vr3kPoLj+PWzA4D/8xcqhfx/Xednfo9vRkA4c5g4bjGZPTbEoZJ2OOXtcJ3cAUYhV6JkC9GZz+Zz5SV4jf4Lle9jeXycr7FFNE84PsAIvw+ax9bNwQXE1VCg
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 09:46:47.6876
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cfb52a9-024b-4f6f-fa7c-08de8e4142c8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DM2PEPF00003FC3.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4365
 
-Fixed PCM device numbering is required for acp pdm dmic pcm device
-to have a common UCM changes.
-Set the 'use_dai_pcm_id' flag true in acp pdm dma driver for acp 6.3
-platform. To fix the pcm device numbering based on dai_link->id.
+Add a DMI quirk for the ASUS Vivobook Pro 16X OLED M7601RM fixing the
+issue where the internal microphone was not detected.
 
-Signed-off-by: Syed Saba Kareem <syed.sabakareem@amd.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221288
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- sound/soc/amd/ps/ps-pdm-dma.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/amd/ps/ps-pdm-dma.c b/sound/soc/amd/ps/ps-pdm-dma.c
-index c6cd844d458c..04c014349347 100644
---- a/sound/soc/amd/ps/ps-pdm-dma.c
-+++ b/sound/soc/amd/ps/ps-pdm-dma.c
-@@ -352,6 +352,7 @@ static const struct snd_soc_component_driver acp63_pdm_component = {
- 	.hw_params	= acp63_pdm_dma_hw_params,
- 	.pointer	= acp63_pdm_dma_pointer,
- 	.pcm_new	= acp63_pdm_dma_new,
-+	.use_dai_pcm_id = true,
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index ac920263af9e..ef70e86ef403 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -752,6 +752,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Thin A15 B7VE"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
++		}
++	},
+ 	{}
  };
  
- static int acp63_pdm_audio_probe(struct platform_device *pdev)
 -- 
-2.43.0
+2.25.1
 
