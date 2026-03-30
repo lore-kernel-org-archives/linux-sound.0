@@ -1,38 +1,36 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18653B8D48;
-	Mon, 30 Mar 2026 10:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8044A3BA22E;
+	Mon, 30 Mar 2026 10:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865784; cv=none; b=VeZYJhdWItUH7keDKpe9OIDt959pPEc2u2z/6hWADDA2Ove4CrCp34ldaVIj1Lwr5JVa09lc5MtuJN3UWj2fXr1/l9YDmSkcLtvF+Ipg1kW0jMtbNaJKlyEb3+n9KpGq4Y1uy2fOx22VDlG0hiKT+z3xUXTw7irm8o3K4UhBArM=
+	t=1774865784; cv=none; b=uJf0tFa4fgei2PAQKlAeCZ9LIK8ZlNUAYo1QLw+P2tOAKNpoY9D2tTnkpHtzz8mVHdMHmYimiJznnoNRS3zWY4/v/3xF8bSVkGOxlPAnbF+xGHeFIUU36z6A2xwt2fgNyZPGv9PjxTn4nDdFr8F6Z60XKF+iEiDhJUENM3ZMExY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774865784; c=relaxed/simple;
-	bh=7KKTvcZcMV/A1vHfqktVWzypo7vSvF011WDH/qo4T/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AG74nuelfVTgE+RkPeQIirS726mLRG2CAmtgcZZtZtg9WG2Bmqbv5gVDh5wWOMdwiYfK2jJmagU4FDlZ5tpizzdLpFmVWGaQeAAKCyqLO44MZsAIduqSkSEnXOM3wx0ZjPVTD4MpWqijpsB2KGdSC4zY6WkOxEZoS03rgyP6Eik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qkEs735Z; arc=none smtp.client-ip=185.246.85.4
+	bh=XVaA58YR00VZ/8ZgNILvjnA8ILVF9O0EbY9bxCrPW78=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rHGQW9yCBxMkOAFvPlLTVGXbyJ5IhxIiLTdMiaZhmEd2dn9rLJIEEoELxA6y6shppEzRMUE6lgE95Iv6xmHeTuLBthn3KiUD1wa3+oY/FxjzzyFxwNLYqd8mZYEwkVD+mC2IbxdttfAF9aPK3yDgilNP6pr39Cd8etT+39n4Gi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PXog3ORw; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qkEs735Z"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PXog3ORw"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 74AB54E42869;
-	Mon, 30 Mar 2026 10:16:21 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C2BABC40683;
+	Mon, 30 Mar 2026 10:16:49 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3E9AE5FFA8;
-	Mon, 30 Mar 2026 10:16:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC3F110450F14;
-	Mon, 30 Mar 2026 12:16:18 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 85FA95FFA8;
+	Mon, 30 Mar 2026 10:16:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9C321104507FB;
+	Mon, 30 Mar 2026 12:16:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774865780; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=jSr+qiZSp3u5YVngTgqtKy54G7uJpnLiCgqcSG9ifqI=;
-	b=qkEs735Z4mx4toJSZEIhr4Cm2syqUpXUZlnjV2Hsd65IKdq9eiPODCLeaESxv1yqrD6tNk
-	7likJAxIQpACSkhP8uIDabDowbGxD4ZckUs0CM7On9EqIaal7VykrTi0q5xRXebG7OvaJi
-	WVeINT4k/kbtYr0rQ4/Skt8qDpE8y4dBDZsn5uIC0kdYkuGcL/o5MT4pP2lR35SaDXOW5c
-	YuHWlekWm0zRij9AGf3PqtDpmkzVr5UL+tes700qNHUpzCcdk/rnisK06P1dzup5zY3oFm
-	wMyGtMSG2X8Zla4JS/1bkSPOnm1FV5mRy0rMNIqcSCq0vPibUOZAhEAM6lTQuw==
+	t=1774865778; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=OmaaNGH6kWgk6vo0uEtus2Jv2VBl+BQVGOxRO91Lrx4=;
+	b=PXog3ORwUZBI3LUsSIWJVfmRofPhfUS8a3/UMTDiLAor7QfYVAvaraKlpCYY8WlUBA+bYN
+	55jU0S7aL0WNtrdO5j78hMGTsP+nzNKBOsbJTWPUs0zYblmhvFmatdR0pLfxRmMJda8oZB
+	HIvquxYuCQ2KRp/cyYWpLdsR6ZkZ6/89PrcxLe9Oemu3fjOFj9Xs4haN2VMT8GECX/H5aT
+	GFqk7cX/FfO+h6YKqGSjkGVxXRmoruXMA0HqVY4eXZdx33e69jGX1ZVCaTijZ9Nn/KHl+c
+	LxoWNdLZWV6+egqBJGST9fIHnPX0Bkv3yVbQFB3mokqUKKKHm6Sv68pvejHWNw==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Herve Codina <herve.codina@bootlin.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -48,50 +46,56 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 1/4] of: Introduce of_property_read_s32_index()
-Date: Mon, 30 Mar 2026 12:16:05 +0200
-Message-ID: <20260330101610.57942-2-herve.codina@bootlin.com>
+Subject: [PATCH 0/4] ASoC: Add support for GPIOs driven amplifiers
+Date: Mon, 30 Mar 2026 12:16:04 +0200
+Message-ID: <20260330101610.57942-1-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260330101610.57942-1-herve.codina@bootlin.com>
-References: <20260330101610.57942-1-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Signed integers can be read from single value properties using
-of_property_read_s32() but nothing exist to read signed integers
-from multi-value properties.
+On some embedded system boards, audio amplifiers are designed using
+discrete components such as op-amp, several resistors and switches to
+either adjust the gain (switching resistors) or fully switch the
+audio signal path (mute and/or bypass features).
 
-Fix this lack adding of_property_read_s32_index().
+Those switches are usually driven by simple GPIOs.
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- include/linux/of.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+This kind of amplifiers are not handled in ASoC and the fallback is to
+let the user-space handle those GPIOs out of the ALSA world.
 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index be6ec4916adf..526c1ee819cd 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -1457,6 +1457,13 @@ static inline int of_property_read_s32(const struct device_node *np,
- 	return of_property_read_u32(np, propname, (u32*) out_value);
- }
- 
-+static inline int of_property_read_s32_index(const struct device_node *np,
-+					     const char *propname, u32 index,
-+					     s32 *out_value)
-+{
-+	return of_property_read_u32_index(np, propname, index, (u32 *)out_value);
-+}
-+
- #define of_for_each_phandle(it, err, np, ln, cn, cc)			\
- 	for (of_phandle_iterator_init((it), (np), (ln), (cn), (cc)),	\
- 	     err = of_phandle_iterator_next(it);			\
+In order to have those kind of amplifiers fully integrated in the audio
+stack, this series introduces the audio-gpio-amp to handle them.
+
+This new ASoC component allows to have the amplifiers seen as ASoC
+auxiliarty devices and so it allows to control them through audio mixer
+controls.
+
+Best regards,
+Hervé
+
+Herve Codina (4):
+  of: Introduce of_property_read_s32_index()
+  ASoC: dt-bindings: Add support for the GPIOs driven amplifier
+  ASoC: codecs: Add support for the GPIOs driven amplifier
+  MAINTAINERS: Add the ASoC gpio amplifier entry
+
+ .../bindings/sound/audio-gpio-amp.yaml        | 309 +++++++
+ MAINTAINERS                                   |   7 +
+ include/linux/of.h                            |   7 +
+ sound/soc/codecs/Kconfig                      |  12 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/audio-gpio-amp.c             | 765 ++++++++++++++++++
+ 6 files changed, 1102 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
+ create mode 100644 sound/soc/codecs/audio-gpio-amp.c
+
 -- 
 2.53.0
 
