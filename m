@@ -1,94 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0073AC0F7
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 08:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB49B3ACF16
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 08:57:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774860306; cv=none; b=dsUE1/l4vQZOwzkzZDCaiNIiVFgh6Rj+AlcfGfm8du1BcquoUJsjN5ECy37/0GHKJ/vA7Cd75Ccw6khC+s52j6wVkBDw4IUCQ4x2l5rMSFXb4F8Oxp/QRuATWTL4/XRwSyXX1FlTyb/FJFRHtBHPMz7BDtZWXaTeDlOEiQKpMHk=
+	t=1774861024; cv=none; b=rp7bBzKqFQqCX4wZhJ/mrSHyqVWGvXOQn0fw2TaCyDjWoUPH/hn0sHMQSlpfjaEiePK1bLfSLnxklNKIHehDPQ1DtJV5V9uCY2YlixseNrPHKhBsYZPhcqOHigG3ULep5I4Lh8xgp8o7V7NXbhh9f5ALK7SJ0EQA4dBLXiYZiG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774860306; c=relaxed/simple;
-	bh=WJZTcp7a+HasXcRN6CknKPVZ1hEniqq0OyZUQfHlnbw=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Cfi1DBpYxCufHO84NXgTDbXRkFQrkkVZhEv/UXexQwJu+pDvFOKmAPuyrdgFVXYmY5VE+EZkdR4BcD0x3oHkLP7sZkvOWjST7DDoicnOT7AKO0WH0pONLAcKs2ckHq2FCFnmem0GS5SWfauMPih1VShzVnPEn1fkpK6nVaqbKHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KBtaAES2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774861024; c=relaxed/simple;
+	bh=Oq7xqs5iQpf1/waQR0+XBp4js0LWeuqoKcGkBt4bbW8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hnnHkUy+QrJJfMZoCgjnVTdUxHIm8oExBGgcHJUXDZRYobjRGSz50sa4EI+MMa2p2eEAOecZgAfy3ZoNhE1d/t/C/k1fGH0NdhHPcGb2oRiqKDCEieobnnj5M3iZG/NWKm7VrvCTgKMOdUQ6GmAzGViHph/9fXjyjhU5qY7/OGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYRZ/6XB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KBtaAES2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 039F0C2BCB5
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 08:45:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYRZ/6XB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEA8C4AF09
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 08:57:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774860306;
-	bh=WJZTcp7a+HasXcRN6CknKPVZ1hEniqq0OyZUQfHlnbw=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=KBtaAES2FSe3HnNNQrNhknzYyNgRgBxAjlS0+F7skFZW2o9dfyqxFKXZ9PvJ52xT9
-	 Lc9pwvYLz1OWA89v+qEJBX1BXHxa7M/nFxkOhsseUK2oT4TjCGr5/uR8CoDVRfhufW
-	 c2XMOZwT5jakn8cR4yuqnvA3FWFGEqR/vf+CD5BXzwoHEbprR+Oa9U5TeuydPBRIJq
-	 M2CFZDcBmfnWqG9+c1VZr5gioe782bsAGeOwbpThLyBRcspmLB+2d5xDjLp1XrVGFQ
-	 yOq5VrQ2sPVffDQASSxWlVDmiwFKwQdvefjsnNmujwhblhUW13WqWg0M+NXOcJQ+iZ
-	 xQRUJaAXaJY4Q==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3878de20527so34402291fa.3
-        for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 01:45:05 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwX7xQO2Gu5lB9sOHB4R8P2xG205Smsd1FXlo4wDwM7kpT37pTe
-	MuCQJYVRwVwzAbOaep+c28b91HnSGfiVVTmuQnIkwdi2b24CjWat7rgVA07SSqF6lE/lVIGRsqb
-	Ac+gM6grw+7wRKtOE6gzxibotRqN2L68LArQSqz9s+g==
-X-Received: by 2002:a2e:a541:0:b0:37f:8332:6ae0 with SMTP id
- 38308e7fff4ca-38c740cba19mr39427471fa.33.1774860304684; Mon, 30 Mar 2026
- 01:45:04 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 30 Mar 2026 04:45:02 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 30 Mar 2026 04:45:02 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260327-asoc-uda1380-v1-1-f6f91be9b7f8@kernel.org>
+	s=k20201202; t=1774861024;
+	bh=Oq7xqs5iQpf1/waQR0+XBp4js0LWeuqoKcGkBt4bbW8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=gYRZ/6XBGDe+PxzV0bJczsO89h8QRJdaKjq+Dig7wOJREum6XLzxuUq+B6T2rwr7Z
+	 Cxwf3iZsi10/kDKQJ1ZtVVwam4VJ7NrYGvC6el/idnbOTysiMklaS09hlK3DhfkXkR
+	 OybeGL93ZTHOJaA1LMHMjQqUIxGJLsiCMveHjfojU8F2Ae+ZH/xuqaRtMQUuFkpWYF
+	 EZPTaGkfWWzNtekar3eI44Y007f2Qkk7d7EU6Anbts8TDdCaPVttKBu8qjUAsU0bo+
+	 blga/EwlIZwVyBanhw0seYDqK9QxUXhubdyrF6kZmLDdSrPdTZSssIaxOPyDhgGy85
+	 Odf4wbqt42Frw==
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64edf260b49so8232311d50.0
+        for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 01:57:04 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yyfv096nm5q1PfW8bN1dLkdXyHDxNrusLUOaeoC2gFZq2GoBE8j
+	fDcnax1ljUBW7AdfTjxN/gUiyZPJWWQ9fhAmDHsHdHOwb6gYN2XpU/jaMMHZIKgAuNrmlYUzQvE
+	3jU74yVpTNyA0NKZCNj+FOg3KqBZFOAA=
+X-Received: by 2002:a05:690c:4886:b0:798:711f:a0df with SMTP id
+ 00721157ae682-79bde385480mr94809217b3.13.1774861023812; Mon, 30 Mar 2026
+ 01:57:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327-asoc-uda1380-v1-1-f6f91be9b7f8@kernel.org>
-Date: Mon, 30 Mar 2026 04:45:02 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MeJ4eVx9HEWP6_4Yd-a=jb4SOyoWW=KgY_=od=ft1=7eA@mail.gmail.com>
-X-Gm-Features: AQROBzCYXUFizcHcryyFhBvMxVaHBh-593kNDc3tx6lhn1cVUZsNGqKRb9Uhltk
-Message-ID: <CAMRc=MeJ4eVx9HEWP6_4Yd-a=jb4SOyoWW=KgY_=od=ft1=7eA@mail.gmail.com>
+References: <20260327-asoc-uda1380-v1-1-f6f91be9b7f8@kernel.org> <CAMRc=MeJ4eVx9HEWP6_4Yd-a=jb4SOyoWW=KgY_=od=ft1=7eA@mail.gmail.com>
+In-Reply-To: <CAMRc=MeJ4eVx9HEWP6_4Yd-a=jb4SOyoWW=KgY_=od=ft1=7eA@mail.gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 30 Mar 2026 10:56:53 +0200
+X-Gmail-Original-Message-ID: <CAD++jLniBA_9NzG3BwNpTpT8fC3QRF0yiM_=Wq4u409_fqWVcQ@mail.gmail.com>
+X-Gm-Features: AQROBzAaL_fFRxPLcJxgJ6GGzRfnFrqKNsLOYRWFlSD3YVfYEji7A2ItDOmKdww
+Message-ID: <CAD++jLniBA_9NzG3BwNpTpT8fC3QRF0yiM_=Wq4u409_fqWVcQ@mail.gmail.com>
 Subject: Re: [PATCH] ASoC: uda1380: Modernize the driver
-To: Linus Walleij <linusw@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
 Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
 	Philipp Zabel <p.zabel@pengutronix.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 27 Mar 2026 09:05:47 +0100, Linus Walleij <linusw@kernel.org> said:
-> This codec driver depended on the legacy GPIO API, and nothing
-> in the kernel is defining the platform data.
+On Mon, Mar 30, 2026 at 10:45=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.o=
+rg> wrote:
+> On Fri, 27 Mar 2026 09:05:47 +0100, Linus Walleij <linusw@kernel.org> sai=
+d:
+> > This codec driver depended on the legacy GPIO API, and nothing
+> > in the kernel is defining the platform data.
+> >
+> > Since there may be out of tree users, migrate to GPIO descriptors,
 >
-> Since there may be out of tree users, migrate to GPIO descriptors,
-
-I don't think out-of-tree users are a valid argument to keep anything in
-mainline, so if nobody defines platform data in tree then it should be dropped.
-On the other hand...
-
-> drop the platform data that is unused, and assign the dac_clk the
-> value that was used in all platforms found in a historical dig.
+> I don't think out-of-tree users are a valid argument to keep anything in
+> mainline, so if nobody defines platform data in tree then it should be dr=
+opped.
+> On the other hand...
 >
-> Add some menuconfig so the codec can be selected and tested.
+> > drop the platform data that is unused, and assign the dac_clk the
+> > value that was used in all platforms found in a historical dig.
+> >
+> > Add some menuconfig so the codec can be selected and tested.
+> >
+> > Signed-off-by: Linus Walleij <linusw@kernel.org>
+> > ---
+> > Maybe this driver should rather be deleted if there are no
+> > real users left, but that can be done after this patch if
+> > so desired. This makes the driver usable on contemporary Linux.
 >
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
-> ---
-> Maybe this driver should rather be deleted if there are no
-> real users left, but that can be done after this patch if
-> so desired. This makes the driver usable on contemporary Linux.
+> ... I'm seeing this:
+>
+> $ git grep nxp,uda1380
+> arch/arm/boot/dts/nxp/lpc/lpc3250-ea3250.dts:           compatible =3D
+> "nxp,uda1380";
+> arch/arm/boot/dts/nxp/lpc/lpc3250-phy3250.dts:          compatible =3D
+> "nxp,uda1380";
+>
+> I think these count as in-tree users of the driver, right? The compatible=
+ is
+> not described in bindings but I think this still looks as ABI.
 
-... I'm seeing this:
+Oh I didn't see *those*!
 
-$ git grep nxp,uda1380
-arch/arm/boot/dts/nxp/lpc/lpc3250-ea3250.dts:           compatible =
-"nxp,uda1380";
-arch/arm/boot/dts/nxp/lpc/lpc3250-phy3250.dts:          compatible =
-"nxp,uda1380";
+Well we could just delete the platform data handling instead but fixing
+this properly is probably more fun and helpful.
 
-I think these count as in-tree users of the driver, right? The compatible is
-not described in bindings but I think this still looks as ABI.
-
-Bart
+Yours,
+Linus Walleij
