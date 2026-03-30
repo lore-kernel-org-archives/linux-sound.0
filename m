@@ -1,38 +1,38 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FC93BA22E
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 10:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3CF3C73F4
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 10:16:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774865787; cv=none; b=PABPfV3icdbLQcReimc+gJLQdc3JsqA5QVHoz966+P97mtWMgstHOwOzidS73BebYl3f37/c3RUFnNUE+MnIIgPzldjjMkKBjBoYfrGUum2xdtBUn9tjjGG3KvpQg5Dn0QZipI9zBixpeHqNiAF/lU4axLCNx74/1Zk3mftylGQ=
+	t=1774865788; cv=none; b=El+MAxXd7TFxmb+BgEy9M2JV+cxRvN4BY8qyWdlgJMvSfEc+VQc1+bROCGQPgAs+t4CcU2tD703We23njPSIUydeQvNnYIptYaO/nRRhlLfRZmEcQ0lP704U61GugXlTUy5r0HlAD4EZaKoBvhCLrJYULC5mxeo4KhmgoMhY5dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774865787; c=relaxed/simple;
-	bh=TCwNmfCeTrlUtEXUeP7bfZ+xD1LwsS5HE+OE+Ze37Js=;
+	s=arc-20240116; t=1774865788; c=relaxed/simple;
+	bh=xM1akr07Dz446VRZt/CCqwsrByNdgNhW0Xt1dVyYrDs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xczkz4FsGeTjeeWr9M21GnuT9HH/NT/9UhiEyIGYwPx30UffkjS8EOCPYDCRxlmzRygeCTkidr2erJpTvKp36kI+c3W91xZzAp6QnMGgZkVaVZwgGeIl5HoMVAef8ws3Ye3UecY/gjxfZ3AWY54PfjlN063J74JEhC6thUJcK68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QOxdP1sg; arc=none smtp.client-ip=185.171.202.116
+	 MIME-Version; b=XT1I7dQSVHm6gZPnuPmM/ny2pt5OHwoyslvY2hqwtyuKvPX2yVl1F08ix9qhGeJ0azpwewOgKvApMZCM7s1G+obUx84rccK5fpTQfEWJo6TrrXhfwoJUMEcE3GRzOy4d4aIPSSFDBvni5bVuPj45Y5Z+wbqaNy6beiVjt0XyCIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Lae7BwgU; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QOxdP1sg"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Lae7BwgU"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 776A8C4042D;
-	Mon, 30 Mar 2026 10:16:53 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 5D720C40683;
+	Mon, 30 Mar 2026 10:16:55 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6F84E5FFA8;
-	Mon, 30 Mar 2026 10:16:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 01F4310450EE3;
-	Mon, 30 Mar 2026 12:16:20 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 523525FFA8;
+	Mon, 30 Mar 2026 10:16:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DFC7F104507FB;
+	Mon, 30 Mar 2026 12:16:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774865782; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1774865784; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Rpc/cRF17z80LJZfxbko/BL1lznxbHYgAYR6pqtDvvU=;
-	b=QOxdP1sgmdKs9m2HxApDP8fUtni3pDUHYqx/qjjkKNcagdnyDq3llCsDeZlKQh6ixppMeb
-	hUin5j9EuurdyXKnuiOnRC7grXb43N5SvkLGfXto4zOQOT4ml21orSPmd9/nMSRGEgPKFk
-	zcKgIqmqEBD0jx+9gn7ZL59LJ7w/ZWPPIGlKzRI9u8AZ+oi60yvtNNSG8r+JJMA0jtEBXI
-	BXrpbrnNtUqa6GBwqdBgbZW+TNpSig1t4Au+OjtKjXgdz4t61VXe1pycaw8ZujPjAyKwtG
-	tpjl0qpGU0hW0JhybKb4QfIcgesMGRNmfLQB7vzOaioBNGPo5/d8Pn7CmTwfFA==
+	bh=bMYmHuykRe4/eZkZh8e99sq1nJrdSRFnwgcIE8gDrw8=;
+	b=Lae7BwgUsVmFovhELhox/DC2vChZnYSC7kpxKiYll7BzFjFTX/lBov5pAcBKs/mmeA9NRz
+	18q8KC1UE2ds7m1vlrir4s9keUxzRS+YNRCNpSb6GdKGGHQ2ql1mfQ8XHKJuQsxOV3eAxO
+	x37rItrVbaCmkbXzp5SEJSzpRICZ9l+ANpzqbqAMqpn5K5jdIeh6YRYfImf/JqD3hnHfva
+	EdD9F9uU1XI0wkcUH6BJIFtZn0woiPXdN60gQX8tZilCVabu9MIIuEjussHuF0FXGBSoPA
+	NfOTLsdNVmQNsdd6434699lG0KRGfyRFvmMQWQKipB5SV1dhG7vAKVDYCQ/TIg==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Herve Codina <herve.codina@bootlin.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -48,9 +48,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven amplifier
-Date: Mon, 30 Mar 2026 12:16:06 +0200
-Message-ID: <20260330101610.57942-3-herve.codina@bootlin.com>
+Subject: [PATCH 3/4] ASoC: codecs: Add support for the GPIOs driven amplifier
+Date: Mon, 30 Mar 2026 12:16:07 +0200
+Message-ID: <20260330101610.57942-4-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260330101610.57942-1-herve.codina@bootlin.com>
 References: <20260330101610.57942-1-herve.codina@bootlin.com>
@@ -63,337 +63,844 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Some amplifiers based on analog switches and op-amps can be present in
-the audio path and can be driven by GPIOs in order to control their gain
-value, their mute and/or bypass functions.
+Some amplifiers driven by GPIOs can be present in the audio path.
 
-Those components needs to be viewed as audio components in order to be
-fully integrated in the audio path.
+In order to be fully integrated in the audio path and to have audio
+mixer items available to control those amplifiers, an audio component
+is needed.
 
-audio-gpio-amplifier allows to consider these GPIO driven amplifiers as
-auxiliary audio devices.
+This support allows to handle those GPIO driven amplifiers as auxiliary
+audio devices and so control them using audio mixer controls.
 
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
- .../bindings/sound/audio-gpio-amp.yaml        | 309 ++++++++++++++++++
- 1 file changed, 309 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
+ sound/soc/codecs/Kconfig          |  12 +
+ sound/soc/codecs/Makefile         |   2 +
+ sound/soc/codecs/audio-gpio-amp.c | 765 ++++++++++++++++++++++++++++++
+ 3 files changed, 779 insertions(+)
+ create mode 100644 sound/soc/codecs/audio-gpio-amp.c
 
-diff --git a/Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml b/Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index adb3fb923be3..9c51519d6eea 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -52,6 +52,7 @@ config SND_SOC_ALL_CODECS
+ 	imply SND_SOC_AK5558
+ 	imply SND_SOC_ALC5623
+ 	imply SND_SOC_ALC5632
++	imply SND_SOC_AUDIO_GPIO_AMP
+ 	imply SND_SOC_AUDIO_IIO_AUX
+ 	imply SND_SOC_AW8738
+ 	imply SND_SOC_AW87390
+@@ -648,6 +649,17 @@ config SND_SOC_ALC5632
+ 	tristate
+ 	depends on I2C
+ 
++config SND_SOC_AUDIO_GPIO_AMP
++	tristate "Audio GPIO Amplifier"
++	select GPIOLIB
++	help
++	  Enable support for GPIO amplifier.
++	  This allows to have an amplifier driven by GPIOs in the audio path and
++	  controlled using mixer controls.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called snd-soc-audio-gpio-amp.
++
+ config SND_SOC_AUDIO_IIO_AUX
+ 	tristate "Audio IIO Auxiliary device"
+ 	depends on IIO
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index 3ddee5298721..e1794a3368ab 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -423,6 +423,7 @@ snd-soc-wsa883x-y := wsa883x.o
+ snd-soc-wsa884x-y := wsa884x.o
+ snd-soc-zl38060-y := zl38060.o
+ # Amp
++snd-soc-audio-gpio-amp-y := audio-gpio-amp.o
+ snd-soc-max9877-y := max9877.o
+ snd-soc-max98504-y := max98504.o
+ snd-soc-simple-amplifier-y := simple-amplifier.o
+@@ -869,6 +870,7 @@ obj-$(CONFIG_SND_SOC_WSA884X)	+= snd-soc-wsa884x.o
+ obj-$(CONFIG_SND_SOC_ZL38060)	+= snd-soc-zl38060.o
+ 
+ # Amp
++obj-$(CONFIG_SND_SOC_AUDIO_GPIO_AMP)	+= snd-soc-audio-gpio-amp.o
+ obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o
+ obj-$(CONFIG_SND_SOC_MAX98504)	+= snd-soc-max98504.o
+ obj-$(CONFIG_SND_SOC_SIMPLE_AMPLIFIER)	+= snd-soc-simple-amplifier.o
+diff --git a/sound/soc/codecs/audio-gpio-amp.c b/sound/soc/codecs/audio-gpio-amp.c
 new file mode 100644
-index 000000000000..15dc898f8574
+index 000000000000..053501cfa5d6
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
-@@ -0,0 +1,309 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/audio-gpio-amp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/soc/codecs/audio-gpio-amp.c
+@@ -0,0 +1,765 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// GPIOs controlled amplifier ALSA SoC driver
++//
++// Copyright 2026 CS GROUP France
++//
++// Author: Herve Codina <herve.codina@bootlin.com>
 +
-+title: Audio amplifier driven by GPIOs
++#include <linux/bitmap.h>
++#include <linux/gpio/consumer.h>
++#include <linux/minmax.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/regulator/consumer.h>
++#include <linux/slab.h>
++#include <linux/sort.h>
++#include <sound/soc.h>
++#include <sound/tlv.h>
 +
-+maintainers:
-+  - Herve Codina <herve.codina@bootlin.com>
++struct audio_gpio_single {
++	struct gpio_desc *gpio;
++	bool is_inverted;
++	int kctrl_val;
++	const char *control_name;
++};
 +
-+description: |
-+  Audio GPIO amplifiers are driven by GPIO in order to control the gain value
-+  of the amplifier, its mute function and/or its bypass function.
++struct audio_gpio_point {
++	u32 gpio_val;
++	int gain_db;
++};
 +
-+  Those amplifiers are based on discrete components (analog switches, op-amps
-+  and more) where some of them, mostly analog switches, are controlled by GPIOs
-+  to adjust the gain value of the whole amplifier and/or to control
-+  the mute and/or bypass function.
++struct audio_gpio_points {
++	unsigned int nb_points;
++	struct audio_gpio_point *tab_points;
++};
 +
-+  For instance, the following piece of hardware is a GPIO amplifier
++struct audio_gpio_range {
++	int min_db;
++	int max_db;
++};
 +
-+                                         +5VA
-+                                           ^
-+                                        |\ |
-+                                        | \
-+        Vin >---------------------------|+ \
-+                                        |   +-------+-----> Vout
-+                .--\/\/\/--+------------|- /        |
-+                |          |            | /         |
-+                v          |            |/ |        |
-+               GND         o               v        |
-+                            \             GND       |
-+       gpio >----------->    \                      |
-+                         o    o                     |
-+                         |    |                     |
-+                         |    '--\/\/\/--.          |
-+                         |               +--\/\/\/--'
-+                         '---------------'
++struct audio_gpio_labels {
++	unsigned int nb_labels;
++	const char **tab_labels;
++};
 +
-+  A GPIO driven amplifier can work in several mode depending on the electronic
-+  design.
-+    - points defined:
-+        The values of GPIOs used to control gain set a specific gain value
-+        without any specific relationship between each value. For instance,
-+        using 2 GPIOS:
-+          0b00 <-> -10.0 dB
-+          0b01 <-> +3.0 dB
-+          0b10 <-> 0 dB
-+          0b11 <-> +6.0 dB
++enum audio_gpio_mode {
++	AUDIO_GPIO_MODE_NONE,
++	AUDIO_GPIO_MODE_RANGE,
++	AUDIO_GPIO_MODE_LABELS,
++	AUDIO_GPIO_MODE_POINTS,
++};
 +
-+        This can be described using the gain-points property.
++struct audio_gpio_multi {
++	struct gpio_descs *gpios;
++	bool is_inverted;
++	u32 kctrl_val;
++	u32 kctrl_max;
++	const char *control_name;
++	unsigned int *tlv_array;
++	enum audio_gpio_mode mode;
++	union {
++		struct audio_gpio_range range;
++		struct audio_gpio_points points;
++		struct audio_gpio_labels labels;
++	};
++};
 +
-+    - range defined:
-+        The values of GPIOs used to control gain set a specific gain value
-+        following a linear dB range from a minimum dB value to a maximum dB
-+        value. For instance, using 2 GPIOS:
-+          0b00 <-> -3.0 dB
-+          0b01 <-> 0 db
-+          0b10 <-> +3.0 dB
-+          0b11 <-> +6.0 dB
++struct audio_gpio_amp {
++	struct audio_gpio_single mute;
++	struct audio_gpio_single bypass;
++	struct audio_gpio_multi gain;
++};
 +
-+        This can be described using the gain-range property.
++static const struct snd_soc_dapm_widget audio_gpio_amp_dapm_widgets[] = {
++	SND_SOC_DAPM_INPUT("IN"),
++	SND_SOC_DAPM_OUTPUT("OUT"),
++	SND_SOC_DAPM_PGA("PGA", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_REGULATOR_SUPPLY("vdd", 0, 0),
++};
 +
-+    - labels defined:
-+        Some electronic design are not meant to a specific dB gain value. In
-+        that case it is relevant to use labels to describe them. For instance,
-+        using 2 GPIOS:
-+          0b00 <-> Low boost
-+          0b01 <-> Middle boost
-+          0b10 <-> High boost
-+          0b11 <-> Max boost
++static const struct snd_soc_dapm_route audio_gpio_amp_dapm_routes[] = {
++	{ "PGA", NULL, "IN" },
++	{ "PGA", NULL, "vdd" },
++	{ "OUT", NULL, "PGA" },
++};
 +
-+        This can be described using the gain-labels property
++static int audio_gpio_amp_single_kctrl_write_gpio(struct audio_gpio_single *single,
++						  int kctrl_val)
++{
++	int gpio_val;
 +
-+properties:
-+  compatible:
-+    const: audio-gpio-amp
++	gpio_val = single->is_inverted ? !kctrl_val : kctrl_val;
 +
-+  vdd-supply:
-+    description: Main power supply of the amplifier
++	return gpiod_set_value_cansleep(single->gpio, gpio_val);
++}
 +
-+  vddio-supply:
-+    description: Power supply related to the control path
++static int audio_gpio_amp_single_kctrl_info(struct snd_kcontrol *kcontrol,
++					    struct snd_ctl_elem_info *uinfo)
++{
++	uinfo->count = 1;
++	uinfo->value.integer.min = 0;
++	uinfo->value.integer.max = 1;
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
++	return 0;
++}
 +
-+  vdda1-supply:
-+    description: Analog power supply
++static int audio_gpio_amp_single_kctrl_get(struct snd_kcontrol *kcontrol,
++					   struct snd_ctl_elem_value *ucontrol)
++{
++	struct audio_gpio_single *single = (struct audio_gpio_single *)kcontrol->private_value;
 +
-+  vdda2-supply:
-+    description: Additional analog power supply
++	ucontrol->value.integer.value[0] = single->kctrl_val;
 +
-+  mute-gpios:
-+    description: GPIO to control the mute function
-+    maxItems: 1
++	return 0;
++}
 +
-+  bypass-gpios:
-+    description: GPIO to control the bypass function
-+    maxItems: 1
++static int audio_gpio_amp_single_kctrl_put(struct snd_kcontrol *kcontrol,
++					   struct snd_ctl_elem_value *ucontrol)
++{
++	struct audio_gpio_single *single = (struct audio_gpio_single *)kcontrol->private_value;
++	int kctrl_val;
++	int err;
 +
-+  gain-gpios:
-+    description: |
-+      GPIOs to control the amplifier gain
++	kctrl_val = ucontrol->value.integer.value[0];
 +
-+      The gain value is computed from GPIOs value from 0 to 2^N-1 with N the
-+      number of GPIO described. The first GPIO described is the lsb of the gain
-+      value.
++	if (kctrl_val == single->kctrl_val)
++		return 0;
 +
-+      For instance assuming 2 gpios
-+         gain-gpios = <&gpio1 GPIO_ACTIVE_HIGH> <&gpio2 GPIO_ACTIVE_HIGH>;
-+      The gain value will be the following:
++	err = audio_gpio_amp_single_kctrl_write_gpio(single, kctrl_val);
++	if (err)
++		return err;
 +
-+          gpio1 | gpio2 | gain
-+          ------+-------+-----
-+            0   |    0  | 0b00 -> 0
-+            1   |    0  | 0b01 -> 1
-+            0   |    1  | 0b10 -> 2
-+            1   |    1  | 0b11 -> 3
-+          ------+-------+-----
++	single->kctrl_val = kctrl_val;
 +
-+      Note: The gain value, bits set to 1 or 0, indicate the state active (bit
-+            set) or the state inactive (bit unset) of the related GPIO. The
-+            physical voltage corresponding to this active/inactive state is
-+            given by the GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags.
++	return 1; /* The value changed */
++}
 +
-+    minItems: 1
-+    maxItems: 32
++static int audio_gpio_amp_single_add_kcontrol(struct snd_soc_component *component,
++					      struct audio_gpio_single *single)
++{
++	struct snd_kcontrol_new control = {
++		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
++		.name = single->control_name,
++		.info = audio_gpio_amp_single_kctrl_info,
++		.get = audio_gpio_amp_single_kctrl_get,
++		.put = audio_gpio_amp_single_kctrl_put,
++		.private_value = (unsigned long)single,
++	};
++	int ret;
 +
-+  gain-points:
-+    $ref: /schemas/types.yaml#/definitions/int32-matrix
-+    items:
-+      items:
-+        - description: The GPIOs value
-+        - description: The related amplifier gain in 0.01 dB unit
-+    minItems: 2
-+    description: |
-+      List of the GPIOs value / Gain value in dB pair defining the gain
-+      set on each GPIOs value.
++	/* Be consistent between single->kctrl_val value and the GPIO value */
++	ret = audio_gpio_amp_single_kctrl_write_gpio(single, single->kctrl_val);
++	if (ret)
++		return ret;
 +
-+      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
-+      Assuming that GPIOs values set the hardware gains according to the
-+      following table:
++	return snd_soc_add_component_controls(component, &control, 1);
++}
 +
-+         GPIOs | Hardware
-+         value | amplification
-+         ------+--------------
-+           0   | -10.0 dB
-+           1   | +3.0 dB
-+           2   | 0 dB
-+           3   | +6.0 dB
-+         ------+--------------
++static int audio_gpio_amp_multi_kctrl_write_gpios(struct audio_gpio_multi *multi,
++						  u32 kctrl_val)
++{
++	DECLARE_BITMAP(bm, 32);
++	u32 gpio_val;
 +
-+      The description using gain points can be:
-+        gain-points = <0 (-1000)>, <1 300>, <2 0>, <3 600>;
++	if (multi->mode == AUDIO_GPIO_MODE_POINTS) {
++		if (kctrl_val >= multi->points.nb_points)
++			return -EINVAL;
 +
-+  gain-range:
-+    $ref: /schemas/types.yaml#/definitions/int32-array
-+    items:
-+      - description: Gain in 0.01 dB unit when all GPIOs are inactive
-+      - description: Gain in 0.01 dB unit when all GPIOs are active
-+    description: |
-+      Gains (in 0.01 dB unit) set by the extremum (minimal and maximum) value
-+      of GPIOs. The following formula must be satisfied.
++		gpio_val = multi->points.tab_points[kctrl_val].gpio_val;
++	} else {
++		if (kctrl_val > multi->kctrl_max)
++			return -EINVAL;
 +
-+               gain-range[1] - gain-range[0]
-+      Gain  = ------------------------------- x GPIO_value + gain-range[0]
-+                        2^N - 1
++		gpio_val = multi->is_inverted ?
++				multi->kctrl_max - kctrl_val :
++				kctrl_val;
++	}
 +
-+      With N, the number of GPIOs used to control the gain and Gain computed in
-+      0.01 dB unit.
++	bitmap_from_arr32(bm, &gpio_val, multi->gpios->ndescs);
 +
-+      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
-+      Assuming that gain value set the hardware according to the following
-+      table:
++	return gpiod_multi_set_value_cansleep(multi->gpios, bm);
++}
 +
-+         GPIOs | Hardware 1    | Hardware 2
-+         value | amplification | amplification
-+         ------+---------------+---------------
-+           0   | -3.0 dB       |  +10.0 dB
-+           1   | 0 dB          |  +5.0 dB
-+           2   | +3.0 dB       |  0 dB
-+           3   | +6.0 dB       |  -5.0 dB
-+         ------+---------------+---------------
++static int audio_gpio_amp_multi_kctrl_int_info(struct snd_kcontrol *kcontrol,
++					       struct snd_ctl_elem_info *uinfo)
++{
++	struct audio_gpio_multi *multi = (struct audio_gpio_multi *)kcontrol->private_value;
 +
-+      The description for hardware 1 using a gain range can be:
-+        gain-range = <(-300) 600>;
++	uinfo->count = 1;
++	uinfo->value.integer.min = 0;
++	if (multi->mode == AUDIO_GPIO_MODE_POINTS)
++		uinfo->value.integer.max = multi->points.nb_points - 1;
++	else
++		uinfo->value.integer.max = multi->kctrl_max;
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	return 0;
++}
 +
-+      The description for hardware 2 using a gain range can be:
-+        gain-range = <1000 (-500)>;
++static int audio_gpio_amp_multi_kctrl_int_get(struct snd_kcontrol *kcontrol,
++					      struct snd_ctl_elem_value *ucontrol)
++{
++	struct audio_gpio_multi *multi = (struct audio_gpio_multi *)kcontrol->private_value;
 +
-+  gain-labels:
-+    $ref: /schemas/types.yaml#/definitions/string-array
-+    description: |
-+      List of the gain labels attached to the combination of GPIOs controlling
-+      the gain. The first label is related to the gain value 0, the second label
-+      is related to the gain value 1 and so on.
++	ucontrol->value.integer.value[0] = multi->kctrl_val;
++	return 0;
++}
 +
-+      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
-+      Assuming that gain value set the hardware according to the following
-+      table:
++static int audio_gpio_amp_multi_kctrl_int_put(struct snd_kcontrol *kcontrol,
++					      struct snd_ctl_elem_value *ucontrol)
++{
++	struct audio_gpio_multi *multi = (struct audio_gpio_multi *)kcontrol->private_value;
++	u32 kctrl_val;
++	int ret;
 +
-+         GPIOs | Hardware
-+         value | amplification
-+         ------+--------------
-+           0   | Low
-+           1   | Middle
-+           2   | High
-+           3   | Max
-+         ------+--------------
++	kctrl_val = ucontrol->value.integer.value[0];
 +
-+      The description using gain labels can be:
-+        gain-labels = "Low", "Middle", "High", "Max";
++	if (kctrl_val == multi->kctrl_val)
++		return 0;
 +
-+dependencies:
-+  gain-points: [ gain-gpios ]
-+  gain-range: [ gain-gpios ]
-+  gain-labels: [ gain-gpios ]
++	ret = audio_gpio_amp_multi_kctrl_write_gpios(multi, kctrl_val);
++	if (ret)
++		return ret;
 +
-+required:
-+  - compatible
-+  - vdd-supply
++	multi->kctrl_val = kctrl_val;
 +
-+anyOf:
-+  - required:
-+      - gain-gpios
-+  - required:
-+      - mute-gpios
-+  - required:
-+      - bypass-gpios
++	return 1; /* The value changed */
++}
 +
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - if:
-+      required:
-+        - gain-points
-+    then:
-+      properties:
-+        gain-range: false
-+        gain-labels: false
-+  - if:
-+      required:
-+        - gain-range
-+    then:
-+      properties:
-+        gain-points: false
-+        gain-labels: false
-+  - if:
-+      required:
-+        - gain-labels
-+    then:
-+      properties:
-+        gain-points: false
-+        gain-range: false
++static int audio_gpio_amp_multi_kctrl_enum_info(struct snd_kcontrol *kcontrol,
++						struct snd_ctl_elem_info *uinfo)
++{
++	struct audio_gpio_multi *multi = (struct audio_gpio_multi *)kcontrol->private_value;
 +
-+unevaluatedProperties: false
++	return snd_ctl_enum_info(uinfo, 1, multi->labels.nb_labels,
++				 multi->labels.tab_labels);
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++static int audio_gpio_amp_multi_kctrl_enum_get(struct snd_kcontrol *kcontrol,
++					       struct snd_ctl_elem_value *ucontrol)
++{
++	struct audio_gpio_multi *multi = (struct audio_gpio_multi *)kcontrol->private_value;
 +
-+    /* Gain controlled by gpios */
-+    amplifier0 {
-+        compatible = "audio-gpio-amp";
-+        vdd-supply = <&regulator>;
-+        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
-+    };
++	ucontrol->value.enumerated.item[0] = multi->kctrl_val;
++	return 0;
++}
 +
-+    /* Gain controlled by gpio using range */
-+    amplifier1 {
-+        compatible = "audio-gpio-amp";
-+        vdd-supply = <&regulator>;
-+        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
-+        gain-range = <(-300) 600>;
-+    };
++static int audio_gpio_amp_multi_kctrl_enum_put(struct snd_kcontrol *kcontrol,
++					       struct snd_ctl_elem_value *ucontrol)
++{
++	struct audio_gpio_multi *multi = (struct audio_gpio_multi *)kcontrol->private_value;
++	u32 kctrl_val;
++	int ret;
 +
-+    /* Gain controlled by gpio using points */
-+    amplifier2 {
-+        compatible = "audio-gpio-amp";
-+        vdd-supply = <&regulator>;
-+        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
-+        gain-points = <0 (-1000)>, <1 300>, <2 0>, <3 600>;
-+    };
++	kctrl_val = ucontrol->value.enumerated.item[0];
 +
-+    /* Gain controlled by gpio with labels */
-+    amplifier3 {
-+        compatible = "audio-gpio-amp";
-+        vdd-supply = <&regulator>;
-+        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
-+        gain-labels = "Low", "High";
-+    };
++	if (kctrl_val == multi->kctrl_val)
++		return 0;
 +
-+    /* A mutable amplifier without any gain control */
-+    amplifier4 {
-+        compatible = "audio-gpio-amp";
-+        vdd-supply = <&regulator>;
-+        mute-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
-+    };
++	ret = audio_gpio_amp_multi_kctrl_write_gpios(multi, kctrl_val);
++	if (ret)
++		return ret;
 +
-+    /*  Several supplies, gain controlled using range, mute and bypass */
-+    amplifier5 {
-+        compatible = "audio-gpio-amp";
-+        vdd-supply = <&regulator>;
-+        vddio-supply = <&regulator1>;
-+        vdda1-supply = <&regulator2>;
-+        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
-+        gain-range = <(-300) 600>;
-+        mute-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
-+        bypass-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
-+    };
-+...
++	multi->kctrl_val = kctrl_val;
++
++	return 1; /* The value changed */
++}
++
++static int *audio_gpio_amp_alloc_tlv_range(const struct audio_gpio_range *range)
++{
++	DECLARE_TLV_DB_MINMAX(tmp, range->min_db, range->max_db);
++
++	return kmemdup(tmp, sizeof(tmp), GFP_KERNEL);
++}
++
++static int *audio_gpio_amp_alloc_tlv_points(struct audio_gpio_points *points)
++{
++	unsigned int *tlv;
++	unsigned int *t;
++	unsigned int i;
++
++	tlv = kzalloc_objs(*tlv, 2 + points->nb_points * 6, GFP_KERNEL);
++	if (!tlv)
++		return NULL;
++
++	t = tlv;
++
++	/* Fill first TLV */
++	*t++ = SNDRV_CTL_TLVT_DB_RANGE; /* Tag */
++	*t++ = points->nb_points * 6 * sizeof(*tlv); /* Len */
++	/* points are sorted from lower to higher value */
++	for (i = 0; i < points->nb_points; i++) {
++		/* Fill item i */
++		*t++ = i;  /* min */
++		*t++ = i;  /* max */
++		*t++ = SNDRV_CTL_TLVT_DB_MINMAX; /* Tag */
++		*t++ = 2 * sizeof(*tlv); /* Len */
++		*t++ = points->tab_points[i].gain_db; /* min_dB */
++		*t++ = points->tab_points[i].gain_db; /* max_dB */
++	}
++
++	return tlv;
++}
++
++static int audio_gpio_amp_multi_add_kcontrol(struct snd_soc_component *component,
++					     struct audio_gpio_multi *multi)
++{
++	struct snd_kcontrol_new control = {
++		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
++		.name = multi->control_name,
++		.info = audio_gpio_amp_multi_kctrl_int_info,
++		.get = audio_gpio_amp_multi_kctrl_int_get,
++		.put = audio_gpio_amp_multi_kctrl_int_put,
++		.private_value = (unsigned long)multi,
++	};
++	int ret;
++
++	switch (multi->mode) {
++	case AUDIO_GPIO_MODE_RANGE:
++		multi->tlv_array = audio_gpio_amp_alloc_tlv_range(&multi->range);
++		if (!multi->tlv_array)
++			return -ENOMEM;
++
++		control.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |
++				 SNDRV_CTL_ELEM_ACCESS_READWRITE;
++		control.tlv.p = multi->tlv_array;
++		break;
++
++	case AUDIO_GPIO_MODE_POINTS:
++		multi->tlv_array = audio_gpio_amp_alloc_tlv_points(&multi->points);
++		if (!multi->tlv_array)
++			return -ENOMEM;
++
++		control.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |
++				 SNDRV_CTL_ELEM_ACCESS_READWRITE;
++		control.tlv.p = multi->tlv_array;
++		break;
++
++	case AUDIO_GPIO_MODE_LABELS:
++		/* Use enumerated values */
++		control.info = audio_gpio_amp_multi_kctrl_enum_info;
++		control.get = audio_gpio_amp_multi_kctrl_enum_get;
++		control.put = audio_gpio_amp_multi_kctrl_enum_put;
++		break;
++
++	case AUDIO_GPIO_MODE_NONE:
++		/* Already set control configuration is enough */
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	/* Be consistent between multi->kctrl_val value and the GPIOs value */
++	ret = audio_gpio_amp_multi_kctrl_write_gpios(multi, multi->kctrl_val);
++	if (ret)
++		return ret;
++
++	return snd_soc_add_component_controls(component, &control, 1);
++}
++
++struct audio_gpio_amp_supply {
++	const char *prop_name;
++	const struct snd_soc_dapm_widget dapm_widget;
++	const struct snd_soc_dapm_route dapm_route;
++};
++
++static const struct audio_gpio_amp_supply audio_gpio_amp_supplies[] = {
++	{
++		.prop_name = "vddio-supply",
++		.dapm_widget = SND_SOC_DAPM_REGULATOR_SUPPLY("vddio", 0, 0),
++		.dapm_route = { "PGA", NULL, "vddio" },
++	}, {
++		.prop_name = "vdda1-supply",
++		.dapm_widget = SND_SOC_DAPM_REGULATOR_SUPPLY("vdda1", 0, 0),
++		.dapm_route = { "PGA", NULL, "vdda1" },
++	}, {
++		.prop_name = "vdda2-supply",
++		.dapm_widget = SND_SOC_DAPM_REGULATOR_SUPPLY("vdda2", 0, 0),
++		.dapm_route = { "PGA", NULL, "vdda2" },
++	},
++	{ /* End of list */}
++};
++
++static int audio_gpio_amp_add_power_supplies(struct snd_soc_component *component)
++{
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
++	const struct audio_gpio_amp_supply *supply;
++	struct device *dev = component->dev;
++	int ret;
++
++	supply = audio_gpio_amp_supplies;
++	do {
++		if (!of_property_present(dev->of_node, supply->prop_name))
++			continue;
++
++		ret = snd_soc_dapm_new_controls(dapm, &supply->dapm_widget, 1);
++		if (ret) {
++			dev_err(dev, "Failed to add control for '%s' (%d)\n",
++				supply->prop_name, ret);
++			return ret;
++		}
++		ret = snd_soc_dapm_add_routes(dapm, &supply->dapm_route, 1);
++		if (ret) {
++			dev_err(dev, "Failed to add route for '%s' (%d)\n",
++				supply->prop_name, ret);
++			return ret;
++		}
++	} while ((++supply)->prop_name);
++
++	return 0;
++}
++
++static int audio_gpio_amp_component_probe(struct snd_soc_component *component)
++{
++	struct audio_gpio_amp *gpio_amp = snd_soc_component_get_drvdata(component);
++	int ret;
++
++	ret = audio_gpio_amp_add_power_supplies(component);
++	if (ret)
++		return ret;
++
++	if (gpio_amp->mute.gpio) {
++		/*
++		 * The name of the GPIO used is mute. According to this name, 1
++		 * means muted and 0 means un-muted.
++		 *
++		 * An inversion is expected by ALSA. Indeed from ALSA point of
++		 * view, 1 means 'on' (un-muted) and 0 means 'off' (muted).
++		 */
++		gpio_amp->mute.is_inverted = true;
++		gpio_amp->mute.kctrl_val = 1; /* Un-muted */
++		ret = audio_gpio_amp_single_add_kcontrol(component, &gpio_amp->mute);
++		if (ret)
++			return ret;
++	}
++
++	if (gpio_amp->bypass.gpio) {
++		ret = audio_gpio_amp_single_add_kcontrol(component, &gpio_amp->bypass);
++		if (ret)
++			return ret;
++	}
++
++	if (gpio_amp->gain.gpios) {
++		ret = audio_gpio_amp_multi_add_kcontrol(component, &gpio_amp->gain);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static void audio_gpio_amp_component_remove(struct snd_soc_component *component)
++{
++	struct audio_gpio_amp *gpio_amp = snd_soc_component_get_drvdata(component);
++
++	kfree(gpio_amp->gain.tlv_array);
++	gpio_amp->gain.tlv_array = NULL;
++}
++
++static const struct snd_soc_component_driver audio_gpio_amp_component_driver = {
++	.dapm_widgets		= audio_gpio_amp_dapm_widgets,
++	.num_dapm_widgets	= ARRAY_SIZE(audio_gpio_amp_dapm_widgets),
++	.dapm_routes		= audio_gpio_amp_dapm_routes,
++	.num_dapm_routes	= ARRAY_SIZE(audio_gpio_amp_dapm_routes),
++	.probe = audio_gpio_amp_component_probe,
++	.remove = audio_gpio_amp_component_remove,
++};
++
++static int audio_gpio_amp_parse_labels(struct device *dev,
++				       struct audio_gpio_multi *multi,
++				       const char *labels_property)
++{
++	struct audio_gpio_labels *labels = &multi->labels;
++	struct device_node *np = dev->of_node;
++	int ret;
++
++	ret = of_property_count_strings(np, labels_property);
++	if (ret <= 0)
++		return ret;
++
++	labels->nb_labels = ret;
++	if (labels->nb_labels > (1 << multi->gpios->ndescs))
++		return -EINVAL;
++
++	labels->tab_labels = devm_kcalloc(dev, labels->nb_labels,
++					  sizeof(*labels->tab_labels),
++					  GFP_KERNEL);
++	if (!labels->tab_labels)
++		return -ENOMEM;
++
++	multi->kctrl_max = labels->nb_labels - 1;
++	multi->kctrl_val = 0;
++	multi->is_inverted = false;
++
++	return of_property_read_string_array(np, labels_property, labels->tab_labels,
++					     labels->nb_labels);
++}
++
++static int audio_gpio_amp_parse_range(struct device *dev,
++				      struct audio_gpio_multi *multi,
++				      const char *range_property)
++{
++	struct audio_gpio_range *range = &multi->range;
++	struct device_node *np = dev->of_node;
++	s32 tmp;
++	int ret;
++
++	ret = of_property_read_s32_index(np, range_property, 0, &tmp);
++	if (ret)
++		return ret;
++	range->min_db = tmp;
++
++	ret = of_property_read_s32_index(np, range_property, 1, &tmp);
++	if (ret)
++		return ret;
++	range->max_db = tmp;
++
++	multi->kctrl_max = (1 << multi->gpios->ndescs) - 1;
++	multi->kctrl_val = 0;
++	multi->is_inverted = false;
++
++	if (range->min_db > range->max_db) {
++		/* Invert range */
++		swap(range->min_db, range->max_db);
++		multi->is_inverted = 1;
++
++		/*
++		 * When the range is inverted, choose to have the initial
++		 * amplification set to max_db (i.e. all GPIOs inactive).
++		 */
++		multi->kctrl_val = multi->kctrl_max;
++	}
++
++	return 0;
++}
++
++static int audio_gpio_amp_cmp_points(const void *a, const void *b)
++{
++	const struct audio_gpio_point *a_point = a;
++	const struct audio_gpio_point *b_point = b;
++
++	return a_point->gain_db - b_point->gain_db;
++}
++
++static int audio_gpio_amp_parse_points(struct device *dev,
++				       struct audio_gpio_multi *multi,
++				       const char *points_property)
++{
++	struct audio_gpio_points *points = &multi->points;
++	struct device_node *np = dev->of_node;
++	struct audio_gpio_point first_point;
++	unsigned int max_gpio_val;
++	unsigned int i;
++	int ret;
++	u32 u;
++	s32 s;
++
++	max_gpio_val = (1 << multi->gpios->ndescs) - 1;
++
++	ret = of_property_count_u32_elems(np, points_property);
++	if (ret <= 0)
++		return ret;
++
++	if (ret % 2)
++		return -EINVAL;
++
++	points->nb_points = ret / 2;
++	if (points->nb_points > max_gpio_val + 1)
++		return -EINVAL;
++
++	points->tab_points = devm_kcalloc(dev, points->nb_points,
++					  sizeof(*points->tab_points),
++					  GFP_KERNEL);
++	if (!points->tab_points)
++		return -ENOMEM;
++
++	for (i = 0; i < points->nb_points; i++) {
++		/* Gpio value */
++		ret = of_property_read_u32_index(np, points_property,
++						 i * 2, &u);
++		if (ret)
++			return ret;
++		if (u > max_gpio_val)
++			return -EINVAL;
++
++		points->tab_points[i].gpio_val = u;
++
++		/* Gain value */
++		ret = of_property_read_s32_index(np, points_property,
++						 i * 2 + 1, &s);
++		if (ret)
++			return ret;
++
++		points->tab_points[i].gain_db = s;
++	}
++
++	first_point = points->tab_points[0];
++
++	/* Sort the tab_point array by gain_db value */
++	sort(points->tab_points, points->nb_points, sizeof(*points->tab_points),
++	     audio_gpio_amp_cmp_points, NULL);
++
++	multi->kctrl_max = points->nb_points - 1;
++	multi->is_inverted = false;
++
++	/*
++	 * multi->kctrl_val is the index in tab_points.
++	 *
++	 * Choose to have the initial amplification value set to the first item
++	 * available in the tab_points array before sorting.
++	 *
++	 * This first point before sorting has been identified. Search for it in
++	 * the sorted array in order to set the multi->kctrl_val initial value.
++	 */
++	for (i = 0; i < points->nb_points; i++) {
++		if (points->tab_points[i].gpio_val == first_point.gpio_val &&
++		    points->tab_points[i].gain_db == first_point.gain_db) {
++			multi->kctrl_val = i;
++			break;
++		}
++	}
++
++	return 0;
++}
++
++static int audio_gpio_amp_parse_multi_gpio(struct device *dev,
++					   struct audio_gpio_multi *multi,
++					   const char *gpios_property,
++					   const char *range_property,
++					   const char *points_property,
++					   const char *labels_property)
++{
++	struct device_node *np = dev->of_node;
++	int ret;
++
++	/* Start with the value 0 (GPIO inactive). Can be changed later */
++	multi->is_inverted = false;
++	multi->kctrl_val = 0;
++	multi->gpios = devm_gpiod_get_array_optional(dev, gpios_property, GPIOD_OUT_LOW);
++	if (IS_ERR(multi->gpios))
++		return dev_err_probe(dev, PTR_ERR(multi->gpios),
++				     "Failed to get '%s' gpios\n",
++				     gpios_property);
++	if (!multi->gpios)
++		return 0;
++
++	if (multi->gpios->ndescs > 32)
++		return dev_err_probe(dev, -EINVAL,
++				     "Number of '%s' gpios limited to 32\n",
++				     labels_property);
++
++	/* Set default value for the kctrl_max. Can be changed later */
++	multi->kctrl_max = (1 << multi->gpios->ndescs) - 1;
++
++	multi->mode = AUDIO_GPIO_MODE_NONE;
++	if (of_property_present(np, points_property)) {
++		ret = audio_gpio_amp_parse_points(dev, multi, points_property);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "Failed to parse '%s'\n",
++					     points_property);
++		multi->mode = AUDIO_GPIO_MODE_POINTS;
++
++	} else if (of_property_present(np, range_property)) {
++		ret = audio_gpio_amp_parse_range(dev, multi, range_property);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "Failed to parse '%s'\n",
++					     range_property);
++		multi->mode = AUDIO_GPIO_MODE_RANGE;
++
++	} else if (of_property_present(np, labels_property)) {
++		ret = audio_gpio_amp_parse_labels(dev, multi, labels_property);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "Failed to parse '%s'\n",
++					     labels_property);
++
++		multi->mode = AUDIO_GPIO_MODE_LABELS;
++	}
++
++	return 0;
++}
++
++static int audio_gpio_amp_parse_single_gpio(struct device *dev,
++					    struct audio_gpio_single *single,
++					    const char *gpio_property)
++{
++	/* Start with the inactive value */
++	single->is_inverted = false;
++	single->kctrl_val = 0;
++	single->gpio = devm_gpiod_get_optional(dev, gpio_property, GPIOD_OUT_LOW);
++	if (IS_ERR(single->gpio))
++		return dev_err_probe(dev, PTR_ERR(single->gpio),
++				     "Failed to get '%s' gpio\n",
++				     gpio_property);
++	return 0;
++}
++
++static int audio_gpio_amp_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct audio_gpio_amp *gpio_amp;
++	int ret;
++
++	gpio_amp = devm_kzalloc(dev, sizeof(*gpio_amp), GFP_KERNEL);
++	if (!gpio_amp)
++		return -ENOMEM;
++
++	ret = audio_gpio_amp_parse_single_gpio(dev, &gpio_amp->mute, "mute");
++	if (ret)
++		return ret;
++
++	ret = audio_gpio_amp_parse_single_gpio(dev, &gpio_amp->bypass, "bypass");
++	if (ret)
++		return ret;
++
++	ret = audio_gpio_amp_parse_multi_gpio(dev, &gpio_amp->gain, "gain",
++					      "gain-range", "gain-points", "gain-labels");
++	if (ret)
++		return ret;
++
++	/* Set controls name */
++	gpio_amp->gain.control_name = "Volume";
++	gpio_amp->mute.control_name = "Switch";
++	gpio_amp->bypass.control_name = "Bypass Switch";
++
++	if (gpio_amp->gain.mode == AUDIO_GPIO_MODE_LABELS) {
++		/*
++		 * The gain widget control will use enumerated values.
++		 *
++		 * Having just "Voltage" and "Switch" widget names with
++		 * enumerated values and boolean value can confuse ALSA in terms
++		 * of possible values (strings).
++		 *
++		 * Make things clear and avoid the just "Switch" name in that
++		 * case.
++		 */
++		gpio_amp->mute.control_name = "Out Switch";
++	}
++
++	platform_set_drvdata(pdev, gpio_amp);
++
++	return devm_snd_soc_register_component(dev,
++					       &audio_gpio_amp_component_driver,
++					       NULL, 0);
++}
++
++static const struct of_device_id audio_gpio_amp_ids[] = {
++	{ .compatible = "audio-gpio-amp" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, audio_gpio_amp_ids);
++
++static struct platform_driver audio_gpio_amp_driver = {
++	.driver = {
++		.name = "audio-gpio-amp",
++		.of_match_table = of_match_ptr(audio_gpio_amp_ids),
++	},
++	.probe = audio_gpio_amp_probe,
++};
++module_platform_driver(audio_gpio_amp_driver);
++
++MODULE_AUTHOR("Herve Codina <herve.codina@bootlin.com>");
++MODULE_DESCRIPTION("ASoC GPIOs controlled amplifier driver");
++MODULE_LICENSE("GPL");
 -- 
 2.53.0
 
