@@ -1,200 +1,176 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253B8386425
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 18:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774896489; cv=none; b=HlIBEyRnxzbZNTePdrHZXlAdbB/rjaZ5ge1jKa43s+BGJ8mR4pzI1b6YARY6tH+Cbc7zrfH0Le63xRrkpa3X3cqpNbqzTaEkj6rt5na9vEixSWnhaX65ORHXV5VQzX3wop1SWUVVNUlMpLvtfO7e5N3nNqHisK47Jtd4+c7i5N8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774896489; c=relaxed/simple;
-	bh=PZJA8OYSHkcjEb6yeCr4bU8DRy/2gacrQ+n6Z6q9zPk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C6B325704
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 19:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774897767; cv=pass; b=hPcZpWSlxAhAxnFCgJcu69Xv0FLyVbx0iZikB7uVxbYHVBnxzrvuouXxbH2BA4JuDULWNfxNmlRktdWve4/5VHuwuszxSYAEUZsBJcagl8Ab6MS3Lx8RyaT9CEK0f1U9GMCvx3JW7Vhb8H0nAYzrWTTA1v0jaxd5woC4orJZSOs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774897767; c=relaxed/simple;
+	bh=tB5UvVyyaW69TUSaiIcWww9fyaZgzM+cWqkdUMUA8D0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IKtT6XNp5zGQHn5qlIDI8Q2+Zmf6ljG6VLPulnIorH1hCGxEp570WBEftSwi+muls98mBeCU0IosoHy6tfv62wmsPyjObkAJX0f4wNs7j4LOdcx+gz7G6pKSkB9IKa50YOc4bWzxiEdZBgiNS2iELVyYHPFChaTRWzJfc7rj5RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=KsEGiJjmxxkNnqBY+yCDOPUJpTVDUM5q3JxgmE0FdUbA6gyPiWkuwqZ2OoN5oCsaumg2fDULZt2tS0wOCFtpbFZym5A7zh69s3RFyLT8QVuCOB3frqxtFXpci9WetwiDwQzrwgup+pfmqhPASrZTjKGDLdeXjcx9FOQGGHd4vsk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sQOGhrm3; arc=pass smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56ccdd0044dso4163794e0c.0
-        for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 11:48:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774896486; x=1775501286;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sQOGhrm3"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59e5aa4ca41so3114153e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 12:09:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774897763; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WAMNkgDDyRqJg5X4d/3a1Qoby2uB0CbgTYO2LPLecoSyzBUl+cRhVYSA0kB1Ba5ct0
+         eQFBSx9+poIAu4z0TqPpBweIFPO5H3AB+mTXzwE/9r+9omMf+h0TS5er1VIZU1KMaTot
+         upX7BnTeQ5Xs4Yb8UZw6oZJShsx4t+R+IgrvA44X+DdLXwHhi6RnkDzyfgSEYmS/WLRH
+         JCkiDlj0eoDpc1S8uuPhOICtOeFEDwJ/FpIV6zJPYwozIDPeApT3AbANZMj6udGTky1K
+         gg20xNn4IsdKPs0CrXtcUUkXiqGxyx0STYW95MhlLLGQNcff5EIRC6hzpH/3U/ue5dEu
+         lL6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ncDn/XtFsN7SCJcACGkW9Af70bOhZca63Df9xP3DVOk=;
+        fh=YWeTV2CZL4r23wYl3P8pZtKNxcGnJtZ+1ulLaGuY/iQ=;
+        b=iXJwgiRfC+iIpMrc2PNqG9mWIxhtDVXrCGc08kWLRbOP739L1KgbeWOmYO1JoP6oPN
+         Of/Ms2482PotZKemRocuQ5GQQOtdvkSiQX0VZ6LR/7hHbAI+dkWHeSlrkXGOZvMVvFRn
+         wG96xX8a9Otd844VRfqxl8Jk/F53ujwaoXzL+BaU1aH+PkyjY4znV8PYaFZmvHI8w5QU
+         Aqx79lhWzGZ35AYHWojGqHfWo2WRM1n52ksHxwhJEE13HSriEtncMz4sxkD1Zr/iDAvq
+         bPRAIPq1Nbqs7HTW+H9YPVeB1f7YggDTF7qOmUGh82Avu31TUjtDLKpQ0D+ei3zTyqDw
+         vcVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774897763; x=1775502563; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gmbdfERIdYVjSOaA8rBMP7lXVvFsi5yyzuqKEhnFPsQ=;
-        b=BVjJm+8Ytg6RE36m1/hYsBnzFqt6Pq/VwUofDcNIJi8eLG1MZ5WAhxDtbKH5d+N6Af
-         JzpTB6rCnb6sVnsdqCyS4tJ5/tyiDErvGHQGD7J7Iy1vOSDT8Rp1pWiRcZU4ChNWwTWd
-         zPAReXwg5asdX8tdAIcRLp8m+GiJ2QhE7QzgtDzRplfAia3uFNVYvit9LY0xhTu6PChH
-         QD1hBEXMlTGzJfO6aBU1EnXQRfOxN9SdOLcm1XBc3i4zYsXFhm95AWQd40aXi+pXwibt
-         z2L69BDrh+44x4ROBgf/FM9b4/pgKcJt4P8reswspiQTaGWezdathEru6smGGxOKRULZ
-         7d3w==
-X-Forwarded-Encrypted: i=1; AJvYcCV0ZNAX4z6IYZ5zvmyvXl14h7UYCloUVzbTZAL4wKdobIYkXIOtnJEjN3o6u+KHjnHx91tXD6PUebPMVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCn1sqzBH7buqPLynmfi5DxYyEYbPgfRSwZ5HrMy4nBzp0EhSs
-	EbVZcSUM+6A3p1MX5h8J5jEkE0uEnH9YfyM/W7LhYlfaX91x9+KrH/4oqhTtMQTa
-X-Gm-Gg: ATEYQzyoKEP/EJu8Y9aYPJDVpOs5TnqyvlN5qPoBbcDGbEnuGP/jIUHkJ5wiwBTu57u
-	pfWXZUJ2rBIGRAUlf1/vX8Hwfy9JgI0XDYquzAkkKeGDlw4Ib3zinITKS8JTJEozq7nCtNj+oDZ
-	N1KK9iiiLmDbAEi3N4mMHHmIWwIqXAHIDfAWwvYp30MFXAE3AVr7kNtTAhjOqLAVh35z1J4N99s
-	Gvgrj8xsqxubp08K1NDpddXBbGGeWEh8vEHmWNDbQY9bKgegBBJLelDtQ1kaNUBNqntMe2cM6Oq
-	po5DsDPJtq9DEVtvTnBQWB/BvFmvjN8LWwDbYrB1H0qo37cLp816+w9tuvAiFvfJhcbnzZ7mbak
-	LM52tztbgnXn7XjDjFnpD8lMhzXB9/bYNTd+ojS8VatInKtjZ5pTu9kb06a+XXYbg6dbfCAjuiq
-	4OrtzTtxyvhWA5jZ3G/FgV1M7A9BbByfzEnY2Q/FCd7SIlCPMBO8kjrhbmctQT2Z4N
-X-Received: by 2002:a05:6122:2983:b0:566:ec03:4683 with SMTP id 71dfb90a1353d-56d7bfc69f8mr406912e0c.2.1774896485992;
-        Mon, 30 Mar 2026 11:48:05 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d589f9c0esm9379343e0c.9.2026.03.30.11.48.05
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Mar 2026 11:48:05 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56ccdd0044dso4163769e0c.0
-        for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 11:48:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9J4iO8UxUhAmNmYa6DAcO93Ttw0/d3M+/EreW6mzIZMB4EwQdHMwqP/Qzd20pL2D/K9gPclzn/sT2JQ==@vger.kernel.org
-X-Received: by 2002:a05:6122:21a7:b0:56a:ed84:e2 with SMTP id
- 71dfb90a1353d-56d7bf9a1a3mr395634e0c.1.1774896484928; Mon, 30 Mar 2026
- 11:48:04 -0700 (PDT)
+        bh=ncDn/XtFsN7SCJcACGkW9Af70bOhZca63Df9xP3DVOk=;
+        b=sQOGhrm3oLWEwGZK09EbqIiO4L5DYmtsOONAIoW+dg06/IZjdiW56Wi93t4EFxmLWV
+         T9hgNwuOQF7922eQUGK1A8g0rD9HBpd+T14CLdnhc2TevfBtIrINTDDbh4pezY6UrCLT
+         G220r2td0n63/4c9S7YRcso6+hTgpOFVK4NhW6LzOXz00cwsXpvx5hP1FOiwQAPIhWzI
+         NQtnyTVdAkxjQMVIvUVbgbJwHSCWwtieTuhlliAXk/u7sVAcc4TbbE5Y5N7uHVs+lC14
+         11nLR9RjHe7qgOp8dvLhV9znxiTALj+K6vfAXm1bx7c9JLMuTuL50YjxvnceybTnG27N
+         ukAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774897763; x=1775502563;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ncDn/XtFsN7SCJcACGkW9Af70bOhZca63Df9xP3DVOk=;
+        b=EdrE4/9L1Qq00ozP4CJN+Q0c1mExlzqlVBCsPItjHgw2bngrNomIYnPNj3WY5+Nyo1
+         PvEoKFVU2CDx3k1YG+K8S0Ivi7rv+s4v5AAb6lungOlSw56hYKBMCI061OLLSkIH7mLW
+         5xZTBmaVXcVlxw9gaogQ1KYiFu/LoOHrN2qFWmNufmOX+c0ttQsLGPnYM4LPiY8nxBqB
+         Cfv/GHa7lMvmna0Rke1gvx9JMbGwj4oUkrTIKQSsIFOYILj7g6amfCXz0WnIquE1lMJZ
+         iCr8u/Qp3YN0SGicc+u2qs1et0x7xLWFGzaqze/jC+4gWYSOuS/z1F4KlYvx3ry0AixJ
+         jhHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRjEiL9XDB/HHPG4gSmXKp7X6xaLj+YjndfMgxZec7KhkjjLbaLQQvqRcRiP+nBemqA7GwtYfjYspxLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM+gxoH8/haYMor6LWqYL269TPdQF5uX8EfgCQHF39OCZ2n0RX
+	FIQeBCv9VolV0y+DJGF/wLYWPjtggAd1s5wLygjOoz81DNUPU0wsAHHOPRRLhRVlN/uyv+i0tlw
+	XZ5Um5mAYHWb4HsZ0+NWDO03xKG0BJeU=
+X-Gm-Gg: ATEYQzxLDuY8RMxBYTG1DlWroEbMut7J/VF1thyTPEEB1LQOx/cHqdvgztZ1fsSkRJn
+	UY6q/I9CRBrnCXfXq3vJJ1nph9pHPTgc59DXO3rt4tppJakIQQPzFD3f0bdad6z4GU2Zx2fshSO
+	br+cAwXWDvrH0sb1ToOhmW4iqAEtafxqWYWhbStGVPdlwAOekqf0kYJgYjFj8spzMuuyOTBmDfg
+	Gj7Ot6yHnLb9bscLkEuZ02cncHYEAgvc2SyUHQmowIckNq3ElAc0xLjoX+J5YIVPj8+PlPpg3FG
+	TxOLvzF6X58coKu3Q97SQNxudIebqN0ILzZH6HpU
+X-Received: by 2002:a05:6512:2252:b0:5a1:3bd2:7330 with SMTP id
+ 2adb3069b0e04-5a2ab7e973dmr4325669e87.2.1774897762975; Mon, 30 Mar 2026
+ 12:09:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260319155334.51278-1-john.madieu.xa@bp.renesas.com>
- <20260319155334.51278-8-john.madieu.xa@bp.renesas.com> <20260320-peculiar-cat-of-acumen-c6f6b3@quoll>
- <TY6PR01MB173775E9970A41ED3A7FFF1DAFF52A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY6PR01MB173775E9970A41ED3A7FFF1DAFF52A@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 30 Mar 2026 20:47:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW6Ac_=BugNJaqWnazdDsuzBB765jpzXt8fUasbypXFxg@mail.gmail.com>
-X-Gm-Features: AQROBzBY2yW50P7_EhVQZxwFTstX-3Z9DxWPu0ijoIOHvrdSgZhFLZHzJwI06ec
-Message-ID: <CAMuHMdW6Ac_=BugNJaqWnazdDsuzBB765jpzXt8fUasbypXFxg@mail.gmail.com>
-Subject: Re: [PATCH 07/22] ASoC: dt-bindings: renesas,rsnd: Add RZ/G3E support
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Vinod Koul <vkoul@kernel.org>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, "magnus.damm" <magnus.damm@gmail.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	John Madieu <john.madieu@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+References: <20260327121919.603768-1-padmashreess2006@gmail.com>
+ <20260328-hidden-secret-oriole-4dddb0@quoll> <CAEjBr-aoOhbtZWdYvq3rQ3q+2SKUEctTXPdYcoS4mJyrPf-Yqw@mail.gmail.com>
+In-Reply-To: <CAEjBr-aoOhbtZWdYvq3rQ3q+2SKUEctTXPdYcoS4mJyrPf-Yqw@mail.gmail.com>
+From: Padmashree S S <padmashreess2006@gmail.com>
+Date: Tue, 31 Mar 2026 00:39:10 +0530
+X-Gm-Features: AQROBzCe-fvcq-uuVF6744K-oAtwxP-D31BDOlh2wjZ0d72FF1zcLp7Eh6-lIYc
+Message-ID: <CAEjBr-ZKhrh3-C+xYLamQ-+ukg12u8McWj+MbUp4QnuOUvRi8g@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: sound: Convert pcm3060 to DT Schema
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: k.marinushkin@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi John,
-
-On Mon, 30 Mar 2026 at 17:40, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> > From: Krzysztof Kozlowski <krzk@kernel.org>
-> > > RZ/G3E has a different audio architecture from R-Car Gen2/Gen3/Gen4,
-> > > with additional clocks and resets:
-> > > - Per-SSI ADG clocks (adg.ssi.0-9)
-> > > - SCU related clocks (scu, scu_x2, scu_supply)
-> > > - SSIF supply clock
-> > > - AUDMAC peri-peri clock
-> > > - ADG clock
-> > > - Additional resets for SCU, ADG, and AUDMAC peri-peri
-> > >
-> > > RZ/G3E has 5 DMA controllers that can all be used by audio peripherals.
-> > > To allow the DMA core to distribute channels across all available
-> > > controllers, increase the maximum number of DMA entries in DVC, SRC,
-> > > and SSIU sub-nodes so that multiple providers can be listed with
-> > > repeated channel names.
-> > >
-> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-
-> > > b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> > > index e8a2acb92646..bc8885c4fa24 100644
-> > > --- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> > > +++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-> > > @@ -58,6 +58,7 @@ properties:
-> > >            - renesas,rcar_sound-gen2
-> > >            - renesas,rcar_sound-gen3
-> > >            - renesas,rcar_sound-gen4
-> > > +          - renesas,rcar_sound-r9a09g047     # RZ/G3E
-> >
-> > Do not use underscores in compatibles. Previously used wrong style is not
-> > the excuse here, just like previously poor code, mistakes, bugs,
-> > unreadable approches is not justification to repeat the same.
+On Tue, Mar 31, 2026 at 12:28=E2=80=AFAM Padmashree S S
+<padmashreess2006@gmail.com> wrote:
 >
-> Got it.
 >
-> > >    reg:
-> > >      minItems: 1
-> > > @@ -97,20 +98,22 @@ properties:
-> > >
-> > >    resets:
-> > >      minItems: 1
-> > > -    maxItems: 11
-> > > +    maxItems: 14
-> > >
-> > >    reset-names:
-> > >      minItems: 1
-> > > -    maxItems: 11
-> > > +    maxItems: 14
-> > >
-> > >    clocks:
-> > >      description: References to SSI/SRC/MIX/CTU/DVC/AUDIO_CLK clocks.
-> > >      minItems: 1
-> > > -    maxItems: 31
-> > > +    maxItems: 47
-> > >
-> > >    clock-names:
-> > >      description: List of necessary clock names.
-> > >      # details are defined below
-> > > +    minItems: 1
-> > > +    maxItems: 47
-> > >
-> > >    # ports is below
-> > >    port:
-> > > @@ -136,9 +139,17 @@ properties:
-> > >
-> > >          properties:
-> > >            dmas:
-> > > -            maxItems: 1
-> > > +            description:
-> > > +              Must contain unique DMA specifiers, one per available
-> > > +              DMAC. On RZ/G3E, up to 5 for transmission.
-> > > +            minItems: 1
-> > > +            maxItems: 5
-> > >            dma-names:
-> > > -            const: tx
-> > > +            minItems: 1
-> > > +            maxItems: 5
-> > > +            items:
-> > > +              enum:
-> > > +                - tx
-> >
-> > Multiple levels, multiple if:then: (further) - I don't find this binding
-> > manageable/readable. You should split it, with common binding defining
-> > common part of hardware or interface if there is such.
 >
-> I as you suggested, I'll split it. Just to double check, should I fix
-> any bug found in there (like existing compatible strings having underscore
-> separators) ? Or should I just split and make sure only new SoC support is
-> bug free ?
-
-You cannot just change existing compatible values, as they are part
-of the DT ABI.
-
-When you split RZ/G3E off into a separate file, please drop the
-"rcar"-part[*] in its compatible value, and move the SoC-specific part
-right after the comma.  Perhaps "renesas,r9a09g047-sound"?
-
-[*] Disclaimer: I haven't read the RZ/G3E audio chapter yet.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> On Sat, Mar 28, 2026 at 7:20=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.=
+org> wrote:
+>>
+>> On Fri, Mar 27, 2026 at 05:49:18PM +0530, Padmashree S S wrote:
+>> > Convert pcm3060 to DT Schema
+>> >
+>> > Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
+>> > ---
+>> >  .../devicetree/bindings/sound/pcm3060.txt     | 23 ----------
+>> >  .../devicetree/bindings/sound/pcm3060.yaml    | 42 ++++++++++++++++++=
++
+>>
+>> You sent it already after I asked you to slow down and implement
+>> previous feedback, so this has the same issues.
+>>
+>> Please run scripts/checkpatch.pl on the patches and fix reported
+>> warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+>> patches and (probably) fix more warnings. Some warnings can be ignored,
+>> especially from --strict run, but the code here looks like it needs a
+>> fix. Feel free to get in touch if the warning is not clear.
+>>
+>> Please use subject prefixes matching the subsystem. You can get them for
+>> example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
+>> your patch is touching. For bindings, the preferred subjects are
+>> explained here:
+>> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-pa=
+tches.html#i-for-patch-submitters
+>>
+>> >  2 files changed, 42 insertions(+), 23 deletions(-)
+>> >  delete mode 100644 Documentation/devicetree/bindings/sound/pcm3060.tx=
+t
+>> >  create mode 100644 Documentation/devicetree/bindings/sound/pcm3060.ya=
+ml
+>>
+>> Filename must match compatible.
+>>
+>> ...
+>>
+>> > +
+>> > +  reg:
+>> > +    maxItems: 1
+>> > +
+>> > +  ti,out-single-ended:
+>> > +    type: boolean
+>> > +    description: |
+>>
+>> Drop |
+>>
+>> > +      If present, the output is single-ended.
+>> > +      If absent, the output is differential.
+>> > +
+>> > +required:
+>> > +  - compatible
+>> > +  - reg
+>> > +
+>> > +additionalProperties: false
+>> > +
+>> > +examples:
+>> > +  - |
+>> > +    i2c {
+>> > +      #address-cells =3D <1>;
+>> > +      #size-cells =3D <0>;
+>> > +
+>> > +      pcm3060: audio-codec@46 {
+>>
+>> Drop unused label.
+>>
+>> Best regards,
+>> Krzysztof
+>> Thanks for the review.
+>> I will run checkpatch.pl, address the comments and send an updated versi=
+on.
