@@ -1,137 +1,104 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DCD3C9444
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 11:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944B6175A96;
+	Mon, 30 Mar 2026 11:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774871248; cv=none; b=M0+rUKLJgRFGFlWmuKc2q6jDh6GE7JNx4fftZLcCdC+W9xvvsBeeUaAJLUBMTKKvNI8xzOMk9J4Qn97p9oB/r64NVeny9NLrcjoFJAz2rGt9yZfs/B6Uc7mMe4IVcaVlyL1gq3a1x+XvLdpp2eT+qtqwoTPkW2XxhIOIwR3LIPc=
+	t=1774871404; cv=none; b=pLUg5lWBYUKsseHEnIc2KS1M51kaPjMJRukgoJmvqzlWby/yViGNFJxdCUkF1qk41wf9LxWkXO5guXZKdqeYSgcE24azjqqVIWBkFS8IFSsCe9ymsaaSYtpSjUjdDMa7DMYKSv+FMm2zvKE4BBOOyAsZgzhxiCAZz9oLuh4+Mvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774871248; c=relaxed/simple;
-	bh=e1SZeR/5FcqTiIeQPnwssueomtYyGOfL7VZKRujztsw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KYj4HwcaNt/3mMmdRr3ETfLVrhVGq4ZGPWG3HhVP84ncxZAo60QoL13yZjh7/2QVd6ij32pXcLTjD4MKF+akRupv5Ur6zwCkHHtepgHLiin3x/cAviL9qS2eBsw1GFc609HY9z/aU9m9iTVL+CUzm82iy9JXxGHZMqn1OwN5r1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z40VBc3L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/6ifK3ft; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z40VBc3L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/6ifK3ft; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774871404; c=relaxed/simple;
+	bh=qwx+uovzcKZxcm0VDafKuZvZ8t4WfOt6isHpv35/KVI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XjB4x4+vuX03mHseuYshpv/+YCstl2odxvIq5eHXt/vqCGAiIcYlVCcz+yIO5Tk/9JDIMTmaQXpJIQ57dT780qUDMh1A1Z/b+ifeKD9ICxUhc3S3iGNXLlRuIf/K6CG6AAxUdQAFfpR88pndolXU3iYl4WPb+NevH9Iui81lWMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8+4iDnQ; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z40VBc3L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/6ifK3ft";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z40VBc3L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/6ifK3ft"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A16685BD39;
-	Mon, 30 Mar 2026 11:47:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774871245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WGkNKNx6/57YqNRE5ARl4bzqmmM1DrRENKndswg/PP8=;
-	b=Z40VBc3LJJIcCosT0W0NM2p7HSFdC46+lojJCbEL+kx7tsB9d2YY2KjmbARwqWV82joLle
-	VrWBhT5OPOYtVAgk/YlsxKqKU+WHO8Uj9rQ4wCukeEBQ7zqWoCmfNvhfk0LxS2eQ8JStHb
-	Rg+aFojNRnM5hnAQIqs1xf9K1wCrdQE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774871245;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WGkNKNx6/57YqNRE5ARl4bzqmmM1DrRENKndswg/PP8=;
-	b=/6ifK3ft9tgmrFrxIN/HJUl+ryG2NknQZgUOKs06IUzE+HU5vu4Lwk4Ix0toMHuzmW0rGt
-	zFVImJNXJ9x/vJBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z40VBc3L;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/6ifK3ft"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774871245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WGkNKNx6/57YqNRE5ARl4bzqmmM1DrRENKndswg/PP8=;
-	b=Z40VBc3LJJIcCosT0W0NM2p7HSFdC46+lojJCbEL+kx7tsB9d2YY2KjmbARwqWV82joLle
-	VrWBhT5OPOYtVAgk/YlsxKqKU+WHO8Uj9rQ4wCukeEBQ7zqWoCmfNvhfk0LxS2eQ8JStHb
-	Rg+aFojNRnM5hnAQIqs1xf9K1wCrdQE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774871245;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WGkNKNx6/57YqNRE5ARl4bzqmmM1DrRENKndswg/PP8=;
-	b=/6ifK3ft9tgmrFrxIN/HJUl+ryG2NknQZgUOKs06IUzE+HU5vu4Lwk4Ix0toMHuzmW0rGt
-	zFVImJNXJ9x/vJBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 74A204A0A2;
-	Mon, 30 Mar 2026 11:47:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /UM6G81iymmeMgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 30 Mar 2026 11:47:25 +0000
-Date: Mon, 30 Mar 2026 13:47:25 +0200
-Message-ID: <874ilxv8s2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] ALSA: hda/realtek: Add quirk for ASUS ROG Strix SCAR 15
-In-Reply-To: <20260330075334.50962-2-zhangheng@kylinos.cn>
-References: <20260330075334.50962-1-zhangheng@kylinos.cn>
-	<20260330075334.50962-2-zhangheng@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8+4iDnQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774871404; x=1806407404;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=qwx+uovzcKZxcm0VDafKuZvZ8t4WfOt6isHpv35/KVI=;
+  b=V8+4iDnQhYOG6kKj0+avros5ncNdSknST8zQZjrNmDcwuIC36OOB2NsA
+   f+RQ3M9/n46ZHdKmhqFMNKbk4BBY/BytCD6iznPbbhkbvFQ0cY9R3+ktb
+   AdRGK/QUc7/LHqVFecF1lXYkVeM50jzfh3DMk91LWezUn2aKCWEnECipa
+   s6PKhd1im5nopvT9SNOs8xUWRzyXQHmOISZofLOWQfmopkTE8zxe6L0E2
+   k5kaO+eL4952GVa/LN55+ZmF7GrRijNXXqYtcmw5ci/uubD3zQKKM6FJX
+   oPcS/44PDGOmXOS0w8FDOpp42Szv8nmT/DNUK4IQsQVEuJIOAiJNliCvV
+   Q==;
+X-CSE-ConnectionGUID: u7nJZmkORxW52b03QClBaQ==
+X-CSE-MsgGUID: V5RcPSCGQK2O6zqf/oz+AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="75831031"
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="75831031"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 04:50:03 -0700
+X-CSE-ConnectionGUID: EZZjznjATcalu0S1+1ct0Q==
+X-CSE-MsgGUID: TMFDWUL5TYum9XMMwcBV5A==
+X-ExtLoop1: 1
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.70]) ([10.245.245.70])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 04:49:59 -0700
+Message-ID: <3672d018-d7c2-4bdf-a130-60ed76a9e543@linux.intel.com>
+Date: Mon, 30 Mar 2026 14:50:15 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A16685BD39
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SOF: Don't allow pointer operations on unconfigured
+ streams
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Paul Olaru <paul.olaru@oss.nxp.com>,
+ Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
+ <3cd96fe7-4575-40f9-a1f2-610fb1fac5c1@linux.intel.com>
+ <aca1sW6ca1QJBN9V@sirena.co.uk>
+ <e3c69a0a-5ed1-45f7-9180-9268bd671df0@linux.intel.com>
+ <bf12ef77-0d28-4454-a910-59bf915b5048@sirena.org.uk>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <bf12ef77-0d28-4454-a910-59bf915b5048@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 30 Mar 2026 09:53:34 +0200,
-Zhang Heng wrote:
+
+
+On 30/03/2026 14:05, Mark Brown wrote:
+> On Mon, Mar 30, 2026 at 10:01:59AM +0300, Péter Ujfalusi wrote:
 > 
-> ASUS ROG Strix SCAR 15, like the Strix G15, requires the
-> ALC285_FIXUP_ASUS_G533Z_PINS quirk to work properly.
+>> Should this be fixed in core level to avoid repeating the same check in
+>> every driver?
 > 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221247
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> I did wonder about that but wasn't sure if there might be some viable
+> use case, especially for things proxying through to a DSP or something.
 
-Applied this one for now.  Thanks.
+I see, but proxying or not, if there were no configuration set (the
+state is OPEN) then asking for avail or tstamp do not have any validity.
 
+> We don't generally guard calls based on the state the stream is in,
 
-Takashi
+compress does this quite much, just avail and tstamp is exempt for some
+reason.
+
+> and not every implementation is going to try to do the division.
+
+yeah, the SOF IPC4 compress which is under review for example is not
+doing this.
+
+-- 
+Péter
+
