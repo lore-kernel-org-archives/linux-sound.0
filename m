@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614F33D0923;
-	Mon, 30 Mar 2026 12:38:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73B13D16FD;
+	Mon, 30 Mar 2026 12:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774874326; cv=none; b=ul7EiynGW018/bKfuWGWF1tE8PHa9DR7ic7VBW5mnsQzrvYQJNjVvq0OQe5HxWU25/iNrJ72MH5SmoOyBFjhIHz42FTTLT7swb3+Lx/tmKBHQZgyuoOYJQelglLejk8gqVhbIMo7T1OJZw7U+iOfOCcsxwT5IdySUDWhyF6XKv4=
+	t=1774874335; cv=none; b=EJsQ3WlTbd/GkHw3WeQGLpCDKLsnwMQM4sBS1xPY5NsyIpmbVya5aSHD2zmx8aIyqQgIZDG31Euaq6o32HQ8gAq4pHxvsarGWDjh3B6SzPTYTLjB9/YYaxxIr385JOd6NBCGKHDw4o2SL+ueFTKXJ5szqfqfOngAeP0l2odFtwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774874326; c=relaxed/simple;
-	bh=KRWmWuUtSo9tAqvjpp8SHlLXnSCjYWx3vpTul8pHxgw=;
+	s=arc-20240116; t=1774874335; c=relaxed/simple;
+	bh=oFLU5WAgDeApMYmpEY5B4JfKxFBn2/Lp+X+vKhq6MhM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T6Cj53K2gADIrdKYgTJQ2rBan85ga6jLTzkKbsbG6agMkFm+c/9shc3xOIdDslj9KnM+sSKNOTrZ5GmV8w4g76hGc12JmXEUcXj02dVK92lzdhAZ6RBb3t+fsWpQr+37brxuq3rJIe3Mm+QqVLLNwhEmz8OWtq1h1iXKsYpAt4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obZJztLE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=B8ovGEku5kpqj9Bs6lBSj5B4aICbM0d2DKWRQWLZAmZuw4tAE6wRECkubYGzWfsdRyKWs7T7xTL4F8JiB7YodyqyjqlpnD8pBkiXKpKScR2doC4eJALpnkWV+MX6TKqjITAHNruAs2WJyeBgDz1ya+pp7s6RUzeu5hjSDHAfsek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHOl/jRo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obZJztLE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16480C2BCB1;
-	Mon, 30 Mar 2026 12:38:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHOl/jRo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A73C2BCB3;
+	Mon, 30 Mar 2026 12:38:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774874326;
-	bh=KRWmWuUtSo9tAqvjpp8SHlLXnSCjYWx3vpTul8pHxgw=;
+	s=k20201202; t=1774874333;
+	bh=oFLU5WAgDeApMYmpEY5B4JfKxFBn2/Lp+X+vKhq6MhM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=obZJztLEKqIly6dePMi2VO9rkW24dwYn3upPW1k3G/ipF/xEyIgLorUt87vbvsqT/
-	 2AMQgMG+DcO2P9g27h2SrVJqkcR5FpQ0FquJ/S9qVhORS9bNMtQTuigBWdjkkxGyc2
-	 uLsXYFOdLU31LPxkMdZ6C8MvEIbBgJlj/t2ca8r/72lbNAzgfLrrtEo4gqeH31Ktom
-	 i10sXIBnate2Bpp++7knnUl+Eo4ZOKhqPqOQy/yoRBHHxuK+wYLgozL5eEbSOnJnpo
-	 JT6DI/hhtTr0N8U1Gg2jTg3bvAvhawBp0ziICSER7Ym/UGd5Wp/ih5FLxvC6RmdPJl
-	 pIr/9PaIQn2hg==
+	b=DHOl/jRo9ovT5aR3mvlIal7S3w6wbRJKbTunTOnOdNue3pKse+ATw8Z5FWjeU2OGK
+	 FBUGj776V4BJ3cCU0AA4XkroyZxIpLkF++wiBWqMZEjj29Vk3oa52hZZKwTVEH1ObT
+	 Sj4WB+IDDl5Asnnp5zSLrILxK1WRDDM/y+TtNWMCGnlKd5VY3dKMPEMFgOQ4Aott0X
+	 YRi1K6jq44mSHRkRoXW26966AXSarGk+sXQ5NHomh/0enkOEL4z3TdG4A49PHATbBq
+	 Hzfg+aMWs9sm4EoY9DOQeHgWC0W8cRp5EyfVfXK6a0PotYMy6x/RYWZcFTWwjxC21K
+	 uVpUhSz5fgtYA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hasun Park <hasunpark@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	Vijendar.Mukunda@amd.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.18] ASoC: amd: acp: add ASUS HN7306EA quirk for legacy SDW machine
-Date: Mon, 30 Mar 2026 08:38:15 -0400
-Message-ID: <20260330123842.756154-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.10] ALSA: asihpi: avoid write overflow check warning
+Date: Mon, 30 Mar 2026 08:38:20 -0400
+Message-ID: <20260330123842.756154-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260330123842.756154-1-sashal@kernel.org>
 References: <20260330123842.756154-1-sashal@kernel.org>
@@ -56,262 +54,267 @@ X-stable-base: Linux 6.19.10
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Hasun Park <hasunpark@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-[ Upstream commit 2594196f4e3bd70782e7cf1e22e3e398cdb74f78 ]
+[ Upstream commit 591721223be9e28f83489a59289579493b8e3d83 ]
 
-Add a DMI quirk entry for ASUS HN7306EA in the ACP SoundWire legacy
-machine driver.
+clang-22 rightfully warns that the memcpy() in adapter_prepare() copies
+between different structures, crossing the boundary of nested
+structures inside it:
 
-Set driver_data to ASOC_SDW_ACP_DMIC for this board so the
-platform-specific DMIC quirk path is selected.
+In file included from sound/pci/asihpi/hpimsgx.c:13:
+In file included from include/linux/string.h:386:
+include/linux/fortify-string.h:569:4: error: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
+  569 |                         __write_overflow_field(p_size_field, size);
 
-Signed-off-by: Hasun Park <hasunpark@gmail.com>
-Link: https://patch.msgid.link/20260319163321.30326-1-hasunpark@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+The two structures seem to refer to the same layout, despite the
+separate definitions, so the code is in fact correct.
+
+Avoid the warning by copying the two inner structures separately.
+I see the same pattern happens in other functions in the same file,
+so there is a chance that this may come back in the future, but
+this instance is the only one that I saw in practice, hitting it
+multiple times per day in randconfig build.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Link: https://patch.msgid.link/20260318124016.3488566-1-arnd@kernel.org
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
+
+Now I have all the data I need. Let me compile the full analysis.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: Subject Line**
-Record: [ASoC: amd: acp] [add] [DMI quirk for ASUS HN7306EA to select
-ACP DMIC path in legacy SoundWire machine driver]
+Record: [ALSA: asihpi] [avoid] [write overflow check warning from
+clang-22 fortify-string in adapter_prepare()]
 
 **Step 1.2: Tags**
-Record:
-- `Signed-off-by: Hasun Park <hasunpark@gmail.com>` — author/contributor
-- `Link:
-  https://patch.msgid.link/20260319163321.30326-1-hasunpark@gmail.com` —
-  patch submission
-- `Signed-off-by: Mark Brown <broonie@kernel.org>` — ASoC subsystem
-  maintainer
-- No Fixes: tag (expected for hardware quirk additions)
-- No Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc: stable
-  (absence expected)
+- Signed-off-by: Arnd Bergmann <arnd@arndb.de> (author)
+- Link:
+  https://patch.msgid.link/20260318124016.3488566-1-arnd@kernel.org
+- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer)
+- No Fixes: tag (expected for manual review candidates)
+- No Reported-by: tag
+- No Cc: stable tag
+- No Tested-by: or Reviewed-by:
 
-**Step 1.3: Body**
-Record: The commit explains it adds a DMI quirk entry for the ASUS
-HN7306EA board and sets `driver_data` to `ASOC_SDW_ACP_DMIC` so the
-platform-specific DMIC quirk path is selected. Without this quirk, the
-board's built-in digital microphone will not be enabled through the ACP
-SoundWire path. No stack traces, crash reports, or version information
-given — this is standard for a board-specific quirk addition.
+Record: Author is a highly trusted kernel contributor (Arnd Bergmann).
+Maintainer (Takashi Iwai) signed off. No external bug reports.
 
-**Step 1.4: Hidden Bug Fix**
-Record: Yes — while framed as "add," this is a hardware enablement fix.
-Without the quirk, the DMIC path is not selected, and the microphone
-does not function on this specific laptop. Adding board-specific DMI
-quirks is the standard Linux mechanism for making specific hardware work
-correctly.
+**Step 1.3: Commit Body**
+The commit describes a clang-22 `__write_overflow_field` warning from
+`include/linux/fortify-string.h:569`. The `memcpy()` in
+`adapter_prepare()` copies between `struct hpi_response` and `struct
+hpi_adapter_response`, which are different structure types with
+equivalent layouts. The author explicitly states: "the code is in fact
+correct." The warning is hit "multiple times per day in randconfig
+build." The fix splits one `memcpy` into two field-level copies.
+
+Record: [Bug: build-time fortify warning, not a runtime defect]
+[Symptom: -Werror,-Wattribute-warning build failure with clang-22] [Root
+cause: FORTIFY_SOURCE cross-field memcpy detection on different struct
+types with equivalent layout]
+
+**Step 1.4: Hidden Bug Fix?**
+Record: Not a hidden bug fix. The author explicitly confirms the code is
+functionally correct. This is purely a compiler warning suppression.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS
 ===============================================================
 
 **Step 2.1: Inventory**
-Record: 1 file modified: `sound/soc/amd/acp/acp-sdw-legacy-mach.c`, +8
-lines, 0 removed. Only the static `soc_sdw_quirk_table[]` data array is
-extended with one new entry before the `{}` terminator. Scope: single-
-file, single-table-entry, trivially scoped.
+Record: [sound/pci/asihpi/hpimsgx.c: -2/+4 lines, net +2] [Function:
+adapter_prepare()] [Scope: single-file, single-function, surgical]
 
 **Step 2.2: Code Flow Change**
-Record: Before: No DMI match for "ASUSTeK COMPUTER INC." / "HN7306EA" →
-the global `soc_sdw_quirk` stays at its default `RT711_JD1` → DMIC path
-not selected at line 419. After: DMI match sets `soc_sdw_quirk =
-ASOC_SDW_ACP_DMIC` via `soc_sdw_quirk_cb()` → at line 419,
-`soc_sdw_quirk & ASOC_SDW_ACP_DMIC` is true → `dmic_num = 1` →
-`create_dmic_dailinks()` is called at line 454, enabling the built-in
-digital microphone.
+Before: One `memcpy(&rESP_HPI_ADAPTER_OPEN[adapter], &hr,
+sizeof(rESP_HPI_ADAPTER_OPEN[0]))` — copies the full struct from `hr`
+into the adapter open cache.
 
-Verified code path from file:
+After: Two memcpys:
+1. `memcpy(&rESP_HPI_ADAPTER_OPEN[adapter].h, &hr, sizeof(...h))` —
+   copies the response header
+2. `memcpy(&rESP_HPI_ADAPTER_OPEN[adapter].a, &hr.u.ax.info,
+   sizeof(...a))` — copies the adapter info payload
 
-```419:420:sound/soc/amd/acp/acp-sdw-legacy-mach.c
-        if (soc_sdw_quirk & ASOC_SDW_ACP_DMIC || mach_params->dmic_num)
-                dmic_num = 1;
-```
+This is on the normal initialization path after `HPI_ADAPTER_OPEN`.
 
-```450:457:sound/soc/amd/acp/acp-sdw-legacy-mach.c
-        if (dmic_num > 0) {
-                if (ctx->ignore_internal_dmic) {
-                        dev_warn(dev, "Ignoring ACP DMIC\n");
-                } else {
-                        ret = create_dmic_dailinks(card, &dai_links,
-&be_id, 0);
-                        if (ret)
-                                return ret;
-                }
-```
+Record: [Before: single aggregate memcpy across struct boundaries →
+After: two targeted field-level memcpys copying identical data]
 
 **Step 2.3: Bug Mechanism**
-Record: Category: Hardware workaround / DMI quirk table entry. The board
-requires `ASOC_SDW_ACP_DMIC` to be set so the DMIC DAI link is created.
-Without it, the standard default (`RT711_JD1`) does not enable the DMIC
-path.
+Verified struct layouts:
+- `struct hpi_response_header`: 12 bytes (u16 size + u8 type + u8
+  version + u16 object + u16 function + u16 error + u16 specific_error)
+- `struct hpi_response`: inline header fields matching
+  `hpi_response_header` + `union { ... union hpi_adapterx_res ax; ... }
+  u` at offset 12
+- `struct hpi_adapter_response` (packed): `struct hpi_response_header h`
+  (12 bytes) + `struct hpi_adapter_res a`
+- `union hpi_adapterx_res`: first member is `struct hpi_adapter_res
+  info`
+
+The new code copies `sizeof(hpi_response_header)` bytes from `&hr` into
+`.h`, then `sizeof(hpi_adapter_res)` bytes from `&hr.u.ax.info` into
+`.a`. This is equivalent to the original single copy because the inline
+header fields in `hpi_response` are layout-compatible with
+`hpi_response_header`, and `hr.u.ax.info` is at offset 12 (same as `.a`
+in the packed struct).
+
+Record: [Category: build fix — compiler warning, not runtime bug]
+[Mechanism: split memcpy to satisfy FORTIFY_SOURCE field boundary checks
+while copying identical data]
 
 **Step 2.4: Fix Quality**
-Record: Obviously correct — follows the exact same struct pattern as
-every other entry in the table (AMD, Dell, Lenovo). Minimal and
-surgical: 8 lines of pure static data. Zero regression risk for other
-machines: only fires when both `DMI_BOARD_VENDOR == "ASUSTeK COMPUTER
-INC."` AND `DMI_PRODUCT_NAME == "HN7306EA"` match.
+Record: [Obviously correct — verified from struct layouts] [Minimal,
+surgical] [Zero regression risk — functionally identical copy] [No API
+changes]
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: Blame**
-Record: `git blame` confirms the quirk table was introduced by
-`2981d9b0789c44` (Vijendar Mukunda, 2024-11-13, "ASoC: amd: acp: add
-soundwire machine driver for legacy stack") with just one entry (AMD
-Birman-PHX). Dell entries added by `4bb5b6f13fd83b` (2025-02-07) and
-`3254959b4dd065` (2025-09-03). Lenovo entries added by `aa7b7452bb742f`
-(2026-02-18). The infrastructure for `ASOC_SDW_ACP_DMIC` and the DMIC
-path has existed since the driver was created.
+Verified: `git blame -L 584,586` shows the memcpy was introduced in
+commit `719f82d3987aa` by Eliot Blennerhassett on 2010-04-21 ("ALSA: Add
+support of AudioScience ASI boards"). This code has been in the kernel
+since v2.6.35 — present in all active stable trees.
+
+Record: [Introduced: 719f82d3987aa, v2.6.35 era (2010)] [Present in all
+stable trees]
 
 **Step 3.2: Fixes Tag**
-Record: No Fixes: tag present — not applicable for a quirk addition.
+Record: [N/A — no Fixes: tag present]
 
 **Step 3.3: File History**
-Record: 13 commits to this file since creation. Other DMI quirk
-additions (Dell, Lenovo) follow the identical pattern. This ASUS commit
-is standalone — not part of a series.
+Verified: `git log --oneline -20 -- sound/pci/asihpi/hpimsgx.c` shows
+very low activity. The only functional fix since the original import was
+`7b986c7430a6b` ("Fix potential OOB array access"). Since v5.15, only 2
+commits touched this file. Since v6.1, only 1.
+
+Record: [Very stable file, rarely changed] [No prerequisites or series]
+[Standalone patch]
 
 **Step 3.4: Author**
-Record: `git log --author='Hasun Park'` returns empty for
-`sound/soc/amd/` — this appears to be an external contributor (likely
-owns the hardware). The patch was merged by Mark Brown, the ASoC
-subsystem maintainer, which is a strong quality endorsement.
+Verified: Arnd Bergmann is a prolific kernel contributor who frequently
+submits compiler warning/build fixes across the tree. Not the asihpi
+subsystem maintainer, but a highly trusted contributor. Takashi Iwai
+(ALSA maintainer) applied the patch.
+
+Record: [Arnd Bergmann: trusted cross-tree contributor, specializes in
+build fixes] [Takashi Iwai: ALSA maintainer, accepted patch]
 
 **Step 3.5: Dependencies**
-Record: No dependencies. The `ASOC_SDW_ACP_DMIC` constant (`BIT(5)` in
-`soc_amd_sdw_common.h`), the `soc_sdw_quirk_cb` callback, and the DMIC
-path all exist since the driver's introduction in v6.13. Fully self-
-contained.
+Record: [No dependencies — self-contained single memcpy split]
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
-**Step 4.1-4.4:** Record: The `Link:` tag provides the patch message ID.
-Direct access to lore.kernel.org and patch.msgid.link was blocked by bot
-protection (Anubis). The patch was merged by Mark Brown directly. No
-NAKs or concerns are evidenced (the commit reached mainline). Could not
-verify explicit stable nominations or review comments from primary
-sources.
+**Step 4.1-4.4:**
+The lore.kernel.org and patch.msgid.link URLs are not accessible due to
+anti-bot (Anubis) protection.
+
+Record: [UNVERIFIED: lore discussion content, reviewer feedback, stable
+nominations, NAKs]
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: Key Functions**
-Record: No function bodies modified — only the `soc_sdw_quirk_table[]`
-static data. Consumers: `soc_sdw_quirk_cb()`, `mc_probe()`,
-`soc_card_dai_links_create()`, `create_dmic_dailinks()`.
+**Step 5.1: Functions Modified**
+Record: [adapter_prepare()]
 
 **Step 5.2: Callers**
-Record: `soc_sdw_quirk_table` is consumed by `dmi_check_system()` at
-line 498 in `mc_probe()`, the platform driver `.probe` callback.
-`mc_probe()` is registered via `soc_sdw_driver` (line 570) matching
-platform device ID `"amd_sdw"`.
+Verified: `adapter_prepare()` is called from exactly one place —
+`HPIMSGX__init()` at line 719, invoked during
+`HPI_SUBSYS_CREATE_ADAPTER`. This is an adapter initialization path
+called once per adapter during probe.
 
-**Step 5.3: Callees**
-Record: `soc_sdw_quirk_cb()` (line 35) simply assigns `soc_sdw_quirk =
-(unsigned long)id->driver_data`. Downstream,
-`soc_card_dai_links_create()` checks the bit at line 419 and
-conditionally enables DMIC DAI link creation.
+Record: [Single call site: HPIMSGX__init() → adapter_prepare()] [Called
+during adapter creation/probe, not a hot path]
 
-**Step 5.4: Call Chain**
-Record: PCI probe → `acp63_machine_register()` →
-`platform_device_register_data(..., "amd_sdw", ...)` → `mc_probe()` →
-`dmi_check_system(soc_sdw_quirk_table)` → `soc_card_dai_links_create()`
-→ DMIC enabled if `ASOC_SDW_ACP_DMIC` set. Reachable automatically on
-boot for matching AMD SoundWire hardware.
+**Step 5.3-5.4: Callees and Reachability**
+The function calls `hpi_init_message_response()`, `hw_entry_point()`,
+and `memcpy()`. The call chain is: adapter probe → `hpi_send_recv_ex()`
+→ `HPIMSGX__init()` → `adapter_prepare()`. This is reachable from the
+ioctl and kernel-side probe path for AudioScience ASI PCI sound cards.
+
+Record: [Probe/initialization path for niche PCI sound hardware]
 
 **Step 5.5: Similar Patterns**
-Record: `acp-sdw-sof-mach.c` has an analogous `ASOC_SDW_ACP_DMIC` gating
-mechanism (lines 29, 312), confirming this is an established subsystem
-pattern. The same quirk table pattern is used for Dell and Lenovo
-entries in the same file.
+Verified: Similar `memcpy(&cache, &hr, sizeof(cache))` patterns exist
+for stream and mixer responses in the same file (lines 608, 621). The
+author notes these may trigger similar warnings in the future but
+currently only the adapter_prepare instance is hit.
+
+Record: [Similar patterns exist in same file for streams/mixer; only
+this one triggers with clang-22 currently]
 
 ===============================================================
 PHASE 6: STABLE TREE ANALYSIS
 ===============================================================
 
-**Step 6.1: File Existence in Stable Trees**
-Record: Verified via `git cat-file -e`:
-- `stable/linux-6.6.y`: **MISSING** (driver not present)
-- `stable/linux-6.12.y`: **MISSING** (driver not present)
-- `stable/linux-6.13.y`: **EXISTS** (3 commits to file — base + Dell
-  quirks)
-- `stable/linux-6.14.y`: **EXISTS** (3 commits to file — base + Dell
-  quirks)
-- `stable/linux-6.19.y`: **EXISTS** (13 commits — all quirks including
-  Lenovo)
+**Step 6.1: Code in Stable Trees?**
+Verified: The original code was introduced in v2.6.35 (commit
+`719f82d3987aa`). Since v6.1, only 1 unrelated commit touched this file.
+Since v5.15, only 2. The exact buggy memcpy line exists identically in
+all active stable trees.
 
-The driver and `ASOC_SDW_ACP_DMIC` infrastructure exist in **6.13.y,
-6.14.y, and 6.19.y**.
+Record: [Present in all stable trees: v5.15+, v6.1+, v6.6+]
 
 **Step 6.2: Backport Complications**
-Record: The patch inserts one entry before the `{}` terminator in
-`soc_sdw_quirk_table[]`. In 6.13.y and 6.14.y, the table has fewer
-entries (no Lenovo rows), so there will be a minor context offset, but
-the append-before-terminator pattern makes this trivially applicable.
-Expected: clean apply or trivial context adjustment in all three stable
-trees.
+Record: [Clean apply expected — file barely changed, tiny hunk with
+stable surrounding context]
 
-**Step 6.3: Related Fixes in Stable**
-Record: No HN7306EA-specific fix exists in any stable tree. Other
-Dell/Lenovo quirks have been backported to various stable trees,
-confirming this class of change is accepted.
+**Step 6.3: Related Fixes**
+Record: [No related fixes in stable for this warning]
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: Subsystem**
-Record: `sound/soc/amd/acp` — ASoC AMD Audio Co-Processor SoundWire
-machine driver. Criticality: IMPORTANT — audio is a critical user-facing
-function on laptops, though this is driver/platform-specific, not
-universal.
+Record: [sound/pci/asihpi — AudioScience ASI professional audio PCI
+boards] [Criticality: PERIPHERAL — niche hardware]
 
 **Step 7.2: Activity**
-Record: Actively maintained — 13 commits to this single file since
-creation, with regular quirk additions for Dell, Lenovo, and now ASUS.
-Mark Brown (ASoC maintainer) actively merges patches.
+Record: [Very low activity; mature, rarely touched driver]
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
-**Step 8.1: Affected Users**
-Record: Device-specific — owners of the ASUS HN7306EA (ProArt PX13)
-laptop running kernel 6.13+ with the AMD SoundWire audio stack.
+**Step 8.1: Who Is Affected**
+Record: [Runtime: only users of AudioScience ASI PCI cards. Build:
+anyone building CONFIG_SND_ASIHPI (or allmodconfig/randconfig) with
+clang-22 and FORTIFY_SOURCE + -Werror]
 
 **Step 8.2: Trigger Conditions**
-Record: Triggers on every boot during driver probe via
-`dmi_check_system()`. Every user of this laptop model is affected. No
-special configuration or user action required.
+Record: [Build-time only: clang-22 + CONFIG_FORTIFY_SOURCE + -Werror +
+CONFIG_SND_ASIHPI] [Not a runtime trigger]
 
-**Step 8.3: Failure Mode**
-Record: Without the quirk, the built-in digital microphone is not
-enabled (the DMIC DAI link is never created). This is a "hardware
-doesn't work" issue — microphone non-functional. Severity: MEDIUM-HIGH
-for affected users (broken audio input on a laptop is a significant
-usability issue).
+**Step 8.3: Failure Mode Severity**
+Record: [Failure mode: build failure/error] [Runtime severity: NONE —
+code is functionally correct] [Build severity: MEDIUM — blocks
+compilation under specific toolchain]
 
 **Step 8.4: Risk-Benefit Ratio**
-Record:
-- BENEFIT: High for affected users — enables the laptop's built-in
-  microphone
-- RISK: Essentially zero — DMI match table entry only triggers on exact
-  vendor+product match; 8 lines of pure static data; uses existing
-  infrastructure; well-established pattern
-- Ratio: Strongly favorable
+- Benefit: Keeps an existing stable driver buildable with newer compiler
+  fortify diagnostics. The author reports hitting this "multiple times
+  per day" in randconfig builds.
+- Risk: Extremely low — two memcpys copying the same data as one memcpy;
+  functionally identical, verified from struct layouts.
+
+Record: [Benefit: LOW-MEDIUM (build fix for newer toolchains)] [Risk:
+VERY LOW (trivially correct, behavior-preserving)] [Ratio: favorable]
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -320,118 +323,108 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: Evidence**
 
 FOR backporting:
-- Classic hardware DMI quirk addition — explicitly listed as an allowed
-  exception category
-- 8 lines, single file, pure static data addition, trivially correct
-- Zero regression risk — only affects boards matching exact DMI strings
-- Fixes real user issue: broken DMIC (microphone non-functional) on ASUS
-  HN7306EA
-- Merged by ASoC subsystem maintainer Mark Brown
-- Self-contained with no dependencies
-- Infrastructure exists in 6.13.y, 6.14.y, and 6.19.y stable trees
-- Same pattern as Dell and Lenovo quirks already backported to stable
-  trees
+- Build fixes are explicitly listed as an allowed stable exception:
+  "Fixes for compilation errors or warnings... These are critical for
+  users who need to build the kernel"
+- Fix is tiny (+4/-2 lines), single-function, obviously correct
+- Verified struct layout compatibility confirms the change is behavior-
+  preserving
+- Author (Arnd Bergmann) is highly trusted; maintainer (Takashi Iwai)
+  signed off
+- Code exists in all stable trees and patch would apply cleanly
+- Stable trees are expected to remain buildable with current toolchains;
+  clang versions age into wider use
 
 AGAINST backporting:
-- Only affects a single laptop model (normal for quirks — not a valid
-  concern)
-- Not a crash/security/corruption fix (but hardware enablement quirks
-  are an explicit exception)
+- No runtime bug — the code is functionally correct without this patch
+- Niche driver (AudioScience ASI PCI cards)
+- Only triggers with clang-22, a very recent compiler
+- No user reports, no syzbot involvement
+- Impact scope is narrow (specific config + specific toolchain)
 
 UNRESOLVED:
-- Could not access lore.kernel.org to verify mailing list review
-  discussion
-- No primary end-user bug report verified (author is likely the affected
-  user)
+- Lore discussion content could not be verified (anti-bot protection)
+- Whether reviewers explicitly nominated this for stable
 
 **Step 9.2: Stable Rules Checklist**
-1. Obviously correct and tested? **YES** — trivial table entry following
-   exact same pattern as all existing entries; merged by maintainer
-2. Fixes a real bug? **YES** — broken DMIC on ASUS HN7306EA
-3. Important issue? **YES** — non-functional microphone on a shipping
-   laptop
-4. Small and contained? **YES** — 8 lines, one file, one table entry
-5. No new features or APIs? **YES** — just a DMI quirk data entry using
-   existing code paths
-6. Can apply to stable? **YES** — applicable to 6.13.y, 6.14.y, 6.19.y
-   with clean or trivial context adjustment
+1. Obviously correct and tested? **YES** — trivially correct from layout
+   analysis; tested in randconfig
+2. Fixes a real bug that affects users? **YES (build bug)** — prevents
+   build failure with affected toolchain
+3. Important issue? **MEDIUM** — build failure, not crash/corruption,
+   but build fixes are an explicit exception
+4. Small and contained? **YES** — 4 lines changed in 1 function
+5. No new features or APIs? **YES**
+6. Can apply to stable trees? **YES** — identical code in all stable
+   trees
 
-**Step 9.3: Exception Category**
-Record: **Hardware quirk/workaround** — This is a DMI quirk table entry
-for a specific laptop, which is the textbook example of a stable-
-appropriate exception. Dell and Lenovo quirks from the same table have
-already been backported.
+**Step 9.3: Exception Categories**
+This falls under the **Build Fixes** exception: "Fixes for compilation
+errors or warnings, Kconfig dependency fixes, include file fixes — These
+are critical for users who need to build the kernel."
 
 **Step 9.4: Decision**
-This is a trivial, zero-risk DMI quirk table entry that enables the
-built-in digital microphone on a specific ASUS laptop model. It falls
-squarely into the "hardware quirks and workarounds" exception category
-that is explicitly allowed in stable. The fix is 8 lines of pure static
-data, uses existing infrastructure, and only affects the exact matching
-hardware. The driver and `ASOC_SDW_ACP_DMIC` infrastructure exist in
-stable trees 6.13.y, 6.14.y, and 6.19.y.
 
-## Verification
+This is a legitimate build fix under the stable exception rules. The
+patch is behavior-preserving (verified from struct layout analysis),
+trivially correct, and zero-risk. While the impact is narrow (clang-22 +
+niche driver), the stable tree policy explicitly allows build fixes
+because maintaining buildability with current and evolving toolchains is
+a core goal. Compiler versions age into wider use, and preventing build
+regressions on stable trees has standalone value. The near-zero
+regression risk further supports inclusion.
 
-- [Phase 1] Parsed commit message: "add ASUS HN7306EA quirk," tags
-  include author SOB and Mark Brown (maintainer) SOB, Link to patch
-- [Phase 2] Read `acp-sdw-legacy-mach.c`: verified `ASOC_SDW_ACP_DMIC`
-  check at line 419 enables `dmic_num = 1`, which triggers
-  `create_dmic_dailinks()` at line 454
-- [Phase 2] Grep for `ASOC_SDW_ACP_DMIC`: found at line 29 (log_quirks),
-  line 419 (DMIC enablement), and `soc_amd_sdw_common.h` line 28
-  (`BIT(5)`)
-- [Phase 3] `git blame` lines 41-115: confirmed table origin commit
-  `2981d9b0789c44` (2024-11-13), Dell quirks from `4bb5b6f13fd83b` and
-  `3254959b4dd065`, Lenovo from `aa7b7452bb742f`
-- [Phase 3] `git show 2981d9b0789c44`: confirmed original driver
-  introduction creating `acp-sdw-legacy-mach.c` (486 lines)
-- [Phase 3] `git log --author='Hasun Park'`: no prior commits found in
-  `sound/soc/amd/`
-- [Phase 3] `git log --oneline -20`: confirmed 13 commits to file, all
-  quirk additions and driver evolution, no prerequisites for this patch
-- [Phase 5] Traced call chain in code: `mc_probe()` line 498 calls
-  `dmi_check_system(soc_sdw_quirk_table)`, then line 514 calls
-  `soc_card_dai_links_create()`, which checks quirk at line 419
-- [Phase 5] Grep confirmed analogous `ASOC_SDW_ACP_DMIC` pattern in
-  `acp-sdw-sof-mach.c` (established subsystem pattern)
-- [Phase 6] `git cat-file -e` across stable trees: file MISSING in 6.6.y
-  and 6.12.y; EXISTS in 6.13.y, 6.14.y, 6.19.y
-- [Phase 6] `git log stable/linux-6.13.y`: 3 commits (base + Dell
-  quirks); `stable/linux-6.14.y`: 3 commits; `stable/linux-6.19.y`: 13
-  commits (includes Lenovo)
-- [Phase 6] Clean apply expected in all three applicable stable trees —
-  trivial table entry append
-- [Phase 8] Failure mode verified from code: without quirk,
-  `ASOC_SDW_ACP_DMIC` not set → `dmic_num` stays 0 →
-  `create_dmic_dailinks()` not called → DMIC non-functional
-- UNVERIFIED: Could not access lore.kernel.org or patch.msgid.link
-  (blocked by Anubis bot protection) — no reviewer discussion or NAKs
-  verified
+**Verification:**
+- [Phase 1] Parsed all tags: Link, 2x Signed-off-by; no Fixes, Reported-
+  by, Cc: stable
+- [Phase 2] Diff: single memcpy replaced by two field-level memcpys in
+  adapter_prepare(); net +2 lines
+- [Phase 2] Struct layout verified: hpi_response_header (12 bytes
+  inline), hpi_response has matching inline fields + union at offset 12,
+  hpi_adapter_response is packed header.h + adapter_res.a — layouts
+  confirmed compatible
+- [Phase 3] git blame: code introduced in 719f82d3987aa (2010, v2.6.35
+  era), present in all stable trees
+- [Phase 3] git log: file barely changed; only 1 commit since v6.1, 2
+  since v5.15; no series/dependencies
+- [Phase 3] Author verified: Arnd Bergmann, prolific build-fix
+  contributor; Takashi Iwai (ALSA maintainer) applied
+- [Phase 4] UNVERIFIED: lore.kernel.org discussion blocked by anti-bot
+  protection
+- [Phase 5] Callers traced: adapter_prepare() called only from
+  HPIMSGX__init() (line 719), probe/init path
+- [Phase 5] Similar memcpy patterns exist at lines 608, 621 for streams;
+  only adapter instance triggers currently
+- [Phase 6] Code exists identically in v5.15, v6.1, v6.6; clean apply
+  expected
+- [Phase 7] Subsystem: sound/pci/asihpi — PERIPHERAL, low activity,
+  mature driver
+- [Phase 8] Impact: build-time only, clang-22 + FORTIFY_SOURCE +
+  -Werror; severity MEDIUM as build fix
+- [Phase 8] Risk: VERY LOW — functionally identical change, verified
+  from struct layouts
 
 **YES**
 
- sound/soc/amd/acp/acp-sdw-legacy-mach.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ sound/pci/asihpi/hpimsgx.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-index 4f92de33a71a0..2e0f751afe250 100644
---- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-@@ -111,6 +111,14 @@ static const struct dmi_system_id soc_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(ASOC_SDW_CODEC_SPKR),
- 	},
-+	{
-+		.callback = soc_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
-+		},
-+		.driver_data = (void *)(ASOC_SDW_ACP_DMIC),
-+	},
- 	{}
- };
+diff --git a/sound/pci/asihpi/hpimsgx.c b/sound/pci/asihpi/hpimsgx.c
+index b68e6bfbbfbab..ed1c7b7744361 100644
+--- a/sound/pci/asihpi/hpimsgx.c
++++ b/sound/pci/asihpi/hpimsgx.c
+@@ -581,8 +581,10 @@ static u16 adapter_prepare(u16 adapter)
+ 		HPI_ADAPTER_OPEN);
+ 	hm.adapter_index = adapter;
+ 	hw_entry_point(&hm, &hr);
+-	memcpy(&rESP_HPI_ADAPTER_OPEN[adapter], &hr,
+-		sizeof(rESP_HPI_ADAPTER_OPEN[0]));
++	memcpy(&rESP_HPI_ADAPTER_OPEN[adapter].h, &hr,
++		sizeof(rESP_HPI_ADAPTER_OPEN[adapter].h));
++	memcpy(&rESP_HPI_ADAPTER_OPEN[adapter].a, &hr.u.ax.info,
++		sizeof(rESP_HPI_ADAPTER_OPEN[adapter].a));
+ 	if (hr.error)
+ 		return hr.error;
  
 -- 
 2.53.0
