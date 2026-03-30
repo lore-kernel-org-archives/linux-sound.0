@@ -1,41 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4653E8C63;
-	Mon, 30 Mar 2026 22:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9573E3EC2F8;
+	Mon, 30 Mar 2026 22:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774910538; cv=none; b=kyeWtL99VtyKxsvQvX1auitJvFC7jGLaNHJ4lFGZkZs6c81T9dOuL43bnp9xVy8KDHTiiZn1IBM260KNowMqGvnevGEOlOJm7t8U/N2mLIaYF9ClIZTeotXy89FzLctu6HVXVqnZLC242SGF9nVcCS5Ml0Vvglu2Ihu2x5xKn78=
+	t=1774910552; cv=none; b=k6w8CmG9rgpnm8c9GupQFHSOph/yGfWI+Ejpl4tJ8RnYkZu7ke4VPqjC6p2K/EmcHXL8Wl2OqvoS9+dZF878+K7+6TZxC45afN/npQ/zrh+ETk8bDA2veG3zsoGAk14GHdph4JnEOeByviitdT3tYp1qyLQi2iaGLEqJPFK1bno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774910538; c=relaxed/simple;
-	bh=LLzGo7V9W9+SfjvxgiXYvbS1io5jVFiegQHa5XE/cCc=;
+	s=arc-20240116; t=1774910552; c=relaxed/simple;
+	bh=V9lVea5HpUKO/Cr6B805fKYQpU4Kqye/hhllmjbj1lE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZgzjQOxlXnuc0X7TFGAv2iZPDzybIBVEwIS4oDFYS5rYrE+8MVsAiyosc/pRrCl5eDHL3oKs6RUg/HamKP0QWSF220R6RClc95fvm2CRD9oqZDShF9StNwBod0n/p+DLbcdjuxFD2qPR9WtwE2HKPzwU62yIoe5pt7zn01ICLB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bxxy/e2I; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KGYcpZL/3xOXJ5AqdLxuVETrRBMnEOjNW5IKVUHn20BA1PJfS1T3RAOKzxQPBs/n1h9dh6dxzR6dHxpU2UFZldLrYNxPBLtzMAm98lpeVHHs+JfMxL7nkYeapobMg0A+4kEsaU3rgSDhn8CzqueANxi/D6t8302b08VFicagRYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7y3ltqp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bxxy/e2I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23635C4CEF7;
-	Mon, 30 Mar 2026 22:42:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7y3ltqp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28AD3C2BCB1;
+	Mon, 30 Mar 2026 22:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774910538;
-	bh=LLzGo7V9W9+SfjvxgiXYvbS1io5jVFiegQHa5XE/cCc=;
+	s=k20201202; t=1774910552;
+	bh=V9lVea5HpUKO/Cr6B805fKYQpU4Kqye/hhllmjbj1lE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Bxxy/e2IqC0LejI0nILCkXMr08C9jQt8glbyrTRiLt92ZUm1Szp03LJoVZvXQZeNM
-	 3Gr6zXwqILJDDZkqog28NfJbq3JfoOTnjO1Lf2AKwEkShQfRNsCqS048JUX6Hnawt7
-	 XP+yp4img9WxnESPXgGnt4V2FWBexP6aMC9pOw3P+jgak1sLO6gRTCas4cXNW89r7a
-	 MB9ka8aEYQb5wRcITRPHRU/pUNY0lu1vbJyAB0WfgYgyHJq9oIIf1Ah61OiqoItUs3
-	 UBhLJZ55jV7ahT3Y3rbknJ73XP5GxtROq6GE5azKMAD0ete9ASKyuFNfqkFIOjw+R0
-	 CC6ZufJFNVojw==
+	b=Q7y3ltqphwEflxX3mJBV7UZNJfL1BggiZwzu2LH7ZYc/vOU0Qn+C6DWIhu727lzIg
+	 Oge8UjVSPDkOG25mwgcEMV6vJTlCXK/9ekT85xopNThFb5rnn8QC8HAfncA/ssiCjS
+	 IcsIx0CTY4sQZapVYKk7wIRgMidY6uTV3vjFwz2yYfCkXGzomEGy2JpQyaVQQ8GtJq
+	 /mATvRar+TmM/bQicDv2BVCjiDddPgKCTyD5Hlz5dSOHnGfWZ2yC0/Acpl2ZFDn/Fn
+	 3u7/TD3sFyVHh3twynzHy94aWQrQRLRbS+AWrXEXzGkln4v+mRLA/9rNBZdur9bWVT
+	 Qll05DBruZIsA==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260324210909.45494-1-jihed.chaibi.dev@gmail.com>
-References: <20260324210909.45494-1-jihed.chaibi.dev@gmail.com>
-Subject: Re: [PATCH] ASoC: ep93xx: Fix unchecked clk_prepare_enable() and
- add rollback on failure
-Message-Id: <177489590946.236167.16255573814551398239.b4-ty@b4>
-Date: Mon, 30 Mar 2026 19:38:29 +0100
+To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ sound-open-firmware@alsa-project.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org
+In-Reply-To: <20260326023053.53493-1-rosenp@gmail.com>
+References: <20260326023053.53493-1-rosenp@gmail.com>
+Subject: Re: [PATCH] ASoC: SOF: topology: use kzalloc_flex
+Message-Id: <177489791033.241608.2454580256127378749.b4-ty@b4>
+Date: Mon, 30 Mar 2026 20:11:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,29 +53,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-3ac6c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1170; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LLzGo7V9W9+SfjvxgiXYvbS1io5jVFiegQHa5XE/cCc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpyvxIRk92f2Bz7SbTSrts19hBDJKe+OMyLuSCS
- 6VFmmrBTOuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacr8SAAKCRAk1otyXVSH
- 0GV8B/0X3N1L3L3wIvd9CY64zrbCwOs9nj88BibyzYIkiWcw6iiB4fCgHScVLU3lv+EJV8VN2qX
- jAa2o1zCftL3zKELMrhkgdwkwnmjkscAGmslmZKEqwn56X3RJd2iuzNyLHlYrfRMzMhEWRtJXq6
- 75VxJItnqfh/uLi5nS+7ZeqcSkbNdwUdxUZ+mctFpYVTbEFmivFcq9QfVMk6rfejEs9pwWNIkk+
- H0u1JSryb0GFZ8696612zDqCnD1kRvw4wTkIpzkBeJ4815i5PNMNly/PMcbT6b9MkttM+SnfU3R
- fGpF3J5OyR9jtZa7HVEon6s8dqzK6PN3xqoYlzdqWeE81oMN
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1091; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=V9lVea5HpUKO/Cr6B805fKYQpU4Kqye/hhllmjbj1lE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpyvxUxujB0/aH2zlP7Cx3mRJsLIkdw20wII804
+ 7vgjMa0l0yJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacr8VAAKCRAk1otyXVSH
+ 0AjrB/sF2whXH2Cl+PVEh5oOykLJIoKy3ESJ+nmNhvaSocTUEVdfA+3IWpTWzIislBxXL06tLU0
+ qcIijZf2fC+ceNVMTT1InzV91nv+FMWXECtOCEy1nG/mHFqxTetPUdMf+uEGSbaxiIsHZoxNUS+
+ DDGXJze74C/ViBbpipG0Z0J/C+0dkMH9xOM3T6D4939IuML+EWWugtvfpUza2zmgBkFNaUi1iy7
+ baCIkNU0mbIp8rgp6guw4lU/Q6AqCpYUQG0Sw6Y5ID/SC+Td4OLhhCaBl2F1zumxOc3a6wG9JJE
+ wEQfAWdH8M+WLUMD1CDzpwVUmjdxEUnRqmxlrewoVKNLyfXb
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 24 Mar 2026 22:09:09 +0100, Jihed Chaibi wrote:
-> ASoC: ep93xx: Fix unchecked clk_prepare_enable() and add rollback on failure
+On Wed, 25 Mar 2026 19:30:53 -0700, Rosen Penev wrote:
+> ASoC: SOF: topology: use kzalloc_flex
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: ep93xx: Fix unchecked clk_prepare_enable() and add rollback on failure
-      https://git.kernel.org/broonie/sound/c/622363757b22
+[1/1] ASoC: SOF: topology: use kzalloc_flex
+      https://git.kernel.org/broonie/sound/c/d3d75c767680
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
