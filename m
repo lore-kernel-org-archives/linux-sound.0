@@ -1,87 +1,102 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A131F22759C;
-	Mon, 30 Mar 2026 12:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72EE3D3D1A;
+	Mon, 30 Mar 2026 13:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774875248; cv=none; b=DUI0qsRCZhLqn65mXO9VVHdvIAOcFYszzxS38RxLL1r3RzECE5vxavEbVW1DRHH3UhpO6BX5g8xZaF2IGcKR/OqFoiJMyjOQqkU3xsPSzevkAi7NLLBRk1ocw0MXJ1SHTqscXNXuRozbaD9PGEEvxN8detIZGZOgrMIQGugnJY8=
+	t=1774877025; cv=none; b=oKeVeLEji1MLFIcXkzpt8YkyvrzFak3X/7Cc4kshEUbxWK4VdUUpckHWap9kfMUExPPi3XDhD7CrI1XwabAiLdnc4aVzfgJ2sKy47cbvNR1N3MzxGaiQQf3xWqd16209JRrWBC/o92wGwm8CZAOR2Nl/5kDZJdTQArfwjxKTzl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774875248; c=relaxed/simple;
-	bh=ooQGV2v4QfvU2kdGcsmbHpVeza6OmkQR0VI1W2DpHsI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W4U24ZAYhxgBh4vs83VtywF5dnHr4/7CbBoghICflvuDfbPMCbrzFljjC243e2dcSMNLsyDQO0Fdg8twhOj2HE7R8ZZ9N/gZ2lYXkYASxv6p3d+fr2lHFsJh3j354qt+P08kNCsd6Tp6EU2kPqacs6ow6LJk0rnHhoUfX0rKg9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=c/TjGwkr; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1774877025; c=relaxed/simple;
+	bh=X1+YBhc/ZSUl9M7/HqQfBOi/B766QZ/5KReMpWzPq5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bewct4cqT1VmBdzyb+o6byW7lqKzkk8tDDJSTFqALPDI/MjALBywrWr6IW7hMf50YpKiLJlseW1hhl1Vc6AGZgg0skdPv1DMfTI2cTkspYXMENIWONb4ZQjlL3PMo79UeygBVo3DDZnssT6tzfjR7dF+HiZ1hQnEBH42K0NWF0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MR2vrXID; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="c/TjGwkr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=mr
-	4bkrM9n4m+cBOtlEDSZzlR5iPHoq71r6UbI2WxFcM=; b=c/TjGwkrdpbh5v4xqS
-	Hs+SD6N2h5Oko5XTaSUnVTi7l0KQiLjSojPT7LLcIoITtZQ3TDR6oRWM7XpYZ2U7
-	GL+Bm9/HxInN2VXB9u/taMvaLKK7zbdy1TOB55jJG3VaHbK472Of9eljc+VmoWMo
-	CezRlMJ8G2dlR5PNXgkrW9Mls=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wBXK85PcsppPbAqCQ--.26842S2;
-	Mon, 30 Mar 2026 20:53:35 +0800 (CST)
-From: Lei Huang <huanglei814@163.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lei Huang <huanglei@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek: fix bad indentation for alc269
-Date: Mon, 30 Mar 2026 20:53:33 +0800
-Message-Id: <20260330125333.86012-1-huanglei814@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MR2vrXID"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 725C6C4CEF7;
+	Mon, 30 Mar 2026 13:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774877025;
+	bh=X1+YBhc/ZSUl9M7/HqQfBOi/B766QZ/5KReMpWzPq5g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MR2vrXIDzjGj6xwXFk1oY54tzC7aa9qaYVEVYseVortnRvD03zDWkHOU7pmUAu1iw
+	 m1+r0sOqlIpRZ07+Q/wYzH/xU3+QUJNB/kJ8uNP2iq+MLgGD4s5+KSy38W8dGWQF40
+	 inTgz4HP/CadRQ6ZxTCtd4cWH218eXY/oojqMBYmlvLCgztYcDPnsdH7iHsBd/lYZX
+	 iu2s112tidE5DG0koJHRsQn4DQ5+O1HCva2As2nuUhu2utNBt3sLxi99exoUUtnR3Z
+	 hy3oRSQaJeQjtsVyXS7ORszN/NR3OIT4ViUhlBjIctkCEbREM5j5+pwgGRax4VyMDg
+	 kQPMZalbvpKKQ==
+Date: Mon, 30 Mar 2026 14:23:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 11/11] ASoC: fsl_easrc: Change the type for iec958
+ channel status controls
+Message-ID: <be591d2b-9429-43de-8d5b-357a503607d0@sirena.org.uk>
+References: <20260330112555.3637002-1-shengjiu.wang@nxp.com>
+ <20260330112555.3637002-12-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBXK85PcsppPbAqCQ--.26842S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKw4rXr4xWFW3Xw1rWryDJrb_yoWktwc_W3
-	yjgw4fCFy5JF47KrWDKrnIyw409rs7CrWUuryDtFyqkr4fGw45Zr9rWF93Ar98JFWkZFWY
-	qayFvwnYkFW3XjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbgdb7UUUUU==
-X-CM-SenderInfo: xkxd0wxohlmiqu6rljoofrz/xtbC9A+8s2nKck+aeQAA3J
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/8vzq1AnR7+A91Mx"
+Content-Disposition: inline
+In-Reply-To: <20260330112555.3637002-12-shengjiu.wang@nxp.com>
+X-Cookie: HUGH BEAUMONT died in 1982!!
 
-From: Lei Huang <huanglei@kylinos.cn>
 
-Mention complains about this coding style:
+--/8vzq1AnR7+A91Mx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  ERROR: code indent should use tabs where possible
-  #6640: FILE: sound/hda/codecs/realtek/alc269.c:6640:
-  +        [ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY] = {$
+On Mon, Mar 30, 2026 at 07:25:55PM +0800, Shengjiu Wang wrote:
+> Use the type SNDRV_CTL_ELEM_TYPE_IEC958 for iec958 channel status
+> controls, the original type will cause mixer-test to iterate all 32bit
+> values, which costs a lot of time. And using IEC958 type can reduce the
+> control numbers.
 
-fix it up.
+> Also enable pm runtime before updating registers to make the regmap cache
+> data align with the value in hardware.
 
-Signed-off-by: Lei Huang <huanglei@kylinos.cn>
----
- sound/hda/codecs/realtek/alc269.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> @@ -100,22 +130,52 @@ static int fsl_easrc_set_reg(struct snd_kcontrol *k=
+control,
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index b6a58852752a..09af4d378b30 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6637,10 +6637,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc288_fixup_surface_swap_dacs,
- 	},
--        [ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY] = {
--                .type = HDA_FIXUP_FUNC,
--                .v.func = alc233_fixup_lenovo_gpio2_mic_hotkey,
--        },
-+	[ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc233_fixup_lenovo_gpio2_mic_hotkey,
-+	},
- 	[ALC245_FIXUP_BASS_HP_DAC] = {
- 		.type = HDA_FIXUP_FUNC,
- 		/* Borrow the DAC routing selected for those Thinkpads */
--- 
-2.25.1
+> -	ret =3D regmap_update_bits_check(easrc->regmap, mc->regbase,
+> -				       GENMASK(31, 0), regval, &changed);
+> -	if (ret !=3D 0)
+> +	ret =3D pm_runtime_resume_and_get(component->dev);
+> +	if (ret)
+>  		return ret;
+> =20
+> -	return changed;
+> +	ret =3D regmap_update_bits(easrc->regmap, REG_EASRC_CS0(mc->regbase),
+> +				 GENMASK(31, 0), regval[0]);
+> +	if (ret !=3D 0)
+> +		goto err;
 
+This drops all the checking for changed values that we used to do so we
+won't generate notifications to userspace.
+
+--/8vzq1AnR7+A91Mx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnKeVsACgkQJNaLcl1U
+h9AQpQf/Wwg0d6wy7+tbE0cV56MY0BWOsiAJfNAdGi5hQfMf9SE+Vj31fy/26gup
+/KfPd3I+TVmNUhdvQu21rMFsu1zzN9TapmOn6HcWVmFX90sqjE8WnoOVO9v+MKwt
+awK6l4vuVU9ZaQkowma/RECz1RHN/4q1c2f7oRmigkxN360nqjJsOrj6b5AW1j30
+fNiofpWfFFTjYdOa6ArtWMQEJhQqptnCa2EgXzZDQStWH4D5CuKgLzG38CTOywCl
+siM70hegXV44VYSo+DaGvXhhxFjV6pjtA6MvMGh1G23OzWf0EXc+03MOG5QVF0ej
+AocKsmJgOl7HxvhLz4BEx4/quWT4Tw==
+=5BGx
+-----END PGP SIGNATURE-----
+
+--/8vzq1AnR7+A91Mx--
