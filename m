@@ -1,81 +1,106 @@
-Received: from mailout12.inleed.net (mailout12.inleed.net [185.189.50.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301CB386576;
-	Sun, 29 Mar 2026 18:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.189.50.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B6B266EE9;
+	Mon, 30 Mar 2026 01:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774807964; cv=none; b=BUpJIKPEwx15qiFJBR7La90mMxWhJxRR6Qad/C6I115NxV0T9HbboM4x6q0SF/KzacNUedBYmE9kf/QSLcWiprTIJKU7Ey9nj+0JiDHBTNtOcFg2Zg8uKiukKX6LQ4L+CkNxR/64l4NWELM60VAkupxOJViHL3aQm5izbRUrgPA=
+	t=1774835042; cv=none; b=uzZm/HLMwcWJgbkDr1XXBTxmrwJzTsp2pCZcgrbUqngz6a+OtqvIA3eAxcLmXj3XmQ09hgOrfZjH1IbTtoSrFQt9E7NqhPPM1Wf30hloGxmd7qrdNWHvjgb/rpdczOUkkISCxGBFOHLDVBo0XvGbxSfZ7OpO+PhM8YEA15SZpgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774807964; c=relaxed/simple;
-	bh=Mg/ND+twwuQC1v2Pn3gA5t8iunJdJIDnkylOLuLkBl8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jPVZpMVdLNZDxbhcrGbRMpiM16i/y7vCiZaAs68llns7FUsC6fjHpbzxv5mtKT2GWGgsJHou+Yxez08VBWNLIi6Wyk80Ho6DuyiyusRWCI9UiEO2sFOwG6/2DsikO96XAAT4Zi6gGuDVFUMKbhK2e/sZvsgc7W1hfjZboKw5I0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dsmedberg.se; spf=fail smtp.mailfrom=dsmedberg.se; dkim=pass (2048-bit key) header.d=dsmedberg.se header.i=@dsmedberg.se header.b=CrW82bf/; arc=none smtp.client-ip=185.189.50.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dsmedberg.se
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=dsmedberg.se
+	s=arc-20240116; t=1774835042; c=relaxed/simple;
+	bh=aPrbzzBcNexKGfh5uK2jbN0ZMu3xYTlq6MjDrl02+z4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=laqJ/4b0BPg/+NmGotyj7sGqniR+LgF5Amh7uHay+XqzsHgR4w0XR+q1LKyUuqrtpRyl7ePtF9nA+Hl7Qr0GEEb/3lOAPxI6vskVvRhhUB/s1BuYKkPnzT6awDFidv2a0BkiNFpQrp4cjBz9K5RO3QzjgJGfPJmltoih/OKqpbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MD2pGBe2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dsmedberg.se header.i=@dsmedberg.se header.b="CrW82bf/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=dsmedberg.se; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date
-	:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=yQ4F9qzdcxJrezgHDJ+X93dkyPOJ2Qy8aHboOym6pw8=; b=CrW82bf/YAu/xv84upHQIlZFOd
-	vO/0weIVSFYKlGEm0rA6314BS1sbUnGDJxjr/mUHQsUnflmI8S7Gcf87/lIVVYL044fljSFqdmP7Z
-	gef0h8KhKwIwebwjECokD/3UQ1+CTOv464dygPejpqffBdj5x+TyA+9STU1AceZbJc19EB9cUxzRa
-	rTQcpCzBoRQJe6ZVN9tJIrAECY1WgqeqxpIKx3ZwBQE2Lzy5HXTVQVtB6CUdgSzrst+822ZIdybjR
-	Td7/CgaVsWun4eUYs83F8nnmvJB+HDqn3lGQ4WYvrENZ7tDAki+upmhyplEHeoNzS1yW83GI1ahaf
-	1+N+3vnw==;
-Received: from mail.inleed.com ([86.107.103.84])
-	by ns12.inleed.net with esmtpa (Exim 4.99.1)
-	(envelope-from <dag@dsmedberg.se>)
-	id 1w6tZZ-0000000AJdK-0HWg;
-	Sun, 29 Mar 2026 19:05:13 +0200
-From: Dag Smedberg <dag@dsmedberg.se>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	g@b4.vu,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dag Smedberg <dag@dsmedberg.se>
-Subject: [PATCH] ALSA: usb-audio: Exclude Scarlett Solo 1st Gen from SKIP_IFACE_SETUP
-Date: Sun, 29 Mar 2026 19:04:20 +0200
-Message-ID: <20260329170420.4122-1-dag@dsmedberg.se>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MD2pGBe2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9ED31C116C6;
+	Mon, 30 Mar 2026 01:44:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774835041;
+	bh=aPrbzzBcNexKGfh5uK2jbN0ZMu3xYTlq6MjDrl02+z4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=MD2pGBe2HSS0unHrZ//iuIk4g+YCOri0QS856+/LqCz3AQrya+2rOklaGQphHTKOi
+	 AqN+0RRTEtuZKYVFauQpKiBTBL+SC7kaenRm/AxYIjbNHAzayTFnV1KYHs0r/5udWq
+	 bQhW2R7AvhdWPsmYkiXfM9OR7kZnhZGci3g1XsBprWHUbsioU3rOGnhCF+x7HWx8ff
+	 LDdjeMIKmdiSI3s/Uzu7Zw08WztIu1cLexxla+vYc54Eq+yS8uhnCcDBvLnYKgxyGj
+	 FN2ylgo2IztNzQj/v2wCHRahIUioCHUE/RBMxwKyOi1YEpiS38/Z2CADCaCehUYEgy
+	 7zbNHe5u8IsaQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE0DFF4930;
+	Mon, 30 Mar 2026 01:44:01 +0000 (UTC)
+From: =?utf-8?q?Gilson_Marquato_J=C3=BAnior_via_B4_Relay?= <devnull+gilsonmandalogo.hotmail.com@kernel.org>
+Date: Mon, 30 Mar 2026 02:43:48 +0100
+Subject: [PATCH] ASoC: amd: yc: Add DMI entry for HP Laptop 15-fc0xxx
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: dag@dsmedberg.se
+Message-Id: <20260330-hp-15-fc0xxx-dmic-v2-v1-1-6dd6f53a1917@hotmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MSQqAMAwAvyI5G0grCvoV8dAltTm40IIUpH+3y
+ JzmMPNC5iScYeleSPxIlutsovoOXDTnzii+OWjSEw0DYbxRjRgclVLQH+Lw0TizNYqsaSho6Z0
+ 4SPm361brB1C2roVmAAAA
+X-Change-ID: 20260330-hp-15-fc0xxx-dmic-v2-9eba10babab1
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Gilson_Marquato_J=C3=BAnior?= <gilsonmandalogo@hotmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774835040; l=1218;
+ i=gilsonmandalogo@hotmail.com; s=20260330; h=from:subject:message-id;
+ bh=6qeyom/q+wq80HQ4SjhnrO8d7uH0lH6UkhJuNUiDj3A=;
+ b=Zt4t4bzIe3LStovXjfObr3F6jTZIBYaD90NqJCNy3OC1mJ030BlGkWVOq/IESLpGZnyO369U6
+ w1EYA0y/+sMCATHsGtV19BnBNd8NOfZFdqaSiPsuItKiahylksOwual
+X-Developer-Key: i=gilsonmandalogo@hotmail.com; a=ed25519;
+ pk=1S2rDhYrMqtm3oH3Q8zOSoiPjAjN43ViUvVUmQ28I1A=
+X-Endpoint-Received: by B4 Relay for gilsonmandalogo@hotmail.com/20260330
+ with auth_id=702
+X-Original-From: =?utf-8?q?Gilson_Marquato_J=C3=BAnior?= <gilsonmandalogo@hotmail.com>
+Reply-To: gilsonmandalogo@hotmail.com
 
-Same issue that the Scarlett 2i2 1st Gen had:
-QUIRK_FLAG_SKIP_IFACE_SETUP causes distorted audio on the
-Scarlett Solo 1st Gen (1235:801c).
+From: Gilson Marquato Júnior <gilsonmandalogo@hotmail.com>
 
-Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
-Reported-by: Dag Smedberg <dag@dsmedberg.se>
-Tested-by: Dag Smedberg <dag@dsmedberg.se>
-Signed-off-by: Dag Smedberg <dag@dsmedberg.se>
+The HP Laptop 15-fc0xxx (subsystem ID 0x103c8dc9) has an internal
+DMIC connected to the AMD ACP6x audio coprocessor. Add a DMI quirk
+entry so the internal microphone is properly detected on this model.
+
+Tested on HP Laptop 15-fc0237ns with Fedora 43 (kernel 6.19.9).
+
+Signed-off-by: Gilson Marquato Júnior <gilsonmandalogo@hotmail.com>
 ---
- sound/usb/quirks.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 1f82e9e02d4b..df9c18dd6c30 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2433,6 +2433,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_VALIDATE_RATES),
- 	DEVICE_FLG(0x1235, 0x8006, 0), /* Focusrite Scarlett 2i2 1st Gen */
- 	DEVICE_FLG(0x1235, 0x800a, 0), /* Focusrite Scarlett 2i4 1st Gen */
-+	DEVICE_FLG(0x1235, 0x801c, 0), /* Focusrite Scarlett Solo 1st Gen */
- 	VENDOR_FLG(0x1235, /* Focusrite Novation */
- 		   QUIRK_FLAG_SKIP_CLOCK_SELECTOR |
- 		   QUIRK_FLAG_SKIP_IFACE_SETUP),
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 6f1c105ca77e3896ed1c0a6628331e378bfba988..4c0acdad13ea1c034eb51b69828914cf35dad713 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -45,6 +45,13 @@ static struct snd_soc_card acp6x_card = {
+ };
+ 
+ static const struct dmi_system_id yc_acp_quirk_table[] = {
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "HP Laptop 15-fc0xxx"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+
+---
+base-commit: 39b68f430a1b299a041ce44a695ae9ddb2576ca1
+change-id: 20260330-hp-15-fc0xxx-dmic-v2-9eba10babab1
+
+Best regards,
 -- 
-2.53.0
+Gilson Marquato Júnior <gilsonmandalogo@hotmail.com>
+
 
