@@ -1,294 +1,171 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010004.outbound.protection.outlook.com [52.101.84.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349BE3C943A;
-	Mon, 30 Mar 2026 11:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774869916; cv=fail; b=gpvpiGyi9pqwluLCdu7ZTKlLHWSx6xFHDIYVFO3pFWdqSLXH8fSDPwFNxeYX9ak1Xo6/thibc8ZbnFsCyA0bI8Hd+2x2lKEBP3NTdqQ2W0AUsdXphQkfjdKW3ru8U3A9N0yFhjMVXCCpIAdtuvc/v5K9dyE1aPl39JM75CD3gwE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774869916; c=relaxed/simple;
-	bh=OoeZ24Frqa9W4JWcWd1NMPungbGV1fK6ltYlAxAWrrU=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dq2EyvjWm++yT53p9hm5wzEIWOMneSdxJ+rtv4Ebd9R3qVA3Uy+oPotzfhF4CpkcAb30P/ELr5JfWjpk1lDzmfC0n1Qu0CWu6gJ6jf30LeTmXmCmVQITuSoEbHzMPE5HXtz77YiCkDUGwbCBHYAgGilOH3xeN2Sl0QEe08QCrOg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=UicXeAYL; arc=fail smtp.client-ip=52.101.84.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A954F2E413
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 11:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774871231; cv=none; b=bsAX9jMcSTrLCl8RZCgL1L8E1yfVcggtWOWl35PeaeTnMdoelhitronDVJ93hhBpYze4k5hgHZT0iXuodK92Ky1t9xzqe52IvqrkIkHhHy51SLjcrS7g11ND1GXZi8AXmovVpXDMNhTo9Y+B/dpNrFUcocrMXRC94LBZyk3KPBY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774871231; c=relaxed/simple;
+	bh=K5wm02jT3CHI8OP/kppGrvGP0E8GzBotEGzMvQgey3A=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kKT9XrgzSZiLrXSCKZgGJdr/tfrEPTkJcedlRecbhCFs4w0bnUUldKOiZ6ZDzSaTOfbVg9p8KxVPA/k7jvfAn1SCfKFTctGJMCsPsotcv4VXK0wcmP2Y88oMdfpjBqRaeMkHY4FypkVJd25fT4+Wuv2E6SF5fRdoTzpBkZ/ZXiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KxPkNLLa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QN/WgFKT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R54NxIVV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Za4XAbiS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="UicXeAYL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H80javA9rVy1DkPImFAI7PBQTa9o8H1l/HSH+eHR7PSdP4UmjkPOiGVXy2S5n+6C7gKqCMtjbV32Zj0z7VpCjTrUBaaJore6TSxI91lrfIc2R9z+iRYUZfcno1LTvEa+h8qqB5pNroCDZ0lyXY4ycI3v+dXIs4r6sDI8Xk0/oDS4HAGnraW++FjGTvWHpgUlFa1JjB4NQCt7d7ogAauK9lgBSzyt0e0aeW6mVeTHBTNZcbWMhzNKaGktqMbk6Xyhmrv7KDROJCL8m7/RnGkoMqfhxHqhfNqTSdUwoFMQS+dn8PRiQjJeGD1HacaZdbcw3hJB1b05E0hOnYG1oczFHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pWGdX/mjOth4JlJfJRauxMX+NXWz6kf5QtU1iCyARiI=;
- b=S59Y2jw8+TpMU4xsHFyp6askv18OshsQhIizFlgzkn3HCGA3eebT+tZfU2fSlndo2i71F4STgcoxIyJVLOlX71sko3OIucqcjAWBw7sl7rJqGEd3N/rJHiF4pVhTT8GFfj0mStNS7JHs8to+Cuj3yNgISIvXNjYHy7OPgWQga94FxLaZNumtdWajvY3ZIkSCEmf8ioVa8DkfP2CLkCJaxtuz7q4ASZzGq9SHP/j3AETRIJEosgAHcaSEAF7xf89oruncZiXZzMIDvYhUZfEV6UlwBX2AD2pwi62uPV1j035WaHjxZ0ZI4JGV0ORllJ/WdU9RDO/x5iiLslCSDNRhAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pWGdX/mjOth4JlJfJRauxMX+NXWz6kf5QtU1iCyARiI=;
- b=UicXeAYLUzrahvulK0eqenJUbrY3vbhY/mljhKw4o59u1eBdm+e78Yd9tyjjY8Zea+fXI2KYYqYLmXCDMPnydmD729niXRKiyOyFjFqvkheG//BwRTaj68DgmO7Ksh1d36b1AAaBaS363KfG+tLA7t2ONg8w6+9wDNbH+AQ2WAUBWKDiQlVgJM7oGcqAmf7SLJYPnP5iSOTBmns35CnyurIdiaKVwCX8/ZYonJpYgYM10kpLGIuzdcP2Ly/3KuTKEMmkLpoa3DJg/aw5LmBF63RH0y7LUR9M0KTeE09gVw95LIFngkw0B2OlbZZA6X1tqYmn23Ju1ifWvmJ9f/Z+bA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by VI0PR04MB11481.eurprd04.prod.outlook.com (2603:10a6:800:2c8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 11:25:12 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%4]) with mapi id 15.20.9745.027; Mon, 30 Mar 2026
- 11:25:12 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KxPkNLLa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QN/WgFKT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R54NxIVV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Za4XAbiS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DA55D4D2BD;
+	Mon, 30 Mar 2026 11:47:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774871227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2igrHwsyjjNO9VBaJ8vV+AwRGpvEcUaAjo1uivO9sgg=;
+	b=KxPkNLLaucWHaniRuVoSOw0g8H/OiT1OssW1JNlxiqvk1TriUOWiRkeIi62DC5o8WCJntl
+	tuBpJRmpfgyclohGw9GqYHfgXm5sWT8bA45Imq71b9qHUmnA2YBCXg9FQtNBDkvZ2wWHea
+	JM79MhVUBqnszUc+41yG6nk0p8rucho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774871227;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2igrHwsyjjNO9VBaJ8vV+AwRGpvEcUaAjo1uivO9sgg=;
+	b=QN/WgFKTgpNXDpmTI1ZTxrDxWeCcGJnL5MPvz10VQMBMctxsFoSFortK0ZkFhA/MoSdggJ
+	ubmmmrp8pylO9YAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774871226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2igrHwsyjjNO9VBaJ8vV+AwRGpvEcUaAjo1uivO9sgg=;
+	b=R54NxIVVFTjGErULQjiUmSOyLAKdvt/it2zaGJ4KlGa1wBrYqaUPYG5Gz2DxjMK/j7oyiu
+	MyMlXFgUU0rTIm63AtwIkPeQSPK4RRslLCjgBQc7TDmegQJyWvxxLnDdqThag6ewjOoBAw
+	Va0WXCV6xonjfzDawznjbW1e0eXkcTM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774871226;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2igrHwsyjjNO9VBaJ8vV+AwRGpvEcUaAjo1uivO9sgg=;
+	b=Za4XAbiS7UDcMncBfewUBFL6S5JtFFNregFdg4hGDTjt2/gbIixU/S8xd5IdsAcaiE1eiv
+	73rlJK3xaKsD3UAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9A394A0A2;
+	Mon, 30 Mar 2026 11:47:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EU4kKLpiymmBMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 30 Mar 2026 11:47:06 +0000
+Date: Mon, 30 Mar 2026 13:47:06 +0200
+Message-ID: <875x6dv8sl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: tiwai@suse.com,
 	perex@perex.cz,
-	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] ASoC: fsl_easrc: Change the type for iec958 channel status controls
-Date: Mon, 30 Mar 2026 19:25:55 +0800
-Message-Id: <20260330112555.3637002-12-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260330112555.3637002-1-shengjiu.wang@nxp.com>
-References: <20260330112555.3637002-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0009.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::10) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: add quirk for HP Laptop 15-fc0xxx
+In-Reply-To: <20260330075334.50962-1-zhangheng@kylinos.cn>
+References: <20260330075334.50962-1-zhangheng@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|VI0PR04MB11481:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6a1d37a-25d7-4c83-5035-08de8e4f01ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|52116014|376014|1800799024|19092799006|22082099003|56012099003|18002099003|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	SAKjoyanb03d5KJgki+aDAetQ0ZWXL+OERN17vPq1JRMBEvD6shEEdI80vmcC4cpSoWuYmp0AQ5C0TNewk1VrTNoWRNZ1n3z+iRP0GfycZXwjWGNLSZYeJftp17lc7jZSCSo4sMiMXobk/vbQiTbPLVNpsb2o8cl2gSnwzBUHAPmT1CEKqJl6ZCiCsVJLYrT5LIo5dbhbVV464Kli5W8OjXAJAcINFrKyKUpdJGemqc5388t2TKrGay450JZXxRjDCEdYQfYpyjejCGkTay7K0O1dzIQZ8RB33ipGF1DzNf0M+pn9QEDcCcuWJ8UO/oFzaVZS2eCDS7Pry+GEYHSHkwmCM/QI6EADg4Xpc+oYeyBjENwUo4kLkvhS31u1nDIFu3kQi5QgvOj3d0bdxyING3KHq19qHihuII635wUGgGvlc3eh+nr76tWfazp06X6OpspImfoT4c9Vf/lzWffeBHnhcHSQro1fCKRKvVVrPQMj8PpEjgxY5A+MNjiibAg9S/VOK/npGCd0gjkRo7QsuOvZzpmsI3Y94WAWnkDVmCzY+tgLAoDHE9TovO9gUEgmmowKdhHR5aTq9XlgH1kdZLo/JGDffVnAZdGXqgpWNGwMNk6TNr7Kq70+ePHk/qDTmh5/7MFnZiymAAlpYtZ0x/wzi6WXt/fDMxHASVJAasXkP77L/zGFzzXZ0DP+sAfrj/U5oe+LyQlcnXbw1vyd4nf79A0oRAU2DE1qfdycKQ+tkMsdA96Y8aV7yoGjTm62myci9FP5XatyyhVhEuhptbNp0zuhwNwQeRaMWq1gL7cpvnVISTAp+6p14OLayI2
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(52116014)(376014)(1800799024)(19092799006)(22082099003)(56012099003)(18002099003)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6xZylJSQt6GuBXSgH7e6MIZGYNJZ5LK423NCbnu746yvNoNCBxnX6NtXL6ND?=
- =?us-ascii?Q?rjtIZf/ZnN8L16m5FdeaXrYUcemsZdp3Ab6hGPIkH3wyUblSJ3nFf21BJFXZ?=
- =?us-ascii?Q?qxTXOvI+u9UgaCtf6Km3sTVw2JXXySNVEQMSryKVkTMh6WhcPEn8DiNCD8hI?=
- =?us-ascii?Q?r1uPMtwqDPxrVosdXUaXTabDGv4ejvf/Am/ZjIiPTnu6mLIm66ul+3UpGPW1?=
- =?us-ascii?Q?juPNTmlW8RJv4lnKc+T1arvYJIUOCXLRAfeLYAgbz9RxsrrM4lPh6bxfQBAZ?=
- =?us-ascii?Q?zzBPFEv8maKWG9zy68p5wj5/vMFaaAtqVwtMDt/y6omO/9TnJ1XuabYNPXBp?=
- =?us-ascii?Q?g7oI0SfEgu3zQ4Rl/nAn9Iq1PRB1vqzg8fw8BzlQCe9DO6XzFss/iq+SEIg5?=
- =?us-ascii?Q?dltHvaSJ1isSOnilBzVTrdH40wcmq0RsDov65yKcyfI96B3aXmPXqXJKqoqX?=
- =?us-ascii?Q?Vuk+9NiHLq2mo6QYxmY6HsPo5Lv1dxibYAECqKgqYt18LCGsqA4//HpG+m+l?=
- =?us-ascii?Q?nFGui2pIq/glp5pREJxTdfQ1652iTzcvfNbZ5uD9iQGfMOBkcCHVASwkmzbz?=
- =?us-ascii?Q?Vp1JLSpzjSpB0C8KmkP370/c5+ONyd11u5BkZkAjGEPZKhMZjym4oxjxCacw?=
- =?us-ascii?Q?ljoYGkrWhA47LU7piZIGaqU9x5bpVsMazOh4DX7bgdHZEKDKQtnNZOKnA4om?=
- =?us-ascii?Q?BLUeapTDIaQ+tVCQuDEtZ9J7p0HXvt8a4UhEdeu8PMMvF07U5NuhUYVJa1IX?=
- =?us-ascii?Q?T56CigCpkJ0gXqyqxecfEbxdULTvTBAhHrRYcaNZdhsbUZUH9JQh2YDd45vh?=
- =?us-ascii?Q?l+RNgjMWeSSAWndu82WsAeLMFnzbhx3kLogYC8mRpwdfsOD8Gk+U3jEnxfn+?=
- =?us-ascii?Q?D9oxeZkKW1L4KsYrLXRXlXfTlg/dv+fFt1OZDD0GIJtLwEHRIuPHErDoOUcT?=
- =?us-ascii?Q?Ugz/A9uoj1sIjd3Xb7FzTzN8KDxkzKIngyaNNEG6TfBPoCXCXIAoZyAs4ESy?=
- =?us-ascii?Q?xWDSGDfy69PG8eWR5de3HHhxN33j3WI3gxZ6MqGY/k3rUNLhASb1no01XM59?=
- =?us-ascii?Q?JL9Sv5mObBBmId/0APZgtzJaX5MvKu3ZeGqnLBFtC9Xcr2B1ScYGqIBF3dmc?=
- =?us-ascii?Q?QOIkwTfPUg5uJyY+wbriHqt3iBb8NuGVOzlnAsiNuMZw2CI0YfxbMYwXDg79?=
- =?us-ascii?Q?f4RYtrPu0LGoaos0LHETiTlu4mIlVPWn4UfpOCfAAtWY017pch1zzyKS8ary?=
- =?us-ascii?Q?t/yPuqzRSwXqyU/3TZhwgbnYu5wfW9BP4ayP+Oxs+SNIZ2+lAW0+GEmSgZN/?=
- =?us-ascii?Q?dfED11sof94F8EQMq5K5m2CT73RuxJdyuRObDlz4PQTSo3x9jymA6oQ/Ba8J?=
- =?us-ascii?Q?cFEDyFyEQHjlsWLKtueFK09r80862U5dUVKrQrpU0eanIp652oeLM0iTxoCm?=
- =?us-ascii?Q?dil1jXPYdRaX26mf/YrFRu+7Ju84OTIRtDY9dbe6S0yYOo8X3r6TYR/CYoYN?=
- =?us-ascii?Q?W3My1pFnYOJNz+wYmDOHyJIMAEVTBgXHw64TdAhByh/B9UwCXe4WjtrD5+od?=
- =?us-ascii?Q?N/vAICjKHQPOWzQfoCElUbSGfSMYOXpiRBGSQqPXFm24WVJV6wApVXfxaKif?=
- =?us-ascii?Q?KNO7vxQmWAYuJKt9ViW0JF4TUw4iWkGX/seQiTGClBZgyGL5Ph7ZPp07v7hb?=
- =?us-ascii?Q?Wg1Edb43F3466hg5h7uhF7YTSJ+jN7YtObHAeLBBMaWdJyCEQLmbYgJVVil2?=
- =?us-ascii?Q?XuhYAzu2MA=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6a1d37a-25d7-4c83-5035-08de8e4f01ca
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 11:25:12.0765
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M419CAQHWOBag8hq7l8blQxo85J8INBI+1sl00Z5hGtJ6cl3geHIafN5pdQDoGT0jfEjL/O9g+65lc5QqyExXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11481
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
 
-Use the type SNDRV_CTL_ELEM_TYPE_IEC958 for iec958 channel status
-controls, the original type will cause mixer-test to iterate all 32bit
-values, which costs a lot of time. And using IEC958 type can reduce the
-control numbers.
+On Mon, 30 Mar 2026 09:53:33 +0200,
+Zhang Heng wrote:
+> 
+> For the HP Laptop 15-fc0xxx with ALC236, the built-in mic 0x12 was
+> not set up, making it unusable; after adding it, it now works properly.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221233
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> ---
+>  sound/hda/codecs/realtek/alc269.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+> index 6787e54fcfe6..0fd980596408 100644
+> --- a/sound/hda/codecs/realtek/alc269.c
+> +++ b/sound/hda/codecs/realtek/alc269.c
+> @@ -4123,6 +4123,7 @@ enum {
+>  	ALC245_FIXUP_BASS_HP_DAC,
+>  	ALC245_FIXUP_ACER_MICMUTE_LED,
+>  	ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED,
+> +	ALC236_FIXUP_HP_INV_DMIC,
 
-Also enable pm runtime before updating registers to make the regmap cache
-data align with the value in hardware.
+Any reason for "_INV_"?  Your implementation doesn't look related with
+the existing inverted dmic workaround.
 
-Fixes: 955ac624058f ("ASoC: fsl_easrc: Add EASRC ASoC CPU DAI drivers")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_easrc.c | 108 ++++++++++++++++++++++++++------------
- 1 file changed, 74 insertions(+), 34 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index 3086cb758beb..a6c643a4d51e 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -78,17 +78,47 @@ static int fsl_easrc_iec958_get_bits(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+static int fsl_easrc_iec958_info(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_IEC958;
-+	uinfo->count = 1;
-+	return 0;
-+}
-+
- static int fsl_easrc_get_reg(struct snd_kcontrol *kcontrol,
- 			     struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct soc_mreg_control *mc =
- 		(struct soc_mreg_control *)kcontrol->private_value;
--	unsigned int regval;
-+	struct fsl_asrc *easrc = snd_soc_component_get_drvdata(component);
-+	unsigned int *regval = (unsigned int *)ucontrol->value.iec958.status;
-+	int ret;
- 
--	regval = snd_soc_component_read(component, mc->regbase);
-+	ret = regmap_read(easrc->regmap, REG_EASRC_CS0(mc->regbase), &regval[0]);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(easrc->regmap, REG_EASRC_CS1(mc->regbase), &regval[1]);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(easrc->regmap, REG_EASRC_CS2(mc->regbase), &regval[2]);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(easrc->regmap, REG_EASRC_CS3(mc->regbase), &regval[3]);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_read(easrc->regmap, REG_EASRC_CS4(mc->regbase), &regval[4]);
-+	if (ret)
-+		return ret;
- 
--	ucontrol->value.integer.value[0] = regval;
-+	ret = regmap_read(easrc->regmap, REG_EASRC_CS5(mc->regbase), &regval[5]);
-+	if (ret)
-+		return ret;
- 
- 	return 0;
- }
-@@ -100,22 +130,52 @@ static int fsl_easrc_set_reg(struct snd_kcontrol *kcontrol,
- 	struct soc_mreg_control *mc =
- 		(struct soc_mreg_control *)kcontrol->private_value;
- 	struct fsl_asrc *easrc = snd_soc_component_get_drvdata(component);
--	unsigned int regval = ucontrol->value.integer.value[0];
--	bool changed;
-+	unsigned int *regval = (unsigned int *)ucontrol->value.iec958.status;
- 	int ret;
- 
--	ret = regmap_update_bits_check(easrc->regmap, mc->regbase,
--				       GENMASK(31, 0), regval, &changed);
--	if (ret != 0)
-+	ret = pm_runtime_resume_and_get(component->dev);
-+	if (ret)
- 		return ret;
- 
--	return changed;
-+	ret = regmap_update_bits(easrc->regmap, REG_EASRC_CS0(mc->regbase),
-+				 GENMASK(31, 0), regval[0]);
-+	if (ret != 0)
-+		goto err;
-+
-+	ret = regmap_update_bits(easrc->regmap, REG_EASRC_CS1(mc->regbase),
-+				 GENMASK(31, 0), regval[1]);
-+	if (ret != 0)
-+		goto err;
-+
-+	ret = regmap_update_bits(easrc->regmap, REG_EASRC_CS2(mc->regbase),
-+				 GENMASK(31, 0), regval[2]);
-+	if (ret != 0)
-+		goto err;
-+
-+	ret = regmap_update_bits(easrc->regmap, REG_EASRC_CS3(mc->regbase),
-+				 GENMASK(31, 0), regval[3]);
-+	if (ret != 0)
-+		goto err;
-+
-+	ret = regmap_update_bits(easrc->regmap, REG_EASRC_CS4(mc->regbase),
-+				 GENMASK(31, 0), regval[4]);
-+	if (ret != 0)
-+		goto err;
-+
-+	ret = regmap_update_bits(easrc->regmap, REG_EASRC_CS5(mc->regbase),
-+				 GENMASK(31, 0), regval[5]);
-+	if (ret != 0)
-+		goto err;
-+err:
-+	pm_runtime_put_autosuspend(component->dev);
-+
-+	return ret;
- }
- 
- #define SOC_SINGLE_REG_RW(xname, xreg) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_PCM, .name = (xname), \
- 	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE, \
--	.info = snd_soc_info_xr_sx, .get = fsl_easrc_get_reg, \
-+	.info = fsl_easrc_iec958_info, .get = fsl_easrc_get_reg, \
- 	.put = fsl_easrc_set_reg, \
- 	.private_value = (unsigned long)&(struct soc_mreg_control) \
- 		{ .regbase = xreg, .regcount = 1, .nbits = 32, \
-@@ -146,30 +206,10 @@ static const struct snd_kcontrol_new fsl_easrc_snd_controls[] = {
- 	SOC_SINGLE_VAL_RW("Context 2 IEC958 Bits Per Sample", 2),
- 	SOC_SINGLE_VAL_RW("Context 3 IEC958 Bits Per Sample", 3),
- 
--	SOC_SINGLE_REG_RW("Context 0 IEC958 CS0", REG_EASRC_CS0(0)),
--	SOC_SINGLE_REG_RW("Context 1 IEC958 CS0", REG_EASRC_CS0(1)),
--	SOC_SINGLE_REG_RW("Context 2 IEC958 CS0", REG_EASRC_CS0(2)),
--	SOC_SINGLE_REG_RW("Context 3 IEC958 CS0", REG_EASRC_CS0(3)),
--	SOC_SINGLE_REG_RW("Context 0 IEC958 CS1", REG_EASRC_CS1(0)),
--	SOC_SINGLE_REG_RW("Context 1 IEC958 CS1", REG_EASRC_CS1(1)),
--	SOC_SINGLE_REG_RW("Context 2 IEC958 CS1", REG_EASRC_CS1(2)),
--	SOC_SINGLE_REG_RW("Context 3 IEC958 CS1", REG_EASRC_CS1(3)),
--	SOC_SINGLE_REG_RW("Context 0 IEC958 CS2", REG_EASRC_CS2(0)),
--	SOC_SINGLE_REG_RW("Context 1 IEC958 CS2", REG_EASRC_CS2(1)),
--	SOC_SINGLE_REG_RW("Context 2 IEC958 CS2", REG_EASRC_CS2(2)),
--	SOC_SINGLE_REG_RW("Context 3 IEC958 CS2", REG_EASRC_CS2(3)),
--	SOC_SINGLE_REG_RW("Context 0 IEC958 CS3", REG_EASRC_CS3(0)),
--	SOC_SINGLE_REG_RW("Context 1 IEC958 CS3", REG_EASRC_CS3(1)),
--	SOC_SINGLE_REG_RW("Context 2 IEC958 CS3", REG_EASRC_CS3(2)),
--	SOC_SINGLE_REG_RW("Context 3 IEC958 CS3", REG_EASRC_CS3(3)),
--	SOC_SINGLE_REG_RW("Context 0 IEC958 CS4", REG_EASRC_CS4(0)),
--	SOC_SINGLE_REG_RW("Context 1 IEC958 CS4", REG_EASRC_CS4(1)),
--	SOC_SINGLE_REG_RW("Context 2 IEC958 CS4", REG_EASRC_CS4(2)),
--	SOC_SINGLE_REG_RW("Context 3 IEC958 CS4", REG_EASRC_CS4(3)),
--	SOC_SINGLE_REG_RW("Context 0 IEC958 CS5", REG_EASRC_CS5(0)),
--	SOC_SINGLE_REG_RW("Context 1 IEC958 CS5", REG_EASRC_CS5(1)),
--	SOC_SINGLE_REG_RW("Context 2 IEC958 CS5", REG_EASRC_CS5(2)),
--	SOC_SINGLE_REG_RW("Context 3 IEC958 CS5", REG_EASRC_CS5(3)),
-+	SOC_SINGLE_REG_RW("Context 0 IEC958 CS", 0),
-+	SOC_SINGLE_REG_RW("Context 1 IEC958 CS", 1),
-+	SOC_SINGLE_REG_RW("Context 2 IEC958 CS", 2),
-+	SOC_SINGLE_REG_RW("Context 3 IEC958 CS", 3),
- };
- 
- /*
--- 
-2.34.1
+thanks,
 
+Takashi
+
+>  };
+>  
+>  /* A special fixup for Lenovo C940 and Yoga Duet 7;
+> @@ -6658,6 +6659,13 @@ static const struct hda_fixup alc269_fixups[] = {
+>  		.v.func = alc245_fixup_hp_mute_led_coefbit,
+>  		.chained = true,
+>  		.chain_id = ALC287_FIXUP_CS35L41_I2C_2,
+> +	},
+> +	[ALC236_FIXUP_HP_INV_DMIC] = {
+> +		.type = HDA_FIXUP_PINS,
+> +		.v.pins = (const struct hda_pintbl[]) {
+> +			{ 0x12, 0x90a60160 }, /* use as internal mic */
+> +			{ }
+> +		},
+>  	}
+>  };
+>  
+> @@ -7152,6 +7160,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x8da1, "HP 16 Clipper OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x103c, 0x8da7, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x103c, 0x8da8, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+> +	SND_PCI_QUIRK(0x103c, 0x8dc9, "HP Laptop 15-fc0xxx", ALC236_FIXUP_HP_INV_DMIC),
+>  	SND_PCI_QUIRK(0x103c, 0x8dd4, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO_BIND_DACS),
+>  	SND_PCI_QUIRK(0x103c, 0x8dd7, "HP Laptop 15-fd0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+>  	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
+> -- 
+> 2.25.1
+> 
