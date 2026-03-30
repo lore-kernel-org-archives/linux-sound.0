@@ -1,162 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE2B314D13
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 07:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41ABF2DEA93;
+	Mon, 30 Mar 2026 07:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774856487; cv=none; b=F/fCaYgmuZAaLUBTZN37qWjmFBdA30VWthiNXHH4mJOX0nQNfnN3+3yPukqZriivKwZbmR2emRvbazSrkYC17GZl1d7O+CtKiyrMvo+nBmqNcKpYfTJVwubXFZkbH4C+DaCNhN1NEMFkAVJq0e1kwQf5GEaTJEamEk+jP+Q3Wsk=
+	t=1774857227; cv=none; b=VRdfvPSKzaTb5o3nv1J0Zjf5mBmxs2ioQ+msfz+sQ0ApvVUevfwDRXnJ5aARbZdaDXDD24h6382SEDxkaEadbWhb1/7qfpvHvDoxAl2iOxR5rYJDFGEgOp996GJFC2+JBbz+bzlE2hzMGarya0JECvN6Mhm5pw22zH5mHe9liP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774856487; c=relaxed/simple;
-	bh=gjsTF+rru2s+VjSAqpikfezc0zod/PfZ65rYWrfkzDE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NauZ96Lyoieo2j1T0fCK74aZPvSEqq272XU90k8rDpOEDf2b94QVHi9ukr6cjxqpcVhdM47yPZzbRoyTtDZUb2dWLJpTa7sB5sJfd693K8iuMjzcqeRxnHe1ORIoGOyUPYFm7xNPLOm20j93Y0N0bDBcHW/oFw3Q6LRzMHldJHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wIOvl/gm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A5e199Po; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wIOvl/gm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A5e199Po; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wIOvl/gm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A5e199Po";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wIOvl/gm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A5e199Po"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 841445BE85;
-	Mon, 30 Mar 2026 07:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774856484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2RWkKvOjmC1KM4uWc4cjVIAL7yCIkii/kvwRSHEdYFY=;
-	b=wIOvl/gmKBnBoThj1I4T5VQD8mNzeJnBNK2sPAURucseDVXG63/t28JNcx9GuyZHebc4Rq
-	5HR8CeHWT/JKh2k3jlYPHRbadYY26xfJSntysJC5DYH5l91wCh13udpZmCMnso9BqTxs5v
-	mQKF5Q0qUpwUrCvNyHNA+f6OSPnFV0g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774856484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2RWkKvOjmC1KM4uWc4cjVIAL7yCIkii/kvwRSHEdYFY=;
-	b=A5e199PoJrKqh/UTSASBSraN1uGN/a2/SkAVf6wBcqJ6UYHqcVsiKxev76AffcJGjsd9rU
-	5WYG5Qyu1fIswvCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774856484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2RWkKvOjmC1KM4uWc4cjVIAL7yCIkii/kvwRSHEdYFY=;
-	b=wIOvl/gmKBnBoThj1I4T5VQD8mNzeJnBNK2sPAURucseDVXG63/t28JNcx9GuyZHebc4Rq
-	5HR8CeHWT/JKh2k3jlYPHRbadYY26xfJSntysJC5DYH5l91wCh13udpZmCMnso9BqTxs5v
-	mQKF5Q0qUpwUrCvNyHNA+f6OSPnFV0g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774856484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2RWkKvOjmC1KM4uWc4cjVIAL7yCIkii/kvwRSHEdYFY=;
-	b=A5e199PoJrKqh/UTSASBSraN1uGN/a2/SkAVf6wBcqJ6UYHqcVsiKxev76AffcJGjsd9rU
-	5WYG5Qyu1fIswvCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42E2F4A0A2;
-	Mon, 30 Mar 2026 07:41:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rPkADiQpymlBLQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 30 Mar 2026 07:41:24 +0000
-Date: Mon, 30 Mar 2026 09:41:23 +0200
-Message-ID: <87mrzpu5lo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Marek Vasut <marex@nabladev.com>
+	s=arc-20240116; t=1774857227; c=relaxed/simple;
+	bh=SLm6m5nHgZdjl3Stl90DJjNGG7lZ/Gqi0Rn09FcuJg8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R46S43Jl3+TtQkn1b22OUiVnOMMstXF5zbqiCSv66oAv1VXU6rQOorl6lZY91GO5Tz9QDqXhUm8GZIWU96JiEjb82I3JXGHeRrbf0drOnS5TCMez5Xxs2XK1jzQDLatYlQHWv4nVFFYfZ8crk4QjIQtTgb4hT0P/LEW/0FytID0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 8fd6b40e2c0d11f1aa26b74ffac11d73-20260330
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, UD_TRUSTED, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF
+	GTI_FG_BS, GTI_C_CI, GTI_FG_IT, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:f7ce8d5d-a4c2-4f35-a916-1e7a36ee486c,IP:10,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:5
+X-CID-INFO: VERSION:1.3.12,REQID:f7ce8d5d-a4c2-4f35-a916-1e7a36ee486c,IP:10,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:541d632e196d109e0345c44a83ba3287,BulkI
+	D:260330155340MW9PWN2G,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
+	|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:nil,
+	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+	,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 8fd6b40e2c0d11f1aa26b74ffac11d73-20260330
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1659141205; Mon, 30 Mar 2026 15:53:38 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
 Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Mark Brown <broonie@kernel.org>,
-	Michal Simek <monstr@monstr.eu>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [RFC][PATCH] ALSA: pcm_dmaengine: Use more shorter periods for SEGMENT granularity PCM DMA
-In-Reply-To: <20260327143014.54867-1-marex@nabladev.com>
-References: <20260327143014.54867-1-marex@nabladev.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH 1/2] ALSA: hda/realtek: add quirk for HP Laptop 15-fc0xxx
+Date: Mon, 30 Mar 2026 15:53:33 +0800
+Message-Id: <20260330075334.50962-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 27 Mar 2026 15:29:43 +0100,
-Marek Vasut wrote:
-> 
-> The segment granularity PCM DMA updates PCM pointer at the end of every
-> segment. In case the segments are too long, which happens with pipewire,
-> it may happen that pcm_lib wait_for_avail() will time out while waiting
-> for PCM pointer update and playback will fail with IO error.
-> 
-> In case of SEGMENT granularity, use 8 shorter segments over the default
-> 2 long segments set in dmaengine_pcm_set_runtime_hwparams(). That gives
-> the DMA engine some chance to update the PCM pointer every once in a
-> while and prevent the timeout.
-> 
-> Signed-off-by: Marek Vasut <marex@nabladev.com>
-> ---
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Michal Simek <monstr@monstr.eu>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> ---
->  sound/core/pcm_dmaengine.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
-> index 1306b04be171a..092ce958e1aee 100644
-> --- a/sound/core/pcm_dmaengine.c
-> +++ b/sound/core/pcm_dmaengine.c
-> @@ -424,6 +424,10 @@ int snd_dmaengine_pcm_refine_runtime_hwparams(
->  			hw->info |= SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME;
->  		if (dma_caps.residue_granularity <= DMA_RESIDUE_GRANULARITY_SEGMENT)
->  			hw->info |= SNDRV_PCM_INFO_BATCH;
-> +		if (dma_caps.residue_granularity == DMA_RESIDUE_GRANULARITY_SEGMENT) {
-> +			hw->periods_min = 8;
-> +			hw->period_bytes_max /= 8;
-> +		}
+For the HP Laptop 15-fc0xxx with ALC236, the built-in mic 0x12 was
+not set up, making it unusable; after adding it, it now works properly.
 
-Overriding with the hard-coded values at hw_params refine doesn't look
-like a right way.  Those values are set and dealt by the drivers in
-general, as they are pretty hardware-specific.  You can't guarantee
-this magic number 8 working on all available hardware.
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221233
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/hda/codecs/realtek/alc269.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 6787e54fcfe6..0fd980596408 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4123,6 +4123,7 @@ enum {
+ 	ALC245_FIXUP_BASS_HP_DAC,
+ 	ALC245_FIXUP_ACER_MICMUTE_LED,
+ 	ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED,
++	ALC236_FIXUP_HP_INV_DMIC,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -6658,6 +6659,13 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.v.func = alc245_fixup_hp_mute_led_coefbit,
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_CS35L41_I2C_2,
++	},
++	[ALC236_FIXUP_HP_INV_DMIC] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x12, 0x90a60160 }, /* use as internal mic */
++			{ }
++		},
+ 	}
+ };
+ 
+@@ -7152,6 +7160,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8da1, "HP 16 Clipper OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8da7, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8da8, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8dc9, "HP Laptop 15-fc0xxx", ALC236_FIXUP_HP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x103c, 0x8dd4, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO_BIND_DACS),
+ 	SND_PCI_QUIRK(0x103c, 0x8dd7, "HP Laptop 15-fd0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
+-- 
+2.25.1
 
-thanks,
-
-Takashi
