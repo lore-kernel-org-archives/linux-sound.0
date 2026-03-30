@@ -1,149 +1,138 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012055.outbound.protection.outlook.com [52.101.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A200F335BA7;
-	Mon, 30 Mar 2026 15:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774883503; cv=fail; b=jB/EB4+mEkzX1Uu0Kp0l/qyHO16Z3n2AFIxXDYc5oAhZAKl4E0s2MDdIPoUjcBRPrKJiwLTOeYkyVLwLjZ586WZJYVoGeaBALbTPlEtttjgFqJHUtcrMB3mlfwfg3V3lyMWCfJwAvULgUBu46rr6SLsRuDbLezOwmojePdkMwrQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774883503; c=relaxed/simple;
-	bh=b4r6LM9eciVh8eIL5lGXTJSQw5e1WaGqNuH6BCQ+0vU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jBbAPz/B5u1g6HM5SmpzZ3o3RO8NvTdXfyTD3ZuveGtihMxq1YoLGfpbAN28rncDT2xAWxe2oNVCY39f+ET222NWz6Ae5FWB+DP8kYO8NRKQ4eERMzGgc8DAePqx4YdJ/HQi4WvyMO3xXMfatBrQ1LafiMZTaEQYo1WuDvmAOpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mdevBS20; arc=fail smtp.client-ip=52.101.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37C433F8D4
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 15:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774883727; cv=none; b=uixK/Hwz6+0rfYtWImP/FvdADclCLrJQ0PYantM3o0DGal50Slb1ej4LkYENrO9eZrQKmI+uaQwho+evQH8M7Vvj7LGxywwjOPPzZfOgilJkoWIa7L4nWz8IbcB+0LD2Ys1GYRRgBvKsVBpt/M/b/i7p9aa46rbHlhJekh9Pl8M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774883727; c=relaxed/simple;
+	bh=PKNUCePXCjzDc9dM2FdtEZ/Ozzr24NKKzl0tB2sVhlk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QGMOvjYQLoRRVfuJhyLckFHZKtYbBXNUn8lnvMTVN1mvaGNetn28yxGwpNdTrd95ljMRyOKWn42UBvJVA9Emn0AsnK+nXPhLwrj0GDJ6dK3dSKkFMHTu7KUvwfJjFvg2x5WpoAE8q96VILLJDveN4LAlh7FPVT45HtoJzZUg/XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyofxwRj; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mdevBS20"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jdMsIKggrVzPKAlu7ueVPafxykt95MUvuzf4Av8neVa50E+uHA4ZJEfR4QsNYcGZL6/2sBsWgYQ9PA2OsMms5mLkLTCjNyBsYDMk7k9zuJiK1LRLpZS/eTLRrv8nfBzppEtydMeMqZoJNrLmbXKXxRoupdVzdr7C4iKyzlNnzggeGuhNNODsCnYRA90rUlrG3uV9YGaevubkvCB6rNOaMqjxZ9h27W+lQuyfs9cMYthMVbLG8oSs2VutOWqU9d7fufKK67+g8ce/8rlv5XRLM8MB+bYs0+PEe1c5lD+mf49gX0yCpDQM1TU0Un7eE845uLLLhNhj9i1kztQOKgd8EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NkerCL8IigXhNko7WsuDk50PAKAanDiKfCH/K7C53kc=;
- b=c+yNGSZ4RiQsKL1piRZbcxauvFHWveYVSn9qBQt53SKClQKic9PezZRomSBHBYhqgMyWDmhSH8j0zqgB7VfGYmNr4ORE9Da26bkUUAM0PBxvv7ptxwetxFquKn+oAyU/PvTGkjYVby1+65WAiPw0wzk6Thf9vJJD3d3tNmLMxt05X7L1NYU4twNQz8xWjKBjfpg5MkLvc/aBlDSMNzpMcCjUp46C+xxsRdhmptWi0VvGZ3pTvjf9qyAptZnVVkY7W1dWCRyQuBUfIspqanALfTBSyQAl9eXybUgxYiYl4mVFLtXA3lHrsTfTr+CIX+LKWBZsDwlvQFupfaIY2xJx0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NkerCL8IigXhNko7WsuDk50PAKAanDiKfCH/K7C53kc=;
- b=mdevBS20k4j2rYMfkpS7k82TiCXADxb+FrL5oObUBmVCnYFcgJPaLxP3nUPeN5OC2NK5vZ3ubbEDyqNenQuwalFckcvuDmF8velhFNb4kmMcNK8p0Pp9hBTLAbI5/lu2Vja9xzUMR/F3sRCcy2mmIWBs4jDJtBLYq6QEBKmT11w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- DS0PR12MB8561.namprd12.prod.outlook.com (2603:10b6:8:166::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.8; Mon, 30 Mar 2026 15:11:38 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9769.014; Mon, 30 Mar 2026
- 15:11:38 +0000
-Message-ID: <cdd4acd5-8aa0-4eae-99b7-d6d47c61a80f@amd.com>
-Date: Mon, 30 Mar 2026 20:41:30 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: amd: acp: update dmic_num logic for acp pdm
- dmic
-To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, yung-chuan.liao@linux.intel.com,
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, superm1@kernel.org,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260330072431.3512358-1-Vijendar.Mukunda@amd.com>
- <20260330072431.3512358-2-Vijendar.Mukunda@amd.com>
- <03a53820-a076-42ed-9ab2-3877396f99f9@sirena.org.uk>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <03a53820-a076-42ed-9ab2-3877396f99f9@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN5P287CA0013.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:265::14) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyofxwRj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774883726; x=1806419726;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PKNUCePXCjzDc9dM2FdtEZ/Ozzr24NKKzl0tB2sVhlk=;
+  b=jyofxwRjHmBSQVAIROrhPzPPRR7dn/Xe1SNK5CkVbbhmSEq8NtaT9wKF
+   KPSqCGAjS+N0V3PfWr354aXYKGX9p4h+9mWlrq8piQ0wybZIuaiHvWFI0
+   6EiQLWO0eTyKGbj1R8h2rR1L/4LGtIzTcUVwfCPVyRYyoSdfH8FGywV9z
+   2pELZVUd2yj/T///CjganlIzr/Vg7EkVPSkIJoxYf/MDTG+ds2UREQ8RV
+   ofLqqTrJAIkCEeylEHsEsJ3ijVVM4C7vwqPfWmeksNMRutMXLE/KSQwFE
+   kFwMSb7W1DZqXzbIagPdUEJN0XB/+E4awStI8Rrd7N84SLuhJNkeYBdtD
+   A==;
+X-CSE-ConnectionGUID: cSSHCaeuTOaiXNBYES/MwA==
+X-CSE-MsgGUID: yF/ZWtrRSbih3nXQ57ldHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="79743161"
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="79743161"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 08:15:25 -0700
+X-CSE-ConnectionGUID: BVTVLSKQRBeOldDlGRWNkw==
+X-CSE-MsgGUID: YFQby36KQB6V8g65YV0r2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,150,1770624000"; 
+   d="scan'208";a="230903400"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.70]) ([10.245.245.70])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 08:15:23 -0700
+Message-ID: <67b9f48b-1cc7-4dac-8f6a-c0cba6a84b36@linux.intel.com>
+Date: Mon, 30 Mar 2026 18:15:38 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|DS0PR12MB8561:EE_
-X-MS-Office365-Filtering-Correlation-Id: bba6a298-fa43-435a-6471-08de8e6ea3f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	3GF9xnG25mlt/uUuea1CT49uHWEXXAhI9Xg6PIOE3FbDhivWeKns0BxP7fJcAv7S8roLhf91NhBCyPzAg9GqXr4WULM1CojHZejgbQz5ovEao4yirVuUScipCJarq8G/mH9sPnoPNWYB0iO/E5OYs/T9a4Ns7k3b+KV1GyVmD/xeSIDAi4Abs9FLSTr4YIL5d7/AqkmnIKuRdz2iX5b2D6INL5alrj5NMSMzSArYvvvDYVu/NYJK+AfkE+/iLmJ4K5McwgT8IOsIIUIS2enGrcY0arlUoLlFPdY+HmSKuCM6kQzZw7hPaVVXt9aJ90cJ2OlRZtNymFYUowcuX6ydwYdDHqGdz0DDw8HvJZFp70ZnN2VEWQ+pBYKs6kkiB58WprAlVMe1PN4GMRqqSYSactfaoiEMrOmztuFYm0jgD2k3wDe/nDoeCsb29BBzCI+BNvD45jpkhJalcpTJIjWpCZf9X5DZXtUfoayWMVV2KFxKg5VaLT2u4jFkTpbrk3FhMMJaYXFLc7LWfNxxrwavk06p9jcQLZiseQ5tuRl91pAkjCW3knaVQTVmnVkh5SHmZKMr839JFBftloMWYkqrl3LzfpJXWzoNEKfRWhvMhRvH0yHfR2Pqren58c9aKpf+3j9mco6rQilKwGYWWnATMHNY/laFlC3gaR1vElhshk3Ftuv3bBZdEjzWzwZiBqcHQJOkRNxSZZSXn0+WGVzKL5ZqLRPg/kLGJzTqqf4TgM8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z0lYWFdMY2pMNGFwWCtkQk9RWVFnQ3dTWVNVN0FVWkxSZ1piUnhLcjgxOVFG?=
- =?utf-8?B?ck5qMC9qM0lKQkNuTWxYMUw5VERhRk9jVzNGL0VkM3N0eVl1UXlZekdGNmR1?=
- =?utf-8?B?Y2lBdlFHZkt3WSt5cXBCbzVMNGtGTGJIYnhpS3hyaEQ2eDRTLytEcEwwRXg2?=
- =?utf-8?B?Q09sRlZQS1dIOHhJM2kvWTluR3FhUXJlWVBWYWpIVGVLVUxiQUhGVTA3eDkv?=
- =?utf-8?B?VTZieXJ2bklyOS9jZXpxZmV5UnNLS3dSbjdFejg3Tk9GOWorQngrcjRWVFFq?=
- =?utf-8?B?RnhFbnV2QjhOMHM5RTNhYzVHTWEwZCs5em53ZlpZSWlGY2lSb3lheEdBcWIr?=
- =?utf-8?B?QlZDVTJyYjRoSkVmQzJYZ2FKaDFqMURvTTVwd3F6Y0tLZGFYbkNBZTFSZWt4?=
- =?utf-8?B?eS9WUGh4N2E5a1J0ZGRmS3B1WGFORjNkS016UlErQ0M0VG42Y2MzamZEVi9o?=
- =?utf-8?B?RVo4VVZ1Y3hqWGVybjBoYnphUVRTUjBCNHI3ZkFDTGZLTEhOeXppL2NCRnZj?=
- =?utf-8?B?ZEZaQWlpRFllMjROVVkrUjJQanBlTEVUeTBOanNZKzlqaTUrQmp1V0JTSzFG?=
- =?utf-8?B?anRQRGpIQW1ObWNaTzNENWdwWW0zYzVINEdsaW4vSjBWN3MzNkg0dDlIWGM5?=
- =?utf-8?B?bEZDZHFhY3dFbE0rM2JjQ3ZvbVZpcEJFVCtUd0pQM1A1Z1J6aVMvODRWSDQx?=
- =?utf-8?B?bTRZM3hmMXd0ZkZrNEpUbytsZ0N4bmd2WldQcVBqNzdMWE5OT3AwTnFrNit0?=
- =?utf-8?B?eG9nbll0ODB3T0JIM09VWm9aME5ieTNCSDQ5TkRDY3RuRlRna2FQSkpWUGZr?=
- =?utf-8?B?SVYwbWUxMDVzUUs1Tk96SzlWV1RXT1FidzJLRmRZWWpaZm1objdFeitiVG13?=
- =?utf-8?B?allzMHk2dTVSQW01cTQvSXdFRTVYbzJtMG0wVFJKRkN2ZHZqTXh4YjFqT2xl?=
- =?utf-8?B?ZnNIamVaVDg4dW1iZlUwOFRVSGRPaE9zaGJZZzZ6UjNTdG04YURxL0JISDEy?=
- =?utf-8?B?U05QaGhTcnk5SVlkWXNDcWtwTUpNbHVwZDVyRE5nKzczRDJ3dWpZbDJwMGtM?=
- =?utf-8?B?SlZjOWpKTVNNTEQrUFRnbzJqM0VCYUlNQzF2UU5zM002RHZpT09LVTdQcmtm?=
- =?utf-8?B?aVp6K2hCbnBGY214aFh3SzFXTnQyUjVvUlFwcnJZQnNBUloyYlFVN1NmQkRW?=
- =?utf-8?B?YlBMeXVvWEE3YUgrSTVsdkx6NWw1a0dXNVNxRkd4ZzFnRHNhcGJnTjRNSmpH?=
- =?utf-8?B?Z09mSHNpclQrWFpCUVhGUW9aWmJDUGtNRS96YjM2RkVwc3lheHZwanhsc1Yy?=
- =?utf-8?B?RU0xRStTZ1JheWhBblN2c1pWZTQxTXBEbitkYmFPOGZmMk1YSmJMcFh3L1VX?=
- =?utf-8?B?dVZPeDFzcW9yZlkrRUU3VUFrMTdsZlhja2R3a0RuT1k2MndETGpCZ1g5T1h0?=
- =?utf-8?B?cElNckJ1K05RMWcrMXN2TUwvbXhJN1NiWERyeExxVDl3Q21oUDI4ZVRDYUNV?=
- =?utf-8?B?bCtVMCt0aUtEbFBWTXl2dnpxU3EyZkdTWjJyYXRaamxydkU3Lzh3cFBWNUZz?=
- =?utf-8?B?UzJGT20xR1lZOFlva055VmtOVWxNTlZJTUh4K241ai9zMDVvWkFYWUhkNSto?=
- =?utf-8?B?Uy9NRWZQYThqRm1ocS9rWVMyQWQ1cSt2dnRkQWZUQ2Y5K3NZN1QrSXNLNmY0?=
- =?utf-8?B?MGRZMFpKZ0JUMkl4MFpUZGkrZ1JsWlBpbDBudjQ3QzdRWWJGNEVRSkp6TE82?=
- =?utf-8?B?QjNGaHlxcllkRm9PakxzZXhQT1hzU0phMGd3YjRDQ0R6aTluSjdjQlIyMDNl?=
- =?utf-8?B?ZkRCWWRPcTV6dDhiUEM0YWF0QUZiT2NCSlAzcHVtdUp1N04veDRJQ2JoNnp1?=
- =?utf-8?B?UFNQUnhvQXc0Q0RvN1Q3Z0g0WFBmbGxNZTZKNUtKUFlJQjJyRk9lMVVCVkZr?=
- =?utf-8?B?R1NZTXJobzJtbUZQbDFGTmVJcFdDTGVDU0xMVithWDdweGJQeTlvUmoveFVL?=
- =?utf-8?B?ZDBLODRaY2lNK0Y2Tm1wNkxwMExYYnRIT25DdytRNFFLbnorVE1vdFRiaVlZ?=
- =?utf-8?B?dmhNZHZSVUFLVnZNK2lpZ3NnbUhWMFRib3dyQk85b3Q0QlRsdnhLMnZKancx?=
- =?utf-8?B?Z1VxbHArY2NNRmgwVS9KaDk5ZitCU1NCNURqZUMxaUR3TDlNYkZrODVFS1lF?=
- =?utf-8?B?N1Q1OUYvVUhKSEJqOGdnM2FTM01oKzdTaFc1VUZBOHhhUmc2SVYwRGpKQkg1?=
- =?utf-8?B?SVlTK2NlTHk3RVN5aUFTWnRZWWVSN0lEUURKTkpraU1HZVNzTFdBeUF3OU1T?=
- =?utf-8?B?S2liajBhd2d1UHBxb3pWL1B1MVpYUmlzQ2FkT0lmSlhwMnZDbElWZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bba6a298-fa43-435a-6471-08de8e6ea3f7
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 15:11:38.5770
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XFFIfcK8IlYFg4vmy1zXYayLVkCqQ9FdRoEbs6+V+EHBsj7K9oKlDelf0v2xomWKg46u1RVGWFecis1mqOdf8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8561
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <87se9htms4.wl-tiwai@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <87se9htms4.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 30/03/26 19:13, Mark Brown wrote:
-> On Mon, Mar 30, 2026 at 12:50:27PM +0530, Vijendar Mukunda wrote:
->
->> +++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
->> @@ -535,11 +535,11 @@ static int mc_probe(struct platform_device *pdev)
->>  					  " cfg-amp:%d", amp_num);
->>  	if (!card->components)
->>  		return -ENOMEM;
->> -	if (mach->mach_params.dmic_num) {
->> +	if (soc_sdw_quirk & ASOC_SDW_ACP_DMIC) {
-> soc_card_dai_links_create() (which could perhaps use better namespacing)
-> checks both dmic_num and the quirk.  This doesn't seem properly joined
-> up (and perhaps the code shouldn't be as spread out as it is)?
-Need to drop the mach_params->dmic_num check in soc_card_dai_links_create().
-Will push a separate patch for the same.
+
+
+On 30/03/2026 17:27, Takashi Iwai wrote:
+>> https://github.com/thesofproject/linux/issues/5313
+>> https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4489
+> 
+> Sorry to be late in the game as I was off in the last weeks, and
+> slowly catching up.  So, I'm reading this thread from the beginning,
+> and wondering what is needed from user-space API POV.
+
+This discussion is stretches back a decade or so, few weeks do not matter ;)
+
+> First off, we do already have a way to report a fine-grained playback
+> pointer as "delay" even in jumpy hw_ptr updates as long as the driver
+> supports it;
+
+The delay reporting with the jumpy hw_ptr works great, most application
+on Linux uses it (mplayer, mpv, vlc, pipewire, pulseaudio, etc).
+Chromium's alsa_conformance ironically did not, but it is for some times
+now:
+https://chromium.googlesource.com/chromiumos/platform/audiotest/+/eccd8be776d45a2e3b3006d74f174ff216cb01d8%5E%21/#F0
+
+> e.g. a few drivers for hardware with packet-based
+> transfers like USB-audio support that mode.  Doesn't it suffice for
+> your need?
+
+There is no real way to express the jumpy hw_ptr, it is not really
+packet mode (while in some sense it is, but rather not) and the BATCH
+mode certainly not a fit.
+
+> And, if a more different parameter is required and defined, how an
+> application can use it?  An application can read/write PCM parameters,
+> write PCM data (either via mmap or write/ioctl), and sleep/wakeup via
+> poll() -- basically that's all.  Would the new parameter influence on
+> the poll wakeup behavior?  Or who controls in which way?
+
+The main target at the moment is pipewire in Linux, it uses mmap and
+timer (no period wakeup) to process audio in the most efficient way. It
+can fall back to non mmap and poll, but that comes with lots of drawback
+in power consumption and CPU use.
+
+We have the default configuration of SOF working now fine with it's
+jumpy-DMA, which is:
+4ms host facing buffer inside of DSP and 1ms DMA bursts every 1ms.
+This translates:
+when audio starts, before 1ms elapsed the hw_ptr will be pointing to the
+sample at 5ms, 4ms has been sent to the DSP, when 1ms elapsed from the
+playback, the hw_ptr is at 6ms, you can say that it is 4ms ahead of the
+playback progress viewed in the host facing buffer of the DSP.
+But, this 4ms is not the delay, the delay is a different thing, which
+includes the 4ms plus processing path within the DSP.
+
+The issues at hand is that we need to tell the applications about this
+so they can work out how to manage the mmaped area.
+They must provide enough data on start - 1ms is not enough as the DMA
+jumps 4ms, 4ms is likely not enough, unless the application can be sure
+it can provide more data with 1ms - when the DMA will move 1ms ahead.
+
+I have other examples in later mails for different configurations.
+
+This is not really about delay, it is not really fits into BATCH mode
+either.
+
+-- 
+Péter
 
