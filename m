@@ -1,65 +1,59 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7262E8B71;
-	Mon, 30 Mar 2026 09:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18653B8D48;
+	Mon, 30 Mar 2026 10:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774864309; cv=none; b=NyJEiObWri8p4APoliuR1u/DZ8qRE8bwaCkAxXEK5AHVCUWJgvrsX1dpq/zxoarwjCk1Be1svfLg89AoQKr54YsbZP2HOinE7iE0qL1BhoD472atlLqvItxyBznnuFA2Fstrh8MctBdehGo1Q4Ooa0wOzG2Zf8n6aapDD6lFRpM=
+	t=1774865784; cv=none; b=VeZYJhdWItUH7keDKpe9OIDt959pPEc2u2z/6hWADDA2Ove4CrCp34ldaVIj1Lwr5JVa09lc5MtuJN3UWj2fXr1/l9YDmSkcLtvF+Ipg1kW0jMtbNaJKlyEb3+n9KpGq4Y1uy2fOx22VDlG0hiKT+z3xUXTw7irm8o3K4UhBArM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774864309; c=relaxed/simple;
-	bh=iIliA15MShhewm2/AUKDwsyKYs00ZuVT8m2/CSC9Mss=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LwRmU0Q5HzYB01MmmoVa8YAvYVEGSBZYQq7c8Vk1yM92ytqBKxyfuN8+cX7yPbtHkBEUbL4hSdVbsblratDHZT54XRNKfoAFL1vQP+Jj1eqI3Qx0qextKePYM6qdCbbnPFJs62QWd7E4wIs2plulrAw1gcIdEKIOEqtjon1taQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 0c86779a2c1e11f1aa26b74ffac11d73-20260330
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, UD_TRUSTED, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF
-	GTI_FG_BS, GTI_C_CI, GTI_FG_IT, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:8e62aff7-e49a-4865-bea0-9051f3c6d598,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:5
-X-CID-INFO: VERSION:1.3.12,REQID:8e62aff7-e49a-4865-bea0-9051f3c6d598,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:66b1ef55e6d4ee7a03bae13cf4543b86,BulkI
-	D:260330175139DZQARIAQ,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
-	|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:nil,
-	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-	,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0c86779a2c1e11f1aa26b74ffac11d73-20260330
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1464621584; Mon, 30 Mar 2026 17:51:39 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: perex@perex.cz,
-	Vijendar.Mukunda@amd.com,
-	venkataprasad.potturu@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	tiwai@suse.com
+	s=arc-20240116; t=1774865784; c=relaxed/simple;
+	bh=7KKTvcZcMV/A1vHfqktVWzypo7vSvF011WDH/qo4T/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AG74nuelfVTgE+RkPeQIirS726mLRG2CAmtgcZZtZtg9WG2Bmqbv5gVDh5wWOMdwiYfK2jJmagU4FDlZ5tpizzdLpFmVWGaQeAAKCyqLO44MZsAIduqSkSEnXOM3wx0ZjPVTD4MpWqijpsB2KGdSC4zY6WkOxEZoS03rgyP6Eik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qkEs735Z; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qkEs735Z"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 74AB54E42869;
+	Mon, 30 Mar 2026 10:16:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3E9AE5FFA8;
+	Mon, 30 Mar 2026 10:16:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC3F110450F14;
+	Mon, 30 Mar 2026 12:16:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1774865780; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=jSr+qiZSp3u5YVngTgqtKy54G7uJpnLiCgqcSG9ifqI=;
+	b=qkEs735Z4mx4toJSZEIhr4Cm2syqUpXUZlnjV2Hsd65IKdq9eiPODCLeaESxv1yqrD6tNk
+	7likJAxIQpACSkhP8uIDabDowbGxD4ZckUs0CM7On9EqIaal7VykrTi0q5xRXebG7OvaJi
+	WVeINT4k/kbtYr0rQ4/Skt8qDpE8y4dBDZsn5uIC0kdYkuGcL/o5MT4pP2lR35SaDXOW5c
+	YuHWlekWm0zRij9AGf3PqtDpmkzVr5UL+tes700qNHUpzCcdk/rnisK06P1dzup5zY3oFm
+	wMyGtMSG2X8Zla4JS/1bkSPOnm1FV5mRy0rMNIqcSCq0vPibUOZAhEAM6lTQuw==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Herve Codina <herve.codina@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 16X OLED M7601RM
-Date: Mon, 30 Mar 2026 17:51:33 +0800
-Message-Id: <20260330095133.81786-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH 1/4] of: Introduce of_property_read_s32_index()
+Date: Mon, 30 Mar 2026 12:16:05 +0200
+Message-ID: <20260330101610.57942-2-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260330101610.57942-1-herve.codina@bootlin.com>
+References: <20260330101610.57942-1-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,34 +61,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Add a DMI quirk for the ASUS Vivobook Pro 16X OLED M7601RM fixing the
-issue where the internal microphone was not detected.
+Signed integers can be read from single value properties using
+of_property_read_s32() but nothing exist to read signed integers
+from multi-value properties.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221288
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Fix this lack adding of_property_read_s32_index().
+
+Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ include/linux/of.h | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index ac920263af9e..ef70e86ef403 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -752,6 +752,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Thin A15 B7VE"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
-+		}
-+	},
- 	{}
- };
+diff --git a/include/linux/of.h b/include/linux/of.h
+index be6ec4916adf..526c1ee819cd 100644
+--- a/include/linux/of.h
++++ b/include/linux/of.h
+@@ -1457,6 +1457,13 @@ static inline int of_property_read_s32(const struct device_node *np,
+ 	return of_property_read_u32(np, propname, (u32*) out_value);
+ }
  
++static inline int of_property_read_s32_index(const struct device_node *np,
++					     const char *propname, u32 index,
++					     s32 *out_value)
++{
++	return of_property_read_u32_index(np, propname, index, (u32 *)out_value);
++}
++
+ #define of_for_each_phandle(it, err, np, ln, cn, cc)			\
+ 	for (of_phandle_iterator_init((it), (np), (ln), (cn), (cc)),	\
+ 	     err = of_phandle_iterator_next(it);			\
 -- 
-2.25.1
+2.53.0
 
