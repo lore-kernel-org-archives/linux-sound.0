@@ -1,87 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431E53803D4
-	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 07:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8F139EF2B
+	for <linux-sound@vger.kernel.org>; Mon, 30 Mar 2026 07:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774855992; cv=none; b=uOb4thjjKB1GYRBa/NJe73f30G6TwO9aBk4WXV6IeKDwnteIEoIkJn9HmDXR7pUAG5pmZTznMEDqt5EgLN6AsoOFDOhrOHRXZd791iCmpRhGFS7VpH/0+HXIJAI33xA2VyBkBRNSFjHJCPCn26FRkvun0n3tQXP1kYEYTRbATaE=
+	t=1774856031; cv=none; b=qLrlFQBaYcFfpL85L0QN4WhVUAiOqwB2xhZgwhKyE0qSXZhRgDirXu4AqXwycmgILFBkA5dxx1ePdYdXdmt7LCXeBNFcyDdfg9N+rIsvXQ48v+5P13jRbuwkd1a0w5euCE4kDFARHV3brHhwLIU6+NrFkDbRISu3xRAY2uboPPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774855992; c=relaxed/simple;
-	bh=BH6P+OXYSGy1vOWXVNyV0HUiSpLwRbkoPsglKMoGEI4=;
+	s=arc-20240116; t=1774856031; c=relaxed/simple;
+	bh=nHvKmRE/94eNi6m7h4ujORy46BFoyC7QLcoFIQtcXgI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YK/f11VV05PF3QS6LyKz9iOnfYy/u/UG6eflWBwZtjMgPBVPau1q2D4eXFrKRYW9uhQ7uichspwOHcdiyWtkdwRjATnK0GRhwoffhf198YiVpdZ1pCmkBNKoxDSIPUN/28pltRFkn+IL1e45dXxUF8hxwZGNQMHLVqYYsJOB0as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0LxNsyOs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1XCTLaD4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rwWAY95O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=x050rrf7; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=itptnFzebHBv/aEaVXR9vwPLLtMPRlEYAZIkoLrSco/KGAOmSpN4/v7wvW1MobAPHLgJOhMOR/7hke3sNckl6dSRh3xx1q9nzKT5gDHHSQt/Uphbv0ADmRycL+HCgm91eK8Pra0fXTMn5szq7SmP+bZWFfrR+rCMWwIyfXkP59g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jZS2NT5n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qm8P5K5h; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zjN1HWXh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YyWTs/FU; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0LxNsyOs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1XCTLaD4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rwWAY95O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x050rrf7"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jZS2NT5n";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qm8P5K5h";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zjN1HWXh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YyWTs/FU"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9825C4D1F1;
-	Mon, 30 Mar 2026 07:33:08 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D831C5BE85;
+	Mon, 30 Mar 2026 07:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774855989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774856028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CrNJgn8c8oBVTOIi6FKgPr1CbbB/KxUNcFta++4MWWc=;
-	b=0LxNsyOsRTEmlQMDaG1Umgs5LOFmZDlyLfp6dDIQR5oALN2kEtPIjNNqN4FvvlmnHdot2O
-	RQiGA1cOQJxJ0C+T3f6rrkuRMvkWp2sM3eo72wyV0lt4wxaU1faWpe3Slzoy3/vyxvoNB3
-	FSZa6ZDF9vfu919zLjkHWTJFV1x4QuY=
+	bh=yO/NyGT2FBxwxL3F11zdUdR2UlbdGKZTgwDfGPrf6sc=;
+	b=jZS2NT5n/ANDDt6t4lH/uOfbS+4VXbaNbwVPETi480UbhtyB7mzu6M+xG0+8w8NrySqGFo
+	/OVtMTV+u+1lVv/W2xOxt9K/ywQNZ6baqbcCCr49ByWmkZdU7aANq2fx1QpUPEsZ9KLTB0
+	PBAkVWyG2JFeVarBr5kXkwBqmKGTlTI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774855989;
+	s=susede2_ed25519; t=1774856028;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CrNJgn8c8oBVTOIi6FKgPr1CbbB/KxUNcFta++4MWWc=;
-	b=1XCTLaD4xcCfzsDlHq5wkqwaw6+2oYJ5z1iX7F2ADUL80WnxIJlAxNwE7YVS8vkz7l07OE
-	eWmtt47Yb+lELiCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rwWAY95O;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=x050rrf7
+	bh=yO/NyGT2FBxwxL3F11zdUdR2UlbdGKZTgwDfGPrf6sc=;
+	b=qm8P5K5h3OgegElDZzYEgGLJ56p9ypj2VeOm58YdTTbRBOVHRdPEa6PvI4ZfrBvvBAOQ6Q
+	DjR7sQG6Kr6CmSAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zjN1HWXh;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="YyWTs/FU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774855988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1774856027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CrNJgn8c8oBVTOIi6FKgPr1CbbB/KxUNcFta++4MWWc=;
-	b=rwWAY95O7sYOPSxb2uaoLWW+ly3ig0+0NMt04svYTHDry1/K2soc7MXAO4LLFxMIgZ30zF
-	d17ZcuoMTmfjcUbD3M0SpgciMMnu56pI90bCNu0JnaYchjT36I+XSJH6RaJL3Ai/qn6V/e
-	F+3YrjGVvJlbWr9+AMDdi63yYj7h3KA=
+	bh=yO/NyGT2FBxwxL3F11zdUdR2UlbdGKZTgwDfGPrf6sc=;
+	b=zjN1HWXhszUUFn9STa5FjdwTYyOPOSACE9Q+Wx83Oo+l60ENrkGWQb0DRk2EDhPPHEZI2J
+	Y7VDxEPqvv3Uzxps80Bv+qaHfbClLYnxvAPtkXQGzNJlVvHnNnBDtOWjAsvq4VCQXo2Neq
+	lAHsBkcCQDbFRQdXoMmaQta+X2C1MSI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774855988;
+	s=susede2_ed25519; t=1774856027;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CrNJgn8c8oBVTOIi6FKgPr1CbbB/KxUNcFta++4MWWc=;
-	b=x050rrf7RN4PjmgNW5NZJ6QDODva+6shqAuxP/jFPi7D/pNkqnyaAxM64G3C3kHLOcvkxU
-	JBq/hN4UtGhVzdAg==
+	bh=yO/NyGT2FBxwxL3F11zdUdR2UlbdGKZTgwDfGPrf6sc=;
+	b=YyWTs/FU7jk9au0s6FO3N7Xag0cWx2vpX4R9pIDNtmxBdUiXibgQ2+66tsaAfmR/Pg3plq
+	BHToKV9hii3z3NDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 676C14A0A2;
-	Mon, 30 Mar 2026 07:33:08 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4B4A4A0A2;
+	Mon, 30 Mar 2026 07:33:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P37wFzQnymkPJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 30 Mar 2026 07:33:08 +0000
-Date: Mon, 30 Mar 2026 09:33:07 +0200
-Message-ID: <87se9hu5zg.wl-tiwai@suse.de>
+	id qmy6JlsnymlJJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 30 Mar 2026 07:33:47 +0000
+Date: Mon, 30 Mar 2026 09:33:47 +0200
+Message-ID: <87qzp1u5yc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Berk Cem Goksel <berkcgoksel@gmail.com>
-Cc: zonque@gmail.com,
-	tiwai@suse.de,
+To: Dag Smedberg <dag@dsmedberg.se>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	g@b4.vu,
 	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org,
-	andreyknvl@gmail.com
-Subject: Re: [PATCH] ALSA: caiaq: fix stack out-of-bounds read in init_card
-In-Reply-To: <20260329133825.581585-1-berkcgoksel@gmail.com>
-References: <20260329133825.581585-1-berkcgoksel@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Exclude Scarlett Solo 1st Gen from SKIP_IFACE_SETUP
+In-Reply-To: <20260329170420.4122-1-dag@dsmedberg.se>
+References: <20260329170420.4122-1-dag@dsmedberg.se>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,77 +90,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[99.98%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,suse.de,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: D831C5BE85
 X-Spam-Flag: NO
 X-Spam-Score: -3.51
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9825C4D1F1
 
-On Sun, 29 Mar 2026 15:38:25 +0200,
-Berk Cem Goksel wrote:
+On Sun, 29 Mar 2026 19:04:20 +0200,
+Dag Smedberg wrote:
 > 
-> The loop creates a whitespace-stripped copy of the card shortname
-> where `len < sizeof(card->id)` is used for the bounds check. Since
-> sizeof(card->id) is 16 and the local id buffer is also 16 bytes,
-> writing 16 non-space characters fills the entire buffer,
-> overwriting the terminating nullbyte.
+> Same issue that the Scarlett 2i2 1st Gen had:
+> QUIRK_FLAG_SKIP_IFACE_SETUP causes distorted audio on the
+> Scarlett Solo 1st Gen (1235:801c).
 > 
-> When this non-null-terminated string is later passed to
-> snd_card_set_id() -> copy_valid_id_string(), the function scans
-> forward with `while (*nid && ...)` and reads past the end of the
-> stack buffer, reading the contents of the stack.
-> 
-> A USB device with a product name containing many non-ASCII, non-space
-> characters (e.g. multibyte UTF-8) will reliably trigger this as follows:
-> 
->   BUG: KASAN: stack-out-of-bounds in copy_valid_id_string
->        sound/core/init.c:696 [inline]
->   BUG: KASAN: stack-out-of-bounds in snd_card_set_id_no_lock+0x698/0x74c
->        sound/core/init.c:718
-> 
-> The off-by-one has been present since commit bafeee5b1f8d ("ALSA:
-> snd_usb_caiaq: give better shortname") from June 2009 (v2.6.31-rc1),
-> which first introduced this whitespace-stripping loop. The original
-> code never accounted for the null terminator when bounding the copy.
-> 
-> Fix this by changing the loop bound to `sizeof(card->id) - 1`,
-> ensuring at least one byte remains as the null terminator.
-> 
-> Fixes: bafeee5b1f8d ("ALSA: snd_usb_caiaq: give better shortname")
-> Cc: stable@vger.kernel.org
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Reported-by: Berk Cem Goksel <berkcgoksel@gmail.com>
-> Signed-off-by: Berk Cem Goksel <berkcgoksel@gmail.com>
+> Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
+> Reported-by: Dag Smedberg <dag@dsmedberg.se>
+> Tested-by: Dag Smedberg <dag@dsmedberg.se>
+> Signed-off-by: Dag Smedberg <dag@dsmedberg.se>
 
-Applied now.  Thanks.
+Thanks, applied now.
 
 
 Takashi
