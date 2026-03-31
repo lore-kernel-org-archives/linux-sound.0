@@ -1,245 +1,97 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EA22EA16A
-	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 14:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A175228150F;
+	Tue, 31 Mar 2026 14:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774967282; cv=none; b=oodqKVvykHqgCtekYqL/sMjQPxvskg2je4ZIStE5txl/1WRTiVcbYMtOAhwSNpvKZ4b1WcOmWN3XwHFKO1ImrxEKPXoKq/0cq60xz9kGZCv1n33v0DJRbBYgSXj3c7Tj2ZZxJrcJAcVNddavx7fVYIkp/nZQv2sbrRm0Q+jbyjA=
+	t=1774967774; cv=none; b=uTHG/3QcGvHMEqlVy6wPm9xjIIH7T3/o6kBhfxRQSpgNAZUKGJGaBUqKtgDFQ0+wYPSjT9Vd6tCqJENygvPhBixpHg5onRi9RPgsVs9ne+1zMJlneDqpxDBVHXss3lRznr2Hx0pqf7mCyTYqZNxVM20oGAN2H1aurTLLc2ML17M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774967282; c=relaxed/simple;
-	bh=PDKzth9NTSFtxwfqtK3w5HCs2MPn+cP59Rr0qDNleqI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F3Eh3gURI68y9jRWmAyueBn5o6sFWvQXq8j/a9/XqGBKd1f5+PDbJAKQKWe0JcRaGGbxd4whsRudSKpXdkbOE8OIog6lhmsVTOvqyMTv5zlYv8vkIHKIzj4jAmC3PQ2xr6ruGWqxwxi1qSinFCrePv4giU0UCofiq2D8AYh6HVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LJUu95iO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SMIi5VxY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LJUu95iO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SMIi5VxY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1774967774; c=relaxed/simple;
+	bh=WuipAWbd8LzKDAYhXLX11litf3pJQChGrJT8VlXp5go=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BS2tLgxD3CLYBf2U9Syy9wbKKlz8QAdvyWWAGD1Z9hueb0mwLPCcFTkDw6iekxfnF8GXltox8J5SH2d7phAADxwKB2tLmkIye1bVSOcllo/mi+j6gy5msKu6Xulc9ALe2NiStEW+AZOgG8eTZcTG7eQsaWzEATXhT7p4RXT/R+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOFTTnnQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LJUu95iO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SMIi5VxY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LJUu95iO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SMIi5VxY"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7ABAD4D27D;
-	Tue, 31 Mar 2026 14:27:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774967279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0HqKpU3qn80efCu2LyflGJS5zncivPfp3CASz23aZ0M=;
-	b=LJUu95iOK+E2XRq+yk9t2EWvbAHiuhyYgcdHQ8SKUrK8k/0jqIChVxbA4162VvBErm3cSx
-	Z7gMVIciNgXODHAzxlnREGJ9GlP65V7+i9FaKWpG6nsMh7iqhlE7cuOKYXLFE6AgaP8xkz
-	7iliEMeS+K9J2QzZNf7jJJOx3Oprlbs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774967279;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0HqKpU3qn80efCu2LyflGJS5zncivPfp3CASz23aZ0M=;
-	b=SMIi5VxYppR2hqgelmmhmlr14VloaOgLpuDKNZJJnSEeKi6nDBgberrVHgX9wfVxCKysim
-	0ndmqMiMHCKgePCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774967279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0HqKpU3qn80efCu2LyflGJS5zncivPfp3CASz23aZ0M=;
-	b=LJUu95iOK+E2XRq+yk9t2EWvbAHiuhyYgcdHQ8SKUrK8k/0jqIChVxbA4162VvBErm3cSx
-	Z7gMVIciNgXODHAzxlnREGJ9GlP65V7+i9FaKWpG6nsMh7iqhlE7cuOKYXLFE6AgaP8xkz
-	7iliEMeS+K9J2QzZNf7jJJOx3Oprlbs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774967279;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0HqKpU3qn80efCu2LyflGJS5zncivPfp3CASz23aZ0M=;
-	b=SMIi5VxYppR2hqgelmmhmlr14VloaOgLpuDKNZJJnSEeKi6nDBgberrVHgX9wfVxCKysim
-	0ndmqMiMHCKgePCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 56E084A0A2;
-	Tue, 31 Mar 2026 14:27:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kZJtFO/Zy2kUGgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 31 Mar 2026 14:27:59 +0000
-Date: Tue, 31 Mar 2026 16:27:51 +0200
-Message-ID: <878qb8rs48.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: aoa: i2sbus: clear stale prepared state
-In-Reply-To: <20260330-aoa-i2sbus-clear-stale-active-v1-1-47a6c0a3ac9e@gmail.com>
-References: <20260330-aoa-i2sbus-clear-stale-active-v1-1-47a6c0a3ac9e@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOFTTnnQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9841EC19423;
+	Tue, 31 Mar 2026 14:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774967774;
+	bh=WuipAWbd8LzKDAYhXLX11litf3pJQChGrJT8VlXp5go=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jOFTTnnQcZ81Gs+max/xpNqAqNQstVbm1orhVfZe8UVkYx6MSX7c6BhQOcD38wMJd
+	 Db9i1oawG5fhLlHd7CDM0ESTD9DTQxTZuARuiFHmV8VqwSEHgWwsW6fU7Rp0VzPG73
+	 FzMggP501Tly4BD4YhTrdbXUeKqrGL7UN+ApV3U6m0DGba/KtPhqAmi/jIQ+mA0VlY
+	 EYMP1gbgFdOJbOEpDJ8lnwnmZBjoaIt9uzZ7kh9d/DtfMaWuhw/Fn1X3gYU3OVa9ks
+	 tYa2PsD45bwHqvl4m17JR0ocl3jHpOgBhqFzclE2JSmE+0oteu9FY1c/EyQhIqv/3k
+	 KesxtMTfCxm8w==
+Date: Tue, 31 Mar 2026 15:36:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH] ASoC: uda1380: Modernize the driver
+Message-ID: <73689388-a323-4ef3-929c-8f8f15455116@sirena.org.uk>
+References: <20260327-asoc-uda1380-v1-1-f6f91be9b7f8@kernel.org>
+ <CAMRc=MeJ4eVx9HEWP6_4Yd-a=jb4SOyoWW=KgY_=od=ft1=7eA@mail.gmail.com>
+ <CAD++jLniBA_9NzG3BwNpTpT8fC3QRF0yiM_=Wq4u409_fqWVcQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.984];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-
-On Tue, 31 Mar 2026 00:27:28 +0200,
-Cássio Gabriel wrote:
-> 
-> The i2sbus PCM code uses pi->active to constrain the sibling stream to
-> an already prepared duplex format and rate in i2sbus_pcm_open().
-> 
-> That state is set from i2sbus_pcm_prepare(), but the current code only
-> clears it on close. As a result, the sibling stream can inherit stale
-> constraints after the prepared state has been torn down, or after a new
-> prepare attempt fails before completing.
-> 
-> Clear pi->active when hw_params() or hw_free() drops the prepared state,
-> clear it before starting a new prepare attempt, and set it again only
-> after prepare succeeds.
-> 
-> Replace the stale FIXME in the duplex constraint comment with
-> a description of the current driver behavior: i2sbus still programs a
-> single shared transport configuration for both directions, so mixed
-> formats are not supported in duplex mode.
-> 
-> Fixes: f3d9478b2ce4 ("[ALSA] snd-aoa: add snd-aoa")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
->  sound/aoa/soundbus/i2sbus/pcm.c | 53 ++++++++++++++++++++++++++++++++---------
->  1 file changed, 42 insertions(+), 11 deletions(-)
-> 
-> diff --git a/sound/aoa/soundbus/i2sbus/pcm.c b/sound/aoa/soundbus/i2sbus/pcm.c
-> index 97c807e67d56..47a89da43cff 100644
-> --- a/sound/aoa/soundbus/i2sbus/pcm.c
-> +++ b/sound/aoa/soundbus/i2sbus/pcm.c
-> @@ -165,17 +165,16 @@ static int i2sbus_pcm_open(struct i2sbus_dev *i2sdev, int in)
->  	 * currently in use (if any). */
->  	hw->rate_min = 5512;
->  	hw->rate_max = 192000;
-> -	/* if the other stream is active, then we can only
-> -	 * support what it is currently using.
-> -	 * FIXME: I lied. This comment is wrong. We can support
-> -	 * anything that works with the same serial format, ie.
-> -	 * when recording 24 bit sound we can well play 16 bit
-> -	 * sound at the same time iff using the same transfer mode.
-> +	/* If the other stream is already prepared, keep this stream
-> +	 * on the same duplex format and rate.
-> +	 *
-> +	 * i2sbus_pcm_prepare() still programs one shared transport
-> +	 * configuration for both directions, so mixed duplex formats
-> +	 * are not supported here.
->  	 */
->  	if (other->active) {
-> -		/* FIXME: is this guaranteed by the alsa api? */
->  		hw->formats &= pcm_format_to_bits(i2sdev->format);
-> -		/* see above, restrict rates to the one we already have */
-> +		/* Restrict rates to the one already in use. */
->  		hw->rate_min = i2sdev->rate;
->  		hw->rate_max = i2sdev->rate;
->  	}
-> @@ -283,6 +282,22 @@ void i2sbus_wait_for_stop_both(struct i2sbus_dev *i2sdev)
->  }
->  #endif
->  
-> +static void i2sbus_pcm_clear_active(struct i2sbus_dev *i2sdev, int in)
-> +{
-> +	struct pcm_info *pi;
-> +
-> +	guard(mutex)(&i2sdev->lock);
-> +
-> +	get_pcm_info(i2sdev, in, &pi, NULL);
-> +	pi->active = 0;
-> +}
-> +
-> +static inline int i2sbus_hw_params(struct snd_pcm_substream *substream, int in)
-> +{
-> +	i2sbus_pcm_clear_active(snd_pcm_substream_chip(substream), in);
-> +	return 0;
-> +}
-> +
->  static inline int i2sbus_hw_free(struct snd_pcm_substream *substream, int in)
->  {
->  	struct i2sbus_dev *i2sdev = snd_pcm_substream_chip(substream);
-> @@ -291,14 +306,25 @@ static inline int i2sbus_hw_free(struct snd_pcm_substream *substream, int in)
->  	get_pcm_info(i2sdev, in, &pi, NULL);
->  	if (pi->dbdma_ring.stopping)
->  		i2sbus_wait_for_stop(i2sdev, pi);
-> +	i2sbus_pcm_clear_active(i2sdev, in);
->  	return 0;
->  }
->  
-> +static int i2sbus_playback_hw_params(struct snd_pcm_substream *substream)
-> +{
-> +	return i2sbus_hw_params(substream, 0);
-> +}
-> +
->  static int i2sbus_playback_hw_free(struct snd_pcm_substream *substream)
->  {
->  	return i2sbus_hw_free(substream, 0);
->  }
->  
-> +static int i2sbus_record_hw_params(struct snd_pcm_substream *substream)
-> +{
-> +	return i2sbus_hw_params(substream, 1);
-> +}
-> +
->  static int i2sbus_record_hw_free(struct snd_pcm_substream *substream)
->  {
->  	return i2sbus_hw_free(substream, 1);
-> @@ -335,7 +361,7 @@ static int i2sbus_pcm_prepare(struct i2sbus_dev *i2sdev, int in)
->  		return -EINVAL;
->  
->  	runtime = pi->substream->runtime;
-> -	pi->active = 1;
-> +	pi->active = 0;
->  	if (other->active &&
->  	    ((i2sdev->format != runtime->format)
->  	     || (i2sdev->rate != runtime->rate)))
-
-Do we need to clear the active flag here?  It must have been cleared
-by hw_params call.  Or is it the case for errors?
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="U+SAKaxgJwZ5jaYv"
+Content-Disposition: inline
+In-Reply-To: <CAD++jLniBA_9NzG3BwNpTpT8fC3QRF0yiM_=Wq4u409_fqWVcQ@mail.gmail.com>
+X-Cookie: I just had a NOSE JOB!!
 
 
-thanks,
+--U+SAKaxgJwZ5jaYv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Takashi
+On Mon, Mar 30, 2026 at 10:56:53AM +0200, Linus Walleij wrote:
+> On Mon, Mar 30, 2026 at 10:45=E2=80=AFAM Bartosz Golaszewski <brgl@kernel=
+=2Eorg> wrote:
+
+> > $ git grep nxp,uda1380
+> > arch/arm/boot/dts/nxp/lpc/lpc3250-ea3250.dts:           compatible =3D
+> > "nxp,uda1380";
+> > arch/arm/boot/dts/nxp/lpc/lpc3250-phy3250.dts:          compatible =3D
+> > "nxp,uda1380";
+
+> > I think these count as in-tree users of the driver, right? The compatib=
+le is
+> > not described in bindings but I think this still looks as ABI.
+
+> Oh I didn't see *those*!
+
+> Well we could just delete the platform data handling instead but fixing
+> this properly is probably more fun and helpful.
+
+Note that at least the ea3250 is trying to use wspll as the sysclk,
+though the DT parsing code doesn't appear to actually exist so I'm not
+expecting it to work currently.
+
+--U+SAKaxgJwZ5jaYv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnL29gACgkQJNaLcl1U
+h9DxDgf9HDXNyXEYBzmW+RFsdhkkN+xTocyRP0/NaU9hbVgy/zCfEumP3ERWSew0
+BonhF2Q92DFu9ASDqiB6CQqiHmaajKI8B8sCdfCW/jGQxL/b7b2l3u1pmcQ2MotI
+Oq/S1rA1yx26DdDRnvU9K5/cxnlVFbTws8tbabH8b/Vh2PctVCw9pAK0Rzf0TXlp
+z4YIh2v2+aTHj/VZz4ZBX1ekfzmf8bg/w1/QiOIL+/+P+m1E4QXyzCm+KAaXl4B1
+jZwkwjMQ5CPlWqgqRgLuDd5k+fY5vcWKkRHjxfcLq5wAl01oiYivpHs81S4xifDT
+sUBGidNoMgXvdisA7bUClV6Joj5ECg==
+=TtZW
+-----END PGP SIGNATURE-----
+
+--U+SAKaxgJwZ5jaYv--
