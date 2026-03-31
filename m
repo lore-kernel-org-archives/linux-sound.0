@@ -1,99 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12A1377542;
-	Tue, 31 Mar 2026 19:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F77377EC6
+	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 19:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774984664; cv=none; b=sH5jjN3MmYt0wopfWcxKpz1GPn/gCUGVn4LlQ3sG/nhcRtUrWQZfGqTKq7Zg8MsdkPGaT3Z5O7oX+gr2oiJpuPdVC6OSXgwVzvIhfuRrobgWSiGkCyGZlRQkiihPKD+iy5LgkhWCn/WO9fX8bnwHD9DALqTsbpCW/ulBXfWZwi4=
+	t=1774985938; cv=none; b=YNJ7/mLxgqeN95uH6Pg0ROwgcp6MNG+QCRIbqzaApv0QODGyp491iL6QqcvORrTJHfHygLqiQm8Q2PrF5qudCqytNgjC72nyDBNb3pBrpQKrmQefLM5sFkqd9CalXf6DHjiCLZ4Na14IGOvnxd3zyXi8Q7xk8ZAxUznrM5ukEgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774984664; c=relaxed/simple;
-	bh=/vTZy7DNheaWvuUlBmUGnqxzXfCO6SeXhGn+6yRist0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1ZQB6x/TrnQcdUaGLgKrU0lNEmjUVcFrb8whkJALTYRKXh25C4FjRhhazsiaH/cwcrBVBprBAxiy7W3JoTpcMw3uLN9K9psSeEfBIGHj8LiBIP8qHA7YHX7bZKifASAc1DG+rwPZs3+y1+M0Hxw95xd5+vm3PBeNdj0Z6sVNIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EtmCM0uo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774985938; c=relaxed/simple;
+	bh=Pxep8ShXgtazO+VGLSFz5P/8yM01PvWE/5lLNXhS+c4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kaBmqoYamYBSURHjjDifqI6eOC2EDdJLYEyVbhAn5EGRQ3I0lD92JUcP101Nf/44VKTOFmm8DjsnD1uDLvRNgATXGCyw3st0ZtSSmfLLiQRqYk7FO1KjJkbVa+4JDlhcOhsOj2Jkl56ngOQBCXjdjUSzrdzzqaxXcn6sk83T37E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rlq2GVUE; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtmCM0uo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4664CC19423;
-	Tue, 31 Mar 2026 19:17:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774984664;
-	bh=/vTZy7DNheaWvuUlBmUGnqxzXfCO6SeXhGn+6yRist0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EtmCM0uoGw4csxFZJZ1yAqVNUwrjA5ZegQuGFj+/TT3WUga/CYRYUwgx18gbXjh/b
-	 hAfUJLccOk0X4i/8BbDWW4i8mn9P4qOWjXdPyqFJgCr8Tvtv3fEI3DFNRJRuu+/KZE
-	 7qcHNqUydXcRl+TIoXMnxrc1QIXmq55WNdNB3d2almoRTwOv4JUekpgA5hPPxCM8G3
-	 EzoSGcasUmnwpRWLvT/E+s/uUuztabRKLzPpoNtjIWaD2SoqTf7AJPCNMte/2WhVjJ
-	 P4P3scCqzE0FI4N19zY6lerrjhQliWP8FVWcKP6a0HjIIDgpDpgPbyihpfQX0ohxpM
-	 aifIHpYSpBOWw==
-Date: Tue, 31 Mar 2026 20:17:37 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	srini@kernel.org, val@packett.cool, mailingradian@gmail.com
-Subject: Re: [PATCH v8 13/13] ASoC: qcom: q6apm: Add support for early buffer
- mapping on DSP
-Message-ID: <f2bb116e-bee4-4cd1-9f57-154ea1e9f0e5@sirena.org.uk>
-References: <20260330082105.278055-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260330082105.278055-14-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rlq2GVUE"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-89fc4147f2eso62077306d6.3
+        for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 12:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774985936; x=1775590736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GgqMDBgsls8VrRcKBAMepiA5qSxovZCXP/eA9qZEiNI=;
+        b=Rlq2GVUEmV6miBuIPgLBlOtNxzyA3XN9NyApdVbUBKhiuWZiaAih5HZ2TF2wxiCqwV
+         YLfp34RPAcQnNwN0umdsX/0ZazW+TVRT8s86PbYogH86oGYZW5LDssllZxjpbjkzYu4k
+         8OgD9QZd2B70jnz7sob+34bdAyhaP3L/0hyjJvvhasWjiuN4yNyPlOHReK7xX0Hifotw
+         pWCDnvg/CHMLCWKTqmiX4aPp0YAdT8RYLpJjLtItT2g2hkai0hMgysquNjEiDM+kPNE9
+         UpEL+ecrYSkgM2i2kJUsLSnRUjuuI2gy+Ag6izrjWED7ZPNLuK9B3opmSbdznMu4tmYu
+         57GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774985936; x=1775590736;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GgqMDBgsls8VrRcKBAMepiA5qSxovZCXP/eA9qZEiNI=;
+        b=ZUQM7Zm9p13hJXqMly5BqnZ/OOtBG578SunXqnH038Fn0/OymTqca2aRCHxZI80dc5
+         s2bUtfFrLxk4MD5QKWfCsWWl1li1olWbVAAeViDAwrixfJJNuTPUPHO+G83wr/fmvK3d
+         hY/prHOTuXfEe2Su9FPPrFUkkqK8ayReO3rn+uSIsluRphffUq4CtO2Fr0JKvLQXVxZH
+         ahWBR9hVU2Bgrlb+JximIuUXDqRVvdYJ3rq9N7ck42OfJjHUKJKmJEoMBMotqIlKo5ug
+         3mEmNvHzzNunhqHTFr1FH962E6RgImTinz5y4063CSKMkFjoKgth9+nzdtuIkfHBqbxx
+         7Byg==
+X-Forwarded-Encrypted: i=1; AJvYcCUyU1bThscrIc87MLgMyZ5q8o57Vl2W81B9v8TatHVh4XibervvStlFs/TbvGWNCnUUQ43skPp28SWMLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytESalH3Tu+N9LPS+hY2jb/aXYioaM9OBq87r6uDZeA5+DCtDc
+	HvQqZYUFSjxvItr3LgVxnUpRhfx1ai98KFzBn7HZsR55/tfVLO0Yscp3
+X-Gm-Gg: ATEYQzzjKpx1ObcRl099ZGxExZKh1NmUwiTNNPVIN7UDPJfTApd0qAF/Xwb5+3VppeI
+	KWyuTjgLgncXhwDhcfevE9WiJuXKUCHml/qXuaS0rSYsu+3je+Pe/kE1x41L6td9Wp32SiOy+OX
+	LJdOk92Vo+Up8RardgRSqdlGC66vIThJquJebhGq8vUyMQpCnLC4ffX6tsDJQYeM0TUgFaM3irR
+	rtPgy2ts4AuLyUogr2WuggPyhNL2EqAmRomzjoDX+OU0rJv2553B+yz7AD2s9Rud2Bs0q5Uelk7
+	IycZivlZmH/1zZYjaEmjKn7PQv2Ye3XWWcUlxbG9M4pffikTnaPQ95ytnRddazxCt9WeP1ayTSw
+	CWRV2Zn6S1LsftP4NHW23w9qTB5CiafsIDsRrGdgTbKJsgY5faLsh+xx+i3t/4FT+qifv8MBz9u
+	tHOSkfEAh7rU7GgKfcdyvuj3Nj
+X-Received: by 2002:a05:6214:4e16:b0:89e:a170:6b13 with SMTP id 6a1803df08f44-8a437b10430mr13147896d6.20.1774985935785;
+        Tue, 31 Mar 2026 12:38:55 -0700 (PDT)
+Received: from localhost ([199.7.157.124])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89ecf865ccesm95864616d6.39.2026.03.31.12.38.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 12:38:55 -0700 (PDT)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Nickolay Goppen <setotau@mainlining.org>,
+	Adam Skladowski <a39.skl@gmail.com>,
+	Vladimir Lypak <vladimir.lypak@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v3 00/15] SDM660 sound card and internal MI2S support
+Date: Tue, 31 Mar 2026 15:39:24 -0400
+Message-ID: <20260331193939.40636-1-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pFTWHHyQCqzqbyxs"
-Content-Disposition: inline
-In-Reply-To: <20260330082105.278055-14-srinivas.kandagatla@oss.qualcomm.com>
-X-Cookie: I just had a NOSE JOB!!
+Content-Transfer-Encoding: 8bit
 
+This adds support for the SDM660 (formerly "SDM660 internal") sound
+card and support for WCD codecs over internal MI2S.
 
---pFTWHHyQCqzqbyxs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Like on MSM8916 and MSM8953, some SDM660 and SDM670 devices connect to a
+digital and analog codec. The connection to the digital codec is through
+special "internal" MI2S ports. The digital and analog codecs are used on
+the Xiaomi Redmi Note 7 for headset (playback + capture) and earpiece,
+and also on the Google Pixel 3a for the headset.
 
-On Mon, Mar 30, 2026 at 08:21:05AM +0000, Srinivas Kandagatla wrote:
+This series does not include devicetree patches.
 
-> @@ -416,9 +415,10 @@ static int q6apm_dai_close(struct snd_soc_component =
-*component,
->  	struct snd_pcm_runtime *runtime =3D substream->runtime;
->  	struct q6apm_dai_rtd *prtd =3D runtime->private_data;
-> =20
-> -	if (prtd->state) { /* only stop graph that is started */
-> +	if (prtd->state) {
-> +		/* only stop graph that is started */
->  		q6apm_graph_stop(prtd->graph);
-> -		q6apm_unmap_memory_regions(prtd->graph, substream->stream);
-> +		q6apm_free_fragments(prtd->graph, substream->stream);
->  	}
-> =20
->  	q6apm_graph_close(prtd->graph);
+This series depends on "ASoC: qcom: q6dsp: few fixes and enhancements":
+https://lore.kernel.org/r/20260330082105.278055-1-srinivas.kandagatla@oss.qualcomm.com
 
-Given that we allocate the fragments before setting state it looks like
-there's a window where we might leak them.  Please send an incremental
-patch for this if you're going to fix it, I've queued things for CI and
-will merge tomorrow unless something blows up.
+Changes since v2:
+- add missing sign-off (1/15)
+- use definition of last dt-bindings dai cell for LPASS_MAX_PORT (6/15)
+- move sdm660 support to existing sm8250 driver (11-12/15)
+- import WCD codec patches for MSM8953 (3/15, 13-14/15)
+	Changes from original (https://lore.kernel.org/r/20240731-msm8953-msm8976-asoc-v3-0-163f23c3a28d@gmail.com):
+	- add back empty line in WCD dt-bindings patch (3/15)
+	- add Dmitry's review tags (13-14/15)
+	- rebase onto q6dsp fixes
+- rebase onto q6dsp fixes
 
---pFTWHHyQCqzqbyxs
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes since v1 (https://lore.kernel.org/r/20260211020302.2674-1-mailingradian@gmail.com):
+- rename sound card to drop "internal" (1/11, 10/11)
+- use common headphone jack code (9/11, 10/11)
+- remove no-op code in sound card driver (10/11)
+- remove inaccurate comment about clock consumer/producer (10/11)
+- add review tags (3/11, 4/11)
 
------BEGIN PGP SIGNATURE-----
+Adam Skladowski (2):
+  ASoC: dt-bindings: pm8916-wcd-analog-codec: Document pm8950/pm8953
+  ASoC: msm8916-wcd-analog: add pm8950 codec
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnMHdAACgkQJNaLcl1U
-h9Ak8gf9HLuKkpq9Mkj48w49xYC0VDMje5Ww4RkphFcNwa+Y68pyGuch/wnk4uGy
-KfjAoflKnNsDyMPEqqOIxxh1vV8G4MAJpthYF7bfHjuad6AKl1tE7Lexnp0qw55c
-cd/1XeWOXpEq9nxA3Na5UJ06vHtbYdFdWfN7uUh13+4O1202/+L0aKSB9O9u/aV+
-7pYU/dla1ENEEf+w64agH3vsKPTmkqxy8UEkzvALDCxyTYOMVgKDNBuvUJpTixRR
-UpoB5mgwIfgqC9V9PXclCBFBdnGAJi5QbsFi+V1U+BQhD5MDru2i2UQrzjS53BiA
-BAaoYQq/6vcQnaRc5cEEoZW+jMwjHg==
-=6Oyu
------END PGP SIGNATURE-----
+Nickolay Goppen (1):
+  ASoC: dt-bindings: qcom,sm8250: add compatible for sdm660
 
---pFTWHHyQCqzqbyxs--
+Richard Acayan (11):
+  ASoC: dt-bindings: qcom: q6dsp: add internal mi2s support
+  ASoC: dt-bindings: pm8916-analog-codec: Add PM660L compatible
+  ASoC: dt-bindings: msm8916-digital-codec: Add SDM660 compatible
+  ASoC: qdsp6: q6dsp-lpass-ports: add internal mi2s support
+  ASoC: qdsp6: q6afe: add internal mi2s support
+  ASoC: qdsp6: q6afe-dai: add internal mi2s support
+  ASoC: qdsp6: q6routing: add internal mi2s support
+  ASoC: qdsp6: common: support headphone jacks connected to internal
+    mi2s
+  ASoC: qcom: sm8250: add support for INT0_MI2S_RX and INT3_MI2S_TX
+  ASoC: qcom: sm8250: add SDM660 compatible
+  ASoC: msm8916-wcd-analog: add quirk for cajon 2.0
+
+Vladimir Lypak (1):
+  ASoC: msm8916-wcd-analog: add pm8953 codec
+
+ .../sound/qcom,msm8916-wcd-digital-codec.yaml |   8 +-
+ .../sound/qcom,pm8916-wcd-analog-codec.yaml   |  11 +-
+ .../sound/qcom,q6dsp-lpass-ports.yaml         |   4 +-
+ .../bindings/sound/qcom,sm8250.yaml           |   1 +
+ .../sound/qcom,q6dsp-lpass-ports.h            |  14 ++
+ sound/soc/codecs/msm8916-wcd-analog.c         | 144 ++++++++++++-
+ sound/soc/qcom/common.c                       |   1 +
+ sound/soc/qcom/common.h                       |   2 +-
+ sound/soc/qcom/qdsp6/q6afe-dai.c              |  46 ++++
+ sound/soc/qcom/qdsp6/q6afe.c                  |  56 +++++
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c      | 200 ++++++++++++++++++
+ sound/soc/qcom/qdsp6/q6routing.c              |  78 ++++++-
+ sound/soc/qcom/sm8250.c                       |  17 ++
+ 13 files changed, 570 insertions(+), 12 deletions(-)
+
+-- 
+2.53.0
+
