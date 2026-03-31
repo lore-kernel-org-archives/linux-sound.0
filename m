@@ -1,140 +1,213 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04522423A9F
-	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 16:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77194426D29;
+	Tue, 31 Mar 2026 16:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774975027; cv=none; b=WSxus80Gnoasp9G1OH5BuvjwH40TjPruFoWO/66w+u0LXjbnY9xasdXjiaGjWTtPcB+qAdEqesA+CNR3KZCND5Erf3Zq3IOTxmNqs6OT2WVuG7bRbpfc03vZLOD7KPOSLh1caVjllTrgujneEwHvKJggnYNYzrVJaX0DL9aQNq8=
+	t=1774975852; cv=none; b=iA1u1FRchlTKk7nfHsU+Z3UWIDoMwfU/Vs9wux4SWObZt768dekFxzbznq83aq+GxVV91VCB1a9wlv7H10I98gehDzWl7bbdq1muQSa2wyPYBxSdtp1z3F8NtM/fbhCahZb7nryXRF+ylsILBBzNfJD3KVV+yW6xNa2y8vys2+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774975027; c=relaxed/simple;
-	bh=PHs3f/gaFyYReQoQxx1imm6pw7yPcVpOTvcve/so69k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pKL/+KbVe2qkD1Zb3DqWU+TTZMDOJOzRA72ZjDaJbyR+wl5hdhtE2DesJKP+A7EeHymaSwkFtJpu2yQMH0RoH39xYc3iWrg50X3J3uDF2Ms3GKNPZ9zHoKSH0RQzGPhp2Qnuq75Flah5Z/8HzKvnlFKA9tmTSD2WVI6AEWrWCN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VN/C+NPh; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774975852; c=relaxed/simple;
+	bh=EJKY2UxCxiReZYgibbbEt2Brg1tU1kiPznWmqtnL97c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5u+H0KOpZYVdlTIAw51lO/M32oOUdXNLrN/jNLcjGv6hj7GkuQSIBHcoD1ecEidPmUsfH4j1yCvJd4r1pxLtmnxzj8uItK2jgSdfJoIaZiTxrQfyHBujLf/BHMKD0HGF3SPvcLtnNTQTC2DDGoDdcYReLCeUS5PyVsAhEanBUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k2p/w2mZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VN/C+NPh"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2b0afa0210bso30330875ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 09:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774975025; x=1775579825; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/w11NnTydmVHrODXF8dcnWWEar8WU1lyFFID+3qgjWY=;
-        b=VN/C+NPhP50wiRdw7USUtakUrAOv9Vbzsr5hsZDpZ9rc0Yay+nEzmFkO4ATHz+wXkV
-         1dt6JxS05KjpLlTsKQCbfCnQSgPVGyY+WDTMaXrnye+IKbmjOVJzNTrF2mjld1+EvrNe
-         qftcTd/ojITUB8myW6QtHchPbEx4NhGEEJcV8/HXgS21emp4pAaEZBx4vRLdQDNvFkaU
-         9E7uVKDWC12pIuANpM7JNz1RsOF7oquqxuBV2G0NblP1ugL1xwa+68vJLIR9BdhPNHDj
-         /5yUVkveTDdoT+90+smCHZhch7237gMBMgP/TJRO6wAUu8xBmUV62cAIkiq2GKrPe/1A
-         2Ffw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774975025; x=1775579825;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/w11NnTydmVHrODXF8dcnWWEar8WU1lyFFID+3qgjWY=;
-        b=KT8nzld93Wtpzocv1NLQINI30aLRzMuS+nV+Utn56vdKyXhAVrOaVrBf/Ws2UZ+ctx
-         tjiiZBvJpvKS1+bYR1oUYLLL5u8uUsOCHk4wl7Ky3rsHQd3ANc4SLsDj3xV1kToOF4Qg
-         McfC6Pt7yYau0IUa7EgnIa8shRwrSvVZXI9Ve+Tb4jLnKcKkaZUraoT7dmguxhZruU4n
-         BHPK3ehg+JMCGRkyYWI9zmL4QM7k5+f2JakXAs2hhSshEklQZZMbTIP7a70YV6uahmFb
-         pgNqgstbGH4U2jZyfQjcl+Ivm0Er15V/D/GVR37tdaFdKZ1a4aEndwg63Q4VbtdJFn7v
-         bdAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkV3RZPClAd7xrbx7z6CEUMP2KXHIqpu7v5poZbiVx1/b2VNZGLBTWi5x1fkEvRbTZ9/FsHXAIybNGjA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSFPxzrw72nsWttskLWMGlL1N1w1JxRbZ9OdCdk+rwLPJS0E2C
-	Du4iHjPlWNXtAD0bszngA/zjNib5DgwST/qWclrloyKQ69JFpq4e989O
-X-Gm-Gg: ATEYQzwzoLIwKADA5rLwTSz1EHJdwQUzteY0d0G+PP2QVVKtyxX+L0+ZorRButsN9qY
-	KTpW2T685WXpdZHGucEAGV11obSP8idO2h6777e0gIkcW+nQjPl2AThM+3TxhLPSZ+Bao6uA1+S
-	VmoVsDEECEzYr8uS6G5aOTa682DkR+Yf5o9tYnojQ8f6Oq4ZJOyUxC3xcj5hjFZyoG+FZxYBBJU
-	fZIb05M1qusuTJN6BLFznEp1vBIjwXbvX38tTyjSP1C120Kmkoy0oKHd9hpnQ3Ax05aMmkdyVlm
-	VFR+Gj63abRBRNW5G3tW46tS77j8KVrYQU/C4R9j80dt+vgnuvbF94bGb37RZwO2mn10xGn2f3s
-	G15NrmaF1cY8N+qBQHRTZHR9h0pcI80HSblgu2VlQi33O/si1N5jw6O8yfAhBB1g/6hIwYtdk2Q
-	T5qFu/I8mga1K4NZqD+cn3w6kNqGODzD0bwX8ictHuCRh3p6QN
-X-Received: by 2002:a17:902:e885:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2b0cdc9b555mr175094965ad.13.1774975025211;
-        Tue, 31 Mar 2026 09:37:05 -0700 (PDT)
-Received: from debian.killsync.com ([152.59.222.228])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24b02a11esm116069255ad.65.2026.03.31.09.37.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 09:37:04 -0700 (PDT)
-From: aravindanilraj0702@gmail.com
-To: broonie@kernel.org
-Cc: cezary.rojewski@intel.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aravind Anilraj <aravindanilraj0702@gmail.com>
-Subject: [PATCH v5 4/4] ASoC: Intel: boards: Log error code in MCLK configuration failure
-Date: Tue, 31 Mar 2026 12:36:35 -0400
-Message-ID: <20260331163636.15238-5-aravindanilraj0702@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260331163636.15238-1-aravindanilraj0702@gmail.com>
-References: <20260331163636.15238-1-aravindanilraj0702@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k2p/w2mZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B754C19424;
+	Tue, 31 Mar 2026 16:50:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774975852;
+	bh=EJKY2UxCxiReZYgibbbEt2Brg1tU1kiPznWmqtnL97c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k2p/w2mZmvaJQNfj8YVfHPte/CIZluJCSi+Q14tARZbWV/JRmOF26SqqkyEAFeGhN
+	 vy2cpa3RJwmIxTaAAzk0PoYCbbKCgxP1GMbokDSKzijbbwQBiIs0OSzZBzE2DOR5zq
+	 DFYTUQWDCAiQd8thh1onHpUnPR9T5oFwxkJizoja/9CVmmz+hoPMopGqBIFwT5StiB
+	 FjVR5pjKld8EFfZRxeIJn/vykBr8W7QXcZTFBKZ+ayCUHZZjMz8CSZV8dQZKe84KlC
+	 6jpGoTdG1IHHFTwJPAl5pMSeuCBXR+ROfarerq/HL+mJ6LaFZ9FLRhfTsaExjQZI2f
+	 8crXJ1mBzWqcw==
+Date: Tue, 31 Mar 2026 17:50:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Niranjan H Y <niranjan.hy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, cezary.rojewski@intel.com,
+	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev, baojun.xu@ti.com,
+	shenghao-ding@ti.com, sandeepk@ti.com, v-hampiholi@ti.com
+Subject: Re: [PATCH v3 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
+ driver
+Message-ID: <bf385693-40ca-44fe-bfda-7e9cf5a27328@sirena.org.uk>
+References: <20260331151638.1281-1-niranjan.hy@ti.com>
+ <20260331151638.1281-2-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bYtOkZENscJz2yG+"
+Content-Disposition: inline
+In-Reply-To: <20260331151638.1281-2-niranjan.hy@ti.com>
+X-Cookie: I just had a NOSE JOB!!
 
-From: Aravind Anilraj <aravindanilraj0702@gmail.com>
 
-The dev_err() calls in platform_clock_control() for the three Intel ASoC
-board drivers do not log the return code when clk_prepare_enable()
-fails, making it harder to diagnose failures. Add the error code to the
-log message.
+--bYtOkZENscJz2yG+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
----
- sound/soc/intel/boards/bytcr_rt5640.c   | 2 +-
- sound/soc/intel/boards/bytcr_rt5651.c   | 2 +-
- sound/soc/intel/boards/cht_bsw_rt5672.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On Tue, Mar 31, 2026 at 08:46:36PM +0530, Niranjan H Y wrote:
+> Add codec driver for tac5xx2 family of devices.
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index cd611c0da4e1..a934b3684347 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -285,7 +285,7 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 	if (SND_SOC_DAPM_EVENT_ON(event)) {
- 		ret = clk_prepare_enable(priv->mclk);
- 		if (ret < 0) {
--			dev_err(card->dev, "could not configure MCLK state");
-+			dev_err(card->dev, "could not configure MCLK state: %d\n", ret);
- 			return ret;
- 		}
- 		ret = byt_rt5640_prepare_and_enable_pll1(codec_dai, 48000);
-diff --git a/sound/soc/intel/boards/bytcr_rt5651.c b/sound/soc/intel/boards/bytcr_rt5651.c
-index e2f59a008b29..3c5082034f5c 100644
---- a/sound/soc/intel/boards/bytcr_rt5651.c
-+++ b/sound/soc/intel/boards/bytcr_rt5651.c
-@@ -205,7 +205,7 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 	if (SND_SOC_DAPM_EVENT_ON(event)) {
- 		ret = clk_prepare_enable(priv->mclk);
- 		if (ret < 0) {
--			dev_err(card->dev, "could not configure MCLK state");
-+			dev_err(card->dev, "could not configure MCLK state: %d\n", ret);
- 			return ret;
- 		}
- 		ret = byt_rt5651_prepare_and_enable_pll1(codec_dai, 48000, 50);
-diff --git a/sound/soc/intel/boards/cht_bsw_rt5672.c b/sound/soc/intel/boards/cht_bsw_rt5672.c
-index 0c2435edbd08..016732a57278 100644
---- a/sound/soc/intel/boards/cht_bsw_rt5672.c
-+++ b/sound/soc/intel/boards/cht_bsw_rt5672.c
-@@ -67,7 +67,7 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 			ret = clk_prepare_enable(ctx->mclk);
- 			if (ret < 0) {
- 				dev_err(card->dev,
--					"could not configure MCLK state");
-+						"could not configure MCLK state: %d\n", ret);
- 				return ret;
- 			}
- 		}
--- 
-2.47.3
 
+> +static int tac_cx11_get(struct snd_kcontrol *kcontrol,
+> +			struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component;
+> +	struct tac5xx2_prv *tac_dev;
+> +
+> +	ucontrol->value.enumerated.item[0] = 1; /* Default to DC:1 */
+> +
+> +	if (!kcontrol || !kcontrol->private_data)
+> +		return 0;
+> +
+> +	component = snd_kcontrol_chip(kcontrol);
+> +	if (!component)
+> +		return 0;
+> +
+> +	tac_dev = snd_soc_component_get_drvdata(component);
+> +	if (!tac_dev)
+> +		return 0;
+
+Shouldn't these be errors?
+
+> +
+> +static int tac_cx11_put(struct snd_kcontrol *kcontrol,
+> +			struct snd_ctl_elem_value *ucontrol)
+> +{
+
+> +	ret = regmap_write(tac_dev->regmap,
+> +			   SDW_SDCA_CTL(TAC_FUNCTION_ID_SM, TAC_SDCA_ENT_CX11,
+> +					TAC_SDCA_CTL_CX_CLK_SEL, 0),
+> +			   val);
+> +	if (ret) {
+> +		dev_dbg(tac_dev->dev, "cx put failed");
+> +		return -EIO;
+> +	}
+
+Probably nicer to return the error code you got here, and also include
+it in the log message - that'll help people figure out what's going on
+if things do go wrong.
+
+> +/* Volume controls for mic, hp and mic cap */
+> +static const struct snd_kcontrol_new tac5xx2_snd_controls[] = {
+> +	SOC_SINGLE_RANGE_TLV("Left Amp Volume", TAC_AMP_LVL_CFG0, 2, 0, 44, 1,
+> +			     tac5xx2_amp_tlv),
+> +	SOC_SINGLE_RANGE_TLV("Right Amp Volume", TAC_AMP_LVL_CFG1, 2, 0, 44, 1,
+> +			     tac5xx2_amp_tlv),
+
+What's the logic behind two mono controls rather than stereo controls?
+There's a bunch of these in the driver.
+
+> +static int tac_sdw_hw_params(struct snd_pcm_substream *substream,
+> +			     struct snd_pcm_hw_params *params,
+> +			     struct snd_soc_dai *dai)
+> +{
+
+> +	if (dai->id == TAC5XX2_DMIC) {
+> +	} else if (dai->id == TAC5XX2_UAJ) {
+> +	} else if (dai->id == TAC5XX2_SPK) {
+> +	} else {
+> +	}
+
+This should be a switch statement for clarity and scalability.
+
+> +	switch (params_rate(params)) {
+> +	case 48000:
+> +		sample_rate_idx = 0x01;
+> +		break;
+> +	case 44100:
+> +		sample_rate_idx = 0x02;
+> +		break;
+> +	case 96000:
+> +		sample_rate_idx = 0x03;
+> +		break;
+> +	case 88200:
+> +		sample_rate_idx = 0x04;
+> +		break;
+> +	default:
+> +		dev_err(tac_dev->dev, "Unsupported sample rate: %d Hz",
+> +			params_rate(params));
+> +		return -EINVAL;
+> +	}
+
+This allows userspace to spam the logs doesn't it?
+
+> +	if (function_id == TAC_FUNCTION_ID_SM) {
+> +	} else if (function_id == TAC_FUNCTION_ID_UAJ) {
+
+Again, switch statement.  There's a bunch of these in teh driver.
+
+> +static s32 tac_fw_read_hdr(const u8 *data, struct tac_fw_hdr *hdr)
+> +{
+> +	hdr->size = get_unaligned_le32(data);
+> +
+> +	return TAC_FW_HDR_SIZE;
+> +}
+
+> +static s32 tac_download_fw_to_hw(struct tac5xx2_prv *tac_dev)
+> +{
+
+> +	buf = tac_dev->fw_data;
+> +	img_sz = tac_dev->fw_size;
+> +
+> +	dev_dbg(tac_dev->dev, "Downloading cached firmware to HW, size=%zu\n", img_sz);
+> +
+> +	offset += tac_fw_read_hdr(buf, hdr);
+> +	if (hdr->size != img_sz) {
+
+We don't validate that the file has enough data to read here, there's a
+check after the request_firmware() that the file is non-zero but it
+might just be a single byte.
+
+> +	while (offset < img_sz && num_files < TAC_MAX_FW_CHUNKS) {
+> +		if (offset + 20 > img_sz) {
+> +			dev_warn(tac_dev->dev, "Incomplete block header at offset %d\n",
+> +				 offset);
+> +			break;
+> +		}
+> +		offset += tac_fw_get_next_file(&buf[offset], &files[num_files]);
+> +		num_files++;
+> +	}
+
+I can't see anything that validates that we stay within the buffer here,
+we're checking if the header is in the buffer but not the payload and if
+we do overflow we just exit the loop and...
+
+> +
+> +	if (num_files == 0) {
+> +		dev_err(tac_dev->dev, "firmware with no files\n");
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+
+...so long as we found at least one block we'll just carry on.
+
+--bYtOkZENscJz2yG+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnL+2UACgkQJNaLcl1U
+h9BtIgf/bU7EFwG2Y+SSEzYJH66e9beq9YPIMBrknmMG8BLsw3g9gSO7/iU8waKb
+KmMlZ+pgZqVfqXpDwDK18Kee3DFg/DKit82Ivt4ZNBo9GivPRLAvzGWdHbvFBWAS
+tSGwurfWWg+hSrrAoBHVTfL0iy4LnpPWt3/aUW+qZHkrOA07Sxo6bZyMTNWDsjS5
+AHta0DFiq6ZfUGzXAxAYdC43qoF+z1gVSP0g7vYpxoCxYDlC+9ut7TnbPtAsKik8
++QiwjCxTHJPjkZSEyI3bgACBDVJUUzCu9CHRkIXEoN1AQlkZ8KgouL/S9eD1apXm
+GupKPmIqV3/+3mHYP0ZnkkmnceL6dg==
+=1Iua
+-----END PGP SIGNATURE-----
+
+--bYtOkZENscJz2yG+--
