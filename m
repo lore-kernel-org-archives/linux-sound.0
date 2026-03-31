@@ -1,92 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011029.outbound.protection.outlook.com [52.101.125.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8ED3EE1F4;
-	Mon, 30 Mar 2026 22:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774910583; cv=none; b=i4QW9A1yxtQmNzIiaDdejE6EEwyGa2fhpKQRfxFgA738WzJLnhaH2pQ0bvD9NISt7+X7MuNmXSjnXcTbjQDkPu28T5hnClTLrL7qphwDNm5K9fKehDt16VGTbv5ykGjNyadUfhAH3XrxKgf4ScXUD2Mss+eVN19Othup5cQaQ/c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774910583; c=relaxed/simple;
-	bh=ESkdswaCDJdyov5LevOI0S3ODhwQBAdvuRCap6NVbmA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NJ06cKpmbFEq9rEwBg2Fn5SPR8S+S2PsW7qLYVjTal9N2dFHKRCaBTjvf5f/XcUukMsx5N1Q+bnXbcjfBO6eWxDE/btMpShXCtfna8wt4KTTMet387aKzitszjqZtU+z4863gyUZzjJ06CWunvxIyPtWWP9H68wlTjiLUjmUUT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hmo+5TzK; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2622233A
+	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 01:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774919965; cv=fail; b=WL/0WiBuuvr/VQT0QGoZiD77+7UGMrTV2f55E4yE42c+XlE1cwCPp4N6FaBxmBHJCkt+A+tBVOmA4uxtLqlS4poMeN4iNqMx2PHEOy+JBuHl3G3DGW+t/+chw14CSFGC0CvGdJfdllmTbU1TdCshpDKwRF5hP4uxYpxKNe2wtno=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774919965; c=relaxed/simple;
+	bh=Qxq5m/T1hGh0XVAWl6wS85LTtVdEUbioSxDQnI2C828=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=t73RmNZcHsZ2aXEneBj0XElX1fvSXW222msZk0IwZazQNp2W/ztNK0AORapMNZZcBksB1+1sN/DqJZLvoJyQPnXMD1Cac14tOGdgZJpsw9Mdjdw+uSfeOA/Cy99vhYBC5Ww6RqFx4k9mgv7k0Vo6fnGaAo2XQWwV0lssSAczH3k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Peq4WQUu; arc=fail smtp.client-ip=52.101.125.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hmo+5TzK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA24DC4CEF7;
-	Mon, 30 Mar 2026 22:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774910583;
-	bh=ESkdswaCDJdyov5LevOI0S3ODhwQBAdvuRCap6NVbmA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Hmo+5TzKQftHygmwYBPlERiuGQhVs0eksFKgvWH+K0W7ZxTH7tRvJSB9RzRFcenrl
-	 xdnT5k8dkhHOolq4/jPX64LIB01aZu2w16+askFZ00RbpYN8om8QlOAA8Cy/8O7eo7
-	 B7dgbKrcj21Mh9Fz0HOA9axwTAJ3t7mhK0ur9oiZHxzKQ9ZFIC3WHkRRaSeuepHw2Q
-	 uqgqSYuPTXJoyVJ9HAYM8IrdiyLatiCpIHNV7DTq+vO50VAeyyG9CwL/yOC2r+FOHu
-	 n4JnzRzjJO/pEGTG2fPAGM5LdC+l5O+KIIbSZ37WBG7/DLr8g5YCZUBTuydZVEhFxX
-	 6gja4c9rLZSSA==
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Gilson_Marquato_J=C3=BAnior?= <gilsonmandalogo@hotmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260330-hp-15-fc0xxx-dmic-v2-v1-1-6dd6f53a1917@hotmail.com>
-References: <20260330-hp-15-fc0xxx-dmic-v2-v1-1-6dd6f53a1917@hotmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI entry for HP Laptop 15-fc0xxx
-Message-Id: <177488075660.162232.5647708733909097116.b4-ty@b4>
-Date: Mon, 30 Mar 2026 15:25:56 +0100
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Peq4WQUu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EZG3nJ88OR1eAvS9rKzkh0XrAqo2Q4B1bhiqxPi2fxlX5LDlvwlrzHJ5ho0vYThQ5Qn6duuXxkvsFwFrpx1T6Q78jmn5EzHilHBUx8F+0WL/wJaJBHzq7OzxYQP8vo/nC8Y3rSYOJx/VliAkev5Bt3P1iQJrjqh0eAP4W2ykhW8kgG1b4SzRtFqruHxBwpKZCjd3PBjlrrxDafRNt52/9FZW4MR8wJa8eaWwyIugA5RJ1xUf3YEixWaXQtPhnboLlCGR6fC2xdLdVy8JY0PUBiP+IInT/D5VkjRakVD87ncdogD8cFJ9/jPM50YP6pF8hMptKVJTuHH8chcIv38uXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0MIATXvqV/Ud2qBAlBpeL3J2ncIHOhaH7tBOI2J/6Y0=;
+ b=c9O1OCe+sVy1fr9oKSbjcptMERJvrqqujj64kiPXjqvPzB0fJEn7j3WN4mGEBPZ64G8QpO7tyZqieHfz5gq2jXgRrEZGt3eope9TWw2Xp2r8SuQcQ57JuIFM9N9oXEeL+2//Dml9U4o8nlq2llEmw12fRaTJiYaDVzfHhP5n01E8idLPtN2ucSTQhi8+8ULhtPIaJ03HwpZotaQLxjFevrcAcIZHN9sgIgPZQfJL9lL6jYh7+fVstHYRQKlhxvsRkO1v9hli81cscpA1A5WTm+GNFSeunRucOjqztbVh+uBRFlb0w/U/wJI3Xz3CXyYwsCtZWNstjOfZ9dufyL7dJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0MIATXvqV/Ud2qBAlBpeL3J2ncIHOhaH7tBOI2J/6Y0=;
+ b=Peq4WQUug11hvUy//w23MW65olFZ89qKLcEs8lmtWsm1TTZQl20ZzNGeRdKIv03M5JlmIqQk0CMqROg2q3FeXreDuSjkl0fXdrYuz/JjPZEWHukzqYPFIemLoXed6cXV7rgl6D2x638JAv6I9ZfJYi7fF3V1YfKrz8ZzqChXrJk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYRPR01MB16111.jpnprd01.prod.outlook.com (2603:1096:405:2e9::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
+ 2026 01:19:20 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9745.027; Tue, 31 Mar 2026
+ 01:19:20 +0000
+Message-ID: <87ikacdcdj.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: <linux-sound@vger.kernel.org>,	Mark Brown <broonie@kernel.org>,	Amadeusz
+ =?ISO-8859-2?Q?S=B3awi=F1ski?= <amade@asmblr.net>
+Subject: Re: [PATCH v3] ASoC: core: use Complete rebind cards by default for all users
+In-Reply-To: <a53ac4b3-1774-4e78-b88b-4316ffe73cd1@intel.com>
+References: <87y0jsibki.wl-kuninori.morimoto.gx@renesas.com>
+	<87bjgaxkdb.wl-kuninori.morimoto.gx@renesas.com>
+	<a53ac4b3-1774-4e78-b88b-4316ffe73cd1@intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 31 Mar 2026 01:19:20 +0000
+X-ClientProxiedBy: TYCP301CA0073.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7d::11) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-3ac6c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ESkdswaCDJdyov5LevOI0S3ODhwQBAdvuRCap6NVbmA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpyvx0bVeYbnEOddjXLcSlw7W5kpNrWigel9TtH
- hv4iIZZCfSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacr8dAAKCRAk1otyXVSH
- 0CPXB/0QKDvqR+TubozhiV7QE4QdQ1NsOorV1WjU+wTfStb1uBlTIcKs+BAS4IIl54YXwuOfIBj
- eUS6b+FTSleO4TjB8tahCku+XPTg73oQLQXVN4B6nk4JROuKE2BYXyMa5k3PE1n1eZAP7YpjTh1
- XB8SBYQXIuFjnPtrZQ52QOvt8vKPLA3A5MHk5ZL1VENM7Yad/7vVNfnYQamMKndMU8wifuEJqik
- RqVuI3zesarZ2jozNlrMaELUJo/tXBbLPnUq3f22sr9dfDFRJ49tjAD1u7QJocySAhvxknIkRcF
- lcyJZxLt41K24h1G30Je863cDj9Grt8yx+TmNLpZhmcAM+XY
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB16111:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2f0541e-0cb5-4281-8459-08de8ec38948
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|18002099003|22082099003|56012099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	e3xG07qT5wcoP3dHAwtHNuZfGhQJ3BGpDq8jAjCIGjwb56hoW8ytE0bhyIV7fvhus70qcxRU8fRZB9gLwdn2JEUUz5YOoG8QTDSvzCaYEFJGXBmdRLpZEO2p+U2E0lkjKfSNaH+xxjprfRH+m83RBD2kdBj0YXQzzT9FSokRM+hVwmBQriOXyQNZRHvNxlBIOhVJuo7opelK8lZ2APsdCH8mYVakWn7bYX1URDhvBmN+fMa3JTpSFKBEej+G/PJnAZJnucfRHz8E7v/a9FpToYtwMVDkWvIkGo4lnDTyzx5HtqRRzmOR0q6q9OSfkw35JEtNPM9nQjUwk7En5ywiWSvPhfRshIBAAAA+sIzLxqGUIFewjZIdrd5yi9rK0FajPg96IFi//aCa8olmOKkKwBf41YZBkx2bg3V85Ar9bZ7y3GbPxI4Sydp4BgyVPs3euygh3ajCmjhvbqV4mxVsQT7LmiiCAU4+cDXfyTQgP77Qvwveh3TC+TnXWoVE+3YJgsYJYH0JUzciXxKhCp3AeRlULQeoICOrPyj01R59mIlXDPkZO9sU4ULiwn32G+LEsh7jSNtrah/koX7l2c6983fVr/Uh1xxw5FBTDyE/K1dVEVYvBywIXqhvh6rkMReX36iq3fa8Tec9FtOJoPkYyT01Tnz8emiuVI8r4eI7QqlKuOAQgz0lPa0fnXvExwc7HznHZZwdWY2yYaMHA4edFwW+93nl6G+/vik8oNBsvqe/7288WimIO218ppuUHt9jkC3OuJsoiTyN5kzrKWDWh6I84BgRT/GQMF6lTVR45Nk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(18002099003)(22082099003)(56012099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?LDCbFQBAxIHCzylENH91JHkrp6167J4EIQZH70Dooe3CBAup6MKHX/riQoxU?=
+ =?us-ascii?Q?HGJc6RzmTjQu1HK9zGKUsO2WsgQJQ+U3RjEurAL3yAspALUdHYoX6+CRgIHy?=
+ =?us-ascii?Q?dsacMQe8Oekq+9QQhrh4gLU1gZUoe3VZ/uuHuzzvzOisrkyAG2CAWg96GFmO?=
+ =?us-ascii?Q?YnUzqA0OLtEbko2Z/88VHJkHX7Tyos+2I2qhk+Zoqr5Bymm5HyynNKd7MR9l?=
+ =?us-ascii?Q?ndNJzpu/kMMxIKRZkHB31n3vxw61TX3vVghIHMx14CDmRtvZy9+4KML5VU20?=
+ =?us-ascii?Q?PJUKIouCxGK+v3u2ureRyWe/GXo9ZhEjOhF9zSOonK9jrLlH9WBOSgp0aS9a?=
+ =?us-ascii?Q?kYN1UDtaMw0+Tf8DuTt8/JF3+z+pZNb9hSlhsRde7ayobHPLjjS3Dk3bNmU9?=
+ =?us-ascii?Q?l87krpdrInJPfUeqhlPRCFq9Z3DCWDcA04//O0ujHcYkAKfxUA6z1QYXkQ9B?=
+ =?us-ascii?Q?b2du5uQuJY8eVOGQJ2wzdv+L0LbKYb1b2/cWXwbpIgDj/Jzrn6aCPQLG82cZ?=
+ =?us-ascii?Q?3bLG5syLOp8OSMiREtVFWq73JniC7cgOrxAPq4ZMKm1r8xA8rF7NQ6ICSaWC?=
+ =?us-ascii?Q?7XpU3eLbwYnOLmDXjAceMaKVyyzSq42+0vVoJHTtL8qoU/Usf3WBhOarLvnL?=
+ =?us-ascii?Q?uyAKye9lFTS2KZJfHdvzKur2CbY273kf9/yT/DTnww8mPOL83Zk9vXnsld4P?=
+ =?us-ascii?Q?U6ycPTviF5wmdmw0PDIcWZuG6t+cUJSQQDvyXjz/M3XPA9rWl6etz8j9f4CF?=
+ =?us-ascii?Q?+xrXPno3IaJ7v1+3K0fEPdVuihCQc0kW4wVbaoaIa6CVGtO3gcSVDtPr6rJB?=
+ =?us-ascii?Q?upalQ/gvo1lcRAyldwD+vXRFqj74U896HAf7Sxb8jrXbLlXtrf3xdyYsdiMo?=
+ =?us-ascii?Q?CCP6/kTMZ6Ho5CTe+fnPYu5wkysDupftwIYpg23xnJUMsANudVof9gFYtbRL?=
+ =?us-ascii?Q?PdxUP4TGZVpQfV5kEG4iMR8RgBVZk9P2lBdvP7rDOXdfAptOUFvM4Sn4PM7b?=
+ =?us-ascii?Q?6/j87wRjCGJFPOEnjLYwkFoxKKYRmO6ughYN9jtEsimALZu5blOyvbqx0Clr?=
+ =?us-ascii?Q?m4PwkXr/IJoPkJHjWeRgr4T1UULP4LkLl2qsMrIecrX8T4+wN1I2WptN72MZ?=
+ =?us-ascii?Q?Lhf+lfeODzf0QlDJeMwNBi3j71gQtDalnwX17c5wmjpBnXqKRikaOnFQaoHm?=
+ =?us-ascii?Q?sDxDzPSR/AxuaVs0SK4F1fA3nPhDkV/18CNKUUZ/rsQyccuQ9mluC5ilDAW6?=
+ =?us-ascii?Q?Dm+S62+mSPg1QdXJD0XWjv9LFsT018S2G5hLXkjnoYMlOZDUbGqZxdwd/vNB?=
+ =?us-ascii?Q?rv2EqsqgcRpVkOQbwtHxe31e6xuKgcyouhVdE/IiYl8f+7RHGqQqbYmS13G5?=
+ =?us-ascii?Q?wSiR2nAvIR9IsjghdeAkqRr+n8nmnL1M9UqQ7GWpxLilyiUJwou8e72kqPh1?=
+ =?us-ascii?Q?+aPSUjMIum8jpW0GehBhffXcCDm1Iuh3JGLRyk61ZlimyWSvBVioGkiJ26jl?=
+ =?us-ascii?Q?yrlpleJkNrkYXHz1dumdGsGQ4ybmBSaAL8et6zvpyA+J9iVJZvlXNg2wSPr8?=
+ =?us-ascii?Q?ffKVeeRZhn/tKFOJuNR3fdoylOBV5Maa7ILLtl3IO2f2cMZejDOEzEdXLl+u?=
+ =?us-ascii?Q?Dr4C9ExqGZW+d9VJUmy10K8XxAsxYzA7AhBZ48RqV6mZLkplNj8TzZTMucrv?=
+ =?us-ascii?Q?ap6MjrG457nIBX2nimdElOkjKCebmHoHUOeEwU4x7Y8R0F6W6F19BJ4i7jzl?=
+ =?us-ascii?Q?rMLyN3SN3n2LVIqNTCLSfIfoXhcQuBhUiCqyg6ztLYrXiEfIb64q?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2f0541e-0cb5-4281-8459-08de8ec38948
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 01:19:20.7800
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CoWCVhYl6XiMWsODX4FlTVdBPMuze5TL221LocKM5O9iplXtN/INtIkFPGJ91HGTSEW5LGuSrcZalXC+B7t0qtroAT9VmTMB4PKH98NuIedWDt2VGpSQMV6SdhMndJT/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB16111
 
-On Mon, 30 Mar 2026 02:43:48 +0100, Gilson Marquato Júnior wrote:
-> ASoC: amd: yc: Add DMI entry for HP Laptop 15-fc0xxx
 
-Applied to
+Hi Cezary
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+Thank you for your feedback
 
-Thanks!
+> >> +	ret = soc_card_bind(card);
+> >> +	if (ret == -EPROBE_DEFER)
+> >> +		list_add(&card->list, &unbind_card_list);
+> 
+> This does not look good i.e.: squelching 'ret' is required in 
+> EPROBE_DEFER case.  Otherwise binding deferral is not supported, leads 
+> to KASANs and eventually more serious problems.  I may have misled you 
+> in my previous review (v2) as existing code has explicit "if 
+> (card->devres_dev)", whereas in v2 of yours the 'ret = 0' was moved away 
+> from snd_soc_register_card() to snd_soc_rebind_card().
 
-[1/1] ASoC: amd: yc: Add DMI entry for HP Laptop 15-fc0xxx
-      https://git.kernel.org/broonie/sound/c/8ec017cf3129
+Yes indeed. Thank you for your feedback.
+Will fix in v4
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> I've attached two callstacks and summary of operations which I've used 
+> to reproduce buggy deferral manually - no magic tests needed.  If you 
+> would like to see full dmesg/traces, let me know.
+> 
+> - case#1 is patch 1:1 as is
+> - case#2 after updating the code with 'ret = 0'. This means there is yet 
+> another bug I've not managed to hunt down. I'll continue debugging v3 
+> later this week.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Thank you for clarify the issue, but hmm... I couldn't reproduce the
+issue... I manually uses -EPROBE_DEFER for card, and use rebind().
+After that I unregistered card, but it works well...
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Thank you for your help !!
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards
+---
+Kuninori Morimoto
