@@ -1,126 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9E43290DC;
-	Tue, 31 Mar 2026 17:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA9C375AB2;
+	Tue, 31 Mar 2026 18:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774977081; cv=none; b=BjI34i7MOi2GyRD4ioxQ/4mPd7Fd/tymKc0dGzQ7x/n0rQ9j6hbtt8c1wy6TtKtyGGL2OKFZV5S/6RKibilNMAxkurx2Sgan82/vosEcw0Vq62IEUqTWW6xmB7kfLecXH3CBXqOEjl7nEBgfOxDYzrGMvr9Pfli4qOsCt1wInrI=
+	t=1774980929; cv=none; b=C/qru+cZd+dGuQAo82S6TK1MAxQzcGeAEawoYO1mf46MAWQhQpIm/PXcgKlGUGXQrGoBvVkrQ2r6TQ20pbxRO18VmVc5qJlz7Ae46NIDAY8VWQE1KvaaI7wXxa+M4FYONV/9wUdXtIgI61ayBeeWWuVMtwRDbX43TmnHi/Yz7R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774977081; c=relaxed/simple;
-	bh=GtvqYs/cKyskZarliVyoZyk6Lrz0zh2hjMq/BgJEN6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f9RsXCXaTq4l833gq2jIxCaMgyqrNf6z6dzXDpamrwmoK/2u2Ts7T6lOq1AdW+WeW8qk2kHsoRx1fTdSwTJePIoUSDCFS4mRfjJeNIlNykxQbea45PWy5aHYBh1JC2iwZJaezC6DvXoRmIRvBbsY9jAbvDfxW3GAipfDrf2kWBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQaENH7g; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774980929; c=relaxed/simple;
+	bh=dUpWRpVD0pZTUEgLbvqfOYoiQMaDwcvBXt46TuC81zE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=t/C0gPqpV6WIiEmWwubGBdyKYmh7gXBs8GrElahwJt3FkBGlau2et8tg2i7lmKiOTFQBvgfEBTJtLf2BeaicSHmTmu9f1O7PQIXp1Zv+cBGqgNWuxP4lX20DweHuVKLWWpOYur5Yj7HtEhOj4xuzKuQYGz4xeJlCKwvl6CNBXYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkoAkYrO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQaENH7g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774977079; x=1806513079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=GtvqYs/cKyskZarliVyoZyk6Lrz0zh2hjMq/BgJEN6A=;
-  b=UQaENH7gsNZumb7iGYgFmnsrTv/IKdrOiRsnS+LMv/7YgMKNMPw5PxE8
-   6xD15nGVouNUBIrpZ3lR82HY1ZE8IUfvEEPygKlvI8AnKeQ9VF9dNrWtj
-   ZvgSWrcAap+1h93VrBMdlfd4N9SK5rxg1K64jN6TN8djJbdul9dUr0UEw
-   f9ShYqYMIYR1K3Ny7xyq3zdUAEXyqVvnRQw1WuFdjx97J2Xt1wwuWcUaF
-   F8er1tiwID3sPYdPkMPQ4IvrUdh+Osny8GD+doCzx3aNN/CijNRGouLv3
-   B84j0bPTkNJ34rBAuW0+3gcVpiR+W/DOL/DOjkoLjrb/8ficK3ldNaRDs
-   w==;
-X-CSE-ConnectionGUID: TUK9PemkTx+ry5CzHixBWA==
-X-CSE-MsgGUID: T7VAPoKMSOOxf9Rgc1bqlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="101452498"
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="101452498"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 10:11:18 -0700
-X-CSE-ConnectionGUID: r2xYqhAfS3+du50J680yKw==
-X-CSE-MsgGUID: gPOK64SeQbOM5PtqQpcDlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="221563716"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 31 Mar 2026 10:11:16 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7ccT-000000003bB-2W3u;
-	Tue, 31 Mar 2026 17:11:13 +0000
-Date: Wed, 1 Apr 2026 01:10:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	=?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Subject: Re: [PATCH] ALSA: aoa: i2sbus: clear stale prepared state
-Message-ID: <202604010125.AvkWBYKI-lkp@intel.com>
-References: <20260330-aoa-i2sbus-clear-stale-active-v1-1-47a6c0a3ac9e@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkoAkYrO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D66C19424;
+	Tue, 31 Mar 2026 18:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774980929;
+	bh=dUpWRpVD0pZTUEgLbvqfOYoiQMaDwcvBXt46TuC81zE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=YkoAkYrOeHWFCL9i+RlO4XlbQ7aW/LYqBhrrXMTjV8+mSQ9e6rRVUp6O1n2PE2DoK
+	 PaAQwa5BkHmJd72/hVaQ7HWCVbmOUylViW833Y91SkOi0KX8tuH09c/UFZ6NNxAcgn
+	 XSNp3tch8nERPV+3Swmj4cAPllj7illHMu/6uESzHWX7SdykM4Pj/WfzMzO9TK5ag/
+	 rF2pOHTNQgsLmj2jdqG1qPBpjb9yFwCa2dnEwMXoUPHU+lknMTqYNapa0bR/BAR4g+
+	 6y+OEjm+ubGwhPSiPdsx2lLetaLueDqi+JvfhD97oSDiSkwjPx9Wne22+yt31n3Ktl
+	 YZEyjgJeChYvw==
+From: Mark Brown <broonie@kernel.org>
+To: cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, Julian Braha <julianbraha@gmail.com>
+Cc: linux-sound@vger.kernel.org, liam.r.girdwood@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, perex@perex.cz, david.lin@intel.com, 
+ arnd@arndb.de, linux-kernel@vger.kernel.org
+In-Reply-To: <20260325001522.1727678-1-julianbraha@gmail.com>
+References: <20260325001522.1727678-1-julianbraha@gmail.com>
+Subject: Re: [PATCH v2] ASoC: Intel: boards: fix unmet dependency on
+ PINCTRL
+Message-Id: <177496232380.39905.10262216448463693315.b4-ty@b4>
+Date: Tue, 31 Mar 2026 14:05:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260330-aoa-i2sbus-clear-stale-active-v1-1-47a6c0a3ac9e@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-3ac6c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dUpWRpVD0pZTUEgLbvqfOYoiQMaDwcvBXt46TuC81zE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzA89URBCy6uinqYVDMbMsoHzNtQH5Dow/qthK
+ jHuLFUa8A6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacwPPQAKCRAk1otyXVSH
+ 0LhfB/0cJc2B+IEj9Iz07xxMXbHdY97XvnzQ/rja8oPnk5OKKq5BFnaFPxjumjh/PUEDzPBz1WQ
+ N5byZT4EhNjeYQsqrJnydE3OwCvWoCFBvPO9pvd8+g+umRGdHJxHuZZantiQtd6o77sIQ/dLD+l
+ kWIz2VLbythOh0Kuhxz8tVjCl00/r1k9MCrFsHJbJ9wReJBG9rmVJYX43jadBRPxxGAB9LWjHLj
+ 9Ax5WGDDhApiNzcoYWON55zttRaFYp5T9SzEwYVvOQRwlGwnLXg9MfLK7wfeXBJxEYijaC9+M63
+ OVfQj5INwNc+zXu6BQOeVqwOP85d/up6OcujZw1q6ItDlggC
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Cássio,
+On Wed, 25 Mar 2026 00:15:21 +0000, Julian Braha wrote:
+> ASoC: Intel: boards: fix unmet dependency on PINCTRL
 
-kernel test robot noticed the following build errors:
+Applied to
 
-[auto build test ERROR on 46a6512f4a74dd7b18d9a455669c226843fc49ce]
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
 
-url:    https://github.com/intel-lab-lkp/linux/commits/C-ssio-Gabriel/ALSA-aoa-i2sbus-clear-stale-prepared-state/20260331-113724
-base:   46a6512f4a74dd7b18d9a455669c226843fc49ce
-patch link:    https://lore.kernel.org/r/20260330-aoa-i2sbus-clear-stale-active-v1-1-47a6c0a3ac9e%40gmail.com
-patch subject: [PATCH] ALSA: aoa: i2sbus: clear stale prepared state
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260401/202604010125.AvkWBYKI-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260401/202604010125.AvkWBYKI-lkp@intel.com/reproduce)
+Thanks!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604010125.AvkWBYKI-lkp@intel.com/
+[1/1] ASoC: Intel: boards: fix unmet dependency on PINCTRL
+      https://git.kernel.org/broonie/sound/c/e920c36f2073
 
-All errors (new ones prefixed by >>):
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
->> sound/aoa/soundbus/i2sbus/pcm.c:760:25: error: initialization of 'int (*)(struct snd_pcm_substream *, struct snd_pcm_hw_params *)' from incompatible pointer type 'int (*)(struct snd_pcm_substream *)' [-Wincompatible-pointer-types]
-     760 |         .hw_params =    i2sbus_playback_hw_params,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/aoa/soundbus/i2sbus/pcm.c:760:25: note: (near initialization for 'i2sbus_playback_ops.hw_params')
-   sound/aoa/soundbus/i2sbus/pcm.c:313:12: note: 'i2sbus_playback_hw_params' declared here
-     313 | static int i2sbus_playback_hw_params(struct snd_pcm_substream *substream)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/aoa/soundbus/i2sbus/pcm.c:829:25: error: initialization of 'int (*)(struct snd_pcm_substream *, struct snd_pcm_hw_params *)' from incompatible pointer type 'int (*)(struct snd_pcm_substream *)' [-Wincompatible-pointer-types]
-     829 |         .hw_params =    i2sbus_record_hw_params,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/aoa/soundbus/i2sbus/pcm.c:829:25: note: (near initialization for 'i2sbus_record_ops.hw_params')
-   sound/aoa/soundbus/i2sbus/pcm.c:323:12: note: 'i2sbus_record_hw_params' declared here
-     323 | static int i2sbus_record_hw_params(struct snd_pcm_substream *substream)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-vim +760 sound/aoa/soundbus/i2sbus/pcm.c
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-   756	
-   757	static const struct snd_pcm_ops i2sbus_playback_ops = {
-   758		.open =		i2sbus_playback_open,
-   759		.close =	i2sbus_playback_close,
- > 760		.hw_params =	i2sbus_playback_hw_params,
-   761		.hw_free =	i2sbus_playback_hw_free,
-   762		.prepare =	i2sbus_playback_prepare,
-   763		.trigger =	i2sbus_playback_trigger,
-   764		.pointer =	i2sbus_playback_pointer,
-   765	};
-   766	
+Thanks,
+Mark
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
