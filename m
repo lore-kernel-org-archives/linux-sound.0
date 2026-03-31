@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103A936C5A1;
-	Tue, 31 Mar 2026 05:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D7819DF6A
+	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 06:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774933933; cv=none; b=r9N77yyT2m4mqabaCmE8Hckoh36mBo92OsLJ/Iew3po6S/hhF+YRYFe6r/1kMfgMielV8rO/0E1iaZx27/ql/LxV9m5CVowtF4hwaIWcw6fHIyN5tZezo6KeqWpzH4ikDQ+/55T8EmiWLve+kQ4VrUMM4UgIXIhmhTXZs7W+06Y=
+	t=1774936844; cv=none; b=snKMcQzPMTsIC9Mw/XtKI9plCLZG8gE6gZubzg/SB/fa7zlVayfRVCrngjlUZZv200+sXVSwE4AUjP5dnLE+o0K4lf6g4Xizg13sPhUKPoPd9RCsDc0ihl97zFwNNWgVVsjHCTolw92m7is9OwMiOXCRBX3iFE+SEtxuSZj1yzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774933933; c=relaxed/simple;
-	bh=bGQCnPeAYldP30QzX60pY3pg3Zg/GnBOiiNwoVJI5cM=;
+	s=arc-20240116; t=1774936844; c=relaxed/simple;
+	bh=fkXxvhiVBFqKqKw3s3He36S3sohTgtdnqNJ9mwd5fL0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MKN46uVOBoc0wK6nZk7SDGeuHeVWxSwkYm+S0ovatJnlBE6cpTjpBOiXsdnCkuSUmSMOL/7EmWkKCbRi44u4JNykduz3bv2bJpGMer/ntskmRZ6hGgo+TqpVD0ElhZyXYXoLQnr3vJbikuYlKSUW6qdHsMa5G8Uks4Vp18jTwh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2LAYgPp; arc=none smtp.client-ip=192.198.163.11
+	 In-Reply-To:Content-Type; b=BVV4wgCWIxaMcF1VsGA9g3AppSWCVSHtIdxo+k3hMWD3VXe5jK0qFPBOGdnPtBW8JkfKSGmC7MbRjXEWCMevuvM2MGHfmCtuDu5ELkoEIGUGzTxwUbDtkpgcIl6JRKQ25Junv/bqnyvA9PFmBizCoX+8MTvC4d8QP8Dv4xk+7p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxD/hUyJ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2LAYgPp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxD/hUyJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774933932; x=1806469932;
+  t=1774936842; x=1806472842;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=bGQCnPeAYldP30QzX60pY3pg3Zg/GnBOiiNwoVJI5cM=;
-  b=H2LAYgPpALAV3I1H8IwoJcvoy38c3uok7yeX08BXczLznR7bI2fTBMGJ
-   JutyPLSRHsVPltRHLW4z/vX+tx5sNIupZn9FQk949oDtR3gNA0FJG6VYC
-   kg2hkEMhaGGN1H8MvU5o7j+6VYylZpcUEcBRtCP3S2IGNtyIorBvdm+tf
-   3ghSOSHTb0BwGm3VGL4+3pxqxElrebd5Y7LxcQMTjwJsHUW1iY95SrGn3
-   NBfA44TC7Wl74k7FCwOrGP3PxZbHx7yR1VKbtuoVH9VqG77MNS7mDoyEi
-   66fQyOuB8DuOfSfx++EEWEmc36zM1NTSeazRFO9MdBlSMbC2viDwZanzs
+  bh=fkXxvhiVBFqKqKw3s3He36S3sohTgtdnqNJ9mwd5fL0=;
+  b=JxD/hUyJmIC+yHjwCI/kylHyZn3DnSCXpLC4k9OM4tARP1XbRu85w0RL
+   oub534/mTCKrICCFnO81Y3jbdmyyRE7ksEw1OfPDC8piL0rrlf/HnOs8W
+   LaiFY/Wj1Py2blBp9/TLYGgRTGN3ZygDU4Y6t3L4EYfglthpdo7OoUQcF
+   8VJvMhm0HUgeAzAtAzM74o3ZUBSwvJMIeBGf/m7cGsmhmtOF8dMqLMCDR
+   YzpOWA+ZiT1j+vinDSkwL3U1TrEVKvrLUvcxe5bJtwwRRv6dcVL1VRk9W
+   StRwEm9o/CW6dRoYjsIhmcPoPWYorKH5jizJmmyo48hPZ5n/CLfrJhZD0
    A==;
-X-CSE-ConnectionGUID: MRs15qnJSHWD77HkrZ9PFA==
-X-CSE-MsgGUID: 4lvBGY4fQn+UeGhzUziM5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="86552995"
+X-CSE-ConnectionGUID: PzjMDj9lRValLxgT7SkNYg==
+X-CSE-MsgGUID: yww031o8QM6tk87SUQFKlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="79837284"
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="86552995"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 22:12:11 -0700
-X-CSE-ConnectionGUID: XCW0dGPuQDOI/Ggoxfe0mg==
-X-CSE-MsgGUID: 3GyJApuoROaO9SLvSORGbw==
+   d="scan'208";a="79837284"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:00:42 -0700
+X-CSE-ConnectionGUID: JRRtkffGTEyet5gCMMNYhg==
+X-CSE-MsgGUID: eGN7wwo9Q1GCp+icGXYCSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="223371845"
+   d="scan'208";a="231198697"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.218]) ([10.245.245.218])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 22:12:08 -0700
-Message-ID: <8f37f7dc-bcac-4344-9532-b59eac7e1ffd@linux.intel.com>
-Date: Tue, 31 Mar 2026 08:12:25 +0300
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:00:40 -0700
+Message-ID: <dadef18b-1c2e-4c0d-8ae8-2e4b8ad75d04@linux.intel.com>
+Date: Tue, 31 Mar 2026 09:00:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,64 +52,83 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: Don't allow pointer operations on unconfigured
- streams
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Paul Olaru <paul.olaru@oss.nxp.com>,
- Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
- <3cd96fe7-4575-40f9-a1f2-610fb1fac5c1@linux.intel.com>
- <aca1sW6ca1QJBN9V@sirena.co.uk>
- <e3c69a0a-5ed1-45f7-9180-9268bd671df0@linux.intel.com>
- <bf12ef77-0d28-4454-a910-59bf915b5048@sirena.org.uk>
- <3672d018-d7c2-4bdf-a130-60ed76a9e543@linux.intel.com>
- <accf8fa2-72b2-48a5-bdb7-72784b199347@sirena.org.uk>
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <87se9htms4.wl-tiwai@suse.de>
+ <67b9f48b-1cc7-4dac-8f6a-c0cba6a84b36@linux.intel.com>
+ <87ikadtgpe.wl-tiwai@suse.de>
 Content-Language: en-US
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <accf8fa2-72b2-48a5-bdb7-72784b199347@sirena.org.uk>
+In-Reply-To: <87ikadtgpe.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 30/03/2026 23:11, Mark Brown wrote:
-> On Mon, Mar 30, 2026 at 02:50:15PM +0300, Péter Ujfalusi wrote:
->> On 30/03/2026 14:05, Mark Brown wrote:
-> 
->>> We don't generally guard calls based on the state the stream is in,
-> 
->> compress does this quite much, just avail and tstamp is exempt for some
->> reason.
-> 
-> Actually already we have a guard preventing userspace from doing an
-> avail() when we're unconfigured but we do it after we've called down
-> into the driver which is less than ideal.  I think that's because we
-> also check for XRUN and the availability check might cause us to notice
-> that we're in a bad state for that.
+On 30/03/2026 19:39, Takashi Iwai wrote:
+> OK, then I'd say that the existing fifo_size doesn't fit fully for
+> this kind of stuff.  e.g.
 
-I don't see how the avail path checks for XRUN and if the drivers
-supposed to do that, I'm not even sure if XRUN is possible with compress..
+We came to the same conclusion with Jaroslav, and the plan is to
+introduce two new parameter in hw_params:
+init_chunk and step_chunk, both in frames.
+init_chunk - is the size of the hw_ptr jump right when the start happens
+step_chunk - is the runtime jump size which happens every step_chunk time.
 
-I did noted that the avail have the state check reversed, making it
-ineffective.
+for example:
+init_chunk = 100ms
+step_chunk = 1ms
+hw_ptr moves 100ms on start (pointing to 101ms), after 1ms of time the
+hw_ptr will move 1ms ahead to 102ms, in another 1ms it again moves 1ms
+to 103ms...
 
-The other point is that any return code from the driver's pointer
-callback is ignored by the core, the return value of
-stream->ops->pointer() is not even captured, it could be void.
-Looks like a design choice, but I cannot say.
+init_chunk = 100ms
+step_chunk = 96ms
+hw_ptr moves 100ms on start (pointing to 101ms), after 96ms of time the
+hw_ptr will move 96ms ahead to 197ms, in another 96ms it again moves 1ms
+to 293ms...
 
-fwiw, the same check should be added to sound/soc/qcom/qdsp6/q6apm-dai.c
-as it does div with prtd->pcm_size (q6apm_dai_compr_pointer), which is
-only initialized in set_params.
+Note, the first is theoretical, with SOF 1ms step is used only with
+'small' DSP side buffer:
+
+init_chunk = 4ms
+step_chunk = 1ms
+hw_ptr moves 4ms on start (pointing to 5ms), after 1ms of time the
+hw_ptr will move 1ms ahead to 6ms, in another 1ms it again moves 1ms to
+7ms...
+
+I'm not sure if we want these to be snd_pcm_uframes_t types in
+snd_pcm_hw_params or should be u32 simplify the shrinking of reserved..
+
+-       unsigned char reserved[48];
++       snd_pcm_uframes_t init_chunk;	/* in frames */
++       snd_pcm_uframes_t step_chunk;	/* in frames */
++       unsigned char reserved[48 - 2 * sizeof(snd_pcm_uframes_t)];
+
+with u32 we can simply change the reserved size to 40, which is anyways
+going to be the case for the snd_pcm_hw_params32{}
+
+> if a device allows a different queue size, it should be configurable
+> via hw_params.
+
+I'm not sure if I follow this statement. the fifo_size is a driver to
+user space information, driver fills it and user space ignores it ;) - I
+cannot find any evidence of it's use.
+
+The init_chunk, step_chunk would be similar, the driver sets it and user
+space would use it.
+
+In SOF this will be dynamic and it will depend on the period size:
+https://github.com/thesofproject/linux/pull/5673/commits/18f3ba5e42212d77019d79ec09b7057a7703d361
 
 -- 
 Péter
