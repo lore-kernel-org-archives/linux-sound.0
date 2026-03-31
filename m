@@ -1,56 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BF73C3444;
-	Tue, 31 Mar 2026 11:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3533D5669;
+	Tue, 31 Mar 2026 11:27:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774956346; cv=none; b=Bs0pGgreMjdiUouZlUng15w/+ZSKOD8RrGW8ES5JshAKmiH3CWVLyZ/JUgTotw1m9pPTsz+ZhAZN1iqsN8zUk2ueGt++fBpvGXmZJGC3NzQzUFurgG1wPr3z+wy5aOf/aaqsrHL6n0B+vUZ9ad2pupPqYxIA6fA+pn1Z16e75PI=
+	t=1774956420; cv=none; b=q9O5qj9aX58yuJxubdqUsbLN7Y4i8MuQxTG9b7z0qd5D685tGwH6nkXQi8t2oN+3XNck197cVMFhL8pWJJkLpp5mExTSljdtOadwmBujkWJ57Y2YdCJjHhF2DWHvCDLZ2S+TepQ1UqDKTAEWlm/W9f2CmgRVc2pCkjhpzim1OXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774956346; c=relaxed/simple;
-	bh=jORSOCWX0nrMPhxbjMkeh8vtFmMEij4sze4y9DNhN80=;
+	s=arc-20240116; t=1774956420; c=relaxed/simple;
+	bh=CVkNZi7O+wfvlBnNZAjEjyFuNR4ogmt8gBWAWZAh9h8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VEV2ZSgZSX3w2vTP/hkKzWx+KlqP5rFREpFTeO2sj+NQWIAqqkcSPtk0qEjCOyYjQT/FvmYq0eALfXh1GI432BhZb9zEjY0vJg+EblhwgAlWUyFMzVH5kVcM0M8rWNt1gp+0kr4hmKjDLgp2IXYAOXn26/i96DBEDgkl35kN69U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qy80zUCy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EYzd4BYc5HPt8azivejMF3+VtP7NVxBSUvuepbA9cCVWOxJC3jSMHWbcSIoPTutUFD3E+RnYWyp7G+NO6DxKRUxTeDr6Pv/Pad//kWYVm/g8qTg9stWFh5z+sC8V/W6I84UiGUe6rHAbs8fWV3zcl5PhKRyUeedQ458efWtm9KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T9S//+CI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qy80zUCy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5164C19423;
-	Tue, 31 Mar 2026 11:25:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T9S//+CI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31868C19423;
+	Tue, 31 Mar 2026 11:26:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774956346;
-	bh=jORSOCWX0nrMPhxbjMkeh8vtFmMEij4sze4y9DNhN80=;
+	s=k20201202; t=1774956420;
+	bh=CVkNZi7O+wfvlBnNZAjEjyFuNR4ogmt8gBWAWZAh9h8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qy80zUCyyasjlQNDqM2qHi5WI8JmbEQTrY0jptUMM3Ss46ljCJZcfOx0+N2ZX/JE/
-	 3Y9Y3P2ND794Co2DrZkW/6fVTgEUplRRFHTRLuTo9uHfVQX2daMuq/Wudhkb4X2Dt/
-	 so82QoTbdVBIBB3zU23eFlAFOmzeI2Rq3oCs6e55LoYnBSwI0h0fT5wbNBBMSukL9o
-	 0PoNmXHcYSnrUjA9ui/TtQZsF5WwUyLkH9YVc1TSR/UKVSiR512m6sap3BSCo8nQFu
-	 BZz/mcYSJTETEKoaeFE0GWEKcTkVXQWr5dHxbWUKEW7D/bA4qw14RrhSsaZX9IVFCs
-	 dm8eCrLEM61PQ==
-Date: Tue, 31 Mar 2026 12:25:41 +0100
+	b=T9S//+CIyNZLQuMlWGdSlexurAWga48eFOr1kBQjNHtiN9eKkU7auXR7G39bA207n
+	 g/1H36hG3ONZ8PN8ZUsNw2ePdxxmMd/ydcsoiVVD2CWYLUBn110WIHkLIJlXPGrOF5
+	 NWveqikut66UDe4QcgsqM2Oa4zDnOlk5nTUZMpAgihdb2OseXrlZQOMFGWcy2x+JIK
+	 hHfXHy7GwclaVyIWltncsphPBheM8PcLu5Zwv3+/2tXrp20N1cW6ANxXy1Ja0lgfKU
+	 okYCZvGyENjiRsXpWitDZ2Me9rKu7WogjOrvioVasIHc5qio9nFNMGowIM4huvgA5G
+	 /tdkUi1AomCQQ==
+Date: Tue, 31 Mar 2026 12:26:56 +0100
 From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Paul Olaru <paul.olaru@oss.nxp.com>,
-	Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] ASoC: SOF: Don't allow pointer operations on
- unconfigured streams
-Message-ID: <93b8231c-3b8d-4989-9b2d-f6489cb539d0@sirena.org.uk>
-References: <20260326-asoc-compress-tstamp-params-v1-1-3dc735b3d599@kernel.org>
- <3cd96fe7-4575-40f9-a1f2-610fb1fac5c1@linux.intel.com>
- <aca1sW6ca1QJBN9V@sirena.co.uk>
- <e3c69a0a-5ed1-45f7-9180-9268bd671df0@linux.intel.com>
- <bf12ef77-0d28-4454-a910-59bf915b5048@sirena.org.uk>
- <3672d018-d7c2-4bdf-a130-60ed76a9e543@linux.intel.com>
- <accf8fa2-72b2-48a5-bdb7-72784b199347@sirena.org.uk>
- <8f37f7dc-bcac-4344-9532-b59eac7e1ffd@linux.intel.com>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, Vijendar.Mukunda@amd.com
+Subject: Re: [PATCH] ASoC: amd: ps: Fix missing leading zeros in
+ subsystem_device SSID log
+Message-ID: <3d2bde4e-fb69-4e94-b83f-119f073aba95@sirena.org.uk>
+References: <20260331104116.16417-1-simont@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,67 +42,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="61VW4jLsrmvHKl/j"
+	protocol="application/pgp-signature"; boundary="z5e5gLdiDkcSNQBN"
 Content-Disposition: inline
-In-Reply-To: <8f37f7dc-bcac-4344-9532-b59eac7e1ffd@linux.intel.com>
+In-Reply-To: <20260331104116.16417-1-simont@opensource.cirrus.com>
 X-Cookie: I just had a NOSE JOB!!
 
 
---61VW4jLsrmvHKl/j
-Content-Type: text/plain; charset=iso-8859-1
+--z5e5gLdiDkcSNQBN
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 31, 2026 at 08:12:25AM +0300, P=E9ter Ujfalusi wrote:
-> On 30/03/2026 23:11, Mark Brown wrote:
+On Tue, Mar 31, 2026 at 10:41:16AM +0000, Simon Trimmer wrote:
+> Ensure that subsystem_device is printed with leading zeros when combined
+> with subsystem_vendor to form the SSID. Without this, devices with upper
+> bits unset may appear to have an incorrect SSID in the debug output.
 
-> > Actually already we have a guard preventing userspace from doing an
-> > avail() when we're unconfigured but we do it after we've called down
-> > into the driver which is less than ideal.  I think that's because we
-> > also check for XRUN and the availability check might cause us to notice
-> > that we're in a bad state for that.
+> Fixes: aab1301cfde344 ("ASoC: amd: ps: Propagate the PCI subsystem Vendor and Device IDs")
 
-> I don't see how the avail path checks for XRUN and if the drivers
-> supposed to do that, I'm not even sure if XRUN is possible with compress..
+Fixes?
 
-Yeah, I was hoping there was something in driver code there but didn't
-actually check.  You should at least be able to get a buffer overrun
-with compressed streams, and even if I'd expect most things to fill
-silence you can undderrun which would be bad for applications like music
-playback.
+> -			dev_dbg(dev, "SSID %x%x\n", mach->mach_params.subsystem_vendor,
+> +			dev_dbg(dev, "SSID %x%0x\n", mach->mach_params.subsystem_vendor,
 
-> I did noted that the avail have the state check reversed, making it
-> ineffective.
+This doesn't specify a width so how would printk know how much to zero
+pad?
 
-> The other point is that any return code from the driver's pointer
-> callback is ignored by the core, the return value of
-> stream->ops->pointer() is not even captured, it could be void.
-> Looks like a design choice, but I cannot say.
-
-I suppose it's easier to have the error reporting in the drivers in case
-you want it later.
-
-> fwiw, the same check should be added to sound/soc/qcom/qdsp6/q6apm-dai.c
-> as it does div with prtd->pcm_size (q6apm_dai_compr_pointer), which is
-> only initialized in set_params.
-
-Ack, I hadn't looked at any other drivers.  I was actually going to send
-out the core patch but even so some defence in depth would make me
-happier.
-
---61VW4jLsrmvHKl/j
+--z5e5gLdiDkcSNQBN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnLrzQACgkQJNaLcl1U
-h9CYvwf9H0zXjZmaoJ1zuEq28CSpYjvp63hNyTMxFP9+rRvciHqjpFj3Bkn56Od1
-+cAT/zU44E3avfS/pqolO1JlW9Dzz5OsR4lHnCrw5HY63h+9Jcwuwtm5Y+aABsXx
-XTkWjG8+yBzTpjJ617ZcfPaYirOavlEalRQWBQVtXvYwjinnN+ow94wbGEl/uVcx
-xiIa/9FFF+pJI6Cdn/4hWYE/N7Zt48IadCLD5VMafzIWvYK4XOjT0dkt9g5aiZTY
-Hx7vprwzBs2XniBQZOgxQ2mRy5CECvhMqIfP+RbEL2Afn9ZktUM8RAecop5W+YHW
-HZyZYjlc4/1vEYKHigK0f38mon+flA==
-=CmUO
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnLr38ACgkQJNaLcl1U
+h9BlLAf/YHI/is9nd0G8TfncZWDB16o2i2Go1tpbh2XnCq51ToAa5UqiWK6SUjL4
+1+Ef2U4XOqkdDMUmIAfpVwDXnHWKxD0qdRtPFko9Du95WBVMFjBSRQZMe10sGF0s
+yhsGgUpjcuOng5RP65HC22vNrOngTUt0LwQDA7SauFtJW4+mvkfaSE/MjAU2Y8iC
+kBFlgm3cGk65N+xtJ7TGv2lPPGroIWefoxRRMfMLiizwE/Qr6pw7X4Xgi6NWhrwK
+WdiVUu/nzXckhjs2rMK7YLteyj4279tBCi7eGT/ecmxxwNtoGBrmPjI3ux/umM2L
+lQnlzogM7wEPnVGExG8+1rWBdLzfMw==
+=ufMo
 -----END PGP SIGNATURE-----
 
---61VW4jLsrmvHKl/j--
+--z5e5gLdiDkcSNQBN--
