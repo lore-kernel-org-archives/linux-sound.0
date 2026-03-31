@@ -1,86 +1,56 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012046.outbound.protection.outlook.com [52.101.48.46])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77863D8114;
-	Tue, 31 Mar 2026 15:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31EF282F15;
+	Tue, 31 Mar 2026 15:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774970251; cv=fail; b=CT3kWkyA9PCwCuySppKbWfkjmlnfDWMiWGeujeNKjnLwxLBaSiMjLgfZn1gVL9b3ebZfLEbq6FQ4AwpHhIPooHTiIkcRTKB1NvVZjFysWMxAAC3fZDPhKI0ChcKsXNOwWgachf9WHSdp++LOCH+AYUNaHjAu30OvajijsPDSj0g=
+	t=1774971328; cv=pass; b=pDMHv/rTl4/rRLsmVfoBSExguFWu4XK5VqZQfkXfQPjj89Ine9t3SXPfkX5D/jlt/4NDOZUxv4jD9TEg+xbV438797lQCCCYPzczCQEIRYnwoP/C+9QWaKMVl7l9HyDaFDx5LJsZCKPw44qP0cOeLnFIlIMZfcCCpj7kQ5lCVEk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774970251; c=relaxed/simple;
-	bh=VrFsU+4UY50zVkDIdrPgYhVLFBquue30xvVTNTOaVoU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lUvtmP25KNRgTx5lLIRsXT7GwYZJ/FAI87qe7ouVaOFg/4quRCkmoNOUg8+9Y82G2ugw/gxjqrkd1crm65HjNHdsGHZ+8wG5yz/s1LIYhy/qlEZBwUh45b2YweETdBWriY6iGJ5B8mkBOpqgtfK1xtQcAiLDkVMtoqjb5TVjCHQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ImkdgIGa; arc=fail smtp.client-ip=52.101.48.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1774971328; c=relaxed/simple;
+	bh=SiRbiPWfYoyb0jTLmTJ5QkjcEHFy0rmkUwIml/hwNNU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=W73PtCpkt3+ZjqzK6pPhWKbHCqEPGMIqLXbOKBicZLNHPquurD3PSHH96R9O7kA7qzaFaPCOLqIdLODGZtIU3GhFBwkDunpw0BcebTFRBjI5DtMvTIZXIWWmyRdXu2vygM8KCX8mE3xfV4cwc8ug783r90x2tzXbHvEgueAzrAM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=FLIBlmxF; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ImkdgIGa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tCWDrm8z5xy+PQ45DJJSxMzUeYr1Fbk+M9Tol1xvhsXcDlF7XUG6E48paOaGzAs7juH2wqFCPPM0+nEDxpvcIWgw7KYkxRFT8hqRlKOsUjVFX6hdXLcvTC591De3bPq8xxavC4r+g13T8EgVgHQgDuTO5PGnkKqxlwzqIjOwIePVXcuW7mQ1ZtUulxX+WAgGf1bMtNMgpWTDG1zENTOsl34WjkGW/6tm8F50BGM2c6/ghfxCzlNubyynMxIChWKaVfzQjZBPXXwQA01XK45FkcNxm9Q9/D7ev+H6oRR0XF2rI7GfAc/M3bqM+/cgz5sjEpEhDtD9u/3FIskA7b4Hig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lo7T4erZoPQ0YG2cjs7zhaFxXwU8qfDiq9afsMvyhrE=;
- b=meIrIXVjMeR3MHH96f3wswL/aBlqHd/QI+bwzs2MfVJpk/p5xG75iMCDmzHUJyxvzfWHRPCl6va5lx7eG0864fSwbnRVd6T0zGhlaqL6tAsn3WCOIqXfjKxzsQH/NouIHtVwHncxOH4zTGffYp7ngOqo9cT8gyZWIoYdLMd5R4oZRl9CU8N/7dr0IPHBod5YHdeQYYXRGY9n8qbUtYoCQmGMSF6XSgn7fgPrUZl7qey0QPEQSP2mqimw/m3q3rA45fbJ3HQm9DDlGOmcmuWpc7lJJ3J8VtxJCjGvoaKEzPZ+ly9FKOMFs3ibQt4bc16uHC2l/oCCp6ctMa7oFAIhtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lo7T4erZoPQ0YG2cjs7zhaFxXwU8qfDiq9afsMvyhrE=;
- b=ImkdgIGa42rIZJmEARwumtGOBImsbU4c5FfACK/p/xcY8bSzptCX5mxYnJaUzR/JTFS8QyqC0GeKSya6HEugyqaJFf1XLEX8W9m0SzUTwE6xpHssESRBntb1n2M0kl7QVUYSPbaXEVbceb3H2kd11g703rEexeu24ctMP8jsbOw=
-Received: from PH8PR20CA0018.namprd20.prod.outlook.com (2603:10b6:510:23c::28)
- by SA1PR10MB5821.namprd10.prod.outlook.com (2603:10b6:806:232::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
- 2026 15:17:27 +0000
-Received: from SN1PEPF000252A0.namprd05.prod.outlook.com
- (2603:10b6:510:23c:cafe::e3) by PH8PR20CA0018.outlook.office365.com
- (2603:10b6:510:23c::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.29 via Frontend Transport; Tue,
- 31 Mar 2026 15:17:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SN1PEPF000252A0.mail.protection.outlook.com (10.167.242.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Tue, 31 Mar 2026 15:17:27 +0000
-Received: from DLEE215.ent.ti.com (157.170.170.118) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 31 Mar
- 2026 10:17:24 -0500
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE215.ent.ti.com
- (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 31 Mar
- 2026 10:17:24 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 31 Mar 2026 10:17:24 -0500
-Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 62VFGtw52994147;
-	Tue, 31 Mar 2026 10:17:18 -0500
-From: Niranjan H Y <niranjan.hy@ti.com>
-To: <linux-sound@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-	<ckeepax@opensource.cirrus.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <cezary.rojewski@intel.com>,
-	<peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-	<ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
-	<pierre-louis.bossart@linux.dev>, <baojun.xu@ti.com>, <shenghao-ding@ti.com>,
-	<sandeepk@ti.com>, <v-hampiholi@ti.com>, Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v3 4/4] ASoC: tac5xx2-sdw: ACPI match for intel mtl platform
-Date: Tue, 31 Mar 2026 20:46:38 +0530
-Message-ID: <20260331151638.1281-4-niranjan.hy@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20260331151638.1281-1-niranjan.hy@ti.com>
-References: <20260331151638.1281-1-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="FLIBlmxF"
+ARC-Seal: i=1; a=rsa-sha256; t=1774971317; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=oEr0+M8HarrMKeI0UGX/O8xYdD0AuwYplSFm0+8CB2WGVcPSYxbSjTKKW7wCT2bTZ9N+eue1Ou6mT2NqrfiQRfGORYsQylEKu14GR1uNxjtyXq4++SXKRhgXCmJ24zPoIBs21okSUN6VhhYWIogfzY66mKLySwpW6fLLHb0AULk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774971317; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=1JidNBtwAKBiT/v7llcjGcbi5Vo8bK7rbL3FsDQVoxE=; 
+	b=LaI1WDqgdhTtrc4yLN3PKc0UmYrcpmqTXSpDJHfuBngoKg5CnfAZBODF2AHf4WsQf5LfpbFGcuans10T2T9LNSf1VJL9X3AHm59D8Y/d24NVpV8piw1wYn5SoxbLsJoXzgVanmnV9ml1DZq3xrgLXd2szHQogZOg4el5SLBu1Qw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=harin.net;
+	spf=pass  smtp.mailfrom=me@harin.net;
+	dmarc=pass header.from=<me@harin.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774971317;
+	s=zmail; d=harin.net; i=me@harin.net;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=1JidNBtwAKBiT/v7llcjGcbi5Vo8bK7rbL3FsDQVoxE=;
+	b=FLIBlmxF1e+1TC4z9Kq6SZ7L5iP/dyY3L9qW03hl0CEJPkHsiR32BVldlY4TELuP
+	EnmOF8b+Kril8v9Bx9fqTaJOu/A59ZdEJLtB7ibs5oAm8NzkTEPld9D2AGjZpm9bi85
+	upXORJ5oJRItU5WagJqYRJfoK9H/cIf68eb/eaUYckWaj6NzJJtdoVeE4ggMzVnMsqE
+	fyHzLup+wWmeXqoTIUaQWGeFwoTt5L+Ut3pyoaVZ0cwmuE+dGmBejdQyR3wTgjG1KLK
+	LbOlGwbWIAVqWZijS4JZa1T61IK5TMDJ5KC8a2WqitJe4iHb+vxzts539A8TfnnDFkL
+	gxrbqxfFVA==
+Received: by mx.zohomail.com with SMTPS id 1774971315103279.22817137290644;
+	Tue, 31 Mar 2026 08:35:15 -0700 (PDT)
+From: Harin Lee <me@harin.net>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Harin Lee <me@harin.net>
+Subject: [PATCH 1/3] ALSA: ctxfi: Rename SPDIFI1 to SPDIFI_BAY
+Date: Wed,  1 Apr 2026 00:35:05 +0900
+Message-ID: <20260331153507.2934795-2-me@harin.net>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260331153507.2934795-1-me@harin.net>
+References: <20260331153507.2934795-1-me@harin.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,231 +58,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A0:EE_|SA1PR10MB5821:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8f0f4be-779b-47d1-f206-08de8f389e64
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|7416014|82310400026|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	UHQBTVjFpCuW/fxQKvHOgylGZOT0642inslNqApOpQb0RcUY6Hwi/V+H06+KwHUksOJ7tS2IBurHdTTTmbp1sVAckeAwGwG0lpFvExWf2bH6aM3Y17AUfw7o6Ud0k7MmrBY5FmQniuQTHpvnOuZuXePCKCFSmfEOEMBMuVwD7Tv4G0Cwhoj1O0yxm/d7r4g5CZXPzaIbsdSaRSKC9ZrLXvKHncZKWCViOaAW0iAPnehoGquh3a1G0DS0v+oVOJAnpu+p20NN5DsxtS+JvyeydAp6KL8RJ1aXjkkdZbElePbDLhY85ksfBMORCJ97izW1KsuZjXjRM09nCGzMKW1OnVAtfMK7vo2KU4kp7zHWC03j+FxRGgrwNaz4eaQJMlvvdHEgq9RcvSTlbf4qsFfA9Kqn2KE2YL+gUGO8JYf8DzBBG4rYvhbxwEzop+b7cM5EiN6AJrvxeiepzX/Pg4ego6aBCtiAK2kZH6gu4oNOY/yVdEZxUeSAdUlhtcJGo3oljWXPk4gY0qv9Z5GVC9GUZ++MNgabukP7HDYs+Itdzx2gc1BYTHwjlGEooEwvJ9wWr3j7O8cUqYkd5T54ALSNBxdaPEq/cnsSwd35Rl01qMsTm5Il2pbIj1S5/nAKsawoLs7+vETuR6KlG5a7AbJHZb+OqUrsARvSarZuwTvt0d2tS5a16/yjADDF2H5nSZ6E9t0+l31Q1O8zVHGjdOiv/SUw5HDIMNT4Wqw5o7rYL3HWNx7S38L10cB3jBszKYhrgun82Qmi9FUIuk2EkhSjww==
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(82310400026)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	pUMmit+fhsjo0SMSv77XN5Bs9SyNdRv/62TQgDf4In7LQEeemw09WQMR72Si5RPBstjUFNFX8w/iGNqWPhmI9St2g0AGXmZMrIrSE+8aRcKFse2eyXJaWv45C4AOPWb8pYJIOXo6UE/oDQtHstQ3nOD6QG3bAqBzez/HnMzp5qdBts1klX/YrWXHwCCdMIvQ8npF+07bCVaGtrhow/BBs5J56LZUEnsQOvTm/XN2XkZC8hIblAOra4UTJHhIT6Szzlp2tgWxGLKrfGWEYyWQjhIYNN6bFEctLe0JSY45FFat3OIrzWZ4fkLBBNMOrMh+PGznGm+TWHs47MHIDVyYd3Rg+zQDXAQaIhW36aZWqVewJ6Hpl3xuJC4mpquAWghnynAnd0oCx7Yq8e8EuA80frxkY29XMYnwsMephwgRpWJbCVa1XWJeRi88rLkitQ1E
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 15:17:27.0866
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8f0f4be-779b-47d1-f206-08de8f389e64
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000252A0.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5821
+X-ZohoMailClient: External
 
- Add acpi match entries to support TI's tac5572,
-tas2883, tac5672 and tac5682 on link 0 on MTL machine.
+Rename the SPDIFI1 enum value to SPDIFI_BAY to better reflect its
+purpose as the S/PDIF input on the internal drive bay, as opposed to
+the S/PDIF input via Flexijack or optical (SPDIFIO; not SPDIFI-zero).
 
-Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Signed-off-by: Harin Lee <me@harin.net>
 ---
-v3:
-- no change
+ sound/pci/ctxfi/ctatc.c  | 4 ++--
+ sound/pci/ctxfi/ctdaio.c | 6 +++---
+ sound/pci/ctxfi/ctdaio.h | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-v2:
-- no change
----
- .../intel/common/soc-acpi-intel-mtl-match.c   | 132 ++++++++++++++++++
- 1 file changed, 132 insertions(+)
-
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 72c35e73078e3..2e4222456f27f 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -122,6 +122,42 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1,
+diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
+index da2667cb2489..9e0532fb33ff 100644
+--- a/sound/pci/ctxfi/ctatc.c
++++ b/sound/pci/ctxfi/ctatc.c
+@@ -1429,10 +1429,10 @@ static int atc_get_resources(struct ct_atc *atc)
+ 	for (i = 0; i < NUM_DAIOTYP; i++) {
+ 		if (((i == MIC) && !cap.dedicated_mic) ||
+ 		    ((i == RCA) && !cap.dedicated_rca) ||
+-		    i == SPDIFI1)
++		    i == SPDIFI_BAY)
+ 			continue;
+ 		if (atc->model == CTSB073X && i == SPDIFIO)
+-			da_desc.type = SPDIFI1;
++			da_desc.type = SPDIFI_BAY;
+ 		else
+ 			da_desc.type = i;
+ 		da_desc.output = (i < LINEIM) || (i == RCA);
+diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
+index 4dbb1dd7af32..128cf2f69ac1 100644
+--- a/sound/pci/ctxfi/ctdaio.c
++++ b/sound/pci/ctxfi/ctdaio.c
+@@ -35,7 +35,7 @@ static const struct daio_rsc_idx idx_20k1[NUM_DAIOTYP] = {
+ 	[LINEIM] = {.left = 0x1b5, .right = 0x1bd},
+ 	[SPDIFOO] = {.left = 0x20, .right = 0x21},
+ 	[SPDIFIO] = {.left = 0x15, .right = 0x1d},
+-	[SPDIFI1] = {.left = 0x95, .right = 0x9d},
++	[SPDIFI_BAY] = {.left = 0x95, .right = 0x9d},
  };
  
-+static const struct snd_soc_acpi_endpoint tac5xx2_endpoints[] = {
-+	{ /* Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Mic Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* UAJ-HP with Mic Endpoint */
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_endpoint tas2883_endpoints[] = {
-+	{ /* Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Mic Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
- 	{
- 		.num = 0,
-@@ -1011,6 +1047,33 @@ static const struct snd_soc_acpi_adr_device cs42l42_0_adr[] = {
- 	}
+ static const struct daio_rsc_idx idx_20k2[NUM_DAIOTYP] = {
+@@ -106,7 +106,7 @@ static int daio_device_index(enum DAIOTYP type, struct hw *hw)
+ 		switch (type) {
+ 		case SPDIFOO:	return 0;
+ 		case SPDIFIO:	return 0;
+-		case SPDIFI1:	return 1;
++		case SPDIFI_BAY:	return 1;
+ 		case LINEO1:	return 4;
+ 		case LINEO2:	return 7;
+ 		case LINEO3:	return 5;
+@@ -120,7 +120,7 @@ static int daio_device_index(enum DAIOTYP type, struct hw *hw)
+ 		switch (type) {
+ 		case SPDIFOO:	return 0;
+ 		case SPDIFIO:	return 0;
+-		case SPDIFI1:	return 1;
++		case SPDIFI_BAY:	return 1;
+ 		case LINEO1:	return 4;
+ 		case LINEO2:	return 7;
+ 		case LINEO3:	return 5;
+diff --git a/sound/pci/ctxfi/ctdaio.h b/sound/pci/ctxfi/ctdaio.h
+index ff77d55539a5..c9f6207fe92f 100644
+--- a/sound/pci/ctxfi/ctdaio.h
++++ b/sound/pci/ctxfi/ctdaio.h
+@@ -32,7 +32,7 @@ enum DAIOTYP {
+ 	SPDIFIO,	/* S/PDIF In (Flexijack/Optical) on the card */
+ 	MIC,		/* Dedicated mic on Titanium HD */
+ 	RCA,		/* Dedicated RCA on SE-300PCIE */
+-	SPDIFI1,	/* S/PDIF In on internal Drive Bay */
++	SPDIFI_BAY,	/* S/PDIF In on internal drive bay */
+ 	NUM_DAIOTYP
  };
  
-+static const struct snd_soc_acpi_adr_device tac5572_0_adr[] = {
-+	{
-+		.adr = 0x0000300102557201ull,
-+		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
-+		.endpoints = tac5xx2_endpoints,
-+		.name_prefix = "tac5572"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device tac5672_0_adr[] = {
-+	{
-+		.adr = 0x0000300102567201ull,
-+		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
-+		.endpoints = tac5xx2_endpoints,
-+		.name_prefix = "tac5672"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device tac5682_0_adr[] = {
-+	{
-+		.adr = 0x0000300102568201ull,
-+		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
-+		.endpoints = tac5xx2_endpoints,
-+		.name_prefix = "tac5682"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
- 	{
- 		.adr = 0x00003c0102000001ull,
-@@ -1035,9 +1098,45 @@ static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
- 		.num_endpoints = 1,
- 		.endpoints = &spk_r_endpoint,
- 		.name_prefix = "tas2783-4"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device tas2883_0_adr[] = {
-+	{
-+		.adr = 0x0000300102288301ull,
-+		.num_endpoints = ARRAY_SIZE(tas2883_endpoints),
-+		.endpoints = tas2883_endpoints,
-+		.name_prefix = "tas2883"
- 	}
- };
- 
-+static const struct snd_soc_acpi_link_adr tac5572_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tac5572_0_adr),
-+		.adr_d = tac5572_0_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr tac5672_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tac5672_0_adr),
-+		.adr_d = tac5672_0_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr tac5682_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tac5682_0_adr),
-+		.adr_d = tac5682_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
- 	{
- 		.mask = BIT(0),
-@@ -1047,6 +1146,15 @@ static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr tas2883_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2883_0_adr),
-+		.adr_d = tas2883_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr cs42l42_link0_max98363_link2[] = {
- 	/* Expected order: jack -> amp */
- 	{
-@@ -1208,12 +1316,36 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt715-rt711-rt1308-mono.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tac5572_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tac5572.tplg",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tac5672_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tac5672.tplg",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tac5682_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tac5682.tplg",
-+	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = tas2783_link0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tas2783.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tas2883_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tas2883.tplg",
-+	},
- 	{
- 		.link_mask = GENMASK(3, 0),
- 		.links = mtl_rt713_l0_rt1316_l12_rt1713_l3,
 -- 
-2.34.1
+2.53.0
 
