@@ -1,44 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA9C375AB2;
-	Tue, 31 Mar 2026 18:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7B9378D88;
+	Tue, 31 Mar 2026 18:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774980929; cv=none; b=C/qru+cZd+dGuQAo82S6TK1MAxQzcGeAEawoYO1mf46MAWQhQpIm/PXcgKlGUGXQrGoBvVkrQ2r6TQ20pbxRO18VmVc5qJlz7Ae46NIDAY8VWQE1KvaaI7wXxa+M4FYONV/9wUdXtIgI61ayBeeWWuVMtwRDbX43TmnHi/Yz7R4=
+	t=1774980935; cv=none; b=t3sStOhHqOrpv4dVw5rIHpb6NHArunGlbEfcTKRIZ6S3Nb7PMBOTmjEmEO0YvEM/nR8IzE9KiG809foqpm8NnB+gFPutqLpglrhj7iSzCBX5Q9X8+M6+8WQpf8mzd2qb2RikwkRbFzg9jqC2KSJiCjiu1/zQpBpz3PaiBGJJOks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774980929; c=relaxed/simple;
-	bh=dUpWRpVD0pZTUEgLbvqfOYoiQMaDwcvBXt46TuC81zE=;
+	s=arc-20240116; t=1774980935; c=relaxed/simple;
+	bh=HEt2i/x+noO2xvklQYGFFrHXzXwtZVD0/H6BOyL5w5A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t/C0gPqpV6WIiEmWwubGBdyKYmh7gXBs8GrElahwJt3FkBGlau2et8tg2i7lmKiOTFQBvgfEBTJtLf2BeaicSHmTmu9f1O7PQIXp1Zv+cBGqgNWuxP4lX20DweHuVKLWWpOYur5Yj7HtEhOj4xuzKuQYGz4xeJlCKwvl6CNBXYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkoAkYrO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BtR2xqrhwTp/VwmzXNn0+pp0yevHbvTLIT8VKs9UpeaDhUW6K9FzExoVg5S6+WJdT9hSgtuybhGzPJQh6gxILOzTfoE+ZI/HaWTpV9vqltTbpAJPZqOTSSZedDyoVIIpyMyvmtM7ePSVe23vJVYwummtL2b55kKnTSshaFcmlfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s2Ap66tT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkoAkYrO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D66C19424;
-	Tue, 31 Mar 2026 18:15:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s2Ap66tT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B058C19423;
+	Tue, 31 Mar 2026 18:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774980929;
-	bh=dUpWRpVD0pZTUEgLbvqfOYoiQMaDwcvBXt46TuC81zE=;
+	s=k20201202; t=1774980935;
+	bh=HEt2i/x+noO2xvklQYGFFrHXzXwtZVD0/H6BOyL5w5A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YkoAkYrOeHWFCL9i+RlO4XlbQ7aW/LYqBhrrXMTjV8+mSQ9e6rRVUp6O1n2PE2DoK
-	 PaAQwa5BkHmJd72/hVaQ7HWCVbmOUylViW833Y91SkOi0KX8tuH09c/UFZ6NNxAcgn
-	 XSNp3tch8nERPV+3Swmj4cAPllj7illHMu/6uESzHWX7SdykM4Pj/WfzMzO9TK5ag/
-	 rF2pOHTNQgsLmj2jdqG1qPBpjb9yFwCa2dnEwMXoUPHU+lknMTqYNapa0bR/BAR4g+
-	 6y+OEjm+ubGwhPSiPdsx2lLetaLueDqi+JvfhD97oSDiSkwjPx9Wne22+yt31n3Ktl
-	 YZEyjgJeChYvw==
+	b=s2Ap66tThMBTA1HIZGyjMebB3hpaRVd2KdYIbWc8xrjwkgP+btG7vKL4ZNtRnz/uX
+	 TQEqM7LJi/4ubkYZsbxhHBYdCr/GSoHn+Bbk5nYA7i6fzyB++x/lzzqTlCTcNU7+HT
+	 bGepxkeRf2jbed5EndoIFkHpzKs0/rsANxRxd5O3ZNgWRTM+H7AEDO0gSDsARA1TM9
+	 ua+8WE8MWSPPuTbhPzdRi8KT9rrStt+OAQYosAdtS158qUhU+Ym/JN8j4OlknQdZPJ
+	 rdoRyXiWB9KVokIwdmFH0i/QiS0lu7sjbPLrTy5zUyUu02jV9Bb7GcbJmA6EzJ3Oym
+	 Cq5HRnWrwQcPA==
 From: Mark Brown <broonie@kernel.org>
-To: cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, Julian Braha <julianbraha@gmail.com>
-Cc: linux-sound@vger.kernel.org, liam.r.girdwood@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
- pierre-louis.bossart@linux.dev, perex@perex.cz, david.lin@intel.com, 
- arnd@arndb.de, linux-kernel@vger.kernel.org
-In-Reply-To: <20260325001522.1727678-1-julianbraha@gmail.com>
-References: <20260325001522.1727678-1-julianbraha@gmail.com>
-Subject: Re: [PATCH v2] ASoC: Intel: boards: fix unmet dependency on
- PINCTRL
-Message-Id: <177496232380.39905.10262216448463693315.b4-ty@b4>
-Date: Tue, 31 Mar 2026 14:05:23 +0100
+To: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Colin Ian King <colin.i.king@gmail.com>, 
+ Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260324173830.17563-1-ethantidmore06@gmail.com>
+References: <20260324173830.17563-1-ethantidmore06@gmail.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda: Place check before dereference
+Message-Id: <177497249635.515155.5473291093205276400.b4-ty@b4>
+Date: Tue, 31 Mar 2026 16:54:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,29 +54,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-3ac6c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
- h=from:subject:message-id; bh=dUpWRpVD0pZTUEgLbvqfOYoiQMaDwcvBXt46TuC81zE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzA89URBCy6uinqYVDMbMsoHzNtQH5Dow/qthK
- jHuLFUa8A6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacwPPQAKCRAk1otyXVSH
- 0LhfB/0cJc2B+IEj9Iz07xxMXbHdY97XvnzQ/rja8oPnk5OKKq5BFnaFPxjumjh/PUEDzPBz1WQ
- N5byZT4EhNjeYQsqrJnydE3OwCvWoCFBvPO9pvd8+g+umRGdHJxHuZZantiQtd6o77sIQ/dLD+l
- kWIz2VLbythOh0Kuhxz8tVjCl00/r1k9MCrFsHJbJ9wReJBG9rmVJYX43jadBRPxxGAB9LWjHLj
- 9Ax5WGDDhApiNzcoYWON55zttRaFYp5T9SzEwYVvOQRwlGwnLXg9MfLK7wfeXBJxEYijaC9+M63
- OVfQj5INwNc+zXu6BQOeVqwOP85d/up6OcujZw1q6ItDlggC
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HEt2i/x+noO2xvklQYGFFrHXzXwtZVD0/H6BOyL5w5A=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhswz/M5XeX/HvuFy+9xxbtIvLr4+CQbpEq41vPMaH6uuY
+ f/1JGFSJ6MxCwMjF4OsmCLL2mcZq9LDJbbOfzT/FcwgViaQKQxcnAIwkU0b2f9721fdP2v10730
+ S5JYdpaPx7aSekfPDdm1x0J4Krr81rSv9c54k3aXWV590ZTFwVJM7GxXjX4wPN3w8FTVb5cnUqc
+ DE95GnH1ruMmHu9FtWb6cvm7Gqrec1g29DNkVmqr7+O34O6vOLV18M1eYLVx4ZYVIwNc70xwPvz
+ 5wKCe8/9oU1dcKNyc/nJBj9nXZFz7FoMb/nW+4pvwT2DSn+uaPtTL120u6M9wCpdTlVeUXnGY9X
+ ZYn7Lm/9WdFikV41tQ+KQeO+A/Mv6tD3dYvb9TYecOlyzPirDHXQ8fsutY1Mzxj1xQXzrVurtEN
+ q/+7eamPyAZ5ATu79c8vR/nc154yyyT0lsBch00MVvUMAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 25 Mar 2026 00:15:21 +0000, Julian Braha wrote:
-> ASoC: Intel: boards: fix unmet dependency on PINCTRL
+On Tue, 24 Mar 2026 12:38:30 -0500, Ethan Tidmore wrote:
+> ASoC: SOF: Intel: hda: Place check before dereference
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: Intel: boards: fix unmet dependency on PINCTRL
-      https://git.kernel.org/broonie/sound/c/e920c36f2073
+[1/1] ASoC: SOF: Intel: hda: Place check before dereference
+      https://git.kernel.org/broonie/sound/c/6cbc8360f51a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
