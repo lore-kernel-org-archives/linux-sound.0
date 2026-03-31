@@ -1,63 +1,63 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC943A75A2
-	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 19:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4927D38F924
+	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 19:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774985980; cv=none; b=dOcBHIXRszL28MgjLtxVI+DUDD3Do33ZCYc5vkYEOQpt3tMXQzQHjQdcNAoe7CeqjRxESblxz9bBjzWPKSXwFHue4UzNkqBepNK6vDLa1tPXKQkh59OxT2+KtDfFmWustRCHnu/tOe14QPsrJ7PVG74cP9IgIcnhd1xq5Lx4nD4=
+	t=1774985984; cv=none; b=KMnL9XbSBQ4Hmr1D7MKAbK6PLb3FRUiAndY2eaWIpcuSZpPmPsaTjyKYjf2+3EdvrsRhTMVfBu/OCr0r2I+GWJeAG3lVE4IN8j8hni75M2o+HLJgBKWL94nqLrq1n0USUvO3qSRSIKl6cdulISSYdPTeokX2L/Iss9cN0pYxmtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774985980; c=relaxed/simple;
-	bh=BXCnnROK5Jr7XSfuacF1JCL6R1HVhObmmDQUVuRBs40=;
+	s=arc-20240116; t=1774985984; c=relaxed/simple;
+	bh=WAt23p6wWxkOHhZf8zSAdYtlsqgQv1/kNzdA1zObNIk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qdOHA9dSrc9mrYH3BJGwiXaXhr/Y++7LYuEAr8uGZBTIpOoEbUXHcMVcTBqRBDkhk+CTgdQdgvYjYxLdtoDKqCd+xLqC+ZSmCmRpMWGX4IEgi/VYnDkuv0f2HzRLF8G3GmrcoN8QQ9dK7omyl0tpp0Zy2Ke7SFv8w4cyQYrGfeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iLlZmuDm; arc=none smtp.client-ip=209.85.222.169
+	 MIME-Version; b=HQiD6ECYOAPrcVsglZd/4Mn0ORE41KnqgdNR7qFFMV9saEdd7uKRNd/kIErmKbgylYzdgE+IiiZGknhlNlD48vMp2fpvuOeg2858fK0C3A1a86tn9BxwajL5zydiU25C2kt7mK07Bh7LylF17SxXhb25lZ1K2631b+KUD7XCsTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kapqWO13; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLlZmuDm"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cfd44fa075so836592685a.0
-        for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 12:39:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kapqWO13"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-509006c070eso45444901cf.0
+        for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 12:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774985978; x=1775590778; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774985982; x=1775590782; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NsXOvrBEVeyjNtjVFKrqAY0t05Kf7cmvMHwIAAt+bJU=;
-        b=iLlZmuDmZuYHLup5n1GYlUrLgsG30yGWK1dmRvP9LHymIEkH5TrKxqjw0MMaaF+bSt
-         KvzmyNyiCX3ezrH0WDV0IcffG1JMIXli3QGZ9jes3jQ5QqxWa0UzsqxyT14iZ8pNRtic
-         Y/OnmJ6wrKdaovJ9sC4e0itZfHR1JioQsclm473l4nyEPN1d4O7EMBI704pOVhXNC1Hi
-         YLWThWz+rPeG3Csvv0b+3T3Ay5Oyq631dgOjuuHOhXtzzD/WaersolRfQSWpC5xVyvHd
-         ByiKOmkEskOJ4+g5aUjQd4N5LprhKptx2MgwExqMkob/dGTQcA1yXPfAj5f9v9xhknQe
-         b5eg==
+        bh=Lu8+HYnN9QA/s0Ocg9WNVxv21EjyZNWyGCNCp1OiYbo=;
+        b=kapqWO139NWsWMzQtJxoJk4iUEoKwe8YYRJgQiQonw26bUxkK+ggEpeCKwvDgX9mwL
+         JFSXlRAe8TqZlSI5REiGotd9lQGK5/2GODMWX6wY+2Fa3X8mvDlRt8l77kwffjkN3Xhy
+         im/3vuit0A80N2z7FU2jVPCl3/5aRGq6AfgkveZHvn29IsThLbonaekFTLbX3XUDaJim
+         KT1cIDLbEkfi7XUlc36Wjhw0dVio2OY/7gHaa6WZ08XJLJyCrCo4h0bY5KyovUq27qOB
+         9DCp/W4HvOTnvF8tG1ssYYJjZ/5Sd/4L+LRhkZD5JNUlY9XN3AvDiHAUhTIdKyQZ2ez4
+         MzLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774985978; x=1775590778;
+        d=1e100.net; s=20251104; t=1774985982; x=1775590782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=NsXOvrBEVeyjNtjVFKrqAY0t05Kf7cmvMHwIAAt+bJU=;
-        b=ZjJuprjCv2l0W5S2/q/GhlHVunWRq5BlbAapdj4TQ6ZrNw8srh6gubj3UZAQpBdh6j
-         3JHShRfb3IXg4heprTk2gTWNU6BbiV4IFz6RZo2lgUZYXK3/nefclyiDYkvMz0ZRXZDM
-         a2uVxqD6xu3BhGpvuS68+KfICe7X9/8py0pPf7ROuVQSXEfmTRU5T7mmPLlSztx3X5qh
-         AVj4ZGvElOUXLfQ/cuZlfvZVMG6C0BN7sAZHdEijZUooWMzWJzTZB/fF12zEiZ8THTqx
-         q4nZUICh5Yec5I0Ld5ADUYopSePM1szbxHL51yFDg8B+ZXtRT7LKWdNPS+0PrLjLqtii
-         jp1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUh/LDPUBRA5pi15bSC0QD/lbT+1T8jKFS4Gj3MJ2b/LhGuwujCIstljVBcjbPcxvX8KeWKhNg5o6f9RQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyumCdYhoZRZZ/MwOAfghuqSrsa4Ljl3SARObXa0Ffg6BDtDM3F
-	Xh4Rjq3fl30R9wX3iY7AxyWFNnUl7px0+47auLKMxIGgbRamOMyzXJHN
-X-Gm-Gg: ATEYQzyte7pvH4fUUQxDzzzLvteD+GsJ6ZdYf6Bm6AMSYhlfBgwc33fxFPGtJG78/zZ
-	wUo4Z4zHppf8MXzC0D4oIeHpMrVbQqN4CkMWJHLeKppkbFoF9fF3L7VYA1dRc6nJVgBjqG7ujdf
-	HaW3I3Wss+oFu3TugWJkcpNstdExvI88LLGw51B14cRZJFH6NN1zkk9GeKWWTIvmBr3Uf+NlCxj
-	sGKj0LabI/6nmff1WubRHxBwh27fFZbDIWPgP9N9HReIzsC7luDm1g2Zp+U/H71rU4QeLS/xZoo
-	R4IPZzltPSXiMr7ng4xbAhH9tj3+YHZwaqYJuYnxgM8HGSguXGt0NR91qxwgS0C+CudbNFPXsDa
-	wAz9PCc1loOOAU0AXIqIazEzGemBJ3zgSc6GGFzb5RfCMlixhxiX/Yzqcz6iesc3Y2Y13bMV61p
-	/ISsELrXEH8Yp6Kn0LsFKQqatv
-X-Received: by 2002:a05:620a:4503:b0:8cf:c75d:2a0b with SMTP id af79cd13be357-8d1b5ab70cemr159538285a.6.1774985978137;
-        Tue, 31 Mar 2026 12:39:38 -0700 (PDT)
+        bh=Lu8+HYnN9QA/s0Ocg9WNVxv21EjyZNWyGCNCp1OiYbo=;
+        b=HyEQ9cCOk2PFn4hcVKBMORdLnF/moWTkDfCF6BWTqq1387NK0YAA5ouYEJRL+V/1gx
+         6FBcX1uwmQ72k8Ve26w7ZgB4+ParRKs/OAtiJSairnDNY01ai43zyXymDVMY87XF08u7
+         DqCsS1cnDZkLL2Yy8oGYghOMvFnfQV4iE10kKZ/1JBibk4noSlX8a534FRzU9HHpnbEl
+         3xpSe4jvvmwFbQLyogFesYzvLH2dYCWI5L10jxHN/ONX4fOgWls2JrIFejuuc9UClgBT
+         +FChtCzl4DFCcmIQKQg2Wp6Q5ppH9EWL9fCTZcAsoHzsW4ranLRaRGenaVNzhszzqQGa
+         m2fw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzoF0etJM8um0bzuufCiaZRDlVAvThFfD61fXzxoctOFagxHzJMKxcp2rk4ULq0lGY6dCbM2LTFoX/hQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3TCy9p/tJDc++klL8cDfwvagh+4JyVmkPM5hjR7kqH6JTUklh
+	9C9i9hV6Q5HMFS+8SMPnkI++c3x/EKXyzHGVX+fyoktHUUql5t9nKJlQ
+X-Gm-Gg: ATEYQzziTJBzThmLKTSvtVDZomfVrSTdffjPyjnQbAHWweWamr63MQA3+KTfCvNsIwl
+	JF1DbciRrT+z1ErdNsSO8W36gyRhitMsUwJd88FjW4llNehN+ahDIe8/sz33+s7lWgPNlAjImGA
+	NNMnuv2rJZVK6XBxxTWDC0Skoq60YL7+HDNgJ6jyuJkTOcT0uCKLoRomaMp1R3+wXcQyEQgrSkX
+	rMumMaZttMQ2k362Aq6dBYh2KpQdHiKcmNYu9IWv7+YEhdyLUBYW6wbVGBgPsLqG1r5MOF3XJ2D
+	XR5WaMnAu/Y+RjNsd24dkI+6lVVYKXsFYMvMEbmDF9vfKnmtaWyTB4dctEH1blxsMKnsIIIWOXf
+	jGPANN4gmDSkw975iCYbIcL+jdwFaGOFqctpPBG/xgnIt3GDEW9CzhcvZbo4kPq3b2WSQbd7LYe
+	mm4pnz/jLecECDOkQAeuRpjsmC
+X-Received: by 2002:a05:622a:2ce:b0:509:4e59:7f2d with SMTP id d75a77b69052e-50d3bbf691cmr13111461cf.28.1774985982384;
+        Tue, 31 Mar 2026 12:39:42 -0700 (PDT)
 Received: from localhost ([199.7.157.124])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d02806d7e5sm1155303985a.36.2026.03.31.12.39.37
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2e3ed5csm109995381cf.27.2026.03.31.12.39.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 12:39:37 -0700 (PDT)
+        Tue, 31 Mar 2026 12:39:41 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -83,9 +83,9 @@ Cc: Nickolay Goppen <setotau@mainlining.org>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v3 10/15] ASoC: qdsp6: common: support headphone jacks connected to internal mi2s
-Date: Tue, 31 Mar 2026 15:39:34 -0400
-Message-ID: <20260331193939.40636-11-mailingradian@gmail.com>
+Subject: [PATCH v3 11/15] ASoC: qcom: sm8250: add support for INT0_MI2S_RX and INT3_MI2S_TX
+Date: Tue, 31 Mar 2026 15:39:35 -0400
+Message-ID: <20260331193939.40636-12-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260331193939.40636-1-mailingradian@gmail.com>
 References: <20260331193939.40636-1-mailingradian@gmail.com>
@@ -97,27 +97,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Internal MI2S ports are connected to a WCD codec which may support
-headphones. Register the headphone jack on codecs connected to the
-playback port, INT_MI2S_RX.
+The INT0_MI2S_RX and INT3_MI2S_TX ports on SDM660 can be connected to
+the digital and analog WCD codecs. They can be supported with the same
+logic for other ports, but just need to be explicitly stated. Add
+support for these ports.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- sound/soc/qcom/common.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/qcom/sm8250.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-index cf1f3a767cee..7e2a8745594d 100644
---- a/sound/soc/qcom/common.c
-+++ b/sound/soc/qcom/common.c
-@@ -232,6 +232,7 @@ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 	}
- 
- 	switch (cpu_dai->id) {
+diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+index f193d0ba63d0..b8f1c91725df 100644
+--- a/sound/soc/qcom/sm8250.c
++++ b/sound/soc/qcom/sm8250.c
+@@ -112,6 +112,22 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 		snd_soc_dai_set_fmt(cpu_dai, fmt);
+ 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+ 		break;
 +	case INT0_MI2S_RX:
- 	case TX_CODEC_DMA_TX_0:
- 	case TX_CODEC_DMA_TX_1:
- 	case TX_CODEC_DMA_TX_2:
++		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
++		snd_soc_dai_set_sysclk(cpu_dai,
++			Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
++			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++		snd_soc_dai_set_fmt(cpu_dai, fmt);
++		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		break;
++	case INT3_MI2S_TX:
++		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
++		snd_soc_dai_set_sysclk(cpu_dai,
++			Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
++			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++		snd_soc_dai_set_fmt(cpu_dai, fmt);
++		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		break;
+ 	default:
+ 		break;
+ 	}
 -- 
 2.53.0
 
