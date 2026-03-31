@@ -1,97 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A175228150F;
-	Tue, 31 Mar 2026 14:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A261C862F
+	for <linux-sound@vger.kernel.org>; Tue, 31 Mar 2026 14:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774967774; cv=none; b=uTHG/3QcGvHMEqlVy6wPm9xjIIH7T3/o6kBhfxRQSpgNAZUKGJGaBUqKtgDFQ0+wYPSjT9Vd6tCqJENygvPhBixpHg5onRi9RPgsVs9ne+1zMJlneDqpxDBVHXss3lRznr2Hx0pqf7mCyTYqZNxVM20oGAN2H1aurTLLc2ML17M=
+	t=1774968617; cv=none; b=XI9+6nKcqRK8FEfYmG6P77S1SMpa6V3HeV8hgqsxysUQJYJTWaZY37KYc10nDucolOhNh+qq0vCxlNln5jEy3OVB8qhckS4yCpsvoIm6xLmUpHKkHSbaHRHwLiFeuqqrzjGpn9kysF/gDew8C2gqw76n5JtX1mEt5uMddLjFoTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774967774; c=relaxed/simple;
-	bh=WuipAWbd8LzKDAYhXLX11litf3pJQChGrJT8VlXp5go=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BS2tLgxD3CLYBf2U9Syy9wbKKlz8QAdvyWWAGD1Z9hueb0mwLPCcFTkDw6iekxfnF8GXltox8J5SH2d7phAADxwKB2tLmkIye1bVSOcllo/mi+j6gy5msKu6Xulc9ALe2NiStEW+AZOgG8eTZcTG7eQsaWzEATXhT7p4RXT/R+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOFTTnnQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774968617; c=relaxed/simple;
+	bh=FeDlvLtAoIfZynTPiceCpxqnTiKXB6F+ZPaEnwNcsLo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YvHL1nCORB+ntzCnuuBeWqS0xemKxbjqWtA9yjY22XhmL8G+wkCqBqYOc/HzukYF4fNR2mx9LmNJl20wb5ZatGwWFOGiR3vOxuBV00gME0Ia4pNDbX8jPJXAw3M9UvthMi185imvFaHaVEB0pwKYUirMQz2sz+v/cJmbr2EHzBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GV6Na5b5; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOFTTnnQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9841EC19423;
-	Tue, 31 Mar 2026 14:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774967774;
-	bh=WuipAWbd8LzKDAYhXLX11litf3pJQChGrJT8VlXp5go=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jOFTTnnQcZ81Gs+max/xpNqAqNQstVbm1orhVfZe8UVkYx6MSX7c6BhQOcD38wMJd
-	 Db9i1oawG5fhLlHd7CDM0ESTD9DTQxTZuARuiFHmV8VqwSEHgWwsW6fU7Rp0VzPG73
-	 FzMggP501Tly4BD4YhTrdbXUeKqrGL7UN+ApV3U6m0DGba/KtPhqAmi/jIQ+mA0VlY
-	 EYMP1gbgFdOJbOEpDJ8lnwnmZBjoaIt9uzZ7kh9d/DtfMaWuhw/Fn1X3gYU3OVa9ks
-	 tYa2PsD45bwHqvl4m17JR0ocl3jHpOgBhqFzclE2JSmE+0oteu9FY1c/EyQhIqv/3k
-	 KesxtMTfCxm8w==
-Date: Tue, 31 Mar 2026 15:36:09 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-sound@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: [PATCH] ASoC: uda1380: Modernize the driver
-Message-ID: <73689388-a323-4ef3-929c-8f8f15455116@sirena.org.uk>
-References: <20260327-asoc-uda1380-v1-1-f6f91be9b7f8@kernel.org>
- <CAMRc=MeJ4eVx9HEWP6_4Yd-a=jb4SOyoWW=KgY_=od=ft1=7eA@mail.gmail.com>
- <CAD++jLniBA_9NzG3BwNpTpT8fC3QRF0yiM_=Wq4u409_fqWVcQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GV6Na5b5"
+Message-ID: <bfcf1f29-002b-4e99-a2e5-bcb29d23549a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774968614;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BMIkD2I2Qt3Nb5ZISeZq7OFYOO3XsMiKj5vuvyEO37I=;
+	b=GV6Na5b5ZDs/YsnwA9P6ZpUEPlh39HbDABVS9aCoHTcGormAmA6jfj17GzzhU00CAcDLyb
+	NqGxnu8WDD24OzlXjptYlDQwbf7vzjTnvbWpmrM2yjj1V8TyCiholx7l/p3vD9LnUnB9W5
+	0kpj3DvDcBitIsmA3saHs294dxV98T0=
+Date: Tue, 31 Mar 2026 14:27:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="U+SAKaxgJwZ5jaYv"
-Content-Disposition: inline
-In-Reply-To: <CAD++jLniBA_9NzG3BwNpTpT8fC3QRF0yiM_=Wq4u409_fqWVcQ@mail.gmail.com>
-X-Cookie: I just had a NOSE JOB!!
+Subject: Re: [PATCH v4 2/6] ASoC: sdw_utils: add ES9356 in codec_info_list
+To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
+References: <20260327095954.3465-1-zhangyi@everest-semi.com>
+ <20260327095954.3465-3-zhangyi@everest-semi.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260327095954.3465-3-zhangyi@everest-semi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
+On 3/27/26 10:59, Zhang Yi wrote:
+> Add ES9356 in codec_info_list
+> 
+> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+> ---
+>  sound/soc/sdw_utils/soc_sdw_utils.c | 49 +++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+> 
+> diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+> index 75658148d..ea0e8969d 100644
+> --- a/sound/soc/sdw_utils/soc_sdw_utils.c
+> +++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+> @@ -885,6 +885,55 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+>  		},
+>  		.aux_num = 1,
+>  	},
+> +	{
+> +		.part_id = 0x9356,
+> +		.name_prefix = "es9356",
 
---U+SAKaxgJwZ5jaYv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+that part will conflict with the in-flight change to add the vendor id, no?
 
-On Mon, Mar 30, 2026 at 10:56:53AM +0200, Linus Walleij wrote:
-> On Mon, Mar 30, 2026 at 10:45=E2=80=AFAM Bartosz Golaszewski <brgl@kernel=
-=2Eorg> wrote:
+> +		.version_id = 3,
+> +		.dais = {
+> +			{
+> +				.direction = {true, false},
+> +				.dai_name = "es9356-sdp-aif1",
+> +				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+> +				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+> +				.init = asoc_sdw_es9356_init,
+> +				.exit = asoc_sdw_es9356_exit,
+> +				.rtd_init = asoc_sdw_es9356_rtd_init,
+> +				.controls = generic_jack_controls,
+> +				.num_controls = ARRAY_SIZE(generic_jack_controls),
+> +				.widgets = generic_jack_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+> +			},
+> +			{
+> +				.direction = {false, true},
+> +				.dai_name = "es9356-sdp-aif4",
+> +				.dai_type = SOC_SDW_DAI_TYPE_MIC,
+> +				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+> +				.rtd_init = asoc_sdw_es9356_dmic_rtd_init,
+> +				.widgets = generic_dmic_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
+> +			},
+> +			{
+> +				.direction = {false, true},
+> +				.dai_name = "es9356-sdp-aif2",
+> +				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+> +				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+> +			},
+> +			{
+> +				.direction = {true, false},
+> +				.dai_name = "es9356-sdp-aif3",
+> +				.component_name = "es9356",
+> +				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+> +				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+> +				.init = asoc_sdw_es9356_amp_init,
+> +				.rtd_init = asoc_sdw_es9356_spk_rtd_init,
+> +				.controls = generic_spk_controls,
+> +				.num_controls = ARRAY_SIZE(generic_spk_controls),
+> +				.widgets = generic_spk_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+> +			},
+> +		},
+> +		.dai_num = 4,
+> +	},
+>  	{
+>  		.part_id = 0xaaaa, /* generic codec mockup */
+>  		.name_prefix = "sdw_mockup_mmulti-function",
 
-> > $ git grep nxp,uda1380
-> > arch/arm/boot/dts/nxp/lpc/lpc3250-ea3250.dts:           compatible =3D
-> > "nxp,uda1380";
-> > arch/arm/boot/dts/nxp/lpc/lpc3250-phy3250.dts:          compatible =3D
-> > "nxp,uda1380";
-
-> > I think these count as in-tree users of the driver, right? The compatib=
-le is
-> > not described in bindings but I think this still looks as ABI.
-
-> Oh I didn't see *those*!
-
-> Well we could just delete the platform data handling instead but fixing
-> this properly is probably more fun and helpful.
-
-Note that at least the ea3250 is trying to use wspll as the sysclk,
-though the DT parsing code doesn't appear to actually exist so I'm not
-expecting it to work currently.
-
---U+SAKaxgJwZ5jaYv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnL29gACgkQJNaLcl1U
-h9DxDgf9HDXNyXEYBzmW+RFsdhkkN+xTocyRP0/NaU9hbVgy/zCfEumP3ERWSew0
-BonhF2Q92DFu9ASDqiB6CQqiHmaajKI8B8sCdfCW/jGQxL/b7b2l3u1pmcQ2MotI
-Oq/S1rA1yx26DdDRnvU9K5/cxnlVFbTws8tbabH8b/Vh2PctVCw9pAK0Rzf0TXlp
-z4YIh2v2+aTHj/VZz4ZBX1ekfzmf8bg/w1/QiOIL+/+P+m1E4QXyzCm+KAaXl4B1
-jZwkwjMQ5CPlWqgqRgLuDd5k+fY5vcWKkRHjxfcLq5wAl01oiYivpHs81S4xifDT
-sUBGidNoMgXvdisA7bUClV6Joj5ECg==
-=TtZW
------END PGP SIGNATURE-----
-
---U+SAKaxgJwZ5jaYv--
