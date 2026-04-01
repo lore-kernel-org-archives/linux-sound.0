@@ -1,152 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F28A38F646
-	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 07:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7EE37CD2B;
+	Wed,  1 Apr 2026 08:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775030393; cv=none; b=L+wOQr0GTnCV+hWohEyLIldRUeSnhDP1eveWqc4Ro2JakI+k0byxWdNt6Ks2XRUSB9Jj60KJIQ5uB4nIM+gLB6V0aECeDmBsGb4cqDy88wuQlgeMtzYGSQFVeIvMN4fIR9ALtIEzu90g1aqCIWHVd5JzACQ5nWu+hfyOHNQVR30=
+	t=1775032042; cv=none; b=eJcIuHW98fkaQT4tQ1IGng3QZ37P67bi16U7sSkOmja5sECPmx7H4IH1IarIpjOgK6y9yWqsC4q3EAtFn6/nu09KglnX1PX0XT7c4Ug9Moxe2ZjXxC1IsCvrdeOalQkJsO1TPnQ7vsomDiKIWL0+a5gir3gCumFhXUn7ITSdMu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775030393; c=relaxed/simple;
-	bh=NncRNfImriZKtDYVfRK1DeQCSvRmxWQ067YgkONr/Zs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JLO8lmox8a1Baly1DdsZChDjKdSe+RnTAdbjR1Uu3MzMq1izyi++AmbBFe1azMYOF73PjvncoQpZZTnmgLlDetQXexUKg1oTWT34es7/99RhSWQg36LOZfZW3k7t4OmCUtno7s6J0miXcVCUDBVNbC4ZfFqlb/Wd5D767ECux/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d5SGREbl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C/3cCp21; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CnRd6gcU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E0mbtmoc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775032042; c=relaxed/simple;
+	bh=j42QuRJD7TrcyX2jEHsErAYkxOE3qtd7z+9afWWvbqQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oa/hCUhlE/Olve81943iefBtPf6F8tMaNg+U8rvBmVZ/mIImhHx8TFt2s0O793InHP/o3o6bBD//lJnrucmlrKlBsgWtZRKEBl8aqqm2doW7W+dWBbeIpmXjj9X1L+AAlSf4QgfznHI3MRNrjwr2BXPqj/+1ppZ2viJOZPIUlVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=kqyNx4NZ; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d5SGREbl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C/3cCp21";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CnRd6gcU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E0mbtmoc"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DF0925BECC;
-	Wed,  1 Apr 2026 07:59:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775030388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeAH21jFBw8UgE8ezbtsg9g4YlG44GxjnxeKCmI5y/M=;
-	b=d5SGREblrM9jo5nq8LPuygMHClMYV7RIJK2FsptzMn+0MaSTcqDIOTYwjo9dLCe1hoWwFf
-	rPfWtWWzx5rCzd2Q0LC38AKk8IdkxgCA8c+fl2NOooBkpUvJ7/4Fziz4ihLozqc8lkeq9B
-	BgQo/qBmOGy8tyKAc8AoqQEOECS469Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775030388;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeAH21jFBw8UgE8ezbtsg9g4YlG44GxjnxeKCmI5y/M=;
-	b=C/3cCp21eb6w17K9EALSdceuEAXf9XP7aY597dahcFYrSbWjYh6HSpZcLG9kyNzyF+5YsS
-	w2e8rTuYO/Ju06Dg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775030387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeAH21jFBw8UgE8ezbtsg9g4YlG44GxjnxeKCmI5y/M=;
-	b=CnRd6gcU+h+uToebmOkVGhBZOYRHe1Z3rNa1mO/Vx8o0nQ7iphYD5JKFk9qDgZ2KrIeAEG
-	p9Rt4vgY78T51A7kcq6LW84NLvH0iQNXt0Hx3MnR1NuM6Ti5ESJZ3MytkmXmQr5t7paCxO
-	kof+E2rk8esg/GBcyLGfL+C2tlf1AjM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775030387;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeAH21jFBw8UgE8ezbtsg9g4YlG44GxjnxeKCmI5y/M=;
-	b=E0mbtmocF88ax3fWzvyOmzTUS/xT7bwkq0jMXu0fJzhqTxVLlvQObqdjjYRCgT9Qi0DeSY
-	OTIcL8Q2N2io1DAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0CCD4A0B0;
-	Wed,  1 Apr 2026 07:59:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dLMLJnPQzGm8ZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 Apr 2026 07:59:47 +0000
-Date: Wed, 01 Apr 2026 09:59:47 +0200
-Message-ID: <87tstvqff0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	linuxppc-dev@lists.ozlabs.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="kqyNx4NZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=IW
+	c2s01wRWtaUx3xyT3BmfGeDzMCo2WjeriOHgdHCEE=; b=kqyNx4NZwcEQ13VuaR
+	d17s6jzOeCCTxzmcZCUPeFAqLP4vZY7qeIHlVyQ7Rk5m5cXAsBFxF/yr7pJDiiSU
+	Ujv2u/37uMkXy9RU9wyVd2Reordf8iB91Orgxt3NNKee17UV6UQ1ks7GL3pnCF0r
+	eGp9T427c9hIpRE0D31p6eC3o=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wCn5nu91sxpCnRBCg--.3069S2;
+	Wed, 01 Apr 2026 16:26:38 +0800 (CST)
+From: wangdich9700@163.com
+To: perex@perex.cz,
+	tiwai@suse.com,
+	wangdich9700@163.com,
+	rf@opensource.cirrus.com
+Cc: kees@kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: aoa: i2sbus: clear stale prepared state
-In-Reply-To: <20260331-aoa-i2sbus-clear-stale-active-v2-1-3764ae2889a1@gmail.com>
-References: <20260331-aoa-i2sbus-clear-stale-active-v2-1-3764ae2889a1@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH] ALSA: hda/cmedia: Remove duplicate pin configuration parsing
+Date: Wed,  1 Apr 2026 16:26:25 +0800
+Message-Id: <20260401082625.157868-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+X-CM-TRANSID:_____wCn5nu91sxpCnRBCg--.3069S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gr47Zw45KFyxGF4xGr45KFg_yoWfuFc_A3
+	WFvrWxW3W8GrsrJr4jq3W0yry8ur1xCFy5Wr9xtr98G34DXw4jyrn0yF4Svr1qgr97tF9x
+	XFsxZF47Ca4UCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRGFAdJUUUUU==
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbCwB9ywWnM1r9Y4gAA3a
 
-On Tue, 31 Mar 2026 23:14:04 +0200,
-Cássio Gabriel wrote:
-> 
-> The i2sbus PCM code uses pi->active to constrain the sibling stream to
-> an already prepared duplex format and rate in i2sbus_pcm_open().
-> 
-> That state is set from i2sbus_pcm_prepare(), but the current code only
-> clears it on close. As a result, the sibling stream can inherit stale
-> constraints after the prepared state has been torn down.
-> 
-> Clear pi->active when hw_params() or hw_free() tears down the prepared
-> state, and set it again only after prepare succeeds.
-> 
-> Replace the stale FIXME in the duplex constraint comment with a description
-> of the current driver behavior: i2sbus still programs a single shared
-> transport configuration for both directions, so mixed formats are not
-> supported in duplex mode.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202604010125.AvkWBYKI-lkp@intel.com/
-> Fixes: f3d9478b2ce4 ("[ALSA] snd-aoa: add snd-aoa")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-Applied to for-next branch now.  Thanks.
+The cmedia_probe() function calls snd_hda_parse_pin_defcfg() and
+snd_hda_gen_parse_auto_config() twice unnecessarily. Remove The
+duplicate code.
 
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+---
+ sound/hda/codecs/cmedia.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-Takashi
+diff --git a/sound/hda/codecs/cmedia.c b/sound/hda/codecs/cmedia.c
+index e6e12c01339f..88dd80d987d4 100644
+--- a/sound/hda/codecs/cmedia.c
++++ b/sound/hda/codecs/cmedia.c
+@@ -39,13 +39,6 @@ static int cmedia_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 		spec->out_vol_mask = (1ULL << 0x10);
+ 	}
+ 
+-	err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
+-	if (err < 0)
+-		goto error;
+-	err = snd_hda_gen_parse_auto_config(codec, cfg);
+-	if (err < 0)
+-		goto error;
+-
+ 	err = snd_hda_parse_pin_defcfg(codec, cfg, NULL, 0);
+ 	if (err < 0)
+ 		goto error;
+-- 
+2.25.1
+
