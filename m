@@ -1,40 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3DE3C942D
-	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 17:19:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7631447DD58;
+	Wed,  1 Apr 2026 17:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775063979; cv=none; b=SvlK1W8Cwf/1vsYZI2f6zHAD14OYKB6QObA1dEVJYPrtBrTxnlo2Ad1LIDZnE7Trq+l37iqPyU8O/LYaPdFpR1LrNQKgm7CzLzOUvqtoX9LAgnSKkNfrjwgdYu06PGctnkMuUjTgjSd3d5N4HjRsx5X/f1W7N/0Y9uF4mDc0Ba8=
+	t=1775063984; cv=none; b=u8SlIkOqZ62TtlR9MMudidN9bGlwcJk3hfHF4gafyusCBcjPxp3OzqdP0jLo7vwF7FNz6oLNTKMuDkVLS9yZ9U875dgJXfvaiyaZdQ5LpBiTE+wsMc6oNoOggcEK2ZCqJxk51Wa11vbtWPjR/Yt+pIwWi9hD1Zqji1nxKrYCnrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775063979; c=relaxed/simple;
-	bh=T+crXYISuBvVl3CNk2+FtPaBx7Z3ksqb5OAPkwZy2PU=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iVsCG1ZwQPTf48CiUSj4bNz57b3lasKE+MoLJQK5suyhFPujOdRyaJxvzZN9EFomNv36aLtH6pG81CsLgkqktbV84zFIKvu6pAi66bLpTL9kj/kVYwszH28OOB2FzkvkWQ1OgVI02Yn4v6Awg3x08NRIH09MXqOJuOJV+iPGaQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7xqz8lW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775063984; c=relaxed/simple;
+	bh=uMhtPXn8heQIL1Q2iGxucpd7hE6zitkIXcCkID7YLsg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YLd6e5a+ZDfDgFyAMt7Pna6WsvAa7ZhH4QAFmSAkcVqYzz0gPpeazEp8ZOkcqDkl4fQn49c/AxFtlxcfMT62kb0ngChD49ADs1CMldkQwOiYRg6Kg9aZ7RhZCr8VkYP+X1N0IhfYCZB4sRsiWjgkKOfRbFxb5KsqdWSZRTlRugU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C8UI8/hW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7xqz8lW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 519D0C2BCAF;
-	Wed,  1 Apr 2026 17:19:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C8UI8/hW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34231C4CEF7;
+	Wed,  1 Apr 2026 17:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775063979;
-	bh=T+crXYISuBvVl3CNk2+FtPaBx7Z3ksqb5OAPkwZy2PU=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=u7xqz8lWK8ImMlLzKPbr687M+wUl3b7+RHbYxWF53RjWk6SpnLggKT78nuF6vQ1Pa
-	 ulztac9M5K1/jtoE5ePLVNj0JEWPz0m2aFJdIg3cV8yaPD6J/vVS868I9mEix83wJz
-	 aFjSQScT/NAQB2mxtrgueBt77O8o/vrJdSEVtWVBY3xVKkVwvG3le+QSOg9uSR9Pct
-	 kevuwyRFh0Q3AzAivzHJIPTZfx6FL977BJfop++Nwn7TpnDIDWxVgm7bmNNTSRhOLQ
-	 i040get+RQtkkMYv70AL3oS4py//T1eRq8hV7D4qdhGwe18uSC+aoy7z1EBuo9Ka0I
-	 u4YP0PLJTXQbA==
+	s=k20201202; t=1775063984;
+	bh=uMhtPXn8heQIL1Q2iGxucpd7hE6zitkIXcCkID7YLsg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=C8UI8/hWaDXvKBtIe1xsIUEnJfO9GU1jC5qEvYoao3udoH7wrw9A91wv/8MOEFKSe
+	 fv3ycHj3PubA05euqjOPCvHlCJY9P3Ww0vGJeDw16ZrKhOqCtS/ZZ6RcZjoJSUB/AX
+	 kWs2oiwZExcBQsCtvLmxXM15GEeqSF3kCD+jcnzrtxIwELz54s2uvceZk26JgrTZn2
+	 ipUuhrNGseVaT0unkdhQqs7ZFeSic55hl3L2qKGNletL7728B1s7u9XnOoN1mbCAD2
+	 KTngQgtiqhmh5yb2xJgehCrWhIdV2SGO2YHNwTFTSZs5hN8GcSmdm3L0MfhKhDWKQv
+	 Qezlg3SZ/964g==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <877bqrttvp.wl-kuninori.morimoto.gx@renesas.com>
-References: <877bqrttvp.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: soc.h: remove snd_soc_of_parse_audio_prefix()
-Message-Id: <177504482039.145704.3638460844958401080.b4-ty@b4>
-Date: Wed, 01 Apr 2026 13:00:20 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Sheetal <sheetal@nvidia.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Mohan Kumar <mkumard@nvidia.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260401112500.4076861-1-sheetal@nvidia.com>
+References: <20260401112500.4076861-1-sheetal@nvidia.com>
+Subject: Re: [PATCH v4 0/4] ASoC: tegra: Add error logging for probe and
+ callback failures
+Message-Id: <177505162649.145704.12817876647775839849.b4-ty@b4>
+Date: Wed, 01 Apr 2026 14:53:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,20 +50,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-7777e
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
- h=from:subject:message-id; bh=T+crXYISuBvVl3CNk2+FtPaBx7Z3ksqb5OAPkwZy2PU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzVOpbmbcLx/R0XDQy/2mABCs+Zsjq0Y6raLWW
- e+MyQ2uf/iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCac1TqQAKCRAk1otyXVSH
- 0MtRB/9Gl+OtpG2H0XMMOhx09qQvR02lDUNO7DjPa6XF3sdyJM48YG01osaZmoKWiXVDMqQYXQ/
- jq5TKTmeLDUx4UPqv8xdGXpx+OM7e5sv8WBeWgWnDTqzQH+L6+HVEpaYAySjCPIRKyAdGf/sE4p
- P4y6w4BR4soQAB4pkjemkG6GYna8dXfwtdSP+SA/o3BNU0MvBPtprrnZaQ2h+/xInTFkLqRcPzO
- NR3ey/Vcpi/MSd3+r604ETsHVUVdmdEsgtvXlYbLMz6NOXxUef/HJJ0Syt5S/ZVtxlpdvI3/1/y
- XKnDHwIxLh5ueqAZ2s40Z05tRWfL6eZvrUe/4aIRHYZk9i7/
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1860; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=uMhtPXn8heQIL1Q2iGxucpd7hE6zitkIXcCkID7YLsg=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhsyzwWvtH+j8Y86ckalfX9yQkXb424aYEGbmpEOr+V42b
+ g91e6jWyWjMwsDIxSArpsiy9lnGqvRwia3zH81/BTOIlQlkCgMXpwBM5JsZ+38/oc0mFpYvrzMc
+ 2i+1bpFnlyfr5EX5Z/0aI0LPFIiyvDq6NFnNtT+/c/lPuXqhWWvXKEvEFEW4fLedHmCwcKpgs6j
+ uw/RKP51+c8ujQZEPuMwND/0ImmsrYr351B1WduWwqWxxPzyvmrrG7s4zZfaa6znFJu3znoyriq
+ db3XNM1q9kS5vOddBF/M5Rozr21y3FxYxP81Xn69/Zda1M+UUgj+x2WT6BjTdyfuvJGfXyZsibB
+ cwq4zzPuXb2ef6rbG+L7a4+DT5uevpb7nyOAIe5rm6pd6u9Fr9K3y6bFn5SdFdW+ZytfhuZb2cv
+ EYtYz9ekGs3w4Mb+LH2GnyazDd0EUhQFf/BZHc6Tkr0DAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 01 Apr 2026 00:19:06 +0000, Kuninori Morimoto wrote:
-> ASoC: soc.h: remove snd_soc_of_parse_audio_prefix()
+On Wed, 01 Apr 2026 11:24:56 +0000, Sheetal wrote:
+> ASoC: tegra: Add error logging for probe and callback failures
+> 
+> Resend pending  v3 patches with fixes and add remaining
+> dev_err_probe() conversions.
+> 
+> Patch 1 replaces v3 patch 03/14 (ADMAIF).
+> Patch 2 replaces v3 patch 09/14 (OPE/PEQ/MBDRC).
+> Patch 3 is new - adds regmap init conversions across 10 drivers.
+> Patch 4 is new - adds clock error conversions in tegra_asoc_machine.
+> 
+> [...]
 
 Applied to
 
@@ -65,8 +81,14 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc.h: remove snd_soc_of_parse_audio_prefix()
-      https://git.kernel.org/broonie/sound/c/5a77906982df
+[1/4] ASoC: tegra: Add error logging in tegra210_admaif driver
+      https://git.kernel.org/broonie/sound/c/00d6070ec02c
+[2/4] ASoC: tegra: Use dev_err_probe() in OPE, PEQ and MBDRC drivers
+      https://git.kernel.org/broonie/sound/c/2333abb25c7e
+[3/4] ASoC: tegra: Use dev_err_probe() for regmap init failures
+      https://git.kernel.org/broonie/sound/c/4a8fe27e122e
+[4/4] ASoC: tegra: Use dev_err_probe() in tegra_asoc_machine probe
+      https://git.kernel.org/broonie/sound/c/b015ef4eaeff
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
