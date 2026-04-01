@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03413CD8D0;
-	Wed,  1 Apr 2026 10:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5301C68F;
+	Wed,  1 Apr 2026 10:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775040175; cv=none; b=a6gvQq6Gm2Pge4/oAiIk3iL67aDFE01DmYhE+MovseCwSlvkZ3U912k79a+i320OlzyjlTAnRkyvKLBhpKP4mF1P6exaiXIsjlSk5kP7u92gL04lu0nz0cdcCu3pZjFSh7OxhyFTaQX1IGYm2ivpip1rZWauEWhOSuf+8hKjhvY=
+	t=1775040204; cv=none; b=sl68JZk7bD6HygEJvxy5aKRwrR6fAp73z4za0/5a4FJdtpbV8oailQT6tOTift/uXDcgCIzvWXQiGR+WvMu11QBfRGppBcsxjnFU9K1iHhSogVNJpJWkWuSnYte9HSvuocfbCx3BuagVAqHabvDglM+ECIILOT2hTXkkawt+RuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775040175; c=relaxed/simple;
-	bh=5Upsyb6JZ7vawWqbMvv5mlXYjguGxdM5NMVw+drXMGg=;
+	s=arc-20240116; t=1775040204; c=relaxed/simple;
+	bh=x7ycS3aQGVveNXoijnRMITgShG0eWmYKJPdfIhqK84o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nUUwYr8PjfKbKbpY1qF+OvVqHVrtfclpUL8PwUEEHBjdbj0Y/tlJxg+3IB4S36xu1TembALjpBhiGTyVaGDO4GBjPDTCzc11dV2O64UH8M6uiyyrODSx1daFUOQRnLj1NKYcbSdqLoTQXjaX9CQ7rLcCBRiinlHksalfZEgxhJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZRJoTIj; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=jOi/VSZPuHEpM+swcJWcffUWfC+B0vgVd1MPidXAcZQqmowKbkIPOzzBuDZea4dYNTtwr2N8jN6di0CZ/tw1lhNolUmCkvVwIvtPZvdQi0KSx0+Afm1sYaAYFSwSDICVKA8cYj2GS02gT4PahyRhJUMqdiGQoW+9SwsTIWXCG+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxvdyTFO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZRJoTIj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E5AC4CEF7;
-	Wed,  1 Apr 2026 10:42:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxvdyTFO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A5D3C4CEF7;
+	Wed,  1 Apr 2026 10:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775040175;
-	bh=5Upsyb6JZ7vawWqbMvv5mlXYjguGxdM5NMVw+drXMGg=;
+	s=k20201202; t=1775040204;
+	bh=x7ycS3aQGVveNXoijnRMITgShG0eWmYKJPdfIhqK84o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LZRJoTIjAEfjKki3bPY4XPalMMz3O5DtSJCjrGZuCpJOO7bYL8+Dhcp2upKUuS9oY
-	 jbiAVCQijylgIvDmhnkvWdVbFa0c+Lp/aSn6zI/GdOANVnr4fqTaswqogzgH6yUuCe
-	 4DZQMoMGTW0/boJVrWLNJPyI/y/v/lpDY1qtkKgdYxl6GLydkjpF7Pi4a0KIbGwXjR
-	 RA2Dl4lS3LH6euQF/TIlK2ysRQBhNu6G3T+43cbSqVt8kI/kHoWwbqdyAVFA0Vrb4d
-	 ta+l8EBylv5viTOAsx9u6zjshgK/y9znvVHVenri3B58xiMrM6d6qlGkNRemHs6pRR
-	 RJ8v5gyfurthg==
-Message-ID: <6c7ef435-6685-4978-8124-4874d8fdf026@kernel.org>
-Date: Wed, 1 Apr 2026 12:42:52 +0200
+	b=VxvdyTFOfEL8P/AkZjtAI2E0tvp0vJ6pF3hZ239SBeauh4N6bz2FJnWnE7Mi+C1dw
+	 gc33aTbuOI0C6Jv4izHW3oWLbpDBeN5dvSZ0d8om9NqAGsMtVzoXXHkteqVIg/qpXs
+	 QcFs8VOy2OB9bz/gc6sqRWoI4wubYgYgRkc3YVmM/zcfBZ8lrAbynp03ud3D8UmNvc
+	 OJazp27C4VTvuw/fXKKHVjIO3CngP89tgJkmahikXYTNNwA2m6xR/U8JDL2KxOoYug
+	 XCUvM7gqV6eN67mm3xOSmkzni0ztSVUs+aA5sY7np3NrrCYoM7DxUYbPHv+kR+Myj7
+	 JHXSLMVRyj8Rg==
+Message-ID: <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
+Date: Wed, 1 Apr 2026 12:43:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,11 +35,13 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ALSA: hda/realtek: fix bad indentation for alc269
-To: Lei Huang <huanglei814@163.com>, perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lei Huang <huanglei@kylinos.cn>
-References: <20260331024036.30782-1-huanglei814@163.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: fix code style (ERROR: else should
+ follow close brace '}')
+To: Takashi Iwai <tiwai@suse.de>, Lei Huang <huanglei814@163.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lei Huang <huanglei@kylinos.cn>
+References: <20260331075405.78148-1-huanglei814@163.com>
+ <87wlyss93y.wl-tiwai@suse.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -85,25 +87,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260331024036.30782-1-huanglei814@163.com>
+In-Reply-To: <87wlyss93y.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 31/03/2026 04:40, Lei Huang wrote:
-> From: Lei Huang <huanglei@kylinos.cn>
+On 31/03/2026 10:20, Takashi Iwai wrote:
+> On Tue, 31 Mar 2026 09:54:05 +0200,
+> Lei Huang wrote:
+>>
+>> From: Lei Huang <huanglei@kylinos.cn>
+>>
+>> Fix checkpatch code style errors:
+>>
+>>   ERROR: else should follow close brace '}'
+>>   #2300: FILE: sound/hda/codecs/realtek/alc269.c:2300:
+>>   +       }
+>>   +       else
+>>
+>> Fixes: 31278997add6 ("ALSA: hda/realtek - Add headset quirk for Dell DT")
+>> Signed-off-by: Lei Huang <huanglei@kylinos.cn>
 > 
-> Mention complains about this coding style:
-> 
->   ERROR: code indent should use tabs where possible
->   #6640: FILE: sound/hda/codecs/realtek/alc269.c:6640:
->   +        [ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY] = {$
-> 
-> fix it up.
-> 
-> Fixes: 5de5db35350d ("ALSA: hda/realtek - Enable Mute LED for Lenovo platform")
+> Thanks, applied to for-next branch.
 
-Really, no. This is not a bug, otherwise explain user observable problem
-here.
+I hope you dropped the fake Fixes tag. Or at least give people chance to
+review it.
 
 Best regards,
 Krzysztof
