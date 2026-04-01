@@ -1,149 +1,153 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010027.outbound.protection.outlook.com [52.101.69.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B0F3CB2EF
-	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 09:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775034168; cv=none; b=kOOEi9/lTi5D4Ug26stAqIpcjVXU3gNMEfDOT5Eb9o0QNAmXmlmfdiyXjJOx4Zypn3quRik1zzkuGe8FkbV7SXuEnmP+xcz8t5dA3lyQ7sp8v49H5pLCtlx+oRR3C29Hdtx9apvGOYpzpRt+iKKhkKF8hUUn/HNMMtQsg107w0E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775034168; c=relaxed/simple;
-	bh=md+OcktnaqsQiumjQp4oxdp9YmTZcWFthEJkwEBUylw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UOosRzW0AZtRMQZ+qK0ShwTYhvXe1Q10n6ry3jn5MzJFKz/QrFtS7N0iNQw4RYIX+DVO8RZeO3STdIvfVYUnQxSME9zI3E8hMpezjWstqc1aspOaEe16871GjcBQIRK0/24qN8EgYnhwhnocxNV9wuL8tl5jrStT5ZaaasAMgAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TTC6hYxS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZoMXMM6E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sXNyCIVj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=x+aOf/sm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817293CCA1A;
+	Wed,  1 Apr 2026 09:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.27
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775036467; cv=fail; b=WEhGSzu46iXfFknwfwsQjae8JSIekATnOOHjnE/X4pNliSxX92+ZqM52WUUSaSHfkR8q8k3kLpJxSzXb+C3cxndsW5cm//BkDGRduE95hwpaSlNL9/CL+DvvB9mly3ihQKF6SSRd/oHXp/s6pAlu7lUoASMiXnI+hq3Sy24hqRo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775036467; c=relaxed/simple;
+	bh=hcMnFqDLrb6xQnN/L3Q6pe6wVoZ58hfGNPb+853k6g0=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=NnDMmE/r//+12JD/brCvAyuOAQzKIh6hVKpYgE/8uja5iKSDjIj15bnu2Ip+1nP+K/O98BLRS4DbYUQTwnZVBAPPhieTWUWDNSWz7NfxUaEIqaYqyoP5uAefNrKfmTNFKSC5Tq0NXGTcMWWGu2RNTzdD8tfwEHL+EEVOc7nyKao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=bwkHWNCO; arc=fail smtp.client-ip=52.101.69.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TTC6hYxS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZoMXMM6E";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sXNyCIVj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x+aOf/sm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9784E5BD44;
-	Wed,  1 Apr 2026 09:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775034162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
-	b=TTC6hYxSaJzPfwffYEPK7PgdrvBAfGfQYmeEFFUv57WcynXRbR/AvwufGoLsgi6aCMLNAq
-	u2QwJyfhdr9bs158zWFe/PtEcWuk+7RZi6b7InmIwWO44nGBzFmddVDoEMiTijspheGFZC
-	xr5AHZQZgxd9bg4F0u0m+TFjXx8jWvs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775034162;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
-	b=ZoMXMM6ES9oatLA9rhWjMxnUdtnCmzRz1nbDy6133KjPesQ8Q7N7gIApdBb5kRebyCB1MG
-	kTnY340K95M9qpBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sXNyCIVj;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="x+aOf/sm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775034161; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
-	b=sXNyCIVjSF65d2taof5HOsH6EHjgrDLblEcXdGwlw+OoeqqJnWv7MBah3D6JOvEggcJXCk
-	wbFYlzBrui85ySIg0TuToUrswUPURPcHr/4vHO0tn6hR7DdmXgEy7rHnncZFCtpZDt6xXL
-	I87sy8KVl5+tsqnPfQI9dJ+6GVQ/Kp0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775034161;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
-	b=x+aOf/smveUGWNu9vOwV5lPijoU8W/mf5q3lfstfyxyBQ95U0rfD0BYwNEAS56rRLcCE58
-	x0CRMctQLaquRXAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EF834A0B0;
-	Wed,  1 Apr 2026 09:02:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mnDhETHfzGn0KQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 Apr 2026 09:02:41 +0000
-Date: Wed, 01 Apr 2026 11:02:40 +0200
-Message-ID: <87qzozqci7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: wangdich9700@163.com
-Cc: perex@perex.cz,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="bwkHWNCO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f0/PY0EHdInBVXDgi/cgIeT52oWUr2tJ1zlW4nshT0zDDCr6VhW7g8TXPVsvP7BPIhwXGdva3B3XNY4aqm5wkuqXEI4wWEnARNGEUnYEEN0vlWQhKAV9+vT8mckkeOT058tX18Sh04IruxY3Uvw0iZU//QslAJtwPF/zgHdWER5wl+Kwr0jPpy0JxKu+3l0zYOV7AN5OJkBriYi1hS3vJfr8cVazbaBwYPVyF3dfuKC+cWAlJu50sFrmSmlFkXI+boxGlEeoHiBQlnVpiaFsaMaB3vi7oHilZQN3e5pItTUo+Y2pM4wYkGkapu6rDCeAQr4YB09chy1pzo0bMjRqEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IaS5JlQPkj38YMmRmhpy13HP6CwjxmxX79j24Vy+EzQ=;
+ b=ruIz0XH17O8puL82TPfc8MmpEWZ96TiQF0ZH6k1jnu0GeJNCt1SyXful4llW9yfnFve6l0Pmgp8g7cdQ/DFM0GP/ei7BhgmppX4kiUNki04Tkejn8LoiCX7H73ZbeenfGng+Xz00ZumqiGv9c5jq321lEZavQr6uJrlWJv+iPzHLEsi6ipK5RQ0watQ87ERqS5AZhwDti3jOjW+l5HbG8LzxOAQsI11I983Vja2gFnXe3EWI8LMK0YIAn0gQEpvhaa3Oi9t+LHwGVSdkjAgeyOIx3csGfruJFvH7eOfV2AG6sv/yIIaReciAx5RSSf6Di0Piml8mxDpxleaBJt3oZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IaS5JlQPkj38YMmRmhpy13HP6CwjxmxX79j24Vy+EzQ=;
+ b=bwkHWNCOvfur9ajlYaXLPBRMKC7QbYBVa9mmeGC0FJJiicazsExRvtAiigEQ2SQnlh1o/neHHOA1F4wGaBO3rE0cOjZSBJDEHS/RRxK6Y2vDoDZ1eiKroWvQdztJrSVcaU6/4KBvUNt+/VawvLviyy+8dBVdwqG0Q1CpA2TJGHfEC8RjvAFe+os/ejo8RhuS5fwfzY120sbLXgZlAMcbggaR+yniKuxBVKYZs39hVI/QQpVDsi4anHNYWK4ZnE1ZL2MNW3iy2Vo6btwC8iBO/yS1YxCCkznrwGhQS4CrMa495iwvDf2a+Oj6k0zTGLyDt3OGQ11Vi4duB3ZQ3x34GQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by AM9PR04MB8241.eurprd04.prod.outlook.com (2603:10a6:20b:3e4::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Wed, 1 Apr
+ 2026 09:41:00 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::bab2:d15c:fcf8:ef2b%4]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
+ 09:41:00 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
 	tiwai@suse.com,
-	rf@opensource.cirrus.com,
-	kees@kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/cmedia: Remove duplicate pin configuration parsing
-In-Reply-To: <20260401082625.157868-1-wangdich9700@163.com>
-References: <20260401082625.157868-1-wangdich9700@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/11] ASoC: fsl: fix mixer-test failures
+Date: Wed,  1 Apr 2026 17:42:15 +0800
+Message-Id: <20260401094226.2900532-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0029.apcprd02.prod.outlook.com
+ (2603:1096:4:195::6) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[163.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,kylinos.cn:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 9784E5BD44
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|AM9PR04MB8241:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e108204-2692-4268-98f7-08de8fd2c865
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|7416014|376014|19092799006|366016|1800799024|18002099003|56012099003|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	8FJf9OIQgobTaePL5Rp6eO8KPpZ+A6QFk/lR/NtiMtILb6pTF6pAZxV50B4j3g/cSG35z7hrhqvwrS+GdUs9ae6YHJ5RcZVIfnW6uY+3DKHD+FZVdjAo1w5rQuGmJyiY9jsTj7aEZlmlImAnMT2O2WECxjHwmSLi8NI9O8Y1lfVQ9WmzBCouFJF6XqdOtv74sJFf+KKIkMwTC+IzZ6rv0uCAVHuqd27jLb64hfqXPCAS2nXin5w1O3PvgvbLq0IRCrWETrpb3XM9/0VVYPWTEHVaHd3Csur1Wy0bQv3wL5JmRQXAXXOafgz8mBsYqFiJ8f2pycJrTQ2dBoEtksOAoxZ7stRixFUL0S1Fxo5RPaVgjD9lauqxCuTIWEOG+Oe97MBq8j4xPtYpXDnU8dvfro6ChGxEQda/u+p63VKjSTaEEh3297uGBW8yonRK+J1GOCYyifT9fGrhSOhD1Kgr8Z8TmoJ29fPHBMSq3YRVYV4c+9CZoqjcx7xx60DonvQ1+9tQOoNksc6PwNHqEzIUWIWaZBu5N6Lm6C2vKR7fVYOBhOJlaUd0rd+lWYgFvmKiNYRcYoQ0oQeWyhI/vsTxmirjNBuTcZGKQ/K+eR7FCH3WtZVkAPWgbVO7AnK3bhqhiCZooXgV5/u18QXkL496ofpR+qgW+1c4NDKunlt3u8RvLc8E7oG9d54GrB3X/oImV6PBDb/riLEvvoJLbqn5jcTfD5feMRL5Q/SEkM8TaDZlEpmWhQA8qNQeIVctKSZljIkIiJ7/YQnUneySxgAY+xGNcTeb136e+tL/WVLi44WLoXXGiL96UTFyDY5AG/ML
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(19092799006)(366016)(1800799024)(18002099003)(56012099003)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?tNku7yvJ9YrBy7uRVQfhCToOFINsN1Mm2posl55tpzKbMrBE8d7xJ/I5tC6o?=
+ =?us-ascii?Q?quuNPiTkWBYNSh1Q/p6e9qk8OSRxbhvs3eMyoTolTSB8zht0y9Z4iyK5ihZ1?=
+ =?us-ascii?Q?97sOCxh+Olu7vnrzCHc0JGIGGWIs1CMn/I3bAqf2FS4qaCTXbUT7gGbklzz2?=
+ =?us-ascii?Q?w6Je7TUSD2PnBs1OV6CgNWpF9p3GziMNOWwbQB8+OC7vodAmnmzL/33hJQu4?=
+ =?us-ascii?Q?7vWTZRWt+IzxlFT9KlTVauwFiKLGXLX5hCLCNgdVxPKp+Pr0E8fu6oMBbPs8?=
+ =?us-ascii?Q?3Twdh10BWH/Ox6tkvMtIdWI0FHRRwNfk3fhdQNre6x9Ad2oZB3EnT2bCci+o?=
+ =?us-ascii?Q?n0d0htz9WAiolqxxjWFlCXeeJ1iqiN7RgHayT/JDsXV0fgBycCuYFGcuQ/7f?=
+ =?us-ascii?Q?ZQpDgx3SMfLlL+BhurMuM7/S5lMTVZtzkvORoBZbTn5Nu6DBjJTA1v8bN6T8?=
+ =?us-ascii?Q?uOc8GpBkfpc3quWW5hKWwD6qC8E81hliluFHbDOkefgHp/0LP6WG3FTqIz4p?=
+ =?us-ascii?Q?skVuoULS0JhcYkQe9IRdgsI/xVXkDCvL79AAIKpJR/Vzi4HdHUVV3oGz6U04?=
+ =?us-ascii?Q?3B0U/6kMV0RRZokr9YL8eE6I+/Fm6cMvqxPJeZ9sBrOW+QieDXzy2v+N8fh7?=
+ =?us-ascii?Q?sQ5CKkExKURRe4C/ztGv/FjZm5+N1TWmhLUET8fvX4BP6SGqe9BnfJkkUxd2?=
+ =?us-ascii?Q?mRGmFjbwOrK/ueCf1Pmw/a1ggfAfizshrun75s+n64jcnEdh1Xrnmf0Wl73l?=
+ =?us-ascii?Q?wEBeFNFBYBBoypKUyXeJclNIipqArR8LjNoqj+Pp/Cb5S5nl+pYOKzwBdYcR?=
+ =?us-ascii?Q?bPu3VsPYL81LKnheDtPSm1PlG6NGfJydidmE5YV1n+Oody2VBOzGNgJRtx9o?=
+ =?us-ascii?Q?P4Qr+wNJiN1g8ZAk3YpLEiOvofWg21qxdxWrDj2V9y6uEypJVfTQgXodkNa0?=
+ =?us-ascii?Q?1ChCZQIn/omUWX64SqprE6mehgdh24ZCP0Dvmrdvtn3ReiNFtLI4g0p3bttL?=
+ =?us-ascii?Q?2CwQL1Ija1o7WbizoN4VXBe4jGzjxVbaAWBdOIUhs2cK8Cw3sR9LhlVWhkqE?=
+ =?us-ascii?Q?qe9M5TIUF/gln42xRnrqdLkn6D8SVndx3rVzv6atdi7MAp+O2SWNpYnD8hjV?=
+ =?us-ascii?Q?OXVddzLjwi5HGEPrCvP6XtVQAZq/0oJHCA8xeIXIqv4RD2FvjM5Rmb7acdoM?=
+ =?us-ascii?Q?EaZopdqnQ4+HcFUvScQC6ionHYyAj/nMBl/S/jgQBZEZOQzWO7YU3++8zqkj?=
+ =?us-ascii?Q?q33ZlaahLbNCcx5n2Z4T6PfXwIngCA1UF0z5LLj/iZlZU9hFR8fl6ZmwANrD?=
+ =?us-ascii?Q?mPRNO1iJZ/Od/Gl6txrv5JM67vR70sxTB+wAYUZNKiD2l6T6zF+wlfczp11e?=
+ =?us-ascii?Q?8ulNS2GPD9akCwCaGvChROebbMrGOeRsqFpZWuwsguzX92eZfHbjfiGRUXA6?=
+ =?us-ascii?Q?9MxUEeGBPJe7Wjy8v4p+ThG4so7vRmbqxmUtWLsKytGvQ+xvzp0/e02wxxai?=
+ =?us-ascii?Q?3YwJa0bJ4hOwbPuEhZL66r4jpJADLKEcMIlO8RqbKDIngiAN8/R+cQ1ijf5r?=
+ =?us-ascii?Q?SKGmgiAHletbdHHuY1swMpRwuKuJ1EOEcV3oKd5Asz71P5IzwWnyzAkf4VGV?=
+ =?us-ascii?Q?ZHpR5bnbiSLjhET3A6wCyuSw5659JRMIKTrdJD7DXGUEUKAAVrYQ+H9E4yW2?=
+ =?us-ascii?Q?MFRBCAHLemOFPvaPzkZlGJY9YzQJrAZko0d2k3xnA00pSlE36ZlyEdV0C4pt?=
+ =?us-ascii?Q?49WiJQiOvA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e108204-2692-4268-98f7-08de8fd2c865
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 09:41:00.4898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WT5Egaesh9dSJ1RdTq++FcqHePunWZ+zswEx2s9bTmCf7/QQRlq87qnuyQsCwqoFGS4w69YGWbqA6X4wMFH2kQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8241
 
-On Wed, 01 Apr 2026 10:26:25 +0200,
-wangdich9700@163.com wrote:
-> 
-> From: wangdicheng <wangdicheng@kylinos.cn>
-> 
-> The cmedia_probe() function calls snd_hda_parse_pin_defcfg() and
-> snd_hda_gen_parse_auto_config() twice unnecessarily. Remove The
-> duplicate code.
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+Fix mixer-test failures. Mostly the issues are that event is not
+generated in put operation.
 
-Oh, that was a silly mistake that was introduced at the big code
-change.
+changes in v2:
+- add back event notification in patch 11/11
 
-Applied now with the Fixes tag.
+Shengjiu Wang (11):
+  ASoC: fsl_micfil: Add access property for "VAD Detected"
+  ASoC: fsl_micfil: Fix event generation in hwvad_put_enable()
+  ASoC: fsl_micfil: Fix event generation in hwvad_put_init_mode()
+  ASoC: fsl_micfil: Fix event generation in micfil_range_set()
+  ASoC: fsl_micfil: Fix event generation in
+    micfil_put_dc_remover_state()
+  ASoC: fsl_micfil: Fix event generation in micfil_quality_set()
+  ASoC: fsl_xcvr: Fix event generation in fsl_xcvr_arc_mode_put()
+  ASoC: fsl_xcvr: Fix event generation in fsl_xcvr_mode_put()
+  ASoC: fsl_easrc: Check the variable range in
+    fsl_easrc_iec958_put_bits()
+  ASoC: fsl_easrc: Fix value type in fsl_easrc_iec958_get_bits()
+  ASoC: fsl_easrc: Change the type for iec958 channel status controls
 
+ sound/soc/fsl/fsl_easrc.c  | 123 ++++++++++++++++++++++++++-----------
+ sound/soc/fsl/fsl_micfil.c |  72 +++++++++++++++++++---
+ sound/soc/fsl/fsl_xcvr.c   |  22 +++++--
+ 3 files changed, 168 insertions(+), 49 deletions(-)
 
-thanks,
+-- 
+2.34.1
 
-Takashi
