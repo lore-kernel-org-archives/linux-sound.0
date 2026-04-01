@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6471D432D;
-	Wed,  1 Apr 2026 17:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D18D47CC87
+	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 17:19:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775063966; cv=none; b=H/RU27C/aB2KGuIRFcXRzOz1hnKI/xXdUvok6mAowvP+Q0G84Aq/V/m7iFb2DWzJzhD+evnLpuPSt/b9BRxG4OHr86Ww96MvnR8A8V4WGoEETlJXPCrEB+FaGwQJKsDbhuxf/mljPxdE0F0xmN8tLjUGJczuiN9cmfdXPbAbzNY=
+	t=1775063970; cv=none; b=AveIJB7hR4eQefBkd8zdXCAOTmzr1xbYKmQhva2gXt+fwNMfTxGrB42feUEcWfvtZhpPL7k9i5O1GrckXsebSZAAGs/QpJVixhBpa7lrToyIXIMk2rwKlwzbvt9f54oWFfOA7fvjOzjKKK9LxDaeF3rcYdModNTaUYcBMQJooag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775063966; c=relaxed/simple;
-	bh=VbhVS//m3a2dA3Cgq60pVxrHhagocJ13s7jBI25uvxI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EMhB7+vjVQs+VXT+7QMEajKW2D+2PpUzjw9DjweHbb7DlaoJJUq3TCx7uAx8gD4JZG4d3l5xFvjIz1vMPdM0l8z1AShiem73WgVb72p6D/IEie/28X4OQ1foTsEvsWqy9z6Y6e9kog9pvonwBO8PB6mWb/nFqdN5yR8/41QOQKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CJWEp+LL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775063970; c=relaxed/simple;
+	bh=shHJF2cdJjXDf6l9QzhNSuRCIFN1g++8hv/dCaR3iWU=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VlkVCwoj3udaHiDwutW/Z1wdvE7lDiLspl2Dyy0CP9VoA3LBdki4FnhhZF+/3QHljRIj0eiymoq7WRZj+mZZdNFJ8mnxa2127ZT4qenGzVxPZSklRLCt1LHuV+L4r03QCloRfCWGn0x6jOLfsu/WYqEHyyzjjY4lu4b5q9048FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzaBuv/L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CJWEp+LL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50783C4CEF7;
-	Wed,  1 Apr 2026 17:19:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzaBuv/L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BDD5C4CEF7;
+	Wed,  1 Apr 2026 17:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775063966;
-	bh=VbhVS//m3a2dA3Cgq60pVxrHhagocJ13s7jBI25uvxI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CJWEp+LL378XTHe/hI7uOCi97JorNoc4eL0ZjD3/n0c4Cv+efGXeNveOev/MoxEOV
-	 fv4c36kAxCT/8mMjc5eUwGH5T1+jAh4Ecqg+7EzA+2Rnj7vNAk9NSBqQ3mJDVrlL/Z
-	 iVO9X7EC7cY806Klp8lPWPzzpm8SRsjbH5/m3jfdelnWT9mhKr84dM/uFm/QnT5rMy
-	 1iPZvm2IsSWgWXll7OVqGutRG1Nwdq42eKwL8bWxyCIoID9AjjBphz+uTl5lGL4ST+
-	 xGddFLSlbsqeM2dl44aNlWsZUtqV003IEAiXsR3mUPO8Z+CqBnEkwoWiOGR6qZdPBA
-	 xLHFvp2PztCUQ==
+	s=k20201202; t=1775063970;
+	bh=shHJF2cdJjXDf6l9QzhNSuRCIFN1g++8hv/dCaR3iWU=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=SzaBuv/LIt2JG8QjefKTWDdwmdpWHcBV0nHnj03Q8zIplKXODiaGLY0PMJIz4rQNW
+	 hSZnSQsTixV5+r87A3qCvFcypLgpuCGajbUDHzqWcjW6QmlSyG9s9UBuAyti2z3K3q
+	 tRy5wvNnhHncyoWZs1kRA3F52jTY6VjhLKwSiljh2f4+O5AveucysJ3Q3kyR99n24m
+	 i9cSgtzgQN+5juGyr64vO5ZO8xHchb9xI97rncWZ1Sy8yddKiA/pYQlp+zIeIRMUqL
+	 1cIBjFRV7ecoXvboDMdfWFLlKBu5FB8Q51vfMGmLJj5kS1+pBlo2iHeZFbbgqb4uGu
+	 tcojwmnc4oeKg==
 From: Mark Brown <broonie@kernel.org>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com, Vijendar.Mukunda@amd.com
-In-Reply-To: <20260331131916.145546-1-simont@opensource.cirrus.com>
-References: <20260331131916.145546-1-simont@opensource.cirrus.com>
-Subject: Re: [PATCH v2] ASoC: amd: ps: Fix missing leading zeros in
- subsystem_device SSID log
-Message-Id: <177504535404.145704.16589614427086965093.b4-ty@b4>
-Date: Wed, 01 Apr 2026 13:09:14 +0100
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <875x6bttv8.wl-kuninori.morimoto.gx@renesas.com>
+References: <875x6bttv8.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: ak5558: remove unused snd_soc_component
+Message-Id: <177504529061.145704.7839156846976973126.b4-ty@b4>
+Date: Wed, 01 Apr 2026 13:08:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,29 +44,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-7777e
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1157; i=broonie@kernel.org;
- h=from:subject:message-id; bh=VbhVS//m3a2dA3Cgq60pVxrHhagocJ13s7jBI25uvxI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzVOcxO8yBvkXi8hmfCEyB+O1YNrxt/7/7bgaa
- hNycoF+bf6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCac1TnAAKCRAk1otyXVSH
- 0M4uB/9UJQVPvhGrRqC172ABs8puB4un3jH6J9NXn6Uhvo8AhgnBtR9hzVAG4FGplJKai0h+pYB
- mI+o27TBTslYEbGIXOHERn8JXh7niKXNeCT7jjAk3T1dtWdB7Yow0S7KFTIxmB6PF+KvmrTKkRZ
- dPZu+fmjVe75rJ/GumyxnuJ8JKi5bmisGm8ZJ8zmKggmtCUewrM3DmfomQSMhHsr1qglFedcbmc
- cJwJuiaMxbw+GagZoK4Tuyw1AZxZ9PCncEvY0DSL+yj73c745GqdspIM5C4NVTphvhwYGVh7Gjz
- Ksx3UyOBCe/uR87GF9ttS3cguqXeNFJJuMuJFeNH368uErLB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=shHJF2cdJjXDf6l9QzhNSuRCIFN1g++8hv/dCaR3iWU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzVOg+17qHd/vNyT2Z9TNkgGPDt7EO1HF05Kep
+ b/0Q6ZsQ4CJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCac1ToAAKCRAk1otyXVSH
+ 0Ov9B/9qFtxx/ENwZaYRptFHJH5lHgDYy303kzq1U2cAhPvjcNYKXD8OVts7JmrBFQp429tkm8A
+ icE9dZI6EcayNSi8AyFegwoEundhsTZdidubA5Gqt1ZnrnMPl8f5hCFG3GDic7xVX2TbmaNScv7
+ GTYEqz9CukIaTLH8f3kZo0E7yMEonGteSxHGoGWDUDcYKvTNmXP7jRg87biBc72rEG/NhhmAyCr
+ TR91YpogYTpZpMvdN2EicaVJ0xaLFo6XAKP49k3oYP38OTBbSOPQJw9bozXCQ0AY7CpWbITpVsq
+ yATluiopMZbwOn11IORD8I+wbMuuTBs5alOsTWoNFM06raPe
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 31 Mar 2026 13:19:16 +0000, Simon Trimmer wrote:
-> ASoC: amd: ps: Fix missing leading zeros in subsystem_device SSID log
+On Wed, 01 Apr 2026 00:19:23 +0000, Kuninori Morimoto wrote:
+> ASoC: ak5558: remove unused snd_soc_component
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: amd: ps: Fix missing leading zeros in subsystem_device SSID log
-      https://git.kernel.org/broonie/sound/c/e74c38ef6f17
+[1/1] ASoC: ak5558: remove unused snd_soc_component
+      https://git.kernel.org/broonie/sound/c/9b4f93a8b1a5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
