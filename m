@@ -1,46 +1,46 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012036.outbound.protection.outlook.com [40.107.209.36])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011044.outbound.protection.outlook.com [40.93.194.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB723CAE97;
-	Wed,  1 Apr 2026 22:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8593CE49D;
+	Wed,  1 Apr 2026 22:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775082787; cv=fail; b=nbK1fMR7E3Yduyxma3YQYkUTGRRfDfsMiyjvYG/UcbAVwMjtX8bDnNVd7QwIW6Tp2fNW1cMOvSvXvySJPTbRZgr0L9PX6N9kTJzBlbs3Rvssjb9z5klKbOtx4t0dr4n+Z3JBn+rdGNbYvuyJAkXoqj4OkLawNq0vek73M8IpF1w=
+	t=1775082795; cv=fail; b=heQV/TsWTmaywKbLNjVs8iV0GQdlE/bze86si2BgVup0uxQPnSGsB4hwbiMjAWycQNcPuPECtg4930+PlbDKDmWnx49TzV0at5Z+LCz8umqp5zdibsRNZLtgmyJg5bbhFahRxPEfC4mOQXFccx7uLkX/2JpwZRwXYB1s/HfQthc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775082787; c=relaxed/simple;
-	bh=JuHd2GgdK2HSkTZZfPjM1XvwWEWf8MsDnvE2quVKkmQ=;
+	s=arc-20240116; t=1775082795; c=relaxed/simple;
+	bh=qajO+3fmBPsI+4dL9jkT7S1JH8eh1SPm6U/AN2/g2XU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ca6pPPWjepyuL1KcYiqhTy5jtZumAcVe19aijdWThetzwtcbsBvKCtaDzW0+gidi09yy3nbex+FMI61SZ8Rn0tcDJEdn84j/FxJJdrb8Z5s3hCbbjcoyoXThflK8m5VwcYMUihPjU7C7AnvGeliagBm6JEUdWlbGYSetkArRRtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=JoZKiUZB; arc=fail smtp.client-ip=40.107.209.36
+	 MIME-Version:Content-Type; b=PxjL7hUC/LFD4aml++iiBl443oBfCTWiEYcI47FYRgXnSEJP0tyOOqBocBxEDrZ3HGbG5vWM8H4SFhmTP49RNVlG7gAcvJ3cJXyjgN/oIwGdRx4FIqhNN2dskhnJ0uQfBGYCMNv8n94CEhkEAFObwkcqryGG10QmBnxkICwqRvU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Vf0HrZ9G; arc=fail smtp.client-ip=40.93.194.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JoZKiUZB"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Vf0HrZ9G"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qJqVpX/wLRp+ukjMriP0RwVDtoBzOGCILx+0eOTFdgHDwwXpUAvjjoV8brpJe8WA3AqN/bD2E3CmvqYOS2jbkJAph2eyGtG+AipnHuQmvWJ1x47SGrqOxGPBJNXaEnUK6oj+e/RFtEhBGNDYColpbDHkOwtUi7k5NlWS/3svD9IlzBN57817QLHSjtgjwuc/w/nkC+JmgMr1clsS/kPd9jaayiqhE5tpQMXlW/kCNGYJ99kiGpSgCpfcnxFagQvZL4q8uxUq8QS2vlWkz9/zNgTKWqmp4rfeaZL0B+4jNU0fRttYhoeqeqDWJ1MqkWg5e+5AUCM1kRSLWGON28kQmA==
+ b=RG4cioTDLwbIIyBA6MzNZLrmUtdbaKDdzuUnrSLvTh8VZl+uWPp7vNFiqeyzGaFAL8RxVDUxdnKu95HAGHdh1zDTuqV5D6FWddhgJHW+EgV67yBR+kOtkegTwhloUTgk7hVitZQ1QWnuNOopkLjgjNfln+z4RyghDHW494YqvftOqOQAApiROQVcc9dlZ+n4DhOjMMTsDrMjf1T3s+5upX0s26hm8fFOJojOPmpPehAtkynWdmOhom7+OkIGtSYkM+16uFZJxyF8cvsyszww16fasK7S21X0V8zRFvdALJfYKkn8JOOM6rJJsFFR5amIcqN/XQKmc5cRo2CIQ2SCbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mmwZuTujvRx4D7SsKvAskxGnQj4kuZ9nF03UvVixOxk=;
- b=TxjagLHf+v5F28jTS/fUFEqNaI98M910ZMQ7PXocd7F9ancYSDdXsSbsQrfkpCOditYF5NVpOZ36PTcFvZQAg9zWZImDg8u5fDHIQOtQTcHltsWU9OGkbM9xvwZuDdun+Z7yRwbDpARIIvVLieeSCT4JBuTaKr6Uq8/Si0Mrwi0Vb9N8RhQu8I6rfYl/a2wtKyYd/nW4OeRvVDblVw9AChsqRUOj8LbV5AYlU/QM5t+othHEJEQW2lEpiUwNA+T/uaOYGlCRaL5SVF4R6z2r2/adc41Up3thiuF3GRWi6FP02ODSVI6zLT+b6gV8ZXcNKazn/NEF5/bgYz3FQKzcrw==
+ bh=wkSxadPlX+ceW9TliS7LuElDmMTuTndw07ZjRSoItF4=;
+ b=EuzsOPQmbwYzA2LGg6JyQotSqXbg5/uz+CZNLzKWSECTArhtgBq+X2eRgGLKjsu3pZLED5s5/imrRrHEZ/757APo+JveEfS0mKLj47Dglbjmhnf+IKNzYBTVYxbbxXMTFWEiB25ZQFcadbHs8AZGgiNYZ0Wdgp11qA8xw6ruuDV/NRVQUlfy1R4AdeltL7aJhrOkDyyeEnaMMKmDU/tyqxZxy8oPO8ozfcDf595M9nAoFMNA77mzVWyAKxwuLExV4M+vpccBr6mSuere5Vqso6/MglyEjjeQ0gnV0+wTiERwhU9nPk2crieN5qiKkuMnfsV9OqemVrPbgkmWi8w2fA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mmwZuTujvRx4D7SsKvAskxGnQj4kuZ9nF03UvVixOxk=;
- b=JoZKiUZBELUPXtiwzEJEr3wI1r1i93PMysVO3Q0IlOnpkeL62kWFEu93niwFZ5CCSywpLSllILnLAgcfH8PkC3OWGf44ovu8x+NlffoQjkd19Ykd9n6LLdYnu4kwxiZFRfynxgJbGbhN5KQXe/82IVFfUIgIBgbEYJF02clrnd0=
-Received: from CH2PR07CA0044.namprd07.prod.outlook.com (2603:10b6:610:5b::18)
- by CH2PR10MB4117.namprd10.prod.outlook.com (2603:10b6:610:ac::15) with
+ bh=wkSxadPlX+ceW9TliS7LuElDmMTuTndw07ZjRSoItF4=;
+ b=Vf0HrZ9GWVcyLvF+wB6TxqNXM7UROG6LPRZmqff/f7l+pN7k0fafzibmw/scH82IDBwJ+6dHTaNgN81n6V/rGdSTCJcxioZKPv6ZBc/X4QWJArb3JewDMVyFFMU/YidG962qnBe6CiUScPiSEgAJB9XNp7F3p5AulgUg80a1faY=
+Received: from CH0PR13CA0032.namprd13.prod.outlook.com (2603:10b6:610:b2::7)
+ by SN7PR10MB7076.namprd10.prod.outlook.com (2603:10b6:806:329::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Wed, 1 Apr
- 2026 22:32:51 +0000
-Received: from CH2PEPF00000146.namprd02.prod.outlook.com
- (2603:10b6:610:5b:cafe::62) by CH2PR07CA0044.outlook.office365.com
- (2603:10b6:610:5b::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.30 via Frontend Transport; Wed,
- 1 Apr 2026 22:32:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Wed, 1 Apr
+ 2026 22:32:53 +0000
+Received: from CH2PEPF00000148.namprd02.prod.outlook.com
+ (2603:10b6:610:b2:cafe::aa) by CH0PR13CA0032.outlook.office365.com
+ (2603:10b6:610:b2::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.16 via Frontend Transport; Wed,
+ 1 Apr 2026 22:32:52 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
@@ -48,24 +48,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
  198.47.23.195 as permitted sender) receiver=protection.outlook.com;
  client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
 Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CH2PEPF00000146.mail.protection.outlook.com (10.167.244.103) with Microsoft
+ CH2PEPF00000148.mail.protection.outlook.com (10.167.244.105) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Wed, 1 Apr 2026 22:32:51 +0000
-Received: from DLEE213.ent.ti.com (157.170.170.116) by lewvzet201.ext.ti.com
+ 15.20.9745.21 via Frontend Transport; Wed, 1 Apr 2026 22:32:52 +0000
+Received: from DLEE215.ent.ti.com (157.170.170.118) by lewvzet201.ext.ti.com
  (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
- 2026 17:32:50 -0500
-Received: from DLEE214.ent.ti.com (157.170.170.117) by DLEE213.ent.ti.com
- (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 17:32:52 -0500
+Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE215.ent.ti.com
+ (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
- 2026 17:32:50 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE214.ent.ti.com
- (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 17:32:51 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 1 Apr 2026 17:32:50 -0500
+ Transport; Wed, 1 Apr 2026 17:32:51 -0500
 Received: from localhost (mz02jj9v.dhcp.ti.com [128.247.81.246])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 631MWoJ41351051;
-	Wed, 1 Apr 2026 17:32:50 -0500
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 631MWphH887154;
+	Wed, 1 Apr 2026 17:32:51 -0500
 From: Sen Wang <sen@ti.com>
 To: <linux-sound@vger.kernel.org>
 CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
@@ -74,9 +74,9 @@ CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
 	<kevin-lu@ti.com>, <baojun.xu@ti.com>, <niranjan.hy@ti.com>,
 	<l-badrinarayanan@ti.com>, <devarsht@ti.com>, <v-singh1@ti.com>,
 	<linux-kernel@vger.kernel.org>, Sen Wang <sen@ti.com>
-Subject: [PATCH v2 1/4] dt-bindings: sound: Add ti,tas675x
-Date: Wed, 1 Apr 2026 17:28:42 -0500
-Message-ID: <20260401223239.1638881-2-sen@ti.com>
+Subject: [PATCH v2 3/4] Documentation: sound: Add TAS675x codec mixer controls documentation
+Date: Wed, 1 Apr 2026 17:28:44 -0500
+Message-ID: <20260401223239.1638881-4-sen@ti.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260401223239.1638881-1-sen@ti.com>
 References: <message-id-of-your-RFC-cover-letter>
@@ -87,329 +87,680 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000146:EE_|CH2PR10MB4117:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d1d5150-cd34-462f-d574-08de903e9c03
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000148:EE_|SN7PR10MB7076:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a3dff39-6213-488e-7f88-08de903e9cea
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|36860700016|82310400026|18002099003|56012099003|22082099003;
+	BCL:0;ARA:13230040|376014|7416014|36860700016|82310400026|1800799024|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	JNhsh7Is6yjXfi98gfFp8I6jLtw30W/AsBNJz1XxJWnU0rbt9722azVhl10vzLvaFr1zJylWFFIl91AXAjwf9r2KRuZlFcpFYqfyOL3cWZn+9sleMNWDU5t2rXMjpXsHYtGKHj2LMSGAK8ZOh6fEFcTybNOBTSBmt9Kj8dSdFAnz251Xh6+ov6g9tiem6kmrdotVOarLMpHoVAL6Wr2jHgtGwgG8WYc+g7tW9we8m2JO5DJDCmVaFjJ1mBbMCrxAp19xk8C5NaXqt1hdm562AUS5xCsn0f8ueJKSpxGwkQZDMmdn8ugaexJmcs2HwALsO9z9ooZ9s48Bwjuhy2mziSGnQ4ikDE4m4NhN2gj8djmynk/cQJHnOWSPK406bePTx/Y2jfckYeRQb2akFXXiBbWIKt1dG3ggpNiU1XuloYWS8wC8rVm4P6/t9P6XxZWy6BDKe5T+T2vZvBFqOB6Zq1RCdc/nDlnFKmSpMQhYTl3EPc/IFhEpj7uZOw66jyfOJA5kJsJJ2AaU4T+1mHEFs8QyYqMWsJrTcaqj62LCaI054MIbUmUw0onEZFiJu4sN+7K4sOzTr3zinQMpaFiQJfAUi0xsOBL43FsDWvUZ+cYp60jZcWJ7fsR6VeUN7FiD1ds+HOL0Sona0xORPWuqba4GmYty4+/J6mX09W0i5QVpvSbyrleI5inMulAN74J2/Dhzip+mhE0nxtmZq+BuUDE/cK/LyA4zI3CS3pYR2RI=
+	8+yupC01dataCJkbCMImQgfs+koIixpjI5yimVuT2jKY1cH9CpOq3N8M6kIjlV6kflfxWQuBZJeXv//sGhDUCY9A13W/Etize5rkAt+Ip1u8wenbMvaDT7oj9la0ZQmp3cBgJVvM0VswIM/VXearCtwcQigk/i/39TclCEDAHP0dKScYcRxDH8X/BNvW6Sf3898KoCtLO/xyUxMKBUMN5JblPw+hbt2RGzjkTCrIT4fCbbFQEHCxdHDWuGYE9rijDKYXNZ+1E+GbjFMnGrFnNK2ErYb9W7mZ1abcgkFc/E4kzDTxxF13R+VJyherfb6apXzTf9RVPrZuYk+y0WYvrCFJE/AEMQ8GJP/QVRznhnWIcLXYwgmQlBlKZtP5edWOY5qy43ryKpc6I+UU2BCdTrwMc9TspcfwZCDKs84NgmlS5K3ZA0A648b90i5lfb5MVld0l8acEWDByIV2HSZ70VcguVdZCjwko9DtuMrbPZgXxXzhuhqQ15fLJmoRiXYNUEiPRe0ioF/pSHTqOJi8MDm5J+zpXkzheGda9AB0h1s33PIrBwXPUb1eFmBd1ITy7O/aJKkW7IMkw8QXHaWZsdu8Ye7An/1sTcXoNLc17lTOfxljCwB3uAbOHDZqQofn2HnJwXylL/eeQQlsF3hRlDTtyriQFA6NlZNcfw+1ev3Dt4dT/SkKRD69NPGR6KVUjg9go4eKumQncFjGC23YnC91xXxi2VP0CAjZdPhF40TbTTbDkilmmJ0Ro2oH9OrFzWKggZ3ymBD7eoZ/vAjgEQ==
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(36860700016)(82310400026)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700016)(82310400026)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	k2EydAvCs2tBjLsOsWVdRBUYgl0GREFZRr9cKJ20wACwbeibBerPzG5QG1dHHM1QYaFsKRMipjEaEgGojNC75KjNwjo/H1JyHDVmYi6TazxW47cL51CmR6pSjscvjdizQV93ztQVHQQZdHzZpE6F70dsj4vGcpTeL8QmzO/QOcGxyOCbe1KpxjWdvf/edWImb9eEVbQojCua71ZXOOakFq8mfpVDWDWl2rzgIyXaZ+wcShaFVmJ3RMQ48Z2/6EQ4pcnPkouUvvDIST1MMQ05r8v5zwuftVWda6EN+g+Hk3eJyqecyo8l8N1YE7YSmhS21yiztbR0wDL8XHwYHTNCMbp71YFFF0b+l51/d3ffcB2Wp7ioqVyVTTynY5jsMyfi3M2YGgrv0/lDNXOJbbuUjz2ZZlANNAerFx6JxZTwXyY8+VV5FsY5TMGQofP0mCO8
+	/IzMR/X9RM5dRjFZMbqdfdtQa4aUsge+WOH9pji2dp4O5MXqujF4ToONlD+1nOLyVRG7PUYMFJVrU5KwZ8QUCK2XhfnYL1Jf8QfxV85GsaZTxGP6yEfJ0dqfgQgTvm5DSStbUVxBj5DygFofprAEKleWcOXquo44uzlrNeRkFuRk/wy9utKkzr8uVjA7Hbz8T0kC78Azf3NcJoSXZJwjEEIKaBTrbimSIT3tRmrbm7C5Il/i2NJmpo1ACFbj52KIa/dV0z0nwIUReIDyiELqlCX1W8vMATBqDTZ4/t/Zbw2jUwfYqnBM4yTanvZl4QiYjsF7ESxcQIm0UbA/ZNE7iCvI0L5j4SMUVVpOgbSW+DPiGm8Bi6jL/lyRfzeHSTeiMZ9QuGgPwWa5TJ7NoHMcUtYXidouXh/TxZwdXGbaiqRi4TGy7UtE+P+3o4w5z8Xa
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:32:51.1383
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:32:52.7253
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d1d5150-cd34-462f-d574-08de903e9c03
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a3dff39-6213-488e-7f88-08de903e9cea
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF00000146.namprd02.prod.outlook.com
+	CH2PEPF00000148.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4117
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB7076
 
-Add device tree binding for the Texas Instruments TAS675x family
-of four-channel Class-D audio amplifiers with integrated DSP.
+Add ALSA mixer controls documentation for the TAS675x driver, covering
+DSP signal path modes, volume controls, load diagnostics, and fault
+monitoring.
 
 Signed-off-by: Sen Wang <sen@ti.com>
 ---
- .../devicetree/bindings/sound/ti,tas675x.yaml | 278 ++++++++++++++++++
- 1 file changed, 278 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/ti,tas675x.yaml
+ Documentation/sound/codecs/index.rst   |   1 +
+ Documentation/sound/codecs/tas675x.rst | 618 +++++++++++++++++++++++++
+ 2 files changed, 619 insertions(+)
+ create mode 100644 Documentation/sound/codecs/tas675x.rst
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tas675x.yaml b/Documentation/devicetree/bindings/sound/ti,tas675x.yaml
+diff --git a/Documentation/sound/codecs/index.rst b/Documentation/sound/codecs/index.rst
+index 2cb95d87bbef..7594d0a38d6b 100644
+--- a/Documentation/sound/codecs/index.rst
++++ b/Documentation/sound/codecs/index.rst
+@@ -7,3 +7,4 @@ Codec-Specific Information
+    :maxdepth: 2
+ 
+    cs35l56
++   tas675x
+diff --git a/Documentation/sound/codecs/tas675x.rst b/Documentation/sound/codecs/tas675x.rst
 new file mode 100644
-index 000000000000..23e4cc77b4ae
+index 000000000000..334b1d8be3ea
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,tas675x.yaml
-@@ -0,0 +1,278 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,tas675x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/Documentation/sound/codecs/tas675x.rst
+@@ -0,0 +1,618 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+title: Texas Instruments TAS675x Audio Amplifier
++======================================
++TAS675x Codec Mixer Controls
++======================================
 +
-+maintainers:
-+  - Sen Wang <sen@ti.com>
++This document describes the ALSA mixer controls for the TAS675x
++4-channel automotive Class-D amplifier driver.
 +
-+description: |
-+  The TAS675x family (TAS6754, TAS67524) are four-channel, digital-input,
-+  automotive Class-D audio amplifiers with load diagnostics and an integrated
-+  DSP for audio processing.
++For device tree bindings, see:
++Documentation/devicetree/bindings/sound/ti,tas675x.yaml
 +
-+allOf:
-+  - $ref: dai-common.yaml#
++DSP Signal Path Mode
++====================
 +
-+properties:
-+  compatible:
-+    enum:
-+      - ti,tas6754
-+      - ti,tas67524
++DSP Signal Path Mode
++--------------------
 +
-+  reg:
-+    maxItems: 1
++:Description: Signal processing mode selection.
++:Type:        Enumerated
++:Default:     Normal
++:Options:     Normal, LLP, FFLP
 +
-+  '#sound-dai-cells':
-+    const: 1
-+    description: |
-+      The device exposes three DAIs, selected by index.
-+        0 - Standard Audio Path (Playback)
-+        1 - Low-Latency Playback Path (Playback)
-+        2 - Sensory Feedback (Capture - Vpredict and Isense)
-+      By default, all four channels of each DAI are active. Runtime
-+      reconfiguration is available through DAPM widgets.
++Normal
++  Full DSP with all features available.
 +
-+  interrupts:
-+    maxItems: 1
-+    description:
-+      Active-low falling-edge interrupt from the FAULT pin. When provided,
-+      the driver uses IRQ-driven fault reporting instead of polling.
++LLP (Low Latency Path)
++  Bypasses DSP processing. DSP protection features (Thermal Foldback,
++  PVDD Foldback, Clip Detect) and Real-Time Load Diagnostics unavailable.
 +
-+  pd-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO connected to the power-down (PD#) pin, active low. Controls the
-+      internal digital circuitry power state. When asserted the device enters
-+      full power-down mode and all register state is lost. Can be omitted if
-+      PD pin is hardwired or externally controlled.
++FFLP (Full Feature Low Latency Path)
++  Reduced latency. Real-Time Load Diagnostics unavailable.
 +
-+  stby-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO connected to the standby (STBY#) pin, active low. Controls the
-+      analog power stage. When asserted the device enters Deep Sleep mode
-+      but remains I2C-accessible with registers retained. Can be omitted if
-+      STBY pin is tied to PD or hardwired.
++The following controls are unavailable in LLP mode:
++``Thermal Foldback Switch``, ``PVDD Foldback Switch``,
++``DC Blocker Bypass Switch``, ``Clip Detect Switch``, ``Audio SDOUT Switch``.
 +
-+  dvdd-supply:
-+    description:
-+      Digital logic supply (1.62 V to 3.6 V). All three supply rails must
-+      be within their recommended operating ranges before the PD pin is
-+      released.
++The following controls require Normal mode (unavailable in FFLP and LLP):
++``CHx RTLDG Switch``, ``RTLDG Clip Mask Switch``, ``ISENSE Calibration Switch``,
++``RTLDG Open Load Threshold``, ``RTLDG Short Load Threshold``,
++``CHx RTLDG Impedance``, ``RTLDG Fault Latched``.
 +
-+  pvdd-supply:
-+    description:
-+      Output FET power supply (4.5 V to 19 V). All three supply rails must
-+      be within their recommended operating ranges before the PD pin is
-+      released.
++Volume Controls
++===============
 +
-+  vbat-supply:
-+    description:
-+      Battery supply for the Class-D output stage (4.5 V to 19 V). Optional
-+      when PVDD and VBAT are connected to the same supply rail. When absent,
-+      VBAT is assumed hardwired to PVDD.
++Analog Playback Volume
++----------------------
 +
-+  ti,fast-boot:
-+    type: boolean
-+    description:
-+      Skip DC load diagnostic sweep at power-on to reduce boot latency.
-+      Automatic diagnostics after fault conditions remain enabled. Hardware
-+      overcurrent protection is always active.
++:Description: Analog output gain for all channels (CH1/CH2 and CH3/CH4 pairs).
++:Type:        Volume (TLV)
++:Default:     0 dB
++:Range:       -15.5 dB to 0 dB (0.5 dB steps)
 +
-+  ti,audio-slot-no:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      TDM slot offset for the standard audio playback path via SDIN1. A value
-+      of 4 maps to slot 4. If omitted, slot assignment is derived from the
-+      tx_mask provided via set_tdm_slot(). Without either property, no slot
-+      mapping is configured.
++Analog Gain Ramp Step
++---------------------
 +
-+  ti,llp-slot-no:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      TDM slot offset for the low-latency playback path via SDIN1. If omitted,
-+      slot assignment is derived from the tx_mask provided via set_tdm_slot().
-+      Without either property, no slot mapping is configured. Disabled outside
-+      of LLP mode, and only relevant for TDM formats.
++:Description: Anti-pop ramp step duration for analog gain transitions.
++:Type:        Enumerated
++:Default:     15us
++:Options:     15us, 60us, 200us, 400us
 +
-+  ti,vpredict-slot-no:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      In TDM mode, enables Vpredict output and assigns its starting slot;
-+      four consecutive slots carry Vpredict Ch1-4 on SDOUT1. May coexist
-+      with ti,isense-slot-no using separate non-overlapping slots.
++CHx Digital Playback Volume
++---------------------------
 +
-+      In I2S mode, enables Vpredict output on SDOUT1 (Ch1/Ch2) and SDOUT2
-+      (Ch3/Ch4). The slot value is unused. Requires a GPIO configured as
-+      sdout2 for Ch3/Ch4; without it only Ch1/Ch2 are output. Mutually
-+      exclusive with ti,isense-slot-no; if both are set, Vpredict takes
-+      priority.
++:Description: Per-channel digital volume control (x = 1, 2, 3, 4).
++:Type:        Volume (TLV)
++:Default:     0 dB
++:Range:       -103 dB to 0 dB (0.5 dB steps)
++:Bounds:      0x30 (min/mute) to 0xFF (max)
 +
-+      Irrelevant in Left-J and Right-J modes.
++Volume Ramp Down Rate
++---------------------
 +
-+  ti,isense-slot-no:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      In TDM mode, enables Isense output and assigns its starting slot;
-+      four consecutive slots carry Isense Ch1-4 on SDOUT1. May coexist
-+      with ti,vpredict-slot-no using separate non-overlapping slots.
++:Description: Update frequency during mute transition.
++:Type:        Enumerated
++:Default:     16 FS
++:Options:     4 FS, 16 FS, 32 FS, Instant
 +
-+      In I2S mode, enables Isense output on SDOUT1 (Ch1/Ch2) and SDOUT2
-+      (Ch3/Ch4). The slot value is unused. Requires a GPIO configured as
-+      sdout2 for Ch3/Ch4; without it only Ch1/Ch2 are output. Mutually
-+      exclusive with ti,vpredict-slot-no; Vpredict takes priority if both
-+      are set.
++Volume Ramp Down Step
++---------------------
 +
-+      Irrelevant in Left-J and Right-J modes.
++:Description: dB change per update during mute.
++:Type:        Enumerated
++:Default:     0.5dB
++:Options:     4dB, 2dB, 1dB, 0.5dB
 +
-+  ti,gpio1-function:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: |
-+      Function for the GPIO_1 pin. When omitted, GPIO_1 remains in its
-+      power-on default state.
-+    enum:
-+      - low           # Output: driven low
-+      - auto-mute     # Output: high when all channels are auto-muted
-+      - auto-mute-ch4 # Output: high when channel 4 is auto-muted
-+      - auto-mute-ch3 # Output: high when channel 3 is auto-muted
-+      - auto-mute-ch2 # Output: high when channel 2 is auto-muted
-+      - auto-mute-ch1 # Output: high when channel 1 is auto-muted
-+      - sdout2        # Output: Routes secondary serial data output 2
-+      - sdout1        # Output: Re-routes secondary serial data output 1
-+      - warn          # Output: warning signal (OTW, CBC)
-+      - fault         # Output: fault signal (OTSD, OC, DC)
-+      - clock-sync    # Output: clock synchronisation
-+      - invalid-clock # Output: high when clock is invalid
-+      - high          # Output: driven high
-+      - mute          # Input: external mute control
-+      - phase-sync    # Input: phase synchronisation
-+      - sdin2         # Input: secondary SDIN2 for I2S/LJ/RJ ch3/ch4
-+      - deep-sleep    # Input: asserted transitions device to Deep Sleep
-+      - hiz           # Input: asserted transitions device to Hi-Z
-+      - play          # Input: asserted transitions device to Play
-+      - sleep         # Input: asserted transitions device to Sleep
++Volume Ramp Up Rate
++-------------------
 +
-+  ti,gpio2-function:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: |
-+      Function for the GPIO_2 pin. When omitted, GPIO_2 remains in its
-+      power-on default state.
-+    enum:
-+      - low           # Output: driven low
-+      - auto-mute     # Output: high when all channels are auto-muted
-+      - auto-mute-ch4 # Output: high when channel 4 is auto-muted
-+      - auto-mute-ch3 # Output: high when channel 3 is auto-muted
-+      - auto-mute-ch2 # Output: high when channel 2 is auto-muted
-+      - auto-mute-ch1 # Output: high when channel 1 is auto-muted
-+      - sdout2        # Output: Routes secondary serial data output 2
-+      - sdout1        # Output: Re-routes secondary serial data output 1
-+      - warn          # Output: warning signal (OTW, CBC)
-+      - fault         # Output: fault signal (OTSD, OC, DC)
-+      - clock-sync    # Output: clock synchronisation
-+      - invalid-clock # Output: high when clock is invalid
-+      - high          # Output: driven high
-+      - mute          # Input: external mute control
-+      - phase-sync    # Input: phase synchronisation
-+      - sdin2         # Input: secondary SDIN2 for I2S/LJ/RJ ch3/ch4
-+      - deep-sleep    # Input: asserted transitions device to Deep Sleep
-+      - hiz           # Input: asserted transitions device to Hi-Z
-+      - play          # Input: asserted transitions device to Play
-+      - sleep         # Input: asserted transitions device to Sleep
++:Description: Update frequency during unmute transition.
++:Type:        Enumerated
++:Default:     16 FS
++:Options:     4 FS, 16 FS, 32 FS, Instant
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    properties:
-+      port@0:
-+        $ref: audio-graph-port.yaml#
-+        unevaluatedProperties: false
-+        description: Standard audio playback port (DAI 0).
++Volume Ramp Up Step
++-------------------
 +
-+      port@1:
-+        $ref: audio-graph-port.yaml#
-+        unevaluatedProperties: false
-+        description: Low-latency playback port (LLP) (DAI 1).
++:Description: dB change per update during unmute.
++:Type:        Enumerated
++:Default:     0.5dB
++:Options:     4dB, 2dB, 1dB, 0.5dB
 +
-+      port@2:
-+        $ref: audio-graph-port.yaml#
-+        unevaluatedProperties: false
-+        description: Sensory feedback capture port (DAI 2).
++CH1/2 Volume Combine
++--------------------
 +
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
++:Description: Links digital volume controls for CH1 and CH2.
++:Type:        Enumerated
++:Default:     Independent
++:Options:     Independent, CH2 follows CH1, CH1 follows CH2
 +
-+required:
-+  - compatible
-+  - reg
-+  - '#sound-dai-cells'
-+  - dvdd-supply
-+  - pvdd-supply
++CH3/4 Volume Combine
++--------------------
 +
-+anyOf:
-+  - required: [pd-gpios]
-+  - required: [stby-gpios]
++:Description: Links digital volume controls for CH3 and CH4.
++:Type:        Enumerated
++:Default:     Independent
++:Options:     Independent, CH4 follows CH3, CH3 follows CH4
 +
-+unevaluatedProperties: false
++Auto Mute & Silence Detection
++==============================
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++CHx Auto Mute Switch
++--------------------
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++:Description: Enables automatic muting on zero-signal detection (x = 1, 2, 3, 4).
++:Type:        Boolean Switch
++:Default:     Disabled (0)
 +
-+        amplifier@70 {
-+            compatible = "ti,tas67524";
-+            reg = <0x70>;
-+            #sound-dai-cells = <1>;
-+            sound-name-prefix = "TAS0";
++Auto Mute Combine Switch
++------------------------
 +
-+            stby-gpios = <&main_gpio0 33 GPIO_ACTIVE_LOW>;
++:Description: Coordinated muting behaviour across all channels.
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++:Behavior:    Disabled: channels mute independently when their signal is zero.
++              Enabled: all channels mute together only when all detect zero
++              signal; unmute when any channel has non-zero signal.
 +
-+            dvdd-supply = <&dvdd_1v8>;
-+            pvdd-supply = <&pvdd_12v>;
-+            vbat-supply = <&vbat_12v>;
++CHx Auto Mute Time
++------------------
 +
-+            ti,audio-slot-no = <0>;
-+            ti,llp-slot-no = <4>;
-+            ti,vpredict-slot-no = <0>;
-+            ti,isense-slot-no = <4>;
++:Description: Duration of zero signal before muting triggers (x = 1, 2, 3, 4).
++:Type:        Enumerated
++:Default:     11.5ms
++:Options:     11.5ms, 53ms, 106.5ms, 266.5ms, 535ms, 1065ms, 2665ms, 5330ms
++:Note:        Values are at 96 kHz. At 48 kHz, times are doubled.
 +
-+            ti,gpio2-function = "warn";
++Clock & EMI Management
++======================
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
++Spread Spectrum Mode
++--------------------
 +
-+                port@0 {
-+                    reg = <0>;
++:Description: Frequency dithering mode to reduce peak EMI.
++:Type:        Enumerated
++:Default:     Disabled
++:Options:     Disabled, Triangle, Random, Triangle and Random
 +
-+                    tas0_audio_ep: endpoint {
-+                        dai-format = "dsp_b";
-+                        remote-endpoint = <&be_tas0_audio_ep>;
-+                    };
-+                };
++SS Triangle Range
++-----------------
 +
-+                port@1 {
-+                    reg = <1>;
++:Description: Frequency deviation range for Triangle spread spectrum.
++:Type:        Enumerated
++:Default:     6.5%
++:Options:     6.5%, 13.5%, 5%, 10%
++:Note:        Applies only when Spread Spectrum Mode includes Triangle.
 +
-+                    tas0_anc_ep: endpoint {
-+                        remote-endpoint = <&be_tas0_anc_ep>;
-+                    };
-+                };
++SS Random Range
++---------------
 +
-+                port@2 {
-+                    reg = <2>;
++:Description: Frequency deviation range for Random spread spectrum.
++:Type:        Enumerated
++:Default:     0.83%
++:Options:     0.83%, 2.50%, 5.83%, 12.50%, 25.83%
++:Note:        Applies only when Spread Spectrum Mode includes Random.
 +
-+                    tas0_fb_ep: endpoint {
-+                        remote-endpoint = <&be_tas0_fb_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
++SS Random Dwell Range
++---------------------
++
++:Description: Dwell time range for Random spread spectrum (FSS = spread
++              spectrum modulation frequency).
++:Type:        Enumerated
++:Default:     1/FSS to 2/FSS
++:Options:     1/FSS to 2/FSS, 1/FSS to 4/FSS, 1/FSS to 8/FSS, 1/FSS to 15/FSS
++:Note:        Applies only when Spread Spectrum Mode includes Random.
++
++SS Triangle Dwell Min
++---------------------
++
++:Description: Minimum dwell time for Triangle spread spectrum.
++:Type:        Integer
++:Default:     0
++:Range:       0 to 15 (raw register value)
++
++SS Triangle Dwell Max
++---------------------
++
++:Description: Maximum dwell time for Triangle spread spectrum.
++:Type:        Integer
++:Default:     0
++:Range:       0 to 15 (raw register value)
++
++Hardware Protection
++===================
++
++OTSD Auto Recovery Switch
++--------------------------
++
++:Description: Enables automatic recovery from over-temperature shutdown.
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++:Note:        When disabled, manual fault clearing is required after OTSD events.
++
++Overcurrent Limit Level
++-----------------------
++
++:Description: Current-limit trip point sensitivity.
++:Type:        Enumerated
++:Default:     Level 4 (least sensitive)
++:Options:     Level 4 (least sensitive), Level 3, Level 2, Level 1 (most sensitive)
++
++CHx OTW Threshold
++-----------------
++
++:Description: Over-temperature warning threshold per channel (x = 1, 2, 3, 4).
++:Type:        Enumerated
++:Default:     >95C
++:Options:     Disabled, >95C, >110C, >125C, >135C, >145C, >155C, >165C
++
++Temperature and Voltage Monitoring
++===================================
++
++PVDD Sense
++----------
++
++:Description: Supply voltage sense register.
++:Type:        Integer (read-only)
++:Range:       0 to 255
++:Conversion:  value × 0.19 V
++
++Global Temperature
++------------------
++
++:Description: Global die temperature sense register.
++:Type:        Integer (read-only)
++:Range:       0 to 255
++:Conversion:  (value × 0.5 °C) − 50 °C
++
++CHx Temperature Range
++---------------------
++
++:Description: Per-channel coarse temperature range indicator (x = 1, 2, 3, 4).
++:Type:        Integer (read-only)
++:Range:       0 to 3
++:Mapping:     0 = <80 °C, 1 = 80–100 °C, 2 = 100–120 °C, 3 = >120 °C
++
++Load Diagnostics
++================
++
++The TAS675x provides three load diagnostic modes:
++
++DC Load Diagnostics (DC LDG)
++  Measures DC resistance to detect S2G (short-to-ground), S2P
++  (short-to-power), OL (open load), and SL (shorted load) faults.
++
++AC Load Diagnostics (AC LDG)
++  Measures complex AC impedance at a configurable frequency. Detects
++  capacitive loads and tweeter configurations.
++
++Real-Time Load Diagnostics (RTLDG)
++  Monitors impedance continuously during playback using a pilot tone.
++  Normal DSP mode only, at 48 kHz or 96 kHz.
++
++Fast Boot Mode
++--------------
++
++By default the device runs DC load diagnostics at initialisation before
++accepting audio. Setting ``ti,fast-boot`` in the device tree bypasses this
++initial diagnostic run for faster startup. Automatic diagnostics after
++fault recovery remain enabled::
++
++  codec: tas675x@70 {
++      compatible = "ti,tas67524";
++      reg = <0x70>;
++      ti,fast-boot;
++  };
++
++DC Load Diagnostics
++-------------------
++
++The ``CHx DC LDG Report`` 4-bit fault field uses the following encoding:
++
++  ======  ===========  ===================================================
++  Bit     Fault        Description
++  ======  ===========  ===================================================
++  [3]     S2G          Short-to-Ground
++  [2]     S2P          Short-to-Power
++  [1]     OL           Open Load
++  [0]     SL           Shorted Load
++  ======  ===========  ===================================================
++
++DC LDG Trigger
++~~~~~~~~~~~~~~
++
++:Description: Triggers manual DC load diagnostics on all channels.
++:Type:        Boolean (write-only)
++:Note:        Returns -EBUSY if any DAI stream (playback or capture) is active.
++              The driver manages all channel state transitions. Blocks until
++              diagnostics complete or time out (300 ms).
++
++DC LDG Auto Diagnostics Switch
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Enables automatic DC diagnostics after fault recovery.
++:Type:        Boolean Switch
++:Default:     Enabled (1)
++:Note:        When enabled, affected channels re-run diagnostics after fault
++              recovery and retry approximately every 750 ms until resolved.
++
++CHx LO LDG Switch
++~~~~~~~~~~~~~~~~~
++
++:Description: Enables line output load detection per channel (x = 1, 2, 3, 4).
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++:Note:        When enabled and DC diagnostics report OL, the device tests for
++              a high-impedance line output load.
++
++DC LDG SLOL Ramp Time
++~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Voltage ramp time for shorted-load and open-load detection.
++:Type:        Enumerated
++:Default:     15 ms
++:Options:     15 ms, 30 ms, 10 ms, 20 ms
++
++DC LDG SLOL Settling Time
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Settling time for shorted-load and open-load detection.
++:Type:        Enumerated
++:Default:     10 ms
++:Options:     10 ms, 5 ms, 20 ms, 15 ms
++
++DC LDG S2PG Ramp Time
++~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Voltage ramp time for short-to-power and short-to-ground detection.
++:Type:        Enumerated
++:Default:     5 ms
++:Options:     5 ms, 2.5 ms, 10 ms, 15 ms
++
++DC LDG S2PG Settling Time
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Settling time for short-to-power and short-to-ground detection.
++:Type:        Enumerated
++:Default:     10 ms
++:Options:     10 ms, 5 ms, 20 ms, 30 ms
++
++CHx DC LDG SL Threshold
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Shorted-load detection threshold per channel (x = 1, 2, 3, 4).
++:Type:        Enumerated
++:Default:     1 Ohm
++:Options:     0.5 Ohm, 1 Ohm, 1.5 Ohm, 2 Ohm, 2.5 Ohm,
++              3 Ohm, 3.5 Ohm, 4 Ohm, 4.5 Ohm, 5 Ohm
++
++DC LDG Result
++~~~~~~~~~~~~~
++
++:Description: Overall DC diagnostic result register.
++:Type:        Integer (read-only)
++:Range:       0x00 to 0xFF
++:Bit Encoding:
++
++  ========  =====================================================
++  Bits      Description
++  ========  =====================================================
++  [7:4]     Line output detection result, one bit per channel
++  [3:0]     DC diagnostic pass/fail per channel (1=pass, 0=fail)
++  ========  =====================================================
++
++CHx DC LDG Report
++~~~~~~~~~~~~~~~~~
++
++:Description: DC diagnostic fault status per channel (x = 1, 2, 3, 4).
++:Type:        Integer (read-only)
++:Range:       0x0 to 0xF
++:Note:        See fault bit encoding table at the start of this section.
++
++CHx LO LDG Report
++~~~~~~~~~~~~~~~~~
++
++:Description: Line output load detection result per channel (x = 1, 2, 3, 4).
++:Type:        Boolean (read-only)
++:Values:      0 = not detected, 1 = line output load detected
++
++CHx DC Resistance
++~~~~~~~~~~~~~~~~~
++
++:Description: Measured DC load resistance per channel (x = 1, 2, 3, 4).
++:Type:        Float (read-only, displayed in ohms)
++:Resolution:  0.1 ohm per code (10-bit value)
++:Range:       0.0 to 102.3 ohms
++
++AC Load Diagnostics
++-------------------
++
++AC LDG Trigger
++~~~~~~~~~~~~~~
++
++:Description: Triggers AC impedance measurement on all channels.
++:Type:        Boolean (write-only)
++:Note:        Returns -EBUSY if any DAI stream (playback or capture) is active.
++              The driver transitions all channels to SLEEP state before starting
++              the measurement. Blocks until diagnostics complete or time out.
++
++AC DIAG GAIN
++~~~~~~~~~~~~
++
++:Description: Measurement resolution for AC diagnostics.
++:Type:        Boolean Switch
++:Default:     1 (Gain 8)
++:Values:      0 = 0.8 ohm/code (Gain 1), 1 = 0.1 ohm/code (Gain 8)
++:Note:        Gain 8 recommended for load impedances below 8 ohms.
++
++AC LDG Test Frequency
++~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Test signal frequency for AC impedance measurement.
++:Type:        Integer
++:Default:     200 (0xC8 = 18.75 kHz)
++:Range:       0x01 to 0xFF (0x00 reserved)
++:Formula:     Frequency = 93.75 Hz × register value
++
++CHx AC LDG Real / CHx AC LDG Imag
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Real and imaginary AC impedance components per channel
++              (x = 1, 2, 3, 4).
++:Type:        Integer (read-only)
++:Range:       0x00 to 0xFF (8-bit signed)
++:Note:        Scale set by AC DIAG GAIN.
++
++Speaker Protection & Detection
++-------------------------------
++
++Tweeter Detection Switch
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Enables tweeter detection using the AC impedance magnitude comparator.
++:Type:        Boolean Switch
++:Default:     Enabled (1)
++:Note:        Inverted logic — control value 0 = enabled, 1 = disabled.
++
++Tweeter Detect Threshold
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Magnitude threshold for tweeter detection.
++:Type:        Integer
++:Default:     0
++:Range:       0x00 to 0xFF
++:Resolution:  0.8 ohm/code (AC DIAG GAIN=0) or 0.1 ohm/code (AC DIAG GAIN=1)
++
++CHx Tweeter Detect Report
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++:Description: Tweeter detection result per channel (x = 1, 2, 3, 4).
++:Type:        Boolean (read-only)
++:Values:      0 = no tweeter detected, 1 = tweeter detected
++
++DSP Protection Features
++=======================
++
++These controls are unavailable in LLP mode.
++
++Thermal Foldback Switch
++-----------------------
++
++:Description: Enables dynamic gain reduction based on die temperature.
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++
++PVDD Foldback Switch
++--------------------
++
++:Description: Enables automatic gain limiting when supply voltage drops
++              (Automatic Gain Limiter).
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++
++DC Blocker Bypass Switch
++------------------------
++
++:Description: Bypasses the DC-blocking high-pass filter.
++:Type:        Boolean Switch
++:Default:     Not bypassed (0)
++
++Clip Detect Switch
++------------------
++
++:Description: Enables DSP-based clip detection (Pseudo-Analog Clip Detect).
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++
++Audio SDOUT Switch
++------------------
++
++:Description: Routes post-processed audio to the SDOUT pin instead of
++              Vpredict data.
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++:Note:        Requires I2S or TDM format. Not supported in Left-justified
++              or DSP mode formats.
++
++Real-Time Load Diagnostics
++===========================
++
++These controls require Normal DSP mode at 48 kHz or 96 kHz. They are
++unavailable at 192 kHz and in FFLP and LLP modes.
++
++The ``RTLDG Fault Latched`` register uses the following encoding:
++
++  ========  ==========================================
++  Bits      Description
++  ========  ==========================================
++  [7:4]     Shorted Load faults, CH1–CH4 respectively
++  [3:0]     Open Load faults, CH1–CH4 respectively
++  ========  ==========================================
++
++CHx RTLDG Switch
++----------------
++
++:Description: Enables real-time impedance monitoring during playback
++              (x = 1, 2, 3, 4).
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++
++RTLDG Clip Mask Switch
++----------------------
++
++:Description: Suppresses impedance updates during clipping events.
++:Type:        Boolean Switch
++:Default:     Enabled (1)
++
++ISENSE Calibration Switch
++--------------------------
++
++:Description: Enables current sense calibration for accurate impedance
++              measurements.
++:Type:        Boolean Switch
++:Default:     Disabled (0)
++
++RTLDG Open Load Threshold
++--------------------------
++
++:Description: DSP coefficient for open load fault detection threshold.
++:Type:        DSP coefficient (extended control)
++:Location:    DSP book 0x8C, page 0x22
++
++RTLDG Short Load Threshold
++---------------------------
++
++:Description: DSP coefficient for shorted load fault detection threshold.
++:Type:        DSP coefficient (extended control)
++:Location:    DSP book 0x8C, page 0x22
++
++CHx RTLDG Impedance
++-------------------
++
++:Description: Real-time load impedance per channel (x = 1, 2, 3, 4).
++:Type:        Float (read-only, displayed in ohms)
++:Note:        Valid only during PLAY state with RTLDG enabled at 48 or
++              96 kHz. Holds stale data in SLEEP, MUTE, or Hi-Z states.
++
++RTLDG Fault Latched
++-------------------
++
++:Description: Latched fault register for OL and SL conditions detected
++              during playback.
++:Type:        Integer (read-only, read-to-clear)
++:Range:       0x00 to 0xFF
++:Note:        See bit encoding table at the start of this section.
++              Reading the register clears all latched bits.
++
++Known Limitations
++=================
++
++Clock Fault Behaviour
++---------------------
++
++On Stream Stop
++~~~~~~~~~~~~~~
++
++Every time a playback stream stops the FAULT pin briefly asserts.
++The CPU DAI (McASP) stops SCLK during ``trigger(STOP)`` — an atomic
++context where codec I2C writes are not permitted — before the codec can
++transition to sleep. The device detects the clock halt and latches
++``CLK_FAULT_LATCHED``, which asserts the FAULT pin. The driver clears
++the latch in the ``mute_stream`` callback that follows, so the FAULT pin
++flicker lasts only a few milliseconds. Audio output is not affected and
++no kernel log message is produced.
++
++On Rapid Rate Switching
++~~~~~~~~~~~~~~~~~~~~~~~
++
++When streams are started in rapid succession, an intermittent
++``Clock Fault Latched: 0x01`` message may appear in the kernel log.
++A 0.5 second settling gap between sessions eliminates this.
++
++References
++==========
++
++- TAS675x Technical Reference Manual: SLOU589A
++- Device Tree Bindings: Documentation/devicetree/bindings/sound/ti,tas675x.yaml
++- ALSA Control Name Conventions: Documentation/sound/designs/control-names.rst
 -- 
 2.43.0
 
