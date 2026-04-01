@@ -1,167 +1,190 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010022.outbound.protection.outlook.com [52.101.46.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C973F7E94;
-	Wed,  1 Apr 2026 11:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775042758; cv=fail; b=Iiw2NCVP/OZBSZU4vPaZJHXQp/x0fmCHYSVhkK6o7vfameZ6At2WXZsw7GrFRqp5uyw4KevLN580VxmNFBU5G8fyq+VV0QRpDq8qQ/AbLOMsQHqXoXen7pEdlfUgpPxazYgPbE3VRJSLzikBxBOXLvvgFizoLYWF3wV6+6kLtWc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775042758; c=relaxed/simple;
-	bh=yhDJC+TsLxYTd81b/aw0MiU2eVBm88gAm8DZ70cfR2E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q3uljZtDoiL2ktBv8ICcRRio++QFjruAUS0hGYCf3jFI+xuccNPc/HrEM9O6Sogp7s3gMzkxyllyxD8thS20DRWI0Zy/tkvXdvqXsM9rqvq7F5AeH9/yUppS8r6opGEthu8pdDdkMGUGZIhdbFS7MoPNRUDcyMfuXyv7AePKyJ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cXFtdnNb; arc=fail smtp.client-ip=52.101.46.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CE6324B16
+	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 11:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775043947; cv=none; b=MO4gXjlKwazy0dXgxdqQ4uS29kfcdnw2nUmKQtz15LOGD8kwa3zd1IktyqOvauGj5vendQLC29UaHCPQgaJrhyy9or0d6ZuKhMB9q/wT16gs4fyS1XjdYUgu2jMqD0Q3k/IwQvs5V3ZmuaSVBo8GfcGoKzUMxdU3uTjSDwBlsY0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775043947; c=relaxed/simple;
+	bh=SgAKu3w02+QeTfuUSDWuohDIpW34VKXcOJeJEWHNI8A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=G4Eg/fUzUBb1PcFhU5hOvjshdq70BLXDqQSpffEZqW0g4KtteTNQOmNVZJuNaNJ31bOMVGygx3RH8DAjdszfjyb2FplNjtUu8pO1637a78KCUpjU5Nba+RdCMD0pgMfdDXx0fML3mlQMzl0yQ1D6QCa45KCtw4JUskla/qEeLB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MLqV4iEB; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cXFtdnNb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ujuGCgP9K0JIwQPWj0Lc4b67W69tCst+4w5WuLbCjdfgVzjLbHFs3piOj2nhLrd+8DHq+fN9ElNpLGurqntS2MUnqJNGRonRos1RgH37bELsgJIgeiI2pLauY5seRSv2ir2Np7ccPhW0tgjpr71iXVtSKfNeUOKtr4v+0ixCN5FeOJEaHqkYoxCDm9SIUr/0wjIpfeXmp8YLEN0ST0nRSv7XwNv0KpEwja3P7a46LR3d0id1ed9F3wKYyFHTQRy6z07pONu1nx44K0NyGOVnW8EsATkxFadB9MLRf2CZfX8WRDZYYNzpnGrUebNU89tA4PmGQhVbN4kpGPI1LfAJGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3XngAbde1wUlbS7m3WjRe2mQnkWEHPo9NbAekOxADM4=;
- b=huE5bEBIzvQ/jTswknclb6Qi3SW2WE1LbQRMmW5DVJ8ekrX0hZPWNSToTLoDfG+0/2Ci0LxpquE6O5Y4oihOcHY+r84cCPoqdHcRWsJUnU8wfbQbqmSgfS11yHWJSIkzV2hFBegNrzBGZcEOKEuv2PyX+N3ajxaHJ0bD2unW0u4ntkXbra0brFAE7K67Aeqio9Y5zUmsuYcUirwaZgP9h3nxPBpJiyK5ODpKEyWZbitKUP8lsysNpSBKDIZGpkbZw6aLfuKhGqKBB4OxeKO4wyNIVxyQt2GoQVHtZI2U6A5tThlFm+RI0M+gsYRTop/Io9LlIqboxBhx6x1ubywi2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3XngAbde1wUlbS7m3WjRe2mQnkWEHPo9NbAekOxADM4=;
- b=cXFtdnNb8KiKsR03qdL5aVzGH6JRbBN593f/fPnojy4il7i9vXBQKyR5KZucXvjetqlP0NjaCVkUxbViMU2MftlScuP9Dj8l8KYp2BgWkz/I1ACh84/Grakp6QNOedoAQNyNSI2gc7TrxuqHylwqRzcJxoIycUa95Q5uF2A++8r+QSfTenWXX9UUOQWhkr5/5kPmG9uAUNXqXl7/A62cmoO5i0Om+IJX2vhK9JaUJAZHDjIZaCt9q+cvfwV+cftrNQFmmC5F5HR2noDs4Gwiv+BsMNpRDOxO3d6kuYDSlULtevOZOXLSTXUvSd2jhk8bkMVLGYTwjI25bcaqBf3gjw==
-Received: from PH7P222CA0027.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:33a::10)
- by BN7PPF48E601ED5.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6ce) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
- 2026 11:25:52 +0000
-Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
- (2603:10b6:510:33a:cafe::e8) by PH7P222CA0027.outlook.office365.com
- (2603:10b6:510:33a::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.29 via Frontend Transport; Wed,
- 1 Apr 2026 11:25:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Wed, 1 Apr 2026 11:25:50 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
- 2026 04:25:33 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
- 2026 04:25:33 -0700
-Received: from build-sheetal-bionic-20251202.nvidia.com (10.127.8.14) by
- mail.nvidia.com (10.129.68.7) with Microsoft SMTP Server id 15.2.2562.20 via
- Frontend Transport; Wed, 1 Apr 2026 04:25:32 -0700
-From: Sheetal <sheetal@nvidia.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter
-	<jonathanh@nvidia.com>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Mohan
- Kumar" <mkumard@nvidia.com>, Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>, <linux-sound@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Sheetal
-	<sheetal@nvidia.com>
-Subject: [PATCH v4 4/4] ASoC: tegra: Use dev_err_probe() in tegra_asoc_machine probe
-Date: Wed, 1 Apr 2026 11:25:00 +0000
-Message-ID: <20260401112500.4076861-5-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260401112500.4076861-1-sheetal@nvidia.com>
-References: <20260401112500.4076861-1-sheetal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MLqV4iEB"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c54c68db4dso6143211eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 01 Apr 2026 04:45:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775043945; x=1775648745; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EgccuMBanA331lWrXQNSWh5waQBY5u44pRfQZ1IB7tA=;
+        b=MLqV4iEBTQCHPHrsVzmboTbFbLD0kIgwzhmIEMA6e2nka8zGgmbXHKWDxX2ThjLcSr
+         DZwHJ4ksiOwzzwsKexqaYIJx4TQqncNoMTHvB1uBjiMYGkMwTWb5wrvV4/YU+I6fa1Hu
+         ehr6U9KWpnxeWeNpuWAYyTAkNqcDm0eSV1uTta92QRsZ06PA6as/6GwPaJTM1RygiYvJ
+         zkIVVU4abwZUU77KVTjHK/69LrwFaQcJitoxplycSGslsQcfyAs8FXTchZYY1N+QHV0a
+         p5J5XA40slbF+rf8V70GhgSEhsGKG5zJRBJBVk3DboN+6ibfTlGDiyKNnHrfMMlcWw13
+         nZkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775043945; x=1775648745;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EgccuMBanA331lWrXQNSWh5waQBY5u44pRfQZ1IB7tA=;
+        b=nRIzt4i1qhWvaiIpXA+2jT0kPshY69n3/3MjoQHCOSox8YWNVQV22OYjkmHwpGn7N0
+         Y/h3eNua3ZR5tySqE5lWjR/rdgctveWRlBRejOnZPsrWEtdWPnY2lwJQzPgxiXBtlclo
+         rIesFK4E51OpI4hfRcDX+51JIZ4coNMg5AMWdVB9ICc9x1MTw9eFmauK58GjMFgN6vux
+         TPO1EqFIIUn9HDfhbnVyc8za9sCVdVD2tJc/YEtwGdB8G716kfhBKAR8S9pDc6nVhhwO
+         NDOF0dVXLjylBe/97/FGE4hWRUuqCnV/7jDtRaBlyopB7+v3riT2Jp2tKVIoLwXrOMG7
+         Wdow==
+X-Gm-Message-State: AOJu0YwTnkbI/ZAZ692aR0m9eV/WYVbg4jpgu43XNV5FtiEbZy5xrQ3X
+	eXCotdf6Xt2P6JcAQpIYYVRl6m8R2O8gwz6WOFTJiEtXp75bjk7MX+Hb
+X-Gm-Gg: ATEYQzwnFGp7Z+dCoadOEFldUbYRsFR/PS1PcA5NziHCJpo0oMP/t7Fj3BWxQQf/Gi/
+	5TrvIBEmEBmK6MXt03+O18TxiyQZcscqlsD1zMyZAVR8bMFbd7uGboocdViW+ckT42Z/NW8r/dM
+	wo+vSI2d+OOuF224dTV8dj0cgQiK2kkvqDdOWosdPKr6U20at6L3FyEq7fHJQKg4q3hRNh196Va
+	FLxSdicdoQQAUev6q1yQHoRNOJV9Q5Ok2TVMiTbYUxC5M+0DcyEKsg2Z4zRXRckO1HaSiapllUs
+	UhtKbwXTdKWTHK3l4hTOLE37uZyUuEfSKnDczEGrsmlnbnjP7yyN+EWk6eafSTzJOQ030jOv5mg
+	8mZBF8tblgrZ5xcCY2AzcAAY68OZ4gpWFSoxN4DuV0++wqV6GMZ0OVr273S2nMyj/H3R2JQS+Vy
+	OpISaDabzyvYl4XmKDOyIFG2ijS+sOxxXcmfYWCATXiRqKyxrnHneLZtRJlbhsPEVNaAX6W2Cos
+	lr7rjZIMFBpxV0=
+X-Received: by 2002:a05:7301:1015:b0:2c5:ed1b:c8a with SMTP id 5a478bee46e88-2c930c76645mr1830944eec.5.1775043945177;
+        Wed, 01 Apr 2026 04:45:45 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-218.user3p.v-tal.net.br. [177.4.161.218])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c4cbbc1fsm11999306eec.13.2026.04.01.04.45.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 04:45:44 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Wed, 01 Apr 2026 08:45:37 -0300
+Subject: [PATCH] ALSA: es1688: add ISA suspend and resume callbacks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|BN7PPF48E601ED5:EE_
-X-MS-Office365-Filtering-Correlation-Id: afecaea1-d0cf-4754-b54d-08de8fe16e16
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|376014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	dhcZ0pR0m6OmfzJZmDC9EcSAkfgaKckTR9FFfI0+JvRxadsn7G3xFoUXn0VhplHwSrwPWnnO8Pr8WF6AmA6pOvEvZjNs6lhP4ALTiacqUzgwZBMbQKHHzOKoMP2rJdfHVPHh43c6Nb3ry+V5AzHxLLQLIPs7bMygAku41dVCTxIrjJf6tIAnLS4bu5KQs0pZ3dXOwbeWKHSCuzYZMeZfsz+ikgnW7cUpIyemklLpCy0dddaBjaByvCThFhm4RX88YvR6VirK1A5jXzWG1t322xQsZ2AUFNiO2X0bkYxwqSdwwlfTJexNZY7yvvt/NSUddHfKa40EFqpanK0B0Psa+gocKmbohpKF5z7AqYOSo3oX8euPhxQIw07FSHcHaCzuOlI1deusHiEhWL53pnd4mFxVQBvtKU6pcwtXA4SxrDOUlRnnId8NsdGEa10VyxWrZDju7MP4mYkZBZMh7DTUdN6QqriqnEK+n83uyD6xv9HE5BUFDIQt8Pi8YYAIsCfTbGP2BHQUEaScok71d7dZ7E2IADA8/C4DRgsZTLlPF9engZ5sYj0dpG9GEYl6OrfBWIrofLTFsYo34BRWwBfxmmsKbYUtLnkFaS0iua6/vMBXoqJtCQIbfqgTLykqwWEoxc109Bk1UVw06AKaKM0wAz4sipspFNqytJLl+t4QQ2dC0kvn8mo7cunNDYNmJ35WBX+yt6JQgvOXHesbDrV45VP9HRgIJM3/pvZjCFjJ594+Atl+wDMRrspihlNftPwK/gi/CVqX+tI10ekkoOf+Og==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	jTkKAEAWTRhrVvSwOIn4PD91UiV5VNVl5SEkwTW569p9ArWyygO6vDsZjGXkfDajubzgR3ro9cm49RGcfIhPdNdKL3Vphwd1qNtQ2DbHPKPLlEcx6Tv09+QWpSfU7jJRrCW263W+q11jRgWlv0aWMgUv84B+3Z7lbjSchKrIq9JKHX050wxhQZrqc00Hd4IP9qxX4JPB/opncBAmPry8jTiAVpmT4g8vK0rRSbtAMysHOrRSMuP3TnByLAmQyKeyrAs8q39qfGpg/bfEmscHJax0z5Mcnk6vFemaueFV+AoFfgYiGX7v/Nnt/Y6EY8ZT+8YZgufyYpJPxamrrsnZFYHuNcz/0dJ/WOLQ0aW8LvzjLHhO2PmP3ogCTDTK+I0G+vRAj4fzlInkSIEq4KoFnSQ5cKVLZ+zwkuVPyvKUODBG/mJPaOl/wzs8VZGrcwZi
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 11:25:50.9079
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: afecaea1-d0cf-4754-b54d-08de8fe16e16
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002BA50.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF48E601ED5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260401-alsa-es1688-pm-v1-1-510767628fe6@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrB2Io4TQq4iLmEx1xFrJaCmId
+ ze2y7f4/wDlJKzwKA5I/BGV95JRlQWE0S8Do8RsIEPW1LVBP6tH1so6h+sLXWMicYhEzkKO1sR
+ P+f6Gbfe37v3EYbsvcJ4Xg7o09XIAAAA=
+X-Change-ID: 20260330-alsa-es1688-pm-840d2ecd2286
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3132;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=SgAKu3w02+QeTfuUSDWuohDIpW34VKXcOJeJEWHNI8A=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlnWdOrlaxbjjzMdjRPrju6Il5m3nXLosh9S3ibTf1PG
+ nHf8ovuKGVhEONikBVTZFmdtMhyT9eDq/VxKzxg5rAygQxh4OIUgIk8Xs7IcHZ26eGdPRGtkRtX
+ TNqlpvqENXHznimXFBcnKTwIq553vpSRYc9pBaeTNyed36J4Ra/ZwWJpr/xFzVhTztWxXPt6TG+
+ d5wQA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Use dev_err_probe() for clock errors in the tegra_asoc_machine
-probe path.
+The ISA ES1688 driver still carries a disabled suspend/resume block in
+its isa_driver definition, while the same file already provides minimal
+power-management handling for the PnP ES968 path.
 
-Signed-off-by: Sheetal <sheetal@nvidia.com>
+Add ISA-specific PM callbacks and factor the existing ES1688 suspend and
+resume sequence into common card-level helpers shared by both probe
+paths. Suspend moves the card to D3hot. Resume reinitializes the chip
+with snd_es1688_reset() and restores the card to D0, propagating reset
+failures to the caller.
+
+This wires up power-management callbacks for the ISA path and keeps the
+PM handling consistent between the ISA and PnP probe paths.
+
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/soc/tegra/tegra_asoc_machine.c | 21 ++++++++++-----------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ sound/isa/es1688/es1688.c | 50 +++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 37 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index d7245a10bba1..e1f2a3b4c5d6 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -591,16 +591,14 @@ int tegra_asoc_machine_probe(struct platform_device *pdev)
- 		 * host controller and the external codec
- 		 */
- 		err = clk_set_rate(machine->clk_pll_a, 73728000);
--		if (err) {
--			dev_err(dev, "Can't set pll_a rate: %d\n", err);
--			return err;
--		}
-+		if (err)
-+			return dev_err_probe(dev, err,
-+					     "can't set pll_a rate\n");
+diff --git a/sound/isa/es1688/es1688.c b/sound/isa/es1688/es1688.c
+index 6a95dfb7600a..7255b34f9148 100644
+--- a/sound/isa/es1688/es1688.c
++++ b/sound/isa/es1688/es1688.c
+@@ -184,12 +184,44 @@ static int snd_es1688_isa_probe(struct device *dev, unsigned int n)
+ 	return 0;
+ }
  
- 		err = clk_set_rate(machine->clk_pll_a_out0, 24576000);
--		if (err) {
--			dev_err(dev, "Can't set pll_a_out0 rate: %d\n", err);
--			return err;
--		}
-+		if (err)
-+			return dev_err_probe(dev, err,
-+					     "can't set pll_a_out0 rate\n");
++#ifdef CONFIG_PM
++static int snd_es1688_card_suspend(struct snd_card *card)
++{
++	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
++	return 0;
++}
++
++static int snd_es1688_card_resume(struct snd_card *card)
++{
++	struct snd_es1688 *chip = card->private_data;
++	int err;
++
++	err = snd_es1688_reset(chip);
++	if (err < 0)
++		return err;
++
++	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
++	return 0;
++}
++
++static int snd_es1688_isa_suspend(struct device *dev, unsigned int n,
++				  pm_message_t state)
++{
++	return snd_es1688_card_suspend(dev_get_drvdata(dev));
++}
++
++static int snd_es1688_isa_resume(struct device *dev, unsigned int n)
++{
++	return snd_es1688_card_resume(dev_get_drvdata(dev));
++}
++#endif
++
+ static struct isa_driver snd_es1688_driver = {
+ 	.match		= snd_es1688_match,
+ 	.probe		= snd_es1688_isa_probe,
+-#if 0	/* FIXME */
+-	.suspend	= snd_es1688_suspend,
+-	.resume		= snd_es1688_resume,
++#ifdef CONFIG_PM
++	.suspend	= snd_es1688_isa_suspend,
++	.resume		= snd_es1688_isa_resume,
+ #endif
+ 	.driver		= {
+ 		.name	= DEV_NAME
+@@ -266,20 +298,12 @@ static void snd_es968_pnp_remove(struct pnp_card_link *pcard)
+ static int snd_es968_pnp_suspend(struct pnp_card_link *pcard,
+ 				 pm_message_t state)
+ {
+-	struct snd_card *card = pnp_get_card_drvdata(pcard);
+-
+-	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
+-	return 0;
++	return snd_es1688_card_suspend(pnp_get_card_drvdata(pcard));
+ }
  
- 		machine->set_baseclock = 73728000;
- 		machine->set_mclk = 24576000;
-@@ -612,10 +610,9 @@ int tegra_asoc_machine_probe(struct platform_device *pdev)
- 	 * only needed for audio.
- 	 */
- 	err = clk_prepare_enable(machine->clk_cdev1);
--	if (err) {
--		dev_err(dev, "Can't enable cdev1: %d\n", err);
--		return err;
--	}
-+	if (err)
-+		return dev_err_probe(dev, err,
-+				     "can't enable cdev1\n");
+ static int snd_es968_pnp_resume(struct pnp_card_link *pcard)
+ {
+-	struct snd_card *card = pnp_get_card_drvdata(pcard);
+-	struct snd_es1688 *chip = card->private_data;
+-
+-	snd_es1688_reset(chip);
+-	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
+-	return 0;
++	return snd_es1688_card_resume(pnp_get_card_drvdata(pcard));
+ }
+ #endif
  
- 	err = devm_snd_soc_register_card(dev, card);
- 	if (err)
--- 
-2.17.1
+
+---
+base-commit: 28f54b0f58c5855d924f970e05ddea9a9d51842f
+change-id: 20260330-alsa-es1688-pm-840d2ecd2286
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
