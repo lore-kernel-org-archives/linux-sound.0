@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5301C68F;
-	Wed,  1 Apr 2026 10:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BBF3C5DD6;
+	Wed,  1 Apr 2026 10:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775040204; cv=none; b=sl68JZk7bD6HygEJvxy5aKRwrR6fAp73z4za0/5a4FJdtpbV8oailQT6tOTift/uXDcgCIzvWXQiGR+WvMu11QBfRGppBcsxjnFU9K1iHhSogVNJpJWkWuSnYte9HSvuocfbCx3BuagVAqHabvDglM+ECIILOT2hTXkkawt+RuQ=
+	t=1775040255; cv=none; b=u7c7mJdNnVTlWOEVN7NwYbrvwnrJsdXFmblKKaVPF3OzdEM80OwXJqVoknfOvgjgYdi7uJNuway/Q+eETTsSeoqaq3lGppiKWywUFB2CLMnxuryUTyqSq86YWgK936JA6LOiQnKHphTjGnUgLyw1HwRc8BIeLOroKC9snSXLYHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775040204; c=relaxed/simple;
-	bh=x7ycS3aQGVveNXoijnRMITgShG0eWmYKJPdfIhqK84o=;
+	s=arc-20240116; t=1775040255; c=relaxed/simple;
+	bh=G3F2l1AJIMSN/JQ/XHVowQj/djttrCKuYalJXXbgwoc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jOi/VSZPuHEpM+swcJWcffUWfC+B0vgVd1MPidXAcZQqmowKbkIPOzzBuDZea4dYNTtwr2N8jN6di0CZ/tw1lhNolUmCkvVwIvtPZvdQi0KSx0+Afm1sYaAYFSwSDICVKA8cYj2GS02gT4PahyRhJUMqdiGQoW+9SwsTIWXCG+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxvdyTFO; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=RXNOwBxcgfi6FADenVUaZzpnTKsSGcSj6HYmMXP9mQ2ktsZV/nIfZgRaMmnyTSWJJfKKKzLeI8+8TSTCKzVzKYqtlz5Ylcx7l3hLtgvauKsKfS08p5m9Ec5L1M3hKSO4OTEZZZMMfa9Yg+IkxLPr099hIHhns5apQtOrI8dgi38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qz5NJNet; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxvdyTFO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A5D3C4CEF7;
-	Wed,  1 Apr 2026 10:43:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qz5NJNet"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CEFC4CEF7;
+	Wed,  1 Apr 2026 10:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775040204;
-	bh=x7ycS3aQGVveNXoijnRMITgShG0eWmYKJPdfIhqK84o=;
+	s=k20201202; t=1775040255;
+	bh=G3F2l1AJIMSN/JQ/XHVowQj/djttrCKuYalJXXbgwoc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VxvdyTFOfEL8P/AkZjtAI2E0tvp0vJ6pF3hZ239SBeauh4N6bz2FJnWnE7Mi+C1dw
-	 gc33aTbuOI0C6Jv4izHW3oWLbpDBeN5dvSZ0d8om9NqAGsMtVzoXXHkteqVIg/qpXs
-	 QcFs8VOy2OB9bz/gc6sqRWoI4wubYgYgRkc3YVmM/zcfBZ8lrAbynp03ud3D8UmNvc
-	 OJazp27C4VTvuw/fXKKHVjIO3CngP89tgJkmahikXYTNNwA2m6xR/U8JDL2KxOoYug
-	 XCUvM7gqV6eN67mm3xOSmkzni0ztSVUs+aA5sY7np3NrrCYoM7DxUYbPHv+kR+Myj7
-	 JHXSLMVRyj8Rg==
-Message-ID: <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
-Date: Wed, 1 Apr 2026 12:43:21 +0200
+	b=Qz5NJNetnXvH23tDTwlGxxTBFBL5M7XQt9P8txC4BKUEVd2/3KOH6F6Qp1O6E2qra
+	 Kv6pILqsTwooorpuqNp27GqX5SIZT1yVYCFYEn5dcJlw+EYGjpjHwCszWk48peMY3D
+	 zKAtndSZnGHelJzaZpBAB/yzzW044uO76d9km75GIrHuyjU02Mfm+ys2v765HRUI+p
+	 UOj5f0o5YOgqCcjzEGuG1m5DmI251bo1jVPJncfk4DdExAGSvIf8dwLXL4Ruix54OW
+	 PBd+4KH/Dsw5sKbbg0X4sPFvn6IxmgGBnQs1+HcPZBnP1BwpDUswUIT2wUdL9uDgB9
+	 zyKRxZUOsw7Og==
+Message-ID: <4d06bbc1-810f-45eb-b92e-214c18cd304b@kernel.org>
+Date: Wed, 1 Apr 2026 12:44:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,13 +35,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: fix code style (ERROR: else should
- follow close brace '}')
+Subject: Re: [PATCH] ALSA: hda/realtek: fix bad indentation for alc269
 To: Takashi Iwai <tiwai@suse.de>, Lei Huang <huanglei814@163.com>
 Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, Lei Huang <huanglei@kylinos.cn>
-References: <20260331075405.78148-1-huanglei814@163.com>
- <87wlyss93y.wl-tiwai@suse.de>
+References: <20260330125333.86012-1-huanglei814@163.com>
+ <87y0j9towp.wl-tiwai@suse.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,30 +86,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <87wlyss93y.wl-tiwai@suse.de>
+In-Reply-To: <87y0j9towp.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 31/03/2026 10:20, Takashi Iwai wrote:
-> On Tue, 31 Mar 2026 09:54:05 +0200,
+On 30/03/2026 15:41, Takashi Iwai wrote:
+> On Mon, 30 Mar 2026 14:53:33 +0200,
 > Lei Huang wrote:
 >>
 >> From: Lei Huang <huanglei@kylinos.cn>
 >>
->> Fix checkpatch code style errors:
+>> Mention complains about this coding style:
 >>
->>   ERROR: else should follow close brace '}'
->>   #2300: FILE: sound/hda/codecs/realtek/alc269.c:2300:
->>   +       }
->>   +       else
+>>   ERROR: code indent should use tabs where possible
+>>   #6640: FILE: sound/hda/codecs/realtek/alc269.c:6640:
+>>   +        [ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY] = {$
 >>
->> Fixes: 31278997add6 ("ALSA: hda/realtek - Add headset quirk for Dell DT")
+>> fix it up.
+>>
 >> Signed-off-by: Lei Huang <huanglei@kylinos.cn>
 > 
-> Thanks, applied to for-next branch.
+> Could you try to pinpoint the introducing commit with Fixes tag?
 
-I hope you dropped the fake Fixes tag. Or at least give people chance to
-review it.
+Nothing to be fixed here. This is coding style. Coding style has
+absolutely zero effect on working code thus it is not a bug.
 
 Best regards,
 Krzysztof
