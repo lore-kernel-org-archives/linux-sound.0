@@ -1,45 +1,46 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012015.outbound.protection.outlook.com [52.101.53.15])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013069.outbound.protection.outlook.com [40.93.201.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0674C3630A3;
-	Wed,  1 Apr 2026 02:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D0E35B63D;
+	Wed,  1 Apr 2026 02:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.69
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775011356; cv=fail; b=m0tZf0BxvosvJKr86F4qY6zfR7U1sV7unI1pI23dJg1m+Ep9sFaGKCa68CbUzcja606s59DXm6uk2E6wX02FvHi1oiyhISl1CzPpkB/z8Iq2i7mmgHhond+NUw7joil+smaX7LNSaBGMvwuKL+BbCjHmf/4eJwV9oWziz03KSM0=
+	t=1775011358; cv=fail; b=pHqkv41jIbKsUurWZ/ZtbYmwztMI4UNrRXSFwMBNfoeNYxVInBiIf6n1dopPcJ0x7t9v420VptxwAWSFQbuV4E5tPD3oKvjLHSZEdNKPjWyzNzBz9rAsKuJutp74GIHLbrnkGjadLKovHkGxak4wH1d9WCLPLheYgRh4j/eiAZ4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775011356; c=relaxed/simple;
-	bh=zjn8pqjz9lOAP+RD3moRlu9dd7lrbLEEvwcMtLwm8BY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B7NiWUj3P5px07bR0RLr6q9IdXKcQllYcRi/YG4Q61+8tk7Xpnsu5LQ3S0YepRdglsr4btCtbP2lOfZpuI7rLSpq0EeKZwz3kbDKikSywgEekldEhZcQ8K+htGVTedHWvHRpk2NwEYpX5NCezSD97vZdA7G7LB6Ycx1vhWN3MoM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=jlidRzdi; arc=fail smtp.client-ip=52.101.53.15
+	s=arc-20240116; t=1775011358; c=relaxed/simple;
+	bh=JuHd2GgdK2HSkTZZfPjM1XvwWEWf8MsDnvE2quVKkmQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JO+5cAOEU6zxiTVnK5r9TMv/ApC//Vgp660haQCsz1gPbTsUo+FKEZyhGH0gi4lhRTDg7//4Uf8lLwYnC7hzqNQL6m43dxA8SLUC9I0n7Seyowjo3129BGhSONpX/MBSz39MvGQMo9xvrSvpv5Nb7OZMMCL3IeTuJhIaBZ8H/XQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=uVmx898C; arc=fail smtp.client-ip=40.93.201.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="jlidRzdi"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uVmx898C"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pXDIkfg94cBCua9YKr/RIn0EY9ynN8HYmadtBY9Vx3TVsXfdcNhvbGfkFOW6oE23s+8/Pn5K3+2YQpnlCUASDo+gZ6dumxgBESUDgcU0NbgoGoILMR7pHPb7aUwKKE79sa8URjrBpANgaFv9kXgE16W5iQ8A3v78IQQdfRBcsaXk5RKa9lMXMmHc7HYwYX1RYQvR6DJoVhDK6NrT2WrCS1ptLW9kknerl/2kSTq+f7WAKhDDF5xqNbzV6sFkQ3dgzUxFxXxR+MAZeJEEVmfHSggttG+5VhTxdtP5JqUblNlJ8PhJoctZoREun4jDygZ+pNwMYevm11m5BB70nqcUUg==
+ b=adu5uowAXdAqfCXDduHx2GrHuNgQkpc5/5EwJEz0NyNVLf2b/YcrGMPPrwTQ6hbjtcox6PqC9VJS77CmHCQbl+XmhbwoF9ZJk2ms99LMtx82rxOAtYseqwHeZG2y/lNJn5C9Bc7W+wHg9oB7JPPk0b/IglcOEGzRCEvGpChFcLyBtcCYMvQeaLgGJ7n43TLM9eKzEclJjssNYHdUb2eZlOspKOmTAnN0YiKKBrU+/LGOBUo9B4cWaUFCvzhgK3wH7exgHhuqIKvF5rcKdVWW7jkFBGHkJiyQ5xUYyZXtEsskIxqSE4qy150JHIbCGwWJj3OauW+nJnzI2mT/2RVJNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1O00Uhjkinr1xeMsviQ/h5Iprcg92mjLIrRG9TkxkqQ=;
- b=IBa1WF5s1RlI/SmbMtPNi1RSMduEYHNbnHON+YzIxprDP1eVJQ0wpdiniOlhM6OAC4LvrDZ06dPqhDyBkiCjzqbulEmNi7I63j1l5KXKAj56thXI51l9NTx84A+ok07om8MNNp8ROgEqaIrnsf68yDSifPR2927lZnH9881Do8LD3WK4sgrQUxUKq281SeV11PO3PLqxNSzX34BsLuHLEkZI1lJDfaBgJDgTESyIOs0f2EqpJ5XXlL4cmSFUL0Ta2ltn84AwXZ1bzH/w4uo7LZ/hm0YD0gnQEzq0gaLbFv9za2Fff9Ck7ygYG51hKfZR9zGa34Tx6diLMzPCkD2xYQ==
+ bh=mmwZuTujvRx4D7SsKvAskxGnQj4kuZ9nF03UvVixOxk=;
+ b=uMVqWl2jlCuskZEclA5EAq3NWj8pvEpwhmzAyxAN3pg5RlkaW5UdeeDAWdqsCHkcpcoSxTfs7OBcpNNrnXP8M8ZbQCk/bRpoWxbRTvVnZ9Pux0+KjfGnQTsygEKOq/jPYexWLw6t+rc2RsC2X6+kaXzHKSbfxMFrl6ujCqJK1fM+ki4NeBRmn6KsYW74Rzw6+siOgjcePGxReLB9JQBfn6Hkpac2ek3hNlGw/XUfA7FxgQArFTBYA/r/z9vdD1edjiFZJdkEyQu/UnIMgTRmN/up02hf9VhEYbyb4eB4d30VIYaMgbgZ/rZ3Ql9ZDg5AtjUeYJcVqwW2TAYl6/F8EA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1O00Uhjkinr1xeMsviQ/h5Iprcg92mjLIrRG9TkxkqQ=;
- b=jlidRzdi+M0Y5g4wjyq6krPP3zX94hZVjDeldASWRzyz1uie01yiNQjcHE2z3l7lUjo46rZa+8xM02lC7SpYrpzWk0jCaBGmapxTcBJh1joCRJYlS/XOQqJKwptt47f/4N818gZP6Ro2ucDZJP+A0w5dYa665H39Y92zot9XuV8=
-Received: from SJ0PR13CA0025.namprd13.prod.outlook.com (2603:10b6:a03:2c0::30)
- by IA1PR10MB7310.namprd10.prod.outlook.com (2603:10b6:208:3ff::9) with
+ bh=mmwZuTujvRx4D7SsKvAskxGnQj4kuZ9nF03UvVixOxk=;
+ b=uVmx898Cd1efs1IajRgPJ3tK4VYSmVGFI6iIs8IExIpYreBYMrm6NyYjS2sAecrHzyokSsx8kJnahIM+On5GZc+ce+TLf9q/yyAJT5yblidueW68vvS/2iEGrSqIZBK+pUi/1kM/UcX0lpzDe7+oLQO7NZ91sckUgzDaMAIa6J4=
+Received: from SJ0PR13CA0030.namprd13.prod.outlook.com (2603:10b6:a03:2c0::35)
+ by IA3PR10MB8563.namprd10.prod.outlook.com (2603:10b6:208:571::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
- 2026 02:42:17 +0000
+ 2026 02:42:19 +0000
 Received: from SJ1PEPF00002320.namprd03.prod.outlook.com
- (2603:10b6:a03:2c0:cafe::d8) by SJ0PR13CA0025.outlook.office365.com
- (2603:10b6:a03:2c0::30) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:a03:2c0:cafe::ed) by SJ0PR13CA0030.outlook.office365.com
+ (2603:10b6:a03:2c0::35) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.15 via Frontend Transport; Wed,
- 1 Apr 2026 02:42:17 +0000
+ 1 Apr 2026 02:42:18 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
@@ -49,22 +50,22 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
 Received: from lewvzet200.ext.ti.com (198.47.23.194) by
  SJ1PEPF00002320.mail.protection.outlook.com (10.167.242.86) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.21 via Frontend Transport; Wed, 1 Apr 2026 02:42:17 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet200.ext.ti.com
+ 15.20.9745.21 via Frontend Transport; Wed, 1 Apr 2026 02:42:18 +0000
+Received: from DLEE200.ent.ti.com (157.170.170.75) by lewvzet200.ext.ti.com
  (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 31 Mar
- 2026 21:42:14 -0500
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 21:42:15 -0500
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE200.ent.ti.com
+ (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 31 Mar
- 2026 21:42:14 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 21:42:15 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 31 Mar 2026 21:42:14 -0500
+ Transport; Tue, 31 Mar 2026 21:42:15 -0500
 Received: from localhost (mz02jj9v.dhcp.ti.com [128.247.81.246])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6312gE7t3899092;
-	Tue, 31 Mar 2026 21:42:14 -0500
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6312gFK43899100;
+	Tue, 31 Mar 2026 21:42:15 -0500
 From: Sen Wang <sen@ti.com>
 To: <linux-sound@vger.kernel.org>
 CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
@@ -73,10 +74,12 @@ CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
 	<kevin-lu@ti.com>, <baojun.xu@ti.com>, <niranjan.hy@ti.com>,
 	<l-badrinarayanan@ti.com>, <devarsht@ti.com>, <v-singh1@ti.com>,
 	<linux-kernel@vger.kernel.org>, Sen Wang <sen@ti.com>
-Subject: [PATCH RFC 0/4] ASoC: Add TAS675x quad-channel Class-D amplifier driver
-Date: Tue, 31 Mar 2026 21:42:05 -0500
-Message-ID: <20260401024210.28542-1-sen@ti.com>
+Subject: [PATCH 1/4] dt-bindings: sound: Add ti,tas675x
+Date: Tue, 31 Mar 2026 21:42:06 -0500
+Message-ID: <20260401024210.28542-2-sen@ti.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260401024210.28542-1-sen@ti.com>
+References: <20260401024210.28542-1-sen@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,64 +91,324 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002320:EE_|IA1PR10MB7310:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78a62d74-8fe3-4b5e-0200-08de8f984a13
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002320:EE_|IA3PR10MB8563:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8ec070f-4215-4b69-cde8-08de8f984ac9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|376014|7416014|82310400026|18002099003|56012099003;
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|36860700016|22082099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	HjDK1wOqw2Knui+3Dh6y8SZg9aLcB0daD8JOGS3QYjDGdvcTQpIc9dYs+OoV8jiw2XcLjJEXbRnscZY4lWx1Iw5x08QlCRzt+RKIJXUWjrXO5Nq1KXPkYVW7NyddHoxn5aJiEDnY1ZPy8dHlc5o7Sq/3dY3z8OCYawB2aapeFfDM0m55v4e473BuZyGnbDZzYXuVQ93nRhqtb3wy14kVHpV6BZlroLACOlwCzw9FDCj+2J+sXM5dFyBuajkJQayDA/WgD/GSR6ta4rbnfPLwyHETtTYNl58mqhTjVBQRlSSuwrDcNGxdjgNwgIMR4zqm51S285kP1/uBFhEHcTK7b9Qwcr+bvRac+kqc1J45WDhAfeVNL5TU9kZGlYYLzTqdZsl/BzU/hqdmK+ImXGoK3XmR4DJqeCFBR0bdULRPfqv/CCzhNGY42kwF5KY6hARJJUO545a/gjsUj+D+3ch/ZkaSIylNfU5cT9H2vrZSnhGsiOxSrfYsl/lEo0UOK79Xty59WDLEh5Dcs+q0AuB0qkqTjC1nXH5gjrQw49XLDQKd0rbsi+3BzIVe43ngqyCZkioq3oQ2dQClZzyZPhBopu7kc+2zC6HAQKOAd1c+KFnyUvWKJ7+dUpG91iet11hjft7GGFPdnmcYMMk5wABqKywu8biZU6j7BChK2GB+6/iQQ3NzlUhgbHuDSepVjUpDRIG+mx1dZ7KX1RqHu/UPxJQxZe3CSMNp/+S1S1vfA23kqy1oVEjVrESPY8XqEVYtPi0ZK46GHUCfi0vdFoTjCQ==
+	XGpPgRP2zR+Gkigd7wwzn14zDzvQ7uN3CSGMLzQCdjyKvAupyEXk2inIvGZS/s6lqzVb3tS6NK+DqtpaRzybA8DNMy5xxtusjh78P8rtz2TcXGMLfTpsu7Tu6GfxWbsZiqYPxzck9L/rcaJ20P4+5McJ49ZhCLe7bmiSPvAj8exlZcjBpB8c6WankfJVldU5Hcc7rqvDm1nE8F881dVxDtuQVb7hAHBWgNKVqoA3SN0rqgdoPkL4BBQWx4e0KAR/rj2Ik1M6o5S1d4IXwqXonJJXAsdt7IixbwlBMEfqdSPRk3vOKnRQFNQlyDkdp+AtIN3NW/kXb6An6W5JSuqOQu3OM5nI61iRtvMb4Kt1vztmG59tm5ZPEsSIh2HiFFH+NA1BzL1wTo2PizN8UgQzULkwwR9gidzdzWjDIxc4CunY0z6ld8mSvblbo2RUtrturTbulnf90j2n6yRALhdTCN1IrzFBUg+GgkHdtuuBEVjDJrVQZwqYlFHgCB/1T+6JR0LClliRvvMF/kenkNOHo+HA6zjSlQyn/QN6PwCazYgW1PuLGCzI8hhbNXSj69KqPMvZ6hoe+yiRy19o52Ay3wn1ILPW+uhWVQwPWGoP5UrEnxiaZ9q2NC7Ccta98+CgjP1EjiwN5rPr00Tq0QEkV5Q+OhoBqJvPivgMTMxinQ7mPc+1u/T+3m+GYTBVhpzwWfp1HN0HXTvwgO3P04RAU3RDZQ1J5cLFXmtnL8o/KLM=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(376014)(7416014)(82310400026)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	xmxtxgcK4MqlcWnnH305aQzd7LAIN7iF3w5jG4DnXF40eCJPc5qPraoECHH9vA7mXtPvi+cEhd+IB6eKoQKAkAfTMVJS6AaKKICmQ0BC3LS6rIRRk3/rxCNVTAiNXYIS/9uVcNqgyGeOyJXsyPV50O2UErTNpxChc0Re8sYU6WdaGzE8vUxdEEyLI2z9qBzn6LRfI/iZkth2uNCzEui5XVZlZLK1/F05nULS60v/cz2cWB3w4cHMSl5rugDAWFBTIImZ+z202grsR2xbr4T0P+PAtmgvgvoSFdxjbJyEH1c6qzcozvNogjlMAG0GBKvUT3TgqObqpMQtoFgbeVu+ZuWyZ7PjiPS6boEwEnyOrE5W6DarVjJGzENDUYlAPwD8N69GLKryzLmO5Q2uAGFVvy9pICwk+00zln23JCfEKeHNkisAybZ+/Hlbmw79Fm7W
+	gcC283PITdOMxw6f4NEHU5wy9XYsYRX8udKuZuyk1JlvCOiewJbPbX/ir4GXoFsOr98UXsiov2pR30G+tnZrSTLyyLmX7DhvKQpSWmolVYT7Sho/Bet1Go5FociatjbPY/P1sB5oq5/iv1+l+Czmglmg19tyO0dumw66kulemPeqFYc77ImxxKJ8T4jY0Cr5Ejf64J2nyVw8jqjMfYid6qL5dIs1k9MoeDeGSYEvUSYtjp03biu57pqYxQ8G37hQ/iJdBnYHzZJDFHSWn2AtrrGlmgjwI3IU9dXPXj80ruNl9hfv0mgHmatcKek8jn7z7DSM6EJHp2UA4EsHSj1D47AQn3W19WZRIM+d3CDopmB1tMOKE7kuuhXzdWo0Vo1tx+tFjQ6yRawpYhcvwaTzccwysFNc2eu2hSUoAupN+HDDmcoGW+L//BAN+Aee1YvV
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 02:42:17.2418
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 02:42:18.4409
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78a62d74-8fe3-4b5e-0200-08de8f984a13
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8ec070f-4215-4b69-cde8-08de8f984ac9
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	SJ1PEPF00002320.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7310
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8563
 
-This series adds support for the TI TAS675x (TAS6754, TAS67524)
-quad-channel automotive Class-D amplifiers. The devices have an
-integrated DSP and load diagnostics, and are controlled over I2C.
+Add device tree binding for the Texas Instruments TAS675x family
+of four-channel Class-D audio amplifiers with integrated DSP.
 
-Patch 1 adds the dt-binding, patch 2 the codec driver, patch 3 the
-ALSA mixer controls documentation, and patch 4 adds the MAINTAINERS
-entry.
-
-Tested on AM62D-EVM with a TAS67CD-AEC daughter card, on setups &
-test procedures, refer to the Github repository.
-
-GitHub: https://github.com/SenWang125/tas67-linux
-
-Sen Wang (4):
-  dt-bindings: sound: Add ti,tas675x
-  ASoC: codecs: Add TAS675x quad-channel audio amplifier driver
-  Documentation: sound: Add TAS675x codec mixer controls documentation
-  MAINTAINERS: add entry for TAS675x audio amplifier
-
- .../devicetree/bindings/sound/ti,tas675x.yaml |  278 +++
- Documentation/sound/codecs/index.rst          |    1 +
- Documentation/sound/codecs/tas675x.rst        |  618 +++++
- MAINTAINERS                                   |    4 +
- sound/soc/codecs/Kconfig                      |   12 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/tas675x.c                    | 2172 +++++++++++++++++
- sound/soc/codecs/tas675x.h                    |  367 +++
- 8 files changed, 3454 insertions(+)
+Signed-off-by: Sen Wang <sen@ti.com>
+---
+ .../devicetree/bindings/sound/ti,tas675x.yaml | 278 ++++++++++++++++++
+ 1 file changed, 278 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/sound/ti,tas675x.yaml
- create mode 100644 Documentation/sound/codecs/tas675x.rst
- create mode 100644 sound/soc/codecs/tas675x.c
- create mode 100644 sound/soc/codecs/tas675x.h
 
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas675x.yaml b/Documentation/devicetree/bindings/sound/ti,tas675x.yaml
+new file mode 100644
+index 000000000000..23e4cc77b4ae
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,tas675x.yaml
+@@ -0,0 +1,278 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,tas675x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TAS675x Audio Amplifier
++
++maintainers:
++  - Sen Wang <sen@ti.com>
++
++description: |
++  The TAS675x family (TAS6754, TAS67524) are four-channel, digital-input,
++  automotive Class-D audio amplifiers with load diagnostics and an integrated
++  DSP for audio processing.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - ti,tas6754
++      - ti,tas67524
++
++  reg:
++    maxItems: 1
++
++  '#sound-dai-cells':
++    const: 1
++    description: |
++      The device exposes three DAIs, selected by index.
++        0 - Standard Audio Path (Playback)
++        1 - Low-Latency Playback Path (Playback)
++        2 - Sensory Feedback (Capture - Vpredict and Isense)
++      By default, all four channels of each DAI are active. Runtime
++      reconfiguration is available through DAPM widgets.
++
++  interrupts:
++    maxItems: 1
++    description:
++      Active-low falling-edge interrupt from the FAULT pin. When provided,
++      the driver uses IRQ-driven fault reporting instead of polling.
++
++  pd-gpios:
++    maxItems: 1
++    description:
++      GPIO connected to the power-down (PD#) pin, active low. Controls the
++      internal digital circuitry power state. When asserted the device enters
++      full power-down mode and all register state is lost. Can be omitted if
++      PD pin is hardwired or externally controlled.
++
++  stby-gpios:
++    maxItems: 1
++    description:
++      GPIO connected to the standby (STBY#) pin, active low. Controls the
++      analog power stage. When asserted the device enters Deep Sleep mode
++      but remains I2C-accessible with registers retained. Can be omitted if
++      STBY pin is tied to PD or hardwired.
++
++  dvdd-supply:
++    description:
++      Digital logic supply (1.62 V to 3.6 V). All three supply rails must
++      be within their recommended operating ranges before the PD pin is
++      released.
++
++  pvdd-supply:
++    description:
++      Output FET power supply (4.5 V to 19 V). All three supply rails must
++      be within their recommended operating ranges before the PD pin is
++      released.
++
++  vbat-supply:
++    description:
++      Battery supply for the Class-D output stage (4.5 V to 19 V). Optional
++      when PVDD and VBAT are connected to the same supply rail. When absent,
++      VBAT is assumed hardwired to PVDD.
++
++  ti,fast-boot:
++    type: boolean
++    description:
++      Skip DC load diagnostic sweep at power-on to reduce boot latency.
++      Automatic diagnostics after fault conditions remain enabled. Hardware
++      overcurrent protection is always active.
++
++  ti,audio-slot-no:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      TDM slot offset for the standard audio playback path via SDIN1. A value
++      of 4 maps to slot 4. If omitted, slot assignment is derived from the
++      tx_mask provided via set_tdm_slot(). Without either property, no slot
++      mapping is configured.
++
++  ti,llp-slot-no:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      TDM slot offset for the low-latency playback path via SDIN1. If omitted,
++      slot assignment is derived from the tx_mask provided via set_tdm_slot().
++      Without either property, no slot mapping is configured. Disabled outside
++      of LLP mode, and only relevant for TDM formats.
++
++  ti,vpredict-slot-no:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      In TDM mode, enables Vpredict output and assigns its starting slot;
++      four consecutive slots carry Vpredict Ch1-4 on SDOUT1. May coexist
++      with ti,isense-slot-no using separate non-overlapping slots.
++
++      In I2S mode, enables Vpredict output on SDOUT1 (Ch1/Ch2) and SDOUT2
++      (Ch3/Ch4). The slot value is unused. Requires a GPIO configured as
++      sdout2 for Ch3/Ch4; without it only Ch1/Ch2 are output. Mutually
++      exclusive with ti,isense-slot-no; if both are set, Vpredict takes
++      priority.
++
++      Irrelevant in Left-J and Right-J modes.
++
++  ti,isense-slot-no:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      In TDM mode, enables Isense output and assigns its starting slot;
++      four consecutive slots carry Isense Ch1-4 on SDOUT1. May coexist
++      with ti,vpredict-slot-no using separate non-overlapping slots.
++
++      In I2S mode, enables Isense output on SDOUT1 (Ch1/Ch2) and SDOUT2
++      (Ch3/Ch4). The slot value is unused. Requires a GPIO configured as
++      sdout2 for Ch3/Ch4; without it only Ch1/Ch2 are output. Mutually
++      exclusive with ti,vpredict-slot-no; Vpredict takes priority if both
++      are set.
++
++      Irrelevant in Left-J and Right-J modes.
++
++  ti,gpio1-function:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      Function for the GPIO_1 pin. When omitted, GPIO_1 remains in its
++      power-on default state.
++    enum:
++      - low           # Output: driven low
++      - auto-mute     # Output: high when all channels are auto-muted
++      - auto-mute-ch4 # Output: high when channel 4 is auto-muted
++      - auto-mute-ch3 # Output: high when channel 3 is auto-muted
++      - auto-mute-ch2 # Output: high when channel 2 is auto-muted
++      - auto-mute-ch1 # Output: high when channel 1 is auto-muted
++      - sdout2        # Output: Routes secondary serial data output 2
++      - sdout1        # Output: Re-routes secondary serial data output 1
++      - warn          # Output: warning signal (OTW, CBC)
++      - fault         # Output: fault signal (OTSD, OC, DC)
++      - clock-sync    # Output: clock synchronisation
++      - invalid-clock # Output: high when clock is invalid
++      - high          # Output: driven high
++      - mute          # Input: external mute control
++      - phase-sync    # Input: phase synchronisation
++      - sdin2         # Input: secondary SDIN2 for I2S/LJ/RJ ch3/ch4
++      - deep-sleep    # Input: asserted transitions device to Deep Sleep
++      - hiz           # Input: asserted transitions device to Hi-Z
++      - play          # Input: asserted transitions device to Play
++      - sleep         # Input: asserted transitions device to Sleep
++
++  ti,gpio2-function:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      Function for the GPIO_2 pin. When omitted, GPIO_2 remains in its
++      power-on default state.
++    enum:
++      - low           # Output: driven low
++      - auto-mute     # Output: high when all channels are auto-muted
++      - auto-mute-ch4 # Output: high when channel 4 is auto-muted
++      - auto-mute-ch3 # Output: high when channel 3 is auto-muted
++      - auto-mute-ch2 # Output: high when channel 2 is auto-muted
++      - auto-mute-ch1 # Output: high when channel 1 is auto-muted
++      - sdout2        # Output: Routes secondary serial data output 2
++      - sdout1        # Output: Re-routes secondary serial data output 1
++      - warn          # Output: warning signal (OTW, CBC)
++      - fault         # Output: fault signal (OTSD, OC, DC)
++      - clock-sync    # Output: clock synchronisation
++      - invalid-clock # Output: high when clock is invalid
++      - high          # Output: driven high
++      - mute          # Input: external mute control
++      - phase-sync    # Input: phase synchronisation
++      - sdin2         # Input: secondary SDIN2 for I2S/LJ/RJ ch3/ch4
++      - deep-sleep    # Input: asserted transitions device to Deep Sleep
++      - hiz           # Input: asserted transitions device to Hi-Z
++      - play          # Input: asserted transitions device to Play
++      - sleep         # Input: asserted transitions device to Sleep
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: audio-graph-port.yaml#
++        unevaluatedProperties: false
++        description: Standard audio playback port (DAI 0).
++
++      port@1:
++        $ref: audio-graph-port.yaml#
++        unevaluatedProperties: false
++        description: Low-latency playback port (LLP) (DAI 1).
++
++      port@2:
++        $ref: audio-graph-port.yaml#
++        unevaluatedProperties: false
++        description: Sensory feedback capture port (DAI 2).
++
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - '#sound-dai-cells'
++  - dvdd-supply
++  - pvdd-supply
++
++anyOf:
++  - required: [pd-gpios]
++  - required: [stby-gpios]
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        amplifier@70 {
++            compatible = "ti,tas67524";
++            reg = <0x70>;
++            #sound-dai-cells = <1>;
++            sound-name-prefix = "TAS0";
++
++            stby-gpios = <&main_gpio0 33 GPIO_ACTIVE_LOW>;
++
++            dvdd-supply = <&dvdd_1v8>;
++            pvdd-supply = <&pvdd_12v>;
++            vbat-supply = <&vbat_12v>;
++
++            ti,audio-slot-no = <0>;
++            ti,llp-slot-no = <4>;
++            ti,vpredict-slot-no = <0>;
++            ti,isense-slot-no = <4>;
++
++            ti,gpio2-function = "warn";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    tas0_audio_ep: endpoint {
++                        dai-format = "dsp_b";
++                        remote-endpoint = <&be_tas0_audio_ep>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    tas0_anc_ep: endpoint {
++                        remote-endpoint = <&be_tas0_anc_ep>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    tas0_fb_ep: endpoint {
++                        remote-endpoint = <&be_tas0_fb_ep>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.43.0
 
