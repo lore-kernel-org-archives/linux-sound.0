@@ -1,105 +1,150 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA082D0606
-	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 14:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775055200; cv=pass; b=qcm9DjlbcjyICAucdMVIYSiMVMmYQcAu5S1zWWAc7cgFYOTIGS/mqSmy90PooeV8aq3HyeG0QbZYjQyqLv/Z4Z7NXAqHBiFsooULcr+FmcumW2fIqmVjAZxeERYswhose9rj2Oqh9JJHp17pWwYGrMosmZaXYw0GQtcYHy6wpIU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775055200; c=relaxed/simple;
-	bh=xhYUi/7BffAXKMuswl/Hx7s966iLg1PSDsFoJjwRxNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S+kZ03JDG7VG6km43csNqpg+NNdDd1DsoF9N+NP6V0lQwDbISCqH0jRo25fHKw4i2H5K2qHJpuRkStMGqSqqcCiZeLBAfymvwn2vQ+irqcMQSqMi+rPWNo11fd7/BvHeSEePRaBK4dAIJDWEMYFV3r9lsttpu4yS9EHezcdbYCE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JrPnGYkk; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751CC361DBF;
+	Wed,  1 Apr 2026 16:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775059683; cv=none; b=izLiJ/HCuwlDWKk4rwlrbRq+9RwFqu2VpJq8W9wDwvJehckEoKS5Juroo2zS8RemVxt36ztPmtrr1DjHU9d6TMOt1BaR/aDGjG/TRtmmS0UWdY8xl+F0JkXStHS00Lql+T9ahrlSlxWVIojCeLsODI6B+Z1mhH9DOEXj1yiFjec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775059683; c=relaxed/simple;
+	bh=CAWqjT7a0ECle0p+cjJLfFVUz4QZKrWzh+L4muolz8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBmQjAxJnny/7V83Rl6cLvg/CrhE+GZ2HdhVfh05pQO57zKRBuukfVF8fz/xzzvysYMZnlkBtGWDazr41ZbXLt0E6+Ve+3Z8XjL3vfUv1DqrQN50wkVj56XniWoTuuy2Jyfrf1flbn1PvqkiORsWWtZM4XuCLZPhG1x7aYZCCQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYlcOAC2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JrPnGYkk"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-128ebee22caso825399c88.0
-        for <linux-sound@vger.kernel.org>; Wed, 01 Apr 2026 07:53:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775055199; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TSEK3LQMJ8Kv26gDkI5+Tj9baA9Aj80091vjmwIy+xFmlCiecuc2segE+N7Qb3U++9
-         2nBFBVpg2bxe7NV8DsU1rv71NUmBFTkCRXj1VH0apZ/erykQJzm9Gzwx/5tQixheH7qk
-         h8vcd2wv2zQSc0enhngTFjRRXhk1uhE0BPZsuLksGlUecixj6ybZ17pmY5z0K9KS1n5T
-         Q3JCsgHp2ifzE8xGW+qlqEL3+8TOIoAC35yIQFvGB6ppC7RhR4tDdD+8ezmPJrbMhZ5P
-         qs8Ng7pWmL+cR1WLyvWzcHAPm79lkZG3VS/Gtq0v1YKAZ/KttD0dHubREHury3T9w2i9
-         2SLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xhYUi/7BffAXKMuswl/Hx7s966iLg1PSDsFoJjwRxNI=;
-        fh=6oDToA112h3k4Zh+ic8yBC+OdxAt8Lyr5WWITK226wI=;
-        b=CRNLOjUkKGtyOySjATVhBya1n1RfXqWKc9j1ZsGbTPYy7QlS5xZ7hZvLGNs4JaaUFP
-         M6y3eqGyODGQOXabVFLSlN9SM90A94YFJpI5x+sX23XUKIUNAsNq6r5Xy11BjI270rnk
-         CxovgRC/UnWCBzggG76jguDjSxyLi0x3bKvXD4ZOCKolq2RfPER5wF6zmcs0ft08Vhpj
-         ym0163Ulww0YKzcnzW4JNIqGgexHWim24k0N7XrDEbRAvSYdIIqYQUS34dtZOnFJYvTW
-         9zXjHd8zw9sQsy8wg/p1hJyEFG+oAfrjonMtdpyXw4HNdmcFe+IoO4oQmOgPUjTeArk3
-         fbig==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775055199; x=1775659999; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xhYUi/7BffAXKMuswl/Hx7s966iLg1PSDsFoJjwRxNI=;
-        b=JrPnGYkkiDXBGXxneqahIVTFqpzRsfhRSG7oebTD9zw/sS54zF2LJ3l6G3EODGfoco
-         rFPgRm372HL7ytqigD02B6f/j95KyvacutcLwrHMmxgy8CPWBBqo95WoE6zuffGzMst8
-         yLZfw6g02S3y8LEju3fFQ0jl/hs/MYw+Y3NpQbL4A29RxPz653pQBLACzDDpSJ5mTDhG
-         EiaJwz6CzAvLTg7VZ84cA8Oo47et6jI3Yip7WE3ClpUJFc+R+2NSffIZdcZMoPTONZwN
-         mQlrjnLmBfv65eYjs/Q0KL0+9FaUCvR5Ldl7qlhEdYfbBdp8JFK4JI24s25lbGksB1Kt
-         j9xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775055199; x=1775659999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xhYUi/7BffAXKMuswl/Hx7s966iLg1PSDsFoJjwRxNI=;
-        b=hcSBa7g+Y5mEM3AJCaqSs697ILk9WEC9NfW8D06aCtvVIQxf9AHDnZQBfyD/bdsJpf
-         IY4v9/ab10cVkcUzFz65BTlImF1NX8s+REtmE1/fdvTC2reWxzKyqaN48GnjEe87ankO
-         po8BCSGERfacZxLQod/BQ8mZvqPXAsO9d4+rm8Eaa4GFFS6EEyahXxLdoci3Sg94w4pS
-         36q2KG72jBoDfXQabnbYzcUks8VGGgIsephdVYhmPyQDjdgWYM8j/V87kUkMagf6Y4EN
-         Ckicpp6zI3yXu/gjW0T1JlSBmLpWtfju8QRJuAfrJ/3bIGuv6C1DEnqLSeLStwwBg/bR
-         y8qw==
-X-Forwarded-Encrypted: i=1; AJvYcCWU7T78LWxW4cF/6oT0e5G3RIVsyydJezEANbVPaVdk9LEkK/i+S0ykSjD3B0QIyV0U+8tF8P5TkhEwwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl+Kt/W7M2ASwslfRLUfnwqI/ZrQA2vqAF4S4tjAFH0adBLWkq
-	8eMHl+Mrj83f47QSxgMEq4rQj3yQoxQOTjKPYYhLUqnoAGWf0Nw1FqEQIC/91URksJtA8A7/bzq
-	zURn20Xhx5bJCHGj4dErwbMWO5Ifk6y0=
-X-Gm-Gg: ATEYQzwV4paUJU11ZU0+whkq4oI9zZxTT1GB/rw/EwX+YiwCTMOZ+pMkyjIpOw4T2Gz
-	XFGQ9ijtq3wRWQ/uIA+vYHPJ9AOT79vzOOdt+7lHgeSmOeYAl4SUw9kuse4OiPFyFQsmFdB8NwA
-	+N9qVlpweF2aS4R8VY5x5LTL9bcB+cZnp1uiEjdA/ED2Uksf1s7t2IfXizonu7d8kpm8FlZk+xM
-	0JCHEKezUoeY6a43J6ifffIQ1mIEbY2huvOlKdQN5GdSNv48NuFKank3SaH7E2nh00UjMPeilpi
-	qaVIAfiDvFbZSdzlq5tWKPu+FyXHy2XNgw14bZzcF7MS/+Rgxy2STbJWXOx8FPw+ihMZCtxNvRU
-	/r2EVq4jBCmQqhjBJ/5YRLmfeewtcXkw=
-X-Received: by 2002:a05:7022:62b:b0:119:e56b:958a with SMTP id
- a92af1059eb24-12be64b5885mr1891459c88.15.1775055198497; Wed, 01 Apr 2026
- 07:53:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYlcOAC2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD24C4CEF7;
+	Wed,  1 Apr 2026 16:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775059683;
+	bh=CAWqjT7a0ECle0p+cjJLfFVUz4QZKrWzh+L4muolz8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IYlcOAC2JmrabV6k0EQdev65ty7gp/D9x3bQKT5TdXg7Cd0Gy0QxJNiXK+zYhWq42
+	 VKsMmrDPhE1djTENe2EAW0pSB/xWM31Hb/uTtYdwipRtxCgl48I9sP2JG/2o0w8RuF
+	 RpbrhRZfeIhYvx+tarcltqdLUIw7IFTqYvkqL6cBL4l9l19gCR4SeCU5DS654vFYMS
+	 Dms8ba5NVnK0NUF6WpgZMx7kBSrcPIWrb6KbyDe2/FOhRTDxij5WMLJscwG+gx4b/K
+	 omEZW7lLI0J51CH0GmlVDDXB+XXanK/PvazJxkdpulYQFzjPGabj0It1T6BnL7b74d
+	 N3F8XFQu+CsRA==
+Date: Wed, 1 Apr 2026 17:07:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sen Wang <sen@ti.com>
+Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com, shenghao-ding@ti.com,
+	kevin-lu@ti.com, baojun.xu@ti.com, niranjan.hy@ti.com,
+	l-badrinarayanan@ti.com, devarsht@ti.com, v-singh1@ti.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] ASoC: codecs: Add TAS675x quad-channel audio
+ amplifier driver
+Message-ID: <8eb47e54-12e1-4f92-a488-09485df035c6@sirena.org.uk>
+References: <20260401024210.28542-1-sen@ti.com>
+ <20260401024210.28542-3-sen@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <875x6bttv8.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <875x6bttv8.wl-kuninori.morimoto.gx@renesas.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Wed, 1 Apr 2026 17:56:16 +0300
-X-Gm-Features: AQROBzB-KXKwewD0zS-zCCYfs8DXjMxgjNKgCkJxpnk4e6T3ovt4hsAuwUUWglg
-Message-ID: <CAEnQRZCcEc8bK8uGHiFdUrp9PUmOznLxSNs1W4JOHDyMY7cXKA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: ak5558: remove unused snd_soc_component
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6Krvfc3UkUAr2EV/"
+Content-Disposition: inline
+In-Reply-To: <20260401024210.28542-3-sen@ti.com>
+X-Cookie: "Yo baby yo baby yo."
 
-On Wed, Apr 1, 2026 at 3:22=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
-> ak5558_priv::component has never been used. Remove it.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+--6Krvfc3UkUAr2EV/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Mar 31, 2026 at 09:42:07PM -0500, Sen Wang wrote:
+
+> The TAS675x (TAS6754, TAS67524) are quad-channel, digital-input
+> Class-D amplifiers with an integrated DSP, controlled over I2C.
+> They support I2S and TDM serial audio interfaces.
+
+> +static int tas675x_dapm_sleep_event(struct snd_soc_dapm_widget *widget,
+> +				    struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
+> +	int ret = 0;
+> +
+> +	switch (event) {
+> +	case SND_SOC_DAPM_POST_PMU:
+> +		ret = pm_runtime_resume_and_get(component->dev);
+> +		break;
+> +	case SND_SOC_DAPM_PRE_PMD:
+> +		pm_runtime_mark_last_busy(component->dev);
+> +		pm_runtime_put_autosuspend(component->dev);
+> +		break;
+> +	}
+> +	return ret < 0 ? ret : 0;
+> +}
+
+I'm confused what's going on here, there's runtime PM management in the
+ASoC core - isn't this just duplicating what's there?
+
+> +static int tas675x_runtime_resume(struct device *dev)
+> +{
+
+> +       if (!to_i2c_client(dev)->irq)
+> +               schedule_delayed_work(&tas->fault_check_work,
+> +                                     msecs_to_jiffies(TAS675X_FAULT_CHECK_INTERVAL_MS));
+
+This is the only place where we start the fault checking but runtime PM
+can be disabled in configuration and we also start runtime PM in the
+active state so potentially might never suspend and resume.  probe()
+should kick off the work as well.
+
+> +static int tas675x_init_device(struct tas675x_priv *tas)
+> +{
+> +	struct regmap *regmap = tas->regmap;
+> +	unsigned int val;
+> +	int ret, i;
+> +
+> +	/* Clear POR fault flag to prevent IRQ storm */
+> +	regmap_read(regmap, TAS675X_POWER_FAULT_LATCHED_REG, &val);
+
+
+> +static int tas675x_i2c_probe(struct i2c_client *client)
+> +{
+
+> +	if (client->irq) {
+> +		ret = devm_request_threaded_irq(tas->dev, client->irq, NULL,
+> +						tas675x_irq_handler,
+> +						IRQF_ONESHOT | IRQF_TRIGGER_FALLING,
+> +						"tas675x-fault", tas);
+> +		if (ret)
+> +			return dev_err_probe(tas->dev, ret, "Failed to request IRQ\n");
+> +	}
+
+We request the interrupt here...
+
+> +	INIT_DELAYED_WORK(&tas->fault_check_work, tas675x_fault_check_work);
+
+> +	ret = tas675x_power_on(tas);
+> +	if (ret)
+> +		return ret;
+
+...before we do _power_on() which is what calls _hw_init() and clears any
+faults that were latched in the registers.  This means that if there is
+something there we'll handle it through the normal interrupt handling
+flow and the rest won't buy is much, probably better to reorder the init
+vs the interrupt request.
+
+--6Krvfc3UkUAr2EV/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnNQtwACgkQJNaLcl1U
+h9DEZgf+JmeogiHBNBqjFfUuOhJrTON5+mFF7hOVQfKBu9BY+B38erPJbUHdDG09
+SieFXCx3Unz3J/GpJpszArF4KH7B9fBfpCkCGzhlhs3tPRFVFG4mO+L9OX+DfDG5
+qzonRXx6T+gIhIewRMtwCiAJJnXR0Gw/qqtLJGhQQfqQFpXETK/Pwrq1eipF7CWh
+aYcRkZd4lQjdxdknUGP/KTC/govAq+0KS5XYDkQkX+zKxsOw2tBsNz2JgB4Cdj4v
+rkf4AM4G3g51yIvmjerUjlgxK8WVOm6w96ThZVN5hZXr5B0qaOiIuEAs8DV88FDi
+V6DR47In130joJMHqrfZFIRZBaR9Hw==
+=hPV1
+-----END PGP SIGNATURE-----
+
+--6Krvfc3UkUAr2EV/--
