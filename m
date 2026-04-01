@@ -1,95 +1,72 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4AA6A001;
-	Wed,  1 Apr 2026 05:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C5330E0D6
+	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 05:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775021470; cv=none; b=WU0V0EcNahTeCC4pccel0BGHyAggq17lzZQ9fOHoX+ifo5lWNRgs+xTnW5zX6vujcMQI2NaMYedRbfGArGdC6OLw7Pk1xNyLC42LmmgLdsqaKdwDec2VsembATVvzMj+59STDStMwl7drc2HWcmB2fdSKSWG9uz29PzP07Xzltg=
+	t=1775021817; cv=none; b=mbQLgkThdqpAMTC+GtzrieWxvK753ndtryANvPEcq1XAjGeX8qSxepv7VQbAsLY/ohQOpMWi81tFHv6OhKHR2Uic9KaF17KJgnu15PfJv2F9Y6eSDluKcqz1VsS/5J4DbrtbrRHLMib1poWbRwjLDZ5EFq9xiip2HhgAR5UvuZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775021470; c=relaxed/simple;
-	bh=GEJxngQTRJwBUusIKO6SYLAjikYbCdV54I7Sv+Wmk7o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ISJolm1XdR81HhnlQqRnTA9QmFZX/9dKI6Opdex+2gRm2s/Ej+YZpLy53fwSP5/GpiuFqVBDi6CX8C+rr2FVqfUNbi+t2lmWJwKghRrdenBsVyx8f3LdnqDcTFiySuRUXDHJEp0VyGxOcJJVqcaGCmGJtgTEFJJ52s4KLx16g8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from localhost.localdomain (unknown [36.112.3.223])
-	by APP-01 (Coremail) with SMTP id qwCowAA34m2LrcxpWi7UCw--.2635S2;
-	Wed, 01 Apr 2026 13:30:53 +0800 (CST)
-From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com
-Cc: linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Subject: [PATCH] ASoC: mxs-sgtl5000: disable MCLK on error paths of mxs_sgtl5000_probe()
-Date: Wed,  1 Apr 2026 13:30:51 +0800
-Message-Id: <20260401053051.586290-1-lihaoxiang@isrc.iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1775021817; c=relaxed/simple;
+	bh=bM4WDRvFFZO+gIepU6CVhz2HM3v0G786oa+tC1LnSgc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pXushGfxMKKji24Oq7uK0169qfgn8aVD45tIizksRSWXlYhIyjJ4DWsUNqTWk/nxk3bYoZsYB6Zo6LTg5dehknHU2c95iJP6lgqpkWENrkeJ+AT2LNDhtqaaVB0E+bC7yUgwWiJBilFd521k4pAqYvaxXRSTRtylofMjJHjbDFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=oWpO/ytn; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="oWpO/ytn"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 6DAD8679939B; Wed,  1 Apr 2026 16:01:27 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 6DAD8679939B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1775021487; bh=VKMXMZQ+c4RrE0PRdpS/FY31x0cluJurwwuQ7myi0h4=;
+	h=Date:From:To:Cc:Subject:From;
+	b=oWpO/ytnbZkDkF/9jPSBCJiLnR5V42pMvJGKoL2VEnb/8snUo/4q7BWXjRquIM1eC
+	 R8XnZIkOzC9OUJUn5VETfOZgbuaXOWjqLorThuFIDndw3Pjh9FdahcOgA3ni75S/Ij
+	 rqdnlqQyEfaf/WuupsxMrJKkhretv3U0KhO8YyDqhtIF2xpd/JcgV5ze/gs0DVL+lO
+	 aws0ty1asBvpusdqoho9I++U1HJSGgLF/cxP2pMTK8bplvraH7sdfGLp5tFWPlp1hr
+	 /P9rpLFw2SpKFaAeJhVW4F2k1UInn1C91huMcs20hDvMp0G9rVYJZgdWfrXrDyl5ud
+	 lnwTzWVONjBqw==
+Date: Wed, 1 Apr 2026 16:01:27 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Exclude Scarlett 2i2 1st Gen (8016) from
+ SKIP_IFACE_SETUP
+Message-ID: <acytr8aEUba4VXmZ@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAA34m2LrcxpWi7UCw--.2635S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZw4xGrWDtFW7uF1xCryDWrg_yoWfXrgEya
-	yxu34DXry5KryfCr9rurWYvFy8Wws2ya1xGr1ftr4UJ3sxJa98XayDJrs8ury8Zw4vga4x
-	Zr1UuFs2grWSgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
-X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiBwoEE2nMj+FgJAAAsV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Call mxs_saif_put_mclk() to disable MCLK on error
-paths of mxs_sgtl5000_probe().
+Same issue as the other 1st Gen Scarletts: QUIRK_FLAG_SKIP_IFACE_SETUP
+causes distorted audio on this revision of the Scarlett 2i2 1st Gen
+(1235:8016).
 
-Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
+Reported-by: lukas-reineke [https://github.com/geoffreybennett/linux-fcp/issues/54]
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/soc/mxs/mxs-sgtl5000.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ sound/usb/quirks.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/mxs/mxs-sgtl5000.c b/sound/soc/mxs/mxs-sgtl5000.c
-index 245f17411638..f1c0e612313d 100644
---- a/sound/soc/mxs/mxs-sgtl5000.c
-+++ b/sound/soc/mxs/mxs-sgtl5000.c
-@@ -157,13 +157,16 @@ static int mxs_sgtl5000_probe(struct platform_device *pdev)
- 		if (ret) {
- 			dev_err(&pdev->dev, "failed to parse audio-routing (%d)\n",
- 				ret);
-+			mxs_saif_put_mclk(0);
- 			return ret;
- 		}
- 	}
- 
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
--	if (ret)
-+	if (ret) {
-+		mxs_saif_put_mclk(0);
- 		return dev_err_probe(&pdev->dev, ret, "snd_soc_register_card failed\n");
-+	}
- 
- 	return 0;
- }
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 4bed7d877d93..9ff9b6e306c1 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2425,6 +2425,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_VALIDATE_RATES),
+ 	DEVICE_FLG(0x1235, 0x8006, 0), /* Focusrite Scarlett 2i2 1st Gen */
+ 	DEVICE_FLG(0x1235, 0x800a, 0), /* Focusrite Scarlett 2i4 1st Gen */
++	DEVICE_FLG(0x1235, 0x8016, 0), /* Focusrite Scarlett 2i2 1st Gen */
+ 	VENDOR_FLG(0x1235, /* Focusrite Novation */
+ 		   QUIRK_FLAG_SKIP_CLOCK_SELECTOR |
+ 		   QUIRK_FLAG_SKIP_IFACE_SETUP),
 -- 
-2.25.1
+2.53.0
 
