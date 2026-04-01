@@ -1,115 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BBF3C5DD6;
-	Wed,  1 Apr 2026 10:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF1433436A;
+	Wed,  1 Apr 2026 11:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775040255; cv=none; b=u7c7mJdNnVTlWOEVN7NwYbrvwnrJsdXFmblKKaVPF3OzdEM80OwXJqVoknfOvgjgYdi7uJNuway/Q+eETTsSeoqaq3lGppiKWywUFB2CLMnxuryUTyqSq86YWgK936JA6LOiQnKHphTjGnUgLyw1HwRc8BIeLOroKC9snSXLYHw=
+	t=1775042719; cv=none; b=kCh00dopk219qDxjU999m4kfNCi9+i1eceo3ZCwwloXZPMfPplVFxhfBKz+C2jH9kAQhF7H946eq+G/Vh6IU9YrpTeOaeTt/+6R3evEYVUgJijn+z58g41W7r98j8RsqbbPRDB62z/BldId4jCU/+3Pd8nzQjzdkSnOCxRkdyNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775040255; c=relaxed/simple;
-	bh=G3F2l1AJIMSN/JQ/XHVowQj/djttrCKuYalJXXbgwoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RXNOwBxcgfi6FADenVUaZzpnTKsSGcSj6HYmMXP9mQ2ktsZV/nIfZgRaMmnyTSWJJfKKKzLeI8+8TSTCKzVzKYqtlz5Ylcx7l3hLtgvauKsKfS08p5m9Ec5L1M3hKSO4OTEZZZMMfa9Yg+IkxLPr099hIHhns5apQtOrI8dgi38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qz5NJNet; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775042719; c=relaxed/simple;
+	bh=cmgKYNwe61nBGvUwmhV6W2mBYIrAwRrr/oxSk69wJeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fs8U/b5LPwXEpMg7wJkmkAqnr7kQma318zFVFZS8qC1ov4pVFWAqYDnR011ZDFesZpb2UDHNsowBp5l2FpsltNwtBpDy2UK9JZ70ZOgbTM69f9KzLBAIBPMx8yclPKAKNBiR9ErWmBpzXIoO2tHGrUr6w6/FBiWZGyjoDXIUXdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gHOMeTnT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qz5NJNet"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3CEFC4CEF7;
-	Wed,  1 Apr 2026 10:44:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHOMeTnT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45FC5C4CEF7;
+	Wed,  1 Apr 2026 11:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775040255;
-	bh=G3F2l1AJIMSN/JQ/XHVowQj/djttrCKuYalJXXbgwoc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Qz5NJNetnXvH23tDTwlGxxTBFBL5M7XQt9P8txC4BKUEVd2/3KOH6F6Qp1O6E2qra
-	 Kv6pILqsTwooorpuqNp27GqX5SIZT1yVYCFYEn5dcJlw+EYGjpjHwCszWk48peMY3D
-	 zKAtndSZnGHelJzaZpBAB/yzzW044uO76d9km75GIrHuyjU02Mfm+ys2v765HRUI+p
-	 UOj5f0o5YOgqCcjzEGuG1m5DmI251bo1jVPJncfk4DdExAGSvIf8dwLXL4Ruix54OW
-	 PBd+4KH/Dsw5sKbbg0X4sPFvn6IxmgGBnQs1+HcPZBnP1BwpDUswUIT2wUdL9uDgB9
-	 zyKRxZUOsw7Og==
-Message-ID: <4d06bbc1-810f-45eb-b92e-214c18cd304b@kernel.org>
-Date: Wed, 1 Apr 2026 12:44:11 +0200
+	s=k20201202; t=1775042718;
+	bh=cmgKYNwe61nBGvUwmhV6W2mBYIrAwRrr/oxSk69wJeU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gHOMeTnTJ7NCdHCfsKKgIZZyiuLpyBp6Jpk7nScygN29C4AC1laxKscUD2GIbk4Mr
+	 UhBiVN5bwK36obHGksOu8+ltKTN5XNHJfFOwlprCnq7BxD6pIMw0r5I7nePglTNEXW
+	 z69nMGGed1rI4mOWU16+cZlEFCenHVKCCncyb71eWbjDC5RfNpwYBRjIGd8U2yginM
+	 Tj1R3FbbGEIHvzjvqzVC9M9fnjIkItaNsYG69ujrXN9kC6ZMcD8DTnfFUz+Ckr+FZP
+	 cGP2iAzOcHSr7gRoF5sa+LgGmukVEDUGtuMCiX6tbPh40nDOUkut9NBEu1N9sQhRSU
+	 mU+9fPrVj4bSw==
+Date: Wed, 1 Apr 2026 12:25:12 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	johan@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	srini@kernel.org, val@packett.cool, mailingradian@gmail.com
+Subject: Re: [PATCH v8 08/13] ASoC: qcom: q6dsp: Add Senary MI2S audio
+ interface support
+Message-ID: <38eb807e-8467-4d7b-9094-3007d0ba9c89@sirena.org.uk>
+References: <20260330082105.278055-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260330082105.278055-9-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: fix bad indentation for alc269
-To: Takashi Iwai <tiwai@suse.de>, Lei Huang <huanglei814@163.com>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lei Huang <huanglei@kylinos.cn>
-References: <20260330125333.86012-1-huanglei814@163.com>
- <87y0j9towp.wl-tiwai@suse.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <87y0j9towp.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m73g4xnFGfsS0+ob"
+Content-Disposition: inline
+In-Reply-To: <20260330082105.278055-9-srinivas.kandagatla@oss.qualcomm.com>
+X-Cookie: Famous last words:
 
-On 30/03/2026 15:41, Takashi Iwai wrote:
-> On Mon, 30 Mar 2026 14:53:33 +0200,
-> Lei Huang wrote:
->>
->> From: Lei Huang <huanglei@kylinos.cn>
->>
->> Mention complains about this coding style:
->>
->>   ERROR: code indent should use tabs where possible
->>   #6640: FILE: sound/hda/codecs/realtek/alc269.c:6640:
->>   +        [ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY] = {$
->>
->> fix it up.
->>
->> Signed-off-by: Lei Huang <huanglei@kylinos.cn>
-> 
-> Could you try to pinpoint the introducing commit with Fixes tag?
 
-Nothing to be fixed here. This is coding style. Coding style has
-absolutely zero effect on working code thus it is not a bug.
+--m73g4xnFGfsS0+ob
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Mon, Mar 30, 2026 at 08:21:00AM +0000, Srinivas Kandagatla wrote:
+> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>=20
+> Introduces support for the Senary MI2S audio interface in the Qualcomm
+> q6dsp. Add new AFE port IDs for Senary MI2S RX and TX and include the
+> necessary mappings in the port configuration  to allow audio routing
+> over the Senary MI2S interface.
+
+This breaks the build:
+
+In file included from /build/stage/linux/include/dt-bindings/sound/qcom,q6a=
+fe.h:7,
+                 from /build/stage/linux/sound/soc/qcom/qdsp6/q6afe.c:5:
+/build/stage/linux/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h:153:3=
+3: error: array index in initializer exceeds array bounds
+  153 | #define SENARY_MI2S_RX          147
+      |                                 ^~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6afe.c:723:10: note: in expansion =
+of macro =E2=80=98SENARY_MI2S_RX=E2=80=99
+  723 |         [SENARY_MI2S_RX]  =3D  { AFE_PORT_ID_SENARY_MI2S_RX,
+      |          ^~~~~~~~~~~~~~
+/build/stage/linux/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h:153:3=
+3: note: (near initialization for =E2=80=98port_maps=E2=80=99)
+  153 | #define SENARY_MI2S_RX          147
+      |                                 ^~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6afe.c:723:10: note: in expansion =
+of macro =E2=80=98SENARY_MI2S_RX=E2=80=99
+  723 |         [SENARY_MI2S_RX]  =3D  { AFE_PORT_ID_SENARY_MI2S_RX,
+      |          ^~~~~~~~~~~~~~
+/build/stage/linux/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h:154:3=
+3: error: array index in initializer exceeds array bounds
+  154 | #define SENARY_MI2S_TX          148
+      |                                 ^~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6afe.c:725:10: note: in expansion =
+of macro =E2=80=98SENARY_MI2S_TX=E2=80=99
+  725 |         [SENARY_MI2S_TX] =3D   { AFE_PORT_ID_SENARY_MI2S_TX,
+      |          ^~~~~~~~~~~~~~
+/build/stage/linux/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h:154:3=
+3: note: (near initialization for =E2=80=98port_maps=E2=80=99)
+  154 | #define SENARY_MI2S_TX          148
+      |                                 ^~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6afe.c:725:10: note: in expansion =
+of macro =E2=80=98SENARY_MI2S_TX=E2=80=99
+  725 |         [SENARY_MI2S_TX] =3D   { AFE_PORT_ID_SENARY_MI2S_TX,
+      |          ^~~~~~~~~~~~~~
+
+
+--m73g4xnFGfsS0+ob
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnNAJcACgkQJNaLcl1U
+h9Db1Qf/ZFVV1E+LHBb2RDzhVMoE0/w92XMZpGtqUAwLMwoB1DjhvQiftjOITTX/
+rj4NC1KT7FVh/IV9AiOCzgYZNBz5D1/vItP57hTksFF2Yg39v1H6x7zGLYxmLJ1W
+fzu7rmVoBO+BMtNpDDg8XTEVkjQkwhwf68/Q7za616Lz0KsmmS+MaO5qnxNReGTP
+9Odsx4EcQ/md+qzKMgLUSY8ekC7nfHTfqxnYMDvHabLnN2L/+BVQxqoVIJOHg0+4
+9HRV6dx0bKuy6NPhScDgBnOSDMEyPBxnVP0zbDkwJ4GtxjQmU7GggSUeDzysLMN0
+Qz1YJeRLIynfWCgrbWQwjtvvqI07hA==
+=RNl2
+-----END PGP SIGNATURE-----
+
+--m73g4xnFGfsS0+ob--
