@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D419547D920;
-	Wed,  1 Apr 2026 17:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3DE3C942D
+	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 17:19:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775063975; cv=none; b=tP5fM454ApLqHdONhL4H6vs1WoDSAwKsx/6CjdYEpy8uPYKK18Krp2XWUKgVqUx0yfhIjPaJpVIVXVCQoOnwD991gahJMsDfnZh74S6FATyIDpt2AroPzx5n9uRHX1/I1B/YohKW3OuBLLZhvJ1tIba3yrZVcioPgnpQKFsGY8E=
+	t=1775063979; cv=none; b=SvlK1W8Cwf/1vsYZI2f6zHAD14OYKB6QObA1dEVJYPrtBrTxnlo2Ad1LIDZnE7Trq+l37iqPyU8O/LYaPdFpR1LrNQKgm7CzLzOUvqtoX9LAgnSKkNfrjwgdYu06PGctnkMuUjTgjSd3d5N4HjRsx5X/f1W7N/0Y9uF4mDc0Ba8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775063975; c=relaxed/simple;
-	bh=gZZ3am2l2BZrbiJy//1SPjpK35+k5Zv9qYgrBQJqKfk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gW/+2rAy0wgKFA9FrXkOBARU/SQm1yDenEXIc465Shbezw1Qp280BrvKy/2zu1eaor/2RaJjnlNpaB3IfhQzq4MfbFbpR0/59M4WWZxyS7SUU/tVUWCP9A87Hf2oRgJN4sGvgiP3kk6vhOmsFRpTfb8kn4HJF0iGJgE5HD4rPqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rxc8VVB8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775063979; c=relaxed/simple;
+	bh=T+crXYISuBvVl3CNk2+FtPaBx7Z3ksqb5OAPkwZy2PU=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iVsCG1ZwQPTf48CiUSj4bNz57b3lasKE+MoLJQK5suyhFPujOdRyaJxvzZN9EFomNv36aLtH6pG81CsLgkqktbV84zFIKvu6pAi66bLpTL9kj/kVYwszH28OOB2FzkvkWQ1OgVI02Yn4v6Awg3x08NRIH09MXqOJuOJV+iPGaQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7xqz8lW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rxc8VVB8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4386DC4CEF7;
-	Wed,  1 Apr 2026 17:19:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7xqz8lW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 519D0C2BCAF;
+	Wed,  1 Apr 2026 17:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775063975;
-	bh=gZZ3am2l2BZrbiJy//1SPjpK35+k5Zv9qYgrBQJqKfk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rxc8VVB8Y2b8ArlnVIh0Ip6lECvk0z+d3G6zra5HxDQF70vpRvd7yvmotx6O9rHpq
-	 pcNoaW18ncjKuq6k+npNR9LOv/EywxO5Zlyvw+zc6PzBLQgMDCyMGmOiEZ2lHG6m9E
-	 0FhbmxNJkEzqtGXP/Ivxk/GIDzsgognu/+0ESERuCrYyGby0M1K8u+RwS4dclGDXeg
-	 ErhBoF307y0jZyTxMKG990fP38ZTsWW/GKVUAQiY3mTcTulXXHtWa2wy0xvcLCUaUa
-	 yDqsSEPVm1zn3z4pKJAygaZKelv0jVgy156NPjuE+Az248kAhCybA8kz+rmPEX2WhD
-	 4ZyvvcFrGBVsg==
+	s=k20201202; t=1775063979;
+	bh=T+crXYISuBvVl3CNk2+FtPaBx7Z3ksqb5OAPkwZy2PU=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=u7xqz8lWK8ImMlLzKPbr687M+wUl3b7+RHbYxWF53RjWk6SpnLggKT78nuF6vQ1Pa
+	 ulztac9M5K1/jtoE5ePLVNj0JEWPz0m2aFJdIg3cV8yaPD6J/vVS868I9mEix83wJz
+	 aFjSQScT/NAQB2mxtrgueBt77O8o/vrJdSEVtWVBY3xVKkVwvG3le+QSOg9uSR9Pct
+	 kevuwyRFh0Q3AzAivzHJIPTZfx6FL977BJfop++Nwn7TpnDIDWxVgm7bmNNTSRhOLQ
+	 i040get+RQtkkMYv70AL3oS4py//T1eRq8hV7D4qdhGwe18uSC+aoy7z1EBuo9Ka0I
+	 u4YP0PLJTXQbA==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260401053051.586290-1-lihaoxiang@isrc.iscas.ac.cn>
-References: <20260401053051.586290-1-lihaoxiang@isrc.iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: mxs-sgtl5000: disable MCLK on error paths of
- mxs_sgtl5000_probe()
-Message-Id: <177504863830.145704.3305961263269290101.b4-ty@b4>
-Date: Wed, 01 Apr 2026 14:03:58 +0100
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <877bqrttvp.wl-kuninori.morimoto.gx@renesas.com>
+References: <877bqrttvp.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc.h: remove snd_soc_of_parse_audio_prefix()
+Message-Id: <177504482039.145704.3638460844958401080.b4-ty@b4>
+Date: Wed, 01 Apr 2026 13:00:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,20 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-7777e
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1159; i=broonie@kernel.org;
- h=from:subject:message-id; bh=gZZ3am2l2BZrbiJy//1SPjpK35+k5Zv9qYgrBQJqKfk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzVOkBGbGoFLNrIZfgTyoGw/FNHf79QE2+b+ia
- PY0vB4V+yuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCac1TpAAKCRAk1otyXVSH
- 0PiMB/9gG2mtCNah85dcETfLIead592r338DaI7w8bdBS1zRFuo7pfDm5jNzx/33fSrOR9JCLHO
- 1DAVogc2cRmWiOTK76gvHSj/iuWK18b4dT5Dx0wSgh136R+OPQKzWmdmK9qTbIjwwa1LnJbBuzM
- xjLow55F0ile4twIeWrw3MgCes0ECjfa8y3VHo1wYijIDjSToE+ThtyF8JNOVhttFOzqsVYL+R3
- CQvorE04EgvEdBZL4BlzaYHFfap2byflbmBFTvQe1/p3kfx72S0bKAUq/fzAA+hUyKCS2J4ByzD
- uj1iQFOobXaCd9R9/tgtTRyU+6JjdKIjVcfz58vxjdpgkFor
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=T+crXYISuBvVl3CNk2+FtPaBx7Z3ksqb5OAPkwZy2PU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzVOpbmbcLx/R0XDQy/2mABCs+Zsjq0Y6raLWW
+ e+MyQ2uf/iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCac1TqQAKCRAk1otyXVSH
+ 0MtRB/9Gl+OtpG2H0XMMOhx09qQvR02lDUNO7DjPa6XF3sdyJM48YG01osaZmoKWiXVDMqQYXQ/
+ jq5TKTmeLDUx4UPqv8xdGXpx+OM7e5sv8WBeWgWnDTqzQH+L6+HVEpaYAySjCPIRKyAdGf/sE4p
+ P4y6w4BR4soQAB4pkjemkG6GYna8dXfwtdSP+SA/o3BNU0MvBPtprrnZaQ2h+/xInTFkLqRcPzO
+ NR3ey/Vcpi/MSd3+r604ETsHVUVdmdEsgtvXlYbLMz6NOXxUef/HJJ0Syt5S/ZVtxlpdvI3/1/y
+ XKnDHwIxLh5ueqAZ2s40Z05tRWfL6eZvrUe/4aIRHYZk9i7/
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 01 Apr 2026 13:30:51 +0800, Haoxiang Li wrote:
-> ASoC: mxs-sgtl5000: disable MCLK on error paths of mxs_sgtl5000_probe()
+On Wed, 01 Apr 2026 00:19:06 +0000, Kuninori Morimoto wrote:
+> ASoC: soc.h: remove snd_soc_of_parse_audio_prefix()
 
 Applied to
 
@@ -68,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mxs-sgtl5000: disable MCLK on error paths of mxs_sgtl5000_probe()
-      https://git.kernel.org/broonie/sound/c/c8ef13d692f1
+[1/1] ASoC: soc.h: remove snd_soc_of_parse_audio_prefix()
+      https://git.kernel.org/broonie/sound/c/5a77906982df
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
