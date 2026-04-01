@@ -1,113 +1,149 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEB835AC27;
-	Wed,  1 Apr 2026 09:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775034158; cv=pass; b=tUmQY2caClWrB7PBiaVFVcjp4HQHrN/zz3jn3k5uNKOknAgK6KDr6jhrGxU5fHhJm+x5uO+XMQ+zzKoIilzD18PsZeyVOasenzHbT4/o61M8/gWXWFOrSuD1C+bIT2YAMOOHakubfxcbJcE2uRhmSObVhhpOAWR/AChICSoVZ1Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775034158; c=relaxed/simple;
-	bh=AtkfY7JyaUXIOn+BKXEgMb9eIU4AZ90BPccaSNHJvqY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V10Xg+7rzu7Z7S4b5ocLZvaEmg82Ce9ZXQPEKHdFhaveH+1qLLnSHSWsOBpMzSgJoDps3qxUfYFbD1EuF95TJYvTBWWEj3xDcg7qzASGkVG4cmW6d3xYwdNO3NvewUztoqZ/Xq38y4JwD5wT6U0Q7RZKLyIIlqYD9aH/jqda3xI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=c1xC+ieU; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B0F3CB2EF
+	for <linux-sound@vger.kernel.org>; Wed,  1 Apr 2026 09:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775034168; cv=none; b=kOOEi9/lTi5D4Ug26stAqIpcjVXU3gNMEfDOT5Eb9o0QNAmXmlmfdiyXjJOx4Zypn3quRik1zzkuGe8FkbV7SXuEnmP+xcz8t5dA3lyQ7sp8v49H5pLCtlx+oRR3C29Hdtx9apvGOYpzpRt+iKKhkKF8hUUn/HNMMtQsg107w0E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775034168; c=relaxed/simple;
+	bh=md+OcktnaqsQiumjQp4oxdp9YmTZcWFthEJkwEBUylw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UOosRzW0AZtRMQZ+qK0ShwTYhvXe1Q10n6ry3jn5MzJFKz/QrFtS7N0iNQw4RYIX+DVO8RZeO3STdIvfVYUnQxSME9zI3E8hMpezjWstqc1aspOaEe16871GjcBQIRK0/24qN8EgYnhwhnocxNV9wuL8tl5jrStT5ZaaasAMgAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TTC6hYxS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZoMXMM6E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sXNyCIVj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=x+aOf/sm; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="c1xC+ieU"
-ARC-Seal: i=1; a=rsa-sha256; t=1775034148; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=als3VuB8DitBB1KB50CRnI8/BEJF/djer2N6MXCvxQwj1Sifb0DxRIpdRJCvuXbwR8Dy+s2WYOd2i8h9SD6vw6yfKWqiiHorvaRMHQB224oFQ+S8l23f293C8xSfcGLtJ4WiFui/yfVdfsnFx9Na4CN5I4aVe350SCwMLloPNDo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775034148; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/E1Gu24wcnQwed78ETx1R75P6zZrVVh+YgqY4pQOVQU=; 
-	b=Xdo3TWCEtYscGTe7OAenizQBdWT6r/CJ16Uw0WL/C9YrMEmxEo/JSZ9qFTTzJKCjzZYLtIwHgHl/XRlfh+3e4erA/J+ZnIHOV/e4s5Ula8rTJAuT0AsAEyfcwU9PgZp8zwpVlsw6iPFun97/xlNE3m87UYbGnYO99DTWPZW52NY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=harin.net;
-	spf=pass  smtp.mailfrom=me@harin.net;
-	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775034148;
-	s=zmail; d=harin.net; i=me@harin.net;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/E1Gu24wcnQwed78ETx1R75P6zZrVVh+YgqY4pQOVQU=;
-	b=c1xC+ieUx5/5L/jOaKGiuJPfhYcvtE3LrJbHK9Am5Nx7fULM7AvJ3oiGpD7VisH5
-	7G5o0pEKQE+eW0iWfM1DMUWow5PWf+v7N2fWfKdCG1aUXAMYKpEa0ZswIlDf6z/bSeA
-	PCAJlNJ6IZECqugsGl5+ctUVt+xn9t5KwyGh6cYcXTJNHod0zkC2LcbryIPV/GIoMe2
-	b0Q271M6sbDcbvJhHz8iLw8vAP3oKsOcjmiM/cHTLlg5APhV1cslQM8iE9jOm2U9+On
-	ox2SN8Z0M+Ci5OZOdjud3ib/1YfiOuPGTfNpMtaRcNHN4vDGIVY6epm2ZqZ3J0Jm3D0
-	ljw+V4F4ZA==
-Received: by mx.zohomail.com with SMTPS id 1775034146298161.9473388494282;
-	Wed, 1 Apr 2026 02:02:26 -0700 (PDT)
-From: Harin Lee <me@harin.net>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TTC6hYxS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZoMXMM6E";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sXNyCIVj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x+aOf/sm"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9784E5BD44;
+	Wed,  1 Apr 2026 09:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775034162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
+	b=TTC6hYxSaJzPfwffYEPK7PgdrvBAfGfQYmeEFFUv57WcynXRbR/AvwufGoLsgi6aCMLNAq
+	u2QwJyfhdr9bs158zWFe/PtEcWuk+7RZi6b7InmIwWO44nGBzFmddVDoEMiTijspheGFZC
+	xr5AHZQZgxd9bg4F0u0m+TFjXx8jWvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775034162;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
+	b=ZoMXMM6ES9oatLA9rhWjMxnUdtnCmzRz1nbDy6133KjPesQ8Q7N7gIApdBb5kRebyCB1MG
+	kTnY340K95M9qpBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sXNyCIVj;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="x+aOf/sm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775034161; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
+	b=sXNyCIVjSF65d2taof5HOsH6EHjgrDLblEcXdGwlw+OoeqqJnWv7MBah3D6JOvEggcJXCk
+	wbFYlzBrui85ySIg0TuToUrswUPURPcHr/4vHO0tn6hR7DdmXgEy7rHnncZFCtpZDt6xXL
+	I87sy8KVl5+tsqnPfQI9dJ+6GVQ/Kp0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775034161;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=189kQLwuNnnJHPOnLldFMVas7wmub/3WbznDS7qqRFk=;
+	b=x+aOf/smveUGWNu9vOwV5lPijoU8W/mf5q3lfstfyxyBQ95U0rfD0BYwNEAS56rRLcCE58
+	x0CRMctQLaquRXAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EF834A0B0;
+	Wed,  1 Apr 2026 09:02:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mnDhETHfzGn0KQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 01 Apr 2026 09:02:41 +0000
+Date: Wed, 01 Apr 2026 11:02:40 +0200
+Message-ID: <87qzozqci7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: wangdich9700@163.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	rf@opensource.cirrus.com,
+	kees@kernel.org,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Harin Lee <me@harin.net>
-Subject: [PATCH v2 3/3] ALSA: ctxfi: Precompute SRC allocation loop bound
-Date: Wed,  1 Apr 2026 18:01:59 +0900
-Message-ID: <20260401090159.2404387-4-me@harin.net>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260401090159.2404387-1-me@harin.net>
-References: <20260401090159.2404387-1-me@harin.net>
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: Re: [PATCH] ALSA: hda/cmedia: Remove duplicate pin configuration parsing
+In-Reply-To: <20260401082625.157868-1-wangdich9700@163.com>
+References: <20260401082625.157868-1-wangdich9700@163.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[163.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,kylinos.cn:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Queue-Id: 9784E5BD44
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-Replace the capability checks in the SRC and SRCIMP allocation loops
-with a precomputed loop bound. Cards with a dedicated mic input
-(SB1270, OK0010) allocate all NUM_ATC_SRCS entries, otherwise stop
-at 4.
+On Wed, 01 Apr 2026 10:26:25 +0200,
+wangdich9700@163.com wrote:
+> 
+> From: wangdicheng <wangdicheng@kylinos.cn>
+> 
+> The cmedia_probe() function calls snd_hda_parse_pin_defcfg() and
+> snd_hda_gen_parse_auto_config() twice unnecessarily. Remove The
+> duplicate code.
+> 
+> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 
-Signed-off-by: Harin Lee <me@harin.net>
----
- sound/pci/ctxfi/ctatc.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Oh, that was a silly mistake that was introduced at the big code
+change.
 
-diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
-index 7c2f896d531d..516c0a12ed9f 100644
---- a/sound/pci/ctxfi/ctatc.c
-+++ b/sound/pci/ctxfi/ctatc.c
-@@ -1409,9 +1409,11 @@ static int atc_get_resources(struct ct_atc *atc)
- 	struct sum_desc sum_dsc = {0};
- 	struct sum_mgr *sum_mgr;
- 	struct capabilities cap;
-+	int atc_srcs_limit;
- 	int err, i;
- 
- 	cap = atc->capabilities(atc);
-+	atc_srcs_limit = cap.dedicated_mic ? NUM_ATC_SRCS : 4;
- 
- 	atc->daios = kcalloc(NUM_DAIOTYP, sizeof(void *), GFP_KERNEL);
- 	if (!atc->daios)
-@@ -1453,9 +1455,7 @@ static int atc_get_resources(struct ct_atc *atc)
- 	src_dsc.multi = 1;
- 	src_dsc.msr = atc->msr;
- 	src_dsc.mode = ARCRW;
--	for (i = 0; i < NUM_ATC_SRCS; i++) {
--		if (((i > 3) && !cap.dedicated_mic))
--			continue;
-+	for (i = 0; i < atc_srcs_limit; i++) {
- 		err = src_mgr->get_src(src_mgr, &src_dsc,
- 					(struct src **)&atc->srcs[i]);
- 		if (err)
-@@ -1464,9 +1464,7 @@ static int atc_get_resources(struct ct_atc *atc)
- 
- 	srcimp_mgr = atc->rsc_mgrs[SRCIMP];
- 	srcimp_dsc.msr = 8;
--	for (i = 0; i < NUM_ATC_SRCS; i++) {
--		if (((i > 3) && !cap.dedicated_mic))
--			continue;
-+	for (i = 0; i < atc_srcs_limit; i++) {
- 		err = srcimp_mgr->get_srcimp(srcimp_mgr, &srcimp_dsc,
- 					(struct srcimp **)&atc->srcimps[i]);
- 		if (err)
--- 
-2.53.0
+Applied now with the Fixes tag.
 
+
+thanks,
+
+Takashi
