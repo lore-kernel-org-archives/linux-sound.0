@@ -1,107 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC8931B803;
-	Thu,  2 Apr 2026 21:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80E03B3C0F
+	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 23:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775167107; cv=none; b=k0KTnsXAl0U1zEWJXPFqqxg/0Ps3JXPapOn3I1EGDoeKTvF9US/PyIfdG+xpLI7tvChHd36X2Tl7BxvkXQId6eqjJ0CvRUFjBPnNvmh0R8aT2gMib5ftcekYMyYcmiA1YqUefTFMScCkjx1iMYXus6GRMr0nosElGxpPdOE0UK0=
+	t=1775174014; cv=none; b=dZmKyXQnW55APudXRL66sNlxwHAj/0Ip3tzzcUM31VerYy7BJ2mWpij6GGFue1IKNxMvcUT8Ap9lo7ncBXlajW5URO2mU0KhCI/b6C4zl4SJifgnxBcWRIQH+Ao3JFaJQzy+zl/AvTwwJdWG2zR+2KZIWovofh/ytCqbTCbsCGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775167107; c=relaxed/simple;
-	bh=QvUc9vANqYsb1luDp8UYk1f8BqkeVaTMVXLV75eutnQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=DVJp2RZb27ELpuSXbKU4Hp/Y6oxtY4GVZi+hvh0cGpfFqwLi3iiECU8FkXW3LsP2E4BFa3lHd7gKiNOQi5H6gIaKO0hKHraIz2ZSgvjaY8pL8Nj3ueFJ33XzKXy8KKHzyLjplHoEp/PCfYJu8MKrJG/teYDsTZ/J1SYs3fWx0zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KBJzCsq7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775174014; c=relaxed/simple;
+	bh=Yg4ysDs0Q4kG/t8HXvX3mU2PCk0aq/j6RJ8x7/yv0fA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UGTWmaeg23mzirvxFR0anzYfauJfrPrQf32YU2TYCp5F/2PXdm/5oQ2o7oEzi9+tpg8IfOzlXrN9Cbw9asvZVF1/D3gHseWHzHB/rkgIsKCtYsXJw1ZWcZ/AgbuO2+3pnycmBv9nrUQe89d3K3vI+WD4H/cuBDViq3lplXYsq0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4/H0b72; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KBJzCsq7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D96C116C6;
-	Thu,  2 Apr 2026 21:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775167106;
-	bh=QvUc9vANqYsb1luDp8UYk1f8BqkeVaTMVXLV75eutnQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=KBJzCsq7TNcgHpU+TWPAd3W8YuuJXdgpviR9Ow38UzYp/E+eDMYCQdUq5+04/Mnru
-	 vF8yruBgH9Kqoxj3RdUA00tDQnEgnr1qE7AXbmqG7qka9IVu/f1eZKTg86JWT+ETrn
-	 TjxI1jdECoYVYFvAydaPvhTr0DLyOkSNS0rHhfEWArmmkmeciwTpFwX+5aQHpstoUl
-	 foXfbAlUvknuR2UINHvJ3kK1f5ozCCWUSVy6PFFL3eEN4gpoDz+keSHvFP6Ep2zvPe
-	 Ej2doeiB7lotVTyVy6ov80wS5IsFWdnGSH4WR6z1XJ7lBV9TObDwXGWdYhpggyK3MT
-	 1b1VbHt8uneOw==
-Date: Thu, 2 Apr 2026 15:58:18 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Yury Norov <ynorov@nvidia.com>
-cc: Andrew Morton <akpm@linux-foundation.org>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    "Michael S. Tsirkin" <mst@redhat.com>, Theodore Ts'o <tytso@mit.edu>, 
-    Albert Ou <aou@eecs.berkeley.edu>, Alexander Duyck <alexanderduyck@fb.com>, 
-    Alexander Gordeev <agordeev@linux.ibm.com>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, 
-    Alexandra Winter <wintera@linux.ibm.com>, 
-    Andreas Dilger <adilger.kernel@dilger.ca>, 
-    Andrew Lunn <andrew+netdev@lunn.ch>, Anna Schumaker <anna@kernel.org>, 
-    Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
-    Arnaldo Carvalho de Melo <acme@kernel.org>, 
-    Aswin Karuvally <aswin@linux.ibm.com>, Borislav Petkov <bp@alien8.de>, 
-    Carlos Maiolino <cem@kernel.org>, 
-    Catalin Marinas <catalin.marinas@arm.com>, Chao Yu <chao@kernel.org>, 
-    Christian Borntraeger <borntraeger@linux.ibm.com>, 
-    Christian Brauner <brauner@kernel.org>, 
-    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    David Airlie <airlied@gmail.com>, 
-    Dominique Martinet <asmadeus@codewreck.org>, 
-    Dongsheng Yang <dongsheng.yang@linux.dev>, 
-    Eric Dumazet <edumazet@google.com>, 
-    Eric Van Hensbergen <ericvh@kernel.org>, 
-    Heiko Carstens <hca@linux.ibm.com>, 
-    Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>, 
-    Jaegeuk Kim <jaegeuk@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-    Jani Nikula <jani.nikula@linux.intel.com>, 
-    Janosch Frank <frankja@linux.ibm.com>, Jaroslav Kysela <perex@perex.cz>, 
-    Jens Axboe <axboe@kernel.dk>, 
-    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-    Latchesar Ionkov <lucho@ionkov.net>, Linus Walleij <linusw@kernel.org>, 
-    Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>, 
-    Michael Ellerman <mpe@ellerman.id.au>, Miklos Szeredi <miklos@szeredi.hu>, 
-    Namhyung Kim <namhyung@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-    Paolo Abeni <pabeni@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-    Paul Walmsley <pjw@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-    Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-    Sean Christopherson <seanjc@google.com>, Simona Vetter <simona@ffwll.ch>, 
-    Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@kernel.org>, 
-    Trond Myklebust <trondmy@kernel.org>, 
-    Tvrtko Ursulin <tursulin@ursulin.net>, Vasily Gorbik <gor@linux.ibm.com>, 
-    Will Deacon <will@kernel.org>, Yury Norov <yury.norov@gmail.com>, 
-    Zheng Gu <cengku@gmail.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-    linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
-    linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
-    linux-s390@vger.kernel.org, linux-block@vger.kernel.org, 
-    intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-    dm-devel@lists.linux.dev, netdev@vger.kernel.org, 
-    linux-spi@vger.kernel.org, linux-ext4@vger.kernel.org, 
-    linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
-    linux-xfs@vger.kernel.org, linux-nfs@vger.kernel.org, 
-    linux-crypto@vger.kernel.org, linux-mm@kvack.org, 
-    linux-perf-users@vger.kernel.org, v9fs@lists.linux.dev, 
-    virtualization@lists.linux.dev, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 8/8] arch: use rest_of_page() macro where appropriate
-In-Reply-To: <20260304012717.201797-9-ynorov@nvidia.com>
-Message-ID: <ee15482d-22a8-9686-ba64-d216b25d8e68@kernel.org>
-References: <20260304012717.201797-1-ynorov@nvidia.com> <20260304012717.201797-9-ynorov@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4/H0b72"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56d857af2a3so542920e0c.1
+        for <linux-sound@vger.kernel.org>; Thu, 02 Apr 2026 16:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775174012; x=1775778812; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SlCm9p0nxRbzkLk1CSJoTc6OlnGjcRCsgMFK0DSaHlw=;
+        b=j4/H0b72uPgqV37NvCYMFyf0ArjHBDAeoSPY9Lk4dipQHTRVuwEjRBE5kRTxSeE+R/
+         pHrTj2dXhh3mNccmS1t0N+FatACD1MizmMvve+sYg2APMbOr0AavoAQOML3Jkaaxd8aA
+         lNkZmwrGrpQB2UXe+wBqlFdmVwk3wUD4OKU6Xs770jPzuJ2ZED03Pykuxdl1PZHqsF6A
+         FwjEbS7n8K6lvVvcqcSO76wVYVQPl+UgEe6NNR1NBmDRVacae4FvieXCAfv8djIdXSfQ
+         hYUpr0afXqeIdq8BjhipqL4LAKcNCBwV7VEV4qI2XGwis5mF2IjPjp0MdLuwHB4OJbQT
+         MxPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775174012; x=1775778812;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SlCm9p0nxRbzkLk1CSJoTc6OlnGjcRCsgMFK0DSaHlw=;
+        b=iTxgNsoH91iPfvHyMNc5RtzBxOkoTHHXYGmOiMSO/tr+PEyglCygyeaovwF7kFL6+9
+         cMftqHinS0d0kdcX9jyfb1u3LslVBlO7ap65LLSqANqh8OOmD63zmswBgCSxiOsFVpgn
+         N/hGZ6aqcjKIdgJ/VIf8qSx5g3XFclBWtDMcV7a92/aeODpxs6NLfOWwjEzQniEpjvHc
+         Oy72R/yXR0QMd7AQo5fTnm9KbbdjWLmQWV5iTVDeHFKPAbchQYAJMIeY7nzwv1ZF5HUA
+         9Ae0VqjCBV4SVivrxYr59xivwDYrOfYmgjepHfed7h40XKIY6Png0PgrEUprsDzCpSZh
+         H3fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXBrItQ49aDuMpzz+ltL33VZ0DrKjVbOImhM4GmAr750tneeePdGIkvOjG575O4u/E1LqVmS4wdzFoP6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye8Izcuo8YnFkQwRlfruJUCUC4l2HN1tskglk1BEaX/nOFg2jh
+	HDblOWhFy/FqohI9Z+PBq5ShWl44QkcUNYiTVMk0aUn+8vDbrnEVRkel6/dKY+72
+X-Gm-Gg: ATEYQzyfxQV3VMXrhgEML0fIvypAKrAIRTt0I9gHNBE+ctbHGtgs3Q5+nOxFYxQGKVp
+	/jTt5N+5gv5XBM6iotNH/ZMdPZtRF1MYlJOSCTmH+jS+6P0i8XwHOy+rUHMtiUoKo0ivQ0fYoCp
+	KJiStbL8Xbji/SxK0GjwlkDYcNRbOttUN2TOITRoA3Wnfd5cNU2V5GXxMHptlvUNYAuA3CiEZMS
+	fD/++QnspzeFMsMjixquxl8dLLtYvGXL2jOw+LQCuq5eTAwPPg0rE2VRJZ+Pf6f1BSV778xn8iu
+	TuUC2RltI0tbmBxRF5kDMoD9VAYQUnHt7X2PrJQUHS2ki3imFM+KcwWFpStE2iXdZZmShnLehhu
+	oYQSrPS+Dx+2D3SfSZVvPqxPbBLY+TjenZ7ovV+yYz6unGoth4iCjeUYPw3z4d1e+HBUWtVmrLc
+	Bpb1e1qVMjzMwgNtynBIrGgQhzaslBYriRrK2PbpSExNi7ZbtFbMFRPw7+28VryRVajxTkyL1Qk
+	hwB
+X-Received: by 2002:a05:6122:7c8:b0:56a:9841:9f81 with SMTP id 71dfb90a1353d-56dab8e9fd0mr363153e0c.6.1775174011637;
+        Thu, 02 Apr 2026 16:53:31 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-217.user3p.v-tal.net.br. [177.4.161.217])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d9baff553sm5208171e0c.8.2026.04.02.16.53.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2026 16:53:31 -0700 (PDT)
+Message-ID: <5c3505fc-fe80-447b-bd6a-5816fc8c9479@gmail.com>
+Date: Thu, 2 Apr 2026 20:53:27 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ALSA: hda: Notify IEC958 Default PCM switch state
+ changes
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260402-hda-spdif-share-notify-v2-1-7c6584ecaa21@gmail.com>
+ <87fr5dibu6.wl-tiwai@suse.de>
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
+Content-Language: en-US
+In-Reply-To: <87fr5dibu6.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 3 Mar 2026, Yury Norov wrote:
-
-> Switch arch code to using the macro. No functional changes intended.
+On 4/2/26 13:08, Takashi Iwai wrote:
+> On Thu, 02 Apr 2026 16:45:13 +0200,
+> Cássio Gabriel wrote:
+>>
+>> --- a/sound/hda/common/hda_local.h
+>> +++ b/sound/hda/common/hda_local.h
+>> @@ -12,6 +12,8 @@
+>>  
+>>  #include <sound/pcm_drm_eld.h>
+>>  
+>> +struct snd_kcontrol;
 > 
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> No need for an extra declaration.
+> 
+>> +
+>>  /* We abuse kcontrol_new.subdev field to pass the NID corresponding to
+>>   * the given new control.  If id.subdev has a bit flag HDA_SUBDEV_NID_FLAG,
+>>   * snd_hda_ctl_add() takes the lower-bit subdev value as a valid NID.
+>> @@ -203,6 +205,7 @@ enum { HDA_DIG_NONE, HDA_DIG_EXCLUSIVE, HDA_DIG_ANALOG_DUP }; /* dig_out_used */
+>>  #define HDA_MAX_OUTS	5
+>>  
+>>  struct hda_multi_out {
+>> +	struct snd_kcontrol *share_spdif_kctl; /* cached shared SPDIF switch */
+> 
+> I'd put at the tail of the struct as it's rather an optional stuff.
+> 
+> 
+> thanks,
+> 
+> Takashi
 
-Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
+Thanks, I'll drop the extra declaration
+and move share_spdif_kctl to the tail for v3.
 
+-- 
+Thanks,
+Cássio
 
-- Paul
