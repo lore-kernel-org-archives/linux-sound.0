@@ -1,102 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3FC175A92;
-	Thu,  2 Apr 2026 05:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263401B4F1F
+	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 05:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775108220; cv=none; b=Mi1I3pe7bgJFZJPdwb6laIDXwBQaNxnzk7mJnwpMCIhEp2SqVkPT2VaDc1SwcrVbf1fCazXomUJrQX0IgSy/Pb7OiecW2QoOZ4ZK8S/PwRex78dsE0GVUKQ73CQsm8Jkdnw+kmwC0sJHZ57MkCXDk0Z6BtuH4XLML8+IGAsBCQY=
+	t=1775109403; cv=none; b=jisiHI2zaDcE1qFeruyGexL4SWEJKdfTHgkLV7lXomG+MUGOzCllPcZ6PnOWN71mniHXjiekDu0Xx4LaobbnwtQxyPrtKvlVSyxZxU0A50WYCROWLtH3x+EJhBaVL0TDnZt5Pi1Y7tJPPnAoP8qOA/8TxAKW/Jb5TQ6gNUTAgrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775108220; c=relaxed/simple;
-	bh=xZVGlTPTiBBef2iARx0bzLIZG1HD0uA8NNBbqan+D9U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aXoBhUb1pa911344bjkVF1WeY9k/2A/NVvrB7nbtm1WB4FK7RFPzayvJGjIKZASHeYF+fjQuTRcQQYWM4tUzv5GCyDA6so+bE3Kf6HzkqH9pBn9x4KpCrGIH5DN95fCIByg6vm4mY7/erfZUFY2VoajbhLKGONPBbGEDqi7bLko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vEKoZVEm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775109403; c=relaxed/simple;
+	bh=XkR+zn4k/BCu8qKphCVhxX3i/GSEgiXeHl/XYDStLuI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SJkHscDSm0xlub0uM7SqXAg4jCmjtZUdF1LODyRejuEaZUVckTbHJJKgzGK6w2XpzDjO3aln82eSXQphtmwoePsTg86bbgw5BfZ5M6xCT/XcLKIgoC+xCc7ZEo+6/BhW3KSCPD+DZHtiIRkLNhcfFY0fuQPD5XGyUForTA6Cft0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SAYUV7Sp; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vEKoZVEm"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E51DC19423;
-	Thu,  2 Apr 2026 05:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1775108220; bh=xZVGlTPTiBBef2iARx0bzLIZG1HD0uA8NNBbqan+D9U=;
-	h=From:Date:Subject:To:Cc:From;
-	b=vEKoZVEmWxoGRzwZVrq05zgRE2eslBBrh33ToF9pXGRlYvAJbLrEjbCCdKO/k8aPQ
-	 G8LAQfRC5s/I5FfejpyNFJCJ+0H77qK4Bq8XfAb0twVyQ37WluD4VXdjX55S6HHBfd
-	 nGBLRQTxG6XpFarPolw+NRoe5hGrAmxrC97vwvpE=
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 113DACC6B03;
-	Thu,  2 Apr 2026 05:37:00 +0000 (UTC)
-From: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
-Date: Thu, 02 Apr 2026 13:36:57 +0800
-Subject: [PATCH] ALSA: usb-audio: apply quirk for MOONDROP JU Jiu
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SAYUV7Sp"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82a7539851fso223445b3a.1
+        for <linux-sound@vger.kernel.org>; Wed, 01 Apr 2026 22:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775109401; x=1775714201; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mPa2JorjoSVyHfMjtpIZG1uYQS3gSdgtgYbveNq9dMc=;
+        b=SAYUV7Spk66xHyqjhCPymWce4P79LZ4jhthD3R1RfcuTouAxYVxMczfaK27SgaPksr
+         aHdaNhujyXa4sqX13Qc/Dd0/wNOeS0sjHpBmCNAPz98ixwfYXAgagec8fS4WuV0jwYrL
+         CQBw6KkO82lIo+KMnAUG9IqfuAxyxo1f4DMYMYXCD9XodLrj9c5kNZK4H3RbkMfhfVW/
+         C7J9jmrEPVtbX6+zmcLuYrOPdJvyYKlg/Gf5YZNlSwfshvFZqyVURwaiN8+yEDjhxKbJ
+         Lrx2+xKUV4o/YlYbYFXe5GBO8XNwqOZZeJTXogQXsQuD307dp7937TLQk2JIZYm50VFE
+         lroQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775109401; x=1775714201;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mPa2JorjoSVyHfMjtpIZG1uYQS3gSdgtgYbveNq9dMc=;
+        b=R0AuPR9uO+XXzJ/zhmIU++BENKy8SsU/8zkOZc1gfbuy7hLpQOhjcaLOE6GoKIcJTQ
+         NAInOdHcJ87cCbBlBJXZ758RCDYXJr7F4MjWZt+x5qYOKywCirzaZFOaRec/t3nFHtsx
+         HgNa6JI6uuCDvP/WAoba272n66hIcfZfuVzx8hpXke3wO8f+R71qGVOaE8RJy2odrQXV
+         t33q40h9MJKbQmhwIt2sR1rMitMURorE5uu7CtXA+IRzjFdQkgyJSMISbWOmgatx48m3
+         fRPi7iZVhF8Xd5OnOKwX935Ga1FnHvTfZ+sz48k3vpSdRYcu6IYRNwQigj+Zlwdrhh8l
+         ss2Q==
+X-Gm-Message-State: AOJu0YyIJ/Wwuo47rPTOS0Vp0idL9wqTOxJttkA3BUF+yvKZN9m71QED
+	3H81hezw+f59tKj4QOedQQquVFz9ECORlv54oS3SH+TKmoicjTMI64ZmmoDP9LAp
+X-Gm-Gg: ATEYQzzgYguiKS/PMN1j5PchYkdxds9zosoctS1wKlKAoZuY+lQUX98vlh4FZRKyNTx
+	1n1t0uLMNOTHEPrHh/3xPey8Z9YEVwMh2T25pbcv3h9fpejhFpFVJUAGz9JCE7YzEUUpERESFan
+	HqrnkTomO5QwbEtpWRoYjW3P4hWIlXxl+8wBV/8ps4WO7ZGGpe+/Au3KxokeXTOWG42bxbWAUUi
+	jDdCQJ9gX9J2hqer0BWFkyS7xO3CB0DlaleXScKDMoOWig9eeEH3LcbDyGGwKWdeFnUewmzvmnh
+	olnA2Y3jzvibYDPW2FUyKov1Gr0SKSS35m8iyF5rb8iowkSuqYYswnpNhAZs/IvYI4xa9ooBJ5/
+	h7c4WWSkcTZUEWlvWle2FnYRaELimyiE7JfHqnuuF/ZUeK32ntjc6XN5xEwsJHV+y+0b959I0Jk
+	21J3AJpiaWfM2+vT/P+D5Z6oGcBEfJfSc66SGdIA==
+X-Received: by 2002:a05:6a00:883:b0:823:3079:7c7 with SMTP id d2e1a72fcca58-82cfb9011ecmr2049074b3a.29.1775109401437;
+        Wed, 01 Apr 2026 22:56:41 -0700 (PDT)
+Received: from localhost ([2401:4900:36c2:bd58:77d1:5e5f:850b:d2c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c41bc6sm1760623b3a.29.2026.04.01.22.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 22:56:41 -0700 (PDT)
+From: Anushka Badhe <anushkabadhe@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Anushka Badhe <anushkabadhe@gmail.com>
+Subject: [PATCH] ASoC: dt-bindings: rockchip: Convert rk3399-gru-sound to YAML
+Date: Thu,  2 Apr 2026 11:26:35 +0530
+Message-ID: <20260402055635.8798-1-anushkabadhe@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-syy-v1-1-068d3bc30ddc@linux.dev>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDEwMj3eLKSt00IMvcJDnRzNzCSAmosqAoNS2zAmxKdCyEX1yalJWaXAL
- SqlRbCwCXVPFBZwAAAA==
-X-Change-ID: 20260402-syy-f04074ca6782
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- zhanjun@uniontech.com, niecheng1@uniontech.com, kernel@uniontech.com, 
- =?utf-8?q?=E8=83=A1=E8=BF=9E=E5=8B=A4?= <hulianqin@vivo.com>, 
- Kagura <me@mail.kagurach.uk>, stable@vger.kernel.org, 
- Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775108219; l=1249;
- i=cryolitia.pukngae@linux.dev; s=20260401; h=from:subject:message-id;
- bh=xZVGlTPTiBBef2iARx0bzLIZG1HD0uA8NNBbqan+D9U=;
- b=mN3VdwexnabeNtKme5CRAJUjMvNNN1boW1QiGM2+lyrdAETxPdhUbqOUPZwxKGaze+gHotoHZ
- NY8El/k505lBjtBAc29jTvff3lv6XwLH0SNoh7rBQtVFVtjk0ENHwwr
-X-Developer-Key: i=cryolitia.pukngae@linux.dev; a=ed25519;
- pk=kF6wBkp7j9167keuk8Q9RvPgMRPuHlJztbLy0vbJ3K0=
-X-Endpoint-Received: by B4 Relay for cryolitia.pukngae@linux.dev/20260401
- with auth_id=712
+Content-Transfer-Encoding: 8bit
 
-It(ID 31b2:0111 JU Jiu) reports a MIN value -12800 for volume control, but
-will mute when setting it less than -10880.
+Convert the rockchip,rk3399-gru-sound.txt DT binding to YAML Schema.
 
-Thanks to my girlfriend Kagura for reporting this issue.
+During conversion, property rockchip,cpu was changed from phandle to
+phandle-array to properly validate existing DTS usage.
 
-Cc: Kagura <me@mail.kagurach.uk>
-Cc: stable@vger.kernel.org
-Signed-off-by: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
 ---
-Btw, is it a good idea for turn the volume_control_quirks from
-switch-case to a table and sort it accroding to USB VID&PID?
----
- sound/usb/mixer.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+This was the error reported by dtbs_check when rockchip,cpu was defined as phandle:
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 69026cf54979..a25e8145af67 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1204,6 +1204,13 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 			cval->min = -11264; /* Mute under it */
- 		}
- 		break;
-+	case USB_ID(0x31b2, 0x0111): /* MOONDROP JU Jiu */
-+		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
-+			usb_audio_info(chip,
-+				       "set volume quirk for MOONDROP JU Jiu\n");
-+			cval->min = -10880; /* Mute under it */
-+		}
-+		break;
- 	}
- }
- 
+sound (rockchip,rk3399-gru-sound): rockchip,cpu:0: [211, 212] is too
+long from schema $id:
+http://devicetree.org/schemas/sound/rockchip,rk3399-gru-sound.yaml
 
----
-base-commit: 872c7433582a3570dd0c827967ba291450096bf0
-change-id: 20260402-syy-f04074ca6782
+This error was found when verifying against
+rockchip/rk3399-gru-kevin.dtb
 
-Best regards,
---  
-Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+ .../sound/rockchip,rk3399-gru-sound.txt       | 22 ---------
+ .../sound/rockchip,rk3399-gru-sound.yaml      | 47 +++++++++++++++++++
+ 2 files changed, 47 insertions(+), 22 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.yaml
 
+diff --git a/Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.txt b/Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.txt
+deleted file mode 100644
+index 72d3cf4c2606..000000000000
+--- a/Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.txt
++++ /dev/null
+@@ -1,22 +0,0 @@
+-ROCKCHIP with MAX98357A/RT5514/DA7219 codecs on GRU boards
+-
+-Required properties:
+-- compatible: "rockchip,rk3399-gru-sound"
+-- rockchip,cpu: The phandle of the Rockchip I2S controller that's
+-  connected to the codecs
+-- rockchip,codec: The phandle of the audio codecs
+-
+-Optional properties:
+-- dmic-wakeup-delay-ms : specify delay time (ms) for DMIC ready.
+-  If this option is specified, which means it's required dmic need
+-  delay for DMIC to ready so that rt5514 can avoid recording before
+-  DMIC send valid data
+-
+-Example:
+-
+-sound {
+-	compatible = "rockchip,rk3399-gru-sound";
+-	rockchip,cpu = <&i2s0>;
+-	rockchip,codec = <&max98357a &rt5514 &da7219>;
+-	dmic-wakeup-delay-ms = <20>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.yaml b/Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.yaml
+new file mode 100644
+index 000000000000..10001fd2f886
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/rockchip,rk3399-gru-sound.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ROCKCHIP with MAX98357A/RT5514/DA7219 codecs on GRU boards
++
++maintainers:
++  - Heiko Stuebner <heiko@sntech.de>
++
++properties:
++  compatible:
++    const: rockchip,rk3399-gru-sound
++
++  rockchip,cpu:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      The phandle of the Rockchip I2S controller that's connected to the codecs
++
++  rockchip,codec:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: The phandle of the audio codecs
++
++  dmic-wakeup-delay-ms:
++    description:
++      specify delay time (ms) for DMIC ready.
++      If this option is specified, which means it's required dmic need
++      delay for DMIC to ready so that rt5514 can avoid recording before
++      DMIC sends valid data
++
++required:
++  - compatible
++  - rockchip,cpu
++  - rockchip,codec
++
++additionalProperties: false
++
++examples:
++  - |
++    sound {
++      compatible = "rockchip,rk3399-gru-sound";
++      rockchip,cpu = <&i2s0>;
++      rockchip,codec = <&max98357a &rt5514 &da7219>;
++      dmic-wakeup-delay-ms = <20>;
++    };
++
+-- 
+2.43.0
 
