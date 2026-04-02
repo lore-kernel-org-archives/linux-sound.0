@@ -1,271 +1,207 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3503A9D8C
-	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 08:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775117516; cv=none; b=nUHY809JHZcpzOJTncStnrZAkiCWR+ch/85MIeE9uvX/j83OxDDxwie7iUnqMonWiDemUvsXlch4VIvR8t6qedXtPqz3MOYOe7WLLhGcj5TjCLtisN2AI3sKO7hyoscY5GbfPRdfkV8AnYyzhC3zVHYA9ggC1HI/W12McmlVfYI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775117516; c=relaxed/simple;
-	bh=DWuvTD8Cw0DUhqpHbWAOgp0+9q9ilBF02Exs71eghWM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g5lLXULGqyOPB3IakKXTphhWbkWLniPTtbGZ0NDCBloZ96gIG4gIsVxRzWui+oEHwtnJ/z/eSmIoykr6GD+Fe4w14m2BSzmNnor1gSGhnRhnY0AF5wTRdiSdeeFtPcyH80jou6dISQs+TPDH1LmrUxeRqYAdZyPhT8n1uvtW2eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fPW4Zu4j; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GFVIBpho; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EDD3A6B8D;
+	Thu,  2 Apr 2026 08:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775117517; cv=fail; b=IEF15kM7RJmzkTh4yETkIbbzEysUfqYQMvgLXkKriqcWWqfnHWRuakuBMUCY78wzD4D7hitBrdDG5gZJX+XExsXmIi5l+dpgzS/Ye7RuBLIMzZW1Us9pIyZuA90SgmGd7kIcdYoOjFMJuTMNR0Uqdrq8i8HZtlC4NWRtbJWwDsQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775117517; c=relaxed/simple;
+	bh=WYXTihnTBCMr2P9LSH3UIfaXqhQXz4eqJ6iHfO/vO3M=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=grt+08DyehR5rCPHFif8UHArkWIffpEKeYz+2yXCQAe0euPVxh3RP4E0I6dH1CALj4bo1F1VT+xHMsjkd1Y3re8bodTYaUUyewX3jrPM69a80qrZXWd9XP/Z4VYaJK0Ll0WCWUrg8JHBMvCEUZ1W4HFt13sTQSng2DzrSYp57Ds=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aImYVZLi; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fPW4Zu4j";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GFVIBpho"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6326nDQX1965355
-	for <linux-sound@vger.kernel.org>; Thu, 2 Apr 2026 08:11:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=VHHn5cWjpEy
-	VxsTN9vGBX+/Npp0nx1w8ZRbazvG1gDU=; b=fPW4Zu4jMGX5fSuB89qWmVplWE5
-	DaZAiNL3+05mBiw/jaBxulYaeXbNgRi9unSdJol1fJeCbjF5u21KAR5kXfirWEJ4
-	mCGV59PZWjxSmrL1tbnM6c6d7acV06ivM3kA6vGAfN4ck0SvZaMLWPn31rzl0z2w
-	l6BwR4PuJHoK6Q02+YmnEfe1wZPltUgTosN5j7MsHu5RrP+2Amb1/BfGunKNFpYF
-	iOEGXm9XQ0Hh7b80XhtgU1su3ub0A1zd1xP5f/J4PSs8hF9XvAi0CN/AMG8o6yzu
-	ZtKgOIkbTf3nVINsXzNa+9bGH35kA6xEkS56PgrSw1YmeHCGnqgg27dn0aQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9b9h238x-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 02 Apr 2026 08:11:43 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50b4fe4ff7bso2371161cf.0
-        for <linux-sound@vger.kernel.org>; Thu, 02 Apr 2026 01:11:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775117502; x=1775722302; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VHHn5cWjpEyVxsTN9vGBX+/Npp0nx1w8ZRbazvG1gDU=;
-        b=GFVIBphopyjLJHRl747FL4r2BmRz+/AAt9bjuJQ6Was7/VltlK/R3S3AWxlQqlLnVd
-         xd/6hUj6PA1Kg/JpESiXWhP0w5cgCoEFiBZdaw6p5IFHhjZmRQTIpGOhShVk+sIAvOFv
-         4lCNo7Mey2BW+UIwYyWMWPozYdV2YWKww4x/y3I1/RPio+Mvq6oXcloej1rGmSzoZO3g
-         0brrZfkRPyWQWc2pNaEAup9+1v+3GCktv3atFNA93Se8rNAC8xAbnRa+Uy9/TgqW8AS1
-         PsLJ70Nst0+inBo0NgtCi9hMXZ4y3IlXFWVmHQwQOtvu1bUg9jhQ/zjCLQZYq8RUpZhb
-         1+mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775117502; x=1775722302;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VHHn5cWjpEyVxsTN9vGBX+/Npp0nx1w8ZRbazvG1gDU=;
-        b=jEGQmSTa+YErjKFfSq3JvpYW+fM/eAg8O7Keef+E3xB1xVdUo+Qhr+AIl5xuaGDDmn
-         CArKgTMD7ns5qawxScy2JLAQy/BGzsQ3LKp75nLejwO2diq4DdCtUOqcjUB/KeE4W2Qw
-         FSmc+AtVY8GZmie7bsPm1BLRzx6a/IXe0869sfihqPErHz2n8twWcE+ml2AtxUKhgmvR
-         XZxdxywr01pK3N6b3IH93JoRLaGsFCpGWghrqmq/6QtvgQeWbbsv+3lmzjZHE77BS3wp
-         OiQcAAAHNLYe8zzlP+HnTy8/oWFFw23u3LJ70jR7ui627v2t/cbCPsoNOXmxyNnIcvW6
-         5oYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWNYzqTAfxB4IYDENvFKc1ZrvmEymIZvwFj5OuR3YhyPb5ohDxL8xSGDvb0AD5kwHuiQ7Ngm1cgp8j7Bw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZMafJf/MY8jYnVrvA45S8JdjrH/Xrlx9C6wz2Kh6tpAzCePSd
-	aUMJtTMrjiAc7blI6MHxgMsXUxIlK+pKRXBzE759p1mzlbKOIn8zOQwqrHFQrEFjVFHq5Fb9Uly
-	JHAWcEtuR5hu8UzDOEbn7jddXBCYFzvcrHMmOumplqWk90VY9ijICI+0EOxruRNctUg==
-X-Gm-Gg: ATEYQzzEF753AWxjv1ACPxGtVkZflJQnO5xU7WUONx3s1dbxnHBBOasnPYk0gIroth8
-	CSFACZLvcSAryLUU0YZ9r7Fj2psDmwstZC92NId+hhoUwSTJtGDPnJ9JCeX9FErofBKOgf4Vl8k
-	4F8XfkOzpf12Lm6m7bWDljrS6/bxRr8Il8lt5eEcy3JUycaADvD4nF5PYe7l2L0Igk/bCu3HaJ8
-	IosrJPPgQLMc3t36yheemK/1w2L0Xx7z+Y7CYwS7BDd5Kyt6cUUFnhAUnwLU2ZTDAp4YJjZ0+ER
-	Hav2e7B25l/5lelAq+Kw1OmGFXHFAF32FaDOI5BIe3HVFDa/WcjSp2cANqiFFwnxW1HD4fDwALb
-	KzxXtU51Re6QHLFOHjOze1U0mHicQVZdY+SuDqlZNYBUuo/BHzKadReI=
-X-Received: by 2002:a05:622a:835b:b0:50b:3128:9916 with SMTP id d75a77b69052e-50d4fac4c65mr12622741cf.18.1775117502114;
-        Thu, 02 Apr 2026 01:11:42 -0700 (PDT)
-X-Received: by 2002:a05:622a:835b:b0:50b:3128:9916 with SMTP id d75a77b69052e-50d4fac4c65mr12622571cf.18.1775117501684;
-        Thu, 02 Apr 2026 01:11:41 -0700 (PDT)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c3a01sm5712604f8f.12.2026.04.02.01.11.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 01:11:40 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org
-Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
-        dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, srini@kernel.org, val@packett.cool,
-        mailingradian@gmail.com,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v9 09/13] ASoC: qcom: q6dsp: Add Senary MI2S audio interface support
-Date: Thu,  2 Apr 2026 08:11:14 +0000
-Message-ID: <20260402081118.348071-10-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260402081118.348071-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20260402081118.348071-1-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aImYVZLi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775117505; x=1806653505;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=WYXTihnTBCMr2P9LSH3UIfaXqhQXz4eqJ6iHfO/vO3M=;
+  b=aImYVZLi43ZJPxvrzjea17v/nQcmiYKPRagrFNZQ+xNtu0OmgwG31hy6
+   UF81hPJQ+jal5dtZaMZ5sed6BylyMn2Fc17rMl7qFmVLKH151+F0lraNn
+   mOXCZLdw85b/iyjrvk34Vcl7qM9myuvPWhYymCSgBYAYNxBHYeucHH5xk
+   d8qpSBipP2U7M4/f6mBcPLhytosc+MlDW20ZZsaZS/EGcHeHYEMVEaqtG
+   Z5XydmRRzVx3X+qRWU1BYxBLdSanBLsmTy88XGBqjfG0JLrWDjbpNZAlY
+   JFuaDTv0dWw7ibLEZXyQfezgM/kBc4zk3BC0Ne5iiDmhbRDpy32YQ1KGQ
+   Q==;
+X-CSE-ConnectionGUID: qWjIGfiLTg2avMbR13bxEA==
+X-CSE-MsgGUID: Y0QGxFJBRjiJGc226D1BmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="87565579"
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="87565579"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 01:11:39 -0700
+X-CSE-ConnectionGUID: 5h9tRrPgT+mLphkD35bVTw==
+X-CSE-MsgGUID: VPazqkdvRDOv7ZWx8YWJsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
+   d="scan'208";a="223637877"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 01:11:38 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 2 Apr 2026 01:11:38 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 2 Apr 2026 01:11:38 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.44) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 2 Apr 2026 01:11:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UhTOqOoKaWGG2jF/7Q+bEg9DT4EfeieH2LZDsyoyFW4jVqhQiMtbLofTiWtNm0u7cCY1RRwAjw3TzY/+HBPQnum4ZJA5eqMVoK1mMUq3Plie1YnnR7mxZGIVH/kTDXMiY7x35BYIdzlYZ/aZUQ1W7RKBAi4kMOzGEjkx4ZaiADJv1duNG9BN1uF1Y83DxpKz977gASyEXRol3dbhswLlexyCH/8+7jn1YIIVp+jjnHnFjQfHl6p1LXfWHziCFiJfDgOJVWuoc7RvjgSYrbgdFrn506fg9l64UBoNOqszLVIEn1cMOjNmj9QjkByggDsdVdrgxhJvPe+aZzNNr13BGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TNX+R+8t7DsA0Bl81unLw01ywXjnBmOrJvXMjKh74zY=;
+ b=L0+pzRt/CJNJvkWkm9I/mLWfryU6DZ416LEukStq/qTFxJO2IW/eDY0S5iYbyAwfgba2U/Ylh1n+oLfmpskyTreXa7j0KyXl9k8VGXQrwA4V6DJXXXw2tBknJ/0icROjpnmny4P7BLuQhKqhIGAReuYUWpxtw+AS/sRNJ4pirI4cQLq9sjrIMnECxaGOMC+8QgNluaNS/ExulTMrpPVaasz/hMKnCtaOl3SQwOy4rRGFi0ihZ1cuTVyn5MeCuZS7wM68QxIMeVMBhr4ENE5a5zCqxy//+t3FIVByIuD8XW2NXbZG0JK+jbzUMBhK4IhVSF+UQTcqd5ib9C6ASlNWqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
+ by PH7PR11MB6380.namprd11.prod.outlook.com (2603:10b6:510:1f8::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Thu, 2 Apr
+ 2026 08:11:35 +0000
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214]) by SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::d18f:6b38:584a:214%6]) with mapi id 15.20.9769.014; Thu, 2 Apr 2026
+ 08:11:34 +0000
+Message-ID: <5866d932-a09d-4fb5-88e5-f758baceb398@intel.com>
+Date: Thu, 2 Apr 2026 10:11:28 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] ASoC: Intel: Fix MCLK leaks and clean up error
+To: <aravindanilraj0702@gmail.com>
+CC: <liam.r.girdwood@linux.intel.com>, <peter.ujfalusi@linux.intel.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<kai.vehmanen@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<perex@perex.cz>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>
+References: <20260401220507.23557-1-aravindanilraj0702@gmail.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <20260401220507.23557-1-aravindanilraj0702@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI4PEPF0000012D.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::8ab) To SN7PR11MB8283.namprd11.prod.outlook.com
+ (2603:10b6:806:26c::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=TqLrRTXh c=1 sm=1 tr=0 ts=69ce24bf cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
- a=yvctMs8w4tAFySAdhFMA:9 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-ORIG-GUID: r0yJMxsV7Bep9ikfDVcGpMAssidsVbA-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA3MiBTYWx0ZWRfXyADnnmjo38Bs
- ghMKj70fIfzTDJ22xIVbB6EGMeY8i84I18FpeR90EGBwz6A9kAAFEfZUYifNv/0Fhb3DFKrGNaA
- hNdcbEjdPyzHBHMEfX7qiYq0qWOqVDqtXKghbWaqmE6DbNXAgUtmOvzkMTOuW2ez6DGp297r8Ez
- 17517L0lKhOGhEltU2sI64R68+uTsuh69NCbgYRGxGZ02gdq9gLP5EQaPXtTmQlYeZ+9Xoia7+q
- OV9shkMr2w+7vTqKv21iVYebVia42eGrPRoNacLJVwYVwC0kz/hEkGUrypKMi971MnJkqHwAl8q
- hlBYvUgd2wKWm0F/vyzO8y6aOL8F1YhDWpb7kfBfG6HVUUsILO5XE5cYcnE/rsYV5j1JNgXG46W
- HtS3yZhazgpInloN+Xl0AUzY8H6kQ+xf7o5PAv5bdDxLsALQ22Sgtxc3CSjRhO58nv75gFgL81D
- c0Juwn+/KKAKRnShegw==
-X-Proofpoint-GUID: r0yJMxsV7Bep9ikfDVcGpMAssidsVbA-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-02_01,2026-04-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- clxscore=1015 malwarescore=0 spamscore=0 adultscore=0 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2604020072
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|PH7PR11MB6380:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99b7ad9c-e95d-4cd0-e295-08de908f7478
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: aS96ygBbvou6NtgokoLTxjyLceV+k/LyX9RoOOadya+KqUBO7X71Cnfz2p7luIW84iNQh5wlukPJ7NMszuGuhj7bmBipdXkw04sAfUfKjIwzBhUp2IVnMe8mTVVVx1r7DoPUEPiSEH0XoMUlyrDXt+f7TSfH56bsyhxfeyqvdODFyUgPeXhWbtT/I/SFgadhFQJwsb5+hxoXaYQs+L89S45npehkeqn82OD5cC0ib9EcJlzHpS32IZevAp6/ddA6mVRSoIoPLpSH1YlYfp2srbIEvIbVeL5cE37IXJ8Ws96Y66nek7xipd5qnKlXb2QXA6qEh5MUZOsWu6vVl9fu7va1y6v1vzCZ7ymsu4w/GbGrcgVN/kXWtc/8y8UNZw2DJj+2P7ouBr0csV8apOzO9pjS0SmCZW5xNq+2rObluyeZTc5tf/HY5fdngEs44Fexs4IPDyZ6g3QJQBMtr7zmlHS9vmwpw5jZQNED190ChUF/Vbs3j6gZ17rSDiwtYVekLspgHASOFb8FWqOqC5c/JIIL2xnrzrMVBMFdQ89wFi19dPv0DgTbExxgFxNEZ1ec23LiGLs7FRcDgMvgDgXTxOidRsEfLDX/Sma/x5UN8hvCVX3UgqWO7x4mwk59BToJrUNGvj0o5BMkS67/2Pnv7FtwGtXpwxaCUzp9LRlNYf7N1qWozqCb9TxB6+ij7u5rRk7s6VCcFX6bF10cZZrHBCzwWs9+c3ULa4Yl9q7fUH4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVFnVW5RR0xDZHdyRUpXdENSNmxqVnBORlY2d2o5YU1wMk1MQ0FUWG40ZFpB?=
+ =?utf-8?B?WXVpYVJvbi93MTRoRE9wYlowN0RUMVI0NFU2S2NZSE9wZmUyWkFCc3huUkVY?=
+ =?utf-8?B?WGd3V2xOcllQamFxbW1LSCtSNURwb1ROamtRYzJRNHhvWEtCNkhERG9sQm1Y?=
+ =?utf-8?B?Zm5jZi9iUkdPYURrYVFMMVRhUlVRQit0dFdhMHhvUGNLMnIwZkVQT1I5dXpS?=
+ =?utf-8?B?eVFqY0hpTmFuVFB1dnAzdWVQR0I4R0piTm5vTFp4cXgxSEdGdlpqVllhR1Q0?=
+ =?utf-8?B?dHRMSnlqaEtsTURmY0pGU2wraHMxR0kwbURTZWtRWFVUcnh3SHFXNUJXZEox?=
+ =?utf-8?B?QjhNZUhvK3orQmdYSEVRRCttRTg2OVZRU0dQNU43MFBPT2NYdVhmM3dwOEdU?=
+ =?utf-8?B?eXZnaTlJSWhFcWdPdmlCN0U0ZEJTV2s3aVpndHZ2VmxsT2w4aUdKOTY3MFV6?=
+ =?utf-8?B?V1huTCt5ckEzUitLS2YyNWwwSnpiS095cWF1OVgraHdVUzNFR0ZySHhrTjlv?=
+ =?utf-8?B?SVB4M3dsOVpGSHpqNU4xU3Q1SmR0K3pndGtXbXZuL0hicWFiL3VlNnR4STlo?=
+ =?utf-8?B?ckU1K1RpM29DZ1lhSFdMWmdab0dvM0orczcvUk9hZllZQ1lsSTROTU84dVN2?=
+ =?utf-8?B?V1UzL3JBKzVnV3ZJU3R2VC9XK2ltTFJNUlFveC92QzNDdU5NNUhSZmlHS0R5?=
+ =?utf-8?B?VFBFTG1nQ1RTV1ZET0MrUGpDbk9wTHl6MUU3bVM5eFNSaWRKYVk5UzhDYWFO?=
+ =?utf-8?B?dmtYSGxvN0ZPUG9UUWNBejkxeTRoSkorN2EyRUhaT2NpYW1HRlFTTkRzZmNa?=
+ =?utf-8?B?Szl1VmtiR05mMVN0YU5OWndoTk91cnViSEorTE5TZ2xNVmdHbTdCRi8vSVhy?=
+ =?utf-8?B?cVUvOTl5d0hnUkllMC95Ylg0eXR4UnhNWTYzTVNBcHJ3dlN5eTVCS3B1NGFB?=
+ =?utf-8?B?SEJjNHBrRHo3MXNXUFdRV012WFgyOXhBV0ZRV09FdFY3aFgyaEdZQ3NhNnZ2?=
+ =?utf-8?B?bEdMTEtWaDNMNmJJTnBrNHNGTG5UMlQ3RUVKZnJrWlNrSWRKNmJibTRJMWRl?=
+ =?utf-8?B?Tzk5cXp1MjNPVkQvMWNCS3FjNVFOQ0JodEJidGRMUnh2QStSZTcxdFBVV29i?=
+ =?utf-8?B?NXl1WnJwRWxMU0xLaUFoYmxUTnR0S0pkUWtlODNZRHh4QXhxc2x3Qnh2ZFRM?=
+ =?utf-8?B?OXJoeUVQNGJuMFJZTVlNWDIwNnlCdnI2VEFLbzhNRnFVTDIxZ1g5WTFIZHNI?=
+ =?utf-8?B?UDNZQkxnVXVZc3VJWTBaQWNiUnFwZnhZek5XakVQaWpEbnllc25wdi9Oa2NJ?=
+ =?utf-8?B?Q2FvdzRIcm05RUxWTHRneEJRK1ZvSGxXYmI5SldHQW1FTnJwdFBhbWlCOXVG?=
+ =?utf-8?B?STRCRmRidDNEUVY3bUVMUUVGSXF0dVAwQm5CbHoyZUFLbVdVK0VuSzlpMm9R?=
+ =?utf-8?B?ZVZ4QTRBcmVySFBvM0FEQzFsNjl1d2l0TmcyNVhDblJkYzk0VjN1S2wzLzNn?=
+ =?utf-8?B?Ry9QMUw1WU1YVlZyZUVjUnlmeDFEMjNSVXdzR05iZVhlM2Q5OGFMNFV5OEJx?=
+ =?utf-8?B?YUF5d1ZtL0JoSUJpUmJoRHdzdEQ2WlR2WmR4OThRbjQ2VWtPc1dCaGtBcnoy?=
+ =?utf-8?B?SFkvSFh6T296U1lkdk1aeDlOTzNZWFBvSVljVU4rVC9tbXBSNDR5U1RNZExK?=
+ =?utf-8?B?VVdZTkFKU2RrbXpoUkwrLzJhaElrc3VFUHhVTXZnVk9ZbUVjaGt5VERYa1dw?=
+ =?utf-8?B?YkpnbE0ydURWVW9tYkhyc3FSUkpqcE04UmxNVE5Dc1k4YzVtdldjZzJTaVZ3?=
+ =?utf-8?B?TDBwU3ZGdE9YQmVHVVIyYWhSUjlOOE9JdEljVzJzY0lCYW9Ha2hvaFFqcjVB?=
+ =?utf-8?B?TzBVemppYm83VGlad1NUWVo5cWdrdVdQaTY1Z05sajJxcGhvMU5wQ1g3WG80?=
+ =?utf-8?B?aTBFd0JKM2JwMHVXNXFGcWJLM21kL1RBY0YxRHNxWWFFSW1ZY0cxTms0eWEz?=
+ =?utf-8?B?MlltS2JjUWxLWUJxNW5CejZTSjN5QkNZZU9QdFUxNzJYcmpFSERxQlNrbFFu?=
+ =?utf-8?B?NW14MXhvcUlHNS85YUprcXROanZ1WjZOT0NycWNqUTNla0FiVkJjNDBuTkFl?=
+ =?utf-8?B?U3NleGN4ZFJhM1ZPOHpFQlhZSm0yV3VjaW9zQnNyQzdHSTRhOExqeEZwbCtu?=
+ =?utf-8?B?SnZuVUREMDVFQ25WZENWUG44VXl0OXBRaGRwbFVCVysxNmNITGNQYTY0SW5t?=
+ =?utf-8?B?U0xaZDdzZzh5RitYdys0RGJKcS85dnBLK0I5ZXBpdlY0TDh6d2xpaHVhTDY3?=
+ =?utf-8?B?Yi9pRis3OXk0ZWQxTFdTRjFNeStCaVhnc1RHdDQvbWxmSVdwc2ZnemxPcXJT?=
+ =?utf-8?Q?ZnkqKOAB2bi2Y97c=3D?=
+X-Exchange-RoutingPolicyChecked: eIaWmvRBMXUKxlzKEjRZ1wPQs0A838sNoT+HbLOel85H6Ek75zN6jIjarnfIw/RlH8wwVVqnFnbrINdz8H7knHLeBMvsigpkwzkOFWiela3akVcWHkF0y2U+c0/n665ruJg5EEwAFtdb+TMPtVuJAgnEid/x2tIjVdPm8OOjNcF43ghNoSDBW2wT1VN5boSZ9Ayd5owmn0xi/8l5I1lduPPiykpvkrrBLdfOi4EQ6fMuqnLa0S6IucL0z7eG4mQmRGuzHCGGXlHsrSpCwouwrUiy+gFDQuGHr10LGQWmoEJiu2p/eNstmwPsgwQMmDTemr5vf8K7TNhLxtjGZXUqzQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99b7ad9c-e95d-4cd0-e295-08de908f7478
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2026 08:11:34.4581
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /0WkArx//EedfsCnBizTYjWU75S4U2m1ree3WwM+PJ/6t/Sg+pqXlIJlVqt6wXEG4yKogeK9GUtGS99ppVGvvSHzYdOOfWM/1e0jOeFg56k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6380
+X-OriginatorOrg: intel.com
 
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+On 2026-04-02 12:05 AM, aravindanilraj0702@gmail.com wrote:
+> From: Aravind Anilraj <aravindanilraj0702@gmail.com>
+> 
+> This series fixes MCLK resource leaks in the platform_clock_control()
+> implementations for bytcr_rt5640, bytcr_rt5651, and cht_bsw_rt5672.
+> 
+> In the SND_SOC_DAPM_EVENT_ON() path, clk_prepare_enable() is called to
+> enable MCLK, but subsequent failures in codec clock configuration (eg:
+> *_prepare_and_enable_pll1() or snd_soc_dai_set_sysclk()) return without
+> disabling the clock, leaking a reference.
+> 
+> Patches 1-3 fix this by adding the missing clk_disable_unprepare() calls
+> in the relevant error paths, ensuring proper symmetry between enable and
+> disable operations within the EVENT_ON scope.
+> 
+> Patch 4 moves unrelated logging changes into a separate patch and
+> standardizes error messages.
+> 
+> Changes in v6:
+> Place cleanup logic within SND_SOC_DAPM_EVENT_ON() scope
+> Avoid redundant condition checks in error paths
+> Split logging changes into a separate patch
+> Address review feedback from Mark Brown and Cezary Rojewski
+> 
+> Aravind Anilraj (4):
+>    ASoC: Intel: bytcr_rt5640: Fix MCLK leak on platform_clock_control
+>      error
+>    ASoC: Intel: bytcr_rt5651: Fix MCLK leak on platform_clock_control
+>      error
+>    ASoC: Intel: cht_bsw_rt5672: Fix MCLK leak on platform_clock_control
+>      error
+>    ASoC: Intel: Standardize MCLK error logs across RT boards
+> 
+>   sound/soc/intel/boards/bytcr_rt5640.c   | 4 +++-
+>   sound/soc/intel/boards/bytcr_rt5651.c   | 4 +++-
+>   sound/soc/intel/boards/cht_bsw_rt5672.c | 6 +++++-
+>   3 files changed, 11 insertions(+), 3 deletions(-)
+> 
 
-Introduces support for the Senary MI2S audio interface in the Qualcomm
-q6dsp. Add new AFE port IDs for Senary MI2S RX and TX and include the
-necessary mappings in the port configuration  to allow audio routing
-over the Senary MI2S interface.
+Thank you for the update. For the series:
 
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Tested-by: Val Packett <val@packett.cool> # sm7325-motorola-dubai
----
- sound/soc/qcom/qdsp6/q6afe-dai.c         |  6 +++++
- sound/soc/qcom/qdsp6/q6afe.c             |  8 +++++++
- sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c | 29 ++++++++++++++++++++++++
- 3 files changed, 43 insertions(+)
-
-diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-index 0f47aadaabe1..a0d21034a626 100644
---- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-@@ -409,6 +409,7 @@ static int q6afe_dai_prepare(struct snd_pcm_substream *substream,
- 		q6afe_slim_port_prepare(dai_data->port[dai->id],
- 					&dai_data->port_config[dai->id].slim);
- 		break;
-+	case SENARY_MI2S_RX ... SENARY_MI2S_TX:
- 	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
- 	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
- 		rc = q6afe_i2s_port_prepare(dai_data->port[dai->id],
-@@ -540,6 +541,7 @@ static const struct snd_soc_dapm_route q6afe_dapm_routes[] = {
- 	{"Tertiary MI2S Playback", NULL, "TERT_MI2S_RX"},
- 	{"Quaternary MI2S Playback", NULL, "QUAT_MI2S_RX"},
- 	{"Quinary MI2S Playback", NULL, "QUIN_MI2S_RX"},
-+	{"Senary MI2S Playback", NULL, "SEN_MI2S_RX"},
- 
- 	{"Primary TDM0 Playback", NULL, "PRIMARY_TDM_RX_0"},
- 	{"Primary TDM1 Playback", NULL, "PRIMARY_TDM_RX_1"},
-@@ -636,6 +638,7 @@ static const struct snd_soc_dapm_route q6afe_dapm_routes[] = {
- 	{"SEC_MI2S_TX", NULL, "Secondary MI2S Capture"},
- 	{"QUAT_MI2S_TX", NULL, "Quaternary MI2S Capture"},
- 	{"QUIN_MI2S_TX", NULL, "Quinary MI2S Capture"},
-+	{"SEN_MI2S_TX", NULL, "Senary MI2S Capture"},
- 
- 	{"WSA_CODEC_DMA_RX_0 Playback", NULL, "WSA_CODEC_DMA_RX_0"},
- 	{"WSA_CODEC_DMA_TX_0", NULL, "WSA_CODEC_DMA_TX_0 Capture"},
-@@ -770,6 +773,8 @@ static const struct snd_soc_dapm_widget q6afe_dai_widgets[] = {
- 	SND_SOC_DAPM_AIF_OUT("SLIMBUS_4_TX", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("SLIMBUS_5_TX", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("SLIMBUS_6_TX", NULL, 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("SEN_MI2S_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("SEN_MI2S_TX", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_IN("QUIN_MI2S_RX", NULL,
- 						0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("QUIN_MI2S_TX", NULL,
-@@ -1037,6 +1042,7 @@ static void of_q6afe_parse_dai_data(struct device *dev,
- 
- 		switch (id) {
- 		/* MI2S specific properties */
-+		case SENARY_MI2S_RX ... SENARY_MI2S_TX:
- 		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
- 		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
- 			priv = &data->priv[id];
-diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-index 43d877322bae..40237267fda0 100644
---- a/sound/soc/qcom/qdsp6/q6afe.c
-+++ b/sound/soc/qcom/qdsp6/q6afe.c
-@@ -130,6 +130,8 @@
- #define AFE_PORT_ID_QUATERNARY_MI2S_TX      0x1007
- #define AFE_PORT_ID_QUINARY_MI2S_RX	    0x1016
- #define AFE_PORT_ID_QUINARY_MI2S_TX	    0x1017
-+#define AFE_PORT_ID_SENARY_MI2S_RX          0x1018
-+#define AFE_PORT_ID_SENARY_MI2S_TX          0x1019
- 
- /* Start of the range of port IDs for TDM devices. */
- #define AFE_PORT_ID_TDM_PORT_RANGE_START	0x9000
-@@ -718,6 +720,10 @@ static struct afe_port_map port_maps[AFE_PORT_MAX] = {
- 				QUINARY_MI2S_RX, 1, 1},
- 	[QUINARY_MI2S_TX] =   { AFE_PORT_ID_QUINARY_MI2S_TX,
- 				QUINARY_MI2S_TX, 0, 1},
-+	[SENARY_MI2S_RX]  =  { AFE_PORT_ID_SENARY_MI2S_RX,
-+				SENARY_MI2S_RX, 1, 1},
-+	[SENARY_MI2S_TX] =   { AFE_PORT_ID_SENARY_MI2S_TX,
-+				SENARY_MI2S_TX, 0, 1},
- 	[PRIMARY_TDM_RX_0] =  { AFE_PORT_ID_PRIMARY_TDM_RX,
- 				PRIMARY_TDM_RX_0, 1, 1},
- 	[PRIMARY_TDM_TX_0] =  { AFE_PORT_ID_PRIMARY_TDM_TX,
-@@ -1777,6 +1783,8 @@ struct q6afe_port *q6afe_port_get_from_id(struct device *dev, int id)
- 	case AFE_PORT_ID_QUATERNARY_MI2S_TX:
- 	case AFE_PORT_ID_QUINARY_MI2S_RX:
- 	case AFE_PORT_ID_QUINARY_MI2S_TX:
-+	case AFE_PORT_ID_SENARY_MI2S_RX:
-+	case AFE_PORT_ID_SENARY_MI2S_TX:
- 		cfg_type = AFE_PARAM_ID_I2S_CONFIG;
- 		break;
- 	case AFE_PORT_ID_PRIMARY_TDM_RX ... AFE_PORT_ID_QUINARY_TDM_TX_7:
-diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-index d31388ed3ccf..e5cd82f77b55 100644
---- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-+++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-@@ -519,6 +519,34 @@ static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
- 		},
- 		.id = QUINARY_MI2S_TX,
- 		.name = "QUIN_MI2S_TX",
-+	}, {
-+		.playback = {
-+			.stream_name = "Senary MI2S Playback",
-+			.rates = SNDRV_PCM_RATE_8000_192000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S32_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     192000,
-+		},
-+		.id = SENARY_MI2S_RX,
-+		.name = "SEN_MI2S_RX",
-+	}, {
-+		.capture = {
-+			.stream_name = "Senary MI2S Capture",
-+			.rates = SNDRV_PCM_RATE_8000_192000,
-+			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+				   SNDRV_PCM_FMTBIT_S24_LE |
-+				   SNDRV_PCM_FMTBIT_S32_LE,
-+			.channels_min = 1,
-+			.channels_max = 8,
-+			.rate_min =     8000,
-+			.rate_max =     192000,
-+		},
-+		.id = SENARY_MI2S_TX,
-+		.name = "SEN_MI2S_TX",
- 	},
- 	Q6AFE_MI2S_RX_DAI("LPI RX0", LPI_MI2S_RX_0),
- 	Q6AFE_MI2S_RX_DAI("LPI RX1", LPI_MI2S_RX_1),
-@@ -680,6 +708,7 @@ struct snd_soc_dai_driver *q6dsp_audio_ports_set_config(struct device *dev,
- 		case SLIMBUS_0_RX ... SLIMBUS_6_TX:
- 			q6dsp_audio_fe_dais[i].ops = cfg->q6slim_ops;
- 			break;
-+		case SENARY_MI2S_RX ... SENARY_MI2S_TX:
- 		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
- 		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
- 		case LPI_MI2S_RX_0 ... LPI_MI2S_TX_4:
--- 
-2.47.3
-
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
