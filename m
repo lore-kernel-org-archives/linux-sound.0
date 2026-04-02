@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34253845CA;
-	Thu,  2 Apr 2026 11:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B705C3CA4A9;
+	Thu,  2 Apr 2026 11:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775128934; cv=none; b=rVbtnvhd8lAF4ePsoPnnfKhReznI0U4OmQKMPWOCNaNtGJsjF5i1qMtNOAGeVUEGodf+mddxAJHy7lf6DmNyJxS3PyrdmnYuzGGWIlouT00xf2swz4YQQenPgiRa6ALaVwsV5FnuoJGI4ZpJDdf3Ssx4173dRK4p12hz9dB9ti4=
+	t=1775129014; cv=none; b=eAI2VF+/80tLk05B9HeJCBUm1F6XKRCPNo4YgcE4+xYBqIEpG48dky9y2jnnqSfDe72Xc5AY5n1sNtaYWRKBV3+xKSEFPr0dg15b4mwlwdJwsGRVLaAqSDs39zY6Y6c2H7/euYXw5ziHc3GzOvjVvHqasHNWZRBqctQkAc4Op1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775128934; c=relaxed/simple;
-	bh=vOejG/o2vgTiL96r4KfF9lxCPFRYRio/B74Q+h9vJzk=;
+	s=arc-20240116; t=1775129014; c=relaxed/simple;
+	bh=wRNRQbcaVLcFPqKCEC19+jCD5o4QjwrwTLAdJiPRC94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DFmfr1lnfEuZd2cv1GQKIXXydXiVtPt6jgomIX8rPRvVHeWEdSuOFROXN6HW+g+OogyN3qx4sRM/BgsKnLo6LNjpXaS51168c5J0X7HTkBYjtuHe8v+QXy3YfhkZWUNu0cABwvxWV+iFYpS/kdVwA1A0d2S6w8jMMPAWDqoIVGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dB3xkxlT; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=P6KKEnA4ewCPKU7yzQuj1txhQMlF1GMncB/NOwAPcHdrLlKFu4N3t6imbslQqchwBSuYf1PswfZsxe3Jp6rcHYZ6BbeofhkQDB63vu98MzYSxOWcAk0BWps1gMCYanium/gBUS/jM1yPojoBkiY5l8nbY+3QaaFXkcfE/lmMXRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OesrNw3Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dB3xkxlT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEC3C116C6;
-	Thu,  2 Apr 2026 11:22:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OesrNw3Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B680C116C6;
+	Thu,  2 Apr 2026 11:23:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775128933;
-	bh=vOejG/o2vgTiL96r4KfF9lxCPFRYRio/B74Q+h9vJzk=;
+	s=k20201202; t=1775129014;
+	bh=wRNRQbcaVLcFPqKCEC19+jCD5o4QjwrwTLAdJiPRC94=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dB3xkxlTYeSej9QDvRTtV98uCh7LC1p+TH8yFKHa5eyTyegAb81YraxS6B0qkjvQ3
-	 j8yJpHXj1t5CUy8Ix49hMVEr5kVjV3gq8mcauAbUnSVGe4whJCmVJ/qIOjfPBo8hAI
-	 e8UV0n5eLuuPRo/Hdupb60M6egpzaR6RSvw2yfN8Ilm9AZGEtm3m2ClGA37anYHsWe
-	 gke6ZmZ63kP3xwfeloBOBP8FjYAqGVqI75FzbIbdzDA///ymtqXaMzO5zRDM35pVQf
-	 JK69Dp3qgq4MMk+EFcWcPhgwHxJ+oNMk3jwKpX/QARKWdZfb9cdEC7vXWR69FVnMmd
-	 5ktSKdPGcYatQ==
-Date: Thu, 2 Apr 2026 12:22:02 +0100
+	b=OesrNw3ZLTmDaJx5lLQkHwigx/p7tOvWEkh//frYhHK5YzCnZe1qx7xQxIOirnlyY
+	 wLNAkAAV2Ngbny8GLTXUaL4BmaSLvkzT62B+AmBF9QmaY42WbyVlEXe6qALfAZPY4s
+	 xe2KXPmDaLRzgxmxEt4AF7QDqeDRh0j9wbYDyK3EQZF7SNIE0j/Bf329H1Hivz9kdl
+	 Ge2iQIsEjejIN6lMOBhlt0V0zyM5ZSDnzX5rEQAnrtFC7nhqt0sRyRBYkYaKn9qxYO
+	 qYyefhCrSeLv9YZ/9I2lf5RBG6Sx+NUXe2UBT7YlcjHZacm6g25+zxuvov14i4icBh
+	 JwPsrl9gbf+4A==
+Date: Thu, 2 Apr 2026 12:23:28 +0100
 From: Mark Brown <broonie@kernel.org>
 To: "karthik.s" <karthik.s@oss.qualcomm.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
@@ -34,12 +34,12 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ASoC: codecs: wcd937x: Add conditional regulator
+Subject: Re: [PATCH v2] ASoC: codecs: wcd937x: Add conditional regulator
  control for wcd937x
-Message-ID: <ec716d06-3c7b-496e-9605-761346d78ad9@sirena.org.uk>
-References: <20260402070854.2804291-1-karthik.s@oss.qualcomm.com>
+Message-ID: <fea78031-e570-4348-a4b3-d113b5749fec@sirena.org.uk>
+References: <20260402072256.2811085-1-karthik.s@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,44 +47,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5HPYIqv3H3hDBw+U"
+	protocol="application/pgp-signature"; boundary="K5vVp8HOB34veIQP"
 Content-Disposition: inline
-In-Reply-To: <20260402070854.2804291-1-karthik.s@oss.qualcomm.com>
+In-Reply-To: <20260402072256.2811085-1-karthik.s@oss.qualcomm.com>
 X-Cookie: <doogie> dpkg has bugs?  no way!
 
 
---5HPYIqv3H3hDBw+U
+--K5vVp8HOB34veIQP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Apr 02, 2026 at 12:38:54PM +0530, karthik.s wrote:
-> Add has_always_on_supplies for managing regulators. Indicates that
-> the codec supply regulators are always enabled by the system and
+On Thu, Apr 02, 2026 at 12:52:56PM +0530, karthik.s wrote:
+> Add has_always_on_supplies for managing regulators. Indicates that the
+> codec power supplies are provided by the board as always-on rails and
+> are not switchable by the codec or its associated regulators. This implies
+> that the codec supply regulators are always enabled by the system and
 > must not be requested or enabled by the codec driver.
 
-> +  qcom,always-on-supply:
-> +    type: boolean
-> +    description: Indicates that the codec supply regulators are always enabled
-> +                 by the system and must not be requested or enabled by the codec
-> +                 driver.
-> +
+Same issue, why would we want this?
 
-Why would we want that?  The regulator core already has perfectly good
-support for always on supplies.
-
---5HPYIqv3H3hDBw+U
+--K5vVp8HOB34veIQP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnOUVkACgkQJNaLcl1U
-h9CgCQf/erCGtb0YkhIvIZ/85ly/3UxqDmicCet18Va8ENqtqI2xzUFvcEYcpb2m
-Nr9ED3JUCQJSR0P71zf5rclE/t1b1bvHJ8X0KJP9x+2k/frLxIt6VbpKHsPIxsaF
-Bmx4p9/RGfj/RRhv61M9nXInJF5kO1w5JdPLtpf2cqTdjpLJUHUolDgajPljnAEc
-WqBi0bJ9aLQWeuSHmYtE2bdMv5bVVBcDRYKCMmJML4QuVTazIjKh5rXozw5Qo5ir
-F3MkKDe1JRbA2+pfcWn4kEdAY9NmBg6tCrwYtB4EjYEx3i04G8OkfppNhwSk/ZsU
-9hy00+z+bDzvV0hAF4xC2iDVSahonA==
-=ulkT
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnOUbAACgkQJNaLcl1U
+h9CL1Qf+IR8sUMSpWh/JHq7ajsAWkzrl5ent1j3pgNh9rHFuaOjFzxNXx/mZKcfX
+qBdx9/xYt8cWejfxfr9ziQDtQYKnxxF+mUmh4/d52NYE3vsY1rEEFDJ2j+TgYrk6
+2fiVKjwAK0FB2mig8BbvERUXhLtAefKXHuywpqYP4jQ7rzMsNSO+j3TH7AN2I65e
+gVt7oXqhyI5tymLr1WzhHO57OT6mK1KHYz0C/4ctNLbyh6SidAZEaGS/rfsbJ2eA
+z6xwz5IZeyrFWDbLJl6818EvSTjK4ZgN1CmYFGcUsd5xjlQkdbhzjrq2ltjiPQxh
+vuRot1PvDPNY+j0jaFjlCMg5nAScwA==
+=3UR5
 -----END PGP SIGNATURE-----
 
---5HPYIqv3H3hDBw+U--
+--K5vVp8HOB34veIQP--
