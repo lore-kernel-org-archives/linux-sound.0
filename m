@@ -1,62 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E431A3164
-	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 06:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE6D37CD2F;
+	Thu,  2 Apr 2026 07:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775112350; cv=none; b=U7fKaNLztso2wZfHRlIoNxAhzEeOjWlJzvnzg9kCzxfySLGb9oawhRZZpmrNCks8lD1JukBgsANExgF8yp3130M8ZEA5dnH1E6TBku+CMPOXQYJGXjp4/B7gGvJEFLF9+dHAlJHw4bcBMElLwqvL9sig0z+2Ag4ksSruGDstKm8=
+	t=1775113772; cv=none; b=Ib8DMv547xNMUH0FLUmKNDiX9aMJouOesWEhMRBNgXhz8slSXoXYsyymf4G5ocfbnTng0K05+bGgXLcchQ8qeUkkwGh2Vk7CsO7sTSp45uSkvc78S2g6RDWjnS2zXP2BnQS0T0Gia9rLyX4gmzM6r2ShqC4BGV+w3cNXiRV8+yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775112350; c=relaxed/simple;
-	bh=AYfduMiCGMFuXkeOFQZ8HAYwqPPY5+Y5oFhktKAagys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Io2lfSqFchmT2PZyGEN1JwEBU31D5KViCsglLOha8oHOUF9y5S34KAHInLQvzodIAFFhTXYuyJhowZOXkvSGmzSWWoMf4dRUrS09g8sznjNmX+PHgrbwQhpsWHjy2NxGBlzfO6ULrfbCRuG3P8CjbkJDHlYcUIOum9E8b9vQ5Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZ46zxeX; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775113772; c=relaxed/simple;
+	bh=2j3r5K7GZo1GPkan+Mf+5GdTm5nlTnl4H627MYikJK0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V7x7jqZD84Z4glFNBvaRZQyaU2xKO0MMYkEXDOs+3zoPtPM4PAwfu26Dh0mJul+zwoqbzTLh3nbbHFABMoOGyOv6heSQU0uMZHrvZYnMHinxx6g6afI5ed1pKlaLrdH+bN1hP9Hjr3kxY5vN42yknmKqPENXd2BB/4zsVsuZZfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bOLSbKcP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZ46zxeX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775112349; x=1806648349;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=AYfduMiCGMFuXkeOFQZ8HAYwqPPY5+Y5oFhktKAagys=;
-  b=LZ46zxeX3XIg8b6S7ft8UlKTGej5CGNQsnfSUkgeom1PPREiBMp52Oh4
-   VEaBlDt8cYpJLEbvKYHPH5un3qfsOKaAxpc0vx8h+v/H95e1/0sQnUKlg
-   6IAto3PzJBvldQ13btcEBIRdkag3j7ZB2sW22Pb45AvrkxfUmbkAouwu6
-   rcZsCYEEv6Hh0NmMdT0Lvb+ZvodODRJW1qLTnkhVxuSjDQrhcfVuPc8jy
-   61eLt6ij8tYEZLRQ7IKj4H7hBfffX5t/DEoo7qbZFZOcTysCAT+oibLIp
-   RHBKFvZ61+OwLhln0AD4XwoKf/DLlnL5KBp5P4olATs4L56hkhzd/H4cE
-   A==;
-X-CSE-ConnectionGUID: h0h+BABcR4K9823oXafwnQ==
-X-CSE-MsgGUID: lVfqFdVlQpCXwsWr/9Z/Iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="63715046"
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="63715046"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 23:45:48 -0700
-X-CSE-ConnectionGUID: 9F14Ho9uRf2g8xi7/6mANg==
-X-CSE-MsgGUID: cTJwgE9BShK4wm+s994jeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="226059175"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 23:45:46 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com,
-	mstrozek@opensource.cirrus.com
-Subject: [PATCH 2/2] ASoC: SOF: Intel: fix iteration in is_endpoint_present()
-Date: Thu,  2 Apr 2026 14:45:31 +0800
-Message-ID: <20260402064531.2287261-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260402064531.2287261-1-yung-chuan.liao@linux.intel.com>
-References: <20260402064531.2287261-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bOLSbKcP"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 631M3w073745837;
+	Thu, 2 Apr 2026 07:09:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=wUz7umYrY89a7HSgjf5d2IGoEaApf1XFakq
+	pV4gz3Tg=; b=bOLSbKcPit+TuFRWtLb33RzkA/FbEWK7skoBR2TizOfH0/HlnQh
+	thsN6zDR+R03l8/vdoQp7TSEC0pfy4hi97PoZZCP/Pm4yYrN+2V0IxU1R7R/4XJm
+	F8jaC1sWsDMzqOzPoroo4UtcKSeyXNbk6uDDWMh/uV6pQKIM2za+VkNA8J2Be/+L
+	nxcbhyvGoLAaRrkgrGiMuC6bQ8YfiLPXVpOPdL2Jw1Wzti4PSKfKKDLbe9p+B6Z6
+	oqJfDGWH+OFVrI6kOQVM2PEN5Ty5UGiM9k0tRDCUiAgxqqzH0rEMZ50oJ0jvsa6m
+	CPCnPZLUWl7w1C8KQzELar2BvtSN4aBMiyg==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9324kwqr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Apr 2026 07:09:17 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 63279EiF007869;
+	Thu, 2 Apr 2026 07:09:14 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4d6qj2vfhn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Apr 2026 07:09:14 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 63279EU0007864;
+	Thu, 2 Apr 2026 07:09:14 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-ks5-hyd.qualcomm.com [10.147.255.18])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 63279Emi007859
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Apr 2026 07:09:14 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4763723)
+	id DFE735E3; Thu,  2 Apr 2026 12:39:12 +0530 (+0530)
+From: "karthik.s" <karthik.s@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "karthik.s" <karthik.s@oss.qualcomm.com>
+Subject: [PATCH v1] ASoC: codecs: wcd937x: Add conditional regulator control for wcd937x
+Date: Thu,  2 Apr 2026 12:38:54 +0530
+Message-Id: <20260402070854.2804291-1-karthik.s@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,54 +68,89 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: YS_LKmbsCfiFJ6mprLOjXrj9R-HuhYfS
+X-Authority-Analysis: v=2.4 cv=TKBIilla c=1 sm=1 tr=0 ts=69ce161e cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=WVhCV30w_vEBU2GG1a0A:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA2MSBTYWx0ZWRfX4aT4pBvsIR+3
+ 2Rp4Y2GkNGXzF+DMTZR79RbbIL0ydHHDIXiygBE8Z5CE6+1H1D/fCg0lbLRURRyRdtUPITwN08b
+ sgD5bWmKh5P8/3xoSaOqUspSLG+iDaYDj7/JjMmC9PoZSioUYGiGygcDFCsaL46yx4fuzsWuCUF
+ T4rzSOnnZoUNRjX5kiSiGoPmI35VqKJC97XsaqZLCZkfsweVpYIXPKPttzciYDxLEjqu2M6UI3X
+ wK9qBk5YG/jCmOUtyTwZhO0lbDgWO+OWgugu5/qbvjErCNEPVfXpQ8D7h4mdzruqfs4m1U1RBQV
+ 6Pgxu4zKzRkOJ/OowujID8qXLV2JCoCGSYPRBnGbReFALiNKV6NZpWjwWfXvfuND4jxYcNVWfoH
+ s5AWj1AXLuSkIDHER7XSQH5e657aW2vbBSw/uZUE8olsiLZ3jKwI+quL5aFZNSBBJcp8dB4VFlh
+ 1ZJpbuUDBA1U4ouRHnw==
+X-Proofpoint-ORIG-GUID: YS_LKmbsCfiFJ6mprLOjXrj9R-HuhYfS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_01,2026-04-01_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020061
 
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Add has_always_on_supplies for managing regulators. Indicates that
+the codec supply regulators are always enabled by the system and
+must not be requested or enabled by the codec driver.
 
-is_endpoint_present() iterates over sdca_data.num_functions, but checks
-the dai_type according to codec info list, which will cause problems if
-not all endpoints from the codec info list are present. Make sure the
-type of actually present functions is compared against target dai_type.
-
-Fixes: 5226d19d4cae ("ASoC: SOF: Intel: use sof_sdw as default SDW machine driver")
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: karthik.s <karthik.s@oss.qualcomm.com>
 ---
- sound/soc/sof/intel/hda.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/sound/qcom,wcd937x.yaml     |  6 ++++++
+ sound/soc/codecs/wcd937x.c                          | 13 +++++++++----
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 5c1f1b97ae15..b3d61d973ce4 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1133,8 +1133,7 @@ static void hda_generic_machine_select(struct snd_sof_dev *sdev,
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+index f94203798f24..d89fff1f7171 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+@@ -28,6 +28,12 @@ properties:
+   vdd-px-supply:
+     description: A reference to the 1.8V I/O supply
  
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE)
++  qcom,always-on-supply:
++    type: boolean
++    description: Indicates that the codec supply regulators are always enabled
++                 by the system and must not be requested or enabled by the codec
++                 driver.
++
+ required:
+   - compatible
+   - vdd-px-supply
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index 10a2d598caa7..1514ceb7d790 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -100,6 +100,7 @@ struct wcd937x_priv {
+ 	int aux_pdm_wd_int;
+ 	bool comp1_enable;
+ 	bool comp2_enable;
++	bool has_always_on_supplies;
  
--static bool is_endpoint_present(struct sdw_slave *sdw_device,
--				struct asoc_sdw_codec_info *dai_info, int dai_type)
-+static bool is_endpoint_present(struct sdw_slave *sdw_device, int dai_type)
- {
- 	int i;
+ 	struct gpio_desc *us_euro_gpio;
+ 	struct gpio_desc *reset_gpio;
+@@ -2907,10 +2908,14 @@ static int wcd937x_probe(struct platform_device *pdev)
+ 	cfg = &wcd937x->mbhc_cfg;
+ 	cfg->swap_gnd_mic = wcd937x_swap_gnd_mic;
  
-@@ -1145,7 +1144,7 @@ static bool is_endpoint_present(struct sdw_slave *sdw_device,
- 	}
+-	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(wcd937x_supplies),
+-					     wcd937x_supplies);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "Failed to get and enable supplies\n");
++	wcd937x->has_always_on_supplies = of_property_read_bool(dev->of_node,
++							"qcom,always-on-supply");
++	if (!wcd937x->has_always_on_supplies) {
++		ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(wcd937x_supplies),
++						wcd937x_supplies);
++		if (ret)
++			return dev_err_probe(dev, ret, "Failed to get and enable supplies\n");
++	}
  
- 	for (i = 0; i < sdw_device->sdca_data.num_functions; i++) {
--		if (dai_type == dai_info->dais[i].dai_type)
-+		if (dai_type == asoc_sdw_get_dai_type(sdw_device->sdca_data.function[i].type))
- 			return true;
- 	}
- 	dev_dbg(&sdw_device->dev, "Endpoint DAI type %d not found\n", dai_type);
-@@ -1202,8 +1201,7 @@ static struct snd_soc_acpi_adr_device *find_acpi_adr_device(struct device *dev,
- 		}
- 		for (j = 0; j < codec_info_list[i].dai_num; j++) {
- 			/* Check if the endpoint is present by the SDCA DisCo table */
--			if (!is_endpoint_present(sdw_device, &codec_info_list[i],
--						 codec_info_list[i].dais[j].dai_type))
-+			if (!is_endpoint_present(sdw_device, codec_info_list[i].dais[j].dai_type))
- 				continue;
- 
- 			endpoints[ep_index].num = j;
+ 	ret = wcd_dt_parse_micbias_info(&wcd937x->common);
+ 	if (ret)
 -- 
-2.43.0
+2.34.1
 
