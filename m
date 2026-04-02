@@ -1,72 +1,73 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21E8CA6F
-	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 00:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5350135959
+	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 00:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775088652; cv=none; b=o3SIDqbe1pOb2ivZaUUpgXjex+jXlGOpWt+SLEwkVGFK5tCNGAUfecjGk22oh0EyyIy+8V+dS7HdOg97SeW7M2OwtU0mkObF4E724AZTuZNvnBhpz3U88kdOgeTwBWmxGip+Y1z5WLRpIwDUhi293ExSp0Q8uGOZDp40CYNrNBk=
+	t=1775088763; cv=none; b=sbzAlI+BgocVPGf3EoJEqHny6divFRPQDUOrkYAXpVeJ3qoWR5bw21Oi8eE5a+QXrGJukX1UiEUh/u5uEHpwTfxt0qyfKLp6E8waSqUYscYKhYe44YpFbx3P6o2UdIl3KRxyXBbi9QBfzRTKbZQ2IqXo6uuHjkJDPYCgsg2WVQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775088652; c=relaxed/simple;
-	bh=HekqW2dMqoMilDB42K1n5rR8BeYL/uqTucxSPG4HaKA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uIzeNpYEfamFYiNO9iacIhf7ZLZzkWvJKnl/ObKoJGUTDRtfncAk3kRGDiF9iah6o4j4z77LOr9gfcdYCbRFf7tBerPw16epSmyleZvQYODILDuWaENtz94FaTdRrxjdsDOmtLNRa/AxiVkAoAB68EWU6VwMGX0PHiv9g5fQEY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fdma.com; spf=pass smtp.mailfrom=fdma.com; dkim=pass (2048-bit key) header.d=fdma-com.20230601.gappssmtp.com header.i=@fdma-com.20230601.gappssmtp.com header.b=P/axVogC; arc=none smtp.client-ip=209.85.221.182
+	s=arc-20240116; t=1775088763; c=relaxed/simple;
+	bh=xLT4/pnrf9/dtxc2xqpALZl5H2vRN1vdKKTnfsSC86Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EI5MSGWJQDJf6sVPjaFv4VRsNfdkwDBPqF/R4QKeXcB1KDbIkzFFhAD5i7p/ovn5KCX/eadybfgkG9xIfuZTRRS71fwLzRR/mLfXkFzUKL6TWJ2lafZLMgYx7EqjUjXA8tbk+P4wQNHkx9J9VSbQ1o4HcwME+OVEYpcJryAetzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fdma.com; spf=pass smtp.mailfrom=fdma.com; dkim=pass (2048-bit key) header.d=fdma-com.20230601.gappssmtp.com header.i=@fdma-com.20230601.gappssmtp.com header.b=ThPICAtd; arc=none smtp.client-ip=209.85.222.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fdma.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fdma.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fdma-com.20230601.gappssmtp.com header.i=@fdma-com.20230601.gappssmtp.com header.b="P/axVogC"
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-56d8365c1efso191346e0c.0
-        for <linux-sound@vger.kernel.org>; Wed, 01 Apr 2026 17:10:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fdma-com.20230601.gappssmtp.com header.i=@fdma-com.20230601.gappssmtp.com header.b="ThPICAtd"
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-944168e8c5fso183664241.2
+        for <linux-sound@vger.kernel.org>; Wed, 01 Apr 2026 17:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fdma-com.20230601.gappssmtp.com; s=20230601; t=1775088649; x=1775693449; darn=vger.kernel.org;
+        d=fdma-com.20230601.gappssmtp.com; s=20230601; t=1775088761; x=1775693561; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HGFzi00RYMp+Jq/w2qL1ZxcIyjmAPG7vYyfYHwsSjjI=;
-        b=P/axVogCcZslzWrH+kWI9toKpVSnfnLyKW946NXSdjikGFARWHeKvBI4aG/ZHnTFwg
-         mlqkI/3yN0+jJOuZwAkBViXEl8Hg0KtG8rMhRMJHR0Il0dzBCZO1cSeULItrhQQxoDq9
-         nNYAvSQLw45EZJxTw8fLFoKU1s6L6CIHTh4/gb2Vbu8YcdAMMM3DzJBEQZ98z0Pei+Hc
-         jqipToUR44vx/QEyO3XZzo+1wfHI1mCEZ18A74OsLTHj8PBSNae/tEJZgF4zu/Lcvywh
-         rghOfJhoL8Y+XCipvlAIWh4Bxnw9ai5X3w4ptFi8z4cYUwQ5zoWyZ+86w11xW55tIblu
-         0NfA==
+        bh=1gv4H+u+CWNs8HVMxfyEPdG+WMIoswO8VKm056Nilvk=;
+        b=ThPICAtdLUuOE9+WNkaj1oz21IgIsGrvyabH6oR75cTMyPzDC0qwQ4rHbcNB4yLZ+5
+         EeT1Idm7bwxqGsPRW1Di1BP0CM0/XU3k75XNjRt4Z2Tp6/K5xkiUzMc+k7noLZLYJ65D
+         6knzl0VNEHwNZyvKbGMHRXghwhTpGk+SQIFRxxuVEA+GUveopjEMytp/3KV6ZSJom0wH
+         HZtpgKOWypxotSiAxyK/dao/t56/O9xC1+yyWGF7KUzRZefk9W3xAQwpXB5k+FhGSTDC
+         +7Pxk1pj2Xn0OUKz0US8Jco3Ty1JqtHK9YRpxlxWIqWTxXtJbGN+1/JtYPCsddyFG8pc
+         9tzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775088649; x=1775693449;
+        d=1e100.net; s=20251104; t=1775088761; x=1775693561;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HGFzi00RYMp+Jq/w2qL1ZxcIyjmAPG7vYyfYHwsSjjI=;
-        b=Zud86xAhwRiAZML8uGo/IoR3ooQTAqPlIwAqYvloNGedLM85nFoybiEkoAg/YwgwHq
-         7NhodAsAlGz9/JyOwa7s11FthanPDNl6B4wxtJYeQdxwkLOq95LQQkh/8CDc4BfFxWfK
-         KzuXNsUx4Yz+p47AN+VCAZ4Y2Vg28rVAcr6CCF0Qd+W1RpU0auRvCCB1hqgEbiu3nU91
-         n03vn6Pd53GvhErl3yN6uTRPfMFa5XZKgrq44lrrEJZ7jIvtiWxyLujjulJglVYwYfAs
-         TfrWIn/3fjfPYfbs6I9UZZth37JqZQEXNeyfhRm6sQ5xR08BjcRirSUF338OPNVfWVf0
-         Xbzw==
-X-Gm-Message-State: AOJu0YztRnOhqq50FBF+zBMfy82eXLdXaQToedRD51upCUN3tVDHRauK
-	5ZPAaCPmlokCcxl/epHntD8/giMoHTTxCexOSE7oWqKl+z2bpJwSwGcnuiGwOD5HfkqCCY4KHkd
-	LYZm4OdmLOw==
-X-Gm-Gg: ATEYQzyeDqGjRPfQIYRtD3WmevBImwjHWbHD4jXSCaToZeX9eR+FYYaUfRQlIdBdiNO
-	gouhe9m+Qvs6nRHQvOQE3eo0X9SGBpmSOIxMbuP+d3wSVvgeIPT+X+v9kM+9PS2uWeVsR2bkUrQ
-	MGpmBkS90rYH+rNvpE+5RmiXPqDr8u2k7n7jsUeMBgj8MUrvld2V2N20CgZOKcPOmwTugPPomxP
-	JgLYrlOInwx79jAVSiA+zC91KXfpcG5eseI7XDyzCtsOIZ4LTdq/qnIjfGCjJs5SPo81puJPKZw
-	cLTsW4nb3THBrgs5qE4hkEC2jcb7ODDotI9S4qtB3t7X7mha1tNSwKU/aBLZJGjZiWBYbYpsJvn
-	UMdKDg1nBFPqdB735uwkzNFfoQFW/yCKWCsv2zi96b9sGLeVoiMD5jdxMvGRlOlJMayRc7yx1Vn
-	kEWv2LQZaG1fMNvyPvkxlg+gwcHD/HuroyxXJCIOM5IEYvfQOX6npLCRPaqFdMeh4toP0mx1CVt
-	4Ga359wp0VTdG8VWlugccvxLAgONaOza5mgrSmcvasmtrKZ+qo=
-X-Received: by 2002:a05:6122:65a0:b0:56d:3451:4cc0 with SMTP id 71dfb90a1353d-56d9f16db1dmr113655e0c.7.1775088649611;
-        Wed, 01 Apr 2026 17:10:49 -0700 (PDT)
+        bh=1gv4H+u+CWNs8HVMxfyEPdG+WMIoswO8VKm056Nilvk=;
+        b=RFmoMhRpFAg51oTtIzbVrxeWdFPMmwvR7lJ/Tz948Vm/okS5bLq6tKgzsPtPgOzLfa
+         l7s+sGX0TpZba5vvHAR1kQhNlpgXeBsLghejNZ5Jd+AMLjd2EkhecPOGynfG8pBdxuQy
+         ysn9FCVPhcblyQdKKJ8gRkYmpkuscQ+F6jPBXCFvanwJr73IlbfCnDmrz+WLhYkb94lA
+         QaNUwTy867l4aYLp7TGzdXbQmKJKX+rmupGJL8uxXKW6GWXA//pPyOSyiu+h8nLGFpvx
+         uGwJ5tkYBW9NhhF8VqH10M9AOFQ5ijyypZzkVZIGKWDeqpYgJ6FH48gpKlQk+Al/NPmb
+         E52Q==
+X-Gm-Message-State: AOJu0YxKZOS7B/V9zo29WqFuZAvVzgrjBamWP+HI/97M2Nc2oftZNwqI
+	M2+HiqThLLirLZMq7HKeHtdHTTVjeJ6+LldOEbA8JpCQ7j1dKHq0QyV/9Ja2mvieXNrM4JCvGxT
+	hJhkg+dKyLw==
+X-Gm-Gg: ATEYQzzT5Ca22jEjTUjrH9rOhuleYRaUxVkTejKROiMugNGtoI9NyCyykPdMUeBdVhJ
+	9hOzbGTl411Gdl0kkncLS+IlLYC3eq2IyWMmccNbVi0q70PrqdCI6Ct2SeeFuo+28ewWTKtf5P1
+	Rr5GPA3Ie4z6PwBip1Hy7+oDfCy9HoFdk6Np40+Qlw1g0Hsn/W30TeSLVPsr44fa/z37/63LbU1
+	BTWEhPWqUw//6uT1iv9DOIY5WMFKQnDT523eGANr/x8hh3MbtM3lodlN2ffErK4SE79Iyg3HhHK
+	1Qsi2dm40enQUqIjVZk+CwvIsuxkLJWLQNY1yHNF1g0FyNJ3uFyfFnCfKvzQ9rd3TTfi5Qz6jnU
+	jz6Z7jpzewfHFK3QSCvTDHEC0EMMyjFRpaPaqRuZYX8fblM49+vQdxuWyAAHw+Vfy4ZptgDbAhL
+	W7wBzmef2cCNb15i+eyHshpWL9SzEPV67roivt4xUBdiK//NfDIEIkFkq+kR4bsfzPMhH8SVeNc
+	2Q5E8042nKVBCHgpS7pnCzIat6u1owvPeTGsjWcfcyemIQpby8=
+X-Received: by 2002:a05:6102:6444:b0:602:ba51:5235 with SMTP id ada2fe7eead31-605681b588fmr2698218137.29.1775088761318;
+        Wed, 01 Apr 2026 17:12:41 -0700 (PDT)
 Received: from cashxps.fdma.com (c-76-137-39-120.hsd1.fl.comcast.net. [76.137.39.120])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d9bc9bb4csm1529312e0c.10.2026.04.01.17.10.48
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-953fb7f1523sm1756460241.1.2026.04.01.17.12.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 17:10:49 -0700 (PDT)
+        Wed, 01 Apr 2026 17:12:40 -0700 (PDT)
 From: John Meyer <jmeyer@fdma.com>
-To: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Cc: ckeepax@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	david.rhodes@cirrus.com,
+To: linux-sound@vger.kernel.org
+Cc: yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
 	John Meyer <jmeyer@fdma.com>
-Subject: [PATCH 1/1] mfd: cs42l43: Add CS42L45 SoundWire codec support
-Date: Wed,  1 Apr 2026 20:10:45 -0400
-Message-ID: <20260402001045.16933-1-jmeyer@fdma.com>
+Subject: [PATCH 1/2] ASoC: sdw_utils: Add CS42L45 and CS35L57 codec table entries
+Date: Wed,  1 Apr 2026 20:12:35 -0400
+Message-ID: <20260402001236.17086-1-jmeyer@fdma.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,101 +77,108 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CS42L45 is a SoundWire SDCA codec from Cirrus Logic that shares
-register layout and firmware infrastructure with the CS42L43.  Add
-support for it to the cs42l43 MFD driver.
+Add codec info table entries for two Cirrus Logic SoundWire devices
+found on the Dell XPS 14 DA14260 (Panther Lake):
 
-Add the CS42L45 part ID (0x4245, mfr 0x01FA) to the SoundWire device
-ID table so the kernel binds this driver to the hardware.
+CS35L57 (part ID 0x3557): A speaker amplifier that uses the same
+cs35l56 Linux driver as the CS35L56 and CS35L63.  Add a matching
+entry identical in structure to the existing 0x3556 and 0x3563
+entries so sof_sdw can look it up by part ID.
 
-Add the CS42L45 DEVID constant (0x00042A45) and accept it alongside the
-CS42L43 in the boot_work DEVID check.  Store the detected devid in
-struct cs42l43 so downstream code can distinguish chip variants.
-
-Handle an unexpected boot status on CS42L45: the chip reports a value
-outside the normal stage 1-4 range when already operational (observed:
-0x60c10609 on Dell XPS 14 DA14260 / Panther Lake).  Treat any
-unrecognised boot status as "device ready" for CS42L45 instead of
-returning -EINVAL.
+CS42L45 (part ID 0x4245): An SDCA headset codec closely related to
+the CS42L43.  The CS42L45 exposes three SDCA endpoints -- UAJ (jack
+playback), SmartMic (DMIC capture), and UAJ (jack capture) -- but
+does NOT have an internal speaker amp function; speaker output is
+handled by the external CS35L57 amps on separate SoundWire links.
+Add a three-DAI entry using the existing cs42l43 codec driver and
+DAI names (dp5 for jack out, dp1 for DMIC, dp2 for jack in).
 
 Tested on Dell XPS 14 DA14260 (Panther Lake, kernel 6.18.20).
 
 Signed-off-by: John Meyer <jmeyer@fdma.com>
 ---
- drivers/mfd/cs42l43-sdw.c        |  1 +
- drivers/mfd/cs42l43.c            | 10 +++++++++-
- include/linux/mfd/cs42l43-regs.h |  1 +
- include/linux/mfd/cs42l43.h      |  2 ++
- 4 files changed, 13 insertions(+), 1 deletion(-)
+ sound/soc/sdw_utils/soc_sdw_utils.c | 75 ++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
-diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
---- a/drivers/mfd/cs42l43-sdw.c
-+++ b/drivers/mfd/cs42l43-sdw.c
-@@ -189,6 +189,7 @@
-
- static const struct sdw_device_id cs42l43_sdw_id[] = {
- 	SDW_SLAVE_ENTRY(0x01FA, 0x4243, 0),
-+	SDW_SLAVE_ENTRY(0x01FA, 0x4245, 0),
- 	{}
- };
- MODULE_DEVICE_TABLE(sdw, cs42l43_sdw_id);
-
-diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
---- a/drivers/mfd/cs42l43.c
-+++ b/drivers/mfd/cs42l43.c
-@@ -827,6 +827,12 @@
- 	case CS42L43_MCU_BOOT_STAGE4:
- 		return 0;
- 	default:
-+		if (cs42l43->devid == CS42L45_DEVID_VAL) {
-+			dev_dbg(cs42l43->dev,
-+				"CS42L45 boot status 0x%x, assuming ready\n",
-+				boot_status);
-+			return 0;
-+		}
- 		dev_err(cs42l43->dev, "Invalid boot status: %d\n", boot_status);
- 		return -EINVAL;
- 	}
-@@ -918,6 +924,7 @@
-
- 	switch (devid) {
- 	case CS42L43_DEVID_VAL:
-+	case CS42L45_DEVID_VAL:
- 		break;
- 	default:
- 		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
-@@ -936,6 +943,8 @@
- 		goto err;
- 	}
-
-+	cs42l43->devid = devid;
-+
- 	dev_info(cs42l43->dev,
- 		 "devid: 0x%06x, rev: 0x%02x, otp: 0x%02x\n", devid, revid, otp);
-
-diff --git a/include/linux/mfd/cs42l43-regs.h b/include/linux/mfd/cs42l43-regs.h
---- a/include/linux/mfd/cs42l43-regs.h
-+++ b/include/linux/mfd/cs42l43-regs.h
-@@ -259,6 +259,7 @@
-
- /* CS42L43_DEVID */
- #define CS42L43_DEVID_VAL					0x00042A43
-+#define CS42L45_DEVID_VAL					0x00042A45
-
- /* CS42L43_GEN_INT_STAT_1 */
- #define CS42L43_INT_STAT_GEN1_MASK				0x00000001
-
-diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
---- a/include/linux/mfd/cs42l43.h
-+++ b/include/linux/mfd/cs42l43.h
-@@ -98,6 +98,8 @@
- 	bool sdw_pll_active;
- 	bool attached;
- 	bool hw_lock;
-+
-+	unsigned int devid;
- };
-
- #endif /* CS42L43_CORE_EXT_H */
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -559,6 +559,32 @@
+ 		.dai_num = 2,
+ 	},
+ 	{
++		.part_id = 0x3557,
++		.dais = {
++			{
++				.direction = {true, false},
++				.dai_name = "cs35l56-sdw1",
++				.component_name = "cs35l56",
++				.dai_type = SOC_SDW_DAI_TYPE_AMP,
++				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
++				.init = asoc_sdw_cs_amp_init,
++				.rtd_init = asoc_sdw_cs_spk_rtd_init,
++				.controls = generic_spk_controls,
++				.num_controls = ARRAY_SIZE(generic_spk_controls),
++				.widgets = generic_spk_widgets,
++				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
++			},
++			{
++				.direction = {false, true},
++				.dai_name = "cs35l56-sdw1c",
++				.dai_type = SOC_SDW_DAI_TYPE_AMP,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
++				.rtd_init = asoc_sdw_cs_spk_feedback_rtd_init,
++			},
++		},
++		.dai_num = 2,
++	},
++	{
+ 		.part_id = 0x3563,
+ 		.dais = {
+ 			{
+@@ -652,6 +678,43 @@
+ 		.dai_num = 4,
+ 	},
+ 	{
++		.part_id = 0x4245,
++		.codec_name = "cs42l43-codec",
++		.count_sidecar = asoc_sdw_bridge_cs35l56_count_sidecar,
++		.add_sidecar = asoc_sdw_bridge_cs35l56_add_sidecar,
++		.dais = {
++			{
++				.direction = {true, false},
++				.dai_name = "cs42l43-dp5",
++				.dai_type = SOC_SDW_DAI_TYPE_JACK,
++				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
++				.rtd_init = asoc_sdw_cs42l43_hs_rtd_init,
++				.controls = generic_jack_controls,
++				.num_controls = ARRAY_SIZE(generic_jack_controls),
++				.widgets = generic_jack_widgets,
++				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
++			},
++			{
++				.direction = {false, true},
++				.dai_name = "cs42l43-dp1",
++				.dai_type = SOC_SDW_DAI_TYPE_MIC,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
++				.rtd_init = asoc_sdw_cs42l43_dmic_rtd_init,
++				.widgets = generic_dmic_widgets,
++				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
++				.quirk = SOC_SDW_CODEC_MIC,
++				.quirk_exclude = true,
++			},
++			{
++				.direction = {false, true},
++				.dai_name = "cs42l43-dp2",
++				.dai_type = SOC_SDW_DAI_TYPE_JACK,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
++			},
++		},
++		.dai_num = 3,
++	},
++	{
+ 		.part_id = 0xaaaa, /* generic codec mockup */
+ 		.version_id = 0,
+ 		.dais = {
 --
 2.49.0
