@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DD218FDDE;
-	Thu,  2 Apr 2026 07:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F81235C01;
+	Thu,  2 Apr 2026 07:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775115027; cv=none; b=mq26bQy7xmWuRwkOoImhBQ0b2DMSeeYz9MREdoGmGKl6hj/RNib/6Tb5X1cpAnTj2eaJaW4yRdu97LJWuusaClymr+MUtBgkciTzrM8lHJsuSlMb8fLOgzdjr/5VpWiq0n7lQtN3m4FGjv/G/yYZ12/9OD/5EGxGGPfQ2QTICoI=
+	t=1775116230; cv=none; b=nVEcFkEez30fZ6QdfzppJuHRZyDI8JB+yc+rBk1C18vPRNA50XLAat5ps9XbQR13hybRtgHHWI3hNFMIbBAvPHut7d/ciXKsLVV4dlHylrMXqHTPELdCt7qzcX57XDLw4Jq06+jYP51Bvsqe92P44/xLWOD2E7KYvJrEz1cqJ+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775115027; c=relaxed/simple;
-	bh=MfSAV9WsMsDTaVRa7mteGbHSwioAOqH/iEFXtHo9H+I=;
+	s=arc-20240116; t=1775116230; c=relaxed/simple;
+	bh=HaZHAKerHR7zS7yF6e21QtfCHFtNkK8nRTAUsEPuNwg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MSinBijxIemhTIxuMaWu3DmDaSqJEtgvJa2ggNouml/SZQ+x+tAIXkT4+tVYqqG3BpMe1W44ojYB9zEqLPSG2vPDjQKAJEqYQiZ23YeR4gnLO+jBHTNSiGXAX+Jua73836ifDlfEmgFakLxhfAoN9SL3TfIc92GEoZJBGZhsXIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5TCeuPf; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=DGIBkQuWYdUPEyyygLYqK6TnIIryoQtBttiH44SHqpB7RzGi0Kl2XyIiEjYABFOvscUzMGhgOBMjiz/ZMgaeo77eW0CSrkhowcgc62pzkU579fXygqu2HI7DYUlx9+XQtZAOOouY+6A8yRl6HC3mnEYYYXaIqfxdRHAeCsuUJPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agcglJYb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5TCeuPf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513A0C2BC9E;
-	Thu,  2 Apr 2026 07:30:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agcglJYb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCEDAC19423;
+	Thu,  2 Apr 2026 07:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775115027;
-	bh=MfSAV9WsMsDTaVRa7mteGbHSwioAOqH/iEFXtHo9H+I=;
+	s=k20201202; t=1775116230;
+	bh=HaZHAKerHR7zS7yF6e21QtfCHFtNkK8nRTAUsEPuNwg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=C5TCeuPf0skSCzjL9INHkrEksKJVeOdJO0gC/okbb+rOWvsp9FHQ0HkTxZEC8XB3i
-	 JpngjeqXFWZz/hOi25HUO9scbo/Adi5jempWETxrbNveoLC+z2xvY3L0JUq5lcuAGc
-	 chHMkdWAsc9Z3BBdaOZcOt61W8cOzdG43GpJzYfcO+Dx5JU2+FiczsPtrhns8WguT/
-	 trxDZjVUk0kwweaYoVGp3/51If9B7lP6jF08HylOHn4EYe3plG3yUClMkshBP5GnZb
-	 3ACQXz3d+AKvep9fH20PDf7mNPU/Nl1qZNnlk9yDYUt5S0WbNQZ/4x6y1vIQ6yWlFX
-	 ujI7GscoMT4SQ==
-Message-ID: <ee23daf4-8181-4ab0-bd21-b2ea636168f7@kernel.org>
-Date: Thu, 2 Apr 2026 09:30:22 +0200
+	b=agcglJYb52jJmKSX0SZFElEIAkS1dtJfn4HMSyC12BNoNdxufDpB1663gOe5xs3Id
+	 8Lt8HJ58hoK1+/BjvpRFIx0rUpQnCyOxLzy1xRI5L+C+nmBUNdDc8MAHSuUhsxP6+j
+	 E2tnCK0hCUivBba2fOaUaoS8bq1oE1MgAMRzW+Rm6rK2g7KAl/IlTqxbaXH/X54tKa
+	 bm8SIx6JTXfU22W+UG45kmK/c2haK0kd06fI7alCI7Hdv/Qyt/ymNrbios5Fm4J9I2
+	 l2ZUroGear0+bWw7JY1TUYv1Z9A9KWPq9KFT0Aj9xfIHCUWeo9DlSWxJ+SkD3Jqkj5
+	 arftOnx7Z2ZcQ==
+Message-ID: <3f057f41-6017-4f7c-a934-1d27993c5bad@kernel.org>
+Date: Thu, 2 Apr 2026 09:50:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,15 +37,17 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] ASoC: codecs: wcd937x: Add conditional regulator
  control for wcd937x
-To: "karthik.s" <karthik.s@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Karthik S <karthik.s@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20260402072256.2811085-1-karthik.s@oss.qualcomm.com>
+ <ee23daf4-8181-4ab0-bd21-b2ea636168f7@kernel.org>
+ <CAPg2bp0DeOcQB-=VJDC5SSiFLLFL6PBPJUBHXSOP9EJZA3+bqw@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,28 +93,20 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260402072256.2811085-1-karthik.s@oss.qualcomm.com>
+In-Reply-To: <CAPg2bp0DeOcQB-=VJDC5SSiFLLFL6PBPJUBHXSOP9EJZA3+bqw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/04/2026 09:22, karthik.s wrote:
-> Add has_always_on_supplies for managing regulators. Indicates that the
-> codec power supplies are provided by the board as always-on rails and
-> are not switchable by the codec or its associated regulators. This implies
-> that the codec supply regulators are always enabled by the system and
-> must not be requested or enabled by the codec driver.
+On 02/04/2026 09:34, Karthik S wrote:
+> hi Krzysztof,
 > 
-> Signed-off-by: karthik.s <karthik.s@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/sound/qcom,wcd937x.yaml     |  8 ++++++++
->  sound/soc/codecs/wcd937x.c                          | 13 +++++++++----
->  2 files changed, 17 insertions(+), 4 deletions(-)
-> 
+> Sorry for the absence of changelog, i updated the dt-binding property
+> description to indicate that the power supplies for some boards such as the
+> IA MEZZ is on always-on-rails, please let me know if details are sufficient
+> or need to expand more on it.
 
-I gave you review within 5 minutes and you send exactly the same after.
-Without any changelog or explanations or response.
-
-NAK
+Don't top post. You simply ignored the comments. Respond inline to them
+and do not send new versions.
 
 Best regards,
 Krzysztof
