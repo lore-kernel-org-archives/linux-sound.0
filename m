@@ -1,130 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBDD332EBD;
-	Thu,  2 Apr 2026 19:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC8931B803;
+	Thu,  2 Apr 2026 21:58:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775157354; cv=none; b=rv84ryPKFFNB0APrbws/Hjwn4EpquTaKAp0v0/bEimHvZd5VqC9IYpSMD+W45Wp1Q4R48A86tOMp/SDscEhDekjWnDdyGubtE/h6OCDanr9vbVCoNykLrpK2mc48h89ckwLaIYvyaXrGVMMD0O8Z8Vpb4kDj6L0aaKsiZ4LbdgQ=
+	t=1775167107; cv=none; b=k0KTnsXAl0U1zEWJXPFqqxg/0Ps3JXPapOn3I1EGDoeKTvF9US/PyIfdG+xpLI7tvChHd36X2Tl7BxvkXQId6eqjJ0CvRUFjBPnNvmh0R8aT2gMib5ftcekYMyYcmiA1YqUefTFMScCkjx1iMYXus6GRMr0nosElGxpPdOE0UK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775157354; c=relaxed/simple;
-	bh=vmcgmx2b1d+sEcCkP/PVuRC1VBB/6wisaD/PfN6lEgU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gv7y1qLNI3/+TaAIH1WLhs5ZTe70ZqWqXuRwzUXiiqKw/Llagnl19p1M4/KDFUN4Z9LnQaibvSLkapsrHvqUuZ7THnJCX6HmoaBc+k8Qd9HpbkGldqcJxtYs6XKqp0abmZ1/389IcDs4Y2jPy1kgPYMaOkXMucZUdqYr4zIa1v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACLWA4K/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775167107; c=relaxed/simple;
+	bh=QvUc9vANqYsb1luDp8UYk1f8BqkeVaTMVXLV75eutnQ=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=DVJp2RZb27ELpuSXbKU4Hp/Y6oxtY4GVZi+hvh0cGpfFqwLi3iiECU8FkXW3LsP2E4BFa3lHd7gKiNOQi5H6gIaKO0hKHraIz2ZSgvjaY8pL8Nj3ueFJ33XzKXy8KKHzyLjplHoEp/PCfYJu8MKrJG/teYDsTZ/J1SYs3fWx0zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KBJzCsq7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACLWA4K/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14F68C19424;
-	Thu,  2 Apr 2026 19:15:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KBJzCsq7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D96C116C6;
+	Thu,  2 Apr 2026 21:58:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775157354;
-	bh=vmcgmx2b1d+sEcCkP/PVuRC1VBB/6wisaD/PfN6lEgU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ACLWA4K/rONuT/BL90yp++j7/3xrb5B5OQf3g2JPW6l720NbNNp3SSm/8J5Mgaceb
-	 UWKzxQQhANPSfCK6QAe13QhTTebPFAVO423WF5pr7RkNGTwX9E9YTc5+JKTcPojZ3a
-	 UqTGUVXq3S2nYZAqXTdF/s5tnMMEYDR5gyhQeFRkQtNXcETPYjkm7oH30QhYFHYYjA
-	 ATQ94DMK9ylk1OpYEZ0dQ64d4dgWdyOwT96KHBQx/hT8JGn874+RN1VF18arYlqZwX
-	 gE/6rbYguIo5aDSA2b2Qv6bekgiFffQz/EKXinMwc4m6xBrOvmOkEy6t4GIB5vM5Qt
-	 brJbfW796RMzQ==
-From: Mark Brown <broonie@kernel.org>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org, 
- dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, srini@kernel.org, val@packett.cool, 
- mailingradian@gmail.com
-In-Reply-To: <20260402081118.348071-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20260402081118.348071-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v9 00/13] ASoC: qcom: q6dsp: few fixes and enhancements
-Message-Id: <177514411128.51134.5760476545108119591.b4-ty@b4>
-Date: Thu, 02 Apr 2026 16:35:11 +0100
+	s=k20201202; t=1775167106;
+	bh=QvUc9vANqYsb1luDp8UYk1f8BqkeVaTMVXLV75eutnQ=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=KBJzCsq7TNcgHpU+TWPAd3W8YuuJXdgpviR9Ow38UzYp/E+eDMYCQdUq5+04/Mnru
+	 vF8yruBgH9Kqoxj3RdUA00tDQnEgnr1qE7AXbmqG7qka9IVu/f1eZKTg86JWT+ETrn
+	 TjxI1jdECoYVYFvAydaPvhTr0DLyOkSNS0rHhfEWArmmkmeciwTpFwX+5aQHpstoUl
+	 foXfbAlUvknuR2UINHvJ3kK1f5ozCCWUSVy6PFFL3eEN4gpoDz+keSHvFP6Ep2zvPe
+	 Ej2doeiB7lotVTyVy6ov80wS5IsFWdnGSH4WR6z1XJ7lBV9TObDwXGWdYhpggyK3MT
+	 1b1VbHt8uneOw==
+Date: Thu, 2 Apr 2026 15:58:18 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: Yury Norov <ynorov@nvidia.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    "Michael S. Tsirkin" <mst@redhat.com>, Theodore Ts'o <tytso@mit.edu>, 
+    Albert Ou <aou@eecs.berkeley.edu>, Alexander Duyck <alexanderduyck@fb.com>, 
+    Alexander Gordeev <agordeev@linux.ibm.com>, 
+    Alexander Viro <viro@zeniv.linux.org.uk>, 
+    Alexandra Winter <wintera@linux.ibm.com>, 
+    Andreas Dilger <adilger.kernel@dilger.ca>, 
+    Andrew Lunn <andrew+netdev@lunn.ch>, Anna Schumaker <anna@kernel.org>, 
+    Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+    Arnaldo Carvalho de Melo <acme@kernel.org>, 
+    Aswin Karuvally <aswin@linux.ibm.com>, Borislav Petkov <bp@alien8.de>, 
+    Carlos Maiolino <cem@kernel.org>, 
+    Catalin Marinas <catalin.marinas@arm.com>, Chao Yu <chao@kernel.org>, 
+    Christian Borntraeger <borntraeger@linux.ibm.com>, 
+    Christian Brauner <brauner@kernel.org>, 
+    Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, 
+    David Airlie <airlied@gmail.com>, 
+    Dominique Martinet <asmadeus@codewreck.org>, 
+    Dongsheng Yang <dongsheng.yang@linux.dev>, 
+    Eric Dumazet <edumazet@google.com>, 
+    Eric Van Hensbergen <ericvh@kernel.org>, 
+    Heiko Carstens <hca@linux.ibm.com>, 
+    Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>, 
+    Jaegeuk Kim <jaegeuk@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+    Jani Nikula <jani.nikula@linux.intel.com>, 
+    Janosch Frank <frankja@linux.ibm.com>, Jaroslav Kysela <perex@perex.cz>, 
+    Jens Axboe <axboe@kernel.dk>, 
+    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+    Latchesar Ionkov <lucho@ionkov.net>, Linus Walleij <linusw@kernel.org>, 
+    Madhavan Srinivasan <maddy@linux.ibm.com>, Mark Brown <broonie@kernel.org>, 
+    Michael Ellerman <mpe@ellerman.id.au>, Miklos Szeredi <miklos@szeredi.hu>, 
+    Namhyung Kim <namhyung@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+    Paolo Abeni <pabeni@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+    Paul Walmsley <pjw@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+    Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+    Sean Christopherson <seanjc@google.com>, Simona Vetter <simona@ffwll.ch>, 
+    Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@kernel.org>, 
+    Trond Myklebust <trondmy@kernel.org>, 
+    Tvrtko Ursulin <tursulin@ursulin.net>, Vasily Gorbik <gor@linux.ibm.com>, 
+    Will Deacon <will@kernel.org>, Yury Norov <yury.norov@gmail.com>, 
+    Zheng Gu <cengku@gmail.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+    linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+    linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
+    linux-s390@vger.kernel.org, linux-block@vger.kernel.org, 
+    intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+    dm-devel@lists.linux.dev, netdev@vger.kernel.org, 
+    linux-spi@vger.kernel.org, linux-ext4@vger.kernel.org, 
+    linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
+    linux-xfs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+    linux-crypto@vger.kernel.org, linux-mm@kvack.org, 
+    linux-perf-users@vger.kernel.org, v9fs@lists.linux.dev, 
+    virtualization@lists.linux.dev, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 8/8] arch: use rest_of_page() macro where appropriate
+In-Reply-To: <20260304012717.201797-9-ynorov@nvidia.com>
+Message-ID: <ee15482d-22a8-9686-ba64-d216b25d8e68@kernel.org>
+References: <20260304012717.201797-1-ynorov@nvidia.com> <20260304012717.201797-9-ynorov@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-efa4b
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3225; i=broonie@kernel.org;
- h=from:subject:message-id; bh=vmcgmx2b1d+sEcCkP/PVuRC1VBB/6wisaD/PfN6lEgU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpzsBmINEhPyOy4OqH/NAYGmbM3RkQgB5HkyK6p
- JqKnv02sGCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCac7AZgAKCRAk1otyXVSH
- 0E3oB/9vVI1XIIBBGP5Y+VBEm3Fvl1zALIOd1g0AY23zTjIUPgiEL52amWfgkGZNkR7tiyGKqJh
- CYHy4h5g7SmSv+M7e1CnqvHZ+HCsBkLLYiTw0WoJAIfmuSVDnz0fYcJakh/zpmw14YoOtpCcEPK
- rql/Eee22r5qfXFR0a+xBY43harNzZOamJKhMRZW10t3eU48OrSbi7WNKuAhPhF7jWZqlGda4ND
- SI+dQpDHKjcuzTtG9Z8j2IisVTHr5my2q8zVR40Wu90CcVUcniXgScFZ/LnCtb1BtwuTgHZeu23
- Bb4bLuo0kdtQ3fpen+VI4kf2KdFk0M5E9L8fxKrqEcTh7YTZ
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 02 Apr 2026 08:11:05 +0000, Srinivas Kandagatla wrote:
-> ASoC: qcom: q6dsp: few fixes and enhancements
+On Tue, 3 Mar 2026, Yury Norov wrote:
+
+> Switch arch code to using the macro. No functional changes intended.
 > 
-> This patchset contains few fixes for the bugs hit during testing with
-> Monza EVK platform
-> - around array out of bounds access on dai ids which keep extending but
->   the drivers seems to have hardcoded some numbers, fix this and clean
-> the mess up
-> - fix few issues discovered while trying to shut down dsp.
-> - flooding rpmsg with write requests due to not resetting queue pointer,
->   fix this resetting the pointer in trigger stop.
-> - possible multiple graph opens which can result in open failures.
-> 
-> [...]
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
 
-Applied to
+Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-Thanks!
-
-[01/13] ASoC: qcom: q6apm: move component registration to unmanaged version
-        https://git.kernel.org/broonie/sound/c/6ec1235fc941
-[02/13] ASoC: qcom: q6apm: remove child devices when apm is removed
-        https://git.kernel.org/broonie/sound/c/4a0e1bcc98f7
-[03/13] ASoC: qcom: qdsp6: topology: check widget type before accessing data
-        https://git.kernel.org/broonie/sound/c/d5bfdd28e0cd
-[04/13] ASoC: qcom: q6apm-lpass-dai: Fix multiple graph opens
-        https://git.kernel.org/broonie/sound/c/69acc488aaf3
-[05/13] ASoC: qcom: q6apm-dai: reset queue ptr on trigger stop
-        https://git.kernel.org/broonie/sound/c/cab45ab95ce7
-[06/13] ASoC: dt-bindings: qcom: add LPASS LPI MI2S dai ids
-        https://git.kernel.org/broonie/sound/c/e46957f27c60
-[07/13] ASoC: qcom: common: validate cpu dai id during parsing
-        https://git.kernel.org/broonie/sound/c/d49ee8faefec
-[08/13] ASoC: qcom: qdsp6: lpass-ports: add support for LPASS LPI MI2S dais
-        https://git.kernel.org/broonie/sound/c/bcd0df1ebc9d
-[09/13] ASoC: qcom: q6dsp: Add Senary MI2S audio interface support
-        https://git.kernel.org/broonie/sound/c/ae0de4e50f8f
-[10/13] ASoC: qcom: qdapm-lpass-dai: correct the error message
-        https://git.kernel.org/broonie/sound/c/8f542c7c4aa9
-[11/13] ASoC: qcom: q6apm-lpass-dai: move graph start to trigger
-        https://git.kernel.org/broonie/sound/c/b54a38af7138
-[12/13] ASoC: qcom: qdsp6: remove search for module iid in hot path
-        https://git.kernel.org/broonie/sound/c/d8b4163038dc
-[13/13] ASoC: qcom: q6apm: Add support for early buffer mapping on DSP
-        https://git.kernel.org/broonie/sound/c/8ea6e25c8536
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+- Paul
