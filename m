@@ -1,88 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5662F288C34
-	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 13:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB31326ED37
+	for <linux-sound@vger.kernel.org>; Thu,  2 Apr 2026 13:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775134863; cv=none; b=SNTyNyko/akhfBw3oIPioCWXKkRPxCtjdSiXgsPJGZxv6Svs1FBw17u7XA39AwASbn3wHax1mMvdmORhluEwt0R/TzQFOuUIg45xLzwOf22MoHsIQYIcCkaqmge+n1+XbyuaiShlSn0M1P/DX1brI7MQw7kriJ6qOC3EG6zEbrs=
+	t=1775134985; cv=none; b=qTX6oXuFfqoDFiz3nH7VD6MhwzpPl+HqSD9w4AqAcrzxJqmS7cMgk5aoWbk580256UMALn6EPu4/+NEC6qWzMXslUaHTJTVqZJjdsjXFICD6HwkXkMA/6nwOQVKXVqBX/+zW/Ul3QxNkhZPAwRGoCccakz/QZaOmxDSnWjFshTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775134863; c=relaxed/simple;
-	bh=TpUrGNltROE18LX7Qy8Sf5Nx9sgQN9pa7veuPLn7F18=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WOpuNQ5p6Tbd0qwL1jMDEx7sFHHbOWduNv+V3DR+JS9VOgKS9Qn44gXxnoz9y+m1HV0OoHyHUzYeFLUNcbjhySNpl/uhsyM3EcmSuZxlCXcTy5vBS/oJCK62VN06FbvGullxKrvsdUwYGZRkv7ojJSx0bY+msdLtaZXpf2Aicr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j7xjMX0t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dT3LP55G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r/QGOAE6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RCvV3DjM; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1775134985; c=relaxed/simple;
+	bh=xabCtXLN693VnaL+pXUj5T1vZibrkFnugnh2bXK2ePU=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=EkdoRwRx5GsrNfgou4wCHGuuhk3EMdzLUsSASN3jc8D6TVgowdj64KYAPHVVOYHfz2qHw6aQRRa6hNh2JmZRoMZ+o4N7WBudsed9Jhfmls+h71gaCRAy1auUxZL8Oj2DlFiplLUj3h1SKdGTZk/yHtsrLhM4FJSYgyXI60aLI5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kUwA9BdN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Sxytw5ah; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aXCeHekS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fxgM8rz6; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j7xjMX0t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dT3LP55G";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r/QGOAE6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RCvV3DjM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUwA9BdN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sxytw5ah";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aXCeHekS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fxgM8rz6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 490385BDE7;
-	Thu,  2 Apr 2026 13:00:48 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 309244D344;
+	Thu,  2 Apr 2026 13:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775134849; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1775134976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GAvU/VKtp81oZ2x66yU92Cc1uykzV5+KFXptNkvusiU=;
-	b=j7xjMX0t9GCsHg4hHd/3ycm4v7agtyxNDh5L5/VbJgaW5Urdn7Lzshewv2F4FlpzifSVWL
-	rmdI0AuZG+0lo702b0Q+NIRGVHqSokWlNLx5izh15uV++StAy8J138LPvo+bSI8BKpgyIV
-	K2M1fx9RQGTRsM9T6GHQB10ffIWk1cE=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=voYJRkjcHxNmto1n5k2yK0hDAcY3ArWEm4vfPXp7ISw=;
+	b=kUwA9BdNQioyK7NBFItiB7pBnhpeCP7idrVEcWJXl8gvXxw6XzJQ/ofKGPpKElcjW8/dc4
+	Lrfhv4vrm5nqC1ivegX/CwsMAyS1Mxoj/R7JBuYG9lEhtEXHYFTtXz2Bz68fimvfeEkZky
+	suCxKfu1IBsXiZERlXq76jp5O/7sguY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775134849;
+	s=susede2_ed25519; t=1775134976;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GAvU/VKtp81oZ2x66yU92Cc1uykzV5+KFXptNkvusiU=;
-	b=dT3LP55Gb7/SnRbTo3ENcJV0x2HeT9+2aqZb/u3rYQuhKtC1ld0WhmYRXNKr8YOgdjgciy
-	XABu43iVhNsPJqCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="r/QGOAE6";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RCvV3DjM
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=voYJRkjcHxNmto1n5k2yK0hDAcY3ArWEm4vfPXp7ISw=;
+	b=Sxytw5ahtHAzF6wL2yK1YSZXb3pF4z9L80R1ikn+9zAsowbXWTbKpenk+ILavefUoATNsL
+	ngdghB81sHjim1DQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775134848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1775134975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GAvU/VKtp81oZ2x66yU92Cc1uykzV5+KFXptNkvusiU=;
-	b=r/QGOAE6OVH3VOTbcAH44ukCfCKXePA0tZPOLcg6SPmzYXNhr6y9PNaFzi1qseyUvUrQzq
-	H3V8cSUm1SQO3twvE2xgNW4tUNzYrwid1wnm++M35utYFrK2q6w0GCNSy2NO6emIoyUGan
-	3JFPqdnp5UU9eHzkmojlne9KJRKk234=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=voYJRkjcHxNmto1n5k2yK0hDAcY3ArWEm4vfPXp7ISw=;
+	b=aXCeHekSOdNesbJQ6102ciCG0LuwRlhr4TVyAT3sxKPMGpVx2KXlZXhUWgo+Cm4svrHC5U
+	Me3HUmi3Fr9Q/KkRxszjaviP28Koepv88vZ+cUhC6OkKOVQgItIKKvxK5DwZDmETwQLW4+
+	ib9HXOdXMyGEDrntW0masNHY8rXdOLY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775134848;
+	s=susede2_ed25519; t=1775134975;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GAvU/VKtp81oZ2x66yU92Cc1uykzV5+KFXptNkvusiU=;
-	b=RCvV3DjME+/W4idMM79cvokoGZJB3ObMLBnnxrQVXqPIqINaAEd1bjGVCDnxgiOzQgnLUK
-	1QCZdnDh6VdlisDA==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=voYJRkjcHxNmto1n5k2yK0hDAcY3ArWEm4vfPXp7ISw=;
+	b=fxgM8rz6yuv/twC0wYXaf0T5dswXUIIli/zW3XUWCqB0nrvmm4E6RAE8pwyJ1Ekn/aCPPc
+	aPVTGmm9g4CX1hDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF1544A0B0;
-	Thu,  2 Apr 2026 13:00:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1B214A0B0;
+	Thu,  2 Apr 2026 13:02:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rFgAOX9ozmmFPwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 02 Apr 2026 13:00:47 +0000
-Date: Thu, 02 Apr 2026 15:00:47 +0200
-Message-ID: <87mrzlikjk.wl-tiwai@suse.de>
+	id rnehOf5ozmk1QQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 02 Apr 2026 13:02:54 +0000
+Date: Thu, 02 Apr 2026 15:02:54 +0200
+Message-ID: <87ldf5ikg1.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	zhanjun@uniontech.com,	niecheng1@uniontech.com,	kernel@uniontech.com,
-	=?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>,	Kagura <me@mail.kagurach.uk>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: apply quirk for MOONDROP JU Jiu
-In-Reply-To: <87qzoxiqnm.wl-tiwai@suse.de>
-References: <20260402-syy-v1-1-068d3bc30ddc@linux.dev>
-	<87qzoxiqnm.wl-tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.0-rc7
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,312 +83,128 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,kagurach.uk:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 490385BDE7
 
-On Thu, 02 Apr 2026 12:48:45 +0200,
-Takashi Iwai wrote:
-> 
-> On Thu, 02 Apr 2026 07:36:57 +0200,
-> Cryolitia PukNgae wrote:
-> > 
-> > It(ID 31b2:0111 JU Jiu) reports a MIN value -12800 for volume control, but
-> > will mute when setting it less than -10880.
-> > 
-> > Thanks to my girlfriend Kagura for reporting this issue.
-> > 
-> > Cc: Kagura <me@mail.kagurach.uk>
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
-> 
-> Applied to for-next branch now.
-> 
-> > ---
-> > Btw, is it a good idea for turn the volume_control_quirks from
-> > switch-case to a table and sort it accroding to USB VID&PID?
-> 
-> Yeah, this might be better, indeed.
-> 
-> But the quirk isn't really straightforward for those, maybe we need a
-> matching of USB id plus kctl id name string, then update the cval
-> fields conditionally with flags.  Let me cook later...
+Linus,
 
-This doesn't look easy.  A quick hack is like below, but it doesn't
-reduce the code, ended up with more lines.
+please pull sound fixes for v7.0-rc7 from:
 
-So, unless any other clever implementation is given, still not much
-worth for it, as it seems.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0-rc7
 
+The topmost commit is b477ab8893c3e6b4be3074358db830687de7bfff
 
-Takashi
+----------------------------------------------------------------
 
--- 8< --
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1070,11 +1070,107 @@ void snd_usb_mixer_elem_free(struct snd_kcontrol *kctl)
-  * interface to ALSA control for feature/mixer units
-  */
- 
-+#define VOL_QUIRK_MIN	BIT(0)
-+#define VOL_QUIRK_MAX	BIT(1)
-+#define VOL_QUIRK_RES	BIT(2)
-+
-+struct mixer_volume_quirk {
-+	unsigned int id;
-+	const char *ctl_name;
-+	unsigned int to_update;
-+	int min, max, res;
-+};
-+
-+#define QUIRK_ENTRY(vid, pid, name) \
-+	.id = USB_ID(vid, pid), .ctl_name = (name)
-+#define QUIRK_MIN(v) \
-+	.to_update = VOL_QUIRK_MIN, .min = (v)
-+#define QUIRK_RES(v) \
-+	.to_update = VOL_QUIRK_RES, .res = (v)
-+#define QUIRK_MINMAX(vmin, vmax) \
-+	.to_update = VOL_QUIRK_MIN | VOL_QUIRK_MAX, .min = (vmin), .max = (vmax)
-+#define QUIRK_MINMAXRES(vmin, vmax, vres) \
-+	.to_update = VOL_QUIRK_MIN | VOL_QUIRK_MAX | VOL_QUIRK_RES, \
-+	.min = (vmin), .max = (vmax), .res = (vres)
-+
-+static const struct mixer_volume_quirk mixer_volume_quirk_entries[] = {
-+	/* M-Audio Fast Track C400 */
-+	{ QUIRK_ENTRY(0x0763, 0x2030, "Effect Duration"),
-+	  QUIRK_MINMAXRES(0x0000, 0xffff, 0x00e6) },
-+	{ QUIRK_ENTRY(0x0763, 0x2030, "Effect Volume"),
-+	  QUIRK_MINMAX(0x00, 0xff) },
-+	{ QUIRK_ENTRY(0x0763, 0x2030, "Effect Feedback Volume"),
-+	  QUIRK_MINMAX(0x00, 0xff) },
-+	{ QUIRK_ENTRY(0x0763, 0x2030, "Effect Return"),
-+	  QUIRK_MINMAXRES(0xb706, 0xff7b, 0x0073) },
-+	{ QUIRK_ENTRY(0x0763, 0x2030, "Playback Volume"),
-+	  QUIRK_MINMAXRES(0xb5fb, 0xfcfe, 0x0073) }, /* -73 dB = 0xb6ff */
-+	{ QUIRK_ENTRY(0x0763, 0x2030, "Effect Send"),
-+	  QUIRK_MINMAXRES(0xb5fb, 0xfcfe, 0x0073) }, /* -73 dB = 0xb6ff */
-+
-+	/* M-Audio Fast Track C600 */
-+	{ QUIRK_ENTRY(0x0763, 0x2031, "Effect Duration"),
-+	  QUIRK_MINMAXRES(0x0000, 0xffff, 0x00e6) },
-+	{ QUIRK_ENTRY(0x0763, 0x2031, "Effect Volume"),
-+	  QUIRK_MINMAX(0x00, 0xff) },
-+	{ QUIRK_ENTRY(0x0763, 0x2031, "Effect Feedback Volume"),
-+	  QUIRK_MINMAX(0x00, 0xff) },
-+	{ QUIRK_ENTRY(0x0763, 0x2031, "Effect Return"),
-+	  QUIRK_MINMAXRES(0xb706, 0xff7b, 0x0073) },
-+	{ QUIRK_ENTRY(0x0763, 0x2031, "Playback Volume"),
-+	  QUIRK_MINMAXRES(0xb5fb, 0xfcfe, 0x0073) }, /* -73 dB = 0xb6ff */
-+	{ QUIRK_ENTRY(0x0763, 0x2031, "Effect Send"),
-+	  QUIRK_MINMAXRES(0xb5fb, 0xfcfe, 0x0073) }, /* -73 dB = 0xb6ff */
-+
-+	/* M-Audio Fast Track Ultra 8R */
-+	{ QUIRK_ENTRY(0x0763, 0x2081, "Effect Duration"),
-+	  QUIRK_MINMAXRES(0x0000, 0x7f00, 0x0100) },
-+	{ QUIRK_ENTRY(0x0763, 0x2081, "Effect Volume"),
-+	  QUIRK_MINMAX(0x00, 0x7f) },
-+	{ QUIRK_ENTRY(0x0763, 0x2081, "Effect Feedback Volume"),
-+	  QUIRK_MINMAX(0x00, 0x7f) },
-+
-+	/* M-Audio Fast Track Ultra */
-+	{ QUIRK_ENTRY(0x0763, 0x2080, "Effect Duration"),
-+	  QUIRK_MINMAXRES(0x0000, 0x7f00, 0x0100) },
-+	{ QUIRK_ENTRY(0x0763, 0x2080, "Effect Volume"),
-+	  QUIRK_MINMAX(0x00, 0x7f) },
-+	{ QUIRK_ENTRY(0x0763, 0x2080, "Effect Feedback Volume"),
-+	  QUIRK_MINMAX(0x00, 0x7f) },
-+
-+	/* CM102-A+/102S+ */
-+	{ QUIRK_ENTRY(0x0d8c, 0x0103, "PCM Playback Volume"),
-+	  QUIRK_MIN(-256) },
-+
-+	/* MS LifeChat LX-3000 Headset */
-+	{ QUIRK_ENTRY(0x045e, 0x070f, "Speaker Playback Volume"),
-+	  QUIRK_RES(192) },
-+
-+	/* QuickCam E3500 */
-+	{ QUIRK_ENTRY(0x046d, 0x09a4, "Mic Capture Volume"),
-+	  QUIRK_MINMAXRES(6080, 8768, 192) },
-+
-+	/* MOONDROP Quark2 */
-+	{ QUIRK_ENTRY(0x3302, 0x12db, "PCM Playback Volume"),
-+	  QUIRK_MIN(-14208) }, /* Mute under it */
-+
-+	/* Huawei Technologies Co., Ltd. CM-Q3 */
-+	{ QUIRK_ENTRY(0x12d1, 0x3a07, "PCM Playback Volume"),
-+	  QUIRK_MIN(-11264) }, /* Mute under it */
-+
-+	/* MOONDROP JU Jiu */
-+	{ QUIRK_ENTRY(0x31b2, 0x0111, "PCM Playback Volume"),
-+	  QUIRK_MIN(-10880) }, /* Mute under it */
-+
-+	{} /* terminator */
-+};
-+
- /* volume control quirks */
- static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 				  struct snd_kcontrol *kctl)
- {
- 	struct snd_usb_audio *chip = cval->head.mixer->chip;
-+	const struct mixer_volume_quirk *q;
- 
- 	if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_384) {
- 		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
-@@ -1090,71 +1186,21 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 		}
- 	}
- 
--	switch (chip->usb_id) {
--	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
--	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C600 */
--		if (strcmp(kctl->id.name, "Effect Duration") == 0) {
--			cval->min = 0x0000;
--			cval->max = 0xffff;
--			cval->res = 0x00e6;
--			break;
--		}
--		if (strcmp(kctl->id.name, "Effect Volume") == 0 ||
--		    strcmp(kctl->id.name, "Effect Feedback Volume") == 0) {
--			cval->min = 0x00;
--			cval->max = 0xff;
--			break;
--		}
--		if (strstr(kctl->id.name, "Effect Return") != NULL) {
--			cval->min = 0xb706;
--			cval->max = 0xff7b;
--			cval->res = 0x0073;
--			break;
--		}
--		if ((strstr(kctl->id.name, "Playback Volume") != NULL) ||
--			(strstr(kctl->id.name, "Effect Send") != NULL)) {
--			cval->min = 0xb5fb; /* -73 dB = 0xb6ff */
--			cval->max = 0xfcfe;
--			cval->res = 0x0073;
--		}
--		break;
--
--	case USB_ID(0x0763, 0x2081): /* M-Audio Fast Track Ultra 8R */
--	case USB_ID(0x0763, 0x2080): /* M-Audio Fast Track Ultra */
--		if (strcmp(kctl->id.name, "Effect Duration") == 0) {
--			usb_audio_info(chip,
--				       "set quirk for FTU Effect Duration\n");
--			cval->min = 0x0000;
--			cval->max = 0x7f00;
--			cval->res = 0x0100;
-+	for (q = mixer_volume_quirk_entries; q->id; q++) {
-+		if (q->id == chip->usb_id &&
-+		    !strcmp(q->ctl_name, kctl->id.name)) {
-+			if (q->to_update & VOL_QUIRK_MIN)
-+				cval->min = q->min;
-+			if (q->to_update & VOL_QUIRK_MAX)
-+				cval->max = q->max;
-+			if (q->to_update & VOL_QUIRK_RES)
-+				cval->res = q->res;
- 			break;
- 		}
--		if (strcmp(kctl->id.name, "Effect Volume") == 0 ||
--		    strcmp(kctl->id.name, "Effect Feedback Volume") == 0) {
--			usb_audio_info(chip,
--				       "set quirks for FTU Effect Feedback/Volume\n");
--			cval->min = 0x00;
--			cval->max = 0x7f;
--			break;
--		}
--		break;
--
--	case USB_ID(0x0d8c, 0x0103):
--		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
--			usb_audio_info(chip,
--				 "set volume quirk for CM102-A+/102S+\n");
--			cval->min = -256;
--		}
--		break;
--
--	case USB_ID(0x045e, 0x070f): /* MS LifeChat LX-3000 Headset */
--		if (!strcmp(kctl->id.name, "Speaker Playback Volume")) {
--			usb_audio_info(chip,
--				"set volume quirk for MS LifeChat LX-3000\n");
--			cval->res = 192;
--		}
--		break;
-+	}
- 
-+	/* other exceptional cases */
-+	switch (chip->usb_id) {
- 	case USB_ID(0x0471, 0x0101):
- 	case USB_ID(0x0471, 0x0104):
- 	case USB_ID(0x0471, 0x0105):
-@@ -1172,16 +1218,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 		}
- 		break;
- 
--	case USB_ID(0x046d, 0x09a4):
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set volume quirk for QuickCam E3500\n");
--			cval->min = 6080;
--			cval->max = 8768;
--			cval->res = 192;
--		}
--		break;
--
- 	case USB_ID(0x0495, 0x3042): /* ESS Technology Asus USB DAC */
- 		if ((strstr(kctl->id.name, "Playback Volume") != NULL) ||
- 			strstr(kctl->id.name, "Capture Volume") != NULL) {
-@@ -1190,27 +1226,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 			cval->res = 1;
- 		}
- 		break;
--	case USB_ID(0x3302, 0x12db): /* MOONDROP Quark2 */
--		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
--			usb_audio_info(chip,
--				"set volume quirk for MOONDROP Quark2\n");
--			cval->min = -14208; /* Mute under it */
--		}
--		break;
--	case USB_ID(0x12d1, 0x3a07): /* Huawei Technologies Co., Ltd. CM-Q3 */
--		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
--			usb_audio_info(chip,
--				       "set volume quirk for Huawei Technologies Co., Ltd. CM-Q3\n");
--			cval->min = -11264; /* Mute under it */
--		}
--		break;
--	case USB_ID(0x31b2, 0x0111): /* MOONDROP JU Jiu */
--		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
--			usb_audio_info(chip,
--				       "set volume quirk for MOONDROP JU Jiu\n");
--			cval->min = -10880; /* Mute under it */
--		}
--		break;
- 	}
- }
- 
+sound fixes for 7.0-rc7
+
+people have been so busy for hunting and we're still getting a
+more amount of changes than wished, but it doesn't look too scaring;
+almost all changes are device-specific small fixes.
+I guess it's rather a casual bump, and no more Easter eggs are left
+for 7.0 (hopefully)...
+
+- Fixes for the recent regression on ctxfi driver
+- Fix missing INIT_LIST_HEAD() for ASoC card_aux_list
+- Usual HD- and USB-audio, and ASoC AMD quirk updates
+- ASoC fixes for AMD and Intel
+
+----------------------------------------------------------------
+
+Alexander Savenko (1):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IMH9
+
+Berk Cem Goksel (1):
+      ALSA: caiaq: fix stack out-of-bounds read in init_card
+
+Dag Smedberg (1):
+      ALSA: usb-audio: Exclude Scarlett Solo 1st Gen from SKIP_IFACE_SETUP
+
+Dustin L. Howett (1):
+      ALSA: hda/realtek: add quirk for Framework F111:000F
+
+Geoffrey D. Bennett (1):
+      ALSA: usb-audio: Exclude Scarlett 2i2 1st Gen (8016) from SKIP_IFACE_SETUP
+
+Gilson Marquato Júnior (1):
+      ASoC: amd: yc: Add DMI entry for HP Laptop 15-fc0xxx
+
+Jihed Chaibi (1):
+      ASoC: ep93xx: Fix unchecked clk_prepare_enable() and add rollback on failure
+
+Julian Braha (1):
+      ASoC: Intel: boards: fix unmet dependency on PINCTRL
+
+Kuninori Morimoto (1):
+      ASoC: soc-core: call missing INIT_LIST_HEAD() for card_aux_list
+
+Phil Willoughby (1):
+      ALSA: usb-audio: Fix quirk flags for NeuralDSP Quad Cortex
+
+Sachin Mokashi (1):
+      ASoC: Intel: ehl_rt5660: Use the correct rtd->dev device in hw_params
+
+Simon Trimmer (1):
+      ASoC: amd: ps: Fix missing leading zeros in subsystem_device SSID log
+
+Sourav Nayak (1):
+      ALSA: hda/realtek: add quirk for HP Victus 15-fb0xxx
+
+Stuart Hayhurst (1):
+      ALSA: hda/intel: Add MSI X870E Tomahawk to denylist by DMI ID
+
+Takashi Iwai (4):
+      ALSA: ctxfi: Fix missing SPDIFI1 index handling
+      ALSA: ctxfi: Check the error for index mapping
+      ALSA: hda/realtek: Add quirk for Samsung Book2 Pro 360 (NP950QED)
+      ALSA: ctxfi: Don't enumerate SPDIF1 at DAIO initialization
+
+Zhang Heng (5):
+      ALSA: hda/realtek: change quirk for HP OmniBook 7 Laptop 16-bh0xxx
+      ALSA: hda/realtek: Add quirk for ASUS ROG Strix SCAR 15
+      ASoC: amd: yc: Add DMI quirk for ASUS Vivobook Pro 16X OLED M7601RM
+      ALSA: hda/realtek: add quirk for HP Laptop 15-fc0xxx
+      ALSA: hda/realtek: add quirk for Acer Swift SFG14-73
+
+songxiebing (1):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 14AKP10
+
+---
+ sound/hda/codecs/realtek/alc269.c   | 28 ++++++++++++-
+ sound/hda/controllers/intel.c       | 13 ++++++
+ sound/pci/ctxfi/ctatc.c             | 10 +++--
+ sound/pci/ctxfi/ctdaio.c            | 82 +++++++++++++++++++++++--------------
+ sound/soc/amd/ps/pci-ps.c           |  2 +-
+ sound/soc/amd/yc/acp6x-mach.c       | 14 +++++++
+ sound/soc/cirrus/ep93xx-i2s.c       | 34 ++++++++++-----
+ sound/soc/intel/boards/Kconfig      |  2 -
+ sound/soc/intel/boards/ehl_rt5660.c |  2 +-
+ sound/soc/soc-core.c                |  1 +
+ sound/usb/caiaq/device.c            |  2 +-
+ sound/usb/quirks.c                  |  4 ++
+ 12 files changed, 144 insertions(+), 50 deletions(-)
+
