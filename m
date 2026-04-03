@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF4428F949;
-	Fri,  3 Apr 2026 13:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C62341AB6;
+	Fri,  3 Apr 2026 14:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775224219; cv=none; b=MJ3EW+YTqR+q1MRubdNAEAIGRNH3A5+l0SgArFsj7noaT9rsoSxwr1DQPKV5l0ISxq/mPEuZtvtl9QlKx0/7ZvHsivFTZtEVnNZzHpk1htodv8xbjkLBI/VcyvAhNMbIDXMVeKQb0tKQxbIF4YovIZV3qpOjm2wKJVD/0hl0t40=
+	t=1775225262; cv=none; b=s6jS8WJqk2DqRDkzJMp21kBaIOt6eW96IqSwqsYO0Q6p38Fj+LL4HiY0ynrLCAequ4JgakPlya4Yl77wjzHTYclaMvCO+3Jh9pW8KopC5gi58zeXfLBSWY2cP+nkha8a7MK8Mqk0waQ118ym2L8HXEKSP5DjF6uyHpsc5CP+pP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775224219; c=relaxed/simple;
-	bh=CYkkYO85Ns28AYjKNXsU60Tqoxr/je7w1ZHAwj8xE/8=;
+	s=arc-20240116; t=1775225262; c=relaxed/simple;
+	bh=a2TS+0Xfo8n1MstX8wwPTJdm1SUZfSXTS9UW49apjSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VKzDnfyJvPPvfYnI2a4vJrbF7WdblxK6AkOvJ5mIezv7c4iLYCuI7AURLJKcgeqIehEfmIH7Er5O5+3fzy4W/jFXLlH/Vjm33RPmnqXfKE3ilVazATaG0d29mgEco61F0UWEXWVpqzDHefT9gT4xs/B/O5oozAMbgXfErCRMbv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYPZ2IKC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ft9kGPjzdWhKyMxQk/1Pw+5tbdHjAtzGefZw20PM8Jl39MsvKC86U7vTdcboB9Evt1AP5Isf0zM5wBCmCaxpSISsPGSRjZ/c1hto5i33aQFlpVQrEKJYDfF+jzt3KxUdkkO5VXQ3uA6ZvR4ap3maZXRUDQX2eIWsLLOzdLyaggk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rvb5Dtyw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYPZ2IKC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409D7C4CEF7;
-	Fri,  3 Apr 2026 13:50:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rvb5Dtyw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E292C4CEF7;
+	Fri,  3 Apr 2026 14:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775224219;
-	bh=CYkkYO85Ns28AYjKNXsU60Tqoxr/je7w1ZHAwj8xE/8=;
+	s=k20201202; t=1775225261;
+	bh=a2TS+0Xfo8n1MstX8wwPTJdm1SUZfSXTS9UW49apjSo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DYPZ2IKCT5D8AD65LjRXEomzPWsjXI4kRhjWypSImUii/TgWKz60SnbKBhwPd+XF+
-	 ksTmS82DomcU5hhXuYWZ4DLUlPuRJoxy1IyDyhjxuIZ48TSIO6gWjSMeMbyXsBaO02
-	 OD8cULmWoFNz3z124ZsfU5swjEmf8z7XuHzNQzYWmAtU8/lJYaVT5gWufs4O53yRkO
-	 3ac5FgdbQhw9kePTqACP0uX7OIJVIsPI1K3W5Uzmmc/ldbQrMReckx9PbihFsoc9BT
-	 aKTs/C2oLimSAfl6qoMurVmbIQYmvW17EGXJDy07wSYZXC6h1XpkOnG5wkgeJfAVas
-	 wcs79WcEtZzTQ==
-Date: Fri, 3 Apr 2026 14:50:13 +0100
+	b=rvb5DtywGd+oDPYR/6Gj4ugzAgY+fAdrliFvpCAX9F4uBTc9Q4ivzfS6n/HRMFr2d
+	 VGK8z56/+t1o4IED7oCxN8kmucO8nSTAdtXleGFiH6dbGP9bfwxlnhtJRDk8KacfUW
+	 iH82Kjdp/BZW/bTgcRuX36a2BaqMfcbZ27A0pSvAxxPphzwNBQLmRdoJfDiT3xyA59
+	 EX4sdJ5xG9XVfmE2XHWrIIFj1z3alUlGX23XpPqiBbTX4Dww8ehQNonz2yCTB0lWDV
+	 9tt6SlGmRyoPURY2NxPgcpwmYtffPcX2pUYNmGs6vkr/AKfHk7vrunWIfBW+qMz0Wa
+	 pqcRBg6aJbB5Q==
+Date: Fri, 3 Apr 2026 15:07:35 +0100
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be,
-	magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: sound: renesas,fsi: Add support for
- multiple clocks
-Message-ID: <787df828-0ad6-4aca-86c9-c2bf3fd9bf87@sirena.org.uk>
-References: <20260403112655.167593-1-phucduc.bui@gmail.com>
- <20260403112655.167593-2-phucduc.bui@gmail.com>
+To: Cyril Chao <Cyril.Chao@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Darren Ye <darren.ye@mediatek.com>
+Subject: Re: [PATCH v8 08/10] ASoC: mediatek: mt8196: add platform driver
+Message-ID: <892468cc-7eb4-411e-b91b-f14789d8da0c@sirena.org.uk>
+References: <20260324015719.17543-1-Cyril.Chao@mediatek.com>
+ <20260324015719.17543-9-Cyril.Chao@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,49 +51,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="klzR/PAWubZ5Uuy4"
+	protocol="application/pgp-signature"; boundary="z/xr10pR1+37JRYr"
 Content-Disposition: inline
-In-Reply-To: <20260403112655.167593-2-phucduc.bui@gmail.com>
+In-Reply-To: <20260324015719.17543-9-Cyril.Chao@mediatek.com>
 X-Cookie: The Korean War must have been fun.
 
 
---klzR/PAWubZ5Uuy4
+--z/xr10pR1+37JRYr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Apr 03, 2026 at 06:26:53PM +0700, phucduc.bui@gmail.com wrote:
+On Tue, Mar 24, 2026 at 09:56:49AM +0800, Cyril Chao wrote:
 
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 8
-> +
-> +  clock-names:
-> +    description: List of necessary clock names.
+> +static int mt8196_set_cm(struct mtk_base_afe *afe, int id,
+> +			 bool update, bool swap, unsigned int ch)
+> +{
+> +	struct mt8196_afe_private *afe_priv = afe->platform_priv;
+> +	unsigned int rate = afe_priv->cm_rate[id];
+> +	unsigned int rate_val = mt8196_rate_transform(afe->dev, rate);
+> +	unsigned int update_val = update ? ((((26000000 / rate) - 10) / (ch / 2)) - 1) : 0x64;
+> +	int reg = AFE_CM0_CON0 + 0x10 * id;
 
-This should list the valid names.  Ideally there'd be some specification
-of which clocks are required where, but that might be more trouble than
-it's worth.
+The driver looks like it supports mono so won't this trigger divide by
+zero?
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+Also please write normal conditional statements, it's much more
+leigible.
 
---klzR/PAWubZ5Uuy4
+--z/xr10pR1+37JRYr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPxZQACgkQJNaLcl1U
-h9A3WAf/QnVym/Imyukn8OOIO6exBHXZQbWYba05LxUJwMF2uynLUXl3E1Sag6wk
-tKib1A+3jDukoYALiDtRxw41Bwh4/L0bcqwTjwjOzzgDUvCOAvOSeGcYnaNPXALg
-5nD43zYxvN7VrceB7d2GTEzqSipiHjrnX82VI1HqFCfQSFafA4yHfRd17UgqFAbL
-IuhxWUo6aUfIWs902X9k0j0sCSUT4kHBodzFt88uYQpIjhlfi3wp3jpFDRRO79Vr
-MRT1wIFmVhqAf0Z1v7g/pSvxL4BajieTBe/ZHakZjmAjLc1+0duqcPLCtZlXHNyR
-CF8GNgmczS1UEEB2Lfq80WMYa2Umng==
-=juN3
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPyacACgkQJNaLcl1U
+h9B3tgf/eTqWV5PjbeaYZPgBsewKX76WoqNQZFyKYRA9EQvOScDPQp/1KWLV2E4l
+MVxmqWYJVC5Ps+dqV+2BeEJjGicyucgzXGTTpuEPqDwMalGwC9ou9Jx5ehVzryYM
+oV4xrTotyMS0QYVxR80JkLCMf5M2WJ0dCbHUtyTkYwwCfPMDKp9Su4WoRtvXQu8u
+sRH/X5F2TkXMSNWU7HdgrAqt6CfzJsJU6i5LP3Da74l5coFNV/CcxIEjfTCDTxX9
+g/tJo8ltV3Z2coWCOEwYKos4dZGsv+1zVtWz7m8970gyDyHQrRWE8Z/wzfPdnIya
+MAkqBgCkDQBaG8cMW1KFb1v6Q+fnkQ==
+=HwHw
 -----END PGP SIGNATURE-----
 
---klzR/PAWubZ5Uuy4--
+--z/xr10pR1+37JRYr--
