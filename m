@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EC228466F;
-	Fri,  3 Apr 2026 07:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6E32417D9;
+	Fri,  3 Apr 2026 07:20:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775200784; cv=none; b=d2OZ+tMyVNDPOuKFPWhcvPKK7PX915NYfTweCo0emacJYdg57IY5qq2SfW1e7ymkvrGfU6Xsjbh8EP4pyaZNz0DkU8OKILBl3V5De0SW4GBR6Up2uGEwwrLbwL87ahp+W2nsfyJvy2MvgYJshPKLYy5XLUsFO67V3NsaF0LXeww=
+	t=1775200859; cv=none; b=bHI88Kel3rqEuzE49lGaiRm/iasrOWvpgnX9zJIPScQJHP5DdtpFHIEouYgzTi5t2r2SykwQ3XXSdHSDslEK2n8swbjOMjHSOzw5x9Tmmf8cl9zfXOOmTlNfSjmn6+IpMA+vMLi6WVw33OvW7Geb34R8BoIC+DuZkPpfxVzCimk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775200784; c=relaxed/simple;
-	bh=m1ADwcOxnxwgi9JICfWJKWEbH2sRKsuMJFFYWPPxcv4=;
+	s=arc-20240116; t=1775200859; c=relaxed/simple;
+	bh=IP6AlMANAo90BWJlLpndZeWuIqXzIJilOy2As+KxlwY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UTRg0CyP8Nd5tdYv27m5+0WRCGOcKsIupITLl7BOgKrG+3DCp8mGCInbHDkgPo6H6pzyQS8YUlb2lHzi2pkzKwrwGuNOw5i2RsSO/5rukJfI5gNYrSt4UThdYblD1tK0ZBoWxwk2IAPe0awIxE2GE78g6Y3G56mR4zeUq9bNrPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXNZXyvZ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=JTtY8UPInwhBAU+hL8WefDhx8LCEUxDzKiigrPtL/hr9A3O3OIlf6peMUg10xVOMV64t2P7/r4Phm0gwJ/o77SmRIHFM9jydEXeHSOQMmEruxNAPvtYu2t4Jv9kuRclRYw+jB0Dtbn50wohgCMcwgTrgQf4tvoCTnQQ2lQ9Rxms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obc5E4b8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXNZXyvZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A98CC4CEF7;
-	Fri,  3 Apr 2026 07:19:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obc5E4b8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46459C4CEF7;
+	Fri,  3 Apr 2026 07:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775200783;
-	bh=m1ADwcOxnxwgi9JICfWJKWEbH2sRKsuMJFFYWPPxcv4=;
+	s=k20201202; t=1775200859;
+	bh=IP6AlMANAo90BWJlLpndZeWuIqXzIJilOy2As+KxlwY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eXNZXyvZIlOcg08m/EQ2P73GvGM/9SSPaUSlrTtNBNl9GCv/RSsZ9Q3Ca2fzLgaYk
-	 /7kYwudBsLjv8Kox6orFzXKxTNyYQE0L9QBRJUtevdVlntGGGBTOSbqJ2uBfn3IGLb
-	 1nmP8mqP7Wj3RKExOK1+u2X3D2hUIJeLiUCEuEgERNWCN660RuXcvAQRmVVC14NOOQ
-	 aDxL4fveaRrt3sfA+Ngu3PFgPZoeHP/hsrOfdk/fdwnc0fSC41TCIMf+W2H+LWk2LD
-	 I8dsAlOwJZJeNP/ylWoXmpJp9eAcBiCJugj2XP1+9Tk5j7DNvjhhtvsN5VaFqIpYVq
-	 /JatP1r6bFkBw==
-Message-ID: <02517021-74cc-4023-98f2-fc7a485b2d2f@kernel.org>
-Date: Fri, 3 Apr 2026 09:19:37 +0200
+	b=obc5E4b8C3/XfsAdTz3h3h/Tr4Jf2qn/WO83XydRvPzlPqx9ALtRYlgpN+DvwJXQb
+	 y+dRIkNQ499kuMlaNKpSz14r89SQgFXQ6o8qDaYauOMeCFdk585q2GVZ2NoPKZyTpW
+	 6lJaiFT/RDvnofY9X9BtSRqfCDlBOfPTrntf95eXSorQbEnaxHkoXW8MArxCivRIJi
+	 OpZZ5XYaahDdAx+Afqep0lDQnt8F0zGi1sdgLpV1JeA++m5dogKfd3MG/vkv3kxRlI
+	 cAL8+JdTSZJU9q9qWoi5Cea7CP5haDhC48ThzOZfg1pWZfuJA7O7D346haGJfc+tHn
+	 L4jpU7NC8I9lg==
+Message-ID: <2450b3d3-bfa8-453b-9264-f341fe871136@kernel.org>
+Date: Fri, 3 Apr 2026 09:20:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,18 +35,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: sound: Add ti,tas675x
-To: Sen Wang <sen@ti.com>
-Cc: linux-sound@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
- shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, niranjan.hy@ti.com,
- l-badrinarayanan@ti.com, devarsht@ti.com, v-singh1@ti.com,
- linux-kernel@vger.kernel.org
-References: <message-id-of-your-RFC-cover-letter>
- <20260401223239.1638881-1-sen@ti.com> <20260401223239.1638881-2-sen@ti.com>
- <20260402-funky-lionfish-of-grandeur-fadba6@quoll>
- <b35904a2-0913-456f-b89a-f9f45e6a686a@ti.com>
+Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: Add ti,tas67524
+To: Sen Wang <sen@ti.com>, linux-sound@vger.kernel.org
+Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ perex@perex.cz, tiwai@suse.com, shenghao-ding@ti.com, kevin-lu@ti.com,
+ baojun.xu@ti.com, niranjan.hy@ti.com, l-badrinarayanan@ti.com,
+ devarsht@ti.com, v-singh1@ti.com, linux-kernel@vger.kernel.org
+References: <20260403050627.635591-1-sen@ti.com>
+ <20260403050627.635591-2-sen@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,44 +89,64 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <b35904a2-0913-456f-b89a-f9f45e6a686a@ti.com>
+In-Reply-To: <20260403050627.635591-2-sen@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2026 02:40, Sen Wang wrote:
->>> diff --git a/Documentation/devicetree/bindings/sound/ti,tas675x.yaml b/Documentation/devicetree/bindings/sound/ti,tas675x.yaml
->>> new file mode 100644
->>> index 000000000000..23e4cc77b4ae
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/sound/ti,tas675x.yaml
->>> @@ -0,0 +1,278 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/sound/ti,tas675x.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Texas Instruments TAS675x Audio Amplifier
->>> +
->>> +maintainers:
->>> +  - Sen Wang <sen@ti.com>
->>> +
->>> +description: |
->>
->> Do not need '|' unless you need to preserve formatting.
->>
->>> +  The TAS675x family (TAS6754, TAS67524) are four-channel, digital-input,
->>
->> And devices are not compatible?
->>
+On 03/04/2026 07:06, Sen Wang wrote:
+> Add device tree binding for the Texas Instruments TAS67524 family
+> of four-channel Class-D audio amplifiers with integrated DSP.
 > 
-> They're compatible, and I didn't have any differentiators for this 
-> initial driver. So I should only keep one.
-> And also rename ti,tas675x.yaml to ti,tas67524.yaml.
+> Signed-off-by: Sen Wang <sen@ti.com>
+> ---
+> Changes in v3:
+>  - Renamed ti,tas675x to ti,tas67524.yaml
+>  - Removed tas6754 compatible instance
+>  - Changed pd-gpios to powerdown-gpios
+>  - Cleanup unnessary "|" formatting
+> 
+> Changes in v2:
+>  - None
+> 
+>  .../bindings/sound/ti,tas67524.yaml           | 277 ++++++++++++++++++
+>  1 file changed, 277 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/ti,tas67524.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/ti,tas67524.yaml b/Documentation/devicetree/bindings/sound/ti,tas67524.yaml
+> new file mode 100644
+> index 000000000000..b8da1360e698
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/ti,tas67524.yaml
+> @@ -0,0 +1,277 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/ti,tas67524.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments TAS67524 Audio Amplifier
+> +
+> +maintainers:
+> +  - Sen Wang <sen@ti.com>
+> +
+> +description:
+> +  The TAS67524 is a four-channel, digital-input, automotive
+> +  Class-D audio amplifier with load diagnostics and an integrated
+> +  DSP for audio processing.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,tas67524
 
-No, you should express compatibility. See writing bindings, writing
-schema, example schema docs or DTS101 talk.
 
+And where did you give me chance to answer to your comment? You answered
+2:40 AM of my time and four hours later - 7 AM my time - you send v3.
+
+No, read again the feedback. I am not reviewing the rest.
 
 Best regards,
 Krzysztof
