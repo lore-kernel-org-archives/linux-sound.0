@@ -1,151 +1,162 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012022.outbound.protection.outlook.com [52.101.48.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8596223D7DF;
-	Fri,  3 Apr 2026 12:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775218330; cv=fail; b=ncmFP8IxWi+Nb7YMz6R4+xOLEACFhO7xKtysbafGgGay+iZv1DGoXbqd12xGBBG6vDqmkJndhBNpgQL0Y2rNB5ZcalIGnv7CyWfrTkLZjZjm2Yyty5fqKovodzcL0vzrF+V8DEqyVIyfW96Gg2Dpxli3umbPoHYenoyoXqbHVHs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775218330; c=relaxed/simple;
-	bh=EUDHkExOpWqZLMCVAeoxLr/+YU5eJxT5gYMKrJjhQSQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gVZEvQwSMjdpgYR3q6yCdzgEtEMNl2Ue3jedng6KmLCqGseQXqk+3XdfqsjPK5MfHVwIqcKR/IkCQcOv02hRgdrJ2D1487e71wzORX7URC4q1l3EwsQ+iqs75KoD27aYrJC2+Sifv/U4vL1JnLUR5JK/w4fM7xwqZv6crbVdx+Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WKbqYFTA; arc=fail smtp.client-ip=52.101.48.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD9B3AA512
+	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 13:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775222597; cv=none; b=aNifG/28pW2zuRuQRmJsdKTOBsC3VIK+ELmTewe/dJXMMg+gjOA87QnNAnTesx1oBhuOU/qJZdRVDTI6PZwPy7pEJKPjoROKpCWadElxZpu4qZfscdmbZUBK38sVQHr0kFY6JMWCYH5/iCcGb7j85TLHcwH6wJ6/Vr4eajhcBH8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775222597; c=relaxed/simple;
+	bh=AmsvdwdayWu06Mx+NZCnZMnk+cGFTx7+3fvfcRy0eus=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M+iHF1zyUKZ3WVYEvkzkO+MdcHK+XWantaKVd/W5OHy2cx00ZndgmtK5aAbMdUvnvevStNkAm5p/C/Q2DDwPJJNTxM7Bs8dBwS0Ql0KCt04FxpBOmrGlbUwIWZoHcrf5ANtsdVckhcTt/KyjyYlUFEMKs/z6ElHBY/WvnZoNbTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=XwVikn+P; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WKbqYFTA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fBl6g5DqjmxBXbovz29KD7MTIuywK+ctI19DVTny/f05/qkez7LFO3Bmrdl+1f+EJRz46IIbcwZjgPEUcBErhCJgEgg+1PjQHbDLKV/hh4bdMzaSteeH892gPSBc/A0hl4RZLPaAOG7RaEYD/MNHfJcaOkrBUXq1HFFoW70NZ2WZDYpiah8nfanf/LL0MQdqXu1VasQLI/lRtQ0bFAgtIhkws8dchQ3Up6iE6cLJmqT5xo0NmuNh0cTGrwBWK/iiGYivr6xmxtRwEwK/pJpBjYBuhsi1P/Ipp+fF12M3Dglo6Z8c8C8ZOQ71s8mzyP+eLujo7F05wcCfePtQR5JXdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EUDHkExOpWqZLMCVAeoxLr/+YU5eJxT5gYMKrJjhQSQ=;
- b=rZVOItwIdAgebrzYNJN+Qfk0k++ZeeAlAAiXemv5EjtX6UGOOpah+n1PvOcFiMdgEji2CD5MjONBwBWRh838k1G+k5EP+RO6X7zLksLWGheFLcudUgD/CVR1KRX+t8+tTaKWqXqeYfTdmjnt2rgeexBTAL6f6/ITzHTUjYf3YSK5pdE2yHcBOOIPZAzM2Xhn2wMtIT3V64mZMrUs6VrYezN3+okssn8iPdqUquK//vMzGQj8noJgwVjp2b9AVOU4PpA9ikVNG88slDKGoxIRPUEQ/lfNpEWvYx+w41bemkYDt0ZUR0r2LTddqFbrDk3nQTRUnwmXB8iN4GTcGCzA3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EUDHkExOpWqZLMCVAeoxLr/+YU5eJxT5gYMKrJjhQSQ=;
- b=WKbqYFTAL6PGnUiECOETTDrnYYFK4UleDADaSSYj/cuUqy7fK+NNHqBgnTLoPXqRi0xYyUjAxiSVdk/DkQ4oKcblWIYFdS/z7XkGjVtqSyhnmbLOcsoSH7rMkxrihrR2CC8QK43GNneiYFJvRR5Qe9o8Ikkz5FQGcpDC0iWW1tw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- SA1PR12MB7270.namprd12.prod.outlook.com (2603:10b6:806:2b9::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Fri, 3 Apr
- 2026 12:12:05 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9769.017; Fri, 3 Apr 2026
- 12:12:05 +0000
-Message-ID: <f4869b83-664f-438d-b8fb-a0e96da415c7@amd.com>
-Date: Fri, 3 Apr 2026 17:41:55 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC : amd: acp: Update Quirk for Lenovo Platforms
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>,
- Syed Saba Kareem <syed.sabakareem@amd.com>
-Cc: alsa-devel@alsa-project.org,
- Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, "Mario Limonciello (AMD)"
- <superm1@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Hasun Park <hasunpark@gmail.com>,
- Simon Trimmer <simont@opensource.cirrus.com>, Kees Cook <kees@kernel.org>,
- "open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260403100948.678548-1-syed.sabakareem@amd.com>
- <fc7cd530-2199-4c12-af75-6ea17997777c@sirena.org.uk>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <fc7cd530-2199-4c12-af75-6ea17997777c@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0061.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:267::10) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="XwVikn+P"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-487012ce896so10428275e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 06:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1775222594; x=1775827394; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c7gLEmVLAIU9eni8ZgJe0K46aqhNxnfudqkF3d3e4PI=;
+        b=XwVikn+P6UHnMUk7/QAW/HCzLt/dr3u64nxQryFWT73HZc79xYPRMh7UmxBDngo8Jf
+         jJXWXN2aQsjQb9O1X9xNdX43B+z1cd2rhanFpRtpyr4la5VGh3T4O8EYh/U81831GuXx
+         1tdKiaVEXbGhO4TFE5sV4VNq5zeypxRd7tWpWCHbL9ykqJNK9uDwt5lrMPkiTIAb+lxf
+         QVN7TW6pCE40KD3iTEF6tZo0bjDvzewV4gDMwpOjXpTMUhbf5ruyzWdmj56wY3kff2cm
+         iarJhxOWI5s7L2P7S2bjaLymehN1ifwqUsNxWq+nBeqfL4l7ljRgZ+l0CnIaQ2E8eCeR
+         WttA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775222594; x=1775827394;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c7gLEmVLAIU9eni8ZgJe0K46aqhNxnfudqkF3d3e4PI=;
+        b=Ml2giv6BHqvGTl8rgCrO2dhSOKK+gfHLonCDexTGkIUBoyWZCD6ZymCWAypeBvp94j
+         gsvwsfOjDakg+YikwQdh122PDCm5p/mtvL+mxgYPomrzSQcqRy+fPH560D3w3FFljiSZ
+         X6Vs0+WPCpv1JNLvS2pB3wPrteR35MuqLIbCUztPWm1JOguMiC6AmFJj/9QSEHQKdyqi
+         SmrY62dqLgKu4toXwzQzwXHmGmpbULNV44p2ihfuPAysmgvzQFFb0DiwJZJGLt/af5NQ
+         3b4hojS8jXxYH9x3YsAVXBNDUl7UpimuB/+OmGkYSlRnI59fZ8Yv2UQyQYJqimdmmkF1
+         X7Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0G+Q/Ho/Hd9PzgrvdQZtudDpGeckMtQCQn4DO+O1nQZufSRnCvgrgTJi6dXZ+S7zdc7nrATBXG+B7mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAy/f7qmdgpyWw7Xp1iO/dBMHwBEWyY5A4wwOj/VKdLIIGGeH4
+	Xr2Knux/kKs6ZXIa+ll+xwCCsHe7yNcveD1LrM3pGhQvGNgqU8Wc4atkNWzaXtIbriw=
+X-Gm-Gg: ATEYQzzMdyRQWduuQUNxY1187Q+fYyN4Gs+IN7XIk50iofD/COktevdQ0B6fkKtpA8P
+	sM3EeRZSyDkbXsV/Q+f9Qb+THdSE/GmuQA7pBr1iZTDdN2mUBUAj1OEwNA9Gh+MJm4pit/JZ+7z
+	8E2o/UdEB6qddvY7g84UB8o4yHMKlvNYWlCShU/1bzBvdSHBD5rM9mR4LUGPRYz40KG9FyGiuHU
+	NiDhT8Jo69ZotV3P+M3gyaN5i41RIQxvc4TrwwtA2cQuTtuIT1MNgJASNiwhMvgy2U7TZsQS9tQ
+	zHz9mPA7PFcFpaBp5/kFr6bk3zQ9ncGzseM1epNft83rtmPxXS7AzCQOUgayI6YRhU80LtZpZqq
+	NKCIxJoOvkRQij2JbKJ8CX9PHO1Qr02hmbwvEedsFYYlgDQItkgifg8DOJTsTJjx7VgmsnFR4Uq
+	kjrOAAOlu/rdi3+LDeA9ocaTZWG3NA/Z5TDkLgFcEamBfZY7cUj6Ja
+X-Received: by 2002:a05:600c:5292:b0:486:fe39:28b7 with SMTP id 5b1f17b1804b1-488996f08f5mr56228715e9.9.1775222594196;
+        Fri, 03 Apr 2026 06:23:14 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4f5016sm17229822f8f.33.2026.04.03.06.23.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 06:23:13 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	chleroy@kernel.org,
+	zzzccc427@gmail.com,
+	nathan@kernel.org,
+	mehulrao@gmail.com,
+	bigeasy@linutronix.de
+Cc: claudiu.beznea@tuxon.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH] ALSA: pcm: Drop the space after ! operator
+Date: Fri,  3 Apr 2026 16:23:01 +0300
+Message-ID: <20260403132301.2743319-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|SA1PR12MB7270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b626616-7dad-4717-b678-08de917a382b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	xxDIy92yLYpcT4GhrTxRPqsLn+WPYo2HMk42bavH2GouhaJtqXUqSogaoK3SfAopnXzv6TYCmvOvSDo8mccKQmzGSpnVUKzwUHCvKGsVxd350aJAQcQxJkFJztaES355CYOsBmIq7osDXnxjMZsNgBqTLcQXCEuHKRj2mSieOgFVv7uupnC8hxUbAdMkpJl04ElVbSdyk91qiFtlMiAdcZO6EkwC5CGIBfUsVcvPVIOp6K2C5jAaQDWrou+rt2PiC2xWaFi70cjCFesVJnGwUpUcILL1NlbHZAGU1Nzz4nWN2RBNBb/epbG/hFkCaHGZOXw27xAFXKAHlt95nIPtchR13oqLxhhqdCT6lrcUpTuLi2m7yyQ5Syo2NKzdJXWCfLMnustsldUfXgfWKREL/ZTJZ4f9Dj2ltkgkOgolqiOPuO/aokk7GlUfVHuOM13eo/Rs0yh7HbLBbOZ+YCfqcKoCHZ4yKL6NYxoPd2zltvkunIK4XOzkvv2gGfsL3u/9b1Fvvm/xfzvVJY7yFsEGg0XttdUShl9WzOTDpXMri/leHP0mutlXFZfBGT4kGaKV6y5k2vcwiHyMUJ+Pcdc8mk3RsdeBWSv12m/+UHFKRO0KtkXdrW0JCoVP6bqJnrwJsX7GxyU/HjdaEXsGkEiIxq43qFEFFQUt+oIfwip+4ZNaTzhAkNfuE/ia8ownQjJYTwkoE16HCRjB6A1YK1gwyqYWD4gu9KmXelRLPptZGi8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MWNBK0ZRVmVnQ2c4SUdmcENCWFRqeUJDR3M0WFowcVZqM0JDUStTL0pqYXJB?=
- =?utf-8?B?NzQ2RlZ4ZmRDVFlYUWFGYVVqQ3pra05TSHU4YytOeDZwSWswUjBpWlpVeVZj?=
- =?utf-8?B?WlVCNHpQaS9JbzNxUkdNcHRqSGdDemJNLzNtUTdtb05wZkphNnRFWkFjcmY1?=
- =?utf-8?B?cXdTbHNNb3dmWGE1RlU3dUpEMUlkN3NFWFN2bWNBcXNQemxhVzlsMFIwbGFa?=
- =?utf-8?B?MFdoUE92aDdxTW52WVhhaU1rYkUwaEhBcTUyQWkwRFRRSDc0WndNR0hiTEJ5?=
- =?utf-8?B?N0RlZDc4eEhEUVIreHBoYlUyTm9HZXpScWYyWWwvbXFJaldNYVhtMGFMU2JF?=
- =?utf-8?B?eDV2TUduOVk0UVV2YThubVJZVTB6MUdxazZaOFFUNmY4NTVaM3pxU0V3Ty9N?=
- =?utf-8?B?L1dsaExnbEttcXo2ckpNYVVxR3l4bnF2aHRxS0xEMGt1S1FZcUViVUJCVC9n?=
- =?utf-8?B?OFZHTUQxOUZiN2xNTzNOYW9sMWFNWDVIRU9lRjhTemxHYVRxVFcrYmRKOXhM?=
- =?utf-8?B?ZnRJc1ErRmFMUkpSQlhXOUNWWFU3NmJPV1hMeHRMYXNIUys0TDBOSTR4cVlW?=
- =?utf-8?B?OStaMFZqLyttUGpPYVo2WW1TY3UwMGxleWFudzZVZ00yUXhndjhHRWpkNGxu?=
- =?utf-8?B?VjlHSVZZejBEaU5oRnZPaGpUM0hod1Z4d2xKZ2duM2tXbW9XYm9QdjFEUFlS?=
- =?utf-8?B?bzZ3OXJmY3dPQ05xWDlZZk1jVjhmK3V1TmM4SnV1b2J3ZnRQSFZRT2hDNHFn?=
- =?utf-8?B?N2FwdDFjenpUYzhmaHkvSVJpK2pWNTBYemVuUmJYazVDS2NMalUyalEvK2o5?=
- =?utf-8?B?R0JjbHEvbkxVckFRTytTZ3o3TWNOK1h1VStMV0RNa1p4dm1PQWRyL0VaY0pL?=
- =?utf-8?B?dE1hTVROb3NLWnhKazdvcGxzTWxyQXg4MllaNmJTT2Y0RE1nSlFSeDV6eHgx?=
- =?utf-8?B?Si8zeDN2UXJiaFh2MVRnOWZwd1RmVVFJck9UQ2dlUGxrUTUvcXBMYTZxQXpo?=
- =?utf-8?B?THRXQTBDUmtIdzkybW9uT2VxUGRkaEg4ZldQa3RrTGpiNkdDbjgwOStvV0sy?=
- =?utf-8?B?NE9McGFrNWU1dnB4ZzdmTnYxeTNYYXZnTDkrU2liUzJ3RlR3dEszUDhvdjFz?=
- =?utf-8?B?VjBWcVptT09hSVJLY1NLR2tYRld5bzdJSEpoMHkvWTI0R0w5UHI2SkdhUTda?=
- =?utf-8?B?YXVOZXlVNnI3eEk0MkhUUGFuQm9iRDU5K0ZWR0V5MDhKQkZURmgrTXY3WVlh?=
- =?utf-8?B?VmtkZTVTUm9UQ2xwM213UzNwbERuSlY2QkVxd2hJMDhuenFCTnA5VllQVElO?=
- =?utf-8?B?Zlc5OEd3NlJvTElXVXZtZEJmWWpKTjRXQzYvRzRGUnlsWldGZmFLbncwOEZs?=
- =?utf-8?B?ZkdZcnU1K1p3S3dxcEtUUWlmYWErazJNcmM2S3UySk1wb1RnYlZGWnExaW1H?=
- =?utf-8?B?dk9IOWhLYVhZYmM2REdBRE96enJaYVNXWlJWZktkbU0wdVlhQ2JiWllqOGxG?=
- =?utf-8?B?RUNjekFIU2laMDhqcmk0OEp1SGVTdWZTYlF4dUdXZkFpVnNhODEyUUJmK1Jv?=
- =?utf-8?B?RmlJNmx1bVpISDVsTkszUjdueHVZbnJkcERZWDhKNXRoRDNSYk9hdjNaSkJG?=
- =?utf-8?B?dzNIaG9vKzNwTCs2YzRhWFdaWG4wY1RTSW5udERYZ2xvQXRRak9kckV0SHVw?=
- =?utf-8?B?WUpqek9jdy83cEJXSXRsQ2pHVGlmMUtyanRTUmh3TkRieTIzVHFHRnhkK1NI?=
- =?utf-8?B?RGJEK2kxTlBUVWp4dFp2d2tnSGVHem5NbUt6WVFucmhJQVFHRDVxTDRqQXFQ?=
- =?utf-8?B?MFdwM1drak5TZ1FyTWJTeFFBU1ZGNlVQZGllU0tUOGtpaTFDUjhUVHMwUVhM?=
- =?utf-8?B?azJpZUxKeGlxYUJzR2dSbmh5MFJ3RUJNRzFXenNjcFd2V081RThJWE5DSkkr?=
- =?utf-8?B?bEdZTE5HaEQzSk9sV0ZrRFNWeEJ1R2E5Rno0Ukd6R0xGaFYzZUdVdUdsZzhE?=
- =?utf-8?B?VVFhaHhmcEI5L3JzYlkzWTM5M291S0I4NDJ3djl0NElsMDZHaEZYdUZqT3Rw?=
- =?utf-8?B?QmxuUzJWYUUxNlNLU2R5NHo0SjlqS29zVWNkTVl4VTNhc1IrQVdRWEdhK0hr?=
- =?utf-8?B?dW1FYithbzk5bUlaUlJkbVJ2eFR0ZVBzK1NRaUJmcG9PZmRRVDNsWjY2VDZD?=
- =?utf-8?B?MHRkcFk5RmtFQnlBTEZDWHZacCtKVGMwMlN2RzNSdW5naEtwV0wwUSt5M0Iv?=
- =?utf-8?B?MUI3S0QvMDR6RnROTkJ0NTNhdjc1cGMrK3NvRmJSUlJIY1p1SkRRdTA5Nzhn?=
- =?utf-8?B?SkRiNmR6azFiamhJRm5hS1FWbVpMY1ZCcWd5VHl1ZC9FNjJRcG4rdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b626616-7dad-4717-b678-08de917a382b
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 12:12:04.9526
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xmRJjOEjXIJYShFddO3SMuI2nD7kjePCQD2jTqhyHgQ9mxhvuSEr5ToHLHEy8kYGGf551NmC6ANdo5iVO7/uGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7270
+Content-Transfer-Encoding: 8bit
 
-On 03/04/26 17:25, Mark Brown wrote:
-> On Fri, Apr 03, 2026 at 03:39:38PM +0530, Syed Saba Kareem wrote:
->> Use DMI_MATCH instead of DMI_EXACT_MATCH for the Lenovo SKU,
->> So the quirk is applied to all variants of this model.
-> I only have patch 1 here, what's the story with the rest of the thread?
-Kareem supposed to send single patch only. By mistake, he mentioned
-PATCH 1/2
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Drop the space after ! operator to follow the coding style.
+
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+ sound/core/pcm_native.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 674b50c7c5f6..65822e53924c 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -246,7 +246,7 @@ int snd_pcm_info_user(struct snd_pcm_substream *substream,
+ 	struct snd_pcm_info *info __free(kfree) =
+ 		kmalloc_obj(*info);
+ 
+-	if (! info)
++	if (!info)
+ 		return -ENOMEM;
+ 	err = snd_pcm_info(substream, info);
+ 	if (err >= 0) {
+@@ -607,7 +607,7 @@ static int period_to_usecs(struct snd_pcm_runtime *runtime)
+ {
+ 	int usecs;
+ 
+-	if (! runtime->rate)
++	if (!runtime->rate)
+ 		return -1; /* invalid */
+ 
+ 	/* take 75% of period time as the deadline */
+@@ -1735,7 +1735,7 @@ static int snd_pcm_do_suspend(struct snd_pcm_substream *substream,
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	if (runtime->trigger_master != substream)
+ 		return 0;
+-	if (! snd_pcm_running(substream))
++	if (!snd_pcm_running(substream))
+ 		return 0;
+ 	substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
+ 	runtime->stop_operating = true;
+@@ -1789,7 +1789,7 @@ int snd_pcm_suspend_all(struct snd_pcm *pcm)
+ 	struct snd_pcm_substream *substream;
+ 	int stream, err = 0;
+ 
+-	if (! pcm)
++	if (!pcm)
+ 		return 0;
+ 
+ 	for_each_pcm_substream(pcm, stream, substream) {
+@@ -2066,7 +2066,7 @@ static int snd_pcm_do_drain_init(struct snd_pcm_substream *substream,
+ 		switch (runtime->state) {
+ 		case SNDRV_PCM_STATE_PREPARED:
+ 			/* start playback stream if possible */
+-			if (! snd_pcm_playback_empty(substream)) {
++			if (!snd_pcm_playback_empty(substream)) {
+ 				snd_pcm_do_start(substream, SNDRV_PCM_STATE_DRAINING);
+ 				snd_pcm_post_start(substream, SNDRV_PCM_STATE_DRAINING);
+ 			} else {
+@@ -3212,7 +3212,7 @@ static snd_pcm_uframes_t recalculate_boundary(struct snd_pcm_runtime *runtime)
+ 	snd_pcm_uframes_t border;
+ 	int order;
+ 
+-	if (! runtime->buffer_size)
++	if (!runtime->buffer_size)
+ 		return 0;
+ 
+ 	border = 0x7fffffffUL - runtime->buffer_size;
+@@ -3253,7 +3253,7 @@ static int snd_pcm_ioctl_sync_ptr_compat(struct snd_pcm_substream *substream,
+ 	status = runtime->status;
+ 	control = runtime->control;
+ 	boundary = recalculate_boundary(runtime);
+-	if (! boundary)
++	if (!boundary)
+ 		boundary = 0x7fffffff;
+ 	scoped_guard(pcm_stream_lock_irq, substream) {
+ 		/* FIXME: we should consider the boundary for the sync from app */
+-- 
+2.43.0
 
