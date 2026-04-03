@@ -1,53 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E34E3B894D;
-	Fri,  3 Apr 2026 11:32:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70B03BD237;
+	Fri,  3 Apr 2026 11:55:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775215976; cv=none; b=Tw/fJ3IuUokV8MtomIw32f+Lo9AwHlS+jn2vzxdQbbqccs3VeONv1xOG43yZyOYQB3Fw+OluH6yifDSw99C9FHW0ky56RuBoueod0guhzgoLzvEqMCKi/Uyo1xsdDAMb09RCmlymytOyPTgiEgBKs0ATZfzhtI2Weem4UhS/wdQ=
+	t=1775217323; cv=none; b=C+rravQ6fDzDy/LSC12m7lbYoCFAaCewQOYdY+FrpEZ1KakGO4jdRWbzYHUutH80qpTfKFoZw3v1srNcp09xbKHZHtBKISauRq2nuxaQBz+yCG1EAVEzdONPdmltUdS/7bSYTRto/gntwUCY1/7GCyucIA5vZH6yNjdHwxl9GFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775215976; c=relaxed/simple;
-	bh=lE8a+mYfWMdkTa09vzd+bOH6CMIeb1HCqK44Fql+uV4=;
+	s=arc-20240116; t=1775217323; c=relaxed/simple;
+	bh=a4ntCKvudUWsvaczdKQvSMufCMJA3BORYS70EtrlLM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kgUFgbWiwlQptgQsGEkCI7uwQNCV3k+1oWZZmhEHsYZVHb8N/qfncDQg/x0OPkuHNot2CFAYmqkf/QgtHMtsstEHd/ywcRrqLrvKEBR+EmUh3hP4LNbVd4FNpy4nyhtwwrWWnr5Zkb/u3eL9j3Bu/9UG+H3VangNlBEap5kTS4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccxMQBML; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IuHkDNeumbzL+MHxcbeQbmG5B0EXiSZSmsT+WkAL7PW6JJyZus9ddpWe6FnLDHfVussBpmpIDvlqGBe7+BISake3sUHrkLMmJO9j3wTia9OvauBX6yt2zWL9M48k0warb2RiwUtO5C70NB+yqrQZzzB2FYEmDKYpJ4dMpQRhiNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2FMUSYB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccxMQBML"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A71C4CEF7;
-	Fri,  3 Apr 2026 11:32:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2FMUSYB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26EBC4CEF7;
+	Fri,  3 Apr 2026 11:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775215976;
-	bh=lE8a+mYfWMdkTa09vzd+bOH6CMIeb1HCqK44Fql+uV4=;
+	s=k20201202; t=1775217322;
+	bh=a4ntCKvudUWsvaczdKQvSMufCMJA3BORYS70EtrlLM0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ccxMQBMLj6NwJLvT33fALrHA8wN7C/DqX1un5zy+2aYV10jTorPgueTHUUUGb5N1V
-	 t0qYVeh32go82uUY9OZmSZjQyanKSqoz9cqE/tZHi/zNGGtpe70hnrt7eGwXWI8XDl
-	 orx9vONSQF4VG7X2J4O3yUS+sJzSKyb+LiWTu4kylUxpgV+ealnIATkXw/H8PHo+oa
-	 Z9GPo4p+4bCliUQiInCnJirQT1SVY7KxVyvL7tYJ41Atxa08cWSMpE6BB1DVWFyQwI
-	 cYb1GA/90kNs4Gq34+K372K+lh0niOKpweRWoS525BWncyx7jrmG8k9AKdhHfgKwqH
-	 QPd35Lye40zWg==
-Date: Fri, 3 Apr 2026 12:32:45 +0100
+	b=Q2FMUSYBEMjDKqvqYVcpO32RUFKtB34Wp1zxFwCXtCHpbbZlJczfkXOGyEZDzOveD
+	 fuygHifEECMZC8yb9iVyPzTk81obgVIj0RqGkhsJWC4z70s05NhVXFRxssUIh50Qga
+	 iweQuk51qK/ZFNZGu5fsnukE0Mu/adsWf/eymx4GVcJAZe6SUthW7HWWqHoKPtAtIC
+	 lNBfPHRCI6WpjW6zqJGamAXgRCa4os+RsAgNT8jQZfXW2VdAuE85/uSX0aehtiVXQ/
+	 oduqlwyHsZmE5CvtCyY4BsINBTxa+VVZSa96MfXSkKNv1XxYTFYDCwhU1HGPcmts3Q
+	 Uy5yRJ+U+5/Cg==
+Date: Fri, 3 Apr 2026 12:55:16 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: John Madieu <john.madieu.xa@bp.renesas.com>,
+To: Syed Saba Kareem <syed.sabakareem@amd.com>
+Cc: alsa-devel@alsa-project.org,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com,
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCh v3 07/14] ASoC: rsnd: ssui: Add RZ/G3E SSIU BUSIF support
-Message-ID: <91a44b9e-b82c-49af-8c52-c876d271baa6@sirena.org.uk>
-References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
- <20260402162436.12059-8-john.madieu.xa@bp.renesas.com>
- <a457c427-95bf-43be-84db-02144fcc2bd6@sirena.org.uk>
- <87jyuog7u9.wl-kuninori.morimoto.gx@renesas.com>
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Hasun Park <hasunpark@gmail.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Kees Cook <kees@kernel.org>,
+	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] ASoC : amd: acp: Update Quirk for Lenovo Platforms
+Message-ID: <fc7cd530-2199-4c12-af75-6ea17997777c@sirena.org.uk>
+References: <20260403100948.678548-1-syed.sabakareem@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,52 +56,35 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IGWz7nPE7XurPHlI"
+	protocol="application/pgp-signature"; boundary="NrKc2B8N53SKaFhC"
 Content-Disposition: inline
-In-Reply-To: <87jyuog7u9.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20260403100948.678548-1-syed.sabakareem@amd.com>
 X-Cookie: The Korean War must have been fun.
 
 
---IGWz7nPE7XurPHlI
+--NrKc2B8N53SKaFhC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Apr 03, 2026 at 01:18:07AM +0000, Kuninori Morimoto wrote:
+On Fri, Apr 03, 2026 at 03:39:38PM +0530, Syed Saba Kareem wrote:
+> Use DMI_MATCH instead of DMI_EXACT_MATCH for the Lenovo SKU,
+> So the quirk is applied to all variants of this model.
 
-> > > @@ -160,7 +161,8 @@ static int rsnd_ssiu_init(struct rsnd_mod *mod,
-> > >  	/*
-> > >  	 * SSI_MODE0
-> > >  	 */
-> > > -	rsnd_mod_bset(mod, SSI_MODE0, (1 << id), !use_busif << id);
-> > > +	if (!rsnd_is_rzg3e(priv))
-> > > +		rsnd_mod_bset(mod, SSI_MODE0, (1 << id), !use_busif << id);
+I only have patch 1 here, what's the story with the rest of the thread?
 
-> > Perhaps should be a capability flag like the changelog said?
-
-> Have or not have registers are depending on the each SoC, and (probably)
-> there's no regularity to it.
-> And SoC special handling is needed not only for the register settings.
-
-> There is no clear rule on this driver for now.
-> Handling it by flag is one the idea, but rsnd_is_xxx() is enough for now.
-> Because it is easy to find SoC specific handling part by "grep rsnd_is_"
-
-To be clear I don't mind either way, it's just that the changelog and
-the change don't line up.
-
---IGWz7nPE7XurPHlI
+--NrKc2B8N53SKaFhC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPpVwACgkQJNaLcl1U
-h9C1nQf/eoowzhKjAjgdBAkzUCpG6HqqnzbQWfDtFLVfufwo8Tc+w8hvY/mRg6Wg
-SA8pulGLmsSQzq5KWrD2l+ZeMytMvGzd0IuH5CQLXEbiabf+WqH646PC1d9T4I44
-13i5z8TMMWRKicFDBJD7YkbJCGQ8Q1yjojzDSYP/ZzWHJCen54cWN6rP+WXZ3b6s
-6/QdMNnSaXXc3ihRGs5lzR9XgX6sWJiiI4SdomfvQLb47CW9vM44RB2mnNBNzj2R
-9iTCiuPnAwwsSI3f5kMD3Ih9AxzDGDzxHAc7m5kT6TwD1Gh+k15FppIyutnYa4qf
-2vtVMKAhMozTL8zRYkQll+RVR6z37Q==
-=nvm5
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPqqMACgkQJNaLcl1U
+h9AMRQgAg/4zIdSESnxvHT7boPLPXWNLMDskFNfswDSMEMu1StTQRgrwk0Xa5Zpb
+fypATmN01D+/g+F9NxGVrdPwjq3ml0rAtGbCdAGvlVvu2ANLbfwtyJhfF5ccGEIK
+TCV0nVD2EQF1lRBCtZxdw/1vffIJEsTYf7WL1UfKKAfqAcYF1UVqHqeS6lWaJuUM
+lKUZfwL0RptIpLoy1suTr+g2jBl2AJpw9S9I3plqo5ylzbMbFjVBgBnLaPP2qCDG
+auKxaZ5Z5IBRR3JDPHyFuK9npCbQBzs7rV4fjHmR6H4jV5i6KxiaFue0O8WcMn0b
+NxOrYucvQ7PCCLBncJA6blv2jI/qCA==
+=2mS0
 -----END PGP SIGNATURE-----
 
---IGWz7nPE7XurPHlI--
+--NrKc2B8N53SKaFhC--
