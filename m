@@ -1,135 +1,79 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891B374186
-	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 07:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1B2336895;
+	Fri,  3 Apr 2026 07:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775201827; cv=none; b=PW8S0MF2wGT0kMSe8GJxOCmfhETBUjvGuJqDTvDKxx52bokoABZeb41gGkqcUSymdU6uyO/QZpfbtyb5OYTTC4Rmm2pNsNNdGuNtn6P2dJXW3Dp5I7bsITadurWVURFh34FqII2FDsZF1Dw3nS8woHDGeUrSHXFP0t25lWa14x8=
+	t=1775202916; cv=none; b=Oerdm3TkXWsTzzCRFA8I0XOY6xGTWUQSs1tH7YnuGVY2DYhfFgJpxmu693BNhleyLImG1Xma4N5lJmek6qbujvq3aOe+5L+YFetK3rNUJbQw5ePCMokmV6kHY4Vcqb0aKCSS4wW0iyXfeqRW/NXdN7Aq/ct7wHLSbog2tDUSooI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775201827; c=relaxed/simple;
-	bh=RQFIDvkQ6UcLgwztbD8oBHl4tS+ZCKb3aINkg7VeBsY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aQXVLw/lYp/FjRTKXgWlVfD25jcmjn65hYNc0xIgiio46t1pVq250wUiKzouH+YE+0BDunpCifthPAYGg7ZnrvStFBdiAnZOfSz7GyQPD95R/7rjdXEmj90Kryd2sPoEdythuUbW38X+NwrEq08Q0oPSh1W0mZUTtZpQD8iYu08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-60508c1df45so1129780137.0
-        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 00:37:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775201825; x=1775806625;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d4N0YKA/XUUd7O8Nr0votH0EtcIVeq9XRBqx9j9NkIk=;
-        b=PW89bL42FCHCaiNm3NUPlJEmJc+asg6k+nOoKpXJqPpywx557BUjSs4pv3pbgulCMn
-         +OFEXZdW1ALAonq9AELYAGPMvTjqym5NIeEb8B6St+z68B6+8+jQshOJAGG5UV3TtdaE
-         PAmTe+ZD7ySRIhN/AjS9TgdF5d+IwYk+7rFqLFdKnCuevql1XK24t7JeMFk/qc1C6Wbq
-         XJbCnP8itWcHqGgIEXwiq5vWokCf6ZEVOMM9Rt1dZPY3tt0NQOIxh9GctToJNvmSyXVh
-         oZ9kMuJaRIfP9M96GCPaSq45OvZNm/83uH4DQ3suu/WUR8jQ+6sbBf+nR2fPNONUkoqW
-         EQxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzIvoO6aNNGUcxtaCnLhVKLckAApXZjDiDhjobpczOPYbDnUrbcDmOcQXFdwIY816+oMzNx7Wk8AH0SA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3XP0EQh9lniaWJTxYE6vebJE3nabSjnCEngoV/uJFWixBZn86
-	UAJUZEDLn5G4sqQEGpbfZ2LI+N9R9kwk3qqTDnMfi0V88W5qkfxlThJ1fh4DSCI9
-X-Gm-Gg: AeBDiesbztMT+GCyn6FI4vknuuNEdIpA/2YWgF/v95VNCfzbzju5cVqlx/XOWvzmnhu
-	+VhTS80341QxIEOWm369XHZp0pwHoXuVo7QjoFlfh7zvN5aP6jYxbJvlDP1zVw4rFVujQeWt8x6
-	bYqyjaDmL/wLBXQnt2vKrjQi24SAwQ8HmCEPXK7cY4ayKPGfnowOscxlcurFWEW0zjtWDbX4m4y
-	0ucLBKeA0TVGCT1GOFOzIuOiOOeQMTBJSQdHBOasF9ZBtmPEknoWTrTPMcvHEmHrMYVmvvdzo9i
-	ZTvRK0nAY8aV+X6gaLTEHHAu76nVeRJjeSh92Ll2UDQSpbG0hQIiyDuOiXZr7TLDbuYucx08C9Q
-	wKvaNtic6exHGanFQpxFltRNl1cfMHplpNZW+823kKup3DlWQUawAglXAM9aXxlPkNxFoaO4rM+
-	yAzWm3qQ1bRsSOZlPNVNE8UtpoxyOY2QmTQ3rIAAXo21X2F83UpPBfzY9MOv4Z
-X-Received: by 2002:a05:6102:f0d:b0:605:315f:49f7 with SMTP id ada2fe7eead31-605a4d81988mr717349137.6.1775201824900;
-        Fri, 03 Apr 2026 00:37:04 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-953fbac4aa9sm5358241241.12.2026.04.03.00.37.03
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2026 00:37:03 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-605a8c4ebc6so323671137.2
-        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 00:37:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXCqnBDTVgPb8M4MVeg4Zz/yfJV6FPOdY8yzdJG2RWUdGg6yoxA6nvircGb2UZf3Q4oXfpCkC6fpJIxfQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:f0d:b0:605:315f:49f7 with SMTP id
- ada2fe7eead31-605a4d81988mr717338137.6.1775201823680; Fri, 03 Apr 2026
- 00:37:03 -0700 (PDT)
+	s=arc-20240116; t=1775202916; c=relaxed/simple;
+	bh=VEtcde3sOr8JwTyesiwbN+OcA7Tk0q0s9OFxqzRuUEM=;
+	h=From:Date:Message-ID:To:Cc:Subject; b=FcnjOp3Ys6Sm61pSjRs0MYbUn8L8dhQ9LExoBRBC3oZhjrv80mzB4UBYuqTnb4G3FJUBE4THaL3x3Dw6fOMDAs8QBrZXcrJ7AtxnCzeMeiU0bGppVjx6yP9lwMXXJ+mmhPg06aEMxmp5uVOt29DHGB/VnsqQ5Z1tn6nOyuJlm4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from 0001-slimbus.eml (unknown [111.196.245.197])
+	by APP-03 (Coremail) with SMTP id rQCowADX9dxecs9pa6O9DA--.57185S2;
+	Fri, 03 Apr 2026 15:55:10 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Date: Fri, 3 Apr 2026 14:55:04 +0800
+Message-ID: <20260403183503.3-slimbus-compatible-pengpeng@iscas.ac.cn>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
+Subject: [PATCH] slimbus: validate DT compatible before parsing it
+X-CM-TRANSID:rQCowADX9dxecs9pa6O9DA--.57185S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKw1DWF13Jry3JF47ZryUGFg_yoWDuwc_ur
+	Z3ZF9rJrZ8Cwsakr43Zr45Zr9Yvr4q9r48Zws7t3W5KryDZrn5XFykZrn8G3y3Zr4v9FWa
+	kw4qyr4FyFn5CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbw8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxC2
+	0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+	0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+	14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20x
+	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8
+	Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-J5rUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com> <20260402162436.12059-10-john.madieu.xa@bp.renesas.com>
-In-Reply-To: <20260402162436.12059-10-john.madieu.xa@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 3 Apr 2026 09:36:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUHzcq_f8t0hi-FjiG2FByNmx8k2sz9-QEqzroLSWqXNg@mail.gmail.com>
-X-Gm-Features: AQROBzCXZAB5loNy5rsTC4EAiI9aKFN2pLERVORaR-uHChRoGZT6taMr9lCmLJs
-Message-ID: <CAMuHMdUHzcq_f8t0hi-FjiG2FByNmx8k2sz9-QEqzroLSWqXNg@mail.gmail.com>
-Subject: Re: [PATCh v3 09/14] ASoC: rsnd: Add ADG reset support for RZ/G3E
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Magnus Damm <magnus.damm@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi John,
+`of_register_slim_devices()` fetches raw `"compatible"` bytes with
+`of_get_property()` and then immediately parses them with
+`sscanf("slim%x,%x", ...)`.
 
-On Thu, 2 Apr 2026 at 18:53, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> RZ/G3E requires the ADG reset line to be deasserted for the audio
-> subsystem to operate. The ADG module clock is already managed via
-> rsnd_adg_clk_enable/disable() through adg->adg, so no additional
-> clock handling is needed.
->
-> Add support for the optional "adg" reset control on Renesas RZ/G3E SoC.
->
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Live-tree OF properties are stored as raw bytes plus a separate length;
+they are not globally guaranteed to be NUL-terminated. Validate the
+first compatible string before parsing it.
 
-Thanks for your patch!
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-> --- a/sound/soc/renesas/rcar/adg.c
-> +++ b/sound/soc/renesas/rcar/adg.c
-> @@ -771,6 +771,7 @@ void rsnd_adg_clk_dbg_info(struct rsnd_priv *priv, struct seq_file *m)
->
->  int rsnd_adg_probe(struct rsnd_priv *priv)
->  {
-> +       struct reset_control *rstc;
->         struct rsnd_adg *adg;
->         struct device *dev = rsnd_priv_to_dev(priv);
->         int ret;
-> @@ -779,8 +780,13 @@ int rsnd_adg_probe(struct rsnd_priv *priv)
->         if (!adg)
->                 return -ENOMEM;
->
-> +       rstc = devm_reset_control_get_optional_exclusive(dev, "adg");
-> +       if (IS_ERR(rstc))
-> +               return dev_err_probe(dev, PTR_ERR(rstc),
-> +                                    "failed to get adg reset\n");
+---
+ drivers/slimbus/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Given this file already uses lines longer than 80 characters, the
-above statement would fit on a single line.
-
-> +
->         ret = rsnd_mod_init(priv, &adg->mod, &adg_ops,
-> -                     NULL, NULL, 0, 0);
-> +                     NULL, rstc, 0, 0);
-
-This one fits for sure.
-
->         if (ret)
->                 return ret;
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
+index ee6318e247d3..d88b397ea81f 100644
+--- a/drivers/slimbus/core.c
++++ b/drivers/slimbus/core.c
+@@ -209,8 +209,8 @@ static void of_register_slim_devices(struct slim_controller *ctrl)
+ 		int reg[2], ret;
+ 		int manf_id, prod_code;
+ 
+-		compat = of_get_property(node, "compatible", NULL);
+-		if (!compat)
++		ret = of_property_read_string(node, "compatible", &compat);
++		if (ret)
+ 			continue;
+ 
+ 		ret = sscanf(compat, "slim%x,%x", &manf_id, &prod_code);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.50.1 (Apple Git-155)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
