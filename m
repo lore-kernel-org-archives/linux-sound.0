@@ -1,188 +1,87 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010058.outbound.protection.outlook.com [52.101.229.58])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E8F2F3C18;
-	Fri,  3 Apr 2026 01:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775180317; cv=fail; b=WFkAQ0C88QrqS5BBgEipuhFTU/mUVJKuJ6W/4XvNptKaBtPyuCePbDtRQ6pZQ1E7LA/RSkEV8CCHYRBuKscrssZETeO4a62Im/aBWRLqrRsTS8EaUnbZE8ZRDDSkXNdGASMJi/iCtFMWanJuw/GIHUrK/GBq6Hc3WL/qDNsYbdc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775180317; c=relaxed/simple;
-	bh=Nlf1EAaIshK9/oQRIqYdUupZAwg/QHGab2UietLpg1o=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=slWSqcmKMya4MSmC+QT14YHYHngcFQNlGtOcREINDi19pJsyLjXVb7pnsIFfsR9QMRE7XCBl6d9tV6AglhvFad9X/pGYsz9Rdhiozpx9pVXmv/YtOt9WB0AZApytpa/Mq5smyWN7wcBuyz7D5du4z1MRpOGSZYA3CbZq0oJUJ34=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=CfxJXg/h; arc=fail smtp.client-ip=52.101.229.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5681D61BC
+	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 01:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775180908; cv=none; b=K4K6sUvaA/WPfaIJe6c1wsiaJR4qUdo2/cJwo+Yqon8ACj1uWE879jm6TwYKglVDyLUJ25ORevcelchjedVXq00YQTsE8y0hD0buuGtiBbETskZkMhROeY811B68X/juhfEgpGm1SGip+9h4jWSejzm3gTbr21pVX3pDRKvucTc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775180908; c=relaxed/simple;
+	bh=X9Z51RB+KfkwX3A1kCeHp9OlR+aN3HrdBbzoxxO5eVc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ATf27oioOoV86fbkZbCwO5D48cDiVZx1InTfc0aTvQ4bZzhH3ZFNzvu6UUcbGalSrgON3288Q9qOPq+gFx+CMs53q+Nf3IpwUrH+a+Ncvtesg038MQSaa+kYy8K5mCjJbWUWwaFw5KN9Ixds5vLxNbh532r1VLGJTFMCTMJmcWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JmWex4Mu; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="CfxJXg/h"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MG2fVdyOnOOBOPmSpY0tgPt/YWqc33o/xkY920YIfyMp5Ykpp6ER23HxNO4qb3hx9UAQf1j/X5Y7mjlNmn//Mm6y/mMxtCK1nCLS9vi5uUt70n412huWHVuERDcVlu76nKcpzCPbWbC0MEhP0MC32pLQBgtl9ZQ6RVfrl7A4+0sd6F7S3EgF8Pk9QjLNLeVG3Y8nmABzyxPnO5CuXnAoz1yKB/8xYxlDuyDRoJ1d4A630b+rfZ66soGLdQwCA3t3o17qu6yuwzEFWnaamKpanp4tBlyLnXh2oX7xt9hJowUWCN/Xs3cMO6YZoNrEJvo/XWLFs2U32tzE7Z/MvQzoAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=07Sn5zuYKFYhvPXTZoAE8dSYKwKVOUsrW4gajpMQc1Y=;
- b=qv7UNL3Z/Kauq10WitGmj34KXSiCQTiKCchwOEyWfLHvs3npfEotCv/ua+i8KDw69IBiV+dyTlrCxMp3hkZtLLKXT+5E4HfffoIID6eKld60+dSE3Nx87OoRIVtqvlnKZHCv9wd4lppzh/byczvmmy+pfFzq/drnhJ8LxQ0CiuE97rFMG8zR8x1cu+h4zNTl8EvIfC13QHYUNM4FZi6F7VnY31FnyuvsLi7fh9Cq+XfQaT/Un25pV1PKkYe0EXPS53CiU3/wNQ9u/9WLnb2Kr8KA6jnt3Xy8MSGRXDwjyHR1nSSI8BYy5AQj4+rczrbYCf2x1u0ERKoGpSC/NIyEng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=07Sn5zuYKFYhvPXTZoAE8dSYKwKVOUsrW4gajpMQc1Y=;
- b=CfxJXg/h5JfbyPL7OFFgIAwoJ1Q1aISAhGLBBWSbE6JtuWOFjO2tUc/km9gLRxC8VChe64AuEJeK52QQFCHOsCB3oJYjmXqSmN/oZD7FuEPipQsHgxSj6kOjEcetK9EY18vyEmycfcK2GzmFj7/wUDLKyfFFa04Wt2SYfVnNWCM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYWPR01MB8396.jpnprd01.prod.outlook.com (2603:1096:400:177::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Fri, 3 Apr
- 2026 01:38:33 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Fri, 3 Apr 2026
- 01:38:31 +0000
-Message-ID: <87h5psg6w9.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	john.madieu@gmail.com,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JmWex4Mu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Bj
+	V3zxihmqtsHZ19nXPiN3UVuXXarr2GiOFicubZu5E=; b=JmWex4Mua9Xg4/86TY
+	zcwXRxtax+2rLvsfBAqbisZHilh2k1Q9wXQW09AYr2ilb18n937Mw2enT7rM/z/Y
+	KOC8+ll+res7BrGkNY1g/GgswlA9piJ4lnare4P9yKZkGMQlrBYM9Tt+VkmtC+i/
+	Hwl81/BkN+SCV6K8ki3CruJ8E=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wBnZAE6HM9pTfLWCw--.54645S2;
+	Fri, 03 Apr 2026 09:47:39 +0800 (CST)
+From: wangdich9700@163.com
+To: johannes@sipsolutions.net,
+	perex@perex.cz,
+	tiwai@suse.com,
+	wangdich9700@163.com
+Cc: linuxppc-dev@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCh v3 11/14] ASoC: rsnd: src: Add SRC reset and clock support for RZ/G3E
-In-Reply-To: <20260402162436.12059-12-john.madieu.xa@bp.renesas.com>
-References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
-	<20260402162436.12059-12-john.madieu.xa@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 3 Apr 2026 01:38:30 +0000
-X-ClientProxiedBy: OSAPR01CA0284.jpnprd01.prod.outlook.com
- (2603:1096:604:2b::32) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH v2 1/2] ALSA: aoa/onyx: Fix OF node leak on probe failure
+Date: Fri,  3 Apr 2026 09:47:36 +0800
+Message-Id: <20260403014736.33014-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYWPR01MB8396:EE_
-X-MS-Office365-Filtering-Correlation-Id: 449ddd90-7e35-4a3b-4b4a-08de9121b663
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|7416014|376014|366016|1800799024|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	mYSN0KVOC3r4Zx95ZxW31/1nTohaQhxMTCt58H4Fa8FhTK7LN1WtC6fQE/f8tZHtEW+WQZjeXL4pm0O9IMeiwoziOIw+nztjU2Wh5GsNVdE3m/BlxD/pj3tBgpdvCi0e903eCwWDRF7/dv7U7AxrI8Cqv0sFX2TiGBnmMJPTWVmdqxUnjPI28U+AMKAI6a06AtdFJDtnhfOXm2sRv8b1swQf0ZVfEYPYb5EhYbsn/pkmYTSNV9mtXjfJmPXGEbf0Et595Is8Xi88UTGbijN2d7oLcVOHZHwRow8CQHuYHpB2l95pnyt2ZrMd1CAlwnEAsclwSEdiCBAwyyVC2UCiXqaW9hGSJTdEy+6rSeptB9H6YYSUvwuQy+PwizrY5UvKBzLWere3N5dbIKO9HhiP6KgaaOSvr1s9m3C+JuDLanXqYjZBBFUACluktWHGdHQ8EhaBB/q3b0GwSLYVxIDE9XIxY69k5PY515DNmaD8R3MmR7u2HVCyEGTEnSoakN6Mm+HlAWLupGCB5C/Oi8DAWadqcPcx3WDx5hofoXZ/4VNrK8ARfQ7XtbpAXbmQgL8/G8Dbet3ngMbKsVmqSGynuMdoy62ZTX2bUVy2UBo/K4cFyu99Ybvs4UpPXZS2fOadKHzJl+qegNXvOeiMeTP6NLOZpqjRqek8q0/GKMRUuVtCQdS3EsZNlStWWRX04TdZ0go0t+22SRkE3H7+81cwz1l1uHdYMFJ3VBGkYmfdGgVOdpL5KRggCzRBTVHXT2pUDPpr5Xd4jmj5qJky4+IT7Hd9rJjJzfWU3ubEL1oImYA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0LNHUjyuxjviAwF5i2LxcIyqFEuW6/pq5gcWTQmLE/1N/ndT7nKxVcBpzFhA?=
- =?us-ascii?Q?r+tub3WkN+BQmeDLt+xWz1s0EXO2I8REDFPhQyN23lFwLlG9GMJfgoI/JA08?=
- =?us-ascii?Q?QyWst+vEzTAuM1+OQAjpi9OxcaReskqohR5LCrJ3N/T9VPPs34puYvPt88+j?=
- =?us-ascii?Q?iBlmzRBn/CCNawHAZAkzQjUk5GCb/SZVnNcIHYGhpnu9TrFZdC+KcLWOW6kV?=
- =?us-ascii?Q?NNQ06L/SCuez8ga8isiho6qi6h+hVG+9fkIUH0qkHTJrot4gSCILMpYqIQ+R?=
- =?us-ascii?Q?td3d+yWeFK4byrOG0PXh8OPR7d20RgFp1A2Dsfi6ZV6qbaQgfTGjru30z5Kh?=
- =?us-ascii?Q?msdZHDX5KSjbeNOWnlK6qwEw8F1LFxtJb5pkFk/aIV2k0dknfJ1mOXh6/MK9?=
- =?us-ascii?Q?tRmXsNPM5y95L7PACJdEG/+RjrfKFvt/hK66KT2ckqsIYrP6lzZHXYZrM6ap?=
- =?us-ascii?Q?jJ64Tgj2gQ4Ks0XTdz/KBJZwhKzWny0hESY2wc4yDaASSdUIit7E5NZceTr4?=
- =?us-ascii?Q?C5yuFBGaCm9sLHYIAlOqSGysoic50xTqqo6ZmtxEjpWL+O103T6bAJ/tF4Qj?=
- =?us-ascii?Q?AF4i/TvXIUzJt/51fG2tD9iXx9mZ2j7qN27izc5dDs7ehOVp1xZHKE0pLbkC?=
- =?us-ascii?Q?Paoe+43TD/Zv+u0zXqrPKs8F80GApgp/9WVhcwqxAJpjj9x86+OdZ+z8UlG7?=
- =?us-ascii?Q?uFXL4rOuUjtVR2bY15SmGzyr/cHM/FZUpijwGlwTwzbK0RWrjp6MLic7sO01?=
- =?us-ascii?Q?4J0J+DEWJhJlU94B6U5B20WQl6Wc0HhaAOmujObUaOrh/Elj8715VdxFYPJV?=
- =?us-ascii?Q?43PGj0A2aZ1qeTLi/XfaxszzDBGB9zfcGyycZGIcL5jW8uCmr8jqFvM9iArS?=
- =?us-ascii?Q?tymtadnag4IgHLQxVHZ4uPm6SEzBnRFsYF8NirsCAWRHkSdeqCcU0JXCxEIB?=
- =?us-ascii?Q?jtpnPsRfFMo89Gp8b6dXlMku58ywke+UYPjLVLjjMTrPlQGHRLdA+hJAkDSk?=
- =?us-ascii?Q?FlIr1b09rC0e7PZDJO/9pzy410qi+IdIcwx967mzFSnNYRyz1ZZYNC6tyCfg?=
- =?us-ascii?Q?gOhH00R3IL0AhCA/swqu02hBQ860tiLATuFJMSIigJ2Xp+P24K1FgNFILyC1?=
- =?us-ascii?Q?AAiwKYVn1iiSykG5qwNDUJIdsSflKfJq4ZSY91yQMOPdQno7d3c5jCziUwX4?=
- =?us-ascii?Q?gcnsIO4lk0PLjYuxQnUSamt4036hv+JhyTFC+gWt/Sm2XKQCiulPO0rfQCUG?=
- =?us-ascii?Q?mFqpa/rV1XLabmQyHUGKrqdZ2iQdTXDuPUduuWVS86EbvPlNR29vWzk7Mh4O?=
- =?us-ascii?Q?AtBJuh1NE9gLg5u0mKhapGZRmAkU2swaR1c5543LHf8yddcBsEK42qoBHgru?=
- =?us-ascii?Q?vVyocJ0jFtyFJEcfB5ZiJ/RlOVTqO7MfN4DUV/UuuUfqkFfE5uqBL31AUNsM?=
- =?us-ascii?Q?AUQ/oLDIcgTONnLVoQG0TFU8AiVPJnFlFR8Xt9lsA5+j0VuduYlnpBBs/6xD?=
- =?us-ascii?Q?zt/rcg+BqyvGeLsWxfE2MiGh8WHcWcNdzNtkiCMJrrIh1ZCBfTyP+xX4Ggsg?=
- =?us-ascii?Q?ZfYrhHKQgENGR7xzsOFpmeg0mE8bhtT6CQ2mC3wM0EnnU/P0VG+AjnEffor6?=
- =?us-ascii?Q?23qgzL8yp+tNQzNslr7sMuIUtAFyBd3UtcQX9N6fxJnzffcSp8GeahViQ6wP?=
- =?us-ascii?Q?ofe6vXD0eWLbE+/BNgfPI2034omlVTCVuEgEP+0CK9s4EHq53PV4Nz5f22zo?=
- =?us-ascii?Q?bvv7Oz3unwLcPaus9ZdSfV6n2D2iQNWsr+ha9fdFA36levKWrtVN?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 449ddd90-7e35-4a3b-4b4a-08de9121b663
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 01:38:31.6175
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XLfsOOBUVzFF07O0yTDDboSiRR5q8Dc+9DXXrthLmGjkiXRPHncupk6p0oeqWkeBySZHzT6eP0eSrWyX6BaIEo4l2aj79PT1Kq0ZwX46bJcI16JGONroYXRgXBKRTl6p
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8396
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBnZAE6HM9pTfLWCw--.54645S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gr47JryxtFW3uF18Cw4Durg_yoWfZrX_JF
+	409rZYg34rKr4xCw4DXFWSvw1v9r18Ca1S9FnYyF17C34rtrs8CFnIyFn3Cr9rWryIkFy3
+	JFn0qr1UGrWakjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRqPS4PUUUUU==
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xtjsmnPHDsfiQAA36
 
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-Hi John
+Add missing of_node_put() in the error path.
 
-> The RZ/G3E SoC requires explicit SCU (Sampling Rate Converter Unit)
-> reset and clock management unlike previous R-Car generations:
-> 
-> - scu_clk: SCU module clock
-> - scu_clkx2: SCU double-rate clock
-> - scu_supply_clk: SCU supply clock
-> 
-> Without these clocks enabled, the SRC module cannot operate on RZ/G3E.
-> Add support for the shared SCU reset controller used by the SRC modules
-> on the Renesas RZ/G3E SoC. All SRC instances are gated by the same "scu"
-> reset line.
-> 
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
-(snip)
-> diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-> index 2c5738926093..8700b39b535e 100644
-> --- a/sound/soc/renesas/rcar/rsnd.h
-> +++ b/sound/soc/renesas/rcar/rsnd.h
-> @@ -632,6 +632,13 @@ struct rsnd_priv {
->  	struct clk *audmapp_clk;
->  	struct reset_control *audmapp_rstc;
->  
-> +	/*
-> +	 * Below values will be filled in rsnd_src_probe()
-> +	 */
-> +	struct clk *clk_scu;
-> +	struct clk *clk_scu_x2;
-> +	struct clk *clk_scu_supply;
-
-It is SRC specific.
-Please move it to rsnd_src instead of rsnd_priv.
-
-> @@ -711,8 +720,9 @@ struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *priv, int id)
->  
->  int rsnd_src_probe(struct rsnd_priv *priv)
->  {
-> -	struct device_node *node;
->  	struct device *dev = rsnd_priv_to_dev(priv);
-> +	struct reset_control *rstc;
-> +	struct device_node *node;
-
-Very nitpick. No need to move *node :)
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 ---
-Kuninori Morimoto
+
+v1->v2:
+onyx_read_register()--->goto fail--->kfree
+aoa_codec_register()--->goto fail_put--->of_node_put + kfree
+
+ sound/aoa/codecs/onyx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/sound/aoa/codecs/onyx.c b/sound/aoa/codecs/onyx.c
+index 04961c456d2c..da0eebf5dfbc 100644
+--- a/sound/aoa/codecs/onyx.c
++++ b/sound/aoa/codecs/onyx.c
+@@ -980,10 +980,12 @@ static int onyx_i2c_probe(struct i2c_client *client)
+ 	onyx->codec.node = of_node_get(node);
+ 
+ 	if (aoa_codec_register(&onyx->codec)) {
+-		goto fail;
++		goto fail_put;
+ 	}
+ 	printk(KERN_DEBUG PFX "created and attached onyx instance\n");
+ 	return 0;
++ fail_put:
++	of_node_put(onyx->codec.node);
+  fail:
+ 	kfree(onyx);
+ 	return -ENODEV;
+-- 
+2.25.1
+
