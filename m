@@ -1,183 +1,178 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011030.outbound.protection.outlook.com [52.101.57.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ACC288AD
-	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 03:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775188045; cv=none; b=BKkkpV1YD9kVLLWZojXhQU1ZWKHnQ/Z9WlF4UsQQKfHSLRVRS2Cth0RMi/beP7foK27wBqMVfrjEqX0TZJ7I7ZIojVDHvd2mLPUd81DEMJVx7+oJhHjsq0ON92nte1aindAuzNuvR2tbtkeRhzjyGImC2vsZ7mMVF2QlxrSSHv0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775188045; c=relaxed/simple;
-	bh=i+jTnj9uWTVTpk/43LHEyjWkuxe1ecxKHb3ofhIcLBI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gwUBp6qDCmUNHuTTtpp4Lrc7qsoHtcz4cQIZkWdE6gT6/TQ4egVQwfBvvBhk0AovFk3urhJt0XNG3X6ZgJ2BJvQS1+guqg7q6u51RQsw1QxWSGU4s/i/2/5mw6k00v+QypRmjnLH2TYwpwXKMLsw21bzOx3Zt8rAE+EA9DqP9g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hTRzPkt6; arc=none smtp.client-ip=209.85.222.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CA52D3ED2;
+	Fri,  3 Apr 2026 04:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775190061; cv=fail; b=Jwtp5HJp1OYxB6LHdA4TfGNOGLyI2uC8DXGLaLTXsHc8zth4E8lHN5gx3OvrqnqJErwE4VvsTVZ2op1Rs05cIHEf5Nen6IOEcb+LFH9fCsDSuBmdNe/HjP7DshdyxhE6/hAhDStSoWL8A3CY/MEwoEKDFvmDu5Ud5cZOkh8fW6k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775190061; c=relaxed/simple;
+	bh=7rNF6C5uU22bheqbFxziKRtsQjWap3rjQKIisq4RUsA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hhKdcj6JatQq8e6dzTeQfew+IBVNXG+XsCS075HQvqMlaE49TdHtDY8aPmbv5bwZQmw1tm4UVqOC2OmtzLF3CCrtZKK/LzsgUdbvNxvja6RYtbeD6M3DRLWl/tTdg9JajiUF5I76LSY74QqUBAq/gxhPrTVNKZi3bvAKaNNehn8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wBWytxCY; arc=fail smtp.client-ip=52.101.57.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hTRzPkt6"
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-94dd01deb53so433224241.0
-        for <linux-sound@vger.kernel.org>; Thu, 02 Apr 2026 20:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775188043; x=1775792843; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mQJe7gr2NY91HuvsDinY38MzPt4uB1n6FAVnHxFtD78=;
-        b=hTRzPkt6W5Nq5UKqtp01Kf3mlEeECOUUEmAe7d0+rgmWCJQ5dNgQ1pG5ltZe4lZ3Yb
-         ncK/9f6rFtY9T9E/GN3Y3bLeR6zAeGhUjscKKk1qWQxuKxa7qgTDfbW43NS5YvfWKHpF
-         uDjGDYb1BHZ+NZ6gDYtBji9CcMIVED5i5kGCJum0X4u5NcHx8+08he4Kn+5o0XfsCqjT
-         eM+UmhwPvrZvzsDUxswullonM3sDbjQoNPqjBw5r4pTmLj9eXEK8+b8FdnTfwLFA+vNw
-         P2RpllLYsshoFW1oS6Qjepp0XX518ZCJ2e5lV9wfdf4bl6+X1PJihf0GPAP01WcMyL9b
-         R0sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775188043; x=1775792843;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mQJe7gr2NY91HuvsDinY38MzPt4uB1n6FAVnHxFtD78=;
-        b=LV/lbQ/Vw6TpCD8ef6E8R+Ie5fmj7cWCUUvIGpQ+64ROPb9khQoDMDYmyNqK47PGsl
-         FrlWEqBO29C1FHK22kiRpZsy2aT+U9Do6ZylkwVozirz14kIY01cNnY5YA17ylUzXhZg
-         ac9cb9ycmtioboaEqCDa+bheYDeecM++9Q16XjHJtKDKAUQhlEXCucHhl8qJgFm31PLd
-         iQedL3SiIlKAsS77d/rYvh8fN4WswN4s5hKgbbmjodmfpxnQdV7LAbPvA0h/gJloz1hT
-         91c0yRuc1B8GS0uOmvli8A2rczFkPfL1wd3n/LeMwzLmP/UfadIyy+Dt8PrnDL3FCsDn
-         elEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1bthgSCF576Lvl0EhGkXrPDL958v9Rox2ANeJFiPxqc1g5vAnyicdt4L0ZiXPqe2VYk7E58FGgvkpHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKcoz5URR4oua7pqh292KQZtAglm9sPn+Hr6QaAJftbXtJMkUZ
-	AVHYjXRQDBODZgFXrZqlUer86otDeqi/YOR2aPGKd8wM5CfKL60hVLE4ScSAMgzW
-X-Gm-Gg: AeBDieuoKOzPzOTgvLrT7957ToejMXZEuWGQpzt2+XGIFiehnc2s1RuFJleJGOaABAX
-	bC1599eCYAvT9Y/DOMBll6jkQZSlnaP5zo7RoXxzO15aTCWuIrBYQxf25sEJYpFUnmO1P3jmEHW
-	QpKyWr2IJUvUTAb+vEKp92UeNI8ZXcpaKOoZ8+Yr3yLuryrL/KH9jDinq68JML6q1Ew2vqws+QP
-	uR0pWAvAtViSZVQKxEM7UMmdzn6b3FgTjM4tbiGOSKM3Mm5o69hIksZM9+GCmhd/zc9NzNb3IfO
-	wlBERd62YE1MmRe1PZld2ZGp8fKzlrL6RYh5tJRlAJvUdE+kaAIWz/7KmkNBL9EdHRsJkBhW4Lp
-	qtWlHA+G0vDfj67EsRsiMkydtfATRfLJit3YpboKnfEKZQvPzlJfYug6EzFkq7BZkiJZkab3qWA
-	OXf91uA2Y/QpujlTf1NeVr+ccSv576g5IWfW1AJEVZKw2kFA0u6u3P0ORIUSC2H1LlplDIRH09K
-	xin
-X-Received: by 2002:a05:6102:5107:b0:5ef:2457:8015 with SMTP id ada2fe7eead31-605a5099bdbmr580390137.29.1775188042928;
-        Thu, 02 Apr 2026 20:47:22 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-217.user3p.v-tal.net.br. [177.4.161.217])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60583049c1esm6652525137.8.2026.04.02.20.47.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 20:47:22 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Fri, 03 Apr 2026 00:47:13 -0300
-Subject: [PATCH] ALSA: aoa: onyx: Update IEC958 sample-rate status for PCM
- playback
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wBWytxCY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j5i9z0K3I3YUVjqar8vvLrgBRlwvfDr6OxJfCAwbXuW6kfs2bbYzMyN2EeZAixXVevj7t9eMycJexk7Jrg8jzWhiOLFCJXIUqWmnKD8HyzAIsLZrzetIERtjzstzGA6SspuA+gTGRja+SL2dV5TGA/BFo4Dd4gjIQ40bSlR//Js+HE93H0ChksHx/ZFPWodGPCPWcuPs3iZJSJchCpPmpkBiVjuxrPvQUnBiKBw5QyvNq7hUtwSeOU+XyutUprfguH0zANfvrzEMYV4zaWEo75fd8nJ4UCRP3jDucmfB6bx8R2VbXtQRQCjtb6d0g8CSA3VPezKuyRJRgEMsmBr1Ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7p59dJjmB0nZnbINLHoo0soOOWDeZGyVgBqM/IDDdBs=;
+ b=Phvzf7pj5NOMnqO2r887f/H44ZBm9tqsYZ1LMUI04QGHAS167BOGrCOkxxeVQHXJbJOBkVGZ2fW0b1gN/uWvTBAoxrLnd5niTrG0j6uoyqvCxAU1Kl1tsjSYihCe/1mNTfvLjC8rok17ceDahplM1SF1wWVD+cMEj90XJNNHq/tmcr4wh5UotBMnf8LsDY9yw0vzetCGWqIzZ7Z2kDbkY8YmIynoPZvP6RgMdiinfVTrd3l/2ySJJ7bik3vBRq9fxflb3hLjuXi5mnlfxqKnrjSbh3dFYjpkg/lSwrR4Cb8ptplP9Wp28uxaud6HZgHujovIKi5W+0r3ib3C5k6aRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7p59dJjmB0nZnbINLHoo0soOOWDeZGyVgBqM/IDDdBs=;
+ b=wBWytxCY63TdIctdt8o+Qt0boaKjlPxr5DNJXn7TFrlL/5voJGPd7Nwc8GNLmXOEGCwhjUx4H3VAonHpnBw9IVG0dXCHGgmfrONpAP99AzEJjof01ri2EX4nr6DipxnSzMEN9j6em3v0MoC9hxrskbl8sFgluSaCGEdpXi30Fbg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ SJ1PR12MB6052.namprd12.prod.outlook.com (2603:10b6:a03:489::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Fri, 3 Apr
+ 2026 04:20:53 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9769.017; Fri, 3 Apr 2026
+ 04:20:53 +0000
+Message-ID: <ea68f8da-c970-472c-ad5c-4de2c9f609e6@amd.com>
+Date: Fri, 3 Apr 2026 09:50:47 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: acp: add Lenovo P16s G5 AMD quirk for legacy
+ SDW machine
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <mpearson-lenovo@squebb.ca>
+ <20260403010336.1223078-1-mpearson-lenovo@squebb.ca>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20260403010336.1223078-1-mpearson-lenovo@squebb.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0058.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:270::15) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260403-onyx-spdif-pcm-rate-v1-1-dcfaf931cf83@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTtJKcUQr2Jc1PKDQ2JpOmAwh
- Ltbdfkt3ttJkQVKl2qnjJeozLGgPlUUHj6OYOmLyRp7Ns7UPMf3xpp6GTiFJ2e/gBFca13j0fm
- GSpkyBtl+1+vtb13vE8LyXdFxfADCTi1WdwAAAA==
-X-Change-ID: 20260401-onyx-spdif-pcm-rate-ec45243ae8a3
-To: Johannes Berg <johannes@sipsolutions.net>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2998;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=i+jTnj9uWTVTpk/43LHEyjWkuxe1ecxKHb3ofhIcLBI=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnnLdxF6urnCQd4eJhyftXVm5b8Lezv0c8Pn02ZpLFI/
- Ulvq7BDRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAExEy5CR4fdqDs7wG8KzRU1O
- 7Xx6u1swOOzY4ZlpJ9ZuN/s3LVlE7xHD//CqMGO1YHGna4In6nzfJXNfagrYclny1+Q07Zgteia
- /eQA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|SJ1PR12MB6052:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c5eced8-b86c-477f-cd7d-08de913864e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	5yRW3fy67h2f3gYmoeCVivNEOq3KbEquJMIJNxDRFiQVLoY3lxVxFPilEHSpaYNUQWDQCf2uYmFmRjVIcnSXhFjoLxHONr0l0bptAHqm5N03HOuVnLvewgTxSeVstHf80JF2xjSYwLwlGUdzXOTCgB+P06TgsIHTFfsa2nO2M0lTmase7GkU6Iwttz+q6tkphQBCjWeOcq/8Rvgt0ao8qn6//jBNxCM75RgzqJ7JqEwWvRpaJVi6XVgf2faHJhorucX65oaoohulBa+Ge6kLnsHMCszzibgRdcg/7naGnMHyNXOuJiguJwDkmmzNYUv+fl8cdNm5e5TShrgGbSpuQWrY6eTdaVdPDHeI6qYo8lKfFDXIiACCB9dHz/JdKekdmmNMfa4rsYbI9+faOT058xno4stirAgNk3EyzfVMEgL/HXCGt34g3BbBDV0cRNum4nR+2qWJ8jekEUeUQvudVToCfGsaVIrhviY32XULRzV53joHqLys/j45mu4VIEWDWm1XjtCfxhK1emKvI5vl+XYBGlj6Dy1AydyHHTBftJYVREVnJNKJ4bBi+BPSWgTNabWCu5AhbUsQeLK1GL5MpS5Hz4AOymm/jJQgJYqEfWtXBF5ChaIcqVsoQJqEcA5XuHjrCIvYsFuXo9g3OMVMkEmoZZcqo2p8g6XipoF351c1xV5uMJ68GcNzBTj3bkGCHT4Pz2foKBs2yf2881UT3oPu5ebdvAqJHrA9W3DFMzk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bGFBR3ZYd01IdWV3cklSV2hoSGZxRzRHc1huRGZ3eUxZNjdSb3FTTkdZM0t6?=
+ =?utf-8?B?V1hEVTlOejdHTGhaSjNlc3lNajRGMDlQeGh2RzlZWFl3dVNIVy9VLytLbFRC?=
+ =?utf-8?B?N1pKeFN5Y0IwSE8yNWc3ZE9MZTd0UnIwdFYvcmRrWVRkR2RSeWg0eW1qYXpQ?=
+ =?utf-8?B?ZjN3ZzQ1c0ZPUjhtN2ljbjlTd3lPbXJtcW92YVc5MXNJT2c1Ni9rMEhIbGNs?=
+ =?utf-8?B?UWtJQWxRazM0aEJrTzVGcjBDZHQzT1Y2dWJ5dk9sNXZVbHBQK2pTZ1lxLzFm?=
+ =?utf-8?B?MlJ5Zzk4Wkc4ajZ4YkdNdzhGWUFmeHVlbGMxZFdnVUdUVTJVYzZ0dllQS1ZL?=
+ =?utf-8?B?cjk1WVVCOTZPQ0pucU0zS042dHdVMlBrR1loaXoza1dZY1ZFb1ZWelBMVXJ6?=
+ =?utf-8?B?V21UUzNLK1JpcXV6aEwrU1RmbDZzZ2FBbGIyODJRc3pxYXVQaDl6YmRnaDlS?=
+ =?utf-8?B?cG5iUkQzM2dmY2NtNndnWmVGa3piM2p4WXBVZDVIelVIZlFpTDRoMnlweWV2?=
+ =?utf-8?B?QWlpMnR6bWdVWmFjNjFCbm1YYldpSUtsUEg2R3lWVFY3eWZ4a290QUh6N0Nz?=
+ =?utf-8?B?R0kyL3Q1OE1vZ20yb3JxK3JTeUI2OEVtVFQza2pJRHNRRDhLb3F1Z2dmcVkw?=
+ =?utf-8?B?QXB4SHZTQll6SmZTeU9oRnVuR1JDaFA2VmxkSkJRT3h1b3NsUDZwQ3ZxOFVs?=
+ =?utf-8?B?Q1lzOThpMSt5aHpuS0VLRjFpazMyNGFUVzRURlBBS1VjZnQvZGZwOE1Zam1S?=
+ =?utf-8?B?T25ZNXJ0UmpHYXVpS3U0cDdhaENpYVRJRUNiWTV2bFVrb2lvbWNLdlZPNyty?=
+ =?utf-8?B?VWhId01ORy9hUlFwcExFajdseXhEcFlaMjFIU3dGbXZiZ21XMC9SNWtkcXRu?=
+ =?utf-8?B?aUJsNTlJaXdMbFExTUdveW9qQnRqTVZhNGJmRE96MXowYW5INmJCQkxTTDdI?=
+ =?utf-8?B?MFgzaTlQMEpxcE1vMjBISkRXaG4xWHlXL1JNUkVpd1hONUxzcHNiV3ZFNUo1?=
+ =?utf-8?B?NjM2aVMwUXhicXJKVk81SjhDYTJRbWRjWkdoTlJCUVlGRjU0cGcwblNsOUJr?=
+ =?utf-8?B?RmUzQ25KMnA4Z2dPczdjOFpYakloRzVOQmtRT2pRekVoM1haelJEMFNoVEVV?=
+ =?utf-8?B?SkFtamZiZy85S0JaODViOUovUVB4dDVHUkQvRzhwR1g1U3BpTnRDemxLSU5l?=
+ =?utf-8?B?dXVKYmNMWEpYbDh2RFpzemdSQjNLYjJIYXlqdnd5cTNMbzZya3hRVktLYWhw?=
+ =?utf-8?B?c2hPWk5rMFo0OTZEcG55VElCZEF5UitzZUhWQXhWdnBub0IrbVhFUlY2SjhC?=
+ =?utf-8?B?OVBVTVAvaVc5MVV4WU5rK09rVnNmWWhKMUlOKzliM05nNGQ0azdDYksxS1NC?=
+ =?utf-8?B?ZUtSZk1FZHp4MlFvMGZlV2d3MWR6V0Y0aGVJa25SY1ZoTmFwREV6QjZPbFZM?=
+ =?utf-8?B?VkNsS1p2cmlLQW5Fd2dwZUYvYlJmYWV1eGlBVStiL281NGxBcW9JalBzeCtR?=
+ =?utf-8?B?bXdMZ3R2aWx0RkpwUmxuZXdZOVFqTWJEbGUvbmJQQ09wTUg0TGtTcHQ4dTRq?=
+ =?utf-8?B?dlZMaGYvSElYMjJIK3JCWlQrRkJXK3JIWmFxeUlCb2EzMEU3UmFmZkpPMkZn?=
+ =?utf-8?B?V1ZSbnRyNEIyQmk2VmRZaG5MeTVBbWJ0bi8xUzhOWmdVS0xMenhLcWNtbGtu?=
+ =?utf-8?B?NUwrU3NyZEZDL1NFL04zTUh6akZvUHl2RE9rTGZkcWtwSlQxNlBjdXAwbHl0?=
+ =?utf-8?B?Q09DbG1mcW16bVVUZ01wL0FXM2pPNVM0TnovcmNJeGxzcXhWQ3pEYmp4eVFv?=
+ =?utf-8?B?UVRyZnVvL0VYM1J5YUpLdWxHQi9HckVURExwZisvVG1Udm1ETXBDVDhaMDJH?=
+ =?utf-8?B?VlNnMHpMWTZmTkw0NkpyMXpPT1V5TVZ5UVBYSlkxaHl3Yk5nMVJiMlkwc2ht?=
+ =?utf-8?B?dkVxRmJWdVhrd1kyc3Z5ZDlnS1hzcDg3WHo2c3gzL3lnT3BDdEtyd2w0RUdJ?=
+ =?utf-8?B?WHJpWit1a0MwQ2lpcHM5SXNGbHMyQ0xqWmxpV3ZNMGZKYUlrREQ1RmdLZHVY?=
+ =?utf-8?B?eEpBTWhkcEJCOHVGNWhRQnlDeUxXbEtxbS8rRHg1TktNalMzZ1ptK3ZkeERq?=
+ =?utf-8?B?TFAwdWtVbHJENUpkQVRPVU9Ca1JTaHNzZmFYbjYxTFFNSDdKUWd6eWlBaDBz?=
+ =?utf-8?B?RWJHb3NHRTcxV3BtbW1xNVJ6bXZ1VFZhcUQ4ZEcwZmlKTG1YZnNDVDIycFZ2?=
+ =?utf-8?B?RGVWVmZZckxUUjRjNGJ0bXZseEZ0OW1ZQ09KNEZRcnpYb2poQ21RS3c2MDJI?=
+ =?utf-8?B?NzhhM1BtWCtBYmpWSk1yZEJXby9SSmRmbHRUVlBVK3ErUW90cDFrdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c5eced8-b86c-477f-cd7d-08de913864e1
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 04:20:53.3506
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uCTyqjtf3XaCDuADXV/QP4vwScqhLnJ0aqlx5yRNwM4UAkvofiuCpHfJwnPpBft/tB4HhfBAAhZwLnTacc44BQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6052
 
-onyx_prepare() accepts 32/44.1/48 kHz PCM playback, but it leaves the
-Onyx IEC958 sample-rate status bits at the driver's initial 44.1 kHz
-setting in DIG_INFO3. As a result, 32 kHz and 48 kHz PCM streams
-advertise a stale IEC958 sample rate unless userspace rewrites IEC958
-Playback Default first.
 
-Update only the consumer sample-frequency bits in DIG_INFO3 from the PCM
-runtime during prepare, resolving the long-standing FIXME in the PCM
-playback path while leaving the other user-controlled IEC958 status bits
-unchanged.
 
-Mark IEC958 Playback Default as volatile as well, since prepare() now
-changes the exposed register contents outside the control put callback.
+On 4/3/26 06:33, Mark Pearson wrote:
+> [Some people who received this message don't often get email from mpearson-lenovo@squebb.ca. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> Add a DMI quirk entry for Lenovo P16s G5 AMD to use ASOC_SDW_ACP_DMIC.
+> Needed to allow the microphone to work on this platform
+>
+> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/aoa/codecs/onyx.c | 37 +++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
-
-diff --git a/sound/aoa/codecs/onyx.c b/sound/aoa/codecs/onyx.c
-index 04961c456d2c..6e2da2aca2ab 100644
---- a/sound/aoa/codecs/onyx.c
-+++ b/sound/aoa/codecs/onyx.c
-@@ -32,6 +32,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/slab.h>
-+#include <sound/asoundef.h>
- MODULE_AUTHOR("Johannes Berg <johannes@sipsolutions.net>");
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("pcm3052 (onyx) codec driver for snd-aoa");
-@@ -514,8 +515,36 @@ static int onyx_spdif_put(struct snd_kcontrol *kcontrol,
- 	return 1;
- }
- 
-+static int onyx_set_spdif_pcm_rate(struct onyx *onyx, unsigned int rate)
-+{
-+	u8 dig_info3, fs;
-+
-+	switch (rate) {
-+	case 32000:
-+		fs = IEC958_AES3_CON_FS_32000;
-+		break;
-+	case 44100:
-+		fs = IEC958_AES3_CON_FS_44100;
-+		break;
-+	case 48000:
-+		fs = IEC958_AES3_CON_FS_48000;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (onyx_read_register(onyx, ONYX_REG_DIG_INFO3, &dig_info3))
-+		return -EBUSY;
-+	dig_info3 = (dig_info3 & ~IEC958_AES3_CON_FS) | fs;
-+	if (onyx_write_register(onyx, ONYX_REG_DIG_INFO3, dig_info3))
-+		return -EBUSY;
-+
-+	return 0;
-+}
-+
- static const struct snd_kcontrol_new onyx_spdif_ctrl = {
--	.access =	SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.access =	SNDRV_CTL_ELEM_ACCESS_READWRITE |
-+			SNDRV_CTL_ELEM_ACCESS_VOLATILE,
- 	.iface =	SNDRV_CTL_ELEM_IFACE_PCM,
- 	.name =		SNDRV_CTL_NAME_IEC958("",PLAYBACK,DEFAULT),
- 	.info =		onyx_spdif_info,
-@@ -695,9 +724,9 @@ static int onyx_prepare(struct codec_info_item *cii,
- 	case 32000:
- 	case 44100:
- 	case 48000:
--		/* these rates are ok for all outputs */
--		/* FIXME: program spdif channel control bits here so that
--		 *	  userspace doesn't have to if it only plays pcm! */
-+		if (onyx->codec.connected & 2)
-+			return onyx_set_spdif_pcm_rate(onyx,
-+						       substream->runtime->rate);
- 		return 0;
- 	default:
- 		/* got some rate that the digital output can't do,
-
----
-base-commit: f16695c0dc9db64f0a5a9871a10b70daee2653e3
-change-id: 20260401-onyx-spdif-pcm-rate-ec45243ae8a3
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> ---
+>   sound/soc/amd/acp/acp-sdw-legacy-mach.c | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+>
+> diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+> index 05484c72f9a8..f2c80f1424f0 100644
+> --- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+> +++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+> @@ -111,6 +111,22 @@ static const struct dmi_system_id soc_sdw_quirk_table[] = {
+>                  },
+>                  .driver_data = (void *)(ASOC_SDW_CODEC_SPKR),
+>          },
+> +       {
+> +               .callback = soc_sdw_quirk_cb,
+> +               .matches = { /* Lenovo P16s G5 AMD */
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +                       DMI_MATCH(DMI_PRODUCT_SKU, "21XG"),
+> +               },
+> +               .driver_data = (void *)(ASOC_SDW_ACP_DMIC),
+> +       },
+> +       {
+> +               .callback = soc_sdw_quirk_cb,
+> +               .matches = { /* Lenovo P16s G5 AMD */
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +                       DMI_MATCH(DMI_PRODUCT_SKU, "21XH"),
+> +               },
+> +               .driver_data = (void *)(ASOC_SDW_ACP_DMIC),
+> +       },
+>          {
+>                  .callback = soc_sdw_quirk_cb,
+>                  .matches = {
+> --
+> 2.43.0
+>
 
