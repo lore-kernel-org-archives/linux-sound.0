@@ -1,122 +1,230 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011059.outbound.protection.outlook.com [40.107.74.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD5C24E4C3
-	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 19:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775246132; cv=none; b=YsxJzHkSGEaJXlX3tQxgVVETlTfo8er3NZXJ815BiCTdbg0nz04fQlFJBsfNBzwpXtxk28q3h+VIA2F5ZLwfuZB2GVsNnXXaWQ9IkunwnwckKFRAU0EAZ3y1XeJOyuEXOqIlNmAyDssEc1BLndmffL/dKMCA1PuxjPvdn1Vh8kU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775246132; c=relaxed/simple;
-	bh=Jk6wuPEJo+3AYgMNEz8BZHMUktNghhbc76k4DHqVaVc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jof7Yw0CpwBn9nsIGquR6KygQuUogDMHldDP/+5Ty6MRj9vbVISz1XrEgfWmxsfXiPEx/GTayHimgVU0T36pAeGYx4DxZNxBmHHwUOE13SM7P8HxJLm9GVsjd9J2zdHQkm/6kQ6dzyRFHg8RrITscVkSLpotmSMnTQb41TaNL9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqL7RGbl; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9B82EAB72;
+	Fri,  3 Apr 2026 20:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775246450; cv=fail; b=dtrz8f+8J37ecCi+W6hlwKO3ftgMoIHSeSg9BaTSaPvS1cZuVz1BL74480Q9kPH4ysMwmyamQGUs3qbl3d6LqsvdOOm7bF4QuiHEFB/K6mrc262lNCbuZDimxyyWDbYtHPj4FHO/qygYXgV5qHo8nVFkBnoOubo+SAs5ZQg5Usk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775246450; c=relaxed/simple;
+	bh=QwpSnRM5n9arGiqjKeuOcE5/xsznZxC5fnQgJ5STJ2s=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gTkoO9mEWGRT2xP78hJYM2p1wvDjWyEBcKZgRPQQV3ZUy6AQC/PVvRwBr+o6TmEU/YgI09QFU0R5MgbtnpTy+m8sB8sFeZajvqjJNobnIlv5eCT4Ru2CSw8bFnlJvwEtMGpXIlOWsVImHwDV7gXxL1yOqy+VElAlIGZT+AVFiRU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=NctgbzQ2; arc=fail smtp.client-ip=40.107.74.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqL7RGbl"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-82a7539851fso995385b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 12:55:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775246130; x=1775850930; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZIJhE8/NbCHEsvI6MaIU0MyPtyYi+r06M9QiYMpbhkQ=;
-        b=dqL7RGblUxlv6b8smyqnKJFA+2P5VZbVT2MI4/W6YysQEmgIDH9MZEs8m6ewMFq/cP
-         PNstrPfyNg37E0XYlh3EVRosjLSjmBVbiy1lEXs+vutvxO9jMkH7vnXhZJg2UTE2HM+J
-         a3iHomoqWqsHbxE3gZ9GGFyQ+OfdrfWHUUtYjZOaB2NyPNsTAGT2rXFx80vkUJtNTnFj
-         9H5eHiJI7N8xyHHMgVyX9zkWs1RQ+adOrLp2MdZd0ax5GGIZ4AYSF5qypCSeD/qPSwuZ
-         l+nAVvdV60kZw/WWx42ebR7f6V58K45he9LdTy9L6X9GywQ6nhopnaXE3ook8h6GMUWV
-         fVCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775246130; x=1775850930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIJhE8/NbCHEsvI6MaIU0MyPtyYi+r06M9QiYMpbhkQ=;
-        b=sA1vqV8XzuXzvr38DtTYUxt76d1PTrgfeS3hd2sFXHg93kZZ2S5XsVpU/MEczlEnxw
-         0ITWeVysfuwcV5E0K/cI19rfJ/uxjORikcAncoYmbYndGoLwBD06OL1gY92U926kTyIS
-         XvBevvpsJ/lthwXHPr2th2rJpqjWwo9+tq2eG6Miy14+qaM0W1jGieTT6vvmgk/WFeGQ
-         gIrM8bSZr5F6HDKbsbDxhJlwXGthS3dHRFjA7OWJrWZmL2kGFOFTgdf7pVxnTPMYqt2Z
-         OKo2FB0wpda4tVwkPlfnwzkAF29Mnb1pecROMHzXuFAPy2OxYn3DkTcmUBzf3ar6OY20
-         al9w==
-X-Gm-Message-State: AOJu0YxdXrUzVwD99a73Wr1BUsj0xgGgmMpSs4uAXRqRC8tiZVcBSKJj
-	NxuTSB3+Oxik4u9oapUNRL+FH0roZJZWA5VnCe2lOBytSJqMEfRCecCY7K66qVAt
-X-Gm-Gg: AeBDieuI/PUec3clrm4XIho5xex2f+PhZ/SdN+8+NIQyhHqaH4TArm40auxpXd3MOTW
-	3RjLP5zo17v15BA44heJ13lGJPdiDccSAX36YGRUCMoF3yp5opxpu9OmBJY0YyaJMLzYw3mtPBx
-	hepHLiuwF/w2+mClXidJrJzUeuZ74ON4aeJ6PIdIubnliayS9vSgidBfm+9UznbzEyn0A5DhJku
-	Oz1Rv7D74uedQiG8/ZKm5gEUlbKjnaEcdY/9Bkw4zS3kidKdAZMoDq5Jpw7QoXPZCTN49ElIDe8
-	3xWWH7K815XLmmDrfdiEBEEBppxJlghd8LMLs4Aa01i6I6dceMfZ8MELQUyJsx0Aqaquk1sxxXM
-	hOiACp5KD9hCvPxCLkMgR+NgrLjsN08s3wIPFeoZsUhRf7wzdG3hm8inCFr44X8rsNFJ26NAQ4L
-	rJsyEyM15IQzMw8HekQw9PIEnwymSs5jK/KR/eGi43b6fGkRSG5j+Nkl8=
-X-Received: by 2002:a05:6a00:180e:b0:824:a706:bd75 with SMTP id d2e1a72fcca58-82d0d7533dfmr4063725b3a.0.1775246130227;
-        Fri, 03 Apr 2026 12:55:30 -0700 (PDT)
-Received: from debian.killsync.com ([45.116.230.137])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b272bdsm6901008b3a.12.2026.04.03.12.55.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 12:55:29 -0700 (PDT)
-From: aravindanilraj0702@gmail.com
-To: linux-sound@vger.kernel.org
-Cc: cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	Aravind Anilraj <aravindanilraj0702@gmail.com>
-Subject: [PATCH] ASoC: Intel: sst: Fix firmware resource leak in sst_request_fw()
-Date: Fri,  3 Apr 2026 15:55:15 -0400
-Message-ID: <20260403195516.15049-1-aravindanilraj0702@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="NctgbzQ2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TMywVUh/5LxLUn2FwcVtpgDJU5/TQyLVmy6xaNeCINAD8hoYQr8n64LQqU0HTRt6+SZAGhrIubB+Bb+mjl6qiaQy8bSg6X51++Bo7XJrlQd0oj1QtaNkN8PcejIIeo3yIEXryRDU4K0kkqB+GKz/9HBAWiLf3z1P9qEu2kZ+uJc7VT0QLUn0/uDhyS8tS2C7OoPWHtfzO8crjW7ckVgBtIQ16Ulj4Xkp3EbvqZUasB0Jcsmuj005c2YFxcu1vdXul+wXZD7xGMF6Hn2lOv5v8/MiPTQCj3DESTR9xz6TohC3eB992uevs1ggsY6F2s/gveJv1ak3iMt3wq5VaBBeCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/x8HkyUEuvHyEbmZTEgJ8qoBI28zEFQ5B27gMyO2/I4=;
+ b=vG1mflcwKscvKV9JuucVVo3kNDMZ91iPT0CEaZFFIV1kxlGBwj9uQaD8sp6zHz4QutpmWcsxK8clFy9ZgUUpNA6iBAsvMePCvb6wb7rgPWSaEvBNMRn0uMGdJJtIcRdVScEIwHAL430qLOimq6PrYsWSsI0qMZZ1Y3Q5Z3VVg8doqWGDeHFU10VxXbagI2R1Lm+5z/QuQ2wXTJIEz4txREb03Xj0XQGfpDnfws43qcWxGuThpMvRA6QhOaK30JDnEQMIQ6Gp7l9C1UyM/G9i6sIIILSnAlxmtFdG+fkovHQCaAYl1iBC7vr6IZML0G8q59Xoo5tfT2Ks8R+QRT8pYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/x8HkyUEuvHyEbmZTEgJ8qoBI28zEFQ5B27gMyO2/I4=;
+ b=NctgbzQ2FWJSDm1Xv1njQ7mzI3raSu7iFv4lPATQdqw2sHca43hOnfByFJnuMgkdFQchs6WXGVs9JQgVSCZRKr5RMFca5fdUbe6QwYsng9riLBDYxpLmI23193sf/7YGxw9E5NB/89SOKhxCo30up8r/lAIBaQUq4+sr02eYW2Q=
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
+ by OS3PR01MB10008.jpnprd01.prod.outlook.com (2603:1096:604:1df::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Fri, 3 Apr
+ 2026 20:00:46 +0000
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3%4]) with mapi id 15.20.9769.016; Fri, 3 Apr 2026
+ 20:00:46 +0000
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, magnus.damm
+	<magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu.Beznea <claudiu.beznea@tuxon.dev>, Biju Das
+	<biju.das.jz@bp.renesas.com>, "john.madieu@gmail.com"
+	<john.madieu@gmail.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCh v3 10/14] ASoC: rsnd: adg: Add per-SSI ADG and SSIF supply
+ clock management
+Thread-Topic: [PATCh v3 10/14] ASoC: rsnd: adg: Add per-SSI ADG and SSIF
+ supply clock management
+Thread-Index: AQHcwr1pAzAyXF5bLEakh+bcszcXI7XMjkKAgAEz21A=
+Date: Fri, 3 Apr 2026 20:00:46 +0000
+Message-ID:
+ <TY6PR01MB173776C77BC7D557C87D28E86FF5EA@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
+	<20260402162436.12059-11-john.madieu.xa@bp.renesas.com>
+ <87ika8g74p.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87ika8g74p.wl-kuninori.morimoto.gx@renesas.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|OS3PR01MB10008:EE_
+x-ms-office365-filtering-correlation-id: d1d53465-56bc-4f6b-7cd6-08de91bbb1ef
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|22082099003|18002099003|56012099003;
+x-microsoft-antispam-message-info:
+ 67ajACkIfKxgCL/I01WaMXYtKz0OfN5cBHPZuZ2hauLXXRZThEd4TWoI9Kh6XDovyPPjQmBNl2KDGUOHk1zd1QIR53T8jyVgGuf2PaW36fwnabLvGmxVJQN6NvE3UlfrupYat1TNqcvy+3hC18l7Jk7P4ZbfyhiKz6+akdJq8Q2on53ZWlWeWx1+ctWfkfOiRbTc2qm2zayTQHRPzPS36TJqxVi1XCeW68EpUvGg25YZF0MXZU19RZlzlPhouthV8z8QoGGBYfQds/tP+Bc+qxyNzE2YVJxLS+in7NWFGGSoDs325GbQoFzMZC56YHNqPUlrhOD/51phk8T/NzUuAXXR4XKpESe3cUU/eGoseZbb5rXuFJmvI4142354pNGuBBasfwXNOnbpPFymbx7k4ZKkoULPk1VPaekovteXYBEKWnUzjEzVPvP+7VP9WQBfXwSe3KiGm1aCjIBp6W9uID51j4D+1ZCS89RkmWCTIFTsOgCb3VWM2dQ5Z5zDIc3wnpZmYTpc1PqWaQaYN0jsBfISwVvVkNoeK7PrYovoQQ7LPmaGY2z4tUfcZ2SHH1o7a98UXFXcTevFK8kr23RgQsUiJwD2G6tZJSFq2aOf94hCyjzuVBFBDPeHlTqOtpwf8LsvoDuDPhgTEgjVlgBtBbbLGg0HWj1iz4kthxZdeTSzh7KxEM6SK/gu+eg1IUqbzH2nS9VF39xUToWyFwUVbk/D4xP5E+Q55v7FIbto99J3agr4uvEpu7hlAIPQLEOPIM0ujreIj/KJvlesFxhgO9+4xxsUwLdDnj3ZOGbepXU=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?spShJhuDYN4zsSnHyLs1ApRGdZmqHci6KHyGYfiSoZRAzk43dxtW5YuuSqZb?=
+ =?us-ascii?Q?8/rlyOYePUnv8hCwslZf5ooe3NX25GwRBhdjpfFsbRWL2AKU2IEklNnPdkIF?=
+ =?us-ascii?Q?tR+VQSGalA4yec7XwCiblBSFkZMdpIzpGPKaH/dttiBwzb+jNmOU/N6j86xS?=
+ =?us-ascii?Q?5V8vd9O4EANmzv+00/4ABBfjrNvgUp4udlWVtNscewSugDuXjr7mFVhiWzMf?=
+ =?us-ascii?Q?INf/PDrjI+K1B/eLFlZPm5QzwzabXNeEUN00YXXgRZHd2uz1o/BNaMWFbGx+?=
+ =?us-ascii?Q?sQFLstrVFWSrKS6L2fHuH/E9ObVx4ZUe8NAiiBihT97HGAGLOq46Mf97Qnxk?=
+ =?us-ascii?Q?9zm+ZTwH58Wk/O2/Q9h4VVwFLqg3pbx6eHJgeoYs+dRcw2WMRDvQ+KoyNMW/?=
+ =?us-ascii?Q?2GV43tVgHu8bF4p6rUO1iYChk595qwHpeMYbaYxEejjFQE/294JFNT/6ahkz?=
+ =?us-ascii?Q?VjCVmwjwQbCidFvG6EPMEdB+Nwi51zHLZU4z+t6QjHla/X4VFrSZa9HPMKbn?=
+ =?us-ascii?Q?4WJsoDAv4NrIWA92DZejGq0FgKffgpPAu3BkSRIahAvtBfW3HMhEKDN2ZN8E?=
+ =?us-ascii?Q?gpAAS538zTbHitWCsafOuopkvQHpAWs4gd2y2OquE10XdMG2CYC5Jp6V2Pi/?=
+ =?us-ascii?Q?t8/yQvSi5B3skKu63516vPncmtWVidSvPpAiXxKAHNtvR3Yt/OsC4vn1W5h1?=
+ =?us-ascii?Q?UGm3i8JEnuohGA0+GS4a2OTe+RA+ZFvXY0BYvlI0Zgp8nDIHpbPR3kFOC094?=
+ =?us-ascii?Q?cZ4KbkXmrA5FdvsfhM3UzNlw0+b/18uA3HmWj5YSgtKi66G69548lDxPGoTa?=
+ =?us-ascii?Q?Z/WyDPzci+o64VC2qMRWkn7gBlWeRTmMl2qMLsMBcdtJWhyDIlEJmQiEoE66?=
+ =?us-ascii?Q?8syd6iqAMBN/0ixGnWX10iDbq1UnX5xDpHsud6xg/apC+kWJdJHCrPnr0j2s?=
+ =?us-ascii?Q?zV6J/v2ttpJYv0v4L+hVVqJMwGtveT8chFG/71eDBKFXgIbv7s+l81DIVFiA?=
+ =?us-ascii?Q?DTlrMwj4veG11aAlRKwKPZg2WC4FYjr/KaidhgEjTnwyx/E35ZDCMXRJYwaZ?=
+ =?us-ascii?Q?q64yI8Igx5O/U7KlkRO3dlTzrclk15fSXLjuCmyxpRdN9JHr1BdG1QUDLafa?=
+ =?us-ascii?Q?NyWbFlUihnSQtqRuVis6uYojOq9sX2ZoWt3SECPyv91eaqiEyES11wroMkaW?=
+ =?us-ascii?Q?UE07qvq2it68cya+/S+6D79zWvEc09b/TGZfI8qmYYf28cuaBoAsWAMEPYRn?=
+ =?us-ascii?Q?+pOVg4sqlj/jJt5nDW418TH1wsGF6KLGuGCozFg9QDl90fgeBB8SeidsZHhl?=
+ =?us-ascii?Q?EzYIo6Bdvcxj95PagK6xOkQ5gnFq2kUhwR6yYJkEHT8LG7w68Hwp+scbVKZG?=
+ =?us-ascii?Q?z5pxXpDLYB1LI0mTmKdtoJ5pdaYFJ+mXVGTHdnW9tGmI4lq79LPxT61X60Ed?=
+ =?us-ascii?Q?2RRcMWkMRnfnQEuI5YQWhNZ/mJDwq2WPt/lTu5WzzV/zqWMagWvxcG4Lfroj?=
+ =?us-ascii?Q?OXJ+6Z0VPwGjxWIRkScE/Gh1EfWl1R9ghMmCyjxskxJWVr96MmfGyWe5jhLt?=
+ =?us-ascii?Q?ep/2xChGQw+pJp1GxptBqHVnPyhU1nAgzYgQ/L3yPJTTDl5vwZrIaUtBhUex?=
+ =?us-ascii?Q?7t6GFRt34a2RYILzotVIO4eHKiksKzay5er4KoiHwkq4xUx+Yuanr8+0m3tI?=
+ =?us-ascii?Q?ep1D+Tg+vGNAAxkNBBEIbO1kTLr1pxwaBxEAA7vpAAN9alN+cHJh8EBMk+qW?=
+ =?us-ascii?Q?eF90B1uHbITOr/9z4TCWTiNAZLMyECI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1d53465-56bc-4f6b-7cd6-08de91bbb1ef
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2026 20:00:46.2890
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GS8BRWOGWWHVxiVvWPAkvUwRpFJOSgaK+9SdXVMgSUp/nTSaS93biIygUgKwVL/Uxw2a8kQ2lWV3vwAGebRXq0flTKHiMqx2wS6Ln9ne8n4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10008
 
-From: Aravind Anilraj <aravindanilraj0702@gmail.com>
+Hi Kuninori,
 
-The sst_request_fw() function calls request_firmware() but does not
-release the firmware on any return path, resulting in a resource leak.
+Thanks for your review.
 
-Ensure release_firmware() is called after the firmware has been
-processed to properly free the allocated resources.
+> -----Original Message-----
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Sent: Friday, April 3, 2026 3:33 AM
+> To: John Madieu <john.madieu.xa@bp.renesas.com>
+> Subject: Re: [PATCh v3 10/14] ASoC: rsnd: adg: Add per-SSI ADG and SSIF
+> supply clock management
+>=20
+>=20
+> Hi John
+>=20
+> > RZ/G3E's ADG module requires explicit clock management for SSI audio
+> > interfaces that differs from R-Car Gen2/Gen3/Gen4:
+> >
+> >  - Per-SSI ADG clocks (adg.ssi.N) for each SSI module
+> >  - A shared SSIF supply clock for the SSI subsystem
+> >
+> > These clocks are acquired using optional APIs, making them transparent
+> > to platforms that do not require them.
+> >
+> > Additionally, since rsnd_adg_ssi_clk_try_start() is called from the
+> > trigger path (atomic context), clk_prepare_enable() cannot be used
+> > directly as clk_prepare() may sleep. Split clock handling into:
+> >
+> >  - hw_params: clk_prepare() - sleepable context
+> >  - trigger (start): clk_enable() - atomic safe
+> >  - trigger (stop): clk_disable() - atomic safe
+> >  - hw_free: clk_unprepare() - sleepable context
+> >
+> > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> > ---
+> (snip)
+> > +int rsnd_adg_ssi_clk_prepare(struct rsnd_mod *ssi_mod) {
+> > +	struct rsnd_priv *priv =3D rsnd_mod_to_priv(ssi_mod);
+> > +	struct rsnd_adg *adg =3D rsnd_priv_to_adg(priv);
+> > +	struct device *dev =3D rsnd_priv_to_dev(priv);
+> > +	int id =3D rsnd_mod_id(ssi_mod);
+> > +	int ret;
+> > +
+> > +	ret =3D clk_prepare(adg->clk_adg_ssi[id]);
+> > +	if (ret) {
+> > +		dev_err(dev, "Cannot prepare adg.ssi.%d ADG clock\n", id);
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret =3D clk_prepare(adg->clk_ssif_supply);
+> > +	if (ret) {
+> > +		dev_err(dev, "Cannot prepare SSIF supply clock\n");
+> > +		clk_unprepare(adg->clk_adg_ssi[id]);
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/*
+> > + * RZ/G3E: Unprepare SSI clocks - call from hw_free (can sleep)  */
+> > +void rsnd_adg_ssi_clk_unprepare(struct rsnd_mod *ssi_mod) {
+> > +	struct rsnd_priv *priv =3D rsnd_mod_to_priv(ssi_mod);
+> > +	struct rsnd_adg *adg =3D rsnd_priv_to_adg(priv);
+> > +	int id =3D rsnd_mod_id(ssi_mod);
+> > +
+> > +	clk_unprepare(adg->clk_adg_ssi[id]);
+> > +	clk_unprepare(adg->clk_ssif_supply);
+> > +}
+>=20
+> Can't we done clk_{un}prepare() at rsnd_adg_clk_control() ?
+> It is the function that ADG is calling clk_{un}prepare().
+> Performing similar processes in multiple locations makes maintenance
+> difficult.
+>=20
 
-This issue was identified by smatch.
+This solves both issues (raised by Mark) cleanly.
+I'll move the clk_prepare/unprepared for the per-SSI ADG clocks
+and SSIF supply clock into rsnd_adg_clk_control(), which already
+manages other ADG clocks. Prepare happens once at probe (and resume),
+unprepare at remove (and suspend), and the trigger path only needs
+clk_enable/disable() which is atomic-safe.
 
-Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
----
- sound/soc/intel/atom/sst/sst_loader.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+This eliminates the hw_params prepare leak concern entirely.
 
-diff --git a/sound/soc/intel/atom/sst/sst_loader.c b/sound/soc/intel/atom/sst/sst_loader.c
-index a043443d2887..cba7f26cb0fd 100644
---- a/sound/soc/intel/atom/sst/sst_loader.c
-+++ b/sound/soc/intel/atom/sst/sst_loader.c
-@@ -350,12 +350,14 @@ static int sst_request_fw(struct intel_sst_drv *sst)
- 	}
- 	if (fw == NULL) {
- 		dev_err(sst->dev, "fw is returning as null\n");
--		return -EINVAL;
-+		retval = -EINVAL;
-+		goto out;
- 	}
- 	mutex_lock(&sst->sst_lock);
- 	retval = sst_cache_and_parse_fw(sst, fw);
- 	mutex_unlock(&sst->sst_lock);
--
-+out:
-+	release_firmware(fw);
- 	return retval;
- }
- 
--- 
-2.47.3
+Regards,
+John
 
+> Thank you for your help !!
+>=20
+> Best regards
+> ---
+> Kuninori Morimoto
