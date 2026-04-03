@@ -1,157 +1,256 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011053.outbound.protection.outlook.com [40.107.74.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8196A17C69;
-	Fri,  3 Apr 2026 01:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775181599; cv=fail; b=F81lxF3TpNYKEueJMF/Xmd5O23dpxkiHEbnsefSgc/xp84bSUW/g+718quHWvy8ErWxmG3sCROXb2tqqIAFq3gnT6rsqZu/0I5Nn1PG5FhdgDoVFjIel5qw3nTn2H76xapUxbW2lGUy8TTw8v/YRrQlPNK6ExVY653iLtIIuPWg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775181599; c=relaxed/simple;
-	bh=aFJoPlS8aTWvUI5bhgnlwWN03XLMhtEoaZb9iFOLnNg=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=hNuKikNJkrThUeDwWrnocz0fdSVTomSVmXiZQvD3Sv16G2aLDA89I43O1XirYrlzjYESMnWX8wuL9sxuaptaHqV0snLerHtbKD5ogeVHYhuCtOFYjSwbFbA/cXvW6LDKubSyD5Yp7fqAakOV7vs8YmM/6/MR7Bf4k28X2Ytor8g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=fRJ0zDON; arc=fail smtp.client-ip=40.107.74.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EB9285CA8
+	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 03:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775186513; cv=none; b=cgnQxmvV1tXlKxERkSrLczJmsH5HO8E/wsoeUHDFs+Vv1G9oK7rnnfTUuduBNvjyt7T/E+u5JQy705lGmaP0F+uXX7YH8woNEqYtcxNenGyPO0prb4zArpA2nZKrtDw6MoDVAiO6b0a14Iuet4VoLJ3aCaV7dcuhHr7F8XB2hE0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775186513; c=relaxed/simple;
+	bh=0+oIsvi8iPwRM9vhYnncTXllag+1M4Yd/gXDoqYbYwo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cImYThdc8QmPKUaHcT+P6BCrvjplyJF3gufdf3nV61JMMsbHmOEX8Ed2QtRgQQHWT4gFiyMjCjk5vPzx9tj2GMeAzHPySvzFjTqjBKfmhSuQOJp0Vyb2XBCrO9LiHbvGFARLrnLu9I4Zc5iwwiUa7m8gzc/UhnFxme1sZZIsVKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IMbkg5Z7; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fRJ0zDON"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DIKMM0zxTg0eB8zvHseLUG8ImF37I7r5osNjDlEjPNCLYikMcUtpgCGgsKYXyq6249SqCgkvHCuoKNKMXReGogeQ+mBvxG3G5AUBrUl66Kzzx75PeNlP8/qiYElxJi9m8e8BgXns5xHaZQy2y21stHe7y70rtprqhEbwDWVQLauq0NX70MuyJYOswR/4coKZpqnBW/z54UDWrxfzaNdHil275qg2uN0YixQj9R5ZqZi+tDK/ovKqExg5iQeM9si4iRaIXDtUAdS9DahlVYPFtUOGU5yBuiicwPPGcu3ksbofT0syhbpWoTuKOw8Ove1dn8HPXNX2bO6yFY2QS1ulNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uuz99WJf+rnM2AN05g8AzLgIwT54bA1LASpUnL4vNME=;
- b=IDbdXCXSHiSyuHswsX3HY81MFcmXgKiLi3IKzXmJsmkKTA1zsmYsgeGTqX3GVKcgRFCUl4/KnWTSOeOwh7kChEKxmy8MJhjQSPxA7+XBKeSBz3gsKtDxcESpHOaQrx4sm1gQA3Dyh3i8Ya48eFbTQIr+g7TlXwfcBTAWkGCoyHeVfHXdyuYVqTWPNZAzNMZbC2BVeck5ryAMPCiis9GGfCt8TWc/88XNwweqYHtZzO5Y9WFrZLo8tbmGBp4SYvx0rKZt42gCp+t3Ii8H+XRGNwfh2l/LhZiUbcxLkauVDdZGMkSFMSt0aV2Sx8EA5EW519DPyppHjhiRJaX2Ce8yog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uuz99WJf+rnM2AN05g8AzLgIwT54bA1LASpUnL4vNME=;
- b=fRJ0zDONMLrfAU8jnCSYWU/F/mrIDGPg6PWUHaYJa91ixL6bMmU1wfQHJwCzjh6ozaKm240UBHNoXV2M7rkkMoguQrdTAFvuJ2bmVz7UCEThV37ovyizMlih8+XhWAEzWNLJnghm4r/R3UXugwYLFsB7dlB5ZlwsbRVpZOPs/eU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYCPR01MB7704.jpnprd01.prod.outlook.com (2603:1096:400:181::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.30; Fri, 3 Apr
- 2026 01:59:45 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Fri, 3 Apr 2026
- 01:59:55 +0000
-Message-ID: <87cy0gg5wl.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	john.madieu@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCh v3 13/14] ASoC: rsnd: Export rsnd_ssiu_mod_get() for PM support
-In-Reply-To: <20260402162436.12059-14-john.madieu.xa@bp.renesas.com>
-References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
-	<20260402162436.12059-14-john.madieu.xa@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 3 Apr 2026 01:59:54 +0000
-X-ClientProxiedBy: OS7PR01CA0016.jpnprd01.prod.outlook.com
- (2603:1096:604:24f::13) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMbkg5Z7"
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-60567e76830so974961137.0
+        for <linux-sound@vger.kernel.org>; Thu, 02 Apr 2026 20:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775186511; x=1775791311; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgkbxrVjKmfLSch2z1owIJVa6D63ztThqRo8C7QXWv4=;
+        b=IMbkg5Z7BOgWzAKWOr3NzXXBvyS2Z4f321+AS6tTD0mPbHGepKiUcH5ModwQliobPC
+         R1yVeKD82S4JxB21EnZM0R9eKNEFBNUzS5OiufObgq0+DkH0jn08NWqSyePV1oSO0Ru/
+         H4xQYyzsngeKwc4Er1B4beWkBBEjb0g7CPNGClkbHGkNtGmnlUzSZCGrhjvIRblyHECU
+         iTcNVQleMj/6UJL3ZD2moEGhiJJ8tOwIyO3XgRSP1dou33Cb7jNUj5pI3L7hU16vjDCn
+         SSIKgwyfGu3Hv3aLVKL3uMkJtGp9Qg74UONe0z1ooVHbzLluZrZIw2BuLrKiXH7CmJrn
+         S1BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775186511; x=1775791311;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lgkbxrVjKmfLSch2z1owIJVa6D63ztThqRo8C7QXWv4=;
+        b=W6GI6HXuJiWBVEHKAQg6DhDQ50eP/npDNcYsC97SS+UdNE92K+P6MTeNXNV7Jef+02
+         bqCLBGJQUPIW9G0zbAWlovqCUmejHA0wrA1ozfZgN3F2jYT8bc3R1DPXs9ZFUqB9QOwC
+         LIC8a7atkAsXXOcztuN1gig9LrsqWvbZy/boW8Cv1L5c3wL30QgEAI1yduZwUXtK6FNo
+         Pz37OxI9PWAsq256mvJL5q6WdFEI6I2+jRrhO+ZoWC/rPdA+QplFIwHuX+TVlJTjMgU/
+         /JosSBGAujwH8akWIgapvfwcUSF/dnpHbhKp1BpWN3tUQ4wTBAiWa2VbiX3Pop9J/vyk
+         rk8w==
+X-Gm-Message-State: AOJu0YyzbUeORCPFoAWZHEJP5j7ssaXI5PcTUaE6S9RIxaUsR3EmWnsU
+	ASihf9L6fMYch9fpUOsUMStDUF9ip+KbY4S1eEKnv0JVOV9kuBmGu36T
+X-Gm-Gg: AeBDievF/XwtvuVMJKfxwxuCpS6QeouLPpeegvw+cp3Ilt9FWcx/i0M7i0zhUcsMIco
+	nrBqyAfaE4aR+6gWvapcpZZ+TX1k8/UMxrpFnmMr4xk9tg6QudNw4EWr29e8IW1lpeBGqJZ+78s
+	P0gUEu8SbBFRv0uEVpOX7I7z6c0R8Dnlz+CKvvaP04FRbt4tVikm75wMB1ihlwW1GJuoyOaTCVF
+	91udpmqJZWGhSseZJ+9E4CTj28ozjfXwG94YV6Rl5iU1DTS7MsqCNFeSV4GhjwT+2rEHa+8TRio
+	VwFKTdynzeBVrurZnz2aZU1h27waJgtExtKkcIZEBb9uLyLuLGuRj2eWsWOixaschuBbj967XOF
+	Nqkr+r5Rvl/tpFYcRH3aOBAumZj+IFjDS5ZX1W5pLj714THnvU3ofjh5tlXTTtB0Itp6X3KDRTT
+	rKFTFVTrCZmWkAgwQHTiOM9+92bet21y8vFCjl3nXRoItT3d9NcbTcHFAupokv+aqrPJgk+46KE
+	3E9
+X-Received: by 2002:a05:6102:4486:b0:602:a4af:5fe with SMTP id ada2fe7eead31-605a4d53bd3mr634543137.9.1775186511401;
+        Thu, 02 Apr 2026 20:21:51 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-217.user3p.v-tal.net.br. [177.4.161.217])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-60583098fa7sm6060377137.10.2026.04.02.20.21.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 20:21:51 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 03 Apr 2026 00:21:34 -0300
+Subject: [PATCH v3] ALSA: hda: Notify IEC958 Default PCM switch state
+ changes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB7704:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3dfe13ee-78cc-4f93-2d3a-08de9124b39a
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|52116014|38350700014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	XdhlwntRMPYaVD7cM7vMelnuySNM3HHKWLnU77U+yJeIJprVWu6nVR1a/+Qqa9nG6sopQ8eLFIRirRpexjjZL0uw2mH5jfnFJRXvSbh+XSK/sf141dkvyAM3WMcXaCrrdZ6GAjAYn3zmPCL4X8fLAiBtghxFHoOanbHB9TPSlKZhcTRBZpSE0d0UxWmE7xIMVKqwOGCm2CiMsW0DR85I8b5aB1uB7JVIZN4Cwn9XEJtbzAruw5UF3IlNRFrQzV7PZOTSxuX2qnpOp8Ycu2X0d4RcMJtogIgmmjp9QsniFJ8Y+s4tk7p8ndAsoTTh80MX6DVS8NYobGLeEKENdm20nxR3425prr5fD7X613+s8PTeSWmttKA1TDgIr8OqV1KpY/PPY91Fb1ImrQKpeFctyS17tNzi0+3Tzbu9US7eRouXKtbd+ldqZzJCus6ie7j6Cu5Lsi3gjeqQqXdCBNJCK9btp80I5YTIfe/HLu3A+WpQ9g92lTOGBL6z8CtnFEX2ady6CwrMYa0ZcUYc0YhuATd3fldMoSFxWHtKlsgH0Z2L7M/aHuD4Bk2EqS8uswyN/dfRtGywPGi2tIM4uL7aQIIB6FrsdMUoaBg9lvjzr0pnXtNLT3dHXEQvwulO3oMLw0z0ubF+KMLhvRHXpddk7uOudC4I6AIttMKgME/iAmOSbOftHBDcGoeBV3WoAPcJa4SfCX9eSEwagmMoHySuUy70/QSsYGkDKLWa8LT8tQ3/Tby/gX1b+tLoTA6QS+H4c6m84VLLYggxitXlw0iKg9qoZ6dc25DTxoe0QKU8URs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(52116014)(38350700014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6XJ/PpxkaBVrokdTu+RZXIQIbjGFmaIzHgmCP9K9o1RluK4XvPqhiKCxPqz1?=
- =?us-ascii?Q?9n5h8pjwuRnffRC/bfQVUmTeSDla98dSTzDVUpWua+nes7NtmMlYA6X07U6L?=
- =?us-ascii?Q?zgsAWevJkf81JroLfX2XTKLJRAabq1+7Nxo0JpGVZwWU1EnPf1c+a9Ea/t4e?=
- =?us-ascii?Q?Gt3ck3173JLVMgaWpJnrXXPZLQwhlATy8y/WanMgm6FNz6PGFrQgsuycxRnF?=
- =?us-ascii?Q?LAjaUdigojBT09uuAP6mVzeOHyerPE7e0DJScVOv9yvClDeIv4NhGqP61LH+?=
- =?us-ascii?Q?ZgE+p3Ey2UjoMN878vX0R6WeqcqVKmf8NiJhBOcGnvJrEqaZlEfnqznvU7A/?=
- =?us-ascii?Q?s1YLJ7s1tU0v/qul9pKVCnQxjdcIY7+bMpbYqGNcwxvuhe3xckgXL4SE5kDu?=
- =?us-ascii?Q?7z/STeocNXGx1f3bhiG0IUA4VrGeWStKpC3+luoQUyFNP1pdT4k0n7iajsLi?=
- =?us-ascii?Q?sy50LSpw2lAZMGTAwgfZ9rj5zzFMvPSyDqFOt+ofHmk/qRcg4bVJdnO23TuA?=
- =?us-ascii?Q?znFGeGgeDMdv4TtyZFVbOJR+6FtJHokSUqtTGyd1ECy+kiCKJZZNUs/79skG?=
- =?us-ascii?Q?SRGx/M74rR0Za96e3J3O/Ao/ld6SHuPhGEt0qpm0khXmT62N6yDjSwlreRET?=
- =?us-ascii?Q?ou05mznwRolta0mXEutl0m0SutGhlfOOcEYuCV/WDBR/2vHkaUl8iTSWi/w9?=
- =?us-ascii?Q?9cnangGRDyBLkes1DNYn/KAUuayN868uXltrmH1qOjJ/vujKlSDj+hGq85e8?=
- =?us-ascii?Q?UChwwdhBecyD+4dP93rdkNzuq6RgWOvrgQsJGm5Eh80Rb/bBIAR2MRGRdscp?=
- =?us-ascii?Q?MJ52BVZeGSfrWYQdKne+eoeEKEaizcCxmqvjgc98r0j3NZ43bsl4NyrepfsM?=
- =?us-ascii?Q?d1caVYJxxKgHfMqhbGAQIMEtukUoRH3o6YkMIqh+as928cPJUeg+91Q4He5K?=
- =?us-ascii?Q?eiGbLOnOcW3SvMAwje9tKdAsVmwNokb3VA1QaJMdjbEhgCFHRsrT62713lfb?=
- =?us-ascii?Q?uSQMXb92oU5uddIYDFgTV2p7MkEByVa+BmfiOzsC3YWQVVI+ynrdpBuKlwfg?=
- =?us-ascii?Q?PeOLICAYzU/XNF1wc6HMOgUTu2XCPdioX6JHF8eEMbk5Y2upUA/rfxt/ZFEe?=
- =?us-ascii?Q?nN4V1nFgo09Ttuyk2PhGuvN5efuqVenDT4UrSCrs2rBvCgRUBt8/IeRKZiJs?=
- =?us-ascii?Q?pkzpANdkASK1544zRxAFm4d9xiIgnvT+L+ttS6z2q+H7FvHvuC69sjVnzwz0?=
- =?us-ascii?Q?tyxyZuSOWmnKqPuA0JRb6X3edwasyGfQOsqHWtpaH7WyqnX6QwHuFW/x3KuV?=
- =?us-ascii?Q?UakwyXAHUjAdrZ8D1s8SRbKHMk0ccyIA10lWocQnx05ZmVUzPdkCCP38XzQh?=
- =?us-ascii?Q?35CfBaLmiSwgObGVTvqI9WA31wOSmKX3/wFBacyFVW2hMSPHtElGaT9HlLdk?=
- =?us-ascii?Q?ACQZ4RksxYeOCPfOJwT+zAodtAgvZuAScd00mE/VM92I9P8ztKxoh4Ib5t40?=
- =?us-ascii?Q?F16GgHg9F0Ls+DEp1mcFhn1g94RjdIiBUFlpfPjaUjcNKhhM0TFTuEVbqAgg?=
- =?us-ascii?Q?wEjJ8n2v/X6e8DOFKN7y0CZXNMVonjpx/XjKSFyD7MnIfdeCLwOTxeTCEkXx?=
- =?us-ascii?Q?XcWssVWiDYiy7ZlmjZLWj5S0oUZtjq8KxG6bqBi8MB/V8vY946NBsPH/p8D7?=
- =?us-ascii?Q?QTruED15UcTuFDid/AymqkX7z4KFHoG9ueIUWMmPFySYifpDsBBFtbbcHiDg?=
- =?us-ascii?Q?rV1VH3MWJqbM9MibTufiOiPKNVgAEuOh09jBXVMUOAPXw89a3odU?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dfe13ee-78cc-4f93-2d3a-08de9124b39a
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 01:59:55.2512
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ybR1isMXP9BSfxnvmhKoykenoP1AcWqiwmwJgYqe64JvVRsQNMD3Esxm5pbR8291vrTU/6MQasSApMw6VYaafa3FvPUq1xIoikTOYKpsq/PtTwQGMOGD8T44WQepMYKM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7704
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260403-hda-spdif-share-notify-v3-1-4eb1356b0f17@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNyw6CMBBFf8V0bU07VFBX/odxMbYDjJFHWiQSw
+ r9LYaMLlie595xRBPJMQVx2o/DUc+CmniHZ74QtsS5IsptZgIJUJYmSpUMZWse5DCV6knXTcT5
+ IgBwNWqVQGzGfW085fxbx7b5yeD+eZLtoi4uSQ9f4YSn3Ou7WiFF6K9JrqWWmMjIA5M5OX4sK+
+ XWwTSVipIdfDWxqIGpsejwZsojwp5mm6QsVAl4yFQEAAA==
+X-Change-ID: 20260330-hda-spdif-share-notify-22fa4ac00a14
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Takashi Iwai <tiwai@suse.de>, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6184;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=0+oIsvi8iPwRM9vhYnncTXllag+1M4Yd/gXDoqYbYwo=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnnjXzOWTw6JKHBYqK9j/03k8LxjfLPvjebiUY/0xSOX
+ eFh6NnVUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABOZcprhv8uuvUxW37PL9rzc
+ Z5o6YU3kuh8z5XYtW3jDa6Xlp9NHJxxl+MN9hfHqh3M55ZmsC9gvzOZfey7uo3mRaumEvV1vg+c
+ HKjIAAA==
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
+The "IEC958 Default PCM Playback Switch" control is backed directly by
+mout->share_spdif. The share-switch callbacks currently access that state
+without serialization, and spdif_share_sw_put() always returns 0, so
+normal userspace writes never emit the standard ALSA control value
+notification.
 
-Hi John
+snd_hda_multi_out_analog_open() may also clear mout->share_spdif when the
+analog PCM capabilities and the SPDIF capabilities no longer intersect.
+That fallback is still needed to avoid creating an impossible hw
+constraint set, but it changes the mixer backing value without notifying
+subscribers.
 
-> Remove the static qualifier from rsnd_ssiu_mod_get() and export it
-> via rsnd.h.
-> 
-> This is preparation for system suspend/resume support, where the PM
-> callbacks need to access SSIU modules to manage their clock and reset
-> state.
-> 
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
+Protect the share-switch callbacks with spdif_mutex like the other SPDIF
+control handlers, return the actual change value from spdif_share_sw_put(),
+and notify the cached control when the open path forcibly disables
+shared SPDIF mode after dropping spdif_mutex.
 
-Is rsnd_ssiu_mod_get() really used ?
-I can't find it on [14/14]
+This keeps the existing auto-disable behavior while making switch state
+changes visible to userspace.
 
-Thank you for your help !!
-
-Best regards
+Fixes: 9a08160bdbe3 ("[ALSA] hda-codec - Add "IEC958 Default PCM" switch")
+Fixes: 022b466fc353 ("ALSA: hda - Avoid invalid formats and rates with shared SPDIF")
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Kuninori Morimoto
+Changes in v3:
+- Dropped the forward declaration of struct snd_kcontrol.
+- Moved share_spdif_kctl to the end of struct hda_multi_out.
+- Link to v2: https://patch.msgid.link/20260402-hda-spdif-share-notify-v2-1-7c6584ecaa21@gmail.com
+
+Changes in v2:
+- Reworked the share-switch callbacks to use codec in private_data and
+mout in private_value.
+- Replaced the mixer-list lookup helper with a cached shared SPDIF
+kcontrol pointer for forced-disable notifications.
+- Kept the functional change otherwise unchanged.
+- Link to v1: https://patch.msgid.link/20260401-hda-spdif-share-notify-v1-1-707e422ed9d1@gmail.com
+---
+ sound/hda/common/codec.c     | 46 ++++++++++++++++++++++++++++++++++++--------
+ sound/hda/common/hda_local.h |  1 +
+ 2 files changed, 39 insertions(+), 8 deletions(-)
+
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index 09b1329bb8f3..5123df32ad89 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -2529,7 +2529,10 @@ EXPORT_SYMBOL_GPL(snd_hda_spdif_ctls_assign);
+ static int spdif_share_sw_get(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+-	struct hda_multi_out *mout = snd_kcontrol_chip(kcontrol);
++	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
++	struct hda_multi_out *mout = (void *)kcontrol->private_value;
++
++	guard(mutex)(&codec->spdif_mutex);
+ 	ucontrol->value.integer.value[0] = mout->share_spdif;
+ 	return 0;
+ }
+@@ -2537,9 +2540,15 @@ static int spdif_share_sw_get(struct snd_kcontrol *kcontrol,
+ static int spdif_share_sw_put(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+-	struct hda_multi_out *mout = snd_kcontrol_chip(kcontrol);
+-	mout->share_spdif = !!ucontrol->value.integer.value[0];
+-	return 0;
++	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
++	struct hda_multi_out *mout = (void *)kcontrol->private_value;
++	bool val = !!ucontrol->value.integer.value[0];
++	int change;
++
++	guard(mutex)(&codec->spdif_mutex);
++	change = mout->share_spdif != val;
++	mout->share_spdif = val;
++	return change;
+ }
+ 
+ static const struct snd_kcontrol_new spdif_share_sw = {
+@@ -2550,6 +2559,14 @@ static const struct snd_kcontrol_new spdif_share_sw = {
+ 	.put = spdif_share_sw_put,
+ };
+ 
++static void notify_spdif_share_sw(struct hda_codec *codec,
++				  struct hda_multi_out *mout)
++{
++	if (mout->share_spdif_kctl)
++		snd_ctl_notify_one(codec->card, SNDRV_CTL_EVENT_MASK_VALUE,
++				   mout->share_spdif_kctl, 0);
++}
++
+ /**
+  * snd_hda_create_spdif_share_sw - create Default PCM switch
+  * @codec: the HDA codec
+@@ -2559,15 +2576,24 @@ int snd_hda_create_spdif_share_sw(struct hda_codec *codec,
+ 				  struct hda_multi_out *mout)
+ {
+ 	struct snd_kcontrol *kctl;
++	int err;
+ 
+ 	if (!mout->dig_out_nid)
+ 		return 0;
+ 
+-	kctl = snd_ctl_new1(&spdif_share_sw, mout);
++	kctl = snd_ctl_new1(&spdif_share_sw, codec);
+ 	if (!kctl)
+ 		return -ENOMEM;
+-	/* ATTENTION: here mout is passed as private_data, instead of codec */
+-	return snd_hda_ctl_add(codec, mout->dig_out_nid, kctl);
++	/* snd_ctl_new1() stores @codec in private_data; stash @mout in
++	 * private_value for the share-switch callbacks and cache the
++	 * assigned control for forced-disable notifications.
++	 */
++	kctl->private_value = (unsigned long)mout;
++	err = snd_hda_ctl_add(codec, mout->dig_out_nid, kctl);
++	if (err < 0)
++		return err;
++	mout->share_spdif_kctl = kctl;
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(snd_hda_create_spdif_share_sw);
+ 
+@@ -3701,6 +3727,8 @@ int snd_hda_multi_out_analog_open(struct hda_codec *codec,
+ 				  struct hda_pcm_stream *hinfo)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++	bool notify_share_sw = false;
++
+ 	runtime->hw.channels_max = mout->max_channels;
+ 	if (mout->dig_out_nid) {
+ 		if (!mout->analog_rates) {
+@@ -3729,10 +3757,12 @@ int snd_hda_multi_out_analog_open(struct hda_codec *codec,
+ 					hinfo->maxbps = mout->spdif_maxbps;
+ 			} else {
+ 				mout->share_spdif = 0;
+-				/* FIXME: need notify? */
++				notify_share_sw = true;
+ 			}
+ 		}
+ 	}
++	if (notify_share_sw)
++		notify_spdif_share_sw(codec, mout);
+ 	return snd_pcm_hw_constraint_step(substream->runtime, 0,
+ 					  SNDRV_PCM_HW_PARAM_CHANNELS, 2);
+ }
+diff --git a/sound/hda/common/hda_local.h b/sound/hda/common/hda_local.h
+index ab423f1cef54..98b2c4acebc2 100644
+--- a/sound/hda/common/hda_local.h
++++ b/sound/hda/common/hda_local.h
+@@ -221,6 +221,7 @@ struct hda_multi_out {
+ 	unsigned int spdif_rates;
+ 	unsigned int spdif_maxbps;
+ 	u64 spdif_formats;
++	struct snd_kcontrol *share_spdif_kctl; /* cached shared SPDIF switch */
+ };
+ 
+ int snd_hda_create_spdif_share_sw(struct hda_codec *codec,
+
+---
+base-commit: f16695c0dc9db64f0a5a9871a10b70daee2653e3
+change-id: 20260330-hda-spdif-share-notify-22fa4ac00a14
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
