@@ -1,80 +1,80 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010014.outbound.protection.outlook.com [52.101.56.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AB3382392;
-	Fri,  3 Apr 2026 10:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775211010; cv=fail; b=VE2BHTzQnVzaCazlOblx2FTDzS53kSe/kkPIhODVNkeX/HrczLzrXRkYbGy112Cptb8d0Koth3QaLMECNrluf5brdEMoOk5d4kgwMaItKcYBaK4onrC4o+2amzSpszJy6PL5b55Hx8UEd6ITN1nj/T8Os/bOcPTZ3RhtF0VT2gA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775211010; c=relaxed/simple;
-	bh=Lagsbgom41gt3PFmuTMT6Ob/69nw5asVsxlPCOQkmoc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VWsRtL1FGEJr9oOct8oNa/GwVecwak7FXnpR31xdtcoJQIne5XhoUB9Y6XxxZlAvn7nSersI78YKwk79Nm2CYB8ylf6Ig1YzB4vSOAQ72/oXTq0N5fNyZAiDAEaAke/W0TIeNwAcjIwZCa69JhMOCzNyaJ6lMU36ehxfRm8Y1sg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wGjkp576; arc=fail smtp.client-ip=52.101.56.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3789A3B6BE3
+	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 11:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775215650; cv=none; b=KXMLgsEzBohJOdI0S55FiHmmshn5adH+w1SOAYQ9IkQIGdOsX01dFGx75KPxXFHyOJo1v7srwpo3n6kBZ+O2RSOU4Pmkh3fO7zLBNngHfp4vhZe9dEZlAnVs9Bgp7sRlTz0IcZUkrsfBU6cBCb1TzBv/bzqiZbfdT15NWOEyJRA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775215650; c=relaxed/simple;
+	bh=aO1j+V45gKVspVh+STk4Nhcf53cEsgoJkFmIjjpcfHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=StDYESTQMLc3fTFaZYOlttKrYN8iwtdLp/46rRhI831JnHfLTg5p+pvqLoaYau6hPcT+djVh8eifEs9ppWboOn9HXP9N3oSSr4AL135jmCsNNQ5hakhAsLwGpqrqMEOSGmcoE4GrGJHnuA/i/xlmkMBiSmYlqJd0SCrhXhmvGF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NTqx9WJ8; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wGjkp576"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G98UcBGi2e08ztl2HshJ3tlpEN/+NX7bsTE5q+3E7k8M4ahIL5XFe93ckvoV05DiI8+sdn5t3lgMaki7d1s46TIsLPfbL0DcTOI5+p0UiwOM8saDP2RP8ksJQ8//YHP7148RELWOtKrQkhvfjeXBL8YOLHv4kEfI1LB4v0fcekrk6XBt/tUzfwV7OSgndbJwm1TqlvdxzvPRv9+jaKccXTb3FKmbOPiXlrubnktZPhALv72Ap1LZuKPSl4I266Gf8Y4rQ2sjr9TuOVc7BxizOEEXGOURb9PU7WC2NDvAy05WOg+/jcofPCxbEBESsqWoIVdP6JZ0nvkRdvRgZOBCtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jUPEOF/GGfcMZeXhXlP2Zi8Jy001o5WNKpXiIT9lI4w=;
- b=UK4dax2ocLGDtG9WNku3kHXL1kM0fsi6+lalhvvwGo7uD3KASCxliKIwi2e7Xi5b0Gtc5P9uAOhcBQ1b+rMJPLoo9TUhvZnSsdMLYoyYgf13C7F7V3XG5wbPL7qlLpt+4Xzuk/TUBxExOpJP/K9DvdCd67SSXcbS+69FMukUEq+JI6tLjAT17Zx7aVT3vH6Aa/5Hs/VKHTEjUMIqDp31eDrv7hphwF9d4ehQrAruW0a0WFSSzyiSpMQfUIaxJ3bwFSwtLLCrsOXFeshOIffnizvJcFupXTAYnoknQfY7S1lhG88Nq363iogAIaWtJtq60zB9YBCOlqJmaN2mAC8+Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jUPEOF/GGfcMZeXhXlP2Zi8Jy001o5WNKpXiIT9lI4w=;
- b=wGjkp5764c234/kzcj4GGO0PP4vf4RexE8u0kUHTNoPPP5pMG1+X1Yu99i5OKqE+4tlK/h2oB5pQ+JCSSEo8hCyJGNsSsdGPHgDt1DDdh88IebbzxUmwxBqcCntHkLxszviAu38CfBWRF9OzkRqr5T8fJMzWDJ2Ifi6byW9tdbk=
-Received: from BY3PR03CA0015.namprd03.prod.outlook.com (2603:10b6:a03:39a::20)
- by DM4PR12MB5817.namprd12.prod.outlook.com (2603:10b6:8:60::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Fri, 3 Apr
- 2026 10:10:00 +0000
-Received: from SJ1PEPF00001CEB.namprd03.prod.outlook.com
- (2603:10b6:a03:39a:cafe::8a) by BY3PR03CA0015.outlook.office365.com
- (2603:10b6:a03:39a::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.20 via Frontend Transport; Fri,
- 3 Apr 2026 10:10:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00001CEB.mail.protection.outlook.com (10.167.242.27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Fri, 3 Apr 2026 10:10:00 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 3 Apr
- 2026 05:09:59 -0500
-Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Fri, 3 Apr 2026 05:09:49 -0500
-From: Syed Saba Kareem <syed.sabakareem@amd.com>
-To: Mark Brown <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Sunil-kumar Dommati
-	<Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <syed.sabakareem@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>, Mark Pearson
-	<mpearson-lenovo@squebb.ca>, Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, "Mario
- Limonciello (AMD)" <superm1@kernel.org>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski@oss.qualcomm.com>, Hasun Park <hasunpark@gmail.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>, Kees Cook <kees@kernel.org>,
-	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/2] ASoC : amd: acp: Update Quirk for Lenovo Platforms
-Date: Fri, 3 Apr 2026 15:39:38 +0530
-Message-ID: <20260403100948.678548-1-syed.sabakareem@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NTqx9WJ8"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82cd6614a90so799935b3a.3
+        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 04:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775215642; x=1775820442; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+NHifJZgQHQqWkUaJjmrpZ1+zeEyrq0oDIlsASkhbXs=;
+        b=NTqx9WJ85Ju1zwhHb0HDfYYccjBZFaphv2/UeMJNyKp/g1Yu4udwbdIz5His/9OTcq
+         O1EwcQMRTJPQx0ZjYXykr+ksG+ZBS3WqqLaBH+PKEBq6sIJRIX/zv5iw1a/TCrjD6IfJ
+         ob4qsKmVnKKzl3viloDqi3foSi62yGzx3l09Ey6Dj+VPkhsTSXwPUzbbnro+qbpW7fg2
+         q5D7gjC3jp+vvX/o3yAx9aGNbgaxowKbcfYcv7fH3Tu4uRAqV/YY+uqVxTPhF26c3Qry
+         JnjNe4TUbjv0KEsWJ8LkKDF20P1yozVWz0EaHnTYJWGXXNIc1zdqAmxv0md8R9ogRYqG
+         Zrww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775215642; x=1775820442;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+NHifJZgQHQqWkUaJjmrpZ1+zeEyrq0oDIlsASkhbXs=;
+        b=HVvrF3UepGw6EKaZHwP+ERFQQSUXd4GhfPJA9XLhnCVMAZQOYtANZMrhp2fBqh+oln
+         7AsFRgDybmV7jkrkMUyJRYP8jmWFZPTJw1lsSgMVXICZCSTTry+r/Ze0IQFTxum25DhD
+         0Fw1RzYf4OynDapxMC8jnvbDKrbVaIueUKvpkvSj24zWsHPxikkgC0FSGxD4R4reQm3l
+         JtNuuRxkTJzpJMEXtTEdENynJBwPb7EIiCy38wxfIphud7cIaYSXrLMSCLZNl0ZKgbvP
+         3VHlGIaK0X61nw3rIHwYBdaUZ/0qZbUJPcEIJ2+xrGIJa+SRlK+LxJ3RCXBoLtSVcVJJ
+         kULA==
+X-Forwarded-Encrypted: i=1; AJvYcCXaArjTIrdhtBSXrA6afahD66VwNRB2CI7+kDUGrTHW64/vkvgPY0Zg2thJWLMs//N/0WdoajZHj5+Ayg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDcGdz/F7l5yvfaXtyjlv2/WH7XtG8dXX3XTmTLirq0lstafqn
+	o6cqZfI9nBIpOq+8Kw/CbtlO01RIkPootOZGyRgCUFZyN7SERGMPsCt+
+X-Gm-Gg: AeBDievy/lDKI5rWD5/+3cB2HseEAhYhgGEK1V/Untr8hCb+uLniTZx9psMeapqfXSu
+	F3mqs8lRiHgIDJ/nw6gMsEM/7YL3WsclwBYTfMf3AbdPVvZROtFqQtZvFhPVfUjmBSniYUfnsB1
+	sKBf0quF+NRt7d1WFMymbg4CoktPyPg71hH7mUJO1GD73ldithekv+rI0/jjMYGaRY9wFqiC9U2
+	rhpPKPA808ULYYSNyZiIbQUH8sPwl85d1iYbMegOsjcGAf6L951xah6P2RT3ZXy9diLrpVuxeaC
+	uyzf0nzE9AftEBDGww6FnyLKV5hJUSeTCRTaRDnnVJnxez/F83JVAhuIPWzIssFH3gdMt8bnY43
+	r+6vx1w0nez1nJEuL5ZNHNz7pgBm6FqsGCjlaV2cfd3tH5N3Gza0NDeU2mxaixXi88o7pKycg0/
+	Qgplo9nesccM2N1OloVqPF/X+DBi5ZD7Hsixwvw4x6m+bSSNfKDYwSfTo9HA==
+X-Received: by 2002:a05:6a00:1745:b0:82c:21df:807a with SMTP id d2e1a72fcca58-82d0db6ac7bmr2642877b3a.26.1775215641956;
+        Fri, 03 Apr 2026 04:27:21 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b6113dsm5202251b3a.23.2026.04.03.04.27.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 04:27:19 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: kuninori.morimoto.gx@renesas.com,
+	broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/3] ASoC: renesas: fsi: Fix system hang by adding SPU clock
+Date: Fri,  3 Apr 2026 18:26:52 +0700
+Message-ID: <20260403112655.167593-1-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -83,71 +83,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEB:EE_|DM4PR12MB5817:EE_
-X-MS-Office365-Filtering-Correlation-Id: 09930b10-0315-483b-db10-08de91692a53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|7416014|82310400026|1800799024|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	aJ0oNBpnKjJzdm2uCi5ENcSr8ISOV4u8cFcJdlATlxDgQCI6KdIUlDDWa3rmaB+d26QetEKXg4nCq7V/jY5BmZK5KEsB7fhH7wS/1PuPCA2LPFTyI8ALQsxaeuc5hDOlEUs1KG+jyVNdl/GMYhilrd8zWXwFairgAOj7/yeYUNRbbfkIWuVBs5MzNF3tEMn3+4xwiiMVklcqmE2ZqlGhMZqtio//v+Hd8MsHIKbzKcqYfJXrGAGfzj7GuBZHUKqMyBI+6LVNuw4dr6YSHyFSpjX/nj79HJS8Q76BFmfujbZLhM0PQgzzTX/PJxkFpZmN4xN01ETGHFMffyCpCC8zNe0NYM5/NkMsMsw1giGKgqBFFY68rYO96rcbtOp0YgLZKPptPuqyBeIvbRVJVt9X902ZGyLM/yanHyrEkFgXaXSNcV4Mhi+SAzbIlSf6V0W6LBlktNNBzRGTYR7BV2RoGFjiXNQj6lGU/87JX7PR+v4YE/3QcZ8Ifags4YUjI8w+rgNI4riHxB9AqOOhDiu8fTZYoG+pV3HBaiogrArlULPDs+bDNz6fN6NxHYyEpxhCY13ErjWebSXWigGO2zKrXOQdg5Mo8wENpgUkOyoCPbSIz6Jra2lkG79dQkYjSrogirdWLYRVZhQLxfJ/u4tYWkiun04Ep/qNwhMPJPBc0UggKCIgDMc/rZ8mN9taVQkzUu8ZCamndOr+TB4ZCFEG0Jlhemo4AIFnI1tfQouKOqPW/kSn6zjDb58ZP4IszlFhb8acncabW0LNaxvhoqm5Mw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(82310400026)(1800799024)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	A5Re5MDCz4hmSpnQCCppARP6aIibVNXc4C4DZ5H3CgA6Lq3CoIk+sjBu9v7p7q351luLVt7vgKTnKdzWvGlnozwJRJMNlT4wo+gzLo/tITLdUZnD68+ZhDP89DUXNespRoe5x8Ptp8R7SyZZEXDNWvDeKiBmi6qKU97Zb3/rhyK28BQE7LZcYpqshDAQBZvh6V+Pv2+ARjT/86WwiimitKHPOH0X0QLNzI4AcBKNcOE5RwiukT52uOWGzk6DzqSpdV7KaT2mdYDY/Zf+0hkXUGwxGbdDYZgJ4cJ5cidt53NlesacAYFoddPo37Ccj2zPyAvSjTFA8gR8kNu1GmtbD1g2btJPMpe3ZHcOvs/OKM79bCV013xvkLhBWSgQfDxK1kHH3ahnxOpxcNTyeSUEXc2Yiu6fQD5+AxR27L4xALEKLL+P5z8GO0ekGCZvlk8L
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 10:10:00.0163
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09930b10-0315-483b-db10-08de91692a53
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CEB.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5817
 
-Use DMI_MATCH instead of DMI_EXACT_MATCH for the Lenovo SKU,
-So the quirk is applied to all variants of this model.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Fixes: 3acf517e1ae0 ("ASoC: amd: amd_sdw: add machine driver quirk for Lenovo models")
-Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
----
- sound/soc/amd/acp/acp-sdw-legacy-mach.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Hi all,
 
-diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-index 05484c72f9a8..986fefd0de08 100644
---- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-@@ -99,17 +99,17 @@ static const struct dmi_system_id soc_sdw_quirk_table[] = {
- 		.callback = soc_sdw_quirk_cb,
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "21YW"),
-+			DMI_MATCH(DMI_PRODUCT_SKU, "21YW"),
- 		},
--		.driver_data = (void *)(ASOC_SDW_CODEC_SPKR),
-+		.driver_data = (void *)((ASOC_SDW_CODEC_SPKR) | (ASOC_SDW_ACP_DMIC)),
- 	},
- 	{
- 		.callback = soc_sdw_quirk_cb,
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "21YX"),
-+			DMI_MATCH(DMI_PRODUCT_SKU, "21YX"),
- 		},
--		.driver_data = (void *)(ASOC_SDW_CODEC_SPKR),
-+		.driver_data = (void *)((ASOC_SDW_CODEC_SPKR) | (ASOC_SDW_ACP_DMIC)),
- 	},
- 	{
- 		.callback = soc_sdw_quirk_cb,
+The FSI on r8a7740 requires the SPU clock to be enabled
+before accessing its internal registers. Without this clock,
+register access may lead to a system hang, even when the FSI
+functional clock itself is properly enabled.
+
+This series adds support for the SPU clock and updates the
+bindings to allow multiple clocks. The driver retrieves the
+SPU clock and enables it during DAI startup, then disables
+it on shutdown to match the audio stream lifecycle.
+
+The binding is also extended to support additional clocks,
+as FSIB may require more clock inputs, while FSIA typically
+uses fewer.
+
+This has been tested on r8a7740 (Armadillo800eva) and fixes
+system hangs observed during audio playback.
+
+Patch overview:
+ [1/3] dt-bindings: sound: renesas,fsi: Add support for multiple clocks
+ [2/3] arm: dts: renesas: r8a7740-armadillo800eva: Add spu clock to FSI
+ [3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
+
+Thanks,
+Phuc
+
+bui duc phuc (3):
+  dt-bindings: sound: renesas,fsi: Add support for multiple clocks
+  arm: dts: renesas: r8a7740-armadillo800eva: Add spu clock to FSI
+  ASoC: renesas: fsi: Fix hang by enabling SPU clock
+
+ .../devicetree/bindings/sound/renesas,fsi.yaml     | 12 ++++++++++--
+ arch/arm/boot/dts/renesas/r8a7740.dtsi             |  3 ++-
+ sound/soc/renesas/fsi.c                            | 14 ++++++++++++++
+ 3 files changed, 26 insertions(+), 3 deletions(-)
+
 -- 
 2.43.0
 
