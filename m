@@ -1,108 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011047.outbound.protection.outlook.com [40.107.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5168934D3B5;
-	Fri,  3 Apr 2026 08:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775205602; cv=none; b=R135ZL7AlgL25aDExAuOxtVdmVm1ucNfM9ywvxNsOvpmO0icU31CwgGs2EJCo+Dag1aVRnSHBI4dKc7PFG6okL0I/vi9qOvcHxBu9fHNNajkc2EFYFQhuMuHEq0tn1TtSnRTRDeR8HY6qxQpoMfeROHpuW//6hLeIU4XtjA3SnM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775205602; c=relaxed/simple;
-	bh=ElNpd+lXu8JPA3g/kKwOmAy3bLeT31zcflfK7jGxD6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjk1gx3CwlrixybhxaEH7v+Zp7YuJiHbFORvExEODXYYJZOgOWxa8W1Wap8T7+iO2TNVcZ0DYhwMEsqYTS2Iq1rVUh6dDXnxD5q/Xu02e1Z5enqzypp38l4Nq9SpUnJ9Lful9Ce6c4lP1A/QaRIUI742mChgqfxLqiiD5Zzf5m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VA+SSpOZ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEB0386C32;
+	Fri,  3 Apr 2026 10:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775210805; cv=fail; b=rX8qgRNn/Qlrb+YT7VkDLNVOfGIhurxHn2yMuIE/d05oWRTPCaa+jfn1iN1vT7IJBl/vCnhwxAXVj6uE+4r3vbMF7t1uWZb+RHKq0H40UEseGKgvGKHRdAubV4Tnu8qt24DVfXPSFnw2QK4PJHhVPLENOLAGWW5olKc6VX/oh7M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775210805; c=relaxed/simple;
+	bh=W0yun0JjCaWJ63h9WhtPJjJOHyGjRKTg0IDU5raKUBs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kzEzkt9By59Mv+6H3QaURlNrDWPzGqghAATmCPLZ8Q4ziw4k6PifccsWHuEFwcv69U/L2P+qnnA8BfWDuIH0Yek6Qts4UcA4POTHoRIpJc5epTg5WmA/1tmsvFu+c99MvDs87al9WjKxgCSE4M5nrEOqfmxeiozTzG9wzgDTR2o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Cqp/Jl6X; arc=fail smtp.client-ip=40.107.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VA+SSpOZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775205602; x=1806741602;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ElNpd+lXu8JPA3g/kKwOmAy3bLeT31zcflfK7jGxD6c=;
-  b=VA+SSpOZ0DJVMItSRPjikpeh6FaoXcRBcUwkKkl9D5InJmyRR0RhRzir
-   nFs6CvaqHixRi+vDkYeYEalgVV7gKthmmI+MLbwDSU46GykhiDFuPEhy2
-   BHgVcSSKuwJGKHOmioVyj44ofA9pltFpMl7rMH+IpgPAs6RVIPgn8DVQC
-   fhmqH5RIl9HTfWqMm6WOkaRVSSPL82TClcb47NxIH2QQN+b5BajPMeX6+
-   YibRzZaANVC+DBnFMzPsxDZyakBmKc9uFdAtuLHtrW+qq4pV/wxe4Fntn
-   fMsGBwwCdBruLO4zf+gfreUyFRrABK2OoL2LaokoPs1MOAjgm2yiL4M1A
-   Q==;
-X-CSE-ConnectionGUID: LaSTbO1FSka/q2fDZGnm3w==
-X-CSE-MsgGUID: S033pVOXSuy8mv1qdKaAQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76156549"
-X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="76156549"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:40:01 -0700
-X-CSE-ConnectionGUID: NfV8f5AeTCyc347C+2QeyQ==
-X-CSE-MsgGUID: 7VtTE+WxT0a0R78vzmEFNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="220570281"
-Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Apr 2026 01:39:56 -0700
-Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w8a4H-0000000011V-39FD;
-	Fri, 03 Apr 2026 08:39:53 +0000
-Date: Fri, 3 Apr 2026 16:39:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sen Wang <sen@ti.com>, linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, lgirdwood@gmail.com,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
-	shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-	niranjan.hy@ti.com, l-badrinarayanan@ti.com, devarsht@ti.com,
-	v-singh1@ti.com, linux-kernel@vger.kernel.org,
-	Sen Wang <sen@ti.com>
-Subject: Re: [PATCH 2/4] ASoC: codecs: Add TAS675x quad-channel audio
- amplifier driver
-Message-ID: <202604021838.DCOggoRo-lkp@intel.com>
-References: <20260401024210.28542-3-sen@ti.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Cqp/Jl6X"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bIpKkKWkzWGzos9PDm6QiMCHW6U0eNiCURs2r4wZ8qdbwBHRb9ao4qZdNnjPepxOTylL3QOv6R0yJOGiabjXSLuVvgX2dh1WlAzVFFJPd8Gll0agqlc2m6fxV1ngFE6r4WHoVxI2REU+bS65ejP330VygJ5WRCPDXMcc63y3rmQytL62JbHAsWja1h6VNzOPgFUGuBEn0NTaHUlzNiCaMHfUpf2f4URj0Z4rVC5PNGcp8ZhNkTZqA8hQ+qvvtnWFiXxA4ZzJV3IrlCHP6BzREyVYytK/+7XCHIcSNIcZ2d2gHLMkIbKWNKl8c1YW1UCKWpkkSMD+9o9+/EpuYQxRgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PX55t48KkvihFFWb4Yqv9ieaZUF2FA3VvQwOCBbGofM=;
+ b=on21av1MN4R672TWgkgroD9oKIQRhW2I6b1ewPOhYe+gYeNl1gmf6NNi0JU/uoZPL/nzmb0VKC+mn3nIYzB+Dtx9sMcafTD1dt+IevrgPzFI13uIyKRp9S4985ZQBTjW/mzoLiJqFBJwfFlNvvls4dQ8MN9A1g7TqnqTqlKlloNyI1PG2Ip5waWwL238O/jKvZXL2HoHrq59sy5ZVJmVQ44Ia0g4HwVkm4gUt26YADynupOXTaB62AEuemsPcJmkDdLADnes+hn5JdX12aosHT/0Ds4n0RxvGQxTKyeQVGVQ8fZA7W9ABIDr2s0TxP8GMqNckOVAnHodEwoEJOy2tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PX55t48KkvihFFWb4Yqv9ieaZUF2FA3VvQwOCBbGofM=;
+ b=Cqp/Jl6XBjlzKJWmx704VvFZdLLE1YiK1ikHDzeA1zg8ZWdEFH4UdAAsD16OqA22wBJ26MmFvQ6PSNrgTm75e04MzzGYbFdkuLAlVKAhVZhJ9tOnzZ2t5eCe0aXyaPigVFHRYk8WkZ0F5o51NYIAH1FAn/yYUVt2hQd5uo2l6FY=
+Received: from DM6PR21CA0030.namprd21.prod.outlook.com (2603:10b6:5:174::40)
+ by DS4PR12MB9561.namprd12.prod.outlook.com (2603:10b6:8:282::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Fri, 3 Apr
+ 2026 10:06:35 +0000
+Received: from CH3PEPF00000018.namprd21.prod.outlook.com
+ (2603:10b6:5:174:cafe::62) by DM6PR21CA0030.outlook.office365.com
+ (2603:10b6:5:174::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.12 via Frontend Transport; Fri,
+ 3 Apr 2026 10:06:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9791.0 via Frontend Transport; Fri, 3 Apr 2026 10:06:35 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 3 Apr
+ 2026 05:06:34 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 3 Apr
+ 2026 03:06:34 -0700
+Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Fri, 3 Apr 2026 05:06:25 -0500
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+To: Mark Brown <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Sunil-kumar Dommati
+	<Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <syed.sabakareem@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>, Syed Saba Kareem
+	<Syed.SabaKareem@amd.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kees Cook
+	<kees@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH V2] ASoC: amd: ps: fix the pcm device numbering for acp pdm dmic
+Date: Fri, 3 Apr 2026 15:36:17 +0530
+Message-ID: <20260403100624.676953-1-syed.sabakareem@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401024210.28542-3-sen@ti.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|DS4PR12MB9561:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0a250cb-6662-436e-bba3-08de9168b075
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	BgTXNK/+IERZryIyGKfn7K5QsyakBiXdgObNMlSkjiBZN2b/yV3tGYl1VfUEysO53fxzYwbtc9uLuw5u+CnDac+t+NPOpyGwgyFtGDDJLGd/11mCktzCtG6zoPjdPxN2bvpGWPt5TDeB2qpxJDp7WHzA8CJdqD8zk+rA6mr4pg+BpevsSrJ0O97Yz95HByfCwPcLA+E7CrZyvOPqZh2b/AnavNeVM4xfEf3iD5s8EnrEyA1mw/XT4ali709vKne8ZeOwFOOLRWq8XV9Y97PS9S5wg+8T1m5YwsJ+xgToGjLkh12GHoUhHfHLjjbgVH80q8veznrAock4GH45Hi1ZQVvlEIW1rMXdlmGQ9+dBoINffDH6/e10FO5JyjThKYvwjKXAxYSu8jsP9YuW0U8No7FpgOx8fwnjFu9E3ud3GnlKUUVdb8YmoQxk+O/FkHSIa9AAmb3oNS1y2hUtRe+cjdHz+mx0uf3zmXn7YVGKFDmiGTriU8/VGyF40PZGLUCLAMnGUeI0eb/mR7eRYsNS3HfwZ/GyJfcNPNOdUdV0SMdsFM+hOf0hzbhrsqr5iA0Eden7u1WwKMFRBnIKvzgtHPJ5jh/2zwayR7TbPNDwkctN7vTqeqKHWipziX/ZehI5xC1YHNseDpEn2Ixv/vu+9/9MxM7LKbQ84eWkIbr5TeSreGAUcqha6ctXUyBsw/O2k4yrxkP7VHe/xoHOxmA6Ion6zsNd5ik4wHCNVnRYlG7zyVfdgkJSyCkkzgKOxymHNsfJp0kpmZWK9mzEehQquQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	m0rWPTscSKk93ja8BfOmVUx+tMkbHIV9Uv5Y9BEF9NlBhD8IGZZV3hRKmVnJ7oVzFs4joZgGwgL5XHDMl3vn5ey2vWL8lNsPcGnMVwmK8xDQ2EgaaEOU8zMwnzE6ftMUisRvxSh9iZWxhIPyYBLY3YXgs2QBH4Vstu7/snSBk57cU9BDjstRvrSTZlpntYIcsHTx6tpmDsSWGYbebNfoSUVHUR2W92+0N9qwBNjJVUM03U3DcWwGi7HgZJaDCMZE7CZmOWpWpKOjTkdfPAXikp/hUfJfxLIryu7PrkKPE/D8dzMGmsKjGFkF4zlgVQ+uDB34xwApkynjTKZABywy5zLx1LFYCEHywiAUxR3zdpSt6bzBctxr7jw05Czq2ej4/8eyuff/sJJwlfQLIqm71O5z/ojR+kBJy11PJpLAKI/YnhtOVnGfna/AZ/JSl5K2
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 10:06:35.5777
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0a250cb-6662-436e-bba3-08de9168b075
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000018.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9561
 
-Hi Sen,
+Fixed PCM device numbering is required for acp pdm dmic pcm device
+to have a common UCM changes.
+Set the 'use_dai_pcm_id' flag true in acp pdm dma driver for acp 6.3
+platform. This will fix the pcm device numbering based on dai_link->id.
 
-kernel test robot noticed the following build warnings:
+Fixes: 33cea6bbe488 ("ASoC: amd: add acp6.2 pdm platform driver")
+Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+---
+ sound/soc/amd/ps/ps-pdm-dma.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus robh/for-next linus/master v7.0-rc6 next-20260401]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sen-Wang/dt-bindings-sound-Add-ti-tas675x/20260401-114532
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260401024210.28542-3-sen%40ti.com
-patch subject: [PATCH 2/4] ASoC: codecs: Add TAS675x quad-channel audio amplifier driver
-config: arc-randconfig-001-20260402 (https://download.01.org/0day-ci/archive/20260402/202604021838.DCOggoRo-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260402/202604021838.DCOggoRo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604021838.DCOggoRo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: sound/soc/codecs/tas675x.c:1473 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Hardware power sequencing
-   Warning: sound/soc/codecs/tas675x.c:1551 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Device start-up defaults
-   Warning: sound/soc/codecs/tas675x.c:1790 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Read and log all latched fault registers
-
+diff --git a/sound/soc/amd/ps/ps-pdm-dma.c b/sound/soc/amd/ps/ps-pdm-dma.c
+index c6cd844d458c..04c014349347 100644
+--- a/sound/soc/amd/ps/ps-pdm-dma.c
++++ b/sound/soc/amd/ps/ps-pdm-dma.c
+@@ -352,6 +352,7 @@ static const struct snd_soc_component_driver acp63_pdm_component = {
+ 	.hw_params	= acp63_pdm_dma_hw_params,
+ 	.pointer	= acp63_pdm_dma_pointer,
+ 	.pcm_new	= acp63_pdm_dma_new,
++	.use_dai_pcm_id = true,
+ };
+ 
+ static int acp63_pdm_audio_probe(struct platform_device *pdev)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
