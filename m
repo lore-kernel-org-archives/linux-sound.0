@@ -1,90 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012022.outbound.protection.outlook.com [52.101.48.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70B03BD237;
-	Fri,  3 Apr 2026 11:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775217323; cv=none; b=C+rravQ6fDzDy/LSC12m7lbYoCFAaCewQOYdY+FrpEZ1KakGO4jdRWbzYHUutH80qpTfKFoZw3v1srNcp09xbKHZHtBKISauRq2nuxaQBz+yCG1EAVEzdONPdmltUdS/7bSYTRto/gntwUCY1/7GCyucIA5vZH6yNjdHwxl9GFk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775217323; c=relaxed/simple;
-	bh=a4ntCKvudUWsvaczdKQvSMufCMJA3BORYS70EtrlLM0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IuHkDNeumbzL+MHxcbeQbmG5B0EXiSZSmsT+WkAL7PW6JJyZus9ddpWe6FnLDHfVussBpmpIDvlqGBe7+BISake3sUHrkLMmJO9j3wTia9OvauBX6yt2zWL9M48k0warb2RiwUtO5C70NB+yqrQZzzB2FYEmDKYpJ4dMpQRhiNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2FMUSYB; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8596223D7DF;
+	Fri,  3 Apr 2026 12:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775218330; cv=fail; b=ncmFP8IxWi+Nb7YMz6R4+xOLEACFhO7xKtysbafGgGay+iZv1DGoXbqd12xGBBG6vDqmkJndhBNpgQL0Y2rNB5ZcalIGnv7CyWfrTkLZjZjm2Yyty5fqKovodzcL0vzrF+V8DEqyVIyfW96Gg2Dpxli3umbPoHYenoyoXqbHVHs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775218330; c=relaxed/simple;
+	bh=EUDHkExOpWqZLMCVAeoxLr/+YU5eJxT5gYMKrJjhQSQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=gVZEvQwSMjdpgYR3q6yCdzgEtEMNl2Ue3jedng6KmLCqGseQXqk+3XdfqsjPK5MfHVwIqcKR/IkCQcOv02hRgdrJ2D1487e71wzORX7URC4q1l3EwsQ+iqs75KoD27aYrJC2+Sifv/U4vL1JnLUR5JK/w4fM7xwqZv6crbVdx+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WKbqYFTA; arc=fail smtp.client-ip=52.101.48.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2FMUSYB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26EBC4CEF7;
-	Fri,  3 Apr 2026 11:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775217322;
-	bh=a4ntCKvudUWsvaczdKQvSMufCMJA3BORYS70EtrlLM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q2FMUSYBEMjDKqvqYVcpO32RUFKtB34Wp1zxFwCXtCHpbbZlJczfkXOGyEZDzOveD
-	 fuygHifEECMZC8yb9iVyPzTk81obgVIj0RqGkhsJWC4z70s05NhVXFRxssUIh50Qga
-	 iweQuk51qK/ZFNZGu5fsnukE0Mu/adsWf/eymx4GVcJAZe6SUthW7HWWqHoKPtAtIC
-	 lNBfPHRCI6WpjW6zqJGamAXgRCa4os+RsAgNT8jQZfXW2VdAuE85/uSX0aehtiVXQ/
-	 oduqlwyHsZmE5CvtCyY4BsINBTxa+VVZSa96MfXSkKNv1XxYTFYDCwhU1HGPcmts3Q
-	 Uy5yRJ+U+5/Cg==
-Date: Fri, 3 Apr 2026 12:55:16 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Syed Saba Kareem <syed.sabakareem@amd.com>
-Cc: alsa-devel@alsa-project.org,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Hasun Park <hasunpark@gmail.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Kees Cook <kees@kernel.org>,
-	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WKbqYFTA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fBl6g5DqjmxBXbovz29KD7MTIuywK+ctI19DVTny/f05/qkez7LFO3Bmrdl+1f+EJRz46IIbcwZjgPEUcBErhCJgEgg+1PjQHbDLKV/hh4bdMzaSteeH892gPSBc/A0hl4RZLPaAOG7RaEYD/MNHfJcaOkrBUXq1HFFoW70NZ2WZDYpiah8nfanf/LL0MQdqXu1VasQLI/lRtQ0bFAgtIhkws8dchQ3Up6iE6cLJmqT5xo0NmuNh0cTGrwBWK/iiGYivr6xmxtRwEwK/pJpBjYBuhsi1P/Ipp+fF12M3Dglo6Z8c8C8ZOQ71s8mzyP+eLujo7F05wcCfePtQR5JXdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EUDHkExOpWqZLMCVAeoxLr/+YU5eJxT5gYMKrJjhQSQ=;
+ b=rZVOItwIdAgebrzYNJN+Qfk0k++ZeeAlAAiXemv5EjtX6UGOOpah+n1PvOcFiMdgEji2CD5MjONBwBWRh838k1G+k5EP+RO6X7zLksLWGheFLcudUgD/CVR1KRX+t8+tTaKWqXqeYfTdmjnt2rgeexBTAL6f6/ITzHTUjYf3YSK5pdE2yHcBOOIPZAzM2Xhn2wMtIT3V64mZMrUs6VrYezN3+okssn8iPdqUquK//vMzGQj8noJgwVjp2b9AVOU4PpA9ikVNG88slDKGoxIRPUEQ/lfNpEWvYx+w41bemkYDt0ZUR0r2LTddqFbrDk3nQTRUnwmXB8iN4GTcGCzA3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EUDHkExOpWqZLMCVAeoxLr/+YU5eJxT5gYMKrJjhQSQ=;
+ b=WKbqYFTAL6PGnUiECOETTDrnYYFK4UleDADaSSYj/cuUqy7fK+NNHqBgnTLoPXqRi0xYyUjAxiSVdk/DkQ4oKcblWIYFdS/z7XkGjVtqSyhnmbLOcsoSH7rMkxrihrR2CC8QK43GNneiYFJvRR5Qe9o8Ikkz5FQGcpDC0iWW1tw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ SA1PR12MB7270.namprd12.prod.outlook.com (2603:10b6:806:2b9::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Fri, 3 Apr
+ 2026 12:12:05 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9769.017; Fri, 3 Apr 2026
+ 12:12:05 +0000
+Message-ID: <f4869b83-664f-438d-b8fb-a0e96da415c7@amd.com>
+Date: Fri, 3 Apr 2026 17:41:55 +0530
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] ASoC : amd: acp: Update Quirk for Lenovo Platforms
-Message-ID: <fc7cd530-2199-4c12-af75-6ea17997777c@sirena.org.uk>
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>,
+ Syed Saba Kareem <syed.sabakareem@amd.com>
+Cc: alsa-devel@alsa-project.org,
+ Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, "Mario Limonciello (AMD)"
+ <superm1@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Hasun Park <hasunpark@gmail.com>,
+ Simon Trimmer <simont@opensource.cirrus.com>, Kees Cook <kees@kernel.org>,
+ "open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
 References: <20260403100948.678548-1-syed.sabakareem@amd.com>
+ <fc7cd530-2199-4c12-af75-6ea17997777c@sirena.org.uk>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <fc7cd530-2199-4c12-af75-6ea17997777c@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0061.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:267::10) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NrKc2B8N53SKaFhC"
-Content-Disposition: inline
-In-Reply-To: <20260403100948.678548-1-syed.sabakareem@amd.com>
-X-Cookie: The Korean War must have been fun.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|SA1PR12MB7270:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b626616-7dad-4717-b678-08de917a382b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	xxDIy92yLYpcT4GhrTxRPqsLn+WPYo2HMk42bavH2GouhaJtqXUqSogaoK3SfAopnXzv6TYCmvOvSDo8mccKQmzGSpnVUKzwUHCvKGsVxd350aJAQcQxJkFJztaES355CYOsBmIq7osDXnxjMZsNgBqTLcQXCEuHKRj2mSieOgFVv7uupnC8hxUbAdMkpJl04ElVbSdyk91qiFtlMiAdcZO6EkwC5CGIBfUsVcvPVIOp6K2C5jAaQDWrou+rt2PiC2xWaFi70cjCFesVJnGwUpUcILL1NlbHZAGU1Nzz4nWN2RBNBb/epbG/hFkCaHGZOXw27xAFXKAHlt95nIPtchR13oqLxhhqdCT6lrcUpTuLi2m7yyQ5Syo2NKzdJXWCfLMnustsldUfXgfWKREL/ZTJZ4f9Dj2ltkgkOgolqiOPuO/aokk7GlUfVHuOM13eo/Rs0yh7HbLBbOZ+YCfqcKoCHZ4yKL6NYxoPd2zltvkunIK4XOzkvv2gGfsL3u/9b1Fvvm/xfzvVJY7yFsEGg0XttdUShl9WzOTDpXMri/leHP0mutlXFZfBGT4kGaKV6y5k2vcwiHyMUJ+Pcdc8mk3RsdeBWSv12m/+UHFKRO0KtkXdrW0JCoVP6bqJnrwJsX7GxyU/HjdaEXsGkEiIxq43qFEFFQUt+oIfwip+4ZNaTzhAkNfuE/ia8ownQjJYTwkoE16HCRjB6A1YK1gwyqYWD4gu9KmXelRLPptZGi8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MWNBK0ZRVmVnQ2c4SUdmcENCWFRqeUJDR3M0WFowcVZqM0JDUStTL0pqYXJB?=
+ =?utf-8?B?NzQ2RlZ4ZmRDVFlYUWFGYVVqQ3pra05TSHU4YytOeDZwSWswUjBpWlpVeVZj?=
+ =?utf-8?B?WlVCNHpQaS9JbzNxUkdNcHRqSGdDemJNLzNtUTdtb05wZkphNnRFWkFjcmY1?=
+ =?utf-8?B?cXdTbHNNb3dmWGE1RlU3dUpEMUlkN3NFWFN2bWNBcXNQemxhVzlsMFIwbGFa?=
+ =?utf-8?B?MFdoUE92aDdxTW52WVhhaU1rYkUwaEhBcTUyQWkwRFRRSDc0WndNR0hiTEJ5?=
+ =?utf-8?B?N0RlZDc4eEhEUVIreHBoYlUyTm9HZXpScWYyWWwvbXFJaldNYVhtMGFMU2JF?=
+ =?utf-8?B?eDV2TUduOVk0UVV2YThubVJZVTB6MUdxazZaOFFUNmY4NTVaM3pxU0V3Ty9N?=
+ =?utf-8?B?L1dsaExnbEttcXo2ckpNYVVxR3l4bnF2aHRxS0xEMGt1S1FZcUViVUJCVC9n?=
+ =?utf-8?B?OFZHTUQxOUZiN2xNTzNOYW9sMWFNWDVIRU9lRjhTemxHYVRxVFcrYmRKOXhM?=
+ =?utf-8?B?ZnRJc1ErRmFMUkpSQlhXOUNWWFU3NmJPV1hMeHRMYXNIUys0TDBOSTR4cVlW?=
+ =?utf-8?B?OStaMFZqLyttUGpPYVo2WW1TY3UwMGxleWFudzZVZ00yUXhndjhHRWpkNGxu?=
+ =?utf-8?B?VjlHSVZZejBEaU5oRnZPaGpUM0hod1Z4d2xKZ2duM2tXbW9XYm9QdjFEUFlS?=
+ =?utf-8?B?bzZ3OXJmY3dPQ05xWDlZZk1jVjhmK3V1TmM4SnV1b2J3ZnRQSFZRT2hDNHFn?=
+ =?utf-8?B?N2FwdDFjenpUYzhmaHkvSVJpK2pWNTBYemVuUmJYazVDS2NMalUyalEvK2o5?=
+ =?utf-8?B?R0JjbHEvbkxVckFRTytTZ3o3TWNOK1h1VStMV0RNa1p4dm1PQWRyL0VaY0pL?=
+ =?utf-8?B?dE1hTVROb3NLWnhKazdvcGxzTWxyQXg4MllaNmJTT2Y0RE1nSlFSeDV6eHgx?=
+ =?utf-8?B?Si8zeDN2UXJiaFh2MVRnOWZwd1RmVVFJck9UQ2dlUGxrUTUvcXBMYTZxQXpo?=
+ =?utf-8?B?THRXQTBDUmtIdzkybW9uT2VxUGRkaEg4ZldQa3RrTGpiNkdDbjgwOStvV0sy?=
+ =?utf-8?B?NE9McGFrNWU1dnB4ZzdmTnYxeTNYYXZnTDkrU2liUzJ3RlR3dEszUDhvdjFz?=
+ =?utf-8?B?VjBWcVptT09hSVJLY1NLR2tYRld5bzdJSEpoMHkvWTI0R0w5UHI2SkdhUTda?=
+ =?utf-8?B?YXVOZXlVNnI3eEk0MkhUUGFuQm9iRDU5K0ZWR0V5MDhKQkZURmgrTXY3WVlh?=
+ =?utf-8?B?VmtkZTVTUm9UQ2xwM213UzNwbERuSlY2QkVxd2hJMDhuenFCTnA5VllQVElO?=
+ =?utf-8?B?Zlc5OEd3NlJvTElXVXZtZEJmWWpKTjRXQzYvRzRGUnlsWldGZmFLbncwOEZs?=
+ =?utf-8?B?ZkdZcnU1K1p3S3dxcEtUUWlmYWErazJNcmM2S3UySk1wb1RnYlZGWnExaW1H?=
+ =?utf-8?B?dk9IOWhLYVhZYmM2REdBRE96enJaYVNXWlJWZktkbU0wdVlhQ2JiWllqOGxG?=
+ =?utf-8?B?RUNjekFIU2laMDhqcmk0OEp1SGVTdWZTYlF4dUdXZkFpVnNhODEyUUJmK1Jv?=
+ =?utf-8?B?RmlJNmx1bVpISDVsTkszUjdueHVZbnJkcERZWDhKNXRoRDNSYk9hdjNaSkJG?=
+ =?utf-8?B?dzNIaG9vKzNwTCs2YzRhWFdaWG4wY1RTSW5udERYZ2xvQXRRak9kckV0SHVw?=
+ =?utf-8?B?WUpqek9jdy83cEJXSXRsQ2pHVGlmMUtyanRTUmh3TkRieTIzVHFHRnhkK1NI?=
+ =?utf-8?B?RGJEK2kxTlBUVWp4dFp2d2tnSGVHem5NbUt6WVFucmhJQVFHRDVxTDRqQXFQ?=
+ =?utf-8?B?MFdwM1drak5TZ1FyTWJTeFFBU1ZGNlVQZGllU0tUOGtpaTFDUjhUVHMwUVhM?=
+ =?utf-8?B?azJpZUxKeGlxYUJzR2dSbmh5MFJ3RUJNRzFXenNjcFd2V081RThJWE5DSkkr?=
+ =?utf-8?B?bEdZTE5HaEQzSk9sV0ZrRFNWeEJ1R2E5Rno0Ukd6R0xGaFYzZUdVdUdsZzhE?=
+ =?utf-8?B?VVFhaHhmcEI5L3JzYlkzWTM5M291S0I4NDJ3djl0NElsMDZHaEZYdUZqT3Rw?=
+ =?utf-8?B?QmxuUzJWYUUxNlNLU2R5NHo0SjlqS29zVWNkTVl4VTNhc1IrQVdRWEdhK0hr?=
+ =?utf-8?B?dW1FYithbzk5bUlaUlJkbVJ2eFR0ZVBzK1NRaUJmcG9PZmRRVDNsWjY2VDZD?=
+ =?utf-8?B?MHRkcFk5RmtFQnlBTEZDWHZacCtKVGMwMlN2RzNSdW5naEtwV0wwUSt5M0Iv?=
+ =?utf-8?B?MUI3S0QvMDR6RnROTkJ0NTNhdjc1cGMrK3NvRmJSUlJIY1p1SkRRdTA5Nzhn?=
+ =?utf-8?B?SkRiNmR6azFiamhJRm5hS1FWbVpMY1ZCcWd5VHl1ZC9FNjJRcG4rdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b626616-7dad-4717-b678-08de917a382b
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 12:12:04.9526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xmRJjOEjXIJYShFddO3SMuI2nD7kjePCQD2jTqhyHgQ9mxhvuSEr5ToHLHEy8kYGGf551NmC6ANdo5iVO7/uGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7270
 
+On 03/04/26 17:25, Mark Brown wrote:
+> On Fri, Apr 03, 2026 at 03:39:38PM +0530, Syed Saba Kareem wrote:
+>> Use DMI_MATCH instead of DMI_EXACT_MATCH for the Lenovo SKU,
+>> So the quirk is applied to all variants of this model.
+> I only have patch 1 here, what's the story with the rest of the thread?
+Kareem supposed to send single patch only. By mistake, he mentioned
+PATCH 1/2
 
---NrKc2B8N53SKaFhC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Apr 03, 2026 at 03:39:38PM +0530, Syed Saba Kareem wrote:
-> Use DMI_MATCH instead of DMI_EXACT_MATCH for the Lenovo SKU,
-> So the quirk is applied to all variants of this model.
-
-I only have patch 1 here, what's the story with the rest of the thread?
-
---NrKc2B8N53SKaFhC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPqqMACgkQJNaLcl1U
-h9AMRQgAg/4zIdSESnxvHT7boPLPXWNLMDskFNfswDSMEMu1StTQRgrwk0Xa5Zpb
-fypATmN01D+/g+F9NxGVrdPwjq3ml0rAtGbCdAGvlVvu2ANLbfwtyJhfF5ccGEIK
-TCV0nVD2EQF1lRBCtZxdw/1vffIJEsTYf7WL1UfKKAfqAcYF1UVqHqeS6lWaJuUM
-lKUZfwL0RptIpLoy1suTr+g2jBl2AJpw9S9I3plqo5ylzbMbFjVBgBnLaPP2qCDG
-auKxaZ5Z5IBRR3JDPHyFuK9npCbQBzs7rV4fjHmR6H4jV5i6KxiaFue0O8WcMn0b
-NxOrYucvQ7PCCLBncJA6blv2jI/qCA==
-=2mS0
------END PGP SIGNATURE-----
-
---NrKc2B8N53SKaFhC--
