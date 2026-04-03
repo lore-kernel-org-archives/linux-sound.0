@@ -1,152 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6E32417D9;
-	Fri,  3 Apr 2026 07:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891B374186
+	for <linux-sound@vger.kernel.org>; Fri,  3 Apr 2026 07:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775200859; cv=none; b=bHI88Kel3rqEuzE49lGaiRm/iasrOWvpgnX9zJIPScQJHP5DdtpFHIEouYgzTi5t2r2SykwQ3XXSdHSDslEK2n8swbjOMjHSOzw5x9Tmmf8cl9zfXOOmTlNfSjmn6+IpMA+vMLi6WVw33OvW7Geb34R8BoIC+DuZkPpfxVzCimk=
+	t=1775201827; cv=none; b=PW8S0MF2wGT0kMSe8GJxOCmfhETBUjvGuJqDTvDKxx52bokoABZeb41gGkqcUSymdU6uyO/QZpfbtyb5OYTTC4Rmm2pNsNNdGuNtn6P2dJXW3Dp5I7bsITadurWVURFh34FqII2FDsZF1Dw3nS8woHDGeUrSHXFP0t25lWa14x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775200859; c=relaxed/simple;
-	bh=IP6AlMANAo90BWJlLpndZeWuIqXzIJilOy2As+KxlwY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JTtY8UPInwhBAU+hL8WefDhx8LCEUxDzKiigrPtL/hr9A3O3OIlf6peMUg10xVOMV64t2P7/r4Phm0gwJ/o77SmRIHFM9jydEXeHSOQMmEruxNAPvtYu2t4Jv9kuRclRYw+jB0Dtbn50wohgCMcwgTrgQf4tvoCTnQQ2lQ9Rxms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obc5E4b8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obc5E4b8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46459C4CEF7;
-	Fri,  3 Apr 2026 07:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775200859;
-	bh=IP6AlMANAo90BWJlLpndZeWuIqXzIJilOy2As+KxlwY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=obc5E4b8C3/XfsAdTz3h3h/Tr4Jf2qn/WO83XydRvPzlPqx9ALtRYlgpN+DvwJXQb
-	 y+dRIkNQ499kuMlaNKpSz14r89SQgFXQ6o8qDaYauOMeCFdk585q2GVZ2NoPKZyTpW
-	 6lJaiFT/RDvnofY9X9BtSRqfCDlBOfPTrntf95eXSorQbEnaxHkoXW8MArxCivRIJi
-	 OpZZ5XYaahDdAx+Afqep0lDQnt8F0zGi1sdgLpV1JeA++m5dogKfd3MG/vkv3kxRlI
-	 cAL8+JdTSZJU9q9qWoi5Cea7CP5haDhC48ThzOZfg1pWZfuJA7O7D346haGJfc+tHn
-	 L4jpU7NC8I9lg==
-Message-ID: <2450b3d3-bfa8-453b-9264-f341fe871136@kernel.org>
-Date: Fri, 3 Apr 2026 09:20:52 +0200
+	s=arc-20240116; t=1775201827; c=relaxed/simple;
+	bh=RQFIDvkQ6UcLgwztbD8oBHl4tS+ZCKb3aINkg7VeBsY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aQXVLw/lYp/FjRTKXgWlVfD25jcmjn65hYNc0xIgiio46t1pVq250wUiKzouH+YE+0BDunpCifthPAYGg7ZnrvStFBdiAnZOfSz7GyQPD95R/7rjdXEmj90Kryd2sPoEdythuUbW38X+NwrEq08Q0oPSh1W0mZUTtZpQD8iYu08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-60508c1df45so1129780137.0
+        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 00:37:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775201825; x=1775806625;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d4N0YKA/XUUd7O8Nr0votH0EtcIVeq9XRBqx9j9NkIk=;
+        b=PW89bL42FCHCaiNm3NUPlJEmJc+asg6k+nOoKpXJqPpywx557BUjSs4pv3pbgulCMn
+         +OFEXZdW1ALAonq9AELYAGPMvTjqym5NIeEb8B6St+z68B6+8+jQshOJAGG5UV3TtdaE
+         PAmTe+ZD7ySRIhN/AjS9TgdF5d+IwYk+7rFqLFdKnCuevql1XK24t7JeMFk/qc1C6Wbq
+         XJbCnP8itWcHqGgIEXwiq5vWokCf6ZEVOMM9Rt1dZPY3tt0NQOIxh9GctToJNvmSyXVh
+         oZ9kMuJaRIfP9M96GCPaSq45OvZNm/83uH4DQ3suu/WUR8jQ+6sbBf+nR2fPNONUkoqW
+         EQxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVzIvoO6aNNGUcxtaCnLhVKLckAApXZjDiDhjobpczOPYbDnUrbcDmOcQXFdwIY816+oMzNx7Wk8AH0SA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3XP0EQh9lniaWJTxYE6vebJE3nabSjnCEngoV/uJFWixBZn86
+	UAJUZEDLn5G4sqQEGpbfZ2LI+N9R9kwk3qqTDnMfi0V88W5qkfxlThJ1fh4DSCI9
+X-Gm-Gg: AeBDiesbztMT+GCyn6FI4vknuuNEdIpA/2YWgF/v95VNCfzbzju5cVqlx/XOWvzmnhu
+	+VhTS80341QxIEOWm369XHZp0pwHoXuVo7QjoFlfh7zvN5aP6jYxbJvlDP1zVw4rFVujQeWt8x6
+	bYqyjaDmL/wLBXQnt2vKrjQi24SAwQ8HmCEPXK7cY4ayKPGfnowOscxlcurFWEW0zjtWDbX4m4y
+	0ucLBKeA0TVGCT1GOFOzIuOiOOeQMTBJSQdHBOasF9ZBtmPEknoWTrTPMcvHEmHrMYVmvvdzo9i
+	ZTvRK0nAY8aV+X6gaLTEHHAu76nVeRJjeSh92Ll2UDQSpbG0hQIiyDuOiXZr7TLDbuYucx08C9Q
+	wKvaNtic6exHGanFQpxFltRNl1cfMHplpNZW+823kKup3DlWQUawAglXAM9aXxlPkNxFoaO4rM+
+	yAzWm3qQ1bRsSOZlPNVNE8UtpoxyOY2QmTQ3rIAAXo21X2F83UpPBfzY9MOv4Z
+X-Received: by 2002:a05:6102:f0d:b0:605:315f:49f7 with SMTP id ada2fe7eead31-605a4d81988mr717349137.6.1775201824900;
+        Fri, 03 Apr 2026 00:37:04 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-953fbac4aa9sm5358241241.12.2026.04.03.00.37.03
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Apr 2026 00:37:03 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-605a8c4ebc6so323671137.2
+        for <linux-sound@vger.kernel.org>; Fri, 03 Apr 2026 00:37:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXCqnBDTVgPb8M4MVeg4Zz/yfJV6FPOdY8yzdJG2RWUdGg6yoxA6nvircGb2UZf3Q4oXfpCkC6fpJIxfQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:f0d:b0:605:315f:49f7 with SMTP id
+ ada2fe7eead31-605a4d81988mr717338137.6.1775201823680; Fri, 03 Apr 2026
+ 00:37:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: Add ti,tas67524
-To: Sen Wang <sen@ti.com>, linux-sound@vger.kernel.org
-Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- perex@perex.cz, tiwai@suse.com, shenghao-ding@ti.com, kevin-lu@ti.com,
- baojun.xu@ti.com, niranjan.hy@ti.com, l-badrinarayanan@ti.com,
- devarsht@ti.com, v-singh1@ti.com, linux-kernel@vger.kernel.org
-References: <20260403050627.635591-1-sen@ti.com>
- <20260403050627.635591-2-sen@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260403050627.635591-2-sen@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com> <20260402162436.12059-10-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260402162436.12059-10-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 3 Apr 2026 09:36:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUHzcq_f8t0hi-FjiG2FByNmx8k2sz9-QEqzroLSWqXNg@mail.gmail.com>
+X-Gm-Features: AQROBzCXZAB5loNy5rsTC4EAiI9aKFN2pLERVORaR-uHChRoGZT6taMr9lCmLJs
+Message-ID: <CAMuHMdUHzcq_f8t0hi-FjiG2FByNmx8k2sz9-QEqzroLSWqXNg@mail.gmail.com>
+Subject: Re: [PATCh v3 09/14] ASoC: rsnd: Add ADG reset support for RZ/G3E
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 03/04/2026 07:06, Sen Wang wrote:
-> Add device tree binding for the Texas Instruments TAS67524 family
-> of four-channel Class-D audio amplifiers with integrated DSP.
-> 
-> Signed-off-by: Sen Wang <sen@ti.com>
-> ---
-> Changes in v3:
->  - Renamed ti,tas675x to ti,tas67524.yaml
->  - Removed tas6754 compatible instance
->  - Changed pd-gpios to powerdown-gpios
->  - Cleanup unnessary "|" formatting
-> 
-> Changes in v2:
->  - None
-> 
->  .../bindings/sound/ti,tas67524.yaml           | 277 ++++++++++++++++++
->  1 file changed, 277 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/ti,tas67524.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/ti,tas67524.yaml b/Documentation/devicetree/bindings/sound/ti,tas67524.yaml
-> new file mode 100644
-> index 000000000000..b8da1360e698
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/ti,tas67524.yaml
-> @@ -0,0 +1,277 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/ti,tas67524.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments TAS67524 Audio Amplifier
-> +
-> +maintainers:
-> +  - Sen Wang <sen@ti.com>
-> +
-> +description:
-> +  The TAS67524 is a four-channel, digital-input, automotive
-> +  Class-D audio amplifier with load diagnostics and an integrated
-> +  DSP for audio processing.
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,tas67524
+Hi John,
 
+On Thu, 2 Apr 2026 at 18:53, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> RZ/G3E requires the ADG reset line to be deasserted for the audio
+> subsystem to operate. The ADG module clock is already managed via
+> rsnd_adg_clk_enable/disable() through adg->adg, so no additional
+> clock handling is needed.
+>
+> Add support for the optional "adg" reset control on Renesas RZ/G3E SoC.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-And where did you give me chance to answer to your comment? You answered
-2:40 AM of my time and four hours later - 7 AM my time - you send v3.
+Thanks for your patch!
 
-No, read again the feedback. I am not reviewing the rest.
+> --- a/sound/soc/renesas/rcar/adg.c
+> +++ b/sound/soc/renesas/rcar/adg.c
+> @@ -771,6 +771,7 @@ void rsnd_adg_clk_dbg_info(struct rsnd_priv *priv, struct seq_file *m)
+>
+>  int rsnd_adg_probe(struct rsnd_priv *priv)
+>  {
+> +       struct reset_control *rstc;
+>         struct rsnd_adg *adg;
+>         struct device *dev = rsnd_priv_to_dev(priv);
+>         int ret;
+> @@ -779,8 +780,13 @@ int rsnd_adg_probe(struct rsnd_priv *priv)
+>         if (!adg)
+>                 return -ENOMEM;
+>
+> +       rstc = devm_reset_control_get_optional_exclusive(dev, "adg");
+> +       if (IS_ERR(rstc))
+> +               return dev_err_probe(dev, PTR_ERR(rstc),
+> +                                    "failed to get adg reset\n");
 
-Best regards,
-Krzysztof
+Given this file already uses lines longer than 80 characters, the
+above statement would fit on a single line.
+
+> +
+>         ret = rsnd_mod_init(priv, &adg->mod, &adg_ops,
+> -                     NULL, NULL, 0, 0);
+> +                     NULL, rstc, 0, 0);
+
+This one fits for sure.
+
+>         if (ret)
+>                 return ret;
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
