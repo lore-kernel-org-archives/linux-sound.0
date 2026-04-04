@@ -1,99 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9EE21638D;
-	Sat,  4 Apr 2026 11:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275BA1D5CC6
+	for <linux-sound@vger.kernel.org>; Sat,  4 Apr 2026 14:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775301068; cv=none; b=oaRS7sS0ayp1pn9XUoctGivTayz7rGPnuHdB1YHJWV1HfvZfEoNY8RHrKQD42NgZx+OfLsQ8C2Mroa1w8edPLxmQ6trfst0/jl4S+QrLvj6avOsLLJ0EHmlGJ2BS9C/+Y3aexbJ9dyrwt1Uy13QdSq0QmDAWQLyfKIoPv7pL8Jg=
+	t=1775314071; cv=none; b=Oq4cnSNH8zCNd8xGdHzS0E93dAHI78iXCoa5rDS2riwZ+D/BpUYIj3jwXjhodtMG74+QPXIWowI0MBEUaJm+uSN/cXFx1tyzIKpUwx+s5s4AH63wCElQkjVxBt9bzBCA2kVTEKGyPhUQJdK9oyc56+NwRcYspcE6ApUBLKgNwao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775301068; c=relaxed/simple;
-	bh=yHCuDJkwIS+n8JF158AMxWIAXaCZeMqEE3mA4j4AL5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PvguNI92PfCBLdMPF5hyDZtq/s0K+tBEF+ofxW7weNFP/4R0lNnYdE8w7tamYCdTghMw7y1lqqJ9l5lDyeWcK9UvAqC2OElHWK+PCqmPB287zvPSz2d4ngcdrLTFQ2HrSAmSezdw0CGRDrVK08rpO9VJEmMO4LEywbQM9Cgtk7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFxGe1ZK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775314071; c=relaxed/simple;
+	bh=vttIhjz66r8VbEAeWs/fzUI7nGNb/NOdrHrhDFzc6g4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JBjuV9HOSNU4KlZBUeKUvHPZqbAcIkh2rcG6P6IjIcrq9hCJdWUyDkOTE3w5qsL8ehL7ZwAKjavzllunem4ykZM1bZOTxP5jGsk6ql3mkHQ4mE8g9yMrtMkVw8aSAR3dNgDHsFn9tO7u6bgTy+gJnbc1Hy26hRVzP+J76onBPsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nevaberry.com; spf=pass smtp.mailfrom=fe-bounces.nevaberry.com; dkim=pass (2048-bit key) header.d=nevaberry.com header.i=@nevaberry.com header.b=KcCq8R7/; arc=none smtp.client-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nevaberry.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.nevaberry.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFxGe1ZK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9871AC19423;
-	Sat,  4 Apr 2026 11:11:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775301068;
-	bh=yHCuDJkwIS+n8JF158AMxWIAXaCZeMqEE3mA4j4AL5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aFxGe1ZKscIg6kLr3BtO9y4xldeH/JZv8w5vCRCdMkLCwhu7egG0hRTXaXDLg9SNE
-	 N0W6e71HpHX1fvgQbqTe1av9cVe/qkZ+3oe+dTIa1xzR0R1I7dGg+bCsq8OtXdrrzE
-	 NVN/3o+OY1cpIg8m8Rg4lsj4uMqcd7RwtQVCJN01nHFnM+CXri4ytnQvaJLij6RhRv
-	 nXyK5COA1b7EFh9inQqoNOcrTHRsHr9tZ5LxhVQO0YLeM8MDLV6zF9O1Eeo27t5wFM
-	 46WyimkjdwbONZTKCQ0OrSXhMqH8hGNYlMAnszrvWLki8ry06ROJiwPh0Fv4wTlrwt
-	 6K+AEwVdacXTw==
-Date: Sat, 4 Apr 2026 13:11:05 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Anushka Badhe <anushkabadhe@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dt-bindings: rockchip: Convert rk3399-gru-sound to
- YAML
-Message-ID: <20260404-masked-venomous-jackrabbit-b543ac@quoll>
-References: <20260402055635.8798-1-anushkabadhe@gmail.com>
+	dkim=pass (2048-bit key) header.d=nevaberry.com header.i=@nevaberry.com header.b="KcCq8R7/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nevaberry.com;
+ h=Content-Transfer-Encoding: Content-Type: MIME-Version: Message-ID: Date:
+ Subject: Cc: To: From; q=dns/txt; s=fe-e0344519bf; t=1775314069;
+ bh=9Vsa2YCH+T/th8NGafgLRAKj8dSt+rjCMpC4uqVV6eU=;
+ b=KcCq8R7/kuXjNJ9OmaM1gsiWwC4SRljkG/qCaicbZ6psk7DC0s3f75N6eNo/NOKFEHWaJHvnu
+ bFpUQCvUM9uAFJ4o5XhAWSlcKxpzS8lSnVWbRaIrRBZxHDB+utOjCLP1LMzMOAUzTqCkCwAV2Ke
+ a+L3KsQJKEnY8NyEbI5nYDOctBWEKl6kuIagQ728TBwvjAGzdlblAZL/AOa3tXydKNeJSqn3RSo
+ 71SCr2mHDvww7A82kXUxr8Ru/zJiGbf76nZ45sfXQai60JrDn6NeCxs7UJrfsTMFumnVBAWzc4+
+ BBRLPSpKuNe6yCuFu52uWNDFvA6ElcbM9Te1j/gY9tVQ==
+X-Forward-Email-ID: 69d12493dfb87b389df7cb68
+X-Forward-Email-Sender: rfc822; antti@nevaberry.com, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.6.68
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: =?UTF-8?q?Antti=20Jalom=C3=A4ki?= <antti@nevaberry.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org,
+	antti@nevaberry.com
+Subject: [PATCH] ALSA: hda: intel-dsp-config: Force legacy HDA on Lenovo ThinkPad X1 Yoga Gen 5
+Date: Sat,  4 Apr 2026 17:47:43 +0300
+Message-ID: <20260404144743.46466-1-antti@nevaberry.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260402055635.8798-1-anushkabadhe@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 02, 2026 at 11:26:35AM +0530, Anushka Badhe wrote:
-> Convert the rockchip,rk3399-gru-sound.txt DT binding to YAML Schema.
+The SOF driver fails to initialize on the Lenovo ThinkPad X1 Yoga Gen 5
+with Intel Comet Lake PCH-LP cAVS [8086:02c8]. Add a DMI quirk to force
+legacy HDA driver selection for this device.
 
-DT Schema, not YAML Schema.
+Link: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1120554
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2455066
+Signed-off-by: Antti Jalomäki <antti@nevaberry.com>
+---
+ sound/hda/core/intel-dsp-config.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Same in subject.
+diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
+index f0a44fd11..179fe4d59 100644
+--- a/sound/hda/core/intel-dsp-config.c
++++ b/sound/hda/core/intel-dsp-config.c
+@@ -269,6 +269,21 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
+ 		.codec_hid =  &essx_83x6,
+ 	},
++	{
++		.flags = 0,
++		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
++		.dmi_table = (const struct dmi_system_id []) {
++			{
++				.ident = "Lenovo ThinkPad X1 Yoga Gen 5",
++				.matches = {
++					DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++					DMI_MATCH(DMI_PRODUCT_FAMILY,
++						  "ThinkPad X1 Yoga Gen 5"),
++				},
++			},
++			{}
++		}
++	},
+ 	{
+ 		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
 
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-...
-
-> +---
-> +$id: http://devicetree.org/schemas/sound/rockchip,rk3399-gru-sound.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ROCKCHIP with MAX98357A/RT5514/DA7219 codecs on GRU boards
-
-Rockchip
-
-> +
-> +maintainers:
-> +  - Heiko Stuebner <heiko@sntech.de>
-> +
-> +properties:
-> +  compatible:
-> +    const: rockchip,rk3399-gru-sound
-> +
-> +  rockchip,cpu:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-
-Need to list items. See msm/gpu.yaml,
-allwinner,sun4i-a10-display-engine.yaml and others.
-
-And read the driver code to understand what is supposed to be here.
-
-
-> +    description:
-> +      The phandle of the Rockchip I2S controller that's connected to the codecs
-> +
-> +  rockchip,codec:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-
-Same here.
-
-> +    description: The phandle of the audio codecs
-
-Best regards,
-Krzysztof
+base-commit: 9f2a23bd5d30dc0968e56a2b6e5edb58aff1bc6d
+-- 
+2.53.0
 
