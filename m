@@ -1,82 +1,99 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE31274652;
-	Sun,  5 Apr 2026 01:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29824DDCD;
+	Sun,  5 Apr 2026 07:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775353340; cv=none; b=abpMzClorcnDhrF+/2jIFPdiBWxRV6s8XqkSoT9aacC0PDggBkIkqxYoIXo4uJrbm9GtIoom9Vv+Q4GjiFx8sAjZZ2XYnehIc2v81GTk0Q2d6Sr57khiSm5WtXPRUmFH7T0/puPuf2EFITTv6uI77vFdRh9XxskGCwA9FRZ3hds=
+	t=1775374343; cv=none; b=RktOteMcMyUJdQTaPK9GHQB1fOuUVYpqwZ+fZK9VnuuhN2mppoIWSFizZ5v4+a7csmKaC5EeMu7Axf1SvJ0DWAPriONxmVOk/AacdNR9A7h+Kk/rDqB24dfUgSLib9/C+R5WQeNvRzzuhqADqf1Rxhjio770ZP5E0DjM26PLvtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775353340; c=relaxed/simple;
-	bh=8qehztkW6ewYkOjOKeVExDWEqc9TTiy7qsn08YiZpq8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BmQOSlxm8w3Dgpvg8MdrQVacvlr44H9DqiN7/YkH37cPQzStfqJLMsDSTsv4I7mzs2tGCYIbJB9vdQ2SrvJdHQNrKeQIYECwFgbhEXjSYxLrzhPnhpwlLgdx4SvAWJu8sURnahBiBL28JNZKA0P4NXanSQ2DqdLbM1jjOieN8z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: aa293f98309011f1aa26b74ffac11d73-20260405
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:d18051da-66f7-43c1-84f9-9cfd41b6f3c3,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:c6c1c15b9d8cff2f92c4326a5f5be7b9,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|898,TC:nil,Content:0|15|50,EDM:-
-	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
-	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: aa293f98309011f1aa26b74ffac11d73-20260405
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 40707256; Sun, 05 Apr 2026 09:42:11 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: [PATCH] ALSA: hda/realtek: Fix code style error
-Date: Sun,  5 Apr 2026 09:42:08 +0800
-Message-Id: <20260405014208.167364-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1775374343; c=relaxed/simple;
+	bh=0EOmgSmZQHdpU9boeuf7jKexVd54Hiw/ztad9oO6RD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lAyNDYPsVW1BMx0TK4jGwXGokDKGN4kVSMm2H+kvVQAG/7WXKnKQew6Yljn1o8cS84tfDsmE5bz8IvogWuDIvTQYpbDz4bKYrsooNOc8AulcdbgCoWKEUcScPfFTu5lfo4AbtlR0ihIG5eqMBGETwXbucaVUZw1pnmzUKbWkxMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xon4QGKn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xon4QGKn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30663C116C6;
+	Sun,  5 Apr 2026 07:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775374342;
+	bh=0EOmgSmZQHdpU9boeuf7jKexVd54Hiw/ztad9oO6RD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xon4QGKnOkxjtFC5zcuw9kpWZap0n6ZN2XUrGurQbL+NO1QkB8pGBVoldRFGOWD3v
+	 TWchyvzq+El1vBk8Tiw92xzvhVDCbxWFBSw5qYQWjn+LqGHaWzuHhCKhl63Dqhlffa
+	 ma0y8plj62wEzfJlZsi8Tl7mc1FzlaGwP0EBvuXgtOW8SdaR8LnWYDH4kWDaWQ2RYV
+	 qrwrHpUCW93IRk7gEO342eNJGHWJgFpvJ3+NgMjmYmx4XTYZ9WfbWz+D60LH5wyj5J
+	 REqyb/VPPB9VRK7Pp9L1ko5GsKTwkHqwBOVS7pBwHBkVoqiB4rvNaPg/0nsA90u8/5
+	 ECU8dRQrXUJpg==
+Date: Sun, 5 Apr 2026 09:32:20 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
+	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: sound: renesas,fsi: Add support for
+ multiple clocks
+Message-ID: <20260405-ultramarine-orangutan-of-wholeness-bbcc6b@quoll>
+References: <20260403112655.167593-1-phucduc.bui@gmail.com>
+ <20260403112655.167593-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260403112655.167593-2-phucduc.bui@gmail.com>
 
-Output of checkpatch shows error:
-ERROR: else should follow close brace '}'
-2168: FILE: sound/hda/codecs/realtek/realtek.c:2168:
-+	}
-+	else
+On Fri, Apr 03, 2026 at 06:26:53PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> The FSI on r8a7740 requires the SPU clock to be enabled
+> before accessing its registers.
+> Without this clock, register access may lead to a system
+> hang.
+> Add support for the "spu" clock so it can be managed by
+> the driver.
+> The binding is also extended to allow additional clocks,
+> as FSIB may require more clock inputs, while FSIA
+> typically uses fewer.
 
-So fix it.
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
-Signed-off-by: songxiebing <songxiebing@kylinos.cn>
----
- sound/hda/codecs/realtek/realtek.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+And not after every sentece, BTW.
 
-diff --git a/sound/hda/codecs/realtek/realtek.c b/sound/hda/codecs/realtek/realtek.c
-index aad265c0a5b6..b240f13b0438 100644
---- a/sound/hda/codecs/realtek/realtek.c
-+++ b/sound/hda/codecs/realtek/realtek.c
-@@ -2164,8 +2164,7 @@ void alc_fixup_headset_mode_no_hp_mic(struct hda_codec *codec,
- 	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
- 		struct alc_spec *spec = codec->spec;
- 		spec->parse_flags |= HDA_PINCFG_HEADSET_MIC;
--	}
--	else
-+	} else
- 		alc_fixup_headset_mode(codec, fix, action);
- }
- EXPORT_SYMBOL_NS_GPL(alc_fixup_headset_mode_no_hp_mic, "SND_HDA_CODEC_REALTEK");
--- 
-2.25.1
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>  .../devicetree/bindings/sound/renesas,fsi.yaml       | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> index df91991699a7..225cd8d369bb 100644
+> --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> @@ -38,7 +38,11 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 8
+
+Needs valid descriptions.
+
+> +
+> +  clock-names:
+> +    description: List of necessary clock names.
+
+Instead constrain it. See also writing-bindings, writing-schema or
+example-schema documents.
+
+Best regards,
+Krzysztof
 
