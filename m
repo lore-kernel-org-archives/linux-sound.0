@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29824DDCD;
-	Sun,  5 Apr 2026 07:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6E234CFD6;
+	Sun,  5 Apr 2026 08:09:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775374343; cv=none; b=RktOteMcMyUJdQTaPK9GHQB1fOuUVYpqwZ+fZK9VnuuhN2mppoIWSFizZ5v4+a7csmKaC5EeMu7Axf1SvJ0DWAPriONxmVOk/AacdNR9A7h+Kk/rDqB24dfUgSLib9/C+R5WQeNvRzzuhqADqf1Rxhjio770ZP5E0DjM26PLvtk=
+	t=1775376584; cv=none; b=M0QiiAtSG5Wqn0yX3XD0xf9Eu2HOLpAIaDa2eXnyvZS+hf046Z5gjVlMH/ggblYuoY0MXI49V4Aj7P74vEFI5jPWXMb4SKjnr3zQgzhhz1qHTEmfT6ZqqE3/ESgo91dvOrFnmODZYze40laloCSyCw66Ov6PRtCmjx4+cnAKcrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775374343; c=relaxed/simple;
-	bh=0EOmgSmZQHdpU9boeuf7jKexVd54Hiw/ztad9oO6RD8=;
+	s=arc-20240116; t=1775376584; c=relaxed/simple;
+	bh=tmwI+VqD0Msey8y4xzbIo39Fptd9tbedOvW8qNkYZAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lAyNDYPsVW1BMx0TK4jGwXGokDKGN4kVSMm2H+kvVQAG/7WXKnKQew6Yljn1o8cS84tfDsmE5bz8IvogWuDIvTQYpbDz4bKYrsooNOc8AulcdbgCoWKEUcScPfFTu5lfo4AbtlR0ihIG5eqMBGETwXbucaVUZw1pnmzUKbWkxMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xon4QGKn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KUz6O/tX/FDW2libSmxtM6FLY9RQej9l1/u/yXGOpJMQhSir8o5xfzp6YP8dJYlbnxJTNdhlO+xmvFbQ7dI7pdE8Z/Mtk+QV30JaY3LfBKaGPO1ArzEKvwlY7hXIfaEzpJrVSdMPAYmDTT3yfJh7AKe+AJN2z+BSLMzOt7Cvq5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGQdgBbm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xon4QGKn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30663C116C6;
-	Sun,  5 Apr 2026 07:32:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGQdgBbm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DDDC116C6;
+	Sun,  5 Apr 2026 08:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775374342;
-	bh=0EOmgSmZQHdpU9boeuf7jKexVd54Hiw/ztad9oO6RD8=;
+	s=k20201202; t=1775376584;
+	bh=tmwI+VqD0Msey8y4xzbIo39Fptd9tbedOvW8qNkYZAY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xon4QGKnOkxjtFC5zcuw9kpWZap0n6ZN2XUrGurQbL+NO1QkB8pGBVoldRFGOWD3v
-	 TWchyvzq+El1vBk8Tiw92xzvhVDCbxWFBSw5qYQWjn+LqGHaWzuHhCKhl63Dqhlffa
-	 ma0y8plj62wEzfJlZsi8Tl7mc1FzlaGwP0EBvuXgtOW8SdaR8LnWYDH4kWDaWQ2RYV
-	 qrwrHpUCW93IRk7gEO342eNJGHWJgFpvJ3+NgMjmYmx4XTYZ9WfbWz+D60LH5wyj5J
-	 REqyb/VPPB9VRK7Pp9L1ko5GsKTwkHqwBOVS7pBwHBkVoqiB4rvNaPg/0nsA90u8/5
-	 ECU8dRQrXUJpg==
-Date: Sun, 5 Apr 2026 09:32:20 +0200
+	b=GGQdgBbmxN2ecBSt7z+PQHKqlxJyp16EXZ7lvUbvr4ZxxHQ43V3FWb9USUj8Eb9YS
+	 i7xU8eND2CQD0I6q8RsU/p7O30XTrPKLHCOjy+bw0Rddh2Qcjg+MOHj/3AEQOMe0Eu
+	 K5q6RjAH96cmfuQY5Yc04TAI4ffGG1455YddgPWstLLu5k8luAJu/ndBNX7jTgMdDo
+	 CIDu1eSyN0notTHpbdtXiRHXFjfPe77qfaA28orsQrWglZgqp6sJzXUgXG5AO8u4Rw
+	 2mAHvMAIrK93/8Voi+vIV0tZWBIQb2VXNWNh1UFdwlrpisWbtIU1AuSwSd9QL7q+D7
+	 seteuZPefoE8w==
+Date: Sun, 5 Apr 2026 10:09:41 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
-	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	geert+renesas@glider.be, magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: sound: renesas,fsi: Add support for
- multiple clocks
-Message-ID: <20260405-ultramarine-orangutan-of-wholeness-bbcc6b@quoll>
-References: <20260403112655.167593-1-phucduc.bui@gmail.com>
- <20260403112655.167593-2-phucduc.bui@gmail.com>
+To: Marek Vasut <marex@nabladev.com>
+Cc: devicetree@vger.kernel.org, Baojun Xu <baojun.xu@ti.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Kevin Lu <kevin-lu@ti.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Shenghao Ding <shenghao-ding@ti.com>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: ti,tas2552: Add sound-dai-cells
+Message-ID: <20260405-wild-neon-dachshund-80cbd2@quoll>
+References: <20260404033709.340026-1-marex@nabladev.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,52 +45,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260403112655.167593-2-phucduc.bui@gmail.com>
+In-Reply-To: <20260404033709.340026-1-marex@nabladev.com>
 
-On Fri, Apr 03, 2026 at 06:26:53PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> The FSI on r8a7740 requires the SPU clock to be enabled
-> before accessing its registers.
-> Without this clock, register access may lead to a system
-> hang.
-> Add support for the "spu" clock so it can be managed by
-> the driver.
-> The binding is also extended to allow additional clocks,
-> as FSIB may require more clock inputs, while FSIA
-> typically uses fewer.
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
-And not after every sentece, BTW.
-
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  .../devicetree/bindings/sound/renesas,fsi.yaml       | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> index df91991699a7..225cd8d369bb 100644
-> --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> @@ -38,7 +38,11 @@ properties:
+On Sat, Apr 04, 2026 at 05:36:56AM +0200, Marek Vasut wrote:
+>    For system integration the dt-bindings/sound/tas2552.h header file provides
+> @@ -34,6 +34,9 @@ properties:
 >      maxItems: 1
+>      description: gpio pin to enable/disable the device
 >  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 8
-
-Needs valid descriptions.
-
+> +  '#sound-dai-cells':
+> +    const: 0
 > +
-> +  clock-names:
-> +    description: List of necessary clock names.
 
-Instead constrain it. See also writing-bindings, writing-schema or
-example-schema documents.
+missing ref to dai-common and unevaluatedProperties.
+
+>  required:
+>    - compatible
+>    - reg
 
 Best regards,
 Krzysztof
