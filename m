@@ -1,191 +1,209 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1054086A;
-	Mon,  6 Apr 2026 10:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775471588; cv=pass; b=UDIIhkP2S/LJ3cgQmHmlYSU8FkaEf9/QKz2aBrEYp9L/GehgObhsp6UkWhkScb1u47wc/v/lhZIu0Odhu6HUGjhXWstVJxKtogk7u1VloBogEYFBTx4FiQVcjyGruYAHGgdfELUcKBwk5uOFtZ2gVWkzw/QitBCzeT2BMqG6Ie8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775471588; c=relaxed/simple;
-	bh=WuL83UxxyNxlLz+YtmRlM4qb/6DAw+9iYkt7exotziE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j9+KxR7zbneff/bRD6Xhs/CJPwOnP7jjJIY8eyn42q2pRnjaY6Mc9JIlaT8jFXzj9XHIwqYEqhMyjHcocLErWy3/R3NTE5JzUGeCugACJdnqpZJ/uejStb1H3N9qHEi9TTUayxq/3sOfUWWVQyO3GHMSvGGZ4BIwOPdGwC3H0TU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=Kr+ii7dw; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAE42F4A0C;
+	Mon,  6 Apr 2026 11:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775473555; cv=none; b=fAZccmEZsCl7n54C8kdXAdseviv47l5IagVuIS7kP2WLGazlDVBsyX5upUGZmHtb+V4qwA1fPYjKw1IrgleC5cV6Q+HNggOZL7dZwbLmbFrsM30nDgTKgzmIgl5Hfimp1L06143TGPgS/SLXi8DH53j+jvE1+PyvzW7TAGHPgD8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775473555; c=relaxed/simple;
+	bh=DI0+2pf03WqTpWqXRGDD2n+M+lPYBV1bo6MusWrHkpA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DkSjFKpV77LYIs5b+VEEL4ooC8Z+ORWB/P643IYuMzEXLOA7TPMhzqJ4Kcs9R6JAa6O+s+Ja9iJkpXBsPH7cTO5tnngQE26ZlzYzHBpRcMbUF9OYKOy/eOeRrkcYBTfUfHDCQDa2nVhqdTAsTFuXKDOSkzRwUrAJrQinziMiFkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kimfpu4q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="Kr+ii7dw"
-ARC-Seal: i=1; a=rsa-sha256; t=1775471573; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=GmMq1YF++t34nucaEsXsYEROaO6X/9q+M3MTpV/aNtxMVDCnCjAhShPzYZZo5i1/c9YqIkZWKnYruP8lqVp3tQyKYb66ogRJ2Wv7SBC/0Uvqp7nikj3aGfYosiLtHZA546qKY7ZEh/96DNLUzI8Q8GCVJPHRJg4ocYPNaqojgQk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775471573; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ov71i6SzQPqOpdh9cfwB7JsKtZ2gy8E7qZcTeFEn/2A=; 
-	b=BsHYNCfzJUeBjbubbCtwP0MdJ0Hfqq9WHAzFkH5Kof0lIZaiEpJVf6ZsdAhnBAtR9X4aMn44IlKORXqiwD0RlSrEHuOZAXGgn1Vj4rQ42haJOUZCXE0UdiJ718mL4apGjU4heA6y2g1Ge+UO7aLgHp+t1WuWlLQn0QY92vK/1YQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=harin.net;
-	spf=pass  smtp.mailfrom=me@harin.net;
-	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775471573;
-	s=zmail; d=harin.net; i=me@harin.net;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ov71i6SzQPqOpdh9cfwB7JsKtZ2gy8E7qZcTeFEn/2A=;
-	b=Kr+ii7dwlS8FPZyxfxoK9nrnm+SW1WEpKulo0yaLmaUE6vnyE1FeHCrQ+dfv7ZBC
-	98VP3PeeOp89roa90X7YuSJzgT+K+XxR5NHhjaHWOkfKO9xTIdf3slHw8zIWHDtKaK+
-	nu+3xXwCeegP6G8Fu72ZnOrjiMfDjos3g7Ea6TaBcbQRD3stSPeFYA9tE5s9PTFfp6U
-	hNnAXZ6DnI3oP+tqz1K0LYzMG9ig/lCXf2+4G7BjFMvtfN+n30uR59dJLAEcrnHzf7f
-	XC2Zkdq1aoWD7Zsjk4ncOVq0XeYZ6wYuX80pA1Y9ZoPuBn1UCxSfz5w2z/5E9bTWKvB
-	LLnXPqjJYA==
-Received: by mx.zohomail.com with SMTPS id 1775471566995842.4232189746164;
-	Mon, 6 Apr 2026 03:32:46 -0700 (PDT)
-Message-ID: <81e252e0-98a9-43ba-af54-e2ed152345b7@harin.net>
-Date: Mon, 6 Apr 2026 19:32:43 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kimfpu4q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A52EC4CEF7;
+	Mon,  6 Apr 2026 11:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775473555;
+	bh=DI0+2pf03WqTpWqXRGDD2n+M+lPYBV1bo6MusWrHkpA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Kimfpu4qW0rFF7re/YvsScbmAqYShNxVpLk8VhfsQ8NxBvQ+5FQoHXfdAnTXCTFzN
+	 cR7nAjtcbJ4nls5jaZEsSeCeJNvjdghGPAutS81wEqi056lC6owfDBtx+IEFMOy6yu
+	 Ef5uD7cokDHj8uxTB/30RyFqHUbYG2lFrMPRwAJoFr0bq0kDDVjrFc7OXwVRlk/MZR
+	 AJVArXA4WixcAVHyq/fwRXvdw7A9U/iNdHK4pfRRbItI7c8RmLCVPDSMkDx53BmLCU
+	 Ja52d2KKhBUnM8X+LD/P31Gf09IDR2/9isVrWkjmo6gZikFnNki0GT7iQmxdg6tX40
+	 zwVDqoOjF3x+w==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Gilson=20Marquato=20J=C3=BAnior?= <gilsonmandalogo@hotmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Vijendar.Mukunda@amd.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.1] ASoC: amd: yc: Add DMI entry for HP Laptop 15-fc0xxx
+Date: Mon,  6 Apr 2026 07:05:35 -0400
+Message-ID: <20260406110553.3783076-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: ctxfi: Limit PTP to a single page
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Maarten Lankhorst <m.b.lankhorst@gmail.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260406074857.216034-1-me@harin.net>
- <871pgsmpzv.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Harin Lee <me@harin.net>
-Autocrypt: addr=me@harin.net; keydata=
- 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
-In-Reply-To: <871pgsmpzv.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19.11
+Content-Transfer-Encoding: 8bit
 
-On 4/6/26 5:50 PM, Takashi Iwai wrote:
-> On Mon, 06 Apr 2026 09:48:57 +0200,
-> Harin Lee wrote:
->>
->> Commit 391e69143d0a increased CT_PTP_NUM from 1 to 4 to support 256
->> playback streams, but the additional pages are not used by the card
->> correctly. The CT20K2 hardware already has multiple VMEM_PTPAL
->> registers, but using them separately would require refactoring the
->> entire virtual memory allocation logic.
->>
->> ct_vm_map() always uses PTEs in vm->ptp[0].area regardless of
->> CT_PTP_NUM. On AMD64 systems, a single PTP covers 512 PTEs (2M). When
->> aggregate memory allocations exceed this limit, ct_vm_map() tries to
->> access beyond the allocated space and causes a page fault:
->>
->>    BUG: unable to handle page fault for address: ffffd4ae8a10a000
->>    Oops: Oops: 0002 [#1] SMP PTI
->>    RIP: 0010:ct_vm_map+0x17c/0x280 [snd_ctxfi]
->>    Call Trace:
->>    atc_pcm_playback_prepare+0x225/0x3b0
->>    ct_pcm_playback_prepare+0x38/0x60
->>    snd_pcm_do_prepare+0x2f/0x50
->>    snd_pcm_action_single+0x36/0x90
->>    snd_pcm_action_nonatomic+0xbf/0xd0
->>    snd_pcm_ioctl+0x28/0x40
->>    __x64_sys_ioctl+0x97/0xe0
->>    do_syscall_64+0x81/0x610
->>    entry_SYSCALL_64_after_hwframe+0x76/0x7e
->>
->> Revert CT_PTP_NUM to 1. The 256 SRC_RESOURCE_NUM and playback_count
->> remain unchanged.
->>
->> Fixes: 391e69143d0a ("ALSA: ctxfi: Bump playback substreams to 256")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Harin Lee <me@harin.net>
-> 
-> Applied to for-next branch now, as it's no regression in 7.0, per se.
-> 
-> But, I wonder whether fixing in ctvmem.c would be relatively easy.
-> Isn't it only about ct_vm_map() and ct_get_ptp_phys()?
-> 
-> 
-> thanks,
-> 
-> Takashi
+From: Gilson Marquato Júnior <gilsonmandalogo@hotmail.com>
 
-Hi Takashi.
+[ Upstream commit 8ec017cf31299c4b6287ebe27afe81c986aeef88 ]
 
-info.vm_pgt_phys is set in atc_create_hw_devs().
+The HP Laptop 15-fc0xxx (subsystem ID 0x103c8dc9) has an internal
+DMIC connected to the AMD ACP6x audio coprocessor. Add a DMI quirk
+entry so the internal microphone is properly detected on this model.
 
-   ...
-   /* Initialize card hardware. */
-   info.rsr = atc->rsr;
-   info.msr = atc->msr;
-   info.vm_pgt_phys = atc_get_ptp_phys(atc, 0);
-   err = hw->card_init(hw, &info);
-   if (err < 0)
-     return err;
-   ...
+Tested on HP Laptop 15-fc0237ns with Fedora 43 (kernel 6.19.9).
 
-The atc_get_ptp_phys() function actually calls ct_get_ptp_phys().
-However, the index is 0, which only retrieves the address of the
-first PTP.
+Signed-off-by: Gilson Marquato Júnior <gilsonmandalogo@hotmail.com>
+Link: https://patch.msgid.link/20260330-hp-15-fc0xxx-dmic-v2-v1-1-6dd6f53a1917@hotmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-The hw_trn_init() for CT20K1 and CT20K2 writes the value of
-info.vm_pgt_phys to the hardware registers.
+LLM Generated explanations, may be completely bogus:
 
-   ...
-   ptp_phys_low = (u32)info->vm_pgt_phys;
-   ptp_phys_high = upper_32_bits(info->vm_pgt_phys);
-   ...
+Record: The file is extremely actively maintained with a steady stream
+of DMI quirk additions — this is exactly the pattern. The author appears
+to be a first-time contributor for this specific laptop.
 
-CT20K1 implementation writes to the PTPALX and PTPAHX registers.
-CT20K2 implementation writes same single PTP address to all 64
-VMEM_PTPAL and VMEM_PTPAH registers.
+**Step 3.3-3.5:** This is a standalone data-only addition with no
+dependencies. It doesn't reference other commits and doesn't require any
+prerequisites.
 
-We don't know if CT20K2 hardware actually supports independent PTPs,
-and refactoring would be risky. So I think the current approach is
-the safest for now.
+Record: [Standalone, no dependencies, applies cleanly to any tree
+containing this file]
 
-This is what I've found so far.
+## PHASE 4: MAILING LIST (abbreviated — clear-cut case)
 
-Thanks.
-Harin Lee
+The patch was accepted by Mark Brown (ASoC maintainer) and merged. The
+Link tag confirms it went through normal review.
+
+Record: [Accepted by subsystem maintainer Mark Brown]
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+The change is purely a data table entry addition. No functions are
+modified. The DMI matching infrastructure is well-established kernel
+code. The `acp6x_card` driver_data is the same used by all other
+entries.
+
+Record: [No code logic changes, data-only table entry]
+
+## PHASE 6: STABLE TREE ANALYSIS
+
+**Step 6.1:** The acp6x-mach.c file and the yc_acp_quirk_table have
+existed since the AMD Yellow Carp platform support was added. This file
+exists in stable trees.
+
+**Step 6.2:** The patch adds an entry at the beginning of the table,
+which may cause minor offset conflicts with other quirk additions, but
+the resolution would be trivial.
+
+Record: [File exists in stable trees] [Trivial backport, possible minor
+context conflict]
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+- Subsystem: ASoC (ALSA SoC) / AMD audio drivers
+- Criticality: IMPORTANT (audio is a key user-facing feature on laptops)
+- Maintainer: Mark Brown (well-known, prolific ASoC maintainer) accepted
+  the patch
+
+Record: [ASoC/AMD audio] [IMPORTANT — affects laptop users] [Accepted by
+maintainer]
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1:** Affected users: owners of HP Laptop 15-fc0xxx (specific
+hardware model)
+**Step 8.2:** Trigger: always — internal mic doesn't work at all without
+this entry
+**Step 8.3:** Failure mode: no internal microphone on this laptop —
+functional hardware is unusable. Severity: MEDIUM-HIGH (audio input
+completely broken for this model)
+**Step 8.4:**
+- Benefit: HIGH — makes internal mic work on a specific HP laptop model
+- Risk: VERY LOW — 7-line data table addition, affects only this one
+  laptop model, cannot cause regression on any other system
+
+Record: [Benefit: HIGH] [Risk: VERY LOW] [Ratio: strongly favors
+backporting]
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: Evidence Summary**
+FOR backporting:
+- Classic DMI quirk addition (exception category: hardware
+  quirk/workaround)
+- 7 lines, data-only, zero code logic changes
+- Tested on real hardware by the author
+- Accepted by ASoC maintainer Mark Brown
+- Fixes a real user-facing issue (internal mic not working)
+- Identical pattern to dozens of other entries in the same file
+- Zero regression risk
+
+AGAINST backporting:
+- (None)
+
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct and tested? **YES** — tested on hardware, trivial
+   data addition
+2. Fixes a real bug? **YES** — internal mic not detected
+3. Important issue? **YES** — hardware not functional without it
+4. Small and contained? **YES** — 7 lines in one file
+5. No new features/APIs? **YES** — just enables existing driver for new
+   hardware
+6. Can apply to stable? **YES** — trivial apply
+
+**Step 9.3: Exception Category**
+This is a **hardware quirk/workaround** (DMI match table entry) — an
+automatic YES category.
+
+## Verification
+- [Phase 1] Parsed commit message: DMI quirk for HP Laptop 15-fc0xxx
+  internal DMIC
+- [Phase 2] Diff: +7 lines, data-only addition to yc_acp_quirk_table[],
+  identical pattern to existing entries
+- [Phase 3] git log: file has 15+ recent commits all adding similar DMI
+  quirk entries
+- [Phase 3] Standalone commit, no dependencies
+- [Phase 7] Mark Brown (ASoC maintainer) accepted the patch
+- [Phase 8] Risk: zero regression risk, data-only change affecting one
+  laptop model
+- [Phase 9] Falls into hardware quirk exception category
+
+**YES**
+
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 1324543b42d72..97652ab73ea95 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -45,6 +45,13 @@ static struct snd_soc_card acp6x_card = {
+ };
+ 
+ static const struct dmi_system_id yc_acp_quirk_table[] = {
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "HP Laptop 15-fc0xxx"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.53.0
+
