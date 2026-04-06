@@ -1,56 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B14386C04;
-	Mon,  6 Apr 2026 15:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717845B21A
+	for <linux-sound@vger.kernel.org>; Mon,  6 Apr 2026 15:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775488211; cv=none; b=cZfIeuBl2LqPVHb/ZR2cDKN+4pDwXDMdwSum6DNSIdeoP5Bzm/7yswzQRJ5LATa0cukeJW5UKmKkooYPFH0WsOw2WQEykr0YtAFShqsqmgk7GOqp+XIpv0TsKFx5yUUH3WoKiumAD/XdsKWuE5hDVt/Bu8G8Y/KqHgm9H9iteEQ=
+	t=1775488654; cv=none; b=FJfB5MBkn36QmQZDRv2+rniHZUS3dXjSBB+GWkOlzJuxbTwc2uYLHUimqV+NYiRPFz28gDU1NKeLY62NJWJZJVMH6YAmZ0jwIqNTT2GcUnPZPAZIlJp7Po//6u1UmXQ1UfYuGpdF7jRbl6NH8u0u5MzZOwS8sP9xOeyu+eTM7jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775488211; c=relaxed/simple;
-	bh=7qkIHfQVLcoQezNsVQifK9LFrH/5VNd34wwBfkCPenI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mZOaOXIkwS+FqnYWVy8qLdu3XNsOQhWEIjk1ditz117D3wk2EcfL06FWuHT2z9ryFfYOFtxk3sRE6kfCs5YBvVYuNIBoxBsAQnz0SV1V037tZmLJMLl7LU3ttvDFexB8jVDvBCLKRH2w6c3DMk+0AeHuakFqjVNQutRyLdWpGZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIFrzrJv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775488654; c=relaxed/simple;
+	bh=OmJXcRAxUebf7HOR35NrjsEnfybE749vs5w6RDuZspU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ooJMVVHp3omR2nSus/pCl8FcSKulEkYgGqJCPi50yvQ7Bx/rxCKvgAecQXjF3eVcnkQjBaF9vlXbkkR6Nmh0534mw4Wy5+NeemTg2iNGtjvnThyTnhp9A1XDbIE3X7Dms0g7T6wCvvc7KOx41VrVDJc+2WCBXpmR4GmdbZCUHj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RIDRHGC9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIFrzrJv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A6F1C2BCAF;
-	Mon,  6 Apr 2026 15:10:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RIDRHGC9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BECD0C4CEF7;
+	Mon,  6 Apr 2026 15:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775488211;
-	bh=7qkIHfQVLcoQezNsVQifK9LFrH/5VNd34wwBfkCPenI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WIFrzrJv5Bp7FEpK5WpiBeY5ctfo9JX8NhEbxV7nd3R2ZEFiygOhv28TItIy0twSN
-	 eIEwIxURWFdOeo2o7RSZ4PcKTp2bQwLC6D0Ai5q9fwyAsLjbb/JLU6gynq8uBlSSQk
-	 zvHcIkOc3VaoWfvDkGWYdHUqgPhXgVEm3M3Quvx2P/ofQLuwu4iFmA760djGd0c55k
-	 IQc7BW/ScFTlvfxYTnE++1G4yHFB1/KjYp54isX3lwj7zw0I9Krgnv+edaKkxECMv9
-	 MFCS/Nalby2hCsp5DtsQeHZyhBA/vxZY2lQY1zsMlUlz6hTj6kaX7dXo0V7nK3NN7j
-	 /v2dcS4MX2DKA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] ASoC / rpmsg / remoteproc / soc: qcom: Constify buffer passed to send functions
-Date: Mon,  6 Apr 2026 10:10:00 -0500
-Message-ID: <177548820150.2290739.14526256413084425131.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260317-rpmsg-send-const-v3-0-4d7fd27f037f@oss.qualcomm.com>
-References: <20260317-rpmsg-send-const-v3-0-4d7fd27f037f@oss.qualcomm.com>
+	s=k20201202; t=1775488654;
+	bh=OmJXcRAxUebf7HOR35NrjsEnfybE749vs5w6RDuZspU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=RIDRHGC9gVhZgs19AH+Gy1uqlkwz4QLE73+hS2AEkWXNavfVCORJKlLgZVpM8Jg/a
+	 sLbMCEapKyeU+8OovxrzRyisIwHSfoi8NXUROP/IrWYhHrZ87Um/J9Qi5qQhAKN94N
+	 oYvrtFH/mFmjCLeazLVONDbxEfRdPyoZZAs3qmxN8vPwTcPUeUVm2jXGupugRmgGXu
+	 CTlFHl44/+F6TtcbUGQFE1xP64ZDCY9EdkqIHfFIlOFA+oJwp624ssBBfYA8fIaLsu
+	 c2Pgtz1AvUob+9BStcGla/ql0QwbT0cx6DjPDu009BmkPCXbvSemFymPu1aO318Etf
+	 jyV+8LAuFI3Mg==
+From: Mark Brown <broonie@kernel.org>
+To: gaggery.tsai@intel.com, Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
+ yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260316141449.2950215-1-ckeepax@opensource.cirrus.com>
+References: <20260316141449.2950215-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: SDCA: Fix errors in IRQ cleanup
+Message-Id: <177548865251.270504.13808859362022770053.b4-ty@b4>
+Date: Mon, 06 Apr 2026 16:17:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,35 +43,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-67696
 
-
-On Tue, 17 Mar 2026 13:36:49 +0100, Krzysztof Kozlowski wrote:
-> This got acks from Mathieu (remoteproc) and Mark (audio), so can we
-> funnel everything via Qualcomm remoteproc tree?
+On Mon, 16 Mar 2026 14:14:49 +0000, Charles Keepax wrote:
+> IRQs are enabled through sdca_irq_populate() from component probe
+> using devm_request_threaded_irq(), this however means the IRQs can
+> persist if the sound card is torn down. Some of the IRQ handlers
+> store references to the card and the kcontrols which can then
+> fail. Some detail of the crash was explained in [1].
 > 
-> Dependencies / merging
-> ======================
-> Entire patchset is one logical chain, all further patches depend on
-> previous ones, thus everything should be taken via same tree or shared
-> between trees with tags.  Probably everything should go via ASoC with
-> necessary acks.
+> Generally it is not advised to use devm outside of bus probe, so
+> the code is updated to not use devm. The IRQ requests are not moved
+> to bus probe time as it makes passing the snd_soc_component into
+> the IRQs very awkward and would the require a second step once the
+> component is available, so it is simpler to just register the IRQs
+> at this point, even though that necessitates some manual cleanup.
 > 
 > [...]
 
-Applied, thanks!
+Applied to
 
-[1/5] remoteproc: mtk_scp_ipi: Constify buffer passed to scp_ipi_send()
-      commit: 4251dab9d176212afdf4ced263b59bc0d5292c7f
-[2/5] remoteproc: mtk_scp: Constify buffer passed to scp_send_ipi()
-      commit: 90dacbf4bf13410c727ffaca8fe3ce3276ae58c2
-[3/5] rpmsg: Constify buffer passed to send API
-      commit: b8077b4da2e89917ec4c632b66e60d49089bbda3
-[4/5] ASoC: qcom:: Constify GPR packet being send over GPR interface
-      commit: 66ec83627902d2585e14911692b317496731767a
-[5/5] media: platform: mtk-mdp3: Constify buffer passed to mdp_vpu_sendmsg()
-      commit: 3e2fa997d1e2b651993ae7e81646aadd55470bce
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Thanks!
+
+[1/1] ASoC: SDCA: Fix errors in IRQ cleanup
+      https://git.kernel.org/broonie/misc/c/4e53116437e9
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
