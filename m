@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9A03382F0;
-	Mon,  6 Apr 2026 11:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54236330B29;
+	Mon,  6 Apr 2026 11:06:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775473563; cv=none; b=LuRwTI0bBwXdStKK0nWSJFp2Nuj2Fgw1QIAq1EadMKrYLE9FDQWtPtffJ8NeuEQnJHDAeYGvnc5MMPDoeFWt5O5rHgKZ7jS1QzgxhLe+bNCbnpOrSvFIeax5waOibPAjRybxfWRXE3m5WJ1M69lldjJOvbS0Iz3UJjdD0DR62GY=
+	t=1775473600; cv=none; b=C6eC5xU7LdtAIUomiXecOWIuQ5suJPDmBr/Q7MOCHnO2AumdhPVgvqgsfUqf4plTsSluLTgd0LsTo53O36i5L6oZ+rMbZIE4F4FWqftLcj8NJUFFvO6aVKzrP/fPUPaZlYXgVgtvUGD6jrQyOCdnG5u66bYM3+TD2H6BVJYIXOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775473563; c=relaxed/simple;
-	bh=JAYOeWHxEzIhpHJT+74rHD7g5O/Iqd87+CMYHpju3kc=;
+	s=arc-20240116; t=1775473600; c=relaxed/simple;
+	bh=tlMz9JcqivmJKnCnmPCL0aF83JfpT6hSy90H5YINPc0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CjaLafdqHn96ZtNktwD29fNW3YI0MPFEnqtA9Ho1Q0m3/+RZYtCulbFxl4se+oFubs83e/ePYPp+iUaLDYJYeApajNxCiXvNGI8GRy4AymbLEh6BuoH4YUX+xKa6MQCosOebaGIgnOX0UGkEWt9QXRkpLjmdC8oWe20PbJ6qWDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZfb7wB2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=SSxz4ehRWopSsoAgU2aMThxWcxh8gwh5OXZKxXeXYjIXwOWMSHBP7ASe2dvVVhOeWC3LXOoXI6Rou2vkDwVYUEGWbMzdUShIky/MkBQc95yLLuD5I6FA4KfrUjKW53f+WG0QaFUqL6ibKNl3zEEl+D/ht2DbtxoIPxOXErowYgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBu1sfPe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZfb7wB2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C6CC2BC9E;
-	Mon,  6 Apr 2026 11:06:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBu1sfPe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2742AC2BC9E;
+	Mon,  6 Apr 2026 11:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775473563;
-	bh=JAYOeWHxEzIhpHJT+74rHD7g5O/Iqd87+CMYHpju3kc=;
+	s=k20201202; t=1775473600;
+	bh=tlMz9JcqivmJKnCnmPCL0aF83JfpT6hSy90H5YINPc0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MZfb7wB2MkmJg8mLf6fcRVTsUBn+sOgKaSZzTHIa6DOiWt2oBKPpbLykboPyYvJ3V
-	 6Q7iQvvV9bl3WFRH2DWpWuplKX/2YN4jEbmhO5wQKakCd1AgbZkOLFo3l/pQ/EKvpv
-	 siVEosbvL7M2pU8EYQsWSMKWNYElY9QZ4Y1w6xkL4n0SeuMfVJY2MdQDkE+uZYqu/l
-	 qfmhEZ56D/74F6vg+MXwXRJRTZQ4g1Su0Ar+/ui+UxUcTCT3bGMsZBlv1P0bLk1epE
-	 zlPj+Sx+Ln9JlllQ3x2Zj2TUKOW8HpnCaRyh2GPn5akXYB/Io1noSuuUzk5i7R5RTz
-	 78xpn8ZZI5QMw==
+	b=JBu1sfPeX0x9SIwTi5BmVUwDj2KIj4qlB8cUOmqgK5+BE6P0IRDbPrLULUvU+276b
+	 z2p24xA4biZ4jDFF4E1zYkTUSdRb308YB2bP0b6CtqunKzVYfLAfXZ8jrvlX0xYTkW
+	 tjN75lX7MI88dOjY19mE0X694Lmm+q4x423gwXXXkLPnPqcI4XNIKK5UI0w1nFyBKO
+	 scdr76wlpeRfuZmoOocajK7AvnFL2Gm7i88ps/Ohc2l/1U3NGfZAZ/viv3Hw0SyXWk
+	 oH19LtJ/jxnO2p0q2Il9cNulFPg4A6OMEOsmUINoz9rnoTjhvBh1uEZN6flWjPpbVR
+	 46x+UJkqoIoVA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Phil Willoughby <willerz@gmail.com>,
-	Yue Wang <yuleopen@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+Cc: songxiebing <songxiebing@kylinos.cn>,
+	Garcicasti <andresgarciacastilla@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.15] ALSA: usb-audio: Fix quirk flags for NeuralDSP Quad Cortex
-Date: Mon,  6 Apr 2026 07:05:41 -0400
-Message-ID: <20260406110553.3783076-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.18] ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 14AKP10
+Date: Mon,  6 Apr 2026 07:05:43 -0400
+Message-ID: <20260406110553.3783076-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260406110553.3783076-1-sashal@kernel.org>
 References: <20260406110553.3783076-1-sashal@kernel.org>
@@ -52,195 +52,152 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19.11
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Phil Willoughby <willerz@gmail.com>
+From: songxiebing <songxiebing@kylinos.cn>
 
-[ Upstream commit bc5b4e5ae1a67700a618328217b6a3bd0f296e97 ]
+[ Upstream commit e6c888202297eca21860b669edb74fc600e679d9 ]
 
-The NeuralDSP Quad Cortex does not support DSD playback. We need
-this product-specific entry with zero quirks because otherwise it
-falls through to the vendor-specific entry which marks it as
-supporting DSD playback.
+The Pin Complex 0x17 (bass/woofer speakers) is incorrectly reported as
+unconnected in the BIOS (pin default 0x411111f0 = N/A). This causes the
+kernel to configure speaker_outs=0, meaning only the tweeters (pin 0x14)
+are used. The result is very low, tinny audio with no bass.
 
-Cc: Yue Wang <yuleopen@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Signed-off-by: Phil Willoughby <willerz@gmail.com>
-Link: https://patch.msgid.link/20260328080921.3310-1-willerz@gmail.com
+The existing quirk ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN (already present
+in patch_realtek.c for SSID 0x17aa3801) fixes the issue completely.
+
+Reported-by: Garcicasti <andresgarciacastilla@gmail.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221298
+Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+Link: https://patch.msgid.link/20260331033650.285601-1-songxiebing@kylinos.cn
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is crucial. The lookup iterates the table and **returns on first
-match** (line 2572). Since DEVICE_FLG entries (product-specific) come
-BEFORE VENDOR_FLG entries in the table, the product-specific entry for
-0x152a:0x880a will be found first, preventing the VENDOR_FLG(0x152a,
-QUIRK_FLAG_DSD_RAW) from being applied.
+The fixup is well-established and used by 7+ other Lenovo models
+already.
 
-The zero flags entry with `return` means the device gets no quirk flags
-at all - exactly what's needed for a device that doesn't support DSD.
+**Step 3.1-3.5 Summary:**
+Record: [The fixup ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN is well-
+established, used by 7+ other Lenovo models] [No dependencies]
+[Standalone single-line addition] [Accepted by subsystem maintainer
+Takashi Iwai]
 
-Record: [Lookup is first-match-wins. Product entry precedes vendor
-entry. Fix is trivially correct.]
+## PHASE 4: EXTERNAL RESEARCH (abbreviated — clear-cut case)
+
+The bugzilla link (bug 221298) and the Reported-by tag confirm this is a
+real user-reported issue on a shipping Lenovo laptop.
+
+Record: [Real user bug report on bugzilla.kernel.org] [Accepted by ALSA
+maintainer]
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+The change is a single quirk table entry. The SND_PCI_QUIRK macro
+matches on vendor/subsystem ID and applies the specified fixup. No new
+functions, no logic changes.
+
+Record: [Pure data table addition, no code flow analysis needed]
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: DOES THE BUGGY CODE EXIST IN STABLE?
+**Step 6.1:** The `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` fixup has
+existed since the Yoga 9 14IAP7 support was added. It's present in
+stable trees.
 
-The vendor entry (commit 68e851ee4cfd2a) is confirmed present in v5.15+.
-All active stable trees (5.15.y, 6.1.y, 6.6.y, 6.12.y) contain this
-vendor-level entry that incorrectly applies DSD_RAW to all Thesycon-
-based devices including the NeuralDSP Quad Cortex.
+**Step 6.2:** This is a single-line table insertion — it will apply
+cleanly to any stable tree that has the surrounding entries. The
+neighboring entries (0x390d and 0x3913) may or may not be present in
+older stable trees, but the quirk table is order-independent for
+matching, so minor conflicts are trivially resolvable.
 
-Record: [Bug exists in all active stable trees v5.15+]
+Record: [Should apply cleanly or with trivial context adjustment] [The
+referenced fixup exists in stable trees]
 
-### Step 6.2: BACKPORT COMPLICATIONS
-This is a 2-line addition to a sorted table. The surrounding entries may
-differ slightly in stable trees, but the table structure is the same.
-The entry needs to be placed in the correct sorted position (by vendor
-ID 0x152a).
+## PHASE 7: SUBSYSTEM CONTEXT
 
-Record: [Clean apply expected, possibly minor context differences due to
-different table entries]
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-### Step 7.1: IDENTIFY SUBSYSTEM
-- **Subsystem:** sound/usb (USB audio) - part of the ALSA subsystem
-- **Criticality:** IMPORTANT - USB audio devices are widely used (audio
-  interfaces, headsets, DACs)
-- **Maintainer:** Takashi Iwai applied this commit directly
-
-Record: [ALSA USB audio subsystem, IMPORTANT criticality, applied by
-subsystem maintainer]
+- Subsystem: ALSA/HDA (sound) — IMPORTANT level, affects laptop users
+- Maintainer: Takashi Iwai (SUSE) — one of the most experienced and
+  careful maintainers
+Record: [ALSA/HDA] [IMPORTANT — audio on laptops] [Accepted by Takashi
+Iwai]
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: WHO IS AFFECTED
-Users of the NeuralDSP Quad Cortex (a popular guitar effects processor /
-audio interface used by musicians).
-
-Record: [Affected: NeuralDSP Quad Cortex users (device-specific)]
-
-### Step 8.2: TRIGGER CONDITIONS
-The bug triggers every time the device is connected to a Linux system -
-the incorrect DSD quirk is always applied.
-
-Record: [Trigger: every device connection, 100% reproducible]
-
-### Step 8.3: FAILURE MODE SEVERITY
-With DSD_RAW incorrectly applied, the device may:
-- Present DSD playback modes that the device doesn't support
-- Potentially cause audio failures or incorrect audio routing
-- Confuse audio applications about device capabilities
-
-Record: [Failure mode: incorrect device capabilities reported, potential
-audio dysfunction. Severity: MEDIUM]
-
-### Step 8.4: RISK-BENEFIT RATIO
-- **Benefit:** Makes a specific USB audio device work correctly on Linux
-- **Risk:** Essentially zero - 2-line table entry, only affects this one
-  device, zero flags means "no quirks"
-- **Ratio:** Very favorable - high benefit (device works correctly),
-  essentially no risk
-
-Record: [Benefit: HIGH for affected users. Risk: VERY LOW. Ratio:
-strongly favorable]
+**Step 8.1:** Affects users of the Lenovo Yoga Slim 7 14AKP10 laptop.
+**Step 8.2:** Triggers on every boot — the bass speakers simply don't
+work without this quirk.
+**Step 8.3:** Failure mode: degraded audio (no bass, tinny sound) —
+MEDIUM severity but HIGH user impact since the laptop's speakers are
+essentially broken.
+**Step 8.4:**
+- Benefit: HIGH — makes bass speakers work on a current Lenovo laptop
+- Risk: VERY LOW — single table entry, only affects this specific SSID,
+  uses proven fixup
+Record: [Benefit: HIGH] [Risk: VERY LOW] [Excellent ratio]
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: COMPILE THE EVIDENCE
+**Step 9.1: Evidence FOR backporting:**
+- Fixes real hardware issue (no bass speakers) on a shipping Lenovo
+  laptop
+- Real user bug report on bugzilla.kernel.org
+- Single-line quirk table addition — zero regression risk
+- Reuses existing, proven fixup used by 7+ other models
+- Accepted by ALSA subsystem maintainer Takashi Iwai
+- Falls squarely in the "hardware quirk" exception category
 
-**FOR backporting:**
-- Fixes a real hardware issue for NeuralDSP Quad Cortex users
-- This is a hardware quirk entry - an explicit exception category for
-  stable
-- 2-line change, trivially correct, zero regression risk
-- Applied by ALSA subsystem maintainer (Takashi Iwai)
-- Bug exists in all active stable trees (v5.15+)
-- First-match-wins lookup logic is well-understood and the fix mechanism
-  is proven
+**Evidence AGAINST:** None.
 
-**AGAINST backporting:**
-- No explicit Cc: stable tag (expected - that's why it's being reviewed)
-- Device-specific (only affects Quad Cortex users)
-- No crash/security/data-corruption - "just" incorrect device behavior
+**Step 9.2: Stable Rules Checklist:**
+1. Obviously correct? YES — single SND_PCI_QUIRK entry reusing existing
+   fixup
+2. Fixes real bug? YES — bass speakers don't work
+3. Important? YES — hardware broken without it
+4. Small and contained? YES — 1 line
+5. No new features/APIs? YES — just a quirk table entry
+6. Can apply to stable? YES — trivial
 
-### Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **YES** - trivially correct table entry
-2. Fixes a real bug? **YES** - incorrect DSD quirk applied to
-   unsupported device
-3. Important issue? **MEDIUM** - not a crash, but makes device
-   unusable/buggy for its users
-4. Small and contained? **YES** - 2 lines in one file
-5. No new features or APIs? **YES** - no new features
-6. Can apply to stable trees? **YES** - simple table entry
+**Step 9.3: Exception Category:** Hardware quirk/workaround — automatic
+YES category.
 
-### Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-**YES - This is a hardware quirk/workaround.** This is explicitly listed
-as an exception category that is automatically YES for stable. It's a
-device-specific entry in a USB quirk table to fix incorrect behavior for
-a specific device.
-
-### Step 9.4: DECISION
-This is a textbook hardware quirk entry for stable. It's a 2-line
-addition to a quirk table that prevents incorrect DSD flags from being
-applied to a specific USB audio device. The fix is trivially correct,
-zero risk, and falls squarely in the "hardware quirks" exception
-category.
+**Step 9.4: Decision:** Clear YES.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Cc to maintainers, Signed-off-by from author
-  and Takashi Iwai (maintainer). No Fixes tag, no Reported-by.
-- [Phase 2] Diff analysis: +2 lines, adds DEVICE_FLG(0x152a, 0x880a, 0)
-  to quirk_flags_table[]
-- [Phase 3] git blame: VENDOR_FLG(0x152a) introduced by commit
-  68e851ee4cfd2a (2021-07-29), confirmed present in v5.15
-- [Phase 3] git merge-base: confirmed 68e851ee is ancestor of v5.15
-- [Phase 5] Code analysis: snd_usb_init_quirk_flags_table() at line 2562
-  uses first-match-wins (returns on line 2572), so product-specific
-  DEVICE_FLG entries override VENDOR_FLG entries
-- [Phase 5] VENDOR_FLG(0x152a) at line 2434 sets QUIRK_FLAG_DSD_RAW for
-  all Thesycon devices
-- [Phase 6] Bug exists in all active stable trees (v5.15.y, 6.1.y,
-  6.6.y, 6.12.y)
-- [Phase 6] Expected clean apply (simple sorted table insertion)
-- [Phase 7] Applied by Takashi Iwai, ALSA/USB audio subsystem maintainer
-- [Phase 8] Failure mode: incorrect DSD capabilities reported for
-  device, severity MEDIUM
-- [Phase 8] Risk: essentially zero (2-line table entry with zero flags,
-  affects only one device)
-- UNVERIFIED: Could not access lore.kernel.org discussion due to bot
-  protection. This does not affect the decision as the technical merits
-  are clear.
-
-This is a standard hardware quirk entry - one of the explicitly listed
-exception categories for stable backporting. The fix is trivially
-correct, minimal (2 lines), zero risk, and prevents incorrect behavior
-for a specific USB audio device. It meets all stable criteria.
+- [Phase 1] Parsed tags: Reported-by from real user, Link to bugzilla
+  #221298, signed-off by Takashi Iwai (ALSA maintainer)
+- [Phase 2] Diff analysis: +1 line, single SND_PCI_QUIRK entry in quirk
+  table
+- [Phase 3] Grep confirmed ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN exists
+  at line 6355 and is used by 7+ other Lenovo models
+- [Phase 3] git log confirmed recent active development on alc269.c
+- [Phase 5] Pure data table entry, no code flow changes
+- [Phase 6] The fixup definition exists in stable trees; single-line
+  addition should apply cleanly
+- [Phase 8] Failure mode: broken bass speakers on Lenovo laptop,
+  severity MEDIUM-HIGH, risk VERY LOW
 
 **YES**
 
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 09ed935107580..564e7ed9ac62c 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2299,6 +2299,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
-+	DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
-+		   0), /* Doesn't have the vendor quirk which would otherwise apply */
- 	DEVICE_FLG(0x154e, 0x1002, /* Denon DCD-1500RE */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
- 	DEVICE_FLG(0x154e, 0x1003, /* Denon DA-300USB */
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 1e10af67fdb04..e55f57cca883a 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7633,6 +7633,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
++	SND_PCI_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
 -- 
 2.53.0
 
