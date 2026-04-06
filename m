@@ -1,316 +1,268 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3E533343C;
-	Mon,  6 Apr 2026 11:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775473603; cv=none; b=o3bMewCdfA6+UnSXgbrNxPdA/MP2/cvn31mlfNc00TKSa0RpDT2M2qhu8cs3yt4P84vC4IhmDob8RrddDkG5KPfCw1xkvoiwjgfSMWmRo0fJcQKjipk4TzjSJl5bFpJ+rcan+uasfYhajci5bY+AupymQrDtpBzyj5OC+J+ffTk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775473603; c=relaxed/simple;
-	bh=eHGNGyvyFt1niKxGrfCB23xPrLsvTdunmgkdKwn6FE0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ma+EVZNT/pB7Sn1HojQh09NCNfE467RWB+3k2ZuiHN8DSLi7JF33j29bo/EvNm4w8fxg3BXvIKN+rSuqYtgWT3fiY9PZV8tVb1v96IhS8793neQIhzOrI8SICJ52QWiHI1TXjBWTq/Im02pz04HMFx1V2snE5ZjKn027csvgVNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YtBN0+TF; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6654A334C1C
+	for <linux-sound@vger.kernel.org>; Mon,  6 Apr 2026 12:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775478757; cv=pass; b=UHKTA/O2J1S2gBA88HQQjXWQaVmqbBtFiVPv650gxkQ2o/u7ovFVH+8cObqtqioN+3zmvqe/Wgf6HHrvp+vpGdy3eFX2RavxErjnlxRyleSDX5ZXbYSxJRy6D94SS2G+SKWQt6vv7T/n/mbIIz0Clk0Kbp8hJsHhv6b9RWcSjus=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775478757; c=relaxed/simple;
+	bh=NnYpzCjbOPa23Fsh/bL9Mp8xGA8K8foKfgmggy1BxJY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=flKKli7/AgqVUcWRXYcx13CdvnvjgUI/CCI+SZpdlVXgnLYBFak7D94svNyfjr0GeBN3rl8mN/q/+0zte58cw7HwVSWrEsnsGFs6/0Oi5wa068zC1zx/zpbBwhIW0h9qzq1QyvRfrRvus98SMZqBFQENMv/Nskwexjbs2CK7C3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O+gwmV90; arc=pass smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YtBN0+TF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE593C4CEF7;
-	Mon,  6 Apr 2026 11:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775473602;
-	bh=eHGNGyvyFt1niKxGrfCB23xPrLsvTdunmgkdKwn6FE0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YtBN0+TFzZP3cUWB/pf9+zxpXnk+lXXjug23CgLSceFHekR5ik62CF9YaQFVKt9Vk
-	 mO5EQBm1k+B8Tpg17fUDgjImkZCE9G8RGUR6PsSXtmfZRQ5uYnJve0Tm/Wj2QNc8A0
-	 9CLnSpA88FR6/6KEgUJ/r04zMwOAx8Dj+rwHMRgoXkwN4EMs68LxJH0Nmz/Uq9ivOi
-	 k2GIfht9WNMy/4MHJDQfXEBfXRCMW2JrF5uxrR/fc7u6HD9x61vgejkPTOw3EHj1H0
-	 PjWCQaPbry3VdFB3DgSFN+W/N2fAVjOeiJzxKhJVAm5VduWoQnQfj7Is+OyuCW4w+S
-	 dfy8qimchMSGQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-5.10] ASoC: soc-core: call missing INIT_LIST_HEAD() for card_aux_list
-Date: Mon,  6 Apr 2026 07:05:45 -0400
-Message-ID: <20260406110553.3783076-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260406110553.3783076-1-sashal@kernel.org>
-References: <20260406110553.3783076-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+gwmV90"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b299b3c739so4650175ad.3
+        for <linux-sound@vger.kernel.org>; Mon, 06 Apr 2026 05:32:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775478756; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bfJ1sJ2SR/3L65sYXDRUWAM+ZFi/6xZSAtcAGf6LTEo1mcmGLxRZFp4UppoVzsDnH/
+         8e5bj++xvLLHc3xMzWFjcldgTqUWM8JG+qShBRJjmnSCBUqM7tijWUBsXJP0JzD67FjV
+         VPocZwCvzumTx2X0pJqBRhYhbUb9uoPcTBlNdwCummXaIShsENWc+jM/gopYY2Nqi+Hl
+         z/6E5vRxTvplqR/ikO1/2M9DpeL2yxD0pC6usVzWBOYEDYjnoXAIsxh7MbWmaN/hASuC
+         NnXRlGXPf3NmG4n4iuuMCC/itaA26XHhHuhqtv+IbDeN+WzpiTG1hhcG+SNSTgxRzQ1c
+         xpCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BpJLMv/PN8ttKmYeWwPZWYWOIWYBgFzlU3AGL8Sjwio=;
+        fh=YXsDakAvh5TFcFFX4rGcOZP4EyKjEfqQnzTcTrguV78=;
+        b=jShFlPKJqjVE/wnS3ZbPIQqea/85yU49TDHXwCaryeb9VXOooA+phKKKJSB4P12i/4
+         eOFUuc/ul7K8OrUsXtQStyo61jQn2WhVTRPZXcYdrmBFpv8UrZNcyEFthn3slBBUaAJC
+         OMPA1lwRjMOD/tFLf3DxFlV9JxqzM7Nd8DSm8JQBPVqCKwrJFD0zjAbsGx7uLDg51fW0
+         UMbqBEPFI7Lj3xtpmT97uKZnw7/Ve1dwRAs6D1ybVsONOPyTKmF60Z5PGyqiHD+l7dXq
+         oBwl6JTij6HKnAa5ykZApMbmi4VW6C1y3T9vOcfyovR9b3HUmmhuhHwiHaGsa2I655u6
+         NxZw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775478756; x=1776083556; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BpJLMv/PN8ttKmYeWwPZWYWOIWYBgFzlU3AGL8Sjwio=;
+        b=O+gwmV90EhAzTgPuoR/DsXbd+e9m+urrblot0oqEfepq1stiHBFtmLgYMfWsY5Ou69
+         qZZfLKBS3BHQm3uksntzh3Qlw8OWhlulDCefBzcsfX9Petd2uoNDNyN1EpdhXQKd0cMU
+         frffudik7CBD0hNmH78A1KVPwJ2BEdVkJwo5fWUcNFYRCUwL+FblB8EDUXLfbh21o7rJ
+         gu9A48ydiN4oerKVEmWNRPGqYqhER/tydRxGqxdF4gSVSbl+Qyz14BNHC11MHqOEJdZV
+         +q22SqbktD/uAGNqCqM4xn4gYL6w9/osCCfksKprAI1KYwRliuhuIt1T4e2LWN8K5+Zd
+         LRFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775478756; x=1776083556;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BpJLMv/PN8ttKmYeWwPZWYWOIWYBgFzlU3AGL8Sjwio=;
+        b=D5dLUgEhHkXM8o/CQbhB10WfUsP6LpVETCt5FBFbDL8wlMnpFzHZ4+BzNNMDADPHj6
+         0/KE0TbDfHpxSlLhfV94sTw1PmEw57qn/A67NqJNNgDUOlcUscfitG4j5ima9mq2a5gE
+         uKddzgCgEThaM3PxI/qVTueK5l+T2UlqFN0Qa4QZbOMV9JkkNbYAFT43u2EyuBBL7rhj
+         TCuwkO0is7WoBdZSSo5vebJ0yuzzuqqzYceoOg/JgbZd9D25e1Mex0PuKslLsMKJNqLQ
+         2Lw/Vfb4FGquvr9TQYOfn06OogE+LtOTrBWC5PICmxlColb/GFCEDD+cxJyCxnTeF7J8
+         wnfA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqgfkGI7l83egHh7+f6EaeZf3+PqDRdrnwRkUbQvxOZYIPcJBtbN1q04mUvwbfst4Io6ANSdDwRnfe/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxwqj8B5rcgnJrylRV91sdNU0mWo8OXJA6vqHHY+iWGQy1rqg2J
+	D++3J5QSQVHX6SAfFZwTmuZ7pjvMWT3zWG1MkiBWOqzcHOessiFahS6WTJcjHHjNXJYt9yuklug
+	wcZQlcsM+fMGqg+yhMXU6s4MeQC8e3O8=
+X-Gm-Gg: AeBDietxBay9uMdbtp0C/67ot1AmZh9cIm3IGIaTblZS085KFI7fB7oZNGuoULhy6yI
+	h92qFrf3xjlA1+0lDA1EmoY23dfqACA968Ez9H7ANenhEKmr0HX+/UBAwS0N6ptXz2U8CvdWMCT
+	tM54/FKksktTX8Sle7LqT4onJ/TlziYjfanAvBJ11e6UsPggeDyezhyE9Aw8Bln7GukrxkuQIKH
+	U+PoZhVH6K10026Df5QvVbmhQ/kwPzjRSQuqu2hrveL8hqH6aeuYeoW8ud5W0W/QH+RKAscDxYL
+	Lzn49+FWaCGF7Yi/bfbSzZsKa8P2qebtenFb7Q==
+X-Received: by 2002:a17:903:2c04:b0:2b0:5075:96d1 with SMTP id
+ d9443c01a7336-2b28176a618mr133938205ad.24.1775478755494; Mon, 06 Apr 2026
+ 05:32:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19.11
-Content-Transfer-Encoding: 8bit
+References: <20260403112655.167593-1-phucduc.bui@gmail.com>
+ <20260403112655.167593-4-phucduc.bui@gmail.com> <87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 6 Apr 2026 19:32:22 +0700
+X-Gm-Features: AQROBzA0_93mm2t7r0WlUl14fX7SUBUPYxStZohF-_IJd-zBH4HmuI7FuU4RnJY
+Message-ID: <CAABR9nGUyTkDmB0SgKAuM1Pp75L=m1q4bLSfhobm98TswDnt8w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi Morimoto-san, Mark,
 
-[ Upstream commit b9eff9732cb0f86a68c9d1592a98ceab47c01e95 ]
+Thank you for your review.
 
-Component has "card_aux_list" which is added/deled in bind/unbind aux dev
-function (A), and used in for_each_card_auxs() loop (B).
+> If it is needed for register access,
 
-	static void soc_unbind_aux_dev(...)
-	{
-		...
-		for_each_card_auxs_safe(...) {
-			...
-(A)			list_del(&component->card_aux_list);
-		}			     ^^^^^^^^^^^^^
-	}
+Yes, enabling this clock is essential as it functions as a bus bridge clock=
+.
+Currently, the SPU clock is still enabled by the bootloader. In legacy
+kernels (v4.2 and earlier) using the Armadillo board-file/defconfig, this
+clock remained active after boot, allowing the FSI to function correctly.
+However, after migrating to a full Device Tree (DTS) implementation,
+the kernel's unused clock cleanup mechanism disables the SPU clock
+because it isn't explicitly claimed. This leads to a system hang every
+time aplay is executed, as the FSI registers become inaccessible
+without this clock.
 
-	static int soc_bind_aux_dev(...)
-	{
-		...
-		for_each_card_pre_auxs(...) {
-			...
-(A)			list_add(&component->card_aux_list, ...);
-		}			     ^^^^^^^^^^^^^
-		...
-	}
+> you need to call it on
+> fsi_hw_startup/shutdown() which cares suspend/resume too.
 
-	#define for_each_card_auxs(card, component)	\
-(B)		list_for_each_entry(component, ..., card_aux_list)
-						    ^^^^^^^^^^^^^
+I previously attempted to manage the clock within fsi_hw_startup/
+shutdown, but the system would hang when stopping aplay
+(e.g., via Ctrl+C). This happens because certain cleanup operations,
+such as fsi_irq_disable(), are performed after fsi_hw_shutdown()
+finishes. These operations require register access, which triggers a
+system hang if the SPU clock has already been disabled. Therefore,
+I moved the clock management to fsi_dai_startup/shutdown to ensure
+the clock remains active throughout the entire lifecycle of the stream.
 
-But it has been used without calling INIT_LIST_HEAD().
+Furthermore, my testing shows that using dai_startup/shutdown
+eliminates the need for explicit Suspend/Resume handling for this clock.
+Since the ALSA framework typically invokes the hw_ callbacks during
+power management transitions rather than the dai_ ones, the SPU clock
+state remains stable, preventing any illegal register access during
+these transitions.
 
-	> git grep card_aux_list sound/soc
-	sound/soc/soc-core.c:           list_del(&component->card_aux_list);
-	sound/soc/soc-core.c:           list_add(&component->card_aux_list, ...);
+> As Mark mentioned, it should be optional.
+> Otherwise it breaks compatibility.
 
-call missing INIT_LIST_HEAD() for it.
+You are right. I will implement it this way in v2.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/87341mxa8l.wl-kuninori.morimoto.gx@renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+> And we already have fsi_clk_init() for clock initialize.
+> spu should be handled in it.
 
-LLM Generated explanations, may be completely bogus:
+> Now, it is called if clock master (A.
 
-Wait - the current mainline code (after this commit was applied) already
-has the fix. The diff in the commit shows `snd_soc_dapm_alloc` context,
-but the current code doesn't have it. That means between the commit and
-now, `snd_soc_dapm_alloc` was removed. In any case, this is a one-line
-addition that can easily be adapted for any stable tree.
+> (A)     if (fsi_is_clk_master(fsi)) {
+>                 if (fsi->clk_cpg)
+>                         fsi_clk_init(dev, fsi, 0, 1, 1,
+>                                      fsi_clk_set_rate_cpg);
+>                 else
+>                         fsi_clk_init(dev, fsi, 1, 1, 0,
+>                                      fsi_clk_set_rate_external);
+>         }
 
-Now let me complete the synthesis.
+You are right. Currently, our FSIA is configured as a slave,
+so it never executes the clk_init() function.
 
----
+> I think it (A) can be checked inside fsi_clk_init().
+> fsi_clk_init() is now called when .set_fmt, but it can be called
+> at _probe() timing ?
 
-## Complete Analysis
+Yes. I can handle the implementation/coding side of this.
 
-### PHASE 1: COMMIT MESSAGE FORENSICS
+> Should we also be managing the clock during system suspend, or if the
+> power consumption doesn't really matter should we just keep it enabled
+> all the time and not worry about starting and stopping it?
 
-**Step 1.1:** Subsystem: `ASoC: soc-core:`. Action: "call missing" (=
-fix missing initialization). Summary: Adds missing `INIT_LIST_HEAD()`
-for `card_aux_list` in the component initialization function.
+Regarding the SPU clock management, I haven't measured the exact
+power consumption of this block yet. However, to keep the code simple
+and ensure maximum stability for register access (avoiding system
+hangs during cleanup), I am open to enabling it once in fsi_probe()
+if you find the dynamic management in dai_startup/shutdown
+unnecessary.
 
-**Step 1.2:** Tags:
-- `Signed-off-by: Kuninori Morimoto` (author, primary ASoC contributor
-  and subsystem co-maintainer)
-- `Link:` to patch.msgid.link (patch discussion)
-- `Signed-off-by: Mark Brown` (ASoC subsystem maintainer)
-- No Fixes: tag (expected for our review)
-- No Cc: stable (expected)
-- No Reported-by (the author found this through code inspection)
+> This is going to unconditionally require a clock called "spu" on all
+> devices using this driver, not just the one SoC you mentioned as
+> requiring it.  Presumably this worked at least somewhere (possibly the
+> clock is always on, or they're just lucky that something else enables
+> it) and this will cause regressions for those platforms?
+> This should either (ideally) be conditional, or use _optional.
 
-**Step 1.3:** The commit message clearly explains the bug:
-`card_aux_list` is used in `list_add`/`list_del` operations during aux
-device bind/unbind, and iterated via `for_each_card_auxs()`, but was
-never initialized with `INIT_LIST_HEAD()`. The `git grep` output proves
-the field is used but never initialized.
+Thank you for your suggestion. I will switch to using
+devm_clk_get_optional() in the v2
 
-**Step 1.4:** This is NOT a hidden bug fix - it's an explicit
-initialization bug fix. The "call missing" language is direct.
+Best regards,
+Phuc
 
-### PHASE 2: DIFF ANALYSIS
-
-**Step 2.1:** Single file changed: `sound/soc/soc-core.c`, +1 line.
-Single function modified: `snd_soc_component_initialize()`.
-
-**Step 2.2:** Before: `card_aux_list` member of `snd_soc_component` was
-never initialized. After: it's properly initialized via
-`INIT_LIST_HEAD()` alongside the other list heads in the same
-initialization function.
-
-**Step 2.3:** Bug category: **Uninitialized data / missing
-initialization**. The `card_aux_list` `list_head` structure was zeroed
-by `kzalloc` but never properly initialized. A proper `list_head`
-requires `next` and `prev` to point to itself (not be NULL). Operations
-like `list_empty()` check `head->next == head`, which returns false for
-a zeroed list (0 != &self). With `CONFIG_DEBUG_LIST` or
-`CONFIG_LIST_HARDENED`, list operations on uninitialized list heads will
-trigger warnings/BUGs.
-
-**Step 2.4:** Fix is trivially correct - adding one `INIT_LIST_HEAD()`
-call. Zero regression risk. Pattern matches exactly the surrounding
-code.
-
-### PHASE 3: GIT HISTORY
-
-**Step 3.1:** The buggy code was introduced in commit `495efdb01f89a`
-(v5.4, 2019) which consolidated list initializations into
-`snd_soc_component_initialize()` but missed `card_aux_list`. The
-`card_aux_list` field itself was added in commit `d2e3a1358c37c` (v4.10,
-2016).
-
-**Step 3.2:** No Fixes: tag to follow, but the root cause is
-`495efdb01f89a` which moved initialization but missed this list.
-
-**Step 3.3:** The author (Kuninori Morimoto) is the same person who
-wrote `495efdb01f89a` - he's fixing his own oversight.
-
-**Step 3.4:** Kuninori Morimoto is the primary ASoC contributor and
-effectively co-maintains the subsystem with Mark Brown.
-
-**Step 3.5:** No dependencies - this is a standalone one-line fix.
-
-### PHASE 4: EXTERNAL RESEARCH
-
-Lore was unavailable due to anti-bot protection. From MARC archive: only
-the author's patch and Mark Brown's application, no concerns raised.
-
-### PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1:** Modified function: `snd_soc_component_initialize()`
-**Step 5.2:** Called from: `snd_soc_register_component()`,
-`snd_soc_add_component()` callers, various driver probe functions (Intel
-AVS, catpt, MediaTek, STM32, topology tests).
-**Step 5.3:** The function initializes component lists and sets up the
-component structure.
-**Step 5.4:** Every ASoC component goes through this initialization
-path. Very widely used.
-**Step 5.5:** All other list heads (`dai_list`, `dobj_list`,
-`card_list`, `list`) are already initialized - `card_aux_list` was the
-only one missing.
-
-### PHASE 6: STABLE TREE ANALYSIS
-
-**Step 6.1:** The `snd_soc_component_initialize()` function exists in
-all active stable trees (v5.10+). The `card_aux_list` field exists since
-v4.10.
-
-**Step 6.2:** The context may differ slightly in older stable trees
-(e.g., `snd_soc_dapm_alloc` in the commit's context is not in current
-code). However, this is a one-line addition that can trivially adapt -
-just add `INIT_LIST_HEAD(&component->card_aux_list);` after the other
-INIT_LIST_HEAD calls.
-
-**Step 6.3:** No related fixes already in stable.
-
-### PHASE 7: SUBSYSTEM CONTEXT
-
-**Step 7.1:** Subsystem: ASoC (ALSA System on Chip) audio subsystem.
-Criticality: IMPORTANT - affects all systems using ASoC (most
-embedded/mobile audio, many laptops).
-
-**Step 7.2:** Very actively developed subsystem.
-
-### PHASE 8: IMPACT AND RISK ASSESSMENT
-
-**Step 8.1:** Affects all users of ASoC auxiliary devices (aux_dev).
-Common on embedded systems (Renesas, Samsung, Intel, MediaTek, STM
-platforms).
-
-**Step 8.2:** Triggered when a component is used as an auxiliary device.
-The uninitialized list could cause issues on: (1) systems with
-`CONFIG_DEBUG_LIST` or `CONFIG_LIST_HARDENED` enabled, (2) potential
-subtle memory corruption if `list_del` is called on a component whose
-`card_aux_list` was never properly linked.
-
-**Step 8.3:** Failure mode: With `CONFIG_LIST_HARDENED`, a `BUG()`
-(kernel crash). Without it, potential NULL pointer dereference or list
-corruption. Severity: HIGH.
-
-**Step 8.4:**
-- Benefit: HIGH - fixes a latent initialization bug that affects all
-  ASoC aux component users and prevents crashes/corruption
-- Risk: VERY LOW - single-line addition of `INIT_LIST_HEAD`, identical
-  pattern to adjacent code
-- Ratio: Strongly favorable for backport
-
-### PHASE 9: FINAL SYNTHESIS
-
-**Evidence FOR backporting:**
-- Fixes a real initialization bug present since 2016/2019
-- One-line, obviously correct fix
-- Zero regression risk
-- Pattern matches adjacent code exactly
-- Author is the subsystem co-maintainer who wrote the original code
-- Accepted by the ASoC maintainer (Mark Brown)
-- Affects all active stable trees
-- Prevents potential crashes with CONFIG_LIST_HARDENED/CONFIG_DEBUG_LIST
-- Standalone fix with no dependencies
-
-**Evidence AGAINST backporting:**
-- No user-reported crash (found by code inspection)
-- In normal operation with kzalloc-zeroed memory and no
-  CONFIG_DEBUG_LIST, the bug may be latent (components are typically
-  added to aux_comp_list before list_del is called)
-
-**Stable rules checklist:**
-1. Obviously correct and tested? **YES** - trivially correct one-line
-   init
-2. Fixes a real bug? **YES** - uninitialized list_head is a real bug
-3. Important issue? **YES** - can cause crashes with hardened list
-   checking, potential corruption
-4. Small and contained? **YES** - 1 line, 1 file
-5. No new features? **YES** - pure initialization fix
-6. Can apply to stable? **YES** - may need minor context adjustment
-
-### Verification:
-- [Phase 1] Parsed tags: Signed-off-by from author (Morimoto) and
-  maintainer (Brown), Link to msgid
-- [Phase 2] Diff analysis: +1 line adding
-  `INIT_LIST_HEAD(&component->card_aux_list)` in
-  `snd_soc_component_initialize()`
-- [Phase 3] git blame: INIT_LIST_HEAD block introduced in
-  `08ff7209faf21` (v5.9 era), moved by `495efdb01f89a` (v5.4 era)
-- [Phase 3] git log -S: Confirmed `INIT_LIST_HEAD` for `card_aux_list`
-  was NEVER present in the kernel before this commit
-- [Phase 3] `card_aux_list` field introduced in `d2e3a1358c37c` (v4.10,
-  2016) - bug present since then
-- [Phase 5] `snd_soc_component_initialize()` called from
-  `snd_soc_register_component()` and multiple driver probes
-- [Phase 6] `snd_soc_component_initialize()` confirmed present in v5.10,
-  v5.15, v6.1, v6.6, v6.12 via `git merge-base`
-- [Phase 6] Component allocated via `devm_kzalloc` at soc-core.c:2929,
-  meaning fields are zeroed but not properly initialized as list heads
-- [Phase 8] Failure mode: BUG() with CONFIG_LIST_HARDENED, potential
-  NULL deref without it. Severity HIGH.
-- UNVERIFIED: Could not access lore.kernel.org discussion due to anti-
-  bot protection
-
-**YES**
-
- sound/soc/soc-core.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 23ba821cd759d..c9a6471661ad7 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2849,6 +2849,7 @@ int snd_soc_component_initialize(struct snd_soc_component *component,
- 	INIT_LIST_HEAD(&component->dobj_list);
- 	INIT_LIST_HEAD(&component->card_list);
- 	INIT_LIST_HEAD(&component->list);
-+	INIT_LIST_HEAD(&component->card_aux_list);
- 	mutex_init(&component->io_mutex);
- 
- 	if (!component->name) {
--- 
-2.53.0
-
+On Mon, Apr 6, 2026 at 6:52=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>
+>
+> Hi
+>
+> Thank you for the patch
+>
+> > From: bui duc phuc <phucduc.bui@gmail.com>
+> >
+> > The FSI on r8a7740 requires the SPU clock to be enabled
+> > before accessing its registers.
+> > Without this clock, register access may lead to a system
+> > hang.
+> > Retrieve the "spu" clock in probe and enable it during
+> > DAI startup. Disable the clock on shutdown to match the
+> > audio stream lifecycle.
+> > This ensures safe register access and prevents system
+> > hangs during audio playback.
+> > This is required even if the FSI functional clock is
+> > enabled, as internal units depend on the SPU clock.
+> >
+> > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> > ---
+> (snip)
+> > @@ -1554,6 +1555,11 @@ static int fsi_dai_startup(struct snd_pcm_substr=
+eam *substream,
+> >                            struct snd_soc_dai *dai)
+> >  {
+> >         struct fsi_priv *fsi =3D fsi_get_priv(substream);
+> > +       int ret;
+> > +
+> > +       ret =3D clk_prepare_enable(fsi->master->clk_spu);
+> > +       if (ret)
+> > +               return ret;
+> >
+> >         fsi_clk_invalid(fsi);
+>
+> If it is needed for register access, you need to call it on
+> fsi_hw_startup/shutdown() which cares suspend/resume too.
+>
+> And I guess it need to count user, because we have FSI-A / FSI-B ?
+>
+> > @@ -1963,6 +1970,13 @@ static int fsi_probe(struct platform_device *pde=
+v)
+> >         master->core            =3D core;
+> >         spin_lock_init(&master->lock);
+> >
+> > +       /* SPU clock is required for FSI register access */
+> > +       master->clk_spu =3D devm_clk_get(&pdev->dev, "spu");
+> > +       if (IS_ERR(master->clk_spu)) {
+> > +               dev_err(&pdev->dev, "Failed to get spu clock\n");
+> > +               return PTR_ERR(master->clk_spu);
+> > +       }
+>
+> As Mark mentioned, it should be optional. Otherwise it breaks compatibili=
+ty.
+> And we already have fsi_clk_init() for clock initialize.
+> spu should be handled in it.
+>
+> Now, it is called if clock master (A.
+>
+> (A)     if (fsi_is_clk_master(fsi)) {
+>                 if (fsi->clk_cpg)
+>                         fsi_clk_init(dev, fsi, 0, 1, 1,
+>                                      fsi_clk_set_rate_cpg);
+>                 else
+>                         fsi_clk_init(dev, fsi, 1, 1, 0,
+>                                      fsi_clk_set_rate_external);
+>         }
+>
+> I think it (A) can be checked inside fsi_clk_init().
+> fsi_clk_init() is now called when .set_fmt, but it can be called
+> at _probe() timing ?
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
