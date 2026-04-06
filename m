@@ -1,191 +1,150 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011040.outbound.protection.outlook.com [40.107.74.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D66823DD;
-	Mon,  6 Apr 2026 00:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775434526; cv=fail; b=mRKubKGJw5tM/qpmzezUEmcje41gAUEyuS2bGjkMO4gCFJu0YQViiZMacS1UuZe++8vTYAv2lUUVOvrJF2ytdsXtSFcHmYUpUo9UTTTcdRq5B34gm/yfPxDPVNnG3Hqnur58Dgo1dybvNW9877muKCYH9uFuR4S/9jgtfKjIB9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775434526; c=relaxed/simple;
-	bh=PEo1xLSzoH25JS7RAqLFWy6/OvLWnbSOQe+bLH5HfGs=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ph23iskDrGc9zZKM/s4dUyFbhZ9eVcrzirG8zDoPbLHOvNLTMmwUKmgxwo6Gv38sYOau5JgAZLLHOtN88jjZ3OtzNCshecDD3UhtKn3lBGX/8oyuWZ0ui95CS5BQ6rAePHdQndiJWoBtciZ59s3LNSVrWVYotUSI3xl/wx25dSA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=JVRIqapK; arc=fail smtp.client-ip=40.107.74.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC51D78F4A
+	for <linux-sound@vger.kernel.org>; Mon,  6 Apr 2026 03:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775445616; cv=none; b=Bl8/vrR0OacxANFSgbxne0dBmiqsHdGzLHhx9/o+zP+sTc/N/JLjl9damenYZRwsmrcISMBQfFvf7K2Pc7JNVcJnqd7TMcAoCPujS6kHvQDk1qCsDqbcgknbm60nyKlGK1STn9S/w4gPUxWfumKWUTBJ4oBcNUCixzkMIv6EoZU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775445616; c=relaxed/simple;
+	bh=RNngBn+u1v4wi7HVnSs3dMvSdbjVkBEghGGSTVw7Tv8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Dr6W7orf34jWEW4xVdqGjmTR7MPGlzPMgGYyNLQbqE1kBS0TlC5Ua+Xo092arGj7cpww5jO51VRz/mAJUDxVX1JnWVd4B3/COnWqHejTDAprN+Y4L5EOxP0UeWOWcwhPf+cGNnLW2XVKx8GEsXMrnT8WQjsM2Q/el2pP9XxMlq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S597Evk+; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="JVRIqapK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jKJ6Gq0V/UrM+wcBOfJbYSxb5CQYM7u/BqcZC10U1MQ3eYWwqHoqdpT3xtUXROmkYJEKAvQKTG6MKOVsid9shiQx1TLHnNWnyBk9D9V4GHGnlAMhtsaVW4YnSyIi9Uc2WhBXXNeuWkpgs4mJCcuCfGEcIFTjFE5Az2OO0PT0iDhwV1wyXJeoQuFbtbJd1bARk8BsHYgH2btJqahHEfWy8E5gQMYhT5MbpwCKVTj7Kc9u6oo3CPjf8nQckAdWksFR/FAkhJ8uTiDZ2AIvIerW8QgHLnTWtkrSXYX82CLPpCqGmsPh+HfVn2NmbvGkd3hEPzuPbfZ7kapQZ6TJbVtCMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w1DzB1tEv6KVUBWdW8HEXCOGM3blM7s9EU0AZSA2moo=;
- b=ifRBl13YJO4l6X655o2NaNdMblBJVr367XnKKGWtA7jT7VUK9tEFrnzIhmee0YcpODOCMDwC8DydbPfYThywZ7Yb5p02P+/GGqKG2HVAm6hIWwcPhCcC8oA+QxMjBa415KWMg1raXSqJyF4N/f6Fb+IGT4ObLhsxd9iI/P7oGKtSAevL/KyPKGmRD5toRtRFRZKkujgZiq3rtBsVuARkcD78ar+4FJNrfX2EuUA0rqSgsGzSHaECoiGConYLtNcy+tP5us4W/7ularOMWyQH6X0XY2Z2qdfW0LYEPHTBUtqyuneN+AgOj6Ii0apDjaWl5CWXnqYOswjhkb6cHnfhAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w1DzB1tEv6KVUBWdW8HEXCOGM3blM7s9EU0AZSA2moo=;
- b=JVRIqapKwO3XXkf62ImMcKuLrDRVf60uvLMCoGA9fFD1I8kqflTayHvZ6qSAJ+0mFz77qXSmzzcMdK2iQnCJErNgoRvs9pNiyOfWglkDD2t4sGNxi1qTA5NFOz4IQH9oUc1y1ZIsOMOdzUut+JNb2NayFmnUfaH5nX2qPm0kWvk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by OS9PR01MB14123.jpnprd01.prod.outlook.com (2603:1096:604:360::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Mon, 6 Apr
- 2026 00:15:22 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Mon, 6 Apr 2026
- 00:15:22 +0000
-Message-ID: <87se99t04m.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	magnus.damm
-	<magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu.Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das
-	<biju.das.jz@bp.renesas.com>,
-	"john.madieu@gmail.com"
-	<john.madieu@gmail.com>,
-	"linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>,
-	"devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCh v3 11/14] ASoC: rsnd: src: Add SRC reset and clock support for RZ/G3E
-In-Reply-To: <TY6PR01MB173772234146C4A8970EE404EFF5EA@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-References: <20260402162436.12059-1-john.madieu.xa@bp.renesas.com>
-	<20260402162436.12059-12-john.madieu.xa@bp.renesas.com>
-	<87h5psg6w9.wl-kuninori.morimoto.gx@renesas.com>
-	<TY6PR01MB173772234146C4A8970EE404EFF5EA@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 6 Apr 2026 00:15:21 +0000
-X-ClientProxiedBy: TY4P301CA0001.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:26f::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S597Evk+"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-953a44f8404so805384241.0
+        for <linux-sound@vger.kernel.org>; Sun, 05 Apr 2026 20:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775445614; x=1776050414; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F6psNeer3BHofY3GlOoHu2Ri+C83zsZWWLwN4vY50dg=;
+        b=S597Evk+YYu1RKJscWhwuowluZbWe9QwSIPK5V44kwi3gRrxQo3nWSWOGLPbzdaVfu
+         iozPWURkrW7BhXLwcvWPLFJIUCtmEH/Ngp1XKAZkhdtE06wN7nldftPQ9VsAM5w0//tK
+         H2Tqk5YtuICELA+PjvvzrEMheo4SsV8v8sNuYhj90OmcXV/bR9KLlVt024yuvqWuqSsk
+         2nPEI4raqyS3tQ2ku8OWOXEPLKU9EnHmLTo95VyxOlb09/hq9wFAKkEZwLnJD3jg/Dif
+         EYTVW0URuOoY7uLgcNFG/2z9eDffJ3xeml6skx2TZ3pguyixBbbnNIFVQ0arvRnSSBcj
+         y2xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775445614; x=1776050414;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F6psNeer3BHofY3GlOoHu2Ri+C83zsZWWLwN4vY50dg=;
+        b=JDlUwC0Yn0QJzNviroMHDmEihXiUXMomKaXhaRbzkcGith/aD1mXOT6n0qT4FeWfHx
+         GColIKJN24WSq+vw4DNoCPAFHLwRUbdxc53X4EH5cvBwv02Bi0pddqKb+OJ/1JWmu7pb
+         Halc0YU/EHjPesobNdDPAgLSJzpbMLbDtcfuisM8SIVbnifwvNL45S2wz1YLuNjR/LEw
+         E2JNXj6BHY796neBmruIC75wJabdxF6qCCLBRCYljU4GQQoH5d2TdwuSWzKCMHyO9ICY
+         G0kTBZ+jf9u8YUxCAa5McXy3NCwjcrZa2kDJfnQefU0lQ8tRPbet4mkvNLH2E6le9egJ
+         UsjA==
+X-Gm-Message-State: AOJu0YzXvWnv/ymjHz4Ep0ItrPvf8NgY6/c2p0Ton4Vq353MapXGNXvl
+	i0xgV/viMyKA1hsJ7O1OsFcZ2QRwNI8AI8nV4pVCHejYvjzEOVBd4mNv
+X-Gm-Gg: AeBDieuj58xVgi1t438SUUOnBY/bgQU2/fql5/lKNGdfaIbbq0goz/r8zFFTsu1rvUk
+	QT1YukV5PiS4V2Xb53w0AaWYVVoCV865lkZZWhWheOiqMMBh2spfnQI3R03rYrjC0jsCBdCe7mE
+	CHFBfCDAKaSdkGC7mn6K71jV6fRl4tC2JAXQgGmZiipG+5A7rjjHhiH10N5M2/T+KFruH60zxCz
+	S/0FjcKyqaU9cPkb0pH8LJKZilkiI5CUibCPNOH6UIwxPyruGn8SWaYNqW4gTAvbd7fLqsNIFrI
+	OP2Y2/ePJYZFWIWdDB3WKjrfCi4looh6GXljv6QQyUA9TfSfPkLKs7qwlvIAUvM//epQ/ec2E47
+	WQ1GrIUm9i6iQt68yDsytJp1SyOtSvvnEN/2QZFz8s9SJ8sTnylgLmbP3LkQZvTa34jNB8B/MWw
+	toHlCl5+mTfbyHuRnD6oi2DqxJHu0Zxkjh4sWsceUhJhGCmab+i0hQWfHZiGRaIERDqshdmQSSZ
+	TpZ
+X-Received: by 2002:a67:e718:0:b0:605:2df4:c5f7 with SMTP id ada2fe7eead31-605a4ed577emr3797243137.11.1775445613734;
+        Sun, 05 Apr 2026 20:20:13 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-605b214b45fsm9162146137.5.2026.04.05.20.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Apr 2026 20:20:13 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH 0/4] ALSA: isa/gus: add ISA PM support for GUS Classic, GUS
+ Extreme and GUS MAX
+Date: Mon, 06 Apr 2026 00:20:02 -0300
+Message-Id: <20260406-b4-alsa-gus-isa-pm-v1-0-b6829a7457cd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS9PR01MB14123:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d8643ee-51a0-41e6-f2f5-08de937197c2
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	M84pSgELqLL3z4zksTu4GD7wDseIJ+H4GR9NC3o269eVxpZj3lrV0YEYHVaCdjZxPyDsGGOnxZz3/hWCPLLVz5TEAophACyoMlXJCmtn9GoWRH5hxG3FKQZbl4owToTYi31bIFv9SSyDpE05dbChRb5J/nWnD4yLw6dU6kOVfqz/XnhOQAAR7ehvOhojSw+bbiPF5b7Zx/MfBNPUgQ7JxQO446XDifqxgQLitZmkqcHf/9NjBN0kqkU/hF5qVnuvAFxkpB11SHkRcz7zGKsZi9iscvDGs4FngA2Ffu1vQNoRkaSyK3VSFrNbcENx2Rpq/joQd4+yXYVFKh2yvptSjmqO+Y8qsZOuOzddR1Ldd7fJTWKRw/BXC85mtazS6LTDdeWTNBeaqTA3JYV2eYrhc12KfwXSTuQIo8htdshfhxz4GU3r7t525WXz5ea79BjfdzvxWpkdrt2bhWIQHUVyvjT3c2l1DP01xzgoLQDm7sHFglYxtuifRVgP90c9CxgCKbQtcUhNr52Hxu6mbqbROg8MTdE6HD8+ZzdllGFz+srhLDN48sHSyW6SThe7gi3Dz1M4Xj87+7mKf4qZjRLFlSqz0zb56ioEMw5xLc1i7xDmL6RCjXxhZQiCGEInzce4W3RzSJfpQS7Q7Cd4mujbgFPFbN2HumCUmgpg/djmfL77+5Iyj/BFm8aBR0tDR2+bfNcksZ22fDjTb9DWF55oa3OTeFa5cL9gaD/Ls2eY01FVH9GO+cXWRa6Q17hQifjku6swzENnTGJiHsplbHLdDtheLLYajfi7E/v+5wWL6Y4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KRrW2CYObn99hWKm6FmzywUwyXR51EcLLj8zPSxBHlOyV8dkgOiKC/tGhJkJ?=
- =?us-ascii?Q?74CMQDR78vr/3LnmiQ8it5jD8FmhO1jWyOWhZvM05We3sTzv9vTgqTfiJLxH?=
- =?us-ascii?Q?o6jJFX3IaWydhjkRcGisvz8TQTPS7k9yb7z3y85+vP2GWGbthdgYNrUENPlx?=
- =?us-ascii?Q?uVccmiPKtEj7c9I4bFdt02q9RX/xHeMXDxEFFcs43JorztiXKxN2Wid2bklJ?=
- =?us-ascii?Q?TfjWg6eF6iyqi6yebwyUxJUiSobuvpwO0cCwomWLq4U+eU42VggXOH9AyqCr?=
- =?us-ascii?Q?785zQHhuJrNXkIJvoMt2WLcdJF0Xl3kE3F5vGEsXcWoAHVkkyZdErclZbPFr?=
- =?us-ascii?Q?9AOHamZ5DLdvowaJZ4K7kzwUBAlZKTXrPu0zHAUQdbZ56p0MImc21emu7kWU?=
- =?us-ascii?Q?5SoaKpPVF7C5crzKW84OPt58o4DMyLM/O3cjyXavo8Kx0vfXL6DeKMjW0ml1?=
- =?us-ascii?Q?ChC578cyZ5oC78TNoavC39L8qc1ONXFtp5xwk8xqDbjby/XwCPDGIPdqIjOx?=
- =?us-ascii?Q?ZpF/KkvrZcdPiZBsgONg7mD8DYZ/mToXKS3uISmvBi6Fj8rGADDlmZXFIG99?=
- =?us-ascii?Q?7JC09nDUHU6PVbPfTunW8+yoHpDkc+dKs1I1WU5jS3H7XdhkNUR5a98nlbRw?=
- =?us-ascii?Q?FFjhvcNcqOc4aSkRtnMxS1T9fVoHWngc5yLzDRNSvBw3VR2FMRtzsYjmGQ19?=
- =?us-ascii?Q?tfbapHbQBb9L8xvOIIOYLMLCR1i0pO00R3NawPjR3C1o1NfKOAF9kX34h0UK?=
- =?us-ascii?Q?8URysyl2vLFXAi+iNsWcyt4KXisyRTMYUFKcBIF23JkgtXp1EdNLGzsdweYU?=
- =?us-ascii?Q?4A4qxTCY5mfvVx9I+Kubav13jQwmpR1nF6TqaopZ0ME9hePDKVC5Uezktz79?=
- =?us-ascii?Q?jrZv34UVwIHwTfn0LYlqmk6EIAlst23wP+4LQ7BNesrsIcdY7RWXWPHhkMPf?=
- =?us-ascii?Q?/3VRVjx5bJshDSMbIA1yMC8mR8Me4Nx3GaW8sGMRrwg42OnU1KiW8aZCsZDW?=
- =?us-ascii?Q?jdLUX6kMBD5pbt+wNTBg570jKm/YsB6k0g82bNWw3HVzDxcJSNWiVmtWJmVu?=
- =?us-ascii?Q?bsdISMlTbdvxqq/MOGLqy3Xcqu8dYfifQWlDTLAhRRajLiuVwWVG1sTN0NQl?=
- =?us-ascii?Q?4Hg7zbAmPCH6vVc/Wq9SO6oBXTULnC+pQg0bnF4R5TKTlKeG6UAXZSTjicJb?=
- =?us-ascii?Q?AIvL9KXRRFfGX1uzmb4H/Hu5dPmxmGmVrVmZaSWApUnCwjo0PYYusxHNXI3S?=
- =?us-ascii?Q?tCBZssMzy2OTo8iKmHUedR+Phe9zK7K21ncjARxhR9joNZzKlYpvLnfk4H9+?=
- =?us-ascii?Q?wyciFmY8YEGX5Vk8j93SWKPeyn3MNdWz42AfzWk+qi1DwCrrzEUIeuJgKa9U?=
- =?us-ascii?Q?J/d6gzC8Ve8PvXfpV4AD737Q9ZKjDVnBvEwEqugh5PVd1S1MPvrHdGFC9OZT?=
- =?us-ascii?Q?cQlE3z83EVi649SiOi+616mgu9YGiTqFgA0xSIrkDpRt3LaOOFQBKndplTTQ?=
- =?us-ascii?Q?Uouw5hls9SEL2SJDRTThxad4RDSDVulJrIgcXRERBp/BU/SnGxZ5rf5LmFKr?=
- =?us-ascii?Q?0aZXMk9siKElXJ8yR2QFiBdxfjkR15AYHr6uoWZJoDQODTpqbEd5iHz1skn9?=
- =?us-ascii?Q?kYQzUkGINkFX5wAR4mz81QHrysqUm9c/bMuLd4NfAvsAlMAprFIHMWShoQo7?=
- =?us-ascii?Q?Zksp8AWXMEiG8+3IQ5CGmoTFse9wQmx5QzWXqx2DFRa/ttRZlZvfs8+DIHa1?=
- =?us-ascii?Q?RXGB0a4aQtyVXGc6f9W2JRC8srO+yaxmrpmYFrwIx4Gnz/ZQOvHl?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d8643ee-51a0-41e6-f2f5-08de937197c2
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 00:15:22.1799
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tOUqEp0yV+D4Viy59rcdLg8Qh1lZbsyfIEmF6+k4agCUX+PoZuwQ0o4P7sacuGoM3kR/ORRnW1WlGWidaZR5eYvAC2PeSkhV7+RHtD+jQaNp3/SnQz2H7xvVmXdr1q6y
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB14123
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEwNT3SQT3cSc4kTd9NJi3UwgXZCra2ySZmJkYWYBJFKVgBoLilLTMiv
+ AhkbHQvjFpUlZqcklIJOUamsBllQ+bHYAAAA=
+X-Change-ID: 20260405-b4-alsa-gus-isa-pm-34f42868428e
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2920;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=RNngBn+u1v4wi7HVnSs3dMvSdbjVkBEghGGSTVw7Tv8=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmX1bIVypcxacb9tPl23W1++NNPu5iddT4fuL16qqj0u
+ ek7fpTrdZSyMIhxMciKKbKsTlpkuafrwdX6uBUeMHNYmUCGMHBxCsBEZNYwMvzOtJ2t8Eh06xd2
+ QW7+t/c3nmUpsT35r25beUHVk+gZO6cx/OE+6NkQd7Hwu8ar6mf+87LVZbRShPaJHJsYWMr9+lq
+ /GhcA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
+gusclassic, gusextreme and gusmax still leave their ISA PM callbacks
+disabled, so a suspend/resume cycle does not restore usable GF1 operation
+on these cards.
 
-Hi John
+A simple wrapper around the existing GF1 start/stop paths is not enough.
+Those helpers are probe and shutdown paths: they reset software handlers
+and tear down runtime state such as the DRAM allocator, timer state, DMA
+queues, PCM state and UART setup. Resume instead needs a narrower recovery
+path that rebuilds the GF1 hardware state without rerunning probe-only
+detection or discarding the bookkeeping kept by the card instance.
 
-> > > +	/*
-> > > +	 * Below values will be filled in rsnd_src_probe()
-> > > +	 */
-> > > +	struct clk *clk_scu;
-> > > +	struct clk *clk_scu_x2;
-> > > +	struct clk *clk_scu_supply;
-> > 
-> > It is SRC specific.
-> > Please move it to rsnd_src instead of rsnd_priv.
-> 
-> Agreed. However, since rsnd_src is a per-SRC instance structure,
-> I'll rather have these variables static in src.c, as the clocks
-> are shared across all SRC instances but used only in that file.
-> I hope this is fine for you ?
+gusextreme and gusmax also need board-specific resume glue around that
+shared GF1 recovery path. GUS Extreme has to restore the ES1688-side GF1
+routing before the GF1 is touched again. GUS MAX has to rewrite the MAX
+control register and restore the attached WSS codec state before the full
+card is brought back.
 
-Ah, OK.
-So how about to create new struct rsnd_src_clk or something,
-and has above clocks, instead of using file-static, like below.
+This series does that in four steps:
 
-	struct rsnd_priv {
-		...
-+		void *src_clk; // I'm not sure the name ;)
-		void *src;
-		int src_nr;
-		...
-	};
+- add shared GF1 suspend/resume helpers that quiesce PCM, DMA and UART
+  activity and restart the GF1 hardware without rerunning memory detection
+  or allocator initialization
+- wire gusclassic up to the shared helpers
+- wire gusextreme up as well, restoring the ES1688-side GF1 routing
+  before the shared resume path runs
+- wire gusmax up too, restoring the MAX control register and the WSS codec
+  state around the shared GF1 resume path
 
-+	struct rsnd_src_clk { // I'm not sure the name :)
-+		struct clk *scu;
-+		struct clk *scu_x2;
-+		struct clk *scu_supply;
-+	};
-+	#define rsnd_priv_to_src_clk(priv) ((struct rsnd_src_clk *)(priv)->src_clk)
+The scope is limited to restoring post-resume usability for these ISA
+cards. It does not attempt transparent continuation of active GF1 PCM or
+synth state across suspend, and userspace may still need to reprepare
+streams or reload onboard sample data after resume. Open rawmidi
+substreams are restored only to a usable post-resume state.
 
-	if (rsnd_priv_to_src_clk(priv))
-		...
-
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Kuninori Morimoto
+Cássio Gabriel (4):
+      ALSA: gus: add shared GF1 suspend and resume helpers
+      ALSA: gusclassic: add ISA suspend and resume callbacks
+      ALSA: gusextreme: add ISA suspend and resume callbacks
+      ALSA: gusmax: add ISA suspend and resume callbacks
+
+ include/sound/gus.h        |  8 ++++++
+ sound/isa/gus/gus_dma.c    | 33 ++++++++++++++++++++++++
+ sound/isa/gus/gus_main.c   | 36 +++++++++++++++++++++++++++
+ sound/isa/gus/gus_pcm.c    |  7 +++---
+ sound/isa/gus/gus_reset.c  | 62 ++++++++++++++++++++++++++++++++++++++--------
+ sound/isa/gus/gus_timer.c  | 14 +++++++++++
+ sound/isa/gus/gus_uart.c   | 47 +++++++++++++++++++++++++++++++++++
+ sound/isa/gus/gusclassic.c | 21 +++++++++++++++-
+ sound/isa/gus/gusextreme.c | 57 +++++++++++++++++++++++++++++++++++-------
+ sound/isa/gus/gusmax.c     | 28 ++++++++++++++++++++-
+ 10 files changed, 289 insertions(+), 24 deletions(-)
+---
+base-commit: 9f2a23bd5d30dc0968e56a2b6e5edb58aff1bc6d
+change-id: 20260405-b4-alsa-gus-isa-pm-34f42868428e
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
