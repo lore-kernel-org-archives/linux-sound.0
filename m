@@ -1,53 +1,52 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E71922538F;
-	Mon,  6 Apr 2026 07:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEEF22538F;
+	Mon,  6 Apr 2026 07:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775461760; cv=pass; b=vFu4wL7zIYC9nS7wHxU0BNSbOUnKEWAFjZkHXnQtpeEG2cN18SwNlM4/mOkmzloOX6BUiFb4d93gdSEPsAVsAvoD/bZMgruoHFgGfAPeGPgQNx37i5SeXnESVN4v9feDNbbaCb8sc+LS1g95ORPkNJw6vpvoo3l1Re7xsVpED14=
+	t=1775461769; cv=pass; b=c7Pu5CCrPrYYt7nxyw1eVbOFl0Om+hCH2k2dswbml+SiMnOo4f6yN+1WrzyX5rWXTRbUUhKfkbCRgZ/9ykTub0//vTgIMH/TOVB3nW6+ApqP0OHAXPLbVEMXh1W36WrTrsNVLRaRgiETsoKX4i9y1gZvdj9NbrrbT2RjOLcIl9s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775461760; c=relaxed/simple;
-	bh=RQbTlEZiPap8jwszlD52VhIwEUD2ONzLUYGqypPswUY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vBfEVM5uvqPl8Wo0qQnr14bJCp8l55U/HvO8r3cvIj1neM+HGt7uBAZg2pnMO8EevnoOG0QTMKaAJJS36HJLnxnDzfpkIYwaCKANqx5SqUc/U0Y7Y68I//xzH+NYn2stuh3TzMuVofb7LonYmEBq4b269A4j+PmkGPUVnW+Hl/Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=gJ1lqSzv; arc=pass smtp.client-ip=136.143.188.15
+	s=arc-20240116; t=1775461769; c=relaxed/simple;
+	bh=+YlaVWvEscZ8m1i8NltwtNzqHZS/9Gw7+6n26+gEFSY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZZucdtsQSNZPPTS3Liqryg97RIqmiZ5r08z2kY+Jsb6kXZpHqLWkHGZJGfL28OulZFWwh3UDBDxMdWd89JVTkpA+DJdbm55BpyKMs8ged+3BLum4cdi1/uNy1SZgtwvMK1MdJBVFV/T4/1s9uk3smIf72kdfpc+7Lm6/Rgsuse4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=OaoYwc3h; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="gJ1lqSzv"
-ARC-Seal: i=1; a=rsa-sha256; t=1775461745; cv=none; 
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="OaoYwc3h"
+ARC-Seal: i=1; a=rsa-sha256; t=1775461759; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=loW1QbU1l/mmHdkpU1tEPEfDgxmVmni/GE7CSCgo+3NFO35Ej669maI61Ky7qLi5DHO9TVvoh5LPBoKg5hCxsqNR6cZj/oWTbsIOcAm21eIAKlRUVRrh8f7SAybm90zcLvhV0R3BDGgk4cjWs9apRlOtlhbo04cvBspPxMdC3RI=
+	b=YxUpJR5TSSG6iI46PJ1A7ZrKFEMq9aFMsnrL1ChLAOGt8nujQ90DLlj+shv1UJ4U9ibTgq9sJAIIB6ngrKmxu1l77MrOTeTWu2y4FF8oC/qV8nVGgITw12B6Z31BmJwoNHTxfQFl0t/emXuw9AzNLLcPb/Xl1hJY9OhNYB0/9Tc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775461745; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5sfHEvSLzgU959xJwXcpI8LGJfw+4Ic67c4ZhR3XIw4=; 
-	b=alfd/Ggpz26vgqyiPZCmKZ89hzmB4TJuqsbcREQvMyWzj2urvXCL0Y7j+t5fwA2tFAjBWGNChaH1Wr6mOMcn8ciDbhZmHQDpOeTRAsto1aiG/FIeiLSFYTK5KJX5LTrKb8vSLWL4PPPJ+3Mef3EvtbNKfVqAuWMo+lODsBZpxs8=
+	t=1775461759; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CSTLe8xhfsYZxmuCXyS3HgJsFRywF28HW94FGw/LwKQ=; 
+	b=Bpd6GRaMmD4GqoKru4thlK0ILPsdW0utRsXFMw0cuf/TNp0c0vFdcHt5lWaqyFm2PLQB2ly3TejXvubll8X+po5OinKWfDK4WxR+lnlE7VXhHuK8B/EG9EDiWHoCcK/uHNe1P8+qvgfyfaxYwAJH5gkFq4nOOQa+O0Fhf4MSLdI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=harin.net;
 	spf=pass  smtp.mailfrom=me@harin.net;
 	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775461745;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775461759;
 	s=zmail; d=harin.net; i=me@harin.net;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=5sfHEvSLzgU959xJwXcpI8LGJfw+4Ic67c4ZhR3XIw4=;
-	b=gJ1lqSzvSBJ+lL5GpsOtLBT6/y4OwtElqzispqkjdT4Rn1ADtb3s5TPD8kx1MCay
-	U1z6FF1wDHFYeNy/FB14qgXNiLyrXamJGgHvZi+x1CeKLLnL4LUwoLtbWsz8stS8pqm
-	dxPotxXGuR+E6LZ4kw+WjKaItRmSmH5DKOwz+xlym7O6WAyDEFvNDcHgrvOdyNbW2Th
-	d/tj7g47FSiZwoyZr7nPd/ER4GjffM+nlQypFVhmmmFR/dbefVjFhVBp+JnvE+kYn8/
-	eMc7D8dbjzo6RgQDmwaX6XSibI3z9vv5jvGKrMvPpnOotgxxo7KNC863ChKYEz+LwYf
-	QL8/gwxgWw==
-Received: by mx.zohomail.com with SMTPS id 17754617429841013.4603715298756;
-	Mon, 6 Apr 2026 00:49:02 -0700 (PDT)
+	bh=CSTLe8xhfsYZxmuCXyS3HgJsFRywF28HW94FGw/LwKQ=;
+	b=OaoYwc3hD6AkLYS51JdxmNt7fdCYSffphl8WA3Capo7HbOcm4xEz4vaM7plwFdJo
+	dDgNB0Ex2NRIiSP8U18qXQmkTe8ynRNya/DfPLiEyW1QXSzM+m2IjCeQ9ENtqzUOHCp
+	eaZrIXWXcNsZHIskZuUBGYPse+kn32FhjHQ5N3uWxQigCYz3PC+pii1hkqPfYQiNA8W
+	vFQ2FFgaVJz/5dX63VBeclFUjFu7tupAGQCK8wSc8udPQPjPFNfjvSLiuHbgMBNr1xX
+	gAKc2QcTSO8a4kaP9bD6JpHIha4oW9k7OFMO/nqYqu73h5IOxZYeZKbJz1w/qyKeOV/
+	KIAEkvPONQ==
+Received: by mx.zohomail.com with SMTPS id 1775461757472716.3654522882999;
+	Mon, 6 Apr 2026 00:49:17 -0700 (PDT)
 From: Harin Lee <me@harin.net>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>,
-	linux-sound@vger.kernel.org,
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Harin Lee <me@harin.net>
-Subject: [PATCH] ALSA: ctxfi: Limit PTP to a single page
-Date: Mon,  6 Apr 2026 16:48:57 +0900
-Message-ID: <20260406074857.216034-1-me@harin.net>
+Subject: [PATCH] ALSA: ctxfi: Add fallback to default RSR for S/PDIF
+Date: Mon,  6 Apr 2026 16:49:13 +0900
+Message-ID: <20260406074913.217374-1-me@harin.net>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -58,54 +57,40 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Commit 391e69143d0a increased CT_PTP_NUM from 1 to 4 to support 256
-playback streams, but the additional pages are not used by the card
-correctly. The CT20K2 hardware already has multiple VMEM_PTPAL
-registers, but using them separately would require refactoring the
-entire virtual memory allocation logic.
+spdif_passthru_playback_get_resources() uses atc->pll_rate as the RSR
+for the MSR calculation loop. However, pll_rate is only updated in
+atc_pll_init() and not in hw_pll_init(), so it remains 0 after the
+card init.
 
-ct_vm_map() always uses PTEs in vm->ptp[0].area regardless of
-CT_PTP_NUM. On AMD64 systems, a single PTP covers 512 PTEs (2M). When
-aggregate memory allocations exceed this limit, ct_vm_map() tries to
-access beyond the allocated space and causes a page fault:
+When spdif_passthru_playback_setup() skips atc_pll_init() for
+32000 Hz, (rsr * desc.msr) always becomes 0, causing the loop to spin
+indefinitely.
 
-  BUG: unable to handle page fault for address: ffffd4ae8a10a000
-  Oops: Oops: 0002 [#1] SMP PTI
-  RIP: 0010:ct_vm_map+0x17c/0x280 [snd_ctxfi]
-  Call Trace:
-  atc_pcm_playback_prepare+0x225/0x3b0
-  ct_pcm_playback_prepare+0x38/0x60
-  snd_pcm_do_prepare+0x2f/0x50
-  snd_pcm_action_single+0x36/0x90
-  snd_pcm_action_nonatomic+0xbf/0xd0
-  snd_pcm_ioctl+0x28/0x40
-  __x64_sys_ioctl+0x97/0xe0
-  do_syscall_64+0x81/0x610
-  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+Add fallback to use atc->rsr when atc->pll_rate is 0. This reflects
+the hardware state, since hw_card_init() already configures the PLL
+to the default RSR.
 
-Revert CT_PTP_NUM to 1. The 256 SRC_RESOURCE_NUM and playback_count
-remain unchanged.
-
-Fixes: 391e69143d0a ("ALSA: ctxfi: Bump playback substreams to 256")
+Fixes: 8cc72361481f ("ALSA: SB X-Fi driver merge")
 Cc: stable@vger.kernel.org
 Signed-off-by: Harin Lee <me@harin.net>
 ---
- sound/pci/ctxfi/ctvmem.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/ctxfi/ctatc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/pci/ctxfi/ctvmem.h b/sound/pci/ctxfi/ctvmem.h
-index da54cbcdb0be..43a0065b40c3 100644
---- a/sound/pci/ctxfi/ctvmem.h
-+++ b/sound/pci/ctxfi/ctvmem.h
-@@ -15,7 +15,7 @@
- #ifndef CTVMEM_H
- #define CTVMEM_H
+diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
+index 516c0a12ed9f..02fe09330939 100644
+--- a/sound/pci/ctxfi/ctatc.c
++++ b/sound/pci/ctxfi/ctatc.c
+@@ -794,7 +794,8 @@ static int spdif_passthru_playback_get_resources(struct ct_atc *atc,
+ 	struct src *src;
+ 	int err;
+ 	int n_amixer = apcm->substream->runtime->channels, i;
+-	unsigned int pitch, rsr = atc->pll_rate;
++	unsigned int pitch;
++	unsigned int rsr = atc->pll_rate ? atc->pll_rate : atc->rsr;
  
--#define CT_PTP_NUM	4	/* num of device page table pages */
-+#define CT_PTP_NUM	1	/* num of device page table pages */
- 
- #include <linux/mutex.h>
- #include <linux/list.h>
+ 	/* first release old resources */
+ 	atc_pcm_release_resources(atc, apcm);
 -- 
 2.53.0
 
