@@ -1,96 +1,61 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEEF22538F;
-	Mon,  6 Apr 2026 07:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775461769; cv=pass; b=c7Pu5CCrPrYYt7nxyw1eVbOFl0Om+hCH2k2dswbml+SiMnOo4f6yN+1WrzyX5rWXTRbUUhKfkbCRgZ/9ykTub0//vTgIMH/TOVB3nW6+ApqP0OHAXPLbVEMXh1W36WrTrsNVLRaRgiETsoKX4i9y1gZvdj9NbrrbT2RjOLcIl9s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775461769; c=relaxed/simple;
-	bh=+YlaVWvEscZ8m1i8NltwtNzqHZS/9Gw7+6n26+gEFSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZZucdtsQSNZPPTS3Liqryg97RIqmiZ5r08z2kY+Jsb6kXZpHqLWkHGZJGfL28OulZFWwh3UDBDxMdWd89JVTkpA+DJdbm55BpyKMs8ged+3BLum4cdi1/uNy1SZgtwvMK1MdJBVFV/T4/1s9uk3smIf72kdfpc+7Lm6/Rgsuse4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=OaoYwc3h; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC232DC765;
+	Mon,  6 Apr 2026 08:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775464872; cv=none; b=dpVikN69Bf4xGGghPYhASx9wvK1f4fBdga/5yZPUXyP9bKyMsIVXnhrPjC+3iykvQTqT6IotyQ2PnNLGZ9HFcgKHFs0fbhcT6EhpRYH9uad/2WIkkaztTSditlK6XjWjfWGs6XTYaaaPwtHLMD3nFGMm21tXNXQ03ZgJs733s8A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775464872; c=relaxed/simple;
+	bh=5w3UxxCyMcyv7PvsX7wGnohB9nkyoJKB0MQ+FMfrkqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHh5PxWQcfxqYoEVI/JQ9yf1p6G9w6VibaM0Cd2MK6p4pmmpX4GdSE67fvQCglT2JjC9z+qJpYeWH4fOYzynQqWr4kCNGaJH+rSy8CeLeDzDDR4l5a1MjFHDahDNLSZre5NBNj5BNeFuS8A7HBPVfKwOEeoyK0KUJ5GfeEBeduM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4e/na6r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="OaoYwc3h"
-ARC-Seal: i=1; a=rsa-sha256; t=1775461759; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YxUpJR5TSSG6iI46PJ1A7ZrKFEMq9aFMsnrL1ChLAOGt8nujQ90DLlj+shv1UJ4U9ibTgq9sJAIIB6ngrKmxu1l77MrOTeTWu2y4FF8oC/qV8nVGgITw12B6Z31BmJwoNHTxfQFl0t/emXuw9AzNLLcPb/Xl1hJY9OhNYB0/9Tc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775461759; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=CSTLe8xhfsYZxmuCXyS3HgJsFRywF28HW94FGw/LwKQ=; 
-	b=Bpd6GRaMmD4GqoKru4thlK0ILPsdW0utRsXFMw0cuf/TNp0c0vFdcHt5lWaqyFm2PLQB2ly3TejXvubll8X+po5OinKWfDK4WxR+lnlE7VXhHuK8B/EG9EDiWHoCcK/uHNe1P8+qvgfyfaxYwAJH5gkFq4nOOQa+O0Fhf4MSLdI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=harin.net;
-	spf=pass  smtp.mailfrom=me@harin.net;
-	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775461759;
-	s=zmail; d=harin.net; i=me@harin.net;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=CSTLe8xhfsYZxmuCXyS3HgJsFRywF28HW94FGw/LwKQ=;
-	b=OaoYwc3hD6AkLYS51JdxmNt7fdCYSffphl8WA3Capo7HbOcm4xEz4vaM7plwFdJo
-	dDgNB0Ex2NRIiSP8U18qXQmkTe8ynRNya/DfPLiEyW1QXSzM+m2IjCeQ9ENtqzUOHCp
-	eaZrIXWXcNsZHIskZuUBGYPse+kn32FhjHQ5N3uWxQigCYz3PC+pii1hkqPfYQiNA8W
-	vFQ2FFgaVJz/5dX63VBeclFUjFu7tupAGQCK8wSc8udPQPjPFNfjvSLiuHbgMBNr1xX
-	gAKc2QcTSO8a4kaP9bD6JpHIha4oW9k7OFMO/nqYqu73h5IOxZYeZKbJz1w/qyKeOV/
-	KIAEkvPONQ==
-Received: by mx.zohomail.com with SMTPS id 1775461757472716.3654522882999;
-	Mon, 6 Apr 2026 00:49:17 -0700 (PDT)
-From: Harin Lee <me@harin.net>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Harin Lee <me@harin.net>
-Subject: [PATCH] ALSA: ctxfi: Add fallback to default RSR for S/PDIF
-Date: Mon,  6 Apr 2026 16:49:13 +0900
-Message-ID: <20260406074913.217374-1-me@harin.net>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4e/na6r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A19D0C4CEF7;
+	Mon,  6 Apr 2026 08:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775464872;
+	bh=5w3UxxCyMcyv7PvsX7wGnohB9nkyoJKB0MQ+FMfrkqc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W4e/na6rb/NujRRsEkmyhdJIWYBEMFT9VMbCqVl7fmTTpdwBk7cDJZ02swAdvTbwF
+	 IYsc+TAFJRwA9OrxvpmYFuB1LyPpyvXwuyBANUxztJe93Uu/qaA5x9Q37OTkCWe25q
+	 5YCFw0JsrZYD1a5mNjpDL3aiHE0tLDS4Gb9wYBblgl2atO+Cdj0Ax0VdJNAcBK12i7
+	 O4+pok0CeraBMy7jmK2ZF26YeMmpo9Iha82RhCnC/kh6OPlE6kdGcO3aQ4MLc9zRdU
+	 Rn1kAlFeP4DY1uP0vc2f3oz5RaJgBOJ9777dHWbv30Fs+n7YVdicHOmadUbS/N+0Bm
+	 7Pgt/zB30Y2+w==
+Date: Mon, 6 Apr 2026 10:41:09 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Marek Vasut <marex@nabladev.com>
+Cc: devicetree@vger.kernel.org, Baojun Xu <baojun.xu@ti.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Kevin Lu <kevin-lu@ti.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Shenghao Ding <shenghao-ding@ti.com>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: ti,tas2552: Add sound-dai-cells
+Message-ID: <20260406-furry-shrew-of-research-91adf7@quoll>
+References: <20260405234502.154227-1-marex@nabladev.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260405234502.154227-1-marex@nabladev.com>
 
-spdif_passthru_playback_get_resources() uses atc->pll_rate as the RSR
-for the MSR calculation loop. However, pll_rate is only updated in
-atc_pll_init() and not in hw_pll_init(), so it remains 0 after the
-card init.
+On Mon, Apr 06, 2026 at 01:44:35AM +0200, Marek Vasut wrote:
+> Add missing sound-sai-cells for this codec into schema.
+> At the same time, drop trailing spaces from description.
+> 
+> Fixes: 506e0825a4c9 ("ASoC: dt-bindings: Convert ti,tas2552 to DT schema")
+> Signed-off-by: Marek Vasut <marex@nabladev.com>
 
-When spdif_passthru_playback_setup() skips atc_pll_init() for
-32000 Hz, (rsr * desc.msr) always becomes 0, causing the loop to spin
-indefinitely.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Add fallback to use atc->rsr when atc->pll_rate is 0. This reflects
-the hardware state, since hw_card_init() already configures the PLL
-to the default RSR.
-
-Fixes: 8cc72361481f ("ALSA: SB X-Fi driver merge")
-Cc: stable@vger.kernel.org
-Signed-off-by: Harin Lee <me@harin.net>
----
- sound/pci/ctxfi/ctatc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/pci/ctxfi/ctatc.c b/sound/pci/ctxfi/ctatc.c
-index 516c0a12ed9f..02fe09330939 100644
---- a/sound/pci/ctxfi/ctatc.c
-+++ b/sound/pci/ctxfi/ctatc.c
-@@ -794,7 +794,8 @@ static int spdif_passthru_playback_get_resources(struct ct_atc *atc,
- 	struct src *src;
- 	int err;
- 	int n_amixer = apcm->substream->runtime->channels, i;
--	unsigned int pitch, rsr = atc->pll_rate;
-+	unsigned int pitch;
-+	unsigned int rsr = atc->pll_rate ? atc->pll_rate : atc->rsr;
- 
- 	/* first release old resources */
- 	atc_pcm_release_resources(atc, apcm);
--- 
-2.53.0
+Best regards,
+Krzysztof
 
