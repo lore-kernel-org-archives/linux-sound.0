@@ -1,66 +1,66 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB392DECC2
-	for <linux-sound@vger.kernel.org>; Mon,  6 Apr 2026 03:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDCE3385AC
+	for <linux-sound@vger.kernel.org>; Mon,  6 Apr 2026 03:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775445619; cv=none; b=OKgOpW1gEGhzWRXAsTtVKGkJY0LMhBxkGdW5L4KY+Ju6TmV51g8Ydjyu6maw4Lfxhpm2PI2CEgKjLPFEytheZrc3lRfWbvqo7PhTg0o2bkUtPZFn6umSJGCy5QzD1VK209LCL3bVKHO6iQrQnZSenG5u61PuQnTCRyl8DpGcu1Q=
+	t=1775445620; cv=none; b=rEx+t8fifLDsvaEwNupURyCOiirQS1k1uNDKOnPSMSbwTXAYK+f5JXeAljBJeE6+3CwcbloIRQ9f+CSDZudTEjILIND4Jhaln60qBCUDpFzHICrZx3xuhc+S5C74YhvAcMGqiYBG6uBJjbaiW/BdgOIYCXqpE3T7qJmArHcHmOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775445619; c=relaxed/simple;
-	bh=ZJsXuAOnzKe7VNcjOOvgpbIj4nvUPV0wpNzyd65c2Xo=;
+	s=arc-20240116; t=1775445620; c=relaxed/simple;
+	bh=nPo/kjyyZRkBlCq8myr47QLdwjb5HP5ssuD5hqCZ2yk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KAKx41HctdFvzn/LhCXdeHtzFsuT1Y+Z0XqWto9VCXbVGySJ8Szcp2RPLLrit0IBF2obI5DLvQp5Ndpo1D/TmBQ0p2xCbBNwvUSRsKIkUUUz6Q85JmyLv4Kbs20EYLt47IhJUt7zE4HzXyEHAbThNS3lFD2L4OfQOljlggv9WWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sEXRkMuu; arc=none smtp.client-ip=209.85.222.42
+	 In-Reply-To:To:Cc; b=Cql6Zk5WdU3g7pr6ijkn/sZQq53mpKK+AmFXfDxrbl+SLpPmM0AvjXTac6P0yaF3fZ13AZCzSWknTli4taZ+8cWvQELfErAiAszrPdc7gDNyYk8KlX87C2ffz+O6ULepri5IPOKUtYm0AHDk/z+YM++H5waI2LcV43kgne0hFnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SemLeNPi; arc=none smtp.client-ip=209.85.217.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sEXRkMuu"
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-953943f7a33so1591220241.0
-        for <linux-sound@vger.kernel.org>; Sun, 05 Apr 2026 20:20:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SemLeNPi"
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-5ff05af29b4so1147681137.1
+        for <linux-sound@vger.kernel.org>; Sun, 05 Apr 2026 20:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775445616; x=1776050416; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775445618; x=1776050418; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HQXVPyJKbYWfAKG1sfpIlUyWhhnLyrzOHWVzvosbwME=;
-        b=sEXRkMuuE1HoqEj2QIbKWiLsLfGcBWli8/CnYQQITVH71kiWfxjnVLSUTFqM8G0nkL
-         U+xEG8fBSccEJl4oSKNOUL+FS1kthfgY+wtvomAByCq0rNqUMJO0/8qX5KoEgH/3fljC
-         jNYG8HE1JL71ZfPa27lKhqYClsV0xywUhyrZZJIYeAU14xp+7bUhQ57wb7WLzt6omesR
-         agjFe9aMmpNwiC6bB0FfafVv4yvLt1UQuW15dlJ6hA96SeZdvH9og7jw1RZ0vabV62rI
-         R1fLh5+zIzbW5c2SwtwE6h7GD1I5cgRqzSAImgs6B4rJN8XS0bEwTffiY7AMTB07C51d
-         +AAQ==
+        bh=at+4HFvLiy7DCVXrWuZymI/850oW2s4mdcUHo/q9/rk=;
+        b=SemLeNPiIJFyTMJI222BQmokUxgyXDUVKS0xuKVOEbaePNhOHqu5yUcevRDs8AzKRG
+         XIj6ayg2YBZawFeYn1iCSggv5uc3k12kpJBI7X/OVDTAVdGlU7RT9u9HJq2L2s4F5d+M
+         NYDlbebKuBjqQb6T7FY5mk+Gs/AzhdI57jmME3/72U8E5ZBBY8tVrmHLsqzz7oK+4tGy
+         Hplx+rN7r67KpBCu0/TkEucPPMgZAJO/WKlvgKGhBDJiJFfaB6ohBxmtRyBnbjUiozcT
+         KBg2jJM7BqWgHtZsZdvB0EbCWsBxAAkxJXpjHeP/S/qb4/6gbV/LwLWgAVA8jNttGy5x
+         3uxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775445616; x=1776050416;
+        d=1e100.net; s=20251104; t=1775445618; x=1776050418;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=HQXVPyJKbYWfAKG1sfpIlUyWhhnLyrzOHWVzvosbwME=;
-        b=MFN88TtiumzWS+BoK1lxe9V4mQwBOcIaV6ERz2KweidvObJxM6s9wWLVefaMCQQmCS
-         PIGkL/+mdRVO0Zb+1pczFganFtFVPeT3zUIoI+ncGw60w7/Pv354nscYthlKYoVwCjEv
-         r3N7aIcXHGjK3k68F+RVEXL45tEIoJeCQ6J4jgbl9hrJ3uyF83azQ+5A2XNYTwcNMpjp
-         Vb+jLE02yBgBlwZB0nk3/4n9qoM36v+QD6x5XYBVPSppkiqmrRJeAAEUyQNIRk1oWe7p
-         oL2ssOmhOWiMZfdOJQ1KcV2oMsQKBFArOcVZvEGii98Z2zCJQMO0MKWzoM43soo93fa1
-         PBFA==
-X-Gm-Message-State: AOJu0Yz8jnbEvLzastpzXAWDoQ2jY5KTvFTmm8m1Dy37r15WYstoCyZH
-	Xg0fikH5s1h+mTO2cKN1UgN3pBwYHh//jVDn+y9gdknmwfVbWdGy98K6TRnPOA==
-X-Gm-Gg: AeBDiesJPgNLajNHiS9uRyTvpfFgGpznaHXGhtLSWF+unv2xK2UiFrLNN5VypAdr8j3
-	1GuKaW59dVcrC9yP7NVy8VOlSDts/fyFjRN0S2m6YbLnz9R3hLz8cHCBh3n3BlfQW2fH9ueK4ZV
-	MzlNr7e2qnTQkX+714FPTA6qydDSn5vfSXLqOh1CLgKmynFaDkT+A1CzCvtIkkgvZ/kU+RJIWlO
-	8O6lADvgRHndvL5QoaepviF7zxBboTeF8YSvsOSdOc7+vDM4BVpu1zzP9nZzfPBZodxZlhu5qWR
-	eKJL2VOzuPtDXD2DzF2A0BD6Gjxxkq2BNUKGEv3jnm+kPCzW7Lyj5gUgQRJ2/UEx2kerNv5nBN2
-	rcIsheJJNAvCvBxdqcZZnd8w5a/iiixEy1pzF6Bd/uDMwAjSnlgUd3Kr9ZImzMp3tpoKTjTWfBW
-	usBoso0WEdCm5TA5uoefrh5qqRPfknMo5lc5VI1XBTgdes8x3obsgAzyYr32oKpE48BjXfH9BuY
-	h5YnwIMjTjy5a0=
-X-Received: by 2002:a05:6102:83cb:b0:5ff:bd9d:b1f2 with SMTP id ada2fe7eead31-605a4d819d8mr3529193137.3.1775445615885;
-        Sun, 05 Apr 2026 20:20:15 -0700 (PDT)
+        bh=at+4HFvLiy7DCVXrWuZymI/850oW2s4mdcUHo/q9/rk=;
+        b=XZ7FkZLqMzO7eAbGqHwtEo1wZv9K9rBSqZPlBculjVjPqlt6I1f+KWK4DiQvvupeI7
+         mb+3I8fCDxqKeFWxuSm6rr+VIJDluJCl4pOfEA6lIui4oBeWuFU/E14Y6Tb93XGnNexO
+         lkA5xMJ24hnRQTlKpztBSrrmwnAT0Mq73l4xw4YocgXcGo+abCp8Lj64aNdR50cY++Mp
+         7DqPjMXOTOx+yxkm7n8akum5116XBuyIuUcNeLHQaQcdpkGbSsSp+kGN7PAXFPz5aKdo
+         GOM2iJJGIZf4QiqDwR9xGBPzsACUc7+2QryH9fY2/kOw84ILBdVRmKU52L1n8Av1a99W
+         jxCw==
+X-Gm-Message-State: AOJu0Yx/+Y0KqU9uS6lRy73qaNbIygGmI+Lg/JQplWd7ry3ZN+Mc7mrA
+	xyCQT/D2S9U+9LsLlt3MSdoJ0Rsa8eklt3yRMqY55T6DcHUl+1Niscnz
+X-Gm-Gg: AeBDievuWgsxtBfQQ9RNYnflPmV6JH3CmqmSWm1XULRfuPpKQqbIzLEaATPen4ci+LA
+	Qv87KVVWkRbRuYk+5qeh0+TSPuybwjGo3X2LcrwauWRJ23tsEvTNrI32Nm+lXjoOJQw31Vz9UJ1
+	ZX7MTWpXV+SyLsGLhOq+fyITjZD64fZiEkDlfFXkfEVtTrAfhUMhLrjMZUIVU8vSIo41DhTCTVn
+	qZYNYhm0mfSbrmc+W0lDvrhsHKDlrljnMnCI6bQBQ6QIEdtEO3v6sGBLaxoF2PMao4sDD4NjXpO
+	dv6MP23eGkapKbilF0BxmuO5/r5wToPMd0Xw5uATF79XYv7+bEKXOfg9qi2Lh+7NpvyYYeBSry6
+	6AkgjR50cOrHHi4kB2+yIGQWCr536AAb0h5YEi4jVYY99k/Bbn8cIVhMDrxAyV/aGTIKL4gFgF3
+	XPysRB3kdzNarLoejV2pRstdDrlu4TUciwK8LQeG911G2dUoNHwQiPmMoeoUfzSwzp+5xrwNCav
+	FFK
+X-Received: by 2002:a05:6102:5e81:b0:604:dc41:b142 with SMTP id ada2fe7eead31-605a4cd8a92mr3550769137.2.1775445618006;
+        Sun, 05 Apr 2026 20:20:18 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-605b214b45fsm9162146137.5.2026.04.05.20.20.14
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-605b214b45fsm9162146137.5.2026.04.05.20.20.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2026 20:20:15 -0700 (PDT)
+        Sun, 05 Apr 2026 20:20:17 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 06 Apr 2026 00:20:03 -0300
-Subject: [PATCH 1/4] ALSA: gus: add shared GF1 suspend and resume helpers
+Date: Mon, 06 Apr 2026 00:20:04 -0300
+Subject: [PATCH 2/4] ALSA: gusclassic: add ISA suspend and resume callbacks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,410 +69,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260406-b4-alsa-gus-isa-pm-v1-1-b6829a7457cd@gmail.com>
+Message-Id: <20260406-b4-alsa-gus-isa-pm-v1-2-b6829a7457cd@gmail.com>
 References: <20260406-b4-alsa-gus-isa-pm-v1-0-b6829a7457cd@gmail.com>
 In-Reply-To: <20260406-b4-alsa-gus-isa-pm-v1-0-b6829a7457cd@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12535;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1831;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=ZJsXuAOnzKe7VNcjOOvgpbIj4nvUPV0wpNzyd65c2Xo=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmX1bLflm1ckLBOzeFZpetjheOpv9rWXPnxNFf0nAjb3
- QMbgg3md5SyMIhxMciKKbKsTlpkuafrwdX6uBUeMHNYmUCGMHBxCsBEdngxMmx77isQevD+Zck7
- a1YLLDjulfUm6pPQpEPRE9d7lP601pnCyLBZ3dc1+OWmKVNPy7bu32v+2OB5WEhvV01i/WGVT1m
- T7vACAA==
+ bh=nPo/kjyyZRkBlCq8myr47QLdwjb5HP5ssuD5hqCZ2yk=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmX1bJPLpfi+Xmk5l5EfZXeJOnGGNMHnqktb59e3aGTs
+ CFR9I1GRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAExkTQEjw7IO40/lxfky6qzK
+ wnrZlVa769i1lsn2mr16rt7feCrtGyPDgaONrFyzquybJ19Xskvcah+S+EzhocTWs1YW7I2aH9Q
+ 4AA==
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-gusclassic and gusextreme still leave their ISA PM callbacks disabled
-because the shared GF1 core only provides probe-time startup and full
-shutdown paths.
+gusclassic still leaves its ISA PM callbacks disabled because the shared
+GF1 core had no suspend and resume path suitable for PM recovery.
 
-Those helpers are not suitable for suspend and resume. They reset software
-handlers and tear down runtime state such as the DRAM allocator, timer
-state, DMA queues, PCM state and UART setup. Resume instead needs a
-narrower recovery path that rebuilds the GF1 hardware state without
-rerunning probe-only detection or discarding the bookkeeping kept by the
+Wire the driver up to the new shared GUS suspend and resume helpers so a
+suspend/resume cycle restores usable GF1 operation without rerunning
+probe-only detection or tearing down the runtime bookkeeping kept by the
 card instance.
-
-Add shared GF1 suspend and resume helpers for that recovery path. Suspend
-now quiesces GF1 PCM, aborts queued GF1 DMA work, resets the UART and
-powers the chip down without tearing down allocator, timer or rawmidi
-bookkeeping. Resume rebuilds the GF1 hardware state, restores timer and
-UART handlers, and brings the chip back to a usable post-resume state for
-the ISA front-ends.
-
-The scope is limited to restoring post-resume usability. It does not
-attempt transparent continuation of active GF1 PCM or synth state across
-suspend, and userspace may still need to reprepare streams or reload
-onboard sample data after resume. Open rawmidi substreams are restored
-only to a usable post-resume state.
 
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- include/sound/gus.h       |  8 ++++++
- sound/isa/gus/gus_dma.c   | 33 +++++++++++++++++++++++++
- sound/isa/gus/gus_main.c  | 36 +++++++++++++++++++++++++++
- sound/isa/gus/gus_pcm.c   |  7 +++---
- sound/isa/gus/gus_reset.c | 62 +++++++++++++++++++++++++++++++++++++++--------
- sound/isa/gus/gus_timer.c | 14 +++++++++++
- sound/isa/gus/gus_uart.c  | 47 +++++++++++++++++++++++++++++++++++
- 7 files changed, 194 insertions(+), 13 deletions(-)
+ sound/isa/gus/gusclassic.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/gus.h b/include/sound/gus.h
-index 321ae93625eb..3feb42627de1 100644
---- a/include/sound/gus.h
-+++ b/include/sound/gus.h
-@@ -536,6 +536,7 @@ int snd_gf1_dma_transfer_block(struct snd_gus_card * gus,
- 			       struct snd_gf1_dma_block * block,
- 			       int atomic,
- 			       int synth);
-+void snd_gf1_dma_suspend(struct snd_gus_card *gus);
+diff --git a/sound/isa/gus/gusclassic.c b/sound/isa/gus/gusclassic.c
+index 101202acefb3..363c819ced89 100644
+--- a/sound/isa/gus/gusclassic.c
++++ b/sound/isa/gus/gusclassic.c
+@@ -145,6 +145,7 @@ static int snd_gusclassic_probe(struct device *dev, unsigned int n)
+ 	error = snd_gusclassic_create(card, dev, n, &gus);
+ 	if (error < 0)
+ 		return error;
++	card->private_data = gus;
  
- /* gus_volume.c */
- 
-@@ -552,6 +553,8 @@ struct snd_gus_voice *snd_gf1_alloc_voice(struct snd_gus_card * gus, int type, i
- void snd_gf1_free_voice(struct snd_gus_card * gus, struct snd_gus_voice *voice);
- int snd_gf1_start(struct snd_gus_card * gus);
- int snd_gf1_stop(struct snd_gus_card * gus);
-+int snd_gf1_suspend(struct snd_gus_card *gus);
-+int snd_gf1_resume(struct snd_gus_card *gus);
- 
- /* gus_mixer.c */
- 
-@@ -572,6 +575,8 @@ int snd_gus_create(struct snd_card *card,
- 		   int effect,
- 		   struct snd_gus_card ** rgus);
- int snd_gus_initialize(struct snd_gus_card * gus);
-+int snd_gus_suspend(struct snd_gus_card *gus);
-+int snd_gus_resume(struct snd_gus_card *gus);
- 
- /* gus_irq.c */
- 
-@@ -583,6 +588,8 @@ void snd_gus_irq_profile_init(struct snd_gus_card *gus);
- /* gus_uart.c */
- 
- int snd_gf1_rawmidi_new(struct snd_gus_card *gus, int device);
-+void snd_gf1_uart_suspend(struct snd_gus_card *gus);
-+void snd_gf1_uart_resume(struct snd_gus_card *gus);
- 
- /* gus_dram.c */
- int snd_gus_dram_write(struct snd_gus_card *gus, char __user *ptr,
-@@ -593,5 +600,6 @@ int snd_gus_dram_read(struct snd_gus_card *gus, char __user *ptr,
- /* gus_timer.c */
- void snd_gf1_timers_init(struct snd_gus_card *gus);
- void snd_gf1_timers_done(struct snd_gus_card *gus);
-+void snd_gf1_timers_resume(struct snd_gus_card *gus);
- 
- #endif /* __SOUND_GUS_H */
-diff --git a/sound/isa/gus/gus_dma.c b/sound/isa/gus/gus_dma.c
-index ffc69e26227e..30bd76eee96e 100644
---- a/sound/isa/gus/gus_dma.c
-+++ b/sound/isa/gus/gus_dma.c
-@@ -173,6 +173,39 @@ int snd_gf1_dma_done(struct snd_gus_card * gus)
+ 	error = snd_gusclassic_detect(gus);
+ 	if (error < 0)
+@@ -193,11 +194,29 @@ static int snd_gusclassic_probe(struct device *dev, unsigned int n)
  	return 0;
  }
  
-+void snd_gf1_dma_suspend(struct snd_gus_card *gus)
++#ifdef CONFIG_PM
++static int snd_gusclassic_suspend(struct device *dev, unsigned int n,
++				  pm_message_t state)
 +{
-+	struct snd_gf1_dma_block *block;
++	struct snd_card *card = dev_get_drvdata(dev);
 +
-+	guard(mutex)(&gus->dma_mutex);
-+	if (!gus->gf1.dma_shared)
-+		return;
-+
-+	snd_dma_disable(gus->gf1.dma1);
-+	snd_gf1_dma_ack(gus);
-+	if (gus->gf1.dma_ack)
-+		gus->gf1.dma_ack(gus, gus->gf1.dma_private_data);
-+	gus->gf1.dma_ack = NULL;
-+	gus->gf1.dma_private_data = NULL;
-+
-+	while ((block = gus->gf1.dma_data_pcm)) {
-+		gus->gf1.dma_data_pcm = block->next;
-+		if (block->ack)
-+			block->ack(gus, block->private_data);
-+		kfree(block);
-+	}
-+	while ((block = gus->gf1.dma_data_synth)) {
-+		gus->gf1.dma_data_synth = block->next;
-+		if (block->ack)
-+			block->ack(gus, block->private_data);
-+		kfree(block);
-+	}
-+
-+	gus->gf1.dma_data_pcm_last = NULL;
-+	gus->gf1.dma_data_synth_last = NULL;
-+	gus->gf1.dma_flags &= ~SNDRV_GF1_DMA_TRIGGER;
++	return snd_gus_suspend(card->private_data);
 +}
 +
- int snd_gf1_dma_transfer_block(struct snd_gus_card * gus,
- 			       struct snd_gf1_dma_block * __block,
- 			       int atomic,
-diff --git a/sound/isa/gus/gus_main.c b/sound/isa/gus/gus_main.c
-index b2b189c83569..6adf8b698e2b 100644
---- a/sound/isa/gus/gus_main.c
-+++ b/sound/isa/gus/gus_main.c
-@@ -404,6 +404,42 @@ int snd_gus_initialize(struct snd_gus_card *gus)
- 	return 0;
- }
- 
-+int snd_gus_suspend(struct snd_gus_card *gus)
++static int snd_gusclassic_resume(struct device *dev, unsigned int n)
 +{
-+	int err;
++	struct snd_card *card = dev_get_drvdata(dev);
 +
-+	if (gus->pcm) {
-+		err = snd_pcm_suspend_all(gus->pcm);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	err = snd_gf1_suspend(gus);
-+	if (err < 0)
-+		return err;
-+
-+	snd_power_change_state(gus->card, SNDRV_CTL_POWER_D3hot);
-+	return 0;
++	return snd_gus_resume(card->private_data);
 +}
-+EXPORT_SYMBOL(snd_gus_suspend);
++#endif
 +
-+int snd_gus_resume(struct snd_gus_card *gus)
-+{
-+	int err;
-+
-+	err = snd_gus_init_dma_irq(gus, 1);
-+	if (err < 0)
-+		return err;
-+
-+	err = snd_gf1_resume(gus);
-+	if (err < 0)
-+		return err;
-+
-+	snd_power_change_state(gus->card, SNDRV_CTL_POWER_D0);
-+	return 0;
-+}
-+EXPORT_SYMBOL(snd_gus_resume);
-+
-   /* gus_io.c */
- EXPORT_SYMBOL(snd_gf1_delay);
- EXPORT_SYMBOL(snd_gf1_write8);
-diff --git a/sound/isa/gus/gus_pcm.c b/sound/isa/gus/gus_pcm.c
-index caf371897b78..a0757e1ede46 100644
---- a/sound/isa/gus/gus_pcm.c
-+++ b/sound/isa/gus/gus_pcm.c
-@@ -471,7 +471,8 @@ static int snd_gf1_pcm_playback_trigger(struct snd_pcm_substream *substream,
- 
- 	if (cmd == SNDRV_PCM_TRIGGER_START) {
- 		snd_gf1_pcm_trigger_up(substream);
--	} else if (cmd == SNDRV_PCM_TRIGGER_STOP) {
-+	} else if (cmd == SNDRV_PCM_TRIGGER_STOP ||
-+		   cmd == SNDRV_PCM_TRIGGER_SUSPEND) {
- 		scoped_guard(spinlock, &pcmp->lock) {
- 			pcmp->flags &= ~SNDRV_GF1_PCM_PFLG_ACTIVE;
- 		}
-@@ -558,7 +559,8 @@ static int snd_gf1_pcm_capture_trigger(struct snd_pcm_substream *substream,
- 	
- 	if (cmd == SNDRV_PCM_TRIGGER_START) {
- 		val = gus->gf1.pcm_rcntrl_reg;
--	} else if (cmd == SNDRV_PCM_TRIGGER_STOP) {
-+	} else if (cmd == SNDRV_PCM_TRIGGER_STOP ||
-+		   cmd == SNDRV_PCM_TRIGGER_SUSPEND) {
- 		val = 0;
- 	} else {
- 		return -EINVAL;
-@@ -856,4 +858,3 @@ int snd_gf1_pcm_new(struct snd_gus_card *gus, int pcm_dev, int control_index)
- 
- 	return 0;
- }
--
-diff --git a/sound/isa/gus/gus_reset.c b/sound/isa/gus/gus_reset.c
-index a7a3e764bb77..998fa245708c 100644
---- a/sound/isa/gus/gus_reset.c
-+++ b/sound/isa/gus/gus_reset.c
-@@ -6,6 +6,7 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/time.h>
-+#include <asm/dma.h>
- #include <sound/core.h>
- #include <sound/gus.h>
- 
-@@ -263,11 +264,18 @@ void snd_gf1_free_voice(struct snd_gus_card * gus, struct snd_gus_voice *voice)
- 		private_free(voice);
- }
- 
--/*
-- *  call this function only by start of driver
-- */
-+static void snd_gf1_init_software_state(struct snd_gus_card *gus)
-+{
-+	unsigned int i;
- 
--int snd_gf1_start(struct snd_gus_card * gus)
-+	snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_ALL);
-+	for (i = 0; i < 32; i++) {
-+		gus->gf1.voices[i].number = i;
-+		snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_VOICE | i);
-+	}
-+}
-+
-+static void snd_gf1_hw_start(struct snd_gus_card *gus, bool initial)
- {
- 	unsigned int i;
- 
-@@ -277,14 +285,14 @@ int snd_gf1_start(struct snd_gus_card * gus)
- 	udelay(160);
- 	snd_gf1_i_write8(gus, SNDRV_GF1_GB_JOYSTICK_DAC_LEVEL, gus->joystick_dac);
- 
--	snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_ALL);
--	for (i = 0; i < 32; i++) {
--		gus->gf1.voices[i].number = i;
--		snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_VOICE | i);
-+	if (initial) {
-+		snd_gf1_init_software_state(gus);
-+		snd_gf1_uart_cmd(gus, 0x03);
-+	} else {
-+		guard(spinlock_irqsave)(&gus->uart_cmd_lock);
-+		outb(0x03, GUSP(gus, MIDICTRL));
- 	}
- 
--	snd_gf1_uart_cmd(gus, 0x03);	/* huh.. this cleanup took me some time... */
--
- 	if (gus->gf1.enh_mode) {	/* enhanced mode !!!! */
- 		snd_gf1_i_write8(gus, SNDRV_GF1_GB_GLOBAL_MODE, snd_gf1_i_look8(gus, SNDRV_GF1_GB_GLOBAL_MODE) | 0x01);
- 		snd_gf1_i_write8(gus, SNDRV_GF1_GB_MEMORY_CONTROL, 0x01);
-@@ -293,6 +301,8 @@ int snd_gf1_start(struct snd_gus_card * gus)
- 	snd_gf1_select_active_voices(gus);
- 	snd_gf1_delay(gus);
- 	gus->gf1.default_voice_address = gus->gf1.memory > 0 ? 0 : 512 - 8;
-+	gus->gf1.hw_lfo = 0;
-+	gus->gf1.sw_lfo = 0;
- 	/* initialize LFOs & clear LFOs memory */
- 	if (gus->gf1.enh_mode && gus->gf1.memory) {
- 		gus->gf1.hw_lfo = 1;
-@@ -321,7 +331,15 @@ int snd_gf1_start(struct snd_gus_card * gus)
- 		outb(gus->gf1.active_voice = 0, GUSP(gus, GF1PAGE));
- 		outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
- 	}
-+}
- 
-+int snd_gf1_start(struct snd_gus_card *gus)
-+{
-+	/*
-+	 * Probe-time startup initializes both GF1 hardware and the
-+	 * software state that suspend/resume keeps across PM cycles.
-+	 */
-+	snd_gf1_hw_start(gus, true);
- 	snd_gf1_timers_init(gus);
- 	snd_gf1_look_regs(gus);
- 	snd_gf1_mem_init(gus);
-@@ -357,3 +375,27 @@ int snd_gf1_stop(struct snd_gus_card * gus)
- 
- 	return 0;
- }
-+
-+int snd_gf1_suspend(struct snd_gus_card *gus)
-+{
-+	snd_gf1_dma_suspend(gus);
-+	snd_gf1_uart_suspend(gus);
-+
-+	snd_gf1_i_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, 0);
-+	snd_gf1_i_write8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL, 0);
-+	snd_gf1_i_look8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL);
-+	snd_gf1_stop_voices(gus, 0, 31);
-+	snd_gf1_i_write8(gus, SNDRV_GF1_GB_RESET, 1);
-+	snd_dma_disable(gus->gf1.dma2);
-+
-+	return 0;
-+}
-+
-+int snd_gf1_resume(struct snd_gus_card *gus)
-+{
-+	snd_gf1_hw_start(gus, false);
-+	snd_gf1_timers_resume(gus);
-+	snd_gf1_uart_resume(gus);
-+
-+	return 0;
-+}
-diff --git a/sound/isa/gus/gus_timer.c b/sound/isa/gus/gus_timer.c
-index e3a8847e02cf..14dcde138bc7 100644
---- a/sound/isa/gus/gus_timer.c
-+++ b/sound/isa/gus/gus_timer.c
-@@ -178,3 +178,17 @@ void snd_gf1_timers_done(struct snd_gus_card * gus)
- 		gus->gf1.timer2 = NULL;
- 	}
- }
-+
-+void snd_gf1_timers_resume(struct snd_gus_card *gus)
-+{
-+	if (gus->gf1.timer1) {
-+		gus->gf1.interrupt_handler_timer1 = snd_gf1_interrupt_timer1;
-+		if (gus->gf1.timer_enabled & 4)
-+			snd_gf1_timer1_start(gus->gf1.timer1);
-+	}
-+	if (gus->gf1.timer2) {
-+		gus->gf1.interrupt_handler_timer2 = snd_gf1_interrupt_timer2;
-+		if (gus->gf1.timer_enabled & 8)
-+			snd_gf1_timer2_start(gus->gf1.timer2);
-+	}
-+}
-diff --git a/sound/isa/gus/gus_uart.c b/sound/isa/gus/gus_uart.c
-index 770d8f3e4cff..25057a5a81b0 100644
---- a/sound/isa/gus/gus_uart.c
-+++ b/sound/isa/gus/gus_uart.c
-@@ -232,3 +232,50 @@ int snd_gf1_rawmidi_new(struct snd_gus_card *gus, int device)
- 	gus->midi_uart = rmidi;
- 	return err;
- }
-+
-+void snd_gf1_uart_suspend(struct snd_gus_card *gus)
-+{
-+	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
-+	outb(0x03, GUSP(gus, MIDICTRL));
-+}
-+
-+void snd_gf1_uart_resume(struct snd_gus_card *gus)
-+{
-+	unsigned short uart_cmd;
-+	bool active;
-+	int i;
-+
-+	scoped_guard(spinlock_irqsave, &gus->uart_cmd_lock) {
-+		active = gus->midi_substream_input || gus->midi_substream_output;
-+	}
-+	if (!active)
-+		return;
-+
-+	/* snd_gf1_hw_start() already left MIDICTRL in reset. */
-+	usleep_range(160, 200);
-+
-+	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
-+	if (!gus->midi_substream_input && !gus->midi_substream_output)
-+		return;
-+
-+	if (gus->midi_substream_output)
-+		gus->gf1.interrupt_handler_midi_out = snd_gf1_interrupt_midi_out;
-+	if (gus->midi_substream_input)
-+		gus->gf1.interrupt_handler_midi_in = snd_gf1_interrupt_midi_in;
-+
-+	if (!gus->uart_enable)
-+		return;
-+
-+	uart_cmd = gus->gf1.uart_cmd;
-+	snd_gf1_uart_cmd(gus, 0x00);
-+
-+	if (gus->midi_substream_input) {
-+		for (i = 0; i < 1000 && (snd_gf1_uart_stat(gus) & 0x01); i++)
-+			snd_gf1_uart_get(gus);
-+		if (i >= 1000)
-+			dev_err(gus->card->dev,
-+				"gus midi uart resume - cleanup error\n");
-+	}
-+
-+	snd_gf1_uart_cmd(gus, uart_cmd);
-+}
+ static struct isa_driver snd_gusclassic_driver = {
+ 	.match		= snd_gusclassic_match,
+ 	.probe		= snd_gusclassic_probe,
+-#if 0	/* FIXME */
++#ifdef CONFIG_PM
+ 	.suspend	= snd_gusclassic_suspend,
++	.resume		= snd_gusclassic_resume,
+ #endif
+ 	.driver		= {
+ 		.name	= DEV_NAME
 
 -- 
 2.53.0
