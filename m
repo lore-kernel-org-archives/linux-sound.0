@@ -1,90 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AB73B0AFB
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 16:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D783D091F
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 17:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775580263; cv=none; b=WydbOJvbSUZmPpQe6dlkMYsgdzA3YZHOK+TWm729OMA54WVhNx9Pug1OuSlnQlCtI4YbaICI3b+jU5QLHm3ARqzmoKImHfKDVeK5cmkTgIBtEvK2zS6VDOSv4GJbiJZJcxgHPsyC2EpK23ebL9+lN/GllOwv2cnZIuqgt2OVcpo=
+	t=1775581405; cv=none; b=eXHSvIt0oTYJqWufW7J73+imAHONIwr4Hhc6/hDs7JMPIc9OVEwRSOjL34Uq1gLXd0rLdG+kwZ+nUbLGzIK8e/On2/ki3xOWuYsTXdumZOzhoY0Gp0nU7ZoliHkQxBIVRafaPNrm6RjNWnbirZFZFY124ovLHypd/APT1NWy0L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775580263; c=relaxed/simple;
-	bh=smiULhZqR1kz920O6ixLyqey23aEs5vury7SV6ven5E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dh+4AigxI8P/Aqd8yIB1rXwPL6FB5H+bqg+cKJ7Wdx9XBl8IAz1QRxm0j/QRiAIKsUhjk6dlru3A6iHDFKJfDb9QWIWCybU44lW/3FTKsmdbZTrv37mfk4vj8dUZNHj0SVY4AkxJbQiMWvBjxx8tCsAquVNGNwuBti/5IhgFr4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4M3j3JA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775581405; c=relaxed/simple;
+	bh=yS7fLPfpixS5ANKUpz+8IbWfPa7J2Jlmh+GVNICRquY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pR8irovR/uaRRvPI85goBawEU9ugwZAgfQB7h+fWnYNNtQXnhKBhEoGE33eMVmVRlcb1LiQq6QgyD7FG7jKIogduAyTJryMDodFCkVgjey4cI+J4SYU4I1I7QY/08OMTRHJJCCSoCEESHYioa2m3y5MN2ymfGXc+YdTJoRij3JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bz9AiL+t; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4M3j3JA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298B5C116C6;
-	Tue,  7 Apr 2026 16:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775580263;
-	bh=smiULhZqR1kz920O6ixLyqey23aEs5vury7SV6ven5E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=u4M3j3JAOAS8NypuB1T1muJ1WeMnb8c7pA6RWn/3hf8C131ILsWcZLZVO7QyWm/s9
-	 qfRoWV0RbghtA1QzCgzxpO+625uaPQX4KIkLdKzblyED5Ynk08p3RFHcmkN3kHsxu+
-	 s2ALBKwev2K30vrdRSPuB5IGQXS1oJlT5wnK6roz5MRnCU1eAN825wGQcejhmnnRtU
-	 aE/LreKxRV9kJW42x64i5b8QnQAWyv5nUWxkVtYPFZ58Ue19Hy0q+7a0Fk/S0rAkr7
-	 AEfTc1mU/6V8s18yyBQMUcwTHGfxDBTN/JXDRN8Vwmtd21TaM27nzo0W0jVcq8DBQo
-	 YaY8IvPNvuwkw==
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20260407085459.400628-1-cezary.rojewski@intel.com>
-References: <20260407085459.400628-1-cezary.rojewski@intel.com>
-Subject: Re: (subset) [PATCH 1/2] ASoC: Intel: avs: Fix memory leak in
- avs_register_i2s_test_boards()
-Message-Id: <177556325457.37897.12515945357438212446.b4-ty@b4>
-Date: Tue, 07 Apr 2026 13:00:54 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bz9AiL+t"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b23fcf90b2so52001305ad.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 10:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775581404; x=1776186204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=USinWtrK9cNysHqIyf7r5O6B/9/TrlyTmryTw2WVrbs=;
+        b=bz9AiL+twoSLeq+CzPPAgwn4mWno8WWwjt/NBjC0PvxmAPk3tfCLAF5FpfgNQzdGCn
+         7JBHv/wyjnuE3m6L7Bc1g0vJmZsKEsUTBA+Uj5KknjQBrH8d0o54ncQQohhx6SxNqpbv
+         EpsYeenlfUqc58p85pTdptppS8hk8TQOxqYFkc8+4ON2uQhDM75w4R0eSI4Z+9MFfvyt
+         FdIAXzb7vbkzq07NSr2syksKv4NCNFTz7cbWWSAl9k7C4bOiMmD9Wfg/+M7fwCl27CG1
+         iEyQeNcLYqIEMqjZ9/0vJ4XctDEA2t16QsrZlO4VyHiGf36lAuyT4aLscnSOxsbVp0CR
+         2wIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775581404; x=1776186204;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=USinWtrK9cNysHqIyf7r5O6B/9/TrlyTmryTw2WVrbs=;
+        b=S6CP1CUCZCoscnAsSoqKTEPNwQD1+IPdzhFZKoeu987YdD7Geodqv5dZUV9ZF0hleE
+         3+q3VN8NS3I6uIEJrMbqHA7U4jX1NhByaKGAIq6cyqTKkbV9T+z+PN60ODpv8dwZ1oyU
+         Ea0nDkZ4Cqenhqv76etpVfYN5Sh2UuTZCIRlax9Om5b2f/26J98cK0zpmWIoHyiJwNwV
+         bWwNXqDMrOrnN8uPfs3XcreNwHTIbs5SGW9LaXnUfTEr6FWRUXnl/htRoEbf2kYlMFHC
+         Bc07zWANidynhbhjbtzaQMhchIY54KsMDrRMqEp2Ib6ZdEBInnPFVZerIgTlSiwKlHvI
+         YiPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXt2Ys50w/6/tybj/mYdAHAAL55MmziN338piMB0NUKYs82SzPNAD88gROWq/pn7TW+Eb536bVSMfX45w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0+HgdOwNn/R6kIobgKFbFB3XNhNaRd93wR0xwJzYoJzbQ3QVo
+	nLK90fxV9f+Gi/9oAdKke1chs0Nhn8DJ6/M041RkR52SYKbhby+ims2t0MzeVlRwmH8=
+X-Gm-Gg: AeBDievzd836h81lRISV2mVmStaKxP807Cor5qUTkyzFz+/xNjrN12h2iqxH4+QQDwF
+	ThDGj5EsTA9hOMu2b3OzTZ1xu7Cfev7G4C75wHFTx2Fragv5ADr85aDg4Ne9ImiXe7J/N9ESnXF
+	TEB5dLDvgNFuFXtkQ+gX/vqi5rJqhJVzHf6j5omsBwO8sGbnRl0rBIrfSD84QwlF9U277S0nX9b
+	7zL7Z/kB+oMPajwTK2irKvWVJxaZ1zv9Cv4rfkePQLpEadMSHx/zCXFikRIQ0JEPfblI7PSrqMK
+	SnTcFxKPVpxH/iyQha59AeaUqnrzMLudMVHiAiA+jUj9mv0hHDB4rY56ayMdnEbiqANbndWPrI7
+	upundzSTsyCmuhTv/tl+adhEBvTkJtiHcd3WOzQugqI9qmG7LrV79/TfsxzRcho6Kaj3YFSQi+t
+	Nir657U+zNvCg+ynp8IEGuKwhaziMWUXc4PS3goNuMiNUKwRsy4A2te+0JHyxRVfYpu9ISCbAPU
+	hK+5G+KruXbQNMKDWga0l6G6EoltN4yqRTNKncisBj4UnT1lgqA6wrsmg==
+X-Received: by 2002:a17:903:3c47:b0:2b0:67a7:5c4b with SMTP id d9443c01a7336-2b281802d24mr196869375ad.28.1775581403501;
+        Tue, 07 Apr 2026 10:03:23 -0700 (PDT)
+Received: from lorddaniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.www.tendawifi.com ([14.139.108.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478cb4fsm196617905ad.29.2026.04.07.10.03.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 10:03:22 -0700 (PDT)
+From: Piyush Patle <piyushpatle228@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sheetal <sheetal@nvidia.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ASoC: tegra210: simplify byte map handling in ADX and AMX
+Date: Tue,  7 Apr 2026 22:33:06 +0530
+Message-Id: <20260407170308.100238-1-piyushpatle228@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-7a3e7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=broonie@kernel.org;
- h=from:subject:message-id; bh=smiULhZqR1kz920O6ixLyqey23aEs5vury7SV6ven5E=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp1TRlW1ifDs2ZfsE8gMKNvotloCBB8+6TQVm6f
- pGETASfWs+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadU0ZQAKCRAk1otyXVSH
- 0HBnB/925k6V4gDJxXUvNhk4XOZ6ScUS8T3UshPKp61dajIxRvo6xLDb0wzR5Vao9sqOGSXLWJI
- aGa61bNgz2TBU8gnQ/seWPvA+6KLJNPF/NMkK+IPueF5jb+53VIdRS5yRDSAtoGRUva+AK+jbbD
- 8mmNBft6hErQ5/TjM2ByxWc8pxzqM8BTvTo4EuOzIShAg8EFcoQhV8wmf2YP61u0SursmTUxO8V
- EHDBLx1N6pllXQkbT5YxU/2qZWm4gNTXeX1LbeaItfiUUsqMX30XiDSMurnfwcyEkLaGUpE7CRu
- 0/DtGy/wNHPlN4T3V8k5nxoe8Yp4GXb9e0rqte38Tzl4heaK
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Tue, 07 Apr 2026 10:54:58 +0200, Cezary Rojewski wrote:
-> ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
+The Tegra210 ADX and AMX drivers both keep their "Byte Map N" ALSA
+control state as a byte-packed u32 map[] array along with a separate
+byte_mask[] bitmap. This is because the control range exposed to
+userspace is [0, 256], where 256 is the "disabled" sentinel and
+does not fit in a byte, so the two arrays have to be cross-checked
+on every get()/put().
 
-Applied to
+This series stores each slot as a u16 holding the user-visible
+value directly, turning get_byte_map() into a direct return and
+put_byte_map() into a compare-and-store. The hardware-facing packed
+RAM word and the IN_BYTE_EN / OUT_BYTE_EN enable masks are computed
+on the fly inside each write_map_ram() callback, which is the only
+place that needs to know the hardware layout. The byte_mask[] field
+is dropped from both driver state structs.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+There is no userspace-visible ABI change. Control declarations,
+ranges, initial values and handling of out-of-range writes is
+preserved by treating values outside [0, 255] as disabled (256),
+matching previous behavior. As a side effect each patch also fixes
+a latent bug in put_byte_map() where an enabled-to-enabled value
+change was not persisted.
 
-Thanks!
+The packed RAM word construction is also updated to ensure the shift
+operates on a u32 value, avoiding potential undefined behavior due
+to signed integer promotion.
 
-[1/2] ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
-      https://git.kernel.org/broonie/sound/c/c5408d818316
+Addresses TODO comments left in tegra210_{adx,amx}_get_byte_map().
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Patch 1/2: ASoC: tegra210_adx: simplify byte map get/put logic
+Patch 2/2: ASoC: tegra210_amx: simplify byte map get/put logic
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.34.1
 
