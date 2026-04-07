@@ -1,66 +1,66 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D292274B28
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 14:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714F035DA67
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 15:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775572777; cv=none; b=cC4lsE5/HSykeFCSmvRBx/ZukYchlILjNS8qTYmcACp2y16SoShTBYvPCyqczQbySNeoGwKIJomJmMkWcfciGTUGjwXNfQMiXzxyQuOgBiwSQ/d9hsl3elQLIQO3Esb+VDvwOLzFSmguKjUPnYZ4wsEJ6Q8BCI5NmyFHAfpZbcs=
+	t=1775574777; cv=none; b=XpSCwnqCwuA+c1nh7iI0GGzZAjHas1MC8nVWULHv8xcmWKa+4aSLTEDwwSKp3OygpP9sSs1FznIBYO2xpdGDwDjnTuZp7TKWYw9mo3EFjeuwbThGaF3Ddu5wlKiRrzN9RtkcJUG5Gj0YaVQMzgiustS9YZQz8InknAafsIkxM8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775572777; c=relaxed/simple;
-	bh=Z1Xf70YSDdyq7WdOK2usVKwrCrjA2rwAToV9NSC0i3M=;
+	s=arc-20240116; t=1775574777; c=relaxed/simple;
+	bh=M5lgZ/rycwHwuDJmxlQA/pldnZYgh5o1O0sdz/ym/FQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S4jkqlGJ10k50F8F6xqBvYmF6ujnBP811OpMjdh1BhPghZoLPDNnLkb/G+CiCicthp+GOYQa/c+56c/Ud7iHtYbh9eaGX4adCvpEZTR4+eQh4xwd8Pt10IKpMI2VIj/DHA0W44sWMMCJjlTmICPccGf+kkZ3nqayUvQr8vG8lK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mw53bBPF; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=UQy6291y4Xjj3bWiTkm+i9/0xc6N6U1461QeeWVZQAT8G2fYZMy6HyTFCraMpIHpuwnzPqxobagBvCxD0McCTJUT2XRQBlTF/N2DEDB8zp6bSvOA6qE+hcw1eFUZcAx21OvT8cZRhsCBZY4xT4gWzSBN3t6V6pTO6BSHv2vL54Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=SrhCrVAr; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mw53bBPF"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2c15849aa2cso6801826eec.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 07:39:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="SrhCrVAr"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488a29e6110so32985835e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 08:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775572776; x=1776177576; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k9d1ttTDYZQwFcjsb48TykRH2ja2RI1VLyTVwU1CMJM=;
-        b=Mw53bBPF9O1n8K3ALuHaMUbYV4IBCdhzbHwfYXkOX6b+qnkhSNmodKoIyhjgUtbEou
-         H9alm87SYwYiamh9qesAmo5HKjf9xD4A8jJ/JlrYqGGNsFuyqhZL1H4sxI3Q/byXJPLY
-         uk6vzS7MCVtkAIXEWRLO4iUyKtIaAnx4KYRDlPaTO1mpNBA899Jy6zeamSc+n+rVahFE
-         gY0NRzmBJolqeowMP2Sa4LCMJRs5hs5LArHaTKh4NM1PeiCEYxP81n63040aJ1KAI07N
-         yeSL/AaDvisSUHnKLgDxt5Rejxum4idmfPWF7yl+UYwqCWE6afKAGoKYO8hzeC8oVdpI
-         WjGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775572776; x=1776177576;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+        d=tuxon.dev; s=google; t=1775574774; x=1776179574; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=k9d1ttTDYZQwFcjsb48TykRH2ja2RI1VLyTVwU1CMJM=;
-        b=bVQWZ99oc1A1tXz+pz7+z+zmHowYizIJENHwSXc0bLe5Wkh/ERjSeGL4i+qgkMFbCA
-         Vep/RNKiQBTn3yicDBtfzQoWu37NtjUFlmOO7whflVuGP1scFPpjsRHlOtfYeAe4sqcd
-         y/ATZuOsvMSZATspLFBtL6iLhGT2IzaGeq6dGvXOhnopqdiH3sbAr7SuyBuW0oivVHvV
-         KYsQnOVUlMtD2kJkmpYuNWe1sDGzl9ieMm733vydVRUzffbk5nQe3z9tmT9wrmvc4SFo
-         izYrJw7QlWizL411pXyW2mpXPILOVTB3iDV70x1UpJ/ReQxP+0S/TLrnz8VNQtRPz+Z7
-         Kkfg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFMgu7EVptK3jLUTHiJvrk3C2B9n2PSc6KaxcJ/WP0dHpnLkLiGY6b+jpeY5jcD5LVsFe5hDp61A+Wtg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxZr52cZyN+Uldi8iyoCH0zQiGCq/OjTvEurlvfu1yLns3cgHm
-	GB6kJpRl7d7QIm6eO5JAuSBOt/5YqfBI+8oj8fSN7VIN5Z9VOG3e4kCW
-X-Gm-Gg: AeBDiev8kb6SEEVnK2vgsBwaM3o2mepbsuePOkxDMzzsUj1bS0OB3kZSk4xeecHj8zO
-	AxIznAC46zqkeEJ33IObpApRs6STxyRYIULoJWlj9nTgouwoJBIoIc8V1Mx8HN/FMbkr5HlSrYr
-	esGKMOkeXb/5axQMwqqG4JDhYQk91TuwAqOQSSKH2hNkecWNW8IShvKTH0dus7PxEKQFCnd4smq
-	e0CV+Eac/bzNz8zygZitB2QP/IH9Qk86xr/7rfjHox9g8v2lCUHZh2GCn1/Jhu2XHOin6pTjmOO
-	IiaXC3dmp5CygHw/arkiqsG8OHkFvBQUWlYbazCUVbqPtzix/SOggueG/ij4LQqenZkH/yLiN8F
-	k84yVaL5S+8MVje98+Op9cYD43wh36X8htF93NkB2pxTIFWce3MSAIdilCgXWq1EjEL/0rkorQ7
-	i2GzjUmcpKwQ4/RlSuNKonM9+8x8x3AeJ4RW54dHX9pj+nz9ZdCmwmb9i/Vkllfv+8EZ6C8LYfz
-	6gF
-X-Received: by 2002:a05:7300:a287:b0:2c1:74ad:2cd7 with SMTP id 5a478bee46e88-2cbfbf760c4mr7952481eec.27.1775572775438;
-        Tue, 07 Apr 2026 07:39:35 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d16d115c00sm3463169eec.12.2026.04.07.07.39.32
+        bh=n1hN8mCBwc97NQZYyYnJTNMhtLwGP6OBa0knSNEhsEI=;
+        b=SrhCrVArYbSnUexuuKKihGscalGqPI/QzOjFRrHaHr0HlRct9NO7fK80oF7pRUVnnZ
+         AQyPhQDVlGJs8hhudrGECrHpN0BY/91AKdbFGKvJLHLRhi+52eBwW/kCT6XirIdABe0X
+         tWEtEoYNyZas1wK2Se72Ska3wd27IZZ2Z+a+IRMT3/Ui8pEafrlnzgWd17lOl1+5d/uE
+         BLO3DK2eZr+VR7CxRZg2xwvy4xjhZ18iqjspbZZmSbNsvQo+q/4Gv+LUtvyikfuwboqw
+         aalWUZjk4oo6QTESph58pqtHp/PR2LjDdu4QTd+O3Ccj0aZLnFx8/5kgU7E1uU4RJXaZ
+         Zgig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775574774; x=1776179574;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n1hN8mCBwc97NQZYyYnJTNMhtLwGP6OBa0knSNEhsEI=;
+        b=Qs8asc4yKcj1ncy+oWRNg2YlBSYO5UdWYFnAaOLqc1z4wyqOHB4HclxMsLLNnXAoCP
+         8eiB+3ECf5r3yh5W8+UJilh6/3XHnFGX4wsGuqLToG04Y1ts41hLC8fpFDE8Vbxhzuv5
+         BmTk45UDn3mkNMBP0IGW9xWRpTPwBnPS3HEJgc4ZO3FpMyEAYzaD+JOZ+tFaamHtw+kQ
+         nRRUyXK/bGXsBz+waPEJL4yrWYZGYhPi9UmtWg/6N2R9j6I73x/yjw+ybkFVQ2KJDvqd
+         D3M0sO/d0K4VtgBRYNmCLgDVLWJ5rQsGhvuKbmA50ql5Z9IJMuOBQOizo1guRbB4EKfA
+         cJQw==
+X-Forwarded-Encrypted: i=1; AJvYcCVv8euQF4CmzQoJYnOcJeTu/MDEJ7LuFNW2btC9mut5g2BEBYy9u/Vk6ryp6tuzPWvAwUdloX2pa1zBBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8JWJOcJkodhAmssMJQEk8Iab6f/JFKWFh4c+Ikjsp9vjoZoWd
+	htnHaiNjErMjguonLMhGyNgi31JzMFBr1WGJBPnNYadx4ka5PQ9RY7y8NTRLnjrGRSg=
+X-Gm-Gg: AeBDieu6WuuhNaXMuPWMVF4CMAu399n1LjKQf9kTOZ9sPxyd594HmV6q/KQjbDMyLO2
+	fmqNHUYnGMishDO+SF5AHwG6GCXitv9C69Ju8nm291EvnJnDMgfGOyriWd1iO3WZI6qkkfX005q
+	RLUOQ2/0k1pcjm+1kWTRohRbml7O9l9GnSOQ1RyS7/MEs+TFTWZ8jlu6Dti8bckdlKaf5OBpHBz
+	sOJT7z6azAwAF/c798uS4KU1N41RnHJtaUVGqsBZOcONhjtNHa4kKX95VslHxMH/ZGzoptzfYFx
+	a6Ixf88Ju+De94gW3n/5Gpx+dIrhQiJ1Vhc2Pc58yvz4Yc6lAfKlgQzMAHW4PWh7qAtjZZEQVQS
+	p7xXrCtCDzKKR09D4iERj15A44Wngyr8MoxUqwN5eeRc4OnUUhMdLzySBfUnAzkbmfQw9jNf4kr
+	NCcUXLjfSdvpI3TLR4/xQdnwTXVyGLgcg3KUhHKsx4Vg==
+X-Received: by 2002:a05:600c:3b1b:b0:485:2a4b:7bc3 with SMTP id 5b1f17b1804b1-488996a3560mr236913405e9.4.1775574773822;
+        Tue, 07 Apr 2026 08:12:53 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.248])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a8ddfde7sm428997685e9.5.2026.04.07.08.12.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2026 07:39:34 -0700 (PDT)
-Message-ID: <28143355-b02f-418e-b1ec-1551c497d416@gmail.com>
-Date: Tue, 7 Apr 2026 11:39:30 -0300
+        Tue, 07 Apr 2026 08:12:53 -0700 (PDT)
+Message-ID: <77514d1b-e418-47db-9b47-8f7d8a4cedc5@tuxon.dev>
+Date: Tue, 7 Apr 2026 18:12:51 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,116 +68,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ALSA: tea6330t: add mixer state restore helper
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260406-alsa-interwave-pm-v1-0-6ffa6f317c8f@gmail.com>
- <20260406-alsa-interwave-pm-v1-1-6ffa6f317c8f@gmail.com>
- <87tstnm1bp.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
+Subject: Re: [PATCH v3 11/15] dmaengine: sh: rz-dmac: Add cyclic DMA support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
+ <vkoul@kernel.org>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260407133507.887404-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260407133507.887404-12-claudiu.beznea.uj@bp.renesas.com>
+ <TYCPR01MB11332705744F2802F745C1567865AA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
 Content-Language: en-US
-In-Reply-To: <87tstnm1bp.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------84WCao7fKof4TSSDe6Ien0PI"
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TYCPR01MB11332705744F2802F745C1567865AA@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------84WCao7fKof4TSSDe6Ien0PI
-Content-Type: multipart/mixed; boundary="------------vZVPEhUw6ayXGNAyzD0dlEg3";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <28143355-b02f-418e-b1ec-1551c497d416@gmail.com>
-Subject: Re: [PATCH 1/2] ALSA: tea6330t: add mixer state restore helper
-References: <20260406-alsa-interwave-pm-v1-0-6ffa6f317c8f@gmail.com>
- <20260406-alsa-interwave-pm-v1-1-6ffa6f317c8f@gmail.com>
- <87tstnm1bp.wl-tiwai@suse.de>
-In-Reply-To: <87tstnm1bp.wl-tiwai@suse.de>
+Hi, Biju,
 
---------------vZVPEhUw6ayXGNAyzD0dlEg3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 4/7/26 17:36, Biju Das wrote:
+> 
+> Hi Claudiu,
+> 
+> Thanks for the patch.
+> 
+>> -----Original Message-----
+>> From: Claudiu <claudiu.beznea@tuxon.dev>
+>> Sent: 07 April 2026 14:35
+>> Subject: [PATCH v3 11/15] dmaengine: sh: rz-dmac: Add cyclic DMA support
+>>
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Add cyclic DMA support to the RZ DMAC driver. A per-channel status bit is introduced to mark cyclic
+>> channels and is set during the DMA prepare callback. The IRQ handler checks this status bit and calls
+>> vchan_cyclic_callback() accordingly.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> ---
+>>
+>> Changes in v3:
+>> - updated rz_dmac_lmdesc_recycle() to restore the lmdesc->nxla
+>> - in rz_dmac_prepare_descs_for_cyclic() update directly the
+>>    desc->start_lmdesc with the descriptor pointer insted of the
+>>    descriptor address
+>> - used rz_dmac_lmdesc_addr() to compute the descritor address
+>> - set channel->status = 0 in rz_dmac_free_chan_resources()
+>> - in rz_dmac_prep_dma_cyclic() check for invalid periods or buffer len
+>>    and limit the critical area protected by spinlock
+>> - set channel->status = 0 in rz_dmac_terminate_all()
+>> - updated rz_dmac_calculate_residue_bytes_in_vd() to use
+>>    rz_dmac_lmdesc_addr()
+>> - dropped goto in rz_dmac_irq_handler_thread() as it is not needed
+>>    anymore; dropped also the local variable desc
+>>
+>> Changes in v2:
+>> - none
+>>
+>>   drivers/dma/sh/rz-dmac.c | 144 +++++++++++++++++++++++++++++++++++++--
+>>   1 file changed, 138 insertions(+), 6 deletions(-)
+>>
 
-On 4/7/26 08:55, Takashi Iwai wrote:
-> On Tue, 07 Apr 2026 03:22:07 +0200,
-> C=C3=A1ssio Gabriel wrote:
->> diff --git a/sound/i2c/tea6330t.c b/sound/i2c/tea6330t.c
->> index e8c50a036bea..3e413929d3ea 100644
->> --- a/sound/i2c/tea6330t.c
->> +++ b/sound/i2c/tea6330t.c
->> @@ -358,3 +358,36 @@ int snd_tea6330t_update_mixer(struct snd_card *ca=
-rd,
->> =20
->>  EXPORT_SYMBOL(snd_tea6330t_detect);
->>  EXPORT_SYMBOL(snd_tea6330t_update_mixer);
->=20
-> Oh we need a cleanup to put EXPORT_SYMBOL() after each function.
-> (It should be a different patch, though.)
+[ ... ]
 
-Right, I'll do it.
-=20
+>> @@ -500,6 +562,8 @@ static void rz_dmac_free_chan_resources(struct dma_chan *chan)
+>>   		channel->mid_rid = -EINVAL;
+>>   	}
+>>
+>> +	channel->status = 0;
 >> +
->> +int snd_tea6330t_restore_mixer(struct snd_i2c_bus *bus)
->> +{
->> +	struct snd_i2c_device *device;
->> +	struct tea6330t *tea;
->> +	unsigned char bytes[7];
->> +	unsigned int idx;
->> +	int err;
->> +
->> +	if (!bus)
->> +		return -EINVAL;
->> +
->> +	list_for_each_entry(device, &bus->devices, list) {
->> +		if (device->addr !=3D TEA6330T_ADDR)
->> +			continue;
->> +
->> +		tea =3D device->private_data;
->> +		if (!tea)
->> +			return -EINVAL;
->> +
->> +		snd_i2c_lock(bus);
->> +		bytes[0] =3D TEA6330T_SADDR_VOLUME_LEFT;
->> +		for (idx =3D 0; idx < 6; idx++)
->> +			bytes[idx + 1] =3D tea->regs[idx];
->> +		err =3D snd_i2c_sendbytes(device, bytes, 7);
->> +		snd_i2c_unlock(bus);
->> +
->> +		return err < 0 ? err : 0;
->> +	}
->=20
-> I think snd_i2c_lock() should cover the whole loop for the race at
-> linked list traversal.=20
+>>   	spin_unlock_irqrestore(&channel->vc.lock, flags);
+> 
+> Maybe create a patch to convert all the spin_{lock,unlock} with guard()
+> in this driver.
 
-I'll fix in v2.
+This series already has to many patches and I want to keep only what is 
+necessary for the cyclic support. My plan is to do the guard conversion after 
+cyclic support gets merged.
 
-> thanks,
->=20
-> Takashi
-
---=20
-Thanks,
-C=C3=A1ssio
-
-
---------------vZVPEhUw6ayXGNAyzD0dlEg3--
-
---------------84WCao7fKof4TSSDe6Ien0PI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCadUXIgUDAAAAAAAKCRDQXT8aWv/ug8kV
-AP938f4DU7qLIvsshBaDykyvVZKAutH/s1BsfX0QTRElgwEA/P6D6V44rN9NDXMXZM94o+1YETpc
-YgwTdBgb0iroqwc=
-=UFlT
------END PGP SIGNATURE-----
-
---------------84WCao7fKof4TSSDe6Ien0PI--
+Thank you,
+Claudiu
