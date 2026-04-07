@@ -1,224 +1,178 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F023A1B4156
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 13:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FCE3783C9
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 13:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775568735; cv=none; b=iUGiCbkC8tGyNuuFT0NTeAjV7UNxbnAKsb+bN5nMAMOWt3MZHMWZR7gJZnNa8k4cqlZky54jiWtSPl9ZGqNC+W3jvN8a/eoY1veGOSdNIWlNSEsIqwNGzeL584REt8XFNeKkwWhoFlzw9Kv4SvrgIwuBCKIgeE6bwvc8sRX8duI=
+	t=1775568930; cv=none; b=SWkis6hpCML9RwpQaE9bptAuRVOCPelrTyVDM1UUKuPIk817MvPXVeYqssFJZDCMme3Phn5fIuIMh8AHF22pHk6mLQZvyVl4fa5mg/pyBVyzT2t+AYMvYmTvzopBLfGWmJScttXfUq2AKNMk6AtZe1D7ZxIUnv2luV0r91DwuEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775568735; c=relaxed/simple;
-	bh=38nMtq0tNVM/C3DDXwzPSxU86lDCGJ2qz9eGJNpfybQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W3RCnGXXX9NO3VLQQHGN2yDA4CqymNPHERmptGvVHB7Uiaqn0gfw8yeOlUC09Yo4S56NHmAzy+wgESnbwye7kci38lwLcTa/evDuxTGw6XXVb3KPZu17igzkAnq9qHCibncn+nZ2RBaKQt9zgU3tRGooShzwNE78plvJ+GNevvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NQlquHya; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X07CSxzl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NQlquHya; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X07CSxzl; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775568930; c=relaxed/simple;
+	bh=o2x27ie2cRLK3/IPEfnk02K85UTWqTL0Mqeurw5+xuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nZPVKCnBsqaVqDbIISRFgEYf36dNtUqfqngU5iG5co/vQFHpmE5VdeMK0lIviZ8+JNnGcDPQShkadqDBaMl494FTWETvEwlNVmcNNeQoN7EPq6b7jdbBeXenUhvpyBW9B+zUPFoXJ+RvOi3BXyDFFWdkbf1uuJtMTfruj6idSvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=HWOcSSbu; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NQlquHya";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X07CSxzl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NQlquHya";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X07CSxzl"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1DA0F4D2D5;
-	Tue,  7 Apr 2026 13:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775568732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l22sfCBxEd7ruid6Zse7EcmU6hzQaQFMg439S66bKrQ=;
-	b=NQlquHyaW7v+tAhfFMgqkspC7YIhnY+IyRjImroyNy6pDPfeTGVS3atokVh91YwScoxHE2
-	RroRIFQ5/b2iTPT8wFhzRrERz3hh0i3uOnLwR+4jalZZ6NOSjjfFPORwI/NxfmkLakC18G
-	la+r6V7JiMFBIpq5anUE3AsxEF3GKg4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775568732;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l22sfCBxEd7ruid6Zse7EcmU6hzQaQFMg439S66bKrQ=;
-	b=X07CSxzlZvBejizqIs0ZUhGnW/R1B5iR5H0k2MUwSmJ7LvwDwzznurzk/ybCn+z3cCDPVm
-	2uMiiUYx3pmybKBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NQlquHya;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X07CSxzl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775568732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l22sfCBxEd7ruid6Zse7EcmU6hzQaQFMg439S66bKrQ=;
-	b=NQlquHyaW7v+tAhfFMgqkspC7YIhnY+IyRjImroyNy6pDPfeTGVS3atokVh91YwScoxHE2
-	RroRIFQ5/b2iTPT8wFhzRrERz3hh0i3uOnLwR+4jalZZ6NOSjjfFPORwI/NxfmkLakC18G
-	la+r6V7JiMFBIpq5anUE3AsxEF3GKg4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775568732;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l22sfCBxEd7ruid6Zse7EcmU6hzQaQFMg439S66bKrQ=;
-	b=X07CSxzlZvBejizqIs0ZUhGnW/R1B5iR5H0k2MUwSmJ7LvwDwzznurzk/ybCn+z3cCDPVm
-	2uMiiUYx3pmybKBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 013204A0B0;
-	Tue,  7 Apr 2026 13:32:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3doqO1sH1WnlVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 Apr 2026 13:32:11 +0000
-Date: Tue, 07 Apr 2026 15:32:11 +0200
-Message-ID: <87eckqnbfo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Harin Lee <me@harin.net>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Maarten Lankhorst <m.b.lankhorst@gmail.com>,
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="HWOcSSbu"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso28283485e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 06:35:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1775568927; x=1776173727; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3LJdsgaB5y8vkydWsyskwB8EOPuNOYx+V9eGhmYtIWE=;
+        b=HWOcSSbuHU50E8X5N0fRdRYw2ke82F9562zLH/FqwSKBDBmiOoOUfS1CqypkIxZpWT
+         9ObXM7ptdG+ioAb7GqDek/zNK0aBP8pH533qOkW49HrRebxGARMjeVya7msSuwP+d0kZ
+         TNLK0q6N/8ART6WB40GxogAneM9Ts80JVFakMyCM0+4H5+t5yN3PNHgzKtxYtRYLnFLb
+         ZcSN1//kL8f6yZVeSLJIoBNHq58BhpSJYQNk8IuiSGRIGIUjYlopUBWSwwmypOOZAYpU
+         SJ7pTQw+PKveEkn8xDvz/gRHj0c1AzdiWGga1nI+ie/Vr6PjRcMP+cJYxs5Hc/Aiublx
+         MPQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775568927; x=1776173727;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3LJdsgaB5y8vkydWsyskwB8EOPuNOYx+V9eGhmYtIWE=;
+        b=DFmE7HlgzOGu7i4h0UxmU37l/I1wY1ZOMj/5VmmEhbOKYTYjhrmbH7csFZoXaygt2p
+         hKcbhjjsFSCa5d3e4KoRvscLsA8UV7d5VtNatM9/HyPy+loXViGiZzMG6QnCe+ReNPQt
+         PcnEl6L/Xf4PAiEJt/6F9YqeA8b6pu7C4xFifUq02SLb0H8WXDOoPbYY+q6NJxXVjmyv
+         qK1xBU2gNTkZK2KyBF1uI/WCtVLIwBEjNyrp+ialii+3lOvJgGDlIxIoFyaHqzfMZI2P
+         KWG+GuS6mJZ9pbQ4cS3ylro7u/u6IkMeCuLb1CHapG6bgT2nELhOq+STQWeBioLruAew
+         RUyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVicaMBbxCUJEE9QaV0qZklyg+fFwyRktzZnEErcPZt5qESW1XAgYd/HPJg43raP8N4D/mVzYSwqr/n7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzdkt3pLU+YJhi72Ijl/qcKF+Nk/tXAAgjSr8qlBbCo1LPstoR5
+	kwpu/+mBcOx/0vEg8xJEMN7Yr++7D7drF01g94no3mfYNZUSK+1zku8jPEGLL/wGZYs=
+X-Gm-Gg: AeBDiev4P7zYtexQpFgJWQBrxRxEL1uLwM3J6m5oKO2D8zCRtcQcEp5OYeArTC3MT/4
+	vXL2QgY6coSJJmMh5PsYBTlj1V0xqCBZwLQnOV5OsgVEFQQZ1r0YHWr9Bo+yEdfe/Ce1kTkCf0t
+	bbpscPewaT1S420jjDLtd49+5PrXt7oJv1G2fLHGbij/hQbZjsz3ctGYs/BT9BdZGTxADPn9g9w
+	nISrhaLFN//djgXmN1yCZcgBI4G2xgEid7UclQby2b/OoUpzjZWQyna9o0D+WpR34SHX1x4j9GT
+	5j3Qp4QKsUTMdvITGf8EFZCq1Gpizj8KKMkwPyAvAGI3+hq4CeFHJcJgDsX2CEOQd1bbnVI2LCE
+	qddEhHAH7w2a2WUwQ9WWLGUiOk1xJ4HTUvhtinJgQk88dMglhTmnXdqjkkSKa40mwTepea9pL9H
+	kKGG2M2XiM57kVn5v+bsKLPGEoibq4DDeaSVDJx4wzxI04gF27vsPV
+X-Received: by 2002:a05:600c:1e24:b0:488:c078:bfda with SMTP id 5b1f17b1804b1-488c078f73fmr30084395e9.26.1775568926571;
+        Tue, 07 Apr 2026 06:35:26 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a91686f9sm285777675e9.10.2026.04.07.06.35.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 06:35:26 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	fabrizio.castro.jz@renesas.com
+Cc: claudiu.beznea@tuxon.dev,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: ctxfi: Limit PTP to a single page
-In-Reply-To: <81e252e0-98a9-43ba-af54-e2ed152345b7@harin.net>
-References: <20260406074857.216034-1-me@harin.net>
-	<871pgsmpzv.wl-tiwai@suse.de>
-	<81e252e0-98a9-43ba-af54-e2ed152345b7@harin.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 00/15] Renesas: dmaengine and ASoC fixes
+Date: Tue,  7 Apr 2026 16:34:52 +0300
+Message-ID: <20260407133507.887404-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 1DA0F4D2D5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 06 Apr 2026 12:32:43 +0200,
-Harin Lee wrote:
-> 
-> On 4/6/26 5:50 PM, Takashi Iwai wrote:
-> > On Mon, 06 Apr 2026 09:48:57 +0200,
-> > Harin Lee wrote:
-> >> 
-> >> Commit 391e69143d0a increased CT_PTP_NUM from 1 to 4 to support 256
-> >> playback streams, but the additional pages are not used by the card
-> >> correctly. The CT20K2 hardware already has multiple VMEM_PTPAL
-> >> registers, but using them separately would require refactoring the
-> >> entire virtual memory allocation logic.
-> >> 
-> >> ct_vm_map() always uses PTEs in vm->ptp[0].area regardless of
-> >> CT_PTP_NUM. On AMD64 systems, a single PTP covers 512 PTEs (2M). When
-> >> aggregate memory allocations exceed this limit, ct_vm_map() tries to
-> >> access beyond the allocated space and causes a page fault:
-> >> 
-> >>    BUG: unable to handle page fault for address: ffffd4ae8a10a000
-> >>    Oops: Oops: 0002 [#1] SMP PTI
-> >>    RIP: 0010:ct_vm_map+0x17c/0x280 [snd_ctxfi]
-> >>    Call Trace:
-> >>    atc_pcm_playback_prepare+0x225/0x3b0
-> >>    ct_pcm_playback_prepare+0x38/0x60
-> >>    snd_pcm_do_prepare+0x2f/0x50
-> >>    snd_pcm_action_single+0x36/0x90
-> >>    snd_pcm_action_nonatomic+0xbf/0xd0
-> >>    snd_pcm_ioctl+0x28/0x40
-> >>    __x64_sys_ioctl+0x97/0xe0
-> >>    do_syscall_64+0x81/0x610
-> >>    entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> >> 
-> >> Revert CT_PTP_NUM to 1. The 256 SRC_RESOURCE_NUM and playback_count
-> >> remain unchanged.
-> >> 
-> >> Fixes: 391e69143d0a ("ALSA: ctxfi: Bump playback substreams to 256")
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Harin Lee <me@harin.net>
-> > 
-> > Applied to for-next branch now, as it's no regression in 7.0, per se.
-> > 
-> > But, I wonder whether fixing in ctvmem.c would be relatively easy.
-> > Isn't it only about ct_vm_map() and ct_get_ptp_phys()?
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> 
-> Hi Takashi.
-> 
-> info.vm_pgt_phys is set in atc_create_hw_devs().
-> 
->   ...
->   /* Initialize card hardware. */
->   info.rsr = atc->rsr;
->   info.msr = atc->msr;
->   info.vm_pgt_phys = atc_get_ptp_phys(atc, 0);
->   err = hw->card_init(hw, &info);
->   if (err < 0)
->     return err;
->   ...
-> 
-> The atc_get_ptp_phys() function actually calls ct_get_ptp_phys().
-> However, the index is 0, which only retrieves the address of the
-> first PTP.
-> 
-> The hw_trn_init() for CT20K1 and CT20K2 writes the value of
-> info.vm_pgt_phys to the hardware registers.
-> 
->   ...
->   ptp_phys_low = (u32)info->vm_pgt_phys;
->   ptp_phys_high = upper_32_bits(info->vm_pgt_phys);
->   ...
-> 
-> CT20K1 implementation writes to the PTPALX and PTPAHX registers.
-> CT20K2 implementation writes same single PTP address to all 64
-> VMEM_PTPAL and VMEM_PTPAH registers.
-> 
-> We don't know if CT20K2 hardware actually supports independent PTPs,
-> and refactoring would be risky. So I think the current approach is
-> the safest for now.
-> 
-> This is what I've found so far.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Makes sense.  As already mentioned, your patch was applied.
-If any further development to extend PTPs again, feel free to
-resubmit.
+Hi,
+
+This series addresses issues identified in the DMA engine and RZ SSI
+drivers.
+
+As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+showed that starting all available DMA channels could cause the system
+to stall after several hours of operation. This issue was resolved by
+setting the Link End bit on the last descriptor of a DMA transfer.
+
+However, after applying that fix, the SSI audio driver began to suffer
+from frequent overruns and underruns. This was caused by the way the SSI
+driver emulated cyclic DMA transfers: at the start of playback/capture
+it initially enqueued 4 DMA descriptors as single SG transfers, and upon
+completion of each descriptor, a new one was enqueued. Since there was
+no indication to the DMA hardware where the descriptor list ended
+(though the LE bit), the DMA engine continued transferring until the
+audio stream was stopped. From time to time, audio signal spikes were
+observed in the recorded file with this approach.
+
+To address these issue, cyclic DMA support was added to the DMA engine
+driver, and the SSI audio driver was reworked to use this support via
+the generic PCM dmaengine APIs.
+
+Due to the behavior described above, no Fixes tags were added to the
+patches in this series, and all patches should be merged through the
+same tree.
+
+In case this series will be merged this release cycle, best would
+be to go though the DMA tree as the DMA changes are based on the series
+at [1] which was merged on March 17th. Otherwise, any of the ASoC or DMA
+tree should be good.
+
+Thank you,
+Claudiu
+
+Changes in v3:
+- addressed review comments got from sashiko.dev. For this:
+- added patches 1-9
+- added patch "ASoC: renesas: rz-ssi: Add pause support"
+- dropped patches:
+-- dmaengine: sh: rz-dmac: Add enable status bit
+-- dmaengine: sh: rz-dmac: Add pause status bit
+
+Changes in v2:
+- fixed typos in patch descriptions and patch titles
+- updated "ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs"
+  to fix the PIO mode
+- in patch "dmaengine: sh: rz-dmac: Add suspend to RAM support"
+  clear the RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED status bit for
+  channel w/o RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL
+- per-patch updates can be found in individual patches changelog 
+- rebased on top of next-20260319
+- updated the cover letter
+
+[1] https://lore.kernel.org/all/20260316133252.240348-1-claudiu.beznea.uj@bp.renesas.com/
 
 
-thanks,
+Claudiu Beznea (15):
+  dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+  dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+  dmaengine: sh: rz-dmac: Do not disable the channel on error
+  dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+  dmaengine: sh: rz-dmac: Save the start LM descriptor
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+  dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor
+    processing
+  dmaengine: sh: rz-dmac: Refactor pause/resume code
+  dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with
+    CHCTRL_SETEN
+  dmaengine: sh: rz-dmac: Add cyclic DMA support
+  dmaengine: sh: rz-dmac: Add suspend to RAM support
+  ASoC: renesas: rz-ssi: Add pause support
+  ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+  dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last
+    descriptor
 
-Takashi
+ drivers/dma/sh/rz-dmac.c   | 673 ++++++++++++++++++++++++++-----------
+ sound/soc/renesas/Kconfig  |   1 +
+ sound/soc/renesas/rz-ssi.c | 375 +++++++--------------
+ 3 files changed, 599 insertions(+), 450 deletions(-)
+
+-- 
+2.43.0
+
