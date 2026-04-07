@@ -1,142 +1,166 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53753AA516
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 12:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775564330; cv=pass; b=Bu6xSJKO5rWDgWGv7viGHUOfeMtO/hGnbIkGbkLxZVUMBZnQiv/5S+HiDn4tv/gMNIHmHuEod1a7yjp4TT1j3MPqDowqIvbKUGvH1bp0kjYdSzGWYnXltHNFIetcXJLgh6cRfJQJsHv1Q+mPdQ+xsB0bHNqv1TA4OtjX67d3iIY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775564330; c=relaxed/simple;
-	bh=QiXTocBbUPCne/DLRORZwb1CjVYu9NENBmKQCLcJLiU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MzFAv8mGi2HWA4zPV4XIZlgaFMl9BvLeMMcm7ZPUol1d8m3EFnsHcH7VoDJM11rSgTRelQ3BoY+6uIdoQAOjkOBWRtlaeAdU5hcexEirFp40UVmTHZ5h/zoEAqxXkBFuQvFbBW8V6aNXmIX1wUb8fqGhRjDHbcf22AR2yC1eFsQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rICtNVZH; arc=pass smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75C23B3BF5
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 12:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775564903; cv=none; b=HsBxR3LOnIjdCaw4vUZREA+1HIePI+qTTx5TBrx5AFTlrnagwKAWDiaFQ9QelCpozTIH39rn6VheoJGQ67frKxxAVrXrgXHNC+Ft22j1GLUai2CBgRb3MVw9Dh1fxJaFCLWs5MUkAADTOxL5c/wegz7bNqHgzGo5XpEiaume3C4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775564903; c=relaxed/simple;
+	bh=3+nATR2M0xPl//oQkqwy1364zC1YEpqNFRKXibKNq9Y=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vrjzz6y72mM2PBtxw3xuscUW8bEb32xXyCCXqQjR13TiiDNtW/QCWDGgnJqEIg7vpw5jB8y3Ytrd9mupYhet8ClhNL7rQJ4GxQL9uSPfTM33qeY2ECK7W8320jfinPms8uKe5UY3dr0fpS5v8S7l08KapA2WcanqyRW3fim9W8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RoSSU2DO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OVJ898aF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RoSSU2DO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OVJ898aF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rICtNVZH"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so3016547a91.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 05:18:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775564329; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Z6G1bH9dLKgNzObHhlGWwmdlDV7SdDi4BH/8SNIejGR1GfPx0sGqJ0b1QxcJY6j1On
-         1fu055E9VBLhEkNs4bWRGTjQahV4YXdYqtXqt7LdSSBNO1+CbeN4B0U7/+zwX6KEPV7L
-         xQgECCbseeBnqX3nHxIC4PzqQgTdImmQ6XvKyIFurelRYs1pGKLAFzlTqcgXSWI8Gc6+
-         VU8SC8pKLd5ULf4qqPwXlachTK4vbimuK+rKmpZA+6zZY6Ju1skkSoA4KGyghiSy9xkO
-         vKSbO/p9YCfByxcxXrEXZhxXbYbondx5BSPX5UGNEccoSfDlnv2q+LwSGiw0ryUSnZbC
-         7aiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QiXTocBbUPCne/DLRORZwb1CjVYu9NENBmKQCLcJLiU=;
-        fh=x/wWmOf0K+byUeSPaf6Ensgne+Q+bwzplYNI9ITIvck=;
-        b=eApCJH5i7zT5EscrLL7eESycOz/utQaLCA17E3qgMV/rM0JWrhEPwXruizHSxA79KC
-         Ye84ZLarxyZ/fOZN5ZaFIRpcUOHRjzLvRq5Y0Bu9DXFGNtS70yI1wCF7NAJGY/K8Giwn
-         Vw0ve1bxrILVw0a7/VvnsNEaEGa2CTuGFf4WwczvRdGT04kCVEseYCdd8HC5FxmmEzjp
-         +216yU8qBaSx4dn7X8GS5ebhxtbVe7yV9TNBhRvqnZKT4voJKOF4BxM96Ol7QS66pKtx
-         oJk1xUGl/IA3/OvBWQyxoBgaabK5Abw5eI6VM2Nkj71ZiE8GW9wrABFnPSjAV1Fft/g5
-         rOgg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775564329; x=1776169129; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QiXTocBbUPCne/DLRORZwb1CjVYu9NENBmKQCLcJLiU=;
-        b=rICtNVZHlvuEUQMSQ3hmhy+UE1jTn05fdRuyIpvZRQohV5ylwLp46uksjIIeQfnVDQ
-         E7VpxBFr3aDPGpD76EtlwyOzeWPxFzUQPHWARZA2l5RAjxGwZ5ZzWU940X0vVMPxkQxU
-         skyV2xLZWXuGYTP2EZK89gdbtR6p5D5OPPptb3iMmGGoTNtERM6jCGMyNd+89NuQ5arC
-         uY2GedKblbTJgqfxW/eL/pt8c4ZoayDrbZ4f1oHxiE6CuV16kQu7V747bcP5gdnFDuUS
-         FsgTMTk5E/DXBR0DzorvE/ajiNUGMAAXu8d/hij0g253zyuNcpRpfDslyRvpYdnxyNYu
-         6eqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775564329; x=1776169129;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QiXTocBbUPCne/DLRORZwb1CjVYu9NENBmKQCLcJLiU=;
-        b=ej+KUSlRhiRccxDSgXx9GdvEpi7L2KV20ZybcroU9mkRcK3Pid/GLefkpkzqB0BW4Y
-         RJ00yqQznegO6NNM3J1tonCfbE4raJmsWxpna74eOfntU4RAXNoiZxo8Dtl8TXaALgf1
-         dT9g9m2suggiK3Z/SrtaEWuI6eaD1pl6DYcbSU6CtRneQifZbrNizBn7QaJ7rThZVDd9
-         ys0Qg5wsXfcpYkdI55T5fvGPrJB685sLgxP9Z8Gm0LBBORpEI8UGMIOCkymq39rNuSU6
-         cQsY6gGv8yoLQfj8by8P59HCAXFZ9z/e4/rCfyxjFcEto0qQZl56Xs/LTZ6I6FMzsX2I
-         8WIA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+xhfMUGK4F9kViceZVyYePiYkCycrC5w5bn63XGYU+NKvACZviEW7ZAiFhEbZxw2WOLvbjFNgvUU9qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdaSUXH7zq/TKSmshlvJPOYpKMMFbnsyPpKmGav5gqfPc6HJZ1
-	PmYLclaauMVs3v9HfE9+CKdxR5wlYOsncs+veLdrJZfRZTmRgW+eGxXrU3CSjkU7TDrDnQlRiM5
-	hopAfBl+oLI0n0B36uSH04oJ382d/ygg=
-X-Gm-Gg: AeBDieuagxLofOe5RfPn7ITP15P878JC+jip8XMGkicae+8BpzmTF4gAiH8vQ4Wx6uS
-	I64swzU5ZWe22D48t4Ht5Mg5y+5rVb0CqXokzUTHRv0En5LtWLzC8hvRPbHHpi7kghXtrn4iZR4
-	n5Mq9vFXnRyouUz+AZqFQ2hOZr1VbJhHYUNvtkS9+uCMN1ysYWQDxND78jb88My+8WMoILU93YO
-	DIG2zS0pT4k6U9bc+jGDsM5ltIogEiphryfSfMbSYDMjxwTka/Wo8MWaP6rWu3AYolHKsUPrOyG
-	AYqQwgiDGpNNQ86eD21OHb5Ol+DBiKC+LDY9dg==
-X-Received: by 2002:a17:90b:3c85:b0:35b:e553:9cc2 with SMTP id
- 98e67ed59e1d1-35de6977d09mr15551822a91.26.1775564328881; Tue, 07 Apr 2026
- 05:18:48 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RoSSU2DO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OVJ898aF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RoSSU2DO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OVJ898aF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1ACE95BD4F;
+	Tue,  7 Apr 2026 12:28:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775564900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Kj9CE0g9qVAC3aWsBDYB4W9VpAcHvTgLMGP0JiHo9g=;
+	b=RoSSU2DOqwU50VLvpfKNIfKXtshP8vZBIoL863O68s4VdRwcMd5Zl0jEFO8msYPMlekDDp
+	QePVakFqUxv2M/6+KwleSwdL+iVjiHMylf+D5PNWVHMY7ZQGb5UVkpJJ6GGQOR3QkAa7b9
+	HB089z/EfX294FxRLtJceCtcNTyfHQI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775564900;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Kj9CE0g9qVAC3aWsBDYB4W9VpAcHvTgLMGP0JiHo9g=;
+	b=OVJ898aFMddVU7G2HIfoCPb3t7e4730wMxEDlcNedizEwnXwCr8rH4Kp1ccSWxXtkihRa+
+	mHR5yaF4uu5hVSCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RoSSU2DO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OVJ898aF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775564900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Kj9CE0g9qVAC3aWsBDYB4W9VpAcHvTgLMGP0JiHo9g=;
+	b=RoSSU2DOqwU50VLvpfKNIfKXtshP8vZBIoL863O68s4VdRwcMd5Zl0jEFO8msYPMlekDDp
+	QePVakFqUxv2M/6+KwleSwdL+iVjiHMylf+D5PNWVHMY7ZQGb5UVkpJJ6GGQOR3QkAa7b9
+	HB089z/EfX294FxRLtJceCtcNTyfHQI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775564900;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Kj9CE0g9qVAC3aWsBDYB4W9VpAcHvTgLMGP0JiHo9g=;
+	b=OVJ898aFMddVU7G2HIfoCPb3t7e4730wMxEDlcNedizEwnXwCr8rH4Kp1ccSWxXtkihRa+
+	mHR5yaF4uu5hVSCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 059144A0B0;
+	Tue,  7 Apr 2026 12:28:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id O56wAGT41GnqFAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 Apr 2026 12:28:20 +0000
+Date: Tue, 07 Apr 2026 14:28:11 +0200
+Message-ID: <87qzorlztw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Theodoros Orfanidis <teoulas@gmail.com>
+Cc: m.krycki@gmail.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [BUG] ALSA: hda/realtek: SSID 1458:a194 is shared by different Gigabyte ALC897 front-panel layouts
+In-Reply-To: <20260407120350.42282-1-teoulas@gmail.com>
+References: <CAEfRphPU_ABuVFzaHhspxgp2WAqi7kKNGo4yOOt0zeVFPSj8+Q@mail.gmail.com>
+	<20260407120350.42282-1-teoulas@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260403112655.167593-1-phucduc.bui@gmail.com>
- <20260403112655.167593-4-phucduc.bui@gmail.com> <87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
- <CAABR9nGUyTkDmB0SgKAuM1Pp75L=m1q4bLSfhobm98TswDnt8w@mail.gmail.com> <87a4vfu0mz.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87a4vfu0mz.wl-kuninori.morimoto.gx@renesas.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 7 Apr 2026 19:18:37 +0700
-X-Gm-Features: AQROBzBRZftGMEKWFlfQx7m6sTV7mWUH_AhSwIbAfVFsIBCiqbQ3JqmVTbVg1mc
-Message-ID: <CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
-	magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,alsa-project.org,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 1ACE95BD4F
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
 
-Hi Morimoto-san,
+On Tue, 07 Apr 2026 14:03:48 +0200,
+Theodoros Orfanidis wrote:
+> 
+> On Mon, 06 Apr 2026, Marcin Krycki wrote:
+> > [BUG] ALSA: hda/realtek: SSID 1458:a194 is shared by different
+> > Gigabyte ALC897 front-panel layouts
+> 
+> Same issue here. After a recent kernel update from 6.19.10 to 6.19.11
+> (Arch Linux), I realized my mic port had become another headphone out.
+> 
+> Pin 0x19 (the physical Front Mic jack) is re-tasked as a second
+> headphone output, and the microphone input disappears from the
+> available sources in the system.
+> 
+> Prior to this patch (tested on kernel 6.19.10), auto-config correctly
+> identified the separate pins:
+>   inputs: Rear Mic=0x18, Front Mic=0x19
+>   hp_outs=1 (0x1b)
+> 
+> With this patch applied:
+>   inputs: Mic=0x18
+>   hp_outs=2 (0x1b, 0x19)
+>   Front Mic (0x19) is missing from inputs.
+> 
+> Manually re-tasking Pin 0x19 back to'Microphone' via hdajackretask
+> restores the expected behavior.
+> 
+> Hardware: Gigabyte B660I AORUS PRO DDR4 (rev. 1.x)
+> PCI SSID: 1458:a194
+> Codec: Realtek ALC897
 
-> Ah... is it because PIO transfer ?
-> I have 100% forgotten, but FSI doesn't support RX DMA...
+OK, I'm going to revert the commit.  The fix patch looks dubious and
+needs to be revisited.
 
-That is correct. Currently, the Armadillo board lacks DMA and HDMI support
-after the transition to DTS, so FSI is limited to FSIA in PIO mode. I plan =
-to
-investigate those drivers further once the FSI implementation is finalized.
 
-> Hmm... fsi_dai_trigger() seems strange.
-> It seems (A) stops clock, and (B) sets register after that.
-> Is this the reason why you get error ? I think (A) and (B) should be
-> reversed. The balance between SNDRV_PCM_TRIGGER_START, and with
-> __fsi_suspend() are also not good.
-> If so, can you use hw_start/stop() ?
+thanks,
 
-Thank you for the guidance. After reordering the sequence and moving the
-SPU power control to fsi_hw_start/shutdown, the system hang is now resolved=
-.
-
-> Basically, concept of this driver is that power/clock is enabled/disabled
-> when trigger() was called (except suspend/resume).
-> While your testing may be correct from an ALSA point of view, but setting
-> configuring it in multiple places will lead to confusion.
-
-I see your point. I agree that keeping the power/clock management centraliz=
-ed
-in trigger() is a much cleaner approach.
-
-By the way, I=E2=80=99d like to discuss the fsidiv clock handling.
-In the legacy implementation, it was handled here:
-https://elixir.bootlin.com/linux/v7.0-rc7/source/drivers/sh/clk/cpg.c.
-Currently, this has not been ported to the Common Clock Framework (CCF) for
-R8A7740, and it resides in a different register range from the core CPG.
-For v2, would you prefer that I implement a small clock provider for
-fsidiv within
-the FSI driver, or should it be added under drivers/clk/renesas/?
-
-Best regards,
-Phuc
+Takashi
