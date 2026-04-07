@@ -1,115 +1,85 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD1E3B19D1
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 14:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003592236EE
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 14:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775571280; cv=none; b=N/K7u8M1L3JPGkkDpMXSj2dzmLltYWhkL3uA9jgT9ZrdMjajozt47rFBWssnZ9m/bEhW+rbT3J8xjYfc6KMVVGGPtD8HY551JuLqtRgjTE8p1zVdD4sgoU5Gf+MeOWPbEjM/8I6P3sZWwOmK2IkXWdapG1K9X3oJtTBygFdK75o=
+	t=1775572587; cv=none; b=A6+wrJe2B4+q4FbElsv+jCB27w+7PMN9nLMax0gK9gziNBE4q8TYQkZ6CbshMLPHM6GW/wxHELkQlMDuh5jgHzQwlOXvnICui50/nLEsEIUmNWn564slXxObCuT6bAUs5/0SK03ABrfoCkvm1iec5i4vuVPW3WfhYY86glkISH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775571280; c=relaxed/simple;
-	bh=UsMg9wNm1R3pxsxmK0galiQ2A9flf8GkTHa728D7cLs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BYAHUquDRxnzOPC2oEBnkNw2z3TloB+6gMVva6/qAvoVd42R89RejiZDygBSok6+uQbVCLZJ5hwRcry+eix3lMG3QSkRkeSsUeuOycfoYiB7qQODacAIJiNxQ4WbGpaJ018c2/VWTQwmwMvHD7/y5ZKON1T8vgthp2Gs4tIf0RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QabR1XWU; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1775572587; c=relaxed/simple;
+	bh=zCpV+P3/xFtU9xkugpX5gYjzX9xl9lPL5MPfbOCQ/JM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YbfmhOq7Z87S28rJXq53pFNX+PQEYKghP2y5BwOoO8e7KgowvpgkS81J1omsRudhGZiCzr29ne3qd2LRabt0Y4otCbw6Lcd8vRYnm1P5WwLHn3Dj999qqiVAvOk2LqGF7uolYu/XrTgzThSIaGFWvO8nv6eXCeMJGX3daxCTgDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aSIGt/jN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QabR1XWU"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso46960615e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 07:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1775571278; x=1776176078; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cAnWzEPQoA2FJRVlcq9BndgUIdvLuLoG6VyrpTAb4eA=;
-        b=QabR1XWUqW6qGQ3U2cxZDgTWiil9OAmM60aR949uRzcZjVwJCDzzMoDofpXBSyRTru
-         BZ41F5z+w5PYr2gM67Hn84Zkadlz8FdulF9dL4nVZM7ZFTgyAEvXJvRkt/mRUV/U6wHI
-         bLOdheYc5lSTdoM+CDIP3M07Kb/E9mnoYQa/BTICG+aoREW37ma8Idjvp4ahKNxvF9AL
-         oQM4Ab2ME0tY6sByRbH+zan906sQxah5BdyvMX+dIuOuHrBQ4DmwthirbNWOxU1Ij7Kj
-         2IG3T39dukmK3ozn4SP9smkn/Tl+kmffivEyh4aCW5Kf/nJRaM1v+E9b0CvCAGJuXeYs
-         Ur1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775571278; x=1776176078;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cAnWzEPQoA2FJRVlcq9BndgUIdvLuLoG6VyrpTAb4eA=;
-        b=rW/jsweZ5wcd6Kj12ip9qu7OiGhgKUIPRDeGUX4CiIMuaT+sufsV0OuUWWHg+8EZKK
-         oIlwHmLuvbeIbDwtvATDiZXxP0RHdBzCWGfHfF1QcyKSCEqWvkznZDtdlxTP5eEHpvJA
-         XY8bkj6piE9cH5wASu/1OgXs/ySk+V0vx0KVL1Fzciub8AHQnynfCNrMFGY/XwpAi4Ey
-         JNdgwtL+Xr2JvmYh9veOOeeTUP5bLrcriOVx9/au4FiwDO5UNxM6bDSvoFLfQhFr4lhN
-         YTQGGPSBH9bnCIbDboSVOWZsJu54v4D8eNA4jRG5BBsac5xxMPRCBI9ftux4ga7jdbRn
-         y3Fw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDBG338hmAlsYdt3bQTa+Fxd+Jx714DNrt6C4geuSfK2kk/W6RoqfTymYEeng8SYqW7DPpuJNnTIrNhw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5ZMFgaRwlS4cBmBAxjKfimTOt5V5kBBnnXsO24X4qGoyOBwpQ
-	G55xMKaYr9q9X/X0bDuDVQb1Vw3wEWp+4Ir83hCNKSU+R6hpubZMeTW0flerSehBExjkexp0n33
-	uxm6z
-X-Gm-Gg: AeBDievvEtuQNBPf+iRhDnEdgDE8dcG1LZ+OFRvteLJnZC5Vy3w68Q2Uwb7+KLAwRR4
-	FSpunzgQYr1ncBqfTUcdEgjku0TU1QiaqNJaeDcL+S5GiZyvmMaIkW3/5ikIIsQAgy6Q7MGba5h
-	VlwCut45W/eDkThCnbExBgzTVSIK3I6sdT0F2VwxBc6jCcUi0F0JZZsMr5L1iLJyokWygHFlPMf
-	FIJ0X77C5aK5LRdA3C3SFuJKqmy6iSsTm37DOqNAfRYIR52snLlClKisORTIiQQ7ZCFYrtutCsA
-	khMqescSZw+tjl/qSnIbUaVpRGFQE5sm99F6MJ9W6SvKGhNB5L8ezHyydEeNPisuGHkLtWVj2ny
-	m9EnkbeRnpHaNgzqFc0PfueIRvdY3qK9wlJrgUWDc3XEblMMN0blj0Lp4e6IFbtMjhdTMyRIyvK
-	Lpl2bmWgbozFHA5EYW4J0wHze6EzttAtY=
-X-Received: by 2002:a05:600c:8b32:b0:487:1c2:6a56 with SMTP id 5b1f17b1804b1-488996afe1cmr234508035e9.3.1775571277569;
-        Tue, 07 Apr 2026 07:14:37 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.248])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e829c43sm538378125e9.5.2026.04.07.07.14.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2026 07:14:37 -0700 (PDT)
-Message-ID: <27486df6-2a28-40fc-a5aa-daf07485ea5a@tuxon.dev>
-Date: Tue, 7 Apr 2026 17:14:35 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aSIGt/jN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80276C116C6;
+	Tue,  7 Apr 2026 14:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775572586;
+	bh=zCpV+P3/xFtU9xkugpX5gYjzX9xl9lPL5MPfbOCQ/JM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aSIGt/jNVYlOi60nbC47tTFoetRAr7EKEGCFZ5NNbnnUFNrGvjj4OIUURTPDySzYF
+	 aFDCWHuBYNExk1DBtzEGrcSjX0y7j1D43FSToxZpiHaELdFSoGcK99zOuQmaBhkiWd
+	 F7TeZxbV8g4huueAdIVvhWmN4w2e7JC9e1B8p40eLiNwpk+90gXXIzdo5KXs+GPU+w
+	 zAPpVs2iiHG6LpMkk1rbbkZmqbmqnejraMxvJK5QwIEbC9ZzSTKDqmYWI1WLSGxJW7
+	 9iybpeo9Ta7UenpZDQntF5ncuiZ3BEukympSsYXia7WlgH1HOGs3CJ/vXJwn1fiobi
+	 Ylcf1wshInkYg==
+Date: Tue, 7 Apr 2026 15:36:22 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: Intel: avs: Fix type warning in
+ avs_probe_compr_set_params()
+Message-ID: <0d556e6a-fecc-4713-b1ba-ddfafeaa3120@sirena.org.uk>
+References: <20260407085459.400628-1-cezary.rojewski@intel.com>
+ <20260407085459.400628-2-cezary.rojewski@intel.com>
+ <416e2b85-f0a1-4dac-9e36-5ae31551539b@sirena.org.uk>
+ <86dc9c88-2b12-4a4c-b640-cb29c9b84264@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Drop the space after ! operator
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, chleroy@kernel.org, zzzccc427@gmail.com,
- nathan@kernel.org, mehulrao@gmail.com, bigeasy@linutronix.de,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260403132301.2743319-1-claudiu.beznea.uj@bp.renesas.com>
- <87bjfunb9z.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <87bjfunb9z.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t/XukHvLV5OOr9Ge"
+Content-Disposition: inline
+In-Reply-To: <86dc9c88-2b12-4a4c-b640-cb29c9b84264@intel.com>
+X-Cookie: Now, let's SEND OUT for QUICHE!!
 
 
+--t/XukHvLV5OOr9Ge
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/7/26 16:35, Takashi Iwai wrote:
-> On Fri, 03 Apr 2026 15:23:01 +0200,
-> Claudiu wrote:
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Drop the space after ! operator to follow the coding style.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> In general we don't apply a patch only fixing the white-space or
-> trivial coding style issues alone, especially for the files that
-> aren't really much modified.
+On Tue, Apr 07, 2026 at 03:16:18PM +0200, Cezary Rojewski wrote:
+> On 2026-04-07 1:28 PM, Mark Brown wrote:
 
-OK
+> I don't mind either version.  This is basically an incremental update which
+> I should have sent long ago.  The warning keeps bothering us in the scans.
 
-> 
-> If you have a cleanup as a prerequisite for the further changes, I'll
-> happily pick up together, though.
+> Are you suggesting we should squelch the warning instead of forcing the
+> conversion here?  The use of __force is present within
+> include/sound/pcm_params.h, params_format().
 
-Nothing more than this. I just went though this code while working on [1] and 
-noticed the coding style inconsistency here, thus this patch.
+No, it's fine - it's ugly but whatever.
 
-Thank you,
-Claudiu
+--t/XukHvLV5OOr9Ge
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1] 
-https://lore.kernel.org/all/20260407133507.887404-1-claudiu.beznea.uj@bp.renesas.com
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnVFmUACgkQJNaLcl1U
+h9CQOwf9F2it/jsRdItVGRGRVv0kYYsQHZ1/xXVxlvEGd2D903UqbAjQfYruLCUU
+oc4M7pBHqUOrhHrGyqf+I40UGcGc1OT5bp86SNi4A4EuLyXiWwcU4v8MOSESfg9T
+gr6jR/FaK569ZcjAOUpOwt87YonA4hBFyy+f4lBFAEIcrKH+EJyBbCincVuRlAgK
+QNjlVFHEeZnT/O9YmJtsGYmYoJeQGzsigWUMu2Mm6JKn81xtHTGIsN3u73vOtT33
+8uxMVYGtungM9OBbh31UB2umCzau0HEDBMle83OLrBRgNb5v6Tn+4mZxsjlvWHt7
+09dIX0v4BGNdF7pi6pY1UvnYqZPplQ==
+=7S2+
+-----END PGP SIGNATURE-----
+
+--t/XukHvLV5OOr9Ge--
