@@ -1,184 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5B03DBA0;
-	Tue,  7 Apr 2026 19:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775589156; cv=fail; b=FtsLUyPUgrp75otFkqBLpWAofXQi87nqp+S6Z3Rggv9wrd3YGJ3INzAv4G69581K3sCNSGKSF+vsX+gc/Nugq41BYNzXy3bibG3/gdJ2JERIylIb3sDIPH/jEaQocqSL0Es02tSSSQbHIME/0Jm59c0FUy0lYpQhNIUsS5NNN/0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775589156; c=relaxed/simple;
-	bh=DRRLSBpRiaFIAnakZUg4KW1hC6bW36vP1zzowfFaivw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=c/6PgK3W6T1Za4dkiOCGS4T9d99ZE+2ZCkOXVLJrTOR6Hk4CHf3VBVGPmZSHaLZ+wrBvqg5gQfX6/A3Hia3hiP9xJwrc1Pw8pmhbENeIkEBdaOY0Hovwi3xIAj55viSN0Oy7H84lssUQMmERb2JPeQBu88rvzqNgB/8QdeUVZLk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnUXHe35; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C76719995E
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 21:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775596392; cv=none; b=jC0DwD7yLe64omQauXDKgKMC+r7cW4MVk5vbZrjpIgchRiO0uZHBMIiXjsV3DwE6BiMpK/sfnuMhf1uJ1A/WjCRtI859bYpGpkQqZw0FNzUy4kswaYwExNik4b/mU2Qzz6KOdItM8Tyoh8KGEtAmhQ/ncEfA9ptwt/VpEnG3R8Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775596392; c=relaxed/simple;
+	bh=70wijRNEr6RNy7JbsO1OOuJjrSmCYz5wB1srCvcu+BQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jqFg3AdbsPYhkkwhiUz5oNbsOIZTvC7nx3ZV4HWczlJ7YbKXaeVYFk9h+fmlF4h/zbp3sr6hwZ4zq7jH62apSGuICHbyugVOjPyhr5+hT0EeoaH3GRFoAyWM8OS5Dfc9YBz520wTxhPCJm/pVlSmZMb8U0AU9G/CFiWKdFDBWPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BV87CJaH; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnUXHe35"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775589155; x=1807125155;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=DRRLSBpRiaFIAnakZUg4KW1hC6bW36vP1zzowfFaivw=;
-  b=ZnUXHe355suPdN9iHlVN0bXgKUmQpGZOFOv1OIozTXKIaUPnd/6wkLNw
-   9+DhfEj7Qi/qouzLXJIpjwH4A8fg0xOqobge3FpBm3fxwigGGGGcKSkcR
-   ynaEjf5s/wFTnPppZdrlv9JHzgNhJFI21XPS923fEBHS/ZUYRL3yW2c6Y
-   erNcqGp2+dm4djEHidh8ahhOWipjp1nOpOb0HjRj93G9FNvZWoLnbiPrq
-   MeejKsNA0aZZqrhWiQJ/HNTkHlw2T3+Qtlin7e1uC8Fv7zzXg6U2d2IXu
-   5llLSd7RcThm5mepG2+2g95oVFgKN4NLUyPzzf6e4cT/PFxZ2yB0C1j9C
-   g==;
-X-CSE-ConnectionGUID: +6U/XOLaTZWRxxo7fis96Q==
-X-CSE-MsgGUID: QoEilfeRS/SJbeY3Q8nYrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="79152815"
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="79152815"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 12:12:32 -0700
-X-CSE-ConnectionGUID: ikBah57tRUW2GZTjMmzmyQ==
-X-CSE-MsgGUID: gE9ozOHnR5us9V7c5UNkYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="229919499"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 12:12:31 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 7 Apr 2026 12:12:30 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 7 Apr 2026 12:12:30 -0700
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.20) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 7 Apr 2026 12:12:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SM85a9yGZwTMay4DVnX9qQc3TJFpg6nqu/SUwQY3xAVR4F6a/BQkNwzpzC0jpmD8h3Omat69YWdNgSFDSuAcopUf3+bTT6Bv3CHIXmDWJPQxG6frajj1l5+Q67BogHm2smHbHRwUgRu4SWhvI//5HixS7AxQ4ywKj75/UZ2kFFEwbRSCYJwoFyrJw4XIKt+dJ73SQxrw59xzdyxeoUF7ECShraGNCZxCNxnIH3Gwh7d3P26HkhOx+MkZ9QbsfY+ZqD5czUOPknbAacFmSgDNvpQvPDMhZGEHmQp8H13iL9pKx1vLEA30MBl8tpHRcSgWfLuAS18WbIy9MG1Axsbuug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n1Q1ecmr27Z3BewdkBl2KubD+nhwidudt97cyc3Rgkk=;
- b=fxd/ArLmusWGlP8iBv9KmNeXYXF2j3OF9HqdTwx88RdpQspddQGQMJFicG9zTgiaqmxGWEhCeZEiF98Vrq8KXhmbZBb+w+cnSe6/btALS5wRZLpknNtE3Jbajm8dcBlyGJ0mm0ozV89qQMLxq9m601DiL3CTZ/lEOZkyjqjBbVL4nZpwuXPnW8RNbft7oGMjNH7654ien5OfwQk9K9jVk0QUfoxqAR/WnWIr3o8FEj2qGlmlmt0qc8VLNyRTHhRO5KUjNz0eSWR4Udu6av9WxHgFsc4W2zIJbuBV9c4uSYj6epN1vpj9C/rMNF3Uvwicx0DL2ZdrvrhNKlMmZaAiHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by PH7PR11MB5944.namprd11.prod.outlook.com (2603:10b6:510:124::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Tue, 7 Apr
- 2026 19:12:26 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.20.9769.020; Tue, 7 Apr 2026
- 19:12:26 +0000
-Message-ID: <f9af61cd-9687-4f01-9562-79de0c9feae4@intel.com>
-Date: Tue, 7 Apr 2026 21:12:17 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: intel: avs: Fix type mismatch in variable
- assignment
-To: songxiebing <songxiebing@kylinos.cn>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "kernel
- test robot" <lkp@intel.com>, <tiwai@suse.com>, <broonie@kernel.org>
-References: <20260323032745.281611-1-songxiebing@kylinos.cn>
- <20260325021752.238203-1-songxiebing@kylinos.cn>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260325021752.238203-1-songxiebing@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA0P291CA0014.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::19) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BV87CJaH"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2d18dfa2713so1203677eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 14:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775596391; x=1776201191; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jhY/NQLCBOb9rAwhfvdmDuFiyy2ufnzlkKe7ZqdJOxY=;
+        b=BV87CJaHy8vSxsh+1up2pgSzgXm3tHvtad0zrZNNlX+6rKXhemm+GnQrncv3ZJgOLt
+         HtsPMfTzaBrqwrSk68uEwA1W3tUcQmWPjmA0zNbf2ZaK6o1sDRRv3b+12DkTaSpWJxL8
+         uBDIgFFIXxlEGgArtG7kZSYStXQqKjST5cm7PsiqOTQyzvwAM/xe54xheNo1HbwW31lr
+         XTwSt1O5o9a9MJhjTC5RXlbCz1np2r7cJR34mhINM9BHBwJfWygY3cstlknUpSyQf7uc
+         y2OV6Neh9M5xdr1szoeg6q9/U46CPadxYIINjJgOY8mCXFil+46ItCSBvpXWMZMHvzIk
+         ZH5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775596391; x=1776201191;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jhY/NQLCBOb9rAwhfvdmDuFiyy2ufnzlkKe7ZqdJOxY=;
+        b=AMjuJQK7Tq0t0plfeuqV5VkotnhloHpaeNu1+bD/ulrvrb4mhOVJXJZeocXLT8/Jqt
+         zepkSX8pW2KMZll57TDDc744c+ZlipBB6eWCpSU6O7wrAg9BhcGkTEJrZbOvbrlvtbNd
+         b1BRdDFblWhf2Ccz7/hz6zPt+r3aYOKpsUul/ilD0N9/uc2tv5AYLeBaMW5AQxairuyz
+         cz3Q4K4gOonTVIDaLnpQdvNBClqq5vmOq6hdYsObinUV4Q8/pMT5l372uT+GgrR/d2C1
+         QAjTMSMn9gNq5D4ZdvxpcKezY5/pSrckfqczLxPrqaG38/0uCgr2+S2odrMfcmcf1Nrk
+         X1gg==
+X-Gm-Message-State: AOJu0YyaiHCZcmXw0rU7U/4ci+RljP8WFnrjqmnRxjRHj3TmL3mnXMay
+	7ZJ4Z0hxh220by3PTE4nWW3rua2H6YTd6viTZR1sKJ3KvrI9o5bToHsfafE/zg==
+X-Gm-Gg: AeBDietAGxXQqZW37yflUIuGHgGfpUiWcVPxzBZkpi3ShAHizv0yh2IUZGIQox0SWkH
+	YPaxBNIxjhS9vC/F/3vNqRdymthW+UDkGOfAckmXetSuwnqx34yReE69xA7DGc1dERXgkDOYKh4
+	8TtdUYDDPrsVPI/6H4M+nt9eCLrwQnulz/KlxNM7bMc9hEHMX2YT6HLEMxwyA1JCDgGPhlWmgJT
+	dcnTAICMzJGuZ8IVTZ4I4pN7Cu7M4OKULUT6bhI4Xjq6RjLbfV7PHaQUX5MRhgCae2WNczExa3T
+	X4Gub1NUBAgS4BZPDG3m73TpvOU96uDN33Iom3/7hbvzo0NF4I+ELQaeFPvD5OfJY/ymbJZ1/S7
+	4tMDiHA2xrjGaZZPhPSF0/zMfuXIHecXH22iA62vI4L27nyQD6pA4uCZ4Oagc2YeNxu73IYBIL1
+	pCv0WL31y4b4TJGoOoXwKD1lCTAI8wTo6XpJzpDZqCmqDGfj6C8H6l4aTm5DCukKrZbAh0MgQ33
+	Jv4
+X-Received: by 2002:a05:7300:571e:b0:2c5:3b87:2fe9 with SMTP id 5a478bee46e88-2cbfa4c7f62mr8795174eec.9.1775596390582;
+        Tue, 07 Apr 2026 14:13:10 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d2cb4a7cdbsm1368043eec.19.2026.04.07.14.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 14:13:10 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Tue, 07 Apr 2026 18:13:06 -0300
+Subject: [PATCH] ALSA: i2c: ak4xxx-adda: implement AK4529 reset handling
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|PH7PR11MB5944:EE_
-X-MS-Office365-Filtering-Correlation-Id: 905e2535-8aa0-4aa5-f476-08de94d99aa7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: HMLjdRGTFB7FjTyesjWAHG7SgPA05g5vmEJfS8oto7jIPP1Qlabu5tz8z0Qb2KAO6kGSZnuaSHqOKiYQ3Hnq8XE+I4H/5tDWyRmke3SJhtzgm4CDLAB6c8vx8NK0XFRqLk/1HHj2q+lKnN2cccGnkxjbvZuAVo1BXyHX67wfAxy5HDGOInsfXjwUx88W89ABridlp7mBn7H2GCGmAL/cBjRmFntw2MVw/4s/NMWsIqQ3KAhuNr+EMwDL2dr+O/JKcY35/bOWtqyrBFk+TcLu86BddC7ukWYBMEQvVRnr5FhIPlChjBKnGhEi3e7Jwhf4Zi+IeqRHt8MWud1mMGk/XKGvW2SQkOjOmBdGSpfBphvwij29SrxBJCHVspx6PR67hyVPNCPkAXFnhfCY2BVlIr9SEEvr7s8sZz32Qmljv5jcs77xbl1GUq5f+1JHWoBE9Ufw/AZgr17jbnl1691p6SnZuFuEyAdqb8/zABJo946Pa8NQX9XZVWkzZWLEWNVLS2Dfrh4peuREKvT8AL2JwwEXP6pcIZuiEPSi+/dR2lHZ8/16uHQ5pHo/GnFhbr7GTA5KKMflXxOwj2j33xP135bkyfMyht7zQ38U8ayYQS+oNpRJrfxBoDVc+i1dNxUerTrAfbA4K+wk3MnM9TpF9sP+JBd3Mgi6hsbYEG2dR7hm5seTghknZnXr0R2KBb0eZ//d8K1sw4yClUBA1Z1wYoEFjtkWOF+k0Bzslv5K4QA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkdNMCt5WnlrRTQ0VGNsWFJPNk40bHErb3ltTjkzMFVBYjlIVWh3bDBLQkUv?=
- =?utf-8?B?UWxubUFYMjE4NXdxWGpadXlwNU5IdllRU2dwdFE0bWozUERwV0J6Nks1QzFw?=
- =?utf-8?B?NzJxeGJrY3dOaDZaMlYrWW1yZU1jUFNuWDJyUkVqMy8ySWN6aXQxS3dMeW1i?=
- =?utf-8?B?YmJ5Y0pJTEswWEE0T0xZczhPblZ3VTJyNUZKVlNITnZDazRsVDNxVHhIeEdr?=
- =?utf-8?B?bjhMaFdYZU1iUEl1UDFra09aRDdYWnVacklYdmpBV0pOaTJlc0pIdXJleUQ4?=
- =?utf-8?B?U014ZkhWRFV2UVYyaGw4VTA0NTZ6dFVXdndNU0U2RTZzeDFkbGluKzNjZW96?=
- =?utf-8?B?V3BqV0FIUmRjQU42REgvUVRCWTM5di9pTzRYeUp5cHUvWnFsN01HdGdWa0hs?=
- =?utf-8?B?aGJPMExkcWRJQ0RzVlpMS0lYaEtxWjRZNld1SVZvS1krcDRUbzlxS3Ryamlt?=
- =?utf-8?B?ZXJXQitGMXEzekV0cXZQdnRURk9RU2gwaXA2U0svVThBU0lxWkVpOXFZTzh4?=
- =?utf-8?B?azZJdkVGbmZMUW5kdXVEcXZtckFzcHN6eE5ZODZWR0d4RllUTjVUTGxPY1g3?=
- =?utf-8?B?Vm53STkxakJlYWNTenFGM2E3Mm1ZUVJwTmt4R3BYc3Q0K1pLTnlOUDVvb2pI?=
- =?utf-8?B?VDQxYmFFWlAybEU3REVQY1FNZTRVRmRXWTFORlZQVFB4UWxHNTY0dVE0RUc5?=
- =?utf-8?B?VkZxWkxIRHVXb3BVVVB0bjhHbVB5YnNHelJiOXF6SWpJaUlnZVAvY01PTXhM?=
- =?utf-8?B?aXpSaU4rSXpISWhQUWE0cGxkWjFJdk9PODA4NnN0NUIwVkhmWnZsR3VXRmhs?=
- =?utf-8?B?NE9QT3RDOVI3NS9hZDRCeXR5VVBtbTZUeDQrRUFoZnA5QXowaWVOaUZ2a05s?=
- =?utf-8?B?eWd6S1B1MkRGbU9zcGhzNGJZbmo3a3lMWXRJT0czWlBBcTFHUWc1bnB0Z0pT?=
- =?utf-8?B?WDFIeE1JSjlXeUFCVFQ0ZUl1QlRiUW5EOURzemNhcGRvY1U4OEtqMHpFbkM1?=
- =?utf-8?B?MnQwTnN0VXdyV0FiWE4wNUpzb2VZUEtOM1hDRlJiclo4ek5NYkM4M1ltamZV?=
- =?utf-8?B?STFKSGhQRndyYTlPSVpTNFNDb3oySlEwZ3R4MXFFM2ZWZkxuK3Q4VFcyZDF2?=
- =?utf-8?B?ZDlzNjBKWVlYczFsd051dUVlMjd6WlZQblhzcTBWcStXUnFZSEtjVlhPNDdG?=
- =?utf-8?B?WU5aM0FJZHlhS0JNbWhtRkNFZEJvcitqUHEyMmpMTkdTcFc0aTJmUGdYL0pr?=
- =?utf-8?B?UWN0VU1PTnJLT0FSamhhcmpCOFVUdzZHTXVFc054MzM1WGYvbWxHOEp0b2VE?=
- =?utf-8?B?bHhiME5BZllYZTlCTjNicjNpNXhVamlyZHhCUEtkRlAya1VIVngxeU04TFZp?=
- =?utf-8?B?Tm54NkQ2ZkptOHpyZy84eWtJemRkdGNNR3FWWTZUQzc3MWN6aExKLzAwczA0?=
- =?utf-8?B?R3B0UzlvUEFDUTFUWmFvMU5zZVdJTE14R2Qxbll4ZGYxdnlicUlPdEZTQTBH?=
- =?utf-8?B?TmRzb1BFQXJZUFJsMkpZWmhkMlVTbWJHMmt2ZG5qOFZ2eVp1NVAycklVbnBN?=
- =?utf-8?B?L05PWE5OcjhuR0pFdlNXcUc3bFkvTmRpUzVWWGdWTVcycWd1bHEvYWxla2oy?=
- =?utf-8?B?bktwM2xnemw0VjgxOW52MTdnRDhlVUdQY21HRjNZbC90TEZRUmN3MWNtSVZN?=
- =?utf-8?B?SXFyTE5zckpnWmZBRGJOa0JvQ1lub0xSejlRR3BWMTA2TlEvaVkxSkRjVUcw?=
- =?utf-8?B?emxXcEQ4SDZtZUVXaVUzSGtPU3FMcENlNm1XN1ZwVFBjeGRrVXVtenIyV0V1?=
- =?utf-8?B?R2JkMGF3YTE4WllOM2tsRGo5Z2xuS3lweU05N1oxOE13VzFaWE1oWkRiNFlp?=
- =?utf-8?B?V2lpZlRDeWEzSkg5dG5XUmwvWnkzRjBpMlAzR1pXT3YrTnVCMmgxMGRkOTJW?=
- =?utf-8?B?b04zMjBYbTdwWit2LzUySGkwTlNZVU5nU1ZmTnV5OGVHWW9uQVlRaTdFV0Yz?=
- =?utf-8?B?b2dCYmR0UEJRejFpejc2Q0p5ZWxTUmxybzU5OTdrTTAxRmtaRmhJZ3k3MDBi?=
- =?utf-8?B?dE5qeENtUjhJenpKTGQ2dWpBbU0xNUh3UG1vZnpPencvSE5iMllFYXk3VHpC?=
- =?utf-8?B?dmhaaThIeGd6bjFyRFpMQUxWeUNIT1dzZ1c1OW9tTENycnpYUGhnYndlWm9l?=
- =?utf-8?B?am9UODhWU0V6V3NHdVA5L3lLQ08rWHd1bDNRaXpoamdmM1BxTERianNCL25n?=
- =?utf-8?B?YlpYcHBaZ0VERGozK0lZUkRHalNDTnhRYU83eHJ1b3RSc2d2bTRlaldHd3or?=
- =?utf-8?B?L04xVFV6bzFObldwd0lKVjJlLzF4WVN1a0xyWU9OYUNNeERXT3FOSlQ5Z0hM?=
- =?utf-8?Q?4h/q+EDLP8wDp+Gs=3D?=
-X-Exchange-RoutingPolicyChecked: c/GUn3mLVJbm2TUaayiv+T84CLhHhaBQnI/D9iXgz/Jx+c8MmvIbqveQlF6hgYDoMr/0M/1RUhV+iZVuyLawRC7fmtSHkdCqQF3862nV96pcLSJLhziAoVvjTE15dU7SRR6t1GIYWYXPQSUGqBUOT88105rkPhcTNjUq54PWUWcUjET2OeEyplGg901OhOSLVuDMsNsRvhLhmaBIHB/xkLNbzgXxcunw4kMNWL+FtJHMBrONknbbkwV8Q78I9LA2+YNxRlzcj87li8UMzwZKO1oB6vNyXRLaTWoQTe7zggTe9/qhkiKpI76YU9tg+U2IPnsVOM0Z3jUJEWRN2L9BzA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 905e2535-8aa0-4aa5-f476-08de94d99aa7
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 19:12:25.8091
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7M0bbwUfEutXaZsHNm4qCQxD5EFJL7drR2cak0rYwF72OmvQlUw/YgaDV/G5SeL6gjkhKnpg+/F4D+dOuziMREPCQSv7WkW8YV/hmTuMS9I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5944
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260407-ak4529-reset-handling-v1-1-b971c18b1a32@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM3QqCQBDF8VeRuW5gvyy2VwkvTI82FVvsqATiu
+ 7fl5Q/O+a+kyAKlc7VSxiIqr1RgDxV1tzaNYOmLyRl3NMF4bh+hdpEzFBOXRf+UNHJ0NviTsdF
+ joPJ9Zwzy+XcvzW6dr3d00y9G2/YFDKtHunkAAAA=
+X-Change-ID: 20260403-ak4529-reset-handling-9214370193ef
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2429;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=70wijRNEr6RNy7JbsO1OOuJjrSmCYz5wB1srCvcu+BQ=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlXi1MeJa0zZ65Z7r1hUkrdqTVNi02WfN0RGsxevHhV1
+ rpQq4nXO0pZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAirU8Z/sodWDx/zuWKhyZp
+ 0+zSlH5dunSl59o+8Q1ruaast0zRuyXCyHDsZJUM5+Q76a3Fvu9D2nkEEuXu7V5RHl5wj7+w9+S
+ 7Xi4A
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On 2026-03-25 3:17 AM, songxiebing wrote:
-> The input parameter requirement for snd_pcm_format_physical_with is
-> snd_pcm_format_t,but params->codec.format is __u32, resulting in a
-> mismatch error:
-> 
-> sparse warnings: (new ones prefixed by >>)
->>> sound/soc/intel/avs/probes.c:147:58: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted snd_pcm_format_t [usertype] format @@     got unsigned int [usertype] format @@
->     sound/soc/intel/avs/probes.c:147:58: sparse:     expected restricted snd_pcm_format_t [usertype] format
->     sound/soc/intel/avs/probes.c:147:58: sparse:     got unsigned int [usertype] format
-> 
-> So here, the format is cast to snd_pcm_format_t.
-> 
-> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202512190032.hnwn9mCV-lkp@intel.com/
+Delta 410 uses snd_akm4xxx_reset() both around DFS changes and from
+its PM callbacks, but the AK4529 case in this helper is still left
+unimplemented and never drives the codec reset path.
 
-While I see that this just got merged, the signed-off tag shall be the 
-last. Other than that, looks good.
+The AK4529 datasheet documents register 09h.RSTN as an internal
+timing reset. Clearing RSTN powers down the ADC and DAC blocks, but
+does not reinitialize the register map. That matches the existing
+ak4xxx helper model, which already keeps the desired codec state in
+the software register cache.
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Implement AK4529 reset handling by clearing 09h.RSTN on state == 1,
+then replaying the cached register image and setting RSTN back to 1
+on state == 0.
+
+This restores cached Delta 410 mixer state after resume and gives
+the AK4529 DFS-change path a real codec reset sequence.
+
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/i2c/other/ak4xxx-adda.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/sound/i2c/other/ak4xxx-adda.c b/sound/i2c/other/ak4xxx-adda.c
+index b24c80410d45..bdeb3cef3640 100644
+--- a/sound/i2c/other/ak4xxx-adda.c
++++ b/sound/i2c/other/ak4xxx-adda.c
+@@ -53,6 +53,31 @@ static void ak4524_reset(struct snd_akm4xxx *ak, int state)
+ 	}
+ }
+ 
++/* reset procedure for AK4529 */
++static void ak4529_reset(struct snd_akm4xxx *ak, int state)
++{
++	static const unsigned char regs[] = {
++		0x0a, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
++		0x06, 0x07, 0x0b, 0x0c, 0x08,
++	};
++	unsigned int i;
++	unsigned char reg;
++
++	if (state) {
++		snd_akm4xxx_write(ak, 0, 0x09,
++				  snd_akm4xxx_get(ak, 0, 0x09) & ~0x01);
++		return;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(regs); i++) {
++		reg = regs[i];
++		snd_akm4xxx_write(ak, 0, reg,
++				  snd_akm4xxx_get(ak, 0, reg));
++	}
++	snd_akm4xxx_write(ak, 0, 0x09,
++			  snd_akm4xxx_get(ak, 0, 0x09) | 0x01);
++}
++
+ /* reset procedure for AK4355 and AK4358 */
+ static void ak435X_reset(struct snd_akm4xxx *ak, int state)
+ {
+@@ -99,7 +124,7 @@ void snd_akm4xxx_reset(struct snd_akm4xxx *ak, int state)
+ 		ak4524_reset(ak, state);
+ 		break;
+ 	case SND_AK4529:
+-		/* FIXME: needed for ak4529? */
++		ak4529_reset(ak, state);
+ 		break;
+ 	case SND_AK4355:
+ 		ak435X_reset(ak, state);
+
+---
+base-commit: e051f09ba003f8b93dda4a8d55a1bff797235c0b
+change-id: 20260403-ak4529-reset-handling-9214370193ef
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
