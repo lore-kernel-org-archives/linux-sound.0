@@ -1,31 +1,32 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF53364EAA;
-	Tue,  7 Apr 2026 15:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E0C369236;
+	Tue,  7 Apr 2026 15:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775575243; cv=none; b=eVGHqz7hh4UL5/SoNwa9vJYnEmd4Exn9Tgs2FAUcdje2FbMjPtQBi23hyPXBmyd/elWMTgcHHVm7j3HWSvcxqWM7DrKQh/WfuWc3yj+2Xe2Zx46elvKJHyT1KdBIvl9iWiegJohN25H1DbMAvsZAyf5uv/uemN2nX5ni/2946I4=
+	t=1775575244; cv=none; b=ZrrPSWX2ny1UO7uIJ/7DltmfXqPFfGUvrPc8SfyS5KD29eiw+Vbjg//tYVnbfiwdEwI3cKcqJQ3ZFfl3vsCjRe+hUYwx6mHj3MIvAOL+tgMhP6ltyJ3gGoNcCs2pL5BtQ0pfTUrUcRZGnkrVS7ZlJKY2NZ5vjYtD4Bpuf1Hrj7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775575243; c=relaxed/simple;
-	bh=xISTmDXyLFXv3V5ZmZd2Mj6pfE0l9tV0d/hNSpGmA1k=;
+	s=arc-20240116; t=1775575244; c=relaxed/simple;
+	bh=dZ0W3crIv2VM2i7FwnY+eaL8nfzHIiIMpSyWZb4mzRk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QXHsXDl9Cgg4Mi8vGAkXA7JCl1NfpTsT4G9Mi6K/Cg3V+ex3tAxg4wr4S7Pe5dUv4+zMFnYw5myWKl9b+L9cf9u8+UFnuLTZl0K2tAZ1rjlNEQ112hHIGvDIQ7dUkHJTW3gL3GCGSQtKMbqaROznosXS5W/tzlN5b18fTQMR67U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=52.59.177.22
+	 In-Reply-To:To:Cc; b=EXZt9swniX3+QxlzLLpJXaC4qLpRIrbFr1A5YTXh9puqhsBDEBsOrMWIu9rNFjL/kvUTQzr/CoLa9BQ4xRVYXP9NK2YxKXrAf0wd8i0GOqyQTxKEKnic3MrkijA+UXFvR/xreYhvgXRSOgUk9zmv96lmJAEAUiqRu8/YA3Tf4VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.254.200.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
-X-QQ-mid: esmtpsz19t1775575221t0f9cf910
-X-QQ-Originating-IP: 9hGLbmpVplimc9GDcOvLDHc6iafonfMgsd9SfPYjBtM=
+X-QQ-mid: esmtpsz19t1775575230t65590e4f
+X-QQ-Originating-IP: s7C9YY0GkcLG2+RO5lXB1RxkJTAyQKg14f8A6WgXlWc=
 Received: from [192.168.30.32] ( [116.234.14.100])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 07 Apr 2026 23:20:18 +0800 (CST)
+	id ; Tue, 07 Apr 2026 23:20:28 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 243773147179780458
+X-BIZMAIL-ID: 5371476590089596179
 EX-QQ-RecipientCnt: 16
 From: Xilin Wu <sophon@radxa.com>
-Date: Tue, 07 Apr 2026 23:19:56 +0800
-Subject: [PATCH 04/12] arm64: dts: qcom: kodiak: Add I2C aliases for CCI
+Date: Tue, 07 Apr 2026 23:19:59 +0800
+Subject: [PATCH 07/12] arm64: dts: qcom: qcs6490-radxa-dragon-q6a: Correct
+ GPIO_27 label
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -34,7 +35,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260407-dragon-q6a-feat-fixes-v1-4-14aca49dde3d@radxa.com>
+Message-Id: <20260407-dragon-q6a-feat-fixes-v1-7-14aca49dde3d@radxa.com>
 References: <20260407-dragon-q6a-feat-fixes-v1-0-14aca49dde3d@radxa.com>
 In-Reply-To: <20260407-dragon-q6a-feat-fixes-v1-0-14aca49dde3d@radxa.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -49,63 +50,60 @@ Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sound@vger.kernel.org, Xilin Wu <sophon@radxa.com>, 
  Stephen Chen <stephen@radxa.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=820; i=sophon@radxa.com;
- h=from:subject:message-id; bh=VKzq6jfME1q3HY6Bw6XndjSkzd5/qThWM1czKf0dqTc=;
- b=owGbwMvMwCVmdFg0fe08Iz/G02pJDJlXFZb8aXoxIfrxlX8TT73m9L4U05DGE7XqwTs7hp+sZ
- s9q5/zd2FHKwiDGxSArpsiiEM8wl70y99pTsVI9mDmsTCBDGLg4BWAiDusY/krUPVG7/LHx7KOj
- O5eXL78pxswxhaN6rb3kYccbh3xLNkozMiywnP5EkOntzc/1JvqmolKx6TPMfgqzzsi/z9Hy+KX
- sdD4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=934; i=sophon@radxa.com;
+ h=from:subject:message-id; bh=9OBnu2yMm4Es5sevvbv4Qgq197Rbtmk/nKpeGZFfIdI=;
+ b=owGbwMvMwCVmdFg0fe08Iz/G02pJDJlXFZbO0/mz49or3tmLpiXt2bxm7fMdlZ9ty10VJmkLX
+ MpkMyjZ2FHKwiDGxSArpsiiEM8wl70y99pTsVI9mDmsTCBDGLg4BWAiRZyMDEtvv0vJqHn/PCVj
+ E4d1RqlMUfxT68c/Pwr5XU05svJDcT8jw46Du1eWCL5Wnz7rqM7yE/8ftmZapp15x83isHTNome
+ r3nMDAA==
 X-Developer-Key: i=sophon@radxa.com; a=openpgp;
  fpr=205F009D07796DD6E516752E32C31567AD9E324E
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpsz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: MdAgt/VblnZYCMxpJ8Jfu2u/+zzmDqADMnJWbVXR5mI91qyA2nFTPGwF
-	vv4S3GgmKCfPbZl0CSFt/2qAaCXZwjMoC8+VhcXGY2HbE1X1oR/v3Vh5SB6f+iRB/cgHNrc
-	DHIPQVOKDGGRKQfAEUBkRFKbkzMDX/llsqqEHGmYja0+7JCnb078TdWdSXoHxXU/jA33SFm
-	AsIpNnnrgnqaaIPgCRDmvCHx0N10ueCecCmg9n3Fr0yw4lD1GXYJkhVIC2d/iyfaHOK/mbb
-	VYtuKgEngJ5NyerBaqhAMiIfPp3SHqwYy0mArwRriGqDS26Y2eDowBo2ttPwiz09as4lfld
-	fHPtPSIEsrm05QwXEz1kxhAO994FXX4fphToktiDQ0BmbmeKtR0pwb4vwcu9UKJSG4qGhDX
-	eSq+ywbb84nm8Iwmj3zs3+df27ESj/dEagDqnmPwtRd50boGJV03EVon6wBWdLykUCy+SgH
-	VrNFHvD63HsnSUwqpG6DgEtWoZZB+gH2QarMFMtoMrTv9JmiMj12OVcve1KgRZYHZSqWlf+
-	/OZXbNnWcTWZQvbSGZ0LrZ+VUEbOtZWicp0hzb9h/tUZU5Sy30OV/0mmq0y+q0+YjNbLeoh
-	ycbL0e4FQecseatii8IuF8E81EHMB2CLZjpZeqqAO9DqHn5uG1JGDuJZq7VF8lOzMx6SgR1
-	0w4mXBbxHwjFbtGyB0gv1JCkwfix9VN2quUbRup94tHGklPos+D3XLC7legJYv+m5BmEPGv
-	3YJwzY1HfhIJy7uHNMW9CTLImVh6BtC5Db31aWIWSCMHR2HGyZfe7Hx0w6NDXcJn7v3aBUh
-	KKYhHY0A/XkGFf/GhTETEYT0dgdKxaWadmc5lfuGCw7/EPLCFks9X8PdOLA0NOtfAh59sp3
-	upzAeMY6KDo37YwP9px37kwM6CtIhVB7HpzOQN91zgXhu9ARWcAAnyO0j54BK3WuBJnTEHv
-	eSV1z/W/B0vNDlfHtNYWTAnOEreZy3/1GF3cWSBx5vcZMxJILLXjjDDFiKODlVE3LECSWAG
-	f2o+764egI/LMLGvDjKQibndACiVZblS4KLFVc5AoTQMN11yvxTqNyO74UMlRZ+vt+9D+Sn
-	w==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-XMAILINFO: OdxngZb53Esr4WrFcemvpMQt28Bn8c+JS9wC3MbBFYExQgX5AIlKwfej
+	mruGHiQGfm0RjCqYfy+/1EG/BIclDv4VsjUXMWpUMxhrskJadyNT+U1gvB5iKH8+GPvggCw
+	wnGxGAJ1JA6teKezGA00XchBYRfJq/flfB2eKKG1MZPI90H8fX7f8zGFkWVrZqf3Yj57g+v
+	KcW4RXn8KDvtbwo92BavbUEtAlN559+HthRdWAq+ha5TJNv04mXXexeborl83D0Yq1d/Avm
+	HlKbTX7DSTdETFiKzimBVsFpO4J0NCd0LHn+bi22/LND+R64Yg1Nc5pd7BW/r/ophyDMMZA
+	NJ4UpmxLZy8gGhNUmH35p5qj6jZwH92hWwk1lZXdFyouaZiu5W3yO6oXHf0Qkva1G+Jy3Al
+	iEPVtbNt6m5RYuF8pnnuCxiEIBjx1PqpX9UFlbXJ3miLyBzMQ6EQjOi1kWwWIdeI4IOG0PT
+	9r8cI6/zup8h1MQRtfa1IP4kIF/f3+iF2yebWxe6IjmjzwG6sS0l8VnNA4QmK/B+apekc7C
+	cA4zi11lphA+kdQTV7ZulIE7rPh3r9kU4GyPCrxKxWdMdgXg2Vv2pE9vr54GYc6N9TuRPkU
+	70h2zo5eGJ+qd/bPKuYtpXiDio3Qy90bX+Jc64BLeL2ERNIMBbX5XpP0mhq2SiSC8oduHE1
+	jQ3a6nlkvmCCOaDAneg6Z9biv15DLRyZ3HRE/PcntFF/Zw7RgaMM+zkq8MWygia1jXmZlic
+	OKzekAZ7skF9dGTVi+SZ3e/xmJcvObm4f9TS5qqcjhpEOp6CYtzaAbMFCd0WQkoXEBsosNM
+	CTCwy0dUfh16SBqB0YYvEzo8aPK3J5ZG/dQFxHPfIIfXkz9jvtbA05McsovwKWtKW1ZQ2C5
+	WgjI87oAgqCoran26OggbLov2APac9qm7cFTmQI3aCThCQHMVqdQ2LFQkxfw2C/3qDRjFHg
+	kWcz+ijlXnr8u0iWiJJYV7TAPu7OKspdwbinu3pL7ELT+OFJ1RxtGMcNniufTGHIO7gz7QJ
+	lcEeILrwunt1EPBA4Oz/sC0FAAj42dI5geBOw5UXK1NgTbz+efEk9jM8dUQ05hUYL6f1N4h
+	CpHAv2kK/bW
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
 From: Stephen Chen <stephen@radxa.com>
 
-Add I2C bus aliases (i2c16-i2c19) for the CCI (Camera Control Interface)
-I2C buses, allowing a stable numbering of these buses independent of
-probe order.
+The label of GPIO_27 is wrong. Fix it.
 
+Fixes: ef254b12ec60 ("arm64: dts: qcom: qcs6490: Introduce Radxa Dragon Q6A")
 Signed-off-by: Stephen Chen <stephen@radxa.com>
 Signed-off-by: Xilin Wu <sophon@radxa.com>
 ---
- arch/arm64/boot/dts/qcom/kodiak.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/kodiak.dtsi b/arch/arm64/boot/dts/qcom/kodiak.dtsi
-index 988ca5f7c8a0..3a30126af3d4 100644
---- a/arch/arm64/boot/dts/qcom/kodiak.dtsi
-+++ b/arch/arm64/boot/dts/qcom/kodiak.dtsi
-@@ -57,6 +57,10 @@ aliases {
- 		i2c13 = &i2c13;
- 		i2c14 = &i2c14;
- 		i2c15 = &i2c15;
-+		i2c16 = &cci0_i2c0;
-+		i2c17 = &cci0_i2c1;
-+		i2c18 = &cci1_i2c0;
-+		i2c19 = &cci1_i2c1;
- 		mmc1 = &sdhc_1;
- 		mmc2 = &sdhc_2;
- 		spi0 = &spi0;
+diff --git a/arch/arm64/boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts b/arch/arm64/boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts
+index 8d6bb4b0724b..fe3f60f8ed5a 100644
+--- a/arch/arm64/boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts
++++ b/arch/arm64/boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts
+@@ -905,7 +905,7 @@ &tlmm {
+ 		/* GPIO_20 ~ GPIO_23 */
+ 		"", "", "PIN_8", "PIN_10",
+ 		/* GPIO_24 ~ GPIO_27 */
+-		"PIN_3", "PIN_5", "PIN_16", "PIN_27",
++		"PIN_3", "PIN_5", "PIN_16", "PIN_18",
+ 		/* GPIO_28 ~ GPIO_31 */
+ 		"PIN_31", "PIN_11", "PIN_32", "PIN_29",
+ 		/* GPIO_32 ~ GPIO_35 */
 
 -- 
 2.53.0
