@@ -1,70 +1,83 @@
-Received: from smtp153-183.sina.com.cn (smtp153-183.sina.com.cn [61.135.153.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1BD3A75A0
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 10:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33EF39FCD8
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 11:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775556224; cv=none; b=iCMS3j3y1Zfm3Gv8uUzblrMcDo7zux75WP1an2MmzPUpJd4/qqCcCAAkrN0UcdGp1qh2WUAqk1D/cf8XmchMDqJGfHjyyyGa9No1YMkdGbPKsuK1qzsf0k06UOdB4MeV55ndfIipkNB0saTCR+iDTi3mYkXiwss/TalhYj3pQps=
+	t=1775561311; cv=none; b=aKwJwrodpRpKqySfELh0DbE2oWxheU0TCUiVdp/NPCr9DJ8JVa23RanLk+SOldUMevm/HYVKBoUGowxQLFG6oV1OFFfK1WrkpPxxgZHgd5xgFQ8TbOeqfaNQHgMOFhDNq3sZGIellRFMHJ+KV4rS1huXhh4vdi1bLs+MTzsArds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775556224; c=relaxed/simple;
-	bh=Ou+u/9K7bnUYC8P8x50Ah1dx4NID2IYDDEaFgtYdf9U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=rIXomGXP0t2Fc6eJ0aG/pkiEtUQ1fTMC3Qxb4mNh13l0ZoUDWfD5SIDFxE1VEfP9axR4HWbDQ12y2O3VSpTmuCUIjYGUVCrCmqULLxzo0uOSlVpQeMYfFQVqCKUY+WvQd2gd0ZoFfyCpAQI5pJ4YCNUr/zz9zzrVgApq77y/X7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
-	by sina.net (10.54.253.39) with ESMTP
-	id 69D4D5E3000040FD; Tue, 7 Apr 2026 18:01:12 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: C64CD89395F34981B474019CFB6883CC
-X-SMAIL-UIID: C64CD89395F34981B474019CFB6883CC-20260407-180112
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org,
-	tiwai@suse.com,
+	s=arc-20240116; t=1775561311; c=relaxed/simple;
+	bh=k2Z8MOmvm4pabCre2FqpBpNFp2XXqqwec8f65DgWbaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uOfKpF0CId+2lTOfgKpEdY9MMhpsa5cVfUghcfAAKCKR/j5P7n4HJvGa6X7gE4fyDyblxWc9UHkw2pvGTG+PG6XHo6K0AKgKK0pMc64eO1nPcodEFPSsXX58nZNMflS1SPo1CaCuUG/tFZfC4sHFpc81U9pHQ4yiqnFdgYauSoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5UZaBtt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5UZaBtt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C993C116C6;
+	Tue,  7 Apr 2026 11:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775561311;
+	bh=k2Z8MOmvm4pabCre2FqpBpNFp2XXqqwec8f65DgWbaM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C5UZaBttIcYpLTvf3R+xb9kyWLKOWJHLty2BuCGSlgIozzgU9oQ8QLV9fg+xKR20I
+	 8/d1Y9MDdCPVdNZ8liaRPcKXlvkOs2kr1q9FjCt3gToLVydvrdO2z/8nH+NCwKpPSP
+	 +oyVgh1OV4iSZ6cQUYsvhY33sVI1B+tEOwO8V82Aic9IntWU48yhe/I/AzPPP5fSKO
+	 dXuTBBVJV6deFEXvyRES887wTSiJKvbwTE6E4LveKUKTrk5Qws9VWBtn76wGi8HPX1
+	 b2TW4M38/r7Es63bIzLtGofrVcrSzgUMk/Ga4tvwDOaxdfA0uKhyGuzHi/DPz5Oft9
+	 iWKZQbZZ8epUw==
+Date: Tue, 7 Apr 2026 12:28:27 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
 	linux-sound@vger.kernel.org
-Cc: peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ckeepax@opensource.cirrus.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v5 5/5] ASoC: Intel: sof_sdw: add es9356 support
-Date: Tue,  7 Apr 2026 18:01:05 +0800
-Message-Id: <20260407100105.123041-6-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260407100105.123041-1-zhangyi@everest-semi.com>
-References: <20260407100105.123041-1-zhangyi@everest-semi.com>
+Subject: Re: [PATCH 2/2] ASoC: Intel: avs: Fix type warning in
+ avs_probe_compr_set_params()
+Message-ID: <416e2b85-f0a1-4dac-9e36-5ae31551539b@sirena.org.uk>
+References: <20260407085459.400628-1-cezary.rojewski@intel.com>
+ <20260407085459.400628-2-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VWZy0HKjy1LCh9Eb"
+Content-Disposition: inline
+In-Reply-To: <20260407085459.400628-2-cezary.rojewski@intel.com>
+X-Cookie: Now, let's SEND OUT for QUICHE!!
 
-add Everest-semi ES9356 support
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
- sound/soc/intel/boards/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+--VWZy0HKjy1LCh9Eb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
-index d53af8f7e..cddbd2aa4 100644
---- a/sound/soc/intel/boards/Kconfig
-+++ b/sound/soc/intel/boards/Kconfig
-@@ -532,6 +532,7 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
- 	select MFD_CS42L43_SDW
- 	select SND_SOC_CS35L56_SPI
- 	select SND_SOC_CS35L56_SDW
-+	select SND_SOC_ES9356
- 	select SND_SOC_DMIC
- 	select SND_SOC_INTEL_HDA_DSP_COMMON
- 	imply SND_SOC_SDW_MOCKUP
--- 
-2.17.1
+On Tue, Apr 07, 2026 at 10:54:59AM +0200, Cezary Rojewski wrote:
+> Expected argument type is snd_pcm_format_t.
+> Found out by sparse.
 
+> -	bps = snd_pcm_format_physical_width(params->codec.format);
+> +	bps = snd_pcm_format_physical_width((__force snd_pcm_format_t)params->codec.format);
+
+There was an earlier patch for this one that didn't get reviewed (and
+every time I looked at it the __force looks super suspect):
+
+  https://patch.msgid.link/20260325021752.238203-1-songxiebing@kylinos.cn
+
+--VWZy0HKjy1LCh9Eb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnU6loACgkQJNaLcl1U
+h9ADRwf/ZgWGX9MZ331ehG4z1J8jwtxyUZycQGimdgNrVRJ642taTSctffMouYbc
+IaGFq9dQ20VMj2X7T7XdQ86tekTuOZowwyMI3XFFu6htaWDEll34eWCjsRWRVi2u
+Kw+qEsXCak4fPvrw85oxz3rRrCO2cKTNFuSjmWjHQ7jeRbx7XAd2OX/xMKnmKCCC
+8P/zGhfQ+YNOS75fJC06yp1Bvki/msU7uvsG9lgUBAoj90CRVLK2DZp/PFF8q94r
+YugYKbdYjvRmt8eADEP92d2w5+PovIuPI+pca2Mo/c586JuOtZA64g/If+PLm8DY
+No+2Ju5BOgU3FuAvQJG5Pu4enehKQQ==
+=YkBB
+-----END PGP SIGNATURE-----
+
+--VWZy0HKjy1LCh9Eb--
