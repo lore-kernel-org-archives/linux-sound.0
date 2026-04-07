@@ -1,62 +1,64 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D783D091F
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 17:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E593D0915
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 17:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775581405; cv=none; b=eXHSvIt0oTYJqWufW7J73+imAHONIwr4Hhc6/hDs7JMPIc9OVEwRSOjL34Uq1gLXd0rLdG+kwZ+nUbLGzIK8e/On2/ki3xOWuYsTXdumZOzhoY0Gp0nU7ZoliHkQxBIVRafaPNrm6RjNWnbirZFZFY124ovLHypd/APT1NWy0L8=
+	t=1775581413; cv=none; b=njwpSdFm3BBeRUbDT6CoTY5boHgqyCA/YuvnJLSn7OrFQ/xlTsWz7xh0oRfW/s0B+ZJrc1K9gLl53gme6QOtaQxnK6MLTcw466SA9bUn2km9YPxtun9PjV+BzVvkr0xnTk58ISI6lG60LQ1y5YTSag8xtrTlpLmCiJS9lr7b5uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775581405; c=relaxed/simple;
-	bh=yS7fLPfpixS5ANKUpz+8IbWfPa7J2Jlmh+GVNICRquY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pR8irovR/uaRRvPI85goBawEU9ugwZAgfQB7h+fWnYNNtQXnhKBhEoGE33eMVmVRlcb1LiQq6QgyD7FG7jKIogduAyTJryMDodFCkVgjey4cI+J4SYU4I1I7QY/08OMTRHJJCCSoCEESHYioa2m3y5MN2ymfGXc+YdTJoRij3JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bz9AiL+t; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1775581413; c=relaxed/simple;
+	bh=O4uHzkKNl3IGefNGYCIuKpLs23GHSxTNT7OQCSZWAb4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=o1gZDMV5V00Z0Y8JsZpFj9zA3R2XwM0Q+DmjiWoVYC3nPFosRcoIrvEjfxGCI0q4+AHpioRXnW/qV35tgT6OHosOCOMwzyJEQVNOYKUsfOnfwsLUZNl75VHlnYHcg83OHxjNx1CKELI+JVsm0RekEBpIdGqSuzPeAg8sYbWKQ48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fwGTc+No; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bz9AiL+t"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b23fcf90b2so52001305ad.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 10:03:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fwGTc+No"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b2494440f3so18564035ad.2
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 10:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775581404; x=1776186204; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=USinWtrK9cNysHqIyf7r5O6B/9/TrlyTmryTw2WVrbs=;
-        b=bz9AiL+twoSLeq+CzPPAgwn4mWno8WWwjt/NBjC0PvxmAPk3tfCLAF5FpfgNQzdGCn
-         7JBHv/wyjnuE3m6L7Bc1g0vJmZsKEsUTBA+Uj5KknjQBrH8d0o54ncQQohhx6SxNqpbv
-         EpsYeenlfUqc58p85pTdptppS8hk8TQOxqYFkc8+4ON2uQhDM75w4R0eSI4Z+9MFfvyt
-         FdIAXzb7vbkzq07NSr2syksKv4NCNFTz7cbWWSAl9k7C4bOiMmD9Wfg/+M7fwCl27CG1
-         iEyQeNcLYqIEMqjZ9/0vJ4XctDEA2t16QsrZlO4VyHiGf36lAuyT4aLscnSOxsbVp0CR
-         2wIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775581404; x=1776186204;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1775581411; x=1776186211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=USinWtrK9cNysHqIyf7r5O6B/9/TrlyTmryTw2WVrbs=;
-        b=S6CP1CUCZCoscnAsSoqKTEPNwQD1+IPdzhFZKoeu987YdD7Geodqv5dZUV9ZF0hleE
-         3+q3VN8NS3I6uIEJrMbqHA7U4jX1NhByaKGAIq6cyqTKkbV9T+z+PN60ODpv8dwZ1oyU
-         Ea0nDkZ4Cqenhqv76etpVfYN5Sh2UuTZCIRlax9Om5b2f/26J98cK0zpmWIoHyiJwNwV
-         bWwNXqDMrOrnN8uPfs3XcreNwHTIbs5SGW9LaXnUfTEr6FWRUXnl/htRoEbf2kYlMFHC
-         Bc07zWANidynhbhjbtzaQMhchIY54KsMDrRMqEp2Ib6ZdEBInnPFVZerIgTlSiwKlHvI
-         YiPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXt2Ys50w/6/tybj/mYdAHAAL55MmziN338piMB0NUKYs82SzPNAD88gROWq/pn7TW+Eb536bVSMfX45w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0+HgdOwNn/R6kIobgKFbFB3XNhNaRd93wR0xwJzYoJzbQ3QVo
-	nLK90fxV9f+Gi/9oAdKke1chs0Nhn8DJ6/M041RkR52SYKbhby+ims2t0MzeVlRwmH8=
-X-Gm-Gg: AeBDievzd836h81lRISV2mVmStaKxP807Cor5qUTkyzFz+/xNjrN12h2iqxH4+QQDwF
-	ThDGj5EsTA9hOMu2b3OzTZ1xu7Cfev7G4C75wHFTx2Fragv5ADr85aDg4Ne9ImiXe7J/N9ESnXF
-	TEB5dLDvgNFuFXtkQ+gX/vqi5rJqhJVzHf6j5omsBwO8sGbnRl0rBIrfSD84QwlF9U277S0nX9b
-	7zL7Z/kB+oMPajwTK2irKvWVJxaZ1zv9Cv4rfkePQLpEadMSHx/zCXFikRIQ0JEPfblI7PSrqMK
-	SnTcFxKPVpxH/iyQha59AeaUqnrzMLudMVHiAiA+jUj9mv0hHDB4rY56ayMdnEbiqANbndWPrI7
-	upundzSTsyCmuhTv/tl+adhEBvTkJtiHcd3WOzQugqI9qmG7LrV79/TfsxzRcho6Kaj3YFSQi+t
-	Nir657U+zNvCg+ynp8IEGuKwhaziMWUXc4PS3goNuMiNUKwRsy4A2te+0JHyxRVfYpu9ISCbAPU
-	hK+5G+KruXbQNMKDWga0l6G6EoltN4yqRTNKncisBj4UnT1lgqA6wrsmg==
-X-Received: by 2002:a17:903:3c47:b0:2b0:67a7:5c4b with SMTP id d9443c01a7336-2b281802d24mr196869375ad.28.1775581403501;
-        Tue, 07 Apr 2026 10:03:23 -0700 (PDT)
+        bh=sZoeSKMzor941OtTI2XswOre9sDwC8ZQogmJadnwKsI=;
+        b=fwGTc+NoQzs7CC/0HsmFHA2t1fWwpmdRHuWZ41u+LDvPAEkRC51wI2OiNQ8kTsM5FV
+         r7jonuR+8Xc5B+YyoFkbOxC9qXW/z8bhYXD7vnYNBd9eTpIvLcTVbiQ6nliT1rEfNTwb
+         sUiRJXKvrAEA9Z6bGEfosa/qc/FvpTbDFKKxT73pnA29ZdCQb4ckDIzDtPyONcTFsGU1
+         kXaHN+GB7C666e/avzv8mTBCz3jeRGrMfBnfIjK/IxHe52diXz+R4OjRYnJvxgsYzudG
+         DCxSk80oi9Z3BsG6AOO3101JQDm1LpmV7sV23mSaHgFR2ax0t2ZEkqt8Kx8DrYDIOxZp
+         QeSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775581411; x=1776186211;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sZoeSKMzor941OtTI2XswOre9sDwC8ZQogmJadnwKsI=;
+        b=bSv3s2NS3taRlgBmsbLo9fNGqy87QqRfyNNMO3dmG3vIiEmF5pknUDABLsIkuABX7q
+         FQ3PP/cE5KxCqQJhuq6hXe2AXgV0ID1sH/xNLjErSg39bln/mc9v1iM/cFvMLTiA+Pd9
+         Ur39MJYJdhg+lS62VSl+p40HATv7tmAKYWtivQk9f8bT3y3pBI+JdEKkRqHOkh3q7qv6
+         o4jMMgyGRMLEnaUNqnfXTRO7tXn/Cw5LOrTPMWh9shLNF6O3llh8KXn8SxSHiL/vtoMA
+         IC7fTgPuSYvt0FjyjrUmq1iEHzx4j5fbX0LN3KUsE3Ff1Z5N19dfkv8OwJEeXVMhFnWN
+         sh9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVdVbYGa+xbG5ifCQ8NPsMwDDbl2eYb932hnDwW/TkoqVL9BNxx+runOe2M3Lp9ynC7fQI3oIMWr8aX2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAnpX2RqNJ8ver9wtsxzqSSjPDk6eRebQxXWzS+pYnt6F6RJt3
+	HxKYTVJq+FWLHKQK0gX+3yMcawrzlbIoWc507bcoOteq149KU2oMi6vJ
+X-Gm-Gg: AeBDieuBQ9d3sniswcwhlcXwRF4RZv5q/E0DBdOpcwhegblaWtWpB65tEBr9qpBSPFC
+	Ino11HA43/RV96t2yqvSYoJWKezRy93uGiAmDri3B3HSdoHThooAiNXiHFddg88WLy1x91NP82T
+	13dt0tv2f/9YJ2rKdHJYRbsU4WaUKFlPH/SKz/YefdwIrKluhfYsLAUes8EQGR0SwphybFRn6eC
+	o76mnxtp0IUpvSDIdA/n3O49NGY1uevGV5iSPJQIyPyNxr1FoRinVkohH27/y/TF/DKrJAwPF7S
+	vLANQdWyC4gZ00jjS31JdgQ1Y77kZv6xNH1uDgGyWKqcXJy9QAM/pwyiFwq7JSpnn54rPMboeCW
+	AdxJtXhCZJQQT5/RFbuOHhT2ORnQzjKAMcYLvnXZMseqMHHlvVcn+g7t28uC2Jxfw1or69aQal4
+	ED5Tr3HmlKN9r8uEvf6INxOAmvg1KAyZedoNwFwJGgHO3kJftfzbMRZ+AaKfFzjP3PbEZgeDIJZ
+	UKg7lA21YQlOqpwY7CKPrkiYiKTdhnLxYtx7gG2EPhR3gqqtPOBHKlVzw==
+X-Received: by 2002:a17:903:32cd:b0:2b2:4697:78f5 with SMTP id d9443c01a7336-2b281798164mr173228185ad.36.1775581411233;
+        Tue, 07 Apr 2026 10:03:31 -0700 (PDT)
 Received: from lorddaniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.www.tendawifi.com ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478cb4fsm196617905ad.29.2026.04.07.10.03.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478cb4fsm196617905ad.29.2026.04.07.10.03.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 10:03:22 -0700 (PDT)
+        Tue, 07 Apr 2026 10:03:30 -0700 (PDT)
 From: Piyush Patle <piyushpatle228@gmail.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -69,10 +71,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] ASoC: tegra210: simplify byte map handling in ADX and AMX
-Date: Tue,  7 Apr 2026 22:33:06 +0530
-Message-Id: <20260407170308.100238-1-piyushpatle228@gmail.com>
+Subject: [PATCH 1/2] ASoC: tegra210_adx: simplify byte map get/put logic
+Date: Tue,  7 Apr 2026 22:33:07 +0530
+Message-Id: <20260407170308.100238-2-piyushpatle228@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260407170308.100238-1-piyushpatle228@gmail.com>
+References: <20260407170308.100238-1-piyushpatle228@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,37 +85,211 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Tegra210 ADX and AMX drivers both keep their "Byte Map N" ALSA
-control state as a byte-packed u32 map[] array along with a separate
-byte_mask[] bitmap. This is because the control range exposed to
-userspace is [0, 256], where 256 is the "disabled" sentinel and
-does not fit in a byte, so the two arrays have to be cross-checked
-on every get()/put().
+The byte-map controls ("Byte Map N") already expose a value range of
+[0, 256] to userspace via SOC_SINGLE_EXT(), where 256 is the
+"disabled" sentinel. The driver stored this state as a byte-packed
+u32 map[] array plus a separate byte_mask[] bitmap tracking which
+slots were enabled, because 256 does not fit in a byte. As a result
+get_byte_map() had to consult byte_mask[] to decide whether to
+report the stored byte or 256, and put_byte_map() had to keep the
+two arrays in sync on every write.
 
-This series stores each slot as a u16 holding the user-visible
-value directly, turning get_byte_map() into a direct return and
-put_byte_map() into a compare-and-store. The hardware-facing packed
-RAM word and the IN_BYTE_EN / OUT_BYTE_EN enable masks are computed
-on the fly inside each write_map_ram() callback, which is the only
-place that needs to know the hardware layout. The byte_mask[] field
-is dropped from both driver state structs.
+Store each slot as a u16 holding the control value directly
+(0..255 enabled, 256 disabled). This is the native representation
+for what userspace already sees, so get_byte_map() becomes a direct
+return and put_byte_map() becomes a compare-and-store. The
+hardware-facing packed RAM word and the IN_BYTE_EN mask are now
+derived on the fly inside tegra210_adx_write_map_ram() from the
+slot array, which is the only place that needs to know about the
+hardware layout. This also lets us drop the byte_mask field from
+struct tegra210_adx.
 
-There is no userspace-visible ABI change. Control declarations,
-ranges, initial values and handling of out-of-range writes is
-preserved by treating values outside [0, 255] as disabled (256),
-matching previous behavior. As a side effect each patch also fixes
-a latent bug in put_byte_map() where an enabled-to-enabled value
-change was not persisted.
+Slots are initialised to 256 in probe() so the default reported
+value stays "disabled", matching previous behaviour. Values written
+from userspace that fall outside [0, 255] are clamped to 256
+("disabled") exactly as before -- no userspace-visible change.
 
-The packed RAM word construction is also updated to ensure the shift
-operates on a u32 value, avoiding potential undefined behavior due
-to signed integer promotion.
+As a side effect this also fixes a latent bug in the previous
+put_byte_map(): because it compared the enable mask rather than the
+stored byte, changing a slot from one enabled value to another
+enabled value (e.g. 42 -> 99) would early-return without persisting
+the new value.
 
-Addresses TODO comments left in tegra210_{adx,amx}_get_byte_map().
+Also fix a potential undefined behavior when constructing the packed
+RAM word by ensuring the shift operates on a u32 value.
 
-Patch 1/2: ASoC: tegra210_adx: simplify byte map get/put logic
-Patch 2/2: ASoC: tegra210_amx: simplify byte map get/put logic
+Addresses TODO left in tegra210_adx_get_byte_map().
 
+Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
+---
+ sound/soc/tegra/tegra210_adx.c | 80 ++++++++++++++++------------------
+ sound/soc/tegra/tegra210_adx.h |  5 ++-
+ 2 files changed, 40 insertions(+), 45 deletions(-)
+
+diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
+index 95875c75ddf8..67948459e884 100644
+--- a/sound/soc/tegra/tegra210_adx.c
++++ b/sound/soc/tegra/tegra210_adx.c
+@@ -47,6 +47,7 @@ static const struct reg_default tegra264_adx_reg_defaults[] = {
+ 
+ static void tegra210_adx_write_map_ram(struct tegra210_adx *adx)
+ {
++	unsigned int byte_mask[TEGRA264_ADX_BYTE_MASK_COUNT] = { 0 };
+ 	int i;
+ 
+ 	regmap_write(adx->regmap, TEGRA210_ADX_CFG_RAM_CTRL +
+@@ -55,15 +56,28 @@ static void tegra210_adx_write_map_ram(struct tegra210_adx *adx)
+ 		     TEGRA210_ADX_CFG_RAM_CTRL_ADDR_INIT_EN |
+ 		     TEGRA210_ADX_CFG_RAM_CTRL_RW_WRITE);
+ 
+-	for (i = 0; i < adx->soc_data->ram_depth; i++)
++	for (i = 0; i < adx->soc_data->ram_depth; i++) {
++		u32 word = 0;
++		int b;
++
++		for (b = 0; b < 4; b++) {
++			unsigned int slot = i * 4 + b;
++			u16 val = adx->map[slot];
++
++			if (val >= 256)
++				continue;
++
++			word |= (u32)val << (b * 8);
++			byte_mask[slot / 32] |= 1U << (slot % 32);
++		}
+ 		regmap_write(adx->regmap, TEGRA210_ADX_CFG_RAM_DATA +
+-				adx->soc_data->cya_offset,
+-			     adx->map[i]);
++				adx->soc_data->cya_offset, word);
++	}
+ 
+ 	for (i = 0; i < adx->soc_data->byte_mask_size; i++)
+ 		regmap_write(adx->regmap,
+ 			     TEGRA210_ADX_IN_BYTE_EN0 + (i * TEGRA210_ADX_AUDIOCIF_CH_STRIDE),
+-			     adx->byte_mask[i]);
++			     byte_mask[i]);
+ }
+ 
+ static int tegra210_adx_startup(struct snd_pcm_substream *substream,
+@@ -188,27 +202,10 @@ static int tegra210_adx_get_byte_map(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
+ 	struct tegra210_adx *adx = snd_soc_component_get_drvdata(cmpnt);
+-	struct soc_mixer_control *mc;
+-	unsigned char *bytes_map = (unsigned char *)adx->map;
+-	int enabled;
++	struct soc_mixer_control *mc =
++		(struct soc_mixer_control *)kcontrol->private_value;
+ 
+-	mc = (struct soc_mixer_control *)kcontrol->private_value;
+-	enabled = adx->byte_mask[mc->reg / 32] & (1 << (mc->reg % 32));
+-
+-	/*
+-	 * TODO: Simplify this logic to just return from bytes_map[]
+-	 *
+-	 * Presently below is required since bytes_map[] is
+-	 * tightly packed and cannot store the control value of 256.
+-	 * Byte mask state is used to know if 256 needs to be returned.
+-	 * Note that for control value of 256, the put() call stores 0
+-	 * in the bytes_map[] and disables the corresponding bit in
+-	 * byte_mask[].
+-	 */
+-	if (enabled)
+-		ucontrol->value.integer.value[0] = bytes_map[mc->reg];
+-	else
+-		ucontrol->value.integer.value[0] = 256;
++	ucontrol->value.integer.value[0] = adx->map[mc->reg];
+ 
+ 	return 0;
+ }
+@@ -218,23 +215,22 @@ static int tegra210_adx_put_byte_map(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
+ 	struct tegra210_adx *adx = snd_soc_component_get_drvdata(cmpnt);
+-	unsigned char *bytes_map = (unsigned char *)adx->map;
+-	int value = ucontrol->value.integer.value[0];
+ 	struct soc_mixer_control *mc =
+ 		(struct soc_mixer_control *)kcontrol->private_value;
+-	unsigned int mask_val = adx->byte_mask[mc->reg / 32];
++	unsigned int value = ucontrol->value.integer.value[0];
+ 
+-	if (value >= 0 && value <= 255)
+-		mask_val |= (1 << (mc->reg % 32));
+-	else
+-		mask_val &= ~(1 << (mc->reg % 32));
++	/*
++	 * Match the previous behaviour: any value outside [0, 255] is
++	 * treated as the "disabled" sentinel (256). Negative values from
++	 * userspace fold in through the unsigned cast and are caught here.
++	 */
++	if (value > 255)
++		value = 256;
+ 
+-	if (mask_val == adx->byte_mask[mc->reg / 32])
++	if (adx->map[mc->reg] == value)
+ 		return 0;
+ 
+-	/* Update byte map and slot */
+-	bytes_map[mc->reg] = value % 256;
+-	adx->byte_mask[mc->reg / 32] = mask_val;
++	adx->map[mc->reg] = value;
+ 
+ 	return 1;
+ }
+@@ -675,7 +671,7 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
+ 	const struct of_device_id *match;
+ 	struct tegra210_adx_soc_data *soc_data;
+ 	void __iomem *regs;
+-	int err;
++	int err, i;
+ 
+ 	adx = devm_kzalloc(dev, sizeof(*adx), GFP_KERNEL);
+ 	if (!adx)
+@@ -700,16 +696,14 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
+ 
+ 	regcache_cache_only(adx->regmap, true);
+ 
+-	adx->map = devm_kzalloc(dev, soc_data->ram_depth * sizeof(*adx->map),
+-				GFP_KERNEL);
++	adx->map = devm_kcalloc(dev, soc_data->ram_depth * 4,
++				sizeof(*adx->map), GFP_KERNEL);
+ 	if (!adx->map)
+ 		return -ENOMEM;
+ 
+-	adx->byte_mask = devm_kzalloc(dev,
+-				      soc_data->byte_mask_size * sizeof(*adx->byte_mask),
+-				      GFP_KERNEL);
+-	if (!adx->byte_mask)
+-		return -ENOMEM;
++	/* Initialize all byte map slots as disabled (value 256). */
++	for (i = 0; i < soc_data->ram_depth * 4; i++)
++		adx->map[i] = 256;
+ 
+ 	tegra210_adx_dais[TEGRA_ADX_IN_DAI_ID].playback.channels_max =
+ 			adx->soc_data->max_ch;
+diff --git a/sound/soc/tegra/tegra210_adx.h b/sound/soc/tegra/tegra210_adx.h
+index 176a4e40de0a..afe95e45458f 100644
+--- a/sound/soc/tegra/tegra210_adx.h
++++ b/sound/soc/tegra/tegra210_adx.h
+@@ -8,6 +8,8 @@
+ #ifndef __TEGRA210_ADX_H__
+ #define __TEGRA210_ADX_H__
+ 
++#include <linux/types.h>
++
+ /* Register offsets from TEGRA210_ADX*_BASE */
+ #define TEGRA210_ADX_RX_STATUS		0x0c
+ #define TEGRA210_ADX_RX_INT_STATUS	0x10
+@@ -88,8 +90,7 @@ struct tegra210_adx_soc_data {
+ 
+ struct tegra210_adx {
+ 	struct regmap *regmap;
+-	unsigned int *map;
+-	unsigned int *byte_mask;
++	u16 *map;
+ 	const struct tegra210_adx_soc_data *soc_data;
+ };
+ 
 -- 
 2.34.1
 
