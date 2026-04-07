@@ -1,66 +1,67 @@
 Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21CE3054E4
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 15:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DE436F40E
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 15:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775575390; cv=none; b=mqr/bhgev7aB0b5Xou5slMuGQhn7dUUuIqtYxWB6KUiq0aDA8jGOnn0v74ThmJbI7mMAzHA1mXp8Ei1SIbzeYsfLDTOIMa3jwI2qdaYcrQW63nD3q/8PLC0Quz7psnFuHYrieLviHEU46GsoCnx1M1LGy3MxrUHU/K9ifloWXe4=
+	t=1775575393; cv=none; b=bHV1E5pXFWR0j2HnK/rdWRhn7HT2gwLW9vkLcOPEyJbdTdTn6ExQ7cP+qgIKEH/8ox4Bitkr8OXWMh0FfWdwcElLAcNk3fAQjBxyk5gjRQ+Pi9FovfUyM3ByzFG38c0EA/Y5zJ2Mtn2Tc9AIxpUVgupx4pxMBczFlSKxBmU502I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775575390; c=relaxed/simple;
-	bh=dr9NNaPgzVLX/zcwEHihdZJ0bQ47V8p9Qe3DikgzCnU=;
+	s=arc-20240116; t=1775575393; c=relaxed/simple;
+	bh=4Y9CqXMn8U69M84oxZ10Kqm4IkJzKs8xnoSjmQa3AR0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lasxqIx4Um4XVZ04us9NlS8D0NH/AhET/pxsvO98VguZ7JZ5sZ3f9IbyZwwqpKpd425EoDVUIYjkoB90cQHu5yN/VDPoOVWvwKxjFwATf3mko8srgPBLbVMLKMu67Cf9RbN1aEe02aVsb77CXDGuPqvuIlch5jk8bun772lwzY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbsZZaFb; arc=none smtp.client-ip=74.125.82.44
+	 In-Reply-To:To:Cc; b=FO1U1EZmDCVgrTHNZ2/eG6CaFzGDvG5/6XSr3wlfIfynlewn7Ym9Hy4CHMXg0exjCbYAXeoPGdw99GAMDNObmKDfCtqf39AEQhASgSW0d/0YfzIdbFc6vhIrdJUwoOtWkNTz4cV21twPCGWJizbAJx08bFMWiecGuTug7JH9TXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jJWdggIj; arc=none smtp.client-ip=74.125.82.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbsZZaFb"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-128e4d0cc48so5520865c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 08:23:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jJWdggIj"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1274204434bso4753249c88.1
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 08:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775575384; x=1776180184; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775575387; x=1776180187; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MjRb6q+G4O7wtmDOLW3dJ2X62b3Z+1AffOhEFuKUzJU=;
-        b=lbsZZaFbSsWz/vDfsINdChIhanJ5/zoUlElXC78/ixQoSXLtUIvvKxsM3Xog9FN6PB
-         FBEY7KQr5o01H1VUKjr63NnvFI76gzI09srxIG6Xnhxs3WqWW0S+2D9/cFabI920wUHr
-         418jEIKF2NmPDQxzF86X+28LlddukRDXQIqeApkwIvXwVoekbyuimnE+VlH+xkDX/xyd
-         5qJbHlvEtDGiAK+DooY+Ckila7ZqDua1v+jJjyzAcQDRTx55TlECx9hgFeT28AyxjSDf
-         pSLJJqX8EAFap1RqhYviCQDm5KGgq/qzD9y4jtk0z6Dx6zwOPWUk+N6qSvEqKx4XBbUJ
-         Nq7g==
+        bh=8XQbGkefogy11J2Mc9HHAVdzevhbE9LurfcwHxWmPT0=;
+        b=jJWdggIjaludTOEPtMfsJMa9mh8o6nPz3mtRXoNPso7UGd4Wpo5czXAh3BDdM0kM9s
+         kRWZuzzJcwjWZRmr/c3HJ6PtbRJp17yDwjaY6cgUq6TYDN1x/kN1AnAglnJ4874myYd1
+         KfulnqnYmlJ9Flm183cWx5V6EmDoJM2/Vf3woxuNX8PaxC7aAw3jKYfCEOjepSQaHCLk
+         lQ/vLSzRYDFHExpnSYUaFJFwLYTVHgXYRlDvk0lb8baAm4bC02QxDgysKwRNrgo2BiV9
+         IkmRWZMAY9kUP30NeYqrbXFxfSD2zAUY+1R9nln3GgNzyMK2jdOc5427BQOO4DYEJQtT
+         +/wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775575384; x=1776180184;
+        d=1e100.net; s=20251104; t=1775575387; x=1776180187;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MjRb6q+G4O7wtmDOLW3dJ2X62b3Z+1AffOhEFuKUzJU=;
-        b=MpaW6qtUPL3fzg9UFG6yhHt92dGBSHBrSPqNzWXlpiCtHiL8D0QTnYWDllNKSOTwkh
-         XxHtjfS/UTtYixcm312181bXPSwCXt9LJCSqdHbjAp59cnqgOZV3ib5WTPZ7ioB0BOTo
-         Br2skkN6sIBLcSXsSJm1cgZyupuCtU4jHXd4+X6y//FIe/EhmdIE8oM7aVt8eMWorX19
-         0nR0VJOGEBfSlf4RI9ZWrgx4ONOW4WvSHKG500GMlK7rKY080DlES2jTy2Oljgd5naFl
-         MoRrDBSCYweYf55QZGNNRh95bY4WrRlFQX++9nDXr8SWp42GL1pNekB4ZDwFZ4bGkAAM
-         Mt/g==
-X-Gm-Message-State: AOJu0YzFfm+YvJGg/9q6ja4GkATfm78TOOulKXk3BMBi2UDMIYY8rvpO
-	B9HPtqyV98dHp2fMTjigt/6ljQt9yxHUUnzKJttG9NOtT2sUND3bzYIQ
-X-Gm-Gg: AeBDietw+smTSyqqgpwPJxWGKJUYUjXixwzOidiiGLMpQRpEwCqVWjN/YoIcTFbNJEq
-	aaqdlGN2oOffgAeDvsr5iYmfB5vxwPSyW/JbTTKWgy5PEDF4q4Tp1hXd1P2JPPgyXrORCp8Dld3
-	dTqMkXvVf5QKAJ+tk90WFTxLDpmYblEt120GLrqffQ8ZjyvmFS7uRCmQsURaSCRrITE3wAKvdrR
-	W9lQPb9qcqsAr1QzxFKQFmgqlwUlyQJGUDjzljkfcjVAG0oVUxF2jTC3pYbNOnPgF3anNTd6Fhq
-	JmllwQ/TRwsUEKiRUvMlDzR5UJAZr8pRn9JhQaig0jta8psa2yu4LzpwUXnX2Epb1HF0ZZ69Tcm
-	+aButj335fKHc9rQVCRnrAERwEf7QjUAddY2PILL/sbxqVD0GQNxHWsYaKKEOl+qOwJdEHuwuK+
-	+V5NB2o1Thftxd0C7HUworYoVfqs0cPFnH3m9PKyVrcAZMFwXDeOrdXGKRIk0+KRb+y62tY8YTG
-	QcZ
-X-Received: by 2002:a05:7022:49d:b0:12b:ed30:5a32 with SMTP id a92af1059eb24-12bfb6e7d5cmr7269868c88.5.1775575383667;
-        Tue, 07 Apr 2026 08:23:03 -0700 (PDT)
+        bh=8XQbGkefogy11J2Mc9HHAVdzevhbE9LurfcwHxWmPT0=;
+        b=lYfsKeYnmONh6QBu5YAWu4Ek6Uw+e0WFfV56eafCnG88e4TiVTQWjLTE6FFraiot87
+         wY8YLSC4SwIGKb87WSgr5ovDeFD3FvSqu1JGy9jt1wlDbPq1S0mL9ZMV7hK53he7OHGt
+         L9fAOQbiazXjII84uJr79E3/9+/ZEFB65L0nb08q674rKbLHsyoF5v0LABrwbDx/evBm
+         I7Hs3ok3el5sEubPLWWP5r8vNsX+8uHBXzx6c2VUqczX02WeGINBNfTUmwHGCijxcDGd
+         jy7r+NLcYLDWTWv3C5xcWcb7IlSED4xLbUbFF8Kzez519mMW3pqoQvIfZyw3KbClZS1b
+         6WTw==
+X-Gm-Message-State: AOJu0YzeXk2WbaKJT8vRO62YzerALbCcVGGJuxgmVjq8DVSwKrSlq8aU
+	y1sda6JTwUR5aLHGyyBlq1e4rk+ZP7BlIVCtqD2JASh6+jw+vM63LmiW
+X-Gm-Gg: AeBDiev1LmR54gpWtBnMACLopftJadrJ/MOCx02IfJ3hUCSucILA3RfEg/8STMdjdfz
+	323jrZOKmaWHzNkwM7UqliGGZCs0LTGiXpDVmqF6di241YRIR98/9BgTpqcIjgnJemvuM/o5It3
+	cG1QUBwQmb8umVongnV6X5mubd29advyiY4riwhC5EonzJjEInDnhUtTzN7Xv5WT4XHJ+C1+U21
+	0njdBNF+M39jJPjUoRGfSPGiA9xjmuvl7BtCK6GyM/wuCCX5bFZtNYflnt9wqrt8062SbvGx7R0
+	XCU0GTD2ewn4sD337+l7auAt7VkdW9GG3H/PigWYUDdLkmLnLL4AI7ZgoSvooFpznq3fmZE8O2n
+	YmteTciCj4vWIOSzds9JapFh8D8XMSwZzYntVW0o5bnfz/jEFCkbvUSaA47RXNGGflBJ1fZVVP9
+	vi0mR+t1o617RmMAD1KX7dkpYbHm6J05GKXHlRNefgcLkyeDD8s8PgKoVdUYMkW/+8y7k7z4g1I
+	35Ndu3xiAIZwpE=
+X-Received: by 2002:a05:7022:4591:b0:12a:6abf:ab1c with SMTP id a92af1059eb24-12bfaf4e6b7mr6948722c88.11.1775575386599;
+        Tue, 07 Apr 2026 08:23:06 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm20628473c88.0.2026.04.07.08.23.01
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm20628473c88.0.2026.04.07.08.23.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 08:23:03 -0700 (PDT)
+        Tue, 07 Apr 2026 08:23:06 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 07 Apr 2026 12:22:50 -0300
-Subject: [PATCH 2/3] ALSA: tea6330t: add mixer state restore helper
+Date: Tue, 07 Apr 2026 12:22:51 -0300
+Subject: [PATCH 3/3] ALSA: interwave: add ISA and PnP suspend and resume
+ callbacks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,100 +70,302 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260407-alsa-interwave-pm-v1-2-80da1151f59c@gmail.com>
+Message-Id: <20260407-alsa-interwave-pm-v1-3-80da1151f59c@gmail.com>
 References: <20260407-alsa-interwave-pm-v1-0-80da1151f59c@gmail.com>
 In-Reply-To: <20260407-alsa-interwave-pm-v1-0-80da1151f59c@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2357;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9075;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=dr9NNaPgzVLX/zcwEHihdZJ0bQ47V8p9Qe3DikgzCnU=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlXFf36J8u2rbDnmMpx6ODGhXXrb9jfizqdYh12f/sx7
- d9RESYqHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjCRF78Y/meXttzt+LNdKOEo
- S1zD7tf3XjJbumgVrj0Rlv5tp3r4tGeMDN9Ugxr+1Kzd77/8dda5R8sMWRYyF5g/eetxcFtFp8Q
- Wd1YA
+ bh=4Y9CqXMn8U69M84oxZ10Kqm4IkJzKs8xnoSjmQa3AR0=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlXFf2OJCurl09UKtSaov2Ec4bgjail/1Im8h6YNNkzf
+ fc1IeGAjlIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZjI3XkMf6UPyr/q3P9iSuor
+ 01vPnQOKOvKNVOxuLjRfvUFufb1GVzrD/zSDd4aK3rtOpz+5WNrkLtkvsbnseqzL0WB21fZFz67
+ EMwEA
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-The InterWave STB variant uses a TEA6330T mixer on its private
-I2C bus. The mixer state is cached in software, but there is no
-helper to push that register image back to hardware after system
-resume.
+interwave still leaves both its ISA and PnP PM callbacks disabled even
+though the shared GUS suspend and resume path now exists.
 
-Add a small restore helper that reapplies the cached TEA6330T
-register image to the device so board drivers can restore the
-external mixer state as part of their PM resume path.
+This board needs InterWave-specific glue around the shared GUS PM path.
+The attached WSS codec has its own register image that must be saved and
+restored across suspend, the InterWave-specific GF1 compatibility,
+decode, MPU401, and emulation settings must be rewritten after the
+shared GF1 resume path reinitializes the chip, and the probe-detected
+InterWave memory layout must be restored without rerunning the
+destructive DRAM/ROM detection path.
 
-Take snd_i2c_lock() around the full device lookup and restore
-sequence so the bus device list traversal is also protected.
+Track the optional STB TEA6330T bus at probe time, restore its cached
+mixer state after resume, add resume-safe helpers for the InterWave
+register and memory-configuration state, and wire both the ISA and PnP
+front-ends up to the shared GUS PM helpers.
+
+The resume path intentionally restores only the cached hardware setup.
+It does not attempt to preserve sample RAM contents across suspend.
 
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- include/sound/tea6330t.h |  1 +
- sound/i2c/tea6330t.c     | 39 ++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 39 insertions(+), 1 deletion(-)
+ sound/isa/gus/interwave.c | 178 +++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 151 insertions(+), 27 deletions(-)
 
-diff --git a/include/sound/tea6330t.h b/include/sound/tea6330t.h
-index 1c77b78f6533..3a34033d2aa3 100644
---- a/include/sound/tea6330t.h
-+++ b/include/sound/tea6330t.h
-@@ -12,5 +12,6 @@
- int snd_tea6330t_detect(struct snd_i2c_bus *bus, int equalizer);
- int snd_tea6330t_update_mixer(struct snd_card *card, struct snd_i2c_bus *bus,
- 			      int equalizer, int fader);
-+int snd_tea6330t_restore_mixer(struct snd_i2c_bus *bus);
+diff --git a/sound/isa/gus/interwave.c b/sound/isa/gus/interwave.c
+index 18adcd35e117..616c11e51a2f 100644
+--- a/sound/isa/gus/interwave.c
++++ b/sound/isa/gus/interwave.c
+@@ -96,6 +96,7 @@ struct snd_interwave {
+ 	struct snd_gus_card *gus;
+ 	struct snd_wss *wss;
+ #ifdef SNDRV_STB
++	struct snd_i2c_bus *i2c_bus;
+ 	struct resource *i2c_res;
+ #endif
+ 	unsigned short gus_status_reg;
+@@ -363,18 +364,30 @@ struct rom_hdr {
+ 	/* 511 */ unsigned char csum;
+ };
  
- #endif /* __SOUND_TEA6330T_H */
-diff --git a/sound/i2c/tea6330t.c b/sound/i2c/tea6330t.c
-index 5341907b85d1..39c5e87c6ab0 100644
---- a/sound/i2c/tea6330t.c
-+++ b/sound/i2c/tea6330t.c
-@@ -356,5 +356,42 @@ int snd_tea6330t_update_mixer(struct snd_card *card,
-       	snd_i2c_device_free(device);
-       	return err;
- }
--
- EXPORT_SYMBOL(snd_tea6330t_update_mixer);
+-static void snd_interwave_detect_memory(struct snd_gus_card *gus)
++static const unsigned int snd_interwave_memory_configs[] = {
++	0x00000001, 0x00000101, 0x01010101, 0x00000401,
++	0x04040401, 0x00040101, 0x04040101, 0x00000004,
++	0x00000404, 0x04040404, 0x00000010, 0x00001010,
++	0x10101010
++};
 +
-+int snd_tea6330t_restore_mixer(struct snd_i2c_bus *bus)
-+{
-+	struct snd_i2c_device *device;
-+	struct tea6330t *tea;
-+	unsigned char bytes[7];
-+	unsigned int idx;
-+	int err;
++static int snd_interwave_find_memory_config(unsigned int lmct)
+ {
+-	static const unsigned int lmc[13] =
+-	{
+-		0x00000001, 0x00000101, 0x01010101, 0x00000401,
+-		0x04040401, 0x00040101, 0x04040101, 0x00000004,
+-		0x00000404, 0x04040404, 0x00000010, 0x00001010,
+-		0x10101010
+-	};
++	unsigned int i;
 +
-+	if (!bus)
-+		return -EINVAL;
-+
-+	snd_i2c_lock(bus);
-+	list_for_each_entry(device, &bus->devices, list) {
-+		if (device->addr != TEA6330T_ADDR)
-+			continue;
-+
-+		tea = device->private_data;
-+		if (!tea) {
-+			err = -EINVAL;
-+			goto unlock;
-+		}
-+
-+		bytes[0] = TEA6330T_SADDR_VOLUME_LEFT;
-+		for (idx = 0; idx < 6; idx++)
-+			bytes[idx + 1] = tea->regs[idx];
-+		err = snd_i2c_sendbytes(device, bytes, 7);
-+		err = err < 0 ? err : 0;
-+		goto unlock;
++	for (i = 0; i < ARRAY_SIZE(snd_interwave_memory_configs); i++) {
++		if (lmct == snd_interwave_memory_configs[i])
++			return i;
 +	}
 +
-+	err = -ENODEV;
-+
-+unlock:
-+	snd_i2c_unlock(bus);
-+	return err;
++	return -EINVAL;
 +}
-+EXPORT_SYMBOL(snd_tea6330t_restore_mixer);
+ 
++static void snd_interwave_detect_memory(struct snd_gus_card *gus)
++{
+ 	int bank_pos, pages;
+ 	unsigned int i, lmct;
++	int lmc_cfg;
+ 	int psizes[4];
+ 	unsigned char iwave[8];
+ 	unsigned char csum;
+@@ -399,17 +412,20 @@ static void snd_interwave_detect_memory(struct snd_gus_card *gus)
+ #if 0
+ 		dev_dbg(gus->card->dev, "lmct = 0x%08x\n", lmct);
+ #endif
+-		for (i = 0; i < ARRAY_SIZE(lmc); i++)
+-			if (lmct == lmc[i]) {
++		lmc_cfg = snd_interwave_find_memory_config(lmct);
++		if (lmc_cfg >= 0) {
+ #if 0
+-				dev_dbg(gus->card->dev, "found !!! %i\n", i);
++			dev_dbg(gus->card->dev, "found !!! %i\n", lmc_cfg);
+ #endif
+-				snd_gf1_write16(gus, SNDRV_GF1_GW_MEMORY_CONFIG, (snd_gf1_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG) & 0xfff0) | i);
+-				snd_interwave_bank_sizes(gus, psizes);
+-				break;
+-			}
+-		if (i >= ARRAY_SIZE(lmc) && !gus->gf1.enh_mode)
+-			 snd_gf1_write16(gus, SNDRV_GF1_GW_MEMORY_CONFIG, (snd_gf1_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG) & 0xfff0) | 2);
++			snd_gf1_write16(gus, SNDRV_GF1_GW_MEMORY_CONFIG,
++					(snd_gf1_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG) & 0xfff0) |
++					lmc_cfg);
++			snd_interwave_bank_sizes(gus, psizes);
++		} else if (!gus->gf1.enh_mode) {
++			snd_gf1_write16(gus, SNDRV_GF1_GW_MEMORY_CONFIG,
++					(snd_gf1_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG) & 0xfff0) |
++					2);
++		}
+ 		for (i = 0; i < 4; i++) {
+ 			gus->gf1.mem_alloc.banks_8[i].address =
+ 			    gus->gf1.mem_alloc.banks_16[i].address = i << 22;
+@@ -454,24 +470,66 @@ static void snd_interwave_detect_memory(struct snd_gus_card *gus)
+ 		snd_interwave_reset(gus);
+ }
+ 
++static void __snd_interwave_restore_regs(struct snd_gus_card *gus)
++{
++	snd_gf1_write8(gus, SNDRV_GF1_GB_COMPATIBILITY, 0x1f);
++	snd_gf1_write8(gus, SNDRV_GF1_GB_DECODE_CONTROL, 0x49);
++	snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, 0x11);
++	snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A, 0x00);
++	snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B, 0x30);
++	snd_gf1_write8(gus, SNDRV_GF1_GB_EMULATION_IRQ, 0x00);
++}
++
++static void snd_interwave_restore_regs(struct snd_gus_card *gus)
++{
++	scoped_guard(spinlock_irqsave, &gus->reg_lock)
++		__snd_interwave_restore_regs(gus);
++}
++
++static void snd_interwave_restore_memory(struct snd_gus_card *gus)
++{
++	unsigned short mem_cfg;
++	unsigned int lmct = 0;
++	int i, lmc_cfg;
++
++	if (!gus->gf1.memory)
++		return;
++
++	for (i = 0; i < 4; i++)
++		lmct |= (gus->gf1.mem_alloc.banks_16[i].size >> 18) << (i * 8);
++
++	lmc_cfg = snd_interwave_find_memory_config(lmct);
++	if (lmc_cfg < 0) {
++		if (!gus->gf1.enh_mode) {
++			lmc_cfg = 2;
++		} else {
++			dev_warn(gus->card->dev,
++				 "cannot restore InterWave memory layout 0x%08x\n",
++				 lmct);
++			return;
++		}
++	}
++
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		mem_cfg = snd_gf1_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG);
++		mem_cfg = (mem_cfg & 0xfff0) | lmc_cfg;
++		mem_cfg = (mem_cfg & 0xff1f) | (4 << 5);
++		snd_gf1_write16(gus, SNDRV_GF1_GW_MEMORY_CONFIG, mem_cfg);
++	}
++}
++
+ static void snd_interwave_init(int dev, struct snd_gus_card *gus)
+ {
+-	/* ok.. some InterWave specific initialization */
++	/* Probe-time setup also clears the timer control register. */
+ 	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
+ 		snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, 0x00);
+-		snd_gf1_write8(gus, SNDRV_GF1_GB_COMPATIBILITY, 0x1f);
+-		snd_gf1_write8(gus, SNDRV_GF1_GB_DECODE_CONTROL, 0x49);
+-		snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, 0x11);
+-		snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A, 0x00);
+-		snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B, 0x30);
+-		snd_gf1_write8(gus, SNDRV_GF1_GB_EMULATION_IRQ, 0x00);
++		__snd_interwave_restore_regs(gus);
+ 	}
+ 	gus->equal_irq = 1;
+ 	gus->codec_flag = 1;
+ 	gus->interwave = 1;
+ 	gus->max_flag = 1;
+ 	gus->joystick_dac = joystick_dac[dev];
+-
+ }
+ 
+ static const struct snd_kcontrol_new snd_interwave_controls[] = {
+@@ -724,6 +782,7 @@ static int snd_interwave_probe(struct snd_card *card, int dev,
+ 		err = snd_tea6330t_update_mixer(card, i2c_bus, 0, 1);
+ 		if (err < 0)
+ 			return err;
++		iwcard->i2c_bus = i2c_bus;
+ 	}
+ #endif
+ 
+@@ -828,10 +887,59 @@ static int snd_interwave_isa_probe(struct device *pdev,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_PM
++static int snd_interwave_card_suspend(struct snd_card *card)
++{
++	struct snd_interwave *iwcard = card->private_data;
++
++	iwcard->wss->suspend(iwcard->wss);
++	return snd_gus_suspend(iwcard->gus);
++}
++
++static int snd_interwave_card_resume(struct snd_card *card)
++{
++	struct snd_interwave *iwcard = card->private_data;
++	int err;
++
++	err = snd_gus_resume(iwcard->gus);
++	if (err < 0)
++		return err;
++
++	snd_interwave_restore_regs(iwcard->gus);
++	snd_interwave_restore_memory(iwcard->gus);
++	iwcard->wss->resume(iwcard->wss);
++#ifdef SNDRV_STB
++	if (iwcard->i2c_bus) {
++		err = snd_tea6330t_restore_mixer(iwcard->i2c_bus);
++		if (err < 0)
++			dev_warn(card->dev,
++				 "failed to restore TEA6330T mixer state: %d\n",
++				 err);
++	}
++#endif
++
++	return 0;
++}
++
++static int snd_interwave_isa_suspend(struct device *pdev, unsigned int dev,
++				     pm_message_t state)
++{
++	return snd_interwave_card_suspend(dev_get_drvdata(pdev));
++}
++
++static int snd_interwave_isa_resume(struct device *pdev, unsigned int dev)
++{
++	return snd_interwave_card_resume(dev_get_drvdata(pdev));
++}
++#endif
++
+ static struct isa_driver snd_interwave_driver = {
+ 	.match		= snd_interwave_isa_match,
+ 	.probe		= snd_interwave_isa_probe,
+-	/* FIXME: suspend,resume */
++#ifdef CONFIG_PM
++	.suspend	= snd_interwave_isa_suspend,
++	.resume		= snd_interwave_isa_resume,
++#endif
+ 	.driver		= {
+ 		.name	= INTERWAVE_DRIVER
+ 	},
+@@ -871,12 +979,28 @@ static int snd_interwave_pnp_detect(struct pnp_card_link *pcard,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_PM
++static int snd_interwave_pnpc_suspend(struct pnp_card_link *pcard,
++				      pm_message_t state)
++{
++	return snd_interwave_card_suspend(pnp_get_card_drvdata(pcard));
++}
++
++static int snd_interwave_pnpc_resume(struct pnp_card_link *pcard)
++{
++	return snd_interwave_card_resume(pnp_get_card_drvdata(pcard));
++}
++#endif
++
+ static struct pnp_card_driver interwave_pnpc_driver = {
+ 	.flags = PNP_DRIVER_RES_DISABLE,
+ 	.name = INTERWAVE_PNP_DRIVER,
+ 	.id_table = snd_interwave_pnpids,
+ 	.probe = snd_interwave_pnp_detect,
+-	/* FIXME: suspend,resume */
++#ifdef CONFIG_PM
++	.suspend	= snd_interwave_pnpc_suspend,
++	.resume		= snd_interwave_pnpc_resume,
++#endif
+ };
+ 
+ #endif /* CONFIG_PNP */
 
 -- 
 2.53.0
