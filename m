@@ -1,140 +1,107 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78BB397E76;
-	Tue,  7 Apr 2026 08:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0ED13959D
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 08:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775550807; cv=none; b=M8AUIIGwi34EW2oPXVCEE/y2vY7wvcQr2Wc3Jv5HzztdOSoP8m7wrEy9HYD8g1R5AAvIT62pS+hHQjXEwWK1wThhpEgLYEJEFi9Kdq4ReWkB4Yc8cvUTL9tCcJkeBbS9tcnjwq7chItRSJHd+p4RskZABZmtCnLnAjXVedH3ox8=
+	t=1775551993; cv=none; b=kqX8f1gwczeRi1UOI6aUUXwCqOX9QEqQ0FIRbbezW2sz3ETTM8PnFRXNaFsdGWXan9u75wanc5R9SCdH6zXssrAFHagVpRinDZS9sEcA6CjTHCw5gxWwqwAiPTJe/T6L8SEobx5zRAcwIU1xuiWcbYbWHhgOelNEJS18Tn01jQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775550807; c=relaxed/simple;
-	bh=btgOKgbuheDcUPT8oEZacQRTKrs4Vl9Yek45oxBmL2I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ez+DcpHZKqltW8/uS9D5T/U5QrfIhcqA0khWdxFFjz9yrqZHowTlysqa3bkHTyhVLREFxqc1YwzEaeBlGJwtKgbV56rsM6LUZNSUdSG7ar6QioQOuj5JPJmoEHqZmRd0i1fqhk2fcCi7693K5eIDwmqIjTKkTEjHUv6a3+8D51c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
-X-QQ-mid: esmtpgz11t1775550741t4bae4b67
-X-QQ-Originating-IP: km4qO8TB8e0CX3fAEWqRNQfz23UNoL5SmAgx2StGANo=
-Received: from [192.168.30.32] ( [116.234.14.100])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 07 Apr 2026 16:32:19 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5058057940856507686
-EX-QQ-RecipientCnt: 12
-From: Xilin Wu <sophon@radxa.com>
-Date: Tue, 07 Apr 2026 16:32:05 +0800
-Subject: [PATCH 6.18.y] ASoC: qcom: sc7280: make use of common helpers
+	s=arc-20240116; t=1775551993; c=relaxed/simple;
+	bh=Lu4o2CSeHazgb444Txpxm3UBLR62nyxz/BVlQFK3jDE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UiEgGbqYHTQBKH228MTh3jyWzZeZNpA2S4tAXEbPInMZl8Fb8p/0qDzTasKwWAEK2+6ykJLv1wbpriT+2pCC1PQe+fApW0PGvsVyHm9haZOiwkFWOGNbqC2u9GCxK4ddRbJjZBaSTGK5t24Qc9ntt08woV0dpMbvX1n9Ch4n7zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FTB5TWz+; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FTB5TWz+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775551992; x=1807087992;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Lu4o2CSeHazgb444Txpxm3UBLR62nyxz/BVlQFK3jDE=;
+  b=FTB5TWz+mUaCQ6a7jBspCx46KQBOueJam2EFHKdMg1BQJXAFF4UvHWFf
+   ERKfFEebuvff31s5y0b3w2oQkE9ssl8Rd/RasbOfjS8AAJdVBzfHmyIz7
+   cjeZp8LRkLdc44uX/UKubZVJt+4z1Fvzx0cWLz9czcDHZzunhOHd5czhH
+   +Zwh+NS5C9/rSrsJt+Vdjfvh5miXVhsh1k21piyyDGRp/GGL4v9ebaJsD
+   otSAUqpoCR9O1KUrjqRAGMfKUnLheFDI5jRFKsEiwdc037mHFmKNf8lVx
+   7YGNqADnTDPbnl6AsT7TBdEqtEHoLK4BWDcg0piRfNb7Guc7YMCFcP+nT
+   g==;
+X-CSE-ConnectionGUID: oNnASsS7SESODN/EpHBZIg==
+X-CSE-MsgGUID: ikrX9lmcS3K3eKBgjSHfbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="87133626"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="87133626"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 01:53:12 -0700
+X-CSE-ConnectionGUID: k7xBkW/QRhG1wnwM+S52ug==
+X-CSE-MsgGUID: 9fqxHsufTA2hdyqL4ofcfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="266093327"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa001.jf.intel.com with ESMTP; 07 Apr 2026 01:53:10 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 1/2] ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
+Date: Tue,  7 Apr 2026 10:54:58 +0200
+Message-Id: <20260407085459.400628-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260407-qcom-sdw-6-18-v1-1-2e1b884c14cf@radxa.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMzQ6CMBAGX4V8Z5d0G1KIr2I8QLvomgja9TeEd
- 7fqcSaZWWCSVQzbakGWh5rOUwHeVIjHfjoIaSoM73xwjWvpGuczWXpSIO7Ip36QJrBwO6I0lyy
- jvn6/HULNXf3G/u/tPpwk3r4zrOsH7uS5nnkAAAA=
-X-Change-ID: 20260407-qcom-sdw-6-18-2dabe461e17f
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Steev Klimaszewski <threeway@gmail.com>, Xilin Wu <sophon@radxa.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2001; i=sophon@radxa.com;
- h=from:subject:message-id; bh=w+gy2MD3FrtevswuLj1MAXnzeWGi3gtTK0a6/TYrKU4=;
- b=owGbwMvMwCVmdFg0fe08Iz/G02pJDJlXDorcZUj5/a4ywbHVetb/93uWm4X43ZS68TlO8OlPS
- 0kpq/OtHaUsDGJcDLJiiiwK8Qxz2Stzrz0VK9WDmcPKBDKEgYtTACYyr4KR4T6vTU7CpqPnGhak
- OGa48q/Z+eXw6ZjsPfyHKy/8PRuZtZHhn103F4/ez7lSGyI//Py8Olbfe2GWh+TFGyy3BIzW/mb
- w5QMA
-X-Developer-Key: i=sophon@radxa.com; a=openpgp;
- fpr=205F009D07796DD6E516752E32C31567AD9E324E
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: NNCgUTg3ctKTMDUrCTnMZMl4OsNfKTYmF6/2Qxei4XrdNrTcEj79/YkN
-	Vj7wathQG1INbkZgNJMHl54wbduGDEkeLJ7KhRJbyhUfWOGjf4aAVmOdq1oXtaWvTD8ck5P
-	abQ5+vJnqJIu0eOj4IUlvsDGXcrwlv4XfXL+iUNLB0+Y5u+sUhyFjPL6Oa1M4tHmBstyYr/
-	11zZHHvAYX6pNnl34YJSPVo2jcvCUw1cLpJGUmDmXk/rx9tGxEZg3ZcQoEhtKaaD9ySWW0Q
-	UcGsCdUZKUVBJxehAQcnKZFpL3ONLmHWAmF5jdtsQ+5l4mvZFTaDYFO/06EH/qUzjFrBjNu
-	3/SIoVfJYQeTDgA+6REwxRbK7OqQJ5Sl/PVWGMCikDph5P9Ry9EyyDuzwneUl0AMTuH17S6
-	d2OkFuHlyCHlNzxY0VlXxKHczBiwub++R1bd5n/K2WbhXpL7pXOVfqAC7d173OoWxNEsH0M
-	4bsFNi7Q8OmebgzlaQSvEhF8UOq7yui5zZJrzGbRezVl44eYJUZSbbbyBFuaWy/6Nu1oTrc
-	vSw0g6QxUmmxlNyXetQ+yOz1ea0Ynb/jjl19uEeWxdrRVmIC0n6PylT1/Nd1v+6yjmAD1pz
-	LL0rZvGokSJLjHKDTvmKh8ox6WbG1UoFZVCtyYkZ2mekG/T3PW1tZ8DQJdauooJu9Aa5Zdw
-	1xT1/6ffs0n5KD09WALvAHiQfh9dWTwJIaE/k3jhIY13o7MxvMf+dOmvwdIC0HzOd8MdAbE
-	/mKcA2hfcvcrDCWp2wAi2IdpXUgoY/USYfeDShxT2C231907nhrkuuvaR8xKtEzVs5gKasq
-	Q6+F51gBfjSm/wKT/etAoCbsmKH2G67fDjWAZrQ5ei6M4slZHHbXrxBISwguHLlFegeJNfu
-	AyPx005Njj1ZBH5UakZPypAi7p5tuZyZAsIZ9LMIkcjunRYrzwqMxca53oOq8XBvjnitBhM
-	0ZBwfp00KpkScITwmU4pUmnc/QV9W5YPyr0NqaH1dQkPu0Y+LzrshPhyMLDQQNwfRBniFYK
-	3Em0tJk7mLWPIOYYRBnq8lYYxpziM=
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Caller is responsible for freeing array allocated with
+parse_int_array().
 
-commit 8fdb030fe283c84fd8d378c97ad0f32d6cdec6ce upstream.
+Found out by Coverity.
 
-sc7280 machine driver can make use of common sdw functions to do most of
-the soundwire related operations. Remove such redundant code from sc7280
-driver.
-
-[This is a partial backport containing only the sound/soc/qcom/sdw.c
-changes which add LPASS CDC DMA DAI IDs to qcom_snd_is_sdw_dai().
-The sc7280.c refactoring changes are omitted as they depend on
-intermediate patches not present in 6.18.y. The sdw.c change fixes a
-NULL pointer dereference for lpass-cpu based SoundWire links.]
-
-Fixes: bcba17279327 ("ASoC: qcom: sdw: fix memory leak for sdw_stream_runtime")
-Cc: stable@vger.kernel.org
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Tested-by: Steev Klimaszewski <threeway@gmail.com> # Thinkpad X13s
-Link: https://patch.msgid.link/20251022143349.1081513-5-srinivas.kandagatla@oss.qualcomm.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Xilin Wu <sophon@radxa.com>
+Fixes: 7d859189de13 ("ASoC: Intel: avs: Allow to specify custom configurations with i2s_test")
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/qcom/sdw.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ sound/soc/intel/avs/board_selection.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
-index 7b2cae92c812..5f880c74c8dc 100644
---- a/sound/soc/qcom/sdw.c
-+++ b/sound/soc/qcom/sdw.c
-@@ -2,6 +2,7 @@
- // Copyright (c) 2018-2023, Linaro Limited.
- // Copyright (c) 2018, The Linux Foundation. All rights reserved.
- 
-+#include <dt-bindings/sound/qcom,lpass.h>
- #include <dt-bindings/sound/qcom,q6afe.h>
- #include <linux/module.h>
- #include <sound/soc.h>
-@@ -35,6 +36,16 @@ static bool qcom_snd_is_sdw_dai(int id)
- 		break;
+diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
+index 8a46285181fa..dd0e7cd5a7dd 100644
+--- a/sound/soc/intel/avs/board_selection.c
++++ b/sound/soc/intel/avs/board_selection.c
+@@ -520,7 +520,8 @@ static int avs_register_i2s_test_boards(struct avs_dev *adev)
+ 	if (num_elems > max_ssps) {
+ 		dev_err(adev->dev, "board supports only %d SSP, %d specified\n",
+ 			max_ssps, num_elems);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto exit;
  	}
  
-+	/* DSP Bypass usecase, cpu dai index overlaps with DSP dai ids,
-+	 * DO NOT MERGE into top switch case */
-+	switch (id) {
-+	case LPASS_CDC_DMA_TX3:
-+	case LPASS_CDC_DMA_RX0:
-+		return true;
-+	default:
-+		break;
-+	}
-+
- 	return false;
+ 	for (ssp_port = 0; ssp_port < num_elems; ssp_port++) {
+@@ -528,11 +529,13 @@ static int avs_register_i2s_test_boards(struct avs_dev *adev)
+ 		for_each_set_bit(tdm_slot, &tdm_slots, 16) {
+ 			ret = avs_register_i2s_test_board(adev, ssp_port, tdm_slot);
+ 			if (ret)
+-				return ret;
++				goto exit;
+ 		}
+ 	}
+ 
+-	return 0;
++exit:
++	kfree(array);
++	return ret;
  }
  
-
----
-base-commit: dd26ea937ef593a9c47aa4c85296e6b57a5344a1
-change-id: 20260407-qcom-sdw-6-18-2dabe461e17f
-
-Best regards,
---  
-Xilin Wu <sophon@radxa.com>
+ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach *mach)
+-- 
+2.34.1
 
