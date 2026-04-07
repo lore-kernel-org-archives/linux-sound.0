@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8962F270ED7;
-	Tue,  7 Apr 2026 16:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AB73B0AFB
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 16:44:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775580256; cv=none; b=WIXMyA0N0u6bKzd22zYDNaGUCidOBVe1FmDfr+10CEvqiEe+b47qvW7oXzyV9TE8Z7gyOZHbUoSTtiA3nBchoXDgvGiX+v3YPWRuynIcbdYySTpKmLPcopRlLOaqFB64VYROZ4pRbW1mJzEWyn65xRQMN/rsI3uQV8s7olChcEc=
+	t=1775580263; cv=none; b=WydbOJvbSUZmPpQe6dlkMYsgdzA3YZHOK+TWm729OMA54WVhNx9Pug1OuSlnQlCtI4YbaICI3b+jU5QLHm3ARqzmoKImHfKDVeK5cmkTgIBtEvK2zS6VDOSv4GJbiJZJcxgHPsyC2EpK23ebL9+lN/GllOwv2cnZIuqgt2OVcpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775580256; c=relaxed/simple;
-	bh=25Ncd5kpv1sA1XWgyiwrIH7vTaD+meBEk1YFmGwgvjk=;
+	s=arc-20240116; t=1775580263; c=relaxed/simple;
+	bh=smiULhZqR1kz920O6ixLyqey23aEs5vury7SV6ven5E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dEHnrvmi+1XXuGwRTjj/MvadBBdGsO6vwp+9bZsOfYUsNdSJtoFmM2JOcXFua4EOqygQkxNvmivZ69SKfw0HrY312zCCVzR0p+ZyVno1TeNteu0ErNEG3ifU/41K/5dR1o3flQpLr67mWBV8g5+29L5FKyLY1SaPLY4EwqsmjwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5lYCbnx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dh+4AigxI8P/Aqd8yIB1rXwPL6FB5H+bqg+cKJ7Wdx9XBl8IAz1QRxm0j/QRiAIKsUhjk6dlru3A6iHDFKJfDb9QWIWCybU44lW/3FTKsmdbZTrv37mfk4vj8dUZNHj0SVY4AkxJbQiMWvBjxx8tCsAquVNGNwuBti/5IhgFr4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4M3j3JA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5lYCbnx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B0B7C19424;
-	Tue,  7 Apr 2026 16:44:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4M3j3JA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298B5C116C6;
+	Tue,  7 Apr 2026 16:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775580256;
-	bh=25Ncd5kpv1sA1XWgyiwrIH7vTaD+meBEk1YFmGwgvjk=;
+	s=k20201202; t=1775580263;
+	bh=smiULhZqR1kz920O6ixLyqey23aEs5vury7SV6ven5E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=I5lYCbnxh1BDAoUyLNb+AK3cie3HfQ8Y+IzHNGaBx/8REhCsdxZGcwNx1LYHXFXj+
-	 f+tnDx6FGXSp87LzpuAcEtnJfbZgSqWjFEv/iFhai0PfG4y3UAsaj4XNQkmuucjUmS
-	 NK16p2WX3J+VW5zz3zyIfhRebnnn/yPaOTva0WTl9rQlud2HOlhC06mdY6up92Gt7X
-	 1EW1F+zzoXgkDUNgtAgO+EH+Ui0whCQH8nILaNTlQE5B0lquvBft2gOVh3sjGwHM1Z
-	 T60ZmgXzFzprwktwJyobvBpYzDf+nJgOfTjOSNeCwM16NkA437/aH4e/aANMBSHaps
-	 +zR7Gjw1uLTcw==
+	b=u4M3j3JAOAS8NypuB1T1muJ1WeMnb8c7pA6RWn/3hf8C131ILsWcZLZVO7QyWm/s9
+	 qfRoWV0RbghtA1QzCgzxpO+625uaPQX4KIkLdKzblyED5Ynk08p3RFHcmkN3kHsxu+
+	 s2ALBKwev2K30vrdRSPuB5IGQXS1oJlT5wnK6roz5MRnCU1eAN825wGQcejhmnnRtU
+	 aE/LreKxRV9kJW42x64i5b8QnQAWyv5nUWxkVtYPFZ58Ue19Hy0q+7a0Fk/S0rAkr7
+	 AEfTc1mU/6V8s18yyBQMUcwTHGfxDBTN/JXDRN8Vwmtd21TaM27nzo0W0jVcq8DBQo
+	 YaY8IvPNvuwkw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, cezary.rojewski@intel.com, 
- songxiebing <songxiebing@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20260325021752.238203-1-songxiebing@kylinos.cn>
-References: <20260325021752.238203-1-songxiebing@kylinos.cn>
-Subject: Re: [PATCH v2] ASoC: intel: avs: Fix type mismatch in variable
- assignment
-Message-Id: <177556167662.37897.17148763540859461864.b4-ty@b4>
-Date: Tue, 07 Apr 2026 12:34:36 +0100
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20260407085459.400628-1-cezary.rojewski@intel.com>
+References: <20260407085459.400628-1-cezary.rojewski@intel.com>
+Subject: Re: (subset) [PATCH 1/2] ASoC: Intel: avs: Fix memory leak in
+ avs_register_i2s_test_boards()
+Message-Id: <177556325457.37897.12515945357438212446.b4-ty@b4>
+Date: Tue, 07 Apr 2026 13:00:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev-7a3e7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
- h=from:subject:message-id; bh=25Ncd5kpv1sA1XWgyiwrIH7vTaD+meBEk1YFmGwgvjk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp1TRerTZErtoTuNLsWVjQO08TtquUoKEnK22Mi
- ZQyM8L1+2mJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadU0XgAKCRAk1otyXVSH
- 0GpRB/9UQr7i2kBK4wRDdSlWOj9NVCMEh7cDAuJmxOESvaRwncsOtuUi2kHPzY1QyUS5vdmpfiW
- t1q+STTg9D7Ug9u/MIG5QMn3GCCH/mfgwKGH1iwSrisTXAfX0CjKh1HIGbRx7TLI1SLMJB6JK5w
- 4y5Wm3v2wc8twL4wEvnNQQwP56m+1l4hWNioa2pE3o6YMBJLQ5LmNsv+x77zGzYqre+ud8kuyrf
- 8DWIkxXpjjt7uJgTMHyiaN67u+FoNSooG/vTtkaI46TgCpH7mJ6U4YC8a21QZf6PbwohJ3E61yo
- dR8lgskVxb5ZFE66R7cm/HWFh7mH7gFXZXi6Nl0v9p8I53D3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=smiULhZqR1kz920O6ixLyqey23aEs5vury7SV6ven5E=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp1TRlW1ifDs2ZfsE8gMKNvotloCBB8+6TQVm6f
+ pGETASfWs+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadU0ZQAKCRAk1otyXVSH
+ 0HBnB/925k6V4gDJxXUvNhk4XOZ6ScUS8T3UshPKp61dajIxRvo6xLDb0wzR5Vao9sqOGSXLWJI
+ aGa61bNgz2TBU8gnQ/seWPvA+6KLJNPF/NMkK+IPueF5jb+53VIdRS5yRDSAtoGRUva+AK+jbbD
+ 8mmNBft6hErQ5/TjM2ByxWc8pxzqM8BTvTo4EuOzIShAg8EFcoQhV8wmf2YP61u0SursmTUxO8V
+ EHDBLx1N6pllXQkbT5YxU/2qZWm4gNTXeX1LbeaItfiUUsqMX30XiDSMurnfwcyEkLaGUpE7CRu
+ 0/DtGy/wNHPlN4T3V8k5nxoe8Yp4GXb9e0rqte38Tzl4heaK
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 25 Mar 2026 10:17:52 +0800, songxiebing wrote:
-> ASoC: intel: avs: Fix type mismatch in variable assignment
+On Tue, 07 Apr 2026 10:54:58 +0200, Cezary Rojewski wrote:
+> ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
 
 Thanks!
 
-[1/1] ASoC: intel: avs: Fix type mismatch in variable assignment
-      https://git.kernel.org/broonie/sound/c/fd495be8aa19
+[1/2] ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
+      https://git.kernel.org/broonie/sound/c/c5408d818316
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
