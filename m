@@ -1,66 +1,67 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906D33C279E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93FA3B6376
 	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 15:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775576159; cv=none; b=oJw+CbHJYMYhgYQ6AKhcOt7KmLD8N0YM5wtdxqUPHLWPHr35RHmdzwxJGDkS6+YQKoUmcuyLXmwcUn7rdLMFyeaod7c6CbZHS7qzxolNREzecgwFXUfYcODlA+lOu7qONa0ktyM9xYqQyo6+i1kr9tJEzHf2FC1X2qEKfFqpRDw=
+	t=1775576160; cv=none; b=pXjn0TgQDzolNENjCxee3cYbGOO9IRR6QvK+o6hJ6rFr13t0dd6pCO5Y7COy0rqPydWGNjSVCGUOzhODN8+l1EO63z7u7lBRvxGszQid3DI4ny1wb6XjHSpPnJAEwLiI7IKAB18nXzPn3ZPq99IF8hSlVkm1SqNnqKC5iux/BN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775576159; c=relaxed/simple;
-	bh=fTo4OrTyCJg21p0SMTgnlLwhIO8CKev51mtpBpdcQaY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=siqo9gAMQgLFm4mCd2a5gl0kPq2F99oWYHHDXDnCSXApwRa4bUyXrpJlVgQiL4wCRyrp21/oclFtZDo/48iq53G0TmD1PQBvOm6h9h+rSywKz4j6ZG3wgRvgGi2gsU0sZ6eRYqluDkPjg0mA4bVMBRHgPJ4ceAXlDyfXumy5374=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6IZv7TI; arc=none smtp.client-ip=74.125.82.178
+	s=arc-20240116; t=1775576160; c=relaxed/simple;
+	bh=dB7P+hW2P2i24SpsF7yvWCHcLNtwvsI1lS/8EmcxB48=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BgAcv4/qBHyaI9hyLMr0hk/S/n5DV01baMhM/y0sCwE2gc5bOf0v6qWLKPESAkesxEntO9ctUPtv85R2NW621r7+gxSiwnpzIriIdpNCqE5xoAtc78soeea6yttRTZtjcvx8UWnWs/e7opYIroRROcdHBpoqLDX69DskIyqsU2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTGuVCe7; arc=none smtp.client-ip=74.125.82.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6IZv7TI"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2ce102afb0aso3696222eec.1
-        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 08:35:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTGuVCe7"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c15849aa2cso6928466eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Apr 2026 08:35:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775576150; x=1776180950; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PBbxMpMvHZXgrol/bD0lZAIeCKaIDH9RCspJpWARbaY=;
-        b=K6IZv7TIJERAvwNu1BVE+SIj0nwfm7N+BlgEnaHOpv2LyBqwmW5y4EGSe4ZA4zlVSe
-         eCQDF1OM1qeEHNRsCbHz+FhpheUvEqSLeDsopyrqCoGdhaJ7+FK1PmJ03NInAWmTsrkQ
-         WNVXAWOfoBTAs/E19D9WD+xXJMbP9oCMU7m8Tcw171nNUYK5S10y3dGjla7nuGdKCsOp
-         JQBsGLMRa7SNqmmkC7cXa5JfmKp92xmB9ToMzeeDvdsC1vcppPQZSS8RiF/MTMsBRDnB
-         DngHrMt1HrskTD93/eXSvR70UWYwG3Y97WCs2qUW8ZX/GnwpmzBrWDJq3Hna9xBuH4Rz
-         JmnA==
+        d=gmail.com; s=20251104; t=1775576153; x=1776180953; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9xrYsGshoqQIuVHI2ZhqhKCWB+xMWS+Wc13rrkqN5sw=;
+        b=bTGuVCe7EtqSdDy+HICYc/lYgIaTdVn/MANLlAITPZUZB9XtFmX+0B9bnhLHUJe3c/
+         BuxawuhFGnjLQN45I01mQ4gp6K0sLt0ryP2mOw/Wb78Hew/wrGsRKLueY4Pw+D/TBb5R
+         T/cCp4xULGi6KDj0J60rFCXTE3FrF9/VlwGX/rgTc+0eXfbFnaGo6bSO+7vn7Pyi5I+Y
+         cSFJWYrSFHMNF8gvrDsSsv9Hr3EHncnGnZRm8vjVhQq24E5wf5L3FsOD7HDEGdlkJm/O
+         DVHCXEEeCs+Ba5abBzwvfJYLvI+WaMIB0Kl9VSGiXJafOadU8TmY4WlVCziq/mN1+Dk7
+         /kjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775576150; x=1776180950;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PBbxMpMvHZXgrol/bD0lZAIeCKaIDH9RCspJpWARbaY=;
-        b=IsXgJyp5jtXzXf3rziawXTjdvMzGSM8o38p9H4/xg9PxTC8OMeKss333BMprtlI+q6
-         8JFo0IVHRBg4gmDubyciS+26Pq3lX5vvaNZ1kXzXYJTGhoLBkZke9LLnQMq1Z0c9m1mh
-         3zh2Tya/wtjl53OEuvq1mxRKLlivQB1d5Rte1sy2H8T5lRO7pjfko0Q6kqfSYV/XshV6
-         m6nnmufAsdtCTe9hyp0IXa1OkMhskgRCucvHhMvTKvp0RnxaxHG2ZxIxFHWhJHFvfSR+
-         sflZJfgDLPCv0fXd+E3vVfFgsTwHU8BRrixdj0o0mtQ4t8u9zj6ctDr4l4JUsYbqJFdd
-         vdPQ==
-X-Gm-Message-State: AOJu0YybMwmoQy5oAsBXTGr1AU9ojAOByiFczMHaoA4xXTU1gHpw9hZh
-	7/nMZhfwCe1J4QM2C/xgfSZZGMmx1vRglyjw4BqMLzfo9DOhpRLsYebS
-X-Gm-Gg: AeBDiev9zVGYtk0+VJ622Mc6dtSQt/tq6Y/pqd5vwlE37tLxc/TH5/U3Yrm1/g90IyM
-	QpFTDLcFrM5ySgqe0Ls33zaTpgdlVuNVBm50/byp4+QVkNxbWtOmFkeGC29Doix+PNiIAKwn+PK
-	msuDDDnGVST6UNUSmpvLtloZ4rF2CsnBvhULIOfwv0YvPJkEHgvOWStr3kVfNBF79gIvWSH/pNq
-	8J4FceOVrimXxx4ANmfHZKuXNaeDYATY/feotFJcj6UNYsd5m/KroEmg7rrNeEw3Mj2ij5lp9QZ
-	qp0/mq7C1f5+ayUkbDTJGyO/xa/+xR0jYt9DOWBoQIyvM7r0LNnQ5LF5YcQkyZoaTm2U+IZu8UI
-	PD+Ual8/5+6AsVb7w/LkHg1XEFxgz12Anp7va9vUbB9g8rqBerpLEAuZ8KEiwe6f+ssYuDBaWI/
-	pdbvENHf4PMZPBQnIiZmm7f+WW1BEtpKSCwaxtFOmxn1AMdQa7xJPmiKbnKNJhVYgA9/w4AY3FJ
-	4tt
-X-Received: by 2002:a05:7300:214d:b0:2c4:c4ef:48f7 with SMTP id 5a478bee46e88-2cbf9afd2e8mr9270214eec.11.1775576149998;
-        Tue, 07 Apr 2026 08:35:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775576153; x=1776180953;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9xrYsGshoqQIuVHI2ZhqhKCWB+xMWS+Wc13rrkqN5sw=;
+        b=pWmqCdF1qibraekNr9/A5Xtm7gqjXrZcuXXcNuIrFzKeKvy8gg5WwWx0hWJWyG9zqs
+         KEj47U1u6x4yewl7uKqVJMeVai7NdzIan2jRWvuQqP5yRdbPxCweZz1heR0zsnpERcnq
+         xj6FHiSCaJzQi3/zBayWdCsQTnBxOugodHNUB35L/fS0sSEPTH9qu42kKRskq78upkRr
+         sA6fPIdVDfAzoMhbTdB7AaZRxryVDcUzAV1Korkv02dwHEhoUj2bDXplTtxDbae0vFAb
+         K1uWkhGnTf00TISE1BikTmjnZXFQ8J6+pKz3ybSsiyEpNe2qdWdvsMTAmWn8L1Y7bq+/
+         reGQ==
+X-Gm-Message-State: AOJu0YweYbx4IzxRLyYhAPokavMajtrW+l7kG3KWkp5rQhKNlkCTzXKe
+	rikpJann5EbHa7pXzKRbHSM0IRK1mZEDWDK2Eh8v6BiHy5m0DBRgoNqU
+X-Gm-Gg: AeBDievTExtIrfFWlRDgstvuP77xqx5T3nxoCbCE0A22aXtrTnrid6cAHJ/S78XgkFD
+	1rtFZ0ghETL9H2Co4pItdQFtXblAk2x0bYLWb4/Goeles4dtRCqadOQkNXoDL3LnTyD+C1JBIP+
+	bHUuGmDeSj/2WCelSjJVFhKed7+iQZ+wHavtUE14dxuii0bYttRmoHs58hkNLyHP1OIDuiOTLcJ
+	HBPD3MXNc5VaUFkfw8AgfygCsXw7ArkE75VSMrayoHBNyDZ90qAU6PXyTON2xgY8d+TaHKdRlz6
+	neha2nnDMArErQWhTEgCWRAWc236hGKUZhQn5S6kZMuZrx4Hz5G0undPtohPw67FjlbZ+xFr/Tu
+	j8EowkOJSm1yN7KoesUWnm7wZyxuwKqU7odJzCJ4tXLZyiAp2SgdL5iiKAIe7u/l3txYbeq2RVQ
+	ZIhmhN57+y6CQ0ecRSaHvPgKuW3fsHojIcx5Ba8VGlbJWSrkbqjx0itvEuPb4vprwnr1D5DLBiI
+	VpCJAICD1CLM70=
+X-Received: by 2002:a05:7300:5725:b0:2c5:60d0:703b with SMTP id 5a478bee46e88-2cbfa5be05emr10028670eec.14.1775576152862;
+        Tue, 07 Apr 2026 08:35:52 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d1b152f3adsm2918397eec.20.2026.04.07.08.35.47
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d1b152f3adsm2918397eec.20.2026.04.07.08.35.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 08:35:49 -0700 (PDT)
+        Tue, 07 Apr 2026 08:35:52 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Subject: [PATCH v2 0/3] ALSA: add suspend/resume support for InterWave ISA
- cards
-Date: Tue, 07 Apr 2026 12:35:40 -0300
-Message-Id: <20260407-alsa-interwave-pm-v2-0-8dd96c6129e9@gmail.com>
+Date: Tue, 07 Apr 2026 12:35:41 -0300
+Subject: [PATCH v2 1/3] ALSA: tea6330t: move snd_tea6330t_detect()
+ EXPORT_SYMBOL
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,71 +70,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Nyw6CMBBFf4XM2jHTRlBc+R+GRWkHGcMrLVYN4
- d8FjDuXJzn33AkCe+EA52QCz1GC9N0CepeArU13YxS3MGjSGR0oQ9MEg9KN7J8mMg4tZpTrNHe
- lq0jDshs8V/Lamtfiy+FR3tmOa2g1aglj79/baVSr9+sf//SjQsITOaNUqqo0t5dba6TZ276FY
- p7nD6sFf/rEAAAA
-X-Change-ID: 20260406-alsa-interwave-pm-609259dbdf02
+Message-Id: <20260407-alsa-interwave-pm-v2-1-8dd96c6129e9@gmail.com>
+References: <20260407-alsa-interwave-pm-v2-0-8dd96c6129e9@gmail.com>
+In-Reply-To: <20260407-alsa-interwave-pm-v2-0-8dd96c6129e9@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2001;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=923;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=fTo4OrTyCJg21p0SMTgnlLwhIO8CKev51mtpBpdcQaY=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlXVYJOdu23eTPLVtSR+cD6BdxCUpxJGtFeEebLNHdNt
- TMJF9nVUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABM508nwP7ZP1emqzvyNVdOU
- ZzNLhHVskWuUXyGSzCxw5lrTPb+pixj++/e66zqzWNwxmcW7uteM+8TvS8fy36058ZbHwihPoJ6
- DDwA=
+ bh=dB7P+hW2P2i24SpsF7yvWCHcLNtwvsI1lS/8EmcxB48=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlXVYIkb9VKBF8Sf7KE93JkkPskC2HZgyl5C1fz/Hnhq
+ 8Q5cemzjlIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZjI9FcMf/g62+uU1dZVTj1S
+ wsu3pM/4Shn/g3v7Q1k3mW/YPuHVHwGG/7F2D+QVoy001vlccG6Yra2+fpp3k1pDw/qK+m3rKn7
+ 95AYA
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-This 3-patch series wires up suspend and resume support for the
-InterWave ISA drivers and their PnP front-end around the shared
-GUS PM helpers.
+Move the remaining standalone snd_tea6330t_detect() EXPORT_SYMBOL()
+declaration next to its function definition so tea6330t.c follows the
+usual layout.
 
-The first patch moves the remaining standalone
-snd_tea6330t_detect() EXPORT_SYMBOL() declaration next to its
-function definition as a requested small cleanup.
-
-The second patch adds a small TEA6330T helper so the InterWave STB
-variant can restore its cached external mixer state after resume.
-
-The third patch adds ISA and PnP PM callbacks to snd-interwave and
-restores the remaining InterWave-specific state that the generic GUS
-resume path does not cover, including the GF1 board registers and the
-detected memory layout.
-
-The resume path intentionally does not rerun probe-time DRAM/ROM
-detection. As with the shared GUS PM support, this does not guarantee
-preservation of sample RAM contents across suspend.
+No functional change intended.
 
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Changes in v2:
-- Add a separate tea6330t cleanup patch moving the standalone
-  snd_tea6330t_detect() EXPORT_SYMBOL() next to its function.
-- Extend snd_i2c_lock() to cover the full device lookup/list traversal
-  in snd_tea6330t_restore_mixer().
-- Renumber the InterWave PM patch to 3/3 after splitting out the
-  cleanup patch.
-- Link to v1: https://lore.kernel.org/all/20260406-alsa-interwave-pm-v1-0-6ffa6f317c8f@gmail.com/
+ sound/i2c/tea6330t.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
----
-Cássio Gabriel (3):
-      ALSA: tea6330t: move snd_tea6330t_detect() EXPORT_SYMBOL
-      ALSA: tea6330t: add mixer state restore helper
-      ALSA: interwave: add ISA and PnP suspend and resume callbacks
+diff --git a/sound/i2c/tea6330t.c b/sound/i2c/tea6330t.c
+index e8c50a036bea..5341907b85d1 100644
+--- a/sound/i2c/tea6330t.c
++++ b/sound/i2c/tea6330t.c
+@@ -51,6 +51,7 @@ int snd_tea6330t_detect(struct snd_i2c_bus *bus, int equalizer)
+ 	snd_i2c_unlock(bus);
+ 	return res;
+ }
++EXPORT_SYMBOL(snd_tea6330t_detect);
+ 
+ #if 0
+ static void snd_tea6330t_set(struct tea6330t *tea,
+@@ -356,5 +357,4 @@ int snd_tea6330t_update_mixer(struct snd_card *card,
+       	return err;
+ }
+ 
+-EXPORT_SYMBOL(snd_tea6330t_detect);
+ EXPORT_SYMBOL(snd_tea6330t_update_mixer);
 
- include/sound/tea6330t.h  |   1 +
- sound/i2c/tea6330t.c      |  41 ++++++++++-
- sound/isa/gus/interwave.c | 178 +++++++++++++++++++++++++++++++++++++++-------
- 3 files changed, 191 insertions(+), 29 deletions(-)
----
-base-commit: e051f09ba003f8b93dda4a8d55a1bff797235c0b
-change-id: 20260406-alsa-interwave-pm-609259dbdf02
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+-- 
+2.53.0
 
