@@ -1,98 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9328813959D
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 08:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D62239B948;
+	Tue,  7 Apr 2026 09:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775551996; cv=none; b=SBKDbqiuPBPHJNVVXbZmGE9XyJsifsDb3Yl8jqG8qA6d4S4HG0ClpGWuxkb7gcpFu4+C6NZnNIlN94oe3qVC3r/q0usxf5UOkFYcS6uaie/FmKq6gEL4Qtq4FWB0D7Sa9iu/lEJH0Bh7/KDrgZjzDZhLv4bI9MyW0zK3qqZETTk=
+	t=1775552419; cv=none; b=Ynr5/NaD09s28hxCC7Zw1Hkn5J4ZYyz6Z4NLh9r22ZLUcDm3yIHuf51rn6v65aY1rFQGaMqUXBIhpeKRLsOGgjm+Q1EG4mW2TXW+emVC/UIccmpLZQb989xrVIHcOyeZZcE+6FVtPOiSjVYCF5MGfVYCG+a1OBk+cZqzKWTMshc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775551996; c=relaxed/simple;
-	bh=jcoB9FnGXJlymoTysqF8AlgxbfqWh4O7+GWkZmYcz9w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ohH/sMhyaUPcO6lTFImkjWy2xt6W/8ELNd8z9eLa0YaTExXNidXTwdP1uoFWXdUhmOm12+Yedwajj+DOFqGzcDRXlC+glchqaZ9i+CRD89o4YTAtxh4P8WENCkWKgYIjSwc7PqFqYuACUHFRg88b//RJ9MRKpQzRZVijeAVjg2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOu5XH+0; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775552419; c=relaxed/simple;
+	bh=Ep2AZ6it7JS7L7GLOImMUBie8rQ65luLGH0TsENBcQ4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=LcNR1z8X/SNFh83EWtMAu/TuozT5WY9Pnbs9oAjYNTYHgxgRchyf7M+lCzecEfmRgXSGYaMxNr48Nlvvpsmp/9aUNfrXNbIU66YjeJq9lqtGcZTHD8/YlMM/mzxRqKBACkDGPks6BH6nB8PVUjxuxiPBhSdL2AXwunttOQDpbTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evsH8GRe; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOu5XH+0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evsH8GRe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775551996; x=1807087996;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=jcoB9FnGXJlymoTysqF8AlgxbfqWh4O7+GWkZmYcz9w=;
-  b=GOu5XH+0cuDPwc+IZzHXXWRRgJbBtGjzUSmEQodnLnzCRYYTnRDxAgl5
-   qYxygN2CBomwVCscdeuOIaqZB2CwYDBhTSr/b6pMEucK1MhqzHb6T/Twe
-   J+cczHs5zFLbSfOD/Wyamc6tpq+jKxYAsae1N8HQzsdThyB6w76tsRqxl
-   uYTwlp5GA3ByNEW344xs7DZqKP2bbtwGLsEJLJxK1vsDWFr8t1oAyJpLB
-   N8q8+kH754K33/1IKQejHkU3XY0zgMlEE1/MWyWVmOgAyGPtWaSZruNWP
-   QGFhq1eK+W40dMhsW9ur9T/SuVDh3H7RLCUxPmtVDwLIxE06ujLR/4EGZ
-   g==;
-X-CSE-ConnectionGUID: z0uOb6QcR467oAE8MeBqrw==
-X-CSE-MsgGUID: ltONOJc0TPC/PTZP1MwaAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="87133633"
+  t=1775552418; x=1807088418;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Ep2AZ6it7JS7L7GLOImMUBie8rQ65luLGH0TsENBcQ4=;
+  b=evsH8GRe3w3e931ndg+sDnAt0sksvVFsQqD5Y23/sVTdfEtDaOFY2qku
+   VMxAOfP9/o7BKSyYTXb2BaU34ab1yHNAjUGs65+fc3CvkPcAIofkoG0/R
+   n391BW3H6E2IK0wEoJntwnUelHwHrC2IlLGEixcAX7/JzPv5RwPlwlD62
+   X0BYai1Y0X9Q2C9l3DwBlpBSTTeTGlEEYzm0H67FqZd/fzDAqaglhb1c3
+   eigsMbDwSW0a16leYg2ldQLwj5QshTCvv9ehgQ6L4Uzzfey4wsgfJ/pYy
+   bBnqhGONDPeAkwS9M3gjkBf3pdPFDyR+kxWqc9eXUGl7A8b1873taFvn4
+   A==;
+X-CSE-ConnectionGUID: fCmSdvPaTQeC9W0tvLj5rg==
+X-CSE-MsgGUID: SLMnnN28QcqFbjtJOdkvJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="75551667"
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="87133633"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 01:53:16 -0700
-X-CSE-ConnectionGUID: ZOsGP2FVRbe7L+d0I0FfLw==
-X-CSE-MsgGUID: gkW6pVJRQ9OuupxD8nblmw==
+   d="scan'208";a="75551667"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 02:00:17 -0700
+X-CSE-ConnectionGUID: ziNa+73DTgOFWloASVpl+w==
+X-CSE-MsgGUID: SwUeP6tZT9CMmY51lB+/2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="266093337"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa001.jf.intel.com with ESMTP; 07 Apr 2026 01:53:14 -0700
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	amade@asmblr.net,
-	linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 2/2] ASoC: Intel: avs: Fix type warning in avs_probe_compr_set_params()
-Date: Tue,  7 Apr 2026 10:54:59 +0200
-Message-Id: <20260407085459.400628-2-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260407085459.400628-1-cezary.rojewski@intel.com>
-References: <20260407085459.400628-1-cezary.rojewski@intel.com>
+   d="scan'208";a="223317275"
+Received: from ettammin-mobl3.ger.corp.intel.com ([10.245.246.249])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 02:00:15 -0700
+Date: Tue, 7 Apr 2026 11:59:23 +0300 (EEST)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+cc: =?ISO-8859-15?Q?Antti_Jalom=E4ki?= <antti@nevaberry.com>, 
+    linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, 
+    linux-kernel@vger.kernel.org, 
+    Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+    Bard Liao <yung-chuan.liao@linux.intel.com>, 
+    Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+    Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Force legacy HDA on Lenovo
+ ThinkPad X1 Yoga Gen 5
+In-Reply-To: <87wlymhgee.wl-tiwai@suse.de>
+Message-ID: <5a581c38-38c8-854a-15e5-2d9d3d4ee077@linux.intel.com>
+References: <20260404144743.46466-1-antti@nevaberry.com> <87zf3ihhu0.wl-tiwai@suse.de> <CAK=qmGDEk46xMeA22SScAA0U86XHEWOTt7nq4W6bE1fX+nAU5Q@mail.gmail.com> <87wlymhgee.wl-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323329-283341963-1775552417=:4463"
 
-Expected argument type is snd_pcm_format_t.
-Found out by sparse.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
+--8323329-283341963-1775552417=:4463
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-This is a continuation of topic "ASoC: Intel: avs: Set of streaming
-fixes" from last year [1]. The warning keeps popping out in the scans,
-time to get rid of it.
+Hello Takashi and Antti,
 
-[1]: https://lore.kernel.org/linux-sound/dd089b21-571c-41e2-bcea-d666ee7af882@intel.com/
+On Sat, 4 Apr 2026, Takashi Iwai wrote:
 
+> On Sat, 04 Apr 2026 17:46:08 +0200, Antti Jalomäki wrote:
+>> Thank you for the review. I re-tested without the workaround on kernel
+>> 6.19.10 (Fedora 43) with the latest SOF firmware available
+>> (alsa-sof-firmware 2025.12.2, firmware
+>> version 2:2:0-57864, ABI 3:22:1).
+>> The SOF driver detects 4 DMICs in NHLT tables and attempts to load,
+>> but fails with a CSE IPC timeout. Full dmesg:
+[...]
+> > sof-audio-pci-intel-cnl 0000:00:1f.3: Boot iteration failed: 3/3
+> > sof-audio-pci-intel-cnl 0000:00:1f.3: 0x06000021: module: ROM, state:
+> > CSE_IPC_RESET_PHASE_1, waiting for: CSE_CSR, running
+> > sof-audio-pci-intel-cnl 0000:00:1f.3: extended rom status:  0x6000021
+> > 0x0 0x0 0x0 0x0 0x0 0x1811102 0x0
+> 
+> Let Intel folks check the error above at first (added a few to Cc).
+> If it's really a device that shouldn't be dealt with SOF, we can add a
+> quirk entry.
 
- sound/soc/intel/avs/probes.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this is typically a BIOS issue (Intel Management Engine not enabled in 
+BIOS, or specific BIOS version has an issue). Re-enabling the ME in 
+BIOS has often solved the issue (and sometimes a FW update is 
+needed).
 
-diff --git a/sound/soc/intel/avs/probes.c b/sound/soc/intel/avs/probes.c
-index 74096236984a..099119ad28b3 100644
---- a/sound/soc/intel/avs/probes.c
-+++ b/sound/soc/intel/avs/probes.c
-@@ -144,7 +144,7 @@ static int avs_probe_compr_set_params(struct snd_compr_stream *cstream,
- 	ret = snd_compr_malloc_pages(cstream, rtd->buffer_size);
- 	if (ret < 0)
- 		return ret;
--	bps = snd_pcm_format_physical_width(params->codec.format);
-+	bps = snd_pcm_format_physical_width((__force snd_pcm_format_t)params->codec.format);
- 	if (bps < 0)
- 		return bps;
- 	format_val = snd_hdac_stream_format(params->codec.ch_out, bps, params->codec.sample_rate);
--- 
-2.34.1
+The DMI-based blacklisting is a bit iffy as this device does have digital
+mics attached to the PCH, and with this patch, those microphones are then 
+disabled for all users.
 
+Br, Kai
+--8323329-283341963-1775552417=:4463--
