@@ -1,83 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33EF39FCD8
-	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 11:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C84F3B19CD
+	for <linux-sound@vger.kernel.org>; Tue,  7 Apr 2026 11:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775561311; cv=none; b=aKwJwrodpRpKqySfELh0DbE2oWxheU0TCUiVdp/NPCr9DJ8JVa23RanLk+SOldUMevm/HYVKBoUGowxQLFG6oV1OFFfK1WrkpPxxgZHgd5xgFQ8TbOeqfaNQHgMOFhDNq3sZGIellRFMHJ+KV4rS1huXhh4vdi1bLs+MTzsArds=
+	t=1775562959; cv=none; b=q7n2JYXj7PpFA+Syl26JN9zAjpnCc3du+H6KMywOkJaXJYW1vjWiRt6f4X7aT/N5o/GPkpwH1qrSXFSdMSIcVrZC0ZEzk2uMixKXD+m2nEzie4BPurQfsl8NqufRoMPncWoov0s0iUO6Ys6CM826mNpQ5bkopE3LWfS/0aUYPKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775561311; c=relaxed/simple;
-	bh=k2Z8MOmvm4pabCre2FqpBpNFp2XXqqwec8f65DgWbaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOfKpF0CId+2lTOfgKpEdY9MMhpsa5cVfUghcfAAKCKR/j5P7n4HJvGa6X7gE4fyDyblxWc9UHkw2pvGTG+PG6XHo6K0AKgKK0pMc64eO1nPcodEFPSsXX58nZNMflS1SPo1CaCuUG/tFZfC4sHFpc81U9pHQ4yiqnFdgYauSoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5UZaBtt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775562959; c=relaxed/simple;
+	bh=f1yL4iCWL+Rx5vA2lAoP7srjr2gVT19OMNbcDyzsR5s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OZWtjw6jeJmB0mkuOwL++SOgBxlTs8SEtpyzOB39IwTY4HQoVRveMMe5tdeUNwTbjZPJbnI5H7JPPPyisfbo2A8/cbqm/yPLZCF4ROqyQwzXvcG4/kupLgBPn92Bi6jJb81mgoIJgEcPqBrs4ZTPvm8FTmS4gKp+RgObfEUQq9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qs+LwB7b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VaNJWMgz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Qs+LwB7b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VaNJWMgz; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5UZaBtt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C993C116C6;
-	Tue,  7 Apr 2026 11:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775561311;
-	bh=k2Z8MOmvm4pabCre2FqpBpNFp2XXqqwec8f65DgWbaM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C5UZaBttIcYpLTvf3R+xb9kyWLKOWJHLty2BuCGSlgIozzgU9oQ8QLV9fg+xKR20I
-	 8/d1Y9MDdCPVdNZ8liaRPcKXlvkOs2kr1q9FjCt3gToLVydvrdO2z/8nH+NCwKpPSP
-	 +oyVgh1OV4iSZ6cQUYsvhY33sVI1B+tEOwO8V82Aic9IntWU48yhe/I/AzPPP5fSKO
-	 dXuTBBVJV6deFEXvyRES887wTSiJKvbwTE6E4LveKUKTrk5Qws9VWBtn76wGi8HPX1
-	 b2TW4M38/r7Es63bIzLtGofrVcrSzgUMk/Ga4tvwDOaxdfA0uKhyGuzHi/DPz5Oft9
-	 iWKZQbZZ8epUw==
-Date: Tue, 7 Apr 2026 12:28:27 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: Intel: avs: Fix type warning in
- avs_probe_compr_set_params()
-Message-ID: <416e2b85-f0a1-4dac-9e36-5ae31551539b@sirena.org.uk>
-References: <20260407085459.400628-1-cezary.rojewski@intel.com>
- <20260407085459.400628-2-cezary.rojewski@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qs+LwB7b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VaNJWMgz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qs+LwB7b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VaNJWMgz"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5B4845BDD1;
+	Tue,  7 Apr 2026 11:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775562955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMYkbt96t8w9WuI5dLUGS6doiL+PtLaI8OUZnzQXn3k=;
+	b=Qs+LwB7bJ0W8u9Vp8uStSC5Pd2dMSFKc2sCCPjAGBEawS4tFhYue55R508q43DJ5VYQF3f
+	/2ZOQTmVxrP8qy7ornPT8ztN2v/CpUKKxeeriB/FHEh+NbSxkhriMqyVSY/U0Favb0nOlu
+	GRzBzhdQ1/e8aKwszntOuRll/NX0FOo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775562955;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMYkbt96t8w9WuI5dLUGS6doiL+PtLaI8OUZnzQXn3k=;
+	b=VaNJWMgzCy4ac8ceqlEPmKi0FUQXiGBmK8rslcMZug7ISO1TBwZoEppQBDdsZ1uUFLBV7l
+	lEZTsLsK4vor0EDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775562955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMYkbt96t8w9WuI5dLUGS6doiL+PtLaI8OUZnzQXn3k=;
+	b=Qs+LwB7bJ0W8u9Vp8uStSC5Pd2dMSFKc2sCCPjAGBEawS4tFhYue55R508q43DJ5VYQF3f
+	/2ZOQTmVxrP8qy7ornPT8ztN2v/CpUKKxeeriB/FHEh+NbSxkhriMqyVSY/U0Favb0nOlu
+	GRzBzhdQ1/e8aKwszntOuRll/NX0FOo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775562955;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMYkbt96t8w9WuI5dLUGS6doiL+PtLaI8OUZnzQXn3k=;
+	b=VaNJWMgzCy4ac8ceqlEPmKi0FUQXiGBmK8rslcMZug7ISO1TBwZoEppQBDdsZ1uUFLBV7l
+	lEZTsLsK4vor0EDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2541C4A0B0;
+	Tue,  7 Apr 2026 11:55:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iMR4CMvw1GnucgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 Apr 2026 11:55:55 +0000
+Date: Tue, 07 Apr 2026 13:55:54 +0200
+Message-ID: <87tstnm1bp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: tea6330t: add mixer state restore helper
+In-Reply-To: <20260406-alsa-interwave-pm-v1-1-6ffa6f317c8f@gmail.com>
+References: <20260406-alsa-interwave-pm-v1-0-6ffa6f317c8f@gmail.com>
+	<20260406-alsa-interwave-pm-v1-1-6ffa6f317c8f@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VWZy0HKjy1LCh9Eb"
-Content-Disposition: inline
-In-Reply-To: <20260407085459.400628-2-cezary.rojewski@intel.com>
-X-Cookie: Now, let's SEND OUT for QUICHE!!
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+
+On Tue, 07 Apr 2026 03:22:07 +0200,
+Cássio Gabriel wrote:
+> diff --git a/sound/i2c/tea6330t.c b/sound/i2c/tea6330t.c
+> index e8c50a036bea..3e413929d3ea 100644
+> --- a/sound/i2c/tea6330t.c
+> +++ b/sound/i2c/tea6330t.c
+> @@ -358,3 +358,36 @@ int snd_tea6330t_update_mixer(struct snd_card *card,
+>  
+>  EXPORT_SYMBOL(snd_tea6330t_detect);
+>  EXPORT_SYMBOL(snd_tea6330t_update_mixer);
+
+Oh we need a cleanup to put EXPORT_SYMBOL() after each function.
+(It should be a different patch, though.)
+
+> +
+> +int snd_tea6330t_restore_mixer(struct snd_i2c_bus *bus)
+> +{
+> +	struct snd_i2c_device *device;
+> +	struct tea6330t *tea;
+> +	unsigned char bytes[7];
+> +	unsigned int idx;
+> +	int err;
+> +
+> +	if (!bus)
+> +		return -EINVAL;
+> +
+> +	list_for_each_entry(device, &bus->devices, list) {
+> +		if (device->addr != TEA6330T_ADDR)
+> +			continue;
+> +
+> +		tea = device->private_data;
+> +		if (!tea)
+> +			return -EINVAL;
+> +
+> +		snd_i2c_lock(bus);
+> +		bytes[0] = TEA6330T_SADDR_VOLUME_LEFT;
+> +		for (idx = 0; idx < 6; idx++)
+> +			bytes[idx + 1] = tea->regs[idx];
+> +		err = snd_i2c_sendbytes(device, bytes, 7);
+> +		snd_i2c_unlock(bus);
+> +
+> +		return err < 0 ? err : 0;
+> +	}
+
+I think snd_i2c_lock() should cover the whole loop for the race at
+linked list traversal.
 
 
---VWZy0HKjy1LCh9Eb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+thanks,
 
-On Tue, Apr 07, 2026 at 10:54:59AM +0200, Cezary Rojewski wrote:
-> Expected argument type is snd_pcm_format_t.
-> Found out by sparse.
-
-> -	bps = snd_pcm_format_physical_width(params->codec.format);
-> +	bps = snd_pcm_format_physical_width((__force snd_pcm_format_t)params->codec.format);
-
-There was an earlier patch for this one that didn't get reviewed (and
-every time I looked at it the __force looks super suspect):
-
-  https://patch.msgid.link/20260325021752.238203-1-songxiebing@kylinos.cn
-
---VWZy0HKjy1LCh9Eb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnU6loACgkQJNaLcl1U
-h9ADRwf/ZgWGX9MZ331ehG4z1J8jwtxyUZycQGimdgNrVRJ642taTSctffMouYbc
-IaGFq9dQ20VMj2X7T7XdQ86tekTuOZowwyMI3XFFu6htaWDEll34eWCjsRWRVi2u
-Kw+qEsXCak4fPvrw85oxz3rRrCO2cKTNFuSjmWjHQ7jeRbx7XAd2OX/xMKnmKCCC
-8P/zGhfQ+YNOS75fJC06yp1Bvki/msU7uvsG9lgUBAoj90CRVLK2DZp/PFF8q94r
-YugYKbdYjvRmt8eADEP92d2w5+PovIuPI+pca2Mo/c586JuOtZA64g/If+PLm8DY
-No+2Ju5BOgU3FuAvQJG5Pu4enehKQQ==
-=YkBB
------END PGP SIGNATURE-----
-
---VWZy0HKjy1LCh9Eb--
+Takashi
