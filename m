@@ -1,96 +1,140 @@
-Received: from out28-99.mail.aliyun.com (out28-99.mail.aliyun.com [115.124.28.99])
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AE5394493;
-	Tue,  7 Apr 2026 08:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78BB397E76;
+	Tue,  7 Apr 2026 08:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775550561; cv=none; b=S97/9Vp1YmQK+1Rxcvm9iC70YYOBVBMEwdUl6p0GOrvC1Aw4l880d6VYljWwEZ+jElHQHB+AEQr4v09aplbYvpABtff28QCVpctbj0DUDyRBm4T34be/W4twZJy9qVSdFrvMNXRUJQOQqNqOfYEcQJzG16oe47iCV0m55Hlo+7c=
+	t=1775550807; cv=none; b=M8AUIIGwi34EW2oPXVCEE/y2vY7wvcQr2Wc3Jv5HzztdOSoP8m7wrEy9HYD8g1R5AAvIT62pS+hHQjXEwWK1wThhpEgLYEJEFi9Kdq4ReWkB4Yc8cvUTL9tCcJkeBbS9tcnjwq7chItRSJHd+p4RskZABZmtCnLnAjXVedH3ox8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775550561; c=relaxed/simple;
-	bh=tKOmSJCKRzDDvI3cVgRc3Qh9AjlKtYmswmCIrXnn5Ck=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Taa5RBiyLpd8caDoOfH3hYD2eCd2BCgF9aXtnzUDx/QcRKuH+1jyns9mUrggY0h6HQfzYcfiEdYxvBOsVc/8mVTNQ307JRegASPMxB6XsG2dKaK/zw10oBWdklFYRPvUC/2iUCPeJL64usSQNMrGI+cIIyf0jVke3bsfNSJ2vJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1027766|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0125103-0.000100357-0.987389;FP=12517315119771303843|2|1|1|0|-1|-1|-1;HT=maildocker-contentspam033040074035;MF=fuhao@open-hieco.net;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.h6alull_1775550222;
-Received: from higon..(mailfrom:fuhao@open-hieco.net fp:SMTPD_---.h6alull_1775550222 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 07 Apr 2026 16:23:47 +0800
-From: Fu Hao <fuhao@open-hieco.net>
-To: bhelgaas@google.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Fu Hao <fuhao@open-hieco.net>
-Subject: [PATCH v2 6/8] ALSA: hda: Add support for Hygon family 18h model 5h HD-Audio
-Date: Tue,  7 Apr 2026 16:24:56 +0800
-Message-Id: <d68343d2e840bc2b0d466eb175ec2bc2f952771e.1775548724.git.fuhao@open-hieco.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1775548724.git.fuhao@open-hieco.net>
-References: <cover.1775548724.git.fuhao@open-hieco.net>
+	s=arc-20240116; t=1775550807; c=relaxed/simple;
+	bh=btgOKgbuheDcUPT8oEZacQRTKrs4Vl9Yek45oxBmL2I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ez+DcpHZKqltW8/uS9D5T/U5QrfIhcqA0khWdxFFjz9yrqZHowTlysqa3bkHTyhVLREFxqc1YwzEaeBlGJwtKgbV56rsM6LUZNSUdSG7ar6QioQOuj5JPJmoEHqZmRd0i1fqhk2fcCi7693K5eIDwmqIjTKkTEjHUv6a3+8D51c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.206.34.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
+X-QQ-mid: esmtpgz11t1775550741t4bae4b67
+X-QQ-Originating-IP: km4qO8TB8e0CX3fAEWqRNQfz23UNoL5SmAgx2StGANo=
+Received: from [192.168.30.32] ( [116.234.14.100])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 07 Apr 2026 16:32:19 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5058057940856507686
+EX-QQ-RecipientCnt: 12
+From: Xilin Wu <sophon@radxa.com>
+Date: Tue, 07 Apr 2026 16:32:05 +0800
+Subject: [PATCH 6.18.y] ASoC: qcom: sc7280: make use of common helpers
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260407-qcom-sdw-6-18-v1-1-2e1b884c14cf@radxa.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMzQ6CMBAGX4V8Z5d0G1KIr2I8QLvomgja9TeEd
+ 7fqcSaZWWCSVQzbakGWh5rOUwHeVIjHfjoIaSoM73xwjWvpGuczWXpSIO7Ip36QJrBwO6I0lyy
+ jvn6/HULNXf3G/u/tPpwk3r4zrOsH7uS5nnkAAAA=
+X-Change-ID: 20260407-qcom-sdw-6-18-2dabe461e17f
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Steev Klimaszewski <threeway@gmail.com>, Xilin Wu <sophon@radxa.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2001; i=sophon@radxa.com;
+ h=from:subject:message-id; bh=w+gy2MD3FrtevswuLj1MAXnzeWGi3gtTK0a6/TYrKU4=;
+ b=owGbwMvMwCVmdFg0fe08Iz/G02pJDJlXDorcZUj5/a4ywbHVetb/93uWm4X43ZS68TlO8OlPS
+ 0kpq/OtHaUsDGJcDLJiiiwK8Qxz2Stzrz0VK9WDmcPKBDKEgYtTACYyr4KR4T6vTU7CpqPnGhak
+ OGa48q/Z+eXw6ZjsPfyHKy/8PRuZtZHhn103F4/ez7lSGyI//Py8Olbfe2GWh+TFGyy3BIzW/mb
+ w5QMA
+X-Developer-Key: i=sophon@radxa.com; a=openpgp;
+ fpr=205F009D07796DD6E516752E32C31567AD9E324E
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: NNCgUTg3ctKTMDUrCTnMZMl4OsNfKTYmF6/2Qxei4XrdNrTcEj79/YkN
+	Vj7wathQG1INbkZgNJMHl54wbduGDEkeLJ7KhRJbyhUfWOGjf4aAVmOdq1oXtaWvTD8ck5P
+	abQ5+vJnqJIu0eOj4IUlvsDGXcrwlv4XfXL+iUNLB0+Y5u+sUhyFjPL6Oa1M4tHmBstyYr/
+	11zZHHvAYX6pNnl34YJSPVo2jcvCUw1cLpJGUmDmXk/rx9tGxEZg3ZcQoEhtKaaD9ySWW0Q
+	UcGsCdUZKUVBJxehAQcnKZFpL3ONLmHWAmF5jdtsQ+5l4mvZFTaDYFO/06EH/qUzjFrBjNu
+	3/SIoVfJYQeTDgA+6REwxRbK7OqQJ5Sl/PVWGMCikDph5P9Ry9EyyDuzwneUl0AMTuH17S6
+	d2OkFuHlyCHlNzxY0VlXxKHczBiwub++R1bd5n/K2WbhXpL7pXOVfqAC7d173OoWxNEsH0M
+	4bsFNi7Q8OmebgzlaQSvEhF8UOq7yui5zZJrzGbRezVl44eYJUZSbbbyBFuaWy/6Nu1oTrc
+	vSw0g6QxUmmxlNyXetQ+yOz1ea0Ynb/jjl19uEeWxdrRVmIC0n6PylT1/Nd1v+6yjmAD1pz
+	LL0rZvGokSJLjHKDTvmKh8ox6WbG1UoFZVCtyYkZ2mekG/T3PW1tZ8DQJdauooJu9Aa5Zdw
+	1xT1/6ffs0n5KD09WALvAHiQfh9dWTwJIaE/k3jhIY13o7MxvMf+dOmvwdIC0HzOd8MdAbE
+	/mKcA2hfcvcrDCWp2wAi2IdpXUgoY/USYfeDShxT2C231907nhrkuuvaR8xKtEzVs5gKasq
+	Q6+F51gBfjSm/wKT/etAoCbsmKH2G67fDjWAZrQ5ei6M4slZHHbXrxBISwguHLlFegeJNfu
+	AyPx005Njj1ZBH5UakZPypAi7p5tuZyZAsIZ9LMIkcjunRYrzwqMxca53oOq8XBvjnitBhM
+	0ZBwfp00KpkScITwmU4pUmnc/QV9W5YPyr0NqaH1dQkPu0Y+LzrshPhyMLDQQNwfRBniFYK
+	3Em0tJk7mLWPIOYYRBnq8lYYxpziM=
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 
-Add the new PCI ID 0x1d94 0x14a9 for Hygon family 18h model 5h
-HDA controller.
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-Signed-off-by: Fu Hao <fuhao@open-hieco.net>
+commit 8fdb030fe283c84fd8d378c97ad0f32d6cdec6ce upstream.
+
+sc7280 machine driver can make use of common sdw functions to do most of
+the soundwire related operations. Remove such redundant code from sc7280
+driver.
+
+[This is a partial backport containing only the sound/soc/qcom/sdw.c
+changes which add LPASS CDC DMA DAI IDs to qcom_snd_is_sdw_dai().
+The sc7280.c refactoring changes are omitted as they depend on
+intermediate patches not present in 6.18.y. The sdw.c change fixes a
+NULL pointer dereference for lpass-cpu based SoundWire links.]
+
+Fixes: bcba17279327 ("ASoC: qcom: sdw: fix memory leak for sdw_stream_runtime")
+Cc: stable@vger.kernel.org
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Tested-by: Steev Klimaszewski <threeway@gmail.com> # Thinkpad X13s
+Link: https://patch.msgid.link/20251022143349.1081513-5-srinivas.kandagatla@oss.qualcomm.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Xilin Wu <sophon@radxa.com>
 ---
- include/linux/pci_ids.h       | 1 +
- sound/hda/controllers/intel.c | 5 +++++
- 2 files changed, 6 insertions(+)
+ sound/soc/qcom/sdw.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index 406abf629..19d968017 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2613,6 +2613,7 @@
- #define PCI_VENDOR_ID_ROCKCHIP		0x1d87
+diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
+index 7b2cae92c812..5f880c74c8dc 100644
+--- a/sound/soc/qcom/sdw.c
++++ b/sound/soc/qcom/sdw.c
+@@ -2,6 +2,7 @@
+ // Copyright (c) 2018-2023, Linaro Limited.
+ // Copyright (c) 2018, The Linux Foundation. All rights reserved.
  
- #define PCI_VENDOR_ID_HYGON		0x1d94
-+#define PCI_DEVICE_ID_HYGON_18H_M05H_HDA	0x14a9
++#include <dt-bindings/sound/qcom,lpass.h>
+ #include <dt-bindings/sound/qcom,q6afe.h>
+ #include <linux/module.h>
+ #include <sound/soc.h>
+@@ -35,6 +36,16 @@ static bool qcom_snd_is_sdw_dai(int id)
+ 		break;
+ 	}
  
- #define PCI_VENDOR_ID_META		0x1d9b
++	/* DSP Bypass usecase, cpu dai index overlaps with DSP dai ids,
++	 * DO NOT MERGE into top switch case */
++	switch (id) {
++	case LPASS_CDC_DMA_TX3:
++	case LPASS_CDC_DMA_RX0:
++		return true;
++	default:
++		break;
++	}
++
+ 	return false;
+ }
  
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 3f434994c..eb5d48d90 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -241,6 +241,7 @@ enum {
- 	AZX_DRIVER_ZHAOXIN,
- 	AZX_DRIVER_ZHAOXINHDMI,
- 	AZX_DRIVER_LOONGSON,
-+	AZX_DRIVER_HYGON,
- 	AZX_DRIVER_GENERIC,
- 	AZX_NUM_DRIVERS, /* keep this as last entry */
- };
-@@ -357,6 +358,7 @@ static const char * const driver_short_names[] = {
- 	[AZX_DRIVER_ZHAOXIN] = "HDA Zhaoxin",
- 	[AZX_DRIVER_ZHAOXINHDMI] = "HDA Zhaoxin HDMI",
- 	[AZX_DRIVER_LOONGSON] = "HDA Loongson",
-+	[AZX_DRIVER_HYGON] = "HDA Hygon",
- 	[AZX_DRIVER_GENERIC] = "HD-Audio Generic",
- };
- 
-@@ -2818,6 +2820,9 @@ static const struct pci_device_id azx_ids[] = {
- 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
- 	{ PCI_VDEVICE(LOONGSON, PCI_DEVICE_ID_LOONGSON_HDMI),
- 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
-+	/* Hygon HDAudio */
-+	{ PCI_VDEVICE(HYGON, PCI_DEVICE_ID_HYGON_18H_M05H_HDA),
-+	  .driver_data = AZX_DRIVER_HYGON | AZX_DCAPS_POSFIX_LPIB | AZX_DCAPS_NO_MSI },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, azx_ids);
--- 
-2.34.1
+
+---
+base-commit: dd26ea937ef593a9c47aa4c85296e6b57a5344a1
+change-id: 20260407-qcom-sdw-6-18-2dabe461e17f
+
+Best regards,
+--  
+Xilin Wu <sophon@radxa.com>
 
