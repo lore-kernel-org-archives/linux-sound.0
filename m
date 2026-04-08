@@ -1,127 +1,420 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9063BFE4D;
-	Wed,  8 Apr 2026 12:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D9334AAF7;
+	Wed,  8 Apr 2026 12:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775650478; cv=none; b=XWaVxhhVaeMmEoUYxzUyY4X2L3/irF8HbCLTaxSKHB9nY3V/bw+xxvUC4KePmzyMLM/2MjoPP1ROTAy8pYnw1WKHqFo9Zq+SwcnApZ06LVhpzZLcPZk/bevfLUZcArVPiULGHSE2uQc4eThyXiUS32y3ec9RESZmgRbtJZyXTaI=
+	t=1775651344; cv=none; b=oVrfW4kM26bcC4a8iezpnz6CbWT3Y4sREJep4bR871cI5s/+35gthJZRwPso4347ver/N14eoLTFc1czUk1r+J6Jxf6PER16iGHDhKdiGaXy93p9G77eLCaP5eFxAavsTroUQ2gLTUAL3mFXKp9Ah0tip8Rs9dQajZYR4byf3zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775650478; c=relaxed/simple;
-	bh=U5Sz2J4O67dwks/060Ky8B13jv1hb/lEfq65R7J6iac=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c1TAzh8IjR7adU6xr2UTObrg5w4JCSDxZwn8NYM1Rno4HbbjlmqUMv24VIaUuGOltXrH0NVMZLZe7SbeHvmKeF8UrvghCRJEHnloJ1kOd7b1AYeu6ipVwhpNSWd8o1uyxJVO+ZHr1C5J3KMuQDz8J+mGbPI/VSOZg1n4lqEZySU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D7bf+X4c; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775651344; c=relaxed/simple;
+	bh=4BTcvw1V3P/PDMbvY3dAa90a1SxDMnrBICu523evSfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bf0hRUA6YcWV7y5lTR4PA/0Sw11wnXHHXYqd8vSxbwVWRlzbNr+vvpIJzeeJ1sqh0cD/uGcz8nJysFstSTQBHycaP3ZmFFDOQcrr801D0qtDymKOQ6aNm2kggpDqdWlm6F5GuEMJPcucXz1py5vaV/oQmTLnhSc7kbTAzhAh8KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cW9OcXoe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D7bf+X4c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775650477; x=1807186477;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=U5Sz2J4O67dwks/060Ky8B13jv1hb/lEfq65R7J6iac=;
-  b=D7bf+X4cfgL2p3md3WKCKorBYlpyTVoj+tgY4rPTQUp5lOMf3dVuxjg/
-   UGZpodZO609IGOszqpFym5kayf3SBFjoo/678tSrjeygyuT5repEv69g1
-   5ysGImD11EzavTIp0r1Yei+ygQ9JiPMfbJiqKzY4D6dq7VgF5K6JYKTdo
-   lpZNWuzpxuquG7WipbaanscxtHPrfGcn8Z+GD6CKZJpzB0sbABv1hQKgt
-   eFnTlKCidjT46TVyakd6TSWE3H9F69rePd8SdZNmPQET5M6mQyy5zqeBL
-   SkEyFAScIrCUhvP3GHucjRenqKozKJq2LAxXpuA5LYQ5V3D28ATL3b+2b
-   w==;
-X-CSE-ConnectionGUID: 7TbBQ/4jTm2dhaeCqJO95g==
-X-CSE-MsgGUID: 7v354dJpSL2BKa1mbbHwag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="80225538"
-X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="80225538"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 05:14:36 -0700
-X-CSE-ConnectionGUID: M/aKrpD7TgeCRxHZwkRy8A==
-X-CSE-MsgGUID: /gMqW74DSNG8ofwshG1p2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="233405341"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.250])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 05:14:34 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	stable@vger.kernel.org,
-	liam.r.girdwood@intel.com
-Subject: [PATCH for 7.0 v2 2/2] ASoC: SOF: Intel: hda: modify period size constraints for ACE4
-Date: Wed,  8 Apr 2026 15:14:48 +0300
-Message-ID: <20260408121448.31130-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260408121448.31130-1-peter.ujfalusi@linux.intel.com>
-References: <20260408121448.31130-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cW9OcXoe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA83C19421;
+	Wed,  8 Apr 2026 12:29:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775651343;
+	bh=4BTcvw1V3P/PDMbvY3dAa90a1SxDMnrBICu523evSfo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cW9OcXoeM/xiPcCX6Q8ZIr23UDySiU3JEIjn325la8wmvEZfO2KMSOCkVzURJxSCV
+	 HmvzpieD4gou1DEtQ71gM7HSbf+Gq4YbJiiveCzeLlS2sTqIu3X64Rti8vtRWwm1Je
+	 4vtURDz/9uWEQs3ps1boYHFcguxjg8OBmIiugrAx5W9hgRvNuENuK5FlRHisPuvagi
+	 QTyHf3gRgUxr+8SQxTm2ZrFRvgy/ZEXCzYrzJqqw9b4zvJokEqkbgWOR2VhzxbxiBM
+	 nLyliTNeRFy/jv1lBmmjgnEHKTkXCIxsVrPg1n5/U8VM3zhZNcBg+xSxGUGzMpHFV+
+	 uEAw910oPNcdg==
+Date: Wed, 8 Apr 2026 07:29:01 -0500
+From: Rob Herring <robh@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven
+ amplifier
+Message-ID: <20260408122901.GA42727-robh@kernel.org>
+References: <20260330101610.57942-1-herve.codina@bootlin.com>
+ <20260330101610.57942-3-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260330101610.57942-3-herve.codina@bootlin.com>
 
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+On Mon, Mar 30, 2026 at 12:16:06PM +0200, Herve Codina wrote:
+> Some amplifiers based on analog switches and op-amps can be present in
+> the audio path and can be driven by GPIOs in order to control their gain
+> value, their mute and/or bypass functions.
+> 
+> Those components needs to be viewed as audio components in order to be
+> fully integrated in the audio path.
+> 
+> audio-gpio-amplifier allows to consider these GPIO driven amplifiers as
+> auxiliary audio devices.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  .../bindings/sound/audio-gpio-amp.yaml        | 309 ++++++++++++++++++
+>  1 file changed, 309 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml b/Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
+> new file mode 100644
+> index 000000000000..15dc898f8574
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/audio-gpio-amp.yaml
+> @@ -0,0 +1,309 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/audio-gpio-amp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Audio amplifier driven by GPIOs
+> +
+> +maintainers:
+> +  - Herve Codina <herve.codina@bootlin.com>
+> +
+> +description: |
+> +  Audio GPIO amplifiers are driven by GPIO in order to control the gain value
+> +  of the amplifier, its mute function and/or its bypass function.
+> +
+> +  Those amplifiers are based on discrete components (analog switches, op-amps
+> +  and more) where some of them, mostly analog switches, are controlled by GPIOs
+> +  to adjust the gain value of the whole amplifier and/or to control
+> +  the mute and/or bypass function.
+> +
+> +  For instance, the following piece of hardware is a GPIO amplifier
+> +
+> +                                         +5VA
+> +                                           ^
+> +                                        |\ |
+> +                                        | \
+> +        Vin >---------------------------|+ \
+> +                                        |   +-------+-----> Vout
+> +                .--\/\/\/--+------------|- /        |
+> +                |          |            | /         |
+> +                v          |            |/ |        |
+> +               GND         o               v        |
+> +                            \             GND       |
+> +       gpio >----------->    \                      |
+> +                         o    o                     |
+> +                         |    |                     |
+> +                         |    '--\/\/\/--.          |
+> +                         |               +--\/\/\/--'
+> +                         '---------------'
+> +
+> +  A GPIO driven amplifier can work in several mode depending on the electronic
+> +  design.
+> +    - points defined:
+> +        The values of GPIOs used to control gain set a specific gain value
+> +        without any specific relationship between each value. For instance,
+> +        using 2 GPIOS:
+> +          0b00 <-> -10.0 dB
+> +          0b01 <-> +3.0 dB
+> +          0b10 <-> 0 dB
+> +          0b11 <-> +6.0 dB
+> +
+> +        This can be described using the gain-points property.
+> +
+> +    - range defined:
+> +        The values of GPIOs used to control gain set a specific gain value
+> +        following a linear dB range from a minimum dB value to a maximum dB
+> +        value. For instance, using 2 GPIOS:
+> +          0b00 <-> -3.0 dB
+> +          0b01 <-> 0 db
+> +          0b10 <-> +3.0 dB
+> +          0b11 <-> +6.0 dB
+> +
+> +        This can be described using the gain-range property.
+> +
+> +    - labels defined:
+> +        Some electronic design are not meant to a specific dB gain value. In
+> +        that case it is relevant to use labels to describe them. For instance,
+> +        using 2 GPIOS:
+> +          0b00 <-> Low boost
+> +          0b01 <-> Middle boost
+> +          0b10 <-> High boost
+> +          0b11 <-> Max boost
+> +
+> +        This can be described using the gain-labels property
+> +
+> +properties:
+> +  compatible:
+> +    const: audio-gpio-amp
 
-Intel ACE4 based products set more strict constraints on HDA BDLE start
-address and length alignment. Add a constraint to align period size to
-128 bytes.
+To be consistent with other GPIO controlled devices: gpio-audio-amp
 
-The commit removes the "minimum as per HDA spec" comment. This comment
-was misleading as spec actually does allow a 2 byte BDLE length, and
-more importantly, period size also directly impacts how the BDLE start
-addresses are aligned, so it is not sufficient just to consider allowed
-buffer length.
+> +
+> +  vdd-supply:
+> +    description: Main power supply of the amplifier
+> +
+> +  vddio-supply:
+> +    description: Power supply related to the control path
+> +
+> +  vdda1-supply:
+> +    description: Analog power supply
+> +
+> +  vdda2-supply:
+> +    description: Additional analog power supply
+> +
+> +  mute-gpios:
+> +    description: GPIO to control the mute function
+> +    maxItems: 1
+> +
+> +  bypass-gpios:
+> +    description: GPIO to control the bypass function
+> +    maxItems: 1
+> +
+> +  gain-gpios:
+> +    description: |
+> +      GPIOs to control the amplifier gain
+> +
+> +      The gain value is computed from GPIOs value from 0 to 2^N-1 with N the
+> +      number of GPIO described. The first GPIO described is the lsb of the gain
+> +      value.
+> +
+> +      For instance assuming 2 gpios
+> +         gain-gpios = <&gpio1 GPIO_ACTIVE_HIGH> <&gpio2 GPIO_ACTIVE_HIGH>;
+> +      The gain value will be the following:
+> +
+> +          gpio1 | gpio2 | gain
+> +          ------+-------+-----
+> +            0   |    0  | 0b00 -> 0
+> +            1   |    0  | 0b01 -> 1
+> +            0   |    1  | 0b10 -> 2
+> +            1   |    1  | 0b11 -> 3
+> +          ------+-------+-----
+> +
+> +      Note: The gain value, bits set to 1 or 0, indicate the state active (bit
+> +            set) or the state inactive (bit unset) of the related GPIO. The
+> +            physical voltage corresponding to this active/inactive state is
+> +            given by the GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags.
+> +
+> +    minItems: 1
+> +    maxItems: 32
 
-Fixes: d3df422f66e8 ("ASoC: SOF: Intel: add initial support for NVL-S")
-Reported-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
----
- sound/soc/sof/intel/hda-pcm.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+2^32 levels? Seems like a bit much. Also, unless you can change the 
+values of all the GPIOs atomically, aren't you going to get some 
+artifacts while the gain is being changed? Unless you mute I guess.
 
-diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-index da6c1e7263cd..16a364072821 100644
---- a/sound/soc/sof/intel/hda-pcm.c
-+++ b/sound/soc/sof/intel/hda-pcm.c
-@@ -219,6 +219,7 @@ EXPORT_SYMBOL_NS(hda_dsp_pcm_pointer, "SND_SOC_SOF_INTEL_HDA_COMMON");
- int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- 		     struct snd_pcm_substream *substream)
- {
-+	const struct sof_intel_dsp_desc *chip_info = get_chip_info(sdev->pdata);
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct snd_soc_component *scomp = sdev->component;
-@@ -268,8 +269,17 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- 		return -ENODEV;
- 	}
- 
--	/* minimum as per HDA spec */
--	snd_pcm_hw_constraint_step(substream->runtime, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 4);
-+	/*
-+	 * Set period size constraint to ensure BDLE buffer length and
-+	 * start address alignment requirements are met. Align to 128
-+	 * bytes for newer Intel platforms, with older ones using 4 byte alignment.
-+	 */
-+	if (chip_info->hw_ip_version >= SOF_INTEL_ACE_4_0)
-+		snd_pcm_hw_constraint_step(substream->runtime, 0,
-+					   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 128);
-+	else
-+		snd_pcm_hw_constraint_step(substream->runtime, 0,
-+					   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 4);
- 
- 	/* avoid circular buffer wrap in middle of period */
- 	snd_pcm_hw_constraint_integer(substream->runtime,
--- 
-2.53.0
+> +
+> +  gain-points:
+> +    $ref: /schemas/types.yaml#/definitions/int32-matrix
+> +    items:
+> +      items:
+> +        - description: The GPIOs value
 
+Can't this just be the index?
+
+If not, then gain-range could be expressed using gain-points instead.
+
+> +        - description: The related amplifier gain in 0.01 dB unit
+> +    minItems: 2
+> +    description: |
+> +      List of the GPIOs value / Gain value in dB pair defining the gain
+> +      set on each GPIOs value.
+> +
+> +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> +      Assuming that GPIOs values set the hardware gains according to the
+> +      following table:
+> +
+> +         GPIOs | Hardware
+> +         value | amplification
+> +         ------+--------------
+> +           0   | -10.0 dB
+> +           1   | +3.0 dB
+> +           2   | 0 dB
+> +           3   | +6.0 dB
+> +         ------+--------------
+> +
+> +      The description using gain points can be:
+> +        gain-points = <0 (-1000)>, <1 300>, <2 0>, <3 600>;
+> +
+> +  gain-range:
+> +    $ref: /schemas/types.yaml#/definitions/int32-array
+> +    items:
+> +      - description: Gain in 0.01 dB unit when all GPIOs are inactive
+> +      - description: Gain in 0.01 dB unit when all GPIOs are active
+> +    description: |
+> +      Gains (in 0.01 dB unit) set by the extremum (minimal and maximum) value
+> +      of GPIOs. The following formula must be satisfied.
+> +
+> +               gain-range[1] - gain-range[0]
+> +      Gain  = ------------------------------- x GPIO_value + gain-range[0]
+> +                        2^N - 1
+> +
+> +      With N, the number of GPIOs used to control the gain and Gain computed in
+> +      0.01 dB unit.
+> +
+> +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> +      Assuming that gain value set the hardware according to the following
+> +      table:
+> +
+> +         GPIOs | Hardware 1    | Hardware 2
+> +         value | amplification | amplification
+> +         ------+---------------+---------------
+> +           0   | -3.0 dB       |  +10.0 dB
+> +           1   | 0 dB          |  +5.0 dB
+> +           2   | +3.0 dB       |  0 dB
+> +           3   | +6.0 dB       |  -5.0 dB
+> +         ------+---------------+---------------
+> +
+> +      The description for hardware 1 using a gain range can be:
+> +        gain-range = <(-300) 600>;
+> +
+> +      The description for hardware 2 using a gain range can be:
+> +        gain-range = <1000 (-500)>;
+> +
+> +  gain-labels:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+
+minItems: 2
+maxItems: 0x100000000
+
+> +    description: |
+> +      List of the gain labels attached to the combination of GPIOs controlling
+> +      the gain. The first label is related to the gain value 0, the second label
+> +      is related to the gain value 1 and so on.
+> +
+> +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> +      Assuming that gain value set the hardware according to the following
+> +      table:
+> +
+> +         GPIOs | Hardware
+> +         value | amplification
+> +         ------+--------------
+> +           0   | Low
+> +           1   | Middle
+> +           2   | High
+> +           3   | Max
+> +         ------+--------------
+> +
+> +      The description using gain labels can be:
+> +        gain-labels = "Low", "Middle", "High", "Max";
+
+Do we need to allow these to be anything? It's going to get hard to come 
+up with 2^32 names. 
+
+> +
+> +dependencies:
+> +  gain-points: [ gain-gpios ]
+> +  gain-range: [ gain-gpios ]
+> +  gain-labels: [ gain-gpios ]
+
+gain-gpios is really optional?
+
+> +
+> +required:
+> +  - compatible
+> +  - vdd-supply
+> +
+> +anyOf:
+> +  - required:
+> +      - gain-gpios
+> +  - required:
+> +      - mute-gpios
+> +  - required:
+> +      - bypass-gpios
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +  - if:
+> +      required:
+> +        - gain-points
+> +    then:
+> +      properties:
+> +        gain-range: false
+> +        gain-labels: false
+> +  - if:
+> +      required:
+> +        - gain-range
+> +    then:
+> +      properties:
+> +        gain-points: false
+> +        gain-labels: false
+> +  - if:
+> +      required:
+> +        - gain-labels
+> +    then:
+> +      properties:
+> +        gain-points: false
+> +        gain-range: false
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    /* Gain controlled by gpios */
+> +    amplifier0 {
+
+amplifier-0
+
+> +        compatible = "audio-gpio-amp";
+> +        vdd-supply = <&regulator>;
+> +        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
+> +    };
+> +
+> +    /* Gain controlled by gpio using range */
+> +    amplifier1 {
+> +        compatible = "audio-gpio-amp";
+> +        vdd-supply = <&regulator>;
+> +        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
+> +        gain-range = <(-300) 600>;
+> +    };
+> +
+> +    /* Gain controlled by gpio using points */
+> +    amplifier2 {
+> +        compatible = "audio-gpio-amp";
+> +        vdd-supply = <&regulator>;
+> +        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
+> +        gain-points = <0 (-1000)>, <1 300>, <2 0>, <3 600>;
+> +    };
+> +
+> +    /* Gain controlled by gpio with labels */
+> +    amplifier3 {
+> +        compatible = "audio-gpio-amp";
+> +        vdd-supply = <&regulator>;
+> +        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
+> +        gain-labels = "Low", "High";
+> +    };
+> +
+> +    /* A mutable amplifier without any gain control */
+> +    amplifier4 {
+> +        compatible = "audio-gpio-amp";
+> +        vdd-supply = <&regulator>;
+> +        mute-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
+
+This case is just simple-amplifier...
+
+> +    };
+> +
+> +    /*  Several supplies, gain controlled using range, mute and bypass */
+> +    amplifier5 {
+> +        compatible = "audio-gpio-amp";
+> +        vdd-supply = <&regulator>;
+> +        vddio-supply = <&regulator1>;
+> +        vdda1-supply = <&regulator2>;
+> +        gain-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>, <&gpio 1 GPIO_ACTIVE_HIGH>;
+> +        gain-range = <(-300) 600>;
+> +        mute-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+> +        bypass-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
+> +    };
+> +...
+> -- 
+> 2.53.0
+> 
