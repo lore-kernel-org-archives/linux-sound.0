@@ -1,355 +1,311 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CA53D47C6
-	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 17:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3483D301B;
+	Wed,  8 Apr 2026 17:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775668124; cv=none; b=Kqe4nv5bmw5SHoFeSmDy4GtNOy5GiWTrrUVOjmKW4Ob3vhuhRuQQAFEDMt8oONr5+BSJrA2q/KuBzJdQpyqVldDnWcu6W8Tl8jwssNLOd+LziVKokLP3qXnu1634d8/BtrZztPZU1Vr1xnjQRzBk62OI2tQ2rCswW0dFRrxztyY=
+	t=1775668184; cv=none; b=Rfcnh31o8hTlYgc6XXDMME84+hUaUbJqwGMr8yw+Fz6BK9o+DTkHW0H9FPp9Ql+CfeOPBg6mZ4EFqy06DyECgF9Tyi9imxYwKEis3uMt2jvhvQdbvx1x+sKVuXha44SMzR+fdy2d8X7ak7d+n+F6E3YtpyLGu3kYrgMjpoEgXes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775668124; c=relaxed/simple;
-	bh=rcpwryuEThlZF4upS3cCoE0WjIeBtxUV+f2V6hrTY+o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oUQQidCPbAg1hVgsrHwUoBbMWSRn0PjnMm36nPNLAETTKXEBTM0vxOdLQKiDbhMfB+U9RzVVeOFatv74XgXJTmvAxUzRUbBX7VAVOsJSAobMJKhOHA8lASjk+8A6G+nlA6oH6VKwjlKku83jFihh0pydhC9vj4NEDkWtkOqXJVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TSNtX1w2; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775668184; c=relaxed/simple;
+	bh=Kt8jM7J0A3YvG+76r1CTs2wEIplelcRKm7qBAdNUfDU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NTRnEjy9MKXdhSvFszv4UvbAmn0q23qVWaBm97gIvkVlKsrXAejXD1qdvmt1ylR6zxBf4ki34gzbpP3sWPWTHEBH4sSWAJ8KRjO8Fyz8rSb/vhN1PRdq9MSyMlKa9cis1V3ylbqX/hrtrv1g/UKS+Lsy4NrF6JKMFRxuzUQZhXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Pmz4Zi7k; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TSNtX1w2"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82748257f5fso761606b3a.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Apr 2026 10:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775668122; x=1776272922; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EKkzFs5JDjxn2dtILtgHOZXS7Y3HfRJU6U7EopQqpaY=;
-        b=TSNtX1w214BSPl2VezCLMReh0SPW51z2diyAm29o8Ep9aiW+L/845QVwAXWdCIJ4wY
-         c0ixJQh075X3z6Kv17aZ9i/f4/TN3SKHbCmJcHF3LcmmOuq5CoWgne3kOA4LZN/Yi/i4
-         9mF8Al5LfLw+3ssk7x5+nzUvMkHqcJl/YLKMAfyMxnbhKDDveuV35LgirEjfYo5Rqagl
-         rI8z4DfHUGtOzn9CO+tyTmY5WrVTjdjj+tZkpWC3O/9Wk32SIgTjZoB83egpmQa4TpGD
-         003bZZPJ646t6NGFRPd0HKlf4ZrV9B1Xv4jVjI1GSZNmuMGnasH1qE4PFa9MW5oaU5j7
-         u3fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775668122; x=1776272922;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EKkzFs5JDjxn2dtILtgHOZXS7Y3HfRJU6U7EopQqpaY=;
-        b=BrWj8oAlCF6ofW8fk6UcLKdu6BtCJm2KlGWGLC2UTTBGWZwOb8I+fohxtWN4euTUxg
-         yVs+iMlP1cwmy9hItGeJ9digcy/qTo53iUemx/l2DWusqlAPeuyqa4cDSM0N13M0C0Ps
-         kDjja8E+n5Svnm5u44kDHmcHOxw8q8gvbO2tE2HdX3TTZ+e4F6mxSR8QoobK1s3RAQJ6
-         YQuM186pAAUpWsIpY/3OGFcHYkYtCLq3IVFevDYHIFVS3IYfommwwgu1kOf61ZUYS0vy
-         qaho+RCjnJxQEolW+9c/mfdqiYfTMgdsc2i07BRZajXlbKg8gwxiNVTvmTdoi266h4nl
-         NDfA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpGYmG0jB3OmLVZFxL4pSSuKvxgFoOQeV40ax2qkIZppdqWAm7T+sxsUciNKu8t1fOhA0F3h7VsNygUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBqZIF57sBDTu8J+JQ+uQQ8e5aIRFdVMVhghtCXdYQgiF7j7EQ
-	bZMYLTFj9U6wQxSri+9m4Vv/qT2dLD6e+K8HXu7IzGoCKwWqslMNE4QR
-X-Gm-Gg: AeBDieuHHqB+1wMvz2O0flpUKf/A0YROKioxTIdt+v97114rZwuF17pv4mHv2c6lyvp
-	i4tANFoBSolOy5NelpHRHwbh8O9GZ/KWmlAm2I+463Q9qNa08mhYLAuJw91TFjl3+dMoGyQKSU5
-	wXG5+YAQNGrX25dYK1doNZzkBx0n527CJWgA/d5jfFhUuKfk9Ab6f7Pm0Hr2akVDTOLzflb1Y1K
-	2J6wYq/dOz1chl/AWTMHR5XpKuq0MuqSjn+D92xiD25McrcOo6IH9XpNzXFGZtpf7yoqipQeYcQ
-	SOYJqyGTnnh8pvUxBE5J3Df3qSwXRHAxb/vvY4KAqI08Nh0WQajm5v1APqhAC4BibAZHaLHLEgX
-	ln2H7vfx/c0ORIPHk5UxPMvqWW5I8Kje8lqzrIHpsp4QXxhfGRKkCLDib4CnIlX2w/U4Pz5RloX
-	/I9f4Ocj7UUENdTe8Bg+UiapOJCZEAdTPw1rR1Tajofsn8igbj36FwI18rP+5J0ZkKog8kUQJMd
-	ghoCu/szACEsQT5X7E5IhI4E3rD+EwS89meYzcaxlNohRpe+RW3qApvqA==
-X-Received: by 2002:a05:6a20:918b:b0:398:71f2:59dd with SMTP id adf61e73a8af0-39fc936e551mr285412637.9.1775668122444;
-        Wed, 08 Apr 2026 10:08:42 -0700 (PDT)
-Received: from lorddaniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.www.tendawifi.com ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b2694csm21775091b3a.2.2026.04.08.10.08.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 10:08:41 -0700 (PDT)
-From: Piyush Patle <piyushpatle228@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Sheetal <sheetal@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: tegra210_amx: simplify byte map get/put logic
-Date: Wed,  8 Apr 2026 22:38:18 +0530
-Message-Id: <20260408170818.70322-3-piyushpatle228@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260408170818.70322-1-piyushpatle228@gmail.com>
-References: <20260407170308.100238-3-piyushpatle228@gmail.com>
- <20260408170818.70322-1-piyushpatle228@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Pmz4Zi7k"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id DC422C5AA9B;
+	Wed,  8 Apr 2026 17:10:12 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5689B603CE;
+	Wed,  8 Apr 2026 17:09:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43A8A10450171;
+	Wed,  8 Apr 2026 19:09:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775668177; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=oy/bAOYl1r+E1Ph4KLAy06T/uPj0Ap2V/p/wTp6bZOY=;
+	b=Pmz4Zi7kS+STrY8HGoov2AbkJsq1H1R8dg3eIRxIpDT1ijqVBel10julkGK0HQwF8Pqck9
+	1ZdTrMhjF0mRFJnY1gaqK+cXlYqsN9xlvGyW7cvUq3OwzP9jbAIRn//S+cuTs/bqJPnr9W
+	Zt1VvyvJ51BcB1+VxrX9iZ/BMFCDAWmatT6z21sGGSAg9rTKGAvigp1r1n8KhXvEAhW3UZ
+	STFUBtJBTS/z2wvw8XiQe5XYF+9xAxhwz5b6vyAgNk6oZPkeBFVeg544nUcuHIXrm2vtbP
+	yqJg8BDsKHeq8GZjuhqhE9BwAelzlLeMCvxiq81yZ6b7J8o4vKq01h7yNJm4jQ==
+Date: Wed, 8 Apr 2026 19:09:32 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Jaroslav
+ Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven
+ amplifier
+Message-ID: <20260408190932.0ab936b0@bootlin.com>
+In-Reply-To: <20260408122901.GA42727-robh@kernel.org>
+References: <20260330101610.57942-1-herve.codina@bootlin.com>
+	<20260330101610.57942-3-herve.codina@bootlin.com>
+	<20260408122901.GA42727-robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-The byte-map controls ("Byte Map N") already expose a value range of
-[0, 256] to userspace via SOC_SINGLE_EXT(), where 256 is the
-"disabled" sentinel. The driver stored this state as a byte-packed
-u32 map[] array plus a separate byte_mask[] bitmap tracking which
-slots were enabled, because 256 does not fit in a byte. As a result
-get_byte_map() had to consult byte_mask[] to decide whether to
-report the stored byte or 256, and put_byte_map() had to keep the
-two arrays in sync on every write.
+Hi Rob, Mark,
 
-Store each slot as a u16 holding the control value directly
-(0..255 enabled, 256 disabled). This is the native representation
-for what userspace already sees, so get_byte_map() becomes a direct
-return and put_byte_map() becomes a compare-and-store. The
-hardware-facing packed RAM word and the OUT_BYTE_EN mask are now
-derived on the fly inside tegra210_amx_write_map_ram() from the
-slot array, which is the only place that needs to know about the
-hardware layout.
+On Wed, 8 Apr 2026 07:29:01 -0500
+Rob Herring <robh@kernel.org> wrote:
 
-The byte_mask scratch buffer is allocated dynamically using
-kcalloc() based on soc_data->byte_mask_size, removing dependency
-on SoC-specific constants. The byte_mask field is dropped from
-struct tegra210_amx.
+...
 
-A new TEGRA_AMX_SLOTS_PER_WORD constant replaces the literal '4'
-used for byte slots per RAM word, and BITS_PER_BYTE /
-BITS_PER_TYPE() from <linux/bits.h> replace the literal '8' and
-'32' shifts.
+> > +properties:
+> > +  compatible:
+> > +    const: audio-gpio-amp  
+> 
+> To be consistent with other GPIO controlled devices: gpio-audio-amp
 
-Slots are initialised to 256 in probe() so the default reported
-value stays "disabled", matching previous behaviour. Values written
-from userspace that fall outside [0, 255] are clamped to 256
-("disabled") exactly as before -- no userspace-visible change.
+Ok.
 
-As a side effect this also fixes a latent bug in the previous
-put_byte_map(): because it compared the enable mask rather than the
-stored byte, changing a slot from one enabled value to another
-enabled value (e.g. 42 -> 99) would early-return without persisting
-the new value, and the next CFG_RAM flush would still program the
-old byte. The new implementation compares the stored value itself,
-so this case is now handled correctly.
+Mark suggested to merge this gpio-audio-amp with simple-amplifier.
+This leads to the following question:
 
-Addresses TODO left in tegra210_amx_get_byte_map().
+Should I keep the 'gpio-audio-amp' compatible string ?
 
-Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
----
-Changes since v1:
- - Allocate byte_mask[] dynamically using kcalloc()
- - Propagate -ENOMEM from write_map_ram()
- - Replace magic numbers with TEGRA_AMX_SLOTS_PER_WORD
- - Use BITS_PER_BYTE and BITS_PER_TYPE()
- - Add <linux/bits.h> and <linux/slab.h>
+Should I keep two bindings (this one and the simple-audio-amplifier.yaml) or
+should I merge bindings?
 
- sound/soc/tegra/tegra210_amx.c | 96 ++++++++++++++++++----------------
- sound/soc/tegra/tegra210_amx.h |  6 ++-
- 2 files changed, 54 insertions(+), 48 deletions(-)
+...
+> > +  gain-gpios:
+> > +    description: |
+> > +      GPIOs to control the amplifier gain
+> > +
+> > +      The gain value is computed from GPIOs value from 0 to 2^N-1 with N the
+> > +      number of GPIO described. The first GPIO described is the lsb of the gain
+> > +      value.
+> > +
+> > +      For instance assuming 2 gpios
+> > +         gain-gpios = <&gpio1 GPIO_ACTIVE_HIGH> <&gpio2 GPIO_ACTIVE_HIGH>;
+> > +      The gain value will be the following:
+> > +
+> > +          gpio1 | gpio2 | gain
+> > +          ------+-------+-----
+> > +            0   |    0  | 0b00 -> 0
+> > +            1   |    0  | 0b01 -> 1
+> > +            0   |    1  | 0b10 -> 2
+> > +            1   |    1  | 0b11 -> 3
+> > +          ------+-------+-----
+> > +
+> > +      Note: The gain value, bits set to 1 or 0, indicate the state active (bit
+> > +            set) or the state inactive (bit unset) of the related GPIO. The
+> > +            physical voltage corresponding to this active/inactive state is
+> > +            given by the GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags.
+> > +
+> > +    minItems: 1
+> > +    maxItems: 32  
+> 
+> 2^32 levels? Seems like a bit much. Also, unless you can change the 
+> values of all the GPIOs atomically, aren't you going to get some 
+> artifacts while the gain is being changed? Unless you mute I guess.
 
-diff --git a/sound/soc/tegra/tegra210_amx.c b/sound/soc/tegra/tegra210_amx.c
-index bfda82505298..bc808fabe171 100644
---- a/sound/soc/tegra/tegra210_amx.c
-+++ b/sound/soc/tegra/tegra210_amx.c
-@@ -4,6 +4,7 @@
- //
- // tegra210_amx.c - Tegra210 AMX driver
- 
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/io.h>
-@@ -12,6 +13,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-+#include <linux/slab.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-@@ -58,23 +60,48 @@ static const struct reg_default tegra264_amx_reg_defaults[] = {
- 	{ TEGRA264_AMX_CFG_RAM_CTRL, 0x00004000},
- };
- 
--static void tegra210_amx_write_map_ram(struct tegra210_amx *amx)
-+static int tegra210_amx_write_map_ram(struct tegra210_amx *amx)
- {
-+	const unsigned int bits_per_mask = BITS_PER_TYPE(*amx->map) * BITS_PER_BYTE;
-+	unsigned int *byte_mask;
- 	int i;
- 
-+	byte_mask = kcalloc(amx->soc_data->byte_mask_size, sizeof(*byte_mask),
-+			    GFP_KERNEL);
-+	if (!byte_mask)
-+		return -ENOMEM;
-+
- 	regmap_write(amx->regmap, TEGRA210_AMX_CFG_RAM_CTRL + amx->soc_data->reg_offset,
- 		     TEGRA210_AMX_CFG_RAM_CTRL_SEQ_ACCESS_EN |
- 		     TEGRA210_AMX_CFG_RAM_CTRL_ADDR_INIT_EN |
- 		     TEGRA210_AMX_CFG_RAM_CTRL_RW_WRITE);
- 
--	for (i = 0; i < amx->soc_data->ram_depth; i++)
-+	for (i = 0; i < amx->soc_data->ram_depth; i++) {
-+		u32 word = 0;
-+		int b;
-+
-+		for (b = 0; b < TEGRA_AMX_SLOTS_PER_WORD; b++) {
-+			unsigned int slot = i * TEGRA_AMX_SLOTS_PER_WORD + b;
-+			u16 val = amx->map[slot];
-+
-+			if (val >= 256)
-+				continue;
-+
-+			word |= (u32)val << (b * BITS_PER_BYTE);
-+			byte_mask[slot / bits_per_mask] |= 1U << (slot % bits_per_mask);
-+		}
- 		regmap_write(amx->regmap, TEGRA210_AMX_CFG_RAM_DATA + amx->soc_data->reg_offset,
--			     amx->map[i]);
-+			     word);
-+	}
- 
- 	for (i = 0; i < amx->soc_data->byte_mask_size; i++)
- 		regmap_write(amx->regmap,
- 			     TEGRA210_AMX_OUT_BYTE_EN0 + (i * TEGRA210_AMX_AUDIOCIF_CH_STRIDE),
--			     amx->byte_mask[i]);
-+			     byte_mask[i]);
-+
-+	kfree(byte_mask);
-+
-+	return 0;
- }
- 
- static int tegra210_amx_startup(struct snd_pcm_substream *substream,
-@@ -134,9 +161,7 @@ static int tegra210_amx_runtime_resume(struct device *dev)
- 		TEGRA210_AMX_CTRL_RX_DEP_MASK,
- 		TEGRA210_AMX_WAIT_ON_ANY << TEGRA210_AMX_CTRL_RX_DEP_SHIFT);
- 
--	tegra210_amx_write_map_ram(amx);
--
--	return 0;
-+	return tegra210_amx_write_map_ram(amx);
- }
- 
- static int tegra210_amx_set_audio_cif(struct snd_soc_dai *dai,
-@@ -212,26 +237,8 @@ static int tegra210_amx_get_byte_map(struct snd_kcontrol *kcontrol,
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
- 	struct tegra210_amx *amx = snd_soc_component_get_drvdata(cmpnt);
--	unsigned char *bytes_map = (unsigned char *)amx->map;
--	int reg = mc->reg;
--	int enabled;
--
--	enabled = amx->byte_mask[reg / 32] & (1 << (reg % 32));
- 
--	/*
--	 * TODO: Simplify this logic to just return from bytes_map[]
--	 *
--	 * Presently below is required since bytes_map[] is
--	 * tightly packed and cannot store the control value of 256.
--	 * Byte mask state is used to know if 256 needs to be returned.
--	 * Note that for control value of 256, the put() call stores 0
--	 * in the bytes_map[] and disables the corresponding bit in
--	 * byte_mask[].
--	 */
--	if (enabled)
--		ucontrol->value.integer.value[0] = bytes_map[reg];
--	else
--		ucontrol->value.integer.value[0] = 256;
-+	ucontrol->value.integer.value[0] = amx->map[mc->reg];
- 
- 	return 0;
- }
-@@ -243,22 +250,20 @@ static int tegra210_amx_put_byte_map(struct snd_kcontrol *kcontrol,
- 		(struct soc_mixer_control *)kcontrol->private_value;
- 	struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
- 	struct tegra210_amx *amx = snd_soc_component_get_drvdata(cmpnt);
--	unsigned char *bytes_map = (unsigned char *)amx->map;
--	int reg = mc->reg;
--	int value = ucontrol->value.integer.value[0];
--	unsigned int mask_val = amx->byte_mask[reg / 32];
-+	unsigned int value = ucontrol->value.integer.value[0];
- 
--	if (value >= 0 && value <= 255)
--		mask_val |= (1 << (reg % 32));
--	else
--		mask_val &= ~(1 << (reg % 32));
-+	/*
-+	 * Match the previous behaviour: any value outside [0, 255] is
-+	 * treated as the "disabled" sentinel (256). Negative values from
-+	 * userspace fold in through the unsigned cast and are caught here.
-+	 */
-+	if (value > 255)
-+		value = 256;
- 
--	if (mask_val == amx->byte_mask[reg / 32])
-+	if (amx->map[mc->reg] == value)
- 		return 0;
- 
--	/* Update byte map and slot */
--	bytes_map[reg] = value % 256;
--	amx->byte_mask[reg / 32] = mask_val;
-+	amx->map[mc->reg] = value;
- 
- 	return 1;
- }
-@@ -727,7 +732,7 @@ static int tegra210_amx_platform_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct tegra210_amx *amx;
- 	void __iomem *regs;
--	int err;
-+	int err, i;
- 
- 	amx = devm_kzalloc(dev, sizeof(*amx), GFP_KERNEL);
- 	if (!amx)
-@@ -750,16 +755,15 @@ static int tegra210_amx_platform_probe(struct platform_device *pdev)
- 
- 	regcache_cache_only(amx->regmap, true);
- 
--	amx->map = devm_kzalloc(dev, amx->soc_data->ram_depth * sizeof(*amx->map),
--				GFP_KERNEL);
-+	amx->map = devm_kcalloc(dev,
-+				amx->soc_data->ram_depth * TEGRA_AMX_SLOTS_PER_WORD,
-+				sizeof(*amx->map), GFP_KERNEL);
- 	if (!amx->map)
- 		return -ENOMEM;
- 
--	amx->byte_mask = devm_kzalloc(dev,
--				      amx->soc_data->byte_mask_size * sizeof(*amx->byte_mask),
--				      GFP_KERNEL);
--	if (!amx->byte_mask)
--		return -ENOMEM;
-+	/* Initialise all byte map slots as disabled (value 256). */
-+	for (i = 0; i < amx->soc_data->ram_depth * TEGRA_AMX_SLOTS_PER_WORD; i++)
-+		amx->map[i] = 256;
- 
- 	tegra210_amx_dais[TEGRA_AMX_OUT_DAI_ID].capture.channels_max =
- 			amx->soc_data->max_ch;
-diff --git a/sound/soc/tegra/tegra210_amx.h b/sound/soc/tegra/tegra210_amx.h
-index 50a237b197ba..2c125a191a1a 100644
---- a/sound/soc/tegra/tegra210_amx.h
-+++ b/sound/soc/tegra/tegra210_amx.h
-@@ -8,6 +8,8 @@
- #ifndef __TEGRA210_AMX_H__
- #define __TEGRA210_AMX_H__
- 
-+#include <linux/types.h>
-+
- /* Register offsets from TEGRA210_AMX*_BASE */
- #define TEGRA210_AMX_RX_STATUS			0x0c
- #define TEGRA210_AMX_RX_INT_STATUS		0x10
-@@ -73,6 +75,7 @@
- #define TEGRA210_AMX_SOFT_RESET_SOFT_RESET_MASK		TEGRA210_AMX_SOFT_RESET_SOFT_EN
- 
- #define TEGRA210_AMX_AUDIOCIF_CH_STRIDE		4
-+#define TEGRA_AMX_SLOTS_PER_WORD		4
- #define TEGRA210_AMX_RAM_DEPTH			16
- #define TEGRA210_AMX_MAP_STREAM_NUM_SHIFT	6
- #define TEGRA210_AMX_MAP_WORD_NUM_SHIFT		2
-@@ -105,8 +108,7 @@ struct tegra210_amx_soc_data {
- 
- struct tegra210_amx {
- 	const struct tegra210_amx_soc_data *soc_data;
--	unsigned int *map;
--	unsigned int *byte_mask;
-+	u16 *map;
- 	struct regmap *regmap;
- };
- 
--- 
-2.34.1
+I didn't want to set a particular limit related to the number of GPIOs
+used for thje gain value. Of course 2^32 is obviously a lot.
 
+What do you think about 16 for maxItems?
+
+Related to Artifacts, yes they can probably be there. Also the mute feature
+is not required. Some hardware use only one GPIO and doesn't implement mute
+feature. In that case no artifacts can be present.
+
+If mute is implemented, it is the application responsibility to handle
+mute / unmute while changing the gain value. I don't think we can do anything
+at driver level to avoid those artifacts if any.
+
+> 
+> > +
+> > +  gain-points:
+> > +    $ref: /schemas/types.yaml#/definitions/int32-matrix
+> > +    items:
+> > +      items:
+> > +        - description: The GPIOs value  
+> 
+> Can't this just be the index?
+
+Some GPIOs value can be skipped if they don't make any sense in the hardware
+design. With the index, this is not possible.
+
+gpios:
+  0b00 -3dB
+  0b01 0dB
+  0b10 Reserved, should not be used
+  0b11 +3dB
+
+With just the index, the reserved 0b10 value cannot be skipped. I would like
+to handle this kind of cases.
+
+> 
+> If not, then gain-range could be expressed using gain-points instead.
+
+Do you have in mind something like the following?
+  gain-range = <0 (-300)>, <3 600>;
+
+defining the range from -3dB to +6dB with GPIOs value 0 for -3dB and 3 for +6dB.
+
+> 
+> > +        - description: The related amplifier gain in 0.01 dB unit
+> > +    minItems: 2
+> > +    description: |
+> > +      List of the GPIOs value / Gain value in dB pair defining the gain
+> > +      set on each GPIOs value.
+> > +
+> > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> > +      Assuming that GPIOs values set the hardware gains according to the
+> > +      following table:
+> > +
+> > +         GPIOs | Hardware
+> > +         value | amplification
+> > +         ------+--------------
+> > +           0   | -10.0 dB
+> > +           1   | +3.0 dB
+> > +           2   | 0 dB
+> > +           3   | +6.0 dB
+> > +         ------+--------------
+> > +
+> > +      The description using gain points can be:
+> > +        gain-points = <0 (-1000)>, <1 300>, <2 0>, <3 600>;
+> > +
+> > +  gain-range:
+> > +    $ref: /schemas/types.yaml#/definitions/int32-array
+> > +    items:
+> > +      - description: Gain in 0.01 dB unit when all GPIOs are inactive
+> > +      - description: Gain in 0.01 dB unit when all GPIOs are active
+> > +    description: |
+> > +      Gains (in 0.01 dB unit) set by the extremum (minimal and maximum) value
+> > +      of GPIOs. The following formula must be satisfied.
+> > +
+> > +               gain-range[1] - gain-range[0]
+> > +      Gain  = ------------------------------- x GPIO_value + gain-range[0]
+> > +                        2^N - 1
+> > +
+> > +      With N, the number of GPIOs used to control the gain and Gain computed in
+> > +      0.01 dB unit.
+> > +
+> > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> > +      Assuming that gain value set the hardware according to the following
+> > +      table:
+> > +
+> > +         GPIOs | Hardware 1    | Hardware 2
+> > +         value | amplification | amplification
+> > +         ------+---------------+---------------
+> > +           0   | -3.0 dB       |  +10.0 dB
+> > +           1   | 0 dB          |  +5.0 dB
+> > +           2   | +3.0 dB       |  0 dB
+> > +           3   | +6.0 dB       |  -5.0 dB
+> > +         ------+---------------+---------------
+> > +
+> > +      The description for hardware 1 using a gain range can be:
+> > +        gain-range = <(-300) 600>;
+> > +
+> > +      The description for hardware 2 using a gain range can be:
+> > +        gain-range = <1000 (-500)>;
+> > +
+> > +  gain-labels:
+> > +    $ref: /schemas/types.yaml#/definitions/string-array  
+> 
+> minItems: 2
+> maxItems: 0x100000000
+
+Ok, I will adjust maxItems according to the max number of GPIO supported.
+
+For my curiosity, is there a way to express maxItems with a computation
+based on some other properties value ?
+
+What could be relevant here is
+  maxitems: 2^(number of items available in the gpio-gain properties)
+
+> 
+> > +    description: |
+> > +      List of the gain labels attached to the combination of GPIOs controlling
+> > +      the gain. The first label is related to the gain value 0, the second label
+> > +      is related to the gain value 1 and so on.
+> > +
+> > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> > +      Assuming that gain value set the hardware according to the following
+> > +      table:
+> > +
+> > +         GPIOs | Hardware
+> > +         value | amplification
+> > +         ------+--------------
+> > +           0   | Low
+> > +           1   | Middle
+> > +           2   | High
+> > +           3   | Max
+> > +         ------+--------------
+> > +
+> > +      The description using gain labels can be:
+> > +        gain-labels = "Low", "Middle", "High", "Max";  
+> 
+> Do we need to allow these to be anything? It's going to get hard to come 
+> up with 2^32 names.
+
+Well, "Normal" / "Boost" can make sense on some hardware.
+
+I don't think we need to restrict labels to a list of known label here.
+
+Of course 2^32 names is obviously a lot. What could be the limit?
+
+> 
+> > +
+> > +dependencies:
+> > +  gain-points: [ gain-gpios ]
+> > +  gain-range: [ gain-gpios ]
+> > +  gain-labels: [ gain-gpios ]  
+> 
+> gain-gpios is really optional?
+
+Yes, we can have an amplifier without any possibility to change the gain
+value but with a gpio allowing to mute or bypass the amplifier.
+
+...
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    /* Gain controlled by gpios */
+> > +    amplifier0 {  
+> 
+> amplifier-0
+
+Ok, it will be update in the next iteration as well as other node
+names available in this example part.
+
+...
+
+> > +
+> > +    /* A mutable amplifier without any gain control */
+> > +    amplifier4 {
+> > +        compatible = "audio-gpio-amp";
+> > +        vdd-supply = <&regulator>;
+> > +        mute-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;  
+> 
+> This case is just simple-amplifier...
+
+No, simple-amplifier uses 'enable' and not 'mute'.
+
+We can have the amplifier enabled ('enable' GPIO active) as it is
+used and a switch driven by an other GPIO to mute / un-mute the
+amplifier output.
+
+Best regards,
+Hervé
