@@ -1,134 +1,91 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9D8337BA6;
-	Thu,  9 Apr 2026 10:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4622475CB;
+	Thu,  9 Apr 2026 13:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775729849; cv=none; b=me8IaJ8K3FwO8fnYnCwbM6cTbRUOz+0Refol/6Pd+/9r8gdek7DEWdtURvTkNWYWtbaLGfwPZafd5eooKpXS8tZnyvRMIVFsch7vcaMyDBd3y8xYe5PxYLGverh/20VPYC2HkNjGNcrKrHcujI5uaWiaRMrqJxVr7jP6Ib1V8FA=
+	t=1775740765; cv=none; b=TgILq3LGtnh/g2Evi044kJ3dYAIikU3lkILalXc+lL8bk8++ohkiWToV5t6EU+Rgo5YM3BefGtH3D2rqv5qsNono07XSq500UaYpW4+o5F+sYme/LmfMMGlh2xh3Gfp/FbIdchPt5RRqdLmuqTjHfgbvgIU6GSnMLdtzYMfvjnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775729849; c=relaxed/simple;
-	bh=KySF69LyBKmwDZslGztLAE/n7m7sD4hKpo9NRPs20k4=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=IPacpUBzzfaXY3/Fc/v2287bdmSLnC8S2PUoPk9A8geLSgmlBA44niQO5+DKFphA5jg7uCSgK/0pXlnifC1Z7IIrZr0Kw7VExsCyzcpb5JFRV0pIbzeQE1welcK/xWQP67lP874S/YeKSNIxzCn+1x0mf4MO9oA7diHXZj1MN+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=GXXs4T50; arc=none smtp.client-ip=162.62.57.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1775740765; c=relaxed/simple;
+	bh=0yBGZ1Y++o+31q9yBHtCNV47csSwewZum7wmcuSASNw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ngxRRZAe6MPz4ck8hlSWeOKWiRKnNvkfPi3xjupCkrLDTRzwopfwYy8QaibpHtZ6FZOjt4yGZbEzbzOD9m2Ee6JBfpF+2qwl+HcIs/2DE9ZnLR2AnBkxpHEU7j727AE8HwPNCHOBqO4hv8hkVTuePUlpLCTclh04qDvLFzmnWkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rQ9QE4u7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="GXXs4T50"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1775729837;
-	bh=ZaKEtSMcngZyofrlhdgGbsQ/k4IGJI+r4wLNMyOtReI=;
-	h=From:To:Cc:Subject:Date;
-	b=GXXs4T506YIlt69fU6DY8vaQJGopPLs8Xq0VJAhZpVEUq4JOrXBItLi6S/tVC26rR
-	 c2zLvXn/D5l8DruoTlwpb2HUmGcS9X7y1+StJRnuq/pSZpg29cf9H5cJHw5bgROnI2
-	 X0aPYTUZQ+amS+A0Nek1JsLfZ9V1YjGsCC5GwPEg=
-Received: from Ubuntu24 ([2409:8a00:dd3:9760:baed:a55c:3f15:41bf])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id 373A96F1; Thu, 09 Apr 2026 18:13:51 +0800
-X-QQ-mid: xmsmtpt1775729631tbohmvy3b
-Message-ID: <tencent_EDD6D47C38490A59EFE3E8C0343684D27A0A@qq.com>
-X-QQ-XMAILINFO: MLDapaiELEXYEqOFiml+kc6o3iu/EVLCzUueqAjaC09bIrCPWdAkgAAPKC7zyK
-	 GHeJY66xPsnqNoiBfdS1bijYyuDJ96i5lQ88GyVhMQa6GV8oBRp3IP7Lo8BUeo8buFf4Da0P8gYa
-	 lnQtQy5IGkiTuT9FRoB3jg5dS07Jee3BetqnUfcODIxI0x7OdOo2z19Dj/V497h0NREeiWBt3+t6
-	 yvSWM25BuZz4WMPiRcsbTJWqeOGH73Ox3mkAX6XcbMYZFSyxh17UMI89nCkNebWBOt34qtGClgL/
-	 ONtZd+TPkkurqTjWEwFu9TCoohlfQ8sOfFfLStrdnS1A1W80THukLC6EeN1o3EZObYjissS2VueK
-	 KG/afLxsxcqQLuUiwvuqzhegeuik+36IgIaCk/eKz11W4figuXKjDzjKQOotpcyWeaVHoc1s/z9T
-	 j9HnyCqBcpDw6UQ+uB7xUgDliFkgNWgBP+0Gb/YPl0kgHkmYP0mbGqAAHQCQW5M1b47fkfToOXXb
-	 T0mWc3xt3jpPm6CgP+EKGpDxCeA7GGxrvLIOkwrQh/UJYLqrRXBfCQkPJCYh460QkDSql9sQsIg5
-	 yrCrbHlxGIf+srNdVMZT4nEe1ORkalsai+DlXWaIY2oQW1Tm+xRVt8S8+2E0UAQnCnC/AARa/k8l
-	 FdOiwyH/ACHbGlSqi3guyZMPg1t5FfBEHIVp3UrzqCWT7VpmAZbIDJx5Hxs4hTdcy3XfTT4ovGjr
-	 nkK3ls1qt5FcUe/iTvgDZ9vcrkrLDbbyY953kJ2lsZ6Hb0+FLmazANi8nQgsaTnT+BqPjvfCwDvE
-	 lUl4YXdAJTMVZl8/E1aKucWT4hgn9MbEGOiedgueCO0kK693mMC1KNAHOTAnY0iqHct1vVlKg45y
-	 3J/dGw4GE+aCRvv+SUWYJL7j9ZaO+3ufm5bCmUx9Ia6CllTOFb5ZUgV8jj7++rX3n5wts8forwoM
-	 hFvXHdFk6tSXqYa2jI9krkC9FIH542xgKZJeEAGRNU/D8CqOFxTov33h707pxsOeQ9WfriCAYon5
-	 DE7wMkPF6F1U5E+nXS4NmhfxXo2pTteEYKGM26dJJ9CR6IhBQkQRn/t1ei4NjnpVPIddHu8kxzS3
-	 NWLAe3O6wRydTTwGsYHM8DjPw4UNPt8BjzqiUsjCWxf6luOw7mOQja8yLugEEocge3Xxh8/9M8L6
-	 jCICkxHcFbRjcFaVK+PlCRloc2FMmj3zztHOI=
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Alva Lan <alvalan9@foxmail.com>
-To: gregkh@linuxfoundation.org,
-	sashal@kernel.org,
-	stable@vger.kernel.org
-Cc: linux-sound@vger.kernel.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Mark Brown <broonie@kernel.org>,
-	Alva Lan <alvalan9@foxmail.com>
-Subject: [PATCH 6.6.y] ASoC: simple-card-utils: Don't use __free(device_node) at graph_util_parse_dai()
-Date: Thu,  9 Apr 2026 18:13:50 +0800
-X-OQ-MSGID: <20260409101350.5433-1-alvalan9@foxmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rQ9QE4u7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF96EC4CEF7;
+	Thu,  9 Apr 2026 13:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775740765;
+	bh=0yBGZ1Y++o+31q9yBHtCNV47csSwewZum7wmcuSASNw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rQ9QE4u7XS9h4OJ1fbN78xN0SGXcjGjeOuly7H189UzC9lDjDWY20KNvr1SKOjRDB
+	 oyNLiPZdlEGXMAo+rZEe2pTPxDxR19DpwEMisMRV2KvEips4O01kSriKB2/gUi9jxC
+	 DTKMsxPkILcUNExh48xBFAJcaAjyQyxembpuCqUXCB1GyW34xi6Qa9/ZntxalopPtO
+	 tzomO3v0c9q8LRPBOncYph9bTpRXA6EWC4XT0HG1MddDYEEs1PlHYU+B9vTy7DBYWW
+	 KEvnfOGYgBj/rdadZg74FCH5beZsWsaCjCCia5W/pfkwqgJ5ML+NcoA1tSmWfBEU04
+	 FryPiuZcUKbRw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+Cc: john.stultz@linaro.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260327092106.4233-1-chaitanya.msabnis@gmail.com>
+References: <20260327092106.4233-1-chaitanya.msabnis@gmail.com>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to
+ dt-schema
+Message-Id: <177567159547.101848.2508935852216681187.b4-ty@b4>
+Date: Wed, 08 Apr 2026 19:06:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1144; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0yBGZ1Y++o+31q9yBHtCNV47csSwewZum7wmcuSASNw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp16daUssI6tSg7uF9pxnSweyglsRImwfflPUxM
+ dTY8lHqFtSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadenWgAKCRAk1otyXVSH
+ 0A5PCACAEz3xQAFzoTMgyHCcIAFbDLzTm69ZYLD01lvBD2dDQ5YT6OyzRobBGBp0mQaFXkyPuF/
+ 42PJykUJYArJUlvGJIL6bEEP8L6+632Xxt8NZaEuh3JbC4mGON5MrDODRjFfGQjtc5AR1bVRXCm
+ pAIIy6BMWCmrPFL6blzn5TCkWf1uNKBH1aud1WeDa4LeZJlu1zD7YsyTGMc8f3KUhrizsIB2AOn
+ fsvESB1CtbFvt1sLdJ+R46P3Bw2VdG6PzBpUqodPsv7jvxnuOUeZ5GPCQdkkpGpynIHoh+D+MJ3
+ Ii2BNuIdXuTGqyKIsLXVGG2kl8AwyMOyPALCUtuTNupVFH3e
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Fri, 27 Mar 2026 14:51:06 +0530, Chaitanya Sabnis wrote:
+> ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to dt-schema
 
-[ Upstream commit de74ec718e0788e1998eb7289ad07970e27cae27 ]
+Applied to
 
-commit 419d1918105e ("ASoC: simple-card-utils: use __free(device_node) for
-device node") uses __free(device_node) for dlc->of_node, but we need to
-keep it while driver is in use.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-Don't use __free(device_node) in graph_util_parse_dai().
+Thanks!
 
-Fixes: 419d1918105e ("ASoC: simple-card-utils: use __free(device_node) for device node")
-Reported-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Reported-by: Detlev Casanova <detlev.casanova@collabora.com>
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Tested-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
-Link: https://patch.msgid.link/87eczisyhh.wl-kuninori.morimoto.gx@renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-[ The function asoc_graph_parse_dai() was renamed to graph_util_parse_dai() in
-commit b5a95c5bf6d6 ("ASoC: simple_card_utils.h: convert not to use asoc_xxx()")
-in 6.7. The fix should be applied to asoc_graph_parse_dai() instead in 6.6. ]
-Signed-off-by: Alva Lan <alvalan9@foxmail.com>
----
-This is to fix https://lore.kernel.org/stable/20260323134539.475007076@linuxfoundation.org/
+[1/1] ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to dt-schema
+      https://git.kernel.org/broonie/sound/c/f4ee8a882a56
 
----
- sound/soc/generic/simple-card-utils.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index 86ccd044b93c..a64484fe5a28 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -1061,6 +1061,7 @@ static int graph_get_dai_id(struct device_node *ep)
- int asoc_graph_parse_dai(struct device *dev, struct device_node *ep,
- 			 struct snd_soc_dai_link_component *dlc, int *is_single_link)
- {
-+	struct device_node *node;
- 	struct of_phandle_args args = {};
- 	struct snd_soc_dai *dai;
- 	int ret;
-@@ -1068,7 +1069,7 @@ int asoc_graph_parse_dai(struct device *dev, struct device_node *ep,
- 	if (!ep)
- 		return 0;
- 
--	struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
-+	node = of_graph_get_port_parent(ep);
- 
- 	/*
- 	 * Try to find from DAI node
-@@ -1110,8 +1111,10 @@ int asoc_graph_parse_dai(struct device *dev, struct device_node *ep,
- 	 *    if he unbinded CPU or Codec.
- 	 */
- 	ret = snd_soc_get_dlc(&args, dlc);
--	if (ret < 0)
-+	if (ret < 0) {
-+		of_node_put(node);
- 		return ret;
-+	}
- 
- parse_dai_end:
- 	if (is_single_link)
--- 
-2.43.0
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
