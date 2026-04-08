@@ -1,158 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A8C39C004
-	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 08:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9D63A453A;
+	Wed,  8 Apr 2026 08:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775636425; cv=none; b=JTwCs09sVfZSKh5Ftbo03rWzVvHXm2Gsc13HrccKTjgX71TGAfkGUXauzc6jn/jOQVf4Kum56q9xyTP4x/9wccRq1jhNp+bhlCVVCPXeNBs8Bl+ic5Tl110JtrsWINYtbbEshUYwk3eZq0jTtJfuJ5aDP9dJwir6ifZ5z4kFa9c=
+	t=1775637205; cv=none; b=ASE28oYtrPBxU2Jk8MEJTzCb6WgU+2JycgY/4ve56mTr1DGXYdskc+ygGfdBV/AJcFGXedFkMsYAKwbhkybXta0wOJgk92vViwdfIufCqTsn/p4/hGAp/ASjgRTzf4TAERy/zA1VCHLD3XQuneRYP7frd3gb6SyjNfcjCb+eej0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775636425; c=relaxed/simple;
-	bh=IklpLWTaZiZkjbWx+sAxeqHDHxPdAW0jZVjPFGpJz8M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u/zP0GKpiCeoo5v00GazRB7Uwk2B8r/Zl7/0kZvf4cGhMVT8Fa3XHkt4SiGFLMRovx71LFS40n6I3Y44QWy7A35jKG5T256EqjHdYnB/WmXSBccuQ8+fIOjbsyANI8ZbrBdsRO9/leiydyCanlcArSs2d5G11DJJjY2MlBQRA9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wPbsZqT0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C5nTEl2P; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WbVH2wzd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GXAchg1F; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wPbsZqT0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C5nTEl2P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WbVH2wzd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GXAchg1F"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 61A6A4E8CB;
-	Wed,  8 Apr 2026 08:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775636422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dRytrr1Bk12cMOiNMSSB2iN6lU1+2s2xxIN4jH/s8xA=;
-	b=wPbsZqT0/5kYZicvTBvrbQlZDdCv0axYtUES+tGfznjsRf6AN1v8Gzx6em0GJ35n+OpVCc
-	n/3N+vVSeTSPD+wE8VFvAacvdvrRGlUU/uFlk0IU+LHrtd9X1VWQln5jUShYHZ5LWoTP6z
-	KlfDiVcNzTeMxc1+Z5XwDggSamfMSdM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775636422;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dRytrr1Bk12cMOiNMSSB2iN6lU1+2s2xxIN4jH/s8xA=;
-	b=C5nTEl2PnUMM1DwlVKXX+AM96hajLlWGXyX+EbpuwPq7JM+jY7pdDdgmAQUMcWpOvfWMRc
-	qRluNCgDaEFDTfAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WbVH2wzd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GXAchg1F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775636421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dRytrr1Bk12cMOiNMSSB2iN6lU1+2s2xxIN4jH/s8xA=;
-	b=WbVH2wzd4DI5UE/EkE1glD6vprWnVnKwnfMtWpu+jlCAm6h5eqG2rjlWstvmt5FqDWF0/i
-	wa5J5viNQA47BEAFQKDl1lzCMbfU4d1dKeMH3Ddrjg7aNsfRJX7HbDT+H5pS+9w1Wxg8WY
-	XY+JSIZJl5/8bUOXALSi3Dzl84ly5lc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775636421;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dRytrr1Bk12cMOiNMSSB2iN6lU1+2s2xxIN4jH/s8xA=;
-	b=GXAchg1F32sIEKIoJXKtu/l5pe9cmfnFkgxlxFPRZwdLKd+T7kd5U/LWwukluTFCmrH5+s
-	LkPIMBIwpdnZKnBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 317504A0B3;
-	Wed,  8 Apr 2026 08:20:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UxqxCsUP1mnxagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 08 Apr 2026 08:20:21 +0000
-Date: Wed, 08 Apr 2026 10:20:20 +0200
-Message-ID: <87y0ixlv7f.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1775637205; c=relaxed/simple;
+	bh=gCqdVR6GtFn5bIqmzvqRdsv7Ux0Ck/6AyGfSyZs+vCk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lEtqY+fA1ZHelYwMChy0nSElEibWox6lbDefsPgUO+wIJeRvKqItYCsiPXdZ+hdCxCiiUWNOlkyFwKp+gjAfCJcvqDSz6A8z4BAttiQgn5VHs38cmho1rQs33U88UGOkpqSne040+qMhKpIxKLtikAqLGDjaY3kBsEinIz1NLdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 965925cc332511f1aa26b74ffac11d73-20260408
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:51afb89e-dc7c-4c76-a764-52a26b236ec9,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:6db0356f002029543eaccc36abbbdf52,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|898,TC:nil,Content:0|15|50
+	,EDM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 965925cc332511f1aa26b74ffac11d73-20260408
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 2049009002; Wed, 08 Apr 2026 16:33:15 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn,
 	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: usb-audio: qcom: Fix incorrect type in enable_audio_stream
+Subject: [PATCH v2] ALSA: usb-audio: qcom: Fix incorrect type in enable_audio_stream
+Date: Wed,  8 Apr 2026 16:33:11 +0800
+Message-Id: <20260408083311.774173-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260408054304.497277-1-songxiebing@kylinos.cn>
 References: <20260408054304.497277-1-songxiebing@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 61A6A4E8CB
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 08 Apr 2026 07:43:04 +0200,
-songxiebing wrote:
-> 
-> Fix sparse warning:
-> sound/usb/qcom/qc_audio_offload.c:943:27: sparse: incorrect type in argument 2
-> expected unsigned int val but got snd_pcm_format_t.
-> 
-> Explicitly cast pcm_format to unsigned int for snd_mask_leave().
-> 
-> Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202604062109.Oxi8JjWW-lkp@intel.com/
-> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
-> ---
->  sound/usb/qcom/qc_audio_offload.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> index f161eb29f911..423e4a9b62e2 100644
-> --- a/sound/usb/qcom/qc_audio_offload.c
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -947,7 +947,7 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
->  	_snd_pcm_hw_params_any(&params);
->  
->  	m = hw_param_mask(&params, SNDRV_PCM_HW_PARAM_FORMAT);
-> -	snd_mask_leave(m, pcm_format);
-> +	snd_mask_leave(m, (unsigned int)pcm_format);
+Fix sparse warning:
+sound/usb/qcom/qc_audio_offload.c:943:27: sparse: incorrect type in argument 2
+expected unsigned int val but got snd_pcm_format_t.
 
-I believe you need __force prefix for cast, as it's strong-typed.
+Explicitly cast pcm_format to unsigned int for snd_mask_leave().
 
+Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202604062109.Oxi8JjWW-lkp@intel.com/
+Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+---
+v2:
+ - Add __force prefix for cast
+---
+ sound/usb/qcom/qc_audio_offload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index f161eb29f911..9c0d370860f3 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -947,7 +947,7 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
+ 	_snd_pcm_hw_params_any(&params);
+ 
+ 	m = hw_param_mask(&params, SNDRV_PCM_HW_PARAM_FORMAT);
+-	snd_mask_leave(m, pcm_format);
++	snd_mask_leave(m, (__force unsigned int)pcm_format);
+ 
+ 	i = hw_param_interval(&params, SNDRV_PCM_HW_PARAM_CHANNELS);
+ 	snd_interval_setinteger(i);
+-- 
+2.25.1
 
-Takashi
