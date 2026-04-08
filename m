@@ -1,78 +1,82 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013009.outbound.protection.outlook.com [40.107.44.9])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010065.outbound.protection.outlook.com [52.101.61.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AB43570C8;
-	Wed,  8 Apr 2026 05:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5549F274670;
+	Wed,  8 Apr 2026 05:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775626015; cv=fail; b=rEd6Ira9D46HQaSIRerkuWQ/6DBQd1bLptBad/CyjvDnKr+hZU0u3FnsNv3xtRrcte93jUrGeTcgHEViKJWnAuklM4MW+eHM+9I1T46pQv7261whNayQAsd6ui6Zpk2e4Rr1eKisR8EomKsFtFNQ6/mqyZR1os3MCuyZjM3Y32E=
+	t=1775626321; cv=fail; b=jEYJY7+3nSEaUxdE24T46nhdZU89KHYtb79nVqTvsb9RqDsfcWDmciIoeXxo3kSFVKCrcgqBqdCx3qdJ6xU6Bs80OTEgG8iRgZeKVQtHl+J5rp3IMwMR6JWaOVxQS5fzIMVj3a29CKimGWi4ZFe/pOILN35Y3vUzZFhIFHu0TAc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775626015; c=relaxed/simple;
-	bh=2i3xkMWAlO3FzKUOuEJZyOxzrRdKJ2l63IGTxkbHpa8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DFFrX5Xc8H38SDrA19+oRe0Pl259z4PtIGVLY4K/Pm52VbR5NeMCHI1hf1u3brSJB3SG8F7k5yty4g0xJo4gL/cKZBujNgxRoWkWwujgwMVj5RHe08AIDWVoD8krAE+kZyS0zJzXHFD1s09+AjaG3GVlfUAh3yinct339V2aa98=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=kqj/nHfM; arc=fail smtp.client-ip=40.107.44.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
+	s=arc-20240116; t=1775626321; c=relaxed/simple;
+	bh=/+oF2gRGYv49tlBu9tUbiQkzm1vgaTD8yt0gctW/K18=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fHw8HyAdjnOhbZU+Oq7MHQb5cQnr4Kfe/NscuQqSkHB+XsTedXm16RAqwQmQnhSDwAHjWADke1738bn36L6AUyPiFseNrtJIBX4dwSeVpIxuzmYHVV33BwWmXRhjzmtg+0V/qpiW5JDRRD73Wwhj3VqjXkvZxnwNDuXAi7XoPTw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=oqSDJHbE; arc=fail smtp.client-ip=52.101.61.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="kqj/nHfM"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oqSDJHbE"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yaGhqFCL9j3Px1lE6v2zzNvewJEDIskghUUxr9+Md2tbjjor5g4Yl3pEEBdBO9YtgDvBu58Q64/tDzByavj8NDGACKUQcNd+/zSmNUjX0OsedO4NM+vTPlfvNq5sCBNj3MaUIYAxKx8+T17lr6jf3seZdwXnl+bdz03WO83blAGrNFVMfUN3CrIapbAdxEdmoBr9oSyYDiqwa65c8Ao30dYBntBoCxXp1SmN1CjNgDy3yT7jt9USOLO/TMxsEoZ17IHZ1Kjkfz1ryuIQdhBlLpf0a2NlipyaNxexQ2cOyRZM+L2rVZvW2T1mGa46C64on9w1QEc/MfEP0fj6Naq3Rg==
+ b=Hn35S+8H0PXzBM3wEE351s7FycNR48wrpmrUa1iFWG0h4+3BUUgUbjnaAueF5jI9VkvbdzTPfVXEb4iNbuq2W+s9ydZCNAaeLLxLPus/i5J8oYRTa2PZPKLGAIKHHG1J3bBAX6if68rgaFxVzmnRV19WlMxZspz+DzqGSlJSDRz62QbP+hDOBsfwjgwxvazMWbIi/BCdLvfdPBPSL3uI30Z6oKh2TV1o+OEpFzbkO3wDlhbnF3JG2s6VOewUiseMLiXkBAyLGRTYMfCb2VMS2X4jIwnojdi3LW151I98oJrCgGgnWFyCD9nIJtwsc41et83hpNSR2GYHtAsVpfMkSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wo3thyiIaYV7FOCeUCGfcSfNViTrLYgJ/JBmtkhUqZQ=;
- b=Az3ZZCsdIYwGa2/ohlQ7pNovZtQafstnPeWC+ZG/ss9VyxPfi79eTbyZYslkDHBb1z/5TYkgvHF73k7qwyaiLt4x2N/KkPdKhMMYb9Fh4N+8jKvNa4gK99OG4vJEBygHe170dN26hsDMiDGvM1XVrT1VoEqnz2b5dO3cLRdQfHp7tmHPRIpCmAglMykxt1qIkJtpGH4pRG8e5c8RTFRjko+TYlOjb2Xp+aowy+mA670Hh+fsVkfv07STpmWTVZq2Ae7EqsGqPHPWSez3mry59pslt8lDJw1Z6UJ0B7vlTB0zSBZQlx2NQSD2X5ZIR7/p7aywmAR8c2rsl/BRTYc5mg==
+ bh=N0rk9Z8eu4WKXmhzsAgnSFlFtW6GO6QHs+/Kewf16jQ=;
+ b=jU/xsM7ND9SStzTZj/Sv7MGBV9mS/M2GOvbWhQ+jWB/K1XTQlas7Sc30J8TV4q/jDKUk7xU3IYTXbP1kj08UIp2w4yuuTkeBE/PsJQ07zFCX7VaVGmWzyrvFO4+qNFBAGR7aSKQbO/Xla4Kqe0ChQ8XwiJljhqUkHyojA9drXqpetYmSfb94CcSqt912h7wMC76PghxToIRcJuxURpzLvcknbkl+T01LZ66108H9iXWhKwJH6oy+cOUylObkvh//WA3VTsj58s/VZ+R34FN+WaX/V94y12tnZuKeDa99a6CArAcyWW3V9EobXemAP09qhvHkJ1SReXhesFa4uVdBbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 211.75.126.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
- s=selector1;
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wo3thyiIaYV7FOCeUCGfcSfNViTrLYgJ/JBmtkhUqZQ=;
- b=kqj/nHfMG/xLBgt//6iI3YrCpHgjb1H2q6RpAN/tI4cTCuahfwf25eJzxmbeWCm0oNPJdscBuJxyK2WZdSi/2Yc0Nbxy6wo5ezZZB5hN4NsB9fmu5/m4ZwJEq0NGbtJr/PIfHcyrIlNfpyvnkDeKiG47XVyN2g2c8u8JvlDE+xp4eFr9/ZV8DUbNJiF1cxPXVc3+n85bmMs+rMnSIzdCVAWIXRc1vcbgM+Y9ja9ZhyRNrQdxKy961Z/6Cf++6Iz4U84lieWH9kQOz3azKBYe4kCFSjHWNr95vAUhkr04CLQqj+RMjvUFW/xI7dnBoQZUa4INQqRFCZUt2o75YQt+3w==
-Received: from TYCPR01CA0055.jpnprd01.prod.outlook.com (2603:1096:405:2::19)
- by TYSPR03MB8735.apcprd03.prod.outlook.com (2603:1096:405:62::11) with
+ bh=N0rk9Z8eu4WKXmhzsAgnSFlFtW6GO6QHs+/Kewf16jQ=;
+ b=oqSDJHbEwPGPu4A/0StwVBbyR4nVa7qBnN9urcnwDutWq0+gOOobJlpw/WNYDaHJW1p60pDlYvsO/zetBYWyPEU2NyNtoDveP11AbpvjdhRbDHvHVAP+jYalTIWOpMNews1buet/woMemdSfw0XjO74ha/KOKvsMu1qZrxoqEw8=
+Received: from MN2PR05CA0006.namprd05.prod.outlook.com (2603:10b6:208:c0::19)
+ by LV3PR10MB7963.namprd10.prod.outlook.com (2603:10b6:408:20e::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Wed, 8 Apr
- 2026 05:26:45 +0000
-Received: from TY2PEPF0000AB84.apcprd03.prod.outlook.com
- (2603:1096:405:2:cafe::92) by TYCPR01CA0055.outlook.office365.com
- (2603:1096:405:2::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.33 via Frontend Transport; Wed,
- 8 Apr 2026 05:26:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
- smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nuvoton.com;
-Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
- 211.75.126.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.75.126.7; helo=NTHCCAS01.nuvoton.com; pr=C
-Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
- TY2PEPF0000AB84.mail.protection.outlook.com (10.167.253.9) with Microsoft
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Wed, 8 Apr
+ 2026 05:31:57 +0000
+Received: from BL02EPF00021F6A.namprd02.prod.outlook.com
+ (2603:10b6:208:c0:cafe::e3) by MN2PR05CA0006.outlook.office365.com
+ (2603:10b6:208:c0::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.37 via Frontend Transport; Wed,
+ 8 Apr 2026 05:31:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BL02EPF00021F6A.mail.protection.outlook.com (10.167.249.6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Wed, 8 Apr 2026 05:26:45 +0000
-Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS01.nuvoton.com
- (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Wed, 8 Apr
- 2026 13:26:44 +0800
-Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01A.nuvoton.com
- (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Wed, 8 Apr
- 2026 13:26:43 +0800
-Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
- (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
- Transport; Wed, 8 Apr 2026 13:26:43 +0800
-From: Neo Chang <YLCHANG2@nuvoton.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>
-CC: <perex@perex.cz>, <tiwai@suse.com>,
-	<krzysztof.kozlowski@oss.qualcomm.com>, <dan.carpenter@linaro.org>,
-	<linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, Neo Chang
-	<YLCHANG2@nuvoton.com>
-Subject: [PATCH] ASoC: nau8325: Add software reset during probe
-Date: Wed, 8 Apr 2026 13:26:39 +0800
-Message-ID: <20260408052639.187149-1-YLCHANG2@nuvoton.com>
-X-Mailer: git-send-email 2.25.1
+ 15.20.9769.17 via Frontend Transport; Wed, 8 Apr 2026 05:31:56 +0000
+Received: from DFLE215.ent.ti.com (10.64.6.73) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 8 Apr
+ 2026 00:31:54 -0500
+Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 8 Apr
+ 2026 00:31:54 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE214.ent.ti.com
+ (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 8 Apr 2026 00:31:54 -0500
+Received: from localhost (mz02jj9v.dhcp.ti.com [128.247.81.246])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6385Vsos1351837;
+	Wed, 8 Apr 2026 00:31:54 -0500
+From: Sen Wang <sen@ti.com>
+To: <linux-sound@vger.kernel.org>
+CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
+	<perex@perex.cz>, <tiwai@suse.com>, <shenghao-ding@ti.com>,
+	<kevin-lu@ti.com>, <baojun.xu@ti.com>, <niranjan.hy@ti.com>,
+	<l-badrinarayanan@ti.com>, <devarsht@ti.com>, <v-singh1@ti.com>,
+	<linux-kernel@vger.kernel.org>, <sen@ti.com>
+Subject: [PATCH v4 0/4] ASoC: Add TAS67524 quad-channel Class-D amplifier driver
+Date: Wed, 8 Apr 2026 00:31:44 -0500
+Message-ID: <20260408053149.1369350-1-sen@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,85 +85,90 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-NotSetDelaration: True
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB84:EE_|TYSPR03MB8735:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcee5f10-16e4-4d0a-80cc-08de952f6ce6
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6A:EE_|LV3PR10MB7963:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1139b36-d354-4fe8-d7fa-08de95302678
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|36860700016|82310400026|376014|1800799024|18002099003|56012099003;
+	BCL:0;ARA:13230040|1800799024|36860700016|376014|7416014|82310400026|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	v7RtGNrTeTA01aFGWWPfqvBGySTtizVlBFtSbaFR96T5wjqa6uKTVf0RdtEdMX7YyLU7oEsv0XwBaDUfNJ0e5C56T4fBlgT1Yk3U30+w6NGDdvQzRDPsbVL++HLIXPgiRXG5mAxLQrVyd/j9hWMZPEhRMkynORPad9R7boLnXqhzhjvl8ObB1Xq4FIW3R5VIYCeO2RZtpIr5SF3wD7cM00L5UDqss8QgW+C7JjO+I+2b+IDJHUx1fwO3Im7Il3NwLcQ5Ilu+gz2IDkV4PeGXFjfWwgjxgaKfWtfF0VhtN/Nxq4up/AMqhEEMJV5iAiPbs3a2zaBJszJGc8gAREHzVq9IILN4v9rIgg2fF7j65NT/j4CDsRh3v9xKRW6mNuZRqxNDODBAAUhqsXLsxV4jyz21gSFLef1fib98p0RHoXe8s+oHSIvn1hP4XxYe6ZgYz6XR95M3OFXXBohTcTmGU66qbWSpaI10rJpR4IgUPemm0ZrokD1TRvHQEd730t+Ks9vZ3W3PZdm1ThW/R9GQGJy6dmN72s+VXMj5oN42XgEOi5tE7k6HhBhYnUe6d4BX6AIjHCSOn0nIzJw/SIe1Td6m8b7CLNsgtsEgHnCPKOLiTmGQaa4VrZWKOiVSfvrcy5gwR3GwqaRwnbbu2AefxEakbR/FywRkGP6qx5EdVv1B08Ff76U4nJdAcfim2Zc65XaT77o98B/0+Oi5bLWppP08uu+SzggOcq7u/Cnzthop76PK5rhKFuZSOvw5ORrFdnmjnln2iiWVSOX/1zZ1Tw==
+	wlnhXAQX3yZLkUNHd0JYEywVoU4dLVibEtZfkty883uCCsAAvThJvgxuZeP9Fb7s0/yajo7lWeFFPd8Cs8xmro6V+QkjpsQ7a+eY26rkXiluqeecwlgW0ILVe7bLBN8OK0TXH1PEIcTX9YsM9voH1yUDBT++2RqdzQXIWOMhBBxoIzc7EAqnn5+3AYLTfrF+T1D3ouuzcMlw2ooPTjQj31eDA6+Jc8oefx84KXcy+uzoFhZqKFckYomgqkxcvUnKBXeIwQcSJh0KsWGEKuBD5r9mX91sUb9+LNTNkLKLrv4ToD89idrgBfAd44bqg6R/YuaFLusWlMLmkJU7fFAEIfkPG04t1V1YnJuk+ZApk69oJDR/5tJnA8yOEqXC6MdzcMbo0OHkQE35R8rOOafIiag38Y8xUvT7bF7iR9R9gAEyZHjHTGaaoFF06OMcwNVecRewN20bZxcZhIMe4/QG6BEeTP1nSBG58fasLT9aNZjfIWkIeWHJG3VmJpKWsbnIs3ZsxerD5uYVLVJV3qGYhc/8Zu6FPjTw+gAWB8wYRHBWPA7ydmHBI5TlId/moKq7GHuUrdMvS4Dlx+08jqu66tcvp7vfQly0DWrTXxXHpDPGxPenljufjdZmSeDIir7B1px1xBW0qXBt/XsDDyV4bt1cbscsDrkbMgv86tOGZF4aNVrra6xvz7whlSOmR9KKIR16fNhU7joYeOZtX3xw58+2FKDUp2mGlJkPG6REMAuKL1Tr7BdPBGTnhGZm0ijdt1c2qmHHRad/zTWm3VGGkeCcu1DApd6JOPg/QsO0b2g=
 X-Forefront-Antispam-Report:
-	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(7416014)(36860700016)(82310400026)(376014)(1800799024)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(376014)(7416014)(82310400026)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	eRzoo/7JwBDbU2v5PhH+ydu1rOeySeWLbus1VwJWCvvJopmmIyDwB8gTZYsELy2VtiWuMd72y7v6PRrtdkdFJ2sfnD1PmTrk8rcCSmUVe2IxBzkZDHLSTZVRZnsqMvS9ElPFO7UCSfTbhJVIslqSGRmy2CoGEqlhLvKaZdwqVPXtEIk7ss/qO0CPWVSbE6UZWbUHpqP0rsg+GF3vaBsdXqvCNaqtB/f7teaZdmGRVzGEw4bcZy6Zbt0U/IzmNW8VjGj5VtrVxgsfGy80I3++Vkb5m/SszPMdHGLleKIHfx8kIJgTcQYgOqFYEaSIl9qeGb/7IHey3pB/BVry8xIKgo/1Teq0rMPUz7f9r/ShNyP8Wy1WJ7efHpYJWzISBBmmWfeQLRGyW8CfpnS5/Od7B53b9YSyptFEcv64zQG/EtJWnFxL6Wf2S58nIAzWPZrc
-X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 05:26:45.5385
+	F+Qu9oD8bD/fUYajL/73TlaqH9I1tEHDzvgo3vQV2l35ijT98D422Tfwtc8TZxnQik5PCpq6kjgMoj1rJFiu1KK1fDCvfPjzEVax6+zBE/7AX1uFsCeHGlBWrYW9S3TkxUiNNdeC2o1GIglkoNsIbSixb06p9QQymPB0UK0W+0b65zryPcwM2F+aYkknX2WDwWUBCjWTSbAxIh7mI2G6TkSDXBFYDaURtc/QFDPkPZ2xZ+YyW/z4fKUur6i7Y76P8cKQerBiV4NVThQG/cvt5CM/JjRQvIpR2IfpSQOyZTa+ISF3afgd3CEhfvynXyUCgQ4dF4SedbuGiJ3gg9kUkic52sb+KAglLfebIqDMAf9jSuUvVRgr6t0lAjjtYv1vDf3xYXvtHvzYfKIsVZ6Br3B9ZxvL+9U5LFlbhyFGgj5xjkFFwqWGXuCE8wzLIFAR
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 05:31:56.8393
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcee5f10-16e4-4d0a-80cc-08de952f6ce6
-X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1139b36-d354-4fe8-d7fa-08de95302678
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB84.apcprd03.prod.outlook.com
+	BL02EPF00021F6A.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8735
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB7963
 
-Currently, the driver only performs a hardware reset during the I2C probe
-sequence. To ensure all internal states of the codec are properly cleared
-without affecting the configuration registers, a software reset is also
-required.
+This series adds support for the TI TAS675x (TAS6754, TAS67524)
+quad-channel automotive Class-D amplifiers. The devices have an
+integrated DSP and load diagnostics, and are controlled over I2C.
 
-According to the hardware specification, writing to the Software Reset
-register (R01) twice will reset all internal states safely.
+Patch 1 adds the dt-binding, patch 2 the codec driver, patch 3 the
+ALSA mixer controls documentation, and patch 4 adds the MAINTAINERS
+entry.
 
-This patch adds the nau8325_software_reset() function, executes it right
-after the hardware reset in the probe function, and marks the R01 register
-as writeable in the regmap configuration.
+Tested on AM62D-EVM with a TAS67CD-AEC daughter card. For setup &
+test procedures, refer to the GitHub repository.
 
-Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
----
- sound/soc/codecs/nau8325.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+GitHub: https://github.com/SenWang125/tas67-linux
 
-diff --git a/sound/soc/codecs/nau8325.c b/sound/soc/codecs/nau8325.c
-index e651263a9812..58ef5c493835 100644
---- a/sound/soc/codecs/nau8325.c
-+++ b/sound/soc/codecs/nau8325.c
-@@ -142,7 +142,7 @@ static bool nau8325_readable_reg(struct device *dev, unsigned int reg)
- static bool nau8325_writeable_reg(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
--	case NAU8325_R00_HARDWARE_RST:
-+	case NAU8325_R00_HARDWARE_RST ... NAU8325_R01_SOFTWARE_RST:
- 	case NAU8325_R03_CLK_CTRL ... NAU8325_R06_INT_CLR_STATUS:
- 	case NAU8325_R09_IRQOUT ... NAU8325_R13_DAC_VOLUME:
- 	case NAU8325_R29_DAC_CTRL1 ... NAU8325_R2A_DAC_CTRL2:
-@@ -670,6 +670,12 @@ static void nau8325_reset_chip(struct regmap *regmap)
- 	regmap_write(regmap, NAU8325_R00_HARDWARE_RST, 0x0000);
- }
- 
-+static void nau8325_software_reset(struct regmap *regmap)
-+{
-+	regmap_write(regmap, NAU8325_R01_SOFTWARE_RST, 0x0000);
-+	regmap_write(regmap, NAU8325_R01_SOFTWARE_RST, 0x0000);
-+}
-+
- static void nau8325_init_regs(struct nau8325 *nau8325)
- {
- 	struct regmap *regmap = nau8325->regmap;
-@@ -856,6 +862,7 @@ static int nau8325_i2c_probe(struct i2c_client *i2c)
- 	nau8325_print_device_properties(nau8325);
- 
- 	nau8325_reset_chip(nau8325->regmap);
-+	nau8325_software_reset(nau8325->regmap);
- 	ret = regmap_read(nau8325->regmap, NAU8325_R02_DEVICE_ID, &value);
- 	if (ret) {
- 		dev_dbg(dev, "Failed to read device id (%d)", ret);
+Changes in v4:
+ - Corrected dt-binding compatibles (1/4)
+ - Reverted v3's change and made tas67524.c back to tas675x.c (2/4)
+ - Links to v3: https://lore.kernel.org/all/20260403050627.635591-1-sen@ti.com/
+
+Changes in v3:
+ - Renamed ALL tas675x filenames to tas67524, removed tas6754 compatible instance
+ - Changed pd-gpios to powerdown-gpios, cleanup unnessary .yaml formatting (1/4)
+ - Opt to use disable delayed_work and re-enable on runtime suspend/resume,
+ similarly, use disable/enable IRQ on system suspend/resume. (2/4)
+ - Include IRQ_NONE on ISR returns. (2/4)
+ - Clarify _check_faults() function which now returns need_clear boolean (2/4)
+ - Added register section (3/4)
+ - Added addintional notes: for clarification (3/4)
+ - Links to v2: https://lore.kernel.org/all/20260401223239.1638881-1-sen@ti.com/
+
+Changes in v2:
+ - Remove redundant DAPM event function (2/4)
+ - Move IRQ request past power_on, so regs can be set in a clean state (2/4)
+ - Add delayed_work at probe time to accomdate no PM configs (2/4)
+ - Change .set_fmt and .dapm_routes callbacks to the same tas675x_set_fmt name (2/4)
+ - Links to v1: https://lore.kernel.org/all/20260401024210.28542-1-sen@ti.com/
+
+Sen Wang (4):
+  ASoC: dt-bindings: Add ti,tas67524
+  ASoC: codecs: Add TAS67524 quad-channel audio amplifier driver
+  Documentation: sound: Add TAS675x codec mixer controls documentation
+  MAINTAINERS: add entry for TAS67524 audio amplifier
+
+ .../bindings/sound/ti,tas67524.yaml           |  280 +++
+ Documentation/sound/codecs/index.rst          |    1 +
+ Documentation/sound/codecs/tas675x.rst        |  686 ++++++
+ MAINTAINERS                                   |    4 +
+ sound/soc/codecs/Kconfig                      |   11 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/tas675x.c                    | 2172 +++++++++++++++++
+ sound/soc/codecs/tas675x.h                    |  367 +++
+ 8 files changed, 3523 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,tas67524.yaml
+ create mode 100644 Documentation/sound/codecs/tas675x.rst
+ create mode 100644 sound/soc/codecs/tas675x.c
+ create mode 100644 sound/soc/codecs/tas675x.h
+
 -- 
-2.25.1
+2.43.0
 
