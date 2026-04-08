@@ -1,171 +1,714 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010026.outbound.protection.outlook.com [52.101.228.26])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C8F365A0B;
-	Wed,  8 Apr 2026 06:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775630030; cv=fail; b=phU0J59dW+DVAfz7FJwx79QK4WpW6C7j5aLiJW9icYPUcJXljrjcu4QyM32Tp2FAN2HJVbxy/sYMxoSRutQ719ZWqDHBzmCW9Qq8Qv/LSF7iywIuugng7OaOeJuTdt6Y3cMah5zK2YJCXDB3KaMmWXqjrZpbVkIUNTvjshgR3QM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775630030; c=relaxed/simple;
-	bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=MQ4guaqAK3XCFjPTc3BYzfp9WyFBhmw043qWUeTOdhqcmylXRBJChFHEapOvOngmNCNkKsKntOdml+rzB3GRvN6+m30mTUP81vD1XiGT4fUfjEFUm4/ePqVL7adEB8NpXUB18opWRoEys/jAZbejfQ/QjZfnOg11vIQOlOxeYuY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Z/93l7r2; arc=fail smtp.client-ip=52.101.228.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D2F2D0C63
+	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 07:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775631839; cv=none; b=PgMfzLe7SN8BXONUiGx6E+fOHKjYahU816bB5lDCCHFGkrqW1ktTNlKnTooLVsCXuxf/jj22vPx3yf3w/2RtE/aKuF2auzuRY/Sfv+YvGpfsP3kPtzgnDKyulwa1os6lVttgiIdn44UIIm25GhWVN/vC5u5C0lovErcocF7oGJg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775631839; c=relaxed/simple;
+	bh=9sxrE/9ciloC5qu+7WAYpabUVmcV9PJT3k9Tg/e5fhI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aJvLE3zc7e8dXT4iDAdvHGmx+8ssajkqYziJyZJRAakCIj6jhFI9g6/1AYn093Zeq1lnPbbjhWFXc9wWgP3iQL1ddSsLpaWF0TPO9GUyGBJbkbaCh9gl/KVVYIlT/V8ieB+m0AXPdClPwJ/U6qZ6Nuj9AvIs6w/9+4e2epBigmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TbjumYaP; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Z/93l7r2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YHFT1i3LZpx4MCKZChlPHaIqUtqmxnLodfO06NQ9yJoxQhaLhNupdEOp6gE5HxlWkRgi/EVibBIYUM28uz23bvgH7s1UvZ9TYbD3Y3CXJx+KUjRwVLKJHRGN+Idpr0Dz7iChBr1xq2f3yHzpghjlwrQ1SPuH0g8uqbb/GfgTYqFc7ktdmstwfO+bsnh9ud45iR7Em2ITtXUCStFAcq/IAmg6v19oe/NhVIfgaa5fbXzR3QYjFiTnpn5kBXWO8dqWzFxFlN04akldUvl1KT5KPXs+RBla9GyS/s5KF2TNnhv4w+8FMgk2guj73VEu/L8igcCf5TNxCs9uX0YN1zW7JQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
- b=NH+Ya00xbl1WcYJq+JbC/9G9uS9AKHEe5pGYofUzX4pyUtsSLyznQSbMSlnms/c7rCudh7B9f5lLsBoey6bhL5I5mx8rPOqG4/LVHkG/iGT5UUmOvHLKQ0XiVFpPYxN42WphaUKoYAk526nqbq8yglwVa/7hJIsOY25XhIaLEn8JNKMRSkT66RN/n6Q69hlfU1cpWrezYe1wro7hdbmt/MeLn6jO8EzPIDKkfCYvv6SvuJFyjPZ7zHMfnDLw32E7/qQ6d9K0RmRat+2slY5MDtbhdQ1ROA9DfBxQ1Rs5YGv0vzT5ljnsrF/eiLad8CtAMky59Ppmf4hBrEAVbtTPoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
- b=Z/93l7r2OM85ZCu8guhtZHSEEMdFLyJE3dlnCaXJwPumVmPi6+p+4E6lidIu2vT2LjmhYKzwtdBQr4VJqUVZUEzJWxBCcjnkicGySVV9g6CsJ9Vuu4e7UZdL6Z49G3w1LXapFRd2V0xbsV9ucp8cjNuA/1gZs6gsTdoRtNj+qUE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYWPR01MB10113.jpnprd01.prod.outlook.com (2603:1096:400:1e5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
- 2026 06:33:37 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Wed, 8 Apr 2026
- 06:33:37 +0000
-Message-ID: <87fr56vu4f.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
-In-Reply-To: <CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
-References: <20260403112655.167593-1-phucduc.bui@gmail.com>
-	<20260403112655.167593-4-phucduc.bui@gmail.com>
-	<87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
-	<CAABR9nGUyTkDmB0SgKAuM1Pp75L=m1q4bLSfhobm98TswDnt8w@mail.gmail.com>
-	<87a4vfu0mz.wl-kuninori.morimoto.gx@renesas.com>
-	<CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 8 Apr 2026 06:33:37 +0000
-X-ClientProxiedBy: TYWP286CA0022.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:262::8) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TbjumYaP"
+Message-ID: <708d8985-313a-4096-ac59-26e9d3088637@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775631834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qt/0rp23m8+nnDdqp8A5R2uoQEWr9iSqRSSSl++5fDg=;
+	b=TbjumYaP+xzeQd1gwvC0zKbGBzfsfYfj3Aij1f0fZk2zJjEq1JYsHMRr5RQLwqZPWl0NjG
+	AYh9ReKr/i7KyD75hfbIe2sKwNqT3cDiYmhme74F0VDsGSwTDNAutewlBHr/7ZPbseIgbw
+	bx+BtSNuYNHzdcqFtr9kIhfnKND3Gcc=
+Date: Wed, 8 Apr 2026 08:43:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYWPR01MB10113:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7efa1542-7c10-4831-2a66-08de9538c401
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	nRx8vQOXSrSvankNGafIfisGsmukSbafuL2H+C/2SnScJ08zF77sJm+gvWJTlFzUmfs91X8VZ8oQwsuItodybLvcOMeAIcNBVIoRYUXDHqHnxPzxODM2ZZqQ27BAtfFe9n01nGdyFSGD5Anc+F9Lntz38S9LJ859C/VhD4b/dEQz7Z08b0nojStRnavlAY0c6mqbnVAkGAL9xLNqx88Y6e/W6AVZsZYkKzneDD/BTwge5PaBfODPeBIKbQWTup4B6rUEKXljUimsfdDV51l/7q6gbH3O2vll37Grjb/RNdz2lMlZTuFo1shRnZV1BYSVr2lvHyvmvn3aBFPUPWS9ygr1NzBAHaYxvUJO2C+r9EbzM7NknuMcA48lmThP8Cd3VwoPapJik/mFP5SHBDYuuNFBhe+d/ODCxfHatQnyUXZxrItHcAgYiKvBKDFGlSmJ33LiI81JUQwp2d2NYLCOjk56JM9ftRZaf0O8s6ZR+FdcTgT7HpdtLyjldo46dIKtCJ8v1Sxw+oMrWumnDCDcICXYDa+XpC4LkY3bJar9/L6Q/+hLAmXwKX6Guknx0d5m5NEpQj29tfuQtOi4DvsvBbUYhBVYJtSIoXrbzw/6rWgQwEawCVyhTXIHimbuRakyYO4nPsrh2VoGn/jD7mEW9fOF+3W344Ka/azXQNEcmTip400yB+0rYPjR8g+ZauBUE0rOTVIIHK7QFYbOsCs9RkSjEoNNv2WcKiMMyjCgXSYG+C9Z+IbX18cJcV0n2LOk
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-7?Q?A3epAOyvqpCMf77eOfu/COwPgdfxyi+qfkOXXk4fpzZIS2lFRntKBrbUQH?=
- =?iso-8859-7?Q?ZjipBXhnovdxXZevLPWkM9IPadBvHe2+7IBMjIqRv7+buv3tz49I2tEHKf?=
- =?iso-8859-7?Q?bWyIkPeRJYiF9CeB/tEa18Cb9Y73jTiV2VcoVsqw70/MtB5L1IPsf67yLq?=
- =?iso-8859-7?Q?y7U9/xCkNoBJsBWvP7H7IbXO9YAWN2Km9XN0GgN7t7Tk6LAnxxpEv6fz/2?=
- =?iso-8859-7?Q?3OmXKL44fdwAPD9QcpdSDKG6z2bmI3fqR+FKtQbMOeyLJqAG3HKi37i/Ui?=
- =?iso-8859-7?Q?6gFBPCa8t1oczKbj9MmFnAZXczqelR98+A+vfP2gwJod2IEkth50bhPWi+?=
- =?iso-8859-7?Q?dxFpzxXm3nZMqu3+iAsHWQjKNPjGM3IH0XnD9uPd0XreBz4yhI9qXXL/Lg?=
- =?iso-8859-7?Q?d88s+Oqso8nN/A4hiBiwlTVSqqwuCt/kRz50z0i5dZxcnQNnZawd8De/Cg?=
- =?iso-8859-7?Q?BX2w2W/oJRmaguuuJ96uqB7/E3l8JufmQpiOCq7m/5WTNyl98p3Vb0kkWM?=
- =?iso-8859-7?Q?NrS4AH8OdWmQRjihvZ3bvSs/2G52yySRMDvWfkK8fQiVhAVIhpYujuGRM9?=
- =?iso-8859-7?Q?0nI3MHsj/tlZQWgnuq9y6Zast2tCf+TLHBH7++LvZnyhZchy84V55eJfhu?=
- =?iso-8859-7?Q?0h7FiFbUEcI3iJCQ8gMAr2qDlfqwt4NBbFtlnyDgyaMpaehNRn8O+fUv6f?=
- =?iso-8859-7?Q?tg7XXeO0ajqvyOT9MVLv9i8WpscIwphj+OSib0hgZaVqgkqZNB134hIqnD?=
- =?iso-8859-7?Q?PcDRgtzWHym2KoLiuaON8dRrQ2KIrNDurZVO05miZz5LWtDFrYjdnUzcQg?=
- =?iso-8859-7?Q?PQU37cIbJevKPIEHr+ujKCqmU1gKH/VSMqEHTEoiT2rImaI0IVxglPVBQg?=
- =?iso-8859-7?Q?p40HP6qjmjQe+bYcG9WzXBFmuBF0uSROU7vH+f9GGJOFlMLUOfA6so057U?=
- =?iso-8859-7?Q?NiXZ07s/onU0zuA6gdwNfADwnVveb8Ud3oyIHKU/+wVlsPxxPgbWQrTsRP?=
- =?iso-8859-7?Q?bWzUr/ifhZ1wNbBMcRHgmYmrs9YCSGWdkYYcpwgq4MVvjR7iqRai+sm6Ou?=
- =?iso-8859-7?Q?vIaTp45LIGYlat+ZnN9XOIFI0aaxCWLwLcREPAMVe28gtdnMbWUC0E0jyp?=
- =?iso-8859-7?Q?a4Ic2QzIYmqojqlapHkQsdOS7yyUWVCdpxB/qS6GGa2PeJkLqy4Obwx59U?=
- =?iso-8859-7?Q?zhJ087+XcNgX0d8UmQGJd+2w5D+Eifw0TFe8xTNDtn9c3jYVvMoaqqbzSP?=
- =?iso-8859-7?Q?sW4wU+u7RBplFjWdyKyG9PcwiuskMAVtYEzf5gUtANQc6WjmVsDv+xmxWv?=
- =?iso-8859-7?Q?8/tT0YNM7IYLY4sDgNEOsicuM4jyeRE7ukqOYz2xmxdNeo4Zk/VcAvXj0N?=
- =?iso-8859-7?Q?+limS58rClhRj+G1RFxFh+kzbezXCERD32b28QIj3ITQ1MRPTBMbVSdghW?=
- =?iso-8859-7?Q?GXulg1W0+9Ixz7oiGNjldz3SHtrfuvL78EvGuUgj0dM6VqkXr5A31M+nn0?=
- =?iso-8859-7?Q?sWpxLUv57VZLe0G0+E2OyXkq4m62OIWzdw9x6i1opkm6hiF6fp+DCM6oKT?=
- =?iso-8859-7?Q?ULWva7q0PkNcNQi14kSvJXQ1T+wOep+mRIM5TsRY9jvs9zg/6xDn0aBVX4?=
- =?iso-8859-7?Q?290TeNbOy1OVN0fl6jBlcjlg05/UwyPcO2QwD+nG5amDA0f64nf1YDy22p?=
- =?iso-8859-7?Q?lRQZQvaqHo95nPVTp9ZgNoQ82cS7t1gMHtz6tA/ZGqJmxxH5Ynke2jrOPa?=
- =?iso-8859-7?Q?Cjzt34vorgPDP5zlfMpQTZDjh0Ip/GVL7mFIPRshsfaxgySsqb9j6Bup6u?=
- =?iso-8859-7?Q?iuw0KLYK3Fl44TN/R7o1OZ79nbPNlaZAnreU+vv6RnsRGMsh7/mT?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7efa1542-7c10-4831-2a66-08de9538c401
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 06:33:37.4330
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0SvCdiLeskcHRQmfs4UrQFf9Bx+fFR5xHPqD1baaGkiSN4zQzw12Xs4vqmTL1xxK9xq9cbk7ITn6Te+lrI8vC3ajGTWbE5302TKu9lFOLyMbdk/5F8vpgILJtmbZrRfx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10113
+Subject: Re: [PATCH v5 3/5] ASoC: es9356-sdca: Add ES9356 SDCA driver
+To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
+ ckeepax@opensource.cirrus.com
+References: <20260407100105.123041-1-zhangyi@everest-semi.com>
+ <20260407100105.123041-4-zhangyi@everest-semi.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260407100105.123041-4-zhangyi@everest-semi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-Hi Bui, Geert
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index ca3e47db1..5953a6131 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -122,6 +122,7 @@ config SND_SOC_ALL_CODECS
+>  	imply SND_SOC_ES8328_I2C
+>  	imply SND_SOC_ES8375
+>  	imply SND_SOC_ES8389
+> +	imply SND_SOC_ES9356
+>  	imply SND_SOC_ES7134
+>  	imply SND_SOC_ES7241
+>  	imply SND_SOC_FRAMER
+> @@ -1300,6 +1301,12 @@ config SND_SOC_ES8389
+>  	tristate "Everest Semi ES8389 CODEC"
+>  	depends on I2C
+>  
+> +config SND_SOC_ES9356
+> +        tristate "Everest Semi ES9356 CODEC SDW"
+> +        depends on SOUNDWIRE
+> +        select REGMAP_SOUNDWIRE
+> +	select REGMAP_SOUNDWIRE_MBQ
+> +
 
-> > Hmm... fsi_dai_trigger() seems strange.
-> > It seems (A) stops clock, and (B) sets register after that.
-> > Is this the reason why you get error ? I think (A) and (B) should be
-> > reversed. The balance between SNDRV_PCM_TRIGGER_START, and with
-> > __fsi_suspend() are also not good.
-> > If so, can you use hw_start/stop() ?
->=20
-> Thank you for the guidance. After reordering the sequence and moving the
-> SPU power control to fsi_hw_start/shutdown, the system hang is now resolv=
-ed.
+indentation on last select seems off
 
-Nice !
 
-> By the way, I=A2d like to discuss the fsidiv clock handling.
-> In the legacy implementation, it was handled here:
-> https://elixir.bootlin.com/linux/v7.0-rc7/source/drivers/sh/clk/cpg.c.
-> Currently, this has not been ported to the Common Clock Framework (CCF) f=
-or
-> R8A7740, and it resides in a different register range from the core CPG.
-> For v2, would you prefer that I implement a small clock provider for
-> fsidiv within
-> the FSI driver, or should it be added under drivers/clk/renesas/?
+> +static int es9356_sdca_pde_event(struct snd_soc_dapm_widget *w,
+> +	struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component =
+> +		snd_soc_dapm_to_component(w->dapm);
+> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
+> +	unsigned char ps0 = 0x0, ps3 = 0x3;
+> +
+> +	switch (event) {
+> +	case SND_SOC_DAPM_POST_PMU:
+> +		regmap_write(es9356->regmap, w->reg, ps0);
+> +		es9356_pde_transition_delay(es9356, SDW_SDCA_CTL_FUNC(w->reg), SDW_SDCA_CTL_ENT(w->reg), ps0);
+> +		pm_runtime_mark_last_busy(&es9356->slave->dev);
 
-I think it should be under drivers/clk/renesas, but Geert ?
+You mark the device as last_busy when powering up?
 
-Thank you for your help !!
+> +		break;
+> +	case SND_SOC_DAPM_PRE_PMD:
+> +		regmap_write(es9356->regmap, w->reg, ps3);
+> +		es9356_pde_transition_delay(es9356, SDW_SDCA_CTL_FUNC(w->reg), SDW_SDCA_CTL_ENT(w->reg), ps3);
 
-Best regards
----
-Kuninori Morimoto
+but not when powering down?
+
+Since your device has multiple functions, you also need to track which functions are active. It's easier with one subdevice per function, so that the runtime_pm core keeps track of all children devices. If you have a monolithic driver for multiple functions, you will have to reinvent the wheel with refcounts, etc.
+
+How difficult would it be to follow the infrastructure introduced by Cirrus Logic for SDCA codecs, and split this driver in multiple functions?
+
+> +		break;
+> +	}
+> +	return 0;
+> +}
+
+> +static void es9356_sdca_jack_init(struct es9356_sdw_priv *es9356)
+> +{
+> +	mutex_lock(&es9356->jack_lock);
+> +
+> +	if (es9356->hs_jack) {
+> +		sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_7);
+> +		sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1,
+> +			(SDW_SCP_SDCA_INTMASK_SDCA_7 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_1));
+> +	}
+> +
+> +	mutex_unlock(&es9356->jack_lock);
+
+you should explain what this jack_lock protects and what sort of race condition can happen. I don't recall seeing this before?
+
+
+> +static int es9356_sdca_button(unsigned int *buffer)
+> +{
+> +	static int cur_button;
+> +
+> +	if (*(buffer + 1) | *(buffer + 2))
+> +		return -EINVAL;
+> +	switch (*buffer) {
+> +	case 0x00:
+> +		cur_button = 0;
+> +		break;
+> +	case 0x20:
+> +		cur_button = SND_JACK_BTN_5;
+> +		break;
+> +	case 0x10:
+> +		cur_button = SND_JACK_BTN_3;
+> +		break;
+> +	case 0x08:
+> +		cur_button = SND_JACK_BTN_2;
+> +		break;
+> +	case 0x02:
+> +		cur_button = SND_JACK_BTN_4;
+> +		break;
+> +	case 0x01:
+> +		cur_button = SND_JACK_BTN_0;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+
+where is BTN_1 handled? you listed it in patch1
+
++	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
++					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
++					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
++					 SND_JACK_BTN_3 | SND_JACK_BTN_4 |
++					 SND_JACK_BTN_5,
+
+
+
+
+> +static void es9356_jack_detect_handler(struct work_struct *work)
+> +{
+> +	struct es9356_sdw_priv *es9356 =
+> +		container_of(work, struct es9356_sdw_priv, jack_detect_work.work);
+> +	int ret, btn_type = 0;
+> +
+> +	if (!es9356->hs_jack)
+> +		return;
+> +
+> +	if (!es9356->component->card || !es9356->component->card->instantiated)
+> +		return;
+> +
+> +	if (es9356->sdca_status & SDW_SCP_SDCA_INT_SDCA_7) {
+> +		btn_type = es9356_sdca_button_detect(es9356);
+> +		if (btn_type < 0)
+> +			return;
+
+I don't fully understand why you deal with buttons in a jack_detect handler, when you have a button_handler below?
+
+> +	} else {
+> +		ret = es9356_sdca_headset_detect(es9356);
+> +		if (ret < 0)
+> +			return;
+> +	}
+> +
+> +	if (es9356->jack_type != SND_JACK_HEADSET)
+> +		btn_type = 0;
+> +
+> +	snd_soc_jack_report(es9356->hs_jack, es9356->jack_type | btn_type,
+> +			SND_JACK_HEADSET |
+> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
+
+BTN1 here as well
+
+> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
+> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
+> +
+> +	if (btn_type) {
+> +		snd_soc_jack_report(es9356->hs_jack, es9356->jack_type,
+> +			SND_JACK_HEADSET |
+> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
+
+and here
+
+> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
+> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
+> +		mod_delayed_work(system_power_efficient_wq,
+> +			&es9356->button_detect_work, msecs_to_jiffies(280));
+> +	}
+> +}
+> +
+> +static void es9356_button_detect_handler(struct work_struct *work)
+> +{
+> +	struct es9356_sdw_priv *es9356 =
+> +		container_of(work, struct es9356_sdw_priv, button_detect_work.work);
+> +	unsigned int reg, offset;
+> +	int ret, idx, btn_type = 0;
+> +	unsigned int button[3];
+> +
+> +	ret = regmap_read(es9356->regmap,
+> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0), &reg);
+> +
+> +	if (ret < 0)
+> +		goto io_error;
+> +
+> +	if (reg == 0x04) {
+> +		ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID, &offset);
+> +		if (ret < 0)
+> +			goto io_error;
+> +		for (idx = 0; idx < ARRAY_SIZE(button); idx++) {
+> +			ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID + offset + idx, &reg);
+> +			if (ret < 0)
+> +				goto io_error;
+> +			button[idx] = reg;
+> +		}
+> +		btn_type = es9356_sdca_button(&button[0]);
+> +	}
+> +
+> +	snd_soc_jack_report(es9356->hs_jack, es9356->jack_type | btn_type,
+> +			SND_JACK_HEADSET |
+> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
+> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
+> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
+> +
+> +	if (btn_type) {
+> +		snd_soc_jack_report(es9356->hs_jack, es9356->jack_type,
+> +			SND_JACK_HEADSET |
+> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
+> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
+> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
+> +		mod_delayed_work(system_power_efficient_wq,
+> +			&es9356->button_detect_work, msecs_to_jiffies(280));
+> +	}
+> +
+> +	return;
+> +io_error:
+> +	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
+> +}
+> +
+> +static int es9356_sdw_pcm_hw_params(struct snd_pcm_substream *substream,
+> +				    struct snd_pcm_hw_params *params,
+> +				    struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_component *component = dai->component;
+> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
+> +	struct sdw_stream_config stream_config = {0};
+> +	struct sdw_port_config port_config = {0};
+> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+> +	int ret;
+> +	unsigned int rate;
+> +
+> +	if (!sdw_stream)
+> +		return -EINVAL;
+> +
+> +	if (!es9356->slave)
+> +		return -EINVAL;
+> +
+> +	/* SoundWire specific configuration */
+> +	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
+> +
+> +	port_config.num = dai->id;
+> +
+> +	ret = sdw_stream_add_slave(es9356->slave, &stream_config,
+> +				   &port_config, 1, sdw_stream);
+> +	if (ret) {
+> +		dev_err(dai->dev, "Unable to configure port\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (params_rate(params)) {
+> +	case 16000:
+> +		rate = ES9356_SDCA_RATE_16000HZ;
+> +		break;
+> +	case 44100:
+> +		rate = ES9356_SDCA_RATE_44100HZ;
+> +		break;
+> +	case 48000:
+> +		rate = ES9356_SDCA_RATE_48000HZ;
+> +		break;
+> +	case 96000:
+> +		rate = ES9356_SDCA_RATE_96000HZ;
+> +		break;
+> +	default:
+> +		dev_err(component->dev, "%s: Rate %d is not supported\n",
+> +			__func__, params_rate(params));
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (dai->id == ES9356_DMIC)
+> +		regmap_write(es9356->regmap,
+> +			SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_CS113, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
+> +	if (dai->id == ES9356_AMP)
+> +		regmap_write(es9356->regmap,
+> +			SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_CS21, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
+> +	if ((dai->id == ES9356_JACK_IN) | (dai->id == ES9356_JACK_OUT)) {
+> +		regmap_write(es9356->regmap,
+> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_CS41, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
+> +		regmap_write(es9356->regmap,
+> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_CS36, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
+
+this is interesting, in theory SoundWire allows input and output to use different sampling frequencies?
+dais are usually one direction only, shouldn't the clock be set only for the specific dai?
+
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int es9356_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
+> +				  struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_component *component = dai->component;
+> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
+> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+> +
+> +	if (!es9356->slave)
+> +		return -EINVAL;
+> +
+> +	sdw_stream_remove_slave(es9356->slave, sdw_stream);
+> +	return 0;
+> +}
+> +
+> +static const struct snd_soc_dai_ops es9356_sdw_ops = {
+> +	.hw_params	= es9356_sdw_pcm_hw_params,
+> +	.hw_free	= es9356_sdw_pcm_hw_free,
+> +	.set_stream	= es9356_sdw_set_sdw_stream,
+> +	.shutdown	= es9356_sdw_shutdown,
+> +};
+> +
+> +static struct snd_soc_dai_driver es9356_sdw_dai[] = {
+> +	{
+> +		.name = "es9356-sdp-aif4",
+> +		.id = ES9356_DMIC,
+> +		.capture = {
+> +			.stream_name = "DP1 Capture",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +		},
+> +		.ops = &es9356_sdw_ops,
+> +	},
+> +	{
+> +		.name = "es9356-sdp-aif2",
+> +		.id = ES9356_JACK_IN,
+> +		.capture = {
+> +			.stream_name = "DP2 Capture",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +		},
+> +		.ops = &es9356_sdw_ops,
+> +	},
+> +	{
+> +		.name = "es9356-sdp-aif3",
+> +		.id = ES9356_AMP,
+> +		.playback = {
+> +			.stream_name = "DP3 Playback",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +		},
+> +		.ops = &es9356_sdw_ops,
+> +	},
+> +	{
+> +		.name = "es9356-sdp-aif1",
+> +		.id = ES9356_JACK_OUT,
+> +		.playback = {
+> +			.stream_name = "DP4 Playback",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +		},
+
+see my note above, jack_in and jack_out are seperate dais, so we shouldn't set handle their settings in the same way in hw_params.
+
+> +		.ops = &es9356_sdw_ops,
+> +	},
+> +};
+> +
+> +static int es9356_sdca_mbq_size(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
+> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
+> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
+> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU33, ES9356_SDCA_CTL_FU_CH_GAIN, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU11, ES9356_SDCA_CTL_FU_CH_GAIN, 0):
+> +		return 2;
+> +	default:
+> +		return 1;
+> +	}
+> +}
+> +
+> +static struct regmap_sdw_mbq_cfg es9356_mbq_config = {
+> +	.mbq_size = es9356_sdca_mbq_size,
+> +};
+> +
+> +static bool es9356_sdca_volatile_register(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case ES9356_BUF_ADDR_HID:
+> +	case ES9356_HID_BYTE2:
+> +	case ES9356_HID_BYTE3:
+> +	case ES9356_HID_BYTE4:
+> +	case SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_SELECTED_MODE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_PDE23, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_PDE23, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_PDE11, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_PDE11, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE47, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE47, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE34, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
+> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE34, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+> +	case ES9356_FLAGS_HP:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +
+> +static const struct regmap_config es9356_sdca_regmap = {
+> +	.reg_bits = 32,
+> +	.val_bits = 16,
+> +	.volatile_reg = es9356_sdca_volatile_register,
+> +	.max_register = 0x45ffffff,
+> +	.cache_type = REGCACHE_MAPLE,
+> +	.use_single_read = true,
+> +	.use_single_write = true,
+> +};
+> +
+> +static void es9356_regcache_sync_volume(struct device *dev, struct regmap *regmap)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(es9356_volume_register); i++) {
+> +		regcache_sync_region(regmap, es9356_volume_register[i],
+> +			es9356_volume_register[i]);
+> +	}
+> +}
+> +
+> +static void es9356_register_init(struct es9356_sdw_priv *es9356)
+> +{
+> +	regmap_write(es9356->regmap, ES9356_STATE, 0x02);
+> +	regmap_write(es9356->regmap, ES9356_ENDPOINT_MODE, 0x24);
+> +	regmap_write(es9356->regmap, ES9356_PRE_DIV_CTL, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_ADC_OSR, 0x18);
+> +	regmap_write(es9356->regmap, ES9356_ADC_OSRGAIN, 0x13);
+> +	regmap_write(es9356->regmap, ES9356_DAC_OSR, 0x16);
+> +	regmap_write(es9356->regmap, ES9356_CLK_CTL, 0x0f);
+> +	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x01);
+> +	regmap_write(es9356->regmap, ES9356_CLK_SEL, 0x30);
+> +
+> +	regmap_write(es9356->regmap, ES9356_DETCLK_CTL, 0x51);
+> +	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x10);
+> +	regmap_write(es9356->regmap, ES9356_MICBIAS_CTL, 0x10);
+> +	regmap_write(es9356->regmap, ES9356_HPDETECT_CTL, 0x07);
+> +	regmap_write(es9356->regmap, ES9356_ADC_ANA, 0x30);
+> +	regmap_write(es9356->regmap, ES9356_PGA_CTL, 0xa8);
+> +	regmap_write(es9356->regmap, ES9356_ADC_INT, 0xaa);
+> +	regmap_write(es9356->regmap, ES9356_ADC_LP, 0x19);
+> +	regmap_write(es9356->regmap, ES9356_VMID1SEL, 0xbc);
+> +	regmap_write(es9356->regmap, ES9356_VMID_TIME, 0x0b);
+> +	regmap_write(es9356->regmap, ES9356_STATE_TIME, 0xbb);
+> +	regmap_write(es9356->regmap, ES9356_HP_SPK_TIME, 0x77);
+> +	regmap_write(es9356->regmap, ES9356_HP_DETECTTIME, 0xa4);
+> +	regmap_write(es9356->regmap, ES9356_MICBIAS_SEL, 0x15);
+> +	regmap_write(es9356->regmap, ES9356_KEY_PRESS_TIME, 0xff);
+> +	regmap_write(es9356->regmap, ES9356_KEY_RELEASE_TIME, 0xff);
+> +	regmap_write(es9356->regmap, ES9356_KEY_HOLD_TIME, 0x0f);
+> +	regmap_write(es9356->regmap, ES9356_BTSEL_REF, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_KEYD_DETECT, 0x18);
+> +	regmap_write(es9356->regmap, ES9356_MICBIAS_RES, 0x03);
+> +	regmap_write(es9356->regmap, ES9356_BUTTON_CHARGE, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_CALIBRATION_TIME, 0x13);
+> +	regmap_write(es9356->regmap, ES9356_CALIBRATION_SETTING, 0xf4);
+> +
+> +	regmap_write(es9356->regmap, ES9356_SPK_VOLUME, 0x33);
+> +	regmap_write(es9356->regmap, ES9356_DAC_VROI, 0x01);
+> +	regmap_write(es9356->regmap, ES9356_DAC_LP, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_HP_IBIAS, 0x04);
+> +	regmap_write(es9356->regmap, ES9356_HP_LP, 0x03);
+> +	regmap_write(es9356->regmap, ES9356_SPKLDO_CTL, 0x65);
+> +	regmap_write(es9356->regmap, ES9356_SPKBIAS_COMP, 0x09);
+> +	regmap_write(es9356->regmap, ES9356_VMID1STL, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_VMID2STL, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_VSEL, 0xfc);
+> +
+> +	regmap_write(es9356->regmap, ES9356_IBIASGEN, 0x10);
+> +	regmap_write(es9356->regmap, ES9356_ADC_AMIC_CTL, 0x0d);
+> +	regmap_write(es9356->regmap, ES9356_STATE, 0x0e);
+> +	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x00);
+> +	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x08);
+> +
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
+> +
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
+> +
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
+> +
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
+> +}
+> +
+> +static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+> +{
+> +	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
+> +
+> +	if (es9356->hw_init)
+> +		return 0;
+> +
+> +	regcache_cache_only(es9356->regmap, false);
+> +
+> +	if (es9356->first_hw_init) {
+> +		regcache_cache_bypass(es9356->regmap, true);
+> +	} else {
+> +		/*
+> +		 * PM runtime is only enabled when a Slave reports as Attached
+> +		 */
+> +
+> +		/* set autosuspend parameters */
+> +		pm_runtime_set_autosuspend_delay(&slave->dev, 3000);
+> +		pm_runtime_use_autosuspend(&slave->dev);
+> +
+> +		/* update count of parent 'active' children */
+> +		pm_runtime_set_active(&slave->dev);
+> +
+> +		/* make sure the device does not suspend immediately */
+> +		pm_runtime_mark_last_busy(&slave->dev);
+> +
+> +		pm_runtime_enable(&slave->dev);
+> +
+> +		es9356_register_init(es9356);
+> +	}
+> +	pm_runtime_get_noresume(&slave->dev);
+> +
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_XU12, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_XU22, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_XU42, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_XU36, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
+> +	regmap_write(es9356->regmap,
+> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
+> +
+> +	if (es9356->first_hw_init) {
+> +		regcache_cache_bypass(es9356->regmap, false);
+> +		regcache_mark_dirty(es9356->regmap);
+> +	} else
+> +		es9356->first_hw_init = true;
+> +
+> +	es9356->hw_init = true;
+> +
+> +	pm_runtime_mark_last_busy(&slave->dev);
+> +	pm_runtime_put_autosuspend(&slave->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int es9356_sdw_update_status(struct sdw_slave *slave,
+> +				    enum sdw_slave_status status)
+> +{
+> +	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
+> +
+> +	if (status == SDW_SLAVE_UNATTACHED)
+> +		es9356->hw_init = false;
+> +
+> +	if (status == SDW_SLAVE_ATTACHED) {
+> +		if (es9356->hs_jack) {
+> +			sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_7);
+> +			sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1,
+> +			(SDW_SCP_SDCA_INTMASK_SDCA_7 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_1));
+
+I don't get why you have two writes in a row that will touch SDW_SCP_SDCA_INTMASK_SDCA_7?
+Is the first write required at all?
+
+> +		}
+> +	}
+> +
+> +	if (es9356->hw_init || status != SDW_SLAVE_ATTACHED)
+> +		return 0;
+> +
+> +	return es9356_sdca_io_init(&slave->dev, slave);
+> +}
+
+> +static int es9356_sdw_interrupt_callback(struct sdw_slave *slave,
+> +					 struct sdw_slave_intr_status *status)
+> +{
+> +	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
+> +	int ret, stat;
+> +	int count = 0, retry = 3;
+> +	unsigned int sdca_cascade, scp_sdca_stat1 = 0;
+> +
+> +	mutex_lock(&es9356->jack_lock);
+> +
+> +	ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
+> +	if (ret < 0)
+> +		goto io_error;
+> +	es9356->sdca_status = ret;
+> +
+> +	do {
+> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
+> +		if (ret < 0)
+> +			goto io_error;
+> +		if (ret & SDW_SCP_SDCA_INTMASK_SDCA_1) {
+> +			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
+> +				SDW_SCP_SDCA_INT_SDCA_1, SDW_SCP_SDCA_INT_SDCA_1);
+> +			if (ret < 0)
+> +				goto io_error;
+> +		}
+> +
+> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
+> +		if (ret < 0)
+> +			goto io_error;
+> +		if (ret & SDW_SCP_SDCA_INTMASK_SDCA_5) {
+> +			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
+> +				SDW_SCP_SDCA_INT_SDCA_5, SDW_SCP_SDCA_INT_SDCA_5);
+> +			if (ret < 0)
+> +				goto io_error;
+> +		}
+> +
+> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
+> +		if (ret < 0)
+> +			goto io_error;
+> +		if (ret & SDW_SCP_SDCA_INTMASK_SDCA_7) {
+> +			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
+> +				SDW_SCP_SDCA_INT_SDCA_7, SDW_SCP_SDCA_INT_SDCA_7);
+> +			if (ret < 0)
+> +				goto io_error;
+> +		}
+
+Humm, maybe this was inspired by existing code, but why are you reading the same SDCA_INT1 egister multiple times?
+You could do a single read, then keep track of the interrupts and one update for all 3 sources of interrupts.
+If there is an additional interrupt you detect it and loop once more.
+
+> +
+> +		ret = sdw_read_no_pm(es9356->slave, SDW_DP0_INT);
+> +		if (ret < 0)
+> +			goto io_error;
+> +		sdca_cascade = ret & SDW_DP0_SDCA_CASCADE;
+> +
+> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
+> +		if (ret < 0)
+> +			goto io_error;
+> +		scp_sdca_stat1 = ret & SDW_SCP_SDCA_INTMASK_SDCA_1;
+> +
+> +		stat = scp_sdca_stat1 || sdca_cascade;
+> +
+> +		count++;
+> +	} while (stat != 0 && count < retry);
+> +
+> +	if (status->sdca_cascade)
+> +		mod_delayed_work(system_power_efficient_wq,
+> +			&es9356->jack_detect_work, msecs_to_jiffies(280));
+
+why 280 ms? how did you determine this value, hardware or experiments?
+
+> +
+> +	mutex_unlock(&es9356->jack_lock);
+> +	return 0;
+> +
+> +io_error:
+> +	mutex_unlock(&es9356->jack_lock);
+> +	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
+> +	return ret;
+> +}
+
+> +
+> +#endif
+
