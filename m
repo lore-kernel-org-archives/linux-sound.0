@@ -1,368 +1,204 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011009.outbound.protection.outlook.com [52.101.62.9])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A883D171B;
-	Wed,  8 Apr 2026 14:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0670E3D300F
+	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 14:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775657317; cv=fail; b=NDhL14VkYJR1wMovO7NZrva40an7ebMrQJTQRP0EGKg0ctmt/DOBJOua4kdNBpdnqdBBQWcRu/0pYUHaoxDkr32+wPpJNN4qaFtxrP8RaYbX0IU/vJn+a4osC5FiUaMeRpPE6PWkhyt9RiDWmVrPiMLeIIf4RVX0vH4R3ADARmI=
+	t=1775657517; cv=fail; b=Iew2ny1iPtFVW8L+wRf+ODj6zf6V4t58q+4/tNANlYJ4btykvUWgMgJZfgT4RjI5o7bxB4SULEWywNiEdU/Kf3J+6xYVF9uaroWbdyPlxORuqm1u0x8Y3qGwkH62ORNDnBM91+KkdpUMZbiYjCZyaHGpzObs+rUGeof4rKd66PY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775657317; c=relaxed/simple;
-	bh=49aiw3v80l6WyZL/DQHUolefx+4KnepQsjetQ6htcpw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jUGwFzZTKw80z4b8GAJJTFGKlRc/itoWe9fYZvv+FJvHHrVOlcqWldmBVoZWl41u3rYIWbBrwSkneMxcrbRq/ir9gk7KsnkdBIHFuECrXZ5DHFnwCs2NmkC7ySJ2uKCMdTQINWJ/ZUkYSjFgo8ymvvtkOV2WpmGCc7Aa2iQnYPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Nez0Ugm2; arc=fail smtp.client-ip=52.101.62.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1775657517; c=relaxed/simple;
+	bh=+hQzf/WCqVDpbAvR3yZJkHMl2p5cQrKfTYryp2GaFMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=da/DTAboOT5bH3stl1lIEYJpMahNxAQXkPz0eHrcu7D5KKKA143J+kTUieMdF80j+Du1BJUBvlncGMCFBoqGLzHi0sBfFYNCBxZRtQCZzftS+7pBRmyKYX/lv9fV8pQ0zRdhxo71EiYx8KkTpyUzpPkhbcT1T6WOgaPF6I4c4mo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pWKPqYRc; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=o0JgYdQt; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Nez0Ugm2"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pWKPqYRc";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="o0JgYdQt"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6384eUas683500;
+	Wed, 8 Apr 2026 09:11:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=cXtzpnKUzbdYTgORtf
+	QiP3QKTEv9Jl1vlFDT3Z+2FnQ=; b=pWKPqYRcHzCYvqmpdQzTQkp8pb6u2d10FH
+	gs8mgJ8vzslLXc/FvTJiCsG8glAKv0xt0jVPeZykEAPHUxwMdB9/emKCtaYbupoY
+	hcPzCwJZBK5hgAdJEpwDfSqbjcXSUReqULReM1n+J/OBysNL736JTLI+yZXo3rHb
+	BcD4n4D7dYCquStrJso9sCALcb+55Xk5OpI+PhkfJyIeiFoPO8s8YOxtg4mMlQQI
+	HyXKdzM9fZ7hQVsg7s/6r/bFnau6rKWU5REFGXqWCcpyQpEZQhJHd77pewiG6jJq
+	q0c9KA5sDGJrtjbyPSivHsWPriH/Z0PZS2eIgqgiD9QdPtzWV0tg==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021102.outbound.protection.outlook.com [52.101.57.102])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dcmr7jcnu-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 09:11:17 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XG0snVFftXilu9jfg+/sW5mgnrbQY1okVIjjr2KC421ZObAd0BPi+nWUnyNj/YTrprUTsxZ9bhehA4B8S/vWt09Ej39pFjpV9JB7WgNz+472iYqHon+ZvZe9FbtSNFTPKJjjiMRPcRqews0rthCDUqbRfWEu7e9ncHVpuq1lBVDwL7HTI5xq+A3+TG+uG0+LyTsaWifOmmJOqVe9JMgkdcIoxUnJmepksRmx9ZilarkKLnQ6QQAxfFokqjmY63nru1kEhtAlrvisdMWAf6omvtGTGjRNzS3+t2Ru2/jyrVBmP22rl6U55I9qn3BS9RxAhdbnzbowmf1HmQfukdeK9Q==
+ b=If5saHSRtbsn4YtI2iGBJaJ2wpcYZvUjr5ZsUres4H2kgyKuz85xUT+g3pzvTEhYrcwEP9Gz0Yvjb7/Sl3iK661tZuDRV7hkoZdezboYo7WAHvKB3sTaTUsC+glp9dOnauG3oNECtzM2/n/dRhYHbpAl0UUOCFHCqRx+t0A+sWtodWqornGR8dnnGEdSxn/g5AcwLB+/Ce8jkgaUOG5e/sagH2gj6xvYiRyZfKu4T34oD5wZGG7rOKoWpOW76EH/Eh2zlaI/TKX+5vwXohOsCrVFmOKEOTPkzM+zcWrNlLgXQIk7zfgGQiukfT1TZTtuJSLmNCvuAsucvCgiW7oDOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=frd3buDo5GZY9CsQyNzjc9m4ia4Ih18f+W+WQ0q9erU=;
- b=CmoHIh0zhjwKTpZtTs8XsQiBeGd+x1ZLEepOQf1BhW3nucWl0u8xZlCnOYYHN+fEvRAdomkEvrugtu37bh5I7DNYO3SZS2Pcg1Tj9MV37jAM/78ac5CFJW+q9ItTGTu/6G1WNKgyYmXEfktMB9N9erkIQ4MHt97gBBJ4HMbniOg3bfYwNyGp01LYoLMB0NBnKVdXvlaTAEOcrmWX0+NzLieM4WX8EUtSLQUHcYLJPwxKuDHIgGy1HC6wQNb4OHVutd+Pzw36v/DzyoIbAQEZcOa+sZ4AL+xSkhZKzsQpF/56Y7Rgcwl/wYqwGjmhrp2D+r4mlO/HT39fQqHT7WfLyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=cXtzpnKUzbdYTgORtfQiP3QKTEv9Jl1vlFDT3Z+2FnQ=;
+ b=jDXNLSfZPVSWIR7EVV7jp4DK55aRUigvQ8XcELA/LBwCa6iCk65XJsssjiSH/5QeTFiZcYBkryXqy7ByxY9qH0WofJlmRo2hYC65rlgcsUe44HawYXn+cjoElAVkrROAjP49yNB86Bk+Bp6uTEaoSio+3JZMN7xqSnfW1srRrTCDUsRKWAyNHNf7dQdphgxwP/1c7HpGKd7TJgATVwNfZ1U9X2o/kZhNcL1OzCN5Pkd+8ztTPqCdoHqClwVLomZSnoEVc2zeSXR009l+Trw4cEp3eaMZasjvdOVkPpp1oa/qGGVnBXtgEsNNgXcxlZdYedCzOPjrDwqC3XSC2sq5oA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=frd3buDo5GZY9CsQyNzjc9m4ia4Ih18f+W+WQ0q9erU=;
- b=Nez0Ugm2WmUyEZLlfVxDkDhugYuNbSQlQgJ5kP3CxTFzjvZSrvyAoOfkisBcoQsXUUfxJiYL8EyWVJij7L3Pm1iFkzM6hOdztctNQj9DxepIA14IDW5xSjeJL+jpn/zFzE5GBwIj2aM9JrhnVyxTQd8LjRclNcEaQnuR4K0Baw5l4v8iO5eBaF1vqohwG++2CpevtFjOj5gedsKfNig7Ueg5HDwNwwIlXTAMGT8G/ZndtFW/e7N1XwVrQmNmEYQeu8cRCblt8H7AenGJv8cIiG4QV9/RalfreMXXLRaytY7EV2SmB9KDZHXLHNu9qs+BaQ69bETFbrzOTzBNanzCOQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DSSPR12MB999212.namprd12.prod.outlook.com (2603:10b6:8:376::11)
- by IA0PR12MB7627.namprd12.prod.outlook.com (2603:10b6:208:437::12) with
+ bh=cXtzpnKUzbdYTgORtfQiP3QKTEv9Jl1vlFDT3Z+2FnQ=;
+ b=o0JgYdQt9anqaXjBrTsywsw9kW7U6hTaK70v41dxVvZxG2LIpk8d/TGHhi+9mjbyInjE7uqldB8j+kWkhPfHiOFRzEBIEiKiDT4jvLSPxT2qR56M5PV2LvlFDaf87EfvxvSHTGzBdZ3jOOL7AcNyO9qCjF8BFNJ6h5Tg66ZkpfM=
+Received: from CH0PR03CA0315.namprd03.prod.outlook.com (2603:10b6:610:118::15)
+ by SA3PR19MB9598.namprd19.prod.outlook.com (2603:10b6:806:494::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Wed, 8 Apr
- 2026 14:08:28 +0000
-Received: from DSSPR12MB999212.namprd12.prod.outlook.com
- ([fe80::5e39:8f96:935a:87ba]) by DSSPR12MB999212.namprd12.prod.outlook.com
- ([fe80::5e39:8f96:935a:87ba%3]) with mapi id 15.20.9769.015; Wed, 8 Apr 2026
- 14:08:28 +0000
-Message-ID: <e3bf5a0c-25dd-4920-bb00-7557989e043f@nvidia.com>
-Date: Wed, 8 Apr 2026 19:38:18 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: tegra210_amx: simplify byte map get/put logic
-To: Piyush Patle <piyushpatle228@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260407170308.100238-1-piyushpatle228@gmail.com>
- <20260407170308.100238-3-piyushpatle228@gmail.com>
-Content-Language: en-US
-From: "Sheetal ." <sheetal@nvidia.com>
-In-Reply-To: <20260407170308.100238-3-piyushpatle228@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0156.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1ac::6) To DSSPR12MB999212.namprd12.prod.outlook.com
- (2603:10b6:8:376::11)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Wed, 8 Apr
+ 2026 14:11:15 +0000
+Received: from CH3PEPF0000000C.namprd04.prod.outlook.com
+ (2603:10b6:610:118:cafe::37) by CH0PR03CA0315.outlook.office365.com
+ (2603:10b6:610:118::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.32 via Frontend Transport; Wed,
+ 8 Apr 2026 14:11:15 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH3PEPF0000000C.mail.protection.outlook.com (10.167.244.39) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.17
+ via Frontend Transport; Wed, 8 Apr 2026 14:11:14 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 6C9E2406540;
+	Wed,  8 Apr 2026 14:11:13 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5462082024A;
+	Wed,  8 Apr 2026 14:11:13 +0000 (UTC)
+Date: Wed, 8 Apr 2026 15:11:12 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 3/5] ASoC: SDCA: Fix cleanup inversion in class driver
+Message-ID: <adZiAB8MuYFO2ODE@opensource.cirrus.com>
+References: <20260408093835.2881486-1-ckeepax@opensource.cirrus.com>
+ <20260408093835.2881486-4-ckeepax@opensource.cirrus.com>
+ <a4ddbfa3-127b-497b-9227-2a72c32ddd22@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a4ddbfa3-127b-497b-9227-2a72c32ddd22@sirena.org.uk>
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DSSPR12MB999212:EE_|IA0PR12MB7627:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c78cff4-1ded-43ea-a7b7-08de95784e9f
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000C:EE_|SA3PR19MB9598:EE_
+X-MS-Office365-Filtering-Correlation-Id: 84711a2a-8682-4c55-6c6c-08de9578b21b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|56012099003|18002099003;
+	BCL:0;ARA:13230040|36860700016|376014|82310400026|61400799027|22082099003|56012099003|16102099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	aGnTtjGvewqX8KeQ1J6hw9AduLQtSVYus0Imt9qdZxqYCd/oXiLojE+RHlyuiRPdxOBiUEOzPxxVZdpGCH04mjnXA0erf/j1vOULEY6AcgeQgr5dW2xTkbGdfn2sqste0VluT1BvI5ctljJaKftqdlt/0DlXQIkfLXjiHRVvG6xe/6craO2O4nmR8985rhsmPWl2U4nBQObS/y8MXjau6PGlFMME8xGM819OBABNIP9F2M89p3cmkkPQyrKfj5m2E6GMvAZT1aQsoMx3GXVMLi613i9/ajNTQ76JyerrU/b/veuAsmyMFRgoDRDk10Uti8SEFT+bWqOpSBbTkSfdFMp3zTZYZFhN5jgZZEgFZx2lAKLfPYBXWEKF75UJbiKn5F7IY7vsgAXio0Q5Kmu4KRXBGGXa04BpATC7g8Vfeg3usRAO0T+gWnjDFnrk3GFMie4VelJuaPSKc5+wbo3VDLSKe3LSL7llLAtHgT2SxOshxWAk0I+jd0vUqN6O///j1zXzC69ykiALQ3OaZx1+T6a6H8+QQZ9q7PUUsYRVRIP8FDF0Nr5fX7F7VRKUfyefQVQzks+C57HB7bqTM76a+5XdY9oZ6evB4TJnQzJNveAdmzF5PS8XGAfoiRiyPDuAhQdRwZ436VNmBDhfI+NKgk0ddp6GF/vd2eUlCH8vEol1zZAS/7Bp7tsN74/1sMqrcbJhaDIDGu0W4S6krwF9Ul7ENqYxf+eehuQH/xgVxbA=
+	i30VYaL1wQKMmcfUxbKA5QpyFQcMyrzVvn2QyKbmyQpBnTMy2tO+3GAPuXdmOKE5dnl/gBNKxGmJSDV+5ou7dZ9I31SfK/1qIw+DtK8arjmcBSR0/XbA+z7Q5Cztb2O4IJwuFheZUUuZmFnlpOf/FM+CvJInoaouQJZHUf2Qep8OqiXrxuwvRhqXtt25NOKQmdo/JIbj6FoFjMiydt/Se0LC4HMOE7VRlv4P4HnOi+eR1a8VqMLpcue3Op04yEKaejMEQZE41Vb6nDhUCIa+rr7sbESfTq5f9kScOuKwzfZzUzHqUu6lLkZUAFGBUF/j47QwF2+9n6QONdN4Hx05XrSiRxoErqtazbh/WQC6BHmXjnCK73LeRcGQJ+XZqRFjYezFriWIumVZZNmsEYEhNlr7odsGf8YBJi+ce/a3XYxpdzcME0OAJcQNR+beZYoaGHaPsdlXtr/kTVbW54qfKfHxoFBbvxG0N2ne2OIAcM0JmWh7wnOfmfqe8E8KRnnjlxS0yfx8+Yo109tHj6oRkWd9aNL/hYvxqaawk5Wrw9AswZBvabWqbLASHJIF5qKA11NEdfVBcGlpFZ0UaYwPVmIofQMO8NhHtJXmylK5KgC9Uq2dH7Cv4MsmUsnZnQd7XeDMGEd/wZ0DVr3XIKwtGofEuu0bCZG4qsoztCW8tAUOGcrj4Ni/AiD3ketY2XVQ0qiaRPuxcmMzovunNelBPtJcHv55vxP7ujWzBwi8x986OaqhCjlWQorzDxzeQ9gWZ9zTKq5X6t5T3m5NeGjOPg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSSPR12MB999212.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(61400799027)(22082099003)(56012099003)(16102099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NTg5eUJmMGJCRGtidTI2WWZSOFlBMWlDQlNpVHFUUkJPc0FMMkxTMnJJZjN0?=
- =?utf-8?B?SDhlSmVGM0gwOTU0NFByVjN0cFFZNjdxMlc3Y3I4VGoyTTlES1ljL1lpTi9S?=
- =?utf-8?B?K21LTzNYUjU5QnE1M1JSUDZmdS9yZHk2MFRQbytYSURRRXd3aU5OY0RIZVp6?=
- =?utf-8?B?UFhXdUFnSVREMktYTzFFclhIbFA0RjVoVE42bWU1UGZMWDdXZGZuTlByT09a?=
- =?utf-8?B?ekFnaVJsVlN1d0tabjR4eHVPenhDYndxN0dmVXRlMVBtaGZjVldpalZWUmpu?=
- =?utf-8?B?bFJNaVF2Y29XMkNWUDNHYWY1clRrVHBtS0Y2QTBOczlSL0oyUmJWZkk0djFx?=
- =?utf-8?B?OUpiVUMwVmVKQWhFaVlSeUJOTGtMZ1dnNUhiK09GL0lwb1prR1U3TzlBQlNx?=
- =?utf-8?B?aDB4YVJ0Z2R6UnlvdTZFMWhTTHJsdVJZM05peUtDdDVYZTFZOU5oem5PMG9i?=
- =?utf-8?B?SDFrRGVCVTQrcjJGTjY2ejZnTlZneWl1cFVxQUc1Sy9yb3J1cjg5R1ltanVF?=
- =?utf-8?B?N3R3TXFOUDF6bzE1QktIOStLT0x1MkQyYStFOUdCWkR1VDAra1paS1d5SURB?=
- =?utf-8?B?ZFlDR2pGc2M4MEhvSEZSTmgrMGVoOFphNEtvZWdOUEU2RXY5V05RNTdBb1dQ?=
- =?utf-8?B?S2JCWVlWOGp4ajNtNlRwaUU0OTk3TDAvN1VUdnpscXNGc2pSMXMrVnJoMEdq?=
- =?utf-8?B?clc0c1ErQnpCTGZHQ2EweEdBYk9TdDVYdUpGL2FVbk9id3U2TVQvSUtzSFRJ?=
- =?utf-8?B?NDZPWElCTWNsZ3RtMDBXVGxWbUVJcUtVcVpsLy9nMWFUdHN2YVVqZXdCeDkr?=
- =?utf-8?B?ZEl2VlVEMDF0MCt6V1lGOUxiN25jZ3cyWndjNnFxcWljekZsUXllbEdqQ0dX?=
- =?utf-8?B?SmxyT3E3Z01KcXJVbGxEV3o0MEFGalc2UzJYSEhXTFpKcXhEOVJhcjhBZjZq?=
- =?utf-8?B?eTFhbjZUdTYvTGYweXFMbWkxM0dmYUZVWXhDRm1INmtSL0loOG5YY2R5V0I0?=
- =?utf-8?B?WUNNWXdrOHJMMk1OTDFVVjd1bG94dkpUMkNaak5xT0EzZ1ZsYzZydDN1dUt6?=
- =?utf-8?B?YjdZSEFia1dGbUZKOEdUYk51QWlnSElOMHFmUDIyc3ZIdlBLK3d6cUdtMTNU?=
- =?utf-8?B?V0NCR3hvMXliVmR1QkNBcnVraktJRkt2R2ZSMmhPR0FqejllenVPZlJwSzB5?=
- =?utf-8?B?M2I5Rkc4YXFmdHpGU0dRc0dyRGh5cmJabEJWbzBvLy9WS3I2eHBXOFZlZzUx?=
- =?utf-8?B?QXhwNG1OUzQ3emhPbUFVZ096V0tTZWNkRVVwSWhyOUFvcCtER21VelNYck03?=
- =?utf-8?B?RWF0VnNDcytvSW92RFMzYnN6OEIwTURJSk1hZHRlTmJqZTVpZ3hLcnY5ZU9k?=
- =?utf-8?B?VUY2SVpJMmR0L1paQ1kxMDk5TXQzQXpoYkJhbHJCUW5pQlRFZ1lMbThmUDE1?=
- =?utf-8?B?b0JaMVhXZUlLNWhzNkF2N0x1aDJ4WW4vTmFWc2pqSGJSeVRvSFpUU0RRbGtn?=
- =?utf-8?B?bnNpRktGanhWNzVINy90ZFZoa09qbFdOOEdsaEFPZWREek55UEd5MG1JdzMr?=
- =?utf-8?B?QytINVB6NGhRSkx2aWJqaVZSWjgxamVrOU1UQVI0TW54aTVCSWwrNk9YcGQy?=
- =?utf-8?B?ZTZDVFJFRWx1Y0puQnFNQVNPWW1FZUNJQ0lRbUhBQWVFc2pGMzFEcHYwRU9m?=
- =?utf-8?B?b09pQ0ZNVzBZbG5mVjNBaGRNd3lQWGc2bHhpNzdIaU5oU05hd1h2eFllL0R5?=
- =?utf-8?B?OUdNQy9KTWpXUlNNblMxclhDZUREb2x1OC8yOWYzV0pPKzV5cCtsSS9NL2sr?=
- =?utf-8?B?a08yN1pPNEN2d2gvbFBQVVIvMEVBMzlCOVVnVkJhdUR6ZzFqcHZON2NUNDJE?=
- =?utf-8?B?d0tYdTdndldxNW53Si9jN0VRWEtITE1aSCtwOU42dWR2UUhVcWYzVFY4bEln?=
- =?utf-8?B?dGp3WHNzR2g2Vzh3MTc3MXNwd0c3Smx3M1psd3p2N21UcDlpUlR4RXkrMTJL?=
- =?utf-8?B?dEgxeXpVWWFTYktvWTdOcEdIRGphVTNXS2NyRzhZNlFXMUo5U0FmblZHL2pE?=
- =?utf-8?B?QUZDdENYUXYxQWZjdVJrYUxxVEdKNTJ0UFM4QWFwcVdUTm5PODJLRjN2UmdJ?=
- =?utf-8?B?K1pFanJnN2JOMmcvV09Jam14cEgrT0JWT3IzdDRNcVc2ZTU2Qmh6TDZOc0p1?=
- =?utf-8?B?UXlqdFNDc0NlaE5UOTFWK01QMXNSa3FPRCtpbXppYXdPbFRjWms3MFlmQ2lK?=
- =?utf-8?B?VkVNVlozdW5oZ01ZM2xFS0F3L285Sm5oVFlKeGluOG5oUDdFbWptSExwMElE?=
- =?utf-8?B?WDF5VTQ5UnF0eW9PUFA3VGk2MmRrSGk5eTJNcmpnWTkramFJam9Pdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c78cff4-1ded-43ea-a7b7-08de95784e9f
-X-MS-Exchange-CrossTenant-AuthSource: DSSPR12MB999212.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 14:08:28.1576
+	nHRFdexzajP53Py1GmXlBB2+dUhtJtm4p7xYT1AcKBn3HVs4rKLP195Cu5buYH43td2t1QU4xLvBwiXU1M3Ori0zzAiG4v2ayj5N4lqaB0nn7SldNk2Q72KNcqP7LRtmxjvuVOUgMRsWpIZrAnwzzep4UXU7juD2iirANIgnYsvYPR/FLO2TrS9H1diNvQO7WXNWSriXTph3xbeOdMSwirwAdI5byrrI8i6ZqivEBflTxMxfhl7p47YuBRBUrNOQ3xbWeEgWKCffjYAJVM3CVpmCoB/Ytw/eVhO2K9oTCU0vaSa/Db2qnXGoEoXP73EXoytLBComa5hsTA+bQe3Eik3Mlc5CunBNQ5XnIgUeQyzKUJhHo0jS9oXz5siC0miQBrdb8JwFnHxnlz8pFaOdggnDrzHioBru4lJELAFxGKbnS1ORsh4V+KgngE2aXsaE
+X-Exchange-RoutingPolicyChecked:
+	nXNQhFPHMqR5Ghb7HbY+BIotcvdm1vaIKUbxvFRZDzCUXVWFi9Q2P2vsj7TqKdAL4DxHZNtkabYY0vkCLuoZTVk2aKL1tJibPDtU/ZQaxGbnb7kRzBB9+C/8UdCNMGKsPenaYZv0y6cxVAUHSbbpf7QOhnezajDaZyzaqWMYQwhGghWu2Q4eOYQ/oCgi8PHhjZp2ZHgg6SAfBgO9dQ2ViDHQUL0NbGJ4ZWlyOL00hKbt3knOH3TspFvGdbqXISmUt1QzvFUt5V3CJEx4rsbMZbw+F+k0i8H/DnfYfnB0FKj00a298zGRlSantYRCn0ruFEbptTQYD7ey6RkQxTSv/g==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 14:11:14.7576
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dWfkdlw+OSvjeBVCZJgPXK/vKQG3HNFnZo9GAvtCQJaJRhKlbVGOCpVYMlGngg/aa2vwgFXZWTbmQJQ6NkTnWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7627
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84711a2a-8682-4c55-6c6c-08de9578b21b
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH3PEPF0000000C.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR19MB9598
+X-Authority-Analysis: v=2.4 cv=LMhWhpW9 c=1 sm=1 tr=0 ts=69d66206 cx=c_pps
+ a=FCTj0ZxOUpDcrOysB+wcjA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=yUnle7PmyUFrXLI6A1MA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: xYsYn92Ec9QCvcuQAoa4YmyaP6yQ0ywi
+X-Proofpoint-ORIG-GUID: xYsYn92Ec9QCvcuQAoa4YmyaP6yQ0ywi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDEzMSBTYWx0ZWRfXyKolOA2MTxWS
+ AZyMr2wDBzTzVR1v14KP1MX0lQjSptirHGYTFmNDimCs3M2ARsNA+KN+TW+f4OqjPWF5wTl5oR3
+ b1P46rr202aTYn/d5jV1OrTKEzWLXiBqFzjXZzZvGBs6diZjYxkVMOFzDee2CQZMDgnuYANdar9
+ HM35tUlIie0wbi5IB34hNaQlhTxpgbzqowkMUf/ciYdn1aDJ1AdSJ3QuMzbD1ha1F7fVWO2MMPp
+ zCVkG5GCCPDr8Ubkq7sHdHX5zdFLh+XaERFH+rigd5rWNFXvvq2dqXNn6CP+++N7vezTgUWlo19
+ uisB95cAUN3NFAYSNrzmHW7LOWDkFovuTzMOvQFnUEiWPGqOuUnGGLJK2VA30lklrwGre3ek+3u
+ 8qu6lJ1Af8g+74ooJ6FxDhgAtFGxFg43tdZBo0ntTV58r49h5Q/KCy6vsGR+JPmmxlbaE+gP6x3
+ UMLoYaL4z/sX66fCJDQ==
+X-Proofpoint-Spam-Reason: safe
 
+On Wed, Apr 08, 2026 at 02:43:59PM +0100, Mark Brown wrote:
+> On Wed, Apr 08, 2026 at 10:38:33AM +0100, Charles Keepax wrote:
+> 
+> > This led to a cleanup inversion where the devm cleanup for the parent
+> > Soundwire IRQ runs before the handler that removes the function drivers.
+> > So the parent IRQ is destroyed before the function drivers had a chance
+> > to do any cleanup and remove their IRQ handlers.
+> 
+> > Move the registrations of the function driver cleanup into
+> > class_boot_work() after the function drivers are registered, so that it
+> > runs before the cleanup of the parent SoundWire IRQ handler.
+> 
+> > +static void class_remove_functions(void *data)
+> > +{
+> > +	struct sdca_class_drv *drv = data;
+> > +
+> > +	cancel_work_sync(&drv->boot_work);
+> > +
+> > +	sdca_dev_unregister_functions(drv->sdw);
+> > +}
+> 
+> > @@ -157,6 +166,11 @@ static void class_boot_work(struct work_struct *work)
+> >  	if (ret)
+> >  		goto err;
+> >  
+> > +	/* Ensure function drivers are removed before the IRQ is destroyed */
+> > +	ret = devm_add_action_or_reset(drv->dev, class_remove_functions, drv);
+> > +	if (ret)
+> > +		goto err;
+> > +
+> 
+> This means we register the cleanup of boot_work from boot_work which
+> seems a bit fun and...
+> 
+> > -static void class_dev_remove(void *data)
+> > -{
+> > -	struct sdca_class_drv *drv = data;
+> > -
+> > -	cancel_work_sync(&drv->boot_work);
+> 
+> ...what now cancels boot_work if we somehow manage to remove before
+> boot_work has completed (possibly even before it's scheduled)?
 
+Hm... yeah I think you are right there is still an issue here.
 
-On 07-04-2026 22:33, Piyush Patle wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> The byte-map controls ("Byte Map N") already expose a value range of
-> [0, 256] to userspace via SOC_SINGLE_EXT(), where 256 is the
-> "disabled" sentinel. The driver stored this state as a byte-packed
-> u32 map[] array plus a separate byte_mask[] bitmap tracking which
-> slots were enabled, because 256 does not fit in a byte. As a result
-> get_byte_map() had to consult byte_mask[] to decide whether to
-> report the stored byte or 256, and put_byte_map() had to keep the
-> two arrays in sync on every write.
-> 
-> Store each slot as a u16 holding the control value directly
-> (0..255 enabled, 256 disabled). This is the native representation
-> for what userspace already sees, so get_byte_map() becomes a direct
-> return and put_byte_map() becomes a compare-and-store. The
-> hardware-facing packed RAM word and the OUT_BYTE_EN mask are now
-> derived on the fly inside tegra210_amx_write_map_ram() from the
-> slot array, which is the only place that needs to know about the
-> hardware layout. This also lets us drop the byte_mask field from
-> struct tegra210_amx.
-> 
-> Slots are initialised to 256 in probe() so the default reported
-> value stays "disabled", matching previous behaviour. Values written
-> from userspace that fall outside [0, 255] are clamped to 256
-> ("disabled") exactly as before -- no userspace-visible change.
-> 
-> As a side effect this also fixes a latent bug in the previous
-> put_byte_map(): because it compared the enable mask rather than the
-> stored byte, changing a slot from one enabled value to another
-> enabled value (e.g. 42 -> 99) would early-return without persisting
-> the new value.
-> 
-> Also fix a potential undefined behavior when constructing the packed
-> RAM word by ensuring the shift operates on a u32 value.
-> 
-> Addresses TODO left in tegra210_amx_get_byte_map().
-> 
-> Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
-> ---
->   sound/soc/tegra/tegra210_amx.c | 77 ++++++++++++++++------------------
->   sound/soc/tegra/tegra210_amx.h |  5 ++-
->   2 files changed, 38 insertions(+), 44 deletions(-)
-> 
-> diff --git a/sound/soc/tegra/tegra210_amx.c b/sound/soc/tegra/tegra210_amx.c
-> index bfda82505298..4dd158e6e974 100644
-> --- a/sound/soc/tegra/tegra210_amx.c
-> +++ b/sound/soc/tegra/tegra210_amx.c
-> @@ -60,6 +60,7 @@ static const struct reg_default tegra264_amx_reg_defaults[] = {
-> 
->   static void tegra210_amx_write_map_ram(struct tegra210_amx *amx)
->   {
-> +       unsigned int byte_mask[TEGRA264_AMX_BYTE_MASK_COUNT] = { 0 };
+I think the boot work sync should stay in the original remove
+callback. The sequence of concern was:
 
+1) driver probes
+2) boot work runs
+3) boot work is scheduled
+4) driver removed
+5) boot work completes
 
-byte_mask[] is sized to the chip-specific TEGRA264_AMX_BYTE_MASK_COUNT,
-but the map array in probe() is already dynamically sized from
-soc_data. Since soc_data->byte_mask_size is available here, kcalloc() 
-would be consistent and avoid coupling to a specific SoC variant's constant.
+I think this current patch addresses calling
+sdca_dev_unregister_functions() but we don't really want any of
+boot work running once the driver starts being removed.
 
-
->          int i;
-> 
->          regmap_write(amx->regmap, TEGRA210_AMX_CFG_RAM_CTRL + amx->soc_data->reg_offset,
-> @@ -67,14 +68,28 @@ static void tegra210_amx_write_map_ram(struct tegra210_amx *amx)
->                       TEGRA210_AMX_CFG_RAM_CTRL_ADDR_INIT_EN |
->                       TEGRA210_AMX_CFG_RAM_CTRL_RW_WRITE);
-> 
-> -       for (i = 0; i < amx->soc_data->ram_depth; i++)
-> +       for (i = 0; i < amx->soc_data->ram_depth; i++) {
-> +               u32 word = 0;
-> +               int b;
-> +
-> +               for (b = 0; b < 4; b++) {
-> +                       unsigned int slot = i * 4 + b;
-> +                       u16 val = amx->map[slot];
-> +
-> +                       if (val >= 256)
-> +                               continue;
-> +
-> +                       word |= (u32)val << (b * 8);
-
-
-The literal '4' (bytes per RAM word) and '8' (bits per byte) are magic
-numbers scattered through the code here and in probe function. Please 
-consider defining:
-   #define TEGRA_AMX_SLOTS_PER_WORD    4
-and using BITS_PER_BYTE from <linux/bits.h> for the shift.
-
-
-> +                       byte_mask[slot / 32] |= 1U << (slot % 32);
-> +               }
->                  regmap_write(amx->regmap, TEGRA210_AMX_CFG_RAM_DATA + amx->soc_data->reg_offset,
-> -                            amx->map[i]);
-> +                            word);
-> +       }
-> 
->          for (i = 0; i < amx->soc_data->byte_mask_size; i++)
->                  regmap_write(amx->regmap,
->                               TEGRA210_AMX_OUT_BYTE_EN0 + (i * TEGRA210_AMX_AUDIOCIF_CH_STRIDE),
-> -                            amx->byte_mask[i]);
-> +                            byte_mask[i]);
->   }
-> 
->   static int tegra210_amx_startup(struct snd_pcm_substream *substream,
-> @@ -212,26 +227,8 @@ static int tegra210_amx_get_byte_map(struct snd_kcontrol *kcontrol,
->          struct soc_mixer_control *mc =
->                  (struct soc_mixer_control *)kcontrol->private_value;
->          struct tegra210_amx *amx = snd_soc_component_get_drvdata(cmpnt);
-> -       unsigned char *bytes_map = (unsigned char *)amx->map;
-> -       int reg = mc->reg;
-> -       int enabled;
-> 
-> -       enabled = amx->byte_mask[reg / 32] & (1 << (reg % 32));
-> -
-> -       /*
-> -        * TODO: Simplify this logic to just return from bytes_map[]
-> -        *
-> -        * Presently below is required since bytes_map[] is
-> -        * tightly packed and cannot store the control value of 256.
-> -        * Byte mask state is used to know if 256 needs to be returned.
-> -        * Note that for control value of 256, the put() call stores 0
-> -        * in the bytes_map[] and disables the corresponding bit in
-> -        * byte_mask[].
-> -        */
-> -       if (enabled)
-> -               ucontrol->value.integer.value[0] = bytes_map[reg];
-> -       else
-> -               ucontrol->value.integer.value[0] = 256;
-> +       ucontrol->value.integer.value[0] = amx->map[mc->reg];
-> 
->          return 0;
->   }
-> @@ -243,22 +240,20 @@ static int tegra210_amx_put_byte_map(struct snd_kcontrol *kcontrol,
->                  (struct soc_mixer_control *)kcontrol->private_value;
->          struct snd_soc_component *cmpnt = snd_kcontrol_chip(kcontrol);
->          struct tegra210_amx *amx = snd_soc_component_get_drvdata(cmpnt);
-> -       unsigned char *bytes_map = (unsigned char *)amx->map;
-> -       int reg = mc->reg;
-> -       int value = ucontrol->value.integer.value[0];
-> -       unsigned int mask_val = amx->byte_mask[reg / 32];
-> +       unsigned int value = ucontrol->value.integer.value[0];
-> 
-> -       if (value >= 0 && value <= 255)
-> -               mask_val |= (1 << (reg % 32));
-> -       else
-> -               mask_val &= ~(1 << (reg % 32));
-> +       /*
-> +        * Match the previous behaviour: any value outside [0, 255] is
-> +        * treated as the "disabled" sentinel (256). Negative values from
-> +        * userspace fold in through the unsigned cast and are caught here.
-> +        */
-> +       if (value > 255)
-> +               value = 256;
-> 
-> -       if (mask_val == amx->byte_mask[reg / 32])
-> +       if (amx->map[mc->reg] == value)
->                  return 0;
-> 
-> -       /* Update byte map and slot */
-> -       bytes_map[reg] = value % 256;
-> -       amx->byte_mask[reg / 32] = mask_val;
-> +       amx->map[mc->reg] = value;
-> 
->          return 1;
->   }
-> @@ -727,7 +722,7 @@ static int tegra210_amx_platform_probe(struct platform_device *pdev)
->          struct device *dev = &pdev->dev;
->          struct tegra210_amx *amx;
->          void __iomem *regs;
-> -       int err;
-> +       int err, i;
-> 
->          amx = devm_kzalloc(dev, sizeof(*amx), GFP_KERNEL);
->          if (!amx)
-> @@ -750,16 +745,14 @@ static int tegra210_amx_platform_probe(struct platform_device *pdev)
-> 
->          regcache_cache_only(amx->regmap, true);
-> 
-> -       amx->map = devm_kzalloc(dev, amx->soc_data->ram_depth * sizeof(*amx->map),
-> -                               GFP_KERNEL);
-> +       amx->map = devm_kcalloc(dev, amx->soc_data->ram_depth * 4,
-> +                               sizeof(*amx->map), GFP_KERNEL);
->          if (!amx->map)
->                  return -ENOMEM;
-> 
-> -       amx->byte_mask = devm_kzalloc(dev,
-> -                                     amx->soc_data->byte_mask_size * sizeof(*amx->byte_mask),
-> -                                     GFP_KERNEL);
-> -       if (!amx->byte_mask)
-> -               return -ENOMEM;
-> +       /* Initialize all byte map slots as disabled (value 256). */
-> +       for (i = 0; i < amx->soc_data->ram_depth * 4; i++)
-> +               amx->map[i] = 256;
-> 
->          tegra210_amx_dais[TEGRA_AMX_OUT_DAI_ID].capture.channels_max =
->                          amx->soc_data->max_ch;
-> diff --git a/sound/soc/tegra/tegra210_amx.h b/sound/soc/tegra/tegra210_amx.h
-> index 50a237b197ba..6df9ab0fe220 100644
-> --- a/sound/soc/tegra/tegra210_amx.h
-> +++ b/sound/soc/tegra/tegra210_amx.h
-> @@ -8,6 +8,8 @@
->   #ifndef __TEGRA210_AMX_H__
->   #define __TEGRA210_AMX_H__
-> 
-> +#include <linux/types.h>
-> +
->   /* Register offsets from TEGRA210_AMX*_BASE */
->   #define TEGRA210_AMX_RX_STATUS                 0x0c
->   #define TEGRA210_AMX_RX_INT_STATUS             0x10
-> @@ -105,8 +107,7 @@ struct tegra210_amx_soc_data {
-> 
->   struct tegra210_amx {
->          const struct tegra210_amx_soc_data *soc_data;
-> -       unsigned int *map;
-> -       unsigned int *byte_mask;
-> +       u16 *map;
->          struct regmap *regmap;
->   };
-> 
-> --
-> 2.34.1
-> 
-
-
-Same comments apply to the ADX patch (patch 1/2) as well.
+I will respin a v2.
 
 Thanks,
-Sheetal
-
+Charles
