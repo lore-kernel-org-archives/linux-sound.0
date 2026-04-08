@@ -1,42 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991023D7D76;
-	Wed,  8 Apr 2026 18:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775671553; cv=none; b=rS5IHFAYgOri8n2WjtbhxEDFnZqELtsFrlLYkQ6bEj2TSGfBGE23oGkN0dYchYwhAVjIsQS86awvwrenZG5PpFcJQL0r5R+Nr4TY+hjcLNcQLwu9jQpyV06VP8WGqbYU5Qkbg4B261rQzOANFMO+QYX45wXAUhrmXtFjZNmN4ak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775671553; c=relaxed/simple;
-	bh=1YyUQKrS6Jgi2V2vsvvvkZ/uJw01Zbzn31qRiqouNX4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZMmmS+USncfAFxtPwj+ndZn5LbERO1w3wJJGe1JjVxsxih7E8a1h34Ut7Yye6ZC3IQ9DKdPbX+4vgJ9Ro7iYYMZ5tbMt+glkahK2j/4HjA0Wm1eYcsGtPFF11oxUJ5eki3vSV1AcmuE3UkEyl9v7GlpxXZXXB5WdR9GT5AgNcXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sFckpQpY; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354D13ACF16;
+	Wed,  8 Apr 2026 18:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775673201; cv=pass; b=YaDvPgYxLL4aVh8StHySsYISxoyBylxC4uhNcVly0zp8UVX/WM2qlyBpD4NguZ1FN8VSpRKS5bBpJA7t8IgPqCbDzDCiI51vxJVJan1E3TjlML8S3Ak1bF+1HFlJLv0M4/bJ/lA28HGScBgp8wgCaNdC9s1/Huedcql4UVknAmo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775673201; c=relaxed/simple;
+	bh=0eLKn4VKjVqJa3bffvCgZtcvSpybUes6RtKnWB7qRAQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NV9pdZ8DtpoKy/GQaP/1KGiUpLGSAK2Wr3RftidAjV7Nlwihht7Rucnf94eMECTSG3dvk3jEPnyw0S2Mh++86L3JGtB/G4FZahKQH9aYIJKJMc5pMra0W/suOKAvhLUzX4aTJRHfyY1XWiSeuKZE8fUraaRbQ2AR/uyKlELqW5Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=c1htgSD4; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sFckpQpY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A3B6C2BC87;
-	Wed,  8 Apr 2026 18:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775671553;
-	bh=1YyUQKrS6Jgi2V2vsvvvkZ/uJw01Zbzn31qRiqouNX4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=sFckpQpYSP1WzxKA1MGyU9kovarxHIhC9KiBiWm7kcB+6892fEF2XLVIe1Nqw7c59
-	 Sn5r94/QJi1JO2olGQtGqsy3TQJyt53sJ+T72X/SPOMx1bUrZC0B4yf5e9p37EQOD3
-	 d2fGIPnXSbFuQmLxZoD9roGhQmt+4Iu83r4PvMO5Hxv4WQJP7g3HrRp89NII3TBcex
-	 ObcF6Ej+3Kp0QZURogDhtweIdNwG2+i8yidt1e0l/WbFVakm+MXqR69mEGxV1AbSoX
-	 qKKlR3n2tKF/7xRahGluvW1ErEI32k7nsGU4+ss+8N5rfbGuKOADTt+h1x3hhUMmwM
-	 t17fhMiU5TEGQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- Neo Chang <YLCHANG2@nuvoton.com>
-Cc: perex@perex.cz, tiwai@suse.com, krzysztof.kozlowski@oss.qualcomm.com, 
- dan.carpenter@linaro.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, neo.chang70@gmail.com, kchsu0@nuvoton.com
-In-Reply-To: <20260408052639.187149-1-YLCHANG2@nuvoton.com>
-References: <20260408052639.187149-1-YLCHANG2@nuvoton.com>
-Subject: Re: [PATCH] ASoC: nau8325: Add software reset during probe
-Message-Id: <177564972157.101848.7395395479165358647.b4-ty@b4>
-Date: Wed, 08 Apr 2026 13:02:01 +0100
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="c1htgSD4"
+ARC-Seal: i=1; a=rsa-sha256; t=1775673197; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=X9yv/+6t8wcAQlMNDqMhleHwt+SsrqgfUj+Wd/gUxhykLdp0Gx+8SKDByueJk4StgWrcZeRFVWRCYPQ4ago5LNVlHK6K2Ju+4J1OnhJU/cMNztTnBUL6/ktHbXPSrTbVWTTcapuHPt9RbZ/kdXiS9pj6MHaUjRi43jlHM5pFEBw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1775673197; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JhXql+MW/X4xezGuD2uHKNitjohF4Z9X2CnmHmkgYSY=; 
+	b=aqfpu9DVT5+CDdh+dA1AW/SRAoUwxFtWyL+lX267SimxucmsffbQBgFbYwYzT868mbbswM57gHbV/CdSSSjDvH04nfbEkNYMLSG8SrPGtby9gZs8ROSjqQBcjOVXREHkkGuFf3C2icUUfeuqS+k/6+JuzVokRd5sYo2uaygWVJ0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775673197;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=JhXql+MW/X4xezGuD2uHKNitjohF4Z9X2CnmHmkgYSY=;
+	b=c1htgSD46BOR8PgYxpyrdWzkzCVD5P89jlYfpUeNxoGU/MYRHBStqaP0NiYC4dEv
+	cqhRWljtJYlsA3mgpO8mKOCVMumz/OZWb9t+BEYpAgW4mTXXrI9XX6q7CJVer2auaeT
+	D08S6WgUXjo3oVXm2W0GDcPzPi1JHECsyk87UWYUDNkLhja8KpHFEqAki3UzHJupx9p
+	ha8+3BH0c6nCz/YL9gDhjEHNZ8pHr7gvM0Qnkxo26i94Xrs7Vs5nCQ9tKjJZ7fJJO0d
+	rDTsC3iPmwvDT17VR0cXbWnsum/QuWzmADXa+hFpPMQiopT/k6ZsTSDbF5QekJzS4gb
+	vdSzDntiUA==
+Received: by mx.zohomail.com with SMTPS id 1775673194856926.5417920249006;
+	Wed, 8 Apr 2026 11:33:14 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH 0/2] ALSA: usb-audio: Support for Feaulle Rainbow
+Date: Thu, 09 Apr 2026 02:33:04 +0800
+Message-Id: <20260409-feaulle-rainbow-v1-0-09179e09000d@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,47 +50,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=broonie@kernel.org;
- h=from:subject:message-id; bh=1YyUQKrS6Jgi2V2vsvvvkZ/uJw01Zbzn31qRiqouNX4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp1pj+5ndOXsMXYrF3K4p5svBnjTZsvpys8bcK9
- uN5xoNdsriJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadaY/gAKCRAk1otyXVSH
- 0HtHB/9MAqdQ6+uJoGwlJ+w850rb+zj/Fd7JKPBTylmIew0DAeHjRNt2ipxODfDkJeTywm49Ve4
- x8dPcM6oVpooEhfltgWfMJM0ImXSZHEcRl48W0phcHrSFtD6AIu+pFnHKrJoEc3Wo7dpAFEUUTA
- U7vbdaG/InK/+H9YpzulOXHWfIZegDcJpknP3qkfLpZM5XxzdRtVBccF7NtjT2oKXdIkFEbErSq
- /d6AyD33bK4wzzuE+xu7DFcYFleO+AQ+JPvzLF1wZW2HMErnBv43BVM+xkwy+OiNr//j0HX3kwM
- ZbMBU++z4ZRyWthAlufP085xmY/XUMpVBvenf/zIVfPv32GO
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-B4-Tracking: v=1; b=H4sIAGCf1mkC/yXMSw6DIBRG4a2YOy4JorHGrZgOQH7aawwa8JUY9
+ i5th9/gnIsiAiNSV1wUsHPk2WeUj4KGj/ZvCLbZpKRqZC0r4aC3aYIImr2ZD+FMA2VNWz11Tbl
+ aAhyfv2P/+jtuZsSwfjeU0g2/kAWAcwAAAA==
+X-Change-ID: 20260403-feaulle-rainbow-fb6e2db837a4
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Icenowy Zheng <uwu@icenowy.me>, Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.16-dev-7777e
+X-ZohoMailClient: External
 
-On Wed, 08 Apr 2026 13:26:39 +0800, Neo Chang wrote:
-> ASoC: nau8325: Add software reset during probe
+Feaulle Rainbow is a wired USB-C dynamic in-ear monitor (IEM) featuring
+active noise cancellation (ANC).
 
-Applied to
+The supported sample rates are 48000Hz and 96000Hz at 16bit or 24bit,
+but it does not support reading the current sample rate and results in
+an error message printed to kmsg. Set QUIRK_FLAG_GET_SAMPLE_RATE to skip
+the sample rate check.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.0
+Its playback mixer reports val = -15360/0/128. Setting -15360 (-60dB)
+mutes the playback, so QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE is needed.
 
-Thanks!
+Its Mic Capture Volume mixer is sticky (accepts SET_CUR but do
+absolutely nothing). Registering it confuses userspace and results in
+ineffective volume control.
 
-[1/1] ASoC: nau8325: Add software reset during probe
-      https://git.kernel.org/broonie/sound/c/f4c90fb761f6
+Patch 1 adds a quirk table entry matching VID/PID=0x0e0b/0xfa01 and
+applying the mentioned quirk flags, so that it can work properly.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Patch 2 checks if a volume control mixer is sticky by setting the volume
+to the maximum or minimum value, and prevent the mixer from being
+registered accordingly.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Quirky device sample:
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+  usb 7-1: New USB device found, idVendor=0e0b, idProduct=fa01, bcdDevice= 1.00
+  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 7-1: Product: Feaulle Rainbow
+  usb 7-1: Manufacturer: Generic
+  usb 7-1: SerialNumber: 20210726905926
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+Rong Zhang (2):
+      ALSA: usb-audio: Add quirk flags for Feaulle Rainbow
+      ALSA: usb-audio: Do not expose sticky volume control mixers
+
+ sound/usb/mixer.c  | 37 +++++++++++++++++++++++++++++++++++--
+ sound/usb/quirks.c |  2 ++
+ 2 files changed, 37 insertions(+), 2 deletions(-)
+---
+base-commit: 292286b2d229fb732421429b027d38ac3f969383
+change-id: 20260403-feaulle-rainbow-fb6e2db837a4
 
 Thanks,
-Mark
+Rong
 
