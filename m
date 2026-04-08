@@ -1,80 +1,79 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A457319857
-	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 21:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB7F38AC7A
+	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 21:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775683210; cv=pass; b=IgLxo5zYA0Sa8RZHXBrmIDM/fQU28zgs34kwiXrpHwo8prwAiCvpy7wUG29pIPlH002ifSyeC6OZkIkK2iVcCThTzWF61WKp0x7x16rDkYwy53E3cc007ZuJwh4+LQRkuu/godgomE+o+4CmKme60EP9c5QZ6Foe+oPYRQP+D84=
+	t=1775683569; cv=pass; b=gBW/KqrK3RoFc8VCWSR8JyiOfnG3JYXgERs4/4CC1LUGK6AT5XgmzZ1UtgwzH31E1Q5rXiajXiy/3ySoOw/USEC8Wr8CLAMag29+vkssUtP0EwtxrQmXWUDTUvm5Xno0iQiJg9vA1L1DDVReBx6qE4ZOF7MywkeBhtuPSWAWelo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775683210; c=relaxed/simple;
-	bh=w6HuGbAt29hunfsVixF+Oz6nMbU+6+kA8Wt8FyAQRNA=;
+	s=arc-20240116; t=1775683569; c=relaxed/simple;
+	bh=IjEhnGk+PnwNFCcn8LSU9mwNYM/h4JiXspnBYoeLYKk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QHNUT+qlYx8AnYfJU86fgfk9wBXadTjZz9bOlA5WcgXCa7L5l113yya6OF1fuLi/K3WjTMMtqpNA3JakOK9RX162qvfuLsvAKGbXuPBTqo1jt0R2MhxzeDyBvyoSVfJ2f1xI+KeElT3v7ZJasg9htRaX610hsgfWQKtRcuqmx1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F8KQW8Bm; arc=pass smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=M9gvRq1LwPsQHpHkqwaqiipfPJvHnusJQVzqpPDv2gU9Iab5nq35K5LBxO98Pvyv2GipiCb22lBEKJdKBwmROI88wzU40jHQmZHVhxwhpjDE5Jpubn/kfoxYA7VzuaCtHIIaYpLZTS2r1hs0FOqUc8KPzhiK7Na7AKpx7AmJu2w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTndhkJQ; arc=pass smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F8KQW8Bm"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a2c77c62d7so205104e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Apr 2026 14:20:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775683207; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTndhkJQ"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59dea72099eso199884e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Apr 2026 14:26:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775683566; cv=none;
         d=google.com; s=arc-20240605;
-        b=jm635U8ZVBdKt9jS5PVuedJC882iK5T3I8IfZvHHjgBoghN0Ya8VPdnabWteSjqUBv
-         mpt4F8L4esfx3EeLgwVr7O5YVxqP3izaIRR51Ff6BR22Lhux4Ns68963Jblfd1yiHOY2
-         RHZlRdHqlDlIkiN5csDhCIukRRCeBOuzWH400w8A5cfKtrt8x9NF3HKC9lTpd5yW5Fjn
-         qb6Khz83oZ6yopXeQnXC2Z0/F+rQACCDIk2bT9t6Hr2pSoehbVem6V+VjSFzrc2O52nR
-         lqtRAf0emNe1clR6TUOBDBT4KKgRKjhrOoMrVEGN5doTUr22ydJKugiQibifZ2WqXiq9
-         VDdg==
+        b=exaCxl4nwHsUvnY595cuq4xv8odbtso5bmDS5mfHsy6tvhVht0l0dVddhWDdsYc0Hg
+         h/oKkCvWfRh/wxiMzc8++EV+oKKRGXDw9S6b/INgrxPPqM881E+1Oqxz2PNwbsJMHXZ+
+         KSHE93CmRDdsojfojav4/iCIdCn0FPm2uAWBGQEQzs2P+ree/eRSLwOO77Xf89fZGSuk
+         4NGOLUQ1rFsMmXUWEM88ij7mh+OYO2VX9gKAOnl4upXWmECX0NPnPNkoOMItsSCokEOS
+         nIf5XJ9wAnqg04srjsG3w5MyL6i16W0uUHO9rFYZ+Eut6p9tq5EScqIKhS7RRewxoay+
+         rrSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EMCMLECo02eXBhSDMm1eRN49LeGDrS1E5IJtLpRBGmI=;
-        fh=pCRJgwN1U24Mc2KaZs+W4rtnt0NOdiRHtB1iuUjAmbk=;
-        b=iN4trHIce68TNAPrkeIFk9aNJu3JKxSubVnu93UcLr/sp//UsjD8A4hoa/SGxDUIoW
-         wPVzw1m1AjsQOPXt5a/oD3lvm8WjA0R4u0g4U7/KwoLkqzFIA4jmUNAfBnR6nlqC3m/R
-         xRfTTcxdEOgqfSwaLKhVufGlw16S8wPLUgoh27aAUe+zK3S9DW/DnrdjY0X4lqIPfNs1
-         flv8Kg4XM1Zml6rlJlTNka/ZkucHGYNO+NIDe6rVZRYi0s7kbIhgBeTi4KTdElTMXjHH
-         wbHa69nIPoJX5kvsavRZzlmbYLPug/sJ+kW7eucgR5BNOo+P33C6K5VsMnDnr1NgYmZi
-         J+nA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dwZXnwgA8rxc31lodqUK1A0pWXEiOHI8DyLdgVyJCi8=;
+        fh=eyc9Rggb9SF9Ciu47hFRCf1cx57iVMNTLkzilZ9eqWM=;
+        b=M13aKmYBPZekAmp6d1DzZwQKiiak3sZkNFXb1V/5teXi3G34Xcp95MGxZpXrOzydIi
+         d00vqdJN+ReVFJEPpWx+9ZyyJzmlS+qlpgoGhMrTG+73074XBdpJ/VTttXvwAvO8gadp
+         +yEILr2YcMoAkkWN7Vp6Rt+WMc/Xkjov3JkWCnua7b6LCq9fDGd0HcuSQg90IfncnzwJ
+         a3QZM9Q7wKytncnshdSzwPkkXDjbhOmo6ZRGN3M4IB6fm5uDT7SZhDkq4KVASzM07O/1
+         s7ZnsrhiRFqlCwx7h0bfZvaEm1D7NNd51WpfpoB+WaJBxA6rCkFs+8S4uXCQynggFN37
+         4P4w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775683207; x=1776288007; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EMCMLECo02eXBhSDMm1eRN49LeGDrS1E5IJtLpRBGmI=;
-        b=F8KQW8Bmb+MA6qkyODQLh88/V+GlS6du8nqcNK0ASAtXN7yk703km0+VX0zuqqRPgq
-         9pZprFTZxJdpbZayjTOwMqoqICtQ2iEs8Kzr5tloju6knt70LvX+E312hZVoDjGLfrLG
-         Cy8Kjn3anaSUyDbElFtmGMlIcemT+dK6BZ2hWLQV+sm7tevlcwyHfLLvhVbeWb1MSDs6
-         mxFqmRPDSkB05JPwUkYUpdaem1w4Uy4d7DIhEwLAJDN6/boGCPf94UbIMrixm5vObQfz
-         SmrORHqWgQ8tGFEaVcdy2QM2WS2sILWS04pytik1YJo0NtKTgZkTd5I6SFG1/KYnSVnf
-         w7rw==
+        d=gmail.com; s=20251104; t=1775683566; x=1776288366; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dwZXnwgA8rxc31lodqUK1A0pWXEiOHI8DyLdgVyJCi8=;
+        b=CTndhkJQ/Wq4jJ1qvXKvvzBYIJe+TDLnIZCEXNqKZdSZ+T82THRh4J7BSeg+q/sgxG
+         +5MxHTJ6GpWg1ao88BdFJMvFzTmj8TPQLHOPfRSx8yTjYWDH3mkmKVzhMvCQqR7UCcNe
+         3NfN0dlYjcLt9ekb6mzQTGNC+hDhV/Z392oWuDX1gHOvU/y4iBZZeHsCQh7niIxWr3az
+         oLi7/8YiX7JuEP4ImJFOjWicPC6X8s/MV67m5cE6/XEZbOvRw2Boetnu+V6lrIuk1zpg
+         A9xx0lkqyk+WW8mGaG8NOsD87zppXnegvaTgXysEpzebCmpseIioV3Jqd3HyXBbJUYh9
+         wKvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775683207; x=1776288007;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EMCMLECo02eXBhSDMm1eRN49LeGDrS1E5IJtLpRBGmI=;
-        b=fXBkA/BogOmwLoAHnUdpHbgDGbpbe7ZRdRtX6zuigtTOqTweiWzLVoZ5eQYvgGfWEI
-         TDTkX6bIlSIJtS81xyje+8Uz6imML1+/v7R0jUAnHkxhghTKGnGLgN+ntptKXDkr4Ccz
-         r4K/HMJ+r35bPa+PxEV3QL/rS3ZM1bzb91COl2rbrnH4Sj15O9GI0w4V1nc6rw+qH1La
-         v0tirUi4dYU+H6j+nQw/40CJjK+jkZcEfNqnlBhDOkg1jGcBzoFqwDCQEgOqF6CsVMQJ
-         /TQbafexlv2WqKxju5Zq24N1c6Tb3D+qsTWpzN/2WW/YpnxSuQqVVpXJizWSohr70whX
-         yjig==
-X-Forwarded-Encrypted: i=1; AJvYcCUiQrEk5NZr0iOGH99wxyn4qFB/1rXh+0F+c7KUM+cbEaGYKlN/uR9B868UNOllZh70m9qg9GjAkN1QdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN/jK+uvCsu+PMNROda1EJqmJynuceiQVC4UaKxzW02GBs+Bc3
-	UBdab2WZY8LoK5yp4ybhdIo2XvcnL7UTjmNwDLFUsUzqXIcd/NIIclIkxFsWGm5hAf/4nUql/1z
-	dTdXmLIPV24pbChBA94tyapdx7B1g/eQ=
-X-Gm-Gg: AeBDiesDpX6sMSAMw9Do0nJyKkOwCyMU5Okb5KwevbDfvXSmfB5vkfS+QoAdpP4YEml
-	sWzS/iq6kL7dm/Nhr4lrUwSMI7om8yUJNiWJoJN2dftMls6AnQniCoqrMUvzbbLum1Zzh29a9hI
-	Qb8fUGCj/NVJaCal3ckI45jN7riUqGUdUFAgrQu4BfgAnsBIXynDBLXUd614nE8eUKkrromtugZ
-	NPl3mszSEqGA7feI4evNvKLsH4JYT6frICzv4yhp3O6VcP9NP+s6Qf1nRuth5rkNG8dCtDNtyvh
-	z2ADAqa79V3ZYF8jrpWGMTHx/CGw7XNkY2Fsqw0=
-X-Received: by 2002:a05:6512:3e0e:b0:5a3:c690:b4a6 with SMTP id
- 2adb3069b0e04-5a3e7a16b15mr368920e87.7.1775683207122; Wed, 08 Apr 2026
- 14:20:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775683566; x=1776288366;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dwZXnwgA8rxc31lodqUK1A0pWXEiOHI8DyLdgVyJCi8=;
+        b=D7EWRZUSNMBoVnnVUdnGp0fRQRtjWgSQFB12FgaQzZ4jYhlWByBD2+1ikS6gwez5BU
+         TigGvfrb73HfkDyi47j31CMTB+eTo96SwtFVvH1BKSG3gMYQ8Jw3M2kZbAhAVOGkdVEB
+         swHp5DnlwvGzyOtncqfJhUNgc8QJbFm5uJCCy2cwJkWjK1Q8J5Jth/SzNxuYrxnSGTtx
+         rQrQg2Z7mGzpMDyP4tPZIL4LerM8/7+SgoeD19VnhiOGR95jWo68d365w4F0mOyUn5xr
+         GTf7v3Ww9Kal5DUftIwAEXDUQHL5Hz16Fwy4HRB+d+R/ShWG+EnsicJcPl7QMbevJ3Zn
+         i66g==
+X-Forwarded-Encrypted: i=1; AJvYcCUePBCNvm1gphuFE+/0FAEcglD0ZRkeEr5XJc1iRqiBRjD9imT28+hYVwefjanevfMOb6nS47Y6nYjeIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmfNz9tx9wQnrzT8z5MNxFFzIGuFFWxX7W81qqzhbdebk23oCC
+	8xX/HmrTRCIZprBLQyM6jnPX5ADntpfNsf7hjgmmwzBpw5idGdWSbMX2rndIPa/faJlq+wrSkPj
+	QCOm0WFq1+CEZVl+WDDLlxlz1I4sw7iE=
+X-Gm-Gg: AeBDiev3pirdZNkKNH8GOiKwqrC0ie6ArgIwuw80lIArZJse5U5gJ+zkI8cQKGEZBnH
+	AEzsRyHHtQ/STg7RdgM2vkqYGFCGtUOw34MGYCfwqa4cT9iWbI4+aF37/PJbmt0IBvfbX0c0Tpf
+	fTobqaXwCrNF8yVomidVAXn3EJYJ2+OqxY1WqERnd8nSbvEoEVEp34IqNvNrqp0IDgegfdnTbSi
+	FvuxmGHAiWbq9j8EYRF7hpwiK62AC0cLgU1WyvC2A6hkdXXioI8e7a8FgN+xktrRQJo84JTH+GV
+	gDYAOM5SK8MqBnp19piSIRXAAiXeRxy0VTMs6Y96JF7OqYBL7Q==
+X-Received: by 2002:a05:6512:124c:b0:5a3:d306:297 with SMTP id
+ 2adb3069b0e04-5a3e7a236e8mr378775e87.13.1775683565728; Wed, 08 Apr 2026
+ 14:26:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,116 +82,76 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260407170308.100238-3-piyushpatle228@gmail.com>
  <20260408170818.70322-1-piyushpatle228@gmail.com> <20260408170818.70322-2-piyushpatle228@gmail.com>
- <f837da45-2b31-4788-a957-085d3f0570d0@nvidia.com>
-In-Reply-To: <f837da45-2b31-4788-a957-085d3f0570d0@nvidia.com>
+ <ae440ab7-e1ba-4f38-8ef9-85371f3236f0@sirena.org.uk>
+In-Reply-To: <ae440ab7-e1ba-4f38-8ef9-85371f3236f0@sirena.org.uk>
 From: Piyush Patle <piyushpatle228@gmail.com>
-Date: Thu, 9 Apr 2026 02:49:26 +0530
-X-Gm-Features: AQROBzBUy-it-vv-kjO6ebLVhc04dn2olvWf_81zN6zTyAHrTx2NmaM7LrDNOQo
-Message-ID: <CAMB+xkaQAaJSZ6nJ_LN9zyRHxFAEMoydbb-BZc3t1qfr71Sd4A@mail.gmail.com>
+Date: Thu, 9 Apr 2026 02:55:25 +0530
+X-Gm-Features: AQROBzBu6KzdQPIYr38nwiFPhnZEm0vYHac0EK6sgh9vp6wbo8mZ1lzGfAkVeSI
+Message-ID: <CAMB+xkZbxeOvfjH5kWQxZXJ792wZSWJntw+wO90__artt71+=w@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] ASoC: tegra210_adx: simplify byte map get/put logic
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Mark Brown <broonie@kernel.org>, Sheetal <sheetal@nvidia.com>, 
+To: Mark Brown <broonie@kernel.org>
+Cc: Sheetal <sheetal@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
 	Thierry Reding <thierry.reding@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
 	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 8, 2026 at 11:09=E2=80=AFPM Jon Hunter <jonathanh@nvidia.com> w=
-rote:
->
->
-> On 08/04/2026 18:08, Piyush Patle wrote:
-> > The byte-map controls ("Byte Map N") already expose a value range of
-> > [0, 256] to userspace via SOC_SINGLE_EXT(), where 256 is the
-> > "disabled" sentinel. The driver stored this state as a byte-packed
-> > u32 map[] array plus a separate byte_mask[] bitmap tracking which
-> > slots were enabled, because 256 does not fit in a byte. As a result
-> > get_byte_map() had to consult byte_mask[] to decide whether to
-> > report the stored byte or 256, and put_byte_map() had to keep the
-> > two arrays in sync on every write.
-> >
-> > Store each slot as a u16 holding the control value directly
-> > (0..255 enabled, 256 disabled). This is the native representation
-> > for what userspace already sees, so get_byte_map() becomes a direct
-> > return and put_byte_map() becomes a compare-and-store. The
-> > hardware-facing packed RAM word and the IN_BYTE_EN mask are now
-> > derived on the fly inside tegra210_adx_write_map_ram() from the
-> > slot array, which is the only place that needs to know about the
-> > hardware layout.
-> >
-> > The byte_mask scratch buffer is allocated dynamically using
-> > kcalloc() based on soc_data->byte_mask_size, removing dependency
-> > on SoC-specific constants. The byte_mask field is dropped from
-> > struct tegra210_adx.
->
-> So this was already the case. However ...
->
->
-> > -static void tegra210_adx_write_map_ram(struct tegra210_adx *adx)
 > > +static int tegra210_adx_write_map_ram(struct tegra210_adx *adx)
-> >   {
-> > +     const unsigned int bits_per_mask =3D BITS_PER_TYPE(*adx->map) * B=
-ITS_PER_BYTE;
-> > +     unsigned int *byte_mask;
-> >       int i;
-> >
-> > +     byte_mask =3D kcalloc(adx->soc_data->byte_mask_size, sizeof(*byte=
-_mask),
-> > +                         GFP_KERNEL);
-> > +     if (!byte_mask)
-> > +             return -ENOMEM;
+> >  {
+> > +     const unsigned int bits_per_mask = BITS_PER_TYPE(*adx->map) * BITS_PER_BYTE;
+>
+> Why are we multiplying by BITS_PER_BYTE here?  We've got a number of
+> bits already from BITS_PER_TYPE().
+
+Okay correct, that's a bug BITS_PER_TYPE() already returns bits,
+so the extra * BITS_PER_BYTE is a unit error. It also references
+the wrong type: the bitmap word is unsigned int (which is what the
+original code's hard-coded 32 came from), not the map element type.
+
+For v3 I'll change it to:
+    const unsigned int bits_per_mask = BITS_PER_TYPE(*adx->byte_mask);
+
+>
+> > +     for (i = 0; i < adx->soc_data->ram_depth; i++) {
+> > +             u32 word = 0;
+> > +             int b;
 > > +
+> > +             for (b = 0; b < TEGRA_ADX_SLOTS_PER_WORD; b++) {
+> > +                     unsigned int slot = i * TEGRA_ADX_SLOTS_PER_WORD + b;
+> > +                     u16 val = adx->map[slot];
+> > +
+> > +                     if (val >= 256)
+> > +                             continue;
+> > +
+> > +                     word |= (u32)val << (b * BITS_PER_BYTE);
+> > +                     byte_mask[slot / bits_per_mask] |= 1U << (slot % bits_per_mask);
 >
-> Now you are allocating this everytime this function is called (which
-> happens on RPM resume) instead of ...
+> How big can bits_per_mask get?
 
-You're right, I was wrong here. I read Sheetal's v1comment as
-"allocate it dynamically" and over-corrected by moving the
-allocation into write_map_ram() itself.
+With the fix above, bits_per_mask == BITS_PER_TYPE(unsigned int) ==
+32,
+matching the original "slot / 32" / "slot % 32" expressions exactly.
 
 >
-> > @@ -700,16 +706,15 @@ static int tegra210_adx_platform_probe(struct pla=
-tform_device *pdev)
+> > @@ -118,9 +144,7 @@ static int tegra210_adx_runtime_resume(struct device *dev)
+> >       regcache_cache_only(adx->regmap, false);
+> >       regcache_sync(adx->regmap);
 > >
-> >       regcache_cache_only(adx->regmap, true);
-> >
-> > -     adx->map =3D devm_kzalloc(dev, soc_data->ram_depth * sizeof(*adx-=
->map),
-> > -                             GFP_KERNEL);
-> > +     adx->map =3D devm_kcalloc(dev,
-> > +                             soc_data->ram_depth * TEGRA_ADX_SLOTS_PER=
-_WORD,
-> > +                             sizeof(*adx->map), GFP_KERNEL);
-> >       if (!adx->map)
-> >               return -ENOMEM;
-> >
-> > -     adx->byte_mask =3D devm_kzalloc(dev,
-> > -                                   soc_data->byte_mask_size * sizeof(*=
-adx->byte_mask),
-> > -                                   GFP_KERNEL);
-> > -     if (!adx->byte_mask)
-> > -             return -ENOMEM;
+> > -     tegra210_adx_write_map_ram(adx);
+> > -
+> > -     return 0;
+> > +     return tegra210_adx_write_map_ram(adx);
 >
-> ... here in the probe function, which makes more sense. IOW I am not
-> sure why you have changed this.
->
->
-The intent was only to drop the dependency on
-the SoC-specific TEGRA264_*_BYTE_MASK_COUNT
-constant; the lifetime should still be probe-scoped
+> We need to unwind at least the regcache_cache_only() above if resume
+> fails.
 
-For v3 I'll keep byte_mask as a member of struct tegra210_adx and
-allocate it once in probe() with:
+As per Jon's comment on the same patch, I'm moving the
+byte_mask buffer back to a probe-time devm_kcalloc() in v3, so
+write_map_ram() no longer has a failure path. runtime_resume() will
+go back to returning 0 unconditionally and the regcache_cache_only()
+unwind won't be needed. If write_map_ram() ever grows another failure
+mode in the future, the unwind would have to be added then.
 
-  adx->byte_mask =3D devm_kcalloc(dev, soc_data->byte_mask_size,
-                               sizeof(*adx->byte_mask),
-                               GFP_KERNEL);
-
-That keeps Sheetal's "no chip-specific constant" requirement (size
-is still soc_data->byte_mask_size) while avoiding the per-RPM-resume
-allocation.
-I think that would be better, Right?
-
-Same change in tegra210_amx.c.
+Thanks
+Piyush Patle
