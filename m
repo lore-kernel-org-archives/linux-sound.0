@@ -1,83 +1,171 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010026.outbound.protection.outlook.com [52.101.228.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2A135AC2B;
-	Wed,  8 Apr 2026 05:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775627000; cv=none; b=T4C+3/L5yI/3gMZ1eNddovclaYkk48GobSWYM1/od9lG/pa4ZCOlgQ7bbCykH77JXCuskYM0QIYVFJebOQPJkNDgdBfSzzv97qS1GswXjSWLpJ2S9S2JD6uvytI2FghPA5eJus3Wd1Hn9Afb3PYss9hMe8Nu4BZqpDcKFRHEzCI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775627000; c=relaxed/simple;
-	bh=jmhc0AYM/6vLdOr1JQBQItyxNYi4biM8gajpcey9GqM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EOAYeNJIcK4PYzmcCNYlZU95rpt2wt/U0Qa7gqFIjMocbBXpH5hxUSgPQvNwgVNJNXcC95MX7K8WsgF9hucyyuy/R+a3A/PMZLm3VEyuEveMma4BhAwEtOwrTKV6E0myGUZ2WHx2f6YgBqxVVtgcs+MJFqK+Y+0Oue5H7vOrzIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: d29c1c50330d11f1aa26b74ffac11d73-20260408
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:ad5c3b18-18d8-428c-9455-7bc65b1314c6,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:3818e18324f5c9453fa3bfd09e8369f0,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|898,TC:nil,Content:0|15|50,EDM:5
-	,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d29c1c50330d11f1aa26b74ffac11d73-20260408
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1760226852; Wed, 08 Apr 2026 13:43:08 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] ALSA: usb-audio: qcom: Fix incorrect type in enable_audio_stream
-Date: Wed,  8 Apr 2026 13:43:04 +0800
-Message-Id: <20260408054304.497277-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C8F365A0B;
+	Wed,  8 Apr 2026 06:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775630030; cv=fail; b=phU0J59dW+DVAfz7FJwx79QK4WpW6C7j5aLiJW9icYPUcJXljrjcu4QyM32Tp2FAN2HJVbxy/sYMxoSRutQ719ZWqDHBzmCW9Qq8Qv/LSF7iywIuugng7OaOeJuTdt6Y3cMah5zK2YJCXDB3KaMmWXqjrZpbVkIUNTvjshgR3QM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775630030; c=relaxed/simple;
+	bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=MQ4guaqAK3XCFjPTc3BYzfp9WyFBhmw043qWUeTOdhqcmylXRBJChFHEapOvOngmNCNkKsKntOdml+rzB3GRvN6+m30mTUP81vD1XiGT4fUfjEFUm4/ePqVL7adEB8NpXUB18opWRoEys/jAZbejfQ/QjZfnOg11vIQOlOxeYuY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Z/93l7r2; arc=fail smtp.client-ip=52.101.228.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Z/93l7r2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YHFT1i3LZpx4MCKZChlPHaIqUtqmxnLodfO06NQ9yJoxQhaLhNupdEOp6gE5HxlWkRgi/EVibBIYUM28uz23bvgH7s1UvZ9TYbD3Y3CXJx+KUjRwVLKJHRGN+Idpr0Dz7iChBr1xq2f3yHzpghjlwrQ1SPuH0g8uqbb/GfgTYqFc7ktdmstwfO+bsnh9ud45iR7Em2ITtXUCStFAcq/IAmg6v19oe/NhVIfgaa5fbXzR3QYjFiTnpn5kBXWO8dqWzFxFlN04akldUvl1KT5KPXs+RBla9GyS/s5KF2TNnhv4w+8FMgk2guj73VEu/L8igcCf5TNxCs9uX0YN1zW7JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
+ b=NH+Ya00xbl1WcYJq+JbC/9G9uS9AKHEe5pGYofUzX4pyUtsSLyznQSbMSlnms/c7rCudh7B9f5lLsBoey6bhL5I5mx8rPOqG4/LVHkG/iGT5UUmOvHLKQ0XiVFpPYxN42WphaUKoYAk526nqbq8yglwVa/7hJIsOY25XhIaLEn8JNKMRSkT66RN/n6Q69hlfU1cpWrezYe1wro7hdbmt/MeLn6jO8EzPIDKkfCYvv6SvuJFyjPZ7zHMfnDLw32E7/qQ6d9K0RmRat+2slY5MDtbhdQ1ROA9DfBxQ1Rs5YGv0vzT5ljnsrF/eiLad8CtAMky59Ppmf4hBrEAVbtTPoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x+67nq72DqRIH8Wpw0kALS97raw5cvU8vppLWjQanlc=;
+ b=Z/93l7r2OM85ZCu8guhtZHSEEMdFLyJE3dlnCaXJwPumVmPi6+p+4E6lidIu2vT2LjmhYKzwtdBQr4VJqUVZUEzJWxBCcjnkicGySVV9g6CsJ9Vuu4e7UZdL6Z49G3w1LXapFRd2V0xbsV9ucp8cjNuA/1gZs6gsTdoRtNj+qUE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYWPR01MB10113.jpnprd01.prod.outlook.com (2603:1096:400:1e5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
+ 2026 06:33:37 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Wed, 8 Apr 2026
+ 06:33:37 +0000
+Message-ID: <87fr56vu4f.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ASoC: renesas: fsi: Fix hang by enabling SPU clock
+In-Reply-To: <CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
+References: <20260403112655.167593-1-phucduc.bui@gmail.com>
+	<20260403112655.167593-4-phucduc.bui@gmail.com>
+	<87v7e5t16l.wl-kuninori.morimoto.gx@renesas.com>
+	<CAABR9nGUyTkDmB0SgKAuM1Pp75L=m1q4bLSfhobm98TswDnt8w@mail.gmail.com>
+	<87a4vfu0mz.wl-kuninori.morimoto.gx@renesas.com>
+	<CAABR9nH-1eBPFxtzVR6QBE1=esDN8x=hZpAkRSCO-TLmn0tRKA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 8 Apr 2026 06:33:37 +0000
+X-ClientProxiedBy: TYWP286CA0022.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:262::8) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYWPR01MB10113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7efa1542-7c10-4831-2a66-08de9538c401
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	nRx8vQOXSrSvankNGafIfisGsmukSbafuL2H+C/2SnScJ08zF77sJm+gvWJTlFzUmfs91X8VZ8oQwsuItodybLvcOMeAIcNBVIoRYUXDHqHnxPzxODM2ZZqQ27BAtfFe9n01nGdyFSGD5Anc+F9Lntz38S9LJ859C/VhD4b/dEQz7Z08b0nojStRnavlAY0c6mqbnVAkGAL9xLNqx88Y6e/W6AVZsZYkKzneDD/BTwge5PaBfODPeBIKbQWTup4B6rUEKXljUimsfdDV51l/7q6gbH3O2vll37Grjb/RNdz2lMlZTuFo1shRnZV1BYSVr2lvHyvmvn3aBFPUPWS9ygr1NzBAHaYxvUJO2C+r9EbzM7NknuMcA48lmThP8Cd3VwoPapJik/mFP5SHBDYuuNFBhe+d/ODCxfHatQnyUXZxrItHcAgYiKvBKDFGlSmJ33LiI81JUQwp2d2NYLCOjk56JM9ftRZaf0O8s6ZR+FdcTgT7HpdtLyjldo46dIKtCJ8v1Sxw+oMrWumnDCDcICXYDa+XpC4LkY3bJar9/L6Q/+hLAmXwKX6Guknx0d5m5NEpQj29tfuQtOi4DvsvBbUYhBVYJtSIoXrbzw/6rWgQwEawCVyhTXIHimbuRakyYO4nPsrh2VoGn/jD7mEW9fOF+3W344Ka/azXQNEcmTip400yB+0rYPjR8g+ZauBUE0rOTVIIHK7QFYbOsCs9RkSjEoNNv2WcKiMMyjCgXSYG+C9Z+IbX18cJcV0n2LOk
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-7?Q?A3epAOyvqpCMf77eOfu/COwPgdfxyi+qfkOXXk4fpzZIS2lFRntKBrbUQH?=
+ =?iso-8859-7?Q?ZjipBXhnovdxXZevLPWkM9IPadBvHe2+7IBMjIqRv7+buv3tz49I2tEHKf?=
+ =?iso-8859-7?Q?bWyIkPeRJYiF9CeB/tEa18Cb9Y73jTiV2VcoVsqw70/MtB5L1IPsf67yLq?=
+ =?iso-8859-7?Q?y7U9/xCkNoBJsBWvP7H7IbXO9YAWN2Km9XN0GgN7t7Tk6LAnxxpEv6fz/2?=
+ =?iso-8859-7?Q?3OmXKL44fdwAPD9QcpdSDKG6z2bmI3fqR+FKtQbMOeyLJqAG3HKi37i/Ui?=
+ =?iso-8859-7?Q?6gFBPCa8t1oczKbj9MmFnAZXczqelR98+A+vfP2gwJod2IEkth50bhPWi+?=
+ =?iso-8859-7?Q?dxFpzxXm3nZMqu3+iAsHWQjKNPjGM3IH0XnD9uPd0XreBz4yhI9qXXL/Lg?=
+ =?iso-8859-7?Q?d88s+Oqso8nN/A4hiBiwlTVSqqwuCt/kRz50z0i5dZxcnQNnZawd8De/Cg?=
+ =?iso-8859-7?Q?BX2w2W/oJRmaguuuJ96uqB7/E3l8JufmQpiOCq7m/5WTNyl98p3Vb0kkWM?=
+ =?iso-8859-7?Q?NrS4AH8OdWmQRjihvZ3bvSs/2G52yySRMDvWfkK8fQiVhAVIhpYujuGRM9?=
+ =?iso-8859-7?Q?0nI3MHsj/tlZQWgnuq9y6Zast2tCf+TLHBH7++LvZnyhZchy84V55eJfhu?=
+ =?iso-8859-7?Q?0h7FiFbUEcI3iJCQ8gMAr2qDlfqwt4NBbFtlnyDgyaMpaehNRn8O+fUv6f?=
+ =?iso-8859-7?Q?tg7XXeO0ajqvyOT9MVLv9i8WpscIwphj+OSib0hgZaVqgkqZNB134hIqnD?=
+ =?iso-8859-7?Q?PcDRgtzWHym2KoLiuaON8dRrQ2KIrNDurZVO05miZz5LWtDFrYjdnUzcQg?=
+ =?iso-8859-7?Q?PQU37cIbJevKPIEHr+ujKCqmU1gKH/VSMqEHTEoiT2rImaI0IVxglPVBQg?=
+ =?iso-8859-7?Q?p40HP6qjmjQe+bYcG9WzXBFmuBF0uSROU7vH+f9GGJOFlMLUOfA6so057U?=
+ =?iso-8859-7?Q?NiXZ07s/onU0zuA6gdwNfADwnVveb8Ud3oyIHKU/+wVlsPxxPgbWQrTsRP?=
+ =?iso-8859-7?Q?bWzUr/ifhZ1wNbBMcRHgmYmrs9YCSGWdkYYcpwgq4MVvjR7iqRai+sm6Ou?=
+ =?iso-8859-7?Q?vIaTp45LIGYlat+ZnN9XOIFI0aaxCWLwLcREPAMVe28gtdnMbWUC0E0jyp?=
+ =?iso-8859-7?Q?a4Ic2QzIYmqojqlapHkQsdOS7yyUWVCdpxB/qS6GGa2PeJkLqy4Obwx59U?=
+ =?iso-8859-7?Q?zhJ087+XcNgX0d8UmQGJd+2w5D+Eifw0TFe8xTNDtn9c3jYVvMoaqqbzSP?=
+ =?iso-8859-7?Q?sW4wU+u7RBplFjWdyKyG9PcwiuskMAVtYEzf5gUtANQc6WjmVsDv+xmxWv?=
+ =?iso-8859-7?Q?8/tT0YNM7IYLY4sDgNEOsicuM4jyeRE7ukqOYz2xmxdNeo4Zk/VcAvXj0N?=
+ =?iso-8859-7?Q?+limS58rClhRj+G1RFxFh+kzbezXCERD32b28QIj3ITQ1MRPTBMbVSdghW?=
+ =?iso-8859-7?Q?GXulg1W0+9Ixz7oiGNjldz3SHtrfuvL78EvGuUgj0dM6VqkXr5A31M+nn0?=
+ =?iso-8859-7?Q?sWpxLUv57VZLe0G0+E2OyXkq4m62OIWzdw9x6i1opkm6hiF6fp+DCM6oKT?=
+ =?iso-8859-7?Q?ULWva7q0PkNcNQi14kSvJXQ1T+wOep+mRIM5TsRY9jvs9zg/6xDn0aBVX4?=
+ =?iso-8859-7?Q?290TeNbOy1OVN0fl6jBlcjlg05/UwyPcO2QwD+nG5amDA0f64nf1YDy22p?=
+ =?iso-8859-7?Q?lRQZQvaqHo95nPVTp9ZgNoQ82cS7t1gMHtz6tA/ZGqJmxxH5Ynke2jrOPa?=
+ =?iso-8859-7?Q?Cjzt34vorgPDP5zlfMpQTZDjh0Ip/GVL7mFIPRshsfaxgySsqb9j6Bup6u?=
+ =?iso-8859-7?Q?iuw0KLYK3Fl44TN/R7o1OZ79nbPNlaZAnreU+vv6RnsRGMsh7/mT?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7efa1542-7c10-4831-2a66-08de9538c401
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 06:33:37.4330
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0SvCdiLeskcHRQmfs4UrQFf9Bx+fFR5xHPqD1baaGkiSN4zQzw12Xs4vqmTL1xxK9xq9cbk7ITn6Te+lrI8vC3ajGTWbE5302TKu9lFOLyMbdk/5F8vpgILJtmbZrRfx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10113
 
-Fix sparse warning:
-sound/usb/qcom/qc_audio_offload.c:943:27: sparse: incorrect type in argument 2
-expected unsigned int val but got snd_pcm_format_t.
 
-Explicitly cast pcm_format to unsigned int for snd_mask_leave().
+Hi Bui, Geert
 
-Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202604062109.Oxi8JjWW-lkp@intel.com/
-Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+> > Hmm... fsi_dai_trigger() seems strange.
+> > It seems (A) stops clock, and (B) sets register after that.
+> > Is this the reason why you get error ? I think (A) and (B) should be
+> > reversed. The balance between SNDRV_PCM_TRIGGER_START, and with
+> > __fsi_suspend() are also not good.
+> > If so, can you use hw_start/stop() ?
+>=20
+> Thank you for the guidance. After reordering the sequence and moving the
+> SPU power control to fsi_hw_start/shutdown, the system hang is now resolv=
+ed.
+
+Nice !
+
+> By the way, I=A2d like to discuss the fsidiv clock handling.
+> In the legacy implementation, it was handled here:
+> https://elixir.bootlin.com/linux/v7.0-rc7/source/drivers/sh/clk/cpg.c.
+> Currently, this has not been ported to the Common Clock Framework (CCF) f=
+or
+> R8A7740, and it resides in a different register range from the core CPG.
+> For v2, would you prefer that I implement a small clock provider for
+> fsidiv within
+> the FSI driver, or should it be added under drivers/clk/renesas/?
+
+I think it should be under drivers/clk/renesas, but Geert ?
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/usb/qcom/qc_audio_offload.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index f161eb29f911..423e4a9b62e2 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -947,7 +947,7 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
- 	_snd_pcm_hw_params_any(&params);
- 
- 	m = hw_param_mask(&params, SNDRV_PCM_HW_PARAM_FORMAT);
--	snd_mask_leave(m, pcm_format);
-+	snd_mask_leave(m, (unsigned int)pcm_format);
- 
- 	i = hw_param_interval(&params, SNDRV_PCM_HW_PARAM_CHANNELS);
- 	snd_interval_setinteger(i);
--- 
-2.25.1
-
+Kuninori Morimoto
