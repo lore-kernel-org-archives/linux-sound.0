@@ -1,147 +1,165 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010010.outbound.protection.outlook.com [52.101.228.10])
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013009.outbound.protection.outlook.com [40.107.44.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B8E270552
-	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 05:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AB43570C8;
+	Wed,  8 Apr 2026 05:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775625732; cv=fail; b=X1hFmMl7EjDu2PXM9N41428GqoYkVlpwz/BaWBpiWBSztiCRzwdfLVWGuX5F4HkmICZBKf9DlnfJZyB8p3xqUEHPp3L2OIvXplqN47zhS1l30ui0WEqubkBE/LnAlSbmxYKT8L2z7K2Kzkj5q2BHWQI+uRpBI/jUBRwX7J3ITh8=
+	t=1775626015; cv=fail; b=rEd6Ira9D46HQaSIRerkuWQ/6DBQd1bLptBad/CyjvDnKr+hZU0u3FnsNv3xtRrcte93jUrGeTcgHEViKJWnAuklM4MW+eHM+9I1T46pQv7261whNayQAsd6ui6Zpk2e4Rr1eKisR8EomKsFtFNQ6/mqyZR1os3MCuyZjM3Y32E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775625732; c=relaxed/simple;
-	bh=STx9QpQl/nB9YErfjQQpczm1DcakmLj8tsIW/9A6xks=;
-	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=rJovjGmW0pjKVNUW8KKbmo2SpLbPjfgJkPd7L4Dd6H5y9x9Diy4kZsoVjs3IiHRCDw3KGi8RGIZFNMHypGvYiga5JWFcfge+k5CEraGy5/GGMog3NluKUPFhE69dq6y177s3R7pz0f2ysKgJs96pGt7eB2GTHaDZU+fS1DLYsGU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=nhvHJjZX; arc=fail smtp.client-ip=52.101.228.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1775626015; c=relaxed/simple;
+	bh=2i3xkMWAlO3FzKUOuEJZyOxzrRdKJ2l63IGTxkbHpa8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DFFrX5Xc8H38SDrA19+oRe0Pl259z4PtIGVLY4K/Pm52VbR5NeMCHI1hf1u3brSJB3SG8F7k5yty4g0xJo4gL/cKZBujNgxRoWkWwujgwMVj5RHe08AIDWVoD8krAE+kZyS0zJzXHFD1s09+AjaG3GVlfUAh3yinct339V2aa98=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=kqj/nHfM; arc=fail smtp.client-ip=40.107.44.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="nhvHJjZX"
+	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="kqj/nHfM"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c0ZSTyjMpoo/m++NzKMmJloNaJtKOantgH4HSHw1Z5F6WWnxnpkTvSr3S9NyE3jdAso7TRvmRS3NOyX+71TTK76jEQ+ddsEskxpv/EXfLTw37n36sc8Y1B6PwkHymuSlNDsVtXQaz0jgUz60u5yWflSc80a7fFBNvxxMuULx4C205zxfGjvMcndIgU1JRa8Zj8MOtfNcWLZ4C3NcB5X3QC3onX/KEpkaa1U5ZFCyLtuL1zNBCifxXLqNeiLpg679eSE+QflZNA5/9KyagSFdaIXXnnC05/PyXWrY0Tp0fdo7T9iYX2ybCWlxEUAxiKx5LXaImPuMRV+ej85GmqXqRQ==
+ b=yaGhqFCL9j3Px1lE6v2zzNvewJEDIskghUUxr9+Md2tbjjor5g4Yl3pEEBdBO9YtgDvBu58Q64/tDzByavj8NDGACKUQcNd+/zSmNUjX0OsedO4NM+vTPlfvNq5sCBNj3MaUIYAxKx8+T17lr6jf3seZdwXnl+bdz03WO83blAGrNFVMfUN3CrIapbAdxEdmoBr9oSyYDiqwa65c8Ao30dYBntBoCxXp1SmN1CjNgDy3yT7jt9USOLO/TMxsEoZ17IHZ1Kjkfz1ryuIQdhBlLpf0a2NlipyaNxexQ2cOyRZM+L2rVZvW2T1mGa46C64on9w1QEc/MfEP0fj6Naq3Rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D+RKeuHYJ8B7LiIWg3Dtn0SEq0yIOcbSz9gp8B6zDqI=;
- b=RdXHXNgW2boD9b9kzhbQuJMW5SAoAZWPcF36ULE5NUyonhMVnEG00mA3d6dfdyU+PPfsgg1V+1B6qMXQM521o+XSlu4vDjoBfcbj1+GCRZfzmQylEJ5krSoMnhEvcTWRxoTLgToW4bSFNr3fxKF1pPHr1nUPZZsIUo601kvqCnMMN9eDjoSQa8+y48xN8Y6g6YZpIjlOf7TGJ0O8v5qP1IndbXWT5dNKy9mEKLPxnRra2GFJEVRYqmygEV/IVYZ1Pk7CdOS0p5Nj2r8+Vk7a3O/oq+UgviMPVq++gHHbfotJab76L5XELaWZbJ1MVHkbTYnbwtvZN3fBEMypixNdcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ bh=wo3thyiIaYV7FOCeUCGfcSfNViTrLYgJ/JBmtkhUqZQ=;
+ b=Az3ZZCsdIYwGa2/ohlQ7pNovZtQafstnPeWC+ZG/ss9VyxPfi79eTbyZYslkDHBb1z/5TYkgvHF73k7qwyaiLt4x2N/KkPdKhMMYb9Fh4N+8jKvNa4gK99OG4vJEBygHe170dN26hsDMiDGvM1XVrT1VoEqnz2b5dO3cLRdQfHp7tmHPRIpCmAglMykxt1qIkJtpGH4pRG8e5c8RTFRjko+TYlOjb2Xp+aowy+mA670Hh+fsVkfv07STpmWTVZq2Ae7EqsGqPHPWSez3mry59pslt8lDJw1Z6UJ0B7vlTB0zSBZQlx2NQSD2X5ZIR7/p7aywmAR8c2rsl/BRTYc5mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 211.75.126.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D+RKeuHYJ8B7LiIWg3Dtn0SEq0yIOcbSz9gp8B6zDqI=;
- b=nhvHJjZXNa7tu5gqbyIVhfqJjlCyseYVNxcHNb2d8ZibUNm10PupemWCOVEl8HVdTZ2ACnIPDW6kNfbxex5aIw6Ib+35yTTrGYN73MaqueaH6pj3+VQZqeQI3932AzkuFHv8MgtmH9b9h88hsciqPAwaF/IfnnCzrV7po+O+uMk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TY4PR01MB15455.jpnprd01.prod.outlook.com (2603:1096:405:273::12) with
+ bh=wo3thyiIaYV7FOCeUCGfcSfNViTrLYgJ/JBmtkhUqZQ=;
+ b=kqj/nHfMG/xLBgt//6iI3YrCpHgjb1H2q6RpAN/tI4cTCuahfwf25eJzxmbeWCm0oNPJdscBuJxyK2WZdSi/2Yc0Nbxy6wo5ezZZB5hN4NsB9fmu5/m4ZwJEq0NGbtJr/PIfHcyrIlNfpyvnkDeKiG47XVyN2g2c8u8JvlDE+xp4eFr9/ZV8DUbNJiF1cxPXVc3+n85bmMs+rMnSIzdCVAWIXRc1vcbgM+Y9ja9ZhyRNrQdxKy961Z/6Cf++6Iz4U84lieWH9kQOz3azKBYe4kCFSjHWNr95vAUhkr04CLQqj+RMjvUFW/xI7dnBoQZUa4INQqRFCZUt2o75YQt+3w==
+Received: from TYCPR01CA0055.jpnprd01.prod.outlook.com (2603:1096:405:2::19)
+ by TYSPR03MB8735.apcprd03.prod.outlook.com (2603:1096:405:62::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Wed, 8 Apr
- 2026 05:22:06 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.017; Wed, 8 Apr 2026
- 05:22:06 +0000
-Message-ID: <87h5pmvxfm.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: amd: acp-da7219-max98357a: tidyup acp_soc_is_rltk_max()
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 8 Apr 2026 05:22:06 +0000
-X-ClientProxiedBy: TY4P301CA0020.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:2b1::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Wed, 8 Apr
+ 2026 05:26:45 +0000
+Received: from TY2PEPF0000AB84.apcprd03.prod.outlook.com
+ (2603:1096:405:2:cafe::92) by TYCPR01CA0055.outlook.office365.com
+ (2603:1096:405:2::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.33 via Frontend Transport; Wed,
+ 8 Apr 2026 05:26:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 211.75.126.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.75.126.7; helo=NTHCCAS01.nuvoton.com; pr=C
+Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
+ TY2PEPF0000AB84.mail.protection.outlook.com (10.167.253.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17 via Frontend Transport; Wed, 8 Apr 2026 05:26:45 +0000
+Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Wed, 8 Apr
+ 2026 13:26:44 +0800
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01A.nuvoton.com
+ (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Wed, 8 Apr
+ 2026 13:26:43 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Wed, 8 Apr 2026 13:26:43 +0800
+From: Neo Chang <YLCHANG2@nuvoton.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>
+CC: <perex@perex.cz>, <tiwai@suse.com>,
+	<krzysztof.kozlowski@oss.qualcomm.com>, <dan.carpenter@linaro.org>,
+	<linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, Neo Chang
+	<YLCHANG2@nuvoton.com>
+Subject: [PATCH] ASoC: nau8325: Add software reset during probe
+Date: Wed, 8 Apr 2026 13:26:39 +0800
+Message-ID: <20260408052639.187149-1-YLCHANG2@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY4PR01MB15455:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4faaf8db-00f9-489f-cf4f-08de952ec665
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB84:EE_|TYSPR03MB8735:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcee5f10-16e4-4d0a-80cc-08de952f6ce6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014|56012099003|18002099003;
+	BCL:0;ARA:13230040|7416014|36860700016|82310400026|376014|1800799024|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	zZNKtGOPdPf4jbqy239eiEk5sZ7dRUceYwAfY/37FZTYmpF29xiaISQOISkSNJqvKXjjbE2tiV/eBpejJPBf5j+/dqJjnS5TwMrPkf83I7K23adhOGyh7ro+5KE9g5ejKYBRhNMN6RiQPOpuqeDm/w7PwcFsDlr5jAMKdfAq1STiSIJGdJhyTtcv6P35ozE7R5mng7FO4q9ztkCrTln6wwZc0aL6fB9hMDYwVCBRsIDlcd1CFwJjv4hG5PFt55I/k3H3RxQX5KsamU3kMKdWjjvL21E9fXWSM59vkxbAoEDEyKZ0me8pGlrzjCdxrz5Tp9lld/P47d2G92JQIoDsPhVTM0sa93RPteM7na2ylw+FwznyXjXzFzetIVWYfxtVIvt8Dm+XrA5iom/TTQOy5Y6b5pEcipGacYVDNdWYgaFCobwUYEwOpQ85xxK/oA1LKaZzw66k7QEjlgRkErdsUXMf5Y1rBWpfq3EGOIKkGfY7XYvZ5zBAnJDwGRK9ecGidmitRxdWzWL6tnbTjipsUDDS7kHeJMNLBbTm0Gbz0JqnCF8+aVZ9CZPNG07HRu2ajIZYOKKsrazlo3FlnumVylvJf0qXGGlI44htbOQKx1+EQifG3a6t3c/WZ8IlwKqZa1fg5bbBnyj4NDr8+nq4RSzzlZuXwKcxN0xREgSLWPMy7x+XXcZTMZerj9K0gVhC0hmJirmNKgTKTzYzvQYLGrxx4DsS6WRyYCnab1+lYtpOwgyKHVJFfxjjGEKfldxpuoJsgXMuvZzVZ5x5zBvSHG3v2j4z4AmDR59hviSSTBk=
+	v7RtGNrTeTA01aFGWWPfqvBGySTtizVlBFtSbaFR96T5wjqa6uKTVf0RdtEdMX7YyLU7oEsv0XwBaDUfNJ0e5C56T4fBlgT1Yk3U30+w6NGDdvQzRDPsbVL++HLIXPgiRXG5mAxLQrVyd/j9hWMZPEhRMkynORPad9R7boLnXqhzhjvl8ObB1Xq4FIW3R5VIYCeO2RZtpIr5SF3wD7cM00L5UDqss8QgW+C7JjO+I+2b+IDJHUx1fwO3Im7Il3NwLcQ5Ilu+gz2IDkV4PeGXFjfWwgjxgaKfWtfF0VhtN/Nxq4up/AMqhEEMJV5iAiPbs3a2zaBJszJGc8gAREHzVq9IILN4v9rIgg2fF7j65NT/j4CDsRh3v9xKRW6mNuZRqxNDODBAAUhqsXLsxV4jyz21gSFLef1fib98p0RHoXe8s+oHSIvn1hP4XxYe6ZgYz6XR95M3OFXXBohTcTmGU66qbWSpaI10rJpR4IgUPemm0ZrokD1TRvHQEd730t+Ks9vZ3W3PZdm1ThW/R9GQGJy6dmN72s+VXMj5oN42XgEOi5tE7k6HhBhYnUe6d4BX6AIjHCSOn0nIzJw/SIe1Td6m8b7CLNsgtsEgHnCPKOLiTmGQaa4VrZWKOiVSfvrcy5gwR3GwqaRwnbbu2AefxEakbR/FywRkGP6qx5EdVv1B08Ff76U4nJdAcfim2Zc65XaT77o98B/0+Oi5bLWppP08uu+SzggOcq7u/Cnzthop76PK5rhKFuZSOvw5ORrFdnmjnln2iiWVSOX/1zZ1Tw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(7416014)(36860700016)(82310400026)(376014)(1800799024)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?FIz7lu3YoQ6FevETE6VziXXfl1+h5+m8kW19VNbBw5iB+owKdLLfr1Mdsmox?=
- =?us-ascii?Q?Sktc1gvHUjoaHSKm2i+eEO7opy/mpvVqcexiiC32INEyR6SC/ZGKKykDR1FC?=
- =?us-ascii?Q?VE68WrHYWVtqnGZrWvkRgpuf4GEYgXmU/K9ySVOVnNl6G5eG/b1ekhoawrrP?=
- =?us-ascii?Q?1sXlzmISNj28fc7ehQqtncB6AOupufpZh8CyvE/BYVAPTe65ab20miTAwY8f?=
- =?us-ascii?Q?Dhnxj7Pgrm+UJJ4tVwhbYObCEyak6I+4Ep6ib6OmLrC/Lyn8MzAx1CvQ3y3X?=
- =?us-ascii?Q?6lERL011hT/ALIHXaqe920UZS8buCBHIs4WCqRx3CT7nyDtlG9dPTb4ur4xk?=
- =?us-ascii?Q?58a7OZF4RK27t1B3LES6RSNeiOlS8h7uZ1he6NfWpU2CzB1UGLup91YzPYVG?=
- =?us-ascii?Q?Tf3YOLSlFyUgX0VGB/4BV/3MwXet+zfA03LP7dvrl+X+s0Ss7KCwT8axD+Hk?=
- =?us-ascii?Q?kw3DFDv2i2YUMGWL+jusYYQQatePb9+syznnVQ85RPa9JS44l5LMrBX4nsjg?=
- =?us-ascii?Q?iJYQEIeNW2Y0IQWvrO5WUi+vFAYE323kUxRSBOu7Iiuqxkk2pVnC6050H4uU?=
- =?us-ascii?Q?vCz8iuni7b9hBa0UTmA2LKzwfxISMh5vJwXAb35d10kGhuTF4A+I8CDT21x5?=
- =?us-ascii?Q?ImQaISr0mbnI9UUcJWdmornnacyQpotzglHZe04r2VXKSV9+VTkMPrULM0Wy?=
- =?us-ascii?Q?pfJZvStyndkNQSHNlWtayKkZ0MIhce7CKbOhudnvO8IOvn7SKXUvXrzMOH3D?=
- =?us-ascii?Q?B6yrVVkW4tX6/F5VX0LToMB96sZ+GTB0fJFXmAHJ9wbp99xyPmD1iJBhsTnc?=
- =?us-ascii?Q?Ch1YJy17bgLkCuWuVwxYde/FPqtpROCFRUjxy/OvZ7bWNyiqYL3uXwEXL/+p?=
- =?us-ascii?Q?elxa1RbgXSOYaUZgBjZ+idgQJ6+GWkLyS5m5cc35SPYNGqQMTG/OuK+6yAs8?=
- =?us-ascii?Q?G6/mhhXHrb8cWAYPeLY/ujUn+8xTQvLwq/oHnTYAR1KlaS8VjriAEs0D2Tvh?=
- =?us-ascii?Q?0V31Dd5wTLIoO+fMRT4n9MlDAJ3iUwf82imDp8JX++9EV6ErjIhJX4z6i7GP?=
- =?us-ascii?Q?VgqzEN+RE7OmazgrP2H7jCQezxZdU7+NrEq6arzTRKtf4CSQz9jWHqIALlIF?=
- =?us-ascii?Q?fIG4tdYzvuG1cQvrIOx8AiWTJ5rLs9wIj8IHNgNMhp1O9MpMrdNxdwH33K+C?=
- =?us-ascii?Q?pslcvNvoZ91q+NA+RJ6ZrRtc69lZL4AI9RR5AY1rWdOtw2UUOFmqC+jEVT+7?=
- =?us-ascii?Q?mZp+AMJfQg49+lwf4p3inAD2VmlCQqEityTQ0LSc7yGBR2m9U9E0kmei7Lzb?=
- =?us-ascii?Q?nNqEjJZnbnmY2tMts9kk4wsfd3VBKBZgKN0KpvzpGwU1+WIQ87YN5A19vz78?=
- =?us-ascii?Q?5CUsVvywJhfgESPeYPVJfdZvhie0D1/J4u6USK4kKUtbJTL8BoPgjYjq3pz0?=
- =?us-ascii?Q?TN2jUL9HMKAukPQPI+AFWixvcOyTKY9+vJmHhoj9bANMoYI7oleeUOUssNZd?=
- =?us-ascii?Q?AdnqYWC37cnyx29/RfkfS4qqjJ0+G5KOprOhdViuj3FA5wTMSPuzZx7LJOy9?=
- =?us-ascii?Q?KUY4QLTnr9D4U0LYNdoIAXwseWNtMfoCGKvfci84cCmjTDEYN6b758agh0ZM?=
- =?us-ascii?Q?c/egPJdbsbWG3RoHrpGLc6whHnRWlaXxrHzyEEZEInfMGzrFsJkftB2rM9T+?=
- =?us-ascii?Q?Yr0eV2xP4JWVf7GWZoI1VEuFht4mIFIhwd0YHOxGDrhAxWJXCtIt+LlQvg/A?=
- =?us-ascii?Q?wNhHJ5Q685pxPCuTE03+XD9oacgMp0ygzY8+SLSwf+SPalTUEDNw?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4faaf8db-00f9-489f-cf4f-08de952ec665
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 05:22:06.4239
+	eRzoo/7JwBDbU2v5PhH+ydu1rOeySeWLbus1VwJWCvvJopmmIyDwB8gTZYsELy2VtiWuMd72y7v6PRrtdkdFJ2sfnD1PmTrk8rcCSmUVe2IxBzkZDHLSTZVRZnsqMvS9ElPFO7UCSfTbhJVIslqSGRmy2CoGEqlhLvKaZdwqVPXtEIk7ss/qO0CPWVSbE6UZWbUHpqP0rsg+GF3vaBsdXqvCNaqtB/f7teaZdmGRVzGEw4bcZy6Zbt0U/IzmNW8VjGj5VtrVxgsfGy80I3++Vkb5m/SszPMdHGLleKIHfx8kIJgTcQYgOqFYEaSIl9qeGb/7IHey3pB/BVry8xIKgo/1Teq0rMPUz7f9r/ShNyP8Wy1WJ7efHpYJWzISBBmmWfeQLRGyW8CfpnS5/Od7B53b9YSyptFEcv64zQG/EtJWnFxL6Wf2S58nIAzWPZrc
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 05:26:45.5385
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4JRkrnt+78C6/cNj0lGBdC/PTE3gFcFTCzjuDss6pwSsV9wlPvubi5+TGVU2lnq5wPDJ2/uzZohob73OGOIOxcai0VGu9YdX8R2RoONmmCSAaiwrMgkQXpq28wORjKXo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB15455
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcee5f10-16e4-4d0a-80cc-08de952f6ce6
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB84.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8735
 
-acp-da7219-max98357a() user exists behind it. No need to has pre-define.
-Remove it. And it is local function, add static.
+Currently, the driver only performs a hardware reset during the I2C probe
+sequence. To ensure all internal states of the codec are properly cleared
+without affecting the configuration registers, a software reset is also
+required.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+According to the hardware specification, writing to the Software Reset
+register (R01) twice will reset all internal states safely.
+
+This patch adds the nau8325_software_reset() function, executes it right
+after the hardware reset in the probe function, and marks the R01 register
+as writeable in the regmap configuration.
+
+Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
 ---
- sound/soc/amd/acp-da7219-max98357a.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ sound/soc/codecs/nau8325.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/amd/acp-da7219-max98357a.c b/sound/soc/amd/acp-da7219-max98357a.c
-index bc493e47a9a64..9aee80ca97e04 100644
---- a/sound/soc/amd/acp-da7219-max98357a.c
-+++ b/sound/soc/amd/acp-da7219-max98357a.c
-@@ -47,8 +47,6 @@ static struct clk *da7219_dai_bclk;
- static struct clk *rt5682_dai_wclk;
- static struct clk *rt5682_dai_bclk;
- 
--void *acp_soc_is_rltk_max(struct device *dev);
--
- static int cz_da7219_init(struct snd_soc_pcm_runtime *rtd)
+diff --git a/sound/soc/codecs/nau8325.c b/sound/soc/codecs/nau8325.c
+index e651263a9812..58ef5c493835 100644
+--- a/sound/soc/codecs/nau8325.c
++++ b/sound/soc/codecs/nau8325.c
+@@ -142,7 +142,7 @@ static bool nau8325_readable_reg(struct device *dev, unsigned int reg)
+ static bool nau8325_writeable_reg(struct device *dev, unsigned int reg)
  {
- 	int ret;
-@@ -705,7 +703,7 @@ static struct snd_soc_card cz_rt5682_card = {
- 	.num_controls = ARRAY_SIZE(cz_mc_controls),
- };
+ 	switch (reg) {
+-	case NAU8325_R00_HARDWARE_RST:
++	case NAU8325_R00_HARDWARE_RST ... NAU8325_R01_SOFTWARE_RST:
+ 	case NAU8325_R03_CLK_CTRL ... NAU8325_R06_INT_CLR_STATUS:
+ 	case NAU8325_R09_IRQOUT ... NAU8325_R13_DAC_VOLUME:
+ 	case NAU8325_R29_DAC_CTRL1 ... NAU8325_R2A_DAC_CTRL2:
+@@ -670,6 +670,12 @@ static void nau8325_reset_chip(struct regmap *regmap)
+ 	regmap_write(regmap, NAU8325_R00_HARDWARE_RST, 0x0000);
+ }
  
--void *acp_soc_is_rltk_max(struct device *dev)
-+static void *acp_soc_is_rltk_max(struct device *dev)
++static void nau8325_software_reset(struct regmap *regmap)
++{
++	regmap_write(regmap, NAU8325_R01_SOFTWARE_RST, 0x0000);
++	regmap_write(regmap, NAU8325_R01_SOFTWARE_RST, 0x0000);
++}
++
+ static void nau8325_init_regs(struct nau8325 *nau8325)
  {
- 	const struct acpi_device_id *match;
+ 	struct regmap *regmap = nau8325->regmap;
+@@ -856,6 +862,7 @@ static int nau8325_i2c_probe(struct i2c_client *i2c)
+ 	nau8325_print_device_properties(nau8325);
  
+ 	nau8325_reset_chip(nau8325->regmap);
++	nau8325_software_reset(nau8325->regmap);
+ 	ret = regmap_read(nau8325->regmap, NAU8325_R02_DEVICE_ID, &value);
+ 	if (ret) {
+ 		dev_dbg(dev, "Failed to read device id (%d)", ret);
 -- 
-2.43.0
+2.25.1
 
