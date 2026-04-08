@@ -1,146 +1,113 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BD8361650
-	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 08:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF8B3612F3
+	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 08:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775638337; cv=none; b=jE8mlCUeg4vxPbhd8RZEfN4eIQ9Umu2NGo0+jPWVDXAfjk+vBdjX7kCPCX7zDFYc+6W6Iq4GHaPnK0y3Ao6/GTbwxjQyCL+XgxbIqk6Az7m7lrmEE90Gy+84dwAsPD8ktoN7gILgBrctqpaHUC0K9yVsY7Ng3oZb+H8Lkou/w+w=
+	t=1775638404; cv=none; b=FotAkLiUR41PMsXazx1EO9533IafgirE69tBRFCOhHkVaYnZDTaZ21/zpzZJtxL3hoitunPrjUqyAeOyL6nw0t4oCwppnygDKuIwePQno8TGMjf5qhxNxEBbWbIfdZDTYaH/UYSSvNOCzSo2Qu8FeeUUnNkIirIo0FbwyvU3X8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775638337; c=relaxed/simple;
-	bh=1ECACd3AwoGqTHSpy6t1YLc5VaWJhwRb/JsxGUjyd28=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WgF6IJ/7+fmX/Emaqe5cBqEFPWpsUgEfNpBGYg57m8W4WAZUE3xssl4asGj4hBKcTULLNx5tQEywWSHcamCj/kU42o+eD6WrQUVx3GH6xmdOHqzZuN5XNfAf+04ZO5DyjvkgGjnYe5Y+rQg4x0P8y6kuj37a8tQdskZu1aLN1O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oFrjwwA7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=stfUOfFU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FrCnHEAm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xy/CRlhM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775638404; c=relaxed/simple;
+	bh=V8rXhEyN76cQYM9BF6KVpbO+9KEPhf/L+9trOmefMsE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HiPhFhluqdq/fZh0RqbbvkF+emVAF4Rs2VlGtOenk96Xul2GkNdeGlr/sb3Jlczpne+SYGbEjnGdYA4TT0IHW6BAhLRKmdpVoRWrYUQM/Wt2/jc/eigvghnbGO4bu1NnZevdAe5Bp/uS2q3c81c+8W4rohTClnrTElsUTbfMEOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JTo4y3qh; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oFrjwwA7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="stfUOfFU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FrCnHEAm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xy/CRlhM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 42E194E8F2;
-	Wed,  8 Apr 2026 08:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775638331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=syImbox63TyfBj/l1Ye3zsIucZk9oCPn1DmdfD7HjgQ=;
-	b=oFrjwwA7UmoVCVgZcsmZrdt7hp2nJ64Z0az6eNlZYVPrXZ+nQDYJRbuyfAb9mqnm9USz9t
-	zNTDxIPtQgbd8sTATPNAPVdlHSKZUJL6QigrqLxKqQXEHTR4CHJv4Li+24t7Uby551+pIn
-	XJsjnM2M5AYmqJpZP8SCONu0MF20e8w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775638331;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=syImbox63TyfBj/l1Ye3zsIucZk9oCPn1DmdfD7HjgQ=;
-	b=stfUOfFU9XHE1lU4IOn6fOIXuKf8diqUf8NCY5GRvg0Ni77wRQMQEdwQ5DMTvznR7dWheE
-	/f7IroeD9kykDWCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FrCnHEAm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="xy/CRlhM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775638330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=syImbox63TyfBj/l1Ye3zsIucZk9oCPn1DmdfD7HjgQ=;
-	b=FrCnHEAmEZgPurOKvm2FU4O2OGNUNLnRF3Uj9bR5c/yDiE0s6LonbyqhV8gWYeODCDaNUG
-	lPYDOAf9BBJ0YWwl+VNyTTr3BAXiNhK5n6PJLWHQkAuixhdRpYT9B2d8/ddhgMi3LJM6UD
-	BQaYZpyYhNF2LtMONF0NWKclZDqAvK4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775638330;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=syImbox63TyfBj/l1Ye3zsIucZk9oCPn1DmdfD7HjgQ=;
-	b=xy/CRlhM24MaeIwn3ZY8AtnzXulWA+2mMrauQRpfcO3Deptb0iB1GCdQwVe53QKpaY2y/i
-	l+vXGPc07DE92NAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1469B4A0B3;
-	Wed,  8 Apr 2026 08:52:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H6VkAzoX1mkrDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 08 Apr 2026 08:52:10 +0000
-Date: Wed, 08 Apr 2026 10:52:09 +0200
-Message-ID: <87se95ltqe.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] ALSA: usb-audio: qcom: Fix incorrect type in enable_audio_stream
-In-Reply-To: <20260408083311.774173-1-songxiebing@kylinos.cn>
-References: <20260408054304.497277-1-songxiebing@kylinos.cn>
-	<20260408083311.774173-1-songxiebing@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JTo4y3qh"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c76c60c7502so273325a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Apr 2026 01:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775638401; x=1776243201; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q0O2gUMwG94qjNO3Rau2fy1EWrjPL+RirtTuaeXZuXI=;
+        b=JTo4y3qh56UkI+tIiA7JbQM8+SuU2aC7cADl4jjcka4hjicmxjLyCcahKXN0tV2dPu
+         De0sCcUuIULY20I4DEOTZnXmOZQMPHmjUdivTDyjGfWvpFRAxKCbFQLkQfW1USGLypP2
+         /u9Vjq7CpJAkZCRubOCqxnlhra92VHbzCOZ5dP+R5/qb+uwxdaLkfvbpLBRvKvyLOLWP
+         WE8k1qSYYYpo0MewzGrE/11ve8JE/hy3pwOR5i6MOl96ydVpXWnAS7lmkQ1immV1vZoS
+         SeNxvFXTub9OpOB6/FIoB5efEl3lbaGS5SqeXMcygXdqRW77PD2qS3ABArTMY6TtnknJ
+         RAdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775638401; x=1776243201;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q0O2gUMwG94qjNO3Rau2fy1EWrjPL+RirtTuaeXZuXI=;
+        b=N2pXaiRAbGkASQ6gHXnBJJbZ27q3R8LQIfno5Ajm5pVc1FP5op+YHXFqm9Hn2FqCaS
+         J6IOFoINTCu/CGKWFa2UJwtutt+uG5zmilTcfZvP2iwK+scDqS4PbYtGEr09grfYMn16
+         zesejWT5/MZbqpTDk/oMQVNUKEI2wKwR8Jg08j3eqjVQ9frXyUGf3rflzk6OGOeRsD3T
+         M12bQgotFKXN7s9eD5pGaJgDFpaSa04s3TddCKGiriOdl0Llqz/PpxofS9tpNJFxh7uX
+         9kgKRvt313j8AmEhnPw+VFONho5wkMUMLxMhByAW+b0W/hVEDu8ytJl4/8upc//7nTDR
+         VsYw==
+X-Forwarded-Encrypted: i=1; AJvYcCX011H9uYGof1sFLZ3cdsKXOyLESdBdaC7hQ2Ng2vAbFkzZTQasPCHOlyxBb3DH6xUw2/hLfqYhHuSaVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx34Mm3zad7BJaLKbqfxpliePBjrbg+3jx47cxAXogzLpbvxlif
+	2HnzttNO9jhQONUD3j9TFSJeJqyJmVCm9lbmkzl8RJN0AmLSx3K5zUIz
+X-Gm-Gg: AeBDies4Lxzy0ynNYjXCcB4xiCzFUwRLSVzawpId5ctfkFIYHKzrVMl+mR8F+ZAPhnE
+	5IeMpLYdH7gG9cZJKJUgtKC8Ch+IADgFFc5ccm4DaqYrADJDVf2KLCoR6E2UdBKkCZLk225/rmB
+	kFjQRrR/d3uN+qG43Ex8+zhOruBTNh1/z+PLWt861toFgLAVepaTQMxp1m2pQiOOJ7HTmyIqgsO
+	lxXFx3E2Ce1i+ty4hVeTnO82m9Ddica/04TuqF2N1Y7oz8FLUKgMHA0PiFifxpqhu82lIChx2Fg
+	KyBiSs747NFBacH9aG7A8pBNIVMQ/mzCrTyuPM/94n5ExeQV/2+Vqkll72GwqCsw613TN5Qfk5o
+	oqTfAsMYEEPXvIm7yf1xKK6JvRI0nFemsPAEj601SYyY/nbvrcaol1Lt09n77FZ5O3pZR/bqWzU
+	/AwWlhJrOtXzADaKSOFVc8b3QK1WcoB4G1GC2ebKINkX3w1Clc4qD5cDv1zwaI
+X-Received: by 2002:a05:6a20:12cb:b0:39c:212c:9088 with SMTP id adf61e73a8af0-39f170ded85mr3378151637.20.1775638401563;
+        Wed, 08 Apr 2026 01:53:21 -0700 (PDT)
+Received: from [172.20.10.2] (42-77-205-177.emome-ip.hinet.net. [42.77.205.177])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c76c65995a9sm17556167a12.27.2026.04.08.01.53.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Apr 2026 01:53:20 -0700 (PDT)
+Message-ID: <1d0863b2-64f4-9f2f-94a3-3d730e9638f2@gmail.com>
+Date: Wed, 8 Apr 2026 16:51:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 42E194E8F2
-
-On Wed, 08 Apr 2026 10:33:11 +0200,
-songxiebing wrote:
-> 
-> Fix sparse warning:
-> sound/usb/qcom/qc_audio_offload.c:943:27: sparse: incorrect type in argument 2
-> expected unsigned int val but got snd_pcm_format_t.
-> 
-> Explicitly cast pcm_format to unsigned int for snd_mask_leave().
-> 
-> Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202604062109.Oxi8JjWW-lkp@intel.com/
-> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
-> ---
-> v2:
->  - Add __force prefix for cast
-
-Applied to for-next branch.  Thanks.
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] ASoC: nau8325: Add software reset during probe
+Content-Language: en-US
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Neo Chang <YLCHANG2@nuvoton.com>
+Cc: perex@perex.cz, tiwai@suse.com, krzysztof.kozlowski@oss.qualcomm.com,
+ dan.carpenter@linaro.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org, kchsu0@nuvoton.com, broonie@kernel.org,
+ lgirdwood@gmail.com, linux-sound@vger.kernel.org
+References: <20260408052639.187149-1-YLCHANG2@nuvoton.com>
+ <08462a39-61e2-4125-957e-9454751b011e@intel.com>
+From: YLCHANG2 <neo.chang70@gmail.com>
+In-Reply-To: <08462a39-61e2-4125-957e-9454751b011e@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Takashi
+On 4/8/26 16:07, Cezary Rojewski wrote:
+> On 2026-04-08 7:26 AM, Neo Chang wrote:
+>> Currently, the driver only performs a hardware reset during the I2C 
+>> probe
+>> sequence. To ensure all internal states of the codec are properly 
+>> cleared
+>> without affecting the configuration registers, a software reset is also
+>> required.
+>>
+>> According to the hardware specification, writing to the Software Reset
+>> register (R01) twice will reset all internal states safely.
+>>
+>> This patch adds the nau8325_software_reset() function, executes it right
+>> after the hardware reset in the probe function, and marks the R01 
+>> register
+>> as writeable in the regmap configuration.
+>
+> The first two paragraphs explain the situation, I'd say the third is 
+> redundant. Not a reason for a resend though, only something to consider.
+>
+> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+
+Thank you for the review and the advice on the commit message.
+
+I will keep it in mind for the next time.
+
