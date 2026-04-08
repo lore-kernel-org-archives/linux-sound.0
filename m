@@ -1,714 +1,583 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D2F2D0C63
-	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 07:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282FB351C0D
+	for <linux-sound@vger.kernel.org>; Wed,  8 Apr 2026 07:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775631839; cv=none; b=PgMfzLe7SN8BXONUiGx6E+fOHKjYahU816bB5lDCCHFGkrqW1ktTNlKnTooLVsCXuxf/jj22vPx3yf3w/2RtE/aKuF2auzuRY/Sfv+YvGpfsP3kPtzgnDKyulwa1os6lVttgiIdn44UIIm25GhWVN/vC5u5C0lovErcocF7oGJg=
+	t=1775631841; cv=none; b=ZzgqfFmfcTpDvZxLUM+a5epd6t5oowrOPoIMImJ8V599oLqYdRP1EWZGl1ur13S+QQj2NQYDGd3RbVSlM8WceePjRXCb1BC2eT9qBeyf5XWkGuXaAafTq7AsKMGrUadFS+QgKnVdXMXeyDXTuVgsrN5K1tx+JXVuCGQ2TiagkYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775631839; c=relaxed/simple;
-	bh=9sxrE/9ciloC5qu+7WAYpabUVmcV9PJT3k9Tg/e5fhI=;
+	s=arc-20240116; t=1775631841; c=relaxed/simple;
+	bh=BAD4m5TbEobGBmpv3TAC1kwVLO5ts99kRW9bVAYn6wU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aJvLE3zc7e8dXT4iDAdvHGmx+8ssajkqYziJyZJRAakCIj6jhFI9g6/1AYn093Zeq1lnPbbjhWFXc9wWgP3iQL1ddSsLpaWF0TPO9GUyGBJbkbaCh9gl/KVVYIlT/V8ieB+m0AXPdClPwJ/U6qZ6Nuj9AvIs6w/9+4e2epBigmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TbjumYaP; arc=none smtp.client-ip=91.218.175.183
+	 In-Reply-To:Content-Type; b=dGPKESKOmTIJmtwOZsiB9s5a3TFC/98Q8MWvuyk2pQXtXGVbfk6ttEV2gohl+r4cAGeMBhaWgEknq6gq53CcLTV1OEW0SLliU7YZJ8MYf22xvDXPQkUeYqhxQ1MbyX5xMakbnhyLHJEMK8gt75VHmSqPpLF/1TY4y3J0Fj62i+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=i46YmMaY; arc=none smtp.client-ip=91.218.175.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TbjumYaP"
-Message-ID: <708d8985-313a-4096-ac59-26e9d3088637@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="i46YmMaY"
+Message-ID: <be951758-3cd0-4948-860e-384b40c4e1ef@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775631834;
+	t=1775631837;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qt/0rp23m8+nnDdqp8A5R2uoQEWr9iSqRSSSl++5fDg=;
-	b=TbjumYaP+xzeQd1gwvC0zKbGBzfsfYfj3Aij1f0fZk2zJjEq1JYsHMRr5RQLwqZPWl0NjG
-	AYh9ReKr/i7KyD75hfbIe2sKwNqT3cDiYmhme74F0VDsGSwTDNAutewlBHr/7ZPbseIgbw
-	bx+BtSNuYNHzdcqFtr9kIhfnKND3Gcc=
-Date: Wed, 8 Apr 2026 08:43:47 +0200
+	bh=s7vwCgCea8kFJ+PSCHYaCsPlG+nGkdrmC9TirOWIx4E=;
+	b=i46YmMaYekHLM0b6Z73pBicol3LoOzhz84yCLLYCbqJuhAIO5KuoqmfT0cTyhVzPY8hJMm
+	UinTi/LAjcmKeaKAApbulDC0x3OWq/EHIcMFNgj5E1TRXFteCw96k0E5ScNduA3VVudB5/
+	eqX/AJF0vBL7KnpMFwczO70t8HJQnLw=
+Date: Wed, 8 Apr 2026 09:03:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 3/5] ASoC: es9356-sdca: Add ES9356 SDCA driver
-To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org
-Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
- ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
- ckeepax@opensource.cirrus.com
-References: <20260407100105.123041-1-zhangyi@everest-semi.com>
- <20260407100105.123041-4-zhangyi@everest-semi.com>
+Subject: Re: [PATCH v5 1/3] ASoC: tac5xx2-sdw: add soundwire based codec
+ driver
+To: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
+ ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+ kai.vehmanen@linux.intel.com, baojun.xu@ti.com, shenghao-ding@ti.com,
+ sandeepk@ti.com, v-hampiholi@ti.com
+References: <20260407094829.2391-1-niranjan.hy@ti.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260407100105.123041-4-zhangyi@everest-semi.com>
+In-Reply-To: <20260407094829.2391-1-niranjan.hy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
-> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> index ca3e47db1..5953a6131 100644
-> --- a/sound/soc/codecs/Kconfig
-> +++ b/sound/soc/codecs/Kconfig
-> @@ -122,6 +122,7 @@ config SND_SOC_ALL_CODECS
->  	imply SND_SOC_ES8328_I2C
->  	imply SND_SOC_ES8375
->  	imply SND_SOC_ES8389
-> +	imply SND_SOC_ES9356
->  	imply SND_SOC_ES7134
->  	imply SND_SOC_ES7241
->  	imply SND_SOC_FRAMER
-> @@ -1300,6 +1301,12 @@ config SND_SOC_ES8389
->  	tristate "Everest Semi ES8389 CODEC"
->  	depends on I2C
->  
-> +config SND_SOC_ES9356
-> +        tristate "Everest Semi ES9356 CODEC SDW"
-> +        depends on SOUNDWIRE
-> +        select REGMAP_SOUNDWIRE
-> +	select REGMAP_SOUNDWIRE_MBQ
-> +
+> +struct tac5xx2_prv {
+> +	struct snd_soc_component *component;
+> +	struct sdw_slave *sdw_peripheral;
+> +	struct sdca_function_data *sa_func_data;
+> +	struct sdca_function_data *sm_func_data;
+> +	struct sdca_function_data *uaj_func_data;
+> +	struct sdca_function_data *hid_func_data;
+> +	enum sdw_slave_status status;
+> +	/* Lock for firmware download and PDE state transitions.
+> +	 * Serializes FW caching/download and DAPM-driven power
+> +	 * state changes to prevent PDE operations during firmware load.
+> +	 */
+> +	struct mutex pde_lock;
+> +	/* serialize potential concurrnet uaj detection in .hw_params
 
-indentation on last select seems off
+concurrent
 
+> +	 * during playback session and .interrupt_callback.
+> +	 */
+> +	struct mutex uaj_lock;
+> +	struct regmap *regmap;
+> +	struct device *dev;
+> +	bool hw_init;
+> +	bool first_hw_init;
+> +	u32 part_id;
+> +	unsigned int cx11_value;
+> +	struct snd_soc_jack *hs_jack;
+> +	int jack_type;
+> +	 /* Custom fw binary. UMP File Download is not used. */
+> +	const u8 *fw_data;
+> +	size_t fw_size;
+> +	bool fw_cached;
+> +	bool fw_dl_success;
+> +	u8 fw_binaryname[64];
+> +};
 
-> +static int es9356_sdca_pde_event(struct snd_soc_dapm_widget *w,
-> +	struct snd_kcontrol *kcontrol, int event)
+> +static int tac_cx11_put(struct snd_kcontrol *kcontrol,
+> +			struct snd_ctl_elem_value *ucontrol)
 > +{
-> +	struct snd_soc_component *component =
-> +		snd_soc_dapm_to_component(w->dapm);
-> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-> +	unsigned char ps0 = 0x0, ps3 = 0x3;
+> +	struct snd_soc_component *component;
+> +	struct tac5xx2_prv *tac_dev;
+> +	unsigned int val;
+> +	int ret;
 > +
-> +	switch (event) {
-> +	case SND_SOC_DAPM_POST_PMU:
-> +		regmap_write(es9356->regmap, w->reg, ps0);
-> +		es9356_pde_transition_delay(es9356, SDW_SDCA_CTL_FUNC(w->reg), SDW_SDCA_CTL_ENT(w->reg), ps0);
-> +		pm_runtime_mark_last_busy(&es9356->slave->dev);
-
-You mark the device as last_busy when powering up?
-
-> +		break;
-> +	case SND_SOC_DAPM_PRE_PMD:
-> +		regmap_write(es9356->regmap, w->reg, ps3);
-> +		es9356_pde_transition_delay(es9356, SDW_SDCA_CTL_FUNC(w->reg), SDW_SDCA_CTL_ENT(w->reg), ps3);
-
-but not when powering down?
-
-Since your device has multiple functions, you also need to track which functions are active. It's easier with one subdevice per function, so that the runtime_pm core keeps track of all children devices. If you have a monolithic driver for multiple functions, you will have to reinvent the wheel with refcounts, etc.
-
-How difficult would it be to follow the infrastructure introduced by Cirrus Logic for SDCA codecs, and split this driver in multiple functions?
-
-> +		break;
+> +	val = ucontrol->value.enumerated.item[0];
+> +
+> +	if (val >= ARRAY_SIZE(tac_cx11_mux_texts))
+> +		return -EINVAL;
+> +
+> +	component = snd_kcontrol_chip(kcontrol);
+> +	if (!component)
+> +		return -ENODEV;
+> +
+> +	tac_dev = snd_soc_component_get_drvdata(component);
+> +	if (!tac_dev || !tac_dev->sdw_peripheral || !tac_dev->hw_init) {
+> +		dev_err(component->dev, "failed to get driver data for cx put");
+> +		return -ENODEV;
 > +	}
+> +
+> +	if (tac_dev->cx11_value == val) {
+> +		dev_dbg(tac_dev->dev, "cx put, same value");
+> +		return 0; /* No change */
+> +	}
+> +
+> +	tac_dev->cx11_value = val;
+> +
+> +	ret = regmap_write(tac_dev->regmap,
+> +			   SDW_SDCA_CTL(TAC_FUNCTION_ID_SM, TAC_SDCA_ENT_CX11,
+> +					TAC_SDCA_CTL_CX_CLK_SEL, 0),
+> +			   val);
+
+do you really want to let userspace control the clock sources?
+In most cases the clock sources should only be changed to let the SDCA device operate on its own while the bus is stopped.
+userspace has no concept of SoundWire bus stop, nor is it aware of when playback actually starts.
+This deserves more explanations/discussions.
+
+
+> +	if (ret) {
+> +		dev_err(tac_dev->dev, "cx put failed: %d", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 1;
+> +}
+> +
+> +/* Volume controls for mic, hp and mic cap */
+> +static const struct snd_kcontrol_new tac5xx2_snd_controls[] = {
+> +	SOC_DOUBLE_R_RANGE_TLV("Amp Volume", TAC_AMP_LVL_CFG0, TAC_AMP_LVL_CFG1,
+> +			       2, 0, 44, 1, tac5xx2_amp_tlv),
+> +	TAC_DOUBLE_Q78_TLV("DMIC Capture Volume", SM, FU113),
+> +	TAC_DOUBLE_Q78_TLV("Speaker Volume", SA, FU21),
+> +	SOC_DAPM_ENUM_EXT("CX11 CS Select", tac_cx11_mux_enum, tac_cx11_get,
+> +			  tac_cx11_put),
+> +};
+> +
+> +static const struct snd_kcontrol_new tac_uaj_controls[] = {
+> +	TAC_DOUBLE_Q78_TLV("UAJ Playback Volume", UAJ, FU41),
+> +	SDCA_SINGLE_Q78_TLV("UAJ Capture Volume",
+> +			    SDW_SDCA_CTL(TAC_FUNCTION_ID_UAJ, TAC_SDCA_ENT_FU36,
+> +					 TAC_SDCA_CHANNEL_GAIN, TAC_JACK_MONO_CS),
+> +			   TAC_DVC_MIN, TAC_DVC_MAX, TAC_DVC_STEP, tac5xx2_dvc_tlv),
+> +};
+> +
+> +static const struct snd_soc_dapm_widget tac5xx2_common_widgets[] = {
+> +	/* Port 1: Speaker Playback Path */
+> +	SND_SOC_DAPM_AIF_IN("AIF1 Playback", "DP1 Speaker Playback", 0,
+> +			    SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_PGA("FU21_L", FU21_L_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU21_R", FU21_R_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU23_L", FU23_L_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU23_R", FU23_R_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_OUTPUT("SPK_L"),
+> +	SND_SOC_DAPM_OUTPUT("SPK_R"),
+> +
+> +	/* Port 3: Smart Mic (DMIC) Capture Path */
+> +	SND_SOC_DAPM_AIF_OUT("AIF3 Capture", "DP3 Mic Capture", 0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_INPUT("DMIC_L"),
+> +	SND_SOC_DAPM_INPUT("DMIC_R"),
+> +	SND_SOC_DAPM_PGA("IT11", IT11_USAGE_REG, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_SUPPLY("CS11", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_SUPPLY("CS18", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_SUPPLY("CS113", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU11_L", FU11_L_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU11_R", FU11_R_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("PPU11", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_PGA("XU12", XU12_BYPASS_REG, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU113_L", FU113_L_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU113_R", FU113_R_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("OT113", OT113_USAGE_REG, 0, 0, NULL, 0),
+> +};
+> +
+> +static const struct snd_soc_dapm_widget tac_uaj_widgets[] = {
+> +	/* Port 4: UAJ (Headphone) Playback Path */
+> +	SND_SOC_DAPM_AIF_IN("AIF4 Playback", "DP4 UAJ Speaker Playback", 0,
+> +			    SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_PGA("IT41", IT41_USAGE_REG, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU41_L", FU41_L_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("FU41_R", FU41_R_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_PGA("XU42", XU42_BYPASS_REG, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_SUPPLY("CS41", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_DAC("OT45", "DP4 UAJ Speaker Playback", OT45_USAGE_REG, 0, 0),
+> +	SND_SOC_DAPM_OUTPUT("HP_L"),
+> +	SND_SOC_DAPM_OUTPUT("HP_R"),
+> +
+> +	/* Port 7: UAJ (Headset Mic) Capture Path */
+> +	SND_SOC_DAPM_AIF_OUT("AIF7 Capture", "DP7 UAJ Mic Capture", 0,
+> +			     SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_INPUT("UAJ_MIC"),
+> +	SND_SOC_DAPM_ADC("IT33", "DP7 UAJ Mic Capture", IT33_USAGE_REG, 0, 0),
+> +	SND_SOC_DAPM_PGA("FU36", FU36_MUTE_REG, 0, 1, NULL, 0),
+> +	SND_SOC_DAPM_SUPPLY("CS36", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_PGA("OT36", OT36_USAGE_REG, 0, 0, NULL, 0),
+> +};
+> +
+> +static const struct snd_soc_dapm_route tac5xx2_common_routes[] = {
+> +	/* Speaker Playback Path */
+> +	{"FU21_L", NULL, "AIF1 Playback"},
+> +	{"FU21_R", NULL, "AIF1 Playback"},
+> +
+> +	{"FU23_L", NULL, "FU21_L"},
+> +	{"FU23_R", NULL, "FU21_R"},
+> +
+> +	{"SPK_L", NULL, "FU23_L"},
+> +	{"SPK_R", NULL, "FU23_R"},
+> +
+> +	/* Smart Mic DAPM Routes */
+> +	{"IT11", NULL, "DMIC_L"},
+> +	{"IT11", NULL, "DMIC_R"},
+> +	{"IT11", NULL, "CS11"},
+> +	{"IT11", NULL, "CS18"},
+> +	{"FU11_L", NULL, "IT11"},
+> +	{"FU11_R", NULL, "IT11"},
+> +	{"PPU11", NULL, "FU11_L"},
+> +	{"PPU11", NULL, "FU11_R"},
+> +	{"XU12", NULL, "PPU11"},
+> +	{"FU113_L", NULL, "XU12"},
+> +	{"FU113_R", NULL, "XU12"},
+> +	{"FU113_L", NULL, "CS113"},
+> +	{"FU113_R", NULL, "CS113"},
+> +	{"OT113", NULL, "FU113_L"},
+> +	{"OT113", NULL, "FU113_R"},
+> +	{"OT113", NULL, "CS113"},
+> +	{"AIF3 Capture", NULL, "OT113"},
+> +};
+> +
+> +static const struct snd_soc_dapm_route tac_uaj_routes[] = {
+> +	/* UAJ Playback routes */
+> +	{"IT41", NULL, "AIF4 Playback"},
+> +	{"IT41", NULL, "CS41"},
+> +	{"FU41_L", NULL, "IT41"},
+> +	{"FU41_R", NULL, "IT41"},
+> +	{"XU42", NULL, "FU41_L"},
+> +	{"XU42", NULL, "FU41_R"},
+> +	{"OT45", NULL, "XU42"},
+> +	{"OT45", NULL, "CS41"},
+> +	{"HP_L", NULL, "OT45"},
+> +	{"HP_R", NULL, "OT45"},
+> +
+> +	/* UAJ Capture routes */
+> +	{"IT33", NULL, "UAJ_MIC"},
+> +	{"IT33", NULL, "CS36"},
+> +	{"FU36", NULL, "IT33"},
+> +	{"OT36", NULL, "FU36"},
+> +	{"OT36", NULL, "CS36"},
+> +	{"AIF7 Capture", NULL, "OT36"},
+> +};
+> +
+> +static s32 tac_set_sdw_stream(struct snd_soc_dai *dai,
+> +			      void *sdw_stream, s32 direction)
+> +{
+> +	if (sdw_stream)
+> +		snd_soc_dai_dma_data_set(dai, direction, sdw_stream);
+> +
 > +	return 0;
 > +}
-
-> +static void es9356_sdca_jack_init(struct es9356_sdw_priv *es9356)
+> +
+> +static void tac_sdw_shutdown(struct snd_pcm_substream *substream,
+> +			     struct snd_soc_dai *dai)
 > +{
-> +	mutex_lock(&es9356->jack_lock);
-> +
-> +	if (es9356->hs_jack) {
-> +		sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_7);
-> +		sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1,
-> +			(SDW_SCP_SDCA_INTMASK_SDCA_7 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_1));
-> +	}
-> +
-> +	mutex_unlock(&es9356->jack_lock);
-
-you should explain what this jack_lock protects and what sort of race condition can happen. I don't recall seeing this before?
-
-
-> +static int es9356_sdca_button(unsigned int *buffer)
-> +{
-> +	static int cur_button;
-> +
-> +	if (*(buffer + 1) | *(buffer + 2))
-> +		return -EINVAL;
-> +	switch (*buffer) {
-> +	case 0x00:
-> +		cur_button = 0;
-> +		break;
-> +	case 0x20:
-> +		cur_button = SND_JACK_BTN_5;
-> +		break;
-> +	case 0x10:
-> +		cur_button = SND_JACK_BTN_3;
-> +		break;
-> +	case 0x08:
-> +		cur_button = SND_JACK_BTN_2;
-> +		break;
-> +	case 0x02:
-> +		cur_button = SND_JACK_BTN_4;
-> +		break;
-> +	case 0x01:
-> +		cur_button = SND_JACK_BTN_0;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-
-where is BTN_1 handled? you listed it in patch1
-
-+	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-+					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
-+					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-+					 SND_JACK_BTN_3 | SND_JACK_BTN_4 |
-+					 SND_JACK_BTN_5,
-
-
-
-
-> +static void es9356_jack_detect_handler(struct work_struct *work)
-> +{
-> +	struct es9356_sdw_priv *es9356 =
-> +		container_of(work, struct es9356_sdw_priv, jack_detect_work.work);
-> +	int ret, btn_type = 0;
-> +
-> +	if (!es9356->hs_jack)
-> +		return;
-> +
-> +	if (!es9356->component->card || !es9356->component->card->instantiated)
-> +		return;
-> +
-> +	if (es9356->sdca_status & SDW_SCP_SDCA_INT_SDCA_7) {
-> +		btn_type = es9356_sdca_button_detect(es9356);
-> +		if (btn_type < 0)
-> +			return;
-
-I don't fully understand why you deal with buttons in a jack_detect handler, when you have a button_handler below?
-
-> +	} else {
-> +		ret = es9356_sdca_headset_detect(es9356);
-> +		if (ret < 0)
-> +			return;
-> +	}
-> +
-> +	if (es9356->jack_type != SND_JACK_HEADSET)
-> +		btn_type = 0;
-> +
-> +	snd_soc_jack_report(es9356->hs_jack, es9356->jack_type | btn_type,
-> +			SND_JACK_HEADSET |
-> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-
-BTN1 here as well
-
-> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
-> +
-> +	if (btn_type) {
-> +		snd_soc_jack_report(es9356->hs_jack, es9356->jack_type,
-> +			SND_JACK_HEADSET |
-> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-
-and here
-
-> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
-> +		mod_delayed_work(system_power_efficient_wq,
-> +			&es9356->button_detect_work, msecs_to_jiffies(280));
-> +	}
+> +	snd_soc_dai_set_dma_data(dai, substream, NULL);
 > +}
 > +
-> +static void es9356_button_detect_handler(struct work_struct *work)
+> +static int tac_clear_latch(struct tac5xx2_prv *priv)
 > +{
-> +	struct es9356_sdw_priv *es9356 =
-> +		container_of(work, struct es9356_sdw_priv, button_detect_work.work);
-> +	unsigned int reg, offset;
-> +	int ret, idx, btn_type = 0;
-> +	unsigned int button[3];
+> +	int ret;
 > +
-> +	ret = regmap_read(es9356->regmap,
-> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0), &reg);
+> +	ret = regmap_write(priv->regmap, TAC_INT_CFG, 0X00);
+> +	if (ret)
+> +		return ret;
 > +
-> +	if (ret < 0)
-> +		goto io_error;
+> +	ret = regmap_update_bits(priv->regmap, TAC_INT_CFG,
+> +				 TAC_INT_CFG_CLR_REG, TAC_INT_CFG_CLR_REG);
+> +	if (ret)
+> +		return ret;
 > +
-> +	if (reg == 0x04) {
-> +		ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID, &offset);
-> +		if (ret < 0)
-> +			goto io_error;
-> +		for (idx = 0; idx < ARRAY_SIZE(button); idx++) {
-> +			ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID + offset + idx, &reg);
-> +			if (ret < 0)
-> +				goto io_error;
-> +			button[idx] = reg;
-> +		}
-> +		btn_type = es9356_sdca_button(&button[0]);
-> +	}
-> +
-> +	snd_soc_jack_report(es9356->hs_jack, es9356->jack_type | btn_type,
-> +			SND_JACK_HEADSET |
-> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
-> +
-> +	if (btn_type) {
-> +		snd_soc_jack_report(es9356->hs_jack, es9356->jack_type,
-> +			SND_JACK_HEADSET |
-> +			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-> +			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-> +			SND_JACK_BTN_4 | SND_JACK_BTN_5);
-> +		mod_delayed_work(system_power_efficient_wq,
-> +			&es9356->button_detect_work, msecs_to_jiffies(280));
-> +	}
-> +
-> +	return;
-> +io_error:
-> +	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
+> +	ret = regmap_write(priv->regmap, TAC_INT_CFG, 0X00);
+> +	return ret;
 > +}
 > +
-> +static int es9356_sdw_pcm_hw_params(struct snd_pcm_substream *substream,
-> +				    struct snd_pcm_hw_params *params,
-> +				    struct snd_soc_dai *dai)
+> +static int tac_sdw_hw_params(struct snd_pcm_substream *substream,
+> +			     struct snd_pcm_hw_params *params,
+> +			     struct snd_soc_dai *dai)
 > +{
 > +	struct snd_soc_component *component = dai->component;
-> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
+> +	struct tac5xx2_prv *tac_dev = snd_soc_component_get_drvdata(component);
 > +	struct sdw_stream_config stream_config = {0};
 > +	struct sdw_port_config port_config = {0};
-> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-> +	int ret;
-> +	unsigned int rate;
+> +	struct sdw_stream_runtime *sdw_stream;
+> +	struct sdw_slave *sdw_peripheral = tac_dev->sdw_peripheral;
+> +	unsigned long time;
+> +	int ret, retry;
+> +	int function_id;
+> +	int pde_entity;
+> +	int port_num;
+> +	unsigned int actual_ps = 3; /* off */
+> +	u8 sample_rate_idx = 0;
 > +
-> +	if (!sdw_stream)
+> +	time = wait_for_completion_timeout(&sdw_peripheral->initialization_complete,
+> +					   msecs_to_jiffies(TAC5XX2_PROBE_TIMEOUT_MS));
+> +	if (!time) {
+> +		dev_warn(tac_dev->dev, "%s: hw initialization timeout\n", __func__);
+> +		return -ETIMEDOUT;
+> +	}
+> +	if (!tac_dev->hw_init) {
+> +		dev_err(tac_dev->dev,
+> +			"error: operation without hw initialization");
 > +		return -EINVAL;
+> +	}
 > +
-> +	if (!es9356->slave)
+> +	sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+> +	if (!sdw_stream) {
+> +		dev_err(tac_dev->dev, "failed to get dma data");
 > +		return -EINVAL;
+> +	}
 > +
-> +	/* SoundWire specific configuration */
+> +	ret = tac_clear_latch(tac_dev);
+> +	if (ret)
+> +		dev_warn(tac_dev->dev, "clear latch failed, err=%d", ret);
+> +
+> +	switch (dai->id) {
+> +	case TAC5XX2_DMIC:
+> +		function_id = TAC_FUNCTION_ID_SM;
+> +		pde_entity = TAC_SDCA_ENT_PDE11;
+> +		port_num = TAC_SDW_PORT_NUM_DMIC;
+> +		break;
+> +	case TAC5XX2_UAJ:
+> +		function_id = TAC_FUNCTION_ID_UAJ;
+> +		pde_entity = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+> +				TAC_SDCA_ENT_PDE47 : TAC_SDCA_ENT_PDE34;
+> +		port_num = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+> +				TAC_SDW_PORT_NUM_UAJ_PLAYBACK :
+> +				TAC_SDW_PORT_NUM_UAJ_CAPTURE;
+> +		/* Detect and set jack type for UAJ path before playback.
+> +		 * This is required as jack is not triggering interrupt
+> +		 * when the device is in suspended mode.
+> +		 */
+> +		mutex_lock(&tac_dev->uaj_lock);
+> +		tac5xx2_sdca_headset_detect(tac_dev);
+> +		mutex_unlock(&tac_dev->uaj_lock);
+> +		break;
+> +	case TAC5XX2_SPK:
+> +		function_id = TAC_FUNCTION_ID_SA;
+> +		pde_entity = TAC_SDCA_ENT_PDE23;
+> +		port_num = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+> +				TAC_SDW_PORT_NUM_SPK_PLAYBACK :
+> +				TAC_SDW_PORT_NUM_SPK_CAPTURE;
+> +		break;
+> +	default:
+> +		dev_err(tac_dev->dev, "Invalid dai id: %d", dai->id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	mutex_lock(&tac_dev->pde_lock);
+> +	regmap_write(tac_dev->regmap, SDW_SDCA_CTL(function_id, pde_entity,
+> +						   TAC_SDCA_REQUESTED_PS, 0),
+> +		     0x03);
+> +	mutex_unlock(&tac_dev->pde_lock);
+> +
 > +	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
-> +
-> +	port_config.num = dai->id;
-> +
-> +	ret = sdw_stream_add_slave(es9356->slave, &stream_config,
+> +	port_config.num = port_num;
+> +	ret = sdw_stream_add_slave(sdw_peripheral, &stream_config,
 > +				   &port_config, 1, sdw_stream);
 > +	if (ret) {
-> +		dev_err(dai->dev, "Unable to configure port\n");
-> +		return -EINVAL;
+> +		dev_err(dai->dev,
+> +			"Unable to configure port %d: %d\n", port_num, ret);
+> +		return ret;
 > +	}
 > +
 > +	switch (params_rate(params)) {
-> +	case 16000:
-> +		rate = ES9356_SDCA_RATE_16000HZ;
+> +	case 48000:
+> +		sample_rate_idx = 0x01;
 > +		break;
 > +	case 44100:
-> +		rate = ES9356_SDCA_RATE_44100HZ;
-> +		break;
-> +	case 48000:
-> +		rate = ES9356_SDCA_RATE_48000HZ;
+> +		sample_rate_idx = 0x02;
 > +		break;
 > +	case 96000:
-> +		rate = ES9356_SDCA_RATE_96000HZ;
+> +		sample_rate_idx = 0x03;
+> +		break;
+> +	case 88200:
+> +		sample_rate_idx = 0x04;
 > +		break;
 > +	default:
-> +		dev_err(component->dev, "%s: Rate %d is not supported\n",
-> +			__func__, params_rate(params));
+> +		dev_dbg(tac_dev->dev, "Unsupported sample rate: %d Hz",
+> +			params_rate(params));
 > +		return -EINVAL;
 > +	}
 > +
-> +	if (dai->id == ES9356_DMIC)
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_CS113, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
-> +	if (dai->id == ES9356_AMP)
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_CS21, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
-> +	if ((dai->id == ES9356_JACK_IN) | (dai->id == ES9356_JACK_OUT)) {
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_CS41, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_CS36, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
-
-this is interesting, in theory SoundWire allows input and output to use different sampling frequencies?
-dais are usually one direction only, shouldn't the clock be set only for the specific dai?
-
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int es9356_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
-> +				  struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-> +
-> +	if (!es9356->slave)
-> +		return -EINVAL;
-> +
-> +	sdw_stream_remove_slave(es9356->slave, sdw_stream);
-> +	return 0;
-> +}
-> +
-> +static const struct snd_soc_dai_ops es9356_sdw_ops = {
-> +	.hw_params	= es9356_sdw_pcm_hw_params,
-> +	.hw_free	= es9356_sdw_pcm_hw_free,
-> +	.set_stream	= es9356_sdw_set_sdw_stream,
-> +	.shutdown	= es9356_sdw_shutdown,
-> +};
-> +
-> +static struct snd_soc_dai_driver es9356_sdw_dai[] = {
-> +	{
-> +		.name = "es9356-sdp-aif4",
-> +		.id = ES9356_DMIC,
-> +		.capture = {
-> +			.stream_name = "DP1 Capture",
-> +			.channels_min = 1,
-> +			.channels_max = 2,
-> +		},
-> +		.ops = &es9356_sdw_ops,
-> +	},
-> +	{
-> +		.name = "es9356-sdp-aif2",
-> +		.id = ES9356_JACK_IN,
-> +		.capture = {
-> +			.stream_name = "DP2 Capture",
-> +			.channels_min = 1,
-> +			.channels_max = 2,
-> +		},
-> +		.ops = &es9356_sdw_ops,
-> +	},
-> +	{
-> +		.name = "es9356-sdp-aif3",
-> +		.id = ES9356_AMP,
-> +		.playback = {
-> +			.stream_name = "DP3 Playback",
-> +			.channels_min = 1,
-> +			.channels_max = 2,
-> +		},
-> +		.ops = &es9356_sdw_ops,
-> +	},
-> +	{
-> +		.name = "es9356-sdp-aif1",
-> +		.id = ES9356_JACK_OUT,
-> +		.playback = {
-> +			.stream_name = "DP4 Playback",
-> +			.channels_min = 1,
-> +			.channels_max = 2,
-> +		},
-
-see my note above, jack_in and jack_out are seperate dais, so we shouldn't set handle their settings in the same way in hw_params.
-
-> +		.ops = &es9356_sdw_ops,
-> +	},
-> +};
-> +
-> +static int es9356_sdca_mbq_size(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU33, ES9356_SDCA_CTL_FU_CH_GAIN, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU11, ES9356_SDCA_CTL_FU_CH_GAIN, 0):
-> +		return 2;
-> +	default:
-> +		return 1;
-> +	}
-> +}
-> +
-> +static struct regmap_sdw_mbq_cfg es9356_mbq_config = {
-> +	.mbq_size = es9356_sdca_mbq_size,
-> +};
-> +
-> +static bool es9356_sdca_volatile_register(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case ES9356_BUF_ADDR_HID:
-> +	case ES9356_HID_BYTE2:
-> +	case ES9356_HID_BYTE3:
-> +	case ES9356_HID_BYTE4:
-> +	case SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_SELECTED_MODE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_PDE23, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_PDE23, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_PDE11, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_PDE11, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE47, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE47, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE34, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-> +	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE34, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-> +	case ES9356_FLAGS_HP:
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> +static const struct regmap_config es9356_sdca_regmap = {
-> +	.reg_bits = 32,
-> +	.val_bits = 16,
-> +	.volatile_reg = es9356_sdca_volatile_register,
-> +	.max_register = 0x45ffffff,
-> +	.cache_type = REGCACHE_MAPLE,
-> +	.use_single_read = true,
-> +	.use_single_write = true,
-> +};
-> +
-> +static void es9356_regcache_sync_volume(struct device *dev, struct regmap *regmap)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(es9356_volume_register); i++) {
-> +		regcache_sync_region(regmap, es9356_volume_register[i],
-> +			es9356_volume_register[i]);
-> +	}
-> +}
-> +
-> +static void es9356_register_init(struct es9356_sdw_priv *es9356)
-> +{
-> +	regmap_write(es9356->regmap, ES9356_STATE, 0x02);
-> +	regmap_write(es9356->regmap, ES9356_ENDPOINT_MODE, 0x24);
-> +	regmap_write(es9356->regmap, ES9356_PRE_DIV_CTL, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_ADC_OSR, 0x18);
-> +	regmap_write(es9356->regmap, ES9356_ADC_OSRGAIN, 0x13);
-> +	regmap_write(es9356->regmap, ES9356_DAC_OSR, 0x16);
-> +	regmap_write(es9356->regmap, ES9356_CLK_CTL, 0x0f);
-> +	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x01);
-> +	regmap_write(es9356->regmap, ES9356_CLK_SEL, 0x30);
-> +
-> +	regmap_write(es9356->regmap, ES9356_DETCLK_CTL, 0x51);
-> +	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x10);
-> +	regmap_write(es9356->regmap, ES9356_MICBIAS_CTL, 0x10);
-> +	regmap_write(es9356->regmap, ES9356_HPDETECT_CTL, 0x07);
-> +	regmap_write(es9356->regmap, ES9356_ADC_ANA, 0x30);
-> +	regmap_write(es9356->regmap, ES9356_PGA_CTL, 0xa8);
-> +	regmap_write(es9356->regmap, ES9356_ADC_INT, 0xaa);
-> +	regmap_write(es9356->regmap, ES9356_ADC_LP, 0x19);
-> +	regmap_write(es9356->regmap, ES9356_VMID1SEL, 0xbc);
-> +	regmap_write(es9356->regmap, ES9356_VMID_TIME, 0x0b);
-> +	regmap_write(es9356->regmap, ES9356_STATE_TIME, 0xbb);
-> +	regmap_write(es9356->regmap, ES9356_HP_SPK_TIME, 0x77);
-> +	regmap_write(es9356->regmap, ES9356_HP_DETECTTIME, 0xa4);
-> +	regmap_write(es9356->regmap, ES9356_MICBIAS_SEL, 0x15);
-> +	regmap_write(es9356->regmap, ES9356_KEY_PRESS_TIME, 0xff);
-> +	regmap_write(es9356->regmap, ES9356_KEY_RELEASE_TIME, 0xff);
-> +	regmap_write(es9356->regmap, ES9356_KEY_HOLD_TIME, 0x0f);
-> +	regmap_write(es9356->regmap, ES9356_BTSEL_REF, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_KEYD_DETECT, 0x18);
-> +	regmap_write(es9356->regmap, ES9356_MICBIAS_RES, 0x03);
-> +	regmap_write(es9356->regmap, ES9356_BUTTON_CHARGE, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_CALIBRATION_TIME, 0x13);
-> +	regmap_write(es9356->regmap, ES9356_CALIBRATION_SETTING, 0xf4);
-> +
-> +	regmap_write(es9356->regmap, ES9356_SPK_VOLUME, 0x33);
-> +	regmap_write(es9356->regmap, ES9356_DAC_VROI, 0x01);
-> +	regmap_write(es9356->regmap, ES9356_DAC_LP, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_HP_IBIAS, 0x04);
-> +	regmap_write(es9356->regmap, ES9356_HP_LP, 0x03);
-> +	regmap_write(es9356->regmap, ES9356_SPKLDO_CTL, 0x65);
-> +	regmap_write(es9356->regmap, ES9356_SPKBIAS_COMP, 0x09);
-> +	regmap_write(es9356->regmap, ES9356_VMID1STL, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_VMID2STL, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_VSEL, 0xfc);
-> +
-> +	regmap_write(es9356->regmap, ES9356_IBIASGEN, 0x10);
-> +	regmap_write(es9356->regmap, ES9356_ADC_AMIC_CTL, 0x0d);
-> +	regmap_write(es9356->regmap, ES9356_STATE, 0x0e);
-> +	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x00);
-> +	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x08);
-> +
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-> +
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-> +
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-> +
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-> +}
-> +
-> +static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *slave)
-> +{
-> +	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-> +
-> +	if (es9356->hw_init)
-> +		return 0;
-> +
-> +	regcache_cache_only(es9356->regmap, false);
-> +
-> +	if (es9356->first_hw_init) {
-> +		regcache_cache_bypass(es9356->regmap, true);
-> +	} else {
-> +		/*
-> +		 * PM runtime is only enabled when a Slave reports as Attached
-> +		 */
-> +
-> +		/* set autosuspend parameters */
-> +		pm_runtime_set_autosuspend_delay(&slave->dev, 3000);
-> +		pm_runtime_use_autosuspend(&slave->dev);
-> +
-> +		/* update count of parent 'active' children */
-> +		pm_runtime_set_active(&slave->dev);
-> +
-> +		/* make sure the device does not suspend immediately */
-> +		pm_runtime_mark_last_busy(&slave->dev);
-> +
-> +		pm_runtime_enable(&slave->dev);
-> +
-> +		es9356_register_init(es9356);
-> +	}
-> +	pm_runtime_get_noresume(&slave->dev);
-> +
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_XU12, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_XU22, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_XU42, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_XU36, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-> +	regmap_write(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
-> +
-> +	if (es9356->first_hw_init) {
-> +		regcache_cache_bypass(es9356->regmap, false);
-> +		regcache_mark_dirty(es9356->regmap);
-> +	} else
-> +		es9356->first_hw_init = true;
-> +
-> +	es9356->hw_init = true;
-> +
-> +	pm_runtime_mark_last_busy(&slave->dev);
-> +	pm_runtime_put_autosuspend(&slave->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int es9356_sdw_update_status(struct sdw_slave *slave,
-> +				    enum sdw_slave_status status)
-> +{
-> +	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-> +
-> +	if (status == SDW_SLAVE_UNATTACHED)
-> +		es9356->hw_init = false;
-> +
-> +	if (status == SDW_SLAVE_ATTACHED) {
-> +		if (es9356->hs_jack) {
-> +			sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_7);
-> +			sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1,
-> +			(SDW_SCP_SDCA_INTMASK_SDCA_7 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_1));
-
-I don't get why you have two writes in a row that will touch SDW_SCP_SDCA_INTMASK_SDCA_7?
-Is the first write required at all?
-
+> +	switch (function_id) {
+> +	case TAC_FUNCTION_ID_SM:
+> +		ret = regmap_write(tac_dev->regmap,
+> +				   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_PPU11,
+> +						TAC_SDCA_CTL_PPU_POSTURE_NUM, 0),
+> +				      0);
+> +		if (ret) {
+> +			dev_err(tac_dev->dev, "Failed to set PPU11: %d", ret);
+> +			return ret;
 > +		}
+> +
+> +		ret = regmap_write(tac_dev->regmap,
+> +				   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS113,
+> +						TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
+> +			sample_rate_idx);
+> +		if (ret) {
+> +			dev_err(tac_dev->dev, "Failed to set CS113 sample rate: %d", ret);
+> +			return ret;
+> +		}
+> +
+> +		if (tac_dev->cx11_value) {
+> +			ret = regmap_write(tac_dev->regmap,
+> +					   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS11,
+> +							TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
+> +					sample_rate_idx);
+> +		} else {
+> +			ret = regmap_write(tac_dev->regmap,
+> +					   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS18,
+> +							TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
+> +					sample_rate_idx);
+> +		}
+> +		if (ret) {
+> +			dev_err(tac_dev->dev, "Failed to set %s sample rate: %d",
+> +				tac_dev->cx11_value ? "CS11" : "CS18", ret);
+> +			return ret;
+> +		}
+> +		break;
+> +	case TAC_FUNCTION_ID_UAJ:
+> +		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> +			ret = regmap_write(tac_dev->regmap,
+> +					   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS41,
+> +							TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
+> +					sample_rate_idx);
+> +			if (ret) {
+> +				dev_err(tac_dev->dev, "Failed to set CS41 sample rate: %d", ret);
+> +				return ret;
+> +			}
+> +		} else {
+> +			ret = regmap_write(tac_dev->regmap,
+> +					   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS36,
+> +							TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
+> +					sample_rate_idx);
+> +			if (ret) {
+> +				dev_err(tac_dev->dev, "Failed to set CS36 sample rate: %d", ret);
+> +				return ret;
+> +			}
+> +		}
+> +		break;
+> +	case TAC_FUNCTION_ID_SA:
+> +		/* SmartAmp: no additional sample rate configuration needed */
+> +		break;
 > +	}
 > +
-> +	if (es9356->hw_init || status != SDW_SLAVE_ATTACHED)
-> +		return 0;
-> +
-> +	return es9356_sdca_io_init(&slave->dev, slave);
-> +}
-
-> +static int es9356_sdw_interrupt_callback(struct sdw_slave *slave,
-> +					 struct sdw_slave_intr_status *status)
-> +{
-> +	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-> +	int ret, stat;
-> +	int count = 0, retry = 3;
-> +	unsigned int sdca_cascade, scp_sdca_stat1 = 0;
-> +
-> +	mutex_lock(&es9356->jack_lock);
-> +
-> +	ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-> +	if (ret < 0)
-> +		goto io_error;
-> +	es9356->sdca_status = ret;
-> +
+> +	mutex_lock(&tac_dev->pde_lock);
+> +	retry = 3;
+> +	/* make sure that power transition write is successful, before checking atual ps */
 > +	do {
-> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-> +		if (ret < 0)
-> +			goto io_error;
-> +		if (ret & SDW_SCP_SDCA_INTMASK_SDCA_1) {
-> +			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
-> +				SDW_SCP_SDCA_INT_SDCA_1, SDW_SCP_SDCA_INT_SDCA_1);
-> +			if (ret < 0)
-> +				goto io_error;
+> +		ret = regmap_write(tac_dev->regmap, SDW_SDCA_CTL(function_id, pde_entity,
+> +								 TAC_SDCA_REQUESTED_PS, 0),
+> +				0x00);
+> +		if (!ret)
+> +			break;
+> +
+> +		dev_err(tac_dev->dev, "requested PS write err=%d, retry=%d", ret, retry);
+> +		usleep_range(1000, 1200);
+> +	} while (retry--);
+> +
+> +	retry = 3;
+> +	do {
+> +		ret = regmap_read(tac_dev->regmap, SDW_SDCA_CTL(function_id, pde_entity,
+> +								TAC_SDCA_ACTUAL_PS, 0),
+> +				  &actual_ps);
+> +		if (ret) {
+> +			dev_err(tac_dev->dev, "read actual PS err=%d: retry=%d", ret, retry);
+> +			continue;
 > +		}
 > +
-> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-> +		if (ret < 0)
-> +			goto io_error;
-> +		if (ret & SDW_SCP_SDCA_INTMASK_SDCA_5) {
-> +			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
-> +				SDW_SCP_SDCA_INT_SDCA_5, SDW_SCP_SDCA_INT_SDCA_5);
-> +			if (ret < 0)
-> +				goto io_error;
-> +		}
+> +		if (!actual_ps)
+> +			break;
 > +
-> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-> +		if (ret < 0)
-> +			goto io_error;
-> +		if (ret & SDW_SCP_SDCA_INTMASK_SDCA_7) {
-> +			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
-> +				SDW_SCP_SDCA_INT_SDCA_7, SDW_SCP_SDCA_INT_SDCA_7);
-> +			if (ret < 0)
-> +				goto io_error;
-> +		}
-
-Humm, maybe this was inspired by existing code, but why are you reading the same SDCA_INT1 egister multiple times?
-You could do a single read, then keep track of the interrupts and one update for all 3 sources of interrupts.
-If there is an additional interrupt you detect it and loop once more.
-
+> +		if (retry)
+> +			usleep_range(1000, 1200);
+> +	} while (retry--);
 > +
-> +		ret = sdw_read_no_pm(es9356->slave, SDW_DP0_INT);
-> +		if (ret < 0)
-> +			goto io_error;
-> +		sdca_cascade = ret & SDW_DP0_SDCA_CASCADE;
+> +	if (actual_ps != 0x00)
+> +		dev_warn(tac_dev->dev, "err PDE transition to D0: PS=0x%x\n",
+> +			 actual_ps);
+> +	mutex_unlock(&tac_dev->pde_lock);
 > +
-> +		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-> +		if (ret < 0)
-> +			goto io_error;
-> +		scp_sdca_stat1 = ret & SDW_SCP_SDCA_INTMASK_SDCA_1;
-> +
-> +		stat = scp_sdca_stat1 || sdca_cascade;
-> +
-> +		count++;
-> +	} while (stat != 0 && count < retry);
-> +
-> +	if (status->sdca_cascade)
-> +		mod_delayed_work(system_power_efficient_wq,
-> +			&es9356->jack_detect_work, msecs_to_jiffies(280));
-
-why 280 ms? how did you determine this value, hardware or experiments?
-
-> +
-> +	mutex_unlock(&es9356->jack_lock);
 > +	return 0;
+> +}
 > +
-> +io_error:
-> +	mutex_unlock(&es9356->jack_lock);
-> +	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
+> +static s32 tac_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
+> +			       struct snd_soc_dai *dai)
+> +{
+> +	s32 ret;
+> +	struct snd_soc_component *component = dai->component;
+> +	struct tac5xx2_prv *tac_dev =
+> +		snd_soc_component_get_drvdata(component);
+> +	struct sdw_stream_runtime *sdw_stream =
+> +		snd_soc_dai_get_dma_data(dai, substream);
+> +	int pde_entity, function_id;
+> +
+> +	sdw_stream_remove_slave(tac_dev->sdw_peripheral, sdw_stream);
+> +
+> +	switch (dai->id) {
+> +	case TAC5XX2_DMIC:
+> +		pde_entity = TAC_SDCA_ENT_PDE11;
+> +		function_id = TAC_FUNCTION_ID_SM;
+> +		break;
+> +	case TAC5XX2_UAJ:
+> +		function_id = TAC_FUNCTION_ID_UAJ;
+> +		pde_entity = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+> +				TAC_SDCA_ENT_PDE47 : TAC_SDCA_ENT_PDE34;
+> +		break;
+> +	default:
+> +		function_id = TAC_FUNCTION_ID_SA;
+> +		pde_entity = TAC_SDCA_ENT_PDE23;
+> +		break;
+> +	}
+> +	mutex_lock(&tac_dev->pde_lock);
+> +	ret = regmap_write(tac_dev->regmap,
+> +			   SDW_SDCA_CTL(function_id, pde_entity, 0x01, 0),
+> +			   0x03);
+
+you need to check the ACTUAL_PS as well, same as for PS3->PS0, otherwise you risk unlocking the PDE too early while it's transitioning state.
+
+> +	mutex_unlock(&tac_dev->pde_lock);
+> +
 > +	return ret;
 > +}
 
+> +#if IS_ENABLED(CONFIG_PCI)
+> +static struct pci_dev *tac_get_pci_dev(struct sdw_slave *peripheral)
+> +{
+> +	struct device *dev = &peripheral->dev;
 > +
+> +	for (; dev; dev = dev->parent) {
+> +		if (dev->bus == &pci_bus_type)
+> +			return to_pci_dev(dev);
+> +	}
+> +
+> +	return NULL;
+> +}
 > +#endif
 
+CONFIG_PCI makes no sense to me in a soundwire context. The parent is not a PCI bus, is it?
+
+> +
+> +static void tac_generate_fw_name(struct sdw_slave *slave, char *name, size_t size)
+> +{
+> +	struct sdw_bus *bus = slave->bus;
+> +	u16 part_id = slave->id.part_id;
+> +	u8 unique_id = slave->id.unique_id;
+> +#if IS_ENABLED(CONFIG_PCI)
+> +	struct pci_dev *pci = tac_get_pci_dev(slave);
+> +
+> +	if (pci) {
+> +		scnprintf(name, size, "%04X-%1X-%1X.bin",
+> +			  pci->subsystem_device, bus->link_id, unique_id);
+> +		return;
+> +	}
+> +#endif
+
+same here
+
+> +	/* Default firmware name based on part ID */
+> +	scnprintf(name, size, "%s%04x-%1X-%1X.bin",
+> +		  part_id == 0x2883 ? "tas" : "tac",
+> +		  part_id, bus->link_id, unique_id);
+> +}
