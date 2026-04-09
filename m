@@ -1,66 +1,66 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D438518AE3
-	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 05:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB012F49F6
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 05:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775711276; cv=none; b=Cevafb419CbaQ7kHzNgDws8yG69Fixi2u6pWZ0ldcfEUdh6wFgXhUPVroMmGetVgLis6Ozyx46At+/969pgSUSHLqPKn0U4uwmKOFVMa7aPs+CHtz1i0pWI3q2YHPkvVtaPiEErIraXci4b/G8l8Ytsj5P2azkAE4yF9zsNx8yc=
+	t=1775711278; cv=none; b=PajCbpdKyQrqcvfeQ+JT18Ma3tAGi8A767tww4/DVnIEXmcEx75g09CqJ10wKAIEckDSba9RM/AvClV3EZQ5GrBWx3gf38RMkAffI1ukF0vXwxJd4C8rQM9xth2WDN7/cPBRCx14HnwHH7rTksDDjbG5rHhW0RyvkEt8FWfVBaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775711276; c=relaxed/simple;
-	bh=LzW3JM4BIkuh3dXk6nKvU5Nj9l42FLzIyP3Xm1Tl9ek=;
+	s=arc-20240116; t=1775711278; c=relaxed/simple;
+	bh=pfwOpdAdZI4xY8r5fACVHo0rsIzCJKOkeJwOMfBKiBI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VsR3ENy5dkn21yDz5TXVXmyK/PsFs4xpFbvItppaxEjVp3HLQ6pXfKax/ZrWcnVN1SdGhjb7ZHbt/gJdsvAQgOK/xcksIGeUrCAgwlQJ1Lk+pWWhXWpDWl/iXTiExRJzty8yivAuFAR4qW5pQIxIOTeAfnUWAeglOZXbZ+kahYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=be5JM72O; arc=none smtp.client-ip=74.125.82.46
+	 In-Reply-To:To:Cc; b=OgnskSp+Zvqi3PmJqMuQjkKquKyT4X1H1oPd7kzVQZmAshuqCrZa94XwCXXaA9a0tB2KeCMlwrXJ7Xm5oRpAMv01wQOhUJlWyCkdmiXa5MwW02L8CXweLtYsqh1Eg3n31SNwxDUz4RRwffcQxGqCWLaP2iC4+C3sKjsHoDaQu4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RDtQlUUq; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="be5JM72O"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-12c1fcce8f8so3588363c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Apr 2026 22:07:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RDtQlUUq"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2ce22328930so513567eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Apr 2026 22:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775711274; x=1776316074; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775711276; x=1776316076; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CO4Y3v2y5LC1rP0BVajwReTvbiUPuMkV3YBcRwbWUQM=;
-        b=be5JM72OCQ1znDUY5g9+HTK+b1y8cnmYUxAGWMNabJu+U4AdC9+O/ZpO67pCaafSVd
-         A/EhU+ae3tzf68tAUIwH6HSkB/Pr6DDcDM5plBuVjsbn1+je7jmmwb7Lao8Vr9URKEQc
-         rKieqBW2QddPYjYU9EL5JfueQu5iUUaJWVFeyOM7xipegPKelFHUUr8Eyd/Nz9DNAol1
-         Dn6SLcVERccFNMfNEDLHIy77gShP6bS1P80jP+dvTPy9dBWbHx8SM1SiuKPHbNAVb4cy
-         5Ivam1RD2CVuuE8j5l9nKcSzGmL0txEWVAf6AoFXZrOR/qC57uDns0OG7IGQET38MLGV
-         YmsQ==
+        bh=ZQRrl7XoC33ZfAgtXK6CjQZg1231c3QiHaTyzrwZJ7k=;
+        b=RDtQlUUqyDuTsyF1h0kxp2NnY3I42ViEKu3Q4NDC5NAogfmBLhaBm+Ct6gBJNH94t0
+         GHVsn6qRGzCyzflj7YEX0cIR9sdHvlbMH3hafkgt8z18DDlgc0TIHi+4vmNpMXnDsnVs
+         sMg8zUWquVYtsf2C58h7kA5jjuMs6bii/Pek5W5JHL7ckEwgjqXoO3QEN4Ryiv/XQAzV
+         O1uEKcmhoFzaoKoUb+uxJJ5KmrFJm10hJaL11n1q6jKReBLxofEKQsro1ZzCAhTatd9m
+         R2/fGpxBWFMmkRhaQw81iS32RJ3sXOxPoXdhFLApl+u0o+I0/0TaKaZ+klN4OvCkM2qm
+         jCmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775711274; x=1776316074;
+        d=1e100.net; s=20251104; t=1775711276; x=1776316076;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=CO4Y3v2y5LC1rP0BVajwReTvbiUPuMkV3YBcRwbWUQM=;
-        b=ZRuEbiTfnqOx31qDBoc1MzIuldG4Dbul0YSEw04qLk9gJqI9ZuhGFd14/eCh7OT29t
-         NNR0awOdUpqjExoAipFhF/CXefjgARTY7eecDY1UBeodwJv6tiXukbD9JO7URPMwazRe
-         WqKGiUlrekaiqfndZtNScG7LpPa6xR3IdM20KR2k9h260MaL3wJH/yerrTAwFcyVChts
-         MpqXpdxM7sF+6HrRrjXAgdlunGIBYcEfSbv3FqJtMNsdxe+91HVsMO/38LvCnrAVLPVg
-         l75HRDIzwWWhKroJuArUGJFE1XnDRLn2z0WKLjpbE5cfiW966oq142GJAf39/1CAnKtW
-         a0LA==
-X-Gm-Message-State: AOJu0YxM32Hu790CpEQC+WRjhhiS+wx7tscRjxRqZY/P76zI14sQFBdh
-	cEPXo1tHzzTrDKmQYto91Ghfak0tn8axsJpqwZlRrdKPILh9p1iWe/Fe
-X-Gm-Gg: AeBDieu+VsOl2NUxJLOi7g+vdXRqQ5TKcM8iW2PxdcY1jSJJREXX4u+h/XAifQtlGsF
-	4C6fTpjDZVwHH2DhC3skRsZ+gdb3hy3sbBx2tX5R3g2Va8/5by/u16OYdgQpq+KQkB5G13/3Z8Y
-	l8DK0oiCYG1zRY0kplW/b/08hoBY1gf/tVVUCRuuU7PeR96xQpwTeJylAyrRVbZkYUZtsMqgqN6
-	xLNf06JDWyrxcOvNRtEIl/S175lilcpp77OIpZHtSZMzeSSjc0FhS4Z2SQPCN/keGvrtZgOayOb
-	jeK8/vbWM7iu9zpwX3k1MWoHqc7PEP4bpAkKN0UMhBCAW565vMEWCd4afqDYMasUMiZGX9E3oqK
-	Ey/b04Ng/gQnZKEM6q2WjOFt0tC+5r0NdCwMubkSZIFRJ65kcMYxcP7cKLcqjoG96hZI9FEbBkS
-	vhxBrU19JbhTUNybOQZnznCUeP0hmdsdh04Akx/LtNsCM7UqNehiteR0cJESouIgEQR12zkbt24
-	Tg0
-X-Received: by 2002:a05:7300:e207:b0:2d1:d434:cfe3 with SMTP id 5a478bee46e88-2d1d434d32fmr5533344eec.0.1775711273850;
-        Wed, 08 Apr 2026 22:07:53 -0700 (PDT)
+        bh=ZQRrl7XoC33ZfAgtXK6CjQZg1231c3QiHaTyzrwZJ7k=;
+        b=V8h1awRoaxLkH5sc6G8TuZkNkEVxS8GjLKauVazDjDqK2Cq0GDOFELu7tcLBhhcGPM
+         OI9yGBU1BlOMfLp3asiInwbRSl4bcCUgKVR/X1OLrESWeruI7iuEXRIzN15uUBYAOFLB
+         nDAB2UaTK/uHayTCxUNiyVcLDj4XGfyKJV6E5ITbQKc9J+lvg1xKYe3fTR0Kfj0H/hyl
+         WSDvOqhiW507wihBO5FJg7NVWuZesXZ9Ugmwj4+HWiq+d798WnaSCLrmSspaWvQLcmp4
+         hSDgMq4LVmL3FhvpgTHOjq8JpyjXLjFOinSdxUmLVWqJRW4u/QTJLCLYjxZLDgIfjMsW
+         uUjA==
+X-Gm-Message-State: AOJu0YyMjk5as2/pJvQIUdv8aeOQ8pmZFnd8SpJFlwu1JhxSOnBkGaxz
+	86+PrZST5eYwLd0KIuaM+NjYynif9m5C09irvILbWPYJCeRdyUd4ETaY
+X-Gm-Gg: AeBDievlHqwJxM7VTE/7VBxEqNSJHQ0VkxOAmXHjmqSz/94GVyyBIzKUKGAr1EHsJlD
+	A+p74+LqtMykd937Fpwh5iaNGTZawOwT7HemCW7Jb0yXQ3Sus/TrsMpDJaUBpNGgAeE2mJUQW+O
+	WtKxTvpLDJBSJ8yenb2dcRbfWXwgPT0Glhi/Scj9rmMpLr1x3Ii/yJCvjbTtaBqTJYUIDa5SDEb
+	y6Yga4PU8emD06lg+hCmHw6WkqEOCVxgFpztPqw4YBUwLaT9ogmh3ygxyiFStNkPSfR+aNgbzUb
+	DRJQkstR2GTLSXs/EZR5Tr+f4PmVrydxL2kPl9HnyEMO8Cay8RYCKX0aarnm2piVveJ5+dhwxUL
+	bZZC5a3GvwYVYT5pdri+FWd3FizRGk02jcwMvk+pQIYK3hOC+6RRxp11X+2OpmvEu+hC3YhQBFN
+	s8cDhd35aaSQZuF4zOjRYuhgosZPklACmqQSvkgt+emXeNg8MVqK7nYoBr1mMquopjFZaseVcU/
+	A/R
+X-Received: by 2002:a05:693c:3005:b0:2c5:60d0:7031 with SMTP id 5a478bee46e88-2cbf97f57d8mr13277716eec.4.1775711276357;
+        Wed, 08 Apr 2026 22:07:56 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-167.user3p.v-tal.net.br. [177.4.161.167])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca7c3010e9sm29975641eec.14.2026.04.08.22.07.51
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca7c3010e9sm29975641eec.14.2026.04.08.22.07.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 22:07:53 -0700 (PDT)
+        Wed, 08 Apr 2026 22:07:56 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Thu, 09 Apr 2026 02:07:45 -0300
-Subject: [PATCH 1/2] ALSA: msnd: prepare system sleep support
+Date: Thu, 09 Apr 2026 02:07:46 -0300
+Subject: [PATCH 2/2] ALSA: msnd: add ISA and PnP system sleep callbacks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,206 +69,183 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260409-msnd-pm-support-v1-1-2abef720d0e7@gmail.com>
+Message-Id: <20260409-msnd-pm-support-v1-2-2abef720d0e7@gmail.com>
 References: <20260409-msnd-pm-support-v1-0-2abef720d0e7@gmail.com>
 In-Reply-To: <20260409-msnd-pm-support-v1-0-2abef720d0e7@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5789;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4588;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=LzW3JM4BIkuh3dXk6nKvU5Nj9l42FLzIyP3Xm1Tl9ek=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnXTVSq983SORjarnS0YHtmiH3b3BPnMvysJ9pdr2GPY
- V7D0n2go5SFQYyLQVZMkWV10iLLPV0PrtbHrfCAmcPKBDKEgYtTACYSmczIcKChIGfBinKTbd2c
- fM75x61+l59MPMPbmvLzn0Ze+8fMl4wM9/0nf998i/GSOjuXUUP/jwIzCXetm7Vb1h8qEKwqDJn
- GAQA=
+ bh=pfwOpdAdZI4xY8r5fACVHo0rsIzCJKOkeJwOMfBKiBI=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnXTVTOTtpW9Povj9/T72xF0/Rk2p5YP1+xu732WjKHY
+ La9dmJgRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAEzk6XZGhvvuppWXa7Y85TUV
+ f33+LzvfRa/vGnc2OugeSmK6WXL/83WG/2lBwS9LbotcTp7ycPIqrf0+bZ/3qz5mTjgZqa4QE7p
+ ckREA
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-System suspend cannot work for msnd today because the PCM trigger
-paths reject SNDRV_PCM_TRIGGER_SUSPEND, and the driver has only
-refcounted IRQ helpers.
+The msnd drivers do not implement system sleep callbacks today, so
+they have no defined way to recover DSP state after suspend.
 
-Add the small helpers needed by the PM callbacks and restore master
-volume from the cached ALSA mixer state when the DSP is
-reinitialized.
+Add common card suspend/resume helpers, rerun the DSP
+initialization path on resume, restore the cached capture-source
+state, and rearm the shared IRQ for already-open users.
 
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/isa/msnd/msnd.c                | 72 ++++++++++++++++++++++++------------
- sound/isa/msnd/msnd.h                |  1 +
- sound/isa/msnd/msnd_pinnacle_mixer.c |  4 ++
- 3 files changed, 54 insertions(+), 23 deletions(-)
+ sound/isa/msnd/msnd.h          |  2 +
+ sound/isa/msnd/msnd_pinnacle.c | 95 +++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 95 insertions(+), 2 deletions(-)
 
-diff --git a/sound/isa/msnd/msnd.c b/sound/isa/msnd/msnd.c
-index 5e350234d572..77367e102fda 100644
---- a/sound/isa/msnd/msnd.c
-+++ b/sound/isa/msnd/msnd.c
-@@ -127,11 +127,8 @@ int snd_msnd_upload_host(struct snd_msnd *dev, const u8 *bin, int len)
- }
- EXPORT_SYMBOL(snd_msnd_upload_host);
- 
--int snd_msnd_enable_irq(struct snd_msnd *dev)
-+static int __snd_msnd_enable_irq(struct snd_msnd *dev)
- {
--	if (dev->irq_ref++)
--		return 0;
--
- 	dev_dbg(dev->card->dev, LOGNAME ": Enabling IRQ\n");
- 
- 	guard(spinlock_irqsave)(&dev->lock);
-@@ -152,17 +149,9 @@ int snd_msnd_enable_irq(struct snd_msnd *dev)
- 
- 	return -EIO;
- }
--EXPORT_SYMBOL(snd_msnd_enable_irq);
- 
--int snd_msnd_disable_irq(struct snd_msnd *dev)
-+static int __snd_msnd_disable_irq(struct snd_msnd *dev)
- {
--	if (--dev->irq_ref > 0)
--		return 0;
--
--	if (dev->irq_ref < 0)
--		dev_dbg(dev->card->dev, LOGNAME ": IRQ ref count is %d\n",
--			dev->irq_ref);
--
- 	dev_dbg(dev->card->dev, LOGNAME ": Disabling IRQ\n");
- 
- 	guard(spinlock_irqsave)(&dev->lock);
-@@ -178,8 +167,39 @@ int snd_msnd_disable_irq(struct snd_msnd *dev)
- 
- 	return -EIO;
- }
-+
-+int snd_msnd_enable_irq(struct snd_msnd *dev)
-+{
-+	if (dev->irq_ref++)
-+		return 0;
-+
-+	return __snd_msnd_enable_irq(dev);
-+}
-+EXPORT_SYMBOL(snd_msnd_enable_irq);
-+
-+int snd_msnd_disable_irq(struct snd_msnd *dev)
-+{
-+	if (--dev->irq_ref > 0)
-+		return 0;
-+
-+	if (dev->irq_ref < 0)
-+		dev_dbg(dev->card->dev, LOGNAME ": IRQ ref count is %d\n",
-+			dev->irq_ref);
-+
-+	return __snd_msnd_disable_irq(dev);
-+}
- EXPORT_SYMBOL(snd_msnd_disable_irq);
- 
-+int snd_msnd_force_irq(struct snd_msnd *dev, bool enable)
-+{
-+	if (!dev->irq_ref)
-+		return 0;
-+
-+	return enable ? __snd_msnd_enable_irq(dev) :
-+			__snd_msnd_disable_irq(dev);
-+}
-+EXPORT_SYMBOL(snd_msnd_force_irq);
-+
- static inline long get_play_delay_jiffies(struct snd_msnd *chip, long size)
- {
- 	long tmp = (size * HZ * chip->play_sample_size) / 8;
-@@ -507,25 +527,27 @@ static int snd_msnd_playback_trigger(struct snd_pcm_substream *substream,
- 				     int cmd)
- {
- 	struct snd_msnd *chip = snd_pcm_substream_chip(substream);
--	int	result = 0;
- 
--	if (cmd == SNDRV_PCM_TRIGGER_START) {
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
- 		dev_dbg(chip->card->dev, "%s(START)\n", __func__);
- 		chip->banksPlayed = 0;
- 		set_bit(F_WRITING, &chip->flags);
- 		snd_msnd_DAPQ(chip, 1);
--	} else if (cmd == SNDRV_PCM_TRIGGER_STOP) {
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
- 		dev_dbg(chip->card->dev, "%s(STOP)\n", __func__);
--		/* interrupt diagnostic, comment this out later */
- 		clear_bit(F_WRITING, &chip->flags);
- 		snd_msnd_send_dsp_cmd(chip, HDEX_PLAY_STOP);
--	} else {
-+		break;
-+	default:
- 		dev_dbg(chip->card->dev, "%s(?????)\n", __func__);
--		result = -EINVAL;
-+		return -EINVAL;
- 	}
- 
- 	dev_dbg(chip->card->dev, "%s() ENDE\n", __func__);
--	return result;
-+	return 0;
- }
- 
- static snd_pcm_uframes_t
-@@ -589,17 +611,22 @@ static int snd_msnd_capture_trigger(struct snd_pcm_substream *substream,
- {
- 	struct snd_msnd *chip = snd_pcm_substream_chip(substream);
- 
--	if (cmd == SNDRV_PCM_TRIGGER_START) {
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
- 		chip->last_recbank = -1;
- 		set_bit(F_READING, &chip->flags);
- 		if (snd_msnd_send_dsp_cmd(chip, HDEX_RECORD_START) == 0)
- 			return 0;
- 
- 		clear_bit(F_READING, &chip->flags);
--	} else if (cmd == SNDRV_PCM_TRIGGER_STOP) {
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
- 		clear_bit(F_READING, &chip->flags);
- 		snd_msnd_send_dsp_cmd(chip, HDEX_RECORD_STOP);
- 		return 0;
-+	default:
-+		break;
- 	}
- 	return -EINVAL;
- }
-@@ -668,4 +695,3 @@ EXPORT_SYMBOL(snd_msnd_pcm);
- 
- MODULE_DESCRIPTION("Common routines for Turtle Beach Multisound drivers");
- MODULE_LICENSE("GPL");
--
 diff --git a/sound/isa/msnd/msnd.h b/sound/isa/msnd/msnd.h
-index 3d7810ed9186..b25beca25c0d 100644
+index b25beca25c0d..56a700e6a5cb 100644
 --- a/sound/isa/msnd/msnd.h
 +++ b/sound/isa/msnd/msnd.h
-@@ -280,6 +280,7 @@ int snd_msnd_upload_host(struct snd_msnd *chip,
- 			     const u8 *bin, int len);
- int snd_msnd_enable_irq(struct snd_msnd *chip);
- int snd_msnd_disable_irq(struct snd_msnd *chip);
-+int snd_msnd_force_irq(struct snd_msnd *chip, bool enable);
- void snd_msnd_dsp_halt(struct snd_msnd *chip, struct file *file);
- int snd_msnd_DAPQ(struct snd_msnd *chip, int start);
- int snd_msnd_DARQ(struct snd_msnd *chip, int start);
-diff --git a/sound/isa/msnd/msnd_pinnacle_mixer.c b/sound/isa/msnd/msnd_pinnacle_mixer.c
-index ec354483b9f8..8ca987221753 100644
---- a/sound/isa/msnd/msnd_pinnacle_mixer.c
-+++ b/sound/isa/msnd/msnd_pinnacle_mixer.c
-@@ -310,6 +310,10 @@ EXPORT_SYMBOL(snd_msndmix_new);
+@@ -253,6 +253,8 @@ struct snd_msnd {
+ 	spinlock_t mixer_lock;
+ 	int nresets;
+ 	unsigned recsrc;
++	u8 pm_recsrc;
++	bool pm_mpu_input;
+ #define LEVEL_ENTRIES 32
+ 	int left_levels[LEVEL_ENTRIES];
+ 	int right_levels[LEVEL_ENTRIES];
+diff --git a/sound/isa/msnd/msnd_pinnacle.c b/sound/isa/msnd/msnd_pinnacle.c
+index c4eec391cd29..5b729bb02ef6 100644
+--- a/sound/isa/msnd/msnd_pinnacle.c
++++ b/sound/isa/msnd/msnd_pinnacle.c
+@@ -513,6 +513,19 @@ static void snd_msnd_mpu401_close(struct snd_mpu401 *mpu)
+ 	snd_msnd_disable_irq(mpu->private_data);
+ }
  
- void snd_msndmix_setup(struct snd_msnd *dev)
- {
-+	writew(dev->left_levels[MSND_MIXER_VOLUME],
-+	       dev->SMA + SMA_wCurrMastVolLeft);
-+	writew(dev->right_levels[MSND_MIXER_VOLUME],
-+	       dev->SMA + SMA_wCurrMastVolRight);
- 	update_pot(MSND_MIXER_LINE, bInPotPos, HDEXAR_IN_SET_POTS);
- 	update_potm(MSND_MIXER_AUX, bAuxPotPos, HDEXAR_AUX_SET_POTS);
- 	update_volm(MSND_MIXER_PCM, wCurrPlayVol);
++#ifdef CONFIG_PM
++static u8 snd_msnd_pm_recsrc(struct snd_msnd *chip)
++{
++	/* Convert recsrc to the Capture Source selector: 0=Analog, 1=MASS, 2=SPDIF. */
++	if (chip->recsrc & BIT(4))
++		return 1;
++	if ((chip->recsrc & BIT(17)) &&
++	    test_bit(F_HAVEDIGITAL, &chip->flags))
++		return 2;
++	return 0;
++}
++#endif
++
+ static long mpu_io[SNDRV_CARDS] = SNDRV_DEFAULT_PORT;
+ static int mpu_irq[SNDRV_CARDS] = SNDRV_DEFAULT_IRQ;
+ 
+@@ -1001,10 +1014,73 @@ static int snd_msnd_isa_probe(struct device *pdev, unsigned int idx)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_PM
++static int snd_msnd_card_suspend(struct snd_card *card)
++{
++	struct snd_msnd *chip = card->private_data;
++	struct snd_mpu401 *mpu;
++	int err;
++
++	mpu = chip->rmidi ? chip->rmidi->private_data : NULL;
++	chip->pm_recsrc = snd_msnd_pm_recsrc(chip);
++	chip->pm_mpu_input = mpu && test_bit(MPU401_MODE_BIT_INPUT, &mpu->mode);
++	if (chip->pm_mpu_input)
++		snd_msnd_send_dsp_cmd(chip, HDEX_MIDI_IN_STOP);
++
++	err = snd_msnd_force_irq(chip, false);
++	if (err < 0) {
++		if (chip->pm_mpu_input)
++			snd_msnd_send_dsp_cmd(chip, HDEX_MIDI_IN_START);
++		return err;
++	}
++
++	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
++	return 0;
++}
++
++static int snd_msnd_card_resume(struct snd_card *card)
++{
++	struct snd_msnd *chip = card->private_data;
++	int err;
++
++	err = snd_msnd_initialize(card);
++	if (err < 0)
++		return err;
++
++	snd_msnd_calibrate_adc(chip, chip->play_sample_rate);
++	snd_msndmix_force_recsrc(chip, chip->pm_recsrc);
++
++	err = snd_msnd_force_irq(chip, true);
++	if (err < 0)
++		return err;
++
++	if (chip->pm_mpu_input)
++		snd_msnd_send_dsp_cmd(chip, HDEX_MIDI_IN_START);
++
++	chip->nresets = 0;
++	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
++	return 0;
++}
++
++static int snd_msnd_isa_suspend(struct device *dev, unsigned int idx,
++				pm_message_t state)
++{
++	return snd_msnd_card_suspend(dev_get_drvdata(dev));
++}
++
++static int snd_msnd_isa_resume(struct device *dev, unsigned int idx)
++{
++	return snd_msnd_card_resume(dev_get_drvdata(dev));
++}
++#endif
++
+ static struct isa_driver snd_msnd_driver = {
+ 	.match		= snd_msnd_isa_match,
+ 	.probe		= snd_msnd_isa_probe,
+-	/* FIXME: suspend, resume */
++#ifdef CONFIG_PM
++	.suspend	= snd_msnd_isa_suspend,
++	.resume		= snd_msnd_isa_resume,
++#endif
+ 	.driver		= {
+ 		.name	= DEV_NAME
+ 	},
+@@ -1111,6 +1187,18 @@ static int snd_msnd_pnp_detect(struct pnp_card_link *pcard,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_PM
++static int snd_msnd_pnp_suspend(struct pnp_card_link *pcard, pm_message_t state)
++{
++	return snd_msnd_card_suspend(pnp_get_card_drvdata(pcard));
++}
++
++static int snd_msnd_pnp_resume(struct pnp_card_link *pcard)
++{
++	return snd_msnd_card_resume(pnp_get_card_drvdata(pcard));
++}
++#endif
++
+ static int isa_registered;
+ static int pnp_registered;
+ 
+@@ -1127,6 +1215,10 @@ static struct pnp_card_driver msnd_pnpc_driver = {
+ 	.name = "msnd_pinnacle",
+ 	.id_table = msnd_pnpids,
+ 	.probe = snd_msnd_pnp_detect,
++#ifdef CONFIG_PM
++	.suspend = snd_msnd_pnp_suspend,
++	.resume = snd_msnd_pnp_resume,
++#endif
+ };
+ #endif /* CONFIG_PNP */
+ 
+@@ -1161,4 +1253,3 @@ static void __exit snd_msnd_exit(void)
+ 
+ module_init(snd_msnd_init);
+ module_exit(snd_msnd_exit);
+-
 
 -- 
 2.53.0
