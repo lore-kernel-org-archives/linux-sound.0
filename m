@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F1F278161;
-	Thu,  9 Apr 2026 14:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3972BEC43;
+	Thu,  9 Apr 2026 14:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775743320; cv=none; b=uA+x5kBhT6VJfMKXJxGIzVBw9wjHm8OzN5yJMdlHSrN9Nf38qHtZxFN31Kp8FaJbLn0A+hNz60zPIe8hkz+9vj8i8lXqlrJqmnhVsfRCIH+ZrTD2WU6VJSgmTHyqGr8UEReCc1I3HJttcEASlrT/d2c/zcIDpvbIYQTNAgtE3ZY=
+	t=1775743557; cv=none; b=Ms6PWlF7jBFtADsU+mzJDqPe+mMOxhtmR+nTOGxr66K1WUWIoefRi+90MyL9Bss3l/olkKE87tvsZvaK5t9wWYanrQPofFanlLHupOG9GRZH/rf51oZco3fzBiZOGUxRHWd9z4ryc/Eqi5konNCpi3PM0bklPv3VpJcTHUxyv0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775743320; c=relaxed/simple;
-	bh=tQHGLbsDbltrkuAA7VKjYabhk2shiu4X+YLTKXnUPXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qf7SM+kiwk+xbWSaZtuA8+FvwsW57Ki8tzQFO/OHoDQsS6/y/wRIXpPEmiGpVWqyDCzbHs1cmn+UYLpMPAQvdmIt9XN/rfaj15f4iaLZ1ud2f+kb9xs1+OJJfeFiVszuu+gO/XmwgIxOdxM016Xp/2VFqNsiNDtO9uyLFH7XnAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Zr8zodOi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775743557; c=relaxed/simple;
+	bh=R67Uo3vcjWY0CAQ6VGrugKjIzNUNoQ4Ydq3BP1psbFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HjEyCVwkMwjH+tCX8ABY86obtjjSYZK8wCjtV9jBn7Ucr1/bLmViyk/SY/zcRoad0HpYH8RGg7gMV5wTwmChnN+hLJBr8+bWHg998B9Zgca3HHcGrOBUtKo+FSmfo5LLbYrtEwq0rAArKO+wj6pMs/gukYyw7keDTe8/XryjyWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nabtkNB5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Zr8zodOi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1220CC4CEF7;
-	Thu,  9 Apr 2026 14:01:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nabtkNB5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D676EC4CEF7;
+	Thu,  9 Apr 2026 14:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775743319;
-	bh=tQHGLbsDbltrkuAA7VKjYabhk2shiu4X+YLTKXnUPXM=;
+	s=korg; t=1775743557;
+	bh=R67Uo3vcjWY0CAQ6VGrugKjIzNUNoQ4Ydq3BP1psbFk=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Zr8zodOiLFD2okAHFqTs/6K9CXdkPVN8j3Dzkq11opPObVJSy4vHu/QAano1IsAO1
-	 EJoBqW69jxaz1rLDANENbT+U7KQLDSy7qhIqa7pZmyz5CAHHzQqGSgEmoQ5vrELZ7g
-	 c/TSwbqIxB9aORmBANefEYR0TWp0Lc8V/Ki4W2yU=
+	b=nabtkNB56tLIBhsnCmFQsukPVjHHm9Fo87qNxlAjQS33WuQiG8FUuuN5HohSyI3eP
+	 LxtmmIsFNElfWC7mudzjcbkWdBWPH2N/QVgRQhzRMZ2d/TjWhPEWEqYuXmLcERCMLw
+	 PDdjE46TIcSlEpbwMuqGrCyofYOMriq57ytEaOVw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	stable <stable@kernel.org>
-Subject: [PATCH] ALSA: usx2y: us144mkii: fix NULL deref on missing interface 0
-Date: Thu,  9 Apr 2026 16:01:56 +0200
-Message-ID: <2026040955-fall-gaining-e338@gregkh>
+Subject: [PATCH] ALSA: fireworks: bound device-supplied status before string array lookup
+Date: Thu,  9 Apr 2026 16:05:54 +0200
+Message-ID: <2026040953-astute-camera-1aa1@gregkh>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -39,45 +41,51 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1450; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=tQHGLbsDbltrkuAA7VKjYabhk2shiu4X+YLTKXnUPXM=; b=owGbwMvMwCRo6H6F97bub03G02pJDJnXN4YoK7DJ/RZQ2vruSaa7yGVZz2mXNmz/I1J066TrV r3QHUuudcSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEQjYwLGh6w3yhZ+2umWqq eYFZMx6yra/ensUwV0ozUvXqt8XB29KfcZ8N720IW1aoDwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1822; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=R67Uo3vcjWY0CAQ6VGrugKjIzNUNoQ4Ydq3BP1psbFk=; b=kA0DAAIRMUfUDdst+ykByyZiAGnXskGiLz2QIBk9L1IQU25aSjgFPDZgmXUFQB60Qm3vyHped YhdBAARAgAdFiEE9LYMxb94wiFKMT3LMUfUDdst+ykFAmnXskEACgkQMUfUDdst+ykP1wCgyRPc tJWfRxj91tFfi5FQN9Ra8q0AnRsB8/cPvAqHm/chhciDmkE15mmQ
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-A malicious USB device with the TASCAM US-144MKII device id can have a
-configuration containing bInterfaceNumber=1 but no interface 0.  USB
-configuration descriptors are not required to assign interface numbers
-sequentially, so usb_ifnum_to_if(dev, 0) returns will NULL, which will
-then be dereferenced directly.
+The status field in an EFW response is a 32-bit value supplied by the
+firewire device.  efr_status_names[] has 17 entries so a status value
+outside that range goes off into the weeds when looking at the %s value.
 
-Fix this up by checking the return value properly.
+Even worse, the status could return EFR_STATUS_INCOMPLETE which is
+0x80000000, and is obviously not in that array of potential strings.
 
+Fix this up by properly bounding the index against the array size and
+printing "unknown" if it's not recognized.
+
+Cc: Clemens Ladisch <clemens@ladisch.de>
+Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 Cc: Jaroslav Kysela <perex@perex.cz>
 Cc: Takashi Iwai <tiwai@suse.com>
-Fixes: dee1bcf28a3d ("ALSA: usx2y: Add native ALSA driver for TASCAM US-144MKII")
+Fixes: bde8a8f23bbe ("ALSA: fireworks: Add transaction and some commands")
 Cc: stable <stable@kernel.org>
 Assisted-by: gregkh_clanker_t1000
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- sound/usb/usx2y/us144mkii.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/firewire/fireworks/fireworks_command.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/usx2y/us144mkii.c b/sound/usb/usx2y/us144mkii.c
-index 0cf4fa74e210..94553b61013c 100644
---- a/sound/usb/usx2y/us144mkii.c
-+++ b/sound/usb/usx2y/us144mkii.c
-@@ -420,7 +420,11 @@ static int tascam_probe(struct usb_interface *intf,
- 
- 	/* The device has two interfaces; we drive both from this driver. */
- 	if (intf->cur_altsetting->desc.bInterfaceNumber == 1) {
--		tascam = usb_get_intfdata(usb_ifnum_to_if(dev, 0));
-+		struct usb_interface *intf_zero = usb_ifnum_to_if(dev, 0);
+diff --git a/sound/firewire/fireworks/fireworks_command.c b/sound/firewire/fireworks/fireworks_command.c
+index 2b595ee0bc35..05550f36fac5 100644
+--- a/sound/firewire/fireworks/fireworks_command.c
++++ b/sound/firewire/fireworks/fireworks_command.c
+@@ -151,10 +151,13 @@ efw_transaction(struct snd_efw *efw, unsigned int category,
+ 	    (be32_to_cpu(header->category) != category) ||
+ 	    (be32_to_cpu(header->command) != command) ||
+ 	    (be32_to_cpu(header->status) != EFR_STATUS_OK)) {
++		u32 st = be32_to_cpu(header->status);
 +
-+		if (!intf_zero)
-+			return -ENODEV;
-+		tascam = usb_get_intfdata(intf_zero);
- 		if (tascam) {
- 			usb_set_intfdata(intf, tascam);
- 			tascam->iface1 = intf;
+ 		dev_err(&efw->unit->device, "EFW command failed [%u/%u]: %s\n",
+ 			be32_to_cpu(header->category),
+ 			be32_to_cpu(header->command),
+-			efr_status_names[be32_to_cpu(header->status)]);
++			st < ARRAY_SIZE(efr_status_names) ?
++				efr_status_names[st] : "unknown");
+ 		err = -EIO;
+ 		goto end;
+ 	}
 -- 
 2.53.0
 
