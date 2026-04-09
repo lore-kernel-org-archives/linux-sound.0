@@ -1,139 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFB5387584
-	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 07:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46361C860C
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 08:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775721582; cv=none; b=pXC+yo2AvDUVLoCLovTNWNHBGvt8d3owPDlAzx3jeekO8VM77hiNAwGwyhvLO2Gb2k1fnxd7bWYxnoGR5EF11aNWvQs3VZ8gfx6VUDSMglJKjpA0EirLqNnu3FmRw33/iUrbcw9l9Mo8bojkhzCJ3tqyH+jWBPaZrpPSD0H2R7s=
+	t=1775722431; cv=none; b=qNeWcqoLBCqcLDSoBlTU09s/0Q7WjgnC2Ud0ZTFuMHu9x2FhzAWI6afQrzBz8MkETvY3gUwIyFgkR3tTtvTm3riYwO0RfK35qRX5JWrHtatDs8jXcNwdCfLxwiLv3eL0EE09+9an9N1kYyTkKAupymrIn148cfw0IA1a3PKJWxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775721582; c=relaxed/simple;
-	bh=IbZsP8ICO/NLIxmAOApzmVHYGjMu+B95x0GJ11HRIHU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fLyAQgr4B0mqS5/1Nj+smxsPoaxmwsUkhWmsRs47xxsKDWVZ2gwwm4bs3JM+tQyLwEWWQuGfp2q94JSuYNUYaigFHjapZUjQBJuyeryH28yIX868GYivUKmP75DzA/xFlac7S9CPGeyyrOlH3lfmMeq5RgjHy0U0734wOhxFD70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0NoET2n8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pd5tKf/D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0NoET2n8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pd5tKf/D; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775722431; c=relaxed/simple;
+	bh=KuLkxL7pIlaLGq72vXCfJgFxQ/plPTpvUosI7lr0SQc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=PH4f+gFy9HiID+1B3pA24iET2Ix8fDDevVXfDIV6yLZKznHEcd20dG+lWWeA8UnQl6u2jgpiWHD+dOaDfP+Jd3ejTHiokmzqR5QEs/gvDf23knCm+sSplAvZDNRuGWIgwKHEYJktqJ4jiWv+ooEiMNvGhUY478w3kzmUaxGo0Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHnoftbS; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0NoET2n8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pd5tKf/D";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0NoET2n8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pd5tKf/D"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D3F135BCEB;
-	Thu,  9 Apr 2026 07:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775721579; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
-	b=0NoET2n8idvyNtQHLP2ZFglvbKPaSYhcC9uMb4301C5nD6Ei9TFCWytraSHTYr7fLEJFtz
-	VhLXRnFdtdkPP2fD3iPQCj6P9LbLQLAnxArBGwZqVOAGrKkPq/BPUblwlsl7IAndBYfQdN
-	YxA9axBp1Ki51yxVY0AoUTzbbwCKkUA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775721579;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
-	b=pd5tKf/DsR2YcVepRk0WjviFbEfow7DNsgG0ftn0BeJaoS4Q0RPOZtXYhK3Inml+c3ndGp
-	C3vn36PsolrWLJAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775721579; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
-	b=0NoET2n8idvyNtQHLP2ZFglvbKPaSYhcC9uMb4301C5nD6Ei9TFCWytraSHTYr7fLEJFtz
-	VhLXRnFdtdkPP2fD3iPQCj6P9LbLQLAnxArBGwZqVOAGrKkPq/BPUblwlsl7IAndBYfQdN
-	YxA9axBp1Ki51yxVY0AoUTzbbwCKkUA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775721579;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
-	b=pd5tKf/DsR2YcVepRk0WjviFbEfow7DNsgG0ftn0BeJaoS4Q0RPOZtXYhK3Inml+c3ndGp
-	C3vn36PsolrWLJAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A21284A0B3;
-	Thu,  9 Apr 2026 07:59:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DShPJmtc12lOcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 07:59:39 +0000
-Date: Thu, 09 Apr 2026 09:59:39 +0200
-Message-ID: <87jyugk1hw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
-In-Reply-To: <f66e3c00-5280-4d35-9e95-2d142e4f1458@kylinos.cn>
-References: <20260409024028.1297587-1-zhangheng@kylinos.cn>
-	<873414lnyf.wl-tiwai@suse.de>
-	<f72b3ebd-a7f3-4a1a-a48e-bbbbb67b18de@kylinos.cn>
-	<87mrzck34i.wl-tiwai@suse.de>
-	<f66e3c00-5280-4d35-9e95-2d142e4f1458@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHnoftbS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775722430; x=1807258430;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=KuLkxL7pIlaLGq72vXCfJgFxQ/plPTpvUosI7lr0SQc=;
+  b=HHnoftbS0wjHORLdZ/fHqC+VQeNmMc4CUtAEuuh+9CK79ILUeoBagkKY
+   kKqK3hOR4OHJ9gHBElNjIXHjF905cK0PqtVmqB0uKZBzS52IqPx62Ghti
+   HC7wWULLU3e03reDqGxq13Xu8McuKXjVLy2mEiB0u3asmzRw6K+qLwXsI
+   3tL3grhTCOQMLPOuudr9Gt44VFR2FPo/FmCFkn5VfavLHtyD5Thenf+y5
+   k8E4iixh7a29MmKAhARKR+/HkJy+m4j01JB1ou3hz7TuZx2RNki5Fg05M
+   AbKbYfTCbe+cRTq21ZvdPSuVG9NGAQ2UhJtqZgw+LBmscIZN1oyIAgd30
+   w==;
+X-CSE-ConnectionGUID: TX2vUU2hTCCl8vFzOQOptQ==
+X-CSE-MsgGUID: EBDN7sgcQeWxrewg2LJ5yQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="76624638"
+X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
+   d="scan'208";a="76624638"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 01:13:50 -0700
+X-CSE-ConnectionGUID: Qnlc8LkVQKmm8cm19UxUOw==
+X-CSE-MsgGUID: 5UwXkDtlSUmCsMLr+Tg4FA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,169,1770624000"; 
+   d="scan'208";a="251848832"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.146]) ([10.245.245.146])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 01:13:47 -0700
+Message-ID: <82c256e5-0af8-4ea3-ba5a-913a576b25cd@linux.intel.com>
+Date: Thu, 9 Apr 2026 11:14:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH 0/3] ASoC: remove card->pop_time
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <87h5pkda1r.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <87h5pkda1r.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 09 Apr 2026 09:51:44 +0200,
-Zhang Heng wrote:
+
+
+On 09/04/2026 07:36, Kuninori Morimoto wrote:
+> Hi Mark, OMAP member
 > 
-> Do we still need to consider HDA_FIXUP_ACT_PRE_PROBE
+> I'm now trying to cleanup snd_soc_card, and noticed that card->pop_time is used
+> only from OMAP1 board-ams-delta.
+
+The pop_time is an amazingly good tool to debug pop noise and is mostly
+used via the debugfs.
+You set the pop_time to non 0 and DAPM will 'slow down' and you can
+identify the step which produces the pop.
+
+Please, don't remove it!
+
 > 
-> and HDA_FIXUP_ACT_INIT?
+> card->pop_time user drivers are...
+> 
+> 	> git grep -w -l pop_time sound/soc include/sound
+> 	include/sound/soc.h
+> (A)	sound/soc/codecs/cx20442.c
+> 	sound/soc/soc-card.c
+> 	sound/soc/soc-dapm.c
+> (B)	sound/soc/ti/ams-delta.c
+> 
+> Except ASoC framework, pop_time user is only cx20442 (A) / ams-delta (B).
+> And board-ams-delta (Z) is using it.
+> 
+> (Z)	linux/arch/arm/mach-omap1/board-ams-delta.c
+> 
+> 	static struct platform_device ams_delta_audio_device = {
+> (A)		.name   = "ams-delta-audio",
+> 	};
+> 
+> 	static struct platform_device cx20442_codec_device = {
+> (B)		.name   = "cx20442-codec",
+> 	};
+> 
+> 	static struct platform_device *ams_delta_devices[] __initdata = {
+> 		...
+> (A)		&ams_delta_audio_device,
+> 		...
+> (B)		&cx20442_codec_device,
+> 		...
+> 	};
+> 
+> With off-list talk with Mark, this card->pop_time is is much less of a
+> problem. So let's remove it. But it needs Acked-by from OMAP1 member.
+> I added [RFC] on Subject.
+> 
+> Kuninori Morimoto (3):
+>   ASoC: ti: amx-delta: don't use card->pop_time
+>   ASoC: cx20442: don't use card->pop_time
+>   ASoC: soc-card: remvoe card->pop_time
+> 
+>  include/sound/soc.h        |  2 --
+>  sound/soc/codecs/cx20442.c |  3 --
+>  sound/soc/soc-core.c       |  3 --
+>  sound/soc/soc-dapm.c       | 43 ------------------------
+>  sound/soc/ti/ams-delta.c   | 67 +-------------------------------------
+>  5 files changed, 1 insertion(+), 117 deletions(-)
+> 
 
-With my proposed change, only HDA_FIXUP_ACT_INIT is needed.
+-- 
+Péter
 
-Of course, it pretty much depends on how the GPIO bits are handled.
-For a volatile toggle like your case, there is no need to cache the
-value, hence the direct call to handle GPIO bits is better.  OTOH,
-for static GPIO setups, the caching can work better as is now.
-
-In anyway, I already applied your original patch.  After cooking up
-the whole, I'll submit the cleanups.
-
-
-thanks,
-
-Takashi
