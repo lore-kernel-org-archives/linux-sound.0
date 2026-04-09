@@ -1,245 +1,197 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF11B3C3C0E;
-	Thu,  9 Apr 2026 15:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775747592; cv=pass; b=FtHXdWaALKOSBp8McfE3UTkifzc1DhjfXaa+Hw3OBwm03z9iCOrFjgOYbBq3HnFxhXcmkMZgKdim5n0GP3olaRdsRtPoaUt+zmHhfcAFW0o11sQHUn4C9l31AisGHQX++GX2UW5BdkNbRhzs/MJLioWETul8xDc1pMuA2tiaUkk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775747592; c=relaxed/simple;
-	bh=dwu4VSWI7GhgYDWgKVc31Qr0hzscMVuG15YTtmC57nI=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=I7cVJHW9tUSDx/+uZsPefhoJzMnnB78I60VNlISEP4TSqBZ/9bq5Fsq2qwOtioqwlsgEpfOOIt+UEdPmfFTIGmvNwTm1ejFy+yBNLKHF6dFfybkcUd9sIrt0AK0aOhS9p61BCmXrqlb6z9Nt+e69TT7jwSCDuG+W1epjmFatgbY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=PGtJoTJi; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006523DBD7F
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 15:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775748143; cv=none; b=fjw0oFWUIZgzh3kUW0Ko/l+9kL2ITpQWx0NAn2cbFtNRA8693wQjvUwkyHfGMWiSE36Ct72xt2HSn2c7WrKnJN0QxdUOvDRMOEgGVSfVjU2Q3uecVBNDmdn9e+R7AUIpQahtGY7sVGwMTG9rSjwn5rCoXr6crEooWJvUBBhh4W0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775748143; c=relaxed/simple;
+	bh=a0epygclV5kb75ekZXSzOVL9vpibNS49/Wd8Livh15c=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=dZHF3Dk3XmQLj4C/Khr3qCz6VLgOlzlwk9Bbdvavlvq1qP8nr0seTyBsKtrLMVFgpycoPcgbgM1ua9BPBRQLqUabr0gTzxmNaWpPhvZ6ASvkrcyjnYHjeKj+XxQgc+6qJgSjqvPJ5ocOrzVggzgoUVqnAFqqQ2lnuMumFOGbDFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aR+Q7alu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tetEtCUH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aR+Q7alu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tetEtCUH; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="PGtJoTJi"
-ARC-Seal: i=1; a=rsa-sha256; t=1775747578; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=gTle/5dtWuTyDTDvVaK7i/Zut2Ineh+uQey8pE2QFdAuYmif86MUPG9z+UUaN5oGotNMniXVyAkmUUniu7dt2diKXBLeCm0snhZro7PzOTcE/6FjIvlFEZbq0qkGd56vpGca8wXky02ApfHyemrNp+A/xWGlq/Rmh+y7NArnQxY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775747578; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=m4eA/8mwcMTPJG/HZuL2ec7Z7XjkMZgXIhDBOjM1Qmw=; 
-	b=hFdrVKklpjMj6wHYKJP60B11nusPkMWaPcXrVGb7U/tOLN9xT3wyTfmj21YEQqud5CDB5gw6JnPoWflDwZTdmzNGr5OWqmGV8kY0LyawxTnVmh9fCT4W5TYPhsHaUi56SC/T27GbwLbtdrpYdmAF5eN+Ep5MWQj3WYM6tSwTAPI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775747578;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=m4eA/8mwcMTPJG/HZuL2ec7Z7XjkMZgXIhDBOjM1Qmw=;
-	b=PGtJoTJiC9w95EDQqPT0yHiuaNc5cS76srceslu/jf+eBUXjMDnIlStLAb506PIw
-	JZoKs1FMGnlHBzByfes3ux2qbhf1/7IJyWp+EIzgWOtEDn9njropTSLX2sw0qhkr3Ga
-	rChVpILVUaxbxOU6gCRKfBR05fMS1iP+g0LOChh+vM1tLufrbDNG0nBg9zP7+1BAZb8
-	EU+54s7ASQXYS6qiTCDwj4Ls4wU9gS3GByi4Cx+SkFWjAdgkD3+uRVJuD+aB+6io5xF
-	efHICjMfZb1aRlOfbpHgLuQJID8+50sF3bwt9u5Nzok8oGL4sqkiZQrYTAIQ6fQ87z5
-	ybhsKrsj4A==
-Received: by mx.zohomail.com with SMTPS id 177574757590049.38937833519742;
-	Thu, 9 Apr 2026 08:12:55 -0700 (PDT)
-Message-ID: <6be4efc167a0269b55090e8c6756dd8e70e269bf.camel@rong.moe>
-Subject: Re: [PATCH 2/2] ALSA: usb-audio: Do not expose sticky volume
- control mixers
-From: Rong Zhang <i@rong.moe>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Icenowy Zheng
-	 <uwu@icenowy.me>
-In-Reply-To: <87ldewi4j8.wl-tiwai@suse.de>
-References: <20260409-feaulle-rainbow-v1-0-09179e09000d@rong.moe>
-		<20260409-feaulle-rainbow-v1-2-09179e09000d@rong.moe>
-		<87o6jsk3vs.wl-tiwai@suse.de>
-		<e604ac36567a2ae2fad4d4c4346a71e83eb3da64.camel@rong.moe>
-	 <87ldewi4j8.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Apr 2026 23:07:50 +0800
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aR+Q7alu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tetEtCUH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aR+Q7alu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tetEtCUH"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 50FC45BD2F;
+	Thu,  9 Apr 2026 15:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775748140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
+	b=aR+Q7aluyWh78fVXCW+liQNa0lw8eq0CVr+VGf5gzlDSsPBJNT2R28nYjMDlPgtbb+Fvry
+	5/ZBizdmiDBkvAgRT8hCieANJjt/ujWZ6PO3iZeFQ85ohg/KdUjt0HyCursD3NZuskbVnv
+	RaBLxbYP3aKOUokn1Z8wH20vmc12eM0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775748140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
+	b=tetEtCUHcIsB0dBANRoPljXjT95ek1/v1U2unOGnJSbWPDKzMXqkHTvAsFJXspyrnTdW1t
+	ZgnmWrrdiwv1ynDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aR+Q7alu;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tetEtCUH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775748140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
+	b=aR+Q7aluyWh78fVXCW+liQNa0lw8eq0CVr+VGf5gzlDSsPBJNT2R28nYjMDlPgtbb+Fvry
+	5/ZBizdmiDBkvAgRT8hCieANJjt/ujWZ6PO3iZeFQ85ohg/KdUjt0HyCursD3NZuskbVnv
+	RaBLxbYP3aKOUokn1Z8wH20vmc12eM0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775748140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
+	b=tetEtCUHcIsB0dBANRoPljXjT95ek1/v1U2unOGnJSbWPDKzMXqkHTvAsFJXspyrnTdW1t
+	ZgnmWrrdiwv1ynDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 213A74A0B3;
+	Thu,  9 Apr 2026 15:22:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id E1GKBizE12n8MwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 15:22:20 +0000
+Date: Thu, 09 Apr 2026 17:22:19 +0200
+Message-ID: <87a4vci2fo.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.0
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 50FC45BD2F
 
-Hi Takashi,
+Linus,
 
-On Thu, 2026-04-09 at 16:36 +0200, Takashi Iwai wrote:
-> On Thu, 09 Apr 2026 16:20:30 +0200,
-> Rong Zhang wrote:
-> >=20
-> > Hi Takashi,
-> >=20
-> > Thanks for your review.
-> >=20
-> > On Thu, 2026-04-09 at 09:08 +0200, Takashi Iwai wrote:
-> > > On Wed, 08 Apr 2026 20:33:06 +0200,
-> > > Rong Zhang wrote:
-> > > >=20
-> > > > Some devices expose sticky mixers that accept SET_CUR but do absolu=
-tely
-> > > > nothing. Registering mixers for them confuses userspace and results=
- in
-> > > > ineffective volume control.
-> > > >=20
-> > > > Check if the volume control is sticky by setting the volume to the
-> > > > maximum or minimum value, and prevent the mixer from being register=
-ed
-> > > > accordingly.
-> > > >=20
-> > > > Quirky device sample:
-> > > >=20
-> > > >   usb 7-1: New USB device found, idVendor=3D0e0b, idProduct=3Dfa01,=
- bcdDevice=3D 1.00
-> > > >   usb 7-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumb=
-er=3D3
-> > > >   usb 7-1: Product: Feaulle Rainbow
-> > > >   usb 7-1: Manufacturer: Generic
-> > > >   usb 7-1: SerialNumber: 20210726905926
-> > > >   (Mic Capture Volume)
-> > > >=20
-> > > > Signed-off-by: Rong Zhang <i@rong.moe>
-> > > > ---
-> > > >  sound/usb/mixer.c | 37 +++++++++++++++++++++++++++++++++++--
-> > > >  1 file changed, 35 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-> > > > index a25e8145af67..9f0aed36e27d 100644
-> > > > --- a/sound/usb/mixer.c
-> > > > +++ b/sound/usb/mixer.c
-> > > > @@ -27,6 +27,7 @@
-> > > >   *  	- parse available sample rates again when clock sources chang=
-ed
-> > > >   */
-> > > > =20
-> > > > +#include <linux/array_size.h>
-> > >=20
-> > > It's only for ARRAY_SIZE()?  Then no need for extra inclusion.  It's
-> > > already included by others.
-> > >=20
-> > > >  #include <linux/bitops.h>
-> > > >  #include <linux/init.h>
-> > > >  #include <linux/list.h>
-> > > > @@ -1287,17 +1288,49 @@ static int get_min_max_with_quirks(struct u=
-sb_mixer_elem_info *cval,
-> > > >  		if (cval->res =3D=3D 0)
-> > > >  			cval->res =3D 1;
-> > > > =20
-> > > > -		/* Additional checks for the proper resolution
-> > > > +		/* Additional checks
-> > > > +		 *
-> > > > +		 * Some devices expose sticky mixers that accept SET_CUR
-> > > > +		 * but do absolutely nothing.
-> > > >  		 *
-> > > >  		 * Some devices report smaller resolutions than actually
-> > > >  		 * reacting.  They don't return errors but simply clip
-> > > >  		 * to the lower aligned value.
-> > > >  		 */
-> > > > -		if (cval->min + cval->res < cval->max) {
-> > > > +		if (cval->min < cval->max) {
-> > > > +			int sticky_test_values[] =3D { cval->min, cval->max };
-> > > >  			int last_valid_res =3D cval->res;
-> > > >  			int saved, test, check;
-> > > > +			bool effective =3D false;
-> > > > +
-> > > >  			if (get_cur_mix_raw(cval, minchn, &saved) < 0)
-> > > >  				goto no_res_check;
-> > > > +
-> > > > +			for (i =3D 0; i < ARRAY_SIZE(sticky_test_values); i++) {
-> > > > +				test =3D sticky_test_values[i];
-> > > > +				if (test =3D=3D saved)
-> > > > +					continue;
-> > > > +				/* Assume non-sticky on failure. */
-> > > > +				if (snd_usb_set_cur_mix_value(cval, minchn, 0, test) ||
-> > > > +				    get_cur_mix_raw(cval, minchn, &check) ||
-> > > > +				    check !=3D saved) { /* SET_CUR effective, non-sticky. */
-> > > > +					effective =3D true;
-> > > > +					break;
-> > > > +				}
-> > > > +			}
-> > > > +			if (!effective) {
-> > > > +				usb_audio_warn(cval->head.mixer->chip,
-> > > > +					"%d:%d: sticky mixer values (%d/%d/%d =3D> %d), disabling\n",
-> > > > +					cval->head.id, mixer_ctrl_intf(cval->head.mixer),
-> > > > +					cval->min, cval->max, cval->res, saved);
-> > > > +
-> > > > +				cval->initialized =3D 1;
-> > > > +				cval->min =3D cval->max =3D cval->res =3D 0;
-> > > > +				return -ENODEV;
-> > > > +			}
-> > > > +
-> > > > +			if (cval->min + cval->res >=3D cval->max)
-> > > > +				goto no_res_check;
-> > >=20
-> > > Hm, it's quite lots of changes, and I'd like this to be factored out
-> > > as a function instead.  Maybe the resolution check code could be move=
-d
-> > > into a function, too; get_min_max_with_quirks() is too lengthy.
-> >=20
-> > Sure, I will refactor the current code path beforehand when I resubmit
-> > this.
-> >=20
-> > Hmm, does patch 1 make sense to you? If so, I would be grateful if you
-> > could you apply it separately so that I can send a new series solely
-> > focusing on refactoring and adding the sticky mixer check.
->=20
-> OK, I'm going to apply only the first patch now.
+please pull sound fixes for v7.0 from:
 
-Thanks a lot!
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0
 
->=20
-> > >=20
-> > > Also, note that currently there is no error check for get_min_max*().
-> > > Your code works just because you set cval->min =3D cval->max, and the=
-re
-> > > is an additional check at a later point of this.
-> > >=20
-> > > Ideally speaking, we should have an error check to explicitly handle =
-a
-> > > case like this.  But the current code allows the error at init, at
-> > > least, we tolerate the errors at reading UAC_GET_MIN and _MAX.  So, i=
-f
-> > > any, the error check would need to evaluate the error number and
-> > > ignore -EINVAL or such...
-> >=20
-> > Makes sense, I will address it beforehand when I resubmit this.
-> >=20
-> > BTW, how about checking against -ENODEV instead? It can be considered t=
-o
-> > be an indication that the caller should not register the mixer and is
-> > much more readable. I don't have a strong preference for this though,
-> > and ignoring -EINVAL also makes sense to me.
->=20
-> The -EINVAL could be a temporary error at the probe time, and there
-> were cases where the later read works.  I meant the code:
->=20
-> 		if (get_ctl_value(cval, UAC_GET_MAX, (cval->control << 8) | minchn, &cv=
-al->max) < 0 ||
-> 		    get_ctl_value(cval, UAC_GET_MIN, (cval->control << 8) | minchn, &cv=
-al->min) < 0) {
-> 			usb_audio_err(cval->head.mixer->chip,
-> 				      "%d:%d: cannot get min/max values for control %d (id %d)\n",
-> 				   cval->head.id, mixer_ctrl_intf(cval->head.mixer),
-> 							       cval->control, cval->head.id);
-> 			return -EINVAL;
-> 		}
->=20
-> ... and maybe -EINVAL isn't really a good sign, but better to replace
-> with -EAGAIN.  Then continuing after -EAGAIN in the caller side would
-> become more logical.
+The topmost commit is 00afb1811fa638dacf125dd1c343b7a181624dfd
 
-Thanks for your detailed explanation. It makes sense. I will refactor
-the code path to return -EAGAIN and make callers ignore it when I
-resubmit this.
+----------------------------------------------------------------
 
-Thanks,
-Rong
+sound fixes for 7.0
 
->=20
->=20
-> thanks,
->=20
-> Takashi
+Still a bit higher amount than wished, but nothing looks really scary,
+and all changes are about nice and smooth device-specific fixes.
+
+- HD-audio quirks, one revert for a regression and another oneliner
+- AMD ACP quirks
+- Fixes for SDCA interrupt handling
+- A few Intel SOF, avs and NVL fixes
+- Fixes for TAS2552 DT, NAU8325, and STM32
+
+----------------------------------------------------------------
+
+Cezary Rojewski (1):
+      ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
+
+Charles Keepax (1):
+      ASoC: SDCA: Fix errors in IRQ cleanup
+
+Kai Vehmanen (2):
+      ALSA: hda/intel: enforce stricter period-size alignment for Intel NVL
+      ASoC: SOF: Intel: hda: modify period size constraints for ACE4
+
+Maciej Strozek (4):
+      ASoC: SOF: Intel: Fix endpoint index if endpoints are missing
+      ASoC: SOF: Intel: fix iteration in is_endpoint_present()
+      ASoC: SDCA: Fix overwritten var within for loop
+      ASoC: SDCA: mask Function_Status value
+
+Marek Vasut (1):
+      ASoC: dt-bindings: ti,tas2552: Add sound-dai-cells
+
+Mark Pearson (1):
+      ASoC: amd: acp: add Lenovo P16s G5 AMD quirk for legacy SDW machine
+
+Neo Chang (1):
+      ASoC: nau8325: Add software reset during probe
+
+Richard Fitzgerald (1):
+      ASoC: SDCA: Unregister IRQ handlers on module remove
+
+Syed Saba Kareem (1):
+      ASoC: amd: acp: update DMI quirk and add ACP DMIC for Lenovo platforms
+
+Takashi Iwai (1):
+      Revert "ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix headphone"
+
+Tomasz Merta (1):
+      ASoC: stm32_sai: fix incorrect BCLK polarity for DSP_A/B, LEFT_J
+
+songxiebing (1):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IAH10
+
+---
+ .../devicetree/bindings/sound/ti,tas2552.yaml      | 13 +++-
+ include/sound/sdca_interrupts.h                    |  5 ++
+ sound/hda/codecs/realtek/alc269.c                  |  1 +
+ sound/hda/codecs/realtek/alc662.c                  |  9 ---
+ sound/hda/controllers/intel.c                      |  7 +-
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c            | 24 +++++--
+ sound/soc/codecs/nau8325.c                         |  9 ++-
+ sound/soc/intel/avs/board_selection.c              |  9 ++-
+ sound/soc/sdca/sdca_class_function.c               | 17 +++++
+ sound/soc/sdca/sdca_interrupts.c                   | 82 +++++++++++++++++++---
+ sound/soc/sof/intel/hda-pcm.c                      | 14 +++-
+ sound/soc/sof/intel/hda.c                          | 10 ++-
+ sound/soc/stm/stm32_sai_sub.c                      |  3 +
+ 13 files changed, 165 insertions(+), 38 deletions(-)
+
