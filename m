@@ -1,67 +1,139 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5935237187B;
-	Thu,  9 Apr 2026 07:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFB5387584
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 07:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775721118; cv=none; b=NfC180h487GylcWctejhoWy3wOaThTsQXBdubemC4ZfAAXTxxsMebQWmTemm2Ssr7iGHbcB0z5mbrujAP6/4dGXfFLcQFuhETEawsN41LNc7pCnfMiFqLaeYqUC0/ZtGNBvnIUBHtpyNfcmRbWsZSDT+AlpQdc6stWt1hNe4i8k=
+	t=1775721582; cv=none; b=pXC+yo2AvDUVLoCLovTNWNHBGvt8d3owPDlAzx3jeekO8VM77hiNAwGwyhvLO2Gb2k1fnxd7bWYxnoGR5EF11aNWvQs3VZ8gfx6VUDSMglJKjpA0EirLqNnu3FmRw33/iUrbcw9l9Mo8bojkhzCJ3tqyH+jWBPaZrpPSD0H2R7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775721118; c=relaxed/simple;
-	bh=+cxnegO5bWAZBh9AQasFsaD6d7cF6iQC5NRz1hZoOeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YBfQYOIp6D8YX9m0t54b0Si3IycCN25P4JeYTcLXYy1IDkZeGWGJci1Dt2yMQyQwoPvNgtcB13qIH6Rdmu33kP1YRl2RSxILCTd6lkxasFU6eUH2zKsyXxUe0TF8ORhAFA46Hwl73MUt7wgHJqf9fbdNzeSyyA7Y2j5pQCHzPGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: f57c7d2433e811f1aa26b74ffac11d73-20260409
-X-CID-CACHE: Type:Local,Time:202604091501+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:106bc6ae-2310-413a-bc3d-7846abe77119,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:8b1ba2886613a30556bbe89cd82b2b83,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|898,TC:nil,Content:0|15|50,
-	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: f57c7d2433e811f1aa26b74ffac11d73-20260409
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1894631557; Thu, 09 Apr 2026 15:51:46 +0800
-Message-ID: <f66e3c00-5280-4d35-9e95-2d142e4f1458@kylinos.cn>
-Date: Thu, 9 Apr 2026 15:51:44 +0800
+	s=arc-20240116; t=1775721582; c=relaxed/simple;
+	bh=IbZsP8ICO/NLIxmAOApzmVHYGjMu+B95x0GJ11HRIHU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fLyAQgr4B0mqS5/1Nj+smxsPoaxmwsUkhWmsRs47xxsKDWVZ2gwwm4bs3JM+tQyLwEWWQuGfp2q94JSuYNUYaigFHjapZUjQBJuyeryH28yIX868GYivUKmP75DzA/xFlac7S9CPGeyyrOlH3lfmMeq5RgjHy0U0734wOhxFD70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0NoET2n8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pd5tKf/D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0NoET2n8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pd5tKf/D; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0NoET2n8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pd5tKf/D";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0NoET2n8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pd5tKf/D"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D3F135BCEB;
+	Thu,  9 Apr 2026 07:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775721579; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
+	b=0NoET2n8idvyNtQHLP2ZFglvbKPaSYhcC9uMb4301C5nD6Ei9TFCWytraSHTYr7fLEJFtz
+	VhLXRnFdtdkPP2fD3iPQCj6P9LbLQLAnxArBGwZqVOAGrKkPq/BPUblwlsl7IAndBYfQdN
+	YxA9axBp1Ki51yxVY0AoUTzbbwCKkUA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775721579;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
+	b=pd5tKf/DsR2YcVepRk0WjviFbEfow7DNsgG0ftn0BeJaoS4Q0RPOZtXYhK3Inml+c3ndGp
+	C3vn36PsolrWLJAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775721579; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
+	b=0NoET2n8idvyNtQHLP2ZFglvbKPaSYhcC9uMb4301C5nD6Ei9TFCWytraSHTYr7fLEJFtz
+	VhLXRnFdtdkPP2fD3iPQCj6P9LbLQLAnxArBGwZqVOAGrKkPq/BPUblwlsl7IAndBYfQdN
+	YxA9axBp1Ki51yxVY0AoUTzbbwCKkUA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775721579;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VhGB5tn+hoek/vFqjGru1nHoa1FDStpHE0X7Mh2tL/M=;
+	b=pd5tKf/DsR2YcVepRk0WjviFbEfow7DNsgG0ftn0BeJaoS4Q0RPOZtXYhK3Inml+c3ndGp
+	C3vn36PsolrWLJAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A21284A0B3;
+	Thu,  9 Apr 2026 07:59:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DShPJmtc12lOcQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 07:59:39 +0000
+Date: Thu, 09 Apr 2026 09:59:39 +0200
+Message-ID: <87jyugk1hw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
+In-Reply-To: <f66e3c00-5280-4d35-9e95-2d142e4f1458@kylinos.cn>
+References: <20260409024028.1297587-1-zhangheng@kylinos.cn>
+	<873414lnyf.wl-tiwai@suse.de>
+	<f72b3ebd-a7f3-4a1a-a48e-bbbbb67b18de@kylinos.cn>
+	<87mrzck34i.wl-tiwai@suse.de>
+	<f66e3c00-5280-4d35-9e95-2d142e4f1458@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
-To: Takashi Iwai <tiwai@suse.de>
-Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260409024028.1297587-1-zhangheng@kylinos.cn>
- <873414lnyf.wl-tiwai@suse.de>
- <f72b3ebd-a7f3-4a1a-a48e-bbbbb67b18de@kylinos.cn>
- <87mrzck34i.wl-tiwai@suse.de>
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <87mrzck34i.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-Do we still need to consider HDA_FIXUP_ACT_PRE_PROBE
+On Thu, 09 Apr 2026 09:51:44 +0200,
+Zhang Heng wrote:
+> 
+> Do we still need to consider HDA_FIXUP_ACT_PRE_PROBE
+> 
+> and HDA_FIXUP_ACT_INIT?
 
-and HDA_FIXUP_ACT_INIT?
+With my proposed change, only HDA_FIXUP_ACT_INIT is needed.
 
-在 2026/4/9 15:24, Takashi Iwai 写道:
-> 	snd_hda_codec_set_gpio(codec, 0x03, 0x03, 0x03, 0);
-> 	msleep(100);
-> 	snd_hda_codec_set_gpio(codec, 0x03, 0x03, 0x00, 0);
+Of course, it pretty much depends on how the GPIO bits are handled.
+For a volatile toggle like your case, there is no need to cache the
+value, hence the direct call to handle GPIO bits is better.  OTOH,
+for static GPIO setups, the caching can work better as is now.
 
+In anyway, I already applied your original patch.  After cooking up
+the whole, I'll submit the cleanups.
+
+
+thanks,
+
+Takashi
