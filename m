@@ -1,86 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56BA220F49
-	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 05:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA8140DFDB
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 05:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775711356; cv=none; b=KgCOfSFDeSWwyU1L+CJk+VmmR8XVgt5VTRXbqv1NoKCOTaHNEe9n7CiQ7sWssAMvHY06JFQPIl5yOAFcu2svem78RqVM9K4Jv/69rrWvQTzrgBeFkaMKcmrCm6ef6Xdsx8WNf9QgQYgwWUHi2YI0/W5WrGHhz/nYXQdnMCaeNkk=
+	t=1775712145; cv=none; b=Z67Ubj4yeFNO4l+0SP9PPt2/HZgF1wfxgGzV2GOG/CuHVAeXMp5EKJoUy7GbRNtpMC6Bp3TCqi5kqVsOVIrfe06RIIqBgGobH3VE5qFjMhM1Esn+K8mC3rmeX+a5x7T/7oOW/ZMHJBwyoAKosFwqnQctuBoC/oqj4yGdyRwdhpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775711356; c=relaxed/simple;
-	bh=ZOojv0HFXE3145fKoB4RwRkZge09ZQORv6HIMVh0Hoo=;
+	s=arc-20240116; t=1775712145; c=relaxed/simple;
+	bh=fMRr/frwri/B5x9qZjSgeNGInx1u+nqt76oqmgdp/eQ=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HI2vogMrDDEHJKzn5VN43yoD8Z60KUpiVjYt4VpvUTygYF5ouDrTUVtOzD+Tbtlm5iyC6mOQCEe/N3p27D8uwpT8RgBo/a7Q6sKTdPZk494JmEm6ooWj9wHusmr+Uv69OOAzQIK0YHxfLdfXoVwq8vc0DySzhIlfJr/q0tvRiGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e+Nn8UHg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Xx6BbEA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qSpft/86; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s+fH3zqZ; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=ipjLu7C9tP7ToYOLkSWu4bAQQu6kCYNkvD9ynRp5skJWdcYvjyGVALeJB2c0NILZM+XpUaLnVaBkflNr/Xe2uCb+aWybkQdnsSlVugHg3eWCj4H2K5G8EXStG4Byun0VvMO/ODW6yuKmOG/4qEbChu213x3D0IAEgVff7KGXQMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h1jTklGc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AxlUB7fg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h1jTklGc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AxlUB7fg; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e+Nn8UHg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Xx6BbEA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qSpft/86";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s+fH3zqZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h1jTklGc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AxlUB7fg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h1jTklGc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AxlUB7fg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E72FF5BCE6;
-	Thu,  9 Apr 2026 05:09:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A94DE5BCE6;
+	Thu,  9 Apr 2026 05:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775711353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1775712142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F6ZlIKS2JScbL455dt0yLmTQ+PXj5BbfkElB+f7isaM=;
-	b=e+Nn8UHg01tT2DuvIRupp2uq/BoHiUqTViKKKp4zXvK6/8t7CF/CxoXrzazYZHsJk4VHOj
-	xPyps8DF77Y/nhYEaIHl+VWGHYhrFv7cBFTch2Vkt10MvpQXg/gwx1dMvH9+3s+zlWrzid
-	P8+gdrhNvZyKakk75cNjPcRoWmb7bx0=
+	bh=DtprpBv0/Hz5AOQ8lQDLTCRBlU5FDNHzgHk2aooYP0E=;
+	b=h1jTklGcaYyTgdrz5Gc4EG5Uji7MWKfobI9cBDD8qW0EmeIpvKw2WXxR62/TCEnz5h1fgT
+	GLfzOFLNgElJIfmGDIfOpylVqN5K3Pf8Xy4J2h1RRYKRnk8cJ6WtYt25uWkFvIpHBgY4+1
+	Jy/WXPmkXNzAqcwSg6fwQ4SbMaF0FoY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775711353;
+	s=susede2_ed25519; t=1775712142;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F6ZlIKS2JScbL455dt0yLmTQ+PXj5BbfkElB+f7isaM=;
-	b=7Xx6BbEAXGIb7lmR2pAVZWjnFG5qaWf2UpwFVKgPlVixDOIr9xQ4KN4i9n/AzkWHKtMY0D
-	U7y+Lhnrl8o3PUBg==
+	bh=DtprpBv0/Hz5AOQ8lQDLTCRBlU5FDNHzgHk2aooYP0E=;
+	b=AxlUB7fg0G1UFdu3PQAA8UG1pXLtNw31NZDUFxpmxps2EAPx52BSZoW3OwqW9rvPfziWQ0
+	FyGNOQNXv18L8zCw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="qSpft/86";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=s+fH3zqZ
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775711352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1775712142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F6ZlIKS2JScbL455dt0yLmTQ+PXj5BbfkElB+f7isaM=;
-	b=qSpft/86a97Buqx3/UtE9Wb/5YeX864PZUfIRSQmJvmqi6l5G7lMXsDtJE1722D9VIvZp1
-	xvyyoH5muiJRmTl9Zige3dTVkpyaknhxwjaeWDpGqOqckN5Wvt7IgaeH3fGrlbFeJ20AXS
-	NFnfhRsMUv1oLVd2RadWrpRxG3k4Og8=
+	bh=DtprpBv0/Hz5AOQ8lQDLTCRBlU5FDNHzgHk2aooYP0E=;
+	b=h1jTklGcaYyTgdrz5Gc4EG5Uji7MWKfobI9cBDD8qW0EmeIpvKw2WXxR62/TCEnz5h1fgT
+	GLfzOFLNgElJIfmGDIfOpylVqN5K3Pf8Xy4J2h1RRYKRnk8cJ6WtYt25uWkFvIpHBgY4+1
+	Jy/WXPmkXNzAqcwSg6fwQ4SbMaF0FoY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775711352;
+	s=susede2_ed25519; t=1775712142;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F6ZlIKS2JScbL455dt0yLmTQ+PXj5BbfkElB+f7isaM=;
-	b=s+fH3zqZGpZIUnezuTDq7nJbrk/XN1AqznNmrXxXakJYa4gDEEkaAgZ122s6oL6IHuCRzA
-	Rd6h/+remUDEQSAQ==
+	bh=DtprpBv0/Hz5AOQ8lQDLTCRBlU5FDNHzgHk2aooYP0E=;
+	b=AxlUB7fg0G1UFdu3PQAA8UG1pXLtNw31NZDUFxpmxps2EAPx52BSZoW3OwqW9rvPfziWQ0
+	FyGNOQNXv18L8zCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A38C64A0B3;
-	Thu,  9 Apr 2026 05:09:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 719834A0B3;
+	Thu,  9 Apr 2026 05:22:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fvRwJHg012nrRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 05:09:12 +0000
-Date: Thu, 09 Apr 2026 07:09:12 +0200
-Message-ID: <873414lnyf.wl-tiwai@suse.de>
+	id Bp1jGo4312nCUgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 05:22:22 +0000
+Date: Thu, 09 Apr 2026 07:22:22 +0200
+Message-ID: <871pgolnch.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
-In-Reply-To: <20260409024028.1297587-1-zhangheng@kylinos.cn>
-References: <20260409024028.1297587-1-zhangheng@kylinos.cn>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [RFC][PATCH 0/3] ASoC: remove card->pop_time
+In-Reply-To: <87h5pkda1r.wl-kuninori.morimoto.gx@renesas.com>
+References: <87h5pkda1r.wl-kuninori.morimoto.gx@renesas.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,81 +90,88 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-1.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FREEMAIL_CC(0.00)[perex.cz,gmail.com,kernel.org,suse.com,vger.kernel.org];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
+X-Spam-Score: -1.80
 X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E72FF5BCE6
 
-On Thu, 09 Apr 2026 04:40:28 +0200,
-Zhang Heng wrote:
+On Thu, 09 Apr 2026 06:36:48 +0200,
+Kuninori Morimoto wrote:
 > 
-> The CSL Unity BF24B all-in-one PC uses a Realtek ALC662 rev3 audio
-> codec and requires the correct GPIO configuration to enable sound
-> output from both the speakers and the headphone.
+> Hi Mark, OMAP member
 > 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221258
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
-> ---
->  sound/hda/codecs/realtek/alc662.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+> I'm now trying to cleanup snd_soc_card, and noticed that card->pop_time is used
+> only from OMAP1 board-ams-delta.
 > 
-> diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
-> index 5073165d1f3c..3abe41c7315c 100644
-> --- a/sound/hda/codecs/realtek/alc662.c
-> +++ b/sound/hda/codecs/realtek/alc662.c
-> @@ -255,6 +255,25 @@ static void alc_fixup_headset_mode_alc668(struct hda_codec *codec,
->  	alc_fixup_headset_mode(codec, fix, action);
->  }
->  
-> +static void alc662_fixup_csl_amp(struct hda_codec *codec,
-> +				 const struct hda_fixup *fix, int action)
-> +{
-> +	struct alc_spec *spec = codec->spec;
-> +
-> +	switch (action) {
-> +	case HDA_FIXUP_ACT_PRE_PROBE:
-> +		spec->gpio_mask |= 0x03;
-> +		spec->gpio_dir |= 0x03;
-> +		break;
+> card->pop_time user drivers are...
+> 
+> 	> git grep -w -l pop_time sound/soc include/sound
+> 	include/sound/soc.h
+> (A)	sound/soc/codecs/cx20442.c
+> 	sound/soc/soc-card.c
+> 	sound/soc/soc-dapm.c
+> (B)	sound/soc/ti/ams-delta.c
+> 
+> Except ASoC framework, pop_time user is only cx20442 (A) / ams-delta (B).
+> And board-ams-delta (Z) is using it.
+> 
+> (Z)	linux/arch/arm/mach-omap1/board-ams-delta.c
+> 
+> 	static struct platform_device ams_delta_audio_device = {
+> (A)		.name   = "ams-delta-audio",
+> 	};
+> 
+> 	static struct platform_device cx20442_codec_device = {
+> (B)		.name   = "cx20442-codec",
+> 	};
+> 
+> 	static struct platform_device *ams_delta_devices[] __initdata = {
+> 		...
+> (A)		&ams_delta_audio_device,
+> 		...
+> (B)		&cx20442_codec_device,
+> 		...
+> 	};
+> 
+> With off-list talk with Mark, this card->pop_time is is much less of a
+> problem.
 
-Do we need to set gpio_mask and gpio_dir explicitly for this bit?
-Looking at the rest of the patch...
+Hmm, are you sure?  IIUC, it's used for a flag in the modem desc for
+cx81801, and a bunch of setup seems depending on it, and your second
+patch removes the whole of those without alternative.
 
-> +	case HDA_FIXUP_ACT_INIT:
-> +		/* need to toggle GPIO to enable the amp */
-> +		alc_update_gpio_data(codec, 0x03, true);
-> +		msleep(100);
-> +		alc_update_gpio_data(codec, 0x03, false);
-> +		break;
+> So let's remove it. But it needs Acked-by from OMAP1 member.
+> I added [RFC] on Subject.
 
-... here is the only place to fiddle with this GPIO bit, and it's used
-for gating.  OTOH, spec->gpio_mask, gpio_dir and gpio_data are used at
-alc_write_gpio() that is called from alc_init(), and IIUC, this bit
-doesn't have to be initialized there.
+So the actual question is whether the modem is utterly broken for this
+hardware or not.  If yes, it'd be a good reason to drop and apply this
+cleanup.
+
+But if it's not, we'd need an alternative implementation, e.g. move
+the flag and its handling to the modem's own object instead of the
+ASoC core, instead.
 
 
 thanks,
