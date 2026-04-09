@@ -1,50 +1,87 @@
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA29A3A8FF6;
-	Thu,  9 Apr 2026 09:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E8438239F
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 09:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775725507; cv=none; b=Zbbah8N8lDhducEXwjRfJFlsuDxMMq21nqNHVgGYQvctcOJZ5n5hs+5R3SL9ZoTk9IaIG2L1EuuPoUqaUGKMXa2RBiX6FT/u9duuyIOubuPJSwtv7ZNCN22nJBydQHXMJJ1bEuJv/62csSDZg7zhzNBn5Q9GC/Oba0e77duKk5s=
+	t=1775727516; cv=none; b=aypU9o3O+lSJwNavFOMCuJwJmoUsBMREct7dyNA5eWAH1+7+NgSXUh6GPtAyEVR/zhR2UhEDd0ky7zqAz0mr5waWO44MMUGx6tQ44g/09Q0Hc47LGwIt9qnZXL77EyAK9CGuxNtAxE4uD2en529Qnvl2S0ABhgCKtj88SVUjDEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775725507; c=relaxed/simple;
-	bh=jFEeeJw53ejQ1F9bOIGt9cktS/3dF0GiHEJoYEMvEOs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kbqzgawt6MxspNUvfZ0TC+8o9V5Q970WAhxqMMOCcevkx/jIGG2yp1rHuvHUxJas1mC4HKlrHN8cdQuF+wFOtj31PISm9RTxF7iOjMcdBrTzhMKDpU4+VBkrYkDCELc9LHn55CaZdmQe40y5cUMzFTt6UoKvFOWRRT/vfds8fDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-CSE-ConnectionGUID: odRpacj5Q0un0Dndzis7Lg==
-X-CSE-MsgGUID: PUW8TekuSTC0B8d3AQlRdA==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Apr 2026 18:05:05 +0900
-Received: from ubuntu.adwin.renesas.com (unknown [10.226.92.218])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 012A34015D82;
-	Thu,  9 Apr 2026 18:04:59 +0900 (JST)
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	john.madieu@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v4 12/12] ASoC: rsnd: Add system suspend/resume support
-Date: Thu,  9 Apr 2026 11:03:01 +0200
-Message-ID: <20260409090302.2243305-13-john.madieu.xa@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
-References: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
+	s=arc-20240116; t=1775727516; c=relaxed/simple;
+	bh=CyyHLVXlOhQzZmbO2TSdGLN0UO6YxwAFTchnIHmcoy4=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZmDzFaDB4lpZHqMLzFpVAOFrgVVVcxp1Kmey0TzqP4zKU2K++mWvI5puuY2uMl5Kc/HiLlX+259mPcS694ruERY3Z1fzOmQ8E6Nz8Lkg3pDp2yiobUhSP9hbE+5/MFbHleIvWh0nlvHLbuuGUKNvUHLFD5JNf3ccYFbUvZpdZfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HePZg0Qu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vNybTHEd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HePZg0Qu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vNybTHEd; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HePZg0Qu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vNybTHEd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HePZg0Qu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vNybTHEd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 836F35BD20;
+	Thu,  9 Apr 2026 09:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775727510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A33WQd5cLxdtEGTxyCiJPVYqtxgiGDqfM2TwPnEmCtE=;
+	b=HePZg0QuId6O81ocpsirynP/vLaZpa9oSTXpFHF/PryXxIm6+sxBjipW/KnXzaK5cYaE2q
+	sxZNraeswLQvuudXL4HX1wG9hD6I7S0u5cUD+L3TknMVKuQPKafokAD/lgeTO/t1RnFNvG
+	PIJtZa5gZ+Q3+YJWvZcMzFJvDfRhXYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775727510;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A33WQd5cLxdtEGTxyCiJPVYqtxgiGDqfM2TwPnEmCtE=;
+	b=vNybTHEdejnBMcWy+Dl9Flc2Xe/UTguoOPgFQGVHip1UwVeAPvJXAkUQZK+2WSX6afHuis
+	jHQjeL0Kcwxf3zDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HePZg0Qu;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vNybTHEd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775727510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A33WQd5cLxdtEGTxyCiJPVYqtxgiGDqfM2TwPnEmCtE=;
+	b=HePZg0QuId6O81ocpsirynP/vLaZpa9oSTXpFHF/PryXxIm6+sxBjipW/KnXzaK5cYaE2q
+	sxZNraeswLQvuudXL4HX1wG9hD6I7S0u5cUD+L3TknMVKuQPKafokAD/lgeTO/t1RnFNvG
+	PIJtZa5gZ+Q3+YJWvZcMzFJvDfRhXYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775727510;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A33WQd5cLxdtEGTxyCiJPVYqtxgiGDqfM2TwPnEmCtE=;
+	b=vNybTHEdejnBMcWy+Dl9Flc2Xe/UTguoOPgFQGVHip1UwVeAPvJXAkUQZK+2WSX6afHuis
+	jHQjeL0Kcwxf3zDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AEF44A0B3;
+	Thu,  9 Apr 2026 09:38:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iL/0GJZz12mdWgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 09:38:30 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 04/10] ALSA: hda/alc662: Simplify the quirk for CSL Unity BF24B
+Date: Thu,  9 Apr 2026 11:38:17 +0200
+Message-ID: <20260409093826.1317626-5-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260409093826.1317626-1-tiwai@suse.de>
+References: <20260409093826.1317626-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,439 +89,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 836F35BD20
 
-Add per-module suspend/resume functions following the existing driver
-architecture where each module manages its own resources in its own
-file. core.c provides common clock/reset helpers and orchestrates the
-calls in the correct order (reverse probe for suspend, probe order
-for resume).
+The previous implementation of the quirk for CSL Unity BF24B in commit
+de65275fc94e ("ALSA: hda/realtek: Add quirk for CSL Unity BF24B")
+introduced the unnecessary GPIO caching which leads to a superfluous
+write at each init/resume.
 
-Infrastructure clocks (ADG, audmacpp, SCU) are managed globally
-using optional APIs to remain transparent to platforms that don't
-specify these clocks/resets.
+Use the new helper to write GPIO bits directly for optimization.
 
-Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
+ sound/hda/codecs/realtek/alc662.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-Changes:
- 
-v4:
- - Absorb rsnd_adg_mod_get() helper directly instead of a separate
-   preparatory patch
- - Distribute suspend/resume declarations into their respective IP
-   sections in rsnd.h
-v3: No changes
-v2:
- - Distribute suspend/resume into per-module files (ssi.c, ssiu.c,
-   src.c, ctu.c, mix.c, dvc.c, adg.c, dma.c) instead of monolithic
-   loops in core.c, following Morimoto-san's architecture suggestion
-
- sound/soc/renesas/rcar/adg.c  | 26 +++++++++++++++++++++
- sound/soc/renesas/rcar/core.c | 43 +++++++++++++++++++++++++++++++++--
- sound/soc/renesas/rcar/ctu.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/dma.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/dvc.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/mix.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/rsnd.h | 18 +++++++++++++++
- sound/soc/renesas/rcar/src.c  | 26 +++++++++++++++++++++
- sound/soc/renesas/rcar/ssi.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/ssiu.c | 20 ++++++++++++++++
- 10 files changed, 231 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
-index 9cae3bbefa55..8c0c8bc92ab3 100644
---- a/sound/soc/renesas/rcar/adg.c
-+++ b/sound/soc/renesas/rcar/adg.c
-@@ -908,3 +908,29 @@ void rsnd_adg_remove(struct rsnd_priv *priv)
- 	/* It should be called after rsnd_adg_clk_disable() */
- 	rsnd_adg_null_clk_clean(priv);
- }
-+
-+static struct rsnd_mod *rsnd_adg_mod_get(struct rsnd_priv *priv)
-+{
-+	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
-+
-+	if (!adg)
-+		return NULL;
-+
-+	return rsnd_mod_get(adg);
-+}
-+
-+void rsnd_adg_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
-+
-+	if (mod)
-+		rsnd_suspend_clk_reset(mod->clk, mod->rstc);
-+}
-+
-+void rsnd_adg_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
-+
-+	if (mod)
-+		rsnd_resume_clk_reset(mod->clk, mod->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.c
-index cb31af8a34d4..cb7fb26f8972 100644
---- a/sound/soc/renesas/rcar/core.c
-+++ b/sound/soc/renesas/rcar/core.c
-@@ -963,7 +963,8 @@ static int rsnd_soc_hw_rule_channels(struct snd_pcm_hw_params *params,
- static const struct snd_pcm_hardware rsnd_pcm_hardware = {
- 	.info =		SNDRV_PCM_INFO_INTERLEAVED	|
- 			SNDRV_PCM_INFO_MMAP		|
--			SNDRV_PCM_INFO_MMAP_VALID,
-+			SNDRV_PCM_INFO_MMAP_VALID	|
-+			SNDRV_PCM_INFO_RESUME,
- 	.buffer_bytes_max	= 64 * 1024,
- 	.period_bytes_min	= 32,
- 	.period_bytes_max	= 8192,
-@@ -2059,11 +2060,35 @@ static void rsnd_remove(struct platform_device *pdev)
- 		remove_func[i](priv);
- }
- 
-+void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc)
-+{
-+	clk_unprepare(clk);
-+	reset_control_assert(rstc);
-+}
-+
-+void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc)
-+{
-+	reset_control_deassert(rstc);
-+	clk_prepare(clk);
-+}
-+
- static int rsnd_suspend(struct device *dev)
+diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
+index 3abe41c7315c..2cf3664a35ff 100644
+--- a/sound/hda/codecs/realtek/alc662.c
++++ b/sound/hda/codecs/realtek/alc662.c
+@@ -258,19 +258,11 @@ static void alc_fixup_headset_mode_alc668(struct hda_codec *codec,
+ static void alc662_fixup_csl_amp(struct hda_codec *codec,
+ 				 const struct hda_fixup *fix, int action)
  {
- 	struct rsnd_priv *priv = dev_get_drvdata(dev);
- 
-+	/*
-+	 * Reverse order of probe:
-+	 * ADG -> DVC -> MIX -> CTU -> SRC -> SSIU -> SSI -> DMA
-+	 */
- 	rsnd_adg_clk_disable(priv);
-+	rsnd_adg_suspend(priv);
-+	rsnd_dvc_suspend(priv);
-+	rsnd_mix_suspend(priv);
-+	rsnd_ctu_suspend(priv);
-+	rsnd_src_suspend(priv);
-+	rsnd_ssiu_suspend(priv);
-+	rsnd_ssi_suspend(priv);
-+	rsnd_dma_suspend(priv);
- 
- 	return 0;
- }
-@@ -2072,7 +2097,21 @@ static int rsnd_resume(struct device *dev)
- {
- 	struct rsnd_priv *priv = dev_get_drvdata(dev);
- 
--	return rsnd_adg_clk_enable(priv);
-+	/*
-+	 * Same order as probe:
-+	 * DMA -> SSI -> SSIU -> SRC -> CTU -> MIX -> DVC -> ADG
-+	 */
-+	rsnd_dma_resume(priv);
-+	rsnd_ssi_resume(priv);
-+	rsnd_ssiu_resume(priv);
-+	rsnd_src_resume(priv);
-+	rsnd_ctu_resume(priv);
-+	rsnd_mix_resume(priv);
-+	rsnd_dvc_resume(priv);
-+	rsnd_adg_resume(priv);
-+	rsnd_adg_clk_enable(priv);
-+
-+	return 0;
- }
- 
- static const struct dev_pm_ops rsnd_pm_ops = {
-diff --git a/sound/soc/renesas/rcar/ctu.c b/sound/soc/renesas/rcar/ctu.c
-index 81bba6a1af6e..73795d5b2817 100644
---- a/sound/soc/renesas/rcar/ctu.c
-+++ b/sound/soc/renesas/rcar/ctu.c
-@@ -383,3 +383,23 @@ void rsnd_ctu_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ctu));
+-	struct alc_spec *spec = codec->spec;
+-
+-	switch (action) {
+-	case HDA_FIXUP_ACT_PRE_PROBE:
+-		spec->gpio_mask |= 0x03;
+-		spec->gpio_dir |= 0x03;
+-		break;
+-	case HDA_FIXUP_ACT_INIT:
++	if (action == HDA_FIXUP_ACT_INIT) {
+ 		/* need to toggle GPIO to enable the amp */
+-		alc_update_gpio_data(codec, 0x03, true);
++		snd_hda_codec_set_gpio(codec, 0x03, 0x03, 0x03, 0);
+ 		msleep(100);
+-		alc_update_gpio_data(codec, 0x03, false);
+-		break;
++		snd_hda_codec_set_gpio(codec, 0x03, 0x03, 0x00, 0);
  	}
  }
-+
-+void rsnd_ctu_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ctu *ctu;
-+	int i;
-+
-+	for_each_rsnd_ctu(ctu, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ctu)->clk,
-+				       rsnd_mod_get(ctu)->rstc);
-+}
-+
-+void rsnd_ctu_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ctu *ctu;
-+	int i;
-+
-+	for_each_rsnd_ctu(ctu, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ctu)->clk,
-+				      rsnd_mod_get(ctu)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
-index e3278ff7e2f0..b9138c5076cb 100644
---- a/sound/soc/renesas/rcar/dma.c
-+++ b/sound/soc/renesas/rcar/dma.c
-@@ -1029,3 +1029,23 @@ int rsnd_dma_probe(struct rsnd_priv *priv)
- 	/* dummy mem mod for debug */
- 	return rsnd_mod_init(NULL, &mem, &mem_ops, NULL, NULL, 0, 0);
- }
-+
-+void rsnd_dma_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
-+
-+	if (dmac) {
-+		clk_disable_unprepare(dmac->audmapp_clk);
-+		rsnd_suspend_clk_reset(NULL, dmac->audmapp_rstc);
-+	}
-+}
-+
-+void rsnd_dma_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
-+
-+	if (dmac) {
-+		rsnd_resume_clk_reset(NULL, dmac->audmapp_rstc);
-+		clk_prepare_enable(dmac->audmapp_clk);
-+	}
-+}
-diff --git a/sound/soc/renesas/rcar/dvc.c b/sound/soc/renesas/rcar/dvc.c
-index bf7146ceb5f6..0e81fdf0e97b 100644
---- a/sound/soc/renesas/rcar/dvc.c
-+++ b/sound/soc/renesas/rcar/dvc.c
-@@ -386,3 +386,23 @@ void rsnd_dvc_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(dvc));
- 	}
- }
-+
-+void rsnd_dvc_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dvc *dvc;
-+	int i;
-+
-+	for_each_rsnd_dvc(dvc, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(dvc)->clk,
-+				       rsnd_mod_get(dvc)->rstc);
-+}
-+
-+void rsnd_dvc_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dvc *dvc;
-+	int i;
-+
-+	for_each_rsnd_dvc(dvc, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(dvc)->clk,
-+				      rsnd_mod_get(dvc)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/mix.c b/sound/soc/renesas/rcar/mix.c
-index 566e9b2a488c..42bb07ade3c8 100644
---- a/sound/soc/renesas/rcar/mix.c
-+++ b/sound/soc/renesas/rcar/mix.c
-@@ -350,3 +350,23 @@ void rsnd_mix_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(mix));
- 	}
- }
-+
-+void rsnd_mix_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mix *mix;
-+	int i;
-+
-+	for_each_rsnd_mix(mix, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(mix)->clk,
-+				       rsnd_mod_get(mix)->rstc);
-+}
-+
-+void rsnd_mix_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mix *mix;
-+	int i;
-+
-+	for_each_rsnd_mix(mix, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(mix)->clk,
-+				      rsnd_mod_get(mix)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-index 8f8e86cb6e62..31c501c3b024 100644
---- a/sound/soc/renesas/rcar/rsnd.h
-+++ b/sound/soc/renesas/rcar/rsnd.h
-@@ -267,6 +267,8 @@ u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod);
- int rsnd_dma_attach(struct rsnd_dai_stream *io,
- 		    struct rsnd_mod *mod, struct rsnd_mod **dma_mod);
- int rsnd_dma_probe(struct rsnd_priv *priv);
-+void rsnd_dma_suspend(struct rsnd_priv *priv);
-+void rsnd_dma_resume(struct rsnd_priv *priv);
- struct dma_chan *rsnd_dma_request_channel(struct device_node *of_node, char *name,
- 					  struct rsnd_mod *mod, char *x);
  
-@@ -429,6 +431,8 @@ int rsnd_mod_init(struct rsnd_priv *priv,
- 		  enum rsnd_mod_type type,
- 		  int id);
- void rsnd_mod_quit(struct rsnd_mod *mod);
-+void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc);
-+void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc);
- struct dma_chan *rsnd_mod_dma_req(struct rsnd_dai_stream *io,
- 				  struct rsnd_mod *mod);
- void rsnd_mod_interrupt(struct rsnd_mod *mod,
-@@ -606,6 +610,8 @@ int rsnd_adg_ssi_clk_stop(struct rsnd_mod *ssi_mod);
- int rsnd_adg_ssi_clk_try_start(struct rsnd_mod *ssi_mod, unsigned int rate);
- int rsnd_adg_probe(struct rsnd_priv *priv);
- void rsnd_adg_remove(struct rsnd_priv *priv);
-+void rsnd_adg_suspend(struct rsnd_priv *priv);
-+void rsnd_adg_resume(struct rsnd_priv *priv);
- int rsnd_adg_set_src_timesel_gen2(struct rsnd_mod *src_mod,
- 				  struct rsnd_dai_stream *io,
- 				  unsigned int in_rate,
-@@ -804,6 +810,8 @@ extern const char * const volume_ramp_rate[];
-  */
- int rsnd_ssi_probe(struct rsnd_priv *priv);
- void rsnd_ssi_remove(struct rsnd_priv *priv);
-+void rsnd_ssi_suspend(struct rsnd_priv *priv);
-+void rsnd_ssi_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_ssi_mod_get(struct rsnd_priv *priv, int id);
- int rsnd_ssi_use_busif(struct rsnd_dai_stream *io);
- u32 rsnd_ssi_multi_secondaries_runtime(struct rsnd_dai_stream *io);
-@@ -827,6 +835,8 @@ int rsnd_ssiu_attach(struct rsnd_dai_stream *io,
- 		     struct rsnd_mod *mod);
- int rsnd_ssiu_probe(struct rsnd_priv *priv);
- void rsnd_ssiu_remove(struct rsnd_priv *priv);
-+void rsnd_ssiu_suspend(struct rsnd_priv *priv);
-+void rsnd_ssiu_resume(struct rsnd_priv *priv);
- void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
- 			     struct device_node *playback,
- 			     struct device_node *capture);
-@@ -838,6 +848,8 @@ bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod);
-  */
- int rsnd_src_probe(struct rsnd_priv *priv);
- void rsnd_src_remove(struct rsnd_priv *priv);
-+void rsnd_src_suspend(struct rsnd_priv *priv);
-+void rsnd_src_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *priv, int id);
- 
- #define rsnd_src_get_in_rate(priv, io) rsnd_src_get_rate(priv, io, 1)
-@@ -857,6 +869,8 @@ unsigned int rsnd_src_get_rate(struct rsnd_priv *priv,
-  */
- int rsnd_ctu_probe(struct rsnd_priv *priv);
- void rsnd_ctu_remove(struct rsnd_priv *priv);
-+void rsnd_ctu_suspend(struct rsnd_priv *priv);
-+void rsnd_ctu_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_ctu_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_CTU)
- #define rsnd_parse_connect_ctu(rdai, playback, capture)			\
-@@ -869,6 +883,8 @@ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
-  */
- int rsnd_mix_probe(struct rsnd_priv *priv);
- void rsnd_mix_remove(struct rsnd_priv *priv);
-+void rsnd_mix_suspend(struct rsnd_priv *priv);
-+void rsnd_mix_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_mix_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_MIX)
- #define rsnd_parse_connect_mix(rdai, playback, capture)			\
-@@ -881,6 +897,8 @@ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
-  */
- int rsnd_dvc_probe(struct rsnd_priv *priv);
- void rsnd_dvc_remove(struct rsnd_priv *priv);
-+void rsnd_dvc_suspend(struct rsnd_priv *priv);
-+void rsnd_dvc_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_dvc_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_dvc_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_DVC)
- #define rsnd_parse_connect_dvc(rdai, playback, capture)			\
-diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-index 651ed378c4f7..aac749f917bf 100644
---- a/sound/soc/renesas/rcar/src.c
-+++ b/sound/soc/renesas/rcar/src.c
-@@ -848,3 +848,29 @@ void rsnd_src_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(src));
- 	}
- }
-+
-+void rsnd_src_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_src *src;
-+	int i;
-+
-+	for_each_rsnd_src(src, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(src)->clk,
-+				       rsnd_mod_get(src)->rstc);
-+
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu_x2);
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu);
-+}
-+
-+void rsnd_src_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_src *src;
-+	int i;
-+
-+	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu);
-+	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu_x2);
-+
-+	for_each_rsnd_src(src, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(src)->clk,
-+				      rsnd_mod_get(src)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index c65435551283..072e66bda9e7 100644
---- a/sound/soc/renesas/rcar/ssi.c
-+++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1261,3 +1261,23 @@ void rsnd_ssi_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ssi));
- 	}
- }
-+
-+void rsnd_ssi_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssi *ssi;
-+	int i;
-+
-+	for_each_rsnd_ssi(ssi, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ssi)->clk,
-+				       rsnd_mod_get(ssi)->rstc);
-+}
-+
-+void rsnd_ssi_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssi *ssi;
-+	int i;
-+
-+	for_each_rsnd_ssi(ssi, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ssi)->clk,
-+				      rsnd_mod_get(ssi)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
-index f483389868d2..83de5247d43f 100644
---- a/sound/soc/renesas/rcar/ssiu.c
-+++ b/sound/soc/renesas/rcar/ssiu.c
-@@ -630,3 +630,23 @@ void rsnd_ssiu_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ssiu));
- 	}
- }
-+
-+void rsnd_ssiu_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssiu *ssiu;
-+	int i;
-+
-+	for_each_rsnd_ssiu(ssiu, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ssiu)->clk,
-+				       rsnd_mod_get(ssiu)->rstc);
-+}
-+
-+void rsnd_ssiu_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssiu *ssiu;
-+	int i;
-+
-+	for_each_rsnd_ssiu(ssiu, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ssiu)->clk,
-+				      rsnd_mod_get(ssiu)->rstc);
-+}
 -- 
-2.25.1
+2.53.0
 
