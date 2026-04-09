@@ -1,91 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4622475CB;
-	Thu,  9 Apr 2026 13:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409B63AB294;
+	Thu,  9 Apr 2026 13:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775740765; cv=none; b=TgILq3LGtnh/g2Evi044kJ3dYAIikU3lkILalXc+lL8bk8++ohkiWToV5t6EU+Rgo5YM3BefGtH3D2rqv5qsNono07XSq500UaYpW4+o5F+sYme/LmfMMGlh2xh3Gfp/FbIdchPt5RRqdLmuqTjHfgbvgIU6GSnMLdtzYMfvjnc=
+	t=1775742760; cv=none; b=lom152gPxwPNNw1E8VrsVuvtn9XWGY5frpp0u9m3SLe6SlKBvEuK4xvJ9+B8It+CWrL3kTYPos5JrRyODWAEEgiOxnBAV4qrJ3RNuig8mhgBqm1RNaCQA5ei6uuVtFj/PAdi4tPkb9U7s9r6V7FCf6IwMApBa1bVY9EYrUCQeu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775740765; c=relaxed/simple;
-	bh=0yBGZ1Y++o+31q9yBHtCNV47csSwewZum7wmcuSASNw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ngxRRZAe6MPz4ck8hlSWeOKWiRKnNvkfPi3xjupCkrLDTRzwopfwYy8QaibpHtZ6FZOjt4yGZbEzbzOD9m2Ee6JBfpF+2qwl+HcIs/2DE9ZnLR2AnBkxpHEU7j727AE8HwPNCHOBqO4hv8hkVTuePUlpLCTclh04qDvLFzmnWkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rQ9QE4u7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775742760; c=relaxed/simple;
+	bh=IW+L+AK1hiVnwzxfTRYWWANDieq9krU23OvmtNYGWsk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GnyVDSoOQXdMBChjDc5rj0l65lnm52eAQS5VNTuw4rOPqGcfa7iIPxeURfj2I+P4jdKSjGSVVV892cGR74JrYYkx/3OTN5DEeOslqTm5D27PqqRWhZ0U1es5Zw8dbqJhssA0gHptI5WNS02+HZxNP8kzpAKs4jNqzJXDQpLLBdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=kqJCAeEr; arc=none smtp.client-ip=220.197.31.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rQ9QE4u7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF96EC4CEF7;
-	Thu,  9 Apr 2026 13:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775740765;
-	bh=0yBGZ1Y++o+31q9yBHtCNV47csSwewZum7wmcuSASNw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rQ9QE4u7XS9h4OJ1fbN78xN0SGXcjGjeOuly7H189UzC9lDjDWY20KNvr1SKOjRDB
-	 oyNLiPZdlEGXMAo+rZEe2pTPxDxR19DpwEMisMRV2KvEips4O01kSriKB2/gUi9jxC
-	 DTKMsxPkILcUNExh48xBFAJcaAjyQyxembpuCqUXCB1GyW34xi6Qa9/ZntxalopPtO
-	 tzomO3v0c9q8LRPBOncYph9bTpRXA6EWC4XT0HG1MddDYEEs1PlHYU+B9vTy7DBYWW
-	 KEvnfOGYgBj/rdadZg74FCH5beZsWsaCjCCia5W/pfkwqgJ5ML+NcoA1tSmWfBEU04
-	 FryPiuZcUKbRw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-Cc: john.stultz@linaro.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260327092106.4233-1-chaitanya.msabnis@gmail.com>
-References: <20260327092106.4233-1-chaitanya.msabnis@gmail.com>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to
- dt-schema
-Message-Id: <177567159547.101848.2508935852216681187.b4-ty@b4>
-Date: Wed, 08 Apr 2026 19:06:35 +0100
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="kqJCAeEr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=rj
+	adzI/Zuc0HPYdHcqb7C3/H7Bb7GGT4QJOmWQm9lT4=; b=kqJCAeEr6y0KfbOwzs
+	2Ufnt2eLZgBrLG9jYhZ8r/qwS4UNRaLDzFYpB+u1CTt9yT4FwJpO5NqBVdIz401e
+	8X/nU5HoS4r3QnvAROxGzIYGN7ME9/7VdG3NwQ0+bcu5QqrI1kVI24tcobaU5uOf
+	6swIm/tVtkSI1cP3nnka7pE4E=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wD3V94Qr9dpt8U7BA--.13834S2;
+	Thu, 09 Apr 2026 21:52:18 +0800 (CST)
+From: Qinghua Zhao <zqh1630@126.com>
+To: linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	linux-sound@vger.kernel.org,
+	Qinghua Zhao <zqh1630@126.com>
+Subject: [PATCH] sound/soc/tegra: Fix spelling error 'recieved' -> 'received'
+Date: Thu,  9 Apr 2026 21:52:13 +0800
+Message-Id: <20260409135213.16558-1-zqh1630@126.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1144; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0yBGZ1Y++o+31q9yBHtCNV47csSwewZum7wmcuSASNw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp16daUssI6tSg7uF9pxnSweyglsRImwfflPUxM
- dTY8lHqFtSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadenWgAKCRAk1otyXVSH
- 0A5PCACAEz3xQAFzoTMgyHCcIAFbDLzTm69ZYLD01lvBD2dDQ5YT6OyzRobBGBp0mQaFXkyPuF/
- 42PJykUJYArJUlvGJIL6bEEP8L6+632Xxt8NZaEuh3JbC4mGON5MrDODRjFfGQjtc5AR1bVRXCm
- pAIIy6BMWCmrPFL6blzn5TCkWf1uNKBH1aud1WeDa4LeZJlu1zD7YsyTGMc8f3KUhrizsIB2AOn
- fsvESB1CtbFvt1sLdJ+R46P3Bw2VdG6PzBpUqodPsv7jvxnuOUeZ5GPCQdkkpGpynIHoh+D+MJ3
- Ii2BNuIdXuTGqyKIsLXVGG2kl8AwyMOyPALCUtuTNupVFH3e
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3V94Qr9dpt8U7BA--.13834S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gw45Gw4UWr1rAF13Xr4rGrg_yoWxAFcEkw
+	48Ww48W34Fkr4avan8AwsFyrWjvw43ur48G3yYyFy7C34UWF1Sya48Ww4v9rsxWan7JFyF
+	q34qgrWYyrW3KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRu4EEPUUUUU==
+X-CM-SenderInfo: p2tkilitq6ij2wof0z/xtbBrBJAtmnXrxJKagAA3r
 
-On Fri, 27 Mar 2026 14:51:06 +0530, Chaitanya Sabnis wrote:
-> ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to dt-schema
+Fix typo in comment where 'recieved' should be 'received'.
 
-Applied to
+Signed-off-by: Qinghua Zhao <zqh1630@126.com>
+---
+ sound/soc/tegra/tegra20_spdif.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: hisilicon: Convert hi6210 I2S to dt-schema
-      https://git.kernel.org/broonie/sound/c/f4ee8a882a56
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/tegra/tegra20_spdif.h b/sound/soc/tegra/tegra20_spdif.h
+index ff4b79e20..26ab8d5c7 100644
+--- a/sound/soc/tegra/tegra20_spdif.h
++++ b/sound/soc/tegra/tegra20_spdif.h
+@@ -171,7 +171,7 @@
+ 
+ /*
+  * RX channel block data receive status:
+- * 0=entire block not recieved yet.
++ * 0=entire block not received yet.
+  * 1=received entire block of channel status,
+  */
+ #define TEGRA20_SPDIF_STATUS_IS_C				(1 << 21)
+-- 
+2.40.1
 
