@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE7C39526D;
-	Thu,  9 Apr 2026 22:35:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED1F341ADF
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 22:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775774150; cv=none; b=s/aKdapqUtiShiabSV70W+0PPj/BGHzPVpr9+ZnRsYXjWEY0iAbw24vkfuNQAObr0tA5lYOwLsmWCz51Xt71KKc9qmX06rp3OJpOprZAxaa77k/7aadZIUXJIg6mh9O5kpFZGAT7fiYNVcy6gUCszYTTNvriZ68At4j0LwuckQQ=
+	t=1775774174; cv=none; b=jqH1tIVOPkXOVuKSXuRfhqsQBD4KPzxI1C0UEJAWdXLrFo+Y+215qFnXqMti9iQp3Oin/nYMzUWsKMVzckMQ2reFEIamDvNilxcWgNjF9CnCbp4APYW1pZI/lFvFwiXLUVLcCIgYi8UwLhXeFRfJ46NIw5P9B1YPbPKCJ/1A7uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775774150; c=relaxed/simple;
-	bh=fZpeJZdokXjWQ9DP9yqhfdU++LHb1Vn5p0/VmEMkfYs=;
+	s=arc-20240116; t=1775774174; c=relaxed/simple;
+	bh=FqGjFH6hRu5Ed+VdLC4sxm7KEsMxh1QTlFaFP9fjuTw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EV0EOualNrNxdYEtsGUJHKoL4gUKTaXT1adOeqB067Ktl2ncfDN+gvMWf+LcEok43x88amr7bmNJ5J1+4NPMgS077HDKSBRHAir5FV2xDeqklvCCMDcHBKNDbS+EE7ieOLsg5bPw0psdJUkq0wT02mlEh5b6yOR4v4+JtYP6b3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONULGz21; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=te8agsbkNg2y53kdMoJvDDbi08MvxwAAjJ9ti77Oth2Dmcporu8OmCfgLh+kxmB5jAMgTvod2Kq95aCs4/dTMWuXvijf7jpreuKznxwwya009ZujI6ctzKnJaVdz3Wk3bx4BHc1MNNfUwsjGdsdnOeqMYWvnVs5ZgpLTgx4o3UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dzv4bDN/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONULGz21"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09737C4CEF7;
-	Thu,  9 Apr 2026 22:35:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dzv4bDN/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F3DC4CEF7;
+	Thu,  9 Apr 2026 22:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775774149;
-	bh=fZpeJZdokXjWQ9DP9yqhfdU++LHb1Vn5p0/VmEMkfYs=;
+	s=k20201202; t=1775774173;
+	bh=FqGjFH6hRu5Ed+VdLC4sxm7KEsMxh1QTlFaFP9fjuTw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ONULGz21jtASv3U/WScjKjUOb8Z2SYKE+HOmchKLtwTK75WYrHEd3ll9r3gaMiyRz
-	 wbHZDU+HEM0ri4DW6uONzB/W8haD3pnWbo1Qpy3TAVE+ENnmSRzGHIwlu10WF1H4+h
-	 xroqwMdldTtGRYxqMX1MRNvVU9deLZPRIHm8z5b4zUu+D/NuTauHpTXzAgBf6TPqCn
-	 0RnM9VvfjZTDnsx560xeSWtE+MN5lkp+dc6ZaqEsGziBli4tqJ9OYbjd8cul3Tq8YA
-	 rETbOr10jOBW7fBxxrVZr/elL7lFqmSsyky3T/sZN0Xuc3X3c1hljgpOqUkPu+AanF
-	 x6cGissHn77hQ==
+	b=Dzv4bDN/7wE7/BdFNQbtsUVaGLFEB9sgTQtXkmZsDw8mrVYMyK1Al8tVHUsPrL1vr
+	 s27J1wOSe7Inv1HQypXb/guuC/wMAYMFitl9V7QHTbmRMRaC2wSzTwKBpfypPZyx/R
+	 vGdkuJyh2vCcxHFgTS0ooMEYpbgHLqKwX0cS/oupBBNx3oME1wnI+1OZ3YomCv7L96
+	 qDVFYjL1yJ0xHjOfKnsWxWDCXAsaZpk395R/d5mDehAigxJqYNl7yDlENAtIR4jGb+
+	 3yNxX2tEjugFcwAZqdQ8nWyS5VSwXmJthzTY7i5BRgcLZVWiXYaOrRDJ9zwwLXRvqb
+	 j0KA0wPqLiP2A==
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, Qinghua Zhao <zqh1630@126.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20260409135213.16558-1-zqh1630@126.com>
-References: <20260409135213.16558-1-zqh1630@126.com>
-Subject: Re: [PATCH] sound/soc/tegra: Fix spelling error 'recieved' ->
- 'received'
-Message-Id: <177576006954.993260.16810896674288832411.b4-ty@b4>
-Date: Thu, 09 Apr 2026 19:41:09 +0100
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
+ shumingf@realtek.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260409164328.3999434-1-ckeepax@opensource.cirrus.com>
+References: <20260409164328.3999434-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 0/4] Yet another round of SDCA fixes
+Message-Id: <177575998167.993260.15164695369618116965.b4-ty@b4>
+Date: Thu, 09 Apr 2026 19:39:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,20 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
- h=from:subject:message-id; bh=fZpeJZdokXjWQ9DP9yqhfdU++LHb1Vn5p0/VmEMkfYs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2CnC+OTocyLj3XFF5nLL7pUPyk01pujRFdLjo
- Ibfusig4v6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadgpwgAKCRAk1otyXVSH
- 0FNfB/wJmxgqvIayNMIgoqJTJbpd7zrtkbHqfYnbEFHGMRsQfDV2iWxD8x9exjN1/jitybXncsR
- NWRAVKwYE2w9oFL78eCsz5rOSfUFnMvWvBt3YjCU7882k6CxTr6QpiA4RReHP00eQM/63h+iFuy
- 18ejjBB/U3bNavgT4BX1oYKXNQ7PCxbBpmldYlCs8pc44Fm3JnycjK5ygemc/kcrkgIDVLwgcwE
- sfLiaV1VA6gqHFQDkT/hVJ51KwLOUMELKN7q3bcIFgQ3i6UFSbM4h21asfBAPln+8Kj3ullNuMP
- 4nKWgdu66S5J0wWXKfZyp/tCM9x/hHaxKjZurt5LQIFziHsr
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1560; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=FqGjFH6hRu5Ed+VdLC4sxm7KEsMxh1QTlFaFP9fjuTw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2CnZIjHV4uJsQpQbfZZ2TlvJ/14wFtsnyZFJI
+ GC06fJlObSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadgp2QAKCRAk1otyXVSH
+ 0DBNB/9txm/eNR3npp0XR+HIZq/ImVh4NTj1/5MpCHEI7PDsbdDFK+DgmRH5BKhwdtF2oM8j26F
+ KTojGyFfAPw4MbTF3JC5pRmG9meIPjS/U8fOzsUnRrI//TGaevMOQWglGRVH+LLMJJWbdBGevxb
+ fJ0MavtaRlWYWhqIMdtlO0DK2gtRRzgKevnhqRw+ZtL4zM0CoNs4U1ChFpgKeREkOUNah6NQaa7
+ ZqAQLybkMgA8M/eN+2jmFuBOyD3qfuc1C3w/foa3YOQNaP4YAefEWrEgKPhRH7MFqG2xysRVzI8
+ YlWMzHc7VWj6InX45U3tU5i3hHHPVDQg/whwaudJbMc8XxHX
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 09 Apr 2026 21:52:13 +0800, Qinghua Zhao wrote:
-> sound/soc/tegra: Fix spelling error 'recieved' -> 'received'
+On Thu, 09 Apr 2026 17:43:24 +0100, Charles Keepax wrote:
+> Yet another round of SDCA fixes
+> 
+> Another round of SDCA fixes a couple of fix to the IRQ cleanup
+> from Richard, and a minor tweak to the IRQ handling from me and
+> an update to the comment on a fixme.
+> 
+> Thanks,
+> Charles
+> 
+> [...]
 
 Applied to
 
@@ -65,8 +76,12 @@ Applied to
 
 Thanks!
 
-[1/1] sound/soc/tegra: Fix spelling error 'recieved' -> 'received'
-      https://git.kernel.org/broonie/sound/c/833011cbe663
+[1/4] ASoC: SDCA: Correct kernel doc for sdca_irq_cleanup()
+      https://git.kernel.org/broonie/sound/c/c271b0815f45
+[2/4] ASoC: SDCA: Fix cleanup inversion in class driver
+      https://git.kernel.org/broonie/sound/c/7936490e0473
+[3/4] ASoC: SDCA: Tidy up irq_enable_flags()/sdca_irq_disable()
+      https://git.kernel.org/broonie/sound/c/87ceac0a98e9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
