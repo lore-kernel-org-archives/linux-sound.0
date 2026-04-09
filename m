@@ -1,142 +1,351 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010030.outbound.protection.outlook.com [52.101.56.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AAB3DEFEC;
-	Thu,  9 Apr 2026 14:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775746020; cv=fail; b=LxE4EDzZdUsy1T/+hrYK6i36XV8mZgP04AwKomEJ+FxxWPM3WxlrmsNRqCXOEwOxqpBuWcLFNiokwzEnPLyu1pZ/cZLWq+HKKPVubh1mXPebsgUnI+CC6MERgoM3n7uowUYw1/guHRRII+Nh0BrJh/igRikZZ56QdmmdUOOn7mM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775746020; c=relaxed/simple;
-	bh=l8FDFH2wpkkonba4Ara5MZZWrTlkCKDMPTnmXrEKGTI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qGDvo4GOjxxzIt4MBl8gtdZf2buRk9Wlxww8+OZc0BubvPCQKrrwofrP3HuH50nQjZZwit0uGaqOhb78us6/L+qyUsuWVChg650v1dFK7+vgdz7hkh8fy3TqC1Ln85GVAVZnQNj2HLgKnJ1AEFTC5kRdCMpn1COy/pk5kGf3JqM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GRb2ZFQ5; arc=fail smtp.client-ip=52.101.56.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46543C9EDF
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 15:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775746870; cv=none; b=SVwiTv0VxjN7uJU/Sa/SuCj9FuiwapBhOtoViqkE3pgJlgBv8he2Qfl0bsSrCyjdm4UIAniPDdh1PLPvi4MVWrwtSNBJ2AwE0x/5WTeF7DF7bnWxQqS45JimdTUPvrhD2J+qllzZmLuqdYR8IkRuQmiV/ImSWL3FmcAcMA07WPE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775746870; c=relaxed/simple;
+	bh=eU/0+H99y8aVk6sP9KjelkGrwI25brq919mGlv3x2Hk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PeaA9dAqBtRqa35lgee/Ci/akwiE2cO50CU+OIgEwxFKV5niAOjwojJ+16vfdcuALjU8Joozmgeg6+75jF5lKsVXPD/d6smJ+Mi98u3f+xenpAGGpV0ss5NfQqr4CNYw0RXFeRPJqtJbhJTjqVYaXNfIDUJA2E3GqKQxYoHyaw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qb1OkkCH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GRb2ZFQ5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SoWeCUIPbB4Jh5NzF8Pclxr5h4diVNHKcQHzntckhXbq18Z040l2obnvCJw78jebE9or5cvc3GRdyEahbvtpboIj2qzt+fXJyC6Ki6M8XUu3QtRH4vopYqztnJA99R8UXM8AuQFjC/ahcnPXGvODysvFq+JAQcKLuMhzzLCGFD0v4MZu7ysA5m8Mpp0Dxr1MaiHYQVV1/Gh4biel1CDzZJIY0CPDEiO7mUpb7QX3fID3uSVLiSQxwvtGgFL+isUdPOMAAwKfc/GE9UhbHv2fKf8xNsUePkrTYyZusL+Avj20iCTLFSrI5R718f+eRFXfD6TF+scTCOpIZ3+Jrm93Gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l8FDFH2wpkkonba4Ara5MZZWrTlkCKDMPTnmXrEKGTI=;
- b=Tw5yPx9Orir+8lG0OzOkTZspDUY6INr+PIERZiBOKDcMI4QA0vz+9Uonz17FYT5oNmFmHaEHQDcRWNBeNXW3jWaJpMIl0krD9DJD1pyCw3RFex6bdMG1b6DwIRf/rO6ZJ1y7BTccZnS3wpI3WhFwxATr6uhFnCUYO0JYOWxDa1l3ymqf+siE32az+zduAwiFDWruiFHr7Qpccwv9emZ1oTA12dOGXmqGzPw0IhsIlZU86krRMQvZEYsrcd7t8ENzhE2i1rx3yIhX6KyG7i5Ptzvu7KhH8fBxkkXXiwFl5GxgZkTGRhEpjoTXkE1GTZKLYice4X0TaGj+11ZXceLwsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l8FDFH2wpkkonba4Ara5MZZWrTlkCKDMPTnmXrEKGTI=;
- b=GRb2ZFQ5TBEttadd8XToX8Xh2BqcX5y/hCgEj4VD4QHbjXM0CcPqCB7YmHHeAoDbnHRgfJks2WtlBFvXZa86xxpdmM/8uRRgAFT+GaQ9Ipusuv1LE2AG2nrApGc40af69mogUJD25XhQdGf6QtiS5LUcaUB1JSkwT5qj55fMi8c=
-Received: from BN0PR08CA0015.namprd08.prod.outlook.com (2603:10b6:408:142::31)
- by IA3PR10MB8733.namprd10.prod.outlook.com (2603:10b6:208:574::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Thu, 9 Apr
- 2026 14:46:42 +0000
-Received: from BN1PEPF00006000.namprd05.prod.outlook.com
- (2603:10b6:408:142:cafe::f) by BN0PR08CA0015.outlook.office365.com
- (2603:10b6:408:142::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.41 via Frontend Transport; Thu,
- 9 Apr 2026 14:46:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BN1PEPF00006000.mail.protection.outlook.com (10.167.243.232) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Thu, 9 Apr 2026 14:46:42 +0000
-Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Apr
- 2026 09:46:41 -0500
-Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Apr
- 2026 09:46:41 -0500
-Received: from DLEE204.ent.ti.com ([fe80::81dc:e6c6:4c37:9bc6]) by
- DLEE204.ent.ti.com ([fe80::81dc:e6c6:4c37:9bc6%14]) with mapi id
- 15.02.2562.020; Thu, 9 Apr 2026 09:46:41 -0500
-From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
-To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"broonie@kernel.org" <broonie@kernel.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
-	<perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
-	"cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
-	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
-	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
-	"ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
-	"kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
-	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>, "Xu,
- Baojun" <baojun.xu@ti.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
-	"Kasargod, Sandeep" <sandeepk@ti.com>, "Hampiholi, Vallabha"
-	<v-hampiholi@ti.com>
-Subject: RE: [PATCH v6 1/3] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-Thread-Topic: [PATCH v6 1/3] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-Thread-Index: AQHcx4j/qY1bn/PmDka84dWEJ/+mSbXWzZKA
-Date: Thu, 9 Apr 2026 14:46:41 +0000
-Message-ID: <2dce534e5d8d46a7b090b1ecc9195d8d@ti.com>
-References: <20260408185212.4605-1-niranjan.hy@ti.com>
-In-Reply-To: <20260408185212.4605-1-niranjan.hy@ti.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qb1OkkCH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AFD1C2BCB1
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 15:01:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775746870;
+	bh=eU/0+H99y8aVk6sP9KjelkGrwI25brq919mGlv3x2Hk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qb1OkkCH1LcUJwMlp0smxmHg9hIF3gIFKwKysxol5849BsjqGbavzIzwDpFa+AkkQ
+	 lxaD+RlVa1Ax+8ynGXbDUMsh6qRcneZeXqgWMj3DJc9n8S91sMykqQzV1+pZDfRzai
+	 MMwbNo3ac9CmCvrpHFNeGJgtsB/HkyuWOnxzO1nu7pQW3gsrJPhih2bdJdeQ/DPsqX
+	 MlrLMJ3HDJVr9qlo98K/reOaqTSrn7KeH24KcKnTuMdJHFoQDjy4H+h+qD7/oNsOuf
+	 jB01gzBiYZ07i+hr9TU2cwIx3iiwv+I28wXXREJadg/YEv1GLK0+nDZYEnHIf+lNKC
+	 LHjkU5kJUEuZw==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-66f727d6849so1379648a12.1
+        for <linux-sound@vger.kernel.org>; Thu, 09 Apr 2026 08:01:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUbicoUNsGzA290eNUe9ouR8cszgHcLKe78nQ+1Fd6YJDilCWwsQrZi5fs+9YUFGjX88JRzhwrvH8Kp/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu1Jml5wu4i/+Ii98Zocpv0/p3e/GV/pecmvxME7r6bEiGhZw7
+	s9BMe1fTEU9GkTKvlLwOULPFRCCvyvma5+KDKuJdrlIIZXWBIIv9eN0LPBEShEDAc5bOV+9NP7K
+	YHfvoSlOh4Jly0/M5vPSlrPfE65YxLA==
+X-Received: by 2002:a17:907:9341:b0:b9d:3823:e7b4 with SMTP id
+ a640c23a62f3a-b9d4768d4d5mr176438966b.31.1775746868558; Thu, 09 Apr 2026
+ 08:01:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006000:EE_|IA3PR10MB8733:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7098aae8-b373-4110-a3fc-08de9646d078
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|7416014|82310400026|376014|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	yhXoEAuvZMLV0/KdOJZQUto2KPKMqL5nw/jwWta+Edgmas4ddI+x3jMGGcqZwTgjMdnhABTMo9Dy07ClJogHZtKo+VJMBEZu+gQXExb+sharu4PHkmSH5NFtk0/ZPLgpJDeeQ6H4Y9doax46xtQUDX40NusAQRbIxI2yZdTr5EuRCZFlXGnTRjXoSh7FPTbqvM2qUm/T+mxfSsXFweqb1s/fd6/DlEdyWP//kVhqemfYk3WLViXuqL94Nnagcb30HpIV9OPUQ3j4Byz/sW7hPhYjSZQ8PfCaMmQ5bQn6jfkSQFcaYKtSi9MZNIgBETbgF4ScTt8ZNn3DNs22TfX7lIyDALg1opmXM9pL5Apw+tt6ntqKKMrcJyufQ0Qe6QypZRb14vJHVRPXjhte8tiNXmu8gIc1UxmP5YiEHAlQEnt1+Vji8T/ibf8IszBEGDwoPWht/EmpkcNnx9uJrTOIXnHUdNQyHsk+LLSi3di4DddXeXJv+HIcJtjmUiQasUU/tBGVOrAB0JaQl6otXg/QLDhNdNnbPdRxjm2jPL+8+PO8603eYe7VQ4eeneS6O9Zxbk6c2Q+J7jgiZMxVfHmAjbezlEQ7wFUifrN1oFbg7XDAtwUanqbbUpgMB0ZR34bqqmbEEjChQslzVPT9xuJk5LQrDGkCQV44su5CAUxulLiUMyw6mzJCVRlJV8L9ngdRQSF1MmGSWOjfFe+SwGSS6ZNJ4k0e9VsAUemjI0MeXHg8DguXwtDU3LlIkZ/xxw909+ZVVhw3FtBVeGfFzGFJKQ==
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(82310400026)(376014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	jFgux54j7QtMA39N0haFYBT6bOMucmfDV7m3AcpX9CwVLY/XZsaanNgTlm6oUudLm7p9C6WsOe5YXLONpu5zuJlBu49Fes5KWodD/iG97/gmM0/w/Udcs2oTqf3F5bt4O28tb6Nh8GFCLEW/meGcx47uNt1z5WJJGlRB5ApDToVsbaGdPca/GcobZ0Ds6yMRy4N+88I6hg7JnJHmf85EuOxsq7qfESkyMDqfaMvKVEKVAJtcui2Ml6vhjq8UTkWuL7BoKFqbz6PdwuviShpASmuXUt2kCqSRXFlIHCXMEtXtaIQN/Oz9ofMsJlrYwDvzf533ikwrzwsJwjTS/jbtpDlgrmpod3ktVc1mc1rwHOoC3m5r1LnETf/sFk8f6PSjjNdLr9jcc3zDF4gJKSjVI358mXuIrS7BtzC7lw+y4xj8WUUgu06zSRQXkTyF/t8Z
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 14:46:42.1388
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7098aae8-b373-4110-a3fc-08de9646d078
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00006000.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8733
+References: <20260330101610.57942-1-herve.codina@bootlin.com>
+ <20260330101610.57942-3-herve.codina@bootlin.com> <20260408122901.GA42727-robh@kernel.org>
+ <20260408190932.0ab936b0@bootlin.com>
+In-Reply-To: <20260408190932.0ab936b0@bootlin.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 9 Apr 2026 10:00:55 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
+X-Gm-Features: AQROBzCAcuc8BAMdceAwtjXPdIRiZc9n-UNPxD81LODZJ04zE2BvrbZCjHXObas
+Message-ID: <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven amplifier
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiBPbiAwMDoyMi0yMDI2MDQwOSwgSG9sYWx1IFlvZ2VuZHJhLCBOaXJhbmphbiB3cm90ZToNCj4g
-U3ViamVjdDogW1BBVENIIHY2IDEvM10gQVNvQzogdGFjNXh4Mi1zZHc6IGFkZCBzb3VuZHdpcmUg
-YmFzZWQgY29kZWMgZHJpdmVyDQo+DQo+ICsJc3RydWN0IG11dGV4IHVhal9sb2NrOw0KPiArCXN0
-cnVjdCByZWdtYXAgKnJlZ21hcDsNCj4gKwlzdHJ1Y3QgZGV2aWNlICpkZXY7DQo+ICsJYm9vbCBo
-d19pbml0Ow0KPiArCWJvb2wgZmlyc3RfaHdfaW5pdDsNCj4gKwl1MzIgcGFydF9pZDsNCj4gKwl1
-bnNpZ25lZCBpbnQgY3gxMV92YWx1ZTsNCg0KSSB3aWxsIHJlbW92ZSBjeDExX3ZhbHVlIGFuZCBz
-ZW5kIHVwZGF0ZWQgdmVyc2lvbi4gDQoNCj4gKw0KPiArCQlpZiAodGFjX2Rldi0+Y3gxMV92YWx1
-ZSkgew0KPiArCQkJcmV0ID0gcmVnbWFwX3dyaXRlKHRhY19kZXYtPnJlZ21hcCwNCj4gKwkJCQkJ
-ICAgU0RXX1NEQ0FfQ1RMKGZ1bmN0aW9uX2lkLA0KLi4uDQo+ICsJCQkJCXNhbXBsZV9yYXRlX2lk
-eCk7DQo+ICsJCX0gZWxzZSB7DQo+ICsJCQlyZXQgPSByZWdtYXBfd3JpdGUodGFjX2Rldi0+cmVn
-bWFwLA0KPiArCQkJCQkgICBTRFdfU0RDQV9DVEwoZnVuY3Rpb25faWQsDQouLi4NCj4gKwkJCQkJ
-c2FtcGxlX3JhdGVfaWR4KTsNCg0KSSB3aWxsIHJlbW92ZSBlbHNlIHBhcnQgaW4gbmV4dCBwYXRj
-aC4gDQoNCk5pcmFuamFuDQo=
+On Wed, Apr 8, 2026 at 12:09=E2=80=AFPM Herve Codina <herve.codina@bootlin.=
+com> wrote:
+>
+> Hi Rob, Mark,
+>
+> On Wed, 8 Apr 2026 07:29:01 -0500
+> Rob Herring <robh@kernel.org> wrote:
+>
+> ...
+>
+> > > +properties:
+> > > +  compatible:
+> > > +    const: audio-gpio-amp
+> >
+> > To be consistent with other GPIO controlled devices: gpio-audio-amp
+>
+> Ok.
+>
+> Mark suggested to merge this gpio-audio-amp with simple-amplifier.
+
+Merging driver and merging binding are separate questions.
+
+> This leads to the following question:
+>
+> Should I keep the 'gpio-audio-amp' compatible string ?
+
+Yes. 'cause this binding isn't simple...
+
+And I don't care for any compatible with 'simple' (or generic) in it.
+Not sure why I agreed to that one. But I'm all for generic/common
+drivers.
+
+> Should I keep two bindings (this one and the simple-audio-amplifier.yaml)=
+ or
+> should I merge bindings?
+
+2 bindings. There's no overlap in property names.
+
+
+> ...
+> > > +  gain-gpios:
+> > > +    description: |
+> > > +      GPIOs to control the amplifier gain
+> > > +
+> > > +      The gain value is computed from GPIOs value from 0 to 2^N-1 wi=
+th N the
+> > > +      number of GPIO described. The first GPIO described is the lsb =
+of the gain
+> > > +      value.
+> > > +
+> > > +      For instance assuming 2 gpios
+> > > +         gain-gpios =3D <&gpio1 GPIO_ACTIVE_HIGH> <&gpio2 GPIO_ACTIV=
+E_HIGH>;
+> > > +      The gain value will be the following:
+> > > +
+> > > +          gpio1 | gpio2 | gain
+> > > +          ------+-------+-----
+> > > +            0   |    0  | 0b00 -> 0
+> > > +            1   |    0  | 0b01 -> 1
+> > > +            0   |    1  | 0b10 -> 2
+> > > +            1   |    1  | 0b11 -> 3
+> > > +          ------+-------+-----
+> > > +
+> > > +      Note: The gain value, bits set to 1 or 0, indicate the state a=
+ctive (bit
+> > > +            set) or the state inactive (bit unset) of the related GP=
+IO. The
+> > > +            physical voltage corresponding to this active/inactive s=
+tate is
+> > > +            given by the GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags.
+> > > +
+> > > +    minItems: 1
+> > > +    maxItems: 32
+> >
+> > 2^32 levels? Seems like a bit much. Also, unless you can change the
+> > values of all the GPIOs atomically, aren't you going to get some
+> > artifacts while the gain is being changed? Unless you mute I guess.
+>
+> I didn't want to set a particular limit related to the number of GPIOs
+> used for thje gain value. Of course 2^32 is obviously a lot.
+>
+> What do you think about 16 for maxItems?
+
+What is the most you are aware of? Take that and double it.
+
+Seems to me 256 levels would be way more than a human ear could distinguish=
+.
+
+> Related to Artifacts, yes they can probably be there. Also the mute featu=
+re
+> is not required. Some hardware use only one GPIO and doesn't implement mu=
+te
+> feature. In that case no artifacts can be present.
+>
+> If mute is implemented, it is the application responsibility to handle
+> mute / unmute while changing the gain value. I don't think we can do anyt=
+hing
+> at driver level to avoid those artifacts if any.
+>
+> >
+> > > +
+> > > +  gain-points:
+> > > +    $ref: /schemas/types.yaml#/definitions/int32-matrix
+> > > +    items:
+> > > +      items:
+> > > +        - description: The GPIOs value
+> >
+> > Can't this just be the index?
+>
+> Some GPIOs value can be skipped if they don't make any sense in the hardw=
+are
+> design. With the index, this is not possible.
+>
+> gpios:
+>   0b00 -3dB
+>   0b01 0dB
+>   0b10 Reserved, should not be used
+>   0b11 +3dB
+>
+> With just the index, the reserved 0b10 value cannot be skipped. I would l=
+ike
+> to handle this kind of cases.
+
+Okay.
+
+> > If not, then gain-range could be expressed using gain-points instead.
+>
+> Do you have in mind something like the following?
+>   gain-range =3D <0 (-300)>, <3 600>;
+>
+> defining the range from -3dB to +6dB with GPIOs value 0 for -3dB and 3 fo=
+r +6dB.
+
+Yes, but since you can have reserved values, that won't work.
+
+> > > +        - description: The related amplifier gain in 0.01 dB unit
+> > > +    minItems: 2
+> > > +    description: |
+> > > +      List of the GPIOs value / Gain value in dB pair defining the g=
+ain
+> > > +      set on each GPIOs value.
+> > > +
+> > > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 =
+and 3.
+> > > +      Assuming that GPIOs values set the hardware gains according to=
+ the
+> > > +      following table:
+> > > +
+> > > +         GPIOs | Hardware
+> > > +         value | amplification
+> > > +         ------+--------------
+> > > +           0   | -10.0 dB
+> > > +           1   | +3.0 dB
+> > > +           2   | 0 dB
+> > > +           3   | +6.0 dB
+> > > +         ------+--------------
+> > > +
+> > > +      The description using gain points can be:
+> > > +        gain-points =3D <0 (-1000)>, <1 300>, <2 0>, <3 600>;
+> > > +
+> > > +  gain-range:
+> > > +    $ref: /schemas/types.yaml#/definitions/int32-array
+> > > +    items:
+> > > +      - description: Gain in 0.01 dB unit when all GPIOs are inactiv=
+e
+> > > +      - description: Gain in 0.01 dB unit when all GPIOs are active
+> > > +    description: |
+> > > +      Gains (in 0.01 dB unit) set by the extremum (minimal and maxim=
+um) value
+> > > +      of GPIOs. The following formula must be satisfied.
+> > > +
+> > > +               gain-range[1] - gain-range[0]
+> > > +      Gain  =3D ------------------------------- x GPIO_value + gain-=
+range[0]
+> > > +                        2^N - 1
+> > > +
+> > > +      With N, the number of GPIOs used to control the gain and Gain =
+computed in
+> > > +      0.01 dB unit.
+> > > +
+> > > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 =
+and 3.
+> > > +      Assuming that gain value set the hardware according to the fol=
+lowing
+> > > +      table:
+> > > +
+> > > +         GPIOs | Hardware 1    | Hardware 2
+> > > +         value | amplification | amplification
+> > > +         ------+---------------+---------------
+> > > +           0   | -3.0 dB       |  +10.0 dB
+> > > +           1   | 0 dB          |  +5.0 dB
+> > > +           2   | +3.0 dB       |  0 dB
+> > > +           3   | +6.0 dB       |  -5.0 dB
+> > > +         ------+---------------+---------------
+> > > +
+> > > +      The description for hardware 1 using a gain range can be:
+> > > +        gain-range =3D <(-300) 600>;
+> > > +
+> > > +      The description for hardware 2 using a gain range can be:
+> > > +        gain-range =3D <1000 (-500)>;
+> > > +
+> > > +  gain-labels:
+> > > +    $ref: /schemas/types.yaml#/definitions/string-array
+> >
+> > minItems: 2
+> > maxItems: 0x100000000
+>
+> Ok, I will adjust maxItems according to the max number of GPIO supported.
+>
+> For my curiosity, is there a way to express maxItems with a computation
+> based on some other properties value ?
+
+No, there isn't.
+
+>
+> What could be relevant here is
+>   maxitems: 2^(number of items available in the gpio-gain properties)
+>
+> >
+> > > +    description: |
+> > > +      List of the gain labels attached to the combination of GPIOs c=
+ontrolling
+> > > +      the gain. The first label is related to the gain value 0, the =
+second label
+> > > +      is related to the gain value 1 and so on.
+> > > +
+> > > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 =
+and 3.
+> > > +      Assuming that gain value set the hardware according to the fol=
+lowing
+> > > +      table:
+> > > +
+> > > +         GPIOs | Hardware
+> > > +         value | amplification
+> > > +         ------+--------------
+> > > +           0   | Low
+> > > +           1   | Middle
+> > > +           2   | High
+> > > +           3   | Max
+> > > +         ------+--------------
+> > > +
+> > > +      The description using gain labels can be:
+> > > +        gain-labels =3D "Low", "Middle", "High", "Max";
+> >
+> > Do we need to allow these to be anything? It's going to get hard to com=
+e
+> > up with 2^32 names.
+>
+> Well, "Normal" / "Boost" can make sense on some hardware.
+>
+> I don't think we need to restrict labels to a list of known label here.
+
+As long as the names are meaningless to software.
+
+>
+> Of course 2^32 names is obviously a lot. What could be the limit?
+
+I would guess at 8 or more, it's just going to be gain1, gain2, etc.
+or something similar constructed from the gain values.
+
+> ...
+>
+> > > +
+> > > +    /* A mutable amplifier without any gain control */
+> > > +    amplifier4 {
+> > > +        compatible =3D "audio-gpio-amp";
+> > > +        vdd-supply =3D <&regulator>;
+> > > +        mute-gpios =3D <&gpio 0 GPIO_ACTIVE_HIGH>;
+> >
+> > This case is just simple-amplifier...
+>
+> No, simple-amplifier uses 'enable' and not 'mute'.
+
+Yes, I know...
+
+> We can have the amplifier enabled ('enable' GPIO active) as it is
+> used and a switch driven by an other GPIO to mute / un-mute the
+> amplifier output.
+
+But you have no 'enable' GPIO here. To me, enable just looks like
+inverted mute. If there's some electrical difference, I can't tell
+what that is from either binding.
+
+I guess my point was that really we could deprecate simple-amplifier
+binding because this one can handle it and more. But I'm not
+suggesting we do that yet.
+
+Rob
