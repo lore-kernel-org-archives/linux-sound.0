@@ -1,84 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53A83A7F69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFF53B4E9C
 	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 09:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775727524; cv=none; b=tWV6jBW7K/7jGMRaaHw8Uo0qzajORRb80RSivj0gLNho2xeyS66LoUmrpfUg00GMdif2L63i6iWE3PXj1EPPeSlKji9CIofXkPcyq/sq9SIinQiVY8QEO7suC6rccPZuZd/egXOxfZsmZkoVfACi0x+LaUhGqMARQE3plrwXI1s=
+	t=1775727525; cv=none; b=oC6zim1UktW+7l2sqfF2YGINiy2VSb4HQrSb+Iqy+RmDZQHsrdbxdWJTEZBRZQhaKORbUU/E3WSOrIjCUsyBjvKOj6JUJTFrfCVN8hqQztcrKOBVnRF942xdYPnihPUI+DQDpiBVTsSe+FHQBn8n5skYlhYSato5YLEY/ktijfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775727524; c=relaxed/simple;
-	bh=ZAlVKWfDFgm/9AUhNimvdJ5ZP70P0aGCQWDIMAucRMA=;
+	s=arc-20240116; t=1775727525; c=relaxed/simple;
+	bh=b0iGTH4ptb+U7MfD5MFI3mSRmvUS+Uk1D4j7xcoJMgI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uGxX3AQnakhNPvfw6Vcyahp8FefIxT4JIVPzAK7d88XF+AWGDcu9J8ism5rtYpYa53eIQ1BFyDHk/mP3JBfkZcxrKROIhp3YKkrlBsugxQoZJnhhzYpSxxHdaHqxS9J7oL7Tr+ZpaYLY1QUvdCjjoZMPfqqvHC52IsunxqfRCJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=neGMPrU0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wj4lDwdB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=neGMPrU0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wj4lDwdB; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=DXdfZWQyAov2LR5q72j27ZwxkG4jziOpia0LyyjFaHwgJgL3VirOMFYS1imelnym1/s1YnNRjYQo7wNHyBeCs7nnYu/hQRQsJy4i4JUpqRLgzqhRSUMIVgVjVr4wHTTJIGvvKO5ba5XW9qO8/tvnZsgXUPEVbjzDqIAqIxxpZR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0kmTR99J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7LAaFhEn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0kmTR99J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7LAaFhEn; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="neGMPrU0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wj4lDwdB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="neGMPrU0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wj4lDwdB"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0kmTR99J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7LAaFhEn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0kmTR99J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7LAaFhEn"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A6E895BD25;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 28FE24EE85;
 	Thu,  9 Apr 2026 09:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1775727510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/IzLbTPMQ/absuYsIvhcc0439QCDhr0lXOMGov0slc=;
-	b=neGMPrU0bdb6GxqjyxDlQbngXZ1vW7iUKWrvG9nxSUxrqI148bznkGaB7iUrOh28ZVDP8D
-	4YKEE9EoVQRDmbfBMVVSoH0ZLqvlA7lO9HfH5as3EuHcLIS9LAU008mxAEJTSvFBSur/cS
-	bc70+42Om1PZk6LWcBatPwRX3NFJHLk=
+	bh=1ar+pnfrVNoWl056IaXA6QeOboe0J6/XWiKYT4hoEsU=;
+	b=0kmTR99JO8f4a43ioheMuGPe+qlYtnRQMadyiYk5KwF6sEf6N1oWSjIBMaBH+2g5OtxpaM
+	e+mOF21rBkcPIL1SFgjIVv8K0CmRmILbRnCW5enzC3vwd4TbfIvx23g2wUZ6JcUoNzp4vY
+	etdIH3PpAFacVMcwC+Z5wfqc9P4L07g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1775727510;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/IzLbTPMQ/absuYsIvhcc0439QCDhr0lXOMGov0slc=;
-	b=wj4lDwdBWn0crYBZ/lC2LQMtm7knSDGa/mkkxCEsw9UT4TTk4Llxz3EuAKOvi2tSKf1M2W
-	Dx6D+e710ThOHKCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=neGMPrU0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wj4lDwdB
+	bh=1ar+pnfrVNoWl056IaXA6QeOboe0J6/XWiKYT4hoEsU=;
+	b=7LAaFhEnuTGv3VdAxprOO9MANvrq7Hs/Eejix6b4APiAp0R+B3lF5r6x+zPFl9vpUDj0dg
+	fFyWehJXA4ensQDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1775727510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/IzLbTPMQ/absuYsIvhcc0439QCDhr0lXOMGov0slc=;
-	b=neGMPrU0bdb6GxqjyxDlQbngXZ1vW7iUKWrvG9nxSUxrqI148bznkGaB7iUrOh28ZVDP8D
-	4YKEE9EoVQRDmbfBMVVSoH0ZLqvlA7lO9HfH5as3EuHcLIS9LAU008mxAEJTSvFBSur/cS
-	bc70+42Om1PZk6LWcBatPwRX3NFJHLk=
+	bh=1ar+pnfrVNoWl056IaXA6QeOboe0J6/XWiKYT4hoEsU=;
+	b=0kmTR99JO8f4a43ioheMuGPe+qlYtnRQMadyiYk5KwF6sEf6N1oWSjIBMaBH+2g5OtxpaM
+	e+mOF21rBkcPIL1SFgjIVv8K0CmRmILbRnCW5enzC3vwd4TbfIvx23g2wUZ6JcUoNzp4vY
+	etdIH3PpAFacVMcwC+Z5wfqc9P4L07g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1775727510;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/IzLbTPMQ/absuYsIvhcc0439QCDhr0lXOMGov0slc=;
-	b=wj4lDwdBWn0crYBZ/lC2LQMtm7knSDGa/mkkxCEsw9UT4TTk4Llxz3EuAKOvi2tSKf1M2W
-	Dx6D+e710ThOHKCw==
+	bh=1ar+pnfrVNoWl056IaXA6QeOboe0J6/XWiKYT4hoEsU=;
+	b=7LAaFhEnuTGv3VdAxprOO9MANvrq7Hs/Eejix6b4APiAp0R+B3lF5r6x+zPFl9vpUDj0dg
+	fFyWehJXA4ensQDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A3144A0B4;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0E9444A0B4;
 	Thu,  9 Apr 2026 09:38:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +PGBIJZz12mdWgAAD6G6ig
+	id ABJuApZz12mdWgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 09:38:30 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 05/10] ALSA: hda/analog: Fix GPIO verb orders
-Date: Thu,  9 Apr 2026 11:38:18 +0200
-Message-ID: <20260409093826.1317626-6-tiwai@suse.de>
+Subject: [PATCH 01/10] ALSA: hda: Add sync version of snd_hda_codec_write()
+Date: Thu,  9 Apr 2026 11:38:14 +0200
+Message-ID: <20260409093826.1317626-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260409093826.1317626-1-tiwai@suse.de>
 References: <20260409093826.1317626-1-tiwai@suse.de>
@@ -89,102 +88,163 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: A6E895BD25
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
 
-So far we used the verb cache to restore the GPIO mask, direction and
-data bits at PM resume.  But, due to the nature of the cache resume
-mechanism, the calling order isn't guaranteed, and this might lead to
-some inconsistency at the restored state.
+We used snd_hda_codec_read() for the verb write when a synchronization
+is needed after the write, e.g. for the power state toggle or such
+cases.  It works in principle, but it looks rather confusing and too
+hackish.
 
-For assuring the GPIO verb orders, use the new GPIO helper function to
-explicitly set up the GPIO bits, instead of using the codec verb
-caches, while keeping the current data bits in ad198x_spec.
+For improving the code readability, introduce a new helper function,
+snd_hda_codec_write_sync(), which is another variant of
+snd_hda_codec_write(), and replace the existing snd_hda_codec_read()
+calls with this one.
+
+No behavior change but just the code refactoring.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/analog.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ include/sound/hda_codec.h          | 11 +++++++++++
+ sound/hda/codecs/generic.c         |  2 +-
+ sound/hda/codecs/hdmi/intelhdmi.c  |  2 +-
+ sound/hda/codecs/realtek/realtek.c |  3 +--
+ sound/hda/codecs/sigmatel.c        |  4 ++--
+ sound/hda/common/codec.c           | 11 +++++------
+ 6 files changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/sound/hda/codecs/analog.c b/sound/hda/codecs/analog.c
-index 11b1d30b23fd..1ba8ae54e25e 100644
---- a/sound/hda/codecs/analog.c
-+++ b/sound/hda/codecs/analog.c
-@@ -38,6 +38,8 @@ struct ad198x_spec {
- 
- 	unsigned int beep_amp;	/* beep amp value, set via set_beep_amp() */
- 	int num_smux_conns;
-+
-+	unsigned int gpio_data;
- };
- 
- 
-@@ -934,9 +936,9 @@ static void ad1884_vmaster_hp_gpio_hook(void *private_data, int enabled)
- 
- 	if (spec->eapd_nid)
- 		ad_vmaster_eapd_hook(private_data, enabled);
--	snd_hda_codec_write_cache(codec, 0x01, 0,
--				   AC_VERB_SET_GPIO_DATA,
--				   enabled ? 0x00 : 0x02);
-+	spec->gpio_data = enabled ? 0x00 : 0x02;
-+	snd_hda_codec_write(codec, 0x01, 0,
-+			    AC_VERB_SET_GPIO_DATA, spec->gpio_data);
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 5d9f0ef228af..292d6024388b 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -336,6 +336,17 @@ snd_hda_codec_write(struct hda_codec *codec, hda_nid_t nid, int flags,
+ 	return snd_hdac_codec_write(&codec->core, nid, flags, verb, parm);
  }
  
- static void ad1884_fixup_hp_eapd(struct hda_codec *codec,
-@@ -948,12 +950,7 @@ static void ad1884_fixup_hp_eapd(struct hda_codec *codec,
- 	case HDA_FIXUP_ACT_PRE_PROBE:
- 		spec->gen.vmaster_mute.hook = ad1884_vmaster_hp_gpio_hook;
- 		spec->gen.own_eapd_ctl = 1;
--		snd_hda_codec_write_cache(codec, 0x01, 0,
--					  AC_VERB_SET_GPIO_MASK, 0x02);
--		snd_hda_codec_write_cache(codec, 0x01, 0,
--					  AC_VERB_SET_GPIO_DIRECTION, 0x02);
--		snd_hda_codec_write_cache(codec, 0x01, 0,
--					  AC_VERB_SET_GPIO_DATA, 0x02);
-+		spec->gpio_data = 0x02;
- 		break;
- 	case HDA_FIXUP_ACT_PROBE:
- 		if (spec->gen.autocfg.line_out_type == AUTO_PIN_SPEAKER_OUT)
-@@ -961,6 +958,9 @@ static void ad1884_fixup_hp_eapd(struct hda_codec *codec,
- 		else
- 			spec->eapd_nid = spec->gen.autocfg.speaker_pins[0];
- 		break;
-+	case HDA_FIXUP_ACT_INIT:
-+		snd_hda_codec_set_gpio(codec, 0x02, 0x02, spec->gpio_data, 0);
-+		break;
++/* sync after write */
++static inline int
++snd_hda_codec_write_sync(struct hda_codec *codec, hda_nid_t nid, int flags,
++			 unsigned int verb, unsigned int parm)
++{
++	/* use snd_hda_codec_read() for writing;
++	 * the returned value is usually discarded
++	 */
++	return snd_hdac_codec_read(&codec->core, nid, flags, verb, parm);
++}
++
+ #define snd_hda_param_read(codec, nid, param) \
+ 	snd_hdac_read_parm(&(codec)->core, nid, param)
+ #define snd_hda_get_sub_nodes(codec, nid, start_nid) \
+diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
+index 092428ada29d..660a9f2c0ded 100644
+--- a/sound/hda/codecs/generic.c
++++ b/sound/hda/codecs/generic.c
+@@ -863,7 +863,7 @@ static void sync_power_state_change(struct hda_codec *codec, hda_nid_t nid)
+ {
+ 	if (nid) {
+ 		msleep(10);
+-		snd_hda_codec_read(codec, nid, 0, AC_VERB_GET_POWER_STATE, 0);
++		snd_hda_codec_write_sync(codec, nid, 0, AC_VERB_GET_POWER_STATE, 0);
  	}
  }
  
+diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
+index 9460c8db39a9..6a7882544ab7 100644
+--- a/sound/hda/codecs/hdmi/intelhdmi.c
++++ b/sound/hda/codecs/hdmi/intelhdmi.c
+@@ -85,7 +85,7 @@ static void haswell_set_power_state(struct hda_codec *codec, hda_nid_t fg,
+ 		}
+ 	}
+ 
+-	snd_hda_codec_read(codec, fg, 0, AC_VERB_SET_POWER_STATE, power_state);
++	snd_hda_codec_write_sync(codec, fg, 0, AC_VERB_SET_POWER_STATE, power_state);
+ 	snd_hda_codec_set_power_to_all(codec, fg, power_state);
+ }
+ 
+diff --git a/sound/hda/codecs/realtek/realtek.c b/sound/hda/codecs/realtek/realtek.c
+index b240f13b0438..39a1ead3b743 100644
+--- a/sound/hda/codecs/realtek/realtek.c
++++ b/sound/hda/codecs/realtek/realtek.c
+@@ -411,9 +411,8 @@ void alc_headset_mic_no_shutup(struct hda_codec *codec)
+ 		return;
+ 
+ 	snd_array_for_each(&codec->init_pins, i, pin) {
+-		/* use read here for syncing after issuing each verb */
+ 		if (pin->nid != mic_pin)
+-			snd_hda_codec_read(codec, pin->nid, 0,
++			snd_hda_codec_write_sync(codec, pin->nid, 0,
+ 					AC_VERB_SET_PIN_WIDGET_CONTROL, 0);
+ 	}
+ 
+diff --git a/sound/hda/codecs/sigmatel.c b/sound/hda/codecs/sigmatel.c
+index acbbc7c3508b..4ff80a65168f 100644
+--- a/sound/hda/codecs/sigmatel.c
++++ b/sound/hda/codecs/sigmatel.c
+@@ -311,12 +311,12 @@ static void stac_gpio_set(struct hda_codec *codec, unsigned int mask,
+ 
+ 	snd_hda_codec_write(codec, fg, 0,
+ 			    AC_VERB_SET_GPIO_MASK, gpiomask);
+-	snd_hda_codec_read(codec, fg, 0,
++	snd_hda_codec_write_sync(codec, fg, 0,
+ 			   AC_VERB_SET_GPIO_DIRECTION, gpiodir); /* sync */
+ 
+ 	msleep(1);
+ 
+-	snd_hda_codec_read(codec, fg, 0,
++	snd_hda_codec_write_sync(codec, fg, 0,
+ 			   AC_VERB_SET_GPIO_DATA, gpiostate); /* sync */
+ }
+ 
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index 5123df32ad89..3ac4bf6005d6 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -606,9 +606,8 @@ void snd_hda_shutup_pins(struct hda_codec *codec)
+ 	if (codec->bus->shutdown)
+ 		return;
+ 	snd_array_for_each(&codec->init_pins, i, pin) {
+-		/* use read here for syncing after issuing each verb */
+-		snd_hda_codec_read(codec, pin->nid, 0,
+-				   AC_VERB_SET_PIN_WIDGET_CONTROL, 0);
++		snd_hda_codec_write_sync(codec, pin->nid, 0,
++					 AC_VERB_SET_PIN_WIDGET_CONTROL, 0);
+ 	}
+ 	codec->pins_shutup = 1;
+ }
+@@ -2794,9 +2793,9 @@ static unsigned int hda_set_power_state(struct hda_codec *codec,
+ 			if (codec->power_filter)
+ 				state = codec->power_filter(codec, fg, state);
+ 			if (state == power_state || power_state != AC_PWRST_D3)
+-				snd_hda_codec_read(codec, fg, flags,
+-						   AC_VERB_SET_POWER_STATE,
+-						   state);
++				snd_hda_codec_write_sync(codec, fg, flags,
++							 AC_VERB_SET_POWER_STATE,
++							 state);
+ 			snd_hda_codec_set_power_to_all(codec, fg, power_state);
+ 		}
+ 		state = snd_hda_sync_power_state(codec, fg, power_state);
 -- 
 2.53.0
 
