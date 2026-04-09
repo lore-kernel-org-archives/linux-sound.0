@@ -1,197 +1,117 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006523DBD7F
-	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 15:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918BD3DFC70;
+	Thu,  9 Apr 2026 15:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775748143; cv=none; b=fjw0oFWUIZgzh3kUW0Ko/l+9kL2ITpQWx0NAn2cbFtNRA8693wQjvUwkyHfGMWiSE36Ct72xt2HSn2c7WrKnJN0QxdUOvDRMOEgGVSfVjU2Q3uecVBNDmdn9e+R7AUIpQahtGY7sVGwMTG9rSjwn5rCoXr6crEooWJvUBBhh4W0=
+	t=1775748390; cv=none; b=JDxxLIHycADfUdmLYW7tEbKVg3FUEjzSUvn+KH8VxDsH418EITF4BhMufn2ZWdCvG1aBqcI/bC9ee2CDU40tbbHfiNfsm+2q/30GoClGN049t1p28GwXGSvr4DPmQpYAOeR6huE68k+oqe6eWdwaHySn/QEfS+AyLHh65Q6IC8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775748143; c=relaxed/simple;
-	bh=a0epygclV5kb75ekZXSzOVL9vpibNS49/Wd8Livh15c=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=dZHF3Dk3XmQLj4C/Khr3qCz6VLgOlzlwk9Bbdvavlvq1qP8nr0seTyBsKtrLMVFgpycoPcgbgM1ua9BPBRQLqUabr0gTzxmNaWpPhvZ6ASvkrcyjnYHjeKj+XxQgc+6qJgSjqvPJ5ocOrzVggzgoUVqnAFqqQ2lnuMumFOGbDFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aR+Q7alu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tetEtCUH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aR+Q7alu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tetEtCUH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775748390; c=relaxed/simple;
+	bh=pnyIYTGFvUHdVT/9CLO3bbomQBEswW1wI7LRF6GHZL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CD2Kn/QZ2heWZ/9crGg/guwS0CJJB6P33nV79NxcWbosgyZikuQpKXQwBbfWKsWT4rVmij05nTS8iMMg/22Vthyr5CHk9x0pdADpGWlS6t6El2SC65MYdNypW1vn2VtoyVdku8u9DQujPm7o/U4Zs3TbX9CyZhEorKdT72n51wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bbziAoWD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aR+Q7alu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tetEtCUH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aR+Q7alu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tetEtCUH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 50FC45BD2F;
-	Thu,  9 Apr 2026 15:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775748140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
-	b=aR+Q7aluyWh78fVXCW+liQNa0lw8eq0CVr+VGf5gzlDSsPBJNT2R28nYjMDlPgtbb+Fvry
-	5/ZBizdmiDBkvAgRT8hCieANJjt/ujWZ6PO3iZeFQ85ohg/KdUjt0HyCursD3NZuskbVnv
-	RaBLxbYP3aKOUokn1Z8wH20vmc12eM0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775748140;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
-	b=tetEtCUHcIsB0dBANRoPljXjT95ek1/v1U2unOGnJSbWPDKzMXqkHTvAsFJXspyrnTdW1t
-	ZgnmWrrdiwv1ynDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aR+Q7alu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tetEtCUH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775748140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
-	b=aR+Q7aluyWh78fVXCW+liQNa0lw8eq0CVr+VGf5gzlDSsPBJNT2R28nYjMDlPgtbb+Fvry
-	5/ZBizdmiDBkvAgRT8hCieANJjt/ujWZ6PO3iZeFQ85ohg/KdUjt0HyCursD3NZuskbVnv
-	RaBLxbYP3aKOUokn1Z8wH20vmc12eM0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775748140;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=BbXvOMbNaTAa67Zrm+ufmrJXXwoA7z5K77JnqJi73i8=;
-	b=tetEtCUHcIsB0dBANRoPljXjT95ek1/v1U2unOGnJSbWPDKzMXqkHTvAsFJXspyrnTdW1t
-	ZgnmWrrdiwv1ynDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 213A74A0B3;
-	Thu,  9 Apr 2026 15:22:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id E1GKBizE12n8MwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 15:22:20 +0000
-Date: Thu, 09 Apr 2026 17:22:19 +0200
-Message-ID: <87a4vci2fo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.0
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbziAoWD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6894C19424;
+	Thu,  9 Apr 2026 15:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775748390;
+	bh=pnyIYTGFvUHdVT/9CLO3bbomQBEswW1wI7LRF6GHZL8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bbziAoWDSRTTTMnxVnwR5RhcwIRuSot5r/dl9oyCR4z3VCuF9OHbW9lYFvdzq2KgN
+	 matqwhXrEZORNEF21t4mPb5Z2TdKqGwFxZV94dmI9RAy8wXQPFcMkh6YBws5WUyHkF
+	 qTJ4c1p8746//KlKaJYbLnX33t0hWGQXvIkK5gU8Pq21BrwLzx8Qeq4GWmZDZhROp/
+	 cB1AODdE1zIHj9vDt4DCpA4gPBuxOVmZy4PysLVgciQSxaqjIT/GszByrqu1022FCl
+	 qvymzGIDTAqq4zExGpF8mgl4XSLgMSI74KDJMvLfO3GewMF8fAhHPQ96dmSvnvblrp
+	 Wh/MgqF2xWbEg==
+Date: Thu, 9 Apr 2026 16:26:25 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Herve Codina <herve.codina@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven
+ amplifier
+Message-ID: <383635c6-0417-4333-aa9c-9056437d4a5f@sirena.org.uk>
+References: <20260330101610.57942-1-herve.codina@bootlin.com>
+ <20260330101610.57942-3-herve.codina@bootlin.com>
+ <20260408122901.GA42727-robh@kernel.org>
+ <20260408190932.0ab936b0@bootlin.com>
+ <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 50FC45BD2F
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g09VxWLtjplPgHzT"
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
+X-Cookie: Hailing frequencies open, Captain.
 
-Linus,
 
-please pull sound fixes for v7.0 from:
+--g09VxWLtjplPgHzT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.0
+On Thu, Apr 09, 2026 at 10:00:55AM -0500, Rob Herring wrote:
+> On Wed, Apr 8, 2026 at 12:09=E2=80=AFPM Herve Codina <herve.codina@bootli=
+n.com> wrote:
 
-The topmost commit is 00afb1811fa638dacf125dd1c343b7a181624dfd
+> > Mark suggested to merge this gpio-audio-amp with simple-amplifier.
 
-----------------------------------------------------------------
+> Merging driver and merging binding are separate questions.
 
-sound fixes for 7.0
+Yes, my comments were purely about the driver.
 
-Still a bit higher amount than wished, but nothing looks really scary,
-and all changes are about nice and smooth device-specific fixes.
+> > I didn't want to set a particular limit related to the number of GPIOs
+> > used for thje gain value. Of course 2^32 is obviously a lot.
 
-- HD-audio quirks, one revert for a regression and another oneliner
-- AMD ACP quirks
-- Fixes for SDCA interrupt handling
-- A few Intel SOF, avs and NVL fixes
-- Fixes for TAS2552 DT, NAU8325, and STM32
+> > What do you think about 16 for maxItems?
 
-----------------------------------------------------------------
+> What is the most you are aware of? Take that and double it.
 
-Cezary Rojewski (1):
-      ASoC: Intel: avs: Fix memory leak in avs_register_i2s_test_boards()
+> Seems to me 256 levels would be way more than a human ear could distingui=
+sh.
 
-Charles Keepax (1):
-      ASoC: SDCA: Fix errors in IRQ cleanup
+There's plenty of gain controls with way more than 256 bits of
+resolution, though I'm not aware of any that are configured via GPIO.
+The step size and absolute values you want can vary dramatically
+depending on application, possibly in the same system (eg, a DAC that
+can be connected to both headphones or speakers) so you often end up
+making practical adjustments in a small subset of the available range
+but that subset can vary a lot for the same part.
 
-Kai Vehmanen (2):
-      ALSA: hda/intel: enforce stricter period-size alignment for Intel NVL
-      ASoC: SOF: Intel: hda: modify period size constraints for ACE4
+> I guess my point was that really we could deprecate simple-amplifier
+> binding because this one can handle it and more. But I'm not
+> suggesting we do that yet.
 
-Maciej Strozek (4):
-      ASoC: SOF: Intel: Fix endpoint index if endpoints are missing
-      ASoC: SOF: Intel: fix iteration in is_endpoint_present()
-      ASoC: SDCA: Fix overwritten var within for loop
-      ASoC: SDCA: mask Function_Status value
+That's my thinking.
 
-Marek Vasut (1):
-      ASoC: dt-bindings: ti,tas2552: Add sound-dai-cells
+--g09VxWLtjplPgHzT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Mark Pearson (1):
-      ASoC: amd: acp: add Lenovo P16s G5 AMD quirk for legacy SDW machine
+-----BEGIN PGP SIGNATURE-----
 
-Neo Chang (1):
-      ASoC: nau8325: Add software reset during probe
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnXxSAACgkQJNaLcl1U
+h9AyAQf+PFfdD5FaRa7cXGLebu7K6JB2uKAdF6KxBmTK/OT8yImF22Wg5pj5mNGs
+QUm6G8gCvGa4dQbTBnYg2h9q0zs0V0sRR46Y4Wkrv28X3LjKK8tj4EP7lTxNlmSX
+oTtC6PPajivpCRauXtiq7ouL/4Gfk6wNoDZbD/And/vdBJjQFuLRA74IO4nYU11n
+X+tUhe6S8yHQrFUjYEACPfTls+CP6xj/Z/CYgUBZySggMvygFezorl7HeSqsJW6W
+kXcpIdxnTQ6gvTdl/l7dpQbSB/GSIy+7+u6HsOYN/bplwYvoXhFuVQLwYMrRMnNq
+Y7diPqvUaaH+gC1XsY/9ge+dfoFcag==
+=XhEP
+-----END PGP SIGNATURE-----
 
-Richard Fitzgerald (1):
-      ASoC: SDCA: Unregister IRQ handlers on module remove
-
-Syed Saba Kareem (1):
-      ASoC: amd: acp: update DMI quirk and add ACP DMIC for Lenovo platforms
-
-Takashi Iwai (1):
-      Revert "ALSA: hda/realtek: Add quirk for Gigabyte Technology to fix headphone"
-
-Tomasz Merta (1):
-      ASoC: stm32_sai: fix incorrect BCLK polarity for DSP_A/B, LEFT_J
-
-songxiebing (1):
-      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IAH10
-
----
- .../devicetree/bindings/sound/ti,tas2552.yaml      | 13 +++-
- include/sound/sdca_interrupts.h                    |  5 ++
- sound/hda/codecs/realtek/alc269.c                  |  1 +
- sound/hda/codecs/realtek/alc662.c                  |  9 ---
- sound/hda/controllers/intel.c                      |  7 +-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c            | 24 +++++--
- sound/soc/codecs/nau8325.c                         |  9 ++-
- sound/soc/intel/avs/board_selection.c              |  9 ++-
- sound/soc/sdca/sdca_class_function.c               | 17 +++++
- sound/soc/sdca/sdca_interrupts.c                   | 82 +++++++++++++++++++---
- sound/soc/sof/intel/hda-pcm.c                      | 14 +++-
- sound/soc/sof/intel/hda.c                          | 10 ++-
- sound/soc/stm/stm32_sai_sub.c                      |  3 +
- 13 files changed, 165 insertions(+), 38 deletions(-)
-
+--g09VxWLtjplPgHzT--
