@@ -1,104 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED1F341ADF
-	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 22:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA42E39A068;
+	Thu,  9 Apr 2026 22:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775774174; cv=none; b=jqH1tIVOPkXOVuKSXuRfhqsQBD4KPzxI1C0UEJAWdXLrFo+Y+215qFnXqMti9iQp3Oin/nYMzUWsKMVzckMQ2reFEIamDvNilxcWgNjF9CnCbp4APYW1pZI/lFvFwiXLUVLcCIgYi8UwLhXeFRfJ46NIw5P9B1YPbPKCJ/1A7uc=
+	t=1775775279; cv=none; b=Z3CxD3mUepIVbBFVJjKEJSRj2301gQ/xukXvGSlnKCL7UGCVCFMCI3QeoIVldQtn9NHZZrQj4Dhd+j51KMp34BMCeb2YGPolpoIFxXs7MlnrV6uLUuFWaakEnd/3yZtcFY7vDoRhwnnEYCzJF93IlCxXphC6Wp9KlEzQXZKuRx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775774174; c=relaxed/simple;
-	bh=FqGjFH6hRu5Ed+VdLC4sxm7KEsMxh1QTlFaFP9fjuTw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=te8agsbkNg2y53kdMoJvDDbi08MvxwAAjJ9ti77Oth2Dmcporu8OmCfgLh+kxmB5jAMgTvod2Kq95aCs4/dTMWuXvijf7jpreuKznxwwya009ZujI6ctzKnJaVdz3Wk3bx4BHc1MNNfUwsjGdsdnOeqMYWvnVs5ZgpLTgx4o3UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dzv4bDN/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775775279; c=relaxed/simple;
+	bh=cQFpxUhEJ1v+39UvQCCeuLgf6mineGEYx3LTEmiS9a8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0bSZk+qwV+6EXny6rJLQ6YRIOoQi1S4nVW7pIaGGDf29sskHjzv8V+7ikCX6NvvcWB1Ka2xb95Sd2szGBPjL0b2OYedzmny7qXzTtG6DAbYSW8FyUxgYhpfIYSVRNt3GKb2/g/6GH9K/+BHgenZdzkzbl0pXkBsX69C+JOXx+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=NVjgGfJA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nDpZWiFr; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dzv4bDN/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F3DC4CEF7;
-	Thu,  9 Apr 2026 22:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775774173;
-	bh=FqGjFH6hRu5Ed+VdLC4sxm7KEsMxh1QTlFaFP9fjuTw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Dzv4bDN/7wE7/BdFNQbtsUVaGLFEB9sgTQtXkmZsDw8mrVYMyK1Al8tVHUsPrL1vr
-	 s27J1wOSe7Inv1HQypXb/guuC/wMAYMFitl9V7QHTbmRMRaC2wSzTwKBpfypPZyx/R
-	 vGdkuJyh2vCcxHFgTS0ooMEYpbgHLqKwX0cS/oupBBNx3oME1wnI+1OZ3YomCv7L96
-	 qDVFYjL1yJ0xHjOfKnsWxWDCXAsaZpk395R/d5mDehAigxJqYNl7yDlENAtIR4jGb+
-	 3yNxX2tEjugFcwAZqdQ8nWyS5VSwXmJthzTY7i5BRgcLZVWiXYaOrRDJ9zwwLXRvqb
-	 j0KA0wPqLiP2A==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
- shumingf@realtek.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260409164328.3999434-1-ckeepax@opensource.cirrus.com>
-References: <20260409164328.3999434-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 0/4] Yet another round of SDCA fixes
-Message-Id: <177575998167.993260.15164695369618116965.b4-ty@b4>
-Date: Thu, 09 Apr 2026 19:39:41 +0100
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="NVjgGfJA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nDpZWiFr"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id DBAF0EC0429;
+	Thu,  9 Apr 2026 18:54:35 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 09 Apr 2026 18:54:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1775775275; x=
+	1775861675; bh=7fp28mcMb0mnwT4yTzFG/beFz3/gzHRdObQr/qkA+WQ=; b=N
+	VjgGfJArtwaENKwRVR8FvDSa47bxeZasr+fv01VbKyMcCAvXlQ4XPHc77M2xILSh
+	J+rm1r9hHnQrBRegHZXUSKHDg92iNu2lNu+GofjuYCcuXmJHk0+hSeFhyhVrhPOX
+	FRSI/JMs/7QwLdCCcaKvmOUPy8x0eEp0qw7N7WsN3U0T810SEtYvB9nYXDsnDXZH
+	gKc9oXavAQDEWOtlCJvri/RiMmG3nKVi+kW9U8P+KILgugSRbrXOWxJIohyHX1Ui
+	RuLRTU8wY0jO49fBNBUzLzAYpHoOa9khPIIXpW1OcZQANXjCZXVOq5PWOqGewLFB
+	vwV0djJdwUF4xw8XH0VeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1775775275; x=1775861675; bh=7fp28mcMb0mnwT4yTzFG/beFz3/gzHRdObQ
+	r/qkA+WQ=; b=nDpZWiFrXWIDGg8R3V6tGrlN4/43aAXs4M+P1KyuafjS8DMQqMa
+	mUo6ofC+scWbfl+IesSzw482nmGQtt9XwAxl8FoSSM7YD8r2Oz+Jjz1F3T3DvT88
+	LU+wX6MDIbLuD38KfMWqDhzqYmxfiqZ0ng4VO9KGfcu/jO+LFVthDgO2NNjx6i8s
+	vD7CnD06KTr9SrgaRdLQnTWBSDzkD8b/lUuK/zRb2d2k0zUBmi8GiPVK7jQ6v1p3
+	g4VXwzMA3hUf0igROuD925Ceq2DTTBvYcn7Ms7Dl9650Kve8oP2q7vzu3Cktf+dN
+	pd5OX0iNaZtxmI+WaBeuxo/udTKKT/0uYdQ==
+X-ME-Sender: <xms:Ky7YaZJ2TV2AvCJGdfzua_7wFTC2AR1rO8SksqxehaA4-V4edrNcpg>
+    <xme:Ky7YaecXCCG2TNq6hzjbt-k16E524dDGlGdJ5K3bsbl9XqTZIuu63NibLNii1zLY7
+    b9YYjuJAKiEdmQKd1BzBlgPrWIZX6MCeMRJJTgP3-x5V0mxp-brQd4>
+X-ME-Received: <xmr:Ky7YaY-GVRcmEngoyLXdJtS_2RedbyLAHx65AQk1szedD-56QFpRG6nNMF1yF5Q48okdp8iGclisbwqTakrEi3XodLyC>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvjeejhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhi
+    ucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqe
+    enucggtffrrghtthgvrhhnpeehhffhteetgfekvdeiueffveevueeftdelhfejieeitedv
+    leeftdfgfeeuudekueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgt
+    phhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehgrhgvghhkhheslh
+    hinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsohhu
+    nhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrh
+    hnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvrhgvgiesphgv
+    rhgvgidrtgiipdhrtghpthhtohepthhifigrihesshhushgvrdgtohhmpdhrtghpthhtoh
+    epshhtrggslhgvsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:Ky7YabrjUmPivbbR41EYfybvit3BAxcQ9Uihzq4uq4eu_nH8ryZJpA>
+    <xmx:Ky7YadCIZAz54Of4bGIP6UFmTbFzN4ZkSV9hP7wJmGZIyAHFSqNfSw>
+    <xmx:Ky7YadwkRxiXxtmHbmj466DU1h_FC3oKQfRdLfRC-WFZBXq54y7bwg>
+    <xmx:Ky7Yaa01fO8ZUNkjTxS8wYemIk6TErwJYmxDU423B-HEd2lvEo_3_A>
+    <xmx:Ky7YaePhgBWcKVSJ5tad57UFCOVcxLxPZFWBiGupf7BjGDwPibRY7DUZ>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Apr 2026 18:54:33 -0400 (EDT)
+Date: Fri, 10 Apr 2026 07:54:31 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	stable <stable@kernel.org>
+Subject: Re: [PATCH] ALSA: fireworks: bound device-supplied status before
+ string array lookup
+Message-ID: <20260409225431.GA1084385@sakamocchi.jp>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	stable <stable@kernel.org>
+References: <2026040953-astute-camera-1aa1@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1560; i=broonie@kernel.org;
- h=from:subject:message-id; bh=FqGjFH6hRu5Ed+VdLC4sxm7KEsMxh1QTlFaFP9fjuTw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2CnZIjHV4uJsQpQbfZZ2TlvJ/14wFtsnyZFJI
- GC06fJlObSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadgp2QAKCRAk1otyXVSH
- 0DBNB/9txm/eNR3npp0XR+HIZq/ImVh4NTj1/5MpCHEI7PDsbdDFK+DgmRH5BKhwdtF2oM8j26F
- KTojGyFfAPw4MbTF3JC5pRmG9meIPjS/U8fOzsUnRrI//TGaevMOQWglGRVH+LLMJJWbdBGevxb
- fJ0MavtaRlWYWhqIMdtlO0DK2gtRRzgKevnhqRw+ZtL4zM0CoNs4U1ChFpgKeREkOUNah6NQaa7
- ZqAQLybkMgA8M/eN+2jmFuBOyD3qfuc1C3w/foa3YOQNaP4YAefEWrEgKPhRH7MFqG2xysRVzI8
- YlWMzHc7VWj6InX45U3tU5i3hHHPVDQg/whwaudJbMc8XxHX
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026040953-astute-camera-1aa1@gregkh>
 
-On Thu, 09 Apr 2026 17:43:24 +0100, Charles Keepax wrote:
-> Yet another round of SDCA fixes
+Hi,
+
+On Thu, Apr 09, 2026 at 04:05:54PM +0200, Greg Kroah-Hartman wrote:
+> The status field in an EFW response is a 32-bit value supplied by the
+> firewire device.  efr_status_names[] has 17 entries so a status value
+> outside that range goes off into the weeds when looking at the %s value.
 > 
-> Another round of SDCA fixes a couple of fix to the IRQ cleanup
-> from Richard, and a minor tweak to the IRQ handling from me and
-> an update to the comment on a fixme.
+> Even worse, the status could return EFR_STATUS_INCOMPLETE which is
+> 0x80000000, and is obviously not in that array of potential strings.
 > 
-> Thanks,
-> Charles
+> Fix this up by properly bounding the index against the array size and
+> printing "unknown" if it's not recognized.
 > 
-> [...]
+> Cc: Clemens Ladisch <clemens@ladisch.de>
+> Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Fixes: bde8a8f23bbe ("ALSA: fireworks: Add transaction and some commands")
+> Cc: stable <stable@kernel.org>
+> Assisted-by: gregkh_clanker_t1000
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  sound/firewire/fireworks/fireworks_command.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-Applied to
+Good catch.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-Thanks!
 
-[1/4] ASoC: SDCA: Correct kernel doc for sdca_irq_cleanup()
-      https://git.kernel.org/broonie/sound/c/c271b0815f45
-[2/4] ASoC: SDCA: Fix cleanup inversion in class driver
-      https://git.kernel.org/broonie/sound/c/7936490e0473
-[3/4] ASoC: SDCA: Tidy up irq_enable_flags()/sdca_irq_disable()
-      https://git.kernel.org/broonie/sound/c/87ceac0a98e9
+Thanks
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi Sakamoto
