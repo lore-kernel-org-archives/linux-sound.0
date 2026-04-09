@@ -1,147 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8D03A3E83
-	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 10:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3AF339853;
+	Thu,  9 Apr 2026 10:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775729132; cv=none; b=lslErmTX4ScPpZ36plOhpzGwB8uci3/IablQhwYXoA15C5zG2UUQmUniyi6gEnTFhlwk4sBo+JymPm4P2jpMOw1BxM12sWrCdCLGhateg0gnp5SvYfSqU+pen7rTw1BYDbFczEXUy3t2rS3oIkitA/dVkt0pQKcxY+/Qj3b2Xzw=
+	t=1775729825; cv=none; b=bFLueV6fIpdj0n2G0ZHxfgQ4e2ikD9GawpHyZE1rquIoJKkX/OJO1tcXMdrM3J+qXnNhIoB1VFbmb0h8O9BnRN/gKhfWtV3M5xFMnAjE6ZXtLeiYu9UONhzRWXcswot3IAf+M4fKH1MSjh/9BZhl/XorE3DiDGi90lxKJf7TGLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775729132; c=relaxed/simple;
-	bh=tSnnTrR6JhopuZnR92OH38uedO3MUzNSrddAcvoS9pg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bcJDIHmVdS8kP7+OZJjErkUXmMus8euGXGmF4IQrJMUvgMu7YZ8K31H19r3QE3XXpeO6qfh8Pvr+mYhdEtruPRgKLNml8KqcTYbi2t+HjNos5dnKysvPRKS64w+cScOWBPdeb0LOtvXlTKr5PNnW+RdmN7BmQTrLO+hiPQn0dL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GsR0ydcT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rN5i41hC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GsR0ydcT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rN5i41hC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775729825; c=relaxed/simple;
+	bh=vWRfl8NRp67rzaNRDSDRUpSv5dSaWFZ0K4DW/1hu2Pc=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=S0DNRCA5Cw6xnErskjcZKO88rWBUc55L+Db3e7V4poPrOqjzZB5FktBZo1Y6UPxc00lFj/fK2uMn08E+CntgWiYh4eh1meCmCYk4KOn2o3s+NGQCRtvUjADuEnUsBrb6gx+GTAdA0UFLkDaIlmkkbMUWM1w/FlHtmcFlDI4zMHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=e/bUTZJE; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GsR0ydcT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rN5i41hC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GsR0ydcT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rN5i41hC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F7494EE97;
-	Thu,  9 Apr 2026 10:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775729129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9utL51azaM4QnnM5Q0M/ypoV25jipgGCKpO4mhQudu4=;
-	b=GsR0ydcTSOCkTOp2cBKykfB9TlwQN0aUdoPiK+ufMW27KiI4c9GpuOEwib4krL4CYOoCUK
-	vSLR3tdiNC0U+6jcJXgdEUng1qjN7Tz4XHJJbiFcU/Xhz6EilsCzIoQ4bsD4Clb6eSxh59
-	aUvG3krkuF0r/onTe6Yc1TyqNeASlCM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775729129;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9utL51azaM4QnnM5Q0M/ypoV25jipgGCKpO4mhQudu4=;
-	b=rN5i41hCnJDa7In8FEsXqnxG7KontiCHN5J4vwBEQEFBhk+qLdQBtOHYkXn5L9x+GU7d9k
-	2XaRYMq1NklOXrAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775729129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9utL51azaM4QnnM5Q0M/ypoV25jipgGCKpO4mhQudu4=;
-	b=GsR0ydcTSOCkTOp2cBKykfB9TlwQN0aUdoPiK+ufMW27KiI4c9GpuOEwib4krL4CYOoCUK
-	vSLR3tdiNC0U+6jcJXgdEUng1qjN7Tz4XHJJbiFcU/Xhz6EilsCzIoQ4bsD4Clb6eSxh59
-	aUvG3krkuF0r/onTe6Yc1TyqNeASlCM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775729129;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9utL51azaM4QnnM5Q0M/ypoV25jipgGCKpO4mhQudu4=;
-	b=rN5i41hCnJDa7In8FEsXqnxG7KontiCHN5J4vwBEQEFBhk+qLdQBtOHYkXn5L9x+GU7d9k
-	2XaRYMq1NklOXrAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F34D94A0B3;
-	Thu,  9 Apr 2026 10:05:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T2QtOuh512lqdgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 10:05:28 +0000
-Date: Thu, 09 Apr 2026 12:05:28 +0200
-Message-ID: <877bqgjvo7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Cc: "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	"pav@iki.fi" <pav@iki.fi>,
-	"jussi@sonarnerd.net" <jussi@sonarnerd.net>,
-	"roy.vegard.ovesen@gmail.com"
-	<roy.vegard.ovesen@gmail.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for HUAWEI USB-C HEADSET
-In-Reply-To: <TYUPR06MB62176A18EA7A9DD0AC2826BCD2582@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB62176A18EA7A9DD0AC2826BCD2582@TYUPR06MB6217.apcprd06.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="e/bUTZJE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1775729812;
+	bh=tV03/7YCAXQsRNozGR83z4lHbyp1GVcRvhin27blcNU=;
+	h=From:To:Cc:Subject:Date;
+	b=e/bUTZJEltPIJy/0hkExDhYc1FypDhy/lCev6/E+zFG/YJNVkX7RKChM2o7XXSNFj
+	 U1I9C/AJGvUjPzGcHKW0rReBuiwMPHP55LuJamJbOiZNxw4DuuQZwp6dQ8y8QTPgCj
+	 nKWcRQXYytEv4aF5Zb7xYjWyE4veY7oG02rV4W+0=
+Received: from Ubuntu24 ([2409:8a00:dd3:9760:baed:a55c:3f15:41bf])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 34C1DAD0; Thu, 09 Apr 2026 18:13:12 +0800
+X-QQ-mid: xmsmtpt1775729592tkfblr1z8
+Message-ID: <tencent_AA2EB4CA35C01F96927CD6FA388430ED0D08@qq.com>
+X-QQ-XMAILINFO: Mzcurg9uYAemwCaMO3HU8HCQ2/t9BKdZA0GrPZrnPOkzeAFeuW87jRpXaHcqad
+	 AyEhmfYkTXbcBurwApgcxVSkgp+ritwggpJx22X4ycUV/teEpESvAbF2niJeZTIxhpTk1SwQdhrC
+	 QRXWNKhRlRtADU4mmZCXjSyGfEzyX5sHSC8jt2NwiCXaHVWyOwVj3j0sr5bEY0n5ZI4NQX0l4Cjl
+	 0euVBWYIDxqdFBqu8ERTaVmcesaUhldlNUaHrfd9GKy0wfzuK0CFB4hleRfI1asWWNt2wa4Mp9tn
+	 7hsJggsZ0kAfeOGL9A3QMX/2v/eTwwX5tv2fEKM0UDqZX6ClalORxslvrKbdhvFF6u+r/bdHb/nN
+	 jAmOgFeLkB4360scAxpsYmTul9YPGCnM4A2bUAm3RMjrCpl8zoyi9/RgpMQnnVfGizkdqbJXunWL
+	 8oAC+KfUuI6fUOrkDmdbYsr6eR1gO2CMNiBRR5S4ceUbxLery7UK8Jehru09uOH0LLLSEF/G0eEI
+	 9frBC3eWehfIpfgWKioPBzo4+/uPfP35E//IeH5diKPQ+c/22Cn0h2yBJucxj5cQAILSUBsRcRo7
+	 YR1tG0C6owmToUPw2pVwhEC1p4yj+ZHEQVZr63JL7BRidSGHp/wKdV2HhBPZxADoRehc6fy3xULF
+	 Dcfgs6m8UkgBC61d0SJXBASUvZ+zUc8IgclBHbbPUwZwJ/Jh6gopHEvQYOUrWujaE7ZHGn9B48Po
+	 dHZDJTkgTF1fmVVlLLuFEAYZdzjez5fLzokldZ9OCTwrRIQRksBa05jpH/Ft+Msybkt6oE2i2mtg
+	 Utks+U0aALaF1U+5nQIG8qdULAntEARGKNaD7JRpZkI9/Yxgvv+4NY2LdteQjbEjh6OlrrQswENi
+	 1eXizTkztWLFY9NiocPkYOawd9L3Vuewgk7hZCe/TGLYItgDKHpyQGUqoik5R2DXXHCJeI+5HvuE
+	 sLinb686R9isfarvymXHsabeyMpCdfwupO2bf5N0Z+NVBBXlYsdZIqEtDo7gAA2dzdjzEyJwdmAY
+	 /6XqTjvcJgoQSYYgAX8rkH2Yz2KH31r0mKhX+hwkC2Rv0jK5iZQIjl6U+6NEHR6Fjg+aSAKH3WTf
+	 vq/ZvAAefUi6lp0islOI8MMlWX5g==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Alva Lan <alvalan9@foxmail.com>
+To: gregkh@linuxfoundation.org,
+	sashal@kernel.org,
+	stable@vger.kernel.org
+Cc: linux-sound@vger.kernel.org,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alva Lan <alvalan9@foxmail.com>
+Subject: [PATCH 6.12.y] ASoC: simple-card-utils: Don't use __free(device_node) at graph_util_parse_dai()
+Date: Thu,  9 Apr 2026 18:12:56 +0800
+X-OQ-MSGID: <20260409101256.5410-1-alvalan9@foxmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,uniontech.com,iki.fi,sonarnerd.net,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
 
-On Thu, 09 Apr 2026 10:21:37 +0200,
-ºúÁ¬ÇÚ wrote:
-> 
-> Setting up the interface when suspended/resumeing fail on this card.
-> Adding a reset and delay quirk will eliminate this problem.
-> 
-> usb 1-1: new full-speed USB device number 2 using xhci-hcd
-> usb 1-1: New USB device found, idVendor=12d1, idProduct=3a07
-> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> usb 1-1: Product: HUAWEI USB-C HEADSET
-> usb 1-1: Manufacturer: bestechnic
-> usb 1-1: SerialNumber: 0296C100000000000000000000000
-> 
-> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Thanks, applied to for-next branch now.
+[ Upstream commit de74ec718e0788e1998eb7289ad07970e27cae27 ]
 
+commit 419d1918105e ("ASoC: simple-card-utils: use __free(device_node) for
+device node") uses __free(device_node) for dlc->of_node, but we need to
+keep it while driver is in use.
 
-Takashi
+Don't use __free(device_node) in graph_util_parse_dai().
+
+Fixes: 419d1918105e ("ASoC: simple-card-utils: use __free(device_node) for device node")
+Reported-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
+Reported-by: Detlev Casanova <detlev.casanova@collabora.com>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Tested-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+Link: https://patch.msgid.link/87eczisyhh.wl-kuninori.morimoto.gx@renesas.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Alva Lan <alvalan9@foxmail.com>
+---
+This is to fix https://lore.kernel.org/stable/20260323134527.797956242@linuxfoundation.org/
+
+---
+ sound/soc/generic/simple-card-utils.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
+index c9f92d445f4c..0e3ae89d880e 100644
+--- a/sound/soc/generic/simple-card-utils.c
++++ b/sound/soc/generic/simple-card-utils.c
+@@ -1072,6 +1072,7 @@ static int graph_get_dai_id(struct device_node *ep)
+ int graph_util_parse_dai(struct device *dev, struct device_node *ep,
+ 			 struct snd_soc_dai_link_component *dlc, int *is_single_link)
+ {
++	struct device_node *node;
+ 	struct of_phandle_args args = {};
+ 	struct snd_soc_dai *dai;
+ 	int ret;
+@@ -1079,7 +1080,7 @@ int graph_util_parse_dai(struct device *dev, struct device_node *ep,
+ 	if (!ep)
+ 		return 0;
+ 
+-	struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
++	node = of_graph_get_port_parent(ep);
+ 
+ 	/*
+ 	 * Try to find from DAI node
+@@ -1121,8 +1122,10 @@ int graph_util_parse_dai(struct device *dev, struct device_node *ep,
+ 	 *    if he unbinded CPU or Codec.
+ 	 */
+ 	ret = snd_soc_get_dlc(&args, dlc);
+-	if (ret < 0)
++	if (ret < 0) {
++		of_node_put(node);
+ 		return ret;
++	}
+ 
+ parse_dai_end:
+ 	if (is_single_link)
+-- 
+2.43.0
+
