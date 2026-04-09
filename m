@@ -1,67 +1,142 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3774F3368BF;
-	Thu,  9 Apr 2026 06:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C172307AF4
+	for <linux-sound@vger.kernel.org>; Thu,  9 Apr 2026 06:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775716411; cv=none; b=FMjHlaJXHl0hn0omTOeioAPsBUw3v8EtRWhqseWvNhlHOMmA5NQzPEU8OD0NgIR9btzcbjJPxAh9ZkQAsetOuBHWpZSiQ7TigfXXebktp7Es6+EUITQHeEsN3eiFJGLV1D9GjEyG1EDj5aMtnGLTlxMGA4zTjkk0Yf36X/Q5Iew=
+	t=1775717248; cv=none; b=FEDov6ZvUbqnfHJXvt1lC/INLhE/sX54d/hDwoxHzT+HOzXJ0JGcds46TCcwCLx4yrkhrshsMfs0sHkmRrFq3VgEwtLjc0CfYgke8CtAfKdxiBRyyV1ObIoMh6/nG7cUl+banB0gH/QSkQB6Fq839U8ZE4zEZ4yAmOzIV0WketU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775716411; c=relaxed/simple;
-	bh=/tlHXaTriA5HqTeCg/D/+pzkP9usuHquY2shP+FHywM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bKIzgh8gqPqC+btHmc7JPtr6SKeSLiCGrQgkcUwM3EB1gdwBUTZmJyt8Hp9aaGweai4NkTHmBHX/Z4ApJgDwkbL35jewebRtY5luejaxh+vcM7LXnBe6YCD0zdbB7+xAXbdh7WHTS3DnzWijaFKw4rOOHu75oCqsC6nfO/M1Jqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 0152d17633de11f1aa26b74ffac11d73-20260409
-X-CID-CACHE: Type:Local,Time:202604091358+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:96154766-3ca9-47ae-9c0d-484a8ae2d0a2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f4165319b9ab070e5687ccd022404458,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|898,TC:nil,Content:0|15|50,
-	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0152d17633de11f1aa26b74ffac11d73-20260409
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 539887611; Thu, 09 Apr 2026 14:33:22 +0800
-Message-ID: <c5079ef8-abfe-4373-8fc2-7892b23b95d5@kylinos.cn>
-Date: Thu, 9 Apr 2026 14:33:19 +0800
+	s=arc-20240116; t=1775717248; c=relaxed/simple;
+	bh=pbHkZcS6Jb9ObwXKaRYaEAlR5xRZG7iCWfi0IPoVvwo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LozCjfRuIW2n/ETMTUSPghZJYq3JJGqyBkmyfMbJ6RJORH6hr6QHcJtsgmNoH7PRyAuXWA0pYIJoxfoTdLm09ouogC7BkGToaGvFbIrfXrXkN8COBFjLqKEjDnxBlLJ/Hs8NL5PI/o9ai7V4XWx04eUL4SkYIXLf3jEgx1CEFHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EHpZHFaC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gUz/Rrrb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EHpZHFaC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gUz/Rrrb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EHpZHFaC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gUz/Rrrb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EHpZHFaC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gUz/Rrrb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 510364EDD8;
+	Thu,  9 Apr 2026 06:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775717245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u1weFM4RzBPUc6cRmuRp59YkmBE+mmxfGyPHbh0MOgE=;
+	b=EHpZHFaCu6P0KVCADP6JTxGdUlE407o6gdr4vDb2/BMdKouj7D+3qV4XOmDliqtKWJM3U4
+	Y7JerUN+tXXydVXH5ng/gy8dQFF0xgiphCAzoifyFWWnGrz026G9gK/BiWuT8TWpKvmibQ
+	sM47/6zeFvScf+9QEGCFhTsbkQiG0JE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775717245;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u1weFM4RzBPUc6cRmuRp59YkmBE+mmxfGyPHbh0MOgE=;
+	b=gUz/RrrbwJh8Jnq9c8vXj7o+CZ0JiNfEo1qKuJPbZlIyJoY/sfpzIQg3lEJ9W01rLkKVoD
+	H4JjGzNw6FLloHAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775717245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u1weFM4RzBPUc6cRmuRp59YkmBE+mmxfGyPHbh0MOgE=;
+	b=EHpZHFaCu6P0KVCADP6JTxGdUlE407o6gdr4vDb2/BMdKouj7D+3qV4XOmDliqtKWJM3U4
+	Y7JerUN+tXXydVXH5ng/gy8dQFF0xgiphCAzoifyFWWnGrz026G9gK/BiWuT8TWpKvmibQ
+	sM47/6zeFvScf+9QEGCFhTsbkQiG0JE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775717245;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u1weFM4RzBPUc6cRmuRp59YkmBE+mmxfGyPHbh0MOgE=;
+	b=gUz/RrrbwJh8Jnq9c8vXj7o+CZ0JiNfEo1qKuJPbZlIyJoY/sfpzIQg3lEJ9W01rLkKVoD
+	H4JjGzNw6FLloHAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E5E54A0B3;
+	Thu,  9 Apr 2026 06:47:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VpGgBX1L12l6KAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Apr 2026 06:47:25 +0000
+Date: Thu, 09 Apr 2026 08:47:24 +0200
+Message-ID: <87pl48k4ub.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
+In-Reply-To: <c5079ef8-abfe-4373-8fc2-7892b23b95d5@kylinos.cn>
+References: <20260409024028.1297587-1-zhangheng@kylinos.cn>
+	<873414lnyf.wl-tiwai@suse.de>
+	<84e98864-5858-4bb7-b62a-5b4928f2065b@kylinos.cn>
+	<87tstkk5ph.wl-tiwai@suse.de>
+	<87qzook5m2.wl-tiwai@suse.de>
+	<c5079ef8-abfe-4373-8fc2-7892b23b95d5@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
-To: Takashi Iwai <tiwai@suse.de>
-Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260409024028.1297587-1-zhangheng@kylinos.cn>
- <873414lnyf.wl-tiwai@suse.de>
- <84e98864-5858-4bb7-b62a-5b4928f2065b@kylinos.cn>
- <87tstkk5ph.wl-tiwai@suse.de> <87qzook5m2.wl-tiwai@suse.de>
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <87qzook5m2.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-Some machines also need to write GPIO again after waking up from sleep,
+On Thu, 09 Apr 2026 08:33:19 +0200,
+Zhang Heng wrote:
+> 
+> Some machines also need to write GPIO again after waking up from sleep,
+> 
+> please consider this.
 
-please consider this.
+Sure, but your patch puts one extra unnecessary GPIO operation than
+needed, and it can be optimized later -- that's my point.  The fixup
+could deal directly with only GPIO high/low only once.  With the
+current alc_*_gpio() helpers, the values are cached and it's restored
+already once before the fixup at each resume call.  So we'd need some
+tune up in the helper code for this optimization.
 
-在 2026/4/9 14:30, Takashi Iwai 写道:
-> That said, I'm going to take your patch for now, but we might need to
-> reconsider the implementation of Realtek codec helpers about GPIO
-> handling.
->
+
+Takashi
+
+> 
+> $B:_(B 2026/4/9 14:30, Takashi Iwai $B<LF;(B:
+> > That said, I'm going to take your patch for now, but we might need to
+> > reconsider the implementation of Realtek codec helpers about GPIO
+> > handling.
+> > 
