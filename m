@@ -1,29 +1,29 @@
 Received: from r3-72.sinamail.sina.com.cn (r3-72.sinamail.sina.com.cn [202.108.3.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616C43346A6
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 07:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6901A9F87
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 07:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775805897; cv=none; b=N+bX79VkAW4KJIqx8x9cXW+t8PYPUvNTZCrEWBoHVhwgepqE18YiBB5kym4F40XQjECOwdUE3Fzlz5B7mntUyfHVlOLjhmrd+x8ManX6g/ySYNqd9Ir3rZLnlc5Lf9ZGh0TheeXU0d0fq3DXx1HsYi5FNM8rnykgoWmfj18PcRg=
+	t=1775805898; cv=none; b=EUQabcd0HYz0uK5lHGruqcLoDIaGOpIXxP/DMbFq7rEFpi4xmUiO8kb7y8pXTLndIepm7/+6w+Xj4vaZDzWRJOq69OO0TGPSYRxxWarGVgmI40Ut132Av3JP5Op/NXwBRu4mfvJvT11oOS9VRPHJ7fo6fSyVEztR7bI8QzJIiQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775805897; c=relaxed/simple;
-	bh=UfRhinFGZLY+kgnn+KrtfqYqDnhMF2ig7A8hunZNQqs=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=HmR2GIvcZrK41dKLP1Le3KE0F1TYfnFEbtQ0CaZHAQb/4m82Zkgsdo7FJxreB1J7c9UfvbSLGdjb30KoRHgtBdkz6/Q/rw6WoHEdkI+hOdQ1LxpD67XbVmxhdC5i/4UCNMhWF592Vja2jesFy9S/lruS83H6SOM1dLddJ0rQolk=
+	s=arc-20240116; t=1775805898; c=relaxed/simple;
+	bh=dtZ8/W39N3hmTDcDKtmDOQp0npQ9SBLiKkkWAQvr8yg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=l/Yj8KnG0r8DqVdOXzP5WcKVuQRduxVFLavb3Zh226hjHqNR/A6G8Hdwe2vP3wy4Ki7noc20Ku8UvErSPJZqP7KLEMTmrcvTNgfZDym0/Gn8hnuutA4WpA789DCUFlehQgSMTEMY2qRfnlJAbDTfn+ja3fv8za4fWKzVS8MA36s=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
 	by sina.net (10.54.253.39) with ESMTP
-	id 69D8A5BB00000BB0; Fri, 10 Apr 2026 15:24:44 +0800 (CST)
+	id 69D8A5BB00000BB0; Fri, 10 Apr 2026 15:24:46 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 54FD81035AF0400C8D127DC92B8AF477
-X-SMAIL-UIID: 54FD81035AF0400C8D127DC92B8AF477-20260410-152444
+X-SMAIL-MID: EBEA788F0DE74A31B0C8D75EDCCEBA5E
+X-SMAIL-UIID: EBEA788F0DE74A31B0C8D75EDCCEBA5E-20260410-152446
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -34,84 +34,86 @@ Cc: peter.ujfalusi@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ckeepax@opensource.cirrus.com,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v7 0/5] Add es9356 focused SoundWire CODEC
-Date: Fri, 10 Apr 2026 15:24:36 +0800
-Message-Id: <20260410072441.6111-1-zhangyi@everest-semi.com>
+Subject: [PATCH v7 2/5] ASoC: sdw_utils: add ES9356 in codec_info_list
+Date: Fri, 10 Apr 2026 15:24:38 +0800
+Message-Id: <20260410072441.6111-3-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260410072441.6111-1-zhangyi@everest-semi.com>
+References: <20260410072441.6111-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-This patch chain adds support for the ES9356 PC focused
-SoundWire CODEC.
+Add ES9356 in codec_info_list
 
-v7 -> v6:
-	-Provide comments for some parameters
-	-Rename `jack_detect_work` to `interrupt_handle_work`
-	-Add a jack_lock when handling disable_irq in suspend
-	-Adjust the handling procedure when a jack register
-	 is incorrectly identified
-	-Replace the custom SOC_SINGLE_Q78_TLV with SDCA_SINGLE_Q78_TLV
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ sound/soc/sdw_utils/soc_sdw_utils.c | 50 +++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-v6 -> v5:
-	-Handling default values in `button_detect` and `jack_detect`
-	-Add the member `disable_irq` so that interrupts are
-	 no longer processed after suspend.
-	-Move the PDE processing to `hw_params` and `hw_free`
-	-Separate JACK_OUT and JACK_IN in hw_params
-	-Simplify reading and writing to SDW_SCP_SDCA_INT1 in the callback
-	-Adjust the scope of `regcache_sync` in the resume
-
-v5 -> v4:
-	-Merge patch1 and patch3
-	-Add vendor_id in codec_info
-	-Use q78_get and q78_set to create Kcontrol
-	-Set mbq_size and use regmap_mbq
-	-An additional helper function to implement DAPM
-
-v4 -> v3:
-	-Updated some KControl names
-	-add copyright in soc_sdw_es9356
-
-v3 -> v2:
-	-Removed unnecessary section in soc_sdw_es9356.c
-	-Add `pm_runtime_put_noidle` to `es9356.c` to
-	 reduce device incremented count
-	-Updated some KControl names
-	-Fix the error related to jack_report in the codec driver
-
-v2 -> v1:
-	-Adjusted mutexes in the ES9356 driver
-	-Use macros to replace certain values
-	-Adjusted some ordering issues in Kconfig.
-
-v1 -> v0:
-	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
-
-Zhang Yi (5):
-  ASoC: sdw_utils: add soc_sdw_es9356
-  ASoC: sdw_utils: add ES9356 in codec_info_list
-  ASoC: es9356-sdca: Add ES9356 SDCA driver
-  ASoC: Intel: soc-acpi: arl: Add es9356 support
-  ASoC: Intel: sof_sdw: add es9356 support
-
- include/sound/soc_sdw_utils.h                 |   14 +
- sound/soc/codecs/Kconfig                      |    7 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/es9356.c                     | 1156 +++++++++++++++++
- sound/soc/codecs/es9356.h                     |  208 +++
- sound/soc/intel/boards/Kconfig                |    1 +
- .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
- sound/soc/sdw_utils/Makefile                  |    1 +
- sound/soc/sdw_utils/soc_sdw_es9356.c          |  230 ++++
- sound/soc/sdw_utils/soc_sdw_utils.c           |   50 +
- 10 files changed, 1721 insertions(+)
- create mode 100644 sound/soc/codecs/es9356.c
- create mode 100644 sound/soc/codecs/es9356.h
- create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
-
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 2807f536e..840242d7f 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -938,6 +938,56 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 		},
+ 		.aux_num = 1,
+ 	},
++	{
++		.vendor_id = 0x04b3,
++		.part_id = 0x9356,
++		.name_prefix = "es9356",
++		.version_id = 3,
++		.dais = {
++			{
++				.direction = {true, false},
++				.dai_name = "es9356-sdp-aif1",
++				.dai_type = SOC_SDW_DAI_TYPE_JACK,
++				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
++				.init = asoc_sdw_es9356_init,
++				.exit = asoc_sdw_es9356_exit,
++				.rtd_init = asoc_sdw_es9356_rtd_init,
++				.controls = generic_jack_controls,
++				.num_controls = ARRAY_SIZE(generic_jack_controls),
++				.widgets = generic_jack_widgets,
++				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
++			},
++			{
++				.direction = {false, true},
++				.dai_name = "es9356-sdp-aif4",
++				.dai_type = SOC_SDW_DAI_TYPE_MIC,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
++				.rtd_init = asoc_sdw_es9356_dmic_rtd_init,
++				.widgets = generic_dmic_widgets,
++				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
++			},
++			{
++				.direction = {false, true},
++				.dai_name = "es9356-sdp-aif2",
++				.dai_type = SOC_SDW_DAI_TYPE_JACK,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
++			},
++			{
++				.direction = {true, false},
++				.dai_name = "es9356-sdp-aif3",
++				.component_name = "es9356",
++				.dai_type = SOC_SDW_DAI_TYPE_AMP,
++				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
++				.init = asoc_sdw_es9356_amp_init,
++				.rtd_init = asoc_sdw_es9356_spk_rtd_init,
++				.controls = generic_spk_controls,
++				.num_controls = ARRAY_SIZE(generic_spk_controls),
++				.widgets = generic_spk_widgets,
++				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
++			},
++		},
++		.dai_num = 4,
++	},
+ 	{
+ 		.vendor_id = 0x0105,
+ 		.part_id = 0xaaaa, /* generic codec mockup */
 -- 
 2.17.1
 
