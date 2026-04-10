@@ -1,188 +1,219 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6777B1F0991
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 07:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE75387362;
+	Fri, 10 Apr 2026 07:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775807208; cv=none; b=HPeabGbOtb7f1kRvGGrTUg45UTPtvyWAkDGGQv4Tw8NQDyggbdcZcBf5HIS5ku8bmhVobX0NRyq/LBxDdQguzrQddNz17aQHtqMDvZhba++VhWyjpmQsJLq4o59HoV4lfAY0wHhlhMYPpv9u4UFxXWJLVB38AdVyWlzUPYvGw48=
+	t=1775807573; cv=none; b=sONZdf8rUhPkOFvxOyQiTuouiMLeEX91As6/MhyHEnID0RgiUrQHFu/A/6AS7mw8dZQ+5+M/fWR8P7zPF5CPH9c0+G7Pyw/CZcHFLxcypyD6mxtnF/pNOvf5ipc25zyoErLkyoEfpB8mFbcUq1g8sVcDX+8yX2JLqpNw2aX3oKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775807208; c=relaxed/simple;
-	bh=ppdyeO+iTtNjM6ksvWlGPQw7OvYp6vn67m87sIYjXkY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hvhyybPgG2acixCC2pv/rVPCtclhaaMwEAdzPv4N/kPkgSYoINm6du4FkNnleGA0Qydzw1rXLaJZyNAg7AZomKtOxrdlb6WjhsmURoKF9o7TCqPUswS+cZNPqhRbZCYJZ9CNq5RaWW0C2L0AEpEZXP3AyLIIAwn+OytxMwd9MIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0NoBZoeG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1fVvD/Ti; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0NoBZoeG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1fVvD/Ti; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775807573; c=relaxed/simple;
+	bh=On3sPjQdkSCY/QGac7HCv94DWl2MdNb+QTAfi7v3M8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VERiW8YqmruiQ77EccWjvTIvVIiJLEiEwShdU16hyUfKcIzxBlx7r4ELMFCnY+i/LOJdF3eD1DMm3BN4hrx1rZnjtZYYlSWNd4Nwhf0UQL+T6oKwrAkkfYlp40XJKaUrtDpyz88gPEZK/o2WHv05Hg/V+bR84dyvwmQukPYmKIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xWa5dGPv; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0NoBZoeG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1fVvD/Ti";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0NoBZoeG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1fVvD/Ti"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A46116A7CE;
-	Fri, 10 Apr 2026 07:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775807205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pXppsShvubYsR+4LBV6EXyhEPO7Ip6d/3V69GXfr4E=;
-	b=0NoBZoeGmGsY2fHtNeBLkk8LgAoCr7l2Mw1pB+mtKHPa+WwlnAF3WrnBvbFzZqbDuahv+b
-	KaPUXWEQFVqp8N1C2zh38+ngCLycVmO0FiOlOlbizXJZ2gLXtS2ytqGwSYr1mzofqx0tkn
-	jgVcSzmqt/JeOHdWeW60AZsDRWKo7dg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775807205;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pXppsShvubYsR+4LBV6EXyhEPO7Ip6d/3V69GXfr4E=;
-	b=1fVvD/TivqABjhSWRCcmWecR20X5j3PLTqDY55MQa3eV3E/j4UG7T10U+5/rRA8aGl23y2
-	tn9bJ+C96ieCsjDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775807205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pXppsShvubYsR+4LBV6EXyhEPO7Ip6d/3V69GXfr4E=;
-	b=0NoBZoeGmGsY2fHtNeBLkk8LgAoCr7l2Mw1pB+mtKHPa+WwlnAF3WrnBvbFzZqbDuahv+b
-	KaPUXWEQFVqp8N1C2zh38+ngCLycVmO0FiOlOlbizXJZ2gLXtS2ytqGwSYr1mzofqx0tkn
-	jgVcSzmqt/JeOHdWeW60AZsDRWKo7dg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775807205;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pXppsShvubYsR+4LBV6EXyhEPO7Ip6d/3V69GXfr4E=;
-	b=1fVvD/TivqABjhSWRCcmWecR20X5j3PLTqDY55MQa3eV3E/j4UG7T10U+5/rRA8aGl23y2
-	tn9bJ+C96ieCsjDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65A2A4A0B2;
-	Fri, 10 Apr 2026 07:46:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7WgpF+Wq2GlEWAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 10 Apr 2026 07:46:45 +0000
-Date: Fri, 10 Apr 2026 09:46:45 +0200
-Message-ID: <87ik9zgsuy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Lei Huang <huanglei814@163.com>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lei Huang <huanglei@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/realtek: fix code style (ERROR: else should follow close brace '}')
-In-Reply-To: <76ff00e6-07a3-4c0b-8906-baa13c077468@kernel.org>
-References: <20260331075405.78148-1-huanglei814@163.com>
-	<87wlyss93y.wl-tiwai@suse.de>
-	<460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
-	<2475f220-b0ff-4ee6-b897-75de87d68f81@kernel.org>
-	<87mrzbgtln.wl-tiwai@suse.de>
-	<76ff00e6-07a3-4c0b-8906-baa13c077468@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="xWa5dGPv"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1E0364E429A3;
+	Fri, 10 Apr 2026 07:52:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E553D603F0;
+	Fri, 10 Apr 2026 07:52:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DB7971045001D;
+	Fri, 10 Apr 2026 09:52:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775807568; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UpCgt8IIGYMIiNdVzfsPwqSVZXoCi5LgZgi/lwSze/0=;
+	b=xWa5dGPvDsIS5bAGiB/IQYT3wiJrhNBulYPGSeasuhAhXH/t3kRHmZlrrTba6AI+EiJ+D0
+	7jZmNG4vjtESMypwGi7nGl9Sw+cvl+fmW+IYKzRfiYpqXXF7EfzemgHIZjDmjcIPiVXDTi
+	+kqP/46jaOJN2l17JSrMsGrYki/loSXAEpDTNM9bFHVGuHjI61wb/cJS2MRXK5VzQ+mc8f
+	vKhCugRdYnq9+0eOXStS04GrwjsRa9CKjTnKUvh+hV9hTjnEjLTLFmNvFu8VBk4331wafU
+	sV5wnNn1e34kTvby8BP/ayrWP7WXztL9qjOd+iMMbW+Q/Be72Bj4RKOJozTKAQ==
+Date: Fri, 10 Apr 2026 09:52:42 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Jaroslav
+ Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven
+ amplifier
+Message-ID: <20260410095242.0826fe7e@bootlin.com>
+In-Reply-To: <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
+References: <20260330101610.57942-1-herve.codina@bootlin.com>
+	<20260330101610.57942-3-herve.codina@bootlin.com>
+	<20260408122901.GA42727-robh@kernel.org>
+	<20260408190932.0ab936b0@bootlin.com>
+	<CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,163.com,perex.cz,suse.com,vger.kernel.org,kylinos.cn];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 10 Apr 2026 09:41:33 +0200,
-Krzysztof Kozlowski wrote:
+Hi Rob, Mark,
+
+On Thu, 9 Apr 2026 10:00:55 -0500
+Rob Herring <robh@kernel.org> wrote:
+
+...
+
 > 
-> On 10/04/2026 09:30, Takashi Iwai wrote:
-> > On Fri, 10 Apr 2026 09:11:39 +0200,
-> > Krzysztof Kozlowski wrote:
-> >>
-> >> On 01/04/2026 12:43, Krzysztof Kozlowski wrote:
-> >>> On 31/03/2026 10:20, Takashi Iwai wrote:
-> >>>> On Tue, 31 Mar 2026 09:54:05 +0200,
-> >>>> Lei Huang wrote:
-> >>>>>
-> >>>>> From: Lei Huang <huanglei@kylinos.cn>
-> >>>>>
-> >>>>> Fix checkpatch code style errors:
-> >>>>>
-> >>>>>   ERROR: else should follow close brace '}'
-> >>>>>   #2300: FILE: sound/hda/codecs/realtek/alc269.c:2300:
-> >>>>>   +       }
-> >>>>>   +       else
-> >>>>>
-> >>>>> Fixes: 31278997add6 ("ALSA: hda/realtek - Add headset quirk for Dell DT")
-> >>>>> Signed-off-by: Lei Huang <huanglei@kylinos.cn>
-> >>>>
-> >>>> Thanks, applied to for-next branch.
-> >>>
-> >>> I hope you dropped the fake Fixes tag. Or at least give people chance to
-> >>> review it.
-> >>
-> >> I see you entirely ignored all the comments about fake bug being fixed here.
-> > 
-> > I saw your comments, but I have a different opinion.
-> > In the case of HD-audio code where the code change happens very
-> > actively and quite often backported to stable trees, a change like
-> > this would block the further backports if missing.  With a hint of
+> > > If not, then gain-range could be expressed using gain-points instead.  
+> >
+> > Do you have in mind something like the following?
+> >   gain-range = <0 (-300)>, <3 600>;
+> >
+> > defining the range from -3dB to +6dB with GPIOs value 0 for -3dB and 3 for +6dB.  
 > 
-> No, it would not. Commits marked for backports can even mention
-> dependencies.
+> Yes, but since you can have reserved values, that won't work.
+
+In that case gpio-points can be used.
+
+The other solution will be to allow multiple ranges:
+
+   gpios    Gain
+   0b000 -> -6dB
+   0b001 -> -3dB
+   0b010 -> 0dB
+   0b011 -> Reserved
+   0b100 -> +3dB
+   0b101 -> +6dB
+   other -> Reserved
+
+This could be described as
+  gain-ranges = <0 (-600)>, <2 0>,
+                <4 300>, <5 600>;
+
+As a side note, this will probably add quite a lot of complexity to handle
+multiple ranges in the driver. If too complex, the driver will handle only
+one range and returns -ENOTSUPP if multiple ranges (more than one) are used.
+
+Is that something acceptable?
+
+
+...
+> > > > +    description: |
+> > > > +      List of the gain labels attached to the combination of GPIOs controlling
+> > > > +      the gain. The first label is related to the gain value 0, the second label
+> > > > +      is related to the gain value 1 and so on.
+> > > > +
+> > > > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
+> > > > +      Assuming that gain value set the hardware according to the following
+> > > > +      table:
+> > > > +
+> > > > +         GPIOs | Hardware
+> > > > +         value | amplification
+> > > > +         ------+--------------
+> > > > +           0   | Low
+> > > > +           1   | Middle
+> > > > +           2   | High
+> > > > +           3   | Max
+> > > > +         ------+--------------
+> > > > +
+> > > > +      The description using gain labels can be:
+> > > > +        gain-labels = "Low", "Middle", "High", "Max";  
+> > >
+> > > Do we need to allow these to be anything? It's going to get hard to come
+> > > up with 2^32 names.  
+> >
+> > Well, "Normal" / "Boost" can make sense on some hardware.
+> >
+> > I don't think we need to restrict labels to a list of known label here.  
 > 
-> > Fixes tag, the change of the code change can be tracked more easily,
-> > hence it's still worth to have.
+> As long as the names are meaningless to software.
 > 
-> Fake fixes tag is not the solution for that. It adds effort on stable
-> team for no gain, it adds work on people evaluating backported commits
-> for no gain.
+> >
+> > Of course 2^32 names is obviously a lot. What could be the limit?  
+> 
+> I would guess at 8 or more, it's just going to be gain1, gain2, etc.
+> or something similar constructed from the gain values.
 
-It actually helps a lot on distro side, judging from my long
-experience of backporting (literally) million of patches for openSUSE
-/ SUSE kernels.
+I suppose that gpio-points or gpio-ranges are going to be used instead
+of labels at 8 or more.
 
-> BTW, since I was looking at your tree - you have contributions from
-> songxiebing@kylinos.cn which does not follow requirements for a *known
-> identity*. IOW, it does not pass DCO requirements and should not be
-> accepted.
+With a lot number of GPIOs involved, I am not sure that using labels makes
+sense even from the hardware point of view.
 
-Do you mean the form
-  Signed-off-by: songxiebing <songxiebing@kylinos.cn>
-?
+The 3 possible descriptions (gpio-points, gpio-range(s), gpio-labels) are
+mutually exclusive. Depending on the hardware designed, one of them has to
+be chosen.
 
-The name spelling without space is pretty normal in Chinese.
+Of course, you can describe 256 labels but does it make sense in that case
+with alternative available ?
+
+> 
+> > ...
+> >  
+> > > > +
+> > > > +    /* A mutable amplifier without any gain control */
+> > > > +    amplifier4 {
+> > > > +        compatible = "audio-gpio-amp";
+> > > > +        vdd-supply = <&regulator>;
+> > > > +        mute-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;  
+> > >
+> > > This case is just simple-amplifier...  
+> >
+> > No, simple-amplifier uses 'enable' and not 'mute'.  
+> 
+> Yes, I know...
+> 
+> > We can have the amplifier enabled ('enable' GPIO active) as it is
+> > used and a switch driven by an other GPIO to mute / un-mute the
+> > amplifier output.  
+> 
+> But you have no 'enable' GPIO here. To me, enable just looks like
+> inverted mute. If there's some electrical difference, I can't tell
+> what that is from either binding.
+
+A known physical component handle by simple-amplifier is the dio2125.
+
+According to its datasheet:
+  Pop-free power up is ensured by keeping the EN (shutdown pin) low during
+  power down. The EN pin should be kept low EN pin high to achieve pop-less
+  power up
+
+The 'enable' gpio should be used when power is established or remove.
+
+The mute gpio handle an output switch:
+
+           +---------+   op-amp output
+           | dio2125 +-------------------o
+           |         |                        o---- Amplifier feature output
+ enable ---+         |                ,--o  ^
+           |         |                |     |
+           +---------+                v     |
+                                     GND    |
+                                            |
+ mute --------------------------------------'
 
 
-thanks,
+The mute signal switches on/off the dio2125 output while the dio2125 is
+active (powered uup) and so its enable pin is driven high.
 
-Takashi
+
+I can add an 'enable' GPIO here to handle it in the same way as it is handled in the 
+simple-amplifier (dio2125 use case).
+
+> 
+> I guess my point was that really we could deprecate simple-amplifier
+> binding because this one can handle it and more. But I'm not
+> suggesting we do that yet.
+> 
+
+Best regards,
+Hervé
