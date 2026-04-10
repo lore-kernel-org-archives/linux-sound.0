@@ -1,71 +1,71 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012036.outbound.protection.outlook.com [40.93.195.36])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010027.outbound.protection.outlook.com [52.101.85.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E0F3491C7;
-	Fri, 10 Apr 2026 09:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7BB3446A3;
+	Fri, 10 Apr 2026 09:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.27
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775813165; cv=fail; b=AAcD+X9w2zKWkfT/hO+S1RKuClanhT212f7o4Zq/24FEs5h+oARChLhLcKLegWcBI2H0+TlWvcqNLDHzvl2t+xfqi3LGtsmb+Best2GkzPB6iT8fynAn9on6SMgwA0hyRhYIIFbDOvQumj4CqKfLmegjHhPCT9rjZJ7nXrxBSQk=
+	t=1775813169; cv=fail; b=ltyk2XxWv4HW6bqS6GNJjZYaHLNO5emYX6sOyNPtBDGZViQvhURavXmUu/k+7URFvP9CoqgneX4fT4MKGz+wxOVVmUaHZQp3kuCK7og0GAbFpQOaN/6OeRcATAOIvuMuKSNU48CaBFyYFfpYgRKWhMZWGA6Bqsdk3Ch44sZEGGM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775813165; c=relaxed/simple;
-	bh=cXtCB7xMX1Urpx3Qfcu38MzAVsuRMEHQh4jmsBRYnqg=;
+	s=arc-20240116; t=1775813169; c=relaxed/simple;
+	bh=6E+MFsUV1MfQ9DhXc03BdF8zrrNbfL55CcUY7fhLaDE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IhYbSud2SHWO2b+VNgRlxcLV4j1T0XED3DzrfxmAUvsncuTRQelvVkIBqA+1YTm2n6epcoZggyHRl29m4fCY6RbHAw+A0vANNX9FZTYbQA/FeTDAvaEVj6p5DdYFdbcFfT3b9rdqyi79STTzsbYyjfDVG53461S0WKEtN3wVxEg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=S/B6oZ0+; arc=fail smtp.client-ip=40.93.195.36
+	 MIME-Version:Content-Type; b=Atv2idhqaVmBlhV/jZ88vOpG/M0ojICyuxrY25RfdbHENAymjXP1yu/IkB5WuzFp3blvLgVmBpX15USaH/FgqyMpsTRGat8rEL5lkpikBZCZLUirBJOpbz29qzOaZYni/PvLN4AGF0Ccn89l3vaRPVoKUjJFbndb37k338Bd26Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=l+/Fq6lc; arc=fail smtp.client-ip=52.101.85.27
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="S/B6oZ0+"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="l+/Fq6lc"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kq6j7HPIVghSTG5IvCctd1Y4BQe3f/Szv/RWthnfCs8n7EsWH/jUb7EeUiqE+yENLXbHxHXUnYF7y1S0hATAK254lzU+sLYyDwwNJ4GG3Kf30iv2tzj1TeyN3BSTxBNy7lyMGrBloU235ao5NXltIlF5ZkVjsoD8McLQsj1zNDnClGagSxkvYpBqKdr11syFgOF/6k5BtLrP/B1V33wJFzopKyy/V+CwIRW+JMcokHbVBQ382yCnTvTLv6KnmRx5WkVTWhiQMGJMeV7666vopidOanURM2XebGNwMfoKDX8jn6Yggvc/xHZDGQQzxRNnotozNNS1cvptWE2/J05oRg==
+ b=JO37Apd5qSDjWbtS/9GGPKnpxNm5FobzoKiPXQVCx8mFaZrRXkBy1Q5ioUTKcebMIAeudsRjk/RSn6AKThqDlaa63bmbHUjfUP3lfWYWQAMXoiKWO1BUBCpSmXs36B4DfNOHgduj/pn5ZWy5CAKRxDEm5v5aX9SavYHd/Qne1+ZEQWJXFDLfEftzIIltpkjknnxIQeNJ7IMRLh0HihHc7Rj/ajtv2bNdUFCof9B9ZWpanbZ00pBcE4klxVc8rOuILuCDHMLNsNwrve6BjyPF5KAp+8VLmhpC7loFPkaQU9Fiyaht9of7nuUQR8Ga0XbN9LaN+aS3OcbRYNpRA/VATA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=++33eyu3G5ChDEVoTpjkkTkgnpFw3pKoUEx8JAJpibc=;
- b=llLgpqkitwXRXAp2COywkWyM0dPxn/YQDN2rlL9wPEtk5dsyuOLvIa+RTDXnob9VQmfNOPV+2move8hHIZBikgMDJho2L3N+O4qMC3sXwrCjtAoYjLkQ/s6LXhE8IUf4ieMukajxjH/uAi1RUUmJBHy4RrDPgqXuLrVfT8ErsNr5e6W3asCUt2LeSsnVyC5j48qs8rTXPEMST4w2F1JWyfsYZp65Nqj3/udTu4J9ChTbf2bzskGnKGDXBKLKVIUCwjC2YVvd7ZagXWHD3NVyoZFiqh+KgK5SqIKAFUSzms2SxlLPB2SVX/eKlkvU8yrvmhL1Ao5nmlNqVJ/MRkSicQ==
+ bh=3ZJnvxXfqw/y7o5HR5wafTZt9tRi3aB1WRaEKybfNz0=;
+ b=Vun6gV5hsP1iIvrgf6WvvviZ5e85SEWDzABJDiQVSnuCUiEgMh2MLJZdydPVPPmncPzLHdZ03xS0hbzFt1XBYx4RL222QAaeEICd3DkCCp6oyxHPQyMZrbFe7QzWxZyisHgQnY8kpLJIFEMYud2YMuBralsxqId1ZS8TN9wBI8LNw82vhJcHElHlePihTDO8SALiTyuArlSJJVziUTV8yU5PTJQxVrEDtAzJlMVdbBBuOWPtmgkeBQEfy69WWokbn/4EDAygIZ4aB1edI8c5P8/YfBeC27rif/qWlInsXC0Bi7AdvjC4Wr6zXBhk2jO4VqdBkG5oqh5/Lf0ZCYpR5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
+ 198.47.21.195) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
  (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
  (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=++33eyu3G5ChDEVoTpjkkTkgnpFw3pKoUEx8JAJpibc=;
- b=S/B6oZ0+q/8XUJggZ4uLxhsW+SV7pKaE0YhpbJ2NRC0Eo1mX0BeJ4e62O7e8WisElRRs3DDgME5kgh32djfd1MFUamhYhalMXAtPQ1wLK4Z77ytZZUVpsSaMr14gqeNCvc/rjmph/Ty5boju5n6PzJddKvsUNzU33L3q9x5YTL4=
-Received: from CH5PR04CA0014.namprd04.prod.outlook.com (2603:10b6:610:1f4::26)
- by DM4PR10MB6767.namprd10.prod.outlook.com (2603:10b6:8:10d::17) with
+ bh=3ZJnvxXfqw/y7o5HR5wafTZt9tRi3aB1WRaEKybfNz0=;
+ b=l+/Fq6lcu1CPSXy/MpUgAOD9mCZZsAGzp/k9pZYk6NH7AShazXzGguZC9x71GfN46oT5zYheFQAEwgD1CNG8tcw5pxxAQDanK3jvroncFmeVRv5i/ufZDfGzFq3aYh3USAC21bHjhG+eh4SUFDpdr0/jx/0RFYmnV16bTR7OqPI=
+Received: from CY5PR17CA0026.namprd17.prod.outlook.com (2603:10b6:930:17::13)
+ by CHAPR10MB997723.namprd10.prod.outlook.com (2603:10b6:610:2f6::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Fri, 10 Apr
- 2026 09:26:00 +0000
-Received: from CH1PEPF0000A34A.namprd04.prod.outlook.com
- (2603:10b6:610:1f4:cafe::ca) by CH5PR04CA0014.outlook.office365.com
- (2603:10b6:610:1f4::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.42 via Frontend Transport; Fri,
- 10 Apr 2026 09:26:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.42; Fri, 10 Apr
+ 2026 09:26:06 +0000
+Received: from CY4PEPF0000EE35.namprd05.prod.outlook.com
+ (2603:10b6:930:17:cafe::6e) by CY5PR17CA0026.outlook.office365.com
+ (2603:10b6:930:17::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.41 via Frontend Transport; Fri,
+ 10 Apr 2026 09:26:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- CH1PEPF0000A34A.mail.protection.outlook.com (10.167.244.5) with Microsoft
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ CY4PEPF0000EE35.mail.protection.outlook.com (10.167.242.41) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Fri, 10 Apr 2026 09:25:58 +0000
-Received: from DFLE206.ent.ti.com (10.64.6.64) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9769.17 via Frontend Transport; Fri, 10 Apr 2026 09:26:04 +0000
+Received: from DFLE215.ent.ti.com (10.64.6.73) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 10 Apr
- 2026 04:25:55 -0500
-Received: from DFLE212.ent.ti.com (10.64.6.70) by DFLE206.ent.ti.com
- (10.64.6.64) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 04:26:02 -0500
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 10 Apr
- 2026 04:25:55 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE212.ent.ti.com
- (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 04:26:02 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 10 Apr 2026 04:25:55 -0500
+ Transport; Fri, 10 Apr 2026 04:26:02 -0500
 Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 63A9Pe9m1150015;
-	Fri, 10 Apr 2026 04:25:49 -0500
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 63A9Pe9n1150015;
+	Fri, 10 Apr 2026 04:25:56 -0500
 From: Niranjan H Y <niranjan.hy@ti.com>
 To: <linux-sound@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
@@ -75,9 +75,9 @@ CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
 	<ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
 	<pierre-louis.bossart@linux.dev>, <baojun.xu@ti.com>, <shenghao-ding@ti.com>,
 	<sandeepk@ti.com>, <v-hampiholi@ti.com>, Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v7 2/3] ASoC: sdw_utils: TI amp utility for tac5xx2 family
-Date: Fri, 10 Apr 2026 14:55:35 +0530
-Message-ID: <20260410092536.5521-2-niranjan.hy@ti.com>
+Subject: [PATCH v7 3/3] ASoC: tac5xx2-sdw: ACPI match for intel mtl platform
+Date: Fri, 10 Apr 2026 14:55:36 +0530
+Message-ID: <20260410092536.5521-3-niranjan.hy@ti.com>
 X-Mailer: git-send-email 2.33.0.windows.2
 In-Reply-To: <20260410092536.5521-1-niranjan.hy@ti.com>
 References: <20260410092536.5521-1-niranjan.hy@ti.com>
@@ -92,34 +92,33 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A34A:EE_|DM4PR10MB6767:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4c482c5-e3ee-4235-09b5-08de96e32ccd
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE35:EE_|CHAPR10MB997723:EE_
+X-MS-Office365-Filtering-Correlation-Id: 440a26ae-ff53-429d-be75-08de96e33085
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700016|82310400026|7416014|1800799024|56012099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700016|1800799024|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	r9J16mAhCriZkRDoXq59fTEB2lFRRTKBFAPGD9EV451+BKt3VSoBf+qJJ44SLMxFmttcT/aVShpG0NnnSMXZRvgGPuPZ+bfMUZ2h+V99DZmGTHd/K3em55/36ee1mElqC9zgA3MYYlAlDAsQiNb3xIWyKgkbP65kBl8JtXAeMhm9pzsXLoZgAFdWLqHaasGmJPG1ZrogDGEGVFxtXcGT/eaF4Ev8zGdJFA5VmPsBbYJUuSmEzSjFJ/YQD3JBOztSwaqiYJx9kdzdpa9d55B/kbNcGMbTsJSuRBqoniKtWh5ZGDk1nKet8QhLb3ctPz7bJrRqVs9lVR5Mb5twrOp01b268TAoemSdWOdL8W160SN4sNIuWUZp+lfU1IyzZ4Di13BmtVOOoXkzMqfuue6b1Iwr4S2D3j6ZieV+QWucpxzHn1skKRW8Q4LwP3HqA0P0wXHiVdqvh5zogYvnIE5+UK9CYzTPk+Avoj/r9ickEgsQjQtY4bVxpk2BMQ1E0GxuI5mQs1Jm4izZXzzi12XNkHzE6Njo03Pp6vdhiNOKZ6vElggH8ePp1QstmsI07DU5nbjxxm6ss/UyeWnRrbFd5K21ia0WWGT3jpH+ThGGypbjofG4rtFwLDYvf/RBgFRg6XAPY3A8TFKLOJfj2bUzzr9uTK7/632Y2u8tdgFRJu1UauqVhMPK7i0ItTU6LmE65oU7uJqvpE/S6r5GPUzbjqOEeLczwK+gEPOVPf1OYkUCwbDNwJRYuHO1pn5k50mi22ZyUGBDBBG2zuLnJi4Vgw==
+	eSFJTEYMHJqVQpP1FjOd8kBQXWmptBBCHybCli5C5Oz0zK2CcvPNA0e12y8UnAsKWnEc50FKV0knCKS19IOqTDSFZ4PheUBJ3blyrlZOiyP/QU79UuAURqilvjmWVuxu2rm/QOnUQPA6wcJhx0oGde/Opz0V3lTj6ybxKYCHbhzOvpebloMhEGKPW9nhjqsWCCY5i4LpHVJLXV17EyLSdyllyYpOUP4cEUh8+v6HMV7m4oLuxJ/Gc4YFNVcUlLcJ7Ms02m4U7LUbskclq8WEdKyoDapf2RMYt4yr8o6ibC7BEZ8ijI9hgIAns4bkhwyklAVFxLG0/lGwIahuRCX/ANIAABCroOcQeAwhqyQfDM7jjBwJXHBRQYA8yXb5WRCK1/UJ7CtwCmjyXGsZNEUgH3PjacMPfmN3FaDDphKHsg1tSifdiktST2etvyddAlk0vnpQ2MILiBB1QoqGfnK+k5UsBpRauKVuFZ0dYXuKrq2+N5sTsEznB+LPbpUMuFlmJzvho4KTZycJrkh20hll2GyE2AUCCr6EhoUS6J/lloynyp7Xpebx5w5LiF4o3vpHlZNpsBqvPsep+umy1a0Nee7ohXsObR+qOLbbDN4IKLXY8orFG6GrEjhmlAWj67gMgVQ3yOsdYyUiguSWpP6XVVyS+Y1bkY8ZA9KiPV3OV11dhjDsAyeYrYhe0NXiB91wxja4QHJUz+sLS3yTBKH9j1JUKXBt5Q9984MMFDM4u1FaVYBTwyg6eLB/6wEWoMoETUhOfMvwHj1oJcKadQJqiQ==
 X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(36860700016)(82310400026)(7416014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700016)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	EVWc6Ves/PT8Mpwag717nkoUdWIAnyDeLGHPKZDYUJW3X9YTx6jttTY+6kYR6Zm6RPm5shb191eXfy3ezdJKifHS4R+7d8lcNYLYm1XR7fmYVyTSpxUrJ6jRes1uCbhiQs00WrMGcdMyMMLtcuJKNf9d+8DQM1EY21AIgqihpc5QZcaDAXnKnOezAUp7E3pXDyWGvbol47jdMhyaR1mpm9QD7BXDzqsJ9AxWBqGC6sZh2xzPQC3ml8vQu3GyqrZNbtdvIZsefvNPfezGq9pSRbB+lnRlsOsaA60Rdfm0H0XXhV5wR3T5W2+qWRYlhHqK42d1JrS+vcjQC1V/a66YN9GiWvecu2oUtcU5oZKouW3raIK4LP+DT4DU11ueM6SOwLiBsO41yyc9H/lMBnhOohJkqRvaQLG4UgcwoR59iWGl/YtsM4t23pNYtgdU6z1R
+	pBaa8li85SPro4fIpH6WY9XRGqa9NaNqMDaqAvQNIDrC647Dk/zlW84QHXuVkdqySceXTDqbc7MjMD5iQ4xCKcuQP8XnKzzYQX6Obsg45gXySZg3l2s44512GTWSm6b+KHQudk3kAee9RHK9NDvq0ChZ3f9r/S0Z6fl30ZuqQxcAbLqzthctz+m1S0OxsHwcgeNXEfCzjTVzmL9tpFYpNJFAkVf9sCWFjeJvb7XnpRgAxHNafsslKXobz2Y9ThRf6FGNNZnMLg3jyHUhv9QMcFVbTtGsp+TaaDxqihjr1FM75PjXCSMmKm9+9nHPLHyccnADUWaNPjv8pHfXvLGA1w4T3551dvlLoZO2Zs2gQyQa8DYgyOj65i13yMRtQXXARzugqV5b+QO4YOJirXgA/iR8PZ2BqehK13aJyAxN7iCsRV4yQoxwAMiTf56vHrzz
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 09:25:58.5529
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 09:26:04.8583
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4c482c5-e3ee-4235-09b5-08de96e32ccd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 440a26ae-ff53-429d-be75-08de96e33085
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000A34A.namprd04.prod.outlook.com
+	CY4PEPF0000EE35.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB6767
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHAPR10MB997723
 
- Add TI amp utility for supporting the tac5xx2 family
-of devices to support tac5572, tac5672, tac5682 and
-tas2883
+ Add acpi match entries to support TI's tac5572,
+tas2883, tac5672 and tac5682 on link 0 on MTL machine.
 
 Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
@@ -131,353 +130,189 @@ v7:
 v6:
 - no change
 ---
- include/sound/soc_sdw_utils.h        |   4 +
- sound/soc/sdw_utils/soc_sdw_ti_amp.c | 144 ++++++++++++++++++++++++-
- sound/soc/sdw_utils/soc_sdw_utils.c  | 151 +++++++++++++++++++++++++++
- 3 files changed, 298 insertions(+), 1 deletion(-)
+ .../intel/common/soc-acpi-intel-mtl-match.c   | 132 ++++++++++++++++++
+ 1 file changed, 132 insertions(+)
 
-diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
-index 4890831836734..d713ab2f66203 100644
---- a/include/sound/soc_sdw_utils.h
-+++ b/include/sound/soc_sdw_utils.h
-@@ -272,7 +272,11 @@ int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
- 			 struct asoc_sdw_codec_info *info,
- 			 bool playback);
- int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
-+int asoc_sdw_ti_tac5xx2_spk_rtd_init(struct snd_soc_pcm_runtime *rtd,
-+				     struct snd_soc_dai *dai);
- int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
- 				     const char *name_prefix);
-+int asoc_sdw_ti_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
-+int asoc_sdw_ti_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+index 72c35e73078e3..2e4222456f27f 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+@@ -122,6 +122,42 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
+ 	.group_id = 1,
+ };
  
- #endif
-diff --git a/sound/soc/sdw_utils/soc_sdw_ti_amp.c b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
-index 488ef2ef45d4f..514340a3e3f55 100644
---- a/sound/soc/sdw_utils/soc_sdw_ti_amp.c
-+++ b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
-@@ -7,12 +7,15 @@
- 
- #include <linux/device.h>
- #include <linux/errno.h>
--#include <sound/soc.h>
-+#include <linux/input.h>
-+#include <sound/jack.h>
- #include <sound/soc-acpi.h>
- #include <sound/soc-dai.h>
-+#include <sound/soc.h>
- #include <sound/soc_sdw_utils.h>
- 
- #define TIAMP_SPK_VOLUME_0DB		200
-+#define TAC5XX2_WIDGET_NAME_MAX		32
- 
- int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
- 				     const char *name_prefix)
-@@ -95,3 +98,142 @@ int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
- 	return 0;
- }
- EXPORT_SYMBOL_NS(asoc_sdw_ti_amp_init, "SND_SOC_SDW_UTILS");
-+
-+static int asoc_sdw_ti_add_tac5xx2_routes(struct snd_soc_dapm_context *dapm,
-+					  const char *name_prefix)
-+{
-+	struct snd_soc_dapm_route routes[2];
-+	char left_widget[TAC5XX2_WIDGET_NAME_MAX];
-+	char right_widget[TAC5XX2_WIDGET_NAME_MAX];
-+	int ret;
-+
-+	if (strlen(name_prefix) > (TAC5XX2_WIDGET_NAME_MAX - 7))
-+		return -ENAMETOOLONG;
-+
-+	ret = scnprintf(left_widget, sizeof(left_widget), "%s SPK_L", name_prefix);
-+	if (ret <= 0)
-+		return -EINVAL;
-+
-+	ret = scnprintf(right_widget, sizeof(right_widget), "%s SPK_R", name_prefix);
-+	if (ret <= 0)
-+		return -EINVAL;
-+
-+	routes[0] = (struct snd_soc_dapm_route){"Left Spk", NULL, left_widget};
-+	routes[1] = (struct snd_soc_dapm_route){"Right Spk", NULL, right_widget};
-+
-+	return snd_soc_dapm_add_routes(dapm, routes, ARRAY_SIZE(routes));
-+}
-+
-+int asoc_sdw_ti_tac5xx2_spk_rtd_init(struct snd_soc_pcm_runtime *rtd,
-+				     struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	int ret, i;
-+	struct snd_soc_dai *codec_dai;
-+	const char *prefix;
-+
-+	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-+		if (!strstr(codec_dai->name, "tac5") &&
-+		    !strstr(codec_dai->name, "tas2883"))
-+			continue;
-+
-+		prefix = codec_dai->component->name_prefix;
-+		if (!prefix) {
-+			dev_warn(card->dev,
-+				 "No name prefix found for codec DAI: %s\n",
-+				codec_dai->name);
-+			continue;
-+		}
-+		ret = asoc_sdw_ti_add_tac5xx2_routes(dapm, prefix);
-+		if (ret) {
-+			dev_err(card->dev, "Failed to add routes for %s: %d\n",
-+				prefix, ret);
-+			return ret;
-+		}
-+	}
-+
-+	dev_dbg(card->dev, "Added TAC5XX2 speaker routes\n");
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(asoc_sdw_ti_tac5xx2_spk_rtd_init);
-+
-+int asoc_sdw_ti_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_component *component;
-+	char *mic_name;
-+
-+	component = dai->component;
-+	mic_name = devm_kasprintf(card->dev, GFP_KERNEL, "%s", component->name_prefix);
-+	if (!mic_name)
-+		return -ENOMEM;
-+
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s mic:%s", card->components,
-+					  mic_name);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	dev_dbg(card->dev, "card->components: %s\n", card->components);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_ti_dmic_rtd_init, "SND_SOC_SDW_UTILS");
-+
-+static struct snd_soc_jack_pin ti_sdca_jack_pins[] = {
-+	{
-+		.pin    = "Headphone",
-+		.mask   = SND_JACK_HEADPHONE,
++static const struct snd_soc_acpi_endpoint tac5xx2_endpoints[] = {
++	{ /* Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
 +	},
-+	{
-+		.pin    = "Headset Mic",
-+		.mask   = SND_JACK_MICROPHONE,
++	{ /* Mic Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* UAJ-HP with Mic Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
 +	},
 +};
 +
-+int asoc_sdw_ti_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct snd_soc_component *component;
-+	struct snd_soc_jack *jack;
-+	int ret;
++static const struct snd_soc_acpi_endpoint tas2883_endpoints[] = {
++	{ /* Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Mic Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
 +
-+	component = dai->component;
-+
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s hs:%s", card->components,
-+					  component->name_prefix);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-+					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
-+						 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-+						 SND_JACK_BTN_3 | SND_JACK_BTN_4,
-+					&ctx->sdw_headset,
-+					ti_sdca_jack_pins,
-+					ARRAY_SIZE(ti_sdca_jack_pins));
-+	if (ret) {
-+		dev_err(rtd->card->dev, "Jack create failed%d\n", ret);
-+		return ret;
-+	}
-+
-+	jack = &ctx->sdw_headset;
-+
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOICECOMMAND);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEUP);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOLUMEDOWN);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_4, KEY_NEXTSONG);
-+
-+	ret = snd_soc_component_set_jack(component, jack, NULL);
-+	if (ret)
-+		dev_err(rtd->card->dev, "Headset Jack call-back failed: %d\n",
-+			ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_ti_sdca_jack_rtd_init, "SND_SOC_SDW_UTILS");
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 2807f536eef0c..ffc342c79d5ea 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -72,6 +72,157 @@ static const struct snd_kcontrol_new rt700_controls[] = {
+ static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
+ 	{
+ 		.num = 0,
+@@ -1011,6 +1047,33 @@ static const struct snd_soc_acpi_adr_device cs42l42_0_adr[] = {
+ 	}
  };
  
- struct asoc_sdw_codec_info codec_info_list[] = {
++static const struct snd_soc_acpi_adr_device tac5572_0_adr[] = {
 +	{
-+		.vendor_id = 0x0102,
-+		.part_id = 0x5572,
-+		.name_prefix = "tac5572",
-+		.dais = {
-+			{
-+				/* speaker */
-+				.direction = {true, false},
-+				.dai_name = "tac5xx2-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_ti_amp_init,
-+				.rtd_init = asoc_sdw_ti_tac5xx2_spk_rtd_init,
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
-+			},
-+			{
-+				/* mic */
-+				.direction = {false, true},
-+				.dai_name = "tac5xx2-aif2",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_ti_dmic_rtd_init,
-+			},
-+			{
-+				/* UAJ */
-+				.direction = {true, true},
-+				.dai_name = "tac5xx2-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+				.rtd_init = asoc_sdw_ti_sdca_jack_rtd_init,
-+			},
-+		},
-+		.dai_num = 3,
++		.adr = 0x0000300102557201ull,
++		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
++		.endpoints = tac5xx2_endpoints,
++		.name_prefix = "tac5572"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device tac5672_0_adr[] = {
++	{
++		.adr = 0x0000300102567201ull,
++		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
++		.endpoints = tac5xx2_endpoints,
++		.name_prefix = "tac5672"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device tac5682_0_adr[] = {
++	{
++		.adr = 0x0000300102568201ull,
++		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
++		.endpoints = tac5xx2_endpoints,
++		.name_prefix = "tac5682"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
+ 	{
+ 		.adr = 0x00003c0102000001ull,
+@@ -1035,9 +1098,45 @@ static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
+ 		.num_endpoints = 1,
+ 		.endpoints = &spk_r_endpoint,
+ 		.name_prefix = "tas2783-4"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device tas2883_0_adr[] = {
++	{
++		.adr = 0x0000300102288301ull,
++		.num_endpoints = ARRAY_SIZE(tas2883_endpoints),
++		.endpoints = tas2883_endpoints,
++		.name_prefix = "tas2883"
+ 	}
+ };
+ 
++static const struct snd_soc_acpi_link_adr tac5572_l0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tac5572_0_adr),
++		.adr_d = tac5572_0_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr tac5672_l0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tac5672_0_adr),
++		.adr_d = tac5672_0_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr tac5682_l0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tac5682_0_adr),
++		.adr_d = tac5682_0_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -1047,6 +1146,15 @@ static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_link_adr tas2883_l0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tas2883_0_adr),
++		.adr_d = tas2883_0_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr cs42l42_link0_max98363_link2[] = {
+ 	/* Expected order: jack -> amp */
+ 	{
+@@ -1208,12 +1316,36 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-mtl-rt715-rt711-rt1308-mono.tplg",
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = tac5572_l0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-tac5572.tplg",
 +	},
 +	{
-+		.vendor_id = 0x0102,
-+		.part_id = 0x5672,
-+		.name_prefix = "tac5672",
-+		.dais = {
-+			{
-+				/* speaker with IV sense feedback */
-+				.direction = {true, true},
-+				.dai_name = "tac5xx2-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
-+				.init = asoc_sdw_ti_amp_init,
-+				.rtd_init = asoc_sdw_ti_tac5xx2_spk_rtd_init,
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
-+			},
-+			{
-+				/* mic */
-+				.direction = {false, true},
-+				.dai_name = "tac5xx2-aif2",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_ti_dmic_rtd_init,
-+			},
-+			{
-+				/* UAJ */
-+				.direction = {true, true},
-+				.dai_name = "tac5xx2-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+				.rtd_init = asoc_sdw_ti_sdca_jack_rtd_init,
-+			},
-+		},
-+		.dai_num = 3,
++		.link_mask = BIT(0),
++		.links = tac5672_l0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-tac5672.tplg",
 +	},
 +	{
-+		.vendor_id = 0x0102,
-+		.part_id = 0x5682,
-+		.name_prefix = "tac5682",
-+		.dais = {
-+			{
-+				/* speaker with echo reference feedback */
-+				.direction = {true, true},
-+				.dai_name = "tac5xx2-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
-+				.init = asoc_sdw_ti_amp_init,
-+				.rtd_init = asoc_sdw_ti_tac5xx2_spk_rtd_init,
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
-+			},
-+			{
-+				/* mic */
-+				.direction = {false, true},
-+				.dai_name = "tac5xx2-aif2",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_ti_dmic_rtd_init,
-+			},
-+			{
-+				/* UAJ */
-+				.direction = {true, true},
-+				.dai_name = "tac5xx2-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+				.rtd_init = asoc_sdw_ti_sdca_jack_rtd_init,
-+			},
-+		},
-+		.dai_num = 3,
-+	},
-+	{
-+		.vendor_id = 0x0102,
-+		.part_id = 0x2883,
-+		.name_prefix = "tas2883",
-+		.dais = {
-+			{
-+				.direction = {true, false},
-+				.dai_name = "tac5xx2-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_ti_amp_init,
-+				.rtd_init = asoc_sdw_ti_tac5xx2_spk_rtd_init,
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
-+			},
-+			{
-+				/* mic */
-+				.direction = {false, true},
-+				.dai_name = "tac5xx2-aif2",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_ti_dmic_rtd_init,
-+			},
-+		},
-+		.dai_num = 2,
++		.link_mask = BIT(0),
++		.links = tac5682_l0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-tac5682.tplg",
 +	},
  	{
- 		.vendor_id = 0x0102,
- 		.part_id = 0x0000, /* TAS2783A */
+ 		.link_mask = BIT(0),
+ 		.links = tas2783_link0,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-mtl-tas2783.tplg",
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = tas2883_l0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-tas2883.tplg",
++	},
+ 	{
+ 		.link_mask = GENMASK(3, 0),
+ 		.links = mtl_rt713_l0_rt1316_l12_rt1713_l3,
 -- 
 2.34.1
 
