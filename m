@@ -1,201 +1,195 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2E02EA754
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 05:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3D53321A2
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 05:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775798032; cv=none; b=GYHHOK9qcv0jc8/9FQs1dr0KwXz+4YAh5QLOd1fkWlXGXry9MdXtz42ylhBqIrpTquO52YpipcdOl1YfbiO237iXb7DBc4oGZGXzhD2KPsJe+UxEAz7eu3xqa1FTm/VEbzbqt6o3gcu7NIcDgVljiM67J2e0oQipYJUdR42Yr/g=
+	t=1775799536; cv=none; b=SwP7fMPBkVLApPzfGUVogYam6oHzeS9cjIYMnQxCldu/AEtoI2Ug3MlnEdDP3RUQ4utkoJqOT/yMy3AjR9/+9vVBl/W+L5eiT2a1yX5mZlhinX3RnZXRKkHmyFdRJGYfV69gYDti7eM1dvZUinGekjia/7J0iW1tnCTAX99U4Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775798032; c=relaxed/simple;
-	bh=s5fpXjIkhtlnDKMlfUjkhC0TSxbru1oy54/jPyduY7w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fQgTfpoV20Ok4hK/u0GQRBr433oGUDBaZsDuZr8eOmq8fvva8W7xNTsw5prBDc8LFyfWkxvjU5M0CN0xmVAu6XW/yNLNIz1eGY5cwKUs8/SeCdc3pddfiOjGJ4mloM95SYwyxf2PzDnZ3qCz+iJ84mGNrKX8/MOqdRoLjKuDTpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOsDZn0V; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775799536; c=relaxed/simple;
+	bh=LCW4faW9nVqAL8dVTUuUS++lxPB3RzrvN4pI/NADuMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=js9/4BZ4xh63gYbepSkwy0RgOWK5cgRrPrsPuzTQuJtWsI5/qfqJSi9o7qYodAoEE7d8ucTYZdk9kso3wN2h3TLlGt+DSRfpS+UkkaQL73QgyD3RFhx1yzMwfypQh9SZsLV3A2oF7FWnP9uyKRnjPiHyA8pwut2Jv/Yp17PbazQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ANTKfXoU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JLoTc9PH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOsDZn0V"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82d561b3689so745284b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 09 Apr 2026 22:13:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ANTKfXoU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JLoTc9PH"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639KHJwP1729932
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 05:38:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	bdha/huLgOL97mCdIIibckuCXn8YgEADP1bOWfW0NnM=; b=ANTKfXoUDjTa3GiV
+	TkLZaHVSxEYEt/RtjxZhYtZCae4eOGEaoHIF92JWoTrdTQAyzv5kCxdDoC352XiA
+	Rej3rLSXCGMD+lvpY+B2dyP1ZlJx8P7keKgle6FQ9WH5lwQUQ6BCP7/H5j1TsKij
+	mW5Gwk4RmrHah0hrYrBK+pMw9cQmt0tMSfNMzCU6V7eOI3AHQysMAeDOv52heUsC
+	X60zSYNw+SlVRLv1ffIQZUF90MllJ+4pT65Inj+DC3uRWfiVm1i78ZhjwUrrxgCL
+	XVNYEM/zL5F7YhvROuGKl2FZlq1AZ7X1DaPuj9ysAXfkMMgpvWWil3Wv9VWTbwxH
+	gNeymw==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4deckxju12-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 05:38:53 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-82f0f2b2641so259212b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 09 Apr 2026 22:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775798029; x=1776402829; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ip96ksr0TNIaLn5SBuG1rHY2Vx5CuZDHx4f8G1URE3U=;
-        b=kOsDZn0V8BiixpdX/R5//HWQmoLmutwBGzL2zrtirzc6Lj0n8BrNIXjLGnXK6NkC84
-         /qsbN2wVtnrscTdqoTmFq2Kz7bCEvi0rGtQPfR0Gs9Pbe12CKgo7ovsGgO7EhmRwJVLm
-         99GcaADJce2S+TyL5lFyw4X2q128r5CXb5VbHaJsslHFzDUDS/deSvjRt/IHSCAoP+ST
-         xo5B+8q/HahZzqEXvUTDqpJ/SKu31znGvNq7GASmS8DVuqKREC3nlLclDtejoEckuG2F
-         5rQmdZLG3pHqeDhE/Vh1P/gqB9XaR59eGzk190o0f04kaTY50azoRMA9AHg2aMeH2WGY
-         rlMg==
+        d=oss.qualcomm.com; s=google; t=1775799533; x=1776404333; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bdha/huLgOL97mCdIIibckuCXn8YgEADP1bOWfW0NnM=;
+        b=JLoTc9PHFp2LLf6o1kVkwIjc6DdNRq7VcWNJKtw+P1S/Sp+e2SU7mHdsFKwi2Bd5rv
+         0u65qFXblSBDMo55Vip/+8HHIT9hDSnKz7T5iTcTvo5GCuTboi9jNJKI5YHaO9HsGm4r
+         2boMhLij7kn4OBFSIzTp7tRTJ/1K2lJFJ2a4FZ7dHW2YyOOHuTMv4cKPQzD+cFALgHnF
+         znSVoXNC5DG5w1+XQYOtVeaaSV1FE7BYZCvFL1ToyxTxkIAnJ5khURB2NywHJ1EytH6N
+         gJlF+YHj+uwBJJ77FqGPXpY90ArD6LoxwO01g5hCb+QiKePmieoF//8jY0Xajb94zrrT
+         cZMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775798029; x=1776402829;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ip96ksr0TNIaLn5SBuG1rHY2Vx5CuZDHx4f8G1URE3U=;
-        b=Ji+u/V188efpGsQmWeQOC1gEgykqAlxK2UKoVxV9njapOMMHlW66ywccAAwKlPr3bc
-         6K3FnslEvSxrmHvdWiFAOLFSVa8Z7Q+Wbq9Yyl+0J0P2LuztsEI52Kc4QlQE6wZ8H5ty
-         qGbR/M80V3jAIyPKuBCWX7ZsHq4CvASbiw1IQmzgVH34h8sgSKLnFayb34UCxy2i5u4Z
-         ESimD+d+lYEUajvFxjKnJs1F+x5fFICYqD8TVdiX80sLoxCdLMQWp9Xc7y1wVSfFHTLB
-         E0a8HeDUzu3ce7kdiATwrjJqSSoUvOiuBG1RZV9LS6QG+sACm90nTEU0hsSlG8u484dW
-         BIjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWw0roOe1WSzRLRmjBX1yubuSkFitk9nvlG4BjadzOb9A4IL0dGRW2+SD0Rq+dTfQNPLH4zi5l1YNVJyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwO0ip/gEGFLGh+/VTVKmoHC5E59xD8YNNOalK3gt0zz2+3qiM5
-	fMZ9baDD7SDwFPpqOoHpWPNKX6xuLQbB1gmz/70pob2rtG4Zy/7sENjB
-X-Gm-Gg: AeBDievJdNoOQgkSloL8Nl2yrrs8g1QpKTY8lvJvGKIUVTGSLUXn4nTgOxy2mh4pRK3
-	h1Rp8Qlu9p6nYKsr8G/HRoXlp2TeQWXWZXR7B388FwMouV+RBXJVwxYndwqkiAay6KeXhu7F++w
-	dV/Atq6RDYkkReAsG+qzjA7OEjY3rV302t1E5VMcJqhk3GvSesH5PMXqfUDlPc33X03vdd2Twvh
-	/c3+TgIKd0SyuUPGuDEHUVWD5CuziIUDd3mKmubjpBkSz9IDpBHu4BxfoqPvRewFqbJec4Xws16
-	xXJXDxXqODZ8uz7GeJAEbN63USNYju6cZ8iI7GoZQI2RkKLYhtSrAvqtRuXw0NT2kvynRqPKDiX
-	NBXWjS4E5fH7WBHnuOehKCKuzBbc9x/AzIyMRoCA2286nXrX+TaB0ydaapR2OeTKmpAsq6iZFWj
-	0/GfxhHgtE/nhqDV5/xlMATRLv+qgI74V+ZsOUpxuegk+BCYaYXZSVdZ09euGLMu6syfX4PNjLY
-	tnA0XtNLksf1xd9uXu0AHquKCO0N/F0vg==
-X-Received: by 2002:a05:6a00:124a:b0:81f:be3c:9c9e with SMTP id d2e1a72fcca58-82f0c297e11mr1989065b3a.33.1775798028953;
-        Thu, 09 Apr 2026 22:13:48 -0700 (PDT)
-Received: from localhost.localdomain (59-190-207-251f1.hyg2.eonet.ne.jp. [59.190.207.251])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c33de57sm1295283b3a.21.2026.04.09.22.13.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 22:13:48 -0700 (PDT)
-From: Berk Cem Goksel <berkcgoksel@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	stable@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: 6fire: fix use-after-free on disconnect
-Date: Fri, 10 Apr 2026 08:13:41 +0300
-Message-Id: <20260410051341.1069716-1-berkcgoksel@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20251104; t=1775799533; x=1776404333;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bdha/huLgOL97mCdIIibckuCXn8YgEADP1bOWfW0NnM=;
+        b=iGHVcE1osMFHGsmyt5LEo4uDXs979aVgBzeY5Zx9Qd045JhBPEJHOeCcG8+awLaEbk
+         12vkgKknFvGndo0rpH6xf5HFJGXDchf7DRm6JNWQbUsAtWV0pzp50vmiHRGqRtpboLrI
+         P3n54a4qc3Vz9lJ7g607RiaQ0tWhNGtU0Fl5+TCobF8quPXlvPAL2V6+cPH0b0DCA2BC
+         sCX/sUZnLOeSKHLwoQuXJHHWfgFj340K9pr10+GM60DG5d6YQmm9xF7Cqm0SjED1HgGM
+         bcmJbBMIk03bA6mG1EviDRBot+KWoVLk06lxhjJ/vfixFyQgv5aUBEfqHl0DbiZ7OBRl
+         fJjw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvGZtt7zdYov++GtEZBl022J3Go5iKDpEhvO6ButKpskPk5v2cc+DuiI7h6YA+THuglzUgSMQiST6Bvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLm/5ALFDLQfDWWaheuwMo1HSRJbSpzfJ/ruydY1sT1dVjRI7d
+	B6GthiAstmuMwdOOZiYNLiUf/MAZgg3PCiVqTqoIDVmHoEE+4GWos1UcZMo/cVsWYxXCDadhaDo
+	q00M5LKwBximyUbp9a0M+QiTkspAOIVq26T0uIhZLJu+OAjvc/vkk309H+YTd3uSdsw==
+X-Gm-Gg: AeBDiesmjSZoCSwj6+/vdfoCPtQqZch4ZHtPkhpQfOCCynMOa+k1n6i3olT76JChdJY
+	QlsobTzI6KhgjXD0OrVb7/hm+NwxdW1xkm999HI0iI6RKyxRthgrQKkenf2yXuYGC3J7i+iuC3m
+	CyH5C0+RBVzJ3+JPndvnNtCBaImeLN92zfoWKDAzlYHeran6ct+QH6gVyw10yMr3HbsKeBwukhp
+	JTXjz+aecxJtEbiDyHvu8k8EmK1rHnVDcyzFyiXEpwiFmjOD8PkDYxQW6wj/3JXEd6Pp8mG6T8u
+	cCBe6+h2I29yNItUsH5Y9Gp2/+/+YrOUxzqZudeXl96Grr/KLkjoYiz0ItvRfB/15z/f1MEDtCA
+	OtYmZmTVXTIs10/4pKnPkM6lihDj0ACTfwoZoIHrByNbvvA==
+X-Received: by 2002:a05:6a00:4b0b:b0:81f:3fbd:ccf with SMTP id d2e1a72fcca58-82f0c2278e7mr2077432b3a.23.1775799532786;
+        Thu, 09 Apr 2026 22:38:52 -0700 (PDT)
+X-Received: by 2002:a05:6a00:4b0b:b0:81f:3fbd:ccf with SMTP id d2e1a72fcca58-82f0c2278e7mr2077404b3a.23.1775799532254;
+        Thu, 09 Apr 2026 22:38:52 -0700 (PDT)
+Received: from [10.218.15.94] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c500415sm1372404b3a.51.2026.04.09.22.38.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Apr 2026 22:38:51 -0700 (PDT)
+Message-ID: <1c203ea9-c674-43b6-a2e5-87054a9e3b83@oss.qualcomm.com>
+Date: Fri, 10 Apr 2026 11:08:45 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ASoC: codecs: wcd937x: Add conditional regulator
+ control for wcd937x
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260402070854.2804291-1-karthik.s@oss.qualcomm.com>
+ <4d08f16e-856a-46ae-8a41-334ec4d32952@kernel.org>
+Content-Language: en-US
+From: Karthik S <karthik.s@oss.qualcomm.com>
+In-Reply-To: <4d08f16e-856a-46ae-8a41-334ec4d32952@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 3ZkGwiUQbJS_oQhJPTo32rpCjgHYrO6N
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDA0OSBTYWx0ZWRfX1pMKJurNEyaG
+ hddElebtRUPphwXm3XPV8/NhekurEqoK/AKA7Z80uMSUj45w2C0AMwiuOUOR2qnyWjbAdEX68DH
+ +ldC7IhV/Zg9/BRtPBUWu+vJrcAXKXuLVVlsWoPCFBOcwTBziZmWJiHsF2bJljdDyA6q6bzUDrW
+ 8M7NI9OsRVbKQMsUMofwxHLcTV+wzDZwwbEbrSrJc4bDC9WL3m8dBp+/CUiUK2LnTTyZWw9Reb7
+ itEZ2xcTOuEUhkJ9XqgDMPRrI0U9Wr7NHTUg52MWLu5l+wLEdbZYkf0oP5WAkAxka+AngkYWz2t
+ uPe6gSDsv1+D+5pVE3YEi5/eba2UBLurYp6HgKt5FPXv4OaYvnQXOj2a7nCPKOprErk5T+U60vN
+ VTwgpw4xzP3A17bVqNgJbS5byMlig7vFC9T2/Oe2VdX4XvshNKQ5bpRLYiEtaMZR79WPCA4Z5pU
+ pWhDrSq9ZBGDIeIciVw==
+X-Authority-Analysis: v=2.4 cv=OMcXGyaB c=1 sm=1 tr=0 ts=69d88ced cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=SEM4ifAqo57pbrxDZScA:9 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: 3ZkGwiUQbJS_oQhJPTo32rpCjgHYrO6N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-10_01,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 clxscore=1015 impostorscore=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
+ definitions=main-2604100049
 
-In usb6fire_chip_abort(), the chip struct is allocated as the card's
-private data (via snd_card_new with sizeof(struct sfire_chip)).  When
-snd_card_free_when_closed() is called and no file handles are open, the
-card and embedded chip are freed synchronously.  The subsequent
-chip->card = NULL write then hits freed slab memory.
 
-Call trace:
-  usb6fire_chip_abort sound/usb/6fire/chip.c:59 [inline]
-  usb6fire_chip_disconnect+0x348/0x358 sound/usb/6fire/chip.c:182
-  usb_unbind_interface+0x1a8/0x88c drivers/usb/core/driver.c:458
-  ...
-  hub_event+0x1a04/0x4518 drivers/usb/core/hub.c:5953
+Hi @Krzysztof,
 
-Fix by moving the card lifecycle out of usb6fire_chip_abort() and into
-usb6fire_chip_disconnect().  The card pointer is saved in a local
-before any teardown, snd_card_disconnect() is called first to prevent
-new opens, URBs are aborted while chip is still valid, and
-snd_card_free_when_closed() is called last so chip is never accessed
-after the card may be freed.
+On 4/2/2026 12:43 PM, Krzysztof Kozlowski wrote:
+> On 02/04/2026 09:08, karthik.s wrote:
+>> Add has_always_on_supplies for managing regulators. Indicates that
+>> the codec supply regulators are always enabled by the system and
+>> must not be requested or enabled by the codec driver.
+>>
+>> Signed-off-by: karthik.s<karthik.s@oss.qualcomm.com>
+> Please configure your Git.
+> 
 
-Fixes: a0810c3d6dd2 ("ALSA: 6fire: Release resources at card release")
-Cc: stable@vger.kernel.org
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Signed-off-by: Berk Cem Goksel <berkcgoksel@gmail.com>
----
-Patch applies to 7.0-rc6 (upstream master 5619b098e2fb).
-Tested on 7.0.0-rc5 (arm64) with KASAN:
+I have configured Git as you suggested :
+user.name = Karthik S
+user.email = karthik.s@oss.qualcomm.com
 
-[   11.274798] BUG: KASAN: slab-use-after-free in usb6fire_chip_abort sound/usb/6fire/chip.c:59 [inline]
-[   11.274798] BUG: KASAN: slab-use-after-free in usb6fire_chip_disconnect+0x348/0x358 sound/usb/6fire/chip.c:182
-[   11.275503] Write of size 8 at addr ffff000013230a98 by task kworker/0:1/12
-[   11.276469] CPU: 0 UID: 0 PID: 12 Comm: kworker/0:1 Not tainted 7.0.0-rc5-g663cf2b1ad64-dirty #10 PREEMPT
-[   11.276485] Hardware name: linux,dummy-virt (DT)
-[   11.276504] Workqueue: usb_hub_wq hub_event
-[   11.276562] Call trace:
-[   11.276582]  show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
-[   11.276616]  dump_stack_lvl+0x138/0x1c8 lib/dump_stack.c:120
-[   11.276666]  print_report+0x118/0x5d4 mm/kasan/report.c:482
-[   11.276669]  kasan_report+0xc0/0x100 mm/kasan/report.c:595
-[   11.276678]  __asan_report_store8_noabort+0x20/0x2c mm/kasan/report_generic.c:386
-[   11.276684]  usb6fire_chip_abort sound/usb/6fire/chip.c:59 [inline]
-[   11.276688]  usb6fire_chip_disconnect+0x348/0x358 sound/usb/6fire/chip.c:182
-[   11.276692]  usb_unbind_interface+0x1a8/0x88c drivers/usb/core/driver.c:458
-[   11.276697]  device_release_driver_internal+0x450/0x63c drivers/base/dd.c:1367
-[   11.276699]  bus_remove_device+0x2a0/0x4f4 drivers/base/bus.c:657
-[   11.276701]  device_del+0x31c/0x870 drivers/base/core.c:3880
-[   11.276720]  usb_disable_device+0x2e8/0x6ec drivers/usb/core/message.c:1476
-[   11.276737]  usb_disconnect+0x294/0x8d8 drivers/usb/core/hub.c:2345
-[   11.276776]  hub_event+0x1a04/0x4518 drivers/usb/core/hub.c:5953
-[   11.276836]  process_one_work+0x8a4/0x1dc0 kernel/workqueue.c:3276
-[   11.276850]  worker_thread+0x57c/0xcac kernel/workqueue.c:3440
-[   11.276888]  kthread+0x3e4/0x494 kernel/kthread.c:436
-[   11.276890]  ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:860
+>> ---
+>>   .../devicetree/bindings/sound/qcom,wcd937x.yaml     |  6 ++++++
+>>   sound/soc/codecs/wcd937x.c                          | 13 +++++++++----
+> Please run scripts/checkpatch.pl on the patches and fix reported
+> warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+> patches and (probably) fix more warnings. Some warnings can be ignored,
+> especially from --strict run, but the code here looks like it needs a
+> fix. Feel free to get in touch if the warning is not clear.
+> 
 
-[   11.339324] Allocated by task 12:
-[   11.339765]  kasan_save_stack+0x3c/0x64 mm/kasan/common.c:57
-[   11.340193]  kasan_save_track+0x20/0x3c mm/kasan/common.c:78
-[   11.340615]  __kasan_kmalloc+0xb8/0xbc mm/kasan/common.c:415
-[   11.341108]  snd_card_new+0x70/0x11c sound/core/init.c:184
-[   11.341555]  usb6fire_chip_probe+0x298/0x864 sound/usb/6fire/chip.c:120
+I have run the scripts/checkpatch.pl and fixed all warnings/errors 
+indicated.
 
-[   11.353835] Freed by task 12:
-[   11.354171]  kasan_save_stack+0x3c/0x64 mm/kasan/common.c:57
-[   11.354599]  kasan_save_track+0x20/0x3c mm/kasan/common.c:78
-[   11.355023]  kasan_save_free_info+0x4c/0x78 mm/kasan/generic.c:584
-[   11.355505]  __kasan_slab_free+0x5c/0x88 mm/kasan/common.c:285
-[   11.355945]  kfree+0x164/0x61c mm/slub.c:6483
-[   11.356285]  snd_card_do_free sound/core/init.c:597 [inline]
-[   11.356778]  release_card_device+0x16c/0x1fc sound/core/init.c:153
-[   11.357221]  snd_card_free_when_closed+0x30/0x44 sound/core/init.c:612
-[   11.357696]  usb6fire_chip_abort sound/usb/6fire/chip.c:58 [inline]
-[   11.358103]  usb6fire_chip_disconnect+0x298/0x358 sound/usb/6fire/chip.c:182
 
- sound/usb/6fire/chip.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+>>   2 files changed, 15 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+>> index f94203798f24..d89fff1f7171 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml
+>> @@ -28,6 +28,12 @@ properties:
+>>     vdd-px-supply:
+>>       description: A reference to the 1.8V I/O supply
+>>   
+>> +  qcom,always-on-supply:
+> You described the desired Linux feature or behavior, not the actual
+> hardware. The bindings are about the latter, so instead you need to
+> rephrase the property and its description to match actual hardware
+> capabilities/features/configuration etc.
 
-diff --git a/sound/usb/6fire/chip.c b/sound/usb/6fire/chip.c
-index 5ff78814e687..874f6cd503ca 100644
---- a/sound/usb/6fire/chip.c
-+++ b/sound/usb/6fire/chip.c
-@@ -53,11 +53,6 @@ static void usb6fire_chip_abort(struct sfire_chip *chip)
- 			usb6fire_comm_abort(chip);
- 		if (chip->control)
- 			usb6fire_control_abort(chip);
--		if (chip->card) {
--			snd_card_disconnect(chip->card);
--			snd_card_free_when_closed(chip->card);
--			chip->card = NULL;
--		}
- 	}
- }
- 
-@@ -168,6 +163,7 @@ static int usb6fire_chip_probe(struct usb_interface *intf,
- static void usb6fire_chip_disconnect(struct usb_interface *intf)
- {
- 	struct sfire_chip *chip;
-+	struct snd_card *card;
- 
- 	chip = usb_get_intfdata(intf);
- 	if (chip) { /* if !chip, fw upload has been performed */
-@@ -178,8 +174,19 @@ static void usb6fire_chip_disconnect(struct usb_interface *intf)
- 				chips[chip->regidx] = NULL;
- 			}
- 
-+			/*
-+			 * Save card pointer before teardown.
-+			 * snd_card_free_when_closed() may free card (and
-+			 * the embedded chip) immediately, so it must be
-+			 * called last and chip must not be accessed after.
-+			 */
-+			card = chip->card;
- 			chip->shutdown = true;
-+			if (card)
-+				snd_card_disconnect(card);
- 			usb6fire_chip_abort(chip);
-+			if (card)
-+				snd_card_free_when_closed(card);
- 		}
- 	}
- }
--- 
-2.34.1
+Current description in dt-binding:
+Indicates that the codec supply regulators are always enabled by the 
+system and must not be requested or enabled by the codec driver.
+
+new description in dt-binding:
+implies that the codec supply Vdd is on always on rails off the 
+board/hardware and must not be requested or enabled by the codec driver.
+
+please let us know if you are okay with above changes
+
+Thanks and Regards,
+Karthik S
 
