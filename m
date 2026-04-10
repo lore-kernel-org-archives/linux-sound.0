@@ -1,130 +1,94 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6438422578D
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 15:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7503DD53C
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 15:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775833601; cv=none; b=ZRUvaVuYWwYQSPaoWhMgylAz+5zIu9tuvmrwYpODYbLGIead4msuU0bpmeYy8xNbW1It/ZfDVbWQpd2cm/PW0Cb3tr2wKfvU3J3FxXCLIMav/Ix5N5a8kAJow69eJncYu7xsvanfgyxWV5U2VdVOJRmIQJiSlczrTZE1X57r9yI=
+	t=1775834340; cv=none; b=mwT571MVa7SZ/ZHGW5BETICxaH0A/DpTA+9mm2QmaeitQw35HwMzsLzIAYl382euX9/fzzMpSonJSc3RX2vpQECUk1IkNXJiDgqfbs+G0erABoFU+qQbs4dZyngxQihvY7ea8BrHZNTncwcyTQtZtbXxoVLw7m5ISuZzRTkHjaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775833601; c=relaxed/simple;
-	bh=N0qqrolcchg92/tv4ZepxcPxNyoX8x7TykF8q6anhig=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S3yjv3YS8Apxb89lHuLKndNEullmPxcKEd6MoqbF3fGal3uojBr99qdWnQxId8IYutRNz010AMJiMWTHwqauzf5WiYfsrbZCHd3R48Xps4ZEzHXZ7VWbg5ofktUOUHaEVlUubP3trrrJL/co1D77Iz2Z6+WIdn3fzTavwtnAoiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KzSBaAva; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HtP3yGo0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KzSBaAva; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HtP3yGo0; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775834340; c=relaxed/simple;
+	bh=2PJcapuxUWWHQgHKuYh+AB0Bg9+uWPE8WWtuj/kl/pY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LWJAF1Qb1pvHPbE0n/IKmlHX0uANcmRY5x5kIY1qhoULEQ40MKnQs3+IwCk+WNdRJiO9B+HtupmfEahx2NmCvpddpzIZc0cfc0hTOddy0/y+ph0HXNSpNbibz8OI299X4irahzwMmptDwxhhT14+Ki+AKK2nhcmZuw2JBicJvgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VPk6fsRQ; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KzSBaAva";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HtP3yGo0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KzSBaAva";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HtP3yGo0"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B91095BCD3;
-	Fri, 10 Apr 2026 15:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775833598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Af3OZ1fe77ANu/4FEEn5zR7/bDvTGy7EVReCgbl5erw=;
-	b=KzSBaAvao2g9OcFaTXjQuO1tGMth8C9q/KhZkXQioJqXZaPLCYEPupPHG5fqUN54gxJRFW
-	lif64Ti45Z6vXogEIJ1AOZ09PhoundG1UW2KrE5l1BGa0+MlGJLzteSrAETUZD4Jad89Ba
-	Oc/AkS3d6KEcqGGiFqekjfaxhUwubDE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775833598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Af3OZ1fe77ANu/4FEEn5zR7/bDvTGy7EVReCgbl5erw=;
-	b=HtP3yGo0Evtwp40/Zp/NHwtpU0KN+prkVijeN9/9bBeJrdhkOX6zctbXngzT9a6pxnTNFp
-	ZYGi3lY6BUHlEUBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775833598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Af3OZ1fe77ANu/4FEEn5zR7/bDvTGy7EVReCgbl5erw=;
-	b=KzSBaAvao2g9OcFaTXjQuO1tGMth8C9q/KhZkXQioJqXZaPLCYEPupPHG5fqUN54gxJRFW
-	lif64Ti45Z6vXogEIJ1AOZ09PhoundG1UW2KrE5l1BGa0+MlGJLzteSrAETUZD4Jad89Ba
-	Oc/AkS3d6KEcqGGiFqekjfaxhUwubDE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775833598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Af3OZ1fe77ANu/4FEEn5zR7/bDvTGy7EVReCgbl5erw=;
-	b=HtP3yGo0Evtwp40/Zp/NHwtpU0KN+prkVijeN9/9bBeJrdhkOX6zctbXngzT9a6pxnTNFp
-	ZYGi3lY6BUHlEUBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9016C4A0B2;
-	Fri, 10 Apr 2026 15:06:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OIEPIv4R2WnMDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 10 Apr 2026 15:06:38 +0000
-Date: Fri, 10 Apr 2026 17:06:38 +0200
-Message-ID: <87ik9yg8ht.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Abhinav Mahadevan <abhi220204@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for PreSonus AudioBox USB
-In-Reply-To: <20260410143335.5974-1-abhi220204@gmail.com>
-References: <20260410143335.5974-1-abhi220204@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VPk6fsRQ"
+Received: from trampoline.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63AFIoOX015852
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Apr 2026 11:18:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1775834332; bh=eTlXD+fEi5OyNbu4TxRTwpDmEzFd2ThBwniicSqJG9M=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=VPk6fsRQSXd/5Nh8TyOtre/wyuiwILVUqAvKliAeAoP9NWxPWea1Q4bx2oJrpWurM
+	 p0KwKN2oR00yADJbGywtFxHrkSJG+7akpDxyNmS3k4sITB9+LAQ7TS8gLOxrGyZcxm
+	 iD4ByRUzuod5KLDmmiVM+UapW56A71UlQ86DKwTjUgLnxxFdmaZEmaxScOtN1jt83o
+	 KncTyarsQsfg740s5ZTPNDrP3EVWK9I1eaZQ8RpFbx0tpkzHLOeLlgiMDfG5/h1trz
+	 DW2Ox+J23d04yMQY9WVUywWKP2CKxWAo6qH71mwqDeJ5+jdH6erLL9AAKNO/NyVKi7
+	 5qupF6y+RLfJA==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 0D7462E00E1; Fri, 10 Apr 2026 11:18:48 -0400 (EDT)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+        bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+        linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+        sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+        Philipp Hahn <phahn-oss@avm.de>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>
+Subject: Re: [PATCH 04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
+Date: Fri, 10 Apr 2026 11:18:40 -0400
+Message-ID: <177583430870.2758959.6171961359325912353.b4-ty@b4>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
+References: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 10 Apr 2026 16:33:35 +0200,
-Abhinav Mahadevan wrote:
+
+On Tue, 10 Mar 2026 12:48:30 +0100, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
 > 
-> The PreSonus AudioBox USB (0x194f:0x0301) only supports S24_3LE
-> format for both playback and capture. It does not support S16_LE
-> despite being a USB full-speed device. Add explicit format quirks
-> for both the playback (interface 2) and capture (interface 3)
-> interfaces to ensure correct format negotiation.
-> 
-> Signed-off-by: Abhinav Mahadevan  <abhi220204@gmail.com>
+> Change generated with coccinelle.
 
-Thanks, applied now.
+Applied, thanks!
 
+[04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
+        commit: 1d749e110277ce4103f27bd60d6181e52c0cc1e3
 
-Takashi
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
