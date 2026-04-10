@@ -1,323 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB4C399019;
-	Fri, 10 Apr 2026 07:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792572BE056;
+	Fri, 10 Apr 2026 07:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775805005; cv=none; b=RM74veFByT4zxleBhTS7roxF5Cq1BCzpMkZxqgqsl0mG3ixGCvGpXRCtGVm7kE4JeJlTYip89DKixLdEpQ5iL359hy0/hmHOHw572ZliKlRNb8zvKkJf4KsiVzY4anMKoHiV+ryY3/bJFDOHUAZwnnXsn2qy89HoS9vk+f82S0s=
+	t=1775805103; cv=none; b=tkhSJRHd+Q/PCRmcEUcQ2GOhRaIPV9C/J0cnOQAZcP/c3/cItBAfaNv4ox/2tGCr0Hm1hxhTfPxUJ9dGnW9HA9EBm+CyZRImed0GCfTFGARM0c5fGOOwcNUpwWNQIa6czf5aXLNFC8v4OeXDnifQAd8HfQCXOIg690u9YZdL0Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775805005; c=relaxed/simple;
-	bh=qLP65L0cflAPX9Ywlyrx7cT+UQ48gO4rUmC+rQVrzWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nBnbipfFuC5Y9UssRIv0vM73kUpeGCoIFT/6vfW9KX5voF6v0aSSHQPI/dmfdRpBSz/qm8/oPK6YaUqYJFsYqj60Wb9G70tV8V61MNf/3TtycQ/N5JgTtOYmvdBWQ/Y1amMzC4tiuWK8om3tIJLfUPR6jsLttdUITZcyx7MBWnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+eixPzJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775805103; c=relaxed/simple;
+	bh=qQjAwEF8GGdp6RAj+5n/TOyJfpIIx3pA+i/VHogaozw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oZxTEWed1sWP6V/jEEtfPXks7zZ2K6uX2T7QL3KKXutgfjpOomvkEW0Wf3Mye/i0P6e1I2NZ8xkYXaFO2w+xmMX2GLUUrdpVm0qW58C0FvwOsFIYTd9KdVFBHAcdZj0QxEDpZq+Sgyic7Gvhe+Fbtz1oDa5lxx0cg+jDxqawzgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oE6T+Oy0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+eixPzJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79E7C19421;
-	Fri, 10 Apr 2026 07:10:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oE6T+Oy0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95E14C19421;
+	Fri, 10 Apr 2026 07:11:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775805005;
-	bh=qLP65L0cflAPX9Ywlyrx7cT+UQ48gO4rUmC+rQVrzWE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N+eixPzJlwmZtyDvlGzvURkqEV5owFgLObm2BNezgFlMcXMc1v8nvwCGjurndFcax
-	 NoXvjNPlzQA9Kd7cITNy9r4fhlguqgohPK0Qv0sGpQ4sgpw+RMuOqZUBth2tAbbrJ8
-	 6D7d2LS3LZhtz9rfk4X//ibJtg2XXDvC0jsFH5031Pw1Orqlumm5n+KHi5VivsSAPU
-	 w1U7nHWiEeQyUItA8DHxCZ6yRN9q0bHRTdUm7umEKk7yYB/98OJgKnJTvfzMrNRoXi
-	 TeRgluqMgEKuDC1mm8s3DsdVCUGDQ6ZF1mDkwHjc0zABuIADzfFCpWA5l/S8sLhVrh
-	 g7imeAJHOGGtw==
-Date: Fri, 10 Apr 2026 09:10:02 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/12] ASoC: dt-bindings: Add RZ/G3E (R9A09G047) sound
- binding
-Message-ID: <20260410-astute-celadon-dugong-ee367b@quoll>
-References: <20260409090302.2243305-1-john.madieu.xa@bp.renesas.com>
- <20260409090302.2243305-3-john.madieu.xa@bp.renesas.com>
+	s=k20201202; t=1775805103;
+	bh=qQjAwEF8GGdp6RAj+5n/TOyJfpIIx3pA+i/VHogaozw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=oE6T+Oy0FiUQEKOXi16Jg+hmj8Kpn23DE6PRWYwOIuYKL4WJkmrY9o9ln60kPS82B
+	 Gp4PvcH9IFoWrYMp5QmX4aH/K7NShnlDBvhHwduwCDpymYBuXgf3YM+6XfKBdKdJZZ
+	 uIE3V7J9rUfsK2OUGgbK6kdzYC5HoZY5LtfOq6gqYc6AhPLaqkFKtcqevY1HyQDcmz
+	 uHEd4L9CNQcbRjpxHO+nebHGX0ToWB/tYOq1ccTuGR8QhuIJ9k2hU+2GuVJy6FsSGv
+	 aVaki4hBMmonjKn5IPDxukuk5sopO7RowsrDPcETuERLkeS3LX3KlqwFcopiGQHmoU
+	 XrEaaAe0ibzhQ==
+Message-ID: <2475f220-b0ff-4ee6-b897-75de87d68f81@kernel.org>
+Date: Fri, 10 Apr 2026 09:11:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260409090302.2243305-3-john.madieu.xa@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/realtek: fix code style (ERROR: else should
+ follow close brace '}')
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>, Lei Huang <huanglei814@163.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lei Huang <huanglei@kylinos.cn>
+References: <20260331075405.78148-1-huanglei814@163.com>
+ <87wlyss93y.wl-tiwai@suse.de>
+ <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 09, 2026 at 11:02:51AM +0200, John Madieu wrote:
-> The RZ/G3E shares the same audio IP as the R-Car variants but differs
-> in several aspects: it supports up to 5 DMA controllers per audio
-> channel, requires additional clocks (47 total including per-SSI ADG
-> clocks, SCU domain clocks and SSIF supply) and additional reset lines
-> (14 total including SCU, ADG and Audio DMAC peri-peri resets).
+On 01/04/2026 12:43, Krzysztof Kozlowski wrote:
+> On 31/03/2026 10:20, Takashi Iwai wrote:
+>> On Tue, 31 Mar 2026 09:54:05 +0200,
+>> Lei Huang wrote:
+>>>
+>>> From: Lei Huang <huanglei@kylinos.cn>
+>>>
+>>> Fix checkpatch code style errors:
+>>>
+>>>   ERROR: else should follow close brace '}'
+>>>   #2300: FILE: sound/hda/codecs/realtek/alc269.c:2300:
+>>>   +       }
+>>>   +       else
+>>>
+>>> Fixes: 31278997add6 ("ALSA: hda/realtek - Add headset quirk for Dell DT")
+>>> Signed-off-by: Lei Huang <huanglei@kylinos.cn>
+>>
+>> Thanks, applied to for-next branch.
 > 
-> Add a dedicated devicetree binding for the RZ/G3E sound controller.
-> The binding references the common renesas,rsnd-common.yaml schema for
-> shared property and subnode definitions.
-> 
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
-> 
-> Changes:
->  
-> v4: No changes
-> v3: No changes
-> v2:
->  - Introduce RZ/G3E sound binding as a standalone schema
-> 
->  .../sound/renesas,r9a09g047-sound.yaml        | 371 ++++++++++++++++++
->  1 file changed, 371 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> new file mode 100644
-> index 000000000000..1dfe9bab3382
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> @@ -0,0 +1,371 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/renesas,r9a09g047-sound.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G3E Sound Controller
-> +
-> +maintainers:
-> +  - Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> +  - John Madieu <john.madieu.xa@bp.renesas.com>
-> +
-> +description:
-> +  The RZ/G3E (R9A09G047) integrates an R-Car compatible sound controller
-> +  with extended DMA channel support (up to 5 DMACs per direction), additional
-> +  clock domains, and additional reset lines compared to the R-Car Gen2/Gen3
-> +  variants.
-> +
-> +allOf:
-> +  - $ref: renesas,rsnd-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g047-sound
-> +
-> +  reg:
-> +    maxItems: 5
-> +
-> +  reg-names:
-> +    items:
-> +      - const: scu
-> +      - const: adg
-> +      - const: ssiu
-> +      - const: ssi
-> +      - const: audmapp
-> +
-> +  clocks:
-> +    maxItems: 47
-> +
-> +  clock-names:
-> +    items:
-> +      - const: ssi-all
-> +      - const: ssi.9
-> +      - const: ssi.8
-> +      - const: ssi.7
-> +      - const: ssi.6
-> +      - const: ssi.5
-> +      - const: ssi.4
-> +      - const: ssi.3
-> +      - const: ssi.2
-> +      - const: ssi.1
-> +      - const: ssi.0
-> +      - const: src.9
-> +      - const: src.8
-> +      - const: src.7
-> +      - const: src.6
-> +      - const: src.5
-> +      - const: src.4
-> +      - const: src.3
-> +      - const: src.2
-> +      - const: src.1
-> +      - const: src.0
-> +      - const: mix.1
-> +      - const: mix.0
-> +      - const: ctu.1
-> +      - const: ctu.0
-> +      - const: dvc.0
-> +      - const: dvc.1
-> +      - const: clk_a
-> +      - const: clk_b
-> +      - const: clk_c
-> +      - const: clk_i
-> +      - const: ssif_supply
-> +      - const: scu
-> +      - const: scu_x2
-> +      - const: scu_supply
-> +      - const: adg.ssi.9
-> +      - const: adg.ssi.8
-> +      - const: adg.ssi.7
-> +      - const: adg.ssi.6
-> +      - const: adg.ssi.5
-> +      - const: adg.ssi.4
-> +      - const: adg.ssi.3
-> +      - const: adg.ssi.2
-> +      - const: adg.ssi.1
-> +      - const: adg.ssi.0
-> +      - const: audmapp
-> +      - const: adg
-> +
+> I hope you dropped the fake Fixes tag. Or at least give people chance to
+> review it.
 
-Missing clock-cells.
+I see you entirely ignored all the comments about fake bug being fixed here.
 
-Mising dai-cells.
-
-Why your binding is so flexible? You have a fixed (as in afixed) ABI, no?
-
-> +  resets:
-> +    maxItems: 14
-> +
-> +  reset-names:
-> +    items:
-> +      - const: ssi-all
-> +      - const: ssi.9
-> +      - const: ssi.8
-> +      - const: ssi.7
-> +      - const: ssi.6
-> +      - const: ssi.5
-> +      - const: ssi.4
-> +      - const: ssi.3
-> +      - const: ssi.2
-> +      - const: ssi.1
-> +      - const: ssi.0
-> +      - const: scu
-> +      - const: adg
-> +      - const: audmapp
-> +
-> +  rcar_sound,dvc:
-
-All new properties must follow standard rules. I understand it will
-create duplication, but really that's a mistake of 2014 of adding fake
-vendor prefix rcar_sound.
-
-So nodes do not have prefixes.
-
-> +    description: DVC subnode.
-
-Pretty redundant comment. Can a node called "dvc" be anything else than
-a "DVC subnode"?
-
-> +    type: object
-> +    patternProperties:
-> +      "^dvc-[0-1]$":
-> +        type: object
-> +        additionalProperties: false
-> +        properties:
-> +          dmas:
-> +            maxItems: 5
-> +          dma-names:
-> +            maxItems: 5
-> +            allOf:
-> +              - items:
-> +                  enum:
-> +                    - tx
-> +        required:
-> +          - dmas
-> +          - dma-names
-> +    additionalProperties: false
-> +
-> +  rcar_sound,src:
-> +    description: SRC subnode.
-> +    type: object
-> +    patternProperties:
-> +      "^src-[0-9]$":
-> +        type: object
-> +        additionalProperties: false
-> +        properties:
-> +          interrupts:
-> +            maxItems: 1
-> +          dmas:
-> +            maxItems: 10
-> +          dma-names:
-> +            maxItems: 10
-> +            allOf:
-> +              - items:
-> +                  enum:
-> +                    - tx
-> +                    - rx
-> +    additionalProperties: false
-> +
-> +  rcar_sound,ssiu:
-> +    description: SSIU subnode.
-> +    type: object
-> +    patternProperties:
-> +      "^ssiu-[0-9]+$":
-> +        type: object
-> +        additionalProperties: false
-> +        properties:
-> +          dmas:
-> +            maxItems: 10
-> +          dma-names:
-> +            maxItems: 10
-> +            allOf:
-> +              - items:
-> +                  enum:
-> +                    - tx
-> +                    - rx
-> +        required:
-> +          - dmas
-> +          - dma-names
-> +    additionalProperties: false
-
-
-...
-
-your example is also incomplete. Your common binding said you have many
-other nodes.
-
-Are you sure you created a common binding, not some collection of
-unrelated stuff?
-
-> +        rcar_sound,dai {
-> +            dai0 {
-> +                playback = <&ssi3>, <&src1>, <&dvc1>;
-> +                capture = <&ssi4>, <&src0>, <&dvc0>;
-> +            };
-> +        };
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            rsnd_port0: port@0 {
-> +                reg = <0>;
-> +                rsnd_endpoint0: endpoint {
-> +                    remote-endpoint = <&codec_endpoint>;
-> +                    dai-format = "i2s";
-> +                    bitclock-master = <&rsnd_endpoint0>;
-> +                    frame-master = <&rsnd_endpoint0>;
-> +                    playback = <&ssi3>, <&src1>, <&dvc1>;
-> +                    capture = <&ssi4>, <&src0>, <&dvc0>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +    codec {
-
-Drop, not part of the binding.
-
-> +        port {
-> +            codec_endpoint: endpoint {
-> +                remote-endpoint = <&rsnd_endpoint0>;
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.25.1
-> 
+Best regards,
+Krzysztof
