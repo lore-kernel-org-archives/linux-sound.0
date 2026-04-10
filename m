@@ -1,114 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5117B37EFFF;
-	Fri, 10 Apr 2026 10:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775816935; cv=none; b=LKrCPHtsXKjBLMVQi0IO6jcrKc1jU30kIYrS6l1uk5G/JZRCetMZgBoxj+7EBAgQL0uAJ4EN6tJgAbvvKEOYKtBb29EBgUpgOUQSSW5KuUN8es7dXp3VdoOQdqc00ZKtbEXx1TqN9b9eGTF0mRgFafUy6LtuytxEE66AIQ7R2W4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775816935; c=relaxed/simple;
-	bh=JcpXPHlj5lb/tC6GGA8d4uK2G8UACazbeyqXotcuMjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q6/s03Eni1EFaW2IMW0cjI2OA4Vwj1IejUKc9bY5+FdxqGfRNh6bu8hk2Uxrs9aoRtlBGu0Xc8KvaQ4zPOcqAKKMaKckNKAQlthU1JIGYMo5tOhSLDvqKkYHfRPo1fVHNIS6G49W4qDRwuJZWw4exxTPC7cvIaJfz4QAXSWqhCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sm0Jn21W; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5100B38F924
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 10:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775817932; cv=fail; b=FQHrhTqQpOgsyuR4dN2JjX0W9herR97Ya91dcEatBdh1JVa9Cu2KaviyomootMRHgaryvXvmT0cdwaMvC7LlLUkbOaiqz9XTxojO8wZ6KjC8Lm+QJhnaY6QsWpp5ASckgpPblmf6nSSiDEDgXi7FrpdxItJZKwhAzxzm3tbvNfI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775817932; c=relaxed/simple;
+	bh=OFp9jwUt2AtkvW/U6b0nOoDs5cien3dcgT892MyTKvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cZc/S2z3venlAHUf+OtR01EaqKiz/2NC+u5PbPeqDLFd+jsNr+qACmOd6VuO0gg0tey00C6YFTEJ/9wSiLjqHNicWY9GGgFDGF6ohNnqoNH8UGJHKOoMcjdxM04W+TY/lHfA2RaODF7KY+BTPMYn+a05g5uBNjn2Gz04N4/kq98=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HEwf43BP; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=xSdAw8DF; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sm0Jn21W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05F8C19421;
-	Fri, 10 Apr 2026 10:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775816934;
-	bh=JcpXPHlj5lb/tC6GGA8d4uK2G8UACazbeyqXotcuMjs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sm0Jn21W5KKuhJBrMB+l4yidD3bcufvSGT8Fdnj+KnFoTrB3fMBJS9QZC8b+sBcFN
-	 JiVbKkbdTZnLQqYsvw53QhRdiUWcYP9R97Na7ijJDAUSduZJk1DScVeIxG03n47Nch
-	 XPaV4Q7FDC4gP9TiIJ7GNtZt2DLTXohg5cAvQlBMTN9HpCeUIGQfVbr8VjRPLqJCvo
-	 IPwLOlvvTqAgrBmvuXLktWb7w6wUXwF6+eoJW4Mkko/TwcIj3qm8EEFj+hdaAYBsF9
-	 wrPlxYPB6PWUs0IgcAzu2iaG9DyFvUMzaDvLU3kwtt3d+qzj2tn8n2X3iyDeJeFifH
-	 sqecpZQbOrlzg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 30DAA1AC58AF; Fri, 10 Apr 2026 11:28:52 +0100 (BST)
-Date: Fri, 10 Apr 2026 11:28:52 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven
- amplifier
-Message-ID: <adjQ5N69y2PnV-11@sirena.co.uk>
-References: <20260330101610.57942-1-herve.codina@bootlin.com>
- <20260330101610.57942-3-herve.codina@bootlin.com>
- <20260408122901.GA42727-robh@kernel.org>
- <20260408190932.0ab936b0@bootlin.com>
- <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
- <383635c6-0417-4333-aa9c-9056437d4a5f@sirena.org.uk>
- <20260410100330.1fc4b97b@bootlin.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HEwf43BP";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="xSdAw8DF"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63A5sFC41237476;
+	Fri, 10 Apr 2026 05:45:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=JpzcQ/u7IvXajpfV
+	XLo38LfHoBSoxXCLizbOcWyFjPk=; b=HEwf43BPG4HdLiJerr+wzOfHXxWznkZb
+	IC3LQIxqxaIfei6MqBrMPRmegQ0JNrdUaKEiiXNkD3m2cYW9dlvFQxT4EM9oXcSc
+	LYsOJOXObTYl8M+N2ePqXb35l6naP7KqqvUvjmYLYROMWwpsof9bQCIuyFwl98MQ
+	7w13JYOlwdSIBMJMRsNGLI37Dih2qLdHIjIPVR7m2veTnoA01UEMvokWeWxzhRql
+	1CkFZj+BnwuvpGDK5TLzj7Gnd0M3/xCeU6Dh1VZif2kqEf0SEKs/jBlDcMfvtVK+
+	t1lh0p6dUuy/pGpehQ4xxIeGtSQxxQ0smsV5qk03DloTa6LdggmPug==
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11021096.outbound.protection.outlook.com [40.93.194.96])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dcmr7mue6-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 10 Apr 2026 05:45:10 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w/Njbelf/0X0iEqQDDUiMbJsNHyb4TmkrHhD3PZSvGa4ipO5LVRxw0dzUAeWpB3Gs6/0ZvXloXMgvExdTtdB3erRdsfvsvCMD2QAQIGcpAaA6jNmaX3mbl3g1zmgwugMWx8Ffv4Q9w/E2mleFzRDIqYF8Kv84jegRiWcy+3gH5rGn1aft9kr8JDjliqeU5gV2IhnMmNMtQJ19kMQ8yBzQSHGcu3JXmspRP7wg4cA0gNRlGDpNzB07Xir04qPdH+HBH6zs5HaKrDoqKqxhCDG48lY+N5JjqrxJzGQTQnJSBNpPv0eHYxILalai/BvX6n+oP36Kt62WdYg75nWu1stZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JpzcQ/u7IvXajpfVXLo38LfHoBSoxXCLizbOcWyFjPk=;
+ b=d/A7YU7BL6I7Nn/o9sjLl1no3lorv21PZFSx27lsQJqmJxBw2u1ni4jP55kSFMya3M3bNGW8gh9FZvoYrX5/KUroH43y4k+oWdGnb0dqL+8U1swWB/tSEOdEWYrP9/VIvD6BB62uJWaZOWs1IDblP3CAu3P3NIGz7DPAZ6VhkLDZObdmXqGW3RSgdFJ5jVxNoPc/bcRY+ZsPuJwSgabkCk6RY2AymeDR99JOymCk2Tz4EPFwTrHfKr0q4ypD3FMmmCj104QszviJ5BbbHlZenpxoaCOGA3i72+UMb3yv0w4Datmj5O8WUzT3gz1WTN+2W47n194tiyWoQDgUq/2u4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JpzcQ/u7IvXajpfVXLo38LfHoBSoxXCLizbOcWyFjPk=;
+ b=xSdAw8DFBFknsSYUkYyJSfsWHHNfhHVs7X48At0cToPFBKaUMyheGYvERJGxO72Sd/FKNavVbiPCRD8ybKKYHHqfRs/COR7ss+H9Xbl2ByUEAJ3+Jh16F/pNGYtYrIiZCnZ1bl2RPpBn2XgSHdwv1CzWVlaEqRnZWOkqAmIyhfU=
+Received: from PH7P222CA0016.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:33a::7)
+ by SA6PR19MB997387.namprd19.prod.outlook.com (2603:10b6:806:450::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Fri, 10 Apr
+ 2026 10:45:05 +0000
+Received: from SJ1PEPF000023D8.namprd21.prod.outlook.com
+ (2603:10b6:510:33a:cafe::8f) by PH7P222CA0016.outlook.office365.com
+ (2603:10b6:510:33a::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.42 via Frontend Transport; Fri,
+ 10 Apr 2026 10:45:04 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF000023D8.mail.protection.outlook.com (10.167.244.73) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9818.0
+ via Frontend Transport; Fri, 10 Apr 2026 10:45:04 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 0D7A9406542;
+	Fri, 10 Apr 2026 10:45:03 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E911982024A;
+	Fri, 10 Apr 2026 10:45:02 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+        shumingf@realtek.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: SDCA: Update text of FIXME
+Date: Fri, 10 Apr 2026 11:45:00 +0100
+Message-ID: <20260410104500.163337-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o+9W+h3qdmnfJbB1"
-Content-Disposition: inline
-In-Reply-To: <20260410100330.1fc4b97b@bootlin.com>
-X-Cookie: You will be divorced within a year.
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D8:EE_|SA6PR19MB997387:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 1e0d5544-cf9e-4a13-f2e0-08de96ee39db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|36860700016|376014|82310400026|16102099003|13003099007|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	EhEcY7iJ7Ktw9GycfcVUHZeyftlNwI0nYF/prTaI315UlROMbjF41ja+8u/muFng+cnprBYvgfq+t49x7/ykwiEOpJcaF/qKP/G5Jn63ybRhIFjsnllWyKhWkHS4MTwWkFjiAG4jTorRNgYd0/a4GuFpHwYE4xMhiD6B39dIVGDsZydlikddX0+XzPCWYVgH+TYz5MwMdvjc4yqZxuIRGa5X2XGIb1nlCidQV12CWuURqHWCZidCngITS0QewHGiU+0xQzZ1xmfgvCKoVORAk+xbo4qS7PkzASxvbFlDSw8W5P4hreT5iX5Brj7n9Mhcogwo6o7Rl9dTOZ7KiEOYYdyYs4Aamh/pddm69ZZG2uvtaC9R7FZ7oOOMklve5RAurUobU9kxvzEH0T3WeplM9TKNzVjs6yjxEXWe4FwUJUenDPVedU31cyQPNL1Him5DyodrRKj2ZmRuOoRl/1BKS+wO+SBRmNUzWg0c+fCi2scM1AVxiPW7bxTM8GjYpGUVXezxGcLBNrj/vmK6/hFTxwecnDzX0emAVQvV3BAOwfhCWczmOhRs4kWaWLtCSym2+CUFaMGSCpj0e4oO8HRz5n3TaIpVPJ2vjS+Yv/LtzHLHWjQ2BfNcVCOvAXovcZpg56kHMGFG4z5s4W9p47bRDYqpji1qKhg95QBrUcsu4CyK7Qd2nSnHmxu5rcylPbrDu2X3kVzCxn4nfXZAq12he2J48Bou2z3XsoG+KkPENg25kwvFGE9NLXasIxR1lfqdPZk1QZoeyDjp8Xvl3PzQEg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700016)(376014)(82310400026)(16102099003)(13003099007)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	LWdP+Bnh4jMK//l3DTgH8GWOmDLAb0GaCjw/Wl4SVeIg39Mu3ggY2nloQiTkUvFm3FEzFhlAL3xfVAYQ1tpH4v4aVrB2qAm4sx1Dlap3XEqwqq614gj5W+nHLD7pZqUz4CbQTmizZXnbbuj4ywnFx/xCc0AHPB+kUguvgV1r2sE59d5wCNvjhWpxBiYsgKOnZx/9BFWNR7yJhXCZuVdE9AqCe40+G/kVPaJ2gzFjqda2GuzvH4vKKSzyIhDD4rmuUnNwBRKfthAfNbzqR+nX2B/q4UGbB9Hf8rfMODVpL5bOOiJ9ANK1BJEHset2Lrv9pPlFrlNaCDQbVQ0alC+rWCYwQISHhxBHZZLsqWER+TBecFGDaq7/jKnYyOPDTM6Oi9HmjGCUL01RuUdHioyKSOFKuJK1NgZAKJhLwVc0Nli70qyrLG4C0g4kXQtpGJAe
+X-Exchange-RoutingPolicyChecked:
+	dz2eHMNK0YDMAtCicUV/Ums3krGdcdpNnrFDU4B3b9l0XN5fVstYDvHkEFdQ0GnT+9v6vzxpPfTyYMUcek3Ly3dLDkJGQqn6+LMWll4AttK4UupNfgQTVYnCZhQgpg/qlKLErzL0ektgRCiIjhqTfhlpli+xd38QBeQkZc5bJkkeIuaB4Q1vVTH4YA/JqvZdLKyZeX0hHnka9dgn5InAf5+3peGf1Vr4qLj8WxgEmr75/ZsN6EREEFxMQYi3rD/HCHQk4ddpxfm5U0ott4P3MG2e7yDpTdcyTRr03aDD4sk54add46w6esvP7308ZITDzr80c+UIHqUKgXEOTTR0UA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 10:45:04.6995
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e0d5544-cf9e-4a13-f2e0-08de96ee39db
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000023D8.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR19MB997387
+X-Authority-Analysis: v=2.4 cv=LMhWhpW9 c=1 sm=1 tr=0 ts=69d8d4b6 cx=c_pps
+ a=Y5OhYnybWnDos8loL9/x+g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=VwQbUJbxAAAA:8 a=n9Sqmae0AAAA:8 a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8
+ a=avN4fjI5vLKTu_Ys8sQA:9 a=UmAUUZEt6-oIqEbegvw9:22
+X-Proofpoint-GUID: 0FvWsEIK7KUDHJ9CH3V5W3Tlo0SB-0qH
+X-Proofpoint-ORIG-GUID: 0FvWsEIK7KUDHJ9CH3V5W3Tlo0SB-0qH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDA5OSBTYWx0ZWRfX6jjfVycU0A4E
+ GWtFaVkow9QGUaJQrESdWIDULaXtTqe7DtAC87exDFasKk/JrHVPYqikaLuzNBlBe1qvOSVCZcr
+ ir4ocBjjVwXlNVIVWba9dUv9ecNNxN4r/GZZn1STgDUwOY8jIxmNMIsbopsTRdRl2WsO4RJK9TF
+ U+cgfayTmHetjHrq1+bfOMgeIIyYswtNiW0qc4rZzlCyBZN5NHyyQpqP7XxyZdkjFuauo2pDXYY
+ ObLAii8dTv3Gr9JaeRa6hF2KAIqgDa92aIE2AH0rQpFA1t2tdX8AFVxyXvlHdLaelfVC5Fq+z7D
+ jszFQN+XOLqoNI7aUUNhPfs+Ycl1mrZaaRYGJ8yKjzj9Actsi1SxY3vnpDjwfRhU18oO+P2ZjUt
+ NDheGmgrRchUrt6+JC/WX6AHoEIXO98vy0e0o3GDuidHtQyIk5EMr9jeraM5yux2XY+5LpWI9+E
+ Jw5k9gVqgGLepfdhc1Q==
+X-Proofpoint-Spam-Reason: safe
 
+A couple of attempts to correct this FIXME have been sent upstream but
+the situation is not quite a simple as the FIXME implies. Update the
+FIXME to include a better description of the situation.
 
---o+9W+h3qdmnfJbB1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Link: https://lore.kernel.org/linux-sound/20260408085607.3813488-1-shumingf@realtek.com/
+Link: https://lore.kernel.org/linux-sound/20260324-sdca-function-status-init-irq-v1-1-bba49417a4e0@gmail.com/
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/sdca/sdca_interrupts.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-On Fri, Apr 10, 2026 at 10:03:30AM +0200, Herve Codina wrote:
-> Mark Brown <broonie@kernel.org> wrote:
+diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
+index 3d7eb19967243..6e10b4e660d96 100644
+--- a/sound/soc/sdca/sdca_interrupts.c
++++ b/sound/soc/sdca/sdca_interrupts.c
+@@ -119,7 +119,17 @@ static irqreturn_t function_status_handler(int irq, void *data)
+ 	for_each_set_bit(mask, &status, BITS_PER_BYTE) {
+ 		switch (BIT(mask)) {
+ 		case SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION:
+-			//FIXME: Add init writes
++/*
++ * FIXME: Should this do init writes?
++ *
++ * Currently init writes/cache sync are done from the suspend/resume
++ * infrastructure. It is unclear in what situations one would receive this
++ * IRQ outside of that flow. Presumably it would be something like the chip
++ * crashing. In that case however doing the init writes and a cache sync might
++ * not be sufficient, for example if the failure was during audio playback
++ * there could be ordering constraints on the register writes to restore the
++ * state that are not handled by a simple cache sync.
++ */
+ 			break;
+ 		case SDCA_CTL_ENTITY_0_FUNCTION_FAULT:
+ 			dev_err(dev, "function fault\n");
+-- 
+2.47.3
 
-> > > > I didn't want to set a particular limit related to the number of GP=
-IOs
-> > > > used for thje gain value. Of course 2^32 is obviously a lot. =20
-
-> > > > What do you think about 16 for maxItems? =20
-
-> > > What is the most you are aware of? Take that and double it. =20
-
-> > > Seems to me 256 levels would be way more than a human ear could disti=
-nguish. =20
-
-> > There's plenty of gain controls with way more than 256 bits of
-> > resolution, though I'm not aware of any that are configured via GPIO.
-> > The step size and absolute values you want can vary dramatically
-> > depending on application, possibly in the same system (eg, a DAC that
-> > can be connected to both headphones or speakers) so you often end up
-> > making practical adjustments in a small subset of the available range
-> > but that subset can vary a lot for the same part.
-
-> Mark, do you think that max 16 GPIOs could be an acceptable limit?
-
-> IMHO, this value is large enough to be used as the limit.
-
-That does seem larger than any real system would ever need.
-
---o+9W+h3qdmnfJbB1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnY0OMACgkQJNaLcl1U
-h9Ao1ggAgWdjTX1pvufL7cIl1/RH40GGhnRehBGD8GngAKRTvfoi3/KBcPk29O/u
-HwFPzD5v1yZIbmq4SZme6Ob/25SUIEIps3YuoLBMH2z21q6CB14p7cs97I7J2XFk
-PQGkqRkHvzLyG0OjtY6NHG9xzGGViF9qTFvsTWlvYOSjUNZ4wsoYLSOD9XNmjmt6
-YRJlvciBynFLtfg1QmO8Gb5Tdxjx398hPugL9griW1z0Oyii2d1MIc7nQ57JLjP9
-ld7N7tfqJMVTCpIpGKbYBUx5D+7PXd0J473ig15bAtAkdVMLOTSQDQQIAMY1BCQl
-4FfL2rjwoo9GL/o428atk0ph9xOLgg==
-=eyC5
------END PGP SIGNATURE-----
-
---o+9W+h3qdmnfJbB1--
