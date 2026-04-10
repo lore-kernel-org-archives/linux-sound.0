@@ -1,116 +1,104 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C8F36E46E
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 09:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA207342CA7;
+	Fri, 10 Apr 2026 10:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775814366; cv=none; b=KJMIchtS9gOkYBVcb+366uNQyT0mxSKiIE8oNVsVo9UCweMoD+lxOkx9ARlOgHHq8iQ9KIWz6BwvR0abAZhGUq8mI1MzFMRlQ1C/KbKr7pLyWMaL0CxkHOeBDqMWZ25rT9LB7o+mSMFKDu1EwS3prrB+yBbRLT4TYiEMWG+uZFg=
+	t=1775816745; cv=none; b=dSnuyg6Ic5GmGrwMebW+qcnjkEccaHhO7/IHyMVYEcN0yNDA6ZUvAZQrLMkkS20Vi6Wx/R/eS5dB9174e8NX98tbO6WPpBuovHTImCkCe/IIvKbTfux5c8JG75VDwcJcGxzEwAnU7yxzXXB8kweIcMC4+q3BI7pqpbgixIVPTHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775814366; c=relaxed/simple;
-	bh=XHKhbEJHZJ4f274Fih79mkG5qxSLw7qQ7phkfZqo3U8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gjgpITDdcdsOOcJp58Ht2hmeaI9Pb6GPnjrlRSaGouEWiWfZJbVx2FRoG2xbs7gSOqjvd3h1H9AOjiwJmJprjgrcNOno8T2GaTbAIwFo/pTMp+cTiAdP8vXKfxfWWG73uiJFZx5UYUi+6QoykYteh9jPReVY26FhcNYs2LdZzl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cD2qC5l1; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775816745; c=relaxed/simple;
+	bh=t2nET9fPDGaJpyw3Vp3C8RpRsISRCVamh6ppDvw204A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cf0t61imhQ6jmX+b05u4BiZpOevFrBIJNomuEnktx4vkueHuy6vs8vKjYfkY3RPOCe8YBWy2Pbb1xOd9tZthgr3zCtLS4JS4Y2pbwYATBePeLKRSjL49Klvzln1SL/E6wBgTE7wM7rOPIDnSwO8Wh0SunTdKbyUQxUbj3l8QVpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCrOGua3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cD2qC5l1"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so12163625e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 02:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775814363; x=1776419163; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kdEDmlrG/+KH91+a4efVb+tZiZf14dbLKWEMZxSuN8s=;
-        b=cD2qC5l1uNTrD1uMo6OrHOuJE1ztEbIrJrcj27BpjihWxgPIxaSkAOHDCeJ3Ej7tJT
-         Ct8TnyC9nU9ZoTSw1eUzq0fPVPT4oFH8fjE7FcNjM1J7evBi5TzNT4P1KufagS2IohtF
-         RBy0cYm5OitRNLVKmWl50455yVobOmfc1RQY05qum3K1mgrZ4RFQBv5ILu8l6gvTlRW/
-         Xy9RavpS+zIhHvEww6+K+upPirkW4plcOxT9sudQPxVTDfx2gocxi4VJJYyfQ/zwr9Ay
-         ls1pOqYcPpd9qWTw8Yal8uKd8ekXHBgBst0Xrymbg8cb07fs9IfBgxVQmqYHrwJl4LOL
-         R52w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775814363; x=1776419163;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kdEDmlrG/+KH91+a4efVb+tZiZf14dbLKWEMZxSuN8s=;
-        b=IihYddDiS3zguh8ngzRk4nHz18nzFaCZt+Sik2rFl3jqXiitGXwwp2ooTaE2qHEHna
-         Cy9S5UvtSieSmHpWcFcXcpRR/GW6iN3iXkHC2Qq4BkcbBnCmm3Fm0MPaYDqeGDjr+dwL
-         ELjPzh67+4ngqdYWosPR2pEmANjx1HpzyfXxNUwzmDkOQ1z6IpfOtuUjH2xCa45G/Svd
-         z7sGRXTO3kKQq+djLxHtmEvEPGwHSTZ+vU2OVSZLogJ36jSmHoVgVrhFt+bAPH2QzWcH
-         nkhT7lQJhKdujn2CrJolIaMy+Tc0YXb92OYN9OpyzfL6FZVPsqMBtTaDAdpj4PirUVau
-         /V3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUO1zJ/Qe0Ijqb2dkOiChHO8q7oFylunvg+1U7botGaKtWaWEwigZ7+QcKGHwLlQ73FHki7bE+VaIVxYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/GEzq2HJQEhH9kjUvt36tqvgRicui3mHJJYXejkXoSctp+Ui5
-	eATsT9mNBHbVkok4qBQUHTm7pyRutIk4EQZ6IHi8y1gbVDZxzJVV1TTv
-X-Gm-Gg: AeBDieusVb/NZhJpWVeIBXgesIQNlfyCH8qjuL0WWOkRwX3iQ2UHq6O5e29B8vDGDV3
-	/BYUOQuJY82G/ujJBH9Zy2B7ZXhNt/FtsX/NDE2XpWzzQnS56kerOUu+JSqsFLdF1leoosFbyy0
-	GuNdUycPO9XOyBKGN6RVdEqbgZGPTrbbYFR6kNZluZAgJsuxy9CwWBoRM2+XjdJlNgmo6U4t9du
-	zGNo6pE64UOOe8xPvcNs4CAwda1m1DYiQ5u1Ylwh03lA1uaPytEomf1f4Ut0QYyuAACpGex3Mo2
-	P/I88fDsS+EgryQlTPQonjYJJLXbn1w1PH1V8HRJJdk7SMAZC0sLEsmEMbZ8S+iqq1L8VMpPen2
-	b6Xqy6bKuijgGc23TGZFAQSBhlXwpxU6o3C6a7aFPpjlXmJJv2FhIuoNgKb9gY9VAV0RN5XQZDl
-	m6FtxBQl/BcrIh0DjpcxaIRm7DTIY+4pvll8TH
-X-Received: by 2002:a05:600c:a401:b0:485:3f1c:d8a1 with SMTP id 5b1f17b1804b1-488d6839be2mr22814775e9.9.1775814362870;
-        Fri, 10 Apr 2026 02:46:02 -0700 (PDT)
-Received: from Vector-A16.. ([178.237.229.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5d68585sm27887555e9.1.2026.04.10.02.46.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 02:46:02 -0700 (PDT)
-From: Ihor Uzlov <igor.uzlov@gmail.com>
-To: Vijendar.Mukunda@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: venkataprasad.potturu@amd.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ihor Uzlov <igor.uzlov@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add MSI Vector A16 HX A8WHG to quirk table
-Date: Fri, 10 Apr 2026 11:45:53 +0200
-Message-ID: <20260410094553.24654-1-igor.uzlov@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCrOGua3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B89C19421;
+	Fri, 10 Apr 2026 10:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775816745;
+	bh=t2nET9fPDGaJpyw3Vp3C8RpRsISRCVamh6ppDvw204A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BCrOGua3k+NyL/VrHFX3rLHLc02293xMNUpiXL2RQ95Ot85YYQgRQ6n4cLVeeNBFJ
+	 pbcO02LfjJN8noFdIFg0NkKNUNf0+jMYETuyLIA+j6Q6HiI1FkSBz422pNlMavo7vO
+	 EJVHkegQGORJIPk7Iua21ygYCKdiOjxTlO9oXVOI5Gso41abqjxvbkwwbon/sLK+7I
+	 GL4N38QaXfiLYAkbycW4yy65nSj977AGXMKj9gdJZXALq6gY3UOtYsYhgc5PSoy9JX
+	 gKDpXtwvb4r0cwRYvxXg0ICMt5SbWy3x2NXXs1s5wIadS1cNdrQ+gcllwT/03hIYbT
+	 Zh0ONTytxVugQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 9D6171AC58AF; Fri, 10 Apr 2026 11:25:42 +0100 (BST)
+Date: Fri, 10 Apr 2026 11:25:42 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Karthik S <karthik.s@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: codecs: wcd937x: Add conditional regulator
+ control for wcd937x
+Message-ID: <adjQJgMCGg0WlG5z@sirena.co.uk>
+References: <20260402072256.2811085-1-karthik.s@oss.qualcomm.com>
+ <fea78031-e570-4348-a4b3-d113b5749fec@sirena.org.uk>
+ <8d97669b-7bde-4a21-8131-0907554f534e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cyYqfUp1SGYbh6T5"
+Content-Disposition: inline
+In-Reply-To: <8d97669b-7bde-4a21-8131-0907554f534e@oss.qualcomm.com>
+X-Cookie: You will be divorced within a year.
 
-Add the MSI Vector A16 HX A8WHG (board MS-15MM) to the DMI quirk table
-to enable DMIC support. This laptop uses an AMD Ryzen 9 7945HX (Dragon
-Range) with the ACP6x audio coprocessor (rev 0x62) and a Realtek ALC274
-codec. The built-in digital microphone is connected via the ACP PDM
-interface and requires this DMI entry to be activated.
 
-Tested on MSI Vector A16 HX A8WHG with kernel 6.8.0-107 (Ubuntu 24.04).
-DMIC capture device appears as 'acp6x' and records audio correctly.
+--cyYqfUp1SGYbh6T5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ihor Uzlov <igor.uzlov@gmail.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Fri, Apr 10, 2026 at 11:10:22AM +0530, Karthik S wrote:
+> Hi @Mark ,
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 85579c81378f..c5cf45881416 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -500,6 +500,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VF"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Vector A16 HX A8WHG"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.43.0
+Please don't add random characters to my name.
 
+Please don't top post, reply in line with needed context.  This allows
+readers to readily follow the flow of conversation and understand what
+you are talking about and also helps ensure that everything in the
+discussion is being addressed.
+
+> On the indus mezz skew, The codec rails are distributed through fixed Vdd
+> (3.3V supply). These rails are Board=E2=80=91controlled , not switched by=
+ the codec
+> and not power=E2=80=91cycled dynamically. There is no per=E2=80=91codec e=
+nable/disable
+> control exposed to software.The codec is wired to rails that are always
+> powered when the board is powered. Hence this justifies it being handled =
+as
+> a board dt property.
+
+This is a compltely normal situation for regulators, probably true for
+the majority of current systems with regulators in use.  Why would this
+board be different?
+
+--cyYqfUp1SGYbh6T5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnY0CUACgkQJNaLcl1U
+h9DvkQf8Cr6rrjoUGJrXeCvWME9tegSH8nwdbQUQh0DiYnpobYo0cyb4X3MlF251
+o2yRdzSUHbWng/G7NKk84Azri3E8QAysq8MH7kQu8nHDj05NqfEp8o9WTlPvlacm
+b4RknaEKdGKFIYNpttl8eYRrxqnc1jT0jvA/zBbbgr5O0Ag6Rq/VbC2j9+Uix1TS
+cEvIwZMMIwffHuwKglWUfgCIToyGlfco/cAWedYvOpME7c4Vfd/O5k0RwMsqy7xT
+28+kovaDjFItQQBQ3AOZCCiQnrIXW0f/wSUlDEFzUJj2hS4Ch3z5qvWpxTDjxD+/
+2/6YjpWVDrI9bG7F/GcAXollPyXOng==
+=09qk
+-----END PGP SIGNATURE-----
+
+--cyYqfUp1SGYbh6T5--
