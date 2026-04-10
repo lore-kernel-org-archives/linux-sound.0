@@ -1,73 +1,42 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7503DD53C
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 15:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F0623EA92;
+	Fri, 10 Apr 2026 16:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834340; cv=none; b=mwT571MVa7SZ/ZHGW5BETICxaH0A/DpTA+9mm2QmaeitQw35HwMzsLzIAYl382euX9/fzzMpSonJSc3RX2vpQECUk1IkNXJiDgqfbs+G0erABoFU+qQbs4dZyngxQihvY7ea8BrHZNTncwcyTQtZtbXxoVLw7m5ISuZzRTkHjaI=
+	t=1775838509; cv=none; b=lQqUOi3L/k5Gh2YPMmdMEgjsVnHC3SSPw2XZcgbznZ5/+4iImgAvOaAlEUOLTj/U/kaWjLM/wimhSCD1LTrOqYScaVvr2M3XRza+KBiUXWHpo7TE96a9NLDUsvaAyJy+mrkCgXs7/FNQTduWTTU1dei9tDBRN7w02+6LKs5IYQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834340; c=relaxed/simple;
-	bh=2PJcapuxUWWHQgHKuYh+AB0Bg9+uWPE8WWtuj/kl/pY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LWJAF1Qb1pvHPbE0n/IKmlHX0uANcmRY5x5kIY1qhoULEQ40MKnQs3+IwCk+WNdRJiO9B+HtupmfEahx2NmCvpddpzIZc0cfc0hTOddy0/y+ph0HXNSpNbibz8OI299X4irahzwMmptDwxhhT14+Ki+AKK2nhcmZuw2JBicJvgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=VPk6fsRQ; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1775838509; c=relaxed/simple;
+	bh=EpnNbR/nAY+kLzkBNfKS7Cb94i1OYlMvgNWWPVNUEHc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FVp0InlFZCGP5Z4PI4L6PWBD8DoC2CwqpQiQbGjI3hRcOYpgwZaMrHolnji8BRrO0bJyxMMzpj/QEpnAfgtO7c1jiaWNrDGY0tHa+EjqjOApBmGUSH1kiPLYU9c5jcUzDbmFaMnAo87m8/hXd/ku8F1fwjEvBgxRRTWfGLSQBQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=poLVcO41; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="VPk6fsRQ"
-Received: from trampoline.thunk.org (pool-173-48-116-90.bstnma.fios.verizon.net [173.48.116.90])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 63AFIoOX015852
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Apr 2026 11:18:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1775834332; bh=eTlXD+fEi5OyNbu4TxRTwpDmEzFd2ThBwniicSqJG9M=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VPk6fsRQSXd/5Nh8TyOtre/wyuiwILVUqAvKliAeAoP9NWxPWea1Q4bx2oJrpWurM
-	 p0KwKN2oR00yADJbGywtFxHrkSJG+7akpDxyNmS3k4sITB9+LAQ7TS8gLOxrGyZcxm
-	 iD4ByRUzuod5KLDmmiVM+UapW56A71UlQ86DKwTjUgLnxxFdmaZEmaxScOtN1jt83o
-	 KncTyarsQsfg740s5ZTPNDrP3EVWK9I1eaZQ8RpFbx0tpkzHLOeLlgiMDfG5/h1trz
-	 DW2Ox+J23d04yMQY9WVUywWKP2CKxWAo6qH71mwqDeJ5+jdH6erLL9AAKNO/NyVKi7
-	 5qupF6y+RLfJA==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 0D7462E00E1; Fri, 10 Apr 2026 11:18:48 -0400 (EDT)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
-        bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
-        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-        linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
-        sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
-        Philipp Hahn <phahn-oss@avm.de>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>
-Subject: Re: [PATCH 04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
-Date: Fri, 10 Apr 2026 11:18:40 -0400
-Message-ID: <177583430870.2758959.6171961359325912353.b4-ty@b4>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-4-bd63b656022d@avm.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="poLVcO41"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B386C19421;
+	Fri, 10 Apr 2026 16:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775838509;
+	bh=EpnNbR/nAY+kLzkBNfKS7Cb94i1OYlMvgNWWPVNUEHc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=poLVcO41o0YakKir25v4r37sYRi/2JayT/KpQTGadfRh2l3KEMbKflMy6SJI3LMrQ
+	 m5mgxOlf5mHy2+TITMon3vW7EXCdOal4eAN98cmja5KXvVuz53+VkxOEUmmVVdor2m
+	 M6lTYffpX3OX9VcSBFJkE6bPg5R4J+PKcoy5LW78IFgYdlNboJeElj04NEwRBLzT/+
+	 L+yRjTuFNeolge44uzV9Vq115VtNgjRZAJIB0dZHKpNn7FTzZJclAecC1MfucazAqL
+	 1NYw5xhKVD8oOKXoLq5mpFK6vtOtk28ZmgOlNoJynS0veguWjepq9O2VeAmElyvC+B
+	 lU3j+hE6srQYg==
+From: Mark Brown <broonie@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org
+In-Reply-To: <20260409-asoc-uda1380-v3-1-b3d5a53f31be@kernel.org>
+References: <20260409-asoc-uda1380-v3-1-b3d5a53f31be@kernel.org>
+Subject: Re: [PATCH v3] ASoC: uda1380: Modernize the driver
+Message-Id: <177581696991.1070744.13246183215946136465.b4-ty@b4>
+Date: Fri, 10 Apr 2026 11:29:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,20 +44,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1089; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EpnNbR/nAY+kLzkBNfKS7Cb94i1OYlMvgNWWPVNUEHc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2SUqz4/fQJ0lMXsG8iyoC+ipcR7rhWJ09QvYM
+ faCVWOVZyuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadklKgAKCRAk1otyXVSH
+ 0NmFB/9t0RWsee00Ft9uTrRYEwtdWsgnngP33FHIj6pcsTBykIeAY8J7K3Fc5EiTg7/FhET0rxO
+ D4dxHK4XgFaoCEtnIxuuPzTHb8QYzmW9v6JAqChWmmruj80vqMOI6OUS9SDeNUenJiymhyYa+YV
+ 18okJCmt7Zqv5GmADInN2bcPjDxo4YPtjSpKnM3+/in4WCbI18uohHBHka3EMO8EAONLltjv1we
+ lDpJBwzU+La6nT2t4mhKBmPG7I5X358yVucOqoa69OaO29lP2WUbjkCCRQtTvVEhZuxroCcnvLH
+ NGtxDp1Yk/FjlpUFM73bgJXTjo6kOjyM48Obw2wN3Q/czlf9
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 09 Apr 2026 23:39:31 +0200, Linus Walleij wrote:
+> ASoC: uda1380: Modernize the driver
 
-On Tue, 10 Mar 2026 12:48:30 +0100, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
-> 
-> Change generated with coccinelle.
+Applied to
 
-Applied, thanks!
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-[04/61] ext4: Prefer IS_ERR_OR_NULL over manual NULL check
-        commit: 1d749e110277ce4103f27bd60d6181e52c0cc1e3
+Thanks!
 
-Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+[1/1] ASoC: uda1380: Modernize the driver
+      https://git.kernel.org/broonie/sound/c/0cb7aa965ad0
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
