@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F0623EA92;
-	Fri, 10 Apr 2026 16:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD2723EA92;
+	Fri, 10 Apr 2026 16:28:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775838509; cv=none; b=lQqUOi3L/k5Gh2YPMmdMEgjsVnHC3SSPw2XZcgbznZ5/+4iImgAvOaAlEUOLTj/U/kaWjLM/wimhSCD1LTrOqYScaVvr2M3XRza+KBiUXWHpo7TE96a9NLDUsvaAyJy+mrkCgXs7/FNQTduWTTU1dei9tDBRN7w02+6LKs5IYQ8=
+	t=1775838532; cv=none; b=TJ59m6JzwxR9MtfECqX+TmKyTT4uVSOo7rtuYgHTwkjDHpnL9LXdvEt8IKKFzq/KdTVEySzSIh4tVlqsSqgm/wrXSmqJlYifc0n2s2kM8Rn/3AMtAFWycPAT3Ey0BkeC42HFtmG2llfemK/Xp0d6fFF1jqiz6RlaoPxpcoUX18Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775838509; c=relaxed/simple;
-	bh=EpnNbR/nAY+kLzkBNfKS7Cb94i1OYlMvgNWWPVNUEHc=;
+	s=arc-20240116; t=1775838532; c=relaxed/simple;
+	bh=RkYIGAMtVluhPZSjl7DFjZv0VXH6U4Ua0lzzKm4xHDo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FVp0InlFZCGP5Z4PI4L6PWBD8DoC2CwqpQiQbGjI3hRcOYpgwZaMrHolnji8BRrO0bJyxMMzpj/QEpnAfgtO7c1jiaWNrDGY0tHa+EjqjOApBmGUSH1kiPLYU9c5jcUzDbmFaMnAo87m8/hXd/ku8F1fwjEvBgxRRTWfGLSQBQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=poLVcO41; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aZ9rCxqQfbRbzlCcR0JesyBkwluG0c0sP0EoFR1ot+3m5CbRyFXerl8BJs4l41PvuWpTqdlHHA1/cqjuIfK/W7A20UmIZDE4MEL+Ly4keYpph2KQXqzYdwCwrJ1M1hqyymr4guW9vGx1ttFywk5EgoY32/SKUMuIOb0Ny8MX0FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s0yPFrmN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="poLVcO41"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B386C19421;
-	Fri, 10 Apr 2026 16:28:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s0yPFrmN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2670DC19424;
+	Fri, 10 Apr 2026 16:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775838509;
-	bh=EpnNbR/nAY+kLzkBNfKS7Cb94i1OYlMvgNWWPVNUEHc=;
+	s=k20201202; t=1775838532;
+	bh=RkYIGAMtVluhPZSjl7DFjZv0VXH6U4Ua0lzzKm4xHDo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=poLVcO41o0YakKir25v4r37sYRi/2JayT/KpQTGadfRh2l3KEMbKflMy6SJI3LMrQ
-	 m5mgxOlf5mHy2+TITMon3vW7EXCdOal4eAN98cmja5KXvVuz53+VkxOEUmmVVdor2m
-	 M6lTYffpX3OX9VcSBFJkE6bPg5R4J+PKcoy5LW78IFgYdlNboJeElj04NEwRBLzT/+
-	 L+yRjTuFNeolge44uzV9Vq115VtNgjRZAJIB0dZHKpNn7FTzZJclAecC1MfucazAqL
-	 1NYw5xhKVD8oOKXoLq5mpFK6vtOtk28ZmgOlNoJynS0veguWjepq9O2VeAmElyvC+B
-	 lU3j+hE6srQYg==
+	b=s0yPFrmNpngWzaz/t/P+FlCxexdOjDCzxtqf8M/O3XBMuPFWsED+KaU5IC9Ebr3ey
+	 tzZjQYZc5wAZUVSsx5FfXUOimLmciQqJyId7W/2mf3jQW8yoHTJpAgdLV9xVweWMNP
+	 6+ZxPhgg2mw8nlLksoa8SsRCocqmQTlWQ05ktUueBcUaJMikKw5zkgVpkV1f8A1lWb
+	 b9uIeSneWpZhwHXW82PIbP+QY0zGmldbA7eo7fjrc0VpZDKUKEICXgjLYWVm4g2Nn/
+	 wuqx6QREBcphpPheB5ghK8H7UBhFwUT8CMZmQYZQOcRPmoIXOk0A9/PCl+IYvEiChr
+	 WuZ2Vrbr828Tg==
 From: Mark Brown <broonie@kernel.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
- Linus Walleij <linusw@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org
-In-Reply-To: <20260409-asoc-uda1380-v3-1-b3d5a53f31be@kernel.org>
-References: <20260409-asoc-uda1380-v3-1-b3d5a53f31be@kernel.org>
-Subject: Re: [PATCH v3] ASoC: uda1380: Modernize the driver
-Message-Id: <177581696991.1070744.13246183215946136465.b4-ty@b4>
-Date: Fri, 10 Apr 2026 11:29:29 +0100
+To: Vijendar.Mukunda@amd.com, lgirdwood@gmail.com, 
+ Ihor Uzlov <igor.uzlov@gmail.com>
+Cc: venkataprasad.potturu@amd.com, perex@perex.cz, tiwai@suse.com, 
+ mario.limonciello@amd.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260410094553.24654-1-igor.uzlov@gmail.com>
+References: <20260410094553.24654-1-igor.uzlov@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add MSI Vector A16 HX A8WHG to quirk
+ table
+Message-Id: <177581707435.1070744.16253607136350151660.b4-ty@b4>
+Date: Fri, 10 Apr 2026 11:31:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +47,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1089; i=broonie@kernel.org;
- h=from:subject:message-id; bh=EpnNbR/nAY+kLzkBNfKS7Cb94i1OYlMvgNWWPVNUEHc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2SUqz4/fQJ0lMXsG8iyoC+ipcR7rhWJ09QvYM
- faCVWOVZyuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadklKgAKCRAk1otyXVSH
- 0NmFB/9t0RWsee00Ft9uTrRYEwtdWsgnngP33FHIj6pcsTBykIeAY8J7K3Fc5EiTg7/FhET0rxO
- D4dxHK4XgFaoCEtnIxuuPzTHb8QYzmW9v6JAqChWmmruj80vqMOI6OUS9SDeNUenJiymhyYa+YV
- 18okJCmt7Zqv5GmADInN2bcPjDxo4YPtjSpKnM3+/in4WCbI18uohHBHka3EMO8EAONLltjv1we
- lDpJBwzU+La6nT2t4mhKBmPG7I5X358yVucOqoa69OaO29lP2WUbjkCCRQtTvVEhZuxroCcnvLH
- NGtxDp1Yk/FjlpUFM73bgJXTjo6kOjyM48Obw2wN3Q/czlf9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=RkYIGAMtVluhPZSjl7DFjZv0VXH6U4Ua0lzzKm4xHDo=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhsybqo76c3LZZSemuIVaLrC47XWop0lhVeu3GAH1yN3lg
+ dtD7rV0MhqzMDByMciKKbKsfZaxKj1cYuv8R/NfwQxiZQKZwsDFKQATiRZj/x/1b/2WaYxtaWqT
+ 03aLTqy1U7rdvnKyf/tud/2PpUXsFyRipr9JOWH7+o1YtXX/a4+Obk/d5VJvj3ZHRnwtf1q3Jbz
+ hbefP29GRl5jvtiqXvClYIfSsN9k659mr5xYu31QlrjnbcVckhLnd/7TgUZZxbpOTIb9pbW+U5q
+ 6fBQZVRyMsZ/eGs5belTsUVy5j919WSf8Zl1xEzoyy+6W/5knFLshiX1Xg3hT3veupXLanyiv+w
+ Klbju39dORm7mSljnOy3P/Y7eym5rAJf9GpnbxxzuTJXqFbPGJlbt79EjPh+rZNJ6LyJab+MfEy
+ WB/fumNDJ89hb3erD/2bGJuPfDOJk/0xgb0k8LKjTp8GAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 09 Apr 2026 23:39:31 +0200, Linus Walleij wrote:
-> ASoC: uda1380: Modernize the driver
+On Fri, 10 Apr 2026 11:45:53 +0200, Ihor Uzlov wrote:
+> ASoC: amd: yc: Add MSI Vector A16 HX A8WHG to quirk table
 
 Applied to
 
@@ -67,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: uda1380: Modernize the driver
-      https://git.kernel.org/broonie/sound/c/0cb7aa965ad0
+[1/1] ASoC: amd: yc: Add MSI Vector A16 HX A8WHG to quirk table
+      https://git.kernel.org/broonie/sound/c/72dcd84938f5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
