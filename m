@@ -1,76 +1,72 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C96B3D4122
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 14:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98E03D412F
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 14:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775831545; cv=none; b=vAfq9TlhZrFDYC0dbQTf8bQbItlv085Y9DMgwXcEakVddscdSkIyOcY5pq6l2ZdlA4zR1EbqJt9M5DVVJo4j9aleRhXOFGwLjosftgXMd6nvmLWec9+XOpp8s4AnA60cqFTi0BKejO6elvvU85hPGrRTmv+XcI6skR9d6397xEs=
+	t=1775831653; cv=none; b=T0DH4oP9HT+7zF8d4zo78ESnvEwO3wD31W1v/+S17BmMWLmSSIcf8sHy7Ke/8IsjE2IwvHPo+urYt1WVq2UhrZbEFhH9Rqc14Dqzp9Tyij4xNLRCkfZ4rdOIq7+gmJOgEZDd/k37M/eb1pomI7kAkxrMXenLcYXQyPOCZ/rFhJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775831545; c=relaxed/simple;
-	bh=AawMgTAIMTG5n43yJ+fqzfX3lyd809mOab7JBPnjP84=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=eSEZYjM+RieC0VxyUUo+ohOX1qnoStXnIVIK1/SHxNerA3iIk4AiTI13vRfb0MFQPj06Ox+FRykCrLJvZQsY+5BJ8dV0uxjrgavGmRANNPXMRou1OHv3Mw0LHBOJDHewnkOeiN8rp9iPKuDkay0Ze8vFCwN1ldiXQLEooj5I8TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wCQDf5HV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KgkXCTbV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wCQDf5HV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KgkXCTbV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775831653; c=relaxed/simple;
+	bh=QVJylg6dNpCExsYLETaTOtFkWCAXw7hILfTosqhB0/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jnYccUV9uLhqnc/UvmZCghvQ7YA2w+CCK6xRsdKDBPE8LzVGLN2MUaLoe6bU9FdOxrIi8nHAAamIfY4lkwhoPeNhmqkC/0kPwl2TICnqepTu+k8XVdCPOMNi1+2xuaTpjXhBv1q4H7hfzG7erO/Qm5G7u4geOR+VX26QO7Tb6uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oltNrLiO; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wCQDf5HV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KgkXCTbV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wCQDf5HV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KgkXCTbV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 855516A7EC;
-	Fri, 10 Apr 2026 14:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775831541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z0GSNIdaIhqASIVPAWwtguyqWnOSn8AjzgZQSIKZFLM=;
-	b=wCQDf5HVisvWSxFrlhhg5fZeiMzmDJKnVa7jva67RqN0jJi8NhtPN3lnHtUbclh7/Dn6mr
-	MGLz3t3dxjAGIJXLxdWd1tKgoyj1K844EX5mMSMQuVOUbiuqvxuUOjDx0PCupMC0d394qF
-	1KlBcEflPtIveYlubBqzzS2Ic8a0Yvc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775831541;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z0GSNIdaIhqASIVPAWwtguyqWnOSn8AjzgZQSIKZFLM=;
-	b=KgkXCTbVSJUC0Aossi8JLbUFQf32TPRNoWab2ZNM8R32B3+K8reRj/1ozmuodcAV1jprgE
-	op2lqMD8B6RUQXBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wCQDf5HV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KgkXCTbV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775831541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z0GSNIdaIhqASIVPAWwtguyqWnOSn8AjzgZQSIKZFLM=;
-	b=wCQDf5HVisvWSxFrlhhg5fZeiMzmDJKnVa7jva67RqN0jJi8NhtPN3lnHtUbclh7/Dn6mr
-	MGLz3t3dxjAGIJXLxdWd1tKgoyj1K844EX5mMSMQuVOUbiuqvxuUOjDx0PCupMC0d394qF
-	1KlBcEflPtIveYlubBqzzS2Ic8a0Yvc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775831541;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=z0GSNIdaIhqASIVPAWwtguyqWnOSn8AjzgZQSIKZFLM=;
-	b=KgkXCTbVSJUC0Aossi8JLbUFQf32TPRNoWab2ZNM8R32B3+K8reRj/1ozmuodcAV1jprgE
-	op2lqMD8B6RUQXBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6878B4A0B2;
-	Fri, 10 Apr 2026 14:32:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PUFWGPUJ2WljawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 10 Apr 2026 14:32:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Evaluate packsize caps at the right place
-Date: Fri, 10 Apr 2026 16:32:19 +0200
-Message-ID: <20260410143220.1676344-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oltNrLiO"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c766a95a72dso1416143a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 07:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775831651; x=1776436451; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fSFMISWQaX90d9anh/Vv99excJcD3WAzoIBbP7o0QE4=;
+        b=oltNrLiOALyUg/WsqtqlECv8l8VkdLUqlVREZg9Gl8CK8GoGoDoKtw1tUXx2OJI4hi
+         zD9keAKfrmkFj2UNTQO+OTsMeHb4AgBz+3LiYKq0pgJ9tvHHsKdNyyQdcLEbuS5Oe4wT
+         v8NXDm1eL1RsXzdzbra0cF6Fql9rTib4zSy07hF8CObGN6g+sX6b8XbRnfL3ciC+FRID
+         x2Z+B1C5reEDuEugz3SA3oHy55b7KPw824pqCE94lKlfYSXETpsGbM0xQM2AInoIJxBe
+         F9qdjsbPEMqH4lktrcDrqDaDOuGuwYkWZT3DpGE4PlnTq8+/sHyYpj5QKXcjlKXFactD
+         4hsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775831651; x=1776436451;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fSFMISWQaX90d9anh/Vv99excJcD3WAzoIBbP7o0QE4=;
+        b=TBbLPtp8boLXQ9Jeao1G1osBrztEyysqOlrWqavLk+K5VdaiPgSj7z4yCebUzcpH6g
+         /O7KZcxoAKO1Rmi3MbBdXC2KxbPRKUUoEGuB/G8w90jFSUf95ZtBwpCAToxSOv9I2h3L
+         NQdoPZnebLOh638iGx2DzK+2V3dVXCWuGCzFgRuZ6SGvNsgWr2nDqjd8IUGEpNJsE8AT
+         cMSxTz4yWjBWtP6+PDQkXXnLYuLX+zM17AeDDLowOtrGsXPrbpOxXo8wGHMzBHyjhIFI
+         cHm7DCfievUXFfzWCf1vK5Dt1nj+yntviAXmszN/1W/CawkH9mKu3FI0bOWYIl+Iwfj4
+         g4bw==
+X-Forwarded-Encrypted: i=1; AJvYcCXw8XehiPnoKMQjiZIt7uZHkD9U4Ls5834aZmWjyPHXVEqbqZF2UZJurUoi+BCzxDGZM9yN/4QV5yMV3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS1pA7uTvRo6ZoAYveiKCKmrMcWuU2gQYGoxwpMm1nRPYgk3bW
+	cAR8CzShxuzRAkoT/vfSiIdmkCmDT1E/4Pgmjm2Bqs7ixl0UDGdvdqut
+X-Gm-Gg: AeBDiessM8wJiDVFEpp4zPeIoref+7WNalA3uL1r2bLeZ5VQ2+ZpYyi5c0DR3Nx+AQi
+	yBPn3j5/7h8RJp0bx/YDV8undk5cHvMo3+5/AaAC1gYuzARMA24BtlgKQ9pChM6HZLkAUMq1B1k
+	7IHmHm5p3Ab7Xv3ZDklfFFTFYhMXjD3IW/l7zc/QK49S1+xwmPCbuewthOopoaNShuKe/lzgTRc
+	6xPNoVaA0hurCIYZGm2FGiANE4P0/9Wim1CuA6LJBvOcy4m6qMx/kBhgmwenHopZopqVbZCIgSP
+	Oq8l7uy0JNxU7xZ5mukj+Wkt4vtDuHc+Casr6c/fI1JdExDDXERpGwkfVwG6dhMLtv/v/9+HcDV
+	UrhAWiWLlDCY+FLPhbsWeCSq63EdimwE1UanM9pT85uYByQNBMtSB/Xd2XKezb5Iw99NMJaDeqB
+	WO+uSWDlQG184l6nJ1354XVA0Ry7oOUxA7bDbyFEUJLM5I6SHW9tc19m5D1fl5CzQwfxrXU9ayB
+	fctRM77xMNi+Fy2Mfi3rsVCpaRzVZe7OEXt1eQHqaqY
+X-Received: by 2002:a05:6a20:6a23:b0:398:9b6e:339a with SMTP id adf61e73a8af0-39fe3c90fa2mr4454090637.6.1775831651074;
+        Fri, 10 Apr 2026 07:34:11 -0700 (PDT)
+Received: from abhinav-victus.tailde2db8.ts.net ([2401:4900:882c:6ba9:ba24:2757:bc7a:6feb])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79219c625esm2564472a12.20.2026.04.10.07.34.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 07:34:10 -0700 (PDT)
+From: Abhinav Mahadevan <abhi220204@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Abhinav Mahadevan <abhi220204@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Add quirk for PreSonus AudioBox USB
+Date: Fri, 10 Apr 2026 20:03:35 +0530
+Message-ID: <20260410143335.5974-1-abhi220204@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,82 +74,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_NONE(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email]
-X-Rspamd-Queue-Id: 855516A7EC
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
 
-We introduced the upper bound checks of the packet sizes by the
-ep->maxframesize for avoiding the URB submission errors.  However, the
-check was applied at an incorrect place in the function
-snd_usb_endpoint_set_params() where ep->maxframesize isn't defined
-yet; the value is defined at a bit later position.  So this ended up
-with a failure at the first run while the second run works.
+The PreSonus AudioBox USB (0x194f:0x0301) only supports S24_3LE
+format for both playback and capture. It does not support S16_LE
+despite being a USB full-speed device. Add explicit format quirks
+for both the playback (interface 2) and capture (interface 3)
+interfaces to ensure correct format negotiation.
 
-For fixing it, move the check at the correct place, right after the
-calculation of ep->maxframesize in the same function.
-
-Fixes: 7fe8dec3f628 ("ALSA: usb-audio: Cap the packet size pre-calculations")
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221292
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Abhinav Mahadevan  <abhi220204@gmail.com>
 ---
- sound/usb/endpoint.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/usb/quirks-table.h | 48 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index bf4401aba76c..6fbcb117555c 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1379,9 +1379,6 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
- 		return -EINVAL;
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index b6dfe3b63..803e03d4d 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -2652,6 +2652,54 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
  	}
+ },
++{
++	/*
++	 * The AudioBox USB advertises S24_3LE as the only supported format
++	 * for both playback and capture. It does not support S16_LE despite
++	 * being a USB full-speed device.
++	 */
++	USB_DEVICE(0x194f, 0x0301),
++	QUIRK_DRIVER_INFO {
++		.vendor_name = "PreSonus",
++		.product_name = "AudioBox USB",
++		QUIRK_DATA_COMPOSITE {
++			{ QUIRK_DATA_IGNORE(0) },
++			{
++				QUIRK_DATA_AUDIOFORMAT(2) {
++					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.channels = 2,
++					.iface = 2,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.attributes = 0,
++					.endpoint = 0x01,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC,
++					.rates = SNDRV_PCM_RATE_44100 |
++						 SNDRV_PCM_RATE_48000,
++					.rate_min = 44100,
++					.rate_max = 48000,
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(3) {
++					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.channels = 2,
++					.iface = 3,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.attributes = 0,
++					.endpoint = 0x82,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC,
++					.rates = SNDRV_PCM_RATE_44100 |
++						 SNDRV_PCM_RATE_48000,
++					.rate_min = 44100,
++					.rate_max = 48000,
++				}
++			},
++			QUIRK_COMPOSITE_END
++		}
++	}
++},
+ #endif /* disabled */
  
--	ep->packsize[0] = min(ep->packsize[0], ep->maxframesize);
--	ep->packsize[1] = min(ep->packsize[1], ep->maxframesize);
--
- 	/* calculate the frequency in 16.16 format */
- 	ep->freqm = ep->freqn;
- 	ep->freqshift = INT_MIN;
-@@ -1408,6 +1405,9 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
- 	ep->maxframesize = ep->maxpacksize / ep->cur_frame_bytes;
- 	ep->curframesize = ep->curpacksize / ep->cur_frame_bytes;
- 
-+	ep->packsize[0] = min(ep->packsize[0], ep->maxframesize);
-+	ep->packsize[1] = min(ep->packsize[1], ep->maxframesize);
-+
- 	err = update_clock_ref_rate(chip, ep);
- 	if (err >= 0) {
- 		ep->need_setup = false;
+ {
 -- 
-2.53.0
+2.43.0
 
