@@ -1,157 +1,131 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010067.outbound.protection.outlook.com [52.101.229.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BF3175A71
-	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 03:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775790890; cv=fail; b=jWywYv/Wups4y2+pBefYDGjrsuZvDmDDMxlH7VdNjdFsczGJUMnYfwWBQcioRE08iJ65/XBGUztXi8DOKmZXPy5bYAJuvEZNQZYJH5KjtQjg12t8hJigmz96rL1NeBC4GdhfiVAojNt+hDW8+TotjzBreBM2xd7rcAfa2an3rHU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775790890; c=relaxed/simple;
-	bh=whC8Xu4xFvHOQYpG/QlFl/jEuVeQzyOlhdeesOEhYGM=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Hhb9jFBW4ySWVyqISmwZfpysITlhwcEcNcjqtm4hPO88SGu6QcgPWNYQWzCdvMeR79nhKjbRJ92te92ZFyCq43+vsjSGsEo6dkZR/pg1mMVpYisYG8T1qTlLmoie+KQLF3lvwcOCdz9b7+dWkpmWhF8nOokb23o2UJeigevBOww=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=obEERLLX; arc=fail smtp.client-ip=52.101.229.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EAD286A7
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 03:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775793282; cv=none; b=U06ynxuXP7+VUtn7iqmv67tjnBxobqzHafTjOTz88XFKIyb6qvIt4/oODya40BdkDUNh1cvQpPOMq5Uw3biQojzBBXLQQ9YDHzYYZQgbUb2UbelRE7oDpkJBvQ0NAv8k2dexwWkrUNczZuQQjqGwfUJiyOHijrWK+eYwQykeUZE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775793282; c=relaxed/simple;
+	bh=uLZjCVL90egFhMKIG9W8w6tP76Wt6+sx02EZMg6m+68=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XB/H+dkM1D/f3ISrS5IiDge2sCStBwPgHeYtxmhpEt1Oq5INjvCqgsAB+dXtg+KQLKunbx/HLS6eRT/eqSRfMn8oieZ+oK99KI4hNnc42W2+lyCvAqmKKsJTM4QVrljMjXyJAplJ+lHrOrNu28HBlv4TxhXNSGvxdpsRerdYix8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mzNUVEyh; arc=none smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="obEERLLX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AyA1fpr0r+nunNX+3RF2VC0ojBtrl3lTaObP4VjCD6W0Nxv3i8FaU/Wmj4GY5+syyaqIAjUqX7zE4ABGpAYrYydSLRdiT7A37uQTFpsjNyfMp1LYUJU5B367AVSkOi+m3V1a0d1KY4PNHsy5GSbBYUcaK4w1NLumGxJKN69EmWQM/h8bTil8A/8Yeg9Fh1g2fCWiGXBeh2u/v1bzI1P9OPognqseZNN0rDAJFk608ZRArlhRxoTqRJOVssr4vtjZyJ3nfeAndCcWIOVuuXeY4YHdM5Yhh0jyLHkBnvISZZnil0bEZI4m2HsZ9TUuwKG41Vy0rOGB/expXdF+DCb0wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1jMc4y5XuAP6W2gWDU8TR8aAt5WYSSE8xZbUQjydpKc=;
- b=yB4tnVTsXrH038Ld1cqGJcjz20vAom7wcdzBvHnmA+9zQrLLtAk7BgzxqM3dn+DDPkz2my1YY9h3crwNu0pr3WU2zkxY4b8H0OUSuHalXeTWX/08xBqvsxfg2iyCl+s61l4GaVCkYwi1olMIK4tvtxvcliygKIGQkIVYX55XD7KcA6arxPv7V6tuALXHvyyTbykp/6bkm3oU+OBfATiLG6Oj5bQVgh7r/VZ6WXBg9Lx2kMbdLjyv2nHwMvtHvSqpjFbfiVe+f1qnf9OkBHgO5YbIGF9UVKiJWcxfJho47g7EHlejOkJGa8IWpoZBEuaHhMFRnnXGZiO/0mCNMYOcbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1jMc4y5XuAP6W2gWDU8TR8aAt5WYSSE8xZbUQjydpKc=;
- b=obEERLLX5C0gQRyeCZX1S3Sch702OOgrle2GOPucCWidGZx38MCD4QT7LP5lC2zZMT789ESUB/lj3m+GD5O6aI2P5+WsfMlRYLrKK2ZPtiQRyHeRiSvo4vQ38TxuJ7yEzOeEvRgEtj+7+UK5wr4MOZyUThTME1t4NaiaKpnHZh4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TY4PR01MB15021.jpnprd01.prod.outlook.com (2603:1096:405:25f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Fri, 10 Apr
- 2026 03:14:44 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9769.041; Fri, 10 Apr 2026
- 03:14:44 +0000
-Message-ID: <87o6jrecbh.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [RFC][PATCH 0/3] ASoC: remove card->pop_time
-In-Reply-To: <adf50GLs7me92fvV@sirena.co.uk>
-References: <87h5pkda1r.wl-kuninori.morimoto.gx@renesas.com>
-	<82c256e5-0af8-4ea3-ba5a-913a576b25cd@linux.intel.com>
-	<adf50GLs7me92fvV@sirena.co.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Apr 2026 03:14:42 +0000
-X-ClientProxiedBy: OS0P286CA0128.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:16a::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mzNUVEyh"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so3347611eec.1
+        for <linux-sound@vger.kernel.org>; Thu, 09 Apr 2026 20:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775793280; x=1776398080; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CzhlPyoVy4IxHhj2huf9peZC2TywBEqKX56lgPLsURk=;
+        b=mzNUVEyh1IMdHQktyes+wwdSCY8rIYJjNo0lny6HZdHf3uXgQACmVPk1jiaVPdZecy
+         H336M4OxvC8vvv6oq2Ik0iFLVZ75yIygQqHvPpt15FF7dECTdOCoO2a54uxXRVdsKtpY
+         joc2N9oGhjVzEmkpHsvjDU/1dKifXzIiBFG09ohZLBZJ88RHJmZyQQ4yQnZpUqEQzz8A
+         UrNoA/4CLKHHWD30ZBYW1P+hM0SLgsSxcdqGiTfK75GhNxTgX3LXML1dPoWXvMsd9oHl
+         oTa3rmNYMoSiSRxfUVwhPNDbRYqSgRX3+lmgJbH7l+gYqDCu7mfhPhs1Q8TlKNFM3cwU
+         QZFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775793280; x=1776398080;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CzhlPyoVy4IxHhj2huf9peZC2TywBEqKX56lgPLsURk=;
+        b=gmUp3TF85n0lV7TvQfM3PeQWnly3YppCfNhA9Ewzk+5ic3x55oAf+9CA6radSVOZXA
+         JzKv+DDO9G+qXQij9gxaRUto9C03BDHQcyzfgtWsldKI5UfJR4uZAPSr90MjTL8IoiSM
+         K7vcb3/PNJLvNLJ6g1tRPPBVyFS3gRi8Ixd/brDY2jREa4IzhebcLb/vJgQu04VY1HHd
+         pqzkh2kNmG2MIYcWMG4dRWKBrZDEm5MBdMlZLV0o5LtVjQNz3ISDAW9gHepxOMr1/FVt
+         nmMS/011VlYoaiMTjp6Ve1Lqrz3fIVxyqvZqAbRoxRu6fQv1jG4Xtips19kf/0RuK5dM
+         oEBQ==
+X-Gm-Message-State: AOJu0YwaPcPmTq5QudZkYP9oiF15zzeO23pGlf2XB4pcyv1wJB12N57G
+	duiHeAdd0TagnGHEKPgGi+TEo+oSSbtE7x8HikhLXqfcxXUo+v8wK9QIjxKR0aqF
+X-Gm-Gg: AeBDieuxbNEmxaSuIe5gTfJ+s+hxtiI3FKh58NRu/lj/uD3ghtV16kEhEDpuQ6R7dyi
+	3BZSBJdhdwd4NgSvqN+XeA+yLfaW9TU+v5BOIHSiVwfhSD+phBN5Lv9Onz9hycXeSlJzKMmqYLF
+	coKlFUwjSf3rR1S9GGOWaWZG4q0GrXvpECtJDnoeM4ztV6KyI4F/QYGJW9AZdh9o1zwuM+TR0rp
+	Q8avAabjSBw4CPmjIvmwK6SH3WQh0E60Y1xQJNRCkn881ELT3iKNLhUjvO/6bO07U3vWhx0GkUt
+	gDrCYMX3LlA4KkT7wG00/wcTrQ1pvcblxNfbph4eBCBHepPZyvH3TR5/cnRBm/NCs+TZygOGJGN
+	8A59OT2axbAOMG24/O5GCrKqUrclhiMHSp+HHua5nBv6Ei+JKoGdWL1Zetcthp/qIYo1aQdXNcx
+	8038aGho4VZ76N4XnMriWwBrqeKGR82ZRJtAwv7RF1lu7qYADDpVoQMQ5wOQ+tXi/Zf7ig8Gq6g
+	qqa
+X-Received: by 2002:a05:7300:3723:b0:2d4:afb3:7b00 with SMTP id 5a478bee46e88-2d58a2a1bfbmr1070447eec.28.1775793279924;
+        Thu, 09 Apr 2026 20:54:39 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d5632a2a06sm2495371eec.30.2026.04.09.20.54.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2026 20:54:39 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH 0/2] ALSA: sc6000: fix board configuration state and resume
+ handling
+Date: Fri, 10 Apr 2026 00:54:31 -0300
+Message-Id: <20260410-alsa-sc6000-pm-v1-0-4d9e95493d26@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY4PR01MB15021:EE_
-X-MS-Office365-Filtering-Correlation-Id: eadce6c7-ec2d-4cf4-e113-08de96af4fee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|52116014|38350700014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	BkbCeCyJqGuq1jKRlc4+KzH8rEHDascRFuoFRAP5vdkeDMFsVXe0/Di3f0SJzFx9UJN6T+vBipfutrZe4EfZ982WGgBC7+vry55+P8773DmdINnM7zG2VgWBSq5JgCjt8LwKX244E8R5XVAF7gG+W00FfcbFsm0RBF6eZqXL9fcddo+wdDVWfwsyaqVbGlGLBqhu79S9vmjCQ/XndJ5VCa7FNTkRvrGvkkYoXiJQ8ygcAgF6QibjjatNissOyPA9KW7gvLN7V/qg8GngVRK6nm2hVLJHvpfYZgsAc9pcd7XFgqx686H/5RVak2dP4AnSbYtnocJ7m9w37sK4qtVU7Ok629TinVgDSsPay3+M31APTA6UCBq/uyb4dPmFKSaszDf2pcknXIBAKsiLRTiOCBWeL/bhNFZcwd7JQ64tTiwOaXFXMzT8qdgXouQkHGPy+rduINalRfzBkV8rw3udY5HwWbugV/9PH3AsUfJfC27tiUgf1wQX4gFTfmgSfcrZs8XeWwjjU5KGZPpoKDy6ccKDVCGBQh1V6NqNCgOgqEbDNM0N8LYt9vYRD7vKkKurcZ3L/HXr5X0nmuRkuwPTxRXdLWU+B5aPCpWknzS+ZpuXQUNF1ZFlfhkW9M02wCD8RO5Wh6zMa8ufSAk6S2x/ZM/nP9UKu4PyHdmXEK7KpJixPxPbRY0L2k4j5TdK8rVUbquCz6JgXlGRyyyo3RVagIPCqeMhXEl0aqpAwG0yRKVEN8k7ub5vjim/RVEOlA6fGkWSZjJDY7pEzh14SRbAqZILk5G2jimPico3jpOZoQE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(52116014)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?BMSB/NmSKOKI9ZrNR9NWe3w8mHxHFshkxrV6tt4C+Igx3MlsqN/yxK3zLk?=
- =?iso-8859-1?Q?3hRy9gQl6KEuBQaKfljrK5/DmZPM7klm3c0DY7GbsCUmqt7S1Tkh6z/giS?=
- =?iso-8859-1?Q?wmQtIMTlkkLKaBcfllVxCwB5kU1Wj12E1pbT/sWA5akBlQIXKzCwnXSbfD?=
- =?iso-8859-1?Q?u8+wX3OlHYR3PcnQ1+92Nctf2UjPH0lpkN3Jl0lmAsxL/fwKI73fvv1yIy?=
- =?iso-8859-1?Q?MVVdwdu4wn5joPpZ+TqZQdtThlPxnFX35ILAm9xgjNemZkRLSyPgcj8jSv?=
- =?iso-8859-1?Q?/V9SVSDVCxnK92uSyJmSi7qXMKHgIAehAwwSxahjSQL2I+Q3+9C9eDAkfs?=
- =?iso-8859-1?Q?F/ozLe614fcoGV2BkSIXGjb2bQwFlSQtWUVEiAC7pjqQ/GAas8rCV+ZCw9?=
- =?iso-8859-1?Q?5SUgpW0VCpBTSldzN4GityaCpAOl+3dfePdG6w+5DSssXqyuY6KcVjXpqu?=
- =?iso-8859-1?Q?AlEHVpdatdUDCXzrftwNOBMRpioetUjmrkmrk1kzZrRjiByV56oIPU/hyg?=
- =?iso-8859-1?Q?kBbxxqNB1cxPLeSFQdPhTJt+X8SacBitjKCJh30avXGobYRGz2xm3irdE3?=
- =?iso-8859-1?Q?iLyrRppsDJDQ1m6i+nMEyr+B5+YfjMlSDulxhJ1GUFGkahVubKlO8K8A5b?=
- =?iso-8859-1?Q?fsL0uiv8KQ+1lYMhRZeIFg5dasGaHNSYYvaeDolAmXfiI1UJjAH07u/Wpt?=
- =?iso-8859-1?Q?5x2Ess3tEM2c8PMlJAtcDt1F6QE/Id0GUWPXz8Wz9hOUZTXHs8aXf9WWfY?=
- =?iso-8859-1?Q?9DINl68DZ+qoTxN5YHNWzHpH1jvDjgMsUxWpvJbGP5YRD1S4YRxpNIJg0g?=
- =?iso-8859-1?Q?i0oGHvHRC5Jc4tKZ7M9IBOu3HNlCKFal4P+F3RNhbRt+5hCjBGskWJb4ZS?=
- =?iso-8859-1?Q?u46h95NIsuarpflB+8pOWCFRtgErttNYY1yz49jhcM583FapaITjKxXY4j?=
- =?iso-8859-1?Q?8lBY/Tdrtw3+VZD5yBBu+QvgoWS50dbCtPGOs9Q54swcZ6XL6xUXB3PRs4?=
- =?iso-8859-1?Q?SQHAcxbB5xlFu8CUjLWEm/+V8l/UsSanakrrD++7Gpuoix/lGswi56ksQj?=
- =?iso-8859-1?Q?JQqBdjTVLZcekX6raMg0PD8mwOu8Fzm2CcVaghyTLCO5AtQkpM+EfNISOO?=
- =?iso-8859-1?Q?aW/a0Nc0bukU7Rg1aKNw8kJjm/icYWdthoWsCrQ6bkfogXYiMuFMuFGX/J?=
- =?iso-8859-1?Q?ZWD2qInn1FwQkokAxenQ/n+l2Mq5DRuaaH+jvRHzx9ArzCMAiFQMP6MXMM?=
- =?iso-8859-1?Q?PdA44tELR7F6rLz6omvmygTesQbuy5iXgT3Ym+6bibd0RFkfJmNY7AUOHS?=
- =?iso-8859-1?Q?xxo4rGL2lO+X7F0GifSdNypY3Eb4yiEcAKfVcCdIF/hHwvCd4UCehR/NDQ?=
- =?iso-8859-1?Q?te0rwbi7w1sfYJML/v1Hlpe6ad6YOumwpb2Rwo3whSLIjGKS+I6G3aX8NX?=
- =?iso-8859-1?Q?nmnkOdLf2pU068qcmPomk0T0wRIA1b372cXubIA3jh15yazpa/z6eQNKpA?=
- =?iso-8859-1?Q?hXblpgQ4fF2nNL/kSXvDwwVxoeOZclMF6Vf1oV/7a6dohPgDAgoci/2BaH?=
- =?iso-8859-1?Q?jZTLVFqA9PH9p64rzSaUFskE5sr97pMGRB+Uxew7wkC2Lmx3ONsz6avd1f?=
- =?iso-8859-1?Q?QS3wwCIU+WSCxM064o7X3bG27RZlNbykNrcrLVL6XAaxcGUthaJCeVRE8R?=
- =?iso-8859-1?Q?6+yQOh6LnHRnz7D476ssVG/iuasaQavV3LzkC7PvmcPgJeohxjPU0ttnlW?=
- =?iso-8859-1?Q?BlOqWv0G4c2Dczap43YpSMiT0pq2QwPI7RWhpNNOjokWab/2FB9c4Ul3w/?=
- =?iso-8859-1?Q?Ib6l36icmkicFVCve0dRDjKGSOof9fWnO6wbjMlAugYfRfa47ItT?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eadce6c7-ec2d-4cf4-e113-08de96af4fee
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 03:14:43.9434
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Fuys4wNWT0T8Ypml7gO/URqB6Zo0DjimxlUzrS7OvEjA6rhsNpEWbDFaw3ohYHLo5/Kq3T0e3AxKILWNQ27h7aaBsmd4YbTUCx3uHfDHIcggGXwADebXrAUwOL4j1sq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB15021
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDQAxA0atI1gaiDEq9SukijhkbUSsTLQXx7
+ k51+Rb/72ASVQyabIcoXzX9zAlFnoF/89wLapcMJZUVOaqRR2M0XxERLhO60BX0YA7kAqRoiRL
+ 0dw2fr9u2tYP49X+B4zgBp15BRnIAAAA=
+X-Change-ID: 20260407-alsa-sc6000-pm-4fd109aaf04f
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Krzysztof Helt <krzysztof.h1@poczta.fm>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1773;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=uLZjCVL90egFhMKIG9W8w6tP76Wt6+sx02EZMg6m+68=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJk3Smq+OelbVohtko/mfr2YNSlF4Gz46ROvE2dEfkjJn
+ maYpunSUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABO55s/wP6Nq0rvoKzUr3pud
+ /WfwLP/IjwumZ5Nz5q/jrvm22O5yQSvDP10RY8O/CfPD/+mcO7u951Pd7ukBlmXpmncXH+KY+z9
+ 9HyMA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
+The SC-6000 driver has to program board-level DSP routing before the
+WSS codec can operate correctly. Today that setup has two related
+problems.
 
-Hi P=E9ter, Mark
+First, the probe path may auto-select IRQ and DMA resources, but the
+SC-6000 soft configuration is still derived from the raw module
+parameter arrays. When irq=auto or dma=auto is used, the WSS codec can
+be created with the selected live resources while the board itself is
+programmed with unresolved values.
 
-Thank you for your review
+Second, the driver still lacks suspend/resume support. The WSS layer can
+save and restore codec registers, but the SC-6000-specific DSP routing
+and MSS initialization are done only during probe and are not replayed
+after resume.
 
-> > The pop_time is an amazingly good tool to debug pop noise and is mostly
-> > used via the debugfs.
-> > You set the pop_time to non 0 and DAPM will 'slow down' and you can
-> > identify the step which produces the pop.
+This series fixes the probe-time resource mismatch first and then reuses
+that cached board state to restore the hardware on resume. Keeping the
+board programming in a shared helper also keeps the old/new DSP split in
+one place so probe and resume cannot drift apart.
 
-Ah... OK, now I could understand the usage.
+- Patch 1 stores the computed SC-6000 board state in card-private data and
+builds it from the live resources selected at probe time.
+- Patch 2 wires ISA suspend/resume callbacks and restores the cached
+board setup before the WSS codec resume path runs.
 
-> Please, don't remove it!
-
-OK. Thank you for clarify it !
-
-> For Morimoto-san's purposes I think it's sufficient to just make it not
-> card specific so we could just have a global control in debugfs that
-> applies to all cards instead.  That's likely sufficient for debugging
-> use?
-
-Biggest my motivation is I want to capsuling snd_soc_card.
-If we can move it to some where, for example dapm static / local, etc
-(It seems it was before), it is very nice.
-
-If OMAP1 was OK, maybe we can move pop_time from card to soc-dapm.c ?
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Kuninori Morimoto
+Cássio Gabriel (2):
+      ALSA: sc6000: Keep the programmed board state in card-private data
+      ALSA: sc6000: Restore board setup across suspend
+
+ sound/isa/sc6000.c | 193 ++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 132 insertions(+), 61 deletions(-)
+---
+base-commit: 4c468a99786e2cf41bf7b2c95064472e99a6776f
+change-id: 20260407-alsa-sc6000-pm-4fd109aaf04f
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
