@@ -1,219 +1,123 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE75387362;
-	Fri, 10 Apr 2026 07:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5217A3537D5;
+	Fri, 10 Apr 2026 08:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775807573; cv=none; b=sONZdf8rUhPkOFvxOyQiTuouiMLeEX91As6/MhyHEnID0RgiUrQHFu/A/6AS7mw8dZQ+5+M/fWR8P7zPF5CPH9c0+G7Pyw/CZcHFLxcypyD6mxtnF/pNOvf5ipc25zyoErLkyoEfpB8mFbcUq1g8sVcDX+8yX2JLqpNw2aX3oKU=
+	t=1775808196; cv=none; b=V/G9YjCKNuPfi3tjd2xddCqcuIBwmQBR6xzN33xwDRZWYrP6ZqjaKSSZ0egD0lg7T5sysRMqX2ej8VA74OqjIi1C+yb/cYbXRdAcmVgaMZcdhJgq/FQjcb6JDWv3h+8FWVCQ4XcEgg1MWO3tuSnhz30gFO/DT2GCCi5Ro0iE/Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775807573; c=relaxed/simple;
-	bh=On3sPjQdkSCY/QGac7HCv94DWl2MdNb+QTAfi7v3M8s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VERiW8YqmruiQ77EccWjvTIvVIiJLEiEwShdU16hyUfKcIzxBlx7r4ELMFCnY+i/LOJdF3eD1DMm3BN4hrx1rZnjtZYYlSWNd4Nwhf0UQL+T6oKwrAkkfYlp40XJKaUrtDpyz88gPEZK/o2WHv05Hg/V+bR84dyvwmQukPYmKIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xWa5dGPv; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1775808196; c=relaxed/simple;
+	bh=3DygvojoZldhGOQqOZAchdnxVGFQpqG/yl0pglJpnnw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QRfsT8MaECfBU8aYNJVX3tOMuQyEXK9Jkbv9o3jpQ40N2hJfAd/SXqql9pmsQdUJazYzEIhA/Cqva0Of+I2saT3etNQZR09C+OFu4VmqLkT9R01PTgZY3XHLd0HnB9WFyGBhIcROfYS5E55gUNfZQMDBYe8OlQnhkmBdJG8ZkKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rCb0Kh8D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="xWa5dGPv"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1E0364E429A3;
-	Fri, 10 Apr 2026 07:52:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E553D603F0;
-	Fri, 10 Apr 2026 07:52:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DB7971045001D;
-	Fri, 10 Apr 2026 09:52:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775807568; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=UpCgt8IIGYMIiNdVzfsPwqSVZXoCi5LgZgi/lwSze/0=;
-	b=xWa5dGPvDsIS5bAGiB/IQYT3wiJrhNBulYPGSeasuhAhXH/t3kRHmZlrrTba6AI+EiJ+D0
-	7jZmNG4vjtESMypwGi7nGl9Sw+cvl+fmW+IYKzRfiYpqXXF7EfzemgHIZjDmjcIPiVXDTi
-	+kqP/46jaOJN2l17JSrMsGrYki/loSXAEpDTNM9bFHVGuHjI61wb/cJS2MRXK5VzQ+mc8f
-	vKhCugRdYnq9+0eOXStS04GrwjsRa9CKjTnKUvh+hV9hTjnEjLTLFmNvFu8VBk4331wafU
-	sV5wnNn1e34kTvby8BP/ayrWP7WXztL9qjOd+iMMbW+Q/Be72Bj4RKOJozTKAQ==
-Date: Fri, 10 Apr 2026 09:52:42 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: Add support for the GPIOs driven
- amplifier
-Message-ID: <20260410095242.0826fe7e@bootlin.com>
-In-Reply-To: <CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
-References: <20260330101610.57942-1-herve.codina@bootlin.com>
-	<20260330101610.57942-3-herve.codina@bootlin.com>
-	<20260408122901.GA42727-robh@kernel.org>
-	<20260408190932.0ab936b0@bootlin.com>
-	<CAL_JsqK4SHQS6MciQpLSrGWo2knqs7-eB3yoAv2J54bSfW-Lxg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rCb0Kh8D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60562C19424;
+	Fri, 10 Apr 2026 08:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775808196;
+	bh=3DygvojoZldhGOQqOZAchdnxVGFQpqG/yl0pglJpnnw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rCb0Kh8DJIjs+u9xHOWUS/cyhonPR58wM9+bd8jqI59CLk+55ZRMuxIFEpttL8Iga
+	 Y6B9z6kWqMxhzLzYl0jzhJSa29mGgIPAUNm4qeaVgmQu1wSnIUSfjEtoCmiM8Wek/a
+	 YBt3+ITj2EYQuqF7D89LKWMnG5KWxc5PiywFX5wKtRgl9twOVWl7Io0MiYp+KjcK4M
+	 AJ9k6rNLXM8LMv3bzuijrool6SMP9kDrC6VlWFdgIy3dYULXf7Y+XKjIxWZdM2WDlT
+	 zrUe+Rn2miHD9jnO0vL8a65hLIko76DUuHaGdxLucbZp6XPOLZk+0P9Ac8WqFxwsTx
+	 N7Yy4auPaeIDQ==
+Message-ID: <6fdc548e-34c5-44ab-8e4e-6d58ea6b07a8@kernel.org>
+Date: Fri, 10 Apr 2026 10:03:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/realtek: fix code style (ERROR: else should
+ follow close brace '}')
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Lei Huang <huanglei814@163.com>, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lei Huang <huanglei@kylinos.cn>
+References: <20260331075405.78148-1-huanglei814@163.com>
+ <87wlyss93y.wl-tiwai@suse.de>
+ <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
+ <2475f220-b0ff-4ee6-b897-75de87d68f81@kernel.org>
+ <87mrzbgtln.wl-tiwai@suse.de>
+ <76ff00e6-07a3-4c0b-8906-baa13c077468@kernel.org>
+ <87ik9zgsuy.wl-tiwai@suse.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <87ik9zgsuy.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 
-Hi Rob, Mark,
-
-On Thu, 9 Apr 2026 10:00:55 -0500
-Rob Herring <robh@kernel.org> wrote:
-
-...
-
+On 10/04/2026 09:46, Takashi Iwai wrote:
 > 
-> > > If not, then gain-range could be expressed using gain-points instead.  
-> >
-> > Do you have in mind something like the following?
-> >   gain-range = <0 (-300)>, <3 600>;
-> >
-> > defining the range from -3dB to +6dB with GPIOs value 0 for -3dB and 3 for +6dB.  
+> It actually helps a lot on distro side, judging from my long
+> experience of backporting (literally) million of patches for openSUSE
+> / SUSE kernels.
 > 
-> Yes, but since you can have reserved values, that won't work.
-
-In that case gpio-points can be used.
-
-The other solution will be to allow multiple ranges:
-
-   gpios    Gain
-   0b000 -> -6dB
-   0b001 -> -3dB
-   0b010 -> 0dB
-   0b011 -> Reserved
-   0b100 -> +3dB
-   0b101 -> +6dB
-   other -> Reserved
-
-This could be described as
-  gain-ranges = <0 (-600)>, <2 0>,
-                <4 300>, <5 600>;
-
-As a side note, this will probably add quite a lot of complexity to handle
-multiple ranges in the driver. If too complex, the driver will handle only
-one range and returns -ENOTSUPP if multiple ranges (more than one) are used.
-
-Is that something acceptable?
-
-
-...
-> > > > +    description: |
-> > > > +      List of the gain labels attached to the combination of GPIOs controlling
-> > > > +      the gain. The first label is related to the gain value 0, the second label
-> > > > +      is related to the gain value 1 and so on.
-> > > > +
-> > > > +      With 2 GPIOs controlling the gain, GPIOs value can be 0, 1, 2 and 3.
-> > > > +      Assuming that gain value set the hardware according to the following
-> > > > +      table:
-> > > > +
-> > > > +         GPIOs | Hardware
-> > > > +         value | amplification
-> > > > +         ------+--------------
-> > > > +           0   | Low
-> > > > +           1   | Middle
-> > > > +           2   | High
-> > > > +           3   | Max
-> > > > +         ------+--------------
-> > > > +
-> > > > +      The description using gain labels can be:
-> > > > +        gain-labels = "Low", "Middle", "High", "Max";  
-> > >
-> > > Do we need to allow these to be anything? It's going to get hard to come
-> > > up with 2^32 names.  
-> >
-> > Well, "Normal" / "Boost" can make sense on some hardware.
-> >
-> > I don't think we need to restrict labels to a list of known label here.  
+>> BTW, since I was looking at your tree - you have contributions from
+>> songxiebing@kylinos.cn which does not follow requirements for a *known
+>> identity*. IOW, it does not pass DCO requirements and should not be
+>> accepted.
 > 
-> As long as the names are meaningless to software.
+> Do you mean the form
+>   Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+> ?
 > 
-> >
-> > Of course 2^32 names is obviously a lot. What could be the limit?  
-> 
-> I would guess at 8 or more, it's just going to be gain1, gain2, etc.
-> or something similar constructed from the gain values.
+> The name spelling without space is pretty normal in Chinese.
 
-I suppose that gpio-points or gpio-ranges are going to be used instead
-of labels at 8 or more.
-
-With a lot number of GPIOs involved, I am not sure that using labels makes
-sense even from the hardware point of view.
-
-The 3 possible descriptions (gpio-points, gpio-range(s), gpio-labels) are
-mutually exclusive. Depending on the hardware designed, one of them has to
-be chosen.
-
-Of course, you can describe 256 labels but does it make sense in that case
-with alternative available ?
-
-> 
-> > ...
-> >  
-> > > > +
-> > > > +    /* A mutable amplifier without any gain control */
-> > > > +    amplifier4 {
-> > > > +        compatible = "audio-gpio-amp";
-> > > > +        vdd-supply = <&regulator>;
-> > > > +        mute-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;  
-> > >
-> > > This case is just simple-amplifier...  
-> >
-> > No, simple-amplifier uses 'enable' and not 'mute'.  
-> 
-> Yes, I know...
-> 
-> > We can have the amplifier enabled ('enable' GPIO active) as it is
-> > used and a switch driven by an other GPIO to mute / un-mute the
-> > amplifier output.  
-> 
-> But you have no 'enable' GPIO here. To me, enable just looks like
-> inverted mute. If there's some electrical difference, I can't tell
-> what that is from either binding.
-
-A known physical component handle by simple-amplifier is the dio2125.
-
-According to its datasheet:
-  Pop-free power up is ensured by keeping the EN (shutdown pin) low during
-  power down. The EN pin should be kept low EN pin high to achieve pop-less
-  power up
-
-The 'enable' gpio should be used when power is established or remove.
-
-The mute gpio handle an output switch:
-
-           +---------+   op-amp output
-           | dio2125 +-------------------o
-           |         |                        o---- Amplifier feature output
- enable ---+         |                ,--o  ^
-           |         |                |     |
-           +---------+                v     |
-                                     GND    |
-                                            |
- mute --------------------------------------'
-
-
-The mute signal switches on/off the dio2125 output while the dio2125 is
-active (powered uup) and so its enable pin is driven high.
-
-
-I can add an 'enable' GPIO here to handle it in the same way as it is handled in the 
-simple-amplifier (dio2125 use case).
-
-> 
-> I guess my point was that really we could deprecate simple-amplifier
-> binding because this one can handle it and more. But I'm not
-> suggesting we do that yet.
-> 
+It is a copy of email username. I am no expert, but usually Latin
+transliterations have differences from usernames (and Google confirms
+that space is expected for transliteration, although Google is no expert
+either), so this looks like semi-configured Git.
 
 Best regards,
-Hervé
+Krzysztof
