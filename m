@@ -1,120 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from r3-72.sinamail.sina.com.cn (r3-72.sinamail.sina.com.cn [202.108.3.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792572BE056;
-	Fri, 10 Apr 2026 07:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616C43346A6
+	for <linux-sound@vger.kernel.org>; Fri, 10 Apr 2026 07:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775805103; cv=none; b=tkhSJRHd+Q/PCRmcEUcQ2GOhRaIPV9C/J0cnOQAZcP/c3/cItBAfaNv4ox/2tGCr0Hm1hxhTfPxUJ9dGnW9HA9EBm+CyZRImed0GCfTFGARM0c5fGOOwcNUpwWNQIa6czf5aXLNFC8v4OeXDnifQAd8HfQCXOIg690u9YZdL0Fo=
+	t=1775805897; cv=none; b=N+bX79VkAW4KJIqx8x9cXW+t8PYPUvNTZCrEWBoHVhwgepqE18YiBB5kym4F40XQjECOwdUE3Fzlz5B7mntUyfHVlOLjhmrd+x8ManX6g/ySYNqd9Ir3rZLnlc5Lf9ZGh0TheeXU0d0fq3DXx1HsYi5FNM8rnykgoWmfj18PcRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775805103; c=relaxed/simple;
-	bh=qQjAwEF8GGdp6RAj+5n/TOyJfpIIx3pA+i/VHogaozw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=oZxTEWed1sWP6V/jEEtfPXks7zZ2K6uX2T7QL3KKXutgfjpOomvkEW0Wf3Mye/i0P6e1I2NZ8xkYXaFO2w+xmMX2GLUUrdpVm0qW58C0FvwOsFIYTd9KdVFBHAcdZj0QxEDpZq+Sgyic7Gvhe+Fbtz1oDa5lxx0cg+jDxqawzgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oE6T+Oy0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oE6T+Oy0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95E14C19421;
-	Fri, 10 Apr 2026 07:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775805103;
-	bh=qQjAwEF8GGdp6RAj+5n/TOyJfpIIx3pA+i/VHogaozw=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=oE6T+Oy0FiUQEKOXi16Jg+hmj8Kpn23DE6PRWYwOIuYKL4WJkmrY9o9ln60kPS82B
-	 Gp4PvcH9IFoWrYMp5QmX4aH/K7NShnlDBvhHwduwCDpymYBuXgf3YM+6XfKBdKdJZZ
-	 uIE3V7J9rUfsK2OUGgbK6kdzYC5HoZY5LtfOq6gqYc6AhPLaqkFKtcqevY1HyQDcmz
-	 uHEd4L9CNQcbRjpxHO+nebHGX0ToWB/tYOq1ccTuGR8QhuIJ9k2hU+2GuVJy6FsSGv
-	 aVaki4hBMmonjKn5IPDxukuk5sopO7RowsrDPcETuERLkeS3LX3KlqwFcopiGQHmoU
-	 XrEaaAe0ibzhQ==
-Message-ID: <2475f220-b0ff-4ee6-b897-75de87d68f81@kernel.org>
-Date: Fri, 10 Apr 2026 09:11:39 +0200
+	s=arc-20240116; t=1775805897; c=relaxed/simple;
+	bh=UfRhinFGZLY+kgnn+KrtfqYqDnhMF2ig7A8hunZNQqs=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=HmR2GIvcZrK41dKLP1Le3KE0F1TYfnFEbtQ0CaZHAQb/4m82Zkgsdo7FJxreB1J7c9UfvbSLGdjb30KoRHgtBdkz6/Q/rw6WoHEdkI+hOdQ1LxpD67XbVmxhdC5i/4UCNMhWF592Vja2jesFy9S/lruS83H6SOM1dLddJ0rQolk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
+	by sina.net (10.54.253.39) with ESMTP
+	id 69D8A5BB00000BB0; Fri, 10 Apr 2026 15:24:44 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 54FD81035AF0400C8D127DC92B8AF477
+X-SMAIL-UIID: 54FD81035AF0400C8D127DC92B8AF477-20260410-152444
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ckeepax@opensource.cirrus.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v7 0/5] Add es9356 focused SoundWire CODEC
+Date: Fri, 10 Apr 2026 15:24:36 +0800
+Message-Id: <20260410072441.6111-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: fix code style (ERROR: else should
- follow close brace '}')
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>, Lei Huang <huanglei814@163.com>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lei Huang <huanglei@kylinos.cn>
-References: <20260331075405.78148-1-huanglei814@163.com>
- <87wlyss93y.wl-tiwai@suse.de>
- <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <460e5a49-dd85-41fe-9d35-0c4e7efc0ceb@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 01/04/2026 12:43, Krzysztof Kozlowski wrote:
-> On 31/03/2026 10:20, Takashi Iwai wrote:
->> On Tue, 31 Mar 2026 09:54:05 +0200,
->> Lei Huang wrote:
->>>
->>> From: Lei Huang <huanglei@kylinos.cn>
->>>
->>> Fix checkpatch code style errors:
->>>
->>>   ERROR: else should follow close brace '}'
->>>   #2300: FILE: sound/hda/codecs/realtek/alc269.c:2300:
->>>   +       }
->>>   +       else
->>>
->>> Fixes: 31278997add6 ("ALSA: hda/realtek - Add headset quirk for Dell DT")
->>> Signed-off-by: Lei Huang <huanglei@kylinos.cn>
->>
->> Thanks, applied to for-next branch.
-> 
-> I hope you dropped the fake Fixes tag. Or at least give people chance to
-> review it.
+This patch chain adds support for the ES9356 PC focused
+SoundWire CODEC.
 
-I see you entirely ignored all the comments about fake bug being fixed here.
+v7 -> v6:
+	-Provide comments for some parameters
+	-Rename `jack_detect_work` to `interrupt_handle_work`
+	-Add a jack_lock when handling disable_irq in suspend
+	-Adjust the handling procedure when a jack register
+	 is incorrectly identified
+	-Replace the custom SOC_SINGLE_Q78_TLV with SDCA_SINGLE_Q78_TLV
 
-Best regards,
-Krzysztof
+v6 -> v5:
+	-Handling default values in `button_detect` and `jack_detect`
+	-Add the member `disable_irq` so that interrupts are
+	 no longer processed after suspend.
+	-Move the PDE processing to `hw_params` and `hw_free`
+	-Separate JACK_OUT and JACK_IN in hw_params
+	-Simplify reading and writing to SDW_SCP_SDCA_INT1 in the callback
+	-Adjust the scope of `regcache_sync` in the resume
+
+v5 -> v4:
+	-Merge patch1 and patch3
+	-Add vendor_id in codec_info
+	-Use q78_get and q78_set to create Kcontrol
+	-Set mbq_size and use regmap_mbq
+	-An additional helper function to implement DAPM
+
+v4 -> v3:
+	-Updated some KControl names
+	-add copyright in soc_sdw_es9356
+
+v3 -> v2:
+	-Removed unnecessary section in soc_sdw_es9356.c
+	-Add `pm_runtime_put_noidle` to `es9356.c` to
+	 reduce device incremented count
+	-Updated some KControl names
+	-Fix the error related to jack_report in the codec driver
+
+v2 -> v1:
+	-Adjusted mutexes in the ES9356 driver
+	-Use macros to replace certain values
+	-Adjusted some ordering issues in Kconfig.
+
+v1 -> v0:
+	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
+
+Zhang Yi (5):
+  ASoC: sdw_utils: add soc_sdw_es9356
+  ASoC: sdw_utils: add ES9356 in codec_info_list
+  ASoC: es9356-sdca: Add ES9356 SDCA driver
+  ASoC: Intel: soc-acpi: arl: Add es9356 support
+  ASoC: Intel: sof_sdw: add es9356 support
+
+ include/sound/soc_sdw_utils.h                 |   14 +
+ sound/soc/codecs/Kconfig                      |    7 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/es9356.c                     | 1156 +++++++++++++++++
+ sound/soc/codecs/es9356.h                     |  208 +++
+ sound/soc/intel/boards/Kconfig                |    1 +
+ .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
+ sound/soc/sdw_utils/Makefile                  |    1 +
+ sound/soc/sdw_utils/soc_sdw_es9356.c          |  230 ++++
+ sound/soc/sdw_utils/soc_sdw_utils.c           |   50 +
+ 10 files changed, 1721 insertions(+)
+ create mode 100644 sound/soc/codecs/es9356.c
+ create mode 100644 sound/soc/codecs/es9356.h
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
+
+-- 
+2.17.1
+
