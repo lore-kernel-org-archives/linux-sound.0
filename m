@@ -1,63 +1,63 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AE5359A7B
-	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 11:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C407C359A81
+	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 11:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775907811; cv=none; b=S4ZeqiozVqUUWXuOShyc85CysSryczfCfSdrysZtav3JQzcNaZfFfrIiKA6ujhoXCjVTEpsVb04Bn3+icRODN/FsYIph8oqzHGzEjyBZZ8r2YGkms0VE4UtLeui05mVpuqslv8n9WdFFBjBIFsmDHusurHzYu6xHbqvm+BNaHOw=
+	t=1775907813; cv=none; b=GvZBFSqT/8LJ4HHHxV5K1HXhziWg2QAIQjWd/fodnbS9vrOYtlBZUbfc1a0tfkuKv4Ukc1gMUv7SXVOoG8jMlYBd7LBBHcUpOtF2LQQh1T0PlWn0e+RCL1cT6Q45MxRluW9FE1sM8DO5bKS5UNBdFLOLiwT9EZKBqKQnhHxsXFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775907811; c=relaxed/simple;
-	bh=IW52sWUaqMFEY6BbWKKClK/wbgEBkQeALR5hdqMA95U=;
+	s=arc-20240116; t=1775907813; c=relaxed/simple;
+	bh=G5ZrxdDz6SrJRh5gILn+jY8SjkPfRoyYynwfeT8cu7s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mtdsanf3T4mX6AtLKPlWIhD6SCtfzkwHsUjr/EzfoAxmofHDiz+shRPMbtaWae5DiQu7keMGmmszYuHjQvymWORh/eIwwPylgzOlsocribcZtTEjc35Y8zLlchvljXsuCmDzW7D36SLdlC7tEbmqcdSmpoBl9HkQP4Ml9pv1k1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MLKtE0J4; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version; b=ZnBIjSL0QRy/ud43z2DDbcVCNRhrD0Xz9caVFizreCUvaXYcLd3yZDMKqQJhFn+F6AOtSqjb55LE6DKGORv5sIBI0F6uJcE7W7n6cc0MdB4kE/jsgoS8+HQeX0aWwcug0eChqgtJfXYdlgKWQUc6HZViJmw0qoRlsalJRrR3fh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cLBNfpcS; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MLKtE0J4"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b8982c2f4so1721727f8f.2
-        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 04:43:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cLBNfpcS"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b95e5b3afso1851826f8f.3
+        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 04:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1775907808; x=1776512608; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1775907810; x=1776512610; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3zdkb0CAXfpSevM/ivqXKAKRICDyAzezyAIbw20Wd9A=;
-        b=MLKtE0J4OBmPZxXaz9RiZvRq2+nnNzXMbYGy2n/ectLDEhjHo+XxPM0s0XkB3bgoxl
-         i7N5QlSfHqxhen27HErppclZvCimwOzUem7Y2LcVjnq/185sRvBR/vaeucKJmz6bI/pI
-         IlFb/uBzOJQkaeR0MUy7rHiJoKYOjqtQOl4e/RmbL5sIFRIBpnY5R5hZeVp/Rc75TdE+
-         HbXItGGWO72c+P5Tc8RnXaJUb+6uaZhQntmBBlXhTjw9+ya+r76Tr6PbpDRq7YBWLgE9
-         T5uXW66wI9fKsMgiWfXtFf+AwhZlTMEfZD+gRfOzl/4CuM7Q/MhrpbYdmjzaqV269onT
-         BVlw==
+        bh=e1vnLRbFLHGljDC8DA+DpcpC7Ymwdn6jDCXLtiDCAnA=;
+        b=cLBNfpcSVK9HGMiaoknKHEkySooReh/4Vx2xP0KasiXixX9OufkHjPijEn9SXuIg5J
+         8pwOo7X+NG7A72hsPq6bRvfWBf4LM/zjVDUn58a8HOwdkf/8hlwz1pwt4J8Ws3GtvVWK
+         k6hO8Oq18uWuZIsUTP+2Ukxjegb1JnLAcAL3pxB14iQeraKf6YjgIsM1/hx9ZIQ0z0/E
+         DR4EQep5AaDtWs9ho8l8NuCcIJiEY8Vfwwyx+qxjQ21HD0zRLWQo9F2+9k7qXs6bfuRC
+         Iq8l4kaIroDFK4fUMuYb/zRW8tP6xeO7E8CJGczN7UXLZLrLYZuUWZAjJdrOvMkdWdrG
+         WjOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775907808; x=1776512608;
+        d=1e100.net; s=20251104; t=1775907810; x=1776512610;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3zdkb0CAXfpSevM/ivqXKAKRICDyAzezyAIbw20Wd9A=;
-        b=GGezoHBK4ymuoPR43pvNcTeDrjnalpByPBc6Wb2KDLHgmR8goK+c0E1gY1Zcy8fuIT
-         nthwB+Oh25axzSnKe6MvOqpwCQgK2C49YU+HInH9GPC9GHb+NNb63mj3BUQ6rZC9xqQT
-         7kRuSVroHcJxNRKz5Hy0OizHDU6wncTM1zyTTlBs+hQ+v2Cuhdrn9HW3+bTmPPgI4xJn
-         7ZLM65U+goz5+wCflU+tr06N0lNAb+32ZGE9QXDp67PfkFQ/F5ysv8OAEhjsC0t2hKEt
-         n6RQPXropsd1neIa/1zGck5BMKWUTLMAlDXj1v511cy5xkpPLACQyjsnWZVvIXSfwNM2
-         DONw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzKmd9+XR/YYOmEpPeFT2T4vGjl1DYi9MR/rJYoHz4dcIpAkw25HqUeInexNFQABOFS4L91E3WEDGxnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWzSU13sp+WN5p+YF88tYkuJ/aT3HfAXQOMZp0zqU7PFyBj8z2
-	6g0thI/i/OO+iTrHHsaAtM7hoseHvanrnhfUB923KkBxVMQvQSuCE4zFihtvGXeeZXI=
-X-Gm-Gg: AeBDiesLuofmmR+T0AHgMw61/fqxi1it2EO0NgGySVSmZf2TfUtVBng3blxyIdWMc8B
-	sUsI16ZGSMZ+dGwrMo9uvWP4LVGeGKuE6sP42rQiCFmUjRfhZgI5rpdkYxWLwgK/8YJIFp9xzJ/
-	YPpHbx5eTEjO5rRTQGuT/d/TjvebuVgF5ybOUYHqV+ib8lHFPrmbdJEpJ+DPKjdnhWQtTHG1iGS
-	mJGpUqbVfWsliH7jRayGL4yfp/scEPzaEiDVw1kGetjhSthsKetyquxJQsQNotlFyMLPbU+TbxE
-	W083CHS20OaXe6iIjr1UgcsG4IW4xYR6eokvtUNplweLPFphx+HBN6/+2zzHyaSxZbqF/Q0nmtB
-	Ql3Z4TjCtaOTEuDC+WSN3v+KzT76uNh7RC206sy5mC/P/fRwQnEKpsoWOxqq2+7qPjD5V/h7JZ+
-	66qFyF+wp2+c7BjBkc96RVIUfqFe7IFVhvp0xgBy4/SMoBF1OxOEri
-X-Received: by 2002:a05:6000:2304:b0:43d:1c3b:2dae with SMTP id ffacd0b85a97d-43d64255160mr9442521f8f.9.1775907808486;
-        Sat, 11 Apr 2026 04:43:28 -0700 (PDT)
+        bh=e1vnLRbFLHGljDC8DA+DpcpC7Ymwdn6jDCXLtiDCAnA=;
+        b=eGNPlcEvufTYsY9XOJVKfYJlrRY5OmOcb970sBp0PV4EvCDOKGpYoR014iRK+zwkNo
+         gYP5lI7TQULCuTnKYO0mDdDieamRcan+sJMDzXG/JqYaCQeOQC9ugoTvL+dTUoQQqzk9
+         UUroPl+4olec/ojHPNHTtaZ3OPQQzzGJo0GhhWZUuuZMTMUKAZNXAUlAjWtL6dtVzSp9
+         Gkz0hl3AUuK86imxOAw6wwnO0xvLj8GmO89TPxPcB8IkSY/Uh0g9a7TLjpLaKBZn0Vku
+         CCNYlQuK8HwN/lCBjYdINgHIpXNIVY4UzCsxZ9Ev8hepal6yrBaGRBPr0YNHwOtW3Ixo
+         N83Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVlKNFdebqvj/l8+Dp7aY2LQaYfJcQJDQASlrv5boyW/8gN3/2dabfpk16tuxuI0gnvIG1ImvppE+SlDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3vTupY5lsBMFFA4TqJuK9eeTep/ClunFU2AmNTsTUKYjG2Zxz
+	Gf0uiAZMM9n7vD14VB6EJE59m4IkTx4NRADVNIjfpzYrxG2awcFDfbXtX14I4qONnuI=
+X-Gm-Gg: AeBDiesdQ3vKgMXB+akwe3xkQQ42kEwOoRMruUUJNVUvCX0hWM8SiwY8G5VZqwswez4
+	t9DbH225CStUwKTxxt+QloUuuXrcLDOkOwMwkZFXvfIGudSAo9h4u5lmXJ9fLA3RGKPJ9dr9z2p
+	uJsUaUyQz1krgiqSUo6Lm73p1/zitK0nnx56OUWYbfcZoRr2yIWKoC4/e9YLuuEeGw/qQN2gVH2
+	XRY/SjOUSL8QgGCYgB6paWd2f5guNsHzJmeEzuC39NBboQff+l9N8I0LnsBbeYHTpnlqZIMUAgG
+	/HpouirfVITagUzgwFfxPgRpskI5u5LlQKYFq2NBm7lUbe9iBzjvy3e2SZ91VopGTfPLZe4DZtw
+	j0ZrZMw0ShYqJP8YYsT8dlS3IICF+NTJ4wlYY/FwtSWKQK2w2yM4T4Rg780hu3CxuXEbqv/glOr
+	FaRnxg/jqH6o/8UXy89T4+Q59mCHOZNwrcDOFQtYZoweEcxhMvCM1g
+X-Received: by 2002:a5d:5847:0:b0:43d:4fca:a973 with SMTP id ffacd0b85a97d-43d642c1a9dmr9196491f8f.40.1775907810115;
+        Sat, 11 Apr 2026 04:43:30 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 04:43:27 -0700 (PDT)
+        Sat, 11 Apr 2026 04:43:29 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -78,9 +78,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 12/17] dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with CHCTRL_SETEN
-Date: Sat, 11 Apr 2026 14:42:58 +0300
-Message-ID: <20260411114303.2814115-13-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 13/17] dmaengine: sh: rz-dmac: Add cyclic DMA support
+Date: Sat, 11 Apr 2026 14:42:59 +0300
+Message-ID: <20260411114303.2814115-14-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
@@ -94,53 +94,255 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The CHCTRL_SETEN bit is explicitly set in rz_dmac_enable_hw(). Updating
-struct rz_dmac_chan::chctrl with this bit in
-rz_dmac_prepare_desc_for_memcpy() and rz_dmac_prepare_descs_for_slave_sg()
-is unnecessary in the current code base. Moreover, it conflicts with the
-configuration sequence that will be used for cyclic DMA channels during
-suspend to RAM. Cyclic DMA support will be introduced in subsequent
-commits.
-
-This is a preparatory commit for cyclic DMA suspend to RAM support.
+Add cyclic DMA support to the RZ DMAC driver. A per-channel status bit is
+introduced to mark cyclic channels and is set during the DMA prepare
+callback. The IRQ handler checks this status bit and calls
+vchan_cyclic_callback() accordingly.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v4:
-- set channel->chctrl = 0 in rz_dmac_prepare_descs_for_slave_sg()
+- drop the nxla update logic in rz_dmac_lmdesc_recycle() as this is
+  not needed for any kind of transfers
+- drop the update of channel->status = 0 from rz_dmac_free_chan_resources()
+  and rz_dmac_terminate_all() as this was moved in patch 09/17
 
 Changes in v3:
-- none
+- updated rz_dmac_lmdesc_recycle() to restore the lmdesc->nxla
+- in rz_dmac_prepare_descs_for_cyclic() update directly the
+  desc->start_lmdesc with the descriptor pointer insted of the
+  descriptor address
+- used rz_dmac_lmdesc_addr() to compute the descritor address
+- set channel->status = 0 in rz_dmac_free_chan_resources()
+- in rz_dmac_prep_dma_cyclic() check for invalid periods or buffer len
+  and limit the critical area protected by spinlock
+- set channel->status = 0 in rz_dmac_terminate_all()
+- updated rz_dmac_calculate_residue_bytes_in_vd() to use 
+  rz_dmac_lmdesc_addr()
+- dropped goto in rz_dmac_irq_handler_thread() as it is not needed
+  anymore; dropped also the local variable desc
 
 Changes in v2:
-- fixed typos in patch title and patch description
+- none
 
- drivers/dma/sh/rz-dmac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/dma/sh/rz-dmac.c | 136 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 130 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index d009b7607d44..958ee45abc70 100644
+index 958ee45abc70..9a10430109e5 100644
 --- a/drivers/dma/sh/rz-dmac.c
 +++ b/drivers/dma/sh/rz-dmac.c
-@@ -377,7 +377,7 @@ static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan *channel)
- 	rz_dmac_set_dma_req_no(dmac, channel->index, dmac->info->default_dma_req_no);
+@@ -35,6 +35,7 @@
+ enum  rz_dmac_prep_type {
+ 	RZ_DMAC_DESC_MEMCPY,
+ 	RZ_DMAC_DESC_SLAVE_SG,
++	RZ_DMAC_DESC_CYCLIC,
+ };
  
- 	channel->chcfg = chcfg;
--	channel->chctrl = CHCTRL_STG | CHCTRL_SETEN;
-+	channel->chctrl = CHCTRL_STG;
+ struct rz_lmdesc {
+@@ -67,9 +68,11 @@ struct rz_dmac_desc {
+ /**
+  * enum rz_dmac_chan_status: RZ DMAC channel status
+  * @RZ_DMAC_CHAN_STATUS_PAUSED: Channel is paused though DMA engine callbacks
++ * @RZ_DMAC_CHAN_STATUS_CYCLIC: Channel is cyclic
+  */
+ enum rz_dmac_chan_status {
+ 	RZ_DMAC_CHAN_STATUS_PAUSED,
++	RZ_DMAC_CHAN_STATUS_CYCLIC,
+ };
+ 
+ struct rz_dmac_chan {
+@@ -191,6 +194,7 @@ struct rz_dmac {
+ 
+ /* LINK MODE DESCRIPTOR */
+ #define HEADER_LV			BIT(0)
++#define HEADER_WBD			BIT(2)
+ 
+ #define RZ_DMAC_MAX_CHAN_DESCRIPTORS	16
+ #define RZ_DMAC_MAX_CHANNELS		16
+@@ -431,6 +435,57 @@ static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
+ 	channel->chctrl = 0;
  }
  
- static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
-@@ -428,7 +428,7 @@ static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
- 
- 	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
- 
--	channel->chctrl = CHCTRL_SETEN;
-+	channel->chctrl = 0;
- }
- 
++static void rz_dmac_prepare_descs_for_cyclic(struct rz_dmac_chan *channel)
++{
++	struct dma_chan *chan = &channel->vc.chan;
++	struct rz_dmac *dmac = to_rz_dmac(chan->device);
++	struct rz_dmac_desc *d = channel->desc;
++	size_t period_len = d->sgcount;
++	struct rz_lmdesc *lmdesc;
++	size_t buf_len = d->len;
++	size_t periods = buf_len / period_len;
++
++	lockdep_assert_held(&channel->vc.lock);
++
++	channel->chcfg |= CHCFG_SEL(channel->index) | CHCFG_DMS;
++
++	if (d->direction == DMA_DEV_TO_MEM) {
++		channel->chcfg |= CHCFG_SAD;
++		channel->chcfg &= ~CHCFG_REQD;
++	} else {
++		channel->chcfg |= CHCFG_DAD | CHCFG_REQD;
++	}
++
++	lmdesc = channel->lmdesc.tail;
++	d->start_lmdesc = lmdesc;
++
++	for (size_t i = 0; i < periods; i++) {
++		if (d->direction == DMA_DEV_TO_MEM) {
++			lmdesc->sa = d->src;
++			lmdesc->da = d->dest + (i * period_len);
++		} else {
++			lmdesc->sa = d->src + (i * period_len);
++			lmdesc->da = d->dest;
++		}
++
++		lmdesc->tb = period_len;
++		lmdesc->chitvl = 0;
++		lmdesc->chext = 0;
++		lmdesc->chcfg = channel->chcfg;
++		lmdesc->header = HEADER_LV | HEADER_WBD;
++
++		if (i == periods - 1)
++			lmdesc->nxla = rz_dmac_lmdesc_addr(channel, d->start_lmdesc);
++
++		if (++lmdesc >= (channel->lmdesc.base + DMAC_NR_LMDESC))
++			lmdesc = channel->lmdesc.base;
++	}
++
++	channel->lmdesc.tail = lmdesc;
++
++	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
++}
++
  static void rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
+ {
+ 	struct virt_dma_desc *vd;
+@@ -452,6 +507,10 @@ static void rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
+ 	case RZ_DMAC_DESC_SLAVE_SG:
+ 		rz_dmac_prepare_descs_for_slave_sg(chan);
+ 		break;
++
++	case RZ_DMAC_DESC_CYCLIC:
++		rz_dmac_prepare_descs_for_cyclic(chan);
++		break;
+ 	}
+ 
+ 	rz_dmac_enable_hw(chan);
+@@ -586,6 +645,55 @@ rz_dmac_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
+ 	return vchan_tx_prep(&channel->vc, &desc->vd, flags);
+ }
+ 
++static struct dma_async_tx_descriptor *
++rz_dmac_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf_addr,
++			size_t buf_len, size_t period_len,
++			enum dma_transfer_direction direction,
++			unsigned long flags)
++{
++	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
++	struct rz_dmac_desc *desc;
++	size_t periods;
++
++	if (!is_slave_direction(direction))
++		return NULL;
++
++	if (!period_len || !buf_len)
++		return NULL;
++
++	periods = buf_len / period_len;
++	if (!periods || periods > DMAC_NR_LMDESC)
++		return NULL;
++
++	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
++		if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))
++			return NULL;
++
++		desc = list_first_entry_or_null(&channel->ld_free, struct rz_dmac_desc, node);
++		if (!desc)
++			return NULL;
++
++		list_del(&desc->node);
++
++		channel->status |= BIT(RZ_DMAC_CHAN_STATUS_CYCLIC);
++	}
++
++	desc->type = RZ_DMAC_DESC_CYCLIC;
++	desc->sgcount = period_len;
++	desc->len = buf_len;
++	desc->direction = direction;
++
++	if (direction == DMA_DEV_TO_MEM) {
++		desc->src = channel->src_per_address;
++		desc->dest = buf_addr;
++	} else {
++		desc->src = buf_addr;
++		desc->dest = channel->dst_per_address;
++	}
++
++	return vchan_tx_prep(&channel->vc, &desc->vd, flags);
++}
++
+ static int rz_dmac_terminate_all(struct dma_chan *chan)
+ {
+ 	struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
+@@ -733,9 +841,18 @@ static u32 rz_dmac_calculate_residue_bytes_in_vd(struct rz_dmac_chan *channel,
+ 	}
+ 
+ 	/* Calculate residue from next lmdesc to end of virtual desc */
+-	while (lmdesc->chcfg & CHCFG_DEM) {
+-		residue += lmdesc->tb;
+-		lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
++	if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)) {
++		u32 start_lmdesc_addr = rz_dmac_lmdesc_addr(channel, desc->start_lmdesc);
++
++		while (lmdesc->nxla != start_lmdesc_addr) {
++			residue += lmdesc->tb;
++			lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
++		}
++	} else {
++		while (lmdesc->chcfg & CHCFG_DEM) {
++			residue += lmdesc->tb;
++			lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
++		}
+ 	}
+ 
+ 	dev_dbg(dmac->dev, "%s: VD residue is %u\n", __func__, residue);
+@@ -924,10 +1041,14 @@ static irqreturn_t rz_dmac_irq_handler_thread(int irq, void *dev_id)
+ 	if (!desc)
+ 		return IRQ_HANDLED;
+ 
+-	vchan_cookie_complete(&desc->vd);
+-	channel->desc = NULL;
++	if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)) {
++		vchan_cyclic_callback(&desc->vd);
++	} else {
++		vchan_cookie_complete(&desc->vd);
++		channel->desc = NULL;
+ 
+-	rz_dmac_xfer_desc(channel);
++		rz_dmac_xfer_desc(channel);
++	}
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -1179,6 +1300,8 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 	engine = &dmac->engine;
+ 	dma_cap_set(DMA_SLAVE, engine->cap_mask);
+ 	dma_cap_set(DMA_MEMCPY, engine->cap_mask);
++	dma_cap_set(DMA_CYCLIC, engine->cap_mask);
++	engine->directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
+ 	engine->residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
+ 	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_0_7_COMMON_BASE + DCTRL);
+ 	rz_dmac_writel(dmac, DCTRL_DEFAULT, CHANNEL_8_15_COMMON_BASE + DCTRL);
+@@ -1190,6 +1313,7 @@ static int rz_dmac_probe(struct platform_device *pdev)
+ 	engine->device_tx_status = rz_dmac_tx_status;
+ 	engine->device_prep_slave_sg = rz_dmac_prep_slave_sg;
+ 	engine->device_prep_dma_memcpy = rz_dmac_prep_dma_memcpy;
++	engine->device_prep_dma_cyclic = rz_dmac_prep_dma_cyclic;
+ 	engine->device_config = rz_dmac_config;
+ 	engine->device_terminate_all = rz_dmac_terminate_all;
+ 	engine->device_issue_pending = rz_dmac_issue_pending;
 -- 
 2.43.0
 
