@@ -1,158 +1,111 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BC82EC09F
-	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 08:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF92133030F;
+	Sat, 11 Apr 2026 10:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775894882; cv=none; b=iePtWw0IZoxYOlFj397O25LOLJ5UCqZ+KCaaG3jrpArTCPVqUR5PTCieeP+FhcthKGlnCGOyIlJvrRDpoHyO5Wr8vEaIwZALatvDs4gLQIaFWkMiRK7Y/Z39XFmhqe9T9hIWYlvjQQvaivhgC3/IZJJKc64HYAPZ9+QMif1MdxQ=
+	t=1775904046; cv=none; b=ImYId5czQN8FbryFXAF/o3Hlz8NgrcpH8r1DvNdcZZ7Zp643zdqumWyFY5WVdyFEE6bcm+FvlxYsIOfeuxLEMEDQVi0QTN26sLw2KUnJQcAW5UWNXGtEPolh/CDyE32N58ViLNDf3/2Ymc8aJv96ezAl8FRZsDi4cQvg3x6FsIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775894882; c=relaxed/simple;
-	bh=IIx4GlMwTxalbSg3aPM1xIG0JHREmXjes9sLb6p3g0k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D/K9CzG5WkQOJFey0Th62MCgu7whcOnVi6Ne7Kq2dXuzMjuH1/qYTBujsSmas5uGqa1BJX1RAd3iNb1vuLMLShaNr205yp4GGeBeF+g2uGFS0s2CYDLG00sfbGyVVIdrc4ktSDmp2wF1rnG9yYTr8BcO+0/EDGrmVuOen4UdD+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zHdC8b0t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ukx/ajEA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zHdC8b0t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ukx/ajEA; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775904046; c=relaxed/simple;
+	bh=61nevb5U7KmJ6GlJeZz+DxBkLNyhcBVs6JVbc3G0hRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YyRdy8z0amBbwb92G5LNw7lP5MRoa+A+zNow6DIX9wTBfak5f3sHynzrEQkyeNVQP818WlS91LC5o0FhJJK9NhQGJc4Z3kk2gduq3wbW8sDzccIokyjHn6laRwmefqFJfQoqUgY9PquLZALLOuiJkwsdu//83AN5jLYiNYykbcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgWv0wKF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zHdC8b0t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ukx/ajEA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zHdC8b0t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ukx/ajEA"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 397B86A7FD;
-	Sat, 11 Apr 2026 08:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775894879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzxPE+EXH4wu8An0kWWEEx7erljYxSx6W6aClNFBbP0=;
-	b=zHdC8b0tPXmjGVhbXWndCEL8VJP/KzeaBsKYRyKUey1+8JaslnU1wuLR/kie/9l/zaTxW+
-	4PssdFp0QyuUku3Zw2gy2M/UJ2NxdK/Pz7KWFf4sW4jDkJVUiG3oDP3+5xxQVX3TakPSq0
-	Bu1YPmEK5aMHcAarusHrQcUf4wAckp0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775894879;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzxPE+EXH4wu8An0kWWEEx7erljYxSx6W6aClNFBbP0=;
-	b=Ukx/ajEA8ZfvCjlqFfGhGVHHJG1C9KY8USBTfEXjCNBVD2sS3CjpN1ddN9IcBIOkpfq744
-	BHRwqggH2nbdOIAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zHdC8b0t;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Ukx/ajEA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775894879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzxPE+EXH4wu8An0kWWEEx7erljYxSx6W6aClNFBbP0=;
-	b=zHdC8b0tPXmjGVhbXWndCEL8VJP/KzeaBsKYRyKUey1+8JaslnU1wuLR/kie/9l/zaTxW+
-	4PssdFp0QyuUku3Zw2gy2M/UJ2NxdK/Pz7KWFf4sW4jDkJVUiG3oDP3+5xxQVX3TakPSq0
-	Bu1YPmEK5aMHcAarusHrQcUf4wAckp0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775894879;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fzxPE+EXH4wu8An0kWWEEx7erljYxSx6W6aClNFBbP0=;
-	b=Ukx/ajEA8ZfvCjlqFfGhGVHHJG1C9KY8USBTfEXjCNBVD2sS3CjpN1ddN9IcBIOkpfq744
-	BHRwqggH2nbdOIAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05A4D4A0A3;
-	Sat, 11 Apr 2026 08:07:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iEpsOl4B2mlfXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 11 Apr 2026 08:07:58 +0000
-Date: Sat, 11 Apr 2026 10:07:58 +0200
-Message-ID: <87a4v9gbs1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ALSA: sscape: Cache per-card resources for board reinitialization
-In-Reply-To: <20260411-alsa-sscape-pm-v1-1-3058d988783a@gmail.com>
-References: <20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com>
-	<20260411-alsa-sscape-pm-v1-1-3058d988783a@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgWv0wKF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D47C4CEF7;
+	Sat, 11 Apr 2026 10:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775904046;
+	bh=61nevb5U7KmJ6GlJeZz+DxBkLNyhcBVs6JVbc3G0hRg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EgWv0wKFO9krr6M6Xkfs3b5boJvhz+IUUDY0knPmrLlxJEZBCNqIuOkKZ6lrlwW3i
+	 1voGar9s5isgNb59sAJNBA0QLDA7P5P7aCIuRXGkrWxLETW+rhU43ymy1obXU+E4Hu
+	 vQ07EBaeeNjo7j4d8wLCqPYNLj3o1HC7jiquV46Ek/wnhCQGp83SIcc15t+JASGQaU
+	 AhnMsrN3qenIbfjRucmJxp2NKncOBNWR0rTZF0sRRfRgl95VPp+680nHHFqwslAmIa
+	 8HzIV0MPc0a/6MuwY1cmPHOL18xYgHV7X7+KLeG9cpIiToYISm6sbgtMq83EEgEOYF
+	 Me/AkfacOtr6w==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 6F6A01AC58BA; Sat, 11 Apr 2026 11:40:42 +0100 (BST)
+Date: Sat, 11 Apr 2026 11:40:42 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: imx-rpmsg: Fix ignore-suspend-widgets only applied
+ to codec DAPM
+Message-ID: <adolKj26DFqZ-XTi@sirena.co.uk>
+References: <20260411072439.1125664-1-chancel.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 397B86A7FD
-
-On Sat, 11 Apr 2026 06:54:29 +0200,
-Cássio Gabriel wrote:
-> +/*
-> + * Restore the SoundScape's MIDI control state after the firmware
-> + * upload has made the host interface available again.
-> + */
-> +static int sscape_restore_midi_state(struct soundscape *sscape)
-> +{
-> +	int err = 1;
-> +
-> +	guard(spinlock_irqsave)(&sscape->lock);
-> +	set_host_mode_unsafe(sscape->io_base);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_SET_MIDI_VOL, 100);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol, 100);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_XXX_MIDI_VOL, 100);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol, 100);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_SET_EXTMIDI, 100);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, 0, 100);
-> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_ACK, 100);
-> +	set_midi_mode_unsafe(sscape->io_base);
-> +
-> +	return err ? 0 : -EIO;
-
-The above means it checks only the error of the last write.
-Is it intentional?
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Wxo/GoZ8NwX6CkGC"
+Content-Disposition: inline
+In-Reply-To: <20260411072439.1125664-1-chancel.liu@nxp.com>
+X-Cookie: You will be divorced within a year.
 
 
-thanks,
+--Wxo/GoZ8NwX6CkGC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Sat, Apr 11, 2026 at 04:24:39PM +0900, Chancel Liu wrote:
+> Currently the property "ignore-suspend-widgets" are applied only to the
+> codec's DAPM context. However, some widgets listed in the property
+> (e.g. "Headphone Jack") belong to card or CPU DAI DAPM context.
+
+> Extend the handling so that widgets which are marked ignoring suspend
+> are looked up across all widgets in the card.
+
+> --- a/sound/soc/fsl/imx-rpmsg.c
+> +++ b/sound/soc/fsl/imx-rpmsg.c
+
+> +		num_widgets = of_property_count_strings(data->card.dev->of_node,
+> +							"ignore-suspend-widgets");
+
+Don't we get an error code back if the property doesn't exist at all?
+
+> +		for_each_card_widgets(card, w) {
+> +			for (i = 0; i < num_widgets; i++) {
+> +				of_property_read_string_index(data->card.dev->of_node,
+> +							      "ignore-suspend-widgets",
+> +							      i, &widgets);
+> +				if (!strcmp(w->name, widgets)) {
+> +					ret = snd_soc_dapm_ignore_suspend(w->dapm, widgets);
+> +					if (ret) {
+> +						dev_err(dev, "failed to find ignore suspend widgets\n");
+> +						return ret;
+> +					}
+> +				}
+> +			}
+> +		}
+
+This seems like the wrong level to implement this search, it should be
+in the core.  I'm also not seeing any prefix handling, the widget name
+might've been prefixed at runtime.
+
+--Wxo/GoZ8NwX6CkGC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnaJPoACgkQJNaLcl1U
+h9C79Af9Eww5MqUM4l2uWRZsMS1+DeTVXwJPdg7NgJgCOgzNWNI6hP6w9WE8X1BG
+Ulvj0GOSZy7HDwLahBChs8AydyTxc1qaR7qNljsVj0Bb7zJmVIkHa8nuqtGxsDux
+nvwnyybQFXambSXYfK4rbsUrF1XZ03NYnV5QroMIa3GsfyFsdK2otKJv5SNmgT82
+pG2VFlhxxd/uocwyG5CqWxj0bTija2Qf0mlmbJMb971kafdmhRUWLFuC8FKxKnTr
+POxLHJO4V3G5SbdvtZDMYqLLAn3psbWCPIkMXMy5krUPef/qh+wCVAwMapMnpWsV
+WOjblDfXWqT7+DwxsSH8yOpoGJ+d9w==
+=Y0Br
+-----END PGP SIGNATURE-----
+
+--Wxo/GoZ8NwX6CkGC--
