@@ -1,63 +1,63 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7623C3451B2
-	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 11:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34711345724
+	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 11:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775907795; cv=none; b=Z4HvfdQ3+Yv8W0rWQ6JOpkeLSQ5jeGx3qMzgmJwEHNKCPTtKDGMEuB6mBoWdSQhdaw7nqfWVhTPd6SebCbkTYJ7J9UX1ppl9RuRUX2x8xdmolb0isS5ufTlYhkhV4YD+seo8sG0KJGQpTyxJgKr28FBh7H7wLD7p1Cq9TY4qTnE=
+	t=1775907797; cv=none; b=CPK8WOYk5GPGiTRFv4Po5v51fiq/nefZuLkop1ZLBQQHPuv3L+V0i3UDcy90TWm98pMUCnWgGTR8OwYxEnEEalblCPQPMJMmGVBUWjiOP7a5bgdwntJRdgqBpsPEThHRoiBN5duyu/UuLSEvp8Pi6xWfpcYs0pNcYXCRqOhOPx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775907795; c=relaxed/simple;
-	bh=ZB6OzeV1iuOY4cphwcy1NTv7nOJuOcS76pQLBa2mvQo=;
+	s=arc-20240116; t=1775907797; c=relaxed/simple;
+	bh=gmR2MVgWRVwxG2GLS1GQZ1Ib/I0giv+IntwWqRZ8pCA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WMVX2DMwafepHAJq5YVnuP16ioa8HLng1czIrPykDPNfLv8+rwGEM3qjAQRep96bvRcPyWvfmtpfn8FopAXxI5Wk95ulHI92l5SLSv0uk+83ZYOmV2qiKPMqvw0f1GQ9OQlnw6NwsDs7rr7qq7EVD4AhNebscXJhoqSFiTxr1hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UaQ8JVKm; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=lXpf8z9YIDoBf1faF/OFHz/E3Vw2Tx9HPkr/M5A2oFe3pyBtxyBEvpaWS2v1KHCLeecpyXnWd2r7vEsY3iucZyNQ9KE+Q6WtcVS0c5AqzcdSpqa4i5k9KTMksI8GHWRV/gXrZRljo21WYnSSBHfAuVgDoye0tAh7MrEB/9C6UZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=LWK5zAMA; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UaQ8JVKm"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so2818919f8f.3
-        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 04:43:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="LWK5zAMA"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d17bb1c65so1906424f8f.0
+        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 04:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1775907793; x=1776512593; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1775907795; x=1776512595; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7j+XdlT3aD7tJGwl9xLTbJEKXv1OztcK3gKQoyq2CgQ=;
-        b=UaQ8JVKmly6Bd6KpAeT0HIxw89p8cBqDvUR3YQYkHE/dboPgPUIt5zz/3sQ9WRaykp
-         WjWbWfeL4ZrflH41LxHJTDeWLNW9qevlHTs32AF5taRIYUe6gRsBhKuhWvFEL6mm29Zd
-         IgkuzXYeNtW6KE8Zcfsh44WGDVqoTaudNdQGB5CxAXlOuj2Au7k918yjvU2FivDomPS+
-         IXP5rcA6ADrXnJrGE9C5324eOo+B1XnRaUiiwU2n3ZgNSfdN0f9wEmA7ObbC+UelynZF
-         BbOmyfEcjSgMWf3WfAs6+T53SvB2A/TmPFdILdbUwdNoIrnifDlezgzkVBUk1TZDbycQ
-         fa8w==
+        bh=uEklTJzShDhVfSMVqbktdCdKI5vT2XbfZJslRpJnIVQ=;
+        b=LWK5zAMAs5Qrl1Q/JOXtiW2AyxCvqFKJHYeCsBZ2SPR/cN2cMKxQ80H+jKARE6Cx3F
+         Ni8HLEOvVriHKK7lCRP7CXIEFtHD17VPnuQvGYajQOtRgtwVDtU6m4af8ffmRt8EyjRk
+         FMFYNFNM3WYUAm7fFe4rEJQS/P9s7KAI4bjfzxXriAhK5EZhtUvzwXY5rZFUzfo3MQkG
+         7255XWamcLGLD/ykQFcaQ5dS29M2cnkhFpRjjedzK7l0Y6LElbZDFDt762qZrVLf54oL
+         R4GTYMKVsH7W6qtxwx8OlxjzjVD7umaqLRgRICDgNqGIg/VGdTUDb9YEsEyZdwpAnSM+
+         RbyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775907793; x=1776512593;
+        d=1e100.net; s=20251104; t=1775907795; x=1776512595;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7j+XdlT3aD7tJGwl9xLTbJEKXv1OztcK3gKQoyq2CgQ=;
-        b=PRHZOHqzvr42hgQmTECAtBDDXzzLCPjyfawNt+tq1NcibM+nxhVyGKLB7oB77ERCam
-         cgoo5tnuzCpQlR1DErxeumVLD0fLamxL+h1xS4PpXaJ83IFYAPvYB02viz7I5G+D4kYt
-         +aFEhtEj7KnrWD/v7dq3utkic71JsrgoFKWg2yfDWeFnCQN4qGa0xxK30LYXKk7seWPq
-         cnlUxhKrPWY6k0svO9Ac6a1rE5lnxGylg0j4wEHYN0DxDYgvMGBv4noYL0k2/BXsJmJK
-         3SXD4GOjYvbvf4zXMMMGveS9B83TJN5POgkSEJA1RJ5Q09rlM6XHtmjp+7gpdCdw3672
-         9ldQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbrvGcMnMWf9QNcjFlUghD2d/V2e5vQecJa5F3d3AyHwMIh24AkCWbshMF38z1PYRYGw/umFNrxsX1JA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoMnXZ8di6h76biq1liQQRFGZUek/sV9Swy5ETFwx64aKGX2jh
-	l2TwtU6LJEagOgSrAuiD2Gmq0ZVEX3cBI3mOjZX1fZ+eEOvT9/2jvdizDmVAriY9Wqo=
-X-Gm-Gg: AeBDietMfXrqC+rkNJR727bQQjEfgYORchPXo58SFIeUDdAbZVj0MIpy4/ClXcB60Wq
-	/XKHipzmgs2j+5SZRxPyI4EiZw+pdsl76nY1oywkU+8Jf4GOKdGijHa8siIkVQxsxr4K0AZCRpm
-	wo2th2JMtagp8LM+xQz7HFLWiB07AgBHXPXICEJSOznTqz2fUqtOOuQTcUe92QM1aIaGN7YlQPv
-	ZTCNUTPQnZc94gZRAkXe2hplqPFAsaCDbb+f8AHZOQuHe+gBY5E2RqmFWM1kEiJt2VIJZYQ/iGe
-	5rgmZunI4UJENkD5c8wk5vaBCSi+MGc1FnPUfUTx9e4SBnS8nSwaL8Wl2f2kZ24kcJFueq8SUDQ
-	4XwQAwWGWVqghkhCuDA7Zl7RcD4OV6p037zplKx+Xb3fjAA2c2trAKLO4GB14Sf2+MBeOrC2VO+
-	Xxfemj00jrE5hsbM00UMuXatjXHuOJAXfPWt3mdFHR4Ga4JGFxLxmf
-X-Received: by 2002:adf:e80d:0:b0:43d:69ff:6898 with SMTP id ffacd0b85a97d-43d69ff69c4mr3162191f8f.9.1775907792998;
-        Sat, 11 Apr 2026 04:43:12 -0700 (PDT)
+        bh=uEklTJzShDhVfSMVqbktdCdKI5vT2XbfZJslRpJnIVQ=;
+        b=in4J+NPh7oJzQRJmDiciBNgdoLnvsgiV2naazF4KWA4MSRA7o4YVbf/nm32GCIxpTj
+         VcSDxwxAdUGDw1f30jaGQJYCrScuQkdhpOYW1P/5dVFr6eDq5M82ccHaJaLGHECePlbe
+         XYDCSV8VllmspWIzDqLpLeQuU7OMO8fE1gQcqj9eNegWzENkbuEWegXfuacYapfa8jaC
+         yfpDW/JLtC6b6TeMzy8HWF5xg6iIF/uLb78Bq2aKDdBY1wLuYYzo/6vQZg+rBZ1UKRDm
+         9Ld0lVZJSv4MViEbYlg2JNNEF5RWpiVQJHmwXUEMIiFjQeozbGJtbG6ae1wD1Vbl2YAd
+         FufA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/ENqg0sZh1XiwNb8Zp8NeixOMA7O4/SN85eK4kI+nHTU67Ufctmuq//h83gBnoRoCj4RHt1Of9VO7/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNmMs/O0BWP6wdFvEM954jtZMwFQSGf9+1i7wpDbsmll/CcSdI
+	6dImuXgXi5ynSSUNcIo4ycDha7O1jyoK5fXSxyFOf2dxfHjTORDNKtMiw5JKAnOYcc0=
+X-Gm-Gg: AeBDietfJ/KZuXrpitqzSWxVkRo1wYj5E9sdxSiH/C1jZeiXuVrYGQ7r5xfzm9eLXMT
+	fIQ9EcQf2cB//sMIvspY4OqGPPkcOfruZDhkupA4FRvJUVKrExzczTwMpNrQz53kN06hLhK7YX4
+	lZ1DaZlvUuM7iDStpWjfT0jdjq7LkEJQ4aq4mo2TICtLzMfyhkZXFBVrNQWE8g2bnpDo17SMOip
+	OSX6NbXTc8stiVVMlfKRu0x5C2/kqTP3qOg+sAc4esKHrHNT5BQ8KQDkbTcSz0mgoakfvsRcAA6
+	CWGX6VM4OCNS4tPUbCL3i2yJD5KnorkYtCeC3uTo+8mkz1vEVAywlOfp9wvBQ+j3S/p3wxEXU8c
+	lj0sbjRG/euaBJqa2xFYO31s+KutbOk+1GXDeAHhRRlsLgI1aJKauDW2PEt97JaWda3CXEe7SBF
+	SThikdsbksC0gYmRLzLGN8pPcGT/X01vcwTy/0hbFROE8VC63enO7o
+X-Received: by 2002:a05:6000:208a:b0:43d:1df6:ea9 with SMTP id ffacd0b85a97d-43d642c0938mr8925884f8f.40.1775907794662;
+        Sat, 11 Apr 2026 04:43:14 -0700 (PDT)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.248])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e5c981sm15776447f8f.33.2026.04.11.04.43.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 04:43:12 -0700 (PDT)
+        Sat, 11 Apr 2026 04:43:14 -0700 (PDT)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: vkoul@kernel.org,
@@ -78,9 +78,9 @@ Cc: claudiu.beznea@tuxon.dev,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v4 03/17] dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
-Date: Sat, 11 Apr 2026 14:42:49 +0300
-Message-ID: <20260411114303.2814115-4-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v4 04/17] dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+Date: Sat, 11 Apr 2026 14:42:50 +0300
+Message-ID: <20260411114303.2814115-5-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
@@ -94,53 +94,60 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Use list_first_entry_or_null() instead of open-coding it with a
-list_empty() check and list_first_entry(). This simplifies the code.
+Use rz_dmac_disable_hw() instead of open codding it. This unifies the
+code and prepares it for the addition of suspend to RAM and cyclic DMA.
+
+The rz_dmac_disable_hw() from rz_dmac_chan_probe() was moved after
+vchan_init() as it initializes the channel->vc.chan.device used in
+rz_dmac_disable_hw().
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v4:
-- none
-
+- in rz_dmac_chan_probe(): moved rz_dmac_disable_hw() after the
+  vchan_init(&channel->vc, &dmac->engine) call as this is the one which
+  initializes data structures used by the debug code from
+  rz_dmac_disable_hw(); updated the patch description to reflect this
+ 
 Changes in v3:
 - none, this patch is new
 
- drivers/dma/sh/rz-dmac.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/dma/sh/rz-dmac.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
-index 6d80cb668957..1717b407ab9e 100644
+index 1717b407ab9e..40ddf534c094 100644
 --- a/drivers/dma/sh/rz-dmac.c
 +++ b/drivers/dma/sh/rz-dmac.c
-@@ -503,11 +503,10 @@ rz_dmac_prep_dma_memcpy(struct dma_chan *chan, dma_addr_t dest, dma_addr_t src,
- 		__func__, channel->index, &src, &dest, len);
+@@ -873,7 +873,7 @@ static void rz_dmac_irq_handle_channel(struct rz_dmac_chan *channel)
+ 			channel->index, chstat);
  
- 	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
--		if (list_empty(&channel->ld_free))
-+		desc = list_first_entry_or_null(&channel->ld_free, struct rz_dmac_desc, node);
-+		if (!desc)
- 			return NULL;
+ 		scoped_guard(spinlock_irqsave, &channel->vc.lock)
+-			rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
++			rz_dmac_disable_hw(channel);
+ 		return;
+ 	}
  
--		desc = list_first_entry(&channel->ld_free, struct rz_dmac_desc, node);
+@@ -1000,15 +1000,15 @@ static int rz_dmac_chan_probe(struct rz_dmac *dmac,
+ 	}
+ 	rz_lmdesc_setup(channel, lmdesc);
+ 
+-	/* Initialize register for each channel */
+-	rz_dmac_ch_writel(channel, CHCTRL_DEFAULT, CHCTRL, 1);
 -
- 		desc->type = RZ_DMAC_DESC_MEMCPY;
- 		desc->src = src;
- 		desc->dest = dest;
-@@ -533,11 +532,10 @@ rz_dmac_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
- 	int i = 0;
+ 	channel->vc.desc_free = rz_dmac_virt_desc_free;
+ 	vchan_init(&channel->vc, &dmac->engine);
+ 	INIT_LIST_HEAD(&channel->ld_queue);
+ 	INIT_LIST_HEAD(&channel->ld_free);
+ 	INIT_LIST_HEAD(&channel->ld_active);
  
- 	scoped_guard(spinlock_irqsave, &channel->vc.lock) {
--		if (list_empty(&channel->ld_free))
-+		desc = list_first_entry_or_null(&channel->ld_free, struct rz_dmac_desc, node);
-+		if (!desc)
- 			return NULL;
- 
--		desc = list_first_entry(&channel->ld_free, struct rz_dmac_desc, node);
--
- 		for_each_sg(sgl, sg, sg_len, i)
- 			dma_length += sg_dma_len(sg);
- 
++	/* Initialize register for each channel */
++	rz_dmac_disable_hw(channel);
++
+ 	/* Request the channel interrupt. */
+ 	scnprintf(pdev_irqname, sizeof(pdev_irqname), "ch%u", index);
+ 	irq = platform_get_irq_byname(pdev, pdev_irqname);
 -- 
 2.43.0
 
