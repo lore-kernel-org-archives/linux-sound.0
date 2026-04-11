@@ -1,234 +1,136 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA01E5B9A
-	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 17:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEC02FD1A5
+	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 18:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775928598; cv=none; b=jH62az+ag2KAsv/bQ1B4nZpQqmUl2roaSTGie+a0YSUzXnbzqg7j6qIjwQafwRu1uJLMaI7YsTW7bJEgYBdC1FfLgqn6Tx5LRnySaAIVy4LJZu+lpfw1sCwnoUy01yR3NAlZk9FQyhSiF9ByA2pchWP+HcEsouRdIRC3XoIM8ek=
+	t=1775931294; cv=none; b=fjohL87JG1o6T7vxU1voog2yCFkAVW2afeUYUIdMtjwhf4SXU9QOQqtidRGni+5Le1N/vWcpkGgS+MxjRqyMHz0vIgIcORGxHLxkQ2XBEjxLlqK0mERjiCeVe16RSZr8xPKv9Hzp8V44v+bMKbF/uFcGYTHxpfo9GKArDL2/mdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775928598; c=relaxed/simple;
-	bh=dirA1a9UmDIid6Pgg9ePon3skrfLDFOxXN3oXVH9hRI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V1PZm5mx9vDeRTHA3yi8NM2/aN5guy0KYYZO0NVxs2xV/Bbv+0oQ8tzXpYMbAOEH2zE4sxO3d+j+TPZAcGmsrsIDXNATSe6/fQqeFoML0YWme4f9AAjYqHRuoX8uhhfowhPUTMxUuEcecuIONSFYtIjOi07342ay+28m3pn0Bd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ky/RA19W; arc=none smtp.client-ip=74.125.82.41
+	s=arc-20240116; t=1775931294; c=relaxed/simple;
+	bh=KRE7tYreIueZw6rmcr+y4K+R4NsRdi42nDjO15fcPxQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I7IDexVGfEpMGqN9FD2Fnz9/61NtBZk/KfxquejliXT9tRzTGotQv5WQXmQTK2MEVbheXgOjoIgQoIvSVqWFa9HT4m0zuxsVKM/deHeuhCLPdbuD9wkOvW9HJ9eFPqPzQkZnlL0BYl8s7UyaeXP5NeJrxE5mM+8utzusTY/xE8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XeaIbMui; arc=none smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ky/RA19W"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12c1fcce8f8so4086187c88.1
-        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 10:29:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XeaIbMui"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2d78e5d275aso991283eec.0
+        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 11:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775928597; x=1776533397; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HDHKKqaGG7fQBbe4wTpVAAuYKHB8RLNkBF6HBQZqJCk=;
-        b=Ky/RA19WV88tTxIvOnEtTwfez/oRUZ9kRGTBbI+e7a0SSUni4rCjKacIRbM7fgDsnx
-         jVa4QmpTYz+iQUyyQxSklW3LYjiyaIVbvcuR2YMWt7pp6LjQGIDgOrAafOpZN+2W41a7
-         T2+vSma+NeQXL/Fr3ygMcmacoxpOlxQa21Ulw35Dh1jaSJP3XJH6wdAz6oTP25VuyfMr
-         BhhDe5YYl2xCJLBfUG+P/4MxoGhM6Egm6nQukjyIKfJI5KZLHGwrEEslJG4R/mmUoRjy
-         KgaJBNE52WSKC7LO880hYdJ83VewQOr6tBhchG0eR/4sskH8op2A0BTo2d4HCraoirUM
-         Qb6w==
+        d=gmail.com; s=20251104; t=1775931291; x=1776536091; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ix1eKmfU+sfayUmCasr21ZTIa0EdvtzRO9/JzVxx9yM=;
+        b=XeaIbMuih7I0cQJ+imLTPf3VD5zJgCdUVMX3LFF3xooQPRJNrWad0qUf8um5QfjpGR
+         fUDkn12QKkBeIUL65zDpgZ9pJP+Bch9irpDfIjwEuKjk+Igwo9FEn3cGE0suZGAOTTWm
+         IOX11oBaCH3VumMWINEnpw/hwnw+XTQMIzanOU/4xsYOdMWcNyTxEocuHdiQ0cqgUClP
+         JZBk9tTZGi09Uk4yWx/VKDDY+c6Gp0+Zb3c0M9vlEcAJjpCQzBsIIlMVV8jCMzYtxGn9
+         Tdv89wS7FYcjbwvdDXeJTzg4eh0+TAyg1LKLQY9BhVC+bKpFpa/6iApJniZgETWKQnwE
+         UVWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775928597; x=1776533397;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HDHKKqaGG7fQBbe4wTpVAAuYKHB8RLNkBF6HBQZqJCk=;
-        b=quQZC7u+tgOMP+6R4zMUEYEhWismi3pEUVRBeqzVGsCJXZSUpI1Z6HcSJRHfhNkE9d
-         JqQHKA3BEAovJ8QoMhtKX8or+LVtD+7CqppkQWSBBJSHoQXHKwndku+JPTScYoipDRtE
-         NRW5gYj6pvsjdByrkUGZSBr+00zA9ZVVCLNFzEeznKOlMJSDEOBlIhJltW9Ve87GZOht
-         IfqJ5dAjvlOUpHjhDL8hOZ/m1WlbPtH3S/KqttmC54byL41bkoBwME/AIJEdjSeXfeFU
-         QscoJq1pYs6NsGmGOFXwSfKy24pI4hiuWRAn73C0f+N5077Opt+CmaB5N17ZyQoySnIv
-         F0nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSsu6x8K7mBw6pxkZFyGSUstQ12crYED+s8eiTmKx0JatJpCmzPs4o73zWVneCWrGPWNzah2FTEvPTSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyegbxyPkw4E2AuVeNpmGBUg9S3W3qMa1QguKzdGJExXRpkJB3u
-	gYukB8ZE5dnCcJkuMkDOaYYwkE9n/hb1/B5huEJjSw3RtdhBPMQCcb6r9Etx7muQ
-X-Gm-Gg: AeBDiet237AnyWeRXv9HmZKgBthFYbOIdQDUPvWF7zrNc/27Mqs71o4xP5EW/WgbdEg
-	/w97mbjQKKZ+a2nO0vkpPhnEzt3pO6nvS3nhBLkn+qp71UAf6G/5/U51EdCkrqoj9vIegizAYht
-	4JmexchBoqyQzvasW3io2lmD6MVBWwS3JMyQ3OdR5J1W6mmos3Y+EgCCfgq0LLN8IVjx5q0cMQ8
-	20OWJk53/iBeKlyfX93h6bWli6yy4RO7pTX+GnXzBIUf26aBayzE/Y/XOoCexppeezSR38FMZzM
-	CY+XPnIwEoh+Z4jc4b0niyFGWCuaExoR5jXNUzk7NK1DdvhPlFrvR0nfBoJ5404bahtXxI1bjat
-	rk+4C6nelcqnQWlbXUl92x0eJiVre4AJbw+LU95YWEeKbNvYyjJO/kOwBZxT0AyhostA1X1/clW
-	jpHnWrIq4eI/va1JoyBnMt33BFxvSrpgbGwJGePuwTfi0BE/7gncNxZ48wl0wE+tFGDSeZzzCwS
-	OIfaQNnXeHY4uM=
-X-Received: by 2002:a05:7301:1925:b0:2c4:d01f:6ef7 with SMTP id 5a478bee46e88-2d5883a3a2dmr4849615eec.13.1775928596350;
-        Sat, 11 Apr 2026 10:29:56 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775931291; x=1776536091;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ix1eKmfU+sfayUmCasr21ZTIa0EdvtzRO9/JzVxx9yM=;
+        b=oBypWJLeqyQ5TyS84pZP+lGzb3sNoV3tnhi/2GIiUANJrMSFGl1cxsJ9xeqWfpaf59
+         38xa/BOP8usM5qgdr1wynJ6+nZbAwbeASMHHkO9iteQfsQqOBVb3aSYD4ljbMc8s/9FA
+         pg6x4X4YqPIdVcqT1xJIH1OUzXpOWK7XYxuE7wZthZhKqvGto8PON9QbfT8wkJM+L84v
+         8TbCuhrB02FvUXU8Zl1Q8ZqnSl5lmQRNEjYtT+usw+lOy+SS507oEZK/7zChWDzJaqL/
+         fRWOWtL7YF5bk+56NEOHKZhNgh0z1qJp5Rw3LlR/deB0Ulprfb/ZgPRDiMuObrixEkiE
+         6wmA==
+X-Gm-Message-State: AOJu0YyRzRo3/bZcZiCKcYbHDyMt4wEBBknw9NS842WooDT6a7AkIF3b
+	DLBuBPOmi8EJo0rY2F4RoGTE7eOyhBXqCO0Wie3LjcV+Tvb9KayHKHQKtDXUZdtv
+X-Gm-Gg: AeBDiesTJBFOVRk40xlH6dePi6+IwimDaBZ/yVo6koGYqRW3KfWkCJ422m4OLI+/mKh
+	v3y4CJwVXeGyP84cwfdY0zrOOiF5qrOXLGyBUswA0XY4MhSZ6JSkIPc6lX1sCy7cr4UZ0NUf4xC
+	ygL38e5U566dywzHxm5aE3Fh1yYrP7qKQR6x/vapx3scThGNhGPVYKu7JuoKzX6q4BeZxi8JZjl
+	rgYsOlsbZSFJdNet5ifVscI1tvBZ35mLnzE7u7CGVgLf+S/eF+Xq+80SKjBPF0SxBI77p9JjDvc
+	s1nGJbsWwfWLjDlOX6Gc6lDHRBQuzeWAz0Wq1dejHF8uO0E+BmSEubcY+oYuW0FiqajpfjNxF8U
+	c3uwsEdN0cDgk8cMyTr8Q87wrHlBKTM0N6e29QzaPwV7HAaEAPLdRu/BLI193L+SsSEDTEb4New
+	uEr3egBSZwlqIzZgq9e6PR8zjp33EoSlISH1xiBp+4wq+KGyyV85YraToO/vrTPxnIoXUkO+iux
+	AWm
+X-Received: by 2002:a05:7300:a287:b0:2c6:cdb3:bd5e with SMTP id 5a478bee46e88-2d5891766demr4685746eec.28.1775931290712;
+        Sat, 11 Apr 2026 11:14:50 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d5630ac330sm9246431eec.29.2026.04.11.10.29.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Apr 2026 10:29:55 -0700 (PDT)
-Message-ID: <77e38ccb-3f38-4c1e-8fe4-98ee643ebe63@gmail.com>
-Date: Sat, 11 Apr 2026 14:29:51 -0300
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55faa5257sm9627404eec.9.2026.04.11.11.14.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Apr 2026 11:14:50 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH v2 0/2] ALSA: sscape: add suspend/resume support
+Date: Sat, 11 Apr 2026 15:14:39 -0300
+Message-Id: <20260411-alsa-sscape-pm-v2-0-aeb5682e14b0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ALSA: sscape: Cache per-card resources for board
- reinitialization
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com>
- <20260411-alsa-sscape-pm-v1-1-3058d988783a@gmail.com>
- <87a4v9gbs1.wl-tiwai@suse.de>
- <fe520e2a-5a95-4b57-a16b-a7a08a326ee7@gmail.com>
- <87a4v9o4j1.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <87a4v9o4j1.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EJeIUOQp0h0CigEWmYx83BKJ"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12NQQ6CMBBFr0K6dkwLCNWV9zAs6jDAGKCkg0RDu
+ LuArly+5P33ZyUUmERdolkFmljY9yvEh0hh4/qagMuVVazjTKc6B9eKAxF0A8HQQZpYazLEipD
+ UOhoCVfzag7fiy/K8PwjHrbIZDcvow3t/nMzm/eLG/McnAxoSfbLl2drcJu5ad47bI/pOFcuyf
+ ACTAZ6XvgAAAA==
+X-Change-ID: 20260407-alsa-sscape-pm-438816ccfece
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2085;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=KRE7tYreIueZw6rmcr+y4K+R4NsRdi42nDjO15fcPxQ=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJm3+qfPkFVSW5v+aOlu81Lp2oMu06YJ7hc4lXLB5/XrR
+ c/P22t/6ChlYRDjYpAVU2RZnbTIck/Xg6v1cSs8YOawMoEMYeDiFICJsH9l+M2+Pf3AL62HhgwR
+ drdOrLlkr8X2P6qSoyXN99ySk2XnZl5n+MNRxfR35pufysnbdzxILPmUv/XirI4PPz407JMPdkh
+ MnM4JAA==
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EJeIUOQp0h0CigEWmYx83BKJ
-Content-Type: multipart/mixed; boundary="------------XU8r7xD8PPceWL6vxmPxygsR";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <77e38ccb-3f38-4c1e-8fe4-98ee643ebe63@gmail.com>
-Subject: Re: [PATCH 1/2] ALSA: sscape: Cache per-card resources for board
- reinitialization
-References: <20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com>
- <20260411-alsa-sscape-pm-v1-1-3058d988783a@gmail.com>
- <87a4v9gbs1.wl-tiwai@suse.de>
- <fe520e2a-5a95-4b57-a16b-a7a08a326ee7@gmail.com>
- <87a4v9o4j1.wl-tiwai@suse.de>
-In-Reply-To: <87a4v9o4j1.wl-tiwai@suse.de>
+The SoundScape driver does more during probe than a plain WSS bring-up.
+It programs board-specific gate-array routing and, on non-VIVO boards,
+loads MIDI firmware and restores MIDI state before the MPU-401 side is
+usable. The driver still lacks suspend and resume callbacks, so that
+probe-time state is not restored after a system sleep cycle.
 
---------------XU8r7xD8PPceWL6vxmPxygsR
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Generic WSS power management is not sufficient here because it only
+restores codec state. SoundScape resume also needs to restore the board
+routing, and on non-VIVO boards it needs to reinitialize the MIDI side
+when it was successfully enabled at probe time.
 
-On 4/11/26 13:17, Takashi Iwai wrote:
-> On Sat, 11 Apr 2026 16:33:54 +0200,
-> C=C3=A1ssio Gabriel Monteiro Pires wrote:
->>
->> On 4/11/26 05:07, Takashi Iwai wrote:
->>> On Sat, 11 Apr 2026 06:54:29 +0200,Takashi Iwai <tiwai@suse.com>
->>> C=C3=A1ssio Gabriel wrote:
->>>> +/*
->>>> + * Restore the SoundScape's MIDI control state after the firmware
->>>> + * upload has made the host interface available again.
->>>> + */
->>>> +static int sscape_restore_midi_state(struct soundscape *sscape)
->>>> +{
->>>> +	int err =3D 1;
->>>> +
->>>> +	guard(spinlock_irqsave)(&sscape->lock);
->>>> +	set_host_mode_unsafe(sscape->io_base);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, CMD_SET_MIDI_VOL,=
- 100);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol,=
- 100);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, CMD_XXX_MIDI_VOL,=
- 100);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol,=
- 100);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, CMD_SET_EXTMIDI, =
-100);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, 0, 100);
->>>> +	err &=3D host_write_ctrl_unsafe(sscape->io_base, CMD_ACK, 100);
->>>> +	set_midi_mode_unsafe(sscape->io_base);
->>>> +
->>>> +	return err ? 0 : -EIO;
->>>
->>> The above means it checks only the error of the last write.
->>> Is it intentional?
->>
->> It was meant to accumulate failures across the whole sequence, since
->> host_write_ctrl_unsafe() returns 0/1 and the accumulator starts at 1.
->>
->> So an earlier failed write is meant to keep the final result failed, n=
-ot
->> only the last write. But I agree the current form is kinda easy to mis=
-read.
->>
->> I can rewrite to make the cumulative error handling explicit:
->>
->> static int sscape_restore_midi_state(struct soundscape *sscape)
->>   {
->>         bool ok =3D true;
->>
->>         guard(spinlock_irqsave)(&sscape->lock);
->>         set_host_mode_unsafe(sscape->io_base);
->>
->>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_SET_MIDI_VOL,=
- 100))
->>                 ok =3D false;
->>         if (!host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol,=
- 100))
->>                 ok =3D false;
->>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_XXX_MIDI_VOL,=
- 100))
->>                 ok =3D false;
->>         if (!host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol,=
- 100))
->>                 ok =3D false;
->>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_SET_EXTMIDI, =
-100))
->>                 ok =3D false;
->>         if (!host_write_ctrl_unsafe(sscape->io_base, 0, 100))
->>                 ok =3D false;
->>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_ACK, 100))
->>                 ok =3D false;
->>
->>         set_midi_mode_unsafe(sscape->io_base);
->>
->>         return ok ? 0 : -EIO;
->>   }
->>
->> What you think?
->=20
-> Ah, I see, one of confusing parts is the definition of
-> host_write_*_unsafe() functions.  They return true for success, not an
-> error, while the callers use a variable "err".  IMO, it'd be better to
-> change them from int to bool and write the return condition in the
-> function comments, and use a different variable name like you
-> suggested.=20
->=20
-> And, looking at the original sscape_midi_put(), it's rather like:
->=20
-> 	change =3D host_write_ctrl_unsafe(s->io_base, CMD_SET_MIDI_VOL, 100)
-> 		 && host_write_ctrl_unsafe(s->io_base, new_val, 100)
-> 		 && host_write_ctrl_unsafe(s->io_base, CMD_XXX_MIDI_VOL, 100)
-> 		 && host_write_ctrl_unsafe(s->io_base, new_val, 100);
->=20
-> which is more straightforward, and it aborts when a sequence fails.
-> (Though, strictly speaking, sscape_midi_put() should return an error
-> in this case, but it's a different topic.)
-> Maybe this form can be used instead, too.
->=20
+- Patch 1 stores the resolved per-card resources in struct soundscape,
+  factors the board reinitialization path into a helper, and reuses the
+  MIDI state programming sequence.
+- Patch 2 adds ISA and ISA-PnP PM callbacks, reapplies the board
+  configuration on resume, restores the non-VIVO MIDI firmware and MIDI
+  state when applicable, and keeps the WSS side available even if MIDI
+  restoration fails.
 
-Yes, seems to be a better solution.
-I'll send a v2 patch with the proposed changes.
+The board restore path also replays the OPUS AD1845 activation step used
+during detection so that resume matches the existing bring-up sequence
+more closely.
 
---=20
-Thanks,
-C=C3=A1ssio
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+Changes in v2:
+- Change host_write_unsafe() and host_write_ctrl_unsafe() to return bool
+- Document the helper return semantics in the function comments
+- Rewrite sscape_restore_midi_state() to use the same chained-success
+  style as sscape_midi_put()
+- Link to v1: https://patch.msgid.link/20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com
 
---------------XU8r7xD8PPceWL6vxmPxygsR--
+---
+Cássio Gabriel (2):
+      ALSA: sscape: Cache per-card resources for board reinitialization
+      ALSA: sscape: Add suspend and resume support
 
---------------EJeIUOQp0h0CigEWmYx83BKJ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+ sound/isa/sscape.c | 327 +++++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 232 insertions(+), 95 deletions(-)
+---
+base-commit: c58742258cf31132b1cb7141acfcf6a49b4cffe3
+change-id: 20260407-alsa-sscape-pm-438816ccfece
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCadqFDwUDAAAAAAAKCRDQXT8aWv/ug6r9
-AP4zyg/TeepzbaBDzqVDD2NfUNpeH6w8+UHQOKcbr3Y1CQD8CKwpEN8g3cdd14Igj6Ep8Fbv+Iaw
-uWbPBh5XAtGvDAc=
-=+n/b
------END PGP SIGNATURE-----
-
---------------EJeIUOQp0h0CigEWmYx83BKJ--
