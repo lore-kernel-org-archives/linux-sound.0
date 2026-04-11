@@ -1,105 +1,65 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from r3-78.sinamail.sina.com.cn (r3-78.sinamail.sina.com.cn [202.108.3.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA07212FAD;
-	Sat, 11 Apr 2026 13:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E870B2E414
+	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 13:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775912749; cv=none; b=e2rcjykQnuGM+79BViMrySDdTdbbpCX8N9/sg+58K1tipJsK2sC1FSKPu/bWUnzkMkzqWTbfvWsHt7xfkJ5VIga4kvRs2AOfCD3YwYax0dO2jLNUZSgfAvJp8B4vNQiJ7OzsQYXJO8xIhTiBmlGAnvRp8VpcyY46FRrCR8A9oXc=
+	t=1775914002; cv=none; b=qEJdT2hedZsPp//anM2pVgTxzVsIO++2DQrTLS8CCSTsIfeAnFelV/MMUW5VfyqLJ90RSQ+Q63vltZcdTMloXBxmYoHZsHtF/OB9DKs/BAUeJ4KCIoBUJxtqaOBrUB+5SSaQ4b+pE00ItbVT+iWxns49UzGJ2hKnZW+NG3xbM0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775912749; c=relaxed/simple;
-	bh=be7zMhmeVqmGwJ5Sn93c9K/8LeU2YtbEfSNfdJxAwLg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CVLBa1PJnhv9JUriC5O/UWyo2416y0kwW4T6KyGh2PoY4hM0UXgDQG9xL8hP2PPGaktj2h61wJWBkwjGYZRN044aPujb52ibjUh5gyDlR0T/+CDYV2jrbpwB1LQuS4y55LjbDbuNi810C184WsMs3ns2QOgNoPE5EY3qEbuoIU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=ELUYQtbW; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="ELUYQtbW"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0A15211329A;
-	Sat, 11 Apr 2026 15:05:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1775912745; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=H/2bVD9+SWNW9lwJ4S3qgKFBoL20AdyBPWgGhVtSamo=;
-	b=ELUYQtbWsmbdvXQ5mzbwij9GE92ETF2l7k7i6ZCWf9gK66244krygegqHFBGVETBF+yFCJ
-	WDAv2CrqvIkfRW2ii3tsvn3yYHjX4N0GD54jk+BpIYEC1fv7/QTa/LyhWHk+iotOuyhtBI
-	q0S10LeI/XEbOshfZ+knJe9d9MwgL4U5yP9vXBGMFUfpExJqihhViB2cbRjLlSJoaz3O7V
-	1VNK9vuduvp6a5OoVndpBWhoGESUnTQ+Urcy6eYn7BqX784fnvjtpAybG+ueLVX+lRGlT5
-	CpvheMMWhgnIXKMy++8kNfdDJOdJd61CkwYDYH5dBMLpOTXmmce54aUqeK4skg==
-From: Marek Vasut <marex@nabladev.com>
-To: linux-sound@vger.kernel.org
-Cc: Marek Vasut <marex@nabladev.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tlv320aic3x: Add multi endpoint support
-Date: Sat, 11 Apr 2026 15:05:12 +0200
-Message-ID: <20260411130542.19777-1-marex@nabladev.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1775914002; c=relaxed/simple;
+	bh=z41QYriRr0cGr78hdkVAktv0ga8RhabpA4Ogjz6V7IE=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=PtAYYZZKiWKjIVeBkbzcb6Vj0evgzk+SakJnx6jc/Scn3QJbtlrsgwZx06ZPiU18MMnsXb16Rvj7cM/PeNbqb7oaB77Le3X7vncozChbRUtrt5N9tJc2I+0fiZ0TyhydDl84fKuXt0O/sRIAEciBy/poq+NwaRbbwCm6WHuIHWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
+	by sina.net (10.54.253.37) with ESMTP
+	id 69DA4C0100000EF7; Sat, 11 Apr 2026 21:26:26 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 52176C945CEB4327B3960750A5D73082
+X-SMAIL-UIID: 52176C945CEB4327B3960750A5D73082-20260411-212626
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ckeepax@opensource.cirrus.com
+Subject: RE: [PATCH CANCEL] 1
+Date: Sat, 11 Apr 2026 21:26:22 +0800
+Message-Id: <20260411132622.8046-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Support multiple endpoints on TLV320AIC3xxx codec port when
-used in of_graph context.
+Dear maintainers and list,
 
-This patch allows to share the codec port between two CPU DAIs.
+Please ignore the patch I sent earlier:
 
-Custom STM32MP255C board uses TLV320AIC3104 audio codec. This codec
-is connected to two serial audio interfaces, which are configured
-either as rx or tx.
+  Subject: [PATCH] 1
+  Message-ID: <20260411131618.7931-1-zhangyi@everest-semi.com>
 
-However, when the audio graph card parses the codec nodes, it expects
-to find DAI interface indexes matching the endpoints indexes.
+That patch is incorrect and should not be applied.
 
-The current patch forces the use of DAI id 0 for both endpoints,
-which allows to share the codec DAI between the two CPU DAIs
-for playback and capture streams respectively.
+I will send a corrected version shortly if needed.
 
-Signed-off-by: Marek Vasut <marex@nabladev.com>
----
-Cc: Baojun Xu <baojun.xu@ti.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Kevin Lu <kevin-lu@ti.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
----
- sound/soc/codecs/tlv320aic3x.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Sorry for the noise and any confusion caused.
 
-diff --git a/sound/soc/codecs/tlv320aic3x.c b/sound/soc/codecs/tlv320aic3x.c
-index ce22298b43efc..b12c1952823ba 100644
---- a/sound/soc/codecs/tlv320aic3x.c
-+++ b/sound/soc/codecs/tlv320aic3x.c
-@@ -1689,8 +1689,15 @@ static int aic3x_component_probe(struct snd_soc_component *component)
- 	return 0;
- }
- 
-+static int aic3x_of_xlate_dai_id(struct snd_soc_component *component,
-+				   struct device_node *endpoint)
-+{
-+	return 0;
-+}
-+
- static const struct snd_soc_component_driver soc_component_dev_aic3x = {
- 	.set_bias_level		= aic3x_set_bias_level,
-+	.of_xlate_dai_id	= aic3x_of_xlate_dai_id,
- 	.probe			= aic3x_component_probe,
- 	.controls		= aic3x_snd_controls,
- 	.num_controls		= ARRAY_SIZE(aic3x_snd_controls),
--- 
-2.53.0
+Michael Zhang
+
+
+
+
+
 
