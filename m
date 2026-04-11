@@ -1,175 +1,224 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5972638B7D2
-	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 14:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7292D2488
+	for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 16:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775919502; cv=none; b=N/yRa9OtE/RovCzvaSX3VHTZs7kr3i5Xnm16aB2CH0c7gj10IgzkqyKf0eECwprVt/jS7Gb3HcjbkF7zAqWkwpVqVvCBb2v14hBi1BSwXLWaGV1yA/w2TK6Ymq+H9KusgsHLyn/HU/RzLUSk+OXHGac6l2j863qpPPDMYymbCfI=
+	t=1775924246; cv=none; b=keGXY1CCgPKZCte87/C6WKmAx2yROqNcJ1Y8g4IHL8nINsdvfWSuafj/gJkwzK7athAxFXbIfgV+7n9Isszq/3+QfmxMt08wFiXc0L9Ropl/4XkXrqwDzTAUE/am1dqsaurYfTfbADrYkI4Ut34g62ei6vP4QKPNO/wRpHiOdco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775919502; c=relaxed/simple;
-	bh=G0Gm8t6IneiVYTkTeSCPBc6CjJqlMmdql/bqJBW4d+4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hDTOCHc5uOUMYshg9FxpZFRHKDMd+zZ20QLKIq12cSX/G1lGNtvamqi874wLAWPoVEfWXPZg3FyctLuwsDmoZXB2JFa9la/E0kgf80cuzbbspT3NtYqjxwzilF9WZDQ4nWApsjOZg1jJ40sIle5q6jQCP+6UodW8UU5VwIPs67c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=IGN0mRVV; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1775924246; c=relaxed/simple;
+	bh=EwwWIpFUFJVWlRkmse3gNj1M2ExKzycmyXRT5PoXBCU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nYXDuRIwT4CqeXYyvpusuGyXpfJb7wHDRXOarEh38YVvHMclulJppw3Gty98DqwtQ8E03/lRkHDs2Z0EMzXRPQKB4qwilbPyU0Y1XnyC1igriJtBX5LZ9ogd1ZtH9g1L/9/Sk0d56cy2IBLCQSHDEOxPlQR+VOzV8LvGJ2k3yDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YgPvSOQX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=04Kmu5XY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YgPvSOQX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=04Kmu5XY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="IGN0mRVV"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a041eae5so21103985e9.1
-        for <linux-sound@vger.kernel.org>; Sat, 11 Apr 2026 07:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775919493; x=1776524293; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QPh0SQsOnsDniPo3dQ9nl1UbMYpXngLC6j6GE4dl7dE=;
-        b=IGN0mRVV0NbUpCm4Ml5wCTsrjPdXouj0BjERPHLM+P7Lp7CbskHfqRYgUhE8AFAY69
-         6W7ONTzFoml1i9t8o6APMvTuKJbfPwDCMlhf+vRQCIgLYr1c25fBp20Jmp4prSEM3ps/
-         4oGrSCuO5t5nyZk8UX3H+1EpMo9rW6vzrbr2gusPmiAm893XWItgPE8sSAb41qKGonFo
-         +uTP31sqntwcAMkbL79+G79EKcIDbcK5gD99We14iqS2rNf9SGtiEks/Y52L5EX4R83h
-         4OCorpuK13a4sj6nEOv0r71wc0iJoMBuzAVMTo/nJ0vqfR0uEehxJ3tz8gCqB6jKIxMp
-         axtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775919493; x=1776524293;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QPh0SQsOnsDniPo3dQ9nl1UbMYpXngLC6j6GE4dl7dE=;
-        b=iJyVFscdzOMp2XdiEl20mz+ReuLfs06YcoKSMn3u50Yptga8PvsaSZ979CvYDL8bh1
-         +ObWJpXae8hXKk+DcrCb3rmMJPs7xGx7s0Fw72ChIPmO+l0i92OOfT+X8TS3wvhAccar
-         HVWRrsIz8XC72gbFPTAUgD8QNCGPIx12HvTWrIKOevPA0tCNvNYcKoWhc2RUCVy1a9ym
-         SeOgGSHZQ/D1D+z5o00Lydy6mc2cHFAGOcBNYYvkk6S6xhbfajaURP8rPigPLmcZrm8X
-         vKyoJ8TcqeiNMNUW2CFfdyWj/CJ50x6gi3lb4/GafyVl7SDMwIOW9Yr6KmXzoT4rcoDc
-         3PQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXpwAIw1Q+5Hw2GwH1gK0B5YxYMm9iwIpdcJvztZZztlKVUZ376dBiHHwGTB+AEU6Ya3cqwK2kpisJbwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmjsO8DwoSVQhxYm+EvE1Vfo7R/q/Bk2/n4JAAo6/WNqlyh786
-	inqMJkv2wfFJJeSz0RVsCSQ2waQbJqfk+6cCWUgCBd5CdmQgCT28WPss5coiaayj2giBYFECd53
-	OSdvdRVrS1g==
-X-Gm-Gg: AeBDietEod1Le7Sozduoxlh6cJijniV2xE1AwrBr4zKFlAOQnyUCo+OxyVUqXdmlaYw
-	vZyv6HVj6GlPXVL7je5k6o9UbqPgrH1Kr+0nduvgICiQ9EU5mdyVWKiAJYZ7HwHMsxJ8oMPSE80
-	8MnxtwEOgCxDikEv/SwrObjdZz0xjYzTC0K8nQ/Esuw0nYwzVlpsbsEQ6kiLDaGd/69AwRqPF+k
-	OhhV4NdovEOojNT+GC3PpSeD5uD31Go70/WbnkYOvmxi0gFWUQoxhdPgAiOxlsEKust0fKjTW54
-	iLSNA9UOSbEFR0UxxFvVf5tSfbjjEv8MG1SSNz+3OAjvEFOmDvvrir3nz/X9RJKRgKZ8TxZbCz5
-	rS1K9dTdaznsq/zC2/yA3D6v7+YSoVKo8YmZlXyG17A3mMR482zXg/Z0emv9rKyEwHGCns561pD
-	PbhlAgfCMrGRWb5NAdBX/d
-X-Received: by 2002:a05:600c:45cf:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-488d67b8dddmr90911785e9.6.1775919492745;
-        Sat, 11 Apr 2026 07:58:12 -0700 (PDT)
-Received: from [127.0.1.1] ([151.61.248.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d5dc7070sm48882375e9.10.2026.04.11.07.58.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 07:58:12 -0700 (PDT)
-From: Valerio Setti <vsetti@baylibre.com>
-Date: Sat, 11 Apr 2026 16:57:36 +0200
-Subject: [PATCH RFC v2 11/11] arm64: dts: amlogic: odroid-c2: add support
- for I2S audio input
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YgPvSOQX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="04Kmu5XY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YgPvSOQX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="04Kmu5XY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 40EC66A818;
+	Sat, 11 Apr 2026 16:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775924243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nk9boQXLtmffkTTNxv4oJFsY8DVC7p0uSPCqaXaZ+RI=;
+	b=YgPvSOQXATAWlp4/d9o3oeLhFsFD4pNMTSsyB3LDhsGg9quoiAETux3ErjrlfJ4i0NNEFT
+	DAXddmfPTksF5rm0/e877yxdg+tHceHeoLX4zRxXOaUyUaXyGw0F7HaSyTgc/Z8noXKEwv
+	6jkrD20YFn6N+Z181kUhH/0RQH7HcT0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775924243;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nk9boQXLtmffkTTNxv4oJFsY8DVC7p0uSPCqaXaZ+RI=;
+	b=04Kmu5XYIF/isGMlJgeTScxj0lRL9W6WfSfoGKHGlVBhC3e+KCld7Zfc9mXe3XoFXU6XV2
+	BWCzgREUPRdy3JDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YgPvSOQX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=04Kmu5XY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775924243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nk9boQXLtmffkTTNxv4oJFsY8DVC7p0uSPCqaXaZ+RI=;
+	b=YgPvSOQXATAWlp4/d9o3oeLhFsFD4pNMTSsyB3LDhsGg9quoiAETux3ErjrlfJ4i0NNEFT
+	DAXddmfPTksF5rm0/e877yxdg+tHceHeoLX4zRxXOaUyUaXyGw0F7HaSyTgc/Z8noXKEwv
+	6jkrD20YFn6N+Z181kUhH/0RQH7HcT0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775924243;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nk9boQXLtmffkTTNxv4oJFsY8DVC7p0uSPCqaXaZ+RI=;
+	b=04Kmu5XYIF/isGMlJgeTScxj0lRL9W6WfSfoGKHGlVBhC3e+KCld7Zfc9mXe3XoFXU6XV2
+	BWCzgREUPRdy3JDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A7A24A450;
+	Sat, 11 Apr 2026 16:17:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JsndABN02mnbKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 11 Apr 2026 16:17:23 +0000
+Date: Sat, 11 Apr 2026 18:17:22 +0200
+Message-ID: <87a4v9o4j1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel Monteiro Pires
+ <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: sscape: Cache per-card resources for board reinitialization
+In-Reply-To: <fe520e2a-5a95-4b57-a16b-a7a08a326ee7@gmail.com>
+References: <20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com>
+	<20260411-alsa-sscape-pm-v1-1-3058d988783a@gmail.com>
+	<87a4v9gbs1.wl-tiwai@suse.de>
+	<fe520e2a-5a95-4b57-a16b-a7a08a326ee7@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260411-audin-rfc-v2-11-4c8a6ec5fcab@baylibre.com>
-References: <20260411-audin-rfc-v2-0-4c8a6ec5fcab@baylibre.com>
-In-Reply-To: <20260411-audin-rfc-v2-0-4c8a6ec5fcab@baylibre.com>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Valerio Setti <vsetti@baylibre.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- devicetree@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2057; i=vsetti@baylibre.com;
- h=from:subject:message-id; bh=G0Gm8t6IneiVYTkTeSCPBc6CjJqlMmdql/bqJBW4d+4=;
- b=owGbwMvMwCF2z3ty7kUrRgbG02pJDJm3EkvqxVwT5VamJ1TGemSZrpGo//vDKYVhXsDtaT9/n
- d2a1vCyo5SFQYyDQVZMkYVl+r3fBaVqD40TThbAzGFlAhnCwMUpABOZtYXhv3uboq/N4frukMUf
- t4nU8UmbXFJtuSO040y/Yqmh6CY3I4Z/mocXTZBzknidk319x109g85X2gJL3tnpVhtHXvs7SYC
- dDQA=
-X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
- fpr=0497DEFB707526E13360C970DE4B936DD13A0100
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 40EC66A818
 
-- Enable AUDIN I2S decoder and all FIFO components;
-- Add AUDIN I2S Decoder as AUX device to the GX sound card;
-- Add AUDIN Capture frontend DAIs in the GX sound card;
-- Add I2S input data routing to the GX sound card.
+On Sat, 11 Apr 2026 16:33:54 +0200,
+Cássio Gabriel Monteiro Pires wrote:
+> 
+> 
+> 
+> On 4/11/26 05:07, Takashi Iwai wrote:
+> > On Sat, 11 Apr 2026 06:54:29 +0200,
+> > Cássio Gabriel wrote:
+> >> +/*
+> >> + * Restore the SoundScape's MIDI control state after the firmware
+> >> + * upload has made the host interface available again.
+> >> + */
+> >> +static int sscape_restore_midi_state(struct soundscape *sscape)
+> >> +{
+> >> +	int err = 1;
+> >> +
+> >> +	guard(spinlock_irqsave)(&sscape->lock);
+> >> +	set_host_mode_unsafe(sscape->io_base);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_SET_MIDI_VOL, 100);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol, 100);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_XXX_MIDI_VOL, 100);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol, 100);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_SET_EXTMIDI, 100);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, 0, 100);
+> >> +	err &= host_write_ctrl_unsafe(sscape->io_base, CMD_ACK, 100);
+> >> +	set_midi_mode_unsafe(sscape->io_base);
+> >> +
+> >> +	return err ? 0 : -EIO;
+> > 
+> > The above means it checks only the error of the last write.
+> > Is it intentional?
+> 
+> It was meant to accumulate failures across the whole sequence, since
+> host_write_ctrl_unsafe() returns 0/1 and the accumulator starts at 1.
+> 
+> So an earlier failed write is meant to keep the final result failed, not
+> only the last write. But I agree the current form is kinda easy to misread.
+> 
+> I can rewrite to make the cumulative error handling explicit:
+> 
+> static int sscape_restore_midi_state(struct soundscape *sscape)
+>   {
+>         bool ok = true;
+> 
+>         guard(spinlock_irqsave)(&sscape->lock);
+>         set_host_mode_unsafe(sscape->io_base);
+> 
+>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_SET_MIDI_VOL, 100))
+>                 ok = false;
+>         if (!host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol, 100))
+>                 ok = false;
+>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_XXX_MIDI_VOL, 100))
+>                 ok = false;
+>         if (!host_write_ctrl_unsafe(sscape->io_base, sscape->midi_vol, 100))
+>                 ok = false;
+>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_SET_EXTMIDI, 100))
+>                 ok = false;
+>         if (!host_write_ctrl_unsafe(sscape->io_base, 0, 100))
+>                 ok = false;
+>         if (!host_write_ctrl_unsafe(sscape->io_base, CMD_ACK, 100))
+>                 ok = false;
+> 
+>         set_midi_mode_unsafe(sscape->io_base);
+> 
+>         return ok ? 0 : -EIO;
+>   }
+> 
+> What you think?
 
-Note: in the routing part, usage of "AIU I2S Encoder Capture" as source
-for "AUDIN I2S Decoder IN" is fine (despite the Encoder/Decoder mismatch).
-This belong to the fact that the interface is implemented by "AIU I2S
-Encoder", which was already existing (and named) before the AUDIN addition.
+Ah, I see, one of confusing parts is the definition of
+host_write_*_unsafe() functions.  They return true for success, not an
+error, while the callers use a variable "err".  IMO, it'd be better to
+change them from int to bool and write the return condition in the
+function comments, and use a different variable name like you
+suggested. 
 
-Signed-off-by: Valerio Setti <vsetti@baylibre.com>
----
- .../arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts | 34 ++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+And, looking at the original sscape_midi_put(), it's rather like:
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts b/arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts
-index 5943bc810678edc81fe1a8e3eeae69786e27010c..54798e5b631fdc594cabc5876ab73a3a85944ab0 100644
---- a/arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts
-+++ b/arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts
-@@ -188,6 +188,12 @@ sound {
- 				       <270950400>,
- 				       <393216000>;
- 
-+		audio-aux-devs = <&audin_decoder_i2s>;
-+		audio-routing = "AUDIN I2S Decoder IN", "AIU I2S Encoder Capture",
-+				"AUDIN FIFO0 I2S IN", "AUDIN I2S Decoder OUT",
-+				"AUDIN FIFO1 I2S IN", "AUDIN I2S Decoder OUT",
-+				"AUDIN FIFO2 I2S IN", "AUDIN I2S Decoder OUT";
-+
- 		dai-link-0 {
- 			sound-dai = <&aiu AIU_CPU CPU_I2S_FIFO>;
- 		};
-@@ -209,6 +215,18 @@ codec-0 {
- 				sound-dai = <&hdmi_tx>;
- 			};
- 		};
-+
-+		dai-link-3 {
-+			sound-dai = <&audin_fifo0>;
-+		};
-+
-+		dai-link-4 {
-+			sound-dai = <&audin_fifo1>;
-+		};
-+
-+		dai-link-5 {
-+			sound-dai = <&audin_fifo2>;
-+		};
- 	};
- };
- 
-@@ -216,6 +234,22 @@ &aiu {
- 	status = "okay";
- };
- 
-+&audin_decoder_i2s {
-+	status = "okay";
-+};
-+
-+&audin_fifo0 {
-+	status = "okay";
-+};
-+
-+&audin_fifo1 {
-+	status = "okay";
-+};
-+
-+&audin_fifo2 {
-+	status = "okay";
-+};
-+
- &cec_AO {
- 	status = "okay";
- 	pinctrl-0 = <&ao_cec_pins>;
+	change = host_write_ctrl_unsafe(s->io_base, CMD_SET_MIDI_VOL, 100)
+		 && host_write_ctrl_unsafe(s->io_base, new_val, 100)
+		 && host_write_ctrl_unsafe(s->io_base, CMD_XXX_MIDI_VOL, 100)
+		 && host_write_ctrl_unsafe(s->io_base, new_val, 100);
 
--- 
-2.39.5
+which is more straightforward, and it aborts when a sequence fails.
+(Though, strictly speaking, sscape_midi_put() should return an error
+in this case, but it's a different topic.)
+Maybe this form can be used instead, too.
 
+
+thanks,
+
+Takashi
