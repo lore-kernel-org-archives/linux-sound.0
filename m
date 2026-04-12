@@ -1,106 +1,164 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E131A6828;
-	Sun, 12 Apr 2026 03:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6539723BD1B
+	for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 08:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775965707; cv=none; b=T1+D9cl3vBP7TzCks4SVdzF4vCTJMbKBjJTMKmcOTHbqURnGxqgz0Zn+w6plsgC1U8eLvJJSgaUA1xA10ainuRc21KAsAWFhk+5bh9pCZr1+wOtPyczeVSRVv+SLX6rYTsllR6hOxAT+Zn2Lvnqr5OI3C1+h5dMb9uB4TNwqR2c=
+	t=1775980868; cv=none; b=CxoD9TUZyY6cs3fN5SNYqXFiwVIcYivs0eMjVicUdf6vAET9NNDZNzC/byPduKwJqw+YbVjY+fYX4A6vTv+v9hUAntURcO5sEQ6WBNveABc3OpSTy5XhFLTNr5VYuM7s3nOZKgy+9podkkC2YdSflPmdPqajH7XdKSxX7blCYlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775965707; c=relaxed/simple;
-	bh=Shwe1898vRBh8CC7NQ/j/z7cBo75OO6vQGWWvCPe85Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZCuZv6vUeCf3xyHpDJT1wxLG8SmVJ41AAPjegYQUnr7gJu7KhRfAu1pDJAaRE5KG5d8JM41gxzEsG89hfMTqm/UcE8e48d1fdukRz5cSJX7j/sZjmZ2BFhAzJ4WofMbXkgEJQIRWa95ZKU6pLsjNrze0WCAv3TMUVUffLxfNBrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
-X-QQ-mid: zesmtpgz4t1775965668te83a6abb
-X-QQ-Originating-IP: qUAYpAzp+h5uzx9PSZQMQCkfZr6QGRT/gnzLBcy3tmU=
-Received: from [127.0.0.1] ( [116.234.85.158])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sun, 12 Apr 2026 11:47:46 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 4709009809936813395
-Message-ID: <A76960166F7A473E+e74b8c44-c412-4eb3-ac13-ab9a8ebce8e5@radxa.com>
-Date: Sun, 12 Apr 2026 11:47:46 +0800
+	s=arc-20240116; t=1775980868; c=relaxed/simple;
+	bh=wFlQErYkFs2naY0UpedcIyzWnUl+16XBVDaGskn9F/g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oNvmdUwA+onQDCFNi3cryYQntJ5z5RqgS5UvnAvsWagu77t9MyktES78tcyS01Xc/ftQtIuAtpN2ZEM51LTX1Wj2ouU6z2PKQKo8gpkkdGZgFcWNSHjV8YkSV85fm8tld3TyL2uuu9dUVVdEIXn3zmdxN0tyuF0OWbzvuajRxHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zd7qweGS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ef80TODM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2XyzEiW6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ugZ5ZqcX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zd7qweGS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ef80TODM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2XyzEiW6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ugZ5ZqcX"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 71B1D6A84A;
+	Sun, 12 Apr 2026 08:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775980864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
+	b=Zd7qweGSSzfJTy2ftQIG5JCnLKgDgy8NAcXe98yNP8O4txi48Zc8jX6Q2R9KCStGhxeBO/
+	ZPEq7Gs4iMn0jGKJOpdceJcrJ4rEG6qglw7VpkdW2Ch1bY/gQhgrUgbWD8RUCosbeOXrGz
+	7ZAuZ1AOzq58p+qOGzuTmXF26UxpZLo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775980864;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
+	b=ef80TODMDEBtDm14a+OqXB0EPG0b36KrdEktLXSgfVOuyvO3hzxY+P2ozucwpNvbgtD1ok
+	QZ0UaEuILz9LT1CQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775980861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
+	b=2XyzEiW6aC/vXxMkO8z1evFEmK/TWbov7hc9i8SkKqnUXzXehP9tCe2kpSilPy1XJqlvIi
+	usj0ddNxigFkGRng2J0MpIjmhyX12Jwx9emmYshE3EiDG5bm1TgthnIDZQoPWWAXpk4/rb
+	imXcCPeIHNo2zc1cHyLlKSl6QT117Ow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775980861;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
+	b=ugZ5ZqcXLq9xhVFHAE5TmSXCttWv8+UlktPaJ6Ojz8Jzl8JiZIgjujwiejDYHBFFlpKjuo
+	Khiwx800zsvjfxCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DDF24A802;
+	Sun, 12 Apr 2026 08:01:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FJ7LDT1R22lxJAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 12 Apr 2026 08:01:01 +0000
+Date: Sun, 12 Apr 2026 10:01:00 +0200
+Message-ID: <875x5wober.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] ALSA: sscape: add suspend/resume support
+In-Reply-To: <20260411-alsa-sscape-pm-v2-0-aeb5682e14b0@gmail.com>
+References: <20260411-alsa-sscape-pm-v2-0-aeb5682e14b0@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] ASoC: dt-bindings: google,sc7280-herobrine: Add
- Radxa Dragon Q6A sound card
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Judy Hsiao <judyhsiao@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, linux-sound@vger.kernel.org
-References: <20260407-dragon-q6a-feat-fixes-v1-0-14aca49dde3d@radxa.com>
- <20260407-dragon-q6a-feat-fixes-v1-11-14aca49dde3d@radxa.com>
- <20260408-pretty-poodle-from-atlantis-dfd1fb@quoll>
-Content-Language: en-US
-From: Xilin Wu <sophon@radxa.com>
-In-Reply-To: <20260408-pretty-poodle-from-atlantis-dfd1fb@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:radxa.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: N+n6UtIkOPCa+7mPMHsiXOG9eC2loerQlrRrmuH2WXJeQeRdVuIP+OFu
-	NgyEkYYgYz5yPPEdCb82Mx6eAj2vqJBnPPlL8WMzzDrl0niu2VtOnO1hw1puEhlKlCF/HH6
-	VXh0VC7mX+B2CL78A0FgRwkYZAMVghDO9Brovp3wfsVuhRSb4Q4baftHTebqjdHj+i6pqXd
-	JgU5NPzaTKk0k02Ha+dcQ2TmMEui2X2iSXJFWH+nrR5+tkrYpbYAVDpmSmtw6amTiOha2CG
-	6agOeTeVyrTg962HBviU20/JdX8ZAFsCs8ZcO0YY6fTd34WmuAUZAPJyAIWbrQphIUccmTs
-	NGQh5PGVb0O+1MnJGCmUY3KxUzxBcpPmGMaHhLK/H8jmUA/CD/LozcMMOFkJg1cZ89O0iso
-	jezXE8kFyPjChXgyg9BRa6GqU54t1kqVcSO+LTC0r616gFh+qX0p/XGr/2ekwuIIWqVaKaI
-	zKfItLddtbcyvOPdP/iY4TRzu9w7HWDpMvGi0kjXaIHe/z4wjJRnrz7Qg/xJa9kcu6x6HHA
-	QJJq7iN/5fuCavQprZW/gZajmQgfhiMJIFgMouB2nhI0LjOlzP9o1k9EAjyJThpIuqDu9xR
-	wp9uI1PWRVNwUoWXXehHZQi+ShLxcfOTqNQdgJvLbBb4Ek8TgPivV1olRlFaFVm4ocMhycy
-	YkWOqeAIrlVDEV+PiTn3aY2D1dSRoxq+t1m/8kGekc6dqWne8S01qEEAavrINFo5WgNKNQ5
-	ouBv5d0wNPEuJ73jqm1b5PuB3yUddP1YxdCfLu7OZlYabxgQshubcAujYx9VVl56kbxQLNL
-	9KbUQ2kO2YXuxWDCLYuATBlkNy2osLaWoY136Qia93hrmhcaT9TivjmMlKOcaNZ4C59Hil+
-	eMKH34aHkWQ+O714cvKUt0kQVE9q9h5X+dWS/QsVWHIWGwkFUK48KLLzalCzSubpyx3d73B
-	wAxMvq2qE/jKVNyM453ibiE8cD49tqh9nM/KNK7HNFbgMSyn+PEf4550y0uZLwaIG1a9ftr
-	lxgUbyD7g3NFiU6FWAm7GKI3lfMCw=
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.20 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.10)[-0.516];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.20
+X-Spam-Level: 
 
-On 4/8/2026 4:48 PM, Krzysztof Kozlowski wrote:
-> On Tue, Apr 07, 2026 at 11:20:03PM +0800, Xilin Wu wrote:
->> The Radxa Dragon Q6A can boot in EL2, allowing the kernel to access the
->> LPASS hardware directly. Add the compatible for it to the bindings.
+On Sat, 11 Apr 2026 20:14:39 +0200,
+Cássio Gabriel wrote:
 > 
-> You are not adding compatible for LPASS, but for the sound card. And
-> since you mentioned it, what happens when you boot in EL1?
+> The SoundScape driver does more during probe than a plain WSS bring-up.
+> It programs board-specific gate-array routing and, on non-VIVO boards,
+> loads MIDI firmware and restores MIDI state before the MPU-401 side is
+> usable. The driver still lacks suspend and resume callbacks, so that
+> probe-time state is not restored after a system sleep cycle.
 > 
-> You need to post bindings for both cases.
+> Generic WSS power management is not sufficient here because it only
+> restores codec state. SoundScape resume also needs to restore the board
+> routing, and on non-VIVO boards it needs to reinitialize the MIDI side
+> when it was successfully enabled at probe time.
 > 
-> Best regards,
-> Krzysztof
+> - Patch 1 stores the resolved per-card resources in struct soundscape,
+>   factors the board reinitialization path into a helper, and reuses the
+>   MIDI state programming sequence.
+> - Patch 2 adds ISA and ISA-PnP PM callbacks, reapplies the board
+>   configuration on resume, restores the non-VIVO MIDI firmware and MIDI
+>   state when applicable, and keeps the WSS side available even if MIDI
+>   restoration fails.
 > 
+> The board restore path also replays the OPUS AD1845 activation step used
+> during detection so that resume matches the existing bring-up sequence
+> more closely.
 > 
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+> Changes in v2:
+> - Change host_write_unsafe() and host_write_ctrl_unsafe() to return bool
+> - Document the helper return semantics in the function comments
+> - Rewrite sscape_restore_midi_state() to use the same chained-success
+>   style as sscape_midi_put()
+> - Link to v1: https://patch.msgid.link/20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com
+> 
+> ---
+> Cássio Gabriel (2):
+>       ALSA: sscape: Cache per-card resources for board reinitialization
+>       ALSA: sscape: Add suspend and resume support
 
-Hi Krzysztof,
+Applied both patches now.  Thanks.
 
-Thank you for the review. You are right that this patch adds a 
-board-specific compatible for the sound card, not for the LPASS block 
-itself.
 
-For EL1, the default Dragon Q6A DTS already uses the generic
-"qcom,qcs6490-rb3gen2-sndcard" compatible, and for the EL2 LPASS-CPU
-variant I can also just keep using the generic
-"google,sc7280-herobrine" compatible.
-
-Would it be better if I simply drop this binding patch and keep both
-cases on their existing generic compatibles instead of introducing
-"radxa,dragon-q6a-sndcard"?
-
--- 
-Best regards,
-Xilin Wu <sophon@radxa.com>
+Takashi
