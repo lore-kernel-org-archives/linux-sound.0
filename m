@@ -1,164 +1,73 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6539723BD1B
-	for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 08:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E73419AD5C;
+	Sun, 12 Apr 2026 09:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775980868; cv=none; b=CxoD9TUZyY6cs3fN5SNYqXFiwVIcYivs0eMjVicUdf6vAET9NNDZNzC/byPduKwJqw+YbVjY+fYX4A6vTv+v9hUAntURcO5sEQ6WBNveABc3OpSTy5XhFLTNr5VYuM7s3nOZKgy+9podkkC2YdSflPmdPqajH7XdKSxX7blCYlA=
+	t=1775985497; cv=none; b=mtqDi1zTRi4DH78NuHd0k6JE9u7PvPy0xE0l2REBsu2pgyNwvRtR6vvufJmm9s5Tc7dwfB9EUaOljjHwdZSPgxa7SkJW7JGJCrGbwgFyU7CYqO+f/iM/arfuw9f4sJuMpgC/aXuNFR7gWbeCi0tSJhz98GyYVq334IqpIjkOM7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775980868; c=relaxed/simple;
-	bh=wFlQErYkFs2naY0UpedcIyzWnUl+16XBVDaGskn9F/g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oNvmdUwA+onQDCFNi3cryYQntJ5z5RqgS5UvnAvsWagu77t9MyktES78tcyS01Xc/ftQtIuAtpN2ZEM51LTX1Wj2ouU6z2PKQKo8gpkkdGZgFcWNSHjV8YkSV85fm8tld3TyL2uuu9dUVVdEIXn3zmdxN0tyuF0OWbzvuajRxHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zd7qweGS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ef80TODM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2XyzEiW6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ugZ5ZqcX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1775985497; c=relaxed/simple;
+	bh=9zcRZ+5PCI5Z2fw1/LxfwKyquv5HdTAAezig+TuHOzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qpZ0hs/zIeTV9hmq3irl8D66UUkqyny3q3VDSeK8u8zlvAnf/sCuHdJ3Tk9eSG4MCXq+ySHJmnwr58Quee7GC6LD4HiANcM3GC/KW0deRudyNVgwmo+NvcOFF44QPHAlsfnbDP3N5QIuz1qFU8EcmtDap7rSw+iV7FNnUa6ETCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDRBhUsq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zd7qweGS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ef80TODM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2XyzEiW6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ugZ5ZqcX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 71B1D6A84A;
-	Sun, 12 Apr 2026 08:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775980864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
-	b=Zd7qweGSSzfJTy2ftQIG5JCnLKgDgy8NAcXe98yNP8O4txi48Zc8jX6Q2R9KCStGhxeBO/
-	ZPEq7Gs4iMn0jGKJOpdceJcrJ4rEG6qglw7VpkdW2Ch1bY/gQhgrUgbWD8RUCosbeOXrGz
-	7ZAuZ1AOzq58p+qOGzuTmXF26UxpZLo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775980864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
-	b=ef80TODMDEBtDm14a+OqXB0EPG0b36KrdEktLXSgfVOuyvO3hzxY+P2ozucwpNvbgtD1ok
-	QZ0UaEuILz9LT1CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775980861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
-	b=2XyzEiW6aC/vXxMkO8z1evFEmK/TWbov7hc9i8SkKqnUXzXehP9tCe2kpSilPy1XJqlvIi
-	usj0ddNxigFkGRng2J0MpIjmhyX12Jwx9emmYshE3EiDG5bm1TgthnIDZQoPWWAXpk4/rb
-	imXcCPeIHNo2zc1cHyLlKSl6QT117Ow=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775980861;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QQXbial2cRhYNzKnUOA8WrEKqx3ZUg4JnCjn+AOpzMo=;
-	b=ugZ5ZqcXLq9xhVFHAE5TmSXCttWv8+UlktPaJ6Ojz8Jzl8JiZIgjujwiejDYHBFFlpKjuo
-	Khiwx800zsvjfxCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DDF24A802;
-	Sun, 12 Apr 2026 08:01:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FJ7LDT1R22lxJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 12 Apr 2026 08:01:01 +0000
-Date: Sun, 12 Apr 2026 10:01:00 +0200
-Message-ID: <875x5wober.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] ALSA: sscape: add suspend/resume support
-In-Reply-To: <20260411-alsa-sscape-pm-v2-0-aeb5682e14b0@gmail.com>
-References: <20260411-alsa-sscape-pm-v2-0-aeb5682e14b0@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDRBhUsq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77DE4C19424;
+	Sun, 12 Apr 2026 09:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775985496;
+	bh=9zcRZ+5PCI5Z2fw1/LxfwKyquv5HdTAAezig+TuHOzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RDRBhUsqCCWSwAssF/9giJVfEb8/z/9qKI5PWbBTN+5sPXpuOjuHnOTZ3cDbKPaqB
+	 Y+vUW2vqRh2VYtf7OuZr0RHzIssPLLTkKwl4FBdgDStY/+N6EPT0VZM58zq8iJR4sO
+	 rHzFE2KK/WkWpiH88A4e59PO/3tbCkEI7YC8TXxj8mrdKp6j2BsRIDnige6nfDAs/7
+	 yaPl1mljvJcy1+Wbtmdlushm72R01n3Pbp8XFKiXRTqqhtm89pxiGeZKIL59klnOma
+	 egbPQm3K8hOYdjBx6HpLNpkDFVBVdZnzJwPdmE4/UPKtlT+FdEmqsDaJ6O5o9chcK5
+	 vE6dgrJlsPVDw==
+Date: Sun, 12 Apr 2026 11:18:14 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Anushka Badhe <anushkabadhe@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: rockchip: convert rk3399-gru-sound
+ to DT Schema
+Message-ID: <20260412-copper-hummingbird-of-saturation-cdde95@quoll>
+References: <20260410055532.60868-1-anushkabadhe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.20 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.10)[-0.516];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.20
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260410055532.60868-1-anushkabadhe@gmail.com>
 
-On Sat, 11 Apr 2026 20:14:39 +0200,
-Cássio Gabriel wrote:
+On Fri, Apr 10, 2026 at 11:25:32AM +0530, Anushka Badhe wrote:
+> Convert the rockchip,rk3399-gru-sound.txt DT binding to DT Schema
+> format.
 > 
-> The SoundScape driver does more during probe than a plain WSS bring-up.
-> It programs board-specific gate-array routing and, on non-VIVO boards,
-> loads MIDI firmware and restores MIDI state before the MPU-401 side is
-> usable. The driver still lacks suspend and resume callbacks, so that
-> probe-time state is not restored after a system sleep cycle.
+> Update rockchip,cpu from a single I2S controller phandle to a
+> phandle-array. Add an optional second entry for the SPDIF controller,
+> as seen in rk3399-gru.dtsi, required by boards with DisplayPort audio.
 > 
-> Generic WSS power management is not sufficient here because it only
-> restores codec state. SoundScape resume also needs to restore the board
-> routing, and on non-VIVO boards it needs to reinitialize the MIDI side
-> when it was successfully enabled at probe time.
-> 
-> - Patch 1 stores the resolved per-card resources in struct soundscape,
->   factors the board reinitialization path into a helper, and reuses the
->   MIDI state programming sequence.
-> - Patch 2 adds ISA and ISA-PnP PM callbacks, reapplies the board
->   configuration on resume, restores the non-VIVO MIDI firmware and MIDI
->   state when applicable, and keeps the WSS side available even if MIDI
->   restoration fails.
-> 
-> The board restore path also replays the OPUS AD1845 activation step used
-> during detection so that resume matches the existing bring-up sequence
-> more closely.
-> 
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> Signed-off-by: Anushka Badhe <anushkabadhe@gmail.com>
 > ---
 > Changes in v2:
-> - Change host_write_unsafe() and host_write_ctrl_unsafe() to return bool
-> - Document the helper return semantics in the function comments
-> - Rewrite sscape_restore_midi_state() to use the same chained-success
->   style as sscape_midi_put()
-> - Link to v1: https://patch.msgid.link/20260411-alsa-sscape-pm-v1-0-3058d988783a@gmail.com
-> 
-> ---
-> Cássio Gabriel (2):
->       ALSA: sscape: Cache per-card resources for board reinitialization
->       ALSA: sscape: Add suspend and resume support
+> - Fix subject and body: "YAML Schema" -> "DT Schema"
+> - Fix title: "ROCKCHIP" -> "Rockchip"
+> - List items for rockchip,cpu with I2S and SPDIF descriptions
+> - List items for rockchip,codec
+> - Update descriptions for rockchip,cpu, rockchip,codec and
+>   dmic-wakeup-delay-ms
 
-Applied both patches now.  Thanks.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
+Best regards,
+Krzysztof
 
-Takashi
