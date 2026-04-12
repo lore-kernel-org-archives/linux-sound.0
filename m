@@ -1,112 +1,94 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F4A299959
-	for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 17:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1C47082D;
+	Sun, 12 Apr 2026 18:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776015942; cv=none; b=XEsaA3UdUtrJdYn+41EFiG3jqBbvRML8lLhX2RyJaiZoA/3RMLk19Pw1HEYMMbuVS/MRwSdDFbEbZx3YDTHA/ksuEmu4SmlRdz4dfMTZ25tN7NLiEPtB9+jBz9ZRc0Z7goTjTPjpdculCxo891KH8ZNXZPT7aAw6kbEseDcAfck=
+	t=1776019051; cv=none; b=gYrcQkrs0yHdiyh9vqPqG4gmpY8xbN2bk5V2lAv4DK0Jb2ItVXnVbcxGyCL8ZZ+MACRDZrdKLDHCUU4o2HZirahfdEiQvo7SkOC+IRdOolodswH3UbeUj6xcXPgRSc2IXS5uTdgH0mnMgReOQ2gUicqHix9kg4Dh29wiqLifGII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776015942; c=relaxed/simple;
-	bh=MvFqTtD18D5DAv92JGkSRWZaXoO1lYwBKr6BusmvkEg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tw8/bu7xLI6O/FuSMhejleed1i6PrrFeKUQK+Clts49ouLaZnG9t+eIEPTb+CQyMrvqU5R60yJ9VS0C0HPoW3f+oWoQJ6MLWkh6H2n+nOc5VrEku8drOGFVgHSO4K4SrU27lW4tqzts1dGhaLefKZaMOqgKxWXmVDDEXKfMFMQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m9/xkXd1; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776019051; c=relaxed/simple;
+	bh=PijWu97k4FMC/JNTJB1uwPX/IYoDgzxrqr5gykmeuRg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cebUxDYHPCmUokQH2quzfpKmrBK0N8Se1dyj3taUEv9XV+mM+em3SYCvslpa/2W7EiQO4BuLQQQARTePtebhthytRiA7mjHQmpDy3faHc6qeIxSB409NsVlViJ26Pvv16pqxV8IaK0MMiCn3gNlfNuioWiUOpN/KdhFwUWNzVfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HwOTT/Md; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9/xkXd1"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82f1dcd5886so901313b3a.2
-        for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 10:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776015940; x=1776620740; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/OoU5jmpe1DqxkQY//ANPB23eMZd7k19jDj8fX9LlbM=;
-        b=m9/xkXd1+VePVXd/wRrhpvwXmPE104FdETsUUVnDZfunl6jKJcgN51Hlw03J/WKWfs
-         y68H0G8yiHjqUwkhbjpa/ZsNcp6NbFIdskZM9bhF7EY5pdzdpns2KYFMgrwNROuV+Cyi
-         IscnSBfR2dRcctyrWX4CHALqRMrMEQAmXrbheytT0Zaso22bPPae4TM0YRRcU2o467Rm
-         TFNQfXrfJ+Fhtjyk5JXYalukcJ+ElOeDrYe9L4Su01ijiJF+6a6nrhLGM9DWynCGp+rx
-         zbz7peRrwoqUEOFMzyooImNMGy4Aqy/4HJLEE563ixx8OF6B+8MnpyYzQO+tV1lRzh5d
-         sy3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776015940; x=1776620740;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/OoU5jmpe1DqxkQY//ANPB23eMZd7k19jDj8fX9LlbM=;
-        b=dbEgQsDzgqteQq/pRckQV/nVD+Tm8x3Kl9NAnstT0FjjMYP8fKJEMPkmxdqOd+lpuQ
-         l4MEAgYI2Oe0U5gvxvurt94ZTyDRJLn4SVQ1NOFQ53tr2yTKKxPz5oFwl2BddxqdWo5B
-         zwEqrQnSGC5hqS7DLhGnKawl2Wy2fcxKXZaPnxkFvRz6AQq2PJ+j9z9JyCr9qJ81oMKD
-         thkKAuw24j+GFxzXO7/LH7f7jjKCKOb2aqya5uDR9JVR8/8f10lxc2c+muFUH7gYMszC
-         kacXD4NvrTujVd+gK8bM8fSmfrq/H+fb68LPl555fO46He+kbMNEqZKpJ86u6wDfdeRz
-         5AsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxzxCkLFtgfF8y8Q9pbQpEXKu9GfEqBg4IKwCuNCXsGLAbwGi9Pm/B8CJxvgb1A9QVBbpn/Wx3DlOpcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVJIOdoSPi0kwqaBzAa6mo8VjVqfMxCabudY4vUej/iUMXwU8a
-	ime+u+yydTy8rlh20CJghdoMklZKM+oovX4Nb32adQOlj96eaXVg4Fie
-X-Gm-Gg: AeBDiesuLZL0SN6uHdGjzxuqtVTfgvzOXG3WtDtAIcUBR2OSO5SgtgZioVertwswVPT
-	Lp/HxsVWpDeXbcUwkuhWU/Vz5WJuQmpcjEs1giEGk4Lob7GRrQy9HO4GJoL1y1HKL5Q0szklqB1
-	9JNLN0haexpOwyQWVrMmTw1xK4xhSZ2p8MdrZan++otTevVLtrFNSCHkqp3IpvE4LUZ0baMBg9Y
-	sM9x1eVp/g4MfYMvd+OAVMX0YjiT5/DOteIV+mNkEUiYRtdI3FjyqqTI03gYPiVnszyXp/F54tJ
-	ejqy98ahpbItdAt8YRK2CSESepWr7AJYdiHvh5re2j9HJ/WbYc+4dx+iog9Dr6hqV6r8shG6aOg
-	UW6cW2e4MribQYr7aPM5VonQoHUrB6lHa2auYtMY2CL8iYM5KOx20CyMiKIoDBYgE3X05OX39bJ
-	HATGqeow96x6CHEQvtknZUrHHxdw==
-X-Received: by 2002:a05:6a00:a245:b0:82c:6d88:2a8e with SMTP id d2e1a72fcca58-82f0c28903fmr11551470b3a.20.1776015940377;
-        Sun, 12 Apr 2026 10:45:40 -0700 (PDT)
-Received: from lgs.. ([2409:893d:1188:142d:6dbb:2e05:75d3:967e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c4e182csm8999464b3a.45.2026.04.12.10.45.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 10:45:39 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Curtis Malainey <cujomalainey@chromium.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH] ALSA: hwdep: fix NULL dereference on error path
-Date: Mon, 13 Apr 2026 01:45:29 +0800
-Message-ID: <20260412174529.2597250-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HwOTT/Md"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B15C19424;
+	Sun, 12 Apr 2026 18:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776019051;
+	bh=PijWu97k4FMC/JNTJB1uwPX/IYoDgzxrqr5gykmeuRg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HwOTT/MdaGfSu+lMQ15reO4of2vDxHPOhy60wmT07ZTYlFrDnmz8INj9fBtd4caew
+	 4ZW2fqlV130b6Z+hApmwdjnf5GI7QJ1lkWeKMcByVPD4pl/MM8dwmBH2n4XT/zKSbQ
+	 QARPweAiFbTHS6oeSQ23qBLUkj6rr2Pe+xYDsxJySlDKR6xuGPzwo5pliOqgwvmzBp
+	 2ogHKHjqXjypMBtmdq6o5meV2IexDa2cyK+hoaYpFsxj0LJJh5kMD9mw/+73uw1ukI
+	 /wam1h2nO/e9hikCt9OUe25qUbTz29N1ebg7wJWBVvN3qNbkYX3gz6U0h7c/4kBtq1
+	 E8ZivocZctjZg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Anushka Badhe <anushkabadhe@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260410055532.60868-1-anushkabadhe@gmail.com>
+References: <20260410055532.60868-1-anushkabadhe@gmail.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: rockchip: convert
+ rk3399-gru-sound to DT Schema
+Message-Id: <177601109152.15951.7045747169563150515.b4-ty@b4>
+Date: Sun, 12 Apr 2026 17:24:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1151; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=PijWu97k4FMC/JNTJB1uwPX/IYoDgzxrqr5gykmeuRg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp2+ZozNSjOGljh51Zr9GW6/olODr+U0bCjFa7X
+ 5XkH5n3dleJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCadvmaAAKCRAk1otyXVSH
+ 0Ag+B/4nyiSibB/tBisuOvNzVo5Gh7bWuT2pSAqxItMWJeEeUjqvdKRLFLS6GQ/F8aW6MK8zBTs
+ QorTnmTl1R4/ZsdhXRcoOVGIwI1SFpSRk3UpTo8NKjYR9Sqt8OBTrM//GrdI4iHQ5LWqv2tHNYL
+ 1qTndO450NNIt3qhRjWhLafyIdPSKVs+tCEHdE2qr+xDNUaUa8HP+59iXyPpH+IE3afytQ0OQAX
+ yeS68p8Y9t+1X5ULY5z6pFVM3n/rJ8kzOKjMzJMjKGRHzAmt024aBk4wCvK6a9dkYVg167VEnuZ
+ SjzhRomJGhNCIWp+ei542H0iiHu6Pzg324qyEo8ZbSjhYAS7
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-snd_hwdep_new() allocates a hwdep instance first and then allocates
-hwdep->dev via snd_device_alloc().
+On Fri, 10 Apr 2026 11:25:32 +0530, Anushka Badhe wrote:
+> ASoC: dt-bindings: rockchip: convert rk3399-gru-sound to DT Schema
 
-When snd_device_alloc() fails, hwdep->dev remains NULL, because
-snd_device_alloc() clears *dev_p before attempting to allocate the
-device object. The error path then calls snd_hwdep_free(), which
-unconditionally invokes put_device(hwdep->dev).
+Applied to
 
-This may lead to a NULL pointer dereference in put_device().
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-Fixes: 897c8882df58 ("ALSA: hwdep: Don't embed device")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
- sound/core/hwdep.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks!
 
-diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
-index 09200df2932c..aa35bee8da6b 100644
---- a/sound/core/hwdep.c
-+++ b/sound/core/hwdep.c
-@@ -343,7 +343,8 @@ static void snd_hwdep_free(struct snd_hwdep *hwdep)
- 		return;
- 	if (hwdep->private_free)
- 		hwdep->private_free(hwdep);
--	put_device(hwdep->dev);
-+	if (hwdep->dev)
-+		put_device(hwdep->dev);
- 	kfree(hwdep);
- }
- 
--- 
-2.43.0
+[1/1] ASoC: dt-bindings: rockchip: convert rk3399-gru-sound to DT Schema
+      https://git.kernel.org/broonie/sound/c/115e7d764dad
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
