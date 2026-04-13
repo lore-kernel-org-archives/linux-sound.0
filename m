@@ -1,140 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF072C027C
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 05:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776058638; cv=none; b=qBMeWuQzqnq5DjrBfDkJNaHh/UBiLaTnHthCPOcdCZJyxRlEB/NnJ200Pjycu0SJKkjZUPj9xRwBDPKUbAEfl3xotxQunK63P2ZiGk5v7m/CQVlRgtNMBKl033VnIGFhg2p9n+8DvzUbMlDVtP8nbzxzGBwmVuH5T767g6659MY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776058638; c=relaxed/simple;
-	bh=+N9x7r+eIydoN871LS1n35oazrqkSAcZjb+tA/+1V84=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M0mGi1vvGb9k/TWdUz9deFyENckW3svfVgLgV9QlOUXG25pHfUcTdGDmtk7iglcAuRwz2MxGGzRbSFLnnEXRjc7ll+6ur2wcqtDrAExtAwjA0DO1LdgFq2233ALFeQL7+5otPKD7RZyOjkJxpAeThX21maNuUnC9aWYSfn5Mrgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HXNS/hn+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2flZkSeJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lDEynsVi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vo77gKLD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F21B327C18
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 05:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776059302; cv=pass; b=g/AnvFVrxGBttk/DjZXtOPmBDuTU4WhMmafqPbv3wwxAQIoxeZxSN2E7iX2q1tybCqjP7mzCykh/lGrt9zDvH8exehnF6ZO0bAqT+rrxdEG4lSPWCG/rsSTWCGTeEx9aRYLsfYGF+a4zwQMioXdMbICNTpWIz08xkk8jcEt2BlQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776059302; c=relaxed/simple;
+	bh=igt2Es3IqJum7K3P9h4iERQJBtAxhpKyYYTdHjquAUA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gM+E5K7yFtqbRUyXt/AvTq57i2ysNrx6cnEy8aZCXufdqJJMPcDR+b/rAEeUyVniyeRKM0QgPyQ68cwWa5THrnMWK2hyzwYYXVBllCaASeiH1N0dt+3ZdgHf9XDfnzT5o7VGgnxOzHYtGwxFXDiKOwbpHaJ1f+8DWZ/wkeoQ4BA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D1kbALBW; arc=pass smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HXNS/hn+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2flZkSeJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lDEynsVi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vo77gKLD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6162A5BDB2;
-	Mon, 13 Apr 2026 05:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776058634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kBDLDSXTssOHQ5gKW6j17D3ZRkt5p2fJL4EMKClrfTE=;
-	b=HXNS/hn+jUzoXHeH2qoCtyyZcRUUfUZBbw1vGuZPQ2p/2vlmh/hz3OgbTgmbYcgoJP76qk
-	csYdBW7FYRNoIkC4rEghGO4ZIrq6tdupOecIwEo4AlA0CAEZKnQ5UJRe+A1qKFjx6IfkKk
-	G93dNhemTdfTBJ8kZIE2m6/kAVWWZdw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776058634;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kBDLDSXTssOHQ5gKW6j17D3ZRkt5p2fJL4EMKClrfTE=;
-	b=2flZkSeJsm8RgR3YXqQZ4w7zMYFTsX53NWqx2rynhP5twfcgEW4hLhPP4XpaBYEAoOLvXd
-	at8B4ELYmJfElWAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776058633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kBDLDSXTssOHQ5gKW6j17D3ZRkt5p2fJL4EMKClrfTE=;
-	b=lDEynsViu4xRseXscOTFz/L9XE04XT1tIl0d9k7f3eiNYyAisr4d7swm/BCdalsAC8VjMr
-	EpfcNONVjeMTZjRXkK/OSBdt0c7Jf3UFbH5zycPJgEjeKtxdw6vmzpvxs82t8MrMA4v/d6
-	y6sOPXv75RHrHRAOII+nw8qQSX9KVtw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776058633;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kBDLDSXTssOHQ5gKW6j17D3ZRkt5p2fJL4EMKClrfTE=;
-	b=Vo77gKLDQz2nQZWD5vCcI8eeEmLUDFz563efkSHxHl7Id5ICmLgnhviFpjTrHBR8jXAvw5
-	vXYMtOapAHQFKkBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D5D64AD0E;
-	Mon, 13 Apr 2026 05:37:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Of2tCQmB3GnuYgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 Apr 2026 05:37:13 +0000
-Date: Mon, 13 Apr 2026 07:37:12 +0200
-Message-ID: <87jyubwhdj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dzidmail <dzidmail@gmail.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Spectre x360 14-ea
-In-Reply-To: <20260413011854.96520-1-songxiebing@kylinos.cn>
-References: <20260413011854.96520-1-songxiebing@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1kbALBW"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6501d242e2fso3817752d50.3
+        for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 22:48:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776059295; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Fwlf8owUGEg+O+NCk5r6Mh2sS06IpU19WqYX3so8lJgadzZicCH36Mgrgs+ef1yhFL
+         VR2nFR4JE7kM7kaNrkesjeLJrRnSU8wXWnKPFIFVKDJQ6mdba8sf8/kn+2+JpLGv0nMH
+         ASOJhxrW887XsMWrrBKY600FJ3uuvPVHrzcmixCuT+63ClyR42XxoChaQ/99DUjOBdG/
+         N0zBAosqykaCXOJZ+SHP1Ez/BPnA8WGtEczDdC44dxCQWI5Rdxclh9aba4Aj7tKuwDeg
+         6MrfDbMnlVFRYkRzty+e4CPw/Su0LE+UtTDVP7tvNVd9qV75WCcVVKE6YQdKgS9xlJam
+         Zu/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=igt2Es3IqJum7K3P9h4iERQJBtAxhpKyYYTdHjquAUA=;
+        fh=/R8YEBbudUxusg0ApgrgnpJUE2oTtx0QMxCoGPVmHgE=;
+        b=eyZ/t2XMyv3SFaNXLn63F0KCmwKTSWNJ58GaCyAkqmTql2elHLWKRycJDM9BBpNYlO
+         0htNku0nh7Xq0EcFcWER79DgUM17vitMfCHu13kDNBC0Bfj+tzky+T2veYHo5EKm6c/P
+         70N9DPL/uD1DYpzD3XaN/Qu18RpD0La0r2GUYMdDrxjgc8eYZq2QcT7sDkiYuXqEWPC6
+         tZLgrYJ2aLiachFqTF/id0LxudYem+ckXJVSrJ9JJ11mNTs32dg6u261Gesl8+CQEg4H
+         CrM0MTDJj7kUNqrz0zHVYZsdi1hDhKb/APLLh6eMa5Tc8X1goA36U8vnlYU2VKinMSyI
+         DnWw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776059295; x=1776664095; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=igt2Es3IqJum7K3P9h4iERQJBtAxhpKyYYTdHjquAUA=;
+        b=D1kbALBWISUXixtTGiAn1YtHLaD1vci/HrAEznoIqZRakKRz7y4Wtat9sCmbmCqPpv
+         bxsr3Ug/HeANneENKvEzR/3cKGzc5zKoqje0MXlB/92k6MTt9zMF4dPe/WiW6/IejkMF
+         1dMyvlZ75NfUMWIt3CcSS6saPCc8PdSyAhpZJtIZQWqyKoQAUTHOgQH5EBsVZMFqJYxW
+         0uqLwSA45tYjf2BvBCn/tewW/fTqv7OzFoVaadhNkHRA73bGxMNNfUD0xUlIKXknaNzT
+         nDsffdvNzXKptLcWtHPAfK9S+R/eaD6PqyUQd65r4VthuYKR5Ks+yX4ursgY479kjDKJ
+         FOdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776059295; x=1776664095;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=igt2Es3IqJum7K3P9h4iERQJBtAxhpKyYYTdHjquAUA=;
+        b=SHx7frQ4C2fV67n4FxskGNjVkZScSGKv1ZJnYNX3mJgoJ5ngWEtv7/TbgCEpyllN/c
+         DVU1Z0GMnq04PQ3XyCz63aqV0F8+pjtD4404uiiCgB1Isx0oeoEJqoUDTvMv7iF4OdSf
+         2FdqWEGpkVfHmlaROUh5HQOc5MGhH3HRZNLn+yM6ZVlxS7QK/8joMBtww7YUao6dJl61
+         4P6q76sWcTyBXeEOzKbK9vhZfftwjXtc2Xon9VVKpr/LbxRyA6D1OmUZO/8PdTu+c2md
+         1Cqi4CGkidII4ZZnFkIwQR6wRGAjpKhtiiRzk82d9ucyBzELKkrGPQLXmTRGkYJku5Z0
+         832g==
+X-Forwarded-Encrypted: i=1; AFNElJ+m9q6kw1la78DtFHnQC9BPAYbj8/NbAWgmC+e9kreQJTh5mBEvra218kHor4tzfMVxzfrDdWtHfdcAtQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzkopzib1vuh5ek0DPHsEAIpO9bGrRbh5aDCApIIUyro3E+kY9P
+	4SrkldP5oPOtGu2tokpFp6WR/xpQuUzmMSBdTM9HwniXvDo1iJptUPSmnfzXhfO6uPXl7QROoEL
+	mii3KpBqZlwxdazy9nuNNm5dZeM0vWDY=
+X-Gm-Gg: AeBDieue7pg6iIiHmaDbVpbIAh26a53NPyQKXYN3MYXQ8Jp+L+vSelEc/MVM/pBv/fr
+	Rn8MWOZMcKpHQxF9KMOippawBzXXDAPtyTm0+PabhDoonqkkLDKzl1h+DTfgz+98fSodqveTnCP
+	5B6p6SyD5YccsGTItvSPo2f2V7D17AMAD6ByTjKlZ2PsZJSEUa6zgly2RrvE9roF8Izr1ZIJ4RE
+	7MbUsrysQVFGSXA0XSnId9+KTHBM1i0004wZkoDHr/SC7LvlrU3mt5ymcIbPMuFS9Uk7GBgiM71
+	9BPsjLmdE+nr680zzg==
+X-Received: by 2002:a05:690e:e85:b0:651:c732:f13f with SMTP id
+ 956f58d0204a3-651c732f2d2mr2879385d50.27.1776059295016; Sun, 12 Apr 2026
+ 22:48:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,vger.kernel.org,gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20260412174529.2597250-1-lgs201920130244@gmail.com> <87qzojwi1m.wl-tiwai@suse.de>
+In-Reply-To: <87qzojwi1m.wl-tiwai@suse.de>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Mon, 13 Apr 2026 13:48:05 +0800
+X-Gm-Features: AQROBzBBMm9HXnAJg2gaO5NfrkSceM-v1coDuu3HdhTg1kiFqwZxvg2otGHIv_s
+Message-ID: <CANUHTR_1s1aoE7SfYH7NNcaoM2VWcc6wAoN_Xh=7y6D__Pe8tA@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: hwdep: fix NULL dereference on error path
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Curtis Malainey <cujomalainey@chromium.org>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 13 Apr 2026 03:18:54 +0200,
-songxiebing wrote:
-> 
-> HP Spectre x360 Convertible 14-ea0xxx (2021 model or so)
-> doesn't make produce sound,The Bang & Olufsen speaker amplifier
-> is not enabled.
-> 
-> Root causing:
-> The PCI subsystem ID is 103c:0000 (HP left it unset), while the codec
-> subsystem ID is 103c:885b. The vendor-wide catch-all
-> SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED) matches
-> 103c:0000 before the codec SSID fallback is reached, so
-> ALC245_FIXUP_HP_X360_AMP never applies.
-> 
-> So add the quirk in alc269_fixup_tbl.
-> 
-> Reported-by: dzidmail <dzidmail@gmail.com>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221341
-> Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+Hi Takashi,
 
-Applied now.  Thanks.
+Thanks for the correction.
 
+I overlooked the NULL check in put_device(), so the reported NULL
+dereference on this error path is not valid.
 
-Takashi
+Sorry for the noise. Please disregard this patch.
+
+Thanks,
+Guangshuo
+
+Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B44=E6=9C=8813=E6=97=A5=E5=
+=91=A8=E4=B8=80 13:22=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sun, 12 Apr 2026 19:45:29 +0200,
+> Guangshuo Li wrote:
+> >
+> > snd_hwdep_new() allocates a hwdep instance first and then allocates
+> > hwdep->dev via snd_device_alloc().
+> >
+> > When snd_device_alloc() fails, hwdep->dev remains NULL, because
+> > snd_device_alloc() clears *dev_p before attempting to allocate the
+> > device object. The error path then calls snd_hwdep_free(), which
+> > unconditionally invokes put_device(hwdep->dev).
+> >
+> > This may lead to a NULL pointer dereference in put_device().
+>
+> put_device() has a NULL check by itself, so it's safe to pass NULL
+> there.
+>
+>
+> thanks,
+>
+> Takashi
