@@ -1,61 +1,63 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B80398902
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 10:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8DD3A6EF4
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 10:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776074840; cv=none; b=kV79CunvJwYS+V7OucnIsuPFIQn8jp99Z199KFusyVXwD4S2N8lcfumRv6RURutMK6kB+K2MjM9GC4HVwSOGMKd9R2LQRbEb1YknHiJg1OXkPQ1YrazuaTodDXMK4Y0fcsM9zg4GFjcRfnDpG/Yi7rHoKchLCChSlNawS02isrc=
+	t=1776074849; cv=none; b=UPj5+3fNl8QmQNEtrqzxlP+L29kihCP60GRvmswnGPEVYkyhSm2ciBdUI7pVkrsfued2M+ZmJwm/DuIiOFkX+4uFdAux+bBajYBqpjly+4ZGtA782xrAgB2oJr4vZ/LLvoRStAEbh9Se6ycf1UI+BrBjaucIgPN4UPnTus74H5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776074840; c=relaxed/simple;
-	bh=UxDiNz5aVAd8jaiS8WbKwd6IwvkgGniodqaG9fbAjlc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ztzu5b2nyjCsBx8+RtKW9XZ1AYSbW3/6nUiW7QkXDsRvfj4KhWJR9J4kK0rlaTJzikMJa1SgrCECndXcBjTq61EPUkFOeTAAnqQ3F98xJwfQyQcmmt7ji0eMPnFpR+DV3coJopQGcG5fmZvbXo+B09d9F4dnGIqcumUKmQsob2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Puu4Oz87; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1776074849; c=relaxed/simple;
+	bh=Tp7bU0NE3+YX8R0YS0oLWp9a65H5IctfRXy2H2MEw8w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AcHMgoIYh2I7LocMweJVa5cM4Z55/ISL4Em/2L4lZVlncJMrS8IPVdthmY1F/8uD5aAPtzvQ7K9bF0H7GuZI19887VgaOb2a1xJWSqae0OS8kl8D/J+g6gsuFxxKUg3MBIIE2QKvKpZp07XuVN+/meapPetwVkuZBI/fxH0BM2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h4Ol3YWw; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Puu4Oz87"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82f206f2b54so576721b3a.0
-        for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 03:07:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h4Ol3YWw"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c76b87931b8so2643497a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 03:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776074839; x=1776679639; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qz15EdajgaOwwJlVpi9rRF2MEm37YEfE9zUFEPe5XVQ=;
-        b=Puu4Oz87KxIsta5K9aTtHoBxLJqMIHgxrKMkNcJfIFa1QeLxPIkM3xIf6Co+94yJnR
-         B2SA0FVv1tHVujw9PCbOHKa7Si7dJDhX37oTVqy8/hERVJL6CO9YoxYilbtWh9X7PoDN
-         Vi/jTwa7Wwk3Cuk7ZllmWJC3/ttettDJPwotnis5LYNrMlHYSvjWhXHqsYuWal+Xys/N
-         5SSM7jHqHJc4yDTlIOJj4NUhRKdQ6vqVu702C1mY9WESenHvaN/Lpt2eO0hZ7tXIPLXL
-         IRb0f5f5YG7Xicvnw0de54USHo3fw6BHdpJFneiP56IFc/2NTvpmm7mHFtzWGSESag3u
-         SC8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776074839; x=1776679639;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776074848; x=1776679648; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qz15EdajgaOwwJlVpi9rRF2MEm37YEfE9zUFEPe5XVQ=;
-        b=fGHZkNy+vYstAJczsUfGl4VNfBXTLpl9f408bIgcQnkxAdfuJj9L9V10NKCZ6fXHpS
-         9ql70pKTib77+t2AGr14nM0ce6oA2m1XAirQaMWKErmQwC980BZQqmF76A0VV0Zcn+TV
-         ipfeiBelMxPWJYvc1P9+EkK/okr18RbjYxywlUj6rQ6jsIndC41YULY75+1/llbQKs+i
-         Gflgrgvgd6I1SeoZOMAQ2fU2TBt09L+au7trGwI8cE9axwb43bsp/KejAFBCbdug85J+
-         LdgzbXyCGbGPMnEYa/JdG+kNBTOoxZiCO+C1SDz9qN/Ragkf5G+SPER3GWhbJS3WwHPP
-         7XSg==
-X-Forwarded-Encrypted: i=1; AFNElJ9sO63WhuNQ9K770c/RmTEGUJKfngAq/NJXoXkMQ9KUsgNBX4lRaPJf8/HinkqWRBEA71IMDqNTleF//Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDiUAc0tubKZ/FCbPA84AAKCzgjmjt8qT/qv3HuyB9tIanCRrs
-	KVGUbe/3c8NoGuAD+38lbTx+xYZHlUA498hyrY9eFAxj/ANKIqQbuYQ5
-X-Gm-Gg: AeBDiesXLva6gHtua6qxYqFK49LEKdYRbhy7GwfWS2IwzbXU/O0cKbMfhh/WULmMzS1
-	pFZF85HRlh/eZGnp532bfqllopuZNY9n7sXVZcd0nT5Tdo9oGyR87dRMIVqA53Qb2o9WhRvnMo/
-	UpauNsw4q9pBWucWUp/qmBJIao2Rv+eLeAsrOnkjWxaxz337Xa+McyS+IGUvmHYX7CX+7ja63mb
-	iGHfpLSjl0adbvkxJNHlsZAfMhZukcPdz0anYtpdtCnaMZBguwjGZonNaIBf6IXESqv0WOziauJ
-	UbAT+6ykkN8fu9LZv3OAplCr9YfiogCwSXL0biuQHuC/I6QfVIUCA2HRT8HN04TBNUbkt1YMyBj
-	q4UT1jGI7AluzJxL6kE6eT2mJj4n0LNBQUiBNqBEVvz9g8SExwDhw9EhhL9V/huO7dn6NOda+4A
-	rSFGrjngirtaCDEraa18nyMLJQMpIX8BW1Go7PPd7okhvGvezPynEGAzWdPQ==
-X-Received: by 2002:a05:6a00:aa85:b0:829:8942:2c93 with SMTP id d2e1a72fcca58-82f0c1cc16emr11475540b3a.9.1776074838631;
-        Mon, 13 Apr 2026 03:07:18 -0700 (PDT)
+        bh=BKAxSP/4ix5smOiePDg7BRwPz1GOM3xb3FVW1Uy+aNY=;
+        b=h4Ol3YWwLPMAljplto6B4F3jkTn7zWRREKm8ad0BSpHL4tpR6PZB/qXPNCfymzjgtP
+         phAzHx16B28N76lHr0B2j2BWP6IieXzQqlEeSVDbR88qyrAwEkeoMsXsTRt50h0aZmQO
+         N8qTpq4gjzD0UHQPlQ4v4+aXmVNDNHNW/lzBf8fPDE4quaediO0kfo1SKBQnAkjX8nRk
+         wtEJr6Psm88GiQt/r3Tka601hnp/iax48zgd1J/vnC5u93ueRCut0ncy0kbvyW5FCTR5
+         5YpR7hz2Tf3HVDDuHaOZEGQM00mDPVWfQwNg+tp327knrXekwJY6JNU7XwYeuPOQdX3v
+         ZdYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776074848; x=1776679648;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BKAxSP/4ix5smOiePDg7BRwPz1GOM3xb3FVW1Uy+aNY=;
+        b=CTnSRC8mIhP8fElv0P24Ah06lOsyaBuiMxtdhGwoKWZKZ0rd59GH0/Cqa1dCfgUvaO
+         CKNAn/KaAVIxHqrx/38pyWgDAyQm6RHJUTPFx81rS/oeGeF4iQBhnfWZsC5B+VFcq2xQ
+         NxRXheZv76ihj0gkCAstGKDaQkHLwvEe+i+s+ulJ22SrYEO1sRyXhimgEIXaxK/SwpG0
+         rNhc3I+5XCakOAvgZJw9qPatRm1DNBQfSo63KfeApJjFj6y6Ict76z86YtKUUOKAEDYk
+         1ycVtWHIoCsKPIoB49l3GvKvstssMhBSozFSirg51gF03gA++be25EnQKzQPTPfSKF6N
+         J3pA==
+X-Forwarded-Encrypted: i=1; AFNElJ/l2KyeR4PWOnwd6R/dV4vZT0C0zPHlYBJde31LslrKrbY7lNXnwfdW2rGVMmYJZIRF4spd63cmFx/XCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt/WTkl3IpcHTf29LedT3bvu+yFWmBet7bnTFQMpdhow89On4y
+	gSSlqctz4imula8aOJzJig/BQBCWsFA1jCCyji+VdIW+8Lbs5DTohQdi
+X-Gm-Gg: AeBDieu9moWf78OfRj7khmIiVBhT2bSTxtx124ziHlO2zOu1yAWmcJQDEfvIYSSkLHJ
+	sm7hyyr1PPCbjIWBVPdKgWb9CuKvjwZGJ8dRQxaK4dUpXYIl2YzYwrbzRhqjkcx83yqAAuX7Pk5
+	uoezoqhgQoOAPgfBztOHTJehYJfwCyRbibnNig+uTwb8YLHXY4HVpfdC6cRHjX+vQi9AbTIMzzG
+	qKY9UlMwBKBvwjZvoOjPn512YExJfKHjNt3KHUrJSwCwIBupKHZlijSFJHv9fVibgPRur08YnvM
+	TvF1cPXUb3lRvh9aATEfJkpQE4afL7Txs7YVa1CgVklkROgsGYCJYwkYJfGVUybXrHX2Pfga4O4
+	87pTtpeK70r+YJlcChg4xYeDYlCS80wAFh8YriXXKWGvRJpPTAM6C160TLCu9up24nrp0LJsrjm
+	5yDuGc9URqvrkMER03lZHYJYZpnQwge2NN/66W8gJ87QLzZoAGJ68YlxJU0w==
+X-Received: by 2002:a05:6a00:4218:b0:824:374a:1407 with SMTP id d2e1a72fcca58-82f0c210956mr12547467b3a.16.1776074848063;
+        Mon, 13 Apr 2026 03:07:28 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c50a8f7sm10232140b3a.56.2026.04.13.03.07.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c50a8f7sm10232140b3a.56.2026.04.13.03.07.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 03:07:18 -0700 (PDT)
+        Mon, 13 Apr 2026 03:07:27 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: kuninori.morimoto.gx@renesas.com,
 	broonie@kernel.org
@@ -72,10 +74,12 @@ Cc: lgirdwood@gmail.com,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 0/6] ASoC: renesas: fsi: Fix system hang by adding SPU clock
-Date: Mon, 13 Apr 2026 17:06:54 +0700
-Message-ID: <20260413100700.30995-1-phucduc.bui@gmail.com>
+Subject: [PATCH v2 1/6] ASoC: renesas: fsi: Add shared SPU clock support
+Date: Mon, 13 Apr 2026 17:06:55 +0700
+Message-ID: <20260413100700.30995-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260413100700.30995-1-phucduc.bui@gmail.com>
+References: <20260413100700.30995-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -86,58 +90,47 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Add SPU clock pointer, reference counter, and locking in fsi_master for
+shared FSIA/FSIB usage, and initialize them in fsi_probe().
 
-The FSI on r8a7740 requires the SPU clock to be enabled before accessing
-its internal registers. Without this clock, register access can lead to a
-system hang, even when the FSI functional clock is properly enabled.
-This series adds the missing clocks and aligns their names with those
-used in the driver.
-Following feedback from Morimoto-san, the driver is refactored to improve
-stability. Clock initialization is moved from the runtime path to the probe
-function to simplify the flow and avoid redundant setups. Additionally, the
-shutdown sequence is reordered to ensure the stream is properly stopped 
-before the hardware is shut down.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
 
 Changes in v2:
- - DT Bindings:
-   Define "own" clock and add "spu", "icka/b", "diva/b", "xcka/b" to the 
-   clock tree.
-   Use YAML anchors and "if" rules to enforce clock-names and r8a7740 
-   requirements.
-   Relocate allOf block and update example with full 8-clock configuration.
+ - Add spu_count to track active users of the SPU clock.
+ - Add clk_lock mutex to prevent race conditions during SPU clock
+   enable/disable operations.
+ - Initialize spu_count and clk_lock during driver probe.
 
- - DTS:
-   Rename "fsi" clock to "own" to match driver implementation.
-   Add missing clock names: "icka", "ickb", "xcka", "xckb".
+ sound/soc/renesas/fsi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
+index 1491c2f2cc96..196ec7bac33d 100644
+--- a/sound/soc/renesas/fsi.c
++++ b/sound/soc/renesas/fsi.c
+@@ -292,8 +292,11 @@ struct fsi_master {
+ 	void __iomem *base;
+ 	struct fsi_priv fsia;
+ 	struct fsi_priv fsib;
++	struct clk *clk_spu;
+ 	const struct fsi_core *core;
++	int spu_count;
+ 	spinlock_t lock;
++	struct mutex clk_lock;
+ };
  
- - In the driver:
-   Refactor clock initialization.
-   Reorder shutdown: stop stream before hardware shutdown.
-   Move SPU clock enable/disable handling to fsi_hw_startup/shutdown.
-v1 links : 
-   https://lore.kernel.org/all/20260403112655.167593-1-phucduc.bui@gmail.com/
-Testing:
-  - Verified on r8a7740 (Armadillo-800EVA): FSI slave / Codec master mode.
-  - FSI master mode is currently compile-tested only. Full verification
-    requires a dedicated HDMI driver (FSIB) or hardware modifications 
-    (resoldering board resistors) (FSIA).Full support for fsidiv requires 
-    additional DT bindings and a corresponding driver.
-
-
-bui duc phuc (6):
-  ASoC: renesas: fsi: Add shared SPU clock support
-  ASoC: renesas: fsi: Fix hang by enabling SPU clock
-  ASoC: renesas: fsi: Fix trigger stop ordering
-  ASoC: renesas: fsi: refactor clock initialization
-  arm: dts: renesas: r8a7740: Add clocks for FSI
-  ASoC: dt-bindings: renesas,fsi: add support for multiple clocks
-
- .../bindings/sound/renesas,fsi.yaml           |  61 +++++-
- arch/arm/boot/dts/renesas/r8a7740.dtsi        |  12 +-
- sound/soc/renesas/fsi.c                       | 181 ++++++++++--------
- 3 files changed, 171 insertions(+), 83 deletions(-)
-
+ static inline int fsi_stream_is_play(struct fsi_priv *fsi,
+@@ -1961,7 +1964,9 @@ static int fsi_probe(struct platform_device *pdev)
+ 
+ 	/* master setting */
+ 	master->core		= core;
++	master->spu_count	= 0;
+ 	spin_lock_init(&master->lock);
++	mutex_init(&master->clk_lock);
+ 
+ 	/* FSI A setting */
+ 	fsi		= &master->fsia;
 -- 
 2.43.0
 
