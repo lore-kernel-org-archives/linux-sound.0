@@ -1,90 +1,90 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF933C455F
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9313F3C5528
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776082736; cv=none; b=l2RA6qxrKD/aSki6DTgnhdtiXdC+htJ0aldW7yz1os8YLTgAufDgBysKGUSe88yj5YIrbQHarHvRHPCI+NcP5h3yn/rDJbcr8Sdkvq3dr5YLaYddFTLy2kGdVKpIGL8uyr9lcXWgAFs2LXKId0gG3wUoGIMCbzmuvk1osZgWvPQ=
+	t=1776082739; cv=none; b=T3prpZZ5tatwYuYVuhBnCqDLZ4SqMfCWj5LXrDDsHm1Qppt0fW16ZKlLprfwjaFyB1la1tVPPZ59rG6bg5WFwWONuZRUraJad6gGd/2P5VLwsG+OTyamOVzmtxWKdXekXz5JQfuss/Utne+DjQzoKzAd070kuI1ar3StpBfobis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776082736; c=relaxed/simple;
-	bh=YcwoMzxukF7+UWLUh7ShFeHrKILX3C2ELlT1tETBD3Y=;
+	s=arc-20240116; t=1776082739; c=relaxed/simple;
+	bh=+XVvtrOb6sUd4M1mjXM60gdJnIjDO3h6AAaRAM6nC4Y=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EpdtAlFy3xNjYZGS5AupqakRk3W1mejpwi3UKcYwCjPBJpaLQ4WO33rXvbi7H0Aoses4RzZXtk2r4PL/knL7ihgP33v96XxiW2UswL69XbIRfHHinu6t/DRIdpKJjQs27ZM8R2E8iISTQapDlvaWSpvDbO6WKfz7d5MBVB3sQaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cSM9Nixu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hGG1NNQk; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=DY0iGlPgcJwf0TF2YQFXudcgnuUmBdTwcM8EoPCHF71AqQ1zHEA7d4Fx+Ek3Z2cUNbxienn7vE8hBfN3kY0btT9L3MWu2ZIQx7P9/RAoiZlSWlv/FV9h2ZPawwhtK1aKGzFpISJ71vT6Rx3hRpx0ZZ/0dIQeE0vvsMPeUX1QEzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j5VxvLgZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=b/2eqdUl; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cSM9Nixu";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hGG1NNQk"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DAUx1X2785889
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:18:54 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j5VxvLgZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="b/2eqdUl"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DC7eV22186578
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:18:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=hPUdOBqvPU6
-	WASDP0dE6MPIvij1WDI+uBqfXimGLyo4=; b=cSM9NixuuQx0xWwwrUCGCu0WVlm
-	iFY1gHp8jqQo+O/IIKAzD1cS6dOe7DZRg3/UBv8FQx7a11OyH1XvjiR/boDbraPO
-	HTcnb3t3Uc3PY9yKnxpPxWglx9KLYgQZ/02Z7FrtGACpeW0bVv3WnCN0S18z/Ge/
-	DZXqnr1yDs1eCBs66haLvG2PtKi4tc0LzMR4n8o9I/S/26uWsi//8fMnrS74Alwc
-	HO2XAXLnJK4iHGkqlbbjTSUOIdsJkrsRDub9nv+RLwOZWqfG48tyFtHUZaIxjg1W
-	Xxz2tegAlxB3o2ETEfUG1r12fO9yHmwLGTkTOjb2Oi+BZMrA0Ian6Kmr7zA==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dfjbpcw4h-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=Yns9nvbNXPM
+	4TrtSu4abBOXjoeDxYcQDqoClmO9sAno=; b=j5VxvLgZFgUqhJ5DuLBmnI14xiM
+	2084BIyrJ5+g4XkDiFu9CgEDXLeetRzHM6qBSLTCOmJqVz9sJkHbQkYLSwdamdbz
+	MhmiHctx9ZYteKyNrrp4TH1n2CeMdGikix3v1CnbF4nffn+TMxJEdPZvoUsxWJsy
+	iqsO/WaJlqKP+8QJg+9jGGXUtgaQLgMODPdwm/PeXe2fz3nPKha895sgs1dGzF/2
+	Ato6GcJTtsDpSw7ZaIzDt6V1uvqSfRrKsIpjYIrXuayQZiRysVgDbwIU7LC3ekly
+	pv58xFHALYeA0ztNF4uK/JGsKokcofp5kb9YJ8zDpJGWCaoGZj0tJ+KffGw==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dh07hg0x1-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:18:54 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-56efe2b00daso3637245e0c.2
-        for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 05:18:53 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:18:57 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-950c363a552so1835946241.3
+        for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 05:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776082733; x=1776687533; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1776082737; x=1776687537; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hPUdOBqvPU6WASDP0dE6MPIvij1WDI+uBqfXimGLyo4=;
-        b=hGG1NNQkoN6QW5FKg/PSTL6RrQBHPQPGnA6wasqeDVHuVih1yX5NUJUec0jkHJ7Otj
-         WAhX8RfXnovvD9YG3un1/LgsTC4JRX4XDm0f4oyyRjTnl+W/d6wh0c9Cj3BeEh3276GF
-         zwXUiSVsflDWzeTwTZuzvFuibJsyyQOtKm0vizcyDJq1/keyZ2wV0Gxtf5mQFmwH1EWO
-         0zUxRWXtOz1opmzxJ8HXPEz332tG/1Mq1TYHp6/uX72CiVlQdiaPoeEyUxdkdRZDwlFb
-         wb5icp9OeN1iNAdl+bMhWTij8J9qPXEfxOik35VHxWLQqeKLI1cyr7axf0IugW+/PaOI
-         dv5A==
+        bh=Yns9nvbNXPM4TrtSu4abBOXjoeDxYcQDqoClmO9sAno=;
+        b=b/2eqdUlJyVaduoR0Sjq4z1/BWKRCcP1lOToIyB7RlIcogzJAzMxZA0wNmpBbJiklX
+         e4IutgEC6NB+vQEuhG17OS5but7so1mabI4iYR97LhO02yTQdi4d49Acv04KGKZpYU4O
+         HkO4bsITKreJct1a+OTv+P2w25KK2HB3Jk2zjJp+FYQENB9tyhnXHfvfMM7ZXowMuT7D
+         TXKZnaaEDLl20wxyZ28RwN/3qn2ON/wvcFNCfPpPXii4J8Gpfd63lAmUBkBY6RcBJiRg
+         zCm8XXhks7PEKHqoMXXmKlCY1o7VqbLsgowHq9HjiF7TLVrIjFQg55pP0g9CJvj7vmmj
+         zOjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776082733; x=1776687533;
+        d=1e100.net; s=20251104; t=1776082737; x=1776687537;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hPUdOBqvPU6WASDP0dE6MPIvij1WDI+uBqfXimGLyo4=;
-        b=ZwFW2bZRE5XtQmGChk6J12eOtBNd09vDD8BzrGvjbh1UkP3d+P5cZzMfxyqro2I3dZ
-         M/q/2dWvCRnAs4rsXutp+QEqE9V49mnPWmilyDc9JsfRnpdZ64Td2i0Uf1VNS8wNaSz+
-         FvalW8xNds41j/X/aBNwx5LlXWisO40p2e3XBEP1Obh6+kRGmNXQiehG8lGYf5yob0VZ
-         Rfbn5vp13P4kAqw8KoSngLkWGYST2qou+kmq26FAqoPHdp8lhmuIP8oARf45OSDw7KO4
-         I9Y7W76WdqsKlAKWnCAt2kDxOu3s4flybAajltKB6uubL2yhE9s3KCszs3EfenI6fjqr
-         frHQ==
-X-Gm-Message-State: AOJu0YxFfRC74wXQ0kpqw29Xio+0NjebA31WuJO3/Qt20tZXyLxxUkBI
-	fFMa7onP+P38r8Pbx33zH4FvbGmhrsnVH3XnfE4/XeT2YSHOHJ+hMCGHV3QadJhj+Yh0T1Asokw
-	ftYM6vleM3l8fwJRgCRkUmn9Me3Z3VSUA1XhRt0fuJn7cgbGE3Qn1DSiswYfkyU4rqA==
-X-Gm-Gg: AeBDieulzKOAgZC7xqDmiIGnJ1mo9+fKg+YV82k9pa7P7st2fQMN6Ez5wAG9j9R18yR
-	fCmt8ae2LEX5Cvk4wLJD0rKzBhI5CKpy0v2x3txj2iXNdG2ICtIm6WR47ko3tHVbSg77RQWn1nI
-	JXX/SdTp4kuJWZ30Q/41yDTt4MyZdpb1IBFpkofxwkh9TsZi0YHBQwgXFoKxRcUHO1MbZrGHbnL
-	j6wjrrNRKF4GFD+C8N2ST5+N043U4l2/BvsV9UG/lz7tuIPlyeeujPtsu2Xcxrmmw5tB6jYIYX+
-	Y6ul5Vm2Ejwvi9K8P9JagZXKbi+rI6VBWOBRqw2kfigbPFCGC422GKe1AMoN74EEaq4LoPWQLID
-	Rt4ESSrQxtIlCKfD1tw59X3FOpuIRhCb5mi+++/y2XMX1O6TuJQ==
-X-Received: by 2002:a05:6122:788:b0:56b:8e1c:582d with SMTP id 71dfb90a1353d-56f3bcb0843mr5016036e0c.14.1776082732918;
-        Mon, 13 Apr 2026 05:18:52 -0700 (PDT)
-X-Received: by 2002:a05:6122:788:b0:56b:8e1c:582d with SMTP id 71dfb90a1353d-56f3bcb0843mr5016023e0c.14.1776082732482;
-        Mon, 13 Apr 2026 05:18:52 -0700 (PDT)
+        bh=Yns9nvbNXPM4TrtSu4abBOXjoeDxYcQDqoClmO9sAno=;
+        b=rbyQN9Uf4rQ2HyUuuXvwY/fzlab7uxGUFtzzMcBFTnLlQEeWJLaLot8tlO/WSHrQfI
+         nR1BZUseoEoj1S4IJ6bbvUZ6bqFHE0tSEvuThtJ2SDKjwsN7F1XIyqC57sMNS/hZrqe9
+         zJOfezYGTseUbqrLVL6wtDiWy2ImhT2q9lausUee9FOisaDbSrf/qUyVxDb8FAkoKdqx
+         BlnVy76NLmyS2C4qgaJ1myl0A7bBiBMYHMV1fvHqdliurB+TSBIu1tneo4/1Vss4KSGW
+         J+XY9qmS7TFtnxGMZ8pjK2A1UzikUzg5hpZNCt/3/CJfQME6oEpSLQQ/h1/uPJYU9uSz
+         VwiA==
+X-Gm-Message-State: AOJu0Yz3nVQLGIS81+z6ATRKXvpvtJvqKBI78whoVCdX5NLk1wBZ/frz
+	AZbvcJ2OsWnV0+MNMi1E7mMt/bITMiKrX0htUqmbXsIph87TJGsSxu8KbGMZnFRiCRvFU6u5Uz3
+	JT4oU7KQkgTNlRBF6sAd3erd/ZFq9wt1rq0dX2c3h3p0LJf8RcWY6VgMmN3IIm3clnA==
+X-Gm-Gg: AeBDieug5LihAQ90nPlREfce9k4KN6/8hKQc7nLux+CknlysUj+9ci7Yn49R4LYQ1iA
+	Ih545b5zeNWyazsr45YtS4BiDObVSTvODL5+NjmoTQNda8f6WgnV0QoURvPGI+NhjAn9U9SCz8h
+	shmPo56THAv68IdZ9Wv9G9pv/U8uHvCJDIVSQPYECYlNMuJ/4rcljE2w/7rLV4Lo1fo3mzB431A
+	4QvBEn272KWlafeyYM8fD4VhoYm/YKlKG7YGbnGgtrwssHKC9fCFDFVAQ45YjGE4KUSugzOsWZb
+	LrYrUmaj/r5iHkV/PCD3fc5muzLmHdDSiVq1yTv3kxsL54JZ1DaXuHE1zcaMOy2y34N25GVmVUg
+	HwCacaAVRE1K7Cc/eX9BC3P1Du5A7dHXskzdipK30hGQhdC0PsA==
+X-Received: by 2002:a05:6102:3a0c:b0:610:1239:f6d7 with SMTP id ada2fe7eead31-610123a0b70mr437422137.18.1776082736833;
+        Mon, 13 Apr 2026 05:18:56 -0700 (PDT)
+X-Received: by 2002:a05:6102:3a0c:b0:610:1239:f6d7 with SMTP id ada2fe7eead31-610123a0b70mr437408137.18.1776082736416;
+        Mon, 13 Apr 2026 05:18:56 -0700 (PDT)
 Received: from hu-nandam-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9568c185a71sm1449231241.7.2026.04.13.05.18.48
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9568c185a71sm1449231241.7.2026.04.13.05.18.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 05:18:52 -0700 (PDT)
+        Mon, 13 Apr 2026 05:18:56 -0700 (PDT)
 From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, srinivas.kandagatla@oss.qualcomm.com
-Subject: [PATCH v1 2/3] ASoC: codecs: lpass-va-macro: Switch to PM clock framework for runtime PM
-Date: Mon, 13 Apr 2026 17:48:23 +0530
-Message-Id: <20260413121824.375473-3-ajay.nandam@oss.qualcomm.com>
+Subject: [PATCH v1 3/3] ASoC: codecs: lpass-wsa-macro: Guard optional NPL clock rate programming
+Date: Mon, 13 Apr 2026 17:48:24 +0530
+Message-Id: <20260413121824.375473-4-ajay.nandam@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260413121824.375473-1-ajay.nandam@oss.qualcomm.com>
 References: <20260413121824.375473-1-ajay.nandam@oss.qualcomm.com>
@@ -95,267 +95,58 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=PuijqQM3 c=1 sm=1 tr=0 ts=69dcdf2e cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+X-Proofpoint-ORIG-GUID: js8pq9rl9-CL93HTgP_08jsgYJbXQW2m
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDEyMSBTYWx0ZWRfXyQkdWTAjAVMH
+ aLkN29lwn6bHO6IMXHdTolEy8PB687zaBQq+VJ4y4z+WgUofE3g6+VT6e2NmIsEJe/BsEqldWZA
+ LkUtv/ZAAtRLX9knvLCiEXshfhvKQyErZzw6nOqF3CzB96e5+zIRMMmesvgghOFEzqUIgLhpA4o
+ zYxS2KxaHc/VeoMtoPUk0JkFG890TctmFnfn0wPhol+WhDr0rSzCXEKuptIaexCMGKcbfwPiTsi
+ 3xJHt6k8aPSaBF1x1xZk8WL4LZd5SckF/rtCQhrBEYNoYZPAY6yOfka4UUABaZhj/+2HJg8qUUH
+ 0gDzk8hdJpfvgb8Z0x/nDyHw9vUvLkf1Xap8MoS/ZAS7yTQDuNTle0d4/9pn2U9qkP0Yr0ynI3L
+ kprlORyP0/Tn6SgbxXr9xsOCyrWDGdyGaEjLm9I7U31lCzYyBAWe0i5UE4/l8t8oOsLpIIgPuX4
+ oqHevux62BwYV9QDkLQ==
+X-Proofpoint-GUID: js8pq9rl9-CL93HTgP_08jsgYJbXQW2m
+X-Authority-Analysis: v=2.4 cv=QtNuG1yd c=1 sm=1 tr=0 ts=69dcdf31 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
  a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=YBVk55sqNhi4ukaP828A:9 a=XD7yVLdPMpWraOa8Un9W:22
-X-Proofpoint-ORIG-GUID: 0Wik03qXnC_6lFYrJRGIh8P91ilbROQE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDEyMSBTYWx0ZWRfXz8hJ7d5ESkp5
- 1reS0JvicmSgfX25HR6ORT6yQwCz5J1UuWJNoXuiQ+H+HajSFlwoyWZZkOcr4dGiWz9qm6uWEPu
- 8CA9nZni8FiekmDeitsXJFFfZTuATtlUy1hkEOgrjdISnPJ2lFDMlDQKbwSVoWJPoxs5uJ8R7Gd
- cMh9nUYwNWQYXLZIOx3PeUd+dBX4PIelFrQZCPL6A79Mt/e1mK8ZHFJSK4yU9+y2GZMujuPIsSI
- I4iB6IoZwqWmcWkqGIHykEglAUwhfk6zuMwINi9ThCLaSY619xQhbsfpuroQi/s3dmkgYgY+rKS
- j3OlFLX/+Rj3RWt4QEa0z7ARDoZnjiRUddB/d0jfhuwdXsXaL6VXK8i51pPQDYwbmZ7lSjpp1n7
- 5efw23bBqz4g5jLLD//Ae3ZPY3RqaEbGwxXscNObhChv7hzEK5T8ZxxGUswOWB0+MB8mqBfd3Lc
- tcR8aXAeXgtY31L99bQ==
-X-Proofpoint-GUID: 0Wik03qXnC_6lFYrJRGIh8P91ilbROQE
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=EF9g5WYaJUPSkAj6upQA:9 a=ZXulRonScM0A:10 a=zZCYzV9kfG8A:10
+ a=o1xkdb1NAhiiM49bd1HK:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-13_03,2026-04-13_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 spamscore=0 phishscore=0
- malwarescore=0 clxscore=1011 impostorscore=0 adultscore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604130121
 
-Convert the LPASS VA macro codec driver to use the PM clock framework
-for runtime power management.
+The NPL clock is only present on some platforms.  When it is absent,
+wsa->npl remains NULL, but the driver unconditionally programs its rate.
 
-The driver now relies on pm_clk helpers and runtime PM instead of
-manually enabling and disabling macro, dcodec, mclk, and npl clocks.
-All clock control during runtime suspend and resume is delegated to
-the PM core via pm_clk_suspend() and pm_clk_resume().
+Guard clk_set_rate() for the NPL clock so platforms without NPL do not
+attempt to access it.
 
-This change ensures clocks are only enabled when the VA macro is
-active, improves power efficiency on LPASS platforms supporting
-LPI/island modes, and aligns the driver with common ASoC runtime PM
-patterns used across Qualcomm LPASS codec drivers.
+No functional change on platforms that provide the NPL clock.
 
 Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
 ---
- sound/soc/codecs/lpass-va-macro.c | 120 ++++++++++++++----------------
- 1 file changed, 54 insertions(+), 66 deletions(-)
+ sound/soc/codecs/lpass-wsa-macro.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 528d5b167..b909f8bef 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -11,6 +11,7 @@
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/pm_clock.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <sound/soc.h>
-@@ -1348,18 +1349,22 @@ static int fsgen_gate_enable(struct clk_hw *hw)
- 	struct regmap *regmap = va->regmap;
- 	int ret;
+diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+index 6aa6c4d95..8c8c50a63 100644
+--- a/sound/soc/codecs/lpass-wsa-macro.c
++++ b/sound/soc/codecs/lpass-wsa-macro.c
+@@ -2774,7 +2774,8 @@ static int wsa_macro_probe(struct platform_device *pdev)
  
--	if (va->has_swr_master) {
--		ret = clk_prepare_enable(va->mclk);
--		if (ret)
--			return ret;
-+	ret = pm_runtime_get_sync(va->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(va->dev);
-+		return ret;
- 	}
+ 	/* set MCLK and NPL rates */
+ 	clk_set_rate(wsa->mclk, WSA_MACRO_MCLK_FREQ);
+-	clk_set_rate(wsa->npl, WSA_MACRO_MCLK_FREQ);
++	if (wsa->npl)
++		clk_set_rate(wsa->npl, WSA_MACRO_MCLK_FREQ);
  
- 	ret = va_macro_mclk_enable(va, true);
-+	if (ret) {
-+		pm_runtime_put_noidle(va->dev);
-+		return ret;
-+	}
- 	if (va->has_swr_master)
- 		regmap_update_bits(regmap, CDC_VA_CLK_RST_CTRL_SWR_CONTROL,
- 				   CDC_VA_SWR_CLK_EN_MASK, CDC_VA_SWR_CLK_ENABLE);
- 
--	return ret;
-+	return 0;
- }
- 
- static void fsgen_gate_disable(struct clk_hw *hw)
-@@ -1372,8 +1377,24 @@ static void fsgen_gate_disable(struct clk_hw *hw)
- 			   CDC_VA_SWR_CLK_EN_MASK, 0x0);
- 
- 	va_macro_mclk_enable(va, false);
--	if (va->has_swr_master)
--		clk_disable_unprepare(va->mclk);
-+
-+	pm_runtime_mark_last_busy(va->dev);
-+	pm_runtime_put_autosuspend(va->dev);
-+}
-+
-+static int va_macro_setup_pm_clocks(struct device *dev, struct va_macro *va)
-+{
-+	int ret;
-+
-+	ret = devm_pm_clk_create(dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_pm_clk_add_clks(dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
- }
- 
- static int fsgen_gate_is_enabled(struct clk_hw *hw)
-@@ -1534,6 +1555,7 @@ static int va_macro_probe(struct platform_device *pdev)
- 	void __iomem *base;
- 	u32 sample_rate = 0;
- 	int ret;
-+	int rpm_ret;
- 
- 	va = devm_kzalloc(dev, sizeof(*va), GFP_KERNEL);
- 	if (!va)
-@@ -1601,22 +1623,18 @@ static int va_macro_probe(struct platform_device *pdev)
- 		clk_set_rate(va->npl, 2 * VA_MACRO_MCLK_FREQ);
- 	}
- 
--	ret = clk_prepare_enable(va->macro);
--	if (ret)
--		goto err;
--
--	ret = clk_prepare_enable(va->dcodec);
-+	ret = va_macro_setup_pm_clocks(dev, va);
+ 	ret = devm_pm_clk_create(dev);
  	if (ret)
--		goto err_dcodec;
-+		goto err_rpm_disable;
- 
--	ret = clk_prepare_enable(va->mclk);
--	if (ret)
--		goto err_mclk;
-+	pm_runtime_set_autosuspend_delay(dev, 3000);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_enable(dev);
- 
--	if (va->has_npl_clk) {
--		ret = clk_prepare_enable(va->npl);
--		if (ret)
--			goto err_npl;
-+	rpm_ret = pm_runtime_resume_and_get(dev);
-+	if (rpm_ret < 0) {
-+		ret = rpm_ret;
-+		goto err_rpm_disable;
- 	}
- 
- 	/**
-@@ -1629,7 +1647,7 @@ static int va_macro_probe(struct platform_device *pdev)
- 		/* read version from register */
- 		ret = va_macro_set_lpass_codec_version(va);
- 		if (ret)
--			goto err_clkout;
-+			goto err_rpm_put;
- 	}
- 
- 	if (va->has_swr_master) {
-@@ -1659,35 +1677,27 @@ static int va_macro_probe(struct platform_device *pdev)
- 					      va_macro_dais,
- 					      ARRAY_SIZE(va_macro_dais));
- 	if (ret)
--		goto err_clkout;
--
--	pm_runtime_set_autosuspend_delay(dev, 3000);
--	pm_runtime_use_autosuspend(dev);
--	pm_runtime_mark_last_busy(dev);
--	pm_runtime_set_active(dev);
--	pm_runtime_enable(dev);
-+		goto err_rpm_put;
- 
- 	ret = va_macro_register_fsgen_output(va);
- 	if (ret)
--		goto err_clkout;
-+		goto err_rpm_put;
- 
- 	va->fsgen = devm_clk_hw_get_clk(dev, &va->hw, "fsgen");
- 	if (IS_ERR(va->fsgen)) {
- 		ret = PTR_ERR(va->fsgen);
--		goto err_clkout;
-+		goto err_rpm_put;
- 	}
- 
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
- 	return 0;
- 
--err_clkout:
--	if (va->has_npl_clk)
--		clk_disable_unprepare(va->npl);
--err_npl:
--	clk_disable_unprepare(va->mclk);
--err_mclk:
--	clk_disable_unprepare(va->dcodec);
--err_dcodec:
--	clk_disable_unprepare(va->macro);
-+err_rpm_put:
-+	pm_runtime_put_noidle(dev);
-+err_rpm_disable:
-+	 pm_runtime_disable(dev);
- err:
- 	lpass_macro_pds_exit(va->pds);
- 
-@@ -1698,12 +1708,7 @@ static void va_macro_remove(struct platform_device *pdev)
- {
- 	struct va_macro *va = dev_get_drvdata(&pdev->dev);
- 
--	if (va->has_npl_clk)
--		clk_disable_unprepare(va->npl);
--
--	clk_disable_unprepare(va->mclk);
--	clk_disable_unprepare(va->dcodec);
--	clk_disable_unprepare(va->macro);
-+	pm_runtime_disable(&pdev->dev);
- 
- 	lpass_macro_pds_exit(va->pds);
- }
-@@ -1715,12 +1720,7 @@ static int va_macro_runtime_suspend(struct device *dev)
- 	regcache_cache_only(va->regmap, true);
- 	regcache_mark_dirty(va->regmap);
- 
--	if (va->has_npl_clk)
--		clk_disable_unprepare(va->npl);
--
--	clk_disable_unprepare(va->mclk);
--
--	return 0;
-+	return pm_clk_suspend(dev);
- }
- 
- static int va_macro_runtime_resume(struct device *dev)
-@@ -1728,25 +1728,13 @@ static int va_macro_runtime_resume(struct device *dev)
- 	struct va_macro *va = dev_get_drvdata(dev);
- 	int ret;
- 
--	ret = clk_prepare_enable(va->mclk);
--	if (ret) {
--		dev_err(va->dev, "unable to prepare mclk\n");
-+	ret = pm_clk_resume(dev);
-+	if (ret)
- 		return ret;
--	}
--
--	if (va->has_npl_clk) {
--		ret = clk_prepare_enable(va->npl);
--		if (ret) {
--			clk_disable_unprepare(va->mclk);
--			dev_err(va->dev, "unable to prepare npl\n");
--			return ret;
--		}
--	}
- 
- 	regcache_cache_only(va->regmap, false);
--	regcache_sync(va->regmap);
- 
--	return 0;
-+	return regcache_sync(va->regmap);
- }
- 
- 
 -- 
 2.34.1
 
