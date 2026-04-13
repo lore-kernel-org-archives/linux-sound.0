@@ -1,159 +1,114 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8161F374192
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 07:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679263B27D0;
+	Mon, 13 Apr 2026 09:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776065517; cv=none; b=tCaF6VTG9CUBeE2Bzr4yS8Yd86G2nqho5rp9zeTMznHUl6NaYSb1m4LriEaCSlIkFJLL2uRDh79JVbrV4BPVwrzjzTsyOI7C3kI02U3oMpzIwzXChHgkMLBnFfnXV1K8lCIlXwfS/EykBGnkQbhVM5Gtk5WvtQUu2W7YrjaunCg=
+	t=1776071994; cv=none; b=N3V3i00iVYqnvjFYj/EqIsm6c6aWUbW+icU8LOucIpf2WSmd2JXyRCCDrX/fZQaor01MN3FoKqclauwYsSzMgAimlwRZX+x+LiP08MqvrMpQ4CM/EiMoO/q0TQ9D0pae8++05Ioo2iFJzvB80qNJTngm5+3eMMGfzxzcFD0Levs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776065517; c=relaxed/simple;
-	bh=44E7u6ZEEdpwoVVTGNSAuLxYwE6+OWofpEHGszjKH20=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s9KcUwpCpHbYXiyeiIpwNDBsBERSyh2KgAPmPVgeeD7v+GxwlmxB6ErdpoShVZvgxVBoI6F8BJ/o8eBciu68foIOL6Z0dzEuxY0vXoI0ZVOB6KL4FfXxJ/UKTFhJm4hLAjaOTPYxRKB0zwbfBIjipsL+UU4WhaszhqCtU5WOoL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B4X9N+WV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+wiUMWMo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B4X9N+WV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+wiUMWMo; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776071994; c=relaxed/simple;
+	bh=uVLLy2lAt7Jtbb8wRAjcsVi4wWEKOnkCvXQd9sj44BY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SPOrudz9MKezfNUzguaoMYe31cjTa3fKpS9nSp4MohujEvOCo6vN9a0KXI8Xvd907OPK4YjQpRNvv9gmTIq9pbZZfq4BkK5ClnCUhUkOBoMBKcmtgBC5REku2pm27j8UTIwYxpFj1C7V8QNhvnAzhijdGFKT7bBlYxGyGEsdiW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OUMzKCJY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B4X9N+WV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+wiUMWMo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B4X9N+WV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+wiUMWMo"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 982B96A88E;
-	Mon, 13 Apr 2026 07:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776065512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRfIe2elxNFYHpfoab2a1Os6Y7HuK1Wf+lPzXgosBAQ=;
-	b=B4X9N+WV3IF2Adw19zvekoLfOwO5Jvl5/SJHnL4IzI8gw27lGoTydAQRN2G1yEaZeaf3+d
-	7wiBhtAeU/E24YBeZwKnWaVc6sV+WZT3tBJagLYJcQoHd/5beGmzqjoPgqmaQbtA1uWYqf
-	aEAAUBp4fIqAjGUNKpb0AOZA1DrYqF4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776065512;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRfIe2elxNFYHpfoab2a1Os6Y7HuK1Wf+lPzXgosBAQ=;
-	b=+wiUMWMoDtDqrvPKMaOYibx/JXG3fz5EixgLXZfwSWpqgYhgDBhJFhXuqGZuRZuz+RdJ01
-	u+QaxiPL5LZ3d8Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=B4X9N+WV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+wiUMWMo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776065512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRfIe2elxNFYHpfoab2a1Os6Y7HuK1Wf+lPzXgosBAQ=;
-	b=B4X9N+WV3IF2Adw19zvekoLfOwO5Jvl5/SJHnL4IzI8gw27lGoTydAQRN2G1yEaZeaf3+d
-	7wiBhtAeU/E24YBeZwKnWaVc6sV+WZT3tBJagLYJcQoHd/5beGmzqjoPgqmaQbtA1uWYqf
-	aEAAUBp4fIqAjGUNKpb0AOZA1DrYqF4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776065512;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CRfIe2elxNFYHpfoab2a1Os6Y7HuK1Wf+lPzXgosBAQ=;
-	b=+wiUMWMoDtDqrvPKMaOYibx/JXG3fz5EixgLXZfwSWpqgYhgDBhJFhXuqGZuRZuz+RdJ01
-	u+QaxiPL5LZ3d8Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65E834AD81;
-	Mon, 13 Apr 2026 07:31:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fqCtF+ib3Gm2UwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 Apr 2026 07:31:52 +0000
-Date: Mon, 13 Apr 2026 09:31:51 +0200
-Message-ID: <87a4v7wc2g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
-	=?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,	Arnd
- Bergmann <arnd@arndb.de>,	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: interwave: fix build warnings with CONFIG_PM=n
-In-Reply-To: <20260413071217.3830320-1-arnd@kernel.org>
-References: <20260413071217.3830320-1-arnd@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OUMzKCJY"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63D7aUGZ2043988;
+	Mon, 13 Apr 2026 09:19:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=jz5JtUuoahY5KKfLUZ6zNF6b/+a0ft74O2R
+	jJaHIQ4g=; b=OUMzKCJYQcQ70L7OmpvjSRQ4XrqaVdbzMSjoj0sZxroeMnGwk1d
+	uUS/PmzifanZyPN4DteYXzkT1dQSiDbl6RuCdRqOdG5316EQMnBh/v9Eo5B0D6T7
+	vPdtgmzuTT7/nttm+hPSE0PuMNUdFsBDVZ1Kgf1wG5TGd/L6iuSE/tDVwRyjXqNP
+	OakLlxJTP9Nq2kvyjrwBz8E40SJ/FEBMf9Qwck9f3fJxR7C5rQwLsofUmI92GnqI
+	7rq0EO6KQESeeh2V0ZZaulg5O49zSxVnpi7NCw2bSYmyvxuUz39r/P7HJz5Sp8nQ
+	oh6LCj6v8vOOX87nO/9Ibw3nRVeFbika6tQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dff0jvjse-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Apr 2026 09:19:41 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+	by NALASPPMTA04.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 63D9Ev5T031665;
+	Mon, 13 Apr 2026 09:19:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 4dgmy2mwyx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Apr 2026 09:19:40 +0000 (GMT)
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 63D9Evs0031659;
+	Mon, 13 Apr 2026 09:19:40 GMT
+Received: from hu-devc-lv-u22-c.qualcomm.com (hu-kumaranu-lv.qualcomm.com [10.81.89.194])
+	by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 63D9JeuU010512
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Apr 2026 09:19:40 +0000 (GMT)
+Received: by hu-devc-lv-u22-c.qualcomm.com (Postfix, from userid 4187942)
+	id 0367A6B0; Mon, 13 Apr 2026 02:19:39 -0700 (PDT)
+From: Kumar Anurag <kumar.singh@oss.qualcomm.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        Kumar Anurag <kumar.singh@oss.qualcomm.com>
+Subject: [PATCH v1 0/4] Enable audio over HDMI and 
+Date: Mon, 13 Apr 2026 02:19:33 -0700
+Message-Id: <20260413091937.134469-1-kumar.singh@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,arndb.de,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 982B96A88E
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDA5MCBTYWx0ZWRfX08LfkHs5xEKk
+ CmhCb+5RyI3ADEaaRD9EHguBP7mKm63Zkm9TNIUV61nPDoNgXrX4xhOfmb813Er+suHT286S6uL
+ r8SA64duXViMeTbxjXGlHpcWL0sCJpgpf02MFyAyd50GGx5L0GsEB6nRlq0OCF4UwxArPY+WhPG
+ CPLcOueHd7fW8TLT5N40gcoDzLX0UV0PFTXefAJjUgwGtBph1xBfnPo9J3ZQ4T8dw6kZI56kOzg
+ kH0ooRouVR2huLxzBAy+dTyHuNcBbyP6aKONXUGfW4v8wFl4HE+42JA+ZtDAkdpD3RS4KbuDn3q
+ SBG0TrHxju0Xf/4y1ek3f8+DKySWobt7+GVbEOyKeZHgIDyTFFZWCt96sbZL6VPEc9Rb9LcecLd
+ 2TpN016ii9AVvQTX2By/t2/3GJdP2FmsInkO1NoKUEl4XN4K3Qbq9kyuiaEphioYalgC+4WLa2i
+ ZISImdtoyrZfylH9VvQ==
+X-Proofpoint-ORIG-GUID: ENSOznw9VpYk1OKVwC1NK8YCtlbsZWOY
+X-Proofpoint-GUID: ENSOznw9VpYk1OKVwC1NK8YCtlbsZWOY
+X-Authority-Analysis: v=2.4 cv=d/LFDxjE c=1 sm=1 tr=0 ts=69dcb52d cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=_glEPmIy2e8OvE2BGh3C:22 a=0tr3pMq46wCAcQ8op0oA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-13_02,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604130090
 
-On Mon, 13 Apr 2026 09:12:11 +0200,
-Arnd Bergmann wrote:
-> 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Parts of the newly added power management code are identified
-> as unused by gcc:
-> 
-> sound/isa/gus/interwave.c:489:13: error: 'snd_interwave_restore_memory' defined but not used [-Werror=unused-function]
->   489 | static void snd_interwave_restore_memory(struct snd_gus_card *gus)
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> sound/isa/gus/interwave.c:483:13: error: 'snd_interwave_restore_regs' defined but not used [-Werror=unused-function]
->   483 | static void snd_interwave_restore_regs(struct snd_gus_card *gus)
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from sound/isa/gus/interwave-stb.c:3:
-> sound/isa/gus/interwave.c:489:13: error: 'snd_interwave_restore_memory' defined but not used [-Werror=unused-function]
->   489 | static void snd_interwave_restore_memory(struct snd_gus_card *gus)
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> sound/isa/gus/interwave.c:483:13: error: 'snd_interwave_restore_regs' defined but not used [-Werror=unused-function]
->   483 | static void snd_interwave_restore_regs(struct snd_gus_card *gus)
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Add an #ifdef check around these to match the callers.
-> 
-> Fixes: 6f800c3397b7 ("ALSA: interwave: add ISA and PnP suspend and resume callbacks")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+This series adds the dt and driver changes for enabling 
+audio over HDMI and Displayport. 
 
-Thanks, this should have been already fixed on sound git tree by the
-commit b7feba842c0d5f6c5b01592f80d164e974767501
-    ALSA: interwave: guard PM-only restore helpers with CONFIG_PM
+Kumar Anurag (4):
+  arm64: dts: qcom: Enable secondary mi2s
+  arm64: dts: qcom: qcs6490: Enable DP audio
+  ASoC: qcom: q6dsp: Update bit format support for secondary i2s
+  ASoC: qcom: sc8280xp: don't force S16_LE in hw_params fixup
 
+ arch/arm64/boot/dts/qcom/kodiak.dtsi         |  5 ++
+ arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts | 59 ++++++++++++++++++++
+ sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c     |  7 ++-
+ sound/soc/qcom/sc8280xp.c                    |  2 -
+ 4 files changed, 69 insertions(+), 4 deletions(-)
 
-Takashi
+-- 
+2.34.1
+
