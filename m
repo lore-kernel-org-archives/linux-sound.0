@@ -1,70 +1,81 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE12B3B19A7;
-	Mon, 13 Apr 2026 09:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B80398902
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 10:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776072001; cv=none; b=eQpDp1KpxjdPaAPw8kHgU0MnTEkYTooxjvsxZ1uRYERJlsBGFM1rcMI16lQcbZKXyfCZCkiHJGYaya2103eUwIkegKu3wpzKW42iT9pZtwcM2aKSLUJ3D0pe726uYWiQjMArqM9KcxYb5oHBHvOYtZ0PjrtY0zqVUi5IoCAQeBY=
+	t=1776074840; cv=none; b=kV79CunvJwYS+V7OucnIsuPFIQn8jp99Z199KFusyVXwD4S2N8lcfumRv6RURutMK6kB+K2MjM9GC4HVwSOGMKd9R2LQRbEb1YknHiJg1OXkPQ1YrazuaTodDXMK4Y0fcsM9zg4GFjcRfnDpG/Yi7rHoKchLCChSlNawS02isrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776072001; c=relaxed/simple;
-	bh=vZ1xKAkwtz6hyMABBouJkUlR9h9RqOm8ureovRrW33g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qyQOp2hQ161WO9FUF7NjNVe4Kw6wJqBd5rK4sYoSuMe496Jrtn35WiY0XKaUDyqpHQDyHGPA5pdlD55yl6zJyYjcOnxCmd4QrqoXg9NssKsVCWmH0/re6GcIJHVfYjhkl9AM2CQNspteVY5OTWNifLpwnN11seZgyaxJHdGvTKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VXIm4qx5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1776074840; c=relaxed/simple;
+	bh=UxDiNz5aVAd8jaiS8WbKwd6IwvkgGniodqaG9fbAjlc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ztzu5b2nyjCsBx8+RtKW9XZ1AYSbW3/6nUiW7QkXDsRvfj4KhWJR9J4kK0rlaTJzikMJa1SgrCECndXcBjTq61EPUkFOeTAAnqQ3F98xJwfQyQcmmt7ji0eMPnFpR+DV3coJopQGcG5fmZvbXo+B09d9F4dnGIqcumUKmQsob2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Puu4Oz87; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VXIm4qx5"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63D5t8Rd439900;
-	Mon, 13 Apr 2026 09:19:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=deJnviWwGhE
-	gD4Sw1OB0YdaKut6FaLlSryuBAgXVr9k=; b=VXIm4qx5O/Pni5gCWT3rX2uiZaY
-	R8yE/t2FLV/CmvqdH4qpnLNjPP8MTBQmhxBbhwTUQD5caF6K06cIDDP/Ntl+pqfO
-	nsM4qXxbdnccy1xHDHq5s6KHXx1M1jqikVp94vGCOtWkhnUH2msuSiy3/o48tA+P
-	CaRWct65bMl/p6d574LfyLWBVfbABulTy6T3YmVcg7j7pS2VUyqLD+q8mqx6nr40
-	Va16nl+i2tuZrjQUJv5Ye0VXQ/DXLHMwZKQl1gaxmMzg56soyxIujf4FIflYhBZ8
-	tPpXtBH4b3L4zhOkMq3parLV13evpFSDlu7nTTu1bDN+U0RjKS/59pBbWeA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dfevtmp1u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Apr 2026 09:19:53 +0000 (GMT)
-Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
-	by NALASPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 63D9JqZ8014809;
-	Mon, 13 Apr 2026 09:19:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 4dg5er2ekp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Apr 2026 09:19:52 +0000 (GMT)
-Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 63D9Jpqb014800;
-	Mon, 13 Apr 2026 09:19:51 GMT
-Received: from hu-devc-lv-u22-c.qualcomm.com (hu-kumaranu-lv.qualcomm.com [10.81.89.194])
-	by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 63D9JpVj014796
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Apr 2026 09:19:51 +0000 (GMT)
-Received: by hu-devc-lv-u22-c.qualcomm.com (Postfix, from userid 4187942)
-	id A2FF96B0; Mon, 13 Apr 2026 02:19:51 -0700 (PDT)
-From: Kumar Anurag <kumar.singh@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        Kumar Anurag <kumar.singh@oss.qualcomm.com>
-Subject: [PATCH v1 4/4] ASoC: qcom: sc8280xp: don't force S16_LE in hw_params fixup
-Date: Mon, 13 Apr 2026 02:19:37 -0700
-Message-Id: <20260413091937.134469-5-kumar.singh@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260413091937.134469-1-kumar.singh@oss.qualcomm.com>
-References: <20260413091937.134469-1-kumar.singh@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Puu4Oz87"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-82f206f2b54so576721b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 03:07:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776074839; x=1776679639; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qz15EdajgaOwwJlVpi9rRF2MEm37YEfE9zUFEPe5XVQ=;
+        b=Puu4Oz87KxIsta5K9aTtHoBxLJqMIHgxrKMkNcJfIFa1QeLxPIkM3xIf6Co+94yJnR
+         B2SA0FVv1tHVujw9PCbOHKa7Si7dJDhX37oTVqy8/hERVJL6CO9YoxYilbtWh9X7PoDN
+         Vi/jTwa7Wwk3Cuk7ZllmWJC3/ttettDJPwotnis5LYNrMlHYSvjWhXHqsYuWal+Xys/N
+         5SSM7jHqHJc4yDTlIOJj4NUhRKdQ6vqVu702C1mY9WESenHvaN/Lpt2eO0hZ7tXIPLXL
+         IRb0f5f5YG7Xicvnw0de54USHo3fw6BHdpJFneiP56IFc/2NTvpmm7mHFtzWGSESag3u
+         SC8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776074839; x=1776679639;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qz15EdajgaOwwJlVpi9rRF2MEm37YEfE9zUFEPe5XVQ=;
+        b=fGHZkNy+vYstAJczsUfGl4VNfBXTLpl9f408bIgcQnkxAdfuJj9L9V10NKCZ6fXHpS
+         9ql70pKTib77+t2AGr14nM0ce6oA2m1XAirQaMWKErmQwC980BZQqmF76A0VV0Zcn+TV
+         ipfeiBelMxPWJYvc1P9+EkK/okr18RbjYxywlUj6rQ6jsIndC41YULY75+1/llbQKs+i
+         Gflgrgvgd6I1SeoZOMAQ2fU2TBt09L+au7trGwI8cE9axwb43bsp/KejAFBCbdug85J+
+         LdgzbXyCGbGPMnEYa/JdG+kNBTOoxZiCO+C1SDz9qN/Ragkf5G+SPER3GWhbJS3WwHPP
+         7XSg==
+X-Forwarded-Encrypted: i=1; AFNElJ9sO63WhuNQ9K770c/RmTEGUJKfngAq/NJXoXkMQ9KUsgNBX4lRaPJf8/HinkqWRBEA71IMDqNTleF//Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDiUAc0tubKZ/FCbPA84AAKCzgjmjt8qT/qv3HuyB9tIanCRrs
+	KVGUbe/3c8NoGuAD+38lbTx+xYZHlUA498hyrY9eFAxj/ANKIqQbuYQ5
+X-Gm-Gg: AeBDiesXLva6gHtua6qxYqFK49LEKdYRbhy7GwfWS2IwzbXU/O0cKbMfhh/WULmMzS1
+	pFZF85HRlh/eZGnp532bfqllopuZNY9n7sXVZcd0nT5Tdo9oGyR87dRMIVqA53Qb2o9WhRvnMo/
+	UpauNsw4q9pBWucWUp/qmBJIao2Rv+eLeAsrOnkjWxaxz337Xa+McyS+IGUvmHYX7CX+7ja63mb
+	iGHfpLSjl0adbvkxJNHlsZAfMhZukcPdz0anYtpdtCnaMZBguwjGZonNaIBf6IXESqv0WOziauJ
+	UbAT+6ykkN8fu9LZv3OAplCr9YfiogCwSXL0biuQHuC/I6QfVIUCA2HRT8HN04TBNUbkt1YMyBj
+	q4UT1jGI7AluzJxL6kE6eT2mJj4n0LNBQUiBNqBEVvz9g8SExwDhw9EhhL9V/huO7dn6NOda+4A
+	rSFGrjngirtaCDEraa18nyMLJQMpIX8BW1Go7PPd7okhvGvezPynEGAzWdPQ==
+X-Received: by 2002:a05:6a00:aa85:b0:829:8942:2c93 with SMTP id d2e1a72fcca58-82f0c1cc16emr11475540b3a.9.1776074838631;
+        Mon, 13 Apr 2026 03:07:18 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c50a8f7sm10232140b3a.56.2026.04.13.03.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 03:07:18 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: kuninori.morimoto.gx@renesas.com,
+	broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/6] ASoC: renesas: fsi: Fix system hang by adding SPU clock
+Date: Mon, 13 Apr 2026 17:06:54 +0700
+Message-ID: <20260413100700.30995-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,57 +83,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=RYWgzVtv c=1 sm=1 tr=0 ts=69dcb539 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=MudgD1MToes5hn6vDNUA:9
-X-Proofpoint-GUID: q34jnvIeQV2gaxK5LSYXRqGiNVmizlpa
-X-Proofpoint-ORIG-GUID: q34jnvIeQV2gaxK5LSYXRqGiNVmizlpa
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDA5MCBTYWx0ZWRfX4uzdtnhsr0K3
- S6kU4h8UlMDnGu0kMamngt0gmk7hf4IhR6fe6Dqlg67yYSfkSsoEBG39wNIXjGohAIV9/Fpmuef
- //53bZv41pTwz0pZHYQCE+sIb0WSJkHWBz2qEKZ8f0vCRtX149miKBCJ8OiEEh0TmzeKe9u+6GQ
- tUuQu6/FT4BUpWJ96dXMsFgILA9v4/HhPX1vCzxhj1ehBFji1vGUqbfEtE/yBPVg0Ru7FyhfNyn
- isjjZc9F3pTSCXW5lMj9wet/3l9zXjMChHSww/kPWhdPGh+JkQWroXyORom0uveEOYiJCz5OIlE
- PURnPaVymS66xH8mSSzMgV/qh3Q81qlAKbpGnSkdz1iAGUHjc177dznar8N/Yud0DH7hKevolq4
- mjJUImiuthkm39KHKnJgDcLUKMQNbKiVaVoaFOm72kVAxFyKRyjw4PqrWmTMuDEwXdPbzdh2smr
- Mswn9mWKvS6Ct4wauog==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-13_02,2026-04-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
- definitions=main-2604130090
 
-The machine driver was unconditionally forcing S16_LE in
-sc8280xp_be_hw_params_fixup(), which prevents links (e.g. HDMI bridges)
-that require 32-bit formats from working. Drop the format override and
-keep only the fixed rate/channels constraints.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Signed-off-by: Kumar Anurag <kumar.singh@oss.qualcomm.com>
----
- sound/soc/qcom/sc8280xp.c | 2 --
- 1 file changed, 2 deletions(-)
+Hi all,
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 7925aa3f63ba..c00eabf200b7 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -75,10 +75,8 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 					SNDRV_PCM_HW_PARAM_RATE);
- 	struct snd_interval *channels = hw_param_interval(params,
- 					SNDRV_PCM_HW_PARAM_CHANNELS);
--	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+The FSI on r8a7740 requires the SPU clock to be enabled before accessing
+its internal registers. Without this clock, register access can lead to a
+system hang, even when the FSI functional clock is properly enabled.
+This series adds the missing clocks and aligns their names with those
+used in the driver.
+Following feedback from Morimoto-san, the driver is refactored to improve
+stability. Clock initialization is moved from the runtime path to the probe
+function to simplify the flow and avoid redundant setups. Additionally, the
+shutdown sequence is reordered to ensure the stream is properly stopped 
+before the hardware is shut down.
+
+Changes in v2:
+ - DT Bindings:
+   Define "own" clock and add "spu", "icka/b", "diva/b", "xcka/b" to the 
+   clock tree.
+   Use YAML anchors and "if" rules to enforce clock-names and r8a7740 
+   requirements.
+   Relocate allOf block and update example with full 8-clock configuration.
+
+ - DTS:
+   Rename "fsi" clock to "own" to match driver implementation.
+   Add missing clock names: "icka", "ickb", "xcka", "xckb".
  
- 	rate->min = rate->max = 48000;
--	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
- 	channels->min = 2;
- 	channels->max = 2;
- 	switch (cpu_dai->id) {
+ - In the driver:
+   Refactor clock initialization.
+   Reorder shutdown: stop stream before hardware shutdown.
+   Move SPU clock enable/disable handling to fsi_hw_startup/shutdown.
+v1 links : 
+   https://lore.kernel.org/all/20260403112655.167593-1-phucduc.bui@gmail.com/
+Testing:
+  - Verified on r8a7740 (Armadillo-800EVA): FSI slave / Codec master mode.
+  - FSI master mode is currently compile-tested only. Full verification
+    requires a dedicated HDMI driver (FSIB) or hardware modifications 
+    (resoldering board resistors) (FSIA).Full support for fsidiv requires 
+    additional DT bindings and a corresponding driver.
+
+
+bui duc phuc (6):
+  ASoC: renesas: fsi: Add shared SPU clock support
+  ASoC: renesas: fsi: Fix hang by enabling SPU clock
+  ASoC: renesas: fsi: Fix trigger stop ordering
+  ASoC: renesas: fsi: refactor clock initialization
+  arm: dts: renesas: r8a7740: Add clocks for FSI
+  ASoC: dt-bindings: renesas,fsi: add support for multiple clocks
+
+ .../bindings/sound/renesas,fsi.yaml           |  61 +++++-
+ arch/arm/boot/dts/renesas/r8a7740.dtsi        |  12 +-
+ sound/soc/renesas/fsi.c                       | 181 ++++++++++--------
+ 3 files changed, 171 insertions(+), 83 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
