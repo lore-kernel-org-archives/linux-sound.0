@@ -1,98 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD023ED13E;
-	Tue, 14 Apr 2026 16:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B66C3EDABA;
+	Tue, 14 Apr 2026 16:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776183685; cv=none; b=Nv4xCKtqOHE32dNw8P8AojI1kEJzYcU8JTdcfqb629cU2MAQavn0cdgsaofRE8meRvMesh4WjFbj+EXsJJFaEsW4NREGECV925hIbwNxvQ6KVF81vNcBGuNUrdvkrIsmVz2AHVYyNHyH5P1fFRpYqRZuUxZKCfSg+qHUfzeBRZg=
+	t=1776184112; cv=none; b=UTXCBuMzGoxkf/YfzHNzqxV4xfE9duaTx8Yb+4Lq/krb1iKn5OdJj5sbQfdHnXnB56/WkAcU+qd/MC86YVGmZfETdTNc2LAHG17hNxWvWy4r4a4l5M9G4vze/qwHhRMLUHHsfNdZHe9st5iiJIWnW4yCFMJqNrEUhg+SWASwHDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776183685; c=relaxed/simple;
-	bh=L+p7vVyi0ZuGNy1NR2PmnEYPIp03GJxMFlPl1DRyxPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rkBZWmTMXCKTyWrEckyufXziFYxnYOc9km069NYHkReDAFARVxlSmPuGvE9mBCvSj1tGvh4ilWah+ap47gNho4yNJz9sI7ZWecmAWq8a+YmPMo2ggAUHzQ1D4QCKpds8HSZUMUu4uVMSEt70oGZr3jG3BnrpsinmXhTx3/aIpaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pOIjKyZa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776184112; c=relaxed/simple;
+	bh=V39/1btDjdN7e2y8LscmUX4ZzmoyzNnPY1iu5oCTcZs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DLmDx3Rxu/Puk9LfFPNugeABor0J1rgKahJe2+vv3v8/MZUvqd1I7OjFIrgzNM/uAyINm/Q2P9axQbb51oI3hAdSuYHDI/kH556jVq4bI05W+IqxAjaVoEp+Rjc+XeaVycGjegDS7gORKtuI9wgN8U7Y+vDTcpfig4fWXgrBCJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxhigXBG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pOIjKyZa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E69C19425;
-	Tue, 14 Apr 2026 16:21:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxhigXBG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD7AC2BCB5;
+	Tue, 14 Apr 2026 16:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776183685;
-	bh=L+p7vVyi0ZuGNy1NR2PmnEYPIp03GJxMFlPl1DRyxPs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pOIjKyZaZ/IfJvIgjdqfDbtHAYwbCjaflZ/Os1aiwlhfe89Ej4+7Tu6eWhM1wI43l
-	 0TQ7OGUaCZr95ce5+6GTl81meF4dLxTNbtHq4YEhCBRkQERKmXPff3To2k+POh4ibH
-	 FNdifqmgWlCzvvUn7ZOTS2bbkt1VBltVvyYj2PFuKFF68y3lNn6/4vNgdm/e+oN4NS
-	 QYMakyesCHdx63hfc7VnzONb7hYGWr6QD3n61h+L/udWivNP7dUtCxxOVh5+Zqou3B
-	 nWCp8AjTiAJbgcF2waATiJzrf9KIrR/3cAp+QsvRZ2+ApXgjTfY3PpISg5tvEH6zAG
-	 oLJujwe8BX08g==
-Date: Tue, 14 Apr 2026 17:21:20 +0100
+	s=k20201202; t=1776184112;
+	bh=V39/1btDjdN7e2y8LscmUX4ZzmoyzNnPY1iu5oCTcZs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XxhigXBGR4haixhCigfadFr/eK5rG1Or+BrTf1GrNFDBuNAVW1aIGjd/qQuKu07FZ
+	 by4i6+b6OyN0IS3aMkdousOJ9cCvC0Gy8/HY3fk0dK9HxDG7TNeaEtlyJA4Z/I41n6
+	 DUek/UjN3bDoZAhZrepCFiHg73XYWtqUuCofK4+g4uJRV2T4DFhZQCYTwE9pBDyWwm
+	 RM0tZbUstYza5ZJmSPgM8jpgvRWnw3ue0eDVuVKMGpuvcT19Jpa6VcJe+wiy6WFTw4
+	 /IW7w8yVEGhvXnSGZZXkvvZeRc4r65JNUXyYiGCZvi/NQoBOsCz4+bRKYnm1mBAwRL
+	 hreMp+w7zGCnQ==
 From: Mark Brown <broonie@kernel.org>
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH RFC v2 01/11] ASoC: meson: gx: add gx-formatter and
- gx-interface
-Message-ID: <34a800e1-2ea1-449b-913d-f14f994a46b8@sirena.org.uk>
-References: <20260411-audin-rfc-v2-0-4c8a6ec5fcab@baylibre.com>
- <20260411-audin-rfc-v2-1-4c8a6ec5fcab@baylibre.com>
+To: Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>, 
+ kernel test robot <lkp@intel.com>, Dan Carpenter <error27@gmail.com>
+In-Reply-To: <20260413-ac97-v1-1-b44b9e084307@nxp.com>
+References: <20260413-ac97-v1-1-b44b9e084307@nxp.com>
+Subject: Re: [PATCH] ASoC: pxa2xx-ac97: fix error handling for reset GPIO
+ descriptor
+Message-Id: <177609976501.111092.1025386040469103436.b4-ty@b4>
+Date: Mon, 13 Apr 2026 18:02:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ThtFczj72toqES9e"
-Content-Disposition: inline
-In-Reply-To: <20260411-audin-rfc-v2-1-4c8a6ec5fcab@baylibre.com>
-X-Cookie: Academicians care, that's who.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=V39/1btDjdN7e2y8LscmUX4ZzmoyzNnPY1iu5oCTcZs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp3mssD4Qyc33RSSk48z1ootLeK9Csk9hr8VRC5
+ em8GXkZzdeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCad5rLAAKCRAk1otyXVSH
+ 0PUQB/sFn2qQIPGSkEKBfxGsYCHFs0WV/TDR0tlx77sI1iLR7XOYqdqZkbtrDLlC5OWv/Fgx26l
+ Zgdnh6cVzmBBtyfu4ps4K2gzsvzDhkjb7gqUubLGSnQqCQGM+Mswea6ia0fC79JhUoBQRvvUv9b
+ /OCzyMOs4XcdcCaG+sGoFOvFkmMaeYRWjlrwyfuthnughI86z+tVYGGvcTgTBE5ltfJ6NbXH/PC
+ 2iXQPM0Y+dO7F+dkeJmc21OglM2z9rx7/uQhlYCxct6bpAPgHFrIlOlm1WVjBQWbnjEIjh46O+K
+ K7AOSTSNcvF2yk3o86NHT2riuDdmF/FjfH5s6WBlZRZTvtFO
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Mon, 13 Apr 2026 18:52:43 +0800, Peng Fan (OSS) wrote:
+> ASoC: pxa2xx-ac97: fix error handling for reset GPIO descriptor
 
---ThtFczj72toqES9e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Sat, Apr 11, 2026 at 04:57:26PM +0200, Valerio Setti wrote:
-> These files are the basic block which allow to shape I2S in GX devices
-> the same as the AXG ones: the DAI backend only controls the interface
-> (i.e. clocks and pins) whereas a formatter takes care of properly
-> formatting the data.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-> +int gx_formatter_probe(struct platform_device *pdev)
-> +{
-> +
-> +	return snd_soc_register_component(dev, drv->component_drv, NULL, 0);
-> +}
-> +EXPORT_SYMBOL_GPL(gx_formatter_probe);
+Thanks!
 
-The other allocations in this are devm_ but the component is registered
-without using devm.  Not using devm also means that all the users need
-remove() functions to unregister the component, there isn't one for
-AUDIN.
+[1/1] ASoC: pxa2xx-ac97: fix error handling for reset GPIO descriptor
+      https://git.kernel.org/broonie/sound/c/54a032d3e62f
 
---ThtFczj72toqES9e
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmneaX8ACgkQJNaLcl1U
-h9B6uAf6A2m0yG3Y4j/XfhUBnzGIW4nBPB3PnZi5+Te4FO26/IniwmRzcM3z++SE
-c323dI1EWkZFAa67hiWafnMH3mKcbDCQPqyWwmtif1y/FODAaeoYfZUiqZgkVkDR
-v6oaX1uBg9ATaRQPQFPmJHL1fcQLtqbzWZg1kRpE5QXlboubISOT3IbByULGHFqZ
-JVw5IZDGvrGCzKS039L9ozPMVFABUwYsqhX5DN7ElRBA8AX2gojlo9tuEf1vJGXZ
-SThkCgS+i9NElRJq8M1bb0AXC5q7by6rdRDB1s8BQWkyp9DCZ5982teNFKt8PBd3
-csX6oiRRn5VViHxk+hdzeXtTD8zTEg==
-=ixQ9
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---ThtFczj72toqES9e--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
