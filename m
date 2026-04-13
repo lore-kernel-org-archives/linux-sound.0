@@ -1,491 +1,245 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BF33E3C48
-	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 19:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776109547; cv=none; b=l4KHVmQe0+eCxsgqiiYMjr1/7sl5WvvRreA7JCd/moK9d1HfMWp130cXeqjnuYGxHQYZREUxz7p8fkFENEONZjuYR1wSwCKNeLpCzVMJA/Qexlc8Dcxz4yPCWykGOzfp+nXSa53TzCvPltacdsaV7Onsr/QR2cAnyOL4h3NHUiE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776109547; c=relaxed/simple;
-	bh=C36cdi/djshwJDRoZ+EGzcag7jwPRv8sQFG2+lNnvdk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SQ6soy81dzzZ17aoydHzlUWBNAdxJaO5glkQD4bg5rD1CSorqQQ8s9rtitpx8kqDlr2r5o5fx9iUdN2tuuNA9FGHbfltZtqPu8JsyoRzlq64pvw0OGQw21PYZS9E90l57HiC/0FnBmZEnnoThFkf+zkzeGyAhqYyspyBKkTYHCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JnwhzKVc; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478FD3BAD92
+	for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 19:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776110230; cv=fail; b=JPRwzl8TbBFqU/fZh8Ng74iO/u2/x4NKuQ35E4waOA+75/I3XptlkrUTnYhbdmamGW+pWXFbvIFKezv+W5bPaC7if/LD0JmHtSiBoYx2OUhbIuYl+bASLjr/jphZ7DLdQru/WJVqj7PvtxbCydUaV8tCcOOmM44dIYvC5/nps5o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776110230; c=relaxed/simple;
+	bh=RXnNVKqXM8UtDlWsVU433TCKEcRbOyi95q+ZD8mnXwg=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Z2vVuKjhnS3UUGFWRJdY8B20qYpBPm0v6lvENPN7AVcr5sE+x1GNghOGM5yDrJGDL+aTyzYa8kNWaOf4+b04HbWEQ1LR1jfbWTLUKLWqPat8LQ43raDcF+1DdNHtE7MxVhhsWGl1qY51TAWvqR+rOndrT2E7v/+CMOGorFL49OQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjculH6k; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JnwhzKVc"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2dbb4ad19a5so325933eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 13 Apr 2026 12:45:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776109545; x=1776714345; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iZw8P8bwG8C65J9dWLuc7qg0tcndd8Rczg2TM0CVamg=;
-        b=JnwhzKVcCXnKuhpXfMeRBlGjNt2L3FPO0u5yrGJieLd6MPleEnSWjOgrtQCU3xIDMN
-         71EbA8FskA9d025d8E0HHVgg0yoyD+aoHRgP7UP1COj1dkXkQvl71D6fVzMUv8cAbkce
-         K1ZCYEjSWgXC8HMLWSLoTk78/oX7k6hjTA4eU77Th25k2KBWejfyixtL+YxK3mVdv0HK
-         QpPX7A3ejNDnH7kallhRqRBZp9rn2T3Ehg0iuhxxFiQy9D5SCXilOGH/zorp18S9BdR2
-         l4oimTZFDypc5k08Y91F5RzHfC6DaJ/GVIpp3+/G7N/9KAjYEERrBxzTu0mQaFSm7pDZ
-         s6xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776109545; x=1776714345;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iZw8P8bwG8C65J9dWLuc7qg0tcndd8Rczg2TM0CVamg=;
-        b=Gw9SF0yN+9cWw6n9dKCHfFdtV5URWbPxgkwD9ZV10BJyUNC56mgvUdEn+ZglDJIsk6
-         sqlYWyIf0NSWJsxIMaEcEqYNz9Lo+/0nys4KdeivdPl69OBymbdRPh1iQClsyuEgB3jS
-         r8IZy4AhwpVXMjWMPxhhqJCYGrZWwMEPa1yHio15vKAr84NSnJT7yJ/JTtK9+nUutrYx
-         WUL16JStO0ufdKWXkff9RcAEpxrhLv97fbuwHvaAmfH2hyxCWAOOExihtfljFYTdzfp4
-         NWLZ4yQHTwEABG6AHBBHWWAoEMTz4Hs2FtzzO8/bM6qeOyO5hpKX1kSopt0HQCmi/cF0
-         /TDg==
-X-Gm-Message-State: AOJu0YyQDiKsYzrgEGQQR6KuypMTyAMpzk28xTRrYBNOO5ABBouUEZ4P
-	DELH0EmGr2iErGsaDyw2ICqQGcaIBY3DoEJ1V3sHQuyVUVtgRrcEG1he
-X-Gm-Gg: AeBDieu8j1OywKKMugHpLICAMWE0TdamHzM31fhA04ZxLnXRPpARafIKzo0GbNkodQC
-	LmeMO74k0YTVk70P6iZQRZAe79gD5UJvIGK3eM4e/kZ/t+Q6QjnYsfeAaRSCaluxhf/dqlbLPcn
-	norUGLwp7sdXj7HdMRQa7yt5rCQ0DF4aDN6LDqd3Y0wWchh0uLrKYWZdPc3s9rVArHkTHYgGIfW
-	c/YPaJJD1LKjaHvpcURB+eFdHDGjEvPnlZVtamkCdseDDMh9Qec3us5a9n3gVa6gz9nFi3O/HM1
-	YCm0vWRMaaHDttAhdk6Q+0FzPN/GpI0GKECWLlJLv2wnFcSJlmkuzGpI3mijrWUj6KHMk8go1BN
-	zqwXqqwSRhF0VpzySTcn/wZY//yE6n3eI8N1RfHXJLZEg6cHi+dpJdMp9tiK7q8EbXhQUKMjuFU
-	iypekjW4BccZmNjMIdfcNZyhJBbchA2qVpSAil+zNRdB9TwK1sGSbC1hRqHQD6Wa69WWDu5O873
-	QoZ
-X-Received: by 2002:a05:7300:8c85:b0:2c5:50fe:c782 with SMTP id 5a478bee46e88-2d5871bc6b9mr8117190eec.3.1776109544540;
-        Mon, 13 Apr 2026 12:45:44 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d851e5bb3csm9784135eec.1.2026.04.13.12.45.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 12:45:44 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 13 Apr 2026 16:45:34 -0300
-Subject: [PATCH] ALSA: opti9xx: restore snd-miro state after resume
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjculH6k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776110229; x=1807646229;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=RXnNVKqXM8UtDlWsVU433TCKEcRbOyi95q+ZD8mnXwg=;
+  b=MjculH6k/KGuzH95UgodEYkpGQzK+VAnuqWN8ZFB2CyBZS6SyyKbekur
+   Tsr15+MrqWz0dHlnL8bn7k00TkE6g+L7ar9tuy8BcGKKNFFGXx65s9GNk
+   8Wzz6nd0DmkgyMGnoqtUmJjECVKXwML4Sw7W3AICdFcMV98ytacCQxDNu
+   UqmKFtfrDgud3sRzT++GbPj64X2Xp0GiFxQAoFwdVdmJNKq6++zWjqFM2
+   SwqeWgKbmB87P5sfOdFm0MbNb8Vuc6EN/E1XNESsP7NpnZw8z/rzPjyXm
+   eoPOAbmwIyRhVoFKGdclHeyJvpL6yq7091lpM+ZDUa588vimt63chnVtP
+   A==;
+X-CSE-ConnectionGUID: /OmGpIR7R02rNRHxEHmhtw==
+X-CSE-MsgGUID: qNjthUFyTvyz/1j3/1ILYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="76221555"
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="76221555"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:57:09 -0700
+X-CSE-ConnectionGUID: +xnFTVT/QP68t+s1s8MTMw==
+X-CSE-MsgGUID: AignPl+PR8i5Nh8qhEtNWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="228838241"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:57:09 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 13 Apr 2026 12:57:08 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 13 Apr 2026 12:57:08 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.35) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 13 Apr 2026 12:57:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I6PvkUVLGlFm0VhBTMJ3EI8KkEvYLXdGoM3HW9QA/B79gegLAW46EDmqRf7aWLPvxsnoF9yGvVcHu7u4KpEh2q57S+QRwfRJx2DMXk6k07pbwxnqIdKCuk+/i4+0A+sazoX1fnyZ/HVBaaKxjtzp+BvJd0fvewUHPsLlbRlMappMlrc5RL49zhmU0qK974IVeFzc+N32/0f3R9geRON+Jzk2FHmVjFA9rDbX2Y+m49WYdEt4dbFewD14rGmk3Od7720jjyt2rWtDq6negi4Nmzos79C8PyX2xuEtxA6wgF4vWv+IfcmOWFG6bGxnlOVTbE8lsrCBzmWaNZgWacrYrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GmhDsR8EXvYfGbNeVvKXqOxzC74OJwBTtlmUJu2IGl0=;
+ b=Q6vHdu3dsoDeOeQ0M+8+HOFQxpGNOFUc5XK9uAJklbbqJI/P6Pv8BDhkLfOQGt5NaHt73l8l7kRWxXhT08Y0aHB4kcU6ZYYvZLsgaa1j6l7ypQKxBIMpkplxrC++314F8b5WZ7sap9zJsgrs9jXjhac0eAx/mU8fVDck5sp3QhLQwzyXstoMO+BKu1UK4Bf4e8SCjv0RJiKaXGrse8dmdEGi2zT/OKKQ9VPeHgoT2uNo6gHyhW+qbGFJGnTUYV9v3tknub1V804n6QGa18UL6IIWGfBtL9Io2r5w2XrwdNYMq1Yb5Muu9MeWVPG9iIRVyaQNgq41Pe9ySJ4O87oiNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by DS4PPF46B98A11D.namprd11.prod.outlook.com (2603:10b6:f:fc02::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Mon, 13 Apr
+ 2026 19:57:06 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.20.9769.046; Mon, 13 Apr 2026
+ 19:57:06 +0000
+Message-ID: <c54dc8ed-18b7-4914-835d-a17a0e32bda2@intel.com>
+Date: Mon, 13 Apr 2026 21:57:01 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] ASoC: core: use Complete rebind cards by default for
+ all users
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: <linux-sound@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+	=?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?= <amade@asmblr.net>
+References: <87y0jsibki.wl-kuninori.morimoto.gx@renesas.com>
+ <87bjgaxkdb.wl-kuninori.morimoto.gx@renesas.com>
+ <a53ac4b3-1774-4e78-b88b-4316ffe73cd1@intel.com>
+ <87ikacdcdj.wl-kuninori.morimoto.gx@renesas.com>
+ <87jyub396o.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <87jyub396o.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA1P291CA0010.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::10) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260413-alsa-miro-pm-v1-1-07cc1ce3463c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDEwMT3cSc4kTd3MyifN2CXF2zZIvUpNRE80QTUwsloJaCotS0zAqwcdG
- xEH5xaVJWanIJyAyl2loA2HEGznAAAAA=
-X-Change-ID: 20260404-alsa-miro-pm-6c8ebea7a458
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11003;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=C36cdi/djshwJDRoZ+EGzcag7jwPRv8sQFG2+lNnvdk=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJl33Z+mr7zAszT6b5CfB39fgk3ti6arotvkrNgPFlis5
- HYWUNnTUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABe5yshwe9PrHdEn9J7HX2d6
- EqB27JYE22/vd78WLd8pcuW4idQVJoZ/Kj9vylsIzp27WHSH0dq8uOuPEg//sPm2TNbHqqfy+oR
- +ZgA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DS4PPF46B98A11D:EE_
+X-MS-Office365-Filtering-Correlation-Id: afb93199-80dc-4a3f-9288-08de9996d691
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: CdqFHAtzXMVJqzgxxhu8KI/TRqvxCbm9XFjPAsV7aToOWu0PiniXXOe+C+nZJ3ZNf/zZALgitOvfI62eYdUs9wtAFV7hopoVKQbuBqf/p9yRGNWedcKvMGtj+2Owlt2jHBixSz4inYGiJbLX5QUMYN0mMblUESJwyKaEQeXf/bdL9znpenxFKOXIM1tKO6JlFoegxSfAn5u93aOUn6JVACnOWsFvdfSf4u7yVD8A7Zzim8LIvpyshgxunxuF2E4ucLj8obu1+99g+e5JnatdZR58l+T5wU2/3qcfCHm9uqj0Q4AMywF+dyHbVaCE0P02sRpl2MJu1nCbG7/nkEUT/9DJC2RUrDpRDaKj0Qjjr//lBi3EghOfsOu/GssdgoR7/YK9pYpoPIg6eR8HEBB2lIhLRGIJ5n7N1EO0wUX+BOGBGMl0So7OGdmk7vDZVZ9qFUhnQB6KcU9UfaKuUJ0UKaDK6G1DIiYqdikwGaxLV2lUkHX4jtC6xoWhJlvMJ+aidrMI1YuNS6X7PnPSkQ8gAS5JLM+ecRq5IoJzh3dlbjR3RmuBi1Ba6l1cKaOJeGiujpVXlklE2A1wviaoJpgvJlg3gPILgXC3aT0ghaapVQu9ee9f4jB0YuLI/uaE0ZhyLjIy4Px3THDKseI4A79/cG/kPkgZakowDbcD3dHq6IjASCjNFBd908U8Ypl0KvtLrAT/dq6+yOPPxwZdSkaL/a5gNkz5Aqg2wucM8SgRlC0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUFGS2kzQ0l5Q3d4eXFSamc1bUZ1d0NuSm1ZNGhRd2dIMWxMU01LVENrWkhk?=
+ =?utf-8?B?NGZQZnd3T2IxNU5Xc216Y3l3R2U3YmtacnBRVVdtOEF6OXR1cUNYMHJYWWdq?=
+ =?utf-8?B?ck0rQnIyVW1xREMySWlEdENvVnVWUnIydkthSHN5NkN1K2xucW1GeXYwRkJY?=
+ =?utf-8?B?Zy9WV3FxeUhKVG1XZEdjc3JuM0FwcndqdVdBdmNPWXl0TEhZejk0Z3kyY0NH?=
+ =?utf-8?B?U2RZemVMQ0xlMm9GbFM3TGQxNnRLRzN3NkJFSndWbU56ZnVWbjU4M3ZoT3Ev?=
+ =?utf-8?B?cmxZbnZtMXlmUCtiQUZHRGZJWGZHUFMyeVF3Nk9zYnhyNjBtdWdhZTdpU3hl?=
+ =?utf-8?B?U1ZmM3JtbVZUUC9SOXNaYVNkZEhwMWw3WVZSYXh3aU5QT2VuOXh4YVI1NDY0?=
+ =?utf-8?B?SzJXcGlXYmM0RWxuYmpaSW5yc1orM0pHd0NhZzl4a0JaclZldjltMkZGUmV6?=
+ =?utf-8?B?eVVmUDFOanYzdzVoRVEzQm92ZlVjV3B2N0VwUkhQQkZvcWpxNUZ2UytCeHNr?=
+ =?utf-8?B?K1AwYzdUbk93UXFBaFJFSHhKUmtveDAvdmRvWE1yWHBQWkJCWHp3Z2RrVm9L?=
+ =?utf-8?B?VnlpVWkxM3NVQ3o1MlVQd05xQ2RCWUNPRkRYNk9CMUYzanhCVXFVZ1daU1FI?=
+ =?utf-8?B?QzVWb0s3WWRxamszbUhJWW9ST2RqRkdIb2F4U0Ixay9yMXZ3Mmo2SWs2bytE?=
+ =?utf-8?B?cjhXWThlTlgvM0ptemtyS2swampmQlNnRVhxcUZnWkxGVkVzL0tXd2kwZ1hq?=
+ =?utf-8?B?ZTEvTUJXZSs4ZEJ4ZHF3b1BLQTRuK3ZkRFN4d3FxRGJ3Sklrc1VlZGphVDUz?=
+ =?utf-8?B?VGpLK3Jtcm54VWtGS0p3L3pNdlZ5c0lLZnhvamUyQm1RQTVDOXRuUnBmZ1Zk?=
+ =?utf-8?B?bkc1a1ZFWG41clppVk85bmtkblVJWmtJUVdkUWtsaHJSOWNMR2d1K0FQNFpi?=
+ =?utf-8?B?cCttYkRVeFNBREJucVRCOGdvS1I3YUZtVVorZzFEK2hhRDgrZkJqeXorY0lS?=
+ =?utf-8?B?SUl3dGdjcFlIejlPVGlDYkJuQkZHQnF5NmZOTHFabmxtdWtwZGpFSDlPaXQ2?=
+ =?utf-8?B?VE5RZzd2V00rWmtyWHJKdkZwcUJDcUJ2ZzlHVkRaWWlIM3RtbXhTK1hxb3FH?=
+ =?utf-8?B?RDA0ZnQvQmtqNkxjeE9mUkI5UG1WemEyNGhxdmFRM2JiTW93S2NFWUtLdG1u?=
+ =?utf-8?B?NzBGTWFSWGoxVXJLRUtxRXJ4QzA4eTY4R1Q5N3pHYkhPZzRDQW5TVk94eGw0?=
+ =?utf-8?B?WjN1VVNLMVlSdHlDYlE5Wk5WVnhzd085SEtieExwUllqN3BZRmtONkFZVVBx?=
+ =?utf-8?B?dzJVWEwrODcvYkc0ZWVmMFhOYzFsWGJrQUg2TURzTzBpMSthVWl5NUZwV1k1?=
+ =?utf-8?B?TEJuQVRVcVFXVWdnb0x4REp5RkVFaDZSMjBEUTh1cU4rM2dZSFVVWmovRS8r?=
+ =?utf-8?B?eXdQMkZCWjBSSU5WZUlzeVgySk5qNjZPcERyeCtLMlFid1Y3VENPS1NHMTJu?=
+ =?utf-8?B?Q2h6WXZiUFJDeDNjOThtZWcyTk8xN1JHek41Z05iTmNRR2FxT05nZ05BcXZz?=
+ =?utf-8?B?SmFIT2plY25xSHlIdWJpOXY3VDVFYzNMYXVkaGhGb1Y2aHZjM1ZQSzFtTndl?=
+ =?utf-8?B?eUEra1cyVSt3UzVDWWZiZ1FQTWhwVjY0UGQ3WnBSZ0N3RWJMemFPRk9hVVdH?=
+ =?utf-8?B?YkpBV0N2QWtTZ0J4Tjh3VzdFRUdWd01BRGZ0OUNJK1NySElkelg4UTZGQ0Vj?=
+ =?utf-8?B?bTdjeHRocmlZZFowdkp2bFFpWnhzZEdIQVZTMTIxZFBkR0F1THBaMisvVDRG?=
+ =?utf-8?B?ckk5ZWpnVW5ueURyZjMyRWlyekYwYmRjdDEzTUw5S3dneWFTaXo1ZjBwMU1G?=
+ =?utf-8?B?QjdqUVZPYmpocnphOGNWZDM1SGRtbWNmelNEQWd0MGlmSCtUTGN4RTZCdmFj?=
+ =?utf-8?B?Wk9JVTlhRy9LMW9CVTlGWGVMeHhnZm9vZ1lETjA3c0poTmJuZWtkcDlDa25M?=
+ =?utf-8?B?U1dtRlVGMzBKQi9pK1hyMWVWbms0alJ2M0Z3R01vaXNjcFZpWXRKN3A1aWE1?=
+ =?utf-8?B?TGNWbWxHeldUaE1GMmlGakpPeitlY2FMVEJKMDJQV3ZRSFNjOCt3dmdWSFRY?=
+ =?utf-8?B?NEc2ZUJLZldBNGFZMVM4RkVIK1RYVzM4bkdqZFZ6RWU4bkdMdGZjMTRGWGQv?=
+ =?utf-8?B?WDl5T3cvWjRiZGhlSkVnTTN3WHVTREQzNHlBMldFUUI4QXF6RXZFMzZxVk1q?=
+ =?utf-8?B?QnFqVDBXdFhZYWp1VWVLWUxLUDV5Y09MQTZjWG01ZElGWSt3aTZORU12TDhE?=
+ =?utf-8?B?QjhmSVAzYVZYNjcxb0wrVDJOWXBUZG5QdzMxdy9MSE9YSmcrVThFaXJ3aXdx?=
+ =?utf-8?Q?8xxmpaEI3wqAaiZQ=3D?=
+X-Exchange-RoutingPolicyChecked: MxNZYcAEU3YHo7eB9LaNIkod3Ox4AycSdtUxAEY44Nhhiw0h8VsNVdQq3h+B88ByE8W+XPhuT1rROiDwMmx0oHR2rkVb6k3zKZEA9u7E5Eh8X/TvE0EtOxh8yW7VYbx3Up+E3S1yUEbhOMiohdez78TsT/rMF3ZNst3ZpuJqzcY14+JvfDDMSj2oiM2ouYFDDgxySDgf25wsl1hyfqs2CfIQicxSUukI361YH/JYv3zaTYTJS1Wle/T2PSrYfH50S1DrgOw6rRdj6/v+K/8XrC7uysHfZGyM4M7NSK61MuEqqiWxY/qo1x7DtbZGnG5Si4SGaXVUCIxRsiu0AOGdLw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: afb93199-80dc-4a3f-9288-08de9996d691
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 19:57:05.9693
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LhVqvFVoTDTKifxBT/HJjDvLhQ7ILBBG3CDXDCRJISS7fyLtn2U/EgOtJmh3RrR+Lc6BLjHOdd3LlLRfN8jJuBD62rUlO5LyoZI2FMYbP/A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF46B98A11D
+X-OriginatorOrg: intel.com
 
-snd-miro has no PM callbacks, so system resume leaves the OPTi
-master-control registers and the board-specific ACI mixer state
-unrestored.
+On 2026-04-13 4:06 AM, Kuninori Morimoto wrote:
 
-Like snd-opti9xx, the driver needs to reprogram the OPTi routing
-registers before bringing the codec back. snd-miro also keeps mixer
-state in the ACI block, so the codec resume callback alone is not
-enough here. Save the ACI mixer state on suspend, reinitialize the
-OPTi and ACI state on resume, replay the saved ACI values, and then
-resume the WSS codec. Hook the PM handlers into both the ISA and PnP
-paths.
+>>>>> +	ret = soc_card_bind(card);
+>>>>> +	if (ret == -EPROBE_DEFER)
+>>>>> +		list_add(&card->list, &unbind_card_list);
+>>>
+>>> This does not look good i.e.: squelching 'ret' is required in
+>>> EPROBE_DEFER case.  Otherwise binding deferral is not supported, leads
+>>> to KASANs and eventually more serious problems.  I may have misled you
+>>> in my previous review (v2) as existing code has explicit "if
+>>> (card->devres_dev)", whereas in v2 of yours the 'ret = 0' was moved away
+>>> from snd_soc_register_card() to snd_soc_rebind_card().
+>>
+>> Yes indeed. Thank you for your feedback.
+>> Will fix in v4
+> 
+> Should I post v4 patch first ?
+> 
+>>> I've attached two callstacks and summary of operations which I've used
+>>> to reproduce buggy deferral manually - no magic tests needed.  If you
+>>> would like to see full dmesg/traces, let me know.
+>>>
+>>> - case#1 is patch 1:1 as is
+>>> - case#2 after updating the code with 'ret = 0'. This means there is yet
+>>> another bug I've not managed to hunt down. I'll continue debugging v3
+>>> later this week.
+>>
+>> Thank you for clarify the issue, but hmm... I couldn't reproduce the
+>> issue... I manually uses -EPROBE_DEFER for card, and use rebind().
+>> After that I unregistered card, but it works well...
+> 
+> Unfortunately, I can't re-produce the issue in my side.
+> So I guess Intel test is needed ?
+I've debugged all the necessary parts and arrived to the starting point 
+- the whole reason why the rebind-patch of mine is shaped the way it is.
 
-Also initialize miro->card on the ISA path for the existing dev_*()
-logging and keep the cached solo-mode value aligned with the value
-written to hardware.
+Let me elaborate on _why_. High-level view on the case2 described by me 
+in the previous email. The register call-stack:
 
-PCM20 radio tuner state remains outside this driver's PM scope.
+snd_soc_card_register()
+|_snd_soc_card_bind()
+|__snd_soc_probe_component()
+|___snd_soc_component_tplg_load()
+|____soc_tplg_fe_link_create()
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/isa/opti9xx/miro.c | 268 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 256 insertions(+), 12 deletions(-)
+The load-topology procedure generates a ton of devm_xxx(). This may 
+include allocating FE dai_links. devm_snd_soc_register_card() allocates 
+devres hooked onto card->dev with release pointing to: 
+snd_soc_unregister_card().
 
-diff --git a/sound/isa/opti9xx/miro.c b/sound/isa/opti9xx/miro.c
-index c320af3e9a05..e5870e5e07db 100644
---- a/sound/isa/opti9xx/miro.c
-+++ b/sound/isa/opti9xx/miro.c
-@@ -88,6 +88,25 @@ MODULE_PARM_DESC(isapnp, "Enable ISA PnP detection for specified soundcard.");
- 
- #define OPTi9XX_MC_REG(n)	n
- 
-+enum {
-+	MIRO_ACI_MASTER,
-+	MIRO_ACI_MIC,
-+	MIRO_ACI_LINE,
-+	MIRO_ACI_CD,
-+	MIRO_ACI_SYNTH,
-+	MIRO_ACI_PCM,
-+	MIRO_ACI_LINE1,
-+	MIRO_ACI_LINE2,
-+	MIRO_ACI_EQ1,
-+	MIRO_ACI_EQ2,
-+	MIRO_ACI_EQ3,
-+	MIRO_ACI_EQ4,
-+	MIRO_ACI_EQ5,
-+	MIRO_ACI_EQ6,
-+	MIRO_ACI_EQ7,
-+	MIRO_ACI_COUNT,
-+};
-+
- struct snd_miro {
- 	unsigned short hardware;
- 	unsigned char password;
-@@ -102,6 +121,7 @@ struct snd_miro {
- 
- 	spinlock_t lock;
- 	struct snd_pcm *pcm;
-+	struct snd_wss *codec;
- 
- 	long wss_base;
- 	int irq;
-@@ -113,6 +133,12 @@ struct snd_miro {
- 
- 	struct snd_card *card;
- 	struct snd_miro_aci *aci;
-+#ifdef CONFIG_PM
-+	unsigned char aci_saved[MIRO_ACI_COUNT][2];
-+	unsigned char aci_saved_amp;
-+	unsigned char aci_saved_preamp;
-+	unsigned char aci_saved_solomode;
-+#endif
- };
- 
- static struct snd_miro_aci aci_device;
-@@ -664,6 +690,44 @@ static const unsigned char aci_init_values[][2] = {
- 	{ ACI_SET_MASTER + 1, 0x20 },
- };
- 
-+#ifdef CONFIG_PM
-+static const unsigned char snd_miro_saved_get_regs[MIRO_ACI_COUNT] = {
-+	[MIRO_ACI_MASTER] = ACI_GET_MASTER,
-+	[MIRO_ACI_MIC] = ACI_GET_MIC,
-+	[MIRO_ACI_LINE] = ACI_GET_LINE,
-+	[MIRO_ACI_CD] = ACI_GET_CD,
-+	[MIRO_ACI_SYNTH] = ACI_GET_SYNTH,
-+	[MIRO_ACI_PCM] = ACI_GET_PCM,
-+	[MIRO_ACI_LINE1] = ACI_GET_LINE1,
-+	[MIRO_ACI_LINE2] = ACI_GET_LINE2,
-+	[MIRO_ACI_EQ1] = ACI_GET_EQ1,
-+	[MIRO_ACI_EQ2] = ACI_GET_EQ2,
-+	[MIRO_ACI_EQ3] = ACI_GET_EQ3,
-+	[MIRO_ACI_EQ4] = ACI_GET_EQ4,
-+	[MIRO_ACI_EQ5] = ACI_GET_EQ5,
-+	[MIRO_ACI_EQ6] = ACI_GET_EQ6,
-+	[MIRO_ACI_EQ7] = ACI_GET_EQ7,
-+};
-+
-+static const unsigned char snd_miro_saved_set_regs[MIRO_ACI_COUNT] = {
-+	[MIRO_ACI_MASTER] = ACI_SET_MASTER,
-+	[MIRO_ACI_MIC] = ACI_SET_MIC,
-+	[MIRO_ACI_LINE] = ACI_SET_LINE,
-+	[MIRO_ACI_CD] = ACI_SET_CD,
-+	[MIRO_ACI_SYNTH] = ACI_SET_SYNTH,
-+	[MIRO_ACI_PCM] = ACI_SET_PCM,
-+	[MIRO_ACI_LINE1] = ACI_SET_LINE1,
-+	[MIRO_ACI_LINE2] = ACI_SET_LINE2,
-+	[MIRO_ACI_EQ1] = ACI_SET_EQ1,
-+	[MIRO_ACI_EQ2] = ACI_SET_EQ2,
-+	[MIRO_ACI_EQ3] = ACI_SET_EQ3,
-+	[MIRO_ACI_EQ4] = ACI_SET_EQ4,
-+	[MIRO_ACI_EQ5] = ACI_SET_EQ5,
-+	[MIRO_ACI_EQ6] = ACI_SET_EQ6,
-+	[MIRO_ACI_EQ7] = ACI_SET_EQ7,
-+};
-+#endif
-+
- static int snd_set_aci_init_values(struct snd_miro *miro)
- {
- 	int idx, error;
-@@ -702,11 +766,116 @@ static int snd_set_aci_init_values(struct snd_miro *miro)
- 	}
- 	aci->aci_amp = 0;
- 	aci->aci_preamp = 0;
--	aci->aci_solomode = 1;
-+	aci->aci_solomode = 0;
-+
-+	return 0;
-+}
-+
-+static int snd_miro_aci_force_known_state(struct snd_miro_aci *aci)
-+{
-+	int i, err;
-+
-+	for (i = 0; i < 3; i++) {
-+		err = snd_aci_cmd(aci, ACI_ERROR_OP, -1, -1);
-+		if (err < 0)
-+			return err;
-+	}
- 
- 	return 0;
- }
- 
-+static int snd_miro_aci_initialize(struct snd_miro_aci *aci)
-+{
-+	int err;
-+
-+	err = snd_aci_cmd(aci, ACI_INIT, -1, -1);
-+	if (err < 0)
-+		return err;
-+	err = snd_aci_cmd(aci, ACI_ERROR_OP, ACI_ERROR_OP, ACI_ERROR_OP);
-+	if (err < 0)
-+		return err;
-+
-+	return snd_aci_cmd(aci, ACI_ERROR_OP, ACI_ERROR_OP, ACI_ERROR_OP);
-+}
-+
-+#ifdef CONFIG_PM
-+static int snd_miro_save_aci_state(struct snd_miro *miro)
-+{
-+	struct snd_miro_aci *aci = miro->aci;
-+	int i, limit, value;
-+
-+	limit = aci->aci_product == 'C' ? MIRO_ACI_COUNT : MIRO_ACI_LINE2 + 1;
-+	for (i = 0; i < limit; i++) {
-+		value = aci_getvalue(aci, snd_miro_saved_get_regs[i]);
-+		if (value < 0)
-+			return value;
-+		miro->aci_saved[i][1] = value;
-+
-+		value = aci_getvalue(aci, snd_miro_saved_get_regs[i] + 1);
-+		if (value < 0)
-+			return value;
-+		miro->aci_saved[i][0] = value;
-+	}
-+
-+	miro->aci_saved_amp = aci->aci_amp;
-+	if (aci->aci_version <= 176) {
-+		miro->aci_saved_preamp = aci->aci_preamp;
-+	} else {
-+		value = aci_getvalue(aci, ACI_GET_PREAMP);
-+		if (value < 0)
-+			return value;
-+		miro->aci_saved_preamp = value;
-+	}
-+
-+	value = aci_getvalue(aci, ACI_S_GENERAL);
-+	if (value < 0)
-+		return value;
-+	miro->aci_saved_solomode = !(value & 0x20);
-+
-+	return 0;
-+}
-+
-+static int snd_miro_restore_aci_state(struct snd_miro *miro)
-+{
-+	struct snd_miro_aci *aci = miro->aci;
-+	int i, limit, err, left_reg;
-+
-+	err = snd_set_aci_init_values(miro);
-+	if (err < 0)
-+		return err;
-+
-+	limit = aci->aci_product == 'C' ? MIRO_ACI_COUNT : MIRO_ACI_LINE2 + 1;
-+	for (i = 0; i < limit; i++) {
-+		left_reg = snd_miro_saved_set_regs[i] == ACI_SET_MASTER ?
-+			snd_miro_saved_set_regs[i] + 1 :
-+			snd_miro_saved_set_regs[i] + 8;
-+		err = aci_setvalue(aci, left_reg, miro->aci_saved[i][0]);
-+		if (err < 0)
-+			return err;
-+		err = aci_setvalue(aci, snd_miro_saved_set_regs[i],
-+				   miro->aci_saved[i][1]);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	err = aci_setvalue(aci, ACI_SET_POWERAMP, miro->aci_saved_amp);
-+	if (err < 0)
-+		return err;
-+	err = aci_setvalue(aci, ACI_SET_PREAMP, miro->aci_saved_preamp);
-+	if (err < 0)
-+		return err;
-+	err = aci_setvalue(aci, ACI_SET_SOLOMODE, miro->aci_saved_solomode);
-+	if (err < 0)
-+		return err;
-+
-+	aci->aci_amp = miro->aci_saved_amp;
-+	aci->aci_preamp = miro->aci_saved_preamp;
-+	aci->aci_solomode = miro->aci_saved_solomode;
-+
-+	return 0;
-+}
-+#endif
-+
- static int snd_miro_mixer(struct snd_card *card,
- 			  struct snd_miro *miro)
- {
-@@ -1203,7 +1372,7 @@ static int snd_card_miro_aci_detect(struct snd_card *card,
- 				    struct snd_miro *miro)
- {
- 	unsigned char regval;
--	int i;
-+	int err;
- 	struct snd_miro_aci *aci = &aci_device;
- 
- 	miro->aci = aci;
-@@ -1224,12 +1393,12 @@ static int snd_card_miro_aci_detect(struct snd_card *card,
- 		return -ENOMEM;
- 	}
- 
--        /* force ACI into a known state */
--	for (i = 0; i < 3; i++)
--		if (snd_aci_cmd(aci, ACI_ERROR_OP, -1, -1) < 0) {
--			dev_err(card->dev, "can't force aci into known state.\n");
--			return -ENXIO;
--		}
-+	/* force ACI into a known state */
-+	err = snd_miro_aci_force_known_state(aci);
-+	if (err < 0) {
-+		dev_err(card->dev, "can't force aci into known state.\n");
-+		return -ENXIO;
-+	}
- 
- 	aci->aci_vendor = snd_aci_cmd(aci, ACI_READ_IDCODE, -1, -1);
- 	aci->aci_product = snd_aci_cmd(aci, ACI_READ_IDCODE, -1, -1);
-@@ -1246,9 +1415,8 @@ static int snd_card_miro_aci_detect(struct snd_card *card,
- 		return -ENXIO;
- 	}
- 
--	if (snd_aci_cmd(aci, ACI_INIT, -1, -1) < 0 ||
--	    snd_aci_cmd(aci, ACI_ERROR_OP, ACI_ERROR_OP, ACI_ERROR_OP) < 0 ||
--	    snd_aci_cmd(aci, ACI_ERROR_OP, ACI_ERROR_OP, ACI_ERROR_OP) < 0) {
-+	err = snd_miro_aci_initialize(aci);
-+	if (err < 0) {
- 		dev_err(card->dev, "can't initialize aci.\n");
- 		return -ENXIO;
- 	}
-@@ -1299,6 +1467,7 @@ static int snd_miro_probe(struct snd_card *card)
- 			       WSS_HW_DETECT, 0, &codec);
- 	if (error < 0)
- 		return error;
-+	miro->codec = codec;
- 
- 	error = snd_wss_pcm(codec, 0);
- 	if (error < 0)
-@@ -1408,6 +1577,7 @@ static int snd_miro_isa_probe(struct device *devptr, unsigned int n)
- 		return error;
- 
- 	miro = card->private_data;
-+	miro->card = card;
- 
- 	error = snd_card_miro_detect(card, miro);
- 	if (error < 0) {
-@@ -1470,12 +1640,69 @@ static int snd_miro_isa_probe(struct device *devptr, unsigned int n)
- 	return 0;
- }
- 
-+#ifdef CONFIG_PM
-+static int snd_miro_suspend(struct snd_card *card)
-+{
-+	struct snd_miro *miro = card->private_data;
-+	int error;
-+
-+	error = snd_miro_save_aci_state(miro);
-+	if (error < 0)
-+		return error;
-+
-+	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-+	miro->codec->suspend(miro->codec);
-+	return 0;
-+}
-+
-+static int snd_miro_resume(struct snd_card *card)
-+{
-+	struct snd_miro *miro = card->private_data;
-+	int error;
-+
-+	error = snd_miro_configure(miro);
-+	if (error < 0)
-+		return error;
-+	error = snd_miro_aci_force_known_state(miro->aci);
-+	if (error < 0) {
-+		dev_err(card->dev, "can't force aci into known state\n");
-+		return error;
-+	}
-+	error = snd_miro_aci_initialize(miro->aci);
-+	if (error < 0) {
-+		dev_err(card->dev, "can't initialize aci\n");
-+		return error;
-+	}
-+	error = snd_miro_restore_aci_state(miro);
-+	if (error < 0)
-+		return error;
-+
-+	miro->codec->resume(miro->codec);
-+	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
-+	return 0;
-+}
-+
-+static int snd_miro_isa_suspend(struct device *dev, unsigned int n,
-+				pm_message_t state)
-+{
-+	return snd_miro_suspend(dev_get_drvdata(dev));
-+}
-+
-+static int snd_miro_isa_resume(struct device *dev, unsigned int n)
-+{
-+	return snd_miro_resume(dev_get_drvdata(dev));
-+}
-+#endif
-+
- #define DEV_NAME "miro"
- 
- static struct isa_driver snd_miro_driver = {
- 	.match		= snd_miro_isa_match,
- 	.probe		= snd_miro_isa_probe,
--	/* FIXME: suspend/resume */
-+#ifdef CONFIG_PM
-+	.suspend	= snd_miro_isa_suspend,
-+	.resume		= snd_miro_isa_resume,
-+#endif
- 	.driver		= {
- 		.name	= DEV_NAME
- 	},
-@@ -1591,12 +1818,29 @@ static void snd_miro_pnp_remove(struct pnp_card_link *pcard)
- 	snd_miro_pnp_is_probed = 0;
- }
- 
-+#ifdef CONFIG_PM
-+static int snd_miro_pnp_suspend(struct pnp_card_link *pcard,
-+				pm_message_t state)
-+{
-+	return snd_miro_suspend(pnp_get_card_drvdata(pcard));
-+}
-+
-+static int snd_miro_pnp_resume(struct pnp_card_link *pcard)
-+{
-+	return snd_miro_resume(pnp_get_card_drvdata(pcard));
-+}
-+#endif
-+
- static struct pnp_card_driver miro_pnpc_driver = {
- 	.flags		= PNP_DRIVER_RES_DISABLE,
- 	.name		= "miro",
- 	.id_table	= snd_miro_pnpids,
- 	.probe		= snd_miro_pnp_probe,
- 	.remove		= snd_miro_pnp_remove,
-+#ifdef CONFIG_PM
-+	.suspend	= snd_miro_pnp_suspend,
-+	.resume		= snd_miro_pnp_resume,
-+#endif
- };
- #endif
- 
+So, after applying v3 found here, we end up with devres-stack:
+1. devres with release=snd_soc_unregister_card
+2. all the devres from topology
 
----
-base-commit: 3abf0a99c3487e1ad259464dbbcec94e58608748
-change-id: 20260404-alsa-miro-pm-6c8ebea7a458
+Teardown sequence, LIFO:
+1. all the devres from topology
+2. devres with release=snd_soc_unregister_card
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+The unregister call-stack:
+snd_soc_card_register()
+|_snd_soc_card_bind()
+|__snd_soc_unbind_card()
+|___snd_soc_link_exit() AKA rtd->dai_link
 
+Boom, the dai_link (FE from topology) operated on has already been freed 
+earlier in the teardown sequence. And that's the reason for:
+
+	devres_destroy(card->devres_dev, devm_card_bind_release, NULL, NULL);
+	ret = devm_snd_soc_bind_card(card->devres_dev, card);
+
+in the existing code. First, destroy the node to avoid bogus unregister 
+later on. devm_snd_soc_bind_card() calls snd_soc_bind_card() _before_ 
+appending the devres with release=snd_soc_unregister_card ensuring 
+correct order of operations during the teardown sequence.
+
+
+Kind regards,
+Czarek
