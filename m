@@ -1,71 +1,48 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D1443147
-	for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 22:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E7216F288;
+	Mon, 13 Apr 2026 01:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776033834; cv=none; b=eVFeVZF0fqyfgWGAYLLGZNwQypDVqpl9K4/XJiWyOyOh6K5Gu8mufkM2W2111mvi0mH60lMyOPTuvxBIAya5PPunywUycfepOTlSGQwnCp94kgiq5BbBBh6c36/679VeX4yb9FFcB090svz5wVHZj1DWi4m9Ti2/t3JCHjh9xK4=
+	t=1776043155; cv=none; b=ffUEX7/TNfYD2pFPDc2t6pLyEKQQCDc1n/fgbJQZv1vZrCXOJXsAoCVD+l/yB/LLOSx4Cy+Go14zpqEXr4DxwgBVyZtopLRq2c6cFbvMOiCKj1CxDlrWBCj5kIdQtmtLVaQKI9XGU6olUGs2yv7GbG92AwTAnZbqai86z8OddUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776033834; c=relaxed/simple;
-	bh=ngpzGrqx9MiUDMn95xzAw1l75BDwjJh3cnXU1JsI/K0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M6MY8PxnRDTSFyqKT8wNukuy4UsJqzCupFNlDWdVzGdq3tIgA8AzqSsS1ho6vDF/PkC7LpTpmAIfnnTATczkK5wxdohhcDNHhTL4D0QftnB+ZzWInQpvgte2Rui7AfDsoS3jDwqpprnDzcGckjJ764x7cibD7drRRnz+jo44dXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SB+pY0qN; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SB+pY0qN"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488a041eae5so26850295e9.1
-        for <linux-sound@vger.kernel.org>; Sun, 12 Apr 2026 15:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776033831; x=1776638631; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LMyvBf5JUvtHlxKynXuZ7vXIAHL9SvTb8tjFMPI/6f0=;
-        b=SB+pY0qNFxK1BiOokfeKkaQv5cDOY/Aejt27wIUpNhKtKG5KVq39JSVhjmwyJIozXu
-         eTcVsWjL3HvKTVAGODR/0cDbVs5W+5IghSDG31KNhHyStANdfvOEhp4WD73USNHFY1+8
-         gIudKarsdgcteChUGrVkk3wAj+qoG/FA5nIecBrq6iRPwX7nk3Qfty0wlqxHMDSMxuiy
-         LlH2xRGL22JVBAx4qLIVLgUovWV5zLKPLV29oXRoy5i1+pQ3l1VlD90+KLdeyjFnDE6g
-         LrCXfkL4mngSXBcozZkAqNcSLVcHf/5cKhPmTuSCtVA36QfZfX680F9umhCjLpQa6xMp
-         gewA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776033831; x=1776638631;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LMyvBf5JUvtHlxKynXuZ7vXIAHL9SvTb8tjFMPI/6f0=;
-        b=EvE2bQE5Tn3UKMQYdhL5UwZY72xBrgXuNiwA3Ix9Eb36L0lwHhx5fTl553xuy7lOLh
-         Ily0FaUsD+ZUc3gC5gvRKQTfKRDu7cgDTJMHpxHWBJsyGkMfFf1cdnnVWTJlzSN/NLaw
-         NyteVaJl7HUXpzwrZFIhmnz8xUDj5swsa7zfpUOzffAgZXyZ6GhVDsTfSbkOO4DUvBnK
-         UOWH7DffNxcU0AXlLqKm45ZHqu2dqVLsqU5CpN7sGr1oBrb9cH/zkbTbW7YJ7gPcotU3
-         t6UEubcYNTx8yRRYTAHlA6+adYLvWTTqzyymCkZozV1s2zoM9rVv9Ef8fcpGxBCTxX66
-         7d4g==
-X-Forwarded-Encrypted: i=1; AJvYcCW/PQjJVISihahm+IVtDrYksOGfxJ46Y/27Vb3d9zcFQ9D/aIjGkmpQzPZ9XRsJ0K/1SI/wg2DIg40KrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1b7bd8FGNlmvNArQzAauf7UWxCU6AMHUI6466R35cJDVIX7Rc
-	3H7jqI8oVtJ+NFl3yRuhAEuLpRQ5CV1m0aznQfBs7j/E8Fr13FpAx9ey
-X-Gm-Gg: AeBDietHty3ARQdzlnz1pRgBNRd1G8NAS5sNiwS9qgBkkFnITQB8/euXBJL86oCFhuG
-	dljz4xJfdIgFAjcIutVvKVr2Z5pWQRHtUh3gPxC88Kb3ru6jJ5ib+TI1x15j+bSDsD7x/G2XyQo
-	a0/IUYEJKAy7vD5w10yE5qSuqvVK7N+4fXy5uJrYS7bdPBfr/KalTOCz7LPymPy1YlAHeSUPPML
-	ezCmjnXUCE4HnSd2qSc0QFQaWrhL89jU2QqdqfCTmY/bDMOV1gw4cfMdLXir4D3ezfkmn4iX5/N
-	qLFpigW/DU1SPWLl2ytXQAxuq1IkeMttDkj96wzOJeo3rdhN+XRw2eRJ14UhWgfWcq+55G9BKwd
-	Z12WLeijd8Fk+KVrjXs/VMfgMF2Z/RRzZiLnrSDEntfZGrJ+GHSAVGzBy1llYn8tkua1EIYVuUC
-	qyjmgwbp+hnaUbs4Eo6FHrH2o=
-X-Received: by 2002:a05:600c:45cf:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-488d67b8dddmr139993705e9.6.1776033831192;
-        Sun, 12 Apr 2026 15:43:51 -0700 (PDT)
-Received: from toolbx ([78.83.170.128])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e50015sm29421746f8f.27.2026.04.12.15.43.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 15:43:50 -0700 (PDT)
-From: Hristiyan <hristian.anchev@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1776043155; c=relaxed/simple;
+	bh=P8XAwHdPKyvF5/kJTfyXtgp5L/cVMJoWeQbTBk2icAk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BEfi6BCpKxaFAi/9eso+tXyAueC9Z05tH/NAPrOci94MKRDlFgP0cCsls7/nzomJ2CJINkOIY8De4dBw2lpumpSIKA+s4rhhYJ+k3CDE/xBZcmWGHGw7H4FZ+NokqsQJGiFVx2fThIAUT6YlhwkSh9OdDHsRx0olfTVXtFBnRkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: c01adb9e36d611f1aa26b74ffac11d73-20260413
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:0e100685-d78b-4f41-b700-62c376f61ee9,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:43706cff18176c97e144eea486b0b7f1,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|898,TC:nil,Content:0|15|50,EDM:-
+	3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: c01adb9e36d611f1aa26b74ffac11d73-20260413
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 389368009; Mon, 13 Apr 2026 09:18:59 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Hristiyan <hristian.anchev@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add support for HP ENVY x360 Convertible 15-ee0xxx
-Date: Mon, 13 Apr 2026 01:43:16 +0300
-Message-ID: <20260412224316.29010-1-hristian.anchev@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	songxiebing@kylinos.cn,
+	dzidmail <dzidmail@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP Spectre x360 14-ea
+Date: Mon, 13 Apr 2026 09:18:54 +0800
+Message-Id: <20260413011854.96520-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,32 +51,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HP ENVY x360 Convertible 15-ee0xxx (PCI SSID 103c:876f) has a
-Realtek ALC245 codec with Cirrus Logic CS35L41 smart amplifiers
-connected via I2C. The BIOS does not provide the required ACPI _DSD
-properties for the amplifiers, causing the speakers to produce no
-sound under Linux.
+HP Spectre x360 Convertible 14-ea0xxx (2021 model or so)
+doesn't make produce sound,The Bang & Olufsen speaker amplifier
+is not enabled.
 
-Add an entry using ALC245_FIXUP_CS35L41_I2C_2 to enable the
-internal speakers on this device.
+Root causing:
+The PCI subsystem ID is 103c:0000 (HP left it unset), while the codec
+subsystem ID is 103c:885b. The vendor-wide catch-all
+SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED) matches
+103c:0000 before the codec SSID fallback is reached, so
+ALC245_FIXUP_HP_X360_AMP never applies.
 
-Signed-off-by: Hristiyan <hristian.anchev@gmail.com>
+So add the quirk in alc269_fixup_tbl.
+
+Reported-by: dzidmail <dzidmail@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221341
+Signed-off-by: songxiebing <songxiebing@kylinos.cn>
 ---
  sound/hda/codecs/realtek/alc269.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 45f9d6487..d05c0c57a 100644
+index 6d6ad6e84dc4..37241a72b5af 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6919,6 +6919,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8756, "HP ENVY Laptop 13-ba0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8760, "HP EliteBook 8{4,5}5 G7", ALC285_FIXUP_HP_BEEP_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x876e, "HP ENVY x360 Convertible 13-ay0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
-+	SND_PCI_QUIRK(0x103c, 0x876f, "HP ENVY x360 Convertible 15-ee0xxx", ALC245_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x877a, "HP", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x877d, "HP", ALC236_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8780, "HP ZBook Fury 17 G7 Mobile Workstation",
+@@ -6938,6 +6938,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8847, "HP EliteBook x360 830 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x884b, "HP EliteBook 840 Aero G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x884c, "HP EliteBook 840 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
++	HDA_CODEC_QUIRK(0x103c, 0x885b, "HP Spectre x360 14-ea", ALC245_FIXUP_HP_X360_AMP),
+ 	SND_PCI_QUIRK(0x103c, 0x8862, "HP ProBook 445 G8 Notebook PC", ALC236_FIXUP_HP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x103c, 0x8863, "HP ProBook 445 G8 Notebook PC", ALC236_FIXUP_HP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x103c, 0x886d, "HP ZBook Fury 17.3 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
 -- 
-2.53.0
+2.25.1
 
