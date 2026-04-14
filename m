@@ -1,149 +1,191 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1166C20DE3
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 11:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF653DD535;
+	Tue, 14 Apr 2026 11:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776165285; cv=none; b=rGtYtnIEVXmSMtLgmlpEedYx3I0nzh169/q8+scAZr58aVR3qtVzKDThKSfVzj/VTYZiqkLqwF7tbOhDzhh/bbwKYRrRhTjz7c6ufI/9Y/3kmTrKrRvaNB4RQrUPeVbi8lFg9qEfvuQasq36XKxkZkHhb/Ndi95yiP3GDk3KHQc=
+	t=1776165922; cv=none; b=u5cMSE0PqX4uEBg5JpxDEi/uzSfRpyaNLz+VJWLUM2kkZVD20ZmXCQ4l67fvQCcdiVi3k0FThhtDE4Smlwt+j1A/mEDK30/MDCF8pQhoB01V8glxwtS2mgAwgvyuiYa9CVKYMgA9VgGCU98PC7bPznGlEwBA6gkl14e7KZus0y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776165285; c=relaxed/simple;
-	bh=guQ+/AYIYWtl6JPJZWiq+Ruz4Mz02QgEAFeU4MF94kI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=neEXpPTYMtJDdsUzvOBwlCpNyiVjIFPMOly0bxPDhX99uD9wzFXr53Hj0fr78V6vfjPzqUi5vJCKEACfDYlnEaJhdOoaqpmDakBjPtwLxeCvZ2h9GV/5kWPD5IsiqN8hZFiuJ4ZKjexAf2vFw2mTaD0sh0AaXkW90ibft1inXAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=nneW6iht; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1776165922; c=relaxed/simple;
+	bh=eJ4IrVXHQAYcEuU5xTdgqvm7FzCBunhqyztIZT0ThCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LsLT12kW/8v592xsah9VgxRr6GfFNLnKAwN7DQ13qDSMpurs8alpGEc3CGyZfTxY313SZPJdM4kth+iEOunmNoRfNxKMSKntO5+ZarDL4zdblSh4dgu4cIxVoDxut0v3iBYak10FUkgUfCfHsuwkgnCtzpkwDEotGCl31ip7Puo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ct1b/7tc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="nneW6iht"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id CDA5A3A219;
-	Tue, 14 Apr 2026 13:14:33 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz CDA5A3A219
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1776165273; bh=k1jjT8LZkVpad/2shrIkiIcwfqgerH/cfMiIyNXLXFc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nneW6ihtnjebue5DLb/7gUI5G8YyhbYkjnm223i6aSSrUNt8ixUgk3xHYmapDKUVb
-	 BYy5Lk6bEoLPoq1qeUnghSyNAs7Mmynj9BJ48XxdYxMhLoZsZG/D27ygl72zgaAk7J
-	 8ZOkMaytuCVGc/nbVQ8sph+fa03F8TONacil7naY=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue, 14 Apr 2026 13:14:23 +0200 (CEST)
-Message-ID: <39fcca55-77f4-4cd9-8a94-d80e5b94c8ba@perex.cz>
-Date: Tue, 14 Apr 2026 13:14:23 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ct1b/7tc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED5C3C2BCB0;
+	Tue, 14 Apr 2026 11:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776165921;
+	bh=eJ4IrVXHQAYcEuU5xTdgqvm7FzCBunhqyztIZT0ThCU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ct1b/7tcEUzMtLvKnZz09bN9muv2sqwHSDqORPERjOjYDPfDzDasUwebTgFxMK8zh
+	 fEKlGOr1YPpqI3XqlDYDiVy49Jr+5iJFYGIBbzzXNfc3ucK3E+7uCdTPtfwefU6kU3
+	 6eqhdq+R7gqcGOCXIj0eTAxy3BYPdFOxJqw6McX9J1iWG9AczhT71sEfWNhaVGsFf7
+	 uLnEjAgisgecMHTOxJRixMCtr2fPF8SQ36/8KPICrQouAeKgsQFztdFe0G+lKrUkSB
+	 uNHJB8LmuOGUdzft8ovrk0Bmbo2/SKsu39+1ni9xk+bXBVUeNHM0bE0v9F+K2TfsKV
+	 bGkG0omaLtanw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: songxiebing <songxiebing@kylinos.cn>,
+	Fernando Garcia Corona <fgarcor@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.1] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IAH10
+Date: Tue, 14 Apr 2026 07:25:04 -0400
+Message-ID: <20260414112509.410217-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260414112509.410217-1-sashal@kernel.org>
+References: <20260414112509.410217-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
- 'jumpy DMA'
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Linux-ALSA <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
- wim.taymans@gmail.com
-References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
- <87se9htms4.wl-tiwai@suse.de>
- <67b9f48b-1cc7-4dac-8f6a-c0cba6a84b36@linux.intel.com>
- <87ikadtgpe.wl-tiwai@suse.de>
- <dadef18b-1c2e-4c0d-8ae8-2e4b8ad75d04@linux.intel.com>
- <878qb8tsib.wl-tiwai@suse.de> <88979231-caef-4eaa-b89d-22e6973c92f9@perex.cz>
- <cfb84df3-c2bf-4173-bc45-7df29b6a94a3@linux.intel.com>
- <a1b6b2ed-2e26-48ff-afab-60f90ecc4360@perex.cz>
- <4c73e4cb-298a-411a-97ed-f0eff1b06ac9@linux.intel.com>
- <978bdc67-b91e-437a-bb8a-b609a4fef6d1@perex.cz>
- <b97ae6b9-ef72-4dbf-bf29-9092ec3919d8@linux.intel.com>
- <82d870b3-4ec1-440a-ae8b-87edbf665b99@perex.cz>
- <542a9743-2a47-477a-b457-ae32c3f8dc49@linux.intel.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <542a9743-2a47-477a-b457-ae32c3f8dc49@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19.12
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 4/14/26 12:44, Péter Ujfalusi wrote:
+From: songxiebing <songxiebing@kylinos.cn>
 
->> How you would like to handle this in an universal way?
-> 
-> I think both could be handled by driver provided init_chunk and
-> step_chunk value:
-I don't think so. Actually, sound servers set relatively "big" period sizes 
-and expect the lower transfer granularity. The "latency" request must come 
-from application.
+[ Upstream commit f0541edb2e7333f320642c7b491a67912c1f65db ]
 
-If you read my last proposal, there are two new flags and one changes 
-(clarifies) "period size" to be related to the expected (transfer) latency. 
-So, the current (inaccurate - driver specific) behavior won't change until 
-application set this flag. This extension allows us to do the full "refine" 
-(handshake) between application and kernel to settle the transfer details with 
-the slightly updated framework. Also, this flag will activate init_periods and 
-step_periods fields. Basically, the app will set the maximal acceptable period 
-size (expected latency = 2 * period size) and the driver will return first 
-biggest period size depending on driver constraints (initial periods will be 
-included - in this case the period size must be lowered to maintain the 
-requested latency). It's the complete handshake.
+The bass speakers are not working, and add the following entry
+in /etc/modprobe.d/snd.conf:
+options snd-sof-intel-hda-generic hda_model=alc287-yoga9-bass-spk-pin
+Fixes the bass speakers.
 
-I just miss this handshake in your proposal and scratching my head why we 
-cannot use period sizes for this, because (as explained) it was the base 
-transfer block when the API was designed.
+So add the quick ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN here.
 
-					Jaroslav
+Reported-by: Fernando Garcia Corona <fgarcor@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221317
+Signed-off-by: songxiebing <songxiebing@kylinos.cn>
+Link: https://patch.msgid.link/20260405012651.133838-1-songxiebing@kylinos.cn
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
+LLM Generated explanations, may be completely bogus:
 
+The fixup `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` was introduced in
+v6.0-rc1, so it exists in all active stable trees (6.1.y, 6.6.y, 6.12.y,
+etc.).
 
+Record: [Fixup function exists since v6.0, present in all active stable
+trees. Clean apply expected — this is a simple table entry addition.]
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+- **Subsystem:** ALSA/HDA — audio codec driver (IMPORTANT category —
+  affects laptop users)
+- **Maintainer:** Takashi Iwai (signed off) — the ALSA subsystem
+  maintainer himself accepted this
+- **Activity:** Very active — constant stream of quirk additions
+
+Record: [ALSA/HDA, IMPORTANT criticality, accepted by subsystem
+maintainer]
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: WHO IS AFFECTED
+Users of Lenovo Yoga Pro 7 14IAH10 laptops running Linux.
+
+### Step 8.2: TRIGGER CONDITIONS
+Every boot — bass speakers simply don't work without this quirk.
+
+### Step 8.3: FAILURE MODE SEVERITY
+Without the quirk: bass speakers are non-functional. This is a hardware
+enablement issue.
+Severity: MEDIUM (hardware not working, but has a workaround via
+modprobe.d).
+
+### Step 8.4: RISK-BENEFIT RATIO
+- **Benefit:** HIGH — makes bass speakers work automatically for all
+  users of this laptop
+- **Risk:** ESSENTIALLY ZERO — 1-line table entry, only affects matching
+  PCI SSID, uses proven fixup function
+- **Ratio:** Excellent — high benefit, near-zero risk
+
+Record: [High benefit, zero risk, clear positive ratio]
+
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: COMPILE THE EVIDENCE
+**FOR backporting:**
+- Hardware quirk addition — explicit exception category for stable
+- 1 line change, zero regression risk
+- Uses well-tested fixup already applied to 7+ other Lenovo models
+- Real user report with bugzilla entry
+- Accepted by ALSA subsystem maintainer Takashi Iwai
+- Fixup function exists in all active stable trees (since v6.0)
+- Fixes non-working hardware for real users
+
+**AGAINST backporting:**
+- (None identified)
+
+### Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **YES** — identical pattern to many
+   existing entries, user-confirmed workaround
+2. Fixes a real bug? **YES** — bass speakers don't work
+3. Important issue? **YES** — hardware doesn't function properly
+4. Small and contained? **YES** — 1 line
+5. No new features or APIs? **YES** — just a table entry
+6. Can apply to stable? **YES** — the fixup function exists since v6.0
+
+### Step 9.3: EXCEPTION CATEGORIES
+This falls into the **Audio Codec Quirk** exception category —
+`SND_PCI_QUIRK` entries for specific laptop models. These are explicitly
+listed as automatic YES for stable.
+
+## Verification
+
+- [Phase 1] Parsed tags: Reported-by real user, Closes bugzilla link,
+  maintainer SOB (Takashi Iwai)
+- [Phase 2] Diff analysis: +1 line SND_PCI_QUIRK table entry in
+  alc269_fixup_tbl[]
+- [Phase 3] git log -S: ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN
+  introduced in commit 3790a3d6dbbc4 (v6.0-rc1)
+- [Phase 3] Grep: fixup used by 7+ other Lenovo devices (lines 7571,
+  7591, 7604, 7607, 7614, 7643, 7927)
+- [Phase 3] Recent file history: constant stream of similar quirk
+  additions
+- [Phase 6] Fixup exists since v6.0, present in all active stable trees
+  (6.1.y, 6.6.y, 6.12.y)
+- [Phase 7] Accepted by ALSA maintainer Takashi Iwai
+- [Phase 8] Failure mode: non-functional bass speakers, severity MEDIUM,
+  zero regression risk
+
+This is a textbook stable backport candidate — a single-line hardware
+quirk addition to an existing driver, using an already-proven fixup
+function, fixing real hardware for real users, with zero regression
+risk.
+
+**YES**
+
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index cb39054bfe79c..c023ca273b6d9 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7641,6 +7641,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38fd, "ThinkBook plus Gen5 Hybrid", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TXNW2781_I2C),
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.53.0
+
