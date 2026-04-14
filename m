@@ -1,225 +1,156 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC4339B482
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 10:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8263A2472B6
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 11:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776164361; cv=none; b=YDcfu9UDBkRiY//nfZmJEzdtWjxaFvk3YDqxbI2tsDgyIC2Ebd4d+TsBTmZpgoE6+79982b+VRiALsw/GKuCUCejtVjgT2sRYVM1X4QxhO5TdhESZK43dOXqB89fh3EcHNHd1NTuG4lQYdwy/ru1B2qylhnu2t/dFA4y+mMN5UQ=
+	t=1776165260; cv=none; b=pOpcxjKcmMUZy8sNQt1pO6zp8OfgCTPnGT3zZqTh2ZxpfNTESFi9VeH0W7vomoZVjsZVsR4/mEVGC+ESMfXEZtIrSVwuttw7Z68B8YHJe5BQxuDo+pFDY1IA9sJKQ8fS9ycaGQmFQeKtOrbngglFUXSopzL1rBjMTueFH5wLCm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776164361; c=relaxed/simple;
-	bh=WudhJuaxC3KlFkYg/y5F//hNKp1wR+Fd8YTsKWhL+IE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E5CQJ4+0KNglS4k68SLGjb4I6TYa6UK37Kbpp+cbZbYg9zDeF9eT4YldG/j/SP8nOIv+u7xSA747mtmfcGBP9jYDa/F8R/R0S/0yP5R1+0CMQadyHf72TqBBaUCcirROkRAvmKYuzxyslCWmLRDoLcZuw8y+WjCFiNkZjDjd2SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S4ow4ex+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BH0fAi8e; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1jSFxS43; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CZFvBRIX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776165260; c=relaxed/simple;
+	bh=05izLorHA67d2cUzAOTXsLLbDWwmUAoKA5th1n5pYzo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ET/jsbu37aSjzqpeKWoUyPKgBHXI8uK2/bQkDXAjcEUfiSCidzyBWdmVmS6Jm60bxIGxHba3qmx+B3uZq4viTKq6oeauT+5kJv5R227Nt8DOpfpro5SMFiGvX1Jq9SD81SMTNKUV8dsw7TshLKiPtLB3zITpS0fStHPqniqf/AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bicz65Xk; arc=none smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S4ow4ex+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BH0fAi8e";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1jSFxS43";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CZFvBRIX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EE69D5BDBB;
-	Tue, 14 Apr 2026 10:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776164358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=2LyxE1L7/2rqJB3TRTo5K436UEg7VYHz6VFjEQokUsQ=;
-	b=S4ow4ex+Y+3WS6/7iO+wlTdApZZabJTe6/IbMygRe+jTBA5njE+d+O9FJL+/J8deuKVLKu
-	qfKi8QYNTGR4SGZaE23kplef5SWVZF9QooFOsY9g4Gn/pg7qZJjK0mWZgI7fxuFP4vRwMZ
-	3lTmQXU8M0+bn4lbkOR/3buMtBHKHYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776164358;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=2LyxE1L7/2rqJB3TRTo5K436UEg7VYHz6VFjEQokUsQ=;
-	b=BH0fAi8e6lXVtzH90x0mueORNl3V0EH7BlbPQvQ5Y08BXUL5Abhl87BaB3zONjjNze1Ycc
-	KC1y6m6kRccNHWAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776164357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=2LyxE1L7/2rqJB3TRTo5K436UEg7VYHz6VFjEQokUsQ=;
-	b=1jSFxS43Iz2zQKkLPuisvoAqhFN1ak5Mf6eXxYeUXBDmkshDehW2wOOeU8ueMZ90gdQSP6
-	/yIFzkBfJO707ycxAlLaYVc7t1DX7leh/PcK0yR9sMW+OMPLKjLtgeKB2pfHEoZHBNotDF
-	qE9B5ZB7H2nr8IFRV8KIoJezAHPU15o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776164357;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=2LyxE1L7/2rqJB3TRTo5K436UEg7VYHz6VFjEQokUsQ=;
-	b=CZFvBRIX891p9ORYCRDnlR3qN9EVUmE81LU/y99KzKl3I6PKUnojhYs1QIZ58/hbb6PywK
-	LfaiSYJ5uWIqGwCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF24C4B3EA;
-	Tue, 14 Apr 2026 10:59:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T95mMQUe3mnIKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 10:59:17 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Berk Cem Goksel <berkcgoksel@gmail.com>
-Subject: [PATCH] ALSA: caiaq: Handle probe errors properly
-Date: Tue, 14 Apr 2026 12:59:00 +0200
-Message-ID: <20260414105916.364073-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bicz65Xk"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2d8ffdc31d0so4104998eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 04:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776165258; x=1776770058; darn=vger.kernel.org;
+        h=in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FzhhgXhlTTjemePB7VTwbmZj92akxNUuHsLGFCiFZRg=;
+        b=Bicz65Xk6k6Km7g5OalzBVwsjzUN/ypt+jZtKOGG12kbC7hyeLb+w1tsq4kTUKdijo
+         iq+qkinX7iApvfuODEiXu7wcevOm3LF4JmSFjb3uI8oOwf9SVOBTi1mVi5d3Ea/epBsd
+         LoPlKYZ07akgM/yzCDRaA9pt5x6cKf32HZg+c1bHuKZfuRqIHRYnCWrZYQWTQfWPZUuD
+         v09ey2JCu+KVLPSma4jydgrWcEkmHUWqwsDC/b9oaXsiOy1AFpW9eOpjL6Vr0k01XI+a
+         5vf2c4W7THjA+o4bMIzaKOpARYFIZIqjTfubZZXvYwQW3fIVCOJ/VhHEpmFVldFQZZ0F
+         2VAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776165258; x=1776770058;
+        h=in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FzhhgXhlTTjemePB7VTwbmZj92akxNUuHsLGFCiFZRg=;
+        b=er0wkzTlH/XLKRi66BiZEwsqYI1zB7sgDdgEtKLvkrwXr5tTku6sGwUS3sTBiuPY9H
+         t96313q+wLulruEsmoY3c4D8Xh+UPUK9/uZbtcUcI+33Thplf8x44LVpJNfKCEh+r0mP
+         NKjJMKgXk5WCZYx3YRuN4E3zDIUaAlri8o1uDR/norotpkKdHiXlDPJa0GL4VI3FDsMG
+         4+cENwHKp+fasqulsbQUd4Mf0lYQw5XQPuwbDCsDbYDj8+qw2Eru77zzlgvU56xm5haa
+         iKmfzGetZSlAJD2bv2WO5dRBH1vKZcUh4CYwPE3A/ryqXkMtohuojkyZ8etKLFYB8Fyi
+         /QyA==
+X-Forwarded-Encrypted: i=1; AFNElJ8mbmmunVX5cnwiag5C95Mj9DEByRzaxfxlGX62ymxVmGHoBihBzXgqmqV+N/JQ6Pd7u6RNM6QBgSQmBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOHUB7SIitrVxw1L7IKAAdnt/f3MgOrNbX99YifpjkSJp2XUuD
+	xTRgGhqsnKJiCYK6KkA8bE34fijMvevfr91R0pU5ZYq2QFJfOEGm63Jf1W+i0mVO
+X-Gm-Gg: AeBDies2iD8q337PwTP8HkAr66zoZB/ktjNtBsduDzokipHpRj23xCHGDpXlvq/mLHD
+	iFDzserfvuwt7/+faWtIbOu8G5elna+cWadVvbPI74p6278Ru8z2Jt6yqapSSHAtMfJ+eNO+9Dp
+	VOB3mVSYvPLL2OPuHK8g+dPZQE62OBJ8W6XO6rojffa4bnQtRY7bj2dhn7gujNTKUKeSUiokr4u
+	KHc3h3j/tK51+pRydoeCskhxKY4OYEQ/Pnpw33YkPBmaaKFl5NGh/0krcgI/57gBtDwWqhrl6BT
+	M1XqSQCAnD5OpwWLATJVS0FWWfZmZAjDdHsjwb6arRMBggw809xREfJWB7lD0g7KsPwIrnm1ri8
+	hyODMN4uXGlqr/tCw3mCJMNMj3vwnuOq3B77Me1pQKixF8tx1m2d3pJxsTgkSOabhsaR3lQXM1v
+	HEmJY9tmaCZJ7MvS47M/Wp5hKfMnByjTp8mPF43VF5MwfKNxD+y+wusxfio+F1+u5ffDQW1ip3X
+	nJB
+X-Received: by 2002:a05:7301:4586:b0:2c5:220c:5673 with SMTP id 5a478bee46e88-2d586380bf9mr8982937eec.5.1776165257385;
+        Tue, 14 Apr 2026 04:14:17 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55faa556esm24392252eec.8.2026.04.14.04.14.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2026 04:14:16 -0700 (PDT)
+Message-ID: <9fe289a2-b548-4680-9070-7558c516d09f@gmail.com>
+Date: Tue, 14 Apr 2026 08:14:11 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FREEMAIL_CC(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: opti9xx: restore snd-miro state after resume
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260413-alsa-miro-pm-v1-1-07cc1ce3463c@gmail.com>
+ <877bqat3y9.wl-tiwai@suse.de>
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
+Content-Language: en-US
+In-Reply-To: <877bqat3y9.wl-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------KepiRC0d3E23dnQrI8UC3UKz"
 
-The probe procedure of setup_card() in caiaq driver doesn't treat the
-error cases gracefully, e.g. the error from snd_card_register() calls
-snd_card_free() but continues.  This would lead to a UAF for the
-further calls like snd_usb_caiaq_control_init(), as Berk suggested in
-another patch in the link below.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------KepiRC0d3E23dnQrI8UC3UKz
+Content-Type: multipart/mixed; boundary="------------zHW2Xf08qRqMoGTjHBZa94Wm";
+ protected-headers="v1"
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <9fe289a2-b548-4680-9070-7558c516d09f@gmail.com>
+Subject: Re: [PATCH] ALSA: opti9xx: restore snd-miro state after resume
+References: <20260413-alsa-miro-pm-v1-1-07cc1ce3463c@gmail.com>
+ <877bqat3y9.wl-tiwai@suse.de>
+In-Reply-To: <877bqat3y9.wl-tiwai@suse.de>
 
-However, the problem is not only that; in general, this function drops
-the all error handlings (as it's a void function) although its caller
-can propagate an error to snd_probe(), which eventually calls
-snd_card_free() as a proper error path.  That said, we should treat
-each error case in setup_card(), and just return the error code
-promptly, which is then handled later as a fatal error in snd_probe().
+--------------zHW2Xf08qRqMoGTjHBZa94Wm
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This patch achieves it by changing the setup_card() to return an error
-code.  Also, the superfluous snd_card_free() call is removed, too.
+On 4/14/26 04:07, Takashi Iwai wrote:
+> On Mon, 13 Apr 2026 21:45:34 +0200,
+> C=C3=A1ssio Gabriel wrote:
+>>
+>> snd-miro has no PM callbacks, so system resume leaves the OPTi
+>> master-control registers and the board-specific ACI mixer state
+>> unrestored.
+>>
+>> Like snd-opti9xx, the driver needs to reprogram the OPTi routing
+>> registers before bringing the codec back. snd-miro also keeps mixer
+>> state in the ACI block, so the codec resume callback alone is not
+>> enough here. Save the ACI mixer state on suspend, reinitialize the
+>> OPTi and ACI state on resume, replay the saved ACI values, and then
+>> resume the WSS codec. Hook the PM handlers into both the ISA and PnP
+>> paths.
+>>
+>> Also initialize miro->card on the ISA path for the existing dev_*()
+>> logging and keep the cached solo-mode value aligned with the value
+>> written to hardware.
+>>
+>> PCM20 radio tuner state remains outside this driver's PM scope.
+>>
+>> Signed-off-by: C=C3=A1ssio Gabriel <cassiogabrielcontato@gmail.com>
+>=20
+> As it's no trivial change and we are already in the merge window, I'd
+> postpone this for 7.2.  Or, if this is the very last piece of your
+> whole changes, I can try to put.  Let me know.
 
-Note that card->private_free can be set still safely at returning an
-error.  All called functions in card_free() have checks of the
-unassigned resources or NULL checks.
+This is not my last ALSA outstanding piece but this is not urgent either,=
 
-Fixes: 8e3cd08ed8e5 ("[ALSA] caiaq - add control API and more input features")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/20260413034941.1131465-2-berkcgoksel@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/caiaq/device.c | 33 ++++++++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 9 deletions(-)
+so postponing it to 7.2 is fine with me.
+Please defer it to the next cycle if its proper to you.
 
-diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
-index 51177ebfb8c6..8af0c04041ee 100644
---- a/sound/usb/caiaq/device.c
-+++ b/sound/usb/caiaq/device.c
-@@ -290,7 +290,7 @@ int snd_usb_caiaq_set_auto_msg(struct snd_usb_caiaqdev *cdev,
- 					  tmp, sizeof(tmp));
- }
- 
--static void setup_card(struct snd_usb_caiaqdev *cdev)
-+static int setup_card(struct snd_usb_caiaqdev *cdev)
- {
- 	int ret;
- 	char val[4];
-@@ -325,8 +325,10 @@ static void setup_card(struct snd_usb_caiaqdev *cdev)
- 		snd_usb_caiaq_send_command(cdev, EP1_CMD_READ_IO, NULL, 0);
- 
- 		if (!wait_event_timeout(cdev->ep1_wait_queue,
--					cdev->control_state[0] != 0xff, HZ))
--			return;
-+					cdev->control_state[0] != 0xff, HZ)) {
-+			dev_err(dev, "Read timeout for control state\n");
-+			return -EINVAL;
-+		}
- 
- 		/* fix up some defaults */
- 		if ((cdev->control_state[1] != 2) ||
-@@ -347,33 +349,43 @@ static void setup_card(struct snd_usb_caiaqdev *cdev)
- 	    cdev->spec.num_digital_audio_out +
- 	    cdev->spec.num_digital_audio_in > 0) {
- 		ret = snd_usb_caiaq_audio_init(cdev);
--		if (ret < 0)
-+		if (ret < 0) {
- 			dev_err(dev, "Unable to set up audio system (ret=%d)\n", ret);
-+			return ret;
-+		}
- 	}
- 
- 	if (cdev->spec.num_midi_in +
- 	    cdev->spec.num_midi_out > 0) {
- 		ret = snd_usb_caiaq_midi_init(cdev);
--		if (ret < 0)
-+		if (ret < 0) {
- 			dev_err(dev, "Unable to set up MIDI system (ret=%d)\n", ret);
-+			return ret;
-+		}
- 	}
- 
- #ifdef CONFIG_SND_USB_CAIAQ_INPUT
- 	ret = snd_usb_caiaq_input_init(cdev);
--	if (ret < 0)
-+	if (ret < 0) {
- 		dev_err(dev, "Unable to set up input system (ret=%d)\n", ret);
-+		return ret;
-+	}
- #endif
- 
- 	/* finally, register the card and all its sub-instances */
- 	ret = snd_card_register(cdev->chip.card);
- 	if (ret < 0) {
- 		dev_err(dev, "snd_card_register() returned %d\n", ret);
--		snd_card_free(cdev->chip.card);
-+		return ret;
- 	}
- 
- 	ret = snd_usb_caiaq_control_init(cdev);
--	if (ret < 0)
-+	if (ret < 0) {
- 		dev_err(dev, "Unable to set up control system (ret=%d)\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static void card_free(struct snd_card *card)
-@@ -499,8 +511,11 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
- 	scnprintf(card->longname, sizeof(card->longname), "%s %s (%s)",
- 		       cdev->vendor_name, cdev->product_name, usbpath);
- 
--	setup_card(cdev);
- 	card->private_free = card_free;
-+	err = setup_card(cdev);
-+	if (err < 0)
-+		return err;
-+
- 	return 0;
- 
-  err_kill_urb:
--- 
-2.53.0
+--=20
+Thanks,
+C=C3=A1ssio
 
+--------------zHW2Xf08qRqMoGTjHBZa94Wm--
+
+--------------KepiRC0d3E23dnQrI8UC3UKz
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCad4hgwUDAAAAAAAKCRDQXT8aWv/ug2Wj
+AP4/NfBvlE4+ZJNQyHNs0ZWQvdERD+r5HLo48LCrElWIwwEAhvbuTQvy2RF+kEJ0MLOJ/rpCU3yh
+4iW6ffWLJ2oczw4=
+=Z281
+-----END PGP SIGNATURE-----
+
+--------------KepiRC0d3E23dnQrI8UC3UKz--
