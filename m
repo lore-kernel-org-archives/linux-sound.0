@@ -1,146 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CB63E63A4
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 12:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6544C1A681B
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 12:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776170697; cv=none; b=AIDanxI2lil+h5ELpoNRObO1mtFn2EngQZh9K9bVUz7MI5sS9mkImy4rSXaVLkjuMar2QqIi1vcgwf2Dsn2JypzFAiHVZBM18hYUwUqMdZcgj/flfHxjCPwN3q74bpqUYL/KuqyrBW5vmYjyD9PTLms5/tpIMErHZMXqOQe40KY=
+	t=1776170797; cv=none; b=ZVRAcTq+Dtj8MAejab+FthcRm9TlX9jrZUufJR+CgqJ3w3HMvDVmUit+k992s0uZfD1MpwRe6+JpnxrQyJFcptVnAlDNkAGPPwDz5W0svIe/2z0mMjlqjYtvqiBh+9qZtcEwPvVupXLyIGxjjkoPK5qpv8+tZ7lKEYBLgGfYGKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776170697; c=relaxed/simple;
-	bh=8w66WaFh6Pz94O6TJ10XzH23FZFep5mPP36OypqWzjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GPCDzDH6WZwY/ex5iY4HM4y9aO5iR95ohYLMOtiSv+Gi0FlB3q/j59O9FnqF0A2El7fsgc3HAcw6hZ1eh3T8aWpz4CpNzwHcP4ZjWOYm5zzggyiQ5/MUYuWDtJzvi1hWN6owjZy+3thVh1vhFvP4VXlJBLHyWQOnBvZvyMcOJ3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j3HEiIwU; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1776170797; c=relaxed/simple;
+	bh=5KbtOu4Z4oRI7V8O9+vZbFrHTBC7tClNZEtE/BWKtaA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CcZTfOn7gBdsbAfeEYRPOyh8gQanCWH5yMfR8PxTct3hgIjXqJndwS/xgACfPvQZA0H+9MNn2qqb9IBuXBCauYfcQOPTT+TychBonuT74x76FPggT7GIk1QWf3V+1+ei38xLMRIU1vvXNhDCqqYKOteM7zDUqZljIY9mblHBqFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lADZYXKV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/OohrSoZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lADZYXKV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/OohrSoZ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3HEiIwU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776170696; x=1807706696;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8w66WaFh6Pz94O6TJ10XzH23FZFep5mPP36OypqWzjY=;
-  b=j3HEiIwUI43dzCEqkvIFBU5OVL8/CioJxTL815WFIutAx0Cxgx9Hzf9X
-   X4/PSFf6IV+Jpw/1XrSB4ZLPKn7rIly8CXSLdcZdbbB4hSXBUVmOFLg8Y
-   7Q1vbfX9XOV7YFfJMPD5jV6jWw0FuX2Qu6BocbW6qylel6bd1HnKp6BXT
-   T48d1c4eXQ8PfWcAVKW6RG28wJwr9uhfdv21QrIqlHeeDV0LIbKh7Sa7d
-   BUzj32RWkDt4qlyYNpKdraH5/G3Qj37SbB8h5HRYBqthsuhu8mGnE7OUx
-   JEwFZpl3JhSP0sCymFFUpasri9hvJl6Gcdb7zHItpgHkZA5mEC289hzlk
-   w==;
-X-CSE-ConnectionGUID: 0d+cHl8oQeOGscARAai6PQ==
-X-CSE-MsgGUID: p/1H1LMbRJSaF37HK1o6Dg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77002737"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77002737"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:44:55 -0700
-X-CSE-ConnectionGUID: AammQ+KrSM6dg/MGWn+tTQ==
-X-CSE-MsgGUID: 6hJ3aaMTSJaTbRVr9RgsHQ==
-X-ExtLoop1: 1
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 05:44:54 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 2/2] ASoC: SOF: topology: allow user to add topologies
-Date: Tue, 14 Apr 2026 20:44:43 +0800
-Message-ID: <20260414124443.3270016-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260414124443.3270016-1-yung-chuan.liao@linux.intel.com>
-References: <20260414124443.3270016-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lADZYXKV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/OohrSoZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lADZYXKV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/OohrSoZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A073E5BDC6;
+	Tue, 14 Apr 2026 12:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776170794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jILoBgHzUVrworLFFhrOkYIcUNfCXHuDp/eqhCKFFy8=;
+	b=lADZYXKVwwZk3eOAS6lbeq4ASK3IIECKfr2AMVGVxz4lIo0FyFqNa+CI5UOZnvm+KTExEG
+	oJ6C4G/dR04kj38RqCifn68wA0evYRP0GQVyRSfVx++oRo7dHE0dzDKFbGXeOCFlAYyzTI
+	0KNBoV1EyTSimpzovsHk1MZdj+NZ530=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776170794;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jILoBgHzUVrworLFFhrOkYIcUNfCXHuDp/eqhCKFFy8=;
+	b=/OohrSoZlpQ7iRbVE3stUQZAGPFy7pXCgTIzJUcnAgsT7zsdnULGSRJDEDXqSgnblgR1no
+	i0q3vHmucr/9CwBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lADZYXKV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/OohrSoZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776170794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jILoBgHzUVrworLFFhrOkYIcUNfCXHuDp/eqhCKFFy8=;
+	b=lADZYXKVwwZk3eOAS6lbeq4ASK3IIECKfr2AMVGVxz4lIo0FyFqNa+CI5UOZnvm+KTExEG
+	oJ6C4G/dR04kj38RqCifn68wA0evYRP0GQVyRSfVx++oRo7dHE0dzDKFbGXeOCFlAYyzTI
+	0KNBoV1EyTSimpzovsHk1MZdj+NZ530=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776170794;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jILoBgHzUVrworLFFhrOkYIcUNfCXHuDp/eqhCKFFy8=;
+	b=/OohrSoZlpQ7iRbVE3stUQZAGPFy7pXCgTIzJUcnAgsT7zsdnULGSRJDEDXqSgnblgR1no
+	i0q3vHmucr/9CwBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79FD84B455;
+	Tue, 14 Apr 2026 12:46:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Bh9/HCo33mlUFgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 12:46:34 +0000
+Date: Tue, 14 Apr 2026 14:46:34 +0200
+Message-ID: <878qapso9h.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix missing error handling for get_min_max*()
+In-Reply-To: <8768d96b83029325707a43904766651a3e4de362.camel@rong.moe>
+References: <20260414093336.305464-1-tiwai@suse.de>
+	<8768d96b83029325707a43904766651a3e4de362.camel@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,vger.kernel.org,gmail.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A073E5BDC6
 
-Currently, the function topology provides the basic audio function. The
-commit allow the users add their topologies to the topology list. So
-they can add their own features.
+On Tue, 14 Apr 2026 14:17:28 +0200,
+Rong Zhang wrote:
+> 
+> Hi Takashi,
+> 
+> On Tue, 2026-04-14 at 11:33 +0200, Takashi Iwai wrote:
+> > The recent fix to add the error return value check from get_min_max*()
+> > missed one case in build_audio_procunit() where no error value is set.
+> > This may lead to an uninitialized variable and confuse the caller
+> > (although this wouldn't happen practically because err is set for the
+> > loop of num_ins at the beginning of the funciton).
+> > 
+> > Fix it by setting "err = 0" properly at the missing case, too.
+> > 
+> > Fixes: 4f55a85cd4fc ("ALSA: usb-audio: Add error checks against get_min_max*()")
+> > Reported-by: Dan Carpenter <error27@gmail.com>
+> > Closes: https://lore.kernel.org/ad36dGpCBTGsyFr_@stanley.mountain
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > ---
+> >  sound/usb/mixer.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> > index d4ef45bf53d7..aa6ea3be100a 100644
+> > --- a/sound/usb/mixer.c
+> > +++ b/sound/usb/mixer.c
+> > @@ -2687,6 +2687,7 @@ static int build_audio_procunit(struct mixer_build *state, int unitid,
+> >  				cval->max = control_spec[0];
+> >  				cval->res = 1;
+> >  				cval->initialized = 1;
+> > +				err = 0;
+> 
+> Whoops, it's my fault that I didn't noticed the code path.
+> 
+> I think we can make the UAC_PROCESS_UP_DOWNMIX case fall through the
+> default case so that we can move the error check into the latter and get
+> rid of all `err = 0'. Doing so also improves readability and prevents
+> similar mistakes in future changes. Perhaps I should have done this in
+> my previous refactoring patch...
+> 
+> I just noticed that you've applied this patch to your tree. If my
+> proposed refactor makes sense to you, I will send a patch for it.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/topology.c | 51 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+That was my another idea, too.  OTOH, I thought handling the success
+error code explicitly makes it clearer that the code handles it.
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 63d582c65891..36c4ad4283eb 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -23,6 +23,13 @@ static bool disable_function_topology;
- module_param(disable_function_topology, bool, 0444);
- MODULE_PARM_DESC(disable_function_topology, "Disable function topology loading");
- 
-+#define MAX_FEATURE_TPLG_COUNT 16
-+
-+static char *feature_topologies[MAX_FEATURE_TPLG_COUNT];
-+static int feature_tplg_cnt;
-+module_param_array(feature_topologies, charp, &feature_tplg_cnt, 0444);
-+MODULE_PARM_DESC(index, "Topology list for virtual loop DAI link");
-+
- #define COMP_ID_UNASSIGNED		0xffffffff
- /*
-  * Constants used in the computation of linear volume gain
-@@ -2575,6 +2582,50 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 		}
- 	}
- 
-+	/* Loading user defined topologies */
-+	for (i = 0; i < feature_tplg_cnt; i++) {
-+		const char *feature_topology = devm_kasprintf(scomp->dev, GFP_KERNEL, "%s/%s",
-+							   tplg_filename_prefix,
-+							   feature_topologies[i]);
-+
-+		dev_info(scomp->dev, "loading feature topology %d: %s\n", i, feature_topology);
-+		ret = request_firmware(&fw, feature_topology, scomp->dev);
-+		if (ret < 0) {
-+			/*
-+			 * snd_soc_tplg_component_remove(scomp) will be called
-+			 * if snd_soc_tplg_component_load(scomp) failed and all
-+			 * objects in the scomp will be removed. No need to call
-+			 * snd_soc_tplg_component_remove(scomp) here.
-+			 */
-+			dev_warn(scomp->dev, "feature tplg request firmware %s failed err: %d\n",
-+				 feature_topologies[i], ret);
-+			/*
-+			 * We don't return error here because we can still have the basic
-+			 * audio feature when the function topology load complete. No need
-+			 * to convert the error code because we will get new 'ret' out of the
-+			 * loop.
-+			 */
-+			continue;
-+		}
-+
-+		if (sdev->dspless_mode_selected)
-+			ret = snd_soc_tplg_component_load(scomp, &sof_dspless_tplg_ops, fw);
-+		else
-+			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
-+
-+		release_firmware(fw);
-+
-+		if (ret < 0) {
-+			dev_err(scomp->dev, "feature tplg %s component load failed %d\n",
-+				feature_topologies[i], ret);
-+			/*
-+			 * We need to return error here because it may lead to kernel NULL pointer
-+			 * dereference if we continue the remaining tasks.
-+			 */
-+			goto out;
-+		}
-+	}
-+
- 	/* call sof_complete when topologies are loaded successfully */
- 	ret = sof_complete(scomp);
- 
--- 
-2.43.0
+It's pretty nuance, and I'm open for either option, so feel free to
+submit a cleanup patch on the top.
 
+
+thanks,
+
+Takashi
