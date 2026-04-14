@@ -1,190 +1,166 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F67A3D565F
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 10:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776162631; cv=none; b=Mr2BXoGNYQ+Bqbpxmii4LYea2TgZ0dE3H/vf+4plXg1tM3yiNdOwwz+OXqHqlu7iRgExTUEF6ViM+4t25bnplw6pDzejA7JqbWUxsFWf0bhkU835K+jig0P87jXRkL7Iqer+oxbV/ZGPeRYK6+c3vRXncbNU+88Tfy74ccqtNwc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776162631; c=relaxed/simple;
-	bh=TuY/NdoZ51nsBzxKZhEQY6Kg5GEPlAKcdsCRXJhpW2Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hvWVTi7u6Nb/c7H9B39xp7lJ0oU9YhsIV9gfGZttYVE8w0aCOpoOdnMsYDaItmXzdf6HZqeV8Tq//467/E1JjR1zeP7oCyhxGGU3NR2qJGPAl1xwk0GSPPQ2zEj090PBdGsu2uR7pq+onNwgj+vM1sNA1G8+ffgtFxjdLwoi2cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QqpOztPH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0BTKcRHG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QqpOztPH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0BTKcRHG; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680FC3D5642
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 10:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776163276; cv=pass; b=uoRXAtzws72EmEWYDtNbfJsTTlqJfh3/vXpggTgu7Pm3IDKx0tfqDrsLNu/tRRFOfMNCq/VZ/Ox5tg3ZiQxyw6m0Fla/Bgu8XB6oxV16VboM3n0KlpJvyfSYkCVXO6v9GJeHPDAVAiaMsXLEDEfu/ClzSIrdAOpwa0HoqfMJK4Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776163276; c=relaxed/simple;
+	bh=FRJ1V4Rg7H7FZyF7SYOEYn6+kpQ3Ohx/3Kg30U4brH8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RKA4Aa7nwxiCRtU+ajuyHhm+ER6VuA8LALcTkyn8D3s2qkKPQg/yC0L+0jEW6gbByHVbZVb+xkaOwFXO1c5Ajxy5QU9hyqVzp26IsxZOSg4njKZC1MPq/L3BIQaNKdPN/+9z7sUjmU7dxVV7dp+g2CtLDg45EcGQJQXbcf1mI6I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hcAtfRjM; arc=pass smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QqpOztPH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0BTKcRHG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QqpOztPH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0BTKcRHG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2176A5BDC2;
-	Tue, 14 Apr 2026 10:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776162621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m/ufPaX9NglbyVHrUPxFloxtGGzG8kAQ5DijRtpYxA=;
-	b=QqpOztPHYfDjHJSbl4P4BeNISNk+1/y/qT9BNmxWXDnBsmSC6ZDoOZT/r4X7o9n5ehwiV4
-	9ITkBtQbWaRIcLiyVJC8xWcjFT+4t8gXbiDKNMSA75SkhenvFEYfIvJwRrxbD2jNja4VEX
-	EDsGDPhF3RLmSZeXkZsH+IwRXJxKRAU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776162621;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m/ufPaX9NglbyVHrUPxFloxtGGzG8kAQ5DijRtpYxA=;
-	b=0BTKcRHGkvNx0V9E/3+ub5cCI5Koe/UMKlAfyCDugaHMDWjtQtFiRMD2GlvC4jrMJrHtB9
-	wJynCLs9BrnlrbCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QqpOztPH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0BTKcRHG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776162621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m/ufPaX9NglbyVHrUPxFloxtGGzG8kAQ5DijRtpYxA=;
-	b=QqpOztPHYfDjHJSbl4P4BeNISNk+1/y/qT9BNmxWXDnBsmSC6ZDoOZT/r4X7o9n5ehwiV4
-	9ITkBtQbWaRIcLiyVJC8xWcjFT+4t8gXbiDKNMSA75SkhenvFEYfIvJwRrxbD2jNja4VEX
-	EDsGDPhF3RLmSZeXkZsH+IwRXJxKRAU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776162621;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6m/ufPaX9NglbyVHrUPxFloxtGGzG8kAQ5DijRtpYxA=;
-	b=0BTKcRHGkvNx0V9E/3+ub5cCI5Koe/UMKlAfyCDugaHMDWjtQtFiRMD2GlvC4jrMJrHtB9
-	wJynCLs9BrnlrbCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E21CE4B3CC;
-	Tue, 14 Apr 2026 10:30:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id w2z2NTwX3mlCDQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 10:30:20 +0000
-Date: Tue, 14 Apr 2026 12:30:20 +0200
-Message-ID: <87ik9tsukj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ziqing Chen <chenziqing@xiaomi.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: control: Validate buf_len before strnlen() in snd_ctl_elem_init_enum_names()
-In-Reply-To: <177616141245.165602.4944737214352244015@xiaomi.com>
-References: <20260414090542.151447-1-chenziqing@xiaomi.com>
-	<177616141245.165602.4944737214352244015@xiaomi.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcAtfRjM"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35d9f68d011so3445949a91.2
+        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 03:41:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776163269; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EPWAXlEj9I+UuVZnqXj7UKeZoXWKq4xep/at1+Udqb6gv+y/1zPsYysKk48rW0kS+G
+         6YAcj4gjbgcfDuCGUeFc+f2oQumVLsDy24+Ak3rlCwa51QERVFtjo+lpBZ+FuxSFWi1i
+         y0Zn6jUcWP/GhTlg/GfrxYo1gn0So8dINmv+9RQHvvhcFigRZbuC8Go0qb2m0qJjzij5
+         19wJ6cnObrdM9qUE4zyVoSTXrFeyvJFNKNk2lTm7j8WhG+B8anAeNLFgmAqLIr4k+z6z
+         4B7MqAvfPkiXTqPgmS9umwrxF0WpfhjOvu1EwFE9yvSj7xVRRZMBQxxOF//ShJZWAa8b
+         i5Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=vDpaKgtvK1gesz/aQw1mjbgT5u/KzUnIhgbKYhPDE5I=;
+        fh=374rX0djHedlqFdda5MRxovtIDZ1AWvzyXn5Bv6LGfg=;
+        b=lVmQLRS040bI9PY2mxgD5ipYLwchiy8ckudfTQqKiTVbUErVfBulBuZ+EpoOTwWO9V
+         AshZPaS5/94vx+Hfp/XoYRdE7GpXVwW5635Zv9OdainhYQ5hpOIvOZP8PCQfCHOl4LN1
+         ojH+OEWaFOPH5RpJfC/Ta0P2nPOnm2JjIHoZK6jObSniA3ZTBnq44HSHI0cc4NCeiqrC
+         VdinRKSdrO8GAUNQdsrxZcg/vtCKJLRf5pH71CarylU9W3Yp2IR3ZloDorky9FmgaTZl
+         4lLRYhtRCFky88VOOjK0E6n05VrY3UT8VouKQOMKGGOVf0yGCcoNkzaPGY9sEL/pWcxX
+         oNTQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776163269; x=1776768069; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vDpaKgtvK1gesz/aQw1mjbgT5u/KzUnIhgbKYhPDE5I=;
+        b=hcAtfRjM2dJeBFRpJuxJpdNi+e623wV1TUB/wleAZufLFl7Z8aNx3UW2Y4Ax8rDVzc
+         n4gUUJK2OV632+nekcK/1piRet9gbGYkg55ll2+g3LTd/ZrsQj2SiODm9TtSnF0yE/n1
+         Qi7USEY7dcC/2rLFNCe7M4PLBpyya1DFiVN1T1X2XDyqrlTOzMbPnJJWoPCQNvDFp29P
+         e9Of8oR7pPN9qORbiyhAoyGwg8+SrwE+Y4nCxqqLbtIeDThfy4V7eTe4IVbsHNQBh43t
+         lSsrobZPR2L3go8lb6FIB0+n2QNqOxGQX8sMOM64Sc93Qsokbvq6jV1QxBWwYM3T5xUq
+         TYjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776163269; x=1776768069;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDpaKgtvK1gesz/aQw1mjbgT5u/KzUnIhgbKYhPDE5I=;
+        b=fWoUE1udrwIeRZtv9RrBQEoFpIaCSm+9ZHotMwj8d/KE8zJOijtnt3i37q64M6AAbY
+         3254nxSFAjkMmsmHfCv1FmCJ9BuqyPZRdu657FI6O3JN5KxYDqREWvI8HRMkEtA3qndi
+         NKJTBHKfbPjYQ6lITmAoTUWkHbVE2zzeHRMZY4OYp1gMIuL3D0SLO0PwPKsIY9QwnfSN
+         HvtTcjk436JsbMXmMt2zoH6mmeVwMvNsdfT5VYDHweh0H7Galy33aQTopz8qNXoN6OKC
+         maTImRRA0mWV+F1eE2DFzOWnylTTYDriYVRgplCnJM1N88Q3CyjgR2OIfkdY0HVH9c4Y
+         nIgw==
+X-Forwarded-Encrypted: i=1; AFNElJ9kYnso8cplUiPGxriXC30FBZ9PZrUuJmLS7RRX9m3y1pdEbNopY0/5vQCaCbmtCn46YyTkJx3Ge0Sjkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+q57O5HH3MTMSnFu2ZKTOgtM/+ux7BnrmZXkvk769gbI+n4db
+	z8Ek8uLXnCl+3GXTxCgy0WC3xMhza77cLYs8wP5hvRW0DdRpkqFLB8jzURstav5dpMvUUD4QSwN
+	IofNjYPJEqujosx1fYZQFR+eqkHHs3Ic=
+X-Gm-Gg: AeBDiev52QOleGfI7FkLB410KjA8ceoO/3yJiYXuJR9bRwuzznGcnGqs813xNPdIbSJ
+	+hB823IdGLHtvF0FcI8IZBS4DxoGCTOGk0rhqAHIFk51x6/vTfspY2s7klCEtWROa2y7Lah5FE5
+	gEbBRZgQcLbdPaGJ+02gzzbbXbOIvs0v0jKMjAw/uxt+Qg/51pu7cA2f9pNx8kaWjf58LuBvKZz
+	CcBDm4vnPhi9qOgYQnHw0pSAtLQPbZHdLIx90vzDLDL6nu3faB0DBGl/Z3OuwHQMf071eVp2jWM
+	1LP81oiCEnDYzGWSnzqbdj9N8+3HByFydNwnJQ==
+X-Received: by 2002:a17:90b:3950:b0:35c:1695:24a3 with SMTP id
+ 98e67ed59e1d1-35e4281374emr16834509a91.23.1776163269477; Tue, 14 Apr 2026
+ 03:41:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2176A5BDC2
+MIME-Version: 1.0
+References: <20260413100700.30995-1-phucduc.bui@gmail.com> <20260413100700.30995-7-phucduc.bui@gmail.com>
+ <20260414-funky-sincere-polecat-20b0bf@quoll>
+In-Reply-To: <20260414-funky-sincere-polecat-20b0bf@quoll>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 14 Apr 2026 17:40:57 +0700
+X-Gm-Features: AQROBzDyXFYNs7TrKIvlK_AGlBy9o7qpqavO_nNuacnjcjUFmQX1mxW8gHCuSbM
+Message-ID: <CAABR9nEKGSRNp=eK=ZHf6-MNsj=6cDCy1YdbzSPrHyuc3Ux0Ow@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] ASoC: dt-bindings: renesas,fsi: add support for
+ multiple clocks
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, lgirdwood@gmail.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, perex@perex.cz, 
+	tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 14 Apr 2026 12:10:12 +0200,
-Ziqing Chen wrote:
-> 
-> On Tue, 15 Apr 2026, Takashi Iwai wrote:
-> > Having a zero buf_len check is good, per se, but it doesn't have to be
-> > at this late place.  It can be checked at the very beginning even
-> > before the allocation (where we have already an upper bound check),
-> > instead.
-> 
-> Thanks for the review.
-> 
-> The crash I hit is not caused by buf_len being zero at entry -- it
-> occurs when buf_len is decremented to zero *during* the loop after
-> successfully parsing earlier items. For example, a userspace caller
-> can craft an ioctl payload where buf_len is just large enough for
-> the first N-1 names but leaves exactly zero bytes for the Nth item.
-> 
-> An early check (buf_len == 0 before allocation) would catch the
-> degenerate case where the caller passes a zero-length buffer, which
-> is a good idea on its own, but it would not prevent the mid-loop
-> exhaustion that triggers the FORTIFY_SOURCE panic.
-> 
-> The issue was originally caught during fuzz testing via ioctl on an
-> arm64 (MT6993) device with CONFIG_FORTIFY_SOURCE and Clang. We have
-> not been able to reproduce it since, which is consistent with it
-> depending on Clang's __builtin_dynamic_object_size() heuristic for
-> the loop-incremented pointer -- the evaluation can vary across
-> compiler versions and optimization levels.
-> 
-> Here is the crash stack from the original hit:
-> 
->   Unexpected kernel BRK exception at EL1
->   Internal error: BRK handler: 00000000f2000001 1 PREEMPT SMP
->   pc : snd_ctl_elem_init_enum_names+0x244/0x24c
->   lr : snd_ctl_elem_init_enum_names+0x244/0x24c
->   Call trace:
->    snd_ctl_elem_init_enum_names+0x244/0x24c
->    snd_ctl_elem_add+0x4bc/0x7b0
->    snd_ctl_elem_add_user+0x128/0x26c
->    snd_ctl_ioctl+0x9a4/0x1a68
->    __arm64_sys_ioctl+0x110/0x18c
->    invoke_syscall+0x9c/0x210
->    el0_svc_common+0xe4/0x1b0
->    do_el0_svc+0x34/0x44
->    el0_svc+0x38/0x84
->    el0t_64_sync_handler+0x70/0xbc
-> 
-> The BRK is from the fortified strnlen() -- when Clang loses track of
-> the dynamic object size for the repeatedly incremented pointer p
-> inside the loop, __builtin_dynamic_object_size() evaluates to 0,
-> causing the FORTIFY check to fire before strnlen() even returns.
-> 
-> Would you prefer a v2 that adds both checks -- a buf_len == 0 guard
-> at the function entry (next to the existing upper bound check) and
-> the loop-level guard? Or do you think the loop check alone is
-> sufficient?
+Hi Krzysztof,
 
-OK, thanks for clarification, now it's clearer.
+Thank you for your detailed review and feedback.
 
-But your posted patch doesn't seem applicable because your mailer
-broke tabs with spaces.  Could you try to fix your mailer setup and
-resubmit?
+> Flexible is not allowed. Provide reasons for exception.
 
+I understand and will remove this approach and replace it with
+explicit valid clock combinations.
 
-thanks,
+> This goes to the "clocks:"
 
-Takashi
+Understood, I will move the description to "clocks".
+
+> > +    minItems: 1
+> > +    items:
+> > +      - const: own
+> > +      - &fsi_all_clks
+>
+> I don't understand this syntax.
+
+Understood, I will drop the YAML anchor and use explicit constraints instead.
+
+I will update it to the following structure:
+
+  clocks:
+    description: |
+      Clock driving the FSI Controller :
+      - "own": Main FSI module clock (must be first and always present)
+      - "spu": SPU bus/bridge clock. On R8A7740, this clock must be
+        enabled to allow register access as the FSI block is connected
+        behind the SPU bus.
+      - "icka" / "ickb": CPG DIV6 functional clocks for FSI port A/B
+      - "diva"/"divb": Internal FSI dividers for port A/B used for
+        audio clock generation
+      - "xcka"/"xckb": External clock inputs for FSI port A/B
+        provided by the board
+    minItems: 1
+    maxItems: 8
+
+  clock-names:
+
+    minItems: 1
+    maxItems: 8
+
+allOf:
+  - $ref: dai-common.yaml#
+  - if:
+      properties:
+        compatible:
+          contains:
+            const: renesas,fsi2-r8a7740
+    then:
+      properties:
+        clock-names:
+          oneOf:
+            - items:
+                - const: own
+                - const: spu
+            - items:
+                - const: own
+                - const: spu
+                - const: ickb
+                - const: divb
+
+Best regards,
+Phuc
