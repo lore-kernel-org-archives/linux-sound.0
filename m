@@ -1,113 +1,188 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A926324B1F
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 10:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776164049; cv=pass; b=gDCAx7M5BZukwCCKsBqjpuThokI0lGAUXvV6ugAdoOOfMsLzlzlEmF7a+65A/VpoJ5DBnM8MNprVT6njw2EZHf9ZnTxVPp3l9FvkqTTv9t1uRWS+AZ6y+LyJgAwKjn26vOoOfwZdokCE17NyBsbtP2cgElOB7EnSQ+ZiEm5f/YQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776164049; c=relaxed/simple;
-	bh=IJ6eZNFa4BvzEyhZzc3NkU6Mj7y0nTg/7TgB/BQzNgs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mskbjtye4pXjSNVealTMksrw96hWQplyVY5VTGM4RLLcqq8YCayyx6aIoPUV0eVtAEyfKxzEBww5bBS1vxTq37jozuVTvQ6o/hyYev9SKrIx8gx0fXoxLVHjhiP5pLHH9HGmoPkcwm884MHLvTMvRvH/mFJ2JQBtkIajCw1KZaU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O+bHQ/XX; arc=pass smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A0D37E2E9
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 10:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776164189; cv=none; b=avlKCJrlHF3GaRegSf+XY4d4jCRG5s/dblGJjlTTo/1F/jcle+gsgB5c7ZigKi6cAQHvfvIK73GAhJVBQwicGTsffohFOZmeriX+GkcjMIGMjJuEO06iWfSw18c7gVJcKskmnWdK5vAd7G/sKD0tj/df3Tok/ujSOUkI4vmh3ck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776164189; c=relaxed/simple;
+	bh=KendIKKWvarLHNo/vYS33F5BV7aPEbnD0ZUUfJQf20I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IlxbeqpkmGWBeh0NY305OpWJ4drUU/hSMM3Gj11dELWjSEPsfp0ReCc+DAFBU66Itg2ct+EuVX9rrc2EYfsq6nLPtIz4iA1ZoH4/hrZ5P2JGg/oLAdzHITCeRUIGXp/SnqJB7hutjdNjYX4bOpzKHLwZERytaUtcaXynML4r854=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ga49fdDU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UXtktOFR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ga49fdDU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UXtktOFR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+bHQ/XX"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c70ea5e9e9dso2306303a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 03:54:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776164046; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MDp39Kgs5r3uBqZJTBd1TD5qyVgiAVrBgVra2V5W221NnILhkdWgdxbmQAtnOHfDHd
-         mJcfGoG+RdMh3wE+3VNFA7Dmn5Wm82bHpHSBpNSsVGo4eD5X+MVI6sJv+jnLV11gr+YI
-         F5l24f2Q8c3st+Ur2kbd2v4xZef2TwQRXpaFj1Ht/9yhUjaWJ5jjntT/m5Vz2A3jzNAS
-         RE26taam3TRAEbe3QN44gnLHCbNPXgk50FiVwAzbkb4aGs19cumyXedo6dJYlrvn8iZY
-         czMeTWhllxfeVRYtYMD0F95b4/qhiRUDbWP+S1nmqLRcEymbQncg/6YZ3pNB0Jz8Qfug
-         Sfpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IJ6eZNFa4BvzEyhZzc3NkU6Mj7y0nTg/7TgB/BQzNgs=;
-        fh=DmHuuTGSqLxMj3lpIqTi5qmserST/Jg79oMd4PNwv4s=;
-        b=UAl/slraMR0CROeyF2Z0Z33zckLud/AT7tZSnWuKiv/gJmiO6wEvObwjKzBmsveUvT
-         kgc0Ur/NHHafVLYt/7UH9drFPIZN4gRqVzuluEmnufjkyxgoUl+pPwdAogx9MaKT7XXX
-         YE3vvCcmpUvnaXG75nXivDaiyfBQjfZIqZJ7RFoRzdM8vcfWgAVSczPsjJF9qIAZr7yg
-         OhtM9kb0tVzJ3v9H1qUhLwNDD08e5Cx9JZJleymX8hgCISbX+49Cjy3Hjm7lWPa7vtSa
-         zgK8q6yCYCQDqOim+k76bnzSxrP2mQGW/YSVONH4g1Zsjy6x0wH98Hhcfh4PxI+tCSZH
-         I1HA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776164046; x=1776768846; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IJ6eZNFa4BvzEyhZzc3NkU6Mj7y0nTg/7TgB/BQzNgs=;
-        b=O+bHQ/XXtMGwOQKs7GXvIf1SYUw0hn5HcY0huKkwdIYFQr+5ASKkIzPgfvjvu/SPBm
-         wlrKWa7vT2KMB6lrdVmz1jXhGzaMdGt80RelWBHBV27o+OnkDaK4gtNpEY6P/mUzD3Yi
-         FQhIQzuJf48ekau/E2Xt65k1WyPv/xlJNadUaPjFhGotWXGMR/7LipkbY33NXiqjF/Eg
-         AqxCpCr+5GjZVaTbIZlNtBaDgQSvKnz4BnsRIwokRoomXvjWZZqUtyfJ7hNX/UwYSK2A
-         PUl9tqmNgchVRx71zA4nfsGJy3nmyUCsdYffgFWeCxU5eH286nPrCl15Eb80i7HiaRvK
-         1DNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776164046; x=1776768846;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IJ6eZNFa4BvzEyhZzc3NkU6Mj7y0nTg/7TgB/BQzNgs=;
-        b=TWgCOm+l2bi1ykeUpfoII6PlewcelYfl+qP7WDKX1fQJmvSPavmeQthDsE5Fh7Qe4C
-         dGVUoDCVQCK2RGMi0O9PUmmD6j/3UUSz4BkiduDXqvBEmdYsk2DB51rySfLiQS+5DIMf
-         lbKy0UkJ7QFrvjJF7eavAkWeMBos+3oA6z9j1kghZSV7CzHeUe3yvAcxT01Js0Ik9M9X
-         +AKrjR163t/t/LYx3iYKJjaRSkh7+L5EKpyEHbeCP3lZ1k9TWP5q391Csn/4DuQ+jH/e
-         HGPBcV7h/2yAnDJ/aWwdXH1Yck6aTy2Abs58BY1w5bEjT9ZBMKKdJlL9Geu9mtK1q41i
-         Y/Mg==
-X-Forwarded-Encrypted: i=1; AFNElJ+NTUMRKVRjC97Syw4IAv0z39NsaRSva1sfVWnJbRb01qlH0JO+daCyiGUZS+nkQ9Oq0u6IcEmnbfjPgg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCdlijFXwEOqXWrfJpckUbCbkTrmbnuQ2FtiAUF7/jkrGh1I00
-	+XTVskWG5SeRTY9p7yyyORzP+wtKbNvqYBWaroAAGxm+rzA63WlMhT4FSUBCVuhXixiZyZY6B8B
-	eLiTHvfZRKvjLSijXHqjCqqL2SEK8Il0vxBRK
-X-Gm-Gg: AeBDievyItaL13eXe4WE6ztcmBi/XjtSNLKO7c7JUUwmvyNHSBXJdzhTL8ttguG86/2
-	TDk3ntVOxfEYF9UIXfaBLQDPgfenoGT2cQqWqVup3vg0ETfpZ9FXpVuIitSos4a11WzWwjFzPVp
-	XDaNwM5XZ4SnHUfVWl9y1RJx/I1IzwkiLGrOy7sYdv5ERT3IO4ccL531BwTdwSDnXr6LRkBoXp6
-	rY10rQABuKVcpiN0R6fCKi/ammoS10+nAojV/0Q2XnIRKBIhCznWd1fINB752cVmaWMcegMQCty
-	37G+MhYKOpXsN0gGTfzpCOs3mMn5pziiW00MUw==
-X-Received: by 2002:a05:6a20:6a13:b0:398:a060:a97b with SMTP id
- adf61e73a8af0-39fe3c2d507mr18527614637.1.1776164046322; Tue, 14 Apr 2026
- 03:54:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ga49fdDU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UXtktOFR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ga49fdDU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UXtktOFR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EDA105BDBB;
+	Tue, 14 Apr 2026 10:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776164186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I20ubF9NCl37sfitbPld17871wEcT11G9wOtWCycvdg=;
+	b=Ga49fdDUofW5gDk22sQi9aHXC9leN9COAJWvbIwE86iWnznA37fQfK1Gh92c+KI3qPCKKx
+	KpB5y3SQKFqnpaGXqk9b3TrmvUYa/oLACNVD4XHfOC63iahPt3Y7SrxnzB03L5ZN9+ySnJ
+	MpDGWskV2I2gJ1jl//UWkVlmpMRcJIg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776164186;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I20ubF9NCl37sfitbPld17871wEcT11G9wOtWCycvdg=;
+	b=UXtktOFRyH8rYMg7JOj+quuyjp3K4ex91rxJcKvUu14Jc+uAaSBY9kjnaT2DyDBob57er3
+	pU906KzQWd6QiOAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ga49fdDU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UXtktOFR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776164186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I20ubF9NCl37sfitbPld17871wEcT11G9wOtWCycvdg=;
+	b=Ga49fdDUofW5gDk22sQi9aHXC9leN9COAJWvbIwE86iWnznA37fQfK1Gh92c+KI3qPCKKx
+	KpB5y3SQKFqnpaGXqk9b3TrmvUYa/oLACNVD4XHfOC63iahPt3Y7SrxnzB03L5ZN9+ySnJ
+	MpDGWskV2I2gJ1jl//UWkVlmpMRcJIg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776164186;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I20ubF9NCl37sfitbPld17871wEcT11G9wOtWCycvdg=;
+	b=UXtktOFRyH8rYMg7JOj+quuyjp3K4ex91rxJcKvUu14Jc+uAaSBY9kjnaT2DyDBob57er3
+	pU906KzQWd6QiOAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC1AD4B3E6;
+	Tue, 14 Apr 2026 10:56:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8iKjKFkd3mn8JgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 10:56:25 +0000
+Date: Tue, 14 Apr 2026 12:56:25 +0200
+Message-ID: <87eckhstd2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Berk Cem Goksel <berkcgoksel@gmail.com>
+Cc: zonque@gmail.com,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	andreyknvl@gmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ALSA: caiaq: fix use-after-free and double-free in setup_card()
+In-Reply-To: <20260413034941.1131465-2-berkcgoksel@gmail.com>
+References: <20260413034941.1131465-1-berkcgoksel@gmail.com>
+	<20260413034941.1131465-2-berkcgoksel@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260413100700.30995-1-phucduc.bui@gmail.com> <20260413100700.30995-2-phucduc.bui@gmail.com>
- <87v7dupfx6.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87v7dupfx6.wl-kuninori.morimoto.gx@renesas.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 14 Apr 2026 17:53:54 +0700
-X-Gm-Features: AQROBzDvbXBRQEOHytM6mfwHKRF-_puUL3-UZMWiLosO-tI7eLbkJKI2mRDU4oM
-Message-ID: <CAABR9nGu6HyP7HA-0RJX7t0kbufu7pAkbUq9MV9cWUAd+uzS3g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] ASoC: renesas: fsi: Add shared SPU clock support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
-	magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,suse.com,perex.cz,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: EDA105BDBB
 
-Hi,
+On Mon, 13 Apr 2026 05:49:40 +0200,
+Berk Cem Goksel wrote:
+> 
+> When snd_card_register() fails in setup_card(), snd_card_free() is
+> called on the card, but there is no return statement afterwards.
+> Execution falls through to snd_usb_caiaq_control_init(cdev), which
+> dereferences members of the just-freed card, resulting in a
+> use-after-free.
+> 
+> setup_card() is void and init_card() still returns 0 on this path,
+> so snd_probe() leaves the freed card pointer in the USB interface's
+> private data via usb_set_intfdata(). When the device is later
+> disconnected, snd_usb_caiaq_disconnect() calls
+> snd_card_free_when_closed() on that same pointer, producing a
+> double-free and slab corruption.
+> 
+> Add the missing return so a failed snd_card_register() cleanly
+> aborts setup without touching freed memory.
+> 
+> The issue is reachable by any caiaq-compatible USB device whose
+> descriptors cause snd_card_register() to fail. It was reproduced
+> with raw-gadget + dummy_hcd on 7.0.0-rc5 (arm64, KASAN).
+> 
+> Fixes: 8e3cd08ed8e5 ("[ALSA] caiaq - add control API and more input features")
+> Cc: stable@vger.kernel.org
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Signed-off-by: Berk Cem Goksel <berkcgoksel@gmail.com>
+> ---
+> v2:
+>  - Correct "Fixes:" tag
+> 
+>  sound/usb/caiaq/device.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
+> index 3a71bab8a477..d52f3b9a2bac 100644
+> --- a/sound/usb/caiaq/device.c
+> +++ b/sound/usb/caiaq/device.c
+> @@ -369,6 +369,7 @@ static void setup_card(struct snd_usb_caiaqdev *cdev)
+>  	if (ret < 0) {
+>  		dev_err(dev, "snd_card_register() returned %d\n", ret);
+>  		snd_card_free(cdev->chip.card);
+> +		return;
+>  	}
+>
+>  	ret = snd_usb_caiaq_control_init(cdev);
 
-Thanks for the review and explanation.
+Looking at the code again, this fix doesn't seem sufficing.
+And, we have snd_card_free() call in the error case of init_card(),
+but setup_card() doesn't give the error back properly.
 
-> You added clk_spu in this patch, but not touched.
-> When I checked whole patch-set, you initialize it at [4/6], but [2/6] is
-> using it. Maybe it works, but is strange.
+That said, a proper fix would be to change setup_card() to return the
+error, and handle it in init_card().  The place you fixed should
+return an error instead of calling snd_card_free() there.
 
-You are right, clk_spu is used before being initialized.
-I was not careful with the patch ordering and only ensured the series
-worked as a whole.
-I understand now and will fix the ordering accordingly.
+I'm going to cook up a patch.
 
-Best regards,
-Phuc
+
+thanks,
+
+Takashi
