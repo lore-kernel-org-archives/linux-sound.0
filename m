@@ -1,86 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D73BD659
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 09:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EC9237713
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 09:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776158595; cv=none; b=tPArFmXDJanxbs93Sd7g9XVXikuofr/bi5BYqDQQWaAfIy+IBzJxfLj5mF8KqLKocw53fw6U9cHB5tUPGGUafn7t/nJ7FRaRRI4a5VJV49NFo7fOb71+F7kF6BHzaE4NA3j+j0Eo2UXAJcpA3BHvzXzE+PbH9iPaeIzG7HvePpM=
+	t=1776158689; cv=none; b=Re/B8y62OOCiOhKWW6mraJw7S7jrhBF47b2KrfWTOGhNj+GRjPGnRq7vnXcwyzfSclepoHzKvicSkYKI2I95R7WWVpahAV8j0bVnhZsWUDBSEGyJMD7rV1sK198GsApBEHfW3hB+KK7j5tCM2KGCm4fRNyo8G6BvB+LWleSvQCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776158595; c=relaxed/simple;
-	bh=KTBUlGMJYr9IGuriA/svTsS3bHGoYMYFfmYh9bcrGHM=;
+	s=arc-20240116; t=1776158689; c=relaxed/simple;
+	bh=1HgZ50D7h4TJe28rdGggnPyoweyr9+hmfBbQQVFJWCQ=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dIhlh++KpHoyUpDM03cedIheQ0tNKAtjjsAF/VrRlnqUU6SN/F7ndxgybIm1VObD9hhFnUoWjobS8hc9F/bIT1yFdjyVTpR5qWcFv1WV1tKqsRdwTdDrzICV7Xhn6oV8HwTfzud4V4HT609A684KhzrCub5N3pGHOdZRYg2WmmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GMhcB/pa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FH6LDq0g; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GMhcB/pa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FH6LDq0g; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=ps68nHYjIlYW5YDaOeXUhhS4T61ROFkqi59EDnqIg4tNMad3B7crAKJDEoypqLouLyyqMsPmnEikm42RmsQLrL2IO5p0KA1bZJZH+Kwi7fcE/D73pvf7mwt+0YVs5wdLVlw8PGEZriq7gIvc6cGxRW6Cx41ZJsEn4O7rVy7B+RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qgX1Y1yd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7B83YmdJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=srluKGeo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Wke9PSyG; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GMhcB/pa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FH6LDq0g";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GMhcB/pa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FH6LDq0g"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qgX1Y1yd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7B83YmdJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="srluKGeo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Wke9PSyG"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4EF985BD6B;
-	Tue, 14 Apr 2026 09:23:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7FCE06A9A0;
+	Tue, 14 Apr 2026 09:24:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776158590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1776158686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aDQq2EjT4xNSu90VwfSW/Tt5LnrBIUXr0GnN405XN1I=;
-	b=GMhcB/pa5SzbYdGHQO3Wr/PFo6nuPDRjZ584QUkrXZQwztPNOSt2Sr44XvP0KXFMk5TkM1
-	TysMyQTrGNPMgL0Q7+8cwlY3wSeiJIG8wVCZ58VQKCaDpmie0p+aph32TwetwZOKuS7pKH
-	E2/S4WHwUtEnpC0PEmBqauVO5GTNHJo=
+	bh=ZC4Vkvi/lIoQUIYpSeBRw1FP3f3AKNwLiR4oe1L0/f8=;
+	b=qgX1Y1ydT4vFNBp0rujuDOjWdPdsqkTZvtRHZUKCTEKZQmQbfhQlWYczRSL0Psdi+oWp7D
+	qp0mGjST2CE9cIgbXfdePsW1RmEBJbUJZBP4vYdLEK0GuhniR9OFVcC66mAw2TKF3HcGqb
+	JnJSgIbweRKRdxxE/cKn44uBQY2LrVA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776158590;
+	s=susede2_ed25519; t=1776158686;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aDQq2EjT4xNSu90VwfSW/Tt5LnrBIUXr0GnN405XN1I=;
-	b=FH6LDq0gNCbzcAhMiAaGddh/kp4qTDxfbhOMptj/Xt+lq3MAOwKquVMRiVJGgW44ew0DFD
-	EpgTnR+5eTKQKZAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=ZC4Vkvi/lIoQUIYpSeBRw1FP3f3AKNwLiR4oe1L0/f8=;
+	b=7B83YmdJ+/5oFicQc/sQNcE+kxYNU56sotiRVlYOinWOHrqIMkdBjnqRkP1hd6FFfb+uGi
+	owip0BbrykAiHWAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=srluKGeo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Wke9PSyG
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776158590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1776158685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aDQq2EjT4xNSu90VwfSW/Tt5LnrBIUXr0GnN405XN1I=;
-	b=GMhcB/pa5SzbYdGHQO3Wr/PFo6nuPDRjZ584QUkrXZQwztPNOSt2Sr44XvP0KXFMk5TkM1
-	TysMyQTrGNPMgL0Q7+8cwlY3wSeiJIG8wVCZ58VQKCaDpmie0p+aph32TwetwZOKuS7pKH
-	E2/S4WHwUtEnpC0PEmBqauVO5GTNHJo=
+	bh=ZC4Vkvi/lIoQUIYpSeBRw1FP3f3AKNwLiR4oe1L0/f8=;
+	b=srluKGeo973bhmeP/7xtAozqv25uD029K0eTh92NqwcypxkBxDjRpZbiIbtoGV57S0smtQ
+	nAk3G/r57CshDv2khIulcOA1FCbs1pAhh9/9Qmp2cmMeCV+yj3MMv3WbOVQm4s7TusbvBx
+	ewYn0D9Q4C0g8acSZfBBMlsWUotJLKc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776158590;
+	s=susede2_ed25519; t=1776158685;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aDQq2EjT4xNSu90VwfSW/Tt5LnrBIUXr0GnN405XN1I=;
-	b=FH6LDq0gNCbzcAhMiAaGddh/kp4qTDxfbhOMptj/Xt+lq3MAOwKquVMRiVJGgW44ew0DFD
-	EpgTnR+5eTKQKZAQ==
+	bh=ZC4Vkvi/lIoQUIYpSeBRw1FP3f3AKNwLiR4oe1L0/f8=;
+	b=Wke9PSyG0HMBLWTo28jczL+W1I5t3gsgHZf9MPWEX+FDis4sQjAEBhvBj+aCKB9Lns4l2o
+	ar2gYNTWXFy3fiCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20BC94B389;
-	Tue, 14 Apr 2026 09:23:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6172D4B38D;
+	Tue, 14 Apr 2026 09:24:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0MzABn4H3mkwSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 09:23:10 +0000
-Date: Tue, 14 Apr 2026 11:23:09 +0200
-Message-ID: <87pl41sxoi.wl-tiwai@suse.de>
+	id Qj8yFt0H3mkgSwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 09:24:45 +0000
+Date: Tue, 14 Apr 2026 11:24:45 +0200
+Message-ID: <87o6jlsxlu.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Ziqing Chen <chenziqing@xiaomi.com>
-Cc: <tiwai@suse.com>,
-	<perex@perex.cz>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: control: Validate buf_len before strnlen() in snd_ctl_elem_init_enum_names()
-In-Reply-To: <20260414090542.151447-1-chenziqing@xiaomi.com>
-References: <20260414090542.151447-1-chenziqing@xiaomi.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Rong Zhang <i@rong.moe>,
+	linux-sound@vger.kernel.org
+Subject: Re: [bug report] ALSA: usb-audio: Add error checks against get_min_max*()
+In-Reply-To: <ad36dGpCBTGsyFr_@stanley.mountain>
+References: <ad36dGpCBTGsyFr_@stanley.mountain>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,78 +87,89 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7FCE06A9A0
 
-On Tue, 14 Apr 2026 11:05:42 +0200,
-Ziqing Chen wrote:
+On Tue, 14 Apr 2026 10:27:32 +0200,
+Dan Carpenter wrote:
 > 
-> snd_ctl_elem_init_enum_names() advances pointer p through the names
-> buffer while decrementing buf_len. If buf_len reaches zero but items
-> remain, the next iteration calls strnlen(p, 0).
+> Hello Rong Zhang,
 > 
-> While strnlen(p, 0) returns 0 and would hit the existing name_len == 0
-> error path, CONFIG_FORTIFY_SOURCE's fortified strnlen() first checks
-> maxlen against __builtin_dynamic_object_size(). When Clang loses track
-> of p's object size inside the loop, this triggers a BRK exception panic
-> before the return value is examined.
+> Commit 4f55a85cd4fc ("ALSA: usb-audio: Add error checks against
+> get_min_max*()") from Apr 11, 2026 (linux-next), leads to the
+> following Smatch static checker warning:
 > 
-> Add a buf_len == 0 guard at the loop entry to prevent calling fortified
-> strnlen() on an exhausted buffer.
+> 	sound/usb/mixer.c:2711 build_audio_procunit()
+> 	error: uninitialized symbol 'err'.
 > 
-> Found by kernel fuzz testing through Xiaomi Smartphone.
+> sound/usb/mixer.c
+>     2660                 if (state->mixer->protocol > UAC_VERSION_1 &&
+>     2661                     !uac_v2v3_control_is_writeable(controls[valinfo->control / 8],
+>     2662                                                    valinfo->control))
+>     2663                         cval->master_readonly = 1;
+>     2664 
+>     2665                 /* get min/max values */
+>     2666                 switch (type) {
+>     2667                 case UAC_PROCESS_UP_DOWNMIX: {
+>     2668                         bool mode_sel = false;
+>     2669 
+>     2670                         switch (state->mixer->protocol) {
+>     2671                         case UAC_VERSION_1:
+>     2672                         case UAC_VERSION_2:
+>     2673                         default:
+>     2674                                 if (cval->control == UAC_UD_MODE_SELECT)
+>     2675                                         mode_sel = true;
+>     2676                                 break;
+>     2677                         case UAC_VERSION_3:
+>     2678                                 if (cval->control == UAC3_UD_MODE_SELECT)
+>     2679                                         mode_sel = true;
+>     2680                                 break;
+>     2681                         }
+>     2682 
+>     2683                         if (mode_sel) {
+>     2684                                 __u8 *control_spec = uac_processing_unit_specific(desc,
+>     2685                                                                 state->mixer->protocol);
+>     2686                                 cval->min = 1;
+>     2687                                 cval->max = control_spec[0];
+>     2688                                 cval->res = 1;
+>     2689                                 cval->initialized = 1;
+>     2690                                 break;
 > 
-> Fixes: 8d448162bda5 ("ALSA: control: add support for ENUMERATED user space controls")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ziqing Chen <chenziqing@xiaomi.com>
-> ---
->  sound/core/control.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/sound/core/control.c b/sound/core/control.c
-> index 0ddade871b52..6ceb5f977fcd 100644
-> --- a/sound/core/control.c
-> +++ b/sound/core/control.c
-> @@ -1574,6 +1574,10 @@ static int snd_ctl_elem_init_enum_names(struct user_element *ue)
->         /* check that there are enough valid names */
->         p = names;
->         for (i = 0; i < ue->info.value.enumerated.items; ++i) {
-> +               if (buf_len == 0) {
-> +                       kvfree(names);
-> +                       return -EINVAL;
-> +               }
->                 name_len = strnlen(p, buf_len);
->                 if (name_len == 0 || name_len >= 64 || name_len == buf_len) {
->                         kvfree(names);
+> err not initialized at this break.
 
-Having a zero buf_len check is good, per se, but it doesn't have to be
-at this late place.  It can be checked at the very beginning even
-before the allocation (where we have already an upper bound check),
-instead.
+Thanks for the report.  Let's plug the hole with a simple fix to add
+"err = 0" here.
 
-Could you test it and resubmit if that works?
+I'm going to submit a fix patch.
 
-
-thanks,
 
 Takashi
