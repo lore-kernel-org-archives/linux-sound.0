@@ -1,105 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195462253EC;
-	Tue, 14 Apr 2026 16:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9443E959C
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 17:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776185635; cv=none; b=dgFXCb5aUWtJ7p4C9LY2FQpzQbp89Jw0/UYxFgV1Mnw+c3wC5pm1LnqjPgWM7CxrznB/n9yy0wMhK3cgRL9Nkwu5xis8LqtsUpZaM1QvE1JvEGxVv21A+hCdFktX8gxjowrg4GsLDJYtHAXtZ5Hf4gXroaciz++yS2GSPIXP0gU=
+	t=1776187442; cv=none; b=YZecbE0W1VCEtteBJagcCpqUOTRo6fMcRp5WQ+qqzugCY20EPbbo5Zo34VyQ3Ed/OA7X9SQL/y9EgIwCzAplswwLLbpWmeRZd4ZCJKXz7rF9c5h/wwnH6Y5bXFmrkIh5TGB3NLaCa2Jl/h9CTVCTM5G5eqdDEEL0aMkgBKjIg6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776185635; c=relaxed/simple;
-	bh=k3aCy/9bFf7kLfVfyU3dNM1rb5rwmiekRa7+I0WdGzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jaoUOtu4Vs/MosfRchW7UlhbSJlX5qg4I1lft06L1x4CpognBgmIaOVSaIbJ/maffSNvCbchp5IxmDabj4RIKGTwjvLnMBivnk1iqwO0O//G3oZLHlqxy1sUqBap1SF8MhvTOY/I9B80lwwYQPKmzvx+zaqVdqRnlgDrfbO6uwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1iEhTsx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776187442; c=relaxed/simple;
+	bh=3Fb7h8Xy2PNwmirC6SUOsu3bZdV4PH5I8b4QBrAK+yE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CNWAGGj8fVE+N2gcA95TT7JqU7uxHi3r6T2T/zsqEUUKzfQzLLEgSNX9HJATOCUkJYnaGQ0hG+Nu18WMk38jA9GORDnde7f2j0ylTC7GfCo2BZXcdnW7i6yxMV285fjv07rhtEq5oze2VeHi/L4GKo4tKD0CJvApbiujAgJrwdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=Qy4eo7ms; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1iEhTsx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C680C19425;
-	Tue, 14 Apr 2026 16:53:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776185634;
-	bh=k3aCy/9bFf7kLfVfyU3dNM1rb5rwmiekRa7+I0WdGzE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A1iEhTsxtu4BtR87FDWFXvd6tcsshisfm0wYx6XzusUX1xwIzdk3hwc3jYdBl6R7W
-	 +h3DrkZld6oiQJru9XKyW7KR0f31KNhDp2twTJYz2xzzpxMGnGbz9/8qw4EbaEd8w/
-	 +IHx5h9lZj7h9T7an3S1ZSaXRSZ8MqFk2LOSoB0PMIUGvpdmCJMQJmawhYswfT6uPi
-	 iIlJd6pbNT4YkzWmdkdX/4Y01Xbi8z1JVk31DPqTGh9Ra6qhKCojW4PbBfcwzbwS79
-	 aUOvFIyGrdpfhGBPeZjKsESFuzAchdWpnIn8XTOUYOUmJUH6PTP0dGywZVuBHGLemg
-	 S7Q8a5KBFSpOw==
-Date: Tue, 14 Apr 2026 17:53:50 +0100
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ALSA: compress: Propagate real pointer errors in
- avail paths
-Message-ID: <0340e472-b0a7-4bc7-bba8-a581784b8e3a@sirena.org.uk>
-References: <20260414-alsa-compress-pointer-avail-errors-v1-0-f5a1a8b1dfba@gmail.com>
- <20260414-alsa-compress-pointer-avail-errors-v1-2-f5a1a8b1dfba@gmail.com>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="Qy4eo7ms"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id A5BF03A216;
+	Tue, 14 Apr 2026 19:23:54 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz A5BF03A216
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1776187434; bh=0dOQXtyEo/R9fe6VLeIl/8qdijMUbK/UC7KL6usSQAo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Qy4eo7msIC9GbEwof5lSoGw+bG/s1MiSC9fj5+hpz6+0ttpsDWfJ7Vjtd02lypLN+
+	 mnV5phALAPF5M3voqR9yUu2mXwrIB2kyPc97r2yJIfqrgyeLsdYprtEYYS8ET6Mt3B
+	 9i9j+FyVPLx4NeJq0nBZMuK/PHt+NQdVRveoenu4=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 14 Apr 2026 19:23:44 +0200 (CEST)
+Message-ID: <b9308972-1795-44c5-9263-ab9f88013215@perex.cz>
+Date: Tue, 14 Apr 2026 19:23:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LNQ2Q2yvVaItXea4"
-Content-Disposition: inline
-In-Reply-To: <20260414-alsa-compress-pointer-avail-errors-v1-2-f5a1a8b1dfba@gmail.com>
-X-Cookie: Academicians care, that's who.
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <87se9htms4.wl-tiwai@suse.de>
+ <67b9f48b-1cc7-4dac-8f6a-c0cba6a84b36@linux.intel.com>
+ <87ikadtgpe.wl-tiwai@suse.de>
+ <dadef18b-1c2e-4c0d-8ae8-2e4b8ad75d04@linux.intel.com>
+ <878qb8tsib.wl-tiwai@suse.de> <88979231-caef-4eaa-b89d-22e6973c92f9@perex.cz>
+ <cfb84df3-c2bf-4173-bc45-7df29b6a94a3@linux.intel.com>
+ <a1b6b2ed-2e26-48ff-afab-60f90ecc4360@perex.cz>
+ <4c73e4cb-298a-411a-97ed-f0eff1b06ac9@linux.intel.com>
+ <978bdc67-b91e-437a-bb8a-b609a4fef6d1@perex.cz>
+ <b97ae6b9-ef72-4dbf-bf29-9092ec3919d8@linux.intel.com>
+ <82d870b3-4ec1-440a-ae8b-87edbf665b99@perex.cz>
+ <542a9743-2a47-477a-b457-ae32c3f8dc49@linux.intel.com>
+ <39fcca55-77f4-4cd9-8a94-d80e5b94c8ba@perex.cz>
+ <401a7777-e83c-4120-9d82-71388bf38397@linux.intel.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <401a7777-e83c-4120-9d82-71388bf38397@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+[appologize Péter - I forgot to include others, so duplicating for you]
 
---LNQ2Q2yvVaItXea4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4/14/26 15:47, Péter Ujfalusi wrote:
 
-On Tue, Apr 14, 2026 at 01:47:54PM -0300, C=E1ssio Gabriel wrote:
+>> This extension allows us to do
+>> the full "refine" (handshake) between application and kernel to settle
+>> the transfer details with the slightly updated framework. Also, this
+>> flag will activate init_periods and step_periods fields. Basically, the
+>> app will set the maximal acceptable period size (expected latency = 2 *
+>> period size) and the driver will return first biggest period size
+>> depending on driver constraints (initial periods will be included - in
+>> this case the period size must be lowered to maintain the requested
+>> latency). It's the complete handshake.
+> 
+> My main problem with this is that I cannot reply to application which
+> say that I can accept up to XYms latency.
 
-> Commit 61327f3d817c ("ALSA: compress: Pay attention if drivers
-> error out retrieving pointers") made snd_compr_update_tstamp()
-> return driver pointer() failures, but snd_compr_calc_avail()
-> still ignores that status and continues with stale runtime
-> counters.
+You can reply the maximal period size (thus maximal accepted latency).
+Basically, I think that the minimal and maximal period size boundaries will be
+a hint for apps to determine the lowest and highest available latencies.
 
-> The fallback for an unsupported pointer callback remains
-> intentional, so keep ignoring -EOPNOTSUPP there. Propagate
-> real pointer-refresh failures instead.
+> I don't know the latency in here, it depends on the DSP topology that
+> has been loaded, what I can know is how the host side hw_ptr will behave.
 
-> -static size_t snd_compr_calc_avail(struct snd_compr_stream *stream,
-> -				   struct snd_compr_avail64 *avail)
-> +static int snd_compr_calc_avail(struct snd_compr_stream *stream,
-> +				struct snd_compr_avail64 *avail)
->  {
-> +	int ret;
-> +
->  	memset(avail, 0, sizeof(*avail));
-> -	snd_compr_update_tstamp(stream, &avail->tstamp);
-> -	/* Still need to return avail even if tstamp can't be filled in */
-> +	ret =3D snd_compr_update_tstamp(stream, &avail->tstamp);
-> +	if (ret < 0 && ret !=3D -EOPNOTSUPP)
-> +		return ret;
-> +	/* Still need to return avail when no timestamp is available */
+I don't understand. Who else than the driver can know the latency constraints?
+Driver loads the topologies, doesn't ?
 
-It's not clear to me that the intent there is to only ignore in the case
-where we fail to update due to the operation not being supported rather
-than to also ignore any other runtime errors we might encounter (eg, due
-to the stream configuration).
+> Sure, that translates to a 'latency' It will add maximum of FIFO size
+> latency , but this FIFO size is not equal to the initial burst size in
+> some cases, if the FIFO size is small then we will overshoot with hw_ptr.
 
---LNQ2Q2yvVaItXea4
-Content-Type: application/pgp-signature; name="signature.asc"
+Yes, I proposed that app will ask for latency using period size, but driver
+may reduce period size according the initial burst, like:
 
------BEGIN PGP SIGNATURE-----
+Application expects 50ms latency, so it sets period size for 25ms. But driver
+supports only 30ms initial burst and 5ms transfer granularity, so it will
+reply with 10ms period size, 3 initial periods (3 * 10 = 30) and 1 step period
+(2 * 1 * 10 = 20). The initial burst must be handled separately, because apps
+should know which "block" is being transferred, thus we need 2 periods at
+minimum to ensure that (one active, second for the buffering) for the standard
+streaming.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnecR0ACgkQJNaLcl1U
-h9AwTgf9HCbM8mctBAnEkcg9OmeTO4oT+Hb/0WZE5YHxM/F02IUhIfHmvgYiFIr/
-aeJJKBlUeoHe+GnT5Tu37QgdJy21ptrXyAuJ9Nm7nG48IsY60er4w2V95d+9khFz
-zijKG4ST1hMzlduzF0RNv0okw8nTEVpJL9FcHfxQFVwDnAC6GNK+n5y7k1+2tlpE
-p2OJ4thuWfkbD7fAnWMgmYER5M4n7Rfea9Xhs57LBPfp6UOY7hRhTz1ZOm+cc/um
-8fRIW9+7LvCKSnmoK4qZ5SLkSj9c33ryB/IJfmQ5ejpKrr6noYLKTXVX3NOxr3W6
-1/82GNiwlJv0v0VBPYgFE3SlZdKY0Q==
-=bwkk
------END PGP SIGNATURE-----
+If the driver does not allow to set the exact specified latency, it should
+return the first lower latency setup.
 
---LNQ2Q2yvVaItXea4--
+For "full" buffering, the app may ask for the maximal (or very large) period
+size. In this case, the driver can optimize the period setup in the right way.
+And it can end with the deep buffer.
+
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
