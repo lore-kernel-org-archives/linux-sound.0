@@ -1,66 +1,87 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685E73A1A5B
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83363B531D
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 08:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776155300; cv=none; b=qmBTPzruqHUFPVFJpujM9K04CCSVhEd0btuPdkHnRTVY+oJMkKOZSsm3xv/NzwI64vFlnjNGrErYJyztKW4/NqgOPfRrAOqgEp6kdCDPGaQPERBhwKOxK3YxPyrdlFag87/1+J/1IEiJ57II4P3PQEjzinpB4lkHhr3jzhH5o2Y=
+	t=1776156415; cv=none; b=Slab70wD/ljHvIoTYejx5VGkem1derA4ZowUVuXhHwW5Q7GncHnSHT8DW/TyV6cHTQH0ZfTnv93JI+PESGw1+LdZXEeasLRFrXSF+9ZcRMTGMVJ09lhDdzFtyUWsBg1qhvl9j1OsZ7saMW/6qHEfGuE3N1OGtuGTd/grCKOTGKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776155300; c=relaxed/simple;
-	bh=A0A0SRk1zjT+GpcK54V4mSJXuPt0aQvZfkQIiF5d4Xc=;
+	s=arc-20240116; t=1776156415; c=relaxed/simple;
+	bh=SYartanFMsIv2g6KjhxWu2Uxv7zuc881jae3LKtkqM0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bFiAiGNSDSqdlsh1pdQE5nXrsYkiS2eP8B2oes4qP/jOvVLxJtNakHQ9y4aq9kjLke39cwi7+XcGfieEnxawQHDjAV6S4S2GP9mpiCG6CdoUbi+yC1dFZHnsTM7NRa0HAeeggBTc0mu6xFI225ZhPZ0UyN6mB7MBKwALIYEOIJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=refL2xOD; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	 In-Reply-To:Content-Type; b=shzDl1OzXi/6D8bGS0EC8FcOk6ORU2PkakARVsnac++gIO868Qe3Ufif4xaOsuYEQHlgdtlvVVm7yjG5QXObx9/v8gThWtiq/ie0NPLiOzkADO+ghyaRxxKbSfpXq519arytuCApIXfpSQUQupUJRcc3m/FUTivpmBQyDJ7TagE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WBcIM9qG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Cu4H3Cju; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="refL2xOD"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488c2690057so51511145e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 01:28:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WBcIM9qG";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Cu4H3Cju"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63E6bPdT2386512
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 08:46:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9HwoJ6Qkx24lge+pKZcUJTrizcXF0yAUZNbBWQ0V6Pw=; b=WBcIM9qGm8abf0gY
+	wMOp1RpexZQQsSNkdTdA82jRVyfKGJSqjHr0TxsTzEe0vnHnIHg9aq2pAZccjpMK
+	MGcYCsvRWnPGfD0WYebNRtByZ7qHsMYQdujy1sFI6bKsGHXrLHcm7beZrBJ94Wkx
+	lgO7LkRj0cwK24rKZKNIOSqLcMOohc2KJlRkx5pAEU9/fFBJUqg4iaRG1eAYvOkB
+	jJlnk5q8GJzRFmiDyB5ZX0zNqh4S15BD/Z4c3CXxwGc/2Bdd18HI8qvaWbiOZf4d
+	LjnipRinigDQxNRx8L3qJcFuBiYXDN0cspq/8gYJI2c4xfwU7A7oi43p9ZbQLTvk
+	wtYLqg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dh86w1uvs-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 08:46:53 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50d7128e038so13150571cf.2
+        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 01:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1776155297; x=1776760097; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1776156412; x=1776761212; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uelHwNikEBg5tHyCN4f5ieipMicy2BHQBsPBzqFR0dE=;
-        b=refL2xODmskYXu30XW1dHd0e1WwGAUfj2qGO13omkKc9jVT/bTa8n7VbqgXlm9HFwI
-         WNXAVy+URJH8V0O01i0wr+hPAOqZjevCLdXhkoWKQ+u3hTCRsLiap6bXSw69/Q/qAaUH
-         y06x5/YwO8d1webNJa7vZLOlaSPIatZ93WyqCxUefiSmqrJf990VNGf+6eqfFzpTqHyP
-         I5i4GgeDZfGd/YGvt3lruBn5mb+jUuODAB0ZRZ4tOXvTY73QjuvyzbJKHc18A8PHYrYJ
-         kqq5KUjNNxQhQYhJp+59KpFeC2TcDO4uWorkW8gVvwCidT+7LlTU+QXfQ/HnfR0ed1OC
-         HYdA==
+        bh=9HwoJ6Qkx24lge+pKZcUJTrizcXF0yAUZNbBWQ0V6Pw=;
+        b=Cu4H3CjupsiK5PhTU/MysiM+xH1iHYLqpZqdTyXIFYpyQrZIAk7Hg9pjNjNTv5M8b/
+         MNUFkB4euJExVYqSk6tsgQsQW4lBncVfJg5lYRxtU4k2aF6nQ8ali7qWbWMGoaof/0Ed
+         FZK2diP9JZ+jrfgzf9NIFJ5vRpD2Z2TCh90WVv2dQBTQJQvdgrFuMloyvO2ihVCqgM6A
+         FVuxJD1EebMs5OqmzxbHLli07mIhaTLpNWdxxrdhHYwUMTUyn+xCi31NCWMWgeUSSgwV
+         MfPw6yT0UOZhugJuGwlg6+d7NOMSJZV7yi65nHSEJ+bdNrVxybkqlhjDAuIea6RXLOWV
+         R2cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776155297; x=1776760097;
+        d=1e100.net; s=20251104; t=1776156412; x=1776761212;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uelHwNikEBg5tHyCN4f5ieipMicy2BHQBsPBzqFR0dE=;
-        b=ru27uu1lUIoS2FCX1e3WEhyLUOQUeISqgfXhlnSnbVeKFNwc8VUarmalFHuO1ojdVG
-         vbOdMT03UaQM5aHx4U2Rh+bJpaPisbZpHXDY2QARw2UiefqhC9p9Zsv81/YGGx/grWM+
-         mhoR51lTotxvWpgWWM1luZdAOGV4SoC9t17RUm9grJfVvhJisVFiyPKBAOVeWs+OjCh0
-         pOEqCaUsAnRJ54F2N6MBKPr58pMIEiBPSa4RbRxXaXZszR9sNlCshv6H8k1eBBbEfaVj
-         EVYBW/4HKxr3lVI+ZRO9xONZ4ZhoPzSIMp3CAUy2odOeCYVu61P1LKlUBfGlxZGXwsgh
-         8IvA==
-X-Forwarded-Encrypted: i=1; AFNElJ+QuUSIN/3bFhfuzZnM0Zha8H/snP+81ognu2lJ+XN+WM1L4cUyafLYR40aPmEB1Y+6Cx/Z51fCA2W1nA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzv5h4Pj9fmOdbs5eVA4DcgOQdrz6uhxhRFEi3aQkNBnMgdKPKS
-	+3bhoHSgEEdmEfyqFQL0vpKWI9w45ODeoGDvBFF1dU0aHW7ngJD5sBf2IxcnMFTR6dM=
-X-Gm-Gg: AeBDies0EEfSU+mgPW9tElD6cv8FguJzRa7ac8bmaMpWphe/ghJ7QDDxGrABu3T3CzX
-	djcjm7Y+enU20Ymkg09TJxgSKGJfO8GvjFb7lBw/4C17mTRc8vIUJQ5uDYZ8gE8NLZqLqNkgJk9
-	aF6Vfi2KVcH9+SIzdp4gv2Bgp4AQjzRHotwxpThEpeDpcMhfTGfOaNYs1vPN6A0w1Z6czydKrw7
-	8BFZmogE2xXw3IxEKzHpQi2UGRcxUwkvRQfyVAYbEnkYxzkLpuu8QYXPpVPVepyegiwqE8g31gP
-	h2loeuM/lwqIaK6riiIcYNf29DCrHoDwyXy+RjeaQ7IfqNKG61mgdAP03xAQ5kAhfjiDlfNJHKL
-	qKCIjHURRANAi65Vnd9Oxm1rm4fQOip7yBYxML7fF5+37fjQ0mf7tkv7C2lZCkvK90ICnrPdTx3
-	LGES90C6wGN7ypsYUQ+8AwfnH7jH5D0ZM=
-X-Received: by 2002:a05:600c:528c:b0:488:a2ac:a337 with SMTP id 5b1f17b1804b1-488d68c2bffmr213398185e9.21.1776155296847;
-        Tue, 14 Apr 2026 01:28:16 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.123])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ec77508csm54500935e9.0.2026.04.14.01.28.14
+        bh=9HwoJ6Qkx24lge+pKZcUJTrizcXF0yAUZNbBWQ0V6Pw=;
+        b=heTjQJKomL2HhoOBWwnfRA6HYF1F3p4NnDiJrQgW4M1cEsJ+ubRTZwsFhxYy7Hn5AA
+         KcEqLV4iD52uC4ZiPNa/oBtl6dvjhvSYRnzJbv1wzkFevNpYDpM6tBwpC/im5IFdzbUA
+         HDkSlfV8WWBy9ZviI+AbU9ExhtyXq3YapWf2r7hjok066PshKlzS/K1oVJPsmsmfpfWh
+         4ERddftt+Us0irwwaY6w9Sod6vtR/2gg/2az6uPEYMmqfM2R3IdHWn5jOnJr2JomFDO9
+         3mQ13AI9FUD692v6hk/h58DnAe7OE6J6kAzCD+v+AcF/QVeRkDDGwzwZSXF0Q+kC28hp
+         EWfg==
+X-Gm-Message-State: AOJu0YwxWgka0PxRs8/hJAxOwb3+QNVV8xn/HaQ0XnaGE0JAHyIIY8kh
+	q1jTHbpTB0DOzWBxuHufC6tUCNZqa66NIBI/glYKpOQk9U1/AuGQsva20D8ZL9lkOkIx88tfPte
+	1RwaFWEnNq/XYm71DiyVK2FqQSQMvC6UJE1kXD5FXyAMEv2iUKYyYLH5UtUAheCprHXaYtDfatA
+	==
+X-Gm-Gg: AeBDieuAW77b3YKX6N3QZzBALiH8DL1eqYjlx4i1V8wAANS6aJ6Faox/HOJ/UNyfn92
+	f4dt5ZN3rbAChRxZk4K2a68SRtsyK9EKmvSrdcHJl5ZV04jDtnpyOFJm9EKib6Hrj41sUdFHun+
+	GA1ZZxae5/V13rjxzMzMaDBXAeABmfeXzN53zGQX+Z/hUcshricLnd1FbLh1YbRG/1K6q/KZEA6
+	WAG5pn6Rl7sWbr/j06S9ka/QLIG+FcfvmQuH/jGMBQqOqZy5dQJg/RffmvQzZCTbI7xpa6w/7nf
+	hkAAtbDr4PQkhP6bbjj4eT6RdT9QkTSezUGjC3zrimVuxp9FLk3rsz8v/9oL+vb7cjqflXnTl39
+	EnKhi22Q/GgqEW6Z1G1RaTcqTaikdFZXeoNpyqUoTe+ny52daUbEWmJuABm3cczHM4MouRsbl8w
+	7S7hyzju8Dpl6/oQ==
+X-Received: by 2002:ac8:5949:0:b0:50d:714d:e966 with SMTP id d75a77b69052e-50dd57f6e28mr167151581cf.0.1776156411817;
+        Tue, 14 Apr 2026 01:46:51 -0700 (PDT)
+X-Received: by 2002:ac8:5949:0:b0:50d:714d:e966 with SMTP id d75a77b69052e-50dd57f6e28mr167151341cf.0.1776156411332;
+        Tue, 14 Apr 2026 01:46:51 -0700 (PDT)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7c8a4fsm369699366b.54.2026.04.14.01.46.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 01:28:16 -0700 (PDT)
-Message-ID: <a2362c89-e9ea-4c11-80ac-b65786da1e32@tuxon.dev>
-Date: Tue, 14 Apr 2026 11:28:13 +0300
+        Tue, 14 Apr 2026 01:46:50 -0700 (PDT)
+Message-ID: <dd09f4b8-b0f2-40d7-80f0-bdd2cb382c65@oss.qualcomm.com>
+Date: Tue, 14 Apr 2026 10:46:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,114 +89,71 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/17] dmaengine: sh: rz-dmac: Do not disable the
- channel on error
-To: Biju Das <biju.das.jz@bp.renesas.com>, "vkoul@kernel.org"
- <vkoul@kernel.org>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Long Luu <long.luu.ur@renesas.com>
-Cc: "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
- <20260411114303.2814115-6-claudiu.beznea.uj@bp.renesas.com>
- <TY3PR01MB11346923D8D18E79A9F7AC10086262@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH v1 1/3] ASoC: codecs: lpass-wsa-macro: Switch to PM clock
+ framework for runtime PM
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, srinivas.kandagatla@oss.qualcomm.com
+References: <20260413121824.375473-1-ajay.nandam@oss.qualcomm.com>
+ <20260413121824.375473-2-ajay.nandam@oss.qualcomm.com>
 Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <TY3PR01MB11346923D8D18E79A9F7AC10086262@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260413121824.375473-2-ajay.nandam@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: HG32M66ygIlO-tQAxKUqznlN3i1alt8b
+X-Authority-Analysis: v=2.4 cv=HKfz0Itv c=1 sm=1 tr=0 ts=69ddfefd cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=weikHDwYOGaAN1ZrU1wA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDA4MSBTYWx0ZWRfX+MaJOGOmOkn3
+ bm6UthuXFBIp+1P24l+gLNczs+mFaTXQqobFaThTUsk7UQmvXaPTZ7+QBC4srDUX0D538fEBaYx
+ Nm7+I5rye3RuEPPu2XpWM0rvE5tv6fL/RkmVYWJndzM9c2CkQZlUC/cDc3FM5ulxiL7tpw9/bvL
+ pTQ0M3b0Jkb8FycfcR4spjg/itTgtokaWpdbjfKeDB73nvVjkD5b0SRguGWmfUUucGFeSAmA4m8
+ bQ4vlvZayvCNw5s55r299iy3ChvolCHMrS5c4Jbal4j72M3nyuKC+Jdtz4N42xkbvwAlMAroHRk
+ r5VepJ1e254eFc/4SwOPneOApHw8taYUEyZsUO4WG0cw3aUWUJqp/6woTWIG1XGBhEPrRhR+EI3
+ C0n9Lk4AVrFPj9RSjsMSaQ+/vIjF9vLkDz3LzapVMyCrCrlEFMi6bRk7V9eTi57ak0wWlCR5XN8
+ mcnFkgk38jXw/7i1n8A==
+X-Proofpoint-GUID: HG32M66ygIlO-tQAxKUqznlN3i1alt8b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-14_02,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ clxscore=1015 bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604140081
 
-
-
-On 4/11/26 15:30, Biju Das wrote:
+On 4/13/26 2:18 PM, Ajay Kumar Nandam wrote:
+> Convert the LPASS WSA macro codec driver to use the PM clock framework
+> for runtime power management.
 > 
+> The driver now relies on pm_clk helpers and runtime PM instead of
+> manually enabling and disabling macro, dcodec, mclk, npl, and fsgen
+> clocks. Runtime suspend and resume handling is delegated to the PM
+> core via pm_clk_suspend() and pm_clk_resume(), while existing runtime
+> PM callbacks continue to manage regcache state.
 > 
->> -----Original Message-----
->> From: Claudiu <claudiu.beznea@tuxon.dev>
->> Sent: 11 April 2026 12:43
-> -soc@vger.kernel.org; Claudiu Beznea
->> <claudiu.beznea.uj@bp.renesas.com>
->> Subject: [PATCH v4 05/17] dmaengine: sh: rz-dmac: Do not disable the channel on error
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Disabling the channel on error is pointless, as if other transfers are queued, the IRQ thread will be
->> woken up and will execute them anyway by calling rz_dmac_xfer_desc().
->>
->> rz_dmac_xfer_desc() re-enables the transfer. Before doing so, it sets CHCTRL.SWRST, which clears
->> CHSTAT.DER and CHSTAT.END anyway.
->>
->> Skip disabling the DMA channel and just log the error instead.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v4:
->> - none
->>
->> Changes in v3:
->> - none, this patch is new
->>
->>   drivers/dma/sh/rz-dmac.c | 4 ----
->>   1 file changed, 4 deletions(-)
->>
->> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c index 40ddf534c094..943c005f52bd
->> 100644
->> --- a/drivers/dma/sh/rz-dmac.c
->> +++ b/drivers/dma/sh/rz-dmac.c
->> @@ -871,10 +871,6 @@ static void rz_dmac_irq_handle_channel(struct rz_dmac_chan *channel)
->>   	if (chstat & CHSTAT_ER) {
->>   		dev_err(dmac->dev, "DMAC err CHSTAT_%d = %08X\n",
->>   			channel->index, chstat);
->> -
->> -		scoped_guard(spinlock_irqsave, &channel
-> ->vc.lock)
->> -			rz_dmac_disable_hw(channel);
+> This ensures clocks are enabled only when the WSA macro is active,
+> improves power efficiency on LPASS platforms supporting LPI/island
+> modes, and aligns the driver with common ASoC runtime PM patterns used
+> across Qualcomm LPASS codec drivers.
 > 
-> On previous patch, rz_dmac_disable_hw() for initializing each register
-> 
-> +	/* Initialize register for each channel */
-> +	rz_dmac_disable_hw(channel);
+> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+> ---
 
-This initializes a single register by clearing various bits.
+[...]
 
-> 
-> 
-> As per hardware manual,
-> 
-> Once an error occurs, the data of the whole transfer cannot be guaranteed.
-> Be sure to start the transaction again from the
-> beginning by following the procedure below.
-> 1. Set 1 in the SWRST bit of the CHCTRL_n/nS register.
-> 2. Set each register again.
+> +	pm_runtime_set_autosuspend_delay(dev, 3000);
 
-I wasn't aware of this sequence. Thank for pointing it. However, calling 
-rz_dmac_disable_hw() as it previously was may be wrong from my point of view. 
-According to the sequence you pointed, I think the code here should have only 
-set the SWRST, if any, and let the rz_dmac_xfer_desc() "set each register 
-again". According to "Figure 14.26 Setting Example 4", of RZ/G3S HW manual, rev 
-1.20, the registers that need to be set when starting DMAC ch in Link mode are:
+FWIW I have mostly the same comments as on your other series
 
-- DCTRL = 0x1
-- NXLA = 0x1000
-- CHCFG = 0x80000000
-- CHCTRL = 0x8 // swreset
-- CHCTRL = 0x5 // enable
+Notably, msm-5.10 uses 50 ms of autosuspend delay for the macros
+(100 for VA for $reasons)
 
-So, I think these are the registers that need to be re-configured again (handled 
-though the rz_dmac_xfer_desc()).
-
-Anyway, I'll drop this patch from the next version, as it is not the subject of 
-cyclic DMA.
-
-Thank you,
-Claudiu
+Konrad
