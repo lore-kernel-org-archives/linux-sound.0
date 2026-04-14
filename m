@@ -1,181 +1,143 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A1E3E63AC
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 13:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776172963; cv=none; b=YtQ7pI+BMzdFh4Y1bK3Sam2jDyzE4dFJmB6kwscnAsTH10T9/UvDsDAZBNxnPLm4+65buYRM6haldysLhTtvqjpFgMwsLy9XjRdiOabAzVLPgWyvDHTst5eAO8WVRN/MEFiK10IYpQjpGIsVkTwK16nfpMTdBTsQta6DZAPMjnA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776172963; c=relaxed/simple;
-	bh=iD/DJwtHuASDCqXeqZXAU79dKE3zqbvGxW/fFPHUv9k=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RpyGk9Y8cqWAiVC52eGsj0WWXpXmNbpfAtKxBelu8WCjvyT+frjBt+FK2ZsWohJxZnUZfYXPLy5+iKh3gggNlcp5j7g1i7tr6oa/ZLwX8GTbpdQUMpNlqpQQw5mQdVW+/souIF64ON3Fg+PRBUfURE1SGu8zV4RVdshdo1Sd7Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g+QIsZUd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZGq0GuRA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g+QIsZUd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZGq0GuRA; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BB03E63AC
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 13:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776172965; cv=pass; b=cUiqJXWwuEb2SzIX6PzVxEY2GjFCiGIziQYn3p8HV1Z/OM8rVPiXScyG3JwX2fym1Z4Giup9MwzzaEFyqBMjk3+iPTssygYe75HiQES1yCw0Ha3JKywjRAOSJ9CIH6HvyXmoU3JOrMWMMUeukz3uR6pjCUXnY6MSOJkR1NJJZf0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776172965; c=relaxed/simple;
+	bh=SWvIA2r2vaq/SfcRSpzOMqE2rP2/EKFXRofeeTjYJ8w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DS17leogxWzBS1poojEdcpbssNR89MJFi4ZFMKCCuL3oBpZAQnqSalO2FJIKmNT3odpLKeZ2H9jEKHI57nxviAaCCUM+SxMZNVKQPl7ywySjmpSj2YN40W/tXnvsa44TGC59Fz7Bm5iaiADpQSMQbAimEbj49BMj9TuN3g5brpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SMOxJV5/; arc=pass smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g+QIsZUd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZGq0GuRA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g+QIsZUd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZGq0GuRA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8C73A6A944;
-	Tue, 14 Apr 2026 13:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776172941; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hc/i/W6FMM8nSyU00T8m7OmDBE/JkD5rIsNPHhe/w+E=;
-	b=g+QIsZUdcCxlx04/FBzMVX8ZBHsvMgJtOVX88x3Xd5x8A7SxIVDO9np29vbSL7zwadhsJR
-	BsvGYuuEYbaBZCUdmwsZY7dVG7NZCyYFZhPYSuSPL3aN59h4lcVXtdW7Bvl/B9EAdBLd0t
-	wvS3F7ty57dsvLba+K5xgwAtWxwhfAI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776172941;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hc/i/W6FMM8nSyU00T8m7OmDBE/JkD5rIsNPHhe/w+E=;
-	b=ZGq0GuRA7Kg2/7W2ce0Kk2Gf4g32Oj97/LS1vKENcFxTclBBApafRulb3OJPvQbIDdVqqQ
-	cldVwdh8MwwvkLAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776172941; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hc/i/W6FMM8nSyU00T8m7OmDBE/JkD5rIsNPHhe/w+E=;
-	b=g+QIsZUdcCxlx04/FBzMVX8ZBHsvMgJtOVX88x3Xd5x8A7SxIVDO9np29vbSL7zwadhsJR
-	BsvGYuuEYbaBZCUdmwsZY7dVG7NZCyYFZhPYSuSPL3aN59h4lcVXtdW7Bvl/B9EAdBLd0t
-	wvS3F7ty57dsvLba+K5xgwAtWxwhfAI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776172941;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hc/i/W6FMM8nSyU00T8m7OmDBE/JkD5rIsNPHhe/w+E=;
-	b=ZGq0GuRA7Kg2/7W2ce0Kk2Gf4g32Oj97/LS1vKENcFxTclBBApafRulb3OJPvQbIDdVqqQ
-	cldVwdh8MwwvkLAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F24D4B478;
-	Tue, 14 Apr 2026 13:22:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id INjKGY0/3mnbOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 13:22:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 3/4] ALSA: 6fire: Reduce multi-level conditionals in usb6fire_chip_disconnect()
-Date: Tue, 14 Apr 2026 15:22:13 +0200
-Message-ID: <20260414132218.411013-4-tiwai@suse.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260414132218.411013-1-tiwai@suse.de>
-References: <20260414132218.411013-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SMOxJV5/"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38cc8708d76so44528901fa.3
+        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 06:22:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776172962; cv=none;
+        d=google.com; s=arc-20240605;
+        b=L7PlrGPZfohKCCT4it38GTElhTTrmRGSXXyEDnISx6mAjc6ftpgCkey6JwOcTcnK9u
+         Foczs5dcFsUl6OJYKeaAOIgvBFkDN+crPo131e/mSh1SgfjUw5mlqF2v/V0k4dLCz+EO
+         uPIEeELvDtZzPsQMPEeRhC3mqzD/Tynr36IUspyF5hv+zK6YxlujLUC1Yx01WBT24mpP
+         zQaU3QoXhtQN71ORZOzIFNpSrJPXtf8oMV3IpHJQymt0QSd7XS93pyU8TNR4EYj6wqCm
+         ClX84bzVeAwqmdn2WpndD8IhwhAzCfxbKz0xP56bPU6/F/NqOjeweiGd/RvMh9hnV65T
+         X9Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/MCSiaVpfB7ZAykqhfSgW9zD3qZr7DmUj2mgOEXKvJw=;
+        fh=aU3e24udgaQJpvtmP+/HHRfkF40zSugJFrRbux8nR38=;
+        b=hQF80cPwXibl18Dw31vN84EvF4ckeh2O+A8bDth+JwcpyTzluspuxeJJtC+jeHAJ29
+         b5kJEOqSPmRN+tZ+yFhi/wNvcJNa3uOkYO9rV3GkmruH59HsV0ZYKRlCaXj4r/3fN1Za
+         9MUnbx0dj6P6DmHMZCroUwtMwMvz6TYNRGr4mf8qbgxjs/8BXO9wc9VZ1oA31bdo0vFR
+         3dZtkInAs/pc0UC8Cz3xyCQX1Jthvp8yj4VJfyEWbFWuKiI8bF42Rj7+2zOVAGIGZhiW
+         MhgxwYJEYT9QAhTh1DCJXdoafy9W/jR5wJuF2alrDmHBV/aGLjoM7F34KVtOGHttpGoz
+         3rLQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776172962; x=1776777762; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/MCSiaVpfB7ZAykqhfSgW9zD3qZr7DmUj2mgOEXKvJw=;
+        b=SMOxJV5/48wjHJ/JGoxnQVCN8lRDiOrmH7Jqj6OJePMZjVsjhYWqqkWn22Wzj7ynbL
+         pFYuvgEWCB5oS6bdIUxWUWkiBqE8wzfI/RPrlCiFz1BmfnWAp6CDzwM1A1Mavoz3zH0F
+         4STAHIyxfLYjabNt0xgb5Cn1KavGI0EqPusRZiEKjvC5PdsPoknocMnvKqPjFcZkwSpq
+         Q1mXf4BouMdVKkkWSKLy+G4fr26whbcgbD+O5XuQlxhASDnCjKs2fq4CsZU1MIT1TrII
+         Dqf8ZCQQV5XwVs5tR3QajqRPYeJB5htObYamI0y1kw3as1SXjije+ovEBVbwrxYoyfXe
+         v1mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776172962; x=1776777762;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/MCSiaVpfB7ZAykqhfSgW9zD3qZr7DmUj2mgOEXKvJw=;
+        b=c3GanXxHPfrGAw2rHDlYrRuGRwN3dchkZv5KCJuJlObWCOig1FAPG9b/82iRWEr4jF
+         OHILtd71NcNhlYkm1rmw6lTCahHqvw/907cQpnMTxTzgKwy7LrboyA6mCxkVS36CwUyq
+         OS4lU3MENHBmgCAaH6ZQvrLpNqLD4vnG0ggVoYOx5tSP/LN01FVGZpSjyrDpVGQc/tcH
+         +Fqm5h/gTB5fRn85qXXdL8Q1D9iJ2Za+s16b2lPtzV0WbZg8t0eF4DmeeYYrLgOV9hgy
+         2q/XJqpFq3keU9P9BH3KfM6enTTD0k8KhK8LsJqP9Ir9CCQ/UYWjUQA8iHtCaXQfZYsp
+         O9LQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+V7VMV3mZdJH/dQSIDJVN07/lE6BSBQkOlwH0EtS+6PhOAyQXc6XKwKPYvuzV6mdjN2to5hxLyNyAoew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzONaS5PEzSGHm19damQNtC15iIbX4Hgvsnf4+0jKSH3Rd6ZP/Y
+	o0xhQyHqRmNHYVi+NVuxFAPD7FzGagAZ9smplcRc27uLqH4EQ8sRZG1RhrjsdDXHPEcvfNXCzCC
+	+bz2eAY32JtzCcCVykv8XcuIh3PZR2ZQ=
+X-Gm-Gg: AeBDiet7BS2qYC8wHfyTfZ/9RKldI5uxUMzetq0rKqqAHCxqIalugXuEZqu+O/0ClfN
+	4AtesZBsdin91Fzi/DGi6C/kk71yG2OlljBlQWO3celgbMYlhZerQ/xPeqd65CnVuGOt8+Lcz8a
+	i+Yef54BPk7xcUjWBNdQb+IohR1odaeGfHqmEFonTMACxQyUBi0rZW5K9//dTNxhSEPsK4XljPx
+	VpCH6QujqUSWRgdkRhN1giCRhrcATjLM6k+YhNfFID6Gi8/SuAMlrPOnJ0Uo0GECmadR4KXp7CF
+	Vw1fEbCVqw9u+n2+wCDXuutAiOyk/l8gnnM82FsPUg==
+X-Received: by 2002:a05:6512:39c5:b0:5a4:4cc:7a5e with SMTP id
+ 2adb3069b0e04-5a404cc7ba8mr1091703e87.14.1776172961827; Tue, 14 Apr 2026
+ 06:22:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+References: <20260327121919.603768-1-padmashreess2006@gmail.com>
+ <20260414034854.461661-1-padmashreess2006@gmail.com> <20260414-tentacled-mantis-of-control-cb08f3@quoll>
+In-Reply-To: <20260414-tentacled-mantis-of-control-cb08f3@quoll>
+From: Padmashree S S <padmashreess2006@gmail.com>
+Date: Tue, 14 Apr 2026 18:52:29 +0530
+X-Gm-Features: AQROBzAamjBepLaGzfepWzXv5uB5hMqT-b7vwoR6-ZTaIr6csR1cziFGQxKKLFY
+Message-ID: <CAEjBr-bdNvgBWjHei4K8LLH6QjkgHXCwtmW5qGoeh_36Vy8kWA@mail.gmail.com>
+Subject: Re: [PATCH v4] ASoC: dt-bindings: ti,pcm3060: add descriptions and
+ rename binding
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: k.marinushkin@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The current code has deep indentation levels because of multiple if's.
-Make it returning and reduce the multi-level conditionals for
-increasing the code readability.
+On Tue, Apr 14, 2026 at 12:09=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
+>
+> On Tue, Apr 14, 2026 at 09:18:54AM +0530, Padmashree S S wrote:
+> > Add description to reg property and overall binding mentioning that thi=
+s
+> > driver supports both I2C and SPI. Rename binding to match compatible
+> > naming convention.
+> >
+> > Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
+> > ---
+> > Changes in v4:
+> >   - Rename binding from pcm3060 to ti,pcm3060
+> >   - Add binding description
+> >   - Add description to 'reg' property
+> >   - Remove unused label in example
+> >
+> > Changes in v3:
+> >   - Remove description from 'reg' property
+> > ---
+> >  .../bindings/sound/{pcm3060.yaml =3D> ti,pcm3060.yaml}   | 10 +++++---=
+--
+>
+> What v4 is that of? There is no such file.
+>
+> Do not attach (thread) your patchsets to some other threads (unrelated
+> or older versions). This buries them deep in the mailbox and might
+> interfere with applying entire sets. See also:
+> https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/s=
+ubmitting-patches.rst#L830
+>
+> Best regards,
+> Krzysztof
+>
+Thanks for pointing this out.
 
-No functional change, just but a code refactoring.
+Since this is a DT binding patch for the same pcm3060 device, I linked
+it to the previous version. However, I realize the subject changed
+significantly, which made the threading confusing.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/6fire/chip.c | 41 ++++++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 19 deletions(-)
-
-diff --git a/sound/usb/6fire/chip.c b/sound/usb/6fire/chip.c
-index dd787de986b1..556882bd9022 100644
---- a/sound/usb/6fire/chip.c
-+++ b/sound/usb/6fire/chip.c
-@@ -165,26 +165,29 @@ static void usb6fire_chip_disconnect(struct usb_interface *intf)
- 
- 	guard(mutex)(&register_mutex);
- 	chip = usb_get_intfdata(intf);
--	if (chip) { /* if !chip, fw upload has been performed */
--		chip->intf_count--;
--		if (!chip->intf_count) {
--			chips[chip->regidx] = NULL;
-+	/* if !chip, fw upload has been performed */
-+	if (!chip)
-+		return;
- 
--			/*
--			 * Save card pointer before teardown.
--			 * snd_card_free_when_closed() may free card (and
--			 * the embedded chip) immediately, so it must be
--			 * called last and chip must not be accessed after.
--			 */
--			card = chip->card;
--			chip->shutdown = true;
--			if (card)
--				snd_card_disconnect(card);
--			usb6fire_chip_abort(chip);
--			if (card)
--				snd_card_free_when_closed(card);
--		}
--	}
-+	chip->intf_count--;
-+	if (chip->intf_count)
-+		return;
-+
-+	chips[chip->regidx] = NULL;
-+
-+	/*
-+	 * Save card pointer before teardown.
-+	 * snd_card_free_when_closed() may free card (and
-+	 * the embedded chip) immediately, so it must be
-+	 * called last and chip must not be accessed after.
-+	 */
-+	card = chip->card;
-+	chip->shutdown = true;
-+	if (card)
-+		snd_card_disconnect(card);
-+	usb6fire_chip_abort(chip);
-+	if (card)
-+		snd_card_free_when_closed(card);
- }
- 
- static const struct usb_device_id device_table[] = {
--- 
-2.53.0
-
+I=E2=80=99m planning to resend it as a new patch in a separate thread. Plea=
+se
+let me know if that works.
