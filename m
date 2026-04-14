@@ -1,164 +1,170 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E853DDDB1
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 11:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0819D3E5ECB
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 11:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776167479; cv=none; b=gb7+pLWWwH5kx32QzOlIxyuyjHGW9LRl2zI5/24DfYSvZ37qX0fdSYNp2Bj52dfCVohT5NSbxWm1GCUCJcF+9uH8oTSEXh3vVrdK/vouNlypoXZ/S7yQwh7jF9Rw5Osc/CHlUUtqyNUoQltv4TrAJU7sSo/gDzYTrbBE9cftuoM=
+	t=1776167925; cv=none; b=H17UScQVNXm2SBPLRMzkrb7XF7q+AgSxJcLUwsfeLaZxum2diDdnteWSkYn2LpA2Rbp7KnWFBfg1sVRb++EK27SdeeJN62Rxz1c+bNGeV9jPUvtPR6LYv8uH3reDiehs+tXnehKMMNC/OuGNPX7y4ucdj/qbyzVWbIx9iZhDGVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776167479; c=relaxed/simple;
-	bh=wNYRKnkSvOd1HlKedRX3ixB7BxSaWh2I6Et2LInBTs8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PNxQ6rkRXhpo+ZRW80HtucLrSps2yolYQUYWMMjLqhcsz/VKrA2cUjtRk+reC05HDzOTdlzy5nUhH7Bo0J9a2VA1NZ15Y+3d7Q86tdiB/1gNP6K+P/qmVnAo4/bgXd5UOZzuvcG60/2oxoFprdminD1Oo2VfDi2CtxiW723p/Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jaKTi8ci; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JKbcZzQT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fPT+5l7C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1T9HPybP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776167925; c=relaxed/simple;
+	bh=EEFObfF/Tpk7ryEqe5WG4MfQjoGFMoxAfSFegUKj280=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rG5qML99r8nWrZW+C9cfeENvPLAPm0sNx3aka73r0bYiDf0PjT3h+haWwRUy3FKjK6ck7o1TbTkrgFWm4U22HfYJcjc8Uk5NYhmhc2n1rJeBekxFq16HEMfWV3YdkxVdMLkFUlz25cGWNaK2rDfRCGlujdXZvPjV9Y7xIMSey1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PCkcZuQI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EFUXdD+v; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jaKTi8ci";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JKbcZzQT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fPT+5l7C";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1T9HPybP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E50F16A8C1;
-	Tue, 14 Apr 2026 11:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776167477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW+IE7r44Hk7ER594BFkao8MysZ0j96s0ItiV9VLx0Y=;
-	b=jaKTi8ci9VwD+6vDRQV8UFWZNuvICxAzM51wXKoD/6oDZl9R0bvaFznBDmC0NTwDD5wMSF
-	1EatbuV4XQbS3gq8VG72t+CJnc4Qdb1oWJ8xGN+JeJbG9j0Y3aInsIAIB3/9Ehelp5kNMX
-	PlzpINQ6UkYH2WpB4D1bCxle4SgYXAc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776167477;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW+IE7r44Hk7ER594BFkao8MysZ0j96s0ItiV9VLx0Y=;
-	b=JKbcZzQTcC75SQAGaccSQKhpdV/50NmJ1uvD4ke3lpg5A3s6du1Da+WvlYkD259/SLNLsH
-	z9xKu7YsoI8TcoBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776167476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW+IE7r44Hk7ER594BFkao8MysZ0j96s0ItiV9VLx0Y=;
-	b=fPT+5l7CnrZAIdN9U9XYqS2LPmFvbGGqx/wA2UoCQvJdI0Nxq4onnWe/w+31Uv4igBXJ6w
-	lJl/Pz6OLNeK4P6xPBfsZdERMHTB7xsT71E3RkzGOSY+p6jCo0gohw8M9m9Jj73VKQ2Ig4
-	KBFXZJ/s2wtt52I4yzqSxi/DZzEuLAQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776167476;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW+IE7r44Hk7ER594BFkao8MysZ0j96s0ItiV9VLx0Y=;
-	b=1T9HPybP0Hg2aAN7PYQQz18Z8dnapz8EGpl3XH2UK6snB4rclWOQizHR4HSn9ls1Czrn9r
-	QhGhEmv6rKJORaAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B89754B41D;
-	Tue, 14 Apr 2026 11:51:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nkrPKzQq3mlvXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 11:51:16 +0000
-Date: Tue, 14 Apr 2026 13:51:16 +0200
-Message-ID: <87bjflsqtn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel Monteiro Pires
- <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: opti9xx: restore snd-miro state after resume
-In-Reply-To: <9fe289a2-b548-4680-9070-7558c516d09f@gmail.com>
-References: <20260413-alsa-miro-pm-v1-1-07cc1ce3463c@gmail.com>
-	<877bqat3y9.wl-tiwai@suse.de>
-	<9fe289a2-b548-4680-9070-7558c516d09f@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PCkcZuQI";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EFUXdD+v"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63EBMfAg3683118
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 11:58:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	XDilR4M9sLaIrKdGwKTtDzaVfHUGw3MciLQMoFnkS/U=; b=PCkcZuQIsktbyp5q
+	IRuvFaQR0gxX0Bl61kMFDGGSE19hkpxiE87+A0dGLE56bRs06akUveHADWL9zXQK
+	P3Kr/G40BAmrHBx8xQGcxEAj9srSiMGecpOvqygF4+qDy/tvTvEnDyIqSNIiMFhv
+	XQSnSqUH3CH+e+EPLbk4Jsqxf113i1yaYF3/shNEt0QtGXc305i5fA+s7EtsD19R
+	ZsO9aGWBlI9cMUpc1ofkgLcO/kHxesmO8QlEmrtaqnxfFfAkICe7ytugp57SFhe/
+	DcMif1Vn9FlGgVfeXaMoZHSgWs2uk4k+YtaKaWhjqBWtJ8Ean5GShqkLA9HSIgFD
+	nAGm7w==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dh87d2jgc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 11:58:42 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5073ed1ec6fso14523291cf.1
+        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 04:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1776167922; x=1776772722; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XDilR4M9sLaIrKdGwKTtDzaVfHUGw3MciLQMoFnkS/U=;
+        b=EFUXdD+vwrw76LFks3ofuP0zCTR8mIYHdbuvht7cESKbtwr2GowmV4eElhDuDWThF+
+         K6ulpJ6v25YKTJg2nxpYHnwrN9HVn9rbwfnV58KLYfWRl87rJz9bzZZZntQBdv5Mv72O
+         umqv0rxFS2advQV1QMrYIUgdmsPH5bD7v81pum0baoiX3uAclbO1OHjeOcDL6IHA8ClC
+         Iwi51x0kcl5HCVuHgoDtDm1aFgUv07NnAoeRM1QgedSVxm7LZ9iqR6jAcGzrdlgBKWw7
+         2GYYS9gc1Dt/b2P05WZwxBQyAT3KsGA63lviGswiP2aoUix8KMHVsnb/w4zvnyC7mrVj
+         lCDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776167922; x=1776772722;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XDilR4M9sLaIrKdGwKTtDzaVfHUGw3MciLQMoFnkS/U=;
+        b=Qf+r/ws/JMfSGmPuMqV2nSCOzDueeTajUl+cjkYGRiLUEag+D0bRhB50ikoCbn7NTG
+         jmx8J84g5xQWVmXRSe/PnG/xApVeyA+foQvFGE+/DpdTNsnVejjhFM9c2bQ7pBs6V7hX
+         hJ4mTkGz3f2UC9bPfmuImSZEYs/RdydQZwD1fmY68jb/r0SmM5n8ovyFdlP4nmg1Ub0E
+         7crOesGrZe7MrtkJFajcFJwCRU2drmVjburTCheMobYCL1a3ZV17zuOMLImZcaLJKAGa
+         fJqc8+aIykCJpYYVwVMgCJ+MN7/ZYbQFWslIyqAsnbt7jvblxV+iky0wAWGTt0XS2Z3g
+         wl1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/O8dZNr5XJo2zgkn72y1B839xKITrjR/m7PaErX8s/6d2Vx5hup79SPUstU8luQFh2tOTmiVBsgOTGdg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5nKsi33xdO2VYtuVuugNw4tFv4xbYoS2wJAqzd4Ae8u7etGb1
+	ayz2vVFkZuXy+EhGH69dSKVeOqR9aIKavqQQtBZIDGUeFGby9gG6SokohWj/iEJ4mcZc/Bj8lJO
+	7LBwSNt4Ghrl3mXnTOjBGEpPpN2RFNDqoIXrNVxCswtumqYihbZdy5dOVZY5ROeeazw==
+X-Gm-Gg: AeBDievPa2AExi/UL1ZYSby45uQq+aLOTt+tpyLnqfjVatYPDy6EgJE/zFKsv/nuGe1
+	dMY53xUJMvvyqiyM4IkR6SBi6ZA30apZBVnytx8MVT9xutWHO9MRpY6E3+xqCsNPHu5RbmiwehG
+	yrlnd9UcuHOqIlagt+xvkGAzy/9w2mGt6AogmVMRdjKHTmLOWjJzzqaU8RVSRc7QVs7l3NiPAwG
+	OVWP3r7hW0kEEeAzF61qRPCEfEC+137Rh4D3TDih5Rq9MRzqZijAzPdGdDCYUcR0vlkFXawWJxB
+	RfHew8jYtTXgG30heMjJNRg/8vxAj7+SVvVdBVgwHI2S1pz7h9Nw+JcJBDFCckJ8g0lALB7ftMb
+	WQQMlWkX01OXkiVgflysila/E4twyRcaB4RJik90bpMSJwiL+bssGr90h/cOqiMTpIumk6TPz5y
+	V3SDVfMYraO3sxPQ==
+X-Received: by 2002:a05:622a:44f:b0:50b:6b21:2a7f with SMTP id d75a77b69052e-50dd5b0ffcemr182739041cf.2.1776167922349;
+        Tue, 14 Apr 2026 04:58:42 -0700 (PDT)
+X-Received: by 2002:a05:622a:44f:b0:50b:6b21:2a7f with SMTP id d75a77b69052e-50dd5b0ffcemr182738731cf.2.1776167921894;
+        Tue, 14 Apr 2026 04:58:41 -0700 (PDT)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67205b178f9sm150130a12.29.2026.04.14.04.58.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2026 04:58:41 -0700 (PDT)
+Message-ID: <19079a5e-655b-4099-8cf8-650e8d743e49@oss.qualcomm.com>
+Date: Tue, 14 Apr 2026 13:58:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/4] arm64: dts: qcom: Enable secondary mi2s
+To: Kumar Anurag <kumar.singh@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260413091937.134469-1-kumar.singh@oss.qualcomm.com>
+ <20260413091937.134469-2-kumar.singh@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260413091937.134469-2-kumar.singh@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDExMiBTYWx0ZWRfXzrdiGS11ImEu
+ yc0ZhoqDHllmtY7vtNuLkV80Ab7BC7OclvBzmsDjEDfwR/5KBKkNGVhPxnOaFEQOOlDISHaN8R0
+ CGTUTRLwerQk6GacRTIhkojBK57owN2Oweyo/Be8c9PKB2CrFaeR82EXMzGVeZci+Dij926zVuI
+ +1DKKISNIfGN31myklRZDpGx/35SLzQzT7ubBT2uDEY6Vube+Zi5ueCCW17jy954S0pbFUQqiLK
+ /xKpPWrQygkm++m188E513u/m/l8XtNcOPVEVkxf2y5M1ENJF43Zcuod0XNrslxSHpY/Tfo8RSi
+ 4Rx20deC70TiZ33STxm0wWcBFUCrrPTSJ+oiGftWIuOqi7GS815cTFqVpEQjWvBGaZXc+ppncMy
+ m/7sMWEqqptHmBL9kEgNkESGQvkN1leLKDP3s4DST+t+kdQr8eJ9athodQQ8guU2vo15vZQlylG
+ ctC0NVgg5WO/RcN/swQ==
+X-Authority-Analysis: v=2.4 cv=N+8Z0W9B c=1 sm=1 tr=0 ts=69de2bf2 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=4xeVu9ZCkff-2oTzBxcA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: E7GYYBTdYSUo_hryOjOhtYmHQevcyHEq
+X-Proofpoint-ORIG-GUID: E7GYYBTdYSUo_hryOjOhtYmHQevcyHEq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-14_03,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015 phishscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604140112
 
-On Tue, 14 Apr 2026 13:14:11 +0200,
-Cássio Gabriel Monteiro Pires wrote:
+On 4/13/26 11:19 AM, Kumar Anurag wrote:
+> Enable secondary mi2s to support HDMI audio.
 > 
-> On 4/14/26 04:07, Takashi Iwai wrote:
-> > On Mon, 13 Apr 2026 21:45:34 +0200,
-> > Cássio Gabriel wrote:
-> >>
-> >> snd-miro has no PM callbacks, so system resume leaves the OPTi
-> >> master-control registers and the board-specific ACI mixer state
-> >> unrestored.
-> >>
-> >> Like snd-opti9xx, the driver needs to reprogram the OPTi routing
-> >> registers before bringing the codec back. snd-miro also keeps mixer
-> >> state in the ACI block, so the codec resume callback alone is not
-> >> enough here. Save the ACI mixer state on suspend, reinitialize the
-> >> OPTi and ACI state on resume, replay the saved ACI values, and then
-> >> resume the WSS codec. Hook the PM handlers into both the ISA and PnP
-> >> paths.
-> >>
-> >> Also initialize miro->card on the ISA path for the existing dev_*()
-> >> logging and keep the cached solo-mode value aligned with the value
-> >> written to hardware.
-> >>
-> >> PCM20 radio tuner state remains outside this driver's PM scope.
-> >>
-> >> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> > 
-> > As it's no trivial change and we are already in the merge window, I'd
-> > postpone this for 7.2.  Or, if this is the very last piece of your
-> > whole changes, I can try to put.  Let me know.
-> 
-> This is not my last ALSA outstanding piece but this is not urgent either,
-> so postponing it to 7.2 is fine with me.
-> Please defer it to the next cycle if its proper to you.
+> Signed-off-by: Kumar Anurag <kumar.singh@oss.qualcomm.com>
+> ---
 
-OK, I expected that ;)  Will review it later.
+[...]
 
+> +&mi2s1_data0 {
+> +	drive-strength = <8>;
+> +	bias-disable;
+> +};
+> +
+> +&mi2s1_mclk {
+> +	drive-strength = <8>;
+> +	bias-disable;
+> +	output-high;
+> +};
+> +
+> +&mi2s1_sclk {
+> +	drive-strength = <8>;
+> +	bias-disable;
+> +	output-high;
+> +};
+> +
+> +&mi2s1_ws {
+> +	drive-strength = <8>;
+> +	bias-disable;
+> +	output-high;
 
-thanks,
+For these pins in their "mission mode" function, do we expect these
+pincfg settings to ever change (i.e. across boards, will the drive-strength/
+bias/output properties differ?)
 
-Takashi
+Konrad
