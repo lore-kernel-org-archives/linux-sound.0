@@ -1,117 +1,90 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E5B3E6DF2
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 13:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A503E715B
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 13:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776173106; cv=none; b=t82zorwO1oKOlUYJazIQ6GHcZefZs9EoNqnoGyQ1O26bYxceuN6uI1F6BMCPzZJM4jl5cbcrIvMQaxm+NsuG2nJetkE0bAmsaUsINyx8tOPpfObgQits+flqYc3GEMBpE/hyk8ACiaTx6HDE0NSJ2DxqnXRBnrds3jey3afIA9E=
+	t=1776173122; cv=none; b=Ttp0yp1cddGjnUCMis/TtY+HDQJ6Ow4LaRfzYJ4i8+INT+nC6xFqip9/yQbLIhnvTFRv0C7jkFOuOG136+atbnVCYwvLiL4g5+GgKhQNfKPji9u6QcGxsJ4pS/P0LRPKEzr1SqJmuF5n2i8o7V7jEiedHeo+3FO1qW6KNGCKqNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776173106; c=relaxed/simple;
-	bh=RWMWWhBREYWNutiyCoxu5SfAs+bK2NNa7S06nm39YoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d9zJiR1jm23cVtwIScvcsgZBXUodvYe9jMU4IjxuOjHTwSct58BD68PIcqqdItPSZtO2qSi+rgd44sjBQ2TxinUEgekUVJxiMQ28SIn/zklIAfJL66LJk52rXIOQq6AkcGtI8t77V7pLGAqXkghi91TA/ftfQVgJRFObkZAbKZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7i/1LEs; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776173122; c=relaxed/simple;
+	bh=ZTedvpbKxRbo8k9/X01/qQdOnVBa0zUtpL7xoSc55Q0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g5c+UDGJOBaU3VXQqrAk/pzOi6f9/NIieWzU6igFQtkujlAcDjcq7o5tqWUAsOJM6lX4CgWGxqv/BQcP1w+A+TDgVWo4Wt/ZbQUWjum06oZvO3DpOaYJmPtcjsLkZeoz9PdIUMAa1QLqdyC+BBPL9XC4vvXmy34fy2Y70X0Tyhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYi/R/Ka; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7i/1LEs"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35d9b4f93f0so1004863a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 06:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776173105; x=1776777905; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=opcylBd2GGN1SyilCKpA4V3rg0BLKqf3938q77JOvpk=;
-        b=I7i/1LEsXQRh8w5EskKQtbUKMblrLhFkHtWNI8cNF5hbtFbFMJUbJkjwGvnW8LR+wI
-         P1T8iIVU4Tq1tbuA2A11hPgUDbGM6I1YDgWpCq5rVazjkGlgg8/lyxl8Ca8sjw2Ci2+0
-         hbTro6RrpmJXu0Fl4E7GRGhUqA57tPe/dKKirJHIFo18m3MsE6z/tsIKp3qNkfbRx7Pw
-         jcU6Wet5FKnarbf0x435bbBcQ3t1eqRkEugXEbbEr74rxEPphefyqmDwd9VnV1SDdSr3
-         oz2yfTTAujhWtwaz8A+Rs9rALIx1k8nR/VAsjodFc5y14vi9opjShTImOXoX8MzdNpaF
-         Kd6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776173105; x=1776777905;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=opcylBd2GGN1SyilCKpA4V3rg0BLKqf3938q77JOvpk=;
-        b=NIvlDlqQ5v5MSmV9zUmaWeBNYsEOhtcTPliyGpvC3JSTXBDvakDop3zVtzubfazaRr
-         fA6BYVpf8VUZkYXpM0iH6eEmAklHpviD71nBHxkR/4pYFhDY/gWqVwhFrSMgpFKXIET7
-         5JrZh0L1ONKZDH5mI159y4yerw+SJhwa8Ls9YPbzOQJK7K284sXlDWLZe3AN9rhUV2uW
-         sevEzafRlKdlIMUzPKNRwMElOQlJsoQAI7oeC+M0QKXL80NdqeWIrDwlaMOzFCAHv2C5
-         GeC4gxYx1qvghRwt8CWb92CaGhKdTrOme191mastNM1IYcYWqajx0apJ1HDfZqG+yxGl
-         CYPQ==
-X-Gm-Message-State: AOJu0YwRG5ILbPT24i5H3qcGTx+ncb6z4Blorijcm5ThpFD+XQm1nNZE
-	CNUmQdaugH5xCLGImpdFBy8G1SDPoW0DXn4UlFvxT32wDGTDImZkRGgX
-X-Gm-Gg: AeBDievorTRQ70c0D+p4ZwEcvdpNv6cxckUME5m/dTOlzHRLUMnhUKTeLz2WEQcWojK
-	rJ2z6F1XcXlryzi3+jVfypO52OUl5gViFJD/+Xz7pjHYMAcNhypguM6o6sXs/qRSJpvPjgrAewm
-	Wc66fUxOurcl74jwurMzgfU8Vfih0Qmly9SYXLmoMEfF9cY779U4NoEd2kGWXfqX0E/eerLPVYi
-	QrSGGzAAdyj1af4MHlgbQRVVTc021mcRmuQVD0qT/+fRtEovkTm4xzY+Gjkqv0+AhqZwQ6wZxnt
-	G8mATKIXKShCWSZOPWOh+A1yoh4a1Q5kRS79Cn5KVU2Lbh9prSNOS5v3e1/79U0FJnnxHOBoJ2T
-	tpKmqlzOxW3EsR3t1DH1P3Zf54HTkjMmrFDxkcgE9y9QDcmFAb4fJu7cPJLazcro2gPJGcrRoe1
-	j/9fk7pZST2ib/eMF7mRgaL9D7c7xiSZIKS1gMql7t4U3n8nl3uo1nqz5mhJ63
-X-Received: by 2002:a17:90b:35cf:b0:35e:576c:7c1e with SMTP id 98e67ed59e1d1-35e576c7d9cmr6196495a91.4.1776173104648;
-        Tue, 14 Apr 2026 06:25:04 -0700 (PDT)
-Received: from mi-HP-ProDesk-680-G6-PCI-Microtower-PC ([43.224.245.229])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7921a12adasm12526545a12.26.2026.04.14.06.24.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 06:25:02 -0700 (PDT)
-From: Ziqing Chen <chzq96@gmail.com>
-X-Google-Original-From: Ziqing Chen <chenziqing@xiaomi.com>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ziqing Chen <chenziqing@xiaomi.com>
-Subject: [PATCH v2] ALSA: control: Validate buf_len before strnlen() in snd_ctl_elem_init_enum_names()
-Date: Tue, 14 Apr 2026 21:24:37 +0800
-Message-ID: <20260414132437.261304-1-chenziqing@xiaomi.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYi/R/Ka"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F66DC2BCB8;
+	Tue, 14 Apr 2026 13:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776173121;
+	bh=ZTedvpbKxRbo8k9/X01/qQdOnVBa0zUtpL7xoSc55Q0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SYi/R/Kayh/+xIqtsyZULeTmZ3K1Q1hyhIMOge8PjQGjCufqb5uWAzkLc189tEol7
+	 pxjrKbCp26ExjyXjlRBsT8x5HA4J22A6h0wppj2QWkWs89JDlr+8IM2uxF/UCEhbQ0
+	 GccIJ7z5n62qOH4gXQCNLmW9iBrVn3wmmQ9S8pK7LxuRxoLUGhZLUXoHRmn/zBBczF
+	 N1oGJZQtoD3Ty5qSNXNVSpZEWsC/sCbcv7emZn94xjB5A6t2WmOWekDrTV8ZD+X5td
+	 0QonOopwIdzqal1HCpY1vZ2oA6a9djp+UXDqjzOfizTT9BqZDNOMavL1hh2IWQ20Ku
+	 bWo3DEoZctlew==
+Date: Tue, 14 Apr 2026 14:25:17 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: tiwai@suse.de, linux-sound@vger.kernel.org, bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: Re: [PATCH 2/2] ASoC: SOF: topology: allow user to add topologies
+Message-ID: <8843a6e0-8e7b-4196-8834-4b8cda3c5826@sirena.org.uk>
+References: <20260414124443.3270016-1-yung-chuan.liao@linux.intel.com>
+ <20260414124443.3270016-3-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ldHn+muE5N1PQ38c"
+Content-Disposition: inline
+In-Reply-To: <20260414124443.3270016-3-yung-chuan.liao@linux.intel.com>
+X-Cookie: Academicians care, that's who.
 
-snd_ctl_elem_init_enum_names() advances pointer p through the names
-buffer while decrementing buf_len. If buf_len reaches zero but items
-remain, the next iteration calls strnlen(p, 0).
 
-While strnlen(p, 0) returns 0 and would hit the existing name_len == 0
-error path, CONFIG_FORTIFY_SOURCE's fortified strnlen() first checks
-maxlen against __builtin_dynamic_object_size(). When Clang loses track
-of p's object size inside the loop, this triggers a BRK exception panic
-before the return value is examined.
+--ldHn+muE5N1PQ38c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add a buf_len == 0 guard at the loop entry to prevent calling fortified
-strnlen() on an exhausted buffer.
+On Tue, Apr 14, 2026 at 08:44:43PM +0800, Bard Liao wrote:
 
-Found by kernel fuzz testing through Xiaomi Smartphone.
+> +#define MAX_FEATURE_TPLG_COUNT 16
+> +
+> +static char *feature_topologies[MAX_FEATURE_TPLG_COUNT];
+> +static int feature_tplg_cnt;
+> +module_param_array(feature_topologies, charp, &feature_tplg_cnt, 0444);
+> +MODULE_PARM_DESC(index, "Topology list for virtual loop DAI link");
 
-Fixes: 8d448162bda5 ("ALSA: control: add support for ENUMERATED user space controls")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ziqing Chen <chenziqing@xiaomi.com>
----
- sound/core/control.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Should that MODULE_PARM_DESC() reference feature_topologies?
 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 0ddade871b52..6ceb5f977fcd 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -1574,6 +1574,10 @@ static int snd_ctl_elem_init_enum_names(struct user_element *ue)
- 	/* check that there are enough valid names */
- 	p = names;
- 	for (i = 0; i < ue->info.value.enumerated.items; ++i) {
-+		if (buf_len == 0) {
-+			kvfree(names);
-+			return -EINVAL;
-+		}
- 		name_len = strnlen(p, buf_len);
- 		if (name_len == 0 || name_len >= 64 || name_len == buf_len) {
- 			kvfree(names);
---
-2.52.0
+> +	/* Loading user defined topologies */
+> +	for (i = 0; i < feature_tplg_cnt; i++) {
+> +		const char *feature_topology = devm_kasprintf(scomp->dev, GFP_KERNEL, "%s/%s",
+> +							   tplg_filename_prefix,
+> +							   feature_topologies[i]);
 
+Should really have a NULL check in case we OOM, though the chances of
+that actually happening are rather low.
+
+--ldHn+muE5N1PQ38c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmneQDwACgkQJNaLcl1U
+h9BQvgf/eVN7pj+kWq0fTAeQGHw6/pPBezplvTzUVzdT6KcwLNlp45/bZ/8+29bb
+pjQNT0mNgiPSvlYljqC6VW9jx6yP7ZLB7MLPfFK2YaOJCCQeQogRdPocA3emZZEH
+GbczWj2qZYGD1hNph+QIFshVw8LEcHybhxpLhn/dudDsBbxviFoMRUhu9m9vdVa4
+YcbZJru+Tn05Uu2QwT6TKibHQNoCrIrDOVmf0pNcU6Jyzq+zROHRh2fTRs2uHrW1
+N8X2QjUhXHLNrmzWIRvhOPxj5ocmmABmjQN6eugFUxoZ38SrSjpWMg92cE7rNhji
+0kAficyj0sqA2adn1fYqS6msl99low==
+=mJ9E
+-----END PGP SIGNATURE-----
+
+--ldHn+muE5N1PQ38c--
