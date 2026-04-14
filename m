@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B66C3EDABA;
-	Tue, 14 Apr 2026 16:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704B33EDADA
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 16:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776184112; cv=none; b=UTXCBuMzGoxkf/YfzHNzqxV4xfE9duaTx8Yb+4Lq/krb1iKn5OdJj5sbQfdHnXnB56/WkAcU+qd/MC86YVGmZfETdTNc2LAHG17hNxWvWy4r4a4l5M9G4vze/qwHhRMLUHHsfNdZHe9st5iiJIWnW4yCFMJqNrEUhg+SWASwHDw=
+	t=1776184116; cv=none; b=Emrty9Z19Kxcc4Xei1l63dFhG/MLLirRN+OBr9JzzCXHnXk3BJoLYMS7Hox60WOy2VvXOqIexMYqq8n7M0H/vkfOcCQHLJIWJ+8F0jynGzPelmM+kjh1yoeDbQE+ZFAvn2tqFUEOuf0shYAE+I0/L7Brp5s6XYPx/eH/LA/JJMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776184112; c=relaxed/simple;
-	bh=V39/1btDjdN7e2y8LscmUX4ZzmoyzNnPY1iu5oCTcZs=;
+	s=arc-20240116; t=1776184116; c=relaxed/simple;
+	bh=WtxpR3VMa7SGRjZmUceh+dFtarwxsu2no5AtO0o88Ws=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DLmDx3Rxu/Puk9LfFPNugeABor0J1rgKahJe2+vv3v8/MZUvqd1I7OjFIrgzNM/uAyINm/Q2P9axQbb51oI3hAdSuYHDI/kH556jVq4bI05W+IqxAjaVoEp+Rjc+XeaVycGjegDS7gORKtuI9wgN8U7Y+vDTcpfig4fWXgrBCJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxhigXBG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Hn7N+wRf6aLC5TVx9euYYEBWWbA+vXfDK9gXdc0O4wgI9Qa2G71VHo7JCSpz0HhCpMl0tGpUssTQAEE29GalxQPtLt8u56L1FlIIuGeKCokjMRlSbZ2fuwtsAeyog4ccBZN1a1RTfhMW1ln8CNmpLC+RhLo3C8jikxe0C29obUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pf831A2M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxhigXBG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD7AC2BCB5;
-	Tue, 14 Apr 2026 16:28:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pf831A2M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBBD8C2BCB3;
+	Tue, 14 Apr 2026 16:28:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776184112;
-	bh=V39/1btDjdN7e2y8LscmUX4ZzmoyzNnPY1iu5oCTcZs=;
+	s=k20201202; t=1776184115;
+	bh=WtxpR3VMa7SGRjZmUceh+dFtarwxsu2no5AtO0o88Ws=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XxhigXBGR4haixhCigfadFr/eK5rG1Or+BrTf1GrNFDBuNAVW1aIGjd/qQuKu07FZ
-	 by4i6+b6OyN0IS3aMkdousOJ9cCvC0Gy8/HY3fk0dK9HxDG7TNeaEtlyJA4Z/I41n6
-	 DUek/UjN3bDoZAhZrepCFiHg73XYWtqUuCofK4+g4uJRV2T4DFhZQCYTwE9pBDyWwm
-	 RM0tZbUstYza5ZJmSPgM8jpgvRWnw3ue0eDVuVKMGpuvcT19Jpa6VcJe+wiy6WFTw4
-	 /IW7w8yVEGhvXnSGZZXkvvZeRc4r65JNUXyYiGCZvi/NQoBOsCz4+bRKYnm1mBAwRL
-	 hreMp+w7zGCnQ==
+	b=pf831A2MZ9TqynxVU9/Xun0p4GU7BIp5f8NwU+RMfeE7RhICADafZ3FwfhZ+7cJUG
+	 VGupC09b4uagoENEGW6DlWuE6b1mTmldbcShdbO6ULOuh1mkl5fY/JD9jn107Km5qj
+	 KbSM+jnsHRwoZki9acE7Eq0OmAmj8dWdb5vOHJ4rAAJCacCtyyDw2Qr4mMMSDe4Z1L
+	 WbHjEaELW4YgocdiebGxmuJuCauw3P/b0dgyWSVrHNUpegUK+u+QJHBcKgT4zzDXG9
+	 6ZX+yE9rCpibW7cMD1hu+lBGDUo15TDJOh3qB1PQtmeQ/Xa8ys1r16o0qFqw9kPwhC
+	 lp1l5QOoS1bzQ==
 From: Mark Brown <broonie@kernel.org>
-To: Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>, 
- kernel test robot <lkp@intel.com>, Dan Carpenter <error27@gmail.com>
-In-Reply-To: <20260413-ac97-v1-1-b44b9e084307@nxp.com>
-References: <20260413-ac97-v1-1-b44b9e084307@nxp.com>
-Subject: Re: [PATCH] ASoC: pxa2xx-ac97: fix error handling for reset GPIO
- descriptor
-Message-Id: <177609976501.111092.1025386040469103436.b4-ty@b4>
-Date: Mon, 13 Apr 2026 18:02:45 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
+ peter.ujfalusi@linux.intel.com
+In-Reply-To: <20260413060800.3156425-1-yung-chuan.liao@linux.intel.com>
+References: <20260413060800.3156425-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: SOF: Intel: NVL/NVL-S: add platform name
+Message-Id: <177616724495.46569.8549625903131972752.b4-ty@b4>
+Date: Tue, 14 Apr 2026 12:47:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +44,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=broonie@kernel.org;
- h=from:subject:message-id; bh=V39/1btDjdN7e2y8LscmUX4ZzmoyzNnPY1iu5oCTcZs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp3mssD4Qyc33RSSk48z1ootLeK9Csk9hr8VRC5
- em8GXkZzdeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCad5rLAAKCRAk1otyXVSH
- 0PUQB/sFn2qQIPGSkEKBfxGsYCHFs0WV/TDR0tlx77sI1iLR7XOYqdqZkbtrDLlC5OWv/Fgx26l
- Zgdnh6cVzmBBtyfu4ps4K2gzsvzDhkjb7gqUubLGSnQqCQGM+Mswea6ia0fC79JhUoBQRvvUv9b
- /OCzyMOs4XcdcCaG+sGoFOvFkmMaeYRWjlrwyfuthnughI86z+tVYGGvcTgTBE5ltfJ6NbXH/PC
- 2iXQPM0Y+dO7F+dkeJmc21OglM2z9rx7/uQhlYCxct6bpAPgHFrIlOlm1WVjBQWbnjEIjh46O+K
- K7AOSTSNcvF2yk3o86NHT2riuDdmF/FjfH5s6WBlZRZTvtFO
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1399; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=WtxpR3VMa7SGRjZmUceh+dFtarwxsu2no5AtO0o88Ws=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp3msxMFIaBwC1bN3KBj+5vL4z0pfNRk89bmn+u
+ sFXlDxrwueJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCad5rMQAKCRAk1otyXVSH
+ 0KkLB/9xGE36PJ//FheTnKAxFF9Gi05vSn5LgnsUhbgKXeSyBiw56eUWV02Kv6MtwGEZhFWcEfD
+ 5EkVoUAx/UFaDHD6/wzgHBHURXi3fC67qYQwgzd0pXgTdQe34wibiAHVAbPyzgBjR1426hfT9S5
+ 2CjwJi0z7ZtwUFTvObep9tjf8KfxijZfSmuB+F/plRSRZd5fNKzKIyxr2w3uIzJ8Y0Um/1Xb1zq
+ JLOm7t74urmCfz335n1/0bWoDGNVmRMIBPZwxLgKWrXPJ+qkF7xeOklRRBKqi6fG1ZlTfH/pilJ
+ ir9jBJDcWmyjPjpMeCFq0k9yWQKWnmuMNW4c6h2Uu0Dko8JP
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 13 Apr 2026 18:52:43 +0800, Peng Fan (OSS) wrote:
-> ASoC: pxa2xx-ac97: fix error handling for reset GPIO descriptor
+On Mon, 13 Apr 2026 14:07:58 +0800, Bard Liao wrote:
+> ASoC: SOF: Intel: NVL/NVL-S: add platform name
+> 
+> The platform name will be used in the topology name.
+> 
+> Bard Liao (2):
+>   ASoC: SOF: Intel: NVL: add platform name
+>   ASoC: SOF: Intel: NVL-S: add platform name
+> 
+> [...]
 
 Applied to
 
@@ -70,8 +73,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: pxa2xx-ac97: fix error handling for reset GPIO descriptor
-      https://git.kernel.org/broonie/sound/c/54a032d3e62f
+[1/2] ASoC: SOF: Intel: NVL: add platform name
+      https://git.kernel.org/broonie/sound/c/ab463b465585
+[2/2] ASoC: SOF: Intel: NVL-S: add platform name
+      https://git.kernel.org/broonie/sound/c/a158fe7b0c81
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
