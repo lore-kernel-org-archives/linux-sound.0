@@ -1,98 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0154D3E6392;
-	Tue, 14 Apr 2026 12:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from outboundhk.mxmail.xiaomi.com (outboundhk.mxmail.xiaomi.com [207.226.244.123])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACAA3390CA9;
+	Tue, 14 Apr 2026 12:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.226.244.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776168256; cv=none; b=N5082Qkf82TU2QyN04FRF4sXdk2d/xr+fmzBJuqBU0oQO1M3DzAokxqNjlzFOl3pv4LLCtX5iCWADn6A0N8oisKujsTk9FhA/ylVcozMuam7sqn53QrZ3u1+SVPaWwfndrx0f4dk3s+5UAMoeTjshbzPSXX3Q+PqvpwJ7hvAFZk=
+	t=1776169116; cv=none; b=kzlAL9r4hruAlmj/30Xycii5KqNAgY9cGaUBpd0gU9yUmc5qAP9Uz0bu0zQb8J20oF7/cJsElOxjz40ss+ZFi4LHRU4+XJXm+cS9Nxn8bFKh68BOxPrQsEldmzTZ2LVVddM0Q/8gdx7lvkOXVb1J94aJmHXtmdGQwtyR4kPHoYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776168256; c=relaxed/simple;
-	bh=BX5YCq2Mgkwa0kNijt5koTAwGRG9IGV0JcuH6CeTfcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OO2EEWeHZb0DT/PfuAfCKHi9JC21EnuCpFk58NgXcGz+nKedAyBbflcTOXENlJ8BqfaXGh5hmc6fq+QtNy3cZn1ZBGfWS7hQOei9Iq+2amxkNtP2hn35KZuujb7GaWTgiFfPSlGlYYVo8bF+Q1SXKJTMCc9LfOSg43uVtbEOa/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OFZdirK/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OFZdirK/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EEBAC19425;
-	Tue, 14 Apr 2026 12:04:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776168255;
-	bh=BX5YCq2Mgkwa0kNijt5koTAwGRG9IGV0JcuH6CeTfcI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OFZdirK/4vxULfIPqZLH7vo6QriaMTaRqHmcatLqDVoGWNPjDYmSfbWluZ9Mlg6gB
-	 YyqDA98hSjFgDWe51n3DzI1/aOenQGlDqRTwKUWejAYkTzbUN5mpOZpoWsEQhSMfzt
-	 hX9fghxugxkgW167Ab7naef9zmPW0Ntw+p2IIgb/Jt2zxZgrn6eCyzBuNk5rQ4Rv+G
-	 t0GQs7lRqWVPCVYlSOYxMFgJT8d9A6yTbN7ufsRjLyUOuTPUYP6kOa4depKZSdx91P
-	 YAza3DxC0k7/yDunvw1fBS2/EThTu2YqZ/aVWLUs87vKfOCvizgAsHFayr9cjDJohb
-	 VsKW2Lo7HfCpg==
-Date: Tue, 14 Apr 2026 13:04:10 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, srinivas.kandagatla@oss.qualcomm.com
-Subject: Re: [PATCH v1 2/3] ASoC: codecs: lpass-va-macro: Switch to PM clock
- framework for runtime PM
-Message-ID: <c71d2ce2-e6e7-43a7-bfdd-e1cc1008b3b2@sirena.org.uk>
-References: <20260413121824.375473-1-ajay.nandam@oss.qualcomm.com>
- <20260413121824.375473-3-ajay.nandam@oss.qualcomm.com>
+	s=arc-20240116; t=1776169116; c=relaxed/simple;
+	bh=6o1+bTIpGHTw7bkmfAkAG1sdQDF9myb5dXUiMp5dlWQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PFAStdPrmX+OoYXIvoWbIyZLc67ekh3AWNS3gxojUu8Te2enXHUiLV5PG6Ht6IJG+4w9kN0me0GXGsemFA9TiONv1OPuAYPqz4iXDbTGSsM580DNhn112XfxwDs2nCo+tHbpdfg5MEm8c4xuanYm8i7OuPeDB1XbYMTZtfOLmHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com; spf=pass smtp.mailfrom=xiaomi.com; arc=none smtp.client-ip=207.226.244.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiaomi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaomi.com
+X-CSE-ConnectionGUID: QrivI3FPTjidUcPX8Tk92g==
+X-CSE-MsgGUID: ivuZY/OlRwu0SVqQmA7klw==
+X-IronPort-AV: E=Sophos;i="6.23,179,1770566400"; 
+   d="scan'208";a="172792398"
+From: Ziqing Chen <chenziqing@xiaomi.com>
+To: <tiwai@suse.com>, <perex@perex.cz>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>, Ziqing Chen <chenziqing@xiaomi.com>
+Subject: [RESEND PATCH] ALSA: control: Validate buf_len before strnlen() in snd_ctl_elem_init_enum_names()
+Date: Tue, 14 Apr 2026 20:18:14 +0800
+Message-ID: <20260414121814.221126-1-chenziqing@xiaomi.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260414090542.151447-1-chenziqing@xiaomi.com>
+References: <20260414090542.151447-1-chenziqing@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eT95a1e8Q9Y9rll6"
-Content-Disposition: inline
-In-Reply-To: <20260413121824.375473-3-ajay.nandam@oss.qualcomm.com>
-X-Cookie: Academicians care, that's who.
-
-
---eT95a1e8Q9Y9rll6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: BJ-MBX05.mioffice.cn (10.237.8.125) To BJ-MBX03.mioffice.cn
+ (10.237.8.123)
 
-On Mon, Apr 13, 2026 at 05:48:23PM +0530, Ajay Kumar Nandam wrote:
+snd_ctl_elem_init_enum_names() advances pointer p through the names
+buffer while decrementing buf_len. If buf_len reaches zero but items
+remain, the next iteration calls strnlen(p, 0).
 
->  	struct va_macro *va =3D dev_get_drvdata(dev);
->  	int ret;
-> =20
-> -	ret =3D clk_prepare_enable(va->mclk);
-> -	if (ret) {
-> -		dev_err(va->dev, "unable to prepare mclk\n");
-> +	ret =3D pm_clk_resume(dev);
-> +	if (ret)
->  		return ret;
-> -	}
-> -
-> =20
->  	regcache_cache_only(va->regmap, false);
-> -	regcache_sync(va->regmap);
-> =20
-> -	return 0;
-> +	return regcache_sync(va->regmap);
+While strnlen(p, 0) returns 0 and would hit the existing name_len =3D=3D 0
+error path, CONFIG_FORTIFY_SOURCE's fortified strnlen() first checks
+maxlen against __builtin_dynamic_object_size(). When Clang loses track
+of p's object size inside the loop, this triggers a BRK exception panic
+before the return value is examined.
 
-Same issue here (and the cache only mode needs to be reenabled), and
-likely also in the third patch thouh I didn't check that yet.
+Add a buf_len =3D=3D 0 guard at the loop entry to prevent calling fortified
+strnlen() on an exhausted buffer.
 
---eT95a1e8Q9Y9rll6
-Content-Type: application/pgp-signature; name="signature.asc"
+Found by kernel fuzz testing through Xiaomi Smartphone.
 
------BEGIN PGP SIGNATURE-----
+Fixes: 8d448162bda5 ("ALSA: control: add support for ENUMERATED user space =
+controls")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ziqing Chen <chenziqing@xiaomi.com>
+---
+ sound/core/control.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmneLTkACgkQJNaLcl1U
-h9CJawf8CUJh//tehQGfI0PIkFRtlLDm8Yarj99M/FLmttpoa9LVHmeMo505YgNt
-ehNcVR0ytl3OOK+nHuVyIkfmiSZdB0nm0GH6mrT01xZa0qDoCUn5TrvmL/8dI5Qw
-5nWmKuokkkzl7d4QI003YT9lOlZVzh9elp1GqC/WPgK3MnOSj5t4HKCOyDJcXPuY
-hcjd8FtDOTesXKQ3Ki2V3CIwJpdQCysN9XMOuHNCzhO+1kBd6ez8unTcb0J8ehl2
-KSj/lK7D3H9Anh077ZPXS0fhM3pLq1oC/0yPa2e8lQIHGor0p/NPxoxjPfgiLJ2n
-lNYY1cAwO0+b4bZNxnsGuOJHUuRAhQ==
-=3pKa
------END PGP SIGNATURE-----
+diff --git a/sound/core/control.c b/sound/core/control.c
+index 0ddade871b52..6ceb5f977fcd 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -1574,6 +1574,10 @@ static int snd_ctl_elem_init_enum_names(struct user_=
+element *ue)
+        /* check that there are enough valid names */
+        p =3D names;
+        for (i =3D 0; i < ue->info.value.enumerated.items; ++i) {
++               if (buf_len =3D=3D 0) {
++                       kvfree(names);
++                       return -EINVAL;
++               }
+                name_len =3D strnlen(p, buf_len);
+                if (name_len =3D=3D 0 || name_len >=3D 64 || name_len =3D=
+=3D buf_len) {
+                        kvfree(names);
+--
+2.52.0
 
---eT95a1e8Q9Y9rll6--
+#/******=B1=BE=D3=CA=BC=FE=BC=B0=C6=E4=B8=BD=BC=FE=BA=AC=D3=D0=D0=A1=C3=D7=
+=B9=AB=CB=BE=B5=C4=B1=A3=C3=DC=D0=C5=CF=A2=A3=AC=BD=F6=CF=DE=D3=DA=B7=A2=CB=
+=CD=B8=F8=C9=CF=C3=E6=B5=D8=D6=B7=D6=D0=C1=D0=B3=F6=B5=C4=B8=F6=C8=CB=BB=F2=
+=C8=BA=D7=E9=A1=A3=BD=FB=D6=B9=C8=CE=BA=CE=C6=E4=CB=FB=C8=CB=D2=D4=C8=CE=BA=
+=CE=D0=CE=CA=BD=CA=B9=D3=C3=A3=A8=B0=FC=C0=A8=B5=AB=B2=BB=CF=DE=D3=DA=C8=AB=
+=B2=BF=BB=F2=B2=BF=B7=D6=B5=D8=D0=B9=C2=B6=A1=A2=B8=B4=D6=C6=A1=A2=BB=F2=C9=
+=A2=B7=A2=A3=A9=B1=BE=D3=CA=BC=FE=D6=D0=B5=C4=D0=C5=CF=A2=A1=A3=C8=E7=B9=FB=
+=C4=FA=B4=ED=CA=D5=C1=CB=B1=BE=D3=CA=BC=FE=A3=AC=C7=EB=C4=FA=C1=A2=BC=B4=B5=
+=E7=BB=B0=BB=F2=D3=CA=BC=FE=CD=A8=D6=AA=B7=A2=BC=FE=C8=CB=B2=A2=C9=BE=B3=FD=
+=B1=BE=D3=CA=BC=FE=A3=A1 This e-mail and its attachments contain confidenti=
+al information from XIAOMI, which is intended only for the person or entity=
+ whose address is listed above. Any use of the information contained herein=
+ in any way (including, but not limited to, total or partial disclosure, re=
+production, or dissemination) by persons other than the intended recipient(=
+s) is prohibited. If you receive this e-mail in error, please notify the se=
+nder by phone or email immediately and delete it!******/#
