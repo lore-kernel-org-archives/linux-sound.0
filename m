@@ -1,94 +1,141 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6CC370D5A
-	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 07:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F2237CD33
+	for <linux-sound@vger.kernel.org>; Tue, 14 Apr 2026 07:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776150917; cv=none; b=D4wuyTYb/sB3jOb7irQa4BAx+4W0TpaenfGkAqs5qGCLMKsvbYWwSwfAdth5vLbEtCjlg33UbE1d7xOryCxjHPpJt7oL18tO3gJW4d7lntcQ5RrcSuYfTpMZnAzWK9a7pAICzLvCZ82qQ4hYDsrJi5IKm7PXkmnJiDjmcWKe5zM=
+	t=1776151184; cv=none; b=mGymVmIJYf40YwRCWcd6LuAEgvI+6gSmbwJECJelr+K9Hp2eVqldwh8BpJHyeqAD13anQq1GiFV4yazgmnS1QtnWdcOKB8i7238Pwkmy6kVIik3T2rrc7ICUKu8oU5k5KzVSrSEXGFeVgqAryfJQ4l0mWCK/FVMHGaVFrNSPQbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776150917; c=relaxed/simple;
-	bh=m6IgMLX6OT4wRBXE+qDKIiv1EV5rYiq1+WXKhEwOSMo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CfsirtZyWY3kEtk+fkP6qLMO1ZIldENuvbCCjabMifxyTmB7hXKHOjEewWW/Q6L4BHPKAJhya34qx9pMRYvCwJekvOesqGp11We6bmEhaj5tYFo4kuVr4C6vlz9BMcaliv2g92Mv7V7HcQYdD8ho4VepC2AthDc4cV3m7JWsvFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Mplj3vYT; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1776151184; c=relaxed/simple;
+	bh=s4xzCWW+ffE/rLyBPqkpWGkP1xnKwhANTa6zp31RPaU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q6tXWq3t+nCcZvkLuW9g8EsaMp6Nr5Z6psJaJY8Ct4mEByqqbEey5AoKENH0+SR8TQ1kBV4Wf7XHMFZcQuCEO9GVw7Rz5KK0qnAzmRmBmT80OY5OZCRg1JrvkpRvHYykfsUdtszwN4wJB6E/G19JZJR0VO4LPNFXm9x3+n1AYJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KHwLs7Te; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1FWZGjWi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KHwLs7Te; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1FWZGjWi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Mplj3vYT"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 63E7EkiW61583921, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1776150886; bh=vS+UKlzMpKIZtFZQHwLOqk/Pfl4N4ALavRgvymbGaaQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=Mplj3vYTEUoKZtrcNrXxQsRT6r38gBTzBqqwkhrBSrLpbRlsfVrj71/paLjEOkVso
-	 LxdgHqg7FQBcRtyC6AasArJrnQG+7cucItCJWjzGIQU9sE8aOKSIA7u67+M4vVGksm
-	 IrqinYkGzx5xoTatI4kMV3UJzVBjdkojTRHFYfm05yGMNpI0hUw9WvW+zSvQEohFPE
-	 Om2ILGJG1ykNuCiUf/viMkGWVctqf+OIX4FGjnaRNqBDl/oKc+31fCqyJdE+IAK/0c
-	 Nc2ruaR8kmUO5OJEr3pvKOdr+Pykrd8HVm5xlwqinN36N8wCyB1bY18rSCx1hpo8sW
-	 gAsDJ0X8QELtw==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.26/5.94) with ESMTPS id 63E7EkiW61583921
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Apr 2026 15:14:46 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 14 Apr 2026 15:14:46 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 14 Apr 2026 15:14:44 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server id
- 15.2.1748.10 via Frontend Transport; Tue, 14 Apr 2026 15:14:44 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>,
-        kernel test robot <lkp@intel.com>,
-        "Dan
- Carpenter" <error27@gmail.com>
-Subject: [PATCH] ASoC: rt1320: fix the warning 'rae_fw' from request_firmware() not released
-Date: Tue, 14 Apr 2026 15:14:41 +0800
-Message-ID: <20260414071441.1524039-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KHwLs7Te";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1FWZGjWi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KHwLs7Te";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1FWZGjWi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DE0A85BDB5;
+	Tue, 14 Apr 2026 07:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776151181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzZWwu7gc66Exm0iB6mQaDqy0pjIdOaKeT5e7pSELJU=;
+	b=KHwLs7TeslRRLQk/PMVuL6YAOefhBOjOUXRA4Tg9svafHag9KXSQXDxBHA24oqV2992/x+
+	/IEo+7G25ofnC60AFyQydKTKrSsoXoaxvqdRtBi0p/7PEygTSk3gXQlWc3I2Cd5W+0/WWK
+	i24LT3LvCdG2oVFH4huyOD+CzhAQDMQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776151181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzZWwu7gc66Exm0iB6mQaDqy0pjIdOaKeT5e7pSELJU=;
+	b=1FWZGjWiroXBb4evUbW9KC39JKDbYsEubTP6xCc4poxOzwaaifGGt/sSzETdgYPMOF+I3Q
+	XCpgee69GMTIIiBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KHwLs7Te;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1FWZGjWi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776151181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzZWwu7gc66Exm0iB6mQaDqy0pjIdOaKeT5e7pSELJU=;
+	b=KHwLs7TeslRRLQk/PMVuL6YAOefhBOjOUXRA4Tg9svafHag9KXSQXDxBHA24oqV2992/x+
+	/IEo+7G25ofnC60AFyQydKTKrSsoXoaxvqdRtBi0p/7PEygTSk3gXQlWc3I2Cd5W+0/WWK
+	i24LT3LvCdG2oVFH4huyOD+CzhAQDMQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776151181;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rzZWwu7gc66Exm0iB6mQaDqy0pjIdOaKeT5e7pSELJU=;
+	b=1FWZGjWiroXBb4evUbW9KC39JKDbYsEubTP6xCc4poxOzwaaifGGt/sSzETdgYPMOF+I3Q
+	XCpgee69GMTIIiBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD8A74B30D;
+	Tue, 14 Apr 2026 07:19:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ESM+KY3q3WnCSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Apr 2026 07:19:41 +0000
+Date: Tue, 14 Apr 2026 09:19:41 +0200
+Message-ID: <874ilet3ea.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Faye <faye.opensource@gmail.com>
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Acer PT316-51S headset mic
+In-Reply-To: <20260413212645.117119-1-faye.opensource@gmail.com>
+References: <87lderwhfi.wl-tiwai@suse.de>
+	<20260413212645.117119-1-faye.opensource@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: DE0A85BDB5
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
 
-From: Shuming Fan <shumingf@realtek.com>
+On Mon, 13 Apr 2026 23:20:25 +0200,
+Faye wrote:
+> 
+> From: Faye Nichols <faye.opensource@gmail.com>
+> 
+> The Acer PT316-51S (PCI SSID 1025:160e) with ALC287 codec does not
+> detect the headset microphone due to missing BIOS pin configuration
+> for pin 0x19. Apply ALC2XX_FIXUP_HEADSET_MIC to enable it.
+> 
+> Signed-off-by: Faye Nichols <faye.opensource@gmail.com>
 
-New smatch warnings:
-sound/soc/codecs/rt1320-sdw.c:1575 rt1320_rae_load() warn: 'rae_fw' from
-request_firmware() not released on lines: 1575.
+Thanks, applied now.
 
-Fixes: 22937af75abb ("ASoC: rt1320: support RAE parameters loading")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/r/202604111548.EL450PMb-lkp@intel.com/
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt1320-sdw.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index b0aeeab26bd9..192faa431b5e 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -1498,6 +1498,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 		}
- 		if (!retry && !(value & 0x40)) {
- 			dev_err(dev, "%s: RAE is not ready to load\n", __func__);
-+			release_firmware(rae_fw);
- 			return -ETIMEDOUT;
- 		}
- 
--- 
-2.53.0
-
+Takashi
