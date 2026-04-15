@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9E63D4123;
-	Wed, 15 Apr 2026 15:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629553D8919;
+	Wed, 15 Apr 2026 15:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776266617; cv=none; b=d27HOso8s1ZkTAV08t4MgRYo9hKtdnG4sJpnvH7F3zsS3zLTY2sdP/Gf/NWHufKD7UNGMBCHPQo/9/YdGESKf9MS3oxMvbg0xvXNs6p4QCCHoYqKCQZHrLcX9leUub0chMAmxs3IaIVa5GIRN6otSu5WUsg0Mtp7KoTIX9d7q+4=
+	t=1776266625; cv=none; b=QgyaSS07hGfI4MMOoJIocOGkpszxKd06RkA42O2acvTGMI3z58Bd1FR9eiwuJOKII9krk5GxEnKFYoAEmLfQ0+FJ5kL3XagZfsRkgB8BURqwSZ8AAY50SZrjBUsgKql1MaFUtBPuR3p5VgFusmSxdYd3oT2spc+zciwOt/uXeq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776266617; c=relaxed/simple;
-	bh=1XgVvkQGSRvXWrJRGtWIepEf78wCmrzACX3EK+/YmdI=;
+	s=arc-20240116; t=1776266625; c=relaxed/simple;
+	bh=RsQmyos+jQGiGSypHqS1V8C9NTnJjjxQ998V/vk1VhA=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tw75mJHhZTNW0YHzurwLfDpk6k+PWhrbucXO+QKu32mWe7sL2tfarEpwQ5BHFTJM7oASfkhX72AW0Bkqa9FDHnB3fX9Ab2YIhAw00G1D+ZW1amw8j3Xag0ogXie+KDHbo1xXjATpDH+SC7C/SrNKU2ZsdH0NIC0wc5kjDpIAm/Y=
+	 Content-Type:Content-Disposition:In-Reply-To; b=BrPStPgrsEv0kkRpE0gzhnXn8EedK0gr47fSGf6vyAVI8lRnNmyJk1nAyVF+Gefa2HYX9HGMG0EzrKOj6RdFDTrvNghFm71SIvFLMy+rzTG57dnVb7DqEDpGTpET8vAsg2uy8KDv1d3LExZDMmNYRahg3fF0wsdIuuQQpZPit78=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wD25S-000000002dc-1Uez;
-	Wed, 15 Apr 2026 15:23:30 +0000
-Date: Wed, 15 Apr 2026 16:23:27 +0100
+	id 1wD25a-000000002e3-1YDv;
+	Wed, 15 Apr 2026 15:23:38 +0000
+Date: Wed, 15 Apr 2026 16:23:35 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -37,9 +37,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH 1/9] dt-bindings: sound: mt2701-afe-pcm: add HDMI audio path
- clocks
-Message-ID: <50afd83a314cd20c715fb9b0d3bc85fb00f9a6eb.1776265610.git.daniel@makrotopia.org>
+Subject: [PATCH 2/9] dt-bindings: sound: add mediatek,mt2701-hdmi-audio
+ machine binding
+Message-ID: <1fe31edbdf045f87f4cfa7ae6fa53196e8b67b96.1776265610.git.daniel@makrotopia.org>
 References: <cover.1776265610.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,53 +51,69 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1776265610.git.daniel@makrotopia.org>
 
-Document four additional optional clocks feeding the HDMI audio
-output path on MT2701 and MT7623N: the HADDS2 PLL (root of the
-HDMI audio clock tree), the HDMI audio and S/PDIF interface power
-gates, and the audio APLL root gate. Older device trees that do
-not wire these up remain valid via minItems.
+Describe the ASoC machine compatible used to wire the MT2701/MT7623N
+AFE HDMI playback path to the on-chip HDMI transmitter acting as the
+generic HDMI audio codec. MT7623N boards carry the same IP and use
+the mt7623n- compatible as a fallback to mt2701-.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
- .../bindings/sound/mediatek,mt2701-audio.yaml          | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../sound/mediatek,mt2701-hdmi-audio.yaml     | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-hdmi-audio.yaml
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml
-index 45382c4d86aa3..9d4fc542cd72c 100644
---- a/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml
-@@ -32,6 +32,7 @@ properties:
-     maxItems: 1
- 
-   clocks:
-+    minItems: 34
-     items:
-       - description: audio infra sys clock
-       - description: top audio mux 1
-@@ -67,8 +68,13 @@ properties:
-       - description: top audio a1 sys pd
-       - description: top audio a2 sys pd
-       - description: audio merge interface pd
-+      - description: HADDS2 PLL 294 MHz (HDMI audio path root)
-+      - description: HDMI audio interface pd
-+      - description: S/PDIF interface pd
-+      - description: audio APLL root pd
- 
-   clock-names:
-+    minItems: 34
-     items:
-       - const: infra_sys_audio_clk
-       - const: top_audio_mux1_sel
-@@ -104,6 +110,10 @@ properties:
-       - const: audio_a1sys_pd
-       - const: audio_a2sys_pd
-       - const: audio_mrgif_pd
-+      - const: hadds2pll_294m
-+      - const: audio_hdmi_pd
-+      - const: audio_spdf_pd
-+      - const: audio_apll_pd
- 
- required:
-   - compatible
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-hdmi-audio.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-hdmi-audio.yaml
+new file mode 100644
+index 0000000000000..d08aee447b471
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-hdmi-audio.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mt2701-hdmi-audio.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek MT2701 HDMI audio machine driver
++
++maintainers:
++  - Daniel Golle <daniel@makrotopia.org>
++
++description:
++  ASoC machine driver binding the MT2701 AFE HDMI playback path to
++  the on-chip HDMI transmitter via the generic HDMI audio codec.
++  The same HDMI audio IP is present on MT7623N.
++
++properties:
++  compatible:
++    oneOf:
++      - const: mediatek,mt2701-hdmi-audio
++      - items:
++          - const: mediatek,mt7623n-hdmi-audio
++          - const: mediatek,mt2701-hdmi-audio
++
++  mediatek,platform:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: Phandle of the MT2701/MT7623N AFE platform node.
++
++  mediatek,audio-codec:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: Phandle of the HDMI transmitter acting as audio codec.
++
++required:
++  - compatible
++  - mediatek,platform
++  - mediatek,audio-codec
++
++additionalProperties: false
++
++examples:
++  - |
++    sound-hdmi {
++        compatible = "mediatek,mt7623n-hdmi-audio",
++                     "mediatek,mt2701-hdmi-audio";
++        mediatek,platform = <&afe>;
++        mediatek,audio-codec = <&hdmi0>;
++    };
 -- 
 2.53.0
