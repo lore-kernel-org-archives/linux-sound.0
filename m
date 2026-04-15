@@ -1,532 +1,133 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C427137E316
-	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 12:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776257276; cv=none; b=YnEnlQKaWZG3uuoTanqO6Wqxz/4kK9sUm/MVxL6hrtyXCK9WG8sma/QI2Knx2ntfmaGlqk5IfpOyzJIcQ8n6XKYS11A4ZbKpoWTKq+O+CumWr6v1XHhnyQpHo6qAp4hemv7/t5WqaEwI1chOF0R78/D29odDghRxPXifpuygD6c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776257276; c=relaxed/simple;
-	bh=3AUjaTuUAMOIoNbGwrNrTFB3KowfH8gyLJvGIZwmpq0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=X8u7vvOtdcK3ozGCYKsjId1cE92iLePTSxWpfVfzmn+R0Z5GI3O0yZckZWq60qlb9uw3C4h6YoXJxz8DLS81Y16pvH76RP7sIKi1+GDPpacjeDminMrudPFWgCoYoTkLxPXG5MNozzAP3otZxBtq8+1YZmEidvk1z67FT13blig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OsNhjAUf; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966BC3B5318
+	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 13:34:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776260046; cv=pass; b=CYImhll3YcDejcXFmcfnBwTQttLeMiT8iy4sFoI5FccB90S4HmSS+zlKOigE0V2kchjzvirwrgfErWY4yuwEzNkP1tHCE2ghrGc4w1twZv5a/cbwi7Lkm8He/8n8bVEYI1+a+jSFesM2h9naDb4PXI+l4q79R0FXsmWzJvC0jP0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776260046; c=relaxed/simple;
+	bh=CRe1pOyBNU0w2vW+hGrY69z9fniveUauJrN3jxfcVTc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=TFfGFyaNS5/o+qerFAia1ru+SLdMTsXoPvwnewBBfzUZWIbEAAZvPHI5qckIFXiq6SPdwyQ9mytI2u8CjJUK1vHdQTBCzNhI9/UH1TLtXjiAn1D4XRDLdKmyC4PCWAzp3dtfqDnGeKnj8HBAiuOBG7tc/FB7lxC3McKB9kK+DQs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chduQM0I; arc=pass smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OsNhjAUf"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43cf8d550bdso6237533f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 05:47:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chduQM0I"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e8292423fso25802261fa.0
+        for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 06:34:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776260042; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eabD0+KYNwRys+TRSW77CKw4+FRVbk9twhQYYjzYs1sEXvBq+HUNM09pBHuaqRYDta
+         0jDpeNRElDV5HZ0OE7ieaqOQisETUxelWbGLEyT9Yqz2ctjIZwjSlwQbXVouKJq0MT7a
+         xyhieKYE43Tt+fxAIzjCfQuitlefP/3d4HzQOytEzW6/Z6Y4dsSGA8Jp12x4ozAhN9kx
+         A6QJ5P+0may2eL/IK2M5ZiDnv3sXhmeR5mg4E2fuuJath4XEi5x3jfnkRMFwQRmgOGXB
+         OmIktgqVn1gSOeMmRARz9urAZgGTWqajbfxjriXlnIyl0U5x+3bFAZbrzGcoKTih8Zpg
+         W7Kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=tChFfORfQP0f2qkiGIIB5OwwM3WfTf2mRkHeaSRwwSQ=;
+        fh=aAjySkCCJ0w505SsLN5frkjdB4MN2noKaJ5lPmOKroY=;
+        b=S9ytMPZxiD/rhnMESu0HfBZ5+SrBvUHovpANXGY6TZXcUobOi8VY4K9J+GUbmHChlG
+         tpq4G59irJw1wcf9tG5OBtKH3SXun3a4n6gq7tDyNGiNFEY7aUbZ7BfBNbTdyJXcN1n3
+         x7VXJX7nWS0bAVBRm16HsAqPcCzLA5erWOlFSCKecSZIqmXa+zqMT4y5z6dvPbf4sw5k
+         r8dBCwI1GUbDHfFU178cQbKeKI5BI1aCa8mGMQzRE8UESUpcq2W6hf/f7ycDWAIW5PMr
+         AtbE98IYi8PJYoy6zkj/GLRPbsc33A4Ou9eXoVFejWa93Dkb6tIxEC6A0FDlVy8COYcK
+         M9iA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776257271; x=1776862071; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zhkpJX525o0ma2rk+OGoGOKbbyNMDBMuVYVKcuyB9Mo=;
-        b=OsNhjAUfKJRjl5kpMUXmiLMgneo8/ch7XSspk7QUvT0x9atP1eABdnm6DPCrBZC9hn
-         4igj3MWoD9rUwLtcFoJr7+0cYOtKv3lpywRksxNqdTI/rVn4dD+UK8xb2T6UsC6Wl74R
-         FJ0W5d1MNt5qRlix3sbLzr3A8VYMcOSiwXTyl/Z+TK6iKI8X3v2oYP6FSmTzzQ4n0hOa
-         IlGbanLvXaTLJyJeiuEc13tQ5ZVHRrQ+KtpED0eZrQeZPFhG6lGdnBc4ara1tqWgJefm
-         HaYR+sYOKsBYrgha1B05LmU2LYpTgM1TIhiVHCZ8lBrg7vNBfhM/RPM1y8RBmvuuv2A2
-         Vj/Q==
+        d=gmail.com; s=20251104; t=1776260042; x=1776864842; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tChFfORfQP0f2qkiGIIB5OwwM3WfTf2mRkHeaSRwwSQ=;
+        b=chduQM0IPTL2cMr1+7dslZT/id2Wps5ylqQCGbbgvFvzWuzcQqH6/+XS5KX6NIn8fA
+         M4DPGAgwh4Ob/1p9ZR1Ea/wSrHa1EuA7jaaK6n4C5PIw5bBblUThTLs3BIfhEOvy/LKL
+         XEn+kBAEhcLANpwg00hFLsog+ABooc4vamrwGiOeltXj7viQCb27wThJs+EM26mmQ97N
+         6+EyN/GLxqL6+GBTmLc+CBn3A17diCRQDWG2YIcqTGc5gK6nk6T0nY4SYS1kVF9IMXMs
+         Q/ISRVDApmR6pgBLK15yQPi4EkesM5GqYZAfIgALAeJwG09lw1k1bO8xCcfaamZwnHZ6
+         PpUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776257271; x=1776862071;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zhkpJX525o0ma2rk+OGoGOKbbyNMDBMuVYVKcuyB9Mo=;
-        b=QUbeWUweTflVf1osHPZKtu7NdW4DxAgXbHlhHFdAzStf3EInhrGSbbyq6DU3QOlLcq
-         J/xq1UqQYqjqx2QyrzcK+v6RAn9+OnM1f0PeIu555BSv6geBnqJZAgRc2spzaczGQocP
-         ikeWlrlG9IDxLt45aKqYFNhTYVWlp63S1wvm2TyQOyU5Gs1YDGA1867RmeFIcmezFufj
-         W7jP00iCW0EefkRpDTqi8btqp95shJl839/G9K0SPPuURYOHjDKPy1XnZ0eTnFAWgsGh
-         BMzJU+m0wNZG/7Eq3kwEvLRnOr2C78btU6RLTbpdxh+eitiZc/W+ZH8MK3acu1e9fnLj
-         ZeRA==
-X-Forwarded-Encrypted: i=1; AFNElJ/n9P9d2uB7HrV9ND4on5TLhTiQcZ4SQ/lBFSKkF6CZPNsXz1mnHKg2EoWNf0g9UlFMFhbqhvSGOA1NWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+6nCw3znworSpYQARopL7/Re3o6TjgaH+8DjP2SQHcF/QN5sD
-	wiLL9vD3x1iS7WWsnvB649H+7M4SxSz/QC2VlM4UFl+2ORgbAN1E5I4s
-X-Gm-Gg: AeBDievvv7BoDIw7/tbVhpTZ7ixjxHnhbpQCSwR9BpMWd/07Zk8dUeAzVGvByKLJAxs
-	euR3dzN4Pape4zKIzY5Mv0SUw/6JVWzJAX7LDyX8EaghPXkt2uk4jMXyrHZmBnFEbupFHcYVfXs
-	UOvz1kWIUwk1P4Xr3PCaDxOCvJwoe6YMFEZ8p/Zj3PV5FReME0aCONvfvR3b8bceSUwM+niK+uE
-	6BznNJntScnaqa5qBmoCbGXl+GU+0HwrzsqAhh7dsGuOI+U8WOMD5UdIhT/KScpsMC/+GGcRt52
-	4MIaYz95BdF09+V+2ynITJJDJSQfvmjE+yadsQSZZJVQ0RJsXobh4YKtqZd3foiJqfo9MhHBm8m
-	D99sEkpReYGKutsGwX9g+gIUksfkRjWy8CwH1qplguRdz47nWNtKiHkJRhQ30c1CUgXbp76fNEM
-	K8Exgy/ME92bwtg0/kewWVj3+qYp1y+GHL8PiHZQ==
-X-Received: by 2002:a5d:5d12:0:b0:43d:613:33de with SMTP id ffacd0b85a97d-43d642a63d1mr32016431f8f.20.1776257270855;
-        Wed, 15 Apr 2026 05:47:50 -0700 (PDT)
-Received: from localhost.localdomain ([2001:41d0:406:c100::])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead356616sm5123319f8f.13.2026.04.15.05.47.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 05:47:50 -0700 (PDT)
-From: John Madieu <john.madieu@gmail.com>
-X-Google-Original-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	john.madieu@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v5 14/14] ASoC: rsnd: Add system suspend/resume support
-Date: Wed, 15 Apr 2026 12:47:31 +0000
-Message-Id: <20260415124731.3684773-15-john.madieu.xa@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
-References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
+        d=1e100.net; s=20251104; t=1776260042; x=1776864842;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tChFfORfQP0f2qkiGIIB5OwwM3WfTf2mRkHeaSRwwSQ=;
+        b=FcCKbtJksyHPzS9cI7C57c6w7uCh0Ihh78nn/5/Of1CX5b6nAFc+gGbH0cHciZ6F1D
+         SUwJvI0wyteR6YMFInpc93e1Nk7gdmHlkkyYG9rEWvsMqP2i7LMB1E6djMQSNv7OTQYy
+         fRUAlnuCpTEkXx9vmTfmV2drcEVX6g3tX6ZQxcOxs+5TlW4CD/aqqvCDOnyQ+qqOeZYy
+         J1BD2+vpKjLoScLFAY9jfmJwE3O8RX9oETLHHYevdgyxvKYz6uFRr/ZDJe5YQ/LchN5v
+         VQzLY5yklYGKVwP3oqkGgjMj2MDiwtjuGyVDF0ole5zTZhIvs0W1BQF276kwxaFysvav
+         grUw==
+X-Gm-Message-State: AOJu0YxccfLKrUtWJ16Pt5fgQCs+6uxdOclQXkhOpGK3tsf9fNkojA/T
+	8YP9UGsDkj+yfwIzAGqemj3RErlMVK3McwHlxFLjsgN2pclepEaBfFNb8fwH7KmNnA/VU82tqYR
+	UN5j/NzhXS8NupEXycTec5XT4mA7p3WzmoxbESkk=
+X-Gm-Gg: AeBDieuvL7vDkPQ7HU5eEBbj29WHwiQqlx94SMK+42wk8SG8SnSXyvD54dRoc+zZDYL
+	XRS+jyoGI576kgjd1YDKDHWrHXppg63rVXOfrNrHh7utdUNfj8magP1TZW7vlBKVlBTjcoUIT1j
+	3opp17rCEw93Q/lwQqLwAKols5TVhW5QbhFolEJMvPfOz0e1Zzm+Oc9CENXQ7RFtboQomWIPyhP
+	8Bq3tPeXjRj3eQr1Fp8lNbkoU7LDxhOSZthtN0sOznEgB7WA+UewRhb+dlIYx2uJVcv3GRIi9KZ
+	TCVZzGvUr45qRiDzwfgY09ADbVSgsHwy79nsuaG06+BsR5RV/L5g
+X-Received: by 2002:a05:6512:3a88:b0:5a3:e7df:2396 with SMTP id
+ 2adb3069b0e04-5a3efb41ab8mr7927783e87.13.1776260041872; Wed, 15 Apr 2026
+ 06:34:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Juan Pablo Fuentealba <jpfuentealbabizama@gmail.com>
+Date: Wed, 15 Apr 2026 09:33:49 -0400
+X-Gm-Features: AQROBzDpDIPTGacixyswCI1JEg0z7ewuxMS9fgUzPzaEA5cl7_mWBdVT7u_TOkU
+Message-ID: <CALB_=sh1ONfaueYQ_rzMbzz9xXGTSQaA_km8qEiUfhgLLCq2Qw@mail.gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Add quirk for SmartlinkTechnology M01
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
 
-Add per-module suspend/resume functions following the existing driver
-architecture where each module manages its own resources in its own
-file. core.c provides common clock/reset helpers and orchestrates the
-calls in the correct order (reverse probe for suspend, probe order
-for resume).
+From 7a57eecb5a332da652a0bb3c006fb4ce5316fa17 Mon Sep 17 00:00:00 2001
+From: Juan Pablo Fuentealba Bizama <jpfuentealbabizama@gmail.com>
+Date: Wed, 15 Apr 2026 09:16:47 -0400
+Subject: [PATCH] ALSA: usb-audio: Add quirk for SmartlinkTechnology M01
 
-Infrastructure clocks (ADG, audmacpp, SCU) are managed globally
-using optional APIs to remain transparent to platforms that don't
-specify these clocks/resets.
+Add quirk entry for SmartlinkTechnology M01 USB microphone
+to enable the standard mixer interface.
 
-Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+Signed-off-by: Juan Pablo Fuentealba Bizama <jpfuentealbabizama@gmail.com>
 ---
+ sound/usb/quirks-table.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Changes:
-
-v5: No changes
-
-v4:
- - Absorb rsnd_adg_mod_get() helper directly instead of a separate
-   preparatory patch
- - Distribute suspend/resume declarations into their respective IP
-   sections in rsnd.h
-v3: No changes
-v2:
- - Distribute suspend/resume into per-module files (ssi.c, ssiu.c,
-   src.c, ctu.c, mix.c, dvc.c, adg.c, dma.c) instead of monolithic
-   loops in core.c, following Morimoto-san's architecture suggestion
-
- sound/soc/renesas/rcar/adg.c  | 26 +++++++++++++++++++++
- sound/soc/renesas/rcar/core.c | 43 +++++++++++++++++++++++++++++++++--
- sound/soc/renesas/rcar/ctu.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/dma.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/dvc.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/mix.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/rsnd.h | 18 +++++++++++++++
- sound/soc/renesas/rcar/src.c  | 26 +++++++++++++++++++++
- sound/soc/renesas/rcar/ssi.c  | 20 ++++++++++++++++
- sound/soc/renesas/rcar/ssiu.c | 20 ++++++++++++++++
- 10 files changed, 231 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
-index 9cae3bbefa55..8c0c8bc92ab3 100644
---- a/sound/soc/renesas/rcar/adg.c
-+++ b/sound/soc/renesas/rcar/adg.c
-@@ -908,3 +908,29 @@ void rsnd_adg_remove(struct rsnd_priv *priv)
- 	/* It should be called after rsnd_adg_clk_disable() */
- 	rsnd_adg_null_clk_clean(priv);
- }
-+
-+static struct rsnd_mod *rsnd_adg_mod_get(struct rsnd_priv *priv)
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 803e03d4d77b..9edfafb7d274 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -3772,6 +3772,21 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+                }
+        }
+ },
 +{
-+	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
-+
-+	if (!adg)
-+		return NULL;
-+
-+	return rsnd_mod_get(adg);
-+}
-+
-+void rsnd_adg_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
-+
-+	if (mod)
-+		rsnd_suspend_clk_reset(mod->clk, mod->rstc);
-+}
-+
-+void rsnd_adg_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mod *mod = rsnd_adg_mod_get(priv);
-+
-+	if (mod)
-+		rsnd_resume_clk_reset(mod->clk, mod->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.c
-index 93cacac1c98a..19d1f301cee9 100644
---- a/sound/soc/renesas/rcar/core.c
-+++ b/sound/soc/renesas/rcar/core.c
-@@ -963,7 +963,8 @@ static int rsnd_soc_hw_rule_channels(struct snd_pcm_hw_params *params,
- static const struct snd_pcm_hardware rsnd_pcm_hardware = {
- 	.info =		SNDRV_PCM_INFO_INTERLEAVED	|
- 			SNDRV_PCM_INFO_MMAP		|
--			SNDRV_PCM_INFO_MMAP_VALID,
-+			SNDRV_PCM_INFO_MMAP_VALID	|
-+			SNDRV_PCM_INFO_RESUME,
- 	.buffer_bytes_max	= 64 * 1024,
- 	.period_bytes_min	= 32,
- 	.period_bytes_max	= 8192,
-@@ -2082,11 +2083,35 @@ static void rsnd_remove(struct platform_device *pdev)
- 		remove_func[i](priv);
- }
- 
-+void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc)
-+{
-+	clk_unprepare(clk);
-+	reset_control_assert(rstc);
-+}
-+
-+void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc)
-+{
-+	reset_control_deassert(rstc);
-+	clk_prepare(clk);
-+}
-+
- static int rsnd_suspend(struct device *dev)
- {
- 	struct rsnd_priv *priv = dev_get_drvdata(dev);
- 
-+	/*
-+	 * Reverse order of probe:
-+	 * ADG -> DVC -> MIX -> CTU -> SRC -> SSIU -> SSI -> DMA
-+	 */
- 	rsnd_adg_clk_disable(priv);
-+	rsnd_adg_suspend(priv);
-+	rsnd_dvc_suspend(priv);
-+	rsnd_mix_suspend(priv);
-+	rsnd_ctu_suspend(priv);
-+	rsnd_src_suspend(priv);
-+	rsnd_ssiu_suspend(priv);
-+	rsnd_ssi_suspend(priv);
-+	rsnd_dma_suspend(priv);
- 
- 	return 0;
- }
-@@ -2095,7 +2120,21 @@ static int rsnd_resume(struct device *dev)
- {
- 	struct rsnd_priv *priv = dev_get_drvdata(dev);
- 
--	return rsnd_adg_clk_enable(priv);
-+	/*
-+	 * Same order as probe:
-+	 * DMA -> SSI -> SSIU -> SRC -> CTU -> MIX -> DVC -> ADG
-+	 */
-+	rsnd_dma_resume(priv);
-+	rsnd_ssi_resume(priv);
-+	rsnd_ssiu_resume(priv);
-+	rsnd_src_resume(priv);
-+	rsnd_ctu_resume(priv);
-+	rsnd_mix_resume(priv);
-+	rsnd_dvc_resume(priv);
-+	rsnd_adg_resume(priv);
-+	rsnd_adg_clk_enable(priv);
-+
-+	return 0;
- }
- 
- static const struct dev_pm_ops rsnd_pm_ops = {
-diff --git a/sound/soc/renesas/rcar/ctu.c b/sound/soc/renesas/rcar/ctu.c
-index 81bba6a1af6e..73795d5b2817 100644
---- a/sound/soc/renesas/rcar/ctu.c
-+++ b/sound/soc/renesas/rcar/ctu.c
-@@ -383,3 +383,23 @@ void rsnd_ctu_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ctu));
- 	}
- }
-+
-+void rsnd_ctu_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ctu *ctu;
-+	int i;
-+
-+	for_each_rsnd_ctu(ctu, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ctu)->clk,
-+				       rsnd_mod_get(ctu)->rstc);
-+}
-+
-+void rsnd_ctu_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ctu *ctu;
-+	int i;
-+
-+	for_each_rsnd_ctu(ctu, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ctu)->clk,
-+				      rsnd_mod_get(ctu)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
-index 39f43e935cde..fbec7369d8b6 100644
---- a/sound/soc/renesas/rcar/dma.c
-+++ b/sound/soc/renesas/rcar/dma.c
-@@ -1034,3 +1034,23 @@ int rsnd_dma_probe(struct rsnd_priv *priv)
- 	/* dummy mem mod for debug */
- 	return rsnd_mod_init(NULL, &mem, &mem_ops, NULL, NULL, 0, 0);
- }
-+
-+void rsnd_dma_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
-+
-+	if (dmac) {
-+		clk_disable_unprepare(dmac->audmapp_clk);
-+		rsnd_suspend_clk_reset(NULL, dmac->audmapp_rstc);
-+	}
-+}
-+
-+void rsnd_dma_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dma_ctrl *dmac = rsnd_priv_to_dmac(priv);
-+
-+	if (dmac) {
-+		rsnd_resume_clk_reset(NULL, dmac->audmapp_rstc);
-+		clk_prepare_enable(dmac->audmapp_clk);
-+	}
-+}
-diff --git a/sound/soc/renesas/rcar/dvc.c b/sound/soc/renesas/rcar/dvc.c
-index bf7146ceb5f6..0e81fdf0e97b 100644
---- a/sound/soc/renesas/rcar/dvc.c
-+++ b/sound/soc/renesas/rcar/dvc.c
-@@ -386,3 +386,23 @@ void rsnd_dvc_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(dvc));
- 	}
- }
-+
-+void rsnd_dvc_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dvc *dvc;
-+	int i;
-+
-+	for_each_rsnd_dvc(dvc, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(dvc)->clk,
-+				       rsnd_mod_get(dvc)->rstc);
-+}
-+
-+void rsnd_dvc_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_dvc *dvc;
-+	int i;
-+
-+	for_each_rsnd_dvc(dvc, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(dvc)->clk,
-+				      rsnd_mod_get(dvc)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/mix.c b/sound/soc/renesas/rcar/mix.c
-index 566e9b2a488c..42bb07ade3c8 100644
---- a/sound/soc/renesas/rcar/mix.c
-+++ b/sound/soc/renesas/rcar/mix.c
-@@ -350,3 +350,23 @@ void rsnd_mix_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(mix));
- 	}
- }
-+
-+void rsnd_mix_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mix *mix;
-+	int i;
-+
-+	for_each_rsnd_mix(mix, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(mix)->clk,
-+				       rsnd_mod_get(mix)->rstc);
-+}
-+
-+void rsnd_mix_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_mix *mix;
-+	int i;
-+
-+	for_each_rsnd_mix(mix, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(mix)->clk,
-+				      rsnd_mod_get(mix)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.h
-index 0d2436beb718..44a804f216ea 100644
---- a/sound/soc/renesas/rcar/rsnd.h
-+++ b/sound/soc/renesas/rcar/rsnd.h
-@@ -267,6 +267,8 @@ u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod);
- int rsnd_dma_attach(struct rsnd_dai_stream *io,
- 		    struct rsnd_mod *mod, struct rsnd_mod **dma_mod);
- int rsnd_dma_probe(struct rsnd_priv *priv);
-+void rsnd_dma_suspend(struct rsnd_priv *priv);
-+void rsnd_dma_resume(struct rsnd_priv *priv);
- struct dma_chan *rsnd_dma_request_channel(struct device_node *of_node, char *name,
- 					  struct rsnd_mod *mod, char *x);
- 
-@@ -429,6 +431,8 @@ int rsnd_mod_init(struct rsnd_priv *priv,
- 		  enum rsnd_mod_type type,
- 		  int id);
- void rsnd_mod_quit(struct rsnd_mod *mod);
-+void rsnd_suspend_clk_reset(struct clk *clk, struct reset_control *rstc);
-+void rsnd_resume_clk_reset(struct clk *clk, struct reset_control *rstc);
- struct dma_chan *rsnd_mod_dma_req(struct rsnd_dai_stream *io,
- 				  struct rsnd_mod *mod);
- void rsnd_mod_interrupt(struct rsnd_mod *mod,
-@@ -606,6 +610,8 @@ int rsnd_adg_ssi_clk_stop(struct rsnd_mod *ssi_mod);
- int rsnd_adg_ssi_clk_try_start(struct rsnd_mod *ssi_mod, unsigned int rate);
- int rsnd_adg_probe(struct rsnd_priv *priv);
- void rsnd_adg_remove(struct rsnd_priv *priv);
-+void rsnd_adg_suspend(struct rsnd_priv *priv);
-+void rsnd_adg_resume(struct rsnd_priv *priv);
- int rsnd_adg_set_src_timesel_gen2(struct rsnd_mod *src_mod,
- 				  struct rsnd_dai_stream *io,
- 				  unsigned int in_rate,
-@@ -803,6 +809,8 @@ extern const char * const volume_ramp_rate[];
-  */
- int rsnd_ssi_probe(struct rsnd_priv *priv);
- void rsnd_ssi_remove(struct rsnd_priv *priv);
-+void rsnd_ssi_suspend(struct rsnd_priv *priv);
-+void rsnd_ssi_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_ssi_mod_get(struct rsnd_priv *priv, int id);
- int rsnd_ssi_use_busif(struct rsnd_dai_stream *io);
- u32 rsnd_ssi_multi_secondaries_runtime(struct rsnd_dai_stream *io);
-@@ -826,6 +834,8 @@ int rsnd_ssiu_attach(struct rsnd_dai_stream *io,
- 		     struct rsnd_mod *mod);
- int rsnd_ssiu_probe(struct rsnd_priv *priv);
- void rsnd_ssiu_remove(struct rsnd_priv *priv);
-+void rsnd_ssiu_suspend(struct rsnd_priv *priv);
-+void rsnd_ssiu_resume(struct rsnd_priv *priv);
- void rsnd_parse_connect_ssiu(struct rsnd_dai *rdai,
- 			     struct device_node *playback,
- 			     struct device_node *capture);
-@@ -837,6 +847,8 @@ bool rsnd_ssiu_busif_err_status_clear(struct rsnd_mod *mod);
-  */
- int rsnd_src_probe(struct rsnd_priv *priv);
- void rsnd_src_remove(struct rsnd_priv *priv);
-+void rsnd_src_suspend(struct rsnd_priv *priv);
-+void rsnd_src_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_src_mod_get(struct rsnd_priv *priv, int id);
- 
- #define rsnd_src_get_in_rate(priv, io) rsnd_src_get_rate(priv, io, 1)
-@@ -856,6 +868,8 @@ unsigned int rsnd_src_get_rate(struct rsnd_priv *priv,
-  */
- int rsnd_ctu_probe(struct rsnd_priv *priv);
- void rsnd_ctu_remove(struct rsnd_priv *priv);
-+void rsnd_ctu_suspend(struct rsnd_priv *priv);
-+void rsnd_ctu_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_ctu_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_CTU)
- #define rsnd_parse_connect_ctu(rdai, playback, capture)			\
-@@ -868,6 +882,8 @@ struct rsnd_mod *rsnd_ctu_mod_get(struct rsnd_priv *priv, int id);
-  */
- int rsnd_mix_probe(struct rsnd_priv *priv);
- void rsnd_mix_remove(struct rsnd_priv *priv);
-+void rsnd_mix_suspend(struct rsnd_priv *priv);
-+void rsnd_mix_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_mix_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_MIX)
- #define rsnd_parse_connect_mix(rdai, playback, capture)			\
-@@ -880,6 +896,8 @@ struct rsnd_mod *rsnd_mix_mod_get(struct rsnd_priv *priv, int id);
-  */
- int rsnd_dvc_probe(struct rsnd_priv *priv);
- void rsnd_dvc_remove(struct rsnd_priv *priv);
-+void rsnd_dvc_suspend(struct rsnd_priv *priv);
-+void rsnd_dvc_resume(struct rsnd_priv *priv);
- struct rsnd_mod *rsnd_dvc_mod_get(struct rsnd_priv *priv, int id);
- #define rsnd_dvc_of_node(priv) rsnd_parse_of_node(priv, RSND_NODE_DVC)
- #define rsnd_parse_connect_dvc(rdai, playback, capture)			\
-diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-index 651ed378c4f7..aac749f917bf 100644
---- a/sound/soc/renesas/rcar/src.c
-+++ b/sound/soc/renesas/rcar/src.c
-@@ -848,3 +848,29 @@ void rsnd_src_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(src));
- 	}
- }
-+
-+void rsnd_src_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_src *src;
-+	int i;
-+
-+	for_each_rsnd_src(src, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(src)->clk,
-+				       rsnd_mod_get(src)->rstc);
-+
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu_x2);
-+	clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu);
-+}
-+
-+void rsnd_src_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_src *src;
-+	int i;
-+
-+	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu);
-+	clk_prepare_enable(rsnd_priv_to_src_ctrl(priv)->scu_x2);
-+
-+	for_each_rsnd_src(src, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(src)->clk,
-+				      rsnd_mod_get(src)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/ssi.c b/sound/soc/renesas/rcar/ssi.c
-index c00c6f9f5c9d..6dc76839ef0a 100644
---- a/sound/soc/renesas/rcar/ssi.c
-+++ b/sound/soc/renesas/rcar/ssi.c
-@@ -1261,3 +1261,23 @@ void rsnd_ssi_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ssi));
- 	}
- }
-+
-+void rsnd_ssi_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssi *ssi;
-+	int i;
-+
-+	for_each_rsnd_ssi(ssi, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ssi)->clk,
-+				       rsnd_mod_get(ssi)->rstc);
-+}
-+
-+void rsnd_ssi_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssi *ssi;
-+	int i;
-+
-+	for_each_rsnd_ssi(ssi, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ssi)->clk,
-+				      rsnd_mod_get(ssi)->rstc);
-+}
-diff --git a/sound/soc/renesas/rcar/ssiu.c b/sound/soc/renesas/rcar/ssiu.c
-index 8fb0ec5dc791..60b58096531d 100644
---- a/sound/soc/renesas/rcar/ssiu.c
-+++ b/sound/soc/renesas/rcar/ssiu.c
-@@ -630,3 +630,23 @@ void rsnd_ssiu_remove(struct rsnd_priv *priv)
- 		rsnd_mod_quit(rsnd_mod_get(ssiu));
- 	}
- }
-+
-+void rsnd_ssiu_suspend(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssiu *ssiu;
-+	int i;
-+
-+	for_each_rsnd_ssiu(ssiu, priv, i)
-+		rsnd_suspend_clk_reset(rsnd_mod_get(ssiu)->clk,
-+				       rsnd_mod_get(ssiu)->rstc);
-+}
-+
-+void rsnd_ssiu_resume(struct rsnd_priv *priv)
-+{
-+	struct rsnd_ssiu *ssiu;
-+	int i;
-+
-+	for_each_rsnd_ssiu(ssiu, priv, i)
-+		rsnd_resume_clk_reset(rsnd_mod_get(ssiu)->clk,
-+				      rsnd_mod_get(ssiu)->rstc);
-+}
++       /*
++        * SmartlinkTechnology M01
++        * USB audio device that needs standard mixer quirk
++        */
++       USB_DEVICE(0x301a, 0x159b),
++       QUIRK_DRIVER_INFO {
++               .vendor_name = "SmartlinkTechnology",
++               .product_name = "M01",
++               QUIRK_DATA_COMPOSITE {
++                       QUIRK_DATA_STANDARD_MIXER(QUIRK_ANY_INTERFACE),
++                       QUIRK_COMPOSITE_END
++               }
++       }
++},
+ #define QUIRK_RME_DIGIFACE(pid) \
+ { \
+        /* Only claim interface 0 */ \
 -- 
-2.25.1
+2.53.0
 
+-- 
+Saluda Atte.
+Juan Pablo Fuentealba
+jpfuentealbabizama@gmail.com
