@@ -1,63 +1,63 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818BC336885
-	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 12:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0A333C19E
+	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 12:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776257264; cv=none; b=G3BmwQ3Hqe0fFjr8oHQaibn72ywJ3TN4O2F2kMWpDiTpoBq9bjRMkL9rDy50KBBo4Yp74TI24iYDm1iAX0Sq+5OBz9ks7xuY1MhSYMfq93efnNBsHPz50ciH9itcuJpC2q1FgZis764O0RxEWtQXx+28owdx0pUK3iSFu6e0m6w=
+	t=1776257266; cv=none; b=R0ZvAJA74nFW/71SB1OxALLHIRSHEkHMnJkj+iKGhZ20xenyRfbRNRuYO+O2zbxHEeRLTfCk/9lzSjjH3PwqVWzrV0IFJgjYmDLyCHFTomHNIXaMUsBfOHAnfw5S3dn3Q1bb19tOsqLGxpppZPkYJ4gTxw+PgOOg6IEc1hZ2Uvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776257264; c=relaxed/simple;
-	bh=1i4vtlL/MuJz61IDw0/C+/bm5U9XK4wosBXKE8p2dsI=;
+	s=arc-20240116; t=1776257266; c=relaxed/simple;
+	bh=4tYxfcZaOQgAqpQgivOn9HYNKKlERBSPufAHePGaTmo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sBAw0EtK46Ca0LHMQa0jWKeRMNE6uSm8RUeTNzXRdpKAmP2gl8jCZguUwt+5SSaUDzKPoh6YO1f1fxxbc0PF2mo75Z9ErWZK1B45+CW+V6bsTm//8eYhrZlKCuZ138AqzDY6W2UQMAOIhLezEbIi7xH6oAGuCgIX3hYKCZhFfdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fg+QJ1jd; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version; b=mj9/z/ITFP503pmYJwiLGGCWf7akSrnxg7SkjVkEIFz6415+O3wPRPZfo2YNfFPl1YCcp4NtnyBuzfqQlMp8IB9gPJQqin1DiGiE+srmFIG0sQFX1xb76dBZxGqrWOBiICQtWPlBQWLLFp+r1evOkLLT/AP7wnepl5SY+A5/MyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZKU9jR6g; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fg+QJ1jd"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43d72875729so2427620f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 05:47:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZKU9jR6g"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488b150559bso52987235e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 05:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776257261; x=1776862061; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776257262; x=1776862062; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UnajQ8XOv4b8ZHbW7mJFy+SmDdF5Y0rpVZJX4dT/uKs=;
-        b=fg+QJ1jdM1U+9JYftr9loCH3r5mAtsgqj0+5v+OOWqvHHH3rhGeOqAvteX++tUIBrL
-         E21eC5OHDssiSOnOAvitUfnfP/+nexA26iYnanGNYrzibO0Yzx2flRqaYDiogsXh/4lJ
-         fShN2ML2ge7ihW5VbCw04DhVuaCUNPxZ5rP6CFWmM9KIynB0TKMiPu85dJEzmIOTra6q
-         xYaFuVjLO1FJT/Op927wqSfVWNHYffWlHj1L+53Z8UG7Ogi3vMpXIHeapTR81qHSSJ0h
-         p09B6+z+zdgl7B9ZMf23WMwHesq32Xagb/CmBxi+6W4iopZdxbh/6u1STe0lhttTbKYE
-         +JEQ==
+        bh=8AuYxNcOpJ7xKuxZlqVlteeY0wdXOkWrTHrG8+sRId0=;
+        b=ZKU9jR6geZnaf69eC4iTMajM3//OFBq9ORBFyEc5NgOShuMCCDbmXqovHsHLjnl4aF
+         y/Ar9VZG9hdFjCEaohj6iT80dBwe458CMqGdhA4toXCtCfNoI0FlNeWYm/HuWYs5GJA5
+         8uGGQc3NfTchT4j6AORW+TO/cSyF6HB9AjkbZ9a4Jjdxc1zYR3cdPj9rcYabKp1Ainqx
+         5e1xy49jw/TbgZuUZeXAgOiq39zEhvvbLGZPGeLtodDC/P/uzuGw1ksI3uLjoVcRE7lw
+         ZZPzxOTc3LW15NtMrJsHdIMpo8zZM5G/wMjWisiXGT5Sx6Q3Vh2wDMByILLkSnIgY3du
+         1DYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776257261; x=1776862061;
+        d=1e100.net; s=20251104; t=1776257262; x=1776862062;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UnajQ8XOv4b8ZHbW7mJFy+SmDdF5Y0rpVZJX4dT/uKs=;
-        b=Kouf+cnsgFx6Nc6NShpqly/cyaSKgafcs2v+2UALb/Wl0RalKSSqToigLlG4lCrRPf
-         p8gJ1YelRAog2nlUoGu+KaqwKSOtPK/LfU8pOfm4tmvlnJpGhxCEdpmYaoMXqsq1tdLo
-         nLFq8yRbpAdWJnLN4397qIzBtUjR/LPn1VSIvOclPV+JFiZPHkfpGx7z9qTpPC+F9y97
-         gwv4aUq+/85yTb+Md7YxJ+g34jkTL/4uY5LqO4mkE3llNtf/10oTRq11OL8Otarl3kwy
-         PZvI98RAC6BJCAMFEbR/QnL1nzyLBKFWpvvin/KlGNhO/jOPyAtBNeLxV/grWPmuTlGd
-         JLqQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/OcNfmoNXheFLQL7QHkVrzkjOyLSHwDlUwgiOA2cTzMsaEL7bP7fXd9BgFqnHgfakNxGmr4fm7UQr4Hg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPA881xU4mYzP9AW7dnhLcuv2kqrKeU1+QeJSWsnKPtKz0ytuX
-	7D7gQgd/H4MauPv/OlB+W3qaHCLUXi+zuChooWeih1yqUUCRdoXqHAzL9SRpNnGlywD6fQ==
-X-Gm-Gg: AeBDies6P0EqSyIi2ZA963EW7Ue4oapb+2gqpF7HS/2rYsAN/Tc4OwPcvGfs+vmwdcq
-	T/9p5lkJ3jiEDafSBBqMkoImDUd8N1EB7/wzykI6Rzq3RVvX3tTcAwPwrsJU1Tg/UEzYKE6+m2n
-	+uvF5MB9iklJsJ3h2DwbRFqQ6RPUW2etvjQUMC4Z4/Vk96RasU6UN3wn23pecwVPPy2oPPiL2+Z
-	nGhUNgcNObhCp0LeWV0ZOdB26TF90EQTLOnZN7AqA6YB2C5kUv9TAhL9+s01ylaP859atBqncnb
-	ZVyBpOtFyawKE4hiHRDSDpLVn1Zu741/2t3DSOI1s+nmXkCXvAl/hLat+GiuS3LrqWAF0lOteNv
-	Cp5M97kHwLYTDDBd0lEsn7xhp7KEuieDs1rCe2l8VTonQ/KYDJejljrLX48uZXh4x18pM8N4tj3
-	LGH8s+8dLCmFisUHHr8Zxxd0CQaLSK+qNYwVE8sOdtVAuRkVeU
-X-Received: by 2002:a05:6000:40cb:b0:43c:ef4f:79e4 with SMTP id ffacd0b85a97d-43d642b461cmr31372573f8f.37.1776257260716;
-        Wed, 15 Apr 2026 05:47:40 -0700 (PDT)
+        bh=8AuYxNcOpJ7xKuxZlqVlteeY0wdXOkWrTHrG8+sRId0=;
+        b=KUjJto1hcp2cUGjKUnfoyPN0P7zsD8A8H9iznI6ywP8oBdzjseQomNe7Zp5fS/vvV2
+         PB4Hs//qtXJ3bo1/lDSd/CA/Cl8+Ei9ff6vZujOsJSFnavSDD+K/K8VlhDjF2494UsQ5
+         6BAYG71W6kSHiINKYjELo8T7NX0aumQWJo+8Ci4NnKOtR8BQZLcSu2Nn9ppgJCIJ6mID
+         czxe9JiI6DDp+yrrQoShN+JNuOJ/QVFnk1cvBtHNdfiPDqFaySRmAAEuId9+9E/7NCWt
+         Mux/CV2Z1I+fCNT/SXQTER1j28AZSANQlMi+vpIsDAn3uu3DqAthaB6Ts9ntLWUZbncI
+         U0LA==
+X-Forwarded-Encrypted: i=1; AFNElJ/3p04mh8ceFng9QpNqcKCNJxXBP/gxMGXDGg3U2Kcmq+vvGCQ55e9WMZYg1axji00X7q+4D+Ti970ygA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuHUwvN3dXrCe8pr21IJRD+tOPTzgeXkq03Y4AXc0nHlhNCHj0
+	mnpSVm2DElFRTDbiyhI+V6DGzJ2BbWEPK0KL+U0Tfk6Y9vg29N644RWl
+X-Gm-Gg: AeBDieuke5TKDMofrwrMKxRGZJ1lklCzouIkO+C5gzfsCqFZgconv2o++/kMBoaqdxW
+	vSV1IBbwBQb9Hi3OVrmW1LBW9df5FIVTTk9rY9Ywj1wiR4iKu3IDfEv3MkmSUttyyAZk5bez+RF
+	JuQyRaYxYJVNfaUphg9u0JpjGaTo3qVmQd6jNg2FYS0nK74TVRP8y9cGUDqwG093WDkZlPeiu68
+	LfTa0ahmATpMJ9if6wulYNMD3OPMdVwxAHVyfgjjicp7V5MLXZ/tWQ1FsWQiKhYUO652mjp6wgK
+	42nwRkEVXYcPLtpxNyZgUrh0ja23JK2oaZX4ip2AbzwrCtSPz9h/D6ArT+090OqDIrWVlt9bhSI
+	8/MQ1Y8Kh5G5TXSgM2d4lAgjABU7V9duJ13cGJgQwjjKKMkRHJyoYhsOVWyFL/MYFecHKoQSfr/
+	RjwzVDSeFzZERJoaJSnlcfgehcG1iVomIGFWIzEA==
+X-Received: by 2002:a05:600c:a105:b0:486:d76c:fa57 with SMTP id 5b1f17b1804b1-488d685b75emr209800885e9.17.1776257261922;
+        Wed, 15 Apr 2026 05:47:41 -0700 (PDT)
 Received: from localhost.localdomain ([2001:41d0:406:c100::])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead356616sm5123319f8f.13.2026.04.15.05.47.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead356616sm5123319f8f.13.2026.04.15.05.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 05:47:40 -0700 (PDT)
+        Wed, 15 Apr 2026 05:47:41 -0700 (PDT)
 From: John Madieu <john.madieu@gmail.com>
 X-Google-Original-From: John Madieu <john.madieu.xa@bp.renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -79,9 +79,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: [PATCH v5 05/14] ASoC: rsnd: Add audmacpp clock and reset support for RZ/G3E
-Date: Wed, 15 Apr 2026 12:47:22 +0000
-Message-Id: <20260415124731.3684773-6-john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v5 06/14] ASoC: rsnd: Refactor DMA address tables with named structs
+Date: Wed, 15 Apr 2026 12:47:23 +0000
+Message-Id: <20260415124731.3684773-7-john.madieu.xa@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
 References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
@@ -93,72 +93,209 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RZ/G3E requires additional audmapp clock and reset lines for
-Audio DMA-PP operation.
+Replace the raw multi-dimensional array used for DMA address lookup in
+rsnd_gen2_dma_addr() with properly named structs: rsnd_dma_addr (in/out
+pair), rsnd_dma_addr_dir (capture/playback arrays), and
+rsnd_dma_addr_map (src/ssi/ssiu module sets).
 
-Add global audmacpp clock/reset management in rsnd_dma_probe()
-using optional APIs to remain transparent to other platforms.
+While at it, extract the common lookup logic (is_ssi / use_src / use_cmd
+evaluation and table indexing) into a shared rsnd_dma_addr_lookup()
+function.
+
+No functional change. This is a preparatory refactor for upcoming RZ/G3E
+support which will add its own DMA address map using the same struct and
+lookup function.
 
 Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 ---
 
 Changes:
-
+ 
 v5:
- - Add comment on audmapp clock/reset acquisition clarifying these are
-   optional and transparent to platforms that don't have them in DT,
-   per Kuninori's request
- - Drop spurious blank line added to struct rsnd_priv in rsnd.h
+ - New patch, extracted from v4 patch 06/12 as a standalone preparatory
+   refactor per Kuninori's request
+ - No RZ/G3E content; purely the struct introduction and rsnd_gen2
+   conversion
 
-v4:
- - Move audmapp_clk and audmapp_rstc from struct rsnd_priv into
-   struct rsnd_dma_ctrl
-
-v3: No changes
-v2: No changes
-
- sound/soc/renesas/rcar/dma.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ sound/soc/renesas/rcar/dma.c | 147 +++++++++++++++++++++++------------
+ 1 file changed, 99 insertions(+), 48 deletions(-)
 
 diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
-index 68c859897e68..ab9694589052 100644
+index ab9694589052..bd50f18fac26 100644
 --- a/sound/soc/renesas/rcar/dma.c
 +++ b/sound/soc/renesas/rcar/dma.c
-@@ -47,6 +47,9 @@ struct rsnd_dma_ctrl {
- 	phys_addr_t ppres;
- 	int dmaen_num;
- 	int dmapp_num;
-+	/* RZ/G3E: Audio DMAC peri-peri clock and reset */
-+	struct clk *audmapp_clk;
-+	struct reset_control *audmapp_rstc;
+@@ -481,6 +481,69 @@ static struct rsnd_mod_ops rsnd_dmapp_ops = {
+ 	DEBUG_INFO
  };
  
- #define rsnd_priv_to_dmac(p)	((struct rsnd_dma_ctrl *)(p)->dma)
-@@ -864,6 +867,24 @@ int rsnd_dma_probe(struct rsnd_priv *priv)
- 	if (rsnd_is_gen4(priv))
- 		goto audmapp_end;
++struct rsnd_dma_addr {
++	dma_addr_t out_addr;
++	dma_addr_t in_addr;
++};
++
++struct rsnd_dma_addr_dir {
++	struct rsnd_dma_addr capture[3];
++	struct rsnd_dma_addr playback[3];
++};
++
++struct rsnd_dma_addr_map {
++	struct rsnd_dma_addr_dir src;
++	struct rsnd_dma_addr_dir ssi;
++	struct rsnd_dma_addr_dir ssiu;
++};
++
++static dma_addr_t
++rsnd_dma_addr_lookup(struct rsnd_dai_stream *io,
++		     struct rsnd_mod *mod,
++		     struct rsnd_priv *priv,
++		     const struct rsnd_dma_addr_map *map,
++		     int is_play, int is_from)
++{
++	struct device *dev = rsnd_priv_to_dev(priv);
++	int is_ssi = !!(rsnd_io_to_mod_ssi(io) == mod) ||
++		     !!(rsnd_io_to_mod_ssiu(io) == mod);
++	int use_src = !!rsnd_io_to_mod_src(io);
++	int use_cmd = !!rsnd_io_to_mod_dvc(io) ||
++		      !!rsnd_io_to_mod_mix(io) ||
++		      !!rsnd_io_to_mod_ctu(io);
++	int id = rsnd_mod_id(mod);
++	const struct rsnd_dma_addr_dir *dir;
++	const struct rsnd_dma_addr *addr;
++
++	/* it shouldn't happen */
++	if (use_cmd && !use_src)
++		dev_err(dev, "DVC is selected without SRC\n");
++
++	/* use SSIU or SSI? */
++	if (is_ssi && rsnd_ssi_use_busif(io))
++		is_ssi++;
++
++	dev_dbg(dev, "dma%d addr : is_ssi=%d use_src=%d use_cmd=%d\n",
++		id, is_ssi, use_src, use_cmd);
++
++	switch (is_ssi) {
++	case 2:
++		dir = &map->ssiu;
++		break;
++	case 1:
++		dir = &map->ssi;
++		break;
++	default:
++		dir = &map->src;
++		break;
++	}
++
++	addr = is_play ? &dir->playback[use_src + use_cmd]
++		       : &dir->capture[use_src + use_cmd];
++
++	return is_from ? addr->out_addr : addr->in_addr;
++}
++
+ /*
+  *		Common DMAC Interface
+  */
+@@ -527,47 +590,45 @@ rsnd_gen2_dma_addr(struct rsnd_dai_stream *io,
+ 	struct device *dev = rsnd_priv_to_dev(priv);
+ 	phys_addr_t ssi_reg = rsnd_gen_get_phy_addr(priv, RSND_BASE_SSI);
+ 	phys_addr_t src_reg = rsnd_gen_get_phy_addr(priv, RSND_BASE_SCU);
+-	int is_ssi = !!(rsnd_io_to_mod_ssi(io) == mod) ||
+-		     !!(rsnd_io_to_mod_ssiu(io) == mod);
+-	int use_src = !!rsnd_io_to_mod_src(io);
+-	int use_cmd = !!rsnd_io_to_mod_dvc(io) ||
+-		      !!rsnd_io_to_mod_mix(io) ||
+-		      !!rsnd_io_to_mod_ctu(io);
+ 	int id = rsnd_mod_id(mod);
+ 	int busif = rsnd_mod_id_sub(rsnd_io_to_mod_ssiu(io));
+-	struct dma_addr {
+-		dma_addr_t out_addr;
+-		dma_addr_t in_addr;
+-	} dma_addrs[3][2][3] = {
+-		/* SRC */
+-		/* Capture */
+-		{{{ 0,				0 },
+-		  { RDMA_SRC_O_N(src, id),	RDMA_SRC_I_P(src, id) },
+-		  { RDMA_CMD_O_N(src, id),	RDMA_SRC_I_P(src, id) } },
+-		 /* Playback */
+-		 {{ 0,				0, },
+-		  { RDMA_SRC_O_P(src, id),	RDMA_SRC_I_N(src, id) },
+-		  { RDMA_CMD_O_P(src, id),	RDMA_SRC_I_N(src, id) } }
++	const struct rsnd_dma_addr_map map = {
++		.src = {
++			.capture = {
++				{ 0,				0 },
++				{ RDMA_SRC_O_N(src, id),	RDMA_SRC_I_P(src, id) },
++				{ RDMA_CMD_O_N(src, id),	RDMA_SRC_I_P(src, id) },
++			},
++			.playback = {
++				{ 0,				0 },
++				{ RDMA_SRC_O_P(src, id),	RDMA_SRC_I_N(src, id) },
++				{ RDMA_CMD_O_P(src, id),	RDMA_SRC_I_N(src, id) },
++			},
++		},
++		.ssi = {
++			.capture = {
++				{ RDMA_SSI_O_N(ssi, id),		0 },
++				{ RDMA_SSIU_O_P(ssi, id, busif),	0 },
++				{ RDMA_SSIU_O_P(ssi, id, busif),	0 },
++			},
++			.playback = {
++				{ 0,			RDMA_SSI_I_N(ssi, id) },
++				{ 0,			RDMA_SSIU_I_P(ssi, id, busif) },
++				{ 0,			RDMA_SSIU_I_P(ssi, id, busif) },
++			},
+ 		},
+-		/* SSI */
+-		/* Capture */
+-		{{{ RDMA_SSI_O_N(ssi, id),		0 },
+-		  { RDMA_SSIU_O_P(ssi, id, busif),	0 },
+-		  { RDMA_SSIU_O_P(ssi, id, busif),	0 } },
+-		 /* Playback */
+-		 {{ 0,			RDMA_SSI_I_N(ssi, id) },
+-		  { 0,			RDMA_SSIU_I_P(ssi, id, busif) },
+-		  { 0,			RDMA_SSIU_I_P(ssi, id, busif) } }
++		.ssiu = {
++			.capture = {
++				{ RDMA_SSIU_O_N(ssi, id, busif),	0 },
++				{ RDMA_SSIU_O_P(ssi, id, busif),	0 },
++				{ RDMA_SSIU_O_P(ssi, id, busif),	0 },
++			},
++			.playback = {
++				{ 0,			RDMA_SSIU_I_N(ssi, id, busif) },
++				{ 0,			RDMA_SSIU_I_P(ssi, id, busif) },
++				{ 0,			RDMA_SSIU_I_P(ssi, id, busif) },
++			},
+ 		},
+-		/* SSIU */
+-		/* Capture */
+-		{{{ RDMA_SSIU_O_N(ssi, id, busif),	0 },
+-		  { RDMA_SSIU_O_P(ssi, id, busif),	0 },
+-		  { RDMA_SSIU_O_P(ssi, id, busif),	0 } },
+-		 /* Playback */
+-		 {{ 0,			RDMA_SSIU_I_N(ssi, id, busif) },
+-		  { 0,			RDMA_SSIU_I_P(ssi, id, busif) },
+-		  { 0,			RDMA_SSIU_I_P(ssi, id, busif) } } },
+ 	};
  
-+	/*
-+	 * Audio DMAC peri-peri clock and reset for RZ/G3E.
-+	 * These use optional APIs, so they gracefully return NULL
-+	 * (no error) on platforms whose DT does not provide them.
-+	 */
-+	dmac->audmapp_rstc =
-+		devm_reset_control_get_optional_exclusive_deasserted(dev, "audmapp");
-+	if (IS_ERR(dmac->audmapp_rstc)) {
-+		return dev_err_probe(dev, PTR_ERR(dmac->audmapp_rstc),
-+				     "failed to get audmapp reset\n");
-+	}
-+
-+	dmac->audmapp_clk = devm_clk_get_optional_enabled(dev, "audmapp");
-+	if (IS_ERR(dmac->audmapp_clk)) {
-+		return dev_err_probe(dev, PTR_ERR(dmac->audmapp_clk),
-+				     "failed to get audmapp clock\n");
-+	}
-+
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "audmapp");
- 	if (!res) {
- 		dev_err(dev, "lack of audmapp in DT\n");
+ 	/*
+@@ -580,17 +641,7 @@ rsnd_gen2_dma_addr(struct rsnd_dai_stream *io,
+ 		dev_err(dev, "This driver doesn't support SSI%d-%d, so far",
+ 			id, busif);
+ 
+-	/* it shouldn't happen */
+-	if (use_cmd && !use_src)
+-		dev_err(dev, "DVC is selected without SRC\n");
+-
+-	/* use SSIU or SSI ? */
+-	if (is_ssi && rsnd_ssi_use_busif(io))
+-		is_ssi++;
+-
+-	return (is_from) ?
+-		dma_addrs[is_ssi][is_play][use_src + use_cmd].out_addr :
+-		dma_addrs[is_ssi][is_play][use_src + use_cmd].in_addr;
++	return rsnd_dma_addr_lookup(io, mod, priv, &map, is_play, is_from);
+ }
+ 
+ /*
 -- 
 2.25.1
 
