@@ -1,133 +1,257 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966BC3B5318
-	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 13:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776260046; cv=pass; b=CYImhll3YcDejcXFmcfnBwTQttLeMiT8iy4sFoI5FccB90S4HmSS+zlKOigE0V2kchjzvirwrgfErWY4yuwEzNkP1tHCE2ghrGc4w1twZv5a/cbwi7Lkm8He/8n8bVEYI1+a+jSFesM2h9naDb4PXI+l4q79R0FXsmWzJvC0jP0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776260046; c=relaxed/simple;
-	bh=CRe1pOyBNU0w2vW+hGrY69z9fniveUauJrN3jxfcVTc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=TFfGFyaNS5/o+qerFAia1ru+SLdMTsXoPvwnewBBfzUZWIbEAAZvPHI5qckIFXiq6SPdwyQ9mytI2u8CjJUK1vHdQTBCzNhI9/UH1TLtXjiAn1D4XRDLdKmyC4PCWAzp3dtfqDnGeKnj8HBAiuOBG7tc/FB7lxC3McKB9kK+DQs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chduQM0I; arc=pass smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0FD3CEB99
+	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 13:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776261337; cv=none; b=kDQYJpTAs/DMAQqG2xVt3rmOed2t9wxaAik6Sgq0xkpOGEqWqlRd2UTZVlYnhAoMAuwl97hDRCGkyH72n2sBUMGqgFgagO52FnvvR8RQGtgri6rJNV7vijLvyNhWpxfTJRyazGIlOiEc5Hm90XL5avnfZKL6hfqglAEJFibztEg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776261337; c=relaxed/simple;
+	bh=vvtOfeDp8W5WMWzXXmdzEYaHB2N0HKq8Bfy5qB/u6bc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=r7hIMIzAYgTg3SinQmqMb0Mlusl3pOYT/o/V5dipKwW7Hyq7LqZ7iUExGIGcRmy2fQSqhCp7fcp92xxeD49CLfKDr9kKgOvp16RCOdFEdV/WgGkDvOg/gSeFAnii2bMpD9y+fJZ0AAZRYSLuwmozbDTof6e/euuxeWKq5LuHgqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VmzaHsaZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xlwdUrnp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VmzaHsaZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xlwdUrnp; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chduQM0I"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e8292423fso25802261fa.0
-        for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 06:34:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776260042; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eabD0+KYNwRys+TRSW77CKw4+FRVbk9twhQYYjzYs1sEXvBq+HUNM09pBHuaqRYDta
-         0jDpeNRElDV5HZ0OE7ieaqOQisETUxelWbGLEyT9Yqz2ctjIZwjSlwQbXVouKJq0MT7a
-         xyhieKYE43Tt+fxAIzjCfQuitlefP/3d4HzQOytEzW6/Z6Y4dsSGA8Jp12x4ozAhN9kx
-         A6QJ5P+0may2eL/IK2M5ZiDnv3sXhmeR5mg4E2fuuJath4XEi5x3jfnkRMFwQRmgOGXB
-         OmIktgqVn1gSOeMmRARz9urAZgGTWqajbfxjriXlnIyl0U5x+3bFAZbrzGcoKTih8Zpg
-         W7Kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=tChFfORfQP0f2qkiGIIB5OwwM3WfTf2mRkHeaSRwwSQ=;
-        fh=aAjySkCCJ0w505SsLN5frkjdB4MN2noKaJ5lPmOKroY=;
-        b=S9ytMPZxiD/rhnMESu0HfBZ5+SrBvUHovpANXGY6TZXcUobOi8VY4K9J+GUbmHChlG
-         tpq4G59irJw1wcf9tG5OBtKH3SXun3a4n6gq7tDyNGiNFEY7aUbZ7BfBNbTdyJXcN1n3
-         x7VXJX7nWS0bAVBRm16HsAqPcCzLA5erWOlFSCKecSZIqmXa+zqMT4y5z6dvPbf4sw5k
-         r8dBCwI1GUbDHfFU178cQbKeKI5BI1aCa8mGMQzRE8UESUpcq2W6hf/f7ycDWAIW5PMr
-         AtbE98IYi8PJYoy6zkj/GLRPbsc33A4Ou9eXoVFejWa93Dkb6tIxEC6A0FDlVy8COYcK
-         M9iA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776260042; x=1776864842; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=tChFfORfQP0f2qkiGIIB5OwwM3WfTf2mRkHeaSRwwSQ=;
-        b=chduQM0IPTL2cMr1+7dslZT/id2Wps5ylqQCGbbgvFvzWuzcQqH6/+XS5KX6NIn8fA
-         M4DPGAgwh4Ob/1p9ZR1Ea/wSrHa1EuA7jaaK6n4C5PIw5bBblUThTLs3BIfhEOvy/LKL
-         XEn+kBAEhcLANpwg00hFLsog+ABooc4vamrwGiOeltXj7viQCb27wThJs+EM26mmQ97N
-         6+EyN/GLxqL6+GBTmLc+CBn3A17diCRQDWG2YIcqTGc5gK6nk6T0nY4SYS1kVF9IMXMs
-         Q/ISRVDApmR6pgBLK15yQPi4EkesM5GqYZAfIgALAeJwG09lw1k1bO8xCcfaamZwnHZ6
-         PpUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776260042; x=1776864842;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tChFfORfQP0f2qkiGIIB5OwwM3WfTf2mRkHeaSRwwSQ=;
-        b=FcCKbtJksyHPzS9cI7C57c6w7uCh0Ihh78nn/5/Of1CX5b6nAFc+gGbH0cHciZ6F1D
-         SUwJvI0wyteR6YMFInpc93e1Nk7gdmHlkkyYG9rEWvsMqP2i7LMB1E6djMQSNv7OTQYy
-         fRUAlnuCpTEkXx9vmTfmV2drcEVX6g3tX6ZQxcOxs+5TlW4CD/aqqvCDOnyQ+qqOeZYy
-         J1BD2+vpKjLoScLFAY9jfmJwE3O8RX9oETLHHYevdgyxvKYz6uFRr/ZDJe5YQ/LchN5v
-         VQzLY5yklYGKVwP3oqkGgjMj2MDiwtjuGyVDF0ole5zTZhIvs0W1BQF276kwxaFysvav
-         grUw==
-X-Gm-Message-State: AOJu0YxccfLKrUtWJ16Pt5fgQCs+6uxdOclQXkhOpGK3tsf9fNkojA/T
-	8YP9UGsDkj+yfwIzAGqemj3RErlMVK3McwHlxFLjsgN2pclepEaBfFNb8fwH7KmNnA/VU82tqYR
-	UN5j/NzhXS8NupEXycTec5XT4mA7p3WzmoxbESkk=
-X-Gm-Gg: AeBDieuvL7vDkPQ7HU5eEBbj29WHwiQqlx94SMK+42wk8SG8SnSXyvD54dRoc+zZDYL
-	XRS+jyoGI576kgjd1YDKDHWrHXppg63rVXOfrNrHh7utdUNfj8magP1TZW7vlBKVlBTjcoUIT1j
-	3opp17rCEw93Q/lwQqLwAKols5TVhW5QbhFolEJMvPfOz0e1Zzm+Oc9CENXQ7RFtboQomWIPyhP
-	8Bq3tPeXjRj3eQr1Fp8lNbkoU7LDxhOSZthtN0sOznEgB7WA+UewRhb+dlIYx2uJVcv3GRIi9KZ
-	TCVZzGvUr45qRiDzwfgY09ADbVSgsHwy79nsuaG06+BsR5RV/L5g
-X-Received: by 2002:a05:6512:3a88:b0:5a3:e7df:2396 with SMTP id
- 2adb3069b0e04-5a3efb41ab8mr7927783e87.13.1776260041872; Wed, 15 Apr 2026
- 06:34:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VmzaHsaZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xlwdUrnp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VmzaHsaZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xlwdUrnp"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 84B5A5BDD0;
+	Wed, 15 Apr 2026 13:55:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776261332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gWxvKYSveEn5HcrA0cI62t+S2LjuGkMZ86DgIwmsfQM=;
+	b=VmzaHsaZFSlXrw9m7Jp2/P/WIBPUTTv1fS8hrnM3Xo6BDPwxyu/PKzLiXb8e8n1LbM8XM1
+	wUn31xC9Jor8AYNZL0Hl389oqBMOiFHqLa8mhgVxv2xImZ8d2l1wbhycySdAJtSDfc5bRC
+	1SD5lmQ9NDZ9fK42QwQcDoul4ahubO8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776261332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gWxvKYSveEn5HcrA0cI62t+S2LjuGkMZ86DgIwmsfQM=;
+	b=xlwdUrnp9ukF7RoxQkGzYTtUqZQk1/70U0f2qTrAvohFargXHYkR5lxQhs82uaKQaEypKU
+	EVOnjNTduIeqZrCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VmzaHsaZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xlwdUrnp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776261332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gWxvKYSveEn5HcrA0cI62t+S2LjuGkMZ86DgIwmsfQM=;
+	b=VmzaHsaZFSlXrw9m7Jp2/P/WIBPUTTv1fS8hrnM3Xo6BDPwxyu/PKzLiXb8e8n1LbM8XM1
+	wUn31xC9Jor8AYNZL0Hl389oqBMOiFHqLa8mhgVxv2xImZ8d2l1wbhycySdAJtSDfc5bRC
+	1SD5lmQ9NDZ9fK42QwQcDoul4ahubO8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776261332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=gWxvKYSveEn5HcrA0cI62t+S2LjuGkMZ86DgIwmsfQM=;
+	b=xlwdUrnp9ukF7RoxQkGzYTtUqZQk1/70U0f2qTrAvohFargXHYkR5lxQhs82uaKQaEypKU
+	EVOnjNTduIeqZrCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 717734BA3C;
+	Wed, 15 Apr 2026 13:55:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RODyGtSY32k8fwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Apr 2026 13:55:32 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/intel: Move firmware loading into the probe work
+Date: Wed, 15 Apr 2026 15:55:22 +0200
+Message-ID: <20260415135526.1813126-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Juan Pablo Fuentealba <jpfuentealbabizama@gmail.com>
-Date: Wed, 15 Apr 2026 09:33:49 -0400
-X-Gm-Features: AQROBzDpDIPTGacixyswCI1JEg0z7ewuxMS9fgUzPzaEA5cl7_mWBdVT7u_TOkU
-Message-ID: <CALB_=sh1ONfaueYQ_rzMbzz9xXGTSQaA_km8qEiUfhgLLCq2Qw@mail.gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Add quirk for SmartlinkTechnology M01
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_NONE(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 84B5A5BDD0
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-From 7a57eecb5a332da652a0bb3c006fb4ce5316fa17 Mon Sep 17 00:00:00 2001
-From: Juan Pablo Fuentealba Bizama <jpfuentealbabizama@gmail.com>
-Date: Wed, 15 Apr 2026 09:16:47 -0400
-Subject: [PATCH] ALSA: usb-audio: Add quirk for SmartlinkTechnology M01
+The hda-intel driver uses request_firmware_nowait() for loading its
+patch, and tries to continue the probe directly from the fw loader
+callback.  This works in principle, but it has a few drawbacks:
 
-Add quirk entry for SmartlinkTechnology M01 USB microphone
-to enable the standard mixer interface.
+- The driver may be released before the firmware callback completes
+- Having two ways of async probe makes the code flow unnecessarily
+  complex
 
-Signed-off-by: Juan Pablo Fuentealba Bizama <jpfuentealbabizama@gmail.com>
+The former issue is more severe, as it may potentially lead to a UAF,
+and there is no explicit way to cancel the pending firmware worker
+for now.
+
+This patch changes the firmware loading to be performed rather in the
+common probe work without *_nowait().  Then the pending work can be
+easily canceled, and the code becomes more straightforward.
+
+A nice bonus is that, by moving into the probe work, the firmware
+doesn't need any longer to be cached, hence we can get rid of struct
+azx.fw field, and release the firmware immediately after parsing it,
+too.
+
+Fixes: 5cb543dba986 ("ALSA: hda - Deferred probing with request_firmware_nowait()")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/quirks-table.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ sound/hda/common/hda_controller.h |  4 ---
+ sound/hda/controllers/intel.c     | 58 ++++++++-----------------------
+ 2 files changed, 15 insertions(+), 47 deletions(-)
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 803e03d4d77b..9edfafb7d274 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -3772,6 +3772,21 @@ YAMAHA_DEVICE(0x7010, "UB99"),
-                }
-        }
- },
-+{
-+       /*
-+        * SmartlinkTechnology M01
-+        * USB audio device that needs standard mixer quirk
-+        */
-+       USB_DEVICE(0x301a, 0x159b),
-+       QUIRK_DRIVER_INFO {
-+               .vendor_name = "SmartlinkTechnology",
-+               .product_name = "M01",
-+               QUIRK_DATA_COMPOSITE {
-+                       QUIRK_DATA_STANDARD_MIXER(QUIRK_ANY_INTERFACE),
-+                       QUIRK_COMPOSITE_END
-+               }
-+       }
-+},
- #define QUIRK_RME_DIGIFACE(pid) \
- { \
-        /* Only claim interface 0 */ \
+diff --git a/sound/hda/common/hda_controller.h b/sound/hda/common/hda_controller.h
+index c2d0109866e6..7434f38038a0 100644
+--- a/sound/hda/common/hda_controller.h
++++ b/sound/hda/common/hda_controller.h
+@@ -127,10 +127,6 @@ struct azx {
+ 	unsigned int beep_mode;
+ 	bool ctl_dev_id;
+ 
+-#ifdef CONFIG_SND_HDA_PATCH_LOADER
+-	const struct firmware *fw;
+-#endif
+-
+ 	/* flags */
+ 	int bdl_pos_adj;
+ 	unsigned int running:1;
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 257c498c3260..c87d75dbd8aa 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -1385,9 +1385,6 @@ static void azx_free(struct azx *chip)
+ 	azx_free_streams(chip);
+ 	snd_hdac_bus_exit(bus);
+ 
+-#ifdef CONFIG_SND_HDA_PATCH_LOADER
+-	release_firmware(chip->fw);
+-#endif
+ 	display_power(chip, false);
+ 
+ 	if (chip->driver_caps & AZX_DCAPS_I915_COMPONENT)
+@@ -2037,24 +2034,6 @@ static int azx_first_init(struct azx *chip)
+ 	return 0;
+ }
+ 
+-#ifdef CONFIG_SND_HDA_PATCH_LOADER
+-/* callback from request_firmware_nowait() */
+-static void azx_firmware_cb(const struct firmware *fw, void *context)
+-{
+-	struct snd_card *card = context;
+-	struct azx *chip = card->private_data;
+-
+-	if (fw)
+-		chip->fw = fw;
+-	else
+-		dev_err(card->dev, "Cannot load firmware, continue without patching\n");
+-	if (!chip->disabled) {
+-		/* continue probing */
+-		azx_probe_continue(chip);
+-	}
+-}
+-#endif
+-
+ static int disable_msi_reset_irq(struct azx *chip)
+ {
+ 	struct hdac_bus *bus = azx_bus(chip);
+@@ -2131,7 +2110,6 @@ static int azx_probe(struct pci_dev *pci,
+ 	struct snd_card *card;
+ 	struct hda_intel *hda;
+ 	struct azx *chip;
+-	bool schedule_probe;
+ 	int dev;
+ 	int err;
+ 
+@@ -2227,22 +2205,7 @@ static int azx_probe(struct pci_dev *pci,
+ 		chip->disabled = true;
+ 	}
+ 
+-	schedule_probe = !chip->disabled;
+-
+-#ifdef CONFIG_SND_HDA_PATCH_LOADER
+-	if (patch[dev] && *patch[dev]) {
+-		dev_info(card->dev, "Applying patch firmware '%s'\n",
+-			 patch[dev]);
+-		err = request_firmware_nowait(THIS_MODULE, true, patch[dev],
+-					      &pci->dev, GFP_KERNEL, card,
+-					      azx_firmware_cb);
+-		if (err < 0)
+-			goto out_free;
+-		schedule_probe = false; /* continued in azx_firmware_cb() */
+-	}
+-#endif /* CONFIG_SND_HDA_PATCH_LOADER */
+-
+-	if (schedule_probe)
++	if (!chip->disabled)
+ 		schedule_delayed_work(&hda->probe_work, 0);
+ 
+ 	set_bit(dev, probed_devs);
+@@ -2371,11 +2334,20 @@ static int azx_probe_continue(struct azx *chip)
+ 	}
+ 
+ #ifdef CONFIG_SND_HDA_PATCH_LOADER
+-	if (chip->fw) {
+-		err = snd_hda_load_patch(&chip->bus, chip->fw->size,
+-					 chip->fw->data);
+-		if (err < 0)
+-			goto out_free;
++	if (patch[dev] && *patch[dev]) {
++		const struct firmware *fw = NULL;
++
++		dev_info(&pci->dev, "Applying patch firmware '%s'\n",
++			 patch[dev]);
++		if (request_firmware(&fw, patch[dev], &pci->dev) < 0) {
++			dev_err(&pci->dev,
++				"Cannot load firmware, continue without patching\n");
++		} else {
++			err = snd_hda_load_patch(&chip->bus, fw->size, fw->data);
++			release_firmware(fw);
++			if (err < 0)
++				goto out_free;
++		}
+ 	}
+ #endif
+ 
 -- 
 2.53.0
 
--- 
-Saluda Atte.
-Juan Pablo Fuentealba
-jpfuentealbabizama@gmail.com
