@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B310318B9C;
-	Wed, 15 Apr 2026 15:24:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0257B3DA5AF;
+	Wed, 15 Apr 2026 15:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776266657; cv=none; b=j2AM1dqD+G6uyAePFhJTkQudxVi9SxBntKggxUHis7icTCpIlpQ3BzZwTVCQXtY1DQ6rIf/rE3+hOHTxXGDSyFNzeX+YkKlMuLqV3SBHfei0Ax2MS14R/ReRS4IMG2Fx8cdat3PEuq4Ap6XkIWh1avAAyErlzGr+TI/aBD0peHE=
+	t=1776266665; cv=none; b=Bpxr7fBX9AoIPCz4+hF/UlzCjbqC1B3/n7WCA1J5unFCEuzTozTV/TeoWVV6eU2tOVqLyMJkegbFAMkCNS1V+Ruqo2jCyeKfploSMLDHzPCAn7oaiRFThSbH7ha3SfepRTiuDdVhgl/BBlKkPdqNuQWxg+Nw+sePbPw2kvTtmUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776266657; c=relaxed/simple;
-	bh=Fg+5kAOahkeggPDSk/iTwJuatRCvLKcr6RwbGUeWDUA=;
+	s=arc-20240116; t=1776266665; c=relaxed/simple;
+	bh=Sikh1se6g2anEEvQ5F64ZqS+FzvypM/MKwTerVNjv1Y=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N+DWVilBuqBdOT+oJddr8QeS1yv9NAkf3GQGPZimEhuemY3TMLrvErnKiAmXPNidPS5TnWIjU6RXSdJPLxmwa5A2D7xEkLXPZDh+vgeO260WxwSc8H9ebseL5EsIOWLjsgwq6Y2cbsN88fWbyO/czxyc8fn1aUyYh5tVa5AwGNk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=lAdkilvrctpp8MnVCcGgNnqNZZ4nFrYoDq90y5IJSv0f+8IieJVZ8glwZpD+vxpmSYMqc3eq4X1TszS063kR9wgiVCjf4+VR/ctUNF68koy/Ug5yy9pT+JZl9wO7MB4iPPO1G6h822SRr0OnQI7LrnqsrXi2jE8d0CncHdAKD44=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wD265-000000002gK-31Kq;
-	Wed, 15 Apr 2026 15:24:09 +0000
-Date: Wed, 15 Apr 2026 16:24:06 +0100
+	id 1wD26D-000000002gj-1grm;
+	Wed, 15 Apr 2026 15:24:17 +0000
+Date: Wed, 15 Apr 2026 16:24:14 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -37,9 +37,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH 6/9] ASoC: mediatek: mt2701: add machine driver for on-chip
- HDMI codec
-Message-ID: <d4bd47e8aa4c6bef961d8848fdb8d0a0a130e13e.1776265610.git.daniel@makrotopia.org>
+Subject: [PATCH 7/9] ARM: dts: mediatek: mt2701: wire HDMI audio path clocks
+ into AFE
+Message-ID: <9dd80eb5fce5e62e2ce9e006cf5225261b1b984e.1776265610.git.daniel@makrotopia.org>
 References: <cover.1776265610.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,172 +51,60 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1776265610.git.daniel@makrotopia.org>
 
-Add a simple ASoC machine driver that wires the MT2701/MT7623N
-AFE HDMI playback path to the on-chip HDMI transmitter exposed
-as a generic hdmi-audio-codec "i2s-hifi" DAI.
-
-The driver binds to "mediatek,mt2701-hdmi-audio". MT7623N device
-trees carry "mediatek,mt7623n-hdmi-audio" as a board-specific
-fallback, matching the dt-binding.
+Add the HADDS2 PLL 294 MHz root, the audio_hdmi and audio_spdf
+interface gates and the audio_apll gate to the MT2701 AFE node,
+and reparent the AUDPLL mux to HADDS2PLL_98M so the HDMI audio
+serial clock path has a stable 294.912 MHz source. The clock
+names match the updated mediatek,mt2701-audio binding.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
- sound/soc/mediatek/Kconfig              |  10 +++
- sound/soc/mediatek/mt2701/Makefile      |   1 +
- sound/soc/mediatek/mt2701/mt2701-hdmi.c | 114 ++++++++++++++++++++++++
- 3 files changed, 125 insertions(+)
- create mode 100644 sound/soc/mediatek/mt2701/mt2701-hdmi.c
+ arch/arm/boot/dts/mediatek/mt2701.dtsi | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
-index 3a1e1fa3fe5cc..fa076e7854adc 100644
---- a/sound/soc/mediatek/Kconfig
-+++ b/sound/soc/mediatek/Kconfig
-@@ -26,6 +26,16 @@ config SND_SOC_MT2701_CS42448
- 	  Select Y if you have such device.
- 	  If unsure select "N".
+diff --git a/arch/arm/boot/dts/mediatek/mt2701.dtsi b/arch/arm/boot/dts/mediatek/mt2701.dtsi
+index 128b87229f3d5..80c8c7e6a422a 100644
+--- a/arch/arm/boot/dts/mediatek/mt2701.dtsi
++++ b/arch/arm/boot/dts/mediatek/mt2701.dtsi
+@@ -464,7 +464,11 @@ afe: audio-controller {
+ 				 <&audsys CLK_AUD_AFE_CONN>,
+ 				 <&audsys CLK_AUD_A1SYS>,
+ 				 <&audsys CLK_AUD_A2SYS>,
+-				 <&audsys CLK_AUD_AFE_MRGIF>;
++				 <&audsys CLK_AUD_AFE_MRGIF>,
++				 <&topckgen CLK_TOP_HADDS2PLL_294M>,
++				 <&audsys CLK_AUD_HDMI>,
++				 <&audsys CLK_AUD_SPDF>,
++				 <&audsys CLK_AUD_APLL>;
  
-+config SND_SOC_MT2701_HDMI
-+	tristate "ASoC Audio driver for MT2701 with on-chip HDMI codec"
-+	depends on SND_SOC_MT2701
-+	select SND_SOC_HDMI_CODEC
-+	help
-+	  This adds the ASoC machine driver for MediaTek MT2701 and
-+	  MT7623N boards routing the AFE I2S back-end to the on-chip
-+	  HDMI transmitter via the generic HDMI codec.
-+	  If unsure select "N".
-+
- config SND_SOC_MT2701_WM8960
- 	tristate "ASoc Audio driver for MT2701 with WM8960 codec"
- 	depends on SND_SOC_MT2701 && I2C
-diff --git a/sound/soc/mediatek/mt2701/Makefile b/sound/soc/mediatek/mt2701/Makefile
-index 507fa26c39452..59623d3d3a038 100644
---- a/sound/soc/mediatek/mt2701/Makefile
-+++ b/sound/soc/mediatek/mt2701/Makefile
-@@ -5,4 +5,5 @@ obj-$(CONFIG_SND_SOC_MT2701) += snd-soc-mt2701-afe.o
+ 			clock-names = "infra_sys_audio_clk",
+ 				      "top_audio_mux1_sel",
+@@ -499,15 +503,22 @@ afe: audio-controller {
+ 				      "audio_afe_conn_pd",
+ 				      "audio_a1sys_pd",
+ 				      "audio_a2sys_pd",
+-				      "audio_mrgif_pd";
++				      "audio_mrgif_pd",
++				      "hadds2pll_294m",
++				      "audio_hdmi_pd",
++				      "audio_spdf_pd",
++				      "audio_apll_pd";
  
- # machine driver
- obj-$(CONFIG_SND_SOC_MT2701_CS42448) += mt2701-cs42448.o
-+obj-$(CONFIG_SND_SOC_MT2701_HDMI) += mt2701-hdmi.o
- obj-$(CONFIG_SND_SOC_MT2701_WM8960) += mt2701-wm8960.o
-diff --git a/sound/soc/mediatek/mt2701/mt2701-hdmi.c b/sound/soc/mediatek/mt2701/mt2701-hdmi.c
-new file mode 100644
-index 0000000000000..a84907879c04e
---- /dev/null
-+++ b/sound/soc/mediatek/mt2701/mt2701-hdmi.c
-@@ -0,0 +1,114 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * mt2701-hdmi.c -- MT2701 HDMI ALSA SoC machine driver
-+ *
-+ * Copyright (c) 2026 Daniel Golle <daniel@makrotopia.org>
-+ *
-+ * Based on mt2701-cs42448.c
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <sound/soc.h>
-+
-+enum {
-+	DAI_LINK_FE_HDMI_OUT,
-+	DAI_LINK_BE_HDMI_I2S,
-+};
-+
-+SND_SOC_DAILINK_DEFS(fe_hdmi_out,
-+	DAILINK_COMP_ARRAY(COMP_CPU("PCM_HDMI")),
-+	DAILINK_COMP_ARRAY(COMP_DUMMY()),
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()));
-+
-+SND_SOC_DAILINK_DEFS(be_hdmi_i2s,
-+	DAILINK_COMP_ARRAY(COMP_CPU("HDMI I2S")),
-+	DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "i2s-hifi")),
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()));
-+
-+static struct snd_soc_dai_link mt2701_hdmi_dai_links[] = {
-+	[DAI_LINK_FE_HDMI_OUT] = {
-+		.name = "HDMI Playback",
-+		.stream_name = "HDMI Playback",
-+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
-+			     SND_SOC_DPCM_TRIGGER_POST },
-+		.dynamic = 1,
-+		.playback_only = 1,
-+		SND_SOC_DAILINK_REG(fe_hdmi_out),
-+	},
-+	[DAI_LINK_BE_HDMI_I2S] = {
-+		.name = "HDMI BE",
-+		.no_pcm = 1,
-+		.playback_only = 1,
-+		.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
-+			   SND_SOC_DAIFMT_CBC_CFC,
-+		SND_SOC_DAILINK_REG(be_hdmi_i2s),
-+	},
-+};
-+
-+static struct snd_soc_card mt2701_hdmi_soc_card = {
-+	.name = "mt2701-hdmi",
-+	.owner = THIS_MODULE,
-+	.dai_link = mt2701_hdmi_dai_links,
-+	.num_links = ARRAY_SIZE(mt2701_hdmi_dai_links),
-+};
-+
-+static int mt2701_hdmi_machine_probe(struct platform_device *pdev)
-+{
-+	struct snd_soc_card *card = &mt2701_hdmi_soc_card;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *platform_node;
-+	struct device_node *codec_node;
-+	struct snd_soc_dai_link *dai_link;
-+	int ret;
-+	int i;
-+
-+	platform_node = of_parse_phandle(dev->of_node, "mediatek,platform", 0);
-+	if (!platform_node)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Property 'mediatek,platform' missing\n");
-+
-+	for_each_card_prelinks(card, i, dai_link) {
-+		if (dai_link->platforms->name)
-+			continue;
-+		dai_link->platforms->of_node = platform_node;
-+	}
-+
-+	codec_node = of_parse_phandle(dev->of_node, "mediatek,audio-codec", 0);
-+	if (!codec_node) {
-+		of_node_put(platform_node);
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Property 'mediatek,audio-codec' missing\n");
-+	}
-+	mt2701_hdmi_dai_links[DAI_LINK_BE_HDMI_I2S].codecs->of_node = codec_node;
-+
-+	card->dev = dev;
-+
-+	ret = devm_snd_soc_register_card(dev, card);
-+
-+	of_node_put(platform_node);
-+	of_node_put(codec_node);
-+	return ret;
-+}
-+
-+static const struct of_device_id mt2701_hdmi_machine_dt_match[] = {
-+	{ .compatible = "mediatek,mt2701-hdmi-audio" },
-+	{ .compatible = "mediatek,mt7623n-hdmi-audio" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mt2701_hdmi_machine_dt_match);
-+
-+static struct platform_driver mt2701_hdmi_machine = {
-+	.driver = {
-+		.name = "mt2701-hdmi",
-+		.of_match_table = mt2701_hdmi_machine_dt_match,
-+	},
-+	.probe = mt2701_hdmi_machine_probe,
-+};
-+module_platform_driver(mt2701_hdmi_machine);
-+
-+MODULE_DESCRIPTION("MT2701 HDMI ALSA SoC machine driver");
-+MODULE_AUTHOR("Daniel Golle <daniel@makrotopia.org>");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:mt2701-hdmi");
+ 			assigned-clocks = <&topckgen CLK_TOP_AUD_MUX1_SEL>,
+ 					  <&topckgen CLK_TOP_AUD_MUX2_SEL>,
+ 					  <&topckgen CLK_TOP_AUD_MUX1_DIV>,
+-					  <&topckgen CLK_TOP_AUD_MUX2_DIV>;
++					  <&topckgen CLK_TOP_AUD_MUX2_DIV>,
++					  <&topckgen CLK_TOP_AUDPLL_MUX_SEL>;
+ 			assigned-clock-parents = <&topckgen CLK_TOP_AUD1PLL_98M>,
+-						 <&topckgen CLK_TOP_AUD2PLL_90M>;
+-			assigned-clock-rates = <0>, <0>, <49152000>, <45158400>;
++						 <&topckgen CLK_TOP_AUD2PLL_90M>,
++						 <0>, <0>,
++						 <&topckgen CLK_TOP_HADDS2PLL_98M>;
++			assigned-clock-rates = <0>, <0>, <49152000>, <45158400>, <0>;
+ 		};
+ 	};
+ 
 -- 
 2.53.0
