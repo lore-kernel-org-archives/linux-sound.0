@@ -1,132 +1,178 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013033.outbound.protection.outlook.com [40.107.162.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC023AE6EE
-	for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 07:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776239331; cv=none; b=MKSf1PcjxfBHiOH/7pvJodrOCXeZyg28uDiyotqa7J1d/PxB1urWg9Tft3xAW0OTLdRxhOGG4n7pM8jlscThQ2DqBb3P2faxp+tInB17rKzNTsx93hAamfSDdOaOnno1VLCenhuSLKV2YD/ozlI7GRE7UndvGywPKbD4HwukdIw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776239331; c=relaxed/simple;
-	bh=V+/DHUy57e+guISjr8HDQ0jW3CGXKPKRE5C5yNGsMTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J8gy8On86JA2oWftA2BhVbKkP2l9IQ0ljDLvvXJJAYxqMYjV0n8ekLPbEDPBSvPtASzrpDUeLGGTb6Fc9iDhoIUKKe8I8/30P/nECvWnOcCVW5IxTsaiyXcNDp9Vj1xpOb38U/C7zCyq5hv/ypn+Wt5whWj8jHeT63BM9fY20OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AR6niP2T; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA0C3CD8A5;
+	Wed, 15 Apr 2026 08:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776241237; cv=fail; b=VC9BLS4qf3e7VRYVGAyi46no6nafcoG0wtEFzHjgJor3kvyKhgF+xGfhIHQQh2UJiPVeJhAThfXaxjRhmOpoc1hFea9NrygT9RcSCSnMFiIbyhxJRJEIked4wrpQt0lPoss39SuBMvJlUmAvlsGrSNt0fshvf+w25777NMN+dw0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776241237; c=relaxed/simple;
+	bh=0W1mfR7qdBkWjA7rraO3gw1pqi2o8hgyxPx+qS9/Yo4=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Oky8uSwbmcIE0784w2BBxRRFtCGd6sg1PL6Y8/GxYGMKZb9nBc7zLGbXJxUEbXto6j4gzJ595r2ugDPC71qif0EPsP9CC4yiYna3aDcqJwYEufNuo4FoN4wZXvN0EUZoPq0AQHehXJcckExGuTcwjbJ3SOU+DuR0On0Ex6+x+9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=H4VepC0s; arc=fail smtp.client-ip=40.107.162.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AR6niP2T"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso99670225e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 15 Apr 2026 00:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776239328; x=1776844128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxy1JsaV0S2nhdqwGK/RJ7VYQI9SQ8NHnpCZqEqBIUY=;
-        b=AR6niP2TbUQKMy1fPggUH6IN5liK4Zex2UcdFwuDswVZfTF9ZFz3mBi/Ig/L4XMfiU
-         SoYnyvQ9OMB0vGpfsAQuelX86jKM/uDXJ5rNCg1sin4gHSaAr+yCjFPNydDlPk9TuuwS
-         JBKqiWSxUIBSba1eX7++TzNkReXOrNeaGjnbwmkf7zMNFtLVlF7rFFoRk+yiG+cCl4Vw
-         RsWLPVEoExsp/pZhlWP3ehDbFKR7fzO86W2DQGLumDsYX8T+m4RemhadKVoQhKYiWTiJ
-         kdi2YRE3R8knJXTjYAMYAx8qP1e3IwzwFDGXPTYBQSt2UtFMW8SHmc7vTKFbj2VTen6i
-         OgYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776239328; x=1776844128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxy1JsaV0S2nhdqwGK/RJ7VYQI9SQ8NHnpCZqEqBIUY=;
-        b=NPntmeplP1Xt77dEGVNU/M+ibCX4mKZQE0IjEeXCBpKZa3dkMF4qkE2OXEBRCatm3h
-         t6qkTRxDB9BeO+1WWPMipRxPToKlFMELru6nEcHjFuh6Z73mqef7oLUDLFZiDhoVmkhs
-         DtNo9i3jcavBV89aCcQJNz/4BBdsG5TBYC3y2VOi36y9gd54MucCYRY7SYO2n2GHouhy
-         UytuDfV1SWi58i4H4fya6ZVmvwcyV5Gl4RO5DJthaVbKmh2K1nYxkJixr+3myZMKLZ2K
-         jGjs3PjlOY+QdZWD8qpGNn0Q5Uf+NZmmaOCQmjFBZNoUfQb5PA1Q36i1jSmaNZcXW7F3
-         Hpdg==
-X-Gm-Message-State: AOJu0YycooFP1EZbR1pP1vXBtPXLTnVbxx8Kk9va1N7vTSaRgymAxitO
-	A5Zsq+o2oxBbBgYHua0XPICHrPsRswhljTzX0eWs6IUxnbbRljoS3/E=
-X-Gm-Gg: AeBDiesw9M+JwJDMEvGkHbR99kOIqpVAhmYJlVgVXYs9SxC/wwKxCFMdxVB5RG7Zihy
-	40+TSjqgWzxx+Zk429dBu7/quXJX5N8ciZTR9vBzYh4eaSF4uotjXk0wnFzFN4+E+j+zbSLPu0X
-	UjMFDS29ChzMs3V0Qc+4bzFI9a9tcsmrVYSmLQe2UVtD6SsilPWLo0CNibXsea/54rqA9piAO6n
-	E/nqio1F6Cpm1gFauJ6poEciAMqkrWeVhfa+y/IG92TwdwLkPWpXEjFLUuQ60z7tMOoxfzKQETY
-	qycRi3o3nBf0zjjs2mU2lmJ+0seOb6U60sF8/xp4uwlymDhA/3dhfRC6feBgvzo5el5C8oqjvxe
-	oeL1BHy3dEzfrfTEv0BNbTgjrxYBm2Loka/Pp1i617hB2tbW4YV+PSo0h8DulXSlV8SZjxgFLNA
-	/T0LP5RvKR1GOJwkCZ3zY+eR6UjvMVJQu5HQ==
-X-Received: by 2002:a05:600c:8b2f:b0:487:1520:d107 with SMTP id 5b1f17b1804b1-488d688da37mr285230745e9.31.1776239327764;
-        Wed, 15 Apr 2026 00:48:47 -0700 (PDT)
-Received: from endg4me-lt ([178.17.53.41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f1e95130sm29454375e9.13.2026.04.15.00.48.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 00:48:47 -0700 (PDT)
-From: Timofey Tarasenko <timka.tarasen@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="H4VepC0s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JtBH/T8vF/qJLmDvOyiBnDs5W9+US26Lt2NeNzmkbl6MClNJ7xXSVqT++YQ1fFqsDnb6T+i7mlYU/A0ALFD9r4QhH/NPBmsiJin0SoSrWUj+CSt5wUq/Jl9SiadfyuAu2TEcPxH0MX69yPSlPLhvYxogNvEOKiC5/vZQiP4WdWwznz8+MDpVaRWnAjfDv1xT4cRLleDsK5E4uiVNi0xWgxkuvuxvj9AAEV9U/AbciKka2gBgAw3wPc2RdHHngiZR5K10q/lB6kbX7Jb1wj0YBkz49jogIdoLnHIKMYm57wNRmcJh1T5lmUZF1Hi7vZ/2Ay0YC66DRla1JS6y5XbLdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FmyGCIFU9jNUyV+NQWKpLVWxYjUojqsTXBcQvNYermM=;
+ b=est6Uv3Jo3ZtYOnujeMcsfnAygyCuQ81zfdCLHrCHjLLLgwrvF0/Ww30ElK0qzyzaLgJDHu8sm7FfwO9i2xZB+JDRe7fO5TkB6hFqDC83S8Uz1daP+rXSlRMvhEzrySYFBYnOVAsZXBTS+hXumoJrdgSzAB4T7C/0CZncHHwjUzGMpDiVY+6ecpT7VZ8BV5omf9SKKnEVWQWlMJiZQy3l+O+7wRJ6fU77USaTSlTb0Rxo7iB4ShklWWBfzguWIMlI6aa2GeW7MmT9dkNq5WM44ZW8/5TY3mveXaRkpgXIMpL1hygaEiDz2yIBq7Tk3F8sKe9CZfZew+5kVInIsrpVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FmyGCIFU9jNUyV+NQWKpLVWxYjUojqsTXBcQvNYermM=;
+ b=H4VepC0ssvPxlROV5DhucN7RPPsxVg+hB6euUx/mmwl6FQ9zJeQPnRAZX6SXCFeYbhc+hFZzNYCdEcTpkftKgy0m6ThHKp4qDqsQpdZsuRzXoqXF9GxwKCPILsI1+FlrdZkWxuKCc+t//b6crE7u7MS9J8eqD7nk16guSa73kG190WWucysuKeaFIk5KEK2YLJF5+NB9QM5NF2H5iKeGYoPD2IMzZJ24MWQjncPS8eDtyqX+Jll7ms7+u9niN4zfOe9KcT60rxSwgjuUDK9AW38nGK2m8W6IICqUn1TZYtbw5GPpmDeknQcfqxD2k/xWn10vfG249aykSrdTWB1jxw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by DU4PR04MB10530.eurprd04.prod.outlook.com (2603:10a6:10:55a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
+ 2026 08:20:29 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9769.016; Wed, 15 Apr 2026
+ 08:20:27 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	Frank.Li@nxp.com,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	shumingf@realtek.com,
+	rander.wang@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Timofey Tarasenko <timka.tarasen@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: add quirk for HONOR MRB-XXX M1020
-Date: Wed, 15 Apr 2026 17:46:57 +1000
-Message-ID: <20260415074657.1217862-1-timka.tarasen@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 0/3] ASoC: soc-core: Add core support for ignoring suspend on selected DAPM widgets
+Date: Wed, 15 Apr 2026 17:19:39 +0900
+Message-ID: <20260415081942.4183108-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0029.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:114::6) To AM9PR04MB8353.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|DU4PR04MB10530:EE_
+X-MS-Office365-Filtering-Correlation-Id: d771fb2c-a55b-41c7-e601-08de9ac7d9b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|52116014|376014|19092799006|1800799024|366016|38350700014|921020|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DN0bZWbcwGiPxMEqNxK5sUx9bEVkqkvNSIMMG6Ia7lulSmyQBOLC6bppJrumpaD4FFj/cNNGp/aYAFSuY6vsoJL+2G/GOqkqsl5PA3xdhvyHOTSpJf5LJ0ZmBPiU8BqXvXA4NwbHCqIGGbqUl8iPwmq2b5rlSldP467s/r522Jt1CUoAMj8Blo46ZRM7eo1cntDBCoC6d2VWn4qtCbKzkotziCM4oSA1wrMHiSlyRmlhnJLLhgqJQsScpH5Ehxg5EO40npbxC0uSCH0mCORrjCIq8sCM1Ibz6wJ2lOWpXn7mfVBTkri3zC/LOBn7qqHcydeSqToLTIcx5qgIVaRdg8xPPLOVu6aPDSFaXreHMhQzkJJ+/YrcCSf1fJ6T9VkvWHo4qTV7iiT3PCzkQGCjoF4uJ1ZY14yvgMNkowENEPECvM8mLV3wmccTU+pKON0AOFTpvVpFO2fAZwsU6Urhu1H6DrREPrbpkBavH3Co24e/rni2Gf8gs0R0TAhaH/isSV1BgzoS8UD1QkQWn5sSHp+ntjhEB/vK3xbdMHRme254nm2wL4AGVgwRA+CIRvmUU7EWKIwmpcDCIIKNm0XU5ztlEHP8Xb8GaF4KQL7bLwAqzTHyB+CKqPg+qQPQVLmGxHXbCzYA4FmJ8k+9SCu+wSrDaa7jB/VKB5H8EYdx7muSFo44SVTQOFTAl+MFufAmCjKQlZn1t8t9LnZunvaT6/5o7M5LzMFDaYvK8utfOoQjMChJwTPzjH+I63TiQRi6IDojDJhj79rS/+qsDcl/VRFTup4Esv8hXApmhjQurArLjimr/WNSEGIgNlowiOrD
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(19092799006)(1800799024)(366016)(38350700014)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uV4ihnKeKPSkx9FNZdoJ/xmo/VMP7d2vDj8OgRIWGYfWPxMPrymHqzu0AZSM?=
+ =?us-ascii?Q?2jfPm93YE4z+1ngcLhhczChP9MjpaACaWUZxOlRAU+TYvbFTx7Tfp0HjtVtM?=
+ =?us-ascii?Q?BPmq+tCYz6wOVzRGmEEYYMbRstGtHz6r9Im3PSB3Y3Tx7ZzKO7rsAp+T7m+v?=
+ =?us-ascii?Q?8kJTJa5Bu0NqVUN2edC8pN+x8bdwGVq1ovHhZOVZoy8lQJKCVELJolRe2A2c?=
+ =?us-ascii?Q?iDcLm8RhZRvEvzvWGDPkW996xPTTUmr9G/ewiI/Wm4ee49CgRskkhiyALTU9?=
+ =?us-ascii?Q?3G9jYpH7JS8cmtAWWltNoY6EgBMHQR90tcE81LN/1ijWLgZoK9WYKn/Rc5FK?=
+ =?us-ascii?Q?hgIaCFzfR8587qujSGxZoyYxIm5V8/sScAe23JSdVNMA89k8Maq0+lzPDfUF?=
+ =?us-ascii?Q?E4niVz8rC7zqxAij86ep35aP4TKnxg+h9nJliBZjibT2x19HkCC4PXAP9BhH?=
+ =?us-ascii?Q?Jq12VTXaXeZb8Sck+4RDQE8PeYZiRtluZ6m9f0NJjD012PD4qG3Obh67Ucye?=
+ =?us-ascii?Q?13+L/7b25pChpUiHRZMXBUkcQQc0NvFTWpwU/hMiF38j/zpZ+pawDpfhTBD8?=
+ =?us-ascii?Q?Y0V98ACt42Wg6uUzp81gYUFAszB/AXvfD+JI/aRuh9zOwtqg0ZD9M+v8qZXP?=
+ =?us-ascii?Q?FSbsQqEyrUNRJaJ45xR46OfjQ/4RVco9RxPHbNjzn204KC9zdx2bcnls1EMt?=
+ =?us-ascii?Q?P5kif7X+iM0wURX1cVHRZikmX9IRxKq+jG4hHqQh5m+GUyTAUw2qDNXaW6f1?=
+ =?us-ascii?Q?B2ZUO2Ge8zjN9ohFk3zO554KmKT2nCijsgyeHmn9QhcoRaMzJkZjN1m3KF1A?=
+ =?us-ascii?Q?xIl3KNdgv8AL6vDvjzt9CcRP3DBDNDvzPN5ohpkpb3oOZoEJ/PmG1Vs2eVUq?=
+ =?us-ascii?Q?b0cTBIhzLWkA+VloOC36L6TlN3LMTccLtW9YNKIETeFOt/ZQhMdmAa+TiCzo?=
+ =?us-ascii?Q?aCy0bu+PhOBPk4yl/jWwpJTrBDvn3i2vTK0oD/FHAmZ9lN2lJcfHEc6kL/xY?=
+ =?us-ascii?Q?cNewEh5yVuar7f9+BwGtY2s176Ei4ODY58X0iqthVJcZRmaeR34t4B0L8Qmv?=
+ =?us-ascii?Q?kkHs9N4PH4xUn+650ntI/nmuqVtvBYBpBN/+PxRCUvtxY/JxIGHCrAsDJDwH?=
+ =?us-ascii?Q?TD25qm6f597/+yHvle5lE7fb43B3z0RNDv/ikT3uJck62NEMGgq59yGVllpI?=
+ =?us-ascii?Q?IObQC9R/1Tqrero6bQp96Fbrunr9E93xefsAFp2ZE0hjZ0F3q+I+UI3UOLBz?=
+ =?us-ascii?Q?2z8m978GD53mA3rrPajYsK52tFVISqDLW3vyyWnYJy6OnlBFpTDi6B6SBLZd?=
+ =?us-ascii?Q?tmay7XGpBFUaFfQbw3YFk2f/cmw00f40PcHoTQS8lVUKdJ5k+p7I1fQGOt6E?=
+ =?us-ascii?Q?cfbMSHcr4Gl7cUVNFe+LqN9tHSHg5cb5fKdWktkHBLBeSywLVNdx6epopSUJ?=
+ =?us-ascii?Q?O4HzC2FJvxicbtNiPbMgcBIzQs3wV1b/WwAOsbHyceXwvqGaDOUSgKcRzIMB?=
+ =?us-ascii?Q?PqBl9Nxj2ZMjuDjQtNwQc0eAmct2LSoYypVTDAHTSAnWwTidFDDZ7AW7htVB?=
+ =?us-ascii?Q?bVZBHDgMkMnB8HPLY9RNQoAELNF8W2mMU1ASsBQ9p709rLu46DvpiY8m0uXq?=
+ =?us-ascii?Q?kffQTYDlexnN+uil9+N2GbrrfHP0J+IpwN2NnMAy6DvCZMwk5D9pAEZwybSO?=
+ =?us-ascii?Q?9L69GwWz71Mmd5oqPoy9jVcpogtUiwk4NtioPLU8nXtL0VsngZfoGAyPpOSF?=
+ =?us-ascii?Q?ZQO8YFT8vA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d771fb2c-a55b-41c7-e601-08de9ac7d9b7
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 08:20:27.6143
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fNW28cmItBx0ca+pYgaa+uKkaQTb4YLM5RTFOEtONAxZuvPzZ4O3Ipx9zUSOLJvMAP7/VXuWmaeXroPwifukEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10530
 
-Adds pin fixups to enable subwoofer and JACK functionality
-on Honor Magicbook Art 14 2025 (HONOR MRB-XXX M1020)
+Some audio systems require specific DAPM widgets to remain powered
+during system suspend. Introduce a generic and reusable mechanism in
+the ASoC core to mark selected DAPM widgets as ignore_suspend.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221147
-Signed-off-by: Timofey Tarasenko <timka.tarasen@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+The unified mechanism consists of two parts:
+1. Parse and store the name list of widgets to ignore suspend in
+struct snd_soc_card
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 45f9d6487388..d35932b46267 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4124,6 +4124,7 @@ enum {
- 	ALC245_FIXUP_ACER_MICMUTE_LED,
- 	ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED,
- 	ALC236_FIXUP_HP_DMIC,
-+	ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -6666,6 +6667,16 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ 0x12, 0x90a60160 }, /* use as internal mic */
- 			{ }
- 		},
-+	},
-+	[ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x14, 0x90170111 },
-+			{ 0x19, 0x03a1113c },
-+			{ 0x1a, 0x22a190a0 },
-+			{ 0x1b, 0x90170110 },
-+			{ }
-+		}
- 	}
- };
- 
-@@ -7753,6 +7764,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1e39, 0xca14, "MEDION NM14LNL", ALC233_FIXUP_MEDION_MTL_SPK),
- 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
- 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
- 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
-@@ -7973,6 +7985,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC236_FIXUP_LENOVO_INV_DMIC, .name = "alc236-fixup-lenovo-inv-mic"},
- 	{.id = ALC2XX_FIXUP_HEADSET_MIC, .name = "alc2xx-fixup-headset-mic"},
- 	{.id = ALC245_FIXUP_BASS_HP_DAC, .name = "alc245-fixup-bass-hp-dac"},
-+	{.id = ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO, .name = "alc256-honor-mrb-xxx-m1020-audio"},
- 	{}
- };
- #define ALC225_STANDARD_PINS \
--- 
-2.53.0
+The list of widgets can be provided either by the machine driver or
+parsed from Device Tree. Different machines have different routing and
+power requirements. Each machine can specify its own widgets to ignore
+suspend through DT property. It enables flexible policy without hard
+code. A new helper, snd_soc_of_parse_ignore_suspend_widgets() is added
+for this purpose.
+
+2. Apply ignore_suspend flags during snd_soc_bind_card()
+
+After all components have been probed and all DAPM widgets have been
+registered, snd_soc_bind_card() performs a unified lookup of the
+configured widget names across all DAPM contexts of the card and marks
+the matching widgets with ignore_suspend = 1.
+
+Switch to use core ignore-suspend-widgets support for imx-rpmsg driver.
+
+This v2 series is a rework of the previous "[PATCH] ASoC: imx-rpmsg:
+Fix ignore-suspend-widgets only applied to codec DAPM".
+Changes in v2:
+- Rework to use a unified core mechanism instead of machine driver
+specific code
+
+Chancel Liu (3):
+  ASoC: dapm: Fix widget lookup with prefixed names across DAPM contexts
+  ASoC: soc-core: Add core support for ignoring suspend on selected DAPM
+    widgets
+  ASoC: fsl: imx-rpmsg: Switch to core ignore-suspend-widgets support
+
+ include/sound/soc-dapm.h  |  1 +
+ include/sound/soc.h       |  5 +++++
+ sound/soc/fsl/imx-rpmsg.c | 26 ++++++++---------------
+ sound/soc/soc-core.c      | 43 +++++++++++++++++++++++++++++++++++++++
+ sound/soc/soc-dapm.c      | 43 ++++++++++++++++++++++++++++-----------
+ 5 files changed, 89 insertions(+), 29 deletions(-)
+
+--
+2.50.1
 
