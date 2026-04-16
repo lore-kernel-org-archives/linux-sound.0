@@ -1,88 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2163803EF;
-	Wed, 15 Apr 2026 21:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB93274B39
+	for <linux-sound@vger.kernel.org>; Thu, 16 Apr 2026 05:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776289890; cv=none; b=lr29WnR+f8uw4VzeASqWKY0dxwVDVOD+fw9zb/mbh4Z8yhQA/j76kCBRIIsFLhmCgB5p5GnmdY+d5ocGyOb6zcxmzb/CZAUSZBT13Fm0hKpUi8xx/tKkoqwdRK4QHtupYpRJRpf5dX3e3BT0KtL8SLWwtWNRUp9iNIgmMfS4iOo=
+	t=1776317794; cv=none; b=pFnH5b9pcgklbHJ5HAAJSoFFRxFKopG2hgsioyK/qkpoeOMUTrsZ5NnNfTcAILOfK52ebOqO8vN9YlnRFlre/YaVNyNQJcQhipL8fc72Nn8SNP1Wj8UOmIb9Q+d+mM39n/24vNDqaQDdTKBdNMHzy8RQlddWodbG5fOiB5Xck9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776289890; c=relaxed/simple;
-	bh=oyZwUyRQzG/nIYpblsarSIbWA3aKj0rWxz5YN4dmVvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NkQer20SXxu2qaEVYvoNbHFagVhZofjNCllyxhGiO9vZkYmlfQ4LUv5KyDUAZO1gtiX/rlDKdzQx1/3lpGN3mBbGmsYs0WbYyZu1mgdS8zviadE4IYvWdbncRg90yN7OlbBGiCFeb4ph3XBgU6HiEeH5uZDzYNyOCY6R+vN3J3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GyHizvdg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776317794; c=relaxed/simple;
+	bh=eNMcIu/0pbLB1lS0eIRHcLOYHx6BS1dYTr4sKlhid7Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T13wlyhf3Z1yuTG9rWvdN0FNFEoGDl8rkwI3bw4cpZk/p9TM7MzGf8eHMdV7UobRBC5rfr5OZnOa2Qrb8fZ0dfxrW748NI3DB6j40Y+M6H8mhJCUoW6jKmBZwlvtEkmwKeeYcxkoZtioGVVKD5qoL9N9S6lpQFAqAKNXYV3xwWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gbmxMPma; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GyHizvdg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDEBC19424;
-	Wed, 15 Apr 2026 21:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776289890;
-	bh=oyZwUyRQzG/nIYpblsarSIbWA3aKj0rWxz5YN4dmVvc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GyHizvdglc+29LgsaGAWqaYVL6ZYI/hYXuMgOIsu/Zi8LFkNtJj22L4xRaesCDyxx
-	 56gK+ShdTMhvUwTuDaJKwvx75vfy6rkw5u7MBiEkgK9McC6z9JYfSzckKZ/9t8J1rn
-	 EMFM+6wpvuDb52SRP9FnDqKPBLVl+tMw9JHUfX4wgCwyUUhgrZUmGqx3tkzNyoi7bW
-	 o88eNOnIyBlMxApe04QezRYHHAHC7AScrwcuSyM0v2t9hmLTsFjiurQFT0xr0XhRA/
-	 HfkpOdwNDKWy6sINOIFlvmjRtE3LY2uf387N81A9d7rsu9Qrv64u5AViTcWTkOL0Ek
-	 y7CyFYVuyJlhg==
-Date: Wed, 15 Apr 2026 16:51:26 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Marek Vasut <marex@nabladev.com>
-Cc: Nicolin Chen <nicoleotsuka@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: fsl-sai: Document RX/TX BCLK
- swap support
-Message-ID: <177628988619.723274.6196056382812573083.robh@kernel.org>
-References: <20260404183547.46509-1-marex@nabladev.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gbmxMPma"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776317793; x=1807853793;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eNMcIu/0pbLB1lS0eIRHcLOYHx6BS1dYTr4sKlhid7Y=;
+  b=gbmxMPmaq7bnmQ4e7HtGHielbCjwAek5a5rifUebXhCuBiknXfIKA3wt
+   juJONmSmSwZao4IRT3nulgl3fQbN9aX8/NbWNK63cfClgXXYKN+A4/r+5
+   ETaXwQReY+MtBe4ERIlFxrea94tfMurKdhkO7Y8fp2sYUYBNqCu3G9Mu4
+   3NQV0yvCDAypfNPSBQCZN6h772NdNSZPMuy6eNsG1BAQx88EaKRGrBcTw
+   qJYjQqt+0eSZEh9MFBbofYzY8zzX70DZblEl4z96HPp8kao2pq9Nym3K8
+   ny9hYW6HCY4qdgqQVRcV6gxnjUiUetVvVq4nuDjXl4o9rv2kaTS43hHT8
+   g==;
+X-CSE-ConnectionGUID: XzquC7KrQx2oYjTAKwiW4g==
+X-CSE-MsgGUID: AYwJp6NjQg6rxQTaOaY0NA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11760"; a="94712470"
+X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
+   d="scan'208";a="94712470"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 22:36:32 -0700
+X-CSE-ConnectionGUID: 2iC4Ox7YTGCiWenpMrNaoQ==
+X-CSE-MsgGUID: 5VgQpWTTRS6EbM9qLcgXlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,181,1770624000"; 
+   d="scan'208";a="230477948"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2026 22:36:29 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: [PATCH v2 0/2] ASoC: SOF: topology: allow user to add topologies
+Date: Thu, 16 Apr 2026 13:35:50 +0800
+Message-ID: <20260416053552.3464661-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260404183547.46509-1-marex@nabladev.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+This series adds a module parameter array to allow users to load specific
+feature topologies.
 
-On Sat, 04 Apr 2026 20:35:00 +0200, Marek Vasut wrote:
-> Document support for setting the Bit Clock Swap bit in CR2 register
-> via new "fsl,sai-bit-clock-swap" DT property. This bit swaps the
-> bit clock used by the transmitter or receiver in asynchronous mode,
-> i.e. makes transmitter use RX_BCLK and TX_SYNC, and vice versa,
-> makes receiver use TX_BCLK and RX_SYNC.
-> 
-> Signed-off-by: Marek Vasut <marex@nabladev.com>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Nicolin Chen <nicoleotsuka@gmail.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: Xiubo Li <Xiubo.Lee@gmail.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-sound@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> ---
-> V2: - Drop | from description
->     - Update email, rebase on next
-> ---
->  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
+v2: add a out of memory check.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Bard Liao (2):
+  ASoC: sof-function-topology-lib: add virtual loop dai support
+  ASoC: SOF: topology: allow user to add topologies
+
+ .../intel/common/sof-function-topology-lib.c  | 11 +++-
+ sound/soc/sof/topology.c                      | 55 +++++++++++++++++++
+ 2 files changed, 65 insertions(+), 1 deletion(-)
+
+-- 
+2.43.0
 
