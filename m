@@ -1,169 +1,107 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010017.outbound.protection.outlook.com [52.101.228.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8F470818;
-	Fri, 17 Apr 2026 00:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776386558; cv=fail; b=hvgM5IO/e5+4nLvOvZZnjpbAfE28aAigOjSh2RIUpUoRHjTc/TrnnTPFQs+RqEkJgm2eKeI1z5HzJrxwBHbC5NbjKOwbEA+SgZ5IggSYp8qBzLodPfwRxg3SeNHARz9zTsP4iWtnCC9C4PtDODTOZ4lbYwRZ3kShFnYyOQGcH3U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776386558; c=relaxed/simple;
-	bh=hoDXUaun5YYmtLOswXHQt4f7WAVFelQsCjHK1xfYCFA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=BXhk5R45raql2wJSKLSsA2rJlJLzFTL+GZQ14Ejfobdw0uzAeuL5VYu9f8uk3EOIncVM2U2U5VVQllShsfdFIpRBpqZzoa4oinKFqFC6Tu0ss7AhCcT1leJM8zcoaIeF25nSIaCud0JlPLLutQo/w4O9//den1Hrwks0zDfjgPg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=EmefK9ap; arc=fail smtp.client-ip=52.101.228.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306DC40DFA0
+	for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 01:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776387687; cv=none; b=GKFWkMtQhRWyNZnzODcZ7L/rQMxFdFqmhjmeLoNrbY3akstsBoOPmraAyXtdsRN15MjPt7x5xAwqEAn/zO7CujdA5pbY4mILx3tvNy9Q3j61m8QW7yNz7AFiTwzbMyN0xkC6C2xlc5fa/sSdcWFV7LHRYDbHXI20UmvjUTLFaas=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776387687; c=relaxed/simple;
+	bh=xwzgu5VIjq84Q2Q8wYJ7NHMMF8fN+hiRQxgun2D/EB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=giyxQT4YUnjI5iHQoj7M9Q9O/NSKrQlyOW3igb84MOY5IGtGFCpnEOsvk1Ced/xZ8Anfvtfb9wT1Xf/wZS48tsmYROfrXsHS6rlIKdc5J7voXQJQy88+rX8x5c5ZBEDObNqrcEYxBpjx0qcyqa109oshdk3a+QUP9mqK/yQz/KU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1HEmjPR; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="EmefK9ap"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U2Wu97lNe6DGWW6ppRPhxHkBxMIpI2IUpSVgUf+f3S+fCwjH1D+HdYshaSwECjFYokP2H/ze2oQoa/rpQW0nT918ywo5fQ6pHqSVWN87+LZLFLO0BGHp1Lb2ErM9FXbyWGR1BdxNIFavAAjM16fUNiXknyYbg3X0wkxC40XG0cS5BcaEoNLIaebu3UetmEhOTojQxPOO7xQKwa6BvDj0jskFVmWvjy3FkHM9eFQ++JxXA7VgYRbVSdaRPlPKUYEm8RQ40Y9ErYrIiTB7jxC/j5yKShGWw2OQjwttjYOm7oUNu/wejCP7BGmqv/+AfQT7g7ukuTE0fVWWDAKxUFniJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hoDXUaun5YYmtLOswXHQt4f7WAVFelQsCjHK1xfYCFA=;
- b=ZAbTVJqhEx94BHdGc91bH6WD2Mi3iuXsopI0NT+UkpgWmp9qtKov4P8gggdpVfgjDSrM2cUFeVF4UZp1Hj6rkVOh8Wt4TYHiUBxUHr6807keBu8BdojnhdCaic77QEw2PAoTpfqNvu2itDte/2q1CbR8SWfhRCEIidBp6SgMTe5WLXhiPCUVw4TPmSUHw/4haqHk8w6gY/ukf6RLKKslieCShfwQpXnJV21vc3F3zQ3mmUAYscFeooY4GnJWp/E2eKBfKme07eDm/F2XqdkwNvc7gx0BDCUyBTVkFU492EwqA6VXp9DLH+rBDwPD4C2MmyRmxxBX5UxcdSZlkGzveA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hoDXUaun5YYmtLOswXHQt4f7WAVFelQsCjHK1xfYCFA=;
- b=EmefK9aptX80sS47Wq6EBNp6uH5menZD9uD+3pZumJCglv2hTEz9l4l1+p0VF2pxNyjzWFiJlItsl/coMZKoW3b1dohLZnChMuxVdoJbfjOkzTjFaVh1hM4GLvXU/ogJ0mgQSwcgCcfXc/ffCXVmaEZAUpZHaEldqrt0RHN9pmU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYCPR01MB7138.jpnprd01.prod.outlook.com (2603:1096:400:c1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
- 2026 00:42:34 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
- 00:42:33 +0000
-Message-ID: <87pl3yzabq.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1HEmjPR"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2d96243c91fso208755eec.1
+        for <linux-sound@vger.kernel.org>; Thu, 16 Apr 2026 18:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776387685; x=1776992485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xlKaA8sJSVY4crAZclFUizYHfpJrpl0Z3tuYs+cnL7E=;
+        b=F1HEmjPRXWZJ4SExVgUs5LNUK3EOYD1ECZYofmNrLl0/QBwZb4g7HSQRGCpBfdG9Z0
+         wii+wDOS8WeU7tSI+d4CuWqC+MjKo+f1KkNvMgsqL47YQEoXqXqpWMuzhAN1XS/VRKyi
+         iah7HXFw0oZ8FffMaXed06AajUSA3InCCxOSylOBPS2OrWcuPRbo2guaLcpCZHgWchF1
+         axG1d+5L3oS+VcO2hDkcsoxYNwIzOvi90iXDyOYsyGVDmJ1gWhJokLL+1eOK00CuDNXD
+         rZEQ64PKeUJnX47fYAHoROP0In7IZgGKpJpwk4jcGfqpY8w7hsK2tHu3s/9PPaDMdbbl
+         X3jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776387685; x=1776992485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xlKaA8sJSVY4crAZclFUizYHfpJrpl0Z3tuYs+cnL7E=;
+        b=emG47fgt2npqYd6k3xrn4yY64tUx5IuijwlXgfphrMw/KSj1LolcAWaLn1LC3pN/Ib
+         CRjjz7wv4Z0fIQUJCuU8iCGiF+3Vc2/dro14wayhTlLGsUMpabnGIly8YLsAEX12xe65
+         kmDKPm4pvDznM+VwKUXDQnHFBF9+frOG6e5JJy1ly6N6tvMYUzAwyJhC5TXR0SPTCA/1
+         YKp6pgNIIgfBpjfB3MZSXfpBxTOULeeNeR8qB94N5jznEqPCPKk+KeL6NPFmsjceEerg
+         QWFjl72fTBnbG1QMQow+iO0bwidyHJqhp3zC3A+nvAL8yfW5w2EA6IWfN1eiK4w1ttWi
+         IIZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+lpkzz2e43Kdz7bZN/M0vs3CsICTh2bkzw7jRx+MRrLZ6+gn8+g/rg8NBYTGvs+vZSkZ4cPko+NfzPhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxhv/Pc7Do69X9rIGMO+VWjuKblzOJqo2d+FmeOThpHYlJUHw2b
+	8qdz9GxK0ODnmOPgktsuc0gf52VJFZpzMJYmegrgiHuS+3GVnvzh3ZZz
+X-Gm-Gg: AeBDievctKjKQunJ5cv5bjYlbfjkIHmLlThQjAsH9xXtyX18WVe6zqw8HoTn67f4KL3
+	B5eqMdj6FUfq3Jz9tVsdoXs5qjcharCS7xbUX+ChuK24+f0avcF2IUtFGcxc84vXFoTqJga9xS7
+	6VLyMIzbsVpLGidiiIyUakSdMP2s5Q6SCmIiDFREolZ/+TpULMljOXfra4Cv1hLc8O3ztuIFsN5
+	lwPSg0YG7dnw70QW0Cp6bJV4YcrQjFVXMJcPdTFgei0wLo+C2JSiV4RZZogNQm1jDXupP0aq20r
+	No9jK/IHYJ19xeG13xQffXAvohDgD4S+zVGhBENk3fZLeOWhWiwf5YUQoPogftbmukOP8OPuV0r
+	Mh1RHd8V2bmLrNRvVu7UoLzpQmt2IJNkMfnWSmDKCvRLNn5JtplhyUyGYNlgTxxGs1ztevs9q1E
+	Ajc9SNc3g7AJbEvSkNkXQ4tV0mOYFQoh4y5hYcNDM7iMOocEAxjvGkQ6duPMEaovvNoQ==
+X-Received: by 2002:a05:7301:1698:b0:2de:aafb:feed with SMTP id 5a478bee46e88-2e466044d92mr311008eec.6.1776387685072;
+        Thu, 16 Apr 2026 18:01:25 -0700 (PDT)
+Received: from jp2024-Linux.penfam.local ([208.54.229.181])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d2cff04sm110417eec.23.2026.04.16.18.01.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 18:01:24 -0700 (PDT)
+From: Johnathan Penberthy <johnathan.penberthy@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] ASoC: renesas: fsi: Fix hang by enabling SPU clock
-In-Reply-To: <CAABR9nFN9C4CGsaZoWzrHEjibBLqQ1KmM8o5oG2-pSMcrgMsAw@mail.gmail.com>
-References: <20260413100700.30995-1-phucduc.bui@gmail.com>
-	<20260413100700.30995-3-phucduc.bui@gmail.com>
-	<87tstepes7.wl-kuninori.morimoto.gx@renesas.com>
-	<CAABR9nFN9C4CGsaZoWzrHEjibBLqQ1KmM8o5oG2-pSMcrgMsAw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Apr 2026 00:42:33 +0000
-X-ClientProxiedBy: TYCP301CA0086.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	linux-kernel@vger.kernel.org,
+	Johnathan Penberthy <johnathan.penberthy@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Add quirk entries for NexiGo N930W webcam
+Date: Thu, 16 Apr 2026 19:01:23 -0600
+Message-ID: <20260417010123.3080904-1-johnathan.penberthy@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB7138:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56de1558-256a-492f-6672-08de9c1a36e3
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|52116014|366016|1800799024|38350700014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	9OA+qntI95shgA8lb8S7nqyyspWU8P9ygQ2VrJmPDImclkk3v3L1NFQdC55wOCfjdxqFXnOjVXSmiSFy4LNNDwyzEBqcqGLjAcMI130qwRQcXsE+AgER0GzRQZVbczVC+x21sWYFmFh4/LOqZHQ2+AbPU07SsJ90TFZrSoS9NJpGlwnw4ReqUEhyzTRyrgZ4ipLyE06S4AuMmuFkeo6YWmk2rCy+k9X/tb5gMIO0iot3RBnSd4/QojFlRIMh0zDvKGsm+IlmjpQUReYZouOLm0tUXhXU0IktCXd1/cOvnsMZuxp7tO0wbB/4lrhJ+Fw/Rup1sNZH09+8wyAdHKeEvk0ItgXGH6rsD2aMQ+eldi+HiiUHLDe5Ay+8sPNcA+psdSAwUjMVAEa/pdR9pmsvU0YCIV5dD/AxN56tg65gHg9lhrImnNPApZcpHlNa/+oQHiqpySbKwnHrLDbM1yWZV7HGoDL0nroRBmdqlWdFpeVPz/Jf5GqSUHHv2ekj9BfSLnhk7PcRgZjDljn0FS1uYZZfvCy1/OG4TGKtztgPPKS3gor5k+ESA0VTPWEKbbWMZH6VxuO298rlx+2SNw0vviNY2XjhMH1Gz2LDTi3IBnieeLWqq9DoDD8TKTea9dtkC6yLU1q9wsaxwFNsZGF30QDEU6H7N4vUcmn0u+JvNw7HZZJXuq9+y6E5eF5JzSTNmMqS7IXNjxDpKnNzaynndCQDxnLy2Ypj+b0oV6huRvG+78gBbrpMaGCRgUgcLFeB8LrjYK2pftz92/s6fkPVQWyjWvVp1aE5joGD394/UA0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(366016)(1800799024)(38350700014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-7?Q?0j83robqT/ab4tuF7msNfbOjuDwgGr3au476IauEyxhVSGMfgmF+jobYEG?=
- =?iso-8859-7?Q?IInKbsriglGu0H8NZFG6Iq0j3/fUPfGKJQiwcw2OS5PZvWxlETS6ZI+YFk?=
- =?iso-8859-7?Q?YDYqw95Q8oK9GFbaitOZ3DVagw44GNnMd6v3gIM/cAqvz/2tUBkoOn6dnV?=
- =?iso-8859-7?Q?EJ+0bjC5h9vW0QOGVfrlkMVT6BwL2m+5v6ckMkQbltmNuykdOe1TizKHyd?=
- =?iso-8859-7?Q?Qji6yGixVBC/X2B7F3yDtbh/uPwy6KTtwSXATyWdYtzEFJseyYoGKDyI3a?=
- =?iso-8859-7?Q?s5QVZ1VjvkuhIVsyXz+jivWra5hdQz1d2G1GcXXSQKAWV2sxt31Q/Q4yCs?=
- =?iso-8859-7?Q?Az0dhdU4uGONTXdk2Uyw1NJBl45YzNaU1X7k70wokEgKrkFr7oFVlj8evb?=
- =?iso-8859-7?Q?mBbLznE5thb41JK87+qqpXaUV9XMHuEJJEW9SdbjEfu+dN0lflxCNlUeF/?=
- =?iso-8859-7?Q?RnZf0iCIegL9pJgW3sKYu0XStRFHQ1H/QLlC/yR31n9Svpo2BezludWk2O?=
- =?iso-8859-7?Q?F8dT1M7vJsotH1Xapi5XOeKTaohgt4vlx8ARPtTBLvYukIrmoZl0LuNoIR?=
- =?iso-8859-7?Q?jKfqMqE4qm4aadi8Dg9o3m3lNOqaB7uSu/k/JtIZbYuUcl4g7WO/aO/GNp?=
- =?iso-8859-7?Q?LiDpHvBLCMoGdg619pufi8QdJI9hYYYUEYb8J5/pylRq2KQii1hIfBMFEb?=
- =?iso-8859-7?Q?XSmaSbDjvgROyhuXSo6jG2dgaZrMqFUMdz0XJEuVu/7e+k5qarkZ5RvdML?=
- =?iso-8859-7?Q?/VbgQyy3JKy16KYlX5P016xZaK5qKnwY0Rae24bEJPlvW9kU8mDJQqF85e?=
- =?iso-8859-7?Q?uLX07Ip7nq2DPFntxJA4g++lj4gFGzkSevpXfXRe4HXyvixed1q15h2UN1?=
- =?iso-8859-7?Q?FtseVvCWCM77e1+cH/3aL2VlHBKsjndvnLdJB1koe5zLj+PCelO6natJie?=
- =?iso-8859-7?Q?N/SmLGNUy830X0cnB0LRVNTUGrw9kjmm5zljGUSUcjMrwYonLzAjJTKegJ?=
- =?iso-8859-7?Q?zb2kta/2srLOsrzX2XaLP7kW7IvU8Wsw8DsDvIhhi4vKm1Pu2MB3Yj+vt1?=
- =?iso-8859-7?Q?MK2bnZ5NOSwEL1V6CyQNu/xu/SKHM29nQxPJiIZRDmeIeqYT/XdJKH5rsP?=
- =?iso-8859-7?Q?KZnIn3SFIbt8w71yj+Sl5+ojHyVDuB6NwS//EAmr6MAgcdVPsXCKBAp8JG?=
- =?iso-8859-7?Q?QGCRcdXcPxzUevEVkYWyQ/by3tETXnxb8Bk6fKg5zB11mH7XZchvqjkLGO?=
- =?iso-8859-7?Q?tcQFsO6jJeC0sLhA9mPoOw2RreiM1FfpQU2umnS8al+2XGyqtce4q+g5s0?=
- =?iso-8859-7?Q?U1CyvmQ5aW4nS14s0ElE/26CvCG74zRPAh0dLqvX0flVkKxv5YfEAyIZSx?=
- =?iso-8859-7?Q?r0P3GN8/L3uy0EvlWh6ZM7/7RZvoWh4+ck++oHJWTWqOdLojnGnqgW2YWm?=
- =?iso-8859-7?Q?w8PtpGb4Qan1s5+CNkypvgLHb5iIo5i2N0Pc13VB8MgyWoTbY1uD1bFh0v?=
- =?iso-8859-7?Q?AcOBkeeI9SLJ1iB1Klxw2zbx+ejIqM1E81hG5w1xcB03nrz6+KLbonsUzV?=
- =?iso-8859-7?Q?yzyujmQpFc7Scm7nQBVOeoUezjXv5LgtsOvIlZ1pOnGLq/O3th69bIj9Nn?=
- =?iso-8859-7?Q?NHf/v0fpD5Qp5x/6o2Us2GRa36R3hXqbfKoLhyMnUN2qDX3ueEp6oga7S5?=
- =?iso-8859-7?Q?A8xLTfeDq7TgUR6IZWAFHCsgvjbpOJA5CXUxkU8IHDuRc5gD+eojtXNZ0n?=
- =?iso-8859-7?Q?bCO/qePwKXRvJH4huJvnL6GYR9xF2kJ/BKEN9GPi2OF50x29u9iZLV79DE?=
- =?iso-8859-7?Q?cglX9jW88B5OwsWX/7MgxUPMzLJQeJ00Kv964zBWsBikyEFwMiM3?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56de1558-256a-492f-6672-08de9c1a36e3
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 00:42:33.8583
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OBKG/83KKoPMarD5c7OGv5HlFHK7ZNz7tWgW2XQk153i2AalxsTYIi6Hg6YkZuqC5wAy55MeSt2xhkcR2dLEgUJohWso0rq/0c6j74O1FS0kNVVO75EB/1HhyOR5Pbf0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7138
+Content-Transfer-Encoding: 8bit
 
+The NexiGo N930W 60fps webcam (USB ID 3443:930d) hits the same
+'cannot get freq at ep 0x84' error in snd-usb-audio as its sibling
+N930AF (1bcf:2283). Without QUIRK_FLAG_GET_SAMPLE_RATE the ADC clock
+is never configured and the microphone streams only zero samples.
 
-Hi Bui
+Testing on Linux 6.17 with QUIRK_FLAG_GET_SAMPLE_RATE |
+QUIRK_FLAG_MIC_RES_16 (via quirk_alias=3443930d:1bcf2283) confirmed
+the microphone captures real audio after a cold USB re-enumeration.
+Adding a native quirk_flags_table entry avoids the alias workaround.
 
-> Regarding spu_count, I=A2m not entirely sure, but if we increment it
-> even on failure,
-> the counter might become unbalanced and clk_prepare_enable() may not
-> be retried on the next call.
-> Would it be better to increment spu_count only on success to keep the
-> state consistent?
-
-It depens on how you create the error case :)
-I don't mind super much about detail of it.
-
-> Since fsi_hw_startup() and fsi_hw_shutdown() are called from fsi_dai_trig=
-ger(),
-> I think this runs in an atomic context, but please correct me if I'm wron=
-g.
-> If so, is it safe to call clk_prepare_enable() under guard(spinlock_irqsa=
-ve)?
-> Since clk_prepare() can sleep, I=A2m wondering if this could potentially
-> cause a "scheduling while atomic" issue.
->
-> Would it make more sense to move clk_prepare() to init time (in new
-> fsi_clk_init() ),
-> and only use clk_enable() / clk_disable() in the trigger path?
-
-I don't remember detail of SH-Mobile clock driver, but yes.
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Johnathan Penberthy <johnathan.penberthy@gmail.com>
 ---
-Kuninori Morimoto
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 8fc36d1cf..7b803ad58 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2474,6 +2474,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
+ 	DEVICE_FLG(0x339b, 0x3a07, /* Synaptics HONOR USB-C HEADSET */
+ 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
++	DEVICE_FLG(0x3443, 0x930d, /* NexiGo N930W 60fps Webcam */
++		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x534d, 0x0021, /* MacroSilicon MS2100/MS2106 */
+-- 
+2.43.0
+
