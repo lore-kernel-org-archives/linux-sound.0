@@ -1,190 +1,179 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011063.outbound.protection.outlook.com [52.101.65.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D153BADB8;
-	Fri, 17 Apr 2026 11:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776423852; cv=fail; b=DZOVT5wJcAcgRnUu/VwV66PRt+biIRPJhbePFXoccGeBQQfepEiTS68g3osaADiL5jgorB3zJ6Yoq+7A20hdrG+nM1OIGIFsge1z4vEDkBV/GP31Ac+NBxg4MkmallIKCuw5dokXj3Tyt+Kv0sJKLoeJz6x8P0M2fB99W/mVDy8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776423852; c=relaxed/simple;
-	bh=iVhDGg+W5TPBvcDs/Dn3hO4tbf9SGWTQL3CsHFXf5Kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QTY5yaO3jHOeAovh6Vs0CAitRLa/n/IWL0cviNl0/GOyhJIFHGGvlXDSAwlH9NqaMVvOYaCTI47WYgO4gUJ9/lXegTVikv8ZMiTQ5ediDo4MM+WNdVYgNA4rqu+RR6iyQN/Q22cuN8Zhn6p7MrrPhDw1ik7hvp+JWiYzTfvvC3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=gH6w9Pql; arc=fail smtp.client-ip=52.101.65.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2D03BADA7
+	for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 11:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776423879; cv=none; b=JmgNVkgusivcDRv+wIf1cmpahonGxBjFX/kcmfeq5bW4/KP0B2EXNu3bapAz9Kr7qHNiBzCLF0TeOKftY1CIrs58Hg4b8jzu+Z4lv4Fvm2jyoUpyQBL2o4oT7HTaR26ASG6PEaIZnNe1xAmCqT071y8rhnlywTz8CdQr09JWi2M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776423879; c=relaxed/simple;
+	bh=hRt6bnj6JmwIsk2Q7eHHKPQ3L38fkyslxwE5kAHtrQU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QuiqeWj+00OTKx1gwn90vk/Nb4lSBjdzYTjn5Ado8h5rnEwM0emtbT7rddWSge0QK7zI+QBiqdae4SZ9OW1YaMz8cuibiMBFyu/NwbEhGFMLuJHq8WnLeZd1JiNkAc9yHeUiY/daS62G4xMH0Q6qjnG3V4uE0yAM5hdP0NY3Avk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FIcA/5Ef; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="gH6w9Pql"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tr5i9IlbKHlg3GY8ZG4ey+lfE8wxz2tzUitK2IBZFXSwHzUMUuSOS4uI1YBs0p1uSmQmrhYWr6PPita7xuMW19gFn4pzG2P97cUEwq8A3dh6XVkBEX1fm9r0H8P4Z1sXQJHThJ6ypJh+TMV05+rCy3pFYMdp9kq492v8pPtxMSIwqsxwTHLcy/Dr2DBfa6yI1jkbK764xGmxZCj+/4IZha+myiUIV1W6ht9BUuNq/tUB1eKkILKw8wO2Fl0LS8s3Lc+w0JQ7DRXkLLgF80QZyR0ik5T0FDhWMIj5hbqd6vIF29vf5N4WRl+On7FJJdB3UJbbw2d9uzRcP3jCoCm20g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=72hmBQUvpLc/UbycA1q7D42OYX5f5EfjgKhmTPW/TLQ=;
- b=nLhuEbgCaanPrcisdbHa7UIaXIXIZlsP8c6m7w4z/Xq9S3+J6gcPDr65VF7lpPmgboWRJhcAQHYfMDvAV9PO7NONRX7KzY+5+f6NpEIJvrPwb0Pfo4+XUVqLVit4HBcv4XyLx9/MAvkC5aWL3N5IbwIDA6sRWx+QOZ80WDksG3wXnXPIsXSAeeEMKBd0LJGlepHJ0ZZtO12EeFhMulTzcfYtO0OM3e2msATCwL3Mmea4j4I5qk7KhX1iZCC2lcGKbNED44Ln0VPjMGPtIGSJ6Y9kdD6yTVbocruxSXvodFwGQWiFP/d6W6jA4oAtefti3gwIxcTF9k+gUMCIu03y0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=72hmBQUvpLc/UbycA1q7D42OYX5f5EfjgKhmTPW/TLQ=;
- b=gH6w9Pql4r+qYsUtYpb8jLg9wqc1CLIM9VsB5ShKjsQuMx0Ht6g1UQfa9TDabwKFDkuObVNoFYON6bQDZgLXMJHw+IhwPQhA4kosgowX5a+xROK0LNGVROYHom2rMakDLmwLfltX9tNoGq2g0UswUd/CEVd2xIkA7vwgK9cTevM1Vn4uH/gzCXgvI7QuyzyY9KcaJgWg4qiD3Adr2ZJWNWWseIb2zfFaQbRvSoau/R5MF/jD+zvSe6zd1bI2h9s6SHxo0ybLgXgbGcMjYd61cOPWyCZGCWCt/ccnQvM9PaEGqgUTR49cqEC7WjyMf/RdWmiCaxBoBwSRAOT/7uoExA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by AS8PR04MB8484.eurprd04.prod.outlook.com (2603:10a6:20b:34c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
- 2026 11:04:06 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
- 11:04:06 +0000
-Date: Fri, 17 Apr 2026 07:03:59 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, shumingf@realtek.com,
-	rander.wang@linux.intel.com, pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] ASoC: dapm: Fix widget lookup with prefixed names
- across DAPM contexts
-Message-ID: <aeITn0SXl-wqgAyA@lizhi-Precision-Tower-5810>
-References: <20260415081942.4183108-1-chancel.liu@nxp.com>
- <20260415081942.4183108-2-chancel.liu@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415081942.4183108-2-chancel.liu@nxp.com>
-X-ClientProxiedBy: SN7PR04CA0219.namprd04.prod.outlook.com
- (2603:10b6:806:127::14) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FIcA/5Ef"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c76cce85bd9so219660a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 04:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776423876; x=1777028676; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XM9OAm7LxW6dUYuM9tCumZEGq0uUmwkPB3O9AymjDmU=;
+        b=FIcA/5EfjfMCuR1gI9Y1+Fin3GHV2osEX1muWKWlQh6q5Z+jVI/W243gWeKyUWvQn6
+         pU+p+WF9TlrMcLoZ/PnvKsT1xbXKjhyeTlAy+QPjrQLslLna+3GQraLOMyyzSHkJq3KE
+         N528MPduNyNHldu0cwV1HkaLQPlq7aii36PUkBJBu3zzQ7KfwlE3FJ5M70pW2IsYAJaA
+         sxOBuOKOb3x2PnF5gy5nkikT3gpFFRZ8278leglE1jvK1WW0a0WV3ug5ygwkBa68Jqr4
+         LqOO5v3RJ8WtsgmeTtOt755tgKgNTmxjD74zBBuPkZ1N+GV8V4sCNdcGFnSUyy8g+dxW
+         IJ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776423876; x=1777028676;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XM9OAm7LxW6dUYuM9tCumZEGq0uUmwkPB3O9AymjDmU=;
+        b=WIiiEMepO89FyD/my0TqqpCD/bg6OMgUXODWR4r1zz2oWx4hQOqRer9LRWVgEojmVq
+         YBP7vdE0f4rp4C5LiCwjXFbCyE6S8ZFU+eIbEJr3GEiWOjwH92sR1sLRxFl+ed5iFsSS
+         01u5xGi+CuC9tmTPvw2XXCGTwfHTZf0bDvAQiU+4y4G0P6sDOjgIQ89xTOs+RQdG9b6T
+         BCGKqCho14bLDp7LK+vJr+huk4eHxVade+tcKdDnIzTVDprvS1uK+FC69UlNNeeI1iFL
+         Sj9cNYFHYsiFOWxvYZ8Q4fYha2wdPuQtPPtL+fIJmCoF8wEnENq9HtD92hUWViuY20vV
+         VOrg==
+X-Gm-Message-State: AOJu0Yw7nXpyRRgYjD6xkFxCgjyJgN9YhSlLp8iNX1HD7nAFDjnisQnT
+	f6E3AjhViiaNkpuB0HD2fmwV30OgYIKNdoG+lLR4AFJa4ityFL9TFV3K
+X-Gm-Gg: AeBDieubBbPf2Fy70h7GgfA6EB3BK0YRkvjWT8HLGMT9vbnznm22r3gLd+OZTd7pfnv
+	sn12S8PbDyMChKk8cfsav/ZqU0jt/Fx8jPMmGtm8DjW8J4dwnI++hB9J3Wc0Q/37ymJAaaFpDfd
+	ya503zbGxKzyPFo6GQuDlrJcnJsY5tm0/iuypPJOQXFvnrU+PrmiaRczVaKCNl/WF10WY9J8RWb
+	uBKEfxzbe5VtwSl0TSGNWTkyNPVUNOPF6IuBUI/EIa06F0TX2PVMRgG5IM6M8UHSkDpsIeU/Lh5
+	4KfP/UyDoszku15eQrIOBoKWCPEK7yTyCjLqmTcM6USBHG5j601BfQsrMKnxuJnblfYOFep7814
+	Ho4OIXAUchirHmygklniM9ynuFQEUh++QJlzZ+hZ8FLS24XLcSIjpHpLD6ejiOPIN1SxDG6Vrkj
+	ne9Vb7Eb0jfGeEG+RT5qLUT0PHMkp6hsydl1O7vp7LBpipTr/uQH3vIk9Y6kPzFa8QBLcIZJbnv
+	WECGJsMWTY=
+X-Received: by 2002:a17:90b:5865:b0:35d:b00a:3c54 with SMTP id 98e67ed59e1d1-3614049447emr2541018a91.22.1776423875925;
+        Fri, 17 Apr 2026 04:04:35 -0700 (PDT)
+Received: from chaitanya-virtualbox.. ([103.249.241.52])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361410bafa9sm1758409a91.15.2026.04.17.04.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 04:04:35 -0700 (PDT)
+From: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+To: Max Filippov <jcmvbkbc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+Subject: [PATCH v2] ASoC: dt-bindings: cdns: Convert xtfpga I2S to dt-schema
+Date: Fri, 17 Apr 2026 16:34:10 +0530
+Message-ID: <20260417110410.4482-1-chaitanya.msabnis@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AS8PR04MB8484:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ff3868b-4e8d-495f-8e1d-08de9c710adb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|19092799006|7416014|376014|52116014|1800799024|38350700014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	0ssAlu9w3CgRa99ztBuc7stTW4FqLCIN1eyGBYUa1lSvA+kV7AeIXSsIpFTVTeKhM+ktfsKblrnTff+dZ3E0p0noExLraVwYoO8fRBufheHmEkK9S8/CXz0fUDtz8wmd/+GgbGrRojt4bEw5p57qxMtq6weGeCeH9Nc1gAYn5BXDSOqz+yZzrKVFNvuLrbqMwT0BaAam6WgkZaWpOdiJtFjA0KVlHV7TQ1EyxrTjz0fYrokLZZzna9smYY04XXtqPH1zLXQGklWJofzEm/3/biaPAleGYn4Dd/Vw2ZF0tuKg5+fsZyyCN8CFLfPeK7Dn/3FUyUovDJkkKbo0kPA0DYF21vcsXzb/XMfIx5HojDmH+gXn6hzToZ4DGqrgYMym6yLLN5IQTMJ2wEQ0xU5zVq1XgvYALJyd3qZuPTpR9PqMpGmsNKAK4sjTLM9oXMVObVEECyUnHBt6J2CmOSr4zpSkrwYxSgqmC9u+Er/WVY4iGsetczbjh4xPo8ungA0C8ULoGweRbXKjJA6OAZ1ZuR1L4pj8PwSimn8g0v+f8owXmNFh3T996uRduxWr3qF8nZP/wo/pJKdFMXZKGTmBkV7ptwQDazIgxJD8GefyDPfsxWWXagvXTwwZcBj8N9uZyNue2b11/FfwGMW1QGTQ4QTIelixsQXbwSb8yNz1+gywR7BQc6D2fIHbtyzmFiMc0wFz3gC+wgbMQVa7p6QTo2D8qySo6SI6Qdz/5Y+NQgF/6LdXoHaA8sAgqxQ4n2k44CXYxvcgO5yPgKM6lQQX1/f4ElkC12x2Ez021CUaGB0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(7416014)(376014)(52116014)(1800799024)(38350700014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Ti0d7fqaL2GqBbjfCpg1T2zpgKPbdbpIGZaJ0tKOLc872GdZkSyDylaa9yuB?=
- =?us-ascii?Q?LddE4i5uuYcO+u0xzImQg26xdm12OTGJ4l4U9fzKUpAZIwRI/7JYgTbIjDfQ?=
- =?us-ascii?Q?MgU+SX4RGhxWD29FnOo7GDjGp7TGUBwHTAStMIByPlP4hPYYJMjbsfHIXFzh?=
- =?us-ascii?Q?IXia+i80MBC6/LrQ6z7IajfYsg+teAuxyAOp90et+cR9iv8ELlcC9+BNZDbN?=
- =?us-ascii?Q?wds+pcjFwT/d+ZoZTWGK+ByIPAf0HS35EgWJJfZdC58ZP+fkMyg9B2mUM0m7?=
- =?us-ascii?Q?da2ELKRedL9CegJB50/FjTrsMNcutSwAomoLW776Op770jJ8epBZc/9/qNBJ?=
- =?us-ascii?Q?kafiVeqc9Wi/NLMbfDYmREq7tg+MxgAiYpZ8AVWUZ343/sryJ54lnpJNH3Kr?=
- =?us-ascii?Q?hnQKnM7+pMYBMAi2UuXJyx89QKNiGmOkl6XRyFUFDY4vxZV5bxlbsOkzmVsP?=
- =?us-ascii?Q?CI+KW5S1Tk8n8tpt60Bacbviq2uLoqOuaTagCYu0thR23cJN9Zc4ERngP1Ui?=
- =?us-ascii?Q?qLteN4q4sdtWQJDEfAtRAjZFgQ5GdpguLLxEU0WOin0OjF0F3kNHL86FLySH?=
- =?us-ascii?Q?cC7+loZ34Uj3h+x2HiXqGYpvKDpgyX9W3eGhr8d7oeAhNuddXpB01sEA9t7z?=
- =?us-ascii?Q?xVodl1ij9NXG2w2jU3+jn110vYVGuf0HMLKbP0UGxEagyoBdX/4hkE2HQ2aE?=
- =?us-ascii?Q?syXGx5P7hIdCC11L6zDxXF/hbrB7cn57XygMpeDMtVCDzYuM64XHIfhMAKzK?=
- =?us-ascii?Q?t2Gq2Z9sBOLTB8cdnQJ7U8Z5GZT2/z/wq+D0e+2eC4I9K8/8gmhaPnYym2Jp?=
- =?us-ascii?Q?p8laDDeek51Lyq0wXqMJhSASgr0h3J/4e7FIMfjp5T3hTi63Gvqy7qvO6k/C?=
- =?us-ascii?Q?2a5Yq8o6+iWdOVjhADAxrafVTMaDjTi2b2/fbkYUlJhH83AsVe4jsfbfAvMU?=
- =?us-ascii?Q?SH3DO2kILc0Gxd+dS2zY8syjJiRAGJTPCxHh1vfJ7DmXI4XIcWXtQlSOeSgB?=
- =?us-ascii?Q?bu2oJgsy4Ij8u9wubCQ2eInYppRhAi7iWNzhQ0dGQx9PJDS4nLJSpiIUQ2Qf?=
- =?us-ascii?Q?U30W0sparAfvcZfQMHdrQ0TAIeAcQS4xkHCHord+6mrsEWfNSmoigPYxX6/7?=
- =?us-ascii?Q?kwCSHeM24N72erJpHUzgv12/H5wDYsZuUECoRurH2JZ+JHIfK1u/S8TYox//?=
- =?us-ascii?Q?wpoh/SLPEYl0YcQRBLvFDmELd9xby5lYvs8OXsrTSRrC4ot3lvc2gHmMVN25?=
- =?us-ascii?Q?XJblMZEZYKzI2DI6MvClLHVR65YZzYpidqIqbUNx5j1VdWfWxz9meRij0nP5?=
- =?us-ascii?Q?7LfP83+QLnsFOaiV89U3M4Ei7X5OEhGgDkzR4l2wxHA+P6HusUJSsDXNLhuJ?=
- =?us-ascii?Q?h7VdkB0qP61IRKDYv5D2xhIZJzecV7ltxdAhTGKd3G8IBTJrm5spMRDXlTPT?=
- =?us-ascii?Q?qgtJ9obz/JKhVfs04QAVCvMHfTy2PPAuah0RfWlSp7Rw+DiFQX75oNw0zZRl?=
- =?us-ascii?Q?iJkzSH1Bj02t7XPJSL1ibf2RPFO0xxhfhbyaJNXXO3RBYn0sLzTF/x7+54B+?=
- =?us-ascii?Q?70KgiADRVQGbPVZ7uKYDXINxa1pdStcqcoT90SIyKy5mjzPU/lSZTBsvkM0z?=
- =?us-ascii?Q?71dIDKb2U/AncpKBdcv8MXShyM1kPpBs665L7hv5oP4qQBvgKdkVpvCJ5oG3?=
- =?us-ascii?Q?8QmMOBOUKf+kihKojDyiyl6AjtZFC5q7AtLfqjeWvRDvFGb/NUWDnaNBCoaF?=
- =?us-ascii?Q?9HC6M6K2QA=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ff3868b-4e8d-495f-8e1d-08de9c710adb
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 11:04:06.2975
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V6DUupttLbV4xsB8lS4+C+/1AbvW23io4ZeiVbVu226/i2ZFgK4jLRCRulgm3Xre2FTVITJ1ibaac+i01gamEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8484
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 15, 2026 at 05:19:40PM +0900, Chancel Liu wrote:
+Convert the xtfpga I2S controller plain-text binding
+documentation to standard dt-schema (YAML).
 
-subject suggest change to
+The hardware requires exactly one memory region, one interrupt line,
+and one phandle to the master clock. Verified these constraints against
+the driver source in sound/soc/xtensa/xtfpga-i2s.c.
 
-ASoC: dapm: Use snd_soc_dapm_widget_name_cmp() to fix widget lookup failures
+Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
 
-Frank
-> Currently dapm_find_widget() manually constructs a prefixed widget name
-> based on the provided DAPM context and compares it using strcmp(). This
-> happens to work in most cases because callers usually know which DAPM
-> context the target widget belongs to and pass in the matching DAPM
-> context.
->
-> However, this assumption breaks when search_other_contexts is enabled.
-> In such cases, callers may intentionally pass a different DAPM context,
-> while searching for a widget that actually belongs to another DAPM
-> context.
->
-> For example, when searching for a "DAC" widget, the widget belongs to
-> the codec DAPM and be registered with a codec prefix, while the caller
-> passes card->dapm and intends to search across all DAPM contexts. The
-> current implementation incorrectly applies the caller card DAPM causing
-> the lookup to fail even though the widget exists on the card.
->
-> Use snd_soc_dapm_widget_name_cmp() instead, which compares widget names
-> using the widget's own DAPM context and prefix. It fixes widget lookup
-> failures when searching across different DAPM contexts on the card.
->
-> Fixes: ae4fc532244b ("ASoC: dapm: use component prefix when checking widget names")
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
-> Assisted-by: Cody:Claude-3.5-Sonnet
-> ---
->  sound/soc/soc-dapm.c | 13 +------------
->  1 file changed, 1 insertion(+), 12 deletions(-)
->
-> diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-> index d6192204e613..c5b80d9ed64b 100644
-> --- a/sound/soc/soc-dapm.c
-> +++ b/sound/soc/soc-dapm.c
-> @@ -2906,20 +2906,9 @@ static struct snd_soc_dapm_widget *dapm_find_widget(
->  {
->  	struct snd_soc_dapm_widget *w;
->  	struct snd_soc_dapm_widget *fallback = NULL;
-> -	char prefixed_pin[80];
-> -	const char *pin_name;
-> -	const char *prefix = dapm_prefix(dapm);
-> -
-> -	if (prefix) {
-> -		snprintf(prefixed_pin, sizeof(prefixed_pin), "%s %s",
-> -			 prefix, pin);
-> -		pin_name = prefixed_pin;
-> -	} else {
-> -		pin_name = pin;
-> -	}
->
->  	for_each_card_widgets(dapm->card, w) {
-> -		if (!strcmp(w->name, pin_name)) {
-> +		if (!snd_soc_dapm_widget_name_cmp(w, pin)) {
->  			if (w->dapm == dapm)
->  				return w;
->  			else
-> --
-> 2.50.1
->
+Signed-off-by: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
+---
+ .../bindings/sound/cdns,xtfpga-i2s.txt        | 18 -------
+ .../bindings/sound/cdns,xtfpga-i2s.yaml       | 48 +++++++++++++++++++
+ 2 files changed, 48 insertions(+), 18 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt b/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt
+deleted file mode 100644
+index 860fc0da39c0..000000000000
+--- a/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Bindings for I2S controller built into xtfpga Xtensa bitstreams.
+-
+-Required properties:
+-- compatible: shall be "cdns,xtfpga-i2s".
+-- reg: memory region (address and length) with device registers.
+-- interrupts: interrupt for the device.
+-- clocks: phandle to the clk used as master clock. I2S bus clock
+-  is derived from it.
+-
+-Examples:
+-
+-	i2s0: xtfpga-i2s@d080000 {
+-		#sound-dai-cells = <0>;
+-		compatible = "cdns,xtfpga-i2s";
+-		reg = <0x0d080000 0x40>;
+-		interrupts = <2 1>;
+-		clocks = <&cdce706 4>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml b/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml
+new file mode 100644
+index 000000000000..9617acef3f0c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cdns,xtfpga-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: I2S controller built into xtfpga Xtensa bitstreams
++
++maintainers:
++  - Max Filippov <jcmvbkbc@gmail.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: cdns,xtfpga-i2s
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++    description: phandle to the clk used as master clock. I2S bus clock is derived from it.
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2s@d080000 {
++        compatible = "cdns,xtfpga-i2s";
++        reg = <0x0d080000 0x40>;
++        interrupts = <2 1>;
++        clocks = <&cdce706 4>;
++        #sound-dai-cells = <0>;
++    };
+-- 
+2.43.0
+
