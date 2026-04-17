@@ -1,179 +1,174 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011013.outbound.protection.outlook.com [40.107.130.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2D03BADA7
-	for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 11:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776423879; cv=none; b=JmgNVkgusivcDRv+wIf1cmpahonGxBjFX/kcmfeq5bW4/KP0B2EXNu3bapAz9Kr7qHNiBzCLF0TeOKftY1CIrs58Hg4b8jzu+Z4lv4Fvm2jyoUpyQBL2o4oT7HTaR26ASG6PEaIZnNe1xAmCqT071y8rhnlywTz8CdQr09JWi2M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776423879; c=relaxed/simple;
-	bh=hRt6bnj6JmwIsk2Q7eHHKPQ3L38fkyslxwE5kAHtrQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QuiqeWj+00OTKx1gwn90vk/Nb4lSBjdzYTjn5Ado8h5rnEwM0emtbT7rddWSge0QK7zI+QBiqdae4SZ9OW1YaMz8cuibiMBFyu/NwbEhGFMLuJHq8WnLeZd1JiNkAc9yHeUiY/daS62G4xMH0Q6qjnG3V4uE0yAM5hdP0NY3Avk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FIcA/5Ef; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E9A3314D9;
+	Fri, 17 Apr 2026 11:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776424506; cv=fail; b=M9GLTZVSEqEFBho0DlDMwqKNvn31MafNg9i/Kl+1sx+i03LzUSSlxzAWz8jfkoIzMDv8bNvYmBb62cO3KKfP7punVuLHd4e30sFsLzNwW/yfaFVbnPC/w6DcGiAbjPrnKrVP19a5NYiSQ/7DrQw15d9aNznO/4yRBWFFti1AsDU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776424506; c=relaxed/simple;
+	bh=Ub/G1AzZDOWmo3DRCntslFLwpcN3UjbPe11NDxvY9p8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=aL+v3mP4tIHUnmMXIv6W8FDuYcEJANYsEhe82F3W+ZtXWpFvxNDztS76vek9gWrliRBam6Qe75GAaQ1nspjka8F6jH0Psypy4UBTV0FARWBx+cI8DSwl0ah2VgeX+cN1/6uHwGr6wV9mLlIgPbllj7wv2mxc3rnX7da3GgSXBX4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FbxmvzM3; arc=fail smtp.client-ip=40.107.130.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FIcA/5Ef"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c76cce85bd9so219660a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 04:04:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776423876; x=1777028676; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XM9OAm7LxW6dUYuM9tCumZEGq0uUmwkPB3O9AymjDmU=;
-        b=FIcA/5EfjfMCuR1gI9Y1+Fin3GHV2osEX1muWKWlQh6q5Z+jVI/W243gWeKyUWvQn6
-         pU+p+WF9TlrMcLoZ/PnvKsT1xbXKjhyeTlAy+QPjrQLslLna+3GQraLOMyyzSHkJq3KE
-         N528MPduNyNHldu0cwV1HkaLQPlq7aii36PUkBJBu3zzQ7KfwlE3FJ5M70pW2IsYAJaA
-         sxOBuOKOb3x2PnF5gy5nkikT3gpFFRZ8278leglE1jvK1WW0a0WV3ug5ygwkBa68Jqr4
-         LqOO5v3RJ8WtsgmeTtOt755tgKgNTmxjD74zBBuPkZ1N+GV8V4sCNdcGFnSUyy8g+dxW
-         IJ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776423876; x=1777028676;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XM9OAm7LxW6dUYuM9tCumZEGq0uUmwkPB3O9AymjDmU=;
-        b=WIiiEMepO89FyD/my0TqqpCD/bg6OMgUXODWR4r1zz2oWx4hQOqRer9LRWVgEojmVq
-         YBP7vdE0f4rp4C5LiCwjXFbCyE6S8ZFU+eIbEJr3GEiWOjwH92sR1sLRxFl+ed5iFsSS
-         01u5xGi+CuC9tmTPvw2XXCGTwfHTZf0bDvAQiU+4y4G0P6sDOjgIQ89xTOs+RQdG9b6T
-         BCGKqCho14bLDp7LK+vJr+huk4eHxVade+tcKdDnIzTVDprvS1uK+FC69UlNNeeI1iFL
-         Sj9cNYFHYsiFOWxvYZ8Q4fYha2wdPuQtPPtL+fIJmCoF8wEnENq9HtD92hUWViuY20vV
-         VOrg==
-X-Gm-Message-State: AOJu0Yw7nXpyRRgYjD6xkFxCgjyJgN9YhSlLp8iNX1HD7nAFDjnisQnT
-	f6E3AjhViiaNkpuB0HD2fmwV30OgYIKNdoG+lLR4AFJa4ityFL9TFV3K
-X-Gm-Gg: AeBDieubBbPf2Fy70h7GgfA6EB3BK0YRkvjWT8HLGMT9vbnznm22r3gLd+OZTd7pfnv
-	sn12S8PbDyMChKk8cfsav/ZqU0jt/Fx8jPMmGtm8DjW8J4dwnI++hB9J3Wc0Q/37ymJAaaFpDfd
-	ya503zbGxKzyPFo6GQuDlrJcnJsY5tm0/iuypPJOQXFvnrU+PrmiaRczVaKCNl/WF10WY9J8RWb
-	uBKEfxzbe5VtwSl0TSGNWTkyNPVUNOPF6IuBUI/EIa06F0TX2PVMRgG5IM6M8UHSkDpsIeU/Lh5
-	4KfP/UyDoszku15eQrIOBoKWCPEK7yTyCjLqmTcM6USBHG5j601BfQsrMKnxuJnblfYOFep7814
-	Ho4OIXAUchirHmygklniM9ynuFQEUh++QJlzZ+hZ8FLS24XLcSIjpHpLD6ejiOPIN1SxDG6Vrkj
-	ne9Vb7Eb0jfGeEG+RT5qLUT0PHMkp6hsydl1O7vp7LBpipTr/uQH3vIk9Y6kPzFa8QBLcIZJbnv
-	WECGJsMWTY=
-X-Received: by 2002:a17:90b:5865:b0:35d:b00a:3c54 with SMTP id 98e67ed59e1d1-3614049447emr2541018a91.22.1776423875925;
-        Fri, 17 Apr 2026 04:04:35 -0700 (PDT)
-Received: from chaitanya-virtualbox.. ([103.249.241.52])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361410bafa9sm1758409a91.15.2026.04.17.04.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 04:04:35 -0700 (PDT)
-From: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-To: Max Filippov <jcmvbkbc@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-Subject: [PATCH v2] ASoC: dt-bindings: cdns: Convert xtfpga I2S to dt-schema
-Date: Fri, 17 Apr 2026 16:34:10 +0530
-Message-ID: <20260417110410.4482-1-chaitanya.msabnis@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FbxmvzM3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZYwhnJ2J4c69CpmN47cVJ8bveAUXVh0bzOcGPWPTwDP0H3utv7bVtyXytSgT/7m6aJEPqXgA7LaQfXS9jqKpS4/gDJmmQ2UpPSpd9Ni7bhdjBnvDF+OtEQPLLo2dg/AnDhASRJi/rfT+tHuEjimn+9W4txjpysa8ckOYRdOgnLGRgvlO4aJRCWLWOj6amWsygf0gjArEu0T2fc3VRPw9u+vIM7GC5jS/BSLxeKCUNiWDGyKfTT3LZD9o1dlixmTMyC2LWb+LbBJtFhCu9jZUBJ9lfd4fpnrzLOUfu+ry3mt5ayyldmx0+ZNgmS7UqowNbmAqA2DR2NYopY3jBX/Bnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bWSYppqKgEYdAyJwXpGbYhTyQJYumoPUvOhjcW/Y6is=;
+ b=cQN2IQXsJ1DDsWpSWWBZDuvd+p5EdzmBY29AMWCZB3PwGHNgFq/nI8rim29qaBrKfXhogupX/OUyV3t35tzrWx4oNQSwfQf4KKi0VL04Eweja5djXOse8H6pIz3Yy/OygNMjyXtyhR4EyISJOUufaSBspnkmu8xn3pgbneOE/dh8K7UPQ8ziAfOxQJQrnHGxq5qhHAOHBCg/oxz/B8p8zzKMajNG+BTLvZGCBCbCiuuSqhYQS1Zy0lOtFWVsMJIeS+3pGv8Cd3kr3eK4xto9DS3k6sNiREyH+l1zR2qChUrZYTt2ttDcu1SVrBkT5ffb7tgOixcS7SMId2CpfyH5vQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bWSYppqKgEYdAyJwXpGbYhTyQJYumoPUvOhjcW/Y6is=;
+ b=FbxmvzM3waocfzihX3wKx6b0r/0EvQeQ/fqZAPmt/UQtgvi7vrrGklsEMzaY0MQeDLyWb+JkRCcHfnmZ/nRnfO/TtgNsuyXn+vNDIQhez+yGiaql88wRXXMgeBmKHocoXU7gOcqS1vR92K/mF3M1BquHbzSKwnqa7ie3kp6v3YBdn5SLJv9H17XuUUAOhO9kPdbZOcIZNqw+tli1YH6EKaZf27XcQxL17WANsuSAv6+VbUktPlpIAnsHvMYN4zi7DN/mSGNpvd0OEx2dWY2pSbi2AZYE2U/pHVrvwgpXCBZCYnUN+qlSUkN4yH7sb4HlOMItCbg7LFu38Z0Z03gSLA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DB9PR04MB11560.eurprd04.prod.outlook.com (2603:10a6:10:608::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
+ 2026 11:15:02 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9818.023; Fri, 17 Apr 2026
+ 11:15:01 +0000
+Date: Fri, 17 Apr 2026 07:14:54 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, shumingf@realtek.com,
+	rander.wang@linux.intel.com, pierre-louis.bossart@linux.dev,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/3] ASoC: soc-core: Add core support for ignoring
+ suspend on selected DAPM widgets
+Message-ID: <aeIWLvMWKv6OmX4h@lizhi-Precision-Tower-5810>
+References: <20260415081942.4183108-1-chancel.liu@nxp.com>
+ <20260415081942.4183108-3-chancel.liu@nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260415081942.4183108-3-chancel.liu@nxp.com>
+X-ClientProxiedBy: SA9PR13CA0166.namprd13.prod.outlook.com
+ (2603:10b6:806:28::21) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB9PR04MB11560:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1cf4c698-f8e5-4fa9-fa39-08de9c7291b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|366016|52116014|376014|7416014|1800799024|38350700014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	wJ5dJj7Q5UzEkToBhR2Hy4S+BOuJyRJECIInB8lzihRSU8PJ3XRjEd4hpxZn4KDJ+3ZmI9Fgt1dZncKuKdWhDBX9225zG4owmjxTB2i0nfDizF1Ab6ykaGmx/i1IDw+1ffnMUg0qVZuY7KJA7b0NkdolC4MTDlqofPwTOt7FshAN31XOG9WSYIrLzusOm95gFEH2aBVLCtssVtFhUtR4whwkuiFBCMGIrAz03aajKTFyIhWGL0DvP9Jscm/6vVfJ4/YJTaR300wh/cxbp1X8AVAp9pgf6fStmLxTPVzGyVZHkj/qghnV34/ngocKbAZR+FBFjXxHY9dXYBDXJQUqli9sPmaYARp387JDCCpGkdEMGbqa4eQQP0Pyf5sTjjEtXg6iOSOr4Fvj0KGldyMQHzsSYWZCVH9ohjdifsZjLYw+a1qAXSS1Ly1qiV8LpwkWLUiLqpiFvzfxL4+aJKOtRzh5F1uw/duumXuqLLAr2uBnlok4amHYE6n07IM+TxICwsW0LRgvtdsLoIa0HW58NakqElFuHRLSs/WOwJQacWnl2ZndljlMSYUCmip2UtEqbkcrAQZKUUYkyhZ+FSutCssIIvuyrexSV2OhXAFv/rUZzHhju5QN5Nwh4tywLwk06NTxj/vWw054VJCRjBrwLdM+EPdqkrUUSSvIS8pmYQQDI+kGEKq58nSiXNztPEVr2LrZ1iEGfL+F8Pjs2eemG/8i+7xwjTMn4eFa2fkG7N2V3zW75zyCoR5iMTnMY1wEEzOFQcPNz9E+iJcnGCC7myrzYAnKGDUyx4Ol8atMTG0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(52116014)(376014)(7416014)(1800799024)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T2tva2dDUUhpVWszY1p6VWo4WUx1UUxkaU16cFRYeERBNXpvWHR6a2JZQUdu?=
+ =?utf-8?B?TUdRSHVrN2hRTldvdHl0UmFwWWRGb280VFk4MDhqMG1rbDJLREtVbUhFVnMx?=
+ =?utf-8?B?OEVnUTVNbG02NTRiVEpYQnRGeVRIVUFJRCtST3ZOZFNZd3J6UXB0TFhoNGtY?=
+ =?utf-8?B?Uk4weS9SWnY2QTN2MTdXYjZQbTZiZWdKc1orUmp2YjZtdUFMcnhRY284ZHMx?=
+ =?utf-8?B?cVA2VzduYlJkOGxhYjBOdlhUdm4rR2txYVJSYzNSakpocnlZZGpPZ3YzTFc3?=
+ =?utf-8?B?aFFPbkNGVzExM3Q3YndnSlJNR24zejcyNDlsYWt2Y21LRTROSDQxcmRuVFZZ?=
+ =?utf-8?B?ZjdLUDc0SHhjb2tES0N6QzlwRXdxOWNHb0N1T3BpRWsyRlFHREZkUkN0MnhL?=
+ =?utf-8?B?bm1zNkdFL0VPRVgwWGl2Ykl1RFhnNUJJNmhyazlsc3hSbS9MVkZDblBNRkp2?=
+ =?utf-8?B?a0l3Tm95eWFRUk1RQlF5Qzg2UkowYWZFSm5hUmh0U25ZUzFiR1Z1RWV4S25j?=
+ =?utf-8?B?MDE1MFlUc3RsMlZtZmtQeGZrZTFVbnZ0VmFMd0ppemhFeHBYZUhlMGNzVEFv?=
+ =?utf-8?B?eHcwcW9hQVlhdE9zTFhhMnVoYk56bVEyaTNGckdtVlQ0OXlBYWNWSjdGZ0Zv?=
+ =?utf-8?B?VE5FT0MvTFRwTVVlczdrbVJTUFFqRXlyaXFTakoyc3NVUlRsODJhNGpKYWtp?=
+ =?utf-8?B?eGV5ZlV4dVJRT1h4dHRQVzZURzBqdVRqWFFLWGQwSkl0bzZQN0JqbzU2amNH?=
+ =?utf-8?B?UlBBbE1BbU4wNzJ6TDBtN0thMkVoQzZ1VTdVSEkzR0NNOTd0VlF6VjRCbGJ6?=
+ =?utf-8?B?ZnFSVzNJcnQxemVONllCY2t2OUtRMlM4ZGVXV0NrSWd2ZUlxV2NFK2RDUlpG?=
+ =?utf-8?B?ZU0xVkI5eVVXeUdIc1ZrQ253bW84REc3NjJueTgrMW5hU3RiL3cxMVRKMHNw?=
+ =?utf-8?B?WWxJR3lPUjd1SlpJR3hRaWEva2F0dUs2TmxpTWkvZU9yeFlSYTkrYzludmlJ?=
+ =?utf-8?B?NDlVeUc4bjMwZHFkbTFKVmpWVXZLaGlsdU5CNlNMOHJjK3J6b2NybnNUU29Z?=
+ =?utf-8?B?SlpiTU1sVllHWXdvK0ptRHdwQXpqMDA1bkRZSms0RGZnbkpES29jOTJaT2kz?=
+ =?utf-8?B?b05JVDhXWXRSdWJTRm1UbCtqSEIxZkRMUUNMWEFGaE1sRUZDcmxua2lDL29j?=
+ =?utf-8?B?T1F4NjJNRU84cFVyZ2lpR2NYb2YvejMyUWlkak0yMXZ2YjNGbWFEUkdnazdP?=
+ =?utf-8?B?eEM0aUc2OUZRRzRzYVgzVEhZVitYTkVuRDRPNDNWZ2c4TVV6S0p2YVZrbkhM?=
+ =?utf-8?B?QmlrRUw2TGorZVA4bnFxdGpqR296R1VKZ2FUUC95L1puS0RBMVBnQnZHa28z?=
+ =?utf-8?B?L0pVMUY5T0xCOFpkSWFwUFZKUGdXRDgrcVo5Y2Q0YUl5R3MyZmVkaHlUeDEy?=
+ =?utf-8?B?WkMwaUc4dG95UVlOQS9xN0FVZ0pOSmRlSVF5Z0xhZWRuakRhTFFrbU1kTEFJ?=
+ =?utf-8?B?NDBxeVcwbU8xZkF1Y3hxTmlDZTdxME54YTg4ZDNBazFWVzVNWG5HdW9Nam9m?=
+ =?utf-8?B?cldUdStmUW5qTjYvc3k3ZXBwNkd4d2JFdkhTMnUvbEtRMmxYT2JWdUxXSXNO?=
+ =?utf-8?B?QmNIN1VGc2hZa25TbW1DY3dHKzhSN254bUZlYlBsNnYzblZOVTR3QTZtaDZ6?=
+ =?utf-8?B?U0U4OHRUWStBVExHMkxkSVZPWHJHb2hWa2lTK2NaTENSRm4yZUZ3SWZxMVAy?=
+ =?utf-8?B?aUg1dWtWbkNSU1VZZHBqbkZXWTVkb2lNdHRoUkpKejRQTG11RTVJVDhjVkc3?=
+ =?utf-8?B?aHhUbUZ2bC90a0NDaWJXcFZkVzV3TXVDWTlmSFUwTHhQdjFlTWZvZW55dUVw?=
+ =?utf-8?B?U1dwUjlicHpkSXpjTUtIaG9pb0s4ZFFES2tNOU9QcWxtUUxxeW9mbFR0NG9K?=
+ =?utf-8?B?RFlXNk1zd1JNa3ZrVmtpd1R4dVNoTGVhdXBYaGdmakpUSkFEazZlaU9GMTEr?=
+ =?utf-8?B?MlJpMDZVTDhGSFhtNGcwQzhvWWkzV3d0RVJHNUphd2xVS0E4aU5yaFE0RWpY?=
+ =?utf-8?B?YWdKMElKblV5b2hTYXBCZCtzT01VbzBmcGt2S0VpejlrNGh3VTNMY3c1aFYw?=
+ =?utf-8?B?YlFiSWhoemRiVy82dFlld1p2ajBrVnNHMjF3dHlGM3J3WlJDdzc2eXNGV1dF?=
+ =?utf-8?B?Rk03NExZSEZjVXhKQ2hBU2tuQy9JNERtTC9nZ1pWYWVySS9GVG82a2lYQ2VW?=
+ =?utf-8?B?ZnFSbmtkUmlncG1UbjFyK09vMGppWmF2NU5FcHp3SzhXcjJFek9qVFdEQkI1?=
+ =?utf-8?B?NmFCU2NONk81bHMwWlR5MjUya252RGhJNWdhckNnakVGSnBlNnl3QT09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cf4c698-f8e5-4fa9-fa39-08de9c7291b4
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 11:15:01.9310
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3sgoI2/OC6ej5Bx5hwewJ/UKwUxNbwdBNSShY2S7apXrAcp/NqLSgK24K5TkUsG0rWRMdXWpksxPh4Ew+V8UxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB11560
 
-Convert the xtfpga I2S controller plain-text binding
-documentation to standard dt-schema (YAML).
+On Wed, Apr 15, 2026 at 05:19:41PM +0900, Chancel Liu wrote:
+> Some audio systems require specific DAPM widgets to remain powered
+> during system suspend. Introduce a generic and reusable mechanism in
+> the ASoC core to mark selected DAPM widgets as ignore_suspend.
+>
+> The unified mechanism consists of two parts:
+> 1. Parse and store the name list of widgets to ignore suspend in
+> struct snd_soc_card
+>
+> The list of widgets can be provided either by the machine driver or
+> parsed from Device Tree. Different machines have different routing and
+> power requirements. Each machine can specify its own widgets to ignore
+> suspend through DT property. It enables flexible policy without hard
+> code. A new helper, snd_soc_of_parse_ignore_suspend_widgets() is added
+> for this purpose.
+>
+> 2. Apply ignore_suspend flags during snd_soc_bind_card()
+>
+> After all components have been probed and all DAPM widgets have been
+> registered, snd_soc_bind_card() performs a unified lookup of the
+> configured widget names across all DAPM contexts of the card and marks
+> the matching widgets with ignore_suspend = 1.
+>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
+...
+> @@ -3294,6 +3298,45 @@ int snd_soc_of_parse_aux_devs(struct snd_soc_card *card, const char *propname)
+>  }
+>  EXPORT_SYMBOL_GPL(snd_soc_of_parse_aux_devs);
+>
+> +int snd_soc_of_parse_ignore_suspend_widgets(struct snd_soc_card *card,
+> +					    const char *propname)
 
-The hardware requires exactly one memory region, one interrupt line,
-and one phandle to the master clock. Verified these constraints against
-the driver source in sound/soc/xtensa/xtfpga-i2s.c.
+propname is fixed value "ignore-suspend-widgets"，needn't this agument.
+you funciton include "ignore_suspend_widgets", suppose only parse property.
+ignore_suspend_widgets
 
-Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
-
-Signed-off-by: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
----
- .../bindings/sound/cdns,xtfpga-i2s.txt        | 18 -------
- .../bindings/sound/cdns,xtfpga-i2s.yaml       | 48 +++++++++++++++++++
- 2 files changed, 48 insertions(+), 18 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt
- create mode 100644 Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt b/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt
-deleted file mode 100644
-index 860fc0da39c0..000000000000
---- a/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.txt
-+++ /dev/null
-@@ -1,18 +0,0 @@
--Bindings for I2S controller built into xtfpga Xtensa bitstreams.
--
--Required properties:
--- compatible: shall be "cdns,xtfpga-i2s".
--- reg: memory region (address and length) with device registers.
--- interrupts: interrupt for the device.
--- clocks: phandle to the clk used as master clock. I2S bus clock
--  is derived from it.
--
--Examples:
--
--	i2s0: xtfpga-i2s@d080000 {
--		#sound-dai-cells = <0>;
--		compatible = "cdns,xtfpga-i2s";
--		reg = <0x0d080000 0x40>;
--		interrupts = <2 1>;
--		clocks = <&cdce706 4>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml b/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml
-new file mode 100644
-index 000000000000..9617acef3f0c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cdns,xtfpga-i2s.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cdns,xtfpga-i2s.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: I2S controller built into xtfpga Xtensa bitstreams
-+
-+maintainers:
-+  - Max Filippov <jcmvbkbc@gmail.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: cdns,xtfpga-i2s
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+    description: phandle to the clk used as master clock. I2S bus clock is derived from it.
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2s@d080000 {
-+        compatible = "cdns,xtfpga-i2s";
-+        reg = <0x0d080000 0x40>;
-+        interrupts = <2 1>;
-+        clocks = <&cdce706 4>;
-+        #sound-dai-cells = <0>;
-+    };
--- 
-2.43.0
-
+Frank
