@@ -1,318 +1,134 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011049.outbound.protection.outlook.com [52.101.62.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C0A3A3E69;
-	Fri, 17 Apr 2026 13:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776431700; cv=fail; b=AjVw72Zgso6jpU5yFVNAsPlOsvrkjCTRRqoaFDiqpwhITYIbzjfFwpjF/NaYCsHqpxwRPV5QyyJAcygov6TK3RNT4r9tNxE6Hdgbnco/ZTM7n8UbaZXrxM5bhiErXVngedHHcCspUdJJzyq5uztDk2uCj8bmt8NX4nzlk1IFm6Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776431700; c=relaxed/simple;
-	bh=iXPa0tKTGn3jhY8D23jdQJwoTRV1jxQWs42kDsr9X8o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=laR8SFF8mvnsvYXyer9Z4+BF4e0jpaAHJqDUoVw9MRgiI628pZxUNzX4v1ZbIl5Ypd4+PiF71IyozjWLXJ5JX8mmyXZwwc66haGhdIEtuthFMDfyO13A74aTu644X5V7I8lqb0PsjlzLhXf/R3KSxZb/lxmvfD4L+MzP7Q9Olg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ko9x+SiS; arc=fail smtp.client-ip=52.101.62.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E090E18871F
+	for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 13:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776432850; cv=none; b=ObsmkPhkcO/tMkrHE0NZaBqWxR6IfrKn236W3NfLeLYAYjlfm/OHxJR/y0mvx/S2BFAToNoRRhozVFXhC/2kikl8ThN4U1Uc7FcsEqXNW9qeZsHg0wCZ0+B3fxvcWYZ8+5rECv3W5SAOWVNw6vd0XCL28o0VCOprtON0nerMm50=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776432850; c=relaxed/simple;
+	bh=JdRFtBf1aF4v4sSkchCdQI8qVbld3bKQGj6ayOgyt3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZyiZdKVKpu4qHhZo2doOSNiuEXE3hz2PXgRhZweTOrddoTFi2e/XUsoQ9LMOC0JcdydMeEK3WoZdI8ZCyYMdSARvYXHTgy/1dlUtdblGnGniIDdZnKZXFI5fLPajG1EQsflDieNgejdW6EbqCLv58r3o19Jhm0/Qu1OcYKTZBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=eilDONDE; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ko9x+SiS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TBWjgGt5fKN63s8H4oypmF6gHBmv5pwQUGgiTeJr9LpNSRr4EKXnY1dUefQIaJxoAa/kQc2xXn4BMWXbRzgM0omCxkvmyFuHIvzBA0NPoDjHJLtTMdJ+c0jhb+7S77RmBoYVYCXJacBSaCs+LzW+3Jq+a+viwAeEo85+IyQsPXmmiQHbgTrhuThTDR+bjM29MvpdmYrbZ+9I1s9hI2bi5FaD7fXeIZYYZKsD0P4wNApf44TvCpRMIf+tuuD6mwI154dIyb6YPQH0vq3krjnGrl5v+qAB3VgZ5CFf+hZIpNWkBAGrqQtZavky8qthSUsUBOEJX2F9cC6t7pl/gm97hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DEnUBw9T+TkJ1I1M0JQqHUDWnU1a7na+Vf6TMcBBFfA=;
- b=Vt0l8fSHZSEBWhysUn3e2LFGqM61bs0VNnycHopvzgFgn24AOB2BhylYfkPCwEyLApNVgPhtMNmV4lmozNdMo/koH0Mf6fCavp6bnFR6oRWfA3tcDXdWzFL32qmrPzHA0SpY0rvzGH4fLvYhE3/abXLjaOgF5k5a4jp2r3WEhcQbN4na9sel9ptc4i5Tx7MnGIqjNJ27DA8Ht2vusktlwMWfeI9bL5uiN95Rx2hdXNO6N8e6P2M4JYhxXxAuMNxSWqYlmniqlX235y363/Rp73gmo0BKF3sBo3ccDhrJBCTSnd2ut7ErH0fbR0iCY3QAdIeJhbQj0ZtqA40WJpi1Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DEnUBw9T+TkJ1I1M0JQqHUDWnU1a7na+Vf6TMcBBFfA=;
- b=ko9x+SiScdWgkTpkmPVr4o9pE6qCkttQTMYqmDBZW//kPP2/9L00wc3/m3edkmRNA3rsPg62bbvOCIfNhUwq8a5Me9tKOlry8guvNdnCzLp1v7sPl9hW1z5UteH8fi0/YATPp/0AX5Wl28qTmB/11Wrr6vR16UA/06x+OwkyVZ4=
-Received: from BN0PR04CA0046.namprd04.prod.outlook.com (2603:10b6:408:e8::21)
- by SA2PR10MB4523.namprd10.prod.outlook.com (2603:10b6:806:113::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
- 2026 13:14:49 +0000
-Received: from BN2PEPF000055DB.namprd21.prod.outlook.com
- (2603:10b6:408:e8:cafe::b6) by BN0PR04CA0046.outlook.office365.com
- (2603:10b6:408:e8::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.52 via Frontend Transport; Fri,
- 17 Apr 2026 13:14:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- BN2PEPF000055DB.mail.protection.outlook.com (10.167.245.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.0 via Frontend Transport; Fri, 17 Apr 2026 13:14:47 +0000
-Received: from DFLE209.ent.ti.com (10.64.6.67) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 17 Apr
- 2026 08:14:47 -0500
-Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE209.ent.ti.com
- (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 17 Apr
- 2026 08:14:46 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 17 Apr 2026 08:14:46 -0500
-Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 63HDE59B1770830;
-	Fri, 17 Apr 2026 08:14:41 -0500
-From: Niranjan H Y <niranjan.hy@ti.com>
-To: <linux-sound@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-	<ckeepax@opensource.cirrus.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <cezary.rojewski@intel.com>,
-	<peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-	<ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
-	<pierre-louis.bossart@linux.dev>, <baojun.xu@ti.com>, <shenghao-ding@ti.com>,
-	<sandeepk@ti.com>, <v-hampiholi@ti.com>, Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v9 4/4] ASoC: tac5xx2-sdw: ACPI match for intel mtl platform
-Date: Fri, 17 Apr 2026 18:44:01 +0530
-Message-ID: <20260417131401.3104-4-niranjan.hy@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20260417131401.3104-1-niranjan.hy@ti.com>
-References: <20260417131401.3104-1-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="eilDONDE"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488c2690057so7079925e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 06:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776432847; x=1777037647; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JdRFtBf1aF4v4sSkchCdQI8qVbld3bKQGj6ayOgyt3A=;
+        b=eilDONDE44tAJT4CFr8gyxv7UbyNE0Cs4WAHughxcBKkohsoUds0Ry5GtIQjb2ErRy
+         O/m55qysG8YcSVHaL14Fkkq5irDNMdvZvEdIk3mDmBqGe3v2/2+HIIi9Iq4nAU0EYclu
+         J8VW2FBgMNm/NnPzfxNZM8IXAsXfMA4PHhjj4JgSoFPu8/fmDXJH9zWH55m7XOXk8o9A
+         zRJkC3xxojDXVNAzGJzBdQBIdnWZV5tSJ4LBF2kYGdCXDMk/tOJxdDQ4HiievKWS43gl
+         upstP+w0uvKFJXrwIWXP5o3KHIwaX3M4DCT/QUZ3CZGtbLHrs7LhC95NwT7ruGDWjV5M
+         t2dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776432847; x=1777037647;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JdRFtBf1aF4v4sSkchCdQI8qVbld3bKQGj6ayOgyt3A=;
+        b=av4PZi5NyqyBB/QunpG2/lpxFolNV2sW3sk7rOBPd9Q4WxtsOLw4hxJySjPt9iMXoa
+         5ynGTne/2eaYTpGOHi25azVSoqSldCXFzviG6De41MQro3oTcWkVYo/fyuYT031bDFzg
+         XA0l5MWDHjOyDSi78FqkjP06fmajpdi1AFlO/i3DAFXIYmuGGhNUPGBXZs8HBEzBrOV4
+         8zYkXqSGlNbfQGn0kLCMHd1idqTNOoD0mG6Dt2cMC4TrrYGRVCJZmn2u1kBHZ/Ae/fp6
+         EGijNXxXhEGTJdLDSc/4eYkdmEbewDHVAlYXg4izGn14wnw7EbtcZT32WFdOenODltcz
+         zcuA==
+X-Forwarded-Encrypted: i=1; AFNElJ+m+swGJVgbCuS/obleRPzkrfwFhcRCzfbrp8x+tz6HYkHsnBAduPMew1O98SLb46czkvXFQcsT3Oi8TA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw82oFplWGZHpiyhIYcHv0HfAFuTgS094fME6uWj5lVQnD8PY/9
+	btxnchzwaFRfOv24DOyhMH9FGTSHivABBoaE+qtp0db8VPjZ4v7klgL9o8YMvH8LR68=
+X-Gm-Gg: AeBDiev87DvHKfxPjOlE0V5UVQol0gW35sLIHaCQ068s6ojMFLUEk6BiWN9lSlCX+/H
+	RyLacy8xt8A4ybtzREHZixj7Uo4ppdtiGejCspsYKXIOMVA+abKxszDZlGrGY/3/zq96N1vCs6x
+	27JOzSQWPeiTTf740tXVNYsgSEMtgeLr9Nb89yjNsRK0fMSzBrs5lw/3i3YCslV0/rDtmkpm4/8
+	gdifw/LiV+UWU+85Y+L3GOS34iUhHIM2UfdEv1bV12LUBpAxW8aLqJkufsxy51M+JfLcYHsl/8I
+	GG5J+vnSgOeab2Wa0x2sjrVT2HfQzp8qXIgFj/yhyTy3zI/wsptYan72c50g3cshNnxtwL1SxUC
+	SFF410UlxbknnwFVKlDxZHPQvkGCVCUMtrSwhKccv3zM9X3j3kTmFdwNGBxmBVhpIZnRM1XD5lQ
+	Z53NYDs8SDrV/izs9xcs9E9oGUyPQI5zHWvw2PmgRbm/FuJLpF1Dv3/fIepJJpASyZCYApkE1Pd
+	KEVd1ZXS1B1RfbGuOX2FRJS
+X-Received: by 2002:a05:600c:888b:b0:488:c40b:c8bf with SMTP id 5b1f17b1804b1-488fb73d234mr32626255e9.2.1776432847288;
+        Fri, 17 Apr 2026 06:34:07 -0700 (PDT)
+Received: from localhost (p200300f65f20eb08db61cfc60d8aa232.dip0.t-ipconnect.de. [2003:f6:5f20:eb08:db61:cfc6:d8a:a232])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-488fc1001bdsm75797715e9.6.2026.04.17.06.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 06:34:06 -0700 (PDT)
+Date: Fri, 17 Apr 2026 15:34:04 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Li Jian <lazycat-xiao@foxmail.com>
+Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, 
+	loongarch@vger.kernel.org, chenhuacai@loongson.cn, zhoubinbin@loongson.cn, jeffbai@aosc.io, 
+	stable@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Zhang Yi <zhangyi@everest-semi.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Alexandru Ardelean <aardelean@deviqon.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: ES8389: convert to devm_clk_get_optional() to get
+ clock
+Message-ID: <aeI1_C5WGY5SzzcD@monoceros>
+References: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|SA2PR10MB4523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3763b03a-25be-48f6-0c8d-08de9c834ce0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|36860700016|376014|82310400026|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	0f2OVpsT6+8REHqgosjy88lIYvQ//blIKtXegkzupso8tASgXUWsrSMyoBoKs21+8YEqtENBoa83GSTUbxnwJzm9aovIhOH7KumF07FiysjpvxmG70HnfobQgLU4ea9lNgXES9P+sWMrbOkldmn0xY0fsNdEirqaEDe9fITgVSWy/SUTEwKDvgjlrPjjY6+3E47azpBpwQ2AIFSDvUbu2X5DDhZAxPqEkSFSLOrAcstFBcLB7WLJYsnLgmRNv5hy4lOTs/NYo1HO5y1lLcuxBts4PC4HNgnab9if9j21AZQ0kHO87tRP4tunDb9LZ4ApmzOIZNprLKlaqPPnaMbwr67rLTMJpaGq7utCU8+ESm2BzoN1ZTttc8VEmPBaz/MxWgVBWoOwcaA+Eilcqm2KH/UunjxE9Qh1U6/fjorNljkaCeO4AiMkaX6Pgg0a6uUAS9h5TTOuDjtwd+ZXhzwiWzECeJviYWBdZYuI4+e4vmAbf1nQ8BupFuGMR1yhhWaQ6i4e/04HcScdK5sjSLVR5aMtkrT7qpDGJJyrcqt5i5A7xZaeYzNR1szrWHg7STOH/N3CHK9T5Oz/bSA+smf+LTpuLTFQbaUFdgxSU4LhL8StieqRn/rJNyggp6G0rCZENCB//r8k34JD1KZlPogFfFg6m31eOzq3hWFYsNXuGu9E7SYKdJNLOvoNy5DaeGkFRaQbpUMlvdApAnCbTmDtR/0UqriKDc8HfuHuDbZAKPMvdIDT6CDLKfMR59I/07rU99/u0noKZV0P/f973pKUgg==
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(36860700016)(376014)(82310400026)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	0d+Fgib5EDNRp6D7I+yVk2X6MLXNCqF6Rh41nRM8UhqeshL9Qiic0c7NeDw6z2IQOFD4iEGDl8B9WANkBmaw7bErs+Eso4JIm4tA2LDiQDJTNWeN3+aT2xc6Pga8kt+GSX5BKniYTrnioN9wZRDeS2H1KJPSA0nRPI8N1BeG7m15msp+nfOGYK3IM92HMEVe/MRRmniSjMsZPzUVnwH031dEUGd2x0r+H95b9dwV6CtpJlwqtLhr2Vgb3Ii8xBaeNmC+xBxmDj+9m6p28MY3RspY4wkLLS0uK3wgLdqUCGKTnIdtYT5KoUpbbwGJ3XIb/lWTj3ms9ZeOCs5WtflmnMPyKvNQa2G+cssneL/ggBg+z65Bpf+zsvkLTbO00ZQ/pbWROjvVLrW+wGUBj90t37lJhsVSKqUufbVmKxFEV0GlhZ1tRH4irNzNXyfTk5X4
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 13:14:47.6347
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3763b03a-25be-48f6-0c8d-08de9c834ce0
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055DB.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4523
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rel25duqhphg3sr5"
+Content-Disposition: inline
+In-Reply-To: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
 
- Add acpi match entries to support TI's tac5572,
-tas2883, tac5672 and tac5682 on link 0 on MTL machine.
 
-Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
----
-v9:
-- no change
+--rel25duqhphg3sr5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] ASoC: ES8389: convert to devm_clk_get_optional() to get
+ clock
+MIME-Version: 1.0
 
-v8:
-- no change
----
- .../intel/common/soc-acpi-intel-mtl-match.c   | 132 ++++++++++++++++++
- 1 file changed, 132 insertions(+)
+Hello,
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 72c35e73078e3..2e4222456f27f 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -122,6 +122,42 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1,
- };
- 
-+static const struct snd_soc_acpi_endpoint tac5xx2_endpoints[] = {
-+	{ /* Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Mic Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* UAJ-HP with Mic Endpoint */
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_endpoint tas2883_endpoints[] = {
-+	{ /* Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Mic Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint rt712_endpoints[] = {
- 	{
- 		.num = 0,
-@@ -1011,6 +1047,33 @@ static const struct snd_soc_acpi_adr_device cs42l42_0_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device tac5572_0_adr[] = {
-+	{
-+		.adr = 0x0000300102557201ull,
-+		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
-+		.endpoints = tac5xx2_endpoints,
-+		.name_prefix = "tac5572"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device tac5672_0_adr[] = {
-+	{
-+		.adr = 0x0000300102567201ull,
-+		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
-+		.endpoints = tac5xx2_endpoints,
-+		.name_prefix = "tac5672"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device tac5682_0_adr[] = {
-+	{
-+		.adr = 0x0000300102568201ull,
-+		.num_endpoints = ARRAY_SIZE(tac5xx2_endpoints),
-+		.endpoints = tac5xx2_endpoints,
-+		.name_prefix = "tac5682"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
- 	{
- 		.adr = 0x00003c0102000001ull,
-@@ -1035,9 +1098,45 @@ static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
- 		.num_endpoints = 1,
- 		.endpoints = &spk_r_endpoint,
- 		.name_prefix = "tas2783-4"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device tas2883_0_adr[] = {
-+	{
-+		.adr = 0x0000300102288301ull,
-+		.num_endpoints = ARRAY_SIZE(tas2883_endpoints),
-+		.endpoints = tas2883_endpoints,
-+		.name_prefix = "tas2883"
- 	}
- };
- 
-+static const struct snd_soc_acpi_link_adr tac5572_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tac5572_0_adr),
-+		.adr_d = tac5572_0_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr tac5672_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tac5672_0_adr),
-+		.adr_d = tac5672_0_adr,
-+	},
-+	{}
-+};
-+
-+static const struct snd_soc_acpi_link_adr tac5682_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tac5682_0_adr),
-+		.adr_d = tac5682_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
- 	{
- 		.mask = BIT(0),
-@@ -1047,6 +1146,15 @@ static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr tas2883_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2883_0_adr),
-+		.adr_d = tas2883_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr cs42l42_link0_max98363_link2[] = {
- 	/* Expected order: jack -> amp */
- 	{
-@@ -1208,12 +1316,36 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt715-rt711-rt1308-mono.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tac5572_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tac5572.tplg",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tac5672_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tac5672.tplg",
-+	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tac5682_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tac5682.tplg",
-+	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = tas2783_link0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tas2783.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tas2883_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tas2883.tplg",
-+	},
- 	{
- 		.link_mask = GENMASK(3, 0),
- 		.links = mtl_rt713_l0_rt1316_l12_rt1713_l3,
--- 
-2.34.1
+On Fri, Apr 17, 2026 at 06:53:14PM +0800, Li Jian wrote:
+> When enabling ES8390 via ACPI description, es8389 would fail to
+> obtain a clock source, causing the driver to fail to initialize.
+> This was not an issue with older kernels, but since commit
+> abae8e57e49a ("clk: generalize devm_clk_get() a bit"),
+> devm_clk_get() would return an error pointer when a clock source
+> was not detected (instead of falling back to a static clock),
+> causing the driver to fail early.
+>=20
+> Use devm_clk_get_optional() instead to return to the previous
+> behaviour, allowing the use of a static clock source.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: abae8e57e49a ("clk: generalize devm_clk_get() a bit")
 
+Are you sure you identified the breaking commit correctly? I intended
+the patch not to introduce any semantic change, and even with your claim
+I don't spot the issue in abae8e57e49a.
+
+Best regards
+Uwe
+
+--rel25duqhphg3sr5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmniNsoACgkQj4D7WH0S
+/k7OLwgAla3lc6UEHKZ8FPKaBwDVX2b3xJqRfuPoZ1dDnhKkWZVmCIKx4ElIYb6B
+kFUtzSnUdO8JkeM7hAXAOXICBTWuI4KS3yqXUCh9zIY1ZVUfWsA0zytSpqC6x0MN
+4jQFKKXFv2zgtP0CKbYOGIkeYGnqmQCA+WtzbJTRX+Psnjcf1GP1U2bOfqFbyYSV
+U0lwQNh43b6guht4Afy8bOtdAwXQjFTcZ2zxkvFukkClo05/oHJwj+rLaEEwXAHT
+xz7l+6jVjoOZsmTPcpZfmj5KxQ4svXht7CHzM92HZ2ScAV/oJ+oJHy/TZIdVKe/m
+dTynrK4A/qe0QJMt7tXSjm/kqmmcUw==
+=cuEg
+-----END PGP SIGNATURE-----
+
+--rel25duqhphg3sr5--
