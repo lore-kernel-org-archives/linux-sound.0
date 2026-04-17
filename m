@@ -1,97 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF66635C19F;
-	Fri, 17 Apr 2026 22:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4800533FE12
+	for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 23:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776466381; cv=none; b=oIFgZSNBLz9sNdFcP6fiio2+GW8AOUpx4DAbZopeKHP50UWtq5pw1FTY+dauXNmQgdk8hm+Vg1k/NCU5s3CcgyNWJrzMS82SgVf8/Wz8vwt7zC30rWmpOh7VW0xb273cGq7pJAI1EeadQJ9HVotg9RPq6505txW5Jj8h72C4IJg=
+	t=1776466805; cv=none; b=E4eDYK+HtOxXPJ+zgW4Fxd812oZ29gjnwNyPEaeHcdpzSvB0Mei4JGseQK/O7CbODY0RLdSlH3H6QVR1cCknkBecvA1wLCIJ2ag9xQGlu9rYZHGK4MoWj2UQBnur49RjNKqG0elgk34vQ1FkODwXGGfC59zpYW+kQsAbVEC0vXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776466381; c=relaxed/simple;
-	bh=Frw2WIcsMXau1lzNqvo61mU42MBSPeG0i7j4l0PnqU8=;
+	s=arc-20240116; t=1776466805; c=relaxed/simple;
+	bh=Fm07s0LJEPJFPXZOrReLReFYBTP8YoXXyqIbew7XXdo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NUq28zEi+P+GYxXcBos/xuLuHHvL+9uR8zGknZiGl8xD9iZYWZcSIricdoPB0NSSziXSGWqFrTrrim/CUIQqe+s5W66g6hq2gBkkxtgDjNCqEMNZXJQvRYHPPgZ2Rkz/z239buxEzfsPSWZASF8vZS1UYtE8S6mNgJN4URDvmFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WD+AArgD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjyw/YtChiA4uSeoIKGZyiAYpTHemJ9DZwFRqLdqhyPsv10Dzfpl3F3mrP5Zn8/VppjhNHIeEgeMLtfY7RGYcjWNYX3Dfw80ykjKTtEOvXoS/LLU0i957Q4G0v7WhtQtJBaFuZJPdxTO0Oen5BdjRwGS8QI3fpmLpCfQlclySao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZFxdk5E; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WD+AArgD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AEE8C19425;
-	Fri, 17 Apr 2026 22:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776466381;
-	bh=Frw2WIcsMXau1lzNqvo61mU42MBSPeG0i7j4l0PnqU8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WD+AArgDs+vyowQlE5XeV2t9ZJObt/J1PFD4+zhCh6pjvkZOkeoXeGlT4FIcuTw5d
-	 6KOggY7yyvLsa/1jBjN3oYKmfuPg6aRAEc1FjGGRfsMhpwJH4JR3XFR/SJQ/i5buOr
-	 qBefF7+8NhwuMHxxCC/vuAg+nJcsbFwbIgeZ9nY7KqnRbVrLq4EbrnvFJlz4B3QNeA
-	 w8vHjVGd1bLmbjN1VPlzPpyd8PFVKr9QsgM5qcBB4niTWCjQNzt+7851Rp+s10t0e6
-	 7qlfMxBT4PPAPYsPiV0pMnI48o7oUnxCe+BeYGRWyF25EwJMaxaPQepQK/IyHnirWU
-	 zXKGRPvcAlgyg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 3C6671AC57F2; Fri, 17 Apr 2026 23:52:57 +0100 (BST)
-Date: Fri, 17 Apr 2026 23:52:57 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Cyril Chao =?utf-8?B?KOmSnuaCpik=?= <Cyril.Chao@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	Darren Ye =?utf-8?B?KOWPtumjnik=?= <Darren.Ye@mediatek.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	"robh@kernel.org" <robh@kernel.org>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"perex@perex.cz" <perex@perex.cz>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v8 08/10] ASoC: mediatek: mt8196: add platform driver
-Message-ID: <aeK5ySqgvHdBvuuB@sirena.co.uk>
-References: <20260324015719.17543-1-Cyril.Chao@mediatek.com>
- <20260324015719.17543-9-Cyril.Chao@mediatek.com>
- <892468cc-7eb4-411e-b91b-f14789d8da0c@sirena.org.uk>
- <da5752796e1774b6bbc24f5ef1ab2529e24a384f.camel@mediatek.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZFxdk5E"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so8137825e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 16:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776466802; x=1777071602; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gkdExcpqmT1SthGu9bjHhEKkx2pAcbaljkvmf0PwBS0=;
+        b=JZFxdk5EWDgr43hKTEWEcgj92us8026yOO0VrnCRLaEy/PS93PJspHf8P5g3LVyWVY
+         QUmrNVJMX3GeJyeTDTTGgTQBwU2X85Dip4YN5TzgJp1pGQHkZoig6t+sOEYM2VMHj/+E
+         JOLOB4BBUqgGLnqJ8C0Lr+DdVCVW6TMtc9Zp4huQyDnKdEsEWrwoY3vnvf8lgwSmd5JU
+         ARxAcCQjEFcKWwzkb0mgxvRiKuNEITu9u3k+3zo2GFzSsdqL5CjpkajhVuXNRoIqIVas
+         UyDYQNCHSqxrZAsl3ZR33TbVc5cd9cdl/R3MOLVeKgK4Lc638vLWejIcxFo4E5eSoLnX
+         GDhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776466802; x=1777071602;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gkdExcpqmT1SthGu9bjHhEKkx2pAcbaljkvmf0PwBS0=;
+        b=WYvkt8PHyzQRyhte8QG9cc/6HkzREZ7rd/xfczOHbKCom0oVVDBlkM/6wNgMRhGmdq
+         uRV931JLMJfAXJB146zGvU9MeEohzQcxZ0uEhDXxAIQMgTr7EyVMwRxwqi84ja17DEek
+         e7A8XNIRLgYxWOmmpnCsmdu2wuZf2ZTKzCw/kpmdoIdN+xvKAg+DDCOwjGqS5dm8+tJE
+         eEWC3iD6EH+TOd+FJoCdEEZzDFTS/oHah/oilb5IFo9aZuhKXCO3evj437QpsgmpA2ca
+         AoEhhPS5Ng84wV54Fo0sg22WLkvLX6vX6biX1KLgxzMO9UV9x6DqtkiaaUa8usjgTysK
+         ElCA==
+X-Forwarded-Encrypted: i=1; AFNElJ8O1Uvt6dutRwgaZeSf5XFqdZ4IGdgivdxfP/I0Pg1WKyNJo4nXdsSeeOjN2D1e8+w1sD2p1iMltd7hlw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc0lSj+75FHG7vVLLjigeAVDpn4q9HCbA28De0kMLMyPVJu+Vg
+	xPPPDvML2qLdv1+sNXhElL+b6PhU0Ra2l0n+H0MyOdVGgP85Dqkp0/qr
+X-Gm-Gg: AeBDiev3FgF7AQ0krYWmu2jVB+r0N6WabGbF05sbXffOAn4mNsT40Oi6cM7UIbzfSJj
+	KmxSz2bPh9hVIGMpB5iljZFy2taN5P+8Kslufo4ALw1J069XJEJLR/Td38lYj5HWcnAhpnh5+rI
+	c9TjPHIYks5jB8rAVLzp2rDSWnSfUKELiCRV9ZZJA0MfNW26Fk6TGBlrcTO9T6roPGU/kqlTXRc
+	ekypgOskjLTc9gkopwyFi0+X+FFbjhFncFZ3iSSXJQzlXs0x11D8e44siDJU1R4ccS5pHBDRJz/
+	d+Qa+l7RSRgEs3h13yEvX4fQM3tkMqPVuSmproGU+gTYuRctC+yVxeRszQpCbOV2T9tFOKQsNdL
+	bzWv+mqbluZ31P+gffpuOPiKc/4JCUmxGMz3NfYVq/7cXydVS2JG8MEV/hp9ASxzyU02coWEw4/
+	X4W0IwbixQw8YmbrWmStdtD2KiSbZdhC/uWtohl6f94uEcgyfP3QY5ge3I
+X-Received: by 2002:a05:600c:a318:b0:486:fdca:ea8d with SMTP id 5b1f17b1804b1-488fb784662mr52675915e9.25.1776466802424;
+        Fri, 17 Apr 2026 16:00:02 -0700 (PDT)
+Received: from localhost (16.237.129.77.rev.sfr.net. [77.129.237.16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1393f5sm71813135e9.9.2026.04.17.16.00.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 16:00:01 -0700 (PDT)
+Date: Sat, 18 Apr 2026 01:00:01 +0200
+From: John Madieu <john.madieu@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH v5 05/14] ASoC: rsnd: Add audmacpp clock and reset
+ support for RZ/G3E
+Message-ID: <20260417230001.vzbeym2ik4wytdfc@labcsmart-sqy>
+References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
+ <20260415124731.3684773-6-john.madieu.xa@bp.renesas.com>
+ <17da3459-9205-4853-af08-5b2863403a9a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1Z+JCqeY2FxPdfrp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <da5752796e1774b6bbc24f5ef1ab2529e24a384f.camel@mediatek.com>
-X-Cookie: Victory uber allies!
+In-Reply-To: <17da3459-9205-4853-af08-5b2863403a9a@sirena.org.uk>
 
+On Thu, Apr 16, 2026 at 07:57:34PM +0100, Mark Brown wrote:
+> On Wed, Apr 15, 2026 at 12:47:22PM +0000, John Madieu wrote:
+>
 
---1Z+JCqeY2FxPdfrp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Mark,
 
-On Thu, Apr 16, 2026 at 05:53:25AM +0000, Cyril Chao (=E9=92=9E=E6=82=A6) w=
-rote:
-> Thank you for your assistance in reviewing. Could you please also
-> review the modifications in the diff? If everything is okay, I will
-> include them in v9 in the next update.
+Thank you for the review.
+ 
+> > +	/*
+> > +	 * Audio DMAC peri-peri clock and reset for RZ/G3E.
+> > +	 * These use optional APIs, so they gracefully return NULL
+> > +	 * (no error) on platforms whose DT does not provide them.
+> > +	 */
+> > +	dmac->audmapp_rstc =
+> > +		devm_reset_control_get_optional_exclusive_deasserted(dev, "audmapp");
+> > +	if (IS_ERR(dmac->audmapp_rstc)) {
+> > +		return dev_err_probe(dev, PTR_ERR(dmac->audmapp_rstc),
+> > +				     "failed to get audmapp reset\n");
+> > +	}
+> > +
+> > +	dmac->audmapp_clk = devm_clk_get_optional_enabled(dev, "audmapp");
+> > +	if (IS_ERR(dmac->audmapp_clk)) {
+> > +		return dev_err_probe(dev, PTR_ERR(dmac->audmapp_clk),
+> > +				     "failed to get audmapp clock\n");
+> > +	}
+> 
+> Do we need the clock running before deasserting reset?  Usually the flow
+> is to get the resources the hardware requires stable before we release,
+> that helps everything start up cleanly.
 
-That looks OK from a scan through, though it's possible I'd see
-something else if I review in full context.
+You're right. The clock should be enabled before the reset is deasserted
+so the block sees a stable clock on the way out of reset. I'll swap the
+order in v6.
 
---1Z+JCqeY2FxPdfrp
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmniucgACgkQJNaLcl1U
-h9DACwf9H2I11k4JlXEGCoDjtI4sgy3/SrHG9jWgFJ4N+WaSWg5a00Cs1icay7Lz
-CrAmRcjVbCuLniYSP18LS3Mbv8dtKs98W60KdDGGHDz3pxFCKGYr4pnhkXdM/SFz
-D0PbcBHlaj11Abd4kUSeTG3JO4GiEUidCja0vZX+YYGVaPJjWeA3SJwZuvkSjUcM
-FJ6hhGnvDJcyhwt29fV+FTYVe8gYxUYQFELH0vKUwsk5gj58vi6ZFHo+1GDSwBbC
-KfCAO2nvkF1mJhLJckU2xca67RoYdMULyNCkh5ig/8g6/u54TuD5smI4wByhHmwK
-Qw+KSoMw96DdwqNqYYb0Ewhh9pl92w==
-=Ugrc
------END PGP SIGNATURE-----
-
---1Z+JCqeY2FxPdfrp--
+--
+John Madieu
