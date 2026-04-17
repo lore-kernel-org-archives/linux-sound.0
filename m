@@ -1,159 +1,441 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E9433F368
-	for <linux-sound@vger.kernel.org>; Fri, 17 Apr 2026 07:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8443B39BFE2;
+	Fri, 17 Apr 2026 08:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776412643; cv=none; b=duLmWbuh9OZgZVEncKXPpSCH9wSWqS7r9gjIm0O2Gj+1CzVNuj0LQlLoLdfT0eYGFFsH/6GmC8JtNGg75jds0I+f1z1mwvpDMxsai96xPdmCZuGU1x44c+Z1djlqXjO3AkXhKqEFNiPs3b0m8Kknr4XhGFB2eN4viJcAMterd2E=
+	t=1776414426; cv=none; b=E46kVvt5WIATKSrUOFz8jz9szPLU2HEjLSt6D6RPhmeRhNZ5Ue0iNaUTRzfgPRZOaXdC60odu+z5l+wTYSQACFWrhOlGp5cFxh4AnYS7McOPv94GY8IHJSqEA4dpTbtLP98biCRcmXYopm2c11F3JBKCDQ3N6digV+De5KH4yKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776412643; c=relaxed/simple;
-	bh=h7V5gRHeUyFMvCWkEJCqp9jf9FaT/CFPhsUjrAEDjFg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EhmgBd4GxVJ9i7d2bCgveSoyn9euljX3a6p8I8VSfewCONNWWKH6roU/sywzscAhGPcJ47Kzc2J7/jDMCFJ67FSaH2zzaiWnxMku//kZiNFFra9dmdZ3rQrQzQDnM3EuvPDpHq6Jm9UbS1LoxF/CUFOuoo4ZoeNxdu4OSSDTZt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uOtKqEKg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ElttCxlc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uOtKqEKg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ElttCxlc; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776414426; c=relaxed/simple;
+	bh=DQNXe8BqsPpMC5joo8b3sb/Qu3y+fvMDufSWmXVr+1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LWLZpo576vINwmtoA257gHAKKBoTlHyPDpKg9asfOHDjlC1zzZ+77S4RnCkQBtQLTwpTs0ZcrI1dbFCb78N+T3wd5zqFRwaYDw/68jHiKPbd5p5KkAldDilKcDoSuL+QgA5En2M3JhP9t6xajqd2VYg1E+SvUfTH+iPLTE/s32s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FPVn8Yvf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uOtKqEKg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ElttCxlc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uOtKqEKg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ElttCxlc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E5E336A98D;
-	Fri, 17 Apr 2026 07:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776412640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dONKJJqrYHVWrPyzvTCLEzVqE1Rbhu06dwqhlHYiL74=;
-	b=uOtKqEKgmKfdm/E42q706GhWNJy5Eemhi6eg5BlCNzasST7j7Vq85NxVx+OA2bI3ZbCrPX
-	t/azF/GBqvGCaIIMefWCGMWWxm3BYX56x4f8HdU0ie96XlyhRiw4lKqpcXuqKFs5GEhXg1
-	lSaVvay+MIaBS5xSw0hCVYOiQe07bh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776412640;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dONKJJqrYHVWrPyzvTCLEzVqE1Rbhu06dwqhlHYiL74=;
-	b=ElttCxlc88ZyxCbjdtiuIbeUGOMD609JQ6QNA3aHae1fd69ZBrCFvWM6dPMqOfqmgO/0Dz
-	ZISwa/xBaIZtRQDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uOtKqEKg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ElttCxlc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776412640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dONKJJqrYHVWrPyzvTCLEzVqE1Rbhu06dwqhlHYiL74=;
-	b=uOtKqEKgmKfdm/E42q706GhWNJy5Eemhi6eg5BlCNzasST7j7Vq85NxVx+OA2bI3ZbCrPX
-	t/azF/GBqvGCaIIMefWCGMWWxm3BYX56x4f8HdU0ie96XlyhRiw4lKqpcXuqKFs5GEhXg1
-	lSaVvay+MIaBS5xSw0hCVYOiQe07bh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776412640;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dONKJJqrYHVWrPyzvTCLEzVqE1Rbhu06dwqhlHYiL74=;
-	b=ElttCxlc88ZyxCbjdtiuIbeUGOMD609JQ6QNA3aHae1fd69ZBrCFvWM6dPMqOfqmgO/0Dz
-	ZISwa/xBaIZtRQDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B00DE593AE;
-	Fri, 17 Apr 2026 07:57:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id W8qbKeDn4WkeHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 17 Apr 2026 07:57:20 +0000
-Date: Fri, 17 Apr 2026 09:57:20 +0200
-Message-ID: <87h5padnof.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcmtest: fix reference leak on failed device registration
-In-Reply-To: <20260415193138.3861297-1-lgs201920130244@gmail.com>
-References: <20260415193138.3861297-1-lgs201920130244@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FPVn8Yvf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95997C19425;
+	Fri, 17 Apr 2026 08:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776414426;
+	bh=DQNXe8BqsPpMC5joo8b3sb/Qu3y+fvMDufSWmXVr+1s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FPVn8YvfjCLjxYZeISK1Mwi47+149cb7Npnb++cUe3o/PwH6GQtRsuC6eOIgmJ0LV
+	 9F4qbM8RxYsA6KuCBOVyDPVSoy2d7fmsgMmHfzY+hiSAbtqDjKAC1m4luu44/0lcfm
+	 Ua0KHlNTw8qNwHORGYrZqTaERfrtr/BEMgQ8zqB7rNu9hKklLRl4YiLIg7NmrBAsA1
+	 vwwLnSEopo9FMeFul06QmSeQgLmdA6Rp7jJ6wssHZOzbEz9djank7kfWX2eiLBAeAo
+	 eucIvOoloyP43fDyYskwLyD7QNJ5/paLOi8HMhBT6+Sc2K4PgIVfWE1Q0w1awF1rlr
+	 8o2ZI9OvYv67g==
+Date: Fri, 17 Apr 2026 10:27:03 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: John Madieu <john.madieu@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH v5 01/14] ASoC: dt-bindings: sound: Add DT binding for
+ RZ/G3E sound
+Message-ID: <20260417-energetic-practical-frigatebird-5b93ad@quoll>
+References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
+ <20260415124731.3684773-2-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: E5E336A98D
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260415124731.3684773-2-john.madieu.xa@bp.renesas.com>
 
-On Wed, 15 Apr 2026 21:31:38 +0200,
-Guangshuo Li wrote:
+On Wed, Apr 15, 2026 at 12:47:18PM +0000, John Madieu wrote:
+> Add a standalone device tree binding for the Renesas RZ/G3E (R9A09G047)
+> sound controller.
 > 
-> When platform_device_register() fails in mod_init(), the embedded struct
-> device in pcmtst_pdev has already been initialized by
-> device_initialize(), but the failure path returns the error without
-> dropping the device reference for the current platform device:
+> The RZ/G3E sound IP is based on R-Car Sound but differs in several ways:
+> - Uses unprefixed sub-node names (ssi, ssiu, src, dvc, mix, ctu) instead
+>   of R-Car's rcar_sound,xxx prefixed names.
+> - Supports up to 5 DMA controllers per direction, allowing multiple DMA
+>   entries with repeated channel names in SSIU, SRC and DVC sub-nodes.
+> - Has 47 clocks including per-SSI ADG clocks (adg.ssi.0-9), SCU clocks
+>   (scu, scu_x2, scu_supply), SSIF supply clock, AUDMAC peri-peri clock,
+>   and ADG clock.
+> - Has 14 reset lines including SCU, ADG and AUDMAC peri-peri resets.
+> - SSI operates exclusively in BUSIF mode.
 > 
->   mod_init()
->     -> platform_device_register(&pcmtst_pdev)
->        -> device_initialize(&pcmtst_pdev.dev)
->        -> setup_pdev_dma_masks(&pcmtst_pdev)
->        -> platform_device_add(&pcmtst_pdev)
+> These differences make the RZ/G3E binding incompatible with the existing
+> renesas,rsnd.yaml, so it is added as a separate standalone binding with
+> its own $ref to dai-common.yaml.
 > 
-> This leads to a reference leak when platform_device_register() fails.
-> Fix this by calling platform_device_put() before returning the error.
-> 
-> The issue was identified by a static analysis tool I developed and
-> confirmed by manual review.
-> 
-> Fixes: 315a3d57c64c5 ("ALSA: Implement the new Virtual PCM Test Driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-Thanks, applied now.
+DCO/author mismatch.
+
+Did you run checkpatch?
+
+> ---
+> 
+> Changes:
+>  
+> v5:
+>  - Drop the two-patch rsnd.yaml split approach from v4.
+>    Replace with a single self-contained standalone binding that does
+>    not touch renesas,rsnd.yaml at all.
+>  - Remove select: false, redundant blanket properties (compatible: true,
+>    reg: true, etc.) and pointless patternProperties per Krzystof's review
+>  - Add missing #clock-cells and #sound-dai-cells constraints
+>  - Add hardware description text instead of "Binding for ..." phrasing
+>  - Move G3E-specific DMA comment into the binding itself rather than
+>    relying on a shared schema
+>  - Use unprefixed sub-node names (ssi, ssiu, src, dvc, mix, ctu) to
+>    reflect the actual RZ/G3E DT binding
+> 
+> v4: No changes
+> v3: No changes
+> v2:
+>  - Introduce RZ/G3E sound binding as a standalone schema
+> 
+>  .../sound/renesas,r9a09g047-sound.yaml        | 770 ++++++++++++++++++
+>  1 file changed, 770 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
+> new file mode 100644
+> index 000000000000..b7e5348636bb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
+> @@ -0,0 +1,770 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/renesas,r9a09g047-sound.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G3E Sound Controller
+> +
+> +maintainers:
+> +  - Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> +  - John Madieu <john.madieu.xa@bp.renesas.com>
+> +
+> +description:
+> +  The RZ/G3E (R9A09G047) sound controller is based on R-Car Sound IP
+> +  with extended DMA channel support (up to 5 DMACs per direction),
+> +  additional clock domains (47 clocks including per-SSI ADG clocks),
+> +  and additional reset lines (14 including SCU, ADG and Audio DMAC
+> +  peri-peri resets). SSI operates exclusively in BUSIF mode with
+> +  2-4 BUSIF channels per SSI.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,r9a09g047-sound
+> +
+> +  reg:
+> +    maxItems: 5
+> +
+> +  reg-names:
+> +    items:
+> +      - const: scu
+> +      - const: adg
+> +      - const: ssiu
+> +      - const: ssi
+> +      - const: audmapp
+> +
+> +  "#sound-dai-cells":
+> +    enum: [0, 1]
+
+Why is this flexible? That's a defined device meaning you have one XOR more
+DAIs. Not "1 and more".
+
+> +
+> +  "#clock-cells":
+> +    const: 0
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  clocks:
+> +    maxItems: 47
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ssi-all
+> +      - const: ssi.9
 
 
-Takashi
+Use consistently -
+
+> +      - const: ssi.8
+> +      - const: ssi.7
+> +      - const: ssi.6
+> +      - const: ssi.5
+> +      - const: ssi.4
+> +      - const: ssi.3
+> +      - const: ssi.2
+> +      - const: ssi.1
+> +      - const: ssi.0
+> +      - const: src.9
+> +      - const: src.8
+> +      - const: src.7
+> +      - const: src.6
+> +      - const: src.5
+> +      - const: src.4
+> +      - const: src.3
+> +      - const: src.2
+> +      - const: src.1
+> +      - const: src.0
+> +      - const: mix.1
+> +      - const: mix.0
+> +      - const: ctu.1
+> +      - const: ctu.0
+> +      - const: dvc.0
+> +      - const: dvc.1
+> +      - const: clk_a
+
+And here as well
+
+name "clk_a" is half useless, because this cannot be anything else than
+clk, thus basically you said "a". What is a?
+
+
+> +      - const: clk_b
+> +      - const: clk_c
+> +      - const: clk_i
+> +      - const: ssif_supply
+> +      - const: scu
+> +      - const: scu_x2
+> +      - const: scu_supply
+> +      - const: adg.ssi.9
+> +      - const: adg.ssi.8
+> +      - const: adg.ssi.7
+> +      - const: adg.ssi.6
+> +      - const: adg.ssi.5
+> +      - const: adg.ssi.4
+> +      - const: adg.ssi.3
+> +      - const: adg.ssi.2
+> +      - const: adg.ssi.1
+> +      - const: adg.ssi.0
+> +      - const: audmapp
+> +      - const: adg
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 14
+> +
+> +  reset-names:
+> +    items:
+> +      - const: ssi-all
+> +      - const: ssi.9
+
+s/./-/
+
+> +      - const: ssi.8
+> +      - const: ssi.7
+> +      - const: ssi.6
+> +      - const: ssi.5
+> +      - const: ssi.4
+> +      - const: ssi.3
+> +      - const: ssi.2
+> +      - const: ssi.1
+> +      - const: ssi.0
+> +      - const: scu
+> +      - const: adg
+> +      - const: audmapp
+> +
+> +  clock-frequency:
+> +    description: Audio clock output frequency.
+
+Drop, this is a legacy property, not really allowed for new devices
+which are not I2C buses.
+
+> +
+> +  clkout-lr-asynchronous:
+
+Missing vendor prefix.
+
+> +    description: audio_clkoutn is asynchronous with lr-clock.
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +
+> +  dvc:
+
+Mixing nodes with and without addressing is discouraged. Why do you have
+such mixup?
+
+This node looks empty, so just define dvc-[01] directly. Same for other
+cases.
+
+> +    type: object
+> +    patternProperties:
+> +      "^dvc-[0-1]$":
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          dmas:
+> +            maxItems: 5
+> +          dma-names:
+> +            maxItems: 5
+> +            allOf:
+> +              - items:
+> +                  enum:
+> +                    - tx
+> +        required:
+> +          - dmas
+> +          - dma-names
+> +    additionalProperties: false
+> +
+> +  mix:
+> +    type: object
+> +    patternProperties:
+> +      "^mix-[0-1]$":
+> +        type: object
+> +        additionalProperties: false
+> +    additionalProperties: false
+> +
+> +  ctu:
+> +    type: object
+> +    patternProperties:
+> +      "^ctu-[0-7]$":
+> +        type: object
+> +        additionalProperties: false
+> +    additionalProperties: false
+> +
+> +  src:
+> +    type: object
+> +    patternProperties:
+> +      "^src-[0-9]$":
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          interrupts:
+> +            maxItems: 1
+> +          dmas:
+> +            maxItems: 10
+> +          dma-names:
+> +            maxItems: 10
+> +            allOf:
+> +              - items:
+> +                  enum:
+> +                    - tx
+> +                    - rx
+> +    additionalProperties: false
+> +
+> +  ssiu:
+> +    type: object
+> +    patternProperties:
+> +      "^ssiu-[0-9]+$":
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          dmas:
+> +            maxItems: 10
+> +          dma-names:
+> +            maxItems: 10
+> +            allOf:
+> +              - items:
+> +                  enum:
+> +                    - tx
+> +                    - rx
+> +        required:
+> +          - dmas
+> +          - dma-names
+> +    additionalProperties: false
+> +
+> +  ssi:
+> +    type: object
+> +    patternProperties:
+> +      "^ssi-[0-9]$":
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          interrupts:
+> +            maxItems: 1
+> +          dmas: true
+> +          dma-names: true
+> +          shared-pin:
+> +            description: Shared clock pin.
+> +            $ref: /schemas/types.yaml#/definitions/flag
+> +        required:
+> +          - interrupts
+> +    additionalProperties: false
+> +
+> +  port:
+> +    $ref: audio-graph-port.yaml#/definitions/port-base
+> +    unevaluatedProperties: false
+> +    patternProperties:
+> +      "^endpoint(@[0-9a-f]+)?$":
+> +        $ref: audio-graph-port.yaml#/definitions/endpoint-base
+> +        properties:
+> +          playback:
+> +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> +          capture:
+> +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> +        unevaluatedProperties: false
+> +
+> +patternProperties:
+> +  '^dai(@[0-9a-f]+)?$':
+
+Why node addressing is optional?
+
+> +    type: object
+> +    patternProperties:
+> +      "^dai([0-9]+)?$":
+
+You did not verify your DTS, you have warnings here. And I really do not
+understand why dai@0 has dai@0 again.
+
+
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          playback:
+> +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> +          capture:
+> +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> +        anyOf:
+> +          - required:
+> +              - playback
+> +          - required:
+> +              - capture
+> +    additionalProperties: false
+> +
+> +  'ports(@[0-9a-f]+)?$':
+
+Why ports even have addferssing?
+
+> +    $ref: audio-graph-port.yaml#/definitions/port-base
+
+So this is port base or ports? How port-base could have one more port as
+a child? Open the port-base definition and look there.
+
+> +    unevaluatedProperties: false
+> +    patternProperties:
+> +      '^port(@[0-9a-f]+)?$':
+
+No, you must define exactly what the ports are.
+
+> +        $ref: "#/properties/port"
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+
+Best regards,
+Krzysztof
+
