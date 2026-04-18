@@ -1,162 +1,171 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B118C352FA5
-	for <linux-sound@vger.kernel.org>; Sat, 18 Apr 2026 11:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776512452; cv=none; b=QBILE1zQDScaahEuVJNu9rV70Vnqk2Dk+n1ArBaAiG+HhKGEzu6oA168xQCClWSydavzbFS631Zt3sTlbZl8LGAY3aZZDo5CmVLy5AVl6zNIhdVN0jCK9l1O3vgCjfIMyLYEUbv+3dHYJEIPN0wl1bRPXxvODATk4lVQql+Sym0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776512452; c=relaxed/simple;
-	bh=152FCEZ6y9LZI6H9RnVi6/PPlNvFNYw8/yMF/6yJduI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m0t6FKsM9L33KVxcEav6UYaREUC5y6BXAW5rzbPJxlcnwMs1yxDzUJTMeNud51nHFYeSPmAMItxdmG/saRAtNCV3/E6RFusFnRFdRyK1/npTJ5Z/PkdVe9c8PuCFSRQjpFx+JZtuyteH7PDMY6A40qadNQ6nJ6Se+xjA/UB75EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=WGMbrXIp; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E42318139
+	for <linux-sound@vger.kernel.org>; Sat, 18 Apr 2026 13:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776519439; cv=pass; b=RgUhetqKIS+bqSCsTkcBdSOmnwQbbMcYUq9s+tm6xQwgjvzXuQhOrS+StsX/SvpoJsDgJ5na5OiIozEK5SRzla88YBwFuig50CLm0iQNuMbK2N7OKH9tJsdl37nmGPYimtJV4Sy37726dCg7ccEDv9+lQfC7Tvk/fDm8qYKtjcM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776519439; c=relaxed/simple;
+	bh=dcSMSl/WEq7yyaf5lQbkPA86KkCPPo3BDlgTDv3bCwM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gy0YZe9nSExpWkES5Xju/tvsGOVJPZXCpl/hMP7Prbf1GeisFUtz8tRwkoyunuD9m68nFrxXVujL3wb37OfvYoh5WkC3SBLkPN0kKPH6pW8WPpy7nqaN0g9YF94wQziooePC920EFjAMJYCBYZRbJI++9b7JpXv338WqXHfHsB8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zn0ohuAv; arc=pass smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="WGMbrXIp"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43d73352cf2so1260221f8f.1
-        for <linux-sound@vger.kernel.org>; Sat, 18 Apr 2026 04:40:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zn0ohuAv"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a2967e5de4so1719802e87.3
+        for <linux-sound@vger.kernel.org>; Sat, 18 Apr 2026 06:37:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776519436; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bR5G0Ox5QvGC5qf7aaIMygh5DmUDSgYwRqH3hnrZC5oFGp9hVye7qJCeZ8cucER/Xc
+         ToX03e1/hIJjBuIXEqblOfWyFm+AS75/P533+bvnhlFLbEqKu4kxqrW+RZo0cK+ZSQwq
+         VDUQOcqJoDhQY/by5mVZ72nci/F0fvPyZAYCiZxdpPPC4ItEoYBoObFIXjY/UOtjDqF9
+         iPRzQX0U4Be5TzbQHCi0AOP7UQS51E/Pafl/nkBTuaHcoMc+0NDKOSZUnbEt2xQ6m46N
+         ZmRnN5+DDd0ikjL11gdCw5GmpVr5iNXnfqtF1It8mx2iIDZ3d1aU65vRE09GhKjQFEyZ
+         T8VA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ilQZAzlg/SXrVi5zNAVi40oN2cY80CKPwE8w12CH8oM=;
+        fh=F0cu/NcVL+OKaruOwIJUekXHD0wbVOVqexEsIQq6xWo=;
+        b=hojUhZChV1rTRoujME7Wk/zvrtbQj92CNLsLG/WV+7jUIXFjwc1qBS+/OCHOs87JBB
+         6kFAh4Q45QM8ftZt3xrhX6m1eMa8by0GtaS8Sv8GYuu/t7P4I08GqXZBcU4gBTxh14ib
+         wJPvQZ2jddwIX5YDrxLNMkPwxwlfRmFFMwhIbDKkFq5bllkwm/nfaATToMgOM0Vk2teR
+         ZNpKj3JlkTWT/bJlJWDjeOMh1sJsbYN4cU3tmA7IUDjJMSsnaGb0G9ctzPhCT77PQWdG
+         NDHy7mHUgLojWSsrELh+QmwdxGQBjWKw0s1LJ3JxdgOjWcRhGKp9PUa9j0xeHxzf6DqN
+         sAmw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776512448; x=1777117248; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=152FCEZ6y9LZI6H9RnVi6/PPlNvFNYw8/yMF/6yJduI=;
-        b=WGMbrXIphdlXyDIB8K/AMt8jWqOLjeQ6frUG/vNKdfosHQMKJYUDEpobBKLbL5CtR1
-         AN14+kCP9Q/NHiYJ894zWyroTgzSdVrZDWyxGUXsEj23h1jBaUBWvKqBYrtHxtSoOvr5
-         NZ00Af43bHgJoacJsTC43XS5T6pRV5hbm7BLMKW+x1ZO9s9JncI6sEke31+l7QXmb/7d
-         l/Be5xHbctEae7UlTML9UuDEpjOl3eQI/DVnsTxQloaZf3Onyvf47fSt83gWQiNv/qm+
-         N1QDlVtyZNb4J5NxN6q4O+AC5SOSxCJnTYl6EL1ZbkELojscoxRE7nUEwGRKug2fbEHj
-         We5Q==
+        d=gmail.com; s=20251104; t=1776519436; x=1777124236; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ilQZAzlg/SXrVi5zNAVi40oN2cY80CKPwE8w12CH8oM=;
+        b=Zn0ohuAvY90ZU6BzrJTjfcE8tSayIb/ZnAoj8s/f2RnOeYHqLmf8v2Ref3M4mW/s3k
+         pELHQvo5IqFJDQj3Xr08W8TDWAUIyVwpu8Sppt1dU+dGVj8zEuvExKHeTBMf2+snip/2
+         jyJDnmpUN1HARxdngYyBCM1dmhX1hepqwyKQmYxsrUv+1+0YmMjyZC3oCCQpjplDgXDL
+         F4/WbL40cbVETjMrGbjy3uDWewxrXrYoehv7T7oW/sYfkInbxHx7jzwGVvI+9tETVSRF
+         HquB4eXaVvNFYGWYdwL7IW1PNf+PfAQteGh17zN+7LoEETx8fSmWbEFyzXHzyj8clu3Z
+         MW4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776512448; x=1777117248;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=152FCEZ6y9LZI6H9RnVi6/PPlNvFNYw8/yMF/6yJduI=;
-        b=IpasRE+OMYJwtI1MNehEnt3QJNJ5A2RU0ZcnUKfSYGjcIctVRDpV6YaswCBepONxLR
-         ufTj9zp/h2a75ZlbURpgNNUitIUMoCBqndg3MKxSO2N6VZ/fCSddFN/nLmrpg41A/WhG
-         q3Q18jnqjR51NAFp9nMKdyDzh9XfVovCAVMBg+K1l6Mpa2czBbkhnnt7ztOEXAncirYK
-         3wkR4cABG6n9u9CDnVbPWFpzMu59tLQ+7niU3nRfX8ciFZePcE5T8IkB6kM/w0R1adGv
-         2nuBQx//1b3wcmxGSYS3A5WbEdflVN9fcn+Bkxtmjg7B2mv/K50kq7VKBAMDGSdqpmlA
-         3FHw==
-X-Forwarded-Encrypted: i=1; AFNElJ9u8MO23VarYHcjpsAzrrnvwOWojBDEGhFJ2U56FoHaPIuIL6q5J02/LHyveLjSHldABesiM3hI9ZAAwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxjO3K+1Y9DzX2ub7bGT2ivkIwf7b2lDjCHEZua8OXSghYVczt
-	NUYsgLRMDOHru2cRebLjDAz7mAyBEL7tzBGalvjq83WGoxrh0Mg9cOdeW9IdOxJfcnk=
-X-Gm-Gg: AeBDieujCNVnAb/cPGUJqqbGw42LN+r/PccZ6zXgkv1WzbZRo5hknyv5n9lmPqQunoG
-	H7SaJwTCfcvJ9nJEvq5PTaXF5Zs460YUHXf8LKwj6UEbR/8CFVHxaYA+TfUbyfnkWfynXpUG217
-	veS3/Fu47bIhYdqPuRM+KpvOUuWs/SCbXXIn8K0I/urHEoZ+am8XM+SkTm4OvG+go16x3eQwzpY
-	y08eLr0PVbEcx7iTI/A8FrxcEDU4fxtt5PAIwZtcKrxfTdgVG1uJtHjJXFXPU221lKbV5+1ORK+
-	9JCnppmmbbXyHtZLC9VMqjJpzCW9qHi9Ld+AM/wz/JF6T3sW3vlTQIyxyIldZRzniHJtzcJbi1y
-	JKUctDJxLSelMqSUBTz7lz5ogI6P2jf2+rmJU4ncGSAkf4+e//Kz8qiaSTYrGCETuaVRlQwHKht
-	jGQPPecuPs+Kyu8LwIhhFTDiQZSpPNzPvV92RCvqM=
-X-Received: by 2002:a05:6000:1843:b0:43e:a6f3:b763 with SMTP id ffacd0b85a97d-43fe3e237dfmr10429773f8f.44.1776512447854;
-        Sat, 18 Apr 2026 04:40:47 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43fe4e3a341sm13536078f8f.24.2026.04.18.04.40.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 04:40:47 -0700 (PDT)
-Date: Sat, 18 Apr 2026 13:40:45 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Li Jian <lazycat-xiao@foxmail.com>
-Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, 
-	loongarch@lists.linux.dev, chenhuacai@loongson.cn, zhoubinbin@loongson.cn, jeffbai@aosc.io, 
-	stable@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Zhang Yi <zhangyi@everest-semi.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Alexandru Ardelean <aardelean@deviqon.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: ES8389: convert to devm_clk_get_optional() to get
- clock
-Message-ID: <aeNrKkEjYDlvsuLM@monoceros>
-References: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
- <aeI1_C5WGY5SzzcD@monoceros>
- <tencent_EA958964799F4CF9F76BA2D10149C4E9720A@qq.com>
+        d=1e100.net; s=20251104; t=1776519436; x=1777124236;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ilQZAzlg/SXrVi5zNAVi40oN2cY80CKPwE8w12CH8oM=;
+        b=J5MMKyN3v7P4OpUJsmmTTm1SCx94ijQp+/9fDJVz3+lcF1usaayv/O1Lnuzn+NJrTX
+         6tPoAjIIgcn1RWVT0u7YuUykMll21dZfYB+PP5LmLcGTBQSruSQtb9Y7+viW1Wx6jldk
+         NhZvAD/t2V2cD7yVG8Mo4j2Phl20KwRYrYNYcMd+zO8BS6PiFDdWDdB5yWUWGgX7458U
+         HqOnP0Ry0awWBFuwtIB7AD2JzZi+znF3EkiE9GYEC2Etz5k/RqO/CzDIXnaMq6AGtKoP
+         GVT+TeOU8APq1XwSQWmV/HlmxL7UXJxJPEb2GlLBNhwYkugYxk3qeBHTPwkSU+Ch3M/u
+         aVGg==
+X-Forwarded-Encrypted: i=1; AFNElJ9KYjMT4ElXMNiO+FRHsoe4vjbg8zj+J5cEMX2cmZTRfUcGTydcrb7ezM0fgIwvATQKPwUhFTkQ85rjFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3/yU0WNpzeiYFNQRaTx3P+XKVfQLHchb5CMryjMo1Sp/DEFGy
+	laFEaNYqOpO8xID2PbMJpbJ1X4DXwKCUFcDmVjpCeY+VBpqE70DTnWvO3Ybm1sP0fe/ZORAXddN
+	WKdQYFUsrF8Ik1DSQSEZAZNSTHkzhDD8=
+X-Gm-Gg: AeBDietwWq2buyBTxKa6YEH01YvFP+k4T4vPAkPf14SEMEdSOaw+STMB2CIgP5qZQky
+	pFM7AsvzhGOlCuw7dnxhCcib2pJYQgikgLpe4TQcoE1Su100q9z7NBDX6P9jn17Ka/yFJxmAvCN
+	t9CkgQI+2/HnoBdPAXliGsnimjUxX4GHS8nOpR3VH+/IOq9dgbOXdjathPluHvLMIL7gwsMTQD7
+	VDGT0xZZz3JS5wNCtgk4OCypJwLF273NsDqPHxEELKrwHnWht7SkR0YmzyT3ihmNRx9aOk0PGK8
+	Er9YkTOM5YW22d4WZu8xG3471UgE51qL1QP0BetZwA5Ynz/R+YQftsiEZn61v5qd/2hN2adGNf/
+	UAYY=
+X-Received: by 2002:a05:6512:234c:b0:5a4:1672:59d6 with SMTP id
+ 2adb3069b0e04-5a4172c74d0mr2164468e87.15.1776519435667; Sat, 18 Apr 2026
+ 06:37:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="36zcp734q3dnoypj"
-Content-Disposition: inline
-In-Reply-To: <tencent_EA958964799F4CF9F76BA2D10149C4E9720A@qq.com>
-
-
---36zcp734q3dnoypj
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20260410200530.171323-1-piyushpatle228@gmail.com>
+In-Reply-To: <20260410200530.171323-1-piyushpatle228@gmail.com>
+From: Piyush Patle <piyushpatle228@gmail.com>
+Date: Sat, 18 Apr 2026 19:06:36 +0530
+X-Gm-Features: AQROBzBW9jKpnnpm-uXKP34lAFjICEdCoA6cruit9Z_tuBzWU5Tej3ZknrtJJyQ
+Message-ID: <CAMB+xkYZZprxmBMWnypYc3kfVa8ZN+WWrTOT9TpZqcQGOAyjVg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] ASoC: tegra210: simplify ADX/AMX byte map get/put logic
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sheetal <sheetal@nvidia.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] ASoC: ES8389: convert to devm_clk_get_optional() to get
- clock
-MIME-Version: 1.0
 
-Hello,
+On Sat, Apr 11, 2026 at 1:35=E2=80=AFAM Piyush Patle <piyushpatle228@gmail.=
+com> wrote:
+>
+> The Tegra210 ADX and AMX drivers both keep their "Byte Map N" ALSA
+> control state as a byte-packed u32 map[] array along with a separate
+> byte_mask[] bitmap. This is because the control range exposed to
+> userspace is [0, 256], where 256 is the "disabled" sentinel and
+> does not fit in a byte, so the two arrays have to be cross-checked
+> on every get()/put().
+>
+> This series stores each slot as a u16 holding the user-visible
+> value directly, turning get_byte_map() into a direct return and
+> put_byte_map() into a compare-and-store. The hardware-facing packed
+> RAM word and the IN_BYTE_EN / OUT_BYTE_EN enable masks are computed
+> on the fly inside each write_map_ram() callback, which is the only
+> place that needs to know the hardware layout. The byte_mask[] field
+> is kept in the driver struct but allocated dynamically in probe()
+> using devm_kcalloc() with soc_data->byte_mask_size, and zeroed +
+> recomputed on each write_map_ram() call.
+>
+> There is no userspace-visible ABI change. Control declarations,
+> ranges, initial values and handling of out-of-range writes is
+> preserved by treating values outside [0, 255] as disabled (256),
+> matching previous behavior. As a side effect each patch also fixes
+> a latent bug in put_byte_map() where an enabled-to-enabled value
+> change was not persisted.
+>
+> The packed RAM word construction is also updated to ensure the shift
+> operates on a u32 value, avoiding potential undefined behavior due
+> to signed integer promotion.
+>
+> Addresses TODO comments left in tegra210_{adx,amx}_get_byte_map().
+>
+> Changes since v2:
+>  - Move byte_mask allocation back to probe() with devm_kcalloc()
+>    using soc_data->byte_mask_size; revert write_map_ram() to void
+>    and runtime_resume() to returning 0. Suggested by Jon Hunter.
+>  - Fix bits_per_mask: use BITS_PER_TYPE(*byte_mask) instead of the
+>    incorrect BITS_PER_TYPE(*map) * BITS_PER_BYTE. Reported by
+>    Mark Brown.
+>  - Drop <linux/slab.h> include (no longer needed without kfree).
+>
+> Changes since v1:
+>  - Use dynamic sizing via soc_data->byte_mask_size instead of
+>    chip-specific constants. Suggested by Sheetal.
+>  - Replace magic numbers with TEGRA_{ADX,AMX}_SLOTS_PER_WORD
+>    and use BITS_PER_BYTE / BITS_PER_TYPE(). Suggested by Sheetal.
+>  - Add <linux/bits.h> include.
+>
+> Patch 1/2: ASoC: tegra210_adx: simplify byte map get/put logic
+> Patch 2/2: ASoC: tegra210_amx: simplify byte map get/put logic
+>
+> Piyush Patle (2):
+>   ASoC: tegra210_adx: simplify byte map get/put logic
+>   ASoC: tegra210_amx: simplify byte map get/put logic
+>
+>  sound/soc/tegra/tegra210_adx.c | 85 ++++++++++++++++++----------------
+>  sound/soc/tegra/tegra210_adx.h |  5 +-
+>  sound/soc/tegra/tegra210_amx.c | 82 ++++++++++++++++----------------
+>  sound/soc/tegra/tegra210_amx.h |  5 +-
+>  4 files changed, 96 insertions(+), 81 deletions(-)
+>
+> --
+> 2.43.0
+>
 
-[Fixed address of loongarch mailing list]
+Hey
+Just a gentle ping on this patch series.
 
-On Sat, Apr 18, 2026 at 04:18:10PM +0800, Li Jian wrote:
-> =E5=9C=A8 2026/4/17 21:34, Uwe Kleine-K=C3=B6nig =E5=86=99=E9=81=93:
-> > On Fri, Apr 17, 2026 at 06:53:14PM +0800, Li Jian wrote:
-> > > When enabling ES8390 via ACPI description, es8389 would fail to
-> > > obtain a clock source, causing the driver to fail to initialize.
-> > > This was not an issue with older kernels, but since commit
-> > > abae8e57e49a ("clk: generalize devm_clk_get() a bit"),
-> > > devm_clk_get() would return an error pointer when a clock source
-> > > was not detected (instead of falling back to a static clock),
-> > > causing the driver to fail early.
-> > >=20
-> > > Use devm_clk_get_optional() instead to return to the previous
-> > > behaviour, allowing the use of a static clock source.
-> > >=20
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: abae8e57e49a ("clk: generalize devm_clk_get() a bit")
-> >=20
-> > Are you sure you identified the breaking commit correctly? I intended
-> > the patch not to introduce any semantic change, and even with your claim
-> > I don't spot the issue in abae8e57e49a.
->=20
-> There was a misunderstanding on how the Fixes: tag should be used - I mea=
-nt
-> to say that your commit changed a behaviour, not that it was broken. I
-
-In principle the usage is fine: *If* a commit changed behaviour and
-failed to adapt a user relying on the old behaviour, that warrants a
-Fixes line.
-
-*But* I claim the commit didn't change behaviour. devm_clk_get()
-returned and returns whatever clk_get() returned; with and without
-abae8e57e49a. And clk_get() wasn't touched in my commit.
-
-> should have pointed to a commit to this driver instead.
->=20
-> In my case, since the device was described in ACPI and it does not export=
- a
-> clock to the operating system, it was then necessary to utilize a fallbac=
-k.
-> Before your commit, missing clocks returned a NULL pointer.
-
-So I'm pretty sure you're wrong here. Did you try reverting abae8e57e49a
-on a broken state and confirm that fixes things for you?
-
-Best regards
-Uwe
-
---36zcp734q3dnoypj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnjbbsACgkQj4D7WH0S
-/k610AgAu+LKDGBFbOvkeruzFxDgI8KjJ02DhdrZFeCHXxpJvN0WT/lbtVjcB7y/
-MA8YGt3CV3z8idnWGk3W9o5ukCNMZWoPTXkjOon8xSPnIauiQjtEw/Afkc96vzRF
-IroKFWaGVx0YOV3b1dGTti1YyMCLLTQfGxKtCZPYW8UU64oC+9HNTkHtJkyYqAxC
-aZfpvddNGcdGHOMc6ZmauZ98/bTLB4RocqZCkfa7kuTZr9jekmMoryZgJJ9PsXUv
-6f69bf4UYxfWp5AnpvSY/6VyRw2dDsx1+aNqFFSC6cZeaSov0ArL3vkVKWd6Ihk1
-7QQCoKSEgeYWm/nTdfu2AAI2euNaIw==
-=Pe/z
------END PGP SIGNATURE-----
-
---36zcp734q3dnoypj--
+Regards,
+Piyush
