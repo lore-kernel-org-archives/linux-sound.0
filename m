@@ -1,239 +1,147 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CCA28850C
-	for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 20:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2522F19D092
+	for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 23:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776630702; cv=none; b=OeuYlUUpDzJqj7nm49JorNEwZM1DUeN5pCGMoaEMabeHkWsT2GvWlfYuGRYDyE0YPvjJzMYHwXa1X32kEFxPfcG/b9BFTrQAakYB4UEAkrIYaGEgt7z1x0TiXZyvwO6OIE2NP8WUw4Jc5VXBKU4QpI5/73dHXAWtODWTlVdgvw0=
+	t=1776640654; cv=none; b=A7O002OexBtpKSmEjxRuGefhbTe6pIGIE9UA7mashqaNhf7b45LqrsW7FGGhX33pn3WnidIY8KIYwa0m0D430W7B2uj79kXEOWdD1+gjuZogtNkPxa8VSc5BbypZI1hm/ucflKi6sZN+Z8CKFND4z0aqCoutjVU9iCqXvl/GeBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776630702; c=relaxed/simple;
-	bh=WebseC0n1uvq36U8Uba9vWPPZlTekN/7JlLiJTYMcdM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EWygxEZaKoCTZovHqJHJAUc0F0oHqwGheayEAPPku+NqXNjgHj2r7rhC9Z3ukF2p5lQJKQBl1763MgGD3ypwALgthL/ZwWR4jP4AF1DxXsrfJlc/6bI5xVheU89+aQaKZOQ+x6BFQPYChfHjO1x26sdyuQ+4Z3RgSz20v7qZVSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UXRoY6pa; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776640654; c=relaxed/simple;
+	bh=re3JCx84d9+rhmZ7h2RA/DqQsl+qcG1FrTaMQ7qUQJo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iqjy8UCXV/VH4oUMRCDxRDriHZUFokuUFUOB8EE9IXLBHVNgC9LMtrf4kfqT39PMxtkjuOAmO0O57wWlqZSF+iBwLvW23yqjb09ezfmpn9nXpbGa1eVao6yvEF7EiDyqFHeOHSVGmE7R8HTGc6HL2ovF23cbUXPhCIPQLaF8T3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=kXPvPEyI; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UXRoY6pa"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2ba895adfeaso2508039eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 13:31:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="kXPvPEyI"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891cd41959so3116895e9.3
+        for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 16:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776630699; x=1777235499; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pMVw5KmBgRtdu9bTOKibgYALvECPF7cHuMU/74qaZtI=;
-        b=UXRoY6pafrvCjE8Oq0jjoChbwJxoII9jVJDkF/m4qfwq5pyHPSAwsWezLXchJloSlH
-         LAAHFPV1sRhL6XIeyZN9312Pgb+ySg1wzQlKMDqWjQS8USum6bDaNYCGdJ8DcqWCVv/J
-         DJtng5v42t+lWEtbE39TYiMpjzGmmXtGHCcK0jLCvcMRw/3SAshEBeNQt0lWpBGmYxhG
-         95YMsGSZtsXTx8ff+z7WXR0stX3duHWT4xU8gFwirRuWBmEIt//XNDIQomvFxDz7nrlm
-         tqKpA3yiYYLK/3woMGgysiUgN76dPlBQAqmjBX/akSc4Acyd6eJj3oJEuW5cbGF1XuaF
-         mrpA==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776640650; x=1777245450; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1XuBQKvXNK5+webbjEv2fpeV1So3IXoLTLJe+5+zXCM=;
+        b=kXPvPEyIuMazfgX1qtfRBdugXSacAWI2G+zzRmfuLGS7aS/oBZPHWUl8hEZMLai9js
+         ww4qblbmZWsVWJWZ83lMkKHwmfiuQq7+TSdMBdA2WHxxYke83puxnANRluh60Y9euwnl
+         0bMldz3rm24caQpnZ2ww474UDes/J6na+zoGxfBUMlP2KKICXx5fQC+ORg5IYnUx4ayz
+         1aCknSmkDnjVKbzw124yDHFeNwZcAxEU2aWmMYaKbe8CjwGFL7jnhwa/78HYRp+yeZko
+         PaTqlpxNYcWSGAkdOkxdLrKP8olTSYWNxOYupTYbfgmEFMBezlM79tJspQzn08TCJ/d4
+         sEQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776630699; x=1777235499;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pMVw5KmBgRtdu9bTOKibgYALvECPF7cHuMU/74qaZtI=;
-        b=IeknY2ap8w/Xk8HpEFdlDXPRvzMcuV/zA3TqMuFyQWXNbRT+Xw5ATEMx7kmWq2fPK4
-         QlIgV1BLi0k7sTbruEn46XfnW6NJ8M5Za93IOw52iuyJDZnc1tXQbvG0wxCIARNU46qv
-         Fdm85fcCcLfPhw+WPWbihyi9gP5+YD4cRD9oSkbZpqWpR8dMUHFPK61zcjSLlmuagaGZ
-         SVUU8EAGqAoOOUCaSAhQFV2fbUBTey/DljQbFaVVu+T2MaoYJIX9behgW0Yh/sdXwW+C
-         8Kue+tmhmjEUu2fGwJIWnSlZpSUa+i1k9oCh1pRtVk7zWnWTwKse28DxjFBXPLOQ/Cky
-         MLAg==
-X-Gm-Message-State: AOJu0Yw15FL0MPUImItEqWfY44G4f3TL/IVMFqN0m8aI2mbzSxwW3SDi
-	VvCv+gaNAbT27HI0EMldPYpq3lPI7IHTjGYvydliYTcOWMjWclbr8vWI
-X-Gm-Gg: AeBDiesCpwk+bNWzrhbR/Hs4MeWKpwIg/j1pHZx7we/iai0UGJl+Iv40YjZbzDDqJi/
-	PFcJMZBdmos/XzXnkPaf4O3dmDVUeIUMYlnAAepNqLD5IYa4vrmbvV8NzPQ9LUakOePCD3dmBBD
-	3VVeXsOTGXPcZoOjVKWap5p2JS0a1na5TWfi4Q2futObqO5eLYefoo3kVR5QqtlKCb9ifjN77fO
-	ox5oCh/irN7cZEhw08ZTG4JpTfN2ePGQPF5XCjBwlL8Mb0Ph4I6KXYs26qazYrOUjNvbcRxPLbI
-	XrxLYIkzI5Xda8tWqbCsiFKPIdnH0oC8/0S8pTCUlBZTIXqyhi8vcXJzmUk1EUN19PO3CRGISPe
-	NuZMXWGrul9cGLhF+WBcFnup1by/6PZiiRN1k0vTMDVRVHyKbiCbjCERDdkLUwr9sabRFX0nWz4
-	A5OQmVEG/NWliY2GW/fy5DyzKVWACXzNZYU/jmjsbKz6cDqmpAYmzipja1qagpfmN2GKAuV/6Dg
-	uiSddkZOANDw29YJ/psl652UQ==
-X-Received: by 2002:a05:7301:2b07:b0:2cf:3de7:22ad with SMTP id 5a478bee46e88-2e47901764fmr5596867eec.27.1776630698635;
-        Sun, 19 Apr 2026 13:31:38 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53ac84c38sm11419096eec.13.2026.04.19.13.31.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 13:31:38 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Sun, 19 Apr 2026 17:30:32 -0300
-Subject: [PATCH 4/4] ALSA: usb-audio: Update US-16x08 EQ/comp shadow state
- after successful writes
+        d=1e100.net; s=20251104; t=1776640650; x=1777245450;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1XuBQKvXNK5+webbjEv2fpeV1So3IXoLTLJe+5+zXCM=;
+        b=g9YLruDWM/jBHoQdroirrQEK+dYN35JVdfxVYjOclPeshbyGGr81tx665Og8y9/pd5
+         NHwMDWWTkTDN8XGrhaRpRTAJq0ZC05CHMrlQVPk1P7gyFsU8dd8/sQM4sQUkne4cLKFT
+         w2dO+QCrp2za0lPCBGz6oo50q/ZzpT56bDO4gisgs0jP8hql3xhI7X8wmSMs0NLC3ByV
+         TPjqMzLJD4yFfXUJj+Gc/QzZ3v1T+GCDG/UfL9dydTlmQZ7A/kOGfnsgBRe0SIVoP9tC
+         3y5QwGXdidNcjhWrTZGM0qC98FXYy2bFzEp5pn3pmKmRIuNGmY3Ov7aAgOqMhOgBqPHL
+         Xppw==
+X-Forwarded-Encrypted: i=1; AFNElJ+5KONI3XSQ9HIxVCByoLr1rVmsPvYYX5qqh/DN3ZZrDpYtH5Oxy2PQe7tSVyf2cq8F7YCzYV9AM9jamw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCwOy/ONx1ZXbxyftoQKxiEJgyRUV/7ZMg9dhRd40h+KiH6cHH
+	kT+4wt+K5mYDGgvXt4GUTPm4E3uSGdzAVsmfsgG5Nj4lt1m8xXTwcT24IX/wCtk7hy0=
+X-Gm-Gg: AeBDievKcQtaGvPUrUHAHhpMVGq0IAnAn94CLhiZkbEbW3P4gnCpSKwc0X5osdG5Ofs
+	e5H6S31eyTLw9OBU5FTKBTq55omtcXxR+cjK5BUlbqKx7YrVKbBXwxRJ3pQBlo6tFOKJ3TywHOi
+	Pe4ucl2rDp9FMrMC7oLDwIQlxQW3LdadJr9W5za62y2p2RRQcBJ4HWUE5MPgSLu10PhaU6EikBI
+	9kt0E8Uuo41L6Thrk+mO6u6qrF0ewR9dhj9JnusYAXpHgcQ9DctZQguG9HvZZBb5g+4fqRjQx5d
+	WbFIhL/iQu8ogNAsiAjCBFUQE+WXVVIxA+IEg7kBW1YEB2fj/+H/BvJxUJwY7FnWr/nlVPDsOpL
+	L7nzC5vBKjrOCTHiVYXIby48w5EEqe0b54oBmdbZh5roIj1VRk1SWVk4HYFxRWdp9sNwUMBTRoR
+	WTkmXNXJOY6/CQF7g7u3LudKYWYdFdubwAiyE=
+X-Received: by 2002:a05:600c:c0d5:b0:488:c683:be89 with SMTP id 5b1f17b1804b1-488fb74dffemr121458935e9.9.1776640650424;
+        Sun, 19 Apr 2026 16:17:30 -0700 (PDT)
+Received: from [192.168.3.100] ([151.41.218.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc177dafsm296195175e9.4.2026.04.19.16.17.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Apr 2026 16:17:30 -0700 (PDT)
+Message-ID: <463ab3cf-2ef2-4ba1-9f3b-7dfad523d91e@baylibre.com>
+Date: Mon, 20 Apr 2026 01:17:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260419-usb-write-error-propagation-v1-4-5a3bd4a673ae@gmail.com>
-References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
-In-Reply-To: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>, 
- Chris J Arges <chris.j.arges@canonical.com>, 
- Detlef Urban <onkel@paraair.de>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5067;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=WebseC0n1uvq36U8Uba9vWPPZlTekN/7JlLiJTYMcdM=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlPrWeJ/N2z4eH3vr+6/Y93lR9f4L+Ja9pB8yrZNQKex
- 4MUlzLs6yhlYRDjYpAVU2RZnbTIck/Xg6v1cSs8YOawMoEMYeDiFICJxD9lZPh85nk2sySHo86e
- gp9ODstOnTpcsi3J2uzvAq28wF2z7VwYGZ6vmL/6QOei35vn7mRv+y1tvJE1NP8SX/bWDPs1Lf4
- S/xgA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 02/11] ASoC: meson: aiu-encoder-i2s: use gx_iface
+ and gx_stream structures
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org
+References: <20260411-audin-rfc-v2-0-4c8a6ec5fcab@baylibre.com>
+ <20260411-audin-rfc-v2-2-4c8a6ec5fcab@baylibre.com>
+ <58d1df89-7c97-4e2f-af15-93d1f7bce5a7@sirena.org.uk>
+ <1jy0ios3f9.fsf@starbuckisacylon.baylibre.com>
+Content-Language: en-US
+From: Valerio Setti <vsetti@baylibre.com>
+In-Reply-To: <1jy0ios3f9.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-snd_us16x08_comp_put() and snd_us16x08_eq_put() update their
-software stores before sending the USB write. If the transfer
-fails, later get callbacks report a value the hardware never
-accepted.
 
-Build the outgoing message from the current store plus the
-pending value, then commit the store only after a successful
-write.
+On 4/15/26 16:28, Jerome Brunet wrote:
 
-Fixes: d2bb390a2081 ("ALSA: usb-audio: Tascam US-16x08 DSP mixer quirk")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/usb/mixer_us16x08.c | 78 +++++++++++++++++++++++++++++++----------------
- 1 file changed, 52 insertions(+), 26 deletions(-)
+> 
+> Huh interresting, I had not thought of that. Valerio and I discussed the
+> clock part a lot for this rework. It is the crux since since the
+> interface and clock setting lives in the AIU subsys but serves both the
+> AIU and AUDIN subsys.
+> 
+> Valerio maybe you could keep function above just to set the rate, but
+> enabling the clocks through a DAPM supply widget ? This is kind of what
+> the AXG is doing.
+> 
+> what do you think ?
+> 
+> (actually in the AXG the each formatter widget call CCF
+> clk_prepare_enable() but a supply widget poking the register would do
+> the same thing)
+> 
 
-diff --git a/sound/usb/mixer_us16x08.c b/sound/usb/mixer_us16x08.c
-index fcf7dfa4aa84..ebff185cbd2c 100644
---- a/sound/usb/mixer_us16x08.c
-+++ b/sound/usb/mixer_us16x08.c
-@@ -435,6 +435,7 @@ static int snd_us16x08_comp_put(struct snd_kcontrol *kcontrol,
- 	int index = ucontrol->id.index;
- 	char buf[sizeof(comp_msg)];
- 	int val_idx, val;
-+	int threshold, ratio, attack, release, gain, switch_on;
- 	int err;
- 
- 	val = ucontrol->value.integer.value[0];
-@@ -447,36 +448,61 @@ static int snd_us16x08_comp_put(struct snd_kcontrol *kcontrol,
- 	/* new control value incl. bias*/
- 	val_idx = elem->head.id - SND_US16X08_ID_COMP_BASE;
- 
--	store->val[val_idx][index] = ucontrol->value.integer.value[0];
-+	threshold = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_THRESHOLD)]
-+		[index];
-+	ratio = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_RATIO)][index];
-+	attack = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_ATTACK)][index];
-+	release = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_RELEASE)]
-+		[index];
-+	gain = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_GAIN)][index];
-+	switch_on = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_SWITCH)]
-+		[index];
-+
-+	switch (val_idx) {
-+	case COMP_STORE_IDX(SND_US16X08_ID_COMP_THRESHOLD):
-+		threshold = val;
-+		break;
-+	case COMP_STORE_IDX(SND_US16X08_ID_COMP_RATIO):
-+		ratio = val;
-+		break;
-+	case COMP_STORE_IDX(SND_US16X08_ID_COMP_ATTACK):
-+		attack = val;
-+		break;
-+	case COMP_STORE_IDX(SND_US16X08_ID_COMP_RELEASE):
-+		release = val;
-+		break;
-+	case COMP_STORE_IDX(SND_US16X08_ID_COMP_GAIN):
-+		gain = val;
-+		break;
-+	case COMP_STORE_IDX(SND_US16X08_ID_COMP_SWITCH):
-+		switch_on = val;
-+		break;
-+	}
- 
- 	/* prepare compressor URB message from template  */
- 	memcpy(buf, comp_msg, sizeof(comp_msg));
- 
- 	/* place comp values in message buffer watch bias! */
--	buf[8] = store->val[
--		COMP_STORE_IDX(SND_US16X08_ID_COMP_THRESHOLD)][index]
--		- SND_US16X08_COMP_THRESHOLD_BIAS;
--	buf[11] = ratio_map[store->val[
--		COMP_STORE_IDX(SND_US16X08_ID_COMP_RATIO)][index]];
--	buf[14] = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_ATTACK)][index]
--		+ SND_US16X08_COMP_ATTACK_BIAS;
--	buf[17] = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_RELEASE)][index]
--		+ SND_US16X08_COMP_RELEASE_BIAS;
--	buf[20] = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_GAIN)][index];
--	buf[26] = store->val[COMP_STORE_IDX(SND_US16X08_ID_COMP_SWITCH)][index];
-+	buf[8] = threshold - SND_US16X08_COMP_THRESHOLD_BIAS;
-+	buf[11] = ratio_map[ratio];
-+	buf[14] = attack + SND_US16X08_COMP_ATTACK_BIAS;
-+	buf[17] = release + SND_US16X08_COMP_RELEASE_BIAS;
-+	buf[20] = gain;
-+	buf[26] = switch_on;
- 
- 	/* place channel selector in message buffer */
- 	buf[5] = index + 1;
- 
- 	err = snd_us16x08_send_urb(chip, buf, sizeof(comp_msg));
- 
--	if (err > 0) {
--		elem->cached |= 1 << index;
--		elem->cache_val[index] = val;
--	} else {
-+	if (err < 0) {
- 		usb_audio_dbg(chip, "Failed to set compressor, err:%d\n", err);
-+		return err;
- 	}
- 
-+	store->val[val_idx][index] = val;
-+	elem->cached |= 1 << index;
-+	elem->cache_val[index] = val;
- 	return 1;
- }
- 
-@@ -578,11 +604,10 @@ static int snd_us16x08_eq_put(struct snd_kcontrol *kcontrol,
- 	/* copy URB buffer from EQ template */
- 	memcpy(buf, eqs_msq, sizeof(eqs_msq));
- 
--	store->val[b_idx][p_idx][index] = val;
--	buf[20] = store->val[b_idx][3][index];
--	buf[17] = store->val[b_idx][2][index];
--	buf[14] = store->val[b_idx][1][index];
--	buf[11] = store->val[b_idx][0][index];
-+	buf[20] = p_idx == 3 ? val : store->val[b_idx][3][index];
-+	buf[17] = p_idx == 2 ? val : store->val[b_idx][2][index];
-+	buf[14] = p_idx == 1 ? val : store->val[b_idx][1][index];
-+	buf[11] = p_idx == 0 ? val : store->val[b_idx][0][index];
- 
- 	/* place channel index in URB buffer */
- 	buf[5] = index + 1;
-@@ -592,14 +617,15 @@ static int snd_us16x08_eq_put(struct snd_kcontrol *kcontrol,
- 
- 	err = snd_us16x08_send_urb(chip, buf, sizeof(eqs_msq));
- 
--	if (err > 0) {
--		/* store new value in EQ band cache */
--		elem->cached |= 1 << index;
--		elem->cache_val[index] = val;
--	} else {
-+	if (err < 0) {
- 		usb_audio_dbg(chip, "Failed to set eq param, err:%d\n", err);
-+		return err;
- 	}
- 
-+	store->val[b_idx][p_idx][index] = val;
-+	/* store new value in EQ band cache */
-+	elem->cached |= 1 << index;
-+	elem->cache_val[index] = val;
- 	return 1;
- }
- 
+Hi Jerome,
+
+thanks for your review and suggestion.
+I took some time to investigate it and I think I have a different 
+proposal that reduces the amount of changes compared to the current 
+implementation, but gets to the same result.
+
+The thing is in "axg-tdm-interface.c" MCLK is enabled/disabled using 
+"set_bias_level()" callback which works fine because in that case the 
+interface driver is also a standalone component. On the GX platform the 
+interface is a DAI which is part of the AIU component, so this callback 
+isn't available. To get the same behavior I would need to add a new DAPM 
+widget in "aiu_cpu_dapm_widgets[]" and then add it to both 
+"aiu_cpu_dapm_routes[]" both in "aiu.c" and in the device-tree for AUDIN.
+
+What if instead I add the "prepare()" callback to 
+"aiu_encoder_i2s_dai_ops" and enable MCLK and I2S clock divider there? 
+This would match "hw_free()" calls and it would be a change only 
+internal to "aiu-encoder-i2s.c".
+To support this I will:
+- remove calls to "gx_stream_set_cont_clocks" which are arguably not 
+very useful for the GX platform;
+- use the "clk_enabled" field of "struct gx_stream" (unused after 
+removal of "gx_stream_set_cont_clocks" calls) to track the status of 
+MCLK and enable/disable it only when necessary (ex: prevent multiple 
+calls to "prepare" to enable MCLK multiple times, etc);
+- keep using "snd_soc_dai_active" in "hw_free" to know when to disable 
+the I2S clock divider. Or perhaps I can rely on "clk_enabled" also for 
+this one so that I can manage these 2 clocks uniformly.
+
+Is this an acceptable alternative approach for you?
 
 -- 
-2.53.0
+Valerio
 
