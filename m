@@ -1,80 +1,63 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D001B85F8
-	for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 06:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DA6175A77;
+	Sun, 19 Apr 2026 07:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776580967; cv=none; b=FiQZLcTX1ILk+zlJmq6wudw5PFeTItdNX8G1bE5kG+btxF1fQdVyg++2fsp8Igz+nAKB549fzN9KxoElyF/0XIJjXUKIapFp2z+qLTbWyTF/LnWbJl4pl8oz3yMJ6KP9PPOfOn5J0T8d4w8571Vm5jdKN1WBFB3p8vtnkeUjqNw=
+	t=1776582181; cv=none; b=mGAJClzULpKPCPF8VXdZ66ov5yIcN29kg487+VeuUWY2R1uFOfyH+kZKZk2L6EqmD+7fTG2gnGUflCrv4R3rS4bU1hhTywtONEhf3P3MI5W3gvkm1ooKueT0CPefm1dyb85f8hkXAf956GuyJGGIdHRvT0MoUoOJMcRTLn/KqAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776580967; c=relaxed/simple;
-	bh=Z5kABJ9vxVnrMbOE6G6iiRZ9WfAugWJNN8vd9PIEqQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H4MAm4BR+osamQr83UR3eCY5EWHVfAHYdbmNJZeFw77uuipGVMlw8koeDzHzGNdXItvDbfAXQZ3Sv7FuD/vpOuckBJUHUXbicTlP5kNs46lTsko6PIu21E7aH0Lvwjb91UkUSiu4hfB+oX+COaAQ9IG5ZDcq2UePCEDW7A8RjX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=kR8DB27Z; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1776582181; c=relaxed/simple;
+	bh=hTvGMfxFrbeulD1/XvjLht3aGqrgGLm6ISn7V3fAPrU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YcgbMo8q/wht36etWZFOvkYS0mzoeeFKepb7IV+6B5rA30EwjKLtLj8XXGvIa0EVFgIXofBVuoFLQOeXgTeYBWlv9ALJuljAKW4EB9cyloCUOzyOgYskNdpWvXOiH/q23UCSguRIVMUeUJ9R/EyYQm3/Yoc3FJK09RXTDhjRVWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=B+Vrafri; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uPLVwv5f; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="kR8DB27Z"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488af96f6b2so25967585e9.0
-        for <linux-sound@vger.kernel.org>; Sat, 18 Apr 2026 23:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776580963; x=1777185763; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pRUDbFQ8UUGeQxVTB+IPdu0McsH7m9PzJSt8sg0Mkuc=;
-        b=kR8DB27ZhhOQ1MG5L9aDue/EStve3gV5+GmNn2T5Z1wKDdWsmv83GkPEHViY84aXjn
-         3yr14bvoeui8C7P25OO7/SMVlb+i0xenBt7Ws1yLmgfOO/ph0Qu1ZiUSkfs/QLpTMPBf
-         6qynY1UU1Ho5+V19m0bhz5igDGfU7pgSMTL4/2tHKo4uv6w5QBuQL481NDEdiDM9tScq
-         WEE/bzba3BJpAE69svNvdPusjgPKSMHdhLkz1SkTALIukhZQYZs4oAH1SbPhCwj24xQ0
-         fxpeZBskknjQ7RgoWHIKb0d2F3h/JOqd0d83+sQYpUuKxj83OLQuUqtqgoV2kX7JnLcK
-         7v7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776580963; x=1777185763;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pRUDbFQ8UUGeQxVTB+IPdu0McsH7m9PzJSt8sg0Mkuc=;
-        b=Q6voKa64eufrM7d21MvcqpLrokQjkAtJ84LPPLn+w0DBY+7GdkHUNTTzU0f27nuUAP
-         98CLc+qTSAwDP1lakV2eiowy2wHuKZ3qp7S/xBjHyiFUgJdAO7q/MJct06gbVehUDa7W
-         FUg1/nkWkdnCpOFY6WU1f/aGC7dlzny0Jct5UQ12+PBQa7PMiGYEQrl3yk2LroJOeX8T
-         dNswKaD4noSzQ/+bIIcAX4YTgPtpUNG8cKCNbKbvqDtpH2hXEABgiMDDPwRqMJbF+NMN
-         EMXL2zniAyo5ZckZM8RO2MPZNVmN5lMdpyuGo1hSBimZ9oUhZv9LizS/MzL3lAebajLe
-         Rmkg==
-X-Forwarded-Encrypted: i=1; AFNElJ/2rRiQ8ri8f11xLtkf0VZwHMazFiahS0NX9tTyDFCszpOQdzL1i3bOvLnD5TytY1HBXeUWflBpaLLxdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTeKGaUs2FHfZoqr3dAT4pGMGWJOamCbix1BvN/U/4uvevYhWu
-	xANF/2hUfCCKL63y5EFDDWPqyeR/f4RsLuje4Z7ID+8lQGd3wgTynI3d8HzCG8P/hkY=
-X-Gm-Gg: AeBDieti0nPdCJh0b/43uiDiZxkIRCQ2T1ILP2y0aKAEfrV9Dp4G9T4NwYhLts9yMc1
-	PsFdrAiML0SaS6E0pZEbIRBeNtaaqHN0OEpfsI4GCr3evbD+Bi8KUzD94ffPLCsIbtZuUN9qLCA
-	Ws9AYnV/HmDB3XyNKnaSPO0iih+amz8LADyetYw/b2o8H8WOEVYz19mR0jaopv8t1aosV4nO40i
-	Aq6hzCZqlkMt2APSi/RHpPLqW+7C5CFWnaQLQm9nD4dM7tF4J6SxVo9Y2k+q6w8ZnNbCN/zKUz8
-	s7etBwHPnVcjY/74h3Rxp7K5J9le/E0jBjX8+zUcKCeUBTMTXBajdAU+2OaUYl0l02H9mfxzYe3
-	1vOBoejxVTfvt7oo1aBerAvY9uVr4keGX2EJ0pX77iegr1PM2nHimotPMbHg9AJZCgKcj5e0OvV
-	RIT+QyObAYzFzM9oVnJLfRtTF36PKu9vDAy8DWf91WAMUSYnHLiQ==
-X-Received: by 2002:a05:600c:6297:b0:486:d76c:fa57 with SMTP id 5b1f17b1804b1-488fb77155dmr123327685e9.17.1776580963573;
-        Sat, 18 Apr 2026 23:42:43 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43fe4cc2cacsm18585524f8f.13.2026.04.18.23.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 23:42:43 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Clemens Ladisch <clemens@ladisch.de>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: "Christian A. Ehrhardt" <lk@c--e.de>,
-	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>,
-	linux1394-devel@lists.sourceforge.net,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="B+Vrafri";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uPLVwv5f"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fz01k0jKbz9vTB;
+	Sun, 19 Apr 2026 09:02:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776582170;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g6J4MGkzU3mz1DM7QBmypCRzrlUzbakev5EVGVZUWFs=;
+	b=B+Vrafri+rhpD6rgvx1Kpalul+LaSFJSgT7Hk+1DOSnp0yYueyj6dsKePEZFY1vZfYc0XP
+	6ux0vpqTkcVQ8dGNbEIqJRIx3zAHHOcFvD1oJVxGB4WhV9z74OjZ6KYpK8//RQmFt7KszY
+	PJ0jCnMk/g9zld1jV/CuNnnqUzrcl2SsiVj3sm9kHxjBvyYX4jtxfN4m2Tu6w8JN7XJnET
+	rnyZz1iKHriTmM7wwi06Q+fV73S1Cz3kIASDMC10qVS06d5nUeC0csY21B+ymrQ0yS82ng
+	mbv2EM+F0Dh+GSf4H2qm1Fve976FOC3MkkJpNbs3s4fvKm7jIG65+ey/3onfDQ==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776582168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g6J4MGkzU3mz1DM7QBmypCRzrlUzbakev5EVGVZUWFs=;
+	b=uPLVwv5fgr9bRjNeoELDyjb/KHKIGtN0p0uLbG3tEdiyqhfy7zR7UJnLZlU4Uw7io5fx8x
+	w72L/4maAutHGkXgz1Em7gr96Y1PsKx18ON/dAX/XLpRCp7rFABBEij17wzhh+2oEzG8Qo
+	tPmbB7SzTZismzoyYp6yywiL91PMIjVaDb6nnNOwqaxeio7DhGMPNk6YgCgAgfzC6CFEF+
+	YsS4Cq2hylmv/QTRQfnmz5kd0xI0RaBpy1hMbKSTJzpOjYG0JI47scPq76Z+qjmbYJFqtn
+	+xvheRwAuzwO2DVdrCdOmOcqqlNCIMzrLPRc7lhT58lUuANkuRsCas5+9oIsew==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Cc: lrcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 2/2] ALSA: firewire: Make use of ieee1394's .driver_data_ptr
-Date: Sun, 19 Apr 2026 08:42:14 +0200
-Message-ID:  <7b7040a9c1f3152f9ef7994613ddfb201ca9b94d.1776579304.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1776579304.git.u.kleine-koenig@baylibre.com>
-References: <cover.1776579304.git.u.kleine-koenig@baylibre.com>
+	rcu@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Sun, 19 Apr 2026 08:58:25 +0200
+Message-ID: <20260419065824.165921-4-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,284 +65,502 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10559; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=Z5kABJ9vxVnrMbOE6G6iiRZ9WfAugWJNN8vd9PIEqQw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBp5HlOdNvLBZOoNZr9q+6VbiInKBgFw1IvrNIab ntOSbp6TfaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaeR5TgAKCRCPgPtYfRL+ TiXnB/9x7MG0X7wHe43zxgj8Ra8zyN4jdZCjbhdgx1j4qfeEgGJHzfLI2BS4rdASG+C5malvwcg js3CTg/2EeLzEC9RpP781B+Rg6Jlx3cJMOIylMUS90n74YxeYjA3ndZddRRjyBG6NLB3dJRvhPr Ux4mwIzkxNDWeCXzNTMuvQlf7oIvHd5i2WYll9rl/kJ/dXNwRlo7LI40dihZfYeYTDeZAlIxnlS 5pWYbJBz80VWEWqY3RN4RPg6/OhAmlbSoDH4MRrLgmy0rIfRC6K4fdrJNHSbfI7NSIfnhISNfHF XuxfqCI7DYJf/ubr9ktRKOOE7N1B+jj0jSGS1ANZb0VzlEG2
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: iojoyhsbyqjcp7xfk5fzic49jq3m3s51
+X-MBO-RS-ID: 9471a05634737bb57b1
 
-Recently struct ieee1394_device_id gained a new member to store a pointer
-to driver data. Make use of that to get rid of a bunch of casts.
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
+ptr = kmalloc(sizeof(struct some_obj_name), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
+ptr = kzalloc(sizeof(*ptr), gfp);
+ -> ptr = kzalloc_obj(*ptr, gfp);
+ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+ -> ptr = kmalloc_objs(*ptr, count, gfp);
+ptr = kcalloc(count, sizeof(*ptr), gfp);
+ -> ptr = kzalloc_objs(*ptr, count, gfp);
+
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- sound/firewire/dice/dice.c   | 34 +++++++++++++++++-----------------
- sound/firewire/fireface/ff.c | 12 ++++++------
- sound/firewire/motu/motu.c   |  6 +++---
- sound/firewire/oxfw/oxfw.c   |  4 ++--
- 4 files changed, 28 insertions(+), 28 deletions(-)
+ .../RCU/Design/Requirements/Requirements.rst         |  6 +++---
+ Documentation/RCU/listRCU.rst                        |  2 +-
+ Documentation/RCU/whatisRCU.rst                      |  4 ++--
+ Documentation/core-api/kref.rst                      |  4 ++--
+ Documentation/core-api/list.rst                      |  4 ++--
+ Documentation/core-api/memory-allocation.rst         |  4 ++--
+ Documentation/driver-api/mailbox.rst                 |  4 ++--
+ Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
+ Documentation/kernel-hacking/locking.rst             |  4 ++--
+ Documentation/locking/locktypes.rst                  |  4 ++--
+ Documentation/process/coding-style.rst               |  8 ++++----
+ .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
+ Documentation/spi/spi-summary.rst                    |  4 ++--
+ .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
+ .../translations/it_IT/locking/locktypes.rst         |  4 ++--
+ .../translations/it_IT/process/coding-style.rst      |  2 +-
+ .../translations/sp_SP/process/coding-style.rst      |  2 +-
+ Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
+ .../translations/zh_CN/process/coding-style.rst      |  2 +-
+ .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
+ .../translations/zh_TW/process/coding-style.rst      |  2 +-
+ 21 files changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/sound/firewire/dice/dice.c b/sound/firewire/dice/dice.c
-index f7a50bae4b55..58f14aadc73d 100644
---- a/sound/firewire/dice/dice.c
-+++ b/sound/firewire/dice/dice.c
-@@ -148,7 +148,7 @@ static int dice_probe(struct fw_unit *unit, const struct ieee1394_device_id *ent
- 	snd_dice_detect_formats_t detect_formats;
- 	int err;
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index b5cdbba3ec2e..faca5a9c8c12 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` and ``->b`` fields.
  
--	if (!entry->driver_data && entry->vendor_id != OUI_SSL) {
-+	if (!entry->driver_data_ptr && entry->vendor_id != OUI_SSL) {
- 		err = check_dice_category(unit);
- 		if (err < 0)
+        1 bool add_gp_buggy(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -228,7 +228,7 @@ their rights to reorder this code as follows:
+ 
+        1 bool add_gp_buggy_optimized(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -264,7 +264,7 @@ shows an example of insertion:
+ 
+        1 bool add_gp(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+index d8bb98623c12..48c7272a4ccc 100644
+--- a/Documentation/RCU/listRCU.rst
++++ b/Documentation/RCU/listRCU.rst
+@@ -276,7 +276,7 @@ The RCU version of audit_upd_rule() is as follows::
+ 
+ 		list_for_each_entry(e, list, list) {
+ 			if (!audit_compare_rule(rule, &e->rule)) {
+-				ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
++				ne = kmalloc_obj(*entry, GFP_ATOMIC);
+ 				if (ne == NULL)
+ 					return -ENOMEM;
+ 				audit_copy_rule(&ne->rule, &e->rule);
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index a1582bd653d1..770aab8ea36a 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -468,7 +468,7 @@ uses of RCU may be found in listRCU.rst and NMI-RCU.rst.
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
+ 
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp, GFP_KERNEL);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+@@ -570,7 +570,7 @@ The foo_update_a() function might then be written as follows::
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
+ 
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp, GFP_KERNEL);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
+index 8db9ff03d952..1c14c036699d 100644
+--- a/Documentation/core-api/kref.rst
++++ b/Documentation/core-api/kref.rst
+@@ -40,7 +40,7 @@ kref_init as so::
+ 
+      struct my_data *data;
+ 
+-     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     data = kmalloc_obj(*data, GFP_KERNEL);
+      if (!data)
+             return -ENOMEM;
+      kref_init(&data->refcount);
+@@ -100,7 +100,7 @@ thread to process::
+ 	int rv = 0;
+ 	struct my_data *data;
+ 	struct task_struct *task;
+-	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	data = kmalloc_obj(*data, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	kref_init(&data->refcount);
+diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
+index 241464ca0549..86cd0a1b77ea 100644
+--- a/Documentation/core-api/list.rst
++++ b/Documentation/core-api/list.rst
+@@ -112,7 +112,7 @@ list:
+ 
+           /* State 1 */
+ 
+-          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
++          grock = kzalloc_obj(*grock, GFP_KERNEL);
+           if (!grock)
+                   return -ENOMEM;
+           grock->name = "Grock";
+@@ -123,7 +123,7 @@ list:
+ 
+           /* State 2 */
+ 
+-          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
++          dimitri = kzalloc_obj(*dimitri, GFP_KERNEL);
+           if (!dimitri)
+                   return -ENOMEM;
+           dimitri->name = "Dimitri";
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index 0f19dd524323..8379775f17d3 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -135,7 +135,7 @@ Selecting memory allocator
+ The most straightforward way to allocate memory is to use a function
+ from the kmalloc() family. And, to be on the safe side it's best to use
+ routines that set memory to zero, like kzalloc(). If you need to
+-allocate memory for an array, there are kmalloc_array() and kcalloc()
++allocate memory for an array, there are kmalloc_objs() and kzalloc_objs()
+ helpers. The helpers struct_size(), array_size() and array3_size() can
+ be used to safely calculate object sizes without overflowing.
+ 
+@@ -151,7 +151,7 @@ sizes, the alignment is guaranteed to be at least the largest power-of-two
+ divisor of the size.
+ 
+ Chunks allocated with kmalloc() can be resized with krealloc(). Similarly
+-to kmalloc_array(): a helper for resizing arrays is provided in the form of
++to kmalloc_objs(): a helper for resizing arrays is provided in the form of
+ krealloc_array().
+ 
+ For large allocations you can use vmalloc() and vzalloc(), or directly
+diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
+index 463dd032b96c..4bcd73a99115 100644
+--- a/Documentation/driver-api/mailbox.rst
++++ b/Documentation/driver-api/mailbox.rst
+@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
+ 		struct async_pkt ap;
+ 		struct sync_pkt sp;
+ 
+-		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
+-		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
++		dc_sync = kzalloc_obj(*dc_sync, GFP_KERNEL);
++		dc_async = kzalloc_obj(*dc_async, GFP_KERNEL);
+ 
+ 		/* Populate non-blocking mode client */
+ 		dc_async->cl.dev = &pdev->dev;
+diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
+index a934caa483a4..38319130ebf5 100644
+--- a/Documentation/driver-api/media/v4l2-fh.rst
++++ b/Documentation/driver-api/media/v4l2-fh.rst
+@@ -42,7 +42,7 @@ Example:
+ 
+ 		...
+ 
+-		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
++		my_fh = kzalloc_obj(*my_fh, GFP_KERNEL);
+ 
+ 		...
+ 
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index dff0646a717b..d02e62367c4f 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
+     {
+             struct object *obj;
+ 
+-            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++            if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                     return -ENOMEM;
+ 
+             strscpy(obj->name, name, sizeof(obj->name));
+@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
+              struct object *obj;
+     +        unsigned long flags;
+ 
+-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++             if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                      return -ENOMEM;
+     @@ -63,30 +64,33 @@
+              obj->id = id;
+diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+index 37b6a5670c2f..ac1ad722a9e7 100644
+--- a/Documentation/locking/locktypes.rst
++++ b/Documentation/locking/locktypes.rst
+@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
+ works perfectly::
+ 
+   raw_spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ But this code fails on PREEMPT_RT kernels because the memory allocator is
+ fully preemptible and therefore cannot be invoked from truly atomic
+@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
+ preemption on PREEMPT_RT kernels::
+ 
+   spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ 
+ bit spinlocks
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 35b381230f6e..a3bf75dc7c88 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -936,7 +936,7 @@ used.
+ ---------------------
+ 
+ The kernel provides the following general purpose memory allocators:
+-kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
++kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
+ vzalloc().  Please refer to the API documentation for further information
+ about them.  :ref:`Documentation/core-api/memory-allocation.rst
+ <memory_allocation>`
+@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ The alternative form where struct name is spelled out hurts readability and
+ introduces an opportunity for a bug when the pointer variable type is changed
+@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc_array(n, sizeof(...), ...);
++	p = kmalloc_objs(*ptr, n, ...);
+ 
+ The preferred form for allocating a zeroed array is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kcalloc(n, sizeof(...), ...);
++	p = kzalloc_objs(*ptr, n, ...);
+ 
+ Both forms check for overflow on the allocation size n * sizeof(...),
+ and return NULL if that occurred.
+diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+index 895752cbcedd..12433612aa9c 100644
+--- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
++++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+@@ -266,7 +266,7 @@ to details explained in the following section.
+               ....
+ 
+               /* allocate a chip-specific data with zero filled */
+-              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++              chip = kzalloc_obj(*chip, GFP_KERNEL);
+               if (chip == NULL)
+                       return -ENOMEM;
+ 
+@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
+   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
+                      0, &card);
+   .....
+-  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++  chip = kzalloc_obj(*chip, GFP_KERNEL);
+ 
+ The chip record should have the field to hold the card pointer at least,
+ 
+@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
+                       return -ENXIO;
+               }
+ 
+-              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++              chip = kzalloc_obj(*chip, GFP_KERNEL);
+               if (chip == NULL) {
+                       pci_disable_device(pci);
+                       return -ENOMEM;
+@@ -1737,7 +1737,7 @@ callback::
+   {
+           struct my_pcm_data *data;
+           ....
+-          data = kmalloc(sizeof(*data), GFP_KERNEL);
++          data = kmalloc_obj(*data, GFP_KERNEL);
+           substream->runtime->private_data = data;
+           ....
+   }
+@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
+ assign private data, you should define a destructor, too. The
+ destructor function is set in the ``private_free`` field::
+ 
+-  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
++  struct mydata *p = kmalloc_obj(*p, GFP_KERNEL);
+   hw->private_data = p;
+   hw->private_free = mydata_free;
+ 
+@@ -3833,7 +3833,7 @@ chip data individually::
+           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
+                              0, &card);
+           ....
+-          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++          chip = kzalloc_obj(*chip, GFP_KERNEL);
+           ....
+           card->private_data = chip;
+           ....
+diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
+index 6e21e6f86912..7ad6af76c247 100644
+--- a/Documentation/spi/spi-summary.rst
++++ b/Documentation/spi/spi-summary.rst
+@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
+ 	{
+ 		struct mysoc_spi_data *pdata2;
+ 
+-		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
++		pdata2 = kmalloc_obj(*pdata2, GFP_KERNEL);
+ 		*pdata2 = pdata;
+ 		...
+ 		if (n == 2) {
+@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
  			return -ENODEV;
-@@ -164,10 +164,10 @@ static int dice_probe(struct fw_unit *unit, const struct ieee1394_device_id *ent
- 	dev_set_drvdata(&unit->device, dice);
- 	dice->card = card;
  
--	if (!entry->driver_data)
-+	if (!entry->driver_data_ptr)
- 		detect_formats = snd_dice_stream_detect_current_formats;
- 	else
--		detect_formats = (snd_dice_detect_formats_t)entry->driver_data;
-+		detect_formats = entry->driver_data_ptr;
+ 		/* get memory for driver's per-chip state */
+-		chip = kzalloc(sizeof *chip, GFP_KERNEL);
++		chip = kzalloc(*chip, GFP_KERNEL);
+ 		if (!chip)
+ 			return -ENOMEM;
+ 		spi_set_drvdata(spi, chip);
+diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+index 4c21cf60f775..acca89a3743a 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
+     {
+             struct object *obj;
  
- 	// Below models are compliant to IEC 61883-1/6 and have no quirk at high sampling transfer
- 	// frequency.
-@@ -255,7 +255,7 @@ static void dice_bus_reset(struct fw_unit *unit)
- 		.model_id	= (model), \
- 		.specifier_id	= (vendor), \
- 		.version	= DICE_INTERFACE, \
--		.driver_data = (kernel_ulong_t)(data), \
-+		.driver_data_ptr = (data), \
- 	}
+-            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++            if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                     return -ENOMEM;
  
- static const struct ieee1394_device_id dice_id_table[] = {
-@@ -267,7 +267,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_MAUDIO,
- 		.model_id	= 0x000010,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_extension_formats,
-+		.driver_data_ptr = snd_dice_detect_extension_formats,
- 	},
- 	/* M-Audio Profire 610 has a different value in version field. */
- 	{
-@@ -275,7 +275,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_MAUDIO,
- 		.model_id	= 0x000011,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_extension_formats,
-+		.driver_data_ptr = snd_dice_detect_extension_formats,
- 	},
- 	/* TC Electronic Konnekt 24D. */
- 	{
-@@ -283,7 +283,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000020,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* TC Electronic Konnekt 8. */
- 	{
-@@ -291,7 +291,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000021,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* TC Electronic Studio Konnekt 48. */
- 	{
-@@ -299,7 +299,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000022,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* TC Electronic Konnekt Live. */
- 	{
-@@ -307,7 +307,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000023,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* TC Electronic Desktop Konnekt 6. */
- 	{
-@@ -315,7 +315,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000024,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* TC Electronic Impact Twin. */
- 	{
-@@ -323,7 +323,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000027,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* TC Electronic Digital Konnekt x32. */
- 	{
-@@ -331,7 +331,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_TCELECTRONIC,
- 		.model_id	= 0x000030,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_tcelectronic_formats,
-+		.driver_data_ptr = snd_dice_detect_tcelectronic_formats,
- 	},
- 	/* Alesis iO14/iO26. */
- 	{
-@@ -339,7 +339,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_ALESIS,
- 		.model_id	= MODEL_ALESIS_IO_BOTH,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_alesis_formats,
-+		.driver_data_ptr = snd_dice_detect_alesis_formats,
- 	},
- 	// Alesis MasterControl.
- 	{
-@@ -347,7 +347,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_ALESIS,
- 		.model_id	= 0x000002,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_alesis_mastercontrol_formats,
-+		.driver_data_ptr = snd_dice_detect_alesis_mastercontrol_formats,
- 	},
- 	/* Mytek Stereo 192 DSD-DAC. */
- 	{
-@@ -355,7 +355,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 				  IEEE1394_MATCH_MODEL_ID,
- 		.vendor_id	= OUI_MYTEK,
- 		.model_id	= 0x000002,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_mytek_formats,
-+		.driver_data_ptr = snd_dice_detect_mytek_formats,
- 	},
- 	// Solid State Logic, Duende Classic and Mini.
- 	// NOTE: each field of GUID in config ROM is not compliant to standard
-@@ -469,7 +469,7 @@ static const struct ieee1394_device_id dice_id_table[] = {
- 		.model_id	= OUI_TEAC,
- 		.specifier_id	= OUI_TEAC,
- 		.version	= 0x800006,
--		.driver_data = (kernel_ulong_t)snd_dice_detect_teac_formats,
-+		.driver_data_ptr = snd_dice_detect_teac_formats,
- 	},
- 	{ }
- };
-diff --git a/sound/firewire/fireface/ff.c b/sound/firewire/fireface/ff.c
-index 5d2c4fbf4434..13472822d2be 100644
---- a/sound/firewire/fireface/ff.c
-+++ b/sound/firewire/fireface/ff.c
-@@ -70,7 +70,7 @@ static int snd_ff_probe(struct fw_unit *unit, const struct ieee1394_device_id *e
- 	init_waitqueue_head(&ff->hwdep_wait);
+             strscpy(obj->name, name, sizeof(obj->name));
+@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
+              struct object *obj;
+     +        unsigned long flags;
  
- 	ff->unit_version = entry->version;
--	ff->spec = (const struct snd_ff_spec *)entry->driver_data;
-+	ff->spec = entry->driver_data_ptr;
+-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++             if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                      return -ENOMEM;
+     @@ -63,30 +64,33 @@
+              obj->id = id;
+diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
+index 1c7056283b9d..d5fa36aa05cc 100644
+--- a/Documentation/translations/it_IT/locking/locktypes.rst
++++ b/Documentation/translations/it_IT/locking/locktypes.rst
+@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
+ memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
  
- 	err = snd_ff_transaction_register(ff);
- 	if (err < 0)
-@@ -186,7 +186,7 @@ static const struct ieee1394_device_id snd_ff_id_table[] = {
- 		.specifier_id	= OUI_RME,
- 		.version	= SND_FF_UNIT_VERSION_FF800,
- 		.model_id	= 0x101800,
--		.driver_data	= (kernel_ulong_t)&spec_ff800,
-+		.driver_data_ptr = &spec_ff800,
- 	},
- 	/* Fireface 400 */
- 	{
-@@ -198,7 +198,7 @@ static const struct ieee1394_device_id snd_ff_id_table[] = {
- 		.specifier_id	= OUI_RME,
- 		.version	= SND_FF_UNIT_VERSION_FF400,
- 		.model_id	= 0x101800,
--		.driver_data	= (kernel_ulong_t)&spec_ff400,
-+		.driver_data_ptr = &spec_ff400,
- 	},
- 	// Fireface UFX.
- 	{
-@@ -210,7 +210,7 @@ static const struct ieee1394_device_id snd_ff_id_table[] = {
- 		.specifier_id	= OUI_RME,
- 		.version	= SND_FF_UNIT_VERSION_UFX,
- 		.model_id	= 0x101800,
--		.driver_data	= (kernel_ulong_t)&spec_ufx_802,
-+		.driver_data_ptr = &spec_ufx_802,
- 	},
- 	// Fireface UCX.
- 	{
-@@ -222,7 +222,7 @@ static const struct ieee1394_device_id snd_ff_id_table[] = {
- 		.specifier_id	= OUI_RME,
- 		.version	= SND_FF_UNIT_VERSION_UCX,
- 		.model_id	= 0x101800,
--		.driver_data	= (kernel_ulong_t)&spec_ucx,
-+		.driver_data_ptr = &spec_ucx,
- 	},
- 	// Fireface 802.
- 	{
-@@ -234,7 +234,7 @@ static const struct ieee1394_device_id snd_ff_id_table[] = {
- 		.specifier_id	= OUI_RME,
- 		.version	= SND_FF_UNIT_VERSION_802,
- 		.model_id	= 0x101800,
--		.driver_data	= (kernel_ulong_t)&spec_ufx_802,
-+		.driver_data_ptr = &spec_ufx_802,
- 	},
- 	{}
- };
-diff --git a/sound/firewire/motu/motu.c b/sound/firewire/motu/motu.c
-index fd2a9dddbfa6..1fec6c8cdf6c 100644
---- a/sound/firewire/motu/motu.c
-+++ b/sound/firewire/motu/motu.c
-@@ -78,7 +78,7 @@ static int motu_probe(struct fw_unit *unit, const struct ieee1394_device_id *ent
- 	dev_set_drvdata(&unit->device, motu);
- 	motu->card = card;
+   raw_spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
  
--	motu->spec = (const struct snd_motu_spec *)entry->driver_data;
-+	motu->spec = entry->driver_data_ptr;
- 	mutex_init(&motu->mutex);
- 	spin_lock_init(&motu->lock);
- 	init_waitqueue_head(&motu->hwdep_wait);
-@@ -148,7 +148,7 @@ static void motu_bus_update(struct fw_unit *unit)
- 	snd_motu_transaction_reregister(motu);
- }
+ Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
+ memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
+@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
+ PREEMPT_RT::
  
--#define SND_MOTU_DEV_ENTRY(model, data)			\
-+#define SND_MOTU_DEV_ENTRY(model, data_ptr)		\
- {							\
- 	.match_flags	= IEEE1394_MATCH_VENDOR_ID |	\
- 			  IEEE1394_MATCH_SPECIFIER_ID |	\
-@@ -156,7 +156,7 @@ static void motu_bus_update(struct fw_unit *unit)
- 	.vendor_id	= OUI_MOTU,			\
- 	.specifier_id	= OUI_MOTU,			\
- 	.version	= model,			\
--	.driver_data	= (kernel_ulong_t)data,		\
-+	.driver_data_ptr = data_ptr,			\
- }
+   spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
  
- static const struct ieee1394_device_id motu_id_table[] = {
-diff --git a/sound/firewire/oxfw/oxfw.c b/sound/firewire/oxfw/oxfw.c
-index 5039bd79b18e..38a3c3b150df 100644
---- a/sound/firewire/oxfw/oxfw.c
-+++ b/sound/firewire/oxfw/oxfw.c
-@@ -95,7 +95,7 @@ static int name_card(struct snd_oxfw *oxfw, const struct ieee1394_device_id *ent
  
- 	/* to apply card definitions */
- 	if (entry->vendor_id == VENDOR_GRIFFIN || entry->vendor_id == VENDOR_LACIE) {
--		info = (const struct compat_info *)entry->driver_data;
-+		info = entry->driver_data_ptr;
- 		d = info->driver_name;
- 		v = info->vendor_name;
- 		m = info->model_name;
-@@ -321,7 +321,7 @@ static const struct compat_info lacie_speakers = {
- 	.model_id     = model, \
- 	.specifier_id = SPECIFIER_1394TA, \
- 	.version      = VERSION_AVC, \
--	.driver_data  = (kernel_ulong_t)data, \
-+	.driver_data_ptr = data, \
- }
+ bit spinlocks
+diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
+index c0dc786b8474..2a499412a2e3 100644
+--- a/Documentation/translations/it_IT/process/coding-style.rst
++++ b/Documentation/translations/it_IT/process/coding-style.rst
+@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
  
- static const struct ieee1394_device_id oxfw_id_table[] = {
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ La forma alternativa, dove il nome della struttura viene scritto interamente,
+ peggiora la leggibilità e introduce possibili bachi quando il tipo di
+diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
+index 7d63aa8426e6..44c93d5f6beb 100644
+--- a/Documentation/translations/sp_SP/process/coding-style.rst
++++ b/Documentation/translations/sp_SP/process/coding-style.rst
+@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ La forma alternativa donde se deletrea el nombre de la estructura perjudica
+ la legibilidad, y presenta una oportunidad para un error cuando se cambia
+diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
+index b9902af310c5..fcff01e99852 100644
+--- a/Documentation/translations/zh_CN/core-api/kref.rst
++++ b/Documentation/translations/zh_CN/core-api/kref.rst
+@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
+ 
+      struct my_data *data;
+ 
+-     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     data = kmalloc_obj(*data, GFP_KERNEL);
+      if (!data)
+             return -ENOMEM;
+      kref_init(&data->refcount);
+@@ -106,7 +106,7 @@ Kref规则
+ 	int rv = 0;
+ 	struct my_data *data;
+ 	struct task_struct *task;
+-	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	data = kmalloc_obj(*data, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	kref_init(&data->refcount);
+diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
+index 5a342a024c01..55d5da974d89 100644
+--- a/Documentation/translations/zh_CN/process/coding-style.rst
++++ b/Documentation/translations/zh_CN/process/coding-style.rst
+@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
+ 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
+diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+index f0be21a60a0f..ba43c5c4797c 100644
+--- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
++++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+@@ -799,7 +799,7 @@ int my_open(struct file *file)
+ 
+ 	...
+ 
+-	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
++	my_fh = kzalloc_obj(*my_fh, GFP_KERNEL);
+ 
+ 	...
+ 
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index e2ba97b3d8bb..63c78982a1af 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
+ 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
 -- 
-2.47.3
+2.53.0
 
