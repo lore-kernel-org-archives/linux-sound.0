@@ -1,67 +1,67 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45A726F2B9
-	for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 20:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336952EA749
+	for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 20:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776630693; cv=none; b=KnjsWA6lFOJyySGjxftbDXTxrWu1aDori9UZ/Dtmr8AYuh/ShO6xWkQgRJxVYIx5EIK39Q7RxB2OQZkIjYjn2ybclIniA1AKX9Iv5DQZr2dzfgEZQEFJmromQ2j95g+DU29XMPO3Yr6cuM7fh9KwvDwwc5yp4f4n+/GDxR7Xrxc=
+	t=1776630697; cv=none; b=TywBK/l95mW/0lfeiGh3d/boqZ7mrUWyVeuUPRrFeCjuRmnfFk+Y6amticDIsAynGYT6SA968So2LfwOlv35wh1PE4nK7j3cT8LEZnbbli0i58PTq5jh59+CR1aeFv8le7vKfSqyBDdnljWPftQr0zKs8MR1APRusKjvOzdp0lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776630693; c=relaxed/simple;
-	bh=FWL9iHDXSYoluckJLB911JktohnLlx+Aco9CRYvp9OA=;
+	s=arc-20240116; t=1776630697; c=relaxed/simple;
+	bh=Sd3lBuRPc4TVt8+YNxlMtKK90gkr9B3jK01uoIEBfEc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m5ThKr1/2tlTf47hoYtTnxyVcGIOEMFEtmx9r1hBHXEwYTByGJxqO0QMeSB9rzcUESRAfjjTSGEh6r/FP5LvX2AUNDLIPUUGJEaOrbbzWTMadCPBB9tc1bIpja+WTAYJ3aAGNfwj116QLcky+iISqSbtUJX2hi18iBTYjXls36Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NeYA0Uzv; arc=none smtp.client-ip=74.125.82.182
+	 In-Reply-To:To:Cc; b=RmeTCDBBkv1G0TOUZliuJODcHn2RA+0GcjM30HctbG4hVAXzUTXuQHqNh1uczPQJlBTqc7+xYK6R4a2IcoHHjZga8v1sUOAmd9b6bQN4vRBP+3wtEW1A9LQ134stoaD9CLplHBiPJKWyh8TUdKjSaPsC9lfRKh6JVL8ETB7kVtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MRyj7fpF; arc=none smtp.client-ip=74.125.82.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NeYA0Uzv"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2dedf5f88adso1290498eec.1
-        for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 13:31:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MRyj7fpF"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2ba895adfeaso2508015eec.0
+        for <linux-sound@vger.kernel.org>; Sun, 19 Apr 2026 13:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776630692; x=1777235492; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776630695; x=1777235495; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=adKZuyxQZ1V1TuZoH3DUI0I4OUtCX6ISr2mcieCFENA=;
-        b=NeYA0UzvCEP/CZ/zLr1rpcWe/E+FTlnyr0wmDkQAyEAlTOxqsngZKziEtZ0YMcGg3p
-         a0R1gRs8kSokBOeABiUFIaCJtjuUfncgdIy4J1I7kKP1HAd3ZevGKnVu3gwNP+9nUa6i
-         E/oCcsJR4BpFvG4odaZQLrWb+paEeGBdXn1k+hla5kr4UeOx9W88xytWfkY/Zeaqpt6L
-         6BxIMie81iqyMxI0Ri85J51yC9CnporLktnIkmwGam02XgkvPsxotKhxOVwOlXSbTCxi
-         yVwtPPWuqIztaooWlippGGTyOa7qh0CP/anhpJSdf4qMERYVUeW9KtOLF8Hv9JrcKjcX
-         ESQA==
+        bh=JwHh11ZJDmP6iTnoktuVwH7YOEWIPLJREiHNq2gv16w=;
+        b=MRyj7fpFe2GtubX72KWC23vnyiG1FfwbHlGd3NFYthnnftpM/yFyo2ymb6M9N4a9/a
+         PEiVYfbMHBSp0BHi9EufOMtef2AIyikXr4S2kDnjVGOogPNyB1VHZ5cTrwr8RHZFW7hb
+         rl2VSg9cNs6SgII2klI6mWazOE8h+RPCEdSUIvB1cqardsV5INv1NKoTUQcTai0xA4xN
+         fWFspxcdskGNG9xybJBMq7omWMqLx0sKJaC146vblJUabHX2XI/lJIF82u6NEcX++lDK
+         NAlkDXOo4RtOQf7XmLv08o0hspzQ+GZlzqPSQBOv8PNoN28uURtbvcyYyw6IzZzLRG2M
+         mVdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776630692; x=1777235492;
+        d=1e100.net; s=20251104; t=1776630695; x=1777235495;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=adKZuyxQZ1V1TuZoH3DUI0I4OUtCX6ISr2mcieCFENA=;
-        b=ICMoLwAdbk/Bt98ujHBjsFxsGjlJzu5QJASd2TnZh1T9RyAgKJeoPT1rknsgWnzrB+
-         2/CNZ65NIvK2RR+7nIwWAJrhIR/1TeuaYO7o+ZAlBil1rqzQQnjxHFfmb/9NjHDHgxx/
-         /6ukR5XFVomVRZiRHzuovUehpjJW79p5X+qwhIONS9BUlQ206aDkw0o/jyBy/y1MuI3j
-         cD9Cfq6+Dng5N6I2TPB4egzTpf5CfI2Flw5kGpV6r+mVl1eIkOGL2OEHWInMowh7e5Sk
-         5f+ETqnpSwXZUgs7w4LvJ/oEjXZCic1wSTZr4drLtObtmxjs5XUR5BIHfj7RO2r/VHwX
-         cZJg==
-X-Gm-Message-State: AOJu0YxefLMZq4sjO2PxUBdlrt9d9SVnshqn2fFF9TZU8KXuB4xk27pQ
-	ZP2iildt3mFm0lFzZTBtBvGm/rhPqoDi9zxwvbb5c3doruWNUy4iepxs
-X-Gm-Gg: AeBDiesQJrHpSRU31MRKn1hUxdStYrbQuMvl94GOe/AQ9w3iVgeos+pbNIVpq222iUE
-	l0DlV7ybRBqLW8gXiTPIW/CeJO2cyaZPYd4xNREmd8+aHs+Whaouq8cHY7KU7mxTX4jjvnTo3eB
-	gGwSd2WQEszIbatcN48HhxG82xB8/sP9nXDnExDQ43htzbsijsWmPcrmqOUPfWdyh48jsARXkda
-	WBeHBG8iq8k8pSnw/oagEglYwGeZkpR7u661skSP052ftr39jXjZM+uD68xZdzHC7uaG9GNEZNO
-	26CsPIW1L4Gx7FmQGsfldgD51gwD/EZu0KX7OgyjcgGi+hnQuEC6iOodMlU0NucFu3uXzM7Qm+j
-	2dhSpsctWMECBPKwfSOBKHrkMuE7vjMY1Oz0u+JpiNndCUY4ukNpaZJK9/GiA+xa2UzRHuX/x4Q
-	9Mh+obT4zdeUFul2IoXlw9U/sSzlg6rKMuoz114ySTUIacnXtCABvtn/edHKJcVkoy3nww4osvZ
-	sQSR2Lh4OihWIs=
-X-Received: by 2002:a05:7301:1909:b0:2dc:e6fa:317 with SMTP id 5a478bee46e88-2e42dbffd65mr3036275eec.11.1776630691763;
-        Sun, 19 Apr 2026 13:31:31 -0700 (PDT)
+        bh=JwHh11ZJDmP6iTnoktuVwH7YOEWIPLJREiHNq2gv16w=;
+        b=Lpq0wwNtTXWVkqJU8ZoltwPYivmLL4zA6yAZAkSBGjCdEPspT89a4ETEJAMmMVjxaB
+         0TVAvO9YYq37XHxmYoqCzvPrNzHux0YXnUiprT3mWll8t6WnpGJsYnk5UbO2T75r+/Mh
+         w4hvYttztz1OhMt3qDyJb/u5UBF7GIMVK4JNglO/z3/51CT+sa/iN3ZGEL1GT8YSQzkC
+         B0uZBz10gPfUhmOKZeQ/50r5SiIX1SEnzCEbe4VcScLfB3ObwJLWd7ocnJEWwg5ONhPl
+         98HVeOd6SLskBsu8JSsEqLGbt9vz+NwAPVQk5MVwZs5CU6CLDV4IcCFjEcBYy+BB8AxR
+         JYNQ==
+X-Gm-Message-State: AOJu0YxDP/IefzNwhX7rzktlNUnZCtxHySqQO5xsZKgyFu+3qyWiLaXM
+	KN4/BOK8pvJRLE0ndRhVxuv/NrAtri2mxYkkrVPDD+uFrjRu+tiNb95e
+X-Gm-Gg: AeBDietECUYrJflHXJx3KOesM4/RAEeFPLQT7pcuwjV4/verZlrvCEF01l4uI2rkjpK
+	8Yc3eUdlEWPIdUXmD7E2fVnNqpy7s05iPzFAxvGrZBotSJZF7sAYDG0WxB9CtLXdef+LvBJjCDj
+	JPnXmszNvicNOnQefMeBtxcFxAK0JdeL/jHo6A7fw6RPCv9OvuZ+nmpiR2j+rCC1MjEeNVSC0wb
+	KWIacdqrGjh1y/CgEx0f1g3S0rzvxMeDDEG9YjygngJWO7FwGUKgFZrhmxHgSufSXWVOy+Ut+zE
+	iXYIhIeal7SQRvudPaS3ezzpdbxxaSSvEtCzP5amVZvbeDtkrMdskzmzMw+SXEa5pbm4qlouL5+
+	470szdk9ndeElnKdjigglP+XuRGsfsVIUNeR91JxS02K6Sxxa29AlmOiUqOeIoIDcFAR4S65sMj
+	h5hKoqMRroxRNeNmmhTGVU/frqmJQbFxzqZsrzCIsNKkkausmgZtC1wio6kePF2aYnfkn4uQQC1
+	7Ewqwb0aM5NnjQ=
+X-Received: by 2002:a05:7300:e684:b0:2e2:5bc5:f8eb with SMTP id 5a478bee46e88-2e46538c8b5mr4826430eec.9.1776630695261;
+        Sun, 19 Apr 2026 13:31:35 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-160-195.user3p.v-tal.net.br. [177.4.160.195])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53ac84c38sm11419096eec.13.2026.04.19.13.31.28
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53ac84c38sm11419096eec.13.2026.04.19.13.31.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 13:31:31 -0700 (PDT)
+        Sun, 19 Apr 2026 13:31:34 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Sun, 19 Apr 2026 17:30:30 -0300
-Subject: [PATCH 2/4] ALSA: usb-audio: Propagate errors in
- scarlett_ctl_enum_put()
+Date: Sun, 19 Apr 2026 17:30:31 -0300
+Subject: [PATCH 3/4] ALSA: usb-audio: Propagate US-16x08 write errors in
+ route/mix EQ-switch put callbacks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260419-usb-write-error-propagation-v1-2-5a3bd4a673ae@gmail.com>
+Message-Id: <20260419-usb-write-error-propagation-v1-3-5a3bd4a673ae@gmail.com>
 References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
 In-Reply-To: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>, 
@@ -80,45 +80,137 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3397;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=FWL9iHDXSYoluckJLB911JktohnLlx+Aco9CRYvp9OA=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlPrWd2H2+4PG8yo8H0aN5O7S9WC6UTizm+r5Lj4W34+
- EFj2ZGwjhIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZiIXxsjw9UVi8Pv6xom/DCe
- k6HXo7TXRsYlQbxykXTHoUohjRmWGxm+KRh8sHjdPmcvO9uzXVp9u179EQ+q8Di/6LlM9ibbsDP
- cAA==
+ bh=Sd3lBuRPc4TVt8+YNxlMtKK90gkr9B3jK01uoIEBfEc=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlPrWddWlIdqfDPU5r7iW932Ckmj33VXIwpwdeEm1O1+
+ vYtCvvUUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABOZfZCRYWGqqb21JJ/s6r9L
+ boaFFNz0VAnmFm1ymuJoydckdvtmKsM/Zav/7QVpvbHrFGew/pywm1lJjGnttQU7MzzfB+73N+x
+ jBQA=
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-scarlett_ctl_enum_put() ignores the return value from
-snd_usb_set_cur_mix_value() and reports success whenever the
-requested enum value differs from the current one.
+Several US-16x08 mixer put callbacks log failed control URBs but
+still return success to userspace. That hides device write failures
+even though the requested value was not applied.
 
-If the SET_CUR request fails, the callback still returns success even
-though neither the hardware state nor the cached mixer value changed.
+Return the negative write error instead in the route, master, bus,
+channel, and EQ switch put callbacks.
 
-Fixes: 76b188c4b370 ("ALSA: usb-audio: Scarlett mixer interface for 6i6, 18i6, 18i8 and 18i20")
+Fixes: d2bb390a2081 ("ALSA: usb-audio: Tascam US-16x08 DSP mixer quirk")
 Cc: stable@vger.kernel.org
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/usb/mixer_scarlett.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/usb/mixer_us16x08.c | 49 +++++++++++++++++++++++------------------------
+ 1 file changed, 24 insertions(+), 25 deletions(-)
 
-diff --git a/sound/usb/mixer_scarlett.c b/sound/usb/mixer_scarlett.c
-index 1bb01e827654..673eb8d8724d 100644
---- a/sound/usb/mixer_scarlett.c
-+++ b/sound/usb/mixer_scarlett.c
-@@ -680,7 +680,9 @@ static int scarlett_ctl_enum_put(struct snd_kcontrol *kctl,
- 	val = ucontrol->value.integer.value[0];
- 	val = val + opt->start;
- 	if (val != oval) {
--		snd_usb_set_cur_mix_value(elem, 0, 0, val);
-+		err = snd_usb_set_cur_mix_value(elem, 0, 0, val);
-+		if (err < 0)
-+			return err;
- 		return 1;
+diff --git a/sound/usb/mixer_us16x08.c b/sound/usb/mixer_us16x08.c
+index 8a02964e5d7b..fcf7dfa4aa84 100644
+--- a/sound/usb/mixer_us16x08.c
++++ b/sound/usb/mixer_us16x08.c
+@@ -224,14 +224,14 @@ static int snd_us16x08_route_put(struct snd_kcontrol *kcontrol,
+ 
+ 	err = snd_us16x08_send_urb(chip, buf, sizeof(route_msg));
+ 
+-	if (err > 0) {
+-		elem->cached |= 1 << index;
+-		elem->cache_val[index] = val;
+-	} else {
++	if (err < 0) {
+ 		usb_audio_dbg(chip, "Failed to set routing, err:%d\n", err);
++		return err;
  	}
+ 
+-	return err > 0 ? 1 : 0;
++	elem->cached |= 1 << index;
++	elem->cache_val[index] = val;
++	return 1;
+ }
+ 
+ static int snd_us16x08_master_info(struct snd_kcontrol *kcontrol,
+@@ -283,14 +283,14 @@ static int snd_us16x08_master_put(struct snd_kcontrol *kcontrol,
+ 	buf[5] = index + 1;
+ 	err = snd_us16x08_send_urb(chip, buf, sizeof(mix_msg_out));
+ 
+-	if (err > 0) {
+-		elem->cached |= 1 << index;
+-		elem->cache_val[index] = val;
+-	} else {
++	if (err < 0) {
+ 		usb_audio_dbg(chip, "Failed to set master, err:%d\n", err);
++		return err;
+ 	}
+ 
+-	return err > 0 ? 1 : 0;
++	elem->cached |= 1 << index;
++	elem->cache_val[index] = val;
++	return 1;
+ }
+ 
+ static int snd_us16x08_bus_put(struct snd_kcontrol *kcontrol,
+@@ -324,14 +324,14 @@ static int snd_us16x08_bus_put(struct snd_kcontrol *kcontrol,
+ 		break;
+ 	}
+ 
+-	if (err > 0) {
+-		elem->cached |= 1;
+-		elem->cache_val[0] = val;
+-	} else {
++	if (err < 0) {
+ 		usb_audio_dbg(chip, "Failed to set bus parameter, err:%d\n", err);
++		return err;
+ 	}
+ 
+-	return err > 0 ? 1 : 0;
++	elem->cached |= 1;
++	elem->cache_val[0] = val;
++	return 1;
+ }
+ 
+ static int snd_us16x08_bus_get(struct snd_kcontrol *kcontrol,
+@@ -392,14 +392,14 @@ static int snd_us16x08_channel_put(struct snd_kcontrol *kcontrol,
+ 
+ 	err = snd_us16x08_send_urb(chip, buf, sizeof(mix_msg_in));
+ 
+-	if (err > 0) {
+-		elem->cached |= 1 << index;
+-		elem->cache_val[index] = val;
+-	} else {
++	if (err < 0) {
+ 		usb_audio_dbg(chip, "Failed to set channel, err:%d\n", err);
++		return err;
+ 	}
+ 
+-	return err > 0 ? 1 : 0;
++	elem->cached |= 1 << index;
++	elem->cache_val[index] = val;
++	return 1;
+ }
+ 
+ static int snd_us16x08_mix_info(struct snd_kcontrol *kcontrol,
+@@ -529,13 +529,13 @@ static int snd_us16x08_eqswitch_put(struct snd_kcontrol *kcontrol,
+ 		msleep(15);
+ 	}
+ 
+-	if (err > 0) {
+-		elem->cached |= 1 << index;
+-		elem->cache_val[index] = val;
+-	} else {
++	if (err < 0) {
+ 		usb_audio_dbg(chip, "Failed to set eq switch, err:%d\n", err);
++		return err;
+ 	}
+ 
++	elem->cached |= 1 << index;
++	elem->cache_val[index] = val;
+ 	return 1;
+ }
+ 
+@@ -1418,4 +1418,3 @@ int snd_us16x08_controls_create(struct usb_mixer_interface *mixer)
+ 
  	return 0;
+ }
+-
 
 -- 
 2.53.0
