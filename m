@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE593BF667;
-	Mon, 20 Apr 2026 13:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6ED23FD14C;
+	Mon, 20 Apr 2026 13:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691573; cv=none; b=Qb5hjzFz1r3ezJ2x9yJX58roTou4zhagpeIMNnU/vd8sjZ1LEhN3oYMVkVyaLWFlILfOSMVlavG5dWVUds6P6uWBxpGIkA3nnXDvIum/QP/i65zLukbozO3KI1T+nSVPg6FNe3FJu1tmLqBJ11OzchAs1fiubtICSNt0+sn/SHs=
+	t=1776691591; cv=none; b=Q5DCSCDDC9ZDsBA5VVI1NZ0gvL80AFt26k228AWs9gRMw4YX4yRHaO7mhlJZjnXVD4lQLFv/qBXp2REGJcDeqmjbT9ESQZyC9bL6uVw0jJuymVimhsfyZheJjK4NI1tW62HkiehUkGLohs/V1tt0XiKvHboBhFWz/9bHInXRsNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691573; c=relaxed/simple;
-	bh=vSLavixEUEuwgCzTDQQQmqZVD/P6u16k5TITO7ii3go=;
+	s=arc-20240116; t=1776691591; c=relaxed/simple;
+	bh=m5QEVKm030ElDj9lg8EY1wI7itCIqVkRRRQ2p0XlGck=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bmmF4XrUr5p1cTkdZNC90elyroXMYCSA+nCnq+Ww5e/94A8iy4nt6mPWb7l2NIMKl5L8ajPuerDuR6RZBUBZKjGznFSxdBfefEVo0vpRGUPcBUbHnghtHQqOUH/9H4tylg7n2TWvS8LQD/+4FoMr8rrXu5Lw0Gm/1ODfeWl3Uyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YF6tKH4x; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cyjScZkttsU9PN1ZUHXwT4854lemrBuySxhFRQ3iicL0s9ZrCMLMwYUPfYchhh4Uk+yILTImFZ5hTvri8lpPWpKcCu0al49qXm590BTk3Noo1nBYuu7u3x96xdjPVcAW/ru12qgrtdE7CMqL32s3/1cKw1cL342Z3FM85bYZS5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gKvyc+gj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YF6tKH4x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE2D4C19425;
-	Mon, 20 Apr 2026 13:26:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gKvyc+gj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6514EC2BCB6;
+	Mon, 20 Apr 2026 13:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691573;
-	bh=vSLavixEUEuwgCzTDQQQmqZVD/P6u16k5TITO7ii3go=;
+	s=k20201202; t=1776691590;
+	bh=m5QEVKm030ElDj9lg8EY1wI7itCIqVkRRRQ2p0XlGck=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YF6tKH4x0BXhU0Ss5Qb+6oyUDToKjvZ4IaRvnKvejLPEMbR6nbmKJCTMvfiCB+ff2
-	 3NVI9Z41Ome/CuHNxwLhUeZOl/IPjRKdIolbgO9bQkSUOKxdUIUyUIsrb42HYkhSv+
-	 2aolkBzqKrVARSVnOzAv/lgur5aPmFVh2GkX0vwxnIb60xQbmhICeK6IB1U29Oldql
-	 PIlkY5hrpWcqFA7juZ4wENnpp+1mzVn7w084UXFDrgq/AGj/wqUshOKbuym/2UAC8f
-	 trpECLwjbOa6lNetqTuS78Krj5FIgjjnsJVgqYAR4JBrFVpn2uxx/XLwWmYFx2R0pi
-	 i794zIo3i5WaQ==
+	b=gKvyc+gjjt6Ak7MFltDV+dlIIbVjnyP5QThlin9bGR0N0Pf85x8ITp3G/J11gYZBX
+	 KlZLETl8F7mDwi0vhNLi/G5Mk2s5VAcIFbr64mBUB/PtT7O3VPcPEoB/pwYyldnVLD
+	 Iv+rCKd4H4jHpEi2i9LBSs1vzjQ3hU1ES8kxUYW8Z5Uf5hK3Hl+UAAf57nzITzuWXQ
+	 emAXb6r/p8ZCXCcGtkWx5HluLD74KsaArgQ+6qLu7nKKN9LhsHaUbK4cO4W6huvvPB
+	 JpFXF+cwSIUDjWuSobrIrmx0YJgycvJsDLVcX4P/N9+dtiHR+K1X+5f8qj8yQF0HIL
+	 teD78Ct+K/5fw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
+Cc: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	Frank.Li@nxp.com,
 	linux-sound@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.19] ASoC: sdw_utils: Add CS42L43B codec info
-Date: Mon, 20 Apr 2026 09:18:22 -0400
-Message-ID: <20260420132314.1023554-108-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.1] ASoC: mxs-sgtl5000: disable MCLK on error paths of mxs_sgtl5000_probe()
+Date: Mon, 20 Apr 2026 09:18:33 -0400
+Message-ID: <20260420132314.1023554-119-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -56,17 +58,15 @@ X-stable-base: Linux 7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
 
-[ Upstream commit 3e314fde2304b328929c471a70906bc5968f9dcf ]
+[ Upstream commit c8ef13d692f19cdbbf195fb845421a5b71801704 ]
 
-Add codec_info for a new variant of CS42L43. It can resue existing info
-but needs a new part_id.
+Call mxs_saif_put_mclk() to disable MCLK on error
+paths of mxs_sgtl5000_probe().
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260306152829.3130530-2-mstrozek@opensource.cirrus.com
-Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Link: https://patch.msgid.link/20260401053051.586290-1-lihaoxiang@isrc.iscas.ac.cn
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -80,352 +80,258 @@ Now I have a complete picture. Let me compile the full analysis.
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: Subject Line**
-Record: [ASoC: sdw_utils] [Add] [CS42L43B codec info entry to
-codec_info_list]
+- Subsystem: `ASoC: mxs-sgtl5000`
+- Action verb: "disable" (implies fixing a missing cleanup)
+- Summary: Disable MCLK on error paths of `mxs_sgtl5000_probe()`
+- Record: [ASoC/mxs-sgtl5000] [disable/fix] [Add missing
+  mxs_saif_put_mclk() on probe error paths]
 
 **Step 1.2: Tags**
-- Signed-off-by: Maciej Strozek (Cirrus Logic engineer, author)
-- Reviewed-by: Charles Keepax (Cirrus Logic, subsystem expert)
-- Tested-by: Charles Keepax (verified the fix works)
-- Link: patch.msgid.link for original submission
-- Signed-off-by: Mark Brown (ASoC maintainer, applied the patch)
+- Signed-off-by: Haoxiang Li (author) - a contributor focused on error-
+  path resource leak fixes
+- Link: `https://patch.msgid.link/20260401053051.586290-1-
+  lihaoxiang@isrc.iscas.ac.cn`
+- Signed-off-by: Mark Brown (ASoC maintainer applied the patch)
+- No Fixes: tag, no Reported-by, no Cc: stable (expected for review
+  candidates)
 
-Record: Reviewed AND tested by Charles Keepax (Cirrus Logic), applied by
-ASoC maintainer Mark Brown. No Fixes tag (expected). No syzbot.
-
-**Step 1.3: Body Text**
-The message says: "Add codec_info for a new variant of CS42L43. It can
-reuse existing info but needs a new part_id." This is adding a device ID
-(part_id = 0x2A3B) for a hardware variant of the existing CS42L43 codec.
-
-Record: New hardware variant CS42L43B needs a new part_id entry. Reuses
-existing callbacks and configuration.
+**Step 1.3: Commit Body**
+The message is concise: call `mxs_saif_put_mclk()` to disable MCLK on
+error paths. The bug is a resource leak - `mxs_saif_get_mclk()` enables
+a hardware clock, and if probe fails after that point, the clock remains
+enabled.
 
 **Step 1.4: Hidden Bug Fix Detection**
-At face value this is a device ID addition, not a "hidden" bug fix.
-However, as I'll show in Phase 6, the ACPI match tables referencing
-CS42L43B are already in v7.0, making this missing entry cause audio
-probe failure on affected systems.
-
-Record: This is a device ID addition that also fixes a functional gap
-(ACPI tables present but codec_info missing).
-
----
+This IS a resource leak fix. The wording "disable MCLK on error paths"
+is a classic resource-leak-on-error-path fix pattern.
 
 ## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: Inventory**
-- Files changed: `sound/soc/sdw_utils/soc_sdw_utils.c`
-- Lines added: ~54 lines (all data, no code logic)
-- Lines removed: 0
-- Functions modified: None; the change is within the `codec_info_list[]`
-  static array initializer
-- Scope: single-file, purely additive data entry
-
-Record: 1 file, +54 lines of struct data, 0 removed, purely data.
+- 1 file changed: `sound/soc/mxs/mxs-sgtl5000.c`
+- 2 lines added: two `mxs_saif_put_mclk(0)` calls + braces adjustment
+- Functions modified: `mxs_sgtl5000_probe()`
+- Scope: single-file surgical fix
 
 **Step 2.2: Code Flow Change**
-The diff adds a new `codec_info_list[]` entry with `.part_id = 0x2A3B`
-between the existing CS42L43 entry (0x4243) and the CS42L45 entry
-(0x4245). The new entry is structurally identical to the CS42L43 entry —
-same name_prefix, same sidecar functions, same 4 DAIs with same
-callbacks, same quirks. The only difference is `.part_id = 0x2A3B`.
+Two error paths are fixed:
 
-Record: Before: no entry for 0x2A3B; After: new entry identical to
-0x4243 but with part_id 0x2A3B.
+1. **`snd_soc_of_parse_audio_routing()` failure** (line 160): BEFORE:
+   returned directly without disabling MCLK. AFTER: calls
+   `mxs_saif_put_mclk(0)` before returning.
+
+2. **`devm_snd_soc_register_card()` failure** (line 165): BEFORE:
+   returned directly without disabling MCLK. AFTER: calls
+   `mxs_saif_put_mclk(0)` before returning.
 
 **Step 2.3: Bug Mechanism**
-This is category (h) — Hardware workaround / Device ID addition. The new
-`part_id = 0x2A3B` is the SoundWire equivalent of a PCI/USB device ID,
-enabling the CS42L43B hardware variant to be matched by
-`asoc_sdw_find_codec_info_part()`.
+Category: **Error path / resource leak fix**.
 
-Record: Device ID addition (new part_id for SoundWire codec variant).
+`mxs_saif_get_mclk()` at line 144:
+- Calls `__mxs_saif_get_mclk()` which sets `saif->mclk_in_use = 1`
+- Calls `clk_prepare_enable(saif->clk)` to enable the hardware clock
+- Writes to SAIF_CTRL to enable MCLK output
+
+When probe fails after this, `mxs_saif_put_mclk()` (which disables the
+clock, clears MCLK output, and sets `mclk_in_use = 0`) is never called.
+The `remove()` callback only runs if `probe()` succeeded.
 
 **Step 2.4: Fix Quality**
-- The data is an exact copy of the existing 0x4243 entry with only
-  part_id changed
-- All referenced callbacks (`asoc_sdw_cs42l43_hs_rtd_init`,
-  `asoc_sdw_cs42l43_spk_init`, etc.) already exist
-- No new code logic, no new functions, no API changes
-- Regression risk: essentially zero (only affects systems with CS42L43B
-  hardware)
+- Obviously correct: mirrors the cleanup done in `mxs_sgtl5000_remove()`
+- Minimal/surgical: only 2 meaningful lines added
+- Regression risk: essentially zero - only affects error paths
+- The fix follows the exact same pattern as the existing `remove()`
+  function
 
-Record: Trivially correct, minimal regression risk. Pure data addition.
+## PHASE 3: GIT HISTORY INVESTIGATION
 
----
+**Step 3.1: Blame Analysis**
+- The `mxs_saif_get_mclk()` call was introduced in the original driver
+  commit `fcb5e47eff29a1` (2011, v3.2). So the register_card error-path
+  leak has existed since 2011.
+- The audio-routing error path was introduced by `949293d45d6b09` (2018,
+  v4.16) which added `snd_soc_of_parse_audio_routing()` without cleanup
+  on failure.
+- Both error paths predate all active stable trees.
 
-## PHASE 3: GIT HISTORY
+**Step 3.2: No Fixes: tag** (expected for review candidates)
 
-**Step 3.1: Blame**
-The existing CS42L43 entry (0x4243) was introduced in commit
-`e377c94773171e` by Vijendar Mukunda on 2024-08-01, when the
-codec_info_list was moved from Intel SOF to common sdw_utils. This file
-has been in the tree since v6.12.
-
-Record: File created v6.12 (2024-08-01). CS42L43 entry (0x4243) has been
-stable since then.
-
-**Step 3.2: No Fixes tag** — expected, N/A.
-
-**Step 3.3: File History**
-Recent changes to this file are mostly additions of new codec entries
-and minor fixes. The file is actively maintained as new codecs and
-variants are added.
-
-Record: Active file with frequent codec_info additions. No conflicts
-expected.
+**Step 3.3: Related Changes**
+- `6ae0a4d8fec55` (2022): Fixed a different resource leak (of_node_put)
+  in the same probe function - shows this function has a history of
+  incomplete error handling.
+- `7a17f6a95a613` (2021): Switched to `dev_err_probe()` for
+  register_card failure.
 
 **Step 3.4: Author Context**
-Maciej Strozek is a Cirrus Logic engineer, a regular contributor to the
-CS42L43/CS42L45 codec subsystem. He has ~10 recent commits in the sound
-subsystem.
-
-Record: Author is domain expert at Cirrus Logic, the vendor of this
-codec.
+Haoxiang Li is a prolific error-path/resource-leak fix contributor.
+Their commit history shows many similar fixes across kernel subsystems
+(PCI, SCSI, media, DRM, clock, bus drivers).
 
 **Step 3.5: Dependencies**
-The critical dependency is the ACPI match entries for CS42L43B. These
-exist in:
-- `sound/soc/amd/acp/amd-acp70-acpi-match.c` (commit `ddd9bf2212ab8`,
-  2026-01-27) — **already in v7.0**
-- `sound/soc/amd/acp/amd-acp63-acpi-match.c` (commit `fd13fc700e3e2`,
-  2026-02-24) — **already in v7.0**
+No dependencies. The fix only adds `mxs_saif_put_mclk(0)` calls, which
+has existed since the driver was created. Should apply cleanly to all
+stable trees.
 
-Both ACPI match tables reference `0x00003101FA2A3B01ull` which encodes
-part_id 0x2A3B. These are already in the stable tree. Without this
-codec_info entry, the ACPI match succeeds but the codec configuration
-lookup fails.
+## PHASE 4: MAILING LIST RESEARCH
 
-Record: Dependencies are MET — ACPI match tables for cs42l43b already in
-v7.0.
-
----
-
-## PHASE 4: MAILING LIST
-
-**Step 4.1-4.5:**
-b4 dig could not find the commit (likely the Message-ID format didn't
-match expectations). Lore was protected by anti-scraping. However, the
-commit itself documents the review chain: Reviewed-by and Tested-by from
-Charles Keepax, applied by Mark Brown. This is the standard ASoC review
-process.
-
-Record: Could not fetch lore discussion due to anti-scraping protection.
-The commit tags show proper review process.
-
----
+Lore was not accessible due to bot protection. However:
+- The patch was accepted by Mark Brown (ASoC subsystem maintainer)
+  directly
+- The Link tag points to the original submission
+- Single-version submission (no v2/v3), suggesting it was
+  straightforward
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: Key Functions**
-No functions are modified. The change is in the static
-`codec_info_list[]` array.
+**Step 5.1: Functions Modified**
+Only `mxs_sgtl5000_probe()` is modified.
 
-**Step 5.2: Callers of `asoc_sdw_find_codec_info_part()`**
-This function is called at two critical points:
-- Line 1366: `asoc_sdw_count_sdw_endpoints()` — if it returns NULL,
-  returns `-EINVAL`, causing the entire endpoint counting to fail
-- Line 1526: the DAI link creation path — if it returns NULL, returns
-  `-EINVAL`, causing the machine driver probe to fail
+**Step 5.2: Resource Chain**
+- `mxs_saif_get_mclk()` → `__mxs_saif_get_mclk()` → sets
+  `mclk_in_use=1`, clears CLKGATE, configures clock rate →
+  `clk_prepare_enable()` → writes SAIF_CTRL to enable MCLK RUN
+- `mxs_saif_put_mclk()` → `clk_disable_unprepare()` → sets CLKGATE →
+  clears RUN → `mclk_in_use=0`
 
-Record: Without a matching codec_info entry, the machine driver probe
-fails with -EINVAL. Audio is completely non-functional on affected
-systems.
-
-**Step 5.3-5.5:** N/A — no new code logic to trace.
-
----
+Without the fix, on error: clock stays enabled, hardware MCLK output
+stays active, `mclk_in_use` remains 1 (preventing future attempts to get
+MCLK).
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-**Step 6.1: Buggy Code in Stable Trees**
-The `codec_info_list[]` array exists in v7.0 (file created in v6.12).
-The ACPI match tables for cs42l43b are already in v7.0 (`ddd9bf2212ab8`
-and `fd13fc700e3e2` both verified as ancestors of v7.0). This means v7.0
-stable already has systems defined that use CS42L43B hardware, but the
-codec_info entry for part_id 0x2A3B is MISSING.
+**Step 6.1: Code Presence**
+The buggy code exists in ALL active stable trees:
+- The register_card error leak exists since v3.2 (2011)
+- The audio-routing error leak exists since v4.16 (2018)
+- All stable trees (5.4.y, 5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y) contain
+  both bugs
 
-Record: The gap exists in v7.0 — ACPI tables reference CS42L43B but
-codec_info_list lacks the entry.
-
-**Step 6.2: Backport Complications**
-The patch is purely additive data into a well-defined array. It should
-apply cleanly.
-
-Record: Clean apply expected.
-
-**Step 6.3:** No prior fix for this issue.
-
----
+**Step 6.2: Backport Difficulty**
+The patch should apply cleanly or with trivial fuzz. Stable trees older
+than 6.1 use `of_find_property()` instead of `of_property_present()`,
+but the error path code is unchanged. The `devm_snd_soc_register_card`
+error path in trees before 5.15 uses slightly different error printing
+(not `dev_err_probe`), but the fix location is the same.
 
 ## PHASE 7: SUBSYSTEM CONTEXT
 
-**Step 7.1:** ASoC / SoundWire machine driver support — IMPORTANT
-subsystem. Audio is a core user-facing feature.
-**Step 7.2:** Actively maintained with frequent additions.
-
----
+- Subsystem: ASoC (sound/soc) - audio driver infrastructure
+- Criticality: PERIPHERAL (MXS/i.MX28 embedded audio, specific platform)
+- The MXS SAIF + SGTL5000 combination is used on Freescale/NXP i.MX28
+  boards
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-**Step 8.1: Who is Affected**
-Users with AMD ACP63 or ACP70 platforms that have CS42L43B audio codec
-hardware. These are real laptop configurations defined in the ACPI match
-tables already in v7.0.
+**Step 8.1: Affected Users**
+Platform-specific: users of i.MX28 boards with SGTL5000 audio codec
+(embedded systems).
 
-**Step 8.2: Trigger Conditions**
-Boot any system with CS42L43B hardware → audio subsystem probes → ACPI
-match succeeds → codec_info lookup fails → `-EINVAL` → no audio. This is
-100% reproducible on affected hardware.
+**Step 8.2: Trigger**
+Probe failure on the audio device. This can be triggered by:
+- Invalid/malformed audio-routing DT property
+- `devm_snd_soc_register_card()` failure (e.g., codec not ready, probe
+  deferral errors)
 
 **Step 8.3: Failure Mode**
-Machine driver probe failure (returns -EINVAL). Complete audio loss on
-affected systems. Severity: **HIGH** — audio is a fundamental feature.
+- Clock resource leak (hardware clock left enabled, consuming power)
+- `mclk_in_use` flag remains set, potentially blocking future MCLK
+  acquisition
+- Severity: MEDIUM (resource leak, not crash)
 
 **Step 8.4: Risk-Benefit**
-- Benefit: HIGH — enables audio on affected hardware; fixes complete
-  functional failure
-- Risk: VERY LOW — purely additive data, identical to existing proven
-  entry, only part_id differs
-- Ratio: Strongly favorable
-
----
+- BENEFIT: Fixes resource leak on error paths. Clean cleanup of hardware
+  state.
+- RISK: Very low. Only 2 lines, only error paths, mirrors existing
+  remove() logic.
+- Ratio: Favorable. Very low risk fix for a real resource leak.
 
 ## PHASE 9: FINAL SYNTHESIS
 
 **Evidence FOR backporting:**
-- Device ID addition to existing driver (explicit stable exception)
-- ACPI match tables referencing this hardware are ALREADY in v7.0
-- Without this, audio probe fails with -EINVAL on affected systems
-- Purely data — no new code paths, no new logic
-- Exact copy of existing, proven CS42L43 entry with only part_id changed
-- Reviewed AND tested by Cirrus Logic domain expert
-- Applied by ASoC maintainer Mark Brown
-- Zero regression risk (only affects cs42l43b hardware)
+- Fixes a real resource leak (hardware clock left enabled on probe
+  failure)
+- Fixes `mclk_in_use` state leak that can prevent subsequent attempts
+- Tiny, surgical fix (2 lines of meaningful code)
+- Obviously correct (mirrors the cleanup in `remove()`)
+- Accepted by ASoC subsystem maintainer (Mark Brown)
+- Bug exists in all stable trees (since v3.2/v4.16)
+- Zero regression risk (only error paths affected)
+- The same function had a prior similar fix (`6ae0a4d8fec55` for
+  of_node_put)
 
-**Evidence AGAINST backporting:**
-- No explicit Fixes: tag or Cc: stable (expected for autosel candidates)
-- 54 lines rather than single-line ID addition (but all data, no code)
-- Commit message doesn't describe a "bug" — describes hardware
-  enablement
+**Evidence AGAINST:**
+- Platform-specific driver (limited user base, i.MX28)
+- No Reported-by (found by code review, not user complaint)
+- Resource leak, not crash/security/corruption
+- No Fixes: tag (but expected for review candidates)
 
 **Stable Rules Checklist:**
-1. Obviously correct and tested? **YES** — exact copy of existing entry,
-   tested by reviewer
-2. Fixes a real bug? **YES** — audio probe failure on hardware already
-   matched by ACPI tables in v7.0
-3. Important? **YES** — complete audio loss
-4. Small and contained? **YES** — 54 lines of data in one file
-5. No new features or APIs? **YES** — just a device ID
-6. Can apply to stable? **YES** — clean apply expected
-
-**Exception Category:** Device ID addition to existing driver.
-
----
+1. Obviously correct and tested? **YES** - mirrors remove() pattern,
+   accepted by maintainer
+2. Fixes a real bug? **YES** - clock resource leak on error
+3. Important issue? **MEDIUM** - resource leak, not critical severity
+4. Small and contained? **YES** - 2 lines, 1 file
+5. No new features? **YES** - pure bugfix
+6. Can apply to stable? **YES** - should apply cleanly to all active
+   trees
 
 ## Verification
 
-- [Phase 1] Parsed tags: Reviewed-by + Tested-by from Charles Keepax
-  (Cirrus), applied by Mark Brown (ASoC maintainer)
-- [Phase 2] Diff analysis: +54 lines, all struct data, new
-  `codec_info_list[]` entry with `.part_id = 0x2A3B`, identical to
-  existing 0x4243 entry
-- [Phase 3] git blame: CS42L43 entry (0x4243) introduced in
-  e377c94773171e (v6.12, 2024-08-01), present in v7.0
-- [Phase 3] git merge-base: ddd9bf2212ab8 (ACP70 cs42l43b ACPI match) IS
-  ancestor of v7.0 — confirmed
-- [Phase 3] git merge-base: fd13fc700e3e2 (ACP63 cs42l43b ACPI match) IS
-  ancestor of v7.0 — confirmed
-- [Phase 4] b4 dig failed to find match; lore anti-scraping blocked web
-  fetch
-- [Phase 5] Verified call sites: `asoc_sdw_find_codec_info_part()`
-  returns NULL for unknown part_id → callers return -EINVAL → probe
-  failure
-- [Phase 5] Read lines 1366-1368 and 1526-1528: confirmed NULL → -EINVAL
-  return path
-- [Phase 6] ACPI match tables reference `0x00003101FA2A3B01ull` (part_id
-  0x2A3B) already in v7.0
-- [Phase 6] codec_info_list lacks 0x2A3B entry in v7.0 — confirmed via
-  grep
-- [Phase 8] Failure mode: probe returns -EINVAL → complete audio loss on
-  cs42l43b systems, severity HIGH
+- [Phase 1] Parsed tags: Link to patch.msgid.link, SOB by Mark Brown
+  (maintainer), author Haoxiang Li
+- [Phase 2] Diff analysis: 2 lines of `mxs_saif_put_mclk(0)` added to
+  two error paths in `mxs_sgtl5000_probe()`
+- [Phase 3] git blame: `mxs_saif_get_mclk()` introduced in
+  fcb5e47eff29a1 (v3.2, 2011); audio-routing error path introduced in
+  949293d45d6b09 (v4.16, 2018)
+- [Phase 3] git show 949293d45d6b09: confirmed it added
+  `snd_soc_of_parse_audio_routing()` error path without cleanup
+- [Phase 3] git show 6ae0a4d8fec55: confirmed prior error-handling fix
+  in same function (of_node_put leak)
+- [Phase 3] Author commits: Haoxiang Li is a serial error-path leak
+  fixer
+- [Phase 4] Lore inaccessible due to bot protection; patch accepted by
+  Mark Brown directly
+- [Phase 5] Read mxs_saif_get_mclk: confirms it enables clock + sets
+  mclk_in_use=1; put_mclk disables clock + clears flag
+- [Phase 6] Code exists in all stable trees from 5.4.y through 6.12.y
+- [Phase 6] git log v6.6..HEAD: only 4 commits to this file since v6.6,
+  none conflicting
+- [Phase 8] Failure mode: clock resource leak + mclk_in_use state leak
+  on probe error, severity MEDIUM
 
-The ACPI match tables already in v7.0 promise CS42L43B support, but
-without this codec_info entry, the machine driver probe fails. This is a
-device ID addition that fixes complete audio failure on affected AMD
-laptop platforms.
+The fix is small, surgical, obviously correct, and fixes a real resource
+leak that has existed since 2011/2018. It meets all stable kernel
+criteria.
 
 **YES**
 
- sound/soc/sdw_utils/soc_sdw_utils.c | 54 +++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ sound/soc/mxs/mxs-sgtl5000.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 0e67d9f34cba3..4f9089b2a9f84 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -723,6 +723,60 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		},
- 		.dai_num = 4,
- 	},
-+	{
-+		.part_id = 0x2A3B,
-+		.name_prefix = "cs42l43",
-+		.count_sidecar = asoc_sdw_bridge_cs35l56_count_sidecar,
-+		.add_sidecar = asoc_sdw_bridge_cs35l56_add_sidecar,
-+		.dais = {
-+			{
-+				.direction = {true, false},
-+				.codec_name = "cs42l43-codec",
-+				.dai_name = "cs42l43-dp5",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.rtd_init = asoc_sdw_cs42l43_hs_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {false, true},
-+				.codec_name = "cs42l43-codec",
-+				.dai_name = "cs42l43-dp1",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_cs42l43_dmic_rtd_init,
-+				.widgets = generic_dmic_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
-+				.quirk = SOC_SDW_CODEC_MIC,
-+				.quirk_exclude = true,
-+			},
-+			{
-+				.direction = {false, true},
-+				.codec_name = "cs42l43-codec",
-+				.dai_name = "cs42l43-dp2",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+			},
-+			{
-+				.direction = {true, false},
-+				.codec_name = "cs42l43-codec",
-+				.dai_name = "cs42l43-dp6",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_cs42l43_spk_init,
-+				.rtd_init = asoc_sdw_cs42l43_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+				.quirk = SOC_SDW_CODEC_SPKR | SOC_SDW_SIDECAR_AMPS,
-+			},
-+		},
-+		.dai_num = 4,
-+	},
- 	{
- 		.part_id = 0x4245,
- 		.name_prefix = "cs42l45",
+diff --git a/sound/soc/mxs/mxs-sgtl5000.c b/sound/soc/mxs/mxs-sgtl5000.c
+index 245f174116384..f1c0e612313dd 100644
+--- a/sound/soc/mxs/mxs-sgtl5000.c
++++ b/sound/soc/mxs/mxs-sgtl5000.c
+@@ -157,13 +157,16 @@ static int mxs_sgtl5000_probe(struct platform_device *pdev)
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "failed to parse audio-routing (%d)\n",
+ 				ret);
++			mxs_saif_put_mclk(0);
+ 			return ret;
+ 		}
+ 	}
+ 
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-	if (ret)
++	if (ret) {
++		mxs_saif_put_mclk(0);
+ 		return dev_err_probe(&pdev->dev, ret, "snd_soc_register_card failed\n");
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.53.0
 
