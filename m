@@ -1,45 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8DD439010;
-	Mon, 20 Apr 2026 13:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CF143D4E3;
+	Mon, 20 Apr 2026 13:29:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691788; cv=none; b=uO4nN0WzUjDfpWEqW8rL50jHIBdkAS9KiVUdFmh/s/cFSKlmuLzhAnuhDK/wQ6ZYRg8xzPr34T9P9D36pPTTVNnGuldNv80SSng1MFUfHn004Q5BQFY/5LgyRCMnQWZGOR1uCgO0Rz0scoSCDYjsH5VSIx6Z4G4vLajhBI1OGic=
+	t=1776691797; cv=none; b=j52rI1q63vm+oi8Ckt41z/QZuQCp+y4PqZyEm1DMzfIxx91spU1Rw1f4gYbsHiuZ0kzXY8B9oeAGIHXNdxUtrtzg41rtB+SdJxRlNFjocZu/EtEO6dmemlmIDHqs09AdoOY9Wy3oMZxZSzyzcFEaqrNvQ0sW3bWC7SWMBUlSDKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691788; c=relaxed/simple;
-	bh=6sXsfTwXW3QyGOUavvnOrzsxY+EGiiR7YLO5jM9XyEo=;
+	s=arc-20240116; t=1776691797; c=relaxed/simple;
+	bh=bayKu25Lw6g0OLNSh41kpkBBpdp1Kk40gGr80cFvE40=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ODqWgqRa1zlc3FCxf+BUDyUuCJGTrZMUmhGCHQaiwwf/Ev5ayTpKPrvVOvu2fJHyMVFy2nkSOWaZqhZtaYNz2/bQoakAsvdgBuP4vVQibCmQe36PKrfGTSUvaWiYDImFcQJUTKbFjsAYfKWg03Xff/pUNgtuannExUX6SflKypE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EK89t9Bi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=dU5JEFWO7eutm8OlVqnsqGwoS7PD67wEDeQd3T0NneeGlEKU6jPONFxFGRIvZe5v1HHVfABF8ywixMoqIXaIdgZRUFl5O9yNEOdfNKaswkwpgAYZLAaVbXvYFcUgkZKl2Bl40GCRioFSjDYHelz2BR6UFtVYCxjShF1ZGgY07os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1ymmVcf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EK89t9Bi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52EE5C2BCC4;
-	Mon, 20 Apr 2026 13:29:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1ymmVcf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 734D6C19425;
+	Mon, 20 Apr 2026 13:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691788;
-	bh=6sXsfTwXW3QyGOUavvnOrzsxY+EGiiR7YLO5jM9XyEo=;
+	s=k20201202; t=1776691797;
+	bh=bayKu25Lw6g0OLNSh41kpkBBpdp1Kk40gGr80cFvE40=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EK89t9BiWVIGsfQSmLSYRtFmd7hXw2Lj0vRe5X+AIM1ztZRr5baeFb79giXIeZTJ1
-	 CNJqRtyRbdWwI0OwiQRFBORaNzXDld7RuIT4/mV8vZ4Yy8pJIFer02GLwfoXjGqHtC
-	 2jVHTc9+V2kjG47gbbb0ObLkwL8/Ffmk2HuVwWBKhNjfwgZr98jMR1AbgxgmXQeF/h
-	 D45tF+2uCgvJeeu9yBdMylBo0KWTtqmQx9JmGABhXoSps0dErR/hfNmrNXjnQLpSUs
-	 mRuC0sqHai+nlhtMqNcc5xTMTg7u8zJTCGbn0NTFLVevys+G+gsOfzzE3dRzKaP2uH
-	 F6R3CsbNTFdTQ==
+	b=i1ymmVcfK6DsJyd2NT2eaJmaUgeOCxJEp9TnJBFLdJsKhBqOcghcUl90aDDUAaZUx
+	 Ba2VaNU3VYKuH5V79a6gMLtH5Ev3QZ5VYzNywkJR+j8J6Z22J+4/9HztE6gSxPLIQ1
+	 8+x/0d110G85DBZR6nNpQKC193Cg7QkCbw036NyMluxQSSmTUnzGNY7GX073Yg0KZH
+	 399HFKzMBBbrDGzBWh1dHocgx2q4ABT8E83k0xzUYCfmT81+8PwQcuxUnrp6lucD7n
+	 btdjdH/9hSenVzp1ntDvWqleU5Xn3luRJZOsWaLDFOOOw+5u2GTzGl/ILk+7WGG8KO
+	 ZAPOt94XusK8g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: songxiebing <songxiebing@kylinos.cn>,
-	Fernando Garcia Corona <fgarcor@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Tomasz Merta <tomasz.merta@arrow.com>,
+	Tomasz Merta <tommerta@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	olivier.moysan@foss.st.com,
+	arnaud.pouliquen@foss.st.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
 	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IAH10
-Date: Mon, 20 Apr 2026 09:19:48 -0400
-Message-ID: <20260420132314.1023554-194-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ASoC: stm32_sai: fix incorrect BCLK polarity for DSP_A/B, LEFT_J
+Date: Mon, 20 Apr 2026 09:19:53 -0400
+Message-ID: <20260420132314.1023554-199-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -54,22 +61,33 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.23
 Content-Transfer-Encoding: 8bit
 
-From: songxiebing <songxiebing@kylinos.cn>
+From: Tomasz Merta <tomasz.merta@arrow.com>
 
-[ Upstream commit f0541edb2e7333f320642c7b491a67912c1f65db ]
+[ Upstream commit 0669631dbccd41cf3ca7aa70213fcd8bb41c4b38 ]
 
-The bass speakers are not working, and add the following entry
-in /etc/modprobe.d/snd.conf:
-options snd-sof-intel-hda-generic hda_model=alc287-yoga9-bass-spk-pin
-Fixes the bass speakers.
+The STM32 SAI driver do not set the clock strobing bit (CKSTR) for DSP_A,
+DSP_B and LEFT_J formats, causing data to be sampled on the wrong BCLK
+edge when SND_SOC_DAIFMT_NB_NF is used.
 
-So add the quick ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN here.
+Per ALSA convention, NB_NF requires sampling on the rising BCLK edge.
+The STM32MP25 SAI reference manual states that CKSTR=1 is required for
+signals received by the SAI to be sampled on the SCK rising edge.
+Without setting CKSTR=1, the SAI samples on the falling edge, violating
+the NB_NF convention. For comparison, the NXP FSL SAI driver correctly
+sets FSL_SAI_CR2_BCP for DSP_A, DSP_B and LEFT_J, consistent with its
+I2S handling.
 
-Reported-by: Fernando Garcia Corona <fgarcor@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221317
-Signed-off-by: songxiebing <songxiebing@kylinos.cn>
-Link: https://patch.msgid.link/20260405012651.133838-1-songxiebing@kylinos.cn
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+This patch adds SAI_XCR1_CKSTR for DSP_A, DSP_B and LEFT_J in
+stm32_sai_set_dai_fmt which was verified empirically with a cs47l35 codec.
+RIGHT_J (LSB) is not investigated and addressed by this patch.
+
+Note: the STM32 I2S driver (stm32_i2s_set_dai_fmt) may have the same issue
+for DSP_A mode, as I2S_CGFR_CKPOL is not set. This has not been verified
+and is left for a separate investigation.
+
+Signed-off-by: Tomasz Merta <tommerta@gmail.com>
+Link: https://patch.msgid.link/20260408084056.20588-1-tommerta@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -77,21 +95,33 @@ LLM Generated explanations, may be completely bogus:
 
 Error: Failed to generate final synthesis
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/stm/stm32_sai_sub.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 2e89528e5cec1..6b53a7d90932d 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7467,6 +7467,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38fd, "ThinkBook plus Gen5 Hybrid", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
- 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
+diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
+index 5ae4d2577f28b..c2540383ab86f 100644
+--- a/sound/soc/stm/stm32_sai_sub.c
++++ b/sound/soc/stm/stm32_sai_sub.c
+@@ -802,6 +802,7 @@ static int stm32_sai_set_dai_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
+ 		break;
+ 	/* Left justified */
+ 	case SND_SOC_DAIFMT_MSB:
++		cr1 |= SAI_XCR1_CKSTR;
+ 		frcr |= SAI_XFRCR_FSPOL | SAI_XFRCR_FSDEF;
+ 		break;
+ 	/* Right justified */
+@@ -809,9 +810,11 @@ static int stm32_sai_set_dai_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
+ 		frcr |= SAI_XFRCR_FSPOL | SAI_XFRCR_FSDEF;
+ 		break;
+ 	case SND_SOC_DAIFMT_DSP_A:
++		cr1 |= SAI_XCR1_CKSTR;
+ 		frcr |= SAI_XFRCR_FSPOL | SAI_XFRCR_FSOFF;
+ 		break;
+ 	case SND_SOC_DAIFMT_DSP_B:
++		cr1 |= SAI_XCR1_CKSTR;
+ 		frcr |= SAI_XFRCR_FSPOL;
+ 		break;
+ 	default:
 -- 
 2.53.0
 
