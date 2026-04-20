@@ -1,102 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5793434EF00;
-	Mon, 20 Apr 2026 18:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776708488; cv=none; b=MW3OsP+NoHDmlYBDdlxHpCQiJvgWM6bra0G9QNpfqIVgw5QBH7uGEU0BQBZwkflHlQG/vLQzmK/aKi7nszG/nIVoSs9s+7eOYjozYhSfolXWVeUC0/vW+K46H3Q+NussSW+E7osT3VbGKFmmM4HcCfNoOXrX5djsTy40mQJJpFc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776708488; c=relaxed/simple;
-	bh=2nn2NZ44rKzXTLFfO38sfqAzBiN9AedaozeHdtaU54g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q3OeFsmHlOTHYG8fiPTKE/HnQ9bpec7yIz9UaNEwiTN/rMm0Q7CSV33eQPJuqOp6aI/rm01rXL3q2emzSBj4hECQ38/GXUwo0iZaTEDR+smGf3Z4LaFZASaVUIkb+Lf/V+6r2FKGgpgG7HrfKLQT9gljeIGjFp6/oIJOo3YLIug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FyIKIOxy; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D882A3BADB8
+	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 18:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776711324; cv=pass; b=Q96AWP0MHTBF9o5djt0zqXFZQe38QnS9TZz4tcQJDRH3Kwl0kdnS8JnXFSLaQBuiqIMktEED00K1KbRqwTetj1LyH6Kppb719D7yoCNuVIHLegbE6IXGH4HA8dDjpy1PrH3SngertxTSlKMPsHmTrknj8IWEyC3ybtSQXASxxLM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776711324; c=relaxed/simple;
+	bh=/TbSc4wIaTNekDpWJoEia/VNp42iN/javNkAebojTos=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qb7FsOamH1gRUw48EUlGJh8lfSKCRrHeKa1egKUbqZuvlqo6Cv4yxqjx2AtrfYKZyL+rnJNR0fArsloAM5C5qmmQ9wTinJVfeh9GLSkhVTSieevQgSoXBXb6E7a85LoMLmSnS10dk959Qv4cXoKxDrr9AKZulny9uW4ba5W7sWU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g4yB+TSj; arc=pass smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FyIKIOxy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E4DC19425;
-	Mon, 20 Apr 2026 18:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776708488;
-	bh=2nn2NZ44rKzXTLFfO38sfqAzBiN9AedaozeHdtaU54g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FyIKIOxyioDE++KLwaVnbPeHrDrLexB22rwK6SGAQ5+svxGh6xCEWnSuCtrLgrI3o
-	 I0xryMzw5Q+H9iROtrAXoIP0ghhDTOKGHhdE+Y9Dp5iKXvAauFFfm8h2U2w9yajV5n
-	 pJv4LnGScHctv3C9pjfmv4TTbIgw7uQQIfFMRwKAae1fNFG1thDAsG0CxOkNBj9mU8
-	 Gf2iJwf4KsT9+UZFudBGgqKqv6blKswZAhZpJfaKGSpAj0A435G3msSKoS809xz2ME
-	 /LbGMYLGtfzR25umFZ/kvzsKIWmQ7R20mq1+HHFY7m0jz1OOEZf+e8W1iMyXPAbDG3
-	 8pvgYSo9Oj1EA==
-Date: Mon, 20 Apr 2026 19:08:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Arnd Bergmann <arnd@arndb.de>, Cyril Chao <Cyril.Chao@mediatek.com>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 5/9] ASoC: mediatek: mt2701: add HDMI audio memif, FE
- and BE DAIs
-Message-ID: <95e1067c-3c8e-4dd4-997d-f3be9d2cba29@sirena.org.uk>
-References: <cover.1776646435.git.daniel@makrotopia.org>
- <59f911bb1a855a00c0d9dd4760f10ff0030fedb6.1776646435.git.daniel@makrotopia.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g4yB+TSj"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1279eced0b9so4894731c88.0
+        for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 11:55:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776711322; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZqmrfPBRNmZOHy4uHUh9bTGjtgsi/WdYyVI+HfBigBkivZ+LN2C7Knzegymae6C6jW
+         SrrWw/nclaibzvF6cMi5eL2Ul59L1a69N6OcSQ2Uf3+17FRrpYpzL8+DRV1l31ZcBBq+
+         bl0wSN6CYBYl2OYi4238WxVB592IIyLfHrKe37+bDjsOPnTxlPi0cJopG45mUsK96fVo
+         X19t8KJcgtF78lYzAq+PYyKEZqkY95H8j7NQPKtTmLVQFYrMx99QKjk+1gBZjpphVNgr
+         tWVrioarM4rqAP+dy3KR40BEP4U0tAxO918KlwidPaE2aEqegyy9/s9Vpqhb1N+rl1U1
+         Stcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tt9B5hG1IL0IkDEHbywRyGxf1stTa56hMDH0jd2Y140=;
+        fh=zI/blfPRiBZYQW4RWBmV/VZTYWYLu1FXCc/t/pAfDII=;
+        b=H293bqFjcLRZywpt62SDiijx/bJNaJcz8IEaFpVAHLFlZyK7DcedBCROU/aRe/se75
+         HgY/963LeqHkP7/iNoaT80Jg+Q7ECvULaVDKMfoOTmcEj/O7tKq/kLe8bQLIpKEarM0u
+         hGjKTOL6IyYPTUHQYTL4IcYH1vhV9M2Y5N3Wi9b/pkCR4olPmaqnpvX03IJGGjJXvEA+
+         ias/ch7IzQHoUZWuaFZCgnfVbbsgK2LXSXbNPpErg90d93Sy9g6Koz9bqI/f5rFNLE/i
+         TXtLVBIYV8YK/ujuUaseTaIlvMCH8x5PreL7693cMDh3zpe8Hqhy3RjaT1jO+N8K4JVF
+         L5sg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776711322; x=1777316122; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tt9B5hG1IL0IkDEHbywRyGxf1stTa56hMDH0jd2Y140=;
+        b=g4yB+TSjtwdRwPpcfeNgQgyTdK4STAjX+4YdLz7AwmFnpgetH8fRxqXbPd0NGwcspO
+         sPSH0XMS4hGxGV5Hvkje5+VHGBgLg9FqL0v0flkq3bgf6HwYg1f1Z8cp+1okvOWpUvZI
+         IKuLHxQs9L9NRMf59NOSy97vKk0ZFdvcAfJVJH7IKkB6NHr4HpdHr8VQTWRHRnax3nLc
+         73g9eKAT1FxEpYTjRlRt+KwgtGJX509iWYWPiOJIgXikS4z8rSXEG80Tn67U6KGr4Etg
+         3c8a9Vd3dqeN7rquzW1IVTP913vEspPzoHwlBLabBfR08BbNk8q/pCFFse0jh677zSPr
+         kjOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776711322; x=1777316122;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tt9B5hG1IL0IkDEHbywRyGxf1stTa56hMDH0jd2Y140=;
+        b=FsDuPOEj3PBMUuCQ1MAGGkF6BEIottyQOfwMaLkEYpkVuPcDLJg6Ldlk4atJX1dGPy
+         LiT6M1G1dCoeYP+ZI/haXMnuA+HqMH1IQ+1lqgEioGpM+6juIG8PFPWpw3an+Q+i4Dxh
+         V8eJ6+Pf3tyKhpOQNfk3ZLk9Qxw+O5gGFK3AYoieDL5uSUtsLQBIB/9YZYziphxXWKSZ
+         m9D+RHa5Iw0HAF0AIrIFBJsSO77VERNmrYKC4gSv7K+7VPnh91Fam+m2q3pIlbnmfTno
+         xsDeO78QX9axr2c3adm33q/J4Tx7Ey5x3EsXxtWXCoCPUjMvAsACkOix2qrBmnYl8NcE
+         oevg==
+X-Forwarded-Encrypted: i=1; AFNElJ8swwwq8u6RQf9VMkwJGGK9IrnbRhQaniVFpLCb/LcxldXvZfEpcXUm90j4MhqCKIjMlFYeQ78X6p2ZSg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmdvfcKLNLx6uulbmFhrNxBa8Bfx8ZxUw7utX5zv3DIUu8JLCM
+	izYRjm6Yq0LvWEspwKbUg37OlHJStTsiunlXOheEqJU8owW+CwdjvytOhqCYaxHv66JgGfHQE12
+	6vzJHTaOmlF9e2jvIugMI8KYEf2q6igE=
+X-Gm-Gg: AeBDievjjdPcRPrtRtXE/c6UpmaN4xSrfhTjAlOf6cEcUW5GoItNIymYoGi97ZvOlC4
+	NzX/TuQSlhZOn5yGtinN/rylQxftGS5WzLkMbxv7L43XGksOhTyVIa099o3rIj8/TAPJ/Pzp0uW
+	nTkd0LjQAxOdGWI1GnC29b0PhZKm9wT6JsYr/cEHqniHe0zG6X+xH2BP57r0X+aeRvYN2rcz49T
+	gumJtDTf2/zOXHXAdUDhnFyJdr4/LcAj2b8/jsTHt81nF5X7IZ5iTcNlCYYaGvBYDz/Pfsx1xh0
+	OaV+fH7SpUPpFyuo
+X-Received: by 2002:a05:7022:6882:b0:11b:923d:7753 with SMTP id
+ a92af1059eb24-12c73f6d69dmr7548688c88.3.1776711321897; Mon, 20 Apr 2026
+ 11:55:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jvJgKormJ2TC3jlE"
-Content-Disposition: inline
-In-Reply-To: <59f911bb1a855a00c0d9dd4760f10ff0030fedb6.1776646435.git.daniel@makrotopia.org>
-X-Cookie: Sales tax applies.
+References: <CAAmW3WY3bhUXvUZcPpwkD5NhzGRSv7b+tUKbNZcROvkqQbyTMw@mail.gmail.com>
+In-Reply-To: <CAAmW3WY3bhUXvUZcPpwkD5NhzGRSv7b+tUKbNZcROvkqQbyTMw@mail.gmail.com>
+From: IRRatium <majnkraftiigry7@gmail.com>
+Date: Mon, 20 Apr 2026 21:55:10 +0300
+X-Gm-Features: AQROBzCzIaFYoierQgC1E5PGXrG15FutaN7xBA9MGwBT0tTAiodRFuX-9czHqAw
+Message-ID: <CAAmW3WZvTB3Xr0CwVWBMJ1_dR7XOizyuc=XDvK8dw-bvEsVYYw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: cs35l35: fix typo 'overide' -> 'override'
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Fix typo in property name 'cirrus,classh-bst-overide',
+should be 'cirrus,classh-bst-override'.
+
+Signed-off-by: IRRatium <majnkraftiigry7@gmail.com>
+---
+ Documentation/devicetree/bindings/sound/cs35l35.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/cs35l35.txt
+b/Documentation/devicetree/bindings/sound/cs35l35.txt
+index e84f30c5c..1d364b3d3 100644
+--- a/Documentation/devicetree/bindings/sound/cs35l35.txt
++++ b/Documentation/devicetree/bindings/sound/cs35l35.txt
+@@ -82,7 +82,7 @@ Optional H/G Algorithm sub-node:
+ Optional properties for the "cirrus,classh-internal-algo" Sub-node
+
+   Section 7.29 Class H Control
+-  - cirrus,classh-bst-overide : Boolean
++  - cirrus,classh-bst-override : Boolean
+   - cirrus,classh-bst-max-limit
+   - cirrus,classh-mem-depth
+
+@@ -155,7 +155,7 @@ cs35l35: cs35l35@20 {
+     cirrus,shared-boost;
+
+     cirrus,classh-internal-algo {
+-        cirrus,classh-bst-overide;
++        cirrus,classh-bst-override;
+         cirrus,classh-bst-max-limit =3D <0x01>;
+         cirrus,classh-mem-depth =3D <0x01>;
+         cirrus,classh-release-rate =3D <0x08>;
+--=20
+2.53.0
 
 
---jvJgKormJ2TC3jlE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Apr 20, 2026 at 02:13:34AM +0100, Daniel Golle wrote:
-
-> +static int mt2701_afe_hdmi_trigger(struct snd_pcm_substream *substream, int cmd,
-> +				   struct snd_soc_dai *dai)
-> +{
-> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
-> +
-> +	switch (cmd) {
-> +	case SNDRV_PCM_TRIGGER_START:
-> +	case SNDRV_PCM_TRIGGER_RESUME:
-> +		/* Ungate HDMI and SPDIF power islands. */
-> +		regmap_update_bits(afe->regmap, AUDIO_TOP_CON0,
-> +				   AUDIO_TOP_CON0_PDN_HDMI_CK |
-> +				   AUDIO_TOP_CON0_PDN_SPDIF_CK, 0);
-
-It looks like we have clock API clocks for HDMI and S/PDIF on this SoC
-(see clk-mt2701-aud.c) - are there going to be problem with peering
-directly at the register?  We do manage some clocks via the clock API
-but not those ones.
-
---jvJgKormJ2TC3jlE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnma4EACgkQJNaLcl1U
-h9ACNQf/THgMc0UA4YHXPSQgC7xwdqabDnTemhp2DF0amZkEYC6jkp4hf2k0DLml
-G+j2VcumFyYOggfzi7ELJxb+xR+3iVYFg/a5whf4X6Qm9GOVhq5uHrYEXEhtIbZf
-+eJsmSTKFe2idDmfZxo4gijNVhupkVCA7AE2TRRDlcebh5P2VLKT1W5WNuk4mdeS
-9anRlfsFCvMJlYI4eyYNmKJ5eQ/zXDL7IAf9mhJG/9xbWjvut904xCN+tfmW4Jht
-LlNBdQ58oUYy+ytzen7omr8nZTOfvIrvv+new7BLXiRWW2nsiK5ciLZ1nke9TgPi
-eonLfX98fitWZyJrd0ZJpE3qWnsgeA==
-=f+8p
------END PGP SIGNATURE-----
-
---jvJgKormJ2TC3jlE--
+=D0=BF=D0=BD, 20 =D0=B0=D0=BF=D1=80. 2026=E2=80=AF=D0=B3. =D0=B2 21:53, IRR=
+atium <majnkraftiigry7@gmail.com>:
+>
+> Fix typo in property name 'cirrus,classh-bst-overide',
+> should be 'cirrus,classh-bst-override'.
+>
+> Signed-off-by: IRRatium <majnkraftiigry7@gmail.com>
+> ---
+>  sound/soc/codecs/cs35l35.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/codecs/cs35l35.c b/sound/soc/codecs/cs35l35.c
+> index 7a01b1d9f..7d9b42c5a 100644
+> --- a/sound/soc/codecs/cs35l35.c
+> +++ b/sound/soc/codecs/cs35l35.c
+> @@ -1311,7 +1311,7 @@ static int cs35l35_handle_of_data(struct i2c_client=
+ *i2c_client,
+>
+>   if (classh_config->classh_algo_enable) {
+>   classh_config->classh_bst_override =3D
+> - of_property_read_bool(np, "cirrus,classh-bst-overide");
+> + of_property_read_bool(np, "cirrus,classh-bst-override");
+>
+>   ret =3D of_property_read_u32(classh,
+>   "cirrus,classh-bst-max-limit",
+> --
+> 2.53.0
