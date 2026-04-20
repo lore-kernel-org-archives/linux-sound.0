@@ -1,45 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C413E51C0;
-	Mon, 20 Apr 2026 13:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAD73BC67C;
+	Mon, 20 Apr 2026 13:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691490; cv=none; b=afmIAdUaUN70Q96lyxW5j3H5/nk6d+47R6Di80k4ykOmP7dT1GsDgTv5D4TW6hOlm8Gt5xNeP9NmC9YfjHLqwu5CSBf5pO9ljC/tByQDFJvSXHUd7m+Zo6J2EFL7Fy5xZuIdOK33x+mFLZPPo08BtRYZWGwGqdwPsLZ4Q1+AJrA=
+	t=1776691519; cv=none; b=QljIR1H2RyPVs7hmFGUy6UljjC3lqHMXEfeYw3skM6sS5ZLIINDNiH2c6rQgXGR2PSLsev6HtXw3pvTaK1BWfat8RTX1eSleCW3vLg85+UbzFSi4U8Tqc45BZ5kwzfO4uPIGuVUq2+H0ER8lcWGTpaRzPGj9idk3Js/kwW4bMfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691490; c=relaxed/simple;
-	bh=7TQ9hUneeJHjOa2d72CSq1bOeMUupaSmCfwh+du39mo=;
+	s=arc-20240116; t=1776691519; c=relaxed/simple;
+	bh=2WenpJpauDKcsmxbdzzadx+CKzBVD2DP/jmTNdOnrG8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ffIZBdCNc5iro0Krb7C5kZRyhGiZGGoq32a1n9BGDzLLUP1+A9k2Qt0wW+vz2zTstEPfDQgmsce6x0qLnxTnHeSbAW1oijUU6OkT4DVKeIw48MDikKE2k0BsuSNXoKCKpvNfgBqDAgQgfKsOWlthRjyKdkT/s6NfkBjGMYhf3eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWiPMPe5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HJVpEFjLlCpXnLsBUzaUCDlje9mqZBhY9iMWa9vIW4cJhbAGRaPPKbGOi+Ats638jI2kKjZKa3p1Pnod1DSdY+9FUWJC0vxvKqxfj22xnfDHgAPswKM6fuddq+1ANYm1amdL4HHoIO9ERzyRp1Cx2Tpy+GNMMFljqo8u3QXpi4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T90UfdDH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWiPMPe5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 367D9C19425;
-	Mon, 20 Apr 2026 13:24:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T90UfdDH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CF4C2BCC6;
+	Mon, 20 Apr 2026 13:25:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691490;
-	bh=7TQ9hUneeJHjOa2d72CSq1bOeMUupaSmCfwh+du39mo=;
+	s=k20201202; t=1776691519;
+	bh=2WenpJpauDKcsmxbdzzadx+CKzBVD2DP/jmTNdOnrG8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uWiPMPe58YdsgeGZFAV+nH5Pl8qTzR/lFRMDcXe5Ki+ksg+p+ZTSao7YEyLxLRvqT
-	 bfGu3+T92KCSDjhXMBaE2TAev84fQPkcYrXyv23Wkxb2WXTCaz9zI5nVBH+JoWj3fa
-	 KAEtdu37FNWSehCojlz/PrOv7V469iPXit7qa+E52rzZvVmDRePZ/DNjw2Bm4OBooE
-	 4QVGn2+1Hk+dkTRUCoC3pTozPy75NndqdTqlHIbsc9ogRfQkDBQE6x1BEWf9+9FwiC
-	 2BKqF73LJZzr9xgRJqUV4ShAVBa3RJvXWe3G7F1YWtaO9X/MAfuD/klLOiT4oxJ6LN
-	 iBb5dVJagD+0w==
+	b=T90UfdDHymDnjvaIgz9oDG2zK9GS8v7t/BKBi+Z+YOiafIY1OAs7yQEz5AZhLkSDY
+	 W+noP8K3SOGJn6964BwKcNwkHtp+T5c8MLSN9dPX6647t5HlJafrSLtw1Gazqpu47g
+	 R68W5GrRFMlwOOd1nQee6X/qZ/3V1LyX2ekFVs+tq3v7KFiT3kfvp13IH7vhkElEbl
+	 mp/zTZD03MYJ4r8O1rqSF6Mc8ZdxQCRrd4YKLKOEk68rIKY04O9hrnUTH8U6nrq+cD
+	 FuBnXGFNZxn/FMPUGebOVsKe8txvZE0BHjtIhI8jwOOb2CNmMc9H1PWJDeSg7VZZNE
+	 EyR7yKyRZ6xXA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Aravind Anilraj <aravindanilraj0702@gmail.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: compress: Refuse to update timestamps for unconfigured streams
-Date: Mon, 20 Apr 2026 09:17:34 -0400
-Message-ID: <20260420132314.1023554-60-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] ASoC: Intel: cht_bsw_rt5672: Fix MCLK leak on platform_clock_control error
+Date: Mon, 20 Apr 2026 09:17:51 -0400
+Message-ID: <20260420132314.1023554-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -55,318 +60,377 @@ X-stable-base: Linux 7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mark Brown <broonie@kernel.org>
+From: Aravind Anilraj <aravindanilraj0702@gmail.com>
 
-[ Upstream commit cf6c18cf83e48986ac40a053d09d3c33624135f6 ]
+[ Upstream commit dced5a373a96cfd9f3bd0ffcf5339a7579d1473a ]
 
-There are a number of mechanisms, including the userspace accessible
-timestamp and buffer availability ioctl()s, which allow us to trigger
-a timestamp update on a stream before it has been configured. Since
-drivers might rely on stream configuration for reporting of pcm_io_frames,
-including potentially doing a division by the number of channels, and
-these operations are not meaningful for an unconfigured stream reject
-attempts to read timestamps before any configuration is done.
+If snd_soc_dai_set_pll() or snd_soc_dai_set_sysclk() fail inside the
+EVENT_ON path, the function returns without calling
+clk_disable_unprepare() on ctx->mclk, which was already enabled earlier
+in the same code path. Add the missing clk_disable_unprepare() calls
+before returning the error.
 
+Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Link: https://patch.msgid.link/20260401220507.23557-4-aravindanilraj0702@gmail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
-Acked-by: Vinod Koul <vkoul@kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Link: https://patch.msgid.link/20260401-alsa-unconfigured-tstamp-v1-1-694c2cb5f71d@kernel.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This confirms: `snd_compr_ioctl_avail` calls `snd_compr_calc_avail`
-(line 267) which calls `snd_compr_update_tstamp` **before** the state
-check at line 275. So even the AVAIL ioctl triggers the `->pointer()`
-callback before checking state. The fix in `snd_compr_update_tstamp`
-itself properly guards *both* paths (TSTAMP and AVAIL).
-
-Now let me finalize the analysis.
+I now have all the information needed for a complete analysis. Let me
+compile the full assessment.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1: Subject Line**
-- Subsystem: `ALSA: compress`
-- Action verb: "Refuse" (defensive/preventive - indicates preventing
-  incorrect behavior)
-- Summary: Refuse timestamp updates for streams that haven't been
-  configured yet.
+### Step 1.1: PARSE THE SUBJECT LINE
+Record: [ASoC: Intel: cht_bsw_rt5672] [Fix] [MCLK leak on
+platform_clock_control error path]
 
-Record: [ALSA: compress] [Refuse] [Prevent timestamp update on
-unconfigured streams]
+### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+- **Signed-off-by:** Aravind Anilraj (author)
+- **Reviewed-by:** Cezary Rojewski (Intel ASoC reviewer)
+- **Link:** patch.msgid.link to the original patch
+- **Signed-off-by:** Mark Brown (ASoC subsystem maintainer, committer)
+- No Fixes: tag (expected for manual review candidates)
+- No Reported-by: tag
+- No Cc: stable tag
 
-**Step 1.2: Tags**
-- `Signed-off-by: Mark Brown <broonie@kernel.org>` - Author is the ASoC
-  subsystem maintainer
-- `Acked-by: Vinod Koul <vkoul@kernel.org>` - Vinod Koul is the original
-  compress_offload author
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` - Takashi Iwai is the
-  ALSA top-level maintainer
-- `Link:` to patch.msgid.link (the submission)
+Record: Reviewed by Intel ASoC developer and merged by ASoC subsystem
+maintainer. No syzbot or external reporter — this is a code-inspection-
+found bug.
 
-Record: Authored by ASoC subsystem maintainer, Acked by compress_offload
-author, merged by ALSA maintainer. Strong review pedigree.
+### Step 1.3: ANALYZE THE COMMIT BODY TEXT
+The commit message clearly states: if `snd_soc_dai_set_pll()` or
+`snd_soc_dai_set_sysclk()` fail in the EVENT_ON path, the function
+returns without calling `clk_disable_unprepare()` on `ctx->mclk`, which
+was already enabled. The fix adds the missing cleanup calls.
 
-**Step 1.3: Commit Body**
-The commit describes: userspace-accessible timestamp and buffer
-availability ioctls can trigger a timestamp update on a stream before it
-has been configured. Drivers might rely on stream configuration for
-reporting `pcm_io_frames`, including "potentially doing a division by
-the number of channels." Since these operations are not meaningful for
-unconfigured streams, reject attempts to read timestamps before
-configuration.
+Record: Bug: clock resource leak on error paths. Symptom: MCLK left
+enabled after error, preventing proper power management. Root cause:
+missing cleanup in two error return paths.
 
-Record: Bug = calling driver `->pointer()` callback before `set_params`
-has been called. Symptom = potential divide-by-zero in drivers (number
-of channels = 0 before configuration). Root cause = missing state
-validation in `snd_compr_update_tstamp()`.
+### Step 1.4: DETECT HIDDEN BUG FIXES
+This is explicitly labeled as a "Fix" and describes a resource leak — no
+disguise here.
 
-**Step 1.4: Hidden Bug Fix?**
-This is explicitly a defensive fix preventing a divide-by-zero crash.
-The "Refuse" language hides what is actually a crash prevention fix.
-
-Record: YES, this is a hidden bug fix. The commit message explicitly
-says "doing a division by the number of channels" which is the crash
-mechanism.
+Record: This is an overt bug fix for a resource leak.
 
 ## PHASE 2: DIFF ANALYSIS
 
-**Step 2.1: Inventory**
-- Single file: `sound/core/compress_offload.c`
-- Lines added: ~7 (switch statement checking SNDRV_PCM_STATE_OPEN)
-- Lines removed: 0
-- Function modified: `snd_compr_update_tstamp()`
-- Classification: Single-file surgical fix
+### Step 2.1: INVENTORY THE CHANGES
+- **File:** `sound/soc/intel/boards/cht_bsw_rt5672.c`
+- **Lines added:** +4 (two `if (ctx->mclk)
+  clk_disable_unprepare(ctx->mclk);` blocks)
+- **Lines removed:** 0
+- **Functions modified:** `platform_clock_control()`
+- **Scope:** Single-file, surgical fix
 
-**Step 2.2: Code Flow Change**
-Before: `snd_compr_update_tstamp()` immediately calls
-`stream->ops->pointer()` with no state validation.
-After: A switch statement checks if `stream->runtime->state ==
-SNDRV_PCM_STATE_OPEN` (pre-configuration state) and returns `-EBADFD` if
-so, preventing the `->pointer()` call.
+Record: 1 file, 4 lines added, 0 removed. Single function modified.
+Extremely contained.
 
-**Step 2.3: Bug Mechanism**
-Category: Divide-by-zero / uninitialized state access. When a compress
-offload stream is just opened (state = OPEN), driver parameters
-(channels, sample_container_bytes) are zero. Calling `->pointer()` in
-this state causes drivers like SOF's `sof_compr_pointer()` to execute
-`div_u64(..., sstream->channels * sstream->sample_container_bytes)`
-which divides by zero.
+### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+- **Before:** In the EVENT_ON path, after
+  `clk_prepare_enable(ctx->mclk)` succeeds, if either
+  `snd_soc_dai_set_pll()` or `snd_soc_dai_set_sysclk()` fails, the
+  function returns the error without disabling the clock.
+- **After:** Both error paths now call
+  `clk_disable_unprepare(ctx->mclk)` (guarded by `if (ctx->mclk)`)
+  before returning the error.
 
-**Step 2.4: Fix Quality**
-- Obviously correct: The state check pattern is used extensively
-  throughout this same file (lines 276, 391, 446, 652, 846, 946, 998)
-- Minimal: 7 lines added
-- No regression risk: Returning -EBADFD for OPEN state is the standard
-  pattern used by all other ioctls
-- The caller `snd_compr_calc_avail` already has comment "Still need to
-  return avail even if tstamp can't be filled in" showing it handles the
-  error
+Record: Error paths now properly clean up the enabled clock before
+returning.
 
-## PHASE 3: GIT HISTORY
+### Step 2.3: IDENTIFY THE BUG MECHANISM
+**Category: Error path / resource leak fix.**
 
-**Step 3.1: Blame**
-- `snd_compr_update_tstamp()` was introduced by commit b21c60a4edd22e
-  (2011, v3.3-era) by Vinod Koul as part of the original
-  compress_offload support
-- The bug has existed since the very beginning (~2011)
+The clock `ctx->mclk` is enabled via `clk_prepare_enable()` at line 67.
+If subsequent calls fail (lines 78-81 or 86-89), the function returns
+without the matching `clk_disable_unprepare()`. This leaves the platform
+clock running, preventing proper power management. The EVENT_OFF path at
+line 103-104 already properly calls `clk_disable_unprepare()`,
+confirming the intended pattern.
 
-**Step 3.2: Fixes tag**
-- No Fixes: tag present (expected for autosel candidates)
+Record: Resource leak — MCLK left in enabled/prepared state on error
+paths.
 
-**Step 3.3: File history**
-- Recent changes to the file: 64-bit timestamp infrastructure
-  (2c92e2fbe9e22c, Sept 2025) made the issue more visible since it
-  changed the pointer callback signature, but the underlying bug
-  predates that
+### Step 2.4: ASSESS THE FIX QUALITY
+- **Obviously correct:** Yes. Mirrors the existing cleanup pattern in
+  the EVENT_OFF path (line 103-104). The `if (ctx->mclk)` guard is
+  consistent with the guard at line 66.
+- **Minimal/surgical:** Yes. Only 4 lines added, no unrelated changes.
+- **Regression risk:** Extremely low. Only affects error paths. The
+  `clk_disable_unprepare()` call is the exact counterpart to
+  `clk_prepare_enable()` that was already called.
 
-**Step 3.4: Author**
-- Mark Brown (`broonie@kernel.org`) is the ASoC subsystem maintainer -
-  one of the most trusted kernel developers
+Record: Fix is obviously correct, minimal, and has negligible regression
+risk.
 
-**Step 3.5: Dependencies**
-- This fix applies independently. It only adds a state check using
-  existing infrastructure (`SNDRV_PCM_STATE_OPEN`).
-- NOTE: In older stable trees (pre-6.12ish), the function signature may
-  differ (uses `snd_compr_tstamp` instead of `snd_compr_tstamp64`), but
-  the state check logic is identical and would need only trivial
-  adaptation.
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-## PHASE 4: MAILING LIST
+### Step 3.1: BLAME THE CHANGED LINES
+The MCLK handling was introduced by commit `c25695ae88ce26` (Pierre-
+Louis Bossart, 2017-06-23) — "ASoC: Intel: cht_bsw_rt5672: 19.2MHz clock
+for Baytrail platforms". The bug has existed since that commit, which
+was included in v4.13-rc1.
 
-Lore was blocked by Anubis anti-bot protection. However:
-- The patch was v1 (no revisions needed, indicating it was clean from
-  the start)
-- It was Acked by the compress_offload author Vinod Koul
-- Merged directly by ALSA maintainer Takashi Iwai
+Record: Buggy code introduced in c25695ae88ce26 (v4.13-rc1, 2017).
+Present in all active stable trees.
 
-Record: Could not fetch lore discussion. Strong review indicators from
-tags.
+### Step 3.2: FOLLOW THE FIXES: TAG
+No Fixes: tag present. However, the logical "Fixes:" target is
+`c25695ae88ce26`, which introduced the MCLK handling without proper
+error path cleanup.
+
+Record: The implicit Fixes target (c25695ae88ce26) is in all stable
+trees since v4.13.
+
+### Step 3.3: CHECK FILE HISTORY
+The file has had ~20 commits over the years, mostly cleanups and
+conversions. No prior attempt to fix this specific leak was found (no
+commits matching "MCLK leak" in the history).
+
+Record: Standalone fix, no prerequisites needed. No prior fix for this
+issue exists.
+
+### Step 3.4: CHECK THE AUTHOR
+The author (Aravind Anilraj) appears to be a new contributor. However,
+the patch was reviewed by Cezary Rojewski (Intel ASoC reviewer) and
+merged by Mark Brown (ASoC subsystem maintainer).
+
+Record: Reviewed by experienced subsystem developers despite being from
+a new contributor.
+
+### Step 3.5: CHECK FOR DEPENDENCIES
+The fix only adds `clk_disable_unprepare()` calls to existing error
+paths. No new functions, structures, or APIs are used. The fix is
+completely self-contained.
+
+Record: No dependencies. Can apply standalone.
+
+## PHASE 4: MAILING LIST RESEARCH
+
+### Step 4.1-4.5: PATCH DISCUSSION
+The lore.kernel.org site was not reachable due to bot protection. b4 dig
+could not find the commit by message-id (it doesn't exist in this tree
+as a commit). However, the commit tags show:
+- **Reviewed-by:** Cezary Rojewski (Intel) — an active ASoC reviewer
+- **Signed-off-by:** Mark Brown — the ASoC subsystem maintainer who
+  merged it
+
+These signatures indicate the patch went through proper review.
+
+Record: Proper review by Intel ASoC developer and subsystem maintainer.
+Could not access lore discussion directly.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1: Functions modified**
-- `snd_compr_update_tstamp()` - the internal timestamp update helper
+### Step 5.1-5.2: FUNCTION AND CALLERS
+`platform_clock_control()` is registered as a DAPM supply widget
+callback:
 
-**Step 5.2: Callers**
-- `snd_compr_calc_avail()` (line 209) - called from AVAIL/AVAIL64 ioctls
-- `snd_compr_tstamp()` (line 760) - called from TSTAMP/TSTAMP64 ioctls
-- Both paths are directly reachable from userspace via ioctl
+```114:116:sound/soc/intel/boards/cht_bsw_rt5672.c
+        SND_SOC_DAPM_SUPPLY("Platform Clock", SND_SOC_NOPM, 0, 0,
+                        platform_clock_control, SND_SOC_DAPM_PRE_PMU |
+                        SND_SOC_DAPM_POST_PMD),
+```
 
-**Step 5.3-5.4: Call chain**
-`open() → ioctl(SNDRV_COMPRESS_TSTAMP) → snd_compr_tstamp() →
-snd_compr_update_tstamp() → stream->ops->pointer()` - This is directly
-triggerable by any user with access to the compress device.
+It is called by the DAPM framework whenever the "Platform Clock" supply
+widget powers up (PRE_PMU) or down (POST_PMD). This happens during every
+audio playback/capture start and stop operation. All audio paths
+("Headphone", "Headset Mic", "Int Mic", "Ext Spk") depend on this widget
+(lines 130-133).
 
-**Step 5.5: Similar patterns**
-- Confirmed: `sof_compr_pointer()` does `div_u64(..., sstream->channels
-  * sstream->sample_container_bytes)` at line 384-385
-- `sst_cdev_tstamp()` does `div_u64(fw_tstamp.hardware_counter,
-  stream->num_ch * ...)` at line 348-349
-- Both would divide by zero if called before set_params
+Record: Called on every audio stream open/close. High frequency for
+audio-active systems.
+
+### Step 5.3-5.5: SIMILAR PATTERNS
+I found the same bug pattern in sibling drivers `bytcr_rt5651.c` and
+`bytcr_rt5640.c`, though those have slightly different code structure.
+The `cht_bsw_rt5672.c` fix is specific to this driver and doesn't
+require changes to siblings.
+
+Record: Similar pattern exists in sibling drivers but this fix is self-
+contained for cht_bsw_rt5672.
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-**Step 6.1: Code exists in stable trees**
-- The buggy function `snd_compr_update_tstamp()` has existed since 2011
-  (v3.3)
-- Present in ALL active stable trees
-- NOTE: The 64-bit tstamp infrastructure is only in v6.12+. Older trees
-  use `snd_compr_tstamp` struct. The fix concept applies to all, but the
-  exact patch applies cleanly only to v7.0 and trees with the 64-bit
-  tstamp change.
+### Step 6.1: BUGGY CODE IN STABLE
+The buggy code was introduced in v4.13-rc1 (commit c25695ae88ce26). It
+exists in all active stable trees (5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y,
+etc.).
 
-**Step 6.2: Backport complications**
-- For v7.0: Applies cleanly (verified function matches exactly)
-- For older trees: Needs minor adaptation (different struct type in
-  signature)
+Record: Bug affects all active stable trees.
 
-**Step 6.3: Related fixes**
-- No similar state check has been applied to `snd_compr_update_tstamp`
-  before
+### Step 6.2: BACKPORT COMPLICATIONS
+The file has been relatively stable. The current code at the fix site
+matches what was introduced in c25695ae88ce26, with only minor changes
+(the `if (ctx->mclk)` guard and the `65b2df10a1e62` commit that changed
+the EVENT_OFF path). The fix should apply cleanly or with minimal
+adjustment.
+
+Record: Expected clean or near-clean apply to all stable trees.
+
+### Step 6.3: RELATED FIXES
+No prior fix for this specific issue was found in any tree.
+
+Record: No existing fix for this leak.
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-**Step 7.1: Subsystem**
-- `sound/core/` - ALSA core, IMPORTANT criticality
-- Compress offload is used by mobile/embedded platforms (Qualcomm, Intel
-  Atom, SOF)
+### Step 7.1: SUBSYSTEM CRITICALITY
+- **Subsystem:** sound/soc/intel/boards — ASoC Intel machine driver
+- **Criticality:** PERIPHERAL (specific to Cherryview/Baytrail platforms
+  with RT5672 codec)
+- **Affected hardware:** Lenovo and other Cherryview/Baytrail-based
+  laptops/tablets with RT5670/RT5672 codec (reasonably common consumer
+  devices)
 
-**Step 7.2: Activity**
-- Active subsystem with recent work (64-bit tstamp infrastructure added
-  in 2025)
+Record: ASoC Intel board driver, PERIPHERAL but for consumer devices
+(laptops/tablets).
+
+### Step 7.2: SUBSYSTEM ACTIVITY
+The file sees occasional updates (cleanups and fixes). It's a mature
+driver.
+
+Record: Mature, stable driver with occasional maintenance commits.
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-**Step 8.1: Who is affected**
-- Users of ALSA compressed audio (primarily mobile/embedded, Android,
-  Intel Atom, SOF platforms)
+### Step 8.1: AFFECTED USERS
+Users of Cherryview/Baytrail platforms with RT5670/RT5672 codec. This
+includes Lenovo and similar consumer laptops/tablets from the Baytrail
+era.
 
-**Step 8.2: Trigger conditions**
-- Trivially triggerable: open compress device, call TSTAMP or AVAIL
-  ioctl before SET_PARAMS
-- Can be triggered by unprivileged user with access to the audio device
-- No special timing required - completely deterministic
+Record: Platform-specific but for real consumer devices.
 
-**Step 8.3: Failure severity**
-- Divide-by-zero → kernel oops/crash → **CRITICAL**
+### Step 8.2: TRIGGER CONDITIONS
+The bug triggers when `snd_soc_dai_set_pll()` or
+`snd_soc_dai_set_sysclk()` fails during audio stream start. While these
+failures are not common in normal operation, they can occur during
+hardware errors, suspend/resume transitions, or codec communication
+issues.
 
-**Step 8.4: Risk-benefit**
-- BENEFIT: Very high - prevents deterministic kernel crash from
-  userspace
-- RISK: Very low - 7 lines, uses established pattern, authored by ASoC
-  maintainer, acked by compress_offload author
+Record: Trigger requires PLL/sysclk configuration failure during audio
+start. Uncommon but possible.
+
+### Step 8.3: FAILURE MODE SEVERITY
+When triggered, the platform clock remains enabled (leaked), preventing
+proper power management. Repeated triggering could cause increased power
+consumption. The clock framework may also track prepare/enable counts
+incorrectly, potentially affecting system suspend or causing warnings.
+
+Record: Severity: MEDIUM (resource leak affecting power management, no
+crash).
+
+### Step 8.4: RISK-BENEFIT RATIO
+- **Benefit:** Fixes a real resource leak on error paths, improves power
+  management reliability.
+- **Risk:** Very low — 4 lines added, only on error paths, mirrors
+  existing cleanup patterns.
+- **Ratio:** Favorable. Even though the trigger is uncommon, the fix is
+  trivially safe.
+
+Record: Benefit outweighs risk. Minimal fix with no regression
+potential.
 
 ## PHASE 9: FINAL SYNTHESIS
 
-**Evidence FOR:**
-1. Fixes a divide-by-zero crash triggerable from userspace (CRITICAL)
-2. Extremely small and surgical fix (7 lines)
-3. Uses an existing, well-established pattern (same check at 6+ other
-   locations in the file)
-4. Authored by ASoC subsystem maintainer Mark Brown
-5. Acked by compress_offload original author Vinod Koul
-6. Bug exists since 2011 - affects all stable trees
-7. Multiple drivers have the vulnerable division (SOF, Intel Atom)
+### Step 9.1: EVIDENCE COMPILATION
+**FOR backporting:**
+- Fixes a real clock resource leak (missing `clk_disable_unprepare()` on
+  error paths)
+- Extremely small and surgical (4 lines, single file, single function)
+- Obviously correct — mirrors existing cleanup pattern in the same
+  function
+- Bug has existed since v4.13-rc1 (2017), affects all stable trees
+- Reviewed by Intel ASoC developer, merged by subsystem maintainer
+- No dependencies, self-contained
+- No regression risk
 
-**Evidence AGAINST:**
-1. Needs minor adaptation for trees without 64-bit tstamp (pre-6.12ish)
+**AGAINST backporting:**
+- No user reports of the issue (code-inspection find)
+- Trigger requires error conditions that are uncommon in normal
+  operation
+- Driver-specific (not core kernel)
 
-**Stable rules checklist:**
-1. Obviously correct? YES - uses identical pattern to 6+ other ioctls in
-   same file
-2. Fixes a real bug? YES - divide-by-zero crash
-3. Important issue? YES - kernel crash triggerable from userspace
-4. Small and contained? YES - 7 lines, single function
-5. No new features/APIs? Correct - purely defensive check
-6. Applies to stable? YES for 7.0 (clean apply); needs minor rework for
-   older trees
+### Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **YES** — reviewed by Intel developer,
+   merged by maintainer
+2. Fixes a real bug? **YES** — clock resource leak on error paths
+3. Important issue? **MEDIUM** — resource leak, not a crash
+4. Small and contained? **YES** — 4 lines, single file
+5. No new features or APIs? **YES** — only adds cleanup calls
+6. Can apply to stable? **YES** — code unchanged since introduction
+
+### Step 9.3: EXCEPTION CATEGORIES
+Not an exception category — this is a straightforward bug fix.
+
+### Step 9.4: DECISION
+This is a small, obvious, and safe fix for a real resource leak. The fix
+adds missing `clk_disable_unprepare()` calls on two error paths where
+the clock was already enabled. It's reviewed by the right people, has no
+dependencies, and applies to all stable trees.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Signed-off-by Mark Brown (ASoC maintainer),
-  Acked-by Vinod Koul (compress_offload author), Signed-off-by Takashi
-  Iwai (ALSA maintainer)
-- [Phase 2] Diff analysis: 7 lines added in `snd_compr_update_tstamp()`,
-  adds state check for SNDRV_PCM_STATE_OPEN
-- [Phase 3] git blame: `snd_compr_update_tstamp()` introduced in commit
-  b21c60a4edd22e (2011), present in all stable trees
-- [Phase 3] git show b21c60a4edd22e: confirmed original compress_offload
-  commit
-- [Phase 3] git merge-base: confirmed 64-bit tstamp infrastructure
-  (2c92e2fbe9e22c) is ancestor of v7.0
-- [Phase 4] Lore blocked by Anubis; relied on tag analysis for review
-  evidence
-- [Phase 5] Grep callers: `snd_compr_update_tstamp` called from lines
-  209 and 760, both ioctl-reachable
-- [Phase 5] Verified SOF driver `sof_compr_pointer()` does `div_u64(...,
-  sstream->channels * sstream->sample_container_bytes)` at line 384-385
-- [Phase 5] Verified Intel Atom `sst_cdev_tstamp()` does `div_u64(...,
-  stream->num_ch * ...)` at line 348-349
-- [Phase 5] Verified `snd_compr_set_params()` sets channels (line 256 in
-  sof compress.c), confirming channels=0 before set_params
-- [Phase 6] git show v7.0:compress_offload.c: function matches current
-  HEAD exactly, clean apply confirmed
-- [Phase 6] Existing divide-by-zero protection commit 678e2b44c8e3fec
-  (2018) validates this class of bug is real
-- [Phase 7] Identified `snd_compr_ioctl_avail` line 267 calls
-  update_tstamp BEFORE its own state check at line 275, confirming both
-  AVAIL and TSTAMP paths are vulnerable
-- [Phase 8] Failure mode: divide-by-zero → kernel oops, severity
-  CRITICAL, trivially triggerable from userspace
-
-This is a textbook stable backport: a small, surgical fix preventing a
-deterministic kernel crash (divide-by-zero) that is trivially
-triggerable from userspace via ioctl. Authored and reviewed by the top
-three relevant maintainers.
+- [Phase 1] Parsed tags: Reviewed-by Cezary Rojewski (Intel), merged by
+  Mark Brown (ASoC maintainer)
+- [Phase 2] Diff analysis: 4 lines added, two `if (ctx->mclk)
+  clk_disable_unprepare(ctx->mclk)` blocks on error paths
+- [Phase 3] git blame: buggy code introduced in c25695ae88ce26
+  (v4.13-rc1, 2017), present in all stable trees
+- [Phase 3] git show c25695ae88ce26: confirmed original commit added
+  MCLK handling without error path cleanup
+- [Phase 3] git describe --contains c25695ae88ce26:
+  v4.13-rc1~142^2~1^2~5^2~8 — confirmed it's been in mainline since
+  v4.13
+- [Phase 3] git log --oneline -20 -- file: no prior MCLK leak fix found
+- [Phase 4] b4 dig: could not find commit by message-id in local tree;
+  lore blocked by bot protection
+- [Phase 5] DAPM widget registration at lines 114-116 confirms
+  `platform_clock_control` is called on every audio stream start/stop
+- [Phase 5] DAPM routes at lines 130-133 confirm all audio paths depend
+  on Platform Clock
+- [Phase 5] Grep for clk_disable_unprepare in sibling drivers confirms
+  the same cleanup pattern is expected
+- [Phase 6] Code at the fix site is essentially unchanged since
+  c25695ae88ce26 — clean apply expected
+- [Phase 8] Failure mode: clock resource leak preventing proper power
+  management, severity MEDIUM
+- UNVERIFIED: Could not access lore.kernel.org discussion for reviewer
+  commentary on stable suitability
 
 **YES**
 
- sound/core/compress_offload.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ sound/soc/intel/boards/cht_bsw_rt5672.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index fdba6e4b25fdc..67b3b1a3b5261 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -192,6 +192,14 @@ static int snd_compr_update_tstamp(struct snd_compr_stream *stream,
- {
- 	if (!stream->ops->pointer)
- 		return -ENOTSUPP;
-+
-+	switch (stream->runtime->state) {
-+	case SNDRV_PCM_STATE_OPEN:
-+		return -EBADFD;
-+	default:
-+		break;
-+	}
-+
- 	stream->ops->pointer(stream, tstamp);
- 	pr_debug("dsp consumed till %u total %llu bytes\n", tstamp->byte_offset,
- 		 tstamp->copied_total);
+diff --git a/sound/soc/intel/boards/cht_bsw_rt5672.c b/sound/soc/intel/boards/cht_bsw_rt5672.c
+index 359723f2700e4..57d6997eb12ff 100644
+--- a/sound/soc/intel/boards/cht_bsw_rt5672.c
++++ b/sound/soc/intel/boards/cht_bsw_rt5672.c
+@@ -77,6 +77,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
+ 				CHT_PLAT_CLK_3_HZ, 48000 * 512);
+ 		if (ret < 0) {
+ 			dev_err(card->dev, "can't set codec pll: %d\n", ret);
++			if (ctx->mclk)
++				clk_disable_unprepare(ctx->mclk);
+ 			return ret;
+ 		}
+ 
+@@ -85,6 +87,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
+ 			48000 * 512, SND_SOC_CLOCK_IN);
+ 		if (ret < 0) {
+ 			dev_err(card->dev, "can't set codec sysclk: %d\n", ret);
++			if (ctx->mclk)
++				clk_disable_unprepare(ctx->mclk);
+ 			return ret;
+ 		}
+ 	} else {
 -- 
 2.53.0
 
