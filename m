@@ -1,314 +1,165 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013039.outbound.protection.outlook.com [40.107.159.39])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C029757EA;
-	Mon, 20 Apr 2026 08:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776675105; cv=fail; b=YlPMC24GaBnJS1CFTyWOvdq3KRHTsGDbevxlPKmdN004i0zM3Um91EfoSO3CZOuZlyGzV9/ma6DSqhZHRrSr7ifuPRLJ5RSF//astAgrYnUFncnAnGv0hCIIy1oOP6qB62Iw2xxne0K100rLGP4JMg1Mrjd5ebT6pCfgf/Vkx7k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776675105; c=relaxed/simple;
-	bh=+yqkhKpiBIWNdT3u16Dmw82V45zTQe0rFx5bBfU1s6o=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=jvpxM2KsZfIasj2Ix+BHK26aqYzp/iJPj7Sxi19VxBU/hNZ2LPx+7uBgEsJVAFuq3Y3gJ3pbmJ33gpA78Ar5aZ30deXN7bpQfKWmqkQFKC5U0akpRtsxcQTGJK6Mo2quZLanzKzc6eD3AtvS5NAmYa322Nj5/TeUDBzoxGIryh0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=V519Cloj; arc=fail smtp.client-ip=40.107.159.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8642837FF57
+	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 08:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776675248; cv=none; b=HLaTC7gRgO0Q9vj4CeA3wSyQVC7S0wYss3tYA2FX4n2FRQkfY6iJXFjbbpla9nDnmJNqkWqGRia7fY4z+uWFiun7VPZJFZiEJQZ0+V92ytowqpsV/wUGaBzSp2Zqnrwv+CEiCLkDVJ3zer4AKvid93PYY78IK97vJBlT1D0efmM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776675248; c=relaxed/simple;
+	bh=KE8u6LRd9CjKfhNT1A12csPMZoYyQswGAVMslYJcMx4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PiQx8pUs5gFAPPnVghNoobq2L0gDutZFv6NOiVV9H19k8nWfqqBTWz7Jp1HdquaGU1qwn+o5CknPvjbcG79LdO5hF12o15As5USq9GfuZBmXhrbkSTkN2iAD5wogcQ8ft18y07sBUcZbsIfqh7SIInZzZag28zopBg7f8/72CnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Qv+DZGYi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HJcs4/UF; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="V519Cloj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qSpSawofHsz6fgyFaLUXOva0DnefCTotZUaNNnKfmH7ovV6cqkgQyHvL/2rU2D0Sl/YBinzR9Zn5GV6PlFNzNkviAFtbj6cj1OpXehgN/PNjkbWLmRoRj5/jvloC6rKQXuqJHBF/gKKamxrXt44/dJwH6qqQQTEs7it7T31pK004fW80XrFE5SUlfKRrN/HO6FYvJ0mmXHJcyR7F4fj9AfJtulpY0f4iaMNC2oGNCwjfkMTjVEcxaYJbdg0/BSieBV03H+AXGrhzd25OFn3owjjhFQCi7UP+6hBVRCDo13JpXgKozOnc8NZp8tHPhVpoBtOlIHVVD2/Sn4HbCIn04A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T6emW6ddv4wDTyYDqA4vz94bIXT8T4uoqcpcgifKUQs=;
- b=Kd0b1Yz/S6shcHHCYcv5YAYeHIaNSaGX75ekP/sI3Ph6eSnOV+m5vGJgQ0tDlybnEYO9MUGnBe26GIlhwZEAZmC08RWk4WCr8/swTKlEeYh7WMfOJfhrMfM0bJBqTqnqKf7pzZiKsPscif5QvosebK15b3z3IV0cz/078/tJijduKjbXQ9t/hsmBEYZ6C1hp4UrjkFPw8lr3prKzaz+mudCRsz+vSgCopMXm0EsOl5FuhY9VhupiBOiEd13UK1KePFJKXPvZHo+b0E1pnhX1a/Y+c2eQWM5f33C8GMo6qMIXrVjJnUuRu/7ymhLH0uKgLRhk9GoKCqG7z+gCjGYa0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T6emW6ddv4wDTyYDqA4vz94bIXT8T4uoqcpcgifKUQs=;
- b=V519ClojMSnKDECMAxx4gh57OPNCYluMNw6RLBfNW/GHmr1rIFswPPrqNHVrIgce9V/ocWEj+Mdqmgyp0ZufVdKfl5WAQNOq1okJe6Pk3yz5YzRN3fwuFFxMo2lhTnuhdL061BnC6DIa6eR/5mmTU7x7vR72f2DSO19+6UEONukMANMU/5TJOVvGVN40Kw4DwMBsLVjDAgSGtCikOnI83p7N6mEN9LRlsNoaiOcQWB25ZsnrzIN1UE8gMB+ABnhHoIL78i9Q8q0poJppNM3zJy4R5yNZftYLwcJNlP8sZOVe6wx/1UPySlkZPwrVIRCU3ayh5Nwmbg8BrXuqQSpDwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by DU2PR04MB8838.eurprd04.prod.outlook.com (2603:10a6:10:2e1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
- 2026 08:51:40 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%4]) with mapi id 15.20.9818.032; Mon, 20 Apr 2026
- 08:51:40 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_micfil: Add DC output remover control
-Date: Mon, 20 Apr 2026 16:53:44 +0800
-Message-Id: <20260420085344.2081805-1-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5PR01CA0182.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1a9::8) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qv+DZGYi";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HJcs4/UF"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63K7Wt1Q1532102
+	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 08:54:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	gm1OCK/m8zIZwWr4lJqnp8opm4PkM9TvhRZoct8b3V0=; b=Qv+DZGYi+M5mMUQu
+	3RDajgiimsyvngMJQapk71K1yyeg+l0y6syyuSyoyXx/kFXR+hFuaHFzK9ZT0KDb
+	WJcjmlO3Ha9n8buSLc4txP9PxnCMrc1xqBun9t4zaGypHqTh2KT/2XjlfEMFb4yq
+	jvreu6pUWrWNZOKHlPc3KqsTKIG13YL1T/yYvHBSG31gnsInRuKe0mSaS3FFcoPt
+	gVKDwTGAa0GVspX1Fi2fkV/REfzfhwRCI3cmVt4vIFZ7l8KWStOF0yPdjXMrq6cG
+	EgAaXelsR7fCmfn1Pe0ZRv0YnZa0Jp30F0EsKQOA5C0tx3LjMRMxvegdH2NEl2zh
+	4F62og==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dnfus0j0u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 08:54:06 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-82f70ae35c0so1361279b3a.2
+        for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 01:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1776675246; x=1777280046; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gm1OCK/m8zIZwWr4lJqnp8opm4PkM9TvhRZoct8b3V0=;
+        b=HJcs4/UFblyrYGkG31gTJoAqonKT/vsjU/SOCyDmfo+/5ob7f4sNnrK8RGPeSIn0Af
+         69Jb3RyfFXRRXIdq0HwAdItWvYVNqUEQMaDbFqhsYkoxqJc9osK1p7EA3pICf+33lUzr
+         KMQY+5zAS8Onmsb03ffbtZ2M3e078g5+f4bEhxwySasxGzAGzsN8uUibNFEu0OvktNK2
+         +9c3mhZMPL2lfnGDuiKr2SkLfbxkRIY0fK78cgYvb8QtcadIWEttkeuIdCZqxj2+kSdL
+         lbjKTC5B00QYSM4IK3IEWq50BcNKwxSIknLVO4GBd+OkhoVYWHAQkibB/Km7yvV0P+QP
+         4uPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776675246; x=1777280046;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gm1OCK/m8zIZwWr4lJqnp8opm4PkM9TvhRZoct8b3V0=;
+        b=YnHIDmnf8i3dlYOrKXvHkLHDbljXdITnUS26tpfcKp4nP1hkURi/iOQ0jmghulbs6w
+         sfPfl5i3h8YlqoMsofhCFzxoNcmWUlNu5APUdb83qV1gclr0/ufiIqF9t7PC+1Ib95rQ
+         SUnr3xLytOK2NPyL3MF42Kogw3ZoFu2dcImtIrc53ybG/HJg42OsxLWJA82gpdEOC8fL
+         kT3c8xv49neOFQo38V3IhdX7YIs/ZqKEd6LkJIvNAboHeWFkNyc1BZjeYVKNFvfBUHgo
+         SG/IagtNjhyTR4uL429zpz/pYHPPacRsv4m5OVS3qHOIZVOmeFO/7jyvPpxJrNoAOkxY
+         Aytg==
+X-Gm-Message-State: AOJu0YzPPg0fA7iBWVSp3Gp1lbHCp3dFCm1QUIA0fAOwWs1k028X/eKs
+	hPaOHpC6RBO0lkm4tewjwa0BRijSN3vQzDI86QfxX0KMoRYmLrw6qAdUwjjWP5k1yVgm4xSfeDj
+	//c02Tm7p+d5v082ULfa1btZGlwQU/kmK3TIfowWcfrI3qi+aJRNz8F21qvg6hMDAJA==
+X-Gm-Gg: AeBDieugDunmPcWZa+f9ZtTHAgbMt8M16I3ndaWNJuqCpd0b+0O6RRiKEARpcbfnSxC
+	G3Ze5CxQwakwIpg16oYnISVJ/60Y/JxOS8gTIDVvqAQHSHuAYu7tsvQH5gCafzU4si2fRzGoucR
+	kxlrQK26+x9kqIp3vQANb6qFq3XezqMPSbAk7KLzdPd4GJG+OORP+5YahnUSaCDs/94LQvKeQWV
+	huvJUj/NhVkp7kfH+NdIMgdiiHpO6vWz16Vfm2kFlnrzyhSK6FLA4TbwRW57ZJB5JwkaIpmHWbQ
+	y7P9hcI91h9tUf9prmHMFK2q1BaK9W6e5bow6OcXnLw0rmnQ6XYDW5Y/YFKhwvQbQK3hpPS3K+W
+	F+iJziGh1wY79EBgrZm0FHnbOrPuFqDSBBbY75P9ycCXkEezIxgb4bKSYnZz6
+X-Received: by 2002:aa7:914b:0:b0:81f:3bcb:af2a with SMTP id d2e1a72fcca58-82f8c8c39c3mr12392279b3a.26.1776675246130;
+        Mon, 20 Apr 2026 01:54:06 -0700 (PDT)
+X-Received: by 2002:aa7:914b:0:b0:81f:3bcb:af2a with SMTP id d2e1a72fcca58-82f8c8c39c3mr12392251b3a.26.1776675245615;
+        Mon, 20 Apr 2026 01:54:05 -0700 (PDT)
+Received: from [10.219.49.106] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebe68ebsm10997069b3a.47.2026.04.20.01.54.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2026 01:54:05 -0700 (PDT)
+Message-ID: <8b971e25-03d7-4596-a328-b8998458b57f@oss.qualcomm.com>
+Date: Mon, 20 Apr 2026 14:24:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DU2PR04MB8838:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46314302-c3b1-411f-a0e4-08de9eba09c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|19092799006|921020|38350700014|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	MyoK0B028WYZxCc3hB2+zVHGK3rN5gLMrIaa7Q/lDXqSBdlPGxLm6wPWbXYF4/Kf1EUln1w30rqHlO6PbQIJ0vhPaTVyb0MJ+bX5pKKu/Qx+BWT3wgpBkwxQqOtu6XTQ0+IPHWgHnb5REj76wa3SL/pbuDAdRPmi3vZ9/5D19KcdruxX3GLehfXc4+JYuCK5bW2h8T7tsl2ioWI3CFTVYWP4L/gA+Vuotooa9YRMyjHqBFYPqYfIivLFTM1m9TD3h3g9bcV4Uz3gqkwwSEJ7qUcSemA9VPP4hd4wNh5L2Ml8pAusLpmVB4wEBQs2g206t7oj+zfbJE81QFuKANEzl6IIi6Fkg0t3y9zOYIz/ZtBmf+PYzotNwA8KvVMJTJb6Cf8UYJHe30QEUrsRNcHEefnNY4o0qB8iy7fKXblZ2v2poE/OZMaHnwKTJ8InBNgOMRTP/HSCu50bB929LlvN8QxBZZBenUz2EFRJBcdLtF0QyOjKWMhDk+rHED1QB6msKU8MjbkBdQOxUYXdpeWdn9gM9hgIUAguS12Zy0fP3PiMprt5iXhnfGl1DYC/sH1Dw1GwJH+hxX5JjHtc4SlQWn+OCEGeLbgFz+hx+D2RZlmaAtcupAIu31spYoE3szLZhiw7VCf9+t1af8JR/Hau99eCO2z3SmOzJ+M793bnS+JuqsfH9L3LMkSzMyucxXSEW3EXO8zGOhjgdMguRAdacDL5Om9+2hwI3PVeSDMyRF9QHzA/17DigiE5wAt4hu9woHiCpol+JWK4sofSnlYr6xOIUmr+UQQ8BnNtOkdycyxp3KR0FX/RkTd5XyXqrXoP
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(19092799006)(921020)(38350700014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1OmqbM6jHPm+9a3Hw3XmminBQM43gy3Tis4px1Sb2l9MjucojHi7MtZDgah+?=
- =?us-ascii?Q?LkHAJGVnAn/sdvJzCW6BumcE5Jfcj4eyZk+dEY/wWbCVKKWvDosRER9fVTVG?=
- =?us-ascii?Q?6ScoqxlRki4V0hXjMYSfd7YHM1L+yLHyniSRPgT+fiy7PUOb9KqKsbxxhRLA?=
- =?us-ascii?Q?IQaBnnyWrqK3ypJaOe4H3c+HjpOIFX7/u1qCYoNvr6v0hVVzrU5oRlIVqQms?=
- =?us-ascii?Q?1TK6yA05rWWo+APCCemlTOriArXP+1Xd7blUKX35ZpHIsNQD9xp1LanOz0Lg?=
- =?us-ascii?Q?0HhGY4AOJCvyV/JIflnfRo3UrEa5BwsyZuBPzmyoQMr4S7OlYBonuff3gLFY?=
- =?us-ascii?Q?vL+7ttzVds3RRQ+bmYrJ3WFRDzEfHqKw5tikGgfLAFczTVNNF3wn0TOg4Dan?=
- =?us-ascii?Q?7opODWX8xe6yPlJ30UIB9alKk37scrccAEzYe2dP6NGnayd6/gYjZSzUf/rq?=
- =?us-ascii?Q?q9c0MwhbKSj67rCNq4B3jQlvN5iYGRilxFwvCSWWr07ewe7B5btE76YTOFME?=
- =?us-ascii?Q?yn1m/E1XbZ9R118/QnZikik1qz9EetaiCviPoqv9QMkQkrptIjj1Oc/8NHzF?=
- =?us-ascii?Q?laeMa9i/zqIH+nWUslS8R+XaqbocTazS8gx3SWlarmg22htViYbnDLoYdxPg?=
- =?us-ascii?Q?9QdSZEgToy5692bqyfhxQjOzvr7i3JbTopauoR+2ud6xkrEd/l7dgiHqEQ0r?=
- =?us-ascii?Q?9dMBB11F/knB/MC0zv6+v2CWDo1dSSenLOg3xNVOjsG5RAnHX+1sJRd80Era?=
- =?us-ascii?Q?IQc7h5DFWE5dFRCsCwxG7RYB58pG2R33CN/tb+lR5rvHkWG+XckfzP58u2AT?=
- =?us-ascii?Q?yaVSdmY6Onzv7ch6QB0GrgqPlRQs6iB/tUJrJ+czahaDh9yG8N6Fl3vnX9rk?=
- =?us-ascii?Q?eIp4lGQqumBbv9jujLqel9wJmZlR4Fl//kkPH2/553beHAn642lvB/Jnsb2u?=
- =?us-ascii?Q?oyW0SVySDx8I50itUVQzrwWytpmESaVneDk1h/wF4jnNks0B/iI8M1D/tY0J?=
- =?us-ascii?Q?2JMToHjwFNwfiWNZOJ9aoS2GkTnu0conuu1R3iK9/yXvhQiQo5aa6hSm4l2y?=
- =?us-ascii?Q?VFPoy73cUL0jjj7wHKq8pqMKadim5AKlVnNqgJ0eCDtdZMra6m7fSYQmDDKE?=
- =?us-ascii?Q?qpVltyUjv4SgUnvbCB3sh//R3u/wLIhRNzUaTmCqWIvyeZhQHENavAHIfhl9?=
- =?us-ascii?Q?Lun6eam2ZUgwq2ILpj1D+IUfRsgQZhRC7Wa2WUyNiAh/aUOUc3F7WR0Pqxj/?=
- =?us-ascii?Q?uwHY60QBuN0F60twi6l5hgq/iOg6RvwMVbLxueBWSzxvW47ElZzsV1SOo0i+?=
- =?us-ascii?Q?gzBzRxGoMVlodqrJzvCDIeYX3QNoaM+MV4hHN3iE7fp/UmsISKSzzKRtFHUA?=
- =?us-ascii?Q?rRqmmSkmv3+uwo4SHNVkmha5zfbd3BKFR3yy9u3kvhCPcAm8t4R0MX8eHvTk?=
- =?us-ascii?Q?DIuvNTdqx+9GHsBsaB6N9hyvWikFUjL8tL9GBS1FhR8kOqbOlb30oJcKwjqF?=
- =?us-ascii?Q?yvWVrKbY32TE1q+qp3RIcWnio/mgvUXzAKGbnqGzafmUofM5MFeBgrFSMFZg?=
- =?us-ascii?Q?MRfpsQ4wOwIEFJfGG86Etn808KLZ1N3UbjMFSd3hqJ9eSPhsP4K/1bb+T6SU?=
- =?us-ascii?Q?eFGhbaizJIV8unoW2XaUothvN53cmak6utNnlhYw6najglcpLj7UVzMA6kXb?=
- =?us-ascii?Q?aV/yQiLaWvhnsS7AcuLGkQPrrpNtR3WELZ2mEI/rmqdBMGojs+WplSBimLC8?=
- =?us-ascii?Q?e0P+QYs72w=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46314302-c3b1-411f-a0e4-08de9eba09c0
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 08:51:40.0926
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CWM2Wczm62bPe7dzfTnStcX/mWTxb2xAUx90MOa/YRad4UqvNqy0ehE0EryNwhUjxfLAkm5PTukBevR1lI+APQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8838
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] ASoC: codecs: lpass-wsa-macro: Switch to PM clock
+ framework for runtime PM
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, srinivas.kandagatla@oss.qualcomm.com
+References: <20260413121824.375473-1-ajay.nandam@oss.qualcomm.com>
+ <20260413121824.375473-2-ajay.nandam@oss.qualcomm.com>
+ <dd09f4b8-b0f2-40d7-80f0-bdd2cb382c65@oss.qualcomm.com>
+Content-Language: en-US
+From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <dd09f4b8-b0f2-40d7-80f0-bdd2cb382c65@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIwMDA4NSBTYWx0ZWRfX0qSINtVRays9
+ JRzc/TG2LqHTM+y9hPoLzHhPYVaaysFkxPBhHl68t8k1uWXNU6f+31Pr8ZqfHTktDLEICceN5FE
+ KZC6C08Ah9B4ENfk8Bdt+1ifriLpCJW4DXW7WvGttbuDfQVbwNT5RuAjCwIw9jFxxNCFKY3+ZJK
+ XXP0az1efketbLfMZ4iGc8g2OnFKJqJzDF/6ZDS/5sWzozKlfljtHZFbNMqtOfafEfQXOMTa3SP
+ 12JdeNnTBprgMXnCH+HTffzYbq1iGbul8Tgi9BG+QqG0V4CpeX2INvg4o8lWQNCMfLpYXm6q0bz
+ oUoCTI/9K93vEm1TE+3nV/S72olFZr1JhplE3YuyOzCxm7O8p9Znr6/2VLRVSKlqca7i9Xh8U/W
+ qpXMOBFYcjikAPQiJS7TrCCPpY3XfDDjnXdWHkt7QtcRviMnPVLYXyyoal+j0QcZ8g0VXa1g4yt
+ DagES0h2mljVD9M5FxA==
+X-Proofpoint-GUID: iEPDnaMsB_BE2SJIxB8PiYgNfCnAO9Al
+X-Authority-Analysis: v=2.4 cv=PMQ/P/qC c=1 sm=1 tr=0 ts=69e5e9ae cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=UFEU4FUi6niC1vJbelAA:9 a=QEXdDO2ut3YA:10
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: iEPDnaMsB_BE2SJIxB8PiYgNfCnAO9Al
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-20_01,2026-04-17_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604200085
 
-Add support for the DC output remover feature available on i.MX93 and
-newer platforms. This allows users to configure the output DC removal
-filter with cut-off frequencies of 20Hz, 13.3Hz, 40Hz, or bypass it
-entirely.
 
-The control is exposed as an ALSA mixer control and defaults to bypass
-mode. It is only available on platforms with the use_verid flag set
-(i.MX93+).
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_micfil.c | 79 ++++++++++++++++++++++++++++++++++++++
- sound/soc/fsl/fsl_micfil.h |  1 +
- 2 files changed, 80 insertions(+)
+On 4/14/2026 2:16 PM, Konrad Dybcio wrote:
+> On 4/13/26 2:18 PM, Ajay Kumar Nandam wrote:
+>> Convert the LPASS WSA macro codec driver to use the PM clock framework
+>> for runtime power management.
+>>
+>> The driver now relies on pm_clk helpers and runtime PM instead of
+>> manually enabling and disabling macro, dcodec, mclk, npl, and fsgen
+>> clocks. Runtime suspend and resume handling is delegated to the PM
+>> core via pm_clk_suspend() and pm_clk_resume(), while existing runtime
+>> PM callbacks continue to manage regcache state.
+>>
+>> This ensures clocks are enabled only when the WSA macro is active,
+>> improves power efficiency on LPASS platforms supporting LPI/island
+>> modes, and aligns the driver with common ASoC runtime PM patterns used
+>> across Qualcomm LPASS codec drivers.
+>>
+>> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+>> ---
+> 
+> [...]
+> 
+>> +	pm_runtime_set_autosuspend_delay(dev, 3000);
+> 
+> FWIW I have mostly the same comments as on your other series
+> 
+> Notably, msm-5.10 uses 50 ms of autosuspend delay for the macros
+> (100 for VA for $reasons)
 
-diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
-index 2e887f1f1f36..60ac8eabab9d 100644
---- a/sound/soc/fsl/fsl_micfil.c
-+++ b/sound/soc/fsl/fsl_micfil.c
-@@ -74,6 +74,7 @@ struct fsl_micfil {
- 	int irq[MICFIL_IRQ_LINES];
- 	enum quality quality;
- 	int dc_remover;
-+	int dc_out_remover;
- 	int vad_init_mode;
- 	int vad_enabled;
- 	int vad_detected;
-@@ -347,6 +348,11 @@ static const char * const micfil_dc_remover_texts[] = {
- 	"Cut-off @152Hz", "Bypass",
- };
- 
-+static const char * const micfil_dc_out_remover_texts[] = {
-+	"Cut-off @20Hz", "Cut-off @13.3Hz",
-+	"Cut-off @40Hz", "Bypass",
-+};
-+
- static const struct soc_enum hwvad_enable_enum =
- 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(micfil_hwvad_enable),
- 			    micfil_hwvad_enable);
-@@ -360,6 +366,9 @@ static const struct soc_enum hwvad_hpf_enum =
- static const struct soc_enum fsl_micfil_dc_remover_enum =
- 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(micfil_dc_remover_texts),
- 			    micfil_dc_remover_texts);
-+static const struct soc_enum fsl_micfil_dc_out_remover_enum =
-+	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(micfil_dc_out_remover_texts),
-+			    micfil_dc_out_remover_texts);
- 
- static int micfil_put_dc_remover_state(struct snd_kcontrol *kcontrol,
- 				       struct snd_ctl_elem_value *ucontrol)
-@@ -405,6 +414,50 @@ static int micfil_get_dc_remover_state(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+static int micfil_put_dc_out_remover_state(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
-+	struct snd_soc_component *comp = snd_kcontrol_chip(kcontrol);
-+	struct fsl_micfil *micfil = snd_soc_component_get_drvdata(comp);
-+	unsigned int *item = ucontrol->value.enumerated.item;
-+	int val = snd_soc_enum_item_to_val(e, item[0]);
-+	int i = 0, ret = 0;
-+	u32 reg_val = 0;
-+
-+	if (val < 0 || val > 3)
-+		return -EINVAL;
-+
-+	ret = pm_runtime_resume_and_get(comp->dev);
-+	if (ret)
-+		return ret;
-+
-+	micfil->dc_out_remover = val;
-+
-+	/* Calculate total value for all channels */
-+	for (i = 0; i < MICFIL_OUTPUT_CHANNELS; i++)
-+		reg_val |= val << MICFIL_DC_CHX_SHIFT(i);
-+
-+	/* Update DC Remover mode for all channels */
-+	ret = snd_soc_component_update_bits(comp, REG_MICFIL_DC_OUT_CTRL,
-+					    MICFIL_DC_CTRL_CONFIG, reg_val);
-+
-+	pm_runtime_put_autosuspend(comp->dev);
-+
-+	return ret;
-+}
-+
-+static int micfil_get_dc_out_remover_state(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *comp = snd_kcontrol_chip(kcontrol);
-+	struct fsl_micfil *micfil = snd_soc_component_get_drvdata(comp);
-+
-+	ucontrol->value.enumerated.item[0] = micfil->dc_out_remover;
-+
-+	return 0;
-+}
-+
- static int hwvad_put_enable(struct snd_kcontrol *kcontrol,
- 			    struct snd_ctl_elem_value *ucontrol)
- {
-@@ -525,6 +578,11 @@ static const struct snd_kcontrol_new fsl_micfil_volume_sx_controls[] = {
- 			  MICFIL_OUTGAIN_CHX_SHIFT(7), 0x8, 0xF, gain_tlv),
- };
- 
-+static const struct snd_kcontrol_new fsl_micfil_dc_out_controls[] = {
-+	SOC_ENUM_EXT("MICFIL DC Out Remover Control", fsl_micfil_dc_out_remover_enum,
-+		     micfil_get_dc_out_remover_state, micfil_put_dc_out_remover_state),
-+};
-+
- static const struct snd_kcontrol_new fsl_micfil_snd_controls[] = {
- 	SOC_ENUM_EXT("MICFIL Quality Select",
- 		     fsl_micfil_quality_enum,
-@@ -1047,6 +1105,19 @@ static int fsl_micfil_dai_probe(struct snd_soc_dai *cpu_dai)
- 	}
- 	micfil->dc_remover = MICFIL_DC_BYPASS;
- 
-+	if (micfil->soc->use_verid) {
-+		val = 0;
-+		for (i = 0; i < MICFIL_OUTPUT_CHANNELS; i++)
-+			val |= MICFIL_DC_BYPASS << MICFIL_DC_CHX_SHIFT(i);
-+		ret = regmap_update_bits(micfil->regmap, REG_MICFIL_DC_OUT_CTRL,
-+					 MICFIL_DC_CTRL_CONFIG, val);
-+		if (ret) {
-+			dev_err(dev, "failed to set DC OUT Remover mode bits\n");
-+			return ret;
-+		}
-+		micfil->dc_out_remover = MICFIL_DC_BYPASS;
-+	}
-+
- 	snd_soc_dai_init_dma_data(cpu_dai, NULL,
- 				  &micfil->dma_params_rx);
- 
-@@ -1071,6 +1142,10 @@ static int fsl_micfil_component_probe(struct snd_soc_component *component)
- 		snd_soc_add_component_controls(component, fsl_micfil_range_controls,
- 					       ARRAY_SIZE(fsl_micfil_range_controls));
- 
-+	if (micfil->soc->use_verid)
-+		snd_soc_add_component_controls(component, fsl_micfil_dc_out_controls,
-+					       ARRAY_SIZE(fsl_micfil_dc_out_controls));
-+
- 	return 0;
- }
- 
-@@ -1117,6 +1192,7 @@ static const struct reg_default fsl_micfil_reg_defaults[] = {
- 	{REG_MICFIL_DATACH6,		0x00000000},
- 	{REG_MICFIL_DATACH7,		0x00000000},
- 	{REG_MICFIL_DC_CTRL,		0x00000000},
-+	{REG_MICFIL_DC_OUT_CTRL,	0x00000000},
- 	{REG_MICFIL_OUT_CTRL,		0x00000000},
- 	{REG_MICFIL_OUT_STAT,		0x00000000},
- 	{REG_MICFIL_VAD0_CTRL1,		0x00000000},
-@@ -1143,6 +1219,7 @@ static const struct reg_default fsl_micfil_reg_defaults_v2[] = {
- 	{REG_MICFIL_DATACH6 - 0x4,	0x00000000},
- 	{REG_MICFIL_DATACH7 - 0x4,	0x00000000},
- 	{REG_MICFIL_DC_CTRL,		0x00000000},
-+	{REG_MICFIL_DC_OUT_CTRL,	0x00000000},
- 	{REG_MICFIL_OUT_CTRL,		0x00000000},
- 	{REG_MICFIL_OUT_STAT,		0x00000000},
- 	{REG_MICFIL_VAD0_CTRL1,		0x00000000},
-@@ -1179,6 +1256,7 @@ static bool fsl_micfil_readable_reg(struct device *dev, unsigned int reg)
- 	case REG_MICFIL_VAD0_NDATA:
- 	case REG_MICFIL_VAD0_ZCD:
- 		return true;
-+	case REG_MICFIL_DC_OUT_CTRL:
- 	case REG_MICFIL_FSYNC_CTRL:
- 	case REG_MICFIL_VERID:
- 	case REG_MICFIL_PARAM:
-@@ -1210,6 +1288,7 @@ static bool fsl_micfil_writeable_reg(struct device *dev, unsigned int reg)
- 	case REG_MICFIL_VAD0_NCONFIG:
- 	case REG_MICFIL_VAD0_ZCD:
- 		return true;
-+	case REG_MICFIL_DC_OUT_CTRL:
- 	case REG_MICFIL_FSYNC_CTRL:
- 		if (micfil->soc->use_verid)
- 			return true;
-diff --git a/sound/soc/fsl/fsl_micfil.h b/sound/soc/fsl/fsl_micfil.h
-index fdfe4e7125bc..e271c6073f42 100644
---- a/sound/soc/fsl/fsl_micfil.h
-+++ b/sound/soc/fsl/fsl_micfil.h
-@@ -22,6 +22,7 @@
- #define REG_MICFIL_DATACH6		0x3C
- #define REG_MICFIL_DATACH7		0x40
- #define REG_MICFIL_DC_CTRL		0x64
-+#define REG_MICFIL_DC_OUT_CTRL		0x68
- #define REG_MICFIL_OUT_CTRL		0x74
- #define REG_MICFIL_OUT_STAT		0x7C
- #define REG_MICFIL_FSYNC_CTRL		0x80
--- 
-2.34.1
+ACK, will post v2 accordinly
+
+> 
+> Konrad
 
