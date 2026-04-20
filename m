@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAD73BC67C;
-	Mon, 20 Apr 2026 13:25:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941093EF650;
+	Mon, 20 Apr 2026 13:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691519; cv=none; b=QljIR1H2RyPVs7hmFGUy6UljjC3lqHMXEfeYw3skM6sS5ZLIINDNiH2c6rQgXGR2PSLsev6HtXw3pvTaK1BWfat8RTX1eSleCW3vLg85+UbzFSi4U8Tqc45BZ5kwzfO4uPIGuVUq2+H0ER8lcWGTpaRzPGj9idk3Js/kwW4bMfI=
+	t=1776691525; cv=none; b=lFS1dPq1kZ9ixW4Y2c8QD76WCZcNF75H8zl/UrboJrOSBL1hf82nCoMzvrQXqudxwXye2JTd98j/udiMqqHU6vSqm4cmCYeIJP2qaPMdWTGb6/FziD4pRReapLzbqwy53wr5CG7zH0w0kmwPfCVYCYV7Cl8nh9xp84qS/WRoj2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691519; c=relaxed/simple;
-	bh=2WenpJpauDKcsmxbdzzadx+CKzBVD2DP/jmTNdOnrG8=;
+	s=arc-20240116; t=1776691525; c=relaxed/simple;
+	bh=2VRNVQbyAA2kIKYeFyG7zX3zgXDl8CdjLF3CM8tWmQo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HJVpEFjLlCpXnLsBUzaUCDlje9mqZBhY9iMWa9vIW4cJhbAGRaPPKbGOi+Ats638jI2kKjZKa3p1Pnod1DSdY+9FUWJC0vxvKqxfj22xnfDHgAPswKM6fuddq+1ANYm1amdL4HHoIO9ERzyRp1Cx2Tpy+GNMMFljqo8u3QXpi4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T90UfdDH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=bBxhvlwqzq7hkJLzgq4/HmutuSXUOHx71aedQnCui76yFR4z2GUUQE9P/032fPB40Z5p3lLT5vXIfE+UR4iqTm+76gFJPWegQQYDUfqAxb2ntAFggySsL0zbyEyXqvILGgI/+XnjWTCAsHIi34ZH5Op86+yP2TuacNXuyXsyq+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z2Tv7AhE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T90UfdDH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CF4C2BCC6;
-	Mon, 20 Apr 2026 13:25:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z2Tv7AhE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0526EC2BCC7;
+	Mon, 20 Apr 2026 13:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691519;
-	bh=2WenpJpauDKcsmxbdzzadx+CKzBVD2DP/jmTNdOnrG8=;
+	s=k20201202; t=1776691525;
+	bh=2VRNVQbyAA2kIKYeFyG7zX3zgXDl8CdjLF3CM8tWmQo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=T90UfdDHymDnjvaIgz9oDG2zK9GS8v7t/BKBi+Z+YOiafIY1OAs7yQEz5AZhLkSDY
-	 W+noP8K3SOGJn6964BwKcNwkHtp+T5c8MLSN9dPX6647t5HlJafrSLtw1Gazqpu47g
-	 R68W5GrRFMlwOOd1nQee6X/qZ/3V1LyX2ekFVs+tq3v7KFiT3kfvp13IH7vhkElEbl
-	 mp/zTZD03MYJ4r8O1rqSF6Mc8ZdxQCRrd4YKLKOEk68rIKY04O9hrnUTH8U6nrq+cD
-	 FuBnXGFNZxn/FMPUGebOVsKe8txvZE0BHjtIhI8jwOOb2CNmMc9H1PWJDeSg7VZZNE
-	 EyR7yKyRZ6xXA==
+	b=Z2Tv7AhEwECvtXFuSwK77hOmR9ENpU5qBFKsQhEghjKrl3qh35kaOhQMk88ETVxXL
+	 TvuyCNE9WnY9P6KDIar7v8tAt2n+IJyFKmme3UARXbVkVQroz3tJxeGeJ8MBOp2/p+
+	 EI9FcL0S5LY6A3lMscK+7zBwNwkKSQhJWMVwx08rrIs6EfWmjufZ0Z2BH13tXjwX20
+	 06rMsAi8tTgDjN8+glYfDORl/9us75LzriWm4/PHdIU+2IQ93SwEJ9VErJtfiL1WT+
+	 fDCpT/QvOQ8fh4s6otffsOfxDr7QWTnYQS1AQcy9rIJuPYwEVx/C7xivO6+/mELCVx
+	 D/h01m96vs6oQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Aravind Anilraj <aravindanilraj0702@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
+Cc: =?UTF-8?q?C=C3=A9dric=20Bellegarde?= <cedric.bellegarde@adishatz.org>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
+	srini@kernel.org,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] ASoC: Intel: cht_bsw_rt5672: Fix MCLK leak on platform_clock_control error
-Date: Mon, 20 Apr 2026 09:17:51 -0400
-Message-ID: <20260420132314.1023554-77-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] ASoC: codecs: wcd-clsh: Always update buck/flyback on transitions on transitions
+Date: Mon, 20 Apr 2026 09:17:54 -0400
+Message-ID: <20260420132314.1023554-80-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -54,383 +51,364 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Aravind Anilraj <aravindanilraj0702@gmail.com>
+From: Cédric Bellegarde <cedric.bellegarde@adishatz.org>
 
-[ Upstream commit dced5a373a96cfd9f3bd0ffcf5339a7579d1473a ]
+[ Upstream commit f8d51e903a6c97d8d298f14d9f8b4fff808670e3 ]
 
-If snd_soc_dai_set_pll() or snd_soc_dai_set_sysclk() fail inside the
-EVENT_ON path, the function returns without calling
-clk_disable_unprepare() on ctx->mclk, which was already enabled earlier
-in the same code path. Add the missing clk_disable_unprepare() calls
-before returning the error.
+The WCD934x audio outputs (earpiece, headphone, speaker) share two power
+supply converters, a buck and a flyback, managed by reference counters
+(buck_users, flyback_users) in the Class-H controller.
 
-Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Link: https://patch.msgid.link/20260401220507.23557-4-aravindanilraj0702@gmail.com
+The early return in wcd_clsh_ctrl_set_state() when nstate == ctrl->state
+prevented _wcd_clsh_ctrl_set_state() from being called when switching
+between outputs sharing the same state value. As a result, the buck and
+flyback reference counters were never decremented on disable, leaving the
+converters active and their counters out of sync with the actual hardware
+state.
+
+This caused audible distortion on the earpiece output and spurious MBHC
+over-current protection interrupts on HPHL/HPHR during output switching.
+
+Remove the early return so that CLSH_REQ_ENABLE and CLSH_REQ_DISABLE are
+always dispatched, keeping the buck and flyback reference counters
+consistent on every state transition.
+
+Signed-off-by: Cédric Bellegarde <cedric.bellegarde@adishatz.org>
+Link: https://patch.msgid.link/20260304141006.280894-1-cedric.bellegarde@adishatz.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I now have all the information needed for a complete analysis. Let me
-compile the full assessment.
+Now I have all the information I need. Let me compile the full analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: PARSE THE SUBJECT LINE
-Record: [ASoC: Intel: cht_bsw_rt5672] [Fix] [MCLK leak on
-platform_clock_control error path]
+### Step 1.1: Subject Line
+- **Subsystem:** ASoC: codecs: wcd-clsh
+- **Action verb:** "Always update" (implies something was incorrectly
+  not being updated = bug fix)
+- **Summary:** Remove an incorrect early return that prevented
+  buck/flyback power supply reference counters from being updated during
+  audio output transitions.
 
-### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-- **Signed-off-by:** Aravind Anilraj (author)
-- **Reviewed-by:** Cezary Rojewski (Intel ASoC reviewer)
-- **Link:** patch.msgid.link to the original patch
-- **Signed-off-by:** Mark Brown (ASoC subsystem maintainer, committer)
-- No Fixes: tag (expected for manual review candidates)
-- No Reported-by: tag
-- No Cc: stable tag
+### Step 1.2: Tags
+- **Signed-off-by:** Cédric Bellegarde (author)
+- **Link:** https://patch.msgid.link/20260304141006.280894-1-
+  cedric.bellegarde@adishatz.org
+- **Signed-off-by:** Mark Brown (ASoC maintainer, applied the patch)
+- No Fixes: tag, no Reported-by, no Cc: stable — all expected for
+  candidate review.
 
-Record: Reviewed by Intel ASoC developer and merged by ASoC subsystem
-maintainer. No syzbot or external reporter — this is a code-inspection-
-found bug.
+### Step 1.3: Commit Body Analysis
+The commit message is detailed and clearly explains:
+- **Bug:** Early return in `wcd_clsh_ctrl_set_state()` when `nstate ==
+  ctrl->state` prevented `_wcd_clsh_ctrl_set_state()` from being called
+  during disable transitions.
+- **Root cause:** Each audio output (earpiece, HPHL, HPHR) calls
+  `set_state` with the same `nstate` for both enable (PRE_DAC) and
+  disable (POST_PA). The early return silently skips the disable call.
+- **Symptom:** Buck/flyback reference counters never decremented →
+  converters left active → audible distortion on earpiece + spurious
+  MBHC over-current interrupts on HPHL/HPHR.
+- **Fix:** Remove the 3-line early return.
 
-### Step 1.3: ANALYZE THE COMMIT BODY TEXT
-The commit message clearly states: if `snd_soc_dai_set_pll()` or
-`snd_soc_dai_set_sysclk()` fail in the EVENT_ON path, the function
-returns without calling `clk_disable_unprepare()` on `ctx->mclk`, which
-was already enabled. The fix adds the missing cleanup calls.
+### Step 1.4: Hidden Bug Fix?
+No — this is explicitly described as a bug fix with clear user-visible
+symptoms. The commit message thoroughly explains the bug mechanism.
 
-Record: Bug: clock resource leak on error paths. Symptom: MCLK left
-enabled after error, preventing proper power management. Root cause:
-missing cleanup in two error return paths.
-
-### Step 1.4: DETECT HIDDEN BUG FIXES
-This is explicitly labeled as a "Fix" and describes a resource leak — no
-disguise here.
-
-Record: This is an overt bug fix for a resource leak.
+---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: INVENTORY THE CHANGES
-- **File:** `sound/soc/intel/boards/cht_bsw_rt5672.c`
-- **Lines added:** +4 (two `if (ctx->mclk)
-  clk_disable_unprepare(ctx->mclk);` blocks)
-- **Lines removed:** 0
-- **Functions modified:** `platform_clock_control()`
+### Step 2.1: Inventory
+- **Files changed:** 1 (`sound/soc/codecs/wcd-clsh-v2.c`)
+- **Lines:** -3, +0 (pure deletion)
+- **Function modified:** `wcd_clsh_ctrl_set_state()`
 - **Scope:** Single-file, surgical fix
 
-Record: 1 file, 4 lines added, 0 removed. Single function modified.
-Extremely contained.
+### Step 2.2: Code Flow Change
+**Before:** When `nstate == ctrl->state`, the function returns
+immediately without calling `_wcd_clsh_ctrl_set_state()`. This means
+neither CLSH_REQ_ENABLE nor CLSH_REQ_DISABLE is dispatched.
 
-### Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-- **Before:** In the EVENT_ON path, after
-  `clk_prepare_enable(ctx->mclk)` succeeds, if either
-  `snd_soc_dai_set_pll()` or `snd_soc_dai_set_sysclk()` fails, the
-  function returns the error without disabling the clock.
-- **After:** Both error paths now call
-  `clk_disable_unprepare(ctx->mclk)` (guarded by `if (ctx->mclk)`)
-  before returning the error.
+**After:** The function always proceeds to the switch on `clsh_event`,
+dispatching either CLSH_REQ_ENABLE or CLSH_REQ_DISABLE to
+`_wcd_clsh_ctrl_set_state()`.
 
-Record: Error paths now properly clean up the enabled clock before
-returning.
+### Step 2.3: Bug Mechanism
+This is a **reference counting bug**. Looking at the actual call pattern
+in wcd934x.c:
 
-### Step 2.3: IDENTIFY THE BUG MECHANISM
-**Category: Error path / resource leak fix.**
+1. **Enable EAR** (PRE_PMU): `set_state(ctrl, PRE_DAC,
+   WCD_CLSH_STATE_EAR, CLS_H_NORMAL)` → state=EAR, buck_users++,
+   flyback_users++
+2. **Disable EAR** (POST_PMD): `set_state(ctrl, POST_PA,
+   WCD_CLSH_STATE_EAR, CLS_H_NORMAL)` → nstate=EAR == ctrl->state=EAR →
+   **EARLY RETURN!** Buck/flyback never decremented.
 
-The clock `ctx->mclk` is enabled via `clk_prepare_enable()` at line 67.
-If subsequent calls fail (lines 78-81 or 86-89), the function returns
-without the matching `clk_disable_unprepare()`. This leaves the platform
-clock running, preventing proper power management. The EVENT_OFF path at
-line 103-104 already properly calls `clk_disable_unprepare()`,
-confirming the intended pattern.
+The same pattern affects ALL outputs (HPHL, HPHR, LO, AUX) across ALL
+WCD codec drivers (wcd9335, wcd934x, wcd937x, wcd938x, wcd939x).
 
-Record: Resource leak — MCLK left in enabled/prepared state on error
-paths.
+### Step 2.4: Fix Quality
+- **Obviously correct:** Yes. The early return was clearly wrong — the
+  function uses `clsh_event` (enable vs disable) to dispatch different
+  operations, and the early return bypasses this dispatch.
+- **Minimal/surgical:** Maximum surgical — 3-line deletion.
+- **Regression risk:** Very low. The removed check was a premature
+  optimization that incorrectly assumed same nstate means no-op. The
+  `_wcd_clsh_ctrl_set_state` sub-functions use reference counting
+  (buck_users, flyback_users) which already handles idempotency
+  correctly.
 
-### Step 2.4: ASSESS THE FIX QUALITY
-- **Obviously correct:** Yes. Mirrors the existing cleanup pattern in
-  the EVENT_OFF path (line 103-104). The `if (ctx->mclk)` guard is
-  consistent with the guard at line 66.
-- **Minimal/surgical:** Yes. Only 4 lines added, no unrelated changes.
-- **Regression risk:** Extremely low. Only affects error paths. The
-  `clk_disable_unprepare()` call is the exact counterpart to
-  `clk_prepare_enable()` that was already called.
-
-Record: Fix is obviously correct, minimal, and has negligible regression
-risk.
+---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: BLAME THE CHANGED LINES
-The MCLK handling was introduced by commit `c25695ae88ce26` (Pierre-
-Louis Bossart, 2017-06-23) — "ASoC: Intel: cht_bsw_rt5672: 19.2MHz clock
-for Baytrail platforms". The bug has existed since that commit, which
-was included in v4.13-rc1.
+### Step 3.1: Blame
+The buggy early return at line 851-852 was introduced in commit
+`cc2e324d39b26` ("ASoC: wcd9335: add CLASS-H Controller support") by
+Srinivas Kandagatla, merged in **v5.1-rc1**. This code has been present
+since the initial creation of the file.
 
-Record: Buggy code introduced in c25695ae88ce26 (v4.13-rc1, 2017).
-Present in all active stable trees.
+### Step 3.2: Fixes Tag
+No Fixes: tag present. However, the bug was clearly introduced by
+`cc2e324d39b26` (v5.1-rc1).
 
-### Step 3.2: FOLLOW THE FIXES: TAG
-No Fixes: tag present. However, the logical "Fixes:" target is
-`c25695ae88ce26`, which introduced the MCLK handling without proper
-error path cleanup.
+### Step 3.3: File History
+9 commits to `wcd-clsh-v2.c` since initial creation. Changes have been
+minor: unused function removal, new codec version support, symbol
+renaming, GENMASK fixes. No prior fix to this early return logic.
 
-Record: The implicit Fixes target (c25695ae88ce26) is in all stable
-trees since v4.13.
+### Step 3.4: Author
+Cédric Bellegarde has one other commit in the tree (ASoC: qcom: q6asm:
+drop DSP responses for closed data streams). Not the subsystem
+maintainer, but the patch was accepted by Mark Brown (ASoC maintainer).
 
-### Step 3.3: CHECK FILE HISTORY
-The file has had ~20 commits over the years, mostly cleanups and
-conversions. No prior attempt to fix this specific leak was found (no
-commits matching "MCLK leak" in the history).
+### Step 3.5: Dependencies
+None. This is a standalone 3-line deletion with no dependencies on other
+patches.
 
-Record: Standalone fix, no prerequisites needed. No prior fix for this
-issue exists.
-
-### Step 3.4: CHECK THE AUTHOR
-The author (Aravind Anilraj) appears to be a new contributor. However,
-the patch was reviewed by Cezary Rojewski (Intel ASoC reviewer) and
-merged by Mark Brown (ASoC subsystem maintainer).
-
-Record: Reviewed by experienced subsystem developers despite being from
-a new contributor.
-
-### Step 3.5: CHECK FOR DEPENDENCIES
-The fix only adds `clk_disable_unprepare()` calls to existing error
-paths. No new functions, structures, or APIs are used. The fix is
-completely self-contained.
-
-Record: No dependencies. Can apply standalone.
+---
 
 ## PHASE 4: MAILING LIST RESEARCH
 
-### Step 4.1-4.5: PATCH DISCUSSION
-The lore.kernel.org site was not reachable due to bot protection. b4 dig
-could not find the commit by message-id (it doesn't exist in this tree
-as a commit). However, the commit tags show:
-- **Reviewed-by:** Cezary Rojewski (Intel) — an active ASoC reviewer
-- **Signed-off-by:** Mark Brown — the ASoC subsystem maintainer who
-  merged it
+### Step 4.1: Original Discussion
+Found via web search at yhbt.net/lore mirror. The patch was submitted on
+2026-03-04 and applied by Mark Brown on 2026-03-16 to `broonie/sound
+for-7.1` (commit `f8d51e903a6c`).
 
-These signatures indicate the patch went through proper review.
+### Step 4.2: Reviewer Feedback
+Mark Brown applied directly with no review comments or objections — a
+clean accept from the ASoC subsystem maintainer. No NAKs or concerns
+raised.
 
-Record: Proper review by Intel ASoC developer and subsystem maintainer.
-Could not access lore discussion directly.
+### Step 4.3: Bug Report
+No separate bug report; the author discovered this through direct
+debugging (audio distortion and spurious interrupts during output
+switching).
+
+### Step 4.4: Series Context
+Single standalone patch, not part of any series.
+
+### Step 4.5: Stable Discussion
+No stable-specific discussion found.
+
+---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1-5.2: FUNCTION AND CALLERS
-`platform_clock_control()` is registered as a DAPM supply widget
-callback:
+### Step 5.1: Modified Function
+`wcd_clsh_ctrl_set_state()` — exported function, the main API for the
+Class-H controller.
 
-```114:116:sound/soc/intel/boards/cht_bsw_rt5672.c
-        SND_SOC_DAPM_SUPPLY("Platform Clock", SND_SOC_NOPM, 0, 0,
-                        platform_clock_control, SND_SOC_DAPM_PRE_PMU |
-                        SND_SOC_DAPM_POST_PMD),
-```
+### Step 5.2: Callers
+`wcd_clsh_ctrl_set_state()` is called from **5 different WCD codec
+drivers**:
+- `wcd9335.c` — 8 call sites (EAR, HPHL, HPHR, LO)
+- `wcd934x.c` — 8 call sites (EAR, HPHL, HPHR, LO)
+- `wcd937x.c` — 8 call sites (EAR, HPHL, HPHR, AUX)
+- `wcd938x.c` — 10 call sites (EAR, HPHL, HPHR, AUX)
+- `wcd939x.c` — 6 call sites (EAR, HPHL, HPHR)
 
-It is called by the DAPM framework whenever the "Platform Clock" supply
-widget powers up (PRE_PMU) or down (POST_PMD). This happens during every
-audio playback/capture start and stop operation. All audio paths
-("Headphone", "Headset Mic", "Int Mic", "Ext Spk") depend on this widget
-(lines 130-133).
+All follow the same pattern: PRE_DAC enable on PMU, POST_PA disable on
+PMD.
 
-Record: Called on every audio stream open/close. High frequency for
-audio-active systems.
+### Step 5.3-5.4: Call Chain
+These are called from DAPM widget event handlers, triggered during
+normal audio routing changes. Every user who plays audio through
+earpiece, headphones, or speaker on a Qualcomm WCD93xx-based device
+triggers this code path.
 
-### Step 5.3-5.5: SIMILAR PATTERNS
-I found the same bug pattern in sibling drivers `bytcr_rt5651.c` and
-`bytcr_rt5640.c`, though those have slightly different code structure.
-The `cht_bsw_rt5672.c` fix is specific to this driver and doesn't
-require changes to siblings.
+### Step 5.5: Similar Patterns
+The reference counting pattern in `wcd_clsh_buck_ctrl()` and
+`wcd_clsh_flyback_ctrl()` (and v3 variants) all use increment-on-
+enable/decrement-on-disable with `buck_users`/`flyback_users`. The early
+return prevented the decrement path from ever executing.
 
-Record: Similar pattern exists in sibling drivers but this fix is self-
-contained for cht_bsw_rt5672.
+---
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: BUGGY CODE IN STABLE
-The buggy code was introduced in v4.13-rc1 (commit c25695ae88ce26). It
-exists in all active stable trees (5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y,
-etc.).
+### Step 6.1: Buggy Code in Stable
+The bug was introduced in `cc2e324d39b26` (v5.1-rc1). This code exists
+in **all active stable trees**: 5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y,
+and any other LTS/stable branches.
 
-Record: Bug affects all active stable trees.
+### Step 6.2: Backport Complications
+The file has had only minor changes (renaming, cleanup). The patch is a
+simple 3-line deletion that should apply cleanly to all stable trees.
 
-### Step 6.2: BACKPORT COMPLICATIONS
-The file has been relatively stable. The current code at the fix site
-matches what was introduced in c25695ae88ce26, with only minor changes
-(the `if (ctx->mclk)` guard and the `65b2df10a1e62` commit that changed
-the EVENT_OFF path). The fix should apply cleanly or with minimal
-adjustment.
+### Step 6.3: Related Fixes
+No prior fix for this issue in any stable tree.
 
-Record: Expected clean or near-clean apply to all stable trees.
+---
 
-### Step 6.3: RELATED FIXES
-No prior fix for this specific issue was found in any tree.
+## PHASE 7: SUBSYSTEM CONTEXT
 
-Record: No existing fix for this leak.
+### Step 7.1: Subsystem
+- **Path:** sound/soc/codecs/
+- **Subsystem:** ASoC (Audio System on Chip) — audio codec drivers
+- **Criticality:** IMPORTANT — affects audio on all Qualcomm WCD93xx
+  codec-based phones and devices (many Android devices, some embedded
+  systems)
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+### Step 7.2: Activity
+Moderately active subsystem with steady fixes and improvements.
 
-### Step 7.1: SUBSYSTEM CRITICALITY
-- **Subsystem:** sound/soc/intel/boards — ASoC Intel machine driver
-- **Criticality:** PERIPHERAL (specific to Cherryview/Baytrail platforms
-  with RT5672 codec)
-- **Affected hardware:** Lenovo and other Cherryview/Baytrail-based
-  laptops/tablets with RT5670/RT5672 codec (reasonably common consumer
-  devices)
-
-Record: ASoC Intel board driver, PERIPHERAL but for consumer devices
-(laptops/tablets).
-
-### Step 7.2: SUBSYSTEM ACTIVITY
-The file sees occasional updates (cleanups and fixes). It's a mature
-driver.
-
-Record: Mature, stable driver with occasional maintenance commits.
+---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: AFFECTED USERS
-Users of Cherryview/Baytrail platforms with RT5670/RT5672 codec. This
-includes Lenovo and similar consumer laptops/tablets from the Baytrail
-era.
+### Step 8.1: Affected Users
+All users of Qualcomm WCD93xx-series audio codecs (WCD9335, WCD934x,
+WCD937x, WCD938x, WCD939x). This includes many Android phones and
+Qualcomm-based embedded systems.
 
-Record: Platform-specific but for real consumer devices.
+### Step 8.2: Trigger Conditions
+- **Trigger:** Any normal audio output switching (e.g., call on
+  earpiece, then play music through headphones) — extremely common
+  operation.
+- **Unprivileged trigger:** Yes — any userspace audio playback triggers
+  this.
 
-### Step 8.2: TRIGGER CONDITIONS
-The bug triggers when `snd_soc_dai_set_pll()` or
-`snd_soc_dai_set_sysclk()` fails during audio stream start. While these
-failures are not common in normal operation, they can occur during
-hardware errors, suspend/resume transitions, or codec communication
-issues.
+### Step 8.3: Failure Mode Severity
+- **Audible distortion** on earpiece — MEDIUM-HIGH (user-perceivable
+  audio quality issue)
+- **Spurious MBHC over-current interrupts** — MEDIUM (can cause spurious
+  headphone detection events)
+- **Power supply reference counter leak** — MEDIUM (converters left
+  active, wasted power, potential for undefined hardware behavior)
+- Overall severity: **HIGH** — directly affects audio functionality
 
-Record: Trigger requires PLL/sysclk configuration failure during audio
-start. Uncommon but possible.
+### Step 8.4: Risk-Benefit Ratio
+- **Benefit:** HIGH — fixes audio distortion and spurious interrupts on
+  a wide class of devices, bug present since v5.1
+- **Risk:** VERY LOW — 3-line deletion, obviously correct, no regression
+  risk (the removed check was always wrong)
+- **Ratio:** Very favorable for backporting
 
-### Step 8.3: FAILURE MODE SEVERITY
-When triggered, the platform clock remains enabled (leaked), preventing
-proper power management. Repeated triggering could cause increased power
-consumption. The clock framework may also track prepare/enable counts
-incorrectly, potentially affecting system suspend or causing warnings.
-
-Record: Severity: MEDIUM (resource leak affecting power management, no
-crash).
-
-### Step 8.4: RISK-BENEFIT RATIO
-- **Benefit:** Fixes a real resource leak on error paths, improves power
-  management reliability.
-- **Risk:** Very low — 4 lines added, only on error paths, mirrors
-  existing cleanup patterns.
-- **Ratio:** Favorable. Even though the trigger is uncommon, the fix is
-  trivially safe.
-
-Record: Benefit outweighs risk. Minimal fix with no regression
-potential.
+---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: EVIDENCE COMPILATION
+### Step 9.1: Evidence Compilation
+
 **FOR backporting:**
-- Fixes a real clock resource leak (missing `clk_disable_unprepare()` on
-  error paths)
-- Extremely small and surgical (4 lines, single file, single function)
-- Obviously correct — mirrors existing cleanup pattern in the same
-  function
-- Bug has existed since v4.13-rc1 (2017), affects all stable trees
-- Reviewed by Intel ASoC developer, merged by subsystem maintainer
-- No dependencies, self-contained
-- No regression risk
+- Fixes a real, user-visible bug: audio distortion and spurious
+  interrupts
+- Reference counting bug — buck/flyback users never decremented on
+  disable
+- Affects ALL WCD93xx codec users (5 codec drivers, ~40 call sites)
+- Bug present since v5.1-rc1 — affects all active stable trees
+- Fix is minimal: 3-line deletion, obviously correct
+- Applied by ASoC maintainer Mark Brown with no concerns
+- No dependencies — standalone fix
+- Will apply cleanly to all stable trees
 
 **AGAINST backporting:**
-- No user reports of the issue (code-inspection find)
-- Trigger requires error conditions that are uncommon in normal
-  operation
-- Driver-specific (not core kernel)
+- No Fixes: tag (expected — that's why it's under manual review)
+- Author is not the subsystem maintainer
+- No formal Reported-by (author found it themselves)
 
-### Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **YES** — reviewed by Intel developer,
-   merged by maintainer
-2. Fixes a real bug? **YES** — clock resource leak on error paths
-3. Important issue? **MEDIUM** — resource leak, not a crash
-4. Small and contained? **YES** — 4 lines, single file
-5. No new features or APIs? **YES** — only adds cleanup calls
-6. Can apply to stable? **YES** — code unchanged since introduction
+### Step 9.2: Stable Rules Checklist
+1. **Obviously correct and tested?** YES — 3-line deletion, logic
+   clearly wrong, applied by maintainer
+2. **Fixes a real bug?** YES — audio distortion, spurious interrupts,
+   reference counter leak
+3. **Important issue?** YES — user-perceivable audio quality degradation
+   on common hardware
+4. **Small and contained?** YES — 3 lines removed from 1 file, 1
+   function
+5. **No new features or APIs?** YES — pure bug fix
+6. **Can apply to stable?** YES — clean apply expected
 
-### Step 9.3: EXCEPTION CATEGORIES
-Not an exception category — this is a straightforward bug fix.
+### Step 9.3: Exception Categories
+Not applicable — this is a straightforward bug fix, not an exception
+category.
 
-### Step 9.4: DECISION
-This is a small, obvious, and safe fix for a real resource leak. The fix
-adds missing `clk_disable_unprepare()` calls on two error paths where
-the clock was already enabled. It's reviewed by the right people, has no
-dependencies, and applies to all stable trees.
+### Step 9.4: Decision
+This is a clear, minimal fix for a real reference counting bug that
+causes audible audio distortion on all Qualcomm WCD93xx codec-based
+devices. The bug has existed since v5.1. The fix is a 3-line deletion
+that is obviously correct and was accepted by the ASoC maintainer.
+
+---
 
 ## Verification
 
-- [Phase 1] Parsed tags: Reviewed-by Cezary Rojewski (Intel), merged by
-  Mark Brown (ASoC maintainer)
-- [Phase 2] Diff analysis: 4 lines added, two `if (ctx->mclk)
-  clk_disable_unprepare(ctx->mclk)` blocks on error paths
-- [Phase 3] git blame: buggy code introduced in c25695ae88ce26
-  (v4.13-rc1, 2017), present in all stable trees
-- [Phase 3] git show c25695ae88ce26: confirmed original commit added
-  MCLK handling without error path cleanup
-- [Phase 3] git describe --contains c25695ae88ce26:
-  v4.13-rc1~142^2~1^2~5^2~8 — confirmed it's been in mainline since
-  v4.13
-- [Phase 3] git log --oneline -20 -- file: no prior MCLK leak fix found
-- [Phase 4] b4 dig: could not find commit by message-id in local tree;
-  lore blocked by bot protection
-- [Phase 5] DAPM widget registration at lines 114-116 confirms
-  `platform_clock_control` is called on every audio stream start/stop
-- [Phase 5] DAPM routes at lines 130-133 confirm all audio paths depend
-  on Platform Clock
-- [Phase 5] Grep for clk_disable_unprepare in sibling drivers confirms
-  the same cleanup pattern is expected
-- [Phase 6] Code at the fix site is essentially unchanged since
-  c25695ae88ce26 — clean apply expected
-- [Phase 8] Failure mode: clock resource leak preventing proper power
-  management, severity MEDIUM
-- UNVERIFIED: Could not access lore.kernel.org discussion for reviewer
-  commentary on stable suitability
+- [Phase 1] Parsed tags: Signed-off-by (author + Mark Brown), Link to
+  patch.msgid.link
+- [Phase 2] Diff analysis: 3 lines removed from
+  `wcd_clsh_ctrl_set_state()`, removes incorrect early return
+- [Phase 2] Verified bug mechanism: PRE_DAC sets state=EAR, POST_PA
+  passes same nstate=EAR, early return prevents DISABLE dispatch
+- [Phase 2] Verified reference counting: `wcd_clsh_buck_ctrl()` (line
+  182-183) and `wcd_clsh_flyback_ctrl()` (line 231-232) use
+  increment/decrement of `buck_users`/`flyback_users`
+- [Phase 3] git blame: buggy code introduced in cc2e324d39b26 (v5.1-rc1)
+  — present since file creation
+- [Phase 3] git log: only 9 commits to this file since creation, no
+  prior fix for this issue
+- [Phase 4] Found original submission at yhbt.net lore mirror: single
+  patch, clean accept by Mark Brown for-7.1
+- [Phase 4] No NAKs, no review concerns raised
+- [Phase 5] Verified callers: 5 codec drivers (wcd9335, wcd934x,
+  wcd937x, wcd938x, wcd939x), ~40 call sites, all follow enable/disable
+  pattern
+- [Phase 6] Code exists in all active stable trees (v5.1+)
+- [Phase 6] File has minimal changes — clean apply expected
+- [Phase 8] Failure mode: audio distortion + spurious interrupts,
+  severity HIGH
 
 **YES**
 
- sound/soc/intel/boards/cht_bsw_rt5672.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/soc/codecs/wcd-clsh-v2.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/sound/soc/intel/boards/cht_bsw_rt5672.c b/sound/soc/intel/boards/cht_bsw_rt5672.c
-index 359723f2700e4..57d6997eb12ff 100644
---- a/sound/soc/intel/boards/cht_bsw_rt5672.c
-+++ b/sound/soc/intel/boards/cht_bsw_rt5672.c
-@@ -77,6 +77,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 				CHT_PLAT_CLK_3_HZ, 48000 * 512);
- 		if (ret < 0) {
- 			dev_err(card->dev, "can't set codec pll: %d\n", ret);
-+			if (ctx->mclk)
-+				clk_disable_unprepare(ctx->mclk);
- 			return ret;
- 		}
+diff --git a/sound/soc/codecs/wcd-clsh-v2.c b/sound/soc/codecs/wcd-clsh-v2.c
+index 13d07296916f6..62ca22ea0f3b6 100644
+--- a/sound/soc/codecs/wcd-clsh-v2.c
++++ b/sound/soc/codecs/wcd-clsh-v2.c
+@@ -848,9 +848,6 @@ int wcd_clsh_ctrl_set_state(struct wcd_clsh_ctrl *ctrl,
+ {
+ 	struct snd_soc_component *comp = ctrl->comp;
  
-@@ -85,6 +87,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 			48000 * 512, SND_SOC_CLOCK_IN);
- 		if (ret < 0) {
- 			dev_err(card->dev, "can't set codec sysclk: %d\n", ret);
-+			if (ctx->mclk)
-+				clk_disable_unprepare(ctx->mclk);
- 			return ret;
- 		}
- 	} else {
+-	if (nstate == ctrl->state)
+-		return 0;
+-
+ 	if (!wcd_clsh_is_state_valid(nstate)) {
+ 		dev_err(comp->dev, "Class-H not a valid new state:\n");
+ 		return -EINVAL;
 -- 
 2.53.0
 
