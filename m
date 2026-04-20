@@ -1,242 +1,93 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8A038B7D5
-	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 12:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B993B27F9;
+	Mon, 20 Apr 2026 13:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776689547; cv=none; b=D1Ufs5ymHOCYTDkaOwayeBVhKbvNq1gPhSViJUcr1tZ0ueHV12myf9mb+5b9hoOeZAlwmEtJ/ETraSKpuJbuHmQJa05ys7T1PERHJXSj3OzFOExo6Q1AhC7ngsisMUyWSjJ4KAM8byIlxtwS9Mumw29PLyMPSgvpJFIcu19GQ+8=
+	t=1776691003; cv=none; b=sraMoxpxjxhWHP6oK8oKMirr+zDnpow1KrjRnz4crpwRw/OM6tf9pRqv1THrmAbbVtphb5a2tBNTLfFHin2/DkDvQ1KYiOhhnRbtKCiRdl9IZaX4khRnKWzZa5jecymS+vxLNdepR8uABfN9HmlF9PDipFwLZdtvn1YB4GHsPVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776689547; c=relaxed/simple;
-	bh=wE/nLJYcfwfiHpxeFEQVE8m77fQJ78pDtEdAEnuEGZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WDdxjs1pwJfRgUAbYYyRcXTCVqLDvYB1MsoICXuoNgZgE0gakZCp6QgwqZ+r4PI9fR6TPqzM/1R6paELaMMsYAa2sYYAC6G16mZ0xTPNjQSVpX8EtG+79pH7EhPBGlhHrha/5fcvM614JH4BUkHkSyQbztj0O9ArAikGHGzw2iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=c7EUpqbQ; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1776691003; c=relaxed/simple;
+	bh=dnNRDrlfNShuJ8+x1ksVhZY4AYPz9Sur/UkjMGNGB9c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kX0LZMLnnimxaNDlk2W8lvT+dnpqhrlalGkzATvNKmlESZ+dPDuzwnhE9+RgL/2MULzziHBvwBAVWJUDQ0qM0102RZ3K10nbdqxZL7LCK0HzdDf0vnzJthn2JAqjk468oUjlUmWhavE82qJUyW5fdiKBXg6Y4qROjLZdpYIQ1Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dNYMym02; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="c7EUpqbQ"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43fe62837baso1792384f8f.3
-        for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 05:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1776689544; x=1777294344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jyZEuicI8WQZweXVv7pRfSwXG7shncGVxuqHWPlSo+U=;
-        b=c7EUpqbQ7kX6u+QhYsOte7xn26QbC+VdjvFYN/lcZO8C7EAlciz87rUG+mvzqFBO4N
-         zECgCo2smOPX8Nt3M9ThcxLQ77f/UNcn84cWjDo8zgino7Y58dTI9O9nWe263Ki8ujz1
-         FDEAsF1C+ZiwL/6ArM7F/zcKqDSj9u0QEw7lebFArUN9KYMdV/vbagDLHLLjnptewfzY
-         Tu7xCp7wFIJJenZ2ughimvuQ/Ph8cuV7fktVI++cEdd8GQ8kLXvWVjE2LEtg3h7XVyXM
-         mt0zlu/3dMxcKp3Tk8c48FxZ0/kTJ9WPjM6jwIdMCCLzSrB+4nhdQvHVCf/6i9nvsFTh
-         Zbtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776689544; x=1777294344;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jyZEuicI8WQZweXVv7pRfSwXG7shncGVxuqHWPlSo+U=;
-        b=S7PB/+VuVWHNjlzZ/oSyLHC8HFu0sMNOFOUs1BOgGZ+72RwFR/TH/tzuecHx+GWGU/
-         Gz+bNkcmsyu1aXuNbF8n5pFjgvGaczT1YK6YGLI0kRqVuRmo4iQNMMWi4tkdlGjHfBzw
-         gWWrr1OkjAeuK2XjLYR2MEnniDmfw5HDFfs+j9e5YUU5YWCy5fmR13sdH89shaPuWEtO
-         sUaAXMmSrwKq49HGeCFU1eIUBIi7cyWjdyvFtHOD45c5yXNErYjKTYtL8j0YcMNsjmj3
-         qPy2Uv/JAL9dc+NEx48UqVDRGGCtL8QDSAlLvThnHxUMno4ySOTO2R4+NHlQiWvFgg9A
-         pWIg==
-X-Forwarded-Encrypted: i=1; AFNElJ8OloUme+gDOGnQ0eaSpX1qhz04NcaLZdz7wbLJZP9a9nzouRs7wwbuQhIWMVA1Y4xQoyIBU9LDok83tw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0pUyEnGzDHyGEQyGp+Ld1NEsdeja6zsLwCFujTrtSBggNoNNN
-	p63A84eBa7ABKCA7muEKWiIYDXjItpMhf1jNiL2IPEVOLmvxzDIAzjCJrgLx8pvqsfw=
-X-Gm-Gg: AeBDietrKTqbb7RDYo+Ycf2MzHamO8NC1hmtNUH4YKmCEkhV/16WvB5iYwBTfvJrQkZ
-	DPeMWaQqPZCWX/1GoVjaHTraCBX5BRZNfvl0HRtBl8fK2YFS8QL5Bwf4dDBQOQu6p6+RVmmUPrc
-	OQThjUFUEckdAY+n5RfdSBlo8p1hORwTQEmeCrKduKSGRTGgjwxiiTJcwsm5uLYuRkz5C+zJEjv
-	GIw94T2lCwtqkY4KiMiklg5nQcLu6QZmgVCTAIvOHAMo24qgNHbylACtPg7CSQ24u9DWWmNBRQp
-	wG3Zxben2SnnBqbVj5ddsVpU1DIQrsGbdsTVgcsKswViBDC1/vA2CyvuNVdfZP6MzjfpqUjg9yW
-	NS7GztN4bBHCmxsgbwK2jd6/XeUm6Le+21G6Z1CLO9QlIe2pFmIZ7QmnnjABBe4zymleQkaIIcM
-	7jcXeqrJLtm0aEL9E6TsJWu8I10qvqxy3R221XDF9LAA==
-X-Received: by 2002:a5d:4535:0:b0:43f:e22f:606 with SMTP id ffacd0b85a97d-43fe3da6680mr13443062f8f.2.1776689543971;
-        Mon, 20 Apr 2026 05:52:23 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.123])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e44f69sm30902955f8f.25.2026.04.20.05.52.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2026 05:52:23 -0700 (PDT)
-Message-ID: <e928f207-1497-4301-a814-3b5045adaa56@tuxon.dev>
-Date: Mon, 20 Apr 2026 15:52:22 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dNYMym02"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323C9C2BCB8;
+	Mon, 20 Apr 2026 13:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776691003;
+	bh=dnNRDrlfNShuJ8+x1ksVhZY4AYPz9Sur/UkjMGNGB9c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dNYMym02YflqSnEDmKuYP3yZ3cUAxlKll7j5OSYcwSykNhVceMMdHU02F2zMFplu5
+	 fn05Ab/z96SD6OVh/b6lOiMg7pEk6pZLu/iIOM/Dh983Kq2HGCs+HGVG0doyC+vcbw
+	 KtyZWljafziR0gDfAJkIEf63TpybI/Lj8TD9oQHGkWx7HeJ0W7YSKFZrQa3jMTvzkK
+	 0z2MmvQd5eEAC/DyHlqCWWfySBJnG/GKw/DQ7+C/xlCrWQShAPJR61aTXDgIASgX3e
+	 KJvACRIgjHbaKcjuXcAGLXgDn//AC5zA56LvyaTuYlP7cIzPlpWPd39nlgX78yJBEO
+	 a7jl/NCcwIVCg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: "Dustin L. Howett" <dustin@howett.net>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: add quirk for Framework F111:000F
+Date: Mon, 20 Apr 2026 09:08:23 -0400
+Message-ID: <20260420131539.986432-37-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
+References: <20260420131539.986432-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: sashiko.dev review (Re: [PATCH v4 14/17] dmaengine: sh: rz-dmac: Add
- suspend to RAM support)
-To: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- p.zabel@pengutronix.de, geert+renesas@glider.be,
- fabrizio.castro.jz@renesas.com, long.luu.ur@renesas.com
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20260411114303.2814115-1-claudiu.beznea.uj@bp.renesas.com>
- <20260411114303.2814115-15-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260411114303.2814115-15-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.23
+Content-Transfer-Encoding: 8bit
 
- > commit e7af08b0f2dc569cc63b17e07dd4e506e50fee28
- > Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
- > dmaengine: sh: rz-dmac: Add suspend to RAM support
- > The Renesas RZ/G3S SoC supports a power saving mode in which power to most
- > of the SoC components is turned off, including the DMA IP. Add suspend to
- > RAM support to save and restore the DMA IP registers.
- > > diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
- > > --- a/drivers/dma/sh/rz-dmac.c
- > > +++ b/drivers/dma/sh/rz-dmac.c
- > [ ... ]
- > > @@ -1354,6 +1407,130 @@ static void rz_dmac_remove(struct platform_device 
-*pdev)
- > >     pm_runtime_disable(&pdev->dev);
- > >  }
- > >
- > > +static int rz_dmac_suspend_prepare(struct device *dev)
- > > +{
- > > +   struct rz_dmac *dmac = dev_get_drvdata(dev);
- > > +
- > > +   for (unsigned int i = 0; i < dmac->n_channels; i++) {
- > > +           struct rz_dmac_chan *channel = &dmac->channels[i];
- > > +
- > > +           guard(spinlock_irqsave)(&channel->vc.lock);
- > > +
- > > +           /* Wait for transfer completion, except in cyclic case. */
- > > +           if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))
- > > +                   continue;
- > > +
- > > +           if (rz_dmac_chan_is_enabled(channel))
- > > +                   return -EAGAIN;
- > Is it intended that this aborts the system suspend instead of waiting?
+From: "Dustin L. Howett" <dustin@howett.net>
 
-Returning -EAGAIN here makes the core suspend code to keep trying calling the 
-prepare API of this driver. That's why it has mentioned waiting.
+[ Upstream commit bac1e57adf08c9ee33e95fb09cd032f330294e70 ]
 
- > The commit message states the .prepare callback "waits for all the ongoing
- > transfers to complete before allowing suspend-to-RAM to proceed."
- > However, returning -EAGAIN from a system sleep .prepare callback immediately
- > aborts the system suspend process instead of waiting.
- > Additionally, since the PM core executes the .prepare phase for all devices
- > before executing any .suspend callbacks, consumer devices haven't yet run
- > their own .suspend callbacks to stop their DMA transfers.
- > If any normal background DMA activity is ongoing, won't this immediately
- > abort the entire system suspend transition?
+Similar to commit 7b509910b3ad ("ALSA hda/realtek: Add quirk for
+Framework F111:000C") and previous quirks for Framework systems with
+Realtek codecs.
 
-If DMA activity is ongoing the expectation is that it will finish and the 
-suspend_prepare() will go forward.
+000F is another new platform with an ALC285 which needs the same quirk.
 
- > > +   }
- > > +
- > > +   return 0;
- > > +}
- > [ ... ]
- > > +static int rz_dmac_suspend(struct device *dev)
- > > +{
- > > +   struct rz_dmac *dmac = dev_get_drvdata(dev);
- > > +   int ret;
- > Can ret be used uninitialized here?
+Signed-off-by: Dustin L. Howett <dustin@howett.net>
+Link: https://patch.msgid.link/20260327-framework-alsa-000f-v1-1-74013aba1c00@howett.net
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-Yes, this is a typo. I'll properly initialize this here.
+LLM Generated explanations, may be completely bogus:
 
- > If the DMA controller has no cyclic channels configured, the loop below will
- > skip every iteration due to the continue statement, leaving ret
- > uninitialized.
- > > +
- > > +   for (unsigned int i = 0; i < dmac->n_channels; i++) {
- > > +           struct rz_dmac_chan *channel = &dmac->channels[i];
- > > +
- > > +           guard(spinlock_irqsave)(&channel->vc.lock);
- > > +
- > > +           if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
- > > +                   continue;
- > > +
- > > +           ret = rz_dmac_device_pause_internal(channel);
- > > +           if (ret) {
- > > +                   dev_err(dev, "Failed to suspend channel %s\n",
- > > +                           dma_chan_name(&channel->vc.chan));
- > > +                   break;
- > > +           }
- > > +
- > > +           channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
- > > +   }
- > > +
- > > +   if (ret) {
- > If ret contains uninitialized stack memory that evaluates to true, could this
- > trigger the error recovery path and silently abort the system suspend
- > transition?
- > > +           rz_dmac_suspend_recover(dmac);
- > > +           return ret;
- > > +   }
- > > +
- > > +   pm_runtime_put_sync(dmac->dev);
- > > +
- > > +   ret = reset_control_assert(dmac->rstc);
- > Is the ordering of runtime PM and reset control inverted here compared to
- > rz_dmac_remove()?
+Error: Failed to generate final synthesis
 
-Yes, I'll adjust it.
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- > In rz_dmac_remove(), reset_control_assert() is called before pm_runtime_put().
- > Operating on the reset control after the device's power domain is suspended
- > might cause the operations to be silently ignored by the hardware or lead to
- > system bus lockups.
- > > +   if (ret) {
- > > +           pm_runtime_resume_and_get(dmac->dev);
- > > +           rz_dmac_suspend_recover(dmac);
- > > +   }
- > > +
- > > +   return ret;
- > > +}
- > > +
- > > +static int rz_dmac_resume(struct device *dev)
- > > +{
- > > +   struct rz_dmac *dmac = dev_get_drvdata(dev);
- > > +   int errors = 0, ret;
- > > +
- > > +   ret = reset_control_deassert(dmac->rstc);
- > Similarly, is the ordering of reset control and runtime PM inverted here
- > compared to rz_dmac_probe()?
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 0c975005793e7..e7f7b148b40e5 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7555,6 +7555,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0xf111, 0x0009, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x000b, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x000c, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0xf111, 0x000f, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 
+ #if 0
+ 	/* Below is a quirk table taken from the old code.
+-- 
+2.53.0
 
-Yes, I'll adjust it.
-
- > In rz_dmac_probe(), pm_runtime_resume_and_get() is called before
- > reset_control_deassert(). Doing this in the reverse order here means the
- > reset is deasserted before the hardware power domain is enabled.
- > > +   if (ret)
- > > +           return ret;
- > > +
- > > +   ret = pm_runtime_resume_and_get(dmac->dev);
- > > +   if (ret) {
- > > +           reset_control_assert(dmac->rstc);
- > > +           return ret;
- > > +   }
- > [ ... ]
- > > @@ -1380,6 +1557,7 @@ static struct platform_driver rz_dmac_driver = {
- > >     .driver         = {
- > >             .name   = "rz-dmac",
- > >             .of_match_table = of_rz_dmac_match,
- > > +           .pm     = pm_sleep_ptr(&rz_dmac_pm_ops),
- > Should this use pm_ptr() instead of pm_sleep_ptr()?
- > If CONFIG_PM_SLEEP is disabled, pm_sleep_ptr() evaluates to NULL, but the
- > struct rz_dmac_pm_ops itself and its unconditional callbacks like
- > rz_dmac_suspend_prepare will remain fully compiled into the binary as unused
- > dead code, potentially leading to compiler warnings.
- > Using pm_ptr() for the dev_pm_ops structure pointer and pm_sleep_ptr()
- > around the sleep callbacks inside the structure might resolve this.
- > >     },
- > >     .probe          = rz_dmac_probe,
- > >     .remove         = rz_dmac_remove,
-
-I think pm_sleep_ptr() fits better here as CONFIG_PM_SLEEP depends on 
-CONFIG_SUSPEND which is the flag under which the system suspend/resume code 
-resides. Also, CONFIG_PM_SLEEP selects CONFIG_PM, so CONFIG_PM_SLEEP cannot be 
-enabled w/o CONFIG_PM.
