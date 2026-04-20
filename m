@@ -1,216 +1,146 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011064.outbound.protection.outlook.com [40.107.74.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4CD386550
-	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 21:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776721033; cv=none; b=cAPFNM8gXIuneRjReipMAXYMETcuCxMQpmrzWKKDhlsatOZcTLxCCt8tVvZymq3YH4bJF7GOPlHJUXeRpV8j1ugADseFJdIs5SmAxxxXrAOuu1b13hTnX5ii6BNMe8m/6t1Y12qm+197Vq8cJkz9TkX91XbeIaDfnXJ8aj/Gh6M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776721033; c=relaxed/simple;
-	bh=Yf0WPJgEw63hC4Ftd+tg8HDiNA4NmQPEsc/monuPMwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AvEopQvqTOCmb5lFT3QI+9Sr/18Ljg6XjpoPkIoaPWaU7M7G3E7ONyStfPrWtKFKZFClWR7T3wdcNODog/uVXqig4vWUY/lp9hEGueGgi4c1gRPgl59k2RTeejpen3V3dE9PVF9/ei+/EXDFUu9F2ftRDqsLueLJ/R3BolY5dB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=hwgH6S5t; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699ED1F130B
+	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 23:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776727313; cv=fail; b=bc29ubhw/U9AmCchu7HHmF7M6jt0Z+9GLBccP6YdR/OkDLU8OXq1Va1yHfV3yjIbZrf8URC23mz4nDo4nk4POKsExphZ/uDsnDnwtnKz+sMMcoxGzbVMWgOTi6HcAtLZ/qtzLk+ZkxbScylFDLBdcsOQZhmPvGBo0Rp33ziO2oI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776727313; c=relaxed/simple;
+	bh=idQztBKVyb8b6RuoMs2VV9Uor99W40IvP5rv8aFALQY=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=cUMq5jMI8/4YWocJIsnbfRmszdXxUiIgLzuI4biVLVxCto79M3q8082iP18HtM16zp1y43QVp8PTBzs3DtU1w4L6tQ84iFO/sO0yN5gWv5gct9aDWZjBX8Sw3Lnnqe8JpEKpzQ7DkoebgXAqpdAoRjdYcX0sW7hWirOieFQJIwM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ScLZQ11P; arc=fail smtp.client-ip=40.107.74.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="hwgH6S5t"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1776721028;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rDQnhd1Mjgk59m3jRZy2qUsquCCaUodGYFITXbEmC+w=;
-	b=hwgH6S5tjmcIagQuDVgIeDmjCxuZ/AWKS9LqRE5D73g/NXrFormvU8OjfFL8JgwHcRrm53
-	ka9vdy6vaZ+pgCdYsxWlOB97aEcfFDkBY79Dq1uXKoVQCPenTzIOXjoPWdjze8gn6XURn1
-	6XYyQxgJPjpbCWLU20joeFvgcWDOhEcU1n6kb1Xpbgz4uWbLwJOTxffZf9XNaTPWJL2sRc
-	BeM24N0MyTxHrgcE9lMPhxGyzWSeZpLzmrbeoblUbOTE/vtK2tDNonF14iYJUW8mCtgOsd
-	qaTC+tmK4ejwgU7tyfWI7wE8lxxNkauURtmSKlAEqOIrwrCZGiiRPU8lx4ywJA==
-From: Val Packett <val@packett.cool>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Val Packett <val@packett.cool>,
-	Bhushan Shah <bhushan.shah@machinesoul.in>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	phone-devel@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ScLZQ11P"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A9XQORQMWL12nryZhIy7+J68M0w9cDBLEogMR1ArIWeMJryT9a+vn3MzoGM9JAdAh8b2K7x06VxvKem4ltWYhLxppdy5PclRDJniurlnYx7kgpcWXzutqT+D1Ke83vtkQhh3GQ5uN/whLUaoO3hDqdzRScOsvLAHFdPoZeSHtiBZRVytq/LqzouANYGPTBacfpyPeM7vwyMOzI1YUC4hD9/ZBoSWaTxLOMWIwRTI7mHPI9/muu9RsfZggULfvyDSPsdEsQRx5iL/xdqTslUFwoq+PkaynEmGiJBZGHaiz18xtyzCwfVjPGje71dVTxI/WJiRwzj8UDtOIw3xFVbklw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7Zs+wOCFBluqF9lXch9cm/UCRd988uGajBHOrfUvT0Q=;
+ b=T5j4TDx0xn3whYELGtnSMkYZ6XB77EZQoMYfVzUQ+p/OPfo5y4YQ53vANiZhf7rrLvPM5GU6Qhok4o+/pSWK6xHXhtCTq6J+PXayKBugyYFflPpP7a9MCCM7zrc+XyzqeEtdzFAxeXzuULcCElQ7JWs5LSxeEb48S1/4seGS4D1M1BYjKOxBc4WYvV1VLy3ARP85QqHDCDPp2cIqF7MpFuLsugbdZvWG5oA7EnTNaq53sowUFoit4b/5Ct1CyXz/Xial3RSRRYuJbwyDeeelCqQoorjiT06IFQDRNJ2cDxZOf+lq7mafubHSdJSyk8yCKRuGUsMn/1DxrP/ZQWie4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7Zs+wOCFBluqF9lXch9cm/UCRd988uGajBHOrfUvT0Q=;
+ b=ScLZQ11PX+B/blA1jBVQaHZF/6skook79NmAa4U44iBpYWspFqeA5GhASsox8vwfIvxJ2XY7oKgZ+mf8kA+kG3cTcIYfctU3p10m8a2GiMzjj7bXBs3fEiPTYzt/miagAxBx8njjghQrwABX5UE399bM70NLLd+fHElOnh36aOE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OS9PR01MB13131.jpnprd01.prod.outlook.com (2603:1096:604:30c::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.33; Mon, 20 Apr
+ 2026 23:21:49 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9818.033; Mon, 20 Apr 2026
+ 23:21:49 +0000
+Message-ID: <87h5p5z08j.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: codecs: aw88261: use correct registers for AW88258
-Date: Mon, 20 Apr 2026 16:40:00 -0300
-Message-ID: <20260420213250.215465-4-val@packett.cool>
-In-Reply-To: <20260420213250.215465-2-val@packett.cool>
-References: <20260420213250.215465-2-val@packett.cool>
+Subject: Re: [PATCH] ASoC: ti: ams-delta: Stop (ab)using card->pop_time
+In-Reply-To: <kEUB9WXTRsS9I55YFC9m_g@gmail.com>
+References: <20260412012657.1370381-1-jmkrzyszt@gmail.com>
+	<87cy0336hd.wl-kuninori.morimoto.gx@renesas.com>
+	<kEUB9WXTRsS9I55YFC9m_g@gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 20 Apr 2026 23:21:49 +0000
+X-ClientProxiedBy: OS7PR01CA0074.jpnprd01.prod.outlook.com
+ (2603:1096:604:253::10) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS9PR01MB13131:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb585160-bb98-4b2b-b3a2-08de9f3398fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	sUcYfdN/mIXF6CE71EHFrR/CwI+fb3KB+UqJB6aVvSju/20yNthqIwUqS7ThYmo4d2qeaIU9ekIPP7cGd2xw4z7k9b4JA3Di/XjVyoBYRjjc0rbHxb72ni/OLCLA/v8Lr7Hu9jXJsN87nk0+yxENVAjFS5DnXXaZYseP8TC1ZFfoYqhapUxBvi5s6x/WXcgivc9+ww6Fs9ZlIcDSqcrBlySwm8RSVwTznlYOSd4TKxB9zt0PrwUhaYeuu16/SNMBkANvlMxsv4yHIbVOptmzK4KUC+AOiZ5Up5euWio8+iM3uOz4UeLI481tpByQhTWn4DjZ2WBH4LPG2XMCWBT7li3atvv9HlBWEjrKikZ1P4tyPKWa2dEqDTufBfZaVWREJVpvAE2P+NESl1L1YhBbs4otZqRaoK1MziG/xuHisYihBgGpUktBiQMENDHauZQwm6dBLUZzNsiNqezwq5fFkXWS0p7pDqdtMVWFJEIiWeUTVpK1i1G3s/+eURtO1rg2C3StUrMAzwVAaRaCFNGqH/vueDXJXOosCym04DrpcuWBCGe0pF9tTcbLVDBLp8GgZfeBnYUakwLGv9YkYxhPPwoKuRT9B6cvFZ5xP6mbYbqCwF29kc+744cpuway1XJAdDyu+Ip1kzzUWryqQkB9GcabsNieqOGqs0Jw5ADCN6XpaFjFQElHRuy1JscurQYSl4pMgKxXr91+dlQsgK2ZePP+pnIJodaDVWqiFK23NS4S0FYskYjUA4omHcbLm6ZUiZAo9A2b/AY0PbO/D5lsl+CTk3JXKhnSKVKqsQcYsRs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?b5vKUgj9u27X/GZtKO/LzEUJbwGfKtLd6NvQZwtuN3yXebm/Uz0wvVtLObnf?=
+ =?us-ascii?Q?Gt40/uBvocssM8RtAfBk7aR2LH/3X86btqQ2jlhQomMr+wX6DjFrI+RHGCBW?=
+ =?us-ascii?Q?uxLzHH7T2z0RuXsNbcV+IIFwNxp/0svU9mFsjZSG7p6+7MVCwBdPecSKZuGc?=
+ =?us-ascii?Q?2+bcM1OTej4TKzvX7dVbXIF14ho+QQFy2ErY0btkfWzgo3JsSouHiPV4y2od?=
+ =?us-ascii?Q?946rFYnDJVTzxE/NYLHpEpZNtWqtnv7b4zIu9UcHjm819vVMsPE1QFTg06SZ?=
+ =?us-ascii?Q?RNtwUiKM8zFxuwVPoYpwkTVvk9AdtIg7rdgKC85Ww3qZqxLjXjA84B6Obbyz?=
+ =?us-ascii?Q?vmGLMifxKac1QfNTX4Jv2ESaJjavgr1TL7yIHuo9GMmBemu88M9JsVqPqtBO?=
+ =?us-ascii?Q?iTVaHMJIhyhGbMyaD2Q9KuUu3CW9yU+sZnFb5h+xpedtTZgQgmRNqJoXOQrE?=
+ =?us-ascii?Q?LJ60n3K90XW1hf/4rxKHEeVaS9o6ZFfB9K89cll90TwiTtEma50650/yZ3h9?=
+ =?us-ascii?Q?9IIM147jl4ih7+8ohGYVOTmZ09C0HFO8uY6fGMaJZIEMUIeyxMGtHb9zk777?=
+ =?us-ascii?Q?gMO1t3loma2kQxyUfIJcQkT4tdWThajsRCWWbNQN9uaZfcHpcyRWUJFHoVPC?=
+ =?us-ascii?Q?CaORFg/grmKcjI467tdrL/NY1R3c35OXH3w8uCoqeXrssmr6JB6TYZGamr58?=
+ =?us-ascii?Q?mR2E67KHnEwynCF7QtNsJ5D+8MkR5PfCHEUV6+lovcyTE1rtIFHLc6pMcxt2?=
+ =?us-ascii?Q?SQ05gzuIdJBRsyBSxPMRwPozwvTu33ohASqJ5eZ5+Xrd1hcUwUDHCNq0mgqP?=
+ =?us-ascii?Q?s4npTZLknSlrrgTm8Yqx2GrbYSL9DYlbSxzsSx8j2Wle8c9yqDzY9ebfMZo1?=
+ =?us-ascii?Q?L7Fjg17sxBiTyAYSf2kgDExKsi3o9y8mgQlivDT2IaI1B2GcJskH7Ym2FZ7O?=
+ =?us-ascii?Q?p6eQjPXtZOiKSnjc671ZW6/VtDvkjgPTqas6sd9i/R9Le+XxcFpFxK4KVtot?=
+ =?us-ascii?Q?w9PyEi9rytJUG/K3g5eYpdlybXzwKI8BVW0Z2mDhTdX89pitYy6jub9TssrV?=
+ =?us-ascii?Q?K3Cie1GpHNDhSyRjxYKSEYE+xIRbI1KqltYH4lMyXiDqi1GIR48EkDS6Lbzg?=
+ =?us-ascii?Q?myWgEBDmx+ttTH8yKaw5eEaafiE0GfUTZXpFRq7U472M3w5FIDFcAoAeJoC8?=
+ =?us-ascii?Q?IEJALeJATmVw44PYlcWPkTabQXAxSyV/9BTGPeHDmAz+x6Afc+wl0yi6+8vm?=
+ =?us-ascii?Q?lao3HF6fmmnoqe0Y1lNJwM/TEndIT37+G0YLWI1wX4oknVbxDGdnNP1SQzpp?=
+ =?us-ascii?Q?/49WNzQtHL47vlAIhxapZQ6tfNLB907hUZdIqqDpKAISJTexUJBEOOx4cY4W?=
+ =?us-ascii?Q?nG18fihGgPgy+0oscqsxAhAYW+u4YY9huNrX1k+XK8L7Y2X39WaBlRMxP8dE?=
+ =?us-ascii?Q?zQVqFq5t9bCPeSG1qGixYBYqUNeyOO6znJRwrWLkHtSush2iKKOzzPFh7Mmj?=
+ =?us-ascii?Q?sPw346Te1YR1XYnMO5a6ByXbXQffMAI1/1UuSOdfup6QRCeLUy9nxUeJCPZc?=
+ =?us-ascii?Q?nnt0e4FelYpvyvQeiNWh7y3ulA5KdRHHpio9mlmnouXKSIV9tyBRki/5zVpq?=
+ =?us-ascii?Q?fmjk4lj4p4oFhBeW398BEb4CnNA+ogldaJO/rOR/DoNzRTCRJUnlYI9Ovs5e?=
+ =?us-ascii?Q?M7kX5puddy9slezWVsk4xNZdA3OBY1Idlu2N8oz7BeCZ1GofPD2yArC1JDNo?=
+ =?us-ascii?Q?CXmeUDIUjqqiOuMCmkQWnysbUTW9GDWx6gV9tDmOoghKbVCe8AWw?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb585160-bb98-4b2b-b3a2-08de9f3398fe
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 23:21:49.4124
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LnbmTO0BalMIjQ72eH2pEYnbTSVmepVn0k8FBgGef3SYOY6V2Tmaga7A6nfr/e5Fz2RzjER3ccFBV/KJu2R6WelQvxbS8SIb7KSJqtTrGU7MFfSorVVHJBrLMviYtCCZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB13131
 
-The AW88258 has a slightly different register map, namely the PLL ones
-are different and some extra boost ones are absent. Before the recent
-hw_params fix, the PLL CCO_MUX accesses were actually always wrong as
-the PLLCTRL1 address (0x54) was from the AW88261 but the CCO_MUX offset
-(14) was from the AW88258. With said fix the AW88261 parameters were
-always used, making it work on that chip. Make the accesses correct
-for the AW88258 as well.
 
-Signed-off-by: Val Packett <val@packett.cool>
+Hi Janusz
+
+Thank you for your feedback
+
+> I can't give you a definite answer because I'm not able to recall exactly 
+> what it was needed for, and unfortunately I didn't provide that information 
+> in the commit description that introduced that code.  Moreover, I'm not 
+> able to do any testing right now.
+> 
+> My intention standing behind this patch was only to remove the non-standard 
+> dependency of the drivers on that attribute so its abuse doesn't block or 
+> complicate framework updates.
+
+OK, thank you for clearly the background.
+
+By this patch, it is easy to move card->pop_time to soc-dapm local.
+
+Thank you for your help !!
+
+Best regards
 ---
-This one is not tested (don't have the hardware), but since I've noticed
-that the CCO_MUX was not even correct for any of the supported chips,
-I've decided to try fixing it for the other one as well.
-
-Code style wise this is kind of a really annoying situation but hopefully
-this looks okay enough
-
-~val
----
- sound/soc/codecs/aw88258.h | 34 ++++++++++++++++++++++++++++++++++
- sound/soc/codecs/aw88261.c | 37 ++++++++++++++++++++++++++-----------
- 2 files changed, 60 insertions(+), 11 deletions(-)
- create mode 100644 sound/soc/codecs/aw88258.h
-
-diff --git a/sound/soc/codecs/aw88258.h b/sound/soc/codecs/aw88258.h
-new file mode 100644
-index 000000000000..7ae177667ae6
---- /dev/null
-+++ b/sound/soc/codecs/aw88258.h
-@@ -0,0 +1,34 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// aw88258.h  --  AW88258 ALSA SoC Audio driver
-+//
-+// Copyright (c) 2023 awinic Technology CO., LTD
-+//
-+// Author: Jimmy Zhang <zhangjianming@awinic.com>
-+// Author: Weidong Wang <wangweidong.a@awinic.com>
-+//
-+
-+#ifndef __AW88258_H__
-+#define __AW88258_H__
-+
-+/* This file contains definitions for registers that differ between
-+ * the AW88261 (ID 0x2113) and the AW88258 (ID 0x1852). */
-+
-+#define AW88258_PLLCTRL1_REG		(0x66)
-+#define AW88258_PLLCTRL2_REG		(0x67)
-+#define AW88258_PLLCTRL3_REG		(0x68)
-+
-+#define AW88258_CCO_MUX_START_BIT	(14)
-+#define AW88258_CCO_MUX_BITS_LEN	(1)
-+#define AW88258_CCO_MUX_MASK		\
-+	(~(((1<<AW88258_CCO_MUX_BITS_LEN)-1) << AW88258_CCO_MUX_START_BIT))
-+
-+#define AW88258_CCO_MUX_DIVIDED	(0)
-+#define AW88258_CCO_MUX_DIVIDED_VALUE	\
-+	(AW88258_CCO_MUX_DIVIDED << AW88258_CCO_MUX_START_BIT)
-+
-+#define AW88258_CCO_MUX_BYPASS		(1)
-+#define AW88258_CCO_MUX_BYPASS_VALUE	\
-+	(AW88258_CCO_MUX_BYPASS << AW88258_CCO_MUX_START_BIT)
-+
-+#endif
-diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
-index 3c7d3e3865eb..172f38a4921c 100644
---- a/sound/soc/codecs/aw88261.c
-+++ b/sound/soc/codecs/aw88261.c
-@@ -14,6 +14,7 @@
- #include <linux/regulator/consumer.h>
- #include <sound/soc.h>
- #include <sound/pcm_params.h>
-+#include "aw88258.h"
- #include "aw88261.h"
- #include "aw88395/aw88395_data_type.h"
- #include "aw88395/aw88395_device.h"
-@@ -179,37 +180,36 @@ static int aw88261_dev_check_pll(struct aw_device *aw_dev)
- static int aw88261_dev_configure_syspll(struct aw88261 *aw88261)
- {
- 	struct aw_device *aw_dev = aw88261->aw_pa;
--	uint32_t sr_value, fs_value, cco_mux_value, bck_value;
-+	uint32_t sr_value, fs_value, bck_value;
-+	bool bypass_divider = false;
- 	int ret;
- 
- 	switch (aw88261->sample_rate) {
- 	case 8000:
- 		sr_value = AW88261_I2SSR_8KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_DIVIDED_VALUE;
- 		break;
- 	case 16000:
- 		sr_value = AW88261_I2SSR_16KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_DIVIDED_VALUE;
- 		break;
- 	case 32000:
- 		sr_value = AW88261_I2SSR_32KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_DIVIDED_VALUE;
-+		bypass_divider = true;
- 		break;
- 	case 44100:
- 		sr_value = AW88261_I2SSR_44P1KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_BYPASS_VALUE;
-+		bypass_divider = true;
- 		break;
- 	case 48000:
- 		sr_value = AW88261_I2SSR_48KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_BYPASS_VALUE;
-+		bypass_divider = true;
- 		break;
- 	case 96000:
- 		sr_value = AW88261_I2SSR_96KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_BYPASS_VALUE;
-+		bypass_divider = true;
- 		break;
- 	case 192000:
- 		sr_value = AW88261_I2SSR_192KHZ_VALUE;
--		cco_mux_value = AW88261_CCO_MUX_BYPASS_VALUE;
-+		bypass_divider = true;
- 		break;
- 	default:
- 		dev_err(aw_dev->dev, "unsupported sample rate %d\n",
-@@ -241,8 +241,21 @@ static int aw88261_dev_configure_syspll(struct aw88261 *aw88261)
- 	}
- 
- 	/* PLL divider must be used for 8/16/32 kHz modes */
--	ret = regmap_update_bits(aw_dev->regmap, AW88261_PLLCTRL1_REG,
--			~AW88261_CCO_MUX_MASK, cco_mux_value);
-+	switch (aw_dev->chip_id) {
-+	case AW88261_CHIP_ID:
-+		ret = regmap_update_bits(aw_dev->regmap, AW88261_PLLCTRL1_REG,
-+				~AW88261_CCO_MUX_MASK, bypass_divider ?
-+				AW88261_CCO_MUX_BYPASS_VALUE : AW88261_CCO_MUX_DIVIDED);
-+		break;
-+	case AW88258_CHIP_ID:
-+		ret = regmap_update_bits(aw_dev->regmap, AW88258_PLLCTRL1_REG,
-+				~AW88258_CCO_MUX_MASK, bypass_divider ?
-+				AW88258_CCO_MUX_BYPASS_VALUE : AW88258_CCO_MUX_DIVIDED);
-+		break;
-+	default:
-+		WARN_ONCE(1, "missing PLL regs for chip %x", aw_dev->chip_id);
-+		return -ENXIO;
-+	}
- 	if (ret)
- 		return ret;
- 
-@@ -306,7 +319,9 @@ static void aw88261_dev_uls_hmute(struct aw_device *aw_dev, bool uls_hmute)
- 
- static void aw88261_reg_force_set(struct aw88261 *aw88261)
- {
--	if (aw88261->frcset_en == AW88261_FRCSET_ENABLE) {
-+	if (aw88261->aw_pa->chip_id == AW88258_CHIP_ID) {
-+		dev_dbg(aw88261->aw_pa->dev, "force_set not supported on aw88258");
-+	} else if (aw88261->frcset_en == AW88261_FRCSET_ENABLE) {
- 		/* set FORCE_PWM */
- 		regmap_update_bits(aw88261->regmap, AW88261_BSTCTRL3_REG,
- 				AW88261_FORCE_PWM_MASK, AW88261_FORCE_PWM_FORCEMINUS_PWM_VALUE);
--- 
-2.53.0
-
+Kuninori Morimoto
