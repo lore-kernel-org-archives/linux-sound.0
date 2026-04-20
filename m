@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416F5451056;
-	Mon, 20 Apr 2026 13:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EC147276E;
+	Mon, 20 Apr 2026 13:30:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691829; cv=none; b=uQsu7tTtwsG0YK9CejN2V4HsAn5uADoT7sv0qn8bhF8ulyyk+rMJYtj/6ly0rvnu8vJ53NF1lQexFBsIwdD610kwF1GnH2vU5e9LYKd72faQCzCjMkG5nHIRXSxzuLQTDSXQ2InrA2u2utKJ2hlKg6iNxMbf5TNW33tVJwDQo/8=
+	t=1776691838; cv=none; b=jv74rukAfmOIvnsKjsByHZwkUkPPBsZ55ZjEEnwk/Hg9yPJs9GBLSb5dI4mvFoMKYEyXgWtuxqqaVtV+7aYUgP7Gwg+OHtE3+iNxRZ/oc/gdqTWp3k4WsnAb7jHqDUpW/2O3HOXjUm2qpnCpuZt/bKZBN2YG+V+dPI6l6TOU8w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691829; c=relaxed/simple;
-	bh=O4b1Y+xQEG8AiQcB2M8vWaECIB5j/E6fhegWDL6BDYE=;
+	s=arc-20240116; t=1776691838; c=relaxed/simple;
+	bh=9ecfgTa+NjRjMC5fOqWr0c5I4R4JmQZKf33rrJkOZgw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cVoAuV39xUjxeuBWR62SdDQtBAdp5g6WwHxTN6G6Janx7zeHg9+KbWGM4H64gbKaAi+vT08eb1Mt83KsjGtG8CAjPRYLJ0yHxMS7lt0k/vKtLsAOvKjKs0TmUaDYs7+TdcOzumAFYP3Qv8CXPZJFsT4GjPFNQv+sWtNoVLzvNuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/cUjcry; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fEa4A2M+oDnJt7Br2N8tx/3EKEZbERG02jG6+4yRjkXFf558u+Cm1IMzBOIdC3hyiP2I7PH3cwQUKX7WwE0eqqp2pXlR7ovd4VVPo8ZH3efthpNWj1WMlojKhFN7TxtxhEUayQBWxGr0Dm3KRymeZtNDFZJ5FxJgDEhpn5ojKic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aShk/De1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/cUjcry"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2718EC19425;
-	Mon, 20 Apr 2026 13:30:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aShk/De1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 131BBC19425;
+	Mon, 20 Apr 2026 13:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691829;
-	bh=O4b1Y+xQEG8AiQcB2M8vWaECIB5j/E6fhegWDL6BDYE=;
+	s=k20201202; t=1776691838;
+	bh=9ecfgTa+NjRjMC5fOqWr0c5I4R4JmQZKf33rrJkOZgw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p/cUjcryWN5bypyGaqQfaLhCxmspM2h6yDThmBZ6c079wCDG5Orx3z76YX7RF5Lo0
-	 54wfZDxdZ4XEfyjR5YDAX0a7SztUsYl6LJ625rSWTgjP1D4pJIgoFiYvxna5mdofeb
-	 KmRq9Ic6NL1EWRkHSsGtNif4AlXruwsh3kQ20jGQ46oly/ymcl4wCL3fed9FC9LPU0
-	 +oD7dvQiWhGHj+wfnP3txNZZIPnbToY7qIezJxJHQA1Wxd5GuflsfKTSQcY2CM8Auv
-	 eZ0DT2jJ3IQhJarlDj/AFaeQsHjVqg6gk5ITzdqgK2nFyIwmv8xoOwVSS9HfQMWMAC
-	 v3zij0qfnfVOw==
+	b=aShk/De1mbYjwxuFzfkUiH6Qt8n23rleBm2YeTLY0gDI2nGHf3hTnhPYbDeE+1k8k
+	 pnpe0CJGzDn70TBQJnKOoii7bU/l23vFzwt+ZZdhSp6SBswjEDIvif0qSv+1DNuKI3
+	 VbFjQJQKjR+QCo8J9rZIN3wp9RnwXwyVYX4rmFemwHDv+E7KH7RJnMEeLWEJgzsbmZ
+	 y2cqgoqWJnY8SwskIj7RCufLaCHzIkSSZzN69ZYhYC2pYU3OzemfW2OdKbUT9priUo
+	 4kgwCQ3CbZ7i2msR6bV8Iur1sc2i+i6aoFhuUnA0tpsMGga6yz78gxneQ2EPfLa5Le
+	 ZSu5EywaDxonw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+Cc: Faye Nichols <faye.opensource@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.19] ALSA: hda/realtek: Add support for HP Laptops
-Date: Mon, 20 Apr 2026 09:20:13 -0400
-Message-ID: <20260420132314.1023554-219-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.12] ALSA: hda/realtek: Add quirk for Acer PT316-51S headset mic
+Date: Mon, 20 Apr 2026 09:20:18 -0400
+Message-ID: <20260420132314.1023554-224-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -54,327 +54,269 @@ X-stable-base: Linux 7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Stefan Binding <sbinding@opensource.cirrus.com>
+From: Faye Nichols <faye.opensource@gmail.com>
 
-[ Upstream commit 8dbbd39d0605b93a176f2c775dd2b6bb7c7a8adb ]
+[ Upstream commit a7b56be59b47f4195ddc79ecab238c4401a60bbb ]
 
-Add support for HP Auster, Trekker and Agusta G7KX.
-Laptops use 2 CS35L41 Amps with HDA, using Internal boost, with I2C
+The Acer PT316-51S (PCI SSID 1025:160e) with ALC287 codec does not
+detect the headset microphone due to missing BIOS pin configuration
+for pin 0x19. Apply ALC2XX_FIXUP_HEADSET_MIC to enable it.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260330134651.443439-2-sbinding@opensource.cirrus.com
+Signed-off-by: Faye Nichols <faye.opensource@gmail.com>
+Link: https://patch.msgid.link/20260413212645.117119-1-faye.opensource@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I now have all the information needed for a comprehensive analysis.
-Here's my complete walkthrough:
+Here is my complete analysis:
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-- **Subsystem**: `ALSA: hda/realtek` (HDA audio codec - Realtek)
-- **Action verb**: "Add support" - adding hardware support entries
-- **Summary**: Adds PCI quirk entries for HP Auster, Trekker G7JC, and
-  Agusta G7KX laptops
-- Record: [ALSA/HDA Realtek] [Add] [Hardware quirk entries for HP
-  laptops with CS35L41 amps]
+**Step 1.1: Subject Line**
+- Subsystem: `ALSA: hda/realtek`
+- Action verb: "Add" (quirk)
+- Summary: Adds a PCI SSID quirk for Acer PT316-51S to enable headset
+  microphone detection.
+Record: [ALSA/hda/realtek] [Add] [Hardware quirk for Acer PT316-51S
+headset mic]
 
-### Step 1.2: Tags
-- **Signed-off-by**: Stefan Binding (sbinding@opensource.cirrus.com) -
-  Cirrus Logic engineer, regular CS35L41 contributor
-- **Link**: `https://patch.msgid.link/20260330134651.443439-2-
-  sbinding@opensource.cirrus.com` - patch 2 of series
-- **Signed-off-by**: Takashi Iwai (tiwai@suse.de) - ALSA subsystem
-  maintainer
+**Step 1.2: Tags**
+- Signed-off-by: Faye Nichols (author)
+- Link: patch.msgid.link (standard patch submission)
+- Signed-off-by: Takashi Iwai (ALSA subsystem maintainer) — indicates
+  maintainer review and acceptance
 - No Fixes: tag (expected for quirk additions)
-- No Reported-by: tag (expected - hardware enablement)
-- No Cc: stable tag (expected - this is what we're evaluating)
-- Record: Standard tags for a quirk addition. Merged by the ALSA
-  subsystem maintainer.
+- No Reported-by: (the author likely is the user affected)
+Record: [Maintainer SOB from Takashi Iwai — strong acceptance signal]
 
-### Step 1.3: Commit Body
-- "Add support for HP Auster, Trekker and Agusta G7KX."
-- "Laptops use 2 CS35L41 Amps with HDA, using Internal boost, with I2C"
-- This is a standard hardware enablement description from Cirrus Logic.
-- Record: Without these quirk entries, the CS35L41 amplifiers on these
-  HP laptops won't be configured correctly, resulting in no audio output
-  or broken audio.
+**Step 1.3: Body Text**
+The commit clearly states: The Acer PT316-51S (PCI SSID 1025:160e) with
+ALC287 codec does not detect the headset microphone due to missing BIOS
+pin configuration for pin 0x19. The fix applies
+`ALC2XX_FIXUP_HEADSET_MIC` to override the BIOS-provided (or missing)
+pin configuration.
+Record: [Bug: headset mic not detected] [Root cause: missing BIOS pin
+config for pin 0x19] [Fix: apply existing fixup]
 
-### Step 1.4: Hidden Bug Fix?
-- Not a hidden bug fix - this is a straightforward hardware enablement
-  via quirk table entries. However, the absence of these entries means
-  audio doesn't work on these laptops, which is a real user-facing
-  issue.
-- Record: Not a hidden bug fix. It's a hardware quirk addition, which is
-  an explicitly allowed exception for stable.
+**Step 1.4: Hidden Bug Fix?**
+Not hidden — this directly fixes non-functioning hardware (headset mic).
+Record: [Explicit hardware fix, not disguised]
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **Files changed**: 1 file (`sound/hda/codecs/realtek/alc269.c`)
-- **Lines added**: 4 (pure additions)
-- **Lines removed**: 0
-- **Functions modified**: None (only the `alc269_fixup_tbl[]` data table
-  is changed)
-- Record: Single-file, 4-line addition to a data table. Minimal scope.
+**Step 2.1: Inventory**
+- 1 file changed: `sound/hda/codecs/realtek/alc269.c`
+- 1 line added
+- 0 lines removed
+- Function modified: none — this adds an entry to a static data table
+  (`alc269_fixup_tbl[]`)
+Record: [+1 line, single file, table entry addition] [Scope:
+minimal/surgical]
 
-### Step 2.2: Code Flow Change
-Four new `SND_PCI_QUIRK()` entries inserted in sorted order:
-1. `0x8e75` → "HP Trekker G7JC" → `ALC287_FIXUP_CS35L41_I2C_2`
-2. `0x8f07` → "HP Agusta G7KX" → `ALC287_FIXUP_CS35L41_I2C_2`
-3. `0x8f2d` → "HP Auster 14" → `ALC287_FIXUP_CS35L41_I2C_2`
-4. `0x8f2e` → "HP Auster 14" → `ALC287_FIXUP_CS35L41_I2C_2`
+**Step 2.2: Code Flow**
+The new line inserts `SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S",
+ALC2XX_FIXUP_HEADSET_MIC)` into the PCI quirk table between 0x1597 and
+0x169a entries (sorted order). When the HDA codec driver matches PCI
+SSID 1025:160e, it will apply the `ALC2XX_FIXUP_HEADSET_MIC` fixup.
+Record: [Before: no quirk for this SSID, so headset mic not configured.
+After: fixup is applied during codec init.]
 
-Before: These PCI subsystem IDs have no quirk entry → generic behavior →
-CS35L41 amps not properly configured.
-After: These IDs match → `cs35l41_fixup_i2c_two()` is called → 2 CS35L41
-amps configured via I2C with internal boost.
+**Step 2.3: Bug Mechanism**
+This is category (h) — hardware workaround / device ID addition. The
+`ALC2XX_FIXUP_HEADSET_MIC` fixup (verified at line 3545-3561) sets pin
+0x19 to config value 0x03a1103c, updates a codec coefficient, and sets
+the HEADSET_MIC parse flag. Without this, the BIOS-provided (or absent)
+pin config leaves the headset mic non-functional.
+Record: [Hardware quirk table entry] [Existing fixup, only adds PCI SSID
+matching]
 
-### Step 2.3: Bug Mechanism
-- Category: **Hardware workaround / device ID addition**
-- Without the quirk entry, the HDA codec driver doesn't know these
-  laptop models have CS35L41 amplifiers that need specific I2C
-  configuration. Audio will be broken or absent.
+**Step 2.4: Fix Quality**
+- Obviously correct: identical pattern to dozens of existing entries (21
+  uses of `ALC2XX_FIXUP_HEADSET_MIC` already)
+- Minimal: 1 line in a data table
+- Regression risk: essentially zero — only affects this specific PCI
+  SSID
+Record: [Obviously correct, zero regression risk]
 
-### Step 2.4: Fix Quality
-- Obviously correct: just adds entries to a sorted lookup table using an
-  existing fixup
-- Minimal/surgical: 4 lines, data-only
-- Zero regression risk: only affects the specific HP PCI subsystem IDs
-  listed
-- No code logic changes whatsoever
+## PHASE 3: GIT HISTORY
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+**Step 3.1: Blame**
+The surrounding entries using the same fixup
+(`ALC2XX_FIXUP_HEADSET_MIC`) were added by various contributors (Breno
+Baptista 2026-02-04, Takashi Iwai 2025-07-09, Matouš Lánský 2025-12-31).
+The fixup function `alc2xx_fixup_headset_mic` and enum
+`ALC2XX_FIXUP_HEADSET_MIC` have been in the tree since at least kernel
+6.x era.
+Record: [ALC2XX_FIXUP_HEADSET_MIC infrastructure exists in stable trees]
 
-### Step 3.1: Blame
-- The `ALC287_FIXUP_CS35L41_I2C_2` fixup was introduced in commit
-  `07bcab93946cd` (January 2022, merged in v5.18). It has been stable
-  and used by dozens of other HP/ASUS laptop quirk entries ever since.
-- Record: The fixup function exists in all active stable trees (v5.18+).
+**Step 3.2: No Fixes: tag** — N/A for quirk additions.
 
-### Step 3.2: No Fixes: tag (expected for quirk additions)
+**Step 3.3: File History**
+The file receives continuous quirk additions (20 recent commits shown
+are almost all quirk additions). This is a well-tested and routine
+change pattern.
+Record: [File receives frequent identical-pattern changes]
 
-### Step 3.3: File History
-- Stefan Binding has numerous similar commits adding CS35L41 quirk
-  entries for HP laptops: `108c422c495dc` (HP Clipper), `720eebd514c0c`
-  (HP Trekker), `f8b1ff6555868` (HP Turbine). This is a well-established
-  pattern.
-- Record: Standalone commit, no prerequisites needed.
+**Step 3.4: Author**
+Faye Nichols has no other commits in this tree. This is a single
+community contribution. However, it was accepted by Takashi Iwai (ALSA
+subsystem maintainer), which validates the change.
+Record: [Community contributor, maintainer-accepted]
 
-### Step 3.4: Author
-- Stefan Binding is a Cirrus Logic engineer who is the primary
-  contributor for CS35L41 HDA support. He has dozens of similar commits
-  over the past 4 years.
-- Record: Author is the de facto maintainer of CS35L41 HDA integration.
+**Step 3.5: Dependencies**
+The `ALC2XX_FIXUP_HEADSET_MIC` enum and function exist in the 7.0 tree.
+Verified at line 4089 (enum), 6467-6470 (fixup table definition),
+3545-3561 (function implementation). This was introduced by commit
+50db91fccea0d (Dec 2024). For stable trees, we need to verify this
+enum/function exists. Given it was merged in late 2024, it should be in
+6.12+ stable trees.
+Record: [Depends on ALC2XX_FIXUP_HEADSET_MIC infrastructure from Dec
+2024]
 
-### Step 3.5: Dependencies
-- This is part of a 2-patch series (patch 1/2). Patch 2/2 adds ASUS
-  laptop quirks. The two patches are completely independent - they add
-  entries for different manufacturers to the same table.
-- `ALC287_FIXUP_CS35L41_I2C_2` already exists (line 6248 in current
-  tree).
-- Record: Fully standalone; no dependencies.
+## PHASE 4: MAILING LIST
 
-## PHASE 4: MAILING LIST RESEARCH
-
-### Step 4.1: Original Submission
-- Found via `b4 am`: Series is "[PATCH v1 0/2] Add support for various
-  HP and ASUS laptops using CS35L41 HDA"
-- Cover letter confirms: "These laptops use Internal boost, with SPI or
-  I2C."
-- v1 only (no revisions needed) - accepted as-is by Takashi Iwai.
-- Record: Clean submission, applied without revisions.
-
-### Step 4.2: Reviewers
-- Sent to Jaroslav Kysela (ALSA co-maintainer), Takashi Iwai (ALSA
-  maintainer), linux-sound@vger.kernel.org,
-  patches@opensource.cirrus.com
-- Applied by Takashi Iwai directly.
-- Record: Proper review chain through the subsystem maintainer.
-
-### Step 4.3: No bug report (hardware enablement, not a bug report)
-
-### Step 4.4: Series context
-- Patch 2/2 adds ASUS quirks; completely independent.
-
-### Step 4.5: Lore blocked by anti-bot protection; unable to search
-stable mailing list directly. No stable-specific discussion expected for
-a new quirk addition.
+**Step 4.1-4.5:** Lore.kernel.org was blocked by anti-bot protection.
+However, the patch link in the commit message
+(`patch.msgid.link/20260413212645.117119-1-faye.opensource@gmail.com`)
+and the maintainer's Signed-off-by confirm it went through standard
+review. Takashi Iwai (the ALSA maintainer) signed off on it, which is
+the standard acceptance path for HDA quirk additions.
+Record: [Unable to fetch lore discussion due to anti-bot. Maintainer
+acceptance confirmed via SOB.]
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Functions
-- No functions modified. Only the `alc269_fixup_tbl[]` static data table
-  is changed.
-
-### Step 5.2-5.4: Call chain
-- The quirk table is consulted during HDA codec probe via
-  `snd_pci_quirk_lookup()`. When a matching PCI subsystem vendor/device
-  ID is found, the corresponding fixup function
-  (`cs35l41_fixup_i2c_two`) is called during codec initialization.
-- This is a standard, well-tested path used by 100+ existing quirk
-  entries.
-
-### Step 5.5: Similar patterns
-- 114 existing uses of `ALC287_FIXUP_CS35L41_I2C_2` in the current tree.
-  This is one of the most commonly used fixups.
+**Step 5.1-5.5:** The change is a single data table entry. The
+`alc2xx_fixup_headset_mic` function (lines 3545-3561) applies pin
+configuration for pin 0x19, updates a codec coefficient, and sets the
+headset mic parse flag. This is a well-understood, thoroughly tested
+fixup path used by 20+ other devices. No new code paths are introduced.
+Record: [No new code, only adds a match entry to existing fixup
+infrastructure]
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: Buggy code in stable?
-- The "bug" is the absence of quirk entries for these specific HP laptop
-  models. The fixup infrastructure exists in all stable trees from v5.18
-  onward.
-- Record: `ALC287_FIXUP_CS35L41_I2C_2` confirmed present in v5.18 (13
-  uses) and v6.6 (25 uses).
+**Step 6.1:** The `ALC2XX_FIXUP_HEADSET_MIC` infrastructure was added in
+Dec 2024. It should exist in stable trees 6.12.y and newer. For older
+stable trees (6.6.y, 6.1.y), this specific fixup enum might not exist
+and would require a different backport approach (though similar fixups
+like `ALC256_FIXUP_ACER_HEADSET_MIC` exist in older trees).
+Record: [Applies cleanly to 6.12+ stable trees. Older trees may lack the
+specific fixup enum.]
 
-### Step 6.2: Backport complications
-- Minor context mismatch: in the mainline diff, entry `0x8e60` shows "HP
-  Trekker" with `ALC287_FIXUP_CS35L41_I2C_2`, but in the current 7.0
-  tree, it shows "HP OmniBook 7 Laptop 16-bh0xxx" with
-  `ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED`. This means the first hunk
-  context won't match exactly, but the insertion points (after 0x8e62,
-  after 0x8ee7, after 0x8f0e) all exist and match.
-- For older stable trees (pre-6.14), the file is at
-  `sound/pci/hda/patch_realtek.c` instead of
-  `sound/hda/codecs/realtek/alc269.c` (file moved in July 2025).
-- Record: Minor fuzz needed for 7.0; path adjustment needed for older
-  trees. Trivial.
+**Step 6.2:** The patch is a 1-line insertion in a sorted table. It will
+apply cleanly or with trivial context adjustment.
+Record: [Trivial to backport, clean apply expected]
 
-### Step 6.3: No related fixes already in stable for these specific PCI
-IDs.
+**Step 6.3:** No existing fix for this specific PCI SSID (0x1025:0x160e)
+was found in the tree.
+Record: [No prior fix for this device]
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 7.1
-- Subsystem: ALSA/HDA (audio) - **IMPORTANT** level. Audio is critical
-  for laptop users.
-- HP is one of the largest laptop manufacturers globally.
+**Step 7.1:** ALSA/HDA subsystem — IMPORTANT criticality (audio is a
+core user-facing feature).
+Record: [ALSA/HDA, IMPORTANT criticality]
 
-### Step 7.2
-- This file is extremely actively maintained - frequent quirk additions
-  for new laptop models.
+**Step 7.2:** The file receives very frequent updates (105 commits since
+v6.6, mostly quirk additions). This is one of the most actively
+maintained quirk tables in the kernel.
+Record: [Very active, routine quirk additions]
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Affected users
-- Users of HP Auster 14, HP Trekker G7JC, and HP Agusta G7KX laptops.
-- These are new HP commercial/consumer laptop models.
+**Step 8.1:** Affects users of the Acer PT316-51S laptop specifically.
+Record: [Driver-specific: Acer PT316-51S laptop users]
 
-### Step 8.2: Trigger
-- Every boot on these specific laptop models. Audio is broken without
-  the quirk.
+**Step 8.2:** The trigger is deterministic: every boot on this hardware,
+the headset mic is non-functional.
+Record: [100% reproducible on affected hardware, every boot]
 
-### Step 8.3: Failure mode
-- Without the quirk: CS35L41 amplifiers not configured → no audio output
-  (speakers don't work).
-- Severity: HIGH for affected users (audio completely non-functional).
+**Step 8.3:** Failure: headset microphone does not work at all. For
+laptop users who need headset mic for calls/meetings, this is a
+significant usability problem.
+Record: [Non-functional hardware, severity: HIGH for affected users]
 
-### Step 8.4: Risk-benefit
-- **Benefit**: Enables audio on specific HP laptop models. High value
-  for affected users.
-- **Risk**: Essentially zero. Adds 4 entries to a lookup table. Only
-  affects the exact PCI subsystem IDs listed. Cannot affect any other
-  hardware.
-- **Ratio**: Extremely favorable.
+**Step 8.4:**
+- BENEFIT: Enables headset mic on a specific laptop model — high benefit
+  for affected users
+- RISK: 1-line data table entry, only matches specific PCI SSID —
+  essentially zero risk
+Record: [High benefit, near-zero risk — excellent ratio]
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence
-**FOR backporting:**
-- Textbook hardware quirk addition (explicitly listed as an exception in
-  stable rules)
-- 4 lines of pure data additions, zero logic changes
-- Uses well-established fixup present since v5.18
-- Author is the primary CS35L41 maintainer at Cirrus Logic
-- Merged by the ALSA subsystem maintainer (Takashi Iwai)
-- Fixes real user-facing issue (broken audio on new HP laptops)
-- Identical pattern to dozens of previously-backported quirk entries
+**Step 9.1: Evidence FOR backporting:**
+- Classic audio codec quirk (one of the explicitly listed exception
+  categories)
+- Single line addition to a static data table
+- Uses well-established, pre-existing fixup infrastructure
+- Accepted by ALSA subsystem maintainer (Takashi Iwai)
+- Fixes real hardware for real users (headset mic non-functional)
+- Zero regression risk (only affects one PCI SSID)
+- Identical pattern to hundreds of other backported quirks
 
-**AGAINST backporting:**
-- Minor context mismatch requiring trivial adjustment
-- File path differs in older stable trees (pre-6.14)
+**Evidence AGAINST:** None identified.
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **YES** - data table entries using
-   existing fixup
-2. Fixes a real bug? **YES** - audio doesn't work on these laptops
-   without it
-3. Important issue? **YES** - complete audio failure on affected
+**Step 9.2: Stable Rules Checklist:**
+1. Obviously correct and tested? **YES** — identical to dozens of
+   existing entries
+2. Fixes a real bug? **YES** — headset mic non-functional on specific
    hardware
-4. Small and contained? **YES** - 4 lines, single file, data-only
-5. No new features or APIs? **CORRECT** - no new features
-6. Can apply to stable? **YES** - with minor fuzz for context
+3. Important issue? **YES** — non-functional hardware
+4. Small and contained? **YES** — 1 line in a data table
+5. No new features or APIs? **YES** — uses existing fixup
+6. Can apply to stable? **YES** — trivially, for trees that have
+   ALC2XX_FIXUP_HEADSET_MIC
 
-### Step 9.3: Exception Category
-This is a **hardware quirk addition** - one of the explicitly allowed
-exception categories for stable.
-
-### Step 9.4: Decision
-Clear YES. This is a textbook example of a stable-worthy hardware quirk
-addition.
+**Step 9.3: Exception Category:** This is a **hardware
+quirk/workaround** — one of the explicitly allowed exception categories
+for stable.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Signed-off-by Stefan Binding (Cirrus Logic),
-  applied by Takashi Iwai (ALSA maintainer)
-- [Phase 2] Diff analysis: 4 lines added to `alc269_fixup_tbl[]` data
-  table, all using existing `ALC287_FIXUP_CS35L41_I2C_2` fixup
-- [Phase 3] git show 07bcab93946cd: confirmed
-  `ALC287_FIXUP_CS35L41_I2C_2` introduced January 2022 (v5.18)
-- [Phase 3] git show v5.18/v6.6 confirmed fixup present: 13 uses in
-  v5.18, 25 in v6.6
-- [Phase 3] git log author: Stefan Binding has dozens of identical quirk
-  additions (108c422c495dc, 720eebd514c0c, f8b1ff6555868)
-- [Phase 4] b4 am: Found 2-patch series, both independent quirk
-  additions. v1 only, accepted without revision
-- [Phase 4] b4 dig -w (on related commit): Sent to ALSA maintainers and
-  linux-sound list
-- [Phase 5] Grep: 114 existing uses of ALC287_FIXUP_CS35L41_I2C_2 in
-  current tree
-- [Phase 6] Fixup definition confirmed at line 6248; all insertion
-  points (0x8e62, 0x8ee7, 0x8f0e) present in 7.0 tree
-- [Phase 6] Context mismatch: 0x8e60 entry differs between mainline and
-  7.0 (different name/fixup) - minor fuzz needed
-- [Phase 6] File renamed from `sound/pci/hda/patch_realtek.c` to
-  `sound/hda/codecs/realtek/alc269.c` in v6.14 cycle
-- [Phase 8] Risk: zero (data-only, only matches specific PCI IDs).
-  Benefit: high (enables audio on HP laptops)
+- [Phase 1] Parsed tags: maintainer SOB from Takashi Iwai confirms
+  acceptance
+- [Phase 2] Diff analysis: exactly 1 line added — `SND_PCI_QUIRK(0x1025,
+  0x160e, ...)` to quirk table
+- [Phase 3] git blame: surrounding entries added by various contributors
+  2025-2026, established pattern
+- [Phase 3] Verified ALC2XX_FIXUP_HEADSET_MIC exists at line 4089
+  (enum), 6467-6470 (table def), 3545-3561 (function)
+- [Phase 3] Confirmed 21 existing uses of ALC2XX_FIXUP_HEADSET_MIC in
+  the quirk table
+- [Phase 4] Lore blocked by anti-bot; maintainer acceptance verified
+  through SOB
+- [Phase 5] Verified fixup function sets pin 0x19 config to 0x03a1103c
+  and HEADSET_MIC flag
+- [Phase 6] ALC2XX_FIXUP_HEADSET_MIC infrastructure from Dec 2024,
+  available in 6.12+ stable
+- [Phase 6] 1138 SND_PCI_QUIRK entries in file — this is an extremely
+  common pattern
+- [Phase 8] Failure mode: non-functional headset mic on every boot,
+  severity HIGH for affected users
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index d86781e976ac0..44f0fcd20cf51 100644
+index 44f0fcd20cf51..f10ee482151f6 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7198,6 +7198,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8e60, "HP OmniBook 7 Laptop 16-bh0xxx", ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e61, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8e62, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e75, "HP Trekker G7JC", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8e8a, "HP NexusX", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e9c, "HP 16 Clipper OmniBook X X360", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8e9d, "HP 17 Turbine OmniBook X UMA", ALC287_FIXUP_CS35L41_I2C_2),
-@@ -7219,8 +7220,11 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8ee4, "HP Bantie A6U", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8ee5, "HP Bantie A6U", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8ee7, "HP Abe A6U", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
-+	SND_PCI_QUIRK(0x103c, 0x8f07, "HP Agusta G7KX", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8f0c, "HP ZBook X G2i 16W", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f0e, "HP ZBook X G2i 16W", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8f2d, "HP Auster 14", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8f2e, "HP Auster 14", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8f40, "HP ZBook 8 G2a 14", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f41, "HP ZBook 8 G2a 16", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f42, "HP ZBook 8 G2a 14W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
+@@ -6718,6 +6718,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x173a, "Acer Swift SFG14-73", ALC245_FIXUP_ACER_MICMUTE_LED),
 -- 
 2.53.0
 
