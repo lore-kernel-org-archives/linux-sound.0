@@ -1,50 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B45D3B52E0;
-	Mon, 20 Apr 2026 13:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836333D9DB5;
+	Mon, 20 Apr 2026 13:23:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691408; cv=none; b=exhRcBKMqdzqjC5hj8aW7yqvkIe42i2CDiVYqsgCyx5qdMnwT3VFCyeTpyBKG1Z6sp+LZHtmzWEW92nR+QxDNUgiipetM12vOJEedOCTCOhSI73NglgVb14N6zWMa8g/FPAdcWE3xK8FKCzz0y3698yChIhYwK39BOZW6OlXwMI=
+	t=1776691438; cv=none; b=dezE1+DUFG52bs5oFsa8y948AFPmh9bVDytA7+Qkd1YIpumU3/E8xXBeIjthSWeOONav/6C2sIIuF4nK7YKtOOikzxhDYWC2fivXwyO3RxRlH+W4caoQOib+BN5OWmGTEp++IgN17lRQZpTL+SikoiAsRkzEKPz3a+m8fCZepUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691408; c=relaxed/simple;
-	bh=WJDSyxUOR4RJXk43zQxmajHePsyAzx3QqzEfKuaS1sE=;
+	s=arc-20240116; t=1776691438; c=relaxed/simple;
+	bh=k+qDVHRamoG2QcVX0PD+YqXjRA63+BQnKl2eDKgaWus=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dkBHHwYDK8K/sIRUzEdvAxh5K57tK2KXdGn0JZqJyRtgHFWVKy40aSNFCvZKxptAXUdhIW7oePr9qxuOjsDRha65d9QRYjaJgxPwr8IwhyObyNb+ZVu1quIBTQKFsC0pCIK3TMlUMW05qrhtA4m4TvCxocaxwfXiVaP+4LlJAsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fK3UzSIb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=GmqULjLRPLPQgrTcwcYnecoOVOGP9tEpfPuitCqkw07wxS68Y79f1kKkxB3gzGA24IyJb5t17zY8zgBDLoTR/UiNursSp1x/EbeYmjsccnMHvbfY/ag16ICuCLjt8jtBg+hUGHunxL3ZYlffiJS8cY/h9rk+zl8pjWhXlAHYBVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApCRSG0c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fK3UzSIb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD3B4C19425;
-	Mon, 20 Apr 2026 13:23:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApCRSG0c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED83C2BCB4;
+	Mon, 20 Apr 2026 13:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691408;
-	bh=WJDSyxUOR4RJXk43zQxmajHePsyAzx3QqzEfKuaS1sE=;
+	s=k20201202; t=1776691438;
+	bh=k+qDVHRamoG2QcVX0PD+YqXjRA63+BQnKl2eDKgaWus=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fK3UzSIbgLnB17f60lDv8WXBIEIqoqFPMO+xzariK0DcLAlfsMNn8YH78IbX3uzu/
-	 u4YQ9np2ynvXEL9NOtyMonxzqPc7Qef+V5TQFIKcH8w9XDzWI62iiNf+bfvHdG8EYF
-	 s1+XlbE7RmDp9zgXH7w5FqtjGWmXAgdLMHDyRCTaoswMJjxaB8W9xJkqwwAeV25PB/
-	 uBbtAzHqgukSG9jsnl5NQhsZDWzway1KVQhNajf3RQAWyNwcS6FDGDKKOiyNLtMlVp
-	 454NHHzQzfiSLB2a86R/B1nBl/w3dfbh5JFNBekW74NrmYBLDdE4e6HzBQi6LL+QZl
-	 +PiZHwGrO+h/g==
+	b=ApCRSG0c/gvXq463oaMfrwzPDjrW9LM2egBUYkdBatc9/2TdTmva/tp7TDikF4nKL
+	 6mZhlG6jXBvHmQlsD4EFuzK9gDSmyhZXy8cN+nCIx0oLYIkdiykk5zikSQTYoZj7tg
+	 +S9/WkWkrDyYZ/uN/QBFSBWdwSFUliP07l4tAo+UWvos94CSZAiLl7oKs6U834sz0E
+	 ZoLhgdGCIbZdAoYUizYPhpruNSw00gJOV6CdNUcNEx4k4dJ53yx3k07r+ci3PV0Drz
+	 TQfS8FYtK73G+q/C3V9WxXXTut8bkCxflRhvUcC2MmR+KYhQddTW2/3H2Q8q5ZqjBg
+	 NIWuqhb2Pcl2g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Aravind Anilraj <aravindanilraj0702@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Lianqin Hu <hulianqin@vivo.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] ASoC: Intel: bytcr_rt5651: Fix MCLK leak on platform_clock_control error
-Date: Mon, 20 Apr 2026 09:16:42 -0400
-Message-ID: <20260420132314.1023554-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.18] ALSA: usb-audio: Add iface reset and delay quirk for HUAWEI USB-C HEADSET
+Date: Mon, 20 Apr 2026 09:17:01 -0400
+Message-ID: <20260420132314.1023554-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
 References: <20260420132314.1023554-1-sashal@kernel.org>
@@ -57,319 +51,378 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Aravind Anilraj <aravindanilraj0702@gmail.com>
+From: Lianqin Hu <hulianqin@vivo.com>
 
-[ Upstream commit b022e5c142efe4c5497e6cfda1f143618b4b9254 ]
+[ Upstream commit 9575766a682f50ec4bcb85ecd438685bdc09f9cc ]
 
-If byt_rt5651_prepare_and_enable_pll1() fails, the function returns
-without calling clk_disable_unprepare() on priv->mclk, which was
-already enabled earlier in the same code path. Add the missing
-cleanup call to prevent the clock from leaking.
+Setting up the interface when suspended/resumeing fail on this card.
+Adding a reset and delay quirk will eliminate this problem.
 
-Signed-off-by: Aravind Anilraj <aravindanilraj0702@gmail.com>
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Link: https://patch.msgid.link/20260401220507.23557-3-aravindanilraj0702@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+usb 1-1: new full-speed USB device number 2 using xhci-hcd
+usb 1-1: New USB device found, idVendor=12d1, idProduct=3a07
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: HUAWEI USB-C HEADSET
+usb 1-1: Manufacturer: bestechnic
+usb 1-1: SerialNumber: 0296C100000000000000000000000
+
+Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
+Link: https://patch.msgid.link/TYUPR06MB62176A18EA7A9DD0AC2826BCD2582@TYUPR06MB6217.apcprd06.prod.outlook.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed. Let me compile the full analysis.
+Now I have sufficient information for a thorough analysis. Let me
+compile everything.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-- **Subsystem**: ASoC: Intel: bytcr_rt5651
-- **Action verb**: "Fix" — explicitly a bug fix
-- **Summary**: Fix clock (MCLK) resource leak on error path in
-  `platform_clock_control`
+### Step 1.1: Parse the Subject Line
+- **Subsystem**: `ALSA: usb-audio`
+- **Action verb**: "Add" (adding quirk flags)
+- **Summary**: Adds interface reset and delay quirk for HUAWEI USB-C
+  HEADSET (0x12d1:0x3a07)
 
-### Step 1.2: Tags
-- **Signed-off-by**: Aravind Anilraj (author, community contributor — no
-  prior commits in this subsystem)
-- **Reviewed-by**: Cezary Rojewski (Intel audio maintainer)
-- **Link**: patch.msgid.link/20260401220507.23557-3 — patch 3 in a
-  series
-- **Signed-off-by**: Mark Brown (ASoC subsystem maintainer — applied the
-  patch)
-- No Fixes: tag, no Cc: stable, no Reported-by (all expected for autosel
-  review)
+Record: [ALSA: usb-audio] [Add] [Hardware quirk flags for suspend/resume
+fix on HUAWEI USB-C HEADSET]
 
-### Step 1.3: Commit Body
-The message clearly describes: if `byt_rt5651_prepare_and_enable_pll1()`
-fails, the function returns without calling `clk_disable_unprepare()` on
-`priv->mclk`, which was already enabled by `clk_prepare_enable()`. This
-is a straightforward clock resource leak on an error path.
+### Step 1.2: Parse All Commit Message Tags
+- **Signed-off-by**: Lianqin Hu <hulianqin@vivo.com> (author)
+- **Signed-off-by**: Takashi Iwai <tiwai@suse.de> (ALSA subsystem
+  maintainer)
+- **Link**: https://patch.msgid.link/TYUPR06MB62176A18EA7A9DD0AC2826BCD2
+  582@TYUPR06MB6217.apcprd06.prod.outlook.com
+- No Fixes: tag (expected for quirk addition)
+- No Reported-by: tag (the author discovered the issue themselves)
+- No Cc: stable tag
 
-### Step 1.4: Hidden Bug Fix?
-No — this is explicitly labeled as a bug fix and is genuinely one. The
-commit message directly describes the resource leak mechanism.
+Record: Accepted by Takashi Iwai (ALSA subsystem maintainer). Author
+works at vivo (mobile phone manufacturer - plausible USB-C headset
+user).
+
+### Step 1.3: Analyze the Commit Body Text
+The commit says: "Setting up the interface when suspended/resumeing fail
+on this card." This describes a concrete bug: the USB audio interface
+setup fails during suspend/resume cycles. The fix is adding
+`QUIRK_FLAG_FORCE_IFACE_RESET` and `QUIRK_FLAG_IFACE_DELAY` flags. The
+USB device info (VID/PID, manufacturer "bestechnic", product "HUAWEI
+USB-C HEADSET") is included for identification.
+
+Record: Bug = interface setup failure during suspend/resume. Symptom =
+audio device non-functional after suspend/resume. Root cause = device
+requires an interface reset and a 50ms delay during interface setup.
+
+### Step 1.4: Detect Hidden Bug Fixes
+This is not hidden - it's an explicit hardware workaround for a device
+that fails during suspend/resume. This is a textbook USB audio quirk.
+
+Record: Not a hidden bug fix; it's an explicit hardware
+quirk/workaround.
+
+---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **Files changed**: 1 (`sound/soc/intel/boards/bytcr_rt5651.c`)
-- **Lines added**: 2 (`+if (ret < 0)` and
-  `+clk_disable_unprepare(priv->mclk);`)
-- **Lines removed**: 0
-- **Function modified**: `platform_clock_control()`
-- **Scope**: Single-file, single-function, 2-line surgical fix
+### Step 2.1: Inventory the Changes
+- **Files changed**: 1 (`sound/usb/quirks.c`)
+- **Lines**: -2 / +3 (net +1 line)
+- **Functions modified**: None - only a data table entry is changed
+- **Scope**: Single-line modification to an existing quirk table entry
 
-### Step 2.2: Code Flow Change
-**Before**: In the `SND_SOC_DAPM_EVENT_ON` branch:
-1. `clk_prepare_enable(priv->mclk)` — enables the clock
-2. `byt_rt5651_prepare_and_enable_pll1()` — configures PLL
-3. If step 2 fails, `ret < 0` falls through to the error path at line
-   225, which logs the error and returns — **without disabling the
-   clock**
+Record: Extremely minimal change. Only the existing DEVICE_FLG entry for
+0x12d1, 0x3a07 is modified.
 
-**After**: If `byt_rt5651_prepare_and_enable_pll1()` fails,
-`clk_disable_unprepare(priv->mclk)` is called immediately, properly
-balancing the earlier `clk_prepare_enable()`.
+### Step 2.2: Understand the Code Flow Change
+- **Before**: `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE |
+  QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE`
+- **After**: `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE |
+  QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE | QUIRK_FLAG_FORCE_IFACE_RESET |
+  QUIRK_FLAG_IFACE_DELAY`
+- Also updated the comment from "Huawei Technologies Co., Ltd." to
+  "HUAWEI USB-C HEADSET" (cosmetic)
 
-### Step 2.3: Bug Mechanism
-**Category**: Resource leak (clock) on error path.
-- `clk_prepare_enable()` increments the clock's reference count
-- On PLL1 failure, the corresponding `clk_disable_unprepare()` was never
-  called
-- The clock remains permanently enabled, leaking the resource
+The two new flags are consumed in existing code paths:
+- `QUIRK_FLAG_IFACE_DELAY` causes a 50ms sleep in
+  `snd_usb_endpoint_set_interface()` (endpoint.c:942-943) and in
+  `snd_usb_init_sample_rate()` (clock.c:649-650)
+- `QUIRK_FLAG_FORCE_IFACE_RESET` forces `need_prepare = true` and
+  `need_setup = true` when stopping a stream (endpoint.c:1695-1700)
 
-### Step 2.4: Fix Quality
-- **Obviously correct**: Yes — directly mirrors the existing cleanup in
-  the `else` branch (line 221-222)
-- **Minimal**: Yes — 2 lines, no unnecessary changes
-- **Regression risk**: Essentially zero — only executes on an existing
-  error path
+Record: Data-only change adding well-established flags to an existing
+device entry. No logic changes.
+
+### Step 2.3: Identify the Bug Mechanism
+Category: **(h) Hardware workarounds**
+- This is a device-specific quirk table entry modification
+- The HUAWEI USB-C HEADSET (Bestechnic chipset) requires both an
+  interface reset and a delay for proper operation during suspend/resume
+
+Record: Hardware quirk. The device's USB audio firmware doesn't handle
+interface re-setup correctly without a forced reset and delay.
+
+### Step 2.4: Assess the Fix Quality
+- Obviously correct: adds flags to a static data table, no logic change
+- Minimal/surgical: 3 lines modified in a single entry
+- Regression risk: Essentially zero. These flags are already used by 10+
+  other devices. The only effect is a 50ms delay and a forced interface
+  reset for this specific device.
+
+Record: Fix quality = excellent. Regression risk = negligible.
+
+---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-- Line 206 (`clk_prepare_enable`): Refactored by `a8627df5491e00` (Andy
-  Shevchenko, 2021-10-07) — but the original logic dates to
-  `02c0a3b3047f8f` (Pierre-Louis Bossart, 2017-10-12)
-- Line 211 (`byt_rt5651_prepare_and_enable_pll1`): Introduced by
-  `aeec6cc0821573` (Hans de Goede, 2018-03-04) — **this is when the bug
-  was introduced**. The PLL1 call was added between the clock enable and
-  the end of the branch, without error handling for the clock.
+### Step 3.1: Blame the Changed Lines
+From git blame:
+- `2cbe4ac193ed71` (qaqland, 2025-08-29): Added initial entry for
+  0x12d1, 0x3a07 with `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE`
+- `806a38293fc0df` (Cryolitia PukNgae, 2025-09-03): Added
+  `QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE`
 
-### Step 3.2: Fixes Target
-No explicit Fixes: tag. The implicit fix target is `aeec6cc0821573`
-("ASoC: Intel: bytcr_rt5651: Configure PLL1 before using it",
-v4.17-rc1). This commit is present in **all active stable trees** (it
-dates to 2018).
+The device entry was present since kernel ~6.17.
 
-### Step 3.3: Related Changes
-The file has had several unrelated changes since the bug was introduced,
-but none touch the specific error path being fixed. The fix applies
-cleanly.
+Record: Device entry exists in tree since ~v6.17. The flags being added
+(FORCE_IFACE_RESET since 2022, IFACE_DELAY since 2021) are both long-
+established.
 
-### Step 3.4: Author
-Aravind Anilraj appears to be a community contributor (no other commits
-in this subsystem found). However, the patch was **Reviewed-by** Cezary
-Rojewski (Intel audio maintainer) and **merged by** Mark Brown (ASoC
-maintainer).
+### Step 3.2: Follow the Fixes: Tag
+No Fixes: tag present. This is expected for a quirk addition.
 
-### Step 3.5: Dependencies
-None. The fix is completely standalone — it references only `priv->mclk`
-and `clk_disable_unprepare()`, both of which have existed since the
-original code. No prerequisites needed.
+### Step 3.3: Check File History
+Recent changes to `sound/usb/quirks.c` show 5 nearly identical commits
+by the same author adding `QUIRK_FLAG_FORCE_IFACE_RESET |
+QUIRK_FLAG_IFACE_DELAY` for other devices:
+- AB13X USB Audio (2 variants)
+- AB17X USB Audio
+- SPACETOUCH USB Audio
+- GHW-123P
+
+Record: The author has submitted numerous identical-pattern quirk
+patches, all accepted by Takashi Iwai. This is a well-established
+pattern.
+
+### Step 3.4: Check the Author's Other Commits
+Lianqin Hu has 10+ commits in the USB audio area, almost all adding
+delay/reset quirks for specific devices. They are clearly a regular
+contributor for USB audio quirks, likely working at vivo on mobile
+device compatibility.
+
+Record: Regular USB audio quirk contributor with a track record of
+accepted patches.
+
+### Step 3.5: Check for Dependent/Prerequisite Commits
+The prerequisite is that the device entry (0x12d1, 0x3a07) exists in the
+target tree. This was added in ~v6.17 (commit 2cbe4ac193ed71). Both
+quirk flags have existed since v5.x era.
+
+Record: Requires the base entry (v6.17+). Both flags exist since v5.x.
+
+---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1-4.2: Patch Discussion
-The Link tag indicates this is patch 3 in a series (message-id contains
-"23557-3"). Lore.kernel.org was blocked by anti-bot protection,
-preventing direct discussion retrieval. However:
-- The patch was reviewed by Intel's audio maintainer (Cezary Rojewski)
-- Merged by the ASoC subsystem maintainer (Mark Brown)
-- Both are strong trust indicators
+### Step 4.1-4.2: Find the Original Patch Discussion
+The Link: in the commit points to the patch submission. The patch was
+accepted directly by Takashi Iwai (ALSA subsystem maintainer). Web
+search confirms the pattern: identical patches for AB13X were submitted
+with the same message format and accepted.
 
-### Step 4.3-4.5
-No explicit bug report or syzbot link — this appears to be found by code
-inspection. No previous stable discussion found.
+Record: Accepted by subsystem maintainer. Standard quirk addition
+pattern.
+
+### Step 4.3-4.5: Bug Report and Stable Context
+No separate bug report link. The author discovered the suspend/resume
+failure with this device directly. Similar quirk additions have been
+routinely backported to stable in the past.
+
+Record: Self-reported by hardware tester at vivo.
+
+---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1-5.2: Function Context
-`platform_clock_control()` is registered as a DAPM supply callback:
+### Step 5.1: Key Functions in the Diff
+No functions modified - only a data table entry.
 
-```253:255:sound/soc/intel/boards/bytcr_rt5651.c
-        SND_SOC_DAPM_SUPPLY("Platform Clock", SND_SOC_NOPM, 0, 0,
-                            platform_clock_control, SND_SOC_DAPM_PRE_PMU
-|
-                            SND_SOC_DAPM_POST_PMD),
-```
+### Step 5.2-5.4: Trace Callers
+The flags are consumed by:
+1. `snd_usb_endpoint_set_interface()` in endpoint.c (IFACE_DELAY: adds
+   50ms sleep after usb_set_interface)
+2. Stream stop path in endpoint.c (FORCE_IFACE_RESET: marks interface as
+   needing re-setup)
+3. `snd_usb_init_sample_rate()` in clock.c (IFACE_DELAY: 50ms sleep
+   after rate change)
 
-This is called every time the audio path is powered up (PRE_PMU) or down
-(POST_PMD). It is a **common path** for any user of this audio hardware.
+These are core USB audio paths that run during stream start/stop and
+suspend/resume.
 
-### Step 5.3: Callees
-- `clk_prepare_enable()` / `clk_disable_unprepare()`: standard Linux
-  clock framework
-- `byt_rt5651_prepare_and_enable_pll1()`: configures PLL via
-  `snd_soc_dai_set_pll()` and `snd_soc_dai_set_sysclk()` — can fail if
-  the codec rejects the configuration
+Record: The flags affect well-tested code paths in the USB audio stack.
 
-### Step 5.4: Sibling Pattern Confirmation
-The sibling driver `bytcr_rt5640.c` has the **identical bug** at lines
-285-291:
+---
 
-```285:291:sound/soc/intel/boards/bytcr_rt5640.c
-        if (SND_SOC_DAPM_EVENT_ON(event)) {
-                ret = clk_prepare_enable(priv->mclk);
-                if (ret < 0) {
-                        dev_err(card->dev, "could not configure MCLK
-state\n");
-                        return ret;
-                }
-                ret = byt_rt5640_prepare_and_enable_pll1(codec_dai,
-48000);
-```
+## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
 
-No `clk_disable_unprepare()` on PLL1 failure there either. This confirms
-the bug pattern is real and systematic.
+### Step 6.1: Does the Buggy Code Exist in Stable Trees?
+The device entry exists in 7.0. For older stable trees (6.6.y, 6.1.y,
+etc.), the device entry does NOT exist (it was added in v6.17). So this
+quirk would only be relevant for stable trees >= 6.17 (or wherever the
+entry was backported to).
 
-## PHASE 6: STABLE TREE ANALYSIS
-
-### Step 6.1: Code in Stable
-The buggy code was introduced in `aeec6cc0821573` (v4.17-rc1, March
-2018). This code exists in **all active stable trees** (5.4.y, 5.10.y,
-5.15.y, 6.1.y, 6.6.y, 6.12.y).
+Record: Relevant for stable trees that contain the device entry
+(v6.17+).
 
 ### Step 6.2: Backport Complications
-The fix is 2 lines with minimal context sensitivity. The surrounding
-code has been stable since the a8627df5491e00 refactoring in 2021. It
-should apply cleanly to all trees from 5.15+ at minimum; older trees may
-need trivial context adjustment for the `BYT_RT5651_MCLK_EN` quirk check
-that was removed by `a8627df5491e00`.
+The patch should apply cleanly to any tree that has the existing
+DEVICE_FLG(0x12d1, 0x3a07, ...) entry. The diff is minimal.
 
-### Step 6.3: No related fixes for this bug already in stable.
+Record: Clean apply expected for any tree with the base device entry.
+
+---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-- **Subsystem**: ASoC / Intel audio machine driver
-- **Criticality**: PERIPHERAL — affects users of Bay Trail / Cherry
-  Trail devices with RT5651 codec (budget tablets, laptops)
-- **Activity**: Moderate — file sees occasional updates
+### Step 7.1: Subsystem Criticality
+- **Subsystem**: sound/usb (USB audio driver)
+- **Criticality**: IMPORTANT - USB-C headsets are very common on laptops
+  and phones
+
+Record: USB audio = IMPORTANT subsystem. USB-C headsets are widely used.
+
+### Step 7.2: Subsystem Activity
+54 changes to `sound/usb/quirks.c` between v6.12 and v7.0. Extremely
+active - this file gets frequent quirk additions.
+
+Record: Highly active, many quirk additions routinely accepted.
+
+---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Affected Users
-Users with Intel Bay Trail or Cherry Trail devices using the RT5651
-audio codec. These are common budget tablets and laptops.
+### Step 8.1: Who Is Affected
+Users of HUAWEI USB-C HEADSET (VID 0x12d1, PID 0x3a07, manufactured by
+Bestechnic). This is a branded headset likely sold with Huawei phones
+but also usable on any USB-C Linux device.
+
+Record: Device-specific. Affects all users of this specific HUAWEI USB-C
+headset.
 
 ### Step 8.2: Trigger Conditions
-Triggered when: (a) audio starts playing (DAPM PRE_PMU event), AND (b)
-PLL1 configuration fails. While PLL failure is itself an error
-condition, repeated failures with clock leaks can compound the problem
-and prevent power management from working correctly.
+Triggered on every suspend/resume cycle when the headset is connected.
+Very common for laptop users.
 
-### Step 8.3: Failure Mode
-- **Severity: MEDIUM** — The leaked clock prevents the MCLK from being
-  disabled, which:
-  - Wastes power (clock stays enabled)
-  - May prevent subsequent clock operations from working correctly
-  - Could contribute to audio subsystem malfunction after error recovery
+Record: Common trigger - any suspend/resume with device connected.
 
-### Step 8.4: Risk-Benefit
-- **Benefit**: Fixes a real resource leak, prevents clock reference
-  count imbalance
-- **Risk**: Essentially zero — 2-line addition only on error path,
-  obviously correct
-- **Ratio**: Very favorable for backport
+### Step 8.3: Failure Mode Severity
+Without the quirk, the interface setup fails during resume. The headset
+stops working after suspend/resume, requiring re-plugging. This is a
+functional failure.
+
+Record: Severity = HIGH for affected users (device non-functional after
+suspend/resume).
+
+### Step 8.4: Risk-Benefit Ratio
+- **Benefit**: Fixes suspend/resume for HUAWEI USB-C headset users
+- **Risk**: Extremely low. Data table change only. The flags are used by
+  10+ other devices already. No logic changes.
+
+Record: Very high benefit/risk ratio.
+
+---
 
 ## PHASE 9: FINAL SYNTHESIS
 
 ### Step 9.1: Evidence Summary
 
 **FOR backporting:**
-- Fixes a real clock resource leak on error path
-- 2-line fix, minimal and surgical
-- Obviously correct (mirrors existing cleanup pattern in the else
-  branch)
-- Reviewed by Intel audio maintainer, merged by ASoC subsystem
-  maintainer
-- Bug exists since v4.17, present in all active stable trees
-- No dependencies, completely standalone
-- Sibling driver (bytcr_rt5640) has the identical bug, confirming the
-  pattern
+- Classic hardware quirk addition to existing device entry
+- Fixes real suspend/resume failure
+- Tiny, data-only change (3 lines in a static table)
+- Both flags are well-established (2021/2022 vintage)
+- Same flags used by 10+ other devices successfully
+- Accepted by ALSA subsystem maintainer (Takashi Iwai)
+- Author has track record of identical, accepted quirk patches
+- Zero regression risk (device-specific, data-only)
 
 **AGAINST backporting:**
-- The trigger requires PLL1 configuration failure (uncommon in normal
-  operation)
-- No user reports or syzbot bugs — found by code inspection
-- Author is a community contributor with no other commits in this
-  subsystem
+- No Fixes: tag (expected for quirks)
+- Limited to one specific device
+- Base device entry only exists in v6.17+
 
 ### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **YES** — trivially correct, reviewed
+1. Obviously correct and tested? **YES** - data table change, accepted
    by maintainer
-2. Fixes a real bug? **YES** — clock resource leak on error path
-3. Important issue? **MEDIUM** — resource leak, not a crash
-4. Small and contained? **YES** — 2 lines in 1 file
-5. No new features/APIs? **YES** — no new functionality
-6. Applies to stable trees? **YES** — code unchanged, clean apply
-   expected
+2. Fixes a real bug? **YES** - suspend/resume failure
+3. Important issue? **YES** - device non-functional after suspend/resume
+4. Small and contained? **YES** - 3 lines in one file
+5. No new features or APIs? **YES** - just adds flags to existing entry
+6. Can apply to stable trees? **YES** - clean apply for trees with the
+   base entry
 
 ### Step 9.3: Exception Categories
-Not applicable — this is a standard bug fix, not an exception category.
+**YES** - This is a hardware quirk/workaround, one of the explicitly
+listed exception categories that are automatically YES for stable.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed tags: Reviewed-by Cezary Rojewski (Intel), Signed-
-  off-by Mark Brown (ASoC maintainer)
-- [Phase 2] Diff analysis: 2 lines added to error path in
-  `platform_clock_control()`, adds missing `clk_disable_unprepare()`
-- [Phase 3] git blame: buggy code path introduced in `aeec6cc0821573`
-  (v4.17-rc1, 2018-03-04), present in all stable trees
-- [Phase 3] git describe: confirmed `aeec6cc0821573` first appeared in
-  v4.17-rc1
-- [Phase 3] git log: no prior fix for this issue exists
-- [Phase 4] lore.kernel.org: blocked by anti-bot protection, could not
-  read discussion
-- [Phase 4] b4 dig: confirmed PLL1 commit is patch v3 15/22 from Hans de
-  Goede series
-- [Phase 5] Verified `platform_clock_control()` is a DAPM supply
-  callback (line 253-255), called on every audio path enable/disable
-- [Phase 5] Verified sibling `bytcr_rt5640.c` has identical bug pattern
-  at lines 285-291
-- [Phase 6] Code exists in all active stable trees (bug from v4.17,
-  2018)
-- [Phase 8] Failure mode: clock resource leak preventing proper power
-  management, severity MEDIUM
-- UNVERIFIED: Could not read mailing list discussion due to anti-bot
-  protection; relied on tags in commit message for review assessment
+- [Phase 1] Parsed tags: Signed-off-by Takashi Iwai (ALSA maintainer),
+  Link to patch submission
+- [Phase 2] Diff analysis: +1 net line, adds
+  QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY to existing
+  entry for 0x12d1:0x3a07
+- [Phase 3] git blame: device entry introduced by 2cbe4ac193ed71 (v6.17
+  era), flags exist since 2021/2022
+- [Phase 3] Author commits: 10+ similar quirk patches all accepted by
+  Takashi Iwai
+- [Phase 4] Web search: confirmed identical pattern patches (AB13X,
+  AB17X, etc.) accepted
+- [Phase 5] Flag usage: IFACE_DELAY triggers 50ms sleep in
+  endpoint.c:942, FORCE_IFACE_RESET forces re-setup in
+  endpoint.c:1695-1700
+- [Phase 5] 10+ other devices already use these same flags (verified via
+  grep)
+- [Phase 6] Base entry exists in 7.0 tree (confirmed via git blame)
+- [Phase 7] sound/usb/quirks.c: 54 changes between v6.12-v7.0, highly
+  active
+- [Phase 8] Failure mode: device non-functional after suspend/resume,
+  severity HIGH for affected users
+- UNVERIFIED: Could not access lore.kernel.org directly due to anti-bot
+  protection; relied on web search confirmation
 
-The fix is small, surgical, obviously correct, and meets all stable
-kernel criteria. It fixes a genuine resource leak with zero regression
-risk.
+This is a textbook USB audio hardware quirk addition. It adds two well-
+established flags to an existing device entry, fixing suspend/resume
+failure for a specific HUAWEI USB-C headset. The change is data-only,
+obviously correct, zero regression risk, and accepted by the ALSA
+subsystem maintainer.
 
 **YES**
 
- sound/soc/intel/boards/bytcr_rt5651.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/usb/quirks.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5651.c b/sound/soc/intel/boards/bytcr_rt5651.c
-index 68cf463f1d507..8932fc5d6f4f2 100644
---- a/sound/soc/intel/boards/bytcr_rt5651.c
-+++ b/sound/soc/intel/boards/bytcr_rt5651.c
-@@ -209,6 +209,8 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
- 			return ret;
- 		}
- 		ret = byt_rt5651_prepare_and_enable_pll1(codec_dai, 48000, 50);
-+		if (ret < 0)
-+			clk_disable_unprepare(priv->mclk);
- 	} else {
- 		/*
- 		 * Set codec clock source to internal clock before
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 4cfa24c06fcdf..d3a69995c1ad5 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2291,8 +2291,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
+ 	DEVICE_FLG(0x1101, 0x0003, /* Audioengine D1 */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+-	DEVICE_FLG(0x12d1, 0x3a07, /* Huawei Technologies Co., Ltd. */
+-		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
++	DEVICE_FLG(0x12d1, 0x3a07, /* HUAWEI USB-C HEADSET */
++		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE |
++		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+ 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
 -- 
 2.53.0
 
