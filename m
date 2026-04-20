@@ -1,214 +1,255 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21D3388E52;
-	Mon, 20 Apr 2026 10:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2266D214204;
+	Mon, 20 Apr 2026 10:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776681391; cv=fail; b=Qcp1S5W4np/EQBXsVPXZdfLw+I/OWbDcy5xRj6+ZvYOgfHzE3FIIf4rH/luGM2WWCZpSrdk7DOrK29jDTknvM4CMm73Vz5v0FEfvVXk8NDpkWb2HoVD2mF7wJQHeGuks2Fo0YZmEX//y6wGTF5Q7s02Ud0MoIhs2Y4nh3N/NtZs=
+	t=1776681471; cv=fail; b=VP4IciX5wnFD/yJqVUVndJIKZDesujp2ReZ8MjoZ456a1s0jsQvIWRN9/3mTDuG8o1TAM6sia9zZEki4PNoV3OKeqEecc44JjMZ4/NuGqOY8zHiVMxNZPcoDxXpnDJbDtWA+wRgXudJUmHJ94osAb9HcYUSZpYDTNzHlfvsunLY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776681391; c=relaxed/simple;
-	bh=Dn976aFI+szTm+lxE1ddY+Rm4FEvC1X0D2zhqoeMYag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LWe6AJpTBaWe7mGVY3minNl0fFvprCryveTBKYSqOS0We2/D1+XG2fQEmaW4Qo5hkLAoqxIfszkb7Wt4McrM0sDs6E3aM8eOc3mh4P3svTZEFXjb+GRrgcArOacKOJxJKhIFDbz8DpkBmZevBbcnphX0LB0Xy+056oShaERkXCQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=f7/wne5Q; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=BRCnF+Oy; arc=fail smtp.client-ip=67.231.152.168
+	s=arc-20240116; t=1776681471; c=relaxed/simple;
+	bh=dwqJs+Exb2Pp8PBLj2+YoTMf+1VLFIc0XDXCbYaFYtM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nlOHRw03JWVSA0Iea4P2Mh96K4cQVYCSUvDJ/q+i/CLjHfEdyG++264w2N1e5DsDsbkXns1GqZ5j4cgoRefcAH4RZTrMikAeD5GqXGr3N4fyXwhE4YcCFEG+ctFTCTqpxxJ/oceyEsT/g6LqnAMphvAkk3qQRd4nN3kuG8ntoUQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Wwj9rEwk; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=GvxFsEMq; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="f7/wne5Q";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="BRCnF+Oy"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63KATKxk2094113;
-	Mon, 20 Apr 2026 05:35:52 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Wwj9rEwk";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="GvxFsEMq"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63K6ZnEK112368;
+	Mon, 20 Apr 2026 05:37:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=Zjyi4+U9V8JIHaQDvF
-	qenB2yX8gDeAxvFHA/bFBRv1w=; b=f7/wne5QHw7l+3vDKqkJVYoeg7C/k//Hph
-	kvPx7kp9ZtcxV5VZ8tmwzdWgnbpFMYG1EZ09CYip4EhSkoGsTpI8WNx5BISAcFhL
-	YCZo2GSXCasZtKygZgSttCrXCwa80irm2q0BtXUrr98YM3OM7ycPHMu+chR5zfQD
-	eWNfrkvkWy684nhEIxRfV5Z1rldZNgmPcxE3R1KTBa+D7QSzqnyT1TAlMZ/RH8Xh
-	BYnkqZVZnjUDsbgsbfumyEotRmhK+C69kkM4ZQW7MiqfiTUzIyeL+9krUAGNFVWr
-	6mJl2YyB9hSynxBSH/uOyI62qCGLHhq8y/BzkSvM5OwAwUgnodLA==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021138.outbound.protection.outlook.com [52.101.62.138])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4dm6cfjb8m-1
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=eZhQF12D1MzgNZlV
+	S0D14Dgh1TO9gnUAk4okuPny9jY=; b=Wwj9rEwkV6h90rdQuSRhxp1Q/Pft1lAv
+	k3WLpHKL5MGul8eON+Q8Z/nxHOIA7flMJAwXKsVPxkgG9fAB48vU17CEtZWYyxH0
+	HnKog55gSfx6HwOBx9l6wRG5jaiwzZ2ZntfXLdQpsIK9e7r9fBt3PJ/uY3v2HX6G
+	yS4d8n/7GcfGQHpymK2z47gECY6y0M/JYzWiVU2ZNdynKIrr3fVgPVuzZazgAT51
+	S50MvNwMB8aMXU4vwXstX8JcPAioMHQZoeNX/o9Ri+FisBvZJbRFE7+p+TdAJ+Vn
+	IxXLvgWZYGp8HrIk7YrKNf+Oab9pyjqAAFYAXJbKT4A7UU9E/U3dOA==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021110.outbound.protection.outlook.com [52.101.52.110])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dm7byj103-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 20 Apr 2026 05:35:52 -0500 (CDT)
+	Mon, 20 Apr 2026 05:37:38 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bG8nIiDSpvsTwp0WoWZMC6vOqZmMWtc6ZZhA9N4SnkugQn10MaWgMhSS1GRYemxmbXrJeME8tAM5u/iqJ9G1XWWTh3QX26SXRLjL2113k3oRAzpgs+iNR9ysGEJATKH8PT4VOQ8EZ6lYmiXAcUjvQLlFiipt+5ws4Z7+SyTaGeLtPfXH5dxDxIzaeyuqbk02mIiOKgjBoCTbVQFLr0phvIQooytpTE4brbf7ZXmnB3OhMTbavF4cs2OzFgfqihKfcBfK3v/FguJSIAcuJNxs3+w97KiAHksCnadXZDbt5A1vhUYm5Bz3rjbXhrnjP4RxaTlzmxRx/qIUqg5rDp0BgQ==
+ b=wTsmZlyVleTDEMi1Lquj6sHrxxC20szoIKCJ/q/j0KSv4EUbikYOSs5I7bACHZltHdicpgKA/ouCsW3dde7YjegMz7Yr0Ilr08B+eZhQF6YoBHUuqjPcjqCrzG2pUyhjn56U9aIsCWrGvYFdtNOzW72dEu+6s4xmJ+Y+x5SM15+rx8DehEzTBNTfOI4foEMpZRAIMmlMx7WcdJii4Gf3yh60cAmFnEFF2t0Rp2qTs2l+W5WCsTtNaMY5PW/Zt28R2C6xNhciB8OxGw3PcbqILt4Vay8HX0STfkNdRKnsq/UWsksX30aZ3zSgTQbX2wRxKhz79xsR2IdrJqLlC9vNFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zjyi4+U9V8JIHaQDvFqenB2yX8gDeAxvFHA/bFBRv1w=;
- b=rC8hRCirGNXb0HkdTB3S6nazA1aGlHr7GL/lOOQf6T+aI0b/n6jZekAPOEm7FAJOnHMUPtpD5VuXg+HzyUuDB0CPAouHzdMjWZUawXjR0xK5mm0JuIaffKudw+jAATDLjn2mVAKGZA2IKqeJgr1nMn0CFsUmrlM6uljToCIlCZysyn2CaNfOmNgNoB9McMhM0nWZ53c7KeGMzkf7C+jkrU8a6uwmDme5I6E5a8NveO2wbQvyzPJEUy5K1OLgT3IG6sD/GEfC7l5qCKpzEh+hRUABrx9YBOjGzPuwNd7jsfL9SrS2AfLwwtjIGdLEY5AXXbuO/iyRUn29/F8XG51B3Q==
+ bh=eZhQF12D1MzgNZlVS0D14Dgh1TO9gnUAk4okuPny9jY=;
+ b=mbgGjW4wvVTRoItk+BEKuLIRO1/Jytp/Oc12HVMVYUXOtCR/aCJNRprH6cWkt7DK5h2G8eoss5Ux17g49AvDiNveXnM9D9A06pc27VmjfVgtNFuWtOXUZ1mCIJ9UFg0O/iiMezq2zAk/0Nww/YbRcoRL83FmX0y7UNYgvPKQJWVeU9BPxlCLmDv097m2F6v8FoXFx5X1pXfey9iaKomdlABR7tIrwsJuLrctmwjT1cFJ8i/AZvlkBNIatlfr8eawdCFnFv8dWYIydEsdIykCNFnnDfAUa4HAaZTraYTZM0noSSg9+ecXcK/id3RIPs1AUSLsWPpriNHzyteyt00fPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=gmail.com
+ is 84.19.233.75) smtp.rcpttodomain=canonical.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
  action=oreject header.from=opensource.cirrus.com; dkim=none (message not
  signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zjyi4+U9V8JIHaQDvFqenB2yX8gDeAxvFHA/bFBRv1w=;
- b=BRCnF+OyQ+x6i1+cQJuaJdwhzkmSKO+T+cvAG1tAqKqYaVbdRPVGG62xACu64sHg2aqwgyUvVWKqjDZ4K8SyvoJLXrIFSkq06hORXmrpsBvNOM0iXC93P69SUW7QnWIDtjyblkIBz0FOdTL19ZZjpHC3Na8LvkFDo99rg40eYmc=
-Received: from SJ2PR07CA0013.namprd07.prod.outlook.com (2603:10b6:a03:505::15)
- by DS0PR19MB7499.namprd19.prod.outlook.com (2603:10b6:8:14e::8) with
+ bh=eZhQF12D1MzgNZlVS0D14Dgh1TO9gnUAk4okuPny9jY=;
+ b=GvxFsEMqFPxXf7oJofMpmDfyfsptypDt9OXbJ6njYXAGr+rdEIRMyMZpxgZ2eHOxgdbemsiUJmK2ic2E8HahbGiZWzWZzZfRxYz4dGSDzxxvVY7lkHEUlqXyCqbKQL0L8cK/A0aEBGxUcwDpsoeI3amX8qy0JOeeX/pRfitQSiM=
+Received: from SA0PR11CA0174.namprd11.prod.outlook.com (2603:10b6:806:1bb::29)
+ by SJ4PPFCBAC41B83.namprd19.prod.outlook.com (2603:10b6:a0f:fc02::a50) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
- 2026 10:35:48 +0000
-Received: from MWH0EPF000C6191.namprd02.prod.outlook.com
- (2603:10b6:a03:505:cafe::f2) by SJ2PR07CA0013.outlook.office365.com
- (2603:10b6:a03:505::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 20 Apr
+ 2026 10:37:32 +0000
+Received: from SN1PEPF00036F3C.namprd05.prod.outlook.com
+ (2603:10b6:806:1bb:cafe::61) by SA0PR11CA0174.outlook.office365.com
+ (2603:10b6:806:1bb::29) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48 via Frontend Transport; Mon,
- 20 Apr 2026 10:35:48 +0000
+ 20 Apr 2026 10:37:32 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MWH0EPF000C6191.mail.protection.outlook.com (10.167.249.106) with Microsoft
+ SN1PEPF00036F3C.mail.protection.outlook.com (10.167.248.20) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48
- via Frontend Transport; Mon, 20 Apr 2026 10:35:47 +0000
+ via Frontend Transport; Mon, 20 Apr 2026 10:37:31 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 635C8406543;
-	Mon, 20 Apr 2026 10:35:45 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 41FBD82024A;
-	Mon, 20 Apr 2026 10:35:45 +0000 (UTC)
-Date: Mon, 20 Apr 2026 11:35:44 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com,
-        perex@perex.cz, tiwai@suse.com, cezary.rojewski@intel.com,
-        peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-        ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-        baojun.xu@ti.com, shenghao-ding@ti.com, sandeepk@ti.com,
-        v-hampiholi@ti.com
-Subject: Re: [PATCH v9 1/4] ASoC: SDCA: Add PDE verification reusable helper
-Message-ID: <aeYBgE4JQiApVvRS@opensource.cirrus.com>
-References: <20260417131401.3104-1-niranjan.hy@ti.com>
- <6b72e996-a2dd-445b-b145-82644a6df8eb@linux.dev>
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id F1910406543;
+	Mon, 20 Apr 2026 10:37:29 +0000 (UTC)
+Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id D9E3782024A;
+	Mon, 20 Apr 2026 10:37:29 +0000 (UTC)
+From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Aaron Ma <aaron.ma@canonical.com>
+Cc: Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>
+Subject: [PATCH] ASoC: sdw_utils: cs42l43: allow spk component names to be combined
+Date: Mon, 20 Apr 2026 11:37:14 +0100
+Message-ID: <20260420103722.4175356-1-mstrozek@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6b72e996-a2dd-445b-b145-82644a6df8eb@linux.dev>
+Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000C6191:EE_|DS0PR19MB7499:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ddab0ed-c1ef-4e5b-2715-08de9ec895d2
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3C:EE_|SJ4PPFCBAC41B83:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 6329fae0-0a53-4ee1-c36d-08de9ec8d3cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|7416014|61400799027|376014|16102099003|18096099003|56012099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|61400799027|36860700016|82310400026|13003099007|56012099003|16102099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	oryYbh7G43ld6/6JVN7cMrYUHo4ypssoAed1uTrsPqXI3sIcJIcntPVInM/QsC3wXHPAXK1oMf8E01kUN2sd1kCUypgV7eVy9/YBw4As3FfQwuhWnNdJg1t3Ymlr4uVpt3WkO403DPohD7a8p9CsrZUQbcc8OfDrf19hBjVTi4/SUDA55eccyNyg2gAkQK+On9iMjYhh+geoy660g6aIN0PHm0N5/Hg5rbptXH6VqHKnH0Zi+zfn/X1JvopgY8k07pmHL0bE0C0trtiSB71DTwTfKl4xNcRBPiiZK8vhySKWksYSw3VYbTiBDkMriUtYWu/fJgyisSmZRsPZdMIIu/bhsK6BMMStr/aQHxwqE4UIDEcuBUFsVw4P0+UEEFMRnai4/HDNJ7KHp5Ak+1E54WJ3+9m+dmb4Zcq/hAGWxuaE2L7ZNLRHTdCylX9c8OVKzAb0VQU0AeXZR346OnUYsb8jNONmFIDHHKp77MY1iVB17EwbCW46RsLEeUyGkT6wJwrs68paz9nMJdnxcr1JfaVuR0DCEZ3Pz21uWeemLEcawlw4GsLCu5hn518KIbJ9jDcNukjnXMA2BCTpDZJzbhcfBlEJMSnEAWHSaUArG2RviOLj1fPbaIc5EYIzkR6Aiz3h2smGXJwh5u20xbCi6kD44aZn0aU3QRZzKXYc8EK0ROx3+MtB6sN8rBgOshXSFWD1SBFGkhG9LAUNXEqd2VNu71GbCq6nwpdSeKLs7zP3WPZYr/ny9wArL5/XCrSCME0Vutgh3WPnqCHCp24Hsw==
+	E9QiLi3FC7Phb/2T67BF6E/+2by3z7ocZYzbvMlP2MhPQdJ1V2uaEIDWRzWFsDoIwXGGn3U9g4IZkapggxT2P1P6pivpQWJpIcr97sdkemg07YOvxrSeIqg1ji/x021J+Y4Hmm4OA3NhJR4zb4DFkA5Ui3fBYqpvAElPdUumoGYhRipLDi0eeEVKX14XX7yb7psI12sfOJ0hiGKjWVbjB39WgBS7sVcQiMcFZGm42Mx4iugGAijtB3dK0UB/Zn8R1g+lugYA5Wz6TTyCBC8UigJt3pA8BhW+jeZuoiMIc8w2QUv9JSW5gcylKZIddjYy5qpA2D3TlQJXNuSZjYSDKF2UEBjtVb6ElHtHzB4N/hx2kZRBe5FBSL4fFkJEA5U96WXDwL1d0X/elN0wblKjHR3ifO6Gkpgn4kWTY44Wu5kt6KlEQZ3PN8AwU361F8C7fJ7yJbAgpy7a7r7k4GduaCb5f9OGgFStRezyJv3xMDcHpeKViuymvlOnGqBN5xIaZ4szm/GHVxyvowb9QfBd/R/XE83mrKzDkt+ouNVTAibBZ8GMWQgTI90dF4rXcw2IPgCnW2f8hYlHqvu84vt9h1UhJvgu/FPdVvdS0NEIZwNdihGsc4jmApOEmX3KCbpMsGVS+CT7gE4V949Y//JR/OjElyUE9y63s0wp3HdcasD7dHpBqFOqoN5okIp9UcB1Zy2r0mnVtMQWAFoR6nsaSlvPwuEvx/hA1OmWest7cxwRXqWJPq5xfJC52DOAYfQ5A51xFI8tlrn7PwrfNIhVeQ==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(7416014)(61400799027)(376014)(16102099003)(18096099003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(61400799027)(36860700016)(82310400026)(13003099007)(56012099003)(16102099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	zJd+eddGW7Izi4eCaNKW/jQoSlI8oJPPoFeFZ+zP+i/NX7WGHElzcAispbBfpB3hnQ/mJLNjGxKCrfG8Td9EPtDZculfa4va1qyoVgkZuGaRY6EXAFbWn0a1u3g2VKxFLICfTfqU/BtBZLSEY12BbM/KTiJRJdS5dvycLDWILTgs4UQUhvC+luwVL7elc5h74hx1yXXOlIaqNSUNyk2UdX/Y1FSp/QpBtfJL9bFsdgbRg/gd0DPawD2mbwtfLpgqa431kHronA3rGDWSR7xMMpzu4sH+PQ7ULtl4AsXdZWUzSlVOQN7w9cK/0We/Q7Tyoi5AOc3N69+n1Ng8Wx70fDt+RM8gB8hRsXr/VZJWgqTYnLDlBqjXPBMmqV91ebxcN4R9Vsi/hj3rhHP9p1qU8RX1xhxOWGE8Cofv05aBVryA7JZHUCZ1NTgJygLoht3P
+	NigAd4xFZgcVW2+P3f3+hN953PSnJDKa92WCatVAgnGvpRIv7mxLsimSs1TvKgxMwThCs4Xkwu0kbmfNVS3hvNNzUV6pWuZM9MgHCMxmq1O/frou9FQ3w4GJmrHX/pq35hDXqrwQmbuFMnGqEWvLnuka8DBT+qDe2agwJc5+jTdAEy2WhbtmfOLwUsBlUSpEeD5urQ0reUaZ26ZevYd+iVLRJHR/b01AplvG7a6FXhS7tsRX9hZ6r3MXI9NhY7O1mYIw44dao8bw8Xe6FuAGKtTWuiIKUw/HWJA0e7MIBiZHqeWpEkpgdeMwZO4kDMfrt0NuwRtAKUV/L7TfwuKBwBUpG4KVyO85o23NDZE3AZgAjko9CpSbtAhHAlC/MHFe3sAqNjMMt/j0BXdrLZvyvY+lBhJQgQS5SbytwstlWrekAQffsDxNLjEGgUtKahLY
 X-Exchange-RoutingPolicyChecked:
-	p4EOMGOCdS+syDz0HBha4ppJuzRVLQmPdyup3Ndpi/xEw4iucmrgA3blemVlYsjvgA71tij8DIOQoxS+GVQTojNmEcgZomhCOrknT17jtmfROCsN0jEEddAvB+wvmcdMKd5tVx/QDd0ddBVEmdu51YjGoKf+piPKpQoxtOlf5mKer93WpFHqkVEflAkMn2gNlP3LhsxBjeda3MxUob6JEIHAHF563okRbkoDCfl+uXhxnBFM0kh8yzumPIrmwssRSSLW45qAQnt8dfFP7vDhABBDPCDi6CPJyM1XQ4iluDfCp1bP+6dGGBABP4btTWKCRtLX+r2BbkUo3kAILwnYZw==
+	o/Gf3HdSsSydkS0CbmFhCQWdOZt/7cyIyXgQel+z9IEjkX5mhi2As3uGp80JHHuN6iAejVx1uQJNFhXKpawWuxdQmLEZuYP162Rm191ZQggk0x85KIK1GTYueTEduKLWvUYB4UvzUf9vjO8HYX1PtnVJPF1URohaaYiHoIc92+tcp5uNGJxdK8ntngqgNn5GjIolnMn3Ge3Zbghv9NsIpeAIBrRd/DZKQdV9FlMBvAPys3mwVNim5F56BDc7a8YlHa8oiutynG35FfwPElo3ETY25QSKlMasg+Mw5bYRYNo+CVn/pLGVr1u/CzNfG+5Dz0Sfgn4t65JgQSBfN11YJA==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 10:35:47.4148
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 10:37:31.4642
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ddab0ed-c1ef-4e5b-2715-08de9ec895d2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6329fae0-0a53-4ee1-c36d-08de9ec8d3cf
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000C6191.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF00036F3C.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB7499
-X-Authority-Analysis: v=2.4 cv=EdT4hvmC c=1 sm=1 tr=0 ts=69e60188 cx=c_pps
- a=td2I9qAig9HcJlooGYrYWQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ4PPFCBAC41B83
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIwMDEwMyBTYWx0ZWRfX2wTrpekK/YbI
+ IHzhMmlyxwVIiuJKL2liRbE/HSIAI+CsUbAftbeTG86R882VskRcpABm/dnUqmRKAmHZlUjFgDp
+ WzOgNEEjhpQWqIREJhh7MAdmA67jmFGq79jWRshFBTpjgiIMH3iqBFTAjx6eIFeAoXRKMH/LxVP
+ AM+Vd0ilACCCul1mUKyV/4oe26ibuqoc5lEF0ETOPGTjA+96JAtagNQjIxaSuGnc5f8DQahCRxY
+ iwZGkHnqSEJg1ZTzBKHKxN4Jw4kDPu5mZAS1JFXou82n+wFu/zsD84ZxqyELLmMRtBkLAc+haHd
+ ibgR1akWHyZtlhxmooaNQhWEjW1sgAX64BsCYu6J3oWTGgzguNFnXB7rIr+EzWmH24LGeo7i/ZX
+ JRAF/q+X+ORIKt9pmBuL5U8BH+ysnMoimYJJ9lo6y3CmCtC+Ig3bXZPVqi8Mtf3iFviwviwnYS2
+ o6dGUy/24DuKja5NhAg==
+X-Proofpoint-GUID: ykhet-7UI3M-kYGYDBDf-QyjbUgE1I2W
+X-Authority-Analysis: v=2.4 cv=SffHsPRu c=1 sm=1 tr=0 ts=69e601f2 cx=c_pps
+ a=Fop6EJdm3JO4gNsOK7pFUA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=T5K4icZj-6yKMt-Tg-gA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: n3csz6jjOiqR58kKFX01eSOSnMVR-51L
-X-Proofpoint-ORIG-GUID: n3csz6jjOiqR58kKFX01eSOSnMVR-51L
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIwMDEwMyBTYWx0ZWRfX5yhf2FHPNUur
- bLRWm8ZCk9yM8L8X9AN0qFOILlgDvTID29otfXyaK4UyBK1aJLRNXABILpbP2rxovCi40MD9kfl
- FzCTHWk2hKgJsP8o51htLTj/I4mSXutQ7nWdWQaFR85RcDxuKffUpM0bW7q1+CuRA1EpNA+ZB1F
- j72XzOLN9Tw5N2hLX9v+BbXiXSvwxpCaKwpmxq52tAKnYUjg/ofx+mFb9IBl/08XY0KR0Q3wa9h
- uGpKtBNVu+kh9vpU83nG/T1QEA4UHV8FHb+7ODCb21i2HfTkugpCXXUI4v/qsO8Civ10P6mKn13
- 57GbePqW+bb3x6HM4U7CoTD8IoODQSsc1gr16L8SZCJAY5a6a+X5wUKpOOk1QTFJ9DI7Fkey9Xc
- lpQ3FbFBoNiSiyHOgzG3DZ79PelrEEPq9gPOjcL1asjxBQ0wJT2H0HpXd9g+vUKyY54IFWIwoeI
- OGodDZKMDD1Da6J1zJA==
+ a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=NEAV23lmAAAA:8 a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8 a=lDUFhbT0FZI9Q2P5P-oA:9
+X-Proofpoint-ORIG-GUID: ykhet-7UI3M-kYGYDBDf-QyjbUgE1I2W
 X-Proofpoint-Spam-Reason: safe
 
-On Mon, Apr 20, 2026 at 11:49:00AM +0200, Pierre-Louis Bossart wrote:
-> On 4/17/26 15:13, Niranjan H Y wrote:
-> > + * This function implements the polling logic but does NOT modify the power state.
-> > + * The caller is responsible for writing REQUESTED_PS before invoking this function.
-> 
-> Erm, why not dealing with the write to REQUESTED_PS in this
-> helper? You have all the 'to' and 'from' information in the
-> parameters.
+Move handling of cs42l43-spk component string into SOF mechanism [1]
+which will allow it to be aggregated with other speakers.
+Likewise handle the cs35l56-bridge special case which should not be
+combined to keep compatibility with UCM.
 
-I have no objections to moving that into the helper as well.
+Link: https://github.com/thesofproject/linux/pull/5445 [1]
+Link: https://github.com/alsa-project/alsa-ucm-conf/pull/747
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+---
+Changes in v2: use dai->component instead of snd_soc_rtd_to_codec(rtd, 0)->component
+---
+ sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c |  6 ------
+ sound/soc/sdw_utils/soc_sdw_cs42l43.c        | 12 +-----------
+ sound/soc/sdw_utils/soc_sdw_utils.c          | 20 ++++++++++++++++----
+ 3 files changed, 17 insertions(+), 21 deletions(-)
 
-> > +	static const int polls = 100;
-> > +	static const int default_poll_us = 1000;
-> > +	unsigned int reg, val;
-> > +	int i, poll_us = default_poll_us;
-> > +	int ret;
-> > +
-> > +	if (pde_delays && num_delays > 0) {
-> > +		for (i = 0; i < num_delays; i++) {
-> > +			if (pde_delays[i].from_ps == from_ps && pde_delays[i].to_ps == to_ps) {
-> > +				poll_us = pde_delays[i].us / polls;
-> > +				break;
-> > +			}
-> > +		}
-> > +	}
-> > +
-> > +	reg = SDW_SDCA_CTL(function_id, entity_id, SDCA_CTL_PDE_ACTUAL_PS, 0);
-> > +
-> > +	for (i = 0; i < polls; i++) {
-> > +		if (i)
-> > +			fsleep(poll_us);
-> 
-> This solution will loop for up to 100 times, and the sleep
-> duration could be questionable.
+diff --git a/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c b/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c
+index 2a7109d53cbe3..e0e32a279787c 100644
+--- a/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c
++++ b/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c
+@@ -40,12 +40,6 @@ static int asoc_sdw_bridge_cs35l56_asp_init(struct snd_soc_pcm_runtime *rtd)
+ 	struct snd_soc_dai *codec_dai;
+ 	struct snd_soc_dai *cpu_dai;
 
-The duration doesn't have to be precise here, as long as the
-result is longer than the requested time everything is fine.
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s spk:cs35l56-bridge",
+-					  card->components);
+-	if (!card->components)
+-		return -ENOMEM;
+-
+ 	ret = snd_soc_dapm_new_controls(dapm, bridge_widgets,
+ 					ARRAY_SIZE(bridge_widgets));
+ 	if (ret) {
+diff --git a/sound/soc/sdw_utils/soc_sdw_cs42l43.c b/sound/soc/sdw_utils/soc_sdw_cs42l43.c
+index 4a451b9d4f137..e99ea3c4e5dde 100644
+--- a/sound/soc/sdw_utils/soc_sdw_cs42l43.c
++++ b/sound/soc/sdw_utils/soc_sdw_cs42l43.c
+@@ -107,21 +107,11 @@ EXPORT_SYMBOL_NS(asoc_sdw_cs42l43_hs_rtd_init, "SND_SOC_SDW_UTILS");
 
-> Say for example you have a 10ms transition, do you really want
-> to read ACTUAL_PS every 100us?
+ int asoc_sdw_cs42l43_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+ {
+-	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
++	struct snd_soc_component *component = dai->component;
+ 	struct snd_soc_card *card = rtd->card;
+ 	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
+-	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+ 	int ret;
 
-Quite potentially, I imagine it will be fairly common for parts
-to change PS a lot faster than the actual timeouts they provide,
-due to corner cases and people just being conservative in the
-DisCo. So its quite possible something that says 10mS typically
-switches in a couple 100uS.
+-	if (!(ctx->mc_quirk & SOC_SDW_SIDECAR_AMPS)) {
+-		/* Will be set by the bridge code in this case */
+-		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-						  "%s spk:cs42l43-spk",
+-						  card->components);
+-		if (!card->components)
+-			return -ENOMEM;
+-	}
+-
+ 	ret = snd_soc_limit_volume(card, "cs42l43 Speaker Digital Volume",
+ 				   CS42L43_SPK_VOLUME_0DB);
+ 	if (ret)
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 2807f536eef0c..1637cc3f3d598 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -758,6 +758,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 			{
+ 				.direction = {true, false},
+ 				.codec_name = "cs42l43-codec",
++				.component_name = "cs42l43-spk",
+ 				.dai_name = "cs42l43-dp6",
+ 				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+ 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+@@ -1104,6 +1105,7 @@ static int asoc_sdw_find_codec_info_dai_index(const struct asoc_sdw_codec_info *
+ int asoc_sdw_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct snd_soc_card *card = rtd->card;
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+ 	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
+ 	struct asoc_sdw_codec_info *codec_info;
+ 	struct snd_soc_dai *dai;
+@@ -1179,16 +1181,26 @@ int asoc_sdw_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ 		/* Generate the spk component string for card->components string */
+ 		if (codec_info->dais[dai_index].dai_type == SOC_SDW_DAI_TYPE_AMP &&
+ 		    codec_info->dais[dai_index].component_name) {
++			const char *component;
++
++			/*
++			 * For the special case of cs42l43 with sidecar amps, use only
++			 * "cs35l56-bridge" as the component name in card->components
++			 */
++			if (ctx->mc_quirk & SOC_SDW_SIDECAR_AMPS &&
++			    !strcmp(codec_info->dais[dai_index].component_name, "cs42l43-spk"))
++				component = "cs35l56-bridge";
++			else
++				component = codec_info->dais[dai_index].component_name;
++
+ 			if (strlen (spk_components) == 0)
+ 				spk_components =
+-					devm_kasprintf(card->dev, GFP_KERNEL, "%s",
+-						       codec_info->dais[dai_index].component_name);
++					devm_kasprintf(card->dev, GFP_KERNEL, "%s", component);
+ 			else
+ 				/* Append component name to spk_components */
+ 				spk_components =
+ 					devm_kasprintf(card->dev, GFP_KERNEL,
+-						       "%s+%s", spk_components,
+-						       codec_info->dais[dai_index].component_name);
++						       "%s+%s", spk_components, component);
+ 		}
 
-> If the pde_delay is 1ms then a read every 10us makes no sense,
-> the SoundWire command protocol would not be able to handle
-> such reads.
-> 
-> A minimum threshold on poll_us would make sense IMHO.
+ 		codec_info->dais[dai_index].rtd_init_done = true;
+--
+2.47.3
 
-I guess you do reach a point where the soundwire command makes
-the delay effectively meaningless. What would you suggest for a
-minimum? Something like 100uS feels kinda reasonable to me,
-I would lean towards quite a small value here. Other options
-might be to look at some sort of exponential back off, doing the
-first few polls faster than later ones.
-
-This is definitely one of those situations where SDCA is a little
-too vague for its own good. But I would also say making a change
-like this should at a minimum be a separate patch rather than
-part of this one. And I am not convinced we need to block this
-series on updating it, although if we just wanted to go with a
-simple minimum that seems easy enough to add.
-
-Thanks,
-Charles
