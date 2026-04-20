@@ -1,49 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E376C3C0623;
-	Mon, 20 Apr 2026 13:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9381A6800;
+	Mon, 20 Apr 2026 13:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691045; cv=none; b=qdfKBjPgNhQH3dI3cW4GuCy1LUGMazegQM/TefFJd/dFdmsZzw47KVpRvqOShDR66Oh1F+/yX/PwlJpiozWuJASf/XnulLiDlfoMxDK9J7IV01r3iHuOQwJAz4AxqrSGqmIxafSY95zjtNg6oKOj2soU3/Iu3W8+n1GUkAiwoLQ=
+	t=1776691396; cv=none; b=UySiFXrVsP+XgN489YWFCgOWI82/08plfPIb0FS7QlWiBL2b+rjZxLI6rjQrPEXQhiQ6vpqgG36b+QkcQujwAm7x1cCkZ/MsqtpxlzRWx7V4bA/ENcUy29GVP8yrIe4zABM+2JyW3sC7dRH64pEUkE6Md44oeNL/VAFNaCj1V8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691045; c=relaxed/simple;
-	bh=ThxMyVbcwAzW0tqsHpizXd80AqabTKh2lu5uYmqS6bU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JT4FvTz08yzcfi1+y788bm1zZQ80c/Ytzw8tpwI73QT0B8FDgIlGsBZRcIJyzwDuTaZWh48hoqa5AMAgNyp0LljkixTRQGTunxkpGAt0ELrdyspIBB9qdrRep5YUM/Qs+CK8qpAwRxO16uUuayTDrlVt2b7FuiRWKvQdC9C9Ou4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cw4J6MzC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776691396; c=relaxed/simple;
+	bh=HeIqewgVBjC+cs5vcBEs31qFo9TZK6JeLdzhZB2khp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I6dEPR9+WAurA34KGPqy5IhumvqDtJcMdkgkqPSX86BnE3bDEcbPuWRzaXQz06vC2ozHFH7JNH3fSPo1MVZ6eF0T4VZW4ZKNdMF7YTmXoe3POPtDJQz8rEI4ttEJdmXgvLz7SDDyEQvqfIOYYhhaJgtbXPSZ0S6FlVTyzTOFBBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/aW5m5W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cw4J6MzC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CA21C19425;
-	Mon, 20 Apr 2026 13:17:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/aW5m5W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8C5C19425;
+	Mon, 20 Apr 2026 13:23:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691044;
-	bh=ThxMyVbcwAzW0tqsHpizXd80AqabTKh2lu5uYmqS6bU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Cw4J6MzCcaRN+URlTbXsevMjj9pk2ib47xRaneBLUa9vfhHt7FmD/TKleUsgZpYAq
-	 Hn0s2RppOKrTLPpKvkSwOI/Qwpnt4zHcTiUzG+pnYwH/QZr9LsVqulnrKF1OHYH7c3
-	 eeoOyPHCBizoG1JqiOGomOXAOEZlv6PDIgu+lGZ3diMBsnYKsu5RI0xLjhXdkP8ZaF
-	 FoK0UzmA3wZyRKyC3C+8ssvtOjWbi4CI0HKbxtquOx9QmvrYiFvrlwrNw98AbPiVx7
-	 Zc830HUT4AL9QkWwVK1LeYZt6mHmysU1Fb1uSwk1u2Z/bv7xDxD+UduTHLGw+jIgmr
-	 +/PHfR1ugANbg==
+	s=k20201202; t=1776691396;
+	bh=HeIqewgVBjC+cs5vcBEs31qFo9TZK6JeLdzhZB2khp4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=E/aW5m5W/32+/8d7aHlcSgAfBbEtsitNl5+Yav5O5EhNGhGHde3U5Vfhx5qnfyEwa
+	 OoXz3GOIHkUucecxRx2tVBEF4neAu+sGtvFf1berDRXjLLxRlNNpbRe4ODEbNDWtLy
+	 isr+WyZUS81XHdog6il8+112GHaQz39tDAAQN+hgkM8OR4y+Cv+WeDCQ1Wz9mjn//Q
+	 tM22UK4DjcAfiJpEphRmnGty4tmm8Us6j+bXqD4pgEKgIMTUPPzuaFlvDDJ0PBJLGf
+	 oP9bctPbnvximL40deKwoEqUPn01V61EjDYOmwW5mJR7YHDBAFcI4K+ktmyFg0duoh
+	 wAR9y1uhNYFLA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: wangdicheng <wangdicheng@kylinos.cn>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Marek Vasut <marex@nabladev.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	johannes@sipsolutions.net,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: aoa/onyx: Fix OF node leak on probe failure
-Date: Mon, 20 Apr 2026 09:08:47 -0400
-Message-ID: <20260420131539.986432-61-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] ASoC: tas2552: Allow audio enable GPIO to sleep
+Date: Mon, 20 Apr 2026 09:16:35 -0400
+Message-ID: <20260420132314.1023554-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
-References: <20260420131539.986432-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,317 +55,354 @@ X-stable-base: Linux 7.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+From: Marek Vasut <marex@nabladev.com>
 
-[ Upstream commit e5d5aef802a5f41283084f7d443ef4fd4b65d86d ]
+[ Upstream commit 5ebc20921b7fff9feb44de465448e17a382c9965 ]
 
-Add missing of_node_put() in the error path.
+The audio enable GPIO is not toggled in any critical section where it
+could not sleep, allow the audio enable GPIO to sleep. This allows the
+driver to operate the audio enable GPIO connected to I2C GPIO expander.
 
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
-Link: https://patch.msgid.link/20260403014736.33014-1-wangdich9700@163.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Marek Vasut <marex@nabladev.com>
+Link: https://patch.msgid.link/20260220202332.241035-1-marex@nabladev.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed. Let me compile the full analysis.
+Now I have all the information needed for the full analysis.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Parse the Subject Line
-- **Subsystem**: ALSA: aoa/onyx (Apple Onboard Audio, onyx codec)
-- **Action verb**: "Fix" — direct bug fix
-- **Summary**: Fixes an OF (Open Firmware) device tree node reference
-  leak when the probe function fails
+**Step 1.1: Subject Line**
+- Subsystem: `ASoC: tas2552` (sound, ASoC codec driver)
+- Action verb: "Allow" - implies enabling something previously not
+  supported
+- Summary: Allow the enable GPIO to sleep, enabling use with I2C GPIO
+  expanders
 
-### Step 1.2: Parse All Commit Message Tags
-- **Signed-off-by**: wangdicheng <wangdicheng@kylinos.cn> (author)
-- **Link**:
-  https://patch.msgid.link/20260403014736.33014-1-wangdich9700@163.com
-  (patch discussion)
-- **Signed-off-by**: Takashi Iwai <tiwai@suse.de> (ALSA subsystem
-  maintainer; this means it was reviewed/applied by the maintainer)
-- No Fixes: tag (expected — that's why we're reviewing)
-- No Cc: stable (expected — that's why we're reviewing)
-- No Reported-by (static analysis / code review finding)
+**Step 1.2: Tags**
+- Signed-off-by: Marek Vasut <marex@nabladev.com> (author)
+- Link:
+  https://patch.msgid.link/20260220202332.241035-1-marex@nabladev.com
+- Signed-off-by: Mark Brown <broonie@kernel.org> (ASoC subsystem
+  maintainer)
+- No Fixes: tag, no Reported-by, no Cc: stable (expected for autosel
+  candidates)
 
-### Step 1.3: Analyze the Commit Body Text
-The commit body is concise: "Add missing of_node_put() in the error
-path." This describes a classic OF node reference leak fix. When
-`of_node_get()` acquires a reference but the error path doesn't call
-`of_node_put()`, the node's reference count is leaked.
+**Step 1.3: Commit Body**
+The commit describes that the enable GPIO is never toggled from atomic
+context, so it's safe to use the sleeping variant. This allows the
+driver to work when the enable GPIO is connected to an I2C GPIO expander
+(which requires sleeping for bus access).
 
-### Step 1.4: Detect Hidden Bug Fixes
-This is an explicit bug fix, not disguised. The subject says "Fix" and
-the body confirms a missing cleanup call.
+**Step 1.4: Hidden Bug Fix Detection**
+YES - this is a bug fix. Using `gpiod_set_value()` with a sleeping GPIO
+triggers `WARN_ON(desc->gdev->can_sleep)` in gpiolib.c:3899. This is
+incorrect API usage that produces kernel warnings.
 
----
+## PHASE 2: DIFF ANALYSIS
 
-## PHASE 2: DIFF ANALYSIS - LINE BY LINE
+**Step 2.1: Inventory**
+- 1 file changed: `sound/soc/codecs/tas2552.c`
+- 5 lines changed (identical substitution at each site)
+- Functions modified: `tas2552_runtime_suspend`,
+  `tas2552_runtime_resume`, `tas2552_component_probe` (x2),
+  `tas2552_component_remove`
 
-### Step 2.1: Inventory the Changes
-- **File**: `sound/aoa/codecs/onyx.c`
-- **Lines**: +3, -1 (net +2 lines)
-- **Function**: `onyx_i2c_probe()`
-- **Scope**: Single-file surgical fix to one error path
+**Step 2.2: Code Flow Change**
+Each hunk is identical: `gpiod_set_value(tas2552->enable_gpio, X)` ->
+`gpiod_set_value_cansleep(tas2552->enable_gpio, X)`. No logic change —
+both APIs call the same `gpiod_set_value_nocheck()` internally.
 
-### Step 2.2: Understand the Code Flow Change
-The key flow in `onyx_i2c_probe()`:
+**Step 2.3: Bug Mechanism**
+Verified in `drivers/gpio/gpiolib.c`:
 
-```978:990:sound/aoa/codecs/onyx.c
-        onyx->codec.init = onyx_init_codec;
-        onyx->codec.exit = onyx_exit_codec;
-        onyx->codec.node = of_node_get(node);  // acquires OF node
-reference
-
-        if (aoa_codec_register(&onyx->codec)) {
-                goto fail;  // BEFORE: leaks OF node reference
-        }
-        ...
- fail:
-        kfree(onyx);  // frees memory but doesn't release OF node ref
-        return -ENODEV;
+```3895:3901:drivers/gpio/gpiolib.c
+int gpiod_set_value(struct gpio_desc *desc, int value)
+{
+        VALIDATE_DESC(desc);
+        /* Should be using gpiod_set_value_cansleep() */
+        WARN_ON(desc->gdev->can_sleep);
+        return gpiod_set_value_nocheck(desc, value);
+}
 ```
 
-**After the fix**: `goto fail` becomes `goto fail_put`, which first
-calls `of_node_put(onyx->codec.node)` then falls through to `fail`.
+vs:
 
-### Step 2.3: Identify the Bug Mechanism
-Category: **Reference counting fix / resource leak**. `of_node_get()`
-increments the device tree node refcount. If `aoa_codec_register()`
-fails, the refcount is never decremented, leaking the OF node.
+```4359:4364:drivers/gpio/gpiolib.c
+int gpiod_set_value_cansleep(struct gpio_desc *desc, int value)
+{
+        might_sleep();
+        VALIDATE_DESC(desc);
+        return gpiod_set_value_nocheck(desc, value);
+}
+```
 
-### Step 2.4: Assess the Fix Quality
-- **Obviously correct**: Yes — `of_node_get()` at line 980 must be
-  balanced by `of_node_put()` on error. The remove path at line 997
-  already correctly calls `of_node_put()`.
-- **Minimal/surgical**: Yes — only 3 lines added, 1 changed.
-- **Regression risk**: Essentially zero. The new label only executes on
-  error paths and merely balances a reference count.
+The bug: When the enable GPIO is on an I2C GPIO expander (`can_sleep =
+true`), `gpiod_set_value()` fires `WARN_ON` producing a kernel warning
+with stack trace on every suspend/resume cycle and on probe/remove.
 
----
+**Step 2.4: Fix Quality**
+- Obviously correct: the only change is which wrapper is used; both call
+  the same underlying function
+- Minimal: 5 identical one-line substitutions
+- Zero regression risk: `gpiod_set_value_cansleep()` is strictly more
+  permissive (works with both sleeping and non-sleeping GPIOs)
+- All call sites are process context (PM callbacks, probe, remove) where
+  sleeping is allowed
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+## PHASE 3: GIT HISTORY
 
-### Step 3.1: Blame the Changed Lines
-The buggy code was introduced by commit `f3d9478b2ce468` ("[ALSA] snd-
-aoa: add snd-aoa") by Johannes Berg, dated **2006-06-21**. This is the
-original addition of the entire AOA subsystem. The bug has been present
-for ~20 years, meaning it exists in **every supported stable tree**.
+**Step 3.1: Blame**
+The `gpiod_set_value()` calls were introduced by commit `82cf77a1bd61d9`
+(Axel Lin, 2015) which simplified NULL checks. The original code existed
+since `5df7f71d5cdfbc` (Dan Murphy, 2014). The buggy code has been
+present since v4.3-rc1.
 
-### Step 3.2: Follow the Fixes Tag
-No Fixes: tag present, but the implicit fix target is `f3d9478b2ce468`
-(2006). The same commit was referenced by the related fix
-`222bce5eb88d1` ("ALSA: snd-aoa: add of_node_put() in error path") which
-fixed a *similar* OF node leak in `sound/aoa/core/gpio-feature.c` but
-did NOT touch `onyx.c`.
+**Step 3.2: Fixes tag**
+No Fixes: tag present (expected for autosel).
 
-### Step 3.3: Related Changes
-- `222bce5eb88d1` — Fixed same bug class in `gpio-feature.c` (2018),
-  never touched onyx.c
-- The sibling codec `tas.c` has the **exact same bug** at lines 864-875
-  (acquires `of_node_get(node)` but `goto fail` doesn't release it)
+**Step 3.3: File History**
+Recent changes to the file are trivial: RUNTIME_PM_OPS conversion,
+removing redundant `pm_runtime_mark_last_busy()`, dropping unused GPIO
+includes. No conflicts.
 
-### Step 3.4: Author's Other Commits
-wangdicheng appears to be contributing fixes across multiple subsystems
-(KylinOS developer). Takashi Iwai, who applied the patch, is the ALSA
-subsystem maintainer — adding significant confidence.
+**Step 3.4: Author**
+Marek Vasut is a prolific kernel contributor with extensive work across
+DRM, DT bindings, and sound subsystems. Not the TAS2552 maintainer but a
+well-known contributor.
 
-### Step 3.5: Dependent/Prerequisite Commits
-None. The fix is fully standalone. The code structure (`fail` label,
-`kfree(onyx)`) has been unchanged since 2006.
+**Step 3.5: Prerequisites**
+None. The change is standalone and independent of the RUNTIME_PM_OPS
+conversion. It touches only the `gpiod_set_value()` calls which exist in
+all stable trees.
 
----
+## PHASE 4: MAILING LIST RESEARCH
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+**Step 4.1: Original Patch**
+Found via `b4 am`. The patch was submitted as a single standalone patch
+on 2026-02-20. CC'd appropriate maintainers (Mark Brown, Takashi Iwai,
+TI engineers, linux-sound, linux-kernel). Applied directly by Mark Brown
+(ASoC maintainer). No v2/v3 revisions — accepted as-is.
 
-### Step 4.1-4.5: Patch Discussion
-Lore.kernel.org is behind a proof-of-work challenge, and b4 dig couldn't
-match this commit by patch-id. However, the patch was applied by ALSA
-maintainer Takashi Iwai directly, which confirms it passed maintainer
-review. The Link tag provides the message-id for the submission.
+**Step 4.2: Reviewers**
+The patch was CC'd to all relevant TI and ASoC maintainers. Mark Brown
+(ASoC subsystem maintainer) applied it directly.
 
----
+**Step 4.3: Bug Report**
+No external bug report. Marek Vasut likely encountered this on a board
+with an I2C GPIO expander.
+
+**Step 4.4: Related Patches**
+This is a well-established pattern. Multiple identical fixes have been
+applied to other ASoC codecs:
+- `5f83ee4b1f0c0` ASoC: tas5086: use sleeping variants of gpiod API
+- `897d8e86bac76` ASoC: tlv320aic31xx: switch to
+  gpiod_set_value_cansleep
+- `5d7e0b1516dfc` ASoC: dmic: Allow GPIO operations to sleep
+- `ea2a2ad17ca1e` ASoC: dio2125: use gpiod_set_value_cansleep (had
+  Fixes: tag)
+
+**Step 4.5: Stable Discussion**
+No stable-specific discussion found. The dio2125 variant (ea2a2ad17ca1e)
+had a Fixes: tag and was likely auto-selected for stable.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-- `onyx_i2c_probe()` — the I2C driver probe function, called when the
-  device is matched
+**Step 5.1: Functions Modified**
+- `tas2552_runtime_suspend()` — PM runtime callback
+- `tas2552_runtime_resume()` — PM runtime callback
+- `tas2552_component_probe()` — ASoC component probe (x2 sites)
+- `tas2552_component_remove()` — ASoC component remove
 
-### Step 5.2: Callers
-`onyx_i2c_probe()` is the `.probe` callback in `onyx_driver` (i2c_driver
-struct at line 1012). It is called by the I2C core during device
-enumeration/binding. This is a standard device probe path.
+**Step 5.2: Callers**
+All five call sites are invoked from process context:
+- Runtime PM callbacks are invoked by the PM subsystem in process
+  context
+- Component probe/remove are called from the ASoC registration path,
+  always sleepable
 
-### Step 5.3-5.4: Reachability
-The probe function is called whenever the kernel attempts to bind the
-onyx I2C codec to its driver. On Apple Mac hardware with this audio
-codec, this happens during boot. If `aoa_codec_register()` fails (which
-can happen — e.g. if the fabric isn't registered yet), this leak
-triggers.
+**Step 5.3-5.4: No atomic context concerns**
+All callers can sleep. The `gpiod_set_value_cansleep()` API with its
+`might_sleep()` is the correct choice.
 
-### Step 5.5: Similar Patterns
-As verified, `sound/aoa/codecs/tas.c` has the **identical bug** (lines
-864-875): `of_node_get(node)` followed by `goto fail` that doesn't call
-`of_node_put()`.
+**Step 5.5: Similar Patterns**
+There are 5 remaining `gpiod_set_value()` calls in this file — this
+patch converts all of them. Other ASoC drivers have undergone identical
+transformations.
 
----
+## PHASE 6: STABLE TREE ANALYSIS
 
-## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
+**Step 6.1: Buggy Code in Stable?**
+YES. The `gpiod_set_value()` calls date back to commit `82cf77a1bd61d9`
+(v4.3-rc1, 2015). All active stable trees contain this code.
 
-### Step 6.1: Buggy Code Existence in Stable Trees
-The buggy code exists in **all** stable trees. It was introduced in 2006
-(`f3d9478b2ce468`) and has never been fixed.
+**Step 6.2: Backport Complications**
+Minimal. The `gpiod_set_value()` lines are identical across all stable
+versions. The only difference is that pre-6.12 trees have `#ifdef
+CONFIG_PM` guards and `SET_RUNTIME_PM_OPS` instead of `RUNTIME_PM_OPS`,
+but this doesn't affect the changed lines. The patch should apply
+cleanly or with trivial context offset.
 
-### Step 6.2: Backport Complications
-The file has had minor changes (guard() conversions, alloc_obj macros)
-but the probe function structure around the error path is essentially
-unchanged since 2006. The patch should apply **cleanly** to all stable
-trees, possibly with trivial context adjustments (e.g. `kzalloc_obj` vs
-`kzalloc`).
+**Step 6.3: No Existing Fix**
+No related fix for this specific issue in any stable tree.
 
-### Step 6.3: Related Fixes Already in Stable
-No. The related `222bce5eb88d1` fix was for `gpio-feature.c`, not
-`onyx.c`.
+## PHASE 7: SUBSYSTEM CONTEXT
 
----
+**Step 7.1:** Sound/ASoC codec driver — PERIPHERAL criticality (specific
+codec driver), but TAS2552 is used in embedded systems.
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-### Step 7.1: Subsystem Criticality
-- **Subsystem**: ALSA / AOA (Apple Onboard Audio) — driver-specific
-- **Criticality**: PERIPHERAL — affects Apple PowerPC/Mac hardware with
-  onyx codecs
-- **Maintainer review**: Applied by Takashi Iwai (ALSA maintainer)
-  directly
-
-### Step 7.2: Subsystem Activity
-Low activity (last substantive change was treewide refactoring). This is
-a mature, stable driver.
-
----
+**Step 7.2:** The driver is mature/stable with minimal recent activity
+(only cleanup commits).
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who Is Affected
-Users of Apple Mac hardware with the pcm3052 (onyx) audio codec. This is
-primarily older PowerPC-based Macs.
+**Step 8.1: Affected Users**
+Users of the TAS2552 audio amplifier who have the enable GPIO connected
+to an I2C GPIO expander. This is a valid embedded hardware
+configuration.
 
-### Step 8.2: Trigger Conditions
-The leak triggers when `aoa_codec_register()` fails during probe. This
-can happen if the AOA fabric isn't registered, or if
-`attach_codec_to_fabric()` returns an error. While not extremely common,
-repeated probe failures (e.g. during deferred probing or error
-injection) would accumulate leaked OF nodes.
+**Step 8.2: Trigger Conditions**
+The WARN_ON triggers on EVERY suspend/resume cycle and on driver
+probe/remove — not rare at all for affected hardware.
 
-### Step 8.3: Failure Mode Severity
-- **Failure mode**: OF node reference count leak (resource leak)
-- **Severity**: LOW-MEDIUM — repeated leaks consume memory, and the
-  leaked OF node can never be freed, but this is a one-time probe path,
-  not a hot path
+**Step 8.3: Failure Mode**
+- WARN_ON with full stack trace in kernel log (MEDIUM severity normally)
+- With `panic_on_warn=1`: kernel panic (CRITICAL severity for those
+  configurations)
+- Without panic_on_warn: console spam, log pollution, incorrect API
+  usage flagged
 
-### Step 8.4: Risk-Benefit Ratio
-- **Benefit**: Fixes a real resource leak that has existed for 20 years.
-  Trivial to understand and verify.
-- **Risk**: Essentially zero — 3 lines added to an error path, one
-  `goto` target changed
-- **Ratio**: Very favorable — minimal risk for a correct bug fix
-
----
+**Step 8.4: Risk-Benefit**
+- BENEFIT: Eliminates WARN_ON spam, enables I2C GPIO expander hardware
+  correctly, fixes incorrect API usage
+- RISK: Virtually zero — both APIs call the same underlying function,
+  the only difference is the debug assertion
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Compiled
+**Step 9.1: Evidence Summary**
 
-**FOR backporting:**
-- Fixes a real bug: missing `of_node_put()` causing OF node reference
-  leak
-- Extremely small and surgical fix (3 lines added, 1 changed)
-- Obviously correct — verified by reading the code and comparing with
-  the remove path
-- Applied by ALSA subsystem maintainer (Takashi Iwai)
-- Bug exists in all stable trees (introduced in 2006)
-- Zero regression risk
-- Consistent with similar fixes applied to the same subsystem
-  (222bce5eb88d1)
+FOR backporting:
+- Fixes incorrect GPIO API usage that triggers WARN_ON
+- Can cause kernel panic with `panic_on_warn=1`
+- Trivially small (5 identical line substitutions), trivially correct
+- Zero regression risk (both APIs have identical functional behavior)
+- Well-established pattern applied to many other drivers
+- Applied by ASoC subsystem maintainer Mark Brown
+- Buggy code present since v4.3 — affects all stable trees
+- No dependencies on other patches
 
-**AGAINST backporting:**
-- Low-severity bug (resource leak, not crash/security/corruption)
-- Affects niche hardware (Apple PowerPC Macs)
-- Only triggers on probe failure (not common under normal conditions)
+AGAINST backporting:
+- No Reported-by (no evidence of real-world user reports)
+- WARN_ON is non-fatal in default configurations
+- Affects specific hardware configuration (I2C GPIO expander)
+- Could be seen as "enablement" rather than pure "fix"
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **YES** — trivial fix, applied by
-   maintainer
-2. Fixes a real bug? **YES** — OF node reference leak
-3. Important issue? **MEDIUM** — resource leak, not critical
-4. Small and contained? **YES** — 3 lines, single file, single function
-5. No new features or APIs? **YES** — pure fix
-6. Can apply to stable trees? **YES** — code unchanged since 2006
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct and tested: YES — trivially provable
+2. Fixes a real bug: YES — WARN_ON from incorrect API usage
+3. Important issue: MEDIUM — WARN_ON, potential panic with panic_on_warn
+4. Small and contained: YES — 5 lines in 1 file
+5. No new features: YES — just API correction
+6. Can apply to stable: YES — clean apply expected
 
-### Step 9.3: Exception Categories
-None applicable, but this is a standard reference counting bug fix — a
-very common category for stable backports.
-
-### Step 9.4: Decision
-This is a small, obvious, correct fix for a real reference counting bug.
-While the severity is low (resource leak on error path in niche
-hardware), the fix carries essentially zero regression risk and meets
-all stable kernel criteria.
-
----
+**Step 9.3: Exception Categories**
+This is closest to a hardware quirk/workaround — it makes the driver
+work correctly with I2C GPIO expanders.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Signed-off-by author + Takashi Iwai
-  (maintainer), Link tag present
-- [Phase 2] Diff analysis: 3 lines added to error path in
-  `onyx_i2c_probe()`, adds missing `of_node_put()` after `of_node_get()`
-  at line 980
-- [Phase 3] git blame: buggy code introduced in `f3d9478b2ce468`
-  (2006-06-21), present in all stable trees
-- [Phase 3] Related fix `222bce5eb88d1`: same bug class fixed in `gpio-
-  feature.c` but NOT in `onyx.c`
-- [Phase 3] Confirmed `tas.c` has identical unfixed bug at lines 864-875
-- [Phase 4] Lore blocked by anti-scraping; b4 dig failed to match. Patch
-  applied by ALSA maintainer confirms review
-- [Phase 5] `onyx_i2c_probe()` is standard I2C probe callback, called
-  during device binding
-- [Phase 5] `aoa_codec_register()` at `sound/aoa/core/core.c:57`
-  confirmed: can return error from `attach_codec_to_fabric()`
-- [Phase 6] Code structure unchanged since 2006; patch should apply
-  cleanly to all stable trees
-- [Phase 6] No related fix already in stable for this specific file
-- [Phase 8] Failure mode: OF node reference leak, severity LOW-MEDIUM;
-  risk of fix: essentially zero
+- [Phase 1] Parsed tags: Signed-off-by from author and ASoC maintainer,
+  Link to patch.msgid
+- [Phase 2] Diff analysis: 5 identical `gpiod_set_value` ->
+  `gpiod_set_value_cansleep` substitutions
+- [Phase 2] Verified `gpiod_set_value()` has
+  `WARN_ON(desc->gdev->can_sleep)` at gpiolib.c:3899
+- [Phase 2] Verified `gpiod_set_value_cansleep()` calls same
+  `gpiod_set_value_nocheck()` at gpiolib.c:4363
+- [Phase 3] git blame: `gpiod_set_value` calls introduced by commit
+  82cf77a1bd61d9 (v4.3-rc1, 2015)
+- [Phase 3] git log: no conflicting changes in recent history
+- [Phase 3] RUNTIME_PM_OPS conversion (1570c33f2f38b) does not affect
+  the changed lines
+- [Phase 4] b4 am: found original patch, single standalone submission
+- [Phase 4] Multiple identical fixes applied to other ASoC codecs
+  (tas5086, tlv320aic31xx, dmic, dio2125)
+- [Phase 5] All call sites (runtime_suspend/resume,
+  component_probe/remove) are process context — can sleep
+- [Phase 6] Buggy code present since v4.3, exists in all active stable
+  trees
+- [Phase 6] Patch applies cleanly — no conflicting changes to the
+  affected lines
+- [Phase 8] WARN_ON triggers on every suspend/resume for affected
+  hardware, not a rare event
+
+The fix is trivially correct, carries zero regression risk, and fixes
+incorrect GPIO API usage that produces kernel warnings (and potential
+panics) for valid hardware configurations. While it's not fixing a crash
+in the default configuration, the WARN_ON is a genuine bug indicator,
+and this well-established pattern has been applied to many other
+drivers.
 
 **YES**
 
- sound/aoa/codecs/onyx.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tas2552.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/aoa/codecs/onyx.c b/sound/aoa/codecs/onyx.c
-index 04961c456d2c5..da0eebf5dfbc2 100644
---- a/sound/aoa/codecs/onyx.c
-+++ b/sound/aoa/codecs/onyx.c
-@@ -980,10 +980,12 @@ static int onyx_i2c_probe(struct i2c_client *client)
- 	onyx->codec.node = of_node_get(node);
+diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
+index 43449d7c25843..80206c2e09462 100644
+--- a/sound/soc/codecs/tas2552.c
++++ b/sound/soc/codecs/tas2552.c
+@@ -487,7 +487,7 @@ static int tas2552_runtime_suspend(struct device *dev)
+ 	regcache_cache_only(tas2552->regmap, true);
+ 	regcache_mark_dirty(tas2552->regmap);
  
- 	if (aoa_codec_register(&onyx->codec)) {
--		goto fail;
-+		goto fail_put;
- 	}
- 	printk(KERN_DEBUG PFX "created and attached onyx instance\n");
+-	gpiod_set_value(tas2552->enable_gpio, 0);
++	gpiod_set_value_cansleep(tas2552->enable_gpio, 0);
+ 
  	return 0;
-+ fail_put:
-+	of_node_put(onyx->codec.node);
-  fail:
- 	kfree(onyx);
- 	return -ENODEV;
+ }
+@@ -496,7 +496,7 @@ static int tas2552_runtime_resume(struct device *dev)
+ {
+ 	struct tas2552_data *tas2552 = dev_get_drvdata(dev);
+ 
+-	gpiod_set_value(tas2552->enable_gpio, 1);
++	gpiod_set_value_cansleep(tas2552->enable_gpio, 1);
+ 
+ 	tas2552_sw_shutdown(tas2552, 0);
+ 
+@@ -583,7 +583,7 @@ static int tas2552_component_probe(struct snd_soc_component *component)
+ 		return ret;
+ 	}
+ 
+-	gpiod_set_value(tas2552->enable_gpio, 1);
++	gpiod_set_value_cansleep(tas2552->enable_gpio, 1);
+ 
+ 	ret = pm_runtime_resume_and_get(component->dev);
+ 	if (ret < 0) {
+@@ -608,7 +608,7 @@ static int tas2552_component_probe(struct snd_soc_component *component)
+ 
+ probe_fail:
+ 	pm_runtime_put_noidle(component->dev);
+-	gpiod_set_value(tas2552->enable_gpio, 0);
++	gpiod_set_value_cansleep(tas2552->enable_gpio, 0);
+ 
+ 	regulator_bulk_disable(ARRAY_SIZE(tas2552->supplies),
+ 					tas2552->supplies);
+@@ -621,7 +621,7 @@ static void tas2552_component_remove(struct snd_soc_component *component)
+ 
+ 	pm_runtime_put(component->dev);
+ 
+-	gpiod_set_value(tas2552->enable_gpio, 0);
++	gpiod_set_value_cansleep(tas2552->enable_gpio, 0);
+ };
+ 
+ #ifdef CONFIG_PM
 -- 
 2.53.0
 
