@@ -1,529 +1,214 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765723947B1
-	for <linux-sound@vger.kernel.org>; Mon, 20 Apr 2026 10:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776679954; cv=none; b=ngi4CbJFhgJW6RdWQjX8xexQfwupWYUCkEsFJc0Vm5sErwlOr92YdfMckLkU2jxnkidlsc0b/qYEm7U5TeWRu3IRjzZabVEw9/+uDkgvqpx5U5XpLUUDbDTATZcw60oJPKHKuYmpJrDJNQgtbP0Eu86YRfx0ny6SU5CiQXlO16s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776679954; c=relaxed/simple;
-	bh=xtz9H+PoMXer6QAG7G+nYQBJk85DDtfIa2KO7vyErTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qut5DiqdYLggyuKyGHbeXXhk1qZFqFsKBw+R/v2G0IuxbQzxkhBrZupQbTq9X/svEdLZ+Y/Ps3vleHg2uVHHMXYGOarh5888AgAKJFAP5huPVeMdTusoETHt2ezV093qAEQBb0u3Ul43zIa8T0yzfzBdggN7uxfo5JPKLlFLEWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=J7qyDlZv; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21D3388E52;
+	Mon, 20 Apr 2026 10:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776681391; cv=fail; b=Qcp1S5W4np/EQBXsVPXZdfLw+I/OWbDcy5xRj6+ZvYOgfHzE3FIIf4rH/luGM2WWCZpSrdk7DOrK29jDTknvM4CMm73Vz5v0FEfvVXk8NDpkWb2HoVD2mF7wJQHeGuks2Fo0YZmEX//y6wGTF5Q7s02Ud0MoIhs2Y4nh3N/NtZs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776681391; c=relaxed/simple;
+	bh=Dn976aFI+szTm+lxE1ddY+Rm4FEvC1X0D2zhqoeMYag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LWe6AJpTBaWe7mGVY3minNl0fFvprCryveTBKYSqOS0We2/D1+XG2fQEmaW4Qo5hkLAoqxIfszkb7Wt4McrM0sDs6E3aM8eOc3mh4P3svTZEFXjb+GRrgcArOacKOJxJKhIFDbz8DpkBmZevBbcnphX0LB0Xy+056oShaERkXCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=f7/wne5Q; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=BRCnF+Oy; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="J7qyDlZv"
-Message-ID: <9eb396b8-eb33-466c-a7b2-a1417bd37fdb@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776679949;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XDPOnvQaME+11JtB5eNuFcPJIdY/TmlgiYx6IC8Ysuw=;
-	b=J7qyDlZvF91zMS6z1m7plz0/PlsybSLD6aUCwZHObJaN4oQrMxHUrA9sSohoxw6hS5bGXs
-	j2D2awaJ/H+Go2kBGXzLl+7CISglNJHUkND5Au2oTsXQSCNzBLnBcllKOOhpGe97g5jNHE
-	MiNaIO/kymtFCNrdbXdweXKTV+1rKo8=
-Date: Mon, 20 Apr 2026 12:10:19 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="f7/wne5Q";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="BRCnF+Oy"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63KATKxk2094113;
+	Mon, 20 Apr 2026 05:35:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=Zjyi4+U9V8JIHaQDvF
+	qenB2yX8gDeAxvFHA/bFBRv1w=; b=f7/wne5QHw7l+3vDKqkJVYoeg7C/k//Hph
+	kvPx7kp9ZtcxV5VZ8tmwzdWgnbpFMYG1EZ09CYip4EhSkoGsTpI8WNx5BISAcFhL
+	YCZo2GSXCasZtKygZgSttCrXCwa80irm2q0BtXUrr98YM3OM7ycPHMu+chR5zfQD
+	eWNfrkvkWy684nhEIxRfV5Z1rldZNgmPcxE3R1KTBa+D7QSzqnyT1TAlMZ/RH8Xh
+	BYnkqZVZnjUDsbgsbfumyEotRmhK+C69kkM4ZQW7MiqfiTUzIyeL+9krUAGNFVWr
+	6mJl2YyB9hSynxBSH/uOyI62qCGLHhq8y/BzkSvM5OwAwUgnodLA==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021138.outbound.protection.outlook.com [52.101.62.138])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4dm6cfjb8m-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 20 Apr 2026 05:35:52 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bG8nIiDSpvsTwp0WoWZMC6vOqZmMWtc6ZZhA9N4SnkugQn10MaWgMhSS1GRYemxmbXrJeME8tAM5u/iqJ9G1XWWTh3QX26SXRLjL2113k3oRAzpgs+iNR9ysGEJATKH8PT4VOQ8EZ6lYmiXAcUjvQLlFiipt+5ws4Z7+SyTaGeLtPfXH5dxDxIzaeyuqbk02mIiOKgjBoCTbVQFLr0phvIQooytpTE4brbf7ZXmnB3OhMTbavF4cs2OzFgfqihKfcBfK3v/FguJSIAcuJNxs3+w97KiAHksCnadXZDbt5A1vhUYm5Bz3rjbXhrnjP4RxaTlzmxRx/qIUqg5rDp0BgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zjyi4+U9V8JIHaQDvFqenB2yX8gDeAxvFHA/bFBRv1w=;
+ b=rC8hRCirGNXb0HkdTB3S6nazA1aGlHr7GL/lOOQf6T+aI0b/n6jZekAPOEm7FAJOnHMUPtpD5VuXg+HzyUuDB0CPAouHzdMjWZUawXjR0xK5mm0JuIaffKudw+jAATDLjn2mVAKGZA2IKqeJgr1nMn0CFsUmrlM6uljToCIlCZysyn2CaNfOmNgNoB9McMhM0nWZ53c7KeGMzkf7C+jkrU8a6uwmDme5I6E5a8NveO2wbQvyzPJEUy5K1OLgT3IG6sD/GEfC7l5qCKpzEh+hRUABrx9YBOjGzPuwNd7jsfL9SrS2AfLwwtjIGdLEY5AXXbuO/iyRUn29/F8XG51B3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=gmail.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zjyi4+U9V8JIHaQDvFqenB2yX8gDeAxvFHA/bFBRv1w=;
+ b=BRCnF+OyQ+x6i1+cQJuaJdwhzkmSKO+T+cvAG1tAqKqYaVbdRPVGG62xACu64sHg2aqwgyUvVWKqjDZ4K8SyvoJLXrIFSkq06hORXmrpsBvNOM0iXC93P69SUW7QnWIDtjyblkIBz0FOdTL19ZZjpHC3Na8LvkFDo99rg40eYmc=
+Received: from SJ2PR07CA0013.namprd07.prod.outlook.com (2603:10b6:a03:505::15)
+ by DS0PR19MB7499.namprd19.prod.outlook.com (2603:10b6:8:14e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.32; Mon, 20 Apr
+ 2026 10:35:48 +0000
+Received: from MWH0EPF000C6191.namprd02.prod.outlook.com
+ (2603:10b6:a03:505:cafe::f2) by SJ2PR07CA0013.outlook.office365.com
+ (2603:10b6:a03:505::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48 via Frontend Transport; Mon,
+ 20 Apr 2026 10:35:48 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MWH0EPF000C6191.mail.protection.outlook.com (10.167.249.106) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48
+ via Frontend Transport; Mon, 20 Apr 2026 10:35:47 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 635C8406543;
+	Mon, 20 Apr 2026 10:35:45 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 41FBD82024A;
+	Mon, 20 Apr 2026 10:35:45 +0000 (UTC)
+Date: Mon, 20 Apr 2026 11:35:44 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com,
+        perex@perex.cz, tiwai@suse.com, cezary.rojewski@intel.com,
+        peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+        ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
+        baojun.xu@ti.com, shenghao-ding@ti.com, sandeepk@ti.com,
+        v-hampiholi@ti.com
+Subject: Re: [PATCH v9 1/4] ASoC: SDCA: Add PDE verification reusable helper
+Message-ID: <aeYBgE4JQiApVvRS@opensource.cirrus.com>
+References: <20260417131401.3104-1-niranjan.hy@ti.com>
+ <6b72e996-a2dd-445b-b145-82644a6df8eb@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v9 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-To: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
- ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com,
- yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
- kai.vehmanen@linux.intel.com, baojun.xu@ti.com, shenghao-ding@ti.com,
- sandeepk@ti.com, v-hampiholi@ti.com
-References: <20260417131401.3104-1-niranjan.hy@ti.com>
- <20260417131401.3104-2-niranjan.hy@ti.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260417131401.3104-2-niranjan.hy@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b72e996-a2dd-445b-b145-82644a6df8eb@linux.dev>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C6191:EE_|DS0PR19MB7499:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ddab0ed-c1ef-4e5b-2715-08de9ec895d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|7416014|61400799027|376014|16102099003|18096099003|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	oryYbh7G43ld6/6JVN7cMrYUHo4ypssoAed1uTrsPqXI3sIcJIcntPVInM/QsC3wXHPAXK1oMf8E01kUN2sd1kCUypgV7eVy9/YBw4As3FfQwuhWnNdJg1t3Ymlr4uVpt3WkO403DPohD7a8p9CsrZUQbcc8OfDrf19hBjVTi4/SUDA55eccyNyg2gAkQK+On9iMjYhh+geoy660g6aIN0PHm0N5/Hg5rbptXH6VqHKnH0Zi+zfn/X1JvopgY8k07pmHL0bE0C0trtiSB71DTwTfKl4xNcRBPiiZK8vhySKWksYSw3VYbTiBDkMriUtYWu/fJgyisSmZRsPZdMIIu/bhsK6BMMStr/aQHxwqE4UIDEcuBUFsVw4P0+UEEFMRnai4/HDNJ7KHp5Ak+1E54WJ3+9m+dmb4Zcq/hAGWxuaE2L7ZNLRHTdCylX9c8OVKzAb0VQU0AeXZR346OnUYsb8jNONmFIDHHKp77MY1iVB17EwbCW46RsLEeUyGkT6wJwrs68paz9nMJdnxcr1JfaVuR0DCEZ3Pz21uWeemLEcawlw4GsLCu5hn518KIbJ9jDcNukjnXMA2BCTpDZJzbhcfBlEJMSnEAWHSaUArG2RviOLj1fPbaIc5EYIzkR6Aiz3h2smGXJwh5u20xbCi6kD44aZn0aU3QRZzKXYc8EK0ROx3+MtB6sN8rBgOshXSFWD1SBFGkhG9LAUNXEqd2VNu71GbCq6nwpdSeKLs7zP3WPZYr/ny9wArL5/XCrSCME0Vutgh3WPnqCHCp24Hsw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(7416014)(61400799027)(376014)(16102099003)(18096099003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	zJd+eddGW7Izi4eCaNKW/jQoSlI8oJPPoFeFZ+zP+i/NX7WGHElzcAispbBfpB3hnQ/mJLNjGxKCrfG8Td9EPtDZculfa4va1qyoVgkZuGaRY6EXAFbWn0a1u3g2VKxFLICfTfqU/BtBZLSEY12BbM/KTiJRJdS5dvycLDWILTgs4UQUhvC+luwVL7elc5h74hx1yXXOlIaqNSUNyk2UdX/Y1FSp/QpBtfJL9bFsdgbRg/gd0DPawD2mbwtfLpgqa431kHronA3rGDWSR7xMMpzu4sH+PQ7ULtl4AsXdZWUzSlVOQN7w9cK/0We/Q7Tyoi5AOc3N69+n1Ng8Wx70fDt+RM8gB8hRsXr/VZJWgqTYnLDlBqjXPBMmqV91ebxcN4R9Vsi/hj3rhHP9p1qU8RX1xhxOWGE8Cofv05aBVryA7JZHUCZ1NTgJygLoht3P
+X-Exchange-RoutingPolicyChecked:
+	p4EOMGOCdS+syDz0HBha4ppJuzRVLQmPdyup3Ndpi/xEw4iucmrgA3blemVlYsjvgA71tij8DIOQoxS+GVQTojNmEcgZomhCOrknT17jtmfROCsN0jEEddAvB+wvmcdMKd5tVx/QDd0ddBVEmdu51YjGoKf+piPKpQoxtOlf5mKer93WpFHqkVEflAkMn2gNlP3LhsxBjeda3MxUob6JEIHAHF563okRbkoDCfl+uXhxnBFM0kh8yzumPIrmwssRSSLW45qAQnt8dfFP7vDhABBDPCDi6CPJyM1XQ4iluDfCp1bP+6dGGBABP4btTWKCRtLX+r2BbkUo3kAILwnYZw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 10:35:47.4148
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ddab0ed-c1ef-4e5b-2715-08de9ec895d2
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000C6191.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB7499
+X-Authority-Analysis: v=2.4 cv=EdT4hvmC c=1 sm=1 tr=0 ts=69e60188 cx=c_pps
+ a=td2I9qAig9HcJlooGYrYWQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=T5K4icZj-6yKMt-Tg-gA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: n3csz6jjOiqR58kKFX01eSOSnMVR-51L
+X-Proofpoint-ORIG-GUID: n3csz6jjOiqR58kKFX01eSOSnMVR-51L
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIwMDEwMyBTYWx0ZWRfX5yhf2FHPNUur
+ bLRWm8ZCk9yM8L8X9AN0qFOILlgDvTID29otfXyaK4UyBK1aJLRNXABILpbP2rxovCi40MD9kfl
+ FzCTHWk2hKgJsP8o51htLTj/I4mSXutQ7nWdWQaFR85RcDxuKffUpM0bW7q1+CuRA1EpNA+ZB1F
+ j72XzOLN9Tw5N2hLX9v+BbXiXSvwxpCaKwpmxq52tAKnYUjg/ofx+mFb9IBl/08XY0KR0Q3wa9h
+ uGpKtBNVu+kh9vpU83nG/T1QEA4UHV8FHb+7ODCb21i2HfTkugpCXXUI4v/qsO8Civ10P6mKn13
+ 57GbePqW+bb3x6HM4U7CoTD8IoODQSsc1gr16L8SZCJAY5a6a+X5wUKpOOk1QTFJ9DI7Fkey9Xc
+ lpQ3FbFBoNiSiyHOgzG3DZ79PelrEEPq9gPOjcL1asjxBQ0wJT2H0HpXd9g+vUKyY54IFWIwoeI
+ OGodDZKMDD1Da6J1zJA==
+X-Proofpoint-Spam-Reason: safe
 
+On Mon, Apr 20, 2026 at 11:49:00AM +0200, Pierre-Louis Bossart wrote:
+> On 4/17/26 15:13, Niranjan H Y wrote:
+> > + * This function implements the polling logic but does NOT modify the power state.
+> > + * The caller is responsible for writing REQUESTED_PS before invoking this function.
+> 
+> Erm, why not dealing with the write to REQUESTED_PS in this
+> helper? You have all the 'to' and 'from' information in the
+> parameters.
 
-> +struct tac5xx2_prv {
-> +	struct snd_soc_component *component;
-> +	struct sdw_slave *sdw_peripheral;
-> +	struct sdca_function_data *sa_func_data;
-> +	struct sdca_function_data *sm_func_data;
-> +	struct sdca_function_data *uaj_func_data;
-> +	struct sdca_function_data *hid_func_data;
-> +	enum sdw_slave_status status;
-> +	/* Lock for firmware download and PDE state transitions.
-> +	 * Serializes FW caching/download and DAPM-driven power
-> +	 * state changes to prevent PDE operations during firmware load.
-> +	 */
-> +	struct mutex pde_lock;
+I have no objections to moving that into the helper as well.
 
-that's a lot of stuff that's protected with this lock. See below for one question...
+> > +	static const int polls = 100;
+> > +	static const int default_poll_us = 1000;
+> > +	unsigned int reg, val;
+> > +	int i, poll_us = default_poll_us;
+> > +	int ret;
+> > +
+> > +	if (pde_delays && num_delays > 0) {
+> > +		for (i = 0; i < num_delays; i++) {
+> > +			if (pde_delays[i].from_ps == from_ps && pde_delays[i].to_ps == to_ps) {
+> > +				poll_us = pde_delays[i].us / polls;
+> > +				break;
+> > +			}
+> > +		}
+> > +	}
+> > +
+> > +	reg = SDW_SDCA_CTL(function_id, entity_id, SDCA_CTL_PDE_ACTUAL_PS, 0);
+> > +
+> > +	for (i = 0; i < polls; i++) {
+> > +		if (i)
+> > +			fsleep(poll_us);
+> 
+> This solution will loop for up to 100 times, and the sleep
+> duration could be questionable.
 
+The duration doesn't have to be precise here, as long as the
+result is longer than the requested time everything is fine.
 
-> +static int tac_sdw_hw_params(struct snd_pcm_substream *substream,
-> +			     struct snd_pcm_hw_params *params,
-> +			     struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct tac5xx2_prv *tac_dev = snd_soc_component_get_drvdata(component);
-> +	struct sdw_stream_config stream_config = {0};
-> +	struct sdw_port_config port_config = {0};
-> +	struct sdw_stream_runtime *sdw_stream;
-> +	struct sdw_slave *sdw_peripheral = tac_dev->sdw_peripheral;
-> +	unsigned long time;
-> +	int ret;
-> +	int function_id;
-> +	int pde_entity;
-> +	int port_num;
-> +	u8 sample_rate_idx = 0;
-> +
-> +	time = wait_for_completion_timeout(&sdw_peripheral->initialization_complete,
-> +					   msecs_to_jiffies(TAC5XX2_PROBE_TIMEOUT_MS));
-> +	if (!time) {
-> +		dev_warn(tac_dev->dev, "%s: hw initialization timeout\n", __func__);
-> +		return -ETIMEDOUT;
-> +	}
-> +	if (!tac_dev->hw_init) {
-> +		dev_err(tac_dev->dev,
-> +			"error: operation without hw initialization");
-> +		return -EINVAL;
-> +	}
-> +
-> +	sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-> +	if (!sdw_stream) {
-> +		dev_err(tac_dev->dev, "failed to get dma data");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = tac_clear_latch(tac_dev);
-> +	if (ret)
-> +		dev_warn(tac_dev->dev, "clear latch failed, err=%d", ret);
-> +
-> +	switch (dai->id) {
-> +	case TAC5XX2_DMIC:
-> +		function_id = TAC_FUNCTION_ID_SM;
-> +		pde_entity = TAC_SDCA_ENT_PDE11;
-> +		port_num = TAC_SDW_PORT_NUM_DMIC;
-> +		break;
-> +	case TAC5XX2_UAJ:
-> +		function_id = TAC_FUNCTION_ID_UAJ;
-> +		pde_entity = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
-> +				TAC_SDCA_ENT_PDE47 : TAC_SDCA_ENT_PDE34;
-> +		port_num = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
-> +				TAC_SDW_PORT_NUM_UAJ_PLAYBACK :
-> +				TAC_SDW_PORT_NUM_UAJ_CAPTURE;
-> +		/* Detect and set jack type for UAJ path before playback.
-> +		 * This is required as jack detection does not trigger interrupt
-> +		 * when device is in runtime_pm suspend with bus in clock stop mode.
-> +		 */
+> Say for example you have a 10ms transition, do you really want
+> to read ACTUAL_PS every 100us?
 
-so here we have an interesting logic - or I misunderstood the comment?
+Quite potentially, I imagine it will be fairly common for parts
+to change PS a lot faster than the actual timeouts they provide,
+due to corner cases and people just being conservative in the
+DisCo. So its quite possible something that says 10mS typically
+switches in a couple 100uS.
 
-If a headset is inserted when the device is in runtime_pm suspend, how would applications modify the routing and select playback on the headset, which would then ripple down to this hw_params() call?
+> If the pde_delay is 1ms then a read every 10us makes no sense,
+> the SoundWire command protocol would not be able to handle
+> such reads.
+> 
+> A minimum threshold on poll_us would make sense IMHO.
 
-IOW to play on a headset you first have to know there's a headset.
+I guess you do reach a point where the soundwire command makes
+the delay effectively meaningless. What would you suggest for a
+minimum? Something like 100uS feels kinda reasonable to me,
+I would lean towards quite a small value here. Other options
+might be to look at some sort of exponential back off, doing the
+first few polls faster than later ones.
 
-> +		mutex_lock(&tac_dev->uaj_lock);
-> +		tac5xx2_sdca_headset_detect(tac_dev);
-> +		mutex_unlock(&tac_dev->uaj_lock);
-> +		break;
-> +	case TAC5XX2_SPK:
-> +		function_id = TAC_FUNCTION_ID_SA;
-> +		pde_entity = TAC_SDCA_ENT_PDE23;
-> +		port_num = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
-> +				TAC_SDW_PORT_NUM_SPK_PLAYBACK :
-> +				TAC_SDW_PORT_NUM_SPK_CAPTURE;
-> +		break;
-> +	default:
-> +		dev_err(tac_dev->dev, "Invalid dai id: %d", dai->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
-> +	port_config.num = port_num;
-> +	ret = sdw_stream_add_slave(sdw_peripheral, &stream_config,
-> +				   &port_config, 1, sdw_stream);
-> +	if (ret) {
-> +		dev_err(dai->dev,
-> +			"Unable to configure port %d: %d\n", port_num, ret);
-> +		return ret;
-> +	}
-> +
-> +	switch (params_rate(params)) {
-> +	case 48000:
-> +		sample_rate_idx = 0x01;
-> +		break;
-> +	case 44100:
-> +		sample_rate_idx = 0x02;
-> +		break;
-> +	case 96000:
-> +		sample_rate_idx = 0x03;
-> +		break;
-> +	case 88200:
-> +		sample_rate_idx = 0x04;
-> +		break;
-> +	default:
-> +		dev_dbg(tac_dev->dev, "Unsupported sample rate: %d Hz",
-> +			params_rate(params));
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (function_id) {
-> +	case TAC_FUNCTION_ID_SM:
-> +		ret = regmap_write(tac_dev->regmap,
-> +				   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS113,
-> +						TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
-> +			sample_rate_idx);
-> +		if (ret) {
-> +			dev_err(tac_dev->dev, "Failed to set CS113 sample rate: %d", ret);
-> +			return ret;
-> +		}
-> +
-> +		break;
-> +	case TAC_FUNCTION_ID_UAJ:
-> +		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +			ret = regmap_write(tac_dev->regmap,
-> +					   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS41,
-> +							TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
-> +					sample_rate_idx);
-> +			if (ret) {
-> +				dev_err(tac_dev->dev, "Failed to set CS41 sample rate: %d", ret);
-> +				return ret;
-> +			}
-> +		} else {
-> +			ret = regmap_write(tac_dev->regmap,
-> +					   SDW_SDCA_CTL(function_id, TAC_SDCA_ENT_CS36,
-> +							TAC_SDCA_CTL_CS_SAMP_RATE_IDX, 0),
-> +					sample_rate_idx);
-> +			if (ret) {
-> +				dev_err(tac_dev->dev, "Failed to set CS36 sample rate: %d", ret);
-> +				return ret;
-> +			}
-> +		}
-> +		break;
-> +	case TAC_FUNCTION_ID_SA:
-> +		/* SmartAmp: no additional sample rate configuration needed */
-> +		break;
-> +	}
-> +
-> +	guard(mutex)(&tac_dev->pde_lock);
+This is definitely one of those situations where SDCA is a little
+too vague for its own good. But I would also say making a change
+like this should at a minimum be a separate patch rather than
+part of this one. And I am not convinced we need to block this
+series on updating it, although if we just wanted to go with a
+simple minimum that seems easy enough to add.
 
-question I mentioned above: when you reach the hw_params phase, do you really have a potential race with firmware download? What does this specific use of pde_lock protect against?
-
-> +	ret = regmap_write(tac_dev->regmap,
-> +			   SDW_SDCA_CTL(function_id, pde_entity,
-> +					TAC_SDCA_REQUESTED_PS, 0), 0);
-> +	if (ret) {
-> +		dev_err(tac_dev->dev, "failed to set PS to 0: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = sdca_asoc_pde_ensure_ps(tac_dev->dev, tac_dev->regmap,
-> +				      function_id, pde_entity,
-> +				      SDCA_PDE_PS3, SDCA_PDE_PS0,
-> +				      NULL, 0);
-> +	if (ret)
-> +		dev_err(tac_dev->dev,
-> +			"failed to transition to PS0, err= %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static s32 tac_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
-> +			       struct snd_soc_dai *dai)
-> +{
-> +	s32 ret;
-> +	struct snd_soc_component *component = dai->component;
-> +	struct tac5xx2_prv *tac_dev =
-> +		snd_soc_component_get_drvdata(component);
-> +	struct sdw_stream_runtime *sdw_stream =
-> +		snd_soc_dai_get_dma_data(dai, substream);
-> +	int pde_entity, function_id;
-> +
-> +	sdw_stream_remove_slave(tac_dev->sdw_peripheral, sdw_stream);
-> +
-> +	switch (dai->id) {
-> +	case TAC5XX2_DMIC:
-> +		pde_entity = TAC_SDCA_ENT_PDE11;
-> +		function_id = TAC_FUNCTION_ID_SM;
-> +		break;
-> +	case TAC5XX2_UAJ:
-> +		function_id = TAC_FUNCTION_ID_UAJ;
-> +		pde_entity = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
-> +				TAC_SDCA_ENT_PDE47 : TAC_SDCA_ENT_PDE34;
-> +		break;
-> +	default:
-> +		function_id = TAC_FUNCTION_ID_SA;
-> +		pde_entity = TAC_SDCA_ENT_PDE23;
-> +		break;
-> +	}
-> +
-> +	guard(mutex)(&tac_dev->pde_lock);
-
-same here, do you really have a race with firmware download?
-
-Or is this a case of dependencies between functions that requires all power state transitions to be serialized?
-
-> +	ret = regmap_write(tac_dev->regmap,
-> +			   SDW_SDCA_CTL(function_id, pde_entity, TAC_SDCA_REQUESTED_PS, 0),
-> +			   SDCA_PDE_PS3);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = sdca_asoc_pde_ensure_ps(tac_dev->dev, tac_dev->regmap,
-> +				      function_id, pde_entity,
-> +				      SDCA_PDE_PS0, SDCA_PDE_PS3,
-> +				      NULL, 0);
-> +	if (ret)
-> +		dev_err(tac_dev->dev, "failed to trasition from PS0 to PS3");
-> +	return ret;
-> +}
-> +
-> +static const struct snd_soc_dai_ops tac_dai_ops = {
-> +	.hw_params = tac_sdw_hw_params,
-> +	.hw_free = tac_sdw_pcm_hw_free,
-> +	.set_stream = tac_set_sdw_stream,
-> +	.shutdown = tac_sdw_shutdown,
-> +};
-> +
-> +static int tac5xx2_sdca_btn_type(unsigned char *buffer, struct tac5xx2_prv *tac_dev)
-> +{
-> +	switch (*buffer) {
-> +	case 1: /* play pause */
-> +		return SND_JACK_BTN_0;
-> +	case 10: /* vol down */
-> +		return SND_JACK_BTN_3;
-> +	case 8: /* vol up */
-> +		return SND_JACK_BTN_2;
-> +	case 4: /* long press */
-> +		return SND_JACK_BTN_1;
-> +	case 2: /* next song */
-> +	case 32: /* next song */
-> +		return SND_JACK_BTN_4;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static int tac5xx2_sdca_button_detect(struct tac5xx2_prv *tac_dev)
-> +{
-> +	unsigned int btn_type, offset, idx;
-> +	int ret, value, owner;
-> +	u8 buf[2];
-> +
-> +	ret = regmap_read(tac_dev->regmap,
-> +			  SDW_SDCA_CTL(TAC_FUNCTION_ID_HID, TAC_SDCA_ENT_HID1,
-> +				       TAC_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), &owner);
-> +	if (ret) {
-> +		dev_err(tac_dev->dev,
-> +			"Failed to read current UMP message owner 0x%x", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (owner == SDCA_UMP_OWNER_DEVICE) {
-> +		dev_dbg(tac_dev->dev, "skip button detect as current owner is not host\n");
-> +		return 0;
-> +	}
-> +
-> +	ret = regmap_read(tac_dev->regmap,
-> +			  SDW_SDCA_CTL(TAC_FUNCTION_ID_HID, TAC_SDCA_ENT_HID1,
-> +				       TAC_SDCA_CTL_HIDTX_MESSAGE_OFFSET, 0), &offset);
-> +	if (ret) {
-> +		dev_err(tac_dev->dev,
-> +			"Failed to read current UMP message offset: %d", ret);
-> +		goto end_btn_det;
-> +	}
-> +
-> +	dev_dbg(tac_dev->dev, "button detect: message offset = %x", offset);
-> +
-> +	for (idx = 0; idx < sizeof(buf); idx++) {
-> +		ret = regmap_read(tac_dev->regmap,
-> +				  TAC_BUF_ADDR_HID1 + offset + idx, &value);
-> +		if (ret) {
-> +			dev_err(tac_dev->dev,
-> +				"Failed to read HID buffer: %d", ret);
-> +			goto end_btn_det;
-> +		}
-> +		buf[idx] = value & 0xff;
-> +	}
-> +
-> +	if (buf[0] == 0x1) {
-> +		btn_type = tac5xx2_sdca_btn_type(&buf[1], tac_dev);
-> +		ret = btn_type;
-> +	}
-> +
-> +end_btn_det:
-> +	regmap_write(tac_dev->regmap,
-> +		     SDW_SDCA_CTL(TAC_FUNCTION_ID_HID, TAC_SDCA_ENT_HID1,
-> +				  TAC_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), 0x01);
-> +
-> +	return ret;
-> +}
-> +
-> +static int tac5xx2_sdca_headset_detect(struct tac5xx2_prv *tac_dev)
-> +{
-> +	int val, ret;
-> +
-> +	if (!tac_has_uaj_support(tac_dev))
-> +		return 0;
-
-can this really happen? usually you try to detect a headset if the device is capable of dealing with headsets, no?
-Should this test be moved at a higher level before you enable low-level handling of headset stuff?
-
-> +	ret = regmap_read(tac_dev->regmap,
-> +			  SDW_SDCA_CTL(TAC_FUNCTION_ID_UAJ, TAC_SDCA_ENT_GE35,
-> +				       TAC_SDCA_CTL_DET_MODE, 0), &val);
-> +	if (ret) {
-> +		dev_err(tac_dev->dev, "Failed to read the detect mode");
-> +		return ret;
-> +	}
-> +
-> +	switch (val) {
-> +	case 4:
-> +		tac_dev->jack_type = SND_JACK_MICROPHONE;
-> +		break;
-> +	case 5:
-> +		tac_dev->jack_type = SND_JACK_HEADPHONE;
-> +		break;
-> +	case 6:
-> +		tac_dev->jack_type = SND_JACK_HEADSET;
-> +		break;
-> +	case 0:
-> +	default:
-> +		tac_dev->jack_type = 0;
-> +		break;
-> +	}
-> +
-> +	ret = regmap_write(tac_dev->regmap,
-> +			   SDW_SDCA_CTL(TAC_FUNCTION_ID_UAJ, TAC_SDCA_ENT_GE35,
-> +					TAC_SDCA_CTL_SEL_MODE, 0), val);
-> +	if (ret)
-> +		dev_err(tac_dev->dev, "Failed to update the jack type to device");
-> +
-> +	return 0;
-> +}
-> +
-> +static int tac5xx2_set_jack(struct snd_soc_component *component,
-> +			    struct snd_soc_jack *hs_jack, void *data)
-> +{
-> +	struct tac5xx2_prv *tac_dev = snd_soc_component_get_drvdata(component);
-> +	int ret;
-> +
-> +	if (!tac_has_uaj_support(tac_dev))
-> +		return 0;
-
-same here, shouldn't set_jack() be added to the component callbacks before probe?
-
-> +	guard(mutex)(&tac_dev->uaj_lock);
-> +	if (!hs_jack) {
-> +		if (tac_dev->hs_jack) {
-> +			tac_dev->hs_jack = NULL;
-> +			ret = 0;
-> +			goto disable_interrupts;
-> +		}
-> +		return 0;
-> +	}
-> +
-> +	tac_dev->hs_jack = hs_jack;
-> +	if (!tac_dev->hw_init) {
-> +		dev_err(tac_dev->dev, "jack init failed, hw not initialized");
-> +		return 0;
-> +	}
-> +
-> +	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2,
-> +			   SDW_SCP_SDCA_INTMASK_SDCA_11);
-> +	if (ret) {
-> +		dev_warn(tac_dev->dev,
-> +			 "Failed to register jack detection interrupt");
-> +		goto disable_interrupts;
-> +	}
-> +
-> +	ret = regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3,
-> +			   SDW_SCP_SDCA_INTMASK_SDCA_16);
-> +	if (ret) {
-> +		dev_warn(tac_dev->dev,
-> +			 "Failed to register for button detect interrupt");
-> +		goto disable_interrupts;
-> +	}
-> +
-> +	return 0;
-> +
-> +disable_interrupts:
-> +	/* ignore errors while disabling interrupts */
-> +	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK2, 0);
-> +	regmap_write(tac_dev->regmap, SDW_SCP_SDCA_INTMASK3, 0);
-> +
-> +	return ret;
-> +}
-
-> +static const struct snd_soc_component_driver soc_codec_driver_tacdevice = {
-> +	.probe = tac_component_probe,
-> +	.remove = tac_component_remove,
-> +	.controls = tac5xx2_snd_controls,
-> +	.num_controls = ARRAY_SIZE(tac5xx2_snd_controls),
-> +	.dapm_widgets = tac5xx2_common_widgets,
-> +	.num_dapm_widgets = ARRAY_SIZE(tac5xx2_common_widgets),
-> +	.dapm_routes = tac5xx2_common_routes,
-> +	.num_dapm_routes = ARRAY_SIZE(tac5xx2_common_routes),
-> +	.idle_bias_on = 0,
-> +	.endianness = 1,
-> +	.set_jack = tac5xx2_set_jack,
-
-maybe make this dynamic and only populate .set_jack in tac_init() below when you can deal with a jack?
-
-> +};
-> +
-> +static s32 tac_init(struct tac5xx2_prv *tac_dev)
-> +{
-> +	s32 ret;
-> +	struct snd_soc_dai_driver *dai_drv;
-> +	int num_dais;
-> +
-> +	dev_set_drvdata(tac_dev->dev, tac_dev);
-> +
-> +	switch (tac_dev->part_id) {
-> +	case 0x5572:
-> +		dai_drv = tac5572_dai_driver;
-> +		num_dais = ARRAY_SIZE(tac5572_dai_driver);
-> +		break;
-> +	case 0x5672:
-> +		dai_drv = tac5672_dai_driver;
-> +		num_dais = ARRAY_SIZE(tac5672_dai_driver);
-> +		break;
-> +	case 0x5682:
-> +		dai_drv = tac5682_dai_driver;
-> +		num_dais = ARRAY_SIZE(tac5682_dai_driver);
-> +		break;
-> +	case 0x2883:
-> +		dai_drv = tas2883_dai_driver;
-> +		num_dais = ARRAY_SIZE(tas2883_dai_driver);
-> +		break;
-> +	default:
-> +		dev_err(tac_dev->dev, "Unsupported device: 0x%x\n",
-> +			tac_dev->part_id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = devm_snd_soc_register_component(tac_dev->dev,
-> +					      &soc_codec_driver_tacdevice,
-> +					      dai_drv, num_dais);
-> +	if (ret) {
-> +		dev_err(tac_dev->dev, "%s: codec register error:%d.\n",
-> +			__func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-
+Thanks,
+Charles
