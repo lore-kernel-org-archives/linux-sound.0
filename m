@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69603B8BB1;
-	Mon, 20 Apr 2026 13:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C4B3BF696;
+	Mon, 20 Apr 2026 13:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691018; cv=none; b=r9D8+oNmU0v83tcF+9CF8aFSYxtUwjbVFZTxYunJbY1XrKuG/ONyrZiKtE9eAeCvyfjjTnFMreav+VMQuFh/uOyfy8UJlDFfyn5PkS6pcpuD6mEWwspYjrHC7A8vF6puf9uQL9ReN/8TAAxqFA1SypoWW/Ruq8JqnIVTuzv8Mnw=
+	t=1776691041; cv=none; b=bFJAJqXUFnDC/6aWIvz8N7ZAjvNWzf0/1bZHyzhtVG6SfNbiD8/F8xxQWApX6ljcoxVE9Kt2JzTRcbqixI4bUPmla/fhgIsodEZdAX1Zx/0fNNIIHFjMEBEaF2DIIpdh3jiwSraZddtB/B69oQffuODbLIgKX1h5ybkhtmwSU7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691018; c=relaxed/simple;
-	bh=JstqvWirDuryhuf3EyWzGevVPhCeYRiqem/EiC9fIsQ=;
+	s=arc-20240116; t=1776691041; c=relaxed/simple;
+	bh=4tFDEcsLoCEEi/4BsVW55gQThJ1sAmgtXnSARjAr/zw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fs7zIkzNzbCy5mIFfcUfJxv1R8ODgVUdc2oxo+jQGqMPo1wxM/tQAXmygOJiyXxHj5fMQV+cULrRdfMdDDPqgxaDolLQByubvzh+pV6XzGNPRIxGSyJE4G2lUkaC8AJ8u0T1rO1KFG2uHHIFH7jXlPfZzZh5Nh57k4SRoxCJ2xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CruUGDRI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AcBcSc8H7TrpEbS3cCkriLCtYbXA6rbCNSO5F17KvkHLZKEqisTg4oeQrKWXw1D8o5GgUR3NaiXIVTNvmCTu9Tt6tRqT9KRCZkDT7BQaLs5hZkykdVa8ZbCNZSY8+Xnt/EfCqdk5IjbPwm3s9QiUxafd0P8Jm02KXDnNw1VkMyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXKyVEne; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CruUGDRI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B123BC19425;
-	Mon, 20 Apr 2026 13:16:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXKyVEne"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A5FC2BCB7;
+	Mon, 20 Apr 2026 13:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776691018;
-	bh=JstqvWirDuryhuf3EyWzGevVPhCeYRiqem/EiC9fIsQ=;
+	s=k20201202; t=1776691041;
+	bh=4tFDEcsLoCEEi/4BsVW55gQThJ1sAmgtXnSARjAr/zw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CruUGDRIBrWZg8J/vLYVrvj+eQBp07rhLPfCamJ8Hc6qN2Ye+qzm4sGsr0Tsqd4fl
-	 apI2t+HFeuc8k2w/kBQujE0fY3bBk56lGSD1U/5AqPn2DZnFFotNLZIS/R40SUsEof
-	 1i/DrAN20Ia1AjzXw/YTcexV08q/gw+dWsMKBkF3A7Wa4u56MRYJJgLcusiFB2Fi7n
-	 3tQ0y7eqjheCzNofVbjpCV6WLiuvxSUcJUKXBIZDnf9HG4rgrjGQjrcNvgiELQuzHJ
-	 jypgd3Ir+PgFvxZ4Y8OxHXEd3v5/kTcgsoHQ+NKDb4Ip4VpUUeU/KUch9q5V0K4ANW
-	 0mDRCryF50QVA==
+	b=bXKyVEneyOeuC17CyrZPiWn7SNnvPCFbn7lD0jXr8cYUY5YxRZUEdPm22PzllvXKd
+	 K6ygzkBPZ9tN0vmNKO68jxWn5RnfjxETBtB11YOYDjw2kSxArWaqwsB7FVKsVbnZBx
+	 SshyUe3n81kAPynTnZImior812/NVp8hVVo4wBDbT1xoXNz8xjYDZV15Wqw1Y311lL
+	 FLPUbWqVVNQ57l7/ddb/kyo209UyrGobLltGExLFvYHLUWpjSD5pTdivGh1fujhXUp
+	 ERTWGA8QcgSLqp7NLDwelXNphAxNUXO/woYWCKsmSjPnGVEzVL7metBvIFIibXVE8B
+	 bjNp/oD/DNK3Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.15] ALSA: pcm: Serialize snd_pcm_suspend_all() with open_mutex
-Date: Mon, 20 Apr 2026 09:08:32 -0400
-Message-ID: <20260420131539.986432-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.18] ALSA: hda/realtek: Add quirk for CSL Unity BF24B
+Date: Mon, 20 Apr 2026 09:08:45 -0400
+Message-ID: <20260420131539.986432-59-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
 References: <20260420131539.986432-1-sashal@kernel.org>
@@ -48,370 +48,352 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+From: Zhang Heng <zhangheng@kylinos.cn>
 
-[ Upstream commit 1a56641b7ae4f19216774a59d68024be3e6197d0 ]
+[ Upstream commit de65275fc94e2e0acc79bd016d60889bf251ccd9 ]
 
-snd_pcm_suspend_all() walks all PCM substreams and uses a lockless
-runtime check to skip closed streams. It then calls snd_pcm_suspend()
-for each remaining substream and finally runs snd_pcm_sync_stop() in a
-second pass.
+The CSL Unity BF24B all-in-one PC uses a Realtek ALC662 rev3 audio
+codec and requires the correct GPIO configuration to enable sound
+output from both the speakers and the headphone.
 
-The runtime lifetime is still controlled by pcm->open_mutex in the
-open/release path. That means a concurrent close can clear or free
-substream->runtime after the initial check in snd_pcm_suspend_all(),
-leaving the later suspend or sync-stop path to dereference a stale or
-NULL runtime pointer.
-
-Serialize snd_pcm_suspend_all() with pcm->open_mutex so the runtime
-pointer stays stable across both loops. This matches the existing PCM
-runtime lifetime rule already used by other core paths that access
-substream->runtime outside the stream lock.
-
-Suggested-by: Takashi Iwai <tiwai@suse.com>
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-Link: https://patch.msgid.link/20260327-alsa-pcm-suspend-open-close-lock-v2-1-cc4baca4dcd6@gmail.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221258
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Link: https://patch.msgid.link/20260409024028.1297587-1-zhangheng@kylinos.cn
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Here is my complete analysis:
+Now I have all the information needed for a comprehensive analysis. Let
+me compile the findings.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-- **Subsystem**: `ALSA: pcm:` (ALSA PCM core)
-- **Action verb**: "Serialize" — implies fixing a synchronization issue
-  (race condition)
-- **Summary**: Serialize `snd_pcm_suspend_all()` with `open_mutex` to
-  prevent concurrent access
+**Step 1.1: Subject Line**
+- Subsystem: `ALSA: hda/realtek`
+- Action verb: "Add quirk" — this is adding a hardware-specific
+  workaround
+- Summary: Adding GPIO quirk for CSL Unity BF24B all-in-one PC to enable
+  audio output
+- Record: [ALSA/HDA/Realtek] [Add quirk] [GPIO config to enable
+  speakers/headphone on CSL Unity BF24B]
 
-Record: [ALSA PCM core] [Serialize] [Add mutex to prevent race between
-suspend and open/close]
+**Step 1.2: Tags**
+- Link: `https://bugzilla.kernel.org/show_bug.cgi?id=221258` — user-
+  filed bug report
+- Signed-off-by: Zhang Heng (author, regular Realtek quirk contributor)
+- Link: patch.msgid.link (for tracking the patch)
+- Signed-off-by: Takashi Iwai (ALSA subsystem maintainer — applied the
+  patch)
+- No Fixes: tag (expected — this is a quirk addition, not fixing a code
+  defect)
+- No Cc: stable (expected — this is why we're reviewing it)
+- Record: Bugzilla report from real user. Signed off by the ALSA
+  maintainer.
 
-### Step 1.2: Tags
-- **Suggested-by: Takashi Iwai `<tiwai@suse.com>`** — Takashi Iwai is
-  the ALSA subsystem maintainer. He suggested this fix, which carries
-  enormous weight.
-- **Signed-off-by: Takashi Iwai `<tiwai@suse.de>`** — Maintainer also
-  signed off (committed it).
-- **Signed-off-by: Cássio Gabriel** — Author of the patch.
-- **Link:** to patch.msgid.link (v2 of the patch).
-- No Fixes: tag, no Reported-by, no Cc: stable — expected for autosel
-  candidates.
+**Step 1.3: Commit Body**
+- Bug: CSL Unity BF24B all-in-one PC has no sound output from speakers
+  or headphones
+- Codec: Realtek ALC662 rev3
+- Root cause: GPIO configuration needed to enable the amplifier
+- Record: Complete audio failure on specific hardware without GPIO
+  toggle workaround.
 
-Record: Fix suggested and committed by the subsystem maintainer (Takashi
-Iwai). This is the highest trust signal possible.
-
-### Step 1.3: Commit Body Analysis
-The commit describes:
-- **Bug**: `snd_pcm_suspend_all()` walks PCM substreams with a lockless
-  runtime check, then calls `snd_pcm_suspend()` and
-  `snd_pcm_sync_stop()`. A concurrent close can clear/free
-  `substream->runtime` via the open/close path (which uses
-  `pcm->open_mutex`).
-- **Failure mode**: Stale or NULL runtime pointer dereference —
-  crash/UAF.
-- **Fix approach**: Take `pcm->open_mutex` in `snd_pcm_suspend_all()`,
-  matching the existing PCM runtime lifetime rule.
-
-Record: UAF/NULL deref race during system suspend. Author explains clear
-mechanism.
-
-### Step 1.4: Hidden Bug Fix Detection
-This is NOT hidden — it's an explicit race condition fix. The code
-itself had a `/* FIXME: the open/close code should lock this as well */`
-comment acknowledging the bug.
-
----
+**Step 1.4: Hidden Bug Fix Detection**
+- This is not a hidden bug fix — it's an explicit hardware quirk
+  addition. The device literally has no audio without it.
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **Files changed**: 1 (`sound/core/pcm_native.c`)
-- **Lines**: +5 (including comment update), -1 (removing FIXME comment).
-  Net functional change: +1 line (`guard(mutex)(&pcm->open_mutex)`)
-- **Functions modified**: `snd_pcm_suspend_all()`
-- **Scope**: Single-file, single-function, surgical fix.
+**Step 2.1: Inventory**
+- Files changed: 1 (`sound/hda/codecs/realtek/alc662.c`)
+- Lines added: ~25 (new function + enum + fixup entry + quirk entry)
+- Functions modified: none existing; one new function added
+  (`alc662_fixup_csl_amp`)
+- Scope: single-file, surgical, self-contained
 
-### Step 2.2: Code Flow Change
-**Before**: `snd_pcm_suspend_all()` iterates substreams without any
-lock, checking `substream->runtime` and calling `snd_pcm_suspend()` /
-`snd_pcm_sync_stop()` unsynchronized with the open/close path.
+**Step 2.2: Code Flow Change**
+1. New function `alc662_fixup_csl_amp`:
+   - `HDA_FIXUP_ACT_PRE_PROBE`: Sets GPIO mask and direction for bits
+     0+1
+   - `HDA_FIXUP_ACT_INIT`: Toggles GPIO 0+1 high, waits 100ms, then low
+     — to enable the amplifier
+2. New enum `ALC662_FIXUP_CSL_GPIO` added at end of existing enum
+3. New fixup table entry linking enum to function
+4. New quirk table entry: `SND_PCI_QUIRK(0x1022, 0xc950, "CSL Unity
+   BF24B", ALC662_FIXUP_CSL_GPIO)`
 
-**After**: `guard(mutex)(&pcm->open_mutex)` is taken at function entry,
-serializing the entire function with the release path
-(`snd_pcm_release()` at line 2941 holds `open_mutex` around
-`snd_pcm_release_substream()`).
+**Step 2.3: Bug Mechanism**
+- Category: Hardware workaround (h)
+- The CSL Unity BF24B's amplifier requires a GPIO toggle pulse to
+  enable. Without it, the amp stays off and no sound comes out.
 
-### Step 2.3: Bug Mechanism
-**Category**: Race condition / Use-After-Free / NULL pointer dereference
-
-The race:
-1. Thread A (`snd_pcm_suspend_all`): checks `!substream->runtime` → sees
-   non-NULL
-2. Thread B (`snd_pcm_release`): under `open_mutex`, calls
-   `snd_pcm_detach_substream()` → sets `substream->runtime = NULL` →
-   `kfree(runtime)` (confirmed in `sound/core/pcm.c` lines 980-1003)
-3. Thread A: calls `snd_pcm_suspend(substream)` → dereferences
-   freed/NULL runtime → **CRASH**
-
-Second race window: the second loop calls `snd_pcm_sync_stop()` on ALL
-substreams, which accesses `substream->runtime` (line 641).
-
-### Step 2.4: Fix Quality
-- Obviously correct: takes the same mutex already used by open/close
-  paths.
-- Minimal: one functional line added.
-- Regression risk: Very low. The `open_mutex` is not taken in interrupt
-  context; `snd_pcm_suspend()` internally uses
-  `guard(pcm_stream_lock_irqsave)` which is a different lock, so no
-  deadlock risk. The mutex merely serializes with open/close.
-
----
+**Step 2.4: Fix Quality**
+- The pattern is nearly identical to `alc245_fixup_hp_x360_amp` in
+  alc269.c (lines 1448-1465), which toggles GPIO0 similarly. This new
+  one toggles GPIO0+GPIO1 (mask 0x03).
+- Obviously correct — follows well-established patterns used dozens of
+  times in this driver.
+- Minimal regression risk — only affects devices with PCI SSID
+  0x1022:0xc950.
+- Takashi Iwai noted a minor inefficiency (extra GPIO write from
+  `alc_auto_init_amp`) but accepted the patch as-is, planning cleanup
+  later.
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-The FIXME comment (`/* FIXME: the open/close code should lock this as
-well */`) was introduced in commit `8d19b4e0b377e2` (2021-02-06, "ALSA:
-pcm: Use for_each_pcm_substream() macro") by Takashi Iwai himself. The
-core `snd_pcm_suspend_all` function dates back to `1da177e4c3f41` (Linus
-Torvalds, 2005-04-16, the initial Linux tree).
+**Step 3.1: Blame**
+- The ALC662 quirk infrastructure has been in the kernel for many years.
+  The file was recently split from `sound/pci/hda/patch_realtek.c` in
+  commit `aeeb85f26c3bb` (July 2025, kernel 7.0-rc cycle), which was
+  itself moved from `sound/pci/hda/` to `sound/hda/codecs/` in
+  `6014e9021b28e`.
+- The ALC662 fixup enum and table existed in `patch_realtek.c` long
+  before the split.
 
-Record: The race has existed since v2.6.12 (original tree). It was made
-worse in v5.12 when `snd_pcm_sync_stop` loop was added (commit
-`2c87c1a49c9d`). The FIXME was planted by the maintainer acknowledging
-the bug.
+**Step 3.2: No Fixes: tag** — expected for a quirk addition.
 
-### Step 3.2: Fixes tag
-No Fixes: tag present. The race effectively has existed since the
-beginning.
+**Step 3.3: File History**
+- Recent changes are all quirk additions — this is a very common pattern
+  for this file.
+- The author (Zhang Heng) has contributed many similar quirks: Acer
+  Swift, HP Laptop, ASUS ROG, Lenovo Yoga, etc.
 
-### Step 3.3: File History
-Recent changes to `pcm_native.c` include `guard()`-based locking
-conversions and race fixes (e.g., `93a81ca065775` "Fix race of buffer
-access at PCM OSS layer"). This shows the subsystem is actively being
-hardened for concurrency.
+**Step 3.4: Author**
+- Zhang Heng is a prolific Realtek quirk contributor with 10+ similar
+  commits in the tree.
 
-### Step 3.4: Author
-Cássio Gabriel has one other commit in the sound subsystem. However, the
-fix was **suggested by Takashi Iwai** (ALSA maintainer) and **committed
-by Takashi Iwai**, giving it the highest credibility.
+**Step 3.5: Dependencies**
+- This is fully standalone. Uses only existing APIs
+  (`alc_update_gpio_data`, `alc_spec`).
+- For stable trees (6.x), the patch would need to target
+  `sound/pci/hda/patch_realtek.c` instead. The functions and structures
+  are identical there (verified: `alc_update_gpio_data` appears 14 times
+  in pre-split `patch_realtek.c`).
 
-### Step 3.5: Dependencies
-The fix uses `guard(mutex)` which requires the cleanup.h infrastructure
-(available since v6.5) and the guard conversions in pcm_native.c
-(`dd0da75b9a276`, available since v6.12). For older stable trees, a
-trivial adaptation to `mutex_lock`/`mutex_unlock` would be needed.
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
----
+**Step 4.1: Patch Discussion**
+- Found full discussion on patchew.org. Takashi Iwai reviewed the patch
+  and asked about the necessity of setting `gpio_mask`/`gpio_dir` in
+  `PRE_PROBE`. He proposed a cleaner GPIO helper approach.
+- Despite reservations about minor inefficiency, Iwai explicitly stated:
+  *"I'm going to take your patch for now, but we might need to
+  reconsider the implementation"*.
+- The patch was accepted as v1, no subsequent versions.
 
-## PHASE 4: MAILING LIST RESEARCH
+**Step 4.2: Reviewers**
+- Takashi Iwai (ALSA subsystem maintainer) directly reviewed and applied
+  it.
 
-### Step 4.1-4.2: Patch Discussion
-b4 dig did not find the patch by commit hash (likely because this is on
-a v7.0 tree). The Link: tag points to `patch.msgid.link`, which
-redirected to lore.kernel.org but was blocked by anti-bot protection.
-However, the commit subject says "v2", indicating the patch went through
-at least two revisions. The maintainer (Takashi Iwai) suggested and
-committed the fix — the highest form of endorsement.
+**Step 4.3: Bug Report**
+- Bugzilla #221258 — user tested with `hda-verb` commands setting GPIO
+  mask, direction, and data to confirm the workaround works. The user's
+  manual commands were:
+  - SET_GPIO_MASK 0x03, SET_GPIO_DIRECTION 0x03, SET_GPIO_DATA 0x03,
+    then toggle
 
-### Step 4.3-4.5: Bug Report and Stable History
-No explicit bug report (no Reported-by:). This is a proactive fix based
-on code analysis (the FIXME comment). No prior stable discussion found.
+**Step 4.4: Series Context**
+- Single standalone patch, not part of a series.
 
----
+**Step 4.5: Stable Discussion**
+- No explicit stable nomination found, but audio quirks are routinely
+  backported.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1-5.2: Callers of `snd_pcm_suspend_all`
-- `sound/core/pcm.c:do_pcm_suspend()` — PM callback, called during
-  **system suspend**
-- `sound/soc/soc-core.c` — ASoC suspend
-- `sound/hda/common/codec.c` — HDA codec suspend
-- `sound/usb/usx2y/us144mkii.c` — USB audio suspend
+**Step 5.1: Functions**
+- New: `alc662_fixup_csl_amp` — only called via the fixup framework for
+  matching PCI SSID
+- Uses: `alc_update_gpio_data` (well-tested existing function, used 14+
+  times across the driver)
 
-This is called on **every system suspend** for every PCM device. This
-means every laptop, desktop, or embedded system with audio is affected.
+**Step 5.2: Callers**
+- Called only by the HDA fixup framework when a device with PCI SSID
+  0x1022:0xc950 is detected.
 
-### Step 5.3-5.4: Call Chain
-System suspend → `do_pcm_suspend()` → `snd_pcm_suspend_all()` → race
-with user-space closing audio fd → `snd_pcm_release()` → UAF/NULL deref.
+**Step 5.3-5.5**: The function follows an identical pattern to
+`alc245_fixup_hp_x360_amp`, which is well-established and proven.
 
-Trigger: Closing a laptop lid while an audio application is running.
-This is an extremely common scenario.
+## PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
 
----
+**Step 6.1: Buggy Code in Stable**
+- The ALC662 codec support exists in all stable trees. The
+  `alc662_fixups[]` table and `alc662_fixup_tbl[]` quirk table have been
+  present since early kernel versions.
+- The functions used (`alc_update_gpio_data`, `msleep`, etc.) exist in
+  all active stable trees.
 
-## PHASE 6: STABLE TREE ANALYSIS
+**Step 6.2: Backport Complications**
+- **Key issue**: In 7.0, the driver was split into
+  `sound/hda/codecs/realtek/alc662.c`. In stable 6.x trees, the
+  equivalent code lives in `sound/pci/hda/patch_realtek.c`. The patch
+  will need path adjustment but the code structures are identical.
+- Record: Minor mechanical adjustment needed for file path; code applies
+  cleanly to older structure.
 
-### Step 6.1: Buggy Code in Stable
-The buggy code (unsynchronized runtime access in `snd_pcm_suspend_all`)
-has existed since v2.6.12. The `snd_pcm_sync_stop` second loop was added
-around v5.12. All active stable trees contain the buggy code.
+**Step 6.3: No related fixes already in stable.**
 
-### Step 6.2: Backport Complications
-For v7.0 and v6.12+: should apply cleanly (same `guard()`
-infrastructure).
-For v6.6 and older: would need trivial adaptation from `guard(mutex)` to
-`mutex_lock`/`mutex_unlock`.
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
----
+**Step 7.1**: Subsystem is ALSA/HDA (audio). Criticality: IMPORTANT —
+audio is essential for desktop/laptop users.
 
-## PHASE 7: SUBSYSTEM CONTEXT
-
-### Step 7.1: Subsystem Criticality
-- **Subsystem**: ALSA PCM core (`sound/core/`)
-- **Criticality**: IMPORTANT — affects every system with audio hardware
-  (virtually all Linux systems)
-
-### Step 7.2: Activity
-Very actively maintained by Takashi Iwai. Recent commits show ongoing
-concurrency hardening.
-
----
+**Step 7.2**: Very actively developed — constant quirk additions for new
+hardware.
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who Is Affected
-Every Linux system with audio hardware (virtually universal).
+**Step 8.1: Who is Affected**
+- Users of CSL Unity BF24B all-in-one PCs. Without this quirk, they have
+  **zero audio output**.
 
-### Step 8.2: Trigger Conditions
-System suspend while an audio stream is being closed. This is a common
-scenario on laptops (lid close while music playing). The race window is
-between checking `substream->runtime` and using it — a narrow but real
-window.
+**Step 8.2: Trigger Conditions**
+- Every boot, every resume from suspend. Audio is completely non-
+  functional without the quirk.
 
-### Step 8.3: Failure Mode Severity
-NULL pointer dereference or use-after-free → **kernel oops/crash during
-suspend**. Severity: **CRITICAL**.
+**Step 8.3: Failure Mode Severity**
+- Complete loss of audio functionality on the device. Severity: HIGH for
+  affected users.
 
-### Step 8.4: Risk-Benefit
-- **Benefit**: HIGH — prevents kernel crash during suspend for all
-  audio-capable systems
-- **Risk**: VERY LOW — one functional line, uses existing mutex already
-  employed by the open/close paths, no deadlock risk, suggested and
-  committed by the subsystem maintainer
-- **Ratio**: Strongly favorable
-
----
+**Step 8.4: Risk-Benefit Ratio**
+- BENEFIT: High — enables audio on a specific PC model that has zero
+  sound without it
+- RISK: Very low — 25 lines, only affects one PCI SSID, follows proven
+  patterns, reviewed by subsystem maintainer
+- Ratio: Strongly favorable
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+**Step 9.1: Evidence Summary**
+- FOR: Hardware quirk for broken audio; user-filed bugzilla; subsystem
+  maintainer reviewed and applied; follows identical pattern to existing
+  quirks; small and surgical; standalone
+- AGAINST: File path needs adjustment for stable (mechanical); Takashi
+  noted minor inefficiency (but accepted anyway)
+- UNRESOLVED: Could not access bugzilla directly (anti-bot protection),
+  but bug context confirmed through mailing list discussion
 
-**FOR backporting:**
-- Fixes a real race condition (UAF / NULL deref) acknowledged by a FIXME
-  comment from the subsystem maintainer
-- Fix was suggested and committed by Takashi Iwai (ALSA maintainer)
-- Minimal change: 1 functional line added
-- Affects every system with audio during system suspend
-- Failure mode is kernel crash (CRITICAL severity)
-- Uses existing locking infrastructure already in use by the same code
-  paths
-- Second revision (v2), showing review iteration
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct and tested? **YES** — follows proven pattern,
+   reviewed by maintainer, tested by user with hda-verb
+2. Fixes a real bug? **YES** — zero audio output on specific hardware
+3. Important issue? **YES** — complete loss of audio functionality
+4. Small and contained? **YES** — 25 lines in one file
+5. No new features or APIs? **YES** — only a device-specific workaround
+6. Can apply to stable? **YES** — needs file path adjustment but code is
+   compatible
 
-**AGAINST backporting:**
-- No user-reported crash (proactive fix based on code analysis)
-- May need minor adaptation for older stable trees (guard →
-  mutex_lock/unlock)
-
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **YES** — suggested by maintainer, uses
-   existing mutex pattern
-2. Fixes a real bug? **YES** — race between suspend and release, FIXME
-   acknowledged the issue
-3. Important issue? **YES** — UAF/NULL deref → kernel crash during
-   suspend
-4. Small and contained? **YES** — 1 functional line in 1 function in 1
-   file
-5. No new features or APIs? **YES** — pure synchronization fix
-6. Can apply to stable? **YES** — clean for 6.12+, trivial adaptation
-   for older
-
-### Step 9.3: Exception Categories
-Not an exception — this is a standard race condition fix, a core stable
-candidate.
-
-### Step 9.4: Decision
-This is a textbook stable fix: a single-line mutex acquisition that
-prevents a UAF/NULL deref race during system suspend, suggested and
-committed by the subsystem maintainer, fixing a longstanding FIXME.
-
----
+**Step 9.3: Exception Category**
+- This is a textbook **HARDWARE QUIRK/WORKAROUND** — explicitly listed
+  as a YES exception for stable.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Suggested-by and Signed-off-by from Takashi
-  Iwai (ALSA maintainer)
-- [Phase 2] Diff analysis: +1 functional line
-  (`guard(mutex)(&pcm->open_mutex)`), removes 1-line FIXME comment
-- [Phase 2] Verified `snd_pcm_sync_stop()` accesses `substream->runtime`
-  at line 641 without lock
-- [Phase 2] Verified `snd_pcm_detach_substream()` sets
-  `substream->runtime = NULL` and `kfree(runtime)` at lines 997-1003 of
-  `sound/core/pcm.c`
-- [Phase 2] Verified `snd_pcm_release()` holds `open_mutex` around
-  `snd_pcm_release_substream()` at line 2941
-- [Phase 3] git blame: FIXME comment introduced by Takashi Iwai in
-  `8d19b4e0b377e2` (2021-02-06), core function from `1da177e4c3f41`
-  (2005)
-- [Phase 3] `snd_pcm_sync_stop` loop added in `2c87c1a49c9d11` ("Assure
-  sync with pending stop operation at suspend", 2021)
-- [Phase 3] `guard()` infrastructure for pcm_native.c in `dd0da75b9a276`
-  (v6.12+)
-- [Phase 4] b4 dig: did not find match (this is a v7.0 tree). Link: in
-  commit points to v2 of the patch.
-- [Phase 5] Callers: `do_pcm_suspend()` (PM callback), soc-core, HDA
-  codec, USB audio — called on every system suspend
-- [Phase 6] Buggy code present in all active stable trees (since
-  v2.6.12)
-- [Phase 7] ALSA PCM core — affects virtually all Linux systems with
-  audio
-- [Phase 8] Failure mode: NULL deref or UAF during system suspend →
-  kernel crash (CRITICAL)
+- [Phase 1] Parsed tags: Link to bugzilla.kernel.org #221258, signed off
+  by Takashi Iwai (ALSA maintainer)
+- [Phase 2] Diff analysis: 25 lines added — new fixup function, enum
+  entry, fixup table entry, quirk table entry
+- [Phase 2] Pattern match: `alc662_fixup_csl_amp` is nearly identical to
+  `alc245_fixup_hp_x360_amp` at alc269.c:1448-1465
+- [Phase 3] git log: file split from `patch_realtek.c` in aeeb85f26c3bb
+  (Jul 2025), previously moved in 6014e9021b28e
+- [Phase 3] git log --author: Zhang Heng has 10+ similar quirk commits
+  in this tree
+- [Phase 3] Verified `alc_update_gpio_data` exists 14 times in pre-split
+  `patch_realtek.c`
+- [Phase 4] Patchew.org: full discussion retrieved; Takashi reviewed,
+  questioned PRE_PROBE gpio_mask but accepted patch
+- [Phase 4] Takashi Iwai explicitly stated: "I'm going to take your
+  patch for now"
+- [Phase 4] User tested with hda-verb commands confirming GPIO toggle
+  enables audio
+- [Phase 5] `alc_update_gpio_data` is a well-tested exported function
+  used across the driver
+- [Phase 6] ALC662 support and fixup infrastructure exist in all active
+  stable trees
+- [Phase 6] Backport needs path adjustment:
+  `sound/hda/codecs/realtek/alc662.c` → `sound/pci/hda/patch_realtek.c`
+- [Phase 8] Failure mode: complete audio loss on affected hardware,
+  severity HIGH
+- UNVERIFIED: Could not directly access bugzilla #221258 (anti-bot
+  protection), but context confirmed via mailing list
+
+This is a textbook hardware quirk addition — small, self-contained,
+fixes complete audio failure on a specific device, follows proven
+patterns, reviewed and signed off by the subsystem maintainer. It falls
+directly into the "quirks and workarounds" exception category that is
+automatically appropriate for stable.
 
 **YES**
 
- sound/core/pcm_native.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc662.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 5a64453da7283..1ccc482a8dfd3 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1761,6 +1761,9 @@ static int snd_pcm_suspend(struct snd_pcm_substream *substream)
-  * snd_pcm_suspend_all - trigger SUSPEND to all substreams in the given pcm
-  * @pcm: the PCM instance
-  *
-+ * Takes and releases pcm->open_mutex to serialize against
-+ * concurrent open/close while walking the substreams.
-+ *
-  * After this call, all streams are changed to SUSPENDED state.
-  *
-  * Return: Zero if successful (or @pcm is %NULL), or a negative error code.
-@@ -1773,8 +1776,9 @@ int snd_pcm_suspend_all(struct snd_pcm *pcm)
- 	if (! pcm)
- 		return 0;
+diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
+index 5073165d1f3cf..3abe41c7315c4 100644
+--- a/sound/hda/codecs/realtek/alc662.c
++++ b/sound/hda/codecs/realtek/alc662.c
+@@ -255,6 +255,25 @@ static void alc_fixup_headset_mode_alc668(struct hda_codec *codec,
+ 	alc_fixup_headset_mode(codec, fix, action);
+ }
  
-+	guard(mutex)(&pcm->open_mutex);
++static void alc662_fixup_csl_amp(struct hda_codec *codec,
++				 const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
 +
- 	for_each_pcm_substream(pcm, stream, substream) {
--		/* FIXME: the open/close code should lock this as well */
- 		if (!substream->runtime)
- 			continue;
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
++		spec->gpio_mask |= 0x03;
++		spec->gpio_dir |= 0x03;
++		break;
++	case HDA_FIXUP_ACT_INIT:
++		/* need to toggle GPIO to enable the amp */
++		alc_update_gpio_data(codec, 0x03, true);
++		msleep(100);
++		alc_update_gpio_data(codec, 0x03, false);
++		break;
++	}
++}
++
+ enum {
+ 	ALC662_FIXUP_ASPIRE,
+ 	ALC662_FIXUP_LED_GPIO1,
+@@ -313,6 +332,7 @@ enum {
+ 	ALC897_FIXUP_HEADSET_MIC_PIN2,
+ 	ALC897_FIXUP_UNIS_H3C_X500S,
+ 	ALC897_FIXUP_HEADSET_MIC_PIN3,
++	ALC662_FIXUP_CSL_GPIO,
+ };
  
+ static const struct hda_fixup alc662_fixups[] = {
+@@ -766,11 +786,16 @@ static const struct hda_fixup alc662_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[ALC662_FIXUP_CSL_GPIO] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc662_fixup_csl_amp,
++	},
+ };
+ 
+ static const struct hda_quirk alc662_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1019, 0x9087, "ECS", ALC662_FIXUP_ASUS_MODE2),
+ 	SND_PCI_QUIRK(0x1019, 0x9859, "JP-IK LEAP W502", ALC897_FIXUP_HEADSET_MIC_PIN3),
++	SND_PCI_QUIRK(0x1022, 0xc950, "CSL Unity BF24B", ALC662_FIXUP_CSL_GPIO),
+ 	SND_PCI_QUIRK(0x1025, 0x022f, "Acer Aspire One", ALC662_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x0241, "Packard Bell DOTS", ALC662_FIXUP_INV_DMIC),
+ 	SND_PCI_QUIRK(0x1025, 0x0308, "Acer Aspire 8942G", ALC662_FIXUP_ASPIRE),
 -- 
 2.53.0
 
