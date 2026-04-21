@@ -1,98 +1,99 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477BC3644BC
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 16:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3CE2C030E;
+	Tue, 21 Apr 2026 16:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776787453; cv=none; b=W/tKZw57wZR+lWZNZ3CUsUKwmdyKTpw4QnPM5fHKVTE/iYwciXkSHOwNs91Rk3obBEV/WUn+OZZNeT+q5XI0fAF+kn6QeoT2PLQ+9gPF1nRdUkC9PeogytvcwOIBaJ5g9GQiinz9XusqU/ygml6AOE5Ul3ikTjmuaGE/anK38Nc=
+	t=1776787956; cv=none; b=CCljStympmwglKJf/+FcWbI75Qm4vB9XEDyQGnDgyxeKpOnMW7OnP48CeFZPclK3DbVJL70AkBMmU8Ks4SEKENwsuahDTTrhyhfB2qIjzeOYbin2pRfgOEr3IsdDvF5O5Shhqff+VBKmQDeo+NiLZY0qPSE/X8ukY1oMDabZGJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776787453; c=relaxed/simple;
-	bh=Bq0V1NMj7zXBpQ5Ls197Tq5GR5Ngnd9P4tpWuEwybqo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n624KRJl/Ma0YzByHecXRweTg2YKvl8Hb753wQoXWpmXX2jasVCuuQj4BaQqjYUu0/Q2154Duc0ZPzHzBQqskhU2wkLHY/NAg5ACP2QzJSagLVSP4jail6eyLZZr0QlaQCvkBH0uSGemUFC4Dj9169nryEFJVusqnHrqPw/mHmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=YWGYrxLg; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="YWGYrxLg"
-Message-ID: <d9522700-3366-4a45-9a4a-fb226a7d4c54@packett.cool>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1776787439;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oeXv3VEKzYsaVqC1DCN7PMt1Ukyo8YmmsaELEDojHlU=;
-	b=YWGYrxLgTdkc1FH4mG7yMxXa+2HJYyBYl/HnV7kRrcvLjHL/vj7eEW+mVTKPvHWYuoj0JO
-	mzQgNVRON7KU6E5OyfQZzPdEajWXCCRhqJAHaff1lBr0bPS6swOdC7sVAtyeYcgZjehTkN
-	q4fp5UWNeR8/O/lWu4xzD5KMbLUGJPwNxXZB/qYdGho0mrW5HwU9KKEOA0k/c7aBvykYqR
-	2UaX8XlYF5WCR+8NEgCQ/FWfmtOxgYfK/4tTV7Yeff/ZgpEtfTzm696FNFC154lXAKm2S9
-	7LriLneFanNMV8Bgv+N7M6v8CNVTb5J/ZfH4WneiH1UHESaWOh0+2zso8ID2sA==
-Date: Tue, 21 Apr 2026 13:03:48 -0300
+	s=arc-20240116; t=1776787956; c=relaxed/simple;
+	bh=SY3KSOzcorJWAw2/d/aJ85FElGX/2fzt0R+jpBBMhAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JNjp9O6sY7DuMHu4aBLkvQUdQoeG6DjnFY19HCX2kKYnpOHRqTSAhqFtgCLzuVODbgvPnABv6fHtklQXEKB6aqBRpcE8USRumGaJ2wS5xyRPNXJpoDbpehvhsGL5EoR+o4rraMj00zRwLD0FSZd6W6sL6sTdo5UJiVxP4wRC4Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.99)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1wFDi2-000000003X7-2yFJ;
+	Tue, 21 Apr 2026 16:12:22 +0000
+Date: Tue, 21 Apr 2026 17:12:17 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Arnd Bergmann <arnd@arndb.de>, Cyril Chao <Cyril.Chao@mediatek.com>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 5/9] ASoC: mediatek: mt2701: add HDMI audio memif, FE
+ and BE DAIs
+Message-ID: <aeeh4TW0IHLU5zB6@makrotopia.org>
+References: <cover.1776646435.git.daniel@makrotopia.org>
+ <59f911bb1a855a00c0d9dd4760f10ff0030fedb6.1776646435.git.daniel@makrotopia.org>
+ <95e1067c-3c8e-4dd4-997d-f3be9d2cba29@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] ASoC: codecs: aw88261: fix changing sample rate and
- bit width
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Bhushan Shah <bhushan.shah@machinesoul.in>,
- Luca Weiss <luca.weiss@fairphone.com>, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260420213250.215465-2-val@packett.cool>
- <ddd25025-74ac-4363-8be7-9d2c70f8e623@sirena.org.uk>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Val Packett <val@packett.cool>
-In-Reply-To: <ddd25025-74ac-4363-8be7-9d2c70f8e623@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pghGe5VQSM39F6vG"
+Content-Disposition: inline
+In-Reply-To: <95e1067c-3c8e-4dd4-997d-f3be9d2cba29@sirena.org.uk>
 
 
-On 4/21/26 12:59 PM, Mark Brown wrote:
-> On Mon, Apr 20, 2026 at 04:39:58PM -0300, Val Packett wrote:
->> The aw88261 driver only worked with 32-bit 48kHz streams so far due to
->> the lack of a proper PLL initialization sequence. Fix by selecting all
->> the necessary PLL settings based on what was passed to us in the
->> hw_params DAI callback. This replaces the strange downstream routine
->> that tries two divider modes in sequence.
->> +static int aw88261_dev_configure_syspll(struct aw88261 *aw88261)
->>   {
->
->> +	switch (aw88261->sample_rate) {
->> +	case 8000:
->> +	case 16000:
->> +	case 32000:
->> +	case 44100:
->> +	case 48000:
->> +	case 96000:
->> +	case 192000:
-> ...
->
->> +	default:
->> +		dev_err(aw_dev->dev, "unsupported sample rate %d\n",
->> +			aw88261->sample_rate);
->> +		return -EINVAL;
->>   	}
-> The driver advertises more rats than this, including 11.025kHz, 12kHz
-> and multiples thereof.  It's unlikely anything would actually *use* them
-> but it'd be better to update the constraints.
+--pghGe5VQSM39F6vG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oops, I never realized that SNDRV_PCM_RATE_8000_48000 includes so much 
-"unreasonable" junk!
+On Mon, Apr 20, 2026 at 07:08:01PM +0100, Mark Brown wrote:
+> On Mon, Apr 20, 2026 at 02:13:34AM +0100, Daniel Golle wrote:
+>=20
+> > +static int mt2701_afe_hdmi_trigger(struct snd_pcm_substream *substream=
+, int cmd,
+> > +				   struct snd_soc_dai *dai)
+> > +{
+> > +	struct mtk_base_afe *afe =3D snd_soc_dai_get_drvdata(dai);
+> > +
+> > +	switch (cmd) {
+> > +	case SNDRV_PCM_TRIGGER_START:
+> > +	case SNDRV_PCM_TRIGGER_RESUME:
+> > +		/* Ungate HDMI and SPDIF power islands. */
+> > +		regmap_update_bits(afe->regmap, AUDIO_TOP_CON0,
+> > +				   AUDIO_TOP_CON0_PDN_HDMI_CK |
+> > +				   AUDIO_TOP_CON0_PDN_SPDIF_CK, 0);
+>=20
+> It looks like we have clock API clocks for HDMI and S/PDIF on this SoC
+> (see clk-mt2701-aud.c) - are there going to be problem with peering
+> directly at the register?  We do manage some clocks via the clock API
+> but not those ones.
 
-Ack.
+Yeah, you are right. That came from a super-old vendor driver and I
+didn't realise the exact same gate bits are alrady driven by the
+clock driver. I'll drop that and prepare v3...
 
-I thought of updating the rates to include 192000 but I'm not sure how 
-actually supported it is. The definition for it is present in downstream 
-headers, but the datasheet for the AW88258 mentions 96 kHz as the 
-largest rate, and I couldn't find a datasheet for the 88261 itself..
+--pghGe5VQSM39F6vG
+Content-Type: application/pgp-signature; name=signature.asc
 
-~val
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABEIAB0WIQQ8WXOkSQLJP/KOu5qX7zeyq+FyywUCaeeh3gAKCRCX7zeyq+Fy
+y111AP0QTyLAlHpoP5/XuWLbe7t/+Ru+GlYU61Ygpcl8Nz3O7AD/UuXFl5391unL
+s39J8r1DHhIewBnqoLCXVLsvqeLMKUw=
+=j9TW
+-----END PGP SIGNATURE-----
+
+--pghGe5VQSM39F6vG--
