@@ -1,101 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0AE3845B7;
-	Tue, 21 Apr 2026 17:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011A72F25E4
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 17:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776791503; cv=none; b=MHwT76f2WbACADPD7cQNHdRqa67XKio4hV5Z96qLU9WtgGvZYxdPiayiLzkJIotTq+0Sd5QsUIqtXwR23qklGgfSC4Ktz1oXVARzIPBE180AWppkSJU8ZMiFYGLQeXW0wDAEAnVH0XEmCUqKMzCIBaRCuYHJScjjvccXHxyCVW8=
+	t=1776792131; cv=none; b=K/PX8/9Gj4AHbUqKV8wVva9woell1P0lKZVlcT/qRFRoHRJI5OihLE94Lj38JbdWvQLQcvVDTorHE9vvtol1UvFB6FrYcUeNk0EHV+3rv0FJkz0r9IpN2cjhpWR2RtUu5v7KoxBzfuemuzcMVACed0pu50FfyGHNmz70RACjoL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776791503; c=relaxed/simple;
-	bh=vok/sWJ8AOzEDKYmt8jHtz+Hdy1CE78jKXsvl6F/LfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPdbc5DwLdd5L+Ipfaz7h+BrjqqrI8UrFxTREdu9+TRTUvS7p2EwraU6c3Dfc6UxlRmNn9ssi3MQbFNXFDitqdHX1AqFwVPG+QWKG2gxRwpmF5YDG+QVgjDua+x4eNWQ853IXkHXSLm0ugfY5SIiW8RVpynBeR2fHqtZcJfJzNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+XIVBeU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776792131; c=relaxed/simple;
+	bh=NJdcssXikq07N4UmXu0/kKCmhX9pOO4Pg1US5X6YG3I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=C4S2kNdwmiqMQGnFnL/x/pR6gVLN51U7RKqZyZf5LoSo5AZT7hdhvzQiVXrdLXPhMIDMb1Nl52oA4vPUwrsixI2RuEvsRIQgqZ5BV1Q4qkzaCfCJF5z4kVkUPt4FuuavafBptZm/kqcxiltO2b7BMPIIm8/PYilgk8CVcCBbQtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkqk3ZB7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+XIVBeU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66ABCC2BCB0;
-	Tue, 21 Apr 2026 17:11:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkqk3ZB7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C5AC2BCB0;
+	Tue, 21 Apr 2026 17:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776791503;
-	bh=vok/sWJ8AOzEDKYmt8jHtz+Hdy1CE78jKXsvl6F/LfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c+XIVBeUmS8b4CKqWDqP1awp1k6fNjlPT4YzUfnPd/4h1645xEgSwJATWbYRXAaBM
-	 XfMJdDqKYad0MyTvZRnGkbxyguTxs3JAP6vA1H8eC6R3CxxFMoiSfc8yYYFFhDurGK
-	 DRRyUud9HURogtebWaE1sgehgRYUeO4do+Wq/RiegcF/9NHGK4SrpYgntTUUXCfwzF
-	 B9bXe8v3+vxeByK1M2XuzQoLnaA7BIQt+7AQEOyX+TlGDdFrr2eLh5hvZf87NLGtM3
-	 omgoS9sM1bZhm/tlYx0I1uU2pP+s/TxeDd8A10yc1fGZqt3/emHWyToyOLPgGU/aPo
-	 XRoUOACo1WS9w==
-Date: Tue, 21 Apr 2026 18:11:38 +0100
+	s=k20201202; t=1776792130;
+	bh=NJdcssXikq07N4UmXu0/kKCmhX9pOO4Pg1US5X6YG3I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mkqk3ZB7kSQ83YrRnMecHuR0fcjpp2BeZ+GQI/+cNkAC0OAbjhH6q0MlvO6PcORt9
+	 zezzRq2TpXzXOAlHrSRP218gRBTsUg1MTjsovedTzuvzhfxwh2Qg6X7ZqoqNLMf/bH
+	 W/YPGen+owvGo5lmjR1XQSQ/haCmhS4oWlEp91VDYGi/pI0RUoL0GuuUkBJqUE+aW1
+	 ywH9O2n1Fl7Qfnaan3lWfhuE7UYMr/mG6DgbWiaybKApDWH31tqZY649x9wJ/RRgiZ
+	 d76bnP5UbPI7czjKClYGlbkYA3nLOPeCgxS5L6sZv/G5hELEBlJVeQuCEUzaCa0Mld
+	 JbFgClMHK0jXg==
 From: Mark Brown <broonie@kernel.org>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com
-Subject: Re: [PATCH] ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer
- controls
-Message-ID: <89ccc6c9-525e-4878-a43f-f91c681969c3@sirena.org.uk>
-References: <20260420180221.785113-1-ajay.nandam@oss.qualcomm.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20260413124621.1345315-1-ckeepax@opensource.cirrus.com>
+References: <20260413124621.1345315-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 0/2] Correct bug parsing DisCo booleans
+Message-Id: <177677857106.43010.13188435195794723796.b4-ty@b4>
+Date: Tue, 21 Apr 2026 14:36:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Z88XJgBepUVyiYNf"
-Content-Disposition: inline
-In-Reply-To: <20260420180221.785113-1-ajay.nandam@oss.qualcomm.com>
-X-Cookie: Jenkinson's Law:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1537; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=NJdcssXikq07N4UmXu0/kKCmhX9pOO4Pg1US5X6YG3I=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp57JAEwQShb8x/E+hGwRPS4PimOc06WeI2c4Oc
+ q1LAbN6FTuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaeeyQAAKCRAk1otyXVSH
+ 0AJCB/0bUuS/IBNC30tgiKeQkrYmbUDWfVnbK2aOhVZpTas0FnYWItpNiIiGX3lPRZ8kOvCiPT/
+ PNAx8JVt/xtRqg0S4AgQrvbCE5US52VNIk+oiSPu3RdwNDbykeM0YjX/hM1Tz6L4VP26AmCl4WO
+ OudQBOhBV0RuQJb6cNVT6fwBRvWyFOyrAzBKyToJMIM3j5S1eEBN9SuvyVqYed/EJkFwpT4CHpf
+ zuSuiKeXnFhNfPNGWcsoTWEq9nkkWFi68HB/uwIOUgT6W4uVyLRpMnom7urAsz1kxb81Na4NCm7
+ 692OFqSgrUGYzIz6abpC8rLJdYqUaztfeFZpxCxCczxxvzjl
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Mon, 13 Apr 2026 13:46:19 +0100, Charles Keepax wrote:
+> Correct bug parsing DisCo booleans
+> 
+> MIPI DisCo uses the unfortunate convention of allowing boolean
+> properties to be present but having a zero value. Opposed to the
+> normal convention of simply not specifying the property. Fix an
+> issue in the SDCA code where mipi-sdca-control-deferrable is not
+> parsed correctly.
+> 
+> [...]
 
---Z88XJgBepUVyiYNf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Mon, Apr 20, 2026 at 11:32:21PM +0530, Ajay Kumar Nandam wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-> Enable AUX PA sequencing during AUX DAC DAPM events and keep the
-> AUX-specific RX supplies enabled while the path is active.
->=20
-> Add the missing AUX-related mixer controls, including CLSH PA and
-> DSD left/right switches, so AUX playback can be routed from userspace.
+Thanks!
 
-> @@ -730,10 +736,23 @@ static int wcd937x_codec_enable_aux_pa(struct snd_s=
-oc_dapm_widget *w,
+[1/2] regmap: sdw-mbq: Allow defers on undeferrable controls
+      https://git.kernel.org/broonie/sound/c/ca1b11b36d82
+[2/2] ASoC: SDCA: Fix reading of mipi-sdca-control-deferrable
+      https://git.kernel.org/broonie/sound/c/956c032be7ca
 
->  	case SND_SOC_DAPM_PRE_PMD:
->  		disable_irq_nosync(wcd937x->aux_pdm_wd_int);
-> +		snd_soc_component_update_bits(component,
-> +					      WCD937X_ANA_RX_SUPPLIES,
-> +					      BIT(6), 0x00);
-> +		snd_soc_component_update_bits(component,
-> +					      WCD937X_ANA_RX_SUPPLIES,
-> +					      BIT(7), 0x00);
->  		break;
->  	case SND_SOC_DAPM_POST_PMD:
->  		usleep_range(2000, 2010);
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-It's a bit weird that the supplies are disabled in the _PRE_PMD
-callback before DAPM disables the PGA, I'd have expected them after the
-disable.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---Z88XJgBepUVyiYNf
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnnr8kACgkQJNaLcl1U
-h9BUcAf/f/3cEACS1zzesHBclsExi7XapFr0LFl5/JiBYtCQI5t1m0//ojBKr5nY
-0AtnYejaxN2IFgJec0Nb9IpjkVicA4AByg5bJBek2u3p/67YCDmniaO+V9ucWndQ
-AIqrhOsxKC97EUcx3dQ6a/gBaRYmXIPAMUbx2aoi7hl4Nv+H0f7fic/auetMVLdp
-fYxiaMpaeDnl8uTe3VAXwvAasUBdxqISRaF8A80TVTpZPDy9Q2l0TvH3aCXJ0pEP
-3r9+DLlbUzFa+E+qNRpWNDYYIQv+8O32VtD1qW08LxZzwmPgHAXOYFdCAzpHjfW8
-SfHhA6UxXbRKjQSziRQYR4f8zfRoDA==
-=2IO3
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---Z88XJgBepUVyiYNf--
