@@ -1,114 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EEC2C234E;
-	Tue, 21 Apr 2026 12:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8A330E0EF
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776773868; cv=none; b=eEeVVMw5MBrpXrNk4jcwn9ZATlypOH6+sFMyBdt1JcFe7pqGGG2bG6RuHZi5LF3zTpagDfJfKf2ZcWi3r1ucYzQpYUzqwt8v1h/pKtI8nq+W/KgQgC8dU9X/cCgsg0TnMUzAu0FBfFZG1h0t0WbjROGht8yZ0jgcMZAZkoY2WxU=
+	t=1776776047; cv=none; b=ltTsAlouERlOkIZOLeZEQhJ9gT0ByLCF9B2hVA1RvDIcQkZDeEQYX8vR0JPgBodNDbgJ8eIGOI2e7zBncZuKqwkXZSr442cirJqcBqAfX44iygRS6+tbHhzLwGj8ii1Uc4fUap9ABBJlswdZ3u4mcfK6fZS6+GvulyTJcjJVyWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776773868; c=relaxed/simple;
-	bh=JMxYFx4b6fyIJXcILvr0xb4xZLoFwYMQvSGx5Ocjdq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R8X2D1xTfiSTBd/mMNCD4K4LlFwKMlkapTIwjbkdd8ziNrsJ/gYftpNEeJ0pC1rd8w9+9L0rKxZvOpHd/b0DPmwmq6tUWrjSsnyewgm9a/86A19ysPei2pUH2NWLplTGJD7m3jvBUN3gEO6CEuS5Z6BO6jlV9eDL5rZOwglSA5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EXEHCB1c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776776047; c=relaxed/simple;
+	bh=9Xa52p4RWskyRirzJ8S60Ao7aOMxs/G/qy7EvxBiiDU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YoSZTIeNwn+z3leiKjk5DupZNg7pcQK1Mer4jmkIAANcLGTp9PoniMOKTRpHBs0gi0BZE3ZLh9Tywd5Ax9NBVEucQsDq9MvYDDRVq5gmwrv2AE3MsFpLBelkQXw+LtXp7LpG1chUCyzo+/sLh9n6KhVpin6dmqi89QXUJRq1hPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=y8zNR6lP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q8ydyVqS; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EXEHCB1c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BC77C2BCB0;
-	Tue, 21 Apr 2026 12:17:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776773868;
-	bh=JMxYFx4b6fyIJXcILvr0xb4xZLoFwYMQvSGx5Ocjdq8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EXEHCB1cdTaupYYQX5c8a7+PY5KyslkX9PT4cAt7iqTfXIFqbuF91YzQRcX0UQNrV
-	 wQOR8OVcag54yolYSNV9I2Wmbl476yYP85zWs/yhuFS2x51e0JLaOlu36dIybBsRsq
-	 El46VTMACoSaoW65CXFpobS2Lwpa02A8Znm2Q9X3bWkqVdZcjiryNSwWPqdgj+JuLK
-	 Ap2B1/mDuNPwhjxeNI78rFnPWMYcalEGDOyLG2h7Hoaj1kgwOzwMc7gvE5IbU8AFLm
-	 Cirq4unp1y33+o1v6Z/93JSQZvJMFddeICNOfGDwxLL69E47BLhpGJ7JvaZpNLaITX
-	 rXrJWJKzNjGfg==
-Message-ID: <2a087e32-a526-4a6d-9183-bc0793a4021a@kernel.org>
-Date: Tue, 21 Apr 2026 14:17:43 +0200
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="y8zNR6lP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q8ydyVqS"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 126A81400123;
+	Tue, 21 Apr 2026 08:54:03 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Tue, 21 Apr 2026 08:54:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1776776043; x=
+	1776862443; bh=djC/dEPE2AYmdFyhcKi2RGjfR1iKIsQJOcUjzkIu3KY=; b=y
+	8zNR6lPix7/ZzSrcS+9vCp7Z4CNfw7U21SIxxs6cbFGmy0ESBqR5BLCxtjXJUgZ2
+	ii/80ScLBHe82yuf2nQ3gRQTkdKPGQuqtBHBq6EMfN9Fi6x7NYrk5TXT3zn06y0k
+	wvlIhvHh6bEt5WbXBz6/kytK8ob7gfE7NYwXHLa3gFQ/EBgmSKeE0iU3m1YHSmIJ
+	pFMAkSWIc060VoY8XoUiOJjLBJVVTENtUfHUaTPe12i7plDo70uxQD9KKbKIb+aq
+	jB8dih7w54UnZW0lHBFFDLPda9w53NbSz9bt+pK2M8TzcoAdnAl8AA3lb+MqeguJ
+	c/xl/y1G9huX1QZO2Aopw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776776043; x=1776862443; bh=djC/dEPE2AYmdFyhcKi2RGjfR1iKIsQJOcU
+	jzkIu3KY=; b=Q8ydyVqSqDqGKfRpNdWRu2gffJxKbVOxfSgl3RHqWIKYDepNxW6
+	hgdEvgH88xzCSGGeM9KDweB63Z0O6FsJZCO0xif7Z6fDL232LDvn+mzHkEtwJF2u
+	EGYZAYltoFyANCQT/ryG2BrJKCl8yjo0kMHMqKjXlvRtuc0RyR6EdCJRZ9PLD+Qy
+	jvltytmTvSmO3UIOxFPi/G2bRHNUOKOI1xNCm/x/5xJE304zqOMuPculUqWQDzc8
+	52TkKCTfJHGuXhTA7YPe3jsUshOm7m7wJVr4r9jSx4rt0ZBgn6PpX+K5txLvJkfQ
+	NZCotQbMJxZoogHIp1tNyNzfPZpJL5KljaA==
+X-ME-Sender: <xms:anPnaUTjs5s603qP49FZyoAxoyO_DtrouxNzDtJLROh5usMvfunfeg>
+    <xme:anPnaXxTeT1hw7hhk9WZpblg-LQLAQJjBJTaFvk0Ugfl75g3vu6lX94pdrR15cnq_
+    yKyr8jFEjR8xr25YlpNvltIjEYX8oDEqyMxKy686AQqeE9CHO9c0KWb>
+X-ME-Received: <xmr:anPnacpcuj_uLFx60DH-6K8gz6vYcv9ktun6LbBwPYf2TYKDc1gPEuWJDF6QljvZejuSxSqmwa1iRzkXEKrBXfD3FaG5FnU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiudeggecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhi
+    ucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqe
+    enucggtffrrghtthgvrhhnpedtkeelheefffdvueegveegieevtdfhleegudetffektedt
+    vefgteegffelkeefgfenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhmohhrvghllh
+    hoqdhprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnh
+    gspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlkhes
+    tgdqqdgvrdguvgdprhgtphhtthhopehurdhklhgvihhnvgdqkhhovghnihhgsegsrgihlh
+    hisghrvgdrtghomhdprhgtphhtthhopegtlhgvmhgvnhhssehlrgguihhstghhrdguvgdp
+    rhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehtihifrghise
+    hsuhhsvgdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdgvhhhrhhgrrhguthes
+    tghouggrshhiphdrtghomhdprhgtphhtthhopehlihhnuhigudefleegqdguvghvvghlse
+    hlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtoheplhhinhhugidq
+    shhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeifshgrodhrvg
+    hnvghsrghssehsrghnghdqvghnghhinhgvvghrihhnghdrtghomh
+X-ME-Proxy: <xmx:anPnaa0OYQrLOT3xEum-2HkwXRzhGQyXESsgF7HbYEY5mEgqFJ9xMA>
+    <xmx:anPnacxvebXGIa5iL7v-M2ex1tCJil45olVosxeq7b_ygRNTJ2WnNw>
+    <xmx:anPnaehnrrleuyLBiHza5hYZ2IozXoiBTuy1NEgtziZETqWRJdg5TQ>
+    <xmx:anPnaXrxyrF3wrHic-PLisIrwEc3DE4xu5cMu06xngqj-Lf1Uw0Lvg>
+    <xmx:a3PnadmdbQjHbTwgOOyX7TtCNLyXIJJd-6-AWtyhfhAVtDDQa8UiocDM>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Apr 2026 08:53:59 -0400 (EDT)
+Date: Tue, 21 Apr 2026 21:53:57 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>,
+	linux1394-devel@lists.sourceforge.net, linux-sound@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 0/2] firewire: Simplify storing pointers in device id
+ struct
+Message-ID: <20260421125357.GA46532@sakamocchi.jp>
+Mail-Followup-To: "Christian A. Ehrhardt" <lk@c--e.de>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>,
+	linux1394-devel@lists.sourceforge.net, linux-sound@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <cover.1776579304.git.u.kleine-koenig@baylibre.com>
+ <20260420090816.GA11108@sakamocchi.jp>
+ <aeZk1I3DTmyx_ZUL@cae.in-ulm.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] ASoC: cs35l35: fix typo 'overide' -> 'override'
-To: IRRatium <majnkraftiigry7@gmail.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-References: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aeZk1I3DTmyx_ZUL@cae.in-ulm.de>
 
-On 21/04/2026 14:07, IRRatium wrote:
-> Fix typo in property name 'cirrus,classh-bst-overide'.
-> Add support for the corrected 'cirrus,classh-bst-override'
-> while keeping backward compatibility with the old name.
+Hi,
+
+On Mon, Apr 20, 2026 at 07:39:32PM +0200, Christian A. Ehrhardt wrote:
 > 
-> Signed-off-by: Sergey Shatkov <majnkraftiigry7@gmail.com>
-> ---
->   sound/soc/codecs/cs35l35.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> Hi,
 > 
+> On Mon, Apr 20, 2026 at 06:08:16PM +0900, Takashi Sakamoto wrote:
+> > Just out of curiosity, what does the CHERI extension adopted to RISC-V
+> > architecture require in terms of kernel programming? Is taking extra
+> > care when storing pointer values in long-type variables sufficient in
+> > driver code?
+> 
+> That is a significant part but there is more to it (entry code,
+> register size changes, the UABI should better be CHERI aware, ...).
+> 
+> But the issue that a pointer does not fit into an unsigned long
+> is an issue that pops up all over the kernel while most other
+> changes are more localized.
+> 
+> There is a working linux kernel in the CHERI alliance github here:
+>    https://github.com/CHERI-Alliance/linux/tree/codasip-cheri-riscv-6.18
+> That definitely needs more cleanup but it does work.
+> Previous work from ARM for the morello project (another CHERI
+> enabled platform) is available here:
+>    https://git.morello-project.org/morello/kernel/linux
+> These should give a rough idea of what is required.
+> 
+> Fixing unsigned long vs. uintptr_t issues helps a lot with this
+> because it reduces the diff. But it is also a general cleanup.
 
-Please provide changelog in the future, describing what changed.
+Thsnks for the references. It looks like there is not much to consider
+outside of mm subsystem. But I have some concerns if supporting
+ARM/RISC-V adoptation of CHERI extension in Linux FireWire subsystem.
 
-From does not match SoB.
+Any structures in UAPI header of this subsystem are defined with
+an assumption that the size of pointer in the existing System V
+architectures is up to 64 bits at most. We can see many usage of
+'__u64' type member for pointers (e.g. 'rom' in fw_cdev_get_info
+structure). I imagine to need defining specific structures for this kind
+of 'fat' pointer. (The same assumption lays on compat ioctl.)
 
-This solves the ABI breakage but I see little value in this change. The
-typo is part of ABI and it does not really matter if the ABI has such
-typo or not. Maintaining two ABIs matters more.
+As another concern is that the padding in structure. As long as I know,
+any 64 bit architecture for System V ABI has 8 bit alignment rule, and
+any structure in UAPI header of this subsystem are carefully defined not
+to have different sizes between x86/32bit/64bit architectures, except for
+'fw_cdev_event_response' structure (see 'drivers/firewire/uapi-test.c').
+As a quick glance, the size of pointer in ARM CHERI extension seems to be
+129 bit. In this case, what size of alignment rule is applied? Is there
+7 bit padding after pointer member in any aggregates?
 
-Best regards,
-Krzysztof
+
+Thanks
+
+Takashi Sakamoto
