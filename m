@@ -1,168 +1,159 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010062.outbound.protection.outlook.com [52.101.228.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C171734A799
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 22:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC54E259CB9;
+	Tue, 21 Apr 2026 23:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.62
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776809391; cv=pass; b=njt5fxy4Y72mNNr0E6zGqSMjEOR6j8+NTbPMeYGWryfUIkNxkOgCJ+qtS0K0+fFHQyE115MQWltMNAQhENl1AZexd3UnWi4qqgvdxTBLaVVjgwKaTB2s7jiD1q46TTvWtMLCJj4SgCt4H5/uQZgv4Vly7sUS2HLKS73cfoblUyU=
+	t=1776813184; cv=fail; b=l8sVFHY9yAMqmFfOq0nOzzcnJ7PlTbpFvlIhJKMdsb9JCw1RN/pltp5To8t3tO9fsLcq+Cpf0okCkQdfrQ/Evpmx0So6dIiisPbo43eghfRLZir7+JZtAHsyqTwNO3xwlos6MrcyTDoJ4X1vBO1AOFsGDiJoG9GHTc3tRi27W3M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776809391; c=relaxed/simple;
-	bh=AWeKAl7zUrWIw/VrUdiR+IAcxDzVONtjCc9RHYhrVB4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YtqmAFXw0mOxqwFfjzsrLxuaBbD2r+4OKQ095gYGeOBu/srIYR5A/ENr7KzuXT+Qw3hrhjgO+NwU8s7RcTMUTAbUmrttMru4DmrSf6IrjiHV6qEWUkXfE532j4g/dqH3jUWriszM20qaaZaCXKIrNISfWENboE0Wo+1CF/OsX5E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=saPvtT5w; arc=pass smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1776813184; c=relaxed/simple;
+	bh=V7hp7UwqiI/hyBBN2GjfaSNikwQEyObme1gIUVB3O6w=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=MrOlHeYzpoOTzThhw80NFdN0q/Q1dJgCrmdyhsC+vxL59iwWA0MBRYy/vwyblxQzjMR1eK/lvD8vBXdAQgNN59DlgVreCm2al27rda0+u3qQw1eH0cuwv5AD0ibNo0HDLhDAmRdjDlEmNvaX4wBGKkDctnsXx5lc4gaM/RcJSLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZdxvnqMo; arc=fail smtp.client-ip=52.101.228.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="saPvtT5w"
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 2FDE03FEA1
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 22:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1776809386;
-	bh=PACOTtiGzd884jTMSX+i5K3073zO2x+ORt9G19Oenu8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=saPvtT5wBrUPhRsX2I5cEcUqK7+nkol/SDzlD/YHELQJ9K6YF+MQ3Ticz7yvaqT+1
-	 PaO7+OAp80dGe1fDJvxwT4D4XEG8kjWHyNxve/H3ZpXUZuC5Ov7LGf8z5Zsz/zdWJ1
-	 9ETwiNCJ8JCCoD3SlkGPdferJsRnC4eRHAcR32Jl4KYF5+8D9InOAweu08I+Tg8LoO
-	 X7QTMKx4NXPE9egKc8TMSeoQnCi3ka7Ql16N4vZjYxI9tDNgaPoui6FTaTxdSZeOms
-	 BZYB5sLWS9jG2FG88l7S+8ayZ6eeh5O45LVEQ9kUCITKKqa1Ga1/LFBKTWKQwXHkx/
-	 rGmo0S2WvVdw4rNx+pi75FiZ6xAubcf4c4e3iOwnkBcmNLmqkKh+BmhN7v78k94cuS
-	 1PgUU9Mr820aPk+xurcGS0REN6tSOz5jCzakFUSJ1QgB5hAf1rW/SBsYlUGVMll90U
-	 FI2e3iSwn7O7kr3lEPf4KB+MCpd4Bmskmn2hjU3Je96+ENmNyUT2l8oOoRT+X+DUDV
-	 yzQESJoqKqiwOHFWj8iKWdoP61OgV1dzg+Hq/Q77QVEriNeFmpOE7nskapdQJn8G2Z
-	 8yU5YDHZLzfaMZZt02VWTNcoP+CbGok4FXahbSXiJrdEJOH31PNEXP5JjfgOxsTizp
-	 wx5R4b4pdOMWz10SBOKsLbh8=
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-b8fbe7a6f41so143845266b.0
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 15:09:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776809386; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZvbMggdpvMEH2Sv8HcY8HOxM07NdEbrFZQQqcaJPJY5uoCkzuvvWxb7STM6RNshB9n
-         mRqe3khC2FQTS4Jzfo3yI2FnqpiCjd0u8EYS/brJQXjcdJuNQb/6ZQXPnXD4VwMhz43d
-         xQ4nrnhWem++pTzjj4geepNeNTVeE4WKz0Z2H4bg7xXG9bpih+wch6x1JTRiUfoeEtqG
-         NHl2WAjPmKAVu+Q8rwERn9y4YRSucDhP6bCn9LS7qEq4PCa6z+QvCYKude9xe0e1dAGl
-         fuWtqZSmlbRvw09UK3YWb1Up+8pnBq3C7iPGhqyamjGPOP1qkzwX+ESP4VieOsIb1qNl
-         i/9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=PACOTtiGzd884jTMSX+i5K3073zO2x+ORt9G19Oenu8=;
-        fh=FEHITdJ0amsW44h1kxeuKW5+FJp3mBb9EjvvkSKrtAA=;
-        b=LrnuZ+ETPl9SwMRJxUfDuxPs2eIZ7k3Vo2YFhiSrEyx/3IiS0T/JEOeVCtS9/t5nBc
-         0Zct46GTQ4xFNl2uMDOpF5JdgN9qbNAtnyO6H59RHg4yMtDIZ7fPpiMp2WxaA+TllB9n
-         DyuyCfwKTgvZQ15BL/eZllFk55HeVIbHPrmWMXPD/O3mGgfgjVtWealW2sWgHmfL6xRp
-         dFrk7yRqxs5wN/kgpAmRGHpfkhzY7fPjPRt1x+BxJzwOPpXUsZhqDZIpVQg+7Uq1oB96
-         /cDnlUHezwysHnBcwBR33Zw3Jfqd9NktskxuHkdlKkXcubICAKf3rjdeXUTqKP0h8myS
-         0CLQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776809386; x=1777414186;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PACOTtiGzd884jTMSX+i5K3073zO2x+ORt9G19Oenu8=;
-        b=auWTD/4cdDWcnaTZmnlyn3XjJul1AEkaMSpsi4S2XSLZvsDQ+MdsImV52XGTOncCN5
-         eT2XUERAW2iudMm+X1V4/oAW6lDha5qOCuVKSKyq6atUB9LF40g9mnp7BC1d8eINyxD0
-         BLAILY5Aor8ZD5serP5lNdE4vPLAUGz1EpM0Vf4YAYy+9XXMLY0ZWCxbZ1zeGi4Uic4k
-         7cHYTVU0DLscjvEUePAmQGHgVZyt9sq6yYzj6BYA110PP/5wBGFGJOhJksMaKG6fWb71
-         I9dO0qnYxJk8eWzwYiwTi7fufAgOoCMcoko7ifdxhR6biZmQFQzaMnF1719UCLpzFiWi
-         g+pQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/XqhzZtVLvzhnnyxeIWLo5AIBmSjgUgD9AWiNCD28g5J+2aTekvzghSoH7OueNKLUHgE9zrA2T0lcTZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwL+JkYvJLk8LtGQ3IHf7vIS0743FlUeLd+owdTOwCWbQZGDi2n
-	jT5fbtL4te0OURjiVTLmYrlK4CfFTH4YVgI+n5lO/LprX1xSa0+g3GJAiCiTiSUhc31BvgbGODE
-	ymMTuVWWU279Fa1+/9CeFArOZ38HK91Nc7GrDfJ08qP3ATDimneke5NzLkyz+HhgItYOp9D23TZ
-	30ytE11vpKTiey9YaH5qBAwVhKPXuSG/XujEvee94zdkIec2Qg6aTXg74=
-X-Gm-Gg: AeBDieuV8pBN1///1TCKlPwKWmgiocejWiG59xzESlQN9O7cJqn+vti6eb4jCB3scXD
-	mN7gM1Wlm3MsiLDjbze48x9VmvC0uK2zC48D8QN7kaorMVT+Xn9TLWjnRJoA6JulsyLbCQVEMmx
-	Zbfyx1g1aBTQK/oP9bv95H7JU8aFvoxPHIyHC2ihGmjPZMcQgjmoSkKkwtJOt7epbiEsIsg5GAD
-	gvTgQxoauNOfi3czlfYqxrQgE7nOBl0X0lK2kkEawwSx8KGpg==
-X-Received: by 2002:a17:907:6e90:b0:ba8:30a6:8b02 with SMTP id a640c23a62f3a-ba830a68c0bmr471906766b.41.1776809385658;
-        Tue, 21 Apr 2026 15:09:45 -0700 (PDT)
-X-Received: by 2002:a17:907:6e90:b0:ba8:30a6:8b02 with SMTP id
- a640c23a62f3a-ba830a68c0bmr471905666b.41.1776809385157; Tue, 21 Apr 2026
- 15:09:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZdxvnqMo"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CMEO8EVVjS93wvuO7T+e9NVBKjsZoKBvAX3oqzmM8hw87GUaCKE4AnlOsh0AifoqqwzoQfJ2h71mcUi2JKTkOYzPkN09zQ39D3qUf9Irmk+aKwvD8+7Bc9YVl43Jy2Bme+wflE88lv/GSjAq7O/pVe6o9iNI8TaStWL49D5Rwt75+KN2Omvik/tS3Oos2yUBc35JljHaUwFEqi/7DdS7Fx5Wjq6nMgO17ds7AuK5Kpv0g6SFrRslCRYO6aIEhmi13qbqdyaYI/D8vUJYt5wAvwag0eUqUpzlSXwZkIEiJ7K50DEdbSGSVlymsr4/3Lk68S2ErJWFJgeYMtD8HUHxZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KKPxupuQ1Q3wQpPc7KNifpb4yvbOYaNn+d20QrYaLy0=;
+ b=qexHZXkG5aF+JMfpEZc8yX43nqbg6c8KJvU8OA4+70F5INEGZWg9bkDWIufkYPEuqxlCdGO4RoG3gEETZOJFkJANCGYTOmm0Xe6d62EsMe2h7OJ0fwrW1csfOiIPeDrJh6891Ocm6k74OtNhqAq9Bdg5YasUAhRZ2jdCqJ3HNYkiwxF6EzWuH9zjFl1duF8jYeyLeY52A1BgSEg4N2B+LLHuOLZEPVkO+IqIlxLTo1fDQ/ADDNtZzHH7xbTFqPru4I5JLxVNMJa82A1UggqVVmCJ4z7N7oKQUQ/k9HMY/RTDpx2zHrELmJdX+CcbFKHet9sFXqM7ELythZ4SrzrQNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KKPxupuQ1Q3wQpPc7KNifpb4yvbOYaNn+d20QrYaLy0=;
+ b=ZdxvnqMoyyuuish3YP6qANMpEDcmt7Y2Ok5O1aasFjFZgHXdr67Fvq2FRpQcoJ8YpPJKDJ5jPaTnpKFsMSZSphPrVuKJe9hK/aQAdcrYD6aJxkmD1fnZ6MT8XeQdKXo2ecjoVRnTscgTKccpGQzBz3r6ahFrdq9XRxHIopAW+v4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TY3PR01MB11890.jpnprd01.prod.outlook.com (2603:1096:400:406::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.18; Tue, 21 Apr
+ 2026 23:12:58 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
+ 23:12:58 +0000
+Message-ID: <87mryvkivh.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: John Madieu <john.madieu@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH v5 13/14] ASoC: rsnd: Support unprefixed DT node names for RZ/G3E
+In-Reply-To: <20260417225249.mvi7sygew77wf374@labcsmart-sqy>
+References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
+	<20260415124731.3684773-14-john.madieu.xa@bp.renesas.com>
+	<87h5paz1w6.wl-kuninori.morimoto.gx@renesas.com>
+	<20260417225249.mvi7sygew77wf374@labcsmart-sqy>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 21 Apr 2026 23:12:57 +0000
+X-ClientProxiedBy: OS0PR01CA0073.jpnprd01.prod.outlook.com
+ (2603:1096:604:99::20) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260421-asoc-limit-volume-error-v1-1-dcd0102576a6@kernel.org>
-In-Reply-To: <20260421-asoc-limit-volume-error-v1-1-dcd0102576a6@kernel.org>
-From: Tobias Heider <tobias.heider@canonical.com>
-Date: Wed, 22 Apr 2026 00:09:33 +0200
-X-Gm-Features: AQROBzDAPWc2rnOSB5E1V0eDME2BjgeJJ93dja-3wv6m0fTVsLEV06CaB-FUuyY
-Message-ID: <CAARv3RQ13+J-rbnAPbdjT4E0YGcXa_AZMUZzAp7ZuWW9HgPEFg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: ops: Log unknown controls in snd_soc_limit_volume()
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY3PR01MB11890:EE_
+X-MS-Office365-Filtering-Correlation-Id: 026dc71c-934c-4963-2d90-08de9ffb86b2
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	tU2wHiBTL39vW5vaGRk1wKEzZakU7KmKvbivJHA5JMfdanfaWgDwxy/DRYUm8AsKJmnBrTRAJcxEwreoX7bz7jYP8YYTMiteGspxSRznDVx20jLoM657aKyMsVbUPWWauCz6VyD0fnc3HkbWATzNPC8iFiliD2t0yNhjlAZUMZDc4xAeFJN4SZHsXv79+GKjz8IeJlwukT3NrKZlGq9jFi6e9iPkGTySMXIc6kSnNaMK+IPj3cSMlGArBv9r96QiAZSctu4sD0iK7CDkp5/qKNfieq+kox7jEgDOWYXuy/ECin3GzV5x5qw8rKtJhJO3Fx+8sdLGcpXWLuVfmD0+XDIUdR29u95R3AuQ1n7n/yD5V9AavaVBUdyc98oPhaugPgUhEVbs5UU+0TxtvglxrpSpydLW3ny0WNOabXamAVp7I/VHmS8yx2vyH2EPcv1ClB9tiHafrGxbR1Cv6NNJlITF2JUvAAKzSfdLE1vWmILuawAM56SgIu9ZIL+r31NNkti+sau7/Q8o73x1TELM8Bza8oKZIYiRiAfVvWRuuEtm6Rrndg2/tp91BBa47fC1uhGu+cCWmxqvU1cqWl1aZXUybCt59EDMAsVDSDXBZdJ+LTjH6rEypZrmG4E+mB3SzG4mmf7fTLiIOeKtW75GxBRXz4bZqEX1gxfGu59tfNAS5kl+Dhn0947bdNiYphJh+GovEwI095TKlQ6toMt+FqBkgPZjZ3se+lq2uV1Dzgl4vmKiOF0Sq/AJ9iZk/qv8Qbj1nAn/m5VLKyGB3yTkGFxmKr1yfKMhwjTLpgCogJQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8i+80KChHy9mxrsc9uHXECkOXImOqSG3kFjlN+jCeNKg/C5Bn2tmX8ZCMVAD?=
+ =?us-ascii?Q?hg1uZQRLqIx0guZwMl+BIgB/RAKMBW7ynRrwa2hZZUg5oERTwwp2Z2FrsjoU?=
+ =?us-ascii?Q?96r1Wr+kdnFNshckIFCbt5zWNglDoMx1o6y2QtRH5Af6nrj8hOe3nHs+6DJp?=
+ =?us-ascii?Q?vdeoNl+c/Q+XgIgrFBvjiTVI649bqHIUlJPicnEABBPJSHuz74TJdIgGyl8r?=
+ =?us-ascii?Q?Dzw9tP6bPMRSKpUIMzuHdNSm7WNLpRaTtm8XSDDKMs9QeUaKi9l5nodcC7R1?=
+ =?us-ascii?Q?ljPT5oigtveUMTGG65369N6PT/gSkOXIpYHz0R2vOR30pojH/zVKfm864LAG?=
+ =?us-ascii?Q?kHrAfWaE3XLAirWoFgCE7wMF+a9g+pduIvKS5OpJqQrxsOtFy9WcTFaQeDFH?=
+ =?us-ascii?Q?7wJmft0FNu6eIon+si/1lOVplvmqCZxfC7l/APlAr3FjcNPNRPPDlJ67P/+J?=
+ =?us-ascii?Q?akJqYVLGOsTvqbzNNHtAtRZAZObOHaNLFlntt6n9TG94DgxD0Z2S3D+XkN+k?=
+ =?us-ascii?Q?WfFuUX+drfOfq/ITuEHRqPHgn3iEz8jHnoM8QHyMJXt2dx6pmZIuGefdi/sc?=
+ =?us-ascii?Q?t6E0vXzDriUY39Ii/I4yiLel6UH2YdvWqjWURvM++ZP+/ggj8+10a/6WZyxV?=
+ =?us-ascii?Q?Lw6+S4+QlkjuvkEcuZ90+S7yC1zxnMUta/FT++IehjQLRLhVy4tcRt7xaHQl?=
+ =?us-ascii?Q?2RMWUSsWu4SFZdg8C/NGPe6X/+08tuZJiiGgGQDMkAVT089UmyyAwOyrEvqy?=
+ =?us-ascii?Q?1FsbrQYGymqWZzqKD+VsoIoNHWQgLPJBkmcFzllcFOSxJ9YqzRB47u0Ho8Rr?=
+ =?us-ascii?Q?w2B2xNMQGDAAj/CxDKuem82DPKkk6ZoSL1qexBtUM2MWBykQ1ofhgbnTzVpj?=
+ =?us-ascii?Q?Dozu4uekvGnouiM3NlxQzdE8uP34Kxmc/aKJ0k6Pz6ZoYZ4K8UO5JBizkh7C?=
+ =?us-ascii?Q?plbfTYQMo3/s0PHy4Lr2WbjbzJrrUB/ABrktqSduaWgtS0NhbKyxQ3N9tk/+?=
+ =?us-ascii?Q?uWhO8dWYqWVFPTjH8WBz3+xXGxPWNzqpZh/bvFMuDOtdok42sPcl7jiyTSTx?=
+ =?us-ascii?Q?piZ4JSVQqx820zMPPIp/B6Q/CL2+jrFpaKXWyp+CgPBUgKhIWrSc1Id0y1L+?=
+ =?us-ascii?Q?eAg/l5JDsi7dRa7yw29PQNzz6uX2dt9GlsoivzSH+5e09PhedNwvxYSS/aGP?=
+ =?us-ascii?Q?ey5Zrum4UYhQkAs3WYv88D3ezuj8rX18Rkogi90N9boLA/GivMQhrlXgMN8X?=
+ =?us-ascii?Q?TOrlnaAX5Nr4Fw7xxT4RgiDk2TH3jN8IC/fXhbdF7eaMZfD7DR0d3OjRF0Pg?=
+ =?us-ascii?Q?52RB7EIWdCBKrJvEdhfMcXywsv65udgbo7ORT1n77n5PSaJ3Wpi8YxJ9o4E8?=
+ =?us-ascii?Q?XUzj1eHy6ZhRLqWRHKy5Tyh0mQtAwWUMJqztNT0WOX5tIZjVuLJhMIwFVrTu?=
+ =?us-ascii?Q?Cf1KUcd8Sr+jH2DwmA95uhM///jTZSPUlWgUHlSJsv0ZjOrurFPc4ZP9deqx?=
+ =?us-ascii?Q?KfKc9JD/SUtz4H3HFP6Msp4bF4YPEIZ/LuQ5zORv9cvJcIjr2cI1qgf0fiFL?=
+ =?us-ascii?Q?CVQvz6D+O8aiVSYm1LDsSTA4wcZ6H2fvQE37otWuESqDPIDUGArYLNatoEL/?=
+ =?us-ascii?Q?InwdY5oG97jWdBmiWRkvqX1r00LoEa7ho1VUOV+hD1JZKV5jUZgGXKBuvPTg?=
+ =?us-ascii?Q?+ldpvh/m0KCv8nzacabdeEj47l7smzgw9oRhDWlHdxJ3cwaCUP3BgQ7bnrSJ?=
+ =?us-ascii?Q?kqTwA9Ru9JK851WJ+q9j8r/J0wPU6UtcOsbNHffbnw4eYl6veCiA?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 026dc71c-934c-4963-2d90-08de9ffb86b2
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 23:12:58.1506
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J16RT1EVNUSf4Bukw9IXEpibYTje2Ux8662Zyc9Vbe4Ppg+wwsUf1cnFP7/cIESw9LaExaoxXhFezyjcgZHqzRZdWXJjOpL9P6li93yxSBcce5AUT2/JRKPbxkrOMqSk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11890
 
-On Tue, Apr 21, 2026 at 10:02=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> When we fail to look up the control name in snd_soc_limit_volume() we don=
-'t
-> log anything, the error code isn't particularly descriptive and checking
-> the return value of the function at all is a bit erratic among the caller=
-s.
-> Since there is no reason why anyone should ever be attempting to limit th=
-e
-> volume of a nonexistant control add a log message in the core to improve
-> usability.
 
-Can confirm this works as expected for the case we discussed
-previously. With this I get:
+Hi John
 
-[   19.585906] snd-x1e80100 sound: Volume limit for unknown control
-'WSA_RX0 Digital Volume'
-[   19.585909] snd-x1e80100 sound: Volume limit for unknown control
-'WSA_RX1 Digital Volume'
+> I agree that having the "try prefixed, fall back to unprefixed" rule
+> spelled out at multiple call sites is a consistency problem, and I'll
+> fix that in v6.
+(snip)
+> This way the "rcar_sound," prefix convention lives in exactly one
+> place, and each call site keeps its natural operation (fetch vs.
+> compare) without redundant lookups.
+> 
+> Does this work for you, or would you still prefer the node-based
+> getter?
 
-One thing I'd be worried about though is the number of false positives
-this might generate.
-The x1e80100 patch we discussed previously handles a  2-speaker and a
-4-speaker configuration
-by unconditionally adding limits for all of them. Previously the
-missing ones didn't really matter with
-this they also print warnings.
+Yeah, something like that
 
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  sound/soc/soc-ops.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-> index f966d4e13c7f..94e28fc780a5 100644
-> --- a/sound/soc/soc-ops.c
-> +++ b/sound/soc/soc-ops.c
-> @@ -503,6 +503,9 @@ int snd_soc_limit_volume(struct snd_soc_card *card, c=
-onst char *name, int max)
->                         mc->platform_max =3D max;
->                         ret =3D snd_soc_clip_to_platform_max(kctl);
->                 }
-> +       } else {
-> +               dev_warn(card->dev, "Volume limit for unknown control '%s=
-'\n",
-> +                        name);
->         }
->
->         return ret;
->
-> ---
-> base-commit: 028ef9c96e96197026887c0f092424679298aae8
-> change-id: 20260421-asoc-limit-volume-error-ca28188dc7c9
->
-> Best regards,
-> --
-> Mark Brown <broonie@kernel.org>
->
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
