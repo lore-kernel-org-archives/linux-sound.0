@@ -1,152 +1,191 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0BE3B8D4B
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 13:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401F03D5655
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 14:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776776603; cv=none; b=OjYRBrepTk0Lm4Pb9wupu4Hy6FhmA2iCAeSuWL83eFOxj/Dx7UoXvZgdk/leTM+FUmphnVu/NyndKl6Ki4ZHiZSqm1nyCCPpdVhBECRw/shU+6+mUkgI8SKYMuDdOCuo1Ke5ADT85IfvwCMN0OvQOb72USB3X5MdRLnaahLXLy8=
+	t=1776780468; cv=none; b=XiyszUVnCz5JxcceXZleSqgmnzfDEFjUewwGYRJqO/qNGbTdGqkMco6J805jsWowdzG+Cs26HeXK+eat5gF6EMLhmPAgMocvMjMASbH9F7XufLQ37f+U6QNgmxJRezNjEOh6nsLH/riOtaphJfxHU5+8d83T6xXsTUUznE5d/o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776776603; c=relaxed/simple;
-	bh=iJiUvbReoT4x4uCETYAX16I6NQD1wIABfCHxzjQCt34=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=B91uyKHRF/O8huTmj796SuRehojSNCcgWv0My9BJlNUhuGR0tOg4IdUp6iuRfXWPlFr1ABxw0XOO4fXyFGc64yEnA/7VV0Mbt03Pw4/XCBeCEAf5oNTqcH0EhjzbWri3G/HCGdXAFKCDwRoTget5DZh8UxzCmCqbPtwlxb3ndWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4So+Sjq; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776780468; c=relaxed/simple;
+	bh=iXvZpIDtiDVMOXqvAIyOvgyFeK3ICWB+lQtmXvDXzmY=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eH6Pu8p9SYXtw4vAdgnBubvkUDQQLoXP7b28NYCRx3PY0MgTJjffharHnHB0HtvFYPDCbF97xPCADFv2NwuzZYbr2/xL/dV4GpuQmP0vi2TtvKDE9QTNShLe8WI1JnbJoLKFhBNo7fiy3gCc4BkxyoudCcC+N8W4DJoyKO/qIsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=XGmjy9MD; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4So+Sjq"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2d8ffdc31d0so9949192eec.0
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 06:03:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="XGmjy9MD"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43cfd1f9fd1so2667334f8f.3
+        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 07:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776776601; x=1777381401; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RrlnIkmfaLavUxMwyP8T54KIMpBamxkwMLXcyq5lim0=;
-        b=D4So+SjqZnw7/g2fr5xcJd3ABQpQHi1kHM+R2b6VqW0xSYYhf00Pl0/s8ojaVNMkoo
-         +x1t1RiJt0BL/OnJbfx+06tbqQrSWx5mSZQfN9XMBO/8hrTA3tgMFwPmX8HpiDOCCV7E
-         rJfybKhvVAdRXLHaEuPK7FB7NZ7wxc5jeeAQk+HtHekcltCGuQQ/1sTo4H5esvapWmAR
-         09S3W4RpdE675hk0AZfxwCuZ03ljgJiX56ut5jBE31NO1hl8JtpvxUppqMvFdHWZ/dvj
-         5/v7M/RE0x/pKmm4fEMCW2O0b4PgJfm6P6/1D8aIOvnOOMxmEx6IERsDZ8pXJMhZ3hkm
-         j+MA==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776780465; x=1777385265; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AExN7SjG5fnghrQ28nIwXiaJ2dUdbcwwWp/bbQPokmo=;
+        b=XGmjy9MDWUgYwWNUugi3JC++xcFmkdjTBpjs/CgqpzcYQZeNOX36FbyIpMpYZ0Ce7D
+         TRSaIOkmRITPSXOMMInpBELwGZS8bOxAPTc7C4XzeAP9XAi0Q8WwcwjYih7ApZQUiJmm
+         siElZwkZ5k7oTETrPR0hLUACu4oTUT9nUfwuvILYBfCrsV8hWitOoKZearT41DUa3pl7
+         G4CIuvZNivHUhFmTczYWVs7GE70PEfqgay4uSUD1IVdmkh0XEY8pPWKRYFVsf9wOqsiJ
+         8Nk3q9FPBq7BaH0lJ5bikwVAK8/oJhIWzGcEMVw+PvhT+9ea21ax8LNPW4CK8mPssE9/
+         GJXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776776601; x=1777381401;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RrlnIkmfaLavUxMwyP8T54KIMpBamxkwMLXcyq5lim0=;
-        b=i3TOuNwGBJmGIK6FG5bjQu07xYt75tkF4DxT+n6uVy9LMyarrRk4PwhV//VasNAfRi
-         TXhKNZz9/NX9XhOpCAr97z/KZr+kH/9vSBbQ5YksnL8ozrLqaNFIHOSeAVAfNjEvzlHE
-         Z/DaMrJW8i+mlRaDZa8aCpX1awQIrkD9mrmhNe2FretFm8mQVPbN5PhNhD7uzQYme29U
-         0E5GwgqErVNgNcLC4fYS/yU6ddd9zKKoTg9GibUJEcvWOywRk4DnW9sep+ChSoksweCA
-         2qLO2g3ZaJTMKjconZOgxPkH3/ZtwaGoAxjXrgv8O7OAOGTt8gNJbTDpTMbJO17cT5S/
-         hhtg==
-X-Gm-Message-State: AOJu0YzsfxDiSsOs+cuS2I11vHOG/5viqpibUi+rvtq3eghCc7IZQIRX
-	disuzhnedtTkoqURapNmMp3UxLNfW1y16SeYMr6KQBInsZ4dZOgI9xiw
-X-Gm-Gg: AeBDievkzh/81b2YdZUuee1eGO9uCCDjLTyLd9n7JqlYSLw0VZZhQB8wfeYc1kA9Tue
-	MQjkKQy4AUkzXKO4TqrtsDzv2593wyVALWdAk9oUjWVlxyipHgRA1+26ZnTq/Z1+Xj0MR+dKysq
-	KuxvL/K0y0PBIYI6E1UP/OBF0MiC7JyZhhSPWpPfvL1ibSzJ8OwLHt9YOLuv2A2t+mTs5ftzWKS
-	qs9t+uiW1OVknNCu+tWWterpnxCeuqUecuJPECRS+bT2ahg1uuhd+MvpwerjMSvBRHsS2Fx4DfC
-	GDj289KZD+NaGrdGpetZnQmEnLE0S7F2fyag70Xml7tgN5E6JIhQkHCBsLRZwLo0YWALhzseYxr
-	/DzJfYcGdQTz/fxNPjuyS2Fq09zHTnmj2M7VB0EfLFUCfInguO9JcQskfhy/iiXAxNYQ+xEL96J
-	Ye0rGrlPl/rJhZzxu+ry3xzTGUkkKnZmehZOArxbOjxQqnsssrPvuJMMlIRZxuoOOaQYPJWE5e1
-	amDvC97QbKs
-X-Received: by 2002:a05:7300:2d15:b0:2e7:5737:8364 with SMTP id 5a478bee46e88-2e75746d9c9mr7148510eec.15.1776776599207;
-        Tue, 21 Apr 2026 06:03:19 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d2cfc1dsm18294986eec.22.2026.04.21.06.03.16
+        d=1e100.net; s=20251104; t=1776780465; x=1777385265;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=AExN7SjG5fnghrQ28nIwXiaJ2dUdbcwwWp/bbQPokmo=;
+        b=JeRQby9AYvKjpS1KG9pEq/E6td8Awyyfk/gU0APFbAcIyRFhZI6GWrO7MedTp2/WgH
+         uC2OrblscG+pqgGsXbBUNqgAo/pO2IdY5EaldI6wplLEJ5+rlNZMxpLPTubyw6nxHBdi
+         z5AbPPsr0h3ykgp40JJd1q/CjToqCA1OW5irX1BqW0cXAWplYtx5YnLeH4oesDrCPhPL
+         MbBk71bxBAMVNi3G8A9YQWRqVvUiEPU5HKGCo1VP+XN64rEgBua8Gfmzfqi3+/s8SDoe
+         XYfjjH6odvPfqcw6MOX6bjCoKPtN8HuKmi/yHLcr4kp/HGs3nwsCSrXtlaRCCqgOjquV
+         iZEQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+QOwF+ThsNTNKysdj+tYder1XQjmMTnVEFJEepGBis1WnxT2TLhgjeweqE/nNDJddgd9bX897ACqjFIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoMdBioOVOC/jVYGseekdnfla38zFLzpF70GiCDYk7sTSdRB9s
+	gV0ew6xKkzM00ABZG2t5+7713ddIvW1PlGcOwYK7vCzWBWZ80oliTGl17hGjKuyuFwc=
+X-Gm-Gg: AeBDievQatJ9VDyixzCZOs0802Qp0MqjI9489f1GrV2Hq5lzpeQscRJg7IVGVw3lEnc
+	w8Pkz74eyaRSHGtLbWhNLM01tK10T+XOaaBjm/pWv6x/gqaqzsb+2raQrCwwk4vqvF2EbICc4dz
+	iLnDEPa0n9C4dlPX3ykQcjNweOPcQXICzr4Hu+g8XIrEuDkt7/Qcl0PBz7wwNGd3WR7skErAuKB
+	aPOhdZGKZkLwMXKsS2lGmC7scBtB8lluTsuJsuPmLrkCF7mH6yzhh0KeB9QkjtkXXbwchzPb7Tm
+	Or9jbzHiBL0u0XowJuCT6lnTninSzxbu28FNgvyWNNMsjV9uj6ap8XQquoPXvuXS0dNVvCRZx2y
+	9uEDyDjiJ653rS+gY/0aglVh9kroqU6AHIBeyaRDUw/rHfd2biPguZaIgbiU/M9s3Eh1c97GZkN
+	l0qatt+JLJI9HN/qU/qULA2XSfWsZJk2zAHuqcT5c/ssv3LAMU8m1F1xN0f2la+/dNh28lyRDLH
+	SBE+tzzGTb+flJr3CtMChArTU26czeGdPeS
+X-Received: by 2002:a05:6000:22c5:b0:43d:4b00:9ee7 with SMTP id ffacd0b85a97d-43fe3e10b0dmr27747675f8f.33.1776780464471;
+        Tue, 21 Apr 2026 07:07:44 -0700 (PDT)
+Received: from localhost (p200300f65f114e0838b25d7f2f2f49cd.dip0.t-ipconnect.de. [2003:f6:5f11:4e08:38b2:5d7f:2f2f:49cd])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43fe4cb1365sm39562828f8f.7.2026.04.21.07.07.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 06:03:18 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 21 Apr 2026 10:03:06 -0300
-Subject: [PATCH] ALSA: pcmtest: Fix resource leaks in module init error
- paths
+        Tue, 21 Apr 2026 07:07:43 -0700 (PDT)
+Date: Tue, 21 Apr 2026 16:07:42 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: "Christian A. Ehrhardt" <lk@c--e.de>, 
+	Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>, linux1394-devel@lists.sourceforge.net, 
+	linux-sound@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 0/2] firewire: Simplify storing pointers in device id
+ struct
+Message-ID: <aed_ZwYj_ruoTAZc@monoceros>
+References: <cover.1776579304.git.u.kleine-koenig@baylibre.com>
+ <20260420090816.GA11108@sakamocchi.jp>
+ <aeZk1I3DTmyx_ZUL@cae.in-ulm.de>
+ <20260421125357.GA46532@sakamocchi.jp>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260421-alsa-pcmtest-init-unwind-v1-1-03fe0c423dbb@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQrCMAyA4VcZORtoq0z0VcRD18QtonE03RTG3
- t3qjt/h/xcwzsIG52aBzLOYvLTC7xpIQ9SeUagaggutO/gTxodFHNOzsBUUlYKTvkUJj8l15B1
- R2BPUfMx8k89/fblutqm7cyq/H6zrF3njQXB8AAAA
-X-Change-ID: 20260419-alsa-pcmtest-init-unwind-7c0bd10dd23d
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1841;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=iJiUvbReoT4x4uCETYAX16I6NQD1wIABfCHxzjQCt34=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnPSydf0ytp2nGW4dzbD1Mu39Xof/5ujeldHWsp1/OHt
- ldsuaP7sKOUhUGMi0FWTJFlddIiyz1dD67Wx63wgJnDygQyhIGLUwAmoujFyLAmo0Fg3mNPqReV
- f5j/X9WJPxE5l8X6hKpeSXCnsemSlwcZ/sfrpew5oPbg5TGX44LaMxKjzjIvc7M4f71vZ+BBO+V
- mbQYA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xdwet7gxvj3jtobv"
+Content-Disposition: inline
+In-Reply-To: <20260421125357.GA46532@sakamocchi.jp>
 
-pcmtest allocates its pattern buffers and creates its debugfs tree
-before registering the platform device and driver, but mod_init()
-does not release those resources when a later init step fails.
 
-As a result, a debugfs directory creation failure leaks the pattern
-buffers, while platform_device_register() and
-platform_driver_register() failures leave both the pattern buffers
-and the debugfs tree behind. The recent fix for failed device
-registration only dropped the embedded device reference.
+--xdwet7gxvj3jtobv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 0/2] firewire: Simplify storing pointers in device id
+ struct
+MIME-Version: 1.0
 
-Add the missing cleanup for the debugfs tree and pattern buffers in
-the remaining module init error paths.
+Hello Takashi,
 
-Fixes: 315a3d57c64c ("ALSA: Implement the new Virtual PCM Test Driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/drivers/pcmtest.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+On Tue, Apr 21, 2026 at 09:53:57PM +0900, Takashi Sakamoto wrote:
+> On Mon, Apr 20, 2026 at 07:39:32PM +0200, Christian A. Ehrhardt wrote:
+> > On Mon, Apr 20, 2026 at 06:08:16PM +0900, Takashi Sakamoto wrote:
+> > > Just out of curiosity, what does the CHERI extension adopted to RISC-V
+> > > architecture require in terms of kernel programming? Is taking extra
+> > > care when storing pointer values in long-type variables sufficient in
+> > > driver code?
+> >=20
+> > That is a significant part but there is more to it (entry code,
+> > register size changes, the UABI should better be CHERI aware, ...).
+> >=20
+> > But the issue that a pointer does not fit into an unsigned long
+> > is an issue that pops up all over the kernel while most other
+> > changes are more localized.
+> >=20
+> > There is a working linux kernel in the CHERI alliance github here:
+> >    https://github.com/CHERI-Alliance/linux/tree/codasip-cheri-riscv-6.18
+> > That definitely needs more cleanup but it does work.
+> > Previous work from ARM for the morello project (another CHERI
+> > enabled platform) is available here:
+> >    https://git.morello-project.org/morello/kernel/linux
+> > These should give a rough idea of what is required.
+> >=20
+> > Fixing unsigned long vs. uintptr_t issues helps a lot with this
+> > because it reduces the diff. But it is also a general cleanup.
+>=20
+> Thsnks for the references. It looks like there is not much to consider
+> outside of mm subsystem. But I have some concerns if supporting
+> ARM/RISC-V adoptation of CHERI extension in Linux FireWire subsystem.
+>=20
+> Any structures in UAPI header of this subsystem are defined with
+> an assumption that the size of pointer in the existing System V
+> architectures is up to 64 bits at most. We can see many usage of
+> '__u64' type member for pointers (e.g. 'rom' in fw_cdev_get_info
+> structure). I imagine to need defining specific structures for this kind
+> of 'fat' pointer. (The same assumption lays on compat ioctl.)
 
-diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index 20ceb9082fa9..fe31ff1e5b3c 100644
---- a/sound/drivers/pcmtest.c
-+++ b/sound/drivers/pcmtest.c
-@@ -754,15 +754,24 @@ static int __init mod_init(void)
- 
- 	err = init_debug_files(buf_allocated);
- 	if (err)
--		return err;
-+		goto err_free_patterns;
- 	err = platform_device_register(&pcmtst_pdev);
- 	if (err) {
- 		platform_device_put(&pcmtst_pdev);
--		return err;
-+		goto err_clear_debug;
- 	}
- 	err = platform_driver_register(&pcmtst_pdrv);
--	if (err)
-+	if (err) {
- 		platform_device_unregister(&pcmtst_pdev);
-+		goto err_clear_debug;
-+	}
-+
-+	return 0;
-+
-+err_clear_debug:
-+	clear_debug_files();
-+err_free_patterns:
-+	free_pattern_buffers();
- 	return err;
- }
- 
+The Standard C answer to that is: The assumption that you can fit a
+pointer in an unsigned long or u64 is not generally justified. This is
+"only" given for all current Linux archtectures. And if you want an
+integer type to store a pointer, use uintptr_t. (And my position is that
+you better try to keep pointers in pointer variables, though there are
+some situations where you don't come around the conversion to an integer
+type. That's why I introduced the union instead of converting to
+uintptr_t.)
 
----
-base-commit: 0396822571d079e2f275cca8446f653e6ac0e9f2
-change-id: 20260419-alsa-pcmtest-init-unwind-7c0bd10dd23d
+> As another concern is that the padding in structure. As long as I know,
+> any 64 bit architecture for System V ABI has 8 bit alignment rule, and
+> any structure in UAPI header of this subsystem are carefully defined not
+> to have different sizes between x86/32bit/64bit architectures, except for
+> 'fw_cdev_event_response' structure (see 'drivers/firewire/uapi-test.c').
+> As a quick glance, the size of pointer in ARM CHERI extension seems to be
+> 129 bit. In this case, what size of alignment rule is applied? Is there
+> 7 bit padding after pointer member in any aggregates?
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+On CHERI pointers must be 128 bit aligned. Unaligned pointers yield a
+hardware exception on usage. But that the ABI for CHERI is different
+due to different sizes of some types is only a concern for CHERI-enabled
+platforms. On non-CHERI everything stays as it is as
+sizeof(union { kernel_ulong_t; void *; }) =3D=3D sizeof(kernel_ulong_t) =3D=
+=3D
+sizeof(void *) =3D=3D sizeof(uintptr_t). And there is no state that needs to
+be maintained on CHERI-enabled systems, as they are new.
 
+A pointer is 128 bit plus a validity flag that is stored elsewhere
+(which is necessary to not give processes a means to craft valid
+pointers). So for the purpose of a user space program and also for most
+parts of the kernel, a pointer can be considered to be 128 bit as the
+additional bit is (mostly) managed by hardware.
+
+I see the challenge to introduce CHERI in mainline Linux somewhat
+similar to the time when the first 64bit architectures came up and the
+kernel still contained various assumptions about pointers and longs
+being 32bit. Assuming CHERI keeps traction things will be addressed
+over time and for the purpose of this series shouldn't be a concern now.
+
+Best regards
+Uwe
+
+--xdwet7gxvj3jtobv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnnhKwACgkQj4D7WH0S
+/k4lBQgAukzGaT3v/ioMCVK5rSUHCT19kx7VzpDUWI/LRvTy2wX9+ft17rQxeik9
+UwAOcEX5RVnBVFLOPrZcMFLNnIq+Parn/K8MBprhZX9MdNbd7v0KjiQEv89cfkBv
+xUnBrq0rcuFwTarlTUGasAz/R3fXil5PCZ9tnF9XNlnrUEWcIvMxvbo5a+CGto6H
+7UCuYIkHDVMqu+YxkSJDKva7tKtwstw5a83iRKBfjFD36Ny1uRHdh9EFWEPWhG+t
+1Mgxdoxc+L/AtaTdlDpfKELSALwvIGUqHZJdR4ITwTUYwxsmq3M2Gh0G7jWHFgTv
+OjsiOJERj8ZvAABlFvdjgS+m4fSQ4Q==
+=X8o7
+-----END PGP SIGNATURE-----
+
+--xdwet7gxvj3jtobv--
