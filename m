@@ -1,505 +1,239 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BFF28640B;
-	Tue, 21 Apr 2026 18:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848CF378D71;
+	Tue, 21 Apr 2026 19:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776794579; cv=none; b=M/qCqrpuQ5o/+7YjCoOxdD5crmxFR5rAiICeA8MOGmTZ/+FgshZsa8OOwbXGV7cNIsD4/F5IBltz+M98YG8FZ1Ak+CxPaAi685OeUpECKj7vUY7t7amdiU6k0xHtu3evdzKCToideUOXnJWwc6drW8V8D6nrEXsv6TJNXsMzJsA=
+	t=1776799365; cv=none; b=SyXPGTYlegYC4k1CNTM82DhBC3IGHaXB+Zkq/NuTPqIgHgOnV1TGxQWizCBmhn3lzqa6wUjd9OmZo6i3l4a4YC8qeKB0c2/uR8hN1iI5sSv8eFcvpR2T6NT+ucv5qtZkD2dUUoeomiJGR7OgcHq4OcEiExvPGf3OpPQNRuqcETE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776794579; c=relaxed/simple;
-	bh=WoUznLblO/mmxuCRQwVhw/QQgI/Py50O6xzSDTsNc2Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a6V59PRWm0jBzQgkEaWS2NaiX96huEt1edtjC5AbR7Iq9aY14MqkvR1jihWzTWQwRdFKK+YJ7f4kyQBOZiLSQ3oeov5h3eH50QSRfVAw9EDEnbAEjTkPFHvRChbZ2hOEB2HR0IV4vS9f6PGqcuLfZnrlesdx8gpUfoyyxbpnE10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hCJ0CN8L; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=kYz3I/PX; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1776799365; c=relaxed/simple;
+	bh=lIrWP9cnOT2GEnfbqBbFNAPfUomDRSWpNCrpg7xMz80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eJzW5U7G9tdOuDd/cl2yFTYlTQjLdpORlcUPdokBrpvEsFSh5cxisakr/4HPS/jVXkvcRapbRcbtanP3T/D+llgxGhRzotLsZGO7xh9w7TnRN5zt7oZJUAzLZ49xvF3jVysmKkBoqwPT9aCQuI9GqdcQpj1j2mC74smSsB0ZWs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=mzjfUhfs; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hCJ0CN8L";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="kYz3I/PX"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4g0VZR06KJz9spj;
-	Tue, 21 Apr 2026 20:02:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1776794575;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bkSTLKZru3gfycAuM4Gr35StLpobzomuFrfuszWpYXo=;
-	b=hCJ0CN8Lb6WuIQVGXxjplCWSjSs7u/Xn9jyZhkHB9OzJfrJGAPwHw895SBmG+c9Hz+LQfy
-	Jy6X1hBijbEvadZpdd+2XwwNGXLEj91clNS4HYlWDnxZViAcDN9AJlX0TnqLS3rdhoFt/t
-	oR9oY/b2B7Jp0xHSPgR9iMdya6dNsZ0Ynd8L6I4gE3EB4lEqU+j85wcEzHDg95xBVI0j18
-	1KvNb8U4MeOyyVdR8qdoSRqKNONkqRBMnK89GgzY1eKyngW83zV4zH6r0cdX7MrZYD9Nho
-	hR8aGpaLZz80Ikn+Lcph84eve8y6b8t0Ub1LIHmjpPC1UiufdZqkhSHNBEtpSw==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="kYz3I/PX";
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1776794573;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bkSTLKZru3gfycAuM4Gr35StLpobzomuFrfuszWpYXo=;
-	b=kYz3I/PXpeyXoqaalGtAzwL9qH+1NranX0hee+1rt4aZqNrjut6jVWhR0Yv98s9+993x2K
-	s1CV8uCJjJ9a32sJzdxwNEn7OZZPxkpWtJFEfnIa0CVdGQk00cN4e3V1dAAcAPDCRGQDLY
-	nEOz6lyNCOBq9MZ6Em3gkv0MtPSv8eEdoHYmmfBwIJyBlgIsrwsq7aV5QqahzzCd+wnzUw
-	M1Vtm3KVngnqeOjC7h0p2ZI3RY9C82vv0dXX9UJFxx5K1bBu8kR1i0/1bKk7jLUjlRgwdQ
-	hv3xz7ZwC7wGl601FBRgTOATqe98+ue6JwWrLxPXWXGq54bCenH91kK/WCrxAg==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>,
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="mzjfUhfs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=gGSoQ6HMREUfkc0dy/uFxVIr/yvVyG89ifWraiBE14I=; b=mzjfUhfswVTmILIAyCep5GOtQg
+	6G+x+o8jfRYy/zc5z/OEHT+ItPPFQhdaNV5kAvcFlz7IXI+H+uJhSmFAkDxM6lwoKnOKknXbRe0u6
+	ENeda3AsOr4mPOIldInKf3s2PL0ZzixqUKfrQx6/E7K/w5RbG0PrKzASZDZ4E24+DbcrmTzUdzQfT
+	eAlGHA/vad3C7hUO3oHydP1r3BjFfWtnqERElF61GCAGPpl1LbdH0Xt6fbE5TqVxfdDTnlewbyGot
+	OgExMhN9S52+3JTqau+afG1xff4so6JSMADvHaKvqTtUbFwuzUNgFs62R3loTnIg7M8mZ2kZXCZLb
+	vO8wDiZA==;
+Received: from 201-27-167-220.dsl.telesp.net.br ([201.27.167.220] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wFGg8-0024Jg-8U; Tue, 21 Apr 2026 21:22:36 +0200
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: linux-sound@vger.kernel.org
+Cc: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v2 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Tue, 21 Apr 2026 20:01:58 +0200
-Message-ID: <20260421180200.225244-2-manuelebner@mailbox.org>
-In-Reply-To: <20260421175516.224960-2-manuelebner@mailbox.org>
-References: <20260421175516.224960-2-manuelebner@mailbox.org>
+	kernel-dev@igalia.com,
+	kernel@gpiccoli.net,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Robert Beckett <bob.beckett@collabora.com>,
+	Umang Jain <uajain@igalia.com>,
+	Melissa Wen <mwen@igalia.com>
+Subject: [PATCH] ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
+Date: Tue, 21 Apr 2026 16:17:46 -0300
+Message-ID: <20260421192214.77819-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: co8oprgg8djorzgejszfokchnytw84k9
-X-MBO-RS-ID: d75bdf6d01e6b58ae96
-X-Rspamd-Queue-Id: 4g0VZR06KJz9spj
 
-Update the documentation to reflect new type-aware kmalloc-family as
-suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
+Commit 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink creation for I2S BT instance")
+introduced a change that "broke" Steam Deck's audio probe, in the OLED
+model, as observed in the following dmesg snippet:
 
-ptr = kmalloc(sizeof(*ptr), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kmalloc(sizeof(struct some_obj_name), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kzalloc(sizeof(*ptr), gfp);
- -> ptr = kzalloc_obj(*ptr);
-ptr = kmalloc_array(count, sizeof(*ptr), gfp);
- -> ptr = kmalloc_objs(*ptr, count);
-ptr = kcalloc(count, sizeof(*ptr), gfp);
- -> ptr = kzalloc_objs(*ptr, count);
+[...]
+snd_sof_amd_vangogh 0000:04:00.5: Topology: ABI 3:26:0 Kernel ABI 3:23:1
+sof_mach nau8821-max: ASoC: physical link acp-bt-codec (id 2) not exist
+sof_mach nau8821-max: ASoC: topology: could not load header: -22
+snd_sof_amd_vangogh 0000:04:00.5: tplg amd/sof-tplg/sof-vangogh-nau8821-max.tplg component load failed -22
+snd_sof_amd_vangogh 0000:04:00.5: error: failed to load DSP topology -22
+snd_sof_amd_vangogh 0000:04:00.5: ASoC error (-22): at snd_soc_component_probe() on 0000:04:00.5
+sof_mach nau8821-max: ASoC: failed to instantiate card -22
+sof_mach nau8821-max: error -EINVAL: Failed to register card(sof-nau8821-max)
+sof_mach nau8821-max: probe with driver sof_mach failed with error -22
+[...]
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Notice the quotes in "broke": it's not really a bug in such commit,
+but instead a problem with a topology file from Steam Deck OLED. This
+was discussed to great extent in [1], and Cristian proposed a pretty
+simple and functional change that resolved the issue for the Deck's
+issue. That change, though, would break other devices, so it wasn't
+accepted upstream. And the proper suggested solution (fix the topology)
+was never implemented, so Valve's kernel (and anyone that wants to boot
+the mainline on Steam Deck OLED) is carrying that fix downstream.
+
+So, we propose hereby a different approach: a DMI quirk, as many already
+present in the sound drivers, to address this issue solely on Steam Deck
+OLED, not breaking other devices and as a bonus, allowing simple patch
+up in case eventually the topology file gets fixed (we'd just need to
+check against any DMI info reflecting that or the topology/FW versions).
+
+The motivation of such upstream quirk is related to users that want
+to test latest kernel trees on their devices and get no only non-working
+sound device, but seems some games (like Ori and the Blind Forest)
+can't properly work without a proper functional audio device.
+Example of such report can be seen at [2].
+
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Robert Beckett <bob.beckett@collabora.com>
+Cc: Umang Jain <uajain@igalia.com>
+Fixes: 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink creation for I2S BT instance")
+Link: https://lore.kernel.org/r/20231209205351.880797-11-cristian.ciocaltea@collabora.com/ [1]
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=218677 [2]
+Tested-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 ---
- Documentation/core-api/kref.rst                      |  4 ++--
- Documentation/core-api/list.rst                      |  4 ++--
- Documentation/core-api/memory-allocation.rst         |  4 ++--
- Documentation/driver-api/mailbox.rst                 |  4 ++--
- Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
- Documentation/kernel-hacking/locking.rst             |  4 ++--
- Documentation/locking/locktypes.rst                  |  4 ++--
- Documentation/process/coding-style.rst               |  8 ++++----
- .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
- Documentation/spi/spi-summary.rst                    |  4 ++--
- .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
- .../translations/it_IT/locking/locktypes.rst         |  4 ++--
- .../translations/it_IT/process/coding-style.rst      |  2 +-
- .../translations/sp_SP/process/coding-style.rst      |  2 +-
- Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
- .../translations/zh_CN/process/coding-style.rst      |  2 +-
- .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
- .../translations/zh_TW/process/coding-style.rst      |  2 +-
- 18 files changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index 8db9ff03d952..1c14c036699d 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -40,7 +40,7 @@ kref_init as so::
+Hey folks, thanks in advance for reviews / suggestions!
+Would like to specially thank Melissa and Umang for testing and early
+internal review, and then Bob and Mario for another round of internal
+review, leading to good suggestions like improvements in the commit
+message and the name of the quirk itself, a simple one compared to
+the early name I chose first heh
+
+cheers,
+
+
+Guilherme
+
+
+ sound/soc/amd/acp/acp-legacy-mach.c |  2 +-
+ sound/soc/amd/acp/acp-mach-common.c | 20 ++++++++++++++++++--
+ sound/soc/amd/acp/acp-mach.h        |  4 ++++
+ sound/soc/amd/acp/acp-sof-mach.c    |  2 +-
+ 4 files changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/amd/acp/acp-legacy-mach.c b/sound/soc/amd/acp/acp-legacy-mach.c
+index a7a551366a40..fccaae99e150 100644
+--- a/sound/soc/amd/acp/acp-legacy-mach.c
++++ b/sound/soc/amd/acp/acp-legacy-mach.c
+@@ -174,7 +174,7 @@ static int acp_asoc_probe(struct platform_device *pdev)
+ 		acp_card_drvdata->acp_rev = mach->mach_params.subsystem_rev;
  
-      struct my_data *data;
+ 	dmi_id = dmi_first_match(acp_quirk_table);
+-	if (dmi_id && dmi_id->driver_data)
++	if (dmi_id && dmi_id->driver_data == (void *)TDM_MODE_ENABLE)
+ 		acp_card_drvdata->tdm_mode = dmi_id->driver_data;
  
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -100,7 +100,7 @@ thread to process::
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-index 241464ca0549..86cd0a1b77ea 100644
---- a/Documentation/core-api/list.rst
-+++ b/Documentation/core-api/list.rst
-@@ -112,7 +112,7 @@ list:
+ 	ret = acp_legacy_dai_links_create(card);
+diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
+index 09f6c9a2c041..f42c07249af4 100644
+--- a/sound/soc/amd/acp/acp-mach-common.c
++++ b/sound/soc/amd/acp/acp-mach-common.c
+@@ -20,6 +20,7 @@
+ #include <sound/soc.h>
+ #include <linux/input.h>
+ #include <linux/module.h>
++#include <linux/dmi.h>
  
-           /* State 1 */
+ #include "../../codecs/rt5682.h"
+ #include "../../codecs/rt1019.h"
+@@ -37,8 +38,6 @@
+ #define NAU8821_FREQ_OUT	12288000
+ #define MAX98388_CODEC_DAI	"max98388-aif1"
  
--          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
-+          grock = kzalloc_obj(*grock);
-           if (!grock)
-                   return -ENOMEM;
-           grock->name = "Grock";
-@@ -123,7 +123,7 @@ list:
- 
-           /* State 2 */
- 
--          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
-+          dimitri = kzalloc_obj(*dimitri);
-           if (!dimitri)
-                   return -ENOMEM;
-           dimitri->name = "Dimitri";
-diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-index 0f19dd524323..8379775f17d3 100644
---- a/Documentation/core-api/memory-allocation.rst
-+++ b/Documentation/core-api/memory-allocation.rst
-@@ -135,7 +135,7 @@ Selecting memory allocator
- The most straightforward way to allocate memory is to use a function
- from the kmalloc() family. And, to be on the safe side it's best to use
- routines that set memory to zero, like kzalloc(). If you need to
--allocate memory for an array, there are kmalloc_array() and kcalloc()
-+allocate memory for an array, there are kmalloc_objs() and kzalloc_objs()
- helpers. The helpers struct_size(), array_size() and array3_size() can
- be used to safely calculate object sizes without overflowing.
- 
-@@ -151,7 +151,7 @@ sizes, the alignment is guaranteed to be at least the largest power-of-two
- divisor of the size.
- 
- Chunks allocated with kmalloc() can be resized with krealloc(). Similarly
--to kmalloc_array(): a helper for resizing arrays is provided in the form of
-+to kmalloc_objs(): a helper for resizing arrays is provided in the form of
- krealloc_array().
- 
- For large allocations you can use vmalloc() and vzalloc(), or directly
-diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
-index 463dd032b96c..4bcd73a99115 100644
---- a/Documentation/driver-api/mailbox.rst
-+++ b/Documentation/driver-api/mailbox.rst
-@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
- 		struct async_pkt ap;
- 		struct sync_pkt sp;
- 
--		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
--		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
-+		dc_sync = kzalloc_obj(*dc_sync);
-+		dc_async = kzalloc_obj(*dc_async);
- 
- 		/* Populate non-blocking mode client */
- 		dc_async->cl.dev = &pdev->dev;
-diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
-index a934caa483a4..38319130ebf5 100644
---- a/Documentation/driver-api/media/v4l2-fh.rst
-+++ b/Documentation/driver-api/media/v4l2-fh.rst
-@@ -42,7 +42,7 @@ Example:
- 
- 		...
- 
--		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+		my_fh = kzalloc_obj(*my_fh);
- 
- 		...
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index dff0646a717b..d02e62367c4f 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-index 37b6a5670c2f..ac1ad722a9e7 100644
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
- works perfectly::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- But this code fails on PREEMPT_RT kernels because the memory allocator is
- fully preemptible and therefore cannot be invoked from truly atomic
-@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
- preemption on PREEMPT_RT kernels::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 35b381230f6e..a3bf75dc7c88 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -936,7 +936,7 @@ used.
- ---------------------
- 
- The kernel provides the following general purpose memory allocators:
--kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
-+kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
- vzalloc().  Please refer to the API documentation for further information
- about them.  :ref:`Documentation/core-api/memory-allocation.rst
- <memory_allocation>`
-@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- The alternative form where struct name is spelled out hurts readability and
- introduces an opportunity for a bug when the pointer variable type is changed
-@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc_array(n, sizeof(...), ...);
-+	p = kmalloc_objs(*ptr, n, ...);
- 
- The preferred form for allocating a zeroed array is the following:
- 
- .. code-block:: c
- 
--	p = kcalloc(n, sizeof(...), ...);
-+	p = kzalloc_objs(*ptr, n, ...);
- 
- Both forms check for overflow on the allocation size n * sizeof(...),
- and return NULL if that occurred.
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 895752cbcedd..12433612aa9c 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -266,7 +266,7 @@ to details explained in the following section.
-               ....
- 
-               /* allocate a chip-specific data with zero filled */
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL)
-                       return -ENOMEM;
- 
-@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
-   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                      0, &card);
-   .....
--  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+  chip = kzalloc_obj(*chip);
- 
- The chip record should have the field to hold the card pointer at least,
- 
-@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
-                       return -ENXIO;
-               }
- 
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL) {
-                       pci_disable_device(pci);
-                       return -ENOMEM;
-@@ -1737,7 +1737,7 @@ callback::
-   {
-           struct my_pcm_data *data;
-           ....
--          data = kmalloc(sizeof(*data), GFP_KERNEL);
-+          data = kmalloc_obj(*data);
-           substream->runtime->private_data = data;
-           ....
-   }
-@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
- assign private data, you should define a destructor, too. The
- destructor function is set in the ``private_free`` field::
- 
--  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
-+  struct mydata *p = kmalloc_obj(*p);
-   hw->private_data = p;
-   hw->private_free = mydata_free;
- 
-@@ -3833,7 +3833,7 @@ chip data individually::
-           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                              0, &card);
-           ....
--          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+          chip = kzalloc_obj(*chip);
-           ....
-           card->private_data = chip;
-           ....
-diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
-index 6e21e6f86912..7ad6af76c247 100644
---- a/Documentation/spi/spi-summary.rst
-+++ b/Documentation/spi/spi-summary.rst
-@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
+-#define TDM_MODE_ENABLE 1
+-
+ const struct dmi_system_id acp_quirk_table[] = {
  	{
- 		struct mysoc_spi_data *pdata2;
+ 		/* Google skyrim proto-0 */
+@@ -47,6 +46,14 @@ const struct dmi_system_id acp_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)TDM_MODE_ENABLE,
+ 	},
++	{
++		/* Valve Steam Deck OLED */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Valve"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Galileo"),
++		},
++		.driver_data = (void *)REMAP_DMIC_BT,
++	},
+ 	{}
+ };
+ EXPORT_SYMBOL_GPL(acp_quirk_table);
+@@ -1401,6 +1408,7 @@ int acp_sofdsp_dai_links_create(struct snd_soc_card *card)
+ 	struct snd_soc_dai_link *links;
+ 	struct device *dev = card->dev;
+ 	struct acp_card_drvdata *drv_data = card->drvdata;
++	const struct dmi_system_id *dmi_id = dmi_first_match(acp_quirk_table);
+ 	int i = 0, num_links = 0;
  
--		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
-+		pdata2 = kmalloc_obj(*pdata2);
- 		*pdata2 = pdata;
- 		...
- 		if (n == 2) {
-@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
- 			return -ENODEV;
+ 	if (drv_data->hs_cpu_id)
+@@ -1572,6 +1580,9 @@ int acp_sofdsp_dai_links_create(struct snd_soc_card *card)
+ 			links[i].codecs = &snd_soc_dummy_dlc;
+ 			links[i].num_codecs = 1;
+ 		}
++
++		if (dmi_id && dmi_id->driver_data == (void *)REMAP_DMIC_BT)
++			links[i].id = DMIC_BE_ID;
+ 		i++;
+ 	}
  
- 		/* get memory for driver's per-chip state */
--		chip = kzalloc(sizeof *chip, GFP_KERNEL);
-+		chip = kzalloc(*chip);
- 		if (!chip)
- 			return -ENOMEM;
- 		spi_set_drvdata(spi, chip);
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 4c21cf60f775..acca89a3743a 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
-     {
-             struct object *obj;
+@@ -1587,6 +1598,11 @@ int acp_sofdsp_dai_links_create(struct snd_soc_card *card)
+ 		links[i].capture_only = 1;
+ 		links[i].nonatomic = true;
+ 		links[i].no_pcm = 1;
++
++		if (dmi_id && dmi_id->driver_data == (void *)REMAP_DMIC_BT) {
++			links[i].id = BT_BE_ID;
++			dev_dbg(dev, "quirk REMAP_DMIC_BT enabled\n");
++		}
+ 	}
  
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
+ 	card->dai_link = links;
+diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
+index f94c30c20f20..edf5e479afd4 100644
+--- a/sound/soc/amd/acp/acp-mach.h
++++ b/sound/soc/amd/acp/acp-mach.h
+@@ -26,6 +26,10 @@
  
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
-              struct object *obj;
-     +        unsigned long flags;
+ #define acp_get_drvdata(card) ((struct acp_card_drvdata *)(card)->drvdata)
  
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
-index 1c7056283b9d..d5fa36aa05cc 100644
---- a/Documentation/translations/it_IT/locking/locktypes.rst
-+++ b/Documentation/translations/it_IT/locking/locktypes.rst
-@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
- memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
++/* List of DMI quirks - check acp-mach-common.c for usage. */
++#define TDM_MODE_ENABLE 1
++#define REMAP_DMIC_BT 2
++
+ enum be_id {
+ 	HEADSET_BE_ID = 0,
+ 	AMP_BE_ID,
+diff --git a/sound/soc/amd/acp/acp-sof-mach.c b/sound/soc/amd/acp/acp-sof-mach.c
+index 6215e31ecedd..018e4f28a02b 100644
+--- a/sound/soc/amd/acp/acp-sof-mach.c
++++ b/sound/soc/amd/acp/acp-sof-mach.c
+@@ -110,7 +110,7 @@ static int acp_sof_probe(struct platform_device *pdev)
  
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 	acp_card_drvdata = card->drvdata;
+ 	dmi_id = dmi_first_match(acp_quirk_table);
+-	if (dmi_id && dmi_id->driver_data)
++	if (dmi_id && dmi_id->driver_data == (void *)TDM_MODE_ENABLE)
+ 		acp_card_drvdata->tdm_mode = dmi_id->driver_data;
  
- Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
- memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
-@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
- PREEMPT_RT::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index c0dc786b8474..2a499412a2e3 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa, dove il nome della struttura viene scritto interamente,
- peggiora la leggibilità e introduce possibili bachi quando il tipo di
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index 7d63aa8426e6..44c93d5f6beb 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa donde se deletrea el nombre de la estructura perjudica
- la legibilidad, y presenta una oportunidad para un error cuando se cambia
-diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
-index b9902af310c5..fcff01e99852 100644
---- a/Documentation/translations/zh_CN/core-api/kref.rst
-+++ b/Documentation/translations/zh_CN/core-api/kref.rst
-@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -106,7 +106,7 @@ Kref规则
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 5a342a024c01..55d5da974d89 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
- 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
-diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index f0be21a60a0f..ba43c5c4797c 100644
---- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-+++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -799,7 +799,7 @@ int my_open(struct file *file)
- 
- 	...
- 
--	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+	my_fh = kzalloc_obj(*my_fh);
- 
- 	...
- 
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index e2ba97b3d8bb..63c78982a1af 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
- 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
+ 	acp_card_drvdata->acp_rev = mach->mach_params.subsystem_rev;
 -- 
-2.53.0
+2.50.1
 
