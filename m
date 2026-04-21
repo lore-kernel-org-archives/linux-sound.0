@@ -1,66 +1,33 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D8299A82
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EEC2C234E;
+	Tue, 21 Apr 2026 12:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776773680; cv=none; b=jP5zJ0Biz9dKp4LJTCP9IbrTELO5tefLbKzo3c6w9Hp6XglgGVek001mEgk+NuYQUh36PsPfdDZJ5mZxIONHYwiwYUcFjUqV4m15hx9loSIimH5DkANScWKoIAMs8p9Yn6SM2WVlfzqu6VrL4gV/8FwcpW1Bt27ZU9veoF1cN44=
+	t=1776773868; cv=none; b=eEeVVMw5MBrpXrNk4jcwn9ZATlypOH6+sFMyBdt1JcFe7pqGGG2bG6RuHZi5LF3zTpagDfJfKf2ZcWi3r1ucYzQpYUzqwt8v1h/pKtI8nq+W/KgQgC8dU9X/cCgsg0TnMUzAu0FBfFZG1h0t0WbjROGht8yZ0jgcMZAZkoY2WxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776773680; c=relaxed/simple;
-	bh=Bv+R7Nlw0Py7FhxUwoX/vlCZjeMnCS+6Bzvx8OBVidc=;
+	s=arc-20240116; t=1776773868; c=relaxed/simple;
+	bh=JMxYFx4b6fyIJXcILvr0xb4xZLoFwYMQvSGx5Ocjdq8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DbGyqnU9FHfTBMH8itrN7XNZLaqvPkhi+nen+8IUB/3pdap9CH0rCH42k8iIQ5RBsdC9q9X1GxTjngwSSMFvI7EPc4tghIgeC+V05c3iFjOArq/ee6QDzICUzCn4s0cmKMAGXYJ1BF9aiYCYRXgAwGW7tXO2jt1Uew4N5jC1Nww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xrn/jb2/; arc=none smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=R8X2D1xTfiSTBd/mMNCD4K4LlFwKMlkapTIwjbkdd8ziNrsJ/gYftpNEeJ0pC1rd8w9+9L0rKxZvOpHd/b0DPmwmq6tUWrjSsnyewgm9a/86A19ysPei2pUH2NWLplTGJD7m3jvBUN3gEO6CEuS5Z6BO6jlV9eDL5rZOwglSA5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EXEHCB1c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xrn/jb2/"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-12db63c6df4so314791c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 05:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776773678; x=1777378478; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bv+R7Nlw0Py7FhxUwoX/vlCZjeMnCS+6Bzvx8OBVidc=;
-        b=Xrn/jb2/yecwN+DBDoo3lImw2LpECH2vgFfJV3znJdetRdvS9PalD2A4h2Xbja54hQ
-         BidHXxq8LtTATQoes1LKdD3j7ZKs9VfnuRIsGtuxjvwwiInFHFo4n2uutfKXdNUKqfDv
-         eNdPyQU9/2UK0c4S9mvY6NFMpzAJINV7Olr7D0bclobmQfX4/gqpbJsYjexleVcevsGu
-         EzvddQR00sSE1UcWJ0pQbEzdmVR6mNEr984GnmTvIDEF7j8oxIwVlDEk2eejMbunUUM7
-         jxPi1E60HeJPzbRG9uVZUiFqxmH7odTOtNzRV4Q5umhFy7TipWx+Cf58jLclay1lBItb
-         gObQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776773678; x=1777378478;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bv+R7Nlw0Py7FhxUwoX/vlCZjeMnCS+6Bzvx8OBVidc=;
-        b=qkKBBhx+4HAUOOOL0i2b/TYRxmePy7s4LrrPq8dTMT4P1hcoehZEiAr/0vKFlNjdgv
-         HkHXgAduEuQj2Y0hLhdh6NMEFA5rTwQ1Rk0dkXWstlQdIs1uuPdEmgbIkp3/xO608qbD
-         ZjJD/SgzCz4CKfI3zAQlgyqwe1/PbXGas3bTiIbQTVj2bIL1ogofVJTEdyojit2MjvQ8
-         kmslkMXGDQ02aUMv+0N9FKwTfh08YpbVo9U1lBBP5hzj/rwRpvUk3w2CZq3E+JFUnF/Q
-         1DaemYCojT3d5GHYk60seqylnzbWSWviIhtVkjMJ0HNZE454kLIrRbHKYS/oEVT+aXcH
-         WHuA==
-X-Forwarded-Encrypted: i=1; AFNElJ+kM+eluSZf6s2x49+OGD0BDJQbMteg8s0DsrWJdGx/cfBbn1BdGCFFHs1KjXostYNIvhNHytc1q5kYKA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1DXmJqTunJEwNZdk1rs8AxGIr8vQUzQsVzAxE/Yh9E8SWfjY8
-	qCwyX0ZRJqhTdVOB8sZ8fa4rtk6K9fQeYhfyrasAmbmxH6sHUsIDoe3K
-X-Gm-Gg: AeBDieurjNYpSao9IOMEGyWBee7SYnhLwsfkJ3M8GWeH/m/Z3HENNEmuC8Zz++aPCOZ
-	gwAUjeDBjVO2xMgqlldDE/EFl5oePkhD8t7TuQjmKaiq05I+SjNcWPLOeFVxH1yYrX6NaW3LqCj
-	HzPa68ELH7ZM6EUz3AhHtbQ9o44hkBiEVsl1A9pF1rds3+XFKVgPElYMlyMNZtuRhfg9gqdOS1P
-	TcYhXg88Wp1P18m++4CS2ObvZDA1co6fVF1lqiqz+POhYTBlzPe+00V3gbm+HCXdiTuGB9OpMoG
-	6fCo1wqMOxNXbSCYZ3axTZK8DzuR+DH/2ZIMwLhIv5q+fgcSIVmO/nlKzg3Av7nLOy/qL2HwW5E
-	HwCmv3n4/9T8eGQ7lhSsEVcaIyPRAtsRQqcZuDQGAFgu3zVGthseOTQvb5cYHV//tjKSQUKzI4k
-	OB00mPI2KtPSN4z0yA6z2b7Sy8KlUSGMgtqHi5ZPcAZA817t8WHTuXzpz0lHstuVY9+YizQDV4Y
-	+u8RN5GQfnN
-X-Received: by 2002:a05:7300:cd94:b0:2ea:4228:ab11 with SMTP id 5a478bee46e88-2ea4228ab6amr1691332eec.3.1776773677571;
-        Tue, 21 Apr 2026 05:14:37 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e539fa6134sm19204952eec.3.2026.04.21.05.14.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2026 05:14:36 -0700 (PDT)
-Message-ID: <8168eb7f-2e07-4f77-9b3a-38ee25bfa9e5@gmail.com>
-Date: Tue, 21 Apr 2026 09:14:31 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EXEHCB1c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BC77C2BCB0;
+	Tue, 21 Apr 2026 12:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776773868;
+	bh=JMxYFx4b6fyIJXcILvr0xb4xZLoFwYMQvSGx5Ocjdq8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EXEHCB1cdTaupYYQX5c8a7+PY5KyslkX9PT4cAt7iqTfXIFqbuF91YzQRcX0UQNrV
+	 wQOR8OVcag54yolYSNV9I2Wmbl476yYP85zWs/yhuFS2x51e0JLaOlu36dIybBsRsq
+	 El46VTMACoSaoW65CXFpobS2Lwpa02A8Znm2Q9X3bWkqVdZcjiryNSwWPqdgj+JuLK
+	 Ap2B1/mDuNPwhjxeNI78rFnPWMYcalEGDOyLG2h7Hoaj1kgwOzwMc7gvE5IbU8AFLm
+	 Cirq4unp1y33+o1v6Z/93JSQZvJMFddeICNOfGDwxLL69E47BLhpGJ7JvaZpNLaITX
+	 rXrJWJKzNjGfg==
+Message-ID: <2a087e32-a526-4a6d-9183-bc0793a4021a@kernel.org>
+Date: Tue, 21 Apr 2026 14:17:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,98 +35,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] usb-audio: fix mixer write failure handling
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Chris J Arges
- <chris.j.arges@canonical.com>, Detlef Urban <onkel@paraair.de>,
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
- <87v7dkag5r.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
+Subject: Re: [PATCH v2 1/2] ASoC: cs35l35: fix typo 'overide' -> 'override'
+To: IRRatium <majnkraftiigry7@gmail.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <87v7dkag5r.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------4wcrJbl104l9Fi56M44Fkzr0"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------4wcrJbl104l9Fi56M44Fkzr0
-Content-Type: multipart/mixed; boundary="------------YQJlNMRd4p3DuOd5v6KIUDvX";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Chris J Arges
- <chris.j.arges@canonical.com>, Detlef Urban <onkel@paraair.de>,
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Message-ID: <8168eb7f-2e07-4f77-9b3a-38ee25bfa9e5@gmail.com>
-Subject: Re: [PATCH 0/4] usb-audio: fix mixer write failure handling
-References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
- <87v7dkag5r.wl-tiwai@suse.de>
-In-Reply-To: <87v7dkag5r.wl-tiwai@suse.de>
-
---------------YQJlNMRd4p3DuOd5v6KIUDvX
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 4/21/26 05:09, Takashi Iwai wrote:
-> On Sun, 19 Apr 2026 22:30:28 +0200,
-> C=C3=A1ssio Gabriel wrote:
->>
->> This series fixes usb-audio mixer put() paths that currently report
->> success even when the underlying device write fails.
->>
->> The issue exists in the generic mixer core callbacks, the Scarlett
->> Gen1 enum path, and several Tascam US-16x08 put() callbacks.
->>
->> The US-16x08 EQ and compressor callbacks have an additional bug: they
->> update their software shadow state before sending the USB write, so a
->> failed transfer can leave later get() results out of sync with the
->> hardware state.
->>
->> The series is split into four patches:
->> - propagate write failures in the generic mixer core callbacks
->> - fix the Scarlett Gen1 enum callback
->> - propagate write failures in the simple US-16x08 put() callbacks
->> - commit the US-16x08 EQ and compressor shadow state only after a
->> successful write
->>
->> Successful writes are unchanged. Failed writes are now reported
->> correctly, and the US-16x08 shadow state remains coherent with the
->> hardware after write errors.
->>
->> Signed-off-by: C=C3=A1ssio Gabriel <cassiogabrielcontato@gmail.com>
->=20
-> As this might influence on the actual device behavior significantly,
-> and it's in a merge window, I postpone the series for 7.2.
+On 21/04/2026 14:07, IRRatium wrote:
+> Fix typo in property name 'cirrus,classh-bst-overide'.
+> Add support for the corrected 'cirrus,classh-bst-override'
+> while keeping backward compatibility with the old name.
+> 
+> Signed-off-by: Sergey Shatkov <majnkraftiigry7@gmail.com>
+> ---
+>   sound/soc/codecs/cs35l35.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
-Thanks for the feedback.
-=20
-> thanks,
->=20
-> Takashi
+Please provide changelog in the future, describing what changed.
 
---=20
-Thanks,
-C=C3=A1ssio
+From does not match SoB.
 
+This solves the ABI breakage but I see little value in this change. The
+typo is part of ABI and it does not really matter if the ABI has such
+typo or not. Maintaining two ABIs matters more.
 
---------------YQJlNMRd4p3DuOd5v6KIUDvX--
-
---------------4wcrJbl104l9Fi56M44Fkzr0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCaedqJwUDAAAAAAAKCRDQXT8aWv/ug/qM
-AQCavMbleHfa2Thh7teKJhptqTC7AULyPLDMHDF8+3CS4QEAyNEGvZdT930ozr8ywVtukBNoxadT
-itI46VedOLyKPgw=
-=C2ec
------END PGP SIGNATURE-----
-
---------------4wcrJbl104l9Fi56M44Fkzr0--
+Best regards,
+Krzysztof
