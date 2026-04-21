@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4687735AC20;
-	Tue, 21 Apr 2026 09:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710852472AA;
+	Tue, 21 Apr 2026 09:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776765026; cv=none; b=L4iXeHUWEQIFLLwDYWpueiu5kfChs6GwYF6G5Z70xYweB8LcveaCMGx8eH8OuiP/glfIgZEOnxbcK03PPBLbrP+rcX5dd+NzjycrmwMLMwfne7Dks0N4ewfcZ4pHeC6OGQ1JdSNd/NJhHuVVaY2by22bXZM/SkKihXnhrDfJYqs=
+	t=1776765046; cv=none; b=M5wXwmCrySBUHXbESSJN2lIRfUTsKChSr7qYmDNfNntStwj7aHYD4WtBpNBlnVHr4GZctdWm95WY95x2pQu0+7NaEOEN/1c35K2I9gN2UzR9w2Uw6SZOx+OpZaHAIL2IuVGn+eqcy9IrKVftFNtWcmAOvGZaneih4UaloxRH0nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776765026; c=relaxed/simple;
-	bh=0dijl+dETi5vHAGPTegwRUg/sT7NrNfjl+GiZ2SGLU0=;
+	s=arc-20240116; t=1776765046; c=relaxed/simple;
+	bh=WXvQTYvjj3t9Mk+XXK2QIj9Zdafzk62D34vBzoWpIM4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PA9AgASOVWkFVcWcRWi+btlw6Gm0l8Z/zh7dJtHGXHeUMh93MWFZpop7ZssMW9J75I6eCMJTLB7AwXkzXIXbDWnYp/flEwyDgThyRb+UeMKtXCHgUzvWsYdTuaHs41khW4MrIwacQY894axFVjxalYQXmxsWDEAlz+D+2nADMEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4Syu+Md; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Ld7hMfuBrWQTq5hw8mPG7avL+ymOOKLKxMOrdUNtb1aHXlsMi/Bbaj9Q6sjpheiAd1O0SPJhFSOLFWE1FcdgZt1azSARZvTZqGHMExUPLiEqczt5Gtkn+W2EJ71jtpXIGRoFC+yX8e7VRO7H8FgzX0n6XI8hmVs1VxLgmSFeL/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nK0ZQhIk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4Syu+Md"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBF8C2BCB0;
-	Tue, 21 Apr 2026 09:50:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nK0ZQhIk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 802DEC2BCB0;
+	Tue, 21 Apr 2026 09:50:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776765025;
-	bh=0dijl+dETi5vHAGPTegwRUg/sT7NrNfjl+GiZ2SGLU0=;
+	s=k20201202; t=1776765046;
+	bh=WXvQTYvjj3t9Mk+XXK2QIj9Zdafzk62D34vBzoWpIM4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o4Syu+Mds+WbLeaeeWCt8qshN/h/dCgyctzgo+jCjqGBKkVS3qTbTvK5541g5bQ/f
-	 d8wJM3LuyL8IlhTS4x+ZLqRvtBXODRQeP73KCCOOkAxbBUwbZ7VP2QxbS+jTraa4I2
-	 S9u4nj13toYs5XTpWYkl1KJWfDQeFn5dCpME6y5q9fCdPYsU/6mc7mBQgGhxNvmI52
-	 gH44IHo3dfSV/ClRxZma3ePAPoFVIKiZ7/SE1t49qwEc1PAEij4QmW2cKjX5XSI+QI
-	 uGplVBVc+wgqD3k42Zrkbs+p3/ghyLISXR61GT413WxJcW+3SpTJEDd4qp/aAvEb24
-	 6D9I4FtXpAB7Q==
-Message-ID: <4fa0272b-af04-4b9a-b75b-0b49086b490d@kernel.org>
-Date: Tue, 21 Apr 2026 11:50:21 +0200
+	b=nK0ZQhIkV9JbeLrEWxNCTvX15SSgSHjZoHwiwRvTI9hBwUmoIQxse5BlnKChKQ+/I
+	 5DCFpKJKZXRYGGOYmovusuhtZYlvQeLjzbhvGjPHdXsVHwqt6yBdJJIuvSCet+pQBa
+	 0ZNvVf0LrwWo38S6iArOczTMWi+si2xLcRHi0Vnni+SoxTFCXfP8QGupiFA6srdNu5
+	 GJ8aYbpF31ggsV11JQQaDd5rYhsglJ2Nn+44YqjPs2/QNmvythHjfTfxQ2y2nj0Hce
+	 7tlkwM/U/Nc+sjvedfwjsGAwneaEqr7N4y8Y10k8+iO0066pjlxG90WmgFpfZS9lwc
+	 vUTZ3UW/bsm7g==
+Message-ID: <c324baff-2e98-4e62-a6da-d458f88bd423@kernel.org>
+Date: Tue, 21 Apr 2026 11:50:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,13 +35,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: cs35l35: fix typo 'overide' -> 'override'
+Subject: Re: [PATCH 2/2] dt-bindings: sound: cs35l35: fix typo 'overide' ->
+ 'override'
 To: IRRatium <majnkraftiigry7@gmail.com>, broonie@kernel.org
 Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com,
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
 References: <5ba3d073-c5fd-431e-afb9-0a0911300aa7@gmail.com>
+ <93f16046-ebab-47c0-bf71-fcb4cae147c8@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,35 +89,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <5ba3d073-c5fd-431e-afb9-0a0911300aa7@gmail.com>
+In-Reply-To: <93f16046-ebab-47c0-bf71-fcb4cae147c8@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 21/04/2026 04:30, IRRatium wrote:
+On 21/04/2026 04:32, IRRatium wrote:
 > Fix typo in property name 'cirrus,classh-bst-overide',
 > should be 'cirrus,classh-bst-override'.
 > 
 > Signed-off-by: IRRatium <majnkraftiigry7@gmail.com>
-
-We don't take anonymous contributions.
-
 > ---
->   sound/soc/codecs/cs35l35.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   Documentation/devicetree/bindings/sound/cs35l35.txt | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/sound/soc/codecs/cs35l35.c b/sound/soc/codecs/cs35l35.c
-> index 7a01b1d9f..7d9b42c5a 100644
-> --- a/sound/soc/codecs/cs35l35.c
-> +++ b/sound/soc/codecs/cs35l35.c
-> @@ -1311,7 +1311,7 @@ static int cs35l35_handle_of_data(struct 
-> i2c_client *i2c_client,
+> diff --git a/Documentation/devicetree/bindings/sound/cs35l35.txt 
+> b/Documentation/devicetree/bindings/sound/cs35l35.txt
+> index e84f30c5c..1d364b3d3 100644
+> --- a/Documentation/devicetree/bindings/sound/cs35l35.txt
+> +++ b/Documentation/devicetree/bindings/sound/cs35l35.txt
+> @@ -82,7 +82,7 @@ Optional H/G Algorithm sub-node:
+>   Optional properties for the "cirrus,classh-internal-algo" Sub-node
 > 
->       if (classh_config->classh_algo_enable) {
->           classh_config->classh_bst_override =
-> -            of_property_read_bool(np, "cirrus,classh-bst-overide");
-> +            of_property_read_bool(np, "cirrus,classh-bst-override");
+>     Section 7.29 Class H Control
+> -  - cirrus,classh-bst-overide : Boolean
+> +  - cirrus,classh-bst-override : Boolean
+>     - cirrus,classh-bst-max-limit
 
-ABI break, so that's a strong no.
+NAK, ABI break.
 
 Best regards,
 Krzysztof
