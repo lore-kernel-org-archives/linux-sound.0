@@ -1,173 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097CC3B776A;
-	Tue, 21 Apr 2026 10:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CC5346ADA
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776768147; cv=none; b=p3Spbt7NhbLJguSFa/7MAvSBn5kuNw9aASjSyOeq8zCofgY2HrjqxIaUZt4Dnuh5V6d8mjWfZ1JX1LMAOcay0Q1o8ujkfV6vpvOkjvnmP8KoZHjgkugORBdzpDLKDKZmfJs3czDCy91RlKdMGpwRM4ibAUDVyACOOp4r2xQmKB0=
+	t=1776773275; cv=none; b=VKzmE5ByV20SuhtrbOYBCf2OJUh2fjsfvlkUvLCrtS+0SfHVZPxDIaj+MSrHItXanGA5G31UYC7epkyVA3uixOf3hoeqZjYvWLyEvtCLzVlqT5aWHBPF+ACStptm5sZ/OikoeUtW62vcG2xItsw6g2GuEA/qemsicFtvBH09qGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776768147; c=relaxed/simple;
-	bh=gHrP+KUJduKFI2aGpELFvOKolKtK+YiYl/Eu6/jSKvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BXGCUK03wyi0I7dCGqZGUo46lJo7HaVaH4yK7IC+UuWkn+PkDHJcjEN8mCqcXzCLC0vasbIgZfCEgZiXwCm0x9Aj1Tjv5IopRboZjh6EApO2jB79dFnE9qIdE73Sb4bCVdV281uj4YWY2bUoInoEGy/ziTnmZ41zZ9cI5Wj8Vt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Bj8EAPCC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776773275; c=relaxed/simple;
+	bh=JbCmSEhMj5HfeLGp4STM4hU60tLUdLhuElGdoGvW/No=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=UAlqPGxLDimZ0Ro9H6gQqAwSTxMnQB5OUt1ewZJX2zdsBR3MwMN0Y4xcA7mOP+05OlBP8mhzq+7x/0TbJMZcUw7BBrQDIS5jM3OeyFNU6FCula51yOuCqo9RM9c+hyeWC4tubStW5ox8FXbh3KdFHEiRh3rKkKQBI0lyx74eu4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMbPUws9; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Bj8EAPCC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB69C2BCB0;
-	Tue, 21 Apr 2026 10:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776768146;
-	bh=gHrP+KUJduKFI2aGpELFvOKolKtK+YiYl/Eu6/jSKvQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bj8EAPCCcQLiEmx0C8LVzprk+v/FOuFs1PlnKnUiLlL2pM1f6zBkqOBI48+florEa
-	 CL+u5UEXKFiQE2I9q4cZmMCMqD2Y42Jyb1HpM8iOsWOj8tExnbKa4S1j4PeK7pQxFZ
-	 m5dAMt8bFibjon1U8Of5oNy6veLtl+toq/PSrzis=
-Date: Tue, 21 Apr 2026 12:42:24 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: perex@perex.cz, kees@kernel.org, tiwai@suse.com,
-	quic_wcheng@quicinc.com, arnd@arndb.de,
-	wesley.cheng@oss.qualcomm.com, nkapron@google.com,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: qcom: move offload usage counting to
- stream request handler
-Message-ID: <2026042106-icy-gerbil-2ca1@gregkh>
-References: <20260421094337.740485-1-guanyulin@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMbPUws9"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a40b2d26a1so3311554e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 05:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776773273; x=1777378073; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OozudbymEZ7NGU+5rFZtQr3/MVPLQp8RAMq9QDqzhfk=;
+        b=TMbPUws9R8qzxmPORAatF296utAmEZV3ylos0JP/74Fxc5/N/74/YoDZfYyY7G993v
+         Lssu0c195Hdjzex5E/meDVlRfQFxFK8kYdwYyayJBk2HIdeXqtUrl/u6nyCJfiJsYStN
+         quepp3q+KO1xOpHpYfA4COJIdVqHuI6syG1AsOC4Fs3BHGi5qVXjt9vLkqIbac/TU9Oq
+         rdI1HsIgx1LSI+Dw4dfLw4Yu9ZGPoo+suByEqXZmMx3DRtHQIO5iE0Sc+fmnrw4tNMBe
+         aB9O2vCjif88PPnUS1jDe/2I4Gl91ApdzbblcfxW3y3M8MbiFKINm0cxzPGLjSrQf+F6
+         6EMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776773273; x=1777378073;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OozudbymEZ7NGU+5rFZtQr3/MVPLQp8RAMq9QDqzhfk=;
+        b=U2hXIc6n0BfD+/HaZCqiViNLdqx0y/3sKIaHm9O/FC2NnDPARda/mVtCPNeU/3CsC/
+         CBmk1H/l1GdM7P0xZioO6ewS25eMUjVFEs/DkECBT4VmX5ycXF5RD3wKinwQS3iQbwbq
+         1KA0btAD6e5AD8CrMKrcQ7tRD++My/IZFipIhx7oMDpvoR3X/c+N4C16VeK7mDdGb8vV
+         Uj/KIWJezo6RT8vdwYij/RRoSXKMhLZS0dHkKrmf/4lpfot8MvefEwJKc584T8v72aAx
+         epFknlC3ydsiFZW2EqZTIIO+z/9Xr4vwCZ38s5bwI1ll9DBOsmarL5GWCLv2HtDPSujT
+         KOsA==
+X-Forwarded-Encrypted: i=1; AFNElJ+1IuqzdqCwy4aw+bI9tD7qMYDys+qiNS6Gx7OdsOcohFzxKYVeLD+etjIdFKIG47qwz3XQaSZR0zgNsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCvXOh6ic3VoU4fJp54HfU/j9aEElN0dnEE2qqWUy/T896eyJO
+	4qsGOf5+aOFHzpSSdjmziaf43Z5IaSFra+oyqWeI9feRytqvLkD3/i9u
+X-Gm-Gg: AeBDiesvey21p2VfiFTP365l9icyBvayphm+M1W89iF+Y3D9GaOb2IP7C9qlfh82lha
+	lBtGudSO90i0zdUNXKWKPecOoDlehAUEaG8f0z9I6PSmjsWohh/kv6op4J3GYs5q6Wm1k25zWEW
+	S70+thSiv4JTPl92+zkYNucTDXQEm3GtL9trATXKnqk4LICs+UzhxU3S0Vrfweqk52/6E8mMtvK
+	Svlyn7ZI5xPeYGkkHuEHji6Fj8B8Cripv7AWHUnBACgGTBanZbvMpkhABU/x4edpynRDf+UcRoJ
+	WvzFSlyxJKD6yzYvSWiJbkyRbt0EYeXIUjrwGrEvT8RMdjDu6wghbXu0Q9zj5tlQhTC6DX45GAE
+	XtAJ9lbDfZwb8U0Oll6uXb27uXnueVSkxjg1JJVlsUZv5MYlN4TaGwNgnzRe6ZDofpaexu5Q5R9
+	2DuLLIyMYKyhYXyCc52Ue1EsoU06F8/kWWwtDps4bqZi6rt/yKKRJl9RVzRrB4WVJ5MTbavO22+
+	2R2mXn/6wLU6R3tdJtBCnknvtU=
+X-Received: by 2002:a05:6512:32c1:b0:5a4:6a5:9900 with SMTP id 2adb3069b0e04-5a4172e4788mr4538488e87.34.1776773272327;
+        Tue, 21 Apr 2026 05:07:52 -0700 (PDT)
+Received: from ?IPV6:2a02:2698:242a:1c71:d5e3:307:560c:a869? ([2a02:2698:242a:1c71:d5e3:307:560c:a869])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e7a3fsm3615262e87.59.2026.04.21.05.07.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2026 05:07:51 -0700 (PDT)
+Message-ID: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
+Date: Tue, 21 Apr 2026 15:07:49 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260421094337.740485-1-guanyulin@google.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+From: IRRatium <majnkraftiigry7@gmail.com>
+Subject: [PATCH v2 1/2] ASoC: cs35l35: fix typo 'overide' -> 'override'
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 21, 2026 at 09:43:35AM +0000, Guan-Yu Lin wrote:
-> Centralize usb_offload_get()/usb_offload_put() calls from various helper
-> functions to handle_uaudio_stream_req(), which ensures the usage count
-> is tied directly to the QMI stream enable/dsiable requests from audio
-> DSP. Such design provides a clear synchronization point for the
-> offloading lifecycle and correctly balances the count for both playback
-> and capture paths while avoiding redundant increments during auxiliary
-> operations.
-> 
-> Suggested-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
-> ---
->  sound/usb/qcom/qc_audio_offload.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> index 2ac813d57f4f..6b4349d85665 100644
-> --- a/sound/usb/qcom/qc_audio_offload.c
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -699,7 +699,6 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
->  		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
->  				   PAGE_SIZE);
->  		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
-> -		usb_offload_put(dev->udev);
->  	}
->  }
->  
-> @@ -1183,16 +1182,12 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
->  	dma_coherent = dev_is_dma_coherent(subs->dev->bus->sysdev);
->  	er_pa = 0;
->  
-> -	ret = usb_offload_get(subs->dev);
-> -	if (ret < 0)
-> -		goto exit;
-> -
->  	/* event ring */
->  	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
->  					       0, uaudio_qdev->data->intr_num);
->  	if (ret < 0) {
->  		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
-> -		goto put_offload;
-> +		goto exit;
->  	}
->  
->  	sgt = xhci_sideband_get_event_buffer(uadev[card_num].sb);
-> @@ -1224,8 +1219,6 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
->  	mem_info->dma = 0;
->  remove_interrupter:
->  	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-> -put_offload:
-> -	usb_offload_put(subs->dev);
->  exit:
->  	return ret;
->  }
-> @@ -1489,7 +1482,6 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
->  	uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZE);
->  free_sec_ring:
->  	xhci_sideband_remove_interrupter(uadev[card_num].sb);
-> -	usb_offload_put(subs->dev);
->  drop_sync_ep:
->  	if (subs->sync_endpoint) {
->  		uaudio_iommu_unmap(MEM_XFER_RING,
-> @@ -1605,6 +1597,12 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->  	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
->  
->  	if (req_msg->enable) {
-> +		ret = usb_offload_get(subs->dev);
-> +		if (ret < 0) {
-> +			guard(mutex)(&chip->mutex);
-> +			subs->opened = 0;
-> +			goto response;
-> +		}
->  		ret = enable_audio_stream(subs,
->  					  map_pcm_format(req_msg->audio_format),
->  					  req_msg->number_of_ch, req_msg->bit_rate,
-> @@ -1614,6 +1612,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->  			ret = prepare_qmi_response(subs, req_msg, &resp,
->  						   info_idx);
->  		if (ret < 0) {
-> +			usb_offload_put(subs->dev);
->  			guard(mutex)(&chip->mutex);
->  			subs->opened = 0;
->  		}
-> @@ -1658,9 +1657,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
->  			uaudio_dev_intf_cleanup(uadev[pcm_card_num].udev,
->  						info);
->  		}
-> -		if (atomic_read(&uadev[pcm_card_num].in_use))
-> +		if (atomic_read(&uadev[pcm_card_num].in_use)) {
->  			kref_put(&uadev[pcm_card_num].kref,
->  				 uaudio_dev_release);
-> +			usb_offload_put(subs->dev);
-> +		}
->  	}
->  	mutex_unlock(&qdev_mutex);
->  
-> -- 
-> 2.54.0.rc1.555.g9c883467ad-goog
-> 
+Fix typo in property name 'cirrus,classh-bst-overide'.
+Add support for the corrected 'cirrus,classh-bst-override'
+while keeping backward compatibility with the old name.
 
-Hi,
+Signed-off-by: Sergey Shatkov <majnkraftiigry7@gmail.com>
+---
+  sound/soc/codecs/cs35l35.c | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/sound/soc/codecs/cs35l35.c b/sound/soc/codecs/cs35l35.c
+index 7a01b1d9f..XXXXXXX 100644
+--- a/sound/soc/codecs/cs35l35.c
++++ b/sound/soc/codecs/cs35l35.c
+@@ -1311,7 +1311,8 @@ static int cs35l35_handle_of_data(struct 
+i2c_client *i2c_client,
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+      if (classh_config->classh_algo_enable) {
+          classh_config->classh_bst_override =
+-            of_property_read_bool(np, "cirrus,classh-bst-overide");
++            of_property_read_bool(np, "cirrus,classh-bst-override") ||
++            of_property_read_bool(np, "cirrus,classh-bst-overide");
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+          ret = of_property_read_u32(classh,
+                  "cirrus,classh-bst-max-limit",
+-- 
+2.53.0
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
