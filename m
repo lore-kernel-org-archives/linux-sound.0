@@ -1,175 +1,214 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095E0351C03
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 19:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776799964; cv=pass; b=fBKgh2nt6FIruivJvdEqV7F6PN1UFrTSJvVdUB2/Lk3l8BfHT2t2IWW4FXoZY1FFE7+402w3Q21vqSMi7P59/EgW3h3C1+dwKJlWYRa8FqyUByL/KUwr8NR0S2vrZOqVlx6cnmjGWJxJRHJxfAwSTxowQ4KaYrDJraYtnvte/5k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776799964; c=relaxed/simple;
-	bh=8rAcJsOtW4DKD45tYEB520aiSA9byMlCQPJXjvwG7nA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZU/F7gG+yJvZrZQJeXu2Q9wHX3fOslK80PktwJpWpxuOeqsEuzMRj+Or5Su4MCdj8uBrUGwYbkhtsg3yS81ilxZ7W1KPvPM9FUQ+rPcyPaNOs4Vcqx8msLttr+/G4dyS0PgDTnXBYZkJg46mlaN3icEV9uWkdXxGym+kEHpdZLM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0KCOWfe; arc=pass smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B71B3DB646
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 19:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776800355; cv=none; b=BthJijFoRpFM1hl9P+QQ4Qzgc8Hs67d2tlSA7bjU9FrlrmO1BjrJvjX6DHPXRWCWZ7kzIsxqUhkxUQvcQ4mOnMhwSyH+eViSjtlx3pbg7rBroXzOsJsuA2nLuem68HW1PjaTi8TN/3OkFQMO5TkQbV4HHFasMmKt5Bi9noRfdpA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776800355; c=relaxed/simple;
+	bh=WpJnEZbM5fbm2WH8XebpoE8svrsnm4NGnZFTjSLTefQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bqa5QoGLs1YjIl6i1q0V3bSCTSYM3rzRuOVdgS7ioX75zYO4njRTnSKJ4ujQMquknx0c+nHzqEWjs6R1RAnB/cTvBNoJCRWuJMgcUqMnBRQWzE3oIesYmSMTGWkMhCt5mMJkOs7AXSm2RM1o0jJcDEYwVEAhn9yv5VECXmNIBus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T6W3DyVq; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0KCOWfe"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59e4a04f059so5220722e87.2
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:32:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776799961; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lqVK0s+SEX62+Li5Ayd2mcLUQ+vct6Ji32dmNy+dEu6CYpnmZ1YFTP2JiNctgi18X4
-         7tzM25FePrll8GVLp/4vG5C3FgLqgUzSOrloojr2dgXckhweSZcRx5NMGzpyf+9KcGGO
-         eEm4U0HakeSzosTaqqcWIIk5PJb/mt/fna6redN0Vyft0ZBMNh4fQIXbxffZcDiNYrZ7
-         RZN26e5BUR5X6pDFbH4/dEzYKymlJt07kOAMSMz78s1M9bZMorQeGM7m/Zy0BlUrjOIO
-         YLfVm0sqbS+W57Rjg2AI+vipOcU/KMa2z9ghrhhh+NfY2RQQfj7YuDPMB8rtyg9uDFgb
-         p5yA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Lp5MwWSsbki+8BWZZD+t7QmXkch16LZxPn5fqnVKkr4=;
-        fh=ctGeNtL2MZymNTbXd/0qzaCHM+VSr7H0OKEwQOhLXvE=;
-        b=fivA43+y+75/9WyHSbHqSmR8jCSxiKHB277Ff+urZSwCOf3gu2G0xfuJxZkPz49D5I
-         TM5udgL62sK12gEbD20UPPnHFPCA2V1AZFayrXEMrxN6OWAYijWBNgn9hZ+F9Q4ewDkC
-         ++DylWrDm/ZXh3giBZlppmfQ3u/bHTFWgU9F4vRj1LxnJRdErZHfYaA3MadFHvfD09gh
-         1CXMw4XcRolL1X3YLoLJPmTmutcDuVoSOFXD4YJoPeZ2S651F93NHkylFVJxYO4G5vU6
-         ryW1bFnXk4nrteqvZwhaBN0PBhSqK/chC+SHD4ZPbRgA+x35TQ0Cbg1KjJoCks4MTBOQ
-         MPDA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T6W3DyVq"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d03db7f87so3160006f8f.3
+        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776799961; x=1777404761; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lp5MwWSsbki+8BWZZD+t7QmXkch16LZxPn5fqnVKkr4=;
-        b=U0KCOWfef/qBQrkyOJSDmmpcjmo7arG2hPWTEiyPs2yT//CHKCf1ZIMagH2A6u6+mb
-         tgPOt/HEIfV3Eesx/70f2MDJ2fMlGbaqEHhTPdrQbrhEO/bggpGbR+exmIjmuHVCBWxC
-         HiAXA4lHem2UthqT2kUUY01Mn92A50aeytCNWiX+NMWwsem8VtvyiAXGU5+QNFjnrYQB
-         wQVnTkcGXS0Oe33ClkWXuqBTHWIOhACIX3izkzKzQ9/YUe1Lpodpd72FNCV8p5y5f3WS
-         W+ihiyTMY6F9XUxhrw2iI7ugRUFmgDRLHv2pK70K2ay0S9DmGZyWvl+z2VjNp6yrgHYC
-         ZgQg==
+        d=gmail.com; s=20251104; t=1776800352; x=1777405152; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o5JuMO3gPYBlWwt5KKJVpxhIif6wlAgLOW24UJuKGpw=;
+        b=T6W3DyVq4/RPInT/9vtVkYVqbeCkHOLI4S5/lJ0x31q//zhsiH6LFF9vx83M8XGYr4
+         /7cgTKzxhP2TyhsnIACm6w/1j/TBivRXe5gal1bqm9SNsS8xiG6OQ8FF/sxlsShGewiU
+         oOIMUaU4GCKEJd6hh4/e1jFpZPdPYcjWCE6nqyn2bYweAt3g9KkcrKt+ewDzLjfkxki3
+         ukcSWu+1tvbj2Yosz1LlSUHTJN6Iuor3/DZrR8fUsm0KYuTSBO2Ku4GWWyDOaota8R82
+         YH7jtUyTz9Pgq3lOI2rb1+hnZyP50sqPHx38I34+BOsiY/xGhLGqg07zujFuIzUy5LHX
+         TNxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776799961; x=1777404761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Lp5MwWSsbki+8BWZZD+t7QmXkch16LZxPn5fqnVKkr4=;
-        b=UXUloP7xFwO9IJevM6bisL94GsslRdaxkOG+j+8BrDoaLPSy8oaJD62H0hI9bSVkLk
-         iM9zRVjAsNPLcihErCJtmgfJ+xblxMxopCamids83kTsZgkjL15mQHp2UEjtL6dy9hBv
-         jjUjNHP/7ffgggxk55Z4+Bzo0ItKLll9zZmkCJ59WjhRdCcfvAdhRZvfvMOvBAdovE+7
-         B8d+isDvC5CB3zOAWs+2+11F30Th/Vc+TZvpwZakLFHPU2bW4dT64VLiGypBZvHdYjkP
-         x7Y6WOko0pYEkB2oR+Or3nnJcIVnL/HJBQ4DIMRR5e/njvM5ppE/l8HRKL0LqKfMkxkf
-         FqSg==
-X-Forwarded-Encrypted: i=1; AFNElJ9l7CoY97/dVS/KlzhK+lSDy2FGxSih77uwyDoGd+Z095JAuTV/yClboV/GMtrpxToCNlaUPbV23QCQKA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqV6kMvA1EpBXmTAFnCs30Iv33nsd01DYzBfY7IMokVSXertqV
-	iwDK8zYIxUmCbcb90f14fWInqVm5zw7JpVRN3wDiYxjzzM7rNSTESrogicHYgfN9a5hibsH91Xb
-	mMqwaNUDn8+DhQmOuJ6H55ppLqd2wF+M=
-X-Gm-Gg: AeBDievLdOZbCPslCwFm5rtTPixjhqSTRIwDwK7Dl4S8Dzgevp1ChkwWZ/KBVfkzEk7
-	BXhzYQ6z82X4TxS+ajawRcEFY7GsBAAh4/Io/vnwfJ1XOtYNtD7+88jlQonT+F3uilgKFJGKsQJ
-	xDBw8k27ZTlWG2VMDPBQSJ2KKvkB48z6g3sZkMvjo0Dmy7l0zFbzagC5Mpd/cJx+1gEgffXt5sL
-	isow9ouFt5ZsGMq1Cuzr0Erh54svTsi/wvEz200OPUxtjcG8uA/6Ep5sEgRmWy98s2/V6MbORhW
-	fia9KHWrNdCfpe19bu8s5sDkvJe0euAJQ2lwMrzWNwSsFuBGaS0f
-X-Received: by 2002:a05:6512:39d3:b0:5a3:6734:48ae with SMTP id
- 2adb3069b0e04-5a4172ebef7mr6518200e87.40.1776799960988; Tue, 21 Apr 2026
- 12:32:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776800352; x=1777405152;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o5JuMO3gPYBlWwt5KKJVpxhIif6wlAgLOW24UJuKGpw=;
+        b=ZFRMENSa0Zy8YqqKXBkK/2gWJ3JI0+/OoML8q9YcfH1rduwaY2gYoo500dgHU1ShbR
+         dyFSnMhyMmv43Qr/2Y/KkOVFobZuruqUSN6/6c8VW8pFVqwl8FwjBLDxKNwb/E8THI2w
+         5g6LesmRatxU5b5Ca0U0b8q+pI4whvD43PS3MRVwo+qwXpGT/XfdYUt6wvdjgL1PpPk1
+         Ch7SccvSPwbeP94K4PT7TPpIxsglJyQvCka15EI0yyaDlXlLzTjySsZn7Ix5CTpKKFtm
+         i8bdKseC45i6yOhQnrqu8aO8VIVvPGnBoMSmZzTwnNB7cdPdnXIIsP7QoFDrmUU3mA3G
+         MMDA==
+X-Gm-Message-State: AOJu0YyARYzudTbbkJmQSsRXKr45CSNdxTV0x2GipixfJBsbg3W3wDVR
+	eiFtQJc/NpD6LAZF5zpSVLI7HcUmmaTGRHWIl64LbcYbVQfK/XkxQgX3ez6DKDeA
+X-Gm-Gg: AeBDiesM5SOhS5iPfesZJGYrOrfb9/j4+fLEwBIZouAq8xx3pWAc+g6lXmToflRP+Al
+	RKDHwDMFQYNnJS8rVgWsYRc0aG4DZ89mqNLOAvJSYYeBVbPPyABe14cu4I274/pn8efNhazNFNl
+	ZMvsfhLY0ft9ugTXrR3exT2E0ZzgoBECExsrNw5srSV/k2cws/pbplv1J13Xo8Le+cTKnA3REOh
+	kfmEoiJ6efAq1fnFb/7fTRefBfBqEsJU2vGOqdNKGBZYWdcWkogosJlaInNckIW+umqC0FjuadN
+	GM76UigD/iiWYTHNrYSwKLUaH8MKy6liWiScp0VHmzKoE2whf/IOURNoD/x6htD8A36A07eyVmw
+	OcvjcGvVVMCXrhVMDFArqItwzH79FmD6tzOXjBOqkvQUmCCXjz6low/64pv/tBG+i0EHsxzxRYL
+	eORKI5eCPLm9F6/opCdnwekas79JL0xTJIQsQ0vfOh
+X-Received: by 2002:a05:6000:2dc8:b0:43d:6fce:3ef with SMTP id ffacd0b85a97d-43fe3dd2b9cmr29894868f8f.21.1776800352013;
+        Tue, 21 Apr 2026 12:39:12 -0700 (PDT)
+Received: from luca-vm.lan ([154.61.61.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4411c9f4f03sm10443782f8f.1.2026.04.21.12.39.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 12:39:11 -0700 (PDT)
+From: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v3] ASoC: dt-bindings: mediatek: Convert mtk-btcvsd-snd to DT Schema
+Date: Tue, 21 Apr 2026 20:38:35 +0100
+Message-ID: <20260421193858.347258-1-l.scorcia@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327121919.603768-1-padmashreess2006@gmail.com>
- <20260414034854.461661-1-padmashreess2006@gmail.com> <20260414-tentacled-mantis-of-control-cb08f3@quoll>
- <CAEjBr-bdNvgBWjHei4K8LLH6QjkgHXCwtmW5qGoeh_36Vy8kWA@mail.gmail.com> <5cd2b36b-de7d-c51d-f495-6ce78fe5a8d4@gmail.com>
-In-Reply-To: <5cd2b36b-de7d-c51d-f495-6ce78fe5a8d4@gmail.com>
-From: Padmashree S S <padmashreess2006@gmail.com>
-Date: Wed, 22 Apr 2026 01:02:27 +0530
-X-Gm-Features: AQROBzAkL16A_ScsBRTcdIvJEzKEVKZiM7-iIGei2JZekFMz9TeDEu_VrJvpYJ4
-Message-ID: <CAEjBr-YQte6QpjX+AR9woJ-tf2n7s+8hVuTMJP7Ne6tFLMEMBg@mail.gmail.com>
-Subject: Re: [PATCH v4] ASoC: dt-bindings: ti,pcm3060: add descriptions and
- rename binding
-To: Kirill Marinushkin <k.marinushkin@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Thank you for the review. I will add the reg description and squash the pat=
-ch!
+Convert the mtk-btcvsd-snd.txt DT binding to DT Schema format.
 
-On Wed, Apr 15, 2026 at 12:46=E2=80=AFAM Kirill Marinushkin
-<k.marinushkin@gmail.com> wrote:
->
-> Hello Padmashree,
->
->
-> Allow me to once more propose this description, which
->
-> was in the original .txt, and you included into the patch v1, but
-> removed for v3:
->
->
->  > + reg:
->
->  > + maxItems: 1
->
->  > + description: The I2C address of the device or SPI chip select number=
-.
->
->
-> You also probably would like to squash patch v4 with the previous patch v=
-3
->
->
-> Best regards,
->
-> Kirill
->
->
-> On 4/14/26 3:22 PM, Padmashree S S wrote:
-> > On Tue, Apr 14, 2026 at 12:09=E2=80=AFPM Krzysztof Kozlowski <krzk@kern=
-el.org> wrote:
-> >> On Tue, Apr 14, 2026 at 09:18:54AM +0530, Padmashree S S wrote:
-> >>> Add description to reg property and overall binding mentioning that t=
-his
-> >>> driver supports both I2C and SPI. Rename binding to match compatible
-> >>> naming convention.
-> >>>
-> >>> Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
-> >>> ---
-> >>> Changes in v4:
-> >>>    - Rename binding from pcm3060 to ti,pcm3060
-> >>>    - Add binding description
-> >>>    - Add description to 'reg' property
-> >>>    - Remove unused label in example
-> >>>
-> >>> Changes in v3:
-> >>>    - Remove description from 'reg' property
-> >>> ---
-> >>>   .../bindings/sound/{pcm3060.yaml =3D> ti,pcm3060.yaml}   | 10 +++++=
------
-> >> What v4 is that of? There is no such file.
-> >>
-> >> Do not attach (thread) your patchsets to some other threads (unrelated
-> >> or older versions). This buries them deep in the mailbox and might
-> >> interfere with applying entire sets. See also:
-> >> https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/proces=
-s/submitting-patches.rst#L830
-> >>
-> >> Best regards,
-> >> Krzysztof
-> >>
-> > Thanks for pointing this out.
-> >
-> > Since this is a DT binding patch for the same pcm3060 device, I linked
-> > it to the previous version. However, I realize the subject changed
-> > significantly, which made the threading confusing.
-> >
-> > I=E2=80=99m planning to resend it as a new patch in a separate thread. =
-Please
-> > let me know if that works.
+Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+---
+Changes in v3:
+Sorry about the spam. A second round of dt_binding_check + dtbs_check
+led me to additional improvements:
+
+- Use reg-names in place of a non-informative description property
+- Simplify the reg property in the example
+
+Changes in v2 [2]:
+- Fixed issues from make dt_binding_check
+- Set myself as maintainer for the binding
+
+Initial version [1].
+
+[1] https://lore.kernel.org/20260420204514.1640995-1-l.scorcia@gmail.com/
+[2] https://lore.kernel.org/20260421154619.227039-1-l.scorcia@gmail.com/
+
+ .../sound/mediatek,mtk-btcvsd-snd.yaml        | 66 +++++++++++++++++++
+ .../bindings/sound/mtk-btcvsd-snd.txt         | 24 -------
+ 2 files changed, 66 insertions(+), 24 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mtk-btcvsd-snd.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/mtk-btcvsd-snd.txt
+
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mtk-btcvsd-snd.yaml b/Documentation/devicetree/bindings/sound/mediatek,mtk-btcvsd-snd.yaml
+new file mode 100644
+index 000000000000..22ba7d0bdac6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mediatek,mtk-btcvsd-snd.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mediatek,mtk-btcvsd-snd.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek ALSA BT SCO CVSD/MSBC Driver
++
++maintainers:
++  - Luca Leonardo Scorcia <l.scorcia@gmail.com>
++
++properties:
++  compatible:
++    const: mediatek,mtk-btcvsd-snd
++
++  reg:
++    minItems: 2
++    maxItems: 2
++
++  reg-names:
++    items:
++      - const: pkv
++      - const: sram-bank2
++
++  interrupts:
++    items:
++      - description: BT-SCO interrupt
++
++  mediatek,infracfg:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: The phandle of the infracfg controller
++
++  mediatek,offset:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: Array of register offsets and masks
++    items:
++      - description: infra_misc_offset
++      - description: infra_conn_bt_cvsd_mask
++      - description: cvsd_mcu_read_offset
++      - description: cvsd_mcu_write_offset
++      - description: cvsd_packet_indicator_offset
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - mediatek,infracfg
++  - mediatek,offset
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    mtk-btcvsd-snd@18000000 {
++      compatible = "mediatek,mtk-btcvsd-snd";
++      reg = <0x18000000 0x1000>,
++            <0x18080000 0x8000>;
++      reg-names = "pkv", "sram-bank2";
++      interrupts = <GIC_SPI 286 IRQ_TYPE_LEVEL_LOW>;
++      mediatek,infracfg = <&infrasys>;
++      mediatek,offset = <0xf00 0x800 0xfd0 0xfd4 0xfd8>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/mtk-btcvsd-snd.txt b/Documentation/devicetree/bindings/sound/mtk-btcvsd-snd.txt
+deleted file mode 100644
+index 679e44839b48..000000000000
+--- a/Documentation/devicetree/bindings/sound/mtk-btcvsd-snd.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Mediatek ALSA BT SCO CVSD/MSBC Driver
+-
+-Required properties:
+-- compatible = "mediatek,mtk-btcvsd-snd";
+-- reg: register location and size of PKV and SRAM_BANK2
+-- interrupts: should contain BTSCO interrupt
+-- mediatek,infracfg: the phandles of INFRASYS
+-- mediatek,offset: Array contains of register offset and mask
+-    infra_misc_offset,
+-    infra_conn_bt_cvsd_mask,
+-    cvsd_mcu_read_offset,
+-    cvsd_mcu_write_offset,
+-    cvsd_packet_indicator_offset
+-
+-Example:
+-
+-	mtk-btcvsd-snd@18000000 {
+-		compatible = "mediatek,mtk-btcvsd-snd";
+-		reg=<0 0x18000000 0 0x1000>,
+-		    <0 0x18080000 0 0x8000>;
+-		interrupts = <GIC_SPI 286 IRQ_TYPE_LEVEL_LOW>;
+-		mediatek,infracfg = <&infrasys>;
+-		mediatek,offset = <0xf00 0x800 0xfd0 0xfd4 0xfd8>;
+-	};
+-- 
+2.43.0
+
