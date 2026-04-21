@@ -1,132 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6682DC76A;
-	Tue, 21 Apr 2026 20:55:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8DF2F4A05;
+	Tue, 21 Apr 2026 21:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776804929; cv=none; b=c3qp1lrV4o+l3cuMc4RJemedUnPM3AC/EGdC5Id7IRdUebYdQm7YYa9Z8EQXrf9Cb/3J8Ei/iTdSqjfcFyY4qW7HubmXaHWnBHnmrpMhwn9ZkPiFB/9vN6oKG/yGopzHFeM11c38799J3YMzacMDo2g7bz+ocvgP5mJ6vX6b1bQ=
+	t=1776807212; cv=none; b=Zej1RspqZqcTNA2mbdXSbX5f34XMtajp+x1dAESkweSDIGZiBvs2GJwRm5dygFUMNHxG2JuA3WS/mas+1SnM28kMDbcevNWU61qR5LymuziDZs1YlZ0VrYYGpTtG4oHwlQhteRVSL9vp2banEGXKRf2jbvDaLzD+P1epPWnlAAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776804929; c=relaxed/simple;
-	bh=QxjyjeDJRvaYiQA74/+8JJBfWyd2JW28z2a086l0PDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jo1n2IV4jydn1xvjdUtfDr2TYSCE8r98FI9yrVPAfTpTY/EDefAnzDZImuD6U0AATAZ0xzGh1tmjYbT/O/LqlflJChH/MUqxYlsX1sOq0HqCV/MmMWGuD7l0K/XOz+oMRiKD2drcZM3o1WxH6jP0/Xqtlf/7WxofRDIVyeQTh8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLa2acP/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776807212; c=relaxed/simple;
+	bh=vatupuq4WrABpSuEUMYUtujivXgVDiHk3e1MmNVxM+Q=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=e1kkqojvvb7JKiyHcSlbBsam7OTIMBBZQS6ktaBp07FzxRJ+3rBhtw0Dv8FXXsQBEUiwlwc2CLnacNUxdPuAJ5Ocy8zyq/z+XSHghqguR+xsIvSi1ug384x3X+rnZ5AWH85zkZtAcmQlrZes8q6xS7T0aJ1i6xB0cPa0OZWuDlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RfEYijh7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLa2acP/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A004BC2BCB0;
-	Tue, 21 Apr 2026 20:55:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RfEYijh7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D63C2BCB0;
+	Tue, 21 Apr 2026 21:33:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776804929;
-	bh=QxjyjeDJRvaYiQA74/+8JJBfWyd2JW28z2a086l0PDA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dLa2acP/Hw3u/TWVuY9qX2wQclEJsDArR85hh/1hm+MAO4d6ywp1mKb8NidBn+MRo
-	 yuy1D1pC3EDUfZ3Q1HjHVx0Wq0nDIa+fV+A5tQmPw+AQwLs6xnUYhqfRJkkfuSwdeJ
-	 z9S282Na1k51GQ7Cdz9I6FKiBW6I9BH9XOxsipEly/CtmzAT3aXhSdeGrqfBQUKLH4
-	 Pg5LDG9Ea0zEwByD0h69q1HXgUJDw+Jut4mYpdl+awm9pUhMiiPkpi6IvbTbU8uMQi
-	 LT8EfcPqprjI0y/YxSCqXhTwQ9VClBMT53oIC37G3pfEe1IfABBgCQjmuwH2OlL6S1
-	 Ay2nOFiiJuY0A==
-Date: Tue, 21 Apr 2026 21:55:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com
-Subject: Re: [PATCH v2 2/3] ASoC: codecs: lpass-va-macro: Switch to PM clock
- framework for runtime PM
-Message-ID: <11f2596c-c9e5-46d3-af6b-1f6b09c2db78@sirena.org.uk>
-References: <20260420122843.327171-1-ajay.nandam@oss.qualcomm.com>
- <20260420122843.327171-3-ajay.nandam@oss.qualcomm.com>
+	s=k20201202; t=1776807212;
+	bh=vatupuq4WrABpSuEUMYUtujivXgVDiHk3e1MmNVxM+Q=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=RfEYijh7XhOIIxtCBiZK1gn5IXNLv5qcn5amQw5CqC2XQ0mRjsWMy0SwC/jKxN8Ha
+	 +lGNHgaycbYUVz/8qUQTAV87+keU8WY1I1fe4qL/Cubm0CmcRljTFyT4oCGT3XsCWG
+	 21JAOI+XCTuLyqtAQ0JY89PQj9ztU0bsVRSzsv4sAV4REIQeaAk9EIXe86axCL8Lcv
+	 P49oQppEQE3W5ysKk35W1yekjIPJzFLIHvqS9YHqLVNNeeeAs1gWZnOJuQHTbQ76Mo
+	 fn4ArOBoMvEaOR/5jHbzodnC5RnVkOGNRxUq58/UbFZ0QTUKrwlb9kjzN5QiQ3GPHQ
+	 wuq7UQCA8GLiQ==
+Date: Tue, 21 Apr 2026 16:33:30 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hwlh+GjjAmlfHjKJ"
-Content-Disposition: inline
-In-Reply-To: <20260420122843.327171-3-ajay.nandam@oss.qualcomm.com>
-X-Cookie: Jenkinson's Law:
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>, ath11k@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Xu Yang <xu.yang_2@nxp.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, linux-spi@vger.kernel.org, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Rao Mandadapu <quic_srivasam@quicinc.com>, Mark Brown <broonie@kernel.org>, 
+ linux-sound@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-remoteproc@vger.kernel.org, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Sibi Sankar <sibi.sankar@oss.qualcomm.com>, linux-wireless@vger.kernel.org, 
+ Johannes Berg <johannes@sipsolutions.net>, 
+ Yang Xiwen <forbidden405@outlook.com>, 
+ Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>, 
+ Alex Elder <elder@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Stephan Gerhold <stephan@gerhold.net>, 
+ linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Bjorn Helgaas <bhelgaas@google.com>, Jeff Johnson <jjohnson@kernel.org>, 
+ linux-mmc@vger.kernel.org, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ath10k@lists.infradead.org, 
+ netdev@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+In-Reply-To: <20260421195836.1547469-1-robh@kernel.org>
+References: <20260421195836.1547469-1-robh@kernel.org>
+Message-Id: <177680720998.183058.5012840252939438533.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Fix phandle-array constraints, again
 
 
---hwlh+GjjAmlfHjKJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 21 Apr 2026 14:55:25 -0500, Rob Herring (Arm) wrote:
+> The unfortunately named 'phandle-array' property type is really a matrix
+> with phandle and fixed arg cells entries. A matrix property should have 2
+> levels of items constraints.
+> 
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> Can someone from QCom provide some descriptions for 'qcom,smem-states'
+> properties.
+> ---
+>  .../display/rockchip/rockchip,rk3399-cdn-dp.yaml         | 2 ++
+>  .../bindings/mmc/hisilicon,hi3798cv200-dw-mshc.yaml      | 7 ++++---
+>  Documentation/devicetree/bindings/net/qcom,bam-dmux.yaml | 6 ++++++
+>  Documentation/devicetree/bindings/net/qcom,ipa.yaml      | 6 ++++++
+>  .../devicetree/bindings/net/wireless/qcom,ath10k.yaml    | 5 ++++-
+>  .../devicetree/bindings/net/wireless/qcom,ath11k.yaml    | 5 ++++-
+>  .../bindings/net/wireless/qcom,ipq5332-wifi.yaml         | 9 +++++++++
+>  .../devicetree/bindings/pci/toshiba,tc9563.yaml          | 5 +++--
+>  .../bindings/remoteproc/qcom,msm8916-mss-pil.yaml        | 3 +++
+>  .../bindings/remoteproc/qcom,msm8996-mss-pil.yaml        | 3 +++
+>  .../devicetree/bindings/remoteproc/qcom,pas-common.yaml  | 4 ++++
+>  .../bindings/remoteproc/qcom,qcs404-cdsp-pil.yaml        | 4 ++++
+>  .../bindings/remoteproc/qcom,sc7180-mss-pil.yaml         | 3 +++
+>  .../bindings/remoteproc/qcom,sc7280-adsp-pil.yaml        | 3 +++
+>  .../bindings/remoteproc/qcom,sc7280-mss-pil.yaml         | 3 +++
+>  .../bindings/remoteproc/qcom,sc7280-wpss-pil.yaml        | 3 +++
+>  .../bindings/remoteproc/qcom,sdm845-adsp-pil.yaml        | 3 +++
+>  .../devicetree/bindings/remoteproc/qcom,wcnss-pil.yaml   | 3 +++
+>  Documentation/devicetree/bindings/sound/samsung,tm2.yaml | 2 ++
+>  .../devicetree/bindings/spi/st,stm32mp25-ospi.yaml       | 5 +++--
+>  .../devicetree/bindings/usb/chipidea,usb2-common.yaml    | 2 ++
+>  Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml  | 7 ++++---
+>  22 files changed, 81 insertions(+), 12 deletions(-)
+> 
 
-On Mon, Apr 20, 2026 at 05:58:42PM +0530, Ajay Kumar Nandam wrote:
-> Convert the LPASS VA macro codec driver to use the PM clock framework
-> for runtime power management.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> +	ret =3D pm_runtime_resume_and_get(va->dev);
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(va->dev);
-> +		return ret;
->  	}
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/remoteproc/qcom,qcs404-cdsp-pil.yaml:99:1: [warning] too many blank lines (2 > 1) (empty-lines)
+./Documentation/devicetree/bindings/remoteproc/qcom,pas-common.yaml:67:1: [warning] too many blank lines (2 > 1) (empty-lines)
 
-Are you sure we need a put in the error path here?  The refcounting with
-runtime PM can be very confusing :(
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.example.dtb: i2c-mux3 (i2c-demux-pinctrl): i2c-parent:0: [2, 3, 4] is too long
+	from schema $id: http://devicetree.org/schemas/i2c/i2c-demux-pinctrl.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/samsung,tm2.example.dtb: sound (samsung,tm2-audio): i2s-controller: [[4294967295], [0], [4294967295], [0]] is too long
+	from schema $id: http://devicetree.org/schemas/sound/samsung,tm2.yaml
 
->  	ret =3D va_macro_mclk_enable(va, true);
-> +	if (ret) {
-> +		pm_runtime_put_noidle(va->dev);
-> +		return ret;
-> +	}
+doc reference errors (make refcheckdocs):
 
-Why _noidle?  We did actually resume above.
+See https://patchwork.kernel.org/project/devicetree/patch/20260421195836.1547469-1-robh@kernel.org
 
->  	va_macro_mclk_enable(va, false);
-> -	if (va->has_swr_master)
-> -		clk_disable_unprepare(va->mclk);
-> +
-> +	pm_runtime_put_autosuspend(va->dev);
-> +}
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Don't we need a _mark_last_busy() here?
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-> @@ -1601,22 +1622,18 @@ static int va_macro_probe(struct platform_device =
-*pdev)
+pip3 install dtschema --upgrade
 
-> +	ret =3D va_macro_setup_pm_clocks(dev, va);
->  	if (ret)
-> -		goto err_dcodec;
-> +		goto err_rpm_disable;
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-Here we jump to disable...
-
-> =20
-> -	ret =3D clk_prepare_enable(va->mclk);
-> -	if (ret)
-> -		goto err_mclk;
-> +	pm_runtime_set_autosuspend_delay(dev, 100);
-> +	pm_runtime_use_autosuspend(dev);
-> +	pm_runtime_enable(dev);
-
-=2E..but the enable didn't happen yet...
-
-> +err_rpm_put:
-> +	pm_runtime_put_noidle(dev);
-> +err_rpm_disable:
-> +	 pm_runtime_disable(dev);
-
-=2E..so this isn't yet needed.
-
---hwlh+GjjAmlfHjKJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnn5DsACgkQJNaLcl1U
-h9Cvmwf/cVny7B519TYubQxqmfApcTfdgQQfC98MV9MlLOUXF19QU8F+/0g8rY8S
-kdAHWz9S+MVAChfeZWrXWWiAwCqlBzftJO3N0k6s/VkUs93kZd+PkanqE27AixtP
-jP4QNlLNMVE+Tuk14h7M+mfOp3QatH5s9zR5f5AzkPLZW4Fcla0YDAKktJ50383l
-MDVmYYSZyfPQSU2pVuwVIfh/ze7FSXKEMffyBh3vlTjQMsLTMy50Q3bozUuvn0bg
-nnYAFMo2dEZoUB3/VFMcKuzybUSW62NTci/2++ETxnqaYH+Vdzp/W50hOTyo54eG
-jSowBjpd6i46Pyh885MuGrih2ePyUQ==
-=3zLP
------END PGP SIGNATURE-----
-
---hwlh+GjjAmlfHjKJ--
