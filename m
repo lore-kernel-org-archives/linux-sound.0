@@ -1,188 +1,175 @@
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91ECC3DD537
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 19:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776799917; cv=none; b=glP13DZHfmx5HQ6wxiJwt+YHLCdkrC4ESJiIncZtlRGwEe+Mz/DtCKn3sc0VJ7SINIh9KsXO4oSioPb2WtW0ezEnbA2U3c3Xurlt3VhuuTnrzB0KT/vdqxDflJlrQuh2KsMBLx7gSsg80E1UzETxUyl8gh29miCrBJYG5azKN6Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776799917; c=relaxed/simple;
-	bh=j2An0cAyZ+elilC78eztC0JaKBVF34imDqpIowfIT3E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GXsogs9UzERclcvRtnvyTTmJXFebgRj/IXJ2jDKomixM3Bm98kj9nKClLRH8cP0Iu5krHvcAMzeq2vQBFfw7MYQRdEvvZyl2+9+vpLsXcC+pMGObW/1ddZDqO4RRIEA+BsVLv+WPY3FtFW84twXIbMpqeyUkh9Hmr+6DHlXtmRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br; spf=pass smtp.mailfrom=usp.br; dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b=ZhdWnhsy; arc=none smtp.client-ip=74.125.82.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usp.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095E0351C03
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 19:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776799964; cv=pass; b=fBKgh2nt6FIruivJvdEqV7F6PN1UFrTSJvVdUB2/Lk3l8BfHT2t2IWW4FXoZY1FFE7+402w3Q21vqSMi7P59/EgW3h3C1+dwKJlWYRa8FqyUByL/KUwr8NR0S2vrZOqVlx6cnmjGWJxJRHJxfAwSTxowQ4KaYrDJraYtnvte/5k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776799964; c=relaxed/simple;
+	bh=8rAcJsOtW4DKD45tYEB520aiSA9byMlCQPJXjvwG7nA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZU/F7gG+yJvZrZQJeXu2Q9wHX3fOslK80PktwJpWpxuOeqsEuzMRj+Or5Su4MCdj8uBrUGwYbkhtsg3yS81ilxZ7W1KPvPM9FUQ+rPcyPaNOs4Vcqx8msLttr+/G4dyS0PgDTnXBYZkJg46mlaN3icEV9uWkdXxGym+kEHpdZLM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0KCOWfe; arc=pass smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b="ZhdWnhsy"
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12c8f9846c8so3405495c88.0
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:31:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0KCOWfe"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59e4a04f059so5220722e87.2
+        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:32:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776799961; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lqVK0s+SEX62+Li5Ayd2mcLUQ+vct6Ji32dmNy+dEu6CYpnmZ1YFTP2JiNctgi18X4
+         7tzM25FePrll8GVLp/4vG5C3FgLqgUzSOrloojr2dgXckhweSZcRx5NMGzpyf+9KcGGO
+         eEm4U0HakeSzosTaqqcWIIk5PJb/mt/fna6redN0Vyft0ZBMNh4fQIXbxffZcDiNYrZ7
+         RZN26e5BUR5X6pDFbH4/dEzYKymlJt07kOAMSMz78s1M9bZMorQeGM7m/Zy0BlUrjOIO
+         YLfVm0sqbS+W57Rjg2AI+vipOcU/KMa2z9ghrhhh+NfY2RQQfj7YuDPMB8rtyg9uDFgb
+         p5yA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Lp5MwWSsbki+8BWZZD+t7QmXkch16LZxPn5fqnVKkr4=;
+        fh=ctGeNtL2MZymNTbXd/0qzaCHM+VSr7H0OKEwQOhLXvE=;
+        b=fivA43+y+75/9WyHSbHqSmR8jCSxiKHB277Ff+urZSwCOf3gu2G0xfuJxZkPz49D5I
+         TM5udgL62sK12gEbD20UPPnHFPCA2V1AZFayrXEMrxN6OWAYijWBNgn9hZ+F9Q4ewDkC
+         ++DylWrDm/ZXh3giBZlppmfQ3u/bHTFWgU9F4vRj1LxnJRdErZHfYaA3MadFHvfD09gh
+         1CXMw4XcRolL1X3YLoLJPmTmutcDuVoSOFXD4YJoPeZ2S651F93NHkylFVJxYO4G5vU6
+         ryW1bFnXk4nrteqvZwhaBN0PBhSqK/chC+SHD4ZPbRgA+x35TQ0Cbg1KjJoCks4MTBOQ
+         MPDA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google; t=1776799913; x=1777404713; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BnyzOjAbGINIFwzFjrQgr+TpUxRpisGZhsHzj0vzqJg=;
-        b=ZhdWnhsy8GZXgNFkqYAN3V/xj3pJI7YCRXRPZQyFDtgx0P2cBQfwwVoiOrUp0EbsTl
-         L7zu5FTCOz8H5xjpHJXjAIjJo7Q5dk/F4cYKZSnaCOKeBs6GMjK2s45d7i+hxpca5f5a
-         GwYsrqhpGfysa+worZmXPrz8yUdONdFsqeUyoGNf7MvT0LYsEFR7SaKMxDhy2XsFm6kG
-         V15QXCSXslgqn3hM0Gzut9AKd4Fb4PERuXMe7KVThTkS+FMzg56slPMkrWN3hjrnEocw
-         9x3I18hRZfx46MYXLA4iFOmQKF+8eYHZHnppaCpe4ulLkJ2Gr5GoKIrQArlmpqfB9SF1
-         wBPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776799913; x=1777404713;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776799961; x=1777404761; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BnyzOjAbGINIFwzFjrQgr+TpUxRpisGZhsHzj0vzqJg=;
-        b=HJuOTiTghScIuofhHk63sOe9muFiX5/0THYNfbjzlWAOR4EoIFr9fUs6Sy/v0H/ydg
-         gDJ+enXi4ZUY9seN3udR4UzQHF8+Fn/oCmHURZInqcdYLMXk78YIj37rsPM9Lcm3AzAM
-         HwAQwvBNu67jZWARE8o4rWXXSVIlRFjm67uS6RI8JCLf0hQ9VHBzLpOMeHJLU+2aH2NR
-         mKmaGjLjF1zhlV3lqw8fjZsy02Pbk2nYq8Ib8ZkEnIyiigsWc204EbMlw3Si267cFnjG
-         QQd4KVTI6HK8jnuBr/4XtAdYwcEOnZZPDgAgnGpyFR55tYiECl6CFXVlTGuiCrEX9hjS
-         FAJQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/a22QbKSoQT2YLXbnIaz0ZFmcdQxP5q9xZtOXas8u43ODanlJ70VUOH7mhAenb/xgqXXprFLhyRYPx3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRBmbFVd6JYBX+RdyMhrqWNEX0oVeYFE+jEE4IXA5YktMQTpnH
-	0qq58sFu13HrzlcLHQAtoqMSY+0SFip+YSG3Ke0hFjhc6j6k22t/io8DILWOKLCUyrI=
-X-Gm-Gg: AeBDiev/ip2QPI0ovOJOq+ziU9wmABkwTFTuTJ5GTUsXpVpKLadoyqmB/nbyo3d7pT6
-	MtUG9+kIq69fUddA8oVDR6SXszSBMSTcrSa6IvjS5xZ8VRNPo/5tfLvnqj21YPgM1gltAXbJOqx
-	o1+DoughG43PucFDCDmlnKMldlIiuhP8XeG9retjDvTtl16gVlp7QcJLQFP7mc2KxekSNY3m6RB
-	hG1ohpIihKJuzBhC4aLxOEQYWZ3dvRXiXfr0ctMGfu9kSs9jmhiMGSmM/kq5cEwtLDwgc8qSVQQ
-	E6eB0xTsuIxaQXSsScWeZ++BTISajGlWe5HL2M8N8qc2e3XCIZ8orglD6e9WGamZmdsSKFfx9oN
-	0LpCK3ccgfVnylmN1STzhTPGanr6A2/8tUmBSyv/06SlCcGazYAglHZ9Nt7O9RC6yUvCV0qKDvV
-	Pa1ZRxwyL0d/+rueOp0FqEOY+AYESPHMDi0KkWvnz+/g==
-X-Received: by 2002:a05:7022:6627:b0:12c:8b9:7200 with SMTP id a92af1059eb24-12c73f95211mr10548058c88.17.1776799912582;
-        Tue, 21 Apr 2026 12:31:52 -0700 (PDT)
-Received: from localhost.localdomain ([191.181.59.174])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e539fa3ce1sm19288921eec.4.2026.04.21.12.31.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 12:31:52 -0700 (PDT)
-From: Gabriel Jacob Perin <gabrieljp@usp.br>
-To: claudiu.beznea@tuxon.dev,
-	andrei.simion@microchip.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com
-Cc: carlos.albmr@usp.br,
-	Gabriel Jacob Perin <gabrieljp@usp.br>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] Change manual bitfield manipulation to use FIELD_PREP()
-Date: Tue, 21 Apr 2026 16:31:13 -0300
-Message-Id: <20260421193113.1060213-1-gabrieljp@usp.br>
-X-Mailer: git-send-email 2.25.1
+        bh=Lp5MwWSsbki+8BWZZD+t7QmXkch16LZxPn5fqnVKkr4=;
+        b=U0KCOWfef/qBQrkyOJSDmmpcjmo7arG2hPWTEiyPs2yT//CHKCf1ZIMagH2A6u6+mb
+         tgPOt/HEIfV3Eesx/70f2MDJ2fMlGbaqEHhTPdrQbrhEO/bggpGbR+exmIjmuHVCBWxC
+         HiAXA4lHem2UthqT2kUUY01Mn92A50aeytCNWiX+NMWwsem8VtvyiAXGU5+QNFjnrYQB
+         wQVnTkcGXS0Oe33ClkWXuqBTHWIOhACIX3izkzKzQ9/YUe1Lpodpd72FNCV8p5y5f3WS
+         W+ihiyTMY6F9XUxhrw2iI7ugRUFmgDRLHv2pK70K2ay0S9DmGZyWvl+z2VjNp6yrgHYC
+         ZgQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776799961; x=1777404761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Lp5MwWSsbki+8BWZZD+t7QmXkch16LZxPn5fqnVKkr4=;
+        b=UXUloP7xFwO9IJevM6bisL94GsslRdaxkOG+j+8BrDoaLPSy8oaJD62H0hI9bSVkLk
+         iM9zRVjAsNPLcihErCJtmgfJ+xblxMxopCamids83kTsZgkjL15mQHp2UEjtL6dy9hBv
+         jjUjNHP/7ffgggxk55Z4+Bzo0ItKLll9zZmkCJ59WjhRdCcfvAdhRZvfvMOvBAdovE+7
+         B8d+isDvC5CB3zOAWs+2+11F30Th/Vc+TZvpwZakLFHPU2bW4dT64VLiGypBZvHdYjkP
+         x7Y6WOko0pYEkB2oR+Or3nnJcIVnL/HJBQ4DIMRR5e/njvM5ppE/l8HRKL0LqKfMkxkf
+         FqSg==
+X-Forwarded-Encrypted: i=1; AFNElJ9l7CoY97/dVS/KlzhK+lSDy2FGxSih77uwyDoGd+Z095JAuTV/yClboV/GMtrpxToCNlaUPbV23QCQKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqV6kMvA1EpBXmTAFnCs30Iv33nsd01DYzBfY7IMokVSXertqV
+	iwDK8zYIxUmCbcb90f14fWInqVm5zw7JpVRN3wDiYxjzzM7rNSTESrogicHYgfN9a5hibsH91Xb
+	mMqwaNUDn8+DhQmOuJ6H55ppLqd2wF+M=
+X-Gm-Gg: AeBDievLdOZbCPslCwFm5rtTPixjhqSTRIwDwK7Dl4S8Dzgevp1ChkwWZ/KBVfkzEk7
+	BXhzYQ6z82X4TxS+ajawRcEFY7GsBAAh4/Io/vnwfJ1XOtYNtD7+88jlQonT+F3uilgKFJGKsQJ
+	xDBw8k27ZTlWG2VMDPBQSJ2KKvkB48z6g3sZkMvjo0Dmy7l0zFbzagC5Mpd/cJx+1gEgffXt5sL
+	isow9ouFt5ZsGMq1Cuzr0Erh54svTsi/wvEz200OPUxtjcG8uA/6Ep5sEgRmWy98s2/V6MbORhW
+	fia9KHWrNdCfpe19bu8s5sDkvJe0euAJQ2lwMrzWNwSsFuBGaS0f
+X-Received: by 2002:a05:6512:39d3:b0:5a3:6734:48ae with SMTP id
+ 2adb3069b0e04-5a4172ebef7mr6518200e87.40.1776799960988; Tue, 21 Apr 2026
+ 12:32:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260327121919.603768-1-padmashreess2006@gmail.com>
+ <20260414034854.461661-1-padmashreess2006@gmail.com> <20260414-tentacled-mantis-of-control-cb08f3@quoll>
+ <CAEjBr-bdNvgBWjHei4K8LLH6QjkgHXCwtmW5qGoeh_36Vy8kWA@mail.gmail.com> <5cd2b36b-de7d-c51d-f495-6ce78fe5a8d4@gmail.com>
+In-Reply-To: <5cd2b36b-de7d-c51d-f495-6ce78fe5a8d4@gmail.com>
+From: Padmashree S S <padmashreess2006@gmail.com>
+Date: Wed, 22 Apr 2026 01:02:27 +0530
+X-Gm-Features: AQROBzAkL16A_ScsBRTcdIvJEzKEVKZiM7-iIGei2JZekFMz9TeDEu_VrJvpYJ4
+Message-ID: <CAEjBr-YQte6QpjX+AR9woJ-tf2n7s+8hVuTMJP7Ne6tFLMEMBg@mail.gmail.com>
+Subject: Re: [PATCH v4] ASoC: dt-bindings: ti,pcm3060: add descriptions and
+ rename binding
+To: Kirill Marinushkin <k.marinushkin@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Co-developed-by: Carlos Alberto Marques Rabelo <carlos.albmr@usp.br>
-Signed-off-by: Carlos Alberto Marques Rabelo <carlos.albmr@usp.br>
-Signed-off-by: Gabriel Jacob Perin <gabrieljp@usp.br>
----
- sound/soc/atmel/atmel-classd.c | 41 ++++++++++++++++++----------------
- 1 file changed, 22 insertions(+), 19 deletions(-)
+Thank you for the review. I will add the reg description and squash the pat=
+ch!
 
-diff --git a/sound/soc/atmel/atmel-classd.c b/sound/soc/atmel/atmel-classd.c
-index 1f8c60d2d..6693bdcbb 100644
---- a/sound/soc/atmel/atmel-classd.c
-+++ b/sound/soc/atmel/atmel-classd.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-+#include <linux/bitfield.h>
- #include <linux/string_choices.h>
- #include <sound/core.h>
- #include <sound/dmaengine_pcm.h>
-@@ -236,34 +237,34 @@ static int atmel_classd_component_probe(struct snd_soc_component *component)
- 	u32 mask, val;
- 
- 	mask = CLASSD_MR_PWMTYP_MASK;
--	val = pdata->pwm_type << CLASSD_MR_PWMTYP_SHIFT;
-+	val = FIELD_PREP(CLASSD_MR_PWMTYP_MASK, pdata->pwm_type);
- 
- 	mask |= CLASSD_MR_NON_OVERLAP_MASK;
- 	if (pdata->non_overlap_enable) {
--		val |= (CLASSD_MR_NON_OVERLAP_EN
--			<< CLASSD_MR_NON_OVERLAP_SHIFT);
-+		val |= FIELD_PREP(CLASSD_MR_NON_OVERLAP_MASK,
-+				CLASSD_MR_NON_OVERLAP_EN);
- 
- 		mask |= CLASSD_MR_NOVR_VAL_MASK;
- 		switch (pdata->non_overlap_time) {
- 		case 5:
--			val |= (CLASSD_MR_NOVR_VAL_5NS
--				<< CLASSD_MR_NOVR_VAL_SHIFT);
-+			val |= FIELD_PREP(CLASSD_MR_NOVR_VAL_MASK,
-+					CLASSD_MR_NOVR_VAL_5NS);
- 			break;
- 		case 10:
--			val |= (CLASSD_MR_NOVR_VAL_10NS
--				<< CLASSD_MR_NOVR_VAL_SHIFT);
-+			val |= FIELD_PREP(CLASSD_MR_NOVR_VAL_MASK,
-+					CLASSD_MR_NOVR_VAL_10NS);
- 			break;
- 		case 15:
--			val |= (CLASSD_MR_NOVR_VAL_15NS
--				<< CLASSD_MR_NOVR_VAL_SHIFT);
-+			val |= FIELD_PREP(CLASSD_MR_NOVR_VAL_MASK,
-+					CLASSD_MR_NOVR_VAL_15NS);
- 			break;
- 		case 20:
--			val |= (CLASSD_MR_NOVR_VAL_20NS
--				<< CLASSD_MR_NOVR_VAL_SHIFT);
-+			val |= FIELD_PREP(CLASSD_MR_NOVR_VAL_MASK,
-+					CLASSD_MR_NOVR_VAL_20NS);
- 			break;
- 		default:
--			val |= (CLASSD_MR_NOVR_VAL_10NS
--				<< CLASSD_MR_NOVR_VAL_SHIFT);
-+			val |= FIELD_PREP(CLASSD_MR_NOVR_VAL_MASK,
-+					CLASSD_MR_NOVR_VAL_10NS);
- 			dev_warn(component->dev,
- 				"non-overlapping value %d is invalid, the default value 10 is specified\n",
- 				pdata->non_overlap_time);
-@@ -370,8 +371,10 @@ atmel_classd_cpu_dai_hw_params(struct snd_pcm_substream *substream,
- 		return ret;
- 
- 	mask = CLASSD_INTPMR_DSP_CLK_FREQ_MASK | CLASSD_INTPMR_FRAME_MASK;
--	val = (sample_rates[best].dsp_clk << CLASSD_INTPMR_DSP_CLK_FREQ_SHIFT)
--	| (sample_rates[best].sample_rate << CLASSD_INTPMR_FRAME_SHIFT);
-+	val = FIELD_PREP(CLASSD_INTPMR_DSP_CLK_FREQ_MASK,
-+			sample_rates[best].dsp_clk) |
-+		FIELD_PREP(CLASSD_INTPMR_FRAME_MASK,
-+			sample_rates[best].sample_rate);
- 
- 	snd_soc_component_update_bits(component, CLASSD_INTPMR, mask, val);
- 
-@@ -395,8 +398,8 @@ static int atmel_classd_cpu_dai_prepare(struct snd_pcm_substream *substream,
- 
- 	snd_soc_component_update_bits(component, CLASSD_MR,
- 				CLASSD_MR_LEN_MASK | CLASSD_MR_REN_MASK,
--				(CLASSD_MR_LEN_DIS << CLASSD_MR_LEN_SHIFT)
--				|(CLASSD_MR_REN_DIS << CLASSD_MR_REN_SHIFT));
-+				FIELD_PREP(CLASSD_MR_LEN_MASK, CLASSD_MR_LEN_DIS) |
-+				FIELD_PREP(CLASSD_MR_REN_MASK, CLASSD_MR_REN_DIS));
- 
- 	return 0;
- }
-@@ -418,8 +421,8 @@ static int atmel_classd_cpu_dai_trigger(struct snd_pcm_substream *substream,
- 	case SNDRV_PCM_TRIGGER_STOP:
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
--		val = (CLASSD_MR_LEN_DIS << CLASSD_MR_LEN_SHIFT)
--			| (CLASSD_MR_REN_DIS << CLASSD_MR_REN_SHIFT);
-+		val = FIELD_PREP(CLASSD_MR_LEN_MASK, CLASSD_MR_LEN_DIS) |
-+			FIELD_PREP(CLASSD_MR_REN_MASK, CLASSD_MR_REN_DIS);
- 		break;
- 	default:
- 		return -EINVAL;
--- 
-2.25.1
-
+On Wed, Apr 15, 2026 at 12:46=E2=80=AFAM Kirill Marinushkin
+<k.marinushkin@gmail.com> wrote:
+>
+> Hello Padmashree,
+>
+>
+> Allow me to once more propose this description, which
+>
+> was in the original .txt, and you included into the patch v1, but
+> removed for v3:
+>
+>
+>  > + reg:
+>
+>  > + maxItems: 1
+>
+>  > + description: The I2C address of the device or SPI chip select number=
+.
+>
+>
+> You also probably would like to squash patch v4 with the previous patch v=
+3
+>
+>
+> Best regards,
+>
+> Kirill
+>
+>
+> On 4/14/26 3:22 PM, Padmashree S S wrote:
+> > On Tue, Apr 14, 2026 at 12:09=E2=80=AFPM Krzysztof Kozlowski <krzk@kern=
+el.org> wrote:
+> >> On Tue, Apr 14, 2026 at 09:18:54AM +0530, Padmashree S S wrote:
+> >>> Add description to reg property and overall binding mentioning that t=
+his
+> >>> driver supports both I2C and SPI. Rename binding to match compatible
+> >>> naming convention.
+> >>>
+> >>> Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
+> >>> ---
+> >>> Changes in v4:
+> >>>    - Rename binding from pcm3060 to ti,pcm3060
+> >>>    - Add binding description
+> >>>    - Add description to 'reg' property
+> >>>    - Remove unused label in example
+> >>>
+> >>> Changes in v3:
+> >>>    - Remove description from 'reg' property
+> >>> ---
+> >>>   .../bindings/sound/{pcm3060.yaml =3D> ti,pcm3060.yaml}   | 10 +++++=
+-----
+> >> What v4 is that of? There is no such file.
+> >>
+> >> Do not attach (thread) your patchsets to some other threads (unrelated
+> >> or older versions). This buries them deep in the mailbox and might
+> >> interfere with applying entire sets. See also:
+> >> https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/proces=
+s/submitting-patches.rst#L830
+> >>
+> >> Best regards,
+> >> Krzysztof
+> >>
+> > Thanks for pointing this out.
+> >
+> > Since this is a DT binding patch for the same pcm3060 device, I linked
+> > it to the previous version. However, I realize the subject changed
+> > significantly, which made the threading confusing.
+> >
+> > I=E2=80=99m planning to resend it as a new patch in a separate thread. =
+Please
+> > let me know if that works.
