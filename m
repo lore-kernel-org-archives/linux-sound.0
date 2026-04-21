@@ -1,67 +1,66 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB53346E46
-	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D8299A82
+	for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 12:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776773339; cv=none; b=GEbMKd57JlRHYTwC/7ejb4/CMUTq912fKKY/wLpqHebRRYL4TksgUnvCQSxBzWokvYhl4MOEIV9rYkVQtRGrvfLwdN96rkseAJ6IPwhqDVBucTzFm2UleiAGE4IH7x4UrKbMvdgvXYHma1jfqBKNq0bxIIm1DuLLUW6pbLq7iKo=
+	t=1776773680; cv=none; b=jP5zJ0Biz9dKp4LJTCP9IbrTELO5tefLbKzo3c6w9Hp6XglgGVek001mEgk+NuYQUh36PsPfdDZJ5mZxIONHYwiwYUcFjUqV4m15hx9loSIimH5DkANScWKoIAMs8p9Yn6SM2WVlfzqu6VrL4gV/8FwcpW1Bt27ZU9veoF1cN44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776773339; c=relaxed/simple;
-	bh=aiFLynpjYl5lQ5FEQIq2RBZ9sUwzrdzIDcRmvW305tE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:Cc:
-	 In-Reply-To:Content-Type; b=bhiz1qob1QTqIMgC0Dn/xGRvvQgT67URE9PgXjPjpgxjpGofJ9vKvPZWG1w0ECQ00NOaGZBQwwYrlSYD5GQ1CWMWD+2/0dCeaJx4wOGhuTTLjHD+lHn7OuEtf04oTiXlyfaEtEwbIqAkx1T5XV+pwNlef6mLqgSANCf2r5pfy8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PiQOGwyS; arc=none smtp.client-ip=209.85.167.50
+	s=arc-20240116; t=1776773680; c=relaxed/simple;
+	bh=Bv+R7Nlw0Py7FhxUwoX/vlCZjeMnCS+6Bzvx8OBVidc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DbGyqnU9FHfTBMH8itrN7XNZLaqvPkhi+nen+8IUB/3pdap9CH0rCH42k8iIQ5RBsdC9q9X1GxTjngwSSMFvI7EPc4tghIgeC+V05c3iFjOArq/ee6QDzICUzCn4s0cmKMAGXYJ1BF9aiYCYRXgAwGW7tXO2jt1Uew4N5jC1Nww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xrn/jb2/; arc=none smtp.client-ip=74.125.82.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PiQOGwyS"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a2c9c5ff87so4903527e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 05:08:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xrn/jb2/"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-12db63c6df4so314791c88.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 05:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776773336; x=1777378136; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:cc:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GrSOOzfY6QMDP4CMCrmM7To+FW0olg4dJIBSyC0pMd4=;
-        b=PiQOGwySKkL02lkLiVwlnvJ12lYuKeCUliLKNR8yw2UDcSIzw/Qmo4YqmH0b7pHQMm
-         ANNYUntIqxoyLaj7nwvnWHNPsQC7ZaN8WoJjS5tduobd8dX3Eet91NF8f4TWLwojADTK
-         mMWdRUrpRRXtQBXp9YSAC9vN32drBMPgKSYTFlIrb2rsMpPB6XXdtPmmA6/5mKJrmUuI
-         X6PLAT6AdUEqxdWRa4DaaD8r0uxfh4Qds3mcNzgtshA7DAH0FPjfAcb+nvgexryXMGjT
-         TpLSybDsBIK0/VDqx/xe0Bf2opyGiMX4VYSvMckFYoQSrHeBAzAfOj8KCP9pxTN4FImK
-         +xCw==
+        d=gmail.com; s=20251104; t=1776773678; x=1777378478; darn=vger.kernel.org;
+        h=in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bv+R7Nlw0Py7FhxUwoX/vlCZjeMnCS+6Bzvx8OBVidc=;
+        b=Xrn/jb2/yecwN+DBDoo3lImw2LpECH2vgFfJV3znJdetRdvS9PalD2A4h2Xbja54hQ
+         BidHXxq8LtTATQoes1LKdD3j7ZKs9VfnuRIsGtuxjvwwiInFHFo4n2uutfKXdNUKqfDv
+         eNdPyQU9/2UK0c4S9mvY6NFMpzAJINV7Olr7D0bclobmQfX4/gqpbJsYjexleVcevsGu
+         EzvddQR00sSE1UcWJ0pQbEzdmVR6mNEr984GnmTvIDEF7j8oxIwVlDEk2eejMbunUUM7
+         jxPi1E60HeJPzbRG9uVZUiFqxmH7odTOtNzRV4Q5umhFy7TipWx+Cf58jLclay1lBItb
+         gObQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776773336; x=1777378136;
-        h=content-transfer-encoding:in-reply-to:cc:content-language
-         :references:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GrSOOzfY6QMDP4CMCrmM7To+FW0olg4dJIBSyC0pMd4=;
-        b=ePqegiou8qQ8ZE959wvuwfYGaW1/MjKlLOPfaingWuOQi3N2SegLC3oOkjxtiAks+D
-         xPMvOj6+97509jiFD5K7LqibQEivb6/DiwNQbGL6ZTt2Ldwpx4s8nm3HpITUfc2HfQLm
-         GcGvsel900k8AyZlmfRL1jZS1oJCfWPbCCR3v4GUu7qr34Ig88uF26CXSxE0XruFRITL
-         wPrivWkBARurb9Pnjgd/m37IAfiYNd4LtFNSJH1XEP6GwmeWEVeG8Skz2K7fbhZAMpIL
-         uEDg5csHUdlbMARACHxxDSEvvfbmUof0NUOwRu/2uPs+L/o5KVlQPGcEB0Ky/geHtyIU
-         g8Kg==
-X-Forwarded-Encrypted: i=1; AFNElJ8aZkqXLemwvWQKMds1dBdfC6Cmwwm9tTUYecm0hKWWTLQA+rGK7Atu4fuQ6n3vPpl+i4UHbejUCIWPzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxRExZi9NBWoClXjQD6c3stbFCJXFMnfNWwczJJWd0877y9CJH
-	gcJckvEnVb0vYyXbEQvpYGW74CppYR3gtScJY8IVYkVshStr1OMJzn/8
-X-Gm-Gg: AeBDieuyvcWfEtpW6Mw9PClus1JKH+V8PWlgraIuPoJUSO9xXNBHg3vndEbOwsFp05g
-	Uo4SKccuotWUkmYmET864zXDwRVZzsy7DcPHQFXqgv8CpvNX7/n/eG8q/k8YrUmrvM5KYGhqGzp
-	dSqSDKFB8yp/UtZEHbwqE48apxNKqTTzjEFL9hmtLWyznH9bLju2hJXTuqPvF7fowQZvHJy9bmM
-	OtTK0Uhc+1cAGWubmv/cKDiWe3wWk7wY52CKGSzRADBNMwXMa2kwrXmksnEOy4F20Lpaqf0yk1R
-	/Of/BEQwi0rhhzS0aQLTFwX/zGwIu94VmYjmsj8jkDLnnwNmndKwJDtz8VQMivfJTHIaf530pV4
-	k13jNC1udvUs5+OP4mgLoFGKbqOuzX2r0it6x7M5MSult7eAjZBQxYxEMNJcOpLL5OFePyDkoFE
-	XG5rtO9uDtIeyaIWSUt3iiOrGhE79dN+STU8AjUszsITElePKoEtAftk54DKscNvFSWHnmkXgcY
-	KVBVMmOqG8X++rX4Sj0+6Ym6Oc=
-X-Received: by 2002:a05:6512:33c8:b0:5a4:8b:a075 with SMTP id 2adb3069b0e04-5a4172cc5e7mr5514712e87.16.1776773334265;
-        Tue, 21 Apr 2026 05:08:54 -0700 (PDT)
-Received: from ?IPV6:2a02:2698:242a:1c71:d5e3:307:560c:a869? ([2a02:2698:242a:1c71:d5e3:307:560c:a869])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185ad343sm3621482e87.2.2026.04.21.05.08.52
+        d=1e100.net; s=20251104; t=1776773678; x=1777378478;
+        h=in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bv+R7Nlw0Py7FhxUwoX/vlCZjeMnCS+6Bzvx8OBVidc=;
+        b=qkKBBhx+4HAUOOOL0i2b/TYRxmePy7s4LrrPq8dTMT4P1hcoehZEiAr/0vKFlNjdgv
+         HkHXgAduEuQj2Y0hLhdh6NMEFA5rTwQ1Rk0dkXWstlQdIs1uuPdEmgbIkp3/xO608qbD
+         ZjJD/SgzCz4CKfI3zAQlgyqwe1/PbXGas3bTiIbQTVj2bIL1ogofVJTEdyojit2MjvQ8
+         kmslkMXGDQ02aUMv+0N9FKwTfh08YpbVo9U1lBBP5hzj/rwRpvUk3w2CZq3E+JFUnF/Q
+         1DaemYCojT3d5GHYk60seqylnzbWSWviIhtVkjMJ0HNZE454kLIrRbHKYS/oEVT+aXcH
+         WHuA==
+X-Forwarded-Encrypted: i=1; AFNElJ+kM+eluSZf6s2x49+OGD0BDJQbMteg8s0DsrWJdGx/cfBbn1BdGCFFHs1KjXostYNIvhNHytc1q5kYKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1DXmJqTunJEwNZdk1rs8AxGIr8vQUzQsVzAxE/Yh9E8SWfjY8
+	qCwyX0ZRJqhTdVOB8sZ8fa4rtk6K9fQeYhfyrasAmbmxH6sHUsIDoe3K
+X-Gm-Gg: AeBDieurjNYpSao9IOMEGyWBee7SYnhLwsfkJ3M8GWeH/m/Z3HENNEmuC8Zz++aPCOZ
+	gwAUjeDBjVO2xMgqlldDE/EFl5oePkhD8t7TuQjmKaiq05I+SjNcWPLOeFVxH1yYrX6NaW3LqCj
+	HzPa68ELH7ZM6EUz3AhHtbQ9o44hkBiEVsl1A9pF1rds3+XFKVgPElYMlyMNZtuRhfg9gqdOS1P
+	TcYhXg88Wp1P18m++4CS2ObvZDA1co6fVF1lqiqz+POhYTBlzPe+00V3gbm+HCXdiTuGB9OpMoG
+	6fCo1wqMOxNXbSCYZ3axTZK8DzuR+DH/2ZIMwLhIv5q+fgcSIVmO/nlKzg3Av7nLOy/qL2HwW5E
+	HwCmv3n4/9T8eGQ7lhSsEVcaIyPRAtsRQqcZuDQGAFgu3zVGthseOTQvb5cYHV//tjKSQUKzI4k
+	OB00mPI2KtPSN4z0yA6z2b7Sy8KlUSGMgtqHi5ZPcAZA817t8WHTuXzpz0lHstuVY9+YizQDV4Y
+	+u8RN5GQfnN
+X-Received: by 2002:a05:7300:cd94:b0:2ea:4228:ab11 with SMTP id 5a478bee46e88-2ea4228ab6amr1691332eec.3.1776773677571;
+        Tue, 21 Apr 2026 05:14:37 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e539fa6134sm19204952eec.3.2026.04.21.05.14.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2026 05:08:52 -0700 (PDT)
-Message-ID: <979224ba-eead-475a-b299-d8572d7cbaf5@gmail.com>
-Date: Tue, 21 Apr 2026 15:08:50 +0300
+        Tue, 21 Apr 2026 05:14:36 -0700 (PDT)
+Message-ID: <8168eb7f-2e07-4f77-9b3a-38ee25bfa9e5@gmail.com>
+Date: Tue, 21 Apr 2026 09:14:31 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,50 +68,98 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2 2/2] dt-bindings: sound: cs35l35: fix typo 'overide' ->
- 'override'
-From: IRRatium <majnkraftiigry7@gmail.com>
-To: broonie@kernel.org
-References: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
+Subject: Re: [PATCH 0/4] usb-audio: fix mixer write failure handling
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Chris J Arges
+ <chris.j.arges@canonical.com>, Detlef Urban <onkel@paraair.de>,
+ Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
+ <87v7dkag5r.wl-tiwai@suse.de>
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
 Content-Language: en-US
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <8ff364cc-c735-4e42-9d5d-775b76621e48@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <87v7dkag5r.wl-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------4wcrJbl104l9Fi56M44Fkzr0"
 
-Fix typo in property name, should be 'cirrus,classh-bst-override'.
-The driver now accepts both spellings for backward compatibility.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------4wcrJbl104l9Fi56M44Fkzr0
+Content-Type: multipart/mixed; boundary="------------YQJlNMRd4p3DuOd5v6KIUDvX";
+ protected-headers="v1"
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Chris J Arges
+ <chris.j.arges@canonical.com>, Detlef Urban <onkel@paraair.de>,
+ Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Message-ID: <8168eb7f-2e07-4f77-9b3a-38ee25bfa9e5@gmail.com>
+Subject: Re: [PATCH 0/4] usb-audio: fix mixer write failure handling
+References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
+ <87v7dkag5r.wl-tiwai@suse.de>
+In-Reply-To: <87v7dkag5r.wl-tiwai@suse.de>
 
-Signed-off-by: Sergey Shatkov <majnkraftiigry7@gmail.com>
----
-  Documentation/devicetree/bindings/sound/cs35l35.txt | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+--------------YQJlNMRd4p3DuOd5v6KIUDvX
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/sound/cs35l35.txt 
-b/Documentation/devicetree/bindings/sound/cs35l35.txt
-index e84f30c5c..1d364b3d3 100644
---- a/Documentation/devicetree/bindings/sound/cs35l35.txt
-+++ b/Documentation/devicetree/bindings/sound/cs35l35.txt
-@@ -82,7 +82,7 @@ Optional H/G Algorithm sub-node:
-  Optional properties for the "cirrus,classh-internal-algo" Sub-node
+On 4/21/26 05:09, Takashi Iwai wrote:
+> On Sun, 19 Apr 2026 22:30:28 +0200,
+> C=C3=A1ssio Gabriel wrote:
+>>
+>> This series fixes usb-audio mixer put() paths that currently report
+>> success even when the underlying device write fails.
+>>
+>> The issue exists in the generic mixer core callbacks, the Scarlett
+>> Gen1 enum path, and several Tascam US-16x08 put() callbacks.
+>>
+>> The US-16x08 EQ and compressor callbacks have an additional bug: they
+>> update their software shadow state before sending the USB write, so a
+>> failed transfer can leave later get() results out of sync with the
+>> hardware state.
+>>
+>> The series is split into four patches:
+>> - propagate write failures in the generic mixer core callbacks
+>> - fix the Scarlett Gen1 enum callback
+>> - propagate write failures in the simple US-16x08 put() callbacks
+>> - commit the US-16x08 EQ and compressor shadow state only after a
+>> successful write
+>>
+>> Successful writes are unchanged. Failed writes are now reported
+>> correctly, and the US-16x08 shadow state remains coherent with the
+>> hardware after write errors.
+>>
+>> Signed-off-by: C=C3=A1ssio Gabriel <cassiogabrielcontato@gmail.com>
+>=20
+> As this might influence on the actual device behavior significantly,
+> and it's in a merge window, I postpone the series for 7.2.
 
-    Section 7.29 Class H Control
--  - cirrus,classh-bst-overide : Boolean
-+  - cirrus,classh-bst-override : Boolean
-    - cirrus,classh-bst-max-limit
-    - cirrus,classh-mem-depth
+Thanks for the feedback.
+=20
+> thanks,
+>=20
+> Takashi
 
-@@ -155,7 +155,7 @@ cs35l35: cs35l35@20 {
-      cirrus,shared-boost;
+--=20
+Thanks,
+C=C3=A1ssio
 
-      cirrus,classh-internal-algo {
--        cirrus,classh-bst-overide;
-+        cirrus,classh-bst-override;
-          cirrus,classh-bst-max-limit = <0x01>;
-          cirrus,classh-mem-depth = <0x01>;
-          cirrus,classh-release-rate = <0x08>;
--- 
-2.53.0
+
+--------------YQJlNMRd4p3DuOd5v6KIUDvX--
+
+--------------4wcrJbl104l9Fi56M44Fkzr0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCaedqJwUDAAAAAAAKCRDQXT8aWv/ug/qM
+AQCavMbleHfa2Thh7teKJhptqTC7AULyPLDMHDF8+3CS4QEAyNEGvZdT930ozr8ywVtukBNoxadT
+itI46VedOLyKPgw=
+=C2ec
+-----END PGP SIGNATURE-----
+
+--------------4wcrJbl104l9Fi56M44Fkzr0--
