@@ -1,145 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513E03D9DDA;
-	Tue, 21 Apr 2026 20:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B9E287503;
+	Tue, 21 Apr 2026 20:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776801617; cv=none; b=rh9tp3DjZdP3oDA3sa4lxMJEgpMU0OkdPqhQgu9nHbsFPe8JNk4NlGznUXZc43K9GsLR8qwzS2YQAK/100lQcftDISxPQgHH7lOU066Omjtjx3YgoEw8CXWwgfOhqPpHsPIXP5a1fLDilyPW5k5+3EolkPBLMNeeIixx4VErQJo=
+	t=1776801773; cv=none; b=AcapKHPQwYRSYEf6MzKtoGjlf6qAKPyK6QjXer3/2fcWbP1r0Qr3julztlCQI9yJn3aaUWAGeSzdakzGkqmVzIVgNNxqDEPjcsNXRNu16giWi+OTTbabtpcG/UJnmYUmo7LhzDVnfvLvboH7E4IngwnOcZGtXHbGE3yQMMGm2AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776801617; c=relaxed/simple;
-	bh=Zlc1xvs7V1MA2mbAbpURS34qCSlGhYRGswgZIBC4UrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l7s0wRpKAUaRlTYNweTQaSxXgHpVC+TQoOf8xJjGmK4DfcO3cqS7QSLgdu6QKqE4jKZC7j//X4Qpdpu4onodJ3m9mdjgH55Zz1Pc5qvFuxim0UxMGF4mC82ODfPgqQ0x1zeSgosQ1CPRzUK/l3tijUsZTwLE6KyDMzG3uzgtGRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q3Ls/D6b; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776801773; c=relaxed/simple;
+	bh=6ALuKLtdqBEX0l5wGdHl3Kb7SYykM07HbrkIYqS3aW4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hMqoNMIntxaj1ycPxP32BZ6VGqTNx5LplpEDyevhNTbePi1/dc4hjaWm5y86cJX02Ofsn8TxxQrdERPxMaM5dqxcY+OSwPQJqHleOxBfAC6COLHrYmQ7Rjz1ydoG4DCIqBtEPjbxHF0amzdoiGWDZcTscx1icivBqxS0DlfAfNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkLWTpx5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3Ls/D6b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1E0C2BCB0;
-	Tue, 21 Apr 2026 20:00:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkLWTpx5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECC2DC2BCB0;
+	Tue, 21 Apr 2026 20:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776801617;
-	bh=Zlc1xvs7V1MA2mbAbpURS34qCSlGhYRGswgZIBC4UrY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q3Ls/D6bQyexm8rodqpy6NEtHra1oMoMVRLg3U9JMkuJrvmpKemOoLsPg8viOmxAA
-	 oqbL97hhSfvKpFblHAkaTwKXjjjZLWkOveAAbzSfAq6JcamM1T1fjT2bPzUSogslAK
-	 +zvD75CC72k7pSEbCjzlxRdWV5d56eR8iYLCZ//CrhVjnarDFCciD4iZ3S+xX53yHk
-	 JTeIP7kLtxMiNbsa1tHstJOkS9fk+Nvrwwvv0ksP1PkgiT2k6Bx4ENQF1dlHWnOOKe
-	 HidJJmzeMoiBAw/SATUP6S23FVd3QT8sw7/HfUkMqBjCCQnnLWyBosurg75kP4c4BR
-	 TJbjwsrX4yqUA==
-Date: Tue, 21 Apr 2026 21:00:06 +0100
+	s=k20201202; t=1776801773;
+	bh=6ALuKLtdqBEX0l5wGdHl3Kb7SYykM07HbrkIYqS3aW4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=bkLWTpx5u8v/8FnxpD+exJVYLOLtT53ZjxjQ+7INPtjKLdrn89Ec+r7QrlNOjDgtA
+	 jZ13YbsSMrFm+X6R2MvjAoQkQQ0xXnDCv/R8u6sLIAPKIHEXivP6Bu9dO9DgVttBut
+	 0bdITIIMao1FAur/FLc3GZ7Ssexrq073Lpv6FW5lNZat5cmZhExUgTscwJYI+YfRW5
+	 TzEkjQGAFeumOGPHE9IJrAfMM9Ad2eNY2e2T1AS2mvypzGdY2x4TKeKXS2CCzsz8U/
+	 i+4slO8l6svTOzvCvtTBrz17/V/fcTcGIvFjBABA//MjdCOAfJl/K3iou7BTbGm4ZV
+	 8lK4MdbbX+/fw==
 From: Mark Brown <broonie@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yang Xiwen <forbidden405@outlook.com>,
-	Alex Elder <elder@kernel.org>,
-	Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
-	Rao Mandadapu <quic_srivasam@quicinc.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
-	ath11k@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix phandle-array constraints, again
-Message-ID: <ddeb29fc-1292-4191-8963-8ba817410740@sirena.org.uk>
-Mail-Followup-To: "Rob Herring (Arm)" <robh@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yang Xiwen <forbidden405@outlook.com>,
-	Alex Elder <elder@kernel.org>,
-	Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
-	Rao Mandadapu <quic_srivasam@quicinc.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
-	ath11k@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20260421195836.1547469-1-robh@kernel.org>
+Date: Tue, 21 Apr 2026 21:02:00 +0100
+Subject: [PATCH] ASoC: ops: Log unknown controls in snd_soc_limit_volume()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SlEK5XXQLOw6MldA"
-Content-Disposition: inline
-In-Reply-To: <20260421195836.1547469-1-robh@kernel.org>
-X-Cookie: Jenkinson's Law:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260421-asoc-limit-volume-error-v1-1-dcd0102576a6@kernel.org>
+X-B4-Tracking: v=1; b=H4sIALfX52kC/yXMQQqDQAxA0atI1gacobSjVyldjDG2KeqURKUg3
+ r1jXb7F/xsYq7BBU2ygvIpJmjJcWQC94vRklC4bfOWv1cU7jJYIBxllxjUNy8jIqkmRog8uhI5
+ uVEOuP8q9fP/n++O0Le2baT52sO8/l7DMiXsAAAA=
+X-Change-ID: 20260421-asoc-limit-volume-error-ca28188dc7c9
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: Tobias Heider <tobias.heider@canonical.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6ALuKLtdqBEX0l5wGdHl3Kb7SYykM07HbrkIYqS3aW4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp59fqHvE8F8yA+YRM3IRDjq7r6yL7Ckzb6rZl2
+ epmiVqzAPmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaefX6gAKCRAk1otyXVSH
+ 0F6iB/9fdeNs25I5kvRYAwdaf8D51Xd1Qh4Tml4JtW5p38T9VkhKAXliKO+ayAS6ew+HFISM8qO
+ Q0IQWBDjLgedWR3WyWO7I7RIjmsmW1GocngOKuP9ew5EYNtm/0ECQUGMNGNa59j8FvoCyar1vYe
+ et9mZmrgM8yEnI78vRZsD5xD6IcvWkaaZbUUdwdfqY95n3P0NbJ3/CoX2Y0rXKKn3VJEpGAqFxD
+ Vw4I80+SIh4asULAo5cGCEGKLfa++Phb7ml/0aNsG0xELet1i6w0RoxZI79Qkv7bIAToslJGLeY
+ NBwZYpXlaFNhSjWU3SICKVEqehE07KBgQZDDOqiAmiu08jqA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+When we fail to look up the control name in snd_soc_limit_volume() we don't
+log anything, the error code isn't particularly descriptive and checking
+the return value of the function at all is a bit erratic among the callers.
+Since there is no reason why anyone should ever be attempting to limit the
+volume of a nonexistant control add a log message in the core to improve
+usability.
 
---SlEK5XXQLOw6MldA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/soc-ops.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Tue, Apr 21, 2026 at 02:55:25PM -0500, Rob Herring (Arm) wrote:
-> The unfortunately named 'phandle-array' property type is really a matrix
-> with phandle and fixed arg cells entries. A matrix property should have 2
-> levels of items constraints.
+diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+index f966d4e13c7f..94e28fc780a5 100644
+--- a/sound/soc/soc-ops.c
++++ b/sound/soc/soc-ops.c
+@@ -503,6 +503,9 @@ int snd_soc_limit_volume(struct snd_soc_card *card, const char *name, int max)
+ 			mc->platform_max = max;
+ 			ret = snd_soc_clip_to_platform_max(kctl);
+ 		}
++	} else {
++		dev_warn(card->dev, "Volume limit for unknown control '%s'\n",
++			 name);
+ 	}
+ 
+ 	return ret;
 
-Acked-by: Mark Brown <broonie@kernel.org>
+---
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
+change-id: 20260421-asoc-limit-volume-error-ca28188dc7c9
 
---SlEK5XXQLOw6MldA
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnn10UACgkQJNaLcl1U
-h9C8Vgf/TIh3jOwQkzaSh+ITMEgUCeXAFPb4VUUhIGQS66939JxKIGlaCr8kVeam
-fIS+iyN8BAflGToJHouS473TERLm3pmQaKv4FHy2m/XW3E7aNKl/WZ6nuPJbZzLH
-jN5jU8h19JcMriiidDPn73PPnDdSLZHsxuegwuYvWjjutnanS7pzFFJnvB5FqglH
-DmQVRssnzzYzUBCLII2ARQtKPwTAkv1thWPjVRwXU0AxPSrEWA2+9xpNDedbe86f
-gZJyKDlrKgAXce/tnTDNOJYTUAUwUf66KgGMWLOjfRI+tbwsRV/Z1s6TbSIGgVif
-0AXVOMGUdqpfkYJFeGJGk/8tGGdtZw==
-=Hh8L
------END PGP SIGNATURE-----
-
---SlEK5XXQLOw6MldA--
