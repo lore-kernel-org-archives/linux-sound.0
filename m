@@ -1,120 +1,82 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8968B2264A9;
-	Tue, 21 Apr 2026 20:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1188287503;
+	Tue, 21 Apr 2026 20:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776802755; cv=none; b=QilTXiivnpV21KHMXyR+fhtnT5sluImciyqlqqtr+96zJacUkaR4vuLennMtFKt1d6xm8UGHkyjZk+DUdpgwSpGbwLCJSTNg44tLIVzRZodttWZnYdESdCdrlstszlC/1Cx7PLGLBTmySDdxSA0Vc908Zu/GdDoinhZHxl7zYwM=
+	t=1776803007; cv=none; b=jJVwbaSnyvtUTkUijXKW2ow3FRmV99WAkf/9AxoPtgUKayk5fSo8WVlGIQZeGolEsXymgTd/A/v15AWki4fEPZ5NqdJCYILTOJRNNW9sHim5jlmM0yh7r8dSD6QY3YatF9GGidxeijqFEXM9YVZ3s0txlVUzFCipdhotET6ab4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776802755; c=relaxed/simple;
-	bh=XS4RLHgtC4b9A4YOSP6YpVTorVjVmi3pWSHv7m1/1T8=;
+	s=arc-20240116; t=1776803007; c=relaxed/simple;
+	bh=Ey3C5ltxxahekfZEQjfCc2Hzb4tG4W9OD2TFDN05h48=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KBK0vwX8jJlbOOMHdHnHTfQBOf3BX0O37LOpaGeF50g+GamuCKNvG9nOs7gFiehKE9tSPJ2nD8w07pWd4hW1l6MUtMyjlH/bVYghnfMfnmIqxMM+r13TUXagRUAQve+FYt873ggNGWrqIdciLJsNdtP0QprDKVN9BSbKuU7ig4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pyFSOfKM; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=F7kPh6SQCkAFadVkE6efzhka4eRbvPk1+DqQ6gdC7bfBkF4Y5KB42+m4rlGXjozkvjJaQW6C3RdOxWX732WEbHFBhYa+iZU8mouT+lciUOewdIptzkh+9U3/B98IWg5cQl02Zvq9FkZPxSrExHlOtoeGIeUOzl09f1iCg/JjvmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ifeJ931X; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pyFSOfKM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1776802751;
-	bh=XS4RLHgtC4b9A4YOSP6YpVTorVjVmi3pWSHv7m1/1T8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pyFSOfKM3FYMbCuG3wFU51vIiMTtHVyW0JdWVeC3nanQsqeXwv8BAmVuenv7paHK0
-	 KjIKSAzsvtEe7h33coegh0GQq8ZvdvDL840SFkzQsR4RvmVjbR5yJTWHzGVZqY6ADV
-	 Vq0/sIwAxCQDHp9y9ysLgHcKULBarfzwHm6CSYLv5l5ecq+Y2YN2VN+pkqsiKE5OXy
-	 8JsAxqS/abfUveZOJRbT+xGqSnSwTmRs7T65LP8lV04rbXJL3e/JFvo9KiEo2Xr4fw
-	 fd7o8J32lNL1Uz5j/qTyjwFu/r750rt+8/3+wq/3vpXdxKfK9tpYo9Kfo2kCEkUPwg
-	 hSptpXheFjrDw==
-Received: from [100.64.0.241] (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0FB1D17E141B;
-	Tue, 21 Apr 2026 22:19:11 +0200 (CEST)
-Message-ID: <e27dfa2e-ebe9-4cc4-a2ab-6f1f8140bbdc@collabora.com>
-Date: Tue, 21 Apr 2026 23:18:50 +0300
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ifeJ931X"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=M9E67MlECPOOCpV/gwTBMOQGB9keeznuGRJ9mv9Izh8=; b=ifeJ931XmNG5KO72ryz1eN8N+3
+	V+aXBGcYbt/bK31M/e3lCnMFl2oYJNYfKJeWP+CLnXUjAOMPMPGG5ntM22aa3KGgneqGejasbAzrT
+	WpbztZZn6qAaDaNkQCZHTo9+jOs4VEHFbG0d3VUaGjZCEmdh5nA1o4l2ardqeHi4BmFPYHoLKOn9Q
+	K2tZbhWDMOlrdUDWFStxYdAs0ByxUBgqWcXY+VJGQ7D0Eniv+GtkBH5ZwYo8ThcfuKX4NTw+BgURI
+	MeMVU4d4suFSqnqbQqWHLP9sUpUwZp3W7mh5xTwFWVcU6+vT2PjehYPUznvq5wrRQN/zi2t3KO5Qu
+	xwbL+v8A==;
+Received: from 201-27-167-220.dsl.telesp.net.br ([201.27.167.220] helo=[192.168.15.2])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wFHcq-0025M2-9l; Tue, 21 Apr 2026 22:23:16 +0200
+Message-ID: <fdba7581-72b2-791e-c21b-e629d7b86457@igalia.com>
+Date: Tue, 21 Apr 2026 17:23:08 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
 Subject: Re: [PATCH] ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>, linux-sound@vger.kernel.org
-Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+Content-Language: en-US
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org,
+ venkataprasad.potturu@amd.com, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, kernel@gpiccoli.net,
  Mario Limonciello <mario.limonciello@amd.com>,
  Robert Beckett <bob.beckett@collabora.com>, Umang Jain <uajain@igalia.com>,
  Melissa Wen <mwen@igalia.com>
 References: <20260421192214.77819-1-gpiccoli@igalia.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260421192214.77819-1-gpiccoli@igalia.com>
+ <e27dfa2e-ebe9-4cc4-a2ab-6f1f8140bbdc@collabora.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <e27dfa2e-ebe9-4cc4-a2ab-6f1f8140bbdc@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Guilherme,
 
-On 4/21/26 10:17 PM, Guilherme G. Piccoli wrote:
-> Commit 671dd2ffbd8b ("ASoC: amd: acp: Add new cpu dai and dailink creation for I2S BT instance")
-> introduced a change that "broke" Steam Deck's audio probe, in the OLED
-> model, as observed in the following dmesg snippet:
+>>  #define acp_get_drvdata(card) ((struct acp_card_drvdata *)(card)->drvdata)
+>>  
+>> +/* List of DMI quirks - check acp-mach-common.c for usage. */
+>> +#define TDM_MODE_ENABLE 1
+>> +#define REMAP_DMIC_BT 2
 > 
-> [...]
-> snd_sof_amd_vangogh 0000:04:00.5: Topology: ABI 3:26:0 Kernel ABI 3:23:1
-> sof_mach nau8821-max: ASoC: physical link acp-bt-codec (id 2) not exist
-> sof_mach nau8821-max: ASoC: topology: could not load header: -22
-> snd_sof_amd_vangogh 0000:04:00.5: tplg amd/sof-tplg/sof-vangogh-nau8821-max.tplg component load failed -22
-> snd_sof_amd_vangogh 0000:04:00.5: error: failed to load DSP topology -22
-> snd_sof_amd_vangogh 0000:04:00.5: ASoC error (-22): at snd_soc_component_probe() on 0000:04:00.5
-> sof_mach nau8821-max: ASoC: failed to instantiate card -22
-> sof_mach nau8821-max: error -EINVAL: Failed to register card(sof-nau8821-max)
-> sof_mach nau8821-max: probe with driver sof_mach failed with error -22
-> [...]
+> Since the list of quirks may grow over time, it might be worth differentiating
+> these macros from the common ones — either by adding a `QUIRK_` prefix (or
+> similar), or better yet, turning them into an enum?!
 > 
-> Notice the quotes in "broke": it's not really a bug in such commit,
-> but instead a problem with a topology file from Steam Deck OLED. This
-> was discussed to great extent in [1], and Cristian proposed a pretty
-> simple and functional change that resolved the issue for the Deck's
-> issue. That change, though, would break other devices, so it wasn't
-> accepted upstream. And the proper suggested solution (fix the topology)
-> was never implemented, so Valve's kernel (and anyone that wants to boot
-> the mainline on Steam Deck OLED) is carrying that fix downstream.
+> Regardless,
 > 
-> So, we propose hereby a different approach: a DMI quirk, as many already
-> present in the sound drivers, to address this issue solely on Steam Deck
-> OLED, not breaking other devices and as a bonus, allowing simple patch
-> up in case eventually the topology file gets fixed (we'd just need to
-> check against any DMI info reflecting that or the topology/FW versions).
-> 
-> The motivation of such upstream quirk is related to users that want
-> to test latest kernel trees on their devices and get no only non-working
-> sound device, but seems some games (like Ori and the Blind Forest)
-> can't properly work without a proper functional audio device.
-> Example of such report can be seen at [2].
+> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-[...]
+Hi Cristian! Thanks for the suggestion, I'm OK either way, let's see
+what maintainers prefer and I can easily spin a V2 with such change.
+Cheers,
 
-> diff --git a/sound/soc/amd/acp/acp-mach.h b/sound/soc/amd/acp/acp-mach.h
-> index f94c30c20f20..edf5e479afd4 100644
-> --- a/sound/soc/amd/acp/acp-mach.h
-> +++ b/sound/soc/amd/acp/acp-mach.h
-> @@ -26,6 +26,10 @@
->  
->  #define acp_get_drvdata(card) ((struct acp_card_drvdata *)(card)->drvdata)
->  
-> +/* List of DMI quirks - check acp-mach-common.c for usage. */
-> +#define TDM_MODE_ENABLE 1
-> +#define REMAP_DMIC_BT 2
 
-Since the list of quirks may grow over time, it might be worth differentiating
-these macros from the common ones — either by adding a `QUIRK_` prefix (or
-similar), or better yet, turning them into an enum?!
-
-Regardless,
-
-Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Guilherme
