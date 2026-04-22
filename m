@@ -1,66 +1,64 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACBB335BA
-	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 00:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E9219AD5C
+	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 01:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776819250; cv=none; b=bIZylbwaAT8LsJbdjqOf/pHxcLRR09mgj4beoRsw8zZjfXDTXeXKvadWncUHG/pknJcErHVHeO+6xLUrwtHgAnxR1LJ8uVPpoItHAr31b5FvZLXMlIEToq9BjMapZP62JdKF6BPhndce2VvualoeAgY27XvKckn7b0yAei+cojM=
+	t=1776820077; cv=none; b=Sht7uIhL9pUaOlrEh/5BwEby/7Yy0T33KX14qMs7PonTIPcuIwGeEaRnoOuBm3CivrKoWK7z40JxqHSssGJ6zbx1OhXAeWV8VALsPj7vDm5APjiKl1rGFSWd4FD5cWFCncQoAIc8eVc5hcUiZ4QvkcBNj11qus+L4GUaoPmpuy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776819250; c=relaxed/simple;
-	bh=oULGjG5GZU5uTRY06JYOKrCRx+zd81vIOoy5cKg3Lag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HMJDMGcckCrAprATURQF5t8c7q8uvQlNNKk6exogjHCcnY7h4MgP8qEXsNfk1ztEVf9Q5CsbSKkGxcgEFa4fQM7w0PfQZYmsG8kwtWcVqt8MCH4pBOlcbcBHUQNctaWyWi5PA8OFomXpphpKWJDKGyLZsD6xKWqfwWy8o/J9YvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eFuE5Hpy; arc=none smtp.client-ip=74.125.82.176
+	s=arc-20240116; t=1776820077; c=relaxed/simple;
+	bh=DmvQdbnSVkU390Uki7nhoRgUGLW/SfBTGzh+vLC9FdE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Jr6DsSNUytmHXXR4g/jGYodbfTRwLsS7xreyX4kg38o1lbDX6dU/wiUoncJIdnHisstyU6CqnSs/R99vY3MPxhwLO+ae71d7aFhmS+NubuT0zXFWxfIiZ4w4yFlKNg25zia/hElpmcIsLTfBW6JztX2DLyOrRgmxQ6XGVNPl8q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ECrmDrMS; arc=none smtp.client-ip=74.125.82.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eFuE5Hpy"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2e221a71e19so4591219eec.0
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 17:54:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ECrmDrMS"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12db2e415a7so903473c88.1
+        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 18:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776819248; x=1777424048; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776820075; x=1777424875; darn=vger.kernel.org;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LEPznx1qAI8FTDXOwTfZzkvUsU4Rd9xTBemC7UbrqCQ=;
-        b=eFuE5HpyF8N2RQI/pOFNebdlVTOmUOMcgPvHoaMY/xA7i+h28oO6N4asnReDN9mBpi
-         bwT+wY2PmhhYZ2LfxoAuDGc7XsoLldrBLcxelkgLPj1RRX1vyx/PG0Kh5SFFlIBNEl4G
-         e0an/6r5FB3dhhUb5MhacjMu2MsI9RVJ7kUsSDVUDskICYW+XzvsKPOVXRmOspCpoqM/
-         Erzg5J0UaS6fS79Zpzr2SXP1vogn5Z/fcBDBpYwa5n9WvP+DSmTZuvKDynSsE8Ifkejk
-         L1gETlSAkLYtp+nCyjrxOkI1ta72cHcBSO4JmoG0katjZX9nHGFGqh885kxUuPZPhSqq
-         F87Q==
+        bh=UAr7c0jVgzuAHNJ5czeyIB1hhcntc/AZfRD30ixgZSs=;
+        b=ECrmDrMSyjgggLD1EG7dgg7XKM8x51S4Ct46jhfFB4zWlwF0skale0ssqnKvs/5dGs
+         pgpEz2X+gP7ub8DqT9xUfLurepXeTnldvekth5E3zDjvlaqZN/Gb0hf/Klse003Gaiq5
+         6Zg4QPGJs9AZSrHAX1myMO4YJv5nxj5YNSyU8u/58IzEBQyw7eQyYyLfPzzODLQe+sFC
+         ctB0uW2AK83DvRfeF3caF7KCF+T/RUKJnfjOqFlGm+j7iBkO+8g+03M6F9T4Zv6BF4HY
+         Wdefd4CbTG83Z8c7unYu+94aIJA8HL3cpK4vY8LxMAeNWjfYIXzjaEszK83Q0opk7wWh
+         pHdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776819248; x=1777424048;
+        d=1e100.net; s=20251104; t=1776820075; x=1777424875;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LEPznx1qAI8FTDXOwTfZzkvUsU4Rd9xTBemC7UbrqCQ=;
-        b=l4OiCSMhlvkGvyHiekVX0qqiuTTbueQIKuiiklh6l3Y2EKhCdM/GnpdtaG5RHYdN9N
-         /jBSG+MhaiOsRtHJ4LAo8ljFzEOTp6qfkxF/Wz3izJUua/IcNxrcZ/fIQYJ17OZGLxFh
-         bhGpYJu2ylpsO5926PQIURrTArvQOTurJzmPKLx5MkIsFVAtF1CffInWwCbmrg2y5xeB
-         kAJaSCWC0gHLiwzJD0rKlXjYolkUmATaI3LkhtsyWpiE29sNmEE1E7g8m4lEtlIIhzsH
-         a0NTHKuDIVHhHZKcPHDsSe+3foDKmpdj3eehSXqlFfw6PCFiNkEzFmBqNQz3ECb+1Yoh
-         P1uQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8OXIXb/7ytorTWQI+hnc0X+zgvqKVlpYYmxfGCzoDbRLygdBf3Zgz0xlOhei1qvDtJVQTmu+eIebp1MQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNMBWdTOR/mTNalpmwbwRdQuIEvZdoG+Ens/R4HTrhKKW+BBCJ
-	j5sSVJK97k4yl9gYO55Lt0fLI4D2qm8oXFNWCSdakJgqfepuXNJ9ttzl
-X-Gm-Gg: AeBDies8y97swtD8sH5O5V3aTlXdj1Of5S91bySUgFEnMhBXz13W4X0ykqv9iieiu2z
-	Pjki0JfU5VLkG1B8Rp+zEE/Etaf098te0cgx2+d4NVDmquCU2naSXnN4eiCoK8XG5kPcpWJOsU9
-	C5/cejgfAjJV/H+Qw6zLEGNunMEE2h5iLFDTKLVG3QFTeEos0+KeBiD8NH3TK50L0bQeoDZfZwv
-	7+l59w//qj/eST+gjZzTuqrI52/kgwAyXEb1fE7laFqITI5bmNpHinXUCyZWAKdlstp1hv6iz/u
-	uVy3oIDR3oFCvhtVOILepx/pgAjZGt/CAnI104KDz6EWQnml68mfq0CksGPhkL9bfwkEqhPK4ET
-	Xv0ew5nyrfriOpglViBOp8+hCvQTAgx9iwp+Kro6Ac2vQM3H1FCxeNLZYx1OS2XPFC23hcj7SyE
-	uCVyPbtiyk9zgrkWjdj/FeBYrbaeIhpJfHO2ObgJspaY45oE5d3Sx6LNxnYRFdymoycrCAOwG3S
-	kHR8NKSt8RW
-X-Received: by 2002:a05:7300:4349:b0:2be:7fc2:fc38 with SMTP id 5a478bee46e88-2e466044e0fmr10934403eec.5.1776819247623;
-        Tue, 21 Apr 2026 17:54:07 -0700 (PDT)
+        bh=UAr7c0jVgzuAHNJ5czeyIB1hhcntc/AZfRD30ixgZSs=;
+        b=R2D3Muo+9rmHfBVHNpEDJ33pPX6HyceTVf3k5ZAtapAzMqy0doyj81MZ5k5PAUKKTB
+         jlNcTFOWFfzrWrlreSOXFjKj+NgftjIBDgmNzzo+Pvql6oUxHzzBYk+oMKqlQLi1cuJM
+         eKE5EqfM4jfeE2UXxbdBAtljqUYDBWmBGuH9lGR7lt/rGt8fNOr+jo7CqbwOmSl081lD
+         YScaM4zLwGGYwD6ZafgDf+MoaQp3sNixmnFGqYB8xM4YdrGLgoiiWgi8bpT7KQJYdtnO
+         MdTq3kVVl/RzfDLHuNl9UqRjX+s6Zm40AYNeo/9Yr5WOCkdBHNse4JHzNKLlTn92q69U
+         Zn/A==
+X-Gm-Message-State: AOJu0YztzgVwwjl4re+1SjGQZu4Du5Qf2i9mWeSwV/+OY4Hfc4fwrB0o
+	9YnixjBUBNIh5RVh7KOwrdW4x3YCFCiONSFX3NVk2uVBxO6VO/6cRjqt
+X-Gm-Gg: AeBDievl8BViLrYwvi2w6RGlgCzn4ubo2PSjtHF50NaBuqEaKyO9/DIsiYRNCfLT0rv
+	hI6RusSe6c/aIx7yc40YOPJh3js6wLhD8cyR/j69UYu7D1W3avxV5pET32adFfwRDKLy9qJtcHb
+	nEU+0/pXAGmWZCQ9Yb2/1AoGPeqHNht0IitPVJXBbc8Fv2m+d8ebZbFk2pBc4JN6mbTkqKCitbv
+	5IjYHHiRLOiQMByK0T9B1dNghBiQvQu3QFiA+bgbYBrsFCIXxe9EwaAd+eIWmn5ErwpbL3/aVOh
+	s0Ec8SVQcJL6F9oRrPkhVwcz/f9hckt+pN7dudoBdvtx5JQVCF9s6kzYMutXmNovnRurKsxr0fH
+	XqsT8MoKLHLdolfvZ43hua3HHp60djcDJf7aT7eyVgM9dzd2VP4mrgjOn3R2jKVHO6h/7gliImc
+	sEddCsIJYikG5g6wlzAJsQvaborR0qSF7KqMcEAGs79KRrI+3K9xHcA3rYsNK92cUSNizFDjsw3
+	H1JpNI13hP+k1qjIzAzlXM=
+X-Received: by 2002:a05:7022:ef09:b0:12a:6b99:1ad4 with SMTP id a92af1059eb24-12c73f6c3c6mr11619846c88.11.1776820075248;
+        Tue, 21 Apr 2026 18:07:55 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e539fa6134sm21804460eec.3.2026.04.21.17.54.03
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c919266f6sm12358283c88.1.2026.04.21.18.07.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 17:54:07 -0700 (PDT)
+        Tue, 21 Apr 2026 18:07:54 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 21 Apr 2026 21:53:52 -0300
-Subject: [PATCH] ALSA: usb-audio: Avoid false E-MU sample-rate
- notifications
+Date: Tue, 21 Apr 2026 22:07:41 -0300
+Subject: [PATCH] ALSA: usb-audio: Fix Audio Advantage Micro II SPDIF switch
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,73 +67,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260421-alsa-emuusb-samplerate-notify-v1-1-8b63bbc1d7f1@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSQ7CMAwAwK9UPmOpCy3LVxAHJ3HAqE2rOEGgq
- n8nwHEus4JyFFY4VytEforKHAqaXQX2TuHGKK4Y2rod6n1zQBqVkKec1aDStIwcKTGGOYl/48m
- 7Y+d62w2mh3Iskb28fv/l+rdm82Cbvils2wcG4KA8gQAAAA==
-X-Change-ID: 20260417-alsa-emuusb-samplerate-notify-9fd83d5c36b5
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Sergiy Kovalchuk <cnb_zerg@yahoo.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+Message-Id: <20260421-microii-spdif-switch-fix-v1-1-5c50dc28b88f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMUQqDMBCE4avIPnfBpGq1VxEfarLWKVQlq60g3
+ r2pPn4D82+kEiBK92SjIB8oxiHCXBJy/WN4CsNHk01tkWbmxm+4MAKsk0fH+sXseu6wcuXLtrC
+ muuZlTvE+BYnzka6b07q0L3Hzv0f7/gPWlx8VfAAAAA==
+X-Change-ID: 20260417-microii-spdif-switch-fix-9d8b62193585
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  stable@vger.kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1764;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1283;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=oULGjG5GZU5uTRY06JYOKrCRx+zd81vIOoy5cKg3Lag=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJkvZLTPpJsJNteUrMy4sbpI9eXnatXPpQGnSnWKddLma
- F0yvJnYUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABMxXsTIMPvRVbbgol1dVSfP
- JRx2v7TCLXjxtm2eB1LNuf22+5+55MfwP+KwVUBq7vtmRq7Fzzv+n4uZf/v31X7nY2s8Ih9ycfa
- FMQIA
+ bh=DmvQdbnSVkU390Uki7nhoRgUGLW/SfBTGzh+vLC9FdE=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJkv5NPPu15ZNsl05XWBA/VxjtMLQvf9OmkVoSFyesu2p
+ aVduz7YdZSyMIhxMciKKbKsTlpkuafrwdX6uBUeMHNYmUCGMHBxCsBE/hcxMnQcSvWctF4ibx5/
+ omDc6vsTitc+ufDR75jYF46cLI4Nh64w/JVqvLuHUXFtUsH7JYKLrzufmCcdpBGyoynj456fE7Z
+ XbeEFAA==
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-snd_emuusb_set_samplerate() unconditionally notifies the E-MU
-SampleRate Extension Unit control after issuing SET_CUR.
+snd_microii_spdif_switch_put() returns 0 when the requested
+vendor register value differs from the cached one.
 
-If snd_usb_mixer_set_ctl_value() fails, the control value has not
-changed, yet snd_usb_mixer_notify_id() still invalidates the cache and
-emits a value-change event to userspace.
+This comparison was inverted by the resume-support conversion,
+so real SPDIF switch toggles are ignored while no-op writes still
+issue SET_CUR and report success.
 
-Notify the control only after a successful write.
+Return early only when the requested value matches the cached one.
 
-Fixes: 7d2b451e65d2 ("ALSA: usb-audio - Added functionality for E-mu 0404USB/0202USB/TrackerPre")
+Fixes: 288673beae6c ("ALSA: usb-audio: Add resume support for MicroII SPDIF ctls")
 Cc: stable@vger.kernel.org
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/usb/mixer_quirks.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ sound/usb/mixer_quirks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index a01510a855c2..5194a2ac1ea8 100644
+index a01510a855c2..6cd50cfc563b 100644
 --- a/sound/usb/mixer_quirks.c
 +++ b/sound/usb/mixer_quirks.c
-@@ -1538,15 +1538,17 @@ void snd_emuusb_set_samplerate(struct snd_usb_audio *chip,
- {
- 	struct usb_mixer_interface *mixer;
- 	struct usb_mixer_elem_info *cval;
-+	int err;
- 	int unitid = 12; /* SampleRate ExtensionUnit ID */
+@@ -2025,7 +2025,7 @@ static int snd_microii_spdif_switch_put(struct snd_kcontrol *kcontrol,
+ 	int err;
  
- 	list_for_each_entry(mixer, &chip->mixer_list, list) {
- 		if (mixer->id_elems[unitid]) {
- 			cval = mixer_elem_list_to_info(mixer->id_elems[unitid]);
--			snd_usb_mixer_set_ctl_value(cval, UAC_SET_CUR,
--						    cval->control << 8,
--						    samplerate_id);
--			snd_usb_mixer_notify_id(mixer, unitid);
-+			err = snd_usb_mixer_set_ctl_value(cval, UAC_SET_CUR,
-+							  cval->control << 8,
-+							  samplerate_id);
-+			if (!err)
-+				snd_usb_mixer_notify_id(mixer, unitid);
- 			break;
- 		}
- 	}
+ 	reg = ucontrol->value.integer.value[0] ? 0x28 : 0x2a;
+-	if (reg != list->kctl->private_value)
++	if (reg == list->kctl->private_value)
+ 		return 0;
+ 
+ 	kcontrol->private_value = reg;
 
 ---
-base-commit: d60c26089541d574b854d7762e9f3c182a76ad9d
-change-id: 20260417-alsa-emuusb-samplerate-notify-9fd83d5c36b5
+base-commit: 46b0e9075ce97e82726d45ce9b048840d0b4eec7
+change-id: 20260417-microii-spdif-switch-fix-9d8b62193585
 
 Best regards,
 --  
