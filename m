@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492C319004A;
-	Wed, 22 Apr 2026 07:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EE336C5A1;
+	Wed, 22 Apr 2026 07:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776842375; cv=none; b=hbsTpDY4GmNQmIte9lJgKvT649kOvVkTAxdDxMjNZjKfn4uIkhq1Vgs1TIaoNjy8iYRVLz/VBE17it7+Uu7070vI5ykCsHNXPZtwJoWpB6pMdSbjQrFfzggfzWdNqMDNGVhiCFoAR3fmFArCyNH/F8VM9llpgd3xKAa3aRs7hrs=
+	t=1776842625; cv=none; b=gYaf+yjtlDRbe5MtDhR3SdcNSFLUxBqaNKL5F7VYl5b7+lWyC/Ww70YbDra4FFsJGkpCM03ZYrv15u6n2ZGdjz4cQauEoGKohubeRyrYg//VoUBQzc35C2Hd2H1d0FxAHkOniH9yqKA4AhjQ8LmeV12x/fkFGYWzDzutqre8ndU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776842375; c=relaxed/simple;
-	bh=/rjpCv9AgVY957+ryIyB1yaYB3gcSX8IyGz/PAx64+c=;
+	s=arc-20240116; t=1776842625; c=relaxed/simple;
+	bh=U1ij765Jsgyab3m+Pw8LxQtm6XxGjDqoXz6QoaxBu5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBePNYEaNd2b+Y4STBo+zVR8vLtKG0LnlXU+CDbR855L1ho4NVBO3jcJ66/j2nDFOIjGTdawN2T65QqZKerx71lUHP4+sLyG4Z73vuIvr47zxkqAB569L7rV0JsBHpl4+Rb4E5UPQCRx3uV3msFhE+g9r23jk1oMcQslQg1h2tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ENlxW5s+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=P9+fM3xaY+5qaM6kCfprSZv1NLHV/W2zkhSKiv4EVC46S9bbBRpKDnjBB9VQ1T2p8bBSMVimQeNwz73DJvq0BD6HzDl2SJ6tJ9d0LDXTYqm+aqMzKSF5QbHkHKv8MQUTtJoo6nHiDrj8KapZMMan0I4zOHzBG5zvPoQFu+hF7kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2sMocZo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ENlxW5s+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B496AC19425;
-	Wed, 22 Apr 2026 07:19:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2sMocZo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DFACC19425;
+	Wed, 22 Apr 2026 07:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776842375;
-	bh=/rjpCv9AgVY957+ryIyB1yaYB3gcSX8IyGz/PAx64+c=;
+	s=k20201202; t=1776842624;
+	bh=U1ij765Jsgyab3m+Pw8LxQtm6XxGjDqoXz6QoaxBu5Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ENlxW5s+Rrvgh6mt0d5lvBLzYM8Vsg50sVcQIi+KGwoNvmmEkoG8NYs7rU/vomaEY
-	 /eaqUkEDRNTVVv6a6s05GDmOEAneIdUa8c7szDyXfW1tmLbMjn9RveSRysrAP+LC8l
-	 miVvw76jcgobzS8OIc+6oV9wpmR7JhQ2Kj716Xysfdw9YJFsyUkXQkNLPXyAUGXKqQ
-	 MbS05SxsV914xCOAXVPq5NxaV2VEVu4WjlFyEsbv98erkMxrGuOc8fEresi4iDmLHm
-	 KjHjUPMMVluPVnMADnC1tNDtT/dX0PbJXSEI9kkajXA0Qr6CyE2DecTsZS0gsQRGoE
-	 r9ZG63mLh/Zpw==
-Date: Wed, 22 Apr 2026 09:19:32 +0200
+	b=B2sMocZos1sITvRnYLPtTnqR8duPdHl9cgcOtp6ykjMRmHSZyCrR+zbs++sZEQ1Ex
+	 +yR2IS8MfjCyZi/Fsl30hYJJpTqC5mNl0mtxXGhFJmKiq6U0nRXWmWF892rgytsxUB
+	 +rfq+yAhL7TyzK7TqlxtDBh1M1vZwgrMxHX2jOkO+3wj9QoQSphxh4gBE/9QrzAa32
+	 SOlfPLNZUB+0Ik71N+hUGflS/Ma0wIgqXaveVeZZ7CFX2FlvN+woX30hxBOPWbwwja
+	 RcBQttTqKdVeuP/XZvZJ0i3Au5w9p8mDkjRHz4nzDQS+d1xmaklSa22JMija0wIqnV
+	 shZWoQyTmDjNw==
+Date: Wed, 22 Apr 2026 09:23:42 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Daniel Golle <daniel@makrotopia.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -38,11 +38,11 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Eugen Hristev <eugen.hristev@linaro.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 1/9] ASoC: dt-bindings: mt2701-afe-pcm: add HDMI audio
- path clocks
-Message-ID: <20260422-capable-ambrosial-otter-ddd6e0@quoll>
+Subject: Re: [PATCH v2 2/9] ASoC: dt-bindings: mediatek,mt2701-hdmi-audio:
+ add MT2701 HDMI audio
+Message-ID: <20260422-mighty-rainbow-porpoise-c98f96@quoll>
 References: <cover.1776646435.git.daniel@makrotopia.org>
- <69f0b69e49068695db4ba6164c0757ccdf9786fd.1776646435.git.daniel@makrotopia.org>
+ <072c4db4a01ac125e9ee5e34f992cd169c78e117.1776646435.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,33 +51,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <69f0b69e49068695db4ba6164c0757ccdf9786fd.1776646435.git.daniel@makrotopia.org>
+In-Reply-To: <072c4db4a01ac125e9ee5e34f992cd169c78e117.1776646435.git.daniel@makrotopia.org>
 
-On Mon, Apr 20, 2026 at 02:13:05AM +0100, Daniel Golle wrote:
->    clock-names:
-> +    minItems: 34
->      items:
->        - const: infra_sys_audio_clk
->        - const: top_audio_mux1_sel
-> @@ -104,6 +110,10 @@ properties:
->        - const: audio_a1sys_pd
->        - const: audio_a2sys_pd
->        - const: audio_mrgif_pd
-> +      - const: hadds2pll_294m
-> +      - const: audio_hdmi_pd
-> +      - const: audio_spdf_pd
-> +      - const: audio_apll_pd
->  
->  required:
->    - compatible
-> @@ -114,3 +124,16 @@ required:
->    - clock-names
->  
->  additionalProperties: false
-> +
-> +allOf:
-
-allOf goes before additionalProperties
+On Mon, Apr 20, 2026 at 02:13:13AM +0100, Daniel Golle wrote:
+> Describe the sound card node that routes the MT2701/MT7623N AFE
+> HDMI playback path to the on-chip HDMI transmitter. This is
+> separate from the AFE platform binding (mediatek,mt2701-audio)
+> because it represents board-level audio routing between the AFE
+> and the HDMI codec, not an additional IP block. MT7623N boards
+> carry the same IP and use the mt7623n- compatible as a fallback
+> to mt2701-.
+> 
+> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> ---
+> v2:
+>  * Fix subject prefix to use schema filename (Krzysztof Kozlowski)
+>  * Rewrite title and description to describe hardware, not driver
+>    (Krzysztof Kozlowski)
+>  * Clarify in commit message why this is a separate binding from
+>    mediatek,mt2701-audio (Krzysztof Kozlowski)
+> 
+>  .../sound/mediatek,mt2701-hdmi-audio.yaml     | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-hdmi-audio.yaml
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
