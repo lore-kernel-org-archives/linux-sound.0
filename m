@@ -1,34 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E2E280CE5;
-	Wed, 22 Apr 2026 20:44:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01231EA65;
+	Wed, 22 Apr 2026 20:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776890683; cv=none; b=pPO5AiEpeRa5tepPymgW57bwzthGiVxbBy8ePHZGDwQL7sHgMDAPY4KgVjMJaAZI0VoyZdkq8L0oniaO2EL98gxsTinvNzUWcMnq4mO9qYr9DpRQe2oReJRTs6/vS855X6tCRMBiIjHWPFhXa6pSYaausK+t6Rph8+LNfgFFE4M=
+	t=1776891590; cv=none; b=qG/M895ENbjZoKbjoT9wO0m9ZV+/rkIhR321BlAQzFIF1J1jb5gQGfAbG7M5VRS0SW47QyDBsX0sdRDXgcRe5BVyeVGPhHOrwksGKTprBMJQU/CynyC/9enPd9GBQu6Y1GsLGhYUc8IJX+Uz1xjVy6ZXEhmLZwHqX85ZoSDff3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776890683; c=relaxed/simple;
-	bh=BjVfRVofK9IziQLalWuNm4cvbaaSjx0ivggHdlQFvs8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GxDe7PdWzM6n18FognLMwcAYjMAmry+UNpAw4K1fWEJJ0aTMIfRYZQ2NQQvssJp6XTDcDv7E8zsOaYEHFOCveb6XjXTSU/4LGtupCjdwqDCJ0f4zLhyi8xGPFEyZOet7wttAlNDSadDbANDhmnqaRQE3IGqfaQuXQwWgYE9YQ/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQ9OckYU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776891590; c=relaxed/simple;
+	bh=M5RsCE0TEqbxoMSQ1p9Ml6g36oMexHF5KHWHyQAkR3k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UJXJK3W9kl8asIcRP42p1qAvLTWWLMjg9itDJyU6l2pzSbh7CkMOZewrsYoOCPa6ViLt3zzePp9wz8M7H5dHSbwwqfDUiMjWotgk8irb8mO8IGcw5T11haqBakcVqZBgksS5h8Enjzo6LSR4nSdc9yMn8qEaj5pbhLJjibfyJcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FfY67YR5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQ9OckYU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF2AC19425;
-	Wed, 22 Apr 2026 20:44:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FfY67YR5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D3B3C19425;
+	Wed, 22 Apr 2026 20:59:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776890683;
-	bh=BjVfRVofK9IziQLalWuNm4cvbaaSjx0ivggHdlQFvs8=;
-	h=From:Date:Subject:To:Cc:From;
-	b=gQ9OckYUI3N6rfDGcrRKN2U7E7vSBEnxdAq+rLMDYRoksOAzJV3Xhn9+oYPM02ho/
-	 HeOtpVkEQ0rkGydK6TZfYrl3ZU6O15v+rvI88CPbyn/YKRgHJQKM92dyeyDoycsJq2
-	 EFjjL8sUa6UhsGt0F4XVcSru4jK3CkapxhdMGcxcBM/Fr6/2oIufcGCIUdgefG7da1
-	 4yH38H62E7Z+mI4NLkWALI83hWLHO60GL+iW5c3yBWtdYD0geXzNoMPZG6KSG46SRx
-	 acbgSi9ZxktwvZIB9pHBChEkSkhf+X6bk6mU2EGpAZyk6Km48VAe0vDRzTZtsB5juq
-	 zWn85rAmpw04g==
+	s=k20201202; t=1776891590;
+	bh=M5RsCE0TEqbxoMSQ1p9Ml6g36oMexHF5KHWHyQAkR3k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FfY67YR5us/+wOBlJz+MTMSd7DGLxtlQF14kKB2cDMQJevscVJ5I5PvNDYKC5ZPRw
+	 M998FrR7No3SgPFuHaJm9EvoDSVJHtD3l9+Ze/HPLw88OmDh0n7SDltmOFtcGKf+b+
+	 ukib9I0MnzV3HWEpB98s5czNGRzFRHnbOqlbVNNwha+KLduFhKB4npQZxN5O5+gG7V
+	 ffW/jI3T+fu9IMj84NHjkkfoIIiuSo56Ifpd17eUPB3DYbMnDJfYxc9O/s1FdMSU7A
+	 cenmF4arot6RRl5KKZIXzz+je6vGqOxWHih5XHyrFBM2Sc2EuCqsstS/0yXL1DmgGD
+	 pHSYFnTukByfA==
 From: Mark Brown <broonie@kernel.org>
-Date: Wed, 22 Apr 2026 21:34:05 +0100
-Subject: [PATCH v2] ASoC: ops: Log unknown controls in
- snd_soc_limit_volume()
+To: tiwai@suse.de, Baojun Xu <baojun.xu@ti.com>
+Cc: andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
+ shenghao-ding@ti.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, will-wang@ti.com, 
+ jim.shil@goertek.com, toastcheng@google.com, chinkaiting@google.com
+In-Reply-To: <20260414015441.2439-1-baojun.xu@ti.com>
+References: <20260414015441.2439-1-baojun.xu@ti.com>
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: ti,tas2781: Add TAS5832
+ support
+Message-Id: <177688897222.36226.274253868203239470.b4-ty@b4>
+Date: Wed, 22 Apr 2026 21:16:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,68 +48,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260422-asoc-limit-volume-error-v2-1-2e2ced321229@kernel.org>
-X-B4-Tracking: v=1; b=H4sIALww6WkC/4WNQQ6CMBBFr0Jm7Zi2UUBX3sOwqO0Io0DNFBoN4
- e4CHsDlS95/f4JIwhThnE0glDhy6BcwuwxcY/uakP3CYJTJ1cFotDE4bLnjAVNox46QRIKgs6b
- UZeld4U6wrF9Cd35v5Wv14zjeHuSGNbcaDcchyGe7Tnr1/r8kjRq980orcyxym1+eJD21+yA1V
- PM8fwGdmkZx0QAAAA==
-X-Change-ID: 20260421-asoc-limit-volume-error-ca28188dc7c9
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: Tobias Heider <tobias.heider@canonical.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1454; i=broonie@kernel.org;
- h=from:subject:message-id; bh=BjVfRVofK9IziQLalWuNm4cvbaaSjx0ivggHdlQFvs8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp6TM4foEDiSgI6ZqT5L/3XXQkefnWVhad81Cve
- Llc19X2LqCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaekzOAAKCRAk1otyXVSH
- 0GKUB/47JMACcH5bSlkq2nGianb1bCE9lxKf1qNcSqpqiXtoAv06/kQJEZzH2kDnEMvEKHlVtez
- sOf60SPgitoT69taAtRh0Ctt+4PD40JuSk8IrPlnGE/kEhfv7xdj/4bLol5IH01dkRXr7wecUOH
- QEOgA1uKRMb1wftAZ1DQ3JPndVnjDq4bJqxTqMxpNu2BHUQfymNRDloJUn0XP262Qhb6LimxaeA
- DgRLbvD3e4QEzTG854qYUJpnZS8rDDZBwbEKcK9VL/RAeslqU/HSYqQYes9MDWSFi11rPMjcSzM
- ohpAyzMIZ6Aw8l+SZMnhQhvpkbjdP4raWfFD5E8ZKL+q3DJQ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1216; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=M5RsCE0TEqbxoMSQ1p9Ml6g36oMexHF5KHWHyQAkR3k=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp6TbCYQbceaFGcfpPamgGKidcFgtztfK2UYdeu
+ sRT5dtLBqKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaek2wgAKCRAk1otyXVSH
+ 0JRIB/9Ouhp9BP2sm72lyUe7xSDx18QBlrILWouiJo89yb6GZ0QzaMaKwh/msx0fpEVa04Zmfof
+ 6Ut0X9eyltMaug3CA9wa17tL3YdZZzhumhReSEe4nY/UImkrUKRJoDtsJXmO+Tq6nags4RGdI2w
+ H/KPcsZQtb14rm0J+0GjSHOmfgauMrwLZ8YsrCtnQFn+7Cz+hCXFTVeppk9aG1N+v58rrm+6Sd0
+ K6M4N9LZg2tgUcckZd0/nxxwEvdZ8XXsw3XrKnp1OAQCuxntS705Acwk5adIq4wsEmMgBLsKcCp
+ PN/sdTm5Ppqi1rbEjqEupFSTPHZWoSztTQpYmPxlE9VOwnPx
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-When we fail to look up the control name in snd_soc_limit_volume() we don't
-log anything, the error code isn't particularly descriptive and checking
-the return value of the function at all is a bit erratic among the callers.
-Since there is no reason why anyone should ever be attempting to limit the
-volume of a nonexistant control add a log message in the core to improve
-usability.
+On Tue, 14 Apr 2026 09:54:40 +0800, Baojun Xu wrote:
+> ASoC: dt-bindings: ti,tas2781: Add TAS5832 support
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
-Changes in v2:
-- Lower the print to a dev_dbg() since some cards do blindly add limits
-  for multiple variants they handle so would see warnings.
-- Link to v1: https://patch.msgid.link/20260421-asoc-limit-volume-error-v1-1-dcd0102576a6@kernel.org
----
- sound/soc/soc-ops.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Applied to
 
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index f966d4e13c7f..1fc87cd5ea2f 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -503,6 +503,10 @@ int snd_soc_limit_volume(struct snd_soc_card *card, const char *name, int max)
- 			mc->platform_max = max;
- 			ret = snd_soc_clip_to_platform_max(kctl);
- 		}
-+	} else {
-+		/* Some cards blindly add limits for multiple variants. */
-+		dev_dbg(card->dev, "Volume limit for unknown control '%s'\n",
-+			name);
- 	}
- 
- 	return ret;
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
----
-base-commit: 028ef9c96e96197026887c0f092424679298aae8
-change-id: 20260421-asoc-limit-volume-error-ca28188dc7c9
+Thanks!
 
-Best regards,
---  
-Mark Brown <broonie@kernel.org>
+[1/2] ASoC: dt-bindings: ti,tas2781: Add TAS5832 support
+      https://git.kernel.org/broonie/sound/c/6d619f739703
+[2/2] ASoC: tas2781: Add tas5832 support
+      https://git.kernel.org/broonie/sound/c/1f95fdef685e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
