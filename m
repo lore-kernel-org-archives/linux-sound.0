@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26303CF05E;
-	Wed, 22 Apr 2026 12:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394EB3D1CA0
+	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 12:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776860081; cv=none; b=urtN9A53TC5VJ/mgnn+ybaQRFTfq6yWlL8KvX9PjGIyEEgwaw7zxppnLek+mRtfqaNsjY+vkIhb3SceAF6cokMZ/IGIMS235ieOENer9+t5k9jBYoFN5m9Yjtn8+ZUSZkefPjixgS/8BxGoXzi4Ik4HBr+DBLUVhK9NUWfoP8pM=
+	t=1776861093; cv=none; b=aWKFQDF0un+bFi+ZPyCOWASOWvDdwokg2e3oiWoh68UJhLc+443VD2J54IbVrDI1Nz8uSZbRiiA8WyOJmnPzM2goVYXPlkDiarKnFWJnm7CXCoonB5EJAIPFxsEuw8ueAyhA3DbuKWq+W2l6zOtH3nqzwJcrmgb43xifQJ9c7ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776860081; c=relaxed/simple;
-	bh=Qoxq+GO1QPZdjpBnnx/Gt1UkrPWYsIxtm0i5K0qBV9k=;
+	s=arc-20240116; t=1776861093; c=relaxed/simple;
+	bh=VkY6T2Q8+JsleKi22cmp7mHvh2+IFd5U1MOQPeCTIO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E6lQHIS3R6y7u6IRNKBXmAfB6z7/YakT2igyU0tCdZ8Na7aSocqXdHM3N39CkHpsmRF/nV10LigPl797iUajpb/E8tk6qup8C2zaI+b2Opcc72Qpe89ahgbkJ85EM1AJAWtu6kefBddmTD+Ykdau6xIUvzx4XUzM+shLqkbhlwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1XkQwNy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=d9Cs3hDESsALNPd932HkdVALYmN6+IcSpz2zGikEp0nvYmqX/DD6YNtEV3iUlouSV7G3v++3N06Oa9Gq84/oZpcKlBtsVIiUEMVjLEt91wubyWuobrEUlH5UV1FuccpXZ4sWh8mXalIXiVZ5bFc02rsC3eR1r2jtigSJCwnGcps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIe0mjdX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1XkQwNy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E6ACC19425;
-	Wed, 22 Apr 2026 12:14:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIe0mjdX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CB3C19425;
+	Wed, 22 Apr 2026 12:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776860081;
-	bh=Qoxq+GO1QPZdjpBnnx/Gt1UkrPWYsIxtm0i5K0qBV9k=;
+	s=k20201202; t=1776861092;
+	bh=VkY6T2Q8+JsleKi22cmp7mHvh2+IFd5U1MOQPeCTIO8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W1XkQwNyoRjxN6SOJtcvd7Xq6+Fn9G2wjVtCP75SwayidZ42jPtiNgoYy1JmsCNfk
-	 Psb6+3pCr6FoDvcCqx1IGRUqZlnw2Ck+Hc6fjp9ZjZSURJvs2BJFN0JscInRpwpEhU
-	 0U6XY3l8mXHq/vggiAnQDhTbkik4l/Zt1swkB24UCaxNix3QF3nPZLtaKiI0hc+fw5
-	 bxrREBB7LkffDY/Z9kgCu5M3WacVij/gBlNqXCOL0bt94cxoH8SqvxqCh3j/pLMP+f
-	 wtodi47VPWEHRrIV/JvBbn4EcybXMIMWgb3d8wDpqx9AEQoLN+Gbf6hulEOrvfsjp5
-	 N0FhQAac+P5ew==
-Date: Wed, 22 Apr 2026 13:14:36 +0100
+	b=kIe0mjdXfOsWj5sEVJCbPf6Ztixa4lroOq8e6fq4I3pVmiAZAV1fHDzP3feAmS7/r
+	 PWL3ICKREiCXTm39YJt50xHbNiFQF2So2WuIUlS9+aEaJf5ssaMWZ1jHCby3QejGfp
+	 rqq73Qh+snJ2VP1QrIycGwg96qdwunVdzb/MuaxVpd6aDSx5xp6BJbAD6tvlD0blSl
+	 5AkMA+TtNMRKeXVIXXGuWZl/IkJRyeZKsDjEp2YbjMXWmgJ01ljRgQmKdZVq/MNVa2
+	 J0ugCR14nwUszffb/9pR3mS10AXbdhafG16pP90gmuU6X3aX2P1UbBS3zufh29dtMk
+	 oOKrAXcEMKBWg==
+Date: Wed, 22 Apr 2026 13:31:28 +0100
 From: Mark Brown <broonie@kernel.org>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org,
-	venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
-	kernel@gpiccoli.net, Mario Limonciello <mario.limonciello@amd.com>,
-	Robert Beckett <bob.beckett@collabora.com>,
-	Umang Jain <uajain@igalia.com>, Melissa Wen <mwen@igalia.com>
-Subject: Re: [PATCH] ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
-Message-ID: <823eb16f-339a-499a-9fb1-27a166f8838d@sirena.org.uk>
-References: <20260421192214.77819-1-gpiccoli@igalia.com>
- <e27dfa2e-ebe9-4cc4-a2ab-6f1f8140bbdc@collabora.com>
- <fdba7581-72b2-791e-c21b-e629d7b86457@igalia.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [RFC][PATCH 1/2] ASoC: ti: ams-delta: Stop (ab)using
+ card->pop_time
+Message-ID: <b7fb5a68-89df-46a9-8f78-e57c6ab093d3@sirena.org.uk>
+References: <87ik9jk8kd.wl-kuninori.morimoto.gx@renesas.com>
+ <87h5p3k8jp.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,47 +46,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aOV1wwMF2OEUhLyr"
+	protocol="application/pgp-signature"; boundary="rPhO0Q038XohYggm"
 Content-Disposition: inline
-In-Reply-To: <fdba7581-72b2-791e-c21b-e629d7b86457@igalia.com>
+In-Reply-To: <87h5p3k8jp.wl-kuninori.morimoto.gx@renesas.com>
 X-Cookie: I'm definitely not in Omaha!
 
 
---aOV1wwMF2OEUhLyr
-Content-Type: text/plain; charset=utf-8
+--rPhO0Q038XohYggm
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 21, 2026 at 05:23:08PM -0300, Guilherme G. Piccoli wrote:
+On Wed, Apr 22, 2026 at 02:55:54AM +0000, Kuninori Morimoto wrote:
 
-> >> +/* List of DMI quirks - check acp-mach-common.c for usage. */
-> >> +#define TDM_MODE_ENABLE 1
-> >> +#define REMAP_DMIC_BT 2
+> @@ -280,14 +280,14 @@ static int cx81801_open(struct tty_struct *tty)
+>  {
+>  	int ret;
+> =20
+> -	if (!cx20442_codec)
+> +	if (!cx20442_codec.component)
+>  		return -ENODEV;
+> =20
+>  	/*
+>  	 * Pass the codec structure pointer for use by other ldisc callbacks,
+>  	 * both the card and the codec specific parts.
+>  	 */
+> -	tty->disc_data =3D cx20442_codec;
+> +	tty->disc_data =3D &cx20442_codec;
+> =20
+>  	ret =3D v253_ops.open(tty);
+> =20
 
-> > Since the list of quirks may grow over time, it might be worth differen=
-tiating
-> > these macros from the common ones =E2=80=94 either by adding a `QUIRK_`=
- prefix (or
-> > similar), or better yet, turning them into an enum?!
+We need an update in _close() as well, that's getting the component from
+disc_data.
 
-> Hi Cristian! Thanks for the suggestion, I'm OK either way, let's see
-> what maintainers prefer and I can easily spin a V2 with such change.
-
-I think Cristian's suggestions make sense.
-
---aOV1wwMF2OEUhLyr
+--rPhO0Q038XohYggm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnou6sACgkQJNaLcl1U
-h9ABTAf/Ul8JfxKg3YTA9q+XYoQPBI0CrQSC3cQAD+ZgaBwJEdGbHIfE/MdbUoay
-OljyhuKrGNFyYh9D42Khub9Mecti7HIfmH7XLqQ9mHB6i8OHlpTH1oidtCYnaWq8
-LLFMB4AHHrwrwjg6rELeMj+l/TFZXY7z21uLaHxKK5BxA7lUSISZwDHXlxDQMZCc
-GAuJiFHBRSP0nJCAjZcQW2CpdiKWckelepRjx/sioSxrhOLjp7D6b74c/P1eBBmg
-hyGam846WGUeM4C/JU09m9fwmZp/6IEtbMsfm9QArfKgubbXFWZbWJomKS9WTmci
-CfQAnuPQ1DerWAqwKepfc67XJXjSzA==
-=lJ9X
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnov58ACgkQJNaLcl1U
+h9Axpwf/V6gnx4HmR80mNu2/ZPSKTXB2JJxKQmyMlKW18CkWfZXCYQFugxyhjhJO
+vBKqbQrMVW33zLLa3iPKVWhNwOcEZ4ieQkRaSr8cbDlDOt3Ark7HJoZhcK9DIb9h
+WghAhbvn0QAhspKChN4HDK77Vt9x/S8uvhAlZOfwnxJW0SstjhScMQ3AcitHd0AP
+NZZaj2G7N5Nz9B2M17mjrFN7Q0sb7ZWUkeFXuCsMTiFVIlaLPQRc9lzXJ5rMaggR
+TdxddQVrRWEkkWYnPfCaugDi5JmaFd4SqgJ2lG1gEuIJSbCuTVdX6ptmzW20/k51
+XrQ5LWpESjoi86+7zHH46PPpZUFCFQ==
+=/LtK
 -----END PGP SIGNATURE-----
 
---aOV1wwMF2OEUhLyr--
+--rPhO0Q038XohYggm--
