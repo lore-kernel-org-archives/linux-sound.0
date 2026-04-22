@@ -1,126 +1,111 @@
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5752FA0DF;
-	Wed, 22 Apr 2026 03:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9566E63CB;
+	Wed, 22 Apr 2026 05:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776827172; cv=none; b=VxefWwIE0/23a+KBop7gTGSttoLEzbDNz+/RqnrhvfKwwrXI9inQIXApZWP0ibuNrj+p6BZvfoUaMxfhyJgwh2E+Mt3hEc2kgwhLFRANhA2guCNCnMIP6OrixJCEOC5Vn+8ExpDh2MA53xjzHn4zmcHnUVGDE91bZXNSasiVW34=
+	t=1776836803; cv=none; b=RCaC/YOd9pJf/GUqgpNUA3KnTZ/ecycjiRVidDsfuBy2FcuUlaBAJCX1mPEU16bzHvZ7Cw7CV3usRg0EG6s0yOMKyKbJUZWiCZve9KJqAmpO3i4DMZR/Qqd79QfIW+eDeLvTggAyZF8/3RpQcMW6dYwJ2T1fgiiUH2aSqz3IY94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776827172; c=relaxed/simple;
-	bh=blqL3mFR3adcGH2UwlHQGd8Qsd7EOzat16kRkRxuVJI=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=YGcp8muUxRlnGJnbev7LcS6dFOt0eSxoNdgf6wvP/z59PYpy+aQqUwXWI2yWLC0/78LnU7wAm+L+yYeEURjbUOsAfGhcpkGAH/5ntgP3dDPbZsrGkF7bejWJMkEuJaKF57ubNSuVMS7F5ppx9rkEewNCJJI8KJcoMmPUcM/ZDVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=rZzCwGbF; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
+	s=arc-20240116; t=1776836803; c=relaxed/simple;
+	bh=iHTuLIFezrha1k24YoDSo0U0QgoHN5U9b98UCvK+v+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ek3rf2rx73h3O8b/u+YMibJWcGSkXc+UYTjN33JHKKTj5PIdfNsU4BvvTcvX4qNDNGkL/4VbxpD41TtzxI51ylwNeUfgWgTsil5ELpoRc+WenV9zVa0SyPktD9FYT0Yn4ECK5+lhBn6nmGmBtE6Ax77IoL8anOjPG0ceR2prI2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CeguupGc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="rZzCwGbF"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 134C0285D92;
-	Wed, 22 Apr 2026 05:05:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1776827157; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=GHskIr3MgwHrZ7dL2xhkZFz/E44lGNvOcI3NVnkH408=;
-	b=rZzCwGbFWaWR8m5fGg90vTVSwYQSDYFzoQIz1T3NtdIOaI/dP7YA+x8bVI2mohI0YtdQME
-	eIuFxSahRhdMQjnyDxfkDxkC2zLDV1qp9WkzJJZviWXY4m4eTXTfc77c5ZDqcASvPZ8oV4
-	GSK2m+/rFRliqkNc9WyMai8g3Qm1ejxXCRYImMHse7kxClt/dTm1g/F5hPovMorHlsK1Yl
-	82Dx8osUkZPrzcF1sjqpavVXLuR5mljj6KEkl44eeqTOjtn5v+PXA/q8/V9Dm/oZVCxlfa
-	5ux/NYzaKqCMFq+tWU6x59UZxIGsWo7snLPeyj8SQW3Iz+yphqHASrBd7Fts0Q==
-Content-Type: multipart/mixed; boundary="------------xnDkrZ0X6chx0hMrZz4YRIXk"
-Message-ID: <e97a0147-4aea-445c-b0ce-c6d20b5ccfa2@cachyos.org>
-Date: Wed, 22 Apr 2026 03:05:00 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CeguupGc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5EF7C19425;
+	Wed, 22 Apr 2026 05:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776836803;
+	bh=iHTuLIFezrha1k24YoDSo0U0QgoHN5U9b98UCvK+v+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CeguupGckqDP65N6NF+5nNirF0NNyfRUq2q5YVLXoZ+NJ8CHpzN1MtrNDFeiOXOMI
+	 3IAP92r5zyTS/ZiNdu71HsVN4guqNuX5OnjQtKC82hXq6MmRAFVPTbyifXRNIzuJAR
+	 ckL2rE5jWjyh1XNHoBUwdn5WTA5UFCdSUZP4TGLM=
+Date: Wed, 22 Apr 2026 07:46:40 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Yang Xiwen <forbidden405@outlook.com>,
+	Alex Elder <elder@kernel.org>,
+	Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
+	Rao Mandadapu <quic_srivasam@quicinc.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
+	ath11k@lists.infradead.org, linux-pci@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Fix phandle-array constraints, again
+Message-ID: <2026042233-barometer-backroom-d544@gregkh>
+References: <20260421195836.1547469-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Legion S7 15IMH
-To: Takashi Iwai <tiwai@suse.de>, Cameron Berkenpas <cam@neo-zeon.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- stable@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260413154818.351597-1-dnaim@cachyos.org>
- <87ik9uua4a.wl-tiwai@suse.de>
- <ed4dae33-7c4e-4ccc-82c1-fa1aee137bcd@cachyos.org>
- <878qaqt40c.wl-tiwai@suse.de>
-From: Eric Naim <dnaim@cachyos.org>
-In-Reply-To: <878qaqt40c.wl-tiwai@suse.de>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421195836.1547469-1-robh@kernel.org>
 
-This is a multi-part message in MIME format.
---------------xnDkrZ0X6chx0hMrZz4YRIXk
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 4/14/26 3:06 PM, Takashi Iwai wrote:
-> On Tue, 14 Apr 2026 05:28:00 +0200,
-> Eric Naim wrote:
->>
->> On 4/13/26 11:56 PM, Takashi Iwai wrote:
->>> On Mon, 13 Apr 2026 17:48:17 +0200,
->>> Eric Naim wrote:
->>>>
->>>> Fix speaker output on the Lenovo Legion S7 15IMH05.
->>>>
->>>> Cc: stable@vger.kernel.org
->>>> Signed-off-by: Eric Naim <dnaim@cachyos.org>
->>>
->>> Thanks, applied now.
->>>
->>>
->>> Takashi
->>
->> Sorry Takashi, can you remove this from your tree? I seem to have gotten the
->> PID wrong for this device. I'll follow up with a v2 or fixup once I've
->> confirmed I got the correct PID. Let me know which of the two resolutions you
->> prefer.
+On Tue, Apr 21, 2026 at 02:55:25PM -0500, Rob Herring (Arm) wrote:
+> The unfortunately named 'phandle-array' property type is really a matrix
+> with phandle and fixed arg cells entries. A matrix property should have 2
+> levels of items constraints.
 > 
-> As the tree was published, could you rather a correction patch on the
-> top?  Put Fixes tag for pointing to the corrected commit.
-> 
-> 
-> thanks,
-> 
-> Takashi
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> Can someone from QCom provide some descriptions for 'qcom,smem-states'
+> properties.
+> ---
+>  .../display/rockchip/rockchip,rk3399-cdn-dp.yaml         | 2 ++
+>  .../bindings/mmc/hisilicon,hi3798cv200-dw-mshc.yaml      | 7 ++++---
+>  Documentation/devicetree/bindings/net/qcom,bam-dmux.yaml | 6 ++++++
+>  Documentation/devicetree/bindings/net/qcom,ipa.yaml      | 6 ++++++
+>  .../devicetree/bindings/net/wireless/qcom,ath10k.yaml    | 5 ++++-
+>  .../devicetree/bindings/net/wireless/qcom,ath11k.yaml    | 5 ++++-
+>  .../bindings/net/wireless/qcom,ipq5332-wifi.yaml         | 9 +++++++++
+>  .../devicetree/bindings/pci/toshiba,tc9563.yaml          | 5 +++--
+>  .../bindings/remoteproc/qcom,msm8916-mss-pil.yaml        | 3 +++
+>  .../bindings/remoteproc/qcom,msm8996-mss-pil.yaml        | 3 +++
+>  .../devicetree/bindings/remoteproc/qcom,pas-common.yaml  | 4 ++++
+>  .../bindings/remoteproc/qcom,qcs404-cdsp-pil.yaml        | 4 ++++
+>  .../bindings/remoteproc/qcom,sc7180-mss-pil.yaml         | 3 +++
+>  .../bindings/remoteproc/qcom,sc7280-adsp-pil.yaml        | 3 +++
+>  .../bindings/remoteproc/qcom,sc7280-mss-pil.yaml         | 3 +++
+>  .../bindings/remoteproc/qcom,sc7280-wpss-pil.yaml        | 3 +++
+>  .../bindings/remoteproc/qcom,sdm845-adsp-pil.yaml        | 3 +++
+>  .../devicetree/bindings/remoteproc/qcom,wcnss-pil.yaml   | 3 +++
+>  Documentation/devicetree/bindings/sound/samsung,tm2.yaml | 2 ++
+>  .../devicetree/bindings/spi/st,stm32mp25-ospi.yaml       | 5 +++--
+>  .../devicetree/bindings/usb/chipidea,usb2-common.yaml    | 2 ++
+>  Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml  | 7 ++++---
+>  22 files changed, 81 insertions(+), 12 deletions(-)
 
-Alright, I finally got a reply from the user that requested this from me.
-After looking at [1] and reading through [2], it looks like the HDA verbs for
-ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS are just copied from
-ALC287_FIXUP_YOGA7_14ITL_SPEAKERS, and is different from the original patch
-that was tested in [2] and the provided verbs from [1].
-
-Cameron, you submitted the original patch for this. Can you confirm?
-
-Attached is my proposal fix for the ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS
-quirk. I'll get the reporter to test this and report back.
-
-[1]
-https://github.com/thiagotei/linux-realtek-alc287/blob/2a3a57c14adf3313d4c14df1a0a8a8bd3f544369/lenovo-legion/verbs-legion.txt
-
-[2] https://bugzilla.kernel.org/show_bug.cgi?id=208555
-
--- 
-Regards,
-  Eric
---------------xnDkrZ0X6chx0hMrZz4YRIXk
-Content-Type: text/x-patch; charset=UTF-8; name="15imh-fixup.patch"
-Content-Disposition: attachment; filename="15imh-fixup.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL3NvdW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYyBiL3NvdW5k
-L2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwppbmRleCBhZTc0ZTFiNjllYjMuLjFmMTc0
-YjcwZWM1NyAxMDA2NDQKLS0tIGEvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5j
-CisrKyBiL3NvdW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwpAQCAtNjEwNywxMiAr
-NjEwNyw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGRhX2ZpeHVwIGFsYzI2OV9maXh1cHNb
-XSA9IHsKIAkJCSB7IDB4MjAsIEFDX1ZFUkJfU0VUX0NPRUZfSU5ERVgsIDB4MjQgfSwKIAkJ
-CSB7IDB4MjAsIEFDX1ZFUkJfU0VUX1BST0NfQ09FRiwgMHg0MSB9LAogCi0JCQkgeyAweDIw
-LCBBQ19WRVJCX1NFVF9DT0VGX0lOREVYLCAweDI2IH0sCi0JCQkgeyAweDIwLCBBQ19WRVJC
-X1NFVF9QUk9DX0NPRUYsIDB4YyB9LAotCQkJIHsgMHgyMCwgQUNfVkVSQl9TRVRfUFJPQ19D
-T0VGLCAweDAgfSwKLQkJCSB7IDB4MjAsIEFDX1ZFUkJfU0VUX1BST0NfQ09FRiwgMHgxYSB9
-LAotCQkJIHsgMHgyMCwgQUNfVkVSQl9TRVRfUFJPQ19DT0VGLCAweGIwMjAgfSwKLQogCQkJ
-IHsgMHgyMCwgQUNfVkVSQl9TRVRfQ09FRl9JTkRFWCwgMHgyNiB9LAogCQkJIHsgMHgyMCwg
-QUNfVkVSQl9TRVRfUFJPQ19DT0VGLCAweDIgfSwKIAkJCSB7IDB4MjAsIEFDX1ZFUkJfU0VU
-X1BST0NfQ09FRiwgMHgwIH0sCg==
-
---------------xnDkrZ0X6chx0hMrZz4YRIXk--
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
