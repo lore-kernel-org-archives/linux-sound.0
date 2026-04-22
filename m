@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13853F1647;
-	Wed, 22 Apr 2026 19:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5A03F210A;
+	Wed, 22 Apr 2026 19:58:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776887873; cv=none; b=H36EA+iVPmuch3WxDkLpB9nSWAs58FSUae9hETgG5r43pN2SikkPFWXfzMITO8U8CAz1Xgxwq/oqJVixaXetssi8Uvodfj4aWujujATulZWLtB4nVqGYNSjbcvr7prTKfcRjuBelDzjQieniC+utUj4gw1sUMwILF/LdP19FqfQ=
+	t=1776887895; cv=none; b=MHAJbLTWaNmqqXAjxCr0m15MCbeubvQ/VcjXZWvH/Eas9txhdbXNOt6+O3mjkzKAuaU7XpGfjrOhkOkdoLbd7CVF61KvA9Abwr0Cf9qqN7fG/x1WmGdjkbBoDI0gifdCnzVIQlC8GOlYEoMtLDYiI05fksFqZPRjyf21Jb3N8to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776887873; c=relaxed/simple;
-	bh=p4/y6fn8bAiOkuyTdAh7I4xKwXn8sDDrDVyIe02JmtA=;
+	s=arc-20240116; t=1776887895; c=relaxed/simple;
+	bh=LYvVyC78e037bReXvjd2uyLs7TRcgWQ1/dWq77r4RAo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PTKWjE4XYDkwu1jfGg0s3ycIXftRojWBip9JkUoOxHAA1UhtFFDsCH41dqkfwKzz2GMR6aJnky7eQOIft1U7AB4FnQ/G2hdo8Spi/nwSFfHnF4iQXQW50y0yiAygVOV8/VrggggReoWCi4sTlrMjDfaGtYuOxvX9kKFelu5Ak78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBWFlKpA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gVfOKM8URDEe0mXjiPC9sDRFXlYlgVd1CM5xdy2KoXRvuatFbJLjeTmNf4swyRWJ1wAAwPsNnLRHXCO4FzpYOu3/fLue/xUav4YvbjMhNpBnvtu4RSc0t8+iMPqmhfmeBu6Qx1kMRCpBsaqW7OV+2KSYuRAc+AZ/EmqpeP3cju4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8cYEcyD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBWFlKpA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A127C19425;
-	Wed, 22 Apr 2026 19:57:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8cYEcyD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DC0BC2BCB4;
+	Wed, 22 Apr 2026 19:58:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776887873;
-	bh=p4/y6fn8bAiOkuyTdAh7I4xKwXn8sDDrDVyIe02JmtA=;
+	s=k20201202; t=1776887895;
+	bh=LYvVyC78e037bReXvjd2uyLs7TRcgWQ1/dWq77r4RAo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fBWFlKpAqew0XhivZlCvEN1QgTsdxIcKT+woozSoj+XwCbTTP/wSiOfILnC87TBqL
-	 v+nQKLgBQ0rIHW8LGe4hUBZqrg7bHDRJA9A8OYAyKprvb8D2YOEHGxqc7oeAyVbThV
-	 z/TeXx0ekIylIFCjqKp23PD6Dcb0S7+pFWvnSr03Cn0UegIrhDaiesv4TzevphSzdF
-	 8xcy4SVQTSafEvSKE73XNICJ7+ZZ8lqpwKwvKUOMQp77qHJIAXSbU9qf3ag7Z1of7I
-	 r7RQznP/yufRL7ljZqiANrD7F9EGXtSlOURqjjrWp0svP5koBDnCD+FXfRC7D8xFmw
-	 +Bi/oxez8MKzg==
+	b=g8cYEcyDw3XK9v/hkWE5fkFprDngOjqLKILR7aBJsntj8be+BpBCgfp+wDdw1gGw/
+	 ZzzpgpHDhZzVxGteBe5te6d2+N0CoowdIvyNX0l4g8VruJZ3Ol6cdfXTWqvs0pa0yU
+	 CqDkCKTzrbj86XhCDsivAelw+IbzC9EVoAeZ7p85j2loZuNhyyXHPq6HAJTgwOmIFU
+	 V/9rh0Zi0iBhXZ12mfrYy+kWHoHPxLrhz3SDe4KM+5LEEgVRJVkMzOXIkYn00Ekj05
+	 X2N76q52T0sxO1Jyh6yDqfdS4GEgywFNFyCY5OfLH4IEQHyFjCNlhzyX2NskHpJiAi
+	 7B31EzfpNWNDw==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Aaron Ma <aaron.ma@canonical.com>, 
- Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20260420114823.194226-1-mstrozek@opensource.cirrus.com>
-References: <20260420114823.194226-1-mstrozek@opensource.cirrus.com>
-Subject: Re: [PATCH v2 RESEND] ASoC: sdw_utils: cs42l43: allow spk
- component names to be combined
-Message-Id: <177687003362.36226.1621071517135092569.b4-ty@b4>
-Date: Wed, 22 Apr 2026 16:00:33 +0100
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Tobias Heider <tobias.heider@canonical.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+In-Reply-To: <20260422-x1e80100-audio-limit-v2-1-333258b97697@canonical.com>
+References: <20260422-x1e80100-audio-limit-v2-1-333258b97697@canonical.com>
+Subject: Re: [PATCH v2] ASoC: qcom: x1e80100: limit speaker volumes
+Message-Id: <177686906300.36226.17703920373519139645.b4-ty@b4>
+Date: Wed, 22 Apr 2026 15:44:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,20 +46,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
- h=from:subject:message-id; bh=p4/y6fn8bAiOkuyTdAh7I4xKwXn8sDDrDVyIe02JmtA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp6Sg/57bFIEzEACgpd+3xNEifQDfa525i3GhJR
- myaSwF5Kk6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaekoPwAKCRAk1otyXVSH
- 0LS/B/9xPd5F5Ri6hdF/736r//jPt4XTuRNc5DsInzgpexmGQAhTHgx62oeKEMbjhtgq8mgOp9p
- 6BslaqFcW2qUNycyG2r/UF/9Z2qZellWI2c39MV9+XW8gHeG31ZTAWSOo1upX9L4LcXuqwAEfgT
- IT3sOfAc5DPjGINh3eC0AvNriKpLdHeASSO/MkzNNQtepnHIZ9bEK1f8jpwZkbFfwy6mDyfvB9Y
- i8Itg2vjJ6YNjnfByrf+RWKICncAiNIp2OaDfoSVNYqM5MsRS3aMpmsThRL+K0AH7fsor4QP2cc
- szTqg0kfyNKcF+Egv9JZhCDBT5NuxyGGA4O9oMi7gQLwpfgm
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1105; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=LYvVyC78e037bReXvjd2uyLs7TRcgWQ1/dWq77r4RAo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp6ShUWhI1AJ83zS9iBN4pHlmu+JdKtsuaG9pHI
+ tTcKr9OnbuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaekoVAAKCRAk1otyXVSH
+ 0OroB/4+Q3Vw7LVxInAw6tWH+HL4hvWbHD6S6ULRbm5T6R1Nkbbj1BNxLJToCaqTVVAjkzU7zV7
+ FOpjSLk/Bhpf+nRd4ZgLC2xf2VeGnikvlmpJw4wPF8P3IoEXY7iERGN1xWZjNV8hTLDobqJssA8
+ 7hFm2G1Eyncs/JZvWaVnEGyqFhG//zq1yWfZkfNUlRqew7TZjgST57Cza9+dxYevKG/6Eh5tLr6
+ oti2Z/U7vM0lKx6/IzZi9y70BFrt34+B31zw5B2Te4VRlcAweYWWEmubLVIC5NfjCLwBSVGYz8l
+ c9S3gOlgy6V8wfSKWw/7HOEfjHZCWkQ8TxDQZaH97g8zbE3T
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 20 Apr 2026 12:48:17 +0100, Maciej Strozek wrote:
-> ASoC: sdw_utils: cs42l43: allow spk component names to be combined
+On Wed, 22 Apr 2026 15:30:59 +0200, Tobias Heider wrote:
+> ASoC: qcom: x1e80100: limit speaker volumes
 
 Applied to
 
@@ -68,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sdw_utils: cs42l43: allow spk component names to be combined
-      https://git.kernel.org/broonie/sound/c/87a3f5c8ac20
+[1/1] ASoC: qcom: x1e80100: limit speaker volumes
+      https://git.kernel.org/broonie/sound/c/0a5ee0e520ef
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
