@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394EB3D1CA0
-	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 12:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424643DC4A5
+	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 12:35:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776861093; cv=none; b=aWKFQDF0un+bFi+ZPyCOWASOWvDdwokg2e3oiWoh68UJhLc+443VD2J54IbVrDI1Nz8uSZbRiiA8WyOJmnPzM2goVYXPlkDiarKnFWJnm7CXCoonB5EJAIPFxsEuw8ueAyhA3DbuKWq+W2l6zOtH3nqzwJcrmgb43xifQJ9c7ug=
+	t=1776861325; cv=none; b=htZgyz42PDrw7LQkgAegTFgcC9klLB/ZtoW7U8ai9LHYqRvvStNMW2i4Yj892kXmQOUIBmPGRlfUS73lOKlibE2mLwwQ+w4n3bxE0/W1iM4/+lJzh7Rlth60PMR/i0/PdIL3TLpMaUtVfDWdLiLfV9tEqyzFiCnEcbBWDTcAq7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776861093; c=relaxed/simple;
-	bh=VkY6T2Q8+JsleKi22cmp7mHvh2+IFd5U1MOQPeCTIO8=;
+	s=arc-20240116; t=1776861325; c=relaxed/simple;
+	bh=Hebuwg65VU4UfEVMuu6iRAehj7gFFM2ZngBpIFItMEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d9Cs3hDESsALNPd932HkdVALYmN6+IcSpz2zGikEp0nvYmqX/DD6YNtEV3iUlouSV7G3v++3N06Oa9Gq84/oZpcKlBtsVIiUEMVjLEt91wubyWuobrEUlH5UV1FuccpXZ4sWh8mXalIXiVZ5bFc02rsC3eR1r2jtigSJCwnGcps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIe0mjdX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=chSGO/uhR2GKF4/UOb1EuZd+S54rFptX10nvKCZ0Zi1tu9NvI9yqkJwFIjx7O4UD9uPSggFAUGgXXdiO22X7XDYme9ELYfU+Rjs4fl7+7Jr9p0dmoNxzy1oqEMaXMgXB4xWfayncQpQOShMbnKvf7l9Qjeti5jX+Sn0nwpfbTJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSYbITyt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIe0mjdX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51CB3C19425;
-	Wed, 22 Apr 2026 12:31:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSYbITyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC05C19425;
+	Wed, 22 Apr 2026 12:35:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776861092;
-	bh=VkY6T2Q8+JsleKi22cmp7mHvh2+IFd5U1MOQPeCTIO8=;
+	s=k20201202; t=1776861324;
+	bh=Hebuwg65VU4UfEVMuu6iRAehj7gFFM2ZngBpIFItMEs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kIe0mjdXfOsWj5sEVJCbPf6Ztixa4lroOq8e6fq4I3pVmiAZAV1fHDzP3feAmS7/r
-	 PWL3ICKREiCXTm39YJt50xHbNiFQF2So2WuIUlS9+aEaJf5ssaMWZ1jHCby3QejGfp
-	 rqq73Qh+snJ2VP1QrIycGwg96qdwunVdzb/MuaxVpd6aDSx5xp6BJbAD6tvlD0blSl
-	 5AkMA+TtNMRKeXVIXXGuWZl/IkJRyeZKsDjEp2YbjMXWmgJ01ljRgQmKdZVq/MNVa2
-	 J0ugCR14nwUszffb/9pR3mS10AXbdhafG16pP90gmuU6X3aX2P1UbBS3zufh29dtMk
-	 oOKrAXcEMKBWg==
-Date: Wed, 22 Apr 2026 13:31:28 +0100
+	b=gSYbITyttlNDTrKZ5FpMfOXDjOoKtyrA5YJvM8d9Nj7Se6nFfibRp7z6+GfMlqvd4
+	 8TBp9tWGnQ8ftMjqmsC+jyM/tGypgIcAS4I+jxKdRY6X3JUfrKSYw177jb/mH3ompV
+	 /5zvq59KpBuot4pLZ98y/Xe1AGbBd/a263QVtp5RrFiCfbOmFtD0eGY8KGuMv9hNUb
+	 TmS+aehDZKlPSvyr0NtRpdHZEHE1zusOii4wtpGYBhWPR5Nahi4y+gwUG2ER/KmzDq
+	 mjbw70GluL2rjuqu/cfnO/DkMFiEzkMaOBbfxKGSVnyTdqD+GIEPzQkNuRnx02vwbb
+	 Ew0OCtmW4PStw==
+Date: Wed, 22 Apr 2026 13:35:19 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>,
@@ -34,11 +34,10 @@ Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
 	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: [RFC][PATCH 1/2] ASoC: ti: ams-delta: Stop (ab)using
- card->pop_time
-Message-ID: <b7fb5a68-89df-46a9-8f78-e57c6ab093d3@sirena.org.uk>
+Subject: Re: [PATCH 2/2] ASoC: soc-dapm: move card->pop_time to soc-dapm.c
+Message-ID: <30e956b5-7fed-41fc-b70b-85d76a805848@sirena.org.uk>
 References: <87ik9jk8kd.wl-kuninori.morimoto.gx@renesas.com>
- <87h5p3k8jp.wl-kuninori.morimoto.gx@renesas.com>
+ <87fr4nk8jh.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,53 +45,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rPhO0Q038XohYggm"
+	protocol="application/pgp-signature"; boundary="wxnnknZVsQx/BDr+"
 Content-Disposition: inline
-In-Reply-To: <87h5p3k8jp.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87fr4nk8jh.wl-kuninori.morimoto.gx@renesas.com>
 X-Cookie: I'm definitely not in Omaha!
 
 
---rPhO0Q038XohYggm
+--wxnnknZVsQx/BDr+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 22, 2026 at 02:55:54AM +0000, Kuninori Morimoto wrote:
+On Wed, Apr 22, 2026 at 02:56:02AM +0000, Kuninori Morimoto wrote:
+> Card has pop_time which is have used only from TI, and it is now stop
+> using. This pop_time is used for debug, and can be access from debugfs.
+> Let's move it from Card to soc-dapm.c local.
 
-> @@ -280,14 +280,14 @@ static int cx81801_open(struct tty_struct *tty)
->  {
->  	int ret;
+> --- a/sound/soc/soc-core.c
+> +++ b/sound/soc/soc-core.c
+> @@ -194,9 +194,7 @@ static void soc_init_card_debugfs(struct snd_soc_card=
+ *card)
+>  	card->debugfs_card_root =3D debugfs_create_dir(card->name,
+>  						     snd_soc_debugfs_root);
 > =20
-> -	if (!cx20442_codec)
-> +	if (!cx20442_codec.component)
->  		return -ENODEV;
-> =20
->  	/*
->  	 * Pass the codec structure pointer for use by other ldisc callbacks,
->  	 * both the card and the codec specific parts.
->  	 */
-> -	tty->disc_data =3D cx20442_codec;
-> +	tty->disc_data =3D &cx20442_codec;
-> =20
->  	ret =3D v253_ops.open(tty);
+> -	debugfs_create_u32("dapm_pop_time", 0644, card->debugfs_card_root,
+> -			   &card->pop_time);
+> -
+> +	snd_soc_dapm_debugfs_pop_time(card->debugfs_card_root);
+>  	snd_soc_dapm_debugfs_init(snd_soc_card_to_dapm(card), card->debugfs_car=
+d_root);
+>  }
 > =20
 
-We need an update in _close() as well, that's getting the component from
-disc_data.
+If we're moving this to a global we should move the file out of the card
+directories into the root ASoC directory.  It's debugfs so no ABI
+concerns!
 
---rPhO0Q038XohYggm
+--wxnnknZVsQx/BDr+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnov58ACgkQJNaLcl1U
-h9Axpwf/V6gnx4HmR80mNu2/ZPSKTXB2JJxKQmyMlKW18CkWfZXCYQFugxyhjhJO
-vBKqbQrMVW33zLLa3iPKVWhNwOcEZ4ieQkRaSr8cbDlDOt3Ark7HJoZhcK9DIb9h
-WghAhbvn0QAhspKChN4HDK77Vt9x/S8uvhAlZOfwnxJW0SstjhScMQ3AcitHd0AP
-NZZaj2G7N5Nz9B2M17mjrFN7Q0sb7ZWUkeFXuCsMTiFVIlaLPQRc9lzXJ5rMaggR
-TdxddQVrRWEkkWYnPfCaugDi5JmaFd4SqgJ2lG1gEuIJSbCuTVdX6ptmzW20/k51
-XrQ5LWpESjoi86+7zHH46PPpZUFCFQ==
-=/LtK
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnowIcACgkQJNaLcl1U
+h9CEAwf/U2vLlnK62swyq5K7diBoKFY0HitIHi5MOXtxcrRPWMeEmpbykB7PE6Us
+yfdsot9TWZkrdKzejodCsiSGNuzZfixk6Y8Em3eUhmeeeHbqfCTEfBO46PB1hIru
+hDXCWnUIrXI3OrzELQdTs3QgXLTxVYOnAv+9qjnKcBjXrXp5q1E7wYQGSwfcoApM
+RAdoTICmL6+0Z1P7FDvwPtMQbWRJg5/Yn9Ckhxq8l5QLR4J1HQCIXwwgdDoqXczp
+7kK0aYrOVOrevX2XqG8DqVfL8IDJRcL2hDwFm/ZIV/qqyUXvBW/brSb6EU7TkmcC
+PfW6zOnIMat+XaD+dBKZRgVM8nsAvw==
+=1tRp
 -----END PGP SIGNATURE-----
 
---rPhO0Q038XohYggm--
+--wxnnknZVsQx/BDr+--
