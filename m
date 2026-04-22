@@ -1,162 +1,92 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61C23F165C
-	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 19:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13853F1647;
+	Wed, 22 Apr 2026 19:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776886986; cv=none; b=j4K+BbLg0e8Ydy5mStvk/iJZD6lb360d9b1WJLcaUkG045+2YnL5v36FK2bcUjK5SDhB5bnQNeeofQI4Uhc5HH2P58PV3h/e0CGcnT+bx4fSQZUN4Sh58nQZZPMjjph/bk/iKoJrp5iaAA30xqi8IGKCWBhCkbRqXxhJhDQ3+YI=
+	t=1776887873; cv=none; b=H36EA+iVPmuch3WxDkLpB9nSWAs58FSUae9hETgG5r43pN2SikkPFWXfzMITO8U8CAz1Xgxwq/oqJVixaXetssi8Uvodfj4aWujujATulZWLtB4nVqGYNSjbcvr7prTKfcRjuBelDzjQieniC+utUj4gw1sUMwILF/LdP19FqfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776886986; c=relaxed/simple;
-	bh=1jDHS3//SVF2/A/vC8oT6/lwq+kdzpM3dPjKRF+cWNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HaBFjGsN8liKJEAclcfgm1x4g+judI+pHP0M190EMagSyNw5zrZOazvgq9gWhPfQymeZT7w1llK11HqILYMUFtC1n9glxYqbseko7Ec6xir6Ryp2xNPglq9iK2mqpgH0jfeRZV0Cn8at/FbVgS3ReJJIifBeykFzsdfuP0qUlIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ERmTMnG1; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1776887873; c=relaxed/simple;
+	bh=p4/y6fn8bAiOkuyTdAh7I4xKwXn8sDDrDVyIe02JmtA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PTKWjE4XYDkwu1jfGg0s3ycIXftRojWBip9JkUoOxHAA1UhtFFDsCH41dqkfwKzz2GMR6aJnky7eQOIft1U7AB4FnQ/G2hdo8Spi/nwSFfHnF4iQXQW50y0yiAygVOV8/VrggggReoWCi4sTlrMjDfaGtYuOxvX9kKFelu5Ak78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBWFlKpA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ERmTMnG1"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b941762394aso807677666b.1
-        for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 12:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1776886982; x=1777491782; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A8JHz3Efp15Ndyc9pOP3Ax7qZyPD4IXnQM3cK5pq58E=;
-        b=ERmTMnG1CrQNsHYH6kJmF1cU62rz8jLBMHDzMTqr2OpicUq4ceuW6V5EyF6oiTBk8H
-         g7WR8n8VO6PQgsAG2mbRx++wzZXmNCHmFFSAwuOgvag/NCwO0K1CuL+octrs21rYwoEp
-         /CPvM0XtrKix+4hk7iI7GndGohdG2neRRwlNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776886982; x=1777491782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=A8JHz3Efp15Ndyc9pOP3Ax7qZyPD4IXnQM3cK5pq58E=;
-        b=qN6gU4wrjZrCYWasIJCCMdMbhHKi8BZHF2aoQJAdDRUsDT+1DlL6ZDHYilWjOQrZn7
-         pWkOqOJcdo3zD13PyyOlBp7ddWeVi3+mWfsbLF5FPR36YY4e2EszDO2oxez1JHpKQ+E0
-         rh7O4iXSCGrn9fC8Sce5sXzxotmdK5FabVwQQ5Hhz5TPnqYzzXkdicIUjgp8ihe5/z8p
-         iY0SI1AzWJRgeN+SfZevd1zn+u5i/BKol7WSV1zOgAgzzdv8ArXWe1kwKv+lRWEEsJC+
-         sFclYThLXKR90NDlGu7dJSnMra7UK2cTVeZ8r08tuYKaP52x1MPieVfZCZrNqyW+Ieke
-         TTcA==
-X-Forwarded-Encrypted: i=1; AFNElJ/A8xMu/GkUGQOidzLHubMtHR7LFVvgfGtrYT0TgeHeI8FF2WCsg/gt8oj9V0MgyMasUtxxQgYZl1d2IA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+p7oFFSOqNl70vKST4eUNqyxW5MlAQwlfVd077eC2/UMYSeE/
-	aY4JBS+XVXGpfaigram7k2OrXIxD0tTsLFFeZGx435LqBW2JeWWE066Ced3KG/SySTP1v/xlqJz
-	+1Bui3b0V
-X-Gm-Gg: AeBDietGJEXI6zY2BZ7DgAOnpStYmDC75Cd3Nm+WWwHGTUnluRgqXqazp0ChUqIFJYn
-	yKJLKJMgiTF8z1H6+/qnHPtln5wwBF8QpOnOnkuRmerjqlqGNWkijWatxdo+OhI8oy5QqhsyvxL
-	zyqncS1ClHok1pIrSCvWHYbgH5TUGNl1o9QaPqAVTOpk+PQjEotXRso9djiErMaNYZ4Z5tMd+Qu
-	59jEW0vUlaa1QL5rc5bO9FWYnz4Sm8Png0th8W4a4zwcenA7YtVHaE6s5+lXCBU/l64kYVm33n5
-	XcH4OCq5mgXQa9/7aw3xncC7BK8YMKMoOwI7TyOeZdVfrCZ9eDZMvuJf3VUHtOB6L8cTEzq+8ZR
-	IHm5bHRVSrHMP+qlLw+YG2n9wHGhqyKcfX4mzyKFuZ2iDOga6aMqbVxtryZI/QPYi5VvJeMBT5T
-	eXymso+o2oeeJUnMfcY5+WOGmLOvE/rc+j8LzX+ucLsg8/h+vR+QBlMvVHgybcjZEGwhgRorGi
-X-Received: by 2002:a17:907:6095:b0:baa:15ad:3672 with SMTP id a640c23a62f3a-baa15ad36d3mr395314166b.7.1776886982356;
-        Wed, 22 Apr 2026 12:43:02 -0700 (PDT)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba45121109csm594517566b.6.2026.04.22.12.43.02
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 12:43:02 -0700 (PDT)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-671dad7cac8so8695763a12.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 12:43:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+tacOUvGJ/HtOWpotE3abuQhMY4HeJMMYoU6pS9C6PaC4I5Hz01lBSu2HHiIhU5QaT53QFskpumo5OBA==@vger.kernel.org
-X-Received: by 2002:a05:600c:4714:b0:48a:5574:3a5b with SMTP id
- 5b1f17b1804b1-48a55743d05mr122645615e9.27.1776886533988; Wed, 22 Apr 2026
- 12:35:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBWFlKpA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A127C19425;
+	Wed, 22 Apr 2026 19:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776887873;
+	bh=p4/y6fn8bAiOkuyTdAh7I4xKwXn8sDDrDVyIe02JmtA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fBWFlKpAqew0XhivZlCvEN1QgTsdxIcKT+woozSoj+XwCbTTP/wSiOfILnC87TBqL
+	 v+nQKLgBQ0rIHW8LGe4hUBZqrg7bHDRJA9A8OYAyKprvb8D2YOEHGxqc7oeAyVbThV
+	 z/TeXx0ekIylIFCjqKp23PD6Dcb0S7+pFWvnSr03Cn0UegIrhDaiesv4TzevphSzdF
+	 8xcy4SVQTSafEvSKE73XNICJ7+ZZ8lqpwKwvKUOMQp77qHJIAXSbU9qf3ag7Z1of7I
+	 r7RQznP/yufRL7ljZqiANrD7F9EGXtSlOURqjjrWp0svP5koBDnCD+FXfRC7D8xFmw
+	 +Bi/oxez8MKzg==
+From: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>, Aaron Ma <aaron.ma@canonical.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20260420114823.194226-1-mstrozek@opensource.cirrus.com>
+References: <20260420114823.194226-1-mstrozek@opensource.cirrus.com>
+Subject: Re: [PATCH v2 RESEND] ASoC: sdw_utils: cs42l43: allow spk
+ component names to be combined
+Message-Id: <177687003362.36226.1621071517135092569.b4-ty@b4>
+Date: Wed, 22 Apr 2026 16:00:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260325143555.451852-1-herve.codina@bootlin.com>
- <20260325143555.451852-3-herve.codina@bootlin.com> <CAMuHMdU7x7LWFkD9xiq+wyOqnn0bdzr+JLfvbBexoiWyv8kftA@mail.gmail.com>
- <CAD=FV=UK3NQKQN7FXyG4nGdDKO=LQYhnL4ZweomQ_4R9-EAYag@mail.gmail.com> <aekg_IELc65BFrWp@ashevche-desk.local>
-In-Reply-To: <aekg_IELc65BFrWp@ashevche-desk.local>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 22 Apr 2026 12:35:22 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XTvvq11y7kxmrfBe3dZsKro7N9=i-Hj9aqsLBay2Q9Rw@mail.gmail.com>
-X-Gm-Features: AQROBzBA2DSdR2HBaIYSKp4MrG-iWYSiPDxUw6OYCOPyJYNxN20LzPXgyZNheJI
-Message-ID: <CAD=FV=XTvvq11y7kxmrfBe3dZsKro7N9=i-Hj9aqsLBay2Q9Rw@mail.gmail.com>
-Subject: Re: [PATCH v6 02/27] of: dynamic: Fix overlayed devices not probing
- because of fw_devlink
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Herve Codina <herve.codina@bootlin.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Kalle Niemi <kaleposti@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
-	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=p4/y6fn8bAiOkuyTdAh7I4xKwXn8sDDrDVyIe02JmtA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp6Sg/57bFIEzEACgpd+3xNEifQDfa525i3GhJR
+ myaSwF5Kk6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaekoPwAKCRAk1otyXVSH
+ 0LS/B/9xPd5F5Ri6hdF/736r//jPt4XTuRNc5DsInzgpexmGQAhTHgx62oeKEMbjhtgq8mgOp9p
+ 6BslaqFcW2qUNycyG2r/UF/9Z2qZellWI2c39MV9+XW8gHeG31ZTAWSOo1upX9L4LcXuqwAEfgT
+ IT3sOfAc5DPjGINh3eC0AvNriKpLdHeASSO/MkzNNQtepnHIZ9bEK1f8jpwZkbFfwy6mDyfvB9Y
+ i8Itg2vjJ6YNjnfByrf+RWKICncAiNIp2OaDfoSVNYqM5MsRS3aMpmsThRL+K0AH7fsor4QP2cc
+ szTqg0kfyNKcF+Egv9JZhCDBT5NuxyGGA4O9oMi7gQLwpfgm
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi,
+On Mon, 20 Apr 2026 12:48:17 +0100, Maciej Strozek wrote:
+> ASoC: sdw_utils: cs42l43: allow spk component names to be combined
 
-On Wed, Apr 22, 2026 at 12:27=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Apr 22, 2026 at 11:51:36AM -0700, Doug Anderson wrote:
-> > On Wed, Apr 22, 2026 at 10:44=E2=80=AFAM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Wed, 25 Mar 2026 at 15:36, Herve Codina <herve.codina@bootlin.com>=
- wrote:
->
-> ...
->
-> > > > +               if (fwnode->flags & FWNODE_FLAG_NOT_DEVICE)
-> > >
-> > > After commit f72e77c33e4b5657 ("device property: Make modifications
-> > > of fwnode "flags" thread safe"), this must be changed to:
-> > >
-> > >     if (fwnode_test_flag(fwnode, FWNODE_FLAG_NOT_DEVICE))
-> > >
-> > > With this change my DT overlays are working again.
-> > >
-> > > I guess keeping the FWNODE_FLAG_* names, but changing their values
-> > > from bit masks to bit numbers was probably not such a good idea,
-> > > as it fails to catch missing conversions...
-> >
-> > Crud, I should have thought about that. :( Do you think it's worth it
-> > to do a rename at this point to catch future problems?
->
-> You can try locally with allyesconfig / allmodconfig and see the outcome.
-> If there are missed cases, and their amount reasonably low, I won't bothe=
-r
-> in this case.
+Applied to
 
-I believe I caught all of them at the time of my CL, but the problem
-is in-flight stuff, right? I think the problem Geert is pointing out
-isn't something I missed in my original patch but rather an
-interaction between my patch and this in-flight patch.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-> But for the future it's kinda rule of thumb to rename when
-> semantics changed.
+Thanks!
 
-Noted. I've certainly done that before, but I didn't think about it in
-this case.
+[1/1] ASoC: sdw_utils: cs42l43: allow spk component names to be combined
+      https://git.kernel.org/broonie/sound/c/87a3f5c8ac20
 
--Doug
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
