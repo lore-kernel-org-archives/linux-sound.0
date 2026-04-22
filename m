@@ -1,413 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011067.outbound.protection.outlook.com [52.101.125.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EA035898
-	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 21:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776891786; cv=none; b=fBRd7j7p2EL8VVJ9IVLYPHcx7YMRfGb4wvri5ie1OVKb6xXYcVOgCFKOEr8TbME0Py+slP7yiP8uOTrh+mlzl24CzuUirBphhu9RKNiSj/Pd/HYwWfVT0Qg7HS7dn73NCDohgS03Tw+asXke6vSVkepfvRtLWj/J4lR5VJ8s3Pc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776891786; c=relaxed/simple;
-	bh=osEm2UT3TXX8sIhn9WZoRrKU1bI47Kn9yWLweybEHUw=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=jXdhJjPHvJrx8+RqfB/UlT+emyG/XghzDOR43fPxBo9IwSt+F7Bc9gVNUo6wySo9vsYVzrEvi3uFoIbcMuEpht3LXb6fC1tjcq+iz/5ySEGl2LgVSby2XxfYsRWQnbP+QoKVyvnDy+voVPn0m5pdvgNKh5wbX79KniKOhzBXr/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SGIlNUF3; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DED32ED40
+	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 22:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776898636; cv=fail; b=LJOzzgN5xJIcKZv6vpIL1jhvj/OvHEZ6hSiUFCK3nSYOxoVTr0yJ05xSbj5e/IsBZR2OGbjkkCAxcdbwJ15ll8ncu4AUXJayiQs9t6LJHmH5jVg0L+NSvGOQYH+rs5IxmXbA537Z044kAoS83qxsZ5n7Yi9guIEC8gAi97i0J54=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776898636; c=relaxed/simple;
+	bh=5qagFRQKRBZHWP6tBR4cWn2TF5GlRoa1PqikwPQ4K+Q=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=URS94caO1bNVZFvA9IKrVSuuPgxaXDnMLN7yMh01dQBWtwzlbDnnNT8eRoAdzVvxvUpOcB/EXHUU3ezwMFys30DZ+qwIOgFFt9ZjnXXPhlNLZkQaf/SpeqTs0rge7iaXb+bEyUvxXcGi0X0ueYrXViHVJ2qU46QosnW8ga+Kw4s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=bQiQjE46; arc=fail smtp.client-ip=52.101.125.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SGIlNUF3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F387C19425;
-	Wed, 22 Apr 2026 21:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776891785;
-	bh=osEm2UT3TXX8sIhn9WZoRrKU1bI47Kn9yWLweybEHUw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SGIlNUF3v8ElA3papXrPw0k3H7lFbuluSHs4MJ3rTRO+4Cacr37APqWzvvZtcyscJ
-	 CVEJBchpTBuscNPmDRQioN1hV6RSIJ3U8w3v8cY+LHy+CnmgeeSxg73EfjbFoD1WGB
-	 tilCxdDz68l8A33a/lHti+5+si2D4nalQcTpHezqGBFoeKviTWRMEmBrlKYxYxl8Cb
-	 ZQe3zqKIKd8aUYyXKNgspjg5LdtPtFLw/7epWqziYk3o0g5R6OL8RBfFn7m8BnyWGl
-	 3rsXqaNHoCq6PvM6f2CaYsMlTDaV4uhwUQAezuBkOmWpTrlvUp5yyUa/XAqzmKBBob
-	 HQtBVNGU93R0Q==
-Message-ID: <101ba0b3f4dd2e7213d3ef9dbb8a2140@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.1-merge-window
-Date: Wed, 22 Apr 2026 22:02:58 +0100
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="bQiQjE46"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YMOwK7VgA72A0RRp0/UuRrZ3uQpF03GgEZH6cGdJAi0jm8znVoa3qt5c+m0/IcF//Ee2SA+rodhq7IcGOTPYkqnuFByzzOQ7Uh+OJpwqqKosafDJsKfqhjKA12C48zKVYbmSSdR/xzJAv1qqOAYikjU7U7XJ0qUSt4LSUUyhjnq+Gp2jfdFHZBCQ9WLCiy6issJzDJM8j8fyUa03/q/PWj4FbvsAyXsiwCoILxs3ruuFTTx4AL1Bk0p9JCfB3F2r2Mbcmqv8MC2+r5zh1ktzOArqTvbdbm3a0ppi3YNIfQObZjFzffqysTRqjyjZXXhUNgcYwcZKGPytYMBm11JSQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NInSTmKIarCZ8dKMaYz6xDV4CxWgQw/EpjVoWKT8Ezg=;
+ b=JVMA6iDwXP1E+zTyD8E+yY20BtTSgcXM/pf0R3U6G5mRiByx/KSuibAucW6HVn0UIs0TSVZzcmCXJpHaNbMMLbYqszxdXzylHXdPG71DJ/ihPxNPMt3Sj0btsbtxv6XQbU9ic1fW/+T74RkfKiOlts46J8G0ZqylK/+cH2fWzF288lsmmpD4Juax0u3X9uIvK/0ioVsf1KvZsHqYlQkqGH/+1xb04s3wNUuvuda+e3lu+CpfouXBkD5kc9prPvQmzDTk+xhvWcjF4BpJtBoLHJkHvLbtX4qR86gbjvUvKuNoQGf4MibLBxbMnYANWE1RmF/HUqcengdl1/GRypge4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NInSTmKIarCZ8dKMaYz6xDV4CxWgQw/EpjVoWKT8Ezg=;
+ b=bQiQjE46e2Gmg7WaD5X4zMTC75oKl57NECr6LRbMAJ3njEHT0vYkmXqKlE8nOachjR2+QiWqjTCYpfoQkrDBT/iCnSBx9/4oJ7XjZfFdPtCX5vdaDC22MZeDMpHdiUzG9HKq18npA3D2HZFtg4BoKioYrDga8hRmGvw7eDt9/PU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OS3PR01MB6564.jpnprd01.prod.outlook.com (2603:1096:604:10a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Wed, 22 Apr
+ 2026 22:57:11 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9846.021; Wed, 22 Apr 2026
+ 22:57:11 +0000
+Message-ID: <87340md2o4.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [RFC][PATCH 1/2] ASoC: ti: ams-delta: Stop (ab)using card->pop_time
+In-Reply-To: <Q-gEHDxFQKq1L_9pbbzxnA@gmail.com>
+References: <87ik9jk8kd.wl-kuninori.morimoto.gx@renesas.com>
+	<87h5p3k8jp.wl-kuninori.morimoto.gx@renesas.com>
+	<b7fb5a68-89df-46a9-8f78-e57c6ab093d3@sirena.org.uk>
+	<Q-gEHDxFQKq1L_9pbbzxnA@gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 22 Apr 2026 22:57:06 +0000
+X-ClientProxiedBy: DB9PR02CA0025.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d9::30) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS3PR01MB6564:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e6e4e8f-8b14-4f50-9b39-08dea0c27ce4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|18002099003|38350700014|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	LRd3p/SPHdCxsaAiqwNYSAvSL6DG3I7ooLC1g2ux3Fu+iPpJQXDAMii7tl7R4Tw4p/Y4DyyDdiAH/CYupLhcU8OVKnQcfqlgrON8mOH3h4VuqNwmJDiw8AMzxVqr5Qw7/+J5FmyJpJnoy3iDiZxjb7OucGRcnuAq2+LuVsWPUdCfnlEX0BgeXWWPSoJpyKgADlsyTSosNZVT3EfaO+52beO22HgJHj5vz4NkANXP+pa6up8SHPqiGNZe8vy6QNUg79B8dzdYP7xfugsxP9k1p2V5KvIDCgFDqNOblQoqY6QlownYN9KPvEoTWCcutAA88eAjtvX7xGkwIbmkumzDsZmcDggYhDF4f7LbYlydw1nR5WrxT0Bb4nIjhYHPrjVeegRXQuyOx7wVG2uacYSZVRxvxFirRbDmgZPySeOcAWabTXxjNCvijn3VYIJgH86UlrpSxQqVtUpVt1Jwa1nm8lQeaBD2Sx+mQy8Vo9RzXxqqZNDP+p9vWE3Toio/hJ5rnRPxGsBtSXqXrVsjePP2f+V7MeFCMzN1L6fhBuq71sPqQ9Sjl+Z8Egh0iz3kB+NnlUVsxaGsI7jlZ0P/SlOBFN19X8H+fdoDkOAMnJPMX8XyT93naznGPuY9XMedsSYFB6e6Ouq/L/VKeE1sskRxUCr55Lor4Wsb0/suPzADKoN/0czaWW/cm4t3lwj6oblTNV+byoQ74z46o8CAB2ZksNBbCeERFnjzg0ChPcx0HisV8lwzDAvrPxonCMiGc3jzFGkIwqiJNYkYk2ryzlDIGYML/5oRQM24OmfBQ0qHFa0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(18002099003)(38350700014)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FE5z3xA2JfW+kderCcZoaPn4Gc0rOpg+tpMesdQZXHiecZTBIfsTXilIgj99?=
+ =?us-ascii?Q?vIk8yRzztqBbItyBKms2+F/R2pD3MPhav8e/lIrxpf9nie4wHj9JJXyfYHGO?=
+ =?us-ascii?Q?zbv7gCKgEM+jZdzko3uLqK+U3ZF5W4R1AiqcUWS/MhB1XmI8WClzMzR6L66N?=
+ =?us-ascii?Q?CHIxVUWATp8GlagMg7Lny92uEM5jk32+BptKkWVnELQBsESJBPaY0ehktIY7?=
+ =?us-ascii?Q?7TbAyjHZ31LbGfsq8yzct0A0w6bru3+4WlwwhFoSI1N9g5CgmUkKSjjznaJI?=
+ =?us-ascii?Q?X9fVwqXPqnmCzGTLaYibCI7Tfx9L6vGlwgGOcdYWimCoXhCDulq9y8Bf8VXh?=
+ =?us-ascii?Q?Uqs4N8sfaUDebLbh4wMCUSNLMoqa5IqZtRFytyLVFwpvsMtXFJlSPntj/Og+?=
+ =?us-ascii?Q?7rP5fOGnGwQ4CIuSmCcKzvIHlWvUQg4k5EL73EDNOO6tKTGCw5P0fVaexExz?=
+ =?us-ascii?Q?P9gRVZGg2CtbqxCDFt4yXwFPEjcdGikZh5Ww5SKhrRyOcT+dUR6D/Z8ll4ga?=
+ =?us-ascii?Q?+0Zpmn8Jz7pw0+IJTFfehu+dd9rRzYcDrysb1DrAkNwyUbzYhPyJOnjVB78r?=
+ =?us-ascii?Q?z/TuUuxt8ytyGRIJX68d8fIeEA1g3rSgL3606kG8g04RnHQ2wywyMycKPdVI?=
+ =?us-ascii?Q?nkW4KXwuxezZMnppjQ3Pg3wkDxnTK8AGhC96hdbxdgrz8JUgv3VKUjwQpT/P?=
+ =?us-ascii?Q?Jn2MqIHsL7A+8v2gk/7UjuYr7KCn5v4jqe+LgOxB5z+iCARsd2g7oGYm+hbW?=
+ =?us-ascii?Q?MmaH7RhRh940gtA2nviXmYdcZKpnN6bjkU8Qp4IUo/hyGbBxmFifPpg/24W6?=
+ =?us-ascii?Q?HjX/SjA265qMf/R8yNhPtsYGuM8gNcNwhZcM43TGY1JgUVrGW9ogvfjm1HvR?=
+ =?us-ascii?Q?RvBjKs38FDVt4aB2q6GVXKaLInbaB6U4c7Wf95q77l2R0BwxhIRBmduYQmAk?=
+ =?us-ascii?Q?od4psjmkxoKd4CDXZnhvYl0ACavF8eANkcWXTpwwYEHHaFia7N6IOmnS8z/m?=
+ =?us-ascii?Q?p774XSMVo/fyodG9jiCznzWwGcsuoRkG59xBJAxkG8xEqXa0vU/9E7VxTOh1?=
+ =?us-ascii?Q?98MDq5CBH7VSo6LQdX9w+WfX7FM8j4Zd89ufm0mPKvrwB2XL36Az/mB+t1C0?=
+ =?us-ascii?Q?Ymk3NBYYgZ6dwXEtzVZTm6yLQ+qXUp1ANVlX81QzYzW0XVIi++ap6QfwCmi1?=
+ =?us-ascii?Q?CKsm/m8VrXUP3ggI/SJCBSgGVHj+TsRlThVsFmQUDxJFcFqZg/9ABXOTHMEw?=
+ =?us-ascii?Q?7ddj5CoLdshp6KlthWOxr2vlc16fXx6zauC1lBYDGYtxrFqB4jJUSeONK13P?=
+ =?us-ascii?Q?rbksm+6YNOdwTgT/mkGuaI2dODQJg7vE3pIUaGomeyWYJZ796DlH5M7L9y2y?=
+ =?us-ascii?Q?7WaGR/fvR3b2k2krkqfbA0WrVdT6T7jkie/P17UqCDs/mLnehXvdr5qF7++r?=
+ =?us-ascii?Q?F/tRuD8wsYNKK/JAGExzZ0iGDRiZLBxtjgnuOVRZhXi+Ghd8wMEymsM9D2wc?=
+ =?us-ascii?Q?PCOI9d+F/JMKpJPqYbrntrCwekcxaMFSp0Htax0T2arnaljYJWgjgSvEOABe?=
+ =?us-ascii?Q?W6F+OWcSNBvgKasgLRRPWO21aCdliPLbwSmpajILzz66h5JCKLHpQ5M9Qxu+?=
+ =?us-ascii?Q?bFVjqB3O8MIVZmEda7ab1dle3LRfOAsRLH88QIenXA04FCBmfGbAgttYCNSf?=
+ =?us-ascii?Q?CVleTd1tHAPd33+g7RiXX51A+bIfVHgJrJHCNxGp6/kawc+yFEYv4A2LnMn7?=
+ =?us-ascii?Q?00FqdQrHFdBObdwSaQZru4vonD6Fvzd+OVKoecWYM5aF2KuD2Rnr?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e6e4e8f-8b14-4f50-9b39-08dea0c27ce4
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 22:57:11.7496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qOBETulCgvBzq7Kmi7aUOx/7Ia7dVJw5itNeuXTKcT++d0sArUL2I0PlsQW4STGyCZYykJkxplxnY/3v8J8u1zDwlcK7NlBR44jp+jWKgBYYXZ/JHkVPwrwTNX5LxoTL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6564
 
-The following changes since commit 028ef9c96e96197026887c0f092424679298aae8:
 
-  Linux 7.0 (2026-04-12 13:48:06 -0700)
+Hi Janusz
 
-are available in the Git repository at:
+> > We need an update in _close() as well, that's getting the component from
+> > disc_data.
+> 
+> Thanks for spotting this.  We should now get the component from 
+> cx20442_codec.component in _close(), as we do in _receive(), and return if 
+> (tty->disc_data != &cx20442_codec), maybe also WARN_ON(), or even BUG_ON().  
+> Sorry for missing that.
+> 
+> Kuninori, will you take care yourself, or do you prefer me to send a fixed 
+> version?
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-merge-window
+OK, I will try.
 
-for you to fetch changes up to 24fcdc81dd7e1560e57eff75b618e5b00054b714:
+I noticed that it seems it is inconsistent ways of handling tty->disc_data ?
+	(A) is handling as "struct cx20442_codec",
+	(B) is handling as "struct snd_soc_component",
 
-  ASoC: dt-bindings: ti,tas2781: Add TAS5832 support (2026-04-22 21:15:55 +0100)
+	static int cx81801_open(...)
+	{
+		...
+(A)		tty->disc_data = &cx20442_codec;
+		...
+	}
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.1
+	static void cx81801_close(...)
+	{
+(B)		struct snd_soc_component *component = tty->disc_data;
+		...
+	};
 
-A fairly small collection of fixes, device IDs and quirks that came in
-during the merge window, the most remarkable of which is one for SDCA
-boolean firmware flags which is remarkable mainly because it is
-partially in regmap.
+Well.., it is the same things, anyway...
+It is confusable, I will fix this too.
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      ASoC: tas2781: fix unused-const-variable warning
+(A)	struct cx20442_codec {
+(B)		struct snd_soc_component *component;
+		bool ready;
+	};
 
-Baojun Xu (2):
-      ASoC: dt-bindings: ti,tas2781: Add TAS5832 support
-      ASoC: tas2781: Add tas5832 support
 
-Bard Liao (2):
-      ASoC: SOF: Intel: NVL: add platform name
-      ASoC: SOF: Intel: NVL-S: add platform name
+Thank you for your help !!
 
-Charles Keepax (2):
-      regmap: sdw-mbq: Allow defers on undeferrable controls
-      ASoC: SDCA: Fix reading of mipi-sdca-control-deferrable
-
-Hsieh Hung-En (2):
-      ASoC: es8311: Check regcache_sync() error in resume
-      ASoC: es8311: Fix clock leak and check update_bits in set_bias_level()
-
-Maciej Strozek (1):
-      ASoC: sdw_utils: cs42l43: allow spk component names to be combined
-
-Mark Brown (3):
-      ASoC: SOF: Intel: NVL/NVL-S: add platform name
-      ASoC: Correct bug parsing DisCo booleans
-      ASoC: dt-bindings: ti,tas2781: Add TAS5832 support
-
-Peng Fan (1):
-      ASoC: pxa2xx-ac97: fix error handling for reset GPIO descriptor
-
-Shuming Fan (1):
-      ASoC: rt1320: fix the warning 'rae_fw' from request_firmware() not released
-
-Tobias Heider (1):
-      ASoC: qcom: x1e80100: limit speaker volumes
-
- .../devicetree/bindings/sound/adi,ssm2305.txt      |   14 -
- .../devicetree/bindings/sound/adi,ssm2305.yaml     |   46 +
- .../devicetree/bindings/sound/awinic,aw88395.yaml  |    4 +
- .../devicetree/bindings/sound/cirrus,cs42l43.yaml  |    3 +
- .../bindings/sound/hisilicon,hi6210-i2s.txt        |   42 -
- .../bindings/sound/hisilicon,hi6210-i2s.yaml       |   80 ++
- .../devicetree/bindings/sound/imx-audio-card.yaml  |    9 +-
- .../bindings/sound/mediatek,mt2701-wm8960.yaml     |    4 +-
- .../bindings/sound/mediatek,mt7986-wm8960.yaml     |    4 +-
- .../sound/mediatek,mt8173-rt5650-rt5514.yaml       |   41 +
- .../bindings/sound/mediatek,mt8188-mt6359.yaml     |    4 +-
- .../bindings/sound/mt8173-rt5650-rt5514.txt        |   15 -
- .../bindings/sound/nvidia,tegra-audio-cpcap.yaml   |   90 ++
- .../sound/nvidia,tegra-audio-max9808x.yaml         |    5 +
- .../bindings/sound/nvidia,tegra-audio-wm8962.yaml  |   88 ++
- .../bindings/sound/qcom,q6dsp-lpass-ports.yaml     |    5 +-
- .../bindings/sound/rockchip,rk3399-gru-sound.txt   |   22 -
- .../bindings/sound/rockchip,rk3399-gru-sound.yaml  |   60 +
- .../sound/rockchip,rockchip-audio-max98090.yaml    |   59 +
- .../bindings/sound/rockchip-max98090.txt           |   42 -
- .../devicetree/bindings/sound/simple-card.yaml     |   14 +-
- .../devicetree/bindings/sound/tdm-slot.txt         |   29 -
- .../devicetree/bindings/sound/tdm-slot.yaml        |   52 +
- .../devicetree/bindings/sound/ti,tas2770.yaml      |    4 +-
- .../devicetree/bindings/sound/ti,tas2781.yaml      |    7 +-
- arch/arm/mach-s3c/mach-crag6410-module.c           |    6 +-
- drivers/base/regmap/regmap-sdw-mbq.c               |   36 +-
- drivers/firmware/cirrus/cs_dsp.c                   |  117 +-
- drivers/firmware/cirrus/cs_dsp.h                   |    4 +-
- drivers/firmware/cirrus/test/cs_dsp_test_bin.c     |   25 +-
- .../firmware/cirrus/test/cs_dsp_test_bin_error.c   |   22 +-
- .../cirrus/test/cs_dsp_test_control_cache.c        |    5 +
- .../cirrus/test/cs_dsp_test_control_parse.c        |    5 +
- .../firmware/cirrus/test/cs_dsp_test_control_rw.c  |    5 +
- drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c    |   32 +-
- .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  |   30 +-
- drivers/mfd/cs42l43-i2c.c                          |    7 +-
- drivers/mfd/cs42l43-sdw.c                          |    4 +-
- drivers/mfd/cs42l43.c                              |   93 +-
- drivers/mfd/cs42l43.h                              |    2 +-
- include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h |   12 +
- include/linux/firmware/cirrus/cs_dsp.h             |    3 +
- include/linux/mfd/arizona/pdata.h                  |   10 -
- include/linux/mfd/cs42l43-regs.h                   |   76 ++
- include/linux/mfd/cs42l43.h                        |    1 +
- include/sound/cs35l56.h                            |    7 +-
- include/sound/sdca_asoc.h                          |   43 +-
- include/sound/simple_card_utils.h                  |    6 +
- include/sound/soc-component.h                      |   11 +-
- include/sound/soc-dai.h                            |   22 +
- include/sound/soc-dapm.h                           |    1 +
- include/sound/soc.h                                |   33 +-
- include/sound/soc_sdw_utils.h                      |    5 +
- include/sound/tas2781.h                            |    1 +
- include/sound/uda1380.h                            |   19 -
- sound/arm/pxa2xx-ac97-lib.c                        |   15 +-
- sound/hda/codecs/side-codecs/Kconfig               |    1 +
- sound/soc/amd/Kconfig                              |   10 -
- sound/soc/amd/Makefile                             |    1 -
- sound/soc/amd/acp-da7219-max98357a.c               |    5 +-
- sound/soc/amd/acp-es8336.c                         |    1 -
- sound/soc/amd/acp-pcm-dma.c                        |    2 +-
- sound/soc/amd/acp-rt5645.c                         |   22 +-
- sound/soc/amd/acp/acp-platform.c                   |    2 +-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c            |   10 +-
- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c      |    1 -
- sound/soc/amd/acp3x-rt5682-max9836.c               |    1 -
- sound/soc/amd/include/acp_2_2_d.h                  |   18 +-
- sound/soc/amd/include/acp_2_2_enum.h               |   18 +-
- sound/soc/amd/include/acp_2_2_sh_mask.h            |   18 +-
- sound/soc/amd/ps/ps-pdm-dma.c                      |    3 +-
- sound/soc/amd/ps/ps-sdw-dma.c                      |    2 +-
- sound/soc/amd/raven/acp3x-pcm-dma.c                |    2 +-
- sound/soc/amd/renoir/acp3x-pdm-dma.c               |    2 +-
- sound/soc/amd/rpl/Makefile                         |    5 -
- sound/soc/amd/rpl/rpl-pci-acp6x.c                  |  227 ----
- sound/soc/amd/rpl/rpl_acp6x.h                      |   36 -
- sound/soc/amd/rpl/rpl_acp6x_chip_offset_byte.h     |   30 -
- sound/soc/amd/vangogh/acp5x-pcm-dma.c              |    2 +-
- sound/soc/amd/yc/acp6x-mach.c                      |   28 +
- sound/soc/amd/yc/acp6x-pdm-dma.c                   |    2 +-
- sound/soc/amd/yc/pci-acp6x.c                       |   12 +
- sound/soc/apple/Kconfig                            |    1 +
- sound/soc/apple/Makefile                           |    1 +
- sound/soc/apple/mca.c                              |    4 +-
- sound/soc/atmel/atmel-pcm-pdc.c                    |    2 +-
- sound/soc/au1x/dbdma2.c                            |    2 +-
- sound/soc/au1x/dma.c                               |    2 +-
- sound/soc/bcm/bcm63xx-pcm-whistler.c               |    2 +-
- sound/soc/bcm/cygnus-pcm.c                         |    2 +-
- sound/soc/codecs/Kconfig                           |   64 +-
- sound/soc/codecs/Makefile                          |    2 +
- sound/soc/codecs/ak5558.c                          |    1 -
- sound/soc/codecs/arizona-jack.c                    |   95 +-
- sound/soc/codecs/arizona.h                         |    1 +
- sound/soc/codecs/aw87390.c                         |    3 +-
- sound/soc/codecs/aw88081.c                         |    3 +-
- sound/soc/codecs/aw88166.c                         |   12 +-
- sound/soc/codecs/aw88261.c                         |   16 +-
- sound/soc/codecs/cros_ec_codec.c                   |    2 +-
- sound/soc/codecs/cs-amp-lib-test.c                 |    1 -
- sound/soc/codecs/cs-amp-lib.c                      |    2 +
- sound/soc/codecs/cs35l41.c                         |    5 +
- sound/soc/codecs/cs35l45.c                         |    3 +
- sound/soc/codecs/cs35l56-sdw.c                     |   34 +-
- sound/soc/codecs/cs35l56-shared-test.c             |  240 ++++
- sound/soc/codecs/cs35l56-shared.c                  |    9 +
- sound/soc/codecs/cs35l56-test.c                    |  101 +-
- sound/soc/codecs/cs35l56.c                         |   99 +-
- sound/soc/codecs/cs35l56.h                         |    4 +
- sound/soc/codecs/cs4270.c                          |    6 +-
- sound/soc/codecs/cs42l43.c                         |  756 +++++++++---
- sound/soc/codecs/cs42l43.h                         |    4 +-
- sound/soc/codecs/cs42l84.c                         |   20 +-
- sound/soc/codecs/cs42xx8-i2c.c                     |    5 +-
- sound/soc/codecs/cs42xx8.c                         |   27 +-
- sound/soc/codecs/cs42xx8.h                         |    5 +-
- sound/soc/codecs/da7219-aad.c                      |    3 +-
- sound/soc/codecs/da7219-aad.h                      |    5 +
- sound/soc/codecs/es8311.c                          |   22 +-
- sound/soc/codecs/jz4725b.c                         |   18 +-
- sound/soc/codecs/jz4760.c                          |   20 +-
- sound/soc/codecs/jz4770.c                          |   20 +-
- sound/soc/codecs/max98390.c                        |    6 +-
- sound/soc/codecs/max98520.c                        |    4 +-
- sound/soc/codecs/nau8315.c                         |    1 -
- sound/soc/codecs/peb2466.c                         |   19 +-
- sound/soc/codecs/rt1318.c                          |    1 -
- sound/soc/codecs/rt1320-sdw.c                      |   68 +-
- sound/soc/codecs/rt1320-sdw.h                      |   14 +
- sound/soc/codecs/rt5514-spi.c                      |    2 +-
- sound/soc/codecs/rt5575.c                          |    1 -
- sound/soc/codecs/rt5640.c                          |    5 +
- sound/soc/codecs/rt5677-spi.c                      |    9 +-
- sound/soc/codecs/rt5677.c                          |   40 +-
- sound/soc/codecs/rt5677.h                          |    2 +-
- sound/soc/codecs/sta529.c                          |    5 +-
- sound/soc/codecs/tas2552.c                         |   10 +-
- sound/soc/codecs/tas2764.c                         |   95 ++
- sound/soc/codecs/tas2764.h                         |   11 +
- sound/soc/codecs/tas2770.c                         |   75 ++
- sound/soc/codecs/tas2770.h                         |   12 +
- sound/soc/codecs/tas2781-i2c.c                     |  119 +-
- sound/soc/codecs/tlv320dac33.c                     |   10 +-
- sound/soc/codecs/ts3a227e.c                        |    1 -
- sound/soc/codecs/uda1380.c                         |  112 +-
- sound/soc/codecs/wcd-clsh-v2.c                     |    3 -
- sound/soc/codecs/wcd9335.c                         |    2 +-
- sound/soc/codecs/wm_adsp.c                         |  246 ++--
- sound/soc/codecs/wm_adsp.h                         |   20 +
- sound/soc/codecs/wm_adsp_fw_find_test.c            | 1223 ++++++++++++++++++++
- sound/soc/dwc/dwc-i2s.c                            |    5 +-
- sound/soc/dwc/dwc-pcm.c                            |    7 +-
- sound/soc/dwc/local.h                              |    5 +-
- sound/soc/fsl/efika-audio-fabric.c                 |    5 +-
- sound/soc/fsl/fsl_asrc_dma.c                       |    2 +-
- sound/soc/fsl/fsl_dma.c                            |   12 +-
- sound/soc/fsl/fsl_easrc.c                          |  125 +-
- sound/soc/fsl/fsl_micfil.c                         |   72 +-
- sound/soc/fsl/fsl_qmc_audio.c                      |    6 +-
- sound/soc/fsl/fsl_sai.c                            |   66 ++
- sound/soc/fsl/fsl_sai.h                            |    4 +
- sound/soc/fsl/fsl_utils.c                          |  131 +++
- sound/soc/fsl/fsl_utils.h                          |   48 +
- sound/soc/fsl/fsl_xcvr.c                           |   86 +-
- sound/soc/fsl/fsl_xcvr.h                           |   18 +
- sound/soc/fsl/imx-pcm-fiq.c                        |    4 +-
- sound/soc/fsl/imx-pcm-rpmsg.c                      |    2 +-
- sound/soc/fsl/imx-rpmsg.c                          |   48 +
- sound/soc/fsl/mpc5200_dma.c                        |   13 +-
- sound/soc/generic/audio-graph-card.c               |    2 +-
- sound/soc/generic/simple-card-utils.c              |   95 +-
- sound/soc/generic/simple-card.c                    |   52 +-
- sound/soc/generic/test-component.c                 |   12 +-
- sound/soc/google/chv3-i2s.c                        |    6 +-
- sound/soc/intel/atom/sst-mfld-platform-pcm.c       |    2 +-
- sound/soc/intel/avs/pcm.c                          |    8 +-
- sound/soc/intel/avs/probes.c                       |    2 +-
- sound/soc/intel/boards/bytcr_rt5640.c              |    4 +-
- sound/soc/intel/boards/bytcr_rt5651.c              |    4 +-
- sound/soc/intel/boards/cht_bsw_rt5672.c            |    6 +-
- sound/soc/intel/boards/ehl_rt5660.c                |    2 -
- sound/soc/intel/catpt/Makefile                     |    1 +
- sound/soc/intel/catpt/core.h                       |    2 +-
- sound/soc/intel/catpt/device.c                     |    2 +-
- sound/soc/intel/catpt/ipc.c                        |    3 +
- sound/soc/intel/catpt/loader.c                     |    2 +
- sound/soc/intel/catpt/messages.h                   |    3 +
- sound/soc/intel/catpt/pcm.c                        |  390 +++----
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c  |  100 --
- sound/soc/intel/keembay/Makefile                   |    1 +
- sound/soc/intel/keembay/kmb_platform.c             |    2 +-
- sound/soc/kirkwood/kirkwood-dma.c                  |    2 +-
- sound/soc/loongson/loongson_dma.c                  |    2 +-
- .../soc/mediatek/common/mtk-afe-platform-driver.c  |    2 +-
- sound/soc/mediatek/mt8186/mt8186-afe-pcm.c         |    2 +-
- sound/soc/mediatek/mt8189/mt8189-afe-pcm.c         |    4 +-
- sound/soc/mxs/mxs-sgtl5000.c                       |    5 +-
- sound/soc/pxa/pxa-ssp.c                            |    2 +-
- sound/soc/pxa/pxa2xx-ac97.c                        |    2 +-
- sound/soc/pxa/pxa2xx-i2s.c                         |    2 +-
- sound/soc/pxa/pxa2xx-pcm.c                         |    2 +-
- sound/soc/qcom/common.c                            |    6 +
- sound/soc/qcom/common.h                            |    3 +
- sound/soc/qcom/lpass-platform.c                    |    2 +-
- sound/soc/qcom/lpass.h                             |    3 +-
- sound/soc/qcom/qdsp6/audioreach.c                  |   65 +-
- sound/soc/qcom/qdsp6/audioreach.h                  |    5 +-
- sound/soc/qcom/qdsp6/q6afe-dai.c                   |    6 +
- sound/soc/qcom/qdsp6/q6afe.c                       |    8 +
- sound/soc/qcom/qdsp6/q6afe.h                       |    3 +-
- sound/soc/qcom/qdsp6/q6apm-dai.c                   |  115 +-
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c            |   48 +-
- sound/soc/qcom/qdsp6/q6apm.c                       |  182 ++-
- sound/soc/qcom/qdsp6/q6apm.h                       |   20 +-
- sound/soc/qcom/qdsp6/q6asm-dai.c                   |    2 +-
- sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c           |   76 ++
- sound/soc/qcom/qdsp6/topology.c                    |    8 +-
- sound/soc/qcom/x1e80100.c                          |   19 +
- sound/soc/renesas/dma-sh7760.c                     |    5 +-
- sound/soc/renesas/fsi.c                            |    2 +-
- sound/soc/renesas/rcar/core.c                      |    2 +-
- sound/soc/renesas/rcar/msiof.c                     |    2 +-
- sound/soc/renesas/rz-ssi.c                         |    2 +-
- sound/soc/renesas/siu_pcm.c                        |    5 +-
- sound/soc/rockchip/rockchip_sai.c                  |    4 +
- sound/soc/samsung/idma.c                           |    4 +-
- sound/soc/samsung/spdif.c                          |   29 +-
- sound/soc/sdca/sdca_asoc.c                         |  118 +-
- sound/soc/sdca/sdca_class.c                        |   36 +-
- sound/soc/sdca/sdca_class_function.c               |   12 +-
- sound/soc/sdca/sdca_fdl.c                          |    5 -
- sound/soc/sdca/sdca_functions.c                    |   13 +-
- sound/soc/sdca/sdca_interrupts.c                   |   24 +-
- sound/soc/sdw_utils/Makefile                       |    1 +
- sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c       |    6 -
- sound/soc/sdw_utils/soc_sdw_cs42l43.c              |   20 +-
- sound/soc/sdw_utils/soc_sdw_cs47l47.c              |   80 ++
- sound/soc/sdw_utils/soc_sdw_rt_dmic.c              |   46 +-
- sound/soc/sdw_utils/soc_sdw_utils.c                |  254 +++-
- sound/soc/soc-component.c                          |   25 +-
- sound/soc/soc-compress.c                           |    4 +-
- sound/soc/soc-core.c                               |   84 +-
- sound/soc/soc-dai.c                                |   40 +
- sound/soc/soc-dapm.c                               |   11 +
- sound/soc/soc-generic-dmaengine-pcm.c              |    4 +-
- sound/soc/soc-ops.c                                |   83 +-
- sound/soc/soc-pcm.c                                |    4 +-
- sound/soc/soc-topology.c                           |   73 +-
- sound/soc/sof/compress.c                           |   15 +-
- sound/soc/sof/intel/hda-stream.c                   |   10 +-
- sound/soc/sof/intel/hda.c                          |   17 +-
- sound/soc/sof/intel/nvl.c                          |    2 +
- sound/soc/sof/ipc4-topology.c                      |   13 +-
- sound/soc/sof/pcm.c                                |   10 +-
- sound/soc/sof/sof-audio.h                          |   13 +-
- sound/soc/sof/sof-priv.h                           |    2 +
- sound/soc/sof/topology.c                           |   36 +-
- sound/soc/spear/spdif_in.c                         |    5 +-
- sound/soc/spear/spdif_out.c                        |    5 +-
- sound/soc/spear/spear_pcm.c                        |    5 +-
- sound/soc/sprd/sprd-pcm-dma.c                      |    2 +-
- sound/soc/starfive/Makefile                        |    1 +
- sound/soc/sti/uniperif_player.c                    |    9 +-
- sound/soc/stm/stm32_adfsdm.c                       |    2 +-
- sound/soc/sunxi/sun4i-spdif.c                      |   13 +-
- sound/soc/tegra/Kconfig                            |   19 +
- sound/soc/tegra/Makefile                           |    2 +
- sound/soc/tegra/tegra186_asrc.c                    |   14 +-
- sound/soc/tegra/tegra186_dspk.c                    |   22 +-
- sound/soc/tegra/tegra20_spdif.h                    |    2 +-
- sound/soc/tegra/tegra210_admaif.c                  |   28 +-
- sound/soc/tegra/tegra210_adx.c                     |   20 +-
- sound/soc/tegra/tegra210_ahub.c                    |   33 +-
- sound/soc/tegra/tegra210_amx.c                     |   16 +-
- sound/soc/tegra/tegra210_dmic.c                    |   21 +-
- sound/soc/tegra/tegra210_i2s.c                     |   25 +-
- sound/soc/tegra/tegra210_mbdrc.c                   |   35 +-
- sound/soc/tegra/tegra210_mixer.c                   |   14 +-
- sound/soc/tegra/tegra210_mvc.c                     |   14 +-
- sound/soc/tegra/tegra210_ope.c                     |   22 +-
- sound/soc/tegra/tegra210_peq.c                     |   23 +-
- sound/soc/tegra/tegra210_sfc.c                     |   14 +-
- sound/soc/tegra/tegra_asoc_machine.c               |  143 ++-
- sound/soc/tegra/tegra_audio_graph_card.c           |   21 +-
- sound/soc/tegra/tegra_pcm.c                        |    6 +-
- sound/soc/tegra/tegra_pcm.h                        |    4 +-
- sound/soc/tegra/tegra_wm8962.c                     |  165 +++
- sound/soc/ti/davinci-mcasp.c                       |   47 +-
- sound/soc/uniphier/aio-dma.c                       |    2 +-
- sound/soc/xilinx/xlnx_formatter_pcm.c              |    2 +-
- sound/soc/xtensa/xtfpga-i2s.c                      |    2 +-
- sound/usb/qcom/Makefile                            |    1 +
- sound/x86/intel_hdmi_audio.h                       |   22 +-
- 294 files changed, 6781 insertions(+), 2674 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2305.txt
- create mode 100644 Documentation/devicetree/bindings/sound/adi,ssm2305.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.txt
- create mode 100644 Documentation/devicetree/bindings/sound/hisilicon,hi6210-i2s.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650-rt5514.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650-rt5514.txt
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-cpcap.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-wm8962.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.txt
- create mode 100644 Documentation/devicetree/bindings/sound/rockchip,rk3399-gru-sound.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/rockchip,rockchip-audio-max98090.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/rockchip-max98090.txt
- delete mode 100644 Documentation/devicetree/bindings/sound/tdm-slot.txt
- create mode 100644 Documentation/devicetree/bindings/sound/tdm-slot.yaml
- delete mode 100644 include/sound/uda1380.h
- delete mode 100644 sound/soc/amd/rpl/Makefile
- delete mode 100644 sound/soc/amd/rpl/rpl-pci-acp6x.c
- delete mode 100644 sound/soc/amd/rpl/rpl_acp6x.h
- delete mode 100644 sound/soc/amd/rpl/rpl_acp6x_chip_offset_byte.h
- create mode 100644 sound/soc/codecs/wm_adsp_fw_find_test.c
- create mode 100644 sound/soc/sdw_utils/soc_sdw_cs47l47.c
- create mode 100644 sound/soc/tegra/tegra_wm8962.c
+Best regards
+---
+Kuninori Morimoto
