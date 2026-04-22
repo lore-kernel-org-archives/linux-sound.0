@@ -1,173 +1,142 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011012.outbound.protection.outlook.com [52.101.125.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73B03624B5
-	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 02:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776824936; cv=none; b=fg2f3+Gt0VvkBXRuqkuPyIg3N2hIrECvHx2UhMj0UwWzVDZ8kwcl14f2vXrPncXi9QPTrGyWLXm5o6IVgzHpY2Ofimir0ZIlsCT3uQ9lK9wXf/dVG3QBiB6BCdLxfeaj9Rvsy6ZL+eAWocuGOkW/W+J704IffXIVVKSTKjIP5fA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776824936; c=relaxed/simple;
-	bh=vH7XvGxiEzeJbWUkoGUs80Izt7he/vcvT09JGqZUvxk=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=MyzxQKAsJvPlkpDwNNsiia/+SAIiNy3E9eH9N4roDkPVPUa/SsIdM9FeRpJ+62rj4O3LMv8AQkq7jV9H6D1HP0CR356vnrIS8ZIRpLtNKVWeWA9ZWfgB7amCaX7/lEQjxnNxUnCYmK97yr3s9CVofKh/wpp9gRdVKoKfb7Fk0Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TyDcs4y8; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C6139280D
+	for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 02:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776826551; cv=fail; b=JS37k0cANyKJhySpzC+2vVxGNG+KvuwzraLCPJrDOefwZfc2Vfdl6vZfoNn7oQaW7zeCxxvtow2RX/KkBW1Jm0RsbSCEcFi4RKoP6T/Q9a5bFeDZ23y0zqyna8IfuNhLlClbXDszSWQ4Z4Pxb0JRFSiTq04uqC4BH0qtWUMxad0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776826551; c=relaxed/simple;
+	bh=RdjXwAPFkAr/6FJLmEwKGQ9C4OIN9/ZUfGMsU30OY08=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=hqbHyG+k6vf8wiCtdXByVdtzWfxeGFnUaPbaBbn2RTB+bteKOGQNYtvGMJfDLfDObBdw7EzlddWEwEs3QOeJ1IQnw1zEcD70Nc9RSP/M0dgw37Dtk1qbETacP3RenvSNWvDM9NS5713WEuMgsXX3GVoUcdNAnUHxrJcMFOWMxBQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=jBkZLUwg; arc=fail smtp.client-ip=52.101.125.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TyDcs4y8"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82f6a5b4f88so6715448b3a.2
-        for <linux-sound@vger.kernel.org>; Tue, 21 Apr 2026 19:28:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776824926; x=1777429726; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eLlmK95IKP9UuAoAlUFLXcBo6WK00dlUYN9hpEKXLIg=;
-        b=TyDcs4y8tJPb4w2xlqUBiGR0OClOKy11WR7J1ZqEj37llMi7HpJ0ki4RZ0eFZlGmi0
-         cVpx0jtbPlozgrYp9TAhmcmMwBGcAFpfIB6Grv+l79cUMgL7QxvgCx01wLn2F/ez6frq
-         Y8J4mhzHDuiyK/maTK00fDvNn6MZ2ryDfG50iUI4OtoWcdoPh6cJH+GnhJNAkYvY0oQX
-         B+LdZ+jIK79DV69DD3hAiu3yPwUGJt2cUNkIfk1adZHOIRRejH8u2K6oLfveHcmRamxA
-         Ph6/p+nvfbhHuyPkkuDosSx9dZP1tkjS03HPRp+PXTqE2clKS9yr4A++PrRJ532VPCT9
-         r7oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776824926; x=1777429726;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eLlmK95IKP9UuAoAlUFLXcBo6WK00dlUYN9hpEKXLIg=;
-        b=X5AAL+RSIJU1KcMEvO5mNtvcfad+c2KHUqze41Mxq/wkDbutWoj6CjwngNRvXMK3+l
-         s7+vSeyCEryhb7WK8C7Y1reY+La8Xqty7fnGpDZBIbK1Go6ldUPWjT8jqw3hhCHNBrZ4
-         6aV+HJ8NlHexIfaR6KppDeM5J+nrtuEsYZIm/ISGo9CUtSjCBpR2sO9nux1mtPBVOmxZ
-         yr31y4vYg10dKMA716zWjcZePzD7kbpoAKINC+qA8dNeCplXBaric+njJIev1qbGfNQb
-         iomFndOVr4K9C7YnAvoLYczVe45LULuXM+wILT+jxtvguqQM8gBarplnLyCQlpvrrcWY
-         uz7w==
-X-Forwarded-Encrypted: i=1; AFNElJ+Mo9nH4H9aJynCRsXTU1qIj4QpZ7kax4zoMH1aXhYht+8UoP/vg3FhLukH69QXvF1LThKcAKZlxmo6sQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK03hFzUp69kURn+E4UP2T2a2DtT55Co2k/2CXT/ldVN2vXae6
-	cSPxQqECav28xccL+iVT5YCjpTLnM9OezE1Dad19rononQQbLw/X+5pq4oK7Y1QKVMkTpcfV1Y1
-	z0/dTpdL7dz7fKtGEjg==
-X-Received: from pfuw1.prod.google.com ([2002:a05:6a00:14c1:b0:82f:a366:f295])
- (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:1f09:b0:82f:b5:8044 with SMTP id d2e1a72fcca58-82f8c7dec94mr20491369b3a.6.1776824925524;
- Tue, 21 Apr 2026 19:28:45 -0700 (PDT)
-Date: Wed, 22 Apr 2026 02:28:39 +0000
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="jBkZLUwg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uQ3zl6BxPjNhAqWcZ+nZu0wYflObyTUzvvwqnMF0JnQLD9hR7NeiP/gyFjQ3WzvOIa5DtP6RvKoc0S7PNe+vQi29j65QJSmIMEUiBYss+DhdMn9+D+bAZsNa6JcaQrDgC/8JnNYCxWl8lOF+mzalYAAEqVR/hfrcqqXdZwm3Zj7ZMO2vqCiIzQMIxCCMwVhHNdwt0vQi8cLhnweHNdtuTLRZnr3J4x5gpA+LKVK4Kq4HbVd4cDTcdKhAHkljAEEcAFK4d6Jl6EpkCmWReHx0YgetiNH68Hsr30tvWeChwDeEE6Fqpx26k9Yk6TxrE1vBVFyZb0jfeHYWe8jPzeI3HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6VhQy11wmNOWYA2vfKE8PgxlkeDrqQp8+1xo8Ikmm+M=;
+ b=a6RjHgbUPb6H7WuDV8E18ANfTuzNA2suHwc5FozcnTGpLyP+Jn5RdESGbww9qUEJiV4zo4af4JKsF5hpBvxk5ANv0aBEaixU51AFzXcKw4lcm48wrrQ5T+j1lQj5EN6fd4Yc3JgYIpSC81rPPSpgCJ8n3/V1TFtUe223znRCyATZhAub/VIdSdS7qTpfaCErgQAYHUIlBSK/Lg7C0bT1kwWsfyclLeArvCFBC5zmrp0YwlIm4pYiLt8bctEmeYyIQ9bZp9cJNYUal18uQiHOTa6lrxOXYrzLHNNBG/ddGfodmzSdhdtJo5cMyxS2LojZFzBvCYb7pj4ES7NKjzO3Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6VhQy11wmNOWYA2vfKE8PgxlkeDrqQp8+1xo8Ikmm+M=;
+ b=jBkZLUwgME9CwiDLJRNSpdXKig5CT2+8lKf+p5V+FYAV1/fVXbzEVgPQmMmQKDuTnj+sW/NdRj1pVU0vTcn8LcfUwJFgCxDWNrZU2b3LWCJ65G6ars0iivRcTkssaewoq887neEBhJaYAHZdkbdJE89hX3sWJwSlTb56C0T1NuY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TY3PR01MB11763.jpnprd01.prod.outlook.com (2603:1096:400:40a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Wed, 22 Apr
+ 2026 02:55:31 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
+ 02:55:31 +0000
+Message-ID: <87ik9jk8kd.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Janusz Krzysztofik <jmkrzyszt@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [RFC][PATCH 0/2] ASoC: move card->pop_time to soc-dapm
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 22 Apr 2026 02:55:31 +0000
+X-ClientProxiedBy: TY4P286CA0133.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:37f::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.54.0.rc1.555.g9c883467ad-goog
-Message-ID: <20260422022842.1543366-1-guanyulin@google.com>
-Subject: [PATCH v3] ALSA: usb-audio: qcom: move offload usage counting to
- stream request handler
-From: Guan-Yu Lin <guanyulin@google.com>
-To: gregkh@linuxfoundation.org, perex@perex.cz, kees@kernel.org, 
-	tiwai@suse.com, quic_wcheng@quicinc.com, arnd@arndb.de, 
-	wesley.cheng@oss.qualcomm.com, nkapron@google.com, 
-	harshit.m.mogalapalli@oracle.com
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Guan-Yu Lin <guanyulin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY3PR01MB11763:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a335e76-3b18-49e8-0891-08dea01a9de4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	Y7tauf6iU4iNzFA9jSNCXf75XGvQnL/a8z3Sd8BPqPLBlXhO2A7dm1QwFURoIVySxN9cdZTCBGthEb9SMbxwFCi5vd4aCiUXmO6pJe6KR3ndKJyHC27N3D9FYAFVIe5V6ebuEM/37AILM9bqiyK58ns43cNhjdqlF+qVnIU//b0E/hrbJYwJPdCdogHM4WYhEBH85c+MsACm9nUbE/1vEZRDbOWhn/mBKq72YbF/v0m/EdW1AuL56JVytcaknlYhE8BO+rgrR15flWjYJ+yGjSv7TFzA2Qqrm0N3eYtu8YmQJ1v1uiUFjxpbIc960jl+tRx53zc7Xp+BSB3KObWSOw5v1UB8w3MQQbp1HrruowwumVwVklTlOMzHY03ND1c71pznZjdC0hFqvawbOKj9sK1Pk2mabMZy7YlAYgsZZxkHmQLuiKKvkXLlwLlkUqyZ79ezqHLRwOrbUhKlS1KwFlE47ngNtV1NIkRsJyu546vJM1lfEcpsERC1vlNp5d3AS+fKaQ8eY9LWRrthRpqyJdHqlaj2WhDJ3CnJf0aeUTrylZQmbskM3UCvAt8vLGqE2MZ+N8WL802ZlQiCKgcC8v63xIejn6GMP3EvtK3peSaS0C8C0HYS+MpaFUM+V8rMxoOrLfQRSmy4PKzZt28/4OX/tY0KKdOP7B3NVeeakWgiJm1F2csd+4bauAySvZYAKcZlGrPwqTaUQg4hhf0tUJZTIARnOLJg6xpLFk9PqYJtf5DAz60wwY9JiV7DGryAQ+G90zO5TYyM0WRoW2va/5rFRiJPrhGdvbTiBtLe4gU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xIoQ9UuzEajRnIeMBhxkrU/kJ+8YXAw9TMCfLG1c8KjaNF8VYo3IERUyVMjE?=
+ =?us-ascii?Q?p/Z3DobCPz8vUdkHI1U8PSG/SewT251LgyDcA6yiXL+nCHvIKunwNEtSv6dR?=
+ =?us-ascii?Q?fUu10PfYRVX1mVebzatbMXrHJHgguXtRwqgm6/Li9hkv0D4KyNbtFY038ePQ?=
+ =?us-ascii?Q?SRF6obU4eHXTOz2HFdqYPOkQfNum9+fqbn4XP7lKEn/1lVS8F6/7Hds+ofW/?=
+ =?us-ascii?Q?rXxJurMu5qFGyf8NOswMzmDdr48sXcO4GSQ52mD9ccvXKpjE2a5uML1aWe2I?=
+ =?us-ascii?Q?JObiRJLAjtf937JoiwaE0dOz/E/H2zZCW4u/4E12wDvqnWtlvDY2IQQerK9d?=
+ =?us-ascii?Q?84RySCgVTzNtE6clSq7uMPZvLItgApB350YeuRivF9Y/V/6iiTuK1GB6uc6W?=
+ =?us-ascii?Q?tVER++co6uSdrDPaBUnFmSJ3rXCxfZ1t0bmhxuvZdWZIumsG6rvV8tZEy6h9?=
+ =?us-ascii?Q?FJ8jrDEMgiKkINV7Ewk2SdYSplSwO1oXoAKXXjmr8Z4srJQha1to1ixWz9AJ?=
+ =?us-ascii?Q?hSrgActbiJJUn39/DuhaGNyw34O/+XdFieZ5zQOqbL1LRgom9M0WQ6b6Qva+?=
+ =?us-ascii?Q?YBHbnqqRiYJ3ySR/SCM9m+3Uyxjs0zIdCR1itu3OzmbzvzjgwML2TMeToal0?=
+ =?us-ascii?Q?3QtABo1JhI3ZSi7OYu3g5binvmTMYoAYIXWDt86icdUyiAr575zpyLRFnbbM?=
+ =?us-ascii?Q?z78i6xMX2wvgxc/praoMZ3+5RkjSO5w0RaNyP+8xb5zktPB6yWtSymkyrS75?=
+ =?us-ascii?Q?X+BsQz7GWUFK+R1dmEb3F2IyhmQwQT/XLGOTYfZXbK/kOdXLbhB3fnFmf+ao?=
+ =?us-ascii?Q?wiraJB2bVGk5iES/AOxe+MjFsDOs79QbV7t7vHQVbG8tiSXdCBx0ZO9UWyKm?=
+ =?us-ascii?Q?NCARfZoqvdRDeJCxRxrcGzvwLKQQtFoMtYHx8eOFs1sBAYa2wLsa7D9INGtc?=
+ =?us-ascii?Q?5YygBWlN37jjFrkNdJpUUaz1TaTeHzWj0XHlf2OKsAKbYHJ1Rxt/u+WiWX3A?=
+ =?us-ascii?Q?/At06nGvguLuyExSA+fxO3Q2oT26dEAM6kbein3G8ut1Uwklj8nKQDLyCR+p?=
+ =?us-ascii?Q?9VZNCvLL0XAwPy0Ib4DHhozIzCAQFRXNglofF1VwjwgzPOrKev3E/zDZ3Gkw?=
+ =?us-ascii?Q?Ixdd1+EhSMMH3nvKPW5TtZwIPjQoLbzYBAdVwgio8cge/uhIULYQfZdeJtII?=
+ =?us-ascii?Q?a5BKkBgKBfkiOI4ZhFxu5HdgneusEr7h2PysBW6uhR+SKYR7NckrWu7/4P2L?=
+ =?us-ascii?Q?bWn5P44EpJmbB1vchBLO1gerJKVFji/kcfeFdEjBF0xRfwteL7qa08W7SgmH?=
+ =?us-ascii?Q?3iLb3LgUdfs3IWJrFES9s6WbnhRKQnTo/PcupxOScfEC+7extWRNW6U9Y6fI?=
+ =?us-ascii?Q?bG5XVpnIKa+6fvEkXyRWarJcZ4ri4T4mmcN9aaA1ZA4vbvySY6rALMETk6T4?=
+ =?us-ascii?Q?5aEr5aLaJxv9gXqx6PXRx5JtxQ9pP8PtxOiBRfm4ob7wfskokylwKai3gYTq?=
+ =?us-ascii?Q?TJEeA9QuctOQTBtdqiZA7ax8a64nsuMkTSHdLXny1D5Z+ihFP+Dranv8t4c1?=
+ =?us-ascii?Q?bNWW3PSNshH0UhbJxsQnIpA5RhTovQmg6SFtbI31ouCOCNXJ2ofCPLziYVQR?=
+ =?us-ascii?Q?GvDoe7EkDcARYBb0bUcFw8C107IZzX2/Z7P9K2XGYYfbAAHDtUOX7D2UoCA7?=
+ =?us-ascii?Q?XaIa+x0eDHZFCOdn/xE5EQVX9RPsbLLR5gFzweWennNZIAqSRYbs8yZ8VbKm?=
+ =?us-ascii?Q?/vOKwVaJ8tdIhprzYGnZ0vliyiKJxywVC1gBqs7KWIqfzYIYmPcl?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a335e76-3b18-49e8-0891-08dea01a9de4
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 02:55:31.3619
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 38fDA3VMIHdAK8pqzaecdGR1WGfsP9KPPj1QGyLZyrvKMC+wEnkA+YTV0ieGWfJRCckbkDDBttnYsU/tPLG6gbj8zSX+pQcKi/63QXQd/WgV7BgciTvkOTEQVlgzcrhp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11763
 
-Centralize usb_offload_get()/usb_offload_put() calls from various helper
-functions to handle_uaudio_stream_req(), which ensures the usage count
-is tied directly to the QMI stream enable/dsiable requests from audio
-DSP. Such design provides a clear synchronization point for the
-offloading lifecycle and correctly balances the count for both playback
-and capture paths while avoiding redundant increments during auxiliary
-operations.
 
-Suggested-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
----
-V2 -> V3: Fix canonical patch format error
-V1 -> V2: Add error handling path in handle_uaudio_stream_req()
+Hi Mark, Janusz, Peter.
 
-v2: https://lore.kernel.org/all/20260421094337.740485-1-guanyulin@google.com/
-v1: https://lore.kernel.org/all/20260417054641.3814385-1-guanyulin@google.com/
+This patch moves card->pop_time to soc-dapm.
+card->pop_time is used only on TI, and Janusz posted patch which will stop
+using it. It was posted at 12 Apr 2026, and [1/2] is it as-is.
 
- sound/usb/qcom/qc_audio_offload.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+[2/2] will move card->pop_time to soc-dapm. We can use it via debugfs.
+I have added [RFC] on Subject.
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 2ac813d57f4f..6b4349d85665 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -699,7 +699,6 @@ static void uaudio_event_ring_cleanup_free(struct uaudio_dev *dev)
- 		uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE,
- 				   PAGE_SIZE);
- 		xhci_sideband_remove_interrupter(uadev[dev->chip->card->number].sb);
--		usb_offload_put(dev->udev);
- 	}
- }
- 
-@@ -1183,16 +1182,12 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	dma_coherent = dev_is_dma_coherent(subs->dev->bus->sysdev);
- 	er_pa = 0;
- 
--	ret = usb_offload_get(subs->dev);
--	if (ret < 0)
--		goto exit;
--
- 	/* event ring */
- 	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
- 					       0, uaudio_qdev->data->intr_num);
- 	if (ret < 0) {
- 		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
--		goto put_offload;
-+		goto exit;
- 	}
- 
- 	sgt = xhci_sideband_get_event_buffer(uadev[card_num].sb);
-@@ -1224,8 +1219,6 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	mem_info->dma = 0;
- remove_interrupter:
- 	xhci_sideband_remove_interrupter(uadev[card_num].sb);
--put_offload:
--	usb_offload_put(subs->dev);
- exit:
- 	return ret;
- }
-@@ -1489,7 +1482,6 @@ static int prepare_qmi_response(struct snd_usb_substream *subs,
- 	uaudio_iommu_unmap(MEM_EVENT_RING, IOVA_BASE, PAGE_SIZE, PAGE_SIZE);
- free_sec_ring:
- 	xhci_sideband_remove_interrupter(uadev[card_num].sb);
--	usb_offload_put(subs->dev);
- drop_sync_ep:
- 	if (subs->sync_endpoint) {
- 		uaudio_iommu_unmap(MEM_XFER_RING,
-@@ -1605,6 +1597,12 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 	uadev[pcm_card_num].ctrl_intf = chip->ctrl_intf;
- 
- 	if (req_msg->enable) {
-+		ret = usb_offload_get(subs->dev);
-+		if (ret < 0) {
-+			guard(mutex)(&chip->mutex);
-+			subs->opened = 0;
-+			goto response;
-+		}
- 		ret = enable_audio_stream(subs,
- 					  map_pcm_format(req_msg->audio_format),
- 					  req_msg->number_of_ch, req_msg->bit_rate,
-@@ -1614,6 +1612,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 			ret = prepare_qmi_response(subs, req_msg, &resp,
- 						   info_idx);
- 		if (ret < 0) {
-+			usb_offload_put(subs->dev);
- 			guard(mutex)(&chip->mutex);
- 			subs->opened = 0;
- 		}
-@@ -1658,9 +1657,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 			uaudio_dev_intf_cleanup(uadev[pcm_card_num].udev,
- 						info);
- 		}
--		if (atomic_read(&uadev[pcm_card_num].in_use))
-+		if (atomic_read(&uadev[pcm_card_num].in_use)) {
- 			kref_put(&uadev[pcm_card_num].kref,
- 				 uaudio_dev_release);
-+			usb_offload_put(subs->dev);
-+		}
- 	}
- 	mutex_unlock(&qdev_mutex);
- 
+Janusz Krzysztofik (1):
+  ASoC: ti: ams-delta: Stop (ab)using card->pop_time
+
+Kuninori Morimoto (1):
+  ASoC: soc-dapm: move card->pop_time to soc-dapm.c
+
+ include/sound/soc-dapm.h   |  1 +
+ include/sound/soc.h        |  2 --
+ sound/soc/codecs/cx20442.c | 11 ++++++-----
+ sound/soc/codecs/cx20442.h |  5 +++++
+ sound/soc/soc-core.c       |  4 +---
+ sound/soc/soc-dapm.c       | 30 ++++++++++++++++++------------
+ sound/soc/ti/ams-delta.c   | 16 ++++++++--------
+ 7 files changed, 39 insertions(+), 30 deletions(-)
+
 -- 
-2.54.0.rc1.555.g9c883467ad-goog
+2.43.0
 
