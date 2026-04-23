@@ -1,63 +1,64 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71183EE1F4
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 12:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA81F3EF0B3
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 12:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776949035; cv=none; b=E2Y0xYNhcXUSF4UWq4NPWJlXCgqrk8QY8fPdXjdA0vALneTtm/5j39wIOvgb/AKHnMg0G9uktt8Wje/TX5RIFmveOXVr2sqVrhYpWgIdUkxPrUMO/C+SEqMuKU42r5qfDPhrcQBcNQyQlcneB8UGaZdFAFPRF247uSC8fz0J1pY=
+	t=1776949040; cv=none; b=Ev05vDtI2S1NXYUi2Kl4NlyAD03RMNMQeM1Z/EWOBAlxze5sJohpL+pSpzITLwzURD1Exf5S13D8uYb2M20sPZy8TWeoTtZzuCb6FJpt0Ny+i7wPHB5K+ex12qOWfrZiDy/jtiT7YItg2T+umLxbEuukdCcXEtB+wCABi+98g+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776949035; c=relaxed/simple;
-	bh=wJ1fnWoxhvcVhNdLurZk+0yLTlJ2ErlrLLn7Bs9eHgU=;
+	s=arc-20240116; t=1776949040; c=relaxed/simple;
+	bh=CP1ghv01QCcyLHSfiPOnX65aYM4APtuzG8pM9zCfUgA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q/0qqVJ5ayLkrh7Cvr1mAMJYSHxMCTAnsmyrtSIw7YvYjlWNA1PFPmSuOwli9LbUlizt3eGVVh8431M0q9dSWZE12bkzyxMXG8eWxFZTHSyGYlt1mphznGZ3JOzRI47d1kilLBaB7QiibWCwgePIA8IH5IQ1/sxeZ8FOdtHwo80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BwZHM82y; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=N5pdwmPKxVIFi7M8evwUeCesMPQqLJydT90JH9x899vhuKzh1OoK7ZqQgZHR3pQnFRkCWdCg8D5XLKtmzEDGiI1z9D2nMNra1yzOSOYujqQtFO1E8qRMdjI9mdnzXM+RYidovbXxZWBS/jtQs0y9jeS216TgNZxwrzsh6aEuGnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lecFdSms; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BwZHM82y"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ad617d5b80so37844675ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:57:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lecFdSms"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b461310af5so25987625ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776949034; x=1777553834; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776949037; x=1777553837; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YXv666WW+MgLa9bKzh/4dSM0XA2OxTrkc0diZZReIyQ=;
-        b=BwZHM82y1ElOZmpTCfuc/nNIhGV1WyYrxvU16MDxxFu/55PgMPR/fdhledlUJwEvmn
-         kMJfxLI31HzQPFG4BogU1eGuRaNt99NK+71ntv1a80RUNVBPLzbWsAqivnEaka6jMWLg
-         z+d7cBqMOjIf/vAPfSqMTIACeGwUusScWQozKcq5BqRVUZi2ZEHEP9tPjRBWNdIy8qYK
-         4BvfMNUiXvIMTfes4UTcKj060Pm65JdXfAnhgvj5ZC3aktZr8zTuxOWEVmuWOIqZuAyz
-         stiza9g0M5FPykPug3OkW2KlAv4eKEHG1Bt8HLzyNI/9tpreVa/dEJ5a6YGyTv2enzVZ
-         LV5A==
+        bh=ujluhbOld/XQ/a08kQS62pX+2z7OtnQnN7cupiUIIOA=;
+        b=lecFdSmsQnb47VufNSyiJ1tO6iPGHRWXvfg3t67nwHhPZ6LLFfO/NszivvdQGDgTKP
+         2XqIPgXRazDv80/DCo5QeyUgjpLWd7Po+spq1T0d/dmkGgp8KY3pkTBMe9Xw2BBBwCyV
+         WQI9wRPxolngZQIUhvnSVC55q5DqLuCNkWBX47Cq5HFqqf7MQp9itf2aa7PWW1wqrSxc
+         yPuMfM52p8Tboc/M/+0EiWgkA211xoUK+HNuaVppW6m4gXWk/Gq/6fNhtcOBVRj+IiJO
+         0y0BxqrTkEM5SCrMlVEzTmcY05xxOmSwtckPMMTvFzBIhwn3qs0yUY4Ly/ujval7KnBh
+         RDGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776949034; x=1777553834;
+        d=1e100.net; s=20251104; t=1776949037; x=1777553837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YXv666WW+MgLa9bKzh/4dSM0XA2OxTrkc0diZZReIyQ=;
-        b=WwFtrpYeyAWuVgeJObaCobSKjw4q2U0L7Op6RVOSpkHhe/OeLotPn4Xo3WS6hocrsO
-         ZkQ9DkfaESf24sAd9RA6gPSe/T3+M2nUJmQ744RpH1fOogXC9gr8D65+oi7v3+Ws+Lce
-         AcLP+vn0m6mtw21L0vqA7/u1mQoVI8Pl2W0TG7JFm+T3h62vhs5MlMTTXYAD0RDIQX6e
-         Ui5e9D7KBJud8n16g3m1sVj1+S6IoTH49SMHgVZgZqv0+e7QJiuigEedDPEwMrHay6/z
-         XEPANe7H8JZAkpyhS+w9Ll/72lK/g9Cq0NdKrnjDV+mOlU5p0n59bd7UAJnghgXOdKDI
-         Jf2w==
-X-Forwarded-Encrypted: i=1; AFNElJ+WmgAoNpXLyoL5A4zWRU1Lr4XmbNAqfZaSN5l/AbpjSb+9UAu63FqBS6Sfl1X6JdRsRzfNIYHWlxHNuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwmTkzNjFzf8CATMxgVJOpm9CAYvUmt1mjHI8h9gRfhC297wmF
-	cxtyf6ETwGvhDnWyftozgcmt3AVP0NNBMBkoiIL2UoRbq1LoGXarGR/l
-X-Gm-Gg: AeBDies5VmA9pfXPmPTCWTHac9NWmcEsbZ1aImS4LOrCzaeOrJY85vr8KgrtxxpE/Mw
-	KZGzCrKvJR8a4/tFxNQBjlhvbgGyMXB+qNab4IohIZWKIAWtgn5TqZ03OWwGq+iLO6dJNjAlGdD
-	Dof8e2xp8ja4sUHUQ5xyH6QygmCKVSZsFyH+Zu+6v3x2R11j8EiM1SXzFlD2FruNQ9VQR0Kw4Nn
-	HdZ0faTNm63CO5IUhVMBGBuV0dvzZf/huVjEZzPe3H9EK/1Lcn8J0KS2jZh4xIilZ5uywz1FBj8
-	9imTMvmvcQ54htLi59giLgQASyuREzy2hk2jMvgmRDxUmMdWD+B3Aq+EKd+/PzCu90hw+QmHTnn
-	gfUgr0gbUUXCLbhzwgpklrBKh3k2tqHq+VIZN/UnBY0K26A2wy6/LNwvyUARFe9LTZtHKzouoqk
-	rJYGireUe+9Nt07fBEDfctmH0xSbocAzDJD2Lejrw2bUKRaBcK/XUFyKcMO0mp5avVE6DS
-X-Received: by 2002:a17:902:7087:b0:2b4:6367:7b86 with SMTP id d9443c01a7336-2b5f9fc435dmr191850815ad.37.1776949033981;
-        Thu, 23 Apr 2026 05:57:13 -0700 (PDT)
+        bh=ujluhbOld/XQ/a08kQS62pX+2z7OtnQnN7cupiUIIOA=;
+        b=Tk21wExTQVfzObfZiV4MinNvTfBKZnj+QY5NHt+XUYFYAwrlc1bTWFqeBvCoA229ch
+         hRSz0Ni6bZnm1AgCmM4jQIlDsObk/4l/w2uovIh4hNgnd884dZeo9TGDohcP2nGO9tie
+         FdCE+oK3AGXjxpOB8/aNRREOAOKPB20ZTzpUC7+scdAiQVUrurYf1PFjowLs2SAWp4dR
+         J3xhykBUT2R6jFLu/xX+s5kPJPW1aOWmrPrhPCdcsWxdpbtH9sS+m8nzdBXn8Dfp1TYo
+         z7neCpuxEkthYgtuxP5D5CCpR+oxvb5FLhHtlDI/RO1rFhSzQCrwlSFg2CBqC93muGXE
+         GeSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8kw64gwmyenLHvet4K8TDKPO0cwGofWKDPOrSg2Q/Akhi4mxJ1LoNOzZ4l/8iraezFJPxi8e0sL3vOQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxNSUPnpVkivM20D+DJiGc/6c7v3yY0umsG/cpDam2rjJ2+Hba
+	VGANn3uDJGkvlubPPFaQX//l1Q+w1xdy5lSkNcTV34r+SR3AXJO9yR3g
+X-Gm-Gg: AeBDievKB4gG+wRw/lDxukGYuoo2bMKwKj/5B9TmlWZz/7TZLcHKsF80WdqLuker6Td
+	/6KeV6XQyzVtOXavGYgFhfJzlAVkevCJbYJk5HnaGaWVWGW/UL0yBt9pLPxeLC0HC8837FtGU/P
+	w6peSDtZ4Wviodk4CD5gocSkYJvZ+Y2LCjrdlLiRwkpNMZcrIqGmM4Hd7mAiMpiHGGOHGMtL4/I
+	4bYiMTYaIlfcUp9r1+u5FqP7+DnUQK52p0vQC+eeev8BOhf0w90krC+63HEeZZsknRa0uTIkCBn
+	CzjLVQLRYywstNrBd23xGtyWoXxABFNTSvwB0Xy2xin5f21OUxDm+1xkCFFqcDC5HMtBp7ezqkU
+	SnmZrGoyhKkil0WASeiYOavxUKq/Bc9BggrqrWfu9czAYBtUSLzMkzzjTMS9hHoVDJ4uZm+pbjq
+	s72/8GSYgSE1HCVDsI57KlMdv8Y3At1MOQMQ8NaW/BwSus+2dvtovwGkQS5ViKKtiohHCamuvll
+	PX1OqU=
+X-Received: by 2002:a17:902:b195:b0:2b2:4bbc:14b0 with SMTP id d9443c01a7336-2b5f9eb272fmr163793265ad.20.1776949037203;
+        Thu, 23 Apr 2026 05:57:17 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff390sm192106545ad.9.2026.04.23.05.57.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff390sm192106545ad.9.2026.04.23.05.57.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 05:57:13 -0700 (PDT)
+        Thu, 23 Apr 2026 05:57:16 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
@@ -68,9 +69,9 @@ Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 3/5] ASoC: samsung: odroid: Use guard() for spin locks
-Date: Thu, 23 Apr 2026 19:56:44 +0700
-Message-ID: <20260423125646.156599-4-phucduc.bui@gmail.com>
+Subject: [PATCH 4/5] ASoC: samsung: pcm: Use guard() for spin locks
+Date: Thu, 23 Apr 2026 19:56:45 +0700
+Message-ID: <20260423125646.156599-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260423125646.156599-1-phucduc.bui@gmail.com>
 References: <20260423125646.156599-1-phucduc.bui@gmail.com>
@@ -89,73 +90,192 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/samsung/odroid.c | 21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+ sound/soc/samsung/pcm.c | 99 +++++++++++++++++------------------------
+ 1 file changed, 40 insertions(+), 59 deletions(-)
 
-diff --git a/sound/soc/samsung/odroid.c b/sound/soc/samsung/odroid.c
-index ab3398f39f4a..5c5ecbea5331 100644
---- a/sound/soc/samsung/odroid.c
-+++ b/sound/soc/samsung/odroid.c
-@@ -36,15 +36,12 @@ static int odroid_card_fe_hw_params(struct snd_pcm_substream *substream,
+diff --git a/sound/soc/samsung/pcm.c b/sound/soc/samsung/pcm.c
+index a03ba9374c2e..309f024bf2a4 100644
+--- a/sound/soc/samsung/pcm.c
++++ b/sound/soc/samsung/pcm.c
+@@ -218,7 +218,6 @@ static int s3c_pcm_trigger(struct snd_pcm_substream *substream, int cmd,
  {
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct odroid_priv *priv = snd_soc_card_get_drvdata(rtd->card);
+ 	struct s3c_pcm_info *pcm = snd_soc_dai_get_drvdata(snd_soc_rtd_to_cpu(rtd, 0));
+-	unsigned long flags;
+ 
+ 	dev_dbg(pcm->dev, "Entered %s\n", __func__);
+ 
+@@ -226,27 +225,23 @@ static int s3c_pcm_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		spin_lock_irqsave(&pcm->lock, flags);
+-
+-		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+-			s3c_pcm_snd_rxctrl(pcm, 1);
+-		else
+-			s3c_pcm_snd_txctrl(pcm, 1);
+-
+-		spin_unlock_irqrestore(&pcm->lock, flags);
++		scoped_guard(spinlock_irqsave, &pcm->lock) {
++			if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++				s3c_pcm_snd_rxctrl(pcm, 1);
++			else
++				s3c_pcm_snd_txctrl(pcm, 1);
++		}
+ 		break;
+ 
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+-		spin_lock_irqsave(&pcm->lock, flags);
+-
+-		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+-			s3c_pcm_snd_rxctrl(pcm, 0);
+-		else
+-			s3c_pcm_snd_txctrl(pcm, 0);
+-
+-		spin_unlock_irqrestore(&pcm->lock, flags);
++		scoped_guard(spinlock_irqsave, &pcm->lock) {
++			if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++				s3c_pcm_snd_rxctrl(pcm, 0);
++			else
++				s3c_pcm_snd_txctrl(pcm, 0);
++		}
+ 		break;
+ 
+ 	default:
+@@ -265,7 +260,6 @@ static int s3c_pcm_hw_params(struct snd_pcm_substream *substream,
+ 	void __iomem *regs = pcm->regs;
+ 	struct clk *clk;
+ 	int sclk_div, sync_div;
+-	unsigned long flags;
+ 	u32 clkctl;
+ 
+ 	dev_dbg(pcm->dev, "Entered %s\n", __func__);
+@@ -278,36 +272,33 @@ static int s3c_pcm_hw_params(struct snd_pcm_substream *substream,
+ 		return -EINVAL;
+ 	}
+ 
+-	spin_lock_irqsave(&pcm->lock, flags);
+-
+-	/* Get hold of the PCMSOURCE_CLK */
+-	clkctl = readl(regs + S3C_PCM_CLKCTL);
+-	if (clkctl & S3C_PCM_CLKCTL_SERCLKSEL_PCLK)
+-		clk = pcm->pclk;
+-	else
+-		clk = pcm->cclk;
+-
+-	/* Set the SCLK divider */
+-	sclk_div = clk_get_rate(clk) / pcm->sclk_per_fs /
+-					params_rate(params) / 2 - 1;
+-
+-	clkctl &= ~(S3C_PCM_CLKCTL_SCLKDIV_MASK
+-			<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
+-	clkctl |= ((sclk_div & S3C_PCM_CLKCTL_SCLKDIV_MASK)
+-			<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
++	scoped_guard(spinlock_irqsave, &pcm->lock) {
++		/* Get hold of the PCMSOURCE_CLK */
++		clkctl = readl(regs + S3C_PCM_CLKCTL);
++		if (clkctl & S3C_PCM_CLKCTL_SERCLKSEL_PCLK)
++			clk = pcm->pclk;
++		else
++			clk = pcm->cclk;
+ 
+-	/* Set the SYNC divider */
+-	sync_div = pcm->sclk_per_fs - 1;
++		/* Set the SCLK divider */
++		sclk_div = clk_get_rate(clk) / pcm->sclk_per_fs /
++						params_rate(params) / 2 - 1;
+ 
+-	clkctl &= ~(S3C_PCM_CLKCTL_SYNCDIV_MASK
+-				<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
+-	clkctl |= ((sync_div & S3C_PCM_CLKCTL_SYNCDIV_MASK)
+-				<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
++		clkctl &= ~(S3C_PCM_CLKCTL_SCLKDIV_MASK
++				<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
++		clkctl |= ((sclk_div & S3C_PCM_CLKCTL_SCLKDIV_MASK)
++				<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
+ 
+-	writel(clkctl, regs + S3C_PCM_CLKCTL);
++		/* Set the SYNC divider */
++		sync_div = pcm->sclk_per_fs - 1;
+ 
+-	spin_unlock_irqrestore(&pcm->lock, flags);
++		clkctl &= ~(S3C_PCM_CLKCTL_SYNCDIV_MASK
++					<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
++		clkctl |= ((sync_div & S3C_PCM_CLKCTL_SYNCDIV_MASK)
++					<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
+ 
++		writel(clkctl, regs + S3C_PCM_CLKCTL);
++	}
+ 	dev_dbg(pcm->dev, "PCMSOURCE_CLK-%lu SCLK=%ufs SCLK_DIV=%d SYNC_DIV=%d\n",
+ 				clk_get_rate(clk), pcm->sclk_per_fs,
+ 				sclk_div, sync_div);
+@@ -320,13 +311,11 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
+ {
+ 	struct s3c_pcm_info *pcm = snd_soc_dai_get_drvdata(cpu_dai);
+ 	void __iomem *regs = pcm->regs;
 -	unsigned long flags;
 -	int ret = 0;
+ 	u32 ctl;
  
--	spin_lock_irqsave(&priv->lock, flags);
-+	guard(spinlock_irqsave)(&priv->lock);
- 	if (priv->be_active && priv->be_sample_rate != params_rate(params))
+ 	dev_dbg(pcm->dev, "Entered %s\n", __func__);
+ 
+-	spin_lock_irqsave(&pcm->lock, flags);
++	guard(spinlock_irqsave)(&pcm->lock);
+ 
+ 	ctl = readl(regs + S3C_PCM_CTL);
+ 
+@@ -336,8 +325,7 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
+ 		break;
+ 	default:
+ 		dev_err(pcm->dev, "Unsupported clock inversion!\n");
 -		ret = -EINVAL;
--	spin_unlock_irqrestore(&priv->lock, flags);
+-		goto exit;
 +		return -EINVAL;
+ 	}
  
+ 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+@@ -346,8 +334,7 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
+ 		break;
+ 	default:
+ 		dev_err(pcm->dev, "Unsupported master/slave format!\n");
+-		ret = -EINVAL;
+-		goto exit;
++		return -EINVAL;
+ 	}
+ 
+ 	switch (fmt & SND_SOC_DAIFMT_CLOCK_MASK) {
+@@ -359,8 +346,7 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
+ 		break;
+ 	default:
+ 		dev_err(pcm->dev, "Invalid Clock gating request!\n");
+-		ret = -EINVAL;
+-		goto exit;
++		return -EINVAL;
+ 	}
+ 
+ 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+@@ -374,16 +360,11 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
+ 		break;
+ 	default:
+ 		dev_err(pcm->dev, "Unsupported data format!\n");
+-		ret = -EINVAL;
+-		goto exit;
++		return -EINVAL;
+ 	}
+ 
+ 	writel(ctl, regs + S3C_PCM_CTL);
+-
+-exit:
+-	spin_unlock_irqrestore(&pcm->lock, flags);
+-
 -	return ret;
 +	return 0;
  }
  
- static const struct snd_soc_ops odroid_card_fe_ops = {
-@@ -58,7 +55,6 @@ static int odroid_card_be_hw_params(struct snd_pcm_substream *substream,
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct odroid_priv *priv = snd_soc_card_get_drvdata(rtd->card);
- 	unsigned int pll_freq, rclk_freq, rfs;
--	unsigned long flags;
- 	int ret;
- 
- 	switch (params_rate(params)) {
-@@ -105,10 +101,8 @@ static int odroid_card_be_hw_params(struct snd_pcm_substream *substream,
- 			return ret;
- 	}
- 
--	spin_lock_irqsave(&priv->lock, flags);
--	priv->be_sample_rate = params_rate(params);
--	spin_unlock_irqrestore(&priv->lock, flags);
--
-+	scoped_guard(spinlock_irqsave, &priv->lock)
-+		priv->be_sample_rate = params_rate(params);
- 	return 0;
- }
- 
-@@ -116,9 +110,8 @@ static int odroid_card_be_trigger(struct snd_pcm_substream *substream, int cmd)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct odroid_priv *priv = snd_soc_card_get_drvdata(rtd->card);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	guard(spinlock_irqsave)(&priv->lock);
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -134,8 +127,6 @@ static int odroid_card_be_trigger(struct snd_pcm_substream *substream, int cmd)
- 		break;
- 	}
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
--
- 	return 0;
- }
- 
+ static int s3c_pcm_set_clkdiv(struct snd_soc_dai *cpu_dai,
 -- 
 2.43.0
 
