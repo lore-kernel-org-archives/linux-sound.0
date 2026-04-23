@@ -1,67 +1,72 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657C83DCDAB
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 07:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8433DDDBD
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 07:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776928131; cv=none; b=MViXyXIfEStQsFKWcr4SHo0aUbV1/oxKWqvVHyaifCDHIxxH5fuXOD/1Wi3imCfi1YwK3Uy5q+4Sa2xbKqSAvEBOwDSauqecJPe3FSfoiAEMzuFRtMkukWSMWCvOUQT3UrlZKXKV9oqAL8/6D5KbM1x0OlgNLR/gkZXu1HkB5xk=
+	t=1776928178; cv=none; b=A/oVyMrejYlizmnOzoAikY5qZL9EBiFyHpZgcfMJQUCvpFTe0I5tmBzsAIN+/aBL1gWO7i6OpDSqzgaH6sKdwpYLyPCPLZ3MKmsezJ28SHNIKivEllhMEZb4S4PZleOdnzWtaj5x0strCS05LmmfYE1dVyltpvtndrMtpVMlZbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776928131; c=relaxed/simple;
-	bh=9R7NbaHdt+swhYIqwPSi6bL9GRAa5elUJvUsQk6jZQI=;
+	s=arc-20240116; t=1776928178; c=relaxed/simple;
+	bh=1lNCZRFETIhBr1Vkk6epqTXfzI/kKQkmv6oP4itdNbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j4FMnlPo14vWW9MPb5NgCtKDSESCFP3iJkqtiIfZeoEhPPQbqchsp/AYZJ33WBRFo38uLF/jtB6o1yS13KF+bHmXLZV0LJx3Mk3UtigfNhh8VOA9TR4/xmrCJWiewRdA5SwBwGQNznAm62aiuI5AvsuBTm4Ikt9Y1HKTBSW4Uqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eHNtROpm; arc=none smtp.client-ip=209.85.128.171
+	 Content-Disposition; b=UK9Nxby5n64XepuolIfgwb6sOZ7gfpMB7E/GA0kmjpSdlRqoQ3sRY4dfZlHL/92tihhGRM/H5zMqbB+Ol+iROTEEcJtU+tkmrLjdolKOkDq3yoqIfQGsNBI9lpPTS92YEJ4nTWGeTOcMmxu06mpRg64A4O0C9Hfs//aTyefmtFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqeBcHNV; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eHNtROpm"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-79a74765703so60399027b3.3
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 00:08:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqeBcHNV"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-797ab169454so81129177b3.3
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 00:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776928129; x=1777532929; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776928176; x=1777532976; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pCMCaBnsAn633amphw1lDT95b4RQPKxvb2V6XNZ7tQ4=;
-        b=eHNtROpm8o6iz8qU3fTTe/juINSCKqyUGB1jAFXCr+CGqRRTfeJBVuK/D824i9vn4j
-         jSnbIITcJkV6F29MW1GKRpoimcv1MfPRySMyqNnBJZ+q3gqCSdB78pQtdtN2dSDLc98c
-         UUfoSt42njrgbnrQGHLGxWufIc9rheWdrliIOqkuB17KHMRVmqOdcaPunBSlWi4g31bF
-         C4Zt1tXRic2Wtv0lzyHEPyuC/wkIuWuuQLv3QQPK0+SpoqMOS+XC0wuqruPdN0QuP2V8
-         r9onmC4stknmDqZuwdzH22LkRFSi6CpUxz1x2OdVIgEXJjS3T3BB+DZxzdAU/IUDYU/6
-         cQHA==
+        bh=vGKmSTNGemBMrvy+mTM+W1vFimf9R3yJOHV4XTerUnE=;
+        b=GqeBcHNVirJ71j/7/RpNsZ5jQgTtus1ZcGTmOsBbqDvfw5g35Wc/rPxRGh3iHDKVRy
+         V5bZDl4r4Lengb5ac3n3KAlbqCwsGk667clFAYBYPOIV0vESNlcpTMLt02qjCXEhenWP
+         c8/DyAtSVEvUKOoMnmYCfJpMUB259jbkZXiWNDL8lZqtzD7C/l2XTfO7xnjZuQkB4mge
+         l6ZAqaLVOO/DrNnoiP43WOyE2+v7qIqYD5G7atiIOyHibSI3yDSU48xi6Hc8OByo7Vw1
+         evv/enJUrPiT8z5VwoDt9ASCUERRwTg4tVY6b497waBiSUHoDPekrPOGVYpS6dT5DqDv
+         zPqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776928129; x=1777532929;
+        d=1e100.net; s=20251104; t=1776928176; x=1777532976;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pCMCaBnsAn633amphw1lDT95b4RQPKxvb2V6XNZ7tQ4=;
-        b=RzmwgStxtu5jMIkUkfETgRlRkREUPhYYzrdsZVZzpA16XeCBdeHuJp009qKKY1hwtU
-         8SzcsuC/3yNURlhNXVkG2n4IWZxBm9K1s88EZbPsyCGYpp/5zDLkH6/GVdK2NjXlgqYj
-         enPAU+kVHIedZMZdArD/99MjVt3uin2hiOexIlLa38eRMc1SL35yd1WPpypfuO9Zo7iA
-         q+qqkz504AS1n4fKoeJfkEW/1TNtkVjtEXuebvsWdmo22zXkSFFtr7WhIDctJch0vZfR
-         p0pUi8k1h9kLnYDyPZVR1+nrFvtw/y1GFGssvWXuxrOxP3QvEfeqkgwwLKESB9VZQaG8
-         3Zew==
-X-Gm-Message-State: AOJu0YwpwAf39wtDArxrT9PxYOQ4m47oCRhfnUSyEusf3IEkNCiLUreB
-	8pAKG+3UpkethWfFZOA1Wlfd19LtiDwUsvl91bpvvTzzg6q32PzPJLI6l3wOFpW4
-X-Gm-Gg: AeBDiesC03GwUK6035QVWuMZZIn2RGjEergR8enYc3UaXxyX9LJiIcO3eW2RzBr2bEn
-	BP3kaLaqV+c9T5WA3OdrgMAKnIxwBdts40Mofgq+N2xUfHrl0JOq/ZuiA1V/Ks924HXhTsVfnRX
-	ErDtSuUdxeQitQHMDNwCEOHrF1l9BpuDmQ5lNuizE3Bc2FdpgAnaz09mZgZDJnfIcydSpNDSN02
-	gYKp+2UWvwT77cZVeG/RlpDHsuAwqRtmbvlEHRN5z4xllXS1vfHZUU4oBJANgZo1xu13e/8OTzd
-	IUsJNJbQ9urd6q4MfyjcyYQahbIDzAHf+P9dQ8OGJkdROeWS1UVxtKaBYaXI9fQqSFqzYW/iEZT
-	IRGlEOmesmKDnHVINHo18xxdlahXKC5/RdifZu7KwEPkG+Qpw/EXiey4MuWqd4qbkju6s60l3KE
-	jlKeolzNLjxztnf4FQ2eimU9MIoKM5M4Mr92t0Uok=
-X-Received: by 2002:a05:690c:6c0d:b0:7b4:378c:f732 with SMTP id 00721157ae682-7b9ed0477e1mr264991747b3.46.1776928129175;
-        Thu, 23 Apr 2026 00:08:49 -0700 (PDT)
+        bh=vGKmSTNGemBMrvy+mTM+W1vFimf9R3yJOHV4XTerUnE=;
+        b=CkDPayqv94DZ8XEM3I107K5ethMrJBdHzkZXPBJIJr6m+Jxz4G8nbjuLM1ZAdkD7n3
+         yUpZF0BkCf8lzqiSUH5TmVIPCCFgbhARxv/hLGkYWfSpM8jHDDQv+sjaswOY4Zhev4tw
+         36SqWoUDvZU46zhLNVOLU8UFny1Hnb+A+jni/KDGXrj6fIw5fBBftvHvX9byE6DEg3J6
+         7zVTiOmS7tPv4JI05u2wHRyanKXM/FLm4McsH9pCGMZ7uG6kesWyLFfFKnwa9X9emZdX
+         QE4XG+nVEiRrZFaXhHegdGY9h/As4aLjUERLMrhjiNqKtxxMxFywpHME4BjNblisNSjd
+         vN3g==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZjFFxYhUQXJKBvosH44bhn70y6YewDbgFfu58xDZaEZ6vqkNbdeWOwhOpjdp5OPBltRiDxQ/XrGSRng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrCtLMSPkzQDxnO9bs60FTS+qs4uyEA+IRCfj54ZhvJfIvQ38o
+	fBbB2Bytie5Tsqigfoc0i/tzDuqk/F0abh/QpYDNKwMQV0nJ7h990Wsh
+X-Gm-Gg: AeBDietjRIpyk09OQx3uTq3V81qMgTYmEVFEQaJe5UUvrhFcuqd7+96nuivzTM/pqFV
+	RBkPHZv+cSe32zrxZAlavew5kOkNmYqzVq8iedXyzYfqKdbuO5rfgNOpwOHhxi4DY5zTM8P2nM3
+	Lg0omlqWvwTSIL8wBggc24Ss3zwnbd16Iigw0SIcJ6sQNAajYwfr0iCjrHr2IHo8RO4VtqT7aVw
+	oicuk6b1A6qk9TiG16W68WYaTbuXt9R9KWS2KIhM9+uUpW1125NksLp6qMEcNhgkHGbQ2Nv4GRn
+	RMfgOswzpVvVvz/69xqMJhyIZn5ZXNNwior7cvuJDnx9Qx0pKq6T/+ZXQyBAcX81AiVaSiQX3Ee
+	VHc/gPoM+KdLZKTCCxyBCbP5fuUIbkeKXQH496u4O1he3TWFAL3kdKxf8ypJ6tWQ08AMUu5EYOZ
+	zywJuJuu2k5T9uHFzFht1qNi/oIYCD
+X-Received: by 2002:a05:690c:7283:b0:7b3:edc7:9bb8 with SMTP id 00721157ae682-7b9eccb73a9mr270364097b3.0.1776928176434;
+        Thu, 23 Apr 2026 00:09:36 -0700 (PDT)
 Received: from localhost ([172.216.252.33])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee99b672sm80171657b3.29.2026.04.23.00.08.47
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bafee18982sm32189457b3.46.2026.04.23.00.09.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 00:08:48 -0700 (PDT)
-Date: Thu, 23 Apr 2026 10:08:42 +0300
+        Thu, 23 Apr 2026 00:09:35 -0700 (PDT)
+Date: Thu, 23 Apr 2026 10:09:29 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org
-Subject: [bug report] ALSA: hda: cs35l56: Add support for speaker id
-Message-ID: <aenFesLAStjrVNy8@stanley.mountain>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: cs-amp-lib-test: Fix some NULL vs IS_ERR() bugs
+Message-ID: <aenFqUC8X2CucQwb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,140 +75,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-[ It's weird that this is showing up now... - dan ]
+The cs_amp_devm_get_vendor_specific_variant_id() function doesn't return
+NULL, it returns error pointers.  Update the checking to match.
 
-Hello Richard Fitzgerald,
+Fixes: d70fa6b569a9 ("ASoC: cs-amp-lib-test: Tests for reading SSIDExV2")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
+---
+ sound/soc/codecs/cs-amp-lib-test.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Commit 6f03b446cbae ("ALSA: hda: cs35l56: Add support for speaker
-id") from Sep 18, 2023 (linux-next), leads to the following Smatch
-static checker warning:
+diff --git a/sound/soc/codecs/cs-amp-lib-test.c b/sound/soc/codecs/cs-amp-lib-test.c
+index 636d0f3198b8..bb0cfd9d5db2 100644
+--- a/sound/soc/codecs/cs-amp-lib-test.c
++++ b/sound/soc/codecs/cs-amp-lib-test.c
+@@ -2360,7 +2360,7 @@ static void cs_amp_lib_test_ssidexv2_fetch_invalid(struct kunit *test)
+ 				   cs_amp_lib_test_get_efi_vendor_sysid);
+ 
+ 	got = cs_amp_devm_get_vendor_specific_variant_id(dev, PCI_VENDOR_ID_DELL, 0xabcd);
+-	KUNIT_EXPECT_NOT_NULL(test, got);
++	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
+ 	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
+ }
+ 
+@@ -2376,7 +2376,7 @@ static void cs_amp_lib_test_ssidexv2_not_dell(struct kunit *test)
+ 
+ 	/* Not returned if SSID vendor is not Dell */
+ 	got = cs_amp_devm_get_vendor_specific_variant_id(dev, PCI_VENDOR_ID_CIRRUS, 0xabcd);
+-	KUNIT_EXPECT_NOT_NULL(test, got);
++	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
+ 	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
+ }
+ 
+@@ -2391,11 +2391,11 @@ static void cs_amp_lib_test_vendor_variant_id_not_found(struct kunit *test)
+ 				   cs_amp_lib_test_get_efi_variable_none);
+ 
+ 	got = cs_amp_devm_get_vendor_specific_variant_id(dev, PCI_VENDOR_ID_DELL, 0xabcd);
+-	KUNIT_EXPECT_NOT_NULL(test, got);
++	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
+ 	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
+ 
+ 	got = cs_amp_devm_get_vendor_specific_variant_id(dev, -1, -1);
+-	KUNIT_EXPECT_NOT_NULL(test, got);
++	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
+ 	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
+ }
+ 
+-- 
+2.53.0
 
-	sound/hda/codecs/side-codecs/cs35l56_hda.c:1084 cs35l56_hda_read_acpi()
-	error: uninitialized symbol 'nval'.
-
-sound/hda/codecs/side-codecs/cs35l56_hda.c
-    1013 static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
-    1014 {
-    1015         u32 values[HDA_MAX_COMPONENTS];
-    1016         char hid_string[8];
-    1017         struct acpi_device *adev;
-    1018         const char *property, *sub;
-    1019         size_t nval;
-    1020         int i, ret;
-    1021 
-    1022         /*
-    1023          * ACPI_COMPANION isn't available when this driver was instantiated by
-    1024          * the serial-multi-instantiate driver, so lookup the node by HID
-    1025          */
-    1026         if (!ACPI_COMPANION(cs35l56->base.dev)) {
-    1027                 snprintf(hid_string, sizeof(hid_string), "CSC%04X", hid);
-    1028                 adev = acpi_dev_get_first_match_dev(hid_string, NULL, -1);
-    1029                 if (!adev) {
-    1030                         dev_err(cs35l56->base.dev, "Failed to find an ACPI device for %s\n",
-    1031                                 dev_name(cs35l56->base.dev));
-    1032                         return -ENODEV;
-    1033                 }
-    1034                 ACPI_COMPANION_SET(cs35l56->base.dev, adev);
-    1035         }
-    1036 
-    1037         /* Initialize things that could be overwritten by a fixup */
-    1038         cs35l56->index = -1;
-
-We set cs35l56->index = -1;
-
-    1039 
-    1040         sub = acpi_get_subsystem_id(ACPI_HANDLE(cs35l56->base.dev));
-    1041         ret = cs35l56_hda_apply_platform_fixups(cs35l56, sub, &id);
-    1042         if (ret)
-    1043                 return ret;
-    1044 
-    1045         if (cs35l56->index == -1) {
-
-nval is uninitialized if cs35l56->index this condition is false.
-
-    1046                 property = "cirrus,dev-index";
-    1047                 ret = device_property_count_u32(cs35l56->base.dev, property);
-    1048                 if (ret <= 0)
-    1049                         goto err;
-    1050 
-    1051                 if (ret > ARRAY_SIZE(values)) {
-    1052                         ret = -EINVAL;
-    1053                         goto err;
-    1054                 }
-    1055                 nval = ret;
-    1056 
-    1057                 ret = device_property_read_u32_array(cs35l56->base.dev, property, values, nval);
-    1058                 if (ret)
-    1059                         goto err;
-    1060 
-    1061                 for (i = 0; i < nval; i++) {
-    1062                         if (values[i] == id) {
-    1063                                 cs35l56->index = i;
-    1064                                 break;
-    1065                         }
-    1066                 }
-    1067 
-    1068                 /*
-    1069                  * It's not an error for the ID to be missing: for I2C there can be
-    1070                  * an alias address that is not a real device. So reject silently.
-    1071                  */
-    1072                 if (cs35l56->index == -1) {
-    1073                         dev_dbg(cs35l56->base.dev, "No index found in %s\n", property);
-    1074                         ret = -ENODEV;
-    1075                         goto err;
-    1076                 }
-    1077         }
-    1078 
-    1079         if (IS_ERR(sub)) {
-    1080                 dev_info(cs35l56->base.dev,
-    1081                          "Read ACPI _SUB failed(%ld): fallback to generic firmware\n",
-    1082                          PTR_ERR(sub));
-    1083         } else {
---> 1084                 ret = cirrus_scodec_get_speaker_id(cs35l56->base.dev, cs35l56->index, nval, -1);
-                                                                                               ^^^^
-Warning here.
-
-    1085                 if (ret == -ENOENT) {
-    1086                         cs35l56->system_name = sub;
-    1087                 } else if (ret >= 0) {
-    1088                         cs35l56->system_name = kasprintf(GFP_KERNEL, "%s-spkid%d", sub, ret);
-    1089                         kfree(sub);
-    1090                         if (!cs35l56->system_name)
-    1091                                 return -ENOMEM;
-    1092                 } else {
-    1093                         return ret;
-    1094                 }
-    1095         }
-    1096 
-    1097         cs35l56->base.reset_gpio = devm_gpiod_get_index_optional(cs35l56->base.dev,
-    1098                                                                  "reset",
-    1099                                                                  cs35l56->index,
-    1100                                                                  GPIOD_OUT_LOW);
-    1101         if (IS_ERR(cs35l56->base.reset_gpio)) {
-    1102                 ret = PTR_ERR(cs35l56->base.reset_gpio);
-    1103 
-    1104                 /*
-    1105                  * If RESET is shared the first amp to probe will grab the reset
-    1106                  * line and reset all the amps
-    1107                  */
-    1108                 if (ret != -EBUSY)
-    1109                         return dev_err_probe(cs35l56->base.dev, ret, "Failed to get reset GPIO\n");
-    1110 
-    1111                 dev_info(cs35l56->base.dev, "Reset GPIO busy, assume shared reset\n");
-    1112                 cs35l56->base.reset_gpio = NULL;
-    1113         }
-    1114 
-    1115         return 0;
-    1116 
-    1117 err:
-    1118         if (ret != -ENODEV)
-    1119                 dev_err(cs35l56->base.dev, "Failed property %s: %d\n", property, ret);
-    1120 
-    1121         return ret;
-    1122 }
-
-This email is a free service from the Smatch-CI project [smatch.sf.net].
-
-regards,
-dan carpenter
