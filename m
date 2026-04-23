@@ -1,527 +1,194 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59B533D4E2
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 15:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1AE3806C2
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 16:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776958016; cv=none; b=laeAt4uHrH9sKNCD6FV+oJqwunmFXxNYA/dp6SHEpuMD9g4XlLiRBXaMbpPuc+rId4ysCt8gWPmwJ0bfk+wNsIho3FsFZx8m44pImLBMnz29JNWBJdlL3sEhEcvLGE9ENdQZlAbGxpb20YRdPDid3jQU2EfQssyGgxW9WrlEJ1k=
+	t=1776963201; cv=none; b=V2JvGq9f4Ov8q/F3lg4rbXataP8p1EeaTXUmfMr4cWJFJhO5DLEHMNMdgmyNA7s3t0zJCtASVa2cVF1ii/HWI7TbLZqSjcAOaWdjh1r9DpJZncCB4d8JdPnsmM8SLgj9YORPs6LlNpjWU/JUWmYUlzK04Nn+KRl10Xsvcb2xO/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776958016; c=relaxed/simple;
-	bh=2dYQcA0tNFdWgtvpIHVg6tFSKWIcl6j/CJL8bL6qLTI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rvEwG5oU3VVH2xn8SJ2nMnirWjgMoucbD8X0JrY9WydLH8NdJ/Ve9ZErVbZYnCefeYfxagd76t3UlXW5nzxnvIi8lw2A87QqqHeDxyVFV8Ly1uLl8gXcrN2edwnQtiKHma6hbkAfjqTLqGPZvzlEBOM39Kpd5+Q2jDaOFQnmaas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VlnAMzxo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MuxV94ee; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VlnAMzxo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MuxV94ee; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776963201; c=relaxed/simple;
+	bh=Gv5gPS7Utwk+pVDTTtrhUz0kR0Mi5lgYPnBIxUTDYUk=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BwacHUuz3d27eSNAb8VzXq5j//F7OzbUNJaFCMvzElR1jFkreJGI8cIlnHt+OoRvYR2FmjMMfqicapmsQBycu0y/9Z3Kul/5j9ynefWZZOsOONRrTcQNLTnYJOvVuh1E4MBXgDP9XapCk/AGHh0amgwPdu+Pgr009mH6EuKEKYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=Ebz4dz6Q; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VlnAMzxo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MuxV94ee";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VlnAMzxo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MuxV94ee"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A6306A845;
-	Thu, 23 Apr 2026 15:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776958011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JdgMtivBiTzfoFvxTA8WFnGDvdl/hEo/U3OoIeZ26js=;
-	b=VlnAMzxohXJS/adxZgwcz8r3tXVet1+uYCL2vzmTMeI4kG2eGhu7Smkgm8bV5OAAi1cY23
-	hGY7Y5nDbNe6lf0OP/tOQyLnGwFyiaFppFOMzZge8GSXs6lMSTUF0oZxKrV+BQDcftUd++
-	V1XmtP0RbcOCmRiug2kHfyW+1Kaw/VA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776958011;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JdgMtivBiTzfoFvxTA8WFnGDvdl/hEo/U3OoIeZ26js=;
-	b=MuxV94eev5lL/HWtPqHmQTi1pdNE18Y3QLuZl6XDD7SuoUQa0Mh7jxNXHtrfuZUGjIUN2d
-	CBeRj+j5gslpNWCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VlnAMzxo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MuxV94ee
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776958011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JdgMtivBiTzfoFvxTA8WFnGDvdl/hEo/U3OoIeZ26js=;
-	b=VlnAMzxohXJS/adxZgwcz8r3tXVet1+uYCL2vzmTMeI4kG2eGhu7Smkgm8bV5OAAi1cY23
-	hGY7Y5nDbNe6lf0OP/tOQyLnGwFyiaFppFOMzZge8GSXs6lMSTUF0oZxKrV+BQDcftUd++
-	V1XmtP0RbcOCmRiug2kHfyW+1Kaw/VA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776958011;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JdgMtivBiTzfoFvxTA8WFnGDvdl/hEo/U3OoIeZ26js=;
-	b=MuxV94eev5lL/HWtPqHmQTi1pdNE18Y3QLuZl6XDD7SuoUQa0Mh7jxNXHtrfuZUGjIUN2d
-	CBeRj+j5gslpNWCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C2CCD593A3;
-	Thu, 23 Apr 2026 15:26:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id g0phLjo66mnpJgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 23 Apr 2026 15:26:50 +0000
-Date: Thu, 23 Apr 2026 17:26:50 +0200
-Message-ID: <87a4ut3dfp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaeyoung Chung <jjy600901@snu.ac.kr>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	byoungyoung@snu.ac.kr,
-	eulgyukim@snu.ac.kr
-Subject: Re: [BUG] KASAN: slab-use-after-free in ALSA OSS read/poll race
-In-Reply-To: <20260423145330.210035-1-jjy600901@snu.ac.kr>
-References: <20260423145330.210035-1-jjy600901@snu.ac.kr>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="Ebz4dz6Q"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so64068965e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 09:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776963194; x=1777567994; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1HR1AGhXc2/nBLZyQcDv4KG81pceu424Vc1dZ8FK8VU=;
+        b=Ebz4dz6QMmEF3wtkungJAtJ2IOX8eJ8E8rQc8cItxsV245mr357p+aKZi5KX4VpzHd
+         0awlszml9dat0cCziWMlc1jERJv/3km3woQm4nY26jo4hXVM2wN90Gns8uwCNb6i4ol+
+         fCJIW9ciObKUeFDglHtHDVW8dwxjXcXZ2Ztf7rmevCq5FDotbyZX9GOcunJx7kTjOVC8
+         lU/V7r8CFATkHDmmwpDPHlu28kOaCTYQnZIW+yzOUiz+6v0HggL/XruRlToqIjWN9lwo
+         xCJE/cHi+LcH4xrXoYLzjPKVj7GVodCGkOYyETCyz7CYu+T9qOl09tss5DbFkp7B3hUM
+         KeEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776963194; x=1777567994;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1HR1AGhXc2/nBLZyQcDv4KG81pceu424Vc1dZ8FK8VU=;
+        b=GuC5mrhTExS3TUjGXFwJUB5HcEIuXHUdcA5i8UeNqaIwZE1gqCA192vVSplrc1p1uN
+         rhTNhT+/zx5ptlI2amhrXEvLnIil2Q7Cr8OIPjS/E2MQ53WlYQAEEhI85KBRSU7tOyen
+         aUOoUqUTti3xAviCwmcbRPjZF7zZsyWRdwASgsS3a8C9b0arwC8vpwGmdj0OI/OaHo7k
+         7ul2dKf/C/mbgh+hAbIo7vtwEy9CNN0jAvGr8KjPDaUvpwEXun+4MgmahcxcGA2udzBf
+         NvUUvyvK0UCMJ2PKww7IP+KBLE9Wfah2LZqwmjeevoVQNcGVYQ2r3E6brttingUrkMyI
+         ey7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8YTcF4ikeOPyrTTNAPCBl3V1KmDhs2Xmj6gQKhpSswzgahC8uOVcpSITrmvnCAD+E3McuD0ceF+mH1pg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQS2ycfKQbdOekRR9aqV93b/V9DwdhUPaybSAJQxWMZi6/mIWp
+	g9ceOqQo8EkDy42WFblLZUTJthmj9uksxiggIuXnRz2iFl5gD3nf7W8CEOXsOs8Jbl0DCc8moaA
+	Gpy+g
+X-Gm-Gg: AeBDietht7RvfyHlSJFGYW09K9rWCItjFWbneK3VCv5mWVPuo8s0r6nQ5/NHCgcW/HH
+	9VUNoCeig8dWa3djkvDyw1GETEQeO/FaSnSupnY8jGK7O5J2r2EonRV8j8GWT3p3gr3rfEOi8n1
+	TJKjcFNxeDRFB1PVx8AD1hXyAtUy1hwOAR+4EbqJNhW3ZX67jxMGvtmfenuxhIKYvQH26/UISCp
+	vcJfsVcKECM+tIHclBr23RD8BKEWoKMJxM5HIG11bvjKiKMRVPgH/aA7qtphDRlpwwH44YUJCk7
+	88CRdbh90ptGYdvi7kN2q5AOziJsntYoa3PyE96fxoSB20DPNOT0YuiX/4RDA6GLHEdvhns/CRZ
+	a4RwmJTu7L73Kg8pzfnBChSmU6W6f9QnpYRRw4bS+FvmnNqm5xo4H/bv7NetFdZsAaQ5OJIk84z
+	0/JIm1nF1rUM8O3glgKOhcm9luw/DPIwoLTEGKLUu44pHVcApOcbFqcQrzAIPJwrUHyY+12/YSL
+	Oihhw65Ykrc0wKabtiOO7KKdQ==
+X-Received: by 2002:a05:600c:4e14:b0:489:1f08:91b with SMTP id 5b1f17b1804b1-4891f080a7emr261351675e9.16.1776963194414;
+        Thu, 23 Apr 2026 09:53:14 -0700 (PDT)
+Received: from localhost (p200300f65f114e08a25e1e10fa943eb9.dip0.t-ipconnect.de. [2003:f6:5f11:4e08:a25e:1e10:fa94:3eb9])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-488fb79ecb9sm224700095e9.8.2026.04.23.09.53.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 09:53:13 -0700 (PDT)
+Date: Thu, 23 Apr 2026 18:53:12 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
+	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>, linux1394-devel@lists.sourceforge.net, 
+	linux-sound@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 0/2] firewire: Simplify storing pointers in device id
+ struct
+Message-ID: <aepEedmf6sA83XpQ@monoceros>
+References: <cover.1776579304.git.u.kleine-koenig@baylibre.com>
+ <20260423141959.GA268626@sakamocchi.jp>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 0A6306A845
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-
-On Thu, 23 Apr 2026 16:53:30 +0200,
-Jaeyoung Chung wrote:
-> 
-> Hello,
-> 
-> We found a KASAN slab-use-after-free in the ALSA OSS-compatibility
-> layer (sound/core/oss/pcm_oss.c) on Linux v6.19.13. A concurrent
-> read() and pselect() on an OSS audio device (/dev/dsp) corrupts the
-> packed bit-flags in struct snd_pcm_oss_runtime and ends up freeing a
-> buffer while another thread is still writing into it.
-> 
-> # Summary
-> 
-> struct snd_pcm_oss_runtime packs four flags into one storage word:
-> 
->     /* include/sound/pcm_oss.h */
->     unsigned params: 1,			/* format/parameter change */
->       prepare: 1,			/* need to prepare the operation */
->       trigger: 1,			/* trigger flag */
->       sync_trigger: 1;		/* sync trigger flag */
-> 
-> Every writer of these flags holds runtime->oss.params_lock EXCEPT
-> snd_pcm_oss_poll(), which clears runtime->oss.trigger unlocked. The
-> resulting byte-level RMW race lets poll()'s stale store clobber the
-> params=0 store done by snd_pcm_oss_change_params_locked(), so
-> runtime->oss.params stays 1. The next snd_pcm_oss_make_ready() then
-> re-enters change_params_locked() and runs snd_pcm_oss_plugin_clear()
-> while a concurrent snd_pcm_oss_read3() is mid-transfer, freeing the
-> plugin chain and buffer that __snd_pcm_lib_xfer() is copying into.
-> 
-> # Environment
-> 
-> - Kernel:  Linux v6.19.13
-> - Arch:    x86_64
-> - Relevant config:
->     CONFIG_SOUND=y
->     CONFIG_SND=y
->     CONFIG_SND_PCM=y
->     CONFIG_SND_OSSEMUL=y
->     CONFIG_SND_PCM_OSS=y
->     CONFIG_SND_PCM_OSS_PLUGINS=y
->     CONFIG_SND_ALOOP=y
->     CONFIG_KASAN=y
-> - Device:  /dev/dsp backed by snd-aloop (ALSA loopback).
->            This is the only card I verified the crash on; with
->            CONFIG_SND_ALOOP=y and no other sound card, /proc/asound/cards
->            reports:
->              0 [Loopback       ]: Loopback - Loopback
->                                   Loopback 1
->            Whether other OSS-capable cards are affected has not been
->            tested.
-> 
-> # Thread interleaving
-> 
-> Shared byte B = params | prepare | trigger | sync_trigger.
-> Initial: params=1, trigger=1  =>  B = 0b0101 = 0x05.
-> 
->   CPU 0: read() thread                         CPU 1: pselect() thread
->   ====================                         =======================
->   snd_pcm_oss_read -> read1
->     mutex_lock(params_lock)
->     snd_pcm_oss_make_ready_locked
->       snd_pcm_oss_change_params_locked
->         plugin->buf = kvzalloc(size, GFP_KERNEL);
->                                                 snd_pcm_oss_poll
->                                                 // runtime->oss.trigger = 0;
->                                                  reg = READ(B)        ; reg = 0x05
->                                                  /* mdelay(100) */
->         // runtime->oss.params = 0;
->         RMW B: params  = 0  ; B := 0x04
-> 	      // runtime->oss.prepare = 1;
->         RMW B: prepare = 1  ; B := 0x06
->     snd_pcm_oss_read2
->       snd_pcm_plug_read_transfer
->         snd_pcm_oss_read3
->           mutex_unlock(params_lock)
->           /* mdelay(1000) */
->                                                      reg &= ~0x4        ; reg = 0x01
->                                                      WRITE(B, reg)      ; B := 0x01
->                                                      /* clobbers A's (params=0,
->                                                         prepare=1): params is 1 again */
->                                                      snd_pcm_oss_set_trigger(.., PCM_ENABLE_INPUT)
->                                                        snd_pcm_oss_make_ready(csubstream)
->                                                          /* oss.params == 1 (stale) */
->                                                          snd_pcm_oss_change_params
->                                                            mutex_lock(params_lock)
->                                                            change_params_locked:
->                                                              snd_pcm_oss_plugin_clear
->                                                                kvfree(plugin->buf);
->                                                            mutex_unlock(params_lock)
->           __snd_pcm_lib_xfer
->             default_read_copy
->               copy_to_iter
->                 memcpy(<freed buffer>, ...)    <-- USE-AFTER-FREE (write)
-> 
-> # Included items
-> 
-> 1. C reproducer
-> 2. Kernel delay patch (for deterministic triggering only; not the fix)
-> 3. KASAN crash log
-> 4. Proposed fix
-> 
-> -----------------------------------------------------------------------
-> 1. C reproducer
-> -----------------------------------------------------------------------
-> Build: gcc -static -pthread -o race race.c
-> Run:   ./race                  # uses /dev/dsp by default
-> 
-> // -- begin race.c --
-> // gcc -static -o race race.c -lpthread
-> #define _GNU_SOURCE
-> #include <err.h>
-> #include <fcntl.h>
-> #include <pthread.h>
-> #include <sched.h>
-> #include <stdio.h>
-> #include <string.h>
-> #include <sys/select.h>
-> #include <time.h>
-> #include <unistd.h>
-> 
-> #define SYSCHK(x) \
->   ({ \
->     typeof(x) __res = (x); \
->     if (__res == (typeof(x))-1) \
->       err(1, "SYSCHK(" #x ")"); \
->     __res; \
->   })
-> 
-> #define DSP_PATH "/dev/dsp"
-> int dsp_fd, ready = 0;
-> 
-> void pin_to_cpu(int cpu) {
->   cpu_set_t cset;
->   CPU_ZERO(&cset);
->   CPU_SET(cpu, &cset);
->   SYSCHK(sched_setaffinity(0, sizeof(cset), &cset));
-> }
-> 
-> static void *poll_thread(void *arg) {
->   fd_set rfds;
->   struct timespec timeout = {.tv_sec = 30};
-> 
->   pin_to_cpu(0);
->   FD_ZERO(&rfds);
->   FD_SET(dsp_fd, &rfds);
->   printf("[begin] pselect\n");
->   while (!ready) {
-> 	sched_yield();
->   }
->   int ret = pselect(dsp_fd + 1, &rfds, NULL, NULL, &timeout, NULL);
->   printf("[end] pselect = %d\n", ret);
-> 
->   return NULL;
-> }
-> 
-> static void *read_thread(void *arg) {
->   unsigned char buf[1] = {0};
-> 
->   pin_to_cpu(1);
->   printf("[begin] read\n");
->   ready = 1;
->   sched_yield();
->   ssize_t ret = read(dsp_fd, buf, sizeof(buf));
->   printf("[end] read = %zd\n", ret);
-> 
->   return NULL;
-> }
-> 
-> int main(int argc, char **argv) {
->   const char *path = (argc > 1) ? argv[1] : DSP_PATH;
->   pthread_t t1, t2;
-> 
->   pin_to_cpu(0);
-> 
->   dsp_fd = SYSCHK(open(path, O_RDONLY));
-> 
->   pthread_create(&t1, NULL, poll_thread, NULL);
->   pthread_create(&t2, NULL, read_thread, NULL);
-> 
->   pthread_join(t1, NULL);
->   pthread_join(t2, NULL);
-> 
->   close(dsp_fd);
->   return 0;
-> }
-> // -- end race.c --
-> 
-> -----------------------------------------------------------------------
-> 2. Kernel delay patch (to make the race deterministic)
-> -----------------------------------------------------------------------
-> This is NOT the fix. It only widens two windows:
->   (a) In snd_pcm_oss_poll(), split "trigger = 0" into an explicit
->       READ / mdelay(100) / MODIFY / WRITE on the underlying byte, to
->       emulate and stretch the compiler-emitted byte RMW.
->   (b) In snd_pcm_oss_read3(), insert mdelay(1000) between
->       mutex_unlock() and __snd_pcm_lib_xfer() so the plugin chain is
->       still in use while the racing free happens.
-> 
-> diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-> index 3bc94d34b..f7a176444 100644
-> --- a/sound/core/oss/pcm_oss.c
-> +++ b/sound/core/oss/pcm_oss.c
-> @@ -29,6 +29,7 @@
->  #include <linux/soundcard.h>
->  #include <sound/initval.h>
->  #include <sound/mixer_oss.h>
-> +#include <linux/delay.h>
->  
->  #define OSS_ALSAEMULVER		_SIOR ('M', 249, int)
->  
-> @@ -1281,6 +1282,8 @@ snd_pcm_sframes_t snd_pcm_oss_read3(struct snd_pcm_substream *substream, char *p
->  		if (ret < 0)
->  			break;
->  		mutex_unlock(&runtime->oss.params_lock);
-> +		pr_info("mdelay before __snd_pcm_lib_xfer\n");
-> +		mdelay(1000);
->  		ret = __snd_pcm_lib_xfer(substream, (void *)ptr, true,
->  					 frames, in_kernel);
->  		mutex_lock(&runtime->oss.params_lock);
-> @@ -2862,7 +2865,13 @@ static __poll_t snd_pcm_oss_poll(struct file *file, poll_table * wait)
->  			struct snd_pcm_oss_file ofile;
->  			memset(&ofile, 0, sizeof(ofile));
->  			ofile.streams[SNDRV_PCM_STREAM_CAPTURE] = pcm_oss_file->streams[SNDRV_PCM_STREAM_CAPTURE];
-> -			runtime->oss.trigger = 0;
-> +			// runtime->oss.trigger = 0;
-> +			u8 *p = (u8 *)&runtime->oss;
-> +			u8 v = READ_ONCE(*p);
-> +			pr_info("delay between bitfield RMW\n");
-> +			mdelay(100);
-> +			v &= ~0x4;
-> +			WRITE_ONCE(*p, v);
->  			snd_pcm_oss_set_trigger(&ofile, PCM_ENABLE_INPUT);
->  		}
->  	}
-> 
-> -----------------------------------------------------------------------
-> 3. KASAN crash log
-> -----------------------------------------------------------------------
-> BUG: KASAN: slab-use-after-free in memcpy_to_iter lib/iov_iter.c:77 [inline]
-> BUG: KASAN: slab-use-after-free in iterate_kvec include/linux/iov_iter.h:86 [inline]
-> BUG: KASAN: slab-use-after-free in iterate_and_advance2 include/linux/iov_iter.h:308 [inline]
-> BUG: KASAN: slab-use-after-free in iterate_and_advance include/linux/iov_iter.h:330 [inline]
-> BUG: KASAN: slab-use-after-free in _copy_to_iter+0xa10/0x1480 lib/iov_iter.c:197
-> Write of size 8192 at addr ff11000013ff4000 by task race/350
-> CPU: 1 UID: 0 PID: 350 Comm: race Not tainted 6.19.13-dirty #14 NONE
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0x8f/0xc0 lib/dump_stack.c:120
->  print_address_description mm/kasan/report.c:378 [inline]
->  print_report+0xd0/0x270 mm/kasan/report.c:482
->  kasan_report+0x118/0x150 mm/kasan/report.c:595
->  check_region_inline mm/kasan/generic.c:-1 [inline]
->  kasan_check_range+0x2b0/0x2c0 mm/kasan/generic.c:200
->  __asan_memcpy+0x40/0x70 mm/kasan/shadow.c:106
->  memcpy_to_iter lib/iov_iter.c:77 [inline]
->  iterate_kvec include/linux/iov_iter.h:86 [inline]
->  iterate_and_advance2 include/linux/iov_iter.h:308 [inline]
->  iterate_and_advance include/linux/iov_iter.h:330 [inline]
->  _copy_to_iter+0xa10/0x1480 lib/iov_iter.c:197
->  copy_to_iter include/linux/uio.h:220 [inline]
->  default_read_copy+0x11f/0x1b0 sound/core/pcm_lib.c:2092
->  do_transfer sound/core/pcm_lib.c:-1 [inline]
->  interleaved_copy+0x191/0x200 sound/core/pcm_lib.c:2141
->  __snd_pcm_lib_xfer+0x1165/0x1890 sound/core/pcm_lib.c:2380
->  snd_pcm_oss_read3+0x2ca/0x410 sound/core/oss/pcm_oss.c:1286
->  snd_pcm_plug_read_transfer+0x259/0x2f0 sound/core/oss/pcm_plugin.c:663
->  snd_pcm_oss_read2+0x1c7/0x3b0 sound/core/oss/pcm_oss.c:1487
->  snd_pcm_oss_read1 sound/core/oss/pcm_oss.c:1525 [inline]
->  snd_pcm_oss_read+0x3d0/0x7b0 sound/core/oss/pcm_oss.c:2778
->  vfs_read+0x15b/0x8a0 fs/read_write.c:570
->  ksys_read+0xca/0x190 fs/read_write.c:715
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x6e/0x6a0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> RIP: 0033:0x7bdf3b94d2dc
-> Code: ec 28 48 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 59 d5 f8 ff 48 8b 54 24 18 48 8b 74 248
-> RSP: 002b:00007bdf3b04fe70 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-> RAX: ffffffffffffffda RBX: 00007bdf3b0506c0 RCX: 00007bdf3b94d2dc
-> RDX: 0000000000000001 RSI: 00007bdf3b04fec7 RDI: 0000000000000003
-> RBP: 00007bdf3b04fed0 R08: 0000000000000000 R09: 00007ffe6810a877
-> R10: 0000000000000000 R11: 0000000000000246 R12: ffffffffffffff80
-> R13: 0000000000000000 R14: 00007ffe6810a780 R15: 00007bdf3a850000
->  </TASK>
-> Allocated by task 350:
->  kasan_save_stack mm/kasan/common.c:57 [inline]
->  kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
->  poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
->  __kasan_kmalloc+0x72/0x90 mm/kasan/common.c:415
->  kasan_kmalloc include/linux/kasan.h:263 [inline]
->  __do_kmalloc_node mm/slub.c:5754 [inline]
->  __kvmalloc_node_noprof+0x3a3/0x710 mm/slub.c:7261
->  snd_pcm_plugin_alloc+0x183/0x700 sound/core/oss/pcm_plugin.c:74
->  snd_pcm_plug_alloc+0x14a/0x270 sound/core/oss/pcm_plugin.c:133
->  snd_pcm_oss_change_params_locked+0x2190/0x3440 sound/core/oss/pcm_oss.c:1043
->  snd_pcm_oss_make_ready_locked sound/core/oss/pcm_oss.c:1191 [inline]
->  snd_pcm_oss_read1 sound/core/oss/pcm_oss.c:1520 [inline]
->  snd_pcm_oss_read+0x247/0x7b0 sound/core/oss/pcm_oss.c:2778
->  vfs_read+0x15b/0x8a0 fs/read_write.c:570
->  ksys_read+0xca/0x190 fs/read_write.c:715
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x6e/0x6a0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> Freed by task 349:
->  kasan_save_stack mm/kasan/common.c:57 [inline]
->  kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
->  kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
->  poison_slab_object mm/kasan/common.c:253 [inline]
->  __kasan_slab_free+0x3a/0x60 mm/kasan/common.c:285
->  kasan_slab_free include/linux/kasan.h:235 [inline]
->  slab_free_hook mm/slub.c:2580 [inline]
->  slab_free mm/slub.c:6791 [inline]
->  kfree+0x169/0x3f0 mm/slub.c:7003
->  snd_pcm_plugin_free+0xb2/0xd0 sound/core/oss/pcm_plugin.c:198
->  snd_pcm_oss_plugin_clear sound/core/oss/pcm_oss.c:541 [inline]
->  snd_pcm_oss_change_params_locked+0x1bd5/0x3440 sound/core/oss/pcm_oss.c:974
->  snd_pcm_oss_change_params sound/core/oss/pcm_oss.c:1109 [inline]
->  snd_pcm_oss_make_ready+0xdf/0x270 sound/core/oss/pcm_oss.c:1168
->  snd_pcm_oss_set_trigger+0x87/0x6c0 sound/core/oss/pcm_oss.c:2083
->  snd_pcm_oss_poll+0x739/0x870 sound/core/oss/pcm_oss.c:2873
->  vfs_poll include/linux/poll.h:82 [inline]
->  select_poll_one fs/select.c:480 [inline]
->  do_select+0xbdb/0x11c0 fs/select.c:536
->  core_sys_select+0x4dc/0x720 fs/select.c:677
->  do_pselect fs/select.c:759 [inline]
->  __do_sys_pselect6 fs/select.c:798 [inline]
->  __se_sys_pselect6+0x18d/0x1f0 fs/select.c:789
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x6e/0x6a0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> The buggy address belongs to the object at ff11000013ff4000
->  which belongs to the cache kmalloc-8k of size 8192
-> The buggy address is located 0 bytes inside of
->  freed 8192-byte region [ff11000013ff4000, ff11000013ff6000)
-> The buggy address belongs to the physical page:
-> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x13ff0
-> head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-> flags: 0x100000000000040(head|node=0|zone=1)
-> page_type: f5(slab)
-> raw: 0100000000000040 ff1100000ac38280 ffd40000004ffa00 0000000000000006
-> raw: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
-> head: 0100000000000040 ff1100000ac38280 ffd40000004ffa00 0000000000000006
-> head: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
-> head: 0100000000000003 ffd40000004ffc01 00000000ffffffff 00000000ffffffff
-> head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-> page dumped because: kasan: bad access detected
-> Memory state around the buggy address:
->  ff11000013ff3f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->  ff11000013ff3f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> >ff11000013ff4000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                    ^
->  ff11000013ff4080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->  ff11000013ff4100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ==================================================================
-> 
-> -----------------------------------------------------------------------
-> 4. Proposed fix
-> -----------------------------------------------------------------------
-> Split the four packed bit-flags into independent bytes so they no
-> longer share a storage word. Writes to one flag can then no longer
-> corrupt the others regardless of locking.
-> 
-> Another possible fix direction may be to take `runtime->oss.params_lock` 
-> in the poll path before touching `runtime->oss.trigger`, 
-> since `snd_pcm_oss_poll()` appears to be the only writer 
-> of these flags that currently does not use that mutex.
-> 
-> Because we found this through fuzzing and do not know the subsystem
-> well, I am not confident that the patch below is the best fix. It is
-> just the smallest change that seemed reasonable from code inspection.
-> 
-> diff --git a/include/sound/pcm_oss.h b/include/sound/pcm_oss.h
-> --- a/include/sound/pcm_oss.h
-> +++ b/include/sound/pcm_oss.h
-> @@ -22,10 +22,10 @@ struct snd_pcm_oss_setup {
->  };
->  
->  struct snd_pcm_oss_runtime {
-> -	unsigned params: 1,			/* format/parameter change */
-> -		 prepare: 1,			/* need to prepare the operation */
-> -		 trigger: 1,			/* trigger flag */
-> -		 sync_trigger: 1;		/* sync trigger flag */
-> +	unsigned char params;			/* format/parameter change */
-> +	unsigned char prepare;			/* need to prepare the operation */
-> +	unsigned char trigger;			/* trigger flag */
-> +	unsigned char sync_trigger;		/* sync trigger flag */
->  	int rate;				/* requested rate */
->  	int format;				/* requested OSS format */
->  	unsigned int channels;			/* requested channels */
-
-Thanks for the report.  I see the point, and IMO, a better fix is to
-protect runtime->oss.trigger access with the mutex.  We can change the
-bit fields to bool as a separate patch, but it shouldn't be considered
-as an ad hoc fix.
-
-Could you submit a proper patch after verifying that it fixes your
-fuzzer?
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fu6q2m4ga74mqqyv"
+Content-Disposition: inline
+In-Reply-To: <20260423141959.GA268626@sakamocchi.jp>
 
 
-thanks,
+--fu6q2m4ga74mqqyv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 0/2] firewire: Simplify storing pointers in device id
+ struct
+MIME-Version: 1.0
 
-Takashi
+Hello Takashi,
+
+On Thu, Apr 23, 2026 at 11:19:59PM +0900, Takashi Sakamoto wrote:
+> It is unclear who is responsible for maintaining the 'ieee1394_device_id'
+> structure in include/linux/mod_devicetable.h, but if it falls under my
+> responsibility (which seems likely),
+
+It matches my understanding that it's indeed you who is responsible for
+ieee1394_device_id.
+
+> I would prefer to postpone applying these patches, or at least exclude
+> them from this merge window.
+
+I don't expect them to go in for v7.1-rc1. My idea was to send this kind
+of patch during the merge window to allow to get it into next soon after
+the merge window closed to allow some cooking in next.
+=20
+> After reading the discussions around the UAPI, I am not fully convinced
+> that your patches appear to provide clear benefits to existing
+> IEEE 1394 bus users or their software. From my perspective, the motivation
+> appears to be primarily related to the CHERI extension work.
+
+Yes and no. My motivation to work on these is triggered by CHERI indeed.
+But I already worked on this kind of update even before I knew about
+CHERI to get rid of the casts. (Back then it was about i2c, see
+https://lore.kernel.org/all/20240426213832.915485-2-u.kleine-koenig@pengutr=
+onix.de/.)
+
+For me this series is a sweet spot, because it allows to reduce the
+CHERI patch stack but at the same time reduces the amount of (IMHO ugly)
+casts involved in handling pointers in .driver_data. With my mainline
+maintainer hat on, I consider the latter alone a good enough reason to
+apply patches like this. One issue it addresses en passant is that a
+part of the casts back to a pointer drop the const attribute, see the
+output of
+
+	git grep '\*).*driver_data' | grep -v '\<const\>'
+
+=2E I didn't check for false positives in this list, but I guess there are
+not many. This doesn't affect firewire though, there the casts are all
+fine.
+
+As my patch series doesn't introduce changes to the compiled drivers,
+the effect on bus users or their software is admittedly quite limited of
+course :-), but I'd hope that you see a benefit in the 2nd patch even if
+CHERI isn't (and probably shouldn't be) a motivation for you.
+
+The reason I mentioned CHERI was mainly to be transparent about my
+motivation, but this triggered more discussion than I liked, distracting
+=66rom the advantages of the changes for non-CHERI archs.
+
+> As you know, this subsystem is quite marginal in the Linux kernel
+> codebase. Given that, it might be worth considering whether this
+> subsystem should be excluded from the build target when capability
+> pointers are enabled (e.g. via Kconfig, if available), since it does not
+> appear to work outside the ILP32 or LP64 data models. It may be worth
+> carefully considering where effort is best spent. I can understand the
+> merits of CHERI extensions, but changes related to this subsystem would
+> likely be acceptable only after the kernel core functions have been
+> updated.
+
+I wasn't aware about this limitation. struct ieee1394_device_id just
+happend to be near the top of include/linux/mod_devicetable.h. (There is
+only pci_device_id before, but I wanted to start with a smaller part of
+this quest.)
+=20
+> That said, this is just my current view. I would welcome any feedback or
+> objections. Besides, it is still one of my tasks to figure out how to
+> adapt the UAPI structures and the firewire core implementations to
+> non-ILP32/LP64 data models.
+
+With you talking much about UAPI I wonder if you're aware that for all
+current Linux architectures my patch set doesn't introduce any changes
+in the binary interface because all have sizeof(unsigned long) =3D=3D
+sizeof(union { unsigned long; const void *; }). And the two adaptions
+(my introduction of the union for driver_data + your UAPI structure
+adaptions) should not restrict each other, right?
+
+So I'd be glad if you forgot about CHERI and just judge the patchset for
+the things it achieves for current mainline. Of course I hope you agree
+it's a nice cleanup eventually and apply it.
+
+Best regards
+Uwe
+
+--fu6q2m4ga74mqqyv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnqTm4ACgkQj4D7WH0S
+/k6xvQgAp4POxayzNr9QEwF5X9FZazPf0pxT9m+LCU7NuOqLDe8reqqTBrtP8bMd
+pRmf4z1i//Xyh9F8JFc2ORL4a0D7qg92xLy4oD/oHR3tS3hyVM3mpugWsguUyoMI
+7GT9uZmL6YX3KNAES1JAROcqo86tlgcFf+X3R/Chgda2/LAW5JxpUypD56lvoGSv
+RglyaJjZ/XA4TKS/SFTEzJ0MAQ1HxrbMsLqdSAxos4ge5nbDdAM+qAjJMoM8Sj5S
+tOj1Zlo6fs/MdlCBjKcXKxApt/3WgRDb5OglB04ttvYABPJ4nE1kPPXVohOW1ucE
+ngdW8vp17x7zDM5SPsBRjW6+LY314Q==
+=w480
+-----END PGP SIGNATURE-----
+
+--fu6q2m4ga74mqqyv--
