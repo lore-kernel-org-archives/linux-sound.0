@@ -1,61 +1,63 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC93D36654C
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 04:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A4C2DCF57
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 04:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776918536; cv=none; b=DKTbGdj7WHjgTM0Iv0rZPSgtke5QacrDk+8BdDiMK1RCz9+7rl4BrT05Xv957ay1/Tr7pXRIJX7WU44dNiIEmfBrU7CmJDz4FVjXAOclgSId3PCM3+omN9weiBXHVqf2bM3dST6n3NK3hcUOeo4jInv4wFsyrZsE6TxALgUCWiY=
+	t=1776918543; cv=none; b=sWrSRkSxzk2B5WPSSgkHbA6QhZKmNENcZLmDiV8a1Dsm3p5bO+7CbOu59XQmCO8rO59kQQPodKOiQQu6ux3GioC3qoiy9uPQjkKYomegdkbetzwMW96QQekF4QrVZsESSi7F9TjZppDS4h4wjBvqGd7xQ7Z+r5jK2XVWQADWvEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776918536; c=relaxed/simple;
-	bh=MaVJxZC5N4/y1FpjaEauMKNmm2TOUxLoHybY7yZsvqA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A0MuHi+ZkVNJtbuXcbsUdWAO2OCEXoJwlKK6t/G219F4kMzq0EMmi6pKOtsUKhWxpYL39/KObU6a/twzL3/dPEyhoVND/AlUSs//EOiXZqQSEClXeqFGFdVw0POyJEG4qj9/HzXhfVizr3RUSz+WGtzVONbrNHp8y3vx50rdeyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZHIvxibC; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1776918543; c=relaxed/simple;
+	bh=1B0rx0wn/c2cXAJ68pTEAXr2+tPyfi7KL9uUYQmogoE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JNDDV8mdKDXVn6t6vsH3ghT0J5n07eYSYsVVbk+SkdONJ9WkrQavVVxtwyAifV05YySXnMRSQxHXp034PyuZxa8FJwHVt4rpYcyhqUTo/7Ql6LLAaJia3F8CvQH0o8FHLanTsa+BoCxinhbsFwApNQ4RJFRHxWmdNIO1jp0rvok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iM4jw1Sd; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHIvxibC"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ab46931cf1so50280255ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 21:28:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iM4jw1Sd"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2aae146b604so41455365ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 21:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776918534; x=1777523334; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XjjUIS+FpVjGKchfRJSkovojenGlk/xbLLBCCHWtqGU=;
-        b=ZHIvxibCLJKVkqyWasFZS2KYUq4by+DiBTUkSpAYpRvZSMJO+Hz3iQEtPn5/eZTYSo
-         h6z2wPAHOpepZsJF+WjoGhmXzMAz8ksvJVWrSQM8acG40gOhzNojl2657okjzEljWS+o
-         uBmvn5RctAgAb9teyJhXL7VfKKCuWYHrx5dLWrqgl1SZkM0mBxAjgdH3eRA1qecg7ds/
-         krmyMWb8SwRqoejEQ6MNJcubcDdJTbWZfy3q1RAYwpM6MfDCXVhZ2fgiiaMMUxl5XxcW
-         8u5E+Q2edREOhD/xlmNZxzjPBuqz4hTU9lrwLwuPthoh0qNiuaD8dWcEx9il+6j8xgJ7
-         zjtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776918534; x=1777523334;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776918542; x=1777523342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XjjUIS+FpVjGKchfRJSkovojenGlk/xbLLBCCHWtqGU=;
-        b=iJ5f05YBb4tXTSs6+oa54oz7WaTZ5czeWKH19nIQpGtc8I0yuchBr/Mr4nDoo2E4UR
-         9LG93RAkl24eM87/NGsMlkWKDnao/zJqk529IrSANV/B0V/RXR0TxbUPxBTMFx3BF1WT
-         RPF+5jJwwG0gj9Tw3/pWoC7ykWEUofaHRj2wjxrSGP02M/Ijjpsz+zQWDeCgNWorHgVB
-         FCDuP9dsRV6VOFX5h7HZt5Bj1YFjlGzdRzeDg1BbjT6CoR0g5kNZScttgPg7LVruQjJW
-         GZEqHSSJJmXTfPXbvOPXoK1wfojWTdFcUhIWSks2ABTKFxwrPohmOnK2xVPfM48l7AMX
-         wo5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/dtAyXghflLVIj5Ji4+gDVE/GikdQwXQeWarWIrPUvJtHqZlni/98Ylca2Z11hF/wtgL7HiTB8g8dS2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7d1ZGGMfw4TQeMuIVVf12nTNPjGp1ZNoEKniTBW2xoFzUU3Xn
-	FBzDJLNkDuxdaVCL9Y7kmq8QWRcMCIA0A1EHlgCNVNB5O9pR4/HnmYNe
-X-Gm-Gg: AeBDieuWrDJAWjFGazbNkc1rPFUhFyJJaM7paWIKRqNDxsqeVcU7qsJx1UPCrbEPDlm
-	smz/n4Kg666jUhfpn9PMFolYA/QTfcmeyUD+F+Dhngfy7HeJrtI2ftSMfuF6yVi7y9XB+RYU/Uw
-	M5tQK6G/2KzF7lGA3UweJjJYOvZ6GjWkNZqX+tBLF2HtyraPW7myTj3LeQHC77fmKFN4pXAKTLU
-	pvlWDQkA7p7NSG/l2ccYjWE09eHBVQG+Jfw8xHjHy3YNy9l+lctf1+UFdRQqnWGVj9sojU5bLko
-	2SAUO1rDU7sLnMBhipR34frUs0qrAdzPdNm8Rf/2WsXq9QOvU4O9YQGh97pi0y0oqy+pcFHsAa1
-	e/9/9Uw8Vwl0NTqKNkVEhuIj2s5Iow0Z21fi9u9Z6pkraKu7gLpQO3INlmEzfPj4Hj/kvOJaNKv
-	NALZpoVeLDLUB/qUulOo183Qd2Pbkjed1QRZLpuNRQsqI+4S09XO5BxriTL3EFreyfX/Bx
-X-Received: by 2002:a17:903:f8b:b0:2b4:6122:10f8 with SMTP id d9443c01a7336-2b5f9eb4a00mr190635855ad.21.1776918533945;
-        Wed, 22 Apr 2026 21:28:53 -0700 (PDT)
+        bh=ldKzYRVzGfk7M04BaN4noHVbGeTb3XbIYu+RVxu/5hQ=;
+        b=iM4jw1SdI2H9ZuPlWmdgbz48PMr4ALwLEYiOlR4iWJuOc9tWNf8bhnyhRR1oVyJnCg
+         cEECRIKquOqcrv2UFbRdvqt8qDf4oXVlgO7PjYEq5OKSf3+2sPsprbQxN0UyGUAswkOF
+         GFXOSBFOV8uovu4raFHO62+dtJxwYl4IqiUYwWdriXYnT23kI4z9z3+X8JzDn+a+Hl8d
+         uYfc0sSNNn3Ub1CsK4rVSUYdm/Pj/jLQCpUH0Haof7EdagmNXSe9bfiOtsJh6yteJ5Fm
+         4PcskqqovzAleX970nDztcNx8CwxjyqVOaLXV6nxvpcwqhAenLrWiGmer9UT9icoHWT8
+         7giQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776918542; x=1777523342;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ldKzYRVzGfk7M04BaN4noHVbGeTb3XbIYu+RVxu/5hQ=;
+        b=ZcqEGIUkLIzmE/aTXM2VzIu5vLHtglI3bm8KQ/nfwCP/KIGpvJc6WN8Z2mh9QR7mvJ
+         QmLOz9vqHDFceEcvzC0LSyTM/I4O0COS6Z+tpasLGCmWoKeUjROaf+IUkcyLlwVRWNUx
+         95YHlRsxhc7I/FOX6MTH94iG61gmnXIPMaX80XyCyOxiVliV9I2gacVGpiA8N1d1dZhk
+         HU02DgVZuU4xbn3AY/vT9M1fqlasLQ8IuZedrx4UKOzOnZ0DbcdkekKNrBZ8OG5lgp6V
+         LmYJ8KNAbE2tkAxDOXD5Q9btk/XuH0/7xflMOzsm8jgXloROzbyVuh5DGtwTzdnizDsU
+         BUsw==
+X-Forwarded-Encrypted: i=1; AFNElJ/fSO20hGqWkkFTf8aLRCZqZTjVcoO4l4A5zTKDoswDp4apQjUccBpdGatn7XGpdrFZvP1JXssVeiBNbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxpIZCeusD+nCaOUZXRMSmNOfGyiYsrP09DzTXCUuHQ/G+Y6Gx
+	pypUp8PBVzO6HVrZo0o7uuKotZRUNZTRgWRs0EfEmyPJkimwC4RB2Kb3
+X-Gm-Gg: AeBDiesyN6frL0EurfiK3ZHzPYs79hEof+2UlD53Po5wFrr8TbJtGl2iHfGE4wT862a
+	KZnfliHmO1Rukt+fvIwQSkWwKUIT6hqArL2+AOyRp+ZdRjscwcaW6nXdueyC7AkjRqybsSdD0xX
+	ZTzjgEz+U1sanPAas3dfnYtM8Rj8orYamFcgkRnG+2r4vt9+/ET40yxBd9URHawC+ioQNG70OUF
+	8WrrWp4i8clPlf4aUroiBcCDpntOuKairHzxD0v7az8H+Ba7Ar9+4yo/kFBGTXAgjFA6HOMt004
+	V1ddZ0Lo0lX83PJb6P/yJHP6i4opwjLxDnBii3AnmhrZFcqi9EJHAexD5EtNgD/g+KFGlYdXFBD
+	xYZCaxYF/8t/B0L0bZVJp73zT7MtqCpVjYesZGgiWD9lxTwcIKWipRfEcxLoPljoaFLzoWTQo0h
+	/WvpjMufBLxJmD6eD+R25tytQ0E/CHzxoA7G/KjaYQXVZoSVTCt4WYrIaK3yHliZZDoTe/
+X-Received: by 2002:a17:902:cec8:b0:2b0:5b4e:370c with SMTP id d9443c01a7336-2b5f9f8b3ccmr282724315ad.32.1776918541770;
+        Wed, 22 Apr 2026 21:29:01 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab4049bsm165723755ad.77.2026.04.22.21.28.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab4049bsm165723755ad.77.2026.04.22.21.28.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 21:28:53 -0700 (PDT)
+        Wed, 22 Apr 2026 21:29:01 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Lee Jones <lee@kernel.org>,
 	Mark Brown <broonie@kernel.org>,
@@ -75,10 +77,12 @@ Cc: Joseph Chen <chenjh@rock-chips.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 1/2] dt-bindings: mfd: rockchip: drop redundant wakeup-source definitions
-Date: Thu, 23 Apr 2026 11:28:30 +0700
-Message-ID: <20260423042831.21114-1-phucduc.bui@gmail.com>
+Subject: [PATCH 2/2] ASoC: dt-bindings: drop redundant wakeup-source definitions
+Date: Thu, 23 Apr 2026 11:28:31 +0700
+Message-ID: <20260423042831.21114-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260423042831.21114-1-phucduc.bui@gmail.com>
+References: <20260423042831.21114-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -90,101 +94,50 @@ Content-Transfer-Encoding: 8bit
 From: bui duc phuc <phucduc.bui@gmail.com>
 
 The 'wakeup-source' property already has its type defined in the core
-schema. The Rockchip MFD bindings redundantly specify 'type: boolean'
-and provide descriptions which only repeat the generic meaning of the
-property. Drop these redundant definitions and descriptions to clean
-up the binding files and rely on the core schema instead.
+schema. A number of sound binding files redundantly specify the
+'type: boolean' and provide descriptions which only repeat the generic
+meaning of the property.
+Drop these redundant definitions and descriptions to clean up the binding
+files and rely on the core schema instead.
 No functional change intended.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- Documentation/devicetree/bindings/mfd/rockchip,rk801.yaml | 5 +----
- Documentation/devicetree/bindings/mfd/rockchip,rk805.yaml | 5 +----
- Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml | 5 +----
- Documentation/devicetree/bindings/mfd/rockchip,rk817.yaml | 5 +----
- Documentation/devicetree/bindings/mfd/rockchip,rk818.yaml | 5 +----
- 5 files changed, 5 insertions(+), 20 deletions(-)
+ Documentation/devicetree/bindings/sound/dialog,da7219.yaml  | 5 +----
+ Documentation/devicetree/bindings/sound/realtek,rt5514.yaml | 4 +---
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mfd/rockchip,rk801.yaml b/Documentation/devicetree/bindings/mfd/rockchip,rk801.yaml
-index 7c71447200ba..8e394ab6879b 100644
---- a/Documentation/devicetree/bindings/mfd/rockchip,rk801.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rockchip,rk801.yaml
-@@ -29,10 +29,7 @@ properties:
-     description:
-       Telling whether or not this PMIC is controlling the system power.
+diff --git a/Documentation/devicetree/bindings/sound/dialog,da7219.yaml b/Documentation/devicetree/bindings/sound/dialog,da7219.yaml
+index 19137abdba3e..fab37cd92e0d 100644
+--- a/Documentation/devicetree/bindings/sound/dialog,da7219.yaml
++++ b/Documentation/devicetree/bindings/sound/dialog,da7219.yaml
+@@ -45,10 +45,7 @@ properties:
+       - wakeup
+       - irq
  
 -  wakeup-source:
 -    type: boolean
 -    description:
--      Device can be used as a wakeup source.
+-      Flag to indicate this device can wake system (suspend/resume).
 +  wakeup-source: true
  
-   vcc1-supply:
-     description:
-diff --git a/Documentation/devicetree/bindings/mfd/rockchip,rk805.yaml b/Documentation/devicetree/bindings/mfd/rockchip,rk805.yaml
-index da2391530c16..548ba1f30712 100644
---- a/Documentation/devicetree/bindings/mfd/rockchip,rk805.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rockchip,rk805.yaml
-@@ -48,10 +48,7 @@ properties:
+   "#clock-cells":
+     const: 1
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml
+index 7fbf7739c371..57e5c09c05c0 100644
+--- a/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml
+@@ -48,9 +48,7 @@ properties:
  
-   system-power-controller: true
+   spi-max-frequency: true
  
 -  wakeup-source:
 -    type: boolean
--    description:
--      Device can be used as a wakeup source.
+-    description: Flag to indicate this device can wake system (suspend/resume).
 +  wakeup-source: true
  
-   vcc1-supply:
-     description:
-diff --git a/Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml b/Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml
-index 50dfffac8fbf..40f8f23afad3 100644
---- a/Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml
-@@ -43,10 +43,7 @@ properties:
- 
-   system-power-controller: true
- 
--  wakeup-source:
--    type: boolean
--    description:
--      Device can be used as a wakeup source.
-+  wakeup-source: true
- 
-   vcc1-supply:
-     description:
-diff --git a/Documentation/devicetree/bindings/mfd/rockchip,rk817.yaml b/Documentation/devicetree/bindings/mfd/rockchip,rk817.yaml
-index 2cb6d176a84c..b99aaff100fb 100644
---- a/Documentation/devicetree/bindings/mfd/rockchip,rk817.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rockchip,rk817.yaml
-@@ -55,10 +55,7 @@ properties:
- 
-   system-power-controller: true
- 
--  wakeup-source:
--    type: boolean
--    description:
--      Device can be used as a wakeup source.
-+  wakeup-source: true
- 
-   vcc1-supply:
-     description:
-diff --git a/Documentation/devicetree/bindings/mfd/rockchip,rk818.yaml b/Documentation/devicetree/bindings/mfd/rockchip,rk818.yaml
-index 90d944c27ba1..b7af774b1395 100644
---- a/Documentation/devicetree/bindings/mfd/rockchip,rk818.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rockchip,rk818.yaml
-@@ -43,10 +43,7 @@ properties:
- 
-   system-power-controller: true
- 
--  wakeup-source:
--    type: boolean
--    description:
--      Device can be used as a wakeup source.
-+  wakeup-source: true
- 
-   vcc1-supply:
-     description:
+ required:
+   - compatible
 -- 
 2.43.0
 
