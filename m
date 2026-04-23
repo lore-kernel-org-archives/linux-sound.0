@@ -1,34 +1,34 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013303CCFCD
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76543CCFC8
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776921004; cv=none; b=e/WSaOG9KOgwlPD36K4bxiIPeWlQDMOZgbSqzEWGY/7R9D7Fc+QLkdaRz3aDMl/K4eeaHN9AnV0fXCm3pwCHQzwLQmbGM77SrTpFfM2rox9ynLd48gVE6ZlF3ML9SuxJ4p7Bhr7MrrSFqylzJU89Q6iGk6q2FG2hISUrKMyflPc=
+	t=1776921012; cv=none; b=FxnMw5Ja/Hz8lvnT/z/dt03m37KQ6Q2HsdLZePXHswDZTCyF4+uugv9OMn6p1B991UUHjS3VkGiKoXbhlWEfcgXkelPSAM0lBkfBxHlxHeka2z40TLa4MV//D3GWkuhThC0I54oGsJuLtZF9bCX3+2fQLd9nHJuUeivoiorgNo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776921004; c=relaxed/simple;
-	bh=SdCcf5dN89huOvpVrHBJ2dyu0Bk+dVbbZzmmkUL0o0Y=;
+	s=arc-20240116; t=1776921012; c=relaxed/simple;
+	bh=OlY99gRCdd5x9WMjHA+ibN+2JjyLjohIWqWM8HbFr+4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HiXH1iqX1zf/g23QcIbUagGmZNGQ4ccfcri9seQo/i1k03Ua5eBW+q8QskcX/0SQDc4wiexP46tZw3f/uTVWaUZ6jmHonC43diPER6yOlPdG+mR2JPtP4Jx7nNijrxDNmwCLojFGNWpjFQf5yr8g+FXsg+W/Qq8RmYRI66o6SIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=Kff6Qqbj; arc=none smtp.client-ip=91.218.175.182
+	 MIME-Version; b=Xjd5H2KN+WkcPB3B/6DoO3TWhattZ13PQWUmeUlcG73RmL94Q2QLtwTSbfMlRELIxlINsVTXV7xJ+Qb4rvKoNxPYsuifpVxVoKtTQ8PZ3trtTrYPn/NRwbafk55hBZlHQZLIYobP0MSoyB40jGm5mV0hHPM1q50Tnfeco4UXCMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=oqmThNId; arc=none smtp.client-ip=91.218.175.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="Kff6Qqbj"
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="oqmThNId"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1776921000;
+	s=key1; t=1776921005;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L28Te4sCpLg/GnJfgmPRQX0eBmeHEV/a2SFB/bXF6yw=;
-	b=Kff6QqbjxNcoaYbUzRjEzKxMtJq7bGgjdONXizMYPG+XGyX9yBFobSGvQBuLl1+yqu/SBd
-	TVlB9XT45eyln6I8BjSNL+jlNxNb0qTfeiseftWlZaWZ3ORH4Od/xk7Upb6ScGTQetonBR
-	K5XE7TG4G/IRZ/8/DIH+8wXuuW6b/759agc45Ooq7Orjit2wzON/7eSWjOtBtBsxcK6+WE
-	jKKtmCAzUFsfrcVKpMscYBLhM8CDcAHrHx+mvshV0pkclN+kHAoxvs+yMs0ECMzxtEMSvS
-	84z4G0EYYHfeIeu4RzQE3ZuIszVhjqFMJwTWmIAwQqBYqFyd/X/bZMXeQPHKhA==
+	bh=ZCMXnLkh1m7lCUTps3Ofi8S7MMCahQQbrgJ4E1PAcvQ=;
+	b=oqmThNIdIGUuYcCp6H6A2yYdCnvzcSAzw3kbdrmgRTunem+4d2T1h/pdko87ni2Hyf0F1b
+	M+3Y9/euNm42Lrp8YOwBzxMj5uY7rxitvpdAHG/wEgaMXKaY7/hdrEwRIya9Y0skMPZ0RL
+	iMU7aF6SSAH9MxmtXYFpAUOktg60oEXuSirWR1yaYYJJ8MwORMXHYdRteRoC6Bf/HDkQrW
+	gR8Q4gZnXD4mj9RGGSa+C3wp+hWphh33mZOZj5N8jbNR1sCfOXF69G+OZBaAew81VS5yEZ
+	F3apud3YgfwOOuLr6TEYd1WwQTrWwugcieO7BIgpZ2r35DsJVBJ7FIKBjIMT9w==
 From: Val Packett <val@packett.cool>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -44,9 +44,9 @@ Cc: Val Packett <val@packett.cool>,
 	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] ASoC: qcom: sm8250: shut down MI2S/TDM AFE port clocks
-Date: Thu, 23 Apr 2026 01:41:05 -0300
-Message-ID: <20260423050801.210840-7-val@packett.cool>
+Subject: [PATCH 6/6] ASoC: qcom: sm8250: apply codec_fmt to all codec DAIs
+Date: Thu, 23 Apr 2026 01:41:06 -0300
+Message-ID: <20260423050801.210840-8-val@packett.cool>
 In-Reply-To: <20260423050801.210840-2-val@packett.cool>
 References: <20260423050801.210840-2-val@packett.cool>
 Precedence: bulk
@@ -58,254 +58,129 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-These port clocks were never being turned off, leading to increased
-power consumption after a sound was played through any of these ports
-for the first time. Use enable counters to disable the clocks in the
-shutdown callback, similar to how it's done for sdm845.
+With MI2S and TDM interfaces, multiple codecs typically share one bus.
+All codecs on the bus should receive the same format configuration, so
+apply the codec_fmt to all of them.
 
 Signed-off-by: Val Packett <val@packett.cool>
 ---
-
-Mostly just noticed in comparison to sdm845 buuut I do wonder if this
-is one of the things holding up adsp from suspending
-(/sys/kernel/debug/qcom_stats/adsp is all 0 on my kodiak device)..
-
-among with the macros not dropping the LPASS_HW_MACRO_VOTE/etc. during
-runtime suspend?
-
----
- sound/soc/qcom/sm8250.c | 150 +++++++++++++++++++++++++++++++---------
- 1 file changed, 119 insertions(+), 31 deletions(-)
+ sound/soc/qcom/sm8250.c | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
 diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index ab1ba44baffb..d67b7bd09c94 100644
+index d67b7bd09c94..6e0e3e0ad55f 100644
 --- a/sound/soc/qcom/sm8250.c
 +++ b/sound/soc/qcom/sm8250.c
-@@ -23,6 +23,7 @@ static unsigned int tdm_slot_offset[8] = {0, 4, 8, 12, 16, 20, 24, 28};
- 
- struct sm8250_snd_data {
- 	bool stream_prepared[AFE_PORT_MAX];
-+	uint32_t clk_count[AFE_PORT_MAX];
- 	struct snd_soc_card *card;
- 	struct snd_soc_jack jack;
- 	struct snd_soc_jack usb_offload_jack;
-@@ -137,83 +138,95 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 	unsigned int fmt = SND_SOC_DAIFMT_BP_FP;
- 	unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC;
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct snd_soc_card *card = rtd->card;
-+	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(card);
+@@ -141,7 +141,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 	struct snd_soc_card *card = rtd->card;
+ 	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(card);
  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+-	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++	struct snd_soc_dai *codec_dai;
++	int j;
  
  	switch (cpu_dai->id) {
  	case PRIMARY_MI2S_RX:
- 		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
--			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[PRIMARY_MI2S_RX]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
-+				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+@@ -151,7 +152,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 				Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
+ 				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
  		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case SECONDARY_MI2S_RX:
  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
--			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[SECONDARY_MI2S_RX]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
-+				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+@@ -160,7 +162,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 				Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
+ 				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
  		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case TERTIARY_MI2S_RX:
  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
--			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[TERTIARY_MI2S_RX]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
-+				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+@@ -169,7 +172,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 				Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
+ 				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
  		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case QUINARY_MI2S_RX:
  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
--			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[QUINARY_MI2S_RX]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
-+				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+@@ -178,7 +182,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 				Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
+ 				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
  		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case SENARY_MI2S_RX:
  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
--			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[SENARY_MI2S_RX]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
-+				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+@@ -187,7 +192,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 				Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
+ 				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
  		snd_soc_dai_set_fmt(cpu_dai, fmt);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case PRIMARY_TDM_RX_0:
  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
--			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[PRIMARY_TDM_RX_0]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+@@ -195,7 +201,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 			snd_soc_dai_set_sysclk(cpu_dai,
+ 				Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
+ 				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case SECONDARY_TDM_RX_0:
  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
--			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[SECONDARY_TDM_RX_0]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+@@ -203,7 +210,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 			snd_soc_dai_set_sysclk(cpu_dai,
+ 				Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
+ 				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case TERTIARY_TDM_RX_0:
  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
--			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[TERTIARY_TDM_RX_0]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+@@ -211,7 +219,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 			snd_soc_dai_set_sysclk(cpu_dai,
+ 				Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
+ 				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case QUATERNARY_TDM_RX_0:
  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
--			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[QUATERNARY_TDM_RX_0]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+@@ -219,7 +228,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 			snd_soc_dai_set_sysclk(cpu_dai,
+ 				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
+ 				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	case QUINARY_TDM_RX_0:
  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
--		snd_soc_dai_set_sysclk(cpu_dai,
--			Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
--			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-+		if (++(data->clk_count[QUINARY_TDM_RX_0]) == 1)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
-+				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
- 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+@@ -227,7 +237,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+ 			snd_soc_dai_set_sysclk(cpu_dai,
+ 				Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
+ 				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+-		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
++		for_each_rtd_codec_dais(rtd, j, codec_dai)
++			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
  		break;
  	default:
-@@ -223,6 +236,81 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
- 	return qcom_snd_sdw_startup(substream);
- }
- 
-+static void sm8250_snd_shutdown(struct snd_pcm_substream *substream)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct snd_soc_card *card = rtd->card;
-+	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(card);
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+
-+	switch (cpu_dai->id) {
-+	case PRIMARY_MI2S_RX:
-+		if (--(data->clk_count[PRIMARY_MI2S_RX]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case SECONDARY_MI2S_RX:
-+		if (--(data->clk_count[SECONDARY_MI2S_RX]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case TERTIARY_MI2S_RX:
-+		if (--(data->clk_count[TERTIARY_MI2S_RX]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case QUINARY_MI2S_RX:
-+		if (--(data->clk_count[QUINARY_MI2S_RX]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case SENARY_MI2S_RX:
-+		if (--(data->clk_count[SENARY_MI2S_RX]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case PRIMARY_TDM_RX_0:
-+		if (--(data->clk_count[PRIMARY_TDM_RX_0]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case SECONDARY_TDM_RX_0:
-+		if (--(data->clk_count[SECONDARY_TDM_RX_0]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case TERTIARY_TDM_RX_0:
-+		if (--(data->clk_count[TERTIARY_TDM_RX_0]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case QUATERNARY_TDM_RX_0:
-+		if (--(data->clk_count[QUATERNARY_TDM_RX_0]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	case QUINARY_TDM_RX_0:
-+		if (--(data->clk_count[QUINARY_TDM_RX_0]) == 0)
-+			snd_soc_dai_set_sysclk(cpu_dai,
-+				Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
-+				0, SNDRV_PCM_STREAM_PLAYBACK);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	qcom_snd_sdw_shutdown(substream);
-+}
-+
- static int sm8250_snd_prepare(struct snd_pcm_substream *substream)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-@@ -261,7 +349,7 @@ static int sm8250_snd_hw_params(struct snd_pcm_substream *substream,
- 
- static const struct snd_soc_ops sm8250_be_ops = {
- 	.startup = sm8250_snd_startup,
--	.shutdown = qcom_snd_sdw_shutdown,
-+	.shutdown = sm8250_snd_shutdown,
- 	.hw_free = sm8250_snd_hw_free,
- 	.hw_params = sm8250_snd_hw_params,
- 	.prepare = sm8250_snd_prepare,
+ 		break;
 -- 
 2.53.0
 
