@@ -1,61 +1,61 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18333EDAD7
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 12:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62B63876D2
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 12:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776948730; cv=none; b=UcPn/7y1XFQXrXmtRb/uGCpP8G9RmgyrnomnKSOwEQxOYWf5MAsrREnVdupaJQCiBHjSWjg4edFphQd6uQGJ+iBUwnjkpdUfOCQTCk8KPrVCq7s0z4wtiWLrTuxy1cs36YfGCsd5Hv6gp/3GBuyoaseovgKkEwSiKDSzxnJhIGc=
+	t=1776949023; cv=none; b=OAxzER4CBz7/aQBXLoFTmuIAIP1oGgoZuBxW696BVrs+1p8VaoCChHdSosJbJo2Di2bW46YCIRRQxLMq/JVAO26gOcbqk1xT0VF9+AYllBJYJ/dTTkCLpg/pS3K/dEcCNiGS2ljXa1dlTFPgnZCFfznt36DG8Qb9gTOGCY7zttY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776948730; c=relaxed/simple;
-	bh=Jg5SR7o1VcWMJNB5wdQqpvyhrEnCSnyB6mn3nEk4jeM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JjnXp/7yybNH3MpeIaGItlN4ZBlGL2/HrcSXmkyUiIYMxqWuAJYNVxVfPJ6RjPKteIfMd5DaUhep3EE3YuaehjIJ3Bk1GptSTN2dfZug9X9fRSMHH1bjaCp0YbQkRQVVPR8/ZNzMPXHxXqHwq3RggRA0KxAMYpPmQd9NU7U1hA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9WO+nV2; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1776949023; c=relaxed/simple;
+	bh=EAh/kgpS2dXQLkjrw6aFA7ZAJ+HC4p1Mb4Hses+rQl0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tEImo7TCvIDAk+HORjnvNzpvprKBEOT62fzygE1q577bqgscmTJd457E6ivXRtRV1vYuEuwRYx0nllFhA+Ev3ApAo8A+ZmTrWChMRM8ASLh7dggPLHlXuYKHU27Do8Ej614n97t7/0lGeATi6l6RKA9MEHxbKE7hhMOBT6kFxzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WU9EcZxI; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9WO+nV2"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b23fcf90b2so63468485ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:52:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WU9EcZxI"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2b2503753efso66677305ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776948729; x=1777553529; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776949022; x=1777553822; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kvrsh829buHJ1xDv00U40C6X+HtmBnUZPS87U4o6y9M=;
-        b=V9WO+nV243wyzVLxMrD5RsD0T5GSU8TxGAmuZE6+K5NrKvT/x3JkGzkXhAd9u82L+F
-         J8DrVrtBw+0RqoDk3ezx9Qx51ZpjlruYSM3iGZjEFOrb+ZyWEbyCivXiQ2EOYxOgFw79
-         YYsfiE2yjKXoHUq+OjEZ8CUKh2UEgHyA3ZGhztuWAXd8L6vgt13MG2lJinbC9T8udvRt
-         t+mDvO7GvDw08CbgHMJ56Po8ulg1pvGZjoab7/SwOui8HSDExlkPqTZikKtGzKkEODSA
-         VmjsO7Kzou6QPaWyXB6ZkA0GF3lQC+yWjSQbrX6Y2lkyGeR1YMGjDdgzCh6rXUeHK4ir
-         2HBQ==
+        bh=AXsTpd+KaPddike9Luv0ILdaVqD6907iy2CiTUyzt78=;
+        b=WU9EcZxIi5Q0jxKWQVIcXehVGtNjfjyXXjdseikSexAKsHwqTVO3V27y9qIE2/fJmw
+         /nblRh5CCqptPo/O4/4hsgbS4zf7mK8M4eKUDPmp6IRa2h2T/Fr48rB2pzW8795yX/aa
+         ouudniMi+vRuKgOksvub8bdq5m0AjEoetl3V8DvUec8RHB3l8eGC/Dpd3Lbi4VGWc1+Y
+         LmwzAU86G2V+x3+W10wPuBizp67UDVrR4y60gDGTEMRfR1yr/mOw7V4OC26TwoJU6u+Z
+         JKtWSuTtcMmzA6HiCWYzzY1vLYalUxVMTC55USbQtJPkJ6ngVFR29AzEplH+eHpKDBza
+         7NBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776948729; x=1777553529;
+        d=1e100.net; s=20251104; t=1776949022; x=1777553822;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kvrsh829buHJ1xDv00U40C6X+HtmBnUZPS87U4o6y9M=;
-        b=U+ZNFjA2A1HVZtu8KRccu7qTqLutMwy6mjpuxV2vLm4z6yt7hIgb+ShBs0pRvipwM3
-         wG+V0HDqV8YWMwSJkB+GYlng/EBo9/uEsJUM1HG5dOD5LAmaRqjJUN9jgKpTZ1wjenew
-         XD25Xp6V1M5/ZtGYEMSRGJKMjnka3MRLNbm8zDKi6GV8Fu7ifOLs6Vfd00+Z9PmwTTyQ
-         cfwuzLRBB39GptSAX7jrr+L+epqds8TYEq8wsuVZcBjDR29Ghnf6oPa4UHykFvrFrpmi
-         b8FUNzdrw7kZiFmXDWfSUkcUG5Y34oiXRTna3LXveuAumw0qRKm/e4phWjqSf1k31RO6
-         mqVg==
-X-Forwarded-Encrypted: i=1; AFNElJ853nUslYuXLRU0wZedUSSEsXD3ySJYfbz50W8TmhhV8c7gqiADgewN0vUkBjL212/dvxzd6/SNEpHY/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxb0PpADCBjfoGVObuxvDeM/UfB1Ax9xi9RkYcELkP4TVhY5HzK
-	uYaWdwRwJYoZKJwC1Q5ywNtO7azKrAshAXWsoubtc46qiz2YmNmYma8b
-X-Gm-Gg: AeBDieuq0zaMdwLQeRgbV4QgcIB+DDzMmPV+j5TSASdfcBqTORuD/QMqbVcfcqAEivL
-	mhWDk9uSOAU+NfbffHfwyCa2TcgGDYclU3Zse63uTAwsc1gaeP42AkqeGSB2p/glZym1Rmc3gTF
-	b0lTx8Bm121+2Sohy/7GtLTUHJ7lOq+FGo2ZMLwrMbO18pll5b0xEMATc/bcI/xXO1TnC4G39Ok
-	FEa7BT1aMdc9rPv+pe1vpbp97+spHUtQiSck00pw4htNdK4AcKuYPbOod9s7A20yje2LPfQDdlE
-	Ln+dYYY6Km94BP/TgwZs4UArVPMy9oXwK3/e4HbgifiTDkaZqShrWPcvKFslf3jTqXZ8SdNYaPl
-	XlBvp39nCYGdiUYbCXrhlnHHizxaV6iNJtmL/MU4UAIi0F7buqiRBiGOYVRLnQk6K2yOMQ2+fhJ
-	Wbi0MKOXCBGorNktKvVQVpun1iiWIEvQvfHzQjo59j4jw8YfOIF8jm28+k4w7GtcJnjI8O
-X-Received: by 2002:a17:903:2986:b0:2b2:4c58:5ba7 with SMTP id d9443c01a7336-2b5f9f43679mr290188045ad.30.1776948728813;
-        Thu, 23 Apr 2026 05:52:08 -0700 (PDT)
+        bh=AXsTpd+KaPddike9Luv0ILdaVqD6907iy2CiTUyzt78=;
+        b=r26miTzmdFNJrugQvaUT2SLuD8N17XilnbBPYYW1btcSR3qZMOUGkFCWFDMozyf8Fg
+         /7woPwKGboqsBIoT9IDpow0qF+9dYZEvKvJrUh7+TbkWlhRKVingxBt81QExpdTrLd+s
+         4Pgyjf8NSRu3qQwiTfkz0THeaLqBil00qSavcmu/1pWh0ECfM7z24XZAZN0IuXpdNBSl
+         UdDmlcvcYUcMTG2UgIBst5J8xBJKGHQDEADrAQfyyN+uv1iw/ifl6tevG3GLMXsMQSEw
+         6U20A0h0C+L9jnggdymZv8g2i0Cl0eVNlCZkZvaLh0Yo2d63TluL+D1vPaqq0i3r2tZN
+         3UBg==
+X-Forwarded-Encrypted: i=1; AFNElJ+uWdUjBznYS+2xhfOQZXeIOxI4qRk9/f7M2RdySfJ7v7E2M7sExg3r/NegD39P8DV9Gz+x3mWth4ELzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQBvRHpMHLp5PiiuBAsJD2s7/bdV5BwmJcdX6Moifk6Az+3C/w
+	eNHfQUnCv3eA/popUp40NO9Id7YUpICyK35o8H7MhAofVgm3lUnU+Msa
+X-Gm-Gg: AeBDieuuRm/R6LrYvPoaZOyAYUuR/NdZgZixZF37X8JQqKlzn0q3Eq54w6CtjNCLAN7
+	6JjIQNnHx3kQn025quY6WM268NgKpbbd6hoqqwUn8w5mLdTEwncrZao9r1JJa1b9XOqlpIvRO35
+	U6GhYwi2LrdpHEOIVFM5FXCSO5/ExhQBojBTRed+XNqshPfQPVhO6xx1t8rML6bkJlq48a+1TX8
+	mlrIZkIHp5k9+8zLfWMtNNSmUH08SvuqhK0X7b3dr9bDX5BtpjgOV8esb9R2Y4YoamEuC2oMIlU
+	4XyaZGRe/LXY4hg8FDMMoZ9fIZcW5SU8bMcL7RIFiTvsJ+ITbKaA5gyKVZ+HBOFg+3h9WRdi26i
+	9NAp8UZQ5pCci09V7EJDWU7m4OyEEoQPevY9BS4hwaDmS0lduM/+0QTezHT6MebRApkaWoEvDut
+	lztZhQdA8dQIBEzmHLcdVhHuk133bOS0730j6FK15U216iiYwRHLE/HhnTkWRuvEkQpMDE
+X-Received: by 2002:a17:903:3d49:b0:2b0:c59f:3b58 with SMTP id d9443c01a7336-2b5f9e9a067mr213394595ad.9.1776949022207;
+        Thu, 23 Apr 2026 05:57:02 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab3c067sm193432875ad.76.2026.04.23.05.52.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff390sm192106545ad.9.2026.04.23.05.56.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 05:52:08 -0700 (PDT)
+        Thu, 23 Apr 2026 05:57:01 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
@@ -66,9 +66,9 @@ Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: apple: mca: Use guard() for mutex locks
-Date: Thu, 23 Apr 2026 19:51:54 +0700
-Message-ID: <20260423125154.156257-1-phucduc.bui@gmail.com>
+Subject: [PATCH 0/5] ASoC: samsung: Use guard() for spin locks
+Date: Thu, 23 Apr 2026 19:56:41 +0700
+Message-ID: <20260423125646.156599-1-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -80,64 +80,30 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Hi all,
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/apple/mca.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+This series simplifies spinlock management across several Samsung ASoC
+drivers by adopting the guard() macro.
+All patches are strictly code refactoring with no functional changes
+intended.
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index 39269cc7def6..492165c0e1ea 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -307,7 +307,7 @@ static bool mca_fe_clocks_in_use(struct mca_cluster *cl)
- 	struct mca_cluster *be_cl;
- 	int stream, i;
- 
--	mutex_lock(&mca->port_mutex);
-+	guard(mutex)(&mca->port_mutex);
- 	for (i = 0; i < mca->nclusters; i++) {
- 		be_cl = &mca->clusters[i];
- 
-@@ -316,12 +316,10 @@ static bool mca_fe_clocks_in_use(struct mca_cluster *cl)
- 
- 		for_each_pcm_streams(stream) {
- 			if (be_cl->clocks_in_use[stream]) {
--				mutex_unlock(&mca->port_mutex);
- 				return true;
- 			}
- 		}
- 	}
--	mutex_unlock(&mca->port_mutex);
- 	return false;
- }
- 
-@@ -765,9 +763,8 @@ static int mca_be_startup(struct snd_pcm_substream *substream,
- 		       cl->base + REG_PORT_CLOCK_SEL);
- 	writel_relaxed(PORT_DATA_SEL_TXA(fe_cl->no),
- 		       cl->base + REG_PORT_DATA_SEL);
--	mutex_lock(&mca->port_mutex);
--	cl->port_driver = fe_cl->no;
--	mutex_unlock(&mca->port_mutex);
-+	scoped_guard(mutex, &mca->port_mutex)
-+		cl->port_driver = fe_cl->no;
- 	cl->port_started[substream->stream] = true;
- 
- 	return 0;
-@@ -788,9 +785,8 @@ static void mca_be_shutdown(struct snd_pcm_substream *substream,
- 		 */
- 		writel_relaxed(0, cl->base + REG_PORT_ENABLES);
- 		writel_relaxed(0, cl->base + REG_PORT_DATA_SEL);
--		mutex_lock(&mca->port_mutex);
--		cl->port_driver = -1;
--		mutex_unlock(&mca->port_mutex);
-+		scoped_guard(mutex, &mca->port_mutex)
-+			cl->port_driver = -1;
- 	}
- }
- 
+Best regards,
+Phuc
+
+bui duc phuc (5):
+  ASoC: samsung: i2s: Use guard() for spin locks
+  ASoC: samsung: idma: Use guard() for spin locks
+  ASoC: samsung: odroid: Use guard() for spin locks
+  ASoC: samsung: pcm: Use guard() for spin locks
+  ASoC: samsung: spdif: Use guard() for spin locks
+
+ sound/soc/samsung/i2s.c    | 118 ++++++++++++++++---------------------
+ sound/soc/samsung/idma.c   |  26 +++-----
+ sound/soc/samsung/odroid.c |  21 ++-----
+ sound/soc/samsung/pcm.c    |  99 +++++++++++++------------------
+ sound/soc/samsung/spdif.c  |  25 +++-----
+ 5 files changed, 113 insertions(+), 176 deletions(-)
+
 -- 
 2.43.0
 
