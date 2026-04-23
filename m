@@ -1,143 +1,114 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A4C2DCF57
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 04:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249DF29BD82
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 05:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776918543; cv=none; b=sWrSRkSxzk2B5WPSSgkHbA6QhZKmNENcZLmDiV8a1Dsm3p5bO+7CbOu59XQmCO8rO59kQQPodKOiQQu6ux3GioC3qoiy9uPQjkKYomegdkbetzwMW96QQekF4QrVZsESSi7F9TjZppDS4h4wjBvqGd7xQ7Z+r5jK2XVWQADWvEg=
+	t=1776920738; cv=none; b=QMXRMSOpMEpCE1Rv9snjnkPnm02wjaKKQCCALLsgkFpal/ZjLKe94GAuYsxUQD4/lwT9PsfcGCpP38kVso+PFP7w2qrK+W9JRCgw+rMXMC3j22kAgWpSu4sPH9W/w+ucwroK1VmkebsulPgtOerJX6rbtkxsrGwEYlsl5yTJfPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776918543; c=relaxed/simple;
-	bh=1B0rx0wn/c2cXAJ68pTEAXr2+tPyfi7KL9uUYQmogoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JNDDV8mdKDXVn6t6vsH3ghT0J5n07eYSYsVVbk+SkdONJ9WkrQavVVxtwyAifV05YySXnMRSQxHXp034PyuZxa8FJwHVt4rpYcyhqUTo/7Ql6LLAaJia3F8CvQH0o8FHLanTsa+BoCxinhbsFwApNQ4RJFRHxWmdNIO1jp0rvok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iM4jw1Sd; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776920738; c=relaxed/simple;
+	bh=XbNo9ez4QCom4Wza0xYVSYZJHZPha+NYGVoo0OJkRvU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=NE04XQYX+i9wpn+cDO3NMGIX990Ktk+5PYYx4wn0Pnrfc+QKPT45Jk6v4H8PNuZie9sYGbp3H3kUExPXitI1+W1+RGoMIXqFjVCbH8ETjgslwYz1mRZbSUHIQj7w2r07vuP4CKJtSgluVtBAm9IcLbrHB26bs00WFB3ons2Ng8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPgM0Uwp; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iM4jw1Sd"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2aae146b604so41455365ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 21:29:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776918542; x=1777523342; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ldKzYRVzGfk7M04BaN4noHVbGeTb3XbIYu+RVxu/5hQ=;
-        b=iM4jw1SdI2H9ZuPlWmdgbz48PMr4ALwLEYiOlR4iWJuOc9tWNf8bhnyhRR1oVyJnCg
-         cEECRIKquOqcrv2UFbRdvqt8qDf4oXVlgO7PjYEq5OKSf3+2sPsprbQxN0UyGUAswkOF
-         GFXOSBFOV8uovu4raFHO62+dtJxwYl4IqiUYwWdriXYnT23kI4z9z3+X8JzDn+a+Hl8d
-         uYfc0sSNNn3Ub1CsK4rVSUYdm/Pj/jLQCpUH0Haof7EdagmNXSe9bfiOtsJh6yteJ5Fm
-         4PcskqqovzAleX970nDztcNx8CwxjyqVOaLXV6nxvpcwqhAenLrWiGmer9UT9icoHWT8
-         7giQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776918542; x=1777523342;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ldKzYRVzGfk7M04BaN4noHVbGeTb3XbIYu+RVxu/5hQ=;
-        b=ZcqEGIUkLIzmE/aTXM2VzIu5vLHtglI3bm8KQ/nfwCP/KIGpvJc6WN8Z2mh9QR7mvJ
-         QmLOz9vqHDFceEcvzC0LSyTM/I4O0COS6Z+tpasLGCmWoKeUjROaf+IUkcyLlwVRWNUx
-         95YHlRsxhc7I/FOX6MTH94iG61gmnXIPMaX80XyCyOxiVliV9I2gacVGpiA8N1d1dZhk
-         HU02DgVZuU4xbn3AY/vT9M1fqlasLQ8IuZedrx4UKOzOnZ0DbcdkekKNrBZ8OG5lgp6V
-         LmYJ8KNAbE2tkAxDOXD5Q9btk/XuH0/7xflMOzsm8jgXloROzbyVuh5DGtwTzdnizDsU
-         BUsw==
-X-Forwarded-Encrypted: i=1; AFNElJ/fSO20hGqWkkFTf8aLRCZqZTjVcoO4l4A5zTKDoswDp4apQjUccBpdGatn7XGpdrFZvP1JXssVeiBNbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxpIZCeusD+nCaOUZXRMSmNOfGyiYsrP09DzTXCUuHQ/G+Y6Gx
-	pypUp8PBVzO6HVrZo0o7uuKotZRUNZTRgWRs0EfEmyPJkimwC4RB2Kb3
-X-Gm-Gg: AeBDiesyN6frL0EurfiK3ZHzPYs79hEof+2UlD53Po5wFrr8TbJtGl2iHfGE4wT862a
-	KZnfliHmO1Rukt+fvIwQSkWwKUIT6hqArL2+AOyRp+ZdRjscwcaW6nXdueyC7AkjRqybsSdD0xX
-	ZTzjgEz+U1sanPAas3dfnYtM8Rj8orYamFcgkRnG+2r4vt9+/ET40yxBd9URHawC+ioQNG70OUF
-	8WrrWp4i8clPlf4aUroiBcCDpntOuKairHzxD0v7az8H+Ba7Ar9+4yo/kFBGTXAgjFA6HOMt004
-	V1ddZ0Lo0lX83PJb6P/yJHP6i4opwjLxDnBii3AnmhrZFcqi9EJHAexD5EtNgD/g+KFGlYdXFBD
-	xYZCaxYF/8t/B0L0bZVJp73zT7MtqCpVjYesZGgiWD9lxTwcIKWipRfEcxLoPljoaFLzoWTQo0h
-	/WvpjMufBLxJmD6eD+R25tytQ0E/CHzxoA7G/KjaYQXVZoSVTCt4WYrIaK3yHliZZDoTe/
-X-Received: by 2002:a17:902:cec8:b0:2b0:5b4e:370c with SMTP id d9443c01a7336-2b5f9f8b3ccmr282724315ad.32.1776918541770;
-        Wed, 22 Apr 2026 21:29:01 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab4049bsm165723755ad.77.2026.04.22.21.28.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 21:29:01 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Joseph Chen <chenjh@rock-chips.com>,
-	Chris Zhong <zyw@rock-chips.com>,
-	Zhang Qing <zhangqing@rock-chips.com>,
-	David Rau <David.Rau.opensource@dm.renesas.com>,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/2] ASoC: dt-bindings: drop redundant wakeup-source definitions
-Date: Thu, 23 Apr 2026 11:28:31 +0700
-Message-ID: <20260423042831.21114-2-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260423042831.21114-1-phucduc.bui@gmail.com>
-References: <20260423042831.21114-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPgM0Uwp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776920737; x=1808456737;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=XbNo9ez4QCom4Wza0xYVSYZJHZPha+NYGVoo0OJkRvU=;
+  b=CPgM0Uwpol/HSQqyg1WHvY3Ob0s9OfDhJz5/0bw597HN3NLUJPppYZF9
+   /TfKAaN3c8buainFjUeoU0RcUhRwYMZ4kK4Bcz8lPcJtGoV6hDfGTfdsa
+   bi3G9sm97+PUf1QOgROVWjgfs1yPWRC/NvP3x0bbFoPEnxQikkdV/7N8L
+   EXj+qhpKqAiDw3RmmLn69WA34x+DYrYxZsS9kQ942VdqmcfmwMnm51v2e
+   i4SR6Tm1NDqH4zXO12/+ZtnVgeaRuEZla22k70iefuTNMucFRKqCui5pT
+   wGHjk2tCQ0aSqMDaULGxV3Rsz7M/R9vIi80Y9F8exgySocyk6pqE4BVRL
+   g==;
+X-CSE-ConnectionGUID: V1qjaXFFTvibeYagf25+Eg==
+X-CSE-MsgGUID: yoihYLcfTBOvZi32UA8W7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="81745404"
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="81745404"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 22:05:36 -0700
+X-CSE-ConnectionGUID: FXcxBodXRfa426+jizs9gA==
+X-CSE-MsgGUID: bLmGRteXRJW8p6tFqPjhVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="256035501"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.244.105]) ([10.245.244.105])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 22:05:34 -0700
+Message-ID: <463d844b-ef44-471a-8749-6bb068833c4a@linux.intel.com>
+Date: Thu, 23 Apr 2026 08:05:30 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <87se9htms4.wl-tiwai@suse.de>
+ <67b9f48b-1cc7-4dac-8f6a-c0cba6a84b36@linux.intel.com>
+ <87ikadtgpe.wl-tiwai@suse.de>
+ <dadef18b-1c2e-4c0d-8ae8-2e4b8ad75d04@linux.intel.com>
+ <878qb8tsib.wl-tiwai@suse.de> <88979231-caef-4eaa-b89d-22e6973c92f9@perex.cz>
+ <cfb84df3-c2bf-4173-bc45-7df29b6a94a3@linux.intel.com>
+ <a1b6b2ed-2e26-48ff-afab-60f90ecc4360@perex.cz>
+ <4c73e4cb-298a-411a-97ed-f0eff1b06ac9@linux.intel.com>
+ <978bdc67-b91e-437a-bb8a-b609a4fef6d1@perex.cz>
+ <b97ae6b9-ef72-4dbf-bf29-9092ec3919d8@linux.intel.com>
+ <82d870b3-4ec1-440a-ae8b-87edbf665b99@perex.cz>
+ <542a9743-2a47-477a-b457-ae32c3f8dc49@linux.intel.com>
+ <39fcca55-77f4-4cd9-8a94-d80e5b94c8ba@perex.cz>
+ <401a7777-e83c-4120-9d82-71388bf38397@linux.intel.com>
+ <b9308972-1795-44c5-9263-ab9f88013215@perex.cz>
+ <8af520bc-cb27-416a-b823-7a21f0784f89@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <8af520bc-cb27-416a-b823-7a21f0784f89@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-The 'wakeup-source' property already has its type defined in the core
-schema. A number of sound binding files redundantly specify the
-'type: boolean' and provide descriptions which only repeat the generic
-meaning of the property.
-Drop these redundant definitions and descriptions to clean up the binding
-files and rely on the core schema instead.
-No functional change intended.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- Documentation/devicetree/bindings/sound/dialog,da7219.yaml  | 5 +----
- Documentation/devicetree/bindings/sound/realtek,rt5514.yaml | 4 +---
- 2 files changed, 2 insertions(+), 7 deletions(-)
+On 22/04/2026 17:19, Péter Ujfalusi wrote:
 
-diff --git a/Documentation/devicetree/bindings/sound/dialog,da7219.yaml b/Documentation/devicetree/bindings/sound/dialog,da7219.yaml
-index 19137abdba3e..fab37cd92e0d 100644
---- a/Documentation/devicetree/bindings/sound/dialog,da7219.yaml
-+++ b/Documentation/devicetree/bindings/sound/dialog,da7219.yaml
-@@ -45,10 +45,7 @@ properties:
-       - wakeup
-       - irq
- 
--  wakeup-source:
--    type: boolean
--    description:
--      Flag to indicate this device can wake system (suspend/resume).
-+  wakeup-source: true
- 
-   "#clock-cells":
-     const: 1
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml
-index 7fbf7739c371..57e5c09c05c0 100644
---- a/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5514.yaml
-@@ -48,9 +48,7 @@ properties:
- 
-   spi-max-frequency: true
- 
--  wakeup-source:
--    type: boolean
--    description: Flag to indicate this device can wake system (suspend/resume).
-+  wakeup-source: true
- 
- required:
-   - compatible
+> Hrm, so this is a driver scoped refine, right? Based on the requested
+> period size and a flag (SNDRV_PCM_HW_PARAMS_LATENCY_AWARE?) the driver
+> refines the period size based on it's jumpyDMA capabilities?
+> 
+> But in this example the application will have no knowledge still how the
+> DMA will move, the DMA will initially move 30ms and after that, every
+> 5ms it moves 5ms, so the driver should be refining to 5ms period size, 6
+> initial periods and 1 period step, no.
+> 
+> Or with my favorite examples:
+> 4ms initial burst w/ 1ms steps will refine to 1ms periods, 4 init and 1
+> step.
+> 100ms initial burst w/ 96ms steps will refine to... I'm not sure
+
+4ms period size, 25 init periods, 24 step periods?
+
+and same for
+> 40ms initial burst w/ 36ms steps.
+
+4ms period size, 10 init periods, 9 step periods?
+
 -- 
-2.43.0
+Péter
 
